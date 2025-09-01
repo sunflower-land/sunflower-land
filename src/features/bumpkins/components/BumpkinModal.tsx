@@ -32,6 +32,7 @@ import { setImageWidth } from "lib/images";
 import { LegacyBadges } from "./LegacyBadges";
 import { getKeys } from "features/game/types/decorations";
 import { PowerSkills } from "features/island/hud/components/PowerSkills";
+import { Checklist } from "components/ui/CheckList";
 
 export type ViewState =
   | "home"
@@ -168,47 +169,51 @@ export const BumpkinModal: React.FC<Props> = ({
   };
 
   return (
-    <CloseButtonPanel
-      currentTab={tab}
-      setCurrentTab={setTab}
-      onClose={onClose}
-      tabs={renderTabs()}
-      container={tab === 2 ? OuterPanel : undefined}
-    >
-      <div
-        style={{
-          maxHeight: "calc(100vh - 200px)",
-          overflowY: "auto",
-        }}
-        className="scrollable"
+    <>
+      {" "}
+      <CloseButtonPanel
+        currentTab={tab}
+        setCurrentTab={setTab}
+        onClose={onClose}
+        tabs={renderTabs()}
+        container={tab === 2 ? OuterPanel : undefined}
       >
-        {tab === 0 && (
-          <BumpkinInfo
-            level={level}
-            maxLevel={maxLevel}
-            gameState={gameState}
-            setView={setView}
-            powerSkillsReady={powerSkillsReady}
-            hasPowerSkills={hasPowerSkills}
-            readonly={readonly}
-          />
-        )}
+        <div
+          style={{
+            maxHeight: "calc(100vh - 200px)",
+            overflowY: "auto",
+          }}
+          className="scrollable"
+        >
+          {tab === 0 && (
+            <BumpkinInfo
+              level={level}
+              maxLevel={maxLevel}
+              gameState={gameState}
+              setView={setView}
+              powerSkillsReady={powerSkillsReady}
+              hasPowerSkills={hasPowerSkills}
+              readonly={readonly}
+            />
+          )}
 
-        {tab === 1 && (
-          <BumpkinEquip
-            equipment={bumpkin.equipped}
-            game={gameState}
-            onEquip={(equipment) => {
-              gameService.send("bumpkin.equipped", {
-                equipment,
-              });
-              gameService.send("SAVE");
-            }}
-          />
-        )}
-        {tab === 2 && <Skills readonly={readonly} />}
-      </div>
-    </CloseButtonPanel>
+          {tab === 1 && (
+            <BumpkinEquip
+              equipment={bumpkin.equipped}
+              game={gameState}
+              onEquip={(equipment) => {
+                gameService.send("bumpkin.equipped", {
+                  equipment,
+                });
+                gameService.send("SAVE");
+              }}
+            />
+          )}
+          {tab === 2 && <Skills readonly={readonly} />}
+        </div>
+      </CloseButtonPanel>
+      <Checklist />
+    </>
   );
 };
 
