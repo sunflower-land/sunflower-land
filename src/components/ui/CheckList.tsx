@@ -708,7 +708,7 @@ const Heading: React.FC<{
           secondaryIcon={SUNNYSIDE.icons.lock}
           className="mr-2"
         >
-          {t("level.number", { number: requiredLevel })}
+          {t("level.number", { level: requiredLevel })}
         </Label>
       ) : (
         <Button
