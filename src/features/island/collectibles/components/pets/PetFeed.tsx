@@ -11,6 +11,7 @@ import { Inventory } from "features/game/types/game";
 import levelUp from "assets/icons/level_up.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { InnerPanel } from "components/ui/Panel";
+import xpIcon from "assets/icons/xp.png";
 
 interface Props {
   petName: PetName;
@@ -132,19 +133,19 @@ const PetFeedPanel: React.FC<
           <Label type="default">{`Changes`}</Label>
           <div className="flex flex-row sm:flex-col gap-2 w-full justify-between">
             <InnerPanel className="flex flex-col gap-2 w-[40%] sm:w-full">
-              <div className="flex flex-row items-start md:items-center gap-2">
+              <div className="flex flex-row items-center gap-2">
                 <img src={levelUp} className="w-3" />
                 <span className="text-xs font-medium">{`Level: ${level}`}</span>
               </div>
-              <div className="flex flex-row gap-2 items-start md:items-center">
-                <img src={levelUp} className="w-3" />
+              <div className="flex flex-row gap-2 items-center">
+                <img src={xpIcon} className="w-4" />
                 <div className="flex flex-row md:items-center gap-1 text-xs">
                   <span>
                     {`${currentProgress} / ${experienceBetweenLevels}`}
                   </span>
                 </div>
               </div>
-              <div className="flex flex-row items-start md:items-center gap-2">
+              <div className="flex flex-row items-center gap-2">
                 <img src={SUNNYSIDE.icons.lightning} className="w-3" />
                 <span className="text-xs font-medium">{`${beforeEnergy}`}</span>
               </div>
@@ -162,19 +163,19 @@ const PetFeedPanel: React.FC<
               />
             </div>
             <InnerPanel className="flex flex-col gap-2 w-[40%] sm:w-full">
-              <div className="flex flex-row items-start md:items-center gap-2">
+              <div className="flex flex-row items-center gap-2">
                 <img src={levelUp} className="w-3" />
                 <span className="text-xs font-medium">{`Level: ${levelAfterFeed} ${levelChange > 0 ? `(+${levelChange})` : ""}`}</span>
               </div>
-              <div className="flex flex-row gap-2 items-start md:items-center">
-                <img src={levelUp} className="w-3" />
+              <div className="flex flex-row gap-2 items-center">
+                <img src={xpIcon} className="w-4" />
                 <div className="flex flex-row md:items-center gap-1 text-xs">
                   <span>
                     {`${currentProgressAfterFeed} / ${experienceBetweenLevelsAfterFeed} ${experienceChange > 0 ? `(+${experienceChange})` : ""}`}
                   </span>
                 </div>
               </div>
-              <div className="flex flex-row items-start md:items-center gap-2">
+              <div className="flex flex-row items-center gap-2">
                 <img src={SUNNYSIDE.icons.lightning} className="w-3" />
                 <span className="text-xs font-medium">{`${afterEnergy} ${energyChange > 0 ? `(+${energyChange})` : ""}`}</span>
               </div>
@@ -183,8 +184,8 @@ const PetFeedPanel: React.FC<
         </div>
       ) : (
         <div className="flex flex-row md:flex-col gap-2 justify-between w-full p-1">
-          <div className="flex flex-row gap-2">
-            <img src={levelUp} className="w-3" />
+          <div className="flex flex-row gap-2 items-center">
+            <img src={xpIcon} className="w-4" />
             <span className="text-xs">{`+${foodXp} XP`}</span>
           </div>
           <div className="flex flex-row gap-2">

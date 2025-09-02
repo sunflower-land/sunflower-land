@@ -10,6 +10,7 @@ import {
   PetName,
 } from "features/game/types/pets";
 import levelUp from "assets/icons/level_up.png";
+import xpIcon from "assets/icons/xp.png";
 import React from "react";
 
 interface Props {
@@ -66,7 +67,8 @@ export const PetInfo: React.FC<Props> = ({ petName, petData }) => {
               <img src={levelUp} className="w-4 h-4" />
               <span className="text-sm">{`Level ${level}`}</span>
             </div>
-            <div className="flex flex-row gap-2">
+            <div className="flex flex-row gap-2 items-center">
+              <img src={xpIcon} className="w-5" />
               <ResizableBar
                 percentage={percentage}
                 type="progress"

@@ -1,4 +1,4 @@
-import levelUp from "assets/icons/level_up.png";
+import xpIcon from "assets/icons/xp.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
@@ -89,13 +89,13 @@ const PetInfoComponent: React.FC<Props> = ({
               <p>{`Level: ${level}`}</p>
               <Bar percentage={percentage} type={"progress"} />
               <div className="flex flex-row items-center gap-1">
-                <img src={levelUp} className="w-3 h-4" />
+                <img src={xpIcon} className="w-4" />
                 <p className="text-xxs">
                   {`${currentProgress} / ${experienceBetweenLevels}`}
                 </p>
               </div>
               <div className="flex flex-row items-center gap-1">
-                <img src={SUNNYSIDE.icons.lightning} className="w-3 h-4" />
+                <img src={SUNNYSIDE.icons.lightning} className="w-3" />
                 <p className="text-xxs">{`${pet.energy}`}</p>
               </div>
             </div>
@@ -104,13 +104,13 @@ const PetInfoComponent: React.FC<Props> = ({
               <InnerPanel className="flex flex-col text-xs gap-1">
                 <p>{`Level: ${level}`}</p>
                 <div className="flex flex-row items-center gap-1">
-                  <img src={levelUp} className="w-3 h-4" />
+                  <img src={xpIcon} className="w-4" />
                   <p className="text-xxs">
                     {`${beforeProgress} / ${experienceBetweenLevels}`}
                   </p>
                 </div>
                 <div className="flex flex-row items-center gap-1">
-                  <img src={SUNNYSIDE.icons.lightning} className="w-3 h-4" />
+                  <img src={SUNNYSIDE.icons.lightning} className="w-3" />
                   <p className="text-xxs">{`${pet.energy}`}</p>
                 </div>
               </InnerPanel>
@@ -124,13 +124,13 @@ const PetInfoComponent: React.FC<Props> = ({
               <InnerPanel className="flex flex-col text-xs gap-1">
                 <p>{`Level: ${afterLevel} ${levelChange > 0 ? `(+${levelChange})` : ""}`}</p>
                 <div className="flex flex-row items-center gap-1">
-                  <img src={levelUp} className="w-3 h-4" />
+                  <img src={xpIcon} className="w-4" />
                   <p className="text-xxs">
                     {`${afterProgress} / ${experienceBetweenLevelsChange} ${experienceChange > 0 ? `(+${experienceChange})` : ""}`}
                   </p>
                 </div>
                 <div className="flex flex-row items-center gap-1">
-                  <img src={SUNNYSIDE.icons.lightning} className="w-3 h-4" />
+                  <img src={SUNNYSIDE.icons.lightning} className="w-3" />
                   <p className="text-xxs">{`${afterEnergy} ${energyChange > 0 ? `(+${energyChange})` : ""}`}</p>
                 </div>
               </InnerPanel>
