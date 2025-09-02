@@ -1,7 +1,7 @@
 import levelUp from "assets/icons/level_up.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
-import { OuterPanel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { Bar } from "components/ui/ProgressBar";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
@@ -82,36 +82,60 @@ const PetInfoComponent: React.FC<Props> = ({
           alt={petName.toString()}
           className="w-12 sm:w-16 h-12 sm:h-16 object-contain"
         />
-        <div className="flex-1">
+        <div className="flex flex-col gap-1">
           <Label type={"default"}>{petName}</Label>
-          <div className="flex flex-col text-xs gap-1 mt-1">
-            <p>
-              {showChanges && levelChange > 0
-                ? `Level: ${beforeLevel} > ${afterLevel}`
-                : `Level: ${level}`}
-            </p>
-            <Bar percentage={percentage} type={"progress"} />
-            <div className="flex flex-row items-center gap-1">
-              <img src={levelUp} className="w-3 h-4" />
-              <p className="text-xxs">
-                {showChanges &&
-                beforeExperience !== undefined &&
-                afterExperience !== undefined
-                  ? `${beforeProgress} > ${afterProgress} / ${experienceBetweenLevelsChange} ${experienceChange > 0 ? `(+${experienceChange})` : ""}`
-                  : `${currentProgress} / ${experienceBetweenLevels}`}
-              </p>
+          {!showChanges ? (
+            <div className="flex flex-col text-xs gap-1 mt-1">
+              <p>{`Level: ${level}`}</p>
+              <Bar percentage={percentage} type={"progress"} />
+              <div className="flex flex-row items-center gap-1">
+                <img src={levelUp} className="w-3 h-4" />
+                <p className="text-xxs">
+                  {`${currentProgress} / ${experienceBetweenLevels}`}
+                </p>
+              </div>
+              <div className="flex flex-row items-center gap-1">
+                <img src={SUNNYSIDE.icons.lightning} className="w-3 h-4" />
+                <p className="text-xxs">{`${pet.energy}`}</p>
+              </div>
             </div>
-            <div className="flex flex-row items-center gap-1">
-              <img src={SUNNYSIDE.icons.lightning} className="w-3 h-4" />
-              <p className="text-xxs">
-                {showChanges &&
-                beforeEnergy !== undefined &&
-                afterEnergy !== undefined
-                  ? `${beforeEnergy} > ${afterEnergy} ${energyChange > 0 ? `(+${energyChange})` : ""}`
-                  : `${pet.energy}`}
-              </p>
+          ) : (
+            <div className="flex flex-col gap-1">
+              <InnerPanel className="flex flex-col text-xs gap-1 mt-1">
+                <p>{`Level: ${level}`}</p>
+                <div className="flex flex-row items-center gap-1">
+                  <img src={levelUp} className="w-3 h-4" />
+                  <p className="text-xxs">
+                    {`${beforeProgress} / ${experienceBetweenLevels}`}
+                  </p>
+                </div>
+                <div className="flex flex-row items-center gap-1">
+                  <img src={SUNNYSIDE.icons.lightning} className="w-3 h-4" />
+                  <p className="text-xxs">{`${pet.energy}`}</p>
+                </div>
+              </InnerPanel>
+              <div className="w-full flex justify-center items-center">
+                <img
+                  src={SUNNYSIDE.icons.arrow_down}
+                  alt="Arrow Down"
+                  className="w-3"
+                />
+              </div>
+              <InnerPanel className="flex flex-col text-xs gap-1 mt-1">
+                <p>{`Level: ${afterLevel} ${levelChange > 0 ? `(+${levelChange})` : ""}`}</p>
+                <div className="flex flex-row items-center gap-1">
+                  <img src={levelUp} className="w-3 h-4" />
+                  <p className="text-xxs">
+                    {`${afterProgress} / ${experienceBetweenLevelsChange} ${experienceChange > 0 ? `(+${experienceChange})` : ""}`}
+                  </p>
+                </div>
+                <div className="flex flex-row items-center gap-1">
+                  <img src={SUNNYSIDE.icons.lightning} className="w-3 h-4" />
+                  <p className="text-xxs">{`${afterEnergy} ${energyChange > 0 ? `(+${energyChange})` : ""}`}</p>
+                </div>
+              </InnerPanel>
             </div>
-          </div>
+          )}
         </div>
       </div>
       {children}

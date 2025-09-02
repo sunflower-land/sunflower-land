@@ -10,6 +10,7 @@ import { Button } from "components/ui/Button";
 import { Inventory } from "features/game/types/game";
 import levelUp from "assets/icons/level_up.png";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { OuterPanel } from "components/ui/Panel";
 
 interface Props {
   petName: PetName;
@@ -80,9 +81,8 @@ const PetFeedPanel: React.FC<
     !inventory[selectedFood] ||
     inventory[selectedFood].lessThan(1);
 
-  const { level, currentProgress } = getExperienceToNextLevel(
-    petData.experience,
-  );
+  const { level, currentProgress, experienceBetweenLevels } =
+    getExperienceToNextLevel(petData.experience);
 
   const foodXp = getPetRequestXP(selectedFood);
   const experienceAfterFeed = petData.experience + foodXp;
@@ -103,52 +103,82 @@ const PetFeedPanel: React.FC<
   const petImage = ITEM_DETAILS[petName].image;
 
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex flex-col items-center gap-1">
       {/* Pet Image and Name */}
-      <div className="flex flex-col items-center gap-2">
-        <img
-          src={petImage}
-          alt={petName}
-          className="w-12 h-12 object-contain"
-        />
-        <Label type="default" className="text-xs">
-          {petName}
-        </Label>
-      </div>
+      <div className="flex flex-row-reverse sm:flex-col gap-2 justify-between w-full">
+        <div className="flex flex-col items-center gap-2">
+          <img
+            src={petImage}
+            alt={petName}
+            className="w-12 h-12 object-contain"
+          />
+          <Label type="default" className="text-xs">
+            {petName}
+          </Label>
+        </div>
 
-      <div className="flex flex-row gap-2 items-center w-full">
-        <img
-          src={ITEM_DETAILS[selectedFood].image}
-          alt={selectedFood}
-          className="w-8"
-        />
-        <span className="text-xs">{selectedFood}</span>
+        <div className="flex flex-row gap-2 items-center w-full">
+          <img
+            src={ITEM_DETAILS[selectedFood].image}
+            alt={selectedFood}
+            className="w-8"
+          />
+          <span className="text-xs">{selectedFood}</span>
+        </div>
       </div>
 
       {showConfirm ? (
-        <div className="flex flex-col gap-2">
-          <div className="flex flex-col gap-2">
-            <Label type="default">{`Changes`}</Label>
-            <div className="flex flex-row items-start md:items-center gap-2">
-              <img src={levelUp} className="w-3" />
-              <span className="text-xs font-medium">
-                {`Level: ${levelChange > 0 ? `${level} > ${levelAfterFeed}` : level}`}
-              </span>
-            </div>
-            <div className="flex flex-row gap-2 items-start md:items-center">
-              <img src={levelUp} className="w-3" />
-              <div className="flex flex-row md:items-center gap-1 text-xs">
-                <span>
-                  {`${currentProgress} > ${currentProgressAfterFeed} / ${experienceBetweenLevelsAfterFeed} ${experienceChange > 0 ? `(+${experienceChange})` : ""}`}
-                </span>
+        <div className="flex flex-col gap-2 w-full">
+          <Label type="default">{`Changes`}</Label>
+          <div className="flex flex-row sm:flex-col gap-2 w-full justify-between">
+            <OuterPanel className="flex flex-col gap-2 w-[40%] sm:w-full">
+              <div className="flex flex-row items-start md:items-center gap-2">
+                <img src={levelUp} className="w-3" />
+                <span className="text-xs font-medium">{`Level: ${level}`}</span>
               </div>
+              <div className="flex flex-row gap-2 items-start md:items-center">
+                <img src={levelUp} className="w-3" />
+                <div className="flex flex-row md:items-center gap-1 text-xs">
+                  <span>
+                    {`${currentProgress} / ${experienceBetweenLevels}`}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-row items-start md:items-center gap-2">
+                <img src={SUNNYSIDE.icons.lightning} className="w-3" />
+                <span className="text-xs font-medium">{`${beforeEnergy}`}</span>
+              </div>
+            </OuterPanel>
+            <div className="w-[20%] sm:w-full flex justify-center items-center">
+              <img
+                src={SUNNYSIDE.icons.arrow_right}
+                alt="Arrow Right"
+                className="w-3 block md:hidden"
+              />
+              <img
+                src={SUNNYSIDE.icons.arrow_down}
+                alt="Arrow Down"
+                className="w-3 hidden md:block"
+              />
             </div>
-          </div>
-          <div className="flex flex-row items-start md:items-center gap-2">
-            <img src={SUNNYSIDE.icons.lightning} className="w-3" />
-            <span className="text-xs font-medium">
-              {`${beforeEnergy} > ${afterEnergy} ${energyChange > 0 ? `(+${energyChange})` : ""}`}
-            </span>
+            <OuterPanel className="flex flex-col gap-2 w-[40%] sm:w-full">
+              <div className="flex flex-row items-start md:items-center gap-2">
+                <img src={levelUp} className="w-3" />
+                <span className="text-xs font-medium">{`Level: ${levelAfterFeed} ${levelChange > 0 ? `(+${levelChange})` : ""}`}</span>
+              </div>
+              <div className="flex flex-row gap-2 items-start md:items-center">
+                <img src={levelUp} className="w-3" />
+                <div className="flex flex-row md:items-center gap-1 text-xs">
+                  <span>
+                    {`${currentProgressAfterFeed} / ${experienceBetweenLevelsAfterFeed} ${experienceChange > 0 ? `(+${experienceChange})` : ""}`}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-row items-start md:items-center gap-2">
+                <img src={SUNNYSIDE.icons.lightning} className="w-3" />
+                <span className="text-xs font-medium">{`${afterEnergy} ${energyChange > 0 ? `(+${energyChange})` : ""}`}</span>
+              </div>
+            </OuterPanel>
           </div>
         </div>
       ) : (
@@ -174,7 +204,7 @@ const PetFeedPanel: React.FC<
           {`Insufficient Food`}
         </Label>
       ) : null}
-      <div className="flex flex-row md:flex-col gap-1 w-full">
+      <div className="flex flex-row sm:flex-col gap-1 w-full">
         <Button
           disabled={isDisabled}
           onClick={() => {
