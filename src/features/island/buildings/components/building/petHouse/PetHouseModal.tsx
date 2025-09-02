@@ -6,7 +6,7 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { PetName } from "features/game/types/pets";
-import { FeedPet } from "./FeedPet";
+import { FeedPet } from "./FeedPets";
 import { OuterPanel } from "components/ui/Panel";
 
 interface Props {

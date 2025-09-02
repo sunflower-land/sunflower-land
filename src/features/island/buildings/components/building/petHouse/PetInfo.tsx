@@ -55,6 +55,7 @@ const PetInfoComponent: React.FC<Props> = ({
   let afterLevel = level;
   let afterProgress = currentProgress;
   let levelChange = 0;
+  let experienceBetweenLevelsChange = experienceBetweenLevels;
 
   if (
     showChanges &&
@@ -69,6 +70,7 @@ const PetInfoComponent: React.FC<Props> = ({
     afterLevel = afterLevelData.level;
     afterProgress = afterLevelData.currentProgress;
     levelChange = afterLevel - beforeLevel;
+    experienceBetweenLevelsChange = afterLevelData.experienceBetweenLevels;
   }
 
   return (
@@ -85,7 +87,7 @@ const PetInfoComponent: React.FC<Props> = ({
           <div className="flex flex-col text-xs gap-1 mt-1">
             <p>
               {showChanges && levelChange > 0
-                ? `Level: ${beforeLevel} → ${afterLevel}`
+                ? `Level: ${beforeLevel} > ${afterLevel}`
                 : `Level: ${level}`}
             </p>
             <Bar percentage={percentage} type={"progress"} />
@@ -95,7 +97,7 @@ const PetInfoComponent: React.FC<Props> = ({
                 {showChanges &&
                 beforeExperience !== undefined &&
                 afterExperience !== undefined
-                  ? `${beforeProgress} → ${afterProgress} / ${experienceBetweenLevels} ${experienceChange > 0 ? `(+${experienceChange})` : ""}`
+                  ? `${beforeProgress} > ${afterProgress} / ${experienceBetweenLevelsChange} ${experienceChange > 0 ? `(+${experienceChange})` : ""}`
                   : `${currentProgress} / ${experienceBetweenLevels}`}
               </p>
             </div>
@@ -105,7 +107,7 @@ const PetInfoComponent: React.FC<Props> = ({
                 {showChanges &&
                 beforeEnergy !== undefined &&
                 afterEnergy !== undefined
-                  ? `${beforeEnergy} → ${afterEnergy} ${energyChange > 0 ? `(+${energyChange})` : ""}`
+                  ? `${beforeEnergy} > ${afterEnergy} ${energyChange > 0 ? `(+${energyChange})` : ""}`
                   : `${pet.energy}`}
               </p>
             </div>
