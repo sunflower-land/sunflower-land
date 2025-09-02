@@ -74,7 +74,7 @@ const PetInfoComponent: React.FC<Props> = ({
   }
 
   return (
-    <OuterPanel className="flex flex-row sm:flex-col justify-around p-3 gap-2 relative overflow-hidden">
+    <OuterPanel className="flex flex-row sm:flex-col justify-between p-3 gap-2 relative overflow-hidden">
       {/* Pet Info */}
       <div className="flex flex-col sm:flex-row items-center space-x-3">
         <img
@@ -100,8 +100,8 @@ const PetInfoComponent: React.FC<Props> = ({
               </div>
             </div>
           ) : (
-            <div className="flex flex-col gap-1">
-              <InnerPanel className="flex flex-col text-xs gap-1 mt-1">
+            <div className="flex flex-col gap-1 w-full">
+              <InnerPanel className="flex flex-col text-xs gap-1">
                 <p>{`Level: ${level}`}</p>
                 <div className="flex flex-row items-center gap-1">
                   <img src={levelUp} className="w-3 h-4" />
@@ -121,7 +121,7 @@ const PetInfoComponent: React.FC<Props> = ({
                   className="w-3"
                 />
               </div>
-              <InnerPanel className="flex flex-col text-xs gap-1 mt-1">
+              <InnerPanel className="flex flex-col text-xs gap-1">
                 <p>{`Level: ${afterLevel} ${levelChange > 0 ? `(+${levelChange})` : ""}`}</p>
                 <div className="flex flex-row items-center gap-1">
                   <img src={levelUp} className="w-3 h-4" />

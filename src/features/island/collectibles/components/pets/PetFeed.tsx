@@ -10,7 +10,7 @@ import { Button } from "components/ui/Button";
 import { Inventory } from "features/game/types/game";
 import levelUp from "assets/icons/level_up.png";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { OuterPanel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 
 interface Props {
   petName: PetName;
@@ -131,7 +131,7 @@ const PetFeedPanel: React.FC<
         <div className="flex flex-col gap-2 w-full">
           <Label type="default">{`Changes`}</Label>
           <div className="flex flex-row sm:flex-col gap-2 w-full justify-between">
-            <OuterPanel className="flex flex-col gap-2 w-[40%] sm:w-full">
+            <InnerPanel className="flex flex-col gap-2 w-[40%] sm:w-full">
               <div className="flex flex-row items-start md:items-center gap-2">
                 <img src={levelUp} className="w-3" />
                 <span className="text-xs font-medium">{`Level: ${level}`}</span>
@@ -148,20 +148,20 @@ const PetFeedPanel: React.FC<
                 <img src={SUNNYSIDE.icons.lightning} className="w-3" />
                 <span className="text-xs font-medium">{`${beforeEnergy}`}</span>
               </div>
-            </OuterPanel>
+            </InnerPanel>
             <div className="w-[20%] sm:w-full flex justify-center items-center">
               <img
                 src={SUNNYSIDE.icons.arrow_right}
                 alt="Arrow Right"
-                className="w-3 block md:hidden"
+                className="w-4 block md:hidden"
               />
               <img
                 src={SUNNYSIDE.icons.arrow_down}
                 alt="Arrow Down"
-                className="w-3 hidden md:block"
+                className="w-4 hidden md:block"
               />
             </div>
-            <OuterPanel className="flex flex-col gap-2 w-[40%] sm:w-full">
+            <InnerPanel className="flex flex-col gap-2 w-[40%] sm:w-full">
               <div className="flex flex-row items-start md:items-center gap-2">
                 <img src={levelUp} className="w-3" />
                 <span className="text-xs font-medium">{`Level: ${levelAfterFeed} ${levelChange > 0 ? `(+${levelChange})` : ""}`}</span>
@@ -178,7 +178,7 @@ const PetFeedPanel: React.FC<
                 <img src={SUNNYSIDE.icons.lightning} className="w-3" />
                 <span className="text-xs font-medium">{`${afterEnergy} ${energyChange > 0 ? `(+${energyChange})` : ""}`}</span>
               </div>
-            </OuterPanel>
+            </InnerPanel>
           </div>
         </div>
       ) : (
@@ -196,13 +196,17 @@ const PetFeedPanel: React.FC<
 
       {/* Labels for today's feed and insufficient food */}
       {isToday && foodFed?.includes(selectedFood) ? (
-        <Label type="danger" className="text-xs">
-          {`Food Fed Today`}
-        </Label>
+        <div className="flex w-full items-start">
+          <Label type="danger" className="text-xs">
+            {`Food Fed Today`}
+          </Label>
+        </div>
       ) : !inventory[selectedFood] || inventory[selectedFood].lessThan(1) ? (
-        <Label type="danger" className="text-xs">
-          {`Insufficient Food`}
-        </Label>
+        <div className="flex w-full items-start">
+          <Label type="danger" className="text-xs">
+            {`Insufficient Food`}
+          </Label>
+        </div>
       ) : null}
       <div className="flex flex-row sm:flex-col gap-1 w-full">
         <Button
