@@ -556,22 +556,29 @@ export function getPetRequestXP(food: CookableName) {
 }
 
 /**
- * Calculates the experience needed to reach the next level based on current total experience.
- * Uses the mathematical formula: XP = 100 * (n-1) * n / 2
+ * Calculates the pet's current level, progress, and experience required for the next level based on total experience.
  *
- * @param currentTotalExperience - The current total experience points
- * @returns Object containing current level and XP needed to reach next level
- * For example
- * Level 1: 0 XP
- * Level 2: 100 XP
- * Level 3: 300 XP
- * Level 4: 600 XP
- * Level 5: 1000 XP
- * Level 6: 1500 XP
- * Level 7: 2100 XP
- * Level 8: 2800 XP
- * Level 9: 3600 XP
- * Level 10: 4500 XP
+ * Uses the formula: XP required to reach level n = 100 * (n-1) * n / 2
+ *
+ * @param currentTotalExperience - The pet's accumulated experience points.
+ * @returns An object with:
+ *   - level: Current level (integer, minimum 1)
+ *   - currentProgress: XP earned towards the next level
+ *   - nextLevelXP: Total XP required to reach the next level
+ *   - percentage: Progress towards the next level (0-100)
+ *   - experienceBetweenLevels: XP required to go from current to next level
+ *
+ * Example:
+ *   Level 1: 0 XP
+ *   Level 2: 100 XP
+ *   Level 3: 300 XP
+ *   Level 4: 600 XP
+ *   Level 5: 1000 XP
+ *   Level 6: 1500 XP
+ *   Level 7: 2100 XP
+ *   Level 8: 2800 XP
+ *   Level 9: 3600 XP
+ *   Level 10: 4500 XP
  */
 export function getExperienceToNextLevel(currentTotalExperience: number) {
   // Handle edge cases
@@ -600,11 +607,14 @@ export function getExperienceToNextLevel(currentTotalExperience: number) {
       (nextLevelXP - currentLevelXP)) *
     100;
 
+  // Calculate experience between levels
+  const experienceBetweenLevels = nextLevelXP - currentLevelXP;
+
   return {
     level: currentLevel,
     currentProgress: currentTotalExperience - currentLevelXP,
     nextLevelXP,
     percentage,
-    xpToNext: nextLevelXP - currentTotalExperience,
+    experienceBetweenLevels,
   };
 }

@@ -1,6 +1,7 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
+import { InnerPanel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -8,7 +9,6 @@ import { Pet, PetName, getPetRequestXP } from "features/game/types/pets";
 import { shortenCount } from "lib/utils/formatNumber";
 import React, { useContext, useState } from "react";
 import { PetInfo } from "./PetInfo";
-import { IngredientsPopover } from "components/ui/IngredientsPopover";
 import { Inventory } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 
@@ -16,9 +16,9 @@ interface Props {
   petName: PetName;
   pet: Pet;
   isBulkFeed: boolean;
-  selectedFeed: { pet: PetName | number; food: CookableName; petData: Pet }[];
+  selectedFeed: { pet: PetName | number; food: CookableName }[];
   setSelectedFeed: (
-    feed: { pet: PetName | number; food: CookableName; petData: Pet }[],
+    feed: { pet: PetName | number; food: CookableName }[],
   ) => void;
   inventory: Inventory;
 }
@@ -27,7 +27,7 @@ export const getAdjustedFoodCount = (
   foodName: CookableName,
   inventory: Inventory,
   isBulkFeed?: boolean,
-  selectedFeed?: { pet: PetName | number; food: CookableName; petData: Pet }[],
+  selectedFeed?: { pet: PetName | number; food: CookableName }[],
 ) => {
   const baseFoodCount = inventory[foodName] ?? new Decimal(0);
 
@@ -48,7 +48,7 @@ export const hasFoodInInventory = (
   foodName: CookableName,
   inventory: Inventory,
   isBulkFeed?: boolean,
-  selectedFeed?: { pet: PetName | number; food: CookableName; petData: Pet }[],
+  selectedFeed?: { pet: PetName | number; food: CookableName }[],
 ) => {
   const adjustedCount = getAdjustedFoodCount(
     foodName,
@@ -81,16 +81,59 @@ export const FeedPetCard: React.FC<Props> = ({
   const { gameService } = useContext(Context);
 
   const [hoveredFood, setHoveredFood] = useState<CookableName | null>(null);
+  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
 
   const handleFeedPet = (food: CookableName) => {
     if (isBulkFeed) {
-      setSelectedFeed([...selectedFeed, { pet: petName, food, petData: pet }]);
+      setSelectedFeed([...selectedFeed, { pet: petName, food }]);
     } else {
       gameService.send("pet.fed", {
         pet: petName,
         food,
       });
     }
+  };
+
+  const handleFoodHover = (food: CookableName, event: React.MouseEvent) => {
+    setHoveredFood(food);
+    const rect = event.currentTarget.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    // Estimate tooltip dimensions
+    const tooltipWidth = 120;
+    const tooltipHeight = 40;
+
+    let x = rect.left + rect.width / 2;
+    let y = rect.top - 10;
+
+    // Ensure tooltip doesn't go off the left edge
+    if (x - tooltipWidth / 2 < 10) {
+      x = tooltipWidth / 2 + 10;
+    }
+
+    // Ensure tooltip doesn't go off the right edge
+    if (x + tooltipWidth / 2 > viewportWidth - 10) {
+      x = viewportWidth - tooltipWidth / 2 - 10;
+    }
+
+    // Check if there's enough space above the button
+    const spaceAbove = rect.top;
+    const spaceBelow = viewportHeight - rect.bottom;
+
+    // If not enough space above, position below the button
+    if (spaceAbove < tooltipHeight + 10) {
+      y = rect.bottom + 10;
+      // If also not enough space below, position in the middle of available space
+      if (spaceBelow < tooltipHeight + 10) {
+        y = Math.max(
+          10,
+          Math.min(viewportHeight - tooltipHeight - 10, viewportHeight / 2),
+        );
+      }
+    }
+
+    setTooltipPosition({ x, y });
   };
 
   return (
@@ -127,7 +170,7 @@ export const FeedPetCard: React.FC<Props> = ({
               <div key={food} className="flex flex-col items-center space-x-2">
                 <div className="relative">
                   <div
-                    onMouseEnter={() => setHoveredFood(food)}
+                    onMouseEnter={(e) => handleFoodHover(food, e)}
                     onMouseLeave={() => setHoveredFood(null)}
                   >
                     <Button
@@ -172,11 +215,6 @@ export const FeedPetCard: React.FC<Props> = ({
                         : shortenCount(foodCount)}
                     </Label>
                   )}
-                  <IngredientsPopover
-                    show={hoveredFood === food}
-                    ingredients={[food]}
-                    onClick={() => setHoveredFood(null)}
-                  />
                 </div>
                 <Label type="vibrant" icon={SUNNYSIDE.icons.lightning}>
                   {foodXP}
@@ -186,6 +224,30 @@ export const FeedPetCard: React.FC<Props> = ({
           })}
         </div>
       </div>
+      {/* Food Tooltip Overlay */}
+      {hoveredFood && (
+        <div
+          className="fixed pointer-events-none z-50"
+          style={{
+            left: tooltipPosition.x,
+            top: tooltipPosition.y,
+            transform: "translateX(-50%)",
+          }}
+        >
+          <InnerPanel className="whitespace-nowrap max-w-[200px]">
+            <div className="flex items-center gap-2 p-1">
+              <img
+                src={ITEM_DETAILS[hoveredFood].image}
+                alt={hoveredFood}
+                className="w-6 h-6 object-contain flex-shrink-0"
+              />
+              <span className="text-xs capitalize break-words">
+                {hoveredFood}
+              </span>
+            </div>
+          </InnerPanel>
+        </div>
+      )}
     </PetInfo>
   );
 };

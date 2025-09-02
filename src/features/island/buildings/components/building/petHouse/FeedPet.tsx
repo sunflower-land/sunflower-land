@@ -1,5 +1,5 @@
 import { Label } from "components/ui/Label";
-import { Pet, PetName } from "features/game/types/pets";
+import { Pet, PetName, getPetRequestXP } from "features/game/types/pets";
 import React, { useContext, useState } from "react";
 import { FeedPetCard, isFoodAlreadyFed } from "./FeedPetCard";
 import { Button } from "components/ui/Button";
@@ -23,7 +23,6 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
     {
       pet: PetName | number;
       food: CookableName;
-      petData: Pet;
     }[]
   >([]);
   const [showOverview, setShowOverview] = useState(false);
@@ -53,7 +52,6 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
       const newSelectedFeed: {
         pet: PetName | number;
         food: CookableName;
-        petData: Pet;
       }[] = [];
 
       // Create a map to track how much of each food we've allocated
@@ -63,14 +61,13 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
       const foodRequests: Array<{
         petName: PetName | number;
         food: CookableName;
-        petData: Pet;
       }> = [];
       activePets.forEach(([petName, pet]) => {
         if (pet) {
           pet.requests.food.forEach((food) => {
             const isAlreadyFed = isFoodAlreadyFed(pet, food);
             if (!isAlreadyFed) {
-              foodRequests.push({ petName, food, petData: pet });
+              foodRequests.push({ petName, food });
               if (!foodAllocation[food]) {
                 foodAllocation[food] = 0;
               }
@@ -80,13 +77,13 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
       });
 
       // Second pass: select food items based on available inventory
-      foodRequests.forEach(({ petName, food, petData }) => {
+      foodRequests.forEach(({ petName, food }) => {
         const availableFood = inventory[food] ?? new Decimal(0);
         const currentAllocation = foodAllocation[food] || 0;
 
         // Only select if we have enough food available
         if (availableFood.greaterThan(currentAllocation)) {
-          newSelectedFeed.push({ pet: petName, food, petData });
+          newSelectedFeed.push({ pet: petName, food });
           foodAllocation[food] = currentAllocation + 1;
         }
       });
@@ -100,14 +97,13 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
     {
       pet: PetName | number;
       food: CookableName[];
-      petData: Pet;
     }[]
-  >((acc, { pet, food, petData }) => {
+  >((acc, { pet, food }) => {
     const existingPet = acc.find((p) => p.pet === pet);
     if (existingPet) {
       existingPet.food.push(food);
     } else {
-      acc.push({ pet, food: [food], petData });
+      acc.push({ pet, food: [food] });
     }
     return acc;
   }, []);
@@ -170,17 +166,49 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
         }}
       >
         <Panel>
-          <div className="flex flex-col gap-2 max-h-[500px] overflow-y-auto scrollable">
+          <div className="flex flex-col gap-2 p-2">
             <Label type="default">{`Are you sure you want to feed your pets?`}</Label>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 max-h-[500px] overflow-y-auto scrollable">
-              {mappedPets.map(({ pet, food, petData }) => (
-                <PetInfo key={pet} petName={pet} pet={petData}>
-                  <Label type="default">{`Food Selected`}</Label>
-                  {food.map((food) => (
-                    <Box key={food} image={ITEM_DETAILS[food].image} />
-                  ))}
-                </PetInfo>
-              ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 max-h-[400px] overflow-y-auto scrollable">
+              {mappedPets.map(({ pet, food }) => {
+                const petData = activePets.find(
+                  ([petName]) => petName === pet,
+                )?.[1];
+                if (!petData) {
+                  return null;
+                }
+
+                // Calculate total XP and energy from all selected foods
+                const totalXP = food.reduce(
+                  (sum, foodItem) => sum + getPetRequestXP(foodItem),
+                  0,
+                );
+                const beforeExperience = petData.experience;
+                const afterExperience = beforeExperience + totalXP;
+                const beforeEnergy = petData.energy;
+                const afterEnergy = beforeEnergy + totalXP;
+
+                return (
+                  <PetInfo
+                    key={pet}
+                    petName={pet}
+                    pet={petData}
+                    showChanges
+                    beforeExperience={beforeExperience}
+                    afterExperience={afterExperience}
+                    beforeEnergy={beforeEnergy}
+                    afterEnergy={afterEnergy}
+                  >
+                    <div className="flex flex-col gap-2">
+                      <Label type="default">{`Food Selected`}</Label>
+                      <div className="flex flex-row gap-2">
+                        {food.map((food) => (
+                          <Box key={food} image={ITEM_DETAILS[food].image} />
+                        ))}
+                      </div>
+                    </div>
+                  </PetInfo>
+                );
+              })}
             </div>
             <Button onClick={handleConfirmFeed}>{`Confirm Feed`}</Button>
           </div>
