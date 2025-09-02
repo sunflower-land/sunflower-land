@@ -5,7 +5,7 @@ import { produce } from "immer";
 
 export type FeedPetAction = {
   type: "pet.fed";
-  pet: PetName;
+  pet: PetName | number;
   food: CookableName;
 };
 
