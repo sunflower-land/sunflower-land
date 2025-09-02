@@ -80,8 +80,9 @@ const PetFeedPanel: React.FC<
     !inventory[selectedFood] ||
     inventory[selectedFood].lessThan(1);
 
-  const { level, currentProgress, experienceBetweenLevels } =
-    getExperienceToNextLevel(petData.experience);
+  const { level, currentProgress } = getExperienceToNextLevel(
+    petData.experience,
+  );
 
   const foodXp = getPetRequestXP(selectedFood);
   const experienceAfterFeed = petData.experience + foodXp;
