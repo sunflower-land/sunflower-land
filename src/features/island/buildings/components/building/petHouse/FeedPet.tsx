@@ -12,6 +12,7 @@ import { ModalOverlay } from "components/ui/ModalOverlay";
 import { PetInfo } from "./PetInfo";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { SUNNYSIDE } from "assets/sunnyside";
 type Props = {
   activePets: [PetName, Pet | undefined][];
 };
@@ -110,7 +111,7 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
 
   return (
     <>
-      <InnerPanel className="flex flex-row justify-between mb-1 p-1">
+      <InnerPanel className="flex flex-row justify-between mb-1 p-1 gap-1">
         <Label type={isBulkFeed ? "warning" : "formula"}>
           {isBulkFeed ? `Bulk Feed Mode` : `Your Pets (${activePets.length})`}
         </Label>
@@ -124,13 +125,17 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
           </Button>
           {isBulkFeed && (
             <Button
-              className="w-24"
+              className="w-auto"
               onClick={() => {
                 setSelectedFeed([]);
                 setIsBulkFeed(false);
               }}
             >
-              {`Exit`}
+              <img
+                src={SUNNYSIDE.icons.cancel}
+                alt="Cancel"
+                className="h-6 object-contain"
+              />
             </Button>
           )}
         </div>

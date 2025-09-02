@@ -105,7 +105,8 @@ export const FeedPetCard: React.FC<Props> = ({
     const tooltipHeight = 40;
 
     let x = rect.left + rect.width / 2;
-    let y = rect.top - 10;
+    // Position below the button by default
+    let y = rect.bottom + 10;
 
     // Ensure tooltip doesn't go off the left edge
     if (x - tooltipWidth / 2 < 10) {
@@ -117,15 +118,15 @@ export const FeedPetCard: React.FC<Props> = ({
       x = viewportWidth - tooltipWidth / 2 - 10;
     }
 
-    // Check if there's enough space above the button
-    const spaceAbove = rect.top;
+    // Check if there's enough space below the button
     const spaceBelow = viewportHeight - rect.bottom;
+    const spaceAbove = rect.top;
 
-    // If not enough space above, position below the button
-    if (spaceAbove < tooltipHeight + 10) {
-      y = rect.bottom + 10;
-      // If also not enough space below, position in the middle of available space
-      if (spaceBelow < tooltipHeight + 10) {
+    // If not enough space below, position above the button instead
+    if (spaceBelow < tooltipHeight + 10) {
+      y = rect.top - tooltipHeight - 10;
+      // If also not enough space above, position in the middle of available space
+      if (spaceAbove < tooltipHeight + 10) {
         y = Math.max(
           10,
           Math.min(viewportHeight - tooltipHeight - 10, viewportHeight / 2),
@@ -140,7 +141,7 @@ export const FeedPetCard: React.FC<Props> = ({
     <PetInfo petName={petName} pet={pet}>
       <div className="flex flex-col gap-4">
         <Label type={"default"}>{`Food Requests`}</Label>
-        <div className="flex space-x-2">
+        <div className="flex space-x-2 ml-2">
           {pet.requests.food.length === 0 && <p>{`No food requests`}</p>}
           {pet.requests.food.map((food) => {
             const foodImage = ITEM_DETAILS[food].image;
