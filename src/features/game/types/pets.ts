@@ -588,7 +588,7 @@ export function getExperienceToNextLevel(currentTotalExperience: number) {
       percentage: 0,
       currentProgress: 0,
       nextLevelXP: 100,
-      xpToNext: 100,
+      experienceBetweenLevels: 100,
     };
 
   const currentLevel = Math.floor(
@@ -601,14 +601,11 @@ export function getExperienceToNextLevel(currentTotalExperience: number) {
   const nextLevel = currentLevel + 1;
   const nextLevelXP = (100 * (nextLevel - 1) * nextLevel) / 2;
 
+  const experienceBetweenLevels = nextLevelXP - currentLevelXP;
+
   // Calculate percentage of current level
   const percentage =
-    ((currentTotalExperience - currentLevelXP) /
-      (nextLevelXP - currentLevelXP)) *
-    100;
-
-  // Calculate experience between levels
-  const experienceBetweenLevels = nextLevelXP - currentLevelXP;
+    ((currentTotalExperience - currentLevelXP) / experienceBetweenLevels) * 100;
 
   return {
     level: currentLevel,
