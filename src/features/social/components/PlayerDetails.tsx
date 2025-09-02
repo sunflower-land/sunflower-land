@@ -110,7 +110,7 @@ export const PlayerDetails: React.FC<Props> = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-  const { isVisiting } = useVisiting();
+  const { isVisiting, visitedFarmId } = useVisiting();
 
   const player = data?.data;
 
@@ -180,7 +180,8 @@ export const PlayerDetails: React.FC<Props> = ({
     gameService.send("farm.cheered", {
       effect: {
         type: "farm.cheered",
-        farmId: player?.id,
+        cheeredFarmId: player?.id,
+        visitedFarmId: visitedFarmId,
       },
     });
     setShowCheerModal(false);

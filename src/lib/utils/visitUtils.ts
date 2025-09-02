@@ -32,9 +32,13 @@ export function balancesToInventory(balances: Array<any>) {
 const _isVisiting = (state: MachineState) =>
   state.context.visitorId !== undefined;
 
+const _visitedFarmId = (state: MachineState) =>
+  state.context.visitorId ? state.context.farmId : undefined;
+
 export const useVisiting = () => {
   const { gameService } = useContext(Context);
   const isVisiting = useSelector(gameService, _isVisiting);
+  const visitedFarmId = useSelector(gameService, _visitedFarmId);
 
-  return { isVisiting };
+  return { isVisiting, visitedFarmId };
 };
