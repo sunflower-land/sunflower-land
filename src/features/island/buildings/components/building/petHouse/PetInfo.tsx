@@ -22,7 +22,7 @@ type Props = {
   afterEnergy?: number;
 };
 
-export const PetInfo: React.FC<Props> = ({
+const PetInfoComponent: React.FC<Props> = ({
   children,
   petName,
   pet,
@@ -116,3 +116,5 @@ export const PetInfo: React.FC<Props> = ({
     </OuterPanel>
   );
 };
+
+export const PetInfo = React.memo(PetInfoComponent);

@@ -1,6 +1,6 @@
 import { Label } from "components/ui/Label";
 import { Pet, PetName, getPetRequestXP } from "features/game/types/pets";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useMemo, useCallback } from "react";
 import { FeedPetCard, isFoodAlreadyFed } from "./FeedPetCard";
 import { Button } from "components/ui/Button";
 import { CookableName } from "features/game/types/consumables";
@@ -13,11 +13,12 @@ import { PetInfo } from "./PetInfo";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
+
 type Props = {
   activePets: [PetName, Pet | undefined][];
 };
 
-export const FeedPet: React.FC<Props> = ({ activePets }) => {
+const FeedPetComponent: React.FC<Props> = ({ activePets }) => {
   const [isBulkFeed, setIsBulkFeed] = useState(false);
   const { gameService } = useContext(Context);
   const [selectedFeed, setSelectedFeed] = useState<
@@ -33,7 +34,8 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
     (state) => state.context.state.inventory,
   );
 
-  const handleConfirmFeed = () => {
+  // Memoize the confirm feed handler to prevent unnecessary re-renders
+  const handleConfirmFeed = useCallback(() => {
     if (showOverview) {
       // Event to handle Bulk Feed
       gameService.send("pets.bulkFeed", {
@@ -45,9 +47,10 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
     } else {
       setShowOverview(true);
     }
-  };
+  }, [showOverview, selectedFeed, gameService]);
 
-  const handleBulkFeed = () => {
+  // Memoize the bulk feed handler
+  const handleBulkFeed = useCallback(() => {
     if (!isBulkFeed) {
       setIsBulkFeed(true);
       const newSelectedFeed: {
@@ -93,26 +96,36 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
     } else {
       handleConfirmFeed();
     }
-  };
-  const mappedPets = selectedFeed.reduce<
-    {
-      pet: PetName | number;
-      food: CookableName[];
-    }[]
-  >((acc, { pet, food }) => {
-    const existingPet = acc.find((p) => p.pet === pet);
-    if (existingPet) {
-      existingPet.food.push(food);
-    } else {
-      acc.push({ pet, food: [food] });
-    }
-    return acc;
+  }, [isBulkFeed, activePets, inventory, handleConfirmFeed]);
+
+  // Memoize the mapped pets calculation
+  const mappedPets = useMemo(() => {
+    return selectedFeed.reduce<
+      {
+        pet: PetName | number;
+        food: CookableName[];
+      }[]
+    >((acc, { pet, food }) => {
+      const existingPet = acc.find((p) => p.pet === pet);
+      if (existingPet) {
+        existingPet.food.push(food);
+      } else {
+        acc.push({ pet, food: [food] });
+      }
+      return acc;
+    }, []);
+  }, [selectedFeed]);
+
+  // Memoize the cancel handler
+  const handleCancel = useCallback(() => {
+    setSelectedFeed([]);
+    setIsBulkFeed(false);
   }, []);
 
   return (
     <>
       <InnerPanel className="flex flex-row justify-between mb-1 p-1 gap-1">
-        <div className="flex flex-col md:flex-row items-center gap-1">
+        <div className="flex flex-col sm:flex-row items-center gap-1">
           <Label type={isBulkFeed ? "vibrant" : "formula"}>
             {isBulkFeed ? `Bulk Feed Mode` : `Your Pets (${activePets.length})`}
           </Label>
@@ -131,13 +144,7 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
             {isBulkFeed ? `Confirm Feed` : `Bulk Feed`}
           </Button>
           {isBulkFeed && (
-            <Button
-              className="w-auto"
-              onClick={() => {
-                setSelectedFeed([]);
-                setIsBulkFeed(false);
-              }}
-            >
+            <Button className="w-auto" onClick={handleCancel}>
               <img
                 src={SUNNYSIDE.icons.cancel}
                 alt="Cancel"
@@ -229,3 +236,5 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
     </>
   );
 };
+
+export const FeedPet = React.memo(FeedPetComponent);
