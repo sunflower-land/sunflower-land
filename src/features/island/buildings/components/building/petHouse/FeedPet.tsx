@@ -112,9 +112,16 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
   return (
     <>
       <InnerPanel className="flex flex-row justify-between mb-1 p-1 gap-1">
-        <Label type={isBulkFeed ? "warning" : "formula"}>
-          {isBulkFeed ? `Bulk Feed Mode` : `Your Pets (${activePets.length})`}
-        </Label>
+        <div className="flex flex-col md:flex-row items-center gap-1">
+          <Label type={isBulkFeed ? "vibrant" : "formula"}>
+            {isBulkFeed ? `Bulk Feed Mode` : `Your Pets (${activePets.length})`}
+          </Label>
+          {isBulkFeed && (
+            <Label type={"warning"}>
+              {`Feed Selected: ${selectedFeed.length}`}
+            </Label>
+          )}
+        </div>
         <div className="flex flex-row gap-2">
           <Button
             className="w-40"
