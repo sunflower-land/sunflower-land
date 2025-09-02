@@ -170,7 +170,6 @@ export const BumpkinModal: React.FC<Props> = ({
 
   return (
     <>
-      {" "}
       <CloseButtonPanel
         currentTab={tab}
         setCurrentTab={setTab}
@@ -212,7 +211,8 @@ export const BumpkinModal: React.FC<Props> = ({
           {tab === 2 && <Skills readonly={readonly} />}
         </div>
       </CloseButtonPanel>
-      <Checklist />
+
+      {!readonly && <Checklist />}
     </>
   );
 };
