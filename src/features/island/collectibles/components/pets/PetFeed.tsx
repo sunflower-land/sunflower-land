@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { getPetRequestXP, Pet, PetName } from "features/game/types/pets";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { Box } from "components/ui/Box";
@@ -19,7 +19,7 @@ interface Props {
   inventory: Inventory;
 }
 
-export const PetFeed: React.FC<
+const PetFeedComponent: React.FC<
   Props & {
     handleFeed: (food: CookableName) => void;
   }
@@ -240,24 +240,24 @@ const PetFeedContent: React.FC<
   setSelectedFood,
   inventory,
   setShowConfirm,
-}) => {
-  return (
-    <div className="flex flex-col gap-2">
-      <Label type="default">{`${petName}'s Requests Today`}</Label>
-      <div className="flex flex-row gap-2">
-        {petData.requests.food.map((food) => (
-          <Box
-            key={food}
-            image={ITEM_DETAILS[food].image}
-            isSelected={selectedFood === food}
-            onClick={() => {
-              setSelectedFood(food);
-              setShowConfirm(false);
-            }}
-            count={inventory[food]}
-          />
-        ))}
-      </div>
+}) => (
+  <div className="flex flex-col gap-2">
+    <Label type="default">{`${petName}'s Requests Today`}</Label>
+    <div className="flex flex-row gap-2">
+      {petData.requests.food.map((food) => (
+        <Box
+          key={food}
+          image={ITEM_DETAILS[food].image}
+          isSelected={selectedFood === food}
+          onClick={() => {
+            setSelectedFood(food);
+            setShowConfirm(false);
+          }}
+          count={inventory[food]}
+        />
+      ))}
     </div>
-  );
-};
+  </div>
+);
+
+export const PetFeed = memo(PetFeedComponent);

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { memo, useCallback, useContext, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -18,7 +18,7 @@ interface Props {
   petName: PetName;
 }
 
-export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
+const PetModalComponent: React.FC<Props> = ({ show, onClose, petName }) => {
   const { gameService } = useContext(Context);
   const [tab, setTab] = useState<"Info" | "Feed" | "Fetch">("Info");
 
@@ -45,16 +45,19 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
   });
   const showBuildPetHouse = !hasPetHouse && hasThreeOrMorePets;
 
+  const handleFeed = useCallback(
+    (food: CookableName) => {
+      gameService.send("pet.fed", {
+        pet: petName,
+        food,
+      });
+    },
+    [gameService, petName],
+  );
+
   if (!petData) {
     return null;
   }
-
-  const handleFeed = (food: CookableName) => {
-    gameService.send("pet.fed", {
-      pet: petName,
-      food,
-    });
-  };
 
   return (
     <Modal show={show} onHide={onClose}>
@@ -90,3 +93,5 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
     </Modal>
   );
 };
+
+export const PetModal = memo(PetModalComponent);

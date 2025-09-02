@@ -11,14 +11,14 @@ import {
 } from "features/game/types/pets";
 import levelUp from "assets/icons/level_up.png";
 import xpIcon from "assets/icons/xp.png";
-import React from "react";
+import React, { memo } from "react";
 
 interface Props {
   petName: PetName;
   petData: Pet;
 }
 
-export const PetInfo: React.FC<Props> = ({ petName, petData }) => {
+const PetInfoComponent: React.FC<Props> = ({ petName, petData }) => {
   const { level, percentage, currentProgress, experienceBetweenLevels } =
     getExperienceToNextLevel(petData.experience);
 
@@ -92,3 +92,5 @@ export const PetInfo: React.FC<Props> = ({ petName, petData }) => {
     </div>
   );
 };
+
+export const PetInfo = memo(PetInfoComponent);
