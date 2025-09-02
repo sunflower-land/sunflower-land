@@ -172,16 +172,17 @@ export const BlessingOffer: React.FC<Props> = ({ onClose }) => {
 
       <div className="flex items-center">
         <Box image={ITEM_DETAILS[offering.item].image} count={inventory} />
-        <NumberInput
-          value={amount}
-          onValueChange={(value) => setAmount(value.toNumber())}
-          maxDecimalPlaces={0}
-          isOutOfRange={
-            new Decimal(amount).gt(inventory) || new Decimal(amount).gt(max)
-          }
-        />
-        <div className="ml-2">
-          <p className="text-sm">{`${amount} x ${offering.item}`}</p>
+        <div>
+          <p className="text-xs ml-1">{`${amount} x ${offering.item}`}</p>
+
+          <NumberInput
+            value={amount}
+            onValueChange={(value) => setAmount(value.toNumber())}
+            maxDecimalPlaces={0}
+            isOutOfRange={
+              new Decimal(amount).gt(inventory) || new Decimal(amount).gt(max)
+            }
+          />
         </div>
       </div>
       {new Decimal(amount).gt(inventory) && (

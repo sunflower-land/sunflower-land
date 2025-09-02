@@ -114,11 +114,10 @@ const ClaimReward: React.FC<ClaimRewardProps> = ({ onClaim, onClose }) => {
     if (showAnimations && reward?.items?.["Love Charm"]) confetti();
   }, []);
 
-  const message = reward?.items?.["Love Charm"]
+  const isWinner = getKeys(reward?.items ?? {}).length >= 0;
+  const message = isWinner
     ? t("blessing.godsBlessed.winner")
     : t("blessing.godsBlessed.loser");
-
-  const isWinner = reward?.items?.["Love Charm"];
 
   return (
     <>
