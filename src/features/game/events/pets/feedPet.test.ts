@@ -26,6 +26,7 @@ describe("feedPet", () => {
           pets: {
             commonPets: {
               Barkley: {
+                name: "Barkley",
                 requests: {
                   food: [],
                 },
@@ -51,6 +52,7 @@ describe("feedPet", () => {
           pets: {
             commonPets: {
               Barkley: {
+                name: "Barkley",
                 requests: {
                   food: ["Pumpkin Soup", "Roast Veggies", "Antipasto"],
                 },
@@ -77,6 +79,7 @@ describe("feedPet", () => {
           pets: {
             commonPets: {
               Barkley: {
+                name: "Barkley",
                 requests: {
                   food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
                   foodFed: ["Bumpkin Salad"],
@@ -106,6 +109,7 @@ describe("feedPet", () => {
           pets: {
             commonPets: {
               Barkley: {
+                name: "Barkley",
                 requests: {
                   food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
                   foodFed: ["Antipasto"],
@@ -138,6 +142,7 @@ describe("feedPet", () => {
           pets: {
             commonPets: {
               Barkley: {
+                name: "Barkley",
                 requests: {
                   food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
                   foodFed: [],
@@ -169,6 +174,7 @@ describe("feedPet", () => {
         pets: {
           commonPets: {
             Barkley: {
+              name: "Barkley",
               requests: {
                 food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
                 foodFed: [],

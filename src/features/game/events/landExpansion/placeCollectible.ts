@@ -66,6 +66,7 @@ export function placeCollectible({
       hasFeatureAccess(stateCopy, "PETS")
     ) {
       stateCopy.pets.commonPets[action.name] = {
+        name: action.name,
         experience: 0,
         energy: 0,
         requests: {

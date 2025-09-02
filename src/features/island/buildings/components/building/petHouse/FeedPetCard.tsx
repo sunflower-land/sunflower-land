@@ -1,4 +1,3 @@
-import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -10,14 +9,66 @@ import { shortenCount } from "lib/utils/formatNumber";
 import React, { useContext, useState } from "react";
 import { PetInfo } from "./PetInfo";
 import { IngredientsPopover } from "components/ui/IngredientsPopover";
+import { Inventory } from "features/game/types/game";
+import Decimal from "decimal.js-light";
 
 interface Props {
   petName: PetName;
   pet: Pet;
   isBulkFeed: boolean;
-  selectedFeed: { petName: PetName; food: CookableName }[];
-  setSelectedFeed: (feed: { petName: PetName; food: CookableName }[]) => void;
+  selectedFeed: { pet: PetName | number; food: CookableName; petData: Pet }[];
+  setSelectedFeed: (
+    feed: { pet: PetName | number; food: CookableName; petData: Pet }[],
+  ) => void;
+  inventory: Inventory;
 }
+
+export const getAdjustedFoodCount = (
+  foodName: CookableName,
+  inventory: Inventory,
+  isBulkFeed?: boolean,
+  selectedFeed?: { pet: PetName | number; food: CookableName; petData: Pet }[],
+) => {
+  const baseFoodCount = inventory[foodName] ?? new Decimal(0);
+
+  if (!isBulkFeed || !selectedFeed) {
+    return baseFoodCount;
+  }
+
+  // Calculate how many of this food are selected in bulk feed mode
+  const selectedCount = selectedFeed.filter(
+    (item) => item.food === foodName,
+  ).length;
+
+  // Return adjusted food count for bulk feed mode
+  return baseFoodCount.minus(selectedCount);
+};
+
+export const hasFoodInInventory = (
+  foodName: CookableName,
+  inventory: Inventory,
+  isBulkFeed?: boolean,
+  selectedFeed?: { pet: PetName | number; food: CookableName; petData: Pet }[],
+) => {
+  const adjustedCount = getAdjustedFoodCount(
+    foodName,
+    inventory,
+    isBulkFeed,
+    selectedFeed,
+  );
+  return adjustedCount.greaterThan(0);
+};
+
+export const isFoodAlreadyFed = (pet: Pet, food: CookableName) => {
+  const today = new Date().toISOString().split("T")[0];
+  const lastFedDate = pet.requests.fedAt
+    ? new Date(pet.requests.fedAt).toISOString().split("T")[0]
+    : null;
+
+  if (lastFedDate !== today) return false;
+
+  return pet.requests.foodFed?.includes(food) || false;
+};
 
 export const FeedPetCard: React.FC<Props> = ({
   petName,
@@ -25,38 +76,21 @@ export const FeedPetCard: React.FC<Props> = ({
   isBulkFeed,
   selectedFeed,
   setSelectedFeed,
+  inventory,
 }) => {
   const { gameService } = useContext(Context);
-  const inventory = useSelector(
-    gameService,
-    (state) => state.context.state.inventory,
-  );
+
   const [hoveredFood, setHoveredFood] = useState<CookableName | null>(null);
 
   const handleFeedPet = (food: CookableName) => {
     if (isBulkFeed) {
-      setSelectedFeed([...selectedFeed, { petName, food }]);
+      setSelectedFeed([...selectedFeed, { pet: petName, food, petData: pet }]);
     } else {
       gameService.send("pet.fed", {
         pet: petName,
         food,
       });
     }
-  };
-
-  const hasFoodInInventory = (foodName: CookableName) => {
-    return inventory[foodName] && inventory[foodName].greaterThan(0);
-  };
-
-  const isFoodAlreadyFed = (pet: Pet, food: CookableName) => {
-    const today = new Date().toISOString().split("T")[0];
-    const lastFedDate = pet.requests.fedAt
-      ? new Date(pet.requests.fedAt).toISOString().split("T")[0]
-      : null;
-
-    if (lastFedDate !== today) return false;
-
-    return pet.requests.foodFed?.includes(food) || false;
   };
 
   return (
@@ -67,12 +101,24 @@ export const FeedPetCard: React.FC<Props> = ({
           {pet.requests.food.length === 0 && <p>{`No food requests`}</p>}
           {pet.requests.food.map((food) => {
             const foodImage = ITEM_DETAILS[food].image;
-            const canFeed = hasFoodInInventory(food);
-            const foodCount = inventory[food];
+            const canFeed = hasFoodInInventory(
+              food,
+              inventory,
+              isBulkFeed,
+              selectedFeed,
+            );
+            const foodCount = getAdjustedFoodCount(
+              food,
+              inventory,
+              isBulkFeed,
+              selectedFeed,
+            );
+
             const alreadyFed = isFoodAlreadyFed(pet, food);
             const isSelected = selectedFeed.some(
-              (item) => item.petName === petName && item.food === food,
+              (item) => item.pet === petName && item.food === food,
             );
+
             const isDisabled = !canFeed || alreadyFed;
 
             const foodXP = getPetRequestXP(food);
@@ -95,8 +141,7 @@ export const FeedPetCard: React.FC<Props> = ({
                                   ...selectedFeed.filter((item) => {
                                     // Remove the item from the selectedFeed
                                     return (
-                                      item.petName !== petName ||
-                                      item.food !== food
+                                      item.pet !== petName || item.food !== food
                                     );
                                   }),
                                 ])

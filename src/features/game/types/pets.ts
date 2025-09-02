@@ -63,6 +63,7 @@ export type PetCategoryName =
   | "Forager";
 
 export type Pet = {
+  name: PetName | number;
   requests: {
     food: CookableName[];
     foodFed?: CookableName[];

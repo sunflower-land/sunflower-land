@@ -12,6 +12,7 @@ describe("bulkFeedPets", () => {
           pets: {
             commonPets: {
               Barkley: {
+                name: "Barkley",
                 requests: {
                   food: ["Bumpkin Salad"],
                 },
@@ -19,6 +20,7 @@ describe("bulkFeedPets", () => {
                 experience: 0,
               },
               Meowchi: {
+                name: "Meowchi",
                 requests: {
                   food: ["Bumpkin Salad"],
                 },
@@ -49,6 +51,7 @@ describe("bulkFeedPets", () => {
       pets: {
         commonPets: {
           Barkley: {
+            name: "Barkley",
             requests: {
               food: ["Bumpkin Salad"],
             },
@@ -56,6 +59,7 @@ describe("bulkFeedPets", () => {
             experience: 0,
           },
           Meowchi: {
+            name: "Meowchi",
             requests: {
               food: ["Bumpkin Salad"],
             },

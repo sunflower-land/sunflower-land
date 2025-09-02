@@ -7,6 +7,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { PetName } from "features/game/types/pets";
 import { FeedPet } from "./FeedPet";
+import { OuterPanel } from "components/ui/Panel";
 
 interface Props {
   show: boolean;
@@ -55,6 +56,7 @@ export const PetHouseModal: React.FC<Props> = ({ show, onClose }) => {
         ]}
         currentTab={tab}
         setCurrentTab={setTab}
+        container={tab === "Feed" ? OuterPanel : undefined}
       >
         {tab === "Feed" && <FeedPet activePets={activePets} />}
       </CloseButtonPanel>

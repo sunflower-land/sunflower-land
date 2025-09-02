@@ -12,7 +12,7 @@ import {
 import React from "react";
 
 type Props = {
-  petName: PetName;
+  petName: PetName | number;
   pet: Pet;
   children: React.ReactNode;
 };
@@ -21,15 +21,16 @@ export const PetInfo: React.FC<Props> = ({ children, petName, pet }) => {
   const { level, percentage, currentProgress, nextLevelXP } =
     getExperienceToNextLevel(pet.experience);
 
-  const petImage = ITEM_DETAILS[petName].image;
+  const petImage =
+    typeof petName === "number" ? "" : ITEM_DETAILS[petName as PetName].image;
 
   return (
-    <OuterPanel className="flex flex-row sm:flex-col justify-around p-3 gap-2">
+    <OuterPanel className="flex flex-row sm:flex-col justify-around p-3 gap-2 relative overflow-hidden">
       {/* Dog Info */}
       <div className="flex flex-col sm:flex-row items-center space-x-3">
         <img
           src={petImage}
-          alt={petName}
+          alt={petName.toString()}
           className="w-12 sm:w-16 h-12 sm:h-16 object-contain"
         />
         <div className="flex-1">
