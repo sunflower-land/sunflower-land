@@ -6115,6 +6115,7 @@
   "playerModal.following": "Following ({{count}})",
   "playerModal.no.followers": "This player currently has no followers.",
   "playerModal.no.following": "This player is currently not following anyone.",
+  "playerModal.maxFollowing": "Follow limit reached (5k)",
   "playerModal.dailyStreak": "Daily streak: {{streak}}",
   "playerModal.noFollowers": "No followers",
   "playerModal.noMoreMessages": "No more messages",
