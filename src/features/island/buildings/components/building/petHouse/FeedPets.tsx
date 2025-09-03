@@ -16,13 +16,13 @@ import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import { ModalOverlay } from "components/ui/ModalOverlay";
-import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getKeys } from "features/game/lib/crafting";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import xpIcon from "assets/icons/xp.png";
+import { Box } from "components/ui/Box";
 
 type Props = {
   activePets: [PetName, Pet | undefined][];
@@ -294,9 +294,9 @@ const FeedPetComponent: React.FC<Props> = ({ activePets }) => {
                 return (
                   <OuterPanel
                     key={pet}
-                    className="flex flex-row sm:flex-col p-3 gap-2 relative overflow-hidden"
+                    className="flex flex-row sm:flex-col p-3 gap-2 relative"
                   >
-                    <div className="flex flex-col items-center w-1/2 sm:w-full">
+                    <div className="flex flex-col items-start sm:items-center w-1/2 sm:w-full gap-2">
                       <div className="flex flex-col sm:flex-row-reverse items-center gap-1 mb-1">
                         <img
                           src={petImage}
@@ -305,6 +305,12 @@ const FeedPetComponent: React.FC<Props> = ({ activePets }) => {
                         />
                         <Label type={"default"}>{pet}</Label>
                       </div>
+                      {/* Mobile */}
+                      <SelectedFoodComponent device="mobile" foods={food} />
+                    </div>
+                    <div className="flex flex-row sm:flex-col-reverse gap-2 w-1/2 sm:w-full">
+                      {/* Desktop */}
+                      <SelectedFoodComponent device="desktop" foods={food} />
                       <div className="flex flex-col gap-1 w-full">
                         <InnerPanel className="flex flex-col text-xs gap-1">
                           <p>{t("pets.level", { level })}</p>
@@ -354,14 +360,6 @@ const FeedPetComponent: React.FC<Props> = ({ activePets }) => {
                         </InnerPanel>
                       </div>
                     </div>
-                    <div className="flex flex-col gap-2">
-                      <Label type="default">{t("pets.foodSelected")}</Label>
-                      <div className="flex flex-row gap-2">
-                        {food.map((food) => (
-                          <Box key={food} image={ITEM_DETAILS[food].image} />
-                        ))}
-                      </div>
-                    </div>
                   </OuterPanel>
                 );
               })}
@@ -371,6 +369,27 @@ const FeedPetComponent: React.FC<Props> = ({ activePets }) => {
         </Panel>
       </ModalOverlay>
     </>
+  );
+};
+
+// Component needs to be in different div depending on screen size
+// Unified component to avoid code duplication
+const SelectedFoodComponent: React.FC<{
+  device: "desktop" | "mobile";
+  foods: CookableName[];
+}> = ({ device, foods }) => {
+  const { t } = useAppTranslation();
+  return (
+    <div
+      className={`flex-col gap-1 sm:w-full ${device === "mobile" ? "block sm:hidden" : "hidden sm:block"}`}
+    >
+      <Label type="default">{t("pets.foodSelected")}</Label>
+      <div className="flex flex-row flex-wrap sm:flex-nowrap w-full sm:w-auto">
+        {foods.map((food) => (
+          <Box key={food} image={ITEM_DETAILS[food].image} />
+        ))}
+      </div>
+    </div>
   );
 };
 
