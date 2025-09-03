@@ -271,6 +271,10 @@ export const BlessingResults: React.FC<Props> = ({ onClose }) => {
   // Sort winners
   const leaderboard = response.data.leaderboard ?? [];
 
+  const bids = Object.values(response.data.winners ?? {});
+  const minBid = Math.min(...bids) ?? 0;
+  const maxBid = Math.max(...bids) ?? 0;
+
   return (
     <div className="max-h-[500px] overflow-y-auto scrollable">
       <Label type="formula">{`Yesterday - ${previousDayKey}`}</Label>
@@ -288,7 +292,7 @@ export const BlessingResults: React.FC<Props> = ({ onClose }) => {
       </div>
       <div className="flex m-1 items-center">
         <img src={icon} className="w-6 mr-1" />
-        <span>{`${response.data.prizeAmount} ${response.data.prize} rewarded`}</span>
+        <span>{`Required: ${minBid + 1} (min)`}</span>
       </div>
 
       <Label type="default" className="my-2">
