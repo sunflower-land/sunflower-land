@@ -31,6 +31,7 @@ export const PetFeed: React.FC<
     handleResetRequests: (petName: PetName) => void;
     isRevealingState: boolean;
     isRevealedState: boolean;
+    onAcknowledged: () => void;
   }
 > = ({
   petName,
@@ -40,6 +41,7 @@ export const PetFeed: React.FC<
   handleResetRequests,
   isRevealingState,
   isRevealedState,
+  onAcknowledged,
 }) => {
   const { t } = useAppTranslation();
   const [selectedFood, setSelectedFood] = useState<CookableName | null>(
@@ -50,6 +52,7 @@ export const PetFeed: React.FC<
   const [isRevealing, setIsRevealing] = useState(false);
   const [isPicking, setIsPicking] = useState(false);
   const resetRequests = async () => {
+    setShowResetRequests(false);
     setIsPicking(true);
     await new Promise((resolve) => setTimeout(resolve, 5000));
     handleResetRequests(petName);
@@ -81,7 +84,14 @@ export const PetFeed: React.FC<
         <p className="text-sm p-1">
           {t("pets.requestsResetDescription", { pet: petName })}
         </p>
-        <Button onClick={() => setIsRevealing(false)}>{t("continue")}</Button>
+        <Button
+          onClick={() => {
+            onAcknowledged();
+            setIsRevealing(false);
+          }}
+        >
+          {t("continue")}
+        </Button>
       </InnerPanel>
     );
   }
@@ -351,7 +361,6 @@ const ResetFoodRequests: React.FC<{
           onClick={() => {
             if (showResetRequestsConfirmation) {
               resetRequests();
-              setShowResetRequests(false);
               setShowResetRequestsConfirmation(false);
             } else {
               setShowResetRequestsConfirmation(true);

@@ -120,6 +120,7 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
             handleResetRequests={handleResetRequests}
             isRevealingState={isRevealingState}
             isRevealedState={isRevealedState}
+            onAcknowledged={() => gameService.send("CONTINUE")}
           />
         )}
       </CloseButtonPanel>
