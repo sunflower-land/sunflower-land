@@ -2323,7 +2323,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
       {...props}
       divStyle={{
         width: `${PIXEL_SCALE * 22}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
+        bottom: `${PIXEL_SCALE * -3}px`,
         left: `${PIXEL_SCALE * -3}px`,
       }}
       imgStyle={{
@@ -2952,12 +2952,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 30}px`,
+        width: `${PIXEL_SCALE * 27}px`,
         bottom: `${PIXEL_SCALE * 3}px`,
         left: `${PIXEL_SCALE * 1}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 30}px`,
+        width: `${PIXEL_SCALE * 27}px`,
       }}
       image={ITEM_DETAILS["Giant Artichoke"].image}
       alt="Giant Artichoke"

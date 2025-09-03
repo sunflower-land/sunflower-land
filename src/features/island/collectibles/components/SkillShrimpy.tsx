@@ -1,6 +1,6 @@
 import React from "react";
 
-import skillShrimpy from "assets/sfts/skill_shrimpy.png";
+import skillShrimpy from "assets/sfts/skill_shrimpy.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
