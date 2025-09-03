@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PetName } from "features/game/types/pets";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { PetModal } from "./PetModal";
 
 const PETS_STYLES: Record<
   PetName,
@@ -73,13 +74,25 @@ const PET_PIXEL_STYLES = getObjectEntries(PETS_STYLES).reduce<
 );
 
 export const Pet: React.FC<{ name: PetName }> = ({ name }) => {
+  const [showPetModal, setShowPetModal] = useState(false);
+
+  const handlePetClick = () => setShowPetModal(true);
+
   return (
-    <div className="absolute" style={{ ...PET_PIXEL_STYLES[name] }}>
-      <img
-        src={ITEM_DETAILS[name].image}
-        className="absolute w-full cursor-pointer hover:img-highlight"
-        alt={name}
+    <>
+      <div className="absolute" style={{ ...PET_PIXEL_STYLES[name] }}>
+        <img
+          src={ITEM_DETAILS[name].image}
+          className="absolute w-full cursor-pointer hover:img-highlight"
+          alt={name}
+          onClick={handlePetClick}
+        />
+      </div>
+      <PetModal
+        show={showPetModal}
+        onClose={() => setShowPetModal(false)}
+        petName={name}
       />
-    </div>
+    </>
   );
 };

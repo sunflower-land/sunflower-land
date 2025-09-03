@@ -5,6 +5,7 @@ import { GameState, PlacedItem } from "../../types/game";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { produce } from "immer";
+import { hasFeatureAccess } from "lib/flags";
 
 export enum CONSTRUCT_BUILDING_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -42,6 +43,10 @@ export function constructBuilding({
 
     if (bumpkin === undefined) {
       throw new Error(CONSTRUCT_BUILDING_ERRORS.NO_BUMPKIN);
+    }
+
+    if (action.name === "Pet House" && !hasFeatureAccess(stateCopy, "PETS")) {
+      throw new Error("You do not have the required feature access");
     }
 
     const allowedBuildings = building.filter(

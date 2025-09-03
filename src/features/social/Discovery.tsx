@@ -10,7 +10,6 @@ import { useSelector } from "@xstate/react";
 import { discoveryModalManager } from "./lib/discoveryModalManager";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SearchPlayers } from "./components/SearchPlayers";
-import { hasFeatureAccess } from "lib/flags";
 
 export type DiscoveryTab = "leaderboard" | "search";
 
@@ -48,18 +47,12 @@ export const Discovery: React.FC = () => {
             name: t("leaderboard"),
             id: "leaderboard",
           },
-          ...(hasFeatureAccess(
-            gameService.getSnapshot().context.state,
-            "PLAYER_SEARCH",
-          )
-            ? [
-                {
-                  icon: SUNNYSIDE.icons.search,
-                  name: t("playerSearch.searchPlayer"),
-                  id: "search",
-                },
-              ]
-            : []),
+
+          {
+            icon: SUNNYSIDE.icons.search,
+            name: t("playerSearch.searchPlayer"),
+            id: "search",
+          },
         ]}
       >
         {tab === "search" && <SearchPlayers />}

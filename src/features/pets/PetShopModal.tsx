@@ -7,6 +7,7 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/lib/crafting";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { GameState, Inventory } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PET_SHOP_ITEMS, PetShopItemName } from "features/game/types/petShop";
@@ -74,6 +75,7 @@ export const PetShopModal: React.FC = () => {
           craftedCount={craftedCount}
           limit={limit}
           hasReachedInventoryLimit={hasReachedInventoryLimit}
+          petItem={selectedItem}
         />
       }
       content={
@@ -115,6 +117,7 @@ const PetShopPanel: React.FC<{
   limit?: number;
   craftedCount: number;
   hasReachedInventoryLimit: boolean;
+  petItem: PetShopItemName;
 }> = ({
   gameState,
   selectedItem,
@@ -125,6 +128,7 @@ const PetShopPanel: React.FC<{
   limit,
   craftedCount,
   hasReachedInventoryLimit,
+  petItem,
 }) => (
   <CraftingRequirements
     gameState={gameState}
@@ -135,11 +139,13 @@ const PetShopPanel: React.FC<{
     }}
     actionView={
       <PetShopActionView
+        gameState={gameState}
         limit={limit}
         craftedCount={craftedCount}
         canBuy={canBuy}
         onClick={onClick}
         hasReachedInventoryLimit={hasReachedInventoryLimit}
+        petItem={petItem}
       />
     }
   />
@@ -151,21 +157,50 @@ const PetShopActionView: React.FC<{
   canBuy: () => boolean;
   onClick: () => void;
   hasReachedInventoryLimit: boolean;
-}> = ({ limit, craftedCount, canBuy, onClick, hasReachedInventoryLimit }) => {
+  petItem: PetShopItemName;
+  gameState: GameState;
+}> = ({
+  limit,
+  craftedCount,
+  canBuy,
+  onClick,
+  hasReachedInventoryLimit,
+  petItem,
+  gameState,
+}) => {
   const { t } = useAppTranslation();
-
-  if (hasReachedInventoryLimit) {
-    return <p className="text-xxs text-center">{`Inventory Limit Reached!`}</p>;
-  }
+  const boostDescription = COLLECTIBLE_BUFF_LABELS(gameState)[petItem];
 
   return (
     <div className="flex flex-col sm:items-center gap-2">
+      {boostDescription &&
+        Object.values(boostDescription).map(
+          (
+            { labelType, boostTypeIcon, boostedItemIcon, shortDescription },
+            index,
+          ) => {
+            return (
+              <Label
+                key={index}
+                type={labelType}
+                icon={boostTypeIcon}
+                secondaryIcon={boostedItemIcon}
+              >
+                {shortDescription}
+              </Label>
+            );
+          },
+        )}
       {limit && (
         <Label type="danger">{`Limit: ${craftedCount}/${limit}`}</Label>
       )}
-      <Button disabled={!canBuy()} onClick={onClick}>
-        {t("buy")}
-      </Button>
+      {hasReachedInventoryLimit ? (
+        <p className="text-xxs text-center">{`Inventory Limit Reached!`}</p>
+      ) : (
+        <Button disabled={!canBuy()} onClick={onClick}>
+          {t("buy")}
+        </Button>
+      )}
     </div>
   );
 };

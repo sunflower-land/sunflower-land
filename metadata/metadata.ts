@@ -3127,6 +3127,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Pet House": {
+    name: "Pet House",
+    description: "A pet house used to support pets.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1024.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Building" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   Workbench: {
     name: "Workbench",
     description:
@@ -6864,7 +6875,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       "With his trusty tusks and love for the deep, he'll ensure you reel in an extra fish every time",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/478.png",
+    image: "../public/erc1155/images/478.webp",
     attributes: [
       { trait_type: "Tradable", value: "Yes" },
       {
@@ -6880,7 +6891,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       "With her keen instincts, she ensures you get a little extra splash in your catch. 50% chance of +1 Basic Fish!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/479.png",
+    image: "../public/erc1155/images/479.webp",
     attributes: [
       { trait_type: "Tradable", value: "Yes" },
       {
@@ -6955,7 +6966,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "A chicken that boosts bananas. What a world we live in.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/488.png",
+    image: "../public/erc1155/images/488.webp",
     attributes: [
       { trait_type: "Boost", value: "Fruit" },
       {
@@ -7595,7 +7606,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       "A tiny jewel of the sky, the Humming Bird flits with colorful grace.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/490.png",
+    image: "../public/erc1155/images/490.webp",
     attributes: [
       { trait_type: "Boost", value: "Flower" },
       {
@@ -7617,7 +7628,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       "Majestic ruler of the hive, the Queen Bee buzzes with regal authority.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/491.png",
+    image: "../public/erc1155/images/491.webp",
     attributes: [
       { trait_type: "Boost", value: "Resource" },
       {
