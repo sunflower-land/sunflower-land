@@ -426,6 +426,9 @@ export const CraftTab: React.FC<Props> = ({
   const recipeAmount = (recipeName: RecipeCollectibleName) =>
     remainingInventory[recipeName as RecipeCollectibleName] ?? new Decimal(0);
 
+  const isCraftingInProgress =
+    isCrafting && remainingTime !== null && remainingTime > 0;
+
   return (
     <>
       <div className="flex pl-1 pt-1">
@@ -491,7 +494,7 @@ export const CraftTab: React.FC<Props> = ({
             isPending={isPending}
             failedAttempt={failedAttempt}
             amount={
-              isCrafting && !isReady && (currentRecipe?.time ?? 0) > 0
+              isCraftingInProgress
                 ? new Decimal(0)
                 : recipeAmount(currentRecipe?.name as RecipeCollectibleName)
             }
