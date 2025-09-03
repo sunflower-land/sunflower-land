@@ -1,5 +1,11 @@
 import { Label } from "components/ui/Label";
-import { Pet, PetName, getPetRequestXP } from "features/game/types/pets";
+import {
+  Pet,
+  PetName,
+  getPetRequestXP,
+  PET_CATEGORIES,
+  PetType,
+} from "features/game/types/pets";
 import React, { useContext, useState, useMemo, useCallback } from "react";
 import { FeedPetCard, isFoodAlreadyFed } from "./FeedPetCard";
 import { Button } from "components/ui/Button";
@@ -14,6 +20,8 @@ import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { getKeys } from "features/game/lib/crafting";
+import { getObjectEntries } from "features/game/expansion/lib/utils";
 
 type Props = {
   activePets: [PetName, Pet | undefined][];
@@ -124,6 +132,38 @@ const FeedPetComponent: React.FC<Props> = ({ activePets }) => {
     setIsBulkFeed(false);
   }, []);
 
+  const activePetsSortedByType = useMemo(() => {
+    // Create a map of pet types to their order in PET_CATEGORIES
+    const petTypeOrder = getKeys(PET_CATEGORIES).reduce(
+      (acc, petType, index) => {
+        acc[petType] = index;
+        return acc;
+      },
+      {} as Record<PetType, number>,
+    );
+
+    return [...activePets].sort(([, petA], [, petB]) => {
+      if (!petA || !petB) return 0;
+
+      // Find the pet types for both pets
+      const petTypeA = getObjectEntries(PET_CATEGORIES).find(([, category]) =>
+        category.pets.includes(petA.name as PetName),
+      )?.[0];
+      const petTypeB = getObjectEntries(PET_CATEGORIES).find(([, category]) =>
+        category.pets.includes(petB.name as PetName),
+      )?.[0];
+
+      if (!petTypeA || !petTypeB) return 0;
+
+      // Sort by pet type order first
+      const typeComparison = petTypeOrder[petTypeA] - petTypeOrder[petTypeB];
+      if (typeComparison !== 0) return typeComparison;
+
+      // If same type, sort by experience (highest first)
+      return petB.experience - petA.experience;
+    });
+  }, [activePets]);
+
   return (
     <>
       <InnerPanel className="flex flex-row justify-between mb-1 p-1 gap-1">
@@ -163,7 +203,7 @@ const FeedPetComponent: React.FC<Props> = ({ activePets }) => {
           <p className="p-4 text-center text-gray-500">{t("pets.noPets")}</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mr-1">
-            {activePets.map(
+            {activePetsSortedByType.map(
               ([petName, pet]) =>
                 pet && (
                   <FeedPetCard
