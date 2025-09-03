@@ -9,6 +9,7 @@ import { PetName } from "features/game/types/pets";
 import { FeedPet } from "./FeedPets";
 import { OuterPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   show: boolean;
@@ -33,6 +34,13 @@ export const PetHouseModal: React.FC<Props> = ({ show, onClose }) => {
     );
     return [...(collectibles || []), ...(homeCollectibles || [])];
   };
+  const hasPetsAccess = useSelector(gameService, (state) =>
+    hasFeatureAccess(state.context.state, "PETS"),
+  );
+
+  if (!hasPetsAccess) {
+    return null;
+  }
 
   const { common } = pets;
 
