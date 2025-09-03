@@ -6533,5 +6533,21 @@
   "pets.feedPet": "Fil {{pet}}",
   "pets.requestsToday": "Demandes de {{pet}} aujourd'hui",
   "pets.tiredOfManaging": "Vous en avez assez de gérer vos animaux de compagnie individuellement ?",
-  "pets.buildPetHouse": "Construisez une maison pour animaux de compagnie avec un forgeron pour les gérer tous ensemble !"
+  "pets.buildPetHouse": "Construisez une maison pour animaux de compagnie avec un forgeron pour les gérer tous ensemble !",
+  "news.pets.one": "Achetez des œufs pour animaux de compagnie pour découvrir 20 animaux de compagnie à collectionner.",
+  "news.pets.two": "Nourrissez et nourrissez vos animaux de compagnie pour les faire monter de niveau.",
+  "news.pets.three": "Commandez à vos animaux de compagnie de récupérer des ressources",
+  "news.pets.four": "3000 puissants animaux de compagnie NFT à collectionner",
+  "news.pets.five": "Les ventes aux enchères NFT commencent en novembre - préparez votre FLEUR",
+  "news.pets.title": "NFT et SFT pour animaux de compagnie - 4 novembre",
+  "news.pets.description": "Collectionnez et cultivez des animaux de compagnie uniques.",
+  "news.pets.backButton": "Animaux",
+  "news.obsidian.one": "Forgez des nœuds de ressources pour des mises à niveau puissantes",
+  "news.obsidian.two": "Utilisez de l'obsidienne pour faire pousser des fleurs instantanément",
+  "news.obsidian.three": "Des sanctuaires artisanaux pour des avantages agricoles",
+  "news.obsidian.four": "Le taux de change Obsidian:Sunstone passera à 3:1",
+  "news.obsidian.five": "Les exigences relatives aux puits de lave seront mises à jour",
+  "news.obsidian.title": "Mises à jour d'Obsidian - 4 novembre",
+  "news.obsidian.description": "Nouvelle utilité et demande pour Obsidian.",
+  "news.obsidian.backButton": "Mises à jour d'Obsidian"
 }

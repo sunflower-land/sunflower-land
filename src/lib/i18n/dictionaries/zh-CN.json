@@ -6533,5 +6533,21 @@
   "pets.feedPet": "饲料 {{pet}}",
   "pets.requestsToday": "{{pet}} 今天的请求",
   "pets.tiredOfManaging": "厌倦了单独管理您的宠物？",
-  "pets.buildPetHouse": "用铁匠建造一座宠物屋，一起管理它们！"
+  "pets.buildPetHouse": "用铁匠建造一座宠物屋，一起管理它们！",
+  "news.pets.one": "购买宠物蛋，发现 20 只可收藏的宠物。",
+  "news.pets.two": "喂养和培育你的宠物，让它们升级。",
+  "news.pets.three": "命令你的宠物获取资源",
+  "news.pets.four": "3000 个强大的 NFT 宠物可供收集",
+  "news.pets.five": "NFT 拍卖将于 11 月开始-准备好你的花",
+  "news.pets.title": "宠物 NFT 和 SFT-11 月 4 日",
+  "news.pets.description": "收集并培育独特的宠物。",
+  "news.pets.backButton": "宠物",
+  "news.obsidian.one": "拼装资源节点以进行强大升级",
+  "news.obsidian.two": "使用黑曜石即时种花",
+  "news.obsidian.three": "可获得农业津贴的手工神社",
+  "news.obsidian.four": "Obsidian: Sunstone 汇率将改为 3:1",
+  "news.obsidian.five": "熔岩坑要求将更新",
+  "news.obsidian.title": "黑曜石更新-11 月 4 日",
+  "news.obsidian.description": "对黑曜石的新用途和需求。",
+  "news.obsidian.backButton": "黑曜石更新"
 }

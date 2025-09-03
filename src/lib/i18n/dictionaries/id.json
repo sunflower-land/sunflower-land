@@ -6533,5 +6533,21 @@
   "pets.feedPet": "Umpan {{pet}}",
   "pets.requestsToday": "{{pet}} Permintaan Hari Ini",
   "pets.tiredOfManaging": "Bosan mengelola hewan peliharaan Anda secara individual?",
-  "pets.buildPetHouse": "Bangun rumah hewan peliharaan dari pandai besi untuk mengelola semuanya bersama-sama!"
+  "pets.buildPetHouse": "Bangun rumah hewan peliharaan dari pandai besi untuk mengelola semuanya bersama-sama!",
+  "news.pets.one": "Beli Telur Hewan Peliharaan untuk menemukan 20 hewan peliharaan yang dapat dikoleksi.",
+  "news.pets.two": "Beri makan & pelihara hewan peliharaan Anda untuk menaikkan levelnya.",
+  "news.pets.three": "Perintahkan hewan peliharaan Anda untuk mengambil sumber daya",
+  "news.pets.four": "3000 hewan peliharaan NFT yang kuat untuk dikumpulkan",
+  "news.pets.five": "Lelang NFT dimulai pada bulan November - siapkan BUNGA Anda",
+  "news.pets.title": "NFT & SFT Hewan Peliharaan - 4 November",
+  "news.pets.description": "Kumpulkan & tumbuhkan hewan peliharaan yang unik.",
+  "news.pets.backButton": "Hewan peliharaan",
+  "news.obsidian.one": "Membentuk bersama node sumber daya untuk peningkatan yang kuat",
+  "news.obsidian.two": "Gunakan Obsidian untuk menanam bunga",
+  "news.obsidian.three": "Kuil kerajinan untuk fasilitas pertanian",
+  "news.obsidian.four": "Obsidian: Nilai tukar Sunstone akan berubah menjadi 3:1",
+  "news.obsidian.five": "Persyaratan lubang lava akan diperbarui",
+  "news.obsidian.title": "Pembaruan Obsidian - 4 November",
+  "news.obsidian.description": "Utilitas & permintaan baru untuk Obsidian.",
+  "news.obsidian.backButton": "Pembaruan Obsidian"
 }

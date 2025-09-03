@@ -6533,5 +6533,21 @@
   "pets.feedPet": "フィード {{pet}}",
   "pets.requestsToday": "{{pet}} さんの今日のリクエスト",
   "pets.tiredOfManaging": "ペットを個別に管理するのはうんざりですか？",
-  "pets.buildPetHouse": "鍛冶屋からペットハウスを建てて、一緒に管理しよう！"
+  "pets.buildPetHouse": "鍛冶屋からペットハウスを建てて、一緒に管理しよう！",
+  "news.pets.one": "ペットエッグを購入して、コレクションにぴったりな20匹のペットを見つけましょう。",
+  "news.pets.two": "ペットに餌を与えて育ててレベルアップさせましょう。",
+  "news.pets.three": "ペットに資源を奪うよう命令",
+  "news.pets.four": "3000匹のパワフルなNFTペットを集めよう",
+  "news.pets.five": "NFTオークションは11月に始まります-花を準備しましょう",
+  "news.pets.title": "ペットNFTおよびSFT-11月4日",
+  "news.pets.description": "ユニークなペットを集めて育てましょう。",
+  "news.pets.backButton": "ペット",
+  "news.obsidian.one": "リソースノードをまとめて強力なアップグレードを",
+  "news.obsidian.two": "オブシディアンを使って花をインスタ映えしよう",
+  "news.obsidian.three": "農業の特典として使えるクラフト神社",
+  "news.obsidian.four": "オブシディアン:サンストーンの為替レートは 3:1 に変わります",
+  "news.obsidian.five": "ラバピットの要件が更新されます",
+  "news.obsidian.title": "オブシディアンアップデート-11月4日",
+  "news.obsidian.description": "オブシディアンの新たな効用と需要",
+  "news.obsidian.backButton": "オブシディアンアップデート"
 }

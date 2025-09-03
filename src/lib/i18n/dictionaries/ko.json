@@ -6533,5 +6533,21 @@
   "pets.feedPet": "피드 {{pet}}",
   "pets.requestsToday": "{{pet}} 님의 오늘 요청",
   "pets.tiredOfManaging": "반려동물을 개별적으로 관리하는 데 지치셨나요?",
-  "pets.buildPetHouse": "대장장이에게서 애완동물 집을 지어 모두 함께 관리하세요!"
+  "pets.buildPetHouse": "대장장이에게서 애완동물 집을 지어 모두 함께 관리하세요!",
+  "news.pets.one": "펫 에그를 구매하여 20마리의 수집용 펫을 발견하세요.",
+  "news.pets.two": "애완동물에게 먹이를 주고 양육하여 레벨을 올리세요.",
+  "news.pets.three": "반려동물에게 자원을 가져오라고 명령하세요",
+  "news.pets.four": "수집할 수 있는 강력한 NFT 애완동물 3000마리",
+  "news.pets.five": "NFT 경매는 11월에 시작됩니다 - 꽃을 준비하세요",
+  "news.pets.title": "반려동물 NFT 및 SFT - 11월 4일",
+  "news.pets.description": "독특한 애완동물을 모으고 성장시키세요.",
+  "news.pets.backButton": "애완동물",
+  "news.obsidian.one": "강력한 업그레이드를 위한 리소스 노드 통합",
+  "news.obsidian.two": "옵시디언으로 직접 꽃을 키우세요",
+  "news.obsidian.three": "농업 특전을 위한 신사 제작",
+  "news.obsidian.four": "옵시디언:선스톤 환율은 3:1 로 변경됩니다",
+  "news.obsidian.five": "용암 구덩이 요구 사항이 업데이트될 예정입니다.",
+  "news.obsidian.title": "옵시디언 업데이트 - 11월 4일",
+  "news.obsidian.description": "옵시디언에 대한 새로운 유틸리티 및 수요.",
+  "news.obsidian.backButton": "옵시디언 업데이트"
 }

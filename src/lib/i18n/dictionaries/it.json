@@ -6533,5 +6533,21 @@
   "pets.feedPet": "Alimentazione {{pet}}",
   "pets.requestsToday": "Le richieste di {{pet}} di oggi",
   "pets.tiredOfManaging": "Stanco di gestire i tuoi animali domestici individualmente?",
-  "pets.buildPetHouse": "Costruisci una cuccia per animali da fabbro per gestirli tutti insieme!"
+  "pets.buildPetHouse": "Costruisci una cuccia per animali da fabbro per gestirli tutti insieme!",
+  "news.pets.one": "Acquista Pet Eggs per scoprire 20 animali domestici da collezione.",
+  "news.pets.two": "Dai da mangiare e nutri i tuoi animali domestici per farli salire di livello.",
+  "news.pets.three": "Ordina ai tuoi animali domestici di recuperare risorse",
+  "news.pets.four": "3000 potenti mascotte NFT da collezionare",
+  "news.pets.five": "Le aste NFT iniziano a novembre: prepara il tuo FIORE",
+  "news.pets.title": "NFT e SFT per animali domestici - 4 novembre",
+  "news.pets.description": "Colleziona e coltiva animali domestici unici.",
+  "news.pets.backButton": "Animali domestici",
+  "news.obsidian.one": "Unisci nodi di risorse per potenti aggiornamenti",
+  "news.obsidian.two": "Usa Obsidian per far crescere fiori istantanei",
+  "news.obsidian.three": "Santuari artigianali per vantaggi agricoli",
+  "news.obsidian.four": "Il tasso di cambio di Obsidian:Sunstone passerà a 3:1",
+  "news.obsidian.five": "I requisiti del pozzo di lava verranno aggiornati",
+  "news.obsidian.title": "Aggiornamenti Obsidian - 4 novembre",
+  "news.obsidian.description": "Nuova utilità e domanda per Obsidian.",
+  "news.obsidian.backButton": "Aggiornamenti Obsidian"
 }

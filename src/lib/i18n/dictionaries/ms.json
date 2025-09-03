@@ -6533,5 +6533,21 @@
   "pets.feedPet": "Makanan {{pet}}",
   "pets.requestsToday": "Permintaan {{pet}} Hari Ini",
   "pets.tiredOfManaging": "Bosan menguruskan haiwan kesayangan anda secara individu?",
-  "pets.buildPetHouse": "Bina rumah haiwan kesayangan dari tukang besi untuk menguruskan semuanya bersama-sama!"
+  "pets.buildPetHouse": "Bina rumah haiwan kesayangan dari tukang besi untuk menguruskan semuanya bersama-sama!",
+  "news.pets.one": "Beli Telur Binatang untuk menemui 20 haiwan peliharaan yang boleh dikumpulkan.",
+  "news.pets.two": "Beri makan & memupuk haiwan kesayangan anda untuk menaikkannya.",
+  "news.pets.three": "Perintahkan haiwan kesayangan anda untuk mengambil sumber",
+  "news.pets.four": "3000 haiwan peliharaan NFT yang kuat untuk dikumpulkan",
+  "news.pets.five": "Lelongan NFT bermula pada bulan November - sediakan BUNGA anda",
+  "news.pets.title": "NFT & SFT haiwan peliharaan - 4 Nov",
+  "news.pets.description": "Kumpulkan & tanam haiwan peliharaan yang unik.",
+  "news.pets.backButton": "haiwan peliharaan",
+  "news.obsidian.one": "Menubuhkan nod sumber bersama untuk peningkatan yang kuat",
+  "news.obsidian.two": "Gunakan Obsidian untuk menanam bunga",
+  "news.obsidian.three": "Kuil kraf untuk faedah pertanian",
+  "news.obsidian.four": "Kadar pertukaran Obsidian:Sunstone akan berubah kepada 3:1",
+  "news.obsidian.five": "Keperluan lubang lava akan dikemas kini",
+  "news.obsidian.title": "Kemas Kini Obsidian - 4 Nov",
+  "news.obsidian.description": "Utiliti & permintaan baru untuk Obsidian.",
+  "news.obsidian.backButton": "Kemas Kini Obsidian"
 }

@@ -6533,5 +6533,21 @@
   "pets.feedPet": "Besleme {{pet}}",
   "pets.requestsToday": "{{pet}} 'nin Bugünkü Talepleri",
   "pets.tiredOfManaging": "Evcil hayvanlarınızı bireysel olarak yönetmekten bıktınız mı?",
-  "pets.buildPetHouse": "Hepsini birlikte yönetmek için demirciden bir evcil hayvan evi inşa edin!"
+  "pets.buildPetHouse": "Hepsini birlikte yönetmek için demirciden bir evcil hayvan evi inşa edin!",
+  "news.pets.one": "20 koleksiyonluk evcil hayvanı keşfetmek için Evcil Hayvan Yumurtaları satın alın.",
+  "news.pets.two": "Evcil hayvanlarınızı seviye atlamak için besleyin ve besleyin.",
+  "news.pets.three": "Evcil hayvanlarınıza kaynak getirmeleri için emir verin",
+  "news.pets.four": "Toplanacak 3000 güçlü NFT evcil hayvanı",
+  "news.pets.five": "NFT Müzayedeleri Kasım ayında başlıyor - ÇIÇEĞinizi hazırlayın",
+  "news.pets.title": "Evcil Hayvan NFT'leri ve SFT'leri - 4 Kasım",
+  "news.pets.description": "Benzersiz evcil hayvanları toplayın ve büyütün.",
+  "news.pets.backButton": "Evcil Hayvanlar",
+  "news.obsidian.one": "Güçlü yükseltmeler için kaynak düğümlerini bir araya getirin",
+  "news.obsidian.two": "Çiçek yetiştirmek için Obsidiyen kullanın",
+  "news.obsidian.three": "Tarım avantajları için zanaat tapınakları",
+  "news.obsidian.four": "Obsidian:Sunstone döviz kuru 3:1 olarak değişecek",
+  "news.obsidian.five": "Lav çukuru gereksinimleri güncellenecek",
+  "news.obsidian.title": "Obsidyen Güncellemeleri - 4 Kasım",
+  "news.obsidian.description": "Obsidiyen için yeni hizmet ve talep.",
+  "news.obsidian.backButton": "Obsidyen Güncellemeleri"
 }

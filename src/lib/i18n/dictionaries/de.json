@@ -6533,5 +6533,21 @@
   "pets.feedPet": "Füttern Sie {{pet}}",
   "pets.requestsToday": "Anfragen von {{pet}} heute",
   "pets.tiredOfManaging": "Sind Sie es leid, Ihre Haustiere individuell zu verwalten?",
-  "pets.buildPetHouse": "Baue ein Tierhaus aus einem Schmied, um sie alle zusammen zu verwalten!"
+  "pets.buildPetHouse": "Baue ein Tierhaus aus einem Schmied, um sie alle zusammen zu verwalten!",
+  "news.pets.one": "Kaufe Tiereier, um 20 Haustiere zum Sammeln zu entdecken.",
+  "news.pets.two": "Füttere und pflege deine Haustiere, um sie zu verbessern.",
+  "news.pets.three": "Befehlen Sie Ihren Haustieren, Ressourcen zu holen",
+  "news.pets.four": "3000 mächtige NFT-Haustiere zum Sammeln",
+  "news.pets.five": "NFT-Auktionen beginnen im November - bereiten Sie Ihre FLOWER vor",
+  "news.pets.title": "NFTs und SFTs für Haustiere — 4. November",
+  "news.pets.description": "Sammle und züchte einzigartige Haustiere.",
+  "news.pets.backButton": "Haustiere",
+  "news.obsidian.one": "Kombinieren Sie Ressourcenknoten für leistungsstarke Upgrades",
+  "news.obsidian.two": "Verwenden Sie Obsidian, um Blumen sofort wachsen zu lassen",
+  "news.obsidian.three": "Baue Schreine für landwirtschaftliche Vergünstigungen",
+  "news.obsidian.four": "Obsidian: Der Wechselkurs von Sunstone wird auf 3:1 geändert",
+  "news.obsidian.five": "Die Anforderungen an die Lavagrube werden aktualisiert",
+  "news.obsidian.title": "Obsidian-Updates — 4. November",
+  "news.obsidian.description": "Neuer Nutzen und neue Nachfrage nach Obsidian.",
+  "news.obsidian.backButton": "Obsidian-Aktualisierungen"
 }

@@ -6533,5 +6533,21 @@
   "pets.feedPet": "Alimentação {{pet}}",
   "pets.requestsToday": "Solicitações de {{pet}} de hoje",
   "pets.tiredOfManaging": "Cansado de gerenciar seus animais de estimação individualmente?",
-  "pets.buildPetHouse": "Construa uma casa para animais de estimação com um ferreiro para gerenciar todos eles juntos!"
+  "pets.buildPetHouse": "Construa uma casa para animais de estimação com um ferreiro para gerenciar todos eles juntos!",
+  "news.pets.one": "Compre ovos para animais de estimação para descobrir 20 animais de estimação colecionáveis.",
+  "news.pets.two": "Alimente e nutra seus animais de estimação para subir de nível.",
+  "news.pets.three": "Comande seus animais de estimação a buscar recursos",
+  "news.pets.four": "3000 mascotes NFT poderosos para colecionar",
+  "news.pets.five": "Os leilões NFT começam em novembro - prepare sua FLOR",
+  "news.pets.title": "NFTs e SFTs para animais de estimação - 4 de novembro",
+  "news.pets.description": "Colete e crie animais de estimação exclusivos.",
+  "news.pets.backButton": "Animais",
+  "news.obsidian.one": "Reúna nós de recursos para obter atualizações poderosas",
+  "news.obsidian.two": "Use obsidiana para cultivar flores instantaneamente",
+  "news.obsidian.three": "Crie santuários para obter vantagens agrícolas",
+  "news.obsidian.four": "Obsidiana: A taxa de câmbio Sunstone mudará para 3:1",
+  "news.obsidian.five": "Os requisitos do poço de lava serão atualizados",
+  "news.obsidian.title": "Atualizações da Obsidian - 4 de novembro",
+  "news.obsidian.description": "Nova utilidade e demanda por Obsidian.",
+  "news.obsidian.backButton": "Atualizações da Obsidian"
 }
