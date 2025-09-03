@@ -749,7 +749,7 @@ const Heading: React.FC<{
           onClick={isLocked ? undefined : () => navigate(locationPath)}
           disabled={isLocked}
         >
-          <div className="flex flex-row -m-1">
+          <div className="flex flex-row -m-1.5">
             <p className="text-xxs sm:text-xs mr-0.5">
               {t("checkList.travel")}
             </p>
