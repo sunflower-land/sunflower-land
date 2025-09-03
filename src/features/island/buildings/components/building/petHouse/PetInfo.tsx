@@ -76,18 +76,17 @@ const PetInfoComponent: React.FC<Props> = ({
   }
 
   return (
-    <OuterPanel className="flex flex-row sm:flex-col justify-between p-3 gap-2 relative overflow-hidden">
-      {/* Pet Info */}
-      <div className="flex flex-col sm:flex-row items-center space-x-3">
-        <img
-          src={petImage}
-          alt={petName.toString()}
-          className="w-12 sm:w-16 h-12 sm:h-16 object-contain"
-        />
-        <div className="flex flex-col gap-1">
-          <Label type={"default"}>{petName}</Label>
-          {!showChanges ? (
-            <div className="flex flex-col text-xs gap-1 mt-1">
+    <OuterPanel className="flex flex-row sm:flex-col p-3 gap-2 relative overflow-hidden">
+      {!showChanges ? (
+        <div className="flex flex-col sm:flex-row items-center w-1/2 sm:w-full">
+          <img
+            src={petImage}
+            alt={petName.toString()}
+            className="w-12 sm:w-16 h-12 sm:h-16 object-contain"
+          />
+          <div className="flex flex-col gap-1 w-full sm:ml-2">
+            <Label type={"default"}>{petName}</Label>
+            <InnerPanel className="flex flex-col text-xs gap-1 w-full mt-1">
               <p>{`Level: ${level}`}</p>
               <Bar percentage={percentage} type={"progress"} />
               <div className="flex flex-row items-center gap-1">
@@ -97,52 +96,68 @@ const PetInfoComponent: React.FC<Props> = ({
                 </p>
               </div>
               <div className="flex flex-row items-center gap-1">
-                <img src={SUNNYSIDE.icons.lightning} className="w-3" />
+                <div className="w-4">
+                  <img src={SUNNYSIDE.icons.lightning} className="w-3" />
+                </div>
                 <p className="text-xxs">{`${pet.energy}`}</p>
               </div>
-            </div>
-          ) : (
-            <div className="flex flex-col gap-1 w-full">
-              <InnerPanel className="flex flex-col text-xs gap-1">
-                <p>{t("pets.level", { level })}</p>
-                <div className="flex flex-row items-center gap-1">
-                  <img src={xpIcon} className="w-4" />
-                  <p className="text-xxs">
-                    {`${beforeProgress} / ${experienceBetweenLevels}`}
-                  </p>
-                </div>
-                <div className="flex flex-row items-center gap-1">
-                  <img src={SUNNYSIDE.icons.lightning} className="w-3" />
-                  <p className="text-xxs">{`${pet.energy}`}</p>
-                </div>
-              </InnerPanel>
-              <div className="w-full flex justify-center items-center">
-                <img
-                  src={SUNNYSIDE.icons.arrow_down}
-                  alt="Arrow Down"
-                  className="w-3"
-                />
-              </div>
-              <InnerPanel className="flex flex-col text-xs gap-1">
-                <p>
-                  {t("pets.level", { level: afterLevel })}{" "}
-                  {levelChange > 0 ? `(+${levelChange})` : ""}
-                </p>
-                <div className="flex flex-row items-center gap-1">
-                  <img src={xpIcon} className="w-4" />
-                  <p className="text-xxs">
-                    {`${afterProgress} / ${experienceBetweenLevelsChange} ${experienceChange > 0 ? `(+${experienceChange})` : ""}`}
-                  </p>
-                </div>
-                <div className="flex flex-row items-center gap-1">
-                  <img src={SUNNYSIDE.icons.lightning} className="w-3" />
-                  <p className="text-xxs">{`${afterEnergy} ${energyChange > 0 ? `(+${energyChange})` : ""}`}</p>
-                </div>
-              </InnerPanel>
-            </div>
-          )}
+            </InnerPanel>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="flex flex-col items-center w-1/2 sm:w-full">
+          <div className="flex flex-col sm:flex-row-reverse items-center gap-1 mb-1">
+            <img
+              src={petImage}
+              alt={petName.toString()}
+              className="w-12 sm:w-16 h-12 sm:h-16 object-contain"
+            />
+            <Label type={"default"}>{petName}</Label>
+          </div>
+          <div className="flex flex-col gap-1 w-full">
+            <InnerPanel className="flex flex-col text-xs gap-1">
+              <p>{t("pets.level", { level })}</p>
+              <div className="flex flex-row items-center gap-1">
+                <img src={xpIcon} className="w-4" />
+                <p className="text-xxs">
+                  {`${beforeProgress} / ${experienceBetweenLevels}`}
+                </p>
+              </div>
+              <div className="flex flex-row items-center gap-1">
+                <div className="w-4">
+                  <img src={SUNNYSIDE.icons.lightning} className="w-3" />
+                </div>
+                <p className="text-xxs">{`${pet.energy}`}</p>
+              </div>
+            </InnerPanel>
+            <div className="w-full flex justify-center items-center">
+              <img
+                src={SUNNYSIDE.icons.arrow_down}
+                alt="Arrow Down"
+                className="w-3"
+              />
+            </div>
+            <InnerPanel className="flex flex-col text-xs gap-1">
+              <p>
+                {t("pets.level", { level: afterLevel })}{" "}
+                {levelChange > 0 ? `(+${levelChange})` : ""}
+              </p>
+              <div className="flex flex-row items-center gap-1">
+                <img src={xpIcon} className="w-4" />
+                <p className="text-xxs">
+                  {`${afterProgress} / ${experienceBetweenLevelsChange} ${experienceChange > 0 ? `(+${experienceChange})` : ""}`}
+                </p>
+              </div>
+              <div className="flex flex-row items-center gap-1">
+                <div className="w-4">
+                  <img src={SUNNYSIDE.icons.lightning} className="w-3" />
+                </div>
+                <p className="text-xxs">{`${afterEnergy} ${energyChange > 0 ? `(+${energyChange})` : ""}`}</p>
+              </div>
+            </InnerPanel>
+          </div>
+        </div>
+      )}
       {children}
     </OuterPanel>
   );
