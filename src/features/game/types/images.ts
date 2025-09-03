@@ -1012,6 +1012,7 @@ import pip from "assets/sfts/pets/penguins/pip.webp";
 import skipper from "assets/sfts/pets/penguins/skipper.webp";
 import waddles from "assets/sfts/pets/penguins/waddles.webp";
 import ramsey from "assets/sfts/pets/ramsey.webp";
+import petEgg from "assets/icons/pet_egg.png";
 
 import moonfur from "assets/icons/moonfur.webp";
 import dewberry from "assets/icons/dewberry.webp";
@@ -5769,7 +5770,7 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.giantBanana"),
   },
   "Pet Egg": {
-    image: SUNNYSIDE.resource.egg,
+    image: petEgg,
     description: translate("description.petEgg"),
   },
   Barkley: {
