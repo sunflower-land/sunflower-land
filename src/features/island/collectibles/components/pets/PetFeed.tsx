@@ -46,6 +46,7 @@ export const PetFeed: React.FC<
     petData.requests.food[0] ?? null,
   );
   const [showConfirm, setShowConfirm] = useState(false);
+  const [showResetRequests, setShowResetRequests] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
   const [isPicking, setIsPicking] = useState(false);
   const resetRequests = async () => {
@@ -85,41 +86,46 @@ export const PetFeed: React.FC<
     );
   }
 
-  return (
-    <div className="flex flex-col gap-1">
-      <SplitScreenView
-        panel={
-          <PetFeedPanel
-            petName={petName}
-            petData={petData}
-            selectedFood={selectedFood}
-            handleFeed={handleFeed}
-            inventory={inventory}
-            showConfirm={showConfirm}
-            setShowConfirm={setShowConfirm}
-            isToday={isToday}
-          />
-        }
-        content={
-          <PetFeedContent
-            petName={petName}
-            petData={petData}
-            selectedFood={selectedFood}
-            setSelectedFood={setSelectedFood}
-            inventory={inventory}
-            setShowConfirm={setShowConfirm}
-            isToday={isToday}
-          />
-        }
-      />
+  if (showResetRequests) {
+    return (
       <ResetFoodRequests
         petName={petName}
         petData={petData}
         inventory={inventory}
         todayDate={todayDate}
         resetRequests={resetRequests}
+        setShowResetRequests={setShowResetRequests}
       />
-    </div>
+    );
+  }
+
+  return (
+    <SplitScreenView
+      panel={
+        <PetFeedPanel
+          petName={petName}
+          petData={petData}
+          selectedFood={selectedFood}
+          handleFeed={handleFeed}
+          inventory={inventory}
+          showConfirm={showConfirm}
+          setShowConfirm={setShowConfirm}
+          isToday={isToday}
+          setShowResetRequests={setShowResetRequests}
+        />
+      }
+      content={
+        <PetFeedContent
+          petName={petName}
+          petData={petData}
+          selectedFood={selectedFood}
+          setSelectedFood={setSelectedFood}
+          inventory={inventory}
+          setShowConfirm={setShowConfirm}
+          isToday={isToday}
+        />
+      }
+    />
   );
 };
 
@@ -130,6 +136,7 @@ const PetFeedPanel: React.FC<
     showConfirm: boolean;
     setShowConfirm: (showConfirm: boolean) => void;
     isToday: boolean;
+    setShowResetRequests: (showResetRequests: boolean) => void;
   }
 > = ({
   petName,
@@ -140,6 +147,7 @@ const PetFeedPanel: React.FC<
   showConfirm,
   setShowConfirm,
   isToday,
+  setShowResetRequests,
 }) => {
   const { t } = useAppTranslation();
   const petImage = ITEM_DETAILS[petName].image;
@@ -241,6 +249,12 @@ const PetFeedPanel: React.FC<
           <Button onClick={() => setShowConfirm(false)}>{t("cancel")}</Button>
         )}
       </div>
+      <p
+        className="underline font-secondary text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
+        onClick={() => setShowResetRequests(true)}
+      >
+        {t("pets.resetRequests")}
+      </p>
     </div>
   );
 };
@@ -294,18 +308,34 @@ const ResetFoodRequests: React.FC<{
   petData: Pet;
   inventory: Inventory;
   todayDate: string;
-  resetRequests: () => void;
-}> = ({ petName, petData, inventory, todayDate, resetRequests }) => {
+  resetRequests: () => Promise<void>;
+  setShowResetRequests: (showResetRequests: boolean) => void;
+}> = ({
+  petName,
+  petData,
+  inventory,
+  todayDate,
+  resetRequests,
+  setShowResetRequests,
+}) => {
   const { t } = useAppTranslation();
-  const [showResetRequests, setShowResetRequests] = useState(false);
+  const [showResetRequestsConfirmation, setShowResetRequestsConfirmation] =
+    useState(false);
   const resetGemCost = getGemCost(petData.requests.resets?.[todayDate] ?? 0);
   const hasEnoughGem = inventory.Gem?.gte(resetGemCost);
   return (
     <InnerPanel className="flex flex-col gap-2">
       <div className="flex flex-row gap-2 items-center justify-between">
-        <Label type="default">
-          {t("pets.getNewRequests", { pet: petName })}
-        </Label>
+        <div className="flex flex-row gap-2">
+          <img
+            src={SUNNYSIDE.icons.arrow_left}
+            className="h-6 cursor-pointer"
+            onClick={() => setShowResetRequests(false)}
+          />
+          <Label type="default">
+            {t("pets.getNewRequests", { pet: petName })}
+          </Label>
+        </div>
         <Label type="info" secondaryIcon={ITEM_DETAILS.Gem.image}>
           {`${resetGemCost} ${t("gems")}`}
         </Label>
@@ -319,19 +349,22 @@ const ResetFoodRequests: React.FC<{
       <div className="flex flex-row gap-2 items-center justify-between">
         <Button
           onClick={() => {
-            if (showResetRequests) {
+            if (showResetRequestsConfirmation) {
               resetRequests();
               setShowResetRequests(false);
+              setShowResetRequestsConfirmation(false);
             } else {
-              setShowResetRequests(true);
+              setShowResetRequestsConfirmation(true);
             }
           }}
           disabled={!hasEnoughGem}
         >
-          {showResetRequests ? t("confirm") : t("pets.resetRequests")}
+          {showResetRequestsConfirmation
+            ? t("confirm")
+            : t("pets.resetRequests")}
         </Button>
-        {showResetRequests && (
-          <Button onClick={() => setShowResetRequests(false)}>
+        {showResetRequestsConfirmation && (
+          <Button onClick={() => setShowResetRequestsConfirmation(false)}>
             {t("cancel")}
           </Button>
         )}
