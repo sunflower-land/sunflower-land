@@ -16,10 +16,8 @@ interface Props {
   petName: PetName;
   pet: Pet;
   isBulkFeed: boolean;
-  selectedFeed: { pet: PetName | number; food: CookableName }[];
-  setSelectedFeed: (
-    feed: { pet: PetName | number; food: CookableName }[],
-  ) => void;
+  selectedFeed: { pet: PetName; food: CookableName }[];
+  setSelectedFeed: (feed: { pet: PetName; food: CookableName }[]) => void;
   inventory: Inventory;
 }
 
@@ -27,7 +25,7 @@ export const getAdjustedFoodCount = (
   foodName: CookableName,
   inventory: Inventory,
   isBulkFeed?: boolean,
-  selectedFeed?: { pet: PetName | number; food: CookableName }[],
+  selectedFeed?: { pet: PetName; food: CookableName }[],
 ) => {
   const baseFoodCount = inventory[foodName] ?? new Decimal(0);
 
@@ -48,7 +46,7 @@ export const hasFoodInInventory = (
   foodName: CookableName,
   inventory: Inventory,
   isBulkFeed?: boolean,
-  selectedFeed?: { pet: PetName | number; food: CookableName }[],
+  selectedFeed?: { pet: PetName; food: CookableName }[],
 ) => {
   const adjustedCount = getAdjustedFoodCount(
     foodName,

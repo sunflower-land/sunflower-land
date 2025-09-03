@@ -693,7 +693,6 @@ export const INITIAL_FARM: GameState = {
   },
   pets: {
     common: {},
-    nft: {},
   },
 };
 
@@ -1019,7 +1018,6 @@ export const TEST_FARM: GameState = {
   },
   pets: {
     common: {},
-    nft: {},
   },
 };
 
@@ -1194,6 +1192,5 @@ export const EMPTY: GameState = {
   },
   pets: {
     common: {},
-    nft: {},
   },
 };

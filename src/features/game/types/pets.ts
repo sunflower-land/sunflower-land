@@ -63,7 +63,7 @@ export type PetCategoryName =
   | "Forager";
 
 export type Pet = {
-  name: PetName | number;
+  name: PetName;
   requests: {
     food: CookableName[];
     foodFed?: CookableName[];
@@ -75,7 +75,7 @@ export type Pet = {
 
 export type Pets = {
   common?: Partial<Record<PetName, Pet>>;
-  nft?: Partial<Record<number, Pet>>; // nftId as number
+  requestsGeneratedAt?: number;
 };
 
 export type PetConfig = {
