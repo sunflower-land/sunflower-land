@@ -5,23 +5,24 @@ import {
   getPetRequestXP,
   PET_CATEGORIES,
   PetType,
+  getExperienceToNextLevel,
 } from "features/game/types/pets";
 import React, { useContext, useState, useMemo, useCallback } from "react";
 import { FeedPetCard, isFoodAlreadyFed } from "./FeedPetCard";
 import { Button } from "components/ui/Button";
 import { CookableName } from "features/game/types/consumables";
 import { Context } from "features/game/GameProvider";
-import { InnerPanel, Panel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import { ModalOverlay } from "components/ui/ModalOverlay";
-import { PetInfo } from "./PetInfo";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getKeys } from "features/game/lib/crafting";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
+import xpIcon from "assets/icons/xp.png";
 
 type Props = {
   activePets: [PetName, Pet | undefined][];
@@ -248,17 +249,111 @@ const FeedPetComponent: React.FC<Props> = ({ activePets }) => {
                 const beforeEnergy = petData.energy;
                 const afterEnergy = beforeEnergy + totalXP;
 
+                const petImage =
+                  typeof pet === "number" ? "" : ITEM_DETAILS[pet].image;
+
+                const { level, currentProgress, experienceBetweenLevels } =
+                  getExperienceToNextLevel(petData.experience);
+
+                const experienceChange =
+                  beforeExperience !== undefined &&
+                  afterExperience !== undefined
+                    ? afterExperience - beforeExperience
+                    : 0;
+                const energyChange =
+                  beforeEnergy !== undefined && afterEnergy !== undefined
+                    ? afterEnergy - beforeEnergy
+                    : 0;
+
+                // Calculate level changes and progress
+                let beforeLevel = level;
+                let beforeProgress = currentProgress;
+                let afterLevel = level;
+                let afterProgress = currentProgress;
+                let levelChange = 0;
+                let experienceBetweenLevelsChange = experienceBetweenLevels;
+
+                if (
+                  beforeExperience !== undefined &&
+                  afterExperience !== undefined
+                ) {
+                  const beforeLevelData =
+                    getExperienceToNextLevel(beforeExperience);
+                  const afterLevelData =
+                    getExperienceToNextLevel(afterExperience);
+
+                  beforeLevel = beforeLevelData.level;
+                  beforeProgress = beforeLevelData.currentProgress;
+                  afterLevel = afterLevelData.level;
+                  afterProgress = afterLevelData.currentProgress;
+                  levelChange = afterLevel - beforeLevel;
+                  experienceBetweenLevelsChange =
+                    afterLevelData.experienceBetweenLevels;
+                }
+
                 return (
-                  <PetInfo
+                  <OuterPanel
                     key={pet}
-                    petName={pet}
-                    pet={petData}
-                    showChanges
-                    beforeExperience={beforeExperience}
-                    afterExperience={afterExperience}
-                    beforeEnergy={beforeEnergy}
-                    afterEnergy={afterEnergy}
+                    className="flex flex-row sm:flex-col p-3 gap-2 relative overflow-hidden"
                   >
+                    <div className="flex flex-col items-center w-1/2 sm:w-full">
+                      <div className="flex flex-col sm:flex-row-reverse items-center gap-1 mb-1">
+                        <img
+                          src={petImage}
+                          alt={pet.toString()}
+                          className="w-12 sm:w-16 h-12 sm:h-16 object-contain"
+                        />
+                        <Label type={"default"}>{pet}</Label>
+                      </div>
+                      <div className="flex flex-col gap-1 w-full">
+                        <InnerPanel className="flex flex-col text-xs gap-1">
+                          <p>{t("pets.level", { level })}</p>
+                          <div className="flex flex-row items-center gap-1">
+                            <img src={xpIcon} className="w-4" />
+                            <p className="text-xxs">
+                              {`${beforeProgress} / ${experienceBetweenLevels}`}
+                            </p>
+                          </div>
+                          <div className="flex flex-row items-center gap-1">
+                            <div className="w-4">
+                              <img
+                                src={SUNNYSIDE.icons.lightning}
+                                className="w-3"
+                              />
+                            </div>
+                            <p className="text-xxs">{`${petData.energy}`}</p>
+                          </div>
+                        </InnerPanel>
+                        <div className="w-full flex justify-center items-center">
+                          <img
+                            src={SUNNYSIDE.icons.arrow_down}
+                            alt="Arrow Down"
+                            className="w-3"
+                          />
+                        </div>
+                        <InnerPanel className="flex flex-col text-xs gap-1">
+                          <p>
+                            {t("pets.level", { level: afterLevel })}{" "}
+                            {levelChange > 0 ? `(+${levelChange})` : ""}
+                          </p>
+                          <div className="flex flex-row items-center gap-1">
+                            <img src={xpIcon} className="w-4" />
+                            <p className="text-xxs">
+                              {`${afterProgress} / ${experienceBetweenLevelsChange} ${experienceChange > 0 ? `(+${experienceChange})` : ""}`}
+                            </p>
+                          </div>
+                          <div className="flex flex-row items-center gap-1">
+                            <div className="w-4">
+                              <img
+                                src={SUNNYSIDE.icons.lightning}
+                                className="w-3"
+                              />
+                            </div>
+                            <p className="text-xxs">{`${afterEnergy} ${energyChange > 0 ? `(+${energyChange})` : ""}`}</p>
+                          </div>
+                        </InnerPanel>
+                      </div>
+                    </div>
                     <div className="flex flex-col gap-2">
                       <Label type="default">{t("pets.foodSelected")}</Label>
                       <div className="flex flex-row gap-2">
@@ -267,7 +362,7 @@ const FeedPetComponent: React.FC<Props> = ({ activePets }) => {
                         ))}
                       </div>
                     </div>
-                  </PetInfo>
+                  </OuterPanel>
                 );
               })}
             </div>
