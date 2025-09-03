@@ -481,6 +481,7 @@ export const PET_REQUESTS: Record<PetRequestDifficulty, CookableName[]> = {
     "Purple Smoothie",
   ],
   medium: [
+    "Boiled Eggs",
     "Cabbers n Mash",
     "Fried Tofu",
     "Kale Stew",
