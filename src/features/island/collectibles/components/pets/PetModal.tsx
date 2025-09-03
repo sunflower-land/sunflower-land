@@ -82,7 +82,10 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
   }
 
   return (
-    <Modal show={show} onHide={onClose}>
+    <Modal
+      show={show}
+      onHide={isRevealingState || isRevealedState ? undefined : onClose}
+    >
       {showBuildPetHouse && (
         <div className="absolute top-[-4rem] right-0 flex flex-col gap-1 items-end justify-end">
           <Label type="info">{t("pets.tiredOfManaging")}</Label>
@@ -92,19 +95,23 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
         </div>
       )}
       <CloseButtonPanel
-        onClose={onClose}
+        onClose={isRevealingState || isRevealedState ? undefined : onClose}
         tabs={[
-          {
-            name: t("pets.info"),
-            icon: ITEM_DETAILS[petName].image,
-            id: "Info",
-          },
-          { name: t("pets.feed"), icon: foodIcon, id: "Feed" },
-          {
-            name: t("pets.fetch"),
-            icon: ITEM_DETAILS[petName].image,
-            id: "Fetch",
-          },
+          ...(isRevealingState || isRevealedState
+            ? [{ name: t("pets.feed"), icon: foodIcon, id: "Feed" }]
+            : [
+                {
+                  name: t("pets.info"),
+                  icon: ITEM_DETAILS[petName].image,
+                  id: "Info",
+                },
+                { name: t("pets.feed"), icon: foodIcon, id: "Feed" },
+                {
+                  name: t("pets.fetch"),
+                  icon: ITEM_DETAILS[petName].image,
+                  id: "Fetch",
+                },
+              ]),
         ]}
         currentTab={tab}
         setCurrentTab={setTab}
