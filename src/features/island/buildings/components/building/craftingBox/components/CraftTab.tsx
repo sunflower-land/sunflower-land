@@ -27,6 +27,7 @@ import {
   RecipeIngredient,
   DOLLS,
   RECIPES,
+  RecipeCollectibleName,
 } from "features/game/lib/crafting";
 import {
   findMatchingRecipe,
@@ -422,6 +423,9 @@ export const CraftTab: React.FC<Props> = ({
 
   const gems = getInstantGems({ readyAt: craftingReadyAt, game: state });
 
+  const recipeAmount = (recipeName: RecipeCollectibleName) =>
+    remainingInventory[recipeName as RecipeCollectibleName] ?? new Decimal(0);
+
   return (
     <>
       <div className="flex pl-1 pt-1">
@@ -486,6 +490,11 @@ export const CraftTab: React.FC<Props> = ({
             recipe={currentRecipe}
             isPending={isPending}
             failedAttempt={failedAttempt}
+            amount={
+              isCrafting && !isReady && (currentRecipe?.time ?? 0) > 0
+                ? new Decimal(0)
+                : recipeAmount(currentRecipe?.name as RecipeCollectibleName)
+            }
           />
           <CraftTimer
             state={state}
@@ -605,6 +614,7 @@ export const CraftTab: React.FC<Props> = ({
                 recipe={currentRecipe}
                 isPending={isPending}
                 failedAttempt={failedAttempt}
+                amount={new Decimal(1)}
               />
               <CraftTimer
                 state={state}
@@ -658,7 +668,8 @@ const CraftDetails: React.FC<{
   recipe: Recipe | null;
   isPending: boolean;
   failedAttempt: boolean;
-}> = ({ recipe, isPending, failedAttempt }) => {
+  amount: Decimal;
+}> = ({ recipe, isPending, failedAttempt, amount }) => {
   const { t } = useTranslation();
 
   if (!recipe) {
@@ -684,6 +695,7 @@ const CraftDetails: React.FC<{
         <Box
           image={SUNNYSIDE.icons.expression_confused}
           key={`box-${isPending}`}
+          count={amount}
         />
       </>
     );
@@ -700,7 +712,7 @@ const CraftDetails: React.FC<{
             ? ITEM_DETAILS[recipe.name as InventoryItemName].image
             : getImageUrl(ITEM_IDS[recipe.name as BumpkinItem])
         }
-        count={new Decimal(1)}
+        count={amount}
       />
     </>
   );

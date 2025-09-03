@@ -15,6 +15,7 @@ import classNames from "classnames";
 import { SquareIcon } from "components/ui/SquareIcon";
 import {
   Recipe,
+  RecipeCollectibleName,
   RecipeIngredient,
   RECIPES,
   Recipes,
@@ -30,6 +31,7 @@ import lightningIcon from "assets/icons/lightning.png";
 import { InventoryItemName } from "features/game/types/game";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
+import Decimal from "decimal.js-light";
 
 const _state = (state: MachineState) => state.context.state;
 
@@ -125,6 +127,9 @@ export const RecipesTab: React.FC<Props> = ({
     });
   };
 
+  const recipeAmount = (recipeName: RecipeCollectibleName) =>
+    remainingInventory[recipeName as RecipeCollectibleName] ?? new Decimal(0);
+
   return (
     <div className="flex flex-col">
       <Label type="default" className="mb-2">
@@ -215,6 +220,15 @@ export const RecipesTab: React.FC<Props> = ({
                             src={getImageUrl(ITEM_IDS[recipe.name])}
                             className="w-6 h-6 object-contain"
                           />
+                        )}
+                        {recipeAmount(recipe.name as RecipeCollectibleName).gt(
+                          0,
+                        ) && (
+                          <div className="absolute -top-4 -right-4">
+                            <Label type="default">
+                              <p className="text-xxs">{`${recipeAmount(recipe.name as RecipeCollectibleName)}`}</p>
+                            </Label>
+                          </div>
                         )}
                       </ButtonPanel>
                     </div>
