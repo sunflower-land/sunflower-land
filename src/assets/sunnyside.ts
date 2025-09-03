@@ -80,6 +80,8 @@ export const SUNNYSIDE = {
     betterTogetherSeasonRares: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/better_together_rares.webp`,
     crafting: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/crafting.png`,
     social: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/social_banner.png`,
+    pets: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/pets.png`,
+    obsidian_updates: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/obsidian_updates.png`,
     landscaping: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/landscaping.png`,
     cleaning: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/cleanup.png`,
   },
