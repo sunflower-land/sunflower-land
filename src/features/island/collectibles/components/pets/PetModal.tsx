@@ -41,6 +41,12 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
   const hasPetsAccess = useSelector(gameService, (state) =>
     hasFeatureAccess(state.context.state, "PETS"),
   );
+  const isRevealingState = useSelector(gameService, (state) =>
+    state.matches("revealing"),
+  );
+  const isRevealedState = useSelector(gameService, (state) =>
+    state.matches("revealed"),
+  );
   const hasThreeOrMorePets = useSelector(gameService, (state) => {
     return (
       Object.values({
@@ -61,12 +67,25 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
     [gameService, petName],
   );
 
+  const handleResetRequests = (petName: PetName) => {
+    gameService.send("REVEAL", {
+      event: {
+        type: "reset.petRequests",
+        pet: petName,
+        createdAt: new Date(),
+      },
+    });
+  };
+
   if (!petData || !hasPetsAccess) {
     return null;
   }
 
   return (
-    <Modal show={show} onHide={onClose}>
+    <Modal
+      show={show}
+      onHide={isRevealingState || isRevealedState ? undefined : onClose}
+    >
       {showBuildPetHouse && (
         <div className="absolute top-[-4rem] right-0 flex flex-col gap-1 items-end justify-end">
           <Label type="info">{t("pets.tiredOfManaging")}</Label>
@@ -76,19 +95,23 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
         </div>
       )}
       <CloseButtonPanel
-        onClose={onClose}
+        onClose={isRevealingState || isRevealedState ? undefined : onClose}
         tabs={[
-          {
-            name: t("pets.info"),
-            icon: ITEM_DETAILS[petName].image,
-            id: "Info",
-          },
-          { name: t("pets.feed"), icon: foodIcon, id: "Feed" },
-          {
-            name: t("pets.fetch"),
-            icon: ITEM_DETAILS[petName].image,
-            id: "Fetch",
-          },
+          ...(isRevealingState || isRevealedState
+            ? [{ name: t("pets.feed"), icon: foodIcon, id: "Feed" }]
+            : [
+                {
+                  name: t("pets.info"),
+                  icon: ITEM_DETAILS[petName].image,
+                  id: "Info",
+                },
+                { name: t("pets.feed"), icon: foodIcon, id: "Feed" },
+                {
+                  name: t("pets.fetch"),
+                  icon: ITEM_DETAILS[petName].image,
+                  id: "Fetch",
+                },
+              ]),
         ]}
         currentTab={tab}
         setCurrentTab={setTab}
@@ -101,6 +124,10 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
             petData={petData}
             handleFeed={handleFeed}
             inventory={inventory}
+            handleResetRequests={handleResetRequests}
+            isRevealingState={isRevealingState}
+            isRevealedState={isRevealedState}
+            onAcknowledged={() => gameService.send("CONTINUE")}
           />
         )}
       </CloseButtonPanel>

@@ -68,6 +68,9 @@ export type Pet = {
     food: CookableName[];
     foodFed?: CookableName[];
     fedAt?: number;
+    resets?: {
+      [date: string]: number;
+    };
   };
   energy: number;
   experience: number;

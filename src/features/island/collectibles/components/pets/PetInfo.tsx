@@ -52,7 +52,7 @@ export const PetInfo: React.FC<Props> = ({ petName, petData }) => {
               <Label type="info" className="text-xs">
                 {petType}
               </Label>
-              <Label type="formula" className="text-xs">
+              <Label type="chill" className="text-xs">
                 {petCategory.primaryCategory}
               </Label>
               {petCategory.secondaryCategory && (
