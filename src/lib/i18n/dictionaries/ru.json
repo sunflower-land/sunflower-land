@@ -6549,5 +6549,11 @@
   "news.obsidian.five": "Требования к лавовым карьерам будут обновлены",
   "news.obsidian.title": "Обновления Obsidian — 4 ноября",
   "news.obsidian.description": "Новая полезность и спрос на обсидиан.",
-  "news.obsidian.backButton": "Обновления обсидиана"
+  "news.obsidian.backButton": "Обновления обсидиана",
+  "pets.requestsReset": "Сброс запросов",
+  "pets.getNewRequests": "Получайте новые запросы на {{pet}}",
+  "pets.requestsResetDescription": "Запросы {{pet}} успешно обнулены",
+  "pets.requestsResetedAt": "Запросы {{pet}} будут обнулены в 12:00 UTC",
+  "pets.requestsResetedAtDescription": "Вы можете получать новые заявки на {{pet}} раньше, заплатив драгоценные камни",
+  "pets.resetRequests": "Запросы на сброс"
 }

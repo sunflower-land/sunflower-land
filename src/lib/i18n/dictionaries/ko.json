@@ -6549,5 +6549,11 @@
   "news.obsidian.five": "용암 구덩이 요구 사항이 업데이트될 예정입니다.",
   "news.obsidian.title": "옵시디언 업데이트 - 11월 4일",
   "news.obsidian.description": "옵시디언에 대한 새로운 유틸리티 및 수요.",
-  "news.obsidian.backButton": "옵시디언 업데이트"
+  "news.obsidian.backButton": "옵시디언 업데이트",
+  "pets.requestsReset": "요청 재설정",
+  "pets.getNewRequests": "{{pet}} 에 대한 새 요청 가져오기",
+  "pets.requestsResetDescription": "{{pet}} 요청이 성공적으로 재설정되었습니다",
+  "pets.requestsResetedAt": "{{pet}} 요청은 UTC 기준 오전 12시에 재설정됩니다.",
+  "pets.requestsResetedAtDescription": "젬을 지불하면 {{pet}} 에 대한 새 요청을 일찍 받을 수 있습니다.",
+  "pets.resetRequests": "리셋 요청"
 }

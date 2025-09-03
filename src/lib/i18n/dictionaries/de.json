@@ -6549,5 +6549,11 @@
   "news.obsidian.five": "Die Anforderungen an die Lavagrube werden aktualisiert",
   "news.obsidian.title": "Obsidian-Updates — 4. November",
   "news.obsidian.description": "Neuer Nutzen und neue Nachfrage nach Obsidian.",
-  "news.obsidian.backButton": "Obsidian-Aktualisierungen"
+  "news.obsidian.backButton": "Obsidian-Aktualisierungen",
+  "pets.requestsReset": "Anfragen zurücksetzen",
+  "pets.getNewRequests": "Neue Anfragen erhalten für {{pet}}",
+  "pets.requestsResetDescription": "{{pet}} -Anfragen wurden erfolgreich zurückgesetzt",
+  "pets.requestsResetedAt": "{{pet}} -Anfragen werden um 12:00 Uhr UTC zurückgesetzt",
+  "pets.requestsResetedAtDescription": "Du kannst frühzeitig neue Anfragen für {{pet}} erhalten, indem du Edelsteine bezahlst",
+  "pets.resetRequests": "Anfragen zurücksetzen"
 }

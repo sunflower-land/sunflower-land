@@ -6549,5 +6549,11 @@
   "news.obsidian.five": "Les exigences relatives aux puits de lave seront mises à jour",
   "news.obsidian.title": "Mises à jour d'Obsidian - 4 novembre",
   "news.obsidian.description": "Nouvelle utilité et demande pour Obsidian.",
-  "news.obsidian.backButton": "Mises à jour d'Obsidian"
+  "news.obsidian.backButton": "Mises à jour d'Obsidian",
+  "pets.requestsReset": "Réinitialisation des demandes",
+  "pets.getNewRequests": "Recevez de nouvelles demandes pour {{pet}}",
+  "pets.requestsResetDescription": "Les demandes {{pet}} ont été réinitialisées avec succès",
+  "pets.requestsResetedAt": "Les demandes {{pet}} seront réinitialisées à minuit UTC",
+  "pets.requestsResetedAtDescription": "Vous pouvez recevoir de nouvelles demandes pour {{pet}} plus tôt en payant des gemmes",
+  "pets.resetRequests": "Demandes de réinitialisation"
 }

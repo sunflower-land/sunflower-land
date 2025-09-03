@@ -6549,5 +6549,11 @@
   "news.obsidian.five": "Keperluan lubang lava akan dikemas kini",
   "news.obsidian.title": "Kemas Kini Obsidian - 4 Nov",
   "news.obsidian.description": "Utiliti & permintaan baru untuk Obsidian.",
-  "news.obsidian.backButton": "Kemas Kini Obsidian"
+  "news.obsidian.backButton": "Kemas Kini Obsidian",
+  "pets.requestsReset": "Permintaan Reset",
+  "pets.getNewRequests": "Dapatkan Permintaan Baru Untuk {{pet}}",
+  "pets.requestsResetDescription": "Permintaan {{pet}} telah berjaya ditetapkan semula",
+  "pets.requestsResetedAt": "Permintaan {{pet}} akan ditetapkan semula pada 12:00 AM UTC",
+  "pets.requestsResetedAtDescription": "Anda boleh mendapatkan permintaan baru untuk {{pet}} lebih awal dengan membayar Permata",
+  "pets.resetRequests": "Tetapkan semula Permintaan"
 }

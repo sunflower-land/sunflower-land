@@ -6549,5 +6549,11 @@
   "news.obsidian.five": "ラバピットの要件が更新されます",
   "news.obsidian.title": "オブシディアンアップデート-11月4日",
   "news.obsidian.description": "オブシディアンの新たな効用と需要",
-  "news.obsidian.backButton": "オブシディアンアップデート"
+  "news.obsidian.backButton": "オブシディアンアップデート",
+  "pets.requestsReset": "リクエストリセット",
+  "pets.getNewRequests": "{{pet}} の新しいリクエストを受信",
+  "pets.requestsResetDescription": "{{pet}} リクエストは正常にリセットされました",
+  "pets.requestsResetedAt": "{{pet}} リクエストはUTCの午前 12:00 にリセットされます",
+  "pets.requestsResetedAtDescription": "ジェムを払うことで、{{pet}} の新規リクエストを早期に受け取ることができます",
+  "pets.resetRequests": "リセットリクエスト"
 }

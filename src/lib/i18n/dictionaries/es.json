@@ -6549,5 +6549,11 @@
   "news.obsidian.five": "Los requisitos del pozo de lava se actualizarán",
   "news.obsidian.title": "Actualizaciones de Obsidian: 4 de noviembre",
   "news.obsidian.description": "Nueva utilidad y demanda de Obsidian.",
-  "news.obsidian.backButton": "Actualizaciones de Obsidian"
+  "news.obsidian.backButton": "Actualizaciones de Obsidian",
+  "pets.requestsReset": "Restablecimiento de solicitudes",
+  "pets.getNewRequests": "Reciba nuevas solicitudes para {{pet}}",
+  "pets.requestsResetDescription": "Las solicitudes {{pet}} se han restablecido correctamente",
+  "pets.requestsResetedAt": "Las solicitudes de {{pet}} se restablecerán a las 12:00 a.m. UTC",
+  "pets.requestsResetedAtDescription": "Puedes recibir nuevas solicitudes de {{pet}} con antelación pagando a Gems",
+  "pets.resetRequests": "Solicitudes de restablecimiento"
 }

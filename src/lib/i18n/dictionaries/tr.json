@@ -6549,5 +6549,11 @@
   "news.obsidian.five": "Lav çukuru gereksinimleri güncellenecek",
   "news.obsidian.title": "Obsidyen Güncellemeleri - 4 Kasım",
   "news.obsidian.description": "Obsidiyen için yeni hizmet ve talep.",
-  "news.obsidian.backButton": "Obsidyen Güncellemeleri"
+  "news.obsidian.backButton": "Obsidyen Güncellemeleri",
+  "pets.requestsReset": "İstekleri Sıfırla",
+  "pets.getNewRequests": "{{pet}} İçin Yeni Talepler Alın",
+  "pets.requestsResetDescription": "{{pet}} istekleri başarıyla sıfırlandı",
+  "pets.requestsResetedAt": "{{pet}} istekleri saat 12:00 UTC'de sıfırlanacaktır",
+  "pets.requestsResetedAtDescription": "Mücevherler ödeyerek {{pet}} için yeni talepleri erken alabilirsiniz",
+  "pets.resetRequests": "İstekleri Sıfırla"
 }

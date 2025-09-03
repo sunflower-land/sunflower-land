@@ -6549,5 +6549,11 @@
   "news.obsidian.five": "熔岩坑要求将更新",
   "news.obsidian.title": "黑曜石更新-11 月 4 日",
   "news.obsidian.description": "对黑曜石的新用途和需求。",
-  "news.obsidian.backButton": "黑曜石更新"
+  "news.obsidian.backButton": "黑曜石更新",
+  "pets.requestsReset": "请求重置",
+  "pets.getNewRequests": "获取 {{pet}} 的新请求",
+  "pets.requestsResetDescription": "{{pet}} 请求已成功重置",
+  "pets.requestsResetedAt": "{{pet}} 请求将在世界标准时间上午 12:00 重置",
+  "pets.requestsResetedAtDescription": "你可以通过支付宝石来提早获得 [0@/美元] 的新申请",
+  "pets.resetRequests": "重置请求"
 }
