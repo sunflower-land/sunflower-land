@@ -3,6 +3,7 @@ import { TEST_FARM } from "../../lib/constants";
 import { CollectibleName } from "../../types/craftables";
 import { GameState, ShakeItem } from "../../types/game";
 import { placeCollectible } from "./placeCollectible";
+import { Pet, PetName } from "features/game/types/pets";
 
 const date = Date.now();
 const GAME_STATE: GameState = TEST_FARM;
@@ -238,5 +239,96 @@ describe("Place Collectible", () => {
       },
     ]);
     expect(state.collectibles["Maneki Neko"]).toEqual<ShakeItem[]>([]);
+  });
+
+  it("Places a pet", () => {
+    const dateNow = Date.now();
+    const state = placeCollectible({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Barkley: new Decimal(1),
+        },
+        collectibles: {},
+      },
+      action: {
+        id: "123",
+        type: "collectible.placed",
+        name: "Barkley",
+        coordinates: {
+          x: 5,
+          y: 5,
+        },
+        location: "farm",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.pets?.common).toEqual<Partial<Record<PetName, Pet>>>({
+      Barkley: {
+        name: "Barkley",
+        experience: 0,
+        energy: 0,
+        requests: {
+          food: [],
+        },
+      },
+    });
+  });
+
+  it("Places a pet", () => {
+    const dateNow = Date.now();
+    const state = placeCollectible({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Barkley: new Decimal(1),
+          Meowchi: new Decimal(1),
+        },
+        collectibles: {},
+        pets: {
+          common: {
+            Barkley: {
+              name: "Barkley",
+              experience: 0,
+              energy: 0,
+              requests: {
+                food: ["Pumpkin Cake", "Pumpkin Soup", "Antipasto"],
+              },
+            },
+          },
+        },
+      },
+      action: {
+        id: "123",
+        type: "collectible.placed",
+        name: "Meowchi",
+        coordinates: {
+          x: 5,
+          y: 5,
+        },
+        location: "farm",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.pets?.common).toEqual<Partial<Record<PetName, Pet>>>({
+      Barkley: {
+        name: "Barkley",
+        experience: 0,
+        energy: 0,
+        requests: {
+          food: ["Pumpkin Cake", "Pumpkin Soup", "Antipasto"],
+        },
+      },
+      Meowchi: {
+        name: "Meowchi",
+        experience: 0,
+        energy: 0,
+        requests: {
+          food: [],
+        },
+      },
+    });
   });
 });

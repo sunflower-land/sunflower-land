@@ -691,6 +691,10 @@ export const INITIAL_FARM: GameState = {
       freeCheersClaimedAt: 0,
     },
   },
+  pets: {
+    common: {},
+    nft: {},
+  },
 };
 
 export const TEST_FARM: GameState = {
@@ -1013,6 +1017,10 @@ export const TEST_FARM: GameState = {
       freeCheersClaimedAt: 0,
     },
   },
+  pets: {
+    common: {},
+    nft: {},
+  },
 };
 
 export const INITIAL_EQUIPPED: Equipped = {
@@ -1183,5 +1191,9 @@ export const EMPTY: GameState = {
     cheers: {
       freeCheersClaimedAt: 0,
     },
+  },
+  pets: {
+    common: {},
+    nft: {},
   },
 };
