@@ -41,6 +41,12 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
   const hasPetsAccess = useSelector(gameService, (state) =>
     hasFeatureAccess(state.context.state, "PETS"),
   );
+  const isRevealingState = useSelector(gameService, (state) =>
+    state.matches("revealing"),
+  );
+  const isRevealedState = useSelector(gameService, (state) =>
+    state.matches("revealed"),
+  );
   const hasThreeOrMorePets = useSelector(gameService, (state) => {
     return (
       Object.values({
@@ -60,6 +66,16 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
     },
     [gameService, petName],
   );
+
+  const handleResetRequests = (petName: PetName) => {
+    gameService.send("REVEAL", {
+      event: {
+        type: "reset.petRequests",
+        pet: petName,
+        createdAt: new Date(),
+      },
+    });
+  };
 
   if (!petData || !hasPetsAccess) {
     return null;
@@ -101,6 +117,9 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
             petData={petData}
             handleFeed={handleFeed}
             inventory={inventory}
+            handleResetRequests={handleResetRequests}
+            isRevealingState={isRevealingState}
+            isRevealedState={isRevealedState}
           />
         )}
       </CloseButtonPanel>
