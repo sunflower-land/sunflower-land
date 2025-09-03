@@ -34,7 +34,7 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
   const { gameService } = useContext(Context);
   const [selectedFeed, setSelectedFeed] = useState<
     {
-      pet: PetName | number;
+      pet: PetName;
       food: CookableName;
     }[]
   >([]);
@@ -62,7 +62,7 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
     if (!isBulkFeed) {
       setIsBulkFeed(true);
       const newSelectedFeed: {
-        pet: PetName | number;
+        pet: PetName;
         food: CookableName;
       }[] = [];
 
@@ -71,7 +71,7 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
 
       // First pass: collect all food requests and count available inventory
       const foodRequests: Array<{
-        petName: PetName | number;
+        petName: PetName;
         food: CookableName;
       }> = [];
       activePets.forEach(([petName, pet]) => {
@@ -108,7 +108,7 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
 
   const mappedPets = selectedFeed.reduce<
     {
-      pet: PetName | number;
+      pet: PetName;
       food: CookableName[];
     }[]
   >((acc, { pet, food }) => {
@@ -246,8 +246,7 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
                 const beforeEnergy = petData.energy;
                 const afterEnergy = beforeEnergy + totalXP;
 
-                const petImage =
-                  typeof pet === "number" ? "" : ITEM_DETAILS[pet].image;
+                const petImage = ITEM_DETAILS[pet].image;
 
                 const { level, currentProgress, experienceBetweenLevels } =
                   getExperienceToNextLevel(petData.experience);

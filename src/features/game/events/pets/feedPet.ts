@@ -1,11 +1,11 @@
 import { CookableName } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
-import { getPetRequestXP, Pet, PetName } from "features/game/types/pets";
+import { getPetRequestXP, PetName } from "features/game/types/pets";
 import { produce } from "immer";
 
 export type FeedPetAction = {
   type: "pet.fed";
-  pet: PetName | number;
+  pet: PetName;
   food: CookableName;
 };
 
@@ -18,13 +18,8 @@ type Options = {
 export function feedPet({ state, action, createdAt = Date.now() }: Options) {
   return produce(state, (stateCopy) => {
     const { pet, food } = action;
-    let petData: Pet | undefined;
 
-    if (typeof pet === "number") {
-      petData = stateCopy.pets?.nft?.[pet];
-    } else {
-      petData = stateCopy.pets?.common?.[pet];
-    }
+    const petData = stateCopy.pets?.common?.[pet];
 
     if (!petData) {
       throw new Error("Pet not found");

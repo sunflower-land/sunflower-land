@@ -45,7 +45,6 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
     return (
       Object.values({
         ...(state.context.state.pets?.common ?? {}),
-        ...(state.context.state.pets?.nft ?? {}),
       }).length >= 3
     );
   });

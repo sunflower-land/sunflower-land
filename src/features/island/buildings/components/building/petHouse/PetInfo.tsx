@@ -13,7 +13,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 
 type Props = {
-  petName: PetName | number;
+  petName: PetName;
   pet: Pet;
   children: React.ReactNode;
 };
@@ -23,15 +23,14 @@ export const PetInfo: React.FC<Props> = ({ children, petName, pet }) => {
   const { level, percentage, currentProgress, experienceBetweenLevels } =
     getExperienceToNextLevel(pet.experience);
 
-  const petImage =
-    typeof petName === "number" ? "" : ITEM_DETAILS[petName].image;
+  const petImage = ITEM_DETAILS[petName].image;
 
   return (
     <OuterPanel className="flex flex-row sm:flex-col p-3 gap-2 relative overflow-hidden">
       <div className="flex flex-col sm:flex-row items-center w-1/2 sm:w-full">
         <img
           src={petImage}
-          alt={petName.toString()}
+          alt={petName}
           className="w-12 sm:w-16 h-12 sm:h-16 object-contain"
         />
         <div className="flex flex-col gap-1 w-full sm:ml-2">
