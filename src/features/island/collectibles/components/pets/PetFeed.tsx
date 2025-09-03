@@ -16,7 +16,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 function getGemCost(resets: number) {
   const baseCost = 40;
   const nextPrice = baseCost * Math.pow(1.5, resets);
-  return nextPrice;
+  return Math.round(nextPrice);
 }
 
 interface Props {
