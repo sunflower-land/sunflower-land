@@ -11,7 +11,7 @@ export const QueenBee: React.FC = () => {
         <img
           src={queenBee}
           style={{
-            width: `${PIXEL_SCALE * 13}px`,
+            width: `${PIXEL_SCALE * 15}px`,
             bottom: `${PIXEL_SCALE * 0}px`,
           }}
           className="absolute"
