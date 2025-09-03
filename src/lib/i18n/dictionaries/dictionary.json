@@ -6534,5 +6534,21 @@
   "playerSearch.placeholderContext": "Search {{context}}...",
   "playerSearch.placeholderAll": "Search by username...",
   "playerSearch.searchPlayer": "Search players",
-  "playerSearch.startTyping": "Start typing a username..."
+  "playerSearch.startTyping": "Start typing a username...",
+  "news.pets.one": "Buy Pet Eggs to discover 20 collectible pets.",
+  "news.pets.two": "Feed & nurture your pets to level them up.",
+  "news.pets.three": "Command your pets to fetch resources",
+  "news.pets.four": "3000 powerful NFT pets to collect",
+  "news.pets.five": "NFT Auctions begin in November - prepare your FLOWER",
+  "news.pets.title": "Pet NFTs & SFTs - Nov 4th",
+  "news.pets.description": "Collect & grow unique pets.",
+  "news.pets.backButton": "Pets",
+  "news.obsidian.one": "Forge together resource nodes for powerful upgrades",
+  "news.obsidian.two": "Use Obsidian to insta-grow flowers",
+  "news.obsidian.three": "Craft shrines for farming perks",
+  "news.obsidian.four": "Obsidian:Sunstone exchange rate will change to 1:1",
+  "news.obsidian.five": "Lava pit requirements will update",
+  "news.obsidian.title": "Obsidian Updates - Nov 4th",
+  "news.obsidian.description": "New utility & demand for Obsidian.",
+  "news.obsidian.backButton": "Obsidian Updates"
 }
