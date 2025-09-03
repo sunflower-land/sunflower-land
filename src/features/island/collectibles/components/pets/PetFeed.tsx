@@ -12,6 +12,7 @@ import levelUp from "assets/icons/level_up.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { InnerPanel } from "components/ui/Panel";
 import xpIcon from "assets/icons/xp.png";
+import { Loading } from "features/auth/components/Loading";
 
 interface Props {
   petName: PetName;
@@ -28,6 +29,17 @@ const PetFeedComponent: React.FC<
     petData.requests.food[0],
   );
   const [showConfirm, setShowConfirm] = useState(false);
+
+  if (petData.requests.food.length === 0) {
+    return <Loading text={`Loading Food Requests`} />;
+  }
+
+  const lastFedAt = petData.requests.fedAt;
+
+  const todayDate = new Date(Date.now()).toISOString().split("T")[0];
+  const lastFedAtDate = new Date(lastFedAt ?? 0).toISOString().split("T")[0];
+  const isToday = lastFedAtDate === todayDate;
+
   return (
     <SplitScreenView
       panel={
@@ -39,6 +51,7 @@ const PetFeedComponent: React.FC<
           inventory={inventory}
           showConfirm={showConfirm}
           setShowConfirm={setShowConfirm}
+          isToday={isToday}
         />
       }
       content={
@@ -49,6 +62,7 @@ const PetFeedComponent: React.FC<
           setSelectedFood={setSelectedFood}
           inventory={inventory}
           setShowConfirm={setShowConfirm}
+          isToday={isToday}
         />
       }
     />
@@ -61,6 +75,7 @@ const PetFeedPanel: React.FC<
     handleFeed: (food: CookableName) => void;
     showConfirm: boolean;
     setShowConfirm: (showConfirm: boolean) => void;
+    isToday: boolean;
   }
 > = ({
   petName,
@@ -70,15 +85,10 @@ const PetFeedPanel: React.FC<
   inventory,
   showConfirm,
   setShowConfirm,
+  isToday,
 }) => {
-  const lastFedAt = petData.requests.fedAt;
-  const foodFed = petData.requests.foodFed;
-
-  const todayDate = new Date(Date.now()).toISOString().split("T")[0];
-  const lastFedAtDate = new Date(lastFedAt ?? 0).toISOString().split("T")[0];
-  const isToday = lastFedAtDate === todayDate;
   const isDisabled =
-    (isToday && foodFed?.includes(selectedFood)) ||
+    (isToday && petData.requests.foodFed?.includes(selectedFood)) ||
     !inventory[selectedFood] ||
     inventory[selectedFood].lessThan(1);
 
@@ -183,7 +193,7 @@ const PetFeedPanel: React.FC<
           </div>
         </div>
       ) : (
-        <div className="flex flex-row md:flex-col gap-2 justify-between w-full p-1">
+        <div className="flex flex-row sm:flex-col gap-2 justify-between w-full p-1">
           <div className="flex flex-row gap-2 items-center">
             <img src={xpIcon} className="w-4" />
             <span className="text-xs">{`+${foodXp} XP`}</span>
@@ -196,7 +206,7 @@ const PetFeedPanel: React.FC<
       )}
 
       {/* Labels for today's feed and insufficient food */}
-      {isToday && foodFed?.includes(selectedFood) ? (
+      {isToday && petData.requests.foodFed?.includes(selectedFood) ? (
         <div className="flex w-full items-start">
           <Label type="danger" className="text-xs">
             {`Food Fed Today`}
@@ -232,6 +242,7 @@ const PetFeedContent: React.FC<
     selectedFood: CookableName;
     setSelectedFood: (selectedFood: CookableName) => void;
     setShowConfirm: (showConfirm: boolean) => void;
+    isToday: boolean;
   }
 > = ({
   petName,
@@ -240,24 +251,33 @@ const PetFeedContent: React.FC<
   setSelectedFood,
   inventory,
   setShowConfirm,
-}) => (
-  <div className="flex flex-col gap-2">
-    <Label type="default">{`${petName}'s Requests Today`}</Label>
-    <div className="flex flex-row gap-2">
-      {petData.requests.food.map((food) => (
-        <Box
-          key={food}
-          image={ITEM_DETAILS[food].image}
-          isSelected={selectedFood === food}
-          onClick={() => {
-            setSelectedFood(food);
-            setShowConfirm(false);
-          }}
-          count={inventory[food]}
-        />
-      ))}
+  isToday,
+}) => {
+  return (
+    <div className="flex flex-col gap-2">
+      <Label type="default">{`${petName}'s Requests Today`}</Label>
+      <div className="flex flex-row gap-2">
+        {petData.requests.food.map((food) => {
+          const isComplete =
+            isToday && petData.requests.foodFed?.includes(food);
+          return (
+            <Box
+              key={food}
+              image={ITEM_DETAILS[food].image}
+              isSelected={selectedFood === food}
+              onClick={() => {
+                setSelectedFood(food);
+                setShowConfirm(false);
+              }}
+              count={inventory[food]}
+              showOverlay={isComplete}
+              secondaryImage={isComplete ? SUNNYSIDE.icons.confirm : undefined}
+            />
+          );
+        })}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export const PetFeed = memo(PetFeedComponent);

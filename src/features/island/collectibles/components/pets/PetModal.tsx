@@ -11,6 +11,7 @@ import { OuterPanel } from "components/ui/Panel";
 import foodIcon from "assets/food/chicken_drumstick.png";
 import { CookableName } from "features/game/types/consumables";
 import { Label } from "components/ui/Label";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   show: boolean;
@@ -35,6 +36,9 @@ const PetModalComponent: React.FC<Props> = ({ show, onClose, petName }) => {
     (state) =>
       state.context.state.inventory["Pet House"]?.greaterThan(0) ?? false,
   );
+  const hasPetsAccess = useSelector(gameService, (state) =>
+    hasFeatureAccess(state.context.state, "PETS"),
+  );
   const hasThreeOrMorePets = useSelector(gameService, (state) => {
     return (
       Object.values({
@@ -55,7 +59,7 @@ const PetModalComponent: React.FC<Props> = ({ show, onClose, petName }) => {
     [gameService, petName],
   );
 
-  if (!petData) {
+  if (!petData || !hasPetsAccess) {
     return null;
   }
 

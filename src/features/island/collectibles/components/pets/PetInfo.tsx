@@ -50,7 +50,7 @@ const PetInfoComponent: React.FC<Props> = ({ petName, petData }) => {
               <Label type="info" className="text-xs">
                 {petType}
               </Label>
-              <Label type="warning" className="text-xs">
+              <Label type="formula" className="text-xs">
                 {petCategory.primaryCategory}
               </Label>
               {petCategory.secondaryCategory && (
