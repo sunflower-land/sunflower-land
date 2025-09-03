@@ -37,7 +37,7 @@ export const PetInfo: React.FC<Props> = ({ children, petName, pet }) => {
         <div className="flex flex-col gap-1 w-full sm:ml-2">
           <Label type={"default"}>{petName}</Label>
           <InnerPanel className="flex flex-col text-xs gap-1 w-full mt-1">
-            <p>{`${t("pets.level")}: ${level}`}</p>
+            <p>{`${t("pets.level", { level })}`}</p>
             <Bar percentage={percentage} type={"progress"} />
             <div className="flex flex-row items-center gap-1">
               <img src={xpIcon} className="w-4" />

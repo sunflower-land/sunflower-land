@@ -293,7 +293,7 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
                     key={pet}
                     className="flex flex-row sm:flex-col p-3 gap-2 relative"
                   >
-                    <div className="flex flex-col items-start sm:items-center w-1/2 sm:w-full gap-2">
+                    <div className="flex flex-col items-start sm:items-center w-3/5 sm:w-full gap-2">
                       <div className="flex flex-col sm:flex-row-reverse items-center gap-1 mb-1">
                         <img
                           src={petImage}
@@ -305,7 +305,7 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
                       {/* Mobile */}
                       <SelectedFoodComponent device="mobile" foods={food} />
                     </div>
-                    <div className="flex flex-row sm:flex-col-reverse gap-2 w-1/2 sm:w-full">
+                    <div className="flex flex-row sm:flex-col-reverse gap-2 w-2/5 sm:w-full">
                       {/* Desktop */}
                       <SelectedFoodComponent device="desktop" foods={food} />
                       <div className="flex flex-col gap-1 w-full">
