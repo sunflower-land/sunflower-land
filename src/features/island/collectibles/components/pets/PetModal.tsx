@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useContext, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -20,7 +20,7 @@ interface Props {
   petName: PetName;
 }
 
-const PetModalComponent: React.FC<Props> = ({ show, onClose, petName }) => {
+export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [tab, setTab] = useState<"Info" | "Feed" | "Fetch">("Info");
@@ -108,5 +108,3 @@ const PetModalComponent: React.FC<Props> = ({ show, onClose, petName }) => {
     </Modal>
   );
 };
-
-export const PetModal = memo(PetModalComponent);

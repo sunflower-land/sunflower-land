@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { useState } from "react";
 import { getPetRequestXP, Pet, PetName } from "features/game/types/pets";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { Box } from "components/ui/Box";
@@ -19,7 +19,7 @@ interface Props {
   inventory: Inventory;
 }
 
-const PetFeedComponent: React.FC<
+export const PetFeed: React.FC<
   Props & {
     handleFeed: (food: CookableName) => void;
   }
@@ -238,5 +238,3 @@ const PetFeedContent: React.FC<
     </div>
   );
 };
-
-export const PetFeed = memo(PetFeedComponent);
