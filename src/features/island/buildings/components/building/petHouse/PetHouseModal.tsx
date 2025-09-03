@@ -32,9 +32,9 @@ const PetHouseModalComponent: React.FC<Props> = ({ show, onClose }) => {
     return [...(collectibles || []), ...(homeCollectibles || [])];
   };
 
-  const { commonPets } = pets;
+  const { common } = pets;
 
-  const activePets = getObjectEntries(commonPets).filter(
+  const activePets = getObjectEntries(common).filter(
     ([petName, pet]) => pet && PlacedCollectibles(petName).length > 0,
   );
 

@@ -24,7 +24,7 @@ describe("feedPet", () => {
         state: {
           ...INITIAL_FARM,
           pets: {
-            commonPets: {
+            common: {
               Barkley: {
                 name: "Barkley",
                 requests: {
@@ -50,7 +50,7 @@ describe("feedPet", () => {
         state: {
           ...INITIAL_FARM,
           pets: {
-            commonPets: {
+            common: {
               Barkley: {
                 name: "Barkley",
                 requests: {
@@ -77,7 +77,7 @@ describe("feedPet", () => {
         state: {
           ...INITIAL_FARM,
           pets: {
-            commonPets: {
+            common: {
               Barkley: {
                 name: "Barkley",
                 requests: {
@@ -107,7 +107,7 @@ describe("feedPet", () => {
         state: {
           ...INITIAL_FARM,
           pets: {
-            commonPets: {
+            common: {
               Barkley: {
                 name: "Barkley",
                 requests: {
@@ -140,7 +140,7 @@ describe("feedPet", () => {
         state: {
           ...INITIAL_FARM,
           pets: {
-            commonPets: {
+            common: {
               Barkley: {
                 name: "Barkley",
                 requests: {
@@ -172,7 +172,7 @@ describe("feedPet", () => {
       state: {
         ...INITIAL_FARM,
         pets: {
-          commonPets: {
+          common: {
             Barkley: {
               name: "Barkley",
               requests: {
@@ -196,7 +196,7 @@ describe("feedPet", () => {
       },
       createdAt: now,
     });
-    const BarkleyData = state.pets.commonPets.Barkley;
+    const BarkleyData = state.pets.common.Barkley;
 
     expect(BarkleyData?.requests.foodFed).toEqual<CookableName[]>([
       "Bumpkin Salad",

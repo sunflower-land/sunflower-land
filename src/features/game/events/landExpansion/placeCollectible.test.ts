@@ -262,7 +262,7 @@ describe("Place Collectible", () => {
       },
     });
 
-    expect(state.pets.commonPets["Barkley"]).toEqual<Pet>({
+    expect(state.pets.common["Barkley"]).toEqual<Pet>({
       name: "Barkley",
       experience: 0,
       energy: 0,

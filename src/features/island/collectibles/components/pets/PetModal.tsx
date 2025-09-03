@@ -25,7 +25,7 @@ const PetModalComponent: React.FC<Props> = ({ show, onClose, petName }) => {
 
   const petData = useSelector(
     gameService,
-    (state) => state.context.state.pets.commonPets[petName],
+    (state) => state.context.state.pets.common[petName],
   );
   const inventory = useSelector(
     gameService,
@@ -42,8 +42,8 @@ const PetModalComponent: React.FC<Props> = ({ show, onClose, petName }) => {
   const hasThreeOrMorePets = useSelector(gameService, (state) => {
     return (
       Object.values({
-        ...state.context.state.pets.commonPets,
-        ...state.context.state.pets.nftPets,
+        ...state.context.state.pets.common,
+        ...state.context.state.pets.nft,
       }).length >= 3
     );
   });

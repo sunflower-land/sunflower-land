@@ -62,10 +62,10 @@ export function placeCollectible({
 
     if (
       isPet(action.name) &&
-      !stateCopy.pets.commonPets[action.name] &&
+      !stateCopy.pets.common[action.name] &&
       hasFeatureAccess(stateCopy, "PETS")
     ) {
-      stateCopy.pets.commonPets[action.name] = {
+      stateCopy.pets.common[action.name] = {
         name: action.name,
         experience: 0,
         energy: 0,
