@@ -56,7 +56,7 @@ export const PetInfo: React.FC<Props> = ({ petName, petData }) => {
                 {petCategory.primaryCategory}
               </Label>
               {petCategory.secondaryCategory && (
-                <Label type="vibrant" className="text-xs">
+                <Label type="formula" className="text-xs">
                   {petCategory.secondaryCategory}
                 </Label>
               )}
