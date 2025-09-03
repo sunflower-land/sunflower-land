@@ -1831,7 +1831,7 @@ export interface GameState {
 
   aoe: AOE;
   socialFarming: SocialFarming;
-  pets: Pets;
+  pets?: Pets;
 }
 
 export type AOE = Partial<

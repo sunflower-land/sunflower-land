@@ -80,17 +80,17 @@ describe("bulkFeedPets", () => {
       ],
     };
     const resultState = bulkFeedPets({ state, action, createdAt: now });
-    expect(resultState.pets.common.Barkley?.requests.foodFed).toEqual([
+    expect(resultState.pets?.common?.Barkley?.requests.foodFed).toEqual([
       "Bumpkin Salad",
     ]);
-    expect(resultState.pets.common.Meowchi?.requests.foodFed).toEqual([
+    expect(resultState.pets?.common?.Meowchi?.requests.foodFed).toEqual([
       "Bumpkin Salad",
     ]);
-    expect(resultState.pets.common.Barkley?.requests.fedAt).toEqual(now);
-    expect(resultState.pets.common.Meowchi?.requests.fedAt).toEqual(now);
-    expect(resultState.pets.common.Barkley?.energy).toEqual(100);
-    expect(resultState.pets.common.Meowchi?.energy).toEqual(100);
-    expect(resultState.pets.common.Barkley?.experience).toEqual(100);
-    expect(resultState.pets.common.Meowchi?.experience).toEqual(100);
+    expect(resultState.pets?.common?.Barkley?.requests.fedAt).toEqual(now);
+    expect(resultState.pets?.common?.Meowchi?.requests.fedAt).toEqual(now);
+    expect(resultState.pets?.common?.Barkley?.energy).toEqual(100);
+    expect(resultState.pets?.common?.Meowchi?.energy).toEqual(100);
+    expect(resultState.pets?.common?.Barkley?.experience).toEqual(100);
+    expect(resultState.pets?.common?.Meowchi?.experience).toEqual(100);
   });
 });

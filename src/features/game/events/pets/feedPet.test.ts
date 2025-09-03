@@ -196,7 +196,7 @@ describe("feedPet", () => {
       },
       createdAt: now,
     });
-    const BarkleyData = state.pets.common.Barkley;
+    const BarkleyData = state.pets?.common?.Barkley;
 
     expect(BarkleyData?.requests.foodFed).toEqual<CookableName[]>([
       "Bumpkin Salad",

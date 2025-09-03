@@ -60,19 +60,23 @@ export function placeCollectible({
       };
     }
 
-    if (
-      isPet(action.name) &&
-      !stateCopy.pets.common[action.name] &&
-      hasFeatureAccess(stateCopy, "PETS")
-    ) {
-      stateCopy.pets.common[action.name] = {
-        name: action.name,
-        experience: 0,
-        energy: 0,
-        requests: {
-          food: [], // Pet Requests are populated on the server
-        },
-      };
+    if (isPet(action.name) && hasFeatureAccess(stateCopy, "PETS")) {
+      if (!stateCopy.pets) {
+        stateCopy.pets = {};
+      }
+      if (!stateCopy.pets.common) {
+        stateCopy.pets.common = {};
+      }
+      if (!stateCopy.pets.common[action.name]) {
+        stateCopy.pets.common[action.name] = {
+          name: action.name,
+          experience: 0,
+          energy: 0,
+          requests: {
+            food: [], // Pet Requests are populated on the server
+          },
+        };
+      }
     }
 
     // Search for existing collectible in current location

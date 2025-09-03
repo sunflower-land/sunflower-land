@@ -38,11 +38,11 @@ export const PetHouseModal: React.FC<Props> = ({ show, onClose }) => {
     hasFeatureAccess(state.context.state, "PETS"),
   );
 
-  if (!hasPetsAccess) {
+  if (!hasPetsAccess || !pets) {
     return null;
   }
 
-  const { common } = pets;
+  const { common = {} } = pets;
 
   const activePets = getObjectEntries(common).filter(
     ([petName, pet]) => pet && PlacedCollectibles(petName).length > 0,

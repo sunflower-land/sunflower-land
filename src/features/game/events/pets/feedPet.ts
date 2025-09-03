@@ -21,9 +21,9 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
     let petData: Pet | undefined;
 
     if (typeof pet === "number") {
-      petData = stateCopy.pets.nft?.[pet];
+      petData = stateCopy.pets?.nft?.[pet];
     } else {
-      petData = stateCopy.pets.common[pet];
+      petData = stateCopy.pets?.common?.[pet];
     }
 
     if (!petData) {

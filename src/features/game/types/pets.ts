@@ -74,7 +74,7 @@ export type Pet = {
 };
 
 export type Pets = {
-  common: Partial<Record<PetName, Pet>>;
+  common?: Partial<Record<PetName, Pet>>;
   nft?: Partial<Record<number, Pet>>; // nftId as number
 };
 
