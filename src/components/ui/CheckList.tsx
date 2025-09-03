@@ -526,6 +526,9 @@ const DiggingStreakContent: React.FC<{ bumpkinLevel: number }> = ({
       }
       overlayContent={
         <div className="overflow-y-auto max-h-[300px] scrollable p-2 space-y-1 -ml-1">
+          <p className="text-xs p-1 pb-2">
+            {t("checkList.diggingStreak.description")}
+          </p>
           <OuterPanel className="flex justify-between items-center">
             <div className="flex items-center">
               <NPCIcon
@@ -652,6 +655,9 @@ const MiniGamesContent: React.FC<{ bumpkinLevel: number }> = ({
       labelText={`${completedMinigames}/${allMinigamesCount} ${t("completed")}`}
       overlayContent={
         <div className="overflow-y-auto max-h-[300px] scrollable p-2 space-y-1 -ml-1">
+          <p className="text-xs p-1 pb-2">
+            {t("checkList.miniGames.description")}
+          </p>
           {PORTAL_OPTIONS.map((option) => {
             return (
               <OuterPanel
