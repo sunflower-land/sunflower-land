@@ -46,7 +46,6 @@ export const PetFeed: React.FC<
     petData.requests.food[0] ?? null,
   );
   const [showConfirm, setShowConfirm] = useState(false);
-  const [showResetRequests, setShowResetRequests] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
   const [isPicking, setIsPicking] = useState(false);
   const resetRequests = async () => {
@@ -62,18 +61,11 @@ export const PetFeed: React.FC<
   const lastFedAtDate = new Date(lastFedAt ?? 0).toISOString().split("T")[0];
   const isToday = lastFedAtDate === todayDate;
 
-  const resetGemCost = getGemCost(petData.requests.resets?.[todayDate] ?? 0);
-  const hasEnoughGem = inventory.Gem?.gte(resetGemCost);
-
-  if (petData.requests.food.length === 0) {
-    return (
-      <InnerPanel>
-        <Loading text={t("pets.loadingFoodRequests")} />
-      </InnerPanel>
-    );
-  }
-
-  if (isPicking || (isRevealingState && isRevealing)) {
+  if (
+    petData.requests.food.length === 0 ||
+    isPicking ||
+    (isRevealingState && isRevealing)
+  ) {
     return (
       <InnerPanel>
         <Loading text={t("pets.loadingFoodRequests")} />
@@ -84,8 +76,10 @@ export const PetFeed: React.FC<
   if (isRevealedState && isRevealing) {
     return (
       <InnerPanel>
-        <Label type="warning">{`Requests Reset`}</Label>
-        <p className="text-sm p-1">{`${petName} requests have been successfully reset`}</p>
+        <Label type="warning">{t("pets.requestsReset")}</Label>
+        <p className="text-sm p-1">
+          {t("pets.requestsResetDescription", { pet: petName })}
+        </p>
         <Button onClick={() => setIsRevealing(false)}>{t("continue")}</Button>
       </InnerPanel>
     );
@@ -118,37 +112,13 @@ export const PetFeed: React.FC<
           />
         }
       />
-      {/* Reset Requests */}
-      <InnerPanel className="flex flex-col gap-2">
-        <div className="flex flex-row gap-2 items-center justify-between">
-          <Label type="default">{`Get new requests for ${petName}`}</Label>
-          <Label type="info" secondaryIcon={ITEM_DETAILS.Gem.image}>
-            {`${resetGemCost} Gems`}
-          </Label>
-        </div>
-        <p className="text-xs px-1">{`${petName} requests will be reset at 12:00 AM UTC`}</p>
-        <p className="text-xs px-1">{`You can get new requests for ${petName} early by paying Gems`}</p>
-        <div className="flex flex-row gap-2 items-center justify-between">
-          <Button
-            onClick={() => {
-              if (showResetRequests) {
-                resetRequests();
-                setShowResetRequests(false);
-              } else {
-                setShowResetRequests(true);
-              }
-            }}
-            disabled={!hasEnoughGem}
-          >
-            {showResetRequests ? `Confirm` : `Reset Requests`}
-          </Button>
-          {showResetRequests && (
-            <Button onClick={() => setShowResetRequests(false)}>
-              {`Cancel`}
-            </Button>
-          )}
-        </div>
-      </InnerPanel>
+      <ResetFoodRequests
+        petName={petName}
+        petData={petData}
+        inventory={inventory}
+        todayDate={todayDate}
+        resetRequests={resetRequests}
+      />
     </div>
   );
 };
@@ -316,5 +286,56 @@ const PetFeedContent: React.FC<
         })}
       </div>
     </div>
+  );
+};
+
+const ResetFoodRequests: React.FC<{
+  petName: PetName;
+  petData: Pet;
+  inventory: Inventory;
+  todayDate: string;
+  resetRequests: () => void;
+}> = ({ petName, petData, inventory, todayDate, resetRequests }) => {
+  const { t } = useAppTranslation();
+  const [showResetRequests, setShowResetRequests] = useState(false);
+  const resetGemCost = getGemCost(petData.requests.resets?.[todayDate] ?? 0);
+  const hasEnoughGem = inventory.Gem?.gte(resetGemCost);
+  return (
+    <InnerPanel className="flex flex-col gap-2">
+      <div className="flex flex-row gap-2 items-center justify-between">
+        <Label type="default">
+          {t("pets.getNewRequests", { pet: petName })}
+        </Label>
+        <Label type="info" secondaryIcon={ITEM_DETAILS.Gem.image}>
+          {`${resetGemCost} ${t("gems")}`}
+        </Label>
+      </div>
+      <p className="text-xs px-1">
+        {t("pets.requestsResetedAt", { pet: petName })}
+      </p>
+      <p className="text-xs px-1">
+        {t("pets.requestsResetedAtDescription", { pet: petName })}
+      </p>
+      <div className="flex flex-row gap-2 items-center justify-between">
+        <Button
+          onClick={() => {
+            if (showResetRequests) {
+              resetRequests();
+              setShowResetRequests(false);
+            } else {
+              setShowResetRequests(true);
+            }
+          }}
+          disabled={!hasEnoughGem}
+        >
+          {showResetRequests ? t("confirm") : t("pets.resetRequests")}
+        </Button>
+        {showResetRequests && (
+          <Button onClick={() => setShowResetRequests(false)}>
+            {t("cancel")}
+          </Button>
+        )}
+      </div>
+    </InnerPanel>
   );
 };
