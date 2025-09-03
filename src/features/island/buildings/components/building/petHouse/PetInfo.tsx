@@ -10,6 +10,7 @@ import {
   PetName,
 } from "features/game/types/pets";
 import React from "react";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type Props = {
   petName: PetName | number;
@@ -32,6 +33,7 @@ const PetInfoComponent: React.FC<Props> = ({
   beforeEnergy,
   afterEnergy,
 }) => {
+  const { t } = useAppTranslation();
   const { level, percentage, currentProgress, experienceBetweenLevels } =
     getExperienceToNextLevel(pet.experience);
 
@@ -102,7 +104,7 @@ const PetInfoComponent: React.FC<Props> = ({
           ) : (
             <div className="flex flex-col gap-1 w-full">
               <InnerPanel className="flex flex-col text-xs gap-1">
-                <p>{`Level: ${level}`}</p>
+                <p>{t("pets.level", { level })}</p>
                 <div className="flex flex-row items-center gap-1">
                   <img src={xpIcon} className="w-4" />
                   <p className="text-xxs">
@@ -122,7 +124,10 @@ const PetInfoComponent: React.FC<Props> = ({
                 />
               </div>
               <InnerPanel className="flex flex-col text-xs gap-1">
-                <p>{`Level: ${afterLevel} ${levelChange > 0 ? `(+${levelChange})` : ""}`}</p>
+                <p>
+                  {t("pets.level", { level: afterLevel })}{" "}
+                  {levelChange > 0 ? `(+${levelChange})` : ""}
+                </p>
                 <div className="flex flex-row items-center gap-1">
                   <img src={xpIcon} className="w-4" />
                   <p className="text-xxs">

@@ -13,12 +13,14 @@ import { PetInfo } from "./PetInfo";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type Props = {
   activePets: [PetName, Pet | undefined][];
 };
 
 const FeedPetComponent: React.FC<Props> = ({ activePets }) => {
+  const { t } = useAppTranslation();
   const [isBulkFeed, setIsBulkFeed] = useState(false);
   const { gameService } = useContext(Context);
   const [selectedFeed, setSelectedFeed] = useState<
@@ -127,11 +129,13 @@ const FeedPetComponent: React.FC<Props> = ({ activePets }) => {
       <InnerPanel className="flex flex-row justify-between mb-1 p-1 gap-1">
         <div className="flex flex-col sm:flex-row items-center gap-1">
           <Label type={isBulkFeed ? "vibrant" : "formula"}>
-            {isBulkFeed ? `Bulk Feed Mode` : `Your Pets (${activePets.length})`}
+            {isBulkFeed
+              ? t("pets.bulkFeedMode")
+              : t("pets.yourPets", { count: activePets.length })}
           </Label>
           {isBulkFeed && (
             <Label type={"warning"}>
-              {`Feed Selected: ${selectedFeed.length}`}
+              {t("pets.feedSelected", { count: selectedFeed.length })}
             </Label>
           )}
         </div>
@@ -141,7 +145,7 @@ const FeedPetComponent: React.FC<Props> = ({ activePets }) => {
             disabled={isBulkFeed && selectedFeed.length === 0}
             onClick={handleBulkFeed}
           >
-            {isBulkFeed ? `Confirm Feed` : `Bulk Feed`}
+            {isBulkFeed ? t("pets.confirmFeed") : t("pets.bulkFeed")}
           </Button>
           {isBulkFeed && (
             <Button className="w-auto" onClick={handleCancel}>
@@ -156,9 +160,7 @@ const FeedPetComponent: React.FC<Props> = ({ activePets }) => {
       </InnerPanel>
       <InnerPanel className="max-h-[500px] overflow-y-auto scrollable">
         {activePets.length === 0 ? (
-          <p className="p-4 text-center text-gray-500">
-            {`You don't have any pets yet. Visit the Pet Shop to get your first pet!`}
-          </p>
+          <p className="p-4 text-center text-gray-500">{t("pets.noPets")}</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mr-1">
             {activePets.map(
@@ -186,7 +188,7 @@ const FeedPetComponent: React.FC<Props> = ({ activePets }) => {
       >
         <Panel>
           <div className="flex flex-col gap-2 p-2">
-            <Label type="default">{`Are you sure you want to feed your pets?`}</Label>
+            <Label type="default">{t("pets.confirmFeedPets")}</Label>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 max-h-[400px] overflow-y-auto scrollable">
               {mappedPets.map(({ pet, food }) => {
                 const petData = activePets.find(
@@ -218,7 +220,7 @@ const FeedPetComponent: React.FC<Props> = ({ activePets }) => {
                     afterEnergy={afterEnergy}
                   >
                     <div className="flex flex-col gap-2">
-                      <Label type="default">{`Food Selected`}</Label>
+                      <Label type="default">{t("pets.foodSelected")}</Label>
                       <div className="flex flex-row gap-2">
                         {food.map((food) => (
                           <Box key={food} image={ITEM_DETAILS[food].image} />
@@ -229,7 +231,7 @@ const FeedPetComponent: React.FC<Props> = ({ activePets }) => {
                 );
               })}
             </div>
-            <Button onClick={handleConfirmFeed}>{`Confirm Feed`}</Button>
+            <Button onClick={handleConfirmFeed}>{t("pets.confirmFeed")}</Button>
           </div>
         </Panel>
       </ModalOverlay>

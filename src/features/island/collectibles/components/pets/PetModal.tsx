@@ -12,6 +12,7 @@ import foodIcon from "assets/food/chicken_drumstick.png";
 import { CookableName } from "features/game/types/consumables";
 import { Label } from "components/ui/Label";
 import { hasFeatureAccess } from "lib/flags";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   show: boolean;
@@ -20,6 +21,7 @@ interface Props {
 }
 
 const PetModalComponent: React.FC<Props> = ({ show, onClose, petName }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [tab, setTab] = useState<"Info" | "Feed" | "Fetch">("Info");
 
@@ -43,10 +45,11 @@ const PetModalComponent: React.FC<Props> = ({ show, onClose, petName }) => {
     return (
       Object.values({
         ...state.context.state.pets.common,
-        ...state.context.state.pets.nft,
+        ...(state.context.state.pets.nft ?? {}),
       }).length >= 3
     );
   });
+
   const showBuildPetHouse = !hasPetHouse && hasThreeOrMorePets;
 
   const handleFeed = useCallback(
@@ -67,18 +70,26 @@ const PetModalComponent: React.FC<Props> = ({ show, onClose, petName }) => {
     <Modal show={show} onHide={onClose}>
       {showBuildPetHouse && (
         <div className="absolute top-[-4rem] right-0 flex flex-col gap-1 items-end justify-end">
-          <Label type="info">{`Tired of managing your pets individually?`}</Label>
+          <Label type="info">{t("pets.tiredOfManaging")}</Label>
           <Label type="vibrant" secondaryIcon={ITEM_DETAILS["Pet House"].image}>
-            {`Build a pet house from blacksmith to manage all of them together!`}
+            {t("pets.buildPetHouse")}
           </Label>
         </div>
       )}
       <CloseButtonPanel
         onClose={onClose}
         tabs={[
-          { name: "Info", icon: ITEM_DETAILS[petName].image, id: "Info" },
-          { name: "Feed", icon: foodIcon, id: "Feed" },
-          { name: "Fetch", icon: ITEM_DETAILS[petName].image, id: "Fetch" },
+          {
+            name: t("pets.info"),
+            icon: ITEM_DETAILS[petName].image,
+            id: "Info",
+          },
+          { name: t("pets.feed"), icon: foodIcon, id: "Feed" },
+          {
+            name: t("pets.fetch"),
+            icon: ITEM_DETAILS[petName].image,
+            id: "Fetch",
+          },
         ]}
         currentTab={tab}
         setCurrentTab={setTab}

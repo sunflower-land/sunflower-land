@@ -12,6 +12,7 @@ import {
 import levelUp from "assets/icons/level_up.png";
 import xpIcon from "assets/icons/xp.png";
 import React, { memo } from "react";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   petName: PetName;
@@ -19,6 +20,7 @@ interface Props {
 }
 
 const PetInfoComponent: React.FC<Props> = ({ petName, petData }) => {
+  const { t } = useAppTranslation();
   const { level, percentage, currentProgress, experienceBetweenLevels } =
     getExperienceToNextLevel(petData.experience);
 
@@ -65,7 +67,7 @@ const PetInfoComponent: React.FC<Props> = ({ petName, petData }) => {
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
               <img src={levelUp} className="w-4 h-4" />
-              <span className="text-sm">{`Level ${level}`}</span>
+              <span className="text-sm">{t("pets.level", { level })}</span>
             </div>
             <div className="flex flex-row gap-2 items-center">
               <img src={xpIcon} className="w-5" />
@@ -76,7 +78,10 @@ const PetInfoComponent: React.FC<Props> = ({ petName, petData }) => {
               />
               <div className="flex items-center gap-1 text-sm">
                 <span>
-                  {`${currentProgress} / ${experienceBetweenLevels} XP`}
+                  {t("pets.xp", {
+                    currentProgress,
+                    experienceBetweenLevels: experienceBetweenLevels,
+                  })}
                 </span>
               </div>
             </div>
@@ -85,7 +90,9 @@ const PetInfoComponent: React.FC<Props> = ({ petName, petData }) => {
           {/* Energy */}
           <div className="flex items-center gap-2 mt-2">
             <img src={SUNNYSIDE.icons.lightning} className="w-5 h-5" />
-            <span className="text-sm">{`${petData.energy} Energy`}</span>
+            <span className="text-sm">
+              {t("pets.energy", { energy: petData.energy })}
+            </span>
           </div>
         </div>
       </div>

@@ -8,6 +8,7 @@ import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { PetName } from "features/game/types/pets";
 import { FeedPet } from "./FeedPets";
 import { OuterPanel } from "components/ui/Panel";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   show: boolean;
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const PetHouseModalComponent: React.FC<Props> = ({ show, onClose }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const pets = useSelector(gameService, (state) => state.context.state.pets);
   const [tab, setTab] = useState<"Feed" | "Fetch">("Feed");
@@ -45,12 +47,12 @@ const PetHouseModalComponent: React.FC<Props> = ({ show, onClose }) => {
         tabs={[
           {
             icon: ITEM_DETAILS.Barkley.image,
-            name: "Feed",
+            name: t("pets.feed"),
             id: "Feed",
           },
           {
             icon: ITEM_DETAILS.Barkley.image,
-            name: "Fetch",
+            name: t("pets.fetch"),
             id: "Fetch",
           },
         ]}

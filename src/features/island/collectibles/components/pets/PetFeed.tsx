@@ -13,6 +13,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { InnerPanel } from "components/ui/Panel";
 import xpIcon from "assets/icons/xp.png";
 import { Loading } from "features/auth/components/Loading";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   petName: PetName;
@@ -25,13 +26,18 @@ const PetFeedComponent: React.FC<
     handleFeed: (food: CookableName) => void;
   }
 > = ({ petName, petData, handleFeed, inventory }) => {
-  const [selectedFood, setSelectedFood] = useState<CookableName>(
-    petData.requests.food[0],
+  const { t } = useAppTranslation();
+  const [selectedFood, setSelectedFood] = useState<CookableName | null>(
+    petData.requests.food[0] ?? null,
   );
   const [showConfirm, setShowConfirm] = useState(false);
 
   if (petData.requests.food.length === 0) {
-    return <Loading text={`Loading Food Requests`} />;
+    return (
+      <InnerPanel>
+        <Loading text={t("pets.loadingFoodRequests")} />
+      </InnerPanel>
+    );
   }
 
   const lastFedAt = petData.requests.fedAt;
@@ -71,7 +77,7 @@ const PetFeedComponent: React.FC<
 
 const PetFeedPanel: React.FC<
   Props & {
-    selectedFood: CookableName;
+    selectedFood: CookableName | null;
     handleFeed: (food: CookableName) => void;
     showConfirm: boolean;
     setShowConfirm: (showConfirm: boolean) => void;
@@ -87,6 +93,31 @@ const PetFeedPanel: React.FC<
   setShowConfirm,
   isToday,
 }) => {
+  const { t } = useAppTranslation();
+  const petImage = ITEM_DETAILS[petName].image;
+
+  if (!selectedFood) {
+    return (
+      <div className="flex flex-row-reverse sm:flex-col gap-2 justify-between w-full">
+        <div className="flex flex-col items-center gap-2">
+          <img
+            src={petImage}
+            alt={petName}
+            className="w-12 h-12 object-contain"
+          />
+          <Label type="default" className="text-xs">
+            {petName}
+          </Label>
+        </div>
+        <div className="flex flex-row gap-2 items-center w-full">
+          <span className="text-xs w-full text-center">
+            {t("pets.noFoodSelected")}
+          </span>
+        </div>
+      </div>
+    );
+  }
+
   const isDisabled =
     (isToday && petData.requests.foodFed?.includes(selectedFood)) ||
     !inventory[selectedFood] ||
@@ -111,8 +142,6 @@ const PetFeedPanel: React.FC<
   const afterEnergy = petData.energy + foodXp;
   const energyChange = isDisabled ? 0 : afterEnergy - beforeEnergy;
 
-  const petImage = ITEM_DETAILS[petName].image;
-
   return (
     <div className="flex flex-col items-center gap-1">
       {/* Pet Image and Name */}
@@ -131,7 +160,7 @@ const PetFeedPanel: React.FC<
         <div className="flex flex-row gap-2 items-center w-full">
           <img
             src={ITEM_DETAILS[selectedFood].image}
-            alt={selectedFood}
+            alt={selectedFood ?? ""}
             className="w-8"
           />
           <span className="text-xs">{selectedFood}</span>
@@ -140,16 +169,18 @@ const PetFeedPanel: React.FC<
 
       {showConfirm ? (
         <div className="flex flex-col gap-2 w-full">
-          <Label type="default">{`Changes`}</Label>
+          <Label type="default">{t("pet.changes")}</Label>
           <div className="flex flex-row sm:flex-col gap-2 w-full justify-between">
             <InnerPanel className="flex flex-col gap-2 w-[40%] sm:w-full">
               <div className="flex flex-row items-center gap-2">
                 <img src={levelUp} className="w-3" />
-                <span className="text-xs font-medium">{`Level: ${level}`}</span>
+                <span className="text-xs font-medium">
+                  {t("pets.level", { level })}
+                </span>
               </div>
               <div className="flex flex-row gap-2 items-center">
                 <img src={xpIcon} className="w-4" />
-                <div className="flex flex-row md:items-center gap-1 text-xs">
+                <div className="flex flex-row sm:items-center gap-1 text-xs">
                   <span>
                     {`${currentProgress} / ${experienceBetweenLevels}`}
                   </span>
@@ -164,22 +195,25 @@ const PetFeedPanel: React.FC<
               <img
                 src={SUNNYSIDE.icons.arrow_right}
                 alt="Arrow Right"
-                className="w-4 block md:hidden"
+                className="w-4 block sm:hidden"
               />
               <img
                 src={SUNNYSIDE.icons.arrow_down}
                 alt="Arrow Down"
-                className="w-4 hidden md:block"
+                className="w-4 hidden sm:block"
               />
             </div>
             <InnerPanel className="flex flex-col gap-2 w-[40%] sm:w-full">
               <div className="flex flex-row items-center gap-2">
                 <img src={levelUp} className="w-3" />
-                <span className="text-xs font-medium">{`Level: ${levelAfterFeed} ${levelChange > 0 ? `(+${levelChange})` : ""}`}</span>
+                <span className="text-xs font-medium">
+                  {t("pets.level", { level: levelAfterFeed })}{" "}
+                  {levelChange > 0 ? `(+${levelChange})` : ""}
+                </span>
               </div>
               <div className="flex flex-row gap-2 items-center">
                 <img src={xpIcon} className="w-4" />
-                <div className="flex flex-row md:items-center gap-1 text-xs">
+                <div className="flex flex-row sm:items-center gap-1 text-xs">
                   <span>
                     {`${currentProgressAfterFeed} / ${experienceBetweenLevelsAfterFeed} ${experienceChange > 0 ? `(+${experienceChange})` : ""}`}
                   </span>
@@ -196,11 +230,13 @@ const PetFeedPanel: React.FC<
         <div className="flex flex-row sm:flex-col gap-2 justify-between w-full p-1">
           <div className="flex flex-row gap-2 items-center">
             <img src={xpIcon} className="w-4" />
-            <span className="text-xs">{`+${foodXp} XP`}</span>
+            <span className="text-xs">{t("pets.plusFoodXp", { foodXp })}</span>
           </div>
           <div className="flex flex-row gap-2">
             <img src={SUNNYSIDE.icons.lightning} className="w-3" />
-            <span className="text-xs">{`+${foodXp} Energy`}</span>
+            <span className="text-xs">
+              {t("pets.plusFoodEnergy", { foodXp })}
+            </span>
           </div>
         </div>
       )}
@@ -209,13 +245,13 @@ const PetFeedPanel: React.FC<
       {isToday && petData.requests.foodFed?.includes(selectedFood) ? (
         <div className="flex w-full items-start">
           <Label type="danger" className="text-xs">
-            {`Food Fed Today`}
+            {t("pets.foodFedToday")}
           </Label>
         </div>
       ) : !inventory[selectedFood] || inventory[selectedFood].lessThan(1) ? (
         <div className="flex w-full items-start">
           <Label type="danger" className="text-xs">
-            {`Insufficient Food`}
+            {t("pets.insufficientFood")}
           </Label>
         </div>
       ) : null}
@@ -227,10 +263,10 @@ const PetFeedPanel: React.FC<
             if (showConfirm) handleFeed(selectedFood);
           }}
         >
-          {showConfirm ? `Confirm` : `Feed ${petName}`}
+          {showConfirm ? t("confirm") : t("pets.feedPet", { pet: petName })}
         </Button>
         {showConfirm && (
-          <Button onClick={() => setShowConfirm(false)}>{`Cancel`}</Button>
+          <Button onClick={() => setShowConfirm(false)}>{t("cancel")}</Button>
         )}
       </div>
     </div>
@@ -239,7 +275,7 @@ const PetFeedPanel: React.FC<
 
 const PetFeedContent: React.FC<
   Props & {
-    selectedFood: CookableName;
+    selectedFood: CookableName | null;
     setSelectedFood: (selectedFood: CookableName) => void;
     setShowConfirm: (showConfirm: boolean) => void;
     isToday: boolean;
@@ -253,9 +289,10 @@ const PetFeedContent: React.FC<
   setShowConfirm,
   isToday,
 }) => {
+  const { t } = useAppTranslation();
   return (
     <div className="flex flex-col gap-2">
-      <Label type="default">{`${petName}'s Requests Today`}</Label>
+      <Label type="default">{t("pets.requestsToday", { pet: petName })}</Label>
       <div className="flex flex-row gap-2">
         {petData.requests.food.map((food) => {
           const isComplete =
