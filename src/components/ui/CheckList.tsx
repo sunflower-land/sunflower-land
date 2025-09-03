@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button } from "./Button";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -54,11 +54,19 @@ const loveIslandBoxStatus = (state: GameState) => {
     return now >= start && now <= end;
   });
 
-  const nextScheduleTime = translate("checkList.nextScheduleTime", {
-    time: secondsToString((schedule[0]?.startAt - Date.now()) / 1000, {
-      length: "short",
-    }),
-  });
+  const nextScheduleTime = schedule.reduce((closestTime, schedule) => {
+    const now = new Date();
+    const start = new Date(schedule.startAt);
+
+    // If schedule hasn't started yet, compare its start time
+    if (now < start) {
+      return closestTime === 0
+        ? start.getTime()
+        : Math.min(closestTime, start.getTime());
+    }
+
+    return closestTime;
+  }, 0);
 
   const hasClaimed = hasClaimedPetalPrize({
     state,
@@ -318,7 +326,26 @@ const LoveIslandBox: React.FC<{ bumpkinLevel: number }> = ({
   const { schedule, timeZone, isOpen, nextScheduleTime, hasClaimed } =
     loveIslandBoxStatus(state);
 
-  const labelText = `${isOpen ? t("checkList.loveIsland.flyNow") : nextScheduleTime}${hasClaimed ? t("checkList.loveIsland.completed") : ""}`;
+  const [nextFlightTime, setNextFlightTime] = useState(
+    (nextScheduleTime - Date.now()) / 1000,
+  );
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setNextFlightTime((nextScheduleTime - Date.now()) / 1000);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [nextScheduleTime]);
+
+  const labelText = `${
+    isOpen
+      ? t("checkList.loveIsland.flyNow")
+      : translate("checkList.nextScheduleTime", {
+          time: secondsToString(nextFlightTime, {
+            length: "short",
+          }),
+        })
+  }${hasClaimed ? t("checkList.loveIsland.completed") : ""}`;
 
   return (
     <RowContent
@@ -333,7 +360,7 @@ const LoveIslandBox: React.FC<{ bumpkinLevel: number }> = ({
           <div className="flex justify-between pb-1">
             <Label type="default">{t("hotAirBalloon.flightTimes")}</Label>
             {isOpen && (
-              <Label type="success">{t("hotAirBalloon.openNow")}</Label>
+              <Label type="success">{t("checkList.loveIsland.flyNow")}</Label>
             )}
           </div>
           <p className="text-xs p-1 pb-2">
