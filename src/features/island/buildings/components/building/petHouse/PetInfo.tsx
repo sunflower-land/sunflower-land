@@ -9,6 +9,7 @@ import {
   Pet,
   PetName,
 } from "features/game/types/pets";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 
 type Props = {
@@ -17,7 +18,8 @@ type Props = {
   children: React.ReactNode;
 };
 
-const PetInfoComponent: React.FC<Props> = ({ children, petName, pet }) => {
+export const PetInfo: React.FC<Props> = ({ children, petName, pet }) => {
+  const { t } = useAppTranslation();
   const { level, percentage, currentProgress, experienceBetweenLevels } =
     getExperienceToNextLevel(pet.experience);
 
@@ -35,7 +37,7 @@ const PetInfoComponent: React.FC<Props> = ({ children, petName, pet }) => {
         <div className="flex flex-col gap-1 w-full sm:ml-2">
           <Label type={"default"}>{petName}</Label>
           <InnerPanel className="flex flex-col text-xs gap-1 w-full mt-1">
-            <p>{`Level: ${level}`}</p>
+            <p>{`${t("pets.level")}: ${level}`}</p>
             <Bar percentage={percentage} type={"progress"} />
             <div className="flex flex-row items-center gap-1">
               <img src={xpIcon} className="w-4" />
@@ -56,5 +58,3 @@ const PetInfoComponent: React.FC<Props> = ({ children, petName, pet }) => {
     </OuterPanel>
   );
 };
-
-export const PetInfo = React.memo(PetInfoComponent);

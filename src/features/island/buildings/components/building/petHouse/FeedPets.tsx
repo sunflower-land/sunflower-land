@@ -7,7 +7,7 @@ import {
   PetType,
   getExperienceToNextLevel,
 } from "features/game/types/pets";
-import React, { useContext, useState, useMemo, useCallback } from "react";
+import React, { useContext, useState, useMemo } from "react";
 import { FeedPetCard, isFoodAlreadyFed } from "./FeedPetCard";
 import { Button } from "components/ui/Button";
 import { CookableName } from "features/game/types/consumables";
@@ -28,7 +28,7 @@ type Props = {
   activePets: [PetName, Pet | undefined][];
 };
 
-const FeedPetComponent: React.FC<Props> = ({ activePets }) => {
+export const FeedPet: React.FC<Props> = ({ activePets }) => {
   const { t } = useAppTranslation();
   const [isBulkFeed, setIsBulkFeed] = useState(false);
   const { gameService } = useContext(Context);
@@ -45,8 +45,7 @@ const FeedPetComponent: React.FC<Props> = ({ activePets }) => {
     (state) => state.context.state.inventory,
   );
 
-  // Memoize the confirm feed handler to prevent unnecessary re-renders
-  const handleConfirmFeed = useCallback(() => {
+  const handleConfirmFeed = () => {
     if (showOverview) {
       // Event to handle Bulk Feed
       gameService.send("pets.bulkFeed", {
@@ -58,10 +57,8 @@ const FeedPetComponent: React.FC<Props> = ({ activePets }) => {
     } else {
       setShowOverview(true);
     }
-  }, [showOverview, selectedFeed, gameService]);
-
-  // Memoize the bulk feed handler
-  const handleBulkFeed = useCallback(() => {
+  };
+  const handleBulkFeed = () => {
     if (!isBulkFeed) {
       setIsBulkFeed(true);
       const newSelectedFeed: {
@@ -107,42 +104,42 @@ const FeedPetComponent: React.FC<Props> = ({ activePets }) => {
     } else {
       handleConfirmFeed();
     }
-  }, [isBulkFeed, activePets, inventory, handleConfirmFeed]);
+  };
 
-  // Memoize the mapped pets calculation
-  const mappedPets = useMemo(() => {
-    return selectedFeed.reduce<
-      {
-        pet: PetName | number;
-        food: CookableName[];
-      }[]
-    >((acc, { pet, food }) => {
-      const existingPet = acc.find((p) => p.pet === pet);
-      if (existingPet) {
-        existingPet.food.push(food);
-      } else {
-        acc.push({ pet, food: [food] });
-      }
-      return acc;
-    }, []);
-  }, [selectedFeed]);
-
-  // Memoize the cancel handler
-  const handleCancel = useCallback(() => {
-    setSelectedFeed([]);
-    setIsBulkFeed(false);
+  const mappedPets = selectedFeed.reduce<
+    {
+      pet: PetName | number;
+      food: CookableName[];
+    }[]
+  >((acc, { pet, food }) => {
+    const existingPet = acc.find((p) => p.pet === pet);
+    if (existingPet) {
+      existingPet.food.push(food);
+    } else {
+      acc.push({ pet, food: [food] });
+    }
+    return acc;
   }, []);
 
-  const activePetsSortedByType = useMemo(() => {
-    // Create a map of pet types to their order in PET_CATEGORIES
-    const petTypeOrder = getKeys(PET_CATEGORIES).reduce(
-      (acc, petType, index) => {
-        acc[petType] = index;
-        return acc;
-      },
-      {} as Record<PetType, number>,
-    );
+  const handleCancel = () => {
+    setSelectedFeed([]);
+    setIsBulkFeed(false);
+  };
 
+  // Memoize the pet type order map separately (static data)
+  const petTypeOrder = useMemo(
+    () =>
+      getKeys(PET_CATEGORIES).reduce(
+        (acc, petType, index) => {
+          acc[petType] = index;
+          return acc;
+        },
+        {} as Record<PetType, number>,
+      ),
+    [],
+  );
+
+  const activePetsSortedByType = useMemo(() => {
     return [...activePets].sort(([, petA], [, petB]) => {
       if (!petA || !petB) return 0;
 
@@ -163,7 +160,7 @@ const FeedPetComponent: React.FC<Props> = ({ activePets }) => {
       // If same type, sort by experience (highest first)
       return petB.experience - petA.experience;
     });
-  }, [activePets]);
+  }, [activePets, petTypeOrder]);
 
   return (
     <>
@@ -392,5 +389,3 @@ const SelectedFoodComponent: React.FC<{
     </div>
   );
 };
-
-export const FeedPet = React.memo(FeedPetComponent);

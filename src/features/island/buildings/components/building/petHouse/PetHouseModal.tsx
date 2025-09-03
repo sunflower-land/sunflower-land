@@ -1,4 +1,4 @@
-import React, { memo, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -15,7 +15,7 @@ interface Props {
   onClose: () => void;
 }
 
-const PetHouseModalComponent: React.FC<Props> = ({ show, onClose }) => {
+export const PetHouseModal: React.FC<Props> = ({ show, onClose }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const pets = useSelector(gameService, (state) => state.context.state.pets);
@@ -65,5 +65,3 @@ const PetHouseModalComponent: React.FC<Props> = ({ show, onClose }) => {
     </Modal>
   );
 };
-
-export const PetHouseModal = memo(PetHouseModalComponent);

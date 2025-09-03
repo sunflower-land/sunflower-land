@@ -7,7 +7,7 @@ import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Pet, PetName, getPetRequestXP } from "features/game/types/pets";
 import { shortenCount } from "lib/utils/formatNumber";
-import React, { useContext, useState, useCallback, useMemo } from "react";
+import React, { useContext, useState, useMemo } from "react";
 import { PetInfo } from "./PetInfo";
 import { Inventory } from "features/game/types/game";
 import Decimal from "decimal.js-light";
@@ -70,7 +70,7 @@ export const isFoodAlreadyFed = (pet: Pet, food: CookableName) => {
   return pet.requests.foodFed?.includes(food) || false;
 };
 
-const FeedPetCardComponent: React.FC<Props> = ({
+export const FeedPetCard: React.FC<Props> = ({
   petName,
   pet,
   isBulkFeed,
@@ -83,80 +83,68 @@ const FeedPetCardComponent: React.FC<Props> = ({
   const [hoveredFood, setHoveredFood] = useState<CookableName | null>(null);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
 
-  // Memoize the feed pet handler
-  const handleFeedPet = useCallback(
-    (food: CookableName) => {
-      if (isBulkFeed) {
-        setSelectedFeed([...selectedFeed, { pet: petName, food }]);
-      } else {
-        gameService.send("pet.fed", {
-          pet: petName,
-          food,
-        });
+  const handleFeedPet = (food: CookableName) => {
+    if (isBulkFeed) {
+      setSelectedFeed([...selectedFeed, { pet: petName, food }]);
+    } else {
+      gameService.send("pet.fed", {
+        pet: petName,
+        food,
+      });
+    }
+  };
+
+  const handleFoodHover = (food: CookableName, event: React.MouseEvent) => {
+    setHoveredFood(food);
+    const rect = event.currentTarget.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    // Estimate tooltip dimensions
+    const tooltipWidth = 120;
+    const tooltipHeight = 40;
+
+    let x = rect.left + rect.width / 2;
+    // Position below the button by default
+    let y = rect.bottom + 10;
+
+    // Ensure tooltip doesn't go off the left edge
+    if (x - tooltipWidth / 2 < 10) {
+      x = tooltipWidth / 2 + 10;
+    }
+
+    // Ensure tooltip doesn't go off the right edge
+    if (x + tooltipWidth / 2 > viewportWidth - 10) {
+      x = viewportWidth - tooltipWidth / 2 - 10;
+    }
+
+    // Check if there's enough space below the button
+    const spaceBelow = viewportHeight - rect.bottom;
+    const spaceAbove = rect.top;
+
+    // If not enough space below, position above the button instead
+    if (spaceBelow < tooltipHeight + 10) {
+      y = rect.top - tooltipHeight - 10;
+      // If also not enough space above, position in the middle of available space
+      if (spaceAbove < tooltipHeight + 10) {
+        y = Math.max(
+          10,
+          Math.min(viewportHeight - tooltipHeight - 10, viewportHeight / 2),
+        );
       }
-    },
-    [isBulkFeed, selectedFeed, setSelectedFeed, gameService, petName],
-  );
+    }
 
-  // Memoize the food hover handler
-  const handleFoodHover = useCallback(
-    (food: CookableName, event: React.MouseEvent) => {
-      setHoveredFood(food);
-      const rect = event.currentTarget.getBoundingClientRect();
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
+    setTooltipPosition({ x, y });
+  };
 
-      // Estimate tooltip dimensions
-      const tooltipWidth = 120;
-      const tooltipHeight = 40;
-
-      let x = rect.left + rect.width / 2;
-      // Position below the button by default
-      let y = rect.bottom + 10;
-
-      // Ensure tooltip doesn't go off the left edge
-      if (x - tooltipWidth / 2 < 10) {
-        x = tooltipWidth / 2 + 10;
-      }
-
-      // Ensure tooltip doesn't go off the right edge
-      if (x + tooltipWidth / 2 > viewportWidth - 10) {
-        x = viewportWidth - tooltipWidth / 2 - 10;
-      }
-
-      // Check if there's enough space below the button
-      const spaceBelow = viewportHeight - rect.bottom;
-      const spaceAbove = rect.top;
-
-      // If not enough space below, position above the button instead
-      if (spaceBelow < tooltipHeight + 10) {
-        y = rect.top - tooltipHeight - 10;
-        // If also not enough space above, position in the middle of available space
-        if (spaceAbove < tooltipHeight + 10) {
-          y = Math.max(
-            10,
-            Math.min(viewportHeight - tooltipHeight - 10, viewportHeight / 2),
-          );
-        }
-      }
-
-      setTooltipPosition({ x, y });
-    },
-    [],
-  );
-
-  // Memoize the remove from selection handler
-  const handleRemoveFromSelection = useCallback(
-    (food: CookableName) => {
-      setSelectedFeed([
-        ...selectedFeed.filter((item) => {
-          // Remove the item from the selectedFeed
-          return item.pet !== petName || item.food !== food;
-        }),
-      ]);
-    },
-    [selectedFeed, setSelectedFeed, petName],
-  );
+  const handleRemoveFromSelection = (food: CookableName) => {
+    setSelectedFeed([
+      ...selectedFeed.filter((item) => {
+        // Remove the item from the selectedFeed
+        return item.pet !== petName || item.food !== food;
+      }),
+    ]);
+  };
 
   // Memoize the food items to avoid recreating them on every render
   const foodItems = useMemo(() => {
@@ -288,5 +276,3 @@ const FeedPetCardComponent: React.FC<Props> = ({
     </PetInfo>
   );
 };
-
-export const FeedPetCard = React.memo(FeedPetCardComponent);
