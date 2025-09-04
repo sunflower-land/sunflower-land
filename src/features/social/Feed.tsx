@@ -46,6 +46,8 @@ import { discoveryModalManager } from "./lib/discoveryModalManager";
 import { FeedFilters } from "./components/FeedFilters";
 import { getFilter, storeFilter } from "./lib/persistFilter";
 import { HelpInfoPopover } from "./components/HelpInfoPopover";
+import { SearchBar } from "./components/SearchBar";
+import { Detail } from "./actions/getFollowNetworkDetails";
 
 type Props = {
   type: "world" | "local";
@@ -96,6 +98,7 @@ export const Feed: React.FC<Props> = ({
   const [showFollowing, setShowFollowing] = useState(false);
   const feedRef = useRef<HTMLDivElement>(null);
   const [selectedFilter, setSelectedFilter] = useState<FeedFilter>(getFilter());
+  const [searchResults, setSearchResults] = useState<Detail[]>([]);
 
   const username = useSelector(gameService, _username);
   const token = useSelector(authService, _token);
@@ -185,6 +188,13 @@ export const Feed: React.FC<Props> = ({
     gameService,
     "followingFarm",
     "followingFarmSuccess",
+    mutate,
+  );
+
+  useOnMachineTransition(
+    gameService,
+    "followingFarmVisiting",
+    "followingFarmVisitingSuccess",
     mutate,
   );
 
@@ -285,10 +295,11 @@ export const Feed: React.FC<Props> = ({
               {t("myProfile")}
             </div>
             <FollowsIndicator
+              showSingleBumpkin
               count={following.length}
               onClick={() => setShowFollowing(!showFollowing)}
               type="following"
-              className="ml-1"
+              className="ml-1 -mr-3.5"
             />
           </div>
           <div className="flex items-center justify-between gap-1 w-full">
@@ -297,7 +308,7 @@ export const Feed: React.FC<Props> = ({
               onClick={() => {
                 setShowFollowing(false);
                 setShowFeed(false);
-                discoveryModalManager.open();
+                discoveryModalManager.open("leaderboard");
               }}
             >
               <img
@@ -305,6 +316,17 @@ export const Feed: React.FC<Props> = ({
                 className="w-4 mt-1 whitespace-nowrap"
               />
               {t("leaderboard")}
+            </div>
+            <div
+              className="flex ml-1.5 mr-1 items-center gap-1 text-xs underline cursor-pointer whitespace-nowrap"
+              onClick={() => {
+                setShowFollowing(false);
+                setShowFeed(false);
+                discoveryModalManager.open("search");
+              }}
+            >
+              {t("playerSearch.searchPlayer")}
+              <img src={SUNNYSIDE.icons.search} className="w-4" />
             </div>
           </div>
         </div>
@@ -329,22 +351,26 @@ export const Feed: React.FC<Props> = ({
         )}
 
         {showFollowing && (
-          <div
-            ref={scrollContainerRef}
-            className="flex flex-col gap-2 -mt-2 h-full overflow-hidden overflow-y-auto scrollable"
-          >
-            <FollowList
-              loggedInFarmId={farmId}
-              token={token}
-              networkFarmId={farmId}
-              networkList={following}
-              networkCount={following.length}
-              showLabel={false}
-              networkType="following"
-              scrollContainerRef={scrollContainerRef}
-              navigateToPlayer={handleFollowingClick}
-            />
-          </div>
+          <>
+            <SearchBar context="following" onSearchResults={setSearchResults} />
+            <div
+              ref={scrollContainerRef}
+              className="flex flex-col gap-2 overflow-hidden overflow-y-auto scrollable"
+            >
+              <FollowList
+                loggedInFarmId={farmId}
+                token={token}
+                searchResults={searchResults}
+                networkFarmId={farmId}
+                networkList={following}
+                networkCount={following.length}
+                showLabel={false}
+                networkType="following"
+                scrollContainerRef={scrollContainerRef}
+                navigateToPlayer={handleFollowingClick}
+              />
+            </div>
+          </>
         )}
 
         {!showFollowing && (
@@ -363,6 +389,49 @@ export const Feed: React.FC<Props> = ({
         )}
       </div>
     </InnerPanel>
+  );
+};
+
+const HelpIconWithPopover: React.FC<{
+  helpedThemToday: boolean;
+}> = ({ helpedThemToday }) => {
+  const [showPopover, setShowPopover] = useState(false);
+
+  return (
+    <div
+      className="relative flex h-8 w-10 cursor-pointer items-center justify-center"
+      onPointerOver={(e) => {
+        if (e.pointerType === "mouse") {
+          setShowPopover(true);
+        }
+      }}
+      onPointerOut={(e) => {
+        if (e.pointerType === "mouse") {
+          setShowPopover(false);
+        }
+      }}
+      onPointerDown={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        setShowPopover(!showPopover);
+        setTimeout(() => {
+          setShowPopover(false);
+        }, 1500);
+      }}
+      onClickCapture={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
+    >
+      <img src={helpIcon} className="w-5 h-5" />
+      <HelpInfoPopover
+        className="absolute right-0 -top-6 z-20 w-max text-black"
+        showPopover={showPopover}
+        onHide={() => setShowPopover(false)}
+        helpedThemToday={helpedThemToday}
+      />
+    </div>
   );
 };
 
@@ -396,7 +465,6 @@ const FeedContent: React.FC<FeedContentProps> = ({
   const { t } = useAppTranslation();
 
   const [canPaginate, setCanPaginate] = useState(false);
-  const [showPopover, setShowPopover] = useState(false);
 
   // Intersection observer to load more interactions when the loader is in view
   const { ref: intersectionRef, inView } = useInView({
@@ -475,6 +543,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
               ? undefined
               : () => onInteractionClick(interaction);
           const isFollowing = following.includes(interaction.sender.id);
+          const isAtMaxFollowing = !isFollowing && following.length >= 5000;
 
           return (
             <div
@@ -523,56 +592,30 @@ const FeedContent: React.FC<FeedContentProps> = ({
                       >
                         {interaction.message}
                       </div>
-                      {interaction.helpedThemToday && (
-                        <div
-                          className="relative flex h-8 w-10 cursor-pointer items-center justify-center"
-                          onPointerOver={(e) => {
-                            if (e.pointerType === "mouse") {
-                              setShowPopover(true);
-                            }
-                          }}
-                          onPointerOut={(e) => {
-                            if (e.pointerType === "mouse") {
-                              setShowPopover(false);
-                            }
-                          }}
-                          onPointerDown={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-
-                            setShowPopover(!showPopover);
-                            setTimeout(() => {
-                              setShowPopover(false);
-                            }, 1500);
-                          }}
-                          onClickCapture={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                          }}
-                        >
-                          <img src={helpIcon} className="w-5 h-5" />
-                          <HelpInfoPopover
-                            className="absolute right-0 -top-6 z-20 w-max text-black"
-                            showPopover={showPopover}
-                            onHide={() => setShowPopover(false)}
-                            helpedThemToday={interaction.helpedThemToday}
-                          />
-                        </div>
+                      {!!interaction.helpedThemToday && (
+                        <HelpIconWithPopover
+                          helpedThemToday={interaction.helpedThemToday}
+                        />
                       )}
                     </div>
                   </div>
-                  <div className="flex items-center justify-end flex-grow cursor-pointer">
-                    {interaction.type === "follow" && !isFollowing && (
-                      <Button
-                        className="text-xs flex h-10 w-10 justify-center items-center"
-                        onClick={(e) =>
-                          handleFollowClick(e, interaction.sender.id)
-                        }
-                      >
-                        <img src={followIcon} className="w-6 object-contain" />
-                      </Button>
-                    )}
-                  </div>
+                  {!isAtMaxFollowing && (
+                    <div className="flex items-center justify-end flex-grow cursor-pointer">
+                      {interaction.type === "follow" && !isFollowing && (
+                        <Button
+                          className="text-xs flex h-10 w-10 justify-center items-center"
+                          onClick={(e) =>
+                            handleFollowClick(e, interaction.sender.id)
+                          }
+                        >
+                          <img
+                            src={followIcon}
+                            className="w-6 object-contain"
+                          />
+                        </Button>
+                      )}
+                    </div>
+                  )}
                 </div>
               </InteractionBubble>
             </div>

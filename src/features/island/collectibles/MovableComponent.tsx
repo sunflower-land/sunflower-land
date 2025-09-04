@@ -45,7 +45,7 @@ import { RemoveHungryCaterpillarModal } from "./RemoveHungryCaterpillarModal";
 import flipped from "assets/icons/flipped.webp";
 import flipIcon from "assets/icons/flip.webp";
 import debounce from "lodash.debounce";
-import { LIMITED_ITEMS } from "features/game/events/landExpansion/removeCollectible";
+import { LIMITED_ITEMS } from "features/game/events/landExpansion/burnCollectible";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,

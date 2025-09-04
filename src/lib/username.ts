@@ -32,6 +32,8 @@ export const validateUsername = (
   if (username.includes(" ")) return translate("username.invalidChar");
   if (!ALPHABET.includes(username[0].toLowerCase()))
     return translate("username.startWithLetter");
+  if (username.toLowerCase().includes("fuck"))
+    return translate("username.containsProfanity");
 
   return null;
 };

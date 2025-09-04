@@ -29,6 +29,8 @@ import {
 } from "features/game/types/game";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
+import { NumberInput } from "components/ui/NumberInput";
+import { MAX_INVENTORY_ITEMS } from "features/game/lib/processEvent";
 
 const SEASON_GUARDIANS: Record<TemperateSeasonName, string> = {
   autumn: autumnGuardian,
@@ -43,6 +45,7 @@ export type BlessingInput = Extract<
   | "Kale"
   // Real
   | "Basic Bear"
+  | "Doll"
   | "Sand"
   | "Crab"
   | "Tuna"
@@ -52,6 +55,7 @@ export type BlessingInput = Extract<
 const BLESSING_AMOUNTS: Record<BlessingInput, number> = {
   Kale: 100,
   "Basic Bear": 10,
+  Doll: 5,
   Sand: 50,
   Crab: 50,
   Tuna: 10,
@@ -106,10 +110,9 @@ export const BlessingOffer: React.FC<Props> = ({ onClose }) => {
 
   const [page, setPage] = useState(0);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [amount, setAmount] = useState(1);
 
   const { offering, offered } = gameState.context.state.blessing;
-
-  const amount = BLESSING_AMOUNTS[offering.item as BlessingInput];
 
   const offer = () => {
     gameService.send("blessing.offered", {
@@ -159,6 +162,7 @@ export const BlessingOffer: React.FC<Props> = ({ onClose }) => {
   const inventory =
     gameState.context.state.inventory[offering.item] ?? new Decimal(0);
 
+  const max = MAX_INVENTORY_ITEMS[offering.item as InventoryItemName] ?? 10000;
   return (
     <div>
       <div className="flex justify-between mb-1">
@@ -166,12 +170,21 @@ export const BlessingOffer: React.FC<Props> = ({ onClose }) => {
         <Label type="formula">{`${new Date().toISOString().slice(0, 10)}`}</Label>
       </div>
       <p className="text-xs m-1">{t("blessing.guardiansSeek")}</p>
-      <p className="text-xs m-1">{t("blessing.guardiansSeek.random")}</p>
+      <p className="text-xs m-1">{t("blessing.random")}</p>
 
       <div className="flex items-center">
         <Box image={ITEM_DETAILS[offering.item].image} count={inventory} />
-        <div className="ml-2">
-          <p className="text-sm">{`${amount} x ${offering.item}`}</p>
+        <div>
+          <p className="text-xs ml-1">{`${amount} x ${offering.item}`}</p>
+
+          <NumberInput
+            value={amount}
+            onValueChange={(value) => setAmount(value.toNumber())}
+            maxDecimalPlaces={0}
+            isOutOfRange={
+              new Decimal(amount).gt(inventory) || new Decimal(amount).gt(max)
+            }
+          />
         </div>
       </div>
       {new Decimal(amount).gt(inventory) && (
@@ -182,8 +195,20 @@ export const BlessingOffer: React.FC<Props> = ({ onClose }) => {
           })}
         </Label>
       )}
+      {new Decimal(amount).gt(max) && (
+        <Label type="danger" className="my-2">
+          {t("blessing.maxAmountHoarding", {
+            name: offering.item,
+            amount: max,
+          })}
+        </Label>
+      )}
       <Button
-        disabled={new Decimal(amount).gt(inventory)}
+        disabled={
+          new Decimal(amount).gt(inventory) ||
+          new Decimal(amount).gt(max) ||
+          new Decimal(amount).lt(1)
+        }
         onClick={() => setShowConfirmation(true)}
       >
         {t("blessing.offer")}
@@ -248,6 +273,8 @@ export const BlessingResults: React.FC<Props> = ({ onClose }) => {
   // Sort winners
   const leaderboard = response.data.leaderboard ?? [];
 
+  const bids = Object.values(response.data.winners ?? {});
+
   return (
     <div className="max-h-[500px] overflow-y-auto scrollable">
       <Label type="formula">{`Yesterday - ${previousDayKey}`}</Label>
@@ -263,10 +290,12 @@ export const BlessingResults: React.FC<Props> = ({ onClose }) => {
           })}
         </span>
       </div>
-      <div className="flex m-1 items-center">
-        <img src={icon} className="w-6 mr-1" />
-        <span>{`${response.data.prizeAmount} ${response.data.prize} rewarded`}</span>
-      </div>
+      {response.data.minimum && (
+        <div className="flex m-1 items-center">
+          <img src={icon} className="w-6 mr-1" />
+          <span>{`Minimum tribute: ${response.data.minimum + 1}`}</span>
+        </div>
+      )}
 
       <Label type="default" className="my-2">
         {t("blessing.winners", {

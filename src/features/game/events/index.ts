@@ -307,6 +307,7 @@ import {
   FeedFactionPetAction,
   feedFactionPet,
 } from "./landExpansion/feedFactionPet";
+import { FeedPetAction, feedPet } from "./pets/feedPet";
 import {
   refreshKingdomChores,
   RefreshKingdomChoresAction,
@@ -517,10 +518,6 @@ import {
   ClaimCheersAction,
   claimDailyCheers,
 } from "./landExpansion/claimDailyCheers";
-import { feedPet, FeedPetAction } from "./landExpansion/feedPet";
-import { neglectPet, NeglectPetAction } from "./landExpansion/neglectPet";
-import { petPet, PetPetAction } from "./landExpansion/petPet";
-import { fetchPet, FetchPetAction } from "./landExpansion/fetchPet";
 
 import {
   flipCollectible,
@@ -547,6 +544,7 @@ import {
   InstaGrowFlowerAction,
 } from "./landExpansion/instaGrowFlower";
 import { upgradeStone, UpgradeStoneAction } from "./landExpansion/upgradeNode";
+import { bulkFeedPets, BulkFeedPetsAction } from "./pets/bulkFeedPets";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -655,6 +653,8 @@ export type PlayingEvent =
   | BuyFactionShopItemAction
   | ClaimFactionPrizeAction
   | FeedFactionPetAction
+  | FeedPetAction
+  | BulkFeedPetsAction
   | LeaveFactionAction
   | BuyMoreDigsAction
   | BuyMoreReelsAction
@@ -695,10 +695,6 @@ export type PlayingEvent =
   | ClaimCheersAction
   | BurnClutterAction
   | InstantGrowProjectAction
-  | FeedPetAction
-  | NeglectPetAction
-  | PetPetAction
-  | FetchPetAction
   | InstaGrowFlowerAction
   | UpgradeStoneAction;
 
@@ -807,10 +803,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "greenhouse.oiled": oilGreenhouse,
   "greenhouse.harvested": harvestGreenHouse,
   "greenhouse.planted": plantGreenhouse,
-  "pet.fed": feedPet,
-  "pet.neglected": neglectPet,
-  "pet.petted": petPet,
-  "pet.fetched": fetchPet,
   "minigame.itemPurchased": purchaseMinigameItem,
   "minigame.prizeClaimed": claimMinigamePrize,
   "minigame.attemptStarted": startMinigameAttempt,
@@ -899,6 +891,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "factionKitchen.delivered": deliverFactionKitchen,
   "factionShopItem.bought": buyFactionShopItem,
   "factionPet.fed": feedFactionPet,
+  "pet.fed": feedPet,
+  "pets.bulkFeed": bulkFeedPets,
   "desert.digsBought": buyMoreDigs,
   "shipment.restocked": shipmentRestock,
   "animal.bought": buyAnimal,

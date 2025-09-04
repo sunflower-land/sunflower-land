@@ -1,0 +1,136 @@
+import React, { useCallback, useContext, useState } from "react";
+import { Modal } from "components/ui/Modal";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { PetName } from "features/game/types/pets";
+import { PetInfo } from "./PetInfo";
+import { PetFeed } from "./PetFeed";
+import { OuterPanel } from "components/ui/Panel";
+import foodIcon from "assets/food/chicken_drumstick.png";
+import { CookableName } from "features/game/types/consumables";
+import { Label } from "components/ui/Label";
+import { hasFeatureAccess } from "lib/flags";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+
+interface Props {
+  show: boolean;
+  onClose: () => void;
+  petName: PetName;
+}
+
+export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
+  const { t } = useAppTranslation();
+  const { gameService } = useContext(Context);
+  const [tab, setTab] = useState<"Info" | "Feed" | "Fetch">("Info");
+
+  const petData = useSelector(
+    gameService,
+    (state) => state.context.state.pets?.common?.[petName],
+  );
+  const inventory = useSelector(
+    gameService,
+    (state) => state.context.state.inventory,
+  );
+  const hasPetHouse = useSelector(
+    gameService,
+    (state) =>
+      state.context.state.inventory["Pet House"]?.greaterThan(0) ?? false,
+  );
+  const hasPetsAccess = useSelector(gameService, (state) =>
+    hasFeatureAccess(state.context.state, "PETS"),
+  );
+  const isRevealingState = useSelector(gameService, (state) =>
+    state.matches("revealing"),
+  );
+  const isRevealedState = useSelector(gameService, (state) =>
+    state.matches("revealed"),
+  );
+  const hasThreeOrMorePets = useSelector(gameService, (state) => {
+    return (
+      Object.values({
+        ...(state.context.state.pets?.common ?? {}),
+      }).length >= 3
+    );
+  });
+
+  const showBuildPetHouse = !hasPetHouse && hasThreeOrMorePets;
+
+  const handleFeed = useCallback(
+    (food: CookableName) => {
+      gameService.send("pet.fed", {
+        pet: petName,
+        food,
+      });
+    },
+    [gameService, petName],
+  );
+
+  const handleResetRequests = (petName: PetName) => {
+    gameService.send("REVEAL", {
+      event: {
+        type: "reset.petRequests",
+        pet: petName,
+        createdAt: new Date(),
+      },
+    });
+  };
+
+  if (!petData || !hasPetsAccess) {
+    return null;
+  }
+
+  return (
+    <Modal
+      show={show}
+      onHide={isRevealingState || isRevealedState ? undefined : onClose}
+    >
+      {showBuildPetHouse && (
+        <div className="absolute top-[-4rem] right-0 flex flex-col gap-1 items-end justify-end">
+          <Label type="info">{t("pets.tiredOfManaging")}</Label>
+          <Label type="vibrant" secondaryIcon={ITEM_DETAILS["Pet House"].image}>
+            {t("pets.buildPetHouse")}
+          </Label>
+        </div>
+      )}
+      <CloseButtonPanel
+        onClose={isRevealingState || isRevealedState ? undefined : onClose}
+        tabs={[
+          ...(isRevealingState || isRevealedState
+            ? [{ name: t("pets.feed"), icon: foodIcon, id: "Feed" }]
+            : [
+                {
+                  name: t("pets.info"),
+                  icon: ITEM_DETAILS[petName].image,
+                  id: "Info",
+                },
+                { name: t("pets.feed"), icon: foodIcon, id: "Feed" },
+                {
+                  name: t("pets.fetch"),
+                  icon: ITEM_DETAILS[petName].image,
+                  id: "Fetch",
+                },
+              ]),
+        ]}
+        currentTab={tab}
+        setCurrentTab={setTab}
+        container={tab === "Feed" ? OuterPanel : undefined}
+      >
+        {tab === "Info" && <PetInfo petName={petName} petData={petData} />}
+        {tab === "Feed" && (
+          <PetFeed
+            petName={petName}
+            petData={petData}
+            handleFeed={handleFeed}
+            inventory={inventory}
+            handleResetRequests={handleResetRequests}
+            isRevealingState={isRevealingState}
+            isRevealedState={isRevealedState}
+            onAcknowledged={() => gameService.send("CONTINUE")}
+          />
+        )}
+      </CloseButtonPanel>
+    </Modal>
+  );
+};

@@ -46,7 +46,7 @@ describe("speedUpCrafting", () => {
           ...INITIAL_FARM,
           craftingBox: {
             status: "crafting",
-            item: { collectible: "Grubnash's Tombstone" },
+            item: { collectible: "Doll" },
             startedAt: 0,
             readyAt: 0,
             recipes: {},
@@ -66,7 +66,7 @@ describe("speedUpCrafting", () => {
           inventory: { Gem: new Decimal(0) },
           craftingBox: {
             status: "crafting",
-            item: { collectible: "Grubnash's Tombstone" },
+            item: { collectible: "Doll" },
             startedAt: 0,
             readyAt: createdAt + 10000,
             recipes: {},
@@ -83,7 +83,7 @@ describe("speedUpCrafting", () => {
       ...INITIAL_FARM,
       craftingBox: {
         status: "crafting",
-        item: { collectible: "Grubnash's Tombstone" },
+        item: { collectible: "Doll" },
         startedAt: 0,
         readyAt: createdAt + 10000,
         recipes: {},
@@ -110,7 +110,7 @@ describe("speedUpCrafting", () => {
       ...INITIAL_FARM,
       craftingBox: {
         status: "crafting",
-        item: { collectible: "Grubnash's Tombstone" },
+        item: { collectible: "Doll" },
         startedAt: 0,
         readyAt: createdAt + 10000,
         recipes: {},
@@ -141,7 +141,7 @@ describe("speedUpCrafting", () => {
       ...INITIAL_FARM,
       craftingBox: {
         status: "crafting",
-        item: { collectible: "Grubnash's Tombstone" },
+        item: { collectible: "Doll" },
         startedAt: 0,
         readyAt: createdAt + 10000,
         recipes: {},

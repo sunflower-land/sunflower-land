@@ -30,7 +30,7 @@ import { FactionShopCollectibleName } from "./factionShop";
 import { BEDS } from "./beds";
 import { SeasonalCollectibleName } from "./megastore";
 import { MonumentName } from "./monuments";
-import { PetName } from "./pets";
+import { PetName, PetShrineName } from "./pets";
 
 export { FLAGS };
 
@@ -219,7 +219,9 @@ export type CollectibleName =
   | BedName
   | SeasonalCollectibleName
   | MonumentName
-  | PetName;
+  | PetName
+  | PetShrineName
+  | "Obsidian Shrine";
 
 export type ToolName =
   | "Axe"
@@ -1060,6 +1062,20 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Nibbles: { width: 1, height: 1 },
   Waddles: { width: 1, height: 1 },
   Ramsey: { width: 2, height: 2 },
+  Biscuit: { width: 1, height: 1 },
+  Cloudy: { width: 1, height: 1 },
+  Butters: { width: 1, height: 1 },
+  Smokey: { width: 1, height: 1 },
+  Flicker: { width: 1, height: 1 },
+  Pippin: { width: 1, height: 1 },
+  Pinto: { width: 1, height: 1 },
+  Roan: { width: 1, height: 1 },
+  Stallion: { width: 1, height: 1 },
+  Bison: { width: 1, height: 1 },
+  Oxen: { width: 1, height: 1 },
+  Peanuts: { width: 1, height: 1 },
+  Pip: { width: 1, height: 1 },
+  Skipper: { width: 1, height: 1 },
 
   // Flags
   ...flagsDimension,

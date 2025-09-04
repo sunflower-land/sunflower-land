@@ -8,21 +8,26 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { discoveryModalManager } from "./lib/discoveryModalManager";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { SearchPlayers } from "./components/SearchPlayers";
 
-type Tab = "Leaderboard" | "Discovery";
+export type DiscoveryTab = "leaderboard" | "search";
 
 const _farmId = (state: MachineState) => state.context.farmId;
 
 export const Discovery: React.FC = () => {
   const { gameService } = useContext(Context);
+
   const { t } = useAppTranslation();
+
   const [showDiscoveryModal, setShowDiscoveryModal] = useState(false);
-  const [tab, setTab] = useState<Tab>("Leaderboard");
+  const [tab, setTab] = useState<DiscoveryTab>("leaderboard");
 
   const farmId = useSelector(gameService, _farmId);
 
   useEffect(() => {
-    discoveryModalManager.listen(() => {
+    discoveryModalManager.listen((tab: DiscoveryTab) => {
+      setTab(tab);
       setShowDiscoveryModal(true);
     });
   }, []);
@@ -37,20 +42,21 @@ export const Discovery: React.FC = () => {
         currentTab={tab}
         setCurrentTab={setTab}
         tabs={[
-          // {
-          //   icon: SUNNYSIDE.icons.search,
-          //   name: t("discovery"),
-          //   id: "Discovery",
-          // },
           {
             icon: socialPointsIcon,
             name: t("leaderboard"),
-            id: "Leaderboard",
+            id: "leaderboard",
+          },
+
+          {
+            icon: SUNNYSIDE.icons.search,
+            name: t("playerSearch.searchPlayer"),
+            id: "search",
           },
         ]}
       >
-        {/* {tab === "Discovery" && <div>{`Discovery`}</div>} */}
-        {tab === "Leaderboard" && (
+        {tab === "search" && <SearchPlayers />}
+        {tab === "leaderboard" && (
           <SocialLeaderboard
             id={farmId}
             onClose={() => setShowDiscoveryModal(false)}

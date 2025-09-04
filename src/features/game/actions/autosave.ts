@@ -10,6 +10,7 @@ import { SeedBoughtAction } from "../events/landExpansion/seedBought";
 import { GameState } from "../types/game";
 import { getObjectEntries } from "../expansion/lib/utils";
 import { hasFeatureAccess } from "lib/flags";
+import { AUTO_SAVE_INTERVAL } from "../expansion/Game";
 
 // Browser-friendly SHA-256 → hex
 export async function hashString(str: string): Promise<string> {
@@ -108,26 +109,36 @@ export async function autosaveRequest(
   // Useful for using cached results
   const cachedKey = getSessionId();
 
-  return await window.fetch(`${API_URL}/autosave/${request.farmId}`, {
-    method: "POST",
-    headers: {
-      ...{
-        "content-type": "application/json;charset=UTF-8",
-        Authorization: `Bearer ${request.token}`,
-        "X-Fingerprint": request.fingerprint,
-        "X-Transaction-ID": request.transactionId,
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => {
+    controller.abort();
+  }, AUTO_SAVE_INTERVAL);
+
+  try {
+    return await window.fetch(`${API_URL}/autosave/${request.farmId}`, {
+      method: "POST",
+      headers: {
+        ...{
+          "content-type": "application/json;charset=UTF-8",
+          Authorization: `Bearer ${request.token}`,
+          "X-Fingerprint": request.fingerprint,
+          "X-Transaction-ID": request.transactionId,
+        },
+        ...(ttl ? { "X-Amz-TTL": (window as any)["x-amz-ttl"] } : {}),
       },
-      ...(ttl ? { "X-Amz-TTL": (window as any)["x-amz-ttl"] } : {}),
-    },
-    body: JSON.stringify({
-      sessionId: request.sessionId,
-      actions: request.actions,
-      clientVersion: CONFIG.CLIENT_VERSION as string,
-      cachedKey,
-      deviceTrackerId: request.deviceTrackerId,
-      stateHash: request.stateHash,
-    }),
-  });
+      body: JSON.stringify({
+        sessionId: request.sessionId,
+        actions: request.actions,
+        clientVersion: CONFIG.CLIENT_VERSION as string,
+        cachedKey,
+        deviceTrackerId: request.deviceTrackerId,
+        stateHash: request.stateHash,
+      }),
+      signal: controller.signal,
+    });
+  } finally {
+    clearTimeout(timeoutId);
+  }
 }
 
 let autosaveErrors = 0;

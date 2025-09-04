@@ -88,7 +88,9 @@ export function sellTreasure({ state, action }: Options) {
     );
 
     game.coins = coins + earned;
-    game.inventory[item] = setPrecision(count.sub(amount));
+    game.inventory[item] = setPrecision(
+      (game.inventory[item] ?? new Decimal(0)).sub(amount),
+    );
 
     game.boostsUsedAt = updateBoostUsed({
       game,

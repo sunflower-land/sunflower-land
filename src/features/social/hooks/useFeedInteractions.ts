@@ -38,18 +38,18 @@ export function useFeedInteractions(
     },
   );
 
-  const followingRef = useRef<number[] | null>([]);
+  const followingRef = useRef<number[] | null>(null);
 
   // Whatever SWR returned for page 0 this render
   const firstFollowing = data?.[0]?.following;
 
   useEffect(() => {
-    const hasNotInitialized = followingRef.current?.length === 0;
-    const hasDifferentLength =
-      followingRef.current?.length !== firstFollowing?.length;
-
-    if (hasNotInitialized || hasDifferentLength) {
-      followingRef.current = firstFollowing ?? [];
+    if (
+      firstFollowing &&
+      (followingRef.current === null ||
+        followingRef.current.length !== firstFollowing.length)
+    ) {
+      followingRef.current = firstFollowing;
     }
   }, [firstFollowing]);
 

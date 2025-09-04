@@ -375,6 +375,7 @@ export const FollowerFeed: React.FC<Props> = ({
                           className="text-xs break-words"
                           style={{
                             lineHeight: 1,
+                            userSelect: "text",
                           }}
                         >
                           {interaction.message}

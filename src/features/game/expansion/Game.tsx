@@ -106,6 +106,18 @@ const land = SUNNYSIDE.land.island;
 const getModalStatesForEffects = () =>
   Object.values({
     ...STATE_MACHINE_EFFECTS,
+  }).reduce(
+    (states, stateName) => ({
+      ...states,
+      [stateName]: true,
+      [`${stateName}Failed`]: true,
+      [`${stateName}Success`]: true,
+    }),
+    {} as Record<BlockchainState["value"], boolean>,
+  );
+
+const getModalStatesForVisitingEffects = () =>
+  Object.values({
     ...STATE_MACHINE_VISIT_EFFECTS,
   }).reduce(
     (states, stateName) => ({
@@ -117,13 +129,31 @@ const getModalStatesForEffects = () =>
     {} as Record<BlockchainState["value"], boolean>,
   );
 
+const checkForActiveEffectState = (
+  state: MachineState,
+  type?: "Success" | "Failed",
+) => {
+  const visitEffectActive = Object.values(STATE_MACHINE_VISIT_EFFECTS).some(
+    (stateName) => state.matches(`${stateName}${type ?? ""}`),
+  );
+  const effectEffectActive = Object.values(STATE_MACHINE_EFFECTS).some(
+    (stateName) => state.matches(`${stateName}${type ?? ""}`),
+  );
+
+  return visitEffectActive || effectEffectActive;
+};
+
 export const AUTO_SAVE_INTERVAL = 1000 * 60; // autosave every 60 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
   ...getModalStatesForEffects(),
+  ...getModalStatesForVisitingEffects(),
   // Hide these modals
   depositingFlower: false,
   depositingFlowerSuccess: false,
   depositingFlowerFailed: false,
+  depositingSFL: false,
+  depositingSFLSuccess: false,
+  depositingSFLFailed: false,
   changingUsername: false,
   changingUsernameSuccess: false,
   changingUsernameFailed: false,
@@ -247,21 +277,16 @@ const hasVipNotification = (state: MachineState) => state.matches("vip");
 const isPlaying = (state: MachineState) => state.matches("playing");
 const somethingArrived = (state: MachineState) =>
   state.matches("somethingArrived");
+
 const isEffectPending = (state: MachineState) =>
-  Object.values({
-    ...STATE_MACHINE_EFFECTS,
-    ...STATE_MACHINE_VISIT_EFFECTS,
-  }).some((stateName) => state.matches(stateName));
+  checkForActiveEffectState(state);
+
 const isEffectSuccess = (state: MachineState) =>
-  Object.values({
-    ...STATE_MACHINE_EFFECTS,
-    ...STATE_MACHINE_VISIT_EFFECTS,
-  }).some((stateName) => state.matches(`${stateName}Success`));
+  checkForActiveEffectState(state, "Success");
+
 const isEffectFailed = (state: MachineState) =>
-  Object.values({
-    ...STATE_MACHINE_EFFECTS,
-    ...STATE_MACHINE_VISIT_EFFECTS,
-  }).some((stateName) => state.matches(`${stateName}Failed`));
+  checkForActiveEffectState(state, "Failed");
+
 const hasMarketplaceSales = (state: MachineState) =>
   state.matches("marketplaceSale");
 const isCompetition = (state: MachineState) => state.matches("competition");

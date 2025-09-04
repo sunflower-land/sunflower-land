@@ -51,7 +51,7 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
   const recipes = useSelector(gameService, _craftingBoxRecipes);
 
   // Determine the current recipe if any
-  const itemName = craftingItem?.collectible ?? craftingItem?.wearable;
+  const itemName = craftingItem?.collectible;
   const currentRecipe = itemName ? recipes[itemName] ?? null : null;
   const paddedIngredients = [
     ...(currentRecipe?.ingredients ?? []),

@@ -113,13 +113,13 @@ export const COMPOSTER_IMAGES: Record<
     composting: SUNNYSIDE.building.basicComposting,
     idle: SUNNYSIDE.building.basicComposter,
     ready: SUNNYSIDE.building.basicReady,
-    width: 24,
+    width: 20,
   },
   "Turbo Composter": {
     composting: SUNNYSIDE.building.advancedComposting,
     idle: SUNNYSIDE.building.advancedComposter,
     ready: SUNNYSIDE.building.advancedReady,
-    width: 27,
+    width: 28,
   },
   "Premium Composter": {
     composting: SUNNYSIDE.building.expertComposting,

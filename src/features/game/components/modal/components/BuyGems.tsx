@@ -208,7 +208,7 @@ export const BuyGems: React.FC<Props> = ({
               </Label>
             </div>
             <a
-              href="https://docs.sunflower-land.com/fundamentals/blockchain-fundamentals#block-bucks"
+              href="https://docs.sunflower-land.com/project/economy-tokenomics#team-revenue-and-sustainability"
               className="text-xxs underline"
               target="_blank"
               rel="noreferrer"
@@ -310,7 +310,7 @@ export const BuyGems: React.FC<Props> = ({
           </Label>
         </div>
         <a
-          href="https://docs.sunflower-land.com/fundamentals/blockchain-fundamentals#block-bucks"
+          href="https://docs.sunflower-land.com/project/economy-tokenomics#team-revenue-and-sustainability"
           className="text-xxs underline"
           target="_blank"
           rel="noreferrer"

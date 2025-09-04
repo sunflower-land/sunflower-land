@@ -38,6 +38,7 @@ import { CropMachine } from "./cropMachine/CropMachine";
 import { Barn, BARN_IMAGES } from "./barn/Barn";
 import { CraftingBox } from "./craftingBox/CraftingBox";
 import { getCurrentBiome } from "features/island/biomes/biomes";
+import { PetHouse } from "./petHouse/PetHouse";
 
 export interface BuildingProps {
   buildingId: string;
@@ -108,6 +109,7 @@ export const BUILDING_COMPONENTS: Record<
     <CropMachine id={buildingId} />
   ),
   "Crafting Box": CraftingBox,
+  "Pet House": PetHouse,
 };
 
 export const READONLY_BUILDINGS: (

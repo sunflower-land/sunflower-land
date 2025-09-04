@@ -96,7 +96,9 @@ export function sellCrop({
     );
 
     game.coins = game.coins + coinsEarned;
-    game.inventory[action.crop] = setPrecision(count.sub(amount));
+    game.inventory[action.crop] = setPrecision(
+      (game.inventory[action.crop] ?? new Decimal(0)).sub(amount),
+    );
 
     return game;
   });

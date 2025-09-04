@@ -139,57 +139,68 @@ export const WithdrawItems: React.FC<Props> = ({
     return { isRestricted, cooldownTimeLeft };
   };
 
+  // Precompute/cached values for sorting to avoid repeated expensive calls
+  const withdrawableItemCache = React.useMemo(() => {
+    const cache: {
+      [key in InventoryItemName]?: {
+        cooldownMs: number;
+        isOnCooldown: boolean;
+        hasMoreOffChain: boolean;
+        hasBuff: boolean;
+      };
+    } = {};
+
+    const buffLabels = COLLECTIBLE_BUFF_LABELS(state);
+
+    getKeys(inventory).forEach((itemName) => {
+      const { cooldownTimeLeft } = getRestrictionStatus(itemName);
+      const isOnCooldown = cooldownTimeLeft > 0;
+      const hasMoreOffChain = hasMoreOffChainItems(itemName);
+      const hasBuff = !!buffLabels[itemName]?.length;
+
+      cache[itemName] = {
+        cooldownMs: cooldownTimeLeft,
+        isOnCooldown,
+        hasMoreOffChain,
+        hasBuff,
+      };
+    });
+
+    return cache;
+    // Only depends on inventory and state
+  }, [inventory, state]);
+
   const sortWithdrawableItems = (
     itemA: InventoryItemName,
     itemB: InventoryItemName,
   ) => {
-    const aCount = inventory[itemA] ?? new Decimal(0);
-    const bCount = inventory[itemB] ?? new Decimal(0);
+    const a = withdrawableItemCache[itemA];
+    const b = withdrawableItemCache[itemB];
 
-    const aCooldownMs = getRestrictionStatus(itemA).cooldownTimeLeft;
-    const bCooldownMs = getRestrictionStatus(itemB).cooldownTimeLeft;
-
-    const aIsOnCooldown = aCooldownMs > 0;
-    const bIsOnCooldown = bCooldownMs > 0;
-
-    const aHasMoreOffChain = hasMoreOffChainItems(itemA);
-    const bHasMoreOffChain = hasMoreOffChainItems(itemB);
-
-    const aHasBuff = !!COLLECTIBLE_BUFF_LABELS(state)[itemA]?.length;
-    const bHasBuff = !!COLLECTIBLE_BUFF_LABELS(state)[itemB]?.length;
+    // Handle undefined cases first
+    if (!a && !b) return 0;
+    if (!a) return 1;
+    if (!b) return -1;
 
     // 1. Items on cooldown come first, sorted by most cooldown time left
-    if (aIsOnCooldown && bIsOnCooldown) {
-      return bCooldownMs - aCooldownMs;
+    if (a.isOnCooldown && b.isOnCooldown) {
+      return b.cooldownMs - a.cooldownMs;
     }
-    if (aIsOnCooldown !== bIsOnCooldown) {
-      return aIsOnCooldown ? -1 : 1;
+    if (a.isOnCooldown !== b.isOnCooldown) {
+      return a.isOnCooldown ? -1 : 1;
     }
 
     // 2. Items that have more off-chain than on-chain copies
-    if (aHasMoreOffChain !== bHasMoreOffChain) {
-      return aHasMoreOffChain ? -1 : 1;
+    if (a.hasMoreOffChain !== b.hasMoreOffChain) {
+      return a.hasMoreOffChain ? -1 : 1;
     }
 
-    // 3. Among boosted items, sort by most count
-    if (aHasBuff && bHasBuff) {
-      if (!aCount.eq(bCount)) {
-        return bCount.sub(aCount);
-      }
-    }
-    // 4. Among non-boosted items, sort by most count
-    if (!aHasBuff && !bHasBuff) {
-      if (!aCount.eq(bCount)) {
-        return bCount.sub(aCount);
-      }
+    // 3. Boosted items come before non-boosted items
+    if (a.hasBuff !== b.hasBuff) {
+      return a.hasBuff ? -1 : 1;
     }
 
-    // 5. Boosted items come before non-boosted items
-    if (aHasBuff !== bHasBuff) {
-      return aHasBuff ? -1 : 1;
-    }
-
-    // 6. Otherwise, sort by item IDs
+    // 4. Otherwise, sort by item IDs
     return KNOWN_IDS[itemA] - KNOWN_IDS[itemB];
   };
 
@@ -198,6 +209,10 @@ export const WithdrawItems: React.FC<Props> = ({
       const withdrawAt = INVENTORY_RELEASES[itemName]?.withdrawAt;
       return !!withdrawAt && withdrawAt <= new Date();
     })
+    .filter(
+      (itemName) =>
+        hasMoreOffChainItems(itemName) || inventory[itemName]?.gt(0),
+    )
     .sort((a, b) => sortWithdrawableItems(a, b) as number);
 
   const selectedItems = getKeys(selected)
@@ -334,7 +349,7 @@ export const WithdrawItems: React.FC<Props> = ({
           {t("withdraw.opensea")}{" "}
           <a
             className="underline hover:text-blue-500"
-            href="https://docs.sunflower-land.com/fundamentals/withdrawing"
+            href="https://docs.sunflower-land.com/getting-started/crypto-and-digital-collectibles"
             target="_blank"
             rel="noopener noreferrer"
           >

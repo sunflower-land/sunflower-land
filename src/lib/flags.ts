@@ -1,5 +1,4 @@
 import type { GameState } from "features/game/types/game";
-import { SEASONS } from "features/game/types/seasons";
 import { CONFIG } from "lib/config";
 
 export const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
@@ -43,6 +42,10 @@ const timeBasedFeatureFlag = (date: Date) => () => {
 
 const betaTimeBasedFeatureFlag = (date: Date) => (game: GameState) => {
   return defaultFeatureFlag(game) || Date.now() > date.getTime();
+};
+
+const adminTimeBasedFeatureFlag = (date: Date) => (game: GameState) => {
+  return adminFeatureFlag(game) || Date.now() > date.getTime();
 };
 
 const timePeriodFeatureFlag =
@@ -107,9 +110,7 @@ const FEATURE_FLAGS = {
 
   BLESSING: () => true,
 
-  CRAFTING: betaTimeBasedFeatureFlag(SEASONS["Better Together"].startDate),
-
-  PETS: defaultFeatureFlag,
+  PETS: testnetFeatureFlag,
   FLOWER_INSTA_GROW: defaultFeatureFlag,
   OBSIDIAN_SHRINE: defaultFeatureFlag,
 
@@ -118,6 +119,7 @@ const FEATURE_FLAGS = {
   OBSIDIAN_EXCHANGE: testnetFeatureFlag,
   GASLESS_AUCTIONS: () => true,
   NODE_FORGING: defaultFeatureFlag,
+  DEPOSIT_SFL: adminTimeBasedFeatureFlag(new Date("2025-08-28T00:00:00.000Z")),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

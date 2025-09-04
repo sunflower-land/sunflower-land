@@ -23,6 +23,8 @@ import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
 import { Box } from "components/ui/Box";
 import { Decimal } from "decimal.js-light";
 import { CropPlot, GameState } from "features/game/types/game";
+import { secondsToString } from "lib/utils/time";
+import { getCropPlotTime } from "features/game/events/landExpansion/plant";
 
 export const ObsidianShrine: React.FC<CollectibleProps> = ({
   createdAt,
@@ -175,6 +177,24 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
             />
           )}
         </CloseButtonPanel>
+
+        <div className="absolute -top-8 -mt-[2px] right-0 mr-[5.5px]">
+          <Label
+            type="info"
+            secondaryIcon={SUNNYSIDE.icons.stopwatch}
+            className="mt-2 mb-2"
+          >
+            <span className="text-xs">
+              {t("time.remaining", {
+                time: secondsToString((expiresAt - Date.now()) / 1000, {
+                  length: "medium",
+                  isShortFormat: true,
+                  removeTrailingZeros: true,
+                }),
+              })}
+            </span>
+          </Label>
+        </div>
       </Modal>
     </>
   );
@@ -274,6 +294,17 @@ const PlantAll: React.FC<{
     setSelectedSeed(seed);
   };
 
+  const getPlantSeconds = () => {
+    const yields = SEEDS[selectedSeed as SeedName].yield;
+
+    const { time } = getCropPlotTime({
+      crop: yields as CropName,
+      game: state,
+      createdAt: Date.now(),
+    });
+    return time;
+  };
+
   return (
     <InnerPanel>
       {Object.keys(availableSeeds).length > 0 ? (
@@ -296,6 +327,24 @@ const PlantAll: React.FC<{
                 />
               );
             })}
+            {selectedSeed && (
+              <div className="flex flex-wrap justify-between w-full px-2">
+                <Label
+                  type="default"
+                  icon={
+                    ITEM_DETAILS[SEEDS[selectedSeed].yield as CropName]?.image
+                  }
+                >
+                  {selectedSeed}
+                </Label>
+                <Label type="info" secondaryIcon={SUNNYSIDE.icons.stopwatch}>
+                  {secondsToString(getPlantSeconds(), {
+                    length: "medium",
+                    removeTrailingZeros: true,
+                  })}
+                </Label>
+              </div>
+            )}
             <Button
               onClick={plantAll}
               disabled={!selectedSeed || availablePlots.length === 0}

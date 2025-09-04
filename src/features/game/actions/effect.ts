@@ -16,6 +16,7 @@ type EffectName =
   | "faceRecognition.started"
   | "faceRecognition.completed"
   | "flower.depositStarted"
+  | "sfl.depositStarted"
   | "telegram.linked"
   | "telegram.joined"
   | "twitter.followed"
@@ -48,7 +49,7 @@ type EffectName =
   | "pet.wakeUp"
   | "auction.claimed";
 
-type VisitEffectName = "farm.helped";
+type VisitEffectName = "farm.helped" | "farm.cheered" | "farm.followed";
 
 // IMPORTANT: If your effect does not go via a state in the state machine then exclude it here!
 // Create a type that excludes the events that are not individual state machine states
@@ -78,6 +79,7 @@ export type StateMachineStateName =
   | "startingFaceRecognition"
   | "completingFaceRecognition"
   | "depositingFlower"
+  | "depositingSFL"
   | "linkingTelegram"
   | "joiningTelegram"
   | "followingTwitter"
@@ -102,9 +104,9 @@ export type StateMachineStateName =
   | "wakingPet";
 
 export type StateMachineVisitStateName =
-  | "cheeringVillageProject"
-  | "cleaningFarm"
-  | "helpingFarm";
+  | "helpingFarm"
+  | "cheeringFarmVisiting"
+  | "followingFarmVisiting";
 
 export type StateNameWithStatus =
   | `${StateMachineStateName}Success`
@@ -127,6 +129,7 @@ export const STATE_MACHINE_EFFECTS: Record<
   "faceRecognition.started": "startingFaceRecognition",
   "faceRecognition.completed": "completingFaceRecognition",
   "flower.depositStarted": "depositingFlower",
+  "sfl.depositStarted": "depositingSFL",
   "telegram.linked": "linkingTelegram",
   "telegram.joined": "joiningTelegram",
   "twitter.followed": "followingTwitter",
@@ -156,6 +159,8 @@ export const STATE_MACHINE_VISIT_EFFECTS: Record<
   StateMachineVisitStateName
 > = {
   "farm.helped": "helpingFarm",
+  "farm.cheered": "cheeringFarmVisiting",
+  "farm.followed": "followingFarmVisiting",
 };
 
 export interface Effect {

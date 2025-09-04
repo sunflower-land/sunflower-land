@@ -86,13 +86,7 @@ import { GameTransaction } from "./transactions";
 import { CompetitionName, CompetitionProgress } from "./competitions";
 import { AnimalType } from "./animals";
 import { ChoreBoard } from "./choreBoard";
-import {
-  DollName,
-  RecipeCollectibleName,
-  RecipeItemName,
-  Recipes,
-  RecipeWearableName,
-} from "../lib/crafting";
+import { DollName, RecipeCollectibleName, Recipes } from "../lib/crafting";
 import { SeasonalCollectibleName, SeasonalTierItemName } from "./megastore";
 import { TradeFood } from "../events/landExpansion/redeemTradeReward";
 import {
@@ -112,8 +106,9 @@ import { MonumentName } from "./monuments";
 import { AOEItemName } from "../expansion/placeable/lib/collisionDetection";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { ClutterName } from "./clutter";
-import { Pet, PetName, PetResource } from "./pets";
+import { PetName, PetResource, Pets } from "./pets";
 import { RockName } from "./resources";
+import { PetShopItemName } from "./petShop";
 
 export type Reward = {
   coins?: number;
@@ -579,7 +574,8 @@ export type InventoryItemName =
   | DollName
   | ClutterName
   | PetName
-  | PetResource;
+  | PetResource
+  | PetShopItemName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -830,7 +826,7 @@ export type Airdrop = {
   coordinates?: Coordinates;
   factionPoints?: number;
   vipDays?: number;
-  recipes?: RecipeItemName[];
+  recipes?: RecipeCollectibleName[];
 };
 
 // Mystery Prize reveals
@@ -1004,7 +1000,6 @@ export type Delivery = {
     total: number;
     claimedAt?: number;
   };
-  doubleDelivery?: string;
 };
 
 export type DailyRewards = {
@@ -1766,7 +1761,7 @@ export interface GameState {
         }
       | {
           collectible?: never;
-          wearable: RecipeWearableName;
+          wearable: BumpkinItem;
         };
     startedAt: number;
     readyAt: number;
@@ -1836,8 +1831,7 @@ export interface GameState {
 
   aoe: AOE;
   socialFarming: SocialFarming;
-
-  pets?: Partial<Record<PetName, Pet>>;
+  pets?: Pets;
 }
 
 export type AOE = Partial<
