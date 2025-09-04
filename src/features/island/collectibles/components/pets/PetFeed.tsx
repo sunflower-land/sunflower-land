@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { getPetRequestXP, Pet, PetName } from "features/game/types/pets";
+import {
+  getPetRequestXP,
+  isPetNeglected,
+  Pet,
+  PetName,
+} from "features/game/types/pets";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -63,9 +68,8 @@ export const PetFeed: React.FC<
   const todayDate = new Date(Date.now()).toISOString().split("T")[0];
   const lastFedAtDate = new Date(lastFedAt ?? 0).toISOString().split("T")[0];
   const isToday = lastFedAtDate === todayDate;
-  const petState = petData.state;
 
-  if (petState === "neglected") {
+  if (isPetNeglected(petData)) {
     return <NeglectPet handleNeglectPet={handleNeglectPet} petName={petName} />;
   }
 

@@ -6,6 +6,7 @@ import {
   PET_CATEGORIES,
   PetType,
   getExperienceToNextLevel,
+  isPetNeglected,
 } from "features/game/types/pets";
 import React, { useContext, useState, useMemo } from "react";
 import { FeedPetCard, isFoodAlreadyFed } from "./FeedPetCard";
@@ -76,7 +77,7 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
       }> = [];
       activePets.forEach(([petName, pet]) => {
         if (pet) {
-          if (pet.state === "neglected") {
+          if (isPetNeglected(pet)) {
             return;
           }
           pet.requests.food.forEach((food) => {
@@ -147,8 +148,8 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
       if (!petA || !petB) return 0;
 
       // Sort by neglected state first: neglected pets come first
-      if (petA.state === "neglected" && petB.state !== "neglected") return -1;
-      if (petA.state !== "neglected" && petB.state === "neglected") return 1;
+      if (isPetNeglected(petA) && !isPetNeglected(petB)) return -1;
+      if (!isPetNeglected(petA) && isPetNeglected(petB)) return 1;
 
       // Find the pet types for both pets
       const petTypeA = getObjectEntries(PET_CATEGORIES).find(([, category]) =>

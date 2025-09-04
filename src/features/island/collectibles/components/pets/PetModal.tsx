@@ -4,7 +4,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import { PetName } from "features/game/types/pets";
+import { isPetNeglected, PetName } from "features/game/types/pets";
 import { PetInfo } from "./PetInfo";
 import { PetFeed } from "./PetFeed";
 import { OuterPanel } from "components/ui/Panel";
@@ -27,11 +27,11 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
     gameService,
     (state) => state.context.state.pets?.common?.[petName],
   );
+  const isNeglected = isPetNeglected(petData);
 
   const [tab, setTab] = useState<"Info" | "Feed" | "Fetch">(
-    petData?.state === "neglected" ? "Feed" : "Info",
+    isNeglected ? "Feed" : "Info",
   );
-
   const inventory = useSelector(
     gameService,
     (state) => state.context.state.inventory,
@@ -89,7 +89,6 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
   if (!petData || !hasPetsAccess) {
     return null;
   }
-
   return (
     <Modal
       show={show}

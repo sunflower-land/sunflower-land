@@ -24,7 +24,6 @@ describe("neglectPet", () => {
                 requests: { food: [] },
                 energy: 100,
                 experience: 0,
-                state: "happy",
               },
             },
           },
@@ -34,7 +33,6 @@ describe("neglectPet", () => {
       }),
     ).toThrow("Pet is not in neglected state");
   });
-
   it("should remove xp if pet is in neglected state", () => {
     const state = neglectPet({
       state: {
@@ -43,8 +41,7 @@ describe("neglectPet", () => {
           common: {
             Barkley: {
               name: "Barkley",
-              requests: { food: [] },
-              state: "neglected",
+              requests: { food: [], fedAt: now - 4 * 24 * 60 * 60 * 1000 },
               energy: 1000,
               experience: 1000,
             },
@@ -57,7 +54,6 @@ describe("neglectPet", () => {
 
     expect(state.pets?.common?.Barkley?.experience).toBe(500);
     expect(state.pets?.common?.Barkley?.energy).toBe(1000);
-    expect(state.pets?.common?.Barkley?.state).toBe("happy");
     expect(state.pets?.common?.Barkley?.requests.fedAt).toBe(now);
   });
 });

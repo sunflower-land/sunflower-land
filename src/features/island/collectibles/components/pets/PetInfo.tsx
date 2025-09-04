@@ -4,6 +4,7 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import {
   getExperienceToNextLevel,
+  isPetNeglected,
   Pet,
   PET_CATEGORIES,
   PetName,
@@ -24,7 +25,8 @@ export const PetInfo: React.FC<Props> = ({ petName, petData }) => {
   const { level, percentage, currentProgress, experienceBetweenLevels } =
     getExperienceToNextLevel(petData.experience);
 
-  const petImage = PET_STATE_IMAGES[petName][petData.state];
+  const isNeglected = isPetNeglected(petData);
+  const petImage = PET_STATE_IMAGES[petName][isNeglected ? "asleep" : "happy"];
 
   // Find pet type and categories
   const petTypeEntry = getObjectEntries(PET_CATEGORIES).find(

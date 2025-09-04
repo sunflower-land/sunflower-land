@@ -1,6 +1,10 @@
 import { CookableName } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
-import { getPetRequestXP, PetName } from "features/game/types/pets";
+import {
+  getPetRequestXP,
+  isPetNeglected,
+  PetName,
+} from "features/game/types/pets";
 import { produce } from "immer";
 
 export type FeedPetAction = {
@@ -25,7 +29,7 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("Pet not found");
     }
 
-    if (petData.state === "neglected") {
+    if (isPetNeglected(petData, createdAt)) {
       throw new Error("Pet is in neglected state");
     }
 

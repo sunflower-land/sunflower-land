@@ -1,5 +1,5 @@
 import { GameState } from "features/game/types/game";
-import { PetName } from "features/game/types/pets";
+import { isPetNeglected, PetName } from "features/game/types/pets";
 import { produce } from "immer";
 
 export type NeglectPetAction = {
@@ -20,11 +20,12 @@ export function neglectPet({ state, action, createdAt }: Options) {
     if (!petData) {
       throw new Error("Pet not found");
     }
-    if (petData.state !== "neglected") {
+    const isNeglected = isPetNeglected(petData, createdAt);
+
+    if (!isNeglected) {
       throw new Error("Pet is not in neglected state");
     }
     petData.experience = Math.max(0, petData.experience - 500);
-    petData.state = "happy";
     petData.requests.fedAt = createdAt;
 
     return stateCopy;

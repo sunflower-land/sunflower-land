@@ -4,7 +4,12 @@ import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
 import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { Pet, PetName, getPetRequestXP } from "features/game/types/pets";
+import {
+  Pet,
+  PetName,
+  getPetRequestXP,
+  isPetNeglected,
+} from "features/game/types/pets";
 import { shortenCount } from "lib/utils/formatNumber";
 import React, { useContext, useState, useMemo } from "react";
 import { PetInfo } from "./PetInfo";
@@ -237,7 +242,7 @@ export const FeedPetCardContent: React.FC<{
 }) => {
   const { t } = useAppTranslation();
 
-  if (pet.state === "neglected") {
+  if (isPetNeglected(pet)) {
     return (
       <div className="flex flex-col gap-1 w-3/4 sm:w-auto">
         <Label type={"danger"}>{t("pets.neglectPet")}</Label>

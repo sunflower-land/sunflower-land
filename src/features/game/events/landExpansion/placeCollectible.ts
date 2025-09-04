@@ -75,7 +75,6 @@ export function placeCollectible({
           requests: {
             food: [], // Pet Requests are populated on the server
           },
-          state: "happy",
         };
       }
     }

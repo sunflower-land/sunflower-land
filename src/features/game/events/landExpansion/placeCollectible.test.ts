@@ -272,7 +272,6 @@ describe("Place Collectible", () => {
         requests: {
           food: [],
         },
-        state: "happy",
       },
     });
   });
@@ -296,7 +295,6 @@ describe("Place Collectible", () => {
               requests: {
                 food: ["Pumpkin Cake", "Pumpkin Soup", "Antipasto"],
               },
-              state: "happy",
             },
           },
         },
@@ -322,7 +320,6 @@ describe("Place Collectible", () => {
         requests: {
           food: ["Pumpkin Cake", "Pumpkin Soup", "Antipasto"],
         },
-        state: "happy",
       },
       Meowchi: {
         name: "Meowchi",
@@ -331,7 +328,6 @@ describe("Place Collectible", () => {
         requests: {
           food: [],
         },
-        state: "happy",
       },
     });
   });

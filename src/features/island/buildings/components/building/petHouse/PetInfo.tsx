@@ -5,6 +5,7 @@ import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { Bar } from "components/ui/ProgressBar";
 import {
   getExperienceToNextLevel,
+  isPetNeglected,
   Pet,
   PetName,
 } from "features/game/types/pets";
@@ -23,7 +24,9 @@ export const PetInfo: React.FC<Props> = ({ children, petName, pet }) => {
   const { level, percentage, currentProgress, experienceBetweenLevels } =
     getExperienceToNextLevel(pet.experience);
 
-  const petImage = PET_STATE_IMAGES[petName][pet.state];
+  const isNeglected = isPetNeglected(pet);
+
+  const petImage = PET_STATE_IMAGES[petName][isNeglected ? "asleep" : "happy"];
 
   return (
     <OuterPanel className="flex flex-row sm:flex-col p-3 gap-2 relative overflow-hidden">

@@ -62,8 +62,6 @@ export type PetCategoryName =
   | "Snowkin"
   | "Forager";
 
-export type PetState = "happy" | "asleep" | "neglected";
-
 export type Pet = {
   name: PetName;
   requests: {
@@ -76,7 +74,6 @@ export type Pet = {
   };
   energy: number;
   experience: number;
-  state: PetState;
 };
 
 export type Pets = {
@@ -620,4 +617,22 @@ export function getExperienceToNextLevel(currentTotalExperience: number) {
     percentage,
     experienceBetweenLevels,
   };
+}
+
+export const PET_NEGLECT_DAYS = 3;
+
+export function isPetNeglected(
+  pet: Pet | undefined,
+  createdAt: number = Date.now(),
+) {
+  if (!pet) {
+    return false;
+  }
+  const lastFedAt = pet.requests.fedAt ?? createdAt; // Default to createdAt otherwise the pet will be neglected if it hasn't been fed before
+  const lastFedAtDate = new Date(lastFedAt).toISOString().split("T")[0];
+  const todayDate = new Date(createdAt).toISOString().split("T")[0];
+  const daysSinceLastFedMs =
+    new Date(todayDate).getTime() - new Date(lastFedAtDate).getTime();
+  const daysSinceLastFedDays = daysSinceLastFedMs / (1000 * 60 * 60 * 24);
+  return daysSinceLastFedDays > PET_NEGLECT_DAYS;
 }
