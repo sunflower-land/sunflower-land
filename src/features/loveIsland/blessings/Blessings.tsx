@@ -274,8 +274,6 @@ export const BlessingResults: React.FC<Props> = ({ onClose }) => {
   const leaderboard = response.data.leaderboard ?? [];
 
   const bids = Object.values(response.data.winners ?? {});
-  const minBid = Math.min(...bids) ?? 0;
-  const maxBid = Math.max(...bids) ?? 0;
 
   return (
     <div className="max-h-[500px] overflow-y-auto scrollable">
@@ -292,10 +290,12 @@ export const BlessingResults: React.FC<Props> = ({ onClose }) => {
           })}
         </span>
       </div>
-      <div className="flex m-1 items-center">
-        <img src={icon} className="w-6 mr-1" />
-        <span>{`Required: ${minBid + 1} (min)`}</span>
-      </div>
+      {response.data.minimum && (
+        <div className="flex m-1 items-center">
+          <img src={icon} className="w-6 mr-1" />
+          <span>{`Minimum tribute: ${response.data.minimum + 1}`}</span>
+        </div>
+      )}
 
       <Label type="default" className="my-2">
         {t("blessing.winners", {
