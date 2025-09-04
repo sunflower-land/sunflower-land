@@ -146,6 +146,10 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
     return [...activePets].sort(([, petA], [, petB]) => {
       if (!petA || !petB) return 0;
 
+      // Sort by neglected state first: neglected pets come first
+      if (petA.state === "neglected" && petB.state !== "neglected") return -1;
+      if (petA.state !== "neglected" && petB.state === "neglected") return 1;
+
       // Find the pet types for both pets
       const petTypeA = getObjectEntries(PET_CATEGORIES).find(([, category]) =>
         category.pets.includes(petA.name as PetName),
