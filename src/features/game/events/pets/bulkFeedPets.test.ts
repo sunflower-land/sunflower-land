@@ -18,6 +18,7 @@ describe("bulkFeedPets", () => {
                 },
                 energy: 0,
                 experience: 0,
+                state: "happy",
               },
               Meowchi: {
                 name: "Meowchi",
@@ -26,6 +27,7 @@ describe("bulkFeedPets", () => {
                 },
                 energy: 0,
                 experience: 0,
+                state: "happy",
               },
             },
           },
@@ -57,6 +59,7 @@ describe("bulkFeedPets", () => {
             },
             energy: 0,
             experience: 0,
+            state: "happy",
           },
           Meowchi: {
             name: "Meowchi",
@@ -65,6 +68,7 @@ describe("bulkFeedPets", () => {
             },
             energy: 0,
             experience: 0,
+            state: "happy",
           },
         },
       },

@@ -74,6 +74,7 @@ export type Pet = {
   };
   energy: number;
   experience: number;
+  state: "happy" | "asleep" | "neglected";
 };
 
 export type Pets = {
