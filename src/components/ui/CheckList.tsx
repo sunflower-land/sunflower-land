@@ -319,7 +319,8 @@ const LoveIslandBox: React.FC<{ bumpkinLevel: number }> = ({
     return () => clearInterval(interval);
   }, [nextScheduleTime]);
 
-  const labelText = `${
+  const labelText = `${hasClaimed ? "" : "0/1"} ${t("completed")}`;
+  const flightTimeText = `${
     isOpen
       ? t("checkList.loveIsland.flyNow")
       : translate("checkList.nextScheduleTime", {
@@ -327,7 +328,7 @@ const LoveIslandBox: React.FC<{ bumpkinLevel: number }> = ({
             length: "short",
           }),
         })
-  }${hasClaimed ? t("checkList.loveIsland.completed") : ""}`;
+  }`;
 
   return (
     <RowContent
@@ -337,6 +338,16 @@ const LoveIslandBox: React.FC<{ bumpkinLevel: number }> = ({
       labelType={hasClaimed ? "success" : "warning"}
       showConfirmIcon={hasClaimed}
       labelText={labelText}
+      extraInfo={
+        <div className={isOpen ? "" : "mr-1"}>
+          <Label
+            type={isOpen ? "success" : "info"}
+            secondaryIcon={isOpen ? undefined : SUNNYSIDE.icons.stopwatch}
+          >
+            <p className="text-xxs sm:text-xs">{flightTimeText}</p>
+          </Label>
+        </div>
+      }
       overlayContent={
         <div className="p-0.5">
           <div className="flex justify-between pb-1">
@@ -410,6 +421,14 @@ const BudBoxContent: React.FC<{ bumpkinLevel: number }> = ({
   const { hasBud, now, todayBud, playerBudTypes, hasOpened } =
     budBoxStatus(state);
 
+  const labelText = !hasBud
+    ? t("checkList.budBox.missingBudLabel")
+    : hasOpened
+      ? t("completed")
+      : playerBudTypes.includes(todayBud)
+        ? `0/1 ${t("completed")}`
+        : undefined;
+
   return (
     <RowContent
       isLocked={bumpkinLevel < 2 || !hasBud}
@@ -426,12 +445,15 @@ const BudBoxContent: React.FC<{ bumpkinLevel: number }> = ({
         !hasBud ? t("checkList.budBox.missingBudMessage") : undefined
       }
       showConfirmIcon={hasOpened}
-      labelText={
-        hasOpened
-          ? t("completed")
-          : !hasBud
-            ? t("checkList.budBox.missingBudLabel")
-            : t("checkList.budBox.todayBudType", { budType: todayBud })
+      labelText={labelText}
+      extraInfo={
+        <div>
+          <Label type="default">
+            <p className="text-xxs sm:text-xs">
+              {t("checkList.budBox.todayBudType", { budType: todayBud })}
+            </p>
+          </Label>
+        </div>
       }
       overlayContent={
         <div className="overflow-y-auto max-h-[300px] scrollable p-2 space-y-1 -ml-1">
@@ -750,7 +772,8 @@ const RowContent: React.FC<{
   labelType: LabelType;
   requiredItemMessage?: string;
   showConfirmIcon: boolean;
-  labelText: string;
+  labelText?: string;
+  extraInfo?: JSX.Element;
   overlayContent?: JSX.Element;
 }> = ({
   isLocked,
@@ -760,6 +783,7 @@ const RowContent: React.FC<{
   requiredItemMessage,
   showConfirmIcon,
   labelText,
+  extraInfo,
   overlayContent,
 }) => {
   const [showOverlay, setShowOverlay] = useState(false);
@@ -780,16 +804,21 @@ const RowContent: React.FC<{
           className={`flex justify-between flex-wrap items-center ${requiredItemMessage ? "py-0.5" : "py-2"}`}
         >
           <div className="flex items-center">
-            <img src={titleIcon} className="w-5 sm:w-6 mr-2" />
-            <p className="text-xs sm:text-sm">{title}</p>
+            <img src={titleIcon} className="w-7 mr-2" />
+            <p className="text-xs sm:text-sm w-14 sm:w-fit">{title}</p>
           </div>
-          <Label
-            type={requiredItemMessage ? "danger" : labelType}
-            secondaryIcon={secondaryIcon}
-            className={`${(showConfirmIcon || requiredItemMessage) && "mr-1"}`}
-          >
-            {labelText}
-          </Label>
+          <div className="flex flex-col items-end gap-1">
+            {labelText && (
+              <Label
+                type={requiredItemMessage ? "danger" : labelType}
+                secondaryIcon={secondaryIcon}
+                className={`${(showConfirmIcon || requiredItemMessage) && "mr-1"}`}
+              >
+                <p className="text-xxs sm:text-xs">{labelText}</p>
+              </Label>
+            )}
+            {!requiredItemMessage && extraInfo}
+          </div>
         </div>
         {requiredItemMessage && (
           <p className="text-xxs my-1 ml-1">{requiredItemMessage}</p>
