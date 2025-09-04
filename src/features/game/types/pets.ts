@@ -62,6 +62,8 @@ export type PetCategoryName =
   | "Snowkin"
   | "Forager";
 
+export type PetState = "happy" | "asleep" | "neglected";
+
 export type Pet = {
   name: PetName;
   requests: {
@@ -74,7 +76,7 @@ export type Pet = {
   };
   energy: number;
   experience: number;
-  state: "happy" | "asleep" | "neglected";
+  state: PetState;
 };
 
 export type Pets = {

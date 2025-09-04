@@ -23,12 +23,15 @@ interface Props {
 export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [tab, setTab] = useState<"Info" | "Feed" | "Fetch">("Info");
-
   const petData = useSelector(
     gameService,
     (state) => state.context.state.pets?.common?.[petName],
   );
+
+  const [tab, setTab] = useState<"Info" | "Feed" | "Fetch">(
+    petData?.state === "neglected" ? "Feed" : "Info",
+  );
+
   const inventory = useSelector(
     gameService,
     (state) => state.context.state.inventory,
