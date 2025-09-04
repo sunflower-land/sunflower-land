@@ -76,6 +76,9 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
       }> = [];
       activePets.forEach(([petName, pet]) => {
         if (pet) {
+          if (pet.state === "neglected") {
+            return;
+          }
           pet.requests.food.forEach((food) => {
             const isAlreadyFed = isFoodAlreadyFed(pet, food);
             if (!isAlreadyFed) {
