@@ -78,10 +78,7 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
       }> = [];
       activePets.forEach(([petName, pet]) => {
         if (pet) {
-          if (isPetNeglected(pet)) {
-            return;
-          }
-          if (isPetNapping(pet)) {
+          if (isPetNeglected(pet) || isPetNapping(pet)) {
             return;
           }
           pet.requests.food.forEach((food) => {
