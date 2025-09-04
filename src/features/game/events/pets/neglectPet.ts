@@ -23,7 +23,7 @@ export function neglectPet({ state, action, createdAt }: Options) {
     if (petData.state !== "neglected") {
       throw new Error("Pet is not in neglected state");
     }
-    petData.experience -= 500;
+    petData.experience = Math.max(0, petData.experience - 500);
     petData.state = "happy";
     petData.requests.fedAt = createdAt;
 
