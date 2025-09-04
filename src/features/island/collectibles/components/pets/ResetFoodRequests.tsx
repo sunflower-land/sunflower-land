@@ -2,6 +2,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
+import { Loading } from "features/auth/components/Loading";
 import { Inventory } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PetName, Pet } from "features/game/types/pets";
@@ -25,6 +26,8 @@ export const ResetFoodRequests: React.FC<{
   isRevealing: boolean;
   onAcknowledged: () => void;
   setIsRevealing: (isRevealing: boolean) => void;
+  isPicking: boolean;
+  isRevealingState: boolean;
 }> = ({
   petName,
   petData,
@@ -36,12 +39,22 @@ export const ResetFoodRequests: React.FC<{
   isRevealing,
   onAcknowledged,
   setIsRevealing,
+  isPicking,
+  isRevealingState,
 }) => {
   const { t } = useAppTranslation();
   const [showResetRequestsConfirmation, setShowResetRequestsConfirmation] =
     useState(false);
   const resetGemCost = getGemCost(petData.requests.resets?.[todayDate] ?? 0);
   const hasEnoughGem = inventory.Gem?.gte(resetGemCost);
+
+  if (isPicking || (isRevealingState && isRevealing)) {
+    return (
+      <InnerPanel>
+        <Loading text={t("pets.loadingFoodRequests")} />
+      </InnerPanel>
+    );
+  }
 
   if (isRevealedState && isRevealing) {
     return (

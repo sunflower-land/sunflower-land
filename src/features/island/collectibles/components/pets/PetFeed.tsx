@@ -62,11 +62,7 @@ export const PetFeed: React.FC<
   const isToday = lastFedAtDate === todayDate;
   const petState = petData.state;
 
-  if (
-    petData.requests.food.length === 0 ||
-    isPicking ||
-    (isRevealingState && isRevealing)
-  ) {
+  if (petData.requests.food.length === 0) {
     return (
       <InnerPanel>
         <Loading text={t("pets.loadingFoodRequests")} />
@@ -87,6 +83,8 @@ export const PetFeed: React.FC<
         isRevealing={isRevealing}
         onAcknowledged={onAcknowledged}
         setIsRevealing={setIsRevealing}
+        isPicking={isPicking}
+        isRevealingState={isRevealingState}
       />
     );
   }
