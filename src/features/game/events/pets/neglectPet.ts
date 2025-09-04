@@ -25,6 +25,8 @@ export function neglectPet({ state, action, createdAt }: Options) {
     }
     petData.experience -= 500;
     petData.state = "happy";
+    petData.requests.fedAt = createdAt;
+
     return stateCopy;
   });
 }

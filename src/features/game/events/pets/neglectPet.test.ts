@@ -34,6 +34,7 @@ describe("neglectPet", () => {
       }),
     ).toThrow("Pet is not in neglected state");
   });
+
   it("should remove xp if pet is in neglected state", () => {
     const state = neglectPet({
       state: {
@@ -57,5 +58,6 @@ describe("neglectPet", () => {
     expect(state.pets?.common?.Barkley?.experience).toBe(500);
     expect(state.pets?.common?.Barkley?.energy).toBe(1000);
     expect(state.pets?.common?.Barkley?.state).toBe("happy");
+    expect(state.pets?.common?.Barkley?.requests.fedAt).toBe(now);
   });
 });
