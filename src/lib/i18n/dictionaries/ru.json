@@ -6555,5 +6555,8 @@
   "pets.requestsResetDescription": "Запросы {{pet}} успешно обнулены",
   "pets.requestsResetedAt": "Запросы {{pet}} будут обнулены в 12:00 UTC",
   "pets.requestsResetedAtDescription": "Вы можете получать новые заявки на {{pet}} раньше, заплатив драгоценные камни",
-  "pets.resetRequests": "Запросы на сброс"
+  "pets.resetRequests": "Запросы на сброс",
+  "pets.neglectPet": "Домашнее животное, оста",
+  "pets.neglectPetDescription": "{{pet}} было проигнорировано. Пожалуйста, поднимите ему настроение, чтобы вернуть его к жизни.",
+  "pets.cheerPet": "Поднимите настроение {{pet}}"
 }

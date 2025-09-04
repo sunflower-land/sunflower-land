@@ -6555,5 +6555,8 @@
   "pets.requestsResetDescription": "{{pet}} permintaan telah berhasil diatur ulang",
   "pets.requestsResetedAt": "{{pet}} permintaan akan diatur ulang pada 12:00 AM UTC",
   "pets.requestsResetedAtDescription": "Anda bisa mendapatkan permintaan baru untuk {{pet}} lebih awal dengan membayar Permata",
-  "pets.resetRequests": "Atur Ulang Permintaan"
+  "pets.resetRequests": "Atur Ulang Permintaan",
+  "pets.neglectPet": "Hewan Peliharaan Diabaikan",
+  "pets.neglectPetDescription": "{{pet}} telah diabaikan. Tolong hiburkan untuk menghidupkannya kembali.",
+  "pets.cheerPet": "Bersorak {{pet}}"
 }

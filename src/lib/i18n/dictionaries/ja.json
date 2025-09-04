@@ -6555,5 +6555,8 @@
   "pets.requestsResetDescription": "{{pet}} リクエストは正常にリセットされました",
   "pets.requestsResetedAt": "{{pet}} リクエストはUTCの午前 12:00 にリセットされます",
   "pets.requestsResetedAtDescription": "ジェムを払うことで、{{pet}} の新規リクエストを早期に受け取ることができます",
-  "pets.resetRequests": "リセットリクエスト"
+  "pets.resetRequests": "リセットリクエスト",
+  "pets.neglectPet": "ペットネグレクト",
+  "pets.neglectPetDescription": "{{pet}} は無視されました。元気を出して生き返らせてください。",
+  "pets.cheerPet": "応援して {{pet}} アップ"
 }

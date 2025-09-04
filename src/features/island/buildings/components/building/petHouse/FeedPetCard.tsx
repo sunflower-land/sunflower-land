@@ -1,16 +1,23 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import { InnerPanel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { Pet, PetName, getPetRequestXP } from "features/game/types/pets";
+import {
+  Pet,
+  PetName,
+  getPetRequestXP,
+  isPetNeglected,
+} from "features/game/types/pets";
 import { shortenCount } from "lib/utils/formatNumber";
 import React, { useContext, useState, useMemo } from "react";
 import { PetInfo } from "./PetInfo";
 import { Inventory } from "features/game/types/game";
 import Decimal from "decimal.js-light";
+import { InnerPanel } from "components/ui/Panel";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import xpIcon from "assets/icons/xp.png";
 
 interface Props {
   petName: PetName;
@@ -90,6 +97,10 @@ export const FeedPetCard: React.FC<Props> = ({
         food,
       });
     }
+  };
+
+  const handleNeglectPet = (petName: PetName) => {
+    gameService.send("pet.neglected", { pet: petName });
   };
 
   const handleFoodHover = (food: CookableName, event: React.MouseEvent) => {
@@ -184,7 +195,71 @@ export const FeedPetCard: React.FC<Props> = ({
 
   return (
     <PetInfo petName={petName} pet={pet}>
-      <div className="flex flex-col gap-4">
+      <FeedPetCardContent
+        pet={pet}
+        foodItems={foodItems}
+        handleFoodHover={handleFoodHover}
+        setHoveredFood={setHoveredFood}
+        handleRemoveFromSelection={handleRemoveFromSelection}
+        handleFeedPet={handleFeedPet}
+        hoveredFood={hoveredFood}
+        handleNeglectPet={handleNeglectPet}
+        tooltipPosition={tooltipPosition}
+      />
+    </PetInfo>
+  );
+};
+
+export const FeedPetCardContent: React.FC<{
+  pet: Pet;
+  foodItems: {
+    food: CookableName;
+    foodImage: string;
+    canFeed: boolean;
+    foodCount: Decimal;
+    alreadyFed: boolean;
+    isSelected: boolean;
+    isDisabled: boolean;
+    foodXP: number;
+  }[];
+  handleFoodHover: (food: CookableName, event: React.MouseEvent) => void;
+  setHoveredFood: (food: CookableName | null) => void;
+  handleRemoveFromSelection: (food: CookableName) => void;
+  handleFeedPet: (food: CookableName) => void;
+  hoveredFood: CookableName | null;
+  handleNeglectPet: (petName: PetName) => void;
+  tooltipPosition: { x: number; y: number };
+}> = ({
+  pet,
+  foodItems,
+  handleFoodHover,
+  setHoveredFood,
+  handleRemoveFromSelection,
+  handleFeedPet,
+  hoveredFood,
+  handleNeglectPet,
+  tooltipPosition,
+}) => {
+  const { t } = useAppTranslation();
+
+  if (isPetNeglected(pet)) {
+    return (
+      <div className="flex flex-col gap-1 w-3/4 sm:w-auto">
+        <Label type={"danger"}>{t("pets.neglectPet")}</Label>
+        <p className="text-xs p-1">
+          {t("pets.neglectPetDescription", { pet: pet.name })}
+        </p>
+        <Label type="danger" secondaryIcon={xpIcon}>{`-500`}</Label>
+        <Button onClick={() => handleNeglectPet(pet.name)}>
+          {t("pets.cheerPet", { pet: pet.name })}
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <div className="flex flex-col gap-4 w-3/4 sm:w-auto">
         <Label type={"default"}>{`Food Requests`}</Label>
         <div className="flex space-x-2 ml-2">
           {pet.requests.food.length === 0 && <p>{`No food requests`}</p>}
@@ -271,6 +346,6 @@ export const FeedPetCard: React.FC<Props> = ({
           </InnerPanel>
         </div>
       )}
-    </PetInfo>
+    </>
   );
 };

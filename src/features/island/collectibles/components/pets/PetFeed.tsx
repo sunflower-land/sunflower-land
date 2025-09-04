@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { getPetRequestXP, Pet, PetName } from "features/game/types/pets";
+import {
+  getPetRequestXP,
+  isPetNeglected,
+  Pet,
+  PetName,
+} from "features/game/types/pets";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -12,12 +17,8 @@ import { InnerPanel } from "components/ui/Panel";
 import xpIcon from "assets/icons/xp.png";
 import { Loading } from "features/auth/components/Loading";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-
-function getGemCost(resets: number) {
-  const baseCost = 40;
-  const nextPrice = baseCost * Math.pow(1.5, resets);
-  return Math.round(nextPrice);
-}
+import { ResetFoodRequests } from "./ResetFoodRequests";
+import { NeglectPet } from "./NeglectPet";
 
 interface Props {
   petName: PetName;
@@ -29,6 +30,7 @@ export const PetFeed: React.FC<
   Props & {
     handleFeed: (food: CookableName) => void;
     handleResetRequests: (petName: PetName) => void;
+    handleNeglectPet: (petName: PetName) => void;
     isRevealingState: boolean;
     isRevealedState: boolean;
     onAcknowledged: () => void;
@@ -39,6 +41,7 @@ export const PetFeed: React.FC<
   handleFeed,
   inventory,
   handleResetRequests,
+  handleNeglectPet,
   isRevealingState,
   isRevealedState,
   onAcknowledged,
@@ -48,11 +51,12 @@ export const PetFeed: React.FC<
     petData.requests.food[0] ?? null,
   );
   const [showConfirm, setShowConfirm] = useState(false);
+
+  // States for reset Requests
   const [showResetRequests, setShowResetRequests] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
   const [isPicking, setIsPicking] = useState(false);
   const resetRequests = async () => {
-    setShowResetRequests(false);
     setIsPicking(true);
     await new Promise((resolve) => setTimeout(resolve, 5000));
     handleResetRequests(petName);
@@ -65,33 +69,14 @@ export const PetFeed: React.FC<
   const lastFedAtDate = new Date(lastFedAt ?? 0).toISOString().split("T")[0];
   const isToday = lastFedAtDate === todayDate;
 
-  if (
-    petData.requests.food.length === 0 ||
-    isPicking ||
-    (isRevealingState && isRevealing)
-  ) {
+  if (isPetNeglected(petData)) {
+    return <NeglectPet handleNeglectPet={handleNeglectPet} petName={petName} />;
+  }
+
+  if (petData.requests.food.length === 0) {
     return (
       <InnerPanel>
         <Loading text={t("pets.loadingFoodRequests")} />
-      </InnerPanel>
-    );
-  }
-
-  if (isRevealedState && isRevealing) {
-    return (
-      <InnerPanel>
-        <Label type="warning">{t("pets.requestsReset")}</Label>
-        <p className="text-sm p-1">
-          {t("pets.requestsResetDescription", { pet: petName })}
-        </p>
-        <Button
-          onClick={() => {
-            onAcknowledged();
-            setIsRevealing(false);
-          }}
-        >
-          {t("continue")}
-        </Button>
       </InnerPanel>
     );
   }
@@ -105,6 +90,12 @@ export const PetFeed: React.FC<
         todayDate={todayDate}
         resetRequests={resetRequests}
         setShowResetRequests={setShowResetRequests}
+        isRevealedState={isRevealedState}
+        isRevealing={isRevealing}
+        onAcknowledged={onAcknowledged}
+        setIsRevealing={setIsRevealing}
+        isPicking={isPicking}
+        isRevealingState={isRevealingState}
       />
     );
   }
@@ -310,74 +301,5 @@ const PetFeedContent: React.FC<
         })}
       </div>
     </div>
-  );
-};
-
-const ResetFoodRequests: React.FC<{
-  petName: PetName;
-  petData: Pet;
-  inventory: Inventory;
-  todayDate: string;
-  resetRequests: () => Promise<void>;
-  setShowResetRequests: (showResetRequests: boolean) => void;
-}> = ({
-  petName,
-  petData,
-  inventory,
-  todayDate,
-  resetRequests,
-  setShowResetRequests,
-}) => {
-  const { t } = useAppTranslation();
-  const [showResetRequestsConfirmation, setShowResetRequestsConfirmation] =
-    useState(false);
-  const resetGemCost = getGemCost(petData.requests.resets?.[todayDate] ?? 0);
-  const hasEnoughGem = inventory.Gem?.gte(resetGemCost);
-  return (
-    <InnerPanel className="flex flex-col gap-2">
-      <div className="flex flex-row gap-2 items-center justify-between">
-        <div className="flex flex-row gap-2">
-          <img
-            src={SUNNYSIDE.icons.arrow_left}
-            className="h-6 cursor-pointer"
-            onClick={() => setShowResetRequests(false)}
-          />
-          <Label type="default">
-            {t("pets.getNewRequests", { pet: petName })}
-          </Label>
-        </div>
-        <Label type="info" secondaryIcon={ITEM_DETAILS.Gem.image}>
-          {`${resetGemCost} ${t("gems")}`}
-        </Label>
-      </div>
-      <p className="text-xs px-1">
-        {t("pets.requestsResetedAt", { pet: petName })}
-      </p>
-      <p className="text-xs px-1">
-        {t("pets.requestsResetedAtDescription", { pet: petName })}
-      </p>
-      <div className="flex flex-row gap-2 items-center justify-between">
-        <Button
-          onClick={() => {
-            if (showResetRequestsConfirmation) {
-              resetRequests();
-              setShowResetRequestsConfirmation(false);
-            } else {
-              setShowResetRequestsConfirmation(true);
-            }
-          }}
-          disabled={!hasEnoughGem}
-        >
-          {showResetRequestsConfirmation
-            ? t("confirm")
-            : t("pets.resetRequests")}
-        </Button>
-        {showResetRequestsConfirmation && (
-          <Button onClick={() => setShowResetRequestsConfirmation(false)}>
-            {t("cancel")}
-          </Button>
-        )}
-      </div>
-    </InnerPanel>
   );
 };

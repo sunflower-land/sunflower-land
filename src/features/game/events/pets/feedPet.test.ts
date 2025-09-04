@@ -18,6 +18,30 @@ describe("feedPet", () => {
     ).toThrow("Pet not found");
   });
 
+  it("throws an error if pet is in neglected state", () => {
+    expect(() =>
+      feedPet({
+        state: {
+          ...INITIAL_FARM,
+          pets: {
+            common: {
+              Barkley: {
+                name: "Barkley",
+                requests: {
+                  food: [],
+                  fedAt: now - 4 * 24 * 60 * 60 * 1000,
+                },
+                energy: 100,
+                experience: 0,
+              },
+            },
+          },
+        },
+        action: { type: "pet.fed", pet: "Barkley", food: "Bumpkin Salad" },
+      }),
+    ).toThrow("Pet is in neglected state");
+  });
+
   it("throws an error if there are no requests", () => {
     expect(() =>
       feedPet({
@@ -146,7 +170,6 @@ describe("feedPet", () => {
                 requests: {
                   food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
                   foodFed: [],
-                  fedAt: 0,
                 },
                 energy: 100,
                 experience: 0,
@@ -178,7 +201,6 @@ describe("feedPet", () => {
               requests: {
                 food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
                 foodFed: [],
-                fedAt: 0,
               },
               energy: 0,
               experience: 100,

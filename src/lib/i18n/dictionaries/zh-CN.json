@@ -6553,7 +6553,10 @@
   "pets.requestsReset": "请求重置",
   "pets.getNewRequests": "为 {{pet}} 获取新请求",
   "pets.requestsResetDescription": "{{pet}} 的请求已成功重置",
-  "pets.requestsResetedAt": "{{pet}} 的请求将在世界标准时间凌晨 12 点重置",
-  "pets.requestsResetedAtDescription": "你可以通过支付钻石提前获取 {{pet}} 的新请求",
-  "pets.resetRequests": "重置请求"
+  "pets.requestsResetedAt": "{{pet}} 请求将在世界标准时间上午 12:00 重置",
+  "pets.requestsResetedAtDescription": "{{pet}} 的请求将在世界标准时间凌晨 12 点重置",
+  "pets.resetRequests": "重置请求",
+  "pets.neglectPet": "被忽视的宠物",
+  "pets.neglectPetDescription": "{{pet}} 已被忽视。请振作起来，让它重获新生。",
+  "pets.cheerPet": "加油 {{pet}}"
 }

@@ -6555,5 +6555,8 @@
   "pets.requestsResetDescription": "Les demandes {{pet}} ont été réinitialisées avec succès",
   "pets.requestsResetedAt": "Les demandes {{pet}} seront réinitialisées à minuit UTC",
   "pets.requestsResetedAtDescription": "Vous pouvez recevoir de nouvelles demandes pour {{pet}} plus tôt en payant des gemmes",
-  "pets.resetRequests": "Demandes de réinitialisation"
+  "pets.resetRequests": "Demandes de réinitialisation",
+  "pets.neglectPet": "Animal négligé",
+  "pets.neglectPetDescription": "{{pet}} a été négligé. S'il vous plaît, remontez le moral pour lui redonner vie.",
+  "pets.cheerPet": "Réjouissez-vous {{pet}}"
 }

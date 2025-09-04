@@ -6555,5 +6555,8 @@
   "pets.requestsResetDescription": "{{pet}} istekleri başarıyla sıfırlandı",
   "pets.requestsResetedAt": "{{pet}} istekleri saat 12:00 UTC'de sıfırlanacaktır",
   "pets.requestsResetedAtDescription": "Mücevherler ödeyerek {{pet}} için yeni talepleri erken alabilirsiniz",
-  "pets.resetRequests": "İstekleri Sıfırla"
+  "pets.resetRequests": "İstekleri Sıfırla",
+  "pets.neglectPet": "Hayvan İhmal Edildi",
+  "pets.neglectPetDescription": "{{pet}} ihmal edildi. Lütfen onu hayata döndürmek için neşelendirin.",
+  "pets.cheerPet": "Neşelendirin {{pet}}"
 }

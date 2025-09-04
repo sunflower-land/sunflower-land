@@ -6555,5 +6555,8 @@
   "pets.requestsResetDescription": "{{pet}} -Anfragen wurden erfolgreich zurückgesetzt",
   "pets.requestsResetedAt": "{{pet}} -Anfragen werden um 12:00 Uhr UTC zurückgesetzt",
   "pets.requestsResetedAtDescription": "Du kannst frühzeitig neue Anfragen für {{pet}} erhalten, indem du Edelsteine bezahlst",
-  "pets.resetRequests": "Anfragen zurücksetzen"
+  "pets.resetRequests": "Anfragen zurücksetzen",
+  "pets.neglectPet": "Haustier vernachlässigt",
+  "pets.neglectPetDescription": "{{pet}} wurde vernachlässigt. Bitte muntere es auf, um es wieder zum Leben zu erwecken.",
+  "pets.cheerPet": "Muntere {{pet}} auf"
 }

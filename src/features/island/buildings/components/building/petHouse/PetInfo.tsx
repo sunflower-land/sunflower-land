@@ -3,12 +3,13 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { Bar } from "components/ui/ProgressBar";
-import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getExperienceToNextLevel,
+  isPetNeglected,
   Pet,
   PetName,
 } from "features/game/types/pets";
+import { PET_STATE_IMAGES } from "features/island/collectibles/components/pets/Pet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 
@@ -23,7 +24,9 @@ export const PetInfo: React.FC<Props> = ({ children, petName, pet }) => {
   const { level, percentage, currentProgress, experienceBetweenLevels } =
     getExperienceToNextLevel(pet.experience);
 
-  const petImage = ITEM_DETAILS[petName].image;
+  const isNeglected = isPetNeglected(pet);
+
+  const petImage = PET_STATE_IMAGES[petName][isNeglected ? "asleep" : "happy"];
 
   return (
     <OuterPanel className="flex flex-row sm:flex-col p-3 gap-2 relative overflow-hidden">
