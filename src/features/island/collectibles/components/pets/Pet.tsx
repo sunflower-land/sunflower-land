@@ -34,6 +34,8 @@ import waddlesAsleep from "assets/sfts/pets/penguins/waddles_asleep.webp";
 import pipAsleep from "assets/sfts/pets/penguins/pip_asleep.webp";
 import skipperAsleep from "assets/sfts/pets/penguins/skipper_asleep.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useVisiting } from "lib/utils/visitUtils";
+import classNames from "classnames";
 
 const PETS_STYLES: Record<
   PetName,
@@ -202,13 +204,18 @@ const _petData = (name: PetName) => (state: MachineState) =>
 export const Pet: React.FC<{ name: PetName }> = ({ name }) => {
   const [showPetModal, setShowPetModal] = useState(false);
   const { gameService } = useContext(Context);
+  const { isVisiting } = useVisiting();
 
   const petData = useSelector(gameService, _petData(name));
   const isNeglected = isPetNeglected(petData);
   const isNapping = isPetNapping(petData);
+  const petImage =
+    PET_STATE_IMAGES[name][isNeglected || isNapping ? "asleep" : "happy"];
 
   const handlePetClick = () => {
-    if (isNapping) {
+    if (isVisiting) {
+      return;
+    } else if (isNapping) {
       gameService.send("pet.pet", {
         pet: name,
       });
@@ -221,12 +228,10 @@ export const Pet: React.FC<{ name: PetName }> = ({ name }) => {
     <>
       <div className="absolute" style={{ ...PET_PIXEL_STYLES[name] }}>
         <img
-          src={
-            PET_STATE_IMAGES[name][
-              isNeglected || isNapping ? "asleep" : "happy"
-            ]
-          }
-          className="absolute w-full cursor-pointer hover:img-highlight"
+          src={petImage}
+          className={classNames("absolute w-full", {
+            "cursor-pointer hover:img-highlight": !isVisiting,
+          })}
           alt={name}
           onClick={handlePetClick}
         />

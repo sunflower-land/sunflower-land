@@ -6533,7 +6533,7 @@
   "pets.neglectPetDescription": "{{pet}} has been neglected. Please cheer it up to bring it back to life.",
   "pets.cheerPet": "Cheer {{pet}} up",
   "pets.napping": "Napping",
-  "pets.nappingDescription": "{{pet}} is napping. Please pet it to wake it up.",
+  "pets.nappingDescription": "{{pet}} is napping. Pet it to wake it up.",
   "pets.petPet": "Pet {{pet}}",
   "deposit.loadingBalance": "Loading balance...",
   "transaction.migrate.sfl": "Migrate SFL",
