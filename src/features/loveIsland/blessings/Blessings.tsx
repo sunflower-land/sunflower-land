@@ -31,6 +31,7 @@ import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { NumberInput } from "components/ui/NumberInput";
 import { MAX_INVENTORY_ITEMS } from "features/game/lib/processEvent";
+import giftIcon from "assets/icons/gift.png";
 
 const SEASON_GUARDIANS: Record<TemperateSeasonName, string> = {
   autumn: autumnGuardian,
@@ -273,7 +274,7 @@ export const BlessingResults: React.FC<Props> = ({ onClose }) => {
   // Sort winners
   const leaderboard = response.data.leaderboard ?? [];
 
-  const bids = Object.values(response.data.winners ?? {});
+  const prizeAmount = response.data.prizeAmount;
 
   return (
     <div className="max-h-[500px] overflow-y-auto scrollable">
@@ -281,54 +282,69 @@ export const BlessingResults: React.FC<Props> = ({ onClose }) => {
       <div className="flex m-1 items-center">
         <img
           src={ITEM_DETAILS[response.data.item].image}
-          className="w-6 mr-1"
+          className="w-6 mr-2"
         />
-        <span>
+        <div>
+          <p className="text-sm">{`${Number(response.data.total).toLocaleString()} x ${response.data.item} Donated`}</p>
+          <p className="text-xs">{`${response.data.participantCount} players`}</p>
+        </div>
+        {/* <span>
           {t("blessing.donated", {
             amount: Number(response.data.total).toLocaleString(),
             item: response.data.item,
           })}
-        </span>
+        </span> */}
       </div>
-      {response.data.minimum && (
-        <div className="flex m-1 items-center">
-          <img src={icon} className="w-6 mr-1" />
-          <span>{`Minimum tribute: ${response.data.minimum + 1}`}</span>
+      <div className="flex m-1 items-center">
+        <img src={giftIcon} className="w-6 mr-2" />
+        <div>
+          <p className="text-sm">{`${Number(prizeAmount).toLocaleString()} x ${response.data.item} Rewarded`}</p>
+          <p className="text-xs">{`${response.data.winnerCount ?? 0} winners`}</p>
         </div>
-      )}
+        {/* <span>
+          {t("blessing.prize", {
+            players: response.data.winnerCount ?? 0,
+            amount: Number(prizeAmount).toLocaleString(),
+            item: response.data.item,
+          })}
+        </span> */}
+      </div>
 
-      <Label type="default" className="my-2">
-        {t("blessing.winners", {
-          count: Object.keys(response.data.winners).length,
-        })}
-      </Label>
-
-      <table className="w-full text-xs table-auto border-collapse">
+      <table className="w-full text-xs table-auto border-collapse mt-4">
         <tbody>
-          {leaderboard.slice(0, 5).map(({ username, uri, amount }, index) => (
-            <tr
-              key={index}
-              className={classNames({
-                "bg-[#ead4aa]": index % 2 === 0,
-              })}
-            >
-              <td className="p-1.5 text-left pl-8 relative truncate">
-                {uri && (
-                  <div className="absolute" style={{ left: "4px", top: "1px" }}>
-                    <NPCIcon
-                      width={24}
-                      parts={interpretTokenUri(uri).equipped}
-                    />
-                  </div>
-                )}
-                {username}
-              </td>
-              <td className="p-1.5 text-left pl-8 relative truncate flex">
-                <span className="text-xs">{amount}</span>
-                <img src={icon} className="h-4 ml-1" />
-              </td>
-            </tr>
-          ))}
+          {leaderboard.map(
+            ({ username, uri, amount, rank, isWinner }, index) => {
+              return (
+                <tr
+                  key={index}
+                  className={classNames({
+                    "bg-[#ead4aa]": index % 2 === 0,
+                    "bg-red-400": !isWinner,
+                  })}
+                >
+                  <td className="p-1.5 text-left pl-8 relative truncate">
+                    {`${rank}. `}
+                    {uri && (
+                      <div
+                        className="absolute"
+                        style={{ left: "4px", top: "1px" }}
+                      >
+                        <NPCIcon
+                          width={24}
+                          parts={interpretTokenUri(uri).equipped}
+                        />
+                      </div>
+                    )}
+                    {username}
+                  </td>
+                  <td className="p-1.5 text-left pl-8 relative truncate flex">
+                    <span className="text-xs">{amount}</span>
+                    <img src={icon} className="h-4 ml-1" />
+                  </td>
+                </tr>
+              );
+            },
+          )}
         </tbody>
       </table>
 
