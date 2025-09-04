@@ -6065,6 +6065,7 @@
   "seeking.blessing.success": "The gods have decided who will be blessed.",
   "blessing.noResults": "No results found for this date",
   "blessing.donated": "{{amount}} {{item}} donated",
+  "blessing.prize": "{{players}} players received {{amount}} x {{item}}",
   "blessing.winners": "{{count}} winners",
   "blessing.maxAmount": "Insufficient {{name}}.",
   "blessing.maxAmountHoarding": "Max {{name}} is {{amount}}.",
