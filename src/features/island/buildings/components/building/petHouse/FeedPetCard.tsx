@@ -12,6 +12,7 @@ import { Inventory } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import xpIcon from "assets/icons/xp.png";
 
 interface Props {
   petName: PetName;
@@ -238,11 +239,12 @@ export const FeedPetCardContent: React.FC<{
 
   if (pet.state === "neglected") {
     return (
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 w-3/4 sm:w-auto">
         <Label type={"danger"}>{t("pets.neglectPet")}</Label>
         <p className="text-xs p-1">
           {t("pets.neglectPetDescription", { pet: pet.name })}
         </p>
+        <Label type="danger" secondaryIcon={xpIcon}>{`-500`}</Label>
         <Button onClick={() => handleNeglectPet(pet.name)}>
           {t("pets.cheerPet", { pet: pet.name })}
         </Button>
@@ -252,7 +254,7 @@ export const FeedPetCardContent: React.FC<{
 
   return (
     <>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 w-3/4 sm:w-auto">
         <Label type={"default"}>{`Food Requests`}</Label>
         <div className="flex space-x-2 ml-2">
           {pet.requests.food.length === 0 && <p>{`No food requests`}</p>}
