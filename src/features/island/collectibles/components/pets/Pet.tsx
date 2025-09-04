@@ -1,7 +1,11 @@
 import React, { useContext, useState } from "react";
 
 import { ITEM_DETAILS } from "features/game/types/images";
-import { isPetNeglected, PetName } from "features/game/types/pets";
+import {
+  isPetNapping,
+  isPetNeglected,
+  PetName,
+} from "features/game/types/pets";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { PetModal } from "./PetModal";
@@ -201,32 +205,44 @@ export const Pet: React.FC<{ name: PetName }> = ({ name }) => {
 
   const petData = useSelector(gameService, _petData(name));
   const isNeglected = isPetNeglected(petData);
+  const isNapping = isPetNapping(petData);
 
-  const handlePetClick = () => setShowPetModal(true);
+  const handlePetClick = () => {
+    if (isNapping) {
+      gameService.send("pet.pet", {
+        pet: name,
+      });
+    } else {
+      setShowPetModal(true);
+    }
+  };
 
   return (
     <>
       <div className="absolute" style={{ ...PET_PIXEL_STYLES[name] }}>
         <img
-          src={PET_STATE_IMAGES[name][isNeglected ? "asleep" : "happy"]}
+          src={
+            PET_STATE_IMAGES[name][
+              isNeglected || isNapping ? "asleep" : "happy"
+            ]
+          }
           className="absolute w-full cursor-pointer hover:img-highlight"
           alt={name}
           onClick={handlePetClick}
         />
-        {isNeglected && (
-          <img
-            src={SUNNYSIDE.icons.expression_stress}
-            alt="stress"
-            className="absolute w-[18px] top-[-0.5rem] left-[-0.5rem]"
-          />
-        )}
-        {/* {isAsleep && (
+        {isNapping ? (
           <img
             src={SUNNYSIDE.icons.sleeping}
             alt="sleeping"
             className="absolute w-6 top-[-0.5rem] left-[-0.5rem]"
           />
-        )} */}
+        ) : isNeglected ? (
+          <img
+            src={SUNNYSIDE.icons.expression_stress}
+            alt="stress"
+            className="absolute w-[18px] top-[-0.5rem] left-[-0.5rem]"
+          />
+        ) : null}
       </div>
       <PetModal
         show={showPetModal}

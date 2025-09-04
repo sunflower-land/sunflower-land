@@ -272,6 +272,7 @@ describe("Place Collectible", () => {
         requests: {
           food: [],
         },
+        pettedAt: dateNow,
       },
     });
   });
@@ -295,6 +296,7 @@ describe("Place Collectible", () => {
               requests: {
                 food: ["Pumpkin Cake", "Pumpkin Soup", "Antipasto"],
               },
+              pettedAt: dateNow,
             },
           },
         },
@@ -320,6 +322,7 @@ describe("Place Collectible", () => {
         requests: {
           food: ["Pumpkin Cake", "Pumpkin Soup", "Antipasto"],
         },
+        pettedAt: dateNow,
       },
       Meowchi: {
         name: "Meowchi",
@@ -328,6 +331,7 @@ describe("Place Collectible", () => {
         requests: {
           food: [],
         },
+        pettedAt: dateNow,
       },
     });
   });

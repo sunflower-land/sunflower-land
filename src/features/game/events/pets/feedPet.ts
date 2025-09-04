@@ -2,6 +2,7 @@ import { CookableName } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
 import {
   getPetRequestXP,
+  isPetNapping,
   isPetNeglected,
   PetName,
 } from "features/game/types/pets";
@@ -27,6 +28,10 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
 
     if (!petData) {
       throw new Error("Pet not found");
+    }
+
+    if (isPetNapping(petData, createdAt)) {
+      throw new Error("Pet is napping");
     }
 
     if (isPetNeglected(petData, createdAt)) {
