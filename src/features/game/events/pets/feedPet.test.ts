@@ -29,6 +29,7 @@ describe("feedPet", () => {
                 name: "Barkley",
                 requests: {
                   food: [],
+                  fedAt: now - 4 * 24 * 60 * 60 * 1000,
                 },
                 energy: 100,
                 experience: 0,
@@ -169,7 +170,6 @@ describe("feedPet", () => {
                 requests: {
                   food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
                   foodFed: [],
-                  fedAt: 0,
                 },
                 energy: 100,
                 experience: 0,
@@ -201,7 +201,6 @@ describe("feedPet", () => {
               requests: {
                 food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
                 foodFed: [],
-                fedAt: 0,
               },
               energy: 0,
               experience: 100,
