@@ -6558,5 +6558,6 @@
   "pets.resetRequests": "Pedidos de redefinição",
   "pets.neglectPet": "Animal de estimação negligenciado",
   "pets.neglectPetDescription": "{{pet}} foi negligenciado. Por favor, anime-o para trazê-lo de volta à vida.",
-  "pets.cheerPet": "Anime-se {{pet}}"
+  "pets.cheerPet": "Anime-se {{pet}}",
+  "blessing.prize": "{{players}} jogadores receberam {{amount}} x {{item}}"
 }

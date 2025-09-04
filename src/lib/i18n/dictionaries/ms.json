@@ -6558,5 +6558,6 @@
   "pets.resetRequests": "Tetapkan semula Permintaan",
   "pets.neglectPet": "Haiwan Peliharaan diab",
   "pets.neglectPetDescription": "{{pet}} telah diabaikan. Sila sorakkannya untuk menghidupkannya kembali.",
-  "pets.cheerPet": "Bersorak {{pet}}"
+  "pets.cheerPet": "Bersorak {{pet}}",
+  "blessing.prize": "{{players}} pemain menerima {{amount}} x {{item}}"
 }

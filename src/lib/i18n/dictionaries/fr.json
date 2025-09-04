@@ -6558,5 +6558,6 @@
   "pets.resetRequests": "Demandes de réinitialisation",
   "pets.neglectPet": "Animal négligé",
   "pets.neglectPetDescription": "{{pet}} a été négligé. S'il vous plaît, remontez le moral pour lui redonner vie.",
-  "pets.cheerPet": "Réjouissez-vous {{pet}}"
+  "pets.cheerPet": "Réjouissez-vous {{pet}}",
+  "blessing.prize": "{{players}} les joueurs ont reçu {{amount}} x {{item}}"
 }

@@ -6558,5 +6558,6 @@
   "pets.resetRequests": "Запросы на сброс",
   "pets.neglectPet": "Домашнее животное, оста",
   "pets.neglectPetDescription": "{{pet}} было проигнорировано. Пожалуйста, поднимите ему настроение, чтобы вернуть его к жизни.",
-  "pets.cheerPet": "Поднимите настроение {{pet}}"
+  "pets.cheerPet": "Поднимите настроение {{pet}}",
+  "blessing.prize": "{{players}} игроки получили {{amount}} x {{item}}"
 }

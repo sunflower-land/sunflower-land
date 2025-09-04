@@ -6558,5 +6558,6 @@
   "pets.resetRequests": "Richieste di ripristino",
   "pets.neglectPet": "Animale domestico trascurato",
   "pets.neglectPetDescription": "{{pet}} è stato trascurato. Per favore, rallegralo per riportarlo in vita.",
-  "pets.cheerPet": "Rallegrare {{pet}}"
+  "pets.cheerPet": "Rallegrare {{pet}}",
+  "blessing.prize": "{{players}} i giocatori hanno ricevuto {{amount}} x {{item}}"
 }

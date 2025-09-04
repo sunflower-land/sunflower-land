@@ -6558,5 +6558,6 @@
   "pets.resetRequests": "Solicitudes de restablecimiento",
   "pets.neglectPet": "Mascota abandonada",
   "pets.neglectPetDescription": "Se ha omitido {{pet}}. Por favor, anímalo para devolverle la vida.",
-  "pets.cheerPet": "Anímate {{pet}}"
+  "pets.cheerPet": "Anímate {{pet}}",
+  "blessing.prize": "{{players}} los jugadores recibieron {{amount}} x {{item}}"
 }

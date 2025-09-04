@@ -6558,5 +6558,6 @@
   "pets.resetRequests": "İstekleri Sıfırla",
   "pets.neglectPet": "Hayvan İhmal Edildi",
   "pets.neglectPetDescription": "{{pet}} ihmal edildi. Lütfen onu hayata döndürmek için neşelendirin.",
-  "pets.cheerPet": "Neşelendirin {{pet}}"
+  "pets.cheerPet": "Neşelendirin {{pet}}",
+  "blessing.prize": "{{players}} oyuncuya alındı {{amount}} x {{item}}"
 }

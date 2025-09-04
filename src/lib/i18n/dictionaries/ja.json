@@ -6558,5 +6558,6 @@
   "pets.resetRequests": "リセットリクエスト",
   "pets.neglectPet": "ペットネグレクト",
   "pets.neglectPetDescription": "{{pet}} は無視されました。元気を出して生き返らせてください。",
-  "pets.cheerPet": "応援して {{pet}} アップ"
+  "pets.cheerPet": "応援して {{pet}} アップ",
+  "blessing.prize": "{{players}} プレイヤーは {{amount}} x {{item}} を受け取りました"
 }
