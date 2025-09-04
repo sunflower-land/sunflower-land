@@ -21,6 +21,10 @@ export const ResetFoodRequests: React.FC<{
   todayDate: string;
   resetRequests: () => Promise<void>;
   setShowResetRequests: (showResetRequests: boolean) => void;
+  isRevealedState: boolean;
+  isRevealing: boolean;
+  onAcknowledged: () => void;
+  setIsRevealing: (isRevealing: boolean) => void;
 }> = ({
   petName,
   petData,
@@ -28,12 +32,37 @@ export const ResetFoodRequests: React.FC<{
   todayDate,
   resetRequests,
   setShowResetRequests,
+  isRevealedState,
+  isRevealing,
+  onAcknowledged,
+  setIsRevealing,
 }) => {
   const { t } = useAppTranslation();
   const [showResetRequestsConfirmation, setShowResetRequestsConfirmation] =
     useState(false);
   const resetGemCost = getGemCost(petData.requests.resets?.[todayDate] ?? 0);
   const hasEnoughGem = inventory.Gem?.gte(resetGemCost);
+
+  if (isRevealedState && isRevealing) {
+    return (
+      <InnerPanel>
+        <Label type="warning">{t("pets.requestsReset")}</Label>
+        <p className="text-sm p-1">
+          {t("pets.requestsResetDescription", { pet: petName })}
+        </p>
+        <Button
+          onClick={() => {
+            onAcknowledged();
+            setIsRevealing(false);
+            setShowResetRequests(false);
+          }}
+        >
+          {t("continue")}
+        </Button>
+      </InnerPanel>
+    );
+  }
+
   return (
     <InnerPanel className="flex flex-col gap-2">
       <div className="flex flex-row gap-2 items-center justify-between">

@@ -49,7 +49,6 @@ export const PetFeed: React.FC<
   const [isRevealing, setIsRevealing] = useState(false);
   const [isPicking, setIsPicking] = useState(false);
   const resetRequests = async () => {
-    setShowResetRequests(false);
     setIsPicking(true);
     await new Promise((resolve) => setTimeout(resolve, 5000));
     handleResetRequests(petName);
@@ -61,6 +60,7 @@ export const PetFeed: React.FC<
   const todayDate = new Date(Date.now()).toISOString().split("T")[0];
   const lastFedAtDate = new Date(lastFedAt ?? 0).toISOString().split("T")[0];
   const isToday = lastFedAtDate === todayDate;
+  const petState = petData.state;
 
   if (
     petData.requests.food.length === 0 ||
@@ -74,25 +74,6 @@ export const PetFeed: React.FC<
     );
   }
 
-  if (isRevealedState && isRevealing) {
-    return (
-      <InnerPanel>
-        <Label type="warning">{t("pets.requestsReset")}</Label>
-        <p className="text-sm p-1">
-          {t("pets.requestsResetDescription", { pet: petName })}
-        </p>
-        <Button
-          onClick={() => {
-            onAcknowledged();
-            setIsRevealing(false);
-          }}
-        >
-          {t("continue")}
-        </Button>
-      </InnerPanel>
-    );
-  }
-
   if (showResetRequests) {
     return (
       <ResetFoodRequests
@@ -102,6 +83,10 @@ export const PetFeed: React.FC<
         todayDate={todayDate}
         resetRequests={resetRequests}
         setShowResetRequests={setShowResetRequests}
+        isRevealedState={isRevealedState}
+        isRevealing={isRevealing}
+        onAcknowledged={onAcknowledged}
+        setIsRevealing={setIsRevealing}
       />
     );
   }
