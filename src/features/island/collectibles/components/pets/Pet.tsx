@@ -36,6 +36,7 @@ import skipperAsleep from "assets/sfts/pets/penguins/skipper_asleep.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useVisiting } from "lib/utils/visitUtils";
 import classNames from "classnames";
+import { Transition } from "@headlessui/react";
 
 const PETS_STYLES: Record<
   PetName,
@@ -203,6 +204,7 @@ const _petData = (name: PetName) => (state: MachineState) =>
 
 export const Pet: React.FC<{ name: PetName }> = ({ name }) => {
   const [showPetModal, setShowPetModal] = useState(false);
+  const [showXpPopup, setShowXpPopup] = useState(false);
   const { gameService } = useContext(Context);
   const { isVisiting } = useVisiting();
 
@@ -219,6 +221,8 @@ export const Pet: React.FC<{ name: PetName }> = ({ name }) => {
       gameService.send("pet.pet", {
         pet: name,
       });
+      setShowXpPopup(true);
+      window.setTimeout(() => setShowXpPopup(false), 1000);
     } else {
       setShowPetModal(true);
     }
@@ -235,6 +239,22 @@ export const Pet: React.FC<{ name: PetName }> = ({ name }) => {
           alt={name}
           onClick={handlePetClick}
         />
+        <Transition
+          appear={true}
+          show={showXpPopup}
+          enter="transition-opacity transition-transform duration-200"
+          enterFrom="opacity-0 translate-y-4"
+          enterTo="opacity-100 -translate-y-0"
+          leave="transition-opacity duration-100"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+          className="flex -top-2 left-1/2 -translate-x-1/2 absolute z-40 pointer-events-none"
+          as="div"
+        >
+          <span className="text-sm yield-text" style={{ color: "#71e358" }}>
+            {"+10XP"}
+          </span>
+        </Transition>
         {isNapping ? (
           <img
             src={SUNNYSIDE.icons.sleeping}
