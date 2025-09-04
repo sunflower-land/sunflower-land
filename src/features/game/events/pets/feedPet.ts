@@ -25,6 +25,10 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("Pet not found");
     }
 
+    if (petData.state === "neglected") {
+      throw new Error("Pet is in neglected state");
+    }
+
     const requests = petData.requests.food;
     if (requests.length <= 0) {
       throw new Error("No requests found");
