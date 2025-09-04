@@ -545,6 +545,7 @@ import {
 } from "./landExpansion/instaGrowFlower";
 import { upgradeStone, UpgradeStoneAction } from "./landExpansion/upgradeNode";
 import { bulkFeedPets, BulkFeedPetsAction } from "./pets/bulkFeedPets";
+import { NeglectPetAction, neglectPet } from "./pets/neglectPet";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -655,6 +656,7 @@ export type PlayingEvent =
   | FeedFactionPetAction
   | FeedPetAction
   | BulkFeedPetsAction
+  | NeglectPetAction
   | LeaveFactionAction
   | BuyMoreDigsAction
   | BuyMoreReelsAction
@@ -893,6 +895,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "factionPet.fed": feedFactionPet,
   "pet.fed": feedPet,
   "pets.bulkFeed": bulkFeedPets,
+  "pet.neglected": neglectPet,
   "desert.digsBought": buyMoreDigs,
   "shipment.restocked": shipmentRestock,
   "animal.bought": buyAnimal,
