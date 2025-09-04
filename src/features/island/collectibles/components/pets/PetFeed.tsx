@@ -13,6 +13,7 @@ import xpIcon from "assets/icons/xp.png";
 import { Loading } from "features/auth/components/Loading";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ResetFoodRequests } from "./ResetFoodRequests";
+import { NeglectPet } from "./NeglectPet";
 
 interface Props {
   petName: PetName;
@@ -24,6 +25,7 @@ export const PetFeed: React.FC<
   Props & {
     handleFeed: (food: CookableName) => void;
     handleResetRequests: (petName: PetName) => void;
+    handleNeglectPet: (petName: PetName) => void;
     isRevealingState: boolean;
     isRevealedState: boolean;
     onAcknowledged: () => void;
@@ -34,6 +36,7 @@ export const PetFeed: React.FC<
   handleFeed,
   inventory,
   handleResetRequests,
+  handleNeglectPet,
   isRevealingState,
   isRevealedState,
   onAcknowledged,
@@ -61,6 +64,10 @@ export const PetFeed: React.FC<
   const lastFedAtDate = new Date(lastFedAt ?? 0).toISOString().split("T")[0];
   const isToday = lastFedAtDate === todayDate;
   const petState = petData.state;
+
+  if (petState === "neglected") {
+    return <NeglectPet handleNeglectPet={handleNeglectPet} petName={petName} />;
+  }
 
   if (petData.requests.food.length === 0) {
     return (

@@ -77,6 +77,12 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
     });
   };
 
+  const handleNeglectPet = (petName: PetName) => {
+    gameService.send("pet.neglected", {
+      pet: petName,
+    });
+  };
+
   if (!petData || !hasPetsAccess) {
     return null;
   }
@@ -128,6 +134,7 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
             isRevealingState={isRevealingState}
             isRevealedState={isRevealedState}
             onAcknowledged={() => gameService.send("CONTINUE")}
+            handleNeglectPet={handleNeglectPet}
           />
         )}
       </CloseButtonPanel>
