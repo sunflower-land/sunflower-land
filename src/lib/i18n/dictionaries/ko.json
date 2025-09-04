@@ -6555,5 +6555,8 @@
   "pets.requestsResetDescription": "{{pet}} 요청이 성공적으로 재설정되었습니다",
   "pets.requestsResetedAt": "{{pet}} 요청은 UTC 기준 오전 12시에 재설정됩니다.",
   "pets.requestsResetedAtDescription": "젬을 지불하면 {{pet}} 에 대한 새 요청을 일찍 받을 수 있습니다.",
-  "pets.resetRequests": "리셋 요청"
+  "pets.resetRequests": "리셋 요청",
+  "pets.neglectPet": "애완동물 무시",
+  "pets.neglectPetDescription": "{{pet}} 은 무시되었습니다.다시 살아날 수 있도록 응원해 주세요.",
+  "pets.cheerPet": "응원 {{pet}} 업"
 }

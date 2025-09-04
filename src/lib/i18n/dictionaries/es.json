@@ -6555,5 +6555,8 @@
   "pets.requestsResetDescription": "Las solicitudes {{pet}} se han restablecido correctamente",
   "pets.requestsResetedAt": "Las solicitudes de {{pet}} se restablecerán a las 12:00 a.m. UTC",
   "pets.requestsResetedAtDescription": "Puedes recibir nuevas solicitudes de {{pet}} con antelación pagando a Gems",
-  "pets.resetRequests": "Solicitudes de restablecimiento"
+  "pets.resetRequests": "Solicitudes de restablecimiento",
+  "pets.neglectPet": "Mascota abandonada",
+  "pets.neglectPetDescription": "Se ha omitido {{pet}}. Por favor, anímalo para devolverle la vida.",
+  "pets.cheerPet": "Anímate {{pet}}"
 }

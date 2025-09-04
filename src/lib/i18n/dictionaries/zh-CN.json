@@ -6555,5 +6555,8 @@
   "pets.requestsResetDescription": "{{pet}} 请求已成功重置",
   "pets.requestsResetedAt": "{{pet}} 请求将在世界标准时间上午 12:00 重置",
   "pets.requestsResetedAtDescription": "你可以通过支付宝石来提早获得 [0@/美元] 的新申请",
-  "pets.resetRequests": "重置请求"
+  "pets.resetRequests": "重置请求",
+  "pets.neglectPet": "被忽视的宠物",
+  "pets.neglectPetDescription": "{{pet}} 已被忽视。请振作起来，让它重获新生。",
+  "pets.cheerPet": "加油 {{pet}}"
 }

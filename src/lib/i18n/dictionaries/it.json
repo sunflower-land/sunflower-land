@@ -6555,5 +6555,8 @@
   "pets.requestsResetDescription": "Le richieste {{pet}} sono state ripristinate con successo",
   "pets.requestsResetedAt": "Le richieste {{pet}} verranno ripristinate alle 12:00 UTC",
   "pets.requestsResetedAtDescription": "Puoi ricevere nuove richieste per {{pet}} in anticipo pagando gemme",
-  "pets.resetRequests": "Richieste di ripristino"
+  "pets.resetRequests": "Richieste di ripristino",
+  "pets.neglectPet": "Animale domestico trascurato",
+  "pets.neglectPetDescription": "{{pet}} è stato trascurato. Per favore, rallegralo per riportarlo in vita.",
+  "pets.cheerPet": "Rallegrare {{pet}}"
 }

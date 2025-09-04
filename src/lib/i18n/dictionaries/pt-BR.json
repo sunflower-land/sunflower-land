@@ -6555,5 +6555,8 @@
   "pets.requestsResetDescription": "As solicitações {{pet}} foram redefinidas com sucesso",
   "pets.requestsResetedAt": "As solicitações de {{pet}} serão redefinidas às 12:00 UTC",
   "pets.requestsResetedAtDescription": "Você pode receber novas solicitações de {{pet}} com antecedência pagando Gems",
-  "pets.resetRequests": "Pedidos de redefinição"
+  "pets.resetRequests": "Pedidos de redefinição",
+  "pets.neglectPet": "Animal de estimação negligenciado",
+  "pets.neglectPetDescription": "{{pet}} foi negligenciado. Por favor, anime-o para trazê-lo de volta à vida.",
+  "pets.cheerPet": "Anime-se {{pet}}"
 }
