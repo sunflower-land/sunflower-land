@@ -319,11 +319,11 @@ export const BlessingResults: React.FC<Props> = ({ onClose }) => {
                   key={index}
                   className={classNames({
                     "bg-[#ead4aa]": index % 2 === 0,
-                    "bg-red-400": !isWinner,
+                    "bg-red-400": isWinner === false,
                   })}
                 >
                   <td className="p-1.5 text-left pl-8 relative truncate">
-                    {`${rank}. `}
+                    {!!rank && `${rank}. `}
                     {uri && (
                       <div
                         className="absolute"
