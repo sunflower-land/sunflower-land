@@ -4,7 +4,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import { PetName } from "features/game/types/pets";
+import { isPetNeglected, PetName } from "features/game/types/pets";
 import { PetInfo } from "./PetInfo";
 import { PetFeed } from "./PetFeed";
 import { OuterPanel } from "components/ui/Panel";
@@ -23,11 +23,14 @@ interface Props {
 export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [tab, setTab] = useState<"Info" | "Feed" | "Fetch">("Info");
-
   const petData = useSelector(
     gameService,
     (state) => state.context.state.pets?.common?.[petName],
+  );
+  const isNeglected = isPetNeglected(petData);
+
+  const [tab, setTab] = useState<"Info" | "Feed" | "Fetch">(
+    isNeglected ? "Feed" : "Info",
   );
   const inventory = useSelector(
     gameService,
@@ -77,10 +80,15 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
     });
   };
 
+  const handleNeglectPet = (petName: PetName) => {
+    gameService.send("pet.neglected", {
+      pet: petName,
+    });
+  };
+
   if (!petData || !hasPetsAccess) {
     return null;
   }
-
   return (
     <Modal
       show={show}
@@ -128,6 +136,7 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
             isRevealingState={isRevealingState}
             isRevealedState={isRevealedState}
             onAcknowledged={() => gameService.send("CONTINUE")}
+            handleNeglectPet={handleNeglectPet}
           />
         )}
       </CloseButtonPanel>

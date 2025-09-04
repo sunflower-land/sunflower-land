@@ -1,10 +1,35 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { ITEM_DETAILS } from "features/game/types/images";
-import { PetName } from "features/game/types/pets";
+import { isPetNeglected, PetName } from "features/game/types/pets";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { PetModal } from "./PetModal";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
+import barkleyAsleep from "assets/sfts/pets/dogs/barkley_asleep.webp";
+import biscuitAsleep from "assets/sfts/pets/dogs/biscuit_asleep.webp";
+import cloudyAsleep from "assets/sfts/pets/dogs/cloudy_asleep.webp";
+import meowchiAsleep from "assets/sfts/pets/cats/meowchi_asleep.webp";
+import buttersAsleep from "assets/sfts/pets/cats/butters_asleep.webp";
+import smokeyAsleep from "assets/sfts/pets/cats/smokey_asleep.webp";
+import twizzleAsleep from "assets/sfts/pets/owls/twizzle_asleep.webp";
+import flickerAsleep from "assets/sfts/pets/owls/flicker_asleep.webp";
+import pippinAsleep from "assets/sfts/pets/owls/pippin_asleep.webp";
+import burroAsleep from "assets/sfts/pets/horses/burro_asleep.webp";
+import pintoAsleep from "assets/sfts/pets/horses/pinto_asleep.webp";
+import roanAsleep from "assets/sfts/pets/horses/roan_asleep.webp";
+import stallionAsleep from "assets/sfts/pets/horses/stallion_asleep.webp";
+import mudhornAsleep from "assets/sfts/pets/bulls/mudhorn_asleep.webp";
+import bisonAsleep from "assets/sfts/pets/bulls/bison_asleep.webp";
+import oxenAsleep from "assets/sfts/pets/bulls/oxen_asleep.webp";
+import nibblesAsleep from "assets/sfts/pets/hamsters/nibbles_asleep.webp";
+import peanutsAsleep from "assets/sfts/pets/hamsters/peanuts_asleep.webp";
+import waddlesAsleep from "assets/sfts/pets/penguins/waddles_asleep.webp";
+import pipAsleep from "assets/sfts/pets/penguins/pip_asleep.webp";
+import skipperAsleep from "assets/sfts/pets/penguins/skipper_asleep.webp";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const PETS_STYLES: Record<
   PetName,
@@ -73,8 +98,109 @@ const PET_PIXEL_STYLES = getObjectEntries(PETS_STYLES).reduce<
   { ...PETS_STYLES },
 );
 
+export const PET_STATE_IMAGES: Record<
+  PetName,
+  Record<"happy" | "asleep", string>
+> = {
+  Barkley: {
+    happy: ITEM_DETAILS.Barkley.image,
+    asleep: barkleyAsleep,
+  },
+  Biscuit: {
+    happy: ITEM_DETAILS.Biscuit.image,
+    asleep: biscuitAsleep,
+  },
+  Cloudy: {
+    happy: ITEM_DETAILS.Cloudy.image,
+    asleep: cloudyAsleep,
+  },
+  Meowchi: {
+    happy: ITEM_DETAILS.Meowchi.image,
+    asleep: meowchiAsleep,
+  },
+  Butters: {
+    happy: ITEM_DETAILS.Butters.image,
+    asleep: buttersAsleep,
+  },
+  Smokey: {
+    happy: ITEM_DETAILS.Smokey.image,
+    asleep: smokeyAsleep,
+  },
+  Twizzle: {
+    happy: ITEM_DETAILS.Twizzle.image,
+    asleep: twizzleAsleep,
+  },
+  Flicker: {
+    happy: ITEM_DETAILS.Flicker.image,
+    asleep: flickerAsleep,
+  },
+  Pippin: {
+    happy: ITEM_DETAILS.Pippin.image,
+    asleep: pippinAsleep,
+  },
+  Burro: {
+    happy: ITEM_DETAILS.Burro.image,
+    asleep: burroAsleep,
+  },
+  Pinto: {
+    happy: ITEM_DETAILS.Pinto.image,
+    asleep: pintoAsleep,
+  },
+  Roan: {
+    happy: ITEM_DETAILS.Roan.image,
+    asleep: roanAsleep,
+  },
+  Stallion: {
+    happy: ITEM_DETAILS.Stallion.image,
+    asleep: stallionAsleep,
+  },
+  Mudhorn: {
+    happy: ITEM_DETAILS.Mudhorn.image,
+    asleep: mudhornAsleep,
+  },
+  Bison: {
+    happy: ITEM_DETAILS.Bison.image,
+    asleep: bisonAsleep,
+  },
+  Oxen: {
+    happy: ITEM_DETAILS.Oxen.image,
+    asleep: oxenAsleep,
+  },
+  Nibbles: {
+    happy: ITEM_DETAILS.Nibbles.image,
+    asleep: nibblesAsleep,
+  },
+  Peanuts: {
+    happy: ITEM_DETAILS.Peanuts.image,
+    asleep: peanutsAsleep,
+  },
+  Waddles: {
+    happy: ITEM_DETAILS.Waddles.image,
+    asleep: waddlesAsleep,
+  },
+  Pip: {
+    happy: ITEM_DETAILS.Pip.image,
+    asleep: pipAsleep,
+  },
+  Skipper: {
+    happy: ITEM_DETAILS.Skipper.image,
+    asleep: skipperAsleep,
+  },
+  Ramsey: {
+    happy: ITEM_DETAILS.Ramsey.image,
+    asleep: ITEM_DETAILS.Ramsey.image,
+  },
+};
+
+const _petData = (name: PetName) => (state: MachineState) =>
+  state.context.state.pets?.common?.[name];
+
 export const Pet: React.FC<{ name: PetName }> = ({ name }) => {
   const [showPetModal, setShowPetModal] = useState(false);
+  const { gameService } = useContext(Context);
+
+  const petData = useSelector(gameService, _petData(name));
+  const isNeglected = isPetNeglected(petData);
 
   const handlePetClick = () => setShowPetModal(true);
 
@@ -82,11 +208,25 @@ export const Pet: React.FC<{ name: PetName }> = ({ name }) => {
     <>
       <div className="absolute" style={{ ...PET_PIXEL_STYLES[name] }}>
         <img
-          src={ITEM_DETAILS[name].image}
+          src={PET_STATE_IMAGES[name][isNeglected ? "asleep" : "happy"]}
           className="absolute w-full cursor-pointer hover:img-highlight"
           alt={name}
           onClick={handlePetClick}
         />
+        {isNeglected && (
+          <img
+            src={SUNNYSIDE.icons.expression_stress}
+            alt="stress"
+            className="absolute w-[18px] top-[-0.5rem] left-[-0.5rem]"
+          />
+        )}
+        {/* {isAsleep && (
+          <img
+            src={SUNNYSIDE.icons.sleeping}
+            alt="sleeping"
+            className="absolute w-6 top-[-0.5rem] left-[-0.5rem]"
+          />
+        )} */}
       </div>
       <PetModal
         show={showPetModal}

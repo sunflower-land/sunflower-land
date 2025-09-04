@@ -2,9 +2,9 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
-import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getExperienceToNextLevel,
+  isPetNeglected,
   Pet,
   PET_CATEGORIES,
   PetName,
@@ -13,6 +13,7 @@ import levelUp from "assets/icons/level_up.png";
 import xpIcon from "assets/icons/xp.png";
 import React from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { PET_STATE_IMAGES } from "./Pet";
 
 interface Props {
   petName: PetName;
@@ -24,7 +25,8 @@ export const PetInfo: React.FC<Props> = ({ petName, petData }) => {
   const { level, percentage, currentProgress, experienceBetweenLevels } =
     getExperienceToNextLevel(petData.experience);
 
-  const petImage = ITEM_DETAILS[petName].image;
+  const isNeglected = isPetNeglected(petData);
+  const petImage = PET_STATE_IMAGES[petName][isNeglected ? "asleep" : "happy"];
 
   // Find pet type and categories
   const petTypeEntry = getObjectEntries(PET_CATEGORIES).find(
