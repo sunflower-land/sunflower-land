@@ -150,7 +150,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     },
     {
       name: "Checklist",
-      icon: ITEM_DETAILS[getSeasonalTicket()].image,
+      icon: SUNNYSIDE.ui.board,
       count: checklistCount(state, bumpkinLevel),
     },
     {
