@@ -15,7 +15,7 @@ export const NeglectPet: React.FC<Props> = ({ handleNeglectPet, petName }) => {
   const { t } = useAppTranslation();
   return (
     <InnerPanel className="flex flex-col gap-1">
-      <Label type="warning">{t("pets.neglectPet")}</Label>
+      <Label type="danger">{t("pets.neglectPet")}</Label>
       <p className="text-sm px-1">
         {t("pets.neglectPetDescription", { pet: petName })}
       </p>
