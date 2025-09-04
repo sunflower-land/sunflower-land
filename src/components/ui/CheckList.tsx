@@ -3,7 +3,6 @@ import { Button } from "./Button";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ButtonPanel, InnerPanel, OuterPanel } from "./Panel";
-import { Modal } from "./Modal";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Label, LabelType } from "./Label";
@@ -202,7 +201,6 @@ export const Checklist: React.FC = () => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
-  const [show, setShow] = useState(false);
 
   const bumpkinLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
 
@@ -210,108 +208,79 @@ export const Checklist: React.FC = () => {
 
   return (
     <>
-      <div className="absolute -top-9 right-0">
-        <Button onClick={() => setShow(true)}>
-          <div className="flex justify-between text-xs -m-1 space-x-1">
-            <img src={SUNNYSIDE.ui.board} className="w-3" />
-            <p className="text-xs">{t("checkList.title")}</p>
-            {hasUncompletedTasks && (
-              <img
-                src={SUNNYSIDE.icons.expression_alerted}
-                className="w-2 animate-pulsate"
-              />
-            )}
+      <div className="flex flex-col h-full overflow-hidden overflow-y-auto scrollable gap-y-0.5">
+        <InnerPanel>
+          <div className="m-1 ml-2 mb-2">
+            <Label icon={SUNNYSIDE.icons.stopwatch} type="info">
+              {t("checkList.resetsIn", {
+                time: secondsToString(secondsTillReset(), {
+                  length: "short",
+                }),
+              })}
+            </Label>
           </div>
-        </Button>
+          <div className="mb-2">
+            <NoticeboardItems
+              items={[
+                {
+                  text: t("checkList.description1"),
+                  icon: SUNNYSIDE.icons.worldIcon,
+                },
+                {
+                  text: t("checkList.description2"),
+                  icon: bud,
+                },
+              ]}
+            />
+          </div>
+        </InnerPanel>
+
+        {/* Plaza */}
+        <InnerPanel>
+          <div className="p-0.5 sm:p-1">
+            <Heading
+              location={t("checkList.plaza")}
+              bumpkinLevel={bumpkinLevel}
+              requiredLevel={2}
+              locationPath="/world/plaza"
+            />
+            {/* Love Island Box */}
+            <LoveIslandBox bumpkinLevel={bumpkinLevel} />
+            {/* Bud Box */}
+            <BudBoxContent bumpkinLevel={bumpkinLevel} />
+          </div>
+        </InnerPanel>
+
+        {/* Beach */}
+        <InnerPanel>
+          <div className="p-0.5 sm:p-1">
+            <Heading
+              location={t("checkList.beach")}
+              bumpkinLevel={bumpkinLevel}
+              requiredLevel={4}
+              locationPath="/world/beach"
+            />
+            {/* Digging Streak */}
+            <DiggingStreakContent bumpkinLevel={bumpkinLevel} />
+            {/* Pirate Chest */}
+            <PirateChestContent bumpkinLevel={bumpkinLevel} />
+          </div>
+        </InnerPanel>
+
+        {/* Kingdom */}
+        <InnerPanel>
+          <div className="p-0.5 sm:p-1">
+            <Heading
+              location={t("checkList.kingdom")}
+              bumpkinLevel={bumpkinLevel}
+              requiredLevel={7}
+              locationPath="/world/kingdom"
+            />
+            {/* Mini Games */}
+            <MiniGamesContent bumpkinLevel={bumpkinLevel} />
+          </div>
+        </InnerPanel>
       </div>
-
-      <Modal show={show} onHide={() => setShow(false)}>
-        <CloseButtonPanel
-          tabs={[
-            {
-              name: t("checkList.title"),
-              icon: SUNNYSIDE.ui.board,
-              alert: hasUncompletedTasks,
-            },
-          ]}
-          onClose={() => setShow(false)}
-          container={OuterPanel}
-        >
-          <div className="flex flex-col overflow-y-auto max-h-[400px] scrollable gap-y-0.5">
-            <InnerPanel>
-              <div className="m-1 ml-2 mb-2">
-                <Label icon={SUNNYSIDE.icons.stopwatch} type="info">
-                  {t("checkList.resetsIn", {
-                    time: secondsToString(secondsTillReset(), {
-                      length: "short",
-                    }),
-                  })}
-                </Label>
-              </div>
-              <div className="mb-2">
-                <NoticeboardItems
-                  items={[
-                    {
-                      text: t("checkList.description1"),
-                      icon: SUNNYSIDE.icons.worldIcon,
-                    },
-                    {
-                      text: t("checkList.description2"),
-                      icon: bud,
-                    },
-                  ]}
-                />
-              </div>
-            </InnerPanel>
-
-            {/* Plaza */}
-            <InnerPanel>
-              <div className="p-0.5 sm:p-1">
-                <Heading
-                  location={t("checkList.plaza")}
-                  bumpkinLevel={bumpkinLevel}
-                  requiredLevel={2}
-                  locationPath="/world/plaza"
-                />
-                {/* Love Island Box */}
-                <LoveIslandBox bumpkinLevel={bumpkinLevel} />
-                {/* Bud Box */}
-                <BudBoxContent bumpkinLevel={bumpkinLevel} />
-              </div>
-            </InnerPanel>
-
-            {/* Beach */}
-            <InnerPanel>
-              <div className="p-0.5 sm:p-1">
-                <Heading
-                  location={t("checkList.beach")}
-                  bumpkinLevel={bumpkinLevel}
-                  requiredLevel={4}
-                  locationPath="/world/beach"
-                />
-                {/* Digging Streak */}
-                <DiggingStreakContent bumpkinLevel={bumpkinLevel} />
-                {/* Pirate Chest */}
-                <PirateChestContent bumpkinLevel={bumpkinLevel} />
-              </div>
-            </InnerPanel>
-
-            {/* Kingdom */}
-            <InnerPanel>
-              <div className="p-0.5 sm:p-1">
-                <Heading
-                  location={t("checkList.kingdom")}
-                  bumpkinLevel={bumpkinLevel}
-                  requiredLevel={7}
-                  locationPath="/world/kingdom"
-                />
-                {/* Mini Games */}
-                <MiniGamesContent bumpkinLevel={bumpkinLevel} />
-              </div>
-            </InnerPanel>
-          </div>
-        </CloseButtonPanel>
-      </Modal>
     </>
   );
 };

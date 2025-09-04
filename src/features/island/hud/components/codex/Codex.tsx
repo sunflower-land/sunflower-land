@@ -35,6 +35,7 @@ import { ChoreBoard } from "./pages/ChoreBoard";
 import { CompetitionDetails } from "features/competition/CompetitionBoard";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ANIMALS } from "features/game/types/animals";
+import { Checklist } from "components/ui/CheckList";
 
 interface Props {
   show: boolean;
@@ -145,6 +146,11 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       count: incompleteMegaBountiesCount,
     },
     {
+      name: "Checklist",
+      icon: ITEM_DETAILS[getSeasonalTicket()].image,
+      count: 0,
+    },
+    {
       name: "Fish",
       icon: SUNNYSIDE.icons.fish,
       count: 0,
@@ -246,6 +252,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 farmId={farmId}
               />
             )}
+            {currentTab === "Checklist" && <Checklist />}
             {currentTab === "Fish" && (
               <Fish onMilestoneReached={handleMilestoneReached} state={state} />
             )}
