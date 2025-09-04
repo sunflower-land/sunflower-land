@@ -166,15 +166,20 @@ const minigamesStatus = (state: GameState) => {
   };
 };
 
-const hasPendingTasks = (state: GameState, bumpkinLevel: number) => {
+export const checklistCount = (state: GameState, bumpkinLevel: number) => {
   // Plaza Tasks
   const hasNotClaimedLoveBox = !loveIslandBoxStatus(state).hasClaimed;
 
   const { hasBud, playerBudTypes, todayBud, hasOpened } = budBoxStatus(state);
   const hasNotClaimedBudBox =
     hasBud && playerBudTypes.includes(todayBud) && !hasOpened;
-  const hasNotCompletedPlazaTasks =
-    bumpkinLevel >= 2 && (hasNotClaimedLoveBox || hasNotClaimedBudBox);
+
+  const completedPlazaTasksCount = () => {
+    if (bumpkinLevel >= 2) {
+      return (hasNotClaimedLoveBox ? 1 : 0) + (hasNotClaimedBudBox ? 1 : 0);
+    }
+    return 0;
+  };
 
   // Beach Tasks
   const hasNotClaimedDigbyBox = !digbyStreakStatus(state).hasClaimedDigbyReward;
@@ -182,18 +187,28 @@ const hasPendingTasks = (state: GameState, bumpkinLevel: number) => {
   const { hasPiratePotion, hasOpenedPirateChest } = piratePotionStatus(state);
   const hasNotClaimedPirateBox = hasPiratePotion && !hasOpenedPirateChest;
 
-  const hasNotCompletedBeachTasks =
-    bumpkinLevel >= 4 && (hasNotClaimedDigbyBox || hasNotClaimedPirateBox);
+  const completedBeachTasksCount = () => {
+    if (bumpkinLevel >= 4) {
+      return (hasNotClaimedDigbyBox ? 1 : 0) + (hasNotClaimedPirateBox ? 1 : 0);
+    }
+    return 0;
+  };
 
   // Kingdom Tasks
   const { completedMinigames, allMinigamesCount } = minigamesStatus(state);
-  const hasNotCompletedKingdomTasks =
-    bumpkinLevel >= 7 && completedMinigames !== allMinigamesCount;
+  const hasNotCompletedKingdomTasks = () => {
+    if (bumpkinLevel >= 7) {
+      return completedMinigames !== allMinigamesCount
+        ? allMinigamesCount - completedMinigames
+        : 0;
+    }
+    return 0;
+  };
 
   return (
-    hasNotCompletedPlazaTasks ||
-    hasNotCompletedBeachTasks ||
-    hasNotCompletedKingdomTasks
+    completedPlazaTasksCount() +
+    completedBeachTasksCount() +
+    hasNotCompletedKingdomTasks()
   );
 };
 
@@ -203,8 +218,6 @@ export const Checklist: React.FC = () => {
   const state = useSelector(gameService, (state) => state.context.state);
 
   const bumpkinLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
-
-  const hasUncompletedTasks = hasPendingTasks(state, bumpkinLevel);
 
   return (
     <>

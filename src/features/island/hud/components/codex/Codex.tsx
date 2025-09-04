@@ -35,7 +35,8 @@ import { ChoreBoard } from "./pages/ChoreBoard";
 import { CompetitionDetails } from "features/competition/CompetitionBoard";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ANIMALS } from "features/game/types/animals";
-import { Checklist } from "components/ui/CheckList";
+import { Checklist, checklistCount } from "components/ui/CheckList";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 interface Props {
   show: boolean;
@@ -50,6 +51,8 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const { gameService } = useContext(Context);
   const farmId = useSelector(gameService, _farmId);
   const state = useSelector(gameService, _state);
+
+  const bumpkinLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
 
   const { username, bounties, delivery, choreBoard, kingdomChores, faction } =
     state;
@@ -148,7 +151,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     {
       name: "Checklist",
       icon: ITEM_DETAILS[getSeasonalTicket()].image,
-      count: 0,
+      count: checklistCount(state, bumpkinLevel),
     },
     {
       name: "Fish",
