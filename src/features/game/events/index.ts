@@ -542,7 +542,8 @@ import {
   instaGrowFlower,
   InstaGrowFlowerAction,
 } from "./landExpansion/instaGrowFlower";
-import { upgradeStone, UpgradeStoneAction } from "./landExpansion/upgradeNode";
+import { upgradeStone, UpgradeStoneAction } from "./landExpansion/upgradeStone";
+import { upgradeTree, UpgradeTreeAction } from "./landExpansion/upgradeTree";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -692,7 +693,8 @@ export type PlayingEvent =
   | BurnClutterAction
   | InstantGrowProjectAction
   | InstaGrowFlowerAction
-  | UpgradeStoneAction;
+  | UpgradeStoneAction
+  | UpgradeTreeAction;
 
 export type LocalVisitingEvent = CollectGarbageAction | HelpProjectAction;
 
@@ -930,6 +932,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "clutter.burned": burnClutter,
   "project.instantGrow": instantGrowProject,
   "stone.upgraded": upgradeStone,
+  "tree.upgraded": upgradeTree,
 };
 
 export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {

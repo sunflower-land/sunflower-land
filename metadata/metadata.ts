@@ -13026,13 +13026,13 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2706.png",
     name: "Pure Gold Rock",
   },
-  "Enchanted Gold Rock": {
+  "Prime Gold Rock": {
     decimals: 0,
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2707.png",
-    name: "Enchanted Gold Rock",
+    name: "Prime Gold Rock",
   },
   Biscuit: {
     description: "",

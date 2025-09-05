@@ -649,6 +649,9 @@ export type Tree = {
   wood: Wood;
   createdAt?: number;
   removedAt?: number;
+  tier?: ResourceTier;
+  name?: ResourceName;
+  multiplier?: number;
 } & OptionalCoordinates;
 
 export type Stone = {
