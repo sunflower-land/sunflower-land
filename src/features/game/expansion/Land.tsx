@@ -1,4 +1,10 @@
-import React, { useContext, useLayoutEffect, useMemo } from "react";
+import React, {
+  useContext,
+  useLayoutEffect,
+  useMemo,
+  useState,
+  useRef,
+} from "react";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 
@@ -52,6 +58,59 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import { useVisiting } from "lib/utils/visitUtils";
 import { getObjectEntries } from "./lib/utils";
 import { Clutter } from "features/island/clutter/Clutter";
+import { useGameStateChangeTracker } from "./performance/IslandElementsProfiler";
+
+const useIslandPerformanceTracking = (elementCount: number) => {
+  const [metrics, setMetrics] = useState({
+    renderCount: 0,
+    totalRenderTime: 0,
+    averageRenderTime: 0,
+    lastRenderTime: 0,
+    elementCount: 0,
+  });
+
+  const renderTimesRef = useRef<number[]>([]);
+  const startTimeRef = useRef<number>(0);
+
+  const startTracking = () => {
+    startTimeRef.current = performance.now();
+  };
+
+  const endTracking = () => {
+    const renderTime = performance.now() - startTimeRef.current;
+
+    renderTimesRef.current.push(renderTime);
+    if (renderTimesRef.current.length > 100) {
+      renderTimesRef.current.shift(); // Keep only last 100 renders
+    }
+
+    const totalTime = renderTimesRef.current.reduce(
+      (sum, time) => sum + time,
+      0,
+    );
+    const averageTime = totalTime / renderTimesRef.current.length;
+
+    setMetrics((prev) => ({
+      renderCount: prev.renderCount + 1,
+      totalRenderTime: totalTime,
+      averageRenderTime: averageTime,
+      lastRenderTime: renderTime,
+      elementCount,
+    }));
+
+    // Log to console in development
+    if (process.env.NODE_ENV === "development") {
+      // eslint-disable-next-line no-console
+      console.log(`🏝️ Island Elements Render #${metrics.renderCount + 1}:`, {
+        duration: `${renderTime.toFixed(2)}ms`,
+        elementCount,
+        averageTime: `${averageTime.toFixed(2)}ms`,
+      });
+    }
+  };
+
+  return { metrics, startTracking, endTracking };
+};
 
 export const LAND_WIDTH = 6;
 
@@ -726,6 +785,8 @@ export const Land: React.FC = () => {
     socialFarming,
   } = state;
 
+  const changeLog = useGameStateChangeTracker(state);
+
   const landscaping = useSelector(gameService, isLandscaping);
   const { isVisiting: visiting } = useVisiting();
 
@@ -754,8 +815,138 @@ export const Land: React.FC = () => {
     return gameGridValue;
   }, [JSON.stringify(gameGridValue)]);
 
-  const islandElements = getIslandElements({
-    game: state,
+  // ORIGINAL ISLAND ELEMENTS
+  // const islandElements = getIslandElements({
+  //   game: state,
+  //   expansionConstruction,
+  //   buildings,
+  //   collectibles,
+  //   chickens,
+  //   trees,
+  //   stones,
+  //   iron,
+  //   gold,
+  //   crimstones,
+  //   sunstones,
+  //   fruitPatches,
+  //   flowerBeds,
+  //   crops,
+  //   showTimers: showTimers,
+  //   grid: gameGrid,
+  //   mushrooms: mushrooms?.mushrooms,
+  //   isFirstRender,
+  //   buds,
+  //   airdrops,
+  //   beehives,
+  //   oilReserves,
+  //   lavaPits,
+  //   isVisiting: visiting,
+  //   clutter: socialFarming?.clutter,
+  //   landscaping,
+  //   loggedInFarmState,
+  // });
+
+  // const sortedIslandElements = islandElements.sort((a, b) => {
+  //   // Non-colliding objects (like tiles, rugs) should be at the beginning
+  //   if (a.props.canCollide === false && b.props.canCollide !== false) {
+  //     return -1; // a should be before b
+  //   }
+  //   if (b.props.canCollide === false && a.props.canCollide !== false) {
+  //     return 1; // b should be before a
+  //   }
+
+  //   // For all other elements, sort by y position (higher y values first)
+  //   return b.props.y - a.props.y;
+  // });
+
+  // Calculate element count
+  const elementCount = useMemo(() => {
+    return (
+      Object.values(buildings).flat().length +
+      Object.values(collectibles).flat().length +
+      Object.keys(chickens).length +
+      Object.keys(trees).length +
+      Object.keys(stones).length +
+      Object.keys(iron).length +
+      Object.keys(gold).length +
+      Object.keys(crimstones).length +
+      Object.keys(sunstones).length +
+      Object.keys(crops).length +
+      Object.keys(fruitPatches).length +
+      Object.keys(flowerBeds).length +
+      Object.keys(mushrooms?.mushrooms || {}).length +
+      Object.keys(buds || {}).length +
+      (airdrops?.length || 0) +
+      Object.keys(beehives).length +
+      Object.keys(oilReserves).length +
+      Object.keys(lavaPits).length
+    );
+  }, [
+    buildings,
+    collectibles,
+    chickens,
+    trees,
+    stones,
+    iron,
+    gold,
+    crimstones,
+    sunstones,
+    crops,
+    fruitPatches,
+    flowerBeds,
+    mushrooms,
+    buds,
+    airdrops,
+    beehives,
+    oilReserves,
+    lavaPits,
+  ]);
+
+  // Performance tracking
+  const { metrics, startTracking, endTracking } =
+    useIslandPerformanceTracking(elementCount);
+
+  // Memoize island elements with performance tracking
+  const islandElements = useMemo(() => {
+    startTracking();
+
+    const elements = getIslandElements({
+      game: state,
+      expansionConstruction,
+      buildings,
+      collectibles,
+      chickens,
+      trees,
+      stones,
+      iron,
+      gold,
+      crimstones,
+      sunstones,
+      fruitPatches,
+      flowerBeds,
+      crops,
+      showTimers: showTimers,
+      grid: gameGrid,
+      mushrooms: mushrooms?.mushrooms,
+      isFirstRender,
+      buds,
+      airdrops,
+      beehives,
+      oilReserves,
+      lavaPits,
+      isVisiting: visiting,
+      clutter: socialFarming?.clutter,
+      landscaping,
+      loggedInFarmState,
+    });
+
+    // Use setTimeout to ensure the tracking happens after render
+    setTimeout(endTracking, 0);
+
+    return elements;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    state,
     expansionConstruction,
     buildings,
     collectibles,
@@ -769,43 +960,20 @@ export const Land: React.FC = () => {
     fruitPatches,
     flowerBeds,
     crops,
-    showTimers: showTimers,
-    grid: gameGrid,
-    mushrooms: mushrooms?.mushrooms,
+    showTimers,
+    gameGrid,
+    mushrooms,
     isFirstRender,
     buds,
     airdrops,
     beehives,
     oilReserves,
     lavaPits,
-    isVisiting: visiting,
-    clutter: socialFarming?.clutter,
+    visiting,
+    socialFarming,
     landscaping,
     loggedInFarmState,
-  });
-  const sortedIslandElements = islandElements.sort((a, b) => {
-    // Non-colliding objects (like tiles, rugs) should be at the beginning
-    if (a.props.canCollide === false && b.props.canCollide === false) {
-      if (a.props.children.props.name.includes("Tile")) {
-        return -1; // a should be before b
-      }
-
-      if (b.props.children.props.name.includes("Tile")) {
-        return 1; // b should be before a
-      }
-    }
-
-    if (a.props.canCollide === false && b.props.canCollide !== false) {
-      return -1; // a should be before b
-    }
-
-    if (b.props.canCollide === false && a.props.canCollide !== false) {
-      return 1; // b should be before a
-    }
-
-    // For all other elements, sort by y position (higher y values first)
-    return b.props.y - a.props.y;
-  });
+  ]);
 
   return (
     <>
@@ -866,7 +1034,7 @@ export const Land: React.FC = () => {
             />
 
             {/* Sort island elements by y axis */}
-            {!paused && sortedIslandElements.map((element) => element)}
+            {!paused && islandElements.map((element) => element)}
           </div>
 
           {landscaping && <Placeable location="farm" />}
@@ -891,6 +1059,33 @@ export const Land: React.FC = () => {
       {visiting && <VisitingHud />}
 
       {!landscaping && !visiting && <Hud isFarming={true} location="farm" />}
+
+      {/* Performance metrics display - only in development */}
+      {process.env.NODE_ENV === "development" && (
+        <div
+          style={{
+            position: "fixed",
+            top: "50%",
+            right: "50%",
+            transform: "translate(50%, -50%)",
+            background: "rgba(0,0,0,0.8)",
+            color: "white",
+            padding: "10px",
+            borderRadius: "5px",
+            fontSize: "12px",
+            zIndex: 9999,
+            fontFamily: "monospace",
+          }}
+        >
+          <div style={{ fontWeight: "bold", marginBottom: "5px" }}>
+            {`🏝️ Island Performance`}
+          </div>
+          <div>{`Elements: ${metrics.elementCount}`}</div>
+          <div>{`Renders: ${metrics.renderCount}`}</div>
+          <div>{`Last: ${metrics.lastRenderTime.toFixed(2)}ms}`}</div>
+          <div>{`Avg: ${metrics.averageRenderTime.toFixed(2)}ms`}</div>
+        </div>
+      )}
 
       {(showMarketplace || showFlowerDashboard) &&
         createPortal(
