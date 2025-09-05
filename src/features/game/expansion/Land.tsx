@@ -785,9 +785,20 @@ export const Land: React.FC = () => {
   });
   const sortedIslandElements = islandElements.sort((a, b) => {
     // Non-colliding objects (like tiles, rugs) should be at the beginning
+    if (a.props.canCollide === false && b.props.canCollide === false) {
+      if (a.props.children.props.name.includes("Tile")) {
+        return -1; // a should be before b
+      }
+
+      if (b.props.children.props.name.includes("Tile")) {
+        return 1; // b should be before a
+      }
+    }
+
     if (a.props.canCollide === false && b.props.canCollide !== false) {
       return -1; // a should be before b
     }
+
     if (b.props.canCollide === false && a.props.canCollide !== false) {
       return 1; // b should be before a
     }
