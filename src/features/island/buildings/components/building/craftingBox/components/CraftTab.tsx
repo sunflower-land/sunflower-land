@@ -27,7 +27,6 @@ import {
   RecipeIngredient,
   DOLLS,
   RECIPES,
-  RecipeCollectibleName,
 } from "features/game/lib/crafting";
 import {
   findMatchingRecipe,
@@ -423,12 +422,6 @@ export const CraftTab: React.FC<Props> = ({
 
   const gems = getInstantGems({ readyAt: craftingReadyAt, game: state });
 
-  const recipeAmount = (recipeName: RecipeCollectibleName) =>
-    remainingInventory[recipeName as RecipeCollectibleName] ?? new Decimal(0);
-
-  const isCraftingInProgress =
-    isCrafting && remainingTime !== null && remainingTime > 0;
-
   return (
     <>
       <div className="flex pl-1 pt-1">
@@ -493,11 +486,7 @@ export const CraftTab: React.FC<Props> = ({
             recipe={currentRecipe}
             isPending={isPending}
             failedAttempt={failedAttempt}
-            amount={
-              isCraftingInProgress
-                ? new Decimal(0)
-                : recipeAmount(currentRecipe?.name as RecipeCollectibleName)
-            }
+            amount={new Decimal(1)}
           />
           <CraftTimer
             state={state}
