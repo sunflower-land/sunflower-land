@@ -185,7 +185,6 @@ export const PetCard: React.FC<Props> = ({
     return fetchData.fetches.map((fetch) => {
       const hasRequiredLevel = level >= fetch.level;
       const fetchImage = ITEM_DETAILS[fetch.name].image;
-      const fetchCount = inventory[fetch.name] ?? new Decimal(0);
       const energyRequired = PET_RESOURCES[fetch.name].energy;
       const hasEnoughEnergy = pet.energy >= energyRequired;
       const isDisabled = !hasRequiredLevel || !hasEnoughEnergy;
@@ -193,12 +192,12 @@ export const PetCard: React.FC<Props> = ({
         fetch,
         isDisabled,
         fetchImage,
-        fetchCount,
         energyRequired,
         hasRequiredLevel,
+        hasEnoughEnergy,
       };
     });
-  }, [fetchData.fetches, inventory, level, pet.energy]);
+  }, [fetchData.fetches, level, pet.energy]);
 
   return (
     <PetInfo petName={petName} pet={pet}>
@@ -276,7 +275,7 @@ const GridItem: React.FC<{
   onClick?: () => void;
   onMouseEnter: (e: React.MouseEvent) => void;
   onMouseLeave: () => void;
-  count?: Decimal | null;
+  count?: Decimal;
   showConfirm?: boolean;
   bottomLabelValue: number;
   bottomLabelType: LabelType;
@@ -382,9 +381,9 @@ export const PetCardContent: React.FC<{
     };
     isDisabled: boolean;
     fetchImage: string;
-    fetchCount: Decimal;
     energyRequired: number;
     hasRequiredLevel: boolean;
+    hasEnoughEnergy: boolean;
   }[];
   handleFoodHover: (food: CookableName, event: React.MouseEvent) => void;
   handleFetchHover: (fetch: PetResourceName, event: React.MouseEvent) => void;
@@ -499,9 +498,9 @@ export const PetCardContent: React.FC<{
               fetch,
               isDisabled,
               fetchImage,
-              fetchCount,
               energyRequired,
               hasRequiredLevel,
+              hasEnoughEnergy,
             }) => (
               <GridItem
                 key={fetch.name}
@@ -511,10 +510,15 @@ export const PetCardContent: React.FC<{
                 onClick={() => handleFetchPet(pet.name, fetch.name)}
                 onMouseEnter={(e) => handleFetchHover(fetch.name, e)}
                 onMouseLeave={() => setHoveredFetch(null)}
-                count={fetchCount}
                 showConfirm={false}
                 bottomLabelValue={energyRequired}
-                bottomLabelType={isDisabled ? "danger" : "default"}
+                bottomLabelType={
+                  !hasRequiredLevel
+                    ? "formula"
+                    : !hasEnoughEnergy
+                      ? "danger"
+                      : "default"
+                }
                 bottomLabelIcon={
                   hasRequiredLevel
                     ? SUNNYSIDE.icons.lightning
