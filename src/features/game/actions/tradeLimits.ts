@@ -5,7 +5,7 @@ import {
   FactionEmblem,
   InventoryItemName,
 } from "../types/game";
-import { PetResource } from "../types/pets";
+import { PetResourceName } from "../types/pets";
 import { CommodityName } from "../types/resources";
 
 export const EMBLEM_TRADE_LIMITS: Record<FactionEmblem, number> = {
@@ -24,7 +24,7 @@ export type TradeResource = Extract<
   | CommodityName
   | AnimalResource
   | FactionEmblem
-  | PetResource
+  | PetResourceName
 >;
 
 export const TRADE_LIMITS: Partial<Record<TradeResource, number>> = {

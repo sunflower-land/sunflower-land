@@ -4,7 +4,7 @@ import { Label } from "components/ui/Label";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { Bar } from "components/ui/ProgressBar";
 import {
-  getExperienceToNextLevel,
+  getPetLevel,
   isPetNapping,
   isPetNeglected,
   Pet,
@@ -23,7 +23,7 @@ type Props = {
 export const PetInfo: React.FC<Props> = ({ children, petName, pet }) => {
   const { t } = useAppTranslation();
   const { level, percentage, currentProgress, experienceBetweenLevels } =
-    getExperienceToNextLevel(pet.experience);
+    getPetLevel(pet.experience);
 
   const isNeglected = isPetNeglected(pet);
   const isNapping = isPetNapping(pet);
@@ -33,7 +33,7 @@ export const PetInfo: React.FC<Props> = ({ children, petName, pet }) => {
 
   return (
     <OuterPanel className="flex flex-row sm:flex-col p-3 gap-2 relative overflow-hidden">
-      <div className="flex flex-col sm:flex-row items-center w-1/2 sm:w-full">
+      <div className="flex flex-col sm:flex-row items-center w-1/3 sm:w-full">
         <img
           src={petImage}
           alt={petName}

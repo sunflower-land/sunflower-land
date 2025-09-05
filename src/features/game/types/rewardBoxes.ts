@@ -1,7 +1,6 @@
-import { getObjectEntries } from "../expansion/lib/utils";
 import { getKeys } from "./decorations";
 import { Inventory, InventoryItemName, Wardrobe } from "./game";
-import { PETS, PET_CATEGORIES, PetType, PetName } from "./pets";
+import { isPet, PET_TYPES, PetType } from "./pets";
 
 export type RewardBox = {
   spunAt?: number;
@@ -282,16 +281,10 @@ export const getPetRewardPool = ({
   // Get all pet categories that the player already has pets from
   const ownedPetCategories = new Set<PetType>();
 
-  getKeys(PETS).forEach((pet) => {
+  getKeys(PET_TYPES).forEach((pet) => {
     if (inventory[pet]) {
-      const petTypeEntry = getObjectEntries(PET_CATEGORIES).find(
-        ([, petCategory]) => petCategory.pets.includes(pet),
-      );
-
-      if (petTypeEntry) {
-        const [petType] = petTypeEntry;
-        ownedPetCategories.add(petType);
-      }
+      const petType = PET_TYPES[pet];
+      if (petType) ownedPetCategories.add(petType);
     }
   });
 
@@ -299,16 +292,10 @@ export const getPetRewardPool = ({
   petRewardPool = petRewardPool.filter((reward) => {
     const rewardPet = getKeys(reward.items ?? {})[0];
 
-    if (!rewardPet) return true;
+    if (!rewardPet || !isPet(rewardPet)) return true;
 
-    const petTypeEntry = getObjectEntries(PET_CATEGORIES).find(
-      ([, petCategory]) => petCategory.pets.includes(rewardPet as PetName),
-    );
-
-    if (petTypeEntry) {
-      const [petType] = petTypeEntry;
-      return !ownedPetCategories.has(petType);
-    }
+    const petType = PET_TYPES[rewardPet];
+    if (petType) return !ownedPetCategories.has(petType);
 
     return true;
   });
