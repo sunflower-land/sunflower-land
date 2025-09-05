@@ -6562,5 +6562,14 @@
   "blessing.prize": "{{players}} プレイヤーは {{amount}} x {{item}} を受け取りました",
   "pets.napping": "昼寝",
   "pets.nappingDescription": "{{pet}} は昼寝中です。撫でて起こしてください。",
-  "pets.petPet": "ペット {{pet}}"
+  "pets.petPet": "ペット {{pet}}",
+  "feed": "フィード",
+  "petalPuzzle.guide.orangePetal": "オレンジの花びら",
+  "petalPuzzle.guide.orangePetal.description": "参加しているプレイヤーの正確な数",
+  "petalPuzzle.guide.redPetal": "赤い花びら",
+  "petalPuzzle.guide.redPetal.description": "参加しているプレイヤーが多すぎます",
+  "petalPuzzle.guide.pinkPetal": "ピンクの花びら",
+  "petalPuzzle.guide.pinkPetal.description": "参加しているプレイヤーの数が足りません",
+  "petalPuzzle.guide.cooperate": "他のプレイヤーと協力して、花びらの上に立って色を変えましょう。",
+  "petalPuzzle.guide.solve": "パズルを解いて報酬を受け取るには、オレンジの花びらが4枚必要です。"
 }

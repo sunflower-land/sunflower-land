@@ -6562,5 +6562,14 @@
   "blessing.prize": "{{players}} pemain menerima {{amount}} x {{item}}",
   "pets.napping": "Tidur siang",
   "pets.nappingDescription": "{{pet}} sedang tidur siang. Peliharalah untuk membangunkannya.",
-  "pets.petPet": "Hewan peliharaan {{pet}}"
+  "pets.petPet": "Hewan peliharaan {{pet}}",
+  "feed": "Pakan",
+  "petalPuzzle.guide.orangePetal": "Kelopak Oranye",
+  "petalPuzzle.guide.orangePetal.description": "Jumlah pemain yang tepat di dalamnya",
+  "petalPuzzle.guide.redPetal": "Kelopak Merah",
+  "petalPuzzle.guide.redPetal.description": "Terlalu banyak pemain di dalamnya",
+  "petalPuzzle.guide.pinkPetal": "Kelopak Merah Muda",
+  "petalPuzzle.guide.pinkPetal.description": "Tidak cukup banyak pemain di dalamnya",
+  "petalPuzzle.guide.cooperate": "Bekerja sama dengan pemain lain dan berdiri di atas kelopak untuk mengubah warna mereka.",
+  "petalPuzzle.guide.solve": "Empat kelopak oranye diperlukan untuk memecahkan teka-teki dan mengklaim hadiahnya."
 }

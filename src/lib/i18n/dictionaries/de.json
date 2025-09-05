@@ -6562,5 +6562,14 @@
   "blessing.prize": "{{players}} Spieler haben {{amount}} x {{item}} erhalten",
   "pets.napping": "Nickerchen machen",
   "pets.nappingDescription": "{{pet}} macht ein Nickerchen. Streichle es, um es aufzuwecken.",
-  "pets.petPet": "Haustier {{pet}}"
+  "pets.petPet": "Haustier {{pet}}",
+  "feed": "Füttern",
+  "petalPuzzle.guide.orangePetal": "Orangefarbenes Blütenblatt",
+  "petalPuzzle.guide.orangePetal.description": "Genaue Anzahl der Spieler darauf",
+  "petalPuzzle.guide.redPetal": "Rotes Blütenblatt",
+  "petalPuzzle.guide.redPetal.description": "Zu viele Spieler sind dabei",
+  "petalPuzzle.guide.pinkPetal": "Rosafarbenes Blütenblatt",
+  "petalPuzzle.guide.pinkPetal.description": "Es sind nicht genug Spieler dabei",
+  "petalPuzzle.guide.cooperate": "Kooperiere mit anderen Spielern und stell dich auf die Blütenblätter, um ihre Farben zu ändern.",
+  "petalPuzzle.guide.solve": "Vier Orangenblätter werden benötigt, um das Rätsel zu lösen und die Belohnung zu erhalten."
 }

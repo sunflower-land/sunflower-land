@@ -6562,5 +6562,14 @@
   "blessing.prize": "{{players}} 플레이어가 {{amount}} x {{item}} 를 받았습니다",
   "pets.napping": "낮잠",
   "pets.nappingDescription": "{{pet}} 가 낮잠을 자고 있습니다.쓰다듬어 깨우세요.",
-  "pets.petPet": "애완동물 {{pet}}"
+  "pets.petPet": "애완동물 {{pet}}",
+  "feed": "피드",
+  "petalPuzzle.guide.orangePetal": "오렌지 페탈",
+  "petalPuzzle.guide.orangePetal.description": "정확한 플레이어 수",
+  "petalPuzzle.guide.redPetal": "레드 페탈",
+  "petalPuzzle.guide.redPetal.description": "플레이어의 수가 너무 많음",
+  "petalPuzzle.guide.pinkPetal": "핑크 페탈",
+  "petalPuzzle.guide.pinkPetal.description": "플레이어 수가 충분하지 않습니다.",
+  "petalPuzzle.guide.cooperate": "다른 플레이어와 협력하고 꽃잎 위에 서서 색을 바꾸세요.",
+  "petalPuzzle.guide.solve": "퍼즐을 풀고 보상을 받으려면 주황색 꽃잎 네 개가 필요합니다."
 }

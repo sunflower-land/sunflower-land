@@ -6562,5 +6562,14 @@
   "blessing.prize": "{{players}} los jugadores recibieron {{amount}} x {{item}}",
   "pets.napping": "Dormir una siesta",
   "pets.nappingDescription": "{{pet}} está durmiendo una siesta. Acaricia para despertarlo.",
-  "pets.petPet": "Mascota {{pet}}"
+  "pets.petPet": "Mascota {{pet}}",
+  "feed": "Alimentar",
+  "petalPuzzle.guide.orangePetal": "Pétalo de naranja",
+  "petalPuzzle.guide.orangePetal.description": "Número exacto de jugadores en él",
+  "petalPuzzle.guide.redPetal": "Pétalo rojo",
+  "petalPuzzle.guide.redPetal.description": "Tiene demasiados jugadores",
+  "petalPuzzle.guide.pinkPetal": "Pétalo rosa",
+  "petalPuzzle.guide.pinkPetal.description": "No hay suficientes jugadores",
+  "petalPuzzle.guide.cooperate": "Coopera con otros jugadores y párate sobre los pétalos para cambiar sus colores.",
+  "petalPuzzle.guide.solve": "Se necesitan cuatro pétalos de naranja para resolver el rompecabezas y reclamar la recompensa."
 }

@@ -6562,5 +6562,14 @@
   "blessing.prize": "{{players}} oyuncuya alındı {{amount}} x {{item}}",
   "pets.napping": "Uyumak",
   "pets.nappingDescription": "{{pet}} uyuyor. Uyandırmak için okşayın.",
-  "pets.petPet": "Evcil hayvan {{pet}}"
+  "pets.petPet": "Evcil hayvan {{pet}}",
+  "feed": "Besleme",
+  "petalPuzzle.guide.orangePetal": "Turuncu Petal",
+  "petalPuzzle.guide.orangePetal.description": "Üzerindeki tam oyuncu sayısı",
+  "petalPuzzle.guide.redPetal": "Kırmızı taç yaprağı",
+  "petalPuzzle.guide.redPetal.description": "Üzerinde çok fazla oyuncu",
+  "petalPuzzle.guide.pinkPetal": "Pembe Petal",
+  "petalPuzzle.guide.pinkPetal.description": "Üzerinde yeterli oyuncu yok",
+  "petalPuzzle.guide.cooperate": "Diğer oyuncularla işbirliği yapın ve renklerini değiştirmek için yaprakların üzerinde durun.",
+  "petalPuzzle.guide.solve": "Bulmacayı çözmek ve ödülü almak için dört portakal yaprağı gerekir."
 }

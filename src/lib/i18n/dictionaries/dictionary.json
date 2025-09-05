@@ -6169,6 +6169,7 @@
   "social.lastOnline": "Last online {{time}}",
   "social.farming": "Farming",
   "social.feed": "{{type}} Feed",
+  "feed": "Feed",
   "social.activeProjects": "{{count}} active projects",
   "chestRewardsList.desertReward.desc1": "Increase your Desert Daily Streak to earn rewards from higher tiers.",
   "chestRewardsList.desertReward.desc2": "Claiming the reward grants one chapter artefact.",

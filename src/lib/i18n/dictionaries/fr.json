@@ -6562,5 +6562,14 @@
   "blessing.prize": "{{players}} les joueurs ont reçu {{amount}} x {{item}}",
   "pets.napping": "Faire la sieste",
   "pets.nappingDescription": "{{pet}} fait la sieste. Caressez-le pour le réveiller.",
-  "pets.petPet": "Animal domestique {{pet}}"
+  "pets.petPet": "Animal domestique {{pet}}",
+  "feed": "Nourrir",
+  "petalPuzzle.guide.orangePetal": "Pétale d'orange",
+  "petalPuzzle.guide.orangePetal.description": "Nombre exact de joueurs",
+  "petalPuzzle.guide.redPetal": "Pétale rouge",
+  "petalPuzzle.guide.redPetal.description": "Il y a trop de joueurs dessus",
+  "petalPuzzle.guide.pinkPetal": "Pétale rose",
+  "petalPuzzle.guide.pinkPetal.description": "Il n'y a pas assez de joueurs dessus",
+  "petalPuzzle.guide.cooperate": "Coopérez avec d'autres joueurs et montez sur les pétales pour changer de couleur.",
+  "petalPuzzle.guide.solve": "Quatre pétales d'orange sont nécessaires pour résoudre l'énigme et remporter la récompense."
 }

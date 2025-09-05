@@ -6562,5 +6562,14 @@
   "blessing.prize": "{{players}} i giocatori hanno ricevuto {{amount}} x {{item}}",
   "pets.napping": "Sonnellino",
   "pets.nappingDescription": "{{pet}} sta sonnecchiando. Accarezzalo per svegliarlo.",
-  "pets.petPet": "Animali domestici {{pet}}"
+  "pets.petPet": "Animali domestici {{pet}}",
+  "feed": "Mangimi",
+  "petalPuzzle.guide.orangePetal": "Petalo d'arancia",
+  "petalPuzzle.guide.orangePetal.description": "Numero esatto di giocatori presenti",
+  "petalPuzzle.guide.redPetal": "Petalo rosso",
+  "petalPuzzle.guide.redPetal.description": "Ci sono troppi giocatori",
+  "petalPuzzle.guide.pinkPetal": "Petalo rosa",
+  "petalPuzzle.guide.pinkPetal.description": "Non ci sono abbastanza giocatori",
+  "petalPuzzle.guide.cooperate": "Collabora con altri giocatori e rimani in piedi sui petali per cambiarne i colori.",
+  "petalPuzzle.guide.solve": "Sono necessari quattro petali arancioni per risolvere il puzzle e richiedere la ricompensa."
 }
