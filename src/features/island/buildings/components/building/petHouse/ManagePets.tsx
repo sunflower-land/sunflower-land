@@ -11,7 +11,7 @@ import {
   isPetNapping,
 } from "features/game/types/pets";
 import React, { useContext, useState, useMemo } from "react";
-import { FeedPetCard, isFoodAlreadyFed } from "./FeedPetCard";
+import { PetCard, isFoodAlreadyFed } from "./PetCard";
 import { Button } from "components/ui/Button";
 import { CookableName } from "features/game/types/consumables";
 import { Context } from "features/game/GameProvider";
@@ -30,7 +30,7 @@ type Props = {
   activePets: [PetName, Pet | undefined][];
 };
 
-export const FeedPet: React.FC<Props> = ({ activePets }) => {
+export const ManagePets: React.FC<Props> = ({ activePets }) => {
   const { t } = useAppTranslation();
   const [isBulkFeed, setIsBulkFeed] = useState(false);
   const { gameService } = useContext(Context);
@@ -235,7 +235,7 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
               if (!pet) return null;
 
               return (
-                <FeedPetCard
+                <PetCard
                   key={petName}
                   petName={petName}
                   pet={pet}

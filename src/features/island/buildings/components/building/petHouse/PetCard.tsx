@@ -80,7 +80,7 @@ export const isFoodAlreadyFed = (pet: Pet, food: CookableName) => {
   return pet.requests.foodFed?.includes(food) || false;
 };
 
-export const FeedPetCard: React.FC<Props> = ({
+export const PetCard: React.FC<Props> = ({
   petName,
   pet,
   isBulkFeed,
@@ -195,7 +195,6 @@ export const FeedPetCard: React.FC<Props> = ({
         fetchImage,
         fetchCount,
         energyRequired,
-        hasEnoughEnergy,
         hasRequiredLevel,
       };
     });
@@ -203,7 +202,7 @@ export const FeedPetCard: React.FC<Props> = ({
 
   return (
     <PetInfo petName={petName} pet={pet}>
-      <FeedPetCardContent
+      <PetCardContent
         pet={pet}
         foodItems={foodItems}
         handleFoodHover={handleFoodHover}
@@ -359,7 +358,7 @@ const TooltipOverlay: React.FC<{
   );
 };
 
-export const FeedPetCardContent: React.FC<{
+export const PetCardContent: React.FC<{
   pet: Pet;
   foodItems: {
     food: CookableName;
@@ -380,7 +379,6 @@ export const FeedPetCardContent: React.FC<{
     fetchImage: string;
     fetchCount: Decimal;
     energyRequired: number;
-    hasEnoughEnergy: boolean;
     hasRequiredLevel: boolean;
   }[];
   handleFoodHover: (food: CookableName, event: React.MouseEvent) => void;
@@ -498,7 +496,6 @@ export const FeedPetCardContent: React.FC<{
               fetchImage,
               fetchCount,
               energyRequired,
-              hasEnoughEnergy,
               hasRequiredLevel,
             }) => (
               <GridItem
