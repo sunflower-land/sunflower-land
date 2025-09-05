@@ -42,7 +42,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Outlet, useLocation } from "react-router";
 import { createPortal } from "react-dom";
 import { NON_COLLIDING_OBJECTS } from "./placeable/lib/collisionDetection";
-import { getZIndex } from "./placeable/lib/collisionDetection";
 
 import {
   isBuildingUpgradable,
@@ -149,7 +148,7 @@ const getIslandElements = ({
 
             return (
               <MapPlacement
-                key={`building-${nameIndex}-${itemIndex}`}
+                key={`building-${nameIndex}-${x}-${y}`}
                 x={x}
                 y={y}
                 height={height}
@@ -184,17 +183,16 @@ const getIslandElements = ({
 
         return items
           .filter((collectible) => collectible.coordinates)
-          .map((collectible, itemIndex) => {
+          .map((collectible) => {
             const { readyAt, createdAt, coordinates, id } = collectible;
             const { x, y } = coordinates!;
             const { width, height } = COLLECTIBLES_DIMENSIONS[name];
 
             return (
               <MapPlacement
-                key={`collectible-${nameIndex}-${itemIndex}`}
+                key={`collectible-${nameIndex}-${x}-${y}`}
                 x={x}
                 y={y}
-                z={getZIndex(y, name)}
                 height={height}
                 width={width}
                 canCollide={NON_COLLIDING_OBJECTS.includes(name) ? false : true}
@@ -210,7 +208,7 @@ const getIslandElements = ({
                   y={coordinates!.y}
                   grid={grid}
                   game={game}
-                  z={NON_COLLIDING_OBJECTS.includes(name) ? 0 : "unset"}
+                  // z={NON_COLLIDING_OBJECTS.includes(name) ? 0 : "unset"}
                   flipped={collectible.flipped}
                 />
               </MapPlacement>
@@ -756,6 +754,48 @@ export const Land: React.FC = () => {
     return gameGridValue;
   }, [JSON.stringify(gameGridValue)]);
 
+  const islandElements = getIslandElements({
+    game: state,
+    expansionConstruction,
+    buildings,
+    collectibles,
+    chickens,
+    trees,
+    stones,
+    iron,
+    gold,
+    crimstones,
+    sunstones,
+    fruitPatches,
+    flowerBeds,
+    crops,
+    showTimers: showTimers,
+    grid: gameGrid,
+    mushrooms: mushrooms?.mushrooms,
+    isFirstRender,
+    buds,
+    airdrops,
+    beehives,
+    oilReserves,
+    lavaPits,
+    isVisiting: visiting,
+    clutter: socialFarming?.clutter,
+    landscaping,
+    loggedInFarmState,
+  });
+  const sortedIslandElements = islandElements.sort((a, b) => {
+    // Non-colliding objects (like tiles, rugs) should be at the beginning
+    if (a.props.canCollide === false && b.props.canCollide !== false) {
+      return -1; // a should be before b
+    }
+    if (b.props.canCollide === false && a.props.canCollide !== false) {
+      return 1; // b should be before a
+    }
+
+    // For all other elements, sort by y position (higher y values first)
+    return b.props.y - a.props.y;
+  });
+
   return (
     <>
       <div
@@ -815,49 +855,7 @@ export const Land: React.FC = () => {
             />
 
             {/* Sort island elements by y axis */}
-            {!paused &&
-              getIslandElements({
-                game: state,
-                expansionConstruction,
-                buildings,
-                collectibles,
-                chickens,
-                trees,
-                stones,
-                iron,
-                gold,
-                crimstones,
-                sunstones,
-                fruitPatches,
-                flowerBeds,
-                crops,
-                showTimers: showTimers,
-                grid: gameGrid,
-                mushrooms: mushrooms?.mushrooms,
-                isFirstRender,
-                buds,
-                airdrops,
-                beehives,
-                oilReserves,
-                lavaPits,
-                isVisiting: visiting,
-                clutter: socialFarming?.clutter,
-                landscaping,
-                loggedInFarmState,
-              }).sort((a, b) => {
-                if (a.props.canCollide === false) {
-                  return -1;
-                }
-
-                if (b.props.y > a.props.y) {
-                  return 1;
-                }
-                if (a.props.y > b.props.y) {
-                  return -1;
-                }
-
-                return 0;
-              })}
+            {!paused && sortedIslandElements.map((element) => element)}
           </div>
 
           {landscaping && <Placeable location="farm" />}

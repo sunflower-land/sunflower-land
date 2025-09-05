@@ -232,7 +232,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
         id="bg-overlay "
         className=" bg-black opacity-40 fixed inset-0"
         style={{
-          zIndex: 1999,
+          zIndex: 99,
           height: "200%",
           right: "-1000px",
           left: "-1000px",
@@ -241,7 +241,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
           bottom: "1000px",
         }}
       />
-      <div className="fixed left-1/2 top-1/2" style={{ zIndex: 2000 }}>
+      <div className="fixed left-1/2 top-1/2" style={{ zIndex: 100 }}>
         <Draggable
           key={`${origin?.x}-${origin?.y}`}
           nodeRef={nodeRef}
