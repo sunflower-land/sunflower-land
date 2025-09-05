@@ -61,7 +61,9 @@ export function fetchPet({ state, action, createdAt = Date.now() }: Options) {
     }
 
     petData.energy -= energyRequired;
-    state.inventory[fetch] = (state.inventory[fetch] ?? new Decimal(0)).add(1);
+    stateCopy.inventory[fetch] = (
+      stateCopy.inventory[fetch] ?? new Decimal(0)
+    ).add(1);
 
     return stateCopy;
   });
