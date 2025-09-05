@@ -6562,5 +6562,14 @@
   "blessing.prize": "{{players}} игроки получили {{amount}} x {{item}}",
   "pets.napping": "Дремота",
   "pets.nappingDescription": "{{pet}} дремлет. Погладьте его, чтобы разбудить его.",
-  "pets.petPet": "Домашнее животное {{pet}}"
+  "pets.petPet": "Домашнее животное {{pet}}",
+  "feed": "Корма",
+  "petalPuzzle.guide.orangePetal": "Оранжевый лепесток",
+  "petalPuzzle.guide.orangePetal.description": "Точное количество игроков на нем",
+  "petalPuzzle.guide.redPetal": "Красный лепесток",
+  "petalPuzzle.guide.redPetal.description": "На ней слишком много игроков",
+  "petalPuzzle.guide.pinkPetal": "Розовый лепесток",
+  "petalPuzzle.guide.pinkPetal.description": "На нем недостаточно игроков",
+  "petalPuzzle.guide.cooperate": "Сотрудничайте с другими игроками и встаньте на лепестки, чтобы изменить их цвет.",
+  "petalPuzzle.guide.solve": "Чтобы решить головоломку и получить награду, нужны четыре оранжевых лепестка."
 }

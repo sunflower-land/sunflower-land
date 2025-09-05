@@ -6562,5 +6562,14 @@
   "blessing.prize": "{{players}} jogadores receberam {{amount}} x {{item}}",
   "pets.napping": "Cochilando",
   "pets.nappingDescription": "{{pet}} está cochilando. Faça carinho para acordá-lo.",
-  "pets.petPet": "Animal de estimação {{pet}}"
+  "pets.petPet": "Animal de estimação {{pet}}",
+  "feed": "Alimentação",
+  "petalPuzzle.guide.orangePetal": "Pétala de laranja",
+  "petalPuzzle.guide.orangePetal.description": "Número exato de jogadores",
+  "petalPuzzle.guide.redPetal": "Pétala vermelha",
+  "petalPuzzle.guide.redPetal.description": "Muitos jogadores nele",
+  "petalPuzzle.guide.pinkPetal": "Pétala rosa",
+  "petalPuzzle.guide.pinkPetal.description": "Não há jogadores suficientes",
+  "petalPuzzle.guide.cooperate": "Coopere com outros jogadores e apoie-se nas pétalas para mudar suas cores.",
+  "petalPuzzle.guide.solve": "São necessárias quatro pétalas de laranja para resolver o quebra-cabeça e reivindicar a recompensa."
 }
