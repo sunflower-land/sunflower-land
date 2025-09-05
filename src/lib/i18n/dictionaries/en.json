@@ -6511,6 +6511,7 @@
   "pets.fetch": "Fetch",
   "pets.info": "Info",
   "pets.level": "Level: {{level}}",
+  "pets.manage": "Manage Pets",
   "pets.loadingFoodRequests": "Loading Food Requests",
   "pets.noFoodSelected": "Select a food to feed your pet",
   "pet.changes": "Changes",

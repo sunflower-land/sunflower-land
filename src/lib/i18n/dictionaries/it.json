@@ -6571,5 +6571,6 @@
   "petalPuzzle.guide.pinkPetal": "Petalo rosa",
   "petalPuzzle.guide.pinkPetal.description": "Non ci sono abbastanza giocatori",
   "petalPuzzle.guide.cooperate": "Collabora con altri giocatori e rimani in piedi sui petali per cambiarne i colori.",
-  "petalPuzzle.guide.solve": "Sono necessari quattro petali arancioni per risolvere il puzzle e richiedere la ricompensa."
+  "petalPuzzle.guide.solve": "Sono necessari quattro petali arancioni per risolvere il puzzle e richiedere la ricompensa.",
+  "pets.manage": "Gestisci animali domestici"
 }

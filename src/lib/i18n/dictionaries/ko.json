@@ -6571,5 +6571,6 @@
   "petalPuzzle.guide.pinkPetal": "핑크 페탈",
   "petalPuzzle.guide.pinkPetal.description": "플레이어 수가 충분하지 않습니다.",
   "petalPuzzle.guide.cooperate": "다른 플레이어와 협력하고 꽃잎 위에 서서 색을 바꾸세요.",
-  "petalPuzzle.guide.solve": "퍼즐을 풀고 보상을 받으려면 주황색 꽃잎 네 개가 필요합니다."
+  "petalPuzzle.guide.solve": "퍼즐을 풀고 보상을 받으려면 주황색 꽃잎 네 개가 필요합니다.",
+  "pets.manage": "애완동물 관리"
 }

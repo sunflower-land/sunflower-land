@@ -6571,5 +6571,6 @@
   "petalPuzzle.guide.pinkPetal": "Pétalo rosa",
   "petalPuzzle.guide.pinkPetal.description": "No hay suficientes jugadores",
   "petalPuzzle.guide.cooperate": "Coopera con otros jugadores y párate sobre los pétalos para cambiar sus colores.",
-  "petalPuzzle.guide.solve": "Se necesitan cuatro pétalos de naranja para resolver el rompecabezas y reclamar la recompensa."
+  "petalPuzzle.guide.solve": "Se necesitan cuatro pétalos de naranja para resolver el rompecabezas y reclamar la recompensa.",
+  "pets.manage": "Gestiona mascotas"
 }

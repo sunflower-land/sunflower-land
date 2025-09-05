@@ -6571,5 +6571,6 @@
   "petalPuzzle.guide.pinkPetal": "Pétale rose",
   "petalPuzzle.guide.pinkPetal.description": "Il n'y a pas assez de joueurs dessus",
   "petalPuzzle.guide.cooperate": "Coopérez avec d'autres joueurs et montez sur les pétales pour changer de couleur.",
-  "petalPuzzle.guide.solve": "Quatre pétales d'orange sont nécessaires pour résoudre l'énigme et remporter la récompense."
+  "petalPuzzle.guide.solve": "Quatre pétales d'orange sont nécessaires pour résoudre l'énigme et remporter la récompense.",
+  "pets.manage": "Gérer les animaux de compagnie"
 }

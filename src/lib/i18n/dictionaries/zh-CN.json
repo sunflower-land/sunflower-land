@@ -6571,5 +6571,6 @@
   "petalPuzzle.guide.pinkPetal": "粉色花瓣",
   "petalPuzzle.guide.pinkPetal.description": "上面没有足够的玩家",
   "petalPuzzle.guide.cooperate": "与其他玩家合作，站在花瓣上改变它们的颜色。",
-  "petalPuzzle.guide.solve": "需要四片橙色花瓣来解开谜题并领取奖励。"
+  "petalPuzzle.guide.solve": "需要四片橙色花瓣来解开谜题并领取奖励。",
+  "pets.manage": "管理宠物"
 }

@@ -6571,5 +6571,6 @@
   "petalPuzzle.guide.pinkPetal": "ピンクの花びら",
   "petalPuzzle.guide.pinkPetal.description": "参加しているプレイヤーの数が足りません",
   "petalPuzzle.guide.cooperate": "他のプレイヤーと協力して、花びらの上に立って色を変えましょう。",
-  "petalPuzzle.guide.solve": "パズルを解いて報酬を受け取るには、オレンジの花びらが4枚必要です。"
+  "petalPuzzle.guide.solve": "パズルを解いて報酬を受け取るには、オレンジの花びらが4枚必要です。",
+  "pets.manage": "ペットを管理"
 }

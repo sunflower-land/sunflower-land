@@ -6571,5 +6571,6 @@
   "petalPuzzle.guide.pinkPetal": "Pembe Petal",
   "petalPuzzle.guide.pinkPetal.description": "Üzerinde yeterli oyuncu yok",
   "petalPuzzle.guide.cooperate": "Diğer oyuncularla işbirliği yapın ve renklerini değiştirmek için yaprakların üzerinde durun.",
-  "petalPuzzle.guide.solve": "Bulmacayı çözmek ve ödülü almak için dört portakal yaprağı gerekir."
+  "petalPuzzle.guide.solve": "Bulmacayı çözmek ve ödülü almak için dört portakal yaprağı gerekir.",
+  "pets.manage": "Evcil Hayvanları Yönet"
 }
