@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useSelector } from "@xstate/react";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -20,7 +20,6 @@ export const PetHouseModal: React.FC<Props> = ({ show, onClose }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const pets = useSelector(gameService, (state) => state.context.state.pets);
-  const [tab, setTab] = useState<"Feed" | "Fetch">("Feed");
   const PlacedCollectibles = (petName: PetName) => {
     const collectibles = useSelector(gameService, (state) =>
       state.context.state.collectibles[petName]?.filter(
@@ -55,20 +54,12 @@ export const PetHouseModal: React.FC<Props> = ({ show, onClose }) => {
         tabs={[
           {
             icon: ITEM_DETAILS.Barkley.image,
-            name: t("pets.feed"),
-            id: "Feed",
-          },
-          {
-            icon: ITEM_DETAILS.Barkley.image,
-            name: t("pets.fetch"),
-            id: "Fetch",
+            name: "Manage Pets",
           },
         ]}
-        currentTab={tab}
-        setCurrentTab={setTab}
-        container={tab === "Feed" ? OuterPanel : undefined}
+        container={OuterPanel}
       >
-        {tab === "Feed" && <FeedPet activePets={activePets} />}
+        <FeedPet activePets={activePets} />
       </CloseButtonPanel>
     </Modal>
   );

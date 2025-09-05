@@ -1,12 +1,16 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
-import { Label } from "components/ui/Label";
+import { Label, LabelType } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
 import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
+  PET_RESOURCES,
   Pet,
   PetName,
+  PetResourceName,
+  getExperienceToNextLevel,
+  getPetFetches,
   getPetRequestXP,
   isPetNapping,
   isPetNeglected,
@@ -87,6 +91,9 @@ export const FeedPetCard: React.FC<Props> = ({
   const { gameService } = useContext(Context);
 
   const [hoveredFood, setHoveredFood] = useState<CookableName | null>(null);
+  const [hoveredFetch, setHoveredFetch] = useState<PetResourceName | null>(
+    null,
+  );
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
 
   const handleFeedPet = (food: CookableName) => {
@@ -108,47 +115,21 @@ export const FeedPetCard: React.FC<Props> = ({
     gameService.send("pet.pet", { pet: petName });
   };
 
+  const handleFetchPet = (petName: PetName, fetch: PetResourceName) => {
+    gameService.send("pet.fetched", { pet: petName, fetch });
+  };
+
   const handleFoodHover = (food: CookableName, event: React.MouseEvent) => {
     setHoveredFood(food);
-    const rect = event.currentTarget.getBoundingClientRect();
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
+    setTooltipPosition(calculateTooltipPosition(event.currentTarget));
+  };
 
-    // Estimate tooltip dimensions
-    const tooltipWidth = 120;
-    const tooltipHeight = 40;
-
-    let x = rect.left + rect.width / 2;
-    // Position below the button by default
-    let y = rect.bottom + 10;
-
-    // Ensure tooltip doesn't go off the left edge
-    if (x - tooltipWidth / 2 < 10) {
-      x = tooltipWidth / 2 + 10;
-    }
-
-    // Ensure tooltip doesn't go off the right edge
-    if (x + tooltipWidth / 2 > viewportWidth - 10) {
-      x = viewportWidth - tooltipWidth / 2 - 10;
-    }
-
-    // Check if there's enough space below the button
-    const spaceBelow = viewportHeight - rect.bottom;
-    const spaceAbove = rect.top;
-
-    // If not enough space below, position above the button instead
-    if (spaceBelow < tooltipHeight + 10) {
-      y = rect.top - tooltipHeight - 10;
-      // If also not enough space above, position in the middle of available space
-      if (spaceAbove < tooltipHeight + 10) {
-        y = Math.max(
-          10,
-          Math.min(viewportHeight - tooltipHeight - 10, viewportHeight / 2),
-        );
-      }
-    }
-
-    setTooltipPosition({ x, y });
+  const handleFetchHover = (
+    fetch: PetResourceName,
+    event: React.MouseEvent,
+  ) => {
+    setHoveredFetch(fetch);
+    setTooltipPosition(calculateTooltipPosition(event.currentTarget));
   };
 
   const handleRemoveFromSelection = (food: CookableName) => {
@@ -197,6 +178,28 @@ export const FeedPetCard: React.FC<Props> = ({
       };
     });
   }, [inventory, isBulkFeed, selectedFeed, petName, pet]);
+  const fetchData = getPetFetches(petName);
+  const { level } = getExperienceToNextLevel(pet.experience);
+
+  const fetchItems = useMemo(() => {
+    return fetchData.fetches.map((fetch) => {
+      const hasRequiredLevel = level >= fetch.level;
+      const fetchImage = ITEM_DETAILS[fetch.name].image;
+      const fetchCount = inventory[fetch.name] ?? new Decimal(0);
+      const energyRequired = PET_RESOURCES[fetch.name].energy;
+      const hasEnoughEnergy = pet.energy >= energyRequired;
+      const isDisabled = !hasRequiredLevel || !hasEnoughEnergy;
+      return {
+        fetch,
+        isDisabled,
+        fetchImage,
+        fetchCount,
+        energyRequired,
+        hasEnoughEnergy,
+        hasRequiredLevel,
+      };
+    });
+  }, [fetchData.fetches, inventory, level, pet.energy]);
 
   return (
     <PetInfo petName={petName} pet={pet}>
@@ -211,8 +214,148 @@ export const FeedPetCard: React.FC<Props> = ({
         handleNeglectPet={handleNeglectPet}
         handlePetPet={handlePetPet}
         tooltipPosition={tooltipPosition}
+        handleFetchPet={handleFetchPet}
+        fetchItems={fetchItems}
+        handleFetchHover={handleFetchHover}
+        setHoveredFetch={setHoveredFetch}
+        hoveredFetch={hoveredFetch}
       />
     </PetInfo>
+  );
+};
+
+// Shared tooltip calculation to keep identical behavior for hover tooltips
+const calculateTooltipPosition = (
+  target: Element,
+): { x: number; y: number } => {
+  const rect = target.getBoundingClientRect();
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+
+  // Estimate tooltip dimensions
+  const tooltipWidth = 120;
+  const tooltipHeight = 40;
+
+  let x = rect.left + rect.width / 2;
+  // Position below the button by default
+  let y = rect.bottom + 10;
+
+  // Ensure tooltip doesn't go off the left edge
+  if (x - tooltipWidth / 2 < 10) {
+    x = tooltipWidth / 2 + 10;
+  }
+
+  // Ensure tooltip doesn't go off the right edge
+  if (x + tooltipWidth / 2 > viewportWidth - 10) {
+    x = viewportWidth - tooltipWidth / 2 - 10;
+  }
+
+  // Check if there's enough space below the button
+  const spaceBelow = viewportHeight - rect.bottom;
+  const spaceAbove = rect.top;
+
+  // If not enough space below, position above the button instead
+  if (spaceBelow < tooltipHeight + 10) {
+    y = rect.top - tooltipHeight - 10;
+    // If also not enough space above, position in the middle of available space
+    if (spaceAbove < tooltipHeight + 10) {
+      y = Math.max(
+        10,
+        Math.min(viewportHeight - tooltipHeight - 10, viewportHeight / 2),
+      );
+    }
+  }
+
+  return { x, y };
+};
+
+// Generic grid item to render food/fetch tiles with identical styling
+const GridItem: React.FC<{
+  keyName: string;
+  imageSrc: string;
+  disabled: boolean;
+  onClick?: () => void;
+  onMouseEnter: (e: React.MouseEvent) => void;
+  onMouseLeave: () => void;
+  count?: Decimal | null;
+  showConfirm?: boolean;
+  bottomLabelValue: number;
+  bottomLabelType: LabelType;
+  bottomLabelIcon?: string;
+  isHovered: boolean;
+}> = ({
+  imageSrc,
+  disabled,
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
+  count,
+  showConfirm,
+  bottomLabelValue,
+  bottomLabelType,
+  bottomLabelIcon,
+  isHovered,
+}) => {
+  return (
+    <div className="flex flex-col items-center space-x-2 w-16">
+      <div className="relative">
+        <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+          <Button
+            disabled={disabled}
+            onClick={onClick}
+            className={`w-12 h-12 p-1`}
+          >
+            <img src={imageSrc} className="w-[85%] h-[85%] object-contain" />
+          </Button>
+        </div>
+        {showConfirm && (
+          <img
+            src={SUNNYSIDE.icons.confirm}
+            className="absolute top-[-0.25rem] right-[-0.25rem] w-5 h-5"
+          />
+        )}
+        {count && count.greaterThan(0) && (
+          <Label
+            type="default"
+            className="absolute top-[-0.75rem] left-[-0.75rem]"
+          >
+            {isHovered ? count.toString() : shortenCount(count)}
+          </Label>
+        )}
+      </div>
+      <Label type={bottomLabelType} icon={bottomLabelIcon}>
+        {bottomLabelValue}
+      </Label>
+    </div>
+  );
+};
+
+// Shared tooltip overlay renderer
+const TooltipOverlay: React.FC<{
+  itemName: CookableName | PetResourceName | null;
+  position: { x: number; y: number };
+}> = ({ itemName, position }) => {
+  if (!itemName) return null;
+  return (
+    <div
+      className="fixed pointer-events-none z-50"
+      style={{
+        left: position.x,
+        top: position.y,
+        transform: "translateX(-50%)",
+      }}
+    >
+      <InnerPanel className="whitespace-nowrap max-w-[200px]">
+        <div className="flex items-center gap-2 p-1">
+          <img
+            src={ITEM_DETAILS[itemName].image}
+            alt={itemName}
+            className="w-6 h-6 object-contain flex-shrink-0"
+          />
+          <span className="text-xs capitalize break-words">{itemName}</span>
+        </div>
+      </InnerPanel>
+    </div>
   );
 };
 
@@ -228,25 +371,46 @@ export const FeedPetCardContent: React.FC<{
     isDisabled: boolean;
     foodXP: number;
   }[];
+  fetchItems: {
+    fetch: {
+      name: PetResourceName;
+      level: number;
+    };
+    isDisabled: boolean;
+    fetchImage: string;
+    fetchCount: Decimal;
+    energyRequired: number;
+    hasEnoughEnergy: boolean;
+    hasRequiredLevel: boolean;
+  }[];
   handleFoodHover: (food: CookableName, event: React.MouseEvent) => void;
+  handleFetchHover: (fetch: PetResourceName, event: React.MouseEvent) => void;
   setHoveredFood: (food: CookableName | null) => void;
+  setHoveredFetch: (fetch: PetResourceName | null) => void;
   handleRemoveFromSelection: (food: CookableName) => void;
   handleFeedPet: (food: CookableName) => void;
   hoveredFood: CookableName | null;
+  hoveredFetch: PetResourceName | null;
   handleNeglectPet: (petName: PetName) => void;
   handlePetPet: (petName: PetName) => void;
   tooltipPosition: { x: number; y: number };
+  handleFetchPet: (petName: PetName, fetch: PetResourceName) => void;
 }> = ({
   pet,
   foodItems,
+  fetchItems,
   handleFoodHover,
   setHoveredFood,
   handleRemoveFromSelection,
   handleFeedPet,
   hoveredFood,
+  hoveredFetch,
   handleNeglectPet,
   handlePetPet,
   tooltipPosition,
+  handleFetchPet,
+  handleFetchHover,
+  setHoveredFetch,
 }) => {
   const { t } = useAppTranslation();
 
@@ -281,10 +445,10 @@ export const FeedPetCardContent: React.FC<{
   }
 
   return (
-    <>
-      <div className="flex flex-col gap-4 w-3/4 sm:w-auto">
+    <div className="flex flex-col gap-2 w-2/3 sm:w-auto">
+      <div className="flex flex-col gap-4">
         <Label type={"default"}>{`Food Requests`}</Label>
-        <div className="flex space-x-2 ml-2">
+        <div className="flex flex-wrap gap-1 ml-2">
           {pet.requests.food.length === 0 && <p>{`No food requests`}</p>}
           {foodItems.map(
             ({
@@ -296,79 +460,72 @@ export const FeedPetCardContent: React.FC<{
               isDisabled,
               foodXP,
             }) => (
-              <div key={food} className="flex flex-col items-center space-x-2">
-                <div className="relative">
-                  <div
-                    onMouseEnter={(e) => handleFoodHover(food, e)}
-                    onMouseLeave={() => setHoveredFood(null)}
-                  >
-                    <Button
-                      disabled={isDisabled}
-                      onClick={
-                        isDisabled
-                          ? undefined
-                          : isSelected
-                            ? () => handleRemoveFromSelection(food)
-                            : () => handleFeedPet(food)
-                      }
-                      className={`w-12 h-12 p-1`}
-                    >
-                      <img
-                        src={foodImage}
-                        alt={food}
-                        className="w-[85%] h-[85%] object-contain"
-                      />
-                    </Button>
-                  </div>
-                  {(alreadyFed || isSelected) && (
-                    <img
-                      src={SUNNYSIDE.icons.confirm}
-                      className="absolute top-[-0.25rem] right-[-0.25rem] w-5 h-5"
-                    />
-                  )}
-                  {foodCount && foodCount.greaterThan(0) && (
-                    <Label
-                      type="default"
-                      className="absolute top-[-0.75rem] left-[-0.75rem]"
-                    >
-                      {hoveredFood === food
-                        ? foodCount.toString()
-                        : shortenCount(foodCount)}
-                    </Label>
-                  )}
-                </div>
-                <Label type="vibrant" icon={SUNNYSIDE.icons.lightning}>
-                  {foodXP}
-                </Label>
-              </div>
+              <GridItem
+                key={food}
+                keyName={food}
+                imageSrc={foodImage}
+                disabled={isDisabled}
+                onClick={
+                  isDisabled
+                    ? undefined
+                    : isSelected
+                      ? () => handleRemoveFromSelection(food)
+                      : () => handleFeedPet(food)
+                }
+                onMouseEnter={(e) => handleFoodHover(food, e)}
+                onMouseLeave={() => setHoveredFood(null)}
+                count={foodCount}
+                showConfirm={alreadyFed || isSelected}
+                bottomLabelValue={foodXP}
+                bottomLabelType="success"
+                bottomLabelIcon={SUNNYSIDE.icons.lightning}
+                isHovered={hoveredFood === food}
+              />
             ),
           )}
         </div>
+        {/* Food Tooltip Overlay */}
+        <TooltipOverlay itemName={hoveredFood} position={tooltipPosition} />
       </div>
-      {/* Food Tooltip Overlay */}
-      {hoveredFood && (
-        <div
-          className="fixed pointer-events-none z-50"
-          style={{
-            left: tooltipPosition.x,
-            top: tooltipPosition.y,
-            transform: "translateX(-50%)",
-          }}
-        >
-          <InnerPanel className="whitespace-nowrap max-w-[200px]">
-            <div className="flex items-center gap-2 p-1">
-              <img
-                src={ITEM_DETAILS[hoveredFood].image}
-                alt={hoveredFood}
-                className="w-6 h-6 object-contain flex-shrink-0"
+
+      <div className="flex flex-col gap-4">
+        <Label type={"default"}>{`Fetches`}</Label>
+        <div className="flex flex-wrap gap-1 ml-2">
+          {fetchItems.map(
+            ({
+              fetch,
+              isDisabled,
+              fetchImage,
+              fetchCount,
+              energyRequired,
+              hasEnoughEnergy,
+              hasRequiredLevel,
+            }) => (
+              <GridItem
+                key={fetch.name}
+                keyName={fetch.name}
+                imageSrc={fetchImage}
+                disabled={isDisabled}
+                onClick={() => handleFetchPet(pet.name, fetch.name)}
+                onMouseEnter={(e) => handleFetchHover(fetch.name, e)}
+                onMouseLeave={() => setHoveredFetch(null)}
+                count={fetchCount}
+                showConfirm={false}
+                bottomLabelValue={energyRequired}
+                bottomLabelType={isDisabled ? "danger" : "default"}
+                bottomLabelIcon={
+                  hasRequiredLevel
+                    ? SUNNYSIDE.icons.lightning
+                    : SUNNYSIDE.icons.lock
+                }
+                isHovered={hoveredFetch === fetch.name}
               />
-              <span className="text-xs capitalize break-words">
-                {hoveredFood}
-              </span>
-            </div>
-          </InnerPanel>
+            ),
+          )}
         </div>
-      )}
-    </>
+        {/* Fetch Tooltip Overlay */}
+        <TooltipOverlay itemName={hoveredFetch} position={tooltipPosition} />
+      </div>
+    </div>
   );
 };

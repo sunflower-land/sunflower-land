@@ -231,20 +231,21 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
           <p className="p-4 text-center text-gray-500">{t("pets.noPets")}</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mr-1">
-            {activePetsSortedByType.map(
-              ([petName, pet]) =>
-                pet && (
-                  <FeedPetCard
-                    key={petName}
-                    petName={petName}
-                    pet={pet}
-                    isBulkFeed={isBulkFeed}
-                    selectedFeed={selectedFeed}
-                    setSelectedFeed={setSelectedFeed}
-                    inventory={inventory}
-                  />
-                ),
-            )}
+            {activePetsSortedByType.map(([petName, pet]) => {
+              if (!pet) return null;
+
+              return (
+                <FeedPetCard
+                  key={petName}
+                  petName={petName}
+                  pet={pet}
+                  isBulkFeed={isBulkFeed}
+                  selectedFeed={selectedFeed}
+                  setSelectedFeed={setSelectedFeed}
+                  inventory={inventory}
+                />
+              );
+            })}
           </div>
         )}
       </InnerPanel>
