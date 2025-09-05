@@ -72,7 +72,7 @@ const HudComponent: React.FC<{
 
   return (
     <HudContainer>
-      <Feed type="local" showFeed={showFeed} setShowFeed={setShowFeed} />
+      <Feed type="world" showFeed={showFeed} setShowFeed={setShowFeed} />
       <div
         className={classNames(
           "absolute left-0 top-0 bottom-0 p-2.5 transition-transform duration-200",
