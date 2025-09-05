@@ -6559,5 +6559,8 @@
   "pets.neglectPet": "Hewan Peliharaan Diabaikan",
   "pets.neglectPetDescription": "{{pet}} telah diabaikan. Tolong hiburkan untuk menghidupkannya kembali.",
   "pets.cheerPet": "Bersorak {{pet}}",
-  "blessing.prize": "{{players}} pemain menerima {{amount}} x {{item}}"
+  "blessing.prize": "{{players}} pemain menerima {{amount}} x {{item}}",
+  "pets.napping": "Tidur siang",
+  "pets.nappingDescription": "{{pet}} sedang tidur siang. Peliharalah untuk membangunkannya.",
+  "pets.petPet": "Hewan peliharaan {{pet}}"
 }

@@ -6559,5 +6559,8 @@
   "pets.neglectPet": "被忽视的宠物",
   "pets.neglectPetDescription": "{{pet}} 已被忽视。请振作起来，让它重获新生。",
   "pets.cheerPet": "加油 {{pet}}",
-  "blessing.prize": "{{players}} 玩家获得了 {{amount}} x {{item}}"
+  "blessing.prize": "{{players}} 玩家获得了 {{amount}} x {{item}}",
+  "pets.napping": "午睡",
+  "pets.nappingDescription": "{{pet}} 正在睡觉。让它醒来。",
+  "pets.petPet": "宠物 {{pet}}"
 }

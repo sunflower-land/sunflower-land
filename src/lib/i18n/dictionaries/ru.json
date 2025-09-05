@@ -6559,5 +6559,8 @@
   "pets.neglectPet": "Домашнее животное, оста",
   "pets.neglectPetDescription": "{{pet}} было проигнорировано. Пожалуйста, поднимите ему настроение, чтобы вернуть его к жизни.",
   "pets.cheerPet": "Поднимите настроение {{pet}}",
-  "blessing.prize": "{{players}} игроки получили {{amount}} x {{item}}"
+  "blessing.prize": "{{players}} игроки получили {{amount}} x {{item}}",
+  "pets.napping": "Дремота",
+  "pets.nappingDescription": "{{pet}} дремлет. Погладьте его, чтобы разбудить его.",
+  "pets.petPet": "Домашнее животное {{pet}}"
 }

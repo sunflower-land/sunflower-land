@@ -6559,5 +6559,8 @@
   "pets.neglectPet": "Haustier vernachlässigt",
   "pets.neglectPetDescription": "{{pet}} wurde vernachlässigt. Bitte muntere es auf, um es wieder zum Leben zu erwecken.",
   "pets.cheerPet": "Muntere {{pet}} auf",
-  "blessing.prize": "{{players}} Spieler haben {{amount}} x {{item}} erhalten"
+  "blessing.prize": "{{players}} Spieler haben {{amount}} x {{item}} erhalten",
+  "pets.napping": "Nickerchen machen",
+  "pets.nappingDescription": "{{pet}} macht ein Nickerchen. Streichle es, um es aufzuwecken.",
+  "pets.petPet": "Haustier {{pet}}"
 }

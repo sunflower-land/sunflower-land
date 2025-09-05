@@ -6559,5 +6559,8 @@
   "pets.neglectPet": "Mascota abandonada",
   "pets.neglectPetDescription": "Se ha omitido {{pet}}. Por favor, anímalo para devolverle la vida.",
   "pets.cheerPet": "Anímate {{pet}}",
-  "blessing.prize": "{{players}} los jugadores recibieron {{amount}} x {{item}}"
+  "blessing.prize": "{{players}} los jugadores recibieron {{amount}} x {{item}}",
+  "pets.napping": "Dormir una siesta",
+  "pets.nappingDescription": "{{pet}} está durmiendo una siesta. Acaricia para despertarlo.",
+  "pets.petPet": "Mascota {{pet}}"
 }

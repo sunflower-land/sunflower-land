@@ -6559,5 +6559,8 @@
   "pets.neglectPet": "애완동물 무시",
   "pets.neglectPetDescription": "{{pet}} 은 무시되었습니다.다시 살아날 수 있도록 응원해 주세요.",
   "pets.cheerPet": "응원 {{pet}} 업",
-  "blessing.prize": "{{players}} 플레이어가 {{amount}} x {{item}} 를 받았습니다"
+  "blessing.prize": "{{players}} 플레이어가 {{amount}} x {{item}} 를 받았습니다",
+  "pets.napping": "낮잠",
+  "pets.nappingDescription": "{{pet}} 가 낮잠을 자고 있습니다.쓰다듬어 깨우세요.",
+  "pets.petPet": "애완동물 {{pet}}"
 }

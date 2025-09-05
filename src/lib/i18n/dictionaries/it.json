@@ -6559,5 +6559,8 @@
   "pets.neglectPet": "Animale domestico trascurato",
   "pets.neglectPetDescription": "{{pet}} è stato trascurato. Per favore, rallegralo per riportarlo in vita.",
   "pets.cheerPet": "Rallegrare {{pet}}",
-  "blessing.prize": "{{players}} i giocatori hanno ricevuto {{amount}} x {{item}}"
+  "blessing.prize": "{{players}} i giocatori hanno ricevuto {{amount}} x {{item}}",
+  "pets.napping": "Sonnellino",
+  "pets.nappingDescription": "{{pet}} sta sonnecchiando. Accarezzalo per svegliarlo.",
+  "pets.petPet": "Animali domestici {{pet}}"
 }

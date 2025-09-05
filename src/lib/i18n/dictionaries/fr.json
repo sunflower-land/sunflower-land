@@ -6559,5 +6559,8 @@
   "pets.neglectPet": "Animal négligé",
   "pets.neglectPetDescription": "{{pet}} a été négligé. S'il vous plaît, remontez le moral pour lui redonner vie.",
   "pets.cheerPet": "Réjouissez-vous {{pet}}",
-  "blessing.prize": "{{players}} les joueurs ont reçu {{amount}} x {{item}}"
+  "blessing.prize": "{{players}} les joueurs ont reçu {{amount}} x {{item}}",
+  "pets.napping": "Faire la sieste",
+  "pets.nappingDescription": "{{pet}} fait la sieste. Caressez-le pour le réveiller.",
+  "pets.petPet": "Animal domestique {{pet}}"
 }
