@@ -65,7 +65,6 @@ import { WorldHud } from "features/island/hud/WorldHud";
 import { PlayerModal } from "features/social/PlayerModal";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { RewardModal } from "features/social/RewardModal";
-import { Discovery } from "features/social/Discovery";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -490,7 +489,6 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
         token={rawToken}
         hasAirdropAccess={hasFeatureAccess(state, "AIRDROP_PLAYER")}
       />
-      <Discovery />
       <RewardModal />
       <CommunityModals />
       <InteractableModals id={loggedInFarmId} scene={scene} key={scene} />
