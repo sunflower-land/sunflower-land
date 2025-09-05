@@ -31,12 +31,7 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     direction: "right",
     hideLabel: true,
   },
-  {
-    x: 496,
-    y: 403,
-    npc: "rocket man",
-    direction: "left",
-  },
+
   {
     x: 207,
     y: 379,

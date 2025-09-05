@@ -1,7 +1,7 @@
 import { getObjectEntries } from "../expansion/lib/utils";
 import { getKeys } from "./decorations";
 import { Inventory, InventoryItemName, Wardrobe } from "./game";
-import { PETS, PET_CATEGORIES, PetCategory, PetName } from "./pets";
+import { PETS, PET_CATEGORIES, PetType, PetName } from "./pets";
 
 export type RewardBox = {
   spunAt?: number;
@@ -136,15 +136,16 @@ export const REWARD_BOXES: Record<RewardBoxName, RewardBoxDetails> = {
   },
   "Gold Love Box": {
     rewards: [
-      { coins: 5000, weight: 100 },
-      { coins: 10000, weight: 50 },
-      { items: { "Pizza Margherita": 1 }, weight: 100 },
-      { items: { "Pizza Margherita": 3 }, weight: 50 },
-      { items: { "Fishing Lure": 50 }, weight: 50 },
-      { items: { Gem: 200 }, weight: 50 },
-      { items: { Gem: 500 }, weight: 25 },
-      { items: { "Super Totem": 1 }, weight: 25 },
-      { vipDays: 7, weight: 50 },
+      { items: { "Love Charm": 250 }, weight: 15 },
+      { items: { "Love Charm": 500 }, weight: 10 },
+      { items: { "Love Charm": 1000 }, weight: 5 },
+      { coins: 10000, weight: 15 },
+      { items: { "Pizza Margherita": 3 }, weight: 15 },
+      { items: { "Fishing Lure": 50 }, weight: 10 },
+      { items: { Gem: 200 }, weight: 10 },
+      { vipDays: 7, weight: 10 },
+      { items: { Gem: 500 }, weight: 5 },
+      { items: { "Super Totem": 1 }, weight: 5 },
     ],
   },
 
@@ -279,17 +280,17 @@ export const getPetRewardPool = ({
   let petRewardPool = [...REWARD_BOXES["Pet Egg"].rewards];
 
   // Get all pet categories that the player already has pets from
-  const ownedPetCategories = new Set<PetCategory>();
+  const ownedPetCategories = new Set<PetType>();
 
   getKeys(PETS).forEach((pet) => {
     if (inventory[pet]) {
-      const petCategoryEntry = getObjectEntries(PET_CATEGORIES).find(
-        ([, pets]) => pets.includes(pet),
+      const petTypeEntry = getObjectEntries(PET_CATEGORIES).find(
+        ([, petCategory]) => petCategory.pets.includes(pet),
       );
 
-      if (petCategoryEntry) {
-        const [petCategory] = petCategoryEntry;
-        ownedPetCategories.add(petCategory);
+      if (petTypeEntry) {
+        const [petType] = petTypeEntry;
+        ownedPetCategories.add(petType);
       }
     }
   });
@@ -300,12 +301,13 @@ export const getPetRewardPool = ({
 
     if (!rewardPet) return true;
 
-    const petCategory = getObjectEntries(PET_CATEGORIES).find(([, pets]) =>
-      pets.includes(rewardPet as PetName),
+    const petTypeEntry = getObjectEntries(PET_CATEGORIES).find(
+      ([, petCategory]) => petCategory.pets.includes(rewardPet as PetName),
     );
 
-    if (petCategory) {
-      return !ownedPetCategories.has(petCategory[0]);
+    if (petTypeEntry) {
+      const [petType] = petTypeEntry;
+      return !ownedPetCategories.has(petType);
     }
 
     return true;
