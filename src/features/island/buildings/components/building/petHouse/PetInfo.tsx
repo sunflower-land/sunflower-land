@@ -12,7 +12,8 @@ import {
 } from "features/game/types/pets";
 import { PET_STATE_IMAGES } from "features/island/collectibles/components/pets/Pet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React from "react";
+import { shortenCount } from "lib/utils/formatNumber";
+import React, { useState } from "react";
 
 type Props = {
   petName: PetName;
@@ -24,6 +25,7 @@ export const PetInfo: React.FC<Props> = ({ children, petName, pet }) => {
   const { t } = useAppTranslation();
   const { level, percentage, currentProgress, experienceBetweenLevels } =
     getPetLevel(pet.experience);
+  const [onHoverXp, setOnHoverXp] = useState(false);
 
   const isNeglected = isPetNeglected(pet);
   const isNapping = isPetNapping(pet);
@@ -33,21 +35,27 @@ export const PetInfo: React.FC<Props> = ({ children, petName, pet }) => {
 
   return (
     <OuterPanel className="flex flex-row sm:flex-col p-3 gap-2 relative overflow-hidden">
-      <div className="flex flex-col sm:flex-row items-center w-1/3 sm:w-full">
-        <img
-          src={petImage}
-          alt={petName}
-          className="w-12 sm:w-16 h-12 sm:h-16 object-contain"
-        />
-        <div className="flex flex-col gap-1 w-full sm:ml-2">
-          <Label type={"default"}>{petName}</Label>
-          <InnerPanel className="flex flex-col text-xs gap-1 w-full mt-1">
+      <div className="flex flex-col items-start w-1/3 sm:w-full">
+        <Label type={"default"}>{petName}</Label>
+        <InnerPanel className="flex flex-col sm:flex-row gap-2 sm:gap-4 items-center justify-items-center w-full mt-1">
+          <img
+            src={petImage}
+            alt={petName}
+            className="w-12 sm:w-16 h-12 sm:h-16 object-contain"
+          />
+          <div className="flex flex-col text-xs gap-1 sm:w-2/3 mt-1">
             <p>{`${t("pets.level", { level })}`}</p>
             <Bar percentage={percentage} type={"progress"} />
-            <div className="flex flex-row items-center gap-1">
+            <div
+              className="flex flex-row items-center gap-1"
+              onMouseEnter={() => setOnHoverXp(true)}
+              onMouseLeave={() => setOnHoverXp(false)}
+            >
               <img src={xpIcon} className="w-4" />
               <p className="text-xxs">
-                {`${currentProgress} / ${experienceBetweenLevels}`}
+                {onHoverXp
+                  ? `${currentProgress} / ${experienceBetweenLevels}`
+                  : `${shortenCount(currentProgress)} / ${shortenCount(experienceBetweenLevels)}`}
               </p>
             </div>
             <div className="flex flex-row items-center gap-1">
@@ -56,8 +64,8 @@ export const PetInfo: React.FC<Props> = ({ children, petName, pet }) => {
               </div>
               <p className="text-xxs">{`${pet.energy}`}</p>
             </div>
-          </InnerPanel>
-        </div>
+          </div>
+        </InnerPanel>
       </div>
       {children}
     </OuterPanel>
