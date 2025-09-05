@@ -8,6 +8,7 @@ import {
   Pet,
   PetName,
   getPetRequestXP,
+  isPetNapping,
   isPetNeglected,
 } from "features/game/types/pets";
 import { shortenCount } from "lib/utils/formatNumber";
@@ -101,6 +102,10 @@ export const FeedPetCard: React.FC<Props> = ({
 
   const handleNeglectPet = (petName: PetName) => {
     gameService.send("pet.neglected", { pet: petName });
+  };
+
+  const handlePetPet = (petName: PetName) => {
+    gameService.send("pet.pet", { pet: petName });
   };
 
   const handleFoodHover = (food: CookableName, event: React.MouseEvent) => {
@@ -204,6 +209,7 @@ export const FeedPetCard: React.FC<Props> = ({
         handleFeedPet={handleFeedPet}
         hoveredFood={hoveredFood}
         handleNeglectPet={handleNeglectPet}
+        handlePetPet={handlePetPet}
         tooltipPosition={tooltipPosition}
       />
     </PetInfo>
@@ -228,6 +234,7 @@ export const FeedPetCardContent: React.FC<{
   handleFeedPet: (food: CookableName) => void;
   hoveredFood: CookableName | null;
   handleNeglectPet: (petName: PetName) => void;
+  handlePetPet: (petName: PetName) => void;
   tooltipPosition: { x: number; y: number };
 }> = ({
   pet,
@@ -238,9 +245,25 @@ export const FeedPetCardContent: React.FC<{
   handleFeedPet,
   hoveredFood,
   handleNeglectPet,
+  handlePetPet,
   tooltipPosition,
 }) => {
   const { t } = useAppTranslation();
+
+  if (isPetNapping(pet)) {
+    return (
+      <div className="flex flex-col gap-1 w-3/4 sm:w-auto">
+        <Label type={"warning"}>{t("pets.napping")}</Label>
+        <p className="text-xs p-1">
+          {t("pets.nappingDescription", { pet: pet.name })}
+        </p>
+        <Label type="success" secondaryIcon={xpIcon}>{`+10`}</Label>
+        <Button onClick={() => handlePetPet(pet.name)}>
+          {t("pets.petPet", { pet: pet.name })}
+        </Button>
+      </div>
+    );
+  }
 
   if (isPetNeglected(pet)) {
     return (

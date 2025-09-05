@@ -1,7 +1,11 @@
 import React, { useContext, useState } from "react";
 
 import { ITEM_DETAILS } from "features/game/types/images";
-import { isPetNeglected, PetName } from "features/game/types/pets";
+import {
+  isPetNapping,
+  isPetNeglected,
+  PetName,
+} from "features/game/types/pets";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { PetModal } from "./PetModal";
@@ -30,6 +34,9 @@ import waddlesAsleep from "assets/sfts/pets/penguins/waddles_asleep.webp";
 import pipAsleep from "assets/sfts/pets/penguins/pip_asleep.webp";
 import skipperAsleep from "assets/sfts/pets/penguins/skipper_asleep.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useVisiting } from "lib/utils/visitUtils";
+import classNames from "classnames";
+import { Transition } from "@headlessui/react";
 
 const PETS_STYLES: Record<
   PetName,
@@ -197,36 +204,70 @@ const _petData = (name: PetName) => (state: MachineState) =>
 
 export const Pet: React.FC<{ name: PetName }> = ({ name }) => {
   const [showPetModal, setShowPetModal] = useState(false);
+  const [showXpPopup, setShowXpPopup] = useState(false);
   const { gameService } = useContext(Context);
+  const { isVisiting } = useVisiting();
 
   const petData = useSelector(gameService, _petData(name));
   const isNeglected = isPetNeglected(petData);
+  const isNapping = isPetNapping(petData);
+  const petImage =
+    PET_STATE_IMAGES[name][isNeglected || isNapping ? "asleep" : "happy"];
 
-  const handlePetClick = () => setShowPetModal(true);
+  const handlePetClick = () => {
+    if (isVisiting) {
+      return;
+    } else if (isNapping) {
+      gameService.send("pet.pet", {
+        pet: name,
+      });
+      setShowXpPopup(true);
+      window.setTimeout(() => setShowXpPopup(false), 1000);
+    } else {
+      setShowPetModal(true);
+    }
+  };
 
   return (
     <>
       <div className="absolute" style={{ ...PET_PIXEL_STYLES[name] }}>
         <img
-          src={PET_STATE_IMAGES[name][isNeglected ? "asleep" : "happy"]}
-          className="absolute w-full cursor-pointer hover:img-highlight"
+          src={petImage}
+          className={classNames("absolute w-full", {
+            "cursor-pointer hover:img-highlight": !isVisiting,
+          })}
           alt={name}
           onClick={handlePetClick}
         />
-        {isNeglected && (
-          <img
-            src={SUNNYSIDE.icons.expression_stress}
-            alt="stress"
-            className="absolute w-[18px] top-[-0.5rem] left-[-0.5rem]"
-          />
-        )}
-        {/* {isAsleep && (
+        <Transition
+          appear={true}
+          show={showXpPopup}
+          enter="transition-opacity transition-transform duration-200"
+          enterFrom="opacity-0 translate-y-4"
+          enterTo="opacity-100 -translate-y-0"
+          leave="transition-opacity duration-100"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+          className="flex -top-2 left-1/2 -translate-x-1/2 absolute z-40 pointer-events-none"
+          as="div"
+        >
+          <span className="text-sm yield-text" style={{ color: "#71e358" }}>
+            {"+10XP"}
+          </span>
+        </Transition>
+        {isNapping ? (
           <img
             src={SUNNYSIDE.icons.sleeping}
             alt="sleeping"
             className="absolute w-6 top-[-0.5rem] left-[-0.5rem]"
           />
-        )} */}
+        ) : isNeglected ? (
+          <img
+            src={SUNNYSIDE.icons.expression_stress}
+            alt="stress"
+            className="absolute w-[18px] top-[-0.5rem] left-[-0.5rem]"
+          />
+        ) : null}
       </div>
       <PetModal
         show={showPetModal}

@@ -74,6 +74,7 @@ export type Pet = {
   };
   energy: number;
   experience: number;
+  pettedAt: number;
 };
 
 export type Pets = {
@@ -635,4 +636,16 @@ export function isPetNeglected(
     new Date(todayDate).getTime() - new Date(lastFedAtDate).getTime();
   const daysSinceLastFedDays = daysSinceLastFedMs / (1000 * 60 * 60 * 24);
   return daysSinceLastFedDays > PET_NEGLECT_DAYS;
+}
+
+const PET_NAP_HOURS = 2;
+
+export function isPetNapping(
+  pet: Pet | undefined,
+  createdAt: number = Date.now(),
+) {
+  if (!pet) return false;
+  const pettedAt = pet.pettedAt;
+  const hoursSincePetted = (createdAt - pettedAt) / (1000 * 60 * 60);
+  return hoursSincePetted >= PET_NAP_HOURS;
 }
