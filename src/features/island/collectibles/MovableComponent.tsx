@@ -71,7 +71,7 @@ export const RESOURCE_MOVE_EVENTS: Record<
   "Refined Iron Rock": "iron.moved",
   "Tempered Iron Rock": "iron.moved",
   "Pure Gold Rock": "gold.moved",
-  "Enchanted Gold Rock": "gold.moved",
+  "Prime Gold Rock": "gold.moved",
 };
 
 function getMoveAction(
@@ -123,7 +123,7 @@ export const RESOURCES_REMOVE_ACTIONS: Record<
   "Refined Iron Rock": "iron.removed",
   "Tempered Iron Rock": "iron.removed",
   "Pure Gold Rock": "gold.removed",
-  "Enchanted Gold Rock": "gold.removed",
+  "Prime Gold Rock": "gold.removed",
 };
 
 export function getRemoveAction(

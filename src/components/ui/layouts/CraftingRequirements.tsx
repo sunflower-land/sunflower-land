@@ -27,9 +27,9 @@ import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import {
   BASIC_RESOURCES_UPGRADES_TO,
   ADVANCED_RESOURCES,
-  RESOURCE_STATE_ACCESSORS,
-  ResourceName,
   RESOURCES,
+  UpgradedResourceName,
+  RESOURCE_STATE_ACCESSORS,
 } from "features/game/types/resources";
 
 /**
@@ -303,7 +303,7 @@ export const CraftingRequirements: React.FC<Props> = ({
               if (ingredientName in RESOURCES) {
                 const stateAccessor =
                   RESOURCE_STATE_ACCESSORS[
-                    ingredientName as Exclude<ResourceName, "Boulder">
+                    ingredientName as UpgradedResourceName
                   ];
                 const nodes = Object.values(
                   stateAccessor(gameState) ?? {},

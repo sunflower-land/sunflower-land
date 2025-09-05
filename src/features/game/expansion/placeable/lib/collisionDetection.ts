@@ -181,7 +181,7 @@ function detectPlaceableCollision(
     "Tempered Iron Rock": iron,
     "Gold Rock": gold,
     "Pure Gold Rock": gold,
-    "Enchanted Gold Rock": gold,
+    "Prime Gold Rock": gold,
     "Crimstone Rock": crimstones,
     "Sunstone Rock": sunstones,
     "Oil Reserve": oilReserves,

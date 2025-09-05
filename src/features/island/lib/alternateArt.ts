@@ -6,6 +6,17 @@ import { CONFIG } from "lib/config";
 import cactiStump from "assets/resources/tree/cacti_stump.webp";
 import autumnCactiStump from "assets/resources/tree/autumn_cacti_stump.webp";
 import { LandBiomeName } from "../biomes/biomes";
+import { TreeName } from "features/game/types/resources";
+
+const BIOME_NAME_KEYS: Record<
+  LandBiomeName,
+  "basic" | "spring" | "desert" | "volcano"
+> = {
+  "Basic Biome": "basic",
+  "Spring Biome": "spring",
+  "Desert Biome": "desert",
+  "Volcano Biome": "volcano",
+};
 
 export const FIRE_PIT_VARIANTS: Record<
   LandBiomeName,
@@ -291,35 +302,17 @@ export const VIP_ISLAND_VARIANTS: Record<LandBiomeName, string> = {
   "Volcano Biome": SUNNYSIDE.land.vip_volcano_island,
 };
 
-export const TREE_SHAKE_SHEET_VARIANTS: Record<
-  LandBiomeName,
-  Record<TemperateSeasonName, string>
-> = {
-  "Basic Biome": {
-    spring: SUNNYSIDE.resource.basic.spring.shakeSheet,
-    summer: SUNNYSIDE.resource.basic.summer.shakeSheet,
-    autumn: SUNNYSIDE.resource.basic.autumn.shakeSheet,
-    winter: SUNNYSIDE.resource.basic.winter.shakeSheet,
-  },
-  "Spring Biome": {
-    spring: SUNNYSIDE.resource.spring.spring.shakeSheet,
-    summer: SUNNYSIDE.resource.spring.summer.shakeSheet,
-    autumn: SUNNYSIDE.resource.spring.autumn.shakeSheet,
-    winter: SUNNYSIDE.resource.spring.winter.shakeSheet,
-  },
-  "Desert Biome": {
-    spring: SUNNYSIDE.resource.desert.spring.shakeSheet,
-    summer: SUNNYSIDE.resource.desert.summer.shakeSheet,
-    autumn: SUNNYSIDE.resource.desert.autumn.shakeSheet,
-    winter: SUNNYSIDE.resource.desert.winter.shakeSheet,
-  },
-  "Volcano Biome": {
-    spring: SUNNYSIDE.resource.volcano.spring.shakeSheet,
-    summer: SUNNYSIDE.resource.volcano.summer.shakeSheet,
-    autumn: SUNNYSIDE.resource.volcano.autumn.shakeSheet,
-    winter: SUNNYSIDE.resource.volcano.winter.shakeSheet,
-  },
-};
+export const TREE_SHAKE_SHEET_VARIANTS = (
+  biome: LandBiomeName,
+  season: TemperateSeasonName,
+  tree: TreeName,
+) => SUNNYSIDE.resource[BIOME_NAME_KEYS[biome]][season].shakeSheet[tree];
+
+export const TREE_VARIANTS = (
+  biome: LandBiomeName,
+  season: TemperateSeasonName,
+  tree: TreeName,
+) => SUNNYSIDE.resource[BIOME_NAME_KEYS[biome]][season][tree];
 
 export const STUMP_VARIANTS: Record<
   LandBiomeName,
@@ -348,36 +341,6 @@ export const STUMP_VARIANTS: Record<
     summer: SUNNYSIDE.resource.stump,
     autumn: SUNNYSIDE.resource.stump,
     winter: SUNNYSIDE.resource.stump,
-  },
-};
-
-export const TREE_VARIANTS: Record<
-  LandBiomeName,
-  Record<TemperateSeasonName, string>
-> = {
-  "Basic Biome": {
-    spring: SUNNYSIDE.resource.basic.spring.tree,
-    summer: SUNNYSIDE.resource.basic.summer.tree,
-    autumn: SUNNYSIDE.resource.basic.autumn.tree,
-    winter: SUNNYSIDE.resource.basic.winter.tree,
-  },
-  "Spring Biome": {
-    spring: SUNNYSIDE.resource.spring.spring.tree,
-    summer: SUNNYSIDE.resource.spring.summer.tree,
-    autumn: SUNNYSIDE.resource.spring.autumn.tree,
-    winter: SUNNYSIDE.resource.spring.winter.tree,
-  },
-  "Desert Biome": {
-    spring: SUNNYSIDE.resource.desert.spring.tree,
-    summer: SUNNYSIDE.resource.desert.summer.tree,
-    autumn: SUNNYSIDE.resource.desert.autumn.tree,
-    winter: SUNNYSIDE.resource.desert.winter.tree,
-  },
-  "Volcano Biome": {
-    spring: SUNNYSIDE.resource.volcano.spring.tree,
-    summer: SUNNYSIDE.resource.volcano.summer.tree,
-    autumn: SUNNYSIDE.resource.volcano.autumn.tree,
-    winter: SUNNYSIDE.resource.volcano.winter.tree,
   },
 };
 

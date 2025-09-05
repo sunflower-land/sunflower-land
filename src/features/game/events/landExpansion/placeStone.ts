@@ -3,6 +3,7 @@ import {
   ADVANCED_RESOURCES,
   UpgradedResourceName,
   RockName,
+  RESOURCE_MULTIPLIER,
 } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
@@ -21,12 +22,6 @@ type Options = {
   state: Readonly<GameState>;
   action: PlaceStoneAction;
   createdAt?: number;
-};
-
-export const STONE_MULTIPLIERS: Record<RockName, number> = {
-  "Stone Rock": 1,
-  "Fused Stone Rock": 4,
-  "Reinforced Stone Rock": 16,
 };
 
 export function placeStone({
@@ -81,7 +76,7 @@ export function placeStone({
       },
       tier: ADVANCED_RESOURCES[action.name as UpgradedResourceName]?.tier ?? 1,
       name: action.name,
-      multiplier: STONE_MULTIPLIERS[action.name],
+      multiplier: RESOURCE_MULTIPLIER[action.name],
     };
 
     game.stones = {

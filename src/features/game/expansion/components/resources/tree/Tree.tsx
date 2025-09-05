@@ -37,8 +37,9 @@ const tool = "Axe";
 const HasTool = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
   gameState: GameState,
+  id: string,
 ) => {
-  const { amount: axesNeeded } = getRequiredAxeAmount(inventory, gameState);
+  const { amount: axesNeeded } = getRequiredAxeAmount(inventory, gameState, id);
 
   // has enough axes to chop the tree
 
@@ -118,14 +119,14 @@ export const Tree: React.FC<Props> = ({ id }) => {
     gameService,
     selectInventory,
     (prev, next) =>
-      HasTool(prev, game) === HasTool(next, game) &&
+      HasTool(prev, game, id) === HasTool(next, game, id) &&
       (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0)),
   );
 
   const treesChopped = useSelector(gameService, selectTreesChopped);
   const island = useSelector(gameService, selectIsland);
   const season = useSelector(gameService, selectSeason);
-  const hasTool = HasTool(inventory, game);
+  const hasTool = HasTool(inventory, game, id);
   const timeLeft = getTimeLeft(resource.wood.choppedAt, TREE_RECOVERY_TIME);
   const chopped = !canChop(resource);
 
@@ -186,6 +187,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
         game,
         criticalDropGenerator: (name) =>
           !!(resource.wood.criticalHit?.[name] ?? 0),
+        id,
       }).amount;
 
     const newState = gameService.send("timber.chopped", {
@@ -224,6 +226,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
             showHelper={treesChopped < 3 && treesChopped + 1 === Number(id)}
             island={island}
             season={season}
+            id={id}
           />
         </div>
       )}

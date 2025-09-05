@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { useSelector } from "@xstate/react";
 
 import Spritesheet, {
   SpriteSheetInstance,
@@ -12,13 +13,13 @@ import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ZoomContext } from "components/ZoomProvider";
 import { GameState, TemperateSeasonName } from "features/game/types/game";
+import { TreeName } from "features/game/types/resources";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
-import {
-  TREE_SHAKE_SHEET_VARIANTS,
-  TREE_VARIANTS,
-} from "features/island/lib/alternateArt";
+import { TREE_SHAKE_SHEET_VARIANTS } from "features/island/lib/alternateArt";
 import { getCurrentBiome, LandBiomeName } from "features/island/biomes/biomes";
+import { Context } from "features/game/GameProvider";
+import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
 
 const tool = "Axe";
 
@@ -31,6 +32,7 @@ interface Props {
   touchCount: number;
   island: GameState["island"];
   season: TemperateSeasonName;
+  id: string;
 }
 
 const RecoveredTreeComponent: React.FC<Props> = ({
@@ -39,10 +41,13 @@ const RecoveredTreeComponent: React.FC<Props> = ({
   showHelper,
   island,
   season,
+  id,
 }) => {
+  const { gameService } = useContext(Context);
   const { scale } = useContext(ZoomContext);
   const [showSpritesheet, setShowSpritesheet] = useState(false);
   const [showEquipTool, setShowEquipTool] = useState(false);
+  const state = useSelector(gameService, (state) => state.context.state);
 
   const biome: LandBiomeName = getCurrentBiome(island);
 
@@ -50,6 +55,9 @@ const RecoveredTreeComponent: React.FC<Props> = ({
   const { t } = useAppTranslation();
 
   const { play: chopAudio } = useSound("chop");
+
+  const tree = (state.trees[id]?.name ?? "Tree") as TreeName;
+  const Image = READONLY_RESOURCE_COMPONENTS()[tree];
 
   // prevent performing react state update on an unmounted component
   useEffect(() => {
@@ -102,17 +110,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({
         )}
 
         {/* static tree image */}
-        {!showSpritesheet && (
-          <img
-            src={TREE_VARIANTS[biome][season]}
-            className={"absolute pointer-events-none"}
-            style={{
-              width: `${PIXEL_SCALE * 26}px`,
-              bottom: `${PIXEL_SCALE * 2}px`,
-              right: `${PIXEL_SCALE * 3}px`,
-            }}
-          />
-        )}
+        {!showSpritesheet && <Image />}
 
         {/* spritesheet */}
         {showSpritesheet && (
@@ -133,7 +131,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({
               shakeGif.current = spritesheet;
               spritesheet.goToAndPlay(0);
             }}
-            image={TREE_SHAKE_SHEET_VARIANTS[biome][season]}
+            image={TREE_SHAKE_SHEET_VARIANTS(biome, season, tree)}
             widthFrame={SHAKE_SHEET_FRAME_WIDTH}
             heightFrame={SHAKE_SHEET_FRAME_HEIGHT}
             zoomScale={scale}

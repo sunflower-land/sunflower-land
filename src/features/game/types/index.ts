@@ -1248,7 +1248,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Refined Iron Rock": 2704,
   "Tempered Iron Rock": 2705,
   "Pure Gold Rock": 2706,
-  "Enchanted Gold Rock": 2707,
+  "Prime Gold Rock": 2707,
 };
 
 // The reverse of above

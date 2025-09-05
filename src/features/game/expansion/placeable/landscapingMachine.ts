@@ -26,11 +26,17 @@ export const RESOURCE_PLACE_EVENTS: Partial<
   Record<ResourceName, GameEventName<PlacementEvent>>
 > = {
   Tree: "tree.placed",
+  "Ancient Tree": "tree.placed",
+  "Sacred Tree": "tree.placed",
   "Stone Rock": "stone.placed",
   "Fused Stone Rock": "stone.placed",
   "Reinforced Stone Rock": "stone.placed",
   "Iron Rock": "iron.placed",
+  "Refined Iron Rock": "iron.placed",
+  "Tempered Iron Rock": "iron.placed",
   "Gold Rock": "gold.placed",
+  "Pure Gold Rock": "gold.placed",
+  "Prime Gold Rock": "gold.placed",
   "Crimstone Rock": "crimstone.placed",
   "Crop Plot": "plot.placed",
   "Fruit Patch": "fruitPatch.placed",
