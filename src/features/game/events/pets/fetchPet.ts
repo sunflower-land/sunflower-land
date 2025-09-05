@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import {
-  getExperienceToNextLevel,
+  getPetLevel,
   getPetFetches,
   isPetNapping,
   isPetNeglected,
@@ -50,7 +50,7 @@ export function fetchPet({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("Fetch not found");
     }
 
-    const { level: petLevel } = getExperienceToNextLevel(petData.experience);
+    const { level: petLevel } = getPetLevel(petData.experience);
     if (petLevel < fetchEntry.level) {
       throw new Error("Pet level doesn't match fetch required level");
     }

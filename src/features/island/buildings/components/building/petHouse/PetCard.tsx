@@ -9,7 +9,7 @@ import {
   Pet,
   PetName,
   PetResourceName,
-  getExperienceToNextLevel,
+  getPetLevel,
   getPetFetches,
   getPetRequestXP,
   isPetNapping,
@@ -179,7 +179,7 @@ export const PetCard: React.FC<Props> = ({
     });
   }, [inventory, isBulkFeed, selectedFeed, petName, pet]);
   const fetchData = getPetFetches(petName);
-  const { level } = getExperienceToNextLevel(pet.experience);
+  const { level } = getPetLevel(pet.experience);
 
   const fetchItems = useMemo(() => {
     return fetchData.fetches.map((fetch) => {

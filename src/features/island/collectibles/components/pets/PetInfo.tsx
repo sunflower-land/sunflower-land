@@ -2,7 +2,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { ResizableBar } from "components/ui/ProgressBar";
 import {
-  getExperienceToNextLevel,
+  getPetLevel,
   isPetNeglected,
   Pet,
   PET_CATEGORIES,
@@ -23,7 +23,7 @@ interface Props {
 export const PetInfo: React.FC<Props> = ({ petName, petData }) => {
   const { t } = useAppTranslation();
   const { level, percentage, currentProgress, experienceBetweenLevels } =
-    getExperienceToNextLevel(petData.experience);
+    getPetLevel(petData.experience);
 
   const isNeglected = isPetNeglected(petData);
   const petImage = PET_STATE_IMAGES[petName][isNeglected ? "asleep" : "happy"];

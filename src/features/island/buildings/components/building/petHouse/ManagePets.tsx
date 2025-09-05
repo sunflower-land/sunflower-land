@@ -6,7 +6,7 @@ import {
   PET_CATEGORIES,
   PET_TYPES,
   PetType,
-  getExperienceToNextLevel,
+  getPetLevel,
   isPetNeglected,
   isPetNapping,
 } from "features/game/types/pets";
@@ -280,7 +280,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
                 const petImage = ITEM_DETAILS[pet].image;
 
                 const { level, currentProgress, experienceBetweenLevels } =
-                  getExperienceToNextLevel(petData.experience);
+                  getPetLevel(petData.experience);
 
                 const experienceChange =
                   beforeExperience !== undefined &&
@@ -304,10 +304,8 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
                   beforeExperience !== undefined &&
                   afterExperience !== undefined
                 ) {
-                  const beforeLevelData =
-                    getExperienceToNextLevel(beforeExperience);
-                  const afterLevelData =
-                    getExperienceToNextLevel(afterExperience);
+                  const beforeLevelData = getPetLevel(beforeExperience);
+                  const afterLevelData = getPetLevel(afterExperience);
 
                   beforeLevel = beforeLevelData.level;
                   beforeProgress = beforeLevelData.currentProgress;

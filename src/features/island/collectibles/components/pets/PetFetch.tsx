@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { Box } from "components/ui/Box";
 import {
-  getExperienceToNextLevel,
+  getPetLevel,
   getPetFetches,
   isPetNapping,
   isPetNeglected,
@@ -27,7 +27,7 @@ export const PetFetch: React.FC<Props> = ({
   petData,
   handlePetFetch,
 }) => {
-  const { level } = getExperienceToNextLevel(petData.experience);
+  const { level } = getPetLevel(petData.experience);
   const fetchConfig = getPetFetches(petName);
   const isNapping = isPetNapping(petData);
   const neglected = isPetNeglected(petData);

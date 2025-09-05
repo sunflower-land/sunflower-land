@@ -588,8 +588,7 @@ export function getPetRequestXP(food: CookableName) {
  *   Level 9: 3600 XP
  *   Level 10: 4500 XP
  */
-export function getExperienceToNextLevel(currentTotalExperience: number) {
-  // Handle edge cases
+export function getPetLevel(currentTotalExperience: number) {
   if (currentTotalExperience < 0)
     return {
       level: 1,
@@ -599,24 +598,23 @@ export function getExperienceToNextLevel(currentTotalExperience: number) {
       experienceBetweenLevels: 100,
     };
 
-  const currentLevel = Math.floor(
-    (1 + Math.sqrt(1 + (8 * currentTotalExperience) / 100)) / 2,
-  );
+  // Solve n for: 100 * (n-1) * n / 2 <= currentTotalExperience
+  // Quadratic: n^2 - n - (2 * currentTotalExperience) / 100 <= 0
+  // n = (1 + sqrt(1 + 8 * currentTotalExperience / 100)) / 2
+  const n = (1 + Math.sqrt(1 + 0.08 * currentTotalExperience)) / 2;
+  const currentLevel = Math.floor(n);
 
-  const currentLevelXP = (100 * (currentLevel - 1) * currentLevel) / 2;
-
-  // Calculate XP needed for next level
+  const currentLevelXP = 50 * (currentLevel - 1) * currentLevel;
   const nextLevel = currentLevel + 1;
-  const nextLevelXP = (100 * (nextLevel - 1) * nextLevel) / 2;
+  const nextLevelXP = 50 * (nextLevel - 1) * nextLevel;
   const experienceBetweenLevels = nextLevelXP - currentLevelXP;
-
-  // Calculate percentage of current level
+  const currentProgress = currentTotalExperience - currentLevelXP;
   const percentage =
     ((currentTotalExperience - currentLevelXP) / experienceBetweenLevels) * 100;
 
   return {
     level: currentLevel,
-    currentProgress: currentTotalExperience - currentLevelXP,
+    currentProgress,
     nextLevelXP,
     percentage,
     experienceBetweenLevels,
