@@ -765,6 +765,8 @@ export const SUNNYSIDE = {
     stone: `${CONFIG.PROTECTED_IMAGE_URL}/resources/stone.png`,
     stump: `${CONFIG.PROTECTED_IMAGE_URL}/resources/stump.png`,
     tree: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree.png`,
+    ancient_tree: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/summer_basic_ancient_tree.png`,
+    sacred_tree: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/summer_basic_sacred_tree.png`,
     spring_tree: `${CONFIG.PROTECTED_IMAGE_URL}/resources/flower_tree.png`,
     choppedSheet: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/chopped_sheet.png`,
     winterChoppedSheet: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/winter_chopped_sheet.webp`,

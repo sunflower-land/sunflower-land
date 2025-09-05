@@ -5969,11 +5969,11 @@ export const ITEM_DETAILS: Items = {
     description: "A reinforced stone rock",
   },
   "Ancient Tree": {
-    image: SUNNYSIDE.resource.basic.summer["Ancient Tree"],
+    image: SUNNYSIDE.resource.ancient_tree,
     description: "An ancient tree",
   },
   "Sacred Tree": {
-    image: SUNNYSIDE.resource.basic.summer["Sacred Tree"],
+    image: SUNNYSIDE.resource.sacred_tree,
     description: "A sacred tree",
   },
   "Refined Iron Rock": {
