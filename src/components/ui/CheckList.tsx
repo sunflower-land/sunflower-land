@@ -196,7 +196,7 @@ export const checklistCount = (state: GameState, bumpkinLevel: number) => {
 
   // Kingdom Tasks
   const { completedMinigames, allMinigamesCount } = minigamesStatus(state);
-  const hasNotCompletedKingdomTasks = () => {
+  const completedKingdomTasksCount = () => {
     if (bumpkinLevel >= 7) {
       return completedMinigames !== allMinigamesCount
         ? allMinigamesCount - completedMinigames
@@ -208,7 +208,7 @@ export const checklistCount = (state: GameState, bumpkinLevel: number) => {
   return (
     completedPlazaTasksCount() +
     completedBeachTasksCount() +
-    hasNotCompletedKingdomTasks()
+    completedKingdomTasksCount()
   );
 };
 
