@@ -283,6 +283,7 @@ const GridItem: React.FC<{
   bottomLabelIcon?: string;
   isHovered: boolean;
 }> = ({
+  keyName,
   imageSrc,
   disabled,
   onClick,
@@ -304,7 +305,11 @@ const GridItem: React.FC<{
             onClick={onClick}
             className={`w-12 h-12 p-1`}
           >
-            <img src={imageSrc} className="w-[85%] h-[85%] object-contain" />
+            <img
+              src={imageSrc}
+              alt={keyName}
+              className="w-[85%] h-[85%] object-contain"
+            />
           </Button>
         </div>
         {showConfirm && (
