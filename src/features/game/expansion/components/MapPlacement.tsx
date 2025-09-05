@@ -3,6 +3,7 @@
 import React from "react";
 import { GRID_WIDTH_PX } from "../../lib/constants";
 import classNames from "classnames";
+import { getZIndex } from "../placeable/lib/collisionDetection";
 
 export type Coordinates = {
   x: number;
@@ -33,7 +34,7 @@ export const MapPlacement: React.FC<React.PropsWithChildren<Props>> = ({
   height,
   width,
   children,
-  z = "unset",
+  z,
   canCollide = true,
   className,
 }) => {
@@ -45,7 +46,7 @@ export const MapPlacement: React.FC<React.PropsWithChildren<Props>> = ({
         left: `calc(50% + ${GRID_WIDTH_PX * x}px)`,
         height: height ? `${GRID_WIDTH_PX * height}px` : "auto",
         width: width ? `${GRID_WIDTH_PX * width}px` : "auto",
-        zIndex: z,
+        zIndex: z ?? getZIndex(y),
       }}
     >
       {children}
