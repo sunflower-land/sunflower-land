@@ -4,6 +4,7 @@ import {
   PetName,
   getPetRequestXP,
   PET_CATEGORIES,
+  PET_TYPES,
   PetType,
   getExperienceToNextLevel,
   isPetNeglected,
@@ -22,7 +23,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getKeys } from "features/game/lib/crafting";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
 import xpIcon from "assets/icons/xp.png";
 import { Box } from "components/ui/Box";
 
@@ -163,12 +163,8 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
       if (!isPetNeglected(petA) && isPetNeglected(petB)) return 1;
 
       // Find the pet types for both pets
-      const petTypeA = getObjectEntries(PET_CATEGORIES).find(([, category]) =>
-        category.pets.includes(petA.name as PetName),
-      )?.[0];
-      const petTypeB = getObjectEntries(PET_CATEGORIES).find(([, category]) =>
-        category.pets.includes(petB.name as PetName),
-      )?.[0];
+      const petTypeA = PET_TYPES[petA.name];
+      const petTypeB = PET_TYPES[petB.name];
 
       if (!petTypeA || !petTypeB) return 0;
 

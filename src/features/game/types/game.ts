@@ -106,7 +106,7 @@ import { MonumentName } from "./monuments";
 import { AOEItemName } from "../expansion/placeable/lib/collisionDetection";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { ClutterName } from "./clutter";
-import { PetName, PetResource, Pets } from "./pets";
+import { PetName, PetResourceName, Pets } from "./pets";
 import { RockName } from "./resources";
 import { PetShopItemName } from "./petShop";
 
@@ -574,7 +574,7 @@ export type InventoryItemName =
   | DollName
   | ClutterName
   | PetName
-  | PetResource
+  | PetResourceName
   | PetShopItemName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
