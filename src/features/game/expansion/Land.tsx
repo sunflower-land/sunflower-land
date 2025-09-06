@@ -1,10 +1,4 @@
-import React, {
-  useContext,
-  useLayoutEffect,
-  useMemo,
-  useState,
-  useRef,
-} from "react";
+import React, { useContext, useLayoutEffect, useMemo } from "react";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 
@@ -58,59 +52,12 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import { useVisiting } from "lib/utils/visitUtils";
 import { getObjectEntries } from "./lib/utils";
 import { Clutter } from "features/island/clutter/Clutter";
-import { useGameStateChangeTracker } from "./performance/IslandElementsProfiler";
-
-const useIslandPerformanceTracking = (elementCount: number) => {
-  const [metrics, setMetrics] = useState({
-    renderCount: 0,
-    totalRenderTime: 0,
-    averageRenderTime: 0,
-    lastRenderTime: 0,
-    elementCount: 0,
-  });
-
-  const renderTimesRef = useRef<number[]>([]);
-  const startTimeRef = useRef<number>(0);
-
-  const startTracking = () => {
-    startTimeRef.current = performance.now();
-  };
-
-  const endTracking = () => {
-    const renderTime = performance.now() - startTimeRef.current;
-
-    renderTimesRef.current.push(renderTime);
-    if (renderTimesRef.current.length > 100) {
-      renderTimesRef.current.shift(); // Keep only last 100 renders
-    }
-
-    const totalTime = renderTimesRef.current.reduce(
-      (sum, time) => sum + time,
-      0,
-    );
-    const averageTime = totalTime / renderTimesRef.current.length;
-
-    setMetrics((prev) => ({
-      renderCount: prev.renderCount + 1,
-      totalRenderTime: totalTime,
-      averageRenderTime: averageTime,
-      lastRenderTime: renderTime,
-      elementCount,
-    }));
-
-    // Log to console in development
-    if (process.env.NODE_ENV === "development") {
-      // eslint-disable-next-line no-console
-      console.log(`🏝️ Island Elements Render #${metrics.renderCount + 1}:`, {
-        duration: `${renderTime.toFixed(2)}ms`,
-        elementCount,
-        averageTime: `${averageTime.toFixed(2)}ms`,
-      });
-    }
-  };
-
-  return { metrics, startTracking, endTracking };
-};
+import {
+  useGameStateChangeTracker,
+  LandPerformanceDashboard,
+  useLandPerformanceTracking,
+} from "./performance/IslandElementsProfiler";
+import { HudContainer } from "components/ui/HudContainer";
 
 export const LAND_WIDTH = 6;
 
@@ -815,50 +762,6 @@ export const Land: React.FC = () => {
     return gameGridValue;
   }, [JSON.stringify(gameGridValue)]);
 
-  // ORIGINAL ISLAND ELEMENTS
-  // const islandElements = getIslandElements({
-  //   game: state,
-  //   expansionConstruction,
-  //   buildings,
-  //   collectibles,
-  //   chickens,
-  //   trees,
-  //   stones,
-  //   iron,
-  //   gold,
-  //   crimstones,
-  //   sunstones,
-  //   fruitPatches,
-  //   flowerBeds,
-  //   crops,
-  //   showTimers: showTimers,
-  //   grid: gameGrid,
-  //   mushrooms: mushrooms?.mushrooms,
-  //   isFirstRender,
-  //   buds,
-  //   airdrops,
-  //   beehives,
-  //   oilReserves,
-  //   lavaPits,
-  //   isVisiting: visiting,
-  //   clutter: socialFarming?.clutter,
-  //   landscaping,
-  //   loggedInFarmState,
-  // });
-
-  // const sortedIslandElements = islandElements.sort((a, b) => {
-  //   // Non-colliding objects (like tiles, rugs) should be at the beginning
-  //   if (a.props.canCollide === false && b.props.canCollide !== false) {
-  //     return -1; // a should be before b
-  //   }
-  //   if (b.props.canCollide === false && a.props.canCollide !== false) {
-  //     return 1; // b should be before a
-  //   }
-
-  //   // For all other elements, sort by y position (higher y values first)
-  //   return b.props.y - a.props.y;
-  // });
-
   // Calculate element count
   const elementCount = useMemo(() => {
     return (
@@ -902,11 +805,17 @@ export const Land: React.FC = () => {
     lavaPits,
   ]);
 
-  // Performance tracking
-  const { metrics, startTracking, endTracking } =
-    useIslandPerformanceTracking(elementCount);
+  // Enhanced performance tracking
+  const {
+    metrics,
+    changeLog: performanceChangeLog,
+    isDashboardVisible,
+    setIsDashboardVisible,
+    startTracking,
+    endTracking,
+  } = useLandPerformanceTracking(elementCount);
 
-  // Memoize island elements with performance tracking
+  // Memoize island elements with enhanced performance tracking
   const islandElements = useMemo(() => {
     startTracking();
 
@@ -940,8 +849,14 @@ export const Land: React.FC = () => {
       loggedInFarmState,
     });
 
+    // Determine what changed for better tracking
+    const recentChange = changeLog[changeLog.length - 1];
+    const changedFields = recentChange?.changedFields || [];
+    const trigger =
+      recentChange?.trigger === "positional" ? "positional" : "non-positional";
+
     // Use setTimeout to ensure the tracking happens after render
-    setTimeout(endTracking, 0);
+    setTimeout(() => endTracking(changedFields, trigger), 0);
 
     return elements;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1060,32 +975,18 @@ export const Land: React.FC = () => {
 
       {!landscaping && !visiting && <Hud isFarming={true} location="farm" />}
 
-      {/* Performance metrics display - only in development */}
-      {process.env.NODE_ENV === "development" && (
-        <div
-          style={{
-            position: "fixed",
-            top: "50%",
-            right: "50%",
-            transform: "translate(50%, -50%)",
-            background: "rgba(0,0,0,0.8)",
-            color: "white",
-            padding: "10px",
-            borderRadius: "5px",
-            fontSize: "12px",
-            zIndex: 9999,
-            fontFamily: "monospace",
-          }}
-        >
-          <div style={{ fontWeight: "bold", marginBottom: "5px" }}>
-            {`🏝️ Island Performance`}
-          </div>
-          <div>{`Elements: ${metrics.elementCount}`}</div>
-          <div>{`Renders: ${metrics.renderCount}`}</div>
-          <div>{`Last: ${metrics.lastRenderTime.toFixed(2)}ms}`}</div>
-          <div>{`Avg: ${metrics.averageRenderTime.toFixed(2)}ms`}</div>
+      {/* Enhanced Performance Dashboard - only in development */}
+
+      <HudContainer>
+        <div style={{ pointerEvents: "auto" }}>
+          <LandPerformanceDashboard
+            metrics={metrics}
+            changeLog={performanceChangeLog}
+            isVisible={isDashboardVisible}
+            onToggle={() => setIsDashboardVisible(!isDashboardVisible)}
+          />
         </div>
-      )}
+      </HudContainer>
 
       {(showMarketplace || showFlowerDashboard) &&
         createPortal(
