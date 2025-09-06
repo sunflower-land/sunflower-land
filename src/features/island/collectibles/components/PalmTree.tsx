@@ -1,6 +1,6 @@
 import React from "react";
 
-import palmTree from "assets/seasons/solar-flare/palm_tree.webp";
+import palmTree from "assets/chapters/solar-flare/palm_tree.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 

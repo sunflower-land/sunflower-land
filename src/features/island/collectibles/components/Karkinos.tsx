@@ -1,6 +1,6 @@
 import React from "react";
 
-import karkinos from "assets/seasons/solar-flare/karkinos.png";
+import karkinos from "assets/chapters/solar-flare/karkinos.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-import beachBall from "assets/seasons/solar-flare/beach_ball.webp";
+import beachBall from "assets/chapters/solar-flare/beach_ball.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
