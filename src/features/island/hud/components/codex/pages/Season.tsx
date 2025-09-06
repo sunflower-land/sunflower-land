@@ -15,7 +15,7 @@ import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import chores from "assets/icons/chores.webp";
 import lock from "assets/icons/lock.png";
 
-import { SeasonalAuctions } from "../components/SeasonalAuctions";
+import { SeasonalAuctions } from "../components/ChapterAuctions";
 import classNames from "classnames";
 import { SeasonalMutants } from "../components/SeasonalMutants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
