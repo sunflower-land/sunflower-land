@@ -478,7 +478,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                     </div>
                     <Button
                       disabled={!canFulfillRequest}
-                      onClick={() => setShowConfirm(true)}
+                      onClick={handleFeed}
                     >{`${t("deliver")} ${selectedRequest.quantity}`}</Button>
                   </div>
                 }
