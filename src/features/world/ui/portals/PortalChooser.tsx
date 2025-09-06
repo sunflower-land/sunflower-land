@@ -43,7 +43,7 @@ interface PortalOption {
   component: React.FC<{ onClose: () => void }>;
 }
 
-const PORTAL_OPTIONS: PortalOption[] = [
+export const PORTAL_OPTIONS: PortalOption[] = [
   {
     id: "chicken-rescue",
     npc: "billy",
