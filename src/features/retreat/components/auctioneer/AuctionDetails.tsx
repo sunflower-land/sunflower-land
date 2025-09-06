@@ -17,7 +17,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GameState } from "features/game/types/game";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import classNames from "classnames";
-import { getCurrentSeason } from "features/game/types/seasons";
+import { getCurrentSeason } from "features/game/types/chapters";
 
 type Props = {
   item: Auction;

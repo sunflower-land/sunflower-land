@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "../types/game";
 import { hasVipAccess } from "./vipAccess";
-import { SEASONS } from "../types/seasons";
+import { SEASONS } from "../types/chapters";
 
 export function SFLDiscount(state: GameState | undefined, sfl: Decimal) {
   if (!state) return sfl;

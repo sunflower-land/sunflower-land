@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { buySeasonalItem } from "./buySeasonalItem";
+import { buySeasonalItem } from "./buyChapterItem";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 

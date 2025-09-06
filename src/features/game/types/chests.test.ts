@@ -1,7 +1,7 @@
 import {
   isCollectible,
   isWearable,
-} from "../events/landExpansion/buySeasonalItem";
+} from "../events/landExpansion/buyChapterItem";
 import {
   ChestReward,
   BASIC_REWARDS,
@@ -12,7 +12,7 @@ import {
   CHEST_MULTIPLIER,
 } from "./chests";
 import { MEGASTORE, SeasonalStore } from "./megastore";
-import { getCurrentSeason } from "./seasons";
+import { getCurrentSeason } from "./chapters";
 
 describe("SEASONAL_REWARDS", () => {
   const currentSeason = getCurrentSeason(new Date()); // Test all reward types

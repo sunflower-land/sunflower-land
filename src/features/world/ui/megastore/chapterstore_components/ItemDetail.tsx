@@ -17,7 +17,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import {
   getCurrentSeason,
   getSeasonalTicket,
-} from "features/game/types/seasons";
+} from "features/game/types/chapters";
 import confetti from "canvas-confetti";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -28,14 +28,14 @@ import {
   SeasonalStoreWearable,
   SeasonalTierItemName,
 } from "features/game/types/megastore";
-import { getItemDescription } from "../SeasonalStore";
+import { getItemDescription } from "../ChapterStore";
 import { getKeys } from "features/game/types/craftables";
 import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import {
   getSeasonalItemsCrafted,
   isKeyBoughtWithinSeason,
-} from "features/game/events/landExpansion/buySeasonalItem";
+} from "features/game/events/landExpansion/buyChapterItem";
 import { REWARD_BOXES } from "features/game/types/rewardBoxes";
 import { secondsToString } from "lib/utils/time";
 import {

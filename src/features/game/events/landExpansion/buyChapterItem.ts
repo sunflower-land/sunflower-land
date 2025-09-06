@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { GameState, InventoryItemName, Keys } from "features/game/types/game";
 
 import { produce } from "immer";
-import { getCurrentSeason, SEASONS } from "features/game/types/seasons";
+import { getCurrentSeason, SEASONS } from "features/game/types/chapters";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import {
   MEGASTORE,

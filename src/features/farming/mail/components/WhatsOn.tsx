@@ -10,7 +10,7 @@ import shopIcon from "assets/icons/shop.png";
 import trophyIcon from "assets/icons/trophy.png";
 import lockIcon from "assets/icons/lock.png";
 import promoteIcon from "assets/icons/promote.webp";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/chapters";
 
 export const WhatsOn = () => {
   const { t } = useAppTranslation();

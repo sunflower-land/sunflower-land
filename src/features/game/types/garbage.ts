@@ -1,5 +1,5 @@
 import { BB_TO_GEM_RATIO, Inventory, InventoryItemName } from "./game";
-import { SEASON_TICKET_NAME, SeasonalTicket, SEASONS } from "./seasons";
+import { SEASON_TICKET_NAME, SeasonalTicket, SEASONS } from "./chapters";
 import Decimal from "decimal.js-light";
 import { BumpkinItem } from "./bumpkin";
 import { getObjectEntries } from "../expansion/lib/utils";

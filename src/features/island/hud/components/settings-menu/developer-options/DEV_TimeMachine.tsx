@@ -1,6 +1,6 @@
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
-import { SEASONS } from "features/game/types/seasons";
+import { SEASONS } from "features/game/types/chapters";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import React, { useEffect, useState } from "react";
 

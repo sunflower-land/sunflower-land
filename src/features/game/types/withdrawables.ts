@@ -1,5 +1,5 @@
 import { InventoryItemName } from "../types/game";
-import { SEASONS } from "../types/seasons";
+import { SEASONS } from "../types/chapters";
 import { BumpkinItem } from "./bumpkin";
 
 type Releases = {

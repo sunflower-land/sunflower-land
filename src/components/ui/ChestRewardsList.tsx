@@ -19,7 +19,7 @@ import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import {
   getCurrentSeason,
   getSeasonalArtefact,
-} from "features/game/types/seasons";
+} from "features/game/types/chapters";
 import chestIcon from "assets/icons/chest.png";
 import bonusReward from "assets/icons/gift.png";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";

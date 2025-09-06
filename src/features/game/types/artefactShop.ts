@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { InventoryItemName } from "./game";
 import { BumpkinItem } from "./bumpkin";
-import { SEASONS } from "./seasons";
+import { SEASONS } from "./chapters";
 
 export type ArtefactWearables = {
   coins: number;

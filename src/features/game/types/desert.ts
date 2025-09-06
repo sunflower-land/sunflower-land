@@ -1,6 +1,6 @@
 import { getKeys } from "./decorations";
 import { GameState, InventoryItemName } from "./game";
-import { getCurrentSeason, SeasonName } from "./seasons";
+import { getCurrentSeason, SeasonName } from "./chapters";
 import { BeachBountySeasonalArtefact } from "./treasure";
 
 export const DESERT_GRID_HEIGHT = 10;

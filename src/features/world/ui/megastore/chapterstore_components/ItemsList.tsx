@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 // import { getItemBuffLabel, getItemImage } from "../MegaStore";
-import { getItemImage, getItemBuffLabel } from "../SeasonalStore";
+import { getItemImage, getItemBuffLabel } from "../ChapterStore";
 import { Label } from "components/ui/Label";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { SquareIcon } from "components/ui/SquareIcon";
@@ -10,7 +10,7 @@ import {
   getCurrentSeason,
   getSeasonalArtefact,
   getSeasonalTicket,
-} from "features/game/types/seasons";
+} from "features/game/types/chapters";
 
 import token from "assets/icons/flower_token.webp";
 import lightning from "assets/icons/lightning.png";
@@ -41,7 +41,7 @@ import {
   getStore,
   isBoxBoughtWithinSeason,
   isKeyBoughtWithinSeason,
-} from "features/game/events/landExpansion/buySeasonalItem";
+} from "features/game/events/landExpansion/buyChapterItem";
 import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 
 interface Props {

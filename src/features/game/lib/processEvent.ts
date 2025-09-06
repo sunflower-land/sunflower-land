@@ -18,7 +18,7 @@ import { KNOWN_IDS } from "../types";
 import { ANIMAL_FOODS } from "../types/animals";
 import { BumpkinItem, ITEM_IDS } from "../types/bumpkin";
 import { MaxedItem } from "./gameMachine";
-import { SEASON_TICKET_NAME } from "../types/seasons";
+import { SEASON_TICKET_NAME } from "../types/chapters";
 import { OFFCHAIN_ITEMS } from "./offChainItems";
 import { PET_RESOURCES } from "../types/pets";
 

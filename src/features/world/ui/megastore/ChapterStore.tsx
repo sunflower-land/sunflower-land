@@ -5,7 +5,7 @@ import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getTimeLeft, secondsToString } from "lib/utils/time";
 import React, { useState, useEffect } from "react";
-import { getCurrentSeason, SEASONS } from "features/game/types/seasons";
+import { getCurrentSeason, SEASONS } from "features/game/types/chapters";
 import {
   MEGASTORE,
   SeasonalStoreCollectible,
@@ -14,8 +14,8 @@ import {
   SeasonalStoreWearable,
 } from "features/game/types/megastore";
 
-import { ItemsList } from "./seasonalstore_components/ItemsList";
-import { ItemDetail } from "./seasonalstore_components/ItemDetail";
+import { ItemsList } from "./chapterstore_components/ItemsList";
+import { ItemDetail } from "./chapterstore_components/ItemDetail";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getImageUrl } from "lib/utils/getImageURLS";
