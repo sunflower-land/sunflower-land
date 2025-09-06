@@ -19,7 +19,7 @@ import { SeasonalAuctions } from "../components/ChapterAuctions";
 import classNames from "classnames";
 import { SeasonalMutants } from "../components/ChapterMutants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { SeasonalStore } from "features/world/ui/megastore/SeasonalStore";
+import { SeasonalStore } from "features/world/ui/megastore/ChapterStore";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState } from "features/game/types/game";
 import { MegaBountyBoardContent } from "features/world/ui/flowerShop/MegaBountyBoard";
