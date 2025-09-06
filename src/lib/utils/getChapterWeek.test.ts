@@ -1,4 +1,4 @@
- import { getSeasonChangeover } from "./getChapterWeek";
+import { getSeasonChangeover } from "./getChapterWeek";
 
 describe("getSeasonChangeover", () => {
   it("delays tasks for one week", () => {
