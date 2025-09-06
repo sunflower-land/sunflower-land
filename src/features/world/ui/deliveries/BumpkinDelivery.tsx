@@ -45,7 +45,7 @@ import {
   getOrderSellPrice,
   GOBLINS_REQUIRING_REPUTATION,
 } from "features/game/events/landExpansion/deliver";
-import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
+import { getBumpkinHoliday } from "lib/utils/getChapterWeek";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { formatNumber } from "lib/utils/formatNumber";
 import { getBumpkinLevel } from "features/game/lib/level";

@@ -12,7 +12,7 @@ import {
 } from "features/game/lib/constants";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
-import { getBumpkinHoliday, HOLIDAYS } from "lib/utils/getSeasonWeek";
+import { getBumpkinHoliday, HOLIDAYS } from "lib/utils/getChapterWeek";
 
 const FIRST_DAY_OF_SEASON = new Date("2024-11-01T16:00:00Z").getTime();
 const MID_SEASON = new Date("2023-08-15T15:00:00Z").getTime();
