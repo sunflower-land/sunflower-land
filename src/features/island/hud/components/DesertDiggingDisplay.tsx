@@ -9,7 +9,7 @@ import { Modal } from "components/ui/Modal";
 import { Digby } from "features/world/ui/beach/Digby";
 import { useTranslation } from "react-i18next";
 import { isWearableActive } from "features/game/lib/wearables";
-import { getCurrentSeason } from "features/game/types/seasons";
+import { getCurrentSeason } from "features/game/types/chapters";
 
 export const getRegularMaxDigs = (game: GameState) => {
   let maxDigs = 25;

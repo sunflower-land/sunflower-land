@@ -7,7 +7,7 @@ import { NoticeboardItems } from "../kingdom/KingdomNoticeboard";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import shop from "assets/icons/shop.png";
-import { getSeasonalArtefact } from "features/game/types/seasons";
+import { getSeasonalArtefact } from "features/game/types/chapters";
 
 export function hasReadDesertNotice() {
   return !!localStorage.getItem("desert.notice");

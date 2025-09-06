@@ -12,7 +12,7 @@ import {
   CHEST_MULTIPLIER,
 } from "./chests";
 import { MEGASTORE, SeasonalStore } from "./megastore";
-import { getCurrentSeason } from "./seasons";
+import { getCurrentSeason } from "./chapters";
 
 describe("SEASONAL_REWARDS", () => {
   const currentSeason = getCurrentSeason(new Date()); // Test all reward types

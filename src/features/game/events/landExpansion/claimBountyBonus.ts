@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { getWeekKey, weekResetsAt } from "features/game/lib/factions";
 import { ANIMALS } from "features/game/types/animals";
 import { GameState } from "features/game/types/game";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/chapters";
 import { produce } from "immer";
 
 export type ClaimBountyBonusAction = {

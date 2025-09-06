@@ -57,7 +57,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { SEASON_ICONS } from "../buildings/components/building/market/SeasonalSeeds";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
-import { hasSeasonEnded } from "features/game/types/seasons";
+import { hasSeasonEnded } from "features/game/types/chapters";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 
 const host = window.location.host.replace(/^www\./, "");

@@ -30,7 +30,7 @@ import { Season } from "./pages/Season";
 import {
   getCurrentSeason,
   getSeasonalTicket,
-} from "features/game/types/seasons";
+} from "features/game/types/chapters";
 import { ChoreBoard } from "./pages/ChoreBoard";
 import { CompetitionDetails } from "features/competition/CompetitionBoard";
 import { MachineState } from "features/game/lib/gameMachine";

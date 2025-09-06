@@ -1,4 +1,4 @@
-import { SeasonName } from "features/game/types/seasons";
+import { SeasonName } from "features/game/types/chapters";
 import { BuffLabel } from ".";
 
 export type CodexCategoryName =

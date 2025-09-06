@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { GameState } from "features/game/types/game";
-import { getCurrentSeason } from "features/game/types/seasons";
+import { getCurrentSeason } from "features/game/types/chapters";
 import { produce } from "immer";
 
 export type ClaimCheersAction = {

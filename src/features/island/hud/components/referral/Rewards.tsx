@@ -20,7 +20,7 @@ import { rewardChestMachine } from "features/game/expansion/components/dailyRewa
 
 import { Label } from "components/ui/Label";
 import { ButtonPanel } from "components/ui/Panel";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/chapters";
 import { VIPGiftContent } from "features/world/ui/VIPGift";
 import { BlockchainBox } from "./BlockchainBox";
 import { hasVipAccess } from "features/game/lib/vipAccess";

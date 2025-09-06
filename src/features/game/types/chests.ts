@@ -10,7 +10,7 @@ import { ARTEFACT_SHOP_KEYS } from "./collectibles";
 import { getKeys } from "./decorations";
 import { BB_TO_GEM_RATIO, InventoryItemName, Wardrobe } from "./game";
 import { MEGASTORE, SeasonalStore } from "./megastore";
-import { getCurrentSeason } from "./seasons";
+import { getCurrentSeason } from "./chapters";
 import { BUMPKIN_RELEASES, INVENTORY_RELEASES } from "./withdrawables";
 
 export type ChestReward = {

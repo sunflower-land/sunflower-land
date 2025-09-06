@@ -5,7 +5,7 @@ import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getTimeLeft, secondsToString } from "lib/utils/time";
 import React, { useState, useEffect } from "react";
-import { getCurrentSeason, SEASONS } from "features/game/types/seasons";
+import { getCurrentSeason, SEASONS } from "features/game/types/chapters";
 import {
   MEGASTORE,
   SeasonalStoreCollectible,

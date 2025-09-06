@@ -3,7 +3,7 @@ import React from "react";
 import { Loading } from "features/auth/components";
 import { TicketTable } from "features/game/expansion/components/leaderboard/TicketTable";
 import { TicketLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getRelativeTime } from "lib/utils/time";
 import { Label } from "components/ui/Label";

@@ -10,7 +10,7 @@ import {
   INITIAL_FARM,
   TEST_FARM,
 } from "features/game/lib/constants";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/chapters";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { getBumpkinHoliday, HOLIDAYS } from "lib/utils/getChapterWeek";
 
