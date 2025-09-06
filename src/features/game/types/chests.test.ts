@@ -1,7 +1,7 @@
 import {
   isCollectible,
   isWearable,
-} from "../events/landExpansion/buySeasonalItem";
+} from "../events/landExpansion/buyChapterItem";
 import {
   ChestReward,
   BASIC_REWARDS,

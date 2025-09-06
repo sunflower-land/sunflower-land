@@ -41,7 +41,7 @@ import {
   getStore,
   isBoxBoughtWithinSeason,
   isKeyBoughtWithinSeason,
-} from "features/game/events/landExpansion/buySeasonalItem";
+} from "features/game/events/landExpansion/buyChapterItem";
 import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 
 interface Props {

@@ -35,7 +35,7 @@ import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import {
   getSeasonalItemsCrafted,
   isKeyBoughtWithinSeason,
-} from "features/game/events/landExpansion/buySeasonalItem";
+} from "features/game/events/landExpansion/buyChapterItem";
 import { REWARD_BOXES } from "features/game/types/rewardBoxes";
 import { secondsToString } from "lib/utils/time";
 import {

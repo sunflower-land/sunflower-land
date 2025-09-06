@@ -2,7 +2,7 @@ import {
   FLOWER_BOXES,
   isCollectible,
   isWearable,
-} from "../events/landExpansion/buySeasonalItem";
+} from "../events/landExpansion/buyChapterItem";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "../events/landExpansion/completeNPCChore";
 import { getObjectEntries } from "../expansion/lib/utils";
 import { BumpkinItem } from "./bumpkin";

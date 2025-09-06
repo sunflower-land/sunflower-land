@@ -378,7 +378,7 @@ import { sellBounty, SellBountyAction } from "./landExpansion/sellBounty";
 import {
   buySeasonalItem,
   BuySeasonalItemAction,
-} from "./landExpansion/buySeasonalItem";
+} from "./landExpansion/buyChapterItem";
 
 import {
   unlockFarmhand,
