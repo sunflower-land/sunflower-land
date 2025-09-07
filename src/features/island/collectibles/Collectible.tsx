@@ -38,7 +38,6 @@ export type CollectibleProps = {
   y: number;
   grid: GameGrid;
   location: PlaceableLocation;
-  game: GameState;
   z?: number | string;
   flipped?: boolean;
 };
@@ -58,7 +57,6 @@ const InProgressCollectible: React.FC<Props> = ({
   y,
   grid,
   location,
-  game,
 }) => {
   const { gameService, showAnimations } = useContext(Context);
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
@@ -231,13 +229,14 @@ export const Collectible: React.FC<Props> = (props) => {
 };
 
 export const Building: React.FC<{
-  state: GameState;
   onClose: () => void;
   onInstantBuilt: (gems: number) => void;
   readyAt: number;
   createdAt: number;
   name: CollectibleName;
-}> = ({ state, onClose, onInstantBuilt, readyAt, createdAt, name }) => {
+}> = ({ onClose, onInstantBuilt, readyAt, createdAt, name }) => {
+  const { gameService } = useContext(Context);
+  const state = useSelector(gameService, (state) => state.context.state);
   const { t } = useAppTranslation();
   const totalSeconds = (readyAt - createdAt) / 1000;
   const secondsTillReady = (readyAt - Date.now()) / 1000;

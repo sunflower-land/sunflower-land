@@ -26,13 +26,9 @@ import { useVisiting } from "lib/utils/visitUtils";
 
 interface Props {
   expansionCount: number;
-  gameState: GameState;
 }
 
-export const WaterComponent: React.FC<Props> = ({
-  expansionCount,
-  gameState,
-}) => {
+export const WaterComponent: React.FC<Props> = ({ expansionCount }) => {
   // As the land gets bigger, push the water decorations out
   const offset = Math.ceil((Math.sqrt(expansionCount) * LAND_WIDTH) / 2);
   const season = gameState.season.season;

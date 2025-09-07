@@ -78,78 +78,75 @@ export const IslandElementsProfiler: React.FC<IslandElementsProfilerProps> = ({
 };
 
 // Hook to track game state changes that trigger re-renders
-export const useGameStateChangeTracker = (gameState: GameState) => {
-  const prevStateRef = useRef<Partial<GameState>>({});
-  const [changeLog, setChangeLog] = useState<
-    Array<{
-      timestamp: number;
-      changedFields: string[];
-      trigger: string;
-    }>
-  >([]);
+export const useGameStateChangeTracker = (gameService: any) => {
+  const [changeLog, setChangeLog] = useState<StateChangeLog[]>([]);
+  const prevStateRef = useRef<any>(null);
 
   useEffect(() => {
-    const prevState = prevStateRef.current;
-    const changedFields: string[] = [];
-
-    // Track specific fields that could affect island elements
-    const fieldsToTrack = [
-      "buildings",
-      "collectibles",
-      "chickens",
-      "trees",
-      "stones",
-      "iron",
-      "gold",
-      "crimstones",
-      "sunstones",
-      "crops",
-      "fruitPatches",
-      "flowers",
-      "mushrooms",
-      "buds",
-      "airdrops",
-      "beehives",
-      "oilReserves",
-      "lavaPits",
-      "socialFarming",
-      "inventory",
-      "coins",
-      "balance",
-    ];
-
-    fieldsToTrack.forEach((field) => {
-      if (
-        JSON.stringify(prevState[field as keyof GameState]) !==
-        JSON.stringify(gameState[field as keyof GameState])
-      ) {
-        changedFields.push(field);
+    const subscription = gameService.subscribe((currentState: any) => {
+      if (!prevStateRef.current) {
+        prevStateRef.current = currentState;
+        return;
       }
+
+      const prevState = prevStateRef.current;
+      const changedFields: string[] = [];
+
+      // Check all top-level state fields for changes
+      const stateFields = [
+        "crops",
+        "trees",
+        "buildings",
+        "collectibles",
+        "stones",
+        "iron",
+        "gold",
+        "crimstones",
+        "sunstones",
+        "beehives",
+        "flowerBeds",
+        "fruitPatches",
+        "oilReserves",
+        "lavaPits",
+        "mushrooms",
+        "chickens",
+        "buds",
+        "airdrops",
+        "inventory",
+        "balance",
+        "season",
+        "island",
+        "expansionConstruction",
+        "socialFarming",
+        "flowers",
+        "mushrooms",
+      ];
+
+      stateFields.forEach((field) => {
+        if (
+          JSON.stringify(prevState.context.state[field]) !==
+          JSON.stringify(currentState.context.state[field])
+        ) {
+          changedFields.push(field);
+        }
+      });
+
+      // Only log if something actually changed
+      if (changedFields.length > 0) {
+        const newChange = {
+          timestamp: Date.now(),
+          changedFields,
+          trigger: "state-change" as const, // Simplified - just indicate a state change occurred
+        };
+
+        setChangeLog((prev) => [...prev.slice(-9), newChange]);
+      }
+
+      prevStateRef.current = currentState;
     });
 
-    if (changedFields.length > 0) {
-      const newLogEntry = {
-        timestamp: Date.now(),
-        changedFields,
-        trigger:
-          changedFields.includes("inventory") || changedFields.includes("coins")
-            ? "non-positional"
-            : "positional",
-      };
-
-      setChangeLog((prev) => [...prev.slice(-9), newLogEntry]); // Keep last 10 entries
-
-      if (process.env.NODE_ENV === "development") {
-        console.log(`🔄 Game State Change:`, {
-          fields: changedFields,
-          trigger: newLogEntry.trigger,
-          timestamp: new Date().toLocaleTimeString(),
-        });
-      }
-    }
-
-    prevStateRef.current = gameState;
-  }, [gameState]);
+    return () => subscription.unsubscribe();
+  }, [gameService]);
 
   return changeLog;
 };
@@ -168,9 +165,9 @@ interface PerformanceMetrics {
 interface StateChangeLog {
   timestamp: number;
   changedFields: string[];
-  trigger: "positional" | "non-positional";
-  elementCountChange: number;
-  renderTime: number;
+  trigger: "positional" | "non-positional" | "state-change";
+  elementCountChange?: number; // Make optional
+  renderTime?: number; // Make optional
 }
 
 // Comprehensive performance dashboard component
@@ -381,7 +378,7 @@ export const LandPerformanceDashboard: React.FC<
                   {change.changedFields.length > 2 && "..."}
                 </span>
                 <span style={{ color: "#6b7280", marginLeft: "4px" }}>
-                  ({change.renderTime.toFixed(1)}ms)
+                  ({change.renderTime?.toFixed(1) || "N/A"}ms)
                 </span>
               </div>
             ))
@@ -405,7 +402,10 @@ export const LandPerformanceDashboard: React.FC<
 };
 
 // Enhanced hook for comprehensive performance tracking
-export const useLandPerformanceTracking = (elementCount: number) => {
+export const useLandPerformanceTracking = (
+  elementCount: number,
+  gameService: any,
+) => {
   const [metrics, setMetrics] = useState<PerformanceMetrics>({
     renderCount: 0,
     totalRenderTime: 0,
@@ -414,8 +414,6 @@ export const useLandPerformanceTracking = (elementCount: number) => {
     elementCount: 0,
     fps: 60,
   });
-
-  const [changeLog, setChangeLog] = useState<StateChangeLog[]>([]);
   const [isDashboardVisible, setIsDashboardVisible] = useState(true); // Changed to true by default
 
   const renderTimesRef = useRef<number[]>([]);
@@ -467,20 +465,6 @@ export const useLandPerformanceTracking = (elementCount: number) => {
     };
 
     setMetrics(newMetrics);
-
-    // Add to change log
-    if (changedFields.length > 0) {
-      const newLogEntry: StateChangeLog = {
-        timestamp: Date.now(),
-        changedFields,
-        trigger,
-        elementCountChange: 0, // Could be enhanced to track actual element count changes
-        renderTime,
-      };
-
-      setChangeLog((prev) => [...prev.slice(-19), newLogEntry]); // Keep last 20 entries
-    }
-
     // Log to console in development
     if (process.env.NODE_ENV === "development") {
       console.log(`🏝️ Land Render #${metrics.renderCount + 1}:`, {
@@ -493,6 +477,9 @@ export const useLandPerformanceTracking = (elementCount: number) => {
       });
     }
   };
+
+  // Move state change tracking here
+  const changeLog = useGameStateChangeTracker(gameService);
 
   return {
     metrics,
