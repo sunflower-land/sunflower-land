@@ -134,16 +134,17 @@ const _collectiblePositions = (state: MachineState) => {
   return {
     collectibles: state.context.state.collectibles,
     positions: getObjectEntries(state.context.state.collectibles)
-      .flatMap(([_, value]) => value?.map((item) => item))
+      .flatMap(([name, value]) => value?.map((item) => ({ name, item })))
       .filter(
-        (item): item is NonNullable<typeof item> =>
-          !!(item && item.coordinates !== undefined),
+        (collectible): collectible is NonNullable<typeof collectible> =>
+          !!(collectible && collectible.item.coordinates !== undefined),
       )
-      .map((item) => ({
+      .map(({ name, item }) => ({
         id: item.id,
         x: item.coordinates!.x,
         y: item.coordinates!.y,
         flipped: item.flipped,
+        name,
       })),
   };
 };
@@ -239,20 +240,22 @@ const _airdropPositions = (state: MachineState) => {
 };
 
 export const Land: React.FC = () => {
-  const { gameService, showTimers } = useContext(Context);
-
-  const paused = useSelector(gameService, isPaused);
-
+  const { gameService } = useContext(Context);
   const { pathname } = useLocation();
 
+  const paused = useSelector(gameService, isPaused);
   const island = useSelector(gameService, _island);
   const season = useSelector(gameService, _season);
   const showMarketplace = pathname.includes("marketplace");
   const showFlowerDashboard = pathname.includes("flower-dashboard");
   const expansionCount = useSelector(gameService, _expansionCount);
-  const { crops } = useSelector(gameService, _cropPositions, comparePositions);
+  const { crops, positions: cropPositions } = useSelector(
+    gameService,
+    _cropPositions,
+    comparePositions,
+  );
   const { trees } = useSelector(gameService, _treePositions, comparePositions);
-  const { collectibles } = useSelector(
+  const { collectibles, positions: collectiblePositions } = useSelector(
     gameService,
     _collectiblePositions,
     comparePositions,
@@ -345,7 +348,11 @@ export const Land: React.FC = () => {
   const isFirstRender = useFirstRender();
 
   // memorize game grid and only update it when the stringified value changes
-  const gameGridValue = getGameGrid({ crops, collectibles });
+  const gameGridValue = getGameGrid({
+    cropPositions,
+    collectiblePositions,
+  });
+
   const gameGrid = useMemo(() => {
     return gameGridValue;
   }, [JSON.stringify(gameGridValue)]);
@@ -445,7 +452,7 @@ export const Land: React.FC = () => {
             );
           });
       });
-  }, [collectibles]);
+  }, [collectibles, gameGrid]);
 
   const buildingElements = useMemo(() => {
     const home = new Set<Home | "Town Center">([
@@ -490,7 +497,7 @@ export const Land: React.FC = () => {
             );
           });
       });
-  }, [buildings]);
+  }, [buildings, island, season]);
 
   const stoneElements = useMemo(() => {
     return getObjectEntries(stones)
