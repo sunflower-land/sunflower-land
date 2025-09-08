@@ -1,4 +1,5 @@
-import React, { useContext, useLayoutEffect, useMemo, useRef } from "react";
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import React, { useContext, useLayoutEffect, useMemo } from "react";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 
@@ -39,26 +40,17 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Outlet, useLocation } from "react-router";
 import { createPortal } from "react-dom";
 import { NON_COLLIDING_OBJECTS } from "./placeable/lib/collisionDetection";
-
-import {
-  isBuildingUpgradable,
-  makeUpgradableBuildingKey,
-  UpgradableBuildingType,
-} from "../events/landExpansion/upgradeBuilding";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { useVisiting } from "lib/utils/visitUtils";
-import { getObjectEntries } from "./lib/utils";
-import { Clutter } from "features/island/clutter/Clutter";
 import {
-  LandPerformanceDashboard,
-  useLandPerformanceTracking,
-} from "./performance/IslandElementsProfiler";
-import { HudContainer } from "components/ui/HudContainer";
+  getObjectEntries,
+  comparePositions,
+  getSortedResourcePositions,
+} from "./lib/utils";
+import { Clutter } from "features/island/clutter/Clutter";
 
 export const LAND_WIDTH = 6;
 
-const _loggedInFarmState = (state: MachineState) =>
-  state.context.visitorState ?? state.context.state;
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
 const isPaused = (state: MachineState) => !!state.context.paused;
 const _island = (state: MachineState) => state.context.state.island;
@@ -69,29 +61,96 @@ const _expansionCount = (state: MachineState) =>
 // new selector
 const _cropPositions = (state: MachineState) => ({
   crops: state.context.state.crops,
-  cropPositions: getObjectEntries(state.context.state.crops)
-    .filter(([, crop]) => crop.x !== undefined && crop.y !== undefined)
-    .map(([id, crop]) => ({ id, x: crop.x, y: crop.y })),
+  positions: getSortedResourcePositions(state.context.state.crops),
 });
 const _treePositions = (state: MachineState) => ({
   trees: state.context.state.trees,
-  treePositions: getObjectEntries(state.context.state.trees)
-    .filter(([, tree]) => tree.x !== undefined && tree.y !== undefined)
-    .map(([id, tree]) => ({ id, x: tree.x, y: tree.y })),
+  positions: getSortedResourcePositions(state.context.state.trees),
 });
+const _stonePositions = (state: MachineState) => {
+  return {
+    stones: state.context.state.stones,
+    positions: getSortedResourcePositions(state.context.state.stones),
+  };
+};
+const _goldPositions = (state: MachineState) => {
+  return {
+    gold: state.context.state.gold,
+    positions: getSortedResourcePositions(state.context.state.gold),
+  };
+};
+const _ironPositions = (state: MachineState) => {
+  return {
+    iron: state.context.state.iron,
+    positions: getSortedResourcePositions(state.context.state.iron),
+  };
+};
+const _crimstonePositions = (state: MachineState) => {
+  return {
+    crimstones: state.context.state.crimstones,
+    positions: getSortedResourcePositions(state.context.state.crimstones),
+  };
+};
+const _sunstonePositions = (state: MachineState) => {
+  return {
+    sunstones: state.context.state.sunstones,
+    positions: getSortedResourcePositions(state.context.state.sunstones),
+  };
+};
+const _beehivePositions = (state: MachineState) => {
+  return {
+    beehives: state.context.state.beehives,
+    positions: getSortedResourcePositions(state.context.state.beehives),
+  };
+};
+const _flowerBedPositions = (state: MachineState) => {
+  return {
+    flowerBeds: state.context.state.flowers.flowerBeds,
+    positions: getSortedResourcePositions(
+      state.context.state.flowers.flowerBeds,
+    ),
+  };
+};
+const _fruitPatchPositions = (state: MachineState) => {
+  return {
+    fruitPatches: state.context.state.fruitPatches,
+    positions: getSortedResourcePositions(state.context.state.fruitPatches),
+  };
+};
+const _oilReservePositions = (state: MachineState) => {
+  return {
+    oilReserves: state.context.state.oilReserves,
+    positions: getSortedResourcePositions(state.context.state.oilReserves),
+  };
+};
+const _lavaPitPositions = (state: MachineState) => {
+  return {
+    lavaPits: state.context.state.lavaPits,
+    positions: getSortedResourcePositions(state.context.state.lavaPits),
+  };
+};
+
 const _collectiblePositions = (state: MachineState) => {
   return {
     collectibles: state.context.state.collectibles,
-    collectiblePositions: getObjectEntries(state.context.state.collectibles)
-      .flatMap(([_, value]) => value?.map((item) => item.coordinates))
-      .filter((coords) => coords !== undefined) // Filter out undefined
-      .map((coords) => ({ x: coords.x, y: coords.y })),
+    positions: getObjectEntries(state.context.state.collectibles)
+      .flatMap(([_, value]) => value?.map((item) => item))
+      .filter(
+        (item): item is NonNullable<typeof item> =>
+          !!(item && item.coordinates !== undefined),
+      )
+      .map((item) => ({
+        id: item.id,
+        x: item.coordinates!.x,
+        y: item.coordinates!.y,
+        flipped: item.flipped,
+      })),
   };
 };
 const _buildingPositions = (state: MachineState) => {
   return {
     buildings: state.context.state.buildings,
-    buildingPositions: getObjectEntries(state.context.state.buildings).flatMap(
+    positions: getObjectEntries(state.context.state.buildings).flatMap(
       ([_, value]) =>
         value
           ?.map((item) => item.coordinates)
@@ -100,113 +159,15 @@ const _buildingPositions = (state: MachineState) => {
     ),
   };
 };
-const _stonePositions = (state: MachineState) => {
-  return {
-    stones: state.context.state.stones,
-    stonePositions: getObjectEntries(state.context.state.stones)
-      .filter(([, stone]) => stone.x !== undefined && stone.y !== undefined)
-      .map(([id, stone]) => ({ id, x: stone.x, y: stone.y })),
-  };
-};
-const _goldPositions = (state: MachineState) => {
-  return {
-    gold: state.context.state.gold,
-    goldPositions: getObjectEntries(state.context.state.gold)
-      .filter(([, gold]) => gold.x !== undefined && gold.y !== undefined)
-      .map(([id, gold]) => ({ id, x: gold.x, y: gold.y })),
-  };
-};
-const _ironPositions = (state: MachineState) => {
-  return {
-    iron: state.context.state.iron,
-    ironPositions: getObjectEntries(state.context.state.iron)
-      .filter(([, iron]) => iron.x !== undefined && iron.y !== undefined)
-      .map(([id, iron]) => ({ id, x: iron.x, y: iron.y })),
-  };
-};
-const _crimstonePositions = (state: MachineState) => {
-  return {
-    crimstones: state.context.state.crimstones,
-    crimstonePositions: getObjectEntries(state.context.state.crimstones)
-      .filter(
-        ([, crimstone]) =>
-          crimstone.x !== undefined && crimstone.y !== undefined,
-      )
-      .map(([id, crimstone]) => ({ id, x: crimstone.x, y: crimstone.y })),
-  };
-};
-const _sunstonePositions = (state: MachineState) => {
-  return {
-    sunstones: state.context.state.sunstones,
-    sunstonePositions: getObjectEntries(state.context.state.sunstones)
-      .filter(
-        ([, sunstone]) => sunstone.x !== undefined && sunstone.y !== undefined,
-      )
-      .map(([id, sunstone]) => ({ id, x: sunstone.x, y: sunstone.y })),
-  };
-};
-const _beehivePositions = (state: MachineState) => {
-  return {
-    beehives: state.context.state.beehives,
-    beehivePositions: getObjectEntries(state.context.state.beehives)
-      .filter(
-        ([, beehive]) => beehive.x !== undefined && beehive.y !== undefined,
-      )
-      .map(([id, beehive]) => ({ id, x: beehive.x, y: beehive.y })),
-  };
-};
-const _flowerBedPositions = (state: MachineState) => {
-  return {
-    flowerBeds: state.context.state.flowers.flowerBeds,
-    flowerBedPositions: getObjectEntries(state.context.state.flowers.flowerBeds)
-      .filter(
-        ([, flowerBed]) =>
-          flowerBed.x !== undefined && flowerBed.y !== undefined,
-      )
-      .map(([id, flowerBed]) => ({ id, x: flowerBed.x, y: flowerBed.y })),
-  };
-};
-const _fruitPatchPositions = (state: MachineState) => {
-  return {
-    fruitPatches: state.context.state.fruitPatches,
-    fruitPatchPositions: getObjectEntries(state.context.state.fruitPatches)
-      .filter(
-        ([, fruitPatch]) =>
-          fruitPatch.x !== undefined && fruitPatch.y !== undefined,
-      )
-      .map(([id, fruitPatch]) => ({ id, x: fruitPatch.x, y: fruitPatch.y })),
-  };
-};
-const _oilReservePositions = (state: MachineState) => {
-  return {
-    oilReserves: state.context.state.oilReserves,
-    oilReservePositions: getObjectEntries(state.context.state.oilReserves)
-      .filter(
-        ([, oilReserve]) =>
-          oilReserve.x !== undefined && oilReserve.y !== undefined,
-      )
-      .map(([id, oilReserve]) => ({ id, x: oilReserve.x, y: oilReserve.y })),
-  };
-};
-const _lavaPitPositions = (state: MachineState) => {
-  return {
-    lavaPits: state.context.state.lavaPits,
-    lavaPitPositions: getObjectEntries(state.context.state.lavaPits)
-      .filter(
-        ([, lavaPit]) => lavaPit.x !== undefined && lavaPit.y !== undefined,
-      )
-      .map(([id, lavaPit]) => ({ id, x: lavaPit.x, y: lavaPit.y })),
-  };
-};
 
 const _mushroomPositions = (state: MachineState) => {
   const { mushrooms } = state.context.state.mushrooms ?? {};
 
-  if (!mushrooms) return { mushroomPositions: [] };
+  if (!mushrooms) return { positions: [] };
 
   return {
     mushrooms,
-    mushroomPositions: getObjectEntries(mushrooms).flatMap(([_, mushroom]) => {
+    positions: getObjectEntries(mushrooms).flatMap(([_, mushroom]) => {
       return {
         x: mushroom.x,
         y: mushroom.y,
@@ -217,7 +178,7 @@ const _mushroomPositions = (state: MachineState) => {
 const _oldChickenPositions = (state: MachineState) => {
   return {
     chickens: state.context.state.chickens,
-    chickenPositions: getObjectEntries(state.context.state.chickens)
+    positions: getObjectEntries(state.context.state.chickens)
       .filter(([_, chicken]) => chicken.coordinates !== undefined)
       .flatMap(([_, chicken]) => {
         return {
@@ -230,28 +191,26 @@ const _oldChickenPositions = (state: MachineState) => {
 const _clutterPositions = (state: MachineState) => {
   const clutter = state.context.state.socialFarming?.clutter;
 
-  if (!clutter) return { clutterPositions: [] };
+  if (!clutter) return { positions: [] };
 
   return {
     clutter,
-    clutterPositions: getObjectEntries(clutter.locations).flatMap(
-      ([_, location]) => {
-        return {
-          x: location.x,
-          y: location.y,
-        };
-      },
-    ),
+    positions: getObjectEntries(clutter.locations).flatMap(([_, location]) => {
+      return {
+        x: location.x,
+        y: location.y,
+      };
+    }),
   };
 };
 const _budPositions = (state: MachineState) => {
   const buds = state.context.state.buds;
 
-  if (!buds) return { budPositions: [] };
+  if (!buds) return { positions: [] };
 
   return {
     buds,
-    budPositions: getObjectEntries(buds)
+    positions: getObjectEntries(buds)
       .filter(([_, bud]) => !!bud.coordinates)
       .flatMap(([_, bud]) => {
         return {
@@ -264,11 +223,11 @@ const _budPositions = (state: MachineState) => {
 const _airdropPositions = (state: MachineState) => {
   const airdrops = state.context.state.airdrops;
 
-  if (!airdrops) return { airdropPositions: [] };
+  if (!airdrops) return { positions: [] };
 
   return {
     airdrops,
-    airdropPositions: airdrops
+    positions: airdrops
       .filter((airdrop) => !!airdrop.coordinates)
       .map((airdrop) => {
         return {
@@ -280,7 +239,6 @@ const _airdropPositions = (state: MachineState) => {
 };
 
 export const Land: React.FC = () => {
-  console.log("🔄 Land component re-rendered at:", new Date().toISOString());
   const { gameService, showTimers } = useContext(Context);
 
   const paused = useSelector(gameService, isPaused);
@@ -291,168 +249,81 @@ export const Land: React.FC = () => {
   const season = useSelector(gameService, _season);
   const showMarketplace = pathname.includes("marketplace");
   const showFlowerDashboard = pathname.includes("flower-dashboard");
-  const loggedInFarmState = useSelector(gameService, _loggedInFarmState);
   const expansionCount = useSelector(gameService, _expansionCount);
-  const { crops } = useSelector(gameService, _cropPositions, (prev, next) => {
-    return (
-      JSON.stringify(prev.cropPositions) === JSON.stringify(next.cropPositions)
-    );
-  });
-  const { trees } = useSelector(gameService, _treePositions, (prev, next) => {
-    return (
-      JSON.stringify(prev.treePositions) === JSON.stringify(next.treePositions)
-    );
-  });
+  const { crops } = useSelector(gameService, _cropPositions, comparePositions);
+  const { trees } = useSelector(gameService, _treePositions, comparePositions);
   const { collectibles } = useSelector(
     gameService,
     _collectiblePositions,
-    (prev, next) => {
-      return (
-        JSON.stringify(prev.collectiblePositions) ===
-        JSON.stringify(next.collectiblePositions)
-      );
-    },
+    comparePositions,
   );
   const { buildings } = useSelector(
     gameService,
     _buildingPositions,
-    (prev, next) => {
-      return (
-        JSON.stringify(prev.buildingPositions) ===
-        JSON.stringify(next.buildingPositions)
-      );
-    },
+    comparePositions,
   );
-  const { stones } = useSelector(gameService, _stonePositions, (prev, next) => {
-    return (
-      JSON.stringify(prev.stonePositions) ===
-      JSON.stringify(next.stonePositions)
-    );
-  });
-  const { gold } = useSelector(gameService, _goldPositions, (prev, next) => {
-    return (
-      JSON.stringify(prev.goldPositions) === JSON.stringify(next.goldPositions)
-    );
-  });
-  const { iron } = useSelector(gameService, _ironPositions, (prev, next) => {
-    return (
-      JSON.stringify(prev.ironPositions) === JSON.stringify(next.ironPositions)
-    );
-  });
+  const { stones } = useSelector(
+    gameService,
+    _stonePositions,
+    comparePositions,
+  );
+  const { gold } = useSelector(gameService, _goldPositions, comparePositions);
+  const { iron } = useSelector(gameService, _ironPositions, comparePositions);
   const { crimstones } = useSelector(
     gameService,
     _crimstonePositions,
-    (prev, next) => {
-      return (
-        JSON.stringify(prev.crimstonePositions) ===
-        JSON.stringify(next.crimstonePositions)
-      );
-    },
+    comparePositions,
   );
   const { sunstones } = useSelector(
     gameService,
     _sunstonePositions,
-    (prev, next) => {
-      return (
-        JSON.stringify(prev.sunstonePositions) ===
-        JSON.stringify(next.sunstonePositions)
-      );
-    },
+    comparePositions,
   );
   const { beehives } = useSelector(
     gameService,
     _beehivePositions,
-    (prev, next) => {
-      return (
-        JSON.stringify(prev.beehivePositions) ===
-        JSON.stringify(next.beehivePositions)
-      );
-    },
+    comparePositions,
   );
   const { flowerBeds } = useSelector(
     gameService,
     _flowerBedPositions,
-    (prev, next) => {
-      return (
-        JSON.stringify(prev.flowerBedPositions) ===
-        JSON.stringify(next.flowerBedPositions)
-      );
-    },
+    comparePositions,
   );
   const { fruitPatches } = useSelector(
     gameService,
     _fruitPatchPositions,
-    (prev, next) => {
-      return (
-        JSON.stringify(prev.fruitPatchPositions) ===
-        JSON.stringify(next.fruitPatchPositions)
-      );
-    },
+    comparePositions,
   );
   const { oilReserves } = useSelector(
     gameService,
     _oilReservePositions,
-    (prev, next) => {
-      return (
-        JSON.stringify(prev.oilReservePositions) ===
-        JSON.stringify(next.oilReservePositions)
-      );
-    },
+    comparePositions,
   );
   const { lavaPits } = useSelector(
     gameService,
     _lavaPitPositions,
-    (prev, next) => {
-      return (
-        JSON.stringify(prev.lavaPitPositions) ===
-        JSON.stringify(next.lavaPitPositions)
-      );
-    },
+    comparePositions,
   );
   const { mushrooms } = useSelector(
     gameService,
     _mushroomPositions,
-    (prev, next) => {
-      return (
-        JSON.stringify(prev.mushroomPositions) ===
-        JSON.stringify(next.mushroomPositions)
-      );
-    },
+    comparePositions,
   );
   const { chickens } = useSelector(
     gameService,
     _oldChickenPositions,
-    (prev, next) => {
-      return (
-        JSON.stringify(prev.chickenPositions) ===
-        JSON.stringify(next.chickenPositions)
-      );
-    },
+    comparePositions,
   );
   const { clutter } = useSelector(
     gameService,
     _clutterPositions,
-    (prev, next) => {
-      return (
-        JSON.stringify(prev.clutterPositions) ===
-        JSON.stringify(next.clutterPositions)
-      );
-    },
+    comparePositions,
   );
-  const { buds } = useSelector(gameService, _budPositions, (prev, next) => {
-    return (
-      JSON.stringify(prev.budPositions) === JSON.stringify(next.budPositions)
-    );
-  });
+  const { buds } = useSelector(gameService, _budPositions, comparePositions);
   const { airdrops } = useSelector(
     gameService,
     _airdropPositions,
-    (prev, next) => {
-      return (
-        JSON.stringify(prev.airdropPositions) ===
-        JSON.stringify(next.airdropPositions)
-      );
-    },
+    comparePositions,
   );
   const landscaping = useSelector(gameService, isLandscaping);
 
@@ -479,86 +350,10 @@ export const Land: React.FC = () => {
     return gameGridValue;
   }, [JSON.stringify(gameGridValue)]);
 
-  // Calculate element count
-  const elementCount = useMemo(() => {
-    return (
-      Object.values(buildings).flat().length +
-      Object.values(collectibles).flat().length +
-      Object.keys(chickens).length +
-      Object.keys(trees).length +
-      Object.keys(stones).length +
-      Object.keys(iron).length +
-      Object.keys(gold).length +
-      Object.keys(crimstones).length +
-      Object.keys(sunstones).length +
-      Object.keys(crops).length +
-      Object.keys(fruitPatches).length +
-      Object.keys(flowerBeds).length +
-      Object.keys(mushrooms?.mushrooms || {}).length +
-      Object.keys(buds || {}).length +
-      (airdrops?.length || 0) +
-      Object.keys(beehives).length +
-      Object.keys(oilReserves).length +
-      Object.keys(lavaPits).length
-    );
-  }, [
-    buildings,
-    chickens,
-    trees,
-    stones,
-    collectibles,
-    iron,
-    gold,
-    crimstones,
-    sunstones,
-    crops,
-    fruitPatches,
-    flowerBeds,
-    mushrooms,
-    buds,
-    airdrops,
-    beehives,
-    oilReserves,
-    lavaPits,
-  ]);
-
-  // Enhanced performance tracking
-  const {
-    metrics,
-    changeLog,
-    isDashboardVisible,
-    setIsDashboardVisible,
-    startTracking,
-    endTracking,
-  } = useLandPerformanceTracking(elementCount, gameService);
-
-  // New
-  const cropRenderCount = useRef(0);
-  const treeRenderCount = useRef(0);
-  const collectibleRenderCount = useRef(0);
-  const buildingRenderCount = useRef(0);
-  const stoneRenderCount = useRef(0);
-  const ironRenderCount = useRef(0);
-  const goldRenderCount = useRef(0);
-  const crimstoneRenderCount = useRef(0);
-  const sunstoneRenderCount = useRef(0);
-  const beehiveRenderCount = useRef(0);
-  const flowerBedRenderCount = useRef(0);
-  const fruitPatchRenderCount = useRef(0);
-  const oilReserveRenderCount = useRef(0);
-  const lavaPitRenderCount = useRef(0);
-  const mushroomRenderCount = useRef(0);
-  const chickenRenderCount = useRef(0);
-  const clutterRenderCount = useRef(0);
-  const budRenderCount = useRef(0);
-  const airdropRenderCount = useRef(0);
-
   const { isVisiting: visiting } = useVisiting();
 
   // New functions
   const cropElements = useMemo(() => {
-    cropRenderCount.current++;
-    console.log(`�� Crops rendered ${cropRenderCount.current} times`);
     return getObjectEntries(crops)
       .filter(([, crop]) => crop.x !== undefined && crop.y !== undefined)
       .map(([id, crop], index) => {
@@ -570,7 +365,6 @@ export const Land: React.FC = () => {
             x={x!}
             y={y!}
             {...RESOURCE_DIMENSIONS["Crop Plot"]}
-            className={classNames({ "pointer-events-none": visiting })}
           >
             <Resource
               name="Crop Plot"
@@ -587,8 +381,6 @@ export const Land: React.FC = () => {
   }, [crops]);
 
   const treeElements = useMemo(() => {
-    treeRenderCount.current++;
-    console.log(`�� Trees rendered ${treeRenderCount.current} times`);
     return getObjectEntries(trees)
       .filter(([, tree]) => tree.x !== undefined && tree.y !== undefined)
       .map(([id, tree], index) => {
@@ -600,7 +392,6 @@ export const Land: React.FC = () => {
             x={x!}
             y={y!}
             {...RESOURCE_DIMENSIONS.Tree}
-            className={classNames({ "pointer-events-none": visiting })}
           >
             <Resource
               key={`tree-${id}`}
@@ -618,10 +409,6 @@ export const Land: React.FC = () => {
   }, [trees]);
 
   const collectibleElements = useMemo(() => {
-    collectibleRenderCount.current++;
-    console.log(
-      `🌿 Collectibles rendered ${collectibleRenderCount.current} times`,
-    );
     return getKeys(collectibles)
       .filter((name) => collectibles[name])
       .flatMap((name, nameIndex) => {
@@ -641,6 +428,7 @@ export const Land: React.FC = () => {
                 height={height}
                 width={width}
                 canCollide={NON_COLLIDING_OBJECTS.includes(name) ? false : true}
+                enableOnVisitClick
               >
                 <Collectible
                   location="farm"
@@ -648,11 +436,9 @@ export const Land: React.FC = () => {
                   id={id}
                   readyAt={readyAt}
                   createdAt={createdAt}
-                  showTimers={showTimers}
                   x={coordinates!.x}
                   y={coordinates!.y}
                   grid={gameGrid}
-                  // z={NON_COLLIDING_OBJECTS.includes(name) ? 0 : "unset"}
                   flipped={collectible.flipped}
                 />
               </MapPlacement>
@@ -662,8 +448,6 @@ export const Land: React.FC = () => {
   }, [collectibles]);
 
   const buildingElements = useMemo(() => {
-    buildingRenderCount.current++;
-    console.log(`�� Buildings rendered ${buildingRenderCount.current} times`);
     const home = new Set<Home | "Town Center">([
       "Town Center",
       "Tent",
@@ -676,25 +460,11 @@ export const Land: React.FC = () => {
       .filter((name) => buildings[name])
       .flatMap((name, nameIndex) => {
         const items = buildings[name]!;
-        const game = state;
         return items
           .filter((building) => building.coordinates !== undefined)
           .map((building, itemIndex) => {
             const { x, y } = building.coordinates!;
             const { width, height } = BUILDINGS_DIMENSIONS[name];
-            const buildingKey = makeUpgradableBuildingKey(
-              name as UpgradableBuildingType,
-            );
-
-            const readyAt =
-              !!isBuildingUpgradable(name) && !!game[buildingKey].upgradeReadyAt
-                ? game[buildingKey].upgradeReadyAt
-                : building.readyAt;
-
-            const upgradedAt =
-              !!isBuildingUpgradable(name) && !!game[buildingKey].upgradedAt
-                ? game[buildingKey].upgradedAt
-                : building.createdAt;
 
             return (
               <MapPlacement
@@ -703,17 +473,14 @@ export const Land: React.FC = () => {
                 y={y}
                 height={height}
                 width={width}
-                className={classNames({
-                  "pointer-events-none": !home.has(name as Home) && visiting,
-                })}
+                enableOnVisitClick={home.has(name as Home)}
               >
                 <Building
                   name={name}
                   id={building.id}
                   index={itemIndex}
-                  readyAt={readyAt}
-                  createdAt={upgradedAt}
-                  showTimers={showTimers}
+                  readyAt={building.readyAt}
+                  createdAt={building.createdAt}
                   x={x}
                   y={y}
                   island={island}
@@ -726,8 +493,6 @@ export const Land: React.FC = () => {
   }, [buildings]);
 
   const stoneElements = useMemo(() => {
-    stoneRenderCount.current++;
-    console.log(`�� Stones rendered ${stoneRenderCount.current} times`);
     return getObjectEntries(stones)
       .filter(([, stone]) => stone.x !== undefined && stone.y !== undefined)
       .map(([id, stone], index) => {
@@ -739,7 +504,6 @@ export const Land: React.FC = () => {
             x={x!}
             y={y!}
             {...RESOURCE_DIMENSIONS["Stone Rock"]}
-            className={classNames({ "pointer-events-none": visiting })}
           >
             <Resource
               key={`stone-${id}`}
@@ -757,8 +521,6 @@ export const Land: React.FC = () => {
   }, [stones]);
 
   const goldElements = useMemo(() => {
-    goldRenderCount.current++;
-    console.log(`�� Gold rendered ${goldRenderCount.current} times`);
     return getObjectEntries(gold)
       .filter(([, gold]) => gold.x !== undefined && gold.y !== undefined)
       .map(([id, gold], index) => {
@@ -770,7 +532,6 @@ export const Land: React.FC = () => {
             x={x!}
             y={y!}
             {...RESOURCE_DIMENSIONS["Gold Rock"]}
-            className={classNames({ "pointer-events-none": visiting })}
           >
             <Resource
               key={`gold-${id}`}
@@ -788,8 +549,6 @@ export const Land: React.FC = () => {
   }, [gold]);
 
   const ironElements = useMemo(() => {
-    ironRenderCount.current++;
-    console.log(`�� Iron rendered ${ironRenderCount.current} times`);
     return getObjectEntries(iron)
       .filter(([, iron]) => iron.x !== undefined && iron.y !== undefined)
       .map(([id, iron], index) => {
@@ -801,7 +560,6 @@ export const Land: React.FC = () => {
             x={x!}
             y={y!}
             {...RESOURCE_DIMENSIONS["Iron Rock"]}
-            className={classNames({ "pointer-events-none": visiting })}
           >
             <Resource
               key={`iron-${id}`}
@@ -819,8 +577,6 @@ export const Land: React.FC = () => {
   }, [iron]);
 
   const crimstoneElements = useMemo(() => {
-    crimstoneRenderCount.current++;
-    console.log(`�� Crimstones rendered ${crimstoneRenderCount.current} times`);
     return getObjectEntries(crimstones)
       .filter(
         ([, crimstone]) =>
@@ -835,7 +591,6 @@ export const Land: React.FC = () => {
             x={x!}
             y={y!}
             {...RESOURCE_DIMENSIONS["Crimstone Rock"]}
-            className={classNames({ "pointer-events-none": visiting })}
           >
             <Resource
               key={`crimstone-${id}`}
@@ -853,8 +608,6 @@ export const Land: React.FC = () => {
   }, [crimstones]);
 
   const sunstoneElements = useMemo(() => {
-    sunstoneRenderCount.current++;
-    console.log(`�� Sunstones rendered ${sunstoneRenderCount.current} times`);
     return getObjectEntries(sunstones)
       .filter(
         ([, sunstone]) => sunstone.x !== undefined && sunstone.y !== undefined,
@@ -868,7 +621,6 @@ export const Land: React.FC = () => {
             x={x!}
             y={y!}
             {...RESOURCE_DIMENSIONS["Sunstone Rock"]}
-            className={classNames({ "pointer-events-none": visiting })}
           >
             <Resource
               key={`ruby-${id}`}
@@ -886,8 +638,6 @@ export const Land: React.FC = () => {
   }, [sunstones]);
 
   const beehiveElements = useMemo(() => {
-    beehiveRenderCount.current++;
-    console.log(`�� Beehives rendered ${beehiveRenderCount.current} times`);
     return getObjectEntries(beehives)
       .filter(
         ([, beehive]) => beehive.x !== undefined && beehive.y !== undefined,
@@ -901,7 +651,6 @@ export const Land: React.FC = () => {
             x={x!}
             y={y!}
             {...RESOURCE_DIMENSIONS.Beehive}
-            className={classNames({ "pointer-events-none": visiting })}
           >
             <Resource
               name="Beehive"
@@ -918,10 +667,6 @@ export const Land: React.FC = () => {
   }, [beehives]);
 
   const flowerBedElements = useMemo(() => {
-    flowerBedRenderCount.current++;
-    console.log(
-      `�� Flower Beds rendered ${flowerBedRenderCount.current} times`,
-    );
     return getObjectEntries(flowerBeds)
       .filter(
         ([, flowerBed]) =>
@@ -936,7 +681,6 @@ export const Land: React.FC = () => {
             x={x!}
             y={y!}
             {...RESOURCE_DIMENSIONS["Flower Bed"]}
-            className={classNames({ "pointer-events-none": visiting })}
           >
             <Resource
               name="Flower Bed"
@@ -953,10 +697,6 @@ export const Land: React.FC = () => {
   }, [flowerBeds]);
 
   const fruitPatchElements = useMemo(() => {
-    fruitPatchRenderCount.current++;
-    console.log(
-      `�� Fruit Patches rendered ${fruitPatchRenderCount.current} times`,
-    );
     return getObjectEntries(fruitPatches)
       .filter(
         ([, fruitPatch]) =>
@@ -971,7 +711,6 @@ export const Land: React.FC = () => {
             x={x!}
             y={y!}
             {...RESOURCE_DIMENSIONS["Fruit Patch"]}
-            className={classNames({ "pointer-events-none": visiting })}
           >
             <Resource
               name="Fruit Patch"
@@ -988,10 +727,6 @@ export const Land: React.FC = () => {
   }, [fruitPatches]);
 
   const oilReserveElements = useMemo(() => {
-    oilReserveRenderCount.current++;
-    console.log(
-      `�� Oil Reserves rendered ${oilReserveRenderCount.current} times`,
-    );
     return getObjectEntries(oilReserves)
       .filter(
         ([, oilReserve]) =>
@@ -1006,7 +741,6 @@ export const Land: React.FC = () => {
             x={x!}
             y={y!}
             {...RESOURCE_DIMENSIONS["Oil Reserve"]}
-            className={classNames({ "pointer-events-none": visiting })}
           >
             <Resource
               name="Oil Reserve"
@@ -1023,8 +757,6 @@ export const Land: React.FC = () => {
   }, [oilReserves]);
 
   const lavaPitElements = useMemo(() => {
-    lavaPitRenderCount.current++;
-    console.log(`�� Lava Pits rendered ${lavaPitRenderCount.current} times`);
     return getObjectEntries(lavaPits)
       .filter(
         ([, lavaPit]) => lavaPit.x !== undefined && lavaPit.y !== undefined,
@@ -1038,7 +770,6 @@ export const Land: React.FC = () => {
             x={x!}
             y={y!}
             {...RESOURCE_DIMENSIONS["Lava Pit"]}
-            className={classNames({ "pointer-events-none": visiting })}
           >
             <Resource
               name="Lava Pit"
@@ -1055,8 +786,6 @@ export const Land: React.FC = () => {
   }, [lavaPits]);
 
   const mushroomElements = useMemo(() => {
-    mushroomRenderCount.current++;
-    console.log(`�� Mushrooms rendered ${mushroomRenderCount.current} times`);
     if (!mushrooms) return [];
 
     return getObjectEntries(mushrooms).flatMap(([id, mushroom]) => {
@@ -1067,7 +796,6 @@ export const Land: React.FC = () => {
           y={mushroom.y}
           height={MUSHROOM_DIMENSIONS.height}
           width={MUSHROOM_DIMENSIONS.width}
-          className={classNames({ "pointer-events-none": visiting })}
         >
           <Mushroom
             key={`mushroom-${id}`}
@@ -1078,11 +806,9 @@ export const Land: React.FC = () => {
         </MapPlacement>
       );
     });
-  }, [mushrooms]);
+  }, [mushrooms, isFirstRender]);
 
   const chickenElements = useMemo(() => {
-    chickenRenderCount.current++;
-    console.log(`�� Chickens rendered ${chickenRenderCount.current} times`);
     return (
       getObjectEntries(chickens)
         // Only show placed chickens (V1 may have ones without coords)
@@ -1098,7 +824,6 @@ export const Land: React.FC = () => {
               y={y}
               height={height}
               width={width}
-              className={classNames({ "pointer-events-none": visiting })}
             >
               <ChickenElement key={`chicken-${id}`} id={id} x={x} y={y} />
             </MapPlacement>
@@ -1108,18 +833,14 @@ export const Land: React.FC = () => {
   }, [chickens]);
 
   const clutterElements = useMemo(() => {
-    clutterRenderCount.current++;
-    console.log(`�� Clutter rendered ${clutterRenderCount.current} times`);
-
-    if (!visiting || !clutter) return [];
+    if (!visiting || !clutter) {
+      return [];
+    }
 
     return <Clutter clutter={clutter} />;
   }, [clutter, visiting]);
 
   const budElements = useMemo(() => {
-    budRenderCount.current++;
-    console.log(`�� Buds rendered ${budRenderCount.current} times`);
-
     if (!buds) return [];
 
     return getObjectEntries(buds)
@@ -1130,7 +851,14 @@ export const Land: React.FC = () => {
       .flatMap(([id, bud]) => {
         const { x, y } = bud.coordinates!;
         return (
-          <MapPlacement key={`bud-${id}`} x={x} y={y} height={1} width={1}>
+          <MapPlacement
+            key={`bud-${id}`}
+            x={x}
+            y={y}
+            height={1}
+            width={1}
+            enableOnVisitClick
+          >
             <Bud id={String(id)} x={x} y={y} />
           </MapPlacement>
         );
@@ -1138,8 +866,6 @@ export const Land: React.FC = () => {
   }, [buds]);
 
   const airdropElements = useMemo(() => {
-    airdropRenderCount.current++;
-    console.log(`�� Airdrops rendered ${airdropRenderCount.current} times`);
     if (!airdrops) return [];
 
     return (
@@ -1156,7 +882,6 @@ export const Land: React.FC = () => {
               y={y}
               height={1}
               width={1}
-              className={classNames({ "pointer-events-none": visiting })}
             >
               <Airdrop key={`airdrop-${airdrop.id}`} airdrop={airdrop} />
             </MapPlacement>
@@ -1167,17 +892,6 @@ export const Land: React.FC = () => {
 
   // Memoize island elements with enhanced performance tracking
   const islandElements = useMemo(() => {
-    startTracking();
-
-    // Determine what changed for better tracking
-    const recentChange = changeLog[changeLog.length - 1];
-    const changedFields = recentChange?.changedFields || [];
-    const trigger =
-      recentChange?.trigger === "positional" ? "positional" : "non-positional";
-
-    // Use setTimeout to ensure the tracking happens after render
-    setTimeout(() => endTracking(changedFields, trigger), 0);
-
     const elements = [
       cropElements,
       treeElements,
@@ -1200,7 +914,7 @@ export const Land: React.FC = () => {
       airdropElements,
     ].flat();
 
-    const sortedIslandElements = elements.sort((a, b) => {
+    const sortedIslandElements = elements.slice().sort((a, b) => {
       // Non-colliding objects (like tiles, rugs) should be at the beginning
       if (a.props.canCollide === false && b.props.canCollide === false) {
         if (a.props.children.props.name.includes("Tile")) {
@@ -1225,25 +939,7 @@ export const Land: React.FC = () => {
     });
 
     return sortedIslandElements;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    chickens,
-    fruitPatches,
-    flowerBeds,
-    showTimers,
-    gameGrid,
-    mushrooms,
-    isFirstRender,
-    buds,
-    airdrops,
-    beehives,
-    oilReserves,
-    lavaPits,
-    visiting,
-    landscaping,
-    loggedInFarmState,
-
-    // new elements
     cropElements,
     treeElements,
     collectibleElements,
@@ -1258,6 +954,11 @@ export const Land: React.FC = () => {
     fruitPatchElements,
     oilReserveElements,
     lavaPitElements,
+    clutterElements,
+    budElements,
+    airdropElements,
+    mushroomElements,
+    chickenElements,
   ]);
 
   return (
@@ -1297,9 +998,7 @@ export const Land: React.FC = () => {
             />
             <DirtRenderer biome={getCurrentBiome(island)} grid={gameGrid} />
 
-            {!landscaping && (
-              <Water expansionCount={expansionCount} gameState={state} />
-            )}
+            {!landscaping && <Water expansionCount={expansionCount} />}
             {!landscaping && <UpcomingExpansion />}
 
             <div
@@ -1344,19 +1043,6 @@ export const Land: React.FC = () => {
       {visiting && <VisitingHud />}
 
       {!landscaping && !visiting && <Hud isFarming={true} location="farm" />}
-
-      {/* Enhanced Performance Dashboard - only in development */}
-
-      <HudContainer>
-        <div style={{ pointerEvents: "auto" }}>
-          <LandPerformanceDashboard
-            changeLog={changeLog}
-            metrics={metrics}
-            isVisible={isDashboardVisible}
-            onToggle={() => setIsDashboardVisible(!isDashboardVisible)}
-          />
-        </div>
-      </HudContainer>
 
       {(showMarketplace || showFlowerDashboard) &&
         createPortal(

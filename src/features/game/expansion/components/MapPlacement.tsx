@@ -3,6 +3,7 @@
 import React from "react";
 import { GRID_WIDTH_PX } from "../../lib/constants";
 import classNames from "classnames";
+import { useVisiting } from "lib/utils/visitUtils";
 
 export type Coordinates = {
   x: number;
@@ -17,6 +18,7 @@ type Position = {
   className?: string;
   x: number;
   y: number;
+  enableOnVisitClick?: boolean;
 };
 
 type Props = Position & { id?: string };
@@ -36,10 +38,15 @@ export const MapPlacement: React.FC<React.PropsWithChildren<Props>> = ({
   z = "unset",
   canCollide = true,
   className,
+  enableOnVisitClick = false,
 }) => {
+  const { isVisiting } = useVisiting();
+
   return (
     <div
-      className={classNames("absolute", className)}
+      className={classNames("absolute", className, {
+        "pointer-events-none": !enableOnVisitClick && isVisiting,
+      })}
       style={{
         top: `calc(50% - ${GRID_WIDTH_PX * y}px)`,
         left: `calc(50% + ${GRID_WIDTH_PX * x}px)`,

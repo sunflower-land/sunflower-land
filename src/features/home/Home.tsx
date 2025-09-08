@@ -58,7 +58,7 @@ export const Home: React.FC = () => {
   const { isVisiting } = useVisiting();
   const [showIntro, setShowIntro] = useState(!hasReadIntro() && !isVisiting);
 
-  const { gameService, showTimers } = useContext(Context);
+  const { gameService } = useContext(Context);
 
   const { t } = useAppTranslation();
 
@@ -117,6 +117,7 @@ export const Home: React.FC = () => {
                 height={height}
                 width={width}
                 z={NON_COLLIDING_OBJECTS.includes(name) ? 0 : 1}
+                enableOnVisitClick
               >
                 <Collectible
                   location="home"
@@ -124,11 +125,9 @@ export const Home: React.FC = () => {
                   id={id}
                   readyAt={readyAt}
                   createdAt={createdAt}
-                  showTimers={showTimers}
                   x={coordinates!.x}
                   y={coordinates!.y}
                   grid={gameGrid}
-                  game={state}
                   flipped={collectible.flipped}
                 />
               </MapPlacement>
@@ -146,7 +145,14 @@ export const Home: React.FC = () => {
         const { x, y } = buds[id]!.coordinates!;
 
         return (
-          <MapPlacement key={`bud-${id}`} x={x} y={y} height={1} width={1}>
+          <MapPlacement
+            key={`bud-${id}`}
+            x={x}
+            y={y}
+            height={1}
+            width={1}
+            enableOnVisitClick
+          >
             <Bud id={String(id)} x={x} y={y} />
           </MapPlacement>
         );
