@@ -107,7 +107,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
   const { scale } = useContext(ZoomContext);
 
   const nodeRef = useRef(null);
-  const { gameService } = useContext(Context);
+  const { gameService, showTimers } = useContext(Context);
 
   const { island, season } = gameService.getSnapshot().context.state;
 
@@ -313,7 +313,8 @@ export const Placeable: React.FC<Props> = ({ location }) => {
                 island={island}
                 season={season.season}
                 grid={grid}
-                game={gameState.context.state}
+                showTimers={showTimers}
+                skills={gameState.context.state.bumpkin.skills}
                 id={isBudName(placeable) ? placeable.split("-")[1] : "123"}
                 location="farm"
                 name={placeable as CollectibleName}

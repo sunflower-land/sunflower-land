@@ -3092,7 +3092,7 @@ export const READONLY_COLLECTIBLES: Record<
   ),
 
   "Basic Scarecrow": (props: CollectibleProps) => {
-    const hasChonkyScarecrow = props.game.bumpkin.skills["Chonky Scarecrow"];
+    const hasChonkyScarecrow = props.skills["Chonky Scarecrow"];
     const chonkyOffset = hasChonkyScarecrow ? 4 : 0;
 
     return (
@@ -3128,7 +3128,7 @@ export const READONLY_COLLECTIBLES: Record<
   },
 
   "Scary Mike": (props: CollectibleProps) => {
-    const hasHorrorMike = props.game.bumpkin.skills["Horror Mike"];
+    const hasHorrorMike = props.skills["Horror Mike"];
     const offset = hasHorrorMike ? 4 : 0;
 
     return (
@@ -3164,7 +3164,7 @@ export const READONLY_COLLECTIBLES: Record<
   },
 
   "Laurie the Chuckle Crow": (props: CollectibleProps) => {
-    const hasLauriesGains = props.game.bumpkin.skills["Laurie's Gains"];
+    const hasLauriesGains = props.skills["Laurie's Gains"];
     const offset = hasLauriesGains ? 4 : 0;
 
     return (

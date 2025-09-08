@@ -295,7 +295,9 @@ export function getFruitYield({
     boostsUsed.push("Generous Orchard");
   }
 
-  if (getActiveCalendarEvent({ game }) === "bountifulHarvest") {
+  if (
+    getActiveCalendarEvent({ calendar: game.calendar }) === "bountifulHarvest"
+  ) {
     amount += 1;
     const { activeGuardian } = getActiveGuardian({
       game,

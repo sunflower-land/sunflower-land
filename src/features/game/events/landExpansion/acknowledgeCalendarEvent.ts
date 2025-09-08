@@ -21,7 +21,7 @@ export function acknowledgeCalendarEvent({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const event = getActiveCalendarEvent({ game: stateCopy });
+    const event = getActiveCalendarEvent({ calendar: stateCopy.calendar });
 
     if (!event) {
       throw new Error("Event not found");

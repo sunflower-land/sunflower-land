@@ -43,7 +43,6 @@ interface Prop {
   createdAt: number;
   craftingItemName?: CookableName;
   craftingReadyAt?: number;
-  showTimers: boolean;
   x: number;
   y: number;
   island: GameState["island"];
@@ -67,11 +66,10 @@ const InProgressBuilding: React.FC<Prop> = ({
   index,
   readyAt,
   createdAt,
-  showTimers,
   island,
   season,
 }) => {
-  const { gameService, showAnimations } = useContext(Context);
+  const { gameService, showAnimations, showTimers } = useContext(Context);
 
   const BuildingPlaced = BUILDING_COMPONENTS[name];
 
@@ -251,23 +249,23 @@ const DESTROYED_BUILDINGS: BuildingName[] = [
 
 function isBuildingDestroyed({
   name,
-  game,
+  calendar,
 }: {
   name: BuildingName;
-  game: GameState;
+  calendar: GameState["calendar"];
 }): DestructiveEvent | false {
   if (!DESTROYED_BUILDINGS.includes(name)) {
     return false;
   }
 
-  const calendarEvent = getActiveCalendarEvent({ game });
+  const calendarEvent = getActiveCalendarEvent({ calendar });
 
   if (!calendarEvent) {
     return false;
   }
 
   if (calendarEvent === "tornado") {
-    if (game.calendar.tornado?.protected) {
+    if (calendar.tornado?.protected) {
       return false;
     }
 
@@ -275,7 +273,7 @@ function isBuildingDestroyed({
   }
 
   if (calendarEvent === "tsunami") {
-    if (game.calendar.tsunami?.protected) {
+    if (calendar.tsunami?.protected) {
       return false;
     }
 
@@ -293,19 +291,20 @@ const BuildingComponent: React.FC<Prop> = ({
   createdAt,
   craftingItemName,
   craftingReadyAt,
-  showTimers,
   x,
   y,
   island,
   season,
 }) => {
+  const { showTimers } = useContext(Context);
   const { gameState } = useGame();
   const BuildingPlaced = BUILDING_COMPONENTS[name];
 
   const inProgress = readyAt > Date.now();
 
   const destroyedBy = useMemo(
-    () => isBuildingDestroyed({ name, game: gameState.context.state }),
+    () =>
+      isBuildingDestroyed({ name, calendar: gameState.context.state.calendar }),
     [gameState.context.state.calendar],
   );
 
@@ -320,7 +319,6 @@ const BuildingComponent: React.FC<Prop> = ({
         index={index}
         readyAt={readyAt}
         createdAt={createdAt}
-        showTimers={showTimers}
         x={x}
         y={y}
         island={island}
@@ -340,7 +338,6 @@ const BuildingComponent: React.FC<Prop> = ({
           index={index}
           readyAt={readyAt}
           createdAt={createdAt}
-          showTimers={showTimers}
           x={x}
           y={y}
           island={island}

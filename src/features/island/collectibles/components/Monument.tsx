@@ -107,7 +107,7 @@ const MonumentImage = (
   }, [input.open]);
 
   return (
-    <div className="absolute" style={input.divStyle}>
+    <div className="absolute cursor-pointer" style={input.divStyle}>
       <img src={input.image} style={input.imgStyle} alt={input.alt} />
     </div>
   );

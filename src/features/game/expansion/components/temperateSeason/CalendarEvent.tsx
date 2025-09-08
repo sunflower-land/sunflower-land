@@ -26,7 +26,7 @@ export const CalendarEvent: React.FC = () => {
   const hasProtectivePesticide = state.calendar.insectPlague?.protected;
 
   const { t } = useAppTranslation();
-  const event = getActiveCalendarEvent({ game: state });
+  const event = getActiveCalendarEvent({ calendar: state.calendar });
 
   const handleAcknowledge = () => {
     gameService.send({ type: "calendarEvent.acknowledged" });

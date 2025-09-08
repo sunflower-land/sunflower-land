@@ -67,7 +67,7 @@ const FertilePlotComponent: React.FC<Props> = ({
   const isGrowing = timeLeft > 0;
 
   const activeInsectPlague =
-    getActiveCalendarEvent({ game }) === "insectPlague";
+    getActiveCalendarEvent({ calendar: game.calendar }) === "insectPlague";
   const isProtected = game.calendar.insectPlague?.protected;
 
   // REVIEW: Is this still needed after changing to LiveProgressBar?
@@ -84,7 +84,8 @@ const FertilePlotComponent: React.FC<Props> = ({
           ? "halfway"
           : "seedling";
 
-  const isSunshower = getActiveCalendarEvent({ game }) === "sunshower";
+  const isSunshower =
+    getActiveCalendarEvent({ calendar: game.calendar }) === "sunshower";
 
   const handleMouseEnter = () => {
     // show details if field is growing
