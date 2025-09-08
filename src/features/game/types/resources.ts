@@ -130,11 +130,18 @@ export type UpgradeableResource = BasicResourceName | UpgradedResourceName;
 
 export type ResourceTier = 1 | 2 | 3;
 
-export type RockName =
+export type StoneRockName =
   | "Stone Rock"
   | "Fused Stone Rock"
   | "Reinforced Stone Rock";
 export type TreeName = "Tree" | "Ancient Tree" | "Sacred Tree";
+export type GoldRockName = "Gold Rock" | "Pure Gold Rock" | "Prime Gold Rock";
+export type IronRockName =
+  | "Iron Rock"
+  | "Refined Iron Rock"
+  | "Tempered Iron Rock";
+
+export type RockName = StoneRockName | GoldRockName | IronRockName;
 
 type ResourceUpgradeRequirements = Tool & {
   tier: ResourceTier;
@@ -166,18 +173,6 @@ export const RESOURCES: Record<ResourceName, string> = {
   "Sunstone Rock": "Mine sunstone",
   "Oil Reserve": "Drill oil",
   "Lava Pit": "Craft obsidian",
-};
-
-const PLACEHOLDER_REQUIREMENTS: ResourceUpgradeRequirements = {
-  name: "Advanced Resource",
-  description: "Coming soon...",
-  tier: 2,
-  ingredients: {},
-  price: 0,
-  preRequires: {
-    tier: 1,
-    count: 1,
-  },
 };
 
 export const ADVANCED_RESOURCES: Record<
@@ -242,10 +237,62 @@ export const ADVANCED_RESOURCES: Record<
       count: 4,
     },
   },
-  "Refined Iron Rock": PLACEHOLDER_REQUIREMENTS,
-  "Tempered Iron Rock": PLACEHOLDER_REQUIREMENTS,
-  "Pure Gold Rock": PLACEHOLDER_REQUIREMENTS,
-  "Prime Gold Rock": PLACEHOLDER_REQUIREMENTS,
+  "Refined Iron Rock": {
+    name: "Refined Iron",
+    description: "Mine iron",
+    tier: 2,
+    ingredients: {
+      "Iron Rock": new Decimal(4),
+      Obsidian: new Decimal(10),
+    },
+    price: 100_000,
+    preRequires: {
+      tier: 1,
+      count: 4,
+    },
+  },
+  "Tempered Iron Rock": {
+    name: "Tempered Iron",
+    description: "Mine iron",
+    tier: 3,
+    ingredients: {
+      "Refined Iron Rock": new Decimal(4),
+      Obsidian: new Decimal(15),
+    },
+    price: 200_000,
+    preRequires: {
+      tier: 2,
+      count: 4,
+    },
+  },
+  "Pure Gold Rock": {
+    name: "Pure Gold",
+    description: "Mine gold",
+    tier: 2,
+    ingredients: {
+      "Gold Rock": new Decimal(4),
+      Obsidian: new Decimal(15),
+    },
+    price: 200_000,
+    preRequires: {
+      tier: 1,
+      count: 4,
+    },
+  },
+  "Prime Gold Rock": {
+    name: "Prime Gold",
+    description: "Mine gold",
+    tier: 3,
+    ingredients: {
+      "Pure Gold Rock": new Decimal(4),
+      Obsidian: new Decimal(20),
+    },
+    price: 350_000,
+    preRequires: {
+      tier: 2,
+      count: 4,
+    },
+  },
 };
 
 export const RESOURCE_STATE_ACCESSORS: Record<

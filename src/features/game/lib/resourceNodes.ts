@@ -1,5 +1,11 @@
 import { canChop } from "../events/landExpansion/chop";
-import { canMine } from "../events/landExpansion/stoneMine";
+import {
+  GOLD_RECOVERY_TIME,
+  IRON_RECOVERY_TIME,
+  CRIMSTONE_RECOVERY_TIME,
+  STONE_RECOVERY_TIME,
+  SUNSTONE_RECOVERY_TIME,
+} from "features/game/lib/constants";
 import { ResourceItem } from "../expansion/placeable/lib/collisionDetection";
 import { Rock, Tree, GameState } from "../types/game";
 import {
@@ -9,7 +15,7 @@ import {
 } from "../types/resources";
 
 export const canGatherResource = (resource: ResourceItem) => {
-  if ("stone" in resource) return canMine(resource as Rock);
+  if ("stone" in resource) return canMine(resource as Rock, "Stone");
   if ("wood" in resource) return canChop(resource as Tree);
 
   throw new Error("Invalid resource");
@@ -44,3 +50,24 @@ export const getUpgradeableNodes = (
   });
   return upgradeableNodes.sort();
 };
+
+export function canMine(
+  rock: Rock,
+  rockName: "Stone" | "Iron" | "Gold" | "Sunstone" | "Crimstone",
+  now: number = Date.now(),
+) {
+  // Defining inside the function to avoid circular dependency
+  const resourceRecoveryTime: Record<
+    "Stone" | "Iron" | "Gold" | "Sunstone" | "Crimstone",
+    number
+  > = {
+    Stone: STONE_RECOVERY_TIME,
+    Iron: IRON_RECOVERY_TIME,
+    Gold: GOLD_RECOVERY_TIME,
+    Sunstone: SUNSTONE_RECOVERY_TIME,
+    Crimstone: CRIMSTONE_RECOVERY_TIME,
+  };
+
+  const recoveryTime = resourceRecoveryTime[rockName];
+  return now - rock.stone.minedAt >= recoveryTime * 1000;
+}

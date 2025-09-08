@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { canMine } from "features/game/expansion/lib/utils";
+import { canMine } from "features/game/lib/resourceNodes";
 import {
   Position,
   isWithinAOE,
@@ -273,7 +273,7 @@ export function mineGold({
       throw new Error("Gold rock is not placed");
     }
 
-    if (!canMine(goldRock, GOLD_RECOVERY_TIME, createdAt)) {
+    if (!canMine(goldRock, "Gold", createdAt)) {
       throw new Error(EVENT_ERRORS.STILL_RECOVERING);
     }
 

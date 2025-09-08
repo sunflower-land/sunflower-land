@@ -109,9 +109,9 @@ export const READONLY_RESOURCE_COMPONENTS = (): Record<
         src={ITEM_DETAILS["Fused Stone Rock"].image}
         className="relative"
         style={{
-          width: `${PIXEL_SCALE * 13.2}px`,
-          top: `${PIXEL_SCALE * 2.3}px`,
-          left: `${PIXEL_SCALE * 1.6}px`,
+          width: `${PIXEL_SCALE * 18}px`,
+          top: `${PIXEL_SCALE}px`,
+          left: `${PIXEL_SCALE * 0.238}px`,
         }}
       />
     ),
@@ -120,8 +120,8 @@ export const READONLY_RESOURCE_COMPONENTS = (): Record<
         src={ITEM_DETAILS["Reinforced Stone Rock"].image}
         className="relative"
         style={{
-          width: `${PIXEL_SCALE * 15.1}px`,
-          top: `${PIXEL_SCALE * 1.09}px`,
+          width: `${PIXEL_SCALE * 18}px`,
+          top: `${PIXEL_SCALE * -0.523}px`,
           left: `${PIXEL_SCALE * 0.62}px`,
         }}
       />
@@ -237,10 +237,10 @@ export const READONLY_RESOURCE_COMPONENTS = (): Record<
     ),
     "Refined Iron Rock": () => (
       <img
-        src={ITEM_DETAILS["Iron Rock"].image}
+        src={ITEM_DETAILS["Refined Iron Rock"].image}
         className="relative"
         style={{
-          width: `${PIXEL_SCALE * 14}px`,
+          width: `${PIXEL_SCALE * 16}px`,
           top: `${PIXEL_SCALE * 3}px`,
           left: `${PIXEL_SCALE * 1}px`,
         }}
@@ -248,10 +248,10 @@ export const READONLY_RESOURCE_COMPONENTS = (): Record<
     ),
     "Tempered Iron Rock": () => (
       <img
-        src={ITEM_DETAILS["Iron Rock"].image}
+        src={ITEM_DETAILS["Tempered Iron Rock"].image}
         className="relative"
         style={{
-          width: `${PIXEL_SCALE * 14}px`,
+          width: `${PIXEL_SCALE * 16}px`,
           top: `${PIXEL_SCALE * 3}px`,
           left: `${PIXEL_SCALE * 1}px`,
         }}

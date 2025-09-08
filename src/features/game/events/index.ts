@@ -543,7 +543,7 @@ import {
   instaGrowFlower,
   InstaGrowFlowerAction,
 } from "./landExpansion/instaGrowFlower";
-import { upgradeStone, UpgradeStoneAction } from "./landExpansion/upgradeStone";
+import { upgradeStone, UpgradeRockAction } from "./landExpansion/upgradeRock";
 import { upgradeTree, UpgradeTreeAction } from "./landExpansion/upgradeTree";
 import { bulkFeedPets, BulkFeedPetsAction } from "./pets/bulkFeedPets";
 import { NeglectPetAction, neglectPet } from "./pets/neglectPet";
@@ -701,7 +701,7 @@ export type PlayingEvent =
   | BurnClutterAction
   | InstantGrowProjectAction
   | InstaGrowFlowerAction
-  | UpgradeStoneAction
+  | UpgradeRockAction
   | UpgradeTreeAction;
 
 export type LocalVisitingEvent = CollectGarbageAction | HelpProjectAction;
@@ -942,7 +942,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "cheers.claimed": claimDailyCheers,
   "clutter.burned": burnClutter,
   "project.instantGrow": instantGrowProject,
-  "stone.upgraded": upgradeStone,
+  "rock.upgraded": upgradeStone,
   "tree.upgraded": upgradeTree,
   "pet.pet": petPet,
 };

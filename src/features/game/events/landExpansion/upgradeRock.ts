@@ -3,8 +3,8 @@ import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import {
   ADVANCED_RESOURCES,
-  RockName,
   RESOURCE_MULTIPLIER,
+  RockName,
 } from "features/game/types/resources";
 import { GameState, InventoryItemName, Rock } from "features/game/types/game";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
@@ -14,15 +14,15 @@ import {
   getUpgradeableNodes,
 } from "features/game/lib/resourceNodes";
 
-export type UpgradeStoneAction = {
-  type: "stone.upgraded";
-  upgradeTo: Exclude<RockName, "Stone Rock">;
+export type UpgradeRockAction = {
+  type: "rock.upgraded";
+  upgradeTo: Exclude<RockName, "Stone Rock" | "Gold Rock" | "Iron Rock">;
   id: string;
 };
 
 type Options = {
   state: Readonly<GameState>;
-  action: UpgradeStoneAction;
+  action: UpgradeRockAction;
   createdAt?: number;
 };
 
@@ -84,6 +84,7 @@ export function upgradeStone({
 
     const upgradeableStones = getUpgradeableNodes(game, action.upgradeTo);
 
+    const rockStateKeyAccessor = stateAccessorKeys[action.upgradeTo];
     for (let i = 0; i < upgradeableStones.length && stonesToRemove > 0; i++) {
       const [stoneId, stone] = upgradeableStones[i];
       const tier = "tier" in stone ? stone.tier : 1;
@@ -94,7 +95,7 @@ export function upgradeStone({
         }
 
         stonesToRemove--;
-        delete game.stones[stoneId];
+        delete game[rockStateKeyAccessor][stoneId];
       }
     }
 
@@ -109,8 +110,8 @@ export function upgradeStone({
         multiplier: RESOURCE_MULTIPLIER[action.upgradeTo],
       };
 
-      game.stones = {
-        ...game.stones,
+      game[rockStateKeyAccessor] = {
+        ...game[rockStateKeyAccessor],
         [action.id]: newStone,
       };
     }
@@ -121,3 +122,15 @@ export function upgradeStone({
     );
   });
 }
+
+const stateAccessorKeys: Record<RockName, "stones" | "iron" | "gold"> = {
+  "Fused Stone Rock": "stones",
+  "Reinforced Stone Rock": "stones",
+  "Stone Rock": "stones",
+  "Iron Rock": "iron",
+  "Gold Rock": "gold",
+  "Refined Iron Rock": "iron",
+  "Tempered Iron Rock": "iron",
+  "Pure Gold Rock": "gold",
+  "Prime Gold Rock": "gold",
+};

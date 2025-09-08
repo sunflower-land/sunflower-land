@@ -793,6 +793,28 @@ export const SUNNYSIDE = {
     land: `${CONFIG.PROTECTED_IMAGE_URL}/resources/land.png`,
     plot: `${CONFIG.PROTECTED_IMAGE_URL}/resources/plot.png`,
     fruitPatch: `${CONFIG.PROTECTED_IMAGE_URL}/resources/fruit_patch.png`,
+    rocks: {
+      strikeSheet: {
+        "Stone Rock": `${CONFIG.PROTECTED_IMAGE_URL}/resources/stone/stone_rock_spark.png`,
+        "Fused Stone Rock": `${CONFIG.PROTECTED_IMAGE_URL}/resources/stone/l2_stone_rock_spark.webp`,
+        "Reinforced Stone Rock": `${CONFIG.PROTECTED_IMAGE_URL}/resources/stone/l3_stone_rock_spark.webp`,
+        "Iron Rock": `${CONFIG.PROTECTED_IMAGE_URL}/resources/iron/iron_rock_spark.png`,
+        "Refined Iron Rock": `${CONFIG.PROTECTED_IMAGE_URL}/resources/iron/l2_iron_rock_spark.webp`,
+        "Tempered Iron Rock": `${CONFIG.PROTECTED_IMAGE_URL}/resources/iron/l3_iron_rock_spark.webp`,
+        "Gold Rock": `${CONFIG.PROTECTED_IMAGE_URL}/resources/gold/gold_rock_spark.png`,
+        "Pure Gold Rock": `${CONFIG.PROTECTED_IMAGE_URL}/resources/gold/l2_gold_rock_spark.webp`,
+        "Prime Gold Rock": `${CONFIG.PROTECTED_IMAGE_URL}/resources/gold/l3_gold_rock_spark.webp`,
+      },
+      "Stone Rock": `${CONFIG.PROTECTED_IMAGE_URL}/resources/stone_small.png`,
+      "Fused Stone Rock": `${CONFIG.PROTECTED_IMAGE_URL}/resources/stone/l2_stone_rock.webp`,
+      "Reinforced Stone Rock": `${CONFIG.PROTECTED_IMAGE_URL}/resources/stone/l3_stone_rock.webp`,
+      "Iron Rock": `${CONFIG.PROTECTED_IMAGE_URL}/resources/iron_small.png`,
+      "Refined Iron Rock": `${CONFIG.PROTECTED_IMAGE_URL}/resources/iron/l2_iron_rock.webp`,
+      "Tempered Iron Rock": `${CONFIG.PROTECTED_IMAGE_URL}/resources/iron/l3_iron_rock.webp`,
+      "Gold Rock": `${CONFIG.PROTECTED_IMAGE_URL}/resources/gold_small.png`,
+      "Pure Gold Rock": `${CONFIG.PROTECTED_IMAGE_URL}/resources/gold/l2_gold_rock.webp`,
+      "Prime Gold Rock": `${CONFIG.PROTECTED_IMAGE_URL}/resources/gold/l3_gold_rock.webp`,
+    },
     basic: {
       spring: {
         Tree: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/spring_basic_tree.webp`,

@@ -20,20 +20,8 @@ import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
-
-const UPGRADE_EVENTS: Record<
-  UpgradedResourceName,
-  "stone.upgraded" | "tree.upgraded"
-> = {
-  "Fused Stone Rock": "stone.upgraded",
-  "Reinforced Stone Rock": "stone.upgraded",
-  "Ancient Tree": "tree.upgraded",
-  "Sacred Tree": "tree.upgraded",
-  "Refined Iron Rock": "stone.upgraded",
-  "Tempered Iron Rock": "stone.upgraded",
-  "Pure Gold Rock": "stone.upgraded",
-  "Prime Gold Rock": "stone.upgraded",
-};
+import { UpgradeTreeAction } from "features/game/events/landExpansion/upgradeTree";
+import { UpgradeRockAction } from "features/game/events/landExpansion/upgradeRock";
 
 export const Forge: React.FC = () => {
   const { gameService, showAnimations } = useContext(Context);
@@ -48,16 +36,19 @@ export const Forge: React.FC = () => {
   const biome = getCurrentBiome(state.island);
 
   const forge = () => {
-    if (!UPGRADE_EVENTS[selectedResource]) {
-      throw new Error("Invalid upgrade event");
+    if (selectedResource.includes("Tree")) {
+      gameService.send({
+        type: "tree.upgraded",
+        upgradeTo: selectedResource as UpgradeTreeAction["upgradeTo"],
+        id: uuidv4().slice(0, 8),
+      });
+    } else {
+      gameService.send({
+        type: "rock.upgraded",
+        upgradeTo: selectedResource as UpgradeRockAction["upgradeTo"],
+        id: uuidv4().slice(0, 8),
+      });
     }
-
-    gameService.send({
-      type: UPGRADE_EVENTS[selectedResource],
-      // @ts-expect-error TODO: Remove when all nodes are implemented
-      upgradeTo: selectedResource,
-      id: uuidv4().slice(0, 8),
-    });
 
     if (showAnimations) confetti();
     setShowSuccess(true);
@@ -67,6 +58,15 @@ export const Forge: React.FC = () => {
   const selectedResourceImage =
     ITEM_ICONS(season, biome)[selectedResource] ??
     ITEM_DETAILS[selectedResource].image;
+
+  const lessIngredients = () =>
+    getKeys(selected.ingredients).some((name) =>
+      selected.ingredients[name]
+        ?.mul(1)
+        .greaterThan(state.inventory[name] || 0),
+    );
+
+  const lessFunds = () => state.coins < selected.price;
 
   return (
     <>
@@ -89,7 +89,12 @@ export const Forge: React.FC = () => {
             actionView={
               <Button
                 onClick={forge}
-                disabled={forgingSoon || !canUpgrade(state, selectedResource)}
+                disabled={
+                  forgingSoon ||
+                  !canUpgrade(state, selectedResource) ||
+                  lessIngredients() ||
+                  lessFunds()
+                }
               >
                 {t("forge")}
               </Button>

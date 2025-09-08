@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { canMine } from "features/game/expansion/lib/utils";
+import { canMine } from "features/game/lib/resourceNodes";
 import { IRON_RECOVERY_TIME } from "../../lib/constants";
 import { trackActivity } from "../../types/bumpkinActivity";
 import {
@@ -265,7 +265,7 @@ export function mineIron({
       throw new Error("Iron rock is not placed");
     }
 
-    if (!canMine(ironRock, IRON_RECOVERY_TIME, createdAt)) {
+    if (!canMine(ironRock, "Iron", createdAt)) {
       throw new Error(MINE_ERRORS.STILL_RECOVERING);
     }
 
