@@ -600,13 +600,15 @@ export const ANIMAL_RESOURCE_DROP: Record<
     0: {},
     1: {
       Milk: new Decimal(1),
+      Leather: new Decimal(1),
     },
     2: {
       Milk: new Decimal(1),
       Leather: new Decimal(1),
     },
     3: {
-      Milk: new Decimal(2),
+      Milk: new Decimal(1),
+      Leather: new Decimal(1),
     },
     4: {
       Milk: new Decimal(2),
@@ -614,14 +616,15 @@ export const ANIMAL_RESOURCE_DROP: Record<
     },
     5: {
       Milk: new Decimal(2),
-      Leather: new Decimal(2),
+      Leather: new Decimal(1),
     },
     6: {
-      Milk: new Decimal(3),
+      Milk: new Decimal(2),
+      Leather: new Decimal(2),
     },
     7: {
-      Milk: new Decimal(3),
-      Leather: new Decimal(1),
+      Milk: new Decimal(2),
+      Leather: new Decimal(2),
     },
     8: {
       Milk: new Decimal(3),
@@ -629,7 +632,7 @@ export const ANIMAL_RESOURCE_DROP: Record<
     },
     9: {
       Milk: new Decimal(3),
-      Leather: new Decimal(3),
+      Leather: new Decimal(2),
     },
     10: {
       Milk: new Decimal(3),
@@ -652,21 +655,23 @@ export const ANIMAL_RESOURCE_DROP: Record<
       Leather: new Decimal(3),
     },
     15: {
-      Milk: new Decimal(3),
-      Leather: new Decimal(3),
+      Milk: new Decimal(4),
+      Leather: new Decimal(4),
     },
   },
   Sheep: {
     0: {},
     1: {
       Wool: new Decimal(1),
+      "Merino Wool": new Decimal(1),
     },
     2: {
       Wool: new Decimal(1),
       "Merino Wool": new Decimal(1),
     },
     3: {
-      Wool: new Decimal(2),
+      Wool: new Decimal(1),
+      "Merino Wool": new Decimal(1),
     },
     4: {
       Wool: new Decimal(2),
@@ -674,14 +679,15 @@ export const ANIMAL_RESOURCE_DROP: Record<
     },
     5: {
       Wool: new Decimal(2),
-      "Merino Wool": new Decimal(2),
+      "Merino Wool": new Decimal(1),
     },
     6: {
-      Wool: new Decimal(3),
+      Wool: new Decimal(2),
+      "Merino Wool": new Decimal(2),
     },
     7: {
-      Wool: new Decimal(3),
-      "Merino Wool": new Decimal(1),
+      Wool: new Decimal(2),
+      "Merino Wool": new Decimal(2),
     },
     8: {
       Wool: new Decimal(3),
@@ -689,7 +695,7 @@ export const ANIMAL_RESOURCE_DROP: Record<
     },
     9: {
       Wool: new Decimal(3),
-      "Merino Wool": new Decimal(3),
+      "Merino Wool": new Decimal(2),
     },
     10: {
       Wool: new Decimal(3),
@@ -712,8 +718,8 @@ export const ANIMAL_RESOURCE_DROP: Record<
       "Merino Wool": new Decimal(3),
     },
     15: {
-      Wool: new Decimal(3),
-      "Merino Wool": new Decimal(3),
+      Wool: new Decimal(4),
+      "Merino Wool": new Decimal(4),
     },
   },
 };
