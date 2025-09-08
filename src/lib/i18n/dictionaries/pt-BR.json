@@ -6576,5 +6576,5 @@
   "skill.merinoWhispererDebuff": "-0,35 Rendimento de couro e penas",
   "skill.leathercraftMasteryBuff": "+0.25 Rendimento de couro",
   "skill.leathercraftMasteryDebuff": "-0,35 Rendimento de lã de penas e merino",
-  "skill.oilRig.buff": "A perfuratriz de óleo requer 20% de lã em vez de couro para ser fabricada."
+  "skill.oilRig.buff": "A broca de óleo requer 20 de lã em vez de couro para ser fabricada."
 }
