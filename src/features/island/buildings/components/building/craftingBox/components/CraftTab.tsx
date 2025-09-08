@@ -486,7 +486,6 @@ export const CraftTab: React.FC<Props> = ({
             recipe={currentRecipe}
             isPending={isPending}
             failedAttempt={failedAttempt}
-            amount={new Decimal(1)}
           />
           <CraftTimer
             state={state}
@@ -606,7 +605,6 @@ export const CraftTab: React.FC<Props> = ({
                 recipe={currentRecipe}
                 isPending={isPending}
                 failedAttempt={failedAttempt}
-                amount={new Decimal(1)}
               />
               <CraftTimer
                 state={state}
@@ -660,8 +658,7 @@ const CraftDetails: React.FC<{
   recipe: Recipe | null;
   isPending: boolean;
   failedAttempt: boolean;
-  amount: Decimal;
-}> = ({ recipe, isPending, failedAttempt, amount }) => {
+}> = ({ recipe, isPending, failedAttempt }) => {
   const { t } = useTranslation();
 
   if (!recipe) {
@@ -687,7 +684,6 @@ const CraftDetails: React.FC<{
         <Box
           image={SUNNYSIDE.icons.expression_confused}
           key={`box-${isPending}`}
-          count={amount}
         />
       </>
     );
@@ -704,7 +700,7 @@ const CraftDetails: React.FC<{
             ? ITEM_DETAILS[recipe.name as InventoryItemName].image
             : getImageUrl(ITEM_IDS[recipe.name as BumpkinItem])
         }
-        count={amount}
+        count={new Decimal(1)}
       />
     </>
   );
