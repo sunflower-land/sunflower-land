@@ -2720,6 +2720,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: oilTank,
     disabled: false,
   },
+
   // Machinery - Tier 2
   "Crop Extension Module II": {
     name: "Crop Extension Module II",
@@ -2801,6 +2802,25 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     image: oilBeBack,
+    disabled: false,
+  },
+  "Oil Rig": {
+    name: "Oil Rig",
+    tree: "Machinery",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "desert",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.oilRig.buff"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: ITEM_DETAILS["Oil Drill"].image,
+      },
+    },
+    image: ITEM_DETAILS["Oil Drill"].image,
     disabled: false,
   },
   // Machinery - Tier 3

@@ -34,6 +34,7 @@ import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { Keys } from "features/game/types/game";
 import { isMobile } from "mobile-device-detect";
 import { Restock } from "features/island/buildings/components/building/market/restock/Restock";
+import { getObjectEntries } from "features/game/expansion/lib/utils";
 
 interface ToolContentProps {
   selectedName: TreasureToolName;
@@ -57,9 +58,10 @@ const ToolContent: React.FC<ToolContentProps> = ({ selectedName }) => {
 
     return state.coins < price * amount;
   };
+  const selectedIngredients = selected.ingredients(state.bumpkin.skills);
   const lessIngredients = (amount = 1) =>
-    getKeys(selected.ingredients).some((name) =>
-      selected.ingredients[name]?.mul(amount).greaterThan(inventory[name] || 0),
+    getObjectEntries(selectedIngredients).some(([name, ingredients]) =>
+      ingredients?.mul(amount).greaterThan(inventory[name] || 0),
     );
 
   const craft = (event: SyntheticEvent, amount: number) => {
@@ -79,7 +81,7 @@ const ToolContent: React.FC<ToolContentProps> = ({ selectedName }) => {
       details={{ item: selectedName }}
       requirements={{
         coins: price,
-        resources: selected.ingredients,
+        resources: selectedIngredients,
       }}
       actionView={
         <>

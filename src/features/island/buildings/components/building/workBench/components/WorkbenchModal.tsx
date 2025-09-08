@@ -34,38 +34,42 @@ interface Props {
 export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const showCrafting = useSelector(gameService, needsHelp);
-  const [tab, setTab] = useState(showCrafting ? 1 : 0);
+  const [tab, setTab] = useState<"Tools" | "Craft" | "Build" | "Upgrade">(
+    showCrafting ? "Craft" : "Tools",
+  );
   const { t } = useAppTranslation();
 
-  const tabs = [
-    { icon: ITEM_DETAILS.Pickaxe.image, name: t("tools") },
-    { icon: SUNNYSIDE.icons.hammer, name: t("craft") },
-    { icon: SUNNYSIDE.icons.hammer, name: t("build") },
-  ];
-
-  if (hasFeatureAccess(gameService.state.context.state, "NODE_FORGING")) {
-    tabs.push({
-      icon: SUNNYSIDE.icons.sword,
-      name: t("upgrade"),
-    });
-  }
+  const hasAccess = hasFeatureAccess(
+    gameService.state.context.state,
+    "NODE_FORGING",
+  );
 
   return (
     <CloseButtonPanel
       onClose={onClose}
       bumpkinParts={NPC_WEARABLES.blacksmith}
-      tabs={tabs}
+      tabs={[
+        { icon: ITEM_DETAILS.Pickaxe.image, name: t("tools"), id: "Tools" },
+        { icon: SUNNYSIDE.icons.hammer, name: t("craft"), id: "Craft" },
+        { icon: SUNNYSIDE.icons.hammer, name: t("build"), id: "Build" },
+        ...(hasAccess
+          ? [
+              {
+                icon: SUNNYSIDE.icons.sword,
+                name: t("upgrade"),
+                id: "Upgrade",
+              },
+            ]
+          : []),
+      ]}
       currentTab={tab}
       setCurrentTab={setTab}
       container={OuterPanel}
     >
-      {tab === 0 && <Tools />}
-      {tab === 1 && <IslandBlacksmithItems />}
-      {tab === 2 && <Buildings onClose={onClose} />}
-      {tab === 3 &&
-        hasFeatureAccess(gameService.state.context.state, "NODE_FORGING") && (
-          <Forge />
-        )}
+      {tab === "Tools" && <Tools />}
+      {tab === "Craft" && <IslandBlacksmithItems />}
+      {tab === "Build" && <Buildings onClose={onClose} />}
+      {tab === "Upgrade" && hasAccess && <Forge />}
     </CloseButtonPanel>
   );
 };

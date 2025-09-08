@@ -57,7 +57,7 @@ export const Forge: React.FC = () => {
                 ? undefined
                 : {
                     coins: selected.price,
-                    resources: selected.ingredients,
+                    resources: selected.ingredients(state.bumpkin.skills),
                   }
             }
             actionView={

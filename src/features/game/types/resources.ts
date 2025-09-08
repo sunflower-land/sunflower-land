@@ -169,7 +169,7 @@ const PLACEHOLDER_REQUIREMENTS: ResourceUpgradeRequirements = {
   name: "Advanced Resource",
   description: "Coming soon...",
   tier: 2,
-  ingredients: {},
+  ingredients: () => ({}),
   price: 0,
   preRequires: {
     tier: 1,
@@ -185,10 +185,10 @@ export const ADVANCED_RESOURCES: Record<
     name: "Fused Stone",
     description: "Mine fused stone",
     tier: 2,
-    ingredients: {
+    ingredients: () => ({
       "Stone Rock": new Decimal(4),
       Obsidian: new Decimal(5),
-    },
+    }),
     price: 50_000,
     // 4 stone rocks
     preRequires: {
@@ -200,10 +200,10 @@ export const ADVANCED_RESOURCES: Record<
     name: "Reinforced Stone",
     description: "Mine reinforced stone",
     tier: 3,
-    ingredients: {
+    ingredients: () => ({
       "Fused Stone Rock": new Decimal(4),
       Obsidian: new Decimal(10),
-    },
+    }),
     price: 100_000,
     // 4 fused stone rocks
     preRequires: {
