@@ -6569,5 +6569,12 @@
   "petalPuzzle.guide.cooperate": "Сотрудничайте с другими игроками и встаньте на лепестки, чтобы изменить их цвет.",
   "petalPuzzle.guide.solve": "Чтобы решить головоломку и получить награду, нужны четыре оранжевых лепестка.",
   "pets.manage": "Управление домашними животными",
-  "twitter.post.flower": "Отпразднуйте запуск $FLOWER!"
+  "twitter.post.flower": "Отпразднуйте запуск $FLOWER!",
+  "skill.featherweightBuff": "+0,25 Урожайность перьев",
+  "skill.featherweightDebuff": "-0.35 Урожайность кожи и шерсти мериноса",
+  "skill.merinoWhispererBuff": "Урожайность мериносовой шерсти +0,25",
+  "skill.merinoWhispererDebuff": "-0,35 Урожайность кожи и перьев",
+  "skill.leathercraftMasteryBuff": "+0,25 Урожайность кожи",
+  "skill.leathercraftMasteryDebuff": "-0,35 Урожайность перьев и мериносовой шерсти",
+  "skill.oilRig.buff": "Для изготовления нефтяной дрели требуется 20 шерсти вместо кожи"
 }

@@ -6569,5 +6569,12 @@
   "petalPuzzle.guide.cooperate": "Coopere com outros jogadores e apoie-se nas pétalas para mudar suas cores.",
   "petalPuzzle.guide.solve": "São necessárias quatro pétalas de laranja para resolver o quebra-cabeça e reivindicar a recompensa.",
   "pets.manage": "Gerenciar animais de estimação",
-  "twitter.post.flower": "Comemore o lançamento de $FLOWER!"
+  "twitter.post.flower": "Comemore o lançamento de $FLOWER!",
+  "skill.featherweightBuff": "+0,25 Rendimento de penas",
+  "skill.featherweightDebuff": "-0,35 Rendimento de couro e lã merino",
+  "skill.merinoWhispererBuff": "+0,25 Rendimento de lã Merino",
+  "skill.merinoWhispererDebuff": "-0,35 Rendimento de couro e penas",
+  "skill.leathercraftMasteryBuff": "+0.25 Rendimento de couro",
+  "skill.leathercraftMasteryDebuff": "-0,35 Rendimento de lã de penas e merino",
+  "skill.oilRig.buff": "A perfuratriz de óleo requer 20% de lã em vez de couro para ser fabricada."
 }

@@ -6569,5 +6569,12 @@
   "petalPuzzle.guide.cooperate": "Bekerja sama dengan pemain lain dan berdiri di atas kelopak untuk mengubah warna mereka.",
   "petalPuzzle.guide.solve": "Empat kelopak oranye diperlukan untuk memecahkan teka-teki dan mengklaim hadiahnya.",
   "pets.manage": "Kelola Hewan Peliharaan",
-  "twitter.post.flower": "Rayakan peluncuran $FLOWER!"
+  "twitter.post.flower": "Rayakan peluncuran $FLOWER!",
+  "skill.featherweightBuff": "+0,25 Hasil bulu",
+  "skill.featherweightDebuff": "-0.35 Hasil Wol Kulit & Merino",
+  "skill.merinoWhispererBuff": "+0.25 Hasil Wol Merino",
+  "skill.merinoWhispererDebuff": "-0.35 Hasil Kulit & Bulu",
+  "skill.leathercraftMasteryBuff": "+0,25 Hasil kulit",
+  "skill.leathercraftMasteryDebuff": "-0.35 Hasil Wol Bulu & Merino",
+  "skill.oilRig.buff": "Bor Minyak membutuhkan 20 Wol, bukan Kulit untuk membuat"
 }
