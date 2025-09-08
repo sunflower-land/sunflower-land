@@ -218,7 +218,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                         <BoostInfoPanel
                           feature="kitchen"
                           show={showBoostInfo}
-                          baseAmount={selectedRequestReward()}
+                          baseAmount={singularReward}
                           onClick={() => setShowBoostInfo(false)}
                         />
                         <Label
@@ -293,7 +293,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                         {selectedRequest.item}
                       </span>
                     </div>
-                    <span className="text-xs">{`${selectedRequest.amount}`}</span>
+                    <span className="text-xs">{`${selectedRequest.amount * 10}`}</span>
                   </div>
                 </div>
               </div>

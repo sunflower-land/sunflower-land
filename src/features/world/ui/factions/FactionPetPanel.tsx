@@ -527,7 +527,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                           {selectedRequest.food}
                         </span>
                       </div>
-                      <span className="text-xs">{`${selectedRequest.quantity}`}</span>
+                      <span className="text-xs">{`${selectedRequest.quantity * 10}`}</span>
                     </div>
                   </div>
                 </div>
