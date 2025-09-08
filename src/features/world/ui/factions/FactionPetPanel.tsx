@@ -252,6 +252,11 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
   const boostedMarks = (amount = 1) =>
     selectedRequestReward(amount) + boost(amount);
 
+  const singularReward = selectedRequestReward();
+  const singularBoost = boost();
+  const singularBoostedMarks = singularReward + singularBoost;
+  const singularCanFulfillRequest = canFulfillRequest();
+
   const isContributingMemberForThisWeek = pet.requests.every(
     (request) => getKeys(request.dailyFulfilled).length > 0,
   );
@@ -440,20 +445,22 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                         <BoostInfoPanel
                           feature="pet"
                           show={showBoostInfo}
-                          baseAmount={selectedRequestReward()}
+                          baseAmount={singularReward}
                           onClick={() => setShowBoostInfo(false)}
                         />
                         <Label
                           onClick={() => setShowBoostInfo(!showBoostInfo)}
                           icon={ITEM_DETAILS["Mark"].image}
                           secondaryIcon={
-                            boost() ? SUNNYSIDE.icons.lightning : undefined
+                            singularBoost
+                              ? SUNNYSIDE.icons.lightning
+                              : undefined
                           }
                           type="warning"
                           className="m-1 cursor-pointer"
                         >
-                          <span className={boost() ? "pl-1.5" : ""}>
-                            {`${formatNumber(boostedMarks())} ${t("marks")}`}
+                          <span className={singularBoost ? "pl-1.5" : ""}>
+                            {`${formatNumber(singularBoostedMarks)} ${t("marks")}`}
                           </span>
                         </Label>
                       </div>
@@ -485,7 +492,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                     </div>
                     <div className="flex flex-row sm:flex-col gap-1 w-full">
                       <Button
-                        disabled={!canFulfillRequest()}
+                        disabled={!singularCanFulfillRequest}
                         onClick={() => handleFeed()}
                       >
                         {`${t("deliver")} ${selectedRequest.quantity}`}
