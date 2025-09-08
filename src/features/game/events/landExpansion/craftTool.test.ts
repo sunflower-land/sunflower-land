@@ -267,4 +267,36 @@ describe("craftTool", () => {
 
     expect(state.coins).toEqual(20);
   });
+
+  it("costs 20 wool instead of leather to craft oil drill with oil rig skill", () => {
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins: 100,
+        inventory: {
+          Wool: new Decimal(20),
+          Wood: new Decimal(20),
+          Iron: new Decimal(9),
+          Leather: new Decimal(10),
+        },
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: {
+            "Oil Rig": 1,
+          },
+        },
+        island: {
+          type: "desert",
+        },
+      },
+      action: {
+        type: "tool.crafted",
+        tool: "Oil Drill",
+      },
+    });
+
+    expect(state.inventory["Wool"]).toEqual(new Decimal(0));
+    expect(state.inventory["Leather"]).toEqual(new Decimal(10));
+    expect(state.inventory["Oil Drill"]).toEqual(new Decimal(1));
+  });
 });
