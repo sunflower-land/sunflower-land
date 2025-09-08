@@ -9,6 +9,7 @@ import { interactableModalManager } from "../ui/InteractableModals";
 import { getKeys } from "features/game/types/decorations";
 import { TemperateSeasonName } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
+import { hasReadLoveIslandNotice } from "../ui/loveRewardShop/LoveIslandNoticeboard";
 
 const BUMPKINS: NPCBumpkin[] = [];
 
@@ -137,7 +138,15 @@ export class LoveIslandScene extends BaseScene {
         }
       });
     }
+
+    this.setupPopup();
   }
+
+  setupPopup = () => {
+    if (!hasReadLoveIslandNotice()) {
+      interactableModalManager.open("petal_clue");
+    }
+  };
 
   /**
    * Flower Petal Puzzle

@@ -4,12 +4,14 @@ import {
   PetName,
   getPetRequestXP,
   PET_CATEGORIES,
+  PET_TYPES,
   PetType,
-  getExperienceToNextLevel,
+  getPetLevel,
   isPetNeglected,
+  isPetNapping,
 } from "features/game/types/pets";
 import React, { useContext, useState, useMemo } from "react";
-import { FeedPetCard, isFoodAlreadyFed } from "./FeedPetCard";
+import { PetCard, isFoodAlreadyFed } from "./PetCard";
 import { Button } from "components/ui/Button";
 import { CookableName } from "features/game/types/consumables";
 import { Context } from "features/game/GameProvider";
@@ -21,7 +23,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getKeys } from "features/game/lib/crafting";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
 import xpIcon from "assets/icons/xp.png";
 import { Box } from "components/ui/Box";
 
@@ -29,7 +30,7 @@ type Props = {
   activePets: [PetName, Pet | undefined][];
 };
 
-export const FeedPet: React.FC<Props> = ({ activePets }) => {
+export const ManagePets: React.FC<Props> = ({ activePets }) => {
   const { t } = useAppTranslation();
   const [isBulkFeed, setIsBulkFeed] = useState(false);
   const { gameService } = useContext(Context);
@@ -77,7 +78,7 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
       }> = [];
       activePets.forEach(([petName, pet]) => {
         if (pet) {
-          if (isPetNeglected(pet)) {
+          if (isPetNeglected(pet) || isPetNapping(pet)) {
             return;
           }
           pet.requests.food.forEach((food) => {
@@ -108,6 +109,14 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
     } else {
       handleConfirmFeed();
     }
+  };
+
+  const handleBulkPet = () => {
+    nappingPets.forEach(([petName, pet]) => {
+      if (pet) {
+        gameService.send("pet.pet", { pet: petName });
+      }
+    });
   };
 
   const mappedPets = selectedFeed.reduce<
@@ -147,17 +156,15 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
     return [...activePets].sort(([, petA], [, petB]) => {
       if (!petA || !petB) return 0;
 
-      // Sort by neglected state first: neglected pets come first
+      if (isPetNapping(petA) && !isPetNapping(petB)) return -1;
+      if (!isPetNapping(petA) && isPetNapping(petB)) return 1;
+
       if (isPetNeglected(petA) && !isPetNeglected(petB)) return -1;
       if (!isPetNeglected(petA) && isPetNeglected(petB)) return 1;
 
       // Find the pet types for both pets
-      const petTypeA = getObjectEntries(PET_CATEGORIES).find(([, category]) =>
-        category.pets.includes(petA.name as PetName),
-      )?.[0];
-      const petTypeB = getObjectEntries(PET_CATEGORIES).find(([, category]) =>
-        category.pets.includes(petB.name as PetName),
-      )?.[0];
+      const petTypeA = PET_TYPES[petA.name];
+      const petTypeB = PET_TYPES[petB.name];
 
       if (!petTypeA || !petTypeB) return 0;
 
@@ -169,6 +176,12 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
       return petB.experience - petA.experience;
     });
   }, [activePets, petTypeOrder]);
+
+  const nappingPets = activePets.filter(([, pet]) => isPetNapping(pet));
+
+  const areSomePetsNapping = nappingPets.length > 0;
+
+  const areAllPetsNapping = nappingPets.length === activePets.length;
 
   return (
     <>
@@ -185,23 +198,32 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
             </Label>
           )}
         </div>
-        <div className="flex flex-row gap-2">
-          <Button
-            className="w-40"
-            disabled={isBulkFeed && selectedFeed.length === 0}
-            onClick={handleBulkFeed}
-          >
-            {isBulkFeed ? t("pets.confirmFeed") : t("pets.bulkFeed")}
-          </Button>
-          {isBulkFeed && (
-            <Button className="w-auto" onClick={handleCancel}>
-              <img
-                src={SUNNYSIDE.icons.cancel}
-                alt="Cancel"
-                className="h-6 object-contain"
-              />
+        <div className="flex flex-col sm:flex-row gap-1 w-1/2 sm:w-auto items-end">
+          {areSomePetsNapping && !isBulkFeed && (
+            <Button className="w-40" onClick={handleBulkPet}>
+              {`Pet All`}
             </Button>
           )}
+          <div className="flex flex-row gap-1">
+            {!areAllPetsNapping && (
+              <Button
+                className="w-40"
+                disabled={isBulkFeed && selectedFeed.length === 0}
+                onClick={handleBulkFeed}
+              >
+                {isBulkFeed ? t("pets.confirmFeed") : t("pets.bulkFeed")}
+              </Button>
+            )}
+            {isBulkFeed && (
+              <Button className="w-auto" onClick={handleCancel}>
+                <img
+                  src={SUNNYSIDE.icons.cancel}
+                  alt="Cancel"
+                  className="h-6 object-contain"
+                />
+              </Button>
+            )}
+          </div>
         </div>
       </InnerPanel>
       <InnerPanel className="max-h-[500px] overflow-y-auto scrollable">
@@ -209,20 +231,21 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
           <p className="p-4 text-center text-gray-500">{t("pets.noPets")}</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mr-1">
-            {activePetsSortedByType.map(
-              ([petName, pet]) =>
-                pet && (
-                  <FeedPetCard
-                    key={petName}
-                    petName={petName}
-                    pet={pet}
-                    isBulkFeed={isBulkFeed}
-                    selectedFeed={selectedFeed}
-                    setSelectedFeed={setSelectedFeed}
-                    inventory={inventory}
-                  />
-                ),
-            )}
+            {activePetsSortedByType.map(([petName, pet]) => {
+              if (!pet) return null;
+
+              return (
+                <PetCard
+                  key={petName}
+                  petName={petName}
+                  pet={pet}
+                  isBulkFeed={isBulkFeed}
+                  selectedFeed={selectedFeed}
+                  setSelectedFeed={setSelectedFeed}
+                  inventory={inventory}
+                />
+              );
+            })}
           </div>
         )}
       </InnerPanel>
@@ -257,7 +280,7 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
                 const petImage = ITEM_DETAILS[pet].image;
 
                 const { level, currentProgress, experienceBetweenLevels } =
-                  getExperienceToNextLevel(petData.experience);
+                  getPetLevel(petData.experience);
 
                 const experienceChange =
                   beforeExperience !== undefined &&
@@ -281,10 +304,8 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
                   beforeExperience !== undefined &&
                   afterExperience !== undefined
                 ) {
-                  const beforeLevelData =
-                    getExperienceToNextLevel(beforeExperience);
-                  const afterLevelData =
-                    getExperienceToNextLevel(afterExperience);
+                  const beforeLevelData = getPetLevel(beforeExperience);
+                  const afterLevelData = getPetLevel(afterExperience);
 
                   beforeLevel = beforeLevelData.level;
                   beforeProgress = beforeLevelData.currentProgress;

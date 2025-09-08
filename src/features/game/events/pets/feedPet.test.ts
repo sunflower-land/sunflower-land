@@ -18,6 +18,31 @@ describe("feedPet", () => {
     ).toThrow("Pet not found");
   });
 
+  it("throws an error if pet is napping", () => {
+    expect(() =>
+      feedPet({
+        state: {
+          ...INITIAL_FARM,
+          pets: {
+            common: {
+              Barkley: {
+                name: "Barkley",
+                requests: {
+                  food: [],
+                  fedAt: now,
+                },
+                energy: 100,
+                experience: 0,
+                pettedAt: now - 2 * 60 * 60 * 1000,
+              },
+            },
+          },
+        },
+        action: { type: "pet.fed", pet: "Barkley", food: "Bumpkin Salad" },
+      }),
+    ).toThrow("Pet is napping");
+  });
+
   it("throws an error if pet is in neglected state", () => {
     expect(() =>
       feedPet({
@@ -33,6 +58,7 @@ describe("feedPet", () => {
                 },
                 energy: 100,
                 experience: 0,
+                pettedAt: now,
               },
             },
           },
@@ -56,6 +82,7 @@ describe("feedPet", () => {
                 },
                 energy: 100,
                 experience: 0,
+                pettedAt: now,
               },
             },
           },
@@ -82,6 +109,7 @@ describe("feedPet", () => {
                 },
                 energy: 100,
                 experience: 0,
+                pettedAt: now,
               },
             },
           },
@@ -111,6 +139,7 @@ describe("feedPet", () => {
                 },
                 energy: 100,
                 experience: 0,
+                pettedAt: now,
               },
             },
           },
@@ -141,6 +170,7 @@ describe("feedPet", () => {
                 },
                 energy: 100,
                 experience: 0,
+                pettedAt: now,
               },
             },
           },
@@ -173,6 +203,7 @@ describe("feedPet", () => {
                 },
                 energy: 100,
                 experience: 0,
+                pettedAt: now,
               },
             },
           },
@@ -204,6 +235,7 @@ describe("feedPet", () => {
               },
               energy: 0,
               experience: 100,
+              pettedAt: now,
             },
           },
         },

@@ -4,6 +4,7 @@ import { GameState } from "features/game/types/game";
 import { bulkFeedPets, BulkFeedPetsAction } from "./bulkFeedPets";
 
 describe("bulkFeedPets", () => {
+  const now = Date.now();
   it("throws an error if not enough food in inventory", () => {
     expect(() =>
       bulkFeedPets({
@@ -18,6 +19,7 @@ describe("bulkFeedPets", () => {
                 },
                 energy: 0,
                 experience: 0,
+                pettedAt: now,
               },
               Meowchi: {
                 name: "Meowchi",
@@ -26,6 +28,7 @@ describe("bulkFeedPets", () => {
                 },
                 energy: 0,
                 experience: 0,
+                pettedAt: now,
               },
             },
           },
@@ -57,6 +60,7 @@ describe("bulkFeedPets", () => {
             },
             energy: 0,
             experience: 0,
+            pettedAt: now,
           },
           Meowchi: {
             name: "Meowchi",
@@ -65,6 +69,7 @@ describe("bulkFeedPets", () => {
             },
             energy: 0,
             experience: 0,
+            pettedAt: now,
           },
         },
       },

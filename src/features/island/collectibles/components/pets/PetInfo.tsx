@@ -1,12 +1,12 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { ResizableBar } from "components/ui/ProgressBar";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
 import {
-  getExperienceToNextLevel,
+  getPetLevel,
   isPetNeglected,
   Pet,
   PET_CATEGORIES,
+  PET_TYPES,
   PetName,
 } from "features/game/types/pets";
 import levelUp from "assets/icons/level_up.png";
@@ -23,17 +23,15 @@ interface Props {
 export const PetInfo: React.FC<Props> = ({ petName, petData }) => {
   const { t } = useAppTranslation();
   const { level, percentage, currentProgress, experienceBetweenLevels } =
-    getExperienceToNextLevel(petData.experience);
+    getPetLevel(petData.experience);
 
   const isNeglected = isPetNeglected(petData);
   const petImage = PET_STATE_IMAGES[petName][isNeglected ? "asleep" : "happy"];
 
   // Find pet type and categories
-  const petTypeEntry = getObjectEntries(PET_CATEGORIES).find(
-    ([, petCategory]) => petCategory.pets.includes(petName),
-  );
-  const petType = petTypeEntry?.[0];
-  const petCategory = petTypeEntry?.[1];
+  const petType = PET_TYPES[petName];
+  const petCategory = petType ? PET_CATEGORIES[petType] : undefined;
+
   return (
     <div className="flex flex-col gap-4 p-2">
       {/* Pet Header */}
@@ -60,6 +58,11 @@ export const PetInfo: React.FC<Props> = ({ petName, petData }) => {
               {petCategory.secondaryCategory && (
                 <Label type="formula" className="text-xs">
                   {petCategory.secondaryCategory}
+                </Label>
+              )}
+              {petCategory.tertiaryCategory && (
+                <Label type="vibrant" className="text-xs">
+                  {petCategory.tertiaryCategory}
                 </Label>
               )}
             </div>

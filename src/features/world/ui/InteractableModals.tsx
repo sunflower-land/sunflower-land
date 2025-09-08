@@ -49,6 +49,7 @@ import { EventMegaStore } from "./eventmegastore/EventMegaStore";
 import { EventNoticeboard } from "./EventNoticeboard";
 import { PotionMaster } from "features/helios/components/potions/component/PotionHouseShopItems";
 import { PetShop } from "features/pets/PetShop";
+import { LoveIslandNoticeboard } from "./loveRewardShop/LoveIslandNoticeboard";
 
 type InteractableName =
   | "guardian"
@@ -334,15 +335,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         />
       </Modal>
       <Modal show={interactable === "petal_clue"} onHide={closeModal}>
-        <SpeakingModal
-          onClose={closeModal}
-          bumpkinParts={NPC_WEARABLES["rocket man"]}
-          message={[
-            {
-              text: t("interactableModals.petalClue.message1"),
-            },
-          ]}
-        />
+        <LoveIslandNoticeboard onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "basic_chest"} onHide={closeModal}>
         <TreasureChest

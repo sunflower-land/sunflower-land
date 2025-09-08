@@ -546,6 +546,8 @@ import {
 import { upgradeStone, UpgradeStoneAction } from "./landExpansion/upgradeNode";
 import { bulkFeedPets, BulkFeedPetsAction } from "./pets/bulkFeedPets";
 import { NeglectPetAction, neglectPet } from "./pets/neglectPet";
+import { petPet, PetPetAction } from "./pets/petPet";
+import { fetchPet, FetchPetAction } from "./pets/fetchPet";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -655,8 +657,10 @@ export type PlayingEvent =
   | ClaimFactionPrizeAction
   | FeedFactionPetAction
   | FeedPetAction
+  | FetchPetAction
   | BulkFeedPetsAction
   | NeglectPetAction
+  | PetPetAction
   | LeaveFactionAction
   | BuyMoreDigsAction
   | BuyMoreReelsAction
@@ -894,6 +898,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "factionShopItem.bought": buyFactionShopItem,
   "factionPet.fed": feedFactionPet,
   "pet.fed": feedPet,
+  "pet.fetched": fetchPet,
   "pets.bulkFeed": bulkFeedPets,
   "pet.neglected": neglectPet,
   "desert.digsBought": buyMoreDigs,
@@ -939,6 +944,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "clutter.burned": burnClutter,
   "project.instantGrow": instantGrowProject,
   "stone.upgraded": upgradeStone,
+  "pet.pet": petPet,
 };
 
 export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {
