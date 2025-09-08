@@ -1,7 +1,8 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { CookableName } from "features/game/types/consumables";
-import { feedPet } from "./feedPet";
+import { feedPet, getPetFoodRequests } from "./feedPet";
+import { Pet } from "features/game/types/pets";
 
 describe("feedPet", () => {
   const now = Date.now();
@@ -293,5 +294,47 @@ describe("feedPet", () => {
 
     expect(BarkleyData?.energy).toEqual(105);
     expect(BarkleyData?.experience).toEqual(1600);
+  });
+
+  describe("getPetFoodRequests", () => {
+    it("omits the hard request if the pet is less than level 10", () => {
+      const pet: Pet = {
+        name: "Barkley",
+        requests: {
+          food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+        },
+        energy: 100,
+        experience: 0,
+        pettedAt: now,
+      };
+      const requests = getPetFoodRequests(pet);
+      expect(requests).toEqual(["Pumpkin Soup", "Bumpkin Salad"]);
+      // Make sure the original requests are not modified
+      expect(pet.requests.food).toEqual([
+        "Pumpkin Soup",
+        "Bumpkin Salad",
+        "Antipasto",
+      ]);
+    });
+
+    it("includes the hard request if the pet is level 10 or higher", () => {
+      const pet: Pet = {
+        name: "Barkley",
+        requests: {
+          food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+        },
+        energy: 100,
+        experience: 5500, // Level 10
+        pettedAt: now,
+      };
+      const requests = getPetFoodRequests(pet);
+      expect(requests).toEqual(["Pumpkin Soup", "Bumpkin Salad", "Antipasto"]);
+      // Make sure the original requests are not modified
+      expect(pet.requests.food).toEqual([
+        "Pumpkin Soup",
+        "Bumpkin Salad",
+        "Antipasto",
+      ]);
+    });
   });
 });

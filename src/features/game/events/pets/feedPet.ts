@@ -1,9 +1,12 @@
 import { CookableName } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
 import {
+  getPetLevel,
   getPetRequestXP,
   isPetNapping,
   isPetNeglected,
+  Pet,
+  PET_REQUESTS,
   PetName,
 } from "features/game/types/pets";
 import { produce } from "immer";
@@ -27,6 +30,27 @@ function getPetEnergy(pet: Pet, basePetEnergy: number) {
   return basePetEnergy + boostEnergy;
 }
 
+/**
+ * Removes the hard request from the pet's food requests if the pet is less than level 10
+ * This ensures that the pet would instantly get the hard request when it reaches level 10
+ * @param pet Pet
+ * @returns Pet's food requests
+ */
+export function getPetFoodRequests(pet: Pet) {
+  const { level: petLevel } = getPetLevel(pet.experience);
+  let requests = [...pet.requests.food];
+
+  if (petLevel < 10) {
+    const hardRequest = requests.find((request) =>
+      PET_REQUESTS.hard.includes(request),
+    );
+
+    if (hardRequest) {
+      requests = requests.filter((request) => request !== hardRequest);
+    }
+  }
+  return requests;
+}
 export type FeedPetAction = {
   type: "pet.fed";
   pet: PetName;
@@ -57,7 +81,7 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("Pet is in neglected state");
     }
 
-    const requests = petData.requests.food;
+    const requests = getPetFoodRequests(petData);
     if (requests.length <= 0) {
       throw new Error("No requests found");
     }
