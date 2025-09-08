@@ -8,6 +8,25 @@ import {
 } from "features/game/types/pets";
 import { produce } from "immer";
 
+function getPetEnergy(pet: Pet, basePetEnergy: number) {
+  const { level: petLevel } = getPetLevel(pet.experience);
+  let boostEnergy = 0;
+
+  if (petLevel >= 5) {
+    boostEnergy += 5;
+  }
+
+  if (petLevel >= 35) {
+    boostEnergy += 5;
+  }
+
+  if (petLevel >= 75) {
+    boostEnergy += 5;
+  }
+
+  return basePetEnergy + boostEnergy;
+}
+
 export type FeedPetAction = {
   type: "pet.fed";
   pet: PetName;
@@ -74,8 +93,9 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
     inventory[food] = foodInInventory.minus(1);
 
     const experience = getPetRequestXP(food);
+    const energy = getPetEnergy(petData, experience);
     petData.experience += experience;
-    petData.energy += experience;
+    petData.energy += energy;
 
     return stateCopy;
   });

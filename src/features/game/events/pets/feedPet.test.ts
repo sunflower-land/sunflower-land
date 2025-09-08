@@ -260,4 +260,38 @@ describe("feedPet", () => {
     expect(BarkleyData?.energy).toEqual(100);
     expect(BarkleyData?.experience).toEqual(200);
   });
+  it("feeds pet with energy boost", () => {
+    const state = feedPet({
+      state: {
+        ...INITIAL_FARM,
+        pets: {
+          common: {
+            Barkley: {
+              name: "Barkley",
+              requests: {
+                food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+                foodFed: [],
+              },
+              energy: 0,
+              experience: 1500, // Level 5
+              pettedAt: now,
+            },
+          },
+        },
+        inventory: {
+          "Bumpkin Salad": new Decimal(10),
+        },
+      },
+      action: {
+        type: "pet.fed",
+        pet: "Barkley",
+        food: "Bumpkin Salad",
+      },
+      createdAt: now,
+    });
+    const BarkleyData = state.pets?.common?.Barkley;
+
+    expect(BarkleyData?.energy).toEqual(105);
+    expect(BarkleyData?.experience).toEqual(1600);
+  });
 });
