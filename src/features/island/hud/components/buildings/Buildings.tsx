@@ -23,6 +23,7 @@ import {
 } from "features/game/events/landExpansion/upgradeBuilding";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
@@ -196,7 +197,12 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <>
-          {getValidBuildings().map((name: BuildingName) => {
+          {[
+            ...getValidBuildings(),
+            ...((hasFeatureAccess(state, "PETS")
+              ? ["Pet House"]
+              : []) as BuildingName[]),
+          ].map((name: BuildingName) => {
             const blueprints = BUILDINGS[name];
             const inventoryCount = inventory[name] || new Decimal(0);
             const nextIndex = blueprints[inventoryCount.toNumber()]

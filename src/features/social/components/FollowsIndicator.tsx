@@ -16,6 +16,7 @@ interface FollowsIndicatorProps {
   onClick: () => void;
   type: "followers" | "following";
   className?: string;
+  showSingleBumpkin?: boolean;
 }
 
 export const FollowsIndicator: React.FC<FollowsIndicatorProps> = ({
@@ -23,6 +24,7 @@ export const FollowsIndicator: React.FC<FollowsIndicatorProps> = ({
   onClick,
   type,
   className = "",
+  showSingleBumpkin = false,
 }) => {
   const { t } = useTranslation();
 
@@ -59,9 +61,11 @@ export const FollowsIndicator: React.FC<FollowsIndicatorProps> = ({
         <div className="absolute">
           <NPCIcon width={24} parts={defaultNPCParts} />
         </div>
-        <div className="absolute left-3.5">
-          <NPCIcon width={24} parts={secondNPCParts} />
-        </div>
+        {!showSingleBumpkin && (
+          <div className="absolute left-3.5">
+            <NPCIcon width={24} parts={secondNPCParts} />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ export const LeaderboardSkeleton: React.FC = () => {
         <Label type="default" icon={socialPointsIcon}>
           {t("social.leaderboard")}
         </Label>
-        <div className="h-3 bg-brown-300 animate-pulse w-24"></div>
+        <div className="h-3 mt-1 bg-brown-300 animate-pulse w-24"></div>
       </div>
 
       {/* Table skeleton */}

@@ -1,4 +1,6 @@
-import { InventoryItemName, Wardrobe } from "./game";
+import { getKeys } from "./decorations";
+import { Inventory, InventoryItemName, Wardrobe } from "./game";
+import { isPet, PET_TYPES, PetType } from "./pets";
 
 export type RewardBox = {
   spunAt?: number;
@@ -67,8 +69,26 @@ export const REWARD_BOXES: Record<RewardBoxName, RewardBoxDetails> = {
   "Pet Egg": {
     rewards: [
       { items: { Barkley: 1 }, weight: 100 },
-      { items: { Burro: 1 }, weight: 100 },
+      { items: { Biscuit: 1 }, weight: 100 },
+      { items: { Cloudy: 1 }, weight: 100 },
+      { items: { Meowchi: 1 }, weight: 100 },
+      { items: { Butters: 1 }, weight: 100 },
+      { items: { Smokey: 1 }, weight: 100 },
       { items: { Twizzle: 1 }, weight: 100 },
+      { items: { Flicker: 1 }, weight: 100 },
+      { items: { Pippin: 1 }, weight: 100 },
+      { items: { Burro: 1 }, weight: 100 },
+      { items: { Pinto: 1 }, weight: 100 },
+      { items: { Roan: 1 }, weight: 100 },
+      { items: { Stallion: 1 }, weight: 100 },
+      { items: { Mudhorn: 1 }, weight: 100 },
+      { items: { Bison: 1 }, weight: 100 },
+      { items: { Oxen: 1 }, weight: 100 },
+      { items: { Nibbles: 1 }, weight: 100 },
+      { items: { Peanuts: 1 }, weight: 100 },
+      { items: { Waddles: 1 }, weight: 100 },
+      { items: { Pip: 1 }, weight: 100 },
+      { items: { Skipper: 1 }, weight: 100 },
     ],
   },
   "Test Box": {
@@ -115,15 +135,16 @@ export const REWARD_BOXES: Record<RewardBoxName, RewardBoxDetails> = {
   },
   "Gold Love Box": {
     rewards: [
-      { coins: 5000, weight: 100 },
-      { coins: 10000, weight: 50 },
-      { items: { "Pizza Margherita": 1 }, weight: 100 },
-      { items: { "Pizza Margherita": 3 }, weight: 50 },
-      { items: { "Fishing Lure": 50 }, weight: 50 },
-      { items: { Gem: 200 }, weight: 50 },
-      { items: { Gem: 500 }, weight: 25 },
-      { items: { "Super Totem": 1 }, weight: 25 },
-      { vipDays: 7, weight: 50 },
+      { items: { "Love Charm": 250 }, weight: 15 },
+      { items: { "Love Charm": 500 }, weight: 10 },
+      { items: { "Love Charm": 1000 }, weight: 5 },
+      { coins: 10000, weight: 15 },
+      { items: { "Pizza Margherita": 3 }, weight: 15 },
+      { items: { "Fishing Lure": 50 }, weight: 10 },
+      { items: { Gem: 200 }, weight: 10 },
+      { vipDays: 7, weight: 10 },
+      { items: { Gem: 500 }, weight: 5 },
+      { items: { "Super Totem": 1 }, weight: 5 },
     ],
   },
 
@@ -242,4 +263,51 @@ export const REWARD_BOXES: Record<RewardBoxName, RewardBoxDetails> = {
       { items: { "Pizza Margherita": 5 }, weight: 100 },
     ],
   },
+};
+
+/**
+ * Returns a list of pet rewards that the player does not already have.
+ *
+ * @param inventory - The player's inventory
+ * @returns A list of pet rewards that the player does not already have
+ */
+export const getPetRewardPool = ({
+  inventory,
+}: {
+  inventory: Inventory;
+}): RewardBoxReward[] => {
+  let petRewardPool = [...REWARD_BOXES["Pet Egg"].rewards];
+
+  // Get all pet categories that the player already has pets from
+  const ownedPetCategories = new Set<PetType>();
+
+  getKeys(PET_TYPES).forEach((pet) => {
+    if (inventory[pet]) {
+      const petType = PET_TYPES[pet];
+      if (petType) ownedPetCategories.add(petType);
+    }
+  });
+
+  // Filter out all pets from categories the player already owns
+  petRewardPool = petRewardPool.filter((reward) => {
+    const rewardPet = getKeys(reward.items ?? {})[0];
+
+    if (!rewardPet || !isPet(rewardPet)) return true;
+
+    const petType = PET_TYPES[rewardPet];
+    if (petType) return !ownedPetCategories.has(petType);
+
+    return true;
+  });
+
+  // If they have gotten 1 pet from each category, release the remaining pets they haven't gotten in the pool
+  if (petRewardPool.length === 0) {
+    petRewardPool = [...REWARD_BOXES["Pet Egg"].rewards].filter((reward) => {
+      const pet = getKeys(reward.items ?? {})[0];
+
+      return !inventory[pet];
+    });
+  }
+
+  return petRewardPool;
 };

@@ -54,6 +54,12 @@ export const BASE_MAINNET_NETWORK: NetworkOption = {
   chainId: 8453,
 };
 
+export const POLYGON_MAINNET_NETWORK: NetworkOption = {
+  value: "Polygon",
+  icon: SUNNYSIDE.icons.polygonIcon,
+  chainId: 137,
+};
+
 const MAINNET_NETWORKS: NetworkOption[] = [
   BASE_MAINNET_NETWORK,
   {
@@ -61,17 +67,19 @@ const MAINNET_NETWORKS: NetworkOption[] = [
     icon: SUNNYSIDE.icons.roninIcon,
     chainId: 2020,
   },
-  {
-    value: "Polygon",
-    icon: SUNNYSIDE.icons.polygonIcon,
-    chainId: 137,
-  },
+  POLYGON_MAINNET_NETWORK,
 ];
 
 export const BASE_TESTNET_NETWORK: NetworkOption = {
   value: "Base Sepolia",
   icon: baseIcon,
   chainId: 84532,
+};
+
+export const POLYGON_TESTNET_NETWORK: NetworkOption = {
+  value: "Polygon Amoy",
+  icon: SUNNYSIDE.icons.polygonIcon,
+  chainId: 80002,
 };
 
 const TESTNET_NETWORKS: NetworkOption[] = [
@@ -81,11 +89,7 @@ const TESTNET_NETWORKS: NetworkOption[] = [
     icon: SUNNYSIDE.icons.roninIcon,
     chainId: 2021,
   },
-  {
-    value: "Polygon Amoy",
-    icon: SUNNYSIDE.icons.polygonIcon,
-    chainId: 80002,
-  },
+  POLYGON_TESTNET_NETWORK,
 ];
 
 // Select appropriate network options based on config

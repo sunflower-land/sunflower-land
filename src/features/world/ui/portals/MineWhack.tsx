@@ -155,7 +155,6 @@ export const MineWhack: React.FC<Props> = ({ onClose }) => {
         jwt={authService.getSnapshot().context.user.rawToken as string}
         onBack={() => setPage("play")}
         name={"mine-whack"}
-        startDate={new Date(2024, 6, 2)}
       />
     );
   }

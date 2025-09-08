@@ -161,13 +161,9 @@ export function placeBuilding({
           const { seconds: recipeTime } = craftingBox.item.collectible
             ? getBoostedCraftingTime({
                 game: stateCopy,
-                time:
-                  RECIPES(stateCopy)[craftingBox.item.collectible]?.time ?? 0,
+                time: RECIPES[craftingBox.item.collectible]?.time ?? 0,
               })
-            : getBoostedCraftingTime({
-                game: stateCopy,
-                time: RECIPES(stateCopy)[craftingBox.item.wearable]?.time ?? 0,
-              });
+            : { seconds: 0 };
           craftingBox.readyAt = craftingBox.startedAt + recipeTime;
         }
       }

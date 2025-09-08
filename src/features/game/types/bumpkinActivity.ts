@@ -35,6 +35,7 @@ import { ShopDecorationName, SeasonalDecorationName } from "./decorations";
 import { AnimalType } from "./animals";
 import { SeasonalTierItemName } from "./megastore";
 import { WeatherShopItem } from "./calendar";
+import { PetShopItemName } from "./petShop";
 
 type BuyableName =
   | SeedName
@@ -85,7 +86,8 @@ export type CraftedEvent = `${
   | LanternName
   | Keys
   | PurchaseableBait
-  | WeatherShopItem} Crafted`;
+  | WeatherShopItem
+  | PetShopItemName} Crafted`;
 export type ConsumableEvent = `${ConsumableName} Collected`;
 export type SellEvent = `${SellableName} Sold`;
 export type TreasureEvent = `${TreasureName} Dug`;

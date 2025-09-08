@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -10,16 +10,16 @@ import { secondsToString } from "lib/utils/time";
 import sleepIcon from "assets/icons/sleep.webp";
 import { InnerPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
-import Decimal from "decimal.js-light";
-import { useGame } from "features/game/GameProvider";
+import { Context } from "features/game/GameProvider";
 import { getAnimalToy } from "features/game/events/landExpansion/wakeUpAnimal";
 import { Animal } from "features/game/types/game";
 import {
   getAnimalFavoriteFood,
   getAnimalLevel,
 } from "features/game/lib/animals";
-import { hasFeatureAccess } from "lib/flags";
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
+import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
+import { useSelector } from "@xstate/react";
 
 interface Props {
   onClose: () => void;
@@ -34,15 +34,16 @@ export const SleepingAnimalModal = ({
   animal,
   id,
 }: Props) => {
-  const { gameService, gameState } = useGame();
+  const { gameService } = useContext(Context);
   const [showConfirm, setShowConfirm] = useState(false);
   const { t } = useAppTranslation();
 
   const secondsLeft = (awakeAt - Date.now()) / 1000;
 
   const toy = getAnimalToy({ animal });
+  const state = useSelector(gameService, (state) => state.context.state);
 
-  const count = gameState.context.state.inventory[toy] ?? new Decimal(0);
+  const { count } = getCountAndType(state, toy);
 
   const onWakeUp = () => {
     gameService.send("animal.wakeUp", {
@@ -81,11 +82,11 @@ export const SleepingAnimalModal = ({
   // Get the XP for the current love item
   const { animalXP } = getAnimalXP({
     name: animal.item,
-    state: gameState.context.state,
+    state,
     animal: animal.type,
   });
 
-  const hasTool = gameState.context.state.inventory[animal.item]?.gt(0);
+  const hasTool = getCountAndType(state, animal.item).count.gt(0);
 
   const level = getAnimalLevel(animal.experience, animal.type);
 
@@ -146,7 +147,7 @@ export const SleepingAnimalModal = ({
         </div>
       </InnerPanel>
 
-      {hasFeatureAccess(gameState.context.state, "CRAFTING") && level < 15 && (
+      {level < 15 && (
         <InnerPanel>
           <div className="flex items-center">
             <img src={SUNNYSIDE.icons.heart} alt="Sleep" className="h-6 mr-2" />

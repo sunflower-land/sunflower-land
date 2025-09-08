@@ -102,7 +102,7 @@ export const VisitingHud: React.FC = () => {
 
   return (
     <HudContainer>
-      <Feed type="local" showFeed={showFeed} setShowFeed={setShowFeed} />
+      <Feed type="world" showFeed={showFeed} setShowFeed={setShowFeed} />
       <Modal show={showVisitorGuide} onHide={handleCloseVisitorGuide}>
         <CloseButtonPanel
           bumpkinParts={gameState.context.state.bumpkin?.equipped}

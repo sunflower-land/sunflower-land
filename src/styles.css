@@ -207,6 +207,12 @@ input {
   color: #3e2731;
 }
 
+input::placeholder {
+  color: black;
+  opacity: 0.3;
+  padding-left: 2px;
+}
+
 button:disabled {
   cursor: not-allowed;
 }

@@ -15,8 +15,8 @@ import classNames from "classnames";
 import { SquareIcon } from "components/ui/SquareIcon";
 import {
   Recipe,
+  RecipeCollectibleName,
   RecipeIngredient,
-  RecipeItemName,
   RECIPES,
   Recipes,
 } from "features/game/lib/crafting";
@@ -30,6 +30,8 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuff
 import lightningIcon from "assets/icons/lightning.png";
 import { InventoryItemName } from "features/game/types/game";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
+import { getObjectEntries } from "features/game/expansion/lib/utils";
+import Decimal from "decimal.js-light";
 
 const _state = (state: MachineState) => state.context.state;
 
@@ -56,21 +58,27 @@ export const RecipesTab: React.FC<Props> = ({
 
   const filteredRecipes = useMemo(() => {
     if (!searchTerm.trim()) return recipes;
-    return Object.entries(recipes || {}).reduce((acc, [name, recipe]) => {
-      if (name.toLowerCase().includes(searchTerm.toLowerCase())) {
-        acc[name as RecipeItemName] = recipe;
-      }
-      return acc;
-    }, {} as Recipes);
+    return getObjectEntries(recipes || {}).reduce<Partial<Recipes>>(
+      (acc, [name, recipe]) => {
+        if (name.toLowerCase().includes(searchTerm.toLowerCase())) {
+          acc[name] = recipe;
+        }
+        return acc;
+      },
+      {},
+    );
   }, [recipes, searchTerm]);
 
   const sillhouetteRecipes = useMemo(() => {
-    return Object.entries(RECIPES(state)).reduce((acc, [name, recipe]) => {
-      if (!recipes[name as RecipeItemName]) {
-        acc[name as RecipeItemName] = recipe;
-      }
-      return acc;
-    }, {} as Recipes);
+    return getObjectEntries(RECIPES).reduce<Partial<Recipes>>(
+      (acc, [name, recipe]) => {
+        if (!recipes[name]) {
+          acc[name] = recipe;
+        }
+        return acc;
+      },
+      {},
+    );
   }, [recipes, searchTerm]);
 
   const remainingInventory = useMemo(() => {
@@ -118,6 +126,9 @@ export const RecipesTab: React.FC<Props> = ({
       return false;
     });
   };
+
+  const recipeAmount = (recipeName: RecipeCollectibleName) =>
+    remainingInventory[recipeName as RecipeCollectibleName] ?? new Decimal(0);
 
   return (
     <div className="flex flex-col">
@@ -209,6 +220,15 @@ export const RecipesTab: React.FC<Props> = ({
                             src={getImageUrl(ITEM_IDS[recipe.name])}
                             className="w-6 h-6 object-contain"
                           />
+                        )}
+                        {recipeAmount(recipe.name as RecipeCollectibleName).gt(
+                          0,
+                        ) && (
+                          <div className="absolute -top-4 -right-4">
+                            <Label type="default">
+                              <p className="text-xxs">{`${recipeAmount(recipe.name as RecipeCollectibleName)}`}</p>
+                            </Label>
+                          </div>
                         )}
                       </ButtonPanel>
                     </div>

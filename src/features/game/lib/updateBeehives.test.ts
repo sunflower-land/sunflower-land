@@ -839,7 +839,9 @@ describe("updateBeehives", () => {
       now + DEFAULT_HONEY_PRODUCTION_TIME / 4,
     );
     expect(finalBeehives["abc"].flowers[1].attachedUntil).toEqual(
-      now + DEFAULT_HONEY_PRODUCTION_TIME,
+      now +
+        DEFAULT_HONEY_PRODUCTION_TIME / 4 +
+        DEFAULT_HONEY_PRODUCTION_TIME / 2,
     );
   });
 

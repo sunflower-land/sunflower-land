@@ -8,7 +8,7 @@ describe("collectCrafting", () => {
       state: {
         ...INITIAL_FARM,
         craftingBox: {
-          item: { collectible: "Dirt Path" },
+          item: { collectible: "Doll" },
           readyAt: 1,
           startedAt: 1,
           status: "crafting",
@@ -20,7 +20,7 @@ describe("collectCrafting", () => {
       },
     });
 
-    expect(state.inventory["Dirt Path"]).toEqual(new Decimal(1));
+    expect(state.inventory["Doll"]).toEqual(new Decimal(1));
   });
 
   it("sets the state back to idle", () => {
@@ -28,7 +28,7 @@ describe("collectCrafting", () => {
       state: {
         ...INITIAL_FARM,
         craftingBox: {
-          item: { collectible: "Dirt Path" },
+          item: { collectible: "Doll" },
           readyAt: 1,
           startedAt: 1,
           status: "crafting",
@@ -48,7 +48,7 @@ describe("collectCrafting", () => {
       state: {
         ...INITIAL_FARM,
         craftingBox: {
-          item: { collectible: "Dirt Path" },
+          item: { collectible: "Doll" },
           readyAt: 1,
           startedAt: 1,
           status: "crafting",
@@ -71,7 +71,7 @@ describe("collectCrafting", () => {
         state: {
           ...INITIAL_FARM,
           craftingBox: {
-            item: { collectible: "Dirt Path" },
+            item: { collectible: "Doll" },
             readyAt: now + 1000,
             startedAt: now,
             status: "crafting",

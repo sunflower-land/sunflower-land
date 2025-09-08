@@ -1,206 +1,77 @@
 import Decimal from "decimal.js-light";
 import { Decoration } from "./decorations";
-import { GameState, InventoryItemName } from "./game";
-
+import { CraftableCollectible } from "./collectibles";
+import { CookableName } from "./consumables";
+import { getObjectEntries } from "../expansion/lib/utils";
+import { InventoryItemName } from "./game";
 export type PetName =
+  // Dogs
   | "Barkley"
+  | "Biscuit"
+  | "Cloudy"
+
+  // Cats
   | "Meowchi"
+  | "Butters"
+  | "Smokey"
+
+  // Owls
   | "Twizzle"
+  | "Flicker"
+  | "Pippin"
+
+  // Horses
   | "Burro"
+  | "Pinto"
+  | "Roan"
+  | "Stallion"
+
+  // Bulls
   | "Mudhorn"
+  | "Bison"
+  | "Oxen"
+
+  // Hamsters
   | "Nibbles"
+  | "Peanuts"
+
+  // Penguins
   | "Waddles"
+  | "Pip"
+  | "Skipper"
+
+  // Goat - Not used
   | "Ramsey";
 
-export type Pet = {
-  cravings?: {
-    name: InventoryItemName;
-    completedAt?: number;
-    energy?: number;
-  }[];
-  readyAt?: number;
-  level?: number;
-  multiplier?: number;
-  pettedAt?: number;
-  experience?: number;
-  energy?: number;
-};
+export type PetType =
+  // Common Pet Types
+  | "Dog"
+  | "Cat"
+  | "Owl"
+  | "Horse"
+  | "Bull"
+  | "Hamster"
+  | "Penguin"
 
-export const PET_FOOD_EXPERIENCE = 100;
-export const PET_PET_EXPERIENCE = 10;
+  // NFT Pet Types
+  | "Ram"
+  | "Dragon"
+  | "Phoenix"
+  | "Griffin"
+  | "Warthog"
+  | "Wolf"
+  | "Bear";
 
-export const PET_EXPERIENCE: Record<number, number> = {
-  1: 0,
-  2: 120,
-  3: 300,
-  4: 600,
-  5: 1000,
-  6: 1500,
-  7: 2100,
-  8: 2800,
-  9: 3600,
-  10: 4500,
-  11: 5500,
-  12: 6600,
-  13: 7800,
-  14: 9100,
-  15: 10500,
-  16: 12000,
-  17: 13600,
-  18: 15300,
-  19: 17100,
-  20: 19000,
-  21: 21000,
-  22: 23100,
-  23: 25300,
-  24: 27600,
-  25: 30000,
-  26: 32500,
-  27: 35100,
-  28: 37800,
-  29: 40600,
-  30: 43500,
-  31: 46500,
-  32: 49600,
-  33: 52800,
-  34: 56100,
-  35: 59500,
-  36: 63000,
-  37: 66600,
-  38: 70300,
-  39: 74100,
-  40: 78000,
-  41: 82000,
-  42: 86100,
-  43: 90300,
-  44: 94600,
-  45: 99000,
-  46: 103500,
-  47: 108100,
-  48: 112800,
-  49: 117600,
-  50: 122500,
-};
+export type PetCategoryName =
+  | "Guardian"
+  | "Hunter"
+  | "Voyager"
+  | "Beast"
+  | "Moonkin"
+  | "Snowkin"
+  | "Forager";
 
-export function getPetExperience(pet: Pet): number {
-  if (!pet) return 0;
-  let experience = pet.experience ?? 0;
-
-  // Old pets did not have XP
-  if (!experience && (pet.level ?? 1) > 1) {
-    experience = (pet.level ?? 1) * PET_FOOD_EXPERIENCE;
-  }
-
-  return experience;
-}
-
-export function getPetLevel(pet?: Pet): number {
-  if (!pet) return 1;
-
-  const experience = getPetExperience(pet);
-
-  // Find the level that the pet has
-  let level = 1;
-  for (const [levelNumber, xpThreshold] of Object.entries(PET_EXPERIENCE)) {
-    if (experience >= xpThreshold) {
-      level = Number(levelNumber) as number;
-    } else {
-      break;
-    }
-  }
-
-  return level;
-}
-
-export type PetConfig = {
-  fetches: { name: PetResource; level: number }[];
-};
-
-export function petLevelProgress(pet?: Pet): {
-  xpLeft: number;
-  xpPercentage: number;
-} {
-  if (!pet) return { xpLeft: PET_EXPERIENCE[2], xpPercentage: 0 };
-
-  const level = getPetLevel(pet);
-  const xpThreshold = PET_EXPERIENCE[level + 1];
-  const xpLeft = xpThreshold - getPetExperience(pet);
-  const xpPercentage =
-    100 - (xpLeft / (xpThreshold - PET_EXPERIENCE[level])) * 100;
-  return { xpLeft, xpPercentage };
-}
-
-export const PETS: Record<PetName, PetConfig> = {
-  Barkley: {
-    fetches: [
-      { level: 1, name: "Acorn" },
-      { level: 3, name: "Chewed Bone" },
-      { level: 5, name: "Fossil Shell" },
-      { level: 25, name: "Frost Pebble" },
-    ],
-  },
-
-  Burro: {
-    fetches: [
-      { level: 1, name: "Acorn" },
-      { level: 3, name: "Ruffroot" },
-      { level: 5, name: "Fossil Shell" },
-      { level: 25, name: "Wild Grass" },
-    ],
-  },
-  Twizzle: {
-    fetches: [
-      { level: 1, name: "Acorn" },
-      { level: 3, name: "Heart leaf" },
-      { level: 5, name: "Fossil Shell" },
-      { level: 25, name: "Ribbon" },
-    ],
-  },
-  Meowchi: {
-    fetches: [
-      { level: 1, name: "Acorn" },
-      { level: 3, name: "Ribbon" },
-      { level: 5, name: "Fossil Shell" },
-      { level: 25, name: "Chewed Bone" },
-    ],
-  },
-  Mudhorn: {
-    fetches: [
-      { level: 1, name: "Acorn" },
-      { level: 3, name: "Wild Grass" },
-      { level: 5, name: "Fossil Shell" },
-      { level: 25, name: "Dewberry" },
-    ],
-  },
-  Nibbles: {
-    fetches: [
-      { level: 1, name: "Acorn" },
-      { level: 3, name: "Dewberry" },
-      { level: 5, name: "Fossil Shell" },
-      { level: 25, name: "Ruffroot" },
-    ],
-  },
-  Waddles: {
-    fetches: [
-      { level: 1, name: "Acorn" },
-      { level: 3, name: "Frost Pebble" },
-      { level: 5, name: "Fossil Shell" },
-      { level: 25, name: "Heart leaf" },
-    ],
-  },
-  // NFT placeholder for testing
-  Ramsey: {
-    fetches: [
-      { level: 1, name: "Acorn" },
-      { level: 3, name: "Moonfur" },
-      { level: 5, name: "Fossil Shell" },
-      { level: 25, name: "Ribbon" },
-      { level: 25, name: "Heart leaf" },
-    ],
-  },
-};
-
-export type PetResource =
+export type PetResourceName =
   | "Acorn"
   | "Ruffroot"
   | "Chewed Bone"
@@ -212,8 +83,184 @@ export type PetResource =
   | "Moonfur"
   | "Fossil Shell";
 
+export type Pet = {
+  name: PetName;
+  requests: {
+    food: CookableName[];
+    foodFed?: CookableName[];
+    fedAt?: number;
+    resets?: {
+      [date: string]: number;
+    };
+  };
+  energy: number;
+  experience: number;
+  pettedAt: number;
+};
+
+export type Pets = {
+  common?: Partial<Record<PetName, Pet>>;
+  requestsGeneratedAt?: number;
+};
+
+export type PetConfig = {
+  fetches: { name: PetResourceName; level: number }[];
+};
+
+export const isPet = (name: InventoryItemName): name is PetName =>
+  name in PET_TYPES;
+
+export type PetCategory = {
+  primaryCategory: PetCategoryName;
+  secondaryCategory?: PetCategoryName;
+  tertiaryCategory?: PetCategoryName;
+};
+
+export const PET_CATEGORIES: Record<PetType, PetCategory> = {
+  Dog: {
+    primaryCategory: "Guardian",
+    secondaryCategory: "Hunter",
+  },
+  Cat: {
+    primaryCategory: "Hunter",
+    secondaryCategory: "Moonkin",
+  },
+  Owl: {
+    primaryCategory: "Moonkin",
+    secondaryCategory: "Forager",
+  },
+  Horse: {
+    primaryCategory: "Voyager",
+    secondaryCategory: "Beast",
+  },
+  Bull: {
+    primaryCategory: "Beast",
+    secondaryCategory: "Snowkin",
+  },
+  Hamster: {
+    primaryCategory: "Forager",
+    secondaryCategory: "Guardian",
+  },
+  Penguin: {
+    primaryCategory: "Snowkin",
+    secondaryCategory: "Voyager",
+  },
+
+  // NFT Pet Types
+  Ram: {
+    primaryCategory: "Snowkin",
+    secondaryCategory: "Guardian",
+    tertiaryCategory: "Forager",
+  },
+  Dragon: {
+    primaryCategory: "Hunter",
+    secondaryCategory: "Moonkin",
+    tertiaryCategory: "Voyager",
+  },
+  Phoenix: {
+    primaryCategory: "Moonkin",
+    secondaryCategory: "Voyager",
+    tertiaryCategory: "Hunter",
+  },
+  Griffin: {
+    primaryCategory: "Voyager",
+    secondaryCategory: "Hunter",
+    tertiaryCategory: "Beast",
+  },
+  Warthog: {
+    primaryCategory: "Beast",
+    secondaryCategory: "Forager",
+    tertiaryCategory: "Guardian",
+  },
+  Wolf: {
+    primaryCategory: "Guardian",
+    secondaryCategory: "Snowkin",
+    tertiaryCategory: "Moonkin",
+  },
+  Bear: {
+    primaryCategory: "Forager",
+    secondaryCategory: "Beast",
+    tertiaryCategory: "Snowkin",
+  },
+};
+
+export const FETCHES_BY_CATEGORY: Record<PetCategoryName, PetResourceName> = {
+  Guardian: "Chewed Bone",
+  Hunter: "Ribbon",
+  Voyager: "Ruffroot",
+  Beast: "Wild Grass",
+  Moonkin: "Heart leaf",
+  Snowkin: "Frost Pebble",
+  Forager: "Dewberry",
+};
+
+export const PET_FETCHES: Record<PetType, PetConfig> = getObjectEntries(
+  PET_CATEGORIES,
+).reduce<Record<PetType, PetConfig>>(
+  (acc, [petType, petCategory]) => {
+    acc[petType] = {
+      fetches: [
+        { name: "Acorn", level: 1 },
+        { name: FETCHES_BY_CATEGORY[petCategory.primaryCategory], level: 3 },
+        ...(petCategory.secondaryCategory
+          ? [
+              {
+                name: FETCHES_BY_CATEGORY[petCategory.secondaryCategory],
+                level: 7,
+              },
+            ]
+          : []),
+
+        // TODO: Add Moonfur for NFT Pets
+
+        { name: "Fossil Shell", level: 20 },
+        ...(petCategory.tertiaryCategory
+          ? [
+              {
+                name: FETCHES_BY_CATEGORY[petCategory.tertiaryCategory],
+                level: 25,
+              },
+            ]
+          : []),
+      ],
+    };
+
+    return acc;
+  },
+  {} as Record<PetType, PetConfig>,
+);
+
+export const PET_TYPES: Record<PetName, PetType> = {
+  Barkley: "Dog",
+  Biscuit: "Dog",
+  Cloudy: "Dog",
+  Meowchi: "Cat",
+  Butters: "Cat",
+  Smokey: "Cat",
+  Twizzle: "Owl",
+  Flicker: "Owl",
+  Pippin: "Owl",
+  Burro: "Horse",
+  Pinto: "Horse",
+  Roan: "Horse",
+  Stallion: "Horse",
+  Mudhorn: "Bull",
+  Bison: "Bull",
+  Oxen: "Bull",
+  Nibbles: "Hamster",
+  Peanuts: "Hamster",
+  Waddles: "Penguin",
+  Pip: "Penguin",
+  Skipper: "Penguin",
+  Ramsey: "Ram",
+};
+
+export function getPetFetches(petName: PetName): PetConfig {
+  return PET_FETCHES[PET_TYPES[petName]];
+}
+
 export const PET_RESOURCES: Record<
-  PetResource,
+  PetResourceName,
   { cooldownMs: number; energy: number }
 > = {
   Acorn: {
@@ -279,25 +326,24 @@ export type PetShrine = Omit<Decoration, "name"> & {
   level?: number;
 };
 
-export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
+export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
   "Boar Shrine": {
-    name: "Boar Shrine",
     description: "",
     coins: 0,
     ingredients: {
       Acorn: new Decimal(15),
     },
+    inventoryLimit: 1,
   },
   "Hound Shrine": {
-    name: "Hound Shrine",
     description: "",
     coins: 0,
     ingredients: {
       Acorn: new Decimal(25),
     },
+    inventoryLimit: 1,
   },
   "Sparrow Shrine": {
-    name: "Sparrow Shrine",
     description: "",
     coins: 0,
     ingredients: {
@@ -305,9 +351,9 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
       Dewberry: new Decimal(10),
       "Heart leaf": new Decimal(10),
     },
+    inventoryLimit: 1,
   },
   "Fox Shrine": {
-    name: "Fox Shrine",
     description: "",
     coins: 0,
     ingredients: {
@@ -315,9 +361,9 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
       "Chewed Bone": new Decimal(10),
       Ruffroot: new Decimal(10),
     },
+    inventoryLimit: 1,
   },
   "Toucan Shrine": {
-    name: "Toucan Shrine",
     description: "",
     coins: 0,
     ingredients: {
@@ -325,9 +371,9 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
       Ribbon: new Decimal(10),
       "Frost Pebble": new Decimal(10),
     },
+    inventoryLimit: 1,
   },
   "Collie Shrine": {
-    name: "Collie Shrine",
     description: "",
     coins: 0,
     ingredients: {
@@ -335,9 +381,9 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
       Dewberry: new Decimal(10),
       "Wild Grass": new Decimal(10),
     },
+    inventoryLimit: 1,
   },
   "Moth Shrine": {
-    name: "Moth Shrine",
     description: "",
     coins: 0,
     ingredients: {
@@ -345,9 +391,9 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
       "Heart leaf": new Decimal(10),
       Ribbon: new Decimal(10),
     },
+    inventoryLimit: 1,
   },
   "Badger Shrine": {
-    name: "Badger Shrine",
     description: "",
     coins: 0,
     ingredients: {
@@ -355,9 +401,9 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
       Ruffroot: new Decimal(10),
       "Chewed Bone": new Decimal(10),
     },
+    inventoryLimit: 1,
   },
   "Mole Shrine": {
-    name: "Mole Shrine",
     description: "",
     coins: 0,
     ingredients: {
@@ -365,9 +411,9 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
       "Frost Pebble": new Decimal(10),
       Ribbon: new Decimal(10),
     },
+    inventoryLimit: 1,
   },
   "Tortoise Shrine": {
-    name: "Tortoise Shrine",
     description: "",
     coins: 0,
     ingredients: {
@@ -375,9 +421,9 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
       "Wild Grass": new Decimal(10),
       Ruffroot: new Decimal(10),
     },
+    inventoryLimit: 1,
   },
   "Stag Shrine": {
-    name: "Stag Shrine",
     description: "",
     coins: 0,
     ingredients: {
@@ -385,9 +431,9 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
       "Heart leaf": new Decimal(10),
       "Frost Pebble": new Decimal(10),
     },
+    inventoryLimit: 1,
   },
   "Bear Shrine": {
-    name: "Bear Shrine",
     description: "",
     coins: 0,
     ingredients: {
@@ -395,9 +441,9 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
       "Chewed Bone": new Decimal(10),
       "Wild Grass": new Decimal(10),
     },
+    inventoryLimit: 1,
   },
   "Legendary Shrine": {
-    name: "Legendary Shrine",
     description: "",
     coins: 0,
     ingredients: {
@@ -405,35 +451,203 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
       Moonfur: new Decimal(10),
       Acorn: new Decimal(10),
     },
+    inventoryLimit: 1,
   },
 };
 
-export const PET_NEGLECT_THRESHOLD = 3 * 24 * 60 * 60 * 1000;
+export type PetRequestDifficulty = "easy" | "medium" | "hard";
 
-export function msTillNeglect({
-  pet,
-  now = Date.now(),
-}: {
-  pet?: Pet;
-  now?: number;
-}) {
-  if (!pet?.readyAt) return 0;
+export const PET_REQUESTS: Record<PetRequestDifficulty, CookableName[]> = {
+  easy: [
+    "Mashed Potato",
+    "Rhubarb Tart",
+    "Pumpkin Soup",
+    "Reindeer Carrot",
+    "Bumpkin Broth",
+    "Popcorn",
+    "Sunflower Crunch",
+    "Roast Veggies",
+    "Club Sandwich",
+    "Fruit Salad",
+    "Cheese",
+    "Quick Juice",
+    "Carrot Juice",
+    "Purple Smoothie",
+  ],
+  medium: [
+    "Boiled Eggs",
+    "Cabbers n Mash",
+    "Fried Tofu",
+    "Kale Stew",
+    "Cauliflower Burger",
+    "Bumpkin Salad",
+    "Goblin's Treat",
+    "Pancakes",
+    "Bumpkin ganoush",
+    "Tofu Scramble",
+    "Sunflower Cake",
+    "Cornbread",
+    "Pumpkin Cake",
+    "Potato Cake",
+    "Apple Pie",
+    "Orange Cake",
+    "Carrot Cake",
+    "Fermented Carrots",
+    "Blueberry Jam",
+    "Sauerkraut",
+    "Fancy Fries",
+    "Orange Juice",
+    "Apple Juice",
+    "Power Smoothie",
+    "Bumpkin Detox",
+    "Sour Shake",
+  ],
+  hard: [
+    "Kale Omelette",
+    "Rice Bun",
+    "Antipasto",
+    "Pizza Margherita",
+    "Bumpkin Roast",
+    "Goblin Brunch",
+    "Steamed Red Rice",
+    "Caprese Salad",
+    "Spaghetti al Limone",
+    "Cabbage Cake",
+    "Wheat Cake",
+    "Cauliflower Cake",
+    "Radish Cake",
+    "Beetroot Cake",
+    "Parsnip Cake",
+    "Eggplant Cake",
+    "Honey Cake",
+    "Lemon Cheesecake",
+    "Blue Cheese",
+    "Honey Cheddar",
+    "Banana Blast",
+    "Grape Juice",
+    "Slow Juice",
+    "The Lot",
+  ],
+};
 
-  const neglectedAt = pet.readyAt + PET_NEGLECT_THRESHOLD;
-  return neglectedAt - now;
+export function getPetRequests(): CookableName[] {
+  const requests: CookableName[] = [];
+  const difficulties: PetRequestDifficulty[] = ["easy", "medium", "hard"];
+
+  difficulties.forEach((difficulty) => {
+    const randomIndex = Math.floor(
+      Math.random() * PET_REQUESTS[difficulty].length,
+    );
+    requests.push(PET_REQUESTS[difficulty][randomIndex]);
+  });
+
+  return requests;
 }
 
-export function isPetNeglected({
-  pet,
-  game,
-  now = Date.now(),
-}: {
-  pet?: Pet;
-  game: GameState;
-  now?: number;
-}) {
-  return false;
+export const PET_REQUEST_XP: Record<PetRequestDifficulty, number> = {
+  easy: 75,
+  medium: 100,
+  hard: 125,
+};
 
-  if (!pet?.readyAt) return false;
-  return msTillNeglect({ pet, now }) <= 0;
+export function getPetRequestXP(food: CookableName) {
+  const foodDifficultyEntry = getObjectEntries(PET_REQUESTS).find(
+    ([, requests]) => requests.includes(food),
+  );
+
+  if (!foodDifficultyEntry) {
+    return 0;
+  }
+  const [difficulty] = foodDifficultyEntry;
+
+  return PET_REQUEST_XP[difficulty];
+}
+
+/**
+ * Calculates the pet's current level, progress, and experience required for the next level based on total experience.
+ *
+ * Uses the formula: XP required to reach level n = 100 * (n-1) * n / 2
+ *
+ * @param currentTotalExperience - The pet's accumulated experience points.
+ * @returns An object with:
+ *   - level: Current level (integer, minimum 1)
+ *   - currentProgress: XP earned towards the next level
+ *   - nextLevelXP: Total XP required to reach the next level
+ *   - percentage: Progress towards the next level (0-100)
+ *   - experienceBetweenLevels: XP required to go from current to next level
+ *
+ * Example:
+ *   Level 1: 0 XP
+ *   Level 2: 100 XP
+ *   Level 3: 300 XP
+ *   Level 4: 600 XP
+ *   Level 5: 1000 XP
+ *   Level 6: 1500 XP
+ *   Level 7: 2100 XP
+ *   Level 8: 2800 XP
+ *   Level 9: 3600 XP
+ *   Level 10: 4500 XP
+ */
+export function getPetLevel(currentTotalExperience: number) {
+  if (currentTotalExperience < 0)
+    return {
+      level: 1,
+      percentage: 0,
+      currentProgress: 0,
+      nextLevelXP: 100,
+      experienceBetweenLevels: 100,
+    };
+
+  // Solve n for: 100 * (n-1) * n / 2 <= currentTotalExperience
+  // Quadratic: n^2 - n - (2 * currentTotalExperience) / 100 <= 0
+  // n = (1 + sqrt(1 + 8 * currentTotalExperience / 100)) / 2
+  const n = (1 + Math.sqrt(1 + 0.08 * currentTotalExperience)) / 2;
+  const currentLevel = Math.floor(n);
+
+  const currentLevelXP = 50 * (currentLevel - 1) * currentLevel;
+  const nextLevel = currentLevel + 1;
+  const nextLevelXP = 50 * (nextLevel - 1) * nextLevel;
+  const experienceBetweenLevels = nextLevelXP - currentLevelXP;
+  const currentProgress = currentTotalExperience - currentLevelXP;
+  const percentage =
+    ((currentTotalExperience - currentLevelXP) / experienceBetweenLevels) * 100;
+
+  return {
+    level: currentLevel,
+    currentProgress,
+    nextLevelXP,
+    percentage,
+    experienceBetweenLevels,
+  };
+}
+
+const PET_NEGLECT_DAYS = 3;
+
+export function isPetNeglected(
+  pet: Pet | undefined,
+  createdAt: number = Date.now(),
+) {
+  if (!pet) {
+    return false;
+  }
+
+  const lastFedAt = pet.requests.fedAt ?? createdAt; // Default to createdAt otherwise the pet will be neglected if it hasn't been fed before
+  const lastFedAtDate = new Date(lastFedAt).toISOString().split("T")[0];
+  const todayDate = new Date(createdAt).toISOString().split("T")[0];
+  const daysSinceLastFedMs =
+    new Date(todayDate).getTime() - new Date(lastFedAtDate).getTime();
+  const daysSinceLastFedDays = daysSinceLastFedMs / (1000 * 60 * 60 * 24);
+  return daysSinceLastFedDays > PET_NEGLECT_DAYS;
+}
+
+const PET_NAP_HOURS = 2;
+
+export function isPetNapping(
+  pet: Pet | undefined,
+  createdAt: number = Date.now(),
+) {
+  if (!pet) return false;
+  const pettedAt = pet.pettedAt;
+  const hoursSincePetted = (createdAt - pettedAt) / (1000 * 60 * 60);
+  return hoursSincePetted >= PET_NAP_HOURS;
 }

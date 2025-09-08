@@ -34,7 +34,7 @@ export const Winner: React.FC<Props> = ({ onMint, bid, farmId, results }) => {
             <p className="text-xs mb-2">{t("winner.mintTime")}</p>
             <TimerDisplay time={countdown} />
             <a
-              href="https://docs.sunflower-land.com/player-guides/auctions#how-to-mint-an-items"
+              href="https://docs.sunflower-land.com/getting-started/crypto-and-digital-collectibles"
               className="mx-auto text-xxs underline text-center pb-2 pt-2"
               target="_blank"
               rel="noreferrer"
@@ -65,7 +65,7 @@ export const Winner: React.FC<Props> = ({ onMint, bid, farmId, results }) => {
       <p className="text-xs mb-2">{t("winner.mintTime")}</p>
       <TimerDisplay time={countdown} />
       <a
-        href="https://docs.sunflower-land.com/player-guides/auctions#how-to-mint-an-items"
+        href="https://docs.sunflower-land.com/getting-started/crypto-and-digital-collectibles"
         className="mx-auto text-xxs underline text-center pb-2 pt-2"
         target="_blank"
         rel="noreferrer"

@@ -8,11 +8,12 @@ import { Equipped } from "features/game/types/bumpkin";
 import { useFollowNetwork } from "../hooks/useFollowNetwork";
 import { useInView } from "react-intersection-observer";
 import { Loading } from "features/auth/components";
-import { useGame } from "features/game/GameProvider";
+import { Detail } from "../actions/getFollowNetworkDetails";
 
 type Props = {
   loggedInFarmId: number;
   token: string;
+  searchResults?: Detail[];
   networkFarmId: number;
   networkList: number[];
   networkCount: number;
@@ -33,6 +34,7 @@ export const FollowList: React.FC<Props> = ({
   showLabel = true,
   networkType,
   scrollContainerRef,
+  searchResults = [],
   navigateToPlayer,
 }) => {
   useSocial({
@@ -41,8 +43,6 @@ export const FollowList: React.FC<Props> = ({
   });
   const { t } = useTranslation();
   const [isScrollable, setIsScrollable] = useState(false);
-  const { gameService } = useGame();
-
   // Intersection observer to load more details when the loader is in view
   const { ref: intersectionRef, inView } = useInView({
     root: scrollContainerRef.current,
@@ -120,29 +120,33 @@ export const FollowList: React.FC<Props> = ({
   if (networkCount === 0) {
     return (
       <div className="flex flex-col gap-1 pl-1 mb-1">
-        <div className="sticky top-0 bg-brown-200 z-10 pb-1">
-          {showLabel && (
+        {showLabel && (
+          <div className="sticky top-0 bg-brown-200 z-10 pb-1">
             <Label type="default">
               {t(`playerModal.${networkType}`, { count: networkCount })}
             </Label>
-          )}
-        </div>
+          </div>
+        )}
+
         <div className="text-xs">{t(`playerModal.no.${networkType}`)}</div>
       </div>
     );
   }
 
+  const data = searchResults.length > 0 ? searchResults : network;
+
   return (
     <div className="flex flex-col pr-0.5">
-      <div className="sticky -top-1 bg-brown-200 z-10 pb-1 pt-1">
-        {showLabel && (
+      {showLabel && (
+        <div className="sticky -top-1 bg-brown-200 z-10 pb-1 pt-1">
           <Label type="default">
             {t(`playerModal.${networkType}`, { count: networkCount })}
           </Label>
-        )}
-      </div>
+        </div>
+      )}
+
       <div className="flex flex-col gap-1">
-        {network.map((detail) => {
+        {data.map((detail) => {
           return (
             <FollowDetailPanel
               key={`flw-${detail.id}`}

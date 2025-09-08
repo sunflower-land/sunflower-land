@@ -8,12 +8,20 @@ type Request = {
 
 type BlessingResults = {
   data?: {
-    winners: Record<number, number>;
+    winnerCount: number;
+    minimum: number;
     total: number;
     prize: InventoryItemName | "Flower" | "Coin";
     item: InventoryItemName;
     prizeAmount: number;
-    leaderboard: { username: string; uri: string; amount: number }[];
+    participantCount: number;
+    leaderboard: {
+      rank: number;
+      username: string;
+      uri: string;
+      amount: number;
+      isWinner: boolean;
+    }[];
   };
 };
 

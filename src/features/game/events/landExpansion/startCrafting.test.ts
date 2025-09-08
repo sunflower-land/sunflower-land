@@ -55,8 +55,8 @@ describe("startCrafting", () => {
 
   it("if recipes exists - sets the crafting status to crafting", () => {
     gameState.craftingBox.recipes = {
-      "Dirt Path": {
-        name: "Dirt Path",
+      Doll: {
+        name: "Doll",
         type: "collectible",
         ingredients: [
           null,
@@ -213,8 +213,8 @@ describe("startCrafting", () => {
 
   it("if recipes exists - throws if the player doesn't have the ingredients", () => {
     gameState.craftingBox.recipes = {
-      "Dirt Path": {
-        name: "Dirt Path",
+      Doll: {
+        name: "Doll",
         type: "collectible",
         ingredients: [
           null,
@@ -256,8 +256,8 @@ describe("startCrafting", () => {
     gameState.inventory.Stone = new Decimal(1);
 
     gameState.craftingBox.recipes = {
-      "Dirt Path": {
-        name: "Dirt Path",
+      Doll: {
+        name: "Doll",
         type: "collectible",
         ingredients: [
           null,
@@ -346,125 +346,5 @@ describe("startCrafting", () => {
     expect(() => startCrafting({ state: { ...gameState }, action })).toThrow(
       "You do not have the ingredients to craft this item",
     );
-  });
-
-  it("if recipes exists - does not allow crafting when the wearable is worn", () => {
-    gameState.craftingBox.recipes = {
-      "Farmer Overalls": {
-        name: "Farmer Overalls",
-        type: "wearable",
-        ingredients: [
-          null,
-          null,
-          null,
-          null,
-          { wearable: "Farmer Pants" },
-          null,
-          { collectible: "Leather" },
-          null,
-          { collectible: "Leather" },
-        ],
-        time: 0,
-      },
-    };
-
-    gameState.inventory["Leather"] = new Decimal(2);
-    gameState.wardrobe = {};
-    gameState.wardrobe["Farmer Pants"] = 1;
-
-    gameState.farmHands = {
-      bumpkins: {},
-    };
-    gameState.farmHands.bumpkins = {
-      "0": {
-        equipped: {
-          background: "Farm Background",
-          hair: "Buzz Cut",
-          body: "Beige Farmer Potion",
-          pants: "Farmer Pants",
-          shoes: "Black Farmer Boots",
-          tool: "Axe",
-        },
-      },
-    };
-
-    const action: StartCraftingAction = {
-      type: "crafting.started",
-      ingredients: [
-        null,
-        null,
-        null,
-        null,
-        { wearable: "Farmer Pants" },
-        null,
-        { collectible: "Leather" },
-        null,
-        { collectible: "Leather" },
-      ],
-    };
-
-    expect(() => startCrafting({ state: { ...gameState }, action })).toThrow(
-      "You do not have the ingredients to craft this item",
-    );
-  });
-
-  it("if recipes exists - allows crafting when the wearable is worn and there is a spare", () => {
-    gameState.craftingBox.recipes = {
-      "Farmer Overalls": {
-        name: "Farmer Overalls",
-        type: "wearable",
-        ingredients: [
-          null,
-          null,
-          null,
-          null,
-          { wearable: "Farmer Pants" },
-          null,
-          { collectible: "Leather" },
-          null,
-          { collectible: "Leather" },
-        ],
-        time: 0,
-      },
-    };
-
-    gameState.inventory["Leather"] = new Decimal(2);
-    gameState.wardrobe = {};
-    gameState.wardrobe["Farmer Pants"] = 2;
-
-    gameState.farmHands = {
-      bumpkins: {},
-    };
-    gameState.farmHands.bumpkins = {
-      "0": {
-        equipped: {
-          background: "Farm Background",
-          hair: "Buzz Cut",
-          body: "Beige Farmer Potion",
-          pants: "Farmer Pants",
-          shoes: "Black Farmer Boots",
-          tool: "Axe",
-        },
-      },
-    };
-
-    const action: StartCraftingAction = {
-      type: "crafting.started",
-      ingredients: [
-        null,
-        null,
-        null,
-        null,
-        { wearable: "Farmer Pants" },
-        null,
-        { collectible: "Leather" },
-        null,
-        { collectible: "Leather" },
-      ],
-    };
-
-    const newState = startCrafting({ state: { ...gameState }, action });
-    expect(newState.inventory["Leather"]).toStrictEqual(new Decimal(0));
-    expect(newState.wardrobe["Farmer Pants"]).toBe(1);
   });
 });

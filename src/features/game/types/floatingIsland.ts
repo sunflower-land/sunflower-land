@@ -42,6 +42,7 @@ export type FloatingShopCollectibleName = Extract<
   | "Silver Food Box"
   | "Gold Food Box"
   | "Gold Love Box"
+  | "Pet Egg"
 >;
 
 export type FloatingShopWearableName = Extract<
@@ -229,5 +230,10 @@ export const FLOATING_ISLAND_SHOP_ITEMS: Record<
     type: "wearable",
     cost: { items: { "Love Charm": 5000 } },
     name: "Golden Wings",
+  },
+  "Pet Egg": {
+    name: "Pet Egg",
+    type: "collectible",
+    cost: { items: { "Love Charm": 10000 } },
   },
 };

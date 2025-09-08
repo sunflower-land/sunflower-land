@@ -110,6 +110,7 @@ import { depositFlower } from "lib/blockchain/DepositFlower";
 import { NetworkOption } from "features/island/hud/components/deposit/DepositFlower";
 import { blessingIsReady } from "./blessings";
 import { hasReadNews } from "features/farming/mail/components/News";
+import { depositSFL } from "lib/blockchain/DepositSFL";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -247,6 +248,13 @@ type DepositFlowerFromLinkedWalletEvent = {
   selectedNetwork: NetworkOption;
 };
 
+type DepositSFLFromLinkedWalletEvent = {
+  type: "DEPOSIT_SFL_FROM_LINKED_WALLET";
+  amount: bigint;
+  depositAddress: `0x${string}`;
+  selectedNetwork: NetworkOption;
+};
+
 type UpdateEvent = {
   type: "UPDATE";
   state: GameState;
@@ -310,6 +318,7 @@ export type BlockchainEvent =
   | { type: "CLOSE" }
   | { type: "RANDOMISE" }
   | DepositFlowerFromLinkedWalletEvent
+  | DepositSFLFromLinkedWalletEvent
   | { type: StateMachineVisitEffectName }
   | Effect; // Test only
 
@@ -603,6 +612,14 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
             token: authToken ?? context.rawToken,
             transactionId: context.transactionId as string,
           });
+
+          if (event.effect.type === "farm.followed") {
+            return {
+              state: context.state,
+              data,
+              visitorState: gameState,
+            };
+          }
 
           const { visitedFarmState, ...rest } = data;
 
@@ -979,7 +996,6 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-
         loadLandToVisit: {
           invoke: {
             src: async (context, event) => {
@@ -1639,6 +1655,9 @@ export function startGame(authContext: AuthContext) {
             DEPOSIT_FLOWER_FROM_LINKED_WALLET: {
               target: "depositingFlowerFromLinkedWallet",
             },
+            DEPOSIT_SFL_FROM_LINKED_WALLET: {
+              target: "depositingSFLFromLinkedWallet",
+            },
             REFRESH: {
               target: "loading",
             },
@@ -2165,6 +2184,38 @@ export function startGame(authContext: AuthContext) {
                 type: "flower.depositStarted",
                 effect: {
                   type: "flower.depositStarted",
+                  chainId: getChainId(config),
+                },
+                authToken: authContext.user.rawToken as string,
+              })),
+            },
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          },
+        },
+        depositingSFLFromLinkedWallet: {
+          invoke: {
+            src: async (context, event) => {
+              if (!wallet.getAccount()) throw new Error("No account");
+
+              const { amount, depositAddress, selectedNetwork } =
+                event as DepositSFLFromLinkedWalletEvent;
+
+              await depositSFL({
+                account: wallet.getAccount() as `0x${string}`,
+                depositAddress,
+                amount,
+                selectedNetwork,
+              });
+            },
+            onDone: {
+              target: "playing",
+              actions: send(() => ({
+                type: "sfl.depositStarted",
+                effect: {
+                  type: "sfl.depositStarted",
                   chainId: getChainId(config),
                 },
                 authToken: authContext.user.rawToken as string,
