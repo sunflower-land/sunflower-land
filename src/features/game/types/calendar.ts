@@ -239,33 +239,35 @@ export const getWeatherShop = (
     "Tornado Pinwheel": {
       name: translate("calendar.events.tornado.prevention"),
       description: translate("description.tornadoPinwheel"),
-      ingredients: convertIngredients(
-        WEATHER_SHOP_ITEM_COSTS["Tornado Pinwheel"].ingredients,
-      ),
+      ingredients: () =>
+        convertIngredients(
+          WEATHER_SHOP_ITEM_COSTS["Tornado Pinwheel"].ingredients,
+        ),
       price: WEATHER_SHOP_ITEM_COSTS["Tornado Pinwheel"].coins * multiplier,
     },
     Mangrove: {
       name: translate("calendar.events.tsunami.prevention"),
       description: translate("description.mangrove"),
-      ingredients: convertIngredients(
-        WEATHER_SHOP_ITEM_COSTS["Mangrove"].ingredients,
-      ),
+      ingredients: () =>
+        convertIngredients(WEATHER_SHOP_ITEM_COSTS["Mangrove"].ingredients),
       price: WEATHER_SHOP_ITEM_COSTS["Mangrove"].coins * multiplier,
     },
     "Thermal Stone": {
       name: translate("calendar.events.greatFreeze.prevention"),
       description: translate("description.thermalStone"),
-      ingredients: convertIngredients(
-        WEATHER_SHOP_ITEM_COSTS["Thermal Stone"].ingredients,
-      ),
+      ingredients: () =>
+        convertIngredients(
+          WEATHER_SHOP_ITEM_COSTS["Thermal Stone"].ingredients,
+        ),
       price: WEATHER_SHOP_ITEM_COSTS["Thermal Stone"].coins * multiplier,
     },
     "Protective Pesticide": {
       name: translate("calendar.events.insectPlague.prevention"),
       description: translate("description.protectivePesticide"),
-      ingredients: convertIngredients(
-        WEATHER_SHOP_ITEM_COSTS["Protective Pesticide"].ingredients,
-      ),
+      ingredients: () =>
+        convertIngredients(
+          WEATHER_SHOP_ITEM_COSTS["Protective Pesticide"].ingredients,
+        ),
       price: WEATHER_SHOP_ITEM_COSTS["Protective Pesticide"].coins * multiplier,
     },
   };

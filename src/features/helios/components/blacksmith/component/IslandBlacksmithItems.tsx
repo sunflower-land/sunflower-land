@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 
 import { Box } from "components/ui/Box";
 
@@ -103,13 +103,16 @@ export const IslandBlacksmithItems: React.FC = () => {
   const [selectedName, setSelectedName] =
     useState<HeliosBlacksmithItem>("Basic Scarecrow");
   const { gameService, shortcutItem } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
-
-  const { inventory, coins } = state;
+  const state = useSelector(gameService, (state) => state.context.state);
+  const inventory = useSelector(
+    gameService,
+    (state) => state.context.state.inventory,
+  );
+  const coins = useSelector(gameService, (state) => state.context.state.coins);
+  const bumpkin = useSelector(
+    gameService,
+    (state) => state.context.state.bumpkin,
+  );
 
   const selectedItem = HELIOS_BLACKSMITH_ITEMS[selectedName];
 
@@ -117,11 +120,11 @@ export const IslandBlacksmithItems: React.FC = () => {
   if (selectedItem) {
     if (
       selectedName === "Immortal Pear" &&
-      state.bumpkin.skills["Pear Turbocharge"]
+      bumpkin.skills["Pear Turbocharge"]
     ) {
       selectedItem.boost = t("description.immortal.pear.boosted.boost");
     }
-    if (selectedName === "Macaw" && state.bumpkin.skills["Loyal Macaw"]) {
+    if (selectedName === "Macaw" && bumpkin.skills["Loyal Macaw"]) {
       selectedItem.boost = t("description.macaw.boosted.boost");
     }
   }
@@ -139,7 +142,7 @@ export const IslandBlacksmithItems: React.FC = () => {
 
   const hasLevel =
     !selectedItem?.level ||
-    getBumpkinLevel(state.bumpkin?.experience ?? 0) >= selectedItem?.level;
+    getBumpkinLevel(bumpkin?.experience ?? 0) >= selectedItem?.level;
 
   const craft = () => {
     if (selectedName in WORKBENCH_MONUMENTS) {
@@ -164,7 +167,7 @@ export const IslandBlacksmithItems: React.FC = () => {
       });
     }
 
-    const count = state.inventory[selectedName]?.toNumber() ?? 1;
+    const count = inventory[selectedName]?.toNumber() ?? 1;
     gameAnalytics.trackMilestone({
       event: `Crafting:Collectible:${selectedName}${count}`,
     });
@@ -184,7 +187,7 @@ export const IslandBlacksmithItems: React.FC = () => {
   };
 
   const hasBuiltMonument = () => {
-    return !!state.inventory[selectedName as MonumentName]?.gt(0);
+    return !!inventory[selectedName as MonumentName]?.gt(0);
   };
 
   const VALID_EQUIPMENT: HeliosBlacksmithItem[] = [

@@ -1421,6 +1421,30 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: baleEconomy,
   },
+  Featherweight: {
+    name: "Featherweight",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.featherweightBuff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Feather.image,
+      },
+      debuff: {
+        shortDescription: translate("skill.featherweightDebuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+      },
+    },
+  },
+
   // Animals - Tier 2
   "Abundant Harvest": {
     name: "Abundant Harvest",
@@ -1515,6 +1539,30 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: SUNNYSIDE.animals.chickenSick,
   },
+  "Merino Whisperer": {
+    name: "Merino Whisperer",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.merinoWhispererBuff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Merino Wool"].image,
+      },
+      debuff: {
+        shortDescription: translate("skill.merinoWhispererDebuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+      },
+    },
+  },
+
   // Animals - Tier 3
   "Clucky Grazing": {
     name: "Clucky Grazing",
@@ -1610,6 +1658,29 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: chonkyFeed,
   },
 
+  "Leathercraft Mastery": {
+    name: "Leathercraft Mastery",
+    tree: "Animals",
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.leathercraftMasteryBuff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Leather.image,
+      },
+      debuff: {
+        shortDescription: translate("skill.leathercraftMasteryDebuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+      },
+    },
+  },
   "Barnyard Rouse": {
     name: "Barnyard Rouse",
     tree: "Animals",
@@ -2720,6 +2791,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: oilTank,
     disabled: false,
   },
+
   // Machinery - Tier 2
   "Crop Extension Module II": {
     name: "Crop Extension Module II",
@@ -2801,6 +2873,25 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     image: oilBeBack,
+    disabled: false,
+  },
+  "Oil Rig": {
+    name: "Oil Rig",
+    tree: "Machinery",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "desert",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.oilRig.buff"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: ITEM_DETAILS["Oil Drill"].image,
+      },
+    },
+    image: ITEM_DETAILS["Oil Drill"].image,
     disabled: false,
   },
   // Machinery - Tier 3
