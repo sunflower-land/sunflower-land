@@ -807,7 +807,7 @@ const RowContent: React.FC<{
             <img src={titleIcon} className="w-7 mr-2" />
             <p className="text-xs sm:text-sm w-14 sm:w-fit">{title}</p>
           </div>
-          <div className="flex flex-col items-end gap-1">
+          <div className="flex flex-col md:flex-row-reverse items-end gap-1">
             {labelText && (
               <Label
                 type={requiredItemMessage ? "danger" : labelType}
