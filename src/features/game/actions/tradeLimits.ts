@@ -122,11 +122,11 @@ export const TRADE_MINIMUMS: Partial<Record<TradeResource, number>> = {
   Barley: 10,
 
   Tomato: 20,
+  Lemon: 10,
   Blueberry: 10,
   Orange: 10,
   Apple: 5,
   Banana: 5,
-  Lemon: 10,
   Celestine: 3,
   Lunara: 2,
   Duskberry: 1,
@@ -141,11 +141,11 @@ export const TRADE_MINIMUMS: Partial<Record<TradeResource, number>> = {
   Gold: 3,
   Crimstone: 1,
 
-  Egg: 10,
   Honey: 5,
-  Milk: 1,
-  Leather: 1,
   Feather: 20,
+  Egg: 10,
+  Milk: 5,
+  Leather: 5,
   Wool: 10,
   "Merino Wool": 5,
 
