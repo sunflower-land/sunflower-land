@@ -242,11 +242,12 @@ export const Land: React.FC = () => {
   const { gameService } = useContext(Context);
   const { pathname } = useLocation();
 
+  const showMarketplace = pathname.includes("marketplace");
+  const showFlowerDashboard = pathname.includes("flower-dashboard");
+
   const paused = useSelector(gameService, isPaused);
   const island = useSelector(gameService, _island);
   const season = useSelector(gameService, _season);
-  const showMarketplace = pathname.includes("marketplace");
-  const showFlowerDashboard = pathname.includes("flower-dashboard");
   const expansionCount = useSelector(gameService, _expansionCount);
   const { crops, positions: cropPositions } = useSelector(
     gameService,

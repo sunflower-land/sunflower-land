@@ -63,11 +63,6 @@ const UPGRADE_DESCRIPTIONS: Record<IslandType, string | null> = {
   volcano: translate("islandupgrade.volcanoResourcesDescription"),
 };
 
-const _island = (state: MachineState) => state.context.state.island;
-const _inventory = (state: MachineState) => state.context.state.inventory;
-const _collectibles = (state: MachineState) => state.context.state.collectibles;
-const _home = (state: MachineState) => state.context.state.home;
-
 const IslandUpgraderModal: React.FC<{
   onClose: () => void;
   onUpgrade: () => void;
