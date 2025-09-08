@@ -6569,5 +6569,12 @@
   "petalPuzzle.guide.cooperate": "다른 플레이어와 협력하고 꽃잎 위에 서서 색을 바꾸세요.",
   "petalPuzzle.guide.solve": "퍼즐을 풀고 보상을 받으려면 주황색 꽃잎 네 개가 필요합니다.",
   "pets.manage": "애완동물 관리",
-  "twitter.post.flower": "$FLOWER 출시를 축하하세요!"
+  "twitter.post.flower": "$FLOWER 출시를 축하하세요!",
+  "skill.featherweightBuff": "깃털 생산량 +0.25",
+  "skill.featherweightDebuff": "-0.35 가죽 및 메리노 울 생산량",
+  "skill.merinoWhispererBuff": "+0.25 메리노 울 생산량",
+  "skill.merinoWhispererDebuff": "-0.35 가죽 및 깃털 생산량",
+  "skill.leathercraftMasteryBuff": "+0.25 가죽 생산량",
+  "skill.leathercraftMasteryDebuff": "-0.35 페더 및 메리노 울 생산량",
+  "skill.oilRig.buff": "오일 드릴을 제작하려면 가죽 대신 양모 20개가 필요합니다."
 }

@@ -6569,5 +6569,12 @@
   "petalPuzzle.guide.cooperate": "Coopérez avec d'autres joueurs et montez sur les pétales pour changer de couleur.",
   "petalPuzzle.guide.solve": "Quatre pétales d'orange sont nécessaires pour résoudre l'énigme et remporter la récompense.",
   "pets.manage": "Gérer les animaux de compagnie",
-  "twitter.post.flower": "Célébrez le lancement de $FLOWER !"
+  "twitter.post.flower": "Célébrez le lancement de $FLOWER !",
+  "skill.featherweightBuff": "+0,25 Rendement en plumes",
+  "skill.featherweightDebuff": "-0,35 Rendement en cuir et laine mérinos",
+  "skill.merinoWhispererBuff": "Rendement en laine mérinos +0,25",
+  "skill.merinoWhispererDebuff": "-0,35 Rendement en cuir et en plumes",
+  "skill.leathercraftMasteryBuff": "+0,25 Rendement en cuir",
+  "skill.leathercraftMasteryDebuff": "-0,35 Rendement en plumes et en laine mérinos",
+  "skill.oilRig.buff": "La perceuse à huile nécessite 20 % de laine au lieu de cuir pour être fabriquée"
 }

@@ -6569,5 +6569,12 @@
   "petalPuzzle.guide.cooperate": "Bekerjasama dengan pemain lain dan berdiri di atas kelopak untuk mengubah warna mereka.",
   "petalPuzzle.guide.solve": "Empat kelopak oren diperlukan untuk menyelesaikan teka-teki dan menuntut ganjaran.",
   "pets.manage": "Urus Haiwan Pelihar",
-  "twitter.post.flower": "Raikan pelancaran $FLOWER!"
+  "twitter.post.flower": "Raikan pelancaran $FLOWER!",
+  "skill.featherweightBuff": "+0.25 Hasil bulu",
+  "skill.featherweightDebuff": "-0.35 Hasil bulu Kulit & Merino",
+  "skill.merinoWhispererBuff": "+0.25 Hasil Merino Wool",
+  "skill.merinoWhispererDebuff": "-0.35 Hasil kulit & bulu",
+  "skill.leathercraftMasteryBuff": "+0.25 Hasil kulit",
+  "skill.leathercraftMasteryDebuff": "-0.35 Hasil bulu dan bulu merino",
+  "skill.oilRig.buff": "Bor Minyak memerlukan 20 bulu dan bukannya kulit untuk membuat"
 }

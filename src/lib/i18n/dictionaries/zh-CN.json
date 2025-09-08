@@ -6569,5 +6569,12 @@
   "petalPuzzle.guide.cooperate": "与其他玩家合作，站在花瓣上来改变它们的颜色。",
   "petalPuzzle.guide.solve": "需要四片橙色花瓣才能解开谜题并领取奖励。",
   "pets.manage": "管理宠物",
-  "twitter.post.flower": "庆祝 $FLOWER 的推出！"
+  "twitter.post.flower": "庆祝 $FLOWER 的推出！",
+  "skill.featherweightBuff": "+0.25 羽毛产量",
+  "skill.featherweightDebuff": "-0.35 皮革和美利奴羊毛产量",
+  "skill.merinoWhispererBuff": "+0.25 美利奴羊毛产量",
+  "skill.merinoWhispererDebuff": "-0.35 皮革和羽毛产量",
+  "skill.leathercraftMasteryBuff": "+0.25 皮革产量",
+  "skill.leathercraftMasteryDebuff": "-0.35 羽毛和美利奴羊毛产量",
+  "skill.oilRig.buff": "石油钻探需要 20 根羊毛而不是皮革来制作"
 }

@@ -6569,5 +6569,12 @@
   "petalPuzzle.guide.cooperate": "Collabora con altri giocatori e rimani in piedi sui petali per cambiarne i colori.",
   "petalPuzzle.guide.solve": "Sono necessari quattro petali arancioni per risolvere il puzzle e richiedere la ricompensa.",
   "pets.manage": "Gestisci animali domestici",
-  "twitter.post.flower": "Festeggia il lancio di $FLOWER!"
+  "twitter.post.flower": "Festeggia il lancio di $FLOWER!",
+  "skill.featherweightBuff": "+0,25 resa in piuma",
+  "skill.featherweightDebuff": "-0,35 Resa in pelle e lana merino",
+  "skill.merinoWhispererBuff": "+0,25 resa in lana Merino",
+  "skill.merinoWhispererDebuff": "-0,35 Rendimento in pelle e piuma",
+  "skill.leathercraftMasteryBuff": "+0,25 resa della pelle",
+  "skill.leathercraftMasteryDebuff": "-0,35 Resa in piuma e lana merino",
+  "skill.oilRig.buff": "La trivella ad olio richiede 20 lana anziché pelle per essere fabbricata"
 }
