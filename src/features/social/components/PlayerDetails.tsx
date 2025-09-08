@@ -110,7 +110,7 @@ export const PlayerDetails: React.FC<Props> = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-  const { isVisiting } = useVisiting();
+  const { isVisiting, visitedFarmId } = useVisiting();
 
   const player = data?.data;
 
@@ -180,7 +180,8 @@ export const PlayerDetails: React.FC<Props> = ({
     gameService.send("farm.cheered", {
       effect: {
         type: "farm.cheered",
-        farmId: player?.id,
+        cheeredFarmId: player?.id,
+        visitedFarmId: visitedFarmId,
       },
     });
     setShowCheerModal(false);
@@ -212,6 +213,7 @@ export const PlayerDetails: React.FC<Props> = ({
 
     return projectBProgress - projectAProgress;
   });
+  const isAtMaxFollowing = !iAmFollowing && player?.following?.length >= 5000;
 
   return (
     <div className="flex gap-1 w-full max-h-[400px]">
@@ -396,16 +398,26 @@ export const PlayerDetails: React.FC<Props> = ({
 
         <InnerPanel className="relative flex flex-col items-center w-full">
           <div className="flex flex-col gap-1 px-1 w-full ml-1 pt-0">
-            <div className="flex items-center justify-between">
+            {isAtMaxFollowing && (
+              <Label type="danger" className="-ml-1 -mb-2">
+                {t("playerModal.maxFollowing")}
+              </Label>
+            )}
+            <div className="flex items-center justify-between relative">
               <FollowsIndicator
                 count={data?.data?.followedBy?.length ?? 0}
                 onClick={onFollowersClick}
                 type="followers"
               />
-
               <Button
                 className="flex w-fit h-9 justify-between items-center gap-1 mt-1 mr-0.5"
-                disabled={playerLoading || followLoading || !!error || isSelf}
+                disabled={
+                  playerLoading ||
+                  followLoading ||
+                  !!error ||
+                  isSelf ||
+                  isAtMaxFollowing
+                }
                 onClick={onFollow}
               >
                 <div className="flex items-center px-1">

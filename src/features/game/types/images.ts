@@ -97,7 +97,7 @@ import anchor from "assets/sfts/anchor.webp";
 import rubberDucky from "assets/sfts/rubber_ducky.webp";
 import krakenTentacle from "assets/sfts/kraken_tentacle.webp";
 import krakenHead from "assets/sfts/kraken_head.webp";
-import skillShrimpy from "assets/sfts/skill_shrimpy.png";
+import skillShrimpy from "assets/sfts/skill_shrimpy.webp";
 import soilKrabby from "assets/sfts/soil_krabby.webp";
 import nana from "assets/sfts/nana.webp";
 import hummingBird from "assets/sfts/hummingbird.webp";
@@ -141,7 +141,7 @@ import fatChicken from "assets/animals/chickens/fat_chicken.webp";
 import richChicken from "assets/animals/chickens/rich_chicken.webp";
 import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.webp";
 import ayamCemani from "assets/animals/chickens/ayam_cemani.webp";
-import bananaChicken from "assets/animals/chickens/banana_chicken.png";
+import bananaChicken from "assets/animals/chickens/banana_chicken.webp";
 import crimPeckster from "assets/animals/chickens/crim_peckster.png";
 import knightChicken from "assets/animals/chickens/knight_chicken.webp";
 import pharaohChicken from "assets/animals/chickens/pharaoh_chicken.webp";
@@ -1012,6 +1012,7 @@ import pip from "assets/sfts/pets/penguins/pip.webp";
 import skipper from "assets/sfts/pets/penguins/skipper.webp";
 import waddles from "assets/sfts/pets/penguins/waddles.webp";
 import ramsey from "assets/sfts/pets/ramsey.webp";
+import petEgg from "assets/icons/pet_egg.png";
 
 import moonfur from "assets/icons/moonfur.webp";
 import dewberry from "assets/icons/dewberry.webp";
@@ -5769,7 +5770,7 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.giantBanana"),
   },
   "Pet Egg": {
-    image: SUNNYSIDE.resource.egg,
+    image: petEgg,
     description: translate("description.petEgg"),
   },
   Barkley: {

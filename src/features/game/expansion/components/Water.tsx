@@ -48,8 +48,6 @@ export const WaterComponent: React.FC<Props> = ({
     >
       {/* Decorations */}
 
-      {CONFIG.NETWORK === "mainnet" && <DiscordBoat />}
-
       {season !== "winter" && (
         <>
           {/* Goblin swimming */}
@@ -257,6 +255,7 @@ export const WaterComponent: React.FC<Props> = ({
 
       {!isVisiting && (
         <>
+          {CONFIG.NETWORK === "mainnet" && <DiscordBoat />}
           <SeasonTeaser offset={offset} />
           <TravelTeaser />
           <IslandUpgrader gameState={gameState} offset={offset} />

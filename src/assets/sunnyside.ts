@@ -80,6 +80,8 @@ export const SUNNYSIDE = {
     betterTogetherSeasonRares: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/better_together_rares.webp`,
     crafting: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/crafting.png`,
     social: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/social_banner.png`,
+    pets: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/pets.png`,
+    obsidian_updates: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/obsidian_updates.png`,
     landscaping: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/landscaping.png`,
     cleaning: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/cleanup.png`,
   },
@@ -518,15 +520,15 @@ export const SUNNYSIDE = {
     garbage_stall: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/garbage_stall.png`,
 
     //Composter
-    basicComposter: `${CONFIG.PROTECTED_IMAGE_URL}/composters/composter_basic.png`,
-    basicComposting: `${CONFIG.PROTECTED_IMAGE_URL}/composters/composter_basic_closed.png`,
-    basicReady: `${CONFIG.PROTECTED_IMAGE_URL}/composters/composter_basic_ready.png`,
-    advancedComposter: `${CONFIG.PROTECTED_IMAGE_URL}/composters/composter_advanced.png`,
-    advancedComposting: `${CONFIG.PROTECTED_IMAGE_URL}/composters/composter_advanced_closed.png`,
-    advancedReady: `${CONFIG.PROTECTED_IMAGE_URL}/composters/composter_advanced_ready.png`,
-    expertComposter: `${CONFIG.PROTECTED_IMAGE_URL}/composters/composter_expert.png`,
-    expertComposting: `${CONFIG.PROTECTED_IMAGE_URL}/composters/composter_expert_closed.png`,
-    expertReady: `${CONFIG.PROTECTED_IMAGE_URL}/composters/composter_expert_ready.png`,
+    basicComposter: `${CONFIG.PROTECTED_IMAGE_URL}/composters/composter_basic.webp`,
+    basicComposting: `${CONFIG.PROTECTED_IMAGE_URL}/composters/composter_basic_closed.webp`,
+    basicReady: `${CONFIG.PROTECTED_IMAGE_URL}/composters/composter_basic_ready.webp`,
+    advancedComposter: `${CONFIG.PROTECTED_IMAGE_URL}/composters/composter_advanced.webp`,
+    advancedComposting: `${CONFIG.PROTECTED_IMAGE_URL}/composters/composter_advanced_closed.webp`,
+    advancedReady: `${CONFIG.PROTECTED_IMAGE_URL}/composters/composter_advanced_ready.webp`,
+    expertComposter: `${CONFIG.PROTECTED_IMAGE_URL}/composters/composter_expert.webp`,
+    expertComposting: `${CONFIG.PROTECTED_IMAGE_URL}/composters/composter_expert_closed.webp`,
+    expertReady: `${CONFIG.PROTECTED_IMAGE_URL}/composters/composter_expert_ready.webp`,
 
     //Crop_Machine
     plantingCropMachine: `${CONFIG.PROTECTED_IMAGE_URL}/cropMachine/stage2_collector_seed_planting_sheet.webp`,

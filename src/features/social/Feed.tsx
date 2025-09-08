@@ -24,7 +24,6 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { isMobile } from "mobile-device-detect";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { capitalize } from "lib/utils/capitalize";
 import { useFeedInteractions } from "./hooks/useFeedInteractions";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -261,9 +260,7 @@ export const Feed: React.FC<Props> = ({
                   onClick={() => setShowFollowing(false)}
                 />
               )}
-              <Label type="default">
-                {t("social.feed", { type: capitalize(type) })}
-              </Label>
+              <Label type="default">{t("feed")}</Label>
               {server && <span className="text-xxs">{server}</span>}
             </div>
             <img
@@ -543,6 +540,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
               ? undefined
               : () => onInteractionClick(interaction);
           const isFollowing = following.includes(interaction.sender.id);
+          const isAtMaxFollowing = !isFollowing && following.length >= 5000;
 
           return (
             <div
@@ -598,18 +596,23 @@ const FeedContent: React.FC<FeedContentProps> = ({
                       )}
                     </div>
                   </div>
-                  <div className="flex items-center justify-end flex-grow cursor-pointer">
-                    {interaction.type === "follow" && !isFollowing && (
-                      <Button
-                        className="text-xs flex h-10 w-10 justify-center items-center"
-                        onClick={(e) =>
-                          handleFollowClick(e, interaction.sender.id)
-                        }
-                      >
-                        <img src={followIcon} className="w-6 object-contain" />
-                      </Button>
-                    )}
-                  </div>
+                  {!isAtMaxFollowing && (
+                    <div className="flex items-center justify-end flex-grow cursor-pointer">
+                      {interaction.type === "follow" && !isFollowing && (
+                        <Button
+                          className="text-xs flex h-10 w-10 justify-center items-center"
+                          onClick={(e) =>
+                            handleFollowClick(e, interaction.sender.id)
+                          }
+                        >
+                          <img
+                            src={followIcon}
+                            className="w-6 object-contain"
+                          />
+                        </Button>
+                      )}
+                    </div>
+                  )}
                 </div>
               </InteractionBubble>
             </div>

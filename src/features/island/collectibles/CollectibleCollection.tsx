@@ -369,8 +369,8 @@ import { Poseidon } from "./components/Poseidon";
 import { Project } from "./components/Project";
 import { PetShrine } from "./components/PetShrine";
 import { ObsidianShrine } from "./components/ObsidianShrine";
-import { Pet } from "./components/Pet";
-import { PetName, PETS } from "features/game/types/pets";
+import { Pet } from "./components/pets/Pet";
+import { PetName, PET_TYPES } from "features/game/types/pets";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -384,7 +384,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
     {} as Record<TemplateDecorationName, React.FC<CollectibleProps>>,
   ),
 
-  ...getKeys(PETS).reduce<Record<PetName, React.FC<CollectibleProps>>>(
+  ...getKeys(PET_TYPES).reduce<Record<PetName, React.FC<CollectibleProps>>>(
     (previous, name) => ({
       ...previous,
       [name]: () => <Pet name={name} />,
@@ -2323,7 +2323,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
       {...props}
       divStyle={{
         width: `${PIXEL_SCALE * 22}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
+        bottom: `${PIXEL_SCALE * -3}px`,
         left: `${PIXEL_SCALE * -3}px`,
       }}
       imgStyle={{
@@ -2952,12 +2952,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 30}px`,
+        width: `${PIXEL_SCALE * 27}px`,
         bottom: `${PIXEL_SCALE * 3}px`,
         left: `${PIXEL_SCALE * 1}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 30}px`,
+        width: `${PIXEL_SCALE * 27}px`,
       }}
       image={ITEM_DETAILS["Giant Artichoke"].image}
       alt="Giant Artichoke"

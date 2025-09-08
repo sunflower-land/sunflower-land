@@ -61,6 +61,7 @@ export const InteractionBubble: React.FC<Props> = ({
             ...labelStyle.borderStyle,
             background: labelStyle.background,
             color: labelStyle.textColour,
+            userSelect: "text",
           }}
         >
           {children}
@@ -83,6 +84,7 @@ export const InteractionBubble: React.FC<Props> = ({
             ...LABEL_STYLES.success.borderStyle,
             background: LABEL_STYLES.success.background,
             color: LABEL_STYLES.success.textColour,
+            userSelect: "text",
           }}
         >
           {children}
