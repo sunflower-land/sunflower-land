@@ -5823,7 +5823,6 @@
   "season.codex.auction.chapterSupply.description": "一部の消耗品は、今後のイベントやチャプターのために予約される可能性があります。",
   "transaction.whalePack": "クジラパックはFLOWERでのみ購入できます。",
   "deposit.flower.guide": "入金するには、個人ウォレットの {{network}} ネットワークに切り替えて、下記のアドレスにFLOWERを送ってください。",
-  "twitter.post.flower": "$FLOWERの発売を祝いましょう！毎週5人の当選者が選ばれ、さらに100ドルのFLOWERが当たります！",
   "flower.launch.one": "$FLOWER ERC20がベースでライブ配信中",
   "flower.launch.two": "入金は有効になっています",
   "flower.launch.three": "流動性報酬と出金は間もなく開始",
@@ -6572,5 +6571,6 @@
   "petalPuzzle.guide.pinkPetal.description": "参加しているプレイヤーの数が足りません",
   "petalPuzzle.guide.cooperate": "他のプレイヤーと協力して、花びらの上に立って色を変えましょう。",
   "petalPuzzle.guide.solve": "パズルを解いて報酬を受け取るには、オレンジの花びらが4枚必要です。",
-  "pets.manage": "ペットを管理"
+  "pets.manage": "ペットを管理",
+  "twitter.post.flower": "$FLOWERの発売を祝いましょう！"
 }

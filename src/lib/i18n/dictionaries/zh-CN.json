@@ -5829,7 +5829,6 @@
   "season.codex.auction.chapterSupply.description": "一些供应可能会保留给将来的活动或章节。",
   "transaction.whalePack": "只能用 FLOWER 购买鲸鱼优惠包。",
   "deposit.flower.guide": "要存款，请在您的个人钱包中切换到 {{network}} 网络，然后将 FLOWER 发送到如下所示的地址。",
-  "twitter.post.flower": "庆祝 $FLOWER 的发布！每周将选出 5 名获奖者，赢取额外的 100 $FLOWER！",
   "flower.launch.one": "$FLOWER ERC20 已在 BASE 上线",
   "flower.launch.two": "存款已启用",
   "flower.launch.three": "流动性奖励和提现即将开始",
@@ -6572,5 +6571,6 @@
   "petalPuzzle.guide.pinkPetal.description": "上面没有足够的玩家",
   "petalPuzzle.guide.cooperate": "与其他玩家合作，站在花瓣上改变它们的颜色。",
   "petalPuzzle.guide.solve": "需要四片橙色花瓣来解开谜题并领取奖励。",
-  "pets.manage": "管理宠物"
+  "pets.manage": "管理宠物",
+  "twitter.post.flower": "庆祝 $FLOWER 的推出！"
 }

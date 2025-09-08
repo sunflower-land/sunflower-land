@@ -5823,7 +5823,6 @@
   "season.codex.auction.chapterSupply.description": "Es posible que algunos suministros estén reservados para futuros eventos o capítulos.",
   "transaction.whalePack": "El paquete Ballena solo se puede comprar con FLOWER.",
   "deposit.flower.guide": "Para realizar un depósito, cambia a la red {{network}} de tu monedero personal y envía FLOWER a la dirección que se muestra a continuación.",
-  "twitter.post.flower": "¡Celebra el lanzamiento de $FLOWER! ¡Se elegirán 5 ganadores cada semana para ganar 100$ FLOWER adicionales!",
   "flower.launch.one": "$FLOWER ERC20 está disponible en BASE",
   "flower.launch.two": "Los depósitos están habilitados",
   "flower.launch.three": "Las recompensas de liquidez y los retiros comenzarán pronto",
@@ -6572,5 +6571,6 @@
   "petalPuzzle.guide.pinkPetal.description": "No hay suficientes jugadores",
   "petalPuzzle.guide.cooperate": "Coopera con otros jugadores y párate sobre los pétalos para cambiar sus colores.",
   "petalPuzzle.guide.solve": "Se necesitan cuatro pétalos de naranja para resolver el rompecabezas y reclamar la recompensa.",
-  "pets.manage": "Gestiona mascotas"
+  "pets.manage": "Gestiona mascotas",
+  "twitter.post.flower": "¡Celebra el lanzamiento de $FLOWER!"
 }

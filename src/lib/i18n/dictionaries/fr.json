@@ -5823,7 +5823,6 @@
   "season.codex.auction.chapterSupply.description": "Certaines fournitures peuvent être réservées pour de futurs événements ou chapitres.",
   "transaction.whalePack": "Le pack Whale ne peut être acheté qu'avec FLOWER.",
   "deposit.flower.guide": "Pour effectuer un dépôt, passez au réseau {{network}} dans votre portefeuille personnel et envoyez FLOWER à l'adresse indiquée ci-dessous.",
-  "twitter.post.flower": "Célébrez le lancement de $FLOWER ! Chaque semaine, 5 gagnants seront sélectionnés pour gagner une FLEUR supplémentaire de 100$ !",
   "flower.launch.one": "$FLOWER ERC20 est disponible sur BASE",
   "flower.launch.two": "Les dépôts sont activés",
   "flower.launch.three": "Récompenses et retraits en termes de liquidités à partir de maintenant",
@@ -6572,5 +6571,6 @@
   "petalPuzzle.guide.pinkPetal.description": "Il n'y a pas assez de joueurs dessus",
   "petalPuzzle.guide.cooperate": "Coopérez avec d'autres joueurs et montez sur les pétales pour changer de couleur.",
   "petalPuzzle.guide.solve": "Quatre pétales d'orange sont nécessaires pour résoudre l'énigme et remporter la récompense.",
-  "pets.manage": "Gérer les animaux de compagnie"
+  "pets.manage": "Gérer les animaux de compagnie",
+  "twitter.post.flower": "Célébrez le lancement de $FLOWER !"
 }

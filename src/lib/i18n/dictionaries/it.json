@@ -5823,7 +5823,6 @@
   "season.codex.auction.chapterSupply.description": "Alcune forniture potrebbero essere riservate per eventi o capitoli futuri.",
   "transaction.whalePack": "Il pacchetto Whale può essere acquistato solo con FLOWER.",
   "deposit.flower.guide": "Per depositare, passa alla rete {{network}} nel tuo portafoglio personale e invia FLOWER all'indirizzo indicato di seguito.",
-  "twitter.post.flower": "Festeggia il lancio di $FLOWER! Verranno scelti 5 vincitori ogni settimana per vincere altri 100 $FLOWER!",
   "flower.launch.one": "$FLOWER ERC20 è in diretta su BASE",
   "flower.launch.two": "I depositi sono abilitati",
   "flower.launch.three": "Premi e prelievi di liquidità a breve",
@@ -6572,5 +6571,6 @@
   "petalPuzzle.guide.pinkPetal.description": "Non ci sono abbastanza giocatori",
   "petalPuzzle.guide.cooperate": "Collabora con altri giocatori e rimani in piedi sui petali per cambiarne i colori.",
   "petalPuzzle.guide.solve": "Sono necessari quattro petali arancioni per risolvere il puzzle e richiedere la ricompensa.",
-  "pets.manage": "Gestisci animali domestici"
+  "pets.manage": "Gestisci animali domestici",
+  "twitter.post.flower": "Festeggia il lancio di $FLOWER!"
 }
