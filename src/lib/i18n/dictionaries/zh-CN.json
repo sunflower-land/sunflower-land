@@ -6576,5 +6576,5 @@
   "skill.merinoWhispererDebuff": "-0.35 皮革和羽毛产量",
   "skill.leathercraftMasteryBuff": "+0.25 皮革产量",
   "skill.leathercraftMasteryDebuff": "-0.35 羽毛和美利奴羊毛产量",
-  "skill.oilRig.buff": "石油钻探需要 20 根羊毛而不是皮革来制作"
+  "skill.oilRig.buff": "制作油钻需要 20 个羊毛，而不是皮革"
 }
