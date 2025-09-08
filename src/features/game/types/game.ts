@@ -1349,7 +1349,7 @@ export type ResourceRequest = {
 };
 
 export type FactionPetRequest = {
-  food: ConsumableName;
+  food: InventoryItemName;
   quantity: number;
   dailyFulfilled: {
     [day: number]: number;
