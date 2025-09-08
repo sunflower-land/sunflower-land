@@ -58,7 +58,6 @@ const _season = (state: MachineState) => state.context.state.season.season;
 const _expansionCount = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 3;
 
-// new selector
 const _cropPositions = (state: MachineState) => ({
   crops: state.context.state.crops,
   positions: getSortedResourcePositions(state.context.state.crops),
@@ -155,7 +154,7 @@ const _buildingPositions = (state: MachineState) => {
       ([_, value]) =>
         value
           ?.map((item) => item.coordinates)
-          .filter((coords) => coords !== undefined) // Filter out undefined
+          .filter((coords) => coords !== undefined)
           .map((coords) => ({ x: coords.x, y: coords.y })),
     ),
   };
