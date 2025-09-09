@@ -5,7 +5,7 @@ import {
   FactionEmblem,
   InventoryItemName,
 } from "../types/game";
-import { PetResource } from "../types/pets";
+import { PetResourceName } from "../types/pets";
 import { CommodityName } from "../types/resources";
 
 export const EMBLEM_TRADE_LIMITS: Record<FactionEmblem, number> = {
@@ -24,13 +24,13 @@ export type TradeResource = Extract<
   | CommodityName
   | AnimalResource
   | FactionEmblem
-  | PetResource
+  | PetResourceName
 >;
 
 export const TRADE_LIMITS: Partial<Record<TradeResource, number>> = {
   // Crops
-  Sunflower: 2000,
-  Potato: 2000,
+  Sunflower: 4000,
+  Potato: 3000,
   Rhubarb: 2000,
   Pumpkin: 2000,
   Zucchini: 2000,
@@ -54,14 +54,14 @@ export const TRADE_LIMITS: Partial<Record<TradeResource, number>> = {
   Barley: 500,
 
   // Fruits
-  Tomato: 300,
-  Lemon: 250,
-  Blueberry: 200,
-  Orange: 200,
+  Tomato: 400,
+  Lemon: 300,
+  Blueberry: 300,
+  Orange: 300,
   Apple: 200,
   Banana: 200,
-  Celestine: 10,
-  Lunara: 10,
+  Celestine: 20,
+  Lunara: 15,
   Duskberry: 10,
 
   // Greenhouse
@@ -83,7 +83,7 @@ export const TRADE_LIMITS: Partial<Record<TradeResource, number>> = {
   Milk: 100,
   Leather: 100,
   Wool: 1000,
-  "Merino Wool": 100,
+  "Merino Wool": 400,
   ...EMBLEM_TRADE_LIMITS,
 
   Ruffroot: 100,
@@ -121,14 +121,14 @@ export const TRADE_MINIMUMS: Partial<Record<TradeResource, number>> = {
   Artichoke: 10,
   Barley: 10,
 
-  Tomato: 5,
-  Blueberry: 5,
-  Orange: 5,
+  Tomato: 20,
+  Lemon: 10,
+  Blueberry: 10,
+  Orange: 10,
   Apple: 5,
   Banana: 5,
-  Lemon: 5,
-  Celestine: 1,
-  Lunara: 1,
+  Celestine: 3,
+  Lunara: 2,
   Duskberry: 1,
 
   Grape: 5,
@@ -141,13 +141,13 @@ export const TRADE_MINIMUMS: Partial<Record<TradeResource, number>> = {
   Gold: 3,
   Crimstone: 1,
 
-  Egg: 10,
   Honey: 5,
-  Milk: 1,
-  Leather: 1,
-  Feather: 1,
-  Wool: 1,
-  "Merino Wool": 1,
+  Feather: 20,
+  Egg: 10,
+  Milk: 5,
+  Leather: 5,
+  Wool: 10,
+  "Merino Wool": 5,
 
   Ruffroot: 1,
   "Chewed Bone": 1,

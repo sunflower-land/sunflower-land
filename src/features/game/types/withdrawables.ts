@@ -1170,4 +1170,24 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       tradeAt: SEASONS["Better Together"].endDate,
       withdrawAt: SEASONS["Better Together"].endDate,
     },
+    "Janitor Chicken": {
+      tradeAt: SEASONS["Better Together"].endDate,
+      withdrawAt: SEASONS["Better Together"].endDate,
+    },
+    Poseidon: {
+      tradeAt: SEASONS["Better Together"].endDate,
+      withdrawAt: SEASONS["Better Together"].endDate,
+    },
+    "Venus Bumpkin Trap": {
+      tradeAt: SEASONS["Better Together"].endDate,
+      withdrawAt: SEASONS["Better Together"].endDate,
+    },
+    "Baby Cow": {
+      tradeAt: SEASONS["Better Together"].endDate,
+      withdrawAt: SEASONS["Better Together"].endDate,
+    },
+    "Baby Sheep": {
+      tradeAt: SEASONS["Better Together"].endDate,
+      withdrawAt: SEASONS["Better Together"].endDate,
+    },
   };

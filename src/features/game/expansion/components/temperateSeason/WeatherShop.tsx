@@ -93,7 +93,9 @@ export const WeatherShop: React.FC<Props> = ({ onClose }) => {
               }}
               limit={1}
               requirements={{
-                resources: weatherShop[selected].ingredients,
+                resources: weatherShop[selected].ingredients(
+                  state.bumpkin.skills,
+                ),
                 coins: weatherShop[selected].price,
               }}
               actionView={

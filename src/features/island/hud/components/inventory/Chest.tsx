@@ -50,7 +50,7 @@ import { LandBiomeName } from "features/island/biomes/biomes";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { WORKBENCH_MONUMENTS } from "features/game/types/monuments";
 import { DOLLS } from "features/game/lib/crafting";
-import { PETS } from "features/game/types/pets";
+import { PET_TYPES } from "features/game/types/pets";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -347,7 +347,7 @@ export const Chest: React.FC<Props> = ({
 
   const dolls = getKeys(collectibles).filter((name) => name in DOLLS);
 
-  const pets = getKeys(collectibles).filter((name) => name in PETS);
+  const pets = getKeys(collectibles).filter((name) => name in PET_TYPES);
 
   const decorations = getKeys(collectibles).filter(
     (name) =>

@@ -95,23 +95,6 @@ export const WhatsOn = () => {
       <InnerPanel className="mb-1">
         <div className="p-1">
           <div className="flex items-center justify-between mb-2">
-            <Label type="default">{t("whatsOn.bumpkinHoliday")}</Label>
-            <Label type="formula">{t("whatsOn.bumpkinHolidayText")}</Label>
-          </div>
-          <NoticeboardItems
-            items={[
-              {
-                text: t("whatsOn.noBraceletRewards"),
-                icon: lockIcon,
-              },
-            ]}
-          />
-        </div>
-      </InnerPanel>
-
-      <InnerPanel className="mb-1">
-        <div className="p-1">
-          <div className="flex items-center justify-between mb-2">
             <Label type="default">{t("whatsOn.newChapter")}</Label>
             <Label type="formula">{t("whatsOn.newChapterDate")}</Label>
           </div>

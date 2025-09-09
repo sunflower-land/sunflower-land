@@ -31,6 +31,10 @@ export const Forge: React.FC = () => {
   const [showSuccess, setShowSuccess] = useState(false);
 
   const state = useSelector(gameService, (state) => state.context.state);
+  const skills = useSelector(
+    gameService,
+    (state) => state.context.state.bumpkin.skills,
+  );
   const selected = ADVANCED_RESOURCES[selectedResource];
   const season = state.season.season;
   const biome = getCurrentBiome(state.island);
@@ -82,7 +86,7 @@ export const Forge: React.FC = () => {
                 ? undefined
                 : {
                     coins: selected.price,
-                    resources: selected.ingredients,
+                    resources: selected.ingredients(skills),
                   }
             }
             hideDescription={true}

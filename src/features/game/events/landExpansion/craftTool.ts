@@ -110,7 +110,7 @@ export function craftTool({ state, action }: Options) {
     throw new Error("Insufficient Coins");
   }
 
-  const toolIngredients = tool.ingredients;
+  const toolIngredients = tool.ingredients(bumpkin.skills);
 
   const subtractedInventory = getObjectEntries(toolIngredients).reduce(
     (inventory, [ingredientName, ingredientAmount]) => {

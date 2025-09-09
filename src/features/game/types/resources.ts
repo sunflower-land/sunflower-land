@@ -188,10 +188,10 @@ export const ADVANCED_RESOURCES: Record<
     name: "Fused Stone",
     description: "Mine fused stone",
     tier: 2,
-    ingredients: {
+    ingredients: () => ({
       "Stone Rock": new Decimal(4),
       Obsidian: new Decimal(5),
-    },
+    }),
     price: 50_000,
     // 4 stone rocks
     preRequires: {
@@ -203,10 +203,10 @@ export const ADVANCED_RESOURCES: Record<
     name: "Reinforced Stone",
     description: "Mine reinforced stone",
     tier: 3,
-    ingredients: {
+    ingredients: () => ({
       "Fused Stone Rock": new Decimal(4),
       Obsidian: new Decimal(10),
-    },
+    }),
     price: 100_000,
     // 4 fused stone rocks
     preRequires: {
@@ -218,10 +218,10 @@ export const ADVANCED_RESOURCES: Record<
     name: "Ancient Tree",
     description: "Chop Wood",
     tier: 2,
-    ingredients: {
+    ingredients: () => ({
       Obsidian: new Decimal(3),
       Tree: new Decimal(4),
-    },
+    }),
     price: 25_000,
     preRequires: {
       tier: 1,
@@ -232,10 +232,10 @@ export const ADVANCED_RESOURCES: Record<
     name: "Sacred Tree",
     description: "Chop Wood",
     tier: 3,
-    ingredients: {
+    ingredients: () => ({
       Obsidian: new Decimal(5),
       "Ancient Tree": new Decimal(4),
-    },
+    }),
     price: 50_000,
     preRequires: {
       tier: 2,
@@ -246,10 +246,10 @@ export const ADVANCED_RESOURCES: Record<
     name: "Refined Iron",
     description: "Mine iron",
     tier: 2,
-    ingredients: {
+    ingredients: () => ({
       "Iron Rock": new Decimal(4),
       Obsidian: new Decimal(10),
-    },
+    }),
     price: 100_000,
     preRequires: {
       tier: 1,
@@ -260,10 +260,10 @@ export const ADVANCED_RESOURCES: Record<
     name: "Tempered Iron",
     description: "Mine iron",
     tier: 3,
-    ingredients: {
+    ingredients: () => ({
       "Refined Iron Rock": new Decimal(4),
       Obsidian: new Decimal(15),
-    },
+    }),
     price: 200_000,
     preRequires: {
       tier: 2,
@@ -274,10 +274,10 @@ export const ADVANCED_RESOURCES: Record<
     name: "Pure Gold",
     description: "Mine gold",
     tier: 2,
-    ingredients: {
+    ingredients: () => ({
       "Gold Rock": new Decimal(4),
       Obsidian: new Decimal(15),
-    },
+    }),
     price: 200_000,
     preRequires: {
       tier: 1,
@@ -288,10 +288,10 @@ export const ADVANCED_RESOURCES: Record<
     name: "Prime Gold",
     description: "Mine gold",
     tier: 3,
-    ingredients: {
+    ingredients: () => ({
       "Pure Gold Rock": new Decimal(4),
       Obsidian: new Decimal(20),
-    },
+    }),
     price: 350_000,
     preRequires: {
       tier: 2,

@@ -77,10 +77,11 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
     );
   }
 
-  const handleDeliver = () => {
+  const handleDeliver = (amount = 1) => {
     gameService.send({
       type: "factionKitchen.delivered",
       resourceIndex: selectedRequestIdx,
+      amount,
     });
     setShowConfirm(false);
   };
@@ -93,15 +94,23 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
     (getFactionWeekEndTime({ date: new Date(now) }) - now) / 1000;
   const day = getFactionWeekday(now);
   const fulfilled = selectedRequest.dailyFulfilled[day] ?? 0;
-  const selectedRequestReward = calculatePoints(fulfilled, BASE_POINTS);
+  const selectedRequestReward = (amount = 1) =>
+    calculatePoints(fulfilled, BASE_POINTS, amount);
 
-  const canFulfillRequest = (
-    inventory[selectedRequest.item] ?? new Decimal(0)
-  ).gte(selectedRequest.amount);
+  const canFulfillRequest = (amount = 1) =>
+    (inventory[selectedRequest.item] ?? new Decimal(0)).gte(
+      selectedRequest.amount * amount,
+    );
 
-  const boost = getKingdomKitchenBoost(game, selectedRequestReward)[0];
+  const boost = (amount = 1) =>
+    getKingdomKitchenBoost(game, selectedRequestReward(amount))[0];
+  const boostedMarks = (amount = 1) =>
+    selectedRequestReward(amount) + boost(amount);
 
-  const boostedMarks = selectedRequestReward + boost;
+  const singularReward = selectedRequestReward();
+  const singularBoost = boost();
+  const singularBoostedMarks = singularReward + singularBoost;
+  const singularCanFulfillRequest = canFulfillRequest();
 
   return (
     <>
@@ -209,18 +218,18 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                         <BoostInfoPanel
                           feature="kitchen"
                           show={showBoostInfo}
-                          baseAmount={selectedRequestReward}
+                          baseAmount={singularReward}
                           onClick={() => setShowBoostInfo(false)}
                         />
                         <Label
                           icon={ITEM_DETAILS["Mark"].image}
-                          secondaryIcon={boost ? lightning : null}
+                          secondaryIcon={singularBoost ? lightning : null}
                           type="warning"
                           className="m-1"
                           onClick={() => setShowBoostInfo(!showBoostInfo)}
                         >
-                          <span className={boost ? "pl-1.5" : ""}>
-                            {`${formatNumber(boostedMarks)} ${t("marks")}`}
+                          <span className={singularBoost ? "pl-1.5" : ""}>
+                            {`${formatNumber(singularBoostedMarks)} ${t("marks")}`}
                           </span>
                         </Label>
                       </div>
@@ -246,10 +255,20 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                         requirement={new Decimal(selectedRequest.amount)}
                       />
                     </div>
-                    <Button
-                      disabled={!canFulfillRequest}
-                      onClick={() => setShowConfirm(true)}
-                    >{`${t("deliver")} ${selectedRequest.amount}`}</Button>
+                    <div className="flex flex-row sm:flex-col gap-1 w-full">
+                      <Button
+                        disabled={!singularCanFulfillRequest}
+                        onClick={() => handleDeliver()}
+                      >
+                        {`${t("deliver")} ${selectedRequest.amount}`}
+                      </Button>
+                      <Button
+                        disabled={!canFulfillRequest(10)}
+                        onClick={() => setShowConfirm(true)}
+                      >
+                        {`${t("deliver")} ${selectedRequest.amount * 10}`}
+                      </Button>
+                    </div>
                   </div>
                 }
               />
@@ -260,7 +279,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
               <div className="space-y-3 p-1">
                 <span className="text-xs sm:text-sm">
                   {t("faction.donation.confirm", {
-                    factionPoints: formatNumber(boostedMarks),
+                    factionPoints: formatNumber(boostedMarks(10)),
                   })}
                 </span>
                 <div className="flex flex-col space-y-1">
@@ -274,7 +293,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                         {selectedRequest.item}
                       </span>
                     </div>
-                    <span className="text-xs">{`${selectedRequest.amount}`}</span>
+                    <span className="text-xs">{`${selectedRequest.amount * 10}`}</span>
                   </div>
                 </div>
               </div>
@@ -282,7 +301,9 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                 <Button onClick={() => setShowConfirm(false)}>
                   {t("cancel")}
                 </Button>
-                <Button onClick={handleDeliver}>{t("confirm")}</Button>
+                <Button onClick={() => handleDeliver(10)}>
+                  {t("confirm")}
+                </Button>
               </div>
             </>
           )}

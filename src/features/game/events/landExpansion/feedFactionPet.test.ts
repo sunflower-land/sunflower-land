@@ -419,6 +419,49 @@ describe("feedFactionPet", () => {
     expect(result.inventory["Mark"]?.toNumber()).toBe(12);
   });
 
+  it("handles bulk feeding", () => {
+    const result = feedFactionPet({
+      state: {
+        ...state,
+        inventory: { "Carrot Cake": new Decimal(11), Mark: new Decimal(0) },
+        faction: {
+          ...state.faction,
+          pet: {
+            week,
+            requests: [
+              {
+                food: "Pumpkin Soup",
+                quantity: new Decimal(2),
+                dailyFulfilled: {},
+              },
+              {
+                food: "Sunflower Cake",
+                quantity: 1,
+                dailyFulfilled: {},
+              },
+              {
+                food: "Carrot Cake",
+                quantity: 1,
+                dailyFulfilled: {},
+              },
+            ],
+          },
+          history: {
+            [week]: { petXP: 0, score: 0 },
+          },
+        } as Faction,
+      },
+      createdAt: startTime,
+      action: { type: "factionPet.fed", requestIndex: 2, amount: 11 },
+    });
+    const day = getFactionWeekday(startTime);
+
+    expect(result.inventory["Mark"]?.toNumber()).toBe(47);
+    expect(result.faction?.history[week]?.score).toBe(47);
+    expect(result.faction?.pet?.requests[2].dailyFulfilled[day]).toBe(11);
+    expect(result.inventory["Carrot Cake"]?.toNumber()).toBe(0);
+  });
+
   it("rewards 5% more marks when the player has their faction shoes on", () => {
     const result = feedFactionPet({
       state: {
