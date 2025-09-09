@@ -5978,18 +5978,18 @@ export const ITEM_DETAILS: Items = {
   },
   "Refined Iron Rock": {
     image: SUNNYSIDE.resource.rocks["Refined Iron Rock"],
-    description: "Forging soon...",
+    description: "A refined iron rock",
   },
   "Tempered Iron Rock": {
     image: SUNNYSIDE.resource.rocks["Tempered Iron Rock"],
-    description: "Forging soon...",
+    description: "A tempered iron rock",
   },
   "Pure Gold Rock": {
     image: SUNNYSIDE.resource.rocks["Pure Gold Rock"],
-    description: "Forging soon...",
+    description: "A pure gold rock",
   },
   "Prime Gold Rock": {
     image: SUNNYSIDE.resource.rocks["Prime Gold Rock"],
-    description: "Forging soon...",
+    description: "A prime gold rock",
   },
 };

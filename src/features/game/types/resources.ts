@@ -331,8 +331,8 @@ export const BASIC_RESOURCES_UPGRADES_TO: Partial<
   Record<BasicResourceName, UpgradedResourceName[]>
 > = {
   "Stone Rock": ["Fused Stone Rock", "Reinforced Stone Rock"],
-  // "Iron Rock": ["Tempered Iron Rock", "Pure Iron Rock"],
-  // "Gold Rock": ["Pure Gold Rock", "Enchanted Gold Rock"],
+  "Iron Rock": ["Tempered Iron Rock", "Refined Iron Rock"],
+  "Gold Rock": ["Pure Gold Rock", "Prime Gold Rock"],
   Tree: ["Ancient Tree", "Sacred Tree"],
 };
 

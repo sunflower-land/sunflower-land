@@ -64,9 +64,10 @@ export const Forge: React.FC = () => {
     ITEM_DETAILS[selectedResource].image;
 
   const lessIngredients = () =>
-    getKeys(selected.ingredients).some((name) =>
-      selected.ingredients[name]
-        ?.mul(1)
+    getKeys(selected.ingredients()).some((name) =>
+      selected
+        .ingredients()
+        [name]?.mul(1)
         .greaterThan(state.inventory[name] || 0),
     );
 
