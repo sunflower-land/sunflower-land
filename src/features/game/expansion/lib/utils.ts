@@ -1,5 +1,5 @@
 import { Collectibles, Rock } from "features/game/types/game";
-import isEqual from "lodash/isequal";
+import isEqual from "lodash.isequal";
 
 export function canMine(
   rock: Rock,
