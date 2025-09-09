@@ -462,6 +462,9 @@ describe("upgradeFarm", () => {
         stone: expect.any(Object),
         x: 3,
         y: 9,
+        name: "Gold Rock",
+        multiplier: 1,
+        tier: 1,
       },
     });
 
@@ -471,6 +474,9 @@ describe("upgradeFarm", () => {
         stone: expect.any(Object),
         x: 5,
         y: 8,
+        name: "Iron Rock",
+        multiplier: 1,
+        tier: 1,
       },
     });
 
@@ -672,6 +678,9 @@ describe("upgradeFarm", () => {
         stone: expect.any(Object),
         x: 3,
         y: 9,
+        name: "Gold Rock",
+        multiplier: 1,
+        tier: 1,
       },
     });
 
@@ -681,6 +690,9 @@ describe("upgradeFarm", () => {
         stone: expect.any(Object),
         x: 5,
         y: 8,
+        name: "Iron Rock",
+        multiplier: 1,
+        tier: 1,
       },
     });
 
@@ -881,6 +893,9 @@ describe("upgradeFarm", () => {
         stone: expect.any(Object),
         x: 2,
         y: 9,
+        name: "Gold Rock",
+        multiplier: 1,
+        tier: 1,
       },
     });
 
@@ -890,6 +905,9 @@ describe("upgradeFarm", () => {
         stone: expect.any(Object),
         x: 5,
         y: 7,
+        name: "Iron Rock",
+        multiplier: 1,
+        tier: 1,
       },
     });
 

@@ -52,7 +52,8 @@ export function upgradeTree({
       throw new Error("Not enough placed trees to upgrade");
     }
 
-    getObjectEntries(advancedResource.ingredients).forEach(([item, amount]) => {
+    const ingredients = advancedResource.ingredients(bumpkin.skills);
+    getObjectEntries(ingredients).forEach(([item, amount]) => {
       const required = new Decimal(amount ?? 0);
       if (required.lte(0)) return;
 
@@ -66,7 +67,7 @@ export function upgradeTree({
     game.coins = (game.coins ?? 0) - advancedResource.price;
 
     // Remove the ingredients from inventory
-    getObjectEntries(advancedResource.ingredients).forEach(([item, amount]) => {
+    getObjectEntries(ingredients).forEach(([item, amount]) => {
       const required = new Decimal(amount ?? 0);
       if (required.lte(0)) return;
 

@@ -95,6 +95,9 @@ describe("placeGold", () => {
         },
         x: 2,
         y: 2,
+        name: "Gold Rock",
+        multiplier: 1,
+        tier: 1,
       },
       "123": {
         createdAt: expect.any(Number),
@@ -143,6 +146,9 @@ describe("placeGold", () => {
         },
         x: 2,
         y: 2,
+        name: "Gold Rock",
+        multiplier: 1,
+        tier: 1,
       },
     });
   });
