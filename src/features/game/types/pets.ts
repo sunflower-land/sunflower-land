@@ -96,6 +96,7 @@ export type Pet = {
   energy: number;
   experience: number;
   pettedAt: number;
+  visitedAt?: number; // Local only field
 };
 
 export type Pets = {
