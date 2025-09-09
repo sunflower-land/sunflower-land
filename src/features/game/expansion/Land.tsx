@@ -46,6 +46,7 @@ import {
   getObjectEntries,
   comparePositions,
   getSortedResourcePositions,
+  getSortedCollectiblePositions,
 } from "./lib/utils";
 import { Clutter } from "features/island/clutter/Clutter";
 
@@ -128,23 +129,10 @@ const _lavaPitPositions = (state: MachineState) => {
     positions: getSortedResourcePositions(state.context.state.lavaPits),
   };
 };
-
 const _collectiblePositions = (state: MachineState) => {
   return {
     collectibles: state.context.state.collectibles,
-    positions: getObjectEntries(state.context.state.collectibles)
-      .flatMap(([name, value]) => value?.map((item) => ({ name, item })))
-      .filter(
-        (collectible): collectible is NonNullable<typeof collectible> =>
-          !!(collectible && collectible.item.coordinates !== undefined),
-      )
-      .map(({ name, item }) => ({
-        id: item.id,
-        x: item.coordinates!.x,
-        y: item.coordinates!.y,
-        flipped: item.flipped,
-        name,
-      })),
+    positions: getSortedCollectiblePositions(state.context.state.collectibles),
   };
 };
 const _buildingPositions = (state: MachineState) => {
@@ -159,7 +147,6 @@ const _buildingPositions = (state: MachineState) => {
     ),
   };
 };
-
 const _mushroomPositions = (state: MachineState) => {
   const { mushrooms } = state.context.state.mushrooms ?? {};
 

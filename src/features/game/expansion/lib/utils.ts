@@ -1,4 +1,4 @@
-import { Rock } from "features/game/types/game";
+import { Collectibles, Rock } from "features/game/types/game";
 import isEqual from "lodash/isequal";
 
 export function canMine(
@@ -28,6 +28,22 @@ export const getSortedResourcePositions = (object: ResourceObject) => {
     .filter(([, item]) => item.x !== undefined && item.y !== undefined)
     .map(([id, item]) => ({ id, x: item.x as number, y: item.y as number }))
     .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+};
+
+export const getSortedCollectiblePositions = (object: Collectibles) => {
+  return getObjectEntries(object)
+    .flatMap(([name, value]) => value?.map((item) => ({ name, item })))
+    .filter(
+      (collectible): collectible is NonNullable<typeof collectible> =>
+        !!(collectible && collectible.item.coordinates !== undefined),
+    )
+    .map(({ name, item }) => ({
+      id: item.id,
+      x: item.coordinates!.x,
+      y: item.coordinates!.y,
+      flipped: item.flipped,
+      name,
+    }));
 };
 
 export function comparePositions(prev: any, next: any) {
