@@ -348,15 +348,12 @@ export const LandComponent: React.FC = () => {
   const isFirstRender = useFirstRender();
 
   // memorize game grid and only update it when the stringified value changes
-  const gameGridValue = getGameGrid({
-    cropPositions,
-    collectiblePositions,
-  });
-
   const gameGrid = useMemo(() => {
-    return gameGridValue;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cropPositions, collectiblePositions]);
+    return getGameGrid({
+      cropPositions,
+      collectiblePositions,
+    });
+  }, [JSON.stringify(cropPositions), JSON.stringify(collectiblePositions)]);
 
   const { isVisiting: visiting } = useVisiting();
 
