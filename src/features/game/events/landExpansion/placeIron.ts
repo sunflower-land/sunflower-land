@@ -1,11 +1,16 @@
 import { GameState, Rock } from "features/game/types/game";
-import { ResourceName } from "features/game/types/resources";
+import {
+  IronRockName,
+  RESOURCE_MULTIPLIER,
+  UpgradedResourceName,
+  ADVANCED_RESOURCES,
+} from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 
 export type PlaceIronAction = {
   type: "iron.placed";
-  name: ResourceName;
+  name: IronRockName;
   id: string;
   coordinates: {
     x: number;
@@ -45,6 +50,10 @@ export function placeIron({
         ...iron,
         x: action.coordinates.x,
         y: action.coordinates.y,
+        tier:
+          ADVANCED_RESOURCES[action.name as UpgradedResourceName]?.tier ?? 1,
+        name: action.name,
+        multiplier: RESOURCE_MULTIPLIER[action.name],
       };
 
       if (updatedIron.stone && updatedIron.removedAt) {
@@ -66,6 +75,9 @@ export function placeIron({
       stone: {
         minedAt: 0,
       },
+      tier: ADVANCED_RESOURCES[action.name as UpgradedResourceName]?.tier ?? 1,
+      name: action.name,
+      multiplier: RESOURCE_MULTIPLIER[action.name],
     };
 
     game.iron = {

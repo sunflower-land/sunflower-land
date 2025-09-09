@@ -146,7 +146,7 @@ export function getStoneDropAmount({
     aoe,
   } = game;
   const updatedAoe = cloneDeep(aoe);
-  const multiplier = game.stones[id]?.multiplier ?? 1;
+  const multiplier = rock.multiplier ?? 1;
 
   let amount = 1;
   const boostsUsed: BoostName[] = [];

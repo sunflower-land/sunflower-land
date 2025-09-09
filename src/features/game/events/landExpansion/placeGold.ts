@@ -1,11 +1,16 @@
 import { GameState, Rock } from "features/game/types/game";
-import { ResourceName } from "features/game/types/resources";
+import {
+  RESOURCE_MULTIPLIER,
+  GoldRockName,
+  ADVANCED_RESOURCES,
+  UpgradedResourceName,
+} from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 
 export type PlaceGoldAction = {
   type: "gold.placed";
-  name: ResourceName;
+  name: GoldRockName;
   id: string;
   coordinates: {
     x: number;
@@ -45,6 +50,10 @@ export function placeGold({
         ...gold,
         x: action.coordinates.x,
         y: action.coordinates.y,
+        tier:
+          ADVANCED_RESOURCES[action.name as UpgradedResourceName]?.tier ?? 1,
+        name: action.name,
+        multiplier: RESOURCE_MULTIPLIER[action.name],
       };
 
       if (updatedGold.stone && updatedGold.removedAt) {
@@ -66,6 +75,9 @@ export function placeGold({
       stone: {
         minedAt: 0,
       },
+      tier: ADVANCED_RESOURCES[action.name as UpgradedResourceName]?.tier ?? 1,
+      name: action.name,
+      multiplier: RESOURCE_MULTIPLIER[action.name],
     };
 
     game.gold = {

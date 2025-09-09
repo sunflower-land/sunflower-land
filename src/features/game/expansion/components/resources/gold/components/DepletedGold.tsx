@@ -1,16 +1,19 @@
 import React, { useState } from "react";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
+import { GoldRockName } from "features/game/types/resources";
 
 interface Props {
   timeLeft: number;
+  name: GoldRockName;
 }
 
-const DepletedGoldComponent: React.FC<Props> = ({ timeLeft }) => {
+const DepletedGoldComponent: React.FC<Props> = ({ timeLeft, name }) => {
   const { t } = useAppTranslation();
   const [showTimeLeft, setShowTimeLeft] = useState(false);
+  const Image = READONLY_RESOURCE_COMPONENTS()[name];
 
   return (
     <div
@@ -19,15 +22,9 @@ const DepletedGoldComponent: React.FC<Props> = ({ timeLeft }) => {
       onMouseLeave={() => setShowTimeLeft(false)}
     >
       <div className="absolute w-full h-full pointer-events-none">
-        <img
-          src={SUNNYSIDE.resource.goldStone}
-          className="absolute opacity-50"
-          style={{
-            width: `${PIXEL_SCALE * 14}px`,
-            bottom: `${PIXEL_SCALE * 3}px`,
-            left: `${PIXEL_SCALE * 1}px`,
-          }}
-        />
+        <div className="opacity-50">
+          <Image />
+        </div>
         <div
           className="flex justify-center absolute w-full"
           style={{

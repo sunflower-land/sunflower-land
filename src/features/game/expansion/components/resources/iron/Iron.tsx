@@ -158,7 +158,7 @@ export const Iron: React.FC<Props> = ({ id }) => {
       {collecting && <DepletingIron resourceAmount={harvested.current} />}
 
       {/* Depleted resource */}
-      {mined && <DepletedIron timeLeft={timeLeft} />}
+      {mined && <DepletedIron timeLeft={timeLeft} name={ironRockName} />}
     </div>
   );
 };

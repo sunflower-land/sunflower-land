@@ -98,7 +98,7 @@ export const READONLY_RESOURCE_COMPONENTS = (): Record<
         src={ITEM_DETAILS["Stone Rock"].image}
         className="relative"
         style={{
-          width: `${PIXEL_SCALE * 12.8}px`,
+          width: `${PIXEL_SCALE * 14}px`,
           top: `${PIXEL_SCALE * 4.52}px`,
           left: `${PIXEL_SCALE * 1.38}px`,
         }}
@@ -109,7 +109,7 @@ export const READONLY_RESOURCE_COMPONENTS = (): Record<
         src={ITEM_DETAILS["Fused Stone Rock"].image}
         className="relative"
         style={{
-          width: `${PIXEL_SCALE * 18}px`,
+          width: `${PIXEL_SCALE * 15}px`,
           top: `${PIXEL_SCALE}px`,
           left: `${PIXEL_SCALE * 0.238}px`,
         }}
@@ -120,7 +120,7 @@ export const READONLY_RESOURCE_COMPONENTS = (): Record<
         src={ITEM_DETAILS["Reinforced Stone Rock"].image}
         className="relative"
         style={{
-          width: `${PIXEL_SCALE * 18}px`,
+          width: `${PIXEL_SCALE * 15}px`,
           top: `${PIXEL_SCALE * -0.523}px`,
           left: `${PIXEL_SCALE * 0.62}px`,
         }}
@@ -240,7 +240,7 @@ export const READONLY_RESOURCE_COMPONENTS = (): Record<
         src={ITEM_DETAILS["Refined Iron Rock"].image}
         className="relative"
         style={{
-          width: `${PIXEL_SCALE * 16}px`,
+          width: `${PIXEL_SCALE * 15}px`,
           top: `${PIXEL_SCALE * 3}px`,
           left: `${PIXEL_SCALE * 1}px`,
         }}
@@ -251,49 +251,33 @@ export const READONLY_RESOURCE_COMPONENTS = (): Record<
         src={ITEM_DETAILS["Tempered Iron Rock"].image}
         className="relative"
         style={{
-          width: `${PIXEL_SCALE * 16}px`,
+          width: `${PIXEL_SCALE * 15}px`,
           top: `${PIXEL_SCALE * 3}px`,
           left: `${PIXEL_SCALE * 1}px`,
         }}
       />
     ),
     "Pure Gold Rock": () => (
-      <div
+      <img
+        src={ITEM_DETAILS["Pure Gold Rock"].image}
+        className="relative pointer-events-none"
         style={{
-          width: `${PIXEL_SCALE * 14}px`,
+          width: `${PIXEL_SCALE * 15}px`,
           top: `${PIXEL_SCALE * 3}px`,
           left: `${PIXEL_SCALE * 1}px`,
         }}
-      >
-        <img
-          src={ITEM_DETAILS["Gold Rock"].image}
-          className="relative pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 14}px`,
-            top: `${PIXEL_SCALE * 3}px`,
-            left: `${PIXEL_SCALE * 1}px`,
-          }}
-        />
-      </div>
+      />
     ),
     "Prime Gold Rock": () => (
-      <div
+      <img
+        src={ITEM_DETAILS["Prime Gold Rock"].image}
+        className="relative pointer-events-none"
         style={{
-          width: `${PIXEL_SCALE * 14}px`,
+          width: `${PIXEL_SCALE * 15}px`,
           top: `${PIXEL_SCALE * 3}px`,
           left: `${PIXEL_SCALE * 1}px`,
         }}
-      >
-        <img
-          src={ITEM_DETAILS["Gold Rock"].image}
-          className="relative pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 14}px`,
-            top: `${PIXEL_SCALE * 3}px`,
-            left: `${PIXEL_SCALE * 1}px`,
-          }}
-        />
-      </div>
+      />
     ),
   };
 };
