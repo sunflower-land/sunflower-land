@@ -60,6 +60,7 @@
     "jwt-decode": "^3.1.2",
     "lodash.clonedeep": "^4.5.0",
     "lodash.debounce": "^4.0.8",
+    "lodash.isequal": "^4.5.0",
     "lodash.memoize": "^4.1.2",
     "lodash.shuffle": "^4.2.0",
     "mitt": "^3.0.1",
