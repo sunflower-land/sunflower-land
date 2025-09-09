@@ -353,7 +353,7 @@ export const LandComponent: React.FC = () => {
       cropPositions,
       collectiblePositions,
     });
-  }, [JSON.stringify(cropPositions), JSON.stringify(collectiblePositions)]);
+  }, [cropPositions, collectiblePositions]);
 
   const { isVisiting: visiting } = useVisiting();
 
