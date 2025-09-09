@@ -45,7 +45,7 @@ export function mineSunstone({
       throw new Error("Sunstone rock is not placed");
     }
 
-    if (!canMine(sunstoneRock, "Sunstone", createdAt)) {
+    if (!canMine(sunstoneRock, "Sunstone Rock", createdAt)) {
       throw new Error(EVENT_ERRORS.STILL_RECOVERING);
     }
 

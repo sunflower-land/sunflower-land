@@ -94,7 +94,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
     (state) => state.context.state.stones[id],
     compareResource,
   );
-  const name = resource.name ?? "Stone Rock";
+  const name = (resource.name ?? "Stone Rock") as StoneRockName;
   const inventory = useSelector(
     gameService,
     selectInventory,
@@ -106,7 +106,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
 
   const hasTool = HasTool(inventory, game, id);
   const timeLeft = getTimeLeft(resource.stone.minedAt, STONE_RECOVERY_TIME);
-  const mined = !canMine(resource, "Stone");
+  const mined = !canMine(resource, name);
 
   useUiRefresher({ active: mined });
 

@@ -265,7 +265,7 @@ export function mineIron({
       throw new Error("Iron rock is not placed");
     }
 
-    if (!canMine(ironRock, "Iron", createdAt)) {
+    if (!canMine(ironRock, ironRock.name ?? "Iron Rock", createdAt)) {
       throw new Error(MINE_ERRORS.STILL_RECOVERING);
     }
 

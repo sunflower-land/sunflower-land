@@ -273,7 +273,7 @@ export function mineGold({
       throw new Error("Gold rock is not placed");
     }
 
-    if (!canMine(goldRock, "Gold", createdAt)) {
+    if (!canMine(goldRock, "Gold Rock", createdAt)) {
       throw new Error(EVENT_ERRORS.STILL_RECOVERING);
     }
 

@@ -26,7 +26,7 @@ export function isLocked(rock: Rock, createdAt: number): boolean {
 
   if (!minedAt) return false;
 
-  if (canMine(rock, "Crimstone", createdAt)) return false;
+  if (canMine(rock, "Crimstone Rock", createdAt)) return false;
 
   return false;
 }

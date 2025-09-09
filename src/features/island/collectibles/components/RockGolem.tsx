@@ -21,7 +21,7 @@ export const RockGolem: React.FC = () => {
   const state = gameState.context.state;
 
   const someStonesMined = Object.values(state.stones).some(
-    (stone) => !canMine(stone, "Stone"),
+    (stone) => !canMine(stone, stone.name ?? "Stone Rock"),
   );
 
   const golemGif = useRef<SpriteSheetInstance>();

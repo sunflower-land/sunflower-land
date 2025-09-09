@@ -12,10 +12,41 @@ import {
   UpgradedResourceName,
   ADVANCED_RESOURCES,
   RESOURCE_STATE_ACCESSORS,
+  RockName,
+  RESOURCES,
 } from "../types/resources";
 
-export const canGatherResource = (resource: ResourceItem) => {
-  if ("stone" in resource) return canMine(resource as Rock, "Stone");
+export const canGatherResource = (
+  resource: ResourceItem,
+  rockType?: RockName,
+) => {
+  if ("name" in resource && resource?.name && !(resource.name in RESOURCES)) {
+    throw new Error(`Invalid resource name: ${resource.name}`);
+  }
+
+  if ("stone" in resource) {
+    let rockName = resource.name as RockName;
+    if (!rockName) {
+      if (resource.name?.includes("Stone") || rockType?.includes("Stone")) {
+        rockName = "Stone Rock";
+      } else if (
+        resource.name?.includes("Iron") ||
+        rockType?.includes("Iron")
+      ) {
+        rockName = "Iron Rock";
+      } else if (
+        resource.name?.includes("Gold") ||
+        rockType?.includes("Gold")
+      ) {
+        rockName = "Gold Rock";
+      } else {
+        throw new Error(`Invalid rock name: ${resource.name}`);
+      }
+    }
+
+    return canMine(resource as Rock, rockName);
+  }
+
   if ("wood" in resource) return canChop(resource as Tree);
 
   throw new Error("Invalid resource");
@@ -41,10 +72,10 @@ export const getUpgradeableNodes = (
     RESOURCE_STATE_ACCESSORS[upgradeTo](game),
   ).filter(([_, node]) => {
     const tier = "tier" in node ? node.tier : 1;
-    const isPlaced = "x" in node && "y" in node;
+    const isPlaced = node.x !== undefined && node.y !== undefined;
     return (
       isPlaced &&
-      canGatherResource(node) &&
+      canGatherResource(node, upgradeTo as RockName) &&
       tier === advancedResource.preRequires.tier
     );
   });
@@ -53,19 +84,22 @@ export const getUpgradeableNodes = (
 
 export function canMine(
   rock: Rock,
-  rockName: "Stone" | "Iron" | "Gold" | "Sunstone" | "Crimstone",
+  rockName: RockName,
   now: number = Date.now(),
 ) {
   // Defining inside the function to avoid circular dependency
-  const resourceRecoveryTime: Record<
-    "Stone" | "Iron" | "Gold" | "Sunstone" | "Crimstone",
-    number
-  > = {
-    Stone: STONE_RECOVERY_TIME,
-    Iron: IRON_RECOVERY_TIME,
-    Gold: GOLD_RECOVERY_TIME,
-    Sunstone: SUNSTONE_RECOVERY_TIME,
-    Crimstone: CRIMSTONE_RECOVERY_TIME,
+  const resourceRecoveryTime: Record<RockName, number> = {
+    "Stone Rock": STONE_RECOVERY_TIME,
+    "Iron Rock": IRON_RECOVERY_TIME,
+    "Gold Rock": GOLD_RECOVERY_TIME,
+    "Sunstone Rock": SUNSTONE_RECOVERY_TIME,
+    "Crimstone Rock": CRIMSTONE_RECOVERY_TIME,
+    "Fused Stone Rock": STONE_RECOVERY_TIME,
+    "Reinforced Stone Rock": STONE_RECOVERY_TIME,
+    "Refined Iron Rock": IRON_RECOVERY_TIME,
+    "Tempered Iron Rock": IRON_RECOVERY_TIME,
+    "Pure Gold Rock": GOLD_RECOVERY_TIME,
+    "Prime Gold Rock": GOLD_RECOVERY_TIME,
   };
 
   const recoveryTime = resourceRecoveryTime[rockName];

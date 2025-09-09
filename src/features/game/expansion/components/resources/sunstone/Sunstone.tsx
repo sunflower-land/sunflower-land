@@ -90,7 +90,7 @@ export const Sunstone: React.FC<Props> = ({ id, index }) => {
 
   const hasTool = HasTool(inventory);
   const timeLeft = getTimeLeft(resource.stone.minedAt, SUNSTONE_RECOVERY_TIME);
-  const mined = !canMine(resource, "Sunstone");
+  const mined = !canMine(resource, "Sunstone Rock");
 
   useUiRefresher({ active: mined });
 

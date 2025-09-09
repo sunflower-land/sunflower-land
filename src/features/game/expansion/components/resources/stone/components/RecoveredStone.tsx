@@ -15,7 +15,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
-import { RockName } from "features/game/types/resources";
+import { StoneRockName } from "features/game/types/resources";
 import { InventoryItemName } from "features/game/types/game";
 
 const tool = "Pickaxe";
@@ -29,7 +29,7 @@ interface Props {
   hasTool: boolean;
   touchCount: number;
   showHelper: boolean;
-  stoneRockName: RockName;
+  stoneRockName: StoneRockName;
   requiredToolAmount: Decimal;
   inventory: Partial<Record<InventoryItemName, Decimal>>;
 }

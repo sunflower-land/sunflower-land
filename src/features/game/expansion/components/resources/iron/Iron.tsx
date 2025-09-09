@@ -87,7 +87,7 @@ export const Iron: React.FC<Props> = ({ id }) => {
 
   const hasTool = HasTool(inventory);
   const timeLeft = getTimeLeft(resource.stone.minedAt, IRON_RECOVERY_TIME);
-  const mined = !canMine(resource, "Iron");
+  const mined = !canMine(resource, ironRockName);
 
   useUiRefresher({ active: mined });
 

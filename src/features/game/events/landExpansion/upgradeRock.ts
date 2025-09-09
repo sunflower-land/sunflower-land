@@ -16,7 +16,14 @@ import {
 
 export type UpgradeRockAction = {
   type: "rock.upgraded";
-  upgradeTo: Exclude<RockName, "Stone Rock" | "Gold Rock" | "Iron Rock">;
+  upgradeTo: Exclude<
+    RockName,
+    | "Stone Rock"
+    | "Gold Rock"
+    | "Iron Rock"
+    | "Sunstone Rock"
+    | "Crimstone Rock"
+  >;
   id: string;
 };
 
@@ -26,7 +33,7 @@ type Options = {
   createdAt?: number;
 };
 
-export function upgradeStone({
+export function upgradeRock({
   state,
   action,
   createdAt = Date.now(),
@@ -79,28 +86,28 @@ export function upgradeStone({
     const current = game.inventory[action.upgradeTo] ?? new Decimal(0);
     game.inventory[action.upgradeTo] = current.add(1);
 
-    let stonesToRemove = advancedResource.preRequires.count;
+    let rocksToRemove = advancedResource.preRequires.count;
     let placement: { x: number; y: number } | undefined;
 
-    const upgradeableStones = getUpgradeableNodes(game, action.upgradeTo);
+    const upgradeableRocks = getUpgradeableNodes(game, action.upgradeTo);
 
-    const rockStateKeyAccessor = stateAccessorKeys[action.upgradeTo];
-    for (let i = 0; i < upgradeableStones.length && stonesToRemove > 0; i++) {
-      const [stoneId, stone] = upgradeableStones[i];
-      const tier = "tier" in stone ? stone.tier : 1;
+    const rockStateKeyAccessor = STATE_ACCESSOR_KEYS[action.upgradeTo];
+    for (let i = 0; i < upgradeableRocks.length && rocksToRemove > 0; i++) {
+      const [rockId, rock] = upgradeableRocks[i];
+      const tier = "tier" in rock ? rock.tier : 1;
 
       if (tier === advancedResource.preRequires.tier) {
-        if (!placement && stone.x && stone.y) {
-          placement = { x: stone.x, y: stone.y };
+        if (!placement && rock.x && rock.y) {
+          placement = { x: rock.x, y: rock.y };
         }
 
-        stonesToRemove--;
-        delete game[rockStateKeyAccessor][stoneId];
+        rocksToRemove--;
+        delete game[rockStateKeyAccessor][rockId];
       }
     }
 
     if (placement) {
-      const newStone: Rock = {
+      const newRock: Rock = {
         createdAt,
         stone: { minedAt: 0 },
         x: placement.x,
@@ -112,7 +119,7 @@ export function upgradeStone({
 
       game[rockStateKeyAccessor] = {
         ...game[rockStateKeyAccessor],
-        [action.id]: newStone,
+        [action.id]: newRock,
       };
     }
 
@@ -123,12 +130,12 @@ export function upgradeStone({
   });
 }
 
-const stateAccessorKeys: Record<RockName, "stones" | "iron" | "gold"> = {
+const STATE_ACCESSOR_KEYS: Record<
+  UpgradeRockAction["upgradeTo"],
+  "stones" | "iron" | "gold"
+> = {
   "Fused Stone Rock": "stones",
   "Reinforced Stone Rock": "stones",
-  "Stone Rock": "stones",
-  "Iron Rock": "iron",
-  "Gold Rock": "gold",
   "Refined Iron Rock": "iron",
   "Tempered Iron Rock": "iron",
   "Pure Gold Rock": "gold",

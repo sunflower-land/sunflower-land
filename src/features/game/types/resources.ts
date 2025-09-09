@@ -141,7 +141,12 @@ export type IronRockName =
   | "Refined Iron Rock"
   | "Tempered Iron Rock";
 
-export type RockName = StoneRockName | GoldRockName | IronRockName;
+export type RockName =
+  | StoneRockName
+  | GoldRockName
+  | IronRockName
+  | "Sunstone Rock"
+  | "Crimstone Rock";
 
 type ResourceUpgradeRequirements = Tool & {
   tier: ResourceTier;

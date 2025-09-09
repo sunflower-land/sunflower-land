@@ -84,7 +84,7 @@ export const Gold: React.FC<Props> = ({ id }) => {
   const hasTool = HasTool(inventory);
   const goldRockName = (resource.name ?? "Gold Rock") as GoldRockName;
   const timeLeft = getTimeLeft(resource.stone.minedAt, GOLD_RECOVERY_TIME);
-  const mined = !canMine(resource, "Gold");
+  const mined = !canMine(resource, goldRockName);
 
   useUiRefresher({ active: mined });
 

@@ -113,7 +113,7 @@ export function mineCrimstone({
       throw new Error("Crimstone rock is not placed");
     }
 
-    if (!canMine(rock, "Crimstone", createdAt)) {
+    if (!canMine(rock, "Crimstone Rock", createdAt)) {
       throw new Error("Rock is still recovering");
     }
 

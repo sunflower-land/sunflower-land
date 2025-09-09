@@ -335,7 +335,7 @@ export function mineStone({
       throw new Error("Rock is not placed");
     }
 
-    if (!canMine(rock, "Stone", createdAt)) {
+    if (!canMine(rock, rock.name ?? "Stone Rock", createdAt)) {
       throw new Error("Rock is still recovering");
     }
 

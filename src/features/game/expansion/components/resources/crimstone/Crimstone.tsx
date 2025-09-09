@@ -97,7 +97,7 @@ export const Crimstone: React.FC<Props> = ({ id, index }) => {
 
   const hasTool = HasTool(inventory);
   const timeLeft = getTimeLeft(resource.stone.minedAt, CRIMSTONE_RECOVERY_TIME);
-  const mined = !canMine(resource, "Crimstone");
+  const mined = !canMine(resource, "Crimstone Rock");
 
   useUiRefresher({ active: mined });
 

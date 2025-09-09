@@ -2,7 +2,7 @@ import { GameState, Rock } from "features/game/types/game";
 import {
   ADVANCED_RESOURCES,
   UpgradedResourceName,
-  RockName,
+  StoneRockName,
   RESOURCE_MULTIPLIER,
 } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
@@ -10,7 +10,7 @@ import { produce } from "immer";
 
 export type PlaceStoneAction = {
   type: "stone.placed";
-  name: RockName;
+  name: StoneRockName;
   id: string;
   coordinates: {
     x: number;
