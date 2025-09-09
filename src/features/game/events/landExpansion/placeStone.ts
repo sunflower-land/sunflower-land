@@ -53,6 +53,10 @@ export function placeStone({
         ...stone,
         x: action.coordinates.x,
         y: action.coordinates.y,
+        tier:
+          ADVANCED_RESOURCES[action.name as UpgradedResourceName]?.tier ?? 1,
+        name: action.name,
+        multiplier: RESOURCE_MULTIPLIER[action.name],
       };
 
       if (updatedStone.stone && updatedStone.removedAt) {
