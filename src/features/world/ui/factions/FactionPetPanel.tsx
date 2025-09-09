@@ -120,7 +120,7 @@ interface Props {
 
 export type PetState = "sleeping" | "hungry" | "happy";
 
-export const FACTION_PET_REFRESH_INTERVAL = 10 * 1000;
+export const FACTION_PET_REFRESH_INTERVAL = 60 * 1000;
 
 const _autosaving = (state: MachineState) => state.matches("autosaving");
 const _farmId = (state: MachineState) => state.context.farmId;
@@ -187,10 +187,11 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
 
   const selectedRequest = pet.requests[selectedRequestIdx] as FactionPetRequest;
 
-  const handleFeed = () => {
+  const handleFeed = (amount = 1) => {
     gameService.send({
       type: "factionPet.fed",
       requestIndex: selectedRequestIdx,
+      amount,
     });
     if (!autosaving) gameService.send("SAVE");
 
@@ -199,6 +200,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
       pet.requests[selectedRequestIdx],
     );
     setFedXP((prev) => prev + totalXP);
+    handleRefresh(); // update pet xp upon feeding
     setShowConfirm(false);
   };
 
@@ -228,22 +230,32 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
   const secondsTillWeekEnd =
     (getFactionWeekEndTime({ date: new Date() }) - now) / 1000;
   const fulfilled = selectedRequest.dailyFulfilled?.[day] ?? 0;
-  const selectedRequestReward = calculatePoints(
-    fulfilled,
-    PET_FED_REWARDS_KEY[selectedRequestIdx as DifficultyIndex],
-  );
+  const selectedRequestReward = (amount = 1) =>
+    calculatePoints(
+      fulfilled,
+      PET_FED_REWARDS_KEY[selectedRequestIdx as DifficultyIndex],
+      amount,
+    );
   const { goalXP } = collectivePet ?? { goalXP: 0 };
 
-  const canFulfillRequest = (
-    inventory[selectedRequest.food] ?? new Decimal(0)
-  ).gte(selectedRequest.quantity);
+  const canFulfillRequest = (amount = 1) =>
+    (inventory[selectedRequest.food] ?? new Decimal(0)).gte(
+      selectedRequest.quantity * amount,
+    );
 
-  const boost = getKingdomPetBoost(
-    gameService.getSnapshot().context.state,
-    selectedRequestReward,
-  )[0];
+  const boost = (amount = 1) =>
+    getKingdomPetBoost(
+      gameService.getSnapshot().context.state,
+      selectedRequestReward(amount),
+    )[0];
 
-  const boostedMarks = selectedRequestReward + boost;
+  const boostedMarks = (amount = 1) =>
+    selectedRequestReward(amount) + boost(amount);
+
+  const singularReward = selectedRequestReward();
+  const singularBoost = boost();
+  const singularBoostedMarks = singularReward + singularBoost;
+  const singularCanFulfillRequest = canFulfillRequest();
 
   const isContributingMemberForThisWeek = pet.requests.every(
     (request) => getKeys(request.dailyFulfilled).length > 0,
@@ -295,7 +307,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                 mobileReversePanelOrder
                 content={
                   <div className="flex flex-col space-y-2 w-full">
-                    <div className="flex flex-wrap justify-between items-center">
+                    <div className="flex flex-wrap justify-between items-center gap-1">
                       <Label
                         type="default"
                         className={classNames({
@@ -433,20 +445,22 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                         <BoostInfoPanel
                           feature="pet"
                           show={showBoostInfo}
-                          baseAmount={selectedRequestReward}
+                          baseAmount={singularReward}
                           onClick={() => setShowBoostInfo(false)}
                         />
                         <Label
                           onClick={() => setShowBoostInfo(!showBoostInfo)}
                           icon={ITEM_DETAILS["Mark"].image}
                           secondaryIcon={
-                            boost ? SUNNYSIDE.icons.lightning : undefined
+                            singularBoost
+                              ? SUNNYSIDE.icons.lightning
+                              : undefined
                           }
                           type="warning"
                           className="m-1 cursor-pointer"
                         >
-                          <span className={boost ? "pl-1.5" : ""}>
-                            {`${formatNumber(boostedMarks)} ${t("marks")}`}
+                          <span className={singularBoost ? "pl-1.5" : ""}>
+                            {`${formatNumber(singularBoostedMarks)} ${t("marks")}`}
                           </span>
                         </Label>
                       </div>
@@ -476,10 +490,20 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                         requirement={new Decimal(selectedRequest.quantity)}
                       />
                     </div>
-                    <Button
-                      disabled={!canFulfillRequest}
-                      onClick={() => setShowConfirm(true)}
-                    >{`${t("deliver")} ${selectedRequest.quantity}`}</Button>
+                    <div className="flex flex-row sm:flex-col gap-1 w-full">
+                      <Button
+                        disabled={!singularCanFulfillRequest}
+                        onClick={() => handleFeed()}
+                      >
+                        {`${t("deliver")} ${selectedRequest.quantity}`}
+                      </Button>
+                      <Button
+                        disabled={!canFulfillRequest(10)}
+                        onClick={() => setShowConfirm(true)}
+                      >
+                        {`${t("deliver")} ${selectedRequest.quantity * 10}`}
+                      </Button>
+                    </div>
                   </div>
                 }
               />
@@ -489,7 +513,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                 <div className="space-y-3">
                   <span className="text-xs sm:text-sm">
                     {t("faction.donation.confirm", {
-                      factionPoints: formatNumber(boostedMarks),
+                      factionPoints: formatNumber(boostedMarks(10)),
                     })}
                   </span>
                   <div className="flex flex-col space-y-1">
@@ -503,7 +527,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                           {selectedRequest.food}
                         </span>
                       </div>
-                      <span className="text-xs">{`${selectedRequest.quantity}`}</span>
+                      <span className="text-xs">{`${selectedRequest.quantity * 10}`}</span>
                     </div>
                   </div>
                 </div>
@@ -511,7 +535,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                   <Button onClick={() => setShowConfirm(false)}>
                     {t("cancel")}
                   </Button>
-                  <Button onClick={handleFeed}>{t("confirm")}</Button>
+                  <Button onClick={() => handleFeed(10)}>{t("confirm")}</Button>
                 </div>
               </InnerPanel>
             )}

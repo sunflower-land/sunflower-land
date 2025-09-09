@@ -37,6 +37,7 @@ export const getKingdomKitchenBoost = (
 export type DeliverFactionKitchenAction = {
   type: "factionKitchen.delivered";
   resourceIndex: number;
+  amount?: number;
 };
 
 type Options = {
@@ -76,21 +77,23 @@ export function deliverFactionKitchen({
     }
 
     const request = resources[action.resourceIndex];
+    const { amount = 1 } = action;
     const resourceBalance = inventory[request.item] ?? new Decimal(0);
+    const requestAmount = request.amount * amount;
 
-    if (resourceBalance.lt(request.amount)) {
+    if (resourceBalance.lt(requestAmount)) {
       throw new Error(DELIVER_FACTION_KITCHEN_ERRORS.INSUFFICIENT_RESOURCES);
     }
 
-    inventory[request.item] = resourceBalance.minus(request.amount);
+    inventory[request.item] = resourceBalance.minus(requestAmount);
 
     const week = getWeekKey({ date: new Date(createdAt) });
     const day = getFactionWeekday(createdAt);
     const marksBalance = inventory["Mark"] ?? new Decimal(0);
     const fulfilledToday = request.dailyFulfilled[day] ?? 0;
 
-    const points = calculatePoints(fulfilledToday, BASE_POINTS);
-    const boostPoints = getKingdomKitchenBoost(stateCopy, points)[0];
+    const points = calculatePoints(fulfilledToday, BASE_POINTS, amount);
+    const [boostPoints] = getKingdomKitchenBoost(stateCopy, points);
     const totalPoints = points + boostPoints;
 
     const leaderboard = faction.history[week] ?? {
@@ -104,7 +107,7 @@ export function deliverFactionKitchen({
     };
     inventory["Mark"] = marksBalance.plus(totalPoints);
 
-    request.dailyFulfilled[day] = fulfilledToday + 1;
+    request.dailyFulfilled[day] = fulfilledToday + amount;
 
     return stateCopy;
   });

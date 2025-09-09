@@ -244,15 +244,21 @@ export function getFactionWearableBoostAmount(
  * Calculates the decrementing reward amount for the faction kitchen and faction pet
  * @param fulfilledCount number
  * @param basePoints number
- * @returns
+ * @param amount number
+ * @returns number
  */
 export function calculatePoints(
   fulfilledCount: number,
   basePoints: number,
+  amount = 1,
 ): number {
-  if (fulfilledCount === 0) return basePoints;
+  let points = 0;
+  for (let i = 0; i < amount; i++) {
+    points += Math.max(basePoints - fulfilledCount * 2, 1);
+    fulfilledCount++;
+  }
 
-  return Math.max(basePoints - fulfilledCount * 2, 1);
+  return points;
 }
 
 // Rewarded items from treasury
