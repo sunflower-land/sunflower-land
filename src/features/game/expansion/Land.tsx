@@ -355,7 +355,8 @@ export const Land: React.FC = () => {
 
   const gameGrid = useMemo(() => {
     return gameGridValue;
-  }, [JSON.stringify(gameGridValue)]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cropPositions, collectiblePositions]);
 
   const { isVisiting: visiting } = useVisiting();
 
@@ -418,7 +419,7 @@ export const Land: React.FC = () => {
   const collectibleElements = useMemo(() => {
     return getKeys(collectibles)
       .filter((name) => collectibles[name])
-      .flatMap((name, nameIndex) => {
+      .flatMap((name) => {
         const items = collectibles[name]!;
         return items
           .filter((collectible) => collectible.coordinates)
@@ -429,12 +430,13 @@ export const Land: React.FC = () => {
 
             return (
               <MapPlacement
-                key={`collectible-${nameIndex}-${x}-${y}`}
+                key={`collectible-${name}-${id}`}
                 x={x}
                 y={y}
                 height={height}
                 width={width}
                 canCollide={NON_COLLIDING_OBJECTS.includes(name) ? false : true}
+                isTile={name.includes("Tile")}
                 enableOnVisitClick
               >
                 <Collectible
@@ -475,7 +477,7 @@ export const Land: React.FC = () => {
 
             return (
               <MapPlacement
-                key={`building-${nameIndex}-${x}-${y}`}
+                key={`building-${nameIndex}`}
                 x={x}
                 y={y}
                 height={height}
@@ -924,13 +926,9 @@ export const Land: React.FC = () => {
     const sortedIslandElements = elements.slice().sort((a, b) => {
       // Non-colliding objects (like tiles, rugs) should be at the beginning
       if (a.props.canCollide === false && b.props.canCollide === false) {
-        if (a.props.children.props.name.includes("Tile")) {
-          return -1; // a should be before b
-        }
+        if (a.props.isTile) return -1; // a should be before b
 
-        if (b.props.children.props.name.includes("Tile")) {
-          return 1; // b should be before a
-        }
+        if (b.props.isTile) return 1; // b should be before a
       }
 
       if (a.props.canCollide === false && b.props.canCollide !== false) {

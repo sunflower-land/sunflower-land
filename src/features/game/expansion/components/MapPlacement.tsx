@@ -19,6 +19,7 @@ type Position = {
   x: number;
   y: number;
   enableOnVisitClick?: boolean;
+  isTile?: boolean;
 };
 
 type Props = Position & { id?: string };
@@ -37,6 +38,7 @@ export const MapPlacement: React.FC<React.PropsWithChildren<Props>> = ({
   children,
   z = "unset",
   canCollide = true,
+  isTile = false,
   className,
   enableOnVisitClick = false,
 }) => {

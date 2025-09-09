@@ -35,9 +35,7 @@ import { EXTERIOR_ISLAND_BG } from "features/barn/BarnInside";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { useVisiting } from "lib/utils/visitUtils";
 import { VisitingHud } from "features/island/hud/VisitingHud";
-
-const selectGameState = (state: MachineState) => state.context.state;
-const isLandscaping = (state: MachineState) => state.matches("landscaping");
+import { getObjectEntries } from "features/game/expansion/lib/utils";
 
 const BACKGROUND_IMAGE: Record<IslandType, string> = {
   basic: SUNNYSIDE.land.tent_inside,
@@ -54,6 +52,29 @@ function acknowledgeIntro() {
   return localStorage.setItem("home.intro", new Date().toISOString());
 }
 
+const _landscaping = (state: MachineState) => state.matches("landscaping");
+const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
+const _buds = (state: MachineState) => state.context.state.buds ?? {};
+const _island = (state: MachineState) => state.context.state.island;
+const _homeCollectiblePositions = (state: MachineState) => {
+  return {
+    collectibles: state.context.state.home.collectibles,
+    positions: getObjectEntries(state.context.state.home.collectibles)
+      .flatMap(([name, value]) => value?.map((item) => ({ name, item })))
+      .filter(
+        (collectible): collectible is NonNullable<typeof collectible> =>
+          !!(collectible && collectible.item.coordinates !== undefined),
+      )
+      .map(({ name, item }) => ({
+        id: item.id,
+        x: item.coordinates!.x,
+        y: item.coordinates!.y,
+        flipped: item.flipped,
+        name,
+      })),
+  };
+};
+
 export const Home: React.FC = () => {
   const { isVisiting } = useVisiting();
   const [showIntro, setShowIntro] = useState(!hasReadIntro() && !isVisiting);
@@ -64,12 +85,14 @@ export const Home: React.FC = () => {
 
   // memorize game grid and only update it when the stringified value changes
 
-  const state = useSelector(gameService, selectGameState);
-  const landscaping = useSelector(gameService, isLandscaping);
-
-  const { bumpkin, home } = state;
-
-  const buds = state.buds ?? {};
+  const landscaping = useSelector(gameService, _landscaping);
+  const bumpkin = useSelector(gameService, _bumpkin);
+  const buds = useSelector(gameService, _buds);
+  const island = useSelector(gameService, _island);
+  const { collectibles, positions: homeCollectiblePositions } = useSelector(
+    gameService,
+    _homeCollectiblePositions,
+  );
 
   const [scrollIntoView] = useScrollIntoView();
   const [showPainting, setShowPainting] = useState(false);
@@ -79,15 +102,14 @@ export const Home: React.FC = () => {
     scrollIntoView(Section.GenesisBlock, "auto");
   }, []);
 
-  const collectibles = home.collectibles;
-
   const gameGridValue = getGameGrid({
-    crops: {},
-    collectibles: home.collectibles,
+    cropPositions: [],
+    collectiblePositions: [],
   });
   const gameGrid = useMemo(() => {
     return gameGridValue;
-  }, [JSON.stringify(gameGridValue)]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [homeCollectiblePositions]);
 
   const mapPlacements: Array<JSX.Element> = [];
 
@@ -159,8 +181,8 @@ export const Home: React.FC = () => {
       }),
   );
 
-  const bounds = HOME_BOUNDS[state.island.type];
-  const currentBiome = getCurrentBiome(state.island);
+  const bounds = HOME_BOUNDS[island.type];
+  const currentBiome = getCurrentBiome(island);
 
   return (
     <>
@@ -226,7 +248,7 @@ export const Home: React.FC = () => {
               {landscaping && <Placeable location="home" />}
 
               <img
-                src={BACKGROUND_IMAGE[state.island.type]}
+                src={BACKGROUND_IMAGE[island.type]}
                 id={Section.GenesisBlock}
                 className="relative z-0"
                 style={{
@@ -254,7 +276,7 @@ export const Home: React.FC = () => {
                 <>
                   {!isVisiting && (
                     <div className="absolute -top-16 left-0 w-full">
-                      <InteriorBumpkins game={state} />
+                      <InteriorBumpkins />
                     </div>
                   )}
                   <Button
