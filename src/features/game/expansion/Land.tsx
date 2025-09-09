@@ -238,7 +238,7 @@ const _airdropPositions = (state: MachineState) => {
   };
 };
 
-export const Land: React.FC = () => {
+export const LandComponent: React.FC = () => {
   const { gameService } = useContext(Context);
   const { pathname } = useLocation();
 
@@ -1071,3 +1071,5 @@ export const Land: React.FC = () => {
     </>
   );
 };
+
+export const Land = React.memo(LandComponent);
