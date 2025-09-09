@@ -5961,11 +5961,11 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.dewberry"),
   },
   "Fused Stone Rock": {
-    image: SUNNYSIDE.resource.rocks["Fused Stone Rock"],
+    image: SUNNYSIDE.resource.fusedStoneRock,
     description: "A fused stone rock",
   },
   "Reinforced Stone Rock": {
-    image: SUNNYSIDE.resource.rocks["Reinforced Stone Rock"],
+    image: SUNNYSIDE.resource.reinforcedStoneRock,
     description: "A reinforced stone rock",
   },
   "Ancient Tree": {
@@ -5977,19 +5977,19 @@ export const ITEM_DETAILS: Items = {
     description: "A sacred tree",
   },
   "Refined Iron Rock": {
-    image: SUNNYSIDE.resource.rocks["Refined Iron Rock"],
+    image: SUNNYSIDE.resource.refinedIronRock,
     description: "A refined iron rock",
   },
   "Tempered Iron Rock": {
-    image: SUNNYSIDE.resource.rocks["Tempered Iron Rock"],
+    image: SUNNYSIDE.resource.temperedIronRock,
     description: "A tempered iron rock",
   },
   "Pure Gold Rock": {
-    image: SUNNYSIDE.resource.rocks["Pure Gold Rock"],
+    image: SUNNYSIDE.resource.pureGoldRock,
     description: "A pure gold rock",
   },
   "Prime Gold Rock": {
-    image: SUNNYSIDE.resource.rocks["Prime Gold Rock"],
+    image: SUNNYSIDE.resource.primeGoldRock,
     description: "A prime gold rock",
   },
 };

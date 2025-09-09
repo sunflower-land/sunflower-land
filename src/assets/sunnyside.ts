@@ -793,6 +793,12 @@ export const SUNNYSIDE = {
     land: `${CONFIG.PROTECTED_IMAGE_URL}/resources/land.png`,
     plot: `${CONFIG.PROTECTED_IMAGE_URL}/resources/plot.png`,
     fruitPatch: `${CONFIG.PROTECTED_IMAGE_URL}/resources/fruit_patch.png`,
+    fusedStoneRock: `${CONFIG.PROTECTED_IMAGE_URL}/resources/stone/l2_stone_rock.webp`,
+    reinforcedStoneRock: `${CONFIG.PROTECTED_IMAGE_URL}/resources/stone/l3_stone_rock.webp`,
+    refinedIronRock: `${CONFIG.PROTECTED_IMAGE_URL}/resources/iron/l2_iron_rock.webp`,
+    temperedIronRock: `${CONFIG.PROTECTED_IMAGE_URL}/resources/iron/l3_iron_rock.webp`,
+    pureGoldRock: `${CONFIG.PROTECTED_IMAGE_URL}/resources/gold/l2_gold_rock.webp`,
+    primeGoldRock: `${CONFIG.PROTECTED_IMAGE_URL}/resources/gold/l3_gold_rock.webp`,
     rocks: {
       strikeSheet: {
         "Stone Rock": `${CONFIG.PROTECTED_IMAGE_URL}/resources/stone/stone_rock_spark.png`,

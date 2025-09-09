@@ -252,7 +252,7 @@ export const READONLY_RESOURCE_COMPONENTS = (): Record<
         className="relative"
         style={{
           width: `${PIXEL_SCALE * 15}px`,
-          top: `${PIXEL_SCALE * 3}px`,
+          top: `${PIXEL_SCALE * 1}px`,
           left: `${PIXEL_SCALE * 1}px`,
         }}
       />
@@ -274,7 +274,7 @@ export const READONLY_RESOURCE_COMPONENTS = (): Record<
         className="relative pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 15}px`,
-          top: `${PIXEL_SCALE * 3}px`,
+          top: `${PIXEL_SCALE * 1}px`,
           left: `${PIXEL_SCALE * 1}px`,
         }}
       />
