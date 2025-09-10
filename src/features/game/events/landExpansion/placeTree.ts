@@ -7,6 +7,7 @@ import {
 } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
+import { findExistingUnplacedNode } from "features/game/lib/resourceNodes";
 
 export type PlaceTreeAction = {
   type: "tree.placed";
@@ -44,20 +45,18 @@ export function placeTree({
       throw new Error("No trees available");
     }
 
-    const existingTree = Object.entries(game.trees).find(
-      ([_, tree]) => tree.x === undefined && tree.y === undefined,
-    );
+    const existingTree = findExistingUnplacedNode({
+      game,
+      nodeToFind: action.name,
+      baseNode: "Tree",
+    });
 
     if (existingTree) {
       const [id, tree] = existingTree;
       const updatedTree = {
-        ...tree,
+        ...(tree as Tree),
         x: action.coordinates.x,
         y: action.coordinates.y,
-        name: action.name,
-        multiplier: RESOURCE_MULTIPLIER[action.name],
-        tier:
-          ADVANCED_RESOURCES[action.name as UpgradedResourceName]?.tier ?? 1,
       };
 
       if (updatedTree.wood && updatedTree.removedAt) {

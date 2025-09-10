@@ -152,9 +152,6 @@ describe("placeTree", () => {
         },
         x: 2,
         y: 2,
-        multiplier: 1,
-        tier: 1,
-        name: "Tree",
       },
     });
   });

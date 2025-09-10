@@ -7,6 +7,7 @@ import {
 } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
+import { findExistingUnplacedNode } from "features/game/lib/resourceNodes";
 
 export type PlaceGoldAction = {
   type: "gold.placed";
@@ -40,20 +41,18 @@ export function placeGold({
       throw new Error("No gold available");
     }
 
-    const existingGold = Object.entries(game.gold).find(
-      ([_, gold]) => gold.x === undefined && gold.y === undefined,
-    );
+    const existingGold = findExistingUnplacedNode({
+      game,
+      nodeToFind: action.name,
+      baseNode: "Gold Rock",
+    });
 
     if (existingGold) {
       const [id, gold] = existingGold;
       const updatedGold = {
-        ...gold,
+        ...(gold as Rock),
         x: action.coordinates.x,
         y: action.coordinates.y,
-        tier:
-          ADVANCED_RESOURCES[action.name as UpgradedResourceName]?.tier ?? 1,
-        name: action.name,
-        multiplier: RESOURCE_MULTIPLIER[action.name],
       };
 
       if (updatedGold.stone && updatedGold.removedAt) {

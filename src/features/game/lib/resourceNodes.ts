@@ -14,6 +14,9 @@ import {
   RESOURCE_STATE_ACCESSORS,
   RockName,
   RESOURCES,
+  RESOURCE_MULTIPLIER,
+  UpgradeableResource,
+  BasicResourceName,
 } from "../types/resources";
 
 export const canGatherResource = (
@@ -105,3 +108,47 @@ export function canMine(
   const recoveryTime = resourceRecoveryTime[rockName];
   return now - rock.stone.minedAt >= recoveryTime * 1000;
 }
+
+export const findExistingUnplacedNode = (args: {
+  game: GameState;
+  nodeToFind: UpgradeableResource;
+  baseNode: BasicResourceName;
+}) => {
+  const { game, nodeToFind, baseNode } = args;
+
+  const nodeStateAccessor = RESOURCE_STATE_ACCESSORS[nodeToFind];
+  const existingNode = Object.entries(nodeStateAccessor(game)).find(
+    ([_, node]) => {
+      const isNotPlaced = node.x === undefined && node.y === undefined;
+
+      if (!isNotPlaced) {
+        return false;
+      }
+
+      // For base resources, we don't need to check name or multiplier
+      const isBaseResource = baseNode === nodeToFind;
+      if (isBaseResource) {
+        return true;
+      }
+
+      // For upgraded resources, check name and multiplier match
+      const hasName = "name" in node;
+      const hasMultiplier = "multiplier" in node;
+
+      if (!hasName || !hasMultiplier) {
+        return false;
+      }
+
+      const expectedName = nodeToFind;
+      const expectedMultiplier =
+        RESOURCE_MULTIPLIER[nodeToFind as UpgradeableResource];
+
+      const nameMatches = (node.name ?? baseNode) === expectedName;
+      const multiplierMatches = (node.multiplier ?? 1) === expectedMultiplier;
+
+      return nameMatches && multiplierMatches;
+    },
+  );
+
+  return existingNode as [string, Rock | Tree] | undefined;
+};
