@@ -6,9 +6,11 @@ import {
   RESOURCE_MULTIPLIER,
   RESOURCE_STATE_ACCESSORS,
 } from "features/game/types/resources";
-import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import { findExistingUnplacedNode } from "features/game/lib/resourceNodes";
+import {
+  findExistingUnplacedNode,
+  getAvailableNodes,
+} from "features/game/lib/resourceNodes";
 
 export type PlaceStoneAction = {
   type: "stone.placed";
@@ -32,14 +34,7 @@ export function placeStone({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    const available = (game.inventory[action.name] || new Decimal(0)).minus(
-      Object.values(game.stones).filter(
-        (stone) =>
-          stone.x !== undefined &&
-          stone.y !== undefined &&
-          (stone?.name ?? "Stone Rock") === action.name,
-      ).length,
-    );
+    const available = getAvailableNodes(game, "stones");
 
     if (available.lt(1)) {
       throw new Error("No stone available");

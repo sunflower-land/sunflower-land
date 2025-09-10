@@ -6,9 +6,11 @@ import {
   ADVANCED_RESOURCES,
   RESOURCE_STATE_ACCESSORS,
 } from "features/game/types/resources";
-import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import { findExistingUnplacedNode } from "features/game/lib/resourceNodes";
+import {
+  findExistingUnplacedNode,
+  getAvailableNodes,
+} from "features/game/lib/resourceNodes";
 
 export type PlaceIronAction = {
   type: "iron.placed";
@@ -32,11 +34,7 @@ export function placeIron({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    const available = (game.inventory["Iron Rock"] || new Decimal(0)).minus(
-      Object.values(game.iron).filter(
-        (iron) => iron.x !== undefined && iron.y !== undefined,
-      ).length,
-    );
+    const available = getAvailableNodes(game, "iron");
 
     if (available.lt(1)) {
       throw new Error("No iron available");

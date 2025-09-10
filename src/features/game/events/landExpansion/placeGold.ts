@@ -6,9 +6,11 @@ import {
   UpgradedResourceName,
   RESOURCE_STATE_ACCESSORS,
 } from "features/game/types/resources";
-import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import { findExistingUnplacedNode } from "features/game/lib/resourceNodes";
+import {
+  findExistingUnplacedNode,
+  getAvailableNodes,
+} from "features/game/lib/resourceNodes";
 
 export type PlaceGoldAction = {
   type: "gold.placed";
@@ -32,11 +34,7 @@ export function placeGold({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    const available = (game.inventory["Gold Rock"] || new Decimal(0)).minus(
-      Object.values(game.gold).filter(
-        (gold) => gold.x !== undefined && gold.y !== undefined,
-      ).length,
-    );
+    const available = getAvailableNodes(game, "gold");
 
     if (available.lt(1)) {
       throw new Error("No gold available");

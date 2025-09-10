@@ -6,9 +6,11 @@ import {
   TreeName,
   UpgradedResourceName,
 } from "features/game/types/resources";
-import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import { findExistingUnplacedNode } from "features/game/lib/resourceNodes";
+import {
+  findExistingUnplacedNode,
+  getAvailableNodes,
+} from "features/game/lib/resourceNodes";
 
 export type PlaceTreeAction = {
   type: "tree.placed";
@@ -32,15 +34,7 @@ export function placeTree({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    const placedTrees = Object.values(game.trees).filter(
-      (tree) => tree.x !== undefined && tree.y !== undefined,
-    ).length;
-
-    const inventoryTrees = (game.inventory.Tree || new Decimal(0))
-      .add(game.inventory["Ancient Tree"] || new Decimal(0))
-      .add(game.inventory["Sacred Tree"] || new Decimal(0));
-
-    const available = inventoryTrees.minus(placedTrees);
+    const available = getAvailableNodes(game, "trees");
 
     if (available.lt(1)) {
       throw new Error("No trees available");

@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import { canChop } from "../events/landExpansion/chop";
 import {
   GOLD_RECOVERY_TIME,
@@ -7,7 +8,7 @@ import {
   SUNSTONE_RECOVERY_TIME,
 } from "features/game/lib/constants";
 import { ResourceItem } from "../expansion/placeable/lib/collisionDetection";
-import { Rock, Tree, GameState } from "../types/game";
+import { Rock, Tree, GameState, InventoryItemName } from "../types/game";
 import {
   UpgradedResourceName,
   ADVANCED_RESOURCES,
@@ -107,6 +108,32 @@ export function canMine(
 
   const recoveryTime = resourceRecoveryTime[rockName];
   return now - rock.stone.minedAt >= recoveryTime * 1000;
+}
+export function getAvailableNodes(
+  game: GameState,
+  resourceFamily: "stones" | "iron" | "gold" | "trees",
+) {
+  const RESOURCE_FAMILIES = {
+    stones: ["Stone Rock", "Fused Stone Rock", "Reinforced Stone Rock"],
+    iron: ["Iron Rock", "Refined Iron Rock", "Tempered Iron Rock"],
+    gold: ["Gold Rock", "Pure Gold Rock", "Prime Gold Rock"],
+    trees: ["Tree", "Ancient Tree", "Sacred Tree"],
+  };
+  const resourceFamilyResources = RESOURCE_FAMILIES[resourceFamily];
+
+  const placedNodes = Object.values(game[resourceFamily]).filter(
+    (node) => node.x !== undefined && node.y !== undefined,
+  ).length;
+
+  let inventoryNodes = new Decimal(0);
+  resourceFamilyResources.forEach((resource) => {
+    const inventory = (
+      game.inventory[resource as InventoryItemName] || new Decimal(0)
+    ).minus(placedNodes);
+    inventoryNodes = inventoryNodes.add(inventory);
+  });
+
+  return inventoryNodes.minus(placedNodes);
 }
 
 export const findExistingUnplacedNode = <T extends ResourceItem>({
