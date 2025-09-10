@@ -23,7 +23,10 @@ import Decimal from "decimal.js-light";
 import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import xpIcon from "assets/icons/xp.png";
-import { getPetFoodRequests } from "features/game/events/pets/feedPet";
+import {
+  getPetEnergy,
+  getPetFoodRequests,
+} from "features/game/events/pets/feedPet";
 
 interface Props {
   petName: PetName;
@@ -166,6 +169,7 @@ export const PetCard: React.FC<Props> = ({
 
       const isDisabled = !canFeed || alreadyFed;
       const foodXP = getPetRequestXP(food);
+      const foodEnergy = getPetEnergy(pet, foodXP);
 
       return {
         food,
@@ -176,6 +180,7 @@ export const PetCard: React.FC<Props> = ({
         isSelected,
         isDisabled,
         foodXP,
+        foodEnergy,
       };
     });
   }, [inventory, isBulkFeed, selectedFeed, petName, pet]);
@@ -278,9 +283,7 @@ const GridItem: React.FC<{
   onMouseLeave: () => void;
   count?: Decimal;
   showConfirm?: boolean;
-  bottomLabelValue: number;
-  bottomLabelType: LabelType;
-  bottomLabelIcon?: string;
+  bottomLabels?: { labelType: LabelType; icon: string; value: number }[];
   isHovered: boolean;
 }> = ({
   keyName,
@@ -291,9 +294,7 @@ const GridItem: React.FC<{
   onMouseLeave,
   count,
   showConfirm,
-  bottomLabelValue,
-  bottomLabelType,
-  bottomLabelIcon,
+  bottomLabels,
   isHovered,
 }) => {
   return (
@@ -327,9 +328,14 @@ const GridItem: React.FC<{
           </Label>
         )}
       </div>
-      <Label type={bottomLabelType} icon={bottomLabelIcon}>
-        {bottomLabelValue}
-      </Label>
+      <div className="flex flex-col gap-1">
+        {bottomLabels &&
+          bottomLabels.map((label) => (
+            <Label key={label.value} type={label.labelType} icon={label.icon}>
+              {label.value}
+            </Label>
+          ))}
+      </div>
     </div>
   );
 };
@@ -374,6 +380,7 @@ export const PetCardContent: React.FC<{
     isSelected: boolean;
     isDisabled: boolean;
     foodXP: number;
+    foodEnergy: number;
   }[];
   fetchItems: {
     fetch: {
@@ -462,6 +469,7 @@ export const PetCardContent: React.FC<{
               isSelected,
               isDisabled,
               foodXP,
+              foodEnergy,
             }) => (
               <GridItem
                 key={food}
@@ -479,9 +487,18 @@ export const PetCardContent: React.FC<{
                 onMouseLeave={() => setHoveredFood(null)}
                 count={foodCount}
                 showConfirm={alreadyFed || isSelected}
-                bottomLabelValue={foodXP}
-                bottomLabelType="success"
-                bottomLabelIcon={SUNNYSIDE.icons.lightning}
+                bottomLabels={[
+                  {
+                    labelType: "info",
+                    icon: xpIcon,
+                    value: foodXP,
+                  },
+                  {
+                    labelType: "success",
+                    icon: SUNNYSIDE.icons.lightning,
+                    value: foodEnergy,
+                  },
+                ]}
                 isHovered={hoveredFood === food}
               />
             ),
@@ -512,19 +529,19 @@ export const PetCardContent: React.FC<{
                 onMouseEnter={(e) => handleFetchHover(fetch.name, e)}
                 onMouseLeave={() => setHoveredFetch(null)}
                 showConfirm={false}
-                bottomLabelValue={energyRequired}
-                bottomLabelType={
-                  !hasRequiredLevel
-                    ? "formula"
-                    : !hasEnoughEnergy
-                      ? "danger"
-                      : "default"
-                }
-                bottomLabelIcon={
-                  hasRequiredLevel
-                    ? SUNNYSIDE.icons.lightning
-                    : SUNNYSIDE.icons.lock
-                }
+                bottomLabels={[
+                  {
+                    labelType: !hasRequiredLevel
+                      ? "formula"
+                      : !hasEnoughEnergy
+                        ? "danger"
+                        : "default",
+                    icon: hasRequiredLevel
+                      ? SUNNYSIDE.icons.lightning
+                      : SUNNYSIDE.icons.lock,
+                    value: energyRequired,
+                  },
+                ]}
                 isHovered={hoveredFetch === fetch.name}
               />
             ),
