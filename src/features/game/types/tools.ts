@@ -21,7 +21,7 @@ export type TreasureToolName = "Sand Shovel" | "Sand Drill";
 export interface Tool {
   name: string;
   description: string;
-  ingredients: (skills: Skills) => Inventory;
+  ingredients: (skills?: Skills) => Inventory;
   price: number;
   disabled?: boolean;
   requiredIsland?: IslandType;
@@ -93,7 +93,7 @@ export const WORKBENCH_TOOLS: Record<
     description: translate("description.oil.drill"),
     price: 100,
     ingredients: (skill) => {
-      if (skill["Oil Rig"]) {
+      if (skill?.["Oil Rig"]) {
         return {
           Wood: new Decimal(20),
           Iron: new Decimal(9),
