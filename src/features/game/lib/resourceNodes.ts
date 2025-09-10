@@ -127,9 +127,8 @@ export function getAvailableNodes(
 
   let inventoryNodes = new Decimal(0);
   resourceFamilyResources.forEach((resource) => {
-    const inventory = (
-      game.inventory[resource as InventoryItemName] || new Decimal(0)
-    ).minus(placedNodes);
+    const inventory =
+      game.inventory[resource as InventoryItemName] || new Decimal(0);
     inventoryNodes = inventoryNodes.add(inventory);
   });
 
