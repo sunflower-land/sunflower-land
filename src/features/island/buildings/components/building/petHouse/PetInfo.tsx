@@ -10,7 +10,7 @@ import {
   Pet,
   PetName,
 } from "features/game/types/pets";
-import { PET_STATE_IMAGES } from "features/island/collectibles/components/pets/Pet";
+import { PET_STATE_IMAGES } from "features/island/collectibles/components/pets/petShared";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { shortenCount } from "lib/utils/formatNumber";
 import React, { useState } from "react";

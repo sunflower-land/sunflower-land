@@ -13,7 +13,7 @@ import levelUp from "assets/icons/level_up.png";
 import xpIcon from "assets/icons/xp.png";
 import React from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { PET_STATE_IMAGES } from "./Pet";
+import { PET_STATE_IMAGES } from "./petShared";
 
 interface Props {
   petName: PetName;
