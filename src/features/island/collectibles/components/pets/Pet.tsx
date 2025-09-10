@@ -37,6 +37,11 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useVisiting } from "lib/utils/visitUtils";
 import classNames from "classnames";
 import { Transition } from "@headlessui/react";
+import { hasFeatureAccess } from "lib/flags";
+import { Modal } from "components/ui/Modal";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { FarmHelped } from "features/island/hud/components/FarmHelped";
+import { isHelpComplete } from "features/game/types/monuments";
 
 const PETS_STYLES: Record<
   PetName,
@@ -202,21 +207,56 @@ export const PET_STATE_IMAGES: Record<
 const _petData = (name: PetName) => (state: MachineState) =>
   state.context.state.pets?.common?.[name];
 
+const _hasHelpedPet = (name: PetName) => (state: MachineState) => {
+  if (state.context.visitorState) {
+    const hasHelpedToday = state.context.hasHelpedPlayerToday ?? false;
+
+    const hasHelpedPet = !!state.context.state.pets?.common?.[name]?.visitedAt;
+
+    return hasHelpedPet || hasHelpedToday;
+  }
+};
+
 export const Pet: React.FC<{ name: PetName }> = ({ name }) => {
   const [showPetModal, setShowPetModal] = useState(false);
   const [showXpPopup, setShowXpPopup] = useState(false);
+  const [showHelped, setShowHelped] = useState(false);
   const { gameService } = useContext(Context);
   const { isVisiting } = useVisiting();
 
   const petData = useSelector(gameService, _petData(name));
+
   const isNeglected = isPetNeglected(petData);
   const isNapping = isPetNapping(petData);
   const petImage =
     PET_STATE_IMAGES[name][isNeglected || isNapping ? "asleep" : "happy"];
 
+  // Visiting variables
+  const visitorGameState = useSelector(
+    gameService,
+    (state) => state.context.visitorState,
+  );
+  const state = useSelector(gameService, (state) => state.context.state);
+  const totalHelpedToday = useSelector(
+    gameService,
+    (state) => state.context.totalHelpedToday ?? 0,
+  );
+  const hasHelpedPet = useSelector(gameService, _hasHelpedPet(name));
+
   const handlePetClick = () => {
     if (isVisiting) {
-      return;
+      if (
+        petData &&
+        visitorGameState &&
+        hasFeatureAccess(visitorGameState, "PETS") &&
+        !hasHelpedPet
+      ) {
+        gameService.send("pet.visitingPets", { pet: name, totalHelpedToday });
+
+        if (isHelpComplete({ game: gameService.getSnapshot().context.state })) {
+          setShowHelped(true);
+        }
+      }
     } else if (isNapping) {
       gameService.send("pet.pet", {
         pet: name,
@@ -234,7 +274,7 @@ export const Pet: React.FC<{ name: PetName }> = ({ name }) => {
         <img
           src={petImage}
           className={classNames("absolute w-full", {
-            "cursor-pointer hover:img-highlight": !isVisiting,
+            "cursor-pointer hover:img-highlight": !hasHelpedPet,
           })}
           alt={name}
           onClick={handlePetClick}
@@ -268,12 +308,46 @@ export const Pet: React.FC<{ name: PetName }> = ({ name }) => {
             className="absolute w-[18px] top-[-0.5rem] left-[-0.5rem]"
           />
         ) : null}
+        {isVisiting && !hasHelpedPet && petData && (
+          <div
+            className="absolute -top-4 -right-4 pointer-events-auto cursor-pointer hover:img-highlight"
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePetClick();
+            }}
+          >
+            <div
+              className="relative mr-2"
+              style={{
+                width: `${PIXEL_SCALE * 20}px`,
+                top: `${PIXEL_SCALE * -4}px`,
+                right: `${PIXEL_SCALE * -4}px`,
+              }}
+            >
+              <img className="w-full" src={SUNNYSIDE.icons.disc} />
+              <img
+                className="absolute"
+                src={SUNNYSIDE.icons.drag}
+                style={{
+                  width: `${PIXEL_SCALE * 14}px`,
+                  right: `${PIXEL_SCALE * 3}px`,
+                  top: `${PIXEL_SCALE * 2}px`,
+                }}
+              />
+            </div>
+          </div>
+        )}
       </div>
       <PetModal
         show={showPetModal}
         onClose={() => setShowPetModal(false)}
         petName={name}
       />
+      <Modal show={showHelped}>
+        <CloseButtonPanel bumpkinParts={state.bumpkin.equipped}>
+          <FarmHelped onClose={() => setShowHelped(false)} />
+        </CloseButtonPanel>
+      </Modal>
     </>
   );
 };

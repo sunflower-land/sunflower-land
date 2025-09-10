@@ -548,6 +548,7 @@ import { bulkFeedPets, BulkFeedPetsAction } from "./pets/bulkFeedPets";
 import { NeglectPetAction, neglectPet } from "./pets/neglectPet";
 import { petPet, PetPetAction } from "./pets/petPet";
 import { fetchPet, FetchPetAction } from "./pets/fetchPet";
+import { helpPets, HelpPetsAction } from "./visiting/helpPets";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -704,7 +705,10 @@ export type PlayingEvent =
   | InstaGrowFlowerAction
   | UpgradeStoneAction;
 
-export type LocalVisitingEvent = CollectGarbageAction | HelpProjectAction;
+export type LocalVisitingEvent =
+  | CollectGarbageAction
+  | HelpProjectAction
+  | HelpPetsAction;
 
 export type VisitingEvent = IncreaseHelpLimitAction | LocalVisitingEvent;
 
@@ -950,6 +954,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
 export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {
   "garbage.collected": collectGarbage,
   "project.helped": helpProject,
+  "pet.visitingPets": helpPets,
 };
 
 export const VISITING_EVENTS: Handlers<VisitingEvent> = {
