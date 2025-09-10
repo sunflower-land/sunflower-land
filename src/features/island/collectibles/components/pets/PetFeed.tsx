@@ -169,7 +169,7 @@ const PetFeedPanel: React.FC<
 
   const foodXp = getPetRequestXP(selectedFood);
   const petEnergy = getPetEnergy(petData, foodXp);
-  const isFoodLocked = getPetFoodRequests(petData).includes(selectedFood);
+  const isFoodLocked = !getPetFoodRequests(petData).includes(selectedFood);
   const isDisabled =
     (isToday && petData.requests.foodFed?.includes(selectedFood)) ||
     !inventory[selectedFood] ||
@@ -279,16 +279,17 @@ const PetFeedContent: React.FC<
 }) => {
   const { t } = useAppTranslation();
   const foodRequests = getPetFoodRequests(petData);
-  const upcomingRequests = petData.requests.food.filter(
-    (food) => !foodRequests.includes(food),
-  );
+  const allFoods = petData.requests.food;
+
   return (
     <div className="flex flex-col gap-2">
       <Label type="default">{t("pets.requestsToday", { pet: petName })}</Label>
       <div className="flex flex-row gap-2">
-        {foodRequests.map((food) => {
+        {allFoods.map((food) => {
+          const isRequested = foodRequests.includes(food);
           const isComplete =
-            isToday && petData.requests.foodFed?.includes(food);
+            isRequested && isToday && petData.requests.foodFed?.includes(food);
+          const isUpcoming = !isRequested;
           return (
             <Box
               key={food}
@@ -299,23 +300,14 @@ const PetFeedContent: React.FC<
                 setShowConfirm(false);
               }}
               count={inventory[food]}
-              showOverlay={isComplete}
-              secondaryImage={isComplete ? SUNNYSIDE.icons.confirm : undefined}
-            />
-          );
-        })}
-        {upcomingRequests.map((food) => {
-          return (
-            <Box
-              key={food}
-              image={ITEM_DETAILS[food].image}
-              showOverlay
-              onClick={() => {
-                setSelectedFood(food);
-                setShowConfirm(false);
-              }}
-              secondaryImage={SUNNYSIDE.icons.lock}
-              isSelected={selectedFood === food}
+              showOverlay={isComplete || isUpcoming}
+              secondaryImage={
+                isComplete
+                  ? SUNNYSIDE.icons.confirm
+                  : isUpcoming
+                    ? SUNNYSIDE.icons.lock
+                    : undefined
+              }
             />
           );
         })}

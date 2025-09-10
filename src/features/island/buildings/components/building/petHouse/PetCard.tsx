@@ -147,7 +147,7 @@ export const PetCard: React.FC<Props> = ({
 
   // Memoize the food items to avoid recreating them on every render
   const foodItems = useMemo(() => {
-    return getPetFoodRequests(pet).map((food) => {
+    return pet.requests.food.map((food) => {
       const foodImage = ITEM_DETAILS[food].image;
       const canFeed = hasFoodInInventory(
         food,
@@ -167,7 +167,9 @@ export const PetCard: React.FC<Props> = ({
         (item) => item.pet === petName && item.food === food,
       );
 
-      const isDisabled = !canFeed || alreadyFed;
+      const isFoodLocked = !getPetFoodRequests(pet).includes(food);
+
+      const isDisabled = !canFeed || alreadyFed || isFoodLocked;
       const foodXP = getPetRequestXP(food);
       const foodEnergy = getPetEnergy(pet, foodXP);
 
@@ -181,6 +183,7 @@ export const PetCard: React.FC<Props> = ({
         isDisabled,
         foodXP,
         foodEnergy,
+        isFoodLocked,
       };
     });
   }, [inventory, isBulkFeed, selectedFeed, petName, pet]);
@@ -381,6 +384,7 @@ export const PetCardContent: React.FC<{
     isDisabled: boolean;
     foodXP: number;
     foodEnergy: number;
+    isFoodLocked: boolean;
   }[];
   fetchItems: {
     fetch: {
@@ -470,6 +474,7 @@ export const PetCardContent: React.FC<{
               isDisabled,
               foodXP,
               foodEnergy,
+              isFoodLocked,
             }) => (
               <GridItem
                 key={food}
@@ -487,18 +492,28 @@ export const PetCardContent: React.FC<{
                 onMouseLeave={() => setHoveredFood(null)}
                 count={foodCount}
                 showConfirm={alreadyFed || isSelected}
-                bottomLabels={[
-                  {
-                    labelType: "info",
-                    icon: xpIcon,
-                    value: foodXP,
-                  },
-                  {
-                    labelType: "success",
-                    icon: SUNNYSIDE.icons.lightning,
-                    value: foodEnergy,
-                  },
-                ]}
+                bottomLabels={
+                  isFoodLocked
+                    ? [
+                        {
+                          labelType: "formula",
+                          icon: SUNNYSIDE.icons.lock,
+                          value: foodXP,
+                        },
+                      ]
+                    : [
+                        {
+                          labelType: "info",
+                          icon: xpIcon,
+                          value: foodXP,
+                        },
+                        {
+                          labelType: "success",
+                          icon: SUNNYSIDE.icons.lightning,
+                          value: foodEnergy,
+                        },
+                      ]
+                }
                 isHovered={hoveredFood === food}
               />
             ),
