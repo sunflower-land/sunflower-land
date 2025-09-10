@@ -8,7 +8,7 @@ import {
   SUNSTONE_RECOVERY_TIME,
 } from "features/game/lib/constants";
 import { ResourceItem } from "../expansion/placeable/lib/collisionDetection";
-import { Rock, Tree, GameState, InventoryItemName } from "../types/game";
+import { Rock, Tree, GameState } from "../types/game";
 import {
   UpgradedResourceName,
   ADVANCED_RESOURCES,
@@ -18,6 +18,7 @@ import {
   RESOURCE_MULTIPLIER,
   UpgradeableResource,
   BasicResourceName,
+  TreeName,
 } from "../types/resources";
 
 export const canGatherResource = (
@@ -113,7 +114,12 @@ export function getAvailableNodes(
   game: GameState,
   resourceFamily: "stones" | "iron" | "gold" | "trees",
 ) {
-  const RESOURCE_FAMILIES = {
+  const RESOURCE_FAMILIES: {
+    stones: RockName[];
+    iron: RockName[];
+    gold: RockName[];
+    trees: TreeName[];
+  } = {
     stones: ["Stone Rock", "Fused Stone Rock", "Reinforced Stone Rock"],
     iron: ["Iron Rock", "Refined Iron Rock", "Tempered Iron Rock"],
     gold: ["Gold Rock", "Pure Gold Rock", "Prime Gold Rock"],
@@ -127,8 +133,7 @@ export function getAvailableNodes(
 
   let inventoryNodes = new Decimal(0);
   resourceFamilyResources.forEach((resource) => {
-    const inventory =
-      game.inventory[resource as InventoryItemName] || new Decimal(0);
+    const inventory = game.inventory[resource] || new Decimal(0);
     inventoryNodes = inventoryNodes.add(inventory);
   });
 

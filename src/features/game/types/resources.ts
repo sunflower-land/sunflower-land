@@ -194,6 +194,34 @@ export const ADVANCED_RESOURCES: Record<
   UpgradedResourceName,
   ResourceUpgradeRequirements
 > = {
+  "Ancient Tree": {
+    name: "Ancient Tree",
+    description: "Chop Wood",
+    tier: 2,
+    ingredients: () => ({
+      Obsidian: new Decimal(3),
+      Tree: new Decimal(4),
+    }),
+    price: 25_000,
+    preRequires: {
+      tier: 1,
+      count: 4,
+    },
+  },
+  "Sacred Tree": {
+    name: "Sacred Tree",
+    description: "Chop Wood",
+    tier: 3,
+    ingredients: () => ({
+      Obsidian: new Decimal(5),
+      "Ancient Tree": new Decimal(4),
+    }),
+    price: 50_000,
+    preRequires: {
+      tier: 2,
+      count: 4,
+    },
+  },
   "Fused Stone Rock": {
     name: "Fused Stone",
     description: "Mine fused stone",
@@ -219,34 +247,6 @@ export const ADVANCED_RESOURCES: Record<
     }),
     price: 100_000,
     // 4 fused stone rocks
-    preRequires: {
-      tier: 2,
-      count: 4,
-    },
-  },
-  "Ancient Tree": {
-    name: "Ancient Tree",
-    description: "Chop Wood",
-    tier: 2,
-    ingredients: () => ({
-      Obsidian: new Decimal(3),
-      Tree: new Decimal(4),
-    }),
-    price: 25_000,
-    preRequires: {
-      tier: 1,
-      count: 4,
-    },
-  },
-  "Sacred Tree": {
-    name: "Sacred Tree",
-    description: "Chop Wood",
-    tier: 3,
-    ingredients: () => ({
-      Obsidian: new Decimal(5),
-      "Ancient Tree": new Decimal(4),
-    }),
-    price: 50_000,
     preRequires: {
       tier: 2,
       count: 4,
