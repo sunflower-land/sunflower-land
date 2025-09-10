@@ -16,13 +16,13 @@ import {
 import shopIcon from "assets/icons/shop.png";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { MachineState } from "features/game/lib/gameMachine";
-import { SeasonalStore } from "./SeasonalStore";
+import { SeasonalStore } from "./ChapterStore";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import {
   getCurrentSeason,
   getSeasonalTicket,
-} from "features/game/types/seasons";
+} from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {

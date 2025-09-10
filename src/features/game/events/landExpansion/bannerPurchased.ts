@@ -7,7 +7,7 @@ import {
   getPreviousSeasonalBanner,
   getSeasonByBanner,
   getSeasonalBanner,
-} from "features/game/types/seasons";
+} from "features/game/types/chapters";
 import { produce } from "immer";
 
 export type PurchaseBannerAction = {

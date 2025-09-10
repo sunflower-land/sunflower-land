@@ -9,7 +9,7 @@ import bee from "assets/icons/bee.webp";
 import chefHat from "assets/icons/chef_hat.png";
 import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
-import { getCurrentSeason, getSeasonalTicket, SEASONS } from "./seasons";
+import { getCurrentSeason, getSeasonalTicket, SEASONS } from "./chapters";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 import { isCollectible } from "../events/landExpansion/garbageSold";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";

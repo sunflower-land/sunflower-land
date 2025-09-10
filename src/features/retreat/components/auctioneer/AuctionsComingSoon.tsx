@@ -1,6 +1,6 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
-import { secondsLeftInSeason } from "features/game/types/seasons";
+import { secondsLeftInSeason } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { secondsToString } from "lib/utils/time";
 import React from "react";

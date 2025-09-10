@@ -3,7 +3,7 @@ import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import { sellBounty, SellBountyAction } from "./sellBounty";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/chapters";
 
 describe("sellBounty", () => {
   const GAME_STATE: GameState = {

@@ -24,7 +24,7 @@ import { Context } from "features/game/GameProvider";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ModalOverlay } from "components/ui/ModalOverlay";
-import { getChapterMarvelFish } from "features/game/types/seasons";
+import { getChapterMarvelFish } from "features/game/types/chapters";
 
 const FISH_BY_TYPE = getFishByType();
 

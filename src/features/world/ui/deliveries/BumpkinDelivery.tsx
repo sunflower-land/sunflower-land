@@ -34,7 +34,7 @@ import {
   NPC_DELIVERY_LEVELS,
   DeliveryNpcName,
 } from "features/island/delivery/lib/delivery";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   BUMPKIN_FLOWER_BONUSES,
@@ -45,7 +45,7 @@ import {
   getOrderSellPrice,
   GOBLINS_REQUIRING_REPUTATION,
 } from "features/game/events/landExpansion/deliver";
-import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
+import { getBumpkinHoliday } from "lib/utils/getChapterWeek";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { formatNumber } from "lib/utils/formatNumber";
 import { getBumpkinLevel } from "features/game/lib/level";

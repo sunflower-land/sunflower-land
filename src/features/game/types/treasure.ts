@@ -1,5 +1,5 @@
 import { translate } from "lib/i18n/translate";
-import { hasSeasonEnded, SEASONS } from "./seasons";
+import { hasSeasonEnded, SEASONS } from "./chapters";
 
 export type BeachBountyTreasure =
   | "Pirate Bounty"

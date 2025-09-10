@@ -14,7 +14,7 @@ import {
   getSeasonalTicket,
   hasSeasonEnded,
   SEASONS,
-} from "./seasons";
+} from "./chapters";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "../events/landExpansion/completeNPCChore";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { isCollectible } from "../events/landExpansion/garbageSold";

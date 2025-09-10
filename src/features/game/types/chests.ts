@@ -2,7 +2,7 @@ import {
   FLOWER_BOXES,
   isCollectible,
   isWearable,
-} from "../events/landExpansion/buySeasonalItem";
+} from "../events/landExpansion/buyChapterItem";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "../events/landExpansion/completeNPCChore";
 import { getObjectEntries } from "../expansion/lib/utils";
 import { BumpkinItem } from "./bumpkin";
@@ -10,7 +10,7 @@ import { ARTEFACT_SHOP_KEYS } from "./collectibles";
 import { getKeys } from "./decorations";
 import { BB_TO_GEM_RATIO, InventoryItemName, Wardrobe } from "./game";
 import { MEGASTORE, SeasonalStore } from "./megastore";
-import { getCurrentSeason } from "./seasons";
+import { getCurrentSeason } from "./chapters";
 import { BUMPKIN_RELEASES, INVENTORY_RELEASES } from "./withdrawables";
 
 export type ChestReward = {

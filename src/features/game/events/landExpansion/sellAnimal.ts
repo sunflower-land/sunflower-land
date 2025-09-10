@@ -3,7 +3,7 @@ import { getAnimalLevel } from "features/game/lib/animals";
 import { getKeys } from "features/game/types/decorations";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { Animal, BountyRequest, GameState } from "features/game/types/game";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/chapters";
 import { produce } from "immer";
 import { generateBountyTicket, generateBountyCoins } from "./sellBounty";
 

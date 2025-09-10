@@ -1,6 +1,6 @@
 import React from "react";
 
-import mushroomHouse from "assets/seasons/dawn-breaker/mushroom_house.png";
+import mushroomHouse from "assets/chapters/dawn-breaker/mushroom_house.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 

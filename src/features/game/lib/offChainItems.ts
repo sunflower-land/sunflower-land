@@ -1,7 +1,7 @@
 import { CLUTTER } from "../types/clutter";
 import { getKeys, TOOLS } from "../types/craftables";
 import { InventoryItemName } from "../types/game";
-import { SEASON_TICKET_NAME } from "../types/seasons";
+import { SEASON_TICKET_NAME } from "../types/chapters";
 import { SEEDS } from "../types/seeds";
 import { TREASURE_TOOLS } from "../types/tools";
 import { SELLABLE_TREASURE } from "../types/treasure";
