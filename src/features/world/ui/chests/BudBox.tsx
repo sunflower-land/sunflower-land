@@ -28,7 +28,7 @@ interface Props {
   setIsLoading?: (isLoading: boolean) => void;
 }
 
-const BUD_ORDER: TypeTrait[] = [
+export const BUD_ORDER: TypeTrait[] = [
   "Plaza",
   "Woodlands",
   "Cave",
