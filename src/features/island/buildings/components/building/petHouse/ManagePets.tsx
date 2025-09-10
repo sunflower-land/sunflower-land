@@ -2,13 +2,13 @@ import { Label } from "components/ui/Label";
 import {
   Pet,
   PetName,
-  getPetRequestXP,
   PET_CATEGORIES,
   PET_TYPES,
   PetType,
   getPetLevel,
   isPetNeglected,
   isPetNapping,
+  getPetRequestXP,
 } from "features/game/types/pets";
 import React, { useContext, useState, useMemo } from "react";
 import { PetCard, isFoodAlreadyFed } from "./PetCard";
@@ -25,6 +25,10 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getKeys } from "features/game/lib/crafting";
 import xpIcon from "assets/icons/xp.png";
 import { Box } from "components/ui/Box";
+import {
+  getPetEnergy,
+  getPetFoodRequests,
+} from "features/game/events/pets/feedPet";
 
 type Props = {
   activePets: [PetName, Pet | undefined][];
@@ -81,7 +85,8 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
           if (isPetNeglected(pet) || isPetNapping(pet)) {
             return;
           }
-          pet.requests.food.forEach((food) => {
+          const requests = getPetFoodRequests(pet);
+          requests.forEach((food) => {
             const isAlreadyFed = isFoodAlreadyFed(pet, food);
             if (!isAlreadyFed) {
               foodRequests.push({ petName, food });
@@ -272,10 +277,15 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
                   (sum, foodItem) => sum + getPetRequestXP(foodItem),
                   0,
                 );
+                const totalEnergy = food.reduce(
+                  (sum, foodItem) =>
+                    sum + getPetEnergy(petData, getPetRequestXP(foodItem)),
+                  0,
+                );
                 const beforeExperience = petData.experience;
                 const afterExperience = beforeExperience + totalXP;
                 const beforeEnergy = petData.energy;
-                const afterEnergy = beforeEnergy + totalXP;
+                const afterEnergy = beforeEnergy + totalEnergy;
 
                 const petImage = ITEM_DETAILS[pet].image;
 

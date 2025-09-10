@@ -11,7 +11,7 @@ import {
 } from "features/game/types/pets";
 import { produce } from "immer";
 
-function getPetEnergy(pet: Pet, basePetEnergy: number) {
+export function getPetEnergy(pet: Pet, basePetEnergy: number) {
   const { level: petLevel } = getPetLevel(pet.experience);
   let boostEnergy = 0;
 

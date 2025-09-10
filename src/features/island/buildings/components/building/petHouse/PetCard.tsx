@@ -23,6 +23,7 @@ import Decimal from "decimal.js-light";
 import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import xpIcon from "assets/icons/xp.png";
+import { getPetFoodRequests } from "features/game/events/pets/feedPet";
 
 interface Props {
   petName: PetName;
@@ -143,7 +144,7 @@ export const PetCard: React.FC<Props> = ({
 
   // Memoize the food items to avoid recreating them on every render
   const foodItems = useMemo(() => {
-    return pet.requests.food.map((food) => {
+    return getPetFoodRequests(pet).map((food) => {
       const foodImage = ITEM_DETAILS[food].image;
       const canFeed = hasFoodInInventory(
         food,

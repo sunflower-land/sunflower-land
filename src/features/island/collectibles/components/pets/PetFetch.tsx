@@ -49,6 +49,7 @@ export const PetFetch: React.FC<Props> = ({
   const requiredLevel = selectedFetchData?.level ?? 0;
   const hasRequiredLevel = level >= requiredLevel;
   const hasEnoughEnergy = petData.energy >= energyRequired;
+  const fetchYield = petData.fetches?.[selectedFetch] ?? 1;
 
   return (
     <>
@@ -70,7 +71,7 @@ export const PetFetch: React.FC<Props> = ({
                     alt={selectedFetch}
                     className="w-8"
                   />
-                  <span className="text-xs">{`1 x ${selectedFetch}`}</span>
+                  <span className="text-xs">{`${fetchYield} x ${selectedFetch}`}</span>
                 </div>
               )}
             </div>
@@ -101,7 +102,7 @@ export const PetFetch: React.FC<Props> = ({
                 }
                 onClick={() => handlePetFetch(petName, selectedFetch)}
               >
-                {"Fetch"}
+                {`Fetch ${fetchYield}`}
               </Button>
               {selectedFetch === "Fossil Shell" && (
                 <p

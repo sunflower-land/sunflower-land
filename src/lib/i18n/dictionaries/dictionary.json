@@ -6522,7 +6522,7 @@
   "pet.changes": "Changes",
   "pets.plusFoodXp": "+{{foodXp}} XP",
   "pets.xp": "{{currentProgress}} / {{experienceBetweenLevels}} XP",
-  "pets.plusFoodEnergy": "+{{foodXp}} Energy",
+  "pets.plusFoodEnergy": "+{{energy}} Energy",
   "pets.energy": "{{energy}} Energy",
   "pets.foodFedToday": "Food Fed Today",
   "pets.insufficientFood": "Insufficient Food",

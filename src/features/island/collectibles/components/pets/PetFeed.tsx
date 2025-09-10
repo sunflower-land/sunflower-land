@@ -13,6 +13,10 @@ import xpIcon from "assets/icons/xp.png";
 import { Loading } from "features/auth/components/Loading";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ResetFoodRequests } from "./ResetFoodRequests";
+import {
+  getPetEnergy,
+  getPetFoodRequests,
+} from "features/game/events/pets/feedPet";
 
 interface Props {
   petName: PetName;
@@ -169,6 +173,7 @@ const PetFeedPanel: React.FC<
     inventory[selectedFood].lessThan(1);
 
   const foodXp = getPetRequestXP(selectedFood);
+  const petEnergy = getPetEnergy(petData, foodXp);
 
   return (
     <div className="flex flex-col items-center gap-1">
@@ -205,7 +210,7 @@ const PetFeedPanel: React.FC<
             <img src={SUNNYSIDE.icons.lightning} className="w-3" />
           </div>
           <span className="text-xs">
-            {t("pets.plusFoodEnergy", { foodXp })}
+            {t("pets.plusFoodEnergy", { energy: petEnergy })}
           </span>
         </div>
       </div>
@@ -265,11 +270,12 @@ const PetFeedContent: React.FC<
   isToday,
 }) => {
   const { t } = useAppTranslation();
+  const foodRequests = getPetFoodRequests(petData);
   return (
     <div className="flex flex-col gap-2">
       <Label type="default">{t("pets.requestsToday", { pet: petName })}</Label>
       <div className="flex flex-row gap-2">
-        {petData.requests.food.map((food) => {
+        {foodRequests.map((food) => {
           const isComplete =
             isToday && petData.requests.foodFed?.includes(food);
           return (
