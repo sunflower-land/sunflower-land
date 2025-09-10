@@ -38,30 +38,32 @@ export type CollectibleProps = {
   y: number;
   grid: GameGrid;
   location: PlaceableLocation;
-  game: GameState;
+  skills: GameState["bumpkin"]["skills"];
+  showTimers: boolean;
   z?: number | string;
   flipped?: boolean;
 };
 
 type Props = CollectibleProps & {
-  showTimers: boolean;
   location: PlaceableLocation;
 };
+
+const _skills = (state: MachineState) => state.context.state.bumpkin.skills;
 
 const InProgressCollectible: React.FC<Props> = ({
   name,
   id,
   readyAt,
   createdAt,
-  showTimers,
   x,
   y,
   grid,
   location,
-  game,
 }) => {
-  const { gameService, showAnimations } = useContext(Context);
+  const { gameService, showAnimations, showTimers } = useContext(Context);
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
+
+  const skills = useSelector(gameService, _skills);
 
   const [showModal, setShowModal] = useState(false);
 
@@ -102,7 +104,6 @@ const InProgressCollectible: React.FC<Props> = ({
             readyAt={readyAt}
             onClose={() => setShowModal(false)}
             onInstantBuilt={onSpeedUp}
-            state={game}
           />
         </CloseButtonPanel>
       </Modal>
@@ -118,7 +119,8 @@ const InProgressCollectible: React.FC<Props> = ({
             y={y}
             grid={grid}
             location={location}
-            game={game}
+            showTimers={showTimers}
+            skills={skills}
           />
         </div>
         {showTimers && (
@@ -146,14 +148,14 @@ const CollectibleComponent: React.FC<Props> = ({
   createdAt,
   x,
   y,
-  showTimers,
   grid,
   location,
-  game,
   z,
   flipped,
 }) => {
+  const { gameService, showTimers } = useContext(Context);
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
+  const skills = useSelector(gameService, _skills);
 
   const inProgress = readyAt > Date.now();
 
@@ -175,10 +177,10 @@ const CollectibleComponent: React.FC<Props> = ({
           readyAt={readyAt}
           x={x}
           y={y}
-          showTimers={showTimers}
           grid={grid}
           location={location}
-          game={game}
+          skills={skills}
+          showTimers={showTimers}
         />
       ) : (
         <CollectiblePlaced
@@ -191,7 +193,8 @@ const CollectibleComponent: React.FC<Props> = ({
           y={y}
           grid={grid}
           location={location}
-          game={game}
+          skills={skills}
+          showTimers={showTimers}
         />
       )}
     </div>
@@ -219,25 +222,41 @@ const isLandscaping = (state: MachineState) => state.matches("landscaping");
 
 const MemorizedCollectibleComponent = React.memo(CollectibleComponent);
 
-export const Collectible: React.FC<Props> = (props) => {
-  const { gameService } = useContext(Context);
+export const Collectible: React.FC<Omit<Props, "showTimers" | "skills">> = (
+  props,
+) => {
+  const { gameService, showTimers } = useContext(Context);
   const landscaping = useSelector(gameService, isLandscaping);
+  const skills = useSelector(gameService, _skills);
 
   if (landscaping) {
-    return <LandscapingCollectible {...props} />;
+    return (
+      <LandscapingCollectible
+        {...props}
+        showTimers={showTimers}
+        skills={skills}
+      />
+    );
   }
 
-  return <MemorizedCollectibleComponent {...props} />;
+  return (
+    <MemorizedCollectibleComponent
+      {...props}
+      showTimers={showTimers}
+      skills={skills}
+    />
+  );
 };
 
 export const Building: React.FC<{
-  state: GameState;
   onClose: () => void;
   onInstantBuilt: (gems: number) => void;
   readyAt: number;
   createdAt: number;
   name: CollectibleName;
-}> = ({ state, onClose, onInstantBuilt, readyAt, createdAt, name }) => {
+}> = ({ onClose, onInstantBuilt, readyAt, createdAt, name }) => {
+  const { gameService } = useContext(Context);
+  const state = useSelector(gameService, (state) => state.context.state);
   const { t } = useAppTranslation();
   const totalSeconds = (readyAt - createdAt) / 1000;
   const secondsTillReady = (readyAt - Date.now()) / 1000;

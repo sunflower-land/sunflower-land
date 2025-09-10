@@ -4,7 +4,7 @@ import {
   BumpkinPart,
   ITEM_IDS,
 } from "features/game/types/bumpkin";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DynamicNFT } from "./DynamicNFT";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { OuterPanel, InnerPanel } from "components/ui/Panel";
@@ -23,7 +23,6 @@ import {
   SPECIAL_ITEM_LABELS,
 } from "features/game/types/bumpkinItemBuffs";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
-import { GameState } from "features/game/types/game";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
@@ -32,6 +31,9 @@ import {
   pixelVibrantBorderStyle,
 } from "features/game/lib/style";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
 
 const REQUIRED: BumpkinPart[] = [
   "background",
@@ -59,10 +61,12 @@ const NOTREQUIRED: BumpkinPart[] = [
 interface Props {
   onEquip: (equipment: BumpkinParts) => void;
   equipment: BumpkinParts;
-  game: GameState;
 }
 
-export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
+const _game = (state: MachineState) => state.context.state;
+
+export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip }) => {
+  const { gameService } = useContext(Context);
   const [equipped, setEquipped] = useState(equipment);
   const [selectedBumpkinPart, setSelectedBumpkinPart] = useState(REQUIRED[0]);
   const [selectedBumpkinItem, setSelectedBumpkinItem] = useState(
@@ -71,6 +75,8 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
   const [filteredWardrobeNames, setFilteredWardrobeNames] = useState<
     BumpkinItem[]
   >([]);
+
+  const game = useSelector(gameService, _game);
 
   /**
    * Show available wardrobe and currently equipped items

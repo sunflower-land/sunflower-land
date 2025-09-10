@@ -799,14 +799,16 @@ export function getCropYieldAmount({
 
   // Insect plague
   const isInsectPlagueActive =
-    getActiveCalendarEvent({ game }) === "insectPlague";
+    getActiveCalendarEvent({ calendar: game.calendar }) === "insectPlague";
   const isProtected = game.calendar.insectPlague?.protected;
 
   if (isInsectPlagueActive && !isProtected) {
     amount = amount * 0.5;
   }
 
-  if (getActiveCalendarEvent({ game }) === "bountifulHarvest") {
+  if (
+    getActiveCalendarEvent({ calendar: game.calendar }) === "bountifulHarvest"
+  ) {
     amount += 1;
     const { activeGuardian } = getActiveGuardian({
       game,

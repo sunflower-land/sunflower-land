@@ -1260,7 +1260,7 @@ export function startGame(authContext: AuthContext) {
                 const game = context.state;
 
                 const activeEvent = getActiveCalendarEvent({
-                  game,
+                  calendar: game.calendar,
                 });
 
                 if (!activeEvent) return false;
@@ -1792,7 +1792,7 @@ export function startGame(authContext: AuthContext) {
                   const game = event.data.farm;
 
                   const activeEvent = getActiveCalendarEvent({
-                    game,
+                    calendar: game.calendar,
                   });
 
                   if (!activeEvent) return false;

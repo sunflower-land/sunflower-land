@@ -435,7 +435,8 @@ export const DeliveryOrders: React.FC<Props> = ({
         <div className="p-1">
           <div className="flex justify-between gap-1 flex-wrap w-full">
             <Label type="default">{t("deliveries")}</Label>
-            {getActiveCalendarEvent({ game: state }) === "doubleDelivery" && (
+            {getActiveCalendarEvent({ calendar: state.calendar }) ===
+              "doubleDelivery" && (
               <Label type="vibrant" icon={lightning}>
                 {t("double.rewards.deliveries")}
               </Label>
@@ -777,7 +778,8 @@ export const DeliveryOrders: React.FC<Props> = ({
                 </div>
               </div>
               <div className="mb-1">
-                {getActiveCalendarEvent({ game: state }) === "doubleDelivery" &&
+                {getActiveCalendarEvent({ calendar: state.calendar }) ===
+                  "doubleDelivery" &&
                   !hasClaimedBonus && (
                     <Label type="vibrant" icon={lightning}>
                       {t("2x.rewards")}

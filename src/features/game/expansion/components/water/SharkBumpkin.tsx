@@ -19,7 +19,7 @@ interface Props {
   y: number;
 }
 
-export const SharkBumpkin: React.FC<Props> = ({ x, y }) => {
+const SharkBumpkinComponent: React.FC<Props> = ({ x, y }) => {
   const { t } = useAppTranslation();
   const { scale } = useContext(ZoomContext);
   const [showModal, setShowModal] = useState(false);
@@ -89,3 +89,5 @@ export const SharkBumpkin: React.FC<Props> = ({ x, y }) => {
     </div>
   );
 };
+
+export const SharkBumpkin = React.memo(SharkBumpkinComponent);
