@@ -26,12 +26,15 @@ function getReward({
 
   // TODO: If a player already has the reward, half the weight
 
-  const totalWeight = rewards.reduce((sum, reward) => sum + reward.weight, 0);
+  const totalWeight = rewards.reduce(
+    (sum, reward) => sum + reward.weighting,
+    0,
+  );
   let randomValue = Math.random() * totalWeight;
 
   let selectedReward: RewardBoxReward | undefined;
   for (const reward of rewards) {
-    randomValue -= reward.weight;
+    randomValue -= reward.weighting;
     if (randomValue <= 0) {
       selectedReward = reward;
       break;

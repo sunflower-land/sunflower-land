@@ -23,7 +23,7 @@ interface Props {
 
 type Challenge = "goblins" | "chest";
 
-export const ChestReward: React.FC<Props> = ({
+export const RewardBoxReward: React.FC<Props> = ({
   collectedItem,
   reward,
   onCollected,

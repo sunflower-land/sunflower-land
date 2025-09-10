@@ -16,7 +16,6 @@ import {
   getWoodDropAmount,
 } from "features/game/events/landExpansion/chop";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
@@ -30,6 +29,7 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { setPrecision } from "lib/utils/formatNumber";
+import { RewardBoxReward } from "features/island/common/chest-reward/ChestReward";
 
 const HITS = 3;
 const tool = "Axe";
@@ -240,7 +240,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
       {/* Chest reward */}
       {reward && (
-        <ChestReward
+        <RewardBoxReward
           collectedItem={"Wood"}
           reward={reward}
           onCollected={onCollectChest}

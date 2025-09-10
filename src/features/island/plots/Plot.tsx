@@ -16,7 +16,7 @@ import {
 } from "features/game/events/landExpansion/harvest";
 import { NonFertilePlot } from "./components/NonFertilePlot";
 import { FertilePlot } from "./components/FertilePlot";
-import { ChestReward } from "../common/chest-reward/ChestReward";
+import { RewardBoxReward } from "../common/chest-reward/ChestReward";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -354,7 +354,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
         />
       </div>
       {reward && (
-        <ChestReward
+        <RewardBoxReward
           collectedItem={crop?.name}
           reward={reward}
           onCollected={onCollectReward}

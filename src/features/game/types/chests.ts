@@ -8,18 +8,11 @@ import { getObjectEntries } from "../expansion/lib/utils";
 import { BumpkinItem } from "./bumpkin";
 import { ARTEFACT_SHOP_KEYS } from "./collectibles";
 import { getKeys } from "./decorations";
-import { BB_TO_GEM_RATIO, InventoryItemName, Wardrobe } from "./game";
+import { BB_TO_GEM_RATIO, InventoryItemName } from "./game";
 import { MEGASTORE, SeasonalStore } from "./megastore";
+import { RewardBoxReward } from "./rewardBoxes";
 import { getCurrentSeason } from "./seasons";
 import { BUMPKIN_RELEASES, INVENTORY_RELEASES } from "./withdrawables";
-
-export type ChestReward = {
-  items?: Partial<Record<InventoryItemName, number>>;
-  wearables?: Partial<Wardrobe>;
-  sfl?: number;
-  coins?: number;
-  weighting: number;
-};
 
 export const CHEST_MULTIPLIER = 900;
 
@@ -47,9 +40,9 @@ export const MEGASTORE_RESTRICTED_ITEMS: (InventoryItemName | BumpkinItem)[] = [
 export const SEASONAL_REWARDS: (
   weight: number,
   chestTier: "basic" | "rare" | "luxury",
-) => ChestReward[] = (weight, chestTier) => {
+) => RewardBoxReward[] = (weight, chestTier) => {
   const store = MEGASTORE[currentSeason];
-  const rewards: ChestReward[] = [];
+  const rewards: RewardBoxReward[] = [];
 
   getObjectEntries(MEGASTORE_TIER_WEIGHTS).forEach(([tier, tierWeight]) => {
     if (chestTier === "basic" && (tier === "mega" || tier === "epic")) return;
@@ -83,7 +76,7 @@ export const SEASONAL_REWARDS: (
 };
 
 export const BASIC_SEASONAL_REWARDS_WEIGHT = 5 * CHEST_MULTIPLIER;
-export const BASIC_REWARDS: () => ChestReward[] = () => [
+export const BASIC_REWARDS: () => RewardBoxReward[] = () => [
   { coins: 1600, weighting: 100 * CHEST_MULTIPLIER },
   { coins: 3200, weighting: 50 * CHEST_MULTIPLIER },
   { coins: 8000, weighting: 20 * CHEST_MULTIPLIER },
@@ -113,7 +106,7 @@ export const BASIC_REWARDS: () => ChestReward[] = () => [
   ...SEASONAL_REWARDS(20 * CHEST_MULTIPLIER, "basic"),
 ];
 
-export const RARE_REWARDS: () => ChestReward[] = () => [
+export const RARE_REWARDS: () => RewardBoxReward[] = () => [
   { coins: 1600, weighting: 50 * CHEST_MULTIPLIER },
   { coins: 3200, weighting: 100 * CHEST_MULTIPLIER },
   { coins: 8000, weighting: 50 * CHEST_MULTIPLIER },
@@ -143,7 +136,7 @@ export const RARE_REWARDS: () => ChestReward[] = () => [
   ...SEASONAL_REWARDS(50 * CHEST_MULTIPLIER, "rare"),
 ];
 
-export const LUXURY_REWARDS: () => ChestReward[] = () => [
+export const LUXURY_REWARDS: () => RewardBoxReward[] = () => [
   { coins: 3200, weighting: 50 * CHEST_MULTIPLIER },
   { coins: 8000, weighting: 100 * CHEST_MULTIPLIER },
   { coins: 16000, weighting: 50 * CHEST_MULTIPLIER },
@@ -165,7 +158,7 @@ export const LUXURY_REWARDS: () => ChestReward[] = () => [
   ...SEASONAL_REWARDS(50 * CHEST_MULTIPLIER, "luxury"),
 ];
 
-export const BUD_BOX_REWARDS: ChestReward[] = [
+export const BUD_BOX_REWARDS: RewardBoxReward[] = [
   { items: { "Gold Pickaxe": 3 }, weighting: 5 },
   { items: { Grub: 3, Earthworm: 3, "Red Wiggler": 3 }, weighting: 10 },
   { items: { "Pirate Cake": 3 }, weighting: 5 },
@@ -182,7 +175,7 @@ export const BUD_BOX_REWARDS: ChestReward[] = [
   { items: { "Rapid Root": 10, "Sprout Mix": 10 }, weighting: 10 },
 ];
 
-export const GIFT_GIVER_REWARDS: ChestReward[] = [
+export const GIFT_GIVER_REWARDS: RewardBoxReward[] = [
   { items: { "Radish Cake": 1 }, weighting: 15 },
   { items: { "Pirate Cake": 1 }, weighting: 10 },
   { items: { "Fishing Lure": 3 }, weighting: 10 },
@@ -194,7 +187,7 @@ export const GIFT_GIVER_REWARDS: ChestReward[] = [
   { items: { Pickaxe: 3, "Stone Pickaxe": 2 }, weighting: 5 },
 ];
 
-export const PIRATE_CHEST_REWARDS: ChestReward[] = [
+export const PIRATE_CHEST_REWARDS: RewardBoxReward[] = [
   { items: { "Sand Shovel": 5 }, weighting: 20 },
   { items: { Grub: 5 }, weighting: 10 },
   { items: { Earthworm: 5 }, weighting: 10 },
@@ -209,7 +202,7 @@ export const PIRATE_CHEST_REWARDS: ChestReward[] = [
 ];
 
 // 1-3 days
-export const BASIC_DESERT_STREAK: ChestReward[] = [
+export const BASIC_DESERT_STREAK: RewardBoxReward[] = [
   { items: { "Clam Shell": 1 }, weighting: 20 },
   { items: { Pipi: 1 }, weighting: 20 },
   { items: { "Sand Shovel": 10 }, weighting: 15 },
@@ -220,7 +213,7 @@ export const BASIC_DESERT_STREAK: ChestReward[] = [
 ];
 
 // 4-10 days
-export const ADVANCED_DESERT_STREAK: ChestReward[] = [
+export const ADVANCED_DESERT_STREAK: RewardBoxReward[] = [
   { items: { "Clam Shell": 2 }, weighting: 10 },
   { items: { "Treasure Key": 1 }, weighting: 10 },
   { items: { "Pirate Cake": 1 }, weighting: 10 },
@@ -231,7 +224,7 @@ export const ADVANCED_DESERT_STREAK: ChestReward[] = [
 ];
 
 // 11+ days
-export const EXPERT_DESERT_STREAK: ChestReward[] = [
+export const EXPERT_DESERT_STREAK: RewardBoxReward[] = [
   { items: { "Pirate Bounty": 1 }, weighting: 5 },
   { items: { Pearl: 1 }, weighting: 10 },
   { items: { "Prize Ticket": 1 }, weighting: 5 },
@@ -242,7 +235,7 @@ export const EXPERT_DESERT_STREAK: ChestReward[] = [
   { items: { "Shroom Syrup": 1 }, weighting: 1 },
 ];
 
-export const MANEKI_NEKO_REWARDS: ChestReward[] = [
+export const MANEKI_NEKO_REWARDS: RewardBoxReward[] = [
   { items: { "Pumpkin Soup": 1 }, weighting: 50 },
   { items: { "Cauliflower Burger": 1 }, weighting: 35 },
   { items: { "Mashed Potato": 1 }, weighting: 30 },
@@ -255,7 +248,7 @@ export const MANEKI_NEKO_REWARDS: ChestReward[] = [
   { items: { "Sunflower Cake": 1 }, weighting: 5 },
 ];
 
-export const FESTIVE_TREE_REWARDS: ChestReward[] = [
+export const FESTIVE_TREE_REWARDS: RewardBoxReward[] = [
   { items: { "Treasure Key": 1 }, wearables: {}, weighting: 20 },
   { items: { "Golden Christmas Stocking": 1 }, wearables: {}, weighting: 20 },
   { items: { "Christmas Candle": 1 }, wearables: {}, weighting: 20 },
