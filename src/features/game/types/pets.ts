@@ -550,9 +550,9 @@ export function getPetRequests(): CookableName[] {
 }
 
 export const PET_REQUEST_XP: Record<PetRequestDifficulty, number> = {
-  easy: 75,
+  easy: 50,
   medium: 100,
-  hard: 125,
+  hard: 150,
 };
 
 export function getPetRequestXP(food: CookableName) {
