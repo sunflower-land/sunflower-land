@@ -1,5 +1,4 @@
 // eslint-disable-next-line no-undef, @typescript-eslint/no-var-requires
-const colors = require("tailwindcss/colors");
 // eslint-disable-next-line no-undef
 module.exports = {
   content: ["./src/**/*.tsx"],
@@ -54,10 +53,6 @@ module.exports = {
     //   extrabold: "800",
     //   black: "900",
     // },
-    colors: {
-      "overlay-white": "rgba(255, 255, 255, 0.5)",
-      ...colors,
-    },
     extend: {
       fontFamily: {
         ruDefault: ["Basis33"],
@@ -66,6 +61,7 @@ module.exports = {
         ruChunkyOld: ["Russo\\ One"],
       },
       colors: {
+        "overlay-white": "rgba(255, 255, 255, 0.5)",
         green: {
           background: "#63c74d",
         },

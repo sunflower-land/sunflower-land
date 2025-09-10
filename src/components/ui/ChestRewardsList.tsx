@@ -12,22 +12,26 @@ import { InventoryItemName } from "features/game/types/game";
 import { Label } from "./Label";
 import {
   BASIC_SEASONAL_REWARDS_WEIGHT,
-  ChestReward,
   SEASONAL_REWARDS,
 } from "features/game/types/chests";
-import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import {
-  getCurrentSeason,
-  getSeasonalArtefact,
-} from "features/game/types/seasons";
+  NoticeboardItems,
+  NoticeboardItemsElements,
+} from "features/world/ui/kingdom/KingdomNoticeboard";
+import { getCurrentSeason } from "features/game/types/seasons";
 import chestIcon from "assets/icons/chest.png";
-import bonusReward from "assets/icons/gift.png";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 
 import { Box } from "./Box";
 import Decimal from "decimal.js-light";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useSelector } from "@xstate/react";
+import {
+  REWARD_BOXES,
+  RewardBoxName,
+  RewardBoxReward,
+} from "features/game/types/rewardBoxes";
 
 const RewardRow: React.FC<{
   rewardName: string;
@@ -62,7 +66,7 @@ const isStoreChapterItem = (rewardName: string) => {
 };
 
 const MultipleRewardsRow: React.FC<{
-  reward: ChestReward;
+  reward: RewardBoxReward;
   chance?: string;
   secondBG?: boolean;
 }> = ({ reward, chance, secondBG }) => {
@@ -127,15 +131,29 @@ const MultipleRewardsRow: React.FC<{
 };
 
 export const ChestRewardsList: React.FC<{
-  type: ChestRewardType;
+  type: ChestRewardType | RewardBoxName;
   listTitle?: string;
   isFirstInMultiList?: boolean;
   isSubsequentInMultiList?: boolean;
-}> = ({ type, listTitle, isFirstInMultiList, isSubsequentInMultiList }) => {
+  chestDescription?: NoticeboardItemsElements[];
+}> = ({
+  type,
+  listTitle,
+  isFirstInMultiList,
+  isSubsequentInMultiList,
+  chestDescription,
+}) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
+  const state = useSelector(gameService, (state) => state.context.state);
 
-  const rewards = CHEST_LOOT(gameService.getSnapshot().context.state)[type];
+  const isChestRewardType = (
+    type: ChestRewardType | RewardBoxName,
+  ): type is ChestRewardType => type in CHEST_LOOT(state);
+
+  const rewards: RewardBoxReward[] = isChestRewardType(type)
+    ? CHEST_LOOT(state)[type]
+    : REWARD_BOXES[type].rewards;
 
   // Based on total weighting for each list
   const rewardChance = (weigthing: number) => {
@@ -158,44 +176,18 @@ export const ChestRewardsList: React.FC<{
       {!isSubsequentInMultiList && (
         <div className="py-1.5">
           <NoticeboardItems
-            items={[
-              ...(type === "Basic Desert Rewards"
-                ? [
-                    {
-                      text: t("chestRewardsList.desertReward.desc1"),
-                      icon: ITEM_DETAILS["Sand Drill"].image,
-                    },
-                    {
-                      text: t("chestRewardsList.desertReward.desc2"),
-                      icon: ITEM_DETAILS[getSeasonalArtefact()].image,
-                    },
-                  ]
-                : [
-                    ...(type === "Expert Daily Rewards" ||
-                    type === "Advanced Daily Rewards" ||
-                    type === "Basic Daily Rewards"
-                      ? [
-                          {
-                            text: t("chestRewardsList.dailyReward.desc1"),
-                            icon: SUNNYSIDE.icons.hammer,
-                          },
-                          {
-                            text: t("chestRewardsList.dailyReward.desc2"),
-                            icon: bonusReward,
-                          },
-                        ]
-                      : [
-                          {
-                            text: t("chestRewardsList.otherChests.desc1"),
-                            icon: chestIcon,
-                          },
-                          {
-                            text: t("chestRewardsList.otherChests.desc2"),
-                            icon: ITEM_DETAILS["Shroom Syrup"].image,
-                          },
-                        ]),
-                  ]),
-            ]}
+            items={
+              chestDescription ?? [
+                {
+                  text: t("chestRewardsList.otherChests.desc1"),
+                  icon: chestIcon,
+                },
+                {
+                  text: t("chestRewardsList.otherChests.desc2"),
+                  icon: ITEM_DETAILS["Shroom Syrup"].image,
+                },
+              ]
+            }
           />
         </div>
       )}

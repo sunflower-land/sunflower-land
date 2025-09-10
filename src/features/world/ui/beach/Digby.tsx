@@ -38,7 +38,10 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { Revealed } from "features/game/components/Revealed";
 import { ChestRevealing, ChestRewardType } from "../chests/ChestRevealing";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { getCurrentSeason } from "features/game/types/seasons";
+import {
+  getCurrentSeason,
+  getSeasonalArtefact,
+} from "features/game/types/seasons";
 import { ChestRewardsList } from "components/ui/ChestRewardsList";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 
@@ -401,17 +404,27 @@ const Rewards: React.FC = () => {
               <ChestRewardsList
                 type="Basic Desert Rewards"
                 listTitle={t("chestRewardsList.desertReward.listTitle1")}
-                isFirstInMultiList={true}
+                isFirstInMultiList
+                chestDescription={[
+                  {
+                    text: t("chestRewardsList.desertReward.desc1"),
+                    icon: ITEM_DETAILS["Sand Drill"].image,
+                  },
+                  {
+                    text: t("chestRewardsList.desertReward.desc2"),
+                    icon: ITEM_DETAILS[getSeasonalArtefact()].image,
+                  },
+                ]}
               />
               <ChestRewardsList
                 type="Advanced Desert Rewards"
                 listTitle={t("chestRewardsList.desertReward.listTitle2")}
-                isSubsequentInMultiList={true}
+                isSubsequentInMultiList
               />
               <ChestRewardsList
                 type="Expert Desert Rewards"
                 listTitle={t("chestRewardsList.desertReward.listTitle3")}
-                isSubsequentInMultiList={true}
+                isSubsequentInMultiList
               />
             </div>
           </CloseButtonPanel>
