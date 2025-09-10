@@ -4,6 +4,7 @@ import {
   UpgradedResourceName,
   StoneRockName,
   RESOURCE_MULTIPLIER,
+  RESOURCE_STATE_ACCESSORS,
 } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
@@ -44,8 +45,10 @@ export function placeStone({
       throw new Error("No stone available");
     }
 
+    const nodeStateAccessor = RESOURCE_STATE_ACCESSORS[action.name](game);
+
     const existingStone = findExistingUnplacedNode({
-      game,
+      nodeStateAccessor,
       nodeToFind: action.name,
       baseNode: "Stone Rock",
     });
@@ -53,7 +56,7 @@ export function placeStone({
     if (existingStone) {
       const [id, stone] = existingStone;
       const updatedStone = {
-        ...(stone as Rock),
+        ...stone,
         x: action.coordinates.x,
         y: action.coordinates.y,
       };

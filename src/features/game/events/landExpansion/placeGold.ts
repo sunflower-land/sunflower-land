@@ -4,6 +4,7 @@ import {
   GoldRockName,
   ADVANCED_RESOURCES,
   UpgradedResourceName,
+  RESOURCE_STATE_ACCESSORS,
 } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
@@ -41,8 +42,10 @@ export function placeGold({
       throw new Error("No gold available");
     }
 
+    const nodeStateAccessor = RESOURCE_STATE_ACCESSORS[action.name](game);
+
     const existingGold = findExistingUnplacedNode({
-      game,
+      nodeStateAccessor,
       nodeToFind: action.name,
       baseNode: "Gold Rock",
     });
@@ -50,7 +53,7 @@ export function placeGold({
     if (existingGold) {
       const [id, gold] = existingGold;
       const updatedGold = {
-        ...(gold as Rock),
+        ...gold,
         x: action.coordinates.x,
         y: action.coordinates.y,
       };

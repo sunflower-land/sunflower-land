@@ -1,8 +1,18 @@
 import { Dimensions } from "./craftables";
 import { translate } from "lib/i18n/translate";
 import { AnimalResource } from "./game";
-import { GameState } from "features/game/types/game";
-import { ResourceItem } from "../expansion/placeable/lib/collisionDetection";
+import {
+  GameState,
+  Tree,
+  Rock,
+  FiniteResource,
+  CropPlot,
+  FruitPatch,
+  FlowerBed,
+  Beehive,
+  OilReserve,
+  LavaPit,
+} from "features/game/types/game";
 import { Tool } from "./tools";
 import { Decimal } from "decimal.js-light";
 
@@ -300,10 +310,34 @@ export const ADVANCED_RESOURCES: Record<
   },
 };
 
-export const RESOURCE_STATE_ACCESSORS: Record<
-  Exclude<ResourceName, "Boulder">,
-  (game: GameState) => Record<string, ResourceItem>
-> = {
+type ResourceStateRecords = {
+  "Crop Plot": Record<string, CropPlot>;
+  Tree: Record<string, Tree>;
+  "Stone Rock": Record<string, Rock>;
+  "Iron Rock": Record<string, Rock>;
+  "Gold Rock": Record<string, Rock>;
+  "Crimstone Rock": Record<string, FiniteResource>;
+  Beehive: Record<string, Beehive>;
+  "Fruit Patch": Record<string, FruitPatch>;
+  "Flower Bed": Record<string, FlowerBed>;
+  "Sunstone Rock": Record<string, FiniteResource>;
+  "Oil Reserve": Record<string, OilReserve>;
+  "Lava Pit": Record<string, LavaPit>;
+  "Fused Stone Rock": Record<string, Rock>;
+  "Reinforced Stone Rock": Record<string, Rock>;
+  "Ancient Tree": Record<string, Tree>;
+  "Sacred Tree": Record<string, Tree>;
+  "Refined Iron Rock": Record<string, Rock>;
+  "Tempered Iron Rock": Record<string, Rock>;
+  "Pure Gold Rock": Record<string, Rock>;
+  "Prime Gold Rock": Record<string, Rock>;
+};
+
+export const RESOURCE_STATE_ACCESSORS: {
+  [K in Exclude<ResourceName, "Boulder">]: (
+    game: GameState,
+  ) => ResourceStateRecords[K];
+} = {
   "Crop Plot": (game) => game.crops,
   Tree: (game) => game.trees,
   "Stone Rock": (game) => game.stones,

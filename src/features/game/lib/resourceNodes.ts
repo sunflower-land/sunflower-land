@@ -73,7 +73,7 @@ export const getUpgradeableNodes = (
   const advancedResource = ADVANCED_RESOURCES[upgradeTo];
   const upgradeableNodes = Object.entries(
     RESOURCE_STATE_ACCESSORS[upgradeTo](game),
-  ).filter(([_, node]) => {
+  ).filter(([, node]) => {
     const tier = "tier" in node ? node.tier : 1;
     const isPlaced = node.x !== undefined && node.y !== undefined;
     return (
@@ -109,46 +109,44 @@ export function canMine(
   return now - rock.stone.minedAt >= recoveryTime * 1000;
 }
 
-export const findExistingUnplacedNode = (args: {
-  game: GameState;
+export const findExistingUnplacedNode = <T extends ResourceItem>({
+  nodeToFind,
+  baseNode,
+  nodeStateAccessor,
+}: {
   nodeToFind: UpgradeableResource;
   baseNode: BasicResourceName;
-}) => {
-  const { game, nodeToFind, baseNode } = args;
+  nodeStateAccessor: Record<string, T>;
+}): [string, T] | undefined => {
+  const existingNode = Object.entries(nodeStateAccessor).find(([, node]) => {
+    const isNotPlaced = node.x === undefined && node.y === undefined;
 
-  const nodeStateAccessor = RESOURCE_STATE_ACCESSORS[nodeToFind];
-  const existingNode = Object.entries(nodeStateAccessor(game)).find(
-    ([_, node]) => {
-      const isNotPlaced = node.x === undefined && node.y === undefined;
+    if (!isNotPlaced) {
+      return false;
+    }
 
-      if (!isNotPlaced) {
-        return false;
-      }
+    // For base resources, we don't need to check name or multiplier
+    const isBaseResource = baseNode === nodeToFind;
+    if (isBaseResource) {
+      return true;
+    }
 
-      // For base resources, we don't need to check name or multiplier
-      const isBaseResource = baseNode === nodeToFind;
-      if (isBaseResource) {
-        return true;
-      }
+    // For upgraded resources, check name and multiplier match
+    const hasName = "name" in node;
+    const hasMultiplier = "multiplier" in node;
 
-      // For upgraded resources, check name and multiplier match
-      const hasName = "name" in node;
-      const hasMultiplier = "multiplier" in node;
+    if (!hasName || !hasMultiplier) {
+      return false;
+    }
 
-      if (!hasName || !hasMultiplier) {
-        return false;
-      }
+    const expectedName = nodeToFind;
+    const expectedMultiplier = RESOURCE_MULTIPLIER[nodeToFind];
 
-      const expectedName = nodeToFind;
-      const expectedMultiplier =
-        RESOURCE_MULTIPLIER[nodeToFind as UpgradeableResource];
+    const nameMatches = (node.name ?? baseNode) === expectedName;
+    const multiplierMatches = (node.multiplier ?? 1) === expectedMultiplier;
 
-      const nameMatches = (node.name ?? baseNode) === expectedName;
-      const multiplierMatches = (node.multiplier ?? 1) === expectedMultiplier;
+    return nameMatches && multiplierMatches;
+  });
 
-      return nameMatches && multiplierMatches;
-    },
-  );
-
-  return existingNode as [string, Rock | Tree] | undefined;
+  return existingNode;
 };

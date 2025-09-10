@@ -4,6 +4,7 @@ import {
   RESOURCE_MULTIPLIER,
   UpgradedResourceName,
   ADVANCED_RESOURCES,
+  RESOURCE_STATE_ACCESSORS,
 } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
@@ -41,8 +42,10 @@ export function placeIron({
       throw new Error("No iron available");
     }
 
+    const nodeStateAccessor = RESOURCE_STATE_ACCESSORS[action.name](game);
+
     const existingIron = findExistingUnplacedNode({
-      game,
+      nodeStateAccessor,
       nodeToFind: action.name,
       baseNode: "Iron Rock",
     });
@@ -50,7 +53,7 @@ export function placeIron({
     if (existingIron) {
       const [id, iron] = existingIron;
       const updatedIron = {
-        ...(iron as Rock),
+        ...iron,
         x: action.coordinates.x,
         y: action.coordinates.y,
       };
