@@ -167,14 +167,14 @@ const PetFeedPanel: React.FC<
     );
   }
 
+  const foodXp = getPetRequestXP(selectedFood);
+  const petEnergy = getPetEnergy(petData, foodXp);
+  const isFoodLocked = getPetFoodRequests(petData).includes(selectedFood);
   const isDisabled =
     (isToday && petData.requests.foodFed?.includes(selectedFood)) ||
     !inventory[selectedFood] ||
-    inventory[selectedFood].lessThan(1);
-
-  const foodXp = getPetRequestXP(selectedFood);
-  const petEnergy = getPetEnergy(petData, foodXp);
-
+    inventory[selectedFood].lessThan(1) ||
+    isFoodLocked;
   return (
     <div className="flex flex-col items-center gap-1">
       {/* Pet Image and Name */}
@@ -216,7 +216,13 @@ const PetFeedPanel: React.FC<
       </div>
 
       {/* Labels for today's feed and insufficient food */}
-      {isToday && petData.requests.foodFed?.includes(selectedFood) ? (
+      {isFoodLocked ? (
+        <div className="flex w-full items-start">
+          <Label type="danger" className="text-xs">
+            {t("pets.foodLocked")}
+          </Label>
+        </div>
+      ) : isToday && petData.requests.foodFed?.includes(selectedFood) ? (
         <div className="flex w-full items-start">
           <Label type="danger" className="text-xs">
             {t("pets.foodFedToday")}
@@ -229,6 +235,7 @@ const PetFeedPanel: React.FC<
           </Label>
         </div>
       ) : null}
+
       <div className="flex flex-row sm:flex-col gap-1 w-full">
         <Button
           disabled={isDisabled}
@@ -243,6 +250,7 @@ const PetFeedPanel: React.FC<
           <Button onClick={() => setShowConfirm(false)}>{t("cancel")}</Button>
         )}
       </div>
+
       <p
         className="underline font-secondary text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
         onClick={() => setShowResetRequests(true)}
@@ -271,6 +279,9 @@ const PetFeedContent: React.FC<
 }) => {
   const { t } = useAppTranslation();
   const foodRequests = getPetFoodRequests(petData);
+  const upcomingRequests = petData.requests.food.filter(
+    (food) => !foodRequests.includes(food),
+  );
   return (
     <div className="flex flex-col gap-2">
       <Label type="default">{t("pets.requestsToday", { pet: petName })}</Label>
@@ -290,6 +301,21 @@ const PetFeedContent: React.FC<
               count={inventory[food]}
               showOverlay={isComplete}
               secondaryImage={isComplete ? SUNNYSIDE.icons.confirm : undefined}
+            />
+          );
+        })}
+        {upcomingRequests.map((food) => {
+          return (
+            <Box
+              key={food}
+              image={ITEM_DETAILS[food].image}
+              showOverlay
+              onClick={() => {
+                setSelectedFood(food);
+                setShowConfirm(false);
+              }}
+              secondaryImage={SUNNYSIDE.icons.lock}
+              isSelected={selectedFood === food}
             />
           );
         })}
