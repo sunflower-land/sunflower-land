@@ -1,23 +1,23 @@
-import React, { useState } from "react";
-import { SplitScreenView } from "components/ui/SplitScreenView";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { Box } from "components/ui/Box";
+import { Button } from "components/ui/Button";
+import { ChestRewardsList } from "components/ui/ChestRewardsList";
+import { Label } from "components/ui/Label";
+import { Modal } from "components/ui/Modal";
+import { Panel } from "components/ui/Panel";
+import { SplitScreenView } from "components/ui/SplitScreenView";
+import { ITEM_DETAILS } from "features/game/types/images";
 import {
-  getPetLevel,
   getPetFetches,
+  getPetLevel,
   isPetNapping,
   isPetNeglected,
-  PET_RESOURCES,
   Pet,
+  PET_RESOURCES,
   PetName,
   PetResourceName,
 } from "features/game/types/pets";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { Button } from "components/ui/Button";
-import { Label } from "components/ui/Label";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { ChestRewardsList } from "components/ui/ChestRewardsList";
-import { Panel } from "components/ui/Panel";
-import { Modal } from "components/ui/Modal";
+import React, { useState } from "react";
 
 interface Props {
   petName: PetName;
@@ -49,6 +49,7 @@ export const PetFetch: React.FC<Props> = ({
   const requiredLevel = selectedFetchData?.level ?? 0;
   const hasRequiredLevel = level >= requiredLevel;
   const hasEnoughEnergy = petData.energy >= energyRequired;
+  const fetchYield = petData.fetches?.[selectedFetch] ?? 1;
 
   return (
     <>
@@ -70,7 +71,7 @@ export const PetFetch: React.FC<Props> = ({
                     alt={selectedFetch}
                     className="w-8"
                   />
-                  <span className="text-xs">{`1 x ${selectedFetch}`}</span>
+                  <span className="text-xs">{`${fetchYield} x ${selectedFetch}`}</span>
                 </div>
               )}
             </div>
@@ -101,7 +102,7 @@ export const PetFetch: React.FC<Props> = ({
                 }
                 onClick={() => handlePetFetch(petName, selectedFetch)}
               >
-                {"Fetch"}
+                {`Fetch ${fetchYield}`}
               </Button>
               {selectedFetch === "Fossil Shell" && (
                 <p

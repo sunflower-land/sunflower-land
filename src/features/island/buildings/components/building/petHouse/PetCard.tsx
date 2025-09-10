@@ -1,28 +1,32 @@
+import xpIcon from "assets/icons/xp.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label, LabelType } from "components/ui/Label";
+import { InnerPanel } from "components/ui/Panel";
+import Decimal from "decimal.js-light";
+import {
+  getPetEnergy,
+  getPetFoodRequests,
+} from "features/game/events/pets/feedPet";
 import { Context } from "features/game/GameProvider";
 import { CookableName } from "features/game/types/consumables";
+import { Inventory } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   PET_RESOURCES,
   Pet,
   PetName,
   PetResourceName,
-  getPetLevel,
   getPetFetches,
+  getPetLevel,
   getPetRequestXP,
   isPetNapping,
   isPetNeglected,
 } from "features/game/types/pets";
-import { shortenCount } from "lib/utils/formatNumber";
-import React, { useContext, useState, useMemo } from "react";
-import { PetInfo } from "./PetInfo";
-import { Inventory } from "features/game/types/game";
-import Decimal from "decimal.js-light";
-import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import xpIcon from "assets/icons/xp.png";
+import { shortenCount } from "lib/utils/formatNumber";
+import React, { useContext, useMemo, useState } from "react";
+import { PetInfo } from "./PetInfo";
 
 interface Props {
   petName: PetName;
@@ -163,8 +167,11 @@ export const PetCard: React.FC<Props> = ({
         (item) => item.pet === petName && item.food === food,
       );
 
-      const isDisabled = !canFeed || alreadyFed;
+      const isFoodLocked = !getPetFoodRequests(pet).includes(food);
+
+      const isDisabled = !canFeed || alreadyFed || isFoodLocked;
       const foodXP = getPetRequestXP(food);
+      const foodEnergy = getPetEnergy(pet, foodXP);
 
       return {
         food,
@@ -175,6 +182,8 @@ export const PetCard: React.FC<Props> = ({
         isSelected,
         isDisabled,
         foodXP,
+        foodEnergy,
+        isFoodLocked,
       };
     });
   }, [inventory, isBulkFeed, selectedFeed, petName, pet]);
@@ -277,9 +286,7 @@ const GridItem: React.FC<{
   onMouseLeave: () => void;
   count?: Decimal;
   showConfirm?: boolean;
-  bottomLabelValue: number;
-  bottomLabelType: LabelType;
-  bottomLabelIcon?: string;
+  bottomLabels?: { labelType: LabelType; icon: string; value: number }[];
   isHovered: boolean;
 }> = ({
   keyName,
@@ -290,9 +297,7 @@ const GridItem: React.FC<{
   onMouseLeave,
   count,
   showConfirm,
-  bottomLabelValue,
-  bottomLabelType,
-  bottomLabelIcon,
+  bottomLabels,
   isHovered,
 }) => {
   return (
@@ -326,9 +331,14 @@ const GridItem: React.FC<{
           </Label>
         )}
       </div>
-      <Label type={bottomLabelType} icon={bottomLabelIcon}>
-        {bottomLabelValue}
-      </Label>
+      <div className="flex flex-col gap-1">
+        {bottomLabels &&
+          bottomLabels.map((label) => (
+            <Label key={label.value} type={label.labelType} icon={label.icon}>
+              {label.value}
+            </Label>
+          ))}
+      </div>
     </div>
   );
 };
@@ -373,6 +383,8 @@ export const PetCardContent: React.FC<{
     isSelected: boolean;
     isDisabled: boolean;
     foodXP: number;
+    foodEnergy: number;
+    isFoodLocked: boolean;
   }[];
   fetchItems: {
     fetch: {
@@ -461,6 +473,8 @@ export const PetCardContent: React.FC<{
               isSelected,
               isDisabled,
               foodXP,
+              foodEnergy,
+              isFoodLocked,
             }) => (
               <GridItem
                 key={food}
@@ -478,9 +492,28 @@ export const PetCardContent: React.FC<{
                 onMouseLeave={() => setHoveredFood(null)}
                 count={foodCount}
                 showConfirm={alreadyFed || isSelected}
-                bottomLabelValue={foodXP}
-                bottomLabelType="success"
-                bottomLabelIcon={SUNNYSIDE.icons.lightning}
+                bottomLabels={
+                  isFoodLocked
+                    ? [
+                        {
+                          labelType: "formula",
+                          icon: SUNNYSIDE.icons.lock,
+                          value: foodXP,
+                        },
+                      ]
+                    : [
+                        {
+                          labelType: "info",
+                          icon: xpIcon,
+                          value: foodXP,
+                        },
+                        {
+                          labelType: "success",
+                          icon: SUNNYSIDE.icons.lightning,
+                          value: foodEnergy,
+                        },
+                      ]
+                }
                 isHovered={hoveredFood === food}
               />
             ),
@@ -511,19 +544,19 @@ export const PetCardContent: React.FC<{
                 onMouseEnter={(e) => handleFetchHover(fetch.name, e)}
                 onMouseLeave={() => setHoveredFetch(null)}
                 showConfirm={false}
-                bottomLabelValue={energyRequired}
-                bottomLabelType={
-                  !hasRequiredLevel
-                    ? "formula"
-                    : !hasEnoughEnergy
-                      ? "danger"
-                      : "default"
-                }
-                bottomLabelIcon={
-                  hasRequiredLevel
-                    ? SUNNYSIDE.icons.lightning
-                    : SUNNYSIDE.icons.lock
-                }
+                bottomLabels={[
+                  {
+                    labelType: !hasRequiredLevel
+                      ? "formula"
+                      : !hasEnoughEnergy
+                        ? "danger"
+                        : "default",
+                    icon: hasRequiredLevel
+                      ? SUNNYSIDE.icons.lightning
+                      : SUNNYSIDE.icons.lock,
+                    value: energyRequired,
+                  },
+                ]}
                 isHovered={hoveredFetch === fetch.name}
               />
             ),

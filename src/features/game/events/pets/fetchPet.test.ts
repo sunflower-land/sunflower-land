@@ -148,4 +148,28 @@ describe("fetchPet", () => {
     expect(BarkleyData?.energy).toBe(0);
     expect(state.inventory["Acorn"]).toEqual(new Decimal(1));
   });
+  it("fetches a boost yield", () => {
+    const state = fetchPet({
+      state: {
+        ...INITIAL_FARM,
+        pets: {
+          common: {
+            Barkley: {
+              name: "Barkley",
+              requests: { food: [] },
+              fetches: { Acorn: 2 },
+              energy: 100,
+              experience: 0,
+              pettedAt: now,
+            },
+          },
+        },
+      },
+      action: { type: "pet.fetched", pet: "Barkley", fetch: "Acorn" },
+      createdAt: now,
+    });
+    const BarkleyData = state.pets?.common?.Barkley;
+    expect(BarkleyData?.energy).toBe(0);
+    expect(state.inventory["Acorn"]).toEqual(new Decimal(2));
+  });
 });
