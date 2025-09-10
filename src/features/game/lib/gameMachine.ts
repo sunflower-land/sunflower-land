@@ -111,6 +111,7 @@ import { NetworkOption } from "features/island/hud/components/deposit/DepositFlo
 import { blessingIsReady } from "./blessings";
 import { hasReadNews } from "features/farming/mail/components/News";
 import { depositSFL } from "lib/blockchain/DepositSFL";
+import { hasFeatureAccess } from "lib/flags";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -623,6 +624,12 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
 
           const { visitedFarmState, ...rest } = data;
 
+          // if you don't have access to pets, delete pets object from their gameState
+          const hasPetsAccess = hasFeatureAccess(gameState, "PETS");
+          if (!hasPetsAccess) {
+            visitedFarmState.pets = undefined;
+          }
+
           return {
             state: makeGame(visitedFarmState),
             data: rest,
@@ -1026,8 +1033,8 @@ export function startGame(authContext: AuthContext) {
               }
 
               const {
-                visitedFarmState,
-                visitorFarmState,
+                visitedFarmState, // Their gameState
+                visitorFarmState, // Your gameState
                 hasHelpedPlayerToday,
                 totalHelpedToday,
                 visitorId,
@@ -1035,6 +1042,12 @@ export function startGame(authContext: AuthContext) {
                 Number(farmId),
                 authContext.user.rawToken as string,
               );
+
+              const hasPetsAccess = hasFeatureAccess(visitorFarmState, "PETS");
+              // if you don't have access to pets, delete pets object from their gameState
+              if (!hasPetsAccess) {
+                visitedFarmState.pets = undefined;
+              }
 
               return {
                 state: makeGame(visitedFarmState),
@@ -1247,7 +1260,7 @@ export function startGame(authContext: AuthContext) {
                 const game = context.state;
 
                 const activeEvent = getActiveCalendarEvent({
-                  game,
+                  calendar: game.calendar,
                 });
 
                 if (!activeEvent) return false;
@@ -1779,7 +1792,7 @@ export function startGame(authContext: AuthContext) {
                   const game = event.data.farm;
 
                   const activeEvent = getActiveCalendarEvent({
-                    game,
+                    calendar: game.calendar,
                   });
 
                   if (!activeEvent) return false;

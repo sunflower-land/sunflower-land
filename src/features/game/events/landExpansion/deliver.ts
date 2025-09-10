@@ -92,7 +92,7 @@ export function generateDeliveryTickets({
 
   // Leave this at the end as it will multiply the whole amount by 2
   if (
-    getActiveCalendarEvent({ game }) === "doubleDelivery" &&
+    getActiveCalendarEvent({ calendar: game.calendar }) === "doubleDelivery" &&
     !hasClaimedBonus
   ) {
     amount *= 2;
@@ -311,7 +311,7 @@ export function getOrderSellPrice<T>(
 
   // Leave this at the end as it will multiply the whole amount by 2
   if (
-    getActiveCalendarEvent({ game }) === "doubleDelivery" &&
+    getActiveCalendarEvent({ calendar: game.calendar }) === "doubleDelivery" &&
     !hasClaimedBonus
   ) {
     mul *= 2;

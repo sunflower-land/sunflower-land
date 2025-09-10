@@ -1,5 +1,4 @@
-import { CollectibleName, getKeys } from "features/game/types/craftables";
-import { GameState } from "features/game/types/game";
+import { CollectibleName } from "features/game/types/craftables";
 
 /**
  * Convert game items onto a X,Y Grid
@@ -14,33 +13,30 @@ import { GameState } from "features/game/types/game";
 export type GameGrid = Record<number, Record<number, CollectibleName>>;
 
 export function getGameGrid({
-  crops,
-  collectibles,
-}: Pick<GameState, "crops" | "collectibles">) {
+  cropPositions = [],
+  collectiblePositions = [],
+}: {
+  cropPositions: { x: number; y: number }[];
+  collectiblePositions: {
+    x: number;
+    y: number;
+    name: CollectibleName;
+  }[];
+}) {
   const grid: GameGrid = {};
 
-  getKeys(crops || {}).forEach((plotIndex) => {
-    const coords = crops[plotIndex] ?? { x: 0, y: 0 };
-
-    if (coords.x === undefined || coords.y === undefined) return;
-
-    if (!grid[coords.x]) {
-      grid[coords.x] = {};
+  cropPositions.forEach(({ x, y }) => {
+    if (!grid[x]) {
+      grid[x] = {};
     }
-
-    grid[coords.x][coords.y] = "Dirt Path";
+    grid[x][y] = "Dirt Path";
   });
 
-  getKeys(collectibles).forEach((name) => {
-    collectibles[name]?.forEach(({ coordinates }) => {
-      if (!coordinates) return;
-
-      if (!grid[coordinates.x]) {
-        grid[coordinates.x] = {};
-      }
-
-      grid[coordinates.x][coordinates.y] = name;
-    });
+  collectiblePositions.forEach(({ x, y, name }) => {
+    if (!grid[x]) {
+      grid[x] = {};
+    }
+    grid[x][y] = name;
   });
 
   return grid;

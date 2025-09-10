@@ -553,7 +553,11 @@ export const Project: React.FC<ProjectProps> = (input) => {
       </Modal>
 
       <>
-        <div className="absolute" style={input.divStyle} onClick={onClick}>
+        <div
+          className="absolute flex justify-center"
+          style={input.divStyle}
+          onClick={onClick}
+        >
           <img src={image} style={input.imgStyle} alt={input.alt} />
         </div>
 

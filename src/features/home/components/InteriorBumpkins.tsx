@@ -1,6 +1,6 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { BedName, Bumpkin, GameState } from "features/game/types/game";
+import { BedName } from "features/game/types/game";
 import { NPCIcon, NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import React, { useContext } from "react";
 import { Modal } from "components/ui/Modal";
@@ -16,11 +16,17 @@ import { BEDS } from "features/game/types/beds";
 import { BED_WIDTH } from "features/island/collectibles/components/Bed";
 import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
-interface Props {
-  game: GameState;
-}
-export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
+const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
+const _farmHands = (state: MachineState) =>
+  state.context.state.farmHands.bumpkins;
+const _collectibles = (state: MachineState) => state.context.state.collectibles;
+const _homeCollectibles = (state: MachineState) =>
+  state.context.state.home.collectibles;
+
+export const InteriorBumpkins: React.FC = () => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
@@ -28,15 +34,13 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
   const [showBuyFarmHand, setShowBuyFarmHandModal] = React.useState(false);
   const [selectedFarmHandId, setSelectedFarmHandId] = React.useState<string>();
 
-  const bumpkin = game.bumpkin as Bumpkin;
-
-  const farmHands = game.farmHands.bumpkins;
+  const bumpkin = useSelector(gameService, _bumpkin);
+  const farmHands = useSelector(gameService, _farmHands);
+  const collectibles = useSelector(gameService, _collectibles);
+  const homeCollectibles = useSelector(gameService, _homeCollectibles);
 
   const count = getKeys(farmHands).length + 1;
   const max = Object.keys(BEDS).length;
-
-  const collectibles = game.collectibles;
-  const homeCollectibles = game.home.collectibles;
 
   const uniqueBedCollectibles = getKeys(collectibles).filter(
     (collectible) => collectible in BEDS,
@@ -187,7 +191,7 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
         size="lg"
       >
         <CloseButtonPanel
-          bumpkinParts={game.bumpkin?.equipped}
+          bumpkinParts={bumpkin?.equipped}
           onClose={() => setShowBumpkinModal(false)}
           tabs={[
             {
@@ -197,8 +201,7 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
           ]}
         >
           <BumpkinEquip
-            game={game}
-            equipment={game.bumpkin?.equipped as BumpkinParts}
+            equipment={bumpkin?.equipped as BumpkinParts}
             onEquip={(equipment) => {
               gameService.send("bumpkin.equipped", {
                 equipment,
@@ -224,7 +227,6 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
           ]}
         >
           <BumpkinEquip
-            game={game}
             equipment={farmHands[selectedFarmHandId as string]?.equipped}
             onEquip={(equipment) => {
               gameService.send("farmHand.equipped", {

@@ -79,7 +79,6 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
           ]}
         >
           <BumpkinEquip
-            game={game}
             equipment={farmHands[selectedFarmHandId as string]?.equipped}
             onEquip={(equipment) => {
               gameService.send("farmHand.equipped", {

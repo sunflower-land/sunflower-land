@@ -16,10 +16,10 @@ import { hasFeatureAccess } from "lib/flags";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useCallback, useContext, useState } from "react";
 import { NeglectPet } from "./NeglectPet";
-import { PET_STATE_IMAGES } from "./Pet";
 import { PetFeed } from "./PetFeed";
 import { PetFetch } from "./PetFetch";
 import { PetInfo } from "./PetInfo";
+import { PET_STATE_IMAGES } from "./petShared";
 
 interface Props {
   show: boolean;

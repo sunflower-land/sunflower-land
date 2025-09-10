@@ -218,7 +218,12 @@ export function getHelpRequired({ game }: { game: GameState }) {
     },
   );
 
-  return clutter.length + pendingProjects.length;
+  const pendingPets = getKeys(game.pets?.common ?? {}).filter((pet) => {
+    const hasVisited = !!game.pets?.common?.[pet]?.visitedAt;
+    return !hasVisited;
+  });
+
+  return clutter.length + pendingProjects.length + pendingPets.length;
 }
 
 export const RAFFLE_REWARDS: Partial<

@@ -197,7 +197,6 @@ export const BumpkinModal: React.FC<Props> = ({
         {tab === 1 && (
           <BumpkinEquip
             equipment={bumpkin.equipped}
-            game={gameState}
             onEquip={(equipment) => {
               gameService.send("bumpkin.equipped", {
                 equipment,

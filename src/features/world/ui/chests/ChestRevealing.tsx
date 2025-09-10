@@ -7,7 +7,6 @@ import {
   BASIC_DESERT_STREAK,
   ADVANCED_DESERT_STREAK,
   EXPERT_DESERT_STREAK,
-  ChestReward,
   PIRATE_CHEST_REWARDS,
   MANEKI_NEKO_REWARDS,
   FESTIVE_TREE_REWARDS,
@@ -31,6 +30,7 @@ import {
 } from "features/game/types/collectDailyReward";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
+import { RewardBoxReward } from "features/game/types/rewardBoxes";
 
 export type ChestRewardType =
   | Keys
@@ -53,7 +53,7 @@ interface Props {
 
 export const CHEST_LOOT: (
   game: GameState,
-) => Record<ChestRewardType, ChestReward[]> = (state) => ({
+) => Record<ChestRewardType, RewardBoxReward[]> = (state) => ({
   "Treasure Key": BASIC_REWARDS(),
   "Rare Key": RARE_REWARDS(),
   "Luxury Key": LUXURY_REWARDS(),
@@ -87,9 +87,9 @@ export const ChestRevealing: React.FC<Props> = ({ type }) => {
     while (newImage === image) {
       const randomItem = items[Math.floor(Math.random() * items.length)];
 
-      if (randomItem.sfl) {
+      if (randomItem.flower) {
         newImage = sfl;
-        newLabel = `${randomItem.sfl} FLOWER`;
+        newLabel = `${randomItem.flower} FLOWER`;
       }
 
       if (randomItem.coins) {

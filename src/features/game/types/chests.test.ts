@@ -3,7 +3,6 @@ import {
   isWearable,
 } from "../events/landExpansion/buySeasonalItem";
 import {
-  ChestReward,
   BASIC_REWARDS,
   RARE_REWARDS,
   LUXURY_REWARDS,
@@ -12,12 +11,13 @@ import {
   CHEST_MULTIPLIER,
 } from "./chests";
 import { MEGASTORE, SeasonalStore } from "./megastore";
+import { RewardBoxReward } from "./rewardBoxes";
 import { getCurrentSeason } from "./seasons";
 
 describe("SEASONAL_REWARDS", () => {
   const currentSeason = getCurrentSeason(new Date()); // Test all reward types
   const rewardTypes: {
-    rewards: ChestReward[];
+    rewards: RewardBoxReward[];
     weight: number;
     chestTier: "basic" | "rare" | "luxury";
   }[] = [

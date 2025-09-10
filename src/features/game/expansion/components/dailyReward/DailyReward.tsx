@@ -36,6 +36,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ChestRewardsList } from "components/ui/ChestRewardsList";
+import bonusReward from "assets/icons/gift.png";
 import rewardIcon from "assets/icons/stock.webp";
 import { Modal } from "components/ui/Modal";
 import { useVisiting } from "lib/utils/visitUtils";
@@ -415,6 +416,16 @@ const DailyRewardsChestList: React.FC<{ basicLandCount: Decimal }> = ({
       <ChestRewardsList
         type="Expert Daily Rewards"
         listTitle={t("chestRewardsList.dailyReward.listTitle3")}
+        chestDescription={[
+          {
+            text: t("chestRewardsList.dailyReward.desc1"),
+            icon: SUNNYSIDE.icons.hammer,
+          },
+          {
+            text: t("chestRewardsList.dailyReward.desc2"),
+            icon: bonusReward,
+          },
+        ]}
       />
     );
   }
@@ -424,6 +435,16 @@ const DailyRewardsChestList: React.FC<{ basicLandCount: Decimal }> = ({
       <ChestRewardsList
         type="Advanced Daily Rewards"
         listTitle={t("chestRewardsList.dailyReward.listTitle2")}
+        chestDescription={[
+          {
+            text: t("chestRewardsList.dailyReward.desc1"),
+            icon: SUNNYSIDE.icons.hammer,
+          },
+          {
+            text: t("chestRewardsList.dailyReward.desc2"),
+            icon: bonusReward,
+          },
+        ]}
       />
     );
   }
@@ -431,6 +452,16 @@ const DailyRewardsChestList: React.FC<{ basicLandCount: Decimal }> = ({
     <ChestRewardsList
       type="Basic Daily Rewards"
       listTitle={t("chestRewardsList.dailyReward.listTitle1")}
+      chestDescription={[
+        {
+          text: t("chestRewardsList.dailyReward.desc1"),
+          icon: SUNNYSIDE.icons.hammer,
+        },
+        {
+          text: t("chestRewardsList.dailyReward.desc2"),
+          icon: bonusReward,
+        },
+      ]}
     />
   );
 };
