@@ -193,6 +193,21 @@ function getFeatherYieldBoosts(game: GameState): {
     boostsUsed.push("Fine Fibers");
   }
 
+  if (game.bumpkin.skills["Leathercraft Mastery"]) {
+    boost -= 0.35;
+    boostsUsed.push("Leathercraft Mastery");
+  }
+
+  if (game.bumpkin.skills["Featherweight"]) {
+    boost += 0.25;
+    boostsUsed.push("Featherweight");
+  }
+
+  if (game.bumpkin.skills["Merino Whisperer"]) {
+    boost -= 0.35;
+    boostsUsed.push("Merino Whisperer");
+  }
+
   return { amount: boost, boostsUsed };
 }
 
@@ -241,6 +256,21 @@ function getMerinoWoolYieldBoosts(game: GameState): {
   if (game.bumpkin.skills["Fine Fibers"]) {
     boost += 0.1;
     boostsUsed.push("Fine Fibers");
+  }
+
+  if (game.bumpkin.skills["Leathercraft Mastery"]) {
+    boost -= 0.35;
+    boostsUsed.push("Leathercraft Mastery");
+  }
+
+  if (game.bumpkin.skills["Featherweight"]) {
+    boost -= 0.35;
+    boostsUsed.push("Featherweight");
+  }
+
+  if (game.bumpkin.skills["Merino Whisperer"]) {
+    boost += 0.25;
+    boostsUsed.push("Merino Whisperer");
   }
 
   return { amount: boost, boostsUsed };
@@ -295,6 +325,21 @@ function getLeatherYieldBoosts(game: GameState): {
   if (game.bumpkin.skills["Fine Fibers"]) {
     boost += 0.1;
     boostsUsed.push("Fine Fibers");
+  }
+
+  if (game.bumpkin.skills["Leathercraft Mastery"]) {
+    boost += 0.25;
+    boostsUsed.push("Leathercraft Mastery");
+  }
+
+  if (game.bumpkin.skills["Featherweight"]) {
+    boost -= 0.35;
+    boostsUsed.push("Featherweight");
+  }
+
+  if (game.bumpkin.skills["Merino Whisperer"]) {
+    boost -= 0.35;
+    boostsUsed.push("Merino Whisperer");
   }
 
   return { amount: boost, boostsUsed };

@@ -175,25 +175,27 @@ export const Tools: React.FC = () => {
       }
       content={
         <>
-          {getKeys(WORKBENCH_TOOLS).map((toolName) => {
-            const { requiredIsland } = WORKBENCH_TOOLS[toolName];
-            const isLocked = !hasRequiredIslandExpansion(
-              state.island.type,
-              requiredIsland,
-            );
+          {getObjectEntries(WORKBENCH_TOOLS)
+            .filter(([, tool]) => !tool.disabled)
+            .map(([toolName, tool]) => {
+              const { requiredIsland } = tool;
+              const isLocked = !hasRequiredIslandExpansion(
+                state.island.type,
+                requiredIsland,
+              );
 
-            return (
-              <Box
-                isSelected={selectedName === toolName}
-                key={toolName}
-                onClick={() => onToolClick(toolName)}
-                image={ITEM_DETAILS[toolName].image}
-                count={inventory[toolName]}
-                secondaryImage={isLocked ? SUNNYSIDE.icons.lock : undefined}
-                showOverlay={isLocked}
-              />
-            );
-          })}
+              return (
+                <Box
+                  isSelected={selectedName === toolName}
+                  key={toolName}
+                  onClick={() => onToolClick(toolName)}
+                  image={ITEM_DETAILS[toolName].image}
+                  count={inventory[toolName]}
+                  secondaryImage={isLocked ? SUNNYSIDE.icons.lock : undefined}
+                  showOverlay={isLocked}
+                />
+              );
+            })}
           {getKeys(LOVE_ANIMAL_TOOLS).map((toolName) => {
             return (
               <Box

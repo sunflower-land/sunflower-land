@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -12,7 +12,6 @@ import { LAND_WIDTH } from "../Land";
 import { TravelTeaser } from "./TravelTeaser";
 import { DiscordBoat } from "./DiscordBoat";
 import { IslandUpgrader } from "./IslandUpgrader";
-import { GameState } from "features/game/types/game";
 
 import { CONFIG } from "lib/config";
 import { LaTomatina } from "./LaTomatina";
@@ -23,20 +22,29 @@ import fins2 from "assets/decorations/fins_green.webp";
 import fins3 from "assets/decorations/fins2.webp";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { useVisiting } from "lib/utils/visitUtils";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
 
 interface Props {
   expansionCount: number;
-  gameState: GameState;
 }
 
-export const WaterComponent: React.FC<Props> = ({
-  expansionCount,
-  gameState,
-}) => {
+const _calendar = (state: MachineState) => state.context.state.calendar;
+const _season = (state: MachineState) => state.context.state.season.season;
+const _laTomatina = (state: MachineState) =>
+  state.context.state.specialEvents.current["La Tomatina"];
+
+export const WaterComponent: React.FC<Props> = ({ expansionCount }) => {
+  const { gameService } = useContext(Context);
   // As the land gets bigger, push the water decorations out
   const offset = Math.ceil((Math.sqrt(expansionCount) * LAND_WIDTH) / 2);
-  const season = gameState.season.season;
-  const weather = getActiveCalendarEvent({ game: gameState });
+
+  const calendar = useSelector(gameService, _calendar);
+  const season = useSelector(gameService, _season);
+  const laTomatina = useSelector(gameService, _laTomatina);
+
+  const weather = getActiveCalendarEvent({ calendar });
   const { isVisiting } = useVisiting();
 
   return (
@@ -258,12 +266,10 @@ export const WaterComponent: React.FC<Props> = ({
           {CONFIG.NETWORK === "mainnet" && <DiscordBoat />}
           <SeasonTeaser offset={offset} />
           <TravelTeaser />
-          <IslandUpgrader gameState={gameState} offset={offset} />
+          <IslandUpgrader offset={offset} />
           <RestockBoat />
           <MapPlacement x={-5 - offset} y={2} width={4}>
-            <LaTomatina
-              event={gameState.specialEvents.current["La Tomatina"]}
-            />
+            <LaTomatina event={laTomatina} />
           </MapPlacement>
         </>
       )}

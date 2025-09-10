@@ -158,7 +158,7 @@ export function getAffectedWeather({
   id: string;
   game: GameState;
 }): CalendarEventName | undefined {
-  const weather = getActiveCalendarEvent({ game });
+  const weather = getActiveCalendarEvent({ calendar: game.calendar });
 
   if (
     weather === "tornado" &&
@@ -382,7 +382,8 @@ export const getCropPlotTime = ({
     seconds = seconds * 0.5;
   }
 
-  const isSunshower = getActiveCalendarEvent({ game }) === "sunshower";
+  const isSunshower =
+    getActiveCalendarEvent({ calendar: game.calendar }) === "sunshower";
 
   if (isSunshower) {
     seconds = seconds * 0.5;

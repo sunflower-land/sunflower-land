@@ -795,8 +795,9 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
             <div className="px-2 ">
               <div className="flex flex-col justify-between items-stretch mb-2 gap-1">
                 <div className="flex flex-row justify-between w-full">
-                  {getActiveCalendarEvent({ game }) === "doubleDelivery" &&
-                  !hasClaimedBonus ? (
+                  {getActiveCalendarEvent({
+                    calendar: gameState.context.state.calendar,
+                  }) === "doubleDelivery" && !hasClaimedBonus ? (
                     <Label type="vibrant" icon={lightning}>
                       {t("double.rewards.delivery")}
                     </Label>

@@ -92,7 +92,7 @@ export const WORKBENCH_TOOLS: Record<
     name: "Oil Drill",
     description: translate("description.oil.drill"),
     price: 100,
-    ingredients: (skill?: Skills) => {
+    ingredients: (skill) => {
       if (skill?.["Oil Rig"]) {
         return {
           Wood: new Decimal(20),
@@ -118,6 +118,7 @@ export const WORKBENCH_TOOLS: Record<
       Wool: new Decimal(2),
     }),
     stock: new Decimal(10),
+    disabled: true,
   },
 };
 

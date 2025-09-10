@@ -44,7 +44,7 @@ export const Clutter: React.FC<{
         </CloseButtonPanel>
       </Modal>
 
-      {...Object.keys(clutter?.locations ?? {}).flatMap((id) => {
+      {Object.keys(clutter?.locations ?? {}).flatMap((id) => {
         const { x, y } = clutter!.locations[id];
         const isPest = clutter!.locations[id].type in FARM_PEST;
 
@@ -56,6 +56,7 @@ export const Clutter: React.FC<{
             height={1}
             width={1}
             z={isPest ? 999999 : 99999999}
+            enableOnVisitClick
           >
             <ClutterItem
               onComplete={() => setShowHelped(true)}

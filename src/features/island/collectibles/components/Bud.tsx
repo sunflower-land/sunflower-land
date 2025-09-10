@@ -97,7 +97,7 @@ export const Bud: React.FC<Props> = ({ id, type }) => {
     <Popover>
       <PopoverButton as="div">
         <div
-          className="absolute"
+          className="absolute cursor-pointer"
           style={{
             width: `${PIXEL_SCALE * 32}px`,
             height: `${PIXEL_SCALE * 32}px`,
