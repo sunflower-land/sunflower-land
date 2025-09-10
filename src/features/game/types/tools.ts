@@ -118,6 +118,7 @@ export const WORKBENCH_TOOLS: Record<
       Wool: new Decimal(2),
     }),
     stock: new Decimal(10),
+    disabled: true,
   },
 };
 
