@@ -1,32 +1,32 @@
+import xpIcon from "assets/icons/xp.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label, LabelType } from "components/ui/Label";
+import { InnerPanel } from "components/ui/Panel";
+import Decimal from "decimal.js-light";
+import {
+  getPetEnergy,
+  getPetFoodRequests,
+} from "features/game/events/pets/feedPet";
 import { Context } from "features/game/GameProvider";
 import { CookableName } from "features/game/types/consumables";
+import { Inventory } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   PET_RESOURCES,
   Pet,
   PetName,
   PetResourceName,
-  getPetLevel,
   getPetFetches,
+  getPetLevel,
   getPetRequestXP,
   isPetNapping,
   isPetNeglected,
 } from "features/game/types/pets";
-import { shortenCount } from "lib/utils/formatNumber";
-import React, { useContext, useState, useMemo } from "react";
-import { PetInfo } from "./PetInfo";
-import { Inventory } from "features/game/types/game";
-import Decimal from "decimal.js-light";
-import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import xpIcon from "assets/icons/xp.png";
-import {
-  getPetEnergy,
-  getPetFoodRequests,
-} from "features/game/events/pets/feedPet";
+import { shortenCount } from "lib/utils/formatNumber";
+import React, { useContext, useMemo, useState } from "react";
+import { PetInfo } from "./PetInfo";
 
 interface Props {
   petName: PetName;

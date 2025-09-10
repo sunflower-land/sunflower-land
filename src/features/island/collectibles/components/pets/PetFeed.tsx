@@ -1,22 +1,22 @@
-import React, { useState } from "react";
-import { getPetRequestXP, Pet, PetName } from "features/game/types/pets";
-import { SplitScreenView } from "components/ui/SplitScreenView";
-import { Box } from "components/ui/Box";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { CookableName } from "features/game/types/consumables";
-import { Label } from "components/ui/Label";
-import { Button } from "components/ui/Button";
-import { Inventory } from "features/game/types/game";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { InnerPanel } from "components/ui/Panel";
 import xpIcon from "assets/icons/xp.png";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { Box } from "components/ui/Box";
+import { Button } from "components/ui/Button";
+import { Label } from "components/ui/Label";
+import { InnerPanel } from "components/ui/Panel";
+import { SplitScreenView } from "components/ui/SplitScreenView";
 import { Loading } from "features/auth/components/Loading";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { ResetFoodRequests } from "./ResetFoodRequests";
 import {
   getPetEnergy,
   getPetFoodRequests,
 } from "features/game/events/pets/feedPet";
+import { CookableName } from "features/game/types/consumables";
+import { Inventory } from "features/game/types/game";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { getPetRequestXP, Pet, PetName } from "features/game/types/pets";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import React, { useState } from "react";
+import { ResetFoodRequests } from "./ResetFoodRequests";
 
 interface Props {
   petName: PetName;

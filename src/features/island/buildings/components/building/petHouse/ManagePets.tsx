@@ -1,34 +1,34 @@
-import { Label } from "components/ui/Label";
-import {
-  Pet,
-  PetName,
-  PET_CATEGORIES,
-  PET_TYPES,
-  PetType,
-  getPetLevel,
-  isPetNeglected,
-  isPetNapping,
-  getPetRequestXP,
-} from "features/game/types/pets";
-import React, { useContext, useState, useMemo } from "react";
-import { PetCard, isFoodAlreadyFed } from "./PetCard";
-import { Button } from "components/ui/Button";
-import { CookableName } from "features/game/types/consumables";
-import { Context } from "features/game/GameProvider";
-import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
 import { useSelector } from "@xstate/react";
-import Decimal from "decimal.js-light";
-import { ModalOverlay } from "components/ui/ModalOverlay";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getKeys } from "features/game/lib/crafting";
 import xpIcon from "assets/icons/xp.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { Box } from "components/ui/Box";
+import { Button } from "components/ui/Button";
+import { Label } from "components/ui/Label";
+import { ModalOverlay } from "components/ui/ModalOverlay";
+import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
+import Decimal from "decimal.js-light";
 import {
   getPetEnergy,
   getPetFoodRequests,
 } from "features/game/events/pets/feedPet";
+import { Context } from "features/game/GameProvider";
+import { getKeys } from "features/game/lib/crafting";
+import { CookableName } from "features/game/types/consumables";
+import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  PET_CATEGORIES,
+  PET_TYPES,
+  Pet,
+  PetName,
+  PetType,
+  getPetLevel,
+  getPetRequestXP,
+  isPetNapping,
+  isPetNeglected,
+} from "features/game/types/pets";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import React, { useContext, useMemo, useState } from "react";
+import { PetCard, isFoodAlreadyFed } from "./PetCard";
 
 type Props = {
   activePets: [PetName, Pet | undefined][];
