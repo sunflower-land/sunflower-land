@@ -11,6 +11,7 @@ export const PET_SHOP_ITEMS: Record<PetShopItemName, CraftableCollectible> = {
     ingredients: {},
     limit: 1,
   },
+  ...PET_SHRINES,
   "Obsidian Shrine": {
     description: "A shrine to the Obsidian God",
     ingredients: {
@@ -20,5 +21,4 @@ export const PET_SHOP_ITEMS: Record<PetShopItemName, CraftableCollectible> = {
     },
     inventoryLimit: 1,
   },
-  ...PET_SHRINES,
 };

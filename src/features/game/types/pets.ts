@@ -450,16 +450,6 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     },
     inventoryLimit: 1,
   },
-  "Legendary Shrine": {
-    description: "",
-    coins: 0,
-    ingredients: {
-      Obsidian: new Decimal(1),
-      Moonfur: new Decimal(10),
-      Acorn: new Decimal(10),
-    },
-    inventoryLimit: 1,
-  },
   "Bantam Shrine": {
     description: "",
     coins: 0,
@@ -467,6 +457,16 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
       Acorn: new Decimal(15),
       Ruffroot: new Decimal(10),
       Dewberry: new Decimal(10),
+    },
+    inventoryLimit: 1,
+  },
+  "Legendary Shrine": {
+    description: "",
+    coins: 0,
+    ingredients: {
+      Obsidian: new Decimal(1),
+      Moonfur: new Decimal(10),
+      Acorn: new Decimal(10),
     },
     inventoryLimit: 1,
   },

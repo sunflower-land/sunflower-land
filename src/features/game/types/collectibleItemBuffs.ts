@@ -1671,11 +1671,6 @@ function getCollectibleBuffLabels(
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS["Crafting Box"].image,
       },
-      {
-        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
-        labelType: "danger",
-        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-      },
     ],
     "Boar Shrine": [
       {
@@ -1684,22 +1679,12 @@ function getCollectibleBuffLabels(
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: chefHat,
       },
-      {
-        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
-        labelType: "danger",
-        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-      },
     ],
     "Hound Shrine": [
       {
         shortDescription: translate("description.houndShrine.buff"),
         labelType: "success",
         boostTypeIcon: powerup,
-      },
-      {
-        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
-        labelType: "danger",
-        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     ],
     "Stag Shrine": [
@@ -1709,11 +1694,6 @@ function getCollectibleBuffLabels(
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS.Oil.image,
       },
-      {
-        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
-        labelType: "danger",
-        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-      },
     ],
     "Sparrow Shrine": [
       {
@@ -1721,21 +1701,11 @@ function getCollectibleBuffLabels(
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
-      {
-        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
-        labelType: "danger",
-        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-      },
     ],
     "Toucan Shrine": [
       {
         shortDescription: translate("description.toucanShrine.buff"),
         labelType: "info",
-        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-      },
-      {
-        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
-        labelType: "danger",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     ],
@@ -1752,11 +1722,6 @@ function getCollectibleBuffLabels(
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: SUNNYSIDE.animals.sheepSleeping,
       },
-      {
-        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
-        labelType: "danger",
-        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-      },
     ],
     "Badger Shrine": [
       {
@@ -1770,11 +1735,6 @@ function getCollectibleBuffLabels(
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS.Stone.image,
-      },
-      {
-        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
-        labelType: "danger",
-        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     ],
     "Legendary Shrine": [
@@ -1801,22 +1761,12 @@ function getCollectibleBuffLabels(
         boostTypeIcon: powerup,
         boostedItemIcon: ITEM_DETAILS.Stone.image,
       },
-      {
-        shortDescription: translate("shrine.expiryLabel", { time: "1d" }),
-        labelType: "danger",
-        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-      },
     ],
     "Obsidian Shrine": [
       {
         shortDescription: translate("description.obsidianShrine.buff"),
         labelType: "vibrant",
         boostTypeIcon: SUNNYSIDE.icons.lightning,
-      },
-      {
-        shortDescription: translate("shrine.expiryLabel", { time: "14d" }),
-        labelType: "danger",
-        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     ],
     "Mole Shrine": [
@@ -1838,11 +1788,6 @@ function getCollectibleBuffLabels(
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS.Crimstone.image,
       },
-      {
-        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
-        labelType: "danger",
-        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-      },
     ],
     "Bear Shrine": [
       {
@@ -1850,11 +1795,6 @@ function getCollectibleBuffLabels(
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS.Honey.image,
-      },
-      {
-        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
-        labelType: "danger",
-        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     ],
     "Tortoise Shrine": [
@@ -1870,11 +1810,6 @@ function getCollectibleBuffLabels(
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS["Crop Machine"].image,
       },
-      {
-        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
-        labelType: "danger",
-        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-      },
     ],
     "Moth Shrine": [
       {
@@ -1882,11 +1817,6 @@ function getCollectibleBuffLabels(
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
-      },
-      {
-        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
-        labelType: "danger",
-        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     ],
     "Bantam Shrine": [
@@ -1896,11 +1826,6 @@ function getCollectibleBuffLabels(
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: SUNNYSIDE.animals.chickenAsleep,
       },
-      {
-        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
-        labelType: "danger",
-        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-      },
     ],
     "Trading Shrine": [
       {
@@ -1908,11 +1833,6 @@ function getCollectibleBuffLabels(
         labelType: "success",
         boostTypeIcon: powerup,
         boostedItemIcon: tradeIcon,
-      },
-      {
-        shortDescription: translate("shrine.expiryLabel", { time: "30d" }),
-        labelType: "danger",
-        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     ],
     "Ancient Tree": [
