@@ -618,7 +618,10 @@ export function getBoostedAwakeAt({
     boostsUsed.push("Restless Animals");
   }
 
-  if (isTemporaryCollectibleActive({ name: "Collie Shrine", game })) {
+  if (
+    (isCow || isSheep) &&
+    isTemporaryCollectibleActive({ name: "Collie Shrine", game })
+  ) {
     totalDuration *= 0.75;
     boostsUsed.push("Collie Shrine");
   }
