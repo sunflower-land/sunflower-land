@@ -87,7 +87,7 @@ const getBoostedTime = ({
   }
 
   if (isTemporaryCollectibleActive({ name: "Mole Shrine", game })) {
-    totalSeconds = totalSeconds * 0.25;
+    totalSeconds = totalSeconds * 0.75;
     boostsUsed.push("Mole Shrine");
   }
 
