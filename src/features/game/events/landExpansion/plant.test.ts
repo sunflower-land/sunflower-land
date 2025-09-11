@@ -4,6 +4,7 @@ import { INITIAL_FARM } from "../../lib/constants";
 import { GameState, CropPlot } from "../../types/game";
 import { getCropPlotTime, plant } from "./plant";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
+import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 
 const FARM_WITH_PLOTS: GameState = {
   ...INITIAL_FARM,
@@ -1352,6 +1353,54 @@ describe("plant", () => {
       });
 
       expect(time).toEqual(baseHarvestSeconds * 0.5);
+    });
+
+    it("applies the Sparrow Shrine boost", () => {
+      const baseHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
+      const { time } = getCropPlotTime({
+        crop: "Sunflower",
+        game: {
+          ...FARM_WITH_PLOTS,
+          collectibles: {
+            "Sparrow Shrine": [
+              {
+                id: "123",
+                coordinates: { x: -1, y: -1 },
+                createdAt: dateNow - 100,
+                readyAt: dateNow - 100,
+              },
+            ],
+          },
+        },
+        plot: { ...plot, x: 0, y: -3 },
+        createdAt: dateNow,
+      });
+
+      expect(time).toEqual(baseHarvestSeconds * 0.75);
+    });
+
+    it("does not apply the Sparrow Shrine boost if expired", () => {
+      const baseHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
+      const { time } = getCropPlotTime({
+        crop: "Sunflower",
+        game: {
+          ...FARM_WITH_PLOTS,
+          collectibles: {
+            "Sparrow Shrine": [
+              {
+                id: "123",
+                coordinates: { x: -1, y: -1 },
+                createdAt: dateNow - EXPIRY_COOLDOWNS["Sparrow Shrine"],
+                readyAt: dateNow - 100,
+              },
+            ],
+          },
+        },
+        plot: { ...plot, x: 0, y: -3 },
+        createdAt: dateNow,
+      });
+
+      expect(time).toEqual(baseHarvestSeconds);
     });
   });
 
