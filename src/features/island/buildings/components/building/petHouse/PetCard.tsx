@@ -479,7 +479,9 @@ export const PetCardContent: React.FC<{
               <GridItem
                 key={food}
                 keyName={food}
-                imageSrc={foodImage}
+                imageSrc={
+                  isFoodLocked ? SUNNYSIDE.icons.expression_confused : foodImage
+                }
                 disabled={isDisabled}
                 onClick={
                   isDisabled
@@ -488,9 +490,13 @@ export const PetCardContent: React.FC<{
                       ? () => handleRemoveFromSelection(food)
                       : () => handleFeedPet(food)
                 }
-                onMouseEnter={(e) => handleFoodHover(food, e)}
-                onMouseLeave={() => setHoveredFood(null)}
-                count={foodCount}
+                onMouseEnter={(e) =>
+                  isFoodLocked ? undefined : handleFoodHover(food, e)
+                }
+                onMouseLeave={() =>
+                  isFoodLocked ? undefined : setHoveredFood(null)
+                }
+                count={isFoodLocked ? undefined : foodCount}
                 showConfirm={alreadyFed || isSelected}
                 bottomLabels={
                   isFoodLocked

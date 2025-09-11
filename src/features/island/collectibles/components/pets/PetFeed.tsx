@@ -190,13 +190,19 @@ const PetFeedPanel: React.FC<
           </Label>
         </div>
 
-        <div className="flex flex-row gap-2 items-center w-full">
+        <div className="flex flex-row gap-2 items-center  sm:justify-center w-full">
           <img
-            src={ITEM_DETAILS[selectedFood].image}
-            alt={selectedFood ?? ""}
-            className="w-8"
+            src={
+              isFoodLocked
+                ? SUNNYSIDE.icons.expression_confused
+                : ITEM_DETAILS[selectedFood].image
+            }
+            alt={selectedFood}
+            className={"w-5"}
           />
-          <span className="text-xs">{selectedFood}</span>
+          <span className="text-xs">
+            {!isFoodLocked ? selectedFood : "Food Locked"}
+          </span>
         </div>
       </div>
 
@@ -293,13 +299,17 @@ const PetFeedContent: React.FC<
           return (
             <Box
               key={food}
-              image={ITEM_DETAILS[food].image}
+              image={
+                isUpcoming
+                  ? SUNNYSIDE.icons.expression_confused
+                  : ITEM_DETAILS[food].image
+              }
               isSelected={selectedFood === food}
               onClick={() => {
                 setSelectedFood(food);
                 setShowConfirm(false);
               }}
-              count={inventory[food]}
+              count={isUpcoming ? undefined : inventory[food]}
               showOverlay={isComplete || isUpcoming}
               secondaryImage={
                 isComplete
