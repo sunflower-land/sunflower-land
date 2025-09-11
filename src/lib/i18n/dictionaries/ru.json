@@ -6522,7 +6522,6 @@
   "pet.changes": "Изменения",
   "pets.plusFoodXp": "+ {{foodXp}} XP",
   "pets.xp": "{{currentProgress}}/{{experienceBetweenLevels}} XP",
-  "pets.plusFoodEnergy": "+ {{foodXp}} Энергия",
   "pets.energy": "{{energy}} Энергия",
   "pets.foodFedToday": "Продовольственное питание сегодня",
   "pets.insufficientFood": "Недостаточное питание",
@@ -6607,5 +6606,15 @@
   "checkList.miniGames.title": "Мини-игры",
   "checkList.miniGames.description": "Навестиcь к Билли, чтобы играть в мини-игры и получать награды.",
   "checkList.miniGames.missionPoints": "Задача: {{number}} очков",
-  "checkList.travel": "Отправиться"
+  "checkList.travel": "Отправиться",
+  "pets.plusFoodEnergy": "+ {{energy}} Энергия",
+  "pets.foodLocked": "Достигните 10-го уровня, чтобы разблокировать",
+  "description.ancientTree.buff": "+0,5 Дерево",
+  "description.sacredTree.buff": "+2.5 Дерево",
+  "description.fusedStoneRock.buff": "+0,5 камня",
+  "description.reinforcedStoneRock.buff": "+2.5 Стоун",
+  "description.refinedIronRock.buff": "+0,5 железа",
+  "description.temperedIronRock.buff": "+2.5 Железо",
+  "description.pureGoldRock.buff": "+0.5 золота",
+  "description.primeGoldRock.buff": "+2.5 Золото"
 }

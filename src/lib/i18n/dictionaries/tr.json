@@ -6522,7 +6522,6 @@
   "pet.changes": "Değişiklikler",
   "pets.plusFoodXp": "+ {{foodXp}} XP",
   "pets.xp": "{{currentProgress}}/{{experienceBetweenLevels}} XP",
-  "pets.plusFoodEnergy": "+ {{foodXp}} Enerji",
   "pets.energy": "{{energy}} Enerji",
   "pets.foodFedToday": "Bugün Gıda Fed",
   "pets.insufficientFood": "Yetersiz Yiyecek",
@@ -6607,5 +6606,15 @@
   "checkList.miniGames.title": "Mini Oyunlar",
   "checkList.miniGames.description": "Mini oyunlara erişmek ve tamamlayarak ödüller kazanmak için Billy\"yi ziyaret edin.",
   "checkList.miniGames.missionPoints": "Görev: {{number}} Puan",
-  "checkList.travel": "Seyahat"
+  "checkList.travel": "Seyahat",
+  "pets.plusFoodEnergy": "+ {{energy}} Enerji",
+  "pets.foodLocked": "Kilidi açmak için Seviye 10'a ulaşın",
+  "description.ancientTree.buff": "+0.5 Vood",
+  "description.sacredTree.buff": "+2.5 Vood",
+  "description.fusedStoneRock.buff": "+0.5 Sten",
+  "description.reinforcedStoneRock.buff": "+2.5 Taş",
+  "description.refinedIronRock.buff": "+0.5 Demir",
+  "description.temperedIronRock.buff": "+2.5 Demir",
+  "description.pureGoldRock.buff": "+0.5 Altın",
+  "description.primeGoldRock.buff": "+2.5 Altın"
 }

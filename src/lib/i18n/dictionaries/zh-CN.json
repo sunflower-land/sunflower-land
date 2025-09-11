@@ -6522,7 +6522,6 @@
   "pet.changes": "变更",
   "pets.plusFoodXp": "+ {{foodXp}} XP",
   "pets.xp": "{{currentProgress}}/{{experienceBetweenLevels}} XP",
-  "pets.plusFoodEnergy": "+ {{foodXp}} 能量",
   "pets.energy": "{{energy}} 能量",
   "pets.foodFedToday": "今日已喂食",
   "pets.insufficientFood": "食物不足",
@@ -6607,5 +6606,15 @@
   "checkList.miniGames.title": "小游戏",
   "checkList.miniGames.description": "前往 Billy 处进入小游戏，完成后可获得奖励。",
   "checkList.miniGames.missionPoints": "任务：{{number}} 分",
-  "checkList.travel": "前往"
+  "checkList.travel": "前往",
+  "pets.plusFoodEnergy": "+ {{energy}} 能量",
+  "pets.foodLocked": "达到 10 级即可解锁",
+  "description.ancientTree.buff": "+0.5 木头",
+  "description.sacredTree.buff": "+2.5 木头",
+  "description.fusedStoneRock.buff": "+0.5 石头",
+  "description.reinforcedStoneRock.buff": "+2.5 石头",
+  "description.refinedIronRock.buff": "+0.5 铁",
+  "description.temperedIronRock.buff": "+2.5 铁",
+  "description.pureGoldRock.buff": "+0.5 金币",
+  "description.primeGoldRock.buff": "+2.5 金币"
 }

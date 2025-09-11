@@ -6521,9 +6521,10 @@
   "pet.changes": "Changes",
   "pets.plusFoodXp": "+{{foodXp}} XP",
   "pets.xp": "{{currentProgress}} / {{experienceBetweenLevels}} XP",
-  "pets.plusFoodEnergy": "+{{foodXp}} Energy",
+  "pets.plusFoodEnergy": "+{{energy}} Energy",
   "pets.energy": "{{energy}} Energy",
   "pets.foodFedToday": "Food Fed Today",
+  "pets.foodLocked": "Reach Level 10 to unlock",
   "pets.insufficientFood": "Insufficient Food",
   "pets.feedPet": "Feed {{pet}}",
   "pets.requestsToday": "{{pet}}'s Requests Today",
@@ -6607,5 +6608,13 @@
   "news.obsidian.five": "Lava pit requirements will update",
   "news.obsidian.title": "Obsidian Updates - Nov 4th",
   "news.obsidian.description": "New utility & demand for Obsidian.",
-  "news.obsidian.backButton": "Obsidian Updates"
+  "news.obsidian.backButton": "Obsidian Updates",
+  "description.ancientTree.buff": "+0.5 Wood",
+  "description.sacredTree.buff": "+2.5 Wood",
+  "description.fusedStoneRock.buff": "+0.5 Stone",
+  "description.reinforcedStoneRock.buff": "+2.5 Stone",
+  "description.refinedIronRock.buff": "+0.5 Iron",
+  "description.temperedIronRock.buff": "+2.5 Iron",
+  "description.pureGoldRock.buff": "+0.5 Gold",
+  "description.primeGoldRock.buff": "+2.5 Gold"
 }

@@ -6522,7 +6522,6 @@
   "pet.changes": "変更",
   "pets.plusFoodXp": "+ {{foodXp}} XP",
   "pets.xp": "{{currentProgress}}/{{experienceBetweenLevels}} XP",
-  "pets.plusFoodEnergy": "+ {{foodXp}} エネルギー",
   "pets.energy": "{{energy}} エネルギー",
   "pets.foodFedToday": "フード・フィード・トゥデイ",
   "pets.insufficientFood": "食糧不足",
@@ -6607,5 +6606,15 @@
   "checkList.miniGames.title": "ミニゲーム",
   "checkList.miniGames.description": "ビリーにアクセスしてミニゲームにアクセスし、クリアすることで報酬を獲得してください。",
   "checkList.miniGames.missionPoints": "ミッション:{{number}} ポイント",
-  "checkList.travel": "トラベル"
+  "checkList.travel": "トラベル",
+  "pets.plusFoodEnergy": "+ {{energy}} エネルギー",
+  "pets.foodLocked": "レベル10に到達してロックを解除",
+  "description.ancientTree.buff": "+0.5 ウッド",
+  "description.sacredTree.buff": "+2.5 ウッド",
+  "description.fusedStoneRock.buff": "+0.5 ストーン",
+  "description.reinforcedStoneRock.buff": "+2.5 ストーン",
+  "description.refinedIronRock.buff": "+0.5 アイアン",
+  "description.temperedIronRock.buff": "+2.5 アイアン",
+  "description.pureGoldRock.buff": "+0.5 ゴールド",
+  "description.primeGoldRock.buff": "+2.5 ゴールド"
 }

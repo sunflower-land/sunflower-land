@@ -6522,7 +6522,6 @@
   "pet.changes": "변경사항",
   "pets.plusFoodXp": "+ {{foodXp}} XP",
   "pets.xp": "{{currentProgress}}/{{experienceBetweenLevels}} XP",
-  "pets.plusFoodEnergy": "+ {{foodXp}} 에너지",
   "pets.energy": "{{energy}} 에너지",
   "pets.foodFedToday": "푸드 피드 투데이",
   "pets.insufficientFood": "식량 부족",
@@ -6607,5 +6606,15 @@
   "checkList.miniGames.title": "미니 게임",
   "checkList.miniGames.description": "Billy를 방문하여 미니게임을 플레이하고 완료하여 보상을 받으세요.",
   "checkList.miniGames.missionPoints": "미션: {{number}} 포인트",
-  "checkList.travel": "여행"
+  "checkList.travel": "여행",
+  "pets.plusFoodEnergy": "+ {{energy}} 에너지",
+  "pets.foodLocked": "레벨 10에 도달하여 잠금 해제하세요",
+  "description.ancientTree.buff": "+0.5 우드",
+  "description.sacredTree.buff": "+2.5 우드",
+  "description.fusedStoneRock.buff": "+0.5 스톤",
+  "description.reinforcedStoneRock.buff": "+2.5 스톤",
+  "description.refinedIronRock.buff": "+0.5 아이언",
+  "description.temperedIronRock.buff": "+2.5 아이언",
+  "description.pureGoldRock.buff": "+0.5 골드",
+  "description.primeGoldRock.buff": "+2.5 골드"
 }

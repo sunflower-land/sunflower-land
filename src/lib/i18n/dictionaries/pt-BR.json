@@ -6522,7 +6522,6 @@
   "pet.changes": "Mudanças",
   "pets.plusFoodXp": "+ {{foodXp}} XP",
   "pets.xp": "{{currentProgress}}/{{experienceBetweenLevels}} XP",
-  "pets.plusFoodEnergy": "+ {{foodXp}} Energia",
   "pets.energy": "{{energy}} Energia",
   "pets.foodFedToday": "Alimentação alimentada hoje",
   "pets.insufficientFood": "Comida insuficiente",
@@ -6607,5 +6606,15 @@
   "checkList.miniGames.title": "Mini jogos",
   "checkList.miniGames.description": "Visite Billy para acessar os minijogos e ganhar recompensas ao concluí-los.",
   "checkList.miniGames.missionPoints": "Missão: {{number}} Pontos",
-  "checkList.travel": "Viajar"
+  "checkList.travel": "Viajar",
+  "pets.plusFoodEnergy": "+ {{energy}} Energia",
+  "pets.foodLocked": "Alcance o nível 10 para desbloquear",
+  "description.ancientTree.buff": "+0.5 Madeira",
+  "description.sacredTree.buff": "+2.5 Madeira",
+  "description.fusedStoneRock.buff": "+0,5 Pedra",
+  "description.reinforcedStoneRock.buff": "+2,5 Pedra",
+  "description.refinedIronRock.buff": "+0,5 Ferro",
+  "description.temperedIronRock.buff": "+2,5 Ferro",
+  "description.pureGoldRock.buff": "+0.5 Ouro",
+  "description.primeGoldRock.buff": "+2.5 Ouro"
 }
