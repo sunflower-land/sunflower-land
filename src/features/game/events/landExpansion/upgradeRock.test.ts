@@ -292,6 +292,7 @@ describe("upgradeRock", () => {
           },
         },
         action,
+        createdAt: now,
       });
 
       // Should place new refined iron rock in iron state
