@@ -12,8 +12,14 @@ import {
 } from "features/game/types/pets";
 import { produce } from "immer";
 
-export function getPetEnergy(pet: Pet, basePetEnergy: number) {
-  const { level: petLevel } = getPetLevel(pet.experience);
+export function getPetEnergy({
+  petData,
+  basePetEnergy,
+}: {
+  petData: Pet;
+  basePetEnergy: number;
+}) {
+  const { level: petLevel } = getPetLevel(petData.experience);
   let boostEnergy = 0;
 
   if (petLevel >= 5) {
@@ -31,7 +37,7 @@ export function getPetEnergy(pet: Pet, basePetEnergy: number) {
   return basePetEnergy + boostEnergy;
 }
 
-function getPetExperience({
+export function getPetExperience({
   game,
   basePetXP,
 }: {
@@ -133,8 +139,11 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
     petData.requests.fedAt = createdAt;
     inventory[food] = foodInInventory.minus(1);
 
-    const experience = getPetRequestXP(food);
-    const energy = getPetEnergy(petData, experience);
+    // Get base pet XP/Energy
+    const basePetXP = getPetRequestXP(food);
+
+    const experience = getPetExperience({ basePetXP, game: stateCopy });
+    const energy = getPetEnergy({ petData, basePetEnergy: basePetXP });
     petData.experience += experience;
     petData.energy += energy;
 

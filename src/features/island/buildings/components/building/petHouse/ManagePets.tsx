@@ -9,6 +9,7 @@ import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
 import Decimal from "decimal.js-light";
 import {
   getPetEnergy,
+  getPetExperience,
   getPetFoodRequests,
 } from "features/game/events/pets/feedPet";
 import { Context } from "features/game/GameProvider";
@@ -50,6 +51,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
     gameService,
     (state) => state.context.state.inventory,
   );
+  const state = useSelector(gameService, (state) => state.context.state);
 
   const handleConfirmFeed = () => {
     if (showOverview) {
@@ -274,12 +276,21 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
 
                 // Calculate total XP and energy from all selected foods
                 const totalXP = food.reduce(
-                  (sum, foodItem) => sum + getPetRequestXP(foodItem),
+                  (sum, foodItem) =>
+                    sum +
+                    getPetExperience({
+                      basePetXP: getPetRequestXP(foodItem),
+                      game: state,
+                    }),
                   0,
                 );
                 const totalEnergy = food.reduce(
                   (sum, foodItem) =>
-                    sum + getPetEnergy(petData, getPetRequestXP(foodItem)),
+                    sum +
+                    getPetEnergy({
+                      petData,
+                      basePetEnergy: getPetRequestXP(foodItem),
+                    }),
                   0,
                 );
                 const beforeExperience = petData.experience;
