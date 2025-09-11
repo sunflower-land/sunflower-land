@@ -1769,56 +1769,64 @@ function getCollectibleBuffLabels(
     "Ancient Tree": [
       {
         shortDescription: translate("description.ancientTree.buff"),
-        labelType: "info",
+        labelType: "success",
+        boostTypeIcon: powerup,
         boostedItemIcon: ITEM_DETAILS.Wood.image,
       },
     ],
     "Sacred Tree": [
       {
         shortDescription: translate("description.sacredTree.buff"),
-        labelType: "info",
+        labelType: "success",
+        boostTypeIcon: powerup,
         boostedItemIcon: ITEM_DETAILS.Wood.image,
       },
     ],
     "Fused Stone Rock": [
       {
         shortDescription: translate("description.fusedStoneRock.buff"),
-        labelType: "info",
+        labelType: "success",
+        boostTypeIcon: powerup,
         boostedItemIcon: ITEM_DETAILS.Stone.image,
       },
     ],
     "Reinforced Stone Rock": [
       {
         shortDescription: translate("description.reinforcedStoneRock.buff"),
-        labelType: "info",
+        labelType: "success",
+        boostTypeIcon: powerup,
         boostedItemIcon: ITEM_DETAILS.Stone.image,
       },
     ],
     "Refined Iron Rock": [
       {
         shortDescription: translate("description.refinedIronRock.buff"),
-        labelType: "info",
+        labelType: "success",
+        boostTypeIcon: powerup,
         boostedItemIcon: ITEM_DETAILS.Iron.image,
       },
     ],
     "Tempered Iron Rock": [
       {
         shortDescription: translate("description.temperedIronRock.buff"),
-        labelType: "info",
+        labelType: "success",
+        boostTypeIcon: powerup,
         boostedItemIcon: ITEM_DETAILS.Iron.image,
       },
     ],
     "Pure Gold Rock": [
       {
         shortDescription: translate("description.pureGoldRock.buff"),
-        labelType: "info",
+        labelType: "success",
+        boostTypeIcon: powerup,
         boostedItemIcon: ITEM_DETAILS.Gold.image,
       },
     ],
     "Prime Gold Rock": [
       {
         shortDescription: translate("description.primeGoldRock.buff"),
-        labelType: "info",
+        labelType: "success",
+        boostTypeIcon: powerup,
         boostedItemIcon: ITEM_DETAILS.Gold.image,
       },
     ],
