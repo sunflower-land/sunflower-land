@@ -1404,6 +1404,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Collie Shrine": { width: 1, height: 1 },
   "Badger Shrine": { width: 1, height: 1 },
   "Bantam Shrine": { width: 1, height: 1 },
+  "Trading Shrine": { width: 1, height: 1 },
 
   // Animal Season
   "Cow Scratcher": { width: 1, height: 2 },

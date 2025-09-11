@@ -60,6 +60,7 @@ export const ITEM_TRADE_TYPES: {
     "Tortoise Shrine": "instant",
     "Moth Shrine": "instant",
     "Bantam Shrine": "instant",
+    "Trading Shrine": "instant",
 
     Acorn: "instant",
     Ruffroot: "instant",

@@ -15,6 +15,8 @@ export const PET_SHOP_ITEMS: Record<PetShopItemName, CraftableCollectible> = {
     description: "A shrine to the Obsidian God",
     ingredients: {
       Obsidian: new Decimal(1),
+      Moonfur: new Decimal(3),
+      Acorn: new Decimal(15),
     },
     inventoryLimit: 1,
   },

@@ -317,7 +317,7 @@ export type PetShrineName =
   | "Boar Shrine" // Cooking
   | "Sparrow Shrine" // Crops
   | "Toucan Shrine" // Fruit
-  | "Collie Shrine" // Animals
+  | "Collie Shrine" // Barn Animals
   | "Badger Shrine" // Trees & Stones
   | "Stag Shrine" // Oil
   | "Mole Shrine" // Crimstone, Gold & Iron
@@ -325,7 +325,8 @@ export type PetShrineName =
   | "Tortoise Shrine" // Greenhouse + Crop Machine
   | "Moth Shrine" // Flower
   | "Legendary Shrine" // Bonus yields
-  | "Bantam Shrine"; // Bantam
+  | "Bantam Shrine" // Chickens
+  | "Trading Shrine"; // Trading
 
 export type PetShrine = Omit<Decoration, "name"> & {
   name: PetShrineName;
@@ -466,6 +467,16 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
       Acorn: new Decimal(15),
       Ruffroot: new Decimal(10),
       Dewberry: new Decimal(10),
+    },
+    inventoryLimit: 1,
+  },
+  "Trading Shrine": {
+    description: "",
+    coins: 0,
+    ingredients: {
+      Acorn: new Decimal(15),
+      Moonfur: new Decimal(5),
+      Obsidian: new Decimal(3),
     },
     inventoryLimit: 1,
   },

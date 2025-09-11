@@ -12994,6 +12994,14 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/question_mark.png",
     name: "Bantam Shrine",
   },
+  "Trading Shrine": {
+    decimals: 0,
+    description: "",
+    attributes: [],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    name: "Trading Shrine",
+  },
   "Ancient Tree": {
     decimals: 0,
     description: "",
