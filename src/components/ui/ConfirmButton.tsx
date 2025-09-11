@@ -25,7 +25,7 @@ export const ConfirmButton: React.FC<React.PropsWithChildren<Props>> = ({
 
   if (confirming) {
     return (
-      <>
+      <div className="flex sm:flex-col gap-1">
         <Button
           variant={variant}
           className={className}
@@ -44,7 +44,7 @@ export const ConfirmButton: React.FC<React.PropsWithChildren<Props>> = ({
         >
           {confirmLabel ?? t("confirm")}
         </Button>
-      </>
+      </div>
     );
   }
 
