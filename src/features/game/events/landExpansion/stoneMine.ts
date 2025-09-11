@@ -10,7 +10,7 @@ import {
   Skills,
 } from "../../types/game";
 import {
-  isCollectibleActive,
+  isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { produce } from "immer";
@@ -61,11 +61,11 @@ function getBoostedTime({ skills, game }: GetMinedAtArgs): {
     boostsUsed.push("Speed Miner");
   }
 
-  const superTotem = isCollectibleActive({
+  const superTotem = isTemporaryCollectibleActive({
     name: "Super Totem",
     game,
   });
-  const timeWarpTotem = isCollectibleActive({
+  const timeWarpTotem = isTemporaryCollectibleActive({
     name: "Time Warp Totem",
     game,
   });
@@ -76,12 +76,12 @@ function getBoostedTime({ skills, game }: GetMinedAtArgs): {
     else if (timeWarpTotem) boostsUsed.push("Time Warp Totem");
   }
 
-  if (isCollectibleActive({ name: "Ore Hourglass", game })) {
+  if (isTemporaryCollectibleActive({ name: "Ore Hourglass", game })) {
     totalSeconds = totalSeconds * 0.5;
     boostsUsed.push("Ore Hourglass");
   }
 
-  if (isCollectibleActive({ name: "Badger Shrine", game })) {
+  if (isTemporaryCollectibleActive({ name: "Badger Shrine", game })) {
     totalSeconds = totalSeconds * 0.75;
     boostsUsed.push("Badger Shrine");
   }

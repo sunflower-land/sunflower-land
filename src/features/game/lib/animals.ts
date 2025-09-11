@@ -22,7 +22,10 @@ import {
   GameState,
   InventoryItemName,
 } from "../types/game";
-import { isCollectibleActive, isCollectibleBuilt } from "./collectibleBuilt";
+import {
+  isTemporaryCollectibleActive,
+  isCollectibleBuilt,
+} from "./collectibleBuilt";
 import { getBudYieldBoosts } from "./getBudYieldBoosts";
 import { isWearableActive } from "./wearables";
 
@@ -615,7 +618,7 @@ export function getBoostedAwakeAt({
     boostsUsed.push("Restless Animals");
   }
 
-  if (isCollectibleActive({ name: "Collie Shrine", game })) {
+  if (isTemporaryCollectibleActive({ name: "Collie Shrine", game })) {
     totalDuration *= 0.75;
     boostsUsed.push("Collie Shrine");
   }

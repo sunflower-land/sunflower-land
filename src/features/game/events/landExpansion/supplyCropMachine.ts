@@ -10,7 +10,7 @@ import cloneDeep from "lodash.clonedeep";
 import { produce } from "immer";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import {
-  isCollectibleActive,
+  isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 
@@ -133,7 +133,7 @@ export function calculateCropTime(
     boostUsed.push("Groovy Gramophone");
   }
 
-  if (isCollectibleActive({ name: "Tortoise Shrine", game: state })) {
+  if (isTemporaryCollectibleActive({ name: "Tortoise Shrine", game: state })) {
     milliSeconds = milliSeconds * 0.75;
     boostUsed.push("Tortoise Shrine");
   }

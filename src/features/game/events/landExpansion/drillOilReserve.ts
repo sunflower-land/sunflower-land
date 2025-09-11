@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import {
-  isCollectibleActive,
+  isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { isWearableActive } from "features/game/lib/wearables";
@@ -109,7 +109,7 @@ export function getDrilledAt({ createdAt, game }: getDrilledAtArgs): {
     boostsUsed.push("Oil Be Back");
   }
 
-  if (isCollectibleActive({ name: "Stag Shrine", game })) {
+  if (isTemporaryCollectibleActive({ name: "Stag Shrine", game })) {
     totalSeconds = totalSeconds * 0.75;
     boostsUsed.push("Stag Shrine");
   }

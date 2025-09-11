@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import {
-  isCollectibleActive,
+  isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { TREE_RECOVERY_TIME } from "features/game/lib/constants";
@@ -194,11 +194,11 @@ export function getChoppedAt({ game, createdAt }: GetChoppedAtArgs): {
     totalSeconds = totalSeconds * 0.9;
   }
 
-  const hasSuperTotem = isCollectibleActive({
+  const hasSuperTotem = isTemporaryCollectibleActive({
     name: "Super Totem",
     game,
   });
-  const hasTimeWarpTotem = isCollectibleActive({
+  const hasTimeWarpTotem = isTemporaryCollectibleActive({
     name: "Time Warp Totem",
     game,
   });
@@ -211,12 +211,12 @@ export function getChoppedAt({ game, createdAt }: GetChoppedAtArgs): {
     else if (hasTimeWarpTotem) boostsUsed.push("Time Warp Totem");
   }
 
-  if (isCollectibleActive({ name: "Timber Hourglass", game })) {
+  if (isTemporaryCollectibleActive({ name: "Timber Hourglass", game })) {
     totalSeconds = totalSeconds * 0.75;
     boostsUsed.push("Timber Hourglass");
   }
 
-  if (isCollectibleActive({ name: "Badger Shrine", game })) {
+  if (isTemporaryCollectibleActive({ name: "Badger Shrine", game })) {
     totalSeconds = totalSeconds * 0.75;
     boostsUsed.push("Badger Shrine");
   }

@@ -5,7 +5,7 @@ import {
   isWithinAOE,
 } from "features/game/expansion/placeable/lib/collisionDetection";
 import {
-  isCollectibleActive,
+  isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { GOLD_RECOVERY_TIME } from "features/game/lib/constants";
@@ -67,11 +67,11 @@ const getBoostedTime = ({
   let totalSeconds = GOLD_RECOVERY_TIME;
   const boostsUsed: BoostName[] = [];
 
-  const superTotemActive = isCollectibleActive({
+  const superTotemActive = isTemporaryCollectibleActive({
     name: "Super Totem",
     game,
   });
-  const timeWarpTotemActive = isCollectibleActive({
+  const timeWarpTotemActive = isTemporaryCollectibleActive({
     name: "Time Warp Totem",
     game,
   });
@@ -81,12 +81,12 @@ const getBoostedTime = ({
     else if (timeWarpTotemActive) boostsUsed.push("Time Warp Totem");
   }
 
-  if (isCollectibleActive({ name: "Ore Hourglass", game })) {
+  if (isTemporaryCollectibleActive({ name: "Ore Hourglass", game })) {
     totalSeconds = totalSeconds * 0.5;
     boostsUsed.push("Ore Hourglass");
   }
 
-  if (isCollectibleActive({ name: "Mole Shrine", game })) {
+  if (isTemporaryCollectibleActive({ name: "Mole Shrine", game })) {
     totalSeconds = totalSeconds * 0.25;
     boostsUsed.push("Mole Shrine");
   }

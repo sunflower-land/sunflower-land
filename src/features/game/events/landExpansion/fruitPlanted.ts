@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import {
-  isCollectibleActive,
+  isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { trackActivity } from "features/game/types/bumpkinActivity";
@@ -101,8 +101,11 @@ export function getFruitTime({
   let seconds = 1;
   const boostsUsed: BoostName[] = [];
 
-  const hasSuperTotem = isCollectibleActive({ name: "Super Totem", game });
-  const hasTimeWarpTotem = isCollectibleActive({
+  const hasSuperTotem = isTemporaryCollectibleActive({
+    name: "Super Totem",
+    game,
+  });
+  const hasTimeWarpTotem = isTemporaryCollectibleActive({
     name: "Time Warp Totem",
     game,
   });
@@ -112,12 +115,12 @@ export function getFruitTime({
     if (hasTimeWarpTotem) boostsUsed.push("Time Warp Totem");
   }
 
-  if (isCollectibleActive({ name: "Orchard Hourglass", game })) {
+  if (isTemporaryCollectibleActive({ name: "Orchard Hourglass", game })) {
     seconds = seconds * 0.75;
     boostsUsed.push("Orchard Hourglass");
   }
 
-  if (isCollectibleActive({ name: "Toucan Shrine", game })) {
+  if (isTemporaryCollectibleActive({ name: "Toucan Shrine", game })) {
     seconds = seconds * 0.75;
     boostsUsed.push("Toucan Shrine");
   }

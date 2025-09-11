@@ -13,7 +13,7 @@ import {
 import { BoostName, GameState } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 import {
-  isCollectibleActive,
+  isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { produce } from "immer";
@@ -49,7 +49,7 @@ export const getFlowerTime = (
     boostsUsed.push("Flower Crown");
   }
 
-  if (isCollectibleActive({ name: "Moth Shrine", game })) {
+  if (isTemporaryCollectibleActive({ name: "Moth Shrine", game })) {
     seconds *= 0.75;
     boostsUsed.push("Moth Shrine");
   }
@@ -60,7 +60,7 @@ export const getFlowerTime = (
     boostsUsed.push("Flower Fox");
   }
 
-  if (isCollectibleActive({ name: "Blossom Hourglass", game })) {
+  if (isTemporaryCollectibleActive({ name: "Blossom Hourglass", game })) {
     seconds *= 0.75;
     boostsUsed.push("Blossom Hourglass");
   }
