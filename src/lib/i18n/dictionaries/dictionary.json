@@ -6442,7 +6442,7 @@
   "description.bantamShrine.buff": "-25% Chicken Sleep Time",
   "description.badgerShrine": "A shrine to the badger",
   "description.tradingShrine": "A trading shrine",
-  "description.tradingShrine.buff": "25% resource tax reduction",
+  "description.tradingShrine.buff": "-2.5% resource tax",
   "description.monument.buff": "+1 Help Limit",
   "description.foxShrine.buff": "-25% Crafting Box Time",
   "description.boarShrine.buff": "-20% Cooking Time",

@@ -303,11 +303,11 @@ export function getResourceTax({ game }: { game: GameState }): number {
   let tax = ISLAND_RESOURCE_TAXES[game.island.type];
 
   if (hasVipAccess({ game })) {
-    tax = tax * 0.5;
+    tax *= 0.5;
   }
 
   if (isTemporaryCollectibleActive({ name: "Trading Shrine", game })) {
-    tax = tax * 0.75;
+    tax -= 2.5;
   }
 
   return tax;
