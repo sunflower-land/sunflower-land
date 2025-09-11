@@ -1766,5 +1766,69 @@ function getCollectibleBuffLabels(
         boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
       },
     ],
+    "Ancient Tree": [
+      {
+        shortDescription: translate("description.ancientTree.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Wood.image,
+      },
+    ],
+    "Sacred Tree": [
+      {
+        shortDescription: translate("description.sacredTree.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Wood.image,
+      },
+    ],
+    "Fused Stone Rock": [
+      {
+        shortDescription: translate("description.fusedStoneRock.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Stone.image,
+      },
+    ],
+    "Reinforced Stone Rock": [
+      {
+        shortDescription: translate("description.reinforcedStoneRock.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Stone.image,
+      },
+    ],
+    "Refined Iron Rock": [
+      {
+        shortDescription: translate("description.refinedIronRock.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Iron.image,
+      },
+    ],
+    "Tempered Iron Rock": [
+      {
+        shortDescription: translate("description.temperedIronRock.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Iron.image,
+      },
+    ],
+    "Pure Gold Rock": [
+      {
+        shortDescription: translate("description.pureGoldRock.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Gold.image,
+      },
+    ],
+    "Prime Gold Rock": [
+      {
+        shortDescription: translate("description.primeGoldRock.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Gold.image,
+      },
+    ],
   };
 }

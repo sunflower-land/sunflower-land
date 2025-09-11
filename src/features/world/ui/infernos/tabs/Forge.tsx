@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useSelector } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
+import { ConfirmButton } from "components/ui/ConfirmButton";
 import { Label } from "components/ui/Label";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { SplitScreenView } from "components/ui/SplitScreenView";
@@ -22,12 +23,13 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
 import { UpgradeTreeAction } from "features/game/events/landExpansion/upgradeTree";
 import { UpgradeRockAction } from "features/game/events/landExpansion/upgradeRock";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 
 export const Forge: React.FC = () => {
   const { gameService, showAnimations } = useContext(Context);
   const { t } = useAppTranslation();
   const [selectedResource, setSelectedResource] =
-    useState<UpgradedResourceName>("Fused Stone Rock");
+    useState<UpgradedResourceName>("Ancient Tree");
   const [showSuccess, setShowSuccess] = useState(false);
 
   const state = useSelector(gameService, (state) => state.context.state);
@@ -82,6 +84,7 @@ export const Forge: React.FC = () => {
             details={{
               item: selectedResource,
             }}
+            boost={COLLECTIBLE_BUFF_LABELS(state)[selectedResource]}
             requirements={
               forgingSoon
                 ? undefined
@@ -92,8 +95,9 @@ export const Forge: React.FC = () => {
             }
             hideDescription={true}
             actionView={
-              <Button
-                onClick={forge}
+              <ConfirmButton
+                onConfirm={forge}
+                confirmLabel={t("forge")}
                 disabled={
                   forgingSoon ||
                   !canUpgrade(state, selectedResource) ||
@@ -102,7 +106,7 @@ export const Forge: React.FC = () => {
                 }
               >
                 {t("forge")}
-              </Button>
+              </ConfirmButton>
             }
           />
         }

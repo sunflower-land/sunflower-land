@@ -12,8 +12,6 @@ import { OuterPanel } from "components/ui/Panel";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { Forge } from "./Forge";
-import { hasFeatureAccess } from "lib/flags";
 
 const needsHelp = (state: MachineState) => {
   const missingScarecrow =
@@ -39,11 +37,6 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
   );
   const { t } = useAppTranslation();
 
-  const hasAccess = hasFeatureAccess(
-    gameService.state.context.state,
-    "NODE_FORGING",
-  );
-
   return (
     <CloseButtonPanel
       onClose={onClose}
@@ -52,15 +45,6 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
         { icon: ITEM_DETAILS.Pickaxe.image, name: t("tools"), id: "Tools" },
         { icon: SUNNYSIDE.icons.hammer, name: t("craft"), id: "Craft" },
         { icon: SUNNYSIDE.icons.hammer, name: t("build"), id: "Build" },
-        ...(hasAccess
-          ? [
-              {
-                icon: SUNNYSIDE.icons.sword,
-                name: t("upgrade"),
-                id: "Upgrade",
-              },
-            ]
-          : []),
       ]}
       currentTab={tab}
       setCurrentTab={setTab}
@@ -69,7 +53,6 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
       {tab === "Tools" && <Tools />}
       {tab === "Craft" && <IslandBlacksmithItems />}
       {tab === "Build" && <Buildings onClose={onClose} />}
-      {tab === "Upgrade" && hasAccess && <Forge />}
     </CloseButtonPanel>
   );
 };
