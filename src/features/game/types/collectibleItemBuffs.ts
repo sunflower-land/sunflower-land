@@ -1802,7 +1802,7 @@ function getCollectibleBuffLabels(
         boostedItemIcon: ITEM_DETAILS.Stone.image,
       },
       {
-        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
+        shortDescription: translate("shrine.expiryLabel", { time: "1d" }),
         labelType: "danger",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
@@ -1814,7 +1814,7 @@ function getCollectibleBuffLabels(
         boostTypeIcon: SUNNYSIDE.icons.lightning,
       },
       {
-        shortDescription: translate("shrine.expiryLabel", { time: "3d" }),
+        shortDescription: translate("shrine.expiryLabel", { time: "14d" }),
         labelType: "danger",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
@@ -1910,7 +1910,7 @@ function getCollectibleBuffLabels(
         boostedItemIcon: tradeIcon,
       },
       {
-        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
+        shortDescription: translate("shrine.expiryLabel", { time: "30d" }),
         labelType: "danger",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
