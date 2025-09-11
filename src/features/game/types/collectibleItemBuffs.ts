@@ -1756,6 +1756,13 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.tortoiseShrine.buff"),
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Greenhouse"].image,
+      },
+      {
+        shortDescription: translate("description.tortoiseShrine.buff.2"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Crop Machine"].image,
       },
     ],
     "Moth Shrine": [

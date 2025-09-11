@@ -134,7 +134,7 @@ export function calculateCropTime(
   }
 
   if (isTemporaryCollectibleActive({ name: "Tortoise Shrine", game: state })) {
-    milliSeconds = milliSeconds * 0.75;
+    milliSeconds = milliSeconds * 0.9;
     boostUsed.push("Tortoise Shrine");
   }
 
