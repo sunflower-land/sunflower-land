@@ -1,6 +1,5 @@
 import Decimal from "decimal.js-light";
-import { canMine } from "features/game/expansion/lib/utils";
-import { SUNSTONE_RECOVERY_TIME } from "features/game/lib/constants";
+import { canMine } from "features/game/lib/resourceNodes";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
@@ -46,7 +45,7 @@ export function mineSunstone({
       throw new Error("Sunstone rock is not placed");
     }
 
-    if (!canMine(sunstoneRock, SUNSTONE_RECOVERY_TIME, createdAt)) {
+    if (!canMine(sunstoneRock, "Sunstone Rock", createdAt)) {
       throw new Error(EVENT_ERRORS.STILL_RECOVERING);
     }
 

@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { canMine } from "features/game/expansion/lib/utils";
+import { canMine } from "features/game/lib/resourceNodes";
 import {
   Position,
   isWithinAOE,
@@ -243,6 +243,15 @@ export function getGoldDropAmount({
     amount += 0.1;
   }
 
+  const multiplier = rock.multiplier ?? 1;
+  amount *= multiplier;
+  if (rock.tier === 2) {
+    amount += 0.5;
+  }
+  if (rock.tier === 3) {
+    amount += 2.5;
+  }
+
   return {
     amount: new Decimal(amount).toDecimalPlaces(4),
     aoe: updatedAoe,
@@ -273,13 +282,14 @@ export function mineGold({
       throw new Error("Gold rock is not placed");
     }
 
-    if (!canMine(goldRock, GOLD_RECOVERY_TIME, createdAt)) {
+    if (!canMine(goldRock, "Gold Rock", createdAt)) {
       throw new Error(EVENT_ERRORS.STILL_RECOVERING);
     }
 
     const toolAmount = stateCopy.inventory["Iron Pickaxe"] || new Decimal(0);
+    const requiredToolAmount = goldRock.multiplier ?? 1;
 
-    if (toolAmount.lessThan(1)) {
+    if (toolAmount.lessThan(requiredToolAmount)) {
       throw new Error(EVENT_ERRORS.NO_PICKAXES);
     }
     const {
@@ -314,9 +324,13 @@ export function mineGold({
       minedAt,
       boostedTime,
     };
-    bumpkin.activity = trackActivity("Gold Mined", bumpkin.activity);
+    bumpkin.activity = trackActivity(
+      "Gold Mined",
+      bumpkin.activity,
+      new Decimal(goldRock.multiplier ?? 1),
+    );
 
-    stateCopy.inventory["Iron Pickaxe"] = toolAmount.sub(1);
+    stateCopy.inventory["Iron Pickaxe"] = toolAmount.sub(requiredToolAmount);
     stateCopy.inventory.Gold = amountInInventory.add(goldMined);
     delete goldRock.stone.amount;
 

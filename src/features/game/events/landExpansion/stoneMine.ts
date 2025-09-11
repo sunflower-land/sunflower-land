@@ -30,6 +30,7 @@ import {
   isCollectibleOnFarm,
   setAOELastUsed,
 } from "features/game/lib/aoe";
+import { canMine } from "features/game/lib/resourceNodes";
 
 export type LandExpansionStoneMineAction = {
   type: "stoneRock.mined";
@@ -47,11 +48,6 @@ type GetMinedAtArgs = {
   createdAt: number;
   game: GameState;
 };
-
-export function canMine(rock: Rock, now: number = Date.now()) {
-  const recoveryTime = STONE_RECOVERY_TIME;
-  return now - rock.stone.minedAt >= recoveryTime * 1000;
-}
 
 function getBoostedTime({ skills, game }: GetMinedAtArgs): {
   boostedTime: number;
@@ -150,7 +146,7 @@ export function getStoneDropAmount({
     aoe,
   } = game;
   const updatedAoe = cloneDeep(aoe);
-  const multiplier = game.stones[id]?.multiplier ?? 1;
+  const multiplier = rock.multiplier ?? 1;
 
   let amount = 1;
   const boostsUsed: BoostName[] = [];
@@ -339,7 +335,7 @@ export function mineStone({
       throw new Error("Rock is not placed");
     }
 
-    if (!canMine(rock, createdAt)) {
+    if (!canMine(rock, rock.name ?? "Stone Rock", createdAt)) {
       throw new Error("Rock is still recovering");
     }
 

@@ -5961,35 +5961,35 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.dewberry"),
   },
   "Fused Stone Rock": {
-    image: SUNNYSIDE.resource.stone_rock,
-    description: "Fused Stone",
+    image: SUNNYSIDE.resource.fusedStoneRock,
+    description: "A fused stone rock",
   },
   "Reinforced Stone Rock": {
-    image: SUNNYSIDE.resource.iron_rock,
-    description: "Reinforced Stone",
+    image: SUNNYSIDE.resource.reinforcedStoneRock,
+    description: "A reinforced stone rock",
   },
   "Ancient Tree": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "Forging soon...",
+    image: SUNNYSIDE.resource.ancient_tree,
+    description: "An ancient tree",
   },
   "Sacred Tree": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "Forging soon...",
+    image: SUNNYSIDE.resource.sacred_tree,
+    description: "A sacred tree",
   },
   "Refined Iron Rock": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "Forging soon...",
+    image: SUNNYSIDE.resource.refinedIronRock,
+    description: "A refined iron rock",
   },
   "Tempered Iron Rock": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "Forging soon...",
+    image: SUNNYSIDE.resource.temperedIronRock,
+    description: "A tempered iron rock",
   },
   "Pure Gold Rock": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "Forging soon...",
+    image: SUNNYSIDE.resource.pureGoldRock,
+    description: "A pure gold rock",
   },
-  "Enchanted Gold Rock": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "Forging soon...",
+  "Prime Gold Rock": {
+    image: SUNNYSIDE.resource.primeGoldRock,
+    description: "A prime gold rock",
   },
 };

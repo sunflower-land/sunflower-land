@@ -9,7 +9,7 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
-import { canMine } from "features/game/expansion/lib/utils";
+import { canMine } from "features/game/lib/resourceNodes";
 import { RecoveredCrimstone } from "./components/RecoveredCrimstone";
 import { DepletingCrimstone } from "./components/DepletingCrimstone";
 import { DepletedCrimstone } from "./components/DepletedCrimstone";
@@ -97,7 +97,7 @@ export const Crimstone: React.FC<Props> = ({ id, index }) => {
 
   const hasTool = HasTool(inventory);
   const timeLeft = getTimeLeft(resource.stone.minedAt, CRIMSTONE_RECOVERY_TIME);
-  const mined = !canMine(resource, CRIMSTONE_RECOVERY_TIME);
+  const mined = !canMine(resource, "Crimstone Rock");
 
   useUiRefresher({ active: mined });
 

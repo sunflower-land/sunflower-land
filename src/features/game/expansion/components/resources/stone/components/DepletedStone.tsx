@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { RockName } from "features/game/types/resources";
+import { StoneRockName } from "features/game/types/resources";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
 
 interface Props {
   timeLeft: number;
-  name: RockName;
+  name: StoneRockName;
 }
 
 const DepletedStoneComponent: React.FC<Props> = ({ timeLeft, name }) => {

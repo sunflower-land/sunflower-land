@@ -1,11 +1,20 @@
 import { GameState, Rock } from "features/game/types/game";
-import { ResourceName } from "features/game/types/resources";
-import Decimal from "decimal.js-light";
+import {
+  IronRockName,
+  RESOURCE_MULTIPLIER,
+  UpgradedResourceName,
+  ADVANCED_RESOURCES,
+  RESOURCE_STATE_ACCESSORS,
+} from "features/game/types/resources";
 import { produce } from "immer";
+import {
+  findExistingUnplacedNode,
+  getAvailableNodes,
+} from "features/game/lib/resourceNodes";
 
 export type PlaceIronAction = {
   type: "iron.placed";
-  name: ResourceName;
+  name: IronRockName;
   id: string;
   coordinates: {
     x: number;
@@ -25,19 +34,19 @@ export function placeIron({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    const available = (game.inventory["Iron Rock"] || new Decimal(0)).minus(
-      Object.values(game.iron).filter(
-        (iron) => iron.x !== undefined && iron.y !== undefined,
-      ).length,
-    );
+    const available = getAvailableNodes(game, "iron");
 
     if (available.lt(1)) {
       throw new Error("No iron available");
     }
 
-    const existingIron = Object.entries(game.iron).find(
-      ([_, iron]) => iron.x === undefined && iron.y === undefined,
-    );
+    const nodeStateAccessor = RESOURCE_STATE_ACCESSORS[action.name](game);
+
+    const existingIron = findExistingUnplacedNode({
+      nodeStateAccessor,
+      nodeToFind: action.name,
+      baseNode: "Iron Rock",
+    });
 
     if (existingIron) {
       const [id, iron] = existingIron;
@@ -66,6 +75,9 @@ export function placeIron({
       stone: {
         minedAt: 0,
       },
+      tier: ADVANCED_RESOURCES[action.name as UpgradedResourceName]?.tier ?? 1,
+      name: action.name,
+      multiplier: RESOURCE_MULTIPLIER[action.name],
     };
 
     game.iron = {

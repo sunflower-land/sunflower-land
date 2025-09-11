@@ -17,13 +17,14 @@ import Decimal from "decimal.js-light";
 import { DepletedStone } from "./components/DepletedStone";
 import { DepletingStone } from "./components/DepletingStone";
 import { RecoveredStone } from "./components/RecoveredStone";
-import { canMine } from "features/game/expansion/lib/utils";
+import { canMine } from "features/game/lib/resourceNodes";
 import { useSound } from "lib/utils/hooks/useSound";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import {
   getRequiredPickaxeAmount,
   getStoneDropAmount,
 } from "features/game/events/landExpansion/stoneMine";
+import { StoneRockName } from "features/game/types/resources";
 
 const HITS = 3;
 const tool = "Pickaxe";
@@ -93,7 +94,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
     (state) => state.context.state.stones[id],
     compareResource,
   );
-  const name = resource.name ?? "Stone Rock";
+  const name = (resource.name ?? "Stone Rock") as StoneRockName;
   const inventory = useSelector(
     gameService,
     selectInventory,
@@ -105,7 +106,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
 
   const hasTool = HasTool(inventory, game, id);
   const timeLeft = getTimeLeft(resource.stone.minedAt, STONE_RECOVERY_TIME);
-  const mined = !canMine(resource, STONE_RECOVERY_TIME);
+  const mined = !canMine(resource, name);
 
   useUiRefresher({ active: mined });
 
@@ -183,7 +184,9 @@ export const Stone: React.FC<Props> = ({ id }) => {
       {collecting && <DepletingStone resourceAmount={harvested.current} />}
 
       {/* Depleted resource */}
-      {mined && <DepletedStone timeLeft={timeLeft} name={name} />}
+      {mined && (
+        <DepletedStone timeLeft={timeLeft} name={name as StoneRockName} />
+      )}
     </div>
   );
 };

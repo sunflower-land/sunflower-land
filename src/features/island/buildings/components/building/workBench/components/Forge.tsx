@@ -11,14 +11,17 @@ import { getKeys } from "features/game/lib/crafting";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   ADVANCED_RESOURCES,
-  RockName,
   UpgradedResourceName,
 } from "features/game/types/resources";
 import React, { useContext, useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { canUpgrade } from "features/game/events/landExpansion/upgradeNode";
+import { canUpgrade } from "features/game/lib/resourceNodes";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
+import { getCurrentBiome } from "features/island/biomes/biomes";
+import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
+import { UpgradeTreeAction } from "features/game/events/landExpansion/upgradeTree";
+import { UpgradeRockAction } from "features/game/events/landExpansion/upgradeRock";
 
 export const Forge: React.FC = () => {
   const { gameService, showAnimations } = useContext(Context);
@@ -33,19 +36,42 @@ export const Forge: React.FC = () => {
     (state) => state.context.state.bumpkin.skills,
   );
   const selected = ADVANCED_RESOURCES[selectedResource];
+  const season = state.season.season;
+  const biome = getCurrentBiome(state.island);
 
   const forge = () => {
-    gameService.send({
-      type: "stone.upgraded",
-      upgradeTo: selectedResource as Exclude<RockName, "Stone Rock">,
-      id: uuidv4().slice(0, 8),
-    });
+    if (selectedResource.includes("Tree")) {
+      gameService.send({
+        type: "tree.upgraded",
+        upgradeTo: selectedResource as UpgradeTreeAction["upgradeTo"],
+        id: uuidv4().slice(0, 8),
+      });
+    } else {
+      gameService.send({
+        type: "rock.upgraded",
+        upgradeTo: selectedResource as UpgradeRockAction["upgradeTo"],
+        id: uuidv4().slice(0, 8),
+      });
+    }
 
     if (showAnimations) confetti();
     setShowSuccess(true);
   };
 
   const forgingSoon = selected.price === 0;
+  const selectedResourceImage =
+    ITEM_ICONS(season, biome)[selectedResource] ??
+    ITEM_DETAILS[selectedResource].image;
+
+  const lessIngredients = () =>
+    getKeys(selected.ingredients()).some((name) =>
+      selected
+        .ingredients()
+        [name]?.mul(1)
+        .greaterThan(state.inventory[name] || 0),
+    );
+
+  const lessFunds = () => state.coins < selected.price;
 
   return (
     <>
@@ -64,15 +90,15 @@ export const Forge: React.FC = () => {
                     resources: selected.ingredients(skills),
                   }
             }
+            hideDescription={true}
             actionView={
               <Button
                 onClick={forge}
                 disabled={
                   forgingSoon ||
-                  !canUpgrade(
-                    state,
-                    selectedResource as Exclude<RockName, "Stone Rock">,
-                  )
+                  !canUpgrade(state, selectedResource) ||
+                  lessIngredients() ||
+                  lessFunds()
                 }
               >
                 {t("forge")}
@@ -88,7 +114,10 @@ export const Forge: React.FC = () => {
                   isSelected={selectedResource === resourceName}
                   key={resourceName}
                   onClick={() => setSelectedResource(resourceName)}
-                  image={ITEM_DETAILS[resourceName]?.image}
+                  image={
+                    ITEM_ICONS(season, biome)[resourceName] ??
+                    ITEM_DETAILS[resourceName]?.image
+                  }
                   className={
                     ADVANCED_RESOURCES[resourceName].price === 0
                       ? "opacity-75"
@@ -110,7 +139,7 @@ export const Forge: React.FC = () => {
               })}
             </Label>
             <div className="flex flex-col gap-2 my-2 items-center">
-              <img src={ITEM_DETAILS[selectedResource].image} width={50} />
+              <img src={selectedResourceImage} width={50} />
               <span>
                 {t("upgrade.success.description", {
                   resource: selectedResource,

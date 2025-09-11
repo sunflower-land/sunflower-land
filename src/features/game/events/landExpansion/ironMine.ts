@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { canMine } from "features/game/expansion/lib/utils";
+import { canMine } from "features/game/lib/resourceNodes";
 import { IRON_RECOVERY_TIME } from "../../lib/constants";
 import { trackActivity } from "../../types/bumpkinActivity";
 import {
@@ -236,6 +236,17 @@ export function getIronDropAmount({
     amount += 0.1;
   }
 
+  const multiplier = rock.multiplier ?? 1;
+  amount *= multiplier;
+
+  if (rock.tier === 2) {
+    amount += 0.5;
+  }
+
+  if (rock.tier === 3) {
+    amount += 2.5;
+  }
+
   return {
     amount: new Decimal(amount).toDecimalPlaces(4),
     aoe: updatedAoe,
@@ -265,13 +276,14 @@ export function mineIron({
       throw new Error("Iron rock is not placed");
     }
 
-    if (!canMine(ironRock, IRON_RECOVERY_TIME, createdAt)) {
+    if (!canMine(ironRock, ironRock.name ?? "Iron Rock", createdAt)) {
       throw new Error(MINE_ERRORS.STILL_RECOVERING);
     }
 
     const toolAmount = stateCopy.inventory["Stone Pickaxe"] || new Decimal(0);
+    const requiredToolAmount = ironRock.multiplier ?? 1;
 
-    if (toolAmount.lessThan(1)) {
+    if (toolAmount.lessThan(requiredToolAmount)) {
       throw new Error(MINE_ERRORS.NO_PICKAXES);
     }
 
@@ -310,9 +322,13 @@ export function mineIron({
       boostedTime: boostedTime,
     };
 
-    bumpkin.activity = trackActivity("Iron Mined", bumpkin.activity);
+    bumpkin.activity = trackActivity(
+      "Iron Mined",
+      bumpkin.activity,
+      new Decimal(ironRock.multiplier ?? 1),
+    );
 
-    stateCopy.inventory["Stone Pickaxe"] = toolAmount.sub(1);
+    stateCopy.inventory["Stone Pickaxe"] = toolAmount.sub(requiredToolAmount);
     stateCopy.inventory.Iron = amountInInventory.add(ironMined);
 
     stateCopy.boostsUsedAt = updateBoostUsed({

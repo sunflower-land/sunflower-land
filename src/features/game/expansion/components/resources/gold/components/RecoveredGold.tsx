@@ -11,32 +11,35 @@ import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { ZoomContext } from "components/ZoomProvider";
 
-import { MachineState } from "features/game/lib/gameMachine";
-import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
+import { GoldRockName } from "features/game/types/resources";
+import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
 
 const tool = "Iron Pickaxe";
 
 const STRIKE_SHEET_FRAME_WIDTH = 112;
 const STRIKE_SHEET_FRAME_HEIGHT = 48;
 
-const _bumpkinLevel = (state: MachineState) =>
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
-
 interface Props {
   hasTool: boolean;
   touchCount: number;
+  goldRockName: GoldRockName;
 }
 
-const RecoveredGoldComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
+const RecoveredGoldComponent: React.FC<Props> = ({
+  hasTool,
+  touchCount,
+  goldRockName,
+}) => {
   const { t } = useAppTranslation();
   const { scale } = useContext(ZoomContext);
   const [showSpritesheet, setShowSpritesheet] = useState(false);
   const [showEquipTool, setShowEquipTool] = useState(false);
-  const [showBumpkinLevel, setShowBumpkinLevel] = useState(false);
 
   const strikeGif = useRef<SpriteSheetInstance>();
+
+  const Image = READONLY_RESOURCE_COMPONENTS()[goldRockName];
 
   const { play: miningAudio } = useSound("mining");
   useEffect(() => {
@@ -61,7 +64,6 @@ const RecoveredGoldComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
   };
 
   const handleMouseLeave = () => {
-    setShowBumpkinLevel(false);
     setShowEquipTool(false);
   };
 
@@ -79,17 +81,7 @@ const RecoveredGoldComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
         })}
       >
         {/* static resource node image */}
-        {!showSpritesheet && (
-          <img
-            src={SUNNYSIDE.resource.goldStone}
-            className={"absolute pointer-events-none"}
-            style={{
-              width: `${PIXEL_SCALE * 14}px`,
-              bottom: `${PIXEL_SCALE * 3}px`,
-              right: `${PIXEL_SCALE * 1}px`,
-            }}
-          />
-        )}
+        {!showSpritesheet && <Image />}
 
         {/* spritesheet */}
         {showSpritesheet && (
