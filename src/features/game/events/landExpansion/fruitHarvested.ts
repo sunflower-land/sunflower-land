@@ -1,5 +1,8 @@
 import Decimal from "decimal.js-light";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import {
+  isCollectibleBuilt,
+  isTemporaryCollectibleActive,
+} from "features/game/lib/collectibleBuilt";
 import {
   getBudYieldBoosts,
   Resource,
@@ -293,6 +296,11 @@ export function getFruitYield({
   ) {
     amount += 1;
     boostsUsed.push("Generous Orchard");
+  }
+
+  if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game })) {
+    amount += 1;
+    boostsUsed.push("Legendary Shrine");
   }
 
   if (

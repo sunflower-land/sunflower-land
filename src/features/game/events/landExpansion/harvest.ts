@@ -29,7 +29,10 @@ import {
   Position,
   isWithinAOE,
 } from "features/game/expansion/placeable/lib/collisionDetection";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import {
+  isCollectibleBuilt,
+  isTemporaryCollectibleActive,
+} from "features/game/lib/collectibleBuilt";
 import { FACTION_ITEMS } from "features/game/lib/factions";
 import {
   getBudYieldBoosts,
@@ -396,6 +399,11 @@ export function getCropYieldAmount({
   if (isWearableActive({ name: "Infernal Pitchfork", game })) {
     amount += 3;
     boostsUsed.push("Infernal Pitchfork");
+  }
+
+  if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game })) {
+    amount += 1;
+    boostsUsed.push("Legendary Shrine");
   }
 
   //Faction Quiver

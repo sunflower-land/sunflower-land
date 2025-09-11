@@ -288,6 +288,11 @@ export function getStoneDropAmount({
     boostsUsed.push(FACTION_ITEMS[factionName].secondaryTool);
   }
 
+  if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game })) {
+    amount += 1;
+    boostsUsed.push("Legendary Shrine");
+  }
+
   const { yieldBoost, budUsed } = getBudYieldBoosts(buds, "Stone");
   amount += yieldBoost;
   if (budUsed) boostsUsed.push(budUsed);

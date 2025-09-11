@@ -144,6 +144,11 @@ export function getWoodDropAmount({
     amount = amount.add(1);
   }
 
+  if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game })) {
+    amount = amount.add(1);
+    boostsUsed.push("Legendary Shrine");
+  }
+
   const { yieldBoost, budUsed } = getBudYieldBoosts(game.buds ?? {}, "Wood");
   amount = amount.add(yieldBoost);
   if (budUsed) boostsUsed.push(budUsed);
