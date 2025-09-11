@@ -324,7 +324,8 @@ export type PetShrineName =
   | "Bear Shrine" // Honey
   | "Tortoise Shrine" // Greenhouse + Crop Machine
   | "Moth Shrine" // Flower
-  | "Legendary Shrine"; // Bonus yields
+  | "Legendary Shrine" // Bonus yields
+  | "Bantam Shrine"; // Bantam
 
 export type PetShrine = Omit<Decoration, "name"> & {
   name: PetShrineName;
@@ -455,6 +456,16 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
       Obsidian: new Decimal(1),
       Moonfur: new Decimal(10),
       Acorn: new Decimal(10),
+    },
+    inventoryLimit: 1,
+  },
+  "Bantam Shrine": {
+    description: "",
+    coins: 0,
+    ingredients: {
+      Acorn: new Decimal(15),
+      Ruffroot: new Decimal(10),
+      Dewberry: new Decimal(10),
     },
     inventoryLimit: 1,
   },

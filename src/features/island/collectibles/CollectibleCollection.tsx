@@ -577,6 +577,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Bear Shrine": PetShrine,
   "Tortoise Shrine": PetShrine,
   "Moth Shrine": PetShrine,
+  "Bantam Shrine": PetShrine,
 
   "Lunar Calendar": LunarCalendar,
   "Goblin Bear": GoblinBear,

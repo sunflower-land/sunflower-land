@@ -626,6 +626,14 @@ export function getBoostedAwakeAt({
     boostsUsed.push("Collie Shrine");
   }
 
+  if (
+    isChicken &&
+    isTemporaryCollectibleActive({ name: "Bantam Shrine", game })
+  ) {
+    totalDuration *= 0.75;
+    boostsUsed.push("Bantam Shrine");
+  }
+
   // Add the boosted duration to the created time
   return { awakeAt: createdAt + totalDuration, boostsUsed };
 }

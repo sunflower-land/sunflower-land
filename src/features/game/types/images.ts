@@ -5942,6 +5942,10 @@ export const ITEM_DETAILS: Items = {
     image: thermalStone,
     description: translate("description.bearShrine"),
   },
+  "Bantam Shrine": {
+    image: thermalStone,
+    description: translate("description.bantamShrine"),
+  },
   "Wild Grass": {
     image: wildGrass,
     description: translate("description.wildGrass"),

@@ -1240,6 +1240,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Toucan Shrine": 2661,
   "Collie Shrine": 2662,
   "Badger Shrine": 2663,
+  "Bantam Shrine": 2664,
 
   "Fused Stone Rock": 2700,
   "Reinforced Stone Rock": 2701,
