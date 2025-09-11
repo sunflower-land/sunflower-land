@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Label } from "components/ui/Label";
-import { Button } from "components/ui/Button";
 import { Box } from "components/ui/Box";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { SplitScreenView } from "components/ui/SplitScreenView";
@@ -17,6 +16,7 @@ import { GameState } from "features/game/types/game";
 import { useGame } from "features/game/GameProvider";
 import upIcon from "assets/icons/level_up.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { ConfirmButton } from "components/ui/ConfirmButton";
 
 interface Props {
   game: GameState;
@@ -78,16 +78,17 @@ export const Buy: React.FC<Props> = ({ game }) => {
                   {t("island.required", { island })}
                 </Label>
               )}
-              <Button
+              <ConfirmButton
+                onConfirm={buy}
+                confirmLabel={t("craft")}
                 disabled={
                   !hasAccess ||
                   (game.inventory.Sunstone ?? new Decimal(0)).lt(price)
                 }
-                onClick={buy}
                 className="w-full"
               >
                 {t("craft")}
-              </Button>
+              </ConfirmButton>
             </div>
           }
         />

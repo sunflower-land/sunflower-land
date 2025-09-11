@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useSelector } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
+import { ConfirmButton } from "components/ui/ConfirmButton";
 import { Label } from "components/ui/Label";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { SplitScreenView } from "components/ui/SplitScreenView";
@@ -94,8 +95,9 @@ export const Forge: React.FC = () => {
             }
             hideDescription={true}
             actionView={
-              <Button
-                onClick={forge}
+              <ConfirmButton
+                onConfirm={forge}
+                confirmLabel={t("forge")}
                 disabled={
                   forgingSoon ||
                   !canUpgrade(state, selectedResource) ||
@@ -104,7 +106,7 @@ export const Forge: React.FC = () => {
                 }
               >
                 {t("forge")}
-              </Button>
+              </ConfirmButton>
             }
           />
         }
