@@ -1,30 +1,34 @@
+import { useSelector } from "@xstate/react";
+import xpIcon from "assets/icons/xp.png";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { Box } from "components/ui/Box";
+import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
+import { ModalOverlay } from "components/ui/ModalOverlay";
+import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
+import Decimal from "decimal.js-light";
 import {
-  Pet,
-  PetName,
-  getPetRequestXP,
+  getPetEnergy,
+  getPetFoodRequests,
+} from "features/game/events/pets/feedPet";
+import { Context } from "features/game/GameProvider";
+import { getKeys } from "features/game/lib/crafting";
+import { CookableName } from "features/game/types/consumables";
+import { ITEM_DETAILS } from "features/game/types/images";
+import {
   PET_CATEGORIES,
   PET_TYPES,
+  Pet,
+  PetName,
   PetType,
   getPetLevel,
-  isPetNeglected,
+  getPetRequestXP,
   isPetNapping,
+  isPetNeglected,
 } from "features/game/types/pets";
-import React, { useContext, useState, useMemo } from "react";
-import { PetCard, isFoodAlreadyFed } from "./PetCard";
-import { Button } from "components/ui/Button";
-import { CookableName } from "features/game/types/consumables";
-import { Context } from "features/game/GameProvider";
-import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
-import { useSelector } from "@xstate/react";
-import Decimal from "decimal.js-light";
-import { ModalOverlay } from "components/ui/ModalOverlay";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getKeys } from "features/game/lib/crafting";
-import xpIcon from "assets/icons/xp.png";
-import { Box } from "components/ui/Box";
+import React, { useContext, useMemo, useState } from "react";
+import { PetCard, isFoodAlreadyFed } from "./PetCard";
 
 type Props = {
   activePets: [PetName, Pet | undefined][];
@@ -81,7 +85,8 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
           if (isPetNeglected(pet) || isPetNapping(pet)) {
             return;
           }
-          pet.requests.food.forEach((food) => {
+          const requests = getPetFoodRequests(pet);
+          requests.forEach((food) => {
             const isAlreadyFed = isFoodAlreadyFed(pet, food);
             if (!isAlreadyFed) {
               foodRequests.push({ petName, food });
@@ -272,10 +277,15 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
                   (sum, foodItem) => sum + getPetRequestXP(foodItem),
                   0,
                 );
+                const totalEnergy = food.reduce(
+                  (sum, foodItem) =>
+                    sum + getPetEnergy(petData, getPetRequestXP(foodItem)),
+                  0,
+                );
                 const beforeExperience = petData.experience;
                 const afterExperience = beforeExperience + totalXP;
                 const beforeEnergy = petData.energy;
-                const afterEnergy = beforeEnergy + totalXP;
+                const afterEnergy = beforeEnergy + totalEnergy;
 
                 const petImage = ITEM_DETAILS[pet].image;
 

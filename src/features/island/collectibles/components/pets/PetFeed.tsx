@@ -1,17 +1,21 @@
-import React, { useState } from "react";
-import { getPetRequestXP, Pet, PetName } from "features/game/types/pets";
-import { SplitScreenView } from "components/ui/SplitScreenView";
-import { Box } from "components/ui/Box";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { CookableName } from "features/game/types/consumables";
-import { Label } from "components/ui/Label";
-import { Button } from "components/ui/Button";
-import { Inventory } from "features/game/types/game";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { InnerPanel } from "components/ui/Panel";
 import xpIcon from "assets/icons/xp.png";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { Box } from "components/ui/Box";
+import { Button } from "components/ui/Button";
+import { Label } from "components/ui/Label";
+import { InnerPanel } from "components/ui/Panel";
+import { SplitScreenView } from "components/ui/SplitScreenView";
 import { Loading } from "features/auth/components/Loading";
+import {
+  getPetEnergy,
+  getPetFoodRequests,
+} from "features/game/events/pets/feedPet";
+import { CookableName } from "features/game/types/consumables";
+import { Inventory } from "features/game/types/game";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { getPetRequestXP, Pet, PetName } from "features/game/types/pets";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import React, { useState } from "react";
 import { ResetFoodRequests } from "./ResetFoodRequests";
 
 interface Props {
@@ -163,13 +167,14 @@ const PetFeedPanel: React.FC<
     );
   }
 
+  const foodXp = getPetRequestXP(selectedFood);
+  const petEnergy = getPetEnergy(petData, foodXp);
+  const isFoodLocked = !getPetFoodRequests(petData).includes(selectedFood);
   const isDisabled =
     (isToday && petData.requests.foodFed?.includes(selectedFood)) ||
     !inventory[selectedFood] ||
-    inventory[selectedFood].lessThan(1);
-
-  const foodXp = getPetRequestXP(selectedFood);
-
+    inventory[selectedFood].lessThan(1) ||
+    isFoodLocked;
   return (
     <div className="flex flex-col items-center gap-1">
       {/* Pet Image and Name */}
@@ -205,13 +210,19 @@ const PetFeedPanel: React.FC<
             <img src={SUNNYSIDE.icons.lightning} className="w-3" />
           </div>
           <span className="text-xs">
-            {t("pets.plusFoodEnergy", { foodXp })}
+            {t("pets.plusFoodEnergy", { energy: petEnergy })}
           </span>
         </div>
       </div>
 
       {/* Labels for today's feed and insufficient food */}
-      {isToday && petData.requests.foodFed?.includes(selectedFood) ? (
+      {isFoodLocked ? (
+        <div className="flex w-full items-start">
+          <Label type="danger" className="text-xs">
+            {t("pets.foodLocked")}
+          </Label>
+        </div>
+      ) : isToday && petData.requests.foodFed?.includes(selectedFood) ? (
         <div className="flex w-full items-start">
           <Label type="danger" className="text-xs">
             {t("pets.foodFedToday")}
@@ -224,6 +235,7 @@ const PetFeedPanel: React.FC<
           </Label>
         </div>
       ) : null}
+
       <div className="flex flex-row sm:flex-col gap-1 w-full">
         <Button
           disabled={isDisabled}
@@ -238,6 +250,7 @@ const PetFeedPanel: React.FC<
           <Button onClick={() => setShowConfirm(false)}>{t("cancel")}</Button>
         )}
       </div>
+
       <p
         className="underline font-secondary text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
         onClick={() => setShowResetRequests(true)}
@@ -265,13 +278,18 @@ const PetFeedContent: React.FC<
   isToday,
 }) => {
   const { t } = useAppTranslation();
+  const foodRequests = getPetFoodRequests(petData);
+  const allFoods = petData.requests.food;
+
   return (
     <div className="flex flex-col gap-2">
       <Label type="default">{t("pets.requestsToday", { pet: petName })}</Label>
       <div className="flex flex-row gap-2">
-        {petData.requests.food.map((food) => {
+        {allFoods.map((food) => {
+          const isRequested = foodRequests.includes(food);
           const isComplete =
-            isToday && petData.requests.foodFed?.includes(food);
+            isRequested && isToday && petData.requests.foodFed?.includes(food);
+          const isUpcoming = !isRequested;
           return (
             <Box
               key={food}
@@ -282,8 +300,14 @@ const PetFeedContent: React.FC<
                 setShowConfirm(false);
               }}
               count={inventory[food]}
-              showOverlay={isComplete}
-              secondaryImage={isComplete ? SUNNYSIDE.icons.confirm : undefined}
+              showOverlay={isComplete || isUpcoming}
+              secondaryImage={
+                isComplete
+                  ? SUNNYSIDE.icons.confirm
+                  : isUpcoming
+                    ? SUNNYSIDE.icons.lock
+                    : undefined
+              }
             />
           );
         })}
