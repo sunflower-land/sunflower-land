@@ -22,12 +22,13 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
 import { UpgradeTreeAction } from "features/game/events/landExpansion/upgradeTree";
 import { UpgradeRockAction } from "features/game/events/landExpansion/upgradeRock";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 
 export const Forge: React.FC = () => {
   const { gameService, showAnimations } = useContext(Context);
   const { t } = useAppTranslation();
   const [selectedResource, setSelectedResource] =
-    useState<UpgradedResourceName>("Fused Stone Rock");
+    useState<UpgradedResourceName>("Ancient Tree");
   const [showSuccess, setShowSuccess] = useState(false);
 
   const state = useSelector(gameService, (state) => state.context.state);
@@ -82,6 +83,7 @@ export const Forge: React.FC = () => {
             details={{
               item: selectedResource,
             }}
+            boost={COLLECTIBLE_BUFF_LABELS(state)[selectedResource]}
             requirements={
               forgingSoon
                 ? undefined
