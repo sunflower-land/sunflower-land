@@ -1,3 +1,4 @@
+import { isTemporaryCollectibleActive } from "features/game/lib/collectibleBuilt";
 import { CookableName } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
 import {
@@ -28,6 +29,22 @@ export function getPetEnergy(pet: Pet, basePetEnergy: number) {
   }
 
   return basePetEnergy + boostEnergy;
+}
+
+function getPetExperience({
+  game,
+  basePetXP,
+}: {
+  game: GameState;
+  basePetXP: number;
+}) {
+  let experience = basePetXP;
+
+  if (isTemporaryCollectibleActive({ name: "Hound Shrine", game })) {
+    experience += 100;
+  }
+
+  return experience;
 }
 
 /**
