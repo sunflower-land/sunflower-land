@@ -78,14 +78,21 @@ const RecoveredStoneComponent: React.FC<Props> = ({
     setShowEquipTool(false);
   };
 
-  const strikeSheetFrameWidth =
-    stoneRockName === "Stone Rock"
-      ? STRIKE_SHEET_FRAME_WIDTH
-      : ADVANCED_STRIKE_SHEET_FRAME_WIDTH;
-  const strikeSheetFrameHeight =
-    stoneRockName === "Stone Rock"
-      ? STRIKE_SHEET_FRAME_HEIGHT
-      : ADVANCED_STRIKE_SHEET_FRAME_HEIGHT;
+  const isBaseStone = stoneRockName === "Stone Rock" || !stoneRockName;
+
+  const strikeSheetFrameWidth = isBaseStone
+    ? STRIKE_SHEET_FRAME_WIDTH
+    : ADVANCED_STRIKE_SHEET_FRAME_WIDTH;
+  const strikeSheetFrameHeight = isBaseStone
+    ? STRIKE_SHEET_FRAME_HEIGHT
+    : ADVANCED_STRIKE_SHEET_FRAME_HEIGHT;
+
+  const bottomPos = isBaseStone
+    ? `${PIXEL_SCALE * -13}px`
+    : `${PIXEL_SCALE * 0.333}px`;
+  const rightPos = isBaseStone
+    ? `${PIXEL_SCALE * -63}px`
+    : `${PIXEL_SCALE * -16.14}px`;
 
   return (
     <div
@@ -127,8 +134,8 @@ const RecoveredStoneComponent: React.FC<Props> = ({
 
               // Adjust the base of resource node to be perfectly aligned to
               // on a grid point.
-              bottom: `${PIXEL_SCALE * 0.333}px`,
-              right: `${PIXEL_SCALE * -16.14}px`,
+              bottom: bottomPos,
+              right: rightPos,
             }}
             getInstance={(spritesheet) => {
               strikeGif.current = spritesheet;
