@@ -1190,6 +1190,56 @@ describe("getReadyAt", () => {
 
     expect(nextRecipeReadyAt).toEqual(currentRecipeReadyAt + cookTimeMs * 0.5);
   });
+
+  it("applies the Boar Shrine boost", () => {
+    const cookTimeMs = COOKABLES["Boiled Eggs"].cookingSeconds * 1000;
+
+    const { createdAt: time } = getReadyAt({
+      buildingId: "1",
+      item: "Boiled Eggs",
+      createdAt,
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Boar Shrine": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt,
+              id: "1",
+              readyAt: createdAt,
+            },
+          ],
+        },
+      },
+    });
+
+    expect(time).toEqual(createdAt + cookTimeMs * 0.8);
+  });
+
+  it("does not apply the Boar Shrine boost if expired", () => {
+    const cookTimeMs = COOKABLES["Boiled Eggs"].cookingSeconds * 1000;
+
+    const { createdAt: time } = getReadyAt({
+      buildingId: "1",
+      item: "Boiled Eggs",
+      createdAt,
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Boar Shrine": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: createdAt - EXPIRY_COOLDOWNS["Boar Shrine"],
+              id: "1",
+              readyAt: createdAt,
+            },
+          ],
+        },
+      },
+    });
+
+    expect(time).toEqual(createdAt + cookTimeMs);
+  });
 });
 
 describe("getCookingOilBoost", () => {
