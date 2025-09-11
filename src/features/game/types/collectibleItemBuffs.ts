@@ -4,6 +4,7 @@ import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
 import helpIcon from "assets/icons/help.webp";
 import chefHat from "assets/icons/chef_hat.png";
+import tradeIcon from "assets/icons/trade.png";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "./images";
@@ -28,7 +29,7 @@ function getCollectibleBuffLabels(
   // Delete the cache if this function is invoked.
   COLLECTIBLE_BUFF_LABELS.cache.clear?.();
 
-  return {
+  const buffLabels: Partial<Record<InventoryItemName, BuffLabel[]>> = {
     // Crop Boosts
     "Basic Scarecrow": [
       {
@@ -1670,6 +1671,11 @@ function getCollectibleBuffLabels(
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS["Crafting Box"].image,
       },
+      {
+        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
+        labelType: "danger",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      },
     ],
     "Boar Shrine": [
       {
@@ -1678,12 +1684,22 @@ function getCollectibleBuffLabels(
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: chefHat,
       },
+      {
+        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
+        labelType: "danger",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      },
     ],
     "Hound Shrine": [
       {
         shortDescription: translate("description.houndShrine.buff"),
         labelType: "success",
         boostTypeIcon: powerup,
+      },
+      {
+        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
+        labelType: "danger",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     ],
     "Stag Shrine": [
@@ -1693,11 +1709,21 @@ function getCollectibleBuffLabels(
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS.Oil.image,
       },
+      {
+        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
+        labelType: "danger",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      },
     ],
     "Sparrow Shrine": [
       {
         shortDescription: translate("description.sparrowShrine.buff"),
         labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      },
+      {
+        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
+        labelType: "danger",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     ],
@@ -1707,11 +1733,28 @@ function getCollectibleBuffLabels(
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
+      {
+        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
+        labelType: "danger",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      },
     ],
     "Collie Shrine": [
       {
         shortDescription: translate("description.collieShrine.buff"),
         labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: SUNNYSIDE.animals.cowSleeping,
+      },
+      {
+        shortDescription: translate("description.collieShrine.buff.2"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: SUNNYSIDE.animals.sheepSleeping,
+      },
+      {
+        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
+        labelType: "danger",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     ],
@@ -1719,6 +1762,18 @@ function getCollectibleBuffLabels(
       {
         shortDescription: translate("description.badgerShrine.buff"),
         labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS.Tree.image,
+      },
+      {
+        shortDescription: translate("description.badgerShrine.buff.2"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS.Stone.image,
+      },
+      {
+        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
+        labelType: "danger",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     ],
@@ -1728,6 +1783,29 @@ function getCollectibleBuffLabels(
         labelType: "success",
         boostTypeIcon: powerup,
       },
+      {
+        shortDescription: translate("description.legendaryShrine.buff.2"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Fruit Patch"].image,
+      },
+      {
+        shortDescription: translate("description.legendaryShrine.buff.3"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Wood.image,
+      },
+      {
+        shortDescription: translate("description.legendaryShrine.buff.4"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Stone.image,
+      },
+      {
+        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
+        labelType: "danger",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      },
     ],
     "Obsidian Shrine": [
       {
@@ -1735,11 +1813,34 @@ function getCollectibleBuffLabels(
         labelType: "vibrant",
         boostTypeIcon: SUNNYSIDE.icons.lightning,
       },
+      {
+        shortDescription: translate("shrine.expiryLabel", { time: "3d" }),
+        labelType: "danger",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      },
     ],
     "Mole Shrine": [
       {
         shortDescription: translate("description.moleShrine.buff"),
         labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS.Iron.image,
+      },
+      {
+        shortDescription: translate("description.moleShrine.buff.2"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS.Gold.image,
+      },
+      {
+        shortDescription: translate("description.moleShrine.buff.3"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS.Crimstone.image,
+      },
+      {
+        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
+        labelType: "danger",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     ],
@@ -1749,6 +1850,11 @@ function getCollectibleBuffLabels(
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS.Honey.image,
+      },
+      {
+        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
+        labelType: "danger",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     ],
     "Tortoise Shrine": [
@@ -1764,6 +1870,11 @@ function getCollectibleBuffLabels(
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS["Crop Machine"].image,
       },
+      {
+        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
+        labelType: "danger",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      },
     ],
     "Moth Shrine": [
       {
@@ -1771,6 +1882,37 @@ function getCollectibleBuffLabels(
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
+      },
+      {
+        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
+        labelType: "danger",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      },
+    ],
+    "Bantam Shrine": [
+      {
+        shortDescription: translate("description.bantamShrine.buff"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: SUNNYSIDE.animals.chickenAsleep,
+      },
+      {
+        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
+        labelType: "danger",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      },
+    ],
+    "Trading Shrine": [
+      {
+        shortDescription: translate("description.tradingShrine.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: tradeIcon,
+      },
+      {
+        shortDescription: translate("shrine.expiryLabel", { time: "7d" }),
+        labelType: "danger",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     ],
     "Ancient Tree": [
@@ -1838,4 +1980,6 @@ function getCollectibleBuffLabels(
       },
     ],
   };
+
+  return buffLabels;
 }
