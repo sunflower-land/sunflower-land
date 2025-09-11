@@ -118,10 +118,7 @@ export const getGreenhouseCropTime = ({
     boostsUsed.push(...cropBoostsUsed);
   } else {
     const { multiplier: baseMultiplier, boostsUsed: fruitBoostsUsed } =
-      getFruitTime({
-        game,
-        name: PLANT_TO_SEED[crop] as GreenHouseFruitSeedName,
-      });
+      getFruitTime({ game });
     seconds *= baseMultiplier;
     boostsUsed.push(...fruitBoostsUsed);
   }
@@ -143,14 +140,20 @@ export const getGreenhouseCropTime = ({
 
   // Olive Express: 10% reduction
   if (crop === "Olive" && game.bumpkin.skills["Olive Express"]) {
-    seconds = seconds * 0.9;
+    seconds *= 0.9;
     boostsUsed.push("Olive Express");
   }
 
   // Rice Rocket: 10% reduction
   if (crop === "Rice" && game.bumpkin.skills["Rice Rocket"]) {
-    seconds = seconds * 0.9;
+    seconds *= 0.9;
     boostsUsed.push("Rice Rocket");
+  }
+
+  // Vine Velocity: 10% reduction
+  if (crop === "Grape" && game.bumpkin.skills["Vine Velocity"]) {
+    seconds *= 0.9;
+    boostsUsed.push("Vine Velocity");
   }
 
   return { seconds, boostsUsed };

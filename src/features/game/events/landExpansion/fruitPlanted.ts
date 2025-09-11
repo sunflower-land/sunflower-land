@@ -91,13 +91,10 @@ export const isAdvancedFruitSeed = (
 /**
  * Generic boost for all fruit types - normal + greenhouse
  */
-export function getFruitTime({
-  game,
-  name,
-}: {
-  game: GameState;
-  name: GreenHouseFruitSeedName | PatchFruitSeedName;
-}): { multiplier: number; boostsUsed: BoostName[] } {
+export function getFruitTime({ game }: { game: GameState }): {
+  multiplier: number;
+  boostsUsed: BoostName[];
+} {
   let seconds = 1;
   const boostsUsed: BoostName[] = [];
 
@@ -115,22 +112,6 @@ export function getFruitTime({
     if (hasTimeWarpTotem) boostsUsed.push("Time Warp Totem");
   }
 
-  if (isTemporaryCollectibleActive({ name: "Orchard Hourglass", game })) {
-    seconds = seconds * 0.75;
-    boostsUsed.push("Orchard Hourglass");
-  }
-
-  if (isTemporaryCollectibleActive({ name: "Toucan Shrine", game })) {
-    seconds = seconds * 0.75;
-    boostsUsed.push("Toucan Shrine");
-  }
-
-  // Vine Velocity: 10% reduction
-  if (name === "Grape Seed" && game.bumpkin.skills["Vine Velocity"]) {
-    seconds = seconds * 0.9;
-    boostsUsed.push("Vine Velocity");
-  }
-
   return { multiplier: seconds, boostsUsed };
 }
 
@@ -144,10 +125,7 @@ export const getFruitPatchTime = (
   const { bumpkin } = game;
   let seconds = PATCH_FRUIT_SEEDS[patchFruitSeedName]?.plantSeconds ?? 0;
 
-  const { multiplier: baseMultiplier, boostsUsed } = getFruitTime({
-    game,
-    name: patchFruitSeedName,
-  });
+  const { multiplier: baseMultiplier, boostsUsed } = getFruitTime({ game });
   seconds *= baseMultiplier;
 
   // Squirrel Monkey: 50% reduction
@@ -242,6 +220,16 @@ export const getFruitPatchTime = (
       seconds = seconds * 2;
     }
     boostsUsed.push("Short Pickings");
+  }
+
+  if (isTemporaryCollectibleActive({ name: "Orchard Hourglass", game })) {
+    seconds *= 0.75;
+    boostsUsed.push("Orchard Hourglass");
+  }
+
+  if (isTemporaryCollectibleActive({ name: "Toucan Shrine", game })) {
+    seconds *= 0.75;
+    boostsUsed.push("Toucan Shrine");
   }
 
   return { seconds, boostsUsed };
