@@ -104,6 +104,7 @@ export const Forge: React.FC = () => {
                   lessIngredients() ||
                   lessFunds()
                 }
+                divClassName="flex-row sm:flex-col"
               >
                 {t("forge")}
               </ConfirmButton>

@@ -9,8 +9,21 @@ type Props = {
   confirmLabel?: React.ReactNode;
   cancelLabel?: React.ReactNode;
   variant?: "primary" | "secondary";
+  divClassName?: string;
 };
-
+/**
+ * The props for the ConfirmButton component.
+ * @param children - The content of the button.
+ * @param onConfirm - The function to call when the button is confirmed.
+ * @param disabled - Whether the button is disabled.
+ * @param className - The class name for the buttons.
+ * @param confirmLabel - The label for the confirm button.
+ * @param cancelLabel - The label for the cancel button.
+ * @param variant - The variant of the button.
+ * @param divClassName - The class name for the div that contains the buttons.
+ * @param param0 - The props for the ConfirmButton div component.
+ * @returns A ConfirmButton component.
+ */
 export const ConfirmButton: React.FC<React.PropsWithChildren<Props>> = ({
   children,
   onConfirm,
@@ -19,13 +32,14 @@ export const ConfirmButton: React.FC<React.PropsWithChildren<Props>> = ({
   confirmLabel,
   cancelLabel,
   variant = "primary",
+  divClassName,
 }) => {
   const [confirming, setConfirming] = React.useState(false);
   const { t } = useAppTranslation();
 
   if (confirming) {
     return (
-      <div className="flex sm:flex-col gap-1">
+      <div className={`flex gap-1 w-full ${divClassName}`}>
         <Button
           variant={variant}
           className={className}
