@@ -411,6 +411,7 @@ const ComposterModalContent: React.FC<{
                       resourceBoostRequirements,
                     )
                   }
+                  divClassName="flex-row"
                 >
                   {t(
                     bumpkin.skills["Feathery Business"]

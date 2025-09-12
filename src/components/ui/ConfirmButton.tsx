@@ -9,6 +9,7 @@ type Props = {
   confirmLabel?: React.ReactNode;
   cancelLabel?: React.ReactNode;
   variant?: "primary" | "secondary";
+  divClassName?: string;
 };
 
 export const ConfirmButton: React.FC<React.PropsWithChildren<Props>> = ({
@@ -19,13 +20,14 @@ export const ConfirmButton: React.FC<React.PropsWithChildren<Props>> = ({
   confirmLabel,
   cancelLabel,
   variant = "primary",
+  divClassName,
 }) => {
   const [confirming, setConfirming] = React.useState(false);
   const { t } = useAppTranslation();
 
   if (confirming) {
     return (
-      <div className="flex sm:flex-col gap-1 w-full">
+      <div className={`flex gap-1 w-full ${divClassName}`}>
         <Button
           variant={variant}
           className={className}

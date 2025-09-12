@@ -317,6 +317,7 @@ const PowerSkillsContent: React.FC<{
                 onConfirm={useSkill}
                 confirmLabel={t("powerSkills.use")}
                 disabled={disabled}
+                divClassName="flex-row sm:flex-col"
               >
                 {t("powerSkills.use")}
               </ConfirmButton>

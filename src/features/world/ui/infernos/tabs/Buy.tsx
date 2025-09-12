@@ -86,6 +86,7 @@ export const Buy: React.FC<Props> = ({ game }) => {
                   (game.inventory.Sunstone ?? new Decimal(0)).lt(price)
                 }
                 className="w-full"
+                divClassName="flex-row sm:flex-col"
               >
                 {t("craft")}
               </ConfirmButton>
