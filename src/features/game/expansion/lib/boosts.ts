@@ -12,7 +12,7 @@ import {
 } from "features/game/types/consumables";
 import {
   EXPIRY_COOLDOWNS,
-  isCollectibleActive,
+  isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { getBudExperienceBoosts } from "features/game/lib/getBudExperienceBoosts";
@@ -141,7 +141,7 @@ const applyTempCollectibleBoost = ({
   game: GameState;
   boostValue: number;
 }) => {
-  const active = isCollectibleActive({ name: collectibleName, game });
+  const active = isTemporaryCollectibleActive({ name: collectibleName, game });
   if (!active) return seconds;
 
   const activeItems = [
@@ -194,7 +194,7 @@ export const getCookingTime = ({
     boostsUsed.push("Luna's Hat");
   }
 
-  if (isCollectibleActive({ name: "Boar Shrine", game })) {
+  if (isTemporaryCollectibleActive({ name: "Boar Shrine", game })) {
     reducedSecs = reducedSecs.mul(0.8);
     boostsUsed.push("Boar Shrine");
   }
@@ -213,18 +213,18 @@ export const getCookingTime = ({
   }
 
   // Totems do not stack - apply either Super Totem or Time Warp Totem boost
-  const hasSuperTotem = isCollectibleActive({
+  const hasSuperTotem = isTemporaryCollectibleActive({
     name: "Super Totem",
     game,
   });
-  const hasTimeWarpTotem = isCollectibleActive({
+  const hasTimeWarpTotem = isTemporaryCollectibleActive({
     name: "Time Warp Totem",
     game,
   });
   const hasActiveTotem = hasSuperTotem || hasTimeWarpTotem;
 
   if (hasActiveTotem) {
-    const totemType = isCollectibleActive({
+    const totemType = isTemporaryCollectibleActive({
       name: "Super Totem",
       game,
     })
@@ -245,7 +245,7 @@ export const getCookingTime = ({
     }
   }
 
-  if (isCollectibleActive({ name: "Gourmet Hourglass", game })) {
+  if (isTemporaryCollectibleActive({ name: "Gourmet Hourglass", game })) {
     reducedSecs = applyTempCollectibleBoost({
       seconds: reducedSecs,
       cookStartAt,

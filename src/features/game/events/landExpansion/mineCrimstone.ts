@@ -6,7 +6,7 @@ import { BoostName, FiniteResource, GameState } from "../../types/game";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
 import {
-  isCollectibleActive,
+  isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
@@ -44,7 +44,7 @@ export function getMinedAt({ createdAt, game }: GetMinedAtArgs): {
     boostsUsed.push("Fireside Alchemist");
   }
 
-  if (isCollectibleActive({ name: "Mole Shrine", game })) {
+  if (isTemporaryCollectibleActive({ name: "Mole Shrine", game })) {
     time -= CRIMSTONE_RECOVERY_TIME * 0.25 * 1000;
     boostsUsed.push("Mole Shrine");
   }

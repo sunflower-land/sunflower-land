@@ -8,6 +8,7 @@ import {
   mineStone,
 } from "./stoneMine";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
+import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 
 const GAME_STATE: GameState = {
   ...INITIAL_FARM,
@@ -1026,5 +1027,51 @@ describe("mineStone", () => {
     });
 
     expect(state.inventory.Pickaxe).toEqual(new Decimal(1));
+  });
+
+  it("applies the Badger Shrine boost", () => {
+    const now = Date.now();
+    const { time } = getMinedAt({
+      game: {
+        ...INITIAL_FARM,
+        collectibles: {
+          "Badger Shrine": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+      skills: {},
+    });
+
+    expect(time).toEqual(now - STONE_RECOVERY_TIME * 0.25 * 1000);
+  });
+
+  it("does not apply the Badger Shrine boost if expired", () => {
+    const now = Date.now();
+    const { time } = getMinedAt({
+      game: {
+        ...INITIAL_FARM,
+        collectibles: {
+          "Badger Shrine": [
+            {
+              id: "123",
+              createdAt: now - EXPIRY_COOLDOWNS["Badger Shrine"],
+              coordinates: { x: 1, y: 1 },
+              readyAt: now,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+      skills: {},
+    });
+
+    expect(time).toEqual(now);
   });
 });

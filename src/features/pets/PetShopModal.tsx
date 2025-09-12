@@ -1,4 +1,5 @@
 import { useSelector } from "@xstate/react";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -6,12 +7,14 @@ import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { Context } from "features/game/GameProvider";
+import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { getKeys } from "features/game/lib/crafting";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { GameState, Inventory } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PET_SHOP_ITEMS, PetShopItemName } from "features/game/types/petShop";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { secondsToString } from "lib/utils/time";
 import React, { useContext, useState } from "react";
 
 export const PetShopModal: React.FC = () => {
@@ -57,9 +60,7 @@ export const PetShopModal: React.FC = () => {
   };
 
   const buy = () => {
-    gameService.send("collectible.crafted", {
-      name: selectedItem,
-    });
+    gameService.send("collectible.crafted", { name: selectedItem });
   };
 
   return (
@@ -169,11 +170,26 @@ const PetShopActionView: React.FC<{
   gameState,
 }) => {
   const { t } = useAppTranslation();
-  const boostDescription = COLLECTIBLE_BUFF_LABELS(gameState)[petItem];
+  const boostDescription = [
+    ...(COLLECTIBLE_BUFF_LABELS(gameState)[petItem] ?? []), // Spread to prevent mutations
+  ];
+  const isPetEgg = (petItem: PetShopItemName): petItem is "Pet Egg" =>
+    petItem === "Pet Egg";
+  const cooldown = !isPetEgg(petItem) ? EXPIRY_COOLDOWNS[petItem] : undefined;
+
+  if (cooldown) {
+    boostDescription.push({
+      labelType: "danger",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      shortDescription: t("shrine.expiryLabel", {
+        time: secondsToString(cooldown / 1000, { length: "short" }),
+      }),
+    });
+  }
 
   return (
     <div className="flex flex-col sm:items-center gap-2">
-      {boostDescription &&
+      {boostDescription.length > 0 &&
         Object.values(boostDescription).map(
           (
             { labelType, boostTypeIcon, boostedItemIcon, shortDescription },

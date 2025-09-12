@@ -1954,4 +1954,149 @@ describe("claimProduce", () => {
 
     expect(state.inventory.Wool).toEqual(new Decimal(1.1));
   });
+
+  it("reduces the sleep time by 25% if a Collie Shrine is placed and ready", () => {
+    const state = claimProduce({
+      state: {
+        ...INITIAL_FARM,
+        buildings: {
+          Barn: [
+            {
+              id: "barn",
+              readyAt: now,
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+            },
+          ],
+        },
+        barn: {
+          level: 3,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.barn.animals["0"],
+              state: "ready",
+              type: "Sheep",
+              experience: 60,
+            },
+          },
+        },
+        collectibles: {
+          "Collie Shrine": [
+            {
+              id: "collie",
+              readyAt: now,
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+            },
+          ],
+        },
+      },
+      action: {
+        type: "produce.claimed",
+        animal: "Sheep",
+        id: "0",
+      },
+      createdAt: now,
+    });
+
+    expect(state.barn.animals["0"].awakeAt).toEqual(
+      now + ANIMAL_SLEEP_DURATION * 0.75,
+    );
+  });
+  it("does not reduce the sleep time of chickens by 25% if a Collie Shrine is placed and ready", () => {
+    const state = claimProduce({
+      state: {
+        ...INITIAL_FARM,
+        buildings: {
+          "Hen House": [
+            {
+              id: "henHouse",
+              readyAt: now,
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+            },
+          ],
+        },
+        henHouse: {
+          level: 3,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.henHouse.animals["0"],
+              state: "ready",
+              type: "Chicken",
+              experience: 60,
+            },
+          },
+        },
+        collectibles: {
+          "Collie Shrine": [
+            {
+              id: "collie",
+              readyAt: now,
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+            },
+          ],
+        },
+      },
+      action: {
+        type: "produce.claimed",
+        animal: "Chicken",
+        id: "0",
+      },
+      createdAt: now,
+    });
+
+    expect(state.henHouse.animals["0"].awakeAt).toEqual(
+      now + ANIMAL_SLEEP_DURATION,
+    );
+  });
+  it("reduces the sleep time of chickens by 25% if a Bantam Shrine is placed and ready", () => {
+    const state = claimProduce({
+      state: {
+        ...INITIAL_FARM,
+        buildings: {
+          "Hen House": [
+            {
+              id: "henHouse",
+              readyAt: now,
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+            },
+          ],
+        },
+        henHouse: {
+          level: 3,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.henHouse.animals["0"],
+              state: "ready",
+              type: "Chicken",
+              experience: 60,
+            },
+          },
+        },
+        collectibles: {
+          "Bantam Shrine": [
+            {
+              id: "bantam",
+              readyAt: now,
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+            },
+          ],
+        },
+      },
+      action: {
+        type: "produce.claimed",
+        animal: "Chicken",
+        id: "0",
+      },
+      createdAt: now,
+    });
+
+    expect(state.henHouse.animals["0"].awakeAt).toEqual(
+      now + ANIMAL_SLEEP_DURATION * 0.75,
+    );
+  });
 });

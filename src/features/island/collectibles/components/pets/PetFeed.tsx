@@ -8,10 +8,11 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import { Loading } from "features/auth/components/Loading";
 import {
   getPetEnergy,
+  getPetExperience,
   getPetFoodRequests,
 } from "features/game/events/pets/feedPet";
 import { CookableName } from "features/game/types/consumables";
-import { Inventory } from "features/game/types/game";
+import { GameState, Inventory } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getPetRequestXP, Pet, PetName } from "features/game/types/pets";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -31,6 +32,7 @@ export const PetFeed: React.FC<
     isRevealingState: boolean;
     isRevealedState: boolean;
     onAcknowledged: () => void;
+    state: GameState;
   }
 > = ({
   petName,
@@ -41,6 +43,7 @@ export const PetFeed: React.FC<
   isRevealingState,
   isRevealedState,
   onAcknowledged,
+  state,
 }) => {
   const { t } = useAppTranslation();
   const [selectedFood, setSelectedFood] = useState<CookableName | null>(
@@ -105,6 +108,7 @@ export const PetFeed: React.FC<
           setShowConfirm={setShowConfirm}
           isToday={isToday}
           setShowResetRequests={setShowResetRequests}
+          state={state}
         />
       }
       content={
@@ -130,6 +134,7 @@ const PetFeedPanel: React.FC<
     setShowConfirm: (showConfirm: boolean) => void;
     isToday: boolean;
     setShowResetRequests: (showResetRequests: boolean) => void;
+    state: GameState;
   }
 > = ({
   petName,
@@ -141,6 +146,7 @@ const PetFeedPanel: React.FC<
   setShowConfirm,
   isToday,
   setShowResetRequests,
+  state,
 }) => {
   const { t } = useAppTranslation();
   const petImage = ITEM_DETAILS[petName].image;
@@ -167,8 +173,15 @@ const PetFeedPanel: React.FC<
     );
   }
 
-  const foodXp = getPetRequestXP(selectedFood);
-  const petEnergy = getPetEnergy(petData, foodXp);
+  const baseFoodXp = getPetRequestXP(selectedFood);
+  const foodXp = getPetExperience({
+    basePetXP: baseFoodXp,
+    game: state,
+  });
+  const petEnergy = getPetEnergy({
+    petData,
+    basePetEnergy: baseFoodXp,
+  });
   const isFoodLocked = !getPetFoodRequests(petData).includes(selectedFood);
   const isDisabled =
     (isToday && petData.requests.foodFed?.includes(selectedFood)) ||

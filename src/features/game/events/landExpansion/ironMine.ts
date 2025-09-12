@@ -10,7 +10,7 @@ import {
   Rock,
 } from "../../types/game";
 import {
-  isCollectibleActive,
+  isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { produce } from "immer";
@@ -67,8 +67,11 @@ const getBoostedTime = ({
   let totalSeconds = IRON_RECOVERY_TIME;
   const boostsUsed: BoostName[] = [];
 
-  const superTotemActive = isCollectibleActive({ name: "Super Totem", game });
-  const timeWarpTotemActive = isCollectibleActive({
+  const superTotemActive = isTemporaryCollectibleActive({
+    name: "Super Totem",
+    game,
+  });
+  const timeWarpTotemActive = isTemporaryCollectibleActive({
     name: "Time Warp Totem",
     game,
   });
@@ -78,13 +81,13 @@ const getBoostedTime = ({
     else if (timeWarpTotemActive) boostsUsed.push("Time Warp Totem");
   }
 
-  if (isCollectibleActive({ name: "Ore Hourglass", game })) {
+  if (isTemporaryCollectibleActive({ name: "Ore Hourglass", game })) {
     totalSeconds = totalSeconds * 0.5;
     boostsUsed.push("Ore Hourglass");
   }
 
-  if (isCollectibleActive({ name: "Mole Shrine", game })) {
-    totalSeconds = totalSeconds * 0.25;
+  if (isTemporaryCollectibleActive({ name: "Mole Shrine", game })) {
+    totalSeconds = totalSeconds * 0.75;
     boostsUsed.push("Mole Shrine");
   }
 

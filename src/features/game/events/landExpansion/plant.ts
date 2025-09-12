@@ -24,7 +24,7 @@ import {
   getKeys,
 } from "features/game/types/craftables";
 import {
-  isCollectibleActive,
+  isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { SEASONAL_SEEDS, SeedName, SEEDS } from "features/game/types/seeds";
@@ -225,13 +225,16 @@ export function getCropTime({
     boostsUsed.push("Lunar Calendar");
   }
 
-  if (isCollectibleActive({ name: "Sparrow Shrine", game })) {
+  if (isTemporaryCollectibleActive({ name: "Sparrow Shrine", game })) {
     multiplier = multiplier * 0.75;
     boostsUsed.push("Sparrow Shrine");
   }
 
-  const hasSuperTotem = isCollectibleActive({ name: "Super Totem", game });
-  const hasTimeWarpTotem = isCollectibleActive({
+  const hasSuperTotem = isTemporaryCollectibleActive({
+    name: "Super Totem",
+    game,
+  });
+  const hasTimeWarpTotem = isTemporaryCollectibleActive({
     name: "Time Warp Totem",
     game,
   });
@@ -241,7 +244,7 @@ export function getCropTime({
     else if (hasTimeWarpTotem) boostsUsed.push("Time Warp Totem");
   }
 
-  if (isCollectibleActive({ name: "Harvest Hourglass", game })) {
+  if (isTemporaryCollectibleActive({ name: "Harvest Hourglass", game })) {
     multiplier = multiplier * 0.75;
     boostsUsed.push("Harvest Hourglass");
   }
