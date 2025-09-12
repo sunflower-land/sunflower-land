@@ -25,7 +25,7 @@ export const ConfirmButton: React.FC<React.PropsWithChildren<Props>> = ({
 
   if (confirming) {
     return (
-      <div className="flex sm:flex-col gap-1">
+      <div className="flex sm:flex-col gap-1 w-full">
         <Button
           variant={variant}
           className={className}
