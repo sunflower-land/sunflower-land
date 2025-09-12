@@ -71,6 +71,14 @@ export const WeatherShop: React.FC<Props> = ({ onClose }) => {
   const hasCoins = coins >= weatherShop[selected].price;
   const hasItem = !!inventory[selected];
 
+  const itemIngredients = weatherShop[selected].ingredients(
+    state.bumpkin.skills,
+  );
+  const lessIngredients = () =>
+    getKeys(itemIngredients).some((name) =>
+      itemIngredients[name]?.greaterThan(inventory[name] || 0),
+    );
+
   return (
     <CloseButtonPanel
       tabs={[
@@ -93,14 +101,15 @@ export const WeatherShop: React.FC<Props> = ({ onClose }) => {
               }}
               limit={1}
               requirements={{
-                resources: weatherShop[selected].ingredients(
-                  state.bumpkin.skills,
-                ),
+                resources: itemIngredients,
                 coins: weatherShop[selected].price,
               }}
               actionView={
                 hasItem ? undefined : (
-                  <Button disabled={!hasCoins} onClick={craft}>
+                  <Button
+                    disabled={!hasCoins || lessIngredients()}
+                    onClick={craft}
+                  >
                     {t("buy")}
                   </Button>
                 )
