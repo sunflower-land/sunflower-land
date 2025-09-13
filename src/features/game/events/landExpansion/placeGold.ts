@@ -4,7 +4,6 @@ import {
   GoldRockName,
   ADVANCED_RESOURCES,
   UpgradedResourceName,
-  RESOURCE_STATE_ACCESSORS,
 } from "features/game/types/resources";
 import { produce } from "immer";
 import {
@@ -40,7 +39,7 @@ export function placeGold({
       throw new Error("No gold available");
     }
 
-    const nodeStateAccessor = RESOURCE_STATE_ACCESSORS[action.name](game);
+    const nodeStateAccessor = game.gold;
 
     const existingGold = findExistingUnplacedNode({
       nodeStateAccessor,
