@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -10,15 +10,20 @@ import { ManagePets } from "./ManagePets";
 import { OuterPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { PetGuide } from "features/pets/petGuide/PetGuide";
 
 interface Props {
   show: boolean;
   onClose: () => void;
 }
 
+type PetHouseTab = "Manage" | "Guide";
+
 export const PetHouseModal: React.FC<Props> = ({ show, onClose }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
+  const [tab, setTab] = useState<PetHouseTab>("Manage");
   const pets = useSelector(gameService, (state) => state.context.state.pets);
   const PlacedCollectibles = (petName: PetName) => {
     const collectibles = useSelector(gameService, (state) =>
@@ -55,11 +60,20 @@ export const PetHouseModal: React.FC<Props> = ({ show, onClose }) => {
           {
             icon: ITEM_DETAILS.Barkley.image,
             name: t("pets.manage"),
+            id: "Manage",
+          },
+          {
+            icon: SUNNYSIDE.icons.expression_confused,
+            name: t("guide"),
+            id: "Guide",
           },
         ]}
+        currentTab={tab}
+        setCurrentTab={setTab}
         container={OuterPanel}
       >
-        <ManagePets activePets={activePets} />
+        {tab === "Manage" && <ManagePets activePets={activePets} />}
+        {tab === "Guide" && <PetGuide />}
       </CloseButtonPanel>
     </Modal>
   );
