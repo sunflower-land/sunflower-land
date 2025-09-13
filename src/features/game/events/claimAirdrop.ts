@@ -182,15 +182,11 @@ export function claimAirdrop({
         const relavantNodes: [string, ResourceItem][] = Object.entries(
           placedNodes,
         ).filter(([, node]: [string, ResourceItem]) => {
-          const isNodePlaced = node.x !== undefined && node.y !== undefined;
-
           if (isTreeOrRock(node) && isUpgradableResource(itemName)) {
-            const multiplier = RESOURCE_MULTIPLIER[itemName];
-            const doesMultiplierMatch = (node.multiplier ?? 1) === multiplier;
-            return isNodePlaced && doesMultiplierMatch;
+            return (node.multiplier ?? 1) === RESOURCE_MULTIPLIER[itemName];
           }
 
-          return isNodePlaced;
+          return true;
         });
         const toRemoveFromNodes = Math.min(
           remainingToRemove,
