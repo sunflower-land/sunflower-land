@@ -117,7 +117,32 @@ describe("startLavaPit", () => {
       createdAt: now,
     });
 
-    expect(result.lavaPits[1].startedAt).toBeGreaterThan(0);
+    expect(result.lavaPits[1].startedAt).toEqual(now);
+    expect(result.lavaPits[1].readyAt).toEqual(now + 72 * 60 * 60 * 1000);
+  });
+
+  it("starts the lava pit with obsidian necklace", () => {
+    const result = startLavaPit({
+      state: {
+        ...TEST_FARM,
+        wardrobe: {
+          "Obsidian Necklace": 1,
+        },
+        lavaPits: { 1: { x: 0, y: 0, createdAt: 0 } },
+        bumpkin: {
+          ...TEST_FARM.bumpkin,
+          equipped: {
+            ...TEST_FARM.bumpkin.equipped,
+            necklace: "Obsidian Necklace",
+          },
+        },
+      },
+      action: { type: "lavaPit.started", id: "1" },
+      createdAt: now,
+    });
+
+    expect(result.lavaPits[1].startedAt).toEqual(now);
+    expect(result.lavaPits[1].readyAt).toEqual(now + 36 * 60 * 60 * 1000);
   });
 
   it("does not start the lava pit if it is already started", () => {

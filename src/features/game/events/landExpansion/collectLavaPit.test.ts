@@ -56,6 +56,7 @@ describe("collectLavaPit", () => {
               x: 0,
               y: 0,
               startedAt: now,
+              readyAt: now + 72 * 60 * 60 * 1000,
               createdAt: 0,
             },
           },
