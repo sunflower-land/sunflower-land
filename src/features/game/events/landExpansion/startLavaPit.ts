@@ -67,6 +67,18 @@ export const getLavaPitRequirements = (
   return { requirements, boostUsed };
 };
 
+export function getLavaPitTime({ game }: { game: GameState }) {
+  let time = 72 * 60 * 60 * 1000;
+  const boostsUsed: BoostName[] = [];
+
+  if (isWearableActive({ name: "Obsidian Necklace", game })) {
+    time = time * 0.5;
+    boostsUsed.push("Obsidian Necklace");
+  }
+
+  return { time, boostsUsed };
+}
+
 export type StartLavaPitAction = {
   type: "lavaPit.started";
   id: string;
@@ -96,7 +108,8 @@ export function startLavaPit({
       throw new Error("Lava pit is not placed");
     }
 
-    const { requirements, boostUsed } = getLavaPitRequirements(copy);
+    const { requirements, boostUsed: lavaPitBoostsUsed } =
+      getLavaPitRequirements(copy);
 
     getObjectEntries(requirements).forEach(([item, requiredAmount]) => {
       const inventoryAmount = inventory[item] ?? new Decimal(0);
@@ -114,20 +127,17 @@ export function startLavaPit({
       throw new Error("Lava pit already started");
     }
 
-    lavaPit.startedAt = createdAt;
-    lavaPit.collectedAt = undefined;
+    const { time, boostsUsed: lavaPitTimeBoostsUsed } = getLavaPitTime({
+      game: copy,
+    });
 
-    if (isWearableActive({ name: "Obsidian Necklace", game: copy })) {
-      copy.boostsUsedAt = updateBoostUsed({
-        game: copy,
-        boostNames: ["Obsidian Necklace"],
-        createdAt,
-      });
-    }
+    lavaPit.startedAt = createdAt;
+    lavaPit.readyAt = createdAt + time;
+    lavaPit.collectedAt = undefined;
 
     copy.boostsUsedAt = updateBoostUsed({
       game: copy,
-      boostNames: boostUsed,
+      boostNames: [...lavaPitBoostsUsed, ...lavaPitTimeBoostsUsed],
       createdAt,
     });
 

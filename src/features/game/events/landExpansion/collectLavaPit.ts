@@ -1,21 +1,9 @@
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
 import { BoostName, GameState } from "features/game/types/game";
-import { isWearableActive } from "features/game/lib/wearables";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
-
-export function getLavaPitTime({ game }: { game: GameState }) {
-  let time = 72 * 60 * 60 * 1000;
-  const boostsUsed: BoostName[] = [];
-
-  if (isWearableActive({ name: "Obsidian Necklace", game })) {
-    time = time * 0.5;
-    // boostsUsed.push("Obsidian Necklace"); // already pushed during start of lava pit
-  }
-
-  return { time, boostsUsed };
-}
+import { getLavaPitTime } from "./startLavaPit";
 
 export function getObsidianYield({ game }: { game: GameState }) {
   let amount = 1;
@@ -58,10 +46,14 @@ export function collectLavaPit({
     if (lavaPit.collectedAt !== undefined) {
       throw new Error("Lava pit already collected");
     }
+
     const { time: lavaPitTime, boostsUsed: lavaPitTimeBoostsUsed } =
       getLavaPitTime({ game: copy });
 
-    if (createdAt - lavaPit.startedAt < lavaPitTime) {
+    if (
+      createdAt - lavaPit.startedAt < lavaPitTime ||
+      (lavaPit.readyAt && createdAt < lavaPit.readyAt)
+    ) {
       throw new Error("Lava pit still active");
     }
 

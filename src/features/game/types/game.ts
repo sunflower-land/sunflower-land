@@ -1490,6 +1490,7 @@ export type Calendar = Partial<Record<SeasonalEventName, CalendarEvent>> & {
 export type LavaPit = {
   createdAt: number;
   startedAt?: number;
+  readyAt?: number;
   collectedAt?: number;
   removedAt?: number;
 } & OptionalCoordinates;

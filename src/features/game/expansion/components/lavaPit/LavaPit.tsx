@@ -10,13 +10,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 import animatedLavaPit from "assets/resources/lava/lava_pit_animation.webp";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { getLavaPitTime } from "features/game/events/landExpansion/collectLavaPit";
 import { LiveProgressBar } from "components/ui/ProgressBar";
 
 const _lavaPit = (id: string) => (state: MachineState) =>
   state.context.state.lavaPits[id];
-const _lavaPitTime = (state: MachineState) =>
-  getLavaPitTime({ game: state.context.state }).time;
 
 interface Props {
   id: string;
@@ -27,20 +24,16 @@ export const LavaPit: React.FC<Props> = ({ id }) => {
   const [renderKey, setRender] = useState<number>(0);
   const { gameService, showAnimations, showTimers } = useContext(Context);
   const lavaPit = useSelector(gameService, _lavaPit(id));
-  const lavaPitTime = useSelector(gameService, _lavaPitTime);
 
   useUiRefresher({ active: !!lavaPit?.startedAt });
 
-  const lavaPitRunning =
-    lavaPit?.startedAt && lavaPit?.startedAt + lavaPitTime > Date.now();
-
-  const lavaPitReady =
-    (lavaPit?.startedAt ?? Infinity) + lavaPitTime < Date.now() &&
-    !lavaPit?.collectedAt;
-
   const width = 36;
   const lavaPitStartedAt = lavaPit?.startedAt ?? 0;
-  const lavaPitEndAt = lavaPitStartedAt + lavaPitTime;
+  const lavaPitEndAt = lavaPit?.readyAt ?? 0;
+
+  const lavaPitRunning = lavaPitEndAt > Date.now();
+
+  const lavaPitReady = lavaPitEndAt < Date.now() && !lavaPit?.collectedAt;
   const isReadyWithinADay = lavaPitEndAt < Date.now() + 24 * 60 * 60 * 1000;
 
   return (
