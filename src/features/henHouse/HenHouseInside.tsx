@@ -102,6 +102,12 @@ export const HenHouseInside: React.FC = () => {
   ]);
 
   const nextLevel = Math.min(level + 1, 3);
+
+  const validAnimalsCount = useMemo(() => {
+    if (!deal) return 0;
+    return organizedAnimals.filter((animal) => isValidDeal({ animal, deal }))
+      .length;
+  }, [organizedAnimals, deal]);
   return (
     <>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
@@ -261,6 +267,7 @@ export const HenHouseInside: React.FC = () => {
           onClose={() => {
             setDeal(undefined);
           }}
+          validAnimalsCount={validAnimalsCount}
         />
       )}
     </>
