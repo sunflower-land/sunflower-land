@@ -8,9 +8,9 @@ import { hasFeatureAccess } from "lib/flags";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES } from "lib/npcs";
 import React, { useContext } from "react";
-import { PetShopModal } from "./PetShopModal";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { PetShopModal } from "./PetShopModal";
 
 interface Props {
   onClose: () => void;
