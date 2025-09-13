@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { ResourceItem } from "features/game/expansion/placeable/lib/collisionDetection";
 import {
   BuildingName,
   BUILDINGS_DIMENSIONS,
@@ -16,6 +17,8 @@ import {
   GameState,
   Inventory,
   InventoryItemName,
+  Rock,
+  Tree,
 } from "features/game/types/game";
 import {
   CollectionName,
@@ -27,6 +30,8 @@ import {
   ResourceName,
   BASIC_RESOURCES_UPGRADES_TO,
   ADVANCED_RESOURCES,
+  RESOURCE_MULTIPLIER,
+  UpgradeableResource,
 } from "features/game/types/resources";
 import { getCollectionName } from "features/marketplace/lib/getCollectionName";
 import { setPrecision } from "lib/utils/formatNumber";
@@ -208,3 +213,14 @@ export const isPlaceableCollectible = (
 export const isPlaceableBuilding = (
   item: InventoryItemName,
 ): item is BuildingName => item in BUILDINGS_DIMENSIONS;
+
+export const isPlaceableResource = (
+  item: InventoryItemName,
+): item is Exclude<ResourceName, "Boulder"> => item in RESOURCE_STATE_ACCESSORS;
+
+export const isTreeOrRock = (node: ResourceItem): node is Tree | Rock =>
+  "wood" in node || "stone" in node;
+
+export const isUpgradableResource = (
+  itemName: ResourceName,
+): itemName is UpgradeableResource => itemName in RESOURCE_MULTIPLIER;

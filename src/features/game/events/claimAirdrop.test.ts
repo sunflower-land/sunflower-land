@@ -546,4 +546,142 @@ describe("claimAirdrop", () => {
       ],
     });
   });
+
+  it("removes placed resources from farm when claiming negative airdrops", () => {
+    const state = claimAirdrop({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Gold Rock": new Decimal(2),
+          "Pure Gold Rock": new Decimal(2),
+        },
+        gold: {
+          123: {
+            x: 0,
+            y: 0,
+            createdAt: dateNow,
+            removedAt: dateNow,
+            stone: { minedAt: dateNow },
+            multiplier: 1,
+          },
+          456: {
+            x: 0,
+            y: 0,
+            createdAt: dateNow,
+            removedAt: dateNow,
+            stone: { minedAt: dateNow },
+            multiplier: 4,
+            name: "Pure Gold Rock",
+          },
+        },
+        airdrops: [
+          {
+            id: "123",
+            createdAt: dateNow,
+            items: {
+              "Gold Rock": -1,
+            },
+            wearables: {},
+            sfl: 0,
+            coins: 0,
+          },
+        ],
+      },
+      action: {
+        type: "airdrop.claimed",
+        id: "123",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.inventory["Gold Rock"]).toEqual(new Decimal(1));
+    expect(state.gold[123]).toEqual(undefined);
+    expect(state.airdrops).toEqual([]);
+  });
+
+  it("removes fused placed resources from farm when claiming negative airdrops", () => {
+    const state = claimAirdrop({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Gold Rock": new Decimal(2),
+          "Pure Gold Rock": new Decimal(2),
+        },
+        gold: {
+          123: {
+            x: 0,
+            y: 0,
+            createdAt: dateNow,
+            removedAt: dateNow,
+            stone: { minedAt: dateNow },
+            multiplier: 1,
+          },
+          456: {
+            x: 0,
+            y: 0,
+            createdAt: dateNow,
+            removedAt: dateNow,
+            stone: { minedAt: dateNow },
+            multiplier: 4,
+            name: "Pure Gold Rock",
+          },
+        },
+        airdrops: [
+          {
+            id: "123",
+            createdAt: dateNow,
+            items: {
+              "Pure Gold Rock": -1,
+            },
+            wearables: {},
+            sfl: 0,
+            coins: 0,
+          },
+        ],
+      },
+      action: {
+        type: "airdrop.claimed",
+        id: "123",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.inventory["Pure Gold Rock"]).toEqual(new Decimal(1));
+    expect(state.gold[456]).toEqual(undefined);
+    expect(state.airdrops).toEqual([]);
+  });
+
+  it("does nothing if no resources are placed", () => {
+    const state = claimAirdrop({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Gold Rock": new Decimal(2),
+          "Pure Gold Rock": new Decimal(2),
+        },
+        gold: {},
+        airdrops: [
+          {
+            id: "123",
+            createdAt: dateNow,
+            items: {
+              "Pure Gold Rock": -1,
+            },
+            wearables: {},
+            sfl: 0,
+            coins: 0,
+          },
+        ],
+      },
+      action: {
+        type: "airdrop.claimed",
+        id: "123",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.inventory["Pure Gold Rock"]).toEqual(new Decimal(1));
+    expect(state.gold).toEqual({});
+    expect(state.airdrops).toEqual([]);
+  });
 });

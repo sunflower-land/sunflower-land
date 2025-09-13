@@ -4,7 +4,6 @@ import {
   RESOURCE_MULTIPLIER,
   UpgradedResourceName,
   ADVANCED_RESOURCES,
-  RESOURCE_STATE_ACCESSORS,
 } from "features/game/types/resources";
 import { produce } from "immer";
 import {
@@ -40,7 +39,7 @@ export function placeIron({
       throw new Error("No iron available");
     }
 
-    const nodeStateAccessor = RESOURCE_STATE_ACCESSORS[action.name](game);
+    const nodeStateAccessor = game.iron;
 
     const existingIron = findExistingUnplacedNode({
       nodeStateAccessor,
