@@ -6618,6 +6618,7 @@
   "captcha.info.description": "Meet these requirements to stop captchas from showing up:",
   "captcha.info.requiredLevel": "Reach level 60",
   "captcha.info.proofOfHumanity": "Complete Proof of Humanity",
+  "captcha.info.proofOfHumanity.popOver": "Find the bank on Retreat Island and verify",
   "captcha.info.requiredReputation": "Reach {{name}} Reputation",
   "captcha.info.growerReputation": "Grower",
   "captcha.info.cropKeeperReputation": "Cropkeeper",
