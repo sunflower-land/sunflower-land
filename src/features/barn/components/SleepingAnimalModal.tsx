@@ -53,6 +53,8 @@ export const SleepingAnimalModal = ({
     onClose();
   };
 
+  const { name: mutantName } = animal.reward?.items?.[0] ?? {};
+
   if (showConfirm) {
     return (
       <InnerPanel>
@@ -145,6 +147,19 @@ export const SleepingAnimalModal = ({
             )}`}</span>
           </div>
         </div>
+
+        {mutantName && (
+          <div className="flex text-sm p-1 items-center w-[280px]">
+            <img
+              src={ITEM_DETAILS[mutantName]?.image}
+              alt="Mutant"
+              className="w-6 mr-2"
+            />
+            <span className="mr-2">
+              {t("sleepingAnimal.mutantDrop", { mutantName })}
+            </span>
+          </div>
+        )}
       </InnerPanel>
 
       {level < 15 && (

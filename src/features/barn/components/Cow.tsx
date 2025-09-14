@@ -46,6 +46,7 @@ import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
 import { SleepingAnimalModal } from "./SleepingAnimalModal";
+import { MutantBubble } from "features/game/expansion/components/animals/MutantBubble";
 
 export const ANIMAL_EMOTION_ICONS: Record<
   Exclude<TState["value"], "idle" | "needsLove" | "initial" | "sick">,
@@ -519,6 +520,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
           // Don't block level up UI with wakes in panel if accidentally clicked
           onLevelUp={() => setShowAnimalDetails(false)}
         />
+        {/* Mutant */}
+        {mutantName && <MutantBubble mutantName={mutantName as MutantAnimal} />}
         {/* Feed XP */}
         <Transition
           appear={true}

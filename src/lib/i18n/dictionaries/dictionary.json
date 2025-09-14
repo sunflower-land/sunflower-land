@@ -6250,6 +6250,7 @@
   "sleepingAnimal.dollCount": "1 x {{name}}",
   "sleepingAnimal.availableAtCraftingBox": "Available at the Crafting Box",
   "sleepingAnimal.wakeUp": "Wake up",
+  "sleepingAnimal.mutantDrop": "Next harvest produces a {{mutantName}}",
   "removeAll.description.one": "This action will remove all items from the {{location}}.",
   "removeAll.description.two": "Are you sure you want to continue?",
   "removeAll.title": "Remove All Items",

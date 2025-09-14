@@ -46,6 +46,7 @@ import { Modal } from "components/ui/Modal";
 import { SleepingAnimalModal } from "./SleepingAnimalModal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
+import { MutantBubble } from "features/game/expansion/components/animals/MutantBubble";
 
 const _animalState = (state: AnimalMachineState) =>
   // Casting here because we know the value is always a string rather than an object
@@ -493,6 +494,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
           // Don't block level up UI with wakes in panel if accidentally clicked
           onLevelUp={() => setShowAnimalDetails(false)}
         />
+        {/* Mutant */}
+        {mutantName && <MutantBubble mutantName={mutantName as MutantAnimal} />}
         {/* Feed XP */}
         <Transition
           appear={true}
