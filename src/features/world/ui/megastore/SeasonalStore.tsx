@@ -59,7 +59,10 @@ export const getItemBuffLabel = (
     return BUMPKIN_ITEM_BUFF_LABELS[item.wearable];
   }
 
-  return COLLECTIBLE_BUFF_LABELS(state)[item.collectible];
+  return COLLECTIBLE_BUFF_LABELS({
+    skills: state.bumpkin.skills,
+    collectibles: state.collectibles,
+  })[item.collectible];
 };
 export const getItemDescription = (item: SeasonalStoreItem | null): string => {
   if (!item) return "";

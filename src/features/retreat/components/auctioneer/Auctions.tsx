@@ -53,7 +53,10 @@ export const Auctions: React.FC<Props> = ({
 
         const hasBuff =
           auction.type === "collectible"
-            ? !!COLLECTIBLE_BUFF_LABELS(game)[auction.collectible]
+            ? !!COLLECTIBLE_BUFF_LABELS({
+                skills: game.bumpkin.skills,
+                collectibles: game.collectibles,
+              })[auction.collectible]
             : !!BUMPKIN_ITEM_BUFF_LABELS[auction.wearable];
 
         return (

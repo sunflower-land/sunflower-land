@@ -122,7 +122,10 @@ const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
   const nextDrop = drops.find((drop) => drop.startAt > Date.now());
 
   const starts = useCountdown(nextDrop?.startAt ?? 0);
-  const buff = COLLECTIBLE_BUFF_LABELS(game);
+  const buff = COLLECTIBLE_BUFF_LABELS({
+    skills: game.bumpkin.skills,
+    collectibles: game.collectibles,
+  });
 
   if (!nextDrop) {
     return null;
@@ -270,7 +273,10 @@ const Drops: React.FC<{
 }> = ({ detail, name, maxSupply, game }) => {
   const { t } = useAppTranslation();
 
-  const buff = COLLECTIBLE_BUFF_LABELS(game);
+  const buff = COLLECTIBLE_BUFF_LABELS({
+    skills: game.bumpkin.skills,
+    collectibles: game.collectibles,
+  });
   const buffLabel =
     detail.type === "collectible"
       ? buff[name as CollectibleName]
@@ -508,7 +514,10 @@ export const SeasonalAuctions: React.FC<Props> = ({
                 : getImageUrl(ITEM_IDS[name as BumpkinItem]);
 
               const buffLabel = isCollectible
-                ? COLLECTIBLE_BUFF_LABELS(gameState)[name as CollectibleName]
+                ? COLLECTIBLE_BUFF_LABELS({
+                    skills: gameState.bumpkin.skills,
+                    collectibles: gameState.collectibles,
+                  })[name as CollectibleName]
                 : BUMPKIN_ITEM_BUFF_LABELS[name as BumpkinItem];
 
               const remainingAuctions = details.auctions.filter(

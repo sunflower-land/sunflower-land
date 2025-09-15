@@ -179,7 +179,12 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
           details={{
             item: selectedName,
           }}
-          boost={COLLECTIBLE_BUFF_LABELS(state)[selectedName]}
+          boost={
+            COLLECTIBLE_BUFF_LABELS({
+              skills: state.bumpkin.skills,
+              collectibles: state.collectibles,
+            })[selectedName]
+          }
           requirements={{
             coins,
             resources: buildingBlueprints[

@@ -23,9 +23,13 @@ import { getObjectEntries } from "../expansion/lib/utils";
 
 export const COLLECTIBLE_BUFF_LABELS = memoize(getCollectibleBuffLabels);
 
-function getCollectibleBuffLabels(
-  state: GameState,
-): Partial<Record<InventoryItemName, BuffLabel[]>> {
+function getCollectibleBuffLabels({
+  skills,
+  collectibles,
+}: {
+  skills: GameState["bumpkin"]["skills"];
+  collectibles: GameState["collectibles"];
+}): Partial<Record<InventoryItemName, BuffLabel[]>> {
   // Delete the cache if this function is invoked.
   COLLECTIBLE_BUFF_LABELS.cache.clear?.();
 
@@ -33,14 +37,14 @@ function getCollectibleBuffLabels(
     // Crop Boosts
     "Basic Scarecrow": [
       {
-        shortDescription: state.bumpkin.skills["Chonky Scarecrow"]
+        shortDescription: skills["Chonky Scarecrow"]
           ? translate("description.basic.scarecrow.boost.skill")
           : translate("description.basic.scarecrow.boost"),
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
       {
-        shortDescription: state.bumpkin.skills["Chonky Scarecrow"]
+        shortDescription: skills["Chonky Scarecrow"]
           ? translate("description.basic.scarecrow.boost.aoe.skill")
           : translate("description.basic.scarecrow.boost.aoe"),
         labelType: "vibrant",
@@ -49,14 +53,14 @@ function getCollectibleBuffLabels(
     ],
     "Scary Mike": [
       {
-        shortDescription: state.bumpkin.skills["Horror Mike"]
+        shortDescription: skills["Horror Mike"]
           ? translate("description.scary.mike.boost.skill")
           : translate("description.scary.mike.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
       },
       {
-        shortDescription: state.bumpkin.skills["Horror Mike"]
+        shortDescription: skills["Horror Mike"]
           ? translate("description.scary.mike.boost.aoe.skill")
           : translate("description.scary.mike.boost.aoe"),
         labelType: "vibrant",
@@ -65,14 +69,14 @@ function getCollectibleBuffLabels(
     ],
     "Laurie the Chuckle Crow": [
       {
-        shortDescription: state.bumpkin.skills["Laurie's Gains"]
+        shortDescription: skills["Laurie's Gains"]
           ? translate("description.laurie.chuckle.crow.boost.skill")
           : translate("description.laurie.chuckle.crow.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
       },
       {
-        shortDescription: state.bumpkin.skills["Laurie's Gains"]
+        shortDescription: skills["Laurie's Gains"]
           ? translate("description.laurie.chuckle.crow.boost.aoe.skill")
           : translate("description.laurie.chuckle.crow.boost.aoe"),
         labelType: "vibrant",
@@ -200,7 +204,7 @@ function getCollectibleBuffLabels(
     ],
     "Cabbage Boy": [
       {
-        shortDescription: state.collectibles["Cabbage Girl"]
+        shortDescription: collectibles["Cabbage Girl"]
           ? translate("description.cabbage.boy.boost.boosted")
           : translate("description.cabbage.boy.boost"),
         labelType: "success",
@@ -217,7 +221,7 @@ function getCollectibleBuffLabels(
       },
     ],
     Karkinos: [
-      ...(state.collectibles["Cabbage Boy"]
+      ...(collectibles["Cabbage Boy"]
         ? []
         : ([
             {
@@ -370,7 +374,7 @@ function getCollectibleBuffLabels(
     // Fruit Boosts
     "Immortal Pear": [
       {
-        shortDescription: state.bumpkin.skills["Pear Turbocharge"]
+        shortDescription: skills["Pear Turbocharge"]
           ? translate("description.immortal.pear.boosted.boost")
           : translate("description.immortal.pear.boost"),
         labelType: "success",
@@ -567,17 +571,17 @@ function getCollectibleBuffLabels(
     ],
     Bale: [
       {
-        shortDescription: state.bumpkin.skills["Double Bale"]
+        shortDescription: skills["Double Bale"]
           ? translate("description.bale.eggBoost.boosted")
           : translate("description.bale.eggBoost"),
         labelType: "success",
         boostTypeIcon: powerup,
         boostedItemIcon: SUNNYSIDE.resource.egg,
       },
-      ...(state.bumpkin.skills["Bale Economy"]
+      ...(skills["Bale Economy"]
         ? ([
             {
-              shortDescription: state.bumpkin.skills["Double Bale"]
+              shortDescription: skills["Double Bale"]
                 ? translate("description.bale.milkBoost.boosted")
                 : translate("description.bale.milkBoost"),
               labelType: "success",
@@ -585,7 +589,7 @@ function getCollectibleBuffLabels(
               boostedItemIcon: SUNNYSIDE.resource.milk,
             },
             {
-              shortDescription: state.bumpkin.skills["Double Bale"]
+              shortDescription: skills["Double Bale"]
                 ? translate("description.bale.woolBoost.boosted")
                 : translate("description.bale.woolBoost"),
               labelType: "success",
@@ -1223,7 +1227,7 @@ function getCollectibleBuffLabels(
     ],
     Macaw: [
       {
-        shortDescription: state.bumpkin.skills["Loyal Macaw"]
+        shortDescription: skills["Loyal Macaw"]
           ? translate("description.macaw.boosted.boost")
           : translate("description.macaw.boost"),
         labelType: "success",

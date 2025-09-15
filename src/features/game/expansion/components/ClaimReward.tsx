@@ -130,8 +130,10 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
 
           {itemNames.length > 0 &&
             itemNames.map((name) => {
-              const buff =
-                COLLECTIBLE_BUFF_LABELS(game)[name as CollectibleName];
+              const buff = COLLECTIBLE_BUFF_LABELS({
+                skills: game.bumpkin.skills,
+                collectibles: game.collectibles,
+              })[name as CollectibleName];
               return (
                 <ButtonPanel
                   className="flex items-start cursor-context-menu hover:brightness-100"
