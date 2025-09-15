@@ -38,7 +38,7 @@ export type NFTAuction = AuctionBase & {
   chapterLimit: number;
 };
 
-export type Auction = CollectibleAuction | WearableAuction;
+export type Auction = CollectibleAuction | WearableAuction | NFTAuction;
 
 export type LeaderboardBid = {
   rank: number;
@@ -240,7 +240,7 @@ export const createAuctioneerMachine = ({
         loading: {
           entry: "setTransactionId",
           invoke: {
-            src: async (context, event) => {
+            src: async (context) => {
               const { auctions, totalSupply } = await loadAuctions({
                 token: context.token,
                 transactionId: context.transactionId as string,

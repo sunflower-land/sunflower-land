@@ -7,12 +7,16 @@ import {
   MachineInterpreter,
   createAuctioneerMachine,
 } from "features/game/lib/auctionMachine";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import {
+  AuctionNFT,
+  GameState,
+  InventoryItemName,
+} from "features/game/types/game";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { BumpkinItem } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/decorations";
 import {
   getCurrentSeason,
@@ -21,10 +25,6 @@ import {
 } from "features/game/types/seasons";
 import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getImageUrl } from "lib/utils/getImageURLS";
-import { CollectibleName } from "features/game/types/craftables";
-import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
-import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 
 import lightning from "assets/icons/lightning.png";
 import sfl from "assets/icons/flower_token.webp";
@@ -36,14 +36,19 @@ import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDeta
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { isMobile } from "mobile-device-detect";
 import { AuthMachineState } from "features/auth/lib/authMachine";
+import { getAuctionItemType } from "features/retreat/components/auctioneer/lib/getAuctionItemType";
+import { getAuctionItemDisplay } from "features/retreat/components/auctioneer/lib/getAuctionItemDisplay";
 
 type AuctionDetail = {
   supply: number;
-  type: "collectible" | "wearable";
+  type: "collectible" | "wearable" | "nft";
   auctions: Auction[];
 };
 
-type AuctionItems = Record<BumpkinItem | InventoryItemName, AuctionDetail>;
+type AuctionItems = Record<
+  BumpkinItem | InventoryItemName | AuctionNFT,
+  AuctionDetail
+>;
 
 /**
  * Aggregates the seasonal auction items
@@ -61,9 +66,7 @@ function getSeasonalAuctions({
 
   // Aggregate supplies
   let details: AuctionItems = auctions.reduce((acc, auction) => {
-    const type = auction.type;
-    const name =
-      auction.type === "wearable" ? auction.wearable : auction.collectible;
+    const name = getAuctionItemType(auction);
 
     const existing = acc[name];
 
@@ -72,7 +75,7 @@ function getSeasonalAuctions({
       existing.supply += auction.supply;
     } else {
       acc[name] = {
-        type,
+        type: auction.type,
         supply: auction.supply,
         auctions: [auction],
       };
@@ -122,24 +125,16 @@ const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
   const nextDrop = drops.find((drop) => drop.startAt > Date.now());
 
   const starts = useCountdown(nextDrop?.startAt ?? 0);
-  const buff = COLLECTIBLE_BUFF_LABELS({
-    skills: game.bumpkin.skills,
-    collectibles: game.collectibles,
-  });
 
   if (!nextDrop) {
     return null;
   }
 
-  const image =
-    nextDrop.type === "collectible"
-      ? ITEM_DETAILS[nextDrop.collectible as CollectibleName].image
-      : getImageUrl(ITEM_IDS[nextDrop.wearable as BumpkinItem]);
-
-  const buffLabel =
-    nextDrop.type === "collectible"
-      ? buff[nextDrop.collectible as CollectibleName]
-      : BUMPKIN_ITEM_BUFF_LABELS[nextDrop.wearable as BumpkinItem];
+  const { image, buffLabels, item } = getAuctionItemDisplay({
+    auction: nextDrop,
+    skills: game.bumpkin.skills,
+    collectibles: game.collectibles,
+  });
 
   const nextDropTime = new Date(nextDrop.startAt).toLocaleString("en-AU", {
     timeZoneName: "shortOffset",
@@ -185,12 +180,8 @@ const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
             </div>
             <div className="flex justify-between flex-1 flex-wrap">
               <div className="mb-1">
-                <p className="text-sm mb-1">
-                  {nextDrop.type === "collectible"
-                    ? nextDrop.collectible
-                    : nextDrop.wearable}
-                </p>
-                {buffLabel ? (
+                <p className="text-sm mb-1">{item}</p>
+                {buffLabels ? (
                   <div className="flex">
                     {isMobile ? (
                       <Label
@@ -206,7 +197,7 @@ const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
                       </Label>
                     ) : (
                       <div className="flex flex-col gap-1">
-                        {buffLabel.map(
+                        {buffLabels.map(
                           (
                             {
                               labelType,
@@ -267,20 +258,18 @@ const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
 
 const Drops: React.FC<{
   detail: AuctionDetail;
-  name: BumpkinItem | InventoryItemName;
+  name: BumpkinItem | InventoryItemName | AuctionNFT;
   maxSupply: number;
   game: GameState;
 }> = ({ detail, name, maxSupply, game }) => {
   const { t } = useAppTranslation();
+  const auction = detail.auctions[0];
 
-  const buff = COLLECTIBLE_BUFF_LABELS({
+  const { image, buffLabels, typeLabel } = getAuctionItemDisplay({
+    auction,
     skills: game.bumpkin.skills,
     collectibles: game.collectibles,
   });
-  const buffLabel =
-    detail.type === "collectible"
-      ? buff[name as CollectibleName]
-      : BUMPKIN_ITEM_BUFF_LABELS[name as BumpkinItem];
 
   const chapter = SEASONS[getCurrentSeason()];
   const chapterSupply = detail.auctions.reduce((acc, drop) => {
@@ -302,13 +291,13 @@ const Drops: React.FC<{
           <Label type="default" className="mt-1 mb-1">
             {detail.type === "collectible" ? t("collectible") : t("wearable")}
           </Label>
-          {buffLabel ? (
+          {buffLabels ? (
             <Label
-              type={buffLabel[0].labelType}
-              icon={buffLabel[0].boostTypeIcon}
-              secondaryIcon={buffLabel[0].boostedItemIcon}
+              type={buffLabels[0].labelType}
+              icon={buffLabels[0].boostTypeIcon}
+              secondaryIcon={buffLabels[0].boostedItemIcon}
             >
-              {buffLabel[0].shortDescription}
+              {buffLabels[0].shortDescription}
             </Label>
           ) : detail.type === "collectible" ? (
             <div className="flex">
@@ -429,7 +418,9 @@ export const SeasonalAuctions: React.FC<Props> = ({
   const { authService } = useContext(AuthProvider.Context);
   const rawToken = useSelector(authService, _rawToken);
 
-  const [selected, setSelected] = useState<InventoryItemName | BumpkinItem>();
+  const [selected, setSelected] = useState<
+    InventoryItemName | BumpkinItem | AuctionNFT
+  >();
 
   const auctionService = useInterpret(
     createAuctioneerMachine({
@@ -508,17 +499,13 @@ export const SeasonalAuctions: React.FC<Props> = ({
             {getKeys(auctionItems).map((name) => {
               const details = auctionItems[name];
               const isCollectible = details.type === "collectible";
+              const auction = details.auctions[0];
 
-              const image = isCollectible
-                ? ITEM_DETAILS[name as CollectibleName].image
-                : getImageUrl(ITEM_IDS[name as BumpkinItem]);
-
-              const buffLabel = isCollectible
-                ? COLLECTIBLE_BUFF_LABELS({
-                    skills: gameState.bumpkin.skills,
-                    collectibles: gameState.collectibles,
-                  })[name as CollectibleName]
-                : BUMPKIN_ITEM_BUFF_LABELS[name as BumpkinItem];
+              const { item, image, buffLabels } = getAuctionItemDisplay({
+                auction,
+                skills: gameState.bumpkin.skills,
+                collectibles: gameState.collectibles,
+              });
 
               const remainingAuctions = details.auctions.filter(
                 (auction) => auction.startAt > Date.now(),
@@ -530,7 +517,7 @@ export const SeasonalAuctions: React.FC<Props> = ({
 
               return (
                 <ButtonPanel
-                  onClick={() => setSelected(name)}
+                  onClick={() => setSelected(item)}
                   key={name}
                   className="relative"
                 >
@@ -540,11 +527,11 @@ export const SeasonalAuctions: React.FC<Props> = ({
                     </div>
                     <div>
                       <p className="text-sm mb-1">{name}</p>
-                      {buffLabel ? (
+                      {buffLabels ? (
                         <div className="flex">
                           <img src={lightning} className="h-4 mr-0.5" />
                           <p className="text-xs">
-                            {buffLabel
+                            {buffLabels
                               .map(({ shortDescription }) => shortDescription)
                               .join(", ")}
                           </p>
