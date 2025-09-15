@@ -262,6 +262,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
       wood: {
         choppedAt: 0,
         criticalHit: { Native: 1 },
+        reward: {
+          coins: 200,
+        },
       },
       x: 4,
       y: -2,
@@ -725,6 +728,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       crop: {
         plantedAt: 0,
         name: "Sunflower",
+        reward: { items: [{ name: "Sunflower Seed", amount: 3 }] },
       },
     },
   },

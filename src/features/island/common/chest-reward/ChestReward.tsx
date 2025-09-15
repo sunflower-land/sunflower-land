@@ -13,6 +13,7 @@ import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import Decimal from "decimal.js-light";
 import { translate } from "lib/i18n/translate";
 import classNames from "classnames";
+import { CaptchaInfo } from "./CaptchaInfo";
 
 interface Props {
   collectedItem?: InventoryItemName;
@@ -93,24 +94,28 @@ export const ChestReward: React.FC<Props> = ({
             onClose={claimAndClose}
           />
         ) : (
-          <div
-            // render and hide captchas so images have time to load
-            className={classNames(
-              "flex flex-col items-center justify-between",
-              { hidden: loading },
-            )}
-          >
-            {challenge.current === "goblins" && (
-              <StopTheGoblins
-                onFail={fail}
-                onOpen={open}
-                collectedItem={collectedItem}
-              />
-            )}
-            {challenge.current === "chest" && (
-              <ChestCaptcha onFail={fail} onOpen={open} />
-            )}
-          </div>
+          <>
+            <div
+              // render and hide captchas so images have time to load
+              className={classNames(
+                "flex flex-col items-center justify-between",
+                { hidden: loading },
+              )}
+            >
+              {challenge.current === "goblins" && (
+                <StopTheGoblins
+                  onFail={fail}
+                  onOpen={open}
+                  collectedItem={collectedItem}
+                />
+              )}
+              {challenge.current === "chest" && (
+                <ChestCaptcha onFail={fail} onOpen={open} />
+              )}
+            </div>
+
+            <CaptchaInfo collectedItem={collectedItem} />
+          </>
         )}
       </Panel>
     </Modal>
