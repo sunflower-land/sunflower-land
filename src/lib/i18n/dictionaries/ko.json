@@ -6628,5 +6628,13 @@
   "description.legendaryShrine.buff": "+1 작물 수확량",
   "description.legendaryShrine.buff.2": "+1 과일 패치 수확량",
   "description.legendaryShrine.buff.3": "+1 우드",
-  "description.legendaryShrine.buff.4": "+1 스톤"
+  "description.legendaryShrine.buff.4": "+1 스톤",
+  "captcha.info.title": "정보",
+  "captcha.info.description": "보안 문자가 표시되지 않도록 하려면 다음 요구 사항을 충족하십시오.",
+  "captcha.info.requiredLevel": "레벨 60에 도달하세요",
+  "captcha.info.proofOfHumanity": "완전한 인류 증명",
+  "captcha.info.proofOfHumanity.popOver": "리트리트 아일랜드의 은행을 찾아 확인하세요.",
+  "captcha.info.requiredReputation": "{{name}} 평판 도달",
+  "captcha.info.growerReputation": "재배자",
+  "captcha.info.cropKeeperReputation": "크롭키퍼"
 }

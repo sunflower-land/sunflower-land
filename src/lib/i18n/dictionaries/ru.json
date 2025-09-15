@@ -6628,5 +6628,13 @@
   "description.legendaryShrine.buff": "+1 Урожайность",
   "description.legendaryShrine.buff.2": "+1 Урожайность фруктовых грядок",
   "description.legendaryShrine.buff.3": "+1 Дерево",
-  "description.legendaryShrine.buff.4": "+1 камень"
+  "description.legendaryShrine.buff.4": "+1 камень",
+  "captcha.info.title": "Информация",
+  "captcha.info.description": "Выполните следующие требования, чтобы капчи не появлялись:",
+  "captcha.info.requiredLevel": "Достигните 60 уровня",
+  "captcha.info.proofOfHumanity": "Полное доказательство человечности",
+  "captcha.info.proofOfHumanity.popOver": "Найдите банк на острове Ретрит и подтвердите",
+  "captcha.info.requiredReputation": "Достигните репутации {{name}}",
+  "captcha.info.growerReputation": "Садовод",
+  "captcha.info.cropKeeperReputation": "Урожай"
 }

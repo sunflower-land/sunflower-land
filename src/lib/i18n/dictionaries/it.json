@@ -6628,5 +6628,13 @@
   "description.legendaryShrine.buff": "+1 Rendimento del raccolto",
   "description.legendaryShrine.buff.2": "+1 resa in frutteto",
   "description.legendaryShrine.buff.3": "+1 Legno",
-  "description.legendaryShrine.buff.4": "+1 Pietra"
+  "description.legendaryShrine.buff.4": "+1 Pietra",
+  "captcha.info.title": "Informazioni",
+  "captcha.info.description": "Soddisfa questi requisiti per impedire la visualizzazione dei captcha:",
+  "captcha.info.requiredLevel": "Raggiungi il livello 60",
+  "captcha.info.proofOfHumanity": "Prova completa dell'umanità",
+  "captcha.info.proofOfHumanity.popOver": "Trova la banca su Retreat Island e verifica",
+  "captcha.info.requiredReputation": "Raggiungi {{name}} Reputazione",
+  "captcha.info.growerReputation": "Coltivatore",
+  "captcha.info.cropKeeperReputation": "Coltivatore"
 }

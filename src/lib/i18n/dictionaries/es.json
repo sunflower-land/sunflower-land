@@ -6628,5 +6628,13 @@
   "description.legendaryShrine.buff": "+1 Rendimiento de cultivo",
   "description.legendaryShrine.buff.2": "+1 de rendimiento de un huerto de frutas",
   "description.legendaryShrine.buff.3": "+1 Madera",
-  "description.legendaryShrine.buff.4": "+1 piedra"
+  "description.legendaryShrine.buff.4": "+1 piedra",
+  "captcha.info.title": "Información",
+  "captcha.info.description": "Cumple estos requisitos para evitar que aparezcan los captchas:",
+  "captcha.info.requiredLevel": "Alcanza el nivel 60",
+  "captcha.info.proofOfHumanity": "Prueba completa de humanidad",
+  "captcha.info.proofOfHumanity.popOver": "Encuentra el banco en Retreat Island y verifica",
+  "captcha.info.requiredReputation": "Alcanza la reputación de {{name}}",
+  "captcha.info.growerReputation": "Cultivador",
+  "captcha.info.cropKeeperReputation": "Cuidador de cultivos"
 }

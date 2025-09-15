@@ -6628,5 +6628,13 @@
   "description.legendaryShrine.buff": "+1 Rendement des récoltes",
   "description.legendaryShrine.buff.2": "Rendement de +1 parcelle fruitière",
   "description.legendaryShrine.buff.3": "+1 Bois",
-  "description.legendaryShrine.buff.4": "+1 Pierre"
+  "description.legendaryShrine.buff.4": "+1 Pierre",
+  "captcha.info.title": "Infos",
+  "captcha.info.description": "Répondez aux exigences suivantes pour empêcher l'affichage des captchas :",
+  "captcha.info.requiredLevel": "Atteignez le niveau 60",
+  "captcha.info.proofOfHumanity": "Preuve complète d'humanité",
+  "captcha.info.proofOfHumanity.popOver": "Trouvez la banque sur Retreat Island et vérifiez",
+  "captcha.info.requiredReputation": "Atteignez {{name}} de réputation",
+  "captcha.info.growerReputation": "Producteur",
+  "captcha.info.cropKeeperReputation": "Cultureur"
 }

@@ -6628,5 +6628,13 @@
   "description.legendaryShrine.buff": "+1 作物产量",
   "description.legendaryShrine.buff.2": "+1 水果补丁产量",
   "description.legendaryShrine.buff.3": "+1 木头",
-  "description.legendaryShrine.buff.4": "+1 石头"
+  "description.legendaryShrine.buff.4": "+1 石头",
+  "captcha.info.title": "信息",
+  "captcha.info.description": "满足以下要求以阻止验证码出现：",
+  "captcha.info.requiredLevel": "达到等级 60",
+  "captcha.info.proofOfHumanity": "完整的人性证明",
+  "captcha.info.proofOfHumanity.popOver": "在 Retreat Island 上找到银行并进行验证",
+  "captcha.info.requiredReputation": "达到 {{name}} 声望",
+  "captcha.info.growerReputation": "种植者",
+  "captcha.info.cropKeeperReputation": "农场管理员"
 }

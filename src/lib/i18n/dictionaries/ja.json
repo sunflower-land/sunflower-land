@@ -6628,5 +6628,13 @@
   "description.legendaryShrine.buff": "+1 作物収量",
   "description.legendaryShrine.buff.2": "+1フルーツパッチ収量",
   "description.legendaryShrine.buff.3": "+1 ウッド",
-  "description.legendaryShrine.buff.4": "+1 ストーン"
+  "description.legendaryShrine.buff.4": "+1 ストーン",
+  "captcha.info.title": "情報",
+  "captcha.info.description": "CAPTCHA が表示されないようにするには、以下の要件を満たす必要があります。",
+  "captcha.info.requiredLevel": "レベル 60 に到達",
+  "captcha.info.proofOfHumanity": "完全な人間性の証明",
+  "captcha.info.proofOfHumanity.popOver": "リトリートアイランドで銀行を見つけて確認する",
+  "captcha.info.requiredReputation": "{{name}} レピュテーションに到達",
+  "captcha.info.growerReputation": "栽培者",
+  "captcha.info.cropKeeperReputation": "クロップキーパー"
 }

@@ -6628,5 +6628,13 @@
   "description.legendaryShrine.buff": "+1 Mahsul Verimi",
   "description.legendaryShrine.buff.2": "+1 Meyve Yaması Verimi",
   "description.legendaryShrine.buff.3": "+1 Vood",
-  "description.legendaryShrine.buff.4": "+1 Sten"
+  "description.legendaryShrine.buff.4": "+1 Sten",
+  "captcha.info.title": "Bilgi",
+  "captcha.info.description": "Captcha'ların görünmesini engellemek için şu gereksinimleri karşılayın:",
+  "captcha.info.requiredLevel": "60. seviyeye ulaş",
+  "captcha.info.proofOfHumanity": "İnsanlığın Tam Kanıtı",
+  "captcha.info.proofOfHumanity.popOver": "Retreat Adası'ndaki bankayı bulun ve doğrulayın",
+  "captcha.info.requiredReputation": "{{name}} İtibarına Ulaşın",
+  "captcha.info.growerReputation": "Yetiştirici",
+  "captcha.info.cropKeeperReputation": "Mahsul Bakıcısı"
 }

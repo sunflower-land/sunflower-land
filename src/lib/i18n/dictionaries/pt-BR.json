@@ -6628,5 +6628,13 @@
   "description.legendaryShrine.buff": "+1 Rendimento da safra",
   "description.legendaryShrine.buff.2": "+1 Rendimento de canteiros de frutas",
   "description.legendaryShrine.buff.3": "+1 Madeira",
-  "description.legendaryShrine.buff.4": "+1 Pedra"
+  "description.legendaryShrine.buff.4": "+1 Pedra",
+  "captcha.info.title": "Informações",
+  "captcha.info.description": "Atenda a esses requisitos para impedir que os captchas apareçam:",
+  "captcha.info.requiredLevel": "Alcance o nível 60",
+  "captcha.info.proofOfHumanity": "Prova completa de humanidade",
+  "captcha.info.proofOfHumanity.popOver": "Encontre o banco na Ilha do Retiro e verifique",
+  "captcha.info.requiredReputation": "Alcance a reputação de {{name}}",
+  "captcha.info.growerReputation": "Produtor",
+  "captcha.info.cropKeeperReputation": "Lavrador"
 }

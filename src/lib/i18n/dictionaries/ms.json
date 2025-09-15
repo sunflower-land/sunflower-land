@@ -6628,5 +6628,13 @@
   "description.legendaryShrine.buff": "+1 Hasil Tanaman",
   "description.legendaryShrine.buff.2": "+1 Hasil Patch Buah",
   "description.legendaryShrine.buff.3": "+1 Kayu",
-  "description.legendaryShrine.buff.4": "+1 Batu"
+  "description.legendaryShrine.buff.4": "+1 Batu",
+  "captcha.info.title": "Maklumat",
+  "captcha.info.description": "Memenuhi syarat ini untuk menghentikan captchas daripada muncul:",
+  "captcha.info.requiredLevel": "Mencapai tahap 60",
+  "captcha.info.proofOfHumanity": "Bukti Kemanusiaan Lengkap",
+  "captcha.info.proofOfHumanity.popOver": "Cari bank di Pulau Retreat dan sahkan",
+  "captcha.info.requiredReputation": "Mencapai {{name}} Reputasi",
+  "captcha.info.growerReputation": "Penanam",
+  "captcha.info.cropKeeperReputation": "Penjaga Tanaman"
 }
