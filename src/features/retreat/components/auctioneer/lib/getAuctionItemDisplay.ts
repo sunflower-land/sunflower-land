@@ -21,7 +21,7 @@ const NFT_IMAGE_DESCRIPTION_MAPPING: Record<
 > = {
   Pet: {
     image: petEgg,
-    description: translate("description.unrevealedNFT.boost"),
+    description: translate("description.unrevealedNFT.description"),
   },
 };
 
@@ -84,4 +84,16 @@ export function getAuctionItemDisplay({
     typeLabel: "NFT",
     description: NFT_IMAGE_DESCRIPTION_MAPPING[auction.nft].description,
   };
+}
+
+export function getAuctionItemImage(auction: Auction) {
+  if (auction.type === "collectible") {
+    return ITEM_DETAILS[auction.collectible].image;
+  }
+
+  if (auction.type === "wearable") {
+    return getImageUrl(ITEM_IDS[auction.wearable]);
+  }
+
+  return NFT_IMAGE_DESCRIPTION_MAPPING[auction.nft].image;
 }

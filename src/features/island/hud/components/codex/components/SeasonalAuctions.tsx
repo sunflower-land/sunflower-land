@@ -284,18 +284,20 @@ const Drops: React.FC<{
   }, 0);
 
   return (
-    <>
-      <div className="p-1">
-        <p className="text-sm mt-3 mb-2">{name}</p>
-        <div className="flex flex-row flex-wrap justify-between items-center mr-2">
-          <Label type="default" className="mt-1 mb-1">
-            {detail.type === "collectible" ? t("collectible") : t("wearable")}
-          </Label>
+    <InnerPanel>
+      <div className="p-1 mb-2">
+        <Label type="default" className="mt-1 mb-1 -ml-1">
+          {typeLabel}
+        </Label>
+
+        <div className="flex flex-row flex-wrap my-2 justify-between items-center mr-2">
+          <p className="text-sm">{name}</p>
           {buffLabels ? (
             <Label
               type={buffLabels[0].labelType}
               icon={buffLabels[0].boostTypeIcon}
               secondaryIcon={buffLabels[0].boostedItemIcon}
+              className="-mr-1"
             >
               {buffLabels[0].shortDescription}
             </Label>
@@ -311,10 +313,10 @@ const Drops: React.FC<{
             </div>
           )}
         </div>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center mb-1">
           <Label
             type="transparent"
-            className="mt-1 mb-1 mr-4"
+            className="mt-1 mb-1 ml-3"
             icon={SUNNYSIDE.icons.basket}
           >
             {t("season.codex.auction.totalSupply", {
@@ -324,7 +326,7 @@ const Drops: React.FC<{
           <Label
             secondaryIcon={chapterIcon}
             type="transparent"
-            className="mt-1 mb-1 ml-3"
+            className="mt-1 mb-1 mr-3"
           >
             {t("season.codex.auction.chapterSupply", {
               chapterSupply: chapterSupply,
@@ -336,7 +338,7 @@ const Drops: React.FC<{
         </p>
       </div>
       <div
-        style={{ maxHeight: "300px" }}
+        style={{ maxHeight: "250px" }}
         className="overflow-y-auto divide-brown-600 pb-0 scrollable pr-1"
       >
         {detail.auctions.map((drop) => {
@@ -397,7 +399,7 @@ const Drops: React.FC<{
           );
         })}
       </div>
-    </>
+    </InnerPanel>
   );
 };
 
@@ -501,11 +503,12 @@ export const SeasonalAuctions: React.FC<Props> = ({
               const isCollectible = details.type === "collectible";
               const auction = details.auctions[0];
 
-              const { item, image, buffLabels } = getAuctionItemDisplay({
-                auction,
-                skills: gameState.bumpkin.skills,
-                collectibles: gameState.collectibles,
-              });
+              const { item, image, buffLabels, typeLabel } =
+                getAuctionItemDisplay({
+                  auction,
+                  skills: gameState.bumpkin.skills,
+                  collectibles: gameState.collectibles,
+                });
 
               const remainingAuctions = details.auctions.filter(
                 (auction) => auction.startAt > Date.now(),
@@ -555,11 +558,7 @@ export const SeasonalAuctions: React.FC<Props> = ({
                       )}
                     </div>
                     <div className="absolute top-0 right-0 flex space-x-2">
-                      {!isMobile && (
-                        <Label type="default">
-                          {isCollectible ? t("collectible") : t("wearable")}
-                        </Label>
-                      )}
+                      {!isMobile && <Label type="default">{typeLabel}</Label>}
                       {remainingLeft === 0 ? (
                         <Label type="danger">{t("season.codex.soldOut")}</Label>
                       ) : remainingLeft <= 50 ? (
