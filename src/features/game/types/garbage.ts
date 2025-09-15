@@ -23,9 +23,6 @@ export type GarbageName =
       | "Yellow Egg"
       | "Rapid Growth"
       | "Tent"
-      | "Earthworm"
-      | "Grub"
-      | "Red Wiggler"
       | SeasonalTicket
       | "Chicken"
       | "Hen House"
@@ -103,18 +100,6 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
   },
   Tent: {
     sellPrice: 20,
-    gems: 0,
-  },
-  Earthworm: {
-    sellPrice: 0.1,
-    gems: 0,
-  },
-  Grub: {
-    sellPrice: 0.1,
-    gems: 0,
-  },
-  "Red Wiggler": {
-    sellPrice: 0.1,
     gems: 0,
   },
   ...getObjectEntries(SEASON_TICKET_NAME).reduce(
