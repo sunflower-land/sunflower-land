@@ -50,7 +50,10 @@ export const getItemBuffLabel = (
     return BUMPKIN_ITEM_BUFF_LABELS[item.name];
   }
 
-  return COLLECTIBLE_BUFF_LABELS(state)[item.name];
+  return COLLECTIBLE_BUFF_LABELS({
+    skills: state.bumpkin.skills,
+    collectibles: state.collectibles,
+  })[item.name];
 };
 export const getItemDescription = (item: FloatingShopItem | null): string => {
   if (!item) return "";

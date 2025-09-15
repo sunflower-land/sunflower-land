@@ -14,7 +14,6 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
 import { hasReputation } from "features/game/lib/reputation";
@@ -42,7 +41,6 @@ export const AuctioneerModal: React.FC<Props> = ({
   deviceTrackerId,
   linkedAddress,
 }) => {
-  const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);

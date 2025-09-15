@@ -1,7 +1,11 @@
 import { createMachine, Interpreter, assign } from "xstate";
 import { randomID } from "lib/utils/random";
 import { bid } from "features/game/actions/bid";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import {
+  GameState,
+  InventoryItemName,
+  AuctionNFT,
+} from "features/game/types/game";
 import { getAuctionResults } from "features/game/actions/getAuctionResults";
 import { BumpkinItem } from "../types/bumpkin";
 import { CONFIG } from "lib/config";
@@ -14,19 +18,24 @@ export type AuctionBase = {
   supply: number;
   sfl: number;
   ingredients: Partial<Record<InventoryItemName, number>>;
-  type: "collectible" | "wearable";
+  chapterLimit: number;
 };
 
-export type AuctioneerItemName = BumpkinItem | InventoryItemName;
-
-type CollectibleAuction = AuctionBase & {
+export type CollectibleAuction = AuctionBase & {
   type: "collectible";
   collectible: InventoryItemName;
 };
 
-type WearableAuction = AuctionBase & {
+export type WearableAuction = AuctionBase & {
   type: "wearable";
   wearable: BumpkinItem;
+};
+
+export type NFTAuction = AuctionBase & {
+  type: "nft";
+  nft: AuctionNFT;
+  startId: number;
+  chapterLimit: number;
 };
 
 export type Auction = CollectibleAuction | WearableAuction;
@@ -71,7 +80,7 @@ type BidEvent = {
 };
 
 export type MintedEvent = {
-  item: AuctioneerItemName;
+  item: InventoryItemName | BumpkinItem | AuctionNFT;
   sessionId: string;
 };
 
@@ -208,6 +217,7 @@ export const createAuctioneerMachine = ({
             },
             sfl: 5,
             supply: 100,
+            chapterLimit: 1,
           },
           {
             auctionId: "test-auction-2",
@@ -221,6 +231,7 @@ export const createAuctioneerMachine = ({
             },
             sfl: 5,
             supply: 5000,
+            chapterLimit: 1,
           },
         ],
       },

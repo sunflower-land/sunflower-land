@@ -25,7 +25,10 @@ export const MutantAnimalModal = ({ mutant, show, onContinue }: Props) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const boost = COLLECTIBLE_BUFF_LABELS(state)[mutant];
+  const boost = COLLECTIBLE_BUFF_LABELS({
+    skills: state.bumpkin.skills,
+    collectibles: state.collectibles,
+  })[mutant];
 
   return (
     <Modal show={show} dialogClassName="max-w-[480px]">

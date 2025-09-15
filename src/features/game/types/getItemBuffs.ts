@@ -29,7 +29,10 @@ export function getItemBuffs({
   }
 
   if (collection === "collectibles") {
-    const buff = COLLECTIBLE_BUFF_LABELS(state)[item as InventoryItemName];
+    const buff = COLLECTIBLE_BUFF_LABELS({
+      skills: state.bumpkin.skills,
+      collectibles: state.collectibles,
+    })[item as InventoryItemName];
 
     return buff ? buff : [];
   }
