@@ -24,11 +24,6 @@ export const TradesCleared: React.FC = () => {
   const { t } = useAppTranslation();
 
   const { trades } = state.context.state;
-  const soldListingIds = getKeys(trades.listings ?? {}).filter(
-    (id) => !!trades.listings?.[id].fulfilledAt,
-  );
-
-  if (soldListingIds.length === 0) return null;
 
   const clearAll = () => {
     gameService.send("trades.cleared");
@@ -47,11 +42,11 @@ export const TradesCleared: React.FC = () => {
   return (
     <>
       <div className="p-1">
-        <Label className="ml-2 mb-2 mt-1" type="danger" icon={trade}>
+        <Label className="mb-2" type="danger" icon={trade}>
           {t("marketplace.tradesCleared")}
         </Label>
-        <p className="text-xs">{t("marketplace.tradesCleared.message")}</p>
-        {clearedListings && (
+        <p className="text-xs mb-2">{t("marketplace.tradesCleared.message")}</p>
+        {clearedListings.length > 0 && (
           <>
             <Label type="default">{t("marketplace.listings")}</Label>
             {clearedListings.map((listingId) => {
@@ -92,7 +87,7 @@ export const TradesCleared: React.FC = () => {
             })}
           </>
         )}
-        {clearedOffers && (
+        {clearedOffers.length > 0 && (
           <>
             <Label type="default">{t("marketplace.offers")}</Label>
             {clearedOffers.map((offerId) => {

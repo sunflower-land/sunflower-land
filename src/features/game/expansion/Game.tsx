@@ -484,6 +484,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const news = useSelector(gameService, isNews);
   const tradesCleared = useSelector(gameService, isTradesCleared);
   const { t } = useAppTranslation();
+
   useInterval(() => {
     gameService.send("SAVE");
   }, AUTO_SAVE_INTERVAL);
