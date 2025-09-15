@@ -856,7 +856,10 @@ export type Bid = {
   tickets: number;
 };
 export type Minted = Partial<
-  Record<SeasonName, Record<InventoryItemName | BumpkinItem, number>>
+  Record<
+    SeasonName,
+    Record<InventoryItemName | BumpkinItem | AuctionNFT, number>
+  >
 >;
 
 export type MazeAttempts = Partial<Record<SeasonWeek, MazeMetadata>>;
@@ -1548,6 +1551,11 @@ export type SocialFarming = {
   };
 };
 
+export type Auctioneer = {
+  bid?: Bid;
+  minted?: Minted;
+};
+
 export interface GameState {
   home: Home;
   bank: Bank;
@@ -1694,10 +1702,7 @@ export interface GameState {
     }[];
   };
   dailyRewards?: DailyRewards;
-  auctioneer: {
-    bid?: Bid;
-    minted?: Minted;
-  };
+  auctioneer: Auctioneer;
   chores?: ChoresV2;
   kingdomChores: KingdomChores;
   mushrooms: Mushrooms;

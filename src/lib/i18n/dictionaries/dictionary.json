@@ -6640,5 +6640,7 @@
   "description.refinedIronRock.buff": "+0.5 Iron",
   "description.temperedIronRock.buff": "+2.5 Iron",
   "description.pureGoldRock.buff": "+0.5 Gold",
-  "description.primeGoldRock.buff": "+2.5 Gold"
+  "description.primeGoldRock.buff": "+2.5 Gold",
+  "description.unrevealedNFT.boost": "Boost unrevealed!",
+  "description.unrevealedNFT.description": "Shhh... unique pet snoozing inside!"
 }
