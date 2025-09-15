@@ -1,11 +1,6 @@
 import { syncProgress, SyncProgressParams } from "lib/blockchain/Game";
 import { GameState, InventoryItemName, Wardrobe } from "./game";
 import {
-  mintAuctionCollectible,
-  mintAuctionWearable,
-  MintBidParams,
-} from "lib/blockchain/Auction";
-import {
   WithdrawBudsParams,
   withdrawBudsTransaction,
   WithdrawFlowerParams,
@@ -16,7 +11,6 @@ import {
   withdrawWearablesTransaction,
 } from "lib/blockchain/Withdrawals";
 import { sync } from "../actions/sync";
-import { mintAuctionItemRequest } from "../actions/mintAuctionItem";
 import {
   AcceptOfferParams,
   acceptOfferTransaction,
@@ -24,15 +18,6 @@ import {
   listingPurchasedTransaction,
 } from "lib/blockchain/Marketplace";
 import { postEffect } from "../actions/effect";
-
-export type BidMintedTransaction = {
-  event: "transaction.bidMinted";
-  createdAt: number;
-  data: {
-    bid: GameState["auctioneer"]["bid"];
-    params: MintBidParams;
-  };
-};
 
 export type BudWithdrawnTransaction = {
   event: "transaction.budWithdrawn";
@@ -101,7 +86,6 @@ export type GameTransaction =
   | WearablesWithdrawnTransaction
   | ItemsWithdrawnTransaction
   | BudWithdrawnTransaction
-  | BidMintedTransaction
   | AcceptOfferTransaction
   | ListingPurchasedTransaction
   | FlowerWithdrawnTransaction;
@@ -213,15 +197,6 @@ export const ONCHAIN_TRANSACTIONS: TransactionHandler = {
     withdrawWearablesTransaction(data.params),
   "transaction.flowerWithdrawn": (data) =>
     withdrawFlowerTransaction(data.params),
-
-  // Minting a bid has 2 separate contract methods
-  "transaction.bidMinted": (data) => {
-    if (data.bid?.collectible) {
-      return mintAuctionCollectible(data.params);
-    }
-
-    return mintAuctionWearable(data.params);
-  },
 };
 
 export type SignatureHandler = {
@@ -239,7 +214,6 @@ export const TRANSACTION_SIGNATURES: TransactionRequest = {
   "transaction.offerAccepted": () => ({}) as any, // uses new effect flow
   "transaction.listingPurchased": () => ({}) as any, // uses new effect flow
   "transaction.progressSynced": sync,
-  "transaction.bidMinted": mintAuctionItemRequest,
   "transaction.budWithdrawn": postEffect,
   "transaction.itemsWithdrawn": postEffect,
   "transaction.wearablesWithdrawn": postEffect,
