@@ -2,7 +2,6 @@ import { GameState, Tree } from "features/game/types/game";
 import {
   ADVANCED_RESOURCES,
   RESOURCE_MULTIPLIER,
-  RESOURCE_STATE_ACCESSORS,
   TreeName,
   UpgradedResourceName,
 } from "features/game/types/resources";
@@ -40,7 +39,7 @@ export function placeTree({
       throw new Error("No trees available");
     }
 
-    const nodeStateAccessor = RESOURCE_STATE_ACCESSORS[action.name](game);
+    const nodeStateAccessor = game.trees;
 
     const existingTree = findExistingUnplacedNode({
       nodeStateAccessor,

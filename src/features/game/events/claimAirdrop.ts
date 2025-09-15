@@ -9,8 +9,16 @@ import { removeCollectible } from "./landExpansion/removeCollectible";
 import {
   isPlaceableCollectible,
   isPlaceableBuilding,
+  isPlaceableResource,
+  isTreeOrRock,
+  isUpgradableResource,
 } from "features/island/hud/components/inventory/utils/inventory";
 import { PLACEABLE_LOCATIONS } from "../types/collectibles";
+import { ResourceItem } from "../expansion/placeable/lib/collisionDetection";
+import {
+  RESOURCE_STATE_ACCESSORS,
+  RESOURCE_MULTIPLIER,
+} from "../types/resources";
 
 export function addVipDays({
   game,
@@ -166,6 +174,32 @@ export function claimAirdrop({
               createdAt,
             });
           });
+        }
+      }
+
+      if (isPlaceableResource(itemName)) {
+        const placedNodes = RESOURCE_STATE_ACCESSORS[itemName](game);
+        const relavantNodes: [string, ResourceItem][] = Object.entries(
+          placedNodes,
+        ).filter(([, node]: [string, ResourceItem]) => {
+          if (isTreeOrRock(node) && isUpgradableResource(itemName)) {
+            return (node.multiplier ?? 1) === RESOURCE_MULTIPLIER[itemName];
+          }
+
+          return true;
+        });
+        const toRemoveFromNodes = Math.min(
+          remainingToRemove,
+          relavantNodes.length,
+        );
+        if (toRemoveFromNodes > 0) {
+          const nodesToRemove = relavantNodes
+            .slice(0, toRemoveFromNodes)
+            .map(([id]) => id);
+          nodesToRemove.forEach((id) => {
+            delete placedNodes[id];
+          });
+          remainingToRemove -= toRemoveFromNodes;
         }
       }
 

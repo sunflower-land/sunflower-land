@@ -4,7 +4,6 @@ import {
   UpgradedResourceName,
   StoneRockName,
   RESOURCE_MULTIPLIER,
-  RESOURCE_STATE_ACCESSORS,
 } from "features/game/types/resources";
 import { produce } from "immer";
 import {
@@ -40,7 +39,7 @@ export function placeStone({
       throw new Error("No stone available");
     }
 
-    const nodeStateAccessor = RESOURCE_STATE_ACCESSORS[action.name](game);
+    const nodeStateAccessor = game.stones;
 
     const existingStone = findExistingUnplacedNode({
       nodeStateAccessor,
