@@ -388,7 +388,6 @@ export const Wallet: React.FC<PropsWithChildren<Props>> = ({
   const hasLinkedWallet = !!linkedAddress;
   const hasNFT = !!farmAddress;
   const hasConnection = isConnected;
-  const hasChain = !!chainId && chainId in chains;
   const hasLinkedWalletSelected =
     !!address &&
     !!linkedAddress &&
@@ -397,6 +396,7 @@ export const Wallet: React.FC<PropsWithChildren<Props>> = ({
   const availableChains = enforceChainId
     ? [enforceChainId]
     : Object.keys(WALLET_ACTIONS[action].chains).map(Number);
+  const hasChain = !!chainId && chainId in availableChains;
 
   if (requiresConnection && !hasConnection) {
     return (
