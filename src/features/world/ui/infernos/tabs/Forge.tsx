@@ -148,6 +148,7 @@ export const Forge: React.FC = () => {
               <span>
                 {t("upgrade.success.description", {
                   resource: selectedResource,
+                  action: selectedResource.includes("Tree") ? "chop" : "mine",
                 })}
               </span>
               <Button onClick={() => setShowSuccess(false)}>

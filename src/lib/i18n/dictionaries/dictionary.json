@@ -6514,7 +6514,7 @@
   "description.waddles": "A waddles",
   "description.ramsey": "A ramsey",
   "upgrade.success": "{{resource}} upgrade complete!",
-  "upgrade.success.description": "You can now mine {{resource}}!",
+  "upgrade.success.description": "You can now {{action}} {{resource}}!",
   "pets.coming.soon": "Pets are coming soon - November 3rd.",
   "pets.bulkFeedMode": "Bulk Feed Mode",
   "pets.bulkFeed": "Bulk Feed",
