@@ -332,7 +332,7 @@ export const ExchangeHud: React.FC<{
             {validAnimalsCount > 0 ? (
               <p>{t("bounties.animal.select", { name: deal.name })} </p>
             ) : (
-              <p className={`w-[${width}]`}>
+              <p style={{ width }}>
                 {t("bounties.animal.noAnimalToSell", { name: deal.name })}
               </p>
             )}
