@@ -6456,7 +6456,6 @@
   "reputation.unlock.discord.info2": "und geben Sie den Befehl /verify ein",
   "forge": "Schmiede",
   "upgrade.success": "{{resource}} Upgrade abgeschlossen!",
-  "upgrade.success.description": "Du kannst jetzt meins {{resource}}!",
   "marketplaceTransferInProgress": "Marktplatz- und/oder Auktionstransfers werden gerade abgeschlossen. Bitte versuchen Sie es in ein paar Minuten erneut.",
   "marketplaceTransferInProgress.label": "Ausstehende Übertragung ist im Gange",
   "description.boarShrine.buff": "-20% Garzeit",
@@ -6636,5 +6635,6 @@
   "captcha.info.proofOfHumanity.popOver": "Finde die Bank auf Retreat Island und verifiziere",
   "captcha.info.requiredReputation": "Erreiche einen Ruf von {{name}}",
   "captcha.info.growerReputation": "Züchter",
-  "captcha.info.cropKeeperReputation": "Pflanzenpfleger"
+  "captcha.info.cropKeeperReputation": "Pflanzenpfleger",
+  "upgrade.success.description": "Du kannst jetzt {{action}} {{resource}}!"
 }

@@ -6456,7 +6456,6 @@
   "reputation.unlock.discord.info2": "然后键入 /verify 命令",
   "forge": "资源熔合",
   "upgrade.success": "{{resource}} 升级完成！",
-  "upgrade.success.description": "你现在可以开采 {{resource}} 了！",
   "marketplaceTransferInProgress": "市场和/或拍卖的转移正在完成中，请几分钟后再试。",
   "marketplaceTransferInProgress.label": "转移处理中",
   "description.boarShrine.buff": "-20% 烹饪时间",
@@ -6636,5 +6635,6 @@
   "captcha.info.proofOfHumanity.popOver": "在 Retreat Island 上找到银行并进行验证",
   "captcha.info.requiredReputation": "达到 {{name}} 声望",
   "captcha.info.growerReputation": "种植者",
-  "captcha.info.cropKeeperReputation": "农场管理员"
+  "captcha.info.cropKeeperReputation": "农场管理员",
+  "upgrade.success.description": "你现在可以 {{action}} {{resource}}！"
 }

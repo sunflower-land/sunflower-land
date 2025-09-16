@@ -6456,7 +6456,6 @@
   "reputation.unlock.discord.info2": "e digite o comando /verify",
   "forge": "Forjar",
   "upgrade.success": "{{resource}} atualização concluída!",
-  "upgrade.success.description": "Agora você pode minerar {{resource}}!",
   "marketplaceTransferInProgress": "As transferências do Marketplace e/ou do leilão estão sendo finalizadas. Tente novamente em alguns minutos.",
   "marketplaceTransferInProgress.label": "Transferência pendente em andamento",
   "description.boarShrine.buff": "-20% de tempo de cozimento",
@@ -6636,5 +6635,6 @@
   "captcha.info.proofOfHumanity.popOver": "Encontre o banco na Ilha do Retiro e verifique",
   "captcha.info.requiredReputation": "Alcance a reputação de {{name}}",
   "captcha.info.growerReputation": "Produtor",
-  "captcha.info.cropKeeperReputation": "Lavrador"
+  "captcha.info.cropKeeperReputation": "Lavrador",
+  "upgrade.success.description": "Agora você pode {{action}} {{resource}}!"
 }

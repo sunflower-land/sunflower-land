@@ -6456,7 +6456,6 @@
   "reputation.unlock.discord.info2": "et tapez la commande /verify",
   "forge": "Forge",
   "upgrade.success": "{{resource}} La mise à niveau est terminée !",
-  "upgrade.success.description": "Tu peux maintenant le mien {{resource}} !",
   "marketplaceTransferInProgress": "Les transferts vers la place de marché et/ou les enchères sont en cours de finalisation, veuillez réessayer dans quelques minutes.",
   "marketplaceTransferInProgress.label": "En attente de transfert en cours",
   "description.boarShrine.buff": "-20% Temps de cuisson",
@@ -6636,5 +6635,6 @@
   "captcha.info.proofOfHumanity.popOver": "Trouvez la banque sur Retreat Island et vérifiez",
   "captcha.info.requiredReputation": "Atteignez {{name}} de réputation",
   "captcha.info.growerReputation": "Producteur",
-  "captcha.info.cropKeeperReputation": "Cultureur"
+  "captcha.info.cropKeeperReputation": "Cultureur",
+  "upgrade.success.description": "Vous pouvez désormais {{action}} {{resource}} !"
 }

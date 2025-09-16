@@ -6456,7 +6456,6 @@
   "reputation.unlock.discord.info2": "ve /verify komutunu yazın",
   "forge": "demirci",
   "upgrade.success": "{{resource}} yükseltme tamamlandı!",
-  "upgrade.success.description": "Artık benimseyebilirsiniz {{resource}}!",
   "marketplaceTransferInProgress": "Pazar yeri ve/veya Açık artırma transferleri tamamlanıyor, lütfen birkaç dakika içinde tekrar deneyin.",
   "marketplaceTransferInProgress.label": "Bekleyen transfer devam ediyor",
   "description.boarShrine.buff": "-20% Pişirme Süresi",
@@ -6636,5 +6635,6 @@
   "captcha.info.proofOfHumanity.popOver": "Retreat Adası'ndaki bankayı bulun ve doğrulayın",
   "captcha.info.requiredReputation": "{{name}} İtibarına Ulaşın",
   "captcha.info.growerReputation": "Yetiştirici",
-  "captcha.info.cropKeeperReputation": "Mahsul Bakıcısı"
+  "captcha.info.cropKeeperReputation": "Mahsul Bakıcısı",
+  "upgrade.success.description": "Artık {{action}} {{resource}} yapabilirsiniz!"
 }

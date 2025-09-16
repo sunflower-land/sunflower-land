@@ -6456,7 +6456,6 @@
   "reputation.unlock.discord.info2": "и введите команду /verify",
   "forge": "Кузница",
   "upgrade.success": "{{resource}} обновление завершено!",
-  "upgrade.success.description": "Теперь вы можете майнить {{resource}}!",
   "marketplaceTransferInProgress": "Переводы с торговых площадок и/или аукционов завершаются. Повторите попытку через несколько минут.",
   "marketplaceTransferInProgress.label": "В ожидании перевода",
   "description.boarShrine.buff": "-20% времени приготовления",
@@ -6636,5 +6635,6 @@
   "captcha.info.proofOfHumanity.popOver": "Найдите банк на острове Ретрит и подтвердите",
   "captcha.info.requiredReputation": "Достигните репутации {{name}}",
   "captcha.info.growerReputation": "Садовод",
-  "captcha.info.cropKeeperReputation": "Урожай"
+  "captcha.info.cropKeeperReputation": "Урожай",
+  "upgrade.success.description": "Теперь вы можете {{action}} {{resource}}!"
 }

@@ -6456,7 +6456,6 @@
   "reputation.unlock.discord.info2": "dan ketik perintah /verifikasi",
   "forge": "Memalsukan",
   "upgrade.success": "{{resource}} upgrade selesai!",
-  "upgrade.success.description": "Anda sekarang dapat menambang {{resource}}!",
   "marketplaceTransferInProgress": "Transfer Marketplace dan/atau Lelang sedang diselesaikan, silakan coba lagi dalam beberapa menit.",
   "marketplaceTransferInProgress.label": "Transfer yang tertunda sedang berlangsung",
   "description.boarShrine.buff": "-20% Waktu Memasak",
@@ -6636,5 +6635,6 @@
   "captcha.info.proofOfHumanity.popOver": "Temukan bank di Pulau Retreat dan verifikasi",
   "captcha.info.requiredReputation": "Jangkau {{name}} Reputasi",
   "captcha.info.growerReputation": "Penanam",
-  "captcha.info.cropKeeperReputation": "Penjaga tanaman"
+  "captcha.info.cropKeeperReputation": "Penjaga tanaman",
+  "upgrade.success.description": "Anda sekarang dapat {{action}} {{resource}}!"
 }

@@ -6456,7 +6456,6 @@
   "reputation.unlock.discord.info2": "そして、/verify コマンドを入力します",
   "forge": "フォージ",
   "upgrade.success": "{{resource}} アップグレードが完了しました！",
-  "upgrade.success.description": "これで {{resource}} をマイニングできます！",
   "marketplaceTransferInProgress": "マーケットプレイスまたはオークションの移管が完了しています。数分後にもう一度試してください。",
   "marketplaceTransferInProgress.label": "転送保留中",
   "description.boarShrine.buff": "-20% 調理時間",
@@ -6636,5 +6635,6 @@
   "captcha.info.proofOfHumanity.popOver": "リトリートアイランドで銀行を見つけて確認する",
   "captcha.info.requiredReputation": "{{name}} レピュテーションに到達",
   "captcha.info.growerReputation": "栽培者",
-  "captcha.info.cropKeeperReputation": "クロップキーパー"
+  "captcha.info.cropKeeperReputation": "クロップキーパー",
+  "upgrade.success.description": "これで {{action}} {{resource}} ができるようになりました！"
 }
