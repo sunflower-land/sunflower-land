@@ -568,6 +568,7 @@
   "equip.missingShirt": "Shirt is required",
   "equip.missingPants": "Pants are required",
   "equip.missingBackground": "Background is required",
+  "equip.chooseDressOrShirt&Pants": "Choose Shirt & Pants or Dress:",
   "description.green.thumb": "Crops yield 5% more",
   "description.cultivator": "Crops grow 5% quicker",
   "description.master.farmer": "Crops yield 10% more",

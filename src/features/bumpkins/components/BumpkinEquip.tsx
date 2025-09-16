@@ -208,7 +208,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip }) => {
           </Button>
           {warn && <Label type="warning">{warning()}</Label>}
         </div>
-        <div className="w-full sm:w-1/3 flex flex-col gap-2 mt-1 pl-2 mb-2 sm:pr-2 sm:mb-0">
+        <div className="w-full sm:w-1/3 flex flex-col gap-2 mt-1 mb-2 sm:pr-2 sm:mb-0">
           <Label type="default">{t("required")}</Label>
           <BumpkinPartGroup
             bumpkinParts={REQUIRED}
@@ -216,7 +216,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip }) => {
             selected={selectedBumpkinPart}
             onSelect={(bumpkinPart) => setSelectedBumpkinPart(bumpkinPart)}
           />
-          <Label type="default">{`Choose one of the following categories:`}</Label>
+          <Label type="default">{t("equip.chooseDressOrShirt&Pants")}</Label>
           <div className="flex divide-x-2 divide-white mb-2 w-full">
             {REQUIRED_BUT_INCOMPATIBLE.map((parts, index) => (
               <div
