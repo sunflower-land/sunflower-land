@@ -6636,5 +6636,8 @@
   "captcha.info.requiredReputation": "{{name}} 평판 도달",
   "captcha.info.growerReputation": "재배자",
   "captcha.info.cropKeeperReputation": "크롭키퍼",
-  "upgrade.success.description": "이제 {{action}} {{resource}} 할 수 있습니다!"
+  "upgrade.success.description": "이제 {{action}} {{resource}} 할 수 있습니다!",
+  "bounties.animal.noAnimalToSell": "판매하려면 {{name}} 가 깨어 있고 레벨을 올려야 합니다.",
+  "sleepingAnimal.mutantClue1": "빛나는 {{type}}...",
+  "sleepingAnimal.mutantClue2": "특별한 무언가가 다가오고 있습니다!"
 }

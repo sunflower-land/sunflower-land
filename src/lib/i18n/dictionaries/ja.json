@@ -6636,5 +6636,8 @@
   "captcha.info.requiredReputation": "{{name}} レピュテーションに到達",
   "captcha.info.growerReputation": "栽培者",
   "captcha.info.cropKeeperReputation": "クロップキーパー",
-  "upgrade.success.description": "これで {{action}} {{resource}} ができるようになりました！"
+  "upgrade.success.description": "これで {{action}} {{resource}} ができるようになりました！",
+  "bounties.animal.noAnimalToSell": "売るには {{name}} が起動していてレベルアップしている必要があります。",
+  "sleepingAnimal.mutantClue1": "光っています {{type}}...",
+  "sleepingAnimal.mutantClue2": "何か特別なものがやってくる!"
 }

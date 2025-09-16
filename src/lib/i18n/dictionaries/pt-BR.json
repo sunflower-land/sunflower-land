@@ -6636,5 +6636,8 @@
   "captcha.info.requiredReputation": "Alcance a reputação de {{name}}",
   "captcha.info.growerReputation": "Produtor",
   "captcha.info.cropKeeperReputation": "Lavrador",
-  "upgrade.success.description": "Agora você pode {{action}} {{resource}}!"
+  "upgrade.success.description": "Agora você pode {{action}} {{resource}}!",
+  "bounties.animal.noAnimalToSell": "{{name}} deve estar ativo e nivelado para vender.",
+  "sleepingAnimal.mutantClue1": "Brilhando {{type}}...",
+  "sleepingAnimal.mutantClue2": "algo especial está chegando!"
 }

@@ -6636,5 +6636,8 @@
   "captcha.info.requiredReputation": "达到 {{name}} 声望",
   "captcha.info.growerReputation": "种植者",
   "captcha.info.cropKeeperReputation": "农场管理员",
-  "upgrade.success.description": "你现在可以 {{action}} {{resource}}！"
+  "upgrade.success.description": "你现在可以 {{action}} {{resource}}！",
+  "bounties.animal.noAnimalToSell": "{{name}} 必须处于清醒状态并等级才能卖出。",
+  "sleepingAnimal.mutantClue1": "发光 {{type}}...",
+  "sleepingAnimal.mutantClue2": "特别的东西来了！"
 }

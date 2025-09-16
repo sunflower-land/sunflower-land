@@ -6636,5 +6636,8 @@
   "captcha.info.requiredReputation": "Atteignez {{name}} de réputation",
   "captcha.info.growerReputation": "Producteur",
   "captcha.info.cropKeeperReputation": "Cultureur",
-  "upgrade.success.description": "Vous pouvez désormais {{action}} {{resource}} !"
+  "upgrade.success.description": "Vous pouvez désormais {{action}} {{resource}} !",
+  "bounties.animal.noAnimalToSell": "{{name}} doit être éveillé et nivelé pour vendre.",
+  "sleepingAnimal.mutantClue1": "Lumineux {{type}}...",
+  "sleepingAnimal.mutantClue2": "quelque chose de spécial arrive !"
 }

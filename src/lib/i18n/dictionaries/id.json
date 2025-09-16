@@ -6636,5 +6636,8 @@
   "captcha.info.requiredReputation": "Jangkau {{name}} Reputasi",
   "captcha.info.growerReputation": "Penanam",
   "captcha.info.cropKeeperReputation": "Penjaga tanaman",
-  "upgrade.success.description": "Anda sekarang dapat {{action}} {{resource}}!"
+  "upgrade.success.description": "Anda sekarang dapat {{action}} {{resource}}!",
+  "bounties.animal.noAnimalToSell": "{{name}} harus bangun & diratakan untuk menjual.",
+  "sleepingAnimal.mutantClue1": "Bersinar {{type}}...",
+  "sleepingAnimal.mutantClue2": "sesuatu yang istimewa akan datang!"
 }

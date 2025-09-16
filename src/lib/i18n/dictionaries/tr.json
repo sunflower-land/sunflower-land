@@ -6636,5 +6636,8 @@
   "captcha.info.requiredReputation": "{{name}} İtibarına Ulaşın",
   "captcha.info.growerReputation": "Yetiştirici",
   "captcha.info.cropKeeperReputation": "Mahsul Bakıcısı",
-  "upgrade.success.description": "Artık {{action}} {{resource}} yapabilirsiniz!"
+  "upgrade.success.description": "Artık {{action}} {{resource}} yapabilirsiniz!",
+  "bounties.animal.noAnimalToSell": "{{name}} satmak için uyanık ve seviyeli olmalıdır.",
+  "sleepingAnimal.mutantClue1": "Parlayan {{type}}...",
+  "sleepingAnimal.mutantClue2": "Özel bir şey geliyor!"
 }

@@ -6636,5 +6636,8 @@
   "captcha.info.requiredReputation": "Достигните репутации {{name}}",
   "captcha.info.growerReputation": "Садовод",
   "captcha.info.cropKeeperReputation": "Урожай",
-  "upgrade.success.description": "Теперь вы можете {{action}} {{resource}}!"
+  "upgrade.success.description": "Теперь вы можете {{action}} {{resource}}!",
+  "bounties.animal.noAnimalToSell": "{{name}} должен проснуться и выровняться, чтобы продавать.",
+  "sleepingAnimal.mutantClue1": "Светящиеся {{type}}...",
+  "sleepingAnimal.mutantClue2": "грядет что-то особенное!"
 }

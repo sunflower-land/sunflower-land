@@ -6636,5 +6636,8 @@
   "captcha.info.requiredReputation": "Erreiche einen Ruf von {{name}}",
   "captcha.info.growerReputation": "Züchter",
   "captcha.info.cropKeeperReputation": "Pflanzenpfleger",
-  "upgrade.success.description": "Du kannst jetzt {{action}} {{resource}}!"
+  "upgrade.success.description": "Du kannst jetzt {{action}} {{resource}}!",
+  "bounties.animal.noAnimalToSell": "{{name}} muss aktiviert und gelevelt sein, um verkaufen zu können.",
+  "sleepingAnimal.mutantClue1": "Leuchtend {{type}}...",
+  "sleepingAnimal.mutantClue2": "etwas besonderes kommt!"
 }
