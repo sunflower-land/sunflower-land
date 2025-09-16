@@ -8,10 +8,10 @@ import { saveTxHash } from "features/game/types/transactions";
 import { base, baseSepolia, polygon, polygonAmoy, saigon } from "viem/chains";
 
 const address = CONFIG.WITHDRAWAL_CONTRACT;
-const WITHDRAW_FLOWER_ADDRESS = {
+const WITHDRAW_FLOWER_ADDRESS: Record<number, `0x${string}`> = {
   [saigon.id]: "0x6E625972Ca5206Ae213650CDc10fba1878540352",
-  [base.id]: CONFIG.WITHDRAW_FLOWER_CONTRACT,
-  [baseSepolia.id]: CONFIG.WITHDRAW_FLOWER_CONTRACT,
+  [base.id]: CONFIG.WITHDRAW_FLOWER_CONTRACT as `0x${string}`,
+  [baseSepolia.id]: CONFIG.WITHDRAW_FLOWER_CONTRACT as `0x${string}`,
 };
 
 export type WithdrawItemsParams = {
@@ -175,7 +175,7 @@ export async function withdrawFlowerTransaction({
   deadline,
 }: WithdrawFlowerParams): Promise<string> {
   const hash = await writeContract(config, {
-    chainId: chainId,
+    chainId: chainId as any,
     abi: SunflowerLandWithdrawFlowerABI,
     address: WITHDRAW_FLOWER_ADDRESS[chainId],
     functionName: "withdrawFlower",
