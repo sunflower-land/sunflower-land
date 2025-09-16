@@ -133,7 +133,7 @@ export const Memory: React.FC<Props> = ({ onClose }) => {
           message: t("memory.portal.rewardMessage"),
           createdAt: Date.now(),
           factionPoints: 0,
-          id: "discord-bonus",
+          id: "memory-rewards",
           items: prize.items,
           wearables: prize.wearables,
           sfl: 0,
@@ -156,7 +156,9 @@ export const Memory: React.FC<Props> = ({ onClose }) => {
         <MinigamePrizeUI
           prize={prize}
           history={dailyAttempt}
-          mission={`Mission: Find ${prize?.score} matching pairs`}
+          mission={t("memory.portal.missionObjective", {
+            targetScore: prize?.score ?? 0,
+          })}
         />
       </div>
       <Button onClick={playNow}>{t("minigame.playNow")}</Button>
