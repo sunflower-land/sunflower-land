@@ -160,6 +160,7 @@ describe("placeLavaPit", () => {
       "123": {
         createdAt: expect.any(Number),
         startedAt: dateNow - 60000,
+        readyAt: dateNow - 60000 + 72 * 60 * 60 * 1000,
         x: 2,
         y: 2,
       },
