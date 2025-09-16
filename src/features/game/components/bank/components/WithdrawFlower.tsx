@@ -86,7 +86,7 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
         onBackdropClick={() => setShowConfirmation(false)}
       >
         <InnerPanel>
-          <div className="p-1">
+          <div className="p-1 mb-1">
             <div className="flex flex-col gap-1 mb-3">
               <Label type="default" icon={withdrawIcon}>
                 {t("withdraw.flower.confirm")}
