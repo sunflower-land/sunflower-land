@@ -20,9 +20,14 @@ import { RequiredReputation } from "features/island/hud/components/reputation/Re
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { hasFeatureAccess } from "lib/flags";
+import { useAccount } from "wagmi";
+import { ModalOverlay } from "components/ui/ModalOverlay";
+import { InnerPanel } from "components/ui/Panel";
+import { shortAddress } from "lib/utils/shortAddress";
+import withdrawIcon from "assets/icons/withdraw.png";
 
 interface Props {
-  onWithdraw: (sfl: string) => void;
+  onWithdraw: (sfl: string, chainId: number) => void;
 }
 
 const _state = (state: MachineState) => state.context.state;
@@ -33,9 +38,11 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const autosaving = useSelector(gameService, _autosaving);
+  const { chain } = useAccount();
 
   const [amount, setAmount] = useState<Decimal>(new Decimal(0));
   const [tax, setTax] = useState(0);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   const { balance } = state;
 
@@ -48,9 +55,9 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
     setTax(_tax);
   }, [amount]);
 
-  const withdraw = () => {
+  const withdraw = (chainId: number) => {
     if (amount > new Decimal(0)) {
-      onWithdraw(toWei(amount.toString()));
+      onWithdraw(toWei(amount.toString()), chainId);
     } else {
       setAmount(new Decimal(0));
     }
@@ -69,10 +76,58 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
     return <FaceRecognition />;
   }
 
-  const disableWithdraw = amount.greaterThan(balance) || amount.lessThan(0);
+  const disableWithdraw =
+    amount.greaterThan(balance) || amount.lessThanOrEqualTo(0);
 
   return (
     <>
+      <ModalOverlay
+        show={showConfirmation}
+        onBackdropClick={() => setShowConfirmation(false)}
+      >
+        <InnerPanel>
+          <div className="p-1 mb-1">
+            <div className="flex flex-col gap-1 mb-3">
+              <Label type="default" icon={withdrawIcon}>
+                {t("withdraw.flower.confirm")}
+              </Label>
+              <Label type="transparent">
+                {t("withdraw.flower.chain", {
+                  chain: chain?.name || "",
+                })}
+              </Label>
+              <Label type="transparent">
+                {t("withdraw.flower.amount", {
+                  amount: formatNumber(amount, { decimalPlaces: 4 }),
+                })}
+              </Label>
+              <Label type="transparent" className="text-nowrap">
+                {t("withdraw.flower.recipient", {
+                  address: shortAddress(wallet.getAccount() || "XXXX"),
+                })}
+              </Label>
+            </div>
+
+            <Label type="danger">{t("withdraw.flower.cannotCancel")}</Label>
+            <Label type="transparent">
+              <span className="text-xxs">
+                {t("withdraw.flower.transaction", {
+                  chain: chain?.name || "",
+                })}
+              </span>
+            </Label>
+          </div>
+
+          <div className="flex  gap-1">
+            <Button onClick={() => setShowConfirmation(false)}>
+              {t("back")}
+            </Button>
+            <Button onClick={() => chain && withdraw(chain.id)}>
+              {t("confirm")}
+            </Button>
+          </div>
+        </InnerPanel>
+      </ModalOverlay>
       <div className="p-2 mb-2">
         <div className="flex flex-col items-start gap-2">
           {hasFeatureAccess(state, "WITHDRAWAL_THRESHOLD") && (
@@ -153,7 +208,10 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
         </div>
       </div>
 
-      <Button onClick={withdraw} disabled={disableWithdraw || autosaving}>
+      <Button
+        onClick={() => setShowConfirmation(true)}
+        disabled={disableWithdraw || autosaving}
+      >
         {t("withdraw")}
       </Button>
     </>
