@@ -123,6 +123,12 @@ export const BarnInside: React.FC = () => {
   ]);
   const currentBiome = getCurrentBiome(island);
 
+  const validAnimalsCount = useMemo(() => {
+    if (!deal) return 0;
+    return organizedAnimals.filter((animal) => isValidDeal({ animal, deal }))
+      .length;
+  }, [organizedAnimals, deal]);
+
   return (
     <>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
@@ -282,6 +288,7 @@ export const BarnInside: React.FC = () => {
           onClose={() => {
             setDeal(undefined);
           }}
+          validAnimalsCount={validAnimalsCount}
         />
       )}
     </>
