@@ -92,7 +92,7 @@ export function removeBuilding({
       throw new Error(REMOVE_BUILDING_ERRORS.INVALID_BUILDING);
     }
 
-    if (buildingToRemove.readyAt > createdAt) {
+    if ((buildingToRemove.readyAt ?? 0) > createdAt) {
       throw new Error(REMOVE_BUILDING_ERRORS.BUILDING_UNDER_CONSTRUCTION);
     }
 

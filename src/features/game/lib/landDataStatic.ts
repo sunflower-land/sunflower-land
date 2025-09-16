@@ -1018,9 +1018,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
       vipDays: 1,
     },
   },
-  treasureIsland: {
-    holes: {},
-  },
   auctioneer: {},
   delivery: {
     fulfilledCount: 0,

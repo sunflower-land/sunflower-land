@@ -395,7 +395,6 @@ import {
   redeemTradeReward,
   RedeemTradeRewardsAction,
 } from "./landExpansion/redeemTradeReward";
-import { collectCandy, CollectCandyAction } from "./landExpansion/collectCandy";
 import { skillUse, SkillUseAction } from "./landExpansion/skillUsed";
 import { dailyReset, DailyResetAction } from "./landExpansion/dailyReset";
 import {
@@ -686,8 +685,6 @@ export type PlayingEvent =
   | AcknowledgeOnChainAirdropAction
   | CompleteSocialTaskAction
   | ExchangeFlowerAction
-  // To remove once December is finished
-  | CollectCandyAction
   | BuyFloatingShopItemAction
   | UpdateNetworkAction
   | BuyMinigameItemAction
@@ -924,7 +921,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "fishing.reelsBought": buyMoreReels,
   "purchase.claimed": claimPurchase,
   "reward.redeemed": redeemTradeReward,
-  "candy.collected": collectCandy,
   "daily.reset": dailyReset,
   "calendarEvent.acknowledged": acknowledgeCalendarEvent,
   "lavaPit.collected": collectLavaPit,

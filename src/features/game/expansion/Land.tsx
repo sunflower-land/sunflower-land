@@ -427,8 +427,8 @@ export const LandComponent: React.FC = () => {
                   location="farm"
                   name={name}
                   id={id}
-                  readyAt={readyAt}
-                  createdAt={createdAt}
+                  readyAt={readyAt ?? 0}
+                  createdAt={createdAt ?? 0}
                   x={coordinates!.x}
                   y={coordinates!.y}
                   grid={gameGrid}
@@ -472,8 +472,8 @@ export const LandComponent: React.FC = () => {
                   name={name}
                   id={building.id}
                   index={itemIndex}
-                  readyAt={building.readyAt}
-                  createdAt={building.createdAt}
+                  readyAt={building.readyAt ?? 0}
+                  createdAt={building.createdAt ?? 0}
                   x={x}
                   y={y}
                   island={island}
