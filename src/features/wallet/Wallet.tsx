@@ -61,6 +61,7 @@ interface Props {
   farmAddress?: string;
   wallet?: string;
   reputation?: Reputation;
+  enforceChainId?: number;
 }
 
 type WalletActionSettings = {
@@ -140,6 +141,7 @@ const WALLET_ACTIONS: Record<WalletAction, WalletActionSettings> = {
     requiresNFT: false,
     chains: {
       [CONFIG.NETWORK === "mainnet" ? base.id : baseSepolia.id]: true,
+      [CONFIG.NETWORK === "mainnet" ? ronin.id : saigon.id]: true,
     },
   },
   dequip: {
@@ -373,6 +375,7 @@ export const Wallet: React.FC<PropsWithChildren<Props>> = ({
   action,
   linkedAddress,
   farmAddress,
+  enforceChainId,
 }) => {
   const { address, isConnected, chainId } = useAccount();
 
@@ -391,9 +394,9 @@ export const Wallet: React.FC<PropsWithChildren<Props>> = ({
     !!linkedAddress &&
     isAddressEqual(address, linkedAddress as `0x${string}`);
 
-  const availableChains = Object.keys(WALLET_ACTIONS[action].chains).map(
-    Number,
-  );
+  const availableChains = enforceChainId
+    ? [enforceChainId]
+    : Object.keys(WALLET_ACTIONS[action].chains).map(Number);
 
   if (requiresConnection && !hasConnection) {
     return (
@@ -439,6 +442,7 @@ const _linkedWallet = (state: MachineState): string | undefined =>
 export const GameWallet: React.FC<PropsWithChildren<Props>> = ({
   children,
   action,
+  enforceChainId,
 }) => {
   const { gameService } = useContext(Context);
 
@@ -455,6 +459,7 @@ export const GameWallet: React.FC<PropsWithChildren<Props>> = ({
         linkedAddress={linkedWallet}
         wallet={wallet}
         farmAddress={farmAddress}
+        enforceChainId={enforceChainId}
       >
         {children}
       </Wallet>

@@ -153,10 +153,13 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
   const [page, setPage] = useState<Page>("main");
 
-  const onWithdrawTokens = async (sfl: string) => {
+  const onWithdrawTokens = async (sfl: string, chainId: number) => {
     gameService.send("TRANSACT", {
       transaction: "transaction.flowerWithdrawn",
-      request: { farmId, effect: { type: "withdraw.flower", amount: sfl } },
+      request: {
+        farmId,
+        effect: { type: "withdraw.flower", amount: sfl, chainId },
+      },
     });
     onClose();
   };

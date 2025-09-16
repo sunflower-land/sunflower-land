@@ -5,10 +5,14 @@ import { getNextSessionId, getSessionId } from "./Session";
 import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { saveTxHash } from "features/game/types/transactions";
-import { base, baseSepolia, polygon, polygonAmoy } from "viem/chains";
+import { base, baseSepolia, polygon, polygonAmoy, saigon } from "viem/chains";
 
 const address = CONFIG.WITHDRAWAL_CONTRACT;
-const withdrawFlowerAddress = CONFIG.WITHDRAW_FLOWER_CONTRACT;
+const WITHDRAW_FLOWER_ADDRESS = {
+  [saigon.id]: "0x6E625972Ca5206Ae213650CDc10fba1878540352",
+  [base.id]: CONFIG.WITHDRAW_FLOWER_CONTRACT,
+  [baseSepolia.id]: CONFIG.WITHDRAW_FLOWER_CONTRACT,
+};
 
 export type WithdrawItemsParams = {
   signature: string;
@@ -167,12 +171,13 @@ export async function withdrawFlowerTransaction({
   signature,
   withdrawId,
   amount,
+  chainId,
   deadline,
 }: WithdrawFlowerParams): Promise<string> {
   const hash = await writeContract(config, {
-    chainId: CONFIG.NETWORK === "mainnet" ? base.id : baseSepolia.id,
+    chainId: chainId,
     abi: SunflowerLandWithdrawFlowerABI,
-    address: withdrawFlowerAddress as `0x${string}`,
+    address: WITHDRAW_FLOWER_ADDRESS[chainId],
     functionName: "withdrawFlower",
     args: [
       signature as `0x${string}`,
