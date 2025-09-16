@@ -6640,5 +6640,11 @@
   "bounties.animal.noAnimalToSell": "판매하려면 {{name}} 가 깨어 있고 레벨을 올려야 합니다.",
   "sleepingAnimal.mutantClue1": "빛나는 {{type}}...",
   "sleepingAnimal.mutantClue2": "특별한 무언가가 다가오고 있습니다!",
-  "equip.chooseDressOrShirt&Pants": "셔츠와 바지 또는 드레스 선택:"
+  "equip.chooseDressOrShirt&Pants": "셔츠와 바지 또는 드레스 선택:",
+  "withdraw.flower.confirm": "출금 확인",
+  "withdraw.flower.chain": "체인: {{chain}}",
+  "withdraw.flower.amount": "금액: {{amount}} 플라워",
+  "withdraw.flower.recipient": "수신자 주소: {{address}}",
+  "withdraw.flower.cannotCancel": "이 출금은 취소할 수 없습니다.",
+  "withdraw.flower.transaction": "출금을 완료하려면 {{chain}} 에 거래를 완료해야 합니다."
 }

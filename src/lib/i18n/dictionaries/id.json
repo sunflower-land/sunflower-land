@@ -6640,5 +6640,11 @@
   "bounties.animal.noAnimalToSell": "{{name}} harus bangun & diratakan untuk menjual.",
   "sleepingAnimal.mutantClue1": "Bersinar {{type}}...",
   "sleepingAnimal.mutantClue2": "sesuatu yang istimewa akan datang!",
-  "equip.chooseDressOrShirt&Pants": "Pilih kemeja & celana atau gaun:"
+  "equip.chooseDressOrShirt&Pants": "Pilih kemeja & celana atau gaun:",
+  "withdraw.flower.confirm": "Konfirmasikan Penarikan",
+  "withdraw.flower.chain": "RanTAI: {{chain}}",
+  "withdraw.flower.amount": "Jumlah: {{amount}} BUNGA",
+  "withdraw.flower.recipient": "Alamat Penerima: {{address}}",
+  "withdraw.flower.cannotCancel": "Penarikan ini tidak dapat dibatalkan",
+  "withdraw.flower.transaction": "Transaksi harus diselesaikan pada {{chain}} untuk menyelesaikan penarikan."
 }

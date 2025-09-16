@@ -6640,5 +6640,11 @@
   "bounties.animal.noAnimalToSell": "{{name}} satmak için uyanık ve seviyeli olmalıdır.",
   "sleepingAnimal.mutantClue1": "Parlayan {{type}}...",
   "sleepingAnimal.mutantClue2": "Özel bir şey geliyor!",
-  "equip.chooseDressOrShirt&Pants": "Gömlek ve pantolon veya elbise seçin:"
+  "equip.chooseDressOrShirt&Pants": "Gömlek ve pantolon veya elbise seçin:",
+  "withdraw.flower.confirm": "Para Çekmeyi Onayla",
+  "withdraw.flower.chain": "Zincir: {{chain}}",
+  "withdraw.flower.amount": "Miktar: {{amount}} ÇIÇEK",
+  "withdraw.flower.recipient": "Alıcı Adresi: {{address}}",
+  "withdraw.flower.cannotCancel": "Bu para çekme işlemi iptal edilemez",
+  "withdraw.flower.transaction": "Para çekme işleminin tamamlanması için {{chain}} tarihinde bir işlem tamamlanmalıdır."
 }

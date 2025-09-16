@@ -6640,5 +6640,11 @@
   "bounties.animal.noAnimalToSell": "売るには {{name}} が起動していてレベルアップしている必要があります。",
   "sleepingAnimal.mutantClue1": "光っています {{type}}...",
   "sleepingAnimal.mutantClue2": "何か特別なものがやってくる!",
-  "equip.chooseDressOrShirt&Pants": "シャツとズボンまたはドレスを選択:"
+  "equip.chooseDressOrShirt&Pants": "シャツとズボンまたはドレスを選択:",
+  "withdraw.flower.confirm": "出金を確認",
+  "withdraw.flower.chain": "チェーン:{{chain}}",
+  "withdraw.flower.amount": "金額:{{amount}} フラワー",
+  "withdraw.flower.recipient": "受信者の住所:{{address}}",
+  "withdraw.flower.cannotCancel": "この出金はキャンセルできません",
+  "withdraw.flower.transaction": "出金を完了するには、{{chain}} に取引を完了する必要があります。"
 }

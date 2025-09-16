@@ -6640,5 +6640,11 @@
   "bounties.animal.noAnimalToSell": "{{name}} должен проснуться и выровняться, чтобы продавать.",
   "sleepingAnimal.mutantClue1": "Светящиеся {{type}}...",
   "sleepingAnimal.mutantClue2": "грядет что-то особенное!",
-  "equip.chooseDressOrShirt&Pants": "Выберите рубашку и брюки или платье:"
+  "equip.chooseDressOrShirt&Pants": "Выберите рубашку и брюки или платье:",
+  "withdraw.flower.confirm": "Подтвердите вывод средств",
+  "withdraw.flower.chain": "Цепочка: {{chain}}",
+  "withdraw.flower.amount": "Сумма: {{amount}} ЦВЕТОК",
+  "withdraw.flower.recipient": "Адрес получателя: {{address}}",
+  "withdraw.flower.cannotCancel": "Этот вывод средств не может быть отменен",
+  "withdraw.flower.transaction": "Для вывода средств необходимо выполнить транзакцию {{chain}}."
 }

@@ -6640,5 +6640,11 @@
   "bounties.animal.noAnimalToSell": "{{name}} deve essere attivo e livellato per poter essere venduto.",
   "sleepingAnimal.mutantClue1": "Incandescente {{type}}...",
   "sleepingAnimal.mutantClue2": "qualcosa di speciale sta arrivando!",
-  "equip.chooseDressOrShirt&Pants": "Scegli camicia e pantaloni o vestito:"
+  "equip.chooseDressOrShirt&Pants": "Scegli camicia e pantaloni o vestito:",
+  "withdraw.flower.confirm": "Conferma il ritiro",
+  "withdraw.flower.chain": "Catena: {{chain}}",
+  "withdraw.flower.amount": "Importo: {{amount}} FIORE",
+  "withdraw.flower.recipient": "Indirizzo destinatario: {{address}}",
+  "withdraw.flower.cannotCancel": "Questo prelievo non può essere annullato",
+  "withdraw.flower.transaction": "Una transazione deve essere completata il {{chain}} per completare il prelievo."
 }
