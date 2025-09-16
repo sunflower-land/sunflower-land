@@ -6071,6 +6071,7 @@
   "blessing.confirm": "Confirm",
   "blessing.offerTitle": "Offer a Tribute",
   "blessing.guardiansSeek": "Every day, the Guardians seek a tribute.",
+
   "blessing.chooseAmount": "Choose your {{name}} amount",
   "blessing.minimumRequired": "Minimum {{amount}} required",
   "blessings.results": "Blessing results",
