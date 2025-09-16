@@ -27,7 +27,7 @@ export const Winner: React.FC<Props> = ({ onMint, bid, farmId, results }) => {
     return (
       <GameWallet action="auction">
         <>
-          <div className="flex flex-col justify-center items-center pt-2">
+          <div className="flex flex-col justify-between items-center pt-2 h-full">
             <div className="my-2">
               <Label type="success">{t("congrats")}</Label>
             </div>

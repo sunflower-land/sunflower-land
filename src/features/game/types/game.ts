@@ -849,12 +849,22 @@ export type Bid = {
   auctionId: string;
   sfl: number;
   ingredients: Partial<Record<InventoryItemName, number>>;
-  collectible?: InventoryItemName;
-  wearable?: BumpkinItem;
-  type: "collectible" | "wearable";
   biddedAt: number;
   tickets: number;
-};
+} & (
+  | {
+      type: "collectible";
+      collectible: InventoryItemName;
+    }
+  | {
+      type: "wearable";
+      wearable: BumpkinItem;
+    }
+  | {
+      type: "nft";
+      nft: AuctionNFT;
+    }
+);
 export type Minted = Partial<
   Record<
     SeasonName,
