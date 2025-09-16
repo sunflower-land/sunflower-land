@@ -6283,6 +6283,8 @@
   "sleepingAnimal.favouriteFood": "Favourite food:",
   "sleepingAnimal.every": "Every",
   "sleepingAnimal.missing": "Missing",
+  "sleepingAnimal.mutantClue1": "Glowing {{type}}…",
+  "sleepingAnimal.mutantClue2": "something special is coming!",
   "description.bonusBracelet.boost": "+1 Bracelet",
   "description.architectRuler.boost": "-25% Crafting Box Time",
   "description.reelmastersChair.boost": "+5 daily fishing limit",
