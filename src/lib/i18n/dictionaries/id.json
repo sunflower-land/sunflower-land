@@ -6639,5 +6639,6 @@
   "upgrade.success.description": "Anda sekarang dapat {{action}} {{resource}}!",
   "bounties.animal.noAnimalToSell": "{{name}} harus bangun & diratakan untuk menjual.",
   "sleepingAnimal.mutantClue1": "Bersinar {{type}}...",
-  "sleepingAnimal.mutantClue2": "sesuatu yang istimewa akan datang!"
+  "sleepingAnimal.mutantClue2": "sesuatu yang istimewa akan datang!",
+  "equip.chooseDressOrShirt&Pants": "Pilih kemeja & celana atau gaun:"
 }

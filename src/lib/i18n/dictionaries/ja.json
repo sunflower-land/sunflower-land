@@ -6639,5 +6639,6 @@
   "upgrade.success.description": "これで {{action}} {{resource}} ができるようになりました！",
   "bounties.animal.noAnimalToSell": "売るには {{name}} が起動していてレベルアップしている必要があります。",
   "sleepingAnimal.mutantClue1": "光っています {{type}}...",
-  "sleepingAnimal.mutantClue2": "何か特別なものがやってくる!"
+  "sleepingAnimal.mutantClue2": "何か特別なものがやってくる!",
+  "equip.chooseDressOrShirt&Pants": "シャツとズボンまたはドレスを選択:"
 }

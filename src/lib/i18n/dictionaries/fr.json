@@ -6639,5 +6639,6 @@
   "upgrade.success.description": "Vous pouvez désormais {{action}} {{resource}} !",
   "bounties.animal.noAnimalToSell": "{{name}} doit être éveillé et nivelé pour vendre.",
   "sleepingAnimal.mutantClue1": "Lumineux {{type}}...",
-  "sleepingAnimal.mutantClue2": "quelque chose de spécial arrive !"
+  "sleepingAnimal.mutantClue2": "quelque chose de spécial arrive !",
+  "equip.chooseDressOrShirt&Pants": "Choisissez une chemise et un pantalon ou une robe :"
 }

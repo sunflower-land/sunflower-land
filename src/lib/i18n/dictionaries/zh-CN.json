@@ -6639,5 +6639,6 @@
   "upgrade.success.description": "你现在可以 {{action}} {{resource}}！",
   "bounties.animal.noAnimalToSell": "{{name}} 必须处于清醒状态并等级才能卖出。",
   "sleepingAnimal.mutantClue1": "发光 {{type}}...",
-  "sleepingAnimal.mutantClue2": "特别的东西来了！"
+  "sleepingAnimal.mutantClue2": "特别的东西来了！",
+  "equip.chooseDressOrShirt&Pants": "选择衬衫和裤子或连衣裙："
 }

@@ -6639,5 +6639,6 @@
   "upgrade.success.description": "Artık {{action}} {{resource}} yapabilirsiniz!",
   "bounties.animal.noAnimalToSell": "{{name}} satmak için uyanık ve seviyeli olmalıdır.",
   "sleepingAnimal.mutantClue1": "Parlayan {{type}}...",
-  "sleepingAnimal.mutantClue2": "Özel bir şey geliyor!"
+  "sleepingAnimal.mutantClue2": "Özel bir şey geliyor!",
+  "equip.chooseDressOrShirt&Pants": "Gömlek ve pantolon veya elbise seçin:"
 }
