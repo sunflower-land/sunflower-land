@@ -86,14 +86,34 @@ export function getAuctionItemDisplay({
   };
 }
 
-export function getAuctionItemImage(auction: Auction) {
-  if (auction.type === "collectible") {
-    return ITEM_DETAILS[auction.collectible].image;
+interface CollectibleAuctionItemImageParams {
+  type: "collectible";
+  collectible: InventoryItemName;
+}
+
+interface WearableAuctionItemImageParams {
+  type: "wearable";
+  wearable: BumpkinItem;
+}
+
+interface NftAuctionItemImageParams {
+  type: "nft";
+  nft: AuctionNFT;
+}
+
+export function getAuctionItemImage(
+  details:
+    | CollectibleAuctionItemImageParams
+    | WearableAuctionItemImageParams
+    | NftAuctionItemImageParams,
+) {
+  if (details.type === "collectible") {
+    return ITEM_DETAILS[details.collectible].image;
   }
 
-  if (auction.type === "wearable") {
-    return getImageUrl(ITEM_IDS[auction.wearable]);
+  if (details.type === "wearable") {
+    return getImageUrl(ITEM_IDS[details.wearable]);
   }
 
-  return NFT_IMAGE_DESCRIPTION_MAPPING[auction.nft].image;
+  return NFT_IMAGE_DESCRIPTION_MAPPING[details.nft].image;
 }

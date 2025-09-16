@@ -3,24 +3,17 @@ import React from "react";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "../CloseablePanel";
 import { Context as GameContext } from "features/game/GameProvider";
-import * as AuthProvider from "features/auth/lib/Provider";
 import { useContext } from "react";
 import { Loser } from "features/retreat/components/auctioneer/Loser";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { ITEM_IDS } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getImageUrl } from "lib/utils/getImageURLS";
+import { getAuctionItemImage } from "features/retreat/components/auctioneer/lib/getAuctionItemDisplay";
 
 export const RefundAuction: React.FC = () => {
-  const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(GameContext);
   const { t } = useAppTranslation();
 
   const bid = gameService.getSnapshot().context.state.auctioneer.bid!;
-  const image =
-    bid.type === "collectible"
-      ? ITEM_DETAILS[bid.collectible!].image
-      : getImageUrl(ITEM_IDS[bid.wearable!]);
+  const { image } = getAuctionItemImage(bid);
 
   const onClose = () => {
     gameService.send("CLOSE");
