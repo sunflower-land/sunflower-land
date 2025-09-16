@@ -20,12 +20,16 @@ import { PetFeed } from "./PetFeed";
 import { PetFetch } from "./PetFetch";
 import { PetInfo } from "./PetInfo";
 import { PET_STATE_IMAGES } from "./petShared";
+import { PetGuide } from "../../../../pets/petGuide/PetGuide";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   show: boolean;
   onClose: () => void;
   petName: PetName;
 }
+
+type PetTab = "Info" | "Feed" | "Fetch" | "Neglected" | "Guide";
 
 export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
   const { t } = useAppTranslation();
@@ -36,9 +40,7 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
   );
   const isNeglected = isPetNeglected(petData);
 
-  const [tab, setTab] = useState<"Info" | "Feed" | "Fetch" | "Neglected">(
-    isNeglected ? "Neglected" : "Info",
-  );
+  const [tab, setTab] = useState<PetTab>(isNeglected ? "Neglected" : "Info");
   const inventory = useSelector(
     gameService,
     (state) => state.context.state.inventory,
@@ -142,11 +144,18 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
                     icon: ITEM_DETAILS["Acorn"].image,
                     id: "Fetch",
                   },
+                  {
+                    name: t("guide"),
+                    icon: SUNNYSIDE.icons.expression_confused,
+                    id: "Guide",
+                  },
                 ]),
         ]}
         currentTab={tab}
         setCurrentTab={setTab}
-        container={["Feed", "Fetch"].includes(tab) ? OuterPanel : undefined}
+        container={
+          ["Feed", "Fetch", "Guide"].includes(tab) ? OuterPanel : undefined
+        }
       >
         {tab === "Info" && <PetInfo petName={petName} petData={petData} />}
         {tab === "Feed" && (
@@ -169,6 +178,7 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
             handlePetFetch={handlePetFetch}
           />
         )}
+        {tab === "Guide" && <PetGuide />}
         {tab === "Neglected" && (
           <NeglectPet handleNeglectPet={handleNeglectPet} petName={petName} />
         )}
