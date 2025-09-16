@@ -52,22 +52,6 @@ export function assertEquipment({
     throw new Error("Cannot equip pants while wearing dress");
   }
 
-  if (!equipment.body) {
-    throw new Error("Body is required");
-  }
-
-  if (!equipment.shoes) {
-    throw new Error("Shoes are required");
-  }
-
-  if (!equipment.hair) {
-    throw new Error("Hair is required");
-  }
-
-  if (!equipment.dress && !(equipment.shirt && equipment.pants)) {
-    throw new Error("Bumpkin is naked!");
-  }
-
   const available = availableWardrobe(game);
 
   Object.values(equipment).forEach((name) => {
