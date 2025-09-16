@@ -37,7 +37,7 @@ export const BumpkinPartGroup: React.FC<Props> = ({
   return (
     <div
       className={
-        gridStyling ?? "grid grid-cols-4 sm:grid-cols-3 md:grid-cols-4 gap-2"
+        gridStyling ?? "grid grid-cols-5 sm:grid-cols-3 md:grid-cols-4 gap-2"
       }
     >
       {bumpkinParts.map((name) => {

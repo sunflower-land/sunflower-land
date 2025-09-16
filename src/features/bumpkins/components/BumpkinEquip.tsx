@@ -217,15 +217,15 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip }) => {
             onSelect={(bumpkinPart) => setSelectedBumpkinPart(bumpkinPart)}
           />
           <Label type="default">{`Choose one of the following categories:`}</Label>
-          <div className="flex divide-x divide-white mb-2 w-full">
+          <div className="flex divide-x-2 divide-white mb-2 w-full">
             {REQUIRED_BUT_INCOMPATIBLE.map((parts, index) => (
               <div
                 key={parts.join(",")}
-                className={classNames("flex-1 sm:flex-none md:w-1/2", {
+                className={classNames("md:w-1/2", {
                   "pl-2": index > 0,
                   "pr-2": index === 0,
-                  "sm:w-2/3": index === 0,
-                  "sm:w-1/3": index === 1,
+                  "w-2/5 sm:w-2/3": index === 0,
+                  "w-3/5 sm:w-1/3": index === 1,
                 })}
               >
                 <BumpkinPartGroup
@@ -235,7 +235,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip }) => {
                   onSelect={(bumpkinPart) =>
                     setSelectedBumpkinPart(bumpkinPart)
                   }
-                  gridStyling={`grid grid-cols-2 ${index === 1 ? "sm:grid-cols-1 md:grid-cols-2" : ""} gap-2`}
+                  gridStyling={`grid ${index === 1 ? "grid-cols-3 sm:grid-cols-1 md:grid-cols-2" : "grid-cols-2"} gap-2`}
                 />
               </div>
             ))}
