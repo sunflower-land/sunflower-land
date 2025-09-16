@@ -191,7 +191,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip }) => {
 
   return (
     <div className="p-2">
-      <div className="flex flex-col sm:flex-row flex-wrap justify-center">
+      <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-2">
         <div className="w-full sm:w-1/3 flex flex-col justify-center">
           <div className="w-full relative rounded-xl overflow-hidden mr-2 mb-1">
             <DynamicNFT
@@ -208,7 +208,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip }) => {
           </Button>
           {warn && <Label type="warning">{warning()}</Label>}
         </div>
-        <div className="w-full sm:w-1/3 flex flex-col gap-2 mt-1 mb-2 sm:pr-2 sm:mb-0">
+        <div className="w-full sm:w-1/3 flex flex-col gap-2">
           <Label type="default">{t("required")}</Label>
           <BumpkinPartGroup
             bumpkinParts={REQUIRED}
