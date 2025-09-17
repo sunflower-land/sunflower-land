@@ -4565,10 +4565,8 @@
   "season.codex.mutants.five": "Kumpulkan bulu dari domba anda untuk menemui {{item}}.",
   "competition.ended.description.two": "Pemenang sedang dikira dan akan diumumkan pada 7 Februari!",
   "description.goldenSheep.boost": "Memberi makan Sheeps secara percuma!",
-  "description.blossomWard.boost": "+1 Hasil Tanaman Plot pada Musim Bunga",
   "description.solflareAegis.boost": "-50% Masa Tanaman Plot pada Musim Panas",
   "description.autumnsEmbrace.boost": "-50% Masa Tanaman Plot pada Musim Luruh",
-  "description.frozenHeart.boost": "+1 Hasil Tanaman Plot pada Musim Sejuk",
   "vip.benefit.windOfChange": "Rangsangan hasil VIP Winds of Change (+0.25 Tanaman Baru)",
   "temperateSeason.possibleEventsDescription": "Lawati kedai cuaca di plaza untuk melindungi ladang anda!",
   "beds": "Katil",
@@ -6648,5 +6646,7 @@
   "withdraw.flower.cannotCancel": "Pengeluaran ini tidak boleh dibatalkan",
   "withdraw.flower.transaction": "Transaksi mesti diselesaikan pada {{chain}} untuk menyelesaikan pengeluaran.",
   "description.unrevealedNFT.boost": "Tingkatkan tidak didedahkan!",
-  "description.unrevealedNFT.description": "Shhh... haiwan peliharaan yang unik mendengar di dalamnya!"
+  "description.unrevealedNFT.description": "Shhh... haiwan peliharaan yang unik mendengar di dalamnya!",
+  "description.blossomWard.boost": "+1 Hasil untuk Tanaman Plot Musim Bunga pada Musim Bunga",
+  "description.frozenHeart.boost": "+1 Hasil untuk Tanaman Plot Musim Sejuk pada Musim Sejuk"
 }

@@ -4565,10 +4565,8 @@
   "season.codex.mutants.five": "Récupérez la laine de vos moutons pour découvrir le {{item}}.",
   "competition.ended.description.two": "Les gagnants sont en cours de calcul et seront annoncés le 7 février !",
   "description.goldenSheep.boost": "Nourrissez les moutons gratuitement !",
-  "description.blossomWard.boost": "Rendement des cultures par parcelle de +1 au printemps",
   "description.solflareAegis.boost": "-50 % de la durée de récolte des parcelles en été",
   "description.autumnsEmbrace.boost": "-50 % de la durée de récolte des parcelles en automne",
-  "description.frozenHeart.boost": "Rendement des cultures par parcelle +1 en hiver",
   "vip.benefit.windOfChange": "Augmentation du rendement VIP de Winds of Change (+0,25 nouvelles récoltes)",
   "temperateSeason.possibleEventsDescription": "Visitez la boutique météo de la place pour protéger votre ferme !",
   "beds": "Lits",
@@ -6648,5 +6646,7 @@
   "withdraw.flower.cannotCancel": "Ce retrait ne peut pas être annulé",
   "withdraw.flower.transaction": "Une transaction doit être effectuée le {{chain}} pour terminer le retrait.",
   "description.unrevealedNFT.boost": "Boost non dévoilé !",
-  "description.unrevealedNFT.description": "Chut... un animal de compagnie unique qui fait la sieste à l'intérieur !"
+  "description.unrevealedNFT.description": "Chut... un animal de compagnie unique qui fait la sieste à l'intérieur !",
+  "description.blossomWard.boost": "+1 Rendement par rapport à la récolte parcellaire de printemps",
+  "description.frozenHeart.boost": "+1 Rendement par rapport à la récolte en parcelles d'hiver"
 }

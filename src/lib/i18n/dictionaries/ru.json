@@ -4565,10 +4565,8 @@
   "season.codex.mutants.five": "Собирайте шерсть у своих овец, чтобы найти {{item}}.",
   "competition.ended.description.two": "Победители подсчитываются и будут объявлены 7 февраля!",
   "description.goldenSheep.boost": "Кормите овец бесплатно!",
-  "description.blossomWard.boost": "+1 урожай на грядках весной",
   "description.solflareAegis.boost": "-50% времени роста урожая на грядках Летом",
   "description.autumnsEmbrace.boost": "-50% времени роста урожая на грядках Осенью",
-  "description.frozenHeart.boost": "+1 урожай на грядках зимой",
   "vip.benefit.windOfChange": "Рост урожайности VIP-персон в условиях ветров перемен (+0,25 новых культур)",
   "temperateSeason.possibleEventsDescription": "Посетите магазин погоды на площади, чтобы защитить свою ферму!",
   "beds": "Кровати",
@@ -6648,5 +6646,7 @@
   "withdraw.flower.cannotCancel": "Этот вывод средств не может быть отменен",
   "withdraw.flower.transaction": "Для вывода средств необходимо выполнить транзакцию {{chain}}.",
   "description.unrevealedNFT.boost": "Ускорение незамечено!",
-  "description.unrevealedNFT.description": "Тссс... уникальный питомец, дремлющий внутри!"
+  "description.unrevealedNFT.description": "Тссс... уникальный питомец, дремлющий внутри!",
+  "description.blossomWard.boost": "+1 Урожай к весеннему урожаю на участке весной",
+  "description.frozenHeart.boost": "+1 Урожай к зимнему урожаю на участке"
 }

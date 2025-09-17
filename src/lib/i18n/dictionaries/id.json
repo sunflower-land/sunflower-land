@@ -4565,10 +4565,8 @@
   "season.codex.mutants.five": "Kumpulkan wol dari domba Anda untuk menemukan {{item}}.",
   "competition.ended.description.two": "Pemenang sedang dihitung dan akan diumumkan pada 7 Februari!",
   "description.goldenSheep.boost": "Beri makan domba secara gratis!",
-  "description.blossomWard.boost": "+1 Hasil Tanaman Plot di Musim Semi",
   "description.solflareAegis.boost": "-50% Waktu Panen Plot di Musim Panas",
   "description.autumnsEmbrace.boost": "-50% Waktu Panen Plot di Musim Gugur",
-  "description.frozenHeart.boost": "+1 Hasil Tanaman Plot di Musim Dingin",
   "vip.benefit.windOfChange": "Peningkatan hasil VIP Winds of Change (+0,25 Tanaman Baru)",
   "temperateSeason.possibleEventsDescription": "Kunjungi toko cuaca di alun-alun untuk melindungi pertanian Anda!",
   "beds": "Tempat tidur",
@@ -6648,5 +6646,7 @@
   "withdraw.flower.cannotCancel": "Penarikan ini tidak dapat dibatalkan",
   "withdraw.flower.transaction": "Transaksi harus diselesaikan pada {{chain}} untuk menyelesaikan penarikan.",
   "description.unrevealedNFT.boost": "Tingkatkan belum terungkap!",
-  "description.unrevealedNFT.description": "Shhh... hewan peliharaan unik tertidur di dalam!"
+  "description.unrevealedNFT.description": "Shhh... hewan peliharaan unik tertidur di dalam!",
+  "description.blossomWard.boost": "+1 Hasil untuk Tanaman Plot Musim Semi di Musim Semi",
+  "description.frozenHeart.boost": "+1 Hasil untuk Tanaman Plot Musim Dingin di Musim Dingin"
 }

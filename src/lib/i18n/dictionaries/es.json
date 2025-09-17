@@ -4565,10 +4565,8 @@
   "season.codex.mutants.five": "Reúne lana de tus ovejas para descubrir el {{item}}.",
   "competition.ended.description.two": "¡Los ganadores se están calculando y se anunciarán el 7 de febrero!",
   "description.goldenSheep.boost": "¡Alimenta a tus ovejas gratis!",
-  "description.blossomWard.boost": "+1 Rendimiento de la cosecha en primavera",
   "description.solflareAegis.boost": "-50% del tiempo de cosecha en verano",
   "description.autumnsEmbrace.boost": "-50% del tiempo de cosecha en otoño",
-  "description.frozenHeart.boost": "Rendimiento de cosecha de +1 parcela en invierno",
   "vip.benefit.windOfChange": "Aumento de rendimiento VIP de Winds of Change (+0,25 cosechas nuevas)",
   "temperateSeason.possibleEventsDescription": "¡Visita la tienda del clima de la plaza para proteger tu granja!",
   "beds": "Camas",
@@ -6648,5 +6646,7 @@
   "withdraw.flower.cannotCancel": "Este retiro no se puede cancelar",
   "withdraw.flower.transaction": "La transacción debe completarse el {{chain}} para completar la retirada.",
   "description.unrevealedNFT.boost": "¡Impulso no revelado!",
-  "description.unrevealedNFT.description": "Shhh... ¡una mascota única durmiendo por dentro!"
+  "description.unrevealedNFT.description": "Shhh... ¡una mascota única durmiendo por dentro!",
+  "description.blossomWard.boost": "+1 de rendimiento respecto a la cosecha de parcelas de primavera en primavera",
+  "description.frozenHeart.boost": "+1 de rendimiento respecto a la cosecha de parcelas de invierno en invierno"
 }

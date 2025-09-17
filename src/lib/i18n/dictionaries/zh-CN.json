@@ -4565,10 +4565,8 @@
   "season.codex.mutants.five": "从绵羊身上收集羊毛来发现 {{item}}。",
   "competition.ended.description.two": "正在计算获胜者，并将于 2 月 7 日公布！",
   "description.goldenSheep.boost": "免费喂绵羊！",
-  "description.blossomWard.boost": "春季时田坑庄稼产量 +1",
   "description.solflareAegis.boost": "夏季时田坑庄稼生长时间 -50%",
   "description.autumnsEmbrace.boost": "秋季时田坑庄稼生长时间 -50%",
-  "description.frozenHeart.boost": "冬季时田坑庄稼产量 +1",
   "vip.benefit.windOfChange": "风云变幻 VIP 收益率提升（+0.25 新庄稼）",
   "temperateSeason.possibleEventsDescription": "参观广场上的气象商店以保护您的农场！",
   "beds": "床",
@@ -6648,5 +6646,7 @@
   "withdraw.flower.cannotCancel": "此提款无法取消",
   "withdraw.flower.transaction": "必须在 {{chain}} 完成交易才能完成提款。",
   "description.unrevealedNFT.boost": "提升未公开！",
-  "description.unrevealedNFT.description": "嘘... 里面有独一无二的宠物小睡！"
+  "description.unrevealedNFT.description": "嘘... 里面有独一无二的宠物小睡！",
+  "description.blossomWard.boost": "春季作物产量增加 +1",
+  "description.frozenHeart.boost": "冬季地块作物产量增加 +1"
 }

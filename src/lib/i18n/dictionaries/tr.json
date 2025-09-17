@@ -4565,10 +4565,8 @@
   "season.codex.mutants.five": "{{item}} 'yi keşfetmek için koyunlarınızdan yün toplayın.",
   "competition.ended.description.two": "Kazananlar hesaplanıyor ve 7 Şubat'ta açıklanacak!",
   "description.goldenSheep.boost": "Sheeps'i ücretsiz besleyin!",
-  "description.blossomWard.boost": "İlkbaharda +1 Arsa Mahsul Verimi",
   "description.solflareAegis.boost": "Yaz aylarında -50% Arsa Mahsul Zamanı",
   "description.autumnsEmbrace.boost": "Sonbaharda -50% Arsa Mahsul Zamanı",
-  "description.frozenHeart.boost": "Kışın +1 Arsa Mahsul Verimi",
   "vip.benefit.windOfChange": "Winds of Change VIP verim artışı (+0.25 Yeni Mahsul)",
   "temperateSeason.possibleEventsDescription": "Çiftliğinizi korumak için plazadaki hava durumu dükkanını ziyaret edin!",
   "beds": "Yataklar",
@@ -6648,5 +6646,7 @@
   "withdraw.flower.cannotCancel": "Bu para çekme işlemi iptal edilemez",
   "withdraw.flower.transaction": "Para çekme işleminin tamamlanması için {{chain}} tarihinde bir işlem tamamlanmalıdır.",
   "description.unrevealedNFT.boost": "Tanıtılmamış güçlendirme!",
-  "description.unrevealedNFT.description": "Şşşşt... içeride uyuyan benzersiz evcil hayvan!"
+  "description.unrevealedNFT.description": "Şşşşt... içeride uyuyan benzersiz evcil hayvan!",
+  "description.blossomWard.boost": "İlkbaharda Bahar Arsa Mahsulüne +1 Verim",
+  "description.frozenHeart.boost": "Kışın Kış Arsa Mahsulüne +1 Verim"
 }

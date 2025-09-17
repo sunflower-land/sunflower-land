@@ -4565,10 +4565,8 @@
   "season.codex.mutants.five": "양에게서 양털을 모아 {{item}} 를 찾아보세요.",
   "competition.ended.description.two": "당첨자는 현재 집계되고 있으며 2월 7일에 발표될 예정입니다!",
   "description.goldenSheep.boost": "양에게 무료로 먹이를 주세요!",
-  "description.blossomWard.boost": "봄철 작물 수확량 +1",
   "description.solflareAegis.boost": "여름철 플롯 크롭 타임 -50%",
   "description.autumnsEmbrace.boost": "가을철 수확량 -50%",
-  "description.frozenHeart.boost": "겨울철 작물 수확량 +1",
   "vip.benefit.windOfChange": "윈즈 오브 체인지 VIP 수확량 증가 (+0.25 신규 작물)",
   "temperateSeason.possibleEventsDescription": "광장에 있는 웨더 샵을 방문하여 농장을 보호하세요!",
   "beds": "침대",
@@ -6648,5 +6646,7 @@
   "withdraw.flower.cannotCancel": "이 출금은 취소할 수 없습니다.",
   "withdraw.flower.transaction": "출금을 완료하려면 {{chain}} 에 거래를 완료해야 합니다.",
   "description.unrevealedNFT.boost": "부스트 미공개!",
-  "description.unrevealedNFT.description": "쉿... 독특한 애완동물이 안에서 잠을 자고 있어요!"
+  "description.unrevealedNFT.description": "쉿... 독특한 애완동물이 안에서 잠을 자고 있어요!",
+  "description.blossomWard.boost": "봄철 대작물의 수확량 +1",
+  "description.frozenHeart.boost": "겨울철 작물의 수확량+1"
 }

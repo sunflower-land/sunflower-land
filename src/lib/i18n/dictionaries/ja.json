@@ -4565,10 +4565,8 @@
   "season.codex.mutants.five": "羊から羊毛を集めて {{item}} を見つけましょう。",
   "competition.ended.description.two": "受賞者は現在計算中で、2月7日に発表されます！",
   "description.goldenSheep.boost": "羊に無料で餌をやろう！",
-  "description.blossomWard.boost": "+1プロットの春の収穫量",
   "description.solflareAegis.boost": "夏季の作付期間が 50% 減少",
   "description.autumnsEmbrace.boost": "秋の作付時期 -50%",
-  "description.frozenHeart.boost": "+1プロットの冬の収穫量",
   "vip.benefit.windOfChange": "ウィンズ・オブ・チェンジ VIP 生産量増加 (+0.25 新規作物)",
   "temperateSeason.possibleEventsDescription": "広場のウェザーショップに行って農場を守ろう！",
   "beds": "ベッド",
@@ -6648,5 +6646,7 @@
   "withdraw.flower.cannotCancel": "この出金はキャンセルできません",
   "withdraw.flower.transaction": "出金を完了するには、{{chain}} に取引を完了する必要があります。",
   "description.unrevealedNFT.boost": "ブースト未公開！",
-  "description.unrevealedNFT.description": "シーッ... 中で居眠りするユニークなペット！"
+  "description.unrevealedNFT.description": "シーッ... 中で居眠りするユニークなペット！",
+  "description.blossomWard.boost": "春のスプリングプロット収穫量+1",
+  "description.frozenHeart.boost": "冬季の作物の収穫量+1"
 }

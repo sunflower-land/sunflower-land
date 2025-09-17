@@ -4565,10 +4565,8 @@
   "season.codex.mutants.five": "Raccogli la lana dalle tue pecore per scoprire il {{item}}.",
   "competition.ended.description.two": "I vincitori sono in fase di calcolo e saranno annunciati il 7 febbraio!",
   "description.goldenSheep.boost": "Dai da mangiare alle pecore gratis!",
-  "description.blossomWard.boost": "+1 Rendimento del raccolto per parcella in primavera",
   "description.solflareAegis.boost": "-50% del tempo di raccolta del terreno in estate",
   "description.autumnsEmbrace.boost": "-50% del tempo di raccolta del terreno in autunno",
-  "description.frozenHeart.boost": "+1 Rendimento del raccolto per parcella in inverno",
   "vip.benefit.windOfChange": "Aumento della resa VIP di Winds of Change (+0,25 nuove colture)",
   "temperateSeason.possibleEventsDescription": "Visita il negozio meteorologico in piazza per proteggere la tua fattoria!",
   "beds": "Letti",
@@ -6648,5 +6646,7 @@
   "withdraw.flower.cannotCancel": "Questo prelievo non può essere annullato",
   "withdraw.flower.transaction": "Una transazione deve essere completata il {{chain}} per completare il prelievo.",
   "description.unrevealedNFT.boost": "Boost non rivelato!",
-  "description.unrevealedNFT.description": "Shhh... animale domestico unico che sonnecchia dentro!"
+  "description.unrevealedNFT.description": "Shhh... animale domestico unico che sonnecchia dentro!",
+  "description.blossomWard.boost": "+1 Rendimento al raccolto primaverile del terreno in primavera",
+  "description.frozenHeart.boost": "+1 Rendimento al raccolto invernale del terreno in inverno"
 }

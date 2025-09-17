@@ -4565,10 +4565,8 @@
   "season.codex.mutants.five": "Sammle Wolle von deinen Schafen, um die {{item}} zu entdecken.",
   "competition.ended.description.two": "Die Gewinner werden berechnet und am 7. Februar bekannt gegeben!",
   "description.goldenSheep.boost": "Füttere Schafe kostenlos!",
-  "description.blossomWard.boost": "+1 Ernteertrag auf der Parzelle im Frühjahr",
   "description.solflareAegis.boost": "-50% Erntezeit auf der Parzelle im Sommer",
   "description.autumnsEmbrace.boost": "-50% Erntezeit auf der Parzelle im Herbst",
-  "description.frozenHeart.boost": "+1 Ernteertrag der Parzelle im Winter",
   "vip.benefit.windOfChange": "Winds of Change VIP-Ertragssteigerung (+0,25 neue Pflanzen)",
   "temperateSeason.possibleEventsDescription": "Besuche den Wettershop auf dem Platz, um deine Farm zu schützen!",
   "beds": "Betten",
@@ -6648,5 +6646,7 @@
   "withdraw.flower.cannotCancel": "Diese Auszahlung kann nicht storniert werden",
   "withdraw.flower.transaction": "Eine Transaktion muss am {{chain}} abgeschlossen sein, um die Auszahlung abzuschließen.",
   "description.unrevealedNFT.boost": "Boost nicht aufgedeckt!",
-  "description.unrevealedNFT.description": "Psst... einzigartiges Haustier, das drinnen döst!"
+  "description.unrevealedNFT.description": "Psst... einzigartiges Haustier, das drinnen döst!",
+  "description.blossomWard.boost": "+1 Ertrag gegenüber der Frühjahrsernte im Frühjahr",
+  "description.frozenHeart.boost": "+1 Ertrag für die Winterernte im Winter"
 }
