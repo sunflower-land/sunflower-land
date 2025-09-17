@@ -150,7 +150,10 @@ export const WithdrawItems: React.FC<Props> = ({
       };
     } = {};
 
-    const buffLabels = COLLECTIBLE_BUFF_LABELS(state);
+    const buffLabels = COLLECTIBLE_BUFF_LABELS({
+      skills: state.bumpkin.skills,
+      collectibles: state.collectibles,
+    });
 
     getKeys(inventory).forEach((itemName) => {
       const { cooldownTimeLeft } = getRestrictionStatus(itemName);

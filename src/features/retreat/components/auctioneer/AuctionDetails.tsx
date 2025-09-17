@@ -10,17 +10,15 @@ import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Auction } from "features/game/lib/auctionMachine";
-import { ITEM_IDS } from "features/game/types/bumpkin";
-import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
-import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GameState } from "features/game/types/game";
-import { getImageUrl } from "lib/utils/getImageURLS";
 import classNames from "classnames";
-import { getCurrentSeason } from "features/game/types/seasons";
+import { getMintedChapterLimit } from "./lib/getMintedChapterLimit";
+import { getAuctionItemType } from "./lib/getAuctionItemType";
+import { getAuctionItemDisplay } from "./lib/getAuctionItemDisplay";
 
 type Props = {
-  item: Auction;
+  auction: Auction;
   game: GameState;
   isUpcomingItem?: boolean;
   onDraftBid: () => void;
@@ -67,12 +65,12 @@ export const TimerDisplay = ({ time, fontSize, color }: TimeObject) => {
 export const AuctionDetails: React.FC<Props> = ({
   game,
   isUpcomingItem,
-  item,
+  auction,
   onDraftBid,
   onBack,
 }) => {
-  const releaseDate = item?.startAt as number;
-  const releaseEndDate = item?.endAt as number;
+  const releaseDate = auction?.startAt as number;
+  const releaseEndDate = auction?.endAt as number;
   const start = useCountdown(releaseDate);
   const end = useCountdown(releaseEndDate);
 
@@ -83,34 +81,24 @@ export const AuctionDetails: React.FC<Props> = ({
   const { t } = useAppTranslation();
 
   const hasIngredients =
-    getKeys(item.ingredients).every((name) =>
-      (game.inventory[name] ?? new Decimal(0)).gte(item.ingredients[name] ?? 0),
+    getKeys(auction.ingredients).every((name) =>
+      (game.inventory[name] ?? new Decimal(0)).gte(
+        auction.ingredients[name] ?? 0,
+      ),
     ) ?? false;
 
   const getMintButton = () => {
-    const currentChapter = getCurrentSeason();
-    const isNotGreatBloom = currentChapter !== "Great Bloom";
-    const isGoldenSheep = isCollectible && item.collectible === "Golden Sheep";
+    const chapterLimitReached = getMintedChapterLimit(
+      game.auctioneer,
+      auction,
+      getAuctionItemType(auction),
+    );
 
-    if (isNotGreatBloom || isGoldenSheep) {
-      const hasMintedThisChapter = isCollectible
-        ? !!game.auctioneer.minted?.[currentChapter]?.[item.collectible]
-        : !!game.auctioneer.minted?.[currentChapter]?.[item.wearable];
-
-      if (hasMintedThisChapter) {
-        return <Label type="info">{t("alr.minted")}</Label>;
-      }
-    } else if (
-      isCollectible
-        ? !!game.inventory[item.collectible]
-        : !!game.wardrobe[item.wearable]
-    ) {
+    if (chapterLimitReached) {
       return <Label type="info">{t("alr.minted")}</Label>;
     }
 
-    if (isUpcomingItem) {
-      return null;
-    }
+    if (isUpcomingItem) return null;
 
     return (
       <Button
@@ -122,15 +110,16 @@ export const AuctionDetails: React.FC<Props> = ({
     );
   };
 
-  const isCollectible = item.type === "collectible";
+  const { image, buffLabels, item, typeLabel, description } =
+    getAuctionItemDisplay({
+      auction,
+      skills: game.bumpkin.skills,
+      collectibles: game.collectibles,
+    });
 
-  const image = isCollectible
-    ? ITEM_DETAILS[item.collectible].image
-    : getImageUrl(ITEM_IDS[item.wearable]);
+  const isCollectible =
+    auction.type === "collectible" || auction.type === "nft";
 
-  const buffLabel = isCollectible
-    ? COLLECTIBLE_BUFF_LABELS(game)[item.collectible]
-    : BUMPKIN_ITEM_BUFF_LABELS[item.wearable];
   return (
     <div className="w-full flex flex-col items-center">
       <div className="w-full flex flex-col items-center mx-auto relative">
@@ -141,16 +130,14 @@ export const AuctionDetails: React.FC<Props> = ({
             className="h-8 cursor-pointer"
           />
           <p className="absolute left-1/2 transform -translate-x-1/2 text-center max-w-[80%] sm:max-w-none">
-            {isCollectible ? item.collectible : item.wearable}
+            {item}
           </p>
-          <Label type="default">
-            {isCollectible ? t("collectible") : t("wearable")}
-          </Label>
+          <Label type="default">{typeLabel}</Label>
         </div>
 
-        {buffLabel && (
-          <div className="flex flex-col gap-1">
-            {buffLabel.map(
+        {buffLabels && (
+          <div className="flex flex-col gap-1 mb-1">
+            {buffLabels.map(
               (
                 { labelType, boostTypeIcon, boostedItemIcon, shortDescription },
                 index,
@@ -168,9 +155,7 @@ export const AuctionDetails: React.FC<Props> = ({
           </div>
         )}
 
-        <p className="text-center text-xs mb-3">
-          {isCollectible ? ITEM_DETAILS[item.collectible].description : ""}
-        </p>
+        <p className="text-center text-xs mb-3">{description}</p>
 
         <div className="relative mb-2">
           {isCollectible && (
@@ -189,7 +174,7 @@ export const AuctionDetails: React.FC<Props> = ({
               })}
             />
             <Label type="default" className="mb-2 absolute top-2 right-2">
-              {`${item.supply} available`}
+              {`${auction.supply} available`}
             </Label>
           </div>
         </div>
@@ -198,12 +183,12 @@ export const AuctionDetails: React.FC<Props> = ({
       <div className="mb-2 flex flex-col items-center">
         <span className="text-xs mb-1">{t("auction.requirement")}</span>
         <div className="flex items-center justify-center">
-          {item.sfl > 0 && (
+          {auction.sfl > 0 && (
             <div className="flex items-center">
               <img src={token} className="h-6" />
             </div>
           )}
-          {getKeys(item.ingredients).map((name) => (
+          {getKeys(auction.ingredients).map((name) => (
             <div className="flex items-center ml-1" key={name}>
               <img src={ITEM_DETAILS[name].image} className="h-6" />
             </div>

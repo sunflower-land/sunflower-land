@@ -14,6 +14,7 @@ import classNames from "classnames";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "./AuctionDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { getAuctionItemType } from "./lib/getAuctionItemType";
 
 const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
 const INPUT_MAX_CHAR = 10;
@@ -155,6 +156,8 @@ export const DraftBid: React.FC<Props> = ({
       </div>
     );
   }
+
+  const item = getAuctionItemType(auction);
 
   return (
     <>
@@ -311,11 +314,7 @@ export const DraftBid: React.FC<Props> = ({
           <p className="text-sm mb-2">
             {`At the end of the auction, the top ${
               auction.supply
-            } bids will mint the ${
-              auction.type === "collectible"
-                ? auction.collectible
-                : auction.wearable
-            }.`}
+            } bids will mint the ${item}.`}
           </p>
         </div>
 

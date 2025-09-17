@@ -14,6 +14,7 @@ import {
   acknowledgeAuctionCountdown,
   getAuctionCountdownLastRead,
 } from "./auctionCountdownStorage";
+import { getAuctionItemType } from "./lib/getAuctionItemType";
 
 const Countdown: React.FC<{ auction: Auction; onComplete: () => void }> = ({
   auction,
@@ -22,6 +23,8 @@ const Countdown: React.FC<{ auction: Auction; onComplete: () => void }> = ({
   const start = useCountdown(auction?.startAt);
   const end = useCountdown(auction?.endAt);
   const { t } = useAppTranslation();
+
+  const item = getAuctionItemType(auction);
 
   useEffect(() => {
     if (auction.endAt < Date.now()) {
@@ -65,10 +68,7 @@ const Countdown: React.FC<{ auction: Auction; onComplete: () => void }> = ({
             }}
           >
             {t("auction")}
-            {":"}{" "}
-            {auction.type === "collectible"
-              ? auction.collectible
-              : auction.wearable}
+            {":"} {item}
           </div>
         </Label>
         <img

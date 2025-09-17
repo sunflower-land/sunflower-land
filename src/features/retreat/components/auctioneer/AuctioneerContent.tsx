@@ -174,7 +174,7 @@ export const AuctioneerContent: React.FC<Props> = ({
 
     return (
       <AuctionDetails
-        item={auction}
+        auction={auction}
         game={gameState}
         onDraftBid={() => {
           auctionService.send("DRAFT_BID");

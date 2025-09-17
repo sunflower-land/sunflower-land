@@ -843,18 +843,33 @@ export type TreasureHole = {
   discovered: InventoryItemName | null;
 };
 
+export type AuctionNFT = "Pet";
+
 export type Bid = {
   auctionId: string;
   sfl: number;
   ingredients: Partial<Record<InventoryItemName, number>>;
-  collectible?: InventoryItemName;
-  wearable?: BumpkinItem;
-  type: "collectible" | "wearable";
   biddedAt: number;
   tickets: number;
-};
+} & (
+  | {
+      type: "collectible";
+      collectible: InventoryItemName;
+    }
+  | {
+      type: "wearable";
+      wearable: BumpkinItem;
+    }
+  | {
+      type: "nft";
+      nft: AuctionNFT;
+    }
+);
 export type Minted = Partial<
-  Record<SeasonName, Record<InventoryItemName | BumpkinItem, number>>
+  Record<
+    SeasonName,
+    Record<InventoryItemName | BumpkinItem | AuctionNFT, number>
+  >
 >;
 
 export type MazeAttempts = Partial<Record<SeasonWeek, MazeMetadata>>;
@@ -1546,6 +1561,11 @@ export type SocialFarming = {
   };
 };
 
+export type Auctioneer = {
+  bid?: Bid;
+  minted?: Minted;
+};
+
 export interface GameState {
   home: Home;
   bank: Bank;
@@ -1692,10 +1712,7 @@ export interface GameState {
     }[];
   };
   dailyRewards?: DailyRewards;
-  auctioneer: {
-    bid?: Bid;
-    minted?: Minted;
-  };
+  auctioneer: Auctioneer;
   chores?: ChoresV2;
   kingdomChores: KingdomChores;
   mushrooms: Mushrooms;
