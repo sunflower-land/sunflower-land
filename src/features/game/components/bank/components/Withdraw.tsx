@@ -19,7 +19,8 @@ import { Transaction } from "features/island/hud/Transaction";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { GameWallet } from "features/wallet/Wallet";
 import { hasFeatureAccess } from "lib/flags";
-import { base } from "viem/chains";
+import { base, baseSepolia } from "viem/chains";
+import { CONFIG } from "lib/config";
 
 const getPageIcon = (page: Page) => {
   switch (page) {
@@ -208,6 +209,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     gameService.getSnapshot().context.state,
     "RONIN_FLOWER",
   );
+  const baseChain = CONFIG.NETWORK === "mainnet" ? base.id : baseSepolia.id;
 
   return (
     <>
@@ -216,7 +218,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
       {page === "tokens" && (
         <GameWallet
           action="withdrawFlower"
-          enforceChainId={enforceBaseWithdrawal ? base.id : undefined}
+          enforceChainId={enforceBaseWithdrawal ? baseChain : undefined}
         >
           <WithdrawFlower onWithdraw={onWithdrawTokens} />
         </GameWallet>

@@ -27,6 +27,8 @@ import {
   getDepositPreference,
   setDepositPreference,
 } from "./lib/depositPreference";
+import { hasFeatureAccess } from "lib/flags";
+import { base, baseSepolia } from "viem/chains";
 
 const MAINNET_NETWORKS: NetworkOption[] = [
   BASE_MAINNET_NETWORK,
@@ -47,11 +49,17 @@ export type NetworkOption = {
   chainId: number;
 };
 
-const getManualDepositNetwork = () => {
+const getManualDepositNetwork = (enforceBaseDeposit: boolean) => {
   const depositPreference = getDepositPreference();
-  const preferredNetwork = networkOptions.find(
-    (network) => network.chainId === depositPreference,
-  );
+
+  // This is used only for the feature flag
+  const baseChain = CONFIG.NETWORK === "mainnet" ? base.id : baseSepolia.id;
+
+  const preferredNetwork = networkOptions
+    .filter((network) =>
+      enforceBaseDeposit ? network.chainId === baseChain : true,
+    )
+    .find((network) => network.chainId === depositPreference);
 
   if (preferredNetwork) {
     return preferredNetwork;
@@ -81,12 +89,20 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
   const [balanceState, setBalanceState] = useState<
     "loading" | "loaded" | "error"
   >("loading");
+
+  // Used for feature flag only
+  const enforceBaseDeposit = !hasFeatureAccess(
+    gameService.getSnapshot().context.state,
+    "RONIN_FLOWER",
+  );
+  const baseChain = CONFIG.NETWORK === "mainnet" ? base.id : baseSepolia.id;
+
   const [balance, setBalance] = useState<bigint>(0n);
   const [acknowledged, setAcknowledged] = useState(false);
   const [depositType, setDepositType] = useState<"manual" | "linked">();
   const [firstLoadComplete, setFirstLoadComplete] = useState(false);
   const [manualDepositNetwork, setManualDepositNetwork] =
-    useState<NetworkOption>(getManualDepositNetwork());
+    useState<NetworkOption>(getManualDepositNetwork(enforceBaseDeposit));
 
   const depositAddress = useSelector(gameService, _depositAddress);
   const success = useSelector(gameService, _success);
@@ -95,17 +111,21 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
   const authToken = useSelector(authService, _authToken);
 
   const { chainId } = useAccount();
-  const { switchChain } = useSwitchChain();
+  const { switchChain, isPending } = useSwitchChain();
+
+  const flaggedNetworkOptions = networkOptions.filter((network) =>
+    enforceBaseDeposit ? network.chainId === baseChain : true,
+  );
 
   const selectedNetwork =
-    networkOptions.find((network) => network.chainId === chainId) ??
+    flaggedNetworkOptions.find((network) => network.chainId === chainId) ??
     manualDepositNetwork;
 
   const onSwitchManualDepositChain = ({ chainId }: { chainId: number }) => {
     switchChain({ chainId });
     setDepositPreference(chainId);
 
-    const preferredNetwork = networkOptions.find(
+    const preferredNetwork = flaggedNetworkOptions.find(
       (network) => network.chainId === chainId,
     );
 
@@ -227,8 +247,9 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
           selectedNetwork={selectedNetwork}
           refreshDeposits={refreshDeposits}
           firstLoadComplete={firstLoadComplete}
-          networkOptions={networkOptions}
+          networkOptions={flaggedNetworkOptions}
           switchChain={onSwitchManualDepositChain}
+          isPending={isPending}
         />
       )}
     </>

@@ -13,6 +13,7 @@ export const DepositAddress: React.FC<{
   firstLoadComplete: boolean;
   networkOptions: NetworkOption[];
   switchChain: ({ chainId }: { chainId: number }) => void;
+  isPending: boolean;
 }> = ({
   depositAddress,
   selectedNetwork,
@@ -20,6 +21,7 @@ export const DepositAddress: React.FC<{
   firstLoadComplete,
   networkOptions,
   switchChain,
+  isPending,
 }) => {
   const { t } = useTranslation();
   const [showLabel, setShowLabel] = useState(false);
@@ -47,7 +49,7 @@ export const DepositAddress: React.FC<{
         <SelectChainDropdown
           availableChains={networkOptions.map((network) => network.chainId)}
           switchChain={switchChain}
-          isPending={false}
+          isPending={isPending}
           chainIcon={selectedNetwork.icon}
           chainName={selectedNetwork.value}
         />
