@@ -11,7 +11,7 @@ import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { getStreaks } from "features/world/ui/beach/Digby";
-import { GameState } from "features/game/types/game";
+import { GameState, TemperateSeasonName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { isMinigameComplete } from "features/game/events/minigames/claimMinigamePrize";
@@ -41,6 +41,8 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { useNavigate } from "react-router";
 import { ChestRewardsList } from "./ChestRewardsList";
 import { translate } from "lib/i18n/translate";
+import { SEASON_GUARDIANS } from "features/loveIsland/blessings/Blessings";
+import { GUARDIAN_PENDING_MS } from "features/game/lib/blessings";
 
 const loveIslandBoxStatus = (state: GameState) => {
   const schedule = state.floatingIsland.schedule;
@@ -166,6 +168,28 @@ const minigamesStatus = (state: GameState) => {
   };
 };
 
+const tributeStatus = (state: GameState) => {
+  const season = state.season.season;
+  const { offered, offering } = state.blessing;
+
+  const guardian = SEASON_GUARDIANS[season as TemperateSeasonName];
+
+  const offeredDate = new Date(offered?.offeredAt ?? 0)
+    .toISOString()
+    .slice(0, 10);
+
+  const guardianReadyTimestamp =
+    new Date(offeredDate).getTime() + GUARDIAN_PENDING_MS;
+
+  const readyIn = guardianReadyTimestamp - Date.now();
+
+  const isReady = Date.now() > guardianReadyTimestamp;
+
+  const isCompleted = !!offered && !isReady;
+
+  return { offered, offering, guardian, readyIn, isCompleted };
+};
+
 export const checklistCount = (state: GameState, bumpkinLevel: number) => {
   // Plaza Tasks
   const hasNotClaimedLoveBox = !loveIslandBoxStatus(state).hasClaimed;
@@ -196,11 +220,17 @@ export const checklistCount = (state: GameState, bumpkinLevel: number) => {
 
   // Kingdom Tasks
   const { completedMinigames, allMinigamesCount } = minigamesStatus(state);
+  const hasNotCompletedAllMinigames = completedMinigames !== allMinigamesCount;
+  const minigamesLeft = allMinigamesCount - completedMinigames;
+
+  const hasNotOfferedTribute = !tributeStatus(state).isCompleted;
+
   const completedKingdomTasksCount = () => {
     if (bumpkinLevel >= 7) {
-      return completedMinigames !== allMinigamesCount
-        ? allMinigamesCount - completedMinigames
-        : 0;
+      return (
+        (hasNotCompletedAllMinigames ? minigamesLeft : 0) +
+        (hasNotOfferedTribute ? 1 : 0)
+      );
     }
     return 0;
   };
@@ -258,7 +288,7 @@ export const Checklist: React.FC = () => {
               locationPath="/world/plaza"
             />
             {/* Love Island Box */}
-            <LoveIslandBox bumpkinLevel={bumpkinLevel} />
+            <LoveIslandBoxContent bumpkinLevel={bumpkinLevel} />
             {/* Bud Box */}
             <BudBoxContent bumpkinLevel={bumpkinLevel} />
           </div>
@@ -291,6 +321,8 @@ export const Checklist: React.FC = () => {
             />
             {/* Mini Games */}
             <MiniGamesContent bumpkinLevel={bumpkinLevel} />
+            {/* Tribute */}
+            <TributeContent bumpkinLevel={bumpkinLevel} />
           </div>
         </InnerPanel>
       </div>
@@ -298,7 +330,7 @@ export const Checklist: React.FC = () => {
   );
 };
 
-const LoveIslandBox: React.FC<{ bumpkinLevel: number }> = ({
+const LoveIslandBoxContent: React.FC<{ bumpkinLevel: number }> = ({
   bumpkinLevel,
 }) => {
   const { t } = useAppTranslation();
@@ -529,7 +561,7 @@ const DiggingStreakContent: React.FC<{ bumpkinLevel: number }> = ({
         hasClaimedDigbyReward ? t("completed") : `0/1 ${t("completed")}`
       }
       overlayContent={
-        <div className="overflow-y-auto max-h-[300px] scrollable p-2 space-y-1 -ml-1">
+        <div className="overflow-y-auto max-h-[300px] scrollable px-1 py-2 space-y-1">
           <p className="text-xs p-1 pb-2">
             {t("checkList.diggingStreak.description")}
           </p>
@@ -587,49 +619,47 @@ const PirateChestContent: React.FC<{ bumpkinLevel: number }> = ({
 
   const { hasPiratePotion, hasOpenedPirateChest } = piratePotionStatus(state);
   return (
-    <div className="mt-1">
-      <RowContent
-        isLocked={bumpkinLevel < 4 || !hasPiratePotion}
-        title={t("checkList.pirateChest.title")}
-        titleIcon={pirate_chest}
-        labelType={hasOpenedPirateChest ? "success" : "warning"}
-        requiredItemMessage={
-          !hasPiratePotion
-            ? t("checkList.pirateChest.missingPotionMessage")
-            : undefined
-        }
-        showConfirmIcon={hasOpenedPirateChest}
-        labelText={
-          !hasPiratePotion
-            ? t("checkList.pirateChest.missingPotionLabel")
-            : hasOpenedPirateChest
-              ? t("completed")
-              : `0/1 ${t("completed")}`
-        }
-        overlayContent={
-          <div className="max-h-[300px] overflow-y-auto scrollable">
-            <div className="p-1">
-              {hasOpenedPirateChest && (
-                <Label
-                  type="success"
-                  icon={SUNNYSIDE.icons.confirm}
-                  className="ml-1"
-                >
-                  {t("checkList.openedToday")}
-                </Label>
-              )}
-              <p className="text-xs mt-1 mx-1">
-                {t("checkList.pirateChest.description")}
-              </p>
-            </div>
-            <ChestRewardsList
-              type="Pirate Chest"
-              isSubsequentInMultiList={true}
-            />
+    <RowContent
+      isLocked={bumpkinLevel < 4 || !hasPiratePotion}
+      title={t("checkList.pirateChest.title")}
+      titleIcon={pirate_chest}
+      labelType={hasOpenedPirateChest ? "success" : "warning"}
+      requiredItemMessage={
+        !hasPiratePotion
+          ? t("checkList.pirateChest.missingPotionMessage")
+          : undefined
+      }
+      showConfirmIcon={hasOpenedPirateChest}
+      labelText={
+        !hasPiratePotion
+          ? t("checkList.pirateChest.missingPotionLabel")
+          : hasOpenedPirateChest
+            ? t("completed")
+            : `0/1 ${t("completed")}`
+      }
+      overlayContent={
+        <div className="max-h-[300px] overflow-y-auto scrollable">
+          <div className="p-1">
+            {hasOpenedPirateChest && (
+              <Label
+                type="success"
+                icon={SUNNYSIDE.icons.confirm}
+                className="ml-1"
+              >
+                {t("checkList.openedToday")}
+              </Label>
+            )}
+            <p className="text-xs mt-1 mx-1">
+              {t("checkList.pirateChest.description")}
+            </p>
           </div>
-        }
-      />
-    </div>
+          <ChestRewardsList
+            type="Pirate Chest"
+            isSubsequentInMultiList={true}
+          />
+        </div>
+      }
+    />
   );
 };
 
@@ -714,6 +744,105 @@ const MiniGamesContent: React.FC<{ bumpkinLevel: number }> = ({
               </OuterPanel>
             );
           })}
+        </div>
+      }
+    />
+  );
+};
+
+const TributeContent: React.FC<{ bumpkinLevel: number }> = ({
+  bumpkinLevel,
+}) => {
+  const { t } = useAppTranslation();
+  const { gameService } = useContext(Context);
+  const state = useSelector(gameService, (state) => state.context.state);
+
+  const { offered, offering, guardian, readyIn, isCompleted } =
+    tributeStatus(state);
+
+  const [timeLeft, setTimeLeft] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeft(readyIn / 1000);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [readyIn]);
+
+  return (
+    <RowContent
+      isLocked={bumpkinLevel < 7}
+      title={t("checkList.tribute.title")}
+      titleIcon={guardian}
+      labelType={isCompleted ? "success" : "warning"}
+      showConfirmIcon={isCompleted}
+      labelText={isCompleted ? t("completed") : `0/1 ${t("completed")}`}
+      overlayContent={
+        <div className="overflow-y-auto max-h-[300px] scrollable px-1 py-2 space-y-1">
+          <div className={`flex ${isCompleted ? "ml-1" : ""}`}>
+            <Label
+              type={isCompleted ? "info" : "formula"}
+              icon={isCompleted ? SUNNYSIDE.icons.stopwatch : undefined}
+            >
+              <p className="text-xs">
+                {isCompleted
+                  ? `${secondsToString(timeLeft, { length: "medium" })} ${t("checkList.tribute.timeLeft")}`
+                  : `${new Date().toISOString().slice(0, 10)}`}
+              </p>
+            </Label>
+          </div>
+          <p className="text-xs p-1 pb-2">
+            {t("checkList.tribute.description")}
+          </p>
+
+          <OuterPanel className="flex justify-between items-center">
+            <div className="flex items-center">
+              <img width={PIXEL_SCALE * 13} src={guardian} />
+              <div className="flex flex-col items-start gap-y-1 ml-0.5">
+                <Label
+                  type={isCompleted ? "success" : "default"}
+                  icon={isCompleted ? SUNNYSIDE.icons.confirm : undefined}
+                  className={isCompleted ? "ml-1" : ""}
+                >
+                  <p className="text-xxs sm:text-xs">
+                    {t("checkList.tribute.title")}
+                  </p>
+                </Label>
+                <p className="text-xxs ml-1 w-24 sm:w-full">
+                  {t("checkList.tribute.requestedItem", {
+                    item: offering.item,
+                  })}
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col text-xxs items-end">
+              {isCompleted ? (
+                getEntries(offered?.items ?? {}).map(
+                  (item, index) =>
+                    item && (
+                      <Label
+                        type="default"
+                        secondaryIcon={ITEM_DETAILS[item[0]].image}
+                        className="mr-1"
+                        key={index}
+                      >
+                        <p className="text-xxs sm:text-xs">
+                          {t("checkList.tribute.offered", {
+                            amount: item[1] ?? 0,
+                          })}
+                        </p>
+                      </Label>
+                    ),
+                )
+              ) : (
+                <Label type="default">
+                  <p className="text-xxs sm:text-xs">
+                    {t("checkList.tribute.guardiansAwait")}
+                  </p>
+                </Label>
+              )}
+            </div>
+          </OuterPanel>
         </div>
       }
     />
