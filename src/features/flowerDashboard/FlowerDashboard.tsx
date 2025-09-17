@@ -12,6 +12,7 @@ import walletIcon from "assets/icons/wallet.png";
 import gift from "assets/icons/gift.png";
 import increaseArrow from "assets/icons/increase_arrow.png";
 import water from "assets/icons/water.png";
+
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { useLocation, useNavigate } from "react-router";
