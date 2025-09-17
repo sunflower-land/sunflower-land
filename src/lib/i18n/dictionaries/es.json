@@ -6648,5 +6648,11 @@
   "description.unrevealedNFT.boost": "¡Impulso no revelado!",
   "description.unrevealedNFT.description": "Shhh... ¡una mascota única durmiendo por dentro!",
   "description.blossomWard.boost": "+1 de rendimiento respecto a la cosecha de parcelas de primavera en primavera",
-  "description.frozenHeart.boost": "+1 de rendimiento respecto a la cosecha de parcelas de invierno en invierno"
+  "description.frozenHeart.boost": "+1 de rendimiento respecto a la cosecha de parcelas de invierno en invierno",
+  "memory.portal.title": "Minijuego - Memoria",
+  "memory.portal.description": "Da la vuelta a las cartas, busca fósforos y trata de mantenerte sano mientras pones a prueba tu memoria.",
+  "memory.portal.missionObjective": "Misión: Encuentra coincidencias de {{targetScore}}.",
+  "memory.portal.rewardMessage": "¡Enhorabuena, has completado la misión! Aquí tienes tu recompensa.",
+  "portal.memory.title": "Memoria",
+  "portal.memory.description": "¡Voltea cartas, encuentra coincidencias y trata de mantenerte sano en este desafío de memoria!"
 }

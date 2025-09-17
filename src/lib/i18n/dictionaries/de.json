@@ -6648,5 +6648,11 @@
   "description.unrevealedNFT.boost": "Boost nicht aufgedeckt!",
   "description.unrevealedNFT.description": "Psst... einzigartiges Haustier, das drinnen döst!",
   "description.blossomWard.boost": "+1 Ertrag gegenüber der Frühjahrsernte im Frühjahr",
-  "description.frozenHeart.boost": "+1 Ertrag für die Winterernte im Winter"
+  "description.frozenHeart.boost": "+1 Ertrag für die Winterernte im Winter",
+  "memory.portal.title": "Minispiel - Memory",
+  "memory.portal.description": "Drehe Karten um, finde Streichhölzer und versuche gesund zu bleiben, während du dein Gedächtnis testest.",
+  "memory.portal.missionObjective": "Auftrag: Finde {{targetScore}} -Übereinstimmungen.",
+  "memory.portal.rewardMessage": "Herzlichen Glückwunsch, du hast die Mission abgeschlossen! Hier ist deine Belohnung.",
+  "portal.memory.title": "Erinnerung",
+  "portal.memory.description": "Drehe Karten um, finde Streichhölzer und versuche, bei dieser Gedächtnisherausforderung gesund zu bleiben!"
 }

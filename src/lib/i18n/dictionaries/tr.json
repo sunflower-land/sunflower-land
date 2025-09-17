@@ -6648,5 +6648,11 @@
   "description.unrevealedNFT.boost": "Tanıtılmamış güçlendirme!",
   "description.unrevealedNFT.description": "Şşşşt... içeride uyuyan benzersiz evcil hayvan!",
   "description.blossomWard.boost": "İlkbaharda Bahar Arsa Mahsulüne +1 Verim",
-  "description.frozenHeart.boost": "Kışın Kış Arsa Mahsulüne +1 Verim"
+  "description.frozenHeart.boost": "Kışın Kış Arsa Mahsulüne +1 Verim",
+  "memory.portal.title": "Mini Oyun - Bellek",
+  "memory.portal.description": "Kartları çevirin, eşleşmeleri bulun ve hafızanızı test ederken sağlıklı kalmaya çalışın.",
+  "memory.portal.missionObjective": "Görev: {{targetScore}} eşleşmeleri bulun.",
+  "memory.portal.rewardMessage": "Tebrikler, görevi tamamladınız! İşte ödülünüz.",
+  "portal.memory.title": "Bellek",
+  "portal.memory.description": "Kartları çevir, eşleşmeleri bul ve bu hafıza mücadelesinde sağlıklı kalmaya çalış!"
 }

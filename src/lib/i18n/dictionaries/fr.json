@@ -6648,5 +6648,11 @@
   "description.unrevealedNFT.boost": "Boost non dévoilé !",
   "description.unrevealedNFT.description": "Chut... un animal de compagnie unique qui fait la sieste à l'intérieur !",
   "description.blossomWard.boost": "+1 Rendement par rapport à la récolte parcellaire de printemps",
-  "description.frozenHeart.boost": "+1 Rendement par rapport à la récolte en parcelles d'hiver"
+  "description.frozenHeart.boost": "+1 Rendement par rapport à la récolte en parcelles d'hiver",
+  "memory.portal.title": "Mini-jeu - Memory",
+  "memory.portal.description": "Retournez des cartes, trouvez des allumettes et essayez de rester en bonne santé tout en testant votre mémoire.",
+  "memory.portal.missionObjective": "Mission : trouver des allumettes {{targetScore}}.",
+  "memory.portal.rewardMessage": "Félicitations, vous avez terminé la mission ! Voici ta récompense.",
+  "portal.memory.title": "Mémoire",
+  "portal.memory.description": "Retournez des cartes, trouvez des allumettes et essayez de rester en bonne santé dans ce défi de mémoire !"
 }

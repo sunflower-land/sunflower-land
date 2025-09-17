@@ -6648,5 +6648,11 @@
   "description.unrevealedNFT.boost": "Tingkatkan tidak didedahkan!",
   "description.unrevealedNFT.description": "Shhh... haiwan peliharaan yang unik mendengar di dalamnya!",
   "description.blossomWard.boost": "+1 Hasil untuk Tanaman Plot Musim Bunga pada Musim Bunga",
-  "description.frozenHeart.boost": "+1 Hasil untuk Tanaman Plot Musim Sejuk pada Musim Sejuk"
+  "description.frozenHeart.boost": "+1 Hasil untuk Tanaman Plot Musim Sejuk pada Musim Sejuk",
+  "memory.portal.title": "Minigame - Memori",
+  "memory.portal.description": "Balikkan kad, cari padanan dan cuba kekal sihat sambil menguji ingatan anda.",
+  "memory.portal.missionObjective": "Misi: Cari padanan {{targetScore}}.",
+  "memory.portal.rewardMessage": "Tahniah, anda menyelesaikan misi! Inilah ganjaran anda.",
+  "portal.memory.title": "Ingatan",
+  "portal.memory.description": "Balikkan kad, cari padanan dan cuba kekal sihat dalam cabaran ingatan ini!"
 }

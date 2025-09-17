@@ -6648,5 +6648,11 @@
   "description.unrevealedNFT.boost": "Impulso não revelado!",
   "description.unrevealedNFT.description": "Shhh... animal de estimação único dormindo por dentro!",
   "description.blossomWard.boost": "+1 Rendimento da safra da parcela de primavera na primavera",
-  "description.frozenHeart.boost": "+1 Rendimento da safra de inverno no inverno"
+  "description.frozenHeart.boost": "+1 Rendimento da safra de inverno no inverno",
+  "memory.portal.title": "Minijogo - Memória",
+  "memory.portal.description": "Vire cartas, encontre fósforos e tente se manter saudável enquanto testa sua memória.",
+  "memory.portal.missionObjective": "Missão: Encontre combinações de {{targetScore}}.",
+  "memory.portal.rewardMessage": "Parabéns, você completou a missão! Aqui está sua recompensa.",
+  "portal.memory.title": "Memória",
+  "portal.memory.description": "Vire cartas, encontre fósforos e tente se manter saudável neste desafio de memória!"
 }

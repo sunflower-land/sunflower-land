@@ -6648,5 +6648,11 @@
   "description.unrevealedNFT.boost": "提升未公开！",
   "description.unrevealedNFT.description": "嘘... 里面有独一无二的宠物小睡！",
   "description.blossomWard.boost": "春季作物产量增加 +1",
-  "description.frozenHeart.boost": "冬季地块作物产量增加 +1"
+  "description.frozenHeart.boost": "冬季地块作物产量增加 +1",
+  "memory.portal.title": "小游戏-记忆",
+  "memory.portal.description": "翻转卡片，寻找匹配项，在测试记忆力的同时尽量保持健康。",
+  "memory.portal.missionObjective": "任务：查找 {{targetScore}} 个匹配项。",
+  "memory.portal.rewardMessage": "恭喜，你完成了任务！这是你的奖励。",
+  "portal.memory.title": "记忆",
+  "portal.memory.description": "在这场记忆挑战赛中，翻转卡片，寻找匹配项，努力保持健康！"
 }

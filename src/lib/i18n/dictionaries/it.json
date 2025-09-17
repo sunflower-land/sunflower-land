@@ -6648,5 +6648,11 @@
   "description.unrevealedNFT.boost": "Boost non rivelato!",
   "description.unrevealedNFT.description": "Shhh... animale domestico unico che sonnecchia dentro!",
   "description.blossomWard.boost": "+1 Rendimento al raccolto primaverile del terreno in primavera",
-  "description.frozenHeart.boost": "+1 Rendimento al raccolto invernale del terreno in inverno"
+  "description.frozenHeart.boost": "+1 Rendimento al raccolto invernale del terreno in inverno",
+  "memory.portal.title": "Minigioco - Memoria",
+  "memory.portal.description": "Gira le carte, trova i fiammiferi e cerca di rimanere in salute mentre metti alla prova la tua memoria.",
+  "memory.portal.missionObjective": "Missione: trova {{targetScore}} corrispondenze.",
+  "memory.portal.rewardMessage": "Congratulazioni, hai completato la missione! Ecco la tua ricompensa.",
+  "portal.memory.title": "Memoria",
+  "portal.memory.description": "Gira le carte, trova i fiammiferi e cerca di rimanere in salute in questa sfida della memoria!"
 }

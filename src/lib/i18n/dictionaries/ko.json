@@ -6648,5 +6648,11 @@
   "description.unrevealedNFT.boost": "부스트 미공개!",
   "description.unrevealedNFT.description": "쉿... 독특한 애완동물이 안에서 잠을 자고 있어요!",
   "description.blossomWard.boost": "봄철 대작물의 수확량 +1",
-  "description.frozenHeart.boost": "겨울철 작물의 수확량+1"
+  "description.frozenHeart.boost": "겨울철 작물의 수확량+1",
+  "memory.portal.title": "미니게임 - 메모리",
+  "memory.portal.description": "카드를 뒤집고, 짝을 찾고, 기억력을 테스트하면서 건강을 유지하세요.",
+  "memory.portal.missionObjective": "임무: {{targetScore}} 일치 항목을 찾으세요.",
+  "memory.portal.rewardMessage": "축하합니다. 임무를 완수했습니다!보상은 다음과 같습니다.",
+  "portal.memory.title": "메모리",
+  "portal.memory.description": "이 메모리 챌린지에서 카드를 뒤집고, 짝을 찾고, 건강을 유지하세요!"
 }

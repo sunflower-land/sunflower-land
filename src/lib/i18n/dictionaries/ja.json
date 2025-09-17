@@ -6648,5 +6648,11 @@
   "description.unrevealedNFT.boost": "ブースト未公開！",
   "description.unrevealedNFT.description": "シーッ... 中で居眠りするユニークなペット！",
   "description.blossomWard.boost": "春のスプリングプロット収穫量+1",
-  "description.frozenHeart.boost": "冬季の作物の収穫量+1"
+  "description.frozenHeart.boost": "冬季の作物の収穫量+1",
+  "memory.portal.title": "ミニゲーム-メモリ",
+  "memory.portal.description": "カードをめくったり、マッチするものを見つけたり、記憶力をテストしながら健康を維持しましょう。",
+  "memory.portal.missionObjective": "ミッション:{{targetScore}} 個のマッチを見つけましょう。",
+  "memory.portal.rewardMessage": "おめでとうございます。ミッションを完了しました！報酬はこちらです。",
+  "portal.memory.title": "メモリー",
+  "portal.memory.description": "このメモリーチャレンジでは、カードをめくって、マッチを見つけて、健康を維持しましょう！"
 }

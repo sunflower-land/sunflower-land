@@ -6648,5 +6648,11 @@
   "description.unrevealedNFT.boost": "Tingkatkan belum terungkap!",
   "description.unrevealedNFT.description": "Shhh... hewan peliharaan unik tertidur di dalam!",
   "description.blossomWard.boost": "+1 Hasil untuk Tanaman Plot Musim Semi di Musim Semi",
-  "description.frozenHeart.boost": "+1 Hasil untuk Tanaman Plot Musim Dingin di Musim Dingin"
+  "description.frozenHeart.boost": "+1 Hasil untuk Tanaman Plot Musim Dingin di Musim Dingin",
+  "memory.portal.title": "Minigame - Memori",
+  "memory.portal.description": "Balikkan kartu, temukan korek api, dan cobalah untuk tetap sehat sambil menguji ingatan Anda.",
+  "memory.portal.missionObjective": "Misi: Temukan kecocokan {{targetScore}}.",
+  "memory.portal.rewardMessage": "Selamat, Anda telah menyelesaikan misi! Inilah hadiahmu.",
+  "portal.memory.title": "Memori",
+  "portal.memory.description": "Balikkan kartu, temukan korek api, dan cobalah untuk tetap sehat dalam tantangan memori ini!"
 }

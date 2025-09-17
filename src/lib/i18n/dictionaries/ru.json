@@ -6648,5 +6648,11 @@
   "description.unrevealedNFT.boost": "Ускорение незамечено!",
   "description.unrevealedNFT.description": "Тссс... уникальный питомец, дремлющий внутри!",
   "description.blossomWard.boost": "+1 Урожай к весеннему урожаю на участке весной",
-  "description.frozenHeart.boost": "+1 Урожай к зимнему урожаю на участке"
+  "description.frozenHeart.boost": "+1 Урожай к зимнему урожаю на участке",
+  "memory.portal.title": "Мини-игра «Память»",
+  "memory.portal.description": "Перелистывайте карточки, находите совпадения и старайтесь оставаться здоровыми, проверяя память.",
+  "memory.portal.missionObjective": "Миссия: найти {{targetScore}} совпадения.",
+  "memory.portal.rewardMessage": "Поздравляем, вы выполнили задание! Вот ваша награда.",
+  "portal.memory.title": "Память",
+  "portal.memory.description": "Перелистывайте карточки, находите совпадения и постарайтесь сохранить здоровье в этом испытании на память!"
 }
