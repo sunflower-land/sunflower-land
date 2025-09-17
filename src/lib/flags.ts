@@ -121,6 +121,7 @@ const FEATURE_FLAGS = {
   NODE_FORGING: defaultFeatureFlag,
   DEPOSIT_SFL: adminTimeBasedFeatureFlag(new Date("2025-08-28T00:00:00.000Z")),
   RONIN_FLOWER: testnetFeatureFlag,
+  MEMORY_BETA: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
