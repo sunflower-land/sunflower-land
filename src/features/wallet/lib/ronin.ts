@@ -10,3 +10,10 @@ export function isRonin({ game }: { game: GameState }) {
 
   return false;
 }
+
+export type RoninV2PackName =
+  | "Platinum Pack"
+  | "Gold Pack"
+  | "Silver Pack"
+  | "Bronze Pack"
+  | "Free Pack";
