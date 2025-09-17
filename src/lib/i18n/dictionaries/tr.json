@@ -6646,5 +6646,7 @@
   "withdraw.flower.amount": "Miktar: {{amount}} ÇIÇEK",
   "withdraw.flower.recipient": "Alıcı Adresi: {{address}}",
   "withdraw.flower.cannotCancel": "Bu para çekme işlemi iptal edilemez",
-  "withdraw.flower.transaction": "Para çekme işleminin tamamlanması için {{chain}} tarihinde bir işlem tamamlanmalıdır."
+  "withdraw.flower.transaction": "Para çekme işleminin tamamlanması için {{chain}} tarihinde bir işlem tamamlanmalıdır.",
+  "description.unrevealedNFT.boost": "Tanıtılmamış güçlendirme!",
+  "description.unrevealedNFT.description": "Şşşşt... içeride uyuyan benzersiz evcil hayvan!"
 }

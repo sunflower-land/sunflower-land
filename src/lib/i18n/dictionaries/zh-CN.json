@@ -6646,5 +6646,7 @@
   "withdraw.flower.amount": "金额：{{amount}} FLOWER",
   "withdraw.flower.recipient": "收件人地址：{{address}}",
   "withdraw.flower.cannotCancel": "此提款无法取消",
-  "withdraw.flower.transaction": "必须在 {{chain}} 完成交易才能完成提款。"
+  "withdraw.flower.transaction": "必须在 {{chain}} 完成交易才能完成提款。",
+  "description.unrevealedNFT.boost": "提升未公开！",
+  "description.unrevealedNFT.description": "嘘... 里面有独一无二的宠物小睡！"
 }

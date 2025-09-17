@@ -6646,5 +6646,7 @@
   "withdraw.flower.amount": "Importo: {{amount}} FIORE",
   "withdraw.flower.recipient": "Indirizzo destinatario: {{address}}",
   "withdraw.flower.cannotCancel": "Questo prelievo non può essere annullato",
-  "withdraw.flower.transaction": "Una transazione deve essere completata il {{chain}} per completare il prelievo."
+  "withdraw.flower.transaction": "Una transazione deve essere completata il {{chain}} per completare il prelievo.",
+  "description.unrevealedNFT.boost": "Boost non rivelato!",
+  "description.unrevealedNFT.description": "Shhh... animale domestico unico che sonnecchia dentro!"
 }

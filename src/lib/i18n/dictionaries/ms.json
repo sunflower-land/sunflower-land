@@ -6646,5 +6646,7 @@
   "withdraw.flower.amount": "Jumlah: {{amount}} FLOWER",
   "withdraw.flower.recipient": "Alamat Penerima: {{address}}",
   "withdraw.flower.cannotCancel": "Pengeluaran ini tidak boleh dibatalkan",
-  "withdraw.flower.transaction": "Transaksi mesti diselesaikan pada {{chain}} untuk menyelesaikan pengeluaran."
+  "withdraw.flower.transaction": "Transaksi mesti diselesaikan pada {{chain}} untuk menyelesaikan pengeluaran.",
+  "description.unrevealedNFT.boost": "Tingkatkan tidak didedahkan!",
+  "description.unrevealedNFT.description": "Shhh... haiwan peliharaan yang unik mendengar di dalamnya!"
 }

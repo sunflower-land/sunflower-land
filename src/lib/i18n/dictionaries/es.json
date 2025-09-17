@@ -6646,5 +6646,7 @@
   "withdraw.flower.amount": "Cantidad: {{amount}} FLOWER",
   "withdraw.flower.recipient": "Dirección del destinatario: {{address}}",
   "withdraw.flower.cannotCancel": "Este retiro no se puede cancelar",
-  "withdraw.flower.transaction": "La transacción debe completarse el {{chain}} para completar la retirada."
+  "withdraw.flower.transaction": "La transacción debe completarse el {{chain}} para completar la retirada.",
+  "description.unrevealedNFT.boost": "¡Impulso no revelado!",
+  "description.unrevealedNFT.description": "Shhh... ¡una mascota única durmiendo por dentro!"
 }

@@ -6646,5 +6646,7 @@
   "withdraw.flower.amount": "金額:{{amount}} フラワー",
   "withdraw.flower.recipient": "受信者の住所:{{address}}",
   "withdraw.flower.cannotCancel": "この出金はキャンセルできません",
-  "withdraw.flower.transaction": "出金を完了するには、{{chain}} に取引を完了する必要があります。"
+  "withdraw.flower.transaction": "出金を完了するには、{{chain}} に取引を完了する必要があります。",
+  "description.unrevealedNFT.boost": "ブースト未公開！",
+  "description.unrevealedNFT.description": "シーッ... 中で居眠りするユニークなペット！"
 }

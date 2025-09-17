@@ -6646,5 +6646,7 @@
   "withdraw.flower.amount": "Betrag: {{amount}} FLOWER",
   "withdraw.flower.recipient": "Empfängeradresse: {{address}}",
   "withdraw.flower.cannotCancel": "Diese Auszahlung kann nicht storniert werden",
-  "withdraw.flower.transaction": "Eine Transaktion muss am {{chain}} abgeschlossen sein, um die Auszahlung abzuschließen."
+  "withdraw.flower.transaction": "Eine Transaktion muss am {{chain}} abgeschlossen sein, um die Auszahlung abzuschließen.",
+  "description.unrevealedNFT.boost": "Boost nicht aufgedeckt!",
+  "description.unrevealedNFT.description": "Psst... einzigartiges Haustier, das drinnen döst!"
 }
