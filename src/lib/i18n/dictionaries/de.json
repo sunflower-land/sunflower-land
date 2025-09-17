@@ -6639,5 +6639,12 @@
   "upgrade.success.description": "Du kannst jetzt {{action}} {{resource}}!",
   "bounties.animal.noAnimalToSell": "{{name}} muss aktiviert und gelevelt sein, um verkaufen zu können.",
   "sleepingAnimal.mutantClue1": "Leuchtend {{type}}...",
-  "sleepingAnimal.mutantClue2": "etwas besonderes kommt!"
+  "sleepingAnimal.mutantClue2": "etwas besonderes kommt!",
+  "equip.chooseDressOrShirt&Pants": "Wähle Hemd und Hose oder Kleid:",
+  "withdraw.flower.confirm": "Auszahlung bestätigen",
+  "withdraw.flower.chain": "Kette: {{chain}}",
+  "withdraw.flower.amount": "Betrag: {{amount}} FLOWER",
+  "withdraw.flower.recipient": "Empfängeradresse: {{address}}",
+  "withdraw.flower.cannotCancel": "Diese Auszahlung kann nicht storniert werden",
+  "withdraw.flower.transaction": "Eine Transaktion muss am {{chain}} abgeschlossen sein, um die Auszahlung abzuschließen."
 }

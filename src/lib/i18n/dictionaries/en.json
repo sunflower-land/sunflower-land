@@ -568,6 +568,7 @@
   "equip.missingShirt": "Shirt is required",
   "equip.missingPants": "Pants are required",
   "equip.missingBackground": "Background is required",
+  "equip.chooseDressOrShirt&Pants": "Choose shirt & pants or dress:",
   "description.green.thumb": "Crops yield 5% more",
   "description.cultivator": "Crops grow 5% quicker",
   "description.master.farmer": "Crops yield 10% more",
@@ -6639,5 +6640,11 @@
   "description.refinedIronRock.buff": "+0.5 Iron",
   "description.temperedIronRock.buff": "+2.5 Iron",
   "description.pureGoldRock.buff": "+0.5 Gold",
-  "description.primeGoldRock.buff": "+2.5 Gold"
+  "description.primeGoldRock.buff": "+2.5 Gold",
+  "withdraw.flower.confirm": "Confirm Withdrawal",
+  "withdraw.flower.chain": "Chain: {{chain}}",
+  "withdraw.flower.amount": "Amount: {{amount}} FLOWER",
+  "withdraw.flower.recipient": "Recipient Address: {{address}}",
+  "withdraw.flower.cannotCancel": "This withdrawal cannot be cancelled",
+  "withdraw.flower.transaction": "A transaction must be completed on {{chain}} to complete the withdrawal."
 }

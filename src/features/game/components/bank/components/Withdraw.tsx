@@ -18,6 +18,8 @@ import { translate } from "lib/i18n/translate";
 import { Transaction } from "features/island/hud/Transaction";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { GameWallet } from "features/wallet/Wallet";
+import { hasFeatureAccess } from "lib/flags";
+import { base } from "viem/chains";
 
 const getPageIcon = (page: Page) => {
   switch (page) {
@@ -153,10 +155,13 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
   const [page, setPage] = useState<Page>("main");
 
-  const onWithdrawTokens = async (sfl: string) => {
+  const onWithdrawTokens = async (sfl: string, chainId: number) => {
     gameService.send("TRANSACT", {
       transaction: "transaction.flowerWithdrawn",
-      request: { farmId, effect: { type: "withdraw.flower", amount: sfl } },
+      request: {
+        farmId,
+        effect: { type: "withdraw.flower", amount: sfl, chainId },
+      },
     });
     onClose();
   };
@@ -199,12 +204,20 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     return <Transaction isBlocked onClose={onClose} />;
   }
 
+  const enforceBaseWithdrawal = !hasFeatureAccess(
+    gameService.getSnapshot().context.state,
+    "RONIN_FLOWER",
+  );
+
   return (
     <>
       {page === "main" && <MainMenu setPage={setPage} />}
       {page !== "main" && <NavigationMenu page={page} setPage={setPage} />}
       {page === "tokens" && (
-        <GameWallet action="withdrawFlower">
+        <GameWallet
+          action="withdrawFlower"
+          enforceChainId={enforceBaseWithdrawal ? base.id : undefined}
+        >
           <WithdrawFlower onWithdraw={onWithdrawTokens} />
         </GameWallet>
       )}

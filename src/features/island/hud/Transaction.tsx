@@ -247,7 +247,14 @@ export const Transaction: React.FC<Props> = ({ onClose, isBlocked }) => {
 
   return (
     <>
-      <GameWallet action={walletAction}>
+      <GameWallet
+        action={walletAction}
+        enforceChainId={
+          "chainId" in transaction.data.params
+            ? transaction.data.params.chainId
+            : undefined
+        }
+      >
         <TransactionProgress isBlocked={isBlocked} onClose={onClose} />
       </GameWallet>
     </>
@@ -340,6 +347,7 @@ export const TransactionProgress: React.FC<Props> = ({
         effect: {
           type: "withdraw.flower",
           amount: flowerTransaction.data.amount,
+          chainId: flowerTransaction.data.params.chainId,
         },
       },
     });

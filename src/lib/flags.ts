@@ -120,6 +120,7 @@ const FEATURE_FLAGS = {
   GASLESS_AUCTIONS: () => true,
   NODE_FORGING: defaultFeatureFlag,
   DEPOSIT_SFL: adminTimeBasedFeatureFlag(new Date("2025-08-28T00:00:00.000Z")),
+  RONIN_FLOWER: testnetFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

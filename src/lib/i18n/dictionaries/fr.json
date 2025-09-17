@@ -6639,5 +6639,12 @@
   "upgrade.success.description": "Vous pouvez désormais {{action}} {{resource}} !",
   "bounties.animal.noAnimalToSell": "{{name}} doit être éveillé et nivelé pour vendre.",
   "sleepingAnimal.mutantClue1": "Lumineux {{type}}...",
-  "sleepingAnimal.mutantClue2": "quelque chose de spécial arrive !"
+  "sleepingAnimal.mutantClue2": "quelque chose de spécial arrive !",
+  "equip.chooseDressOrShirt&Pants": "Choisissez une chemise et un pantalon ou une robe :",
+  "withdraw.flower.confirm": "Confirmer le retrait",
+  "withdraw.flower.chain": "Chaîne : {{chain}}",
+  "withdraw.flower.amount": "Montant : {{amount}} FLEUR",
+  "withdraw.flower.recipient": "Adresse du destinataire : {{address}}",
+  "withdraw.flower.cannotCancel": "Ce retrait ne peut pas être annulé",
+  "withdraw.flower.transaction": "Une transaction doit être effectuée le {{chain}} pour terminer le retrait."
 }

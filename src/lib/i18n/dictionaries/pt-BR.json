@@ -6639,5 +6639,12 @@
   "upgrade.success.description": "Agora você pode {{action}} {{resource}}!",
   "bounties.animal.noAnimalToSell": "{{name}} deve estar ativo e nivelado para vender.",
   "sleepingAnimal.mutantClue1": "Brilhando {{type}}...",
-  "sleepingAnimal.mutantClue2": "algo especial está chegando!"
+  "sleepingAnimal.mutantClue2": "algo especial está chegando!",
+  "equip.chooseDressOrShirt&Pants": "Escolha camisa e calça ou vestido:",
+  "withdraw.flower.confirm": "Confirme a retirada",
+  "withdraw.flower.chain": "Corrente: {{chain}}",
+  "withdraw.flower.amount": "Quantidade: {{amount}} FLOR",
+  "withdraw.flower.recipient": "Endereço do destinatário: {{address}}",
+  "withdraw.flower.cannotCancel": "Esta retirada não pode ser cancelada",
+  "withdraw.flower.transaction": "Uma transação deve ser concluída em {{chain}} para concluir a retirada."
 }

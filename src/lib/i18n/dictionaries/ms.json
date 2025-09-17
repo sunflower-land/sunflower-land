@@ -6639,5 +6639,12 @@
   "upgrade.success.description": "Anda kini boleh {{action}} {{resource}}!",
   "bounties.animal.noAnimalToSell": "{{name}} mesti terjaga & diratakan untuk menjual.",
   "sleepingAnimal.mutantClue1": "Bercahaya {{type}}...",
-  "sleepingAnimal.mutantClue2": "sesuatu yang istimewa akan datang!"
+  "sleepingAnimal.mutantClue2": "sesuatu yang istimewa akan datang!",
+  "equip.chooseDressOrShirt&Pants": "Pilih baju & seluar atau pakaian:",
+  "withdraw.flower.confirm": "Sahkan Pengeluaran",
+  "withdraw.flower.chain": "Rantai: {{chain}}",
+  "withdraw.flower.amount": "Jumlah: {{amount}} FLOWER",
+  "withdraw.flower.recipient": "Alamat Penerima: {{address}}",
+  "withdraw.flower.cannotCancel": "Pengeluaran ini tidak boleh dibatalkan",
+  "withdraw.flower.transaction": "Transaksi mesti diselesaikan pada {{chain}} untuk menyelesaikan pengeluaran."
 }
