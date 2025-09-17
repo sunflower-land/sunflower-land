@@ -109,10 +109,17 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
     setShow(false);
   };
 
+  const handleShrineClick = () => {
+    if (hasReadyCrops || hasAvailablePlots) {
+      setShow(true);
+      setActiveTab(hasReadyCrops ? 0 : 1);
+    }
+  };
+
   return (
     <>
       <div
-        onClick={() => (hasReadyCrops || hasAvailablePlots) && setShow(true)}
+        onClick={handleShrineClick}
         className={classNames({
           "absolute cursor-pointer hover:img-highlight":
             hasReadyCrops || hasAvailablePlots,
