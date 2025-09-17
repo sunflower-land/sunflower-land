@@ -12,7 +12,6 @@ import { CONFIG } from "lib/config";
 import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { getFlowerBalance } from "lib/blockchain/DepositFlower";
-import { base, baseSepolia } from "viem/chains";
 import { DepositAddress } from "./DepositAddress";
 import { AcknowledgeConditions } from "./AcknowledgeConditions";
 import { DepositFromLinkedWallet } from "./DepositFromLinkedWallet";
@@ -20,15 +19,45 @@ import { Button } from "components/ui/Button";
 import {
   BASE_MAINNET_NETWORK,
   BASE_TESTNET_NETWORK,
+  RONIN_MAINNET_NETWORK,
+  RONIN_TESTNET_NETWORK,
 } from "features/game/expansion/components/dailyReward/DailyReward";
+import { useAccount, useSwitchChain } from "wagmi";
+import {
+  getDepositPreference,
+  setDepositPreference,
+} from "./lib/depositPreference";
 
-const BASE_NETWORK =
-  CONFIG.NETWORK === "mainnet" ? BASE_MAINNET_NETWORK : BASE_TESTNET_NETWORK;
+const MAINNET_NETWORKS: NetworkOption[] = [
+  BASE_MAINNET_NETWORK,
+  RONIN_MAINNET_NETWORK,
+];
+
+const TESTNET_NETWORKS: NetworkOption[] = [
+  BASE_TESTNET_NETWORK,
+  RONIN_TESTNET_NETWORK,
+];
+
+const networkOptions =
+  CONFIG.NETWORK === "mainnet" ? MAINNET_NETWORKS : TESTNET_NETWORKS;
 
 export type NetworkOption = {
   value: NetworkName;
   icon: string;
   chainId: number;
+};
+
+const getManualDepositNetwork = () => {
+  const depositPreference = getDepositPreference();
+  const preferredNetwork = networkOptions.find(
+    (network) => network.chainId === depositPreference,
+  );
+
+  if (preferredNetwork) {
+    return preferredNetwork;
+  }
+
+  return networkOptions[0];
 };
 
 const _depositAddress = (state: MachineState): string =>
@@ -56,6 +85,8 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
   const [acknowledged, setAcknowledged] = useState(false);
   const [depositType, setDepositType] = useState<"manual" | "linked">();
   const [firstLoadComplete, setFirstLoadComplete] = useState(false);
+  const [manualDepositNetwork, setManualDepositNetwork] =
+    useState<NetworkOption>(getManualDepositNetwork());
 
   const depositAddress = useSelector(gameService, _depositAddress);
   const success = useSelector(gameService, _success);
@@ -63,16 +94,43 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
   const linkedWallet = useSelector(gameService, _linkedWallet);
   const authToken = useSelector(authService, _authToken);
 
-  const selectedNetwork = BASE_NETWORK;
+  const { chainId } = useAccount();
+  const { switchChain } = useSwitchChain();
+
+  const selectedNetwork =
+    networkOptions.find((network) => network.chainId === chainId) ??
+    manualDepositNetwork;
+
+  const onSwitchManualDepositChain = ({ chainId }: { chainId: number }) => {
+    switchChain({ chainId });
+    setDepositPreference(chainId);
+
+    const preferredNetwork = networkOptions.find(
+      (network) => network.chainId === chainId,
+    );
+
+    if (preferredNetwork) {
+      setManualDepositNetwork(preferredNetwork);
+    }
+  };
 
   useEffect(() => {
     fetchBalance(selectedNetwork);
     refreshDeposits();
-  }, []);
+  }, [selectedNetwork]);
+
+  const checkDepositsStale = () => {
+    const depositsChainId =
+      gameService.state.context.data["depositingFlower"]?.chainId;
+
+    const depositsAreStale = depositsChainId !== selectedNetwork.chainId;
+    if (depositsAreStale) refreshDeposits();
+  };
 
   useEffect(() => {
     if (success || failed) {
       gameService.send("CONTINUE");
+      checkDepositsStale();
     }
   }, [success, failed]);
 
@@ -98,7 +156,7 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
     gameService.send("flower.depositStarted", {
       effect: {
         type: "flower.depositStarted",
-        chainId: CONFIG.NETWORK === "mainnet" ? base.id : baseSepolia.id,
+        chainId: selectedNetwork.chainId,
       },
       authToken,
     });
@@ -169,6 +227,8 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
           selectedNetwork={selectedNetwork}
           refreshDeposits={refreshDeposits}
           firstLoadComplete={firstLoadComplete}
+          networkOptions={networkOptions}
+          switchChain={onSwitchManualDepositChain}
         />
       )}
     </>

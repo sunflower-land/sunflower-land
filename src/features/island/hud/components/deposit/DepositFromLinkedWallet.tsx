@@ -33,7 +33,6 @@ export const DepositFromLinkedWallet: React.FC<{
   firstLoadComplete: boolean;
 }> = ({
   depositAddress,
-  linkedWallet,
   selectedNetwork,
   linkedWalletBalance,
   balanceState,
