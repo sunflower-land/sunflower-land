@@ -55,7 +55,7 @@ export const EXPIRY_COOLDOWNS: Record<TemporaryCollectibleName, number> = {
 
   // The following will replace the times set above for the following shrines
   "Legendary Shrine": 24 * 60 * 60 * 1000,
-  "Obsidian Shrine": 14 * 24 * 60 * 60 * 1000,
+  "Obsidian Shrine": 7 * 24 * 60 * 60 * 1000,
   "Trading Shrine": 30 * 24 * 60 * 60 * 1000,
 };
 
