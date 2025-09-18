@@ -792,7 +792,9 @@ const TributeContent: React.FC<{ bumpkinLevel: number }> = ({
             </Label>
           </div>
           <p className="text-xs p-1 pb-2">
-            {t("checkList.tribute.description")}
+            {isCompleted
+              ? t("checkList.tribute.description2")
+              : t("checkList.tribute.description1")}
           </p>
 
           <OuterPanel className="flex justify-between items-center">
