@@ -1384,7 +1384,6 @@
   "description.gold.pass": "（レガシー）所有者がレアなNFTの作成、取引、出金、ボーナスコンテンツへのアクセスを可能にする専用パス。",
   "description.rapid.growth": "（レガシー）作物に塗布すると、2倍の速さで成長します",
   "description.bud.ticket": "(レガシー) サンフラワーランドバッドのNFTドロップで必ずバッドを造れるスポットです。",
-  "description.potion.ticket": "ポーションハウスからの報酬。これを使ってガースからアイテムを購入しよう。",
   "description.trading.ticket": "(レガシー) フリートレード!ウーフー！",
   "description.block.buck": "ひまわりランドの貴重なトークン！",
   "description.beta.pass": "(限定) テスト用の機能に早期アクセスできます。",
@@ -6654,5 +6653,6 @@
   "memory.portal.missionObjective": "ミッション:{{targetScore}} 個のマッチを見つけましょう。",
   "memory.portal.rewardMessage": "おめでとうございます。ミッションを完了しました！報酬はこちらです。",
   "portal.memory.title": "メモリー",
-  "portal.memory.description": "このメモリーチャレンジでは、カードをめくって、マッチを見つけて、健康を維持しましょう！"
+  "portal.memory.description": "このメモリーチャレンジでは、カードをめくって、マッチを見つけて、健康を維持しましょう！",
+  "description.potion.ticket": "ポーションゲームからの報酬。これを使ってアインズからアイテムを購入しよう。"
 }

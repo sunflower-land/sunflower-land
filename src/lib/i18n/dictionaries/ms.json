@@ -1384,7 +1384,6 @@
   "description.gold.pass": "(LEGACY) Pas eksklusif yang membolehkan pemegang membuat NFT langka, berdagang, menarik balik dan mengakses kandungan bonus.",
   "description.rapid.growth": "(LEGASI) Sapukan pada tanaman untuk tumbuh dua kali lebih cepat",
   "description.bud.ticket": "(LEGACY) Tempat yang dijamin untuk memuaskan Bud pada penurunan Sunflower Land Buds NFT.",
-  "description.potion.ticket": "Ganjaran dari Rumah Ramuan. Gunakan ini untuk membeli barang dari Garth.",
   "description.trading.ticket": "(LEGACY) Perdagangan Percuma! Woohoo!",
   "description.block.buck": "Token berharga di Tanah Sunflower!",
   "description.beta.pass": "(EKSKLUSIF) Dapatkan akses awal kepada ciri untuk ujian.",
@@ -6654,5 +6653,6 @@
   "memory.portal.missionObjective": "Misi: Cari padanan {{targetScore}}.",
   "memory.portal.rewardMessage": "Tahniah, anda menyelesaikan misi! Inilah ganjaran anda.",
   "portal.memory.title": "Ingatan",
-  "portal.memory.description": "Balikkan kad, cari padanan dan cuba kekal sihat dalam cabaran ingatan ini!"
+  "portal.memory.description": "Balikkan kad, cari padanan dan cuba kekal sihat dalam cabaran ingatan ini!",
+  "description.potion.ticket": "Ganjaran dari Permainan Ramuan. Gunakan ini untuk membeli barangan dari Eins."
 }

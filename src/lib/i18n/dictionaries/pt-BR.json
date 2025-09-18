@@ -874,7 +874,6 @@
   "description.gold.pass": "(LEGACY) Um passe exclusivo que permite ao portador criar NFTs raros, negociar, sacar e acessar conteúdo bônus.",
   "description.rapid.growth": "(LEGACY) Aplique em uma cultura para crescer duas vezes mais rápido",
   "description.bud.ticket": "(LEGACY) Um lugar garantido para mintar um Bud no lançamento de NFTs do Sunflower Land Buds.",
-  "description.potion.ticket": "Uma recompensa da Casa das Poções. Use isso para comprar itens de Garth.",
   "description.trading.ticket": "(LEGACY) Negociações grátis! Uhu!",
   "description.block.buck": "Um token valioso em Sunflower Land!",
   "description.beta.pass": "(EXCLUSIVE) Acesso antecipado a recursos para teste.",
@@ -6654,5 +6653,6 @@
   "memory.portal.missionObjective": "Missão: Encontre combinações de {{targetScore}}.",
   "memory.portal.rewardMessage": "Parabéns, você completou a missão! Aqui está sua recompensa.",
   "portal.memory.title": "Memória",
-  "portal.memory.description": "Vire cartas, encontre fósforos e tente se manter saudável neste desafio de memória!"
+  "portal.memory.description": "Vire cartas, encontre fósforos e tente se manter saudável neste desafio de memória!",
+  "description.potion.ticket": "Uma recompensa do Jogo de Poções. Use isso para comprar itens da Eins."
 }

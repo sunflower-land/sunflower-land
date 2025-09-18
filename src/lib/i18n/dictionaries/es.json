@@ -1369,7 +1369,6 @@
   "description.gold.pass": "(LEGACY) Un pase exclusivo que permite al titular crear NFT poco comunes, comerciar, retirar y acceder a contenido adicional.",
   "description.rapid.growth": "(LEGACY) Aplícalo a un cultivo para que crezca el doble de rápido",
   "description.bud.ticket": "(LEGACY) Un lugar garantizado para acuñar un capullo en la tienda de Sunflower Land Buds NFT.",
-  "description.potion.ticket": "Una recompensa de la Casa de Pociones. Utilízala para comprar objetos de Garth.",
   "description.trading.ticket": "(LEGACY) Operaciones gratis! Woohoo!",
   "description.block.buck": "Una valiosa ficha en Sunflower Land!",
   "description.beta.pass": "(EXCLUSIVO) Obtenga acceso anticipado a las funciones para realizar pruebas.",
@@ -6654,5 +6653,6 @@
   "memory.portal.missionObjective": "Misión: Encuentra coincidencias de {{targetScore}}.",
   "memory.portal.rewardMessage": "¡Enhorabuena, has completado la misión! Aquí tienes tu recompensa.",
   "portal.memory.title": "Memoria",
-  "portal.memory.description": "¡Voltea cartas, encuentra coincidencias y trata de mantenerte sano en este desafío de memoria!"
+  "portal.memory.description": "¡Voltea cartas, encuentra coincidencias y trata de mantenerte sano en este desafío de memoria!",
+  "description.potion.ticket": "Una recompensa del juego de pociones. Utilízala para comprar objetos de Eins."
 }
