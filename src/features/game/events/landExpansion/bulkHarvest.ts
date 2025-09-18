@@ -56,19 +56,24 @@ export function bulkHarvest({
 
     // Harvest all ready crops
     for (const [plotId] of Object.entries(readyPlots)) {
-      const { updatedPlot, amount, aoe, boostsUsed, cropName } =
-        harvestCropFromPlot({
-          plotId,
-          game: stateCopy,
-          createdAt,
-        });
+      try {
+        const { updatedPlot, amount, aoe, boostsUsed, cropName } =
+          harvestCropFromPlot({
+            plotId,
+            game: stateCopy,
+            createdAt,
+          });
 
-      allBoostsUsed.push(...boostsUsed);
+        allBoostsUsed.push(...boostsUsed);
 
-      stateCopy.aoe = aoe;
+        stateCopy.aoe = aoe;
 
-      plots[plotId] = updatedPlot;
-      cropAmounts[cropName] = (cropAmounts[cropName] || 0) + amount;
+        plots[plotId] = updatedPlot;
+        cropAmounts[cropName] = (cropAmounts[cropName] || 0) + amount;
+      } catch (error) {
+        // ignore error
+        continue;
+      }
     }
 
     Object.entries(cropAmounts).forEach(([cropName, amount]) => {

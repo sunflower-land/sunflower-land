@@ -68,19 +68,24 @@ export function bulkPlant({
       const [plotId] = availablePlots[i];
       const cropId = uuidv4().slice(0, 8);
 
-      const { updatedPlot, aoe, boostsUsed } = plantCropOnPlot({
-        plotId,
-        cropName,
-        cropId,
-        game: stateCopy,
-        createdAt,
-        seedItem: action.seed,
-      });
+      try {
+        const { updatedPlot, aoe, boostsUsed } = plantCropOnPlot({
+          plotId,
+          cropName,
+          cropId,
+          game: stateCopy,
+          createdAt,
+          seedItem: action.seed,
+        });
 
-      allBoostsUsed.push(...boostsUsed);
+        allBoostsUsed.push(...boostsUsed);
 
-      stateCopy.aoe = aoe;
-      plots[plotId] = updatedPlot;
+        stateCopy.aoe = aoe;
+        plots[plotId] = updatedPlot;
+      } catch (error) {
+        // ignore error
+        continue;
+      }
     }
 
     stateCopy.inventory[action.seed] =
