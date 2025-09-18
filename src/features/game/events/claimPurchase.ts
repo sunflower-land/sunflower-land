@@ -5,6 +5,7 @@ import { getKeys } from "../types/decorations";
 import { MARKETPLACE_TAX } from "../types/marketplace";
 import { addTradePoints } from "./landExpansion/addTradePoints";
 import { BumpkinItem } from "../types/bumpkin";
+import { getListingItem } from "features/marketplace/lib/listings";
 
 export type ClaimPurchaseAction = {
   type: "purchase.claimed";
@@ -65,6 +66,12 @@ export function claimPurchase({
         sfl: listing?.sfl ?? 0,
         items: listing?.items,
       });
+
+      // If bud, we need to remove it (placed collectibles & wearables are cleaned up automatically)
+      if (listing?.collection === "buds") {
+        const id = getListingItem({ listing: listing });
+        delete game.buds?.[id];
+      }
 
       delete game.trades.listings?.[purchaseId];
 

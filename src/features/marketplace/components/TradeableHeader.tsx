@@ -32,6 +32,7 @@ import Decimal from "decimal.js-light";
 import { getRemainingTrades, Reputation } from "features/game/lib/reputation";
 import { hasReputation } from "features/game/lib/reputation";
 import { hasVipAccess } from "features/game/lib/vipAccess";
+import { TradeableDisplay } from "../lib/tradeables";
 
 type TradeableHeaderProps = {
   authToken: string;
@@ -45,6 +46,7 @@ type TradeableHeaderProps = {
   onListClick: () => void;
   reload: () => void;
   limitedPurchasesLeft: number;
+  display: TradeableDisplay;
 };
 
 const _balance = (state: MachineState) => state.context.state.balance;
@@ -63,6 +65,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   tradeable,
   onListClick,
   reload,
+  display,
 }) => {
   const { gameService } = useContext(Context);
   const balance = useSelector(gameService, _balance);
@@ -75,6 +78,9 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   const cheapestListing = tradeable?.listings.reduce((cheapest, listing) => {
     return listing.sfl < cheapest.sfl ? listing : cheapest;
   }, tradeable?.listings[0]);
+
+  const listings =
+    gameService.getSnapshot().context.state.trades.listings ?? {};
 
   // Handle instant purchase
   useOnMachineTransition<ContextType, BlockchainEvent>(
@@ -126,6 +132,12 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
 
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
 
+  const totalListed = Object.values(listings).reduce((acc, listing) => {
+    return acc + (listing.items[display.name] ?? 0);
+  }, 0);
+
+  const availableCount = count - totalListed;
+
   return (
     <>
       {cheapestListing && (
@@ -174,7 +186,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                 }
               >
                 {t("marketplace.available", {
-                  count: Math.floor(count),
+                  count: Math.floor(availableCount),
                 })}
               </Label>
             </div>
@@ -257,7 +269,9 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                 {tradeable?.isActive && !vipIsRequired && (
                   <Button
                     disabled={
-                      !count ||
+                      !availableCount ||
+                      // Already has one listed?
+
                       (!hasTradeReputation &&
                         getRemainingTrades({
                           game: gameService.getSnapshot().context.state,
@@ -295,7 +309,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
               <Button
                 onClick={onListClick}
                 disabled={
-                  !count ||
+                  !availableCount ||
                   (!hasTradeReputation &&
                     getRemainingTrades({
                       game: gameService.getSnapshot().context.state,

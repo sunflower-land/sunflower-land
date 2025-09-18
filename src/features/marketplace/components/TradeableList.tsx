@@ -15,16 +15,11 @@ import lockIcon from "assets/icons/lock.png";
 
 import { TradeableDisplay } from "../lib/tradeables";
 import { Button } from "components/ui/Button";
-import {
-  getBasketItems,
-  getChestBuds,
-  getChestItems,
-} from "features/island/hud/components/inventory/utils/inventory";
+import { getBasketItems } from "features/island/hud/components/inventory/utils/inventory";
 import { NumberInput } from "components/ui/NumberInput";
 import { GameWallet } from "features/wallet/Wallet";
 import { CONFIG } from "lib/config";
 import { formatNumber } from "lib/utils/formatNumber";
-import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { InventoryItemName } from "features/game/types/game";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { TradeableSummary } from "./TradeableSummary";
@@ -119,7 +114,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
           state.inventory[display.name as InventoryItemName]?.toNumber() || 0
         );
       case "buds":
-        return getChestBuds(state)[id] ? 1 : 0;
+        return state.buds?.[id] ? 1 : 0;
       case "wearables":
         return state.wardrobe[display.name as BumpkinItem] || 0;
 
@@ -135,9 +130,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
       case "collectibles":
         if (isPlaceable) {
           return (
-            getChestItems(state)[
-              display.name as InventoryItemName
-            ]?.toNumber() ?? 0
+            state.inventory[display.name as InventoryItemName]?.toNumber() ?? 0
           );
         }
 
@@ -147,9 +140,9 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
           ]?.toNumber() ?? 0
         );
       case "buds":
-        return getChestBuds(state)[id] ? 1 : 0;
+        return state.buds?.[id] ? 1 : 0;
       case "wearables":
-        return availableWardrobe(state)[display.name as BumpkinItem] ?? 0;
+        return state.wardrobe[display.name as BumpkinItem] ?? 0;
       default:
         return 0;
     }

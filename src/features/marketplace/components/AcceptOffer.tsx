@@ -13,14 +13,9 @@ import { useSelector } from "@xstate/react";
 import { GameWallet } from "features/wallet/Wallet";
 import { TradeableDisplay } from "../lib/tradeables";
 import confetti from "canvas-confetti";
-import {
-  getBasketItems,
-  getChestBuds,
-  getChestItems,
-} from "features/island/hud/components/inventory/utils/inventory";
+import { getBasketItems } from "features/island/hud/components/inventory/utils/inventory";
 import { KNOWN_ITEMS } from "features/game/types";
 import { ITEM_NAMES } from "features/game/types/bumpkin";
-import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import {
   BlockchainEvent,
   Context as ContextType,
@@ -88,18 +83,20 @@ const AcceptOfferContent: React.FC<{
 
   if (display.type === "collectibles") {
     const name = KNOWN_ITEMS[itemId];
-    hasItem =
-      !!getChestItems(state)[name]?.gte(offer.quantity) ||
-      !!getBasketItems(state.inventory)[name]?.gte(offer.quantity);
+    const isResource = isTradeResource(name as InventoryItemName);
+
+    hasItem = isResource
+      ? !!getBasketItems(state.inventory)[name]?.gte(offer.quantity)
+      : !!state.inventory[name]?.gte(offer.quantity);
   }
 
   if (display.type === "wearables") {
     const name = ITEM_NAMES[itemId];
-    hasItem = !!availableWardrobe(state)[name];
+    hasItem = !!state.wardrobe[name];
   }
 
   if (display.type === "buds") {
-    hasItem = !!getChestBuds(state)[itemId];
+    hasItem = !!state.buds?.[itemId];
   }
 
   const estTradePoints =

@@ -630,7 +630,7 @@ export const DeliveryOrders: React.FC<Props> = ({
               className="absolute -inset-2 bg-repeat"
               style={{
                 height: `${PIXEL_SCALE * 80}px`,
-                backgroundImage: `url(${getImageUrl(ITEM_IDS[NPC_WEARABLES[previewOrder.from].background])})`,
+                backgroundImage: `url(${getImageUrl(ITEM_IDS[NPC_WEARABLES[previewOrder.from].background!])})`,
                 backgroundSize: "100%",
               }}
             />

@@ -96,6 +96,7 @@ import { Cheering } from "./components/Cheering";
 import { SystemMessageWidget } from "features/announcements/SystemMessageWidget";
 import { News } from "features/farming/mail/components/News";
 import { CloseButtonPanel } from "../components/CloseablePanel";
+import { TradesCleared } from "./components/TradesCleared";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -205,6 +206,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   airdrop: true,
   offers: true,
   marketplaceSale: true,
+  tradesCleared: true,
   portalling: true,
   sellMarketResource: false,
   somethingArrived: true,
@@ -289,6 +291,7 @@ const isEffectFailed = (state: MachineState) =>
 
 const hasMarketplaceSales = (state: MachineState) =>
   state.matches("marketplaceSale");
+const isTradesCleared = (state: MachineState) => state.matches("tradesCleared");
 const isCompetition = (state: MachineState) => state.matches("competition");
 const isSeasonChanged = (state: MachineState) => state.matches("seasonChanged");
 const isCalendarEvent = (state: MachineState) => state.matches("calendarEvent");
@@ -479,7 +482,9 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const blessing = useSelector(gameService, isBlessing);
   const cheers = useSelector(gameService, isCheers);
   const news = useSelector(gameService, isNews);
+  const tradesCleared = useSelector(gameService, isTradesCleared);
   const { t } = useAppTranslation();
+
   useInterval(() => {
     gameService.send("SAVE");
   }, AUTO_SAVE_INTERVAL);
@@ -667,6 +672,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             {airdrop && <AirdropPopup />}
             {showOffers && <OffersAcceptedPopup />}
             {showSales && <MarketplaceSalesPopup />}
+            {tradesCleared && <TradesCleared />}
             {vip && <VIPOffer />}
             {hasSomethingArrived && <SomethingArrived />}
             {hasBBs && <Gems />}

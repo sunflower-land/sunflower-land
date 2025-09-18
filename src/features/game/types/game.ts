@@ -1201,6 +1201,8 @@ export type TradeListing = {
   fulfilledById?: number;
   initiatedAt?: number;
   tradeType: "instant" | "onchain";
+
+  clearedAt?: number;
 };
 
 export type TradeOffer = {
@@ -1214,6 +1216,8 @@ export type TradeOffer = {
   signature?: string;
   initiatedAt?: number;
   tradeType: "instant" | "onchain";
+
+  clearedAt?: number;
 };
 
 type FishingSpot = {

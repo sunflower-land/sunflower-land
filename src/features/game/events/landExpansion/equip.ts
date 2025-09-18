@@ -1,7 +1,6 @@
-import { BUMPKIN_ITEMS, Equipped } from "features/game/types/bumpkin";
+import { Equipped } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/craftables";
 import { Bumpkin, GameState, Wardrobe } from "features/game/types/game";
-import { MarketplaceTradeableName } from "features/game/types/marketplace";
 import { produce } from "immer";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
@@ -53,22 +52,6 @@ export function assertEquipment({
     throw new Error("Cannot equip pants while wearing dress");
   }
 
-  if (!equipment.body) {
-    throw new Error("Body is required");
-  }
-
-  if (!equipment.shoes) {
-    throw new Error("Shoes are required");
-  }
-
-  if (!equipment.hair) {
-    throw new Error("Hair is required");
-  }
-
-  if (!equipment.dress && !(equipment.shirt && equipment.pants)) {
-    throw new Error("Bumpkin is naked!");
-  }
-
   const available = availableWardrobe(game);
 
   Object.values(equipment).forEach((name) => {
@@ -82,37 +65,10 @@ export function assertEquipment({
   return true;
 }
 
-const getListedWearables = (
-  state: GameState,
-): Record<MarketplaceTradeableName, number> => {
-  if (!state.trades.listings)
-    return {} as Record<MarketplaceTradeableName, number>;
-
-  return Object.values(state.trades.listings).reduce(
-    (acc, listing) => {
-      Object.entries(listing.items).forEach(([itemName, quantity]) => {
-        if (itemName in BUMPKIN_ITEMS) {
-          const name = itemName as MarketplaceTradeableName;
-
-          if (acc[name]) {
-            acc[name] += quantity as number;
-          } else {
-            acc[name] = quantity as number;
-          }
-        }
-      });
-
-      return acc;
-    },
-    {} as Record<MarketplaceTradeableName, number>,
-  );
-};
-
 /**
  * Return the available (unequipped) wardrobe items
  */
 export function availableWardrobe(game: GameState): Wardrobe {
-  const listed = getListedWearables(game);
   // TODO check in use by farm hands
   const equipped = [
     game.bumpkin?.equipped as Equipped,
@@ -135,10 +91,6 @@ export function availableWardrobe(game: GameState): Wardrobe {
 
     if (inUse[name]) {
       amount -= inUse[name] ?? 0;
-    }
-
-    if (listed[name]) {
-      amount -= listed[name] ?? 0;
     }
 
     return {

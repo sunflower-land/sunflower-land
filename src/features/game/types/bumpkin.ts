@@ -1062,13 +1062,13 @@ export type Wallet = {
 };
 
 export type Equipped = {
-  background: BumpkinBackground;
-  hair: BumpkinHair;
-  body: BumpkinBody;
+  background?: BumpkinBackground;
+  hair?: BumpkinHair;
+  body?: BumpkinBody;
   shirt?: BumpkinShirt;
   pants?: BumpkinPant;
-  shoes: BumpkinShoe;
-  tool: BumpkinTool;
+  shoes?: BumpkinShoe;
+  tool?: BumpkinTool;
   necklace?: BumpkinNecklace;
   coat?: BumpkinCoat;
   hat?: BumpkinHat;
