@@ -22,11 +22,18 @@ import saveIcon from "assets/icons/save.webp";
 import { getBumpkinBanner } from "./actions/getBumpkinBanner";
 import { Loading } from "../Loading";
 import { TextInput } from "components/ui/TextInput";
+import confetti from "canvas-confetti";
+import { getRoninPack } from "features/roninAirdrop/actions/getRoninPack";
+import { RONIN_BOX_REWARDS, RoninV2PackName } from "features/wallet/lib/ronin";
+import { ClaimReward } from "features/game/expansion/components/ClaimReward";
+import { Box } from "components/ui/Box";
+import giftIcon from "assets/icons/gift.png";
 
 const TWITTER_POST_DESCRIPTIONS: Record<TwitterPostName, TranslationKeys> = {
   FARM: "twitter.post.farm",
   WEEKLY: "twitter.post.weekly",
   FLOWER: "twitter.post.flower",
+  RONIN: "twitter.post.ronin",
 };
 
 export const Twitter: React.FC<{ onClose: () => void }> = ({ onClose }) => (
@@ -129,6 +136,25 @@ const TwitterPost: React.FC<{ name: TwitterPostName; onClose: () => void }> = ({
   const [showConfirm, setShowConfirm] = useState(false);
 
   const { t } = useAppTranslation();
+  const claim = () => {
+    if (name === "RONIN") {
+      gameService.send("twitter.roninPosted", {
+        effect: {
+          type: "twitter.roninPosted",
+          url,
+        },
+      });
+    } else {
+      gameService.send("twitter.posted", {
+        effect: {
+          type: "twitter.posted",
+          url,
+        },
+      });
+    }
+
+    onClose();
+  };
 
   const twitter = gameState.context.state.twitter;
 
@@ -217,19 +243,7 @@ const TwitterPost: React.FC<{ name: TwitterPostName; onClose: () => void }> = ({
         )}
         <div className="flex gap-1">
           <Button onClick={() => setShowConfirm(false)}>{t("back")}</Button>
-          <Button
-            disabled={!url || tweetUsed}
-            onClick={() => {
-              gameService.send("twitter.posted", {
-                effect: {
-                  type: "twitter.posted",
-                  url,
-                },
-                authToken: authState.context.user.rawToken as string,
-              });
-              onClose();
-            }}
-          >
+          <Button disabled={!url || tweetUsed} onClick={claim}>
             {t("twitter.verify.button")}
           </Button>
         </div>
@@ -239,10 +253,14 @@ const TwitterPost: React.FC<{ name: TwitterPostName; onClose: () => void }> = ({
 
   const Component = TWITTER_COMPONENTS[name];
 
+  const inCooldown = cooldown > 0;
   // Stage 2 - testing only
   return (
     <InnerPanel className="p-2  mt-1">
-      <Component />
+      <Component
+        onClose={onClose}
+        onVerify={inCooldown ? undefined : () => setShowConfirm(true)}
+      />
 
       {cooldown > 0 && (
         <>
@@ -253,24 +271,14 @@ const TwitterPost: React.FC<{ name: TwitterPostName; onClose: () => void }> = ({
           </p>
         </>
       )}
-      <div className="flex">
-        <Button className="mr-1" onClick={onClose}>
-          {t("back")}
-        </Button>
-        <Button
-          disabled={cooldown > 0 || hasCompleted}
-          onClick={() => {
-            setShowConfirm(true);
-          }}
-        >
-          {t("twitter.verify.button")}
-        </Button>
-      </div>
     </InnerPanel>
   );
 };
 
-const TwitterFarm: React.FC = () => {
+const TwitterFarm: React.FC<{ onClose: () => void; onVerify?: () => void }> = ({
+  onClose,
+  onVerify,
+}) => {
   const { gameState } = useGame();
   const { t } = useAppTranslation();
 
@@ -315,22 +323,55 @@ const TwitterFarm: React.FC = () => {
         {t("twitter.farm.instructions.1", { hashtag: TWITTER_HASHTAGS.FARM })}
       </p>
       <p className="text-xs mx-1 mb-2">{t("twitter.farm.instructions.2")}</p>
+
+      <div className="flex">
+        <Button className="mr-1" onClick={onClose}>
+          {t("back")}
+        </Button>
+        {onVerify && (
+          <Button disabled={hasCompleted} onClick={onVerify}>
+            {t("twitter.verify.button")}
+          </Button>
+        )}
+      </div>
     </>
   );
 };
 
-const TwitterWeekly: React.FC = () => {
-  return <TwitterBanner type="progress" postName="WEEKLY" />;
+const TwitterWeekly: React.FC<{
+  onClose: () => void;
+  onVerify?: () => void;
+}> = ({ onClose, onVerify }) => {
+  return (
+    <TwitterBanner
+      type="progress"
+      postName="WEEKLY"
+      onClose={onClose}
+      onVerify={onVerify}
+    />
+  );
 };
 
-const TwitterFlower: React.FC = () => {
-  return <TwitterBanner type="flower" postName="FLOWER" />;
+const TwitterFlower: React.FC<{
+  onClose: () => void;
+  onVerify?: () => void;
+}> = ({ onClose, onVerify }) => {
+  return (
+    <TwitterBanner
+      type="flower"
+      postName="FLOWER"
+      onClose={onClose}
+      onVerify={onVerify}
+    />
+  );
 };
 
 const TwitterBanner: React.FC<{
   type: "progress" | "flower";
   postName: TwitterPostName;
-}> = ({ type, postName }) => {
+  onClose: () => void;
+  onVerify?: () => void;
+}> = ({ type, postName, onClose, onVerify }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
   const { gameState } = useGame();
@@ -427,12 +468,124 @@ const TwitterBanner: React.FC<{
         })}
       </p>
       <p className="text-xs mx-1 mb-2">{t("twitter.weekly.instructions.2")}</p>
+
+      <div className="flex">
+        <Button className="mr-1" onClick={onClose}>
+          {t("back")}
+        </Button>
+        {onVerify && (
+          <Button disabled={hasCompleted} onClick={onVerify}>
+            {t("twitter.verify.button")}
+          </Button>
+        )}
+      </div>
     </>
   );
 };
 
-const TWITTER_COMPONENTS: Record<TwitterPostName, React.FC> = {
+const RoninAirdrop: React.FC<{
+  onClose: () => void;
+  onVerify?: () => void;
+}> = ({ onClose, onVerify }) => {
+  const { gameState } = useGame();
+
+  const state = gameState.context.state;
+
+  // In last 7 days
+  const hasCompleted = !!state.roninRewards?.twitter;
+
+  const [isLoading, setIsLoading] = useState(!hasCompleted);
+  const [reward, setReward] = useState<RoninV2PackName | null>(null);
+
+  const { t } = useAppTranslation();
+
+  const check = async () => {
+    setIsLoading(true);
+
+    const { reward } = await getRoninPack({
+      twitterUrl: `https://x.com/${state.twitter?.username}`,
+    });
+
+    confetti();
+
+    setReward(reward);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    if (!hasCompleted) {
+      check();
+    }
+  }, []);
+
+  if (hasCompleted) {
+    const items = RONIN_BOX_REWARDS[state.roninRewards?.twitter?.pack!].items;
+    return (
+      <>
+        <Label type="success" className="mr-2">
+          {t("completed")}
+        </Label>
+        <ClaimReward
+          onClose={onClose}
+          reward={{
+            id: "ronin-airdrop",
+            createdAt: Date.now(),
+            items,
+            wearables: {},
+            sfl: 0,
+            coins: 0,
+            message: `You recieved a ${state.roninRewards?.twitter?.pack} for your activity on X!`,
+          }}
+        />
+      </>
+    );
+  }
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  return (
+    <>
+      <div className=" gap-1">
+        <Label type="vibrant" className="mr-2">
+          {t("twitter.ronin.share")}
+        </Label>
+        <p className="text-sm">
+          Congratulations, you are eligible for a Ronin Airdrop!
+        </p>
+        <div className="flex items-center ">
+          <Box image={giftIcon} />
+          <div className="ml-1">
+            <p className="text-sm">1 x {reward}</p>
+            <p className="text-xs">~$50.99 in-game value!</p>
+          </div>
+        </div>
+      </div>
+
+      <p className="text-xs mx-1 my-1">
+        {t("twitter.ronin.instructions.1", { hashtag: TWITTER_HASHTAGS.RONIN })}
+      </p>
+      <p className="text-xs mx-1 mb-2">{t("twitter.ronin.instructions.2")}</p>
+
+      <div className="flex">
+        <Button className="mr-1" onClick={onClose}>
+          {t("back")}
+        </Button>
+        <Button disabled={hasCompleted} onClick={onVerify}>
+          {t("twitter.verify.button")}
+        </Button>
+      </div>
+    </>
+  );
+};
+
+const TWITTER_COMPONENTS: Record<
+  TwitterPostName,
+  React.FC<{ onClose: () => void; onVerify?: () => void }>
+> = {
   FARM: TwitterFarm,
   WEEKLY: TwitterWeekly,
   FLOWER: TwitterFlower,
+  RONIN: RoninAirdrop, // Handle differently for special reward
 };

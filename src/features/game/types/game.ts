@@ -109,6 +109,7 @@ import { ClutterName } from "./clutter";
 import { PetName, PetResourceName, Pets } from "./pets";
 import { RockName } from "./resources";
 import { PetShopItemName } from "./petShop";
+import { RoninV2PackName } from "features/wallet/lib/ronin";
 
 export type Reward = {
   coins?: number;
@@ -1704,6 +1705,18 @@ export interface GameState {
     pirateChest?: { openedAt: number };
     keysBought?: KeysBought;
   };
+
+  roninRewards?: {
+    onchain?: {
+      openedAt: number;
+      pack: RoninV2PackName;
+    };
+    twitter?: {
+      openedAt: number;
+      pack: RoninV2PackName;
+    };
+  };
+
   conversations: ConversationName[];
   mailbox: {
     read: {
@@ -1805,6 +1818,7 @@ export interface GameState {
     joinedAt?: number;
   };
   twitter?: {
+    username: string;
     linkedAt: number;
     followedAt?: number;
     isAuthorised?: boolean;
