@@ -6654,5 +6654,7 @@
   "memory.portal.rewardMessage": "Tahniah, anda menyelesaikan misi! Inilah ganjaran anda.",
   "portal.memory.title": "Ingatan",
   "portal.memory.description": "Balikkan kad, cari padanan dan cuba kekal sihat dalam cabaran ingatan ini!",
-  "description.potion.ticket": "Ganjaran dari Permainan Ramuan. Gunakan ini untuk membeli barangan dari Eins."
+  "description.potion.ticket": "Ganjaran dari Permainan Ramuan. Gunakan ini untuk membeli barangan dari Eins.",
+  "select.network": "Pilih Rangkaian",
+  "switching.network": "Menukar Rangkaian..."
 }

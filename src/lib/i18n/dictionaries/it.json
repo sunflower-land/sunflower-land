@@ -6654,5 +6654,7 @@
   "memory.portal.rewardMessage": "Congratulazioni, hai completato la missione! Ecco la tua ricompensa.",
   "portal.memory.title": "Memoria",
   "portal.memory.description": "Gira le carte, trova i fiammiferi e cerca di rimanere in salute in questa sfida della memoria!",
-  "description.potion.ticket": "Una ricompensa del gioco delle pozioni. Usalo per acquistare oggetti da Eins."
+  "description.potion.ticket": "Una ricompensa del gioco delle pozioni. Usalo per acquistare oggetti da Eins.",
+  "select.network": "Seleziona rete",
+  "switching.network": "Rete di commutazione..."
 }

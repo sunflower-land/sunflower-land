@@ -6654,5 +6654,7 @@
   "memory.portal.rewardMessage": "Parabéns, você completou a missão! Aqui está sua recompensa.",
   "portal.memory.title": "Memória",
   "portal.memory.description": "Vire cartas, encontre fósforos e tente se manter saudável neste desafio de memória!",
-  "description.potion.ticket": "Uma recompensa do Jogo de Poções. Use isso para comprar itens da Eins."
+  "description.potion.ticket": "Uma recompensa do Jogo de Poções. Use isso para comprar itens da Eins.",
+  "select.network": "Selecione Rede",
+  "switching.network": "Mudando de rede..."
 }

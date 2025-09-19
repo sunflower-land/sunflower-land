@@ -6654,5 +6654,7 @@
   "memory.portal.rewardMessage": "축하합니다. 임무를 완수했습니다!보상은 다음과 같습니다.",
   "portal.memory.title": "메모리",
   "portal.memory.description": "이 메모리 챌린지에서 카드를 뒤집고, 짝을 찾고, 건강을 유지하세요!",
-  "description.potion.ticket": "포션 게임의 보상입니다.이를 사용해 아인스에게서 아이템을 구매할 수 있습니다."
+  "description.potion.ticket": "포션 게임의 보상입니다.이를 사용해 아인스에게서 아이템을 구매할 수 있습니다.",
+  "select.network": "네트워크 선택",
+  "switching.network": "네트워크 전환 중..."
 }

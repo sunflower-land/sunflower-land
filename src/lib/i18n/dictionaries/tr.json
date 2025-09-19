@@ -6654,5 +6654,7 @@
   "memory.portal.rewardMessage": "Tebrikler, görevi tamamladınız! İşte ödülünüz.",
   "portal.memory.title": "Bellek",
   "portal.memory.description": "Kartları çevir, eşleşmeleri bul ve bu hafıza mücadelesinde sağlıklı kalmaya çalış!",
-  "description.potion.ticket": "İksir Oyunundan bir ödül. Bunu Eins\"den ürün satın almak için kullanın."
+  "description.potion.ticket": "İksir Oyunundan bir ödül. Bunu Eins\"den ürün satın almak için kullanın.",
+  "select.network": "Ağ Seçin",
+  "switching.network": "Ağ Değiştirme..."
 }

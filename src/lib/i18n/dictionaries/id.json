@@ -6654,5 +6654,7 @@
   "memory.portal.rewardMessage": "Selamat, Anda telah menyelesaikan misi! Inilah hadiahmu.",
   "portal.memory.title": "Memori",
   "portal.memory.description": "Balikkan kartu, temukan korek api, dan cobalah untuk tetap sehat dalam tantangan memori ini!",
-  "description.potion.ticket": "Hadiah dari Game Ramuan. Gunakan ini untuk membeli barang dari Eins."
+  "description.potion.ticket": "Hadiah dari Game Ramuan. Gunakan ini untuk membeli barang dari Eins.",
+  "select.network": "Pilih Jaringan",
+  "switching.network": "Beralih Jaringan..."
 }

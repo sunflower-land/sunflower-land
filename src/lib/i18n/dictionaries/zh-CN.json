@@ -6654,5 +6654,7 @@
   "memory.portal.rewardMessage": "恭喜，你完成了任务！这是你的奖励。",
   "portal.memory.title": "记忆",
   "portal.memory.description": "在这场记忆挑战赛中，翻转卡片，寻找匹配项，努力保持健康！",
-  "description.potion.ticket": "来自药水游戏的奖励。使用它从 Eins 购买物品。"
+  "description.potion.ticket": "来自药水游戏的奖励。使用它从 Eins 购买物品。",
+  "select.network": "选择网络",
+  "switching.network": "正在切换网络..."
 }

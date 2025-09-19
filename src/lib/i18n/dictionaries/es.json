@@ -6654,5 +6654,7 @@
   "memory.portal.rewardMessage": "¡Enhorabuena, has completado la misión! Aquí tienes tu recompensa.",
   "portal.memory.title": "Memoria",
   "portal.memory.description": "¡Voltea cartas, encuentra coincidencias y trata de mantenerte sano en este desafío de memoria!",
-  "description.potion.ticket": "Una recompensa del juego de pociones. Utilízala para comprar objetos de Eins."
+  "description.potion.ticket": "Una recompensa del juego de pociones. Utilízala para comprar objetos de Eins.",
+  "select.network": "Seleccione la red",
+  "switching.network": "Red de conmutación..."
 }

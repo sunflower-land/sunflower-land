@@ -6654,5 +6654,7 @@
   "memory.portal.rewardMessage": "Félicitations, vous avez terminé la mission ! Voici ta récompense.",
   "portal.memory.title": "Mémoire",
   "portal.memory.description": "Retournez des cartes, trouvez des allumettes et essayez de rester en bonne santé dans ce défi de mémoire !",
-  "description.potion.ticket": "Une récompense issue du jeu de potions. Utilisez-le pour acheter des objets chez Eins."
+  "description.potion.ticket": "Une récompense issue du jeu de potions. Utilisez-le pour acheter des objets chez Eins.",
+  "select.network": "Sélectionnez le réseau",
+  "switching.network": "Réseau de commutation..."
 }

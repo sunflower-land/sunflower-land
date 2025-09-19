@@ -6654,5 +6654,7 @@
   "memory.portal.rewardMessage": "おめでとうございます。ミッションを完了しました！報酬はこちらです。",
   "portal.memory.title": "メモリー",
   "portal.memory.description": "このメモリーチャレンジでは、カードをめくって、マッチを見つけて、健康を維持しましょう！",
-  "description.potion.ticket": "ポーションゲームからの報酬。これを使ってアインズからアイテムを購入しよう。"
+  "description.potion.ticket": "ポーションゲームからの報酬。これを使ってアインズからアイテムを購入しよう。",
+  "select.network": "ネットワークを選択",
+  "switching.network": "ネットワークを切り替えています..."
 }
