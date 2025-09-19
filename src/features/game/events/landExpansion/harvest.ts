@@ -936,9 +936,6 @@ export function harvest({
   return produce(state, (stateCopy) => {
     const { crops: plots, bumpkin } = stateCopy;
 
-    if (!bumpkin) {
-      throw new Error("You do not have a Bumpkin");
-    }
 
     const { updatedPlot, amount, aoe, boostsUsed, cropName } =
       harvestCropFromPlot({
