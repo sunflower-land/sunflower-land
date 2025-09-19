@@ -698,6 +698,7 @@ export type BlockchainState = {
     | "visiting"
     | "gameRules"
     | "blessing"
+    | "roninAirdrop"
     | "FLOWERTeaser"
     | "portalling"
     | "introduction"
@@ -742,7 +743,6 @@ export type BlockchainState = {
     | "competition"
     | "cheers"
     | "news"
-    | "roninWelcomePack"
     | "roninAirdrop"
     | "jinAirdrop"
     | StateMachineStateName
@@ -1184,6 +1184,13 @@ export function startGame(authContext: AuthContext) {
               },
             },
             {
+              target: "roninAirdrop",
+              cond: (context) =>
+                !!context.linkedWallet &&
+                !context.state.roninRewards?.onchain &&
+                hasFeatureAccess(context.state, "RONIN_AIRDROP"),
+            },
+            {
               target: "vip",
               cond: (context) => {
                 const isNew = context.state.bumpkin.experience < 100;
@@ -1227,13 +1234,7 @@ export function startGame(authContext: AuthContext) {
                 return false;
               },
             },
-            {
-              target: "roninAirdrop",
-              cond: (context) =>
-                !!context.state.nfts?.ronin &&
-                !context.state.nfts.ronin.acknowledgedAt &&
-                context.state.nfts.ronin.expiresAt > Date.now(),
-            },
+
             {
               target: "referralRewards",
               cond: (context) => {
@@ -1276,29 +1277,7 @@ export function startGame(authContext: AuthContext) {
                 return !isAcknowledged;
               },
             },
-            {
-              target: "roninWelcomePack",
-              cond: (context: Context) => {
-                return (
-                  [
-                    "Ronin Bronze Pack",
-                    "Ronin Silver Pack",
-                    "Ronin Gold Pack",
-                    "Ronin Platinum Pack",
-                  ] as SpecialEventName[]
-                ).some(
-                  (pack) =>
-                    context.state.specialEvents.current[pack]?.isEligible ===
-                      true &&
-                    context.state.specialEvents.current[pack]?.tasks[0]
-                      .completedAt === undefined &&
-                    context.state.specialEvents.current[pack]?.startAt <
-                      Date.now() &&
-                    context.state.specialEvents.current[pack]?.endAt >
-                      Date.now(),
-                );
-              },
-            },
+
             {
               target: "competition",
               cond: () => false,
@@ -1389,16 +1368,7 @@ export function startGame(authContext: AuthContext) {
             },
           ],
         },
-        roninAirdrop: {
-          on: {
-            "onChainAirdrop.acknowledged": (GAME_EVENT_HANDLERS as any)[
-              "onChainAirdrop.acknowledged"
-            ],
-            ACKNOWLEDGE: {
-              target: "notifying",
-            },
-          },
-        },
+
         vip: {
           on: {
             ACKNOWLEDGE: {
@@ -1466,6 +1436,19 @@ export function startGame(authContext: AuthContext) {
             ],
             "blessing.seeked": {
               target: STATE_MACHINE_EFFECTS["blessing.seeked"],
+            },
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+          },
+        },
+        roninAirdrop: {
+          on: {
+            // "roninPack.claimed": (GAME_EVENT_HANDLERS as any)[
+            //   "roninPack.claimed"
+            // ],
+            "roninPack.claimed": {
+              target: STATE_MACHINE_EFFECTS["roninPack.claimed"],
             },
             ACKNOWLEDGE: {
               target: "notifying",
@@ -1599,17 +1582,7 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-        roninWelcomePack: {
-          on: {
-            // Add function here to claim pack
-            "specialEvent.taskCompleted": (GAME_EVENT_HANDLERS as any)[
-              "specialEvent.taskCompleted"
-            ],
-            CLOSE: {
-              target: "notifying",
-            },
-          },
-        },
+
         jinAirdrop: {
           on: {
             "specialEvent.taskCompleted": (GAME_EVENT_HANDLERS as any)[
