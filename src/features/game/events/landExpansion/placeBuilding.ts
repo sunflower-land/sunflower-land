@@ -10,7 +10,6 @@ import {
 import { produce } from "immer";
 import { ComposterName } from "features/game/types/composters";
 import { getReadyAt } from "./startComposter";
-import { getBoostedAwakeAt } from "features/game/lib/animals";
 import { RECIPES } from "features/game/lib/crafting";
 import { getBoostedCraftingTime } from "./startCrafting";
 
@@ -142,13 +141,9 @@ export function placeBuilding({
         Object.values(animals).forEach((animal) => {
           if (existingBuilding.removedAt) {
             const timeOffset = existingBuilding.removedAt - animal.asleepAt;
-            animal.asleepAt = createdAt - timeOffset;
-            const { awakeAt } = getBoostedAwakeAt({
-              animalType: animal.type,
-              createdAt: animal.asleepAt, // use asleepAt to calculate the new awakeAt
-              game: stateCopy,
-            });
-            animal.awakeAt = awakeAt;
+            animal.asleepAt = animal.asleepAt + timeOffset;
+            animal.awakeAt = animal.awakeAt + timeOffset;
+            animal.lovedAt = animal.lovedAt + timeOffset;
           }
         });
       }
