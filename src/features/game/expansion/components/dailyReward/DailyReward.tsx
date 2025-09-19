@@ -61,13 +61,15 @@ export const POLYGON_MAINNET_NETWORK: NetworkOption = {
   chainId: 137,
 };
 
+export const RONIN_MAINNET_NETWORK: NetworkOption = {
+  value: "Ronin",
+  icon: SUNNYSIDE.icons.roninIcon,
+  chainId: 2020,
+};
+
 const MAINNET_NETWORKS: NetworkOption[] = [
   BASE_MAINNET_NETWORK,
-  {
-    value: "Ronin",
-    icon: SUNNYSIDE.icons.roninIcon,
-    chainId: 2020,
-  },
+  RONIN_MAINNET_NETWORK,
   POLYGON_MAINNET_NETWORK,
 ];
 
@@ -83,13 +85,15 @@ export const POLYGON_TESTNET_NETWORK: NetworkOption = {
   chainId: 80002,
 };
 
+export const RONIN_TESTNET_NETWORK: NetworkOption = {
+  value: "Ronin Saigon",
+  icon: SUNNYSIDE.icons.roninIcon,
+  chainId: 2021,
+};
+
 const TESTNET_NETWORKS: NetworkOption[] = [
   BASE_TESTNET_NETWORK,
-  {
-    value: "Ronin Saigon",
-    icon: SUNNYSIDE.icons.roninIcon,
-    chainId: 2021,
-  },
+  RONIN_TESTNET_NETWORK,
   POLYGON_TESTNET_NETWORK,
 ];
 

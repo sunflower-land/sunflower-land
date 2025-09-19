@@ -6655,5 +6655,7 @@
   "withdraw.flower.amount": "Amount: {{amount}} FLOWER",
   "withdraw.flower.recipient": "Recipient Address: {{address}}",
   "withdraw.flower.cannotCancel": "This withdrawal cannot be cancelled",
-  "withdraw.flower.transaction": "A transaction must be completed on {{chain}} to complete the withdrawal."
+  "withdraw.flower.transaction": "A transaction must be completed on {{chain}} to complete the withdrawal.",
+  "select.network": "Select Network",
+  "switching.network": "Switching Network..."
 }

@@ -4,17 +4,24 @@ import { useTranslation } from "react-i18next";
 import { CopySvg } from "components/ui/CopyField";
 import { Label } from "components/ui/Label";
 import { DepositHistory } from "./DepositHistory";
+import { SelectChainDropdown } from "features/wallet/Wallet";
 
 export const DepositAddress: React.FC<{
   depositAddress: string;
   selectedNetwork: NetworkOption;
   refreshDeposits: () => void;
   firstLoadComplete: boolean;
+  networkOptions: NetworkOption[];
+  switchChain: ({ chainId }: { chainId: number }) => void;
+  isPending: boolean;
 }> = ({
   depositAddress,
   selectedNetwork,
   refreshDeposits,
   firstLoadComplete,
+  networkOptions,
+  switchChain,
+  isPending,
 }) => {
   const { t } = useTranslation();
   const [showLabel, setShowLabel] = useState(false);
@@ -38,6 +45,15 @@ export const DepositAddress: React.FC<{
 
   return (
     <>
+      <div className="absolute top-6 right-7">
+        <SelectChainDropdown
+          availableChains={networkOptions.map((network) => network.chainId)}
+          switchChain={switchChain}
+          isPending={isPending}
+          chainIcon={selectedNetwork.icon}
+          chainName={selectedNetwork.value}
+        />
+      </div>
       <div className="relative flex flex-col items-center justify-center gap-2 p-2 mt-2 mb-2">
         <p className="text-xxs sm:text-xs text-center mb-1 -mt-1">
           {t("deposit.flower.guide", { network: selectedNetwork.value })}
