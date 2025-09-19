@@ -101,9 +101,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   const showFlip =
     isMobile &&
     selectedItem &&
-    isCollectible(
-      selectedItem.name as CollectibleName | BuildingName | "Chicken" | "Bud",
-    );
+    isCollectible(selectedItem.name as CollectibleName | BuildingName | "Bud");
 
   useEffect(() => {
     setShowRemoveConfirmation(false);
@@ -142,9 +140,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   const flip = () => {
     if (
       selectedItem &&
-      isCollectible(
-        selectedItem.name as CollectibleName | BuildingName | "Chicken" | "Bud",
-      )
+      isCollectible(selectedItem.name as CollectibleName | BuildingName | "Bud")
     ) {
       child.send("FLIP", {
         id: selectedItem.id,
@@ -158,7 +154,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
     if (
       !selectedItem ||
       !isCollectible(
-        selectedItem.name as CollectibleName | BuildingName | "Chicken" | "Bud",
+        selectedItem.name as CollectibleName | BuildingName | "Bud",
       )
     )
       return false;

@@ -1,8 +1,4 @@
 import {
-  collectEggs as landExpansionCollectEggs,
-  LandExpansionCollectEggAction as LandExpansionCollectEggsAction,
-} from "./landExpansion/collectEgg";
-import {
   LandExpansionPlantAction,
   plant as landExpansionPlant,
 } from "./landExpansion/plant";
@@ -56,8 +52,6 @@ import {
   claimAchievement,
   ClaimAchievementAction,
 } from "./landExpansion/claimAchievement";
-import { buyChicken, BuyChickenAction } from "./landExpansion/buyChicken";
-import { placeChicken, PlaceChickenAction } from "./landExpansion/placeChicken";
 import { craftTool, CraftToolAction } from "./landExpansion/craftTool";
 import {
   buyDecoration,
@@ -88,10 +82,7 @@ import {
   collectTreeReward,
   CollectTreeRewardAction,
 } from "features/game/events/landExpansion/collectTreeReward";
-import {
-  removeChicken,
-  RemoveChickenAction,
-} from "./landExpansion/removeChicken";
+
 import { plantFruit, PlantFruitAction } from "./landExpansion/fruitPlanted";
 import {
   harvestFruit,
@@ -134,7 +125,6 @@ import { moveIron, MoveIronAction } from "./landExpansion/moveIron";
 import { moveStone, MoveStoneAction } from "./landExpansion/moveStone";
 import { moveGold, MoveGoldAction } from "./landExpansion/moveGold";
 import { pickMushroom, PickMushroomAction } from "./landExpansion/pickMushroom";
-import { moveChicken, MoveChickenAction } from "./landExpansion/moveChicken";
 import { Announcements } from "../types/announcements";
 import { deliverOrder, DeliverOrderAction } from "./landExpansion/deliver";
 import { equip, EquipBumpkinAction } from "./landExpansion/equip";
@@ -594,7 +584,6 @@ export type PlayingEvent =
   | SellCropAction
   | CollectCropRewardAction
   | CollectTreeRewardAction
-  | LandExpansionCollectEggsAction
   | PlantFruitAction
   | HarvestFruitAction
   | RemoveFruitTreeAction
@@ -607,7 +596,6 @@ export type PlayingEvent =
   | MessageRead
   | PickMushroomAction
   | RemoveCollectibleAction
-  | RemoveChickenAction
   | DeliverOrderAction
   | EquipBumpkinAction
   | RefundBidAction
@@ -715,8 +703,6 @@ export type PlacementEvent =
   | ConstructBuildingAction
   | PlaceBuildingAction
   | PlaceCollectibleAction
-  | BuyChickenAction
-  | PlaceChickenAction
   | PlaceTreeAction
   | PlacePlotAction
   | PlaceStoneAction
@@ -738,10 +724,8 @@ export type PlacementEvent =
   | MoveGoldAction
   | MoveCrimstoneAction
   | MoveSunstoneAction
-  | MoveChickenAction
   | RemoveBuildingAction
   | RemoveCollectibleAction
-  | RemoveChickenAction
   | PlaceBudAction
   | MoveBudAction
   | RemoveBudAction
@@ -822,7 +806,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "crop.harvested": landExpansionHarvest,
   "plot.fertilised": landExpansionFertilise,
   "crop.removed": landExpansionRemoveCrop,
-  "chicken.collectEgg": landExpansionCollectEggs,
   "stoneRock.mined": landExpansionMineStone,
   "ironRock.mined": landExpansionIronMine,
   "goldRock.mined": landExpansionMineGold,
@@ -856,7 +839,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "message.read": readMessage,
   "mushroom.picked": pickMushroom,
   "collectible.removed": removeCollectible,
-  "chicken.removed": removeChicken,
   "order.delivered": deliverOrder,
   "order.skipped": skipOrder,
   "bumpkin.equipped": equip,
@@ -965,8 +947,6 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "building.constructed": constructBuilding,
   "building.placed": placeBuilding,
   "collectible.placed": placeCollectible,
-  "chicken.bought": buyChicken,
-  "chicken.placed": placeChicken,
   "tree.placed": placeTree,
   "plot.placed": placePlot,
   "stone.placed": placeStone,
@@ -986,10 +966,8 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "stone.moved": moveStone,
   "gold.moved": moveGold,
   "crimstone.moved": moveCrimstone,
-  "chicken.moved": moveChicken,
   "building.removed": removeBuilding,
   "collectible.removed": removeCollectible,
-  "chicken.removed": removeChicken,
   "bud.placed": placeBud,
   "bud.moved": moveBud,
   "bud.removed": removeBud,

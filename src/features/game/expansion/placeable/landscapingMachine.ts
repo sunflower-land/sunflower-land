@@ -63,11 +63,7 @@ export function placeEvent(
   return "collectible.placed";
 }
 
-export type LandscapingPlaceable =
-  | BuildingName
-  | CollectibleName
-  | "Chicken"
-  | BudName;
+export type LandscapingPlaceable = BuildingName | CollectibleName | BudName;
 
 export interface Context {
   action?: GameEventName<PlacementEvent>;
@@ -385,7 +381,6 @@ export const landscapingMachine = createMachine<
                 target: ["#saving.done", "done"],
                 cond: (context) =>
                   // When buying/crafting items, return them to playing mode once bought
-                  context.action === "chicken.bought" ||
                   context.action === "collectible.crafted" ||
                   context.action === "collectible.placed" ||
                   context.action === "building.constructed",

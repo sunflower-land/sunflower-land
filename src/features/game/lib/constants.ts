@@ -532,7 +532,6 @@ export const INITIAL_FARM: GameState = {
   },
 
   stock: INITIAL_STOCK(),
-  chickens: {},
   trades: {},
   floatingIsland: {
     schedule: [],
@@ -749,7 +748,6 @@ export const TEST_FARM: GameState = {
   },
   stock: INITIAL_STOCK(),
   bank: { taxFreeSFL: 0, withdrawnAmount: 0 },
-  chickens: {},
   experiments: [],
   farmActivity: {},
   milestones: {},
@@ -1058,7 +1056,6 @@ export const EMPTY: GameState = {
   gems: {},
   flower: {},
   previousInventory: {},
-  chickens: {},
   choreBoard: INITIAL_CHORE_BOARD,
 
   stock: {},

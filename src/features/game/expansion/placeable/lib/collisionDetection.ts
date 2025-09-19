@@ -18,7 +18,6 @@ import {
 import { EXPANSION_ORIGINS, LAND_SIZE } from "../../lib/constants";
 import { Coordinates } from "../../components/MapPlacement";
 import {
-  ANIMAL_DIMENSIONS,
   COLLECTIBLES_DIMENSIONS,
   CollectibleName,
   getKeys,
@@ -398,26 +397,6 @@ function detectHomeCollision({
   );
 }
 
-function detectChickenCollision(state: GameState, boundingBox: BoundingBox) {
-  const { chickens } = state;
-
-  const boundingBoxes = getKeys(chickens).flatMap((name) => {
-    const chicken = chickens[name];
-    const dimensions = ANIMAL_DIMENSIONS.Chicken;
-
-    return {
-      x: chicken.coordinates?.x ?? -999,
-      y: chicken.coordinates?.y ?? -999,
-      height: dimensions.height,
-      width: dimensions.width,
-    };
-  });
-
-  return boundingBoxes.some((resourceBoundingBox) =>
-    isOverlapping(boundingBox, resourceBoundingBox),
-  );
-}
-
 function detectMushroomCollision(
   state: GameState,
   boundingBox: BoundingBox,
@@ -616,7 +595,6 @@ export function detectCollision({
     detectWaterCollision(expansions, position) ||
     detectPlaceableCollision(state, position, item) ||
     detectLandCornerCollision(expansions, position) ||
-    detectChickenCollision(state, position) ||
     detectMushroomCollision(state, position, item) ||
     detectAirdropCollision(state, position)
   );

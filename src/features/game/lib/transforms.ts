@@ -39,7 +39,6 @@ export function makeGame(farm: any): GameState {
     bank: farm.bank,
     home: farm.home,
     createdAt: farm.createdAt,
-    chickens: farm.chickens || {},
     stockExpiry: farm.stockExpiry || {},
     coins: farm.coins,
     balance: new Decimal(farm.balance),

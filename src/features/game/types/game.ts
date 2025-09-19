@@ -146,11 +146,6 @@ export type FieldItem = {
   fertiliser?: CropFertiliser;
 };
 
-export type ChickenPosition = {
-  top: number;
-  right: number;
-};
-
 export type EasterEgg =
   | "Red Egg"
   | "Orange Egg"
@@ -1609,7 +1604,6 @@ export interface GameState {
     bumpkins: Record<string, FarmHand>;
   };
 
-  chickens: Record<string, Chicken>;
   inventory: Inventory;
   previousInventory: Inventory;
   wardrobe: Wardrobe;
