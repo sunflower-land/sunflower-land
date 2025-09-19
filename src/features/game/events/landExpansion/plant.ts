@@ -615,10 +615,6 @@ export function plant({
   return produce(state, (stateCopy) => {
     const { crops: plots, bumpkin } = stateCopy;
 
-    if (!bumpkin) {
-      throw new Error("You do not have a Bumpkin");
-    }
-
     if (!action.item) {
       throw new Error("No seed selected");
     }
