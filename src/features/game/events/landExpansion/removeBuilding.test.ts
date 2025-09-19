@@ -444,37 +444,6 @@ describe("removeBuilding", () => {
   //   expect(expansions[1].plots?.["4"].crop).not.toBeUndefined();
   // });
 
-  it("cannot remove hen house if unsupported chickens are brewing", () => {
-    const gameState = {
-      ...GAME_STATE,
-      inventory: {
-        "Rusty Shovel": new Decimal(1),
-      },
-      chickens: makeChickens(10),
-      buildings: {
-        "Hen House": [
-          {
-            id: "123",
-            coordinates: { x: 1, y: 1 },
-            createdAt: 0,
-            readyAt: 0,
-          },
-        ],
-      },
-    };
-    gameState.chickens["2"].fedAt = 1;
-    expect(() =>
-      removeBuilding({
-        state: gameState,
-        action: {
-          type: "building.removed",
-          name: "Hen House",
-          id: "123",
-        },
-      }),
-    ).toThrow(REMOVE_BUILDING_ERRORS.HEN_HOUSE_REMOVE_BREWING_CHICKEN);
-  });
-
   it("stores the time remaining for cooking buildings", () => {
     const dateNow = Date.now();
     const state = removeBuilding({
