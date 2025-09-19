@@ -200,6 +200,14 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
+  const onWithdrawPets = async (ids: number[]) => {
+    gameService.send("TRANSACT", {
+      transaction: "transaction.petWithdrawn",
+      request: { effect: { type: "withdraw.pets", budIds: ids } },
+    });
+    onClose();
+  };
+
   const transaction = gameService.getSnapshot().context.state.transaction;
   if (transaction) {
     return <Transaction isBlocked onClose={onClose} />;
