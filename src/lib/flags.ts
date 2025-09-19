@@ -86,6 +86,8 @@ const FEATURE_FLAGS = {
   // For testing
   JEST_TEST: defaultFeatureFlag,
 
+  RONIN_AIRDROP: defaultFeatureFlag,
+
   // Permanent Feature Flags
   AIRDROP_PLAYER: adminFeatureFlag,
   HOARDING_CHECK: defaultFeatureFlag,

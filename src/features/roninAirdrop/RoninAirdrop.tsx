@@ -217,7 +217,13 @@ export const RoninEligibility = () => {
             <p className="text-xs">~$50.99 in-game value!</p>
           </div>
         </div>
-        <Button>Login to claim</Button>
+        <Button
+          onClick={() => {
+            window.open(`https://sunflower-land.com/play/#/`, "_blank");
+          }}
+        >
+          Login to claim
+        </Button>
       </div>
     );
   }
