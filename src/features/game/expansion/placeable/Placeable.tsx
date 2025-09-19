@@ -21,7 +21,6 @@ import {
   CollectibleName,
 } from "features/game/types/craftables";
 import { READONLY_COLLECTIBLES } from "features/island/collectibles/CollectibleCollection";
-import { Chicken } from "features/island/chickens/Chicken";
 
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -46,7 +45,6 @@ export const PLACEABLES = (state: GameState) => {
   const biome: LandBiomeName = getCurrentBiome(island);
 
   return {
-    Chicken: () => <Chicken x={0} y={0} id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
     ...READONLY_COLLECTIBLES,
     ...READONLY_RESOURCE_COMPONENTS(),
     ...READONLY_BUILDINGS(state),

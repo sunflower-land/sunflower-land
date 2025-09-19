@@ -1,8 +1,5 @@
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import {
-  CHICKEN_COOP_MULTIPLIER,
-  HEN_HOUSE_CAPACITY,
-} from "features/game/lib/constants";
+
 import { GameState } from "features/game/types/game";
 import { isFullMoonBerry } from "./seedBought";
 import { SeedName } from "features/game/types/seeds";
@@ -22,21 +19,4 @@ export const getFruitHarvests = (
   }
 
   return harvests;
-};
-
-export const getSupportedChickens = (state: Readonly<GameState>) => {
-  const henHouses =
-    state.buildings["Hen House"]?.filter(
-      (building) => building.readyAt < Date.now() && building.coordinates,
-    ).length ?? 0;
-
-  const chickenCoop = isCollectibleBuilt({ name: "Chicken Coop", game: state });
-
-  let capacity = henHouses * HEN_HOUSE_CAPACITY;
-
-  if (chickenCoop) {
-    capacity *= CHICKEN_COOP_MULTIPLIER;
-  }
-
-  return capacity;
 };

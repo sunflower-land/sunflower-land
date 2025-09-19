@@ -2,7 +2,6 @@ import { produce } from "immer";
 
 import { removeBuilding } from "./removeBuilding";
 import { removeBeehive } from "./removeBeehive";
-import { removeChicken } from "./removeChicken";
 import { removeCollectible } from "./removeCollectible";
 import { removeCrimstone } from "./removeCrimstone";
 import { removeFlowerBed } from "./removeFlowerBed";
@@ -127,19 +126,6 @@ export function removeAll({
               // Ignore errors
             }
           });
-        }
-      });
-
-      //   Remove Chicken
-      const chickens = stateCopy.chickens;
-      Object.keys(chickens).forEach((id) => {
-        try {
-          stateCopy = removeChicken({
-            state: stateCopy,
-            action: { type: "chicken.removed", id },
-          });
-        } catch (e) {
-          // Ignore errors
         }
       });
 

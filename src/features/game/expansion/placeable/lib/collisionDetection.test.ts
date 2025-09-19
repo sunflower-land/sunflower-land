@@ -175,33 +175,6 @@ describe("detectCollisions", () => {
     expect(hasCollision).toBe(true);
   });
 
-  it("returns true if a collision is detected with a chicken", () => {
-    const state: GameState = cloneDeep(TEST_FARM);
-    state.chickens = {
-      0: {
-        coordinates: {
-          x: 1,
-          y: 1,
-        },
-        multiplier: 1,
-      },
-    };
-
-    const hasCollision = detectCollision({
-      state,
-      position: {
-        x: 1,
-        y: 1,
-        height: 1,
-        width: 1,
-      },
-      location: "farm",
-      name: "Abandoned Bear",
-    });
-
-    expect(hasCollision).toBe(true);
-  });
-
   it("returns true if a collision is detected with a bud", () => {
     const state: GameState = cloneDeep(TEST_FARM);
     state.buds = {

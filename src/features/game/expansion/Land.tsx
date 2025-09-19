@@ -6,11 +6,7 @@ import classNames from "classnames";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { MapPlacement } from "./components/MapPlacement";
 import { Context } from "../GameProvider";
-import {
-  ANIMAL_DIMENSIONS,
-  COLLECTIBLES_DIMENSIONS,
-  getKeys,
-} from "../types/craftables";
+import { COLLECTIBLES_DIMENSIONS, getKeys } from "../types/craftables";
 import { LandBase } from "./components/LandBase";
 import { UpcomingExpansion } from "./components/UpcomingExpansion";
 import { BUILDINGS_DIMENSIONS, Home } from "../types/buildings";
@@ -18,7 +14,6 @@ import { Building } from "features/island/buildings/components/building/Building
 import { Collectible } from "features/island/collectibles/Collectible";
 import { Water } from "./components/Water";
 import { DirtRenderer } from "./components/DirtRenderer";
-import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
 import { Hud } from "features/island/hud/Hud";
 import { Resource } from "features/island/resources/Resource";
 import { Placeable } from "./placeable/Placeable";
@@ -162,19 +157,7 @@ const _mushroomPositions = (state: MachineState) => {
     }),
   };
 };
-const _oldChickenPositions = (state: MachineState) => {
-  return {
-    chickens: state.context.state.chickens,
-    positions: getObjectEntries(state.context.state.chickens)
-      .filter(([_, chicken]) => chicken.coordinates !== undefined)
-      .flatMap(([_, chicken]) => {
-        return {
-          x: chicken.coordinates!.x,
-          y: chicken.coordinates!.y,
-        };
-      }),
-  };
-};
+
 const _clutterPositions = (state: MachineState) => {
   const clutter = state.context.state.socialFarming?.clutter;
 
@@ -299,11 +282,7 @@ export const LandComponent: React.FC = () => {
     _mushroomPositions,
     comparePositions,
   );
-  const { chickens } = useSelector(
-    gameService,
-    _oldChickenPositions,
-    comparePositions,
-  );
+
   const { clutter } = useSelector(
     gameService,
     _clutterPositions,
@@ -427,8 +406,8 @@ export const LandComponent: React.FC = () => {
                   location="farm"
                   name={name}
                   id={id}
-                  readyAt={readyAt}
-                  createdAt={createdAt}
+                  readyAt={readyAt ?? 0}
+                  createdAt={createdAt ?? 0}
                   x={coordinates!.x}
                   y={coordinates!.y}
                   grid={gameGrid}
@@ -472,8 +451,8 @@ export const LandComponent: React.FC = () => {
                   name={name}
                   id={building.id}
                   index={itemIndex}
-                  readyAt={building.readyAt}
-                  createdAt={building.createdAt}
+                  readyAt={building.readyAt ?? 0}
+                  createdAt={building.createdAt ?? 0}
                   x={x}
                   y={y}
                   island={island}
@@ -802,30 +781,6 @@ export const LandComponent: React.FC = () => {
     });
   }, [mushrooms, isFirstRender]);
 
-  const chickenElements = useMemo(() => {
-    return (
-      getObjectEntries(chickens)
-        // Only show placed chickens (V1 may have ones without coords)
-        .filter(([_, chicken]) => chicken.coordinates !== undefined)
-        .flatMap(([id, chicken]) => {
-          const { x, y } = chicken.coordinates!;
-          const { width, height } = ANIMAL_DIMENSIONS.Chicken;
-
-          return (
-            <MapPlacement
-              key={`chicken-${id}`}
-              x={x}
-              y={y}
-              height={height}
-              width={width}
-            >
-              <ChickenElement key={`chicken-${id}`} id={id} x={x} y={y} />
-            </MapPlacement>
-          );
-        })
-    );
-  }, [chickens]);
-
   const clutterElements = useMemo(() => {
     if (!visiting || !clutter) {
       return [];
@@ -902,7 +857,6 @@ export const LandComponent: React.FC = () => {
       oilReserveElements,
       lavaPitElements,
       mushroomElements,
-      chickenElements,
       clutterElements,
       budElements,
       airdropElements,
@@ -948,7 +902,6 @@ export const LandComponent: React.FC = () => {
     budElements,
     airdropElements,
     mushroomElements,
-    chickenElements,
   ]);
 
   return (

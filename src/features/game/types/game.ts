@@ -146,11 +146,6 @@ export type FieldItem = {
   fertiliser?: CropFertiliser;
 };
 
-export type ChickenPosition = {
-  top: number;
-  right: number;
-};
-
 export type EasterEgg =
   | "Red Egg"
   | "Orange Egg"
@@ -739,8 +734,8 @@ export type Cancelled = Partial<{
 export type PlacedItem = {
   id: string;
   coordinates?: { x: number; y: number };
-  readyAt: number;
-  createdAt: number;
+  readyAt?: number;
+  createdAt?: number;
   removedAt?: number;
   cancelled?: Cancelled;
   crafting?: BuildingProduct[];
@@ -1630,7 +1625,6 @@ export interface GameState {
     bumpkins: Record<string, FarmHand>;
   };
 
-  chickens: Record<string, Chicken>;
   inventory: Inventory;
   previousInventory: Inventory;
   wardrobe: Wardrobe;
@@ -1674,15 +1668,6 @@ export interface GameState {
   collectibles: Collectibles;
   delivery: Delivery;
   npcs?: NPCS;
-  treasureIsland?: {
-    holes: Record<number, TreasureHole>;
-    rareTreasure?: {
-      reward?: InventoryItemName;
-      discoveredAt: number;
-      holeId: number;
-    };
-    rewardCollectedAt?: number;
-  };
 
   // TODO remove when old events are deleted
   migrated?: boolean;
@@ -1738,7 +1723,6 @@ export interface GameState {
 
   buds?: Record<number, Bud>;
 
-  christmas2024?: Christmas;
   flowerShop?: FlowerShop;
   specialEvents: SpecialEvents;
   goblinMarket: {

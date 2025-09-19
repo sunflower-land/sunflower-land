@@ -145,8 +145,8 @@ export const Home: React.FC = () => {
                   location="home"
                   name={name}
                   id={id}
-                  readyAt={readyAt}
-                  createdAt={createdAt}
+                  readyAt={readyAt ?? 0}
+                  createdAt={createdAt ?? 0}
                   x={coordinates!.x}
                   y={coordinates!.y}
                   grid={gameGrid}

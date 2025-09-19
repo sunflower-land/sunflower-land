@@ -49,11 +49,6 @@ export function removePlaceable({
     return game;
   }
 
-  if (name === "Chicken") {
-    delete game.chickens[id];
-    return game;
-  }
-
   if (name === "Bud") {
     delete game.buds?.[Number(id)].coordinates;
     return game;

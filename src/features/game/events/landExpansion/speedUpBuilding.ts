@@ -30,12 +30,12 @@ export function speedUpBuilding({
       throw new Error("Building does not exists");
     }
 
-    if (building.readyAt < createdAt) {
+    if ((building.readyAt ?? 0) < createdAt) {
       throw new Error("Building already finished");
     }
 
     const gems = getInstantGems({
-      readyAt: building.readyAt,
+      readyAt: building.readyAt ?? 0,
       now: createdAt,
       game,
     });

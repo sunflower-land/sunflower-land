@@ -102,8 +102,6 @@ describe("Place Collectible", () => {
             {
               id: "123",
               coordinates: { x: 1, y: 1 },
-              createdAt: date,
-              readyAt: date,
             },
           ],
         },
@@ -125,14 +123,10 @@ describe("Place Collectible", () => {
     expect(state.collectibles["Scarecrow"]?.[0]).toEqual({
       id: expect.any(String),
       coordinates: { x: 1, y: 1 },
-      readyAt: date,
-      createdAt: date,
     });
     expect(state.collectibles["Scarecrow"]?.[1]).toEqual({
       id: expect.any(String),
       coordinates: { x: 0, y: 0 },
-      readyAt: date,
-      createdAt: date,
     });
   });
 

@@ -44,7 +44,7 @@ export const CHICKEN_COOP_MULTIPLIER = 1.5;
 export const POPOVER_TIME_MS = 1000;
 
 export function isBuildingReady(building: PlacedItem[]) {
-  return building.some((b) => b.readyAt <= Date.now() && b.coordinates);
+  return building.some((b) => (b.readyAt ?? 0) <= Date.now() && b.coordinates);
 }
 
 export type StockableName = Extract<
@@ -532,7 +532,6 @@ export const INITIAL_FARM: GameState = {
   },
 
   stock: INITIAL_STOCK(),
-  chickens: {},
   trades: {},
   floatingIsland: {
     schedule: [],
@@ -576,9 +575,6 @@ export const INITIAL_FARM: GameState = {
   },
   collectibles: {},
   pumpkinPlaza: {},
-  treasureIsland: {
-    holes: {},
-  },
   auctioneer: {},
   delivery: {
     fulfilledCount: 0,
@@ -752,7 +748,6 @@ export const TEST_FARM: GameState = {
   },
   stock: INITIAL_STOCK(),
   bank: { taxFreeSFL: 0, withdrawnAmount: 0 },
-  chickens: {},
   experiments: [],
   farmActivity: {},
   milestones: {},
@@ -1061,7 +1056,6 @@ export const EMPTY: GameState = {
   gems: {},
   flower: {},
   previousInventory: {},
-  chickens: {},
   choreBoard: INITIAL_CHORE_BOARD,
 
   stock: {},

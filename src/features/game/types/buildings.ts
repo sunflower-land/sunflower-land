@@ -47,7 +47,6 @@ export type BuildingBluePrint = {
 export type PlaceableName =
   | CollectibleName
   | BuildingName
-  | "Chicken"
   | "Bud"
   | ResourceName;
 

@@ -148,9 +148,9 @@ const applyTempCollectibleBoost = ({
     ...(game.collectibles[collectibleName] ?? []),
     ...(game.home.collectibles[collectibleName] ?? []),
   ];
-  const newestItem = activeItems.sort((a, b) => b.createdAt - a.createdAt)[0];
+  const newestItem = activeItems.sort((a, b) => b.createdAt! - a.createdAt!)[0];
   const cooldown = EXPIRY_COOLDOWNS[collectibleName] as number;
-  const expiresAt = newestItem.createdAt + cooldown;
+  const expiresAt = newestItem.createdAt! + cooldown;
 
   if (expiresAt <= cookStartAt) return seconds;
 

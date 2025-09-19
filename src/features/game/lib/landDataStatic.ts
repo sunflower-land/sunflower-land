@@ -607,7 +607,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
 
   stock: INITIAL_STOCK(),
-  chickens: {},
   trades: {},
   buildings: {
     Barn: [
@@ -1017,9 +1016,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
       items: {},
       vipDays: 1,
     },
-  },
-  treasureIsland: {
-    holes: {},
   },
   auctioneer: {},
   delivery: {

@@ -62,7 +62,7 @@ export function isCollectibleOnFarm({
   const placedOnFarm =
     game.collectibles[name] &&
     game.collectibles[name]?.some(
-      (placed) => placed.readyAt <= Date.now() && placed.coordinates,
+      (placed) => (placed.readyAt ?? 0) <= Date.now() && placed.coordinates,
     );
 
   return placedOnFarm;

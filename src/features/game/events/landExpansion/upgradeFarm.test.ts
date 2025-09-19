@@ -194,7 +194,6 @@ describe("upgradeFarm", () => {
         .flat()
         .map((b) => b.coordinates),
     ).not.toContain({ x: expect.any(Number), y: expect.any(Number) });
-    expect(state.chickens).toEqual({});
     expect(state.fishing.wharf).toEqual({});
     expect(state.mushrooms).toEqual({
       mushrooms: {},

@@ -1,8 +1,6 @@
-import React, { useContext, useState } from "react";
-import { Modal } from "components/ui/Modal";
+import React, { useContext } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { HenHouseModal } from "./components/HenHouseModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
 import { HEN_HOUSE_VARIANTS } from "features/island/lib/alternateArt";
@@ -38,7 +36,6 @@ const _buildingLevel = (state: MachineState) =>
 
 export const ChickenHouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
   const { gameService, showAnimations } = useContext(Context);
-  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
   const hasHungryChickens = useSelector(gameService, _hasHungryChickens);
@@ -56,10 +53,6 @@ export const ChickenHouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
       navigate("/hen-house");
       return;
     }
-  };
-
-  const handleClose = () => {
-    setIsOpen(false);
   };
 
   return (
@@ -84,9 +77,6 @@ export const ChickenHouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
           }}
         />
       </BuildingImageWrapper>
-      <Modal show={isOpen} onHide={handleClose}>
-        <HenHouseModal onClose={handleClose} />
-      </Modal>
     </>
   );
 };

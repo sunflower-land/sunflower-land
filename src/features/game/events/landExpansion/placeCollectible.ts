@@ -10,6 +10,10 @@ import { getCountAndType } from "features/island/hud/components/inventory/utils/
 import { MonumentName, REQUIRED_CHEERS } from "features/game/types/monuments";
 import { isPet } from "features/game/types/pets";
 import { hasFeatureAccess } from "lib/flags";
+import {
+  EXPIRY_COOLDOWNS,
+  TemporaryCollectibleName,
+} from "features/game/lib/collectibleBuilt";
 
 export type PlaceCollectibleAction = {
   type: "collectible.placed";
@@ -27,6 +31,18 @@ type Options = {
   action: PlaceCollectibleAction;
   createdAt?: number;
 };
+
+/**
+ * We only need to store createdAt and readyAt for certain collectibles
+ * This helps store on space since most items don't need these timestamps
+ */
+export function isCollectibleWithTimestamps(name: CollectibleName) {
+  return (
+    EXPIRY_COOLDOWNS[name as TemporaryCollectibleName] ||
+    name === "Maneki Neko" ||
+    name === "Magic Bean"
+  );
+}
 
 export function placeCollectible({
   state,
@@ -138,10 +154,13 @@ export function placeCollectible({
     // If no existing collectible is found, create a new one
     const newCollectiblePlacement: PlacedItem = {
       id: action.id,
-      createdAt: createdAt,
       coordinates: action.coordinates,
-      readyAt: createdAt,
     };
+
+    // There are some rare cases where we need to set the createdAt
+    if (isCollectibleWithTimestamps(action.name)) {
+      newCollectiblePlacement.createdAt = createdAt;
+    }
 
     collectibleItems.push(newCollectiblePlacement);
 
