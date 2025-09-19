@@ -23,7 +23,7 @@ import { InfoPopover } from "features/island/common/InfoPopover";
 import { secondsToString } from "lib/utils/time";
 import { BoostName } from "features/game/types/game";
 
-const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
+const imageDomain = CONFIG.NETWORK === "mainnet" ? "pets" : "testnet-pets";
 
 interface Props {
   onWithdraw: (ids: number[]) => void;
@@ -31,31 +31,30 @@ interface Props {
 
 const _state = (state: MachineState) => state.context.state;
 
-export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
+export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
 
-  const buds = state.buds ?? {};
+  const nfts = state.pets?.nfts ?? {};
 
   const [unselected, setUnselected] = useState<number[]>(
-    getKeys(buds)
-      .filter((budId) => !buds[budId].coordinates)
+    getKeys(nfts)
+      .filter((nftId) => !nfts[nftId].coordinates)
       .map(Number),
   );
   const [selected, setSelected] = useState<number[]>([]);
-
   const [showInfo, setShowInfo] = useState("");
 
-  const onAdd = (budId: number) => {
-    setUnselected((prev) => prev.filter((bud) => bud !== budId));
-    setSelected((prev) => [...prev, budId]);
+  const onAdd = (petId: number) => {
+    setUnselected((prev) => prev.filter((pet) => pet !== petId));
+    setSelected((prev) => [...prev, petId]);
   };
 
-  const onRemove = (budId: number) => {
-    setUnselected((prev) => [...prev, budId]);
-    setSelected((prev) => prev.filter((bud) => bud !== budId));
+  const onRemove = (petId: number) => {
+    setUnselected((prev) => [...prev, petId]);
+    setSelected((prev) => prev.filter((pet) => pet !== petId));
   };
 
   const hasAccess = hasReputation({
@@ -75,13 +74,13 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
     return { isRestricted, cooldownTimeLeft };
   };
 
-  const getBudName = (budId: number) => {
-    return `Bud #${budId}`;
+  const getPetName = (petId: number) => {
+    return `Pet #${petId}`;
   };
 
   const sortWithdrawableItems = (a: number, b: number) => {
-    const itemA = getBudName(a) as BoostName;
-    const itemB = getBudName(b) as BoostName;
+    const itemA = getPetName(a) as BoostName;
+    const itemB = getPetName(b) as BoostName;
     const aCooldownMs = getRestrictionStatus(itemA).cooldownTimeLeft;
     const bCooldownMs = getRestrictionStatus(itemB).cooldownTimeLeft;
 
@@ -96,7 +95,7 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
     if (aIsOnCooldown !== bIsOnCooldown) {
       return aIsOnCooldown ? -1 : 1;
     }
-    // 3. Otherwise, sort by bud IDs
+    // 3. Otherwise, sort by pet IDs
     return a - b;
   };
 
@@ -107,34 +106,34 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
           <span className="text-xs">{t("withdraw.restricted")}</span>
         </Label>
         <Label type="default" className="mb-2">
-          {t("withdraw.buds")}
+          {t("withdraw.pets")}
         </Label>
         <div className="flex flex-wrap h-fit -ml-1.5">
           {unselected
             .slice()
             .sort((a, b) => sortWithdrawableItems(a, b))
-            .map((budId) => {
-              const budName = getBudName(budId);
+            .map((petId) => {
+              const petName = getPetName(petId);
               const { isRestricted, cooldownTimeLeft } = getRestrictionStatus(
-                budName as BoostName,
+                petName as BoostName,
               );
               const RestrictionCooldown = cooldownTimeLeft / 1000;
 
               const handleBoxClick = () => {
                 if (isRestricted) {
-                  setShowInfo((prev) => (prev === budName ? "" : budName));
+                  setShowInfo((prev) => (prev === petName ? "" : petName));
                 }
               };
 
               return (
                 <div
-                  key={budName}
+                  key={petName}
                   onClick={handleBoxClick}
                   className="flex relative"
                 >
                   <InfoPopover
                     className="absolute top-14 text-xxs sm:text-xs"
-                    showPopover={showInfo === `Bud #${budId}`}
+                    showPopover={showInfo === `Pet #${petId}`}
                   >
                     {t("withdraw.boostedItem.timeLeft", {
                       time: secondsToString(RestrictionCooldown, {
@@ -146,10 +145,9 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
                   </InfoPopover>
 
                   <Box
-                    key={`bud-${budId}`}
-                    onClick={() => onAdd(budId)}
-                    image={`https://${imageDomain}.sunflower-land.com/images/${budId}.webp`}
-                    iconClassName="scale-[1.8] origin-bottom absolute"
+                    key={`pet-${petId}`}
+                    onClick={() => onAdd(petId)}
+                    image={SUNNYSIDE.icons.expression_confused}
                     disabled={isRestricted}
                     secondaryImage={
                       isRestricted ? SUNNYSIDE.icons.lock : undefined
@@ -170,12 +168,12 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
             {t("selected")}
           </Label>
           <div className="flex flex-wrap h-fit mt-2 -ml-1.5">
-            {selected.map((budId) => (
+            {selected.map((petId) => (
               <Box
-                key={`bud-${budId}`}
-                onClick={() => onRemove(budId)}
-                image={`https://${imageDomain}.sunflower-land.com/images/${budId}.webp`}
-                iconClassName="scale-[1.8] origin-bottom absolute"
+                key={`pet-${petId}`}
+                onClick={() => onRemove(petId)}
+                image={SUNNYSIDE.icons.expression_confused}
+                iconClassName="w-5"
               />
             ))}
             {/* Pad with empty boxes */}

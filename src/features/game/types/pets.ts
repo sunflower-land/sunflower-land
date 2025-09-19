@@ -4,6 +4,7 @@ import { CraftableCollectible } from "./collectibles";
 import { CookableName } from "./consumables";
 import { getObjectEntries } from "../expansion/lib/utils";
 import { InventoryItemName } from "./game";
+import { Coordinates } from "../expansion/components/MapPlacement";
 export type PetName =
   // Dogs
   | "Barkley"
@@ -103,8 +104,19 @@ export type Pet = {
   visitedAt?: number; // Local only field
 };
 
+export type PetNFTName = `Pet-${number}`;
+
+export type PetNFT = {
+  id: number;
+  name: PetNFTName;
+  coordinates?: Coordinates;
+};
+
+export type PetNFTs = Record<number, PetNFT>;
+
 export type Pets = {
   common?: Partial<Record<PetName, Pet>>;
+  nfts?: PetNFTs;
   requestsGeneratedAt?: number;
 };
 
