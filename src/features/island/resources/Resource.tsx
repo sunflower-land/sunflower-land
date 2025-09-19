@@ -65,6 +65,7 @@ export const READONLY_RESOURCE_COMPONENTS = (): Record<
     ),
     "Gold Rock": () => (
       <div
+        className="relative pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 14}px`,
           top: `${PIXEL_SCALE * 3}px`,
@@ -73,7 +74,6 @@ export const READONLY_RESOURCE_COMPONENTS = (): Record<
       >
         <img
           src={ITEM_DETAILS["Gold Rock"].image}
-          className="relative pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 14}px`,
             top: `${PIXEL_SCALE * 3}px`,
@@ -85,7 +85,7 @@ export const READONLY_RESOURCE_COMPONENTS = (): Record<
     "Iron Rock": () => (
       <img
         src={ITEM_DETAILS["Iron Rock"].image}
-        className="relative"
+        className="relative pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 14}px`,
           top: `${PIXEL_SCALE * 3}px`,
@@ -96,7 +96,7 @@ export const READONLY_RESOURCE_COMPONENTS = (): Record<
     "Stone Rock": () => (
       <img
         src={ITEM_DETAILS["Stone Rock"].image}
-        className="relative"
+        className="relative pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 14}px`,
           top: `${PIXEL_SCALE * 4.52}px`,
@@ -107,7 +107,7 @@ export const READONLY_RESOURCE_COMPONENTS = (): Record<
     "Fused Stone Rock": () => (
       <img
         src={ITEM_DETAILS["Fused Stone Rock"].image}
-        className="relative"
+        className="relative pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 15}px`,
           top: `${PIXEL_SCALE}px`,
@@ -118,7 +118,7 @@ export const READONLY_RESOURCE_COMPONENTS = (): Record<
     "Reinforced Stone Rock": () => (
       <img
         src={ITEM_DETAILS["Reinforced Stone Rock"].image}
-        className="relative"
+        className="relative pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 15}px`,
           top: `${PIXEL_SCALE * -0.523}px`,
@@ -149,7 +149,7 @@ export const READONLY_RESOURCE_COMPONENTS = (): Record<
     Tree: () => (
       <img
         src={TREE_VARIANTS(currentBiome, season, "Tree")}
-        className="relative"
+        className="relative pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 26}px`,
           bottom: `${PIXEL_SCALE * 2}px`,
@@ -216,7 +216,7 @@ export const READONLY_RESOURCE_COMPONENTS = (): Record<
     "Ancient Tree": () => (
       <img
         src={TREE_VARIANTS(currentBiome, season, "Ancient Tree")}
-        className="relative"
+        className="relative pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 26}px`,
           bottom: `${PIXEL_SCALE * 2}px`,
@@ -227,7 +227,7 @@ export const READONLY_RESOURCE_COMPONENTS = (): Record<
     "Sacred Tree": () => (
       <img
         src={TREE_VARIANTS(currentBiome, season, "Sacred Tree")}
-        className="relative"
+        className="relative pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 26}px`,
           bottom: `${PIXEL_SCALE * 2}px`,
@@ -238,7 +238,7 @@ export const READONLY_RESOURCE_COMPONENTS = (): Record<
     "Refined Iron Rock": () => (
       <img
         src={ITEM_DETAILS["Refined Iron Rock"].image}
-        className="relative"
+        className="relative pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 15}px`,
           top: `${PIXEL_SCALE * 3}px`,
@@ -249,7 +249,7 @@ export const READONLY_RESOURCE_COMPONENTS = (): Record<
     "Tempered Iron Rock": () => (
       <img
         src={ITEM_DETAILS["Tempered Iron Rock"].image}
-        className="relative"
+        className="relative pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 15}px`,
           top: `${PIXEL_SCALE * 1}px`,
