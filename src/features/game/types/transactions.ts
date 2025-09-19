@@ -7,6 +7,8 @@ import {
   withdrawFlowerTransaction,
   WithdrawItemsParams,
   withdrawItemsTransaction,
+  WithdrawPetsParams,
+  withdrawPetsTransaction,
   WithdrawWearablesParams,
   withdrawWearablesTransaction,
 } from "lib/blockchain/Withdrawals";
@@ -25,6 +27,15 @@ export type BudWithdrawnTransaction = {
   data: {
     buds: GameState["buds"];
     params: WithdrawBudsParams;
+  };
+};
+
+export type PetWithdrawnTransaction = {
+  event: "transaction.petWithdrawn";
+  createdAt: number;
+  data: {
+    pets: GameState["pets"];
+    params: WithdrawPetsParams;
   };
 };
 
@@ -86,6 +97,7 @@ export type GameTransaction =
   | WearablesWithdrawnTransaction
   | ItemsWithdrawnTransaction
   | BudWithdrawnTransaction
+  | PetWithdrawnTransaction
   | AcceptOfferTransaction
   | ListingPurchasedTransaction
   | FlowerWithdrawnTransaction;
@@ -191,6 +203,7 @@ export const ONCHAIN_TRANSACTIONS: TransactionHandler = {
   "transaction.listingPurchased": (data) =>
     listingPurchasedTransaction(data.params),
   "transaction.budWithdrawn": (data) => withdrawBudsTransaction(data.params),
+  "transaction.petWithdrawn": (data) => withdrawPetsTransaction(data.params),
   "transaction.itemsWithdrawn": (data) => withdrawItemsTransaction(data.params),
   "transaction.progressSynced": (data) => syncProgress(data.params),
   "transaction.wearablesWithdrawn": (data) =>
@@ -215,6 +228,7 @@ export const TRANSACTION_SIGNATURES: TransactionRequest = {
   "transaction.listingPurchased": () => ({}) as any, // uses new effect flow
   "transaction.progressSynced": sync,
   "transaction.budWithdrawn": postEffect,
+  "transaction.petWithdrawn": postEffect,
   "transaction.itemsWithdrawn": postEffect,
   "transaction.wearablesWithdrawn": postEffect,
   "transaction.flowerWithdrawn": postEffect,
