@@ -934,8 +934,7 @@ export function harvest({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const { crops: plots, bumpkin } = stateCopy;
-
+    const { crops: plots } = stateCopy;
 
     const { updatedPlot, amount, aoe, boostsUsed, cropName } =
       harvestCropFromPlot({

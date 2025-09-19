@@ -613,7 +613,7 @@ export function plant({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const { crops: plots, bumpkin } = stateCopy;
+    const { crops: plots } = stateCopy;
 
     if (!action.item) {
       throw new Error("No seed selected");
