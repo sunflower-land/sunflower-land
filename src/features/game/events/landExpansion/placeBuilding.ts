@@ -140,7 +140,7 @@ export function placeBuilding({
 
         Object.values(animals).forEach((animal) => {
           if (existingBuilding.removedAt) {
-            const timeOffset = existingBuilding.removedAt - animal.asleepAt;
+            const timeOffset = createdAt - existingBuilding.removedAt;
             animal.asleepAt = animal.asleepAt + timeOffset;
             animal.awakeAt = animal.awakeAt + timeOffset;
             animal.lovedAt = animal.lovedAt + timeOffset;
