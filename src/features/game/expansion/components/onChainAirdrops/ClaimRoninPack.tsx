@@ -12,14 +12,12 @@ import { Loading } from "features/auth/components";
 import { Box } from "components/ui/Box";
 import giftIcon from "assets/icons/gift.png";
 import { ClaimReward } from "../ClaimReward";
-
-const _nft = (state: MachineState) => state.context.state.nfts?.ronin;
-const _createdAt = (state: MachineState) => state.context.state.createdAt;
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const ClaimRoninPack: React.FC = () => {
   const { gameState, gameService } = useGame();
   const [isLoading, setIsLoading] = useState(false);
-  const [reward, setReward] = useState<RoninV2PackName | null>(null);
+  const [reward, setReward] = useState<RoninV2PackName | null>("Silver Pack");
 
   const { t } = useAppTranslation();
 
@@ -79,9 +77,38 @@ export const ClaimRoninPack: React.FC = () => {
         giving exclusive Ronin packs to eligible players.
       </p>
 
+      <img
+        src={SUNNYSIDE.announcement.roninAirdrop}
+        className="w-full rounded-md"
+      />
+
       <Button className="mt-2" onClick={check}>
-        Check Eligibility
+        Claim Reward
       </Button>
     </div>
+  );
+};
+
+export const RoninClaimedSuccess: React.FC = () => {
+  const { t } = useAppTranslation();
+  const { gameService } = useGame();
+  return (
+    <>
+      <Label type="success" className="mb-2">
+        Reward claimed
+      </Label>
+      <p className="text-sm mb-2">Are you an X influencer?</p>
+      <p className="text-sm mb-2">
+        Don't forget to claim to visit the rewards section, connect your account
+        and claim your bonus reward.
+      </p>
+      <Button
+        onClick={() => {
+          gameService.send("CONTINUE");
+        }}
+      >
+        {t("continue")}
+      </Button>
+    </>
   );
 };
