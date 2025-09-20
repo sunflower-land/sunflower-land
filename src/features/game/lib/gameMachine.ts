@@ -869,6 +869,7 @@ export function startGame(authContext: AuthContext) {
         rawToken: authContext.user.rawToken,
         actions: [],
         state: EMPTY,
+        linkedWallet: "0x123",
         sessionId: INITIAL_SESSION,
         announcements: {},
         prices: {
@@ -1185,10 +1186,14 @@ export function startGame(authContext: AuthContext) {
             },
             {
               target: "roninAirdrop",
-              cond: (context) =>
-                !!context.linkedWallet &&
-                !context.state.roninRewards?.onchain &&
-                hasFeatureAccess(context.state, "RONIN_AIRDROP"),
+              cond: (context) => {
+                console.log({ wallet: context.linkedWallet });
+                return (
+                  !!context.linkedWallet &&
+                  !context.state.roninRewards?.onchain &&
+                  hasFeatureAccess(context.state, "RONIN_AIRDROP")
+                );
+              },
             },
             {
               target: "vip",

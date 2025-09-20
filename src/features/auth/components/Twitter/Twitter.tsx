@@ -84,6 +84,9 @@ const TwitterRewards: React.FC = () => {
           >
             <div className="flex flex-wrap justify-between">
               <div className="flex gap-1">
+                {key === "RONIN" && (
+                  <Label type="vibrant">{t("twitter.ronin.label")}</Label>
+                )}
                 {
                   // Loop through rewards and give label
                   getKeys(TWITTER_REWARDS[key].items).map((name) => (
@@ -518,6 +521,24 @@ const RoninAirdrop: React.FC<{
     }
   }, []);
 
+  const handleDownload = async () => {
+    try {
+      const response = await fetch(SUNNYSIDE.announcement.roninAirdrop);
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "ronin-rewards.png";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      alert("Long press the image and select 'Download' manually.");
+    }
+  };
+
   if (hasCompleted) {
     const items = RONIN_BOX_REWARDS[state.roninRewards?.twitter?.pack!].items;
     return (
@@ -548,7 +569,7 @@ const RoninAirdrop: React.FC<{
   return (
     <>
       <div className=" gap-1">
-        <Label type="vibrant" className="mr-2">
+        <Label type="info" icon={SUNNYSIDE.icons.stopwatch} className="mr-2">
           {t("twitter.ronin.share")}
         </Label>
         <p className="text-sm">
@@ -567,6 +588,22 @@ const RoninAirdrop: React.FC<{
         {t("twitter.ronin.instructions.1", { hashtag: TWITTER_HASHTAGS.RONIN })}
       </p>
       <p className="text-xs mx-1 mb-2">{t("twitter.ronin.instructions.2")}</p>
+
+      <div className="relative">
+        <img
+          src={SUNNYSIDE.announcement.roninAirdrop}
+          className="w-full my-2"
+        />
+        <div
+          className="absolute bottom-2 right-2 h-12 w-12 cursor-pointer"
+          onClick={handleDownload}
+        >
+          <img src={SUNNYSIDE.icons.disc} className="w-full" />
+          <div className="absolute inset-0 flex items-center justify-center w-full h-full">
+            <img src={saveIcon} className="w-6" />
+          </div>
+        </div>
+      </div>
 
       <div className="flex">
         <Button className="mr-1" onClick={onClose}>

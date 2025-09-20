@@ -14,6 +14,9 @@ export type TwitterReward = {
 };
 
 export const TWITTER_REWARDS: Record<TwitterPostName, TwitterReward> = {
+  RONIN: {
+    items: {}, // Handle differently for users
+  },
   WEEKLY: {
     items: { "Love Charm": 50 },
   },
@@ -22,9 +25,6 @@ export const TWITTER_REWARDS: Record<TwitterPostName, TwitterReward> = {
   },
   FLOWER: {
     items: { "Love Charm": 50 },
-  },
-  RONIN: {
-    items: {}, // Handle differently for users
   },
 };
 
