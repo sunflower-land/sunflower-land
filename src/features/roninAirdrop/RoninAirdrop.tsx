@@ -14,6 +14,7 @@ import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { Label } from "components/ui/Label";
 import giftIcon from "assets/icons/gift.png";
 import speakerIcon from "assets/icons/speaker.webp";
+import twitterIcon from "assets/icons/world_book.webp";
 import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -23,22 +24,23 @@ import { InventoryItemName } from "features/game/types/game";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { Box } from "components/ui/Box";
 import confetti from "canvas-confetti";
-import { RoninV2PackName } from "features/wallet/lib/ronin";
+import { RONIN_BOX_REWARDS, RoninV2PackName } from "features/wallet/lib/ronin";
 import { getRoninPack } from "./actions/getRoninPack";
+import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
+import { getKeys } from "features/game/lib/crafting";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { useGame } from "features/game/GameProvider";
+import { hasFeatureAccess } from "lib/flags";
 
-export const RoninAirdrop = () => {
-  const { t } = useAppTranslation();
+// Wrapper for the Ronin Airdrop page to ensure they have access
+export const GameRoninAirdrop = () => {
+  const { gameState } = useGame();
+
   const navigate = useNavigate();
-  const { pathname } = useLocation();
 
-  const [showModal, setShowModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const isInternalRoute = pathname.includes("/game");
-
-  const handleClose = useCallback(() => {
+  const handleClose = () => {
     navigate(-1);
-  }, [navigate]);
+  };
 
   // exit marketplace if Escape key is pressed
   useEffect(() => {
@@ -55,91 +57,104 @@ export const RoninAirdrop = () => {
     };
   }, [handleClose]);
 
+  if (!hasFeatureAccess(gameState.context.state, "RONIN_AIRDROP")) {
+    return <div>404</div>;
+  }
+
+  return <RoninAirdrop onClose={handleClose} />;
+};
+
+export const RoninAirdrop: React.FC<{ onClose?: () => void }> = ({
+  onClose,
+}) => {
+  const { t } = useAppTranslation();
+
+  const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
     <>
       <OuterPanel className="bg-[#181425] w-full h-full safe-area-inset-top safe-area-inset-bottom">
-        <div className="inset-0 fixed pointer-events-auto flex flex-col overflow-y-auto scrollable">
-          <div className="relative flex w-full justify-between pr-10 items-center  mr-auto h-[70px] mb-2">
-            <div
-              className="absolute inset-0 w-full h-full -z-0 rounded-sm"
-              // Repeating pixel art image background
-              style={{
-                backgroundImage: `url(${SUNNYSIDE.announcement.flowerBanner})`,
-
-                imageRendering: "pixelated",
-                backgroundSize: "320px",
-                backgroundPosition: "center",
-              }}
-            />
-            <div className="absolute inset-0 w-full h-full bg-black opacity-50 -z-0 rounded-sm" />
-            <div className="z-10 pl-4">
-              <p className="text-lg text-white z-10 text-shadow">
-                Ronin's biggest airdrop
-              </p>
-            </div>
-
-            {isInternalRoute && (
-              <img
-                src={SUNNYSIDE.icons.close}
-                className="flex-none cursor-pointer absolute right-2"
-                onClick={handleClose}
-                style={{
-                  width: `${PIXEL_SCALE * 11}px`,
-                  height: `${PIXEL_SCALE * 11}px`,
-                }}
-              />
-            )}
-          </div>
+        <div className="inset-0 fixed pointer-events-auto flex flex-col overflow-y-auto scrollable pt-2">
           {/* In Game Flower Stats */}
           {isLoading && <Loading />}
           {!isLoading && (
             <>
-              <InnerPanel className="flex flex-wrap mx-2 mb-1">
-                <div className="w-full sm:w-1/3 px-2 pt-2 h-full flex flex-col">
-                  <div className="flex">
-                    <p className="text-lg mb-2">Ronin's biggest airdrop</p>
-                    <img src={speakerIcon} className="ml-2 h-8" />
-                  </div>
-                  <p className="text-sm">
-                    Celebrate the launch of $FLOWER on Ronin.
-                  </p>
-                  <p className="text-sm mb-2">
-                    Over $1,000,000 in value for eligible farms.
-                  </p>
-
-                  <p className="text-xs mb-0.5">
-                    *Eligible farms based on Ronin wallet activity & X activity.
-                  </p>
-
-                  <div className="flex flex-col items-start  justify-end flex-1 -mx-1">
-                    <Button
-                      className="w-auto"
-                      onClick={() => setShowModal(true)}
+              <div className="flex flex-wrap mx-2  relative">
+                <InnerPanel className="w-full md:w-2/5 mb-1">
+                  <div className=" px-2 pt-2  flex flex-col h-full">
+                    <div className="flex">
+                      <p className="text-lg ">Ronin's biggest airdrop</p>
+                      <img src={speakerIcon} className="ml-2 h-8" />
+                    </div>
+                    <p className="text-sm mb-2">
+                      Celebrate the launch of $FLOWER on Ronin.
+                    </p>
+                    <Label
+                      type="info"
+                      icon={SUNNYSIDE.icons.stopwatch}
+                      className="mb-3"
                     >
-                      Check Eligibility
-                    </Button>
+                      X Days Left
+                    </Label>
+
+                    {/* <div className="flex items-center  mb-2">
+                      <img className="w-8 mr-2" src={giftIcon} />
+                      <p className="text-sm">$5,000,000 of in-game value.</p>
+                    </div> */}
+
+                    <div className="flex items-center  mb-1">
+                      <img className="w-8 mr-2" src={walletIcon} />
+                      <p className="text-sm">
+                        500,000 Eligible Ronin Addresses
+                      </p>
+                    </div>
+
+                    <div className="flex items-center  mb-1">
+                      <img className="w-8 mr-2" src={twitterIcon} />
+                      <p className="text-sm">10,000 X Influencers (Twitter)</p>
+                    </div>
+
+                    <div className="flex items-center  mb-1">
+                      <img className="w-8 mr-2" src={giftIcon} />
+                      <p className="text-sm">
+                        Prizes up to $500 (in-game value)
+                      </p>
+                    </div>
+                    <div className="mt-4">
+                      <Button
+                        className="w-auto"
+                        onClick={() => setShowModal(true)}
+                      >
+                        Check Eligibility
+                      </Button>
+                    </div>
                   </div>
-                </div>
-                <div className="sm:w-2/3 hidden sm:block h-[200px] relative">
-                  <Label
-                    type="info"
-                    icon={SUNNYSIDE.icons.stopwatch}
-                    className="absolute top-1 right-1"
-                  >
-                    X Days Left
-                  </Label>
+                </InnerPanel>
+                {onClose && (
                   <img
-                    src={SUNNYSIDE.announcement.autumn}
-                    className="w-full  h-full"
+                    src={SUNNYSIDE.icons.close}
+                    className="flex-none cursor-pointer absolute right-2 top-2"
+                    onClick={onClose}
+                    style={{
+                      width: `${PIXEL_SCALE * 11}px`,
+                      height: `${PIXEL_SCALE * 11}px`,
+                    }}
+                  />
+                )}
+                <div className=" w-full md:w-3/5 relative px-1 mb-1">
+                  <img
+                    src={SUNNYSIDE.announcement.roninAirdrop}
+                    className="w-full rounded-md h-full object-cover"
                   />
                 </div>
-              </InnerPanel>
+              </div>
               <div className="flex flex-col md:flex-row">
                 <div className="w-full md:w-1/2 lg:w-1/3 pr-1 pl-2 mb-2">
                   <InnerPanel>
                     <RoninTable
                       rows={ROWS.slice(0, 10)}
-                      title="Whale Packs"
+                      title="Whale Pack"
                       positions="1st-100th"
                     />
                   </InnerPanel>
@@ -148,7 +163,7 @@ export const RoninAirdrop = () => {
                   <InnerPanel>
                     <RoninTable
                       rows={ROWS.slice(0, 10)}
-                      title="Legendary Packs"
+                      title="Legendary Pack"
                       positions="100th-250th"
                     />
                   </InnerPanel>
@@ -157,7 +172,7 @@ export const RoninAirdrop = () => {
                   <InnerPanel>
                     <RoninTable
                       rows={ROWS.slice(0, 10)}
-                      title="Platinum Packs"
+                      title="Platinum Pack"
                       positions="250th-1000th"
                     />
                   </InnerPanel>
@@ -288,14 +303,38 @@ const ROWS: RoninRow[] = new Array(100).fill({
 
 const RoninTable: React.FC<{
   rows: RoninRow[];
-  title: string;
+  title: RoninPackName;
   positions: string;
 }> = ({ rows, title, positions }) => {
+  const { items, estimatedValue } = RONIN_BOX_REWARDS[title];
   return (
     <>
       <div className="flex  items-center justify-between mb-2">
-        <Label type="warning">{title}</Label>
+        <div className="flex items-center">
+          <Label type="warning">{title}</Label>
+          <p className="text-xs ml-2">{`~$${estimatedValue}`}</p>
+        </div>
         <p className="text-xs">{positions}</p>
+      </div>
+      <div className="flex flex-wrap items-center mx-1 mb-2">
+        {title === "Whale Pack" && (
+          <Label
+            type="vibrant"
+            icon={ITEM_DETAILS["Pet Egg"].image}
+            className="mr-2"
+          >
+            {`NFT Egg`}
+          </Label>
+        )}
+        {getKeys(items).map((name) => (
+          <Label
+            type="vibrant"
+            icon={ITEM_DETAILS[name].image}
+            className="mr-2 mb-1"
+          >
+            {`${items[name]! > 1 ? `${items[name]} ` : ""}${name}`}
+          </Label>
+        ))}
       </div>
       <table className="table-auto w-full text-xs border-collapse">
         <tbody>
@@ -319,13 +358,6 @@ const RoninTable: React.FC<{
                         <p className="text-xs sm:text-sm">{`${index + 1}. ${name} `}</p>
                       </div>
                     </div>
-                  </div>
-                </td>
-
-                <td className="p-1.5 flex justify-end">
-                  <div className="flex items-center mb-1">
-                    <p className="text-xs sm:text-sm mr-1.5">{`${prize}`}</p>
-                    <img src={giftIcon} className="h-6" />
                   </div>
                 </td>
               </tr>

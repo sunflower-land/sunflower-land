@@ -81,6 +81,11 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ state, socialTasks }) => {
       <div className="flex flex-col gap-2 m-1">
         <div className="flex flex-col gap-1 text-xs">
           <TaskButton
+            title={t("socialTask.twitter")}
+            onClick={() => openModal("TWITTER")}
+            image={SUNNYSIDE.icons.x}
+          />
+          <TaskButton
             title={t("socialTask.merkl")}
             onClick={() => openModal("MERKL")}
             image={flowerIcon}
@@ -102,12 +107,6 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ state, socialTasks }) => {
             title={t("socialTask.telegram")}
             onClick={() => openModal("TELEGRAM")}
             image={SUNNYSIDE.icons.telegram}
-          />
-
-          <TaskButton
-            title={t("socialTask.twitter")}
-            onClick={() => openModal("TWITTER")}
-            image={SUNNYSIDE.icons.x}
           />
 
           <TaskButton
