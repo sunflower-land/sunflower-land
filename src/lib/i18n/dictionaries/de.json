@@ -6435,11 +6435,9 @@
   "claiming.auction": "Prägeartikel",
   "claiming.auction.success": "Herzlichen Glückwunsch! Ihr Artikel wurde geprägt!",
   "description.obsidianShrine": "Ein Schrein für den Obsidian",
-  "description.obsidianShrine.buff": "Sofortiges Ernten und Pflanzen",
   "obsidianShrine.harvest": "Ernten Sie alle Pflanzen",
   "obsidianShrine.plant": "Pflanze {{seed}}",
   "obsidianShrine.readyCrops": "Erntereife Pflanzen",
-  "obsidianShrine.noCrops": "Keine erntereifen Pflanzen",
   "obsidianShrine.noSeeds": "Keine Samen zum Anpflanzen verfügbar",
   "obsidianShrine.plantAll": "Auf alle leeren Ackerflächen pflanzen",
   "obsidianShrine.selectSeed": "Wähle einen Samen",
@@ -6656,5 +6654,7 @@
   "portal.memory.description": "Drehe Karten um, finde Streichhölzer und versuche, bei dieser Gedächtnisherausforderung gesund zu bleiben!",
   "description.potion.ticket": "Eine Belohnung aus dem Potion Game. Benutze dies, um Artikel von Eins zu kaufen.",
   "select.network": "Wählen Sie Netzwerk",
-  "switching.network": "Netzwerk wird gewechselt..."
+  "switching.network": "Netzwerk wird gewechselt...",
+  "description.obsidianShrine.buff": "Alle fertigen Pflanzen und Pflanzensamen in großen Mengen ernten",
+  "obsidianShrine.noCrops": "Keine erntereifen Pflanzen"
 }

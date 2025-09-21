@@ -6435,11 +6435,9 @@
   "claiming.auction": "Изделие для чеканки",
   "claiming.auction.success": "Поздравляю! Ваш товар отчеканен!",
   "description.obsidianShrine": "Святилище обсидиана",
-  "description.obsidianShrine.buff": "Мгновенный сбор урожая и посадка",
   "obsidianShrine.harvest": "Собирайте все урожаи",
   "obsidianShrine.plant": "Растение {{seed}}",
   "obsidianShrine.readyCrops": "Урожай готов к сбору урожая",
-  "obsidianShrine.noCrops": "Нет готовых к сбору урожая культур",
   "obsidianShrine.noSeeds": "Семена для посадки отсутствуют",
   "obsidianShrine.plantAll": "Высаживайте растения на всех пустых посевных участках",
   "obsidianShrine.selectSeed": "Выберите семя",
@@ -6656,5 +6654,7 @@
   "portal.memory.description": "Перелистывайте карточки, находите совпадения и постарайтесь сохранить здоровье в этом испытании на память!",
   "description.potion.ticket": "Награда в игре «Зелье». Используйте это, чтобы покупать предметы у Eins.",
   "select.network": "Выберите сеть",
-  "switching.network": "Коммутационная сеть..."
+  "switching.network": "Коммутационная сеть...",
+  "description.obsidianShrine.buff": "Массовый сбор всех готовых культур и семян растений",
+  "obsidianShrine.noCrops": "Нет готовых к сбору урожая культур"
 }

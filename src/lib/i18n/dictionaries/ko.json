@@ -6435,11 +6435,9 @@
   "claiming.auction": "민트 아이템",
   "claiming.auction.success": "축하합니다!제품이 발행되었습니다!",
   "description.obsidianShrine": "흑요석을 기리는 성지",
-  "description.obsidianShrine.buff": "즉석 수확 및 심기",
   "obsidianShrine.harvest": "모든 작물을 수확하세요",
   "obsidianShrine.plant": "식물 {{seed}}",
   "obsidianShrine.readyCrops": "수확할 준비가 된 작물",
-  "obsidianShrine.noCrops": "수확할 작물이 없습니다",
   "obsidianShrine.noSeeds": "심기에 사용할 수 있는 씨앗이 없습니다.",
   "obsidianShrine.plantAll": "모든 빈 농작물에 심습니다.",
   "obsidianShrine.selectSeed": "시드 선택",
@@ -6656,5 +6654,7 @@
   "portal.memory.description": "이 메모리 챌린지에서 카드를 뒤집고, 짝을 찾고, 건강을 유지하세요!",
   "description.potion.ticket": "포션 게임의 보상입니다.이를 사용해 아인스에게서 아이템을 구매할 수 있습니다.",
   "select.network": "네트워크 선택",
-  "switching.network": "네트워크 전환 중..."
+  "switching.network": "네트워크 전환 중...",
+  "description.obsidianShrine.buff": "준비된 모든 작물을 대량 수확하고 종자를 심습니다.",
+  "obsidianShrine.noCrops": "수확할 작물이 없습니다"
 }

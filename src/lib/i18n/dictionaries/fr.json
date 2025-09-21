@@ -6435,11 +6435,9 @@
   "claiming.auction": "Article de frappe",
   "claiming.auction.success": "Félicitations ! Votre article a été frappé !",
   "description.obsidianShrine": "Un sanctuaire dédié à l'obsidienne",
-  "description.obsidianShrine.buff": "Récolte et plantation instantanées",
   "obsidianShrine.harvest": "Récoltez toutes les récoltes",
   "obsidianShrine.plant": "Plante {{seed}}",
   "obsidianShrine.readyCrops": "Cultures prêtes à être récoltées",
-  "obsidianShrine.noCrops": "Aucune récolte prête à être récoltée",
   "obsidianShrine.noSeeds": "Aucune graine disponible pour la plantation",
   "obsidianShrine.plantAll": "Plantez sur toutes les parcelles de culture vides",
   "obsidianShrine.selectSeed": "Sélectionnez une graine",
@@ -6656,5 +6654,7 @@
   "portal.memory.description": "Retournez des cartes, trouvez des allumettes et essayez de rester en bonne santé dans ce défi de mémoire !",
   "description.potion.ticket": "Une récompense issue du jeu de potions. Utilisez-le pour acheter des objets chez Eins.",
   "select.network": "Sélectionnez le réseau",
-  "switching.network": "Réseau de commutation..."
+  "switching.network": "Réseau de commutation...",
+  "description.obsidianShrine.buff": "Récoltez en vrac toutes les cultures prêtes et les graines de plantes",
+  "obsidianShrine.noCrops": "Aucune récolte prête à être récoltée"
 }

@@ -6435,11 +6435,9 @@
   "claiming.auction": "Oggetto di conio",
   "claiming.auction.success": "Congratulazioni! Il tuo articolo è stato coniato!",
   "description.obsidianShrine": "Un santuario dedicato all'ossidiana",
-  "description.obsidianShrine.buff": "Raccolta e impianto istantanei",
   "obsidianShrine.harvest": "Raccogli tutte le colture",
   "obsidianShrine.plant": "Pianta {{seed}}",
   "obsidianShrine.readyCrops": "Colture pronte per la raccolta",
-  "obsidianShrine.noCrops": "Nessuna coltura pronta per la raccolta",
   "obsidianShrine.noSeeds": "Nessun seme disponibile per la semina",
   "obsidianShrine.plantAll": "Pianta su tutti i terreni coltivati vuoti",
   "obsidianShrine.selectSeed": "Seleziona un seme",
@@ -6656,5 +6654,7 @@
   "portal.memory.description": "Gira le carte, trova i fiammiferi e cerca di rimanere in salute in questa sfida della memoria!",
   "description.potion.ticket": "Una ricompensa del gioco delle pozioni. Usalo per acquistare oggetti da Eins.",
   "select.network": "Seleziona rete",
-  "switching.network": "Rete di commutazione..."
+  "switching.network": "Rete di commutazione...",
+  "description.obsidianShrine.buff": "Raccogli all'ingrosso tutte le colture pronte e i semi delle piante",
+  "obsidianShrine.noCrops": "Nessuna coltura pronta per la raccolta"
 }

@@ -6435,11 +6435,9 @@
   "claiming.auction": "正在铸造物品",
   "claiming.auction.success": "恭喜！你的物品已成功铸造！",
   "description.obsidianShrine": "献给黑曜石的神龛",
-  "description.obsidianShrine.buff": "即时收获与种植",
   "obsidianShrine.harvest": "收获所有庄稼",
   "obsidianShrine.plant": "种植 {{seed}}",
   "obsidianShrine.readyCrops": "庄稼已成熟，可收获",
-  "obsidianShrine.noCrops": "没暂无可收获的庄稼",
   "obsidianShrine.noSeeds": "没有可用的种子可供种植",
   "obsidianShrine.plantAll": "在所有空闲田坑中种植",
   "obsidianShrine.selectSeed": "请选择一种种子",
@@ -6656,5 +6654,7 @@
   "portal.memory.description": "在这场记忆挑战赛中，翻转卡片，寻找匹配项，努力保持健康！",
   "description.potion.ticket": "来自药水游戏的奖励。使用它从 Eins 购买物品。",
   "select.network": "选择网络",
-  "switching.network": "正在切换网络..."
+  "switching.network": "正在切换网络...",
+  "description.obsidianShrine.buff": "批量收获所有现成的作物和植物种子",
+  "obsidianShrine.noCrops": "没有农作物准备收割"
 }

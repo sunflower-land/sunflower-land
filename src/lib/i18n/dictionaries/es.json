@@ -6435,11 +6435,9 @@
   "claiming.auction": "Artículo de acuñación",
   "claiming.auction.success": "¡Felicidades! ¡Tu artículo ha sido acuñado!",
   "description.obsidianShrine": "Un santuario dedicado a la obsidiana",
-  "description.obsidianShrine.buff": "Cosecha y planta instantáneas",
   "obsidianShrine.harvest": "Cosecha todos los cultivos",
   "obsidianShrine.plant": "Planta {{seed}}",
   "obsidianShrine.readyCrops": "Cultivos listos para la cosecha",
-  "obsidianShrine.noCrops": "No hay cultivos listos para la cosecha",
   "obsidianShrine.noSeeds": "No hay semillas disponibles para plantar",
   "obsidianShrine.plantAll": "Plante en todas las parcelas de cultivo vacías",
   "obsidianShrine.selectSeed": "Selecciona una semilla",
@@ -6656,5 +6654,7 @@
   "portal.memory.description": "¡Voltea cartas, encuentra coincidencias y trata de mantenerte sano en este desafío de memoria!",
   "description.potion.ticket": "Una recompensa del juego de pociones. Utilízala para comprar objetos de Eins.",
   "select.network": "Seleccione la red",
-  "switching.network": "Red de conmutación..."
+  "switching.network": "Red de conmutación...",
+  "description.obsidianShrine.buff": "Cosecha a granel todos los cultivos listos y siembra semillas",
+  "obsidianShrine.noCrops": "No hay cultivos listos para cosechar"
 }

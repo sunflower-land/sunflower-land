@@ -6435,11 +6435,9 @@
   "claiming.auction": "Basma Öğesi",
   "claiming.auction.success": "Tebrikler! Eşyanız basıldı!",
   "description.obsidianShrine": "Obsidiyen için bir tapınak",
-  "description.obsidianShrine.buff": "Anında Hasat ve Bitki",
   "obsidianShrine.harvest": "Tüm Mahsulleri Hasat Et",
   "obsidianShrine.plant": "Bitki {{seed}}",
   "obsidianShrine.readyCrops": "Hasat için hazır mahsuller",
-  "obsidianShrine.noCrops": "Hasat için hazır ürün yok",
   "obsidianShrine.noSeeds": "Dikim için tohum yok",
   "obsidianShrine.plantAll": "Tüm boş mahsul arazilerine ekin",
   "obsidianShrine.selectSeed": "Bir tohum seçin",
@@ -6656,5 +6654,7 @@
   "portal.memory.description": "Kartları çevir, eşleşmeleri bul ve bu hafıza mücadelesinde sağlıklı kalmaya çalış!",
   "description.potion.ticket": "İksir Oyunundan bir ödül. Bunu Eins\"den ürün satın almak için kullanın.",
   "select.network": "Ağ Seçin",
-  "switching.network": "Ağ Değiştirme..."
+  "switching.network": "Ağ Değiştirme...",
+  "description.obsidianShrine.buff": "Tüm hazır mahsulleri ve bitki tohumlarını toplu olarak hasat edin",
+  "obsidianShrine.noCrops": "Hasat için hazır ürün yok"
 }

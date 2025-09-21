@@ -6435,11 +6435,9 @@
   "claiming.auction": "Item Pencetakan",
   "claiming.auction.success": "Tahniah! Item anda telah dicetak!",
   "description.obsidianShrine": "Kuil untuk obsidian",
-  "description.obsidianShrine.buff": "Penuaian Segera & Tanaman",
   "obsidianShrine.harvest": "Tuai Semua Tanaman",
   "obsidianShrine.plant": "Tumbuhan {{seed}}",
   "obsidianShrine.readyCrops": "Tanaman siap untuk dituai",
-  "obsidianShrine.noCrops": "Tiada tanaman yang sedia untuk dituai",
   "obsidianShrine.noSeeds": "Tiada benih tersedia untuk ditanam",
   "obsidianShrine.plantAll": "Tanam ke semua plot tanaman kosong",
   "obsidianShrine.selectSeed": "Pilih benih",
@@ -6656,5 +6654,7 @@
   "portal.memory.description": "Balikkan kad, cari padanan dan cuba kekal sihat dalam cabaran ingatan ini!",
   "description.potion.ticket": "Ganjaran dari Permainan Ramuan. Gunakan ini untuk membeli barangan dari Eins.",
   "select.network": "Pilih Rangkaian",
-  "switching.network": "Menukar Rangkaian..."
+  "switching.network": "Menukar Rangkaian...",
+  "description.obsidianShrine.buff": "Tuai pukal semua tanaman siap dan benih tanaman",
+  "obsidianShrine.noCrops": "Tiada tanaman yang sedia untuk dituai"
 }

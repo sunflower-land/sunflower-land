@@ -6435,11 +6435,9 @@
   "claiming.auction": "Item de cunhagem",
   "claiming.auction.success": "Parabéns! Seu item foi cunhado!",
   "description.obsidianShrine": "Um santuário para a obsidiana",
-  "description.obsidianShrine.buff": "Colheita e planta instantâneas",
   "obsidianShrine.harvest": "Colha todas as safras",
   "obsidianShrine.plant": "Planta {{seed}}",
   "obsidianShrine.readyCrops": "Culturas prontas para a colheita",
-  "obsidianShrine.noCrops": "Nenhuma safra pronta para a colheita",
   "obsidianShrine.noSeeds": "Não há sementes disponíveis para o plantio",
   "obsidianShrine.plantAll": "Plante em todas as parcelas vazias",
   "obsidianShrine.selectSeed": "Selecione uma semente",
@@ -6656,5 +6654,7 @@
   "portal.memory.description": "Vire cartas, encontre fósforos e tente se manter saudável neste desafio de memória!",
   "description.potion.ticket": "Uma recompensa do Jogo de Poções. Use isso para comprar itens da Eins.",
   "select.network": "Selecione Rede",
-  "switching.network": "Mudando de rede..."
+  "switching.network": "Mudando de rede...",
+  "description.obsidianShrine.buff": "Colha a granel todas as safras prontas e plante as sementes",
+  "obsidianShrine.noCrops": "Nenhuma safra pronta para a colheita"
 }
