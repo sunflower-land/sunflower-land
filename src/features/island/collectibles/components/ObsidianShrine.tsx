@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import classNames from "classnames";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleProps } from "../Collectible";
@@ -18,13 +19,14 @@ import { useSelector } from "@xstate/react";
 import { SeedName } from "features/game/types/seeds";
 import { CropSeedName } from "features/game/types/crops";
 import { SEASONAL_SEEDS, SEEDS } from "features/game/types/seeds";
-import { CropName, CROPS } from "features/game/types/crops";
-import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
+import { CropName } from "features/game/types/crops";
 import { Box } from "components/ui/Box";
 import { Decimal } from "decimal.js-light";
 import { CropPlot, GameState } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
 import { getCropPlotTime } from "features/game/events/landExpansion/plant";
+import { getAvailablePlots } from "features/game/events/landExpansion/bulkPlant";
+import { getCropsToHarvest } from "features/game/events/landExpansion/bulkHarvest";
 
 export const ObsidianShrine: React.FC<CollectibleProps> = ({
   createdAt,
@@ -37,8 +39,8 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
 
   const [show, setShow] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
-
-  const [_, setRender] = useState(0);
+  const [showPopover, setShowPopover] = useState(false);
+  const [, setRender] = useState(0);
 
   const expiresAt = createdAt + (EXPIRY_COOLDOWNS[name as PetShrineName] ?? 0);
 
@@ -54,30 +56,14 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
     });
   };
 
-  const plots = state.crops;
-  const availablePlots = Object.entries(plots).filter(([_, plot]) => {
-    return plot.x !== undefined && plot.y !== undefined && !plot.crop;
-  });
-
-  const readyCrops = Object.entries(plots).reduce(
-    (acc, [_, plot]) => {
-      if (!plot.crop) return acc;
-      if (isReadyToHarvest(Date.now(), plot.crop, CROPS[plot.crop.name])) {
-        acc[plot.crop.name] = (acc[plot.crop.name] ?? 0) + 1;
-      }
-      return acc;
-    },
-    {} as Record<CropName, number>,
-  );
+  const availablePlots = getAvailablePlots(state);
+  const { readyCrops } = getCropsToHarvest(state);
+  const hasReadyCrops = Object.keys(readyCrops).length > 0;
+  const hasAvailablePlots = availablePlots.length > 0;
 
   const harvestAll = () => {
-    Object.entries(plots).forEach(([plotId, plot]) => {
-      if (!plot.crop) return;
-      if (isReadyToHarvest(Date.now(), plot.crop, CROPS[plot.crop.name])) {
-        gameService.send("crop.harvested", { index: plotId });
-      }
-      setActiveTab(1);
-    });
+    gameService.send("crops.bulkHarvested", {});
+    setActiveTab(1);
   };
 
   if (hasExpired) {
@@ -123,9 +109,27 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
     setShow(false);
   };
 
+  const handleShrineClick = () => {
+    if (hasReadyCrops || hasAvailablePlots) {
+      setShow(true);
+      setActiveTab(hasReadyCrops ? 0 : 1);
+    }
+  };
+
   return (
     <>
-      <div onClick={() => setShow(true)}>
+      <div
+        onClick={handleShrineClick}
+        className={classNames({
+          "absolute cursor-pointer hover:img-highlight":
+            hasReadyCrops || hasAvailablePlots,
+          "cursor-not-allowed": !hasReadyCrops && !hasAvailablePlots,
+        })}
+        onMouseEnter={() =>
+          !hasReadyCrops && !hasAvailablePlots && setShowPopover(true)
+        }
+        onMouseLeave={() => setShowPopover(false)}
+      >
         <img
           src={ITEM_DETAILS[name].image}
           style={{
@@ -133,7 +137,6 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
             bottom: `${PIXEL_SCALE * 0}px`,
             left: `${PIXEL_SCALE * 1}px`,
           }}
-          className="absolute cursor-pointer hover:img-highlight"
           alt={name}
         />
         {showTimers && (
@@ -196,6 +199,32 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
           </Label>
         </div>
       </Modal>
+
+      {hasReadyCrops && (
+        <img
+          src={SUNNYSIDE.icons.expression_alerted}
+          className="absolute animate-float z-10 left-4 -top-2"
+          style={{
+            width: `${PIXEL_SCALE * 4}px`,
+          }}
+        />
+      )}
+
+      {showPopover && (
+        <div
+          className="flex justify-center absolute w-full pointer-events-none"
+          style={{
+            top: `${PIXEL_SCALE * -14}px`,
+          }}
+        >
+          <InnerPanel className="absolute whitespace-nowrap w-fit z-[999999]">
+            <div className="text-xs mx-1 p-1 flex flex-col items-center">
+              {!hasReadyCrops && <span>{t("obsidianShrine.noCrops")}</span>}
+              {!hasAvailablePlots && <span>{t("obsidianShrine.noPlots")}</span>}
+            </div>
+          </InnerPanel>
+        </div>
+      )}
     </>
   );
 };
@@ -270,21 +299,14 @@ const PlantAll: React.FC<{
   const plantAll = () => {
     if (!selectedSeed) return;
 
-    const seedCount = state.inventory[selectedSeed]?.toNumber() ?? 0;
-    const plotsToPlant = Math.min(seedCount, availablePlots.length);
+    const updatedState = gameService.send("seeds.bulkPlanted", {
+      seed: selectedSeed,
+    });
 
-    for (let i = 0; i < plotsToPlant; i++) {
-      const [plotId, _] = availablePlots[i];
-      gameService.send("seed.planted", {
-        index: plotId,
-        item: selectedSeed,
-        cropId: crypto.randomUUID().slice(0, 8),
-      });
-    }
+    const availablePlots = getAvailablePlots(updatedState.context.state);
 
-    // Close if all plots were planted,
-    // otherwise keep open for more planting
-    if (plotsToPlant === availablePlots.length) {
+    // Close if all plots were planted
+    if (availablePlots.length === 0) {
       close();
     }
   };
@@ -313,7 +335,7 @@ const PlantAll: React.FC<{
             {t("obsidianShrine.plantAll")}
           </Label>
           <div className="flex flex-wrap gap-2">
-            {Object.entries(availableSeeds).map(([seed, count], idx) => {
+            {Object.entries(availableSeeds).map(([seed, count]) => {
               return (
                 <Box
                   key={seed}

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
   AOE,
   BoostName,
@@ -834,85 +833,120 @@ export function getCropYieldAmount({
   };
 }
 
+export function harvestCropFromPlot({
+  plotId,
+  game,
+  createdAt,
+}: {
+  plotId: string;
+  game: GameState;
+  createdAt: number;
+}): {
+  updatedPlot: CropPlot;
+  amount: number;
+  aoe: AOE;
+  boostsUsed: BoostName[];
+  cropName: CropName;
+} {
+  const { crops: plots, bumpkin } = game;
+
+  if (!bumpkin) {
+    throw new Error("You do not have a Bumpkin");
+  }
+
+  const plot = plots[plotId];
+
+  if (!plot) {
+    throw new Error("Plot does not exist");
+  }
+
+  const cropAffectedBy = getAffectedWeather({
+    id: plotId,
+    game,
+  });
+
+  if (cropAffectedBy) {
+    throw new Error(`Plot is affected by ${cropAffectedBy}`);
+  }
+
+  if (!plot.crop) {
+    throw new Error("Nothing was planted");
+  }
+
+  const { name: cropName, plantedAt, reward, criticalHit = {} } = plot.crop;
+
+  const { amount, aoe, boostsUsed } = plot.crop.amount
+    ? { amount: plot.crop.amount, aoe: game.aoe, boostsUsed: [] }
+    : getCropYieldAmount({
+        crop: cropName,
+        game,
+        plot,
+        createdAt,
+        criticalDrop: (name) => !!(criticalHit[name] ?? 0),
+      });
+
+  const { harvestSeconds } = CROPS[cropName];
+
+  if (createdAt - plantedAt < harvestSeconds * 1000) {
+    throw new Error("Not ready");
+  }
+
+  if (reward) {
+    if (reward.coins) {
+      game.coins = game.coins + reward.coins;
+    }
+
+    if (reward.items) {
+      game.inventory = reward.items.reduce((acc, item) => {
+        const amount = acc[item.name] || new Decimal(0);
+
+        return {
+          ...acc,
+          [item.name]: amount.add(item.amount),
+        };
+      }, game.inventory);
+    }
+  }
+
+  const activityName: BumpkinActivityName = `${cropName} Harvested`;
+  bumpkin.activity = trackActivity(activityName, bumpkin.activity);
+
+  // Create updated plot without crop data
+  const updatedPlot: CropPlot = {
+    ...plot,
+  };
+  delete updatedPlot.crop;
+  delete updatedPlot.fertiliser;
+  delete updatedPlot.beeSwarm;
+
+  return {
+    updatedPlot,
+    amount,
+    aoe,
+    boostsUsed,
+    cropName,
+  };
+}
+
 export function harvest({
   state,
   action,
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const { crops: plots, bumpkin } = stateCopy;
+    const { crops: plots } = stateCopy;
 
-    if (!bumpkin) {
-      throw new Error("You do not have a Bumpkin");
-    }
-
-    const plot = plots[action.index];
-
-    if (!plot) {
-      throw new Error("Plot does not exist");
-    }
-
-    const cropAffectedBy = getAffectedWeather({
-      id: action.index,
-      game: stateCopy,
-    });
-
-    if (cropAffectedBy) {
-      throw new Error(`Plot is affected by ${cropAffectedBy}`);
-    }
-
-    if (!plot.crop) {
-      throw new Error("Nothing was planted");
-    }
-
-    const { name: cropName, plantedAt, reward, criticalHit = {} } = plot.crop;
-
-    const { amount, aoe, boostsUsed } = plot.crop.amount
-      ? { amount: plot.crop.amount, aoe: stateCopy.aoe, boostsUsed: [] }
-      : getCropYieldAmount({
-          crop: cropName,
-          game: stateCopy,
-          plot,
-          createdAt,
-          criticalDrop: (name) => !!(criticalHit[name] ?? 0),
-        });
+    const { updatedPlot, amount, aoe, boostsUsed, cropName } =
+      harvestCropFromPlot({
+        plotId: action.index,
+        game: stateCopy,
+        createdAt,
+      });
 
     stateCopy.aoe = aoe;
-
-    const { harvestSeconds } = CROPS[cropName];
-
-    if (createdAt - plantedAt < harvestSeconds * 1000) {
-      throw new Error("Not ready");
-    }
-
-    if (reward) {
-      if (reward.coins) {
-        stateCopy.coins = stateCopy.coins + reward.coins;
-      }
-
-      if (reward.items) {
-        stateCopy.inventory = reward.items.reduce((acc, item) => {
-          const amount = acc[item.name] || new Decimal(0);
-
-          return {
-            ...acc,
-            [item.name]: amount.add(item.amount),
-          };
-        }, stateCopy.inventory);
-      }
-    }
-
-    const activityName: BumpkinActivityName = `${cropName} Harvested`;
-
-    bumpkin.activity = trackActivity(activityName, bumpkin.activity);
-
-    // Remove crop data for plot
-    delete plot.crop;
-    delete plot.fertiliser;
-    delete plot.beeSwarm;
+    plots[action.index] = updatedPlot;
 
     const cropCount = stateCopy.inventory[cropName] || new Decimal(0);
-
     stateCopy.inventory = {
       ...stateCopy.inventory,
       [cropName]: cropCount.add(amount),
