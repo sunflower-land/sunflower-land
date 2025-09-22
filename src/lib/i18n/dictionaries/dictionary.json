@@ -6660,5 +6660,7 @@
   "select.network": "Select Network",
   "switching.network": "Switching Network...",
   "marketplace.tradesCleared": "Trades removed",
-  "marketplace.tradesCleared.message": "Your following trades have become inactive due to insufficient items/balance."
+  "marketplace.tradesCleared.message": "Your following trades have become inactive due to insufficient items/balance.",
+  "marketplace.offerLimitReached.label": "Offer Limit Reached",
+  "marketplace.offerLimitReached": "You have reached the maximum number of offers (30). Please remove some offers to make space for new ones."
 }
