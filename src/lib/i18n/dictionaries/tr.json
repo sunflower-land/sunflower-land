@@ -903,7 +903,6 @@
   "description.gold.pass": "(LEGACY) Sahibinin nadir NFT'ler oluşturmasına, ticaret yapmasına, para çekmesine ve bonus içeriğe erişmesine olanak tanıyan özel bir geçiş kartı.",
   "description.rapid.growth": "(LEGACY) İki kat daha hızlı büyütmek için mahsule uygulayın",
   "description.bud.ticket": "(LEGACY) Sunflower Land Buds NFT düşüşünde Bud basmak için garantili bir yer.",
-  "description.potion.ticket": "İksir Evi'nden bir ödül. Garth'tan ürün satın almak için bunu kullanın.",
   "description.trading.ticket": "(LEGACY) Serbest Ticaret! Vay be!",
   "description.block.buck": "Ayçiçeği Ülkesinde değerli bir jeton!",
   "description.beta.pass": "(EXCLUSIVE) Test amaçlı özelliklere erken erişim sağlayın.",
@@ -6436,11 +6435,9 @@
   "claiming.auction": "Basma Öğesi",
   "claiming.auction.success": "Tebrikler! Eşyanız basıldı!",
   "description.obsidianShrine": "Obsidiyen için bir tapınak",
-  "description.obsidianShrine.buff": "Anında Hasat ve Bitki",
   "obsidianShrine.harvest": "Tüm Mahsulleri Hasat Et",
   "obsidianShrine.plant": "Bitki {{seed}}",
   "obsidianShrine.readyCrops": "Hasat için hazır mahsuller",
-  "obsidianShrine.noCrops": "Hasat için hazır ürün yok",
   "obsidianShrine.noSeeds": "Dikim için tohum yok",
   "obsidianShrine.plantAll": "Tüm boş mahsul arazilerine ekin",
   "obsidianShrine.selectSeed": "Bir tohum seçin",
@@ -6654,5 +6651,11 @@
   "memory.portal.missionObjective": "Görev: {{targetScore}} eşleşmeleri bulun.",
   "memory.portal.rewardMessage": "Tebrikler, görevi tamamladınız! İşte ödülünüz.",
   "portal.memory.title": "Bellek",
-  "portal.memory.description": "Kartları çevir, eşleşmeleri bul ve bu hafıza mücadelesinde sağlıklı kalmaya çalış!"
+  "portal.memory.description": "Kartları çevir, eşleşmeleri bul ve bu hafıza mücadelesinde sağlıklı kalmaya çalış!",
+  "description.potion.ticket": "İksir Oyunundan bir ödül. Bunu Eins\"den ürün satın almak için kullanın.",
+  "select.network": "Ağ Seçin",
+  "switching.network": "Ağ Değiştirme...",
+  "description.obsidianShrine.buff": "Tüm hazır mahsulleri ve bitki tohumlarını toplu olarak hasat edin",
+  "obsidianShrine.noCrops": "Hasat için hazır ürün yok",
+  "withdraw.pets": "Çekilecek Evcil Hayvanları Seçin"
 }

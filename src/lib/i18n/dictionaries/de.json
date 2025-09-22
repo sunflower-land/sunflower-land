@@ -1384,7 +1384,6 @@
   "description.gold.pass": "(LEGACY) Ein exklusiver Pass, der es dem Inhaber ermöglicht, seltene NFTs herzustellen, zu handeln, abzuheben und auf Bonusinhalte zuzugreifen.",
   "description.rapid.growth": "(LEGACY) Auf eine Pflanze auftragen, um doppelt so schnell zu wachsen",
   "description.bud.ticket": "(LEGACY) Ein garantierter Ort, um beim Sunflower Land Buds NFT Drop eine Bud zu minzen.",
-  "description.potion.ticket": "Eine Belohnung vom Potion House. Benutze das, um Gegenstände von Garth zu kaufen.",
   "description.trading.ticket": "(LEGACY) Kostenlose Trades! Woohoo!",
   "description.block.buck": "Ein wertvolles Zeichen im Sonnenblumenland!",
   "description.beta.pass": "(EXKLUSIV) Erhalte frühen Zugriff auf Funktionen zum Testen.",
@@ -6436,11 +6435,9 @@
   "claiming.auction": "Prägeartikel",
   "claiming.auction.success": "Herzlichen Glückwunsch! Ihr Artikel wurde geprägt!",
   "description.obsidianShrine": "Ein Schrein für den Obsidian",
-  "description.obsidianShrine.buff": "Sofortiges Ernten und Pflanzen",
   "obsidianShrine.harvest": "Ernten Sie alle Pflanzen",
   "obsidianShrine.plant": "Pflanze {{seed}}",
   "obsidianShrine.readyCrops": "Erntereife Pflanzen",
-  "obsidianShrine.noCrops": "Keine erntereifen Pflanzen",
   "obsidianShrine.noSeeds": "Keine Samen zum Anpflanzen verfügbar",
   "obsidianShrine.plantAll": "Auf alle leeren Ackerflächen pflanzen",
   "obsidianShrine.selectSeed": "Wähle einen Samen",
@@ -6654,5 +6651,11 @@
   "memory.portal.missionObjective": "Auftrag: Finde {{targetScore}} -Übereinstimmungen.",
   "memory.portal.rewardMessage": "Herzlichen Glückwunsch, du hast die Mission abgeschlossen! Hier ist deine Belohnung.",
   "portal.memory.title": "Erinnerung",
-  "portal.memory.description": "Drehe Karten um, finde Streichhölzer und versuche, bei dieser Gedächtnisherausforderung gesund zu bleiben!"
+  "portal.memory.description": "Drehe Karten um, finde Streichhölzer und versuche, bei dieser Gedächtnisherausforderung gesund zu bleiben!",
+  "description.potion.ticket": "Eine Belohnung aus dem Potion Game. Benutze dies, um Artikel von Eins zu kaufen.",
+  "select.network": "Wählen Sie Netzwerk",
+  "switching.network": "Netzwerk wird gewechselt...",
+  "description.obsidianShrine.buff": "Alle fertigen Pflanzen und Pflanzensamen in großen Mengen ernten",
+  "obsidianShrine.noCrops": "Keine erntereifen Pflanzen",
+  "withdraw.pets": "Wähle Haustiere aus, die du abheben möchtest"
 }

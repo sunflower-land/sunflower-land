@@ -5,28 +5,39 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ContentComponentProps } from "../GameOptions";
 import { Loading } from "features/auth/components";
 import { NumberInput } from "components/ui/NumberInput";
-import {
-  loadGameStateForVisit,
-  VisitGameState,
-} from "features/game/actions/loadGameStateForVisit";
+import { VisitGameState } from "features/game/actions/loadGameStateForVisit";
 import { useAuth } from "features/auth/lib/Provider";
 import { CopyAddress } from "components/ui/CopyAddress";
+import { loadGameStateForAdmin } from "features/game/actions/adminSearch";
+import { useGame } from "features/game/GameProvider";
+import { Label } from "components/ui/Label";
+import { TextInput } from "components/ui/TextInput";
 
 export const DEV_PlayerSearch: React.FC<ContentComponentProps> = () => {
   const { t } = useAppTranslation();
   const [state, setState] = useState<"idle" | "loading" | "loaded">("idle");
   const [farmId, setFarmId] = useState<number>(0);
+  const [nftId, setNftId] = useState<number>(0);
+  const [username, setUsername] = useState<string>("");
+  const [discordId, setDiscordId] = useState<string>("");
+  const [wallet, setWallet] = useState<string>("");
   const [farm, setFarm] = useState<VisitGameState | null>(null);
   const { authState } = useAuth();
+  const { gameState } = useGame();
 
   const search = async () => {
     setState("loading");
 
     try {
-      const { visitedFarmState: farm } = await loadGameStateForVisit(
+      const { visitedFarmState: farm } = await loadGameStateForAdmin({
+        adminId: gameState.context.farmId,
         farmId,
-        authState.context.user.rawToken,
-      );
+        token: authState.context.user.rawToken as string,
+        username,
+        discordId,
+        nftId,
+        wallet,
+      });
       setFarm(farm);
     } finally {
       setState("loaded");
@@ -43,7 +54,7 @@ export const DEV_PlayerSearch: React.FC<ContentComponentProps> = () => {
 
   if (state === "loaded" && farm) {
     return (
-      <div className="flex flex-col gap-2 p-3">
+      <div className="flex flex-col p-1">
         <p>{`Farm ID: ${farmId}`}</p>
         <p>{`Username: ${farm.username}`}</p>
         <div className="flex items-center">
@@ -66,7 +77,10 @@ export const DEV_PlayerSearch: React.FC<ContentComponentProps> = () => {
   }
 
   return (
-    <div className="flex flex-col gap-2 p-3">
+    <div className="flex flex-col  p-3">
+      <Label type="default" className="m-1">
+        {`Farm ID`}
+      </Label>
       <div className="flex mb-2">
         <NumberInput
           value={farmId}
@@ -74,7 +88,41 @@ export const DEV_PlayerSearch: React.FC<ContentComponentProps> = () => {
           onValueChange={(decimal) => setFarmId(decimal.toNumber())}
         />
       </div>
-      <Button className="w-full" onClick={search}>
+      <Label type="default" className="m-1">
+        {`Username`}
+      </Label>
+      <div className="flex mb-2">
+        <TextInput value={username} onValueChange={(e) => setUsername(e)} />
+      </div>
+      <Label type="default" className="m-1">
+        {`Discord ID`}
+      </Label>
+      <div className="flex mb-2">
+        <TextInput value={discordId} onValueChange={(e) => setDiscordId(e)} />
+      </div>
+      <Label type="default" className="m-1">
+        {" "}
+        {`NFT ID`}
+      </Label>
+      <div className="flex mb-2">
+        <NumberInput
+          value={nftId}
+          maxDecimalPlaces={0}
+          onValueChange={(decimal) => setNftId(decimal.toNumber())}
+        />
+      </div>
+      <Label type="default" className="m-1">
+        {`Wallet`}
+      </Label>
+      <div className="flex mb-2">
+        <TextInput value={wallet} onValueChange={(e) => setWallet(e)} />
+      </div>
+
+      <Button
+        className="w-full"
+        onClick={search}
+        disabled={!farmId && !username && !discordId && !nftId && !wallet}
+      >
         {t("search")}
       </Button>
     </div>

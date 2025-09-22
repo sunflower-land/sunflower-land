@@ -1370,7 +1370,6 @@
   "description.potato.statue": "Настоящий картофельный барыга",
   "description.potent.potato": "Мощный! Дает 3% шанс на получение +10 Картофеля при сборе.",
   "description.potent.potato.boost": "3% шанс на +10 Картофеля",
-  "description.potion.ticket": "Награда из Potion House. Используй её для покупки предметов у Garth’а.",
   "description.potted.potato": "В твоем бампкине течет картофельная кровь.",
   "description.potted.pumpkin": "Pumpkins для бампкинов",
   "description.potted.sunflower": "Украшает твою землю.",
@@ -6436,11 +6435,9 @@
   "claiming.auction": "Изделие для чеканки",
   "claiming.auction.success": "Поздравляю! Ваш товар отчеканен!",
   "description.obsidianShrine": "Святилище обсидиана",
-  "description.obsidianShrine.buff": "Мгновенный сбор урожая и посадка",
   "obsidianShrine.harvest": "Собирайте все урожаи",
   "obsidianShrine.plant": "Растение {{seed}}",
   "obsidianShrine.readyCrops": "Урожай готов к сбору урожая",
-  "obsidianShrine.noCrops": "Нет готовых к сбору урожая культур",
   "obsidianShrine.noSeeds": "Семена для посадки отсутствуют",
   "obsidianShrine.plantAll": "Высаживайте растения на всех пустых посевных участках",
   "obsidianShrine.selectSeed": "Выберите семя",
@@ -6654,5 +6651,11 @@
   "memory.portal.missionObjective": "Миссия: найти {{targetScore}} совпадения.",
   "memory.portal.rewardMessage": "Поздравляем, вы выполнили задание! Вот ваша награда.",
   "portal.memory.title": "Память",
-  "portal.memory.description": "Перелистывайте карточки, находите совпадения и постарайтесь сохранить здоровье в этом испытании на память!"
+  "portal.memory.description": "Перелистывайте карточки, находите совпадения и постарайтесь сохранить здоровье в этом испытании на память!",
+  "description.potion.ticket": "Награда в игре «Зелье». Используйте это, чтобы покупать предметы у Eins.",
+  "select.network": "Выберите сеть",
+  "switching.network": "Коммутационная сеть...",
+  "description.obsidianShrine.buff": "Массовый сбор всех готовых культур и семян растений",
+  "obsidianShrine.noCrops": "Нет готовых к сбору урожая культур",
+  "withdraw.pets": "Выберите «Домашние животные» для изъятия"
 }
