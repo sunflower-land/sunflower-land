@@ -6657,5 +6657,7 @@
   "switching.network": "Ağ Değiştirme...",
   "description.obsidianShrine.buff": "Tüm hazır mahsulleri ve bitki tohumlarını toplu olarak hasat edin",
   "obsidianShrine.noCrops": "Hasat için hazır ürün yok",
-  "withdraw.pets": "Çekilecek Evcil Hayvanları Seçin"
+  "withdraw.pets": "Çekilecek Evcil Hayvanları Seçin",
+  "marketplace.tradesCleared": "İşlemler kaldırıldı",
+  "marketplace.tradesCleared.message": "Aşağıdaki işlemleriniz yetersiz kalemler/bakiye nedeniyle etkisiz hale geldi."
 }

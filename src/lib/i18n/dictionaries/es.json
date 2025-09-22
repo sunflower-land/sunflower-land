@@ -6657,5 +6657,7 @@
   "switching.network": "Red de conmutación...",
   "description.obsidianShrine.buff": "Cosecha a granel todos los cultivos listos y siembra semillas",
   "obsidianShrine.noCrops": "No hay cultivos listos para cosechar",
-  "withdraw.pets": "Selecciona las mascotas que deseas retirar"
+  "withdraw.pets": "Selecciona las mascotas que deseas retirar",
+  "marketplace.tradesCleared": "Operaciones eliminadas",
+  "marketplace.tradesCleared.message": "Sus siguientes operaciones se han vuelto inactivas debido a la insuficiencia de elementos/saldo."
 }

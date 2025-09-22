@@ -6657,5 +6657,7 @@
   "switching.network": "네트워크 전환 중...",
   "description.obsidianShrine.buff": "준비된 모든 작물을 대량 수확하고 종자를 심습니다.",
   "obsidianShrine.noCrops": "수확할 작물이 없습니다",
-  "withdraw.pets": "철회할 애완동물 선택"
+  "withdraw.pets": "철회할 애완동물 선택",
+  "marketplace.tradesCleared": "거래 삭제됨",
+  "marketplace.tradesCleared.message": "아이템/잔고 부족으로 인해 다음 거래가 비활성화되었습니다."
 }

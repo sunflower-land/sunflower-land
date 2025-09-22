@@ -6657,5 +6657,7 @@
   "switching.network": "Netzwerk wird gewechselt...",
   "description.obsidianShrine.buff": "Alle fertigen Pflanzen und Pflanzensamen in großen Mengen ernten",
   "obsidianShrine.noCrops": "Keine erntereifen Pflanzen",
-  "withdraw.pets": "Wähle Haustiere aus, die du abheben möchtest"
+  "withdraw.pets": "Wähle Haustiere aus, die du abheben möchtest",
+  "marketplace.tradesCleared": "Trades entfernt",
+  "marketplace.tradesCleared.message": "Ihre folgenden Trades sind aufgrund unzureichender Gegenstände/Guthaben inaktiv geworden."
 }

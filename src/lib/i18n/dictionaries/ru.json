@@ -6657,5 +6657,7 @@
   "switching.network": "Коммутационная сеть...",
   "description.obsidianShrine.buff": "Массовый сбор всех готовых культур и семян растений",
   "obsidianShrine.noCrops": "Нет готовых к сбору урожая культур",
-  "withdraw.pets": "Выберите «Домашние животные» для изъятия"
+  "withdraw.pets": "Выберите «Домашние животные» для изъятия",
+  "marketplace.tradesCleared": "Сделки удалены",
+  "marketplace.tradesCleared.message": "Ваши следующие сделки стали неактивными из-за недостатка товаров/баланса."
 }

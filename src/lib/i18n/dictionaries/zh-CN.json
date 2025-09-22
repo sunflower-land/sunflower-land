@@ -6657,5 +6657,7 @@
   "switching.network": "正在切换网络...",
   "description.obsidianShrine.buff": "批量收获所有现成的作物和植物种子",
   "obsidianShrine.noCrops": "没有农作物准备收割",
-  "withdraw.pets": "选择要撤回的宠物"
+  "withdraw.pets": "选择要撤回的宠物",
+  "marketplace.tradesCleared": "交易已删除",
+  "marketplace.tradesCleared.message": "由于物品/余额不足，您的以下交易已失效。"
 }

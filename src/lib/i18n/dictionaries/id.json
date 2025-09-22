@@ -6657,5 +6657,7 @@
   "switching.network": "Beralih Jaringan...",
   "description.obsidianShrine.buff": "Panen massal semua tanaman siap pakai dan benih tanaman",
   "obsidianShrine.noCrops": "Tidak ada tanaman yang siap dipanen",
-  "withdraw.pets": "Pilih Hewan Peliharaan untuk ditarik"
+  "withdraw.pets": "Pilih Hewan Peliharaan untuk ditarik",
+  "marketplace.tradesCleared": "Perdagangan dihapus",
+  "marketplace.tradesCleared.message": "Perdagangan Anda berikut menjadi tidak aktif karena item/saldo tidak mencukupi."
 }

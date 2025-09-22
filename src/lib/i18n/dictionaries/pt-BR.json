@@ -6657,5 +6657,7 @@
   "switching.network": "Mudando de rede...",
   "description.obsidianShrine.buff": "Colha a granel todas as safras prontas e plante as sementes",
   "obsidianShrine.noCrops": "Nenhuma safra pronta para a colheita",
-  "withdraw.pets": "Selecione animais de estimação para retirar"
+  "withdraw.pets": "Selecione animais de estimação para retirar",
+  "marketplace.tradesCleared": "Negociações removidas",
+  "marketplace.tradesCleared.message": "Suas negociações seguintes se tornaram inativas devido a itens/saldo insuficientes."
 }

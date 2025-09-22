@@ -6657,5 +6657,7 @@
   "switching.network": "Rete di commutazione...",
   "description.obsidianShrine.buff": "Raccogli all'ingrosso tutte le colture pronte e i semi delle piante",
   "obsidianShrine.noCrops": "Nessuna coltura pronta per la raccolta",
-  "withdraw.pets": "Seleziona Animali domestici da prelevare"
+  "withdraw.pets": "Seleziona Animali domestici da prelevare",
+  "marketplace.tradesCleared": "Operazioni rimosse",
+  "marketplace.tradesCleared.message": "Le tue operazioni successive sono diventate inattive a causa di articoli/saldo insufficienti."
 }

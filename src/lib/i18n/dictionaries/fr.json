@@ -6657,5 +6657,7 @@
   "switching.network": "Réseau de commutation...",
   "description.obsidianShrine.buff": "Récoltez en vrac toutes les cultures prêtes et les graines de plantes",
   "obsidianShrine.noCrops": "Aucune récolte prête à être récoltée",
-  "withdraw.pets": "Sélectionnez les animaux de compagnie à retirer"
+  "withdraw.pets": "Sélectionnez les animaux de compagnie à retirer",
+  "marketplace.tradesCleared": "Transactions supprimées",
+  "marketplace.tradesCleared.message": "Vos transactions suivantes sont devenues inactives en raison d'un manque d'objets/de solde."
 }
