@@ -4,6 +4,8 @@ import PetABI from "./abis/Pet";
 import { config } from "features/wallet/WalletProvider";
 import { readContract } from "@wagmi/core";
 import { polygon, polygonAmoy } from "viem/chains";
+import { INITIAL_FARM } from "features/game/lib/constants";
+import { hasFeatureAccess } from "lib/flags";
 
 const contractAddress = CONFIG.PET_CONTRACT;
 
@@ -11,6 +13,10 @@ export async function getPetsBalance(
   address: `0x${string}`,
   attempts = 0,
 ): Promise<number[]> {
+  if (!hasFeatureAccess(INITIAL_FARM, "PET_NFT_DEPOSIT")) {
+    return [];
+  }
+
   try {
     const pets = await readContract(config, {
       chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
