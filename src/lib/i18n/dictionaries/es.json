@@ -6661,7 +6661,7 @@
   "marketplace.tradesCleared": "Operaciones eliminadas",
   "marketplace.tradesCleared.message": "Sus siguientes operaciones se han vuelto inactivas debido a la insuficiencia de elementos/saldo.",
   "marketplace.offerLimitReached.label": "Se ha alcanzado el límite de oferta",
-  "marketplace.offerLimitReached": "Has alcanzado el número máximo de ofertas (30). Elimine algunas ofertas para dejar espacio para otras nuevas.",
   "marketplace.offerItemLimitReached.label": "Se alcanzó el límite de artículos de la oferta",
-  "marketplace.offerItemLimitReached": "Has alcanzado el número máximo de ofertas para este artículo (5). Elimine algunas ofertas para dejar espacio para otras nuevas."
+  "marketplace.offerItemLimitReached": "Has alcanzado el número máximo de ofertas para este artículo (5). Elimine algunas ofertas para dejar espacio para otras nuevas.",
+  "marketplace.offerLimitReached": "Has alcanzado el número máximo de ofertas (100). Elimine algunas ofertas para dejar espacio para otras nuevas."
 }

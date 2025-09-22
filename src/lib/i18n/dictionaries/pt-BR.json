@@ -6661,7 +6661,7 @@
   "marketplace.tradesCleared": "Negociações removidas",
   "marketplace.tradesCleared.message": "Suas negociações seguintes se tornaram inativas devido a itens/saldo insuficientes.",
   "marketplace.offerLimitReached.label": "Limite de oferta atingido",
-  "marketplace.offerLimitReached": "Você atingiu o número máximo de ofertas (30). Remova algumas ofertas para abrir espaço para novas.",
   "marketplace.offerItemLimitReached.label": "Limite de itens da oferta atingido",
-  "marketplace.offerItemLimitReached": "Você atingiu o número máximo de ofertas para este item (5). Remova algumas ofertas para abrir espaço para novas."
+  "marketplace.offerItemLimitReached": "Você atingiu o número máximo de ofertas para este item (5). Remova algumas ofertas para abrir espaço para novas.",
+  "marketplace.offerLimitReached": "Você atingiu o número máximo de ofertas (100). Remova algumas ofertas para abrir espaço para novas."
 }

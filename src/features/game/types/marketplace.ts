@@ -104,7 +104,6 @@ export type Marketplace = {
 type TrendingItem = {
   id: number;
   collection: CollectionName;
-  history: TradeHistory;
 };
 
 export type MarketplaceTrends = {
