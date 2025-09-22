@@ -6661,5 +6661,7 @@
   "marketplace.tradesCleared": "Transactions supprimées",
   "marketplace.tradesCleared.message": "Vos transactions suivantes sont devenues inactives en raison d'un manque d'objets/de solde.",
   "marketplace.offerLimitReached.label": "Limite de l'offre atteinte",
-  "marketplace.offerLimitReached": "Vous avez atteint le nombre maximum d'offres (30). Veuillez supprimer certaines offres pour laisser de la place à de nouvelles offres."
+  "marketplace.offerLimitReached": "Vous avez atteint le nombre maximum d'offres (30). Veuillez supprimer certaines offres pour laisser de la place à de nouvelles offres.",
+  "marketplace.offerItemLimitReached.label": "Limite d'articles de l'offre atteinte",
+  "marketplace.offerItemLimitReached": "Vous avez atteint le nombre maximum d'offres pour cet article (5). Veuillez supprimer certaines offres pour laisser de la place à de nouvelles."
 }

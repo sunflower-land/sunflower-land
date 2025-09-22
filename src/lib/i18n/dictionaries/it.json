@@ -6661,5 +6661,7 @@
   "marketplace.tradesCleared": "Operazioni rimosse",
   "marketplace.tradesCleared.message": "Le tue operazioni successive sono diventate inattive a causa di articoli/saldo insufficienti.",
   "marketplace.offerLimitReached.label": "Limite di offerta raggiunto",
-  "marketplace.offerLimitReached": "Hai raggiunto il numero massimo di offerte (30). Rimuovi alcune offerte per fare spazio a nuove offerte."
+  "marketplace.offerLimitReached": "Hai raggiunto il numero massimo di offerte (30). Rimuovi alcune offerte per fare spazio a nuove offerte.",
+  "marketplace.offerItemLimitReached.label": "Limite di articoli in offerta raggiunto",
+  "marketplace.offerItemLimitReached": "Hai raggiunto il numero massimo di offerte per questo articolo (5). Rimuovi alcune offerte per fare spazio a nuove offerte."
 }

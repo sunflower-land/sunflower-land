@@ -6661,5 +6661,7 @@
   "marketplace.tradesCleared": "取引が削除されました",
   "marketplace.tradesCleared.message": "アイテム/残高が不足しているため、以下の取引は無効になっています。",
   "marketplace.offerLimitReached.label": "オファーの上限に達しました",
-  "marketplace.offerLimitReached": "オファーの最大数（30）に達しました。新しいオファー用のスペースを空けるため、一部のオファーを削除してください。"
+  "marketplace.offerLimitReached": "オファーの最大数（30）に達しました。新しいオファー用のスペースを空けるため、一部のオファーを削除してください。",
+  "marketplace.offerItemLimitReached.label": "出品商品の上限に達しました",
+  "marketplace.offerItemLimitReached": "この商品の出品数が最大数 (5) に達しました。新しい出品用のスペースを空けるため、一部の出品を削除してください。"
 }

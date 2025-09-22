@@ -6661,5 +6661,7 @@
   "marketplace.tradesCleared": "İşlemler kaldırıldı",
   "marketplace.tradesCleared.message": "Aşağıdaki işlemleriniz yetersiz kalemler/bakiye nedeniyle etkisiz hale geldi.",
   "marketplace.offerLimitReached.label": "Teklif Sınırına Ulaşıldı",
-  "marketplace.offerLimitReached": "Maksimum teklif sayısına ulaştınız (30). Yenilerine yer açmak için lütfen bazı teklifleri kaldırın."
+  "marketplace.offerLimitReached": "Maksimum teklif sayısına ulaştınız (30). Yenilerine yer açmak için lütfen bazı teklifleri kaldırın.",
+  "marketplace.offerItemLimitReached.label": "Teklif Öğe Sınırına Ulaşıldı",
+  "marketplace.offerItemLimitReached": "Bu ürün için maksimum teklif sayısına ulaştınız (5). Yenilerine yer açmak için lütfen bazı teklifleri kaldırın."
 }

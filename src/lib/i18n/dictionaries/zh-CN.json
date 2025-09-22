@@ -6660,6 +6660,8 @@
   "withdraw.pets": "选择要提取的宠物",
   "marketplace.tradesCleared": "交易已移除",
   "marketplace.tradesCleared.message": "由于物品/余额不足，你的以下交易已失效。",
-  "marketplace.offerLimitReached.label": "已达报价上限",
-  "marketplace.offerLimitReached": "你已达到最大报价数量（30）。请移除一些报价以腾出空间进行新的报价。"
+  "marketplace.offerLimitReached.label": "已达总挂单上限",
+  "marketplace.offerLimitReached": "你已达到最大挂单数量（30）。请移除一些挂单以腾出空间。",
+  "marketplace.offerItemLimitReached.label": "已达物品挂单上限",
+  "marketplace.offerItemLimitReached": "你已达到该物品的最大挂单数量（5）。请移除一些挂单以腾出空间。"
 }
