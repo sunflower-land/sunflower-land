@@ -21,6 +21,7 @@ export async function loadGameStateForAdmin({
   wallet?: string;
 }): Promise<{
   visitedFarmState: VisitGameState;
+  id: number;
 }> {
   const url = new URL(`${CONFIG.API_URL}/data`);
   url.searchParams.set("type", "adminSearch");
@@ -57,5 +58,6 @@ export async function loadGameStateForAdmin({
 
   return {
     visitedFarmState: data?.data?.state,
+    id: data?.data?.id,
   };
 }

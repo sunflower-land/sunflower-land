@@ -21,7 +21,9 @@ export const DEV_PlayerSearch: React.FC<ContentComponentProps> = () => {
   const [username, setUsername] = useState<string>("");
   const [discordId, setDiscordId] = useState<string>("");
   const [wallet, setWallet] = useState<string>("");
-  const [farm, setFarm] = useState<VisitGameState | null>(null);
+  const [farm, setFarm] = useState<(VisitGameState & { id: number }) | null>(
+    null,
+  );
   const { authState } = useAuth();
   const { gameState } = useGame();
 
@@ -29,7 +31,7 @@ export const DEV_PlayerSearch: React.FC<ContentComponentProps> = () => {
     setState("loading");
 
     try {
-      const { visitedFarmState: farm } = await loadGameStateForAdmin({
+      const { visitedFarmState: farm, id } = await loadGameStateForAdmin({
         adminId: gameState.context.farmId,
         farmId,
         token: authState.context.user.rawToken as string,
@@ -38,7 +40,10 @@ export const DEV_PlayerSearch: React.FC<ContentComponentProps> = () => {
         nftId,
         wallet,
       });
-      setFarm(farm);
+      setFarm({
+        ...farm,
+        id,
+      });
     } finally {
       setState("loaded");
     }
@@ -49,13 +54,13 @@ export const DEV_PlayerSearch: React.FC<ContentComponentProps> = () => {
   }
 
   if (state === "loaded" && !farm) {
-    return <p>{`Farm ${farmId} not found`}</p>;
+    return <p>{`Farm not found`}</p>;
   }
 
   if (state === "loaded" && farm) {
     return (
       <div className="flex flex-col p-1">
-        <p>{`Farm ID: ${farmId}`}</p>
+        <p>{`Farm ID: ${farm.id}`}</p>
         <p>{`Username: ${farm.username}`}</p>
         <div className="flex items-center">
           <p className="mr-2">{`Wallet: `}</p>
