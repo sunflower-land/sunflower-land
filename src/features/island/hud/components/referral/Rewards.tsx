@@ -165,7 +165,8 @@ export const RewardOptions: React.FC<{ selectedButton?: RewardType }> = ({
   // Initialize chest service to check if chest is locked
   const chestService = useInterpret(rewardChestMachine, {
     context: {
-      nextCode: dailyRewards?.chest?.code ?? 0,
+      // First code is 1
+      nextCode: dailyRewards?.chest?.code ?? 1,
       openedAt: dailyRewards?.chest?.collectedAt ?? 0,
       bumpkinLevel,
     },
