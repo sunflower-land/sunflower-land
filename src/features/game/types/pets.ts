@@ -106,7 +106,7 @@ export type Pet = {
 
 export type PetNFTName = `Pet-${number}`;
 
-export type PetNFT = {
+export type PetNFT = Omit<Pet, "name"> & {
   id: number;
   name: PetNFTName;
   coordinates?: Coordinates;

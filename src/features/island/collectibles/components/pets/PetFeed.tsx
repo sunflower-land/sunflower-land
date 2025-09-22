@@ -14,7 +14,12 @@ import {
 import { CookableName } from "features/game/types/consumables";
 import { GameState, Inventory } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getPetRequestXP, Pet, PetName } from "features/game/types/pets";
+import {
+  getPetLevel,
+  getPetRequestXP,
+  Pet,
+  PetName,
+} from "features/game/types/pets";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useState } from "react";
 import { ResetFoodRequests } from "./ResetFoodRequests";
@@ -67,6 +72,7 @@ export const PetFeed: React.FC<
   const todayDate = new Date(Date.now()).toISOString().split("T")[0];
   const lastFedAtDate = new Date(lastFedAt ?? 0).toISOString().split("T")[0];
   const isToday = lastFedAtDate === todayDate;
+  const { level: petLevel } = getPetLevel(petData.experience);
 
   if (petData.requests.food.length === 0) {
     return (
@@ -103,6 +109,7 @@ export const PetFeed: React.FC<
           petData={petData}
           selectedFood={selectedFood}
           handleFeed={handleFeed}
+          petLevel={petLevel}
           inventory={inventory}
           showConfirm={showConfirm}
           setShowConfirm={setShowConfirm}
@@ -115,6 +122,7 @@ export const PetFeed: React.FC<
         <PetFeedContent
           petName={petName}
           petData={petData}
+          petLevel={petLevel}
           selectedFood={selectedFood}
           setSelectedFood={setSelectedFood}
           inventory={inventory}
@@ -135,11 +143,13 @@ const PetFeedPanel: React.FC<
     isToday: boolean;
     setShowResetRequests: (showResetRequests: boolean) => void;
     state: GameState;
+    petLevel: number;
   }
 > = ({
   petName,
   petData,
   selectedFood,
+  petLevel,
   handleFeed,
   inventory,
   showConfirm,
@@ -179,10 +189,12 @@ const PetFeedPanel: React.FC<
     game: state,
   });
   const petEnergy = getPetEnergy({
-    petData,
+    petLevel,
     basePetEnergy: baseFoodXp,
   });
-  const isFoodLocked = !getPetFoodRequests(petData).includes(selectedFood);
+  const isFoodLocked = !getPetFoodRequests(petData, petLevel).includes(
+    selectedFood,
+  );
   const isDisabled =
     (isToday && petData.requests.foodFed?.includes(selectedFood)) ||
     !inventory[selectedFood] ||
@@ -286,10 +298,12 @@ const PetFeedContent: React.FC<
     setSelectedFood: (selectedFood: CookableName) => void;
     setShowConfirm: (showConfirm: boolean) => void;
     isToday: boolean;
+    petLevel: number;
   }
 > = ({
   petName,
   petData,
+  petLevel,
   selectedFood,
   setSelectedFood,
   inventory,
@@ -297,7 +311,7 @@ const PetFeedContent: React.FC<
   isToday,
 }) => {
   const { t } = useAppTranslation();
-  const foodRequests = getPetFoodRequests(petData);
+  const foodRequests = getPetFoodRequests(petData, petLevel);
   const allFoods = petData.requests.food;
 
   return (

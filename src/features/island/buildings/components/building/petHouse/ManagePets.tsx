@@ -87,7 +87,8 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
           if (isPetNeglected(pet) || isPetNapping(pet)) {
             return;
           }
-          const requests = getPetFoodRequests(pet);
+          const { level: petLevel } = getPetLevel(pet.experience);
+          const requests = getPetFoodRequests(pet, petLevel);
           requests.forEach((food) => {
             const isAlreadyFed = isFoodAlreadyFed(pet, food);
             if (!isAlreadyFed) {
@@ -273,6 +274,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
                 if (!petData) {
                   return null;
                 }
+                const { level: petLevel } = getPetLevel(petData.experience);
 
                 // Calculate total XP and energy from all selected foods
                 const totalXP = food.reduce(
@@ -288,7 +290,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
                   (sum, foodItem) =>
                     sum +
                     getPetEnergy({
-                      petData,
+                      petLevel,
                       basePetEnergy: getPetRequestXP(foodItem),
                     }),
                   0,
