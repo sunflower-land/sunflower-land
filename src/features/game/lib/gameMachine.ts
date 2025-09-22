@@ -1364,10 +1364,6 @@ export function startGame(authContext: AuthContext) {
             {
               target: "tradesCleared",
               cond: (context: Context) => {
-                if (!hasFeatureAccess(context.state, "MARKETPLACE_CURRENCY")) {
-                  return false;
-                }
-
                 return (
                   getKeys(context.state.trades.listings ?? {}).some(
                     (id) => !!context.state.trades.listings![id].clearedAt,

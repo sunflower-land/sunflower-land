@@ -26,10 +26,7 @@ import { TradeableSummary } from "./TradeableSummary";
 import { getTradeType } from "../lib/getTradeType";
 import { ResourceList } from "./ResourceList";
 import Decimal from "decimal.js-light";
-import {
-  CollectibleName,
-  COLLECTIBLES_DIMENSIONS,
-} from "features/game/types/craftables";
+
 import {
   isTradeResource,
   TradeResource,
@@ -110,6 +107,14 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   const getCount = () => {
     switch (display.type) {
       case "collectibles":
+        if (isResource) {
+          return (
+            getBasketItems(state.inventory)[
+              display.name as InventoryItemName
+            ]?.toNumber() || 0
+          );
+        }
+
         return (
           state.inventory[display.name as InventoryItemName]?.toNumber() || 0
         );
@@ -124,33 +129,22 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   };
 
   const getAvailable = () => {
-    const isPlaceable =
-      COLLECTIBLES_DIMENSIONS[display.name as CollectibleName];
-    switch (display.type) {
-      case "collectibles":
-        if (isPlaceable) {
-          return (
-            state.inventory[display.name as InventoryItemName]?.toNumber() ?? 0
-          );
-        }
+    const count = getCount();
 
-        return (
-          getBasketItems(state.inventory)[
-            display.name as InventoryItemName
-          ]?.toNumber() ?? 0
-        );
-      case "buds":
-        return state.buds?.[id] ? 1 : 0;
-      case "wearables":
-        return state.wardrobe[display.name as BumpkinItem] ?? 0;
-      default:
-        return 0;
-    }
+    // Subtract the listed amount
+    const totalListed = Object.values(state.trades.listings ?? {}).reduce(
+      (acc, listing) => {
+        return acc + (listing.items[display.name] ?? 0);
+      },
+      0,
+    );
+
+    return count - totalListed;
   };
 
   // Otherwise show the list item UI
   const submitListing = () => {
-    if (count > 0 && available === 0) {
+    if (available === 0) {
       setShowItemInUseWarning(true);
       return;
     }
@@ -175,7 +169,6 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     onClose();
   };
 
-  const count = getCount();
   const available = getAvailable();
 
   if (showItemInUseWarning) {
@@ -335,7 +328,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
           </Label>
         </div>
       </div>
-      {count < 1 ? (
+      {available < 1 ? (
         <>
           <div className="p-2">{t("marketplace.youDontOwn")}</div>
           <Button onClick={onClose}>{t("close")}</Button>
