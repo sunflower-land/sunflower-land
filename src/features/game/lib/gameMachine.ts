@@ -240,6 +240,7 @@ type DepositEvent = {
   wearableIds: number[];
   wearableAmounts: number[];
   budIds: number[];
+  petIds: number[];
 };
 
 type DepositFlowerFromLinkedWalletEvent = {
@@ -2271,6 +2272,7 @@ export function startGame(authContext: AuthContext) {
               const {
                 itemAmounts,
                 itemIds,
+                petIds,
                 wearableIds,
                 wearableAmounts,
                 budIds,
@@ -2285,6 +2287,7 @@ export function startGame(authContext: AuthContext) {
                 wearableAmounts,
                 wearableIds,
                 budIds,
+                petIds,
               });
             },
             onDone: {
