@@ -66,13 +66,11 @@ export const MyCollection: React.FC = () => {
   });
 
   getKeys(buds ?? {}).forEach((id) => {
-    if (!buds?.[id].coordinates) {
-      items.push({
-        id,
-        collection: "buds",
-        count: 1,
-      });
-    }
+    items.push({
+      id,
+      collection: "buds",
+      count: 1,
+    });
   });
 
   items = items.filter((item) => {
