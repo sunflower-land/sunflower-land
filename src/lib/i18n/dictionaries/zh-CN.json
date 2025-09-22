@@ -6655,7 +6655,7 @@
   "description.potion.ticket": "来自药水游戏的奖励。可用于在 Eins 处购买物品。",
   "select.network": "选择网络",
   "switching.network": "正在切换网络...",
-  "description.obsidianShrine.buff": "批量收获所有以成熟的庄稼和种植新种子",
+  "description.obsidianShrine.buff": "批量收获所有已成熟的庄稼和种植新种子",
   "obsidianShrine.noCrops": "没有庄稼可以收获",
   "withdraw.pets": "选择要提取的宠物",
   "marketplace.tradesCleared": "交易已移除",
