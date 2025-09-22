@@ -36,13 +36,10 @@ export const TradeableStats: React.FC<Props> = ({ history, marketPrice }) => {
         dates: [],
         oneDayChange: 0,
         sevenDayChange: 0,
-        thirtyDayChange: 0,
         oneDayPriceChange: 0,
         sevenDayPriceChange: 0,
-        thirtyDayPriceChange: 0,
         oneDayPrice: 0,
         sevenDayPrice: 0,
-        thirtyDayPrice: 0,
       };
 
   return (

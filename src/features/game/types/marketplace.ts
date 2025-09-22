@@ -161,11 +161,8 @@ export type PriceHistory = {
   sevenDayPrice: number;
   oneDayChange: number;
   oneDayPrice: number;
-  thirtyDayChange: number;
-  thirtyDayPrice: number;
   oneDayPriceChange: number;
   sevenDayPriceChange: number;
-  thirtyDayPriceChange: number;
 };
 
 /**
@@ -231,24 +228,14 @@ export function getPriceHistory({
   const oneDayChange =
     oneDayPriceChange === 0 ? 0 : (oneDayPriceChange / oneDayPrice) * 100;
 
-  const thirtyDayPrice = dates[29].low;
-  const thirtyDayPriceChange = currentPrice - dates[29].low;
-  const thirtyDayChange =
-    thirtyDayPriceChange === 0
-      ? 0
-      : (thirtyDayPriceChange / thirtyDayPrice) * 100;
-
   return {
     dates,
     sevenDayChange,
     oneDayChange,
-    thirtyDayChange,
     oneDayPriceChange,
     sevenDayPriceChange,
-    thirtyDayPriceChange,
     oneDayPrice,
     sevenDayPrice,
-    thirtyDayPrice,
   };
 }
 
