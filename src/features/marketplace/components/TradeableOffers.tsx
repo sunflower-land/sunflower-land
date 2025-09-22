@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -138,12 +138,6 @@ export const TradeableOffers: React.FC<{
           : undefined,
       }),
   );
-
-  useEffect(() => {
-    if (isFirstRender) return;
-
-    reload();
-  }, [myOffersCount, isFirstRender, reload]);
 
   const handleHide = () => {
     if (hasPendingOfferEffect) return;

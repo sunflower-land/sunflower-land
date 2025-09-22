@@ -9,7 +9,7 @@ import {
   TradeableDetails,
 } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { TradeableListItem } from "./TradeableList";
 import { ListingTable } from "./TradeTable";
 import { Context } from "features/game/GameProvider";
@@ -125,12 +125,6 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
           : undefined,
       }),
   );
-
-  useEffect(() => {
-    if (isFirstRender) return;
-
-    reload();
-  }, [myListingsCount, isFirstRender, reload]);
 
   const handleSelectListing = (id: string) => {
     const selectedListing = tradeable?.listings.find(
