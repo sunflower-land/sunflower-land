@@ -6661,7 +6661,7 @@
   "marketplace.tradesCleared": "Perdagangan dihapus",
   "marketplace.tradesCleared.message": "Perdagangan Anda berikut menjadi tidak aktif karena item/saldo tidak mencukupi.",
   "marketplace.offerLimitReached.label": "Batas Penawaran Tercapai",
-  "marketplace.offerLimitReached": "Anda telah mencapai jumlah maksimum penawaran (30). Harap hapus beberapa penawaran untuk memberi ruang bagi yang baru.",
   "marketplace.offerItemLimitReached.label": "Batas Item Penawaran Tercapai",
-  "marketplace.offerItemLimitReached": "Anda telah mencapai jumlah maksimum penawaran untuk item ini (5). Harap hapus beberapa penawaran untuk memberi ruang bagi yang baru."
+  "marketplace.offerItemLimitReached": "Anda telah mencapai jumlah maksimum penawaran untuk item ini (5). Harap hapus beberapa penawaran untuk memberi ruang bagi yang baru.",
+  "marketplace.offerLimitReached": "Anda telah mencapai jumlah maksimum penawaran (100). Harap hapus beberapa penawaran untuk memberi ruang bagi yang baru."
 }

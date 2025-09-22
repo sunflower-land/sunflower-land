@@ -6661,7 +6661,7 @@
   "marketplace.tradesCleared": "거래 삭제됨",
   "marketplace.tradesCleared.message": "아이템/잔고 부족으로 인해 다음 거래가 비활성화되었습니다.",
   "marketplace.offerLimitReached.label": "제안 한도 도달",
-  "marketplace.offerLimitReached": "최대 오퍼 수 (30개) 에 도달했습니다.새 오퍼를 위한 공간을 확보하려면 일부 오퍼를 삭제하세요.",
   "marketplace.offerItemLimitReached.label": "오퍼 아이템 한도 도달",
-  "marketplace.offerItemLimitReached": "이 아이템의 최대 오퍼 수 (5) 에 도달했습니다.새 오퍼를 위한 공간을 확보하기 위해 일부 오퍼를 삭제해 주세요."
+  "marketplace.offerItemLimitReached": "이 아이템의 최대 오퍼 수 (5) 에 도달했습니다.새 오퍼를 위한 공간을 확보하기 위해 일부 오퍼를 삭제해 주세요.",
+  "marketplace.offerLimitReached": "최대 오퍼 수 (100개) 에 도달했습니다.새 오퍼를 위한 공간을 확보하려면 일부 오퍼를 삭제하세요."
 }

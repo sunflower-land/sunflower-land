@@ -6661,7 +6661,7 @@
   "marketplace.tradesCleared": "Trades removed",
   "marketplace.tradesCleared.message": "Your following trades have become inactive due to insufficient items/balance.",
   "marketplace.offerLimitReached.label": "Offer Limit Reached",
-  "marketplace.offerLimitReached": "You have reached the maximum number of offers (30). Please remove some offers to make space for new ones.",
+  "marketplace.offerLimitReached": "You have reached the maximum number of offers (100). Please remove some offers to make space for new ones.",
   "marketplace.offerItemLimitReached.label": "Offer Item Limit Reached",
   "marketplace.offerItemLimitReached": "You have reached the maximum number of offers for this item (5). Please remove some offers to make space for new ones."
 }
