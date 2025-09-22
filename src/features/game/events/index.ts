@@ -552,6 +552,7 @@ import { fetchPet, FetchPetAction } from "./pets/fetchPet";
 import { helpPets, HelpPetsAction } from "./visiting/helpPets";
 import { BulkPlantAction, bulkPlant } from "./landExpansion/bulkPlant";
 import { bulkHarvest, BulkHarvestAction } from "./landExpansion/bulkHarvest";
+import { clearTrades, ClearTradesAction } from "./clearTrades";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -603,6 +604,7 @@ export type PlayingEvent =
   | RemoveFruitTreeAction
   | CraftCollectibleAction
   | SellTreasureAction
+  | ClearTradesAction
   | RestockAction
   | NPCRestockAction
   | SellGarbageAction
@@ -958,6 +960,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "rock.upgraded": upgradeRock,
   "tree.upgraded": upgradeTree,
   "pet.pet": petPet,
+  "trades.cleared": clearTrades,
 };
 
 export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {

@@ -6658,5 +6658,7 @@
   "withdraw.flower.cannotCancel": "This withdrawal cannot be cancelled",
   "withdraw.flower.transaction": "A transaction must be completed on {{chain}} to complete the withdrawal.",
   "select.network": "Select Network",
-  "switching.network": "Switching Network..."
+  "switching.network": "Switching Network...",
+  "marketplace.tradesCleared": "Trades removed",
+  "marketplace.tradesCleared.message": "Your following trades have become inactive due to insufficient items/balance."
 }

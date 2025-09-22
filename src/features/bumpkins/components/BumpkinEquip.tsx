@@ -136,41 +136,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip }) => {
   const isMissingShirt = !equipped.shirt && !equipped.dress;
   const isMissingPants = !equipped.pants && !equipped.dress;
 
-  const warn =
-    isMissingHair ||
-    isMissingBody ||
-    isMissingShoes ||
-    isMissingShirt ||
-    isMissingBackground ||
-    isMissingPants;
-
   const { t } = useAppTranslation();
-  const warning = () => {
-    if (isMissingHair) {
-      return t("equip.missingHair");
-    }
-
-    if (isMissingBody) {
-      return t("equip.missingBody");
-    }
-
-    if (isMissingShoes) {
-      return t("equip.missingShoes");
-    }
-
-    if (isMissingShirt) {
-      return t("equip.missingShirt");
-    }
-
-    if (isMissingPants) {
-      return t("equip.missingPants");
-    }
-
-    if (isMissingBackground) {
-      return t("equip.missingBackground");
-    }
-    return "";
-  };
 
   const sortedWardrobeNames = getKeys(wardrobe).sort((a, b) =>
     a.localeCompare(b),
@@ -203,10 +169,9 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip }) => {
               <NPCIcon parts={equipped} key={JSON.stringify(equipped)} />
             </div>
           </div>
-          <Button disabled={!isDirty || warn} onClick={() => finish(equipped)}>
+          <Button disabled={!isDirty} onClick={() => finish(equipped)}>
             <div className="flex">{t("save")}</div>
           </Button>
-          {warn && <Label type="warning">{warning()}</Label>}
         </div>
         <div className="w-full sm:w-1/3 flex flex-col gap-2">
           <Label type="default">{t("required")}</Label>
