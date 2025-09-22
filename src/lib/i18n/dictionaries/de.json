@@ -6659,5 +6659,7 @@
   "obsidianShrine.noCrops": "Keine erntereifen Pflanzen",
   "withdraw.pets": "Wähle Haustiere aus, die du abheben möchtest",
   "marketplace.tradesCleared": "Trades entfernt",
-  "marketplace.tradesCleared.message": "Ihre folgenden Trades sind aufgrund unzureichender Gegenstände/Guthaben inaktiv geworden."
+  "marketplace.tradesCleared.message": "Ihre folgenden Trades sind aufgrund unzureichender Gegenstände/Guthaben inaktiv geworden.",
+  "marketplace.offerLimitReached.label": "Angebotslimit erreicht",
+  "marketplace.offerLimitReached": "Sie haben die maximale Anzahl an Angeboten erreicht (30). Bitte entfernen Sie einige Angebote, um Platz für neue zu schaffen."
 }

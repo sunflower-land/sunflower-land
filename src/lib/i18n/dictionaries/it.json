@@ -6659,5 +6659,7 @@
   "obsidianShrine.noCrops": "Nessuna coltura pronta per la raccolta",
   "withdraw.pets": "Seleziona Animali domestici da prelevare",
   "marketplace.tradesCleared": "Operazioni rimosse",
-  "marketplace.tradesCleared.message": "Le tue operazioni successive sono diventate inattive a causa di articoli/saldo insufficienti."
+  "marketplace.tradesCleared.message": "Le tue operazioni successive sono diventate inattive a causa di articoli/saldo insufficienti.",
+  "marketplace.offerLimitReached.label": "Limite di offerta raggiunto",
+  "marketplace.offerLimitReached": "Hai raggiunto il numero massimo di offerte (30). Rimuovi alcune offerte per fare spazio a nuove offerte."
 }

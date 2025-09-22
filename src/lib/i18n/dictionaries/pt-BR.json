@@ -6659,5 +6659,7 @@
   "obsidianShrine.noCrops": "Nenhuma safra pronta para a colheita",
   "withdraw.pets": "Selecione animais de estimação para retirar",
   "marketplace.tradesCleared": "Negociações removidas",
-  "marketplace.tradesCleared.message": "Suas negociações seguintes se tornaram inativas devido a itens/saldo insuficientes."
+  "marketplace.tradesCleared.message": "Suas negociações seguintes se tornaram inativas devido a itens/saldo insuficientes.",
+  "marketplace.offerLimitReached.label": "Limite de oferta atingido",
+  "marketplace.offerLimitReached": "Você atingiu o número máximo de ofertas (30). Remova algumas ofertas para abrir espaço para novas."
 }

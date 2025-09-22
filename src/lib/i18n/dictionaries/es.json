@@ -6659,5 +6659,7 @@
   "obsidianShrine.noCrops": "No hay cultivos listos para cosechar",
   "withdraw.pets": "Selecciona las mascotas que deseas retirar",
   "marketplace.tradesCleared": "Operaciones eliminadas",
-  "marketplace.tradesCleared.message": "Sus siguientes operaciones se han vuelto inactivas debido a la insuficiencia de elementos/saldo."
+  "marketplace.tradesCleared.message": "Sus siguientes operaciones se han vuelto inactivas debido a la insuficiencia de elementos/saldo.",
+  "marketplace.offerLimitReached.label": "Se ha alcanzado el límite de oferta",
+  "marketplace.offerLimitReached": "Has alcanzado el número máximo de ofertas (30). Elimine algunas ofertas para dejar espacio para otras nuevas."
 }
