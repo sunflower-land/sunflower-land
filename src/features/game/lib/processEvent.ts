@@ -13,10 +13,8 @@ import { EXOTIC_CROPS } from "../types/beans";
 import { getValues } from "../types/decorations";
 import { FISH } from "../types/fishing";
 import { LANDSCAPING_DECORATIONS } from "../types/decorations";
-import { getActiveListedItems } from "features/island/hud/components/inventory/utils/inventory";
-import { KNOWN_IDS } from "../types";
 import { ANIMAL_FOODS } from "../types/animals";
-import { BumpkinItem, ITEM_IDS } from "../types/bumpkin";
+import { BumpkinItem } from "../types/bumpkin";
 import { MaxedItem } from "./gameMachine";
 import { SEASON_TICKET_NAME } from "../types/seasons";
 import { OFFCHAIN_ITEMS } from "./offChainItems";
@@ -630,32 +628,19 @@ export function checkProgress({ state, action, farmId }: ProcessEventArgs): {
   const { inventory, wardrobe } = newState;
   const auctionBid = newState.auctioneer.bid?.ingredients ?? {};
 
-  const { collectibles: listedCollectibles, wearables: listedWearables } =
-    getActiveListedItems(newState);
-
-  const listedInventoryItemNames = getKeys(listedCollectibles).filter(
-    (name) => name in KNOWN_IDS,
-  ) as InventoryItemName[];
-  const listedWardrobeItemNames = getKeys(listedWearables).filter(
-    (name) => name in ITEM_IDS,
-  ) as BumpkinItem[];
-
   // Check inventory amounts
   const validProgress = getKeys(inventory)
     .concat(getKeys(auctionBid))
-    .concat(listedInventoryItemNames)
     .filter((name) => !OFFCHAIN_ITEMS.includes(name))
     .every((name) => {
       const inventoryAmount = inventory[name] ?? new Decimal(0);
       const auctionAmount = auctionBid[name] ?? new Decimal(0);
-      const listingAmount = listedCollectibles[name] ?? new Decimal(0);
 
       const previousInventoryAmount =
         newState.previousInventory[name] || new Decimal(0);
 
       const diff = inventoryAmount
         .add(auctionAmount)
-        .add(listingAmount)
         .minus(previousInventoryAmount);
 
       const max = MAX_INVENTORY_ITEMS[name] ?? new Decimal(0);
@@ -672,26 +657,23 @@ export function checkProgress({ state, action, farmId }: ProcessEventArgs): {
   if (!validProgress) return { valid: validProgress, maxedItem };
 
   // Check wardrobe amounts
-  const validWardrobeProgress = getKeys(wardrobe)
-    .concat(listedWardrobeItemNames)
-    .every((name) => {
-      const wardrobeAmount = wardrobe[name] ?? 0;
-      const listedAmount = listedWearables[name] ?? 0;
+  const validWardrobeProgress = getKeys(wardrobe).every((name) => {
+    const wardrobeAmount = wardrobe[name] ?? 0;
 
-      const previousWardrobeAmount = newState.previousWardrobe[name] || 0;
+    const previousWardrobeAmount = newState.previousWardrobe[name] || 0;
 
-      const diff = wardrobeAmount + listedAmount - previousWardrobeAmount;
+    const diff = wardrobeAmount - previousWardrobeAmount;
 
-      const max = MAX_WEARABLES[name] || 0;
+    const max = MAX_WEARABLES[name] || 0;
 
-      if (max === 0) return true;
-      if (diff > max) {
-        maxedItem = name;
-        return false;
-      }
+    if (max === 0) return true;
+    if (diff > max) {
+      maxedItem = name;
+      return false;
+    }
 
-      return true;
-    });
+    return true;
+  });
 
   return { valid: validWardrobeProgress, maxedItem };
 }
