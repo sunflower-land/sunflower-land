@@ -66,8 +66,11 @@ export const MakeOffer: React.FC<{
     },
   });
 
-  const offerCount = getKeys(
-    gameService.getSnapshot().context.state.trades.offers ?? {},
+  const offers = gameService.getSnapshot().context.state.trades.offers ?? {};
+  const offerCount = getKeys(offers).length;
+
+  const itemOfferCount = getKeys(offers).filter(
+    (id) => !!offers[id].items[display.name],
   ).length;
 
   const submitOffer = () => {
@@ -102,7 +105,7 @@ export const MakeOffer: React.FC<{
   const needsLinkedWallet =
     tradeType === "onchain" && !gameService.getSnapshot().context.linkedWallet;
 
-  if (offerCount >= 30) {
+  if (offerCount >= 100) {
     return (
       <>
         <div className="p-2">
@@ -110,6 +113,22 @@ export const MakeOffer: React.FC<{
             {t("marketplace.offerLimitReached.label")}
           </Label>
           <p className="text-xs mb-2">{t("marketplace.offerLimitReached")}</p>
+        </div>
+        <Button onClick={() => onClose()}>{t("close")}</Button>
+      </>
+    );
+  }
+
+  if (itemOfferCount >= 5) {
+    return (
+      <>
+        <div className="p-2">
+          <Label type="danger" className="-ml-1 mb-2">
+            {t("marketplace.offerItemLimitReached.label")}
+          </Label>
+          <p className="text-xs mb-2">
+            {t("marketplace.offerItemLimitReached")}
+          </p>
         </div>
         <Button onClick={() => onClose()}>{t("close")}</Button>
       </>
