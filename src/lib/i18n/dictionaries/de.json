@@ -6661,5 +6661,7 @@
   "marketplace.tradesCleared": "Trades entfernt",
   "marketplace.tradesCleared.message": "Ihre folgenden Trades sind aufgrund unzureichender Gegenstände/Guthaben inaktiv geworden.",
   "marketplace.offerLimitReached.label": "Angebotslimit erreicht",
-  "marketplace.offerLimitReached": "Sie haben die maximale Anzahl an Angeboten erreicht (30). Bitte entfernen Sie einige Angebote, um Platz für neue zu schaffen."
+  "marketplace.offerLimitReached": "Sie haben die maximale Anzahl an Angeboten erreicht (30). Bitte entfernen Sie einige Angebote, um Platz für neue zu schaffen.",
+  "marketplace.offerItemLimitReached.label": "Das Limit für Angebotsartikel wurde erreicht",
+  "marketplace.offerItemLimitReached": "Sie haben die maximale Anzahl an Angeboten für diesen Artikel erreicht (5). Bitte entfernen Sie einige Angebote, um Platz für neue zu schaffen."
 }

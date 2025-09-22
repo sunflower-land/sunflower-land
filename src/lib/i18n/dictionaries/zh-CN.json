@@ -6661,5 +6661,7 @@
   "marketplace.tradesCleared": "交易已删除",
   "marketplace.tradesCleared.message": "由于物品/余额不足，您的以下交易已失效。",
   "marketplace.offerLimitReached.label": "已达到报价上限",
-  "marketplace.offerLimitReached": "您已达到最大报价数量 (30)。请删除一些优惠以便为新优惠腾出空间。"
+  "marketplace.offerLimitReached": "您已达到最大报价数量 (30)。请删除一些优惠以便为新优惠腾出空间。",
+  "marketplace.offerItemLimitReached.label": "已达到优惠商品上限",
+  "marketplace.offerItemLimitReached": "您已达到此商品的最大报价数量 (5)。请删除一些优惠，以便为新优惠腾出空间。"
 }

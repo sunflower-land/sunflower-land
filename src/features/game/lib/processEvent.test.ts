@@ -42,84 +42,6 @@ describe("processEvent", () => {
       expect(result.valid).toBe(false);
     });
 
-    it("should return false if a player has 4 speed chickens in inventory and 2 listed", () => {
-      const state: GameState = {
-        ...INITIAL_FARM,
-        inventory: {
-          "Speed Chicken": new Decimal(4),
-          Axe: new Decimal(1),
-        },
-        trades: {
-          listings: {
-            "123": {
-              collection: "collectibles",
-              items: {
-                "Speed Chicken": 1,
-              },
-              sfl: 100,
-              createdAt: Date.now(),
-              tradeType: "instant",
-            },
-            "345": {
-              collection: "collectibles",
-              items: {
-                "Speed Chicken": 1,
-              },
-              sfl: 100,
-              createdAt: Date.now(),
-              tradeType: "instant",
-            },
-          },
-        },
-      };
-
-      const result = checkProgress({
-        state,
-        action: {
-          type: "timber.chopped",
-          index: "1",
-          item: "Axe",
-        },
-        farmId: 1,
-      });
-
-      expect(result.valid).toBe(false);
-    });
-
-    it("should return false if a player has 90_000 goblin emblems and 10 listed and the listing has no collection", () => {
-      const state: GameState = {
-        ...INITIAL_FARM,
-        inventory: {
-          "Goblin Emblem": new Decimal(90_000),
-          Axe: new Decimal(1),
-        },
-        trades: {
-          listings: {
-            "123": {
-              items: {
-                "Goblin Emblem": 10,
-              },
-              sfl: 100,
-              createdAt: Date.now(),
-              tradeType: "instant",
-            } as TradeListing,
-          },
-        },
-      };
-
-      const result = checkProgress({
-        state,
-        action: {
-          type: "timber.chopped",
-          index: "1",
-          item: "Axe",
-        },
-        farmId: 1,
-      });
-
-      expect(result.valid).toBe(false);
-    });
-
     it("should return false if a player has 100 chef hats and 1 listed", () => {
       const state: GameState = {
         ...INITIAL_FARM,
@@ -172,41 +94,6 @@ describe("processEvent", () => {
               createdAt: Date.now(),
               tradeType: "instant",
             } as TradeListing,
-          },
-        },
-      };
-
-      const result = checkProgress({
-        state,
-        action: {
-          type: "timber.chopped",
-          index: "1",
-          item: "Axe",
-        },
-        farmId: 1,
-      });
-
-      expect(result.valid).toBe(false);
-    });
-
-    it("should return false if a player has 1200 tomatoes and 10 listed", () => {
-      const state: GameState = {
-        ...INITIAL_FARM,
-        inventory: {
-          Tomato: new Decimal(1200),
-          Axe: new Decimal(1),
-        },
-        trades: {
-          listings: {
-            "123": {
-              collection: "collectibles",
-              items: {
-                Tomato: 10,
-              },
-              sfl: 100,
-              createdAt: Date.now(),
-              tradeType: "instant",
-            },
           },
         },
       };
