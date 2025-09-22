@@ -6656,5 +6656,6 @@
   "select.network": "Selecione Rede",
   "switching.network": "Mudando de rede...",
   "description.obsidianShrine.buff": "Colha a granel todas as safras prontas e plante as sementes",
-  "obsidianShrine.noCrops": "Nenhuma safra pronta para a colheita"
+  "obsidianShrine.noCrops": "Nenhuma safra pronta para a colheita",
+  "withdraw.pets": "Selecione animais de estimação para retirar"
 }

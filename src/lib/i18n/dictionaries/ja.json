@@ -6656,5 +6656,6 @@
   "select.network": "ネットワークを選択",
   "switching.network": "ネットワークを切り替えています...",
   "description.obsidianShrine.buff": "すべての準備が整った作物と植物の種子を一括収穫",
-  "obsidianShrine.noCrops": "収穫の準備ができている作物はありません"
+  "obsidianShrine.noCrops": "収穫の準備ができている作物はありません",
+  "withdraw.pets": "撤回するペットを選択"
 }

@@ -6656,5 +6656,6 @@
   "select.network": "Seleziona rete",
   "switching.network": "Rete di commutazione...",
   "description.obsidianShrine.buff": "Raccogli all'ingrosso tutte le colture pronte e i semi delle piante",
-  "obsidianShrine.noCrops": "Nessuna coltura pronta per la raccolta"
+  "obsidianShrine.noCrops": "Nessuna coltura pronta per la raccolta",
+  "withdraw.pets": "Seleziona Animali domestici da prelevare"
 }

@@ -6656,5 +6656,6 @@
   "select.network": "选择网络",
   "switching.network": "正在切换网络...",
   "description.obsidianShrine.buff": "批量收获所有现成的作物和植物种子",
-  "obsidianShrine.noCrops": "没有农作物准备收割"
+  "obsidianShrine.noCrops": "没有农作物准备收割",
+  "withdraw.pets": "选择要撤回的宠物"
 }

@@ -6656,5 +6656,6 @@
   "select.network": "Pilih Rangkaian",
   "switching.network": "Menukar Rangkaian...",
   "description.obsidianShrine.buff": "Tuai pukal semua tanaman siap dan benih tanaman",
-  "obsidianShrine.noCrops": "Tiada tanaman yang sedia untuk dituai"
+  "obsidianShrine.noCrops": "Tiada tanaman yang sedia untuk dituai",
+  "withdraw.pets": "Pilih Haiwan Peliharaan untuk menarik"
 }

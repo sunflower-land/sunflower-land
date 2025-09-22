@@ -6656,5 +6656,6 @@
   "select.network": "Ağ Seçin",
   "switching.network": "Ağ Değiştirme...",
   "description.obsidianShrine.buff": "Tüm hazır mahsulleri ve bitki tohumlarını toplu olarak hasat edin",
-  "obsidianShrine.noCrops": "Hasat için hazır ürün yok"
+  "obsidianShrine.noCrops": "Hasat için hazır ürün yok",
+  "withdraw.pets": "Çekilecek Evcil Hayvanları Seçin"
 }

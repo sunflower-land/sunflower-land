@@ -6656,5 +6656,6 @@
   "select.network": "Выберите сеть",
   "switching.network": "Коммутационная сеть...",
   "description.obsidianShrine.buff": "Массовый сбор всех готовых культур и семян растений",
-  "obsidianShrine.noCrops": "Нет готовых к сбору урожая культур"
+  "obsidianShrine.noCrops": "Нет готовых к сбору урожая культур",
+  "withdraw.pets": "Выберите «Домашние животные» для изъятия"
 }

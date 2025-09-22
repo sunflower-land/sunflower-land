@@ -6656,5 +6656,6 @@
   "select.network": "Sélectionnez le réseau",
   "switching.network": "Réseau de commutation...",
   "description.obsidianShrine.buff": "Récoltez en vrac toutes les cultures prêtes et les graines de plantes",
-  "obsidianShrine.noCrops": "Aucune récolte prête à être récoltée"
+  "obsidianShrine.noCrops": "Aucune récolte prête à être récoltée",
+  "withdraw.pets": "Sélectionnez les animaux de compagnie à retirer"
 }

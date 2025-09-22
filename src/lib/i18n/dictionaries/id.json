@@ -6656,5 +6656,6 @@
   "select.network": "Pilih Jaringan",
   "switching.network": "Beralih Jaringan...",
   "description.obsidianShrine.buff": "Panen massal semua tanaman siap pakai dan benih tanaman",
-  "obsidianShrine.noCrops": "Tidak ada tanaman yang siap dipanen"
+  "obsidianShrine.noCrops": "Tidak ada tanaman yang siap dipanen",
+  "withdraw.pets": "Pilih Hewan Peliharaan untuk ditarik"
 }

@@ -6656,5 +6656,6 @@
   "select.network": "Seleccione la red",
   "switching.network": "Red de conmutación...",
   "description.obsidianShrine.buff": "Cosecha a granel todos los cultivos listos y siembra semillas",
-  "obsidianShrine.noCrops": "No hay cultivos listos para cosechar"
+  "obsidianShrine.noCrops": "No hay cultivos listos para cosechar",
+  "withdraw.pets": "Selecciona las mascotas que deseas retirar"
 }
