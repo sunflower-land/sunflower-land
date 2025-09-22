@@ -13,6 +13,7 @@ type ProcessedDeposit = {
   value: string;
   transactionHash: string;
   createdAt: number;
+  chainId: number;
 };
 
 const _pending = (state: MachineState) => state.matches("depositingFlower");
@@ -20,7 +21,7 @@ const _deposits = (state: MachineState): ProcessedDeposit[] =>
   state.context.data["depositingFlower"]?.deposits ?? [];
 
 export const DepositHistory: React.FC<{
-  selectedNetwork: NetworkOption | undefined;
+  selectedNetwork: NetworkOption;
   refreshDeposits: () => void;
   firstLoadComplete: boolean;
 }> = ({ selectedNetwork, firstLoadComplete, refreshDeposits }) => {
@@ -30,10 +31,14 @@ export const DepositHistory: React.FC<{
   const deposits = useSelector(gameService, _deposits);
   const pending = useSelector(gameService, _pending);
 
+  const depositsForChain = deposits.filter(
+    (deposit) => deposit.chainId === selectedNetwork.chainId,
+  );
+
   return (
     <>
       {/* Deposits history */}
-      {selectedNetwork?.value && (
+      {selectedNetwork.value && (
         <div className="flex flex-col mt-2">
           <div className="h-[120px] scrollable overflow-y-auto">
             <div className="text-sm pb-2 border-b border-white -px-2">
@@ -41,14 +46,16 @@ export const DepositHistory: React.FC<{
                 {t("deposit.flower.processedDeposits")}
               </span>
             </div>
-            {firstLoadComplete && deposits.length === 0 && (
+            {firstLoadComplete && depositsForChain.length === 0 && (
               <div className="flex items-center gap-1 border-b border-white -px-2 py-1.5">
                 <span className="text-xxs ml-1">
-                  {t("deposit.flower.noDeposits")}
+                  {pending
+                    ? t("deposit.flower.refreshing")
+                    : t("deposit.flower.noDeposits")}
                 </span>
               </div>
             )}
-            {deposits.map((deposit) => (
+            {depositsForChain.map((deposit) => (
               <div
                 key={deposit.transactionHash}
                 className="flex items-center gap-1 border-b border-white -px-2 py-1.5"

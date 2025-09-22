@@ -211,6 +211,7 @@ const WALLET_ACTIONS: Record<TransactionName, WalletAction> = {
   "transaction.itemsWithdrawn": "withdrawItems",
   "transaction.wearablesWithdrawn": "withdrawItems",
   "transaction.budWithdrawn": "withdrawItems",
+  "transaction.petWithdrawn": "withdrawItems",
   "transaction.listingPurchased": "marketplace",
   "transaction.offerAccepted": "marketplace",
   "transaction.progressSynced": "sync",
@@ -263,6 +264,7 @@ export const Transaction: React.FC<Props> = ({ onClose, isBlocked }) => {
 
 const EVENT_TO_NAME: Record<TransactionName, string> = {
   "transaction.budWithdrawn": "Withdraw bud",
+  "transaction.petWithdrawn": "Withdraw pet",
   "transaction.itemsWithdrawn": "Withdraw items",
   "transaction.progressSynced": "Store on chain",
   "transaction.wearablesWithdrawn": "Withdraw wearables",

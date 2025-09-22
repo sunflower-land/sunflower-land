@@ -550,6 +550,8 @@ import { NeglectPetAction, neglectPet } from "./pets/neglectPet";
 import { petPet, PetPetAction } from "./pets/petPet";
 import { fetchPet, FetchPetAction } from "./pets/fetchPet";
 import { helpPets, HelpPetsAction } from "./visiting/helpPets";
+import { BulkPlantAction, bulkPlant } from "./landExpansion/bulkPlant";
+import { bulkHarvest, BulkHarvestAction } from "./landExpansion/bulkHarvest";
 import { clearTrades, ClearTradesAction } from "./clearTrades";
 
 export type PlayingEvent =
@@ -707,7 +709,9 @@ export type PlayingEvent =
   | InstantGrowProjectAction
   | InstaGrowFlowerAction
   | UpgradeRockAction
-  | UpgradeTreeAction;
+  | UpgradeTreeAction
+  | BulkPlantAction
+  | BulkHarvestAction;
 
 export type LocalVisitingEvent =
   | CollectGarbageAction
@@ -824,7 +828,9 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "airdrop.claimed": claimAirdrop,
   "bot.detected": detectBot,
   "seed.planted": landExpansionPlant,
+  "seeds.bulkPlanted": bulkPlant,
   "crop.harvested": landExpansionHarvest,
+  "crops.bulkHarvested": bulkHarvest,
   "plot.fertilised": landExpansionFertilise,
   "crop.removed": landExpansionRemoveCrop,
   "chicken.collectEgg": landExpansionCollectEggs,

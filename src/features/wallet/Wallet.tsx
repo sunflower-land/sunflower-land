@@ -104,6 +104,7 @@ const WALLET_ACTIONS: Record<WalletAction, WalletActionSettings> = {
     requiresNFT: false,
     chains: {
       [CONFIG.NETWORK === "mainnet" ? base.id : baseSepolia.id]: true,
+      [CONFIG.NETWORK === "mainnet" ? ronin.id : saigon.id]: true,
     },
   },
   depositSFL: {
@@ -207,6 +208,72 @@ const EstablishConnection: React.FC<{
   return <ConnectLinkedWallet linkedWallet={linkedAddress as `0x${string}`} />;
 };
 
+interface SelectChainDropdownProps {
+  availableChains: number[];
+  switchChain: ({ chainId }: { chainId: number }) => void;
+  isPending: boolean;
+  chainIcon: string | undefined;
+  chainName: string;
+}
+
+export const SelectChainDropdown: React.FC<SelectChainDropdownProps> = ({
+  availableChains,
+  switchChain,
+  isPending,
+  chainIcon,
+  chainName,
+}) => {
+  const { t } = useAppTranslation();
+
+  const filteredNetworkOptions = networkOptions.filter((network) =>
+    availableChains.includes(network.chainId),
+  );
+
+  return (
+    <Popover>
+      {({ open, close }) => (
+        <>
+          <PopoverButton>
+            <Label
+              type="formula"
+              icon={isPending ? undefined : chainIcon}
+              secondaryIcon={
+                open ? SUNNYSIDE.icons.chevron_up : SUNNYSIDE.icons.chevron_down
+              }
+              className={classNames("cursor-pointer", {
+                "pl-1": isPending,
+              })}
+            >
+              {isPending ? t("switching.network") : chainName}
+            </Label>
+          </PopoverButton>
+          <PopoverPanel anchor={{ to: "bottom start" }}>
+            <InnerPanel className="flex flex-col">
+              {filteredNetworkOptions.map((network) => (
+                <div
+                  key={network.chainId}
+                  className="flex items-center gap-2 cursor-pointer hover:bg-[#ead4aa]/50 py-1.5 px-2"
+                  onClick={() => {
+                    switchChain({ chainId: network.chainId });
+                    close();
+                  }}
+                >
+                  {network.icon && (
+                    <img src={network.icon} className="pl-1 w-5" />
+                  )}
+                  <span className="text-sm whitespace-nowrap pr-4">
+                    {network.value}
+                  </span>
+                </div>
+              ))}
+            </InnerPanel>
+          </PopoverPanel>
+        </>
+      )}
+    </Popover>
+  );
+};
+
 const WalletConnectedHeader: React.FC<{ availableChains: number[] }> = ({
   availableChains,
 }) => {
@@ -216,10 +283,6 @@ const WalletConnectedHeader: React.FC<{ availableChains: number[] }> = ({
   const connections = useConnections();
   const { t } = useAppTranslation();
 
-  const filteredNetworkOptions = networkOptions.filter((network) =>
-    availableChains.includes(network.chainId),
-  );
-
   const onDisconnect = () => {
     disconnect();
     connections.forEach((connection) =>
@@ -227,7 +290,7 @@ const WalletConnectedHeader: React.FC<{ availableChains: number[] }> = ({
     );
   };
 
-  const chainName = chain?.name ?? "Select Network";
+  const chainName = chain?.name ?? t("select.network");
   const chainIcon = networkOptions.find(
     (network) => network.chainId === chainId,
   )?.icon;
@@ -235,49 +298,13 @@ const WalletConnectedHeader: React.FC<{ availableChains: number[] }> = ({
   return (
     <div className="flex justify-between items-center px-2">
       <div className="relative">
-        <Popover>
-          {({ open, close }) => (
-            <>
-              <PopoverButton>
-                <Label
-                  type="formula"
-                  icon={isPending ? undefined : chainIcon}
-                  secondaryIcon={
-                    open
-                      ? SUNNYSIDE.icons.chevron_up
-                      : SUNNYSIDE.icons.chevron_down
-                  }
-                  className={classNames("cursor-pointer", {
-                    "pl-1": isPending,
-                  })}
-                >
-                  {isPending ? "Switching Network..." : chainName}
-                </Label>
-              </PopoverButton>
-              <PopoverPanel anchor={{ to: "bottom start" }}>
-                <InnerPanel className="flex flex-col">
-                  {filteredNetworkOptions.map((network) => (
-                    <div
-                      key={network.chainId}
-                      className="flex items-center gap-2 cursor-pointer hover:bg-[#ead4aa]/50 py-1.5 px-2"
-                      onClick={() => {
-                        switchChain({ chainId: network.chainId });
-                        close();
-                      }}
-                    >
-                      {network.icon && (
-                        <img src={network.icon} className="pl-1 w-5" />
-                      )}
-                      <span className="text-sm whitespace-nowrap pr-4">
-                        {network.value}
-                      </span>
-                    </div>
-                  ))}
-                </InnerPanel>
-              </PopoverPanel>
-            </>
-          )}
-        </Popover>
+        <SelectChainDropdown
+          availableChains={availableChains}
+          switchChain={switchChain}
+          isPending={isPending}
+          chainIcon={chainIcon}
+          chainName={chainName}
+        />
       </div>
       <div className="relative">
         {address && (
@@ -364,7 +391,7 @@ const SelectChain: React.FC<{
     <>
       <WalletConnectedHeader availableChains={availableChains} />
       <div className="text-sm p-2">
-        {isPending ? "Switching Network..." : text}
+        {isPending ? t("switching.network") : text}
       </div>
     </>
   );

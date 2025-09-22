@@ -382,6 +382,55 @@ describe("Place building", () => {
     );
   });
 
+  it("adjusts the new lovedAt for henhouse", () => {
+    const state = placeBuilding({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Basic Land": new Decimal(10),
+          "Hen House": new Decimal(1),
+        },
+        buildings: {
+          "Hen House": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt: dateNow - 120000,
+            },
+          ],
+        },
+        henHouse: {
+          level: 1,
+          animals: {
+            "123": {
+              type: "Chicken",
+              id: "123",
+              state: "idle",
+              createdAt: dateNow - 180000,
+              experience: 1000,
+              asleepAt: dateNow - 180000,
+              awakeAt: dateNow - 180000 + 24 * 60 * 60 * 1000,
+              lovedAt: dateNow - 160000,
+              item: "Brush",
+            },
+          },
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Hen House",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.henHouse.animals["123"].lovedAt).toEqual(
+      dateNow - (160000 - 120000),
+    );
+  });
+
   it("adjusts the new readyAt for crafting box", () => {
     const state = placeBuilding({
       state: {

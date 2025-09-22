@@ -63,6 +63,8 @@ const CHRISTMAS_EVENT_DONATION = import.meta.env
   .VITE_CHRISTMAS_EVENT_DONATION as string;
 const WITHDRAW_FLOWER_CONTRACT = import.meta.env
   .VITE_WITHDRAW_FLOWER_CONTRACT as string;
+const WITHDRAW_PET_CONTRACT = import.meta.env
+  .VITE_WITHDRAW_PET_CONTRACT as string;
 
 // Arcade Mini Games Donation Addresses
 const GREEDY_GOBLIN_DONATION = import.meta.env
@@ -153,6 +155,7 @@ export const CONFIG = {
   BUD_CONTRACT,
   ALGEBRA_QUOTER_CONTRACT,
   FLOWER_CONTRACT,
+  WITHDRAW_PET_CONTRACT,
 
   GREEDY_GOBLIN_DONATION,
   CHICKEN_FIGHT_DONATION,
