@@ -6655,13 +6655,13 @@
   "description.potion.ticket": "来自药水游戏的奖励。可用于在 Eins 处购买物品。",
   "select.network": "选择网络",
   "switching.network": "正在切换网络...",
-  "description.obsidianShrine.buff": "批量收获所有现成的作物和植物种子",
-  "obsidianShrine.noCrops": "没有农作物准备收割",
-  "withdraw.pets": "选择要撤回的宠物",
-  "marketplace.tradesCleared": "交易已删除",
-  "marketplace.tradesCleared.message": "由于物品/余额不足，您的以下交易已失效。",
-  "marketplace.offerLimitReached.label": "已达到报价上限",
-  "marketplace.offerItemLimitReached.label": "已达到优惠商品上限",
-  "marketplace.offerItemLimitReached": "您已达到此商品的最大报价数量 (5)。请删除一些优惠，以便为新优惠腾出空间。",
-  "marketplace.offerLimitReached": "您已达到最大报价数量 (100)。请删除一些优惠以便为新优惠腾出空间。"
+  "description.obsidianShrine.buff": "批量收获所有以成熟的庄稼和种植新种子",
+  "obsidianShrine.noCrops": "没有庄稼可以收获",
+  "withdraw.pets": "选择要提取的宠物",
+  "marketplace.tradesCleared": "交易已移除",
+  "marketplace.tradesCleared.message": "由于物品/余额不足，你的以下交易已失效。",
+  "marketplace.offerLimitReached.label": "已达总报价上限",
+  "marketplace.offerItemLimitReached.label": "已达物品报价上限",
+  "marketplace.offerItemLimitReached": "你已达到该物品的最大报价数量 (5)。请移除一些报价以腾出空间。",
+  "marketplace.offerLimitReached": "你已达到最大报价数量 (100)。请移除一些报价以腾出空间。"
 }
