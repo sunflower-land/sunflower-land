@@ -60,6 +60,11 @@ export const DEV_PlayerSearch: React.FC<ContentComponentProps> = () => {
   if (state === "loaded" && farm) {
     return (
       <div className="flex flex-col p-1">
+        <div className="flex items-center">
+          <p className="mr-2">{`Farm ID:`}</p>
+          <CopyAddress address={farm.id.toString()} />
+        </div>
+
         <p>{`Farm ID: ${farm.id}`}</p>
         <p>{`Username: ${farm.username}`}</p>
         <div className="flex items-center">
