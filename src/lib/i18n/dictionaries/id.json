@@ -6659,5 +6659,7 @@
   "obsidianShrine.noCrops": "Tidak ada tanaman yang siap dipanen",
   "withdraw.pets": "Pilih Hewan Peliharaan untuk ditarik",
   "marketplace.tradesCleared": "Perdagangan dihapus",
-  "marketplace.tradesCleared.message": "Perdagangan Anda berikut menjadi tidak aktif karena item/saldo tidak mencukupi."
+  "marketplace.tradesCleared.message": "Perdagangan Anda berikut menjadi tidak aktif karena item/saldo tidak mencukupi.",
+  "marketplace.offerLimitReached.label": "Batas Penawaran Tercapai",
+  "marketplace.offerLimitReached": "Anda telah mencapai jumlah maksimum penawaran (30). Harap hapus beberapa penawaran untuk memberi ruang bagi yang baru."
 }

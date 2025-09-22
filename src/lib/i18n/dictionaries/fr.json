@@ -6659,5 +6659,7 @@
   "obsidianShrine.noCrops": "Aucune récolte prête à être récoltée",
   "withdraw.pets": "Sélectionnez les animaux de compagnie à retirer",
   "marketplace.tradesCleared": "Transactions supprimées",
-  "marketplace.tradesCleared.message": "Vos transactions suivantes sont devenues inactives en raison d'un manque d'objets/de solde."
+  "marketplace.tradesCleared.message": "Vos transactions suivantes sont devenues inactives en raison d'un manque d'objets/de solde.",
+  "marketplace.offerLimitReached.label": "Limite de l'offre atteinte",
+  "marketplace.offerLimitReached": "Vous avez atteint le nombre maximum d'offres (30). Veuillez supprimer certaines offres pour laisser de la place à de nouvelles offres."
 }

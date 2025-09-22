@@ -6659,5 +6659,7 @@
   "obsidianShrine.noCrops": "Hasat için hazır ürün yok",
   "withdraw.pets": "Çekilecek Evcil Hayvanları Seçin",
   "marketplace.tradesCleared": "İşlemler kaldırıldı",
-  "marketplace.tradesCleared.message": "Aşağıdaki işlemleriniz yetersiz kalemler/bakiye nedeniyle etkisiz hale geldi."
+  "marketplace.tradesCleared.message": "Aşağıdaki işlemleriniz yetersiz kalemler/bakiye nedeniyle etkisiz hale geldi.",
+  "marketplace.offerLimitReached.label": "Teklif Sınırına Ulaşıldı",
+  "marketplace.offerLimitReached": "Maksimum teklif sayısına ulaştınız (30). Yenilerine yer açmak için lütfen bazı teklifleri kaldırın."
 }

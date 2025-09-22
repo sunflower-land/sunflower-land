@@ -6659,5 +6659,7 @@
   "obsidianShrine.noCrops": "収穫の準備ができている作物はありません",
   "withdraw.pets": "撤回するペットを選択",
   "marketplace.tradesCleared": "取引が削除されました",
-  "marketplace.tradesCleared.message": "アイテム/残高が不足しているため、以下の取引は無効になっています。"
+  "marketplace.tradesCleared.message": "アイテム/残高が不足しているため、以下の取引は無効になっています。",
+  "marketplace.offerLimitReached.label": "オファーの上限に達しました",
+  "marketplace.offerLimitReached": "オファーの最大数（30）に達しました。新しいオファー用のスペースを空けるため、一部のオファーを削除してください。"
 }
