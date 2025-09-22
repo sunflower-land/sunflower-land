@@ -174,7 +174,7 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
               className="absolute -inset-2 bg-repeat"
               style={{
                 height: `${PIXEL_SCALE * 80}px`,
-                backgroundImage: `url(${getImageUrl(ITEM_IDS[NPC_WEARABLES[previewNpc].background])})`,
+                backgroundImage: `url(${getImageUrl(ITEM_IDS[NPC_WEARABLES[previewNpc].background!])})`,
                 backgroundSize: "100%",
               }}
             />

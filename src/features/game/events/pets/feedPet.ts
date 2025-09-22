@@ -1,13 +1,79 @@
+import { isTemporaryCollectibleActive } from "features/game/lib/collectibleBuilt";
 import { CookableName } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
 import {
+  getPetLevel,
   getPetRequestXP,
   isPetNapping,
   isPetNeglected,
+  Pet,
+  PET_REQUESTS,
   PetName,
 } from "features/game/types/pets";
 import { produce } from "immer";
 
+export function getPetEnergy({
+  petData,
+  basePetEnergy,
+}: {
+  petData: Pet;
+  basePetEnergy: number;
+}) {
+  const { level: petLevel } = getPetLevel(petData.experience);
+  let boostEnergy = 0;
+
+  if (petLevel >= 5) {
+    boostEnergy += 5;
+  }
+
+  if (petLevel >= 35) {
+    boostEnergy += 5;
+  }
+
+  if (petLevel >= 75) {
+    boostEnergy += 5;
+  }
+
+  return basePetEnergy + boostEnergy;
+}
+
+export function getPetExperience({
+  game,
+  basePetXP,
+}: {
+  game: GameState;
+  basePetXP: number;
+}) {
+  let experience = basePetXP;
+
+  if (isTemporaryCollectibleActive({ name: "Hound Shrine", game })) {
+    experience += 100;
+  }
+
+  return experience;
+}
+
+/**
+ * Removes the hard request from the pet's food requests if the pet is less than level 10
+ * This ensures that the pet would instantly get the hard request when it reaches level 10
+ * @param pet Pet
+ * @returns Pet's food requests
+ */
+export function getPetFoodRequests(pet: Pet) {
+  const { level: petLevel } = getPetLevel(pet.experience);
+  let requests = [...pet.requests.food];
+
+  if (petLevel < 10) {
+    const hardRequest = requests.find((request) =>
+      PET_REQUESTS.hard.includes(request),
+    );
+
+    if (hardRequest) {
+      requests = requests.filter((request) => request !== hardRequest);
+    }
+  }
+  return requests;
+}
 export type FeedPetAction = {
   type: "pet.fed";
   pet: PetName;
@@ -38,7 +104,7 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("Pet is in neglected state");
     }
 
-    const requests = petData.requests.food;
+    const requests = getPetFoodRequests(petData);
     if (requests.length <= 0) {
       throw new Error("No requests found");
     }
@@ -73,9 +139,13 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
     petData.requests.fedAt = createdAt;
     inventory[food] = foodInInventory.minus(1);
 
-    const experience = getPetRequestXP(food);
+    // Get base pet XP/Energy
+    const basePetXP = getPetRequestXP(food);
+
+    const experience = getPetExperience({ basePetXP, game: stateCopy });
+    const energy = getPetEnergy({ petData, basePetEnergy: basePetXP });
     petData.experience += experience;
-    petData.energy += experience;
+    petData.energy += energy;
 
     return stateCopy;
   });

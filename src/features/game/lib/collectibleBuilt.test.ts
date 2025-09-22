@@ -1,4 +1,7 @@
-import { isCollectibleActive, isCollectibleBuilt } from "./collectibleBuilt";
+import {
+  isTemporaryCollectibleActive,
+  isCollectibleBuilt,
+} from "./collectibleBuilt";
 import { TEST_FARM } from "./constants";
 
 describe("isCollectibleBuilt", () => {
@@ -83,7 +86,7 @@ describe("isCollectibleBuilt", () => {
 
 describe("isCollectibleBuilt", () => {
   it("returns true if collectible is active on island", () => {
-    const isBuilt = isCollectibleActive({
+    const isBuilt = isTemporaryCollectibleActive({
       game: {
         ...TEST_FARM,
         collectibles: {
@@ -104,7 +107,7 @@ describe("isCollectibleBuilt", () => {
   });
 
   it("returns true if collectible is active in home", () => {
-    const isBuilt = isCollectibleActive({
+    const isBuilt = isTemporaryCollectibleActive({
       game: {
         ...TEST_FARM,
         home: {
@@ -127,7 +130,7 @@ describe("isCollectibleBuilt", () => {
   });
 
   it("returns false if collectible is placed, but not active", () => {
-    const isBuilt = isCollectibleActive({
+    const isBuilt = isTemporaryCollectibleActive({
       game: {
         ...TEST_FARM,
         home: {
@@ -150,7 +153,7 @@ describe("isCollectibleBuilt", () => {
   });
 
   it("returns false if collectible is not placed", () => {
-    const isBuilt = isCollectibleActive({
+    const isBuilt = isTemporaryCollectibleActive({
       game: {
         ...TEST_FARM,
       },
@@ -163,7 +166,7 @@ describe("isCollectibleBuilt", () => {
 
 describe("Super Totem Built", () => {
   it("returns true if collectible is active on island", () => {
-    const isBuilt = isCollectibleActive({
+    const isBuilt = isTemporaryCollectibleActive({
       game: {
         ...TEST_FARM,
         collectibles: {
@@ -184,7 +187,7 @@ describe("Super Totem Built", () => {
   });
 
   it("returns true if collectible is active in home", () => {
-    const isBuilt = isCollectibleActive({
+    const isBuilt = isTemporaryCollectibleActive({
       game: {
         ...TEST_FARM,
         home: {
@@ -207,7 +210,7 @@ describe("Super Totem Built", () => {
   });
 
   it("returns false if collectible is placed, but not active", () => {
-    const isBuilt = isCollectibleActive({
+    const isBuilt = isTemporaryCollectibleActive({
       game: {
         ...TEST_FARM,
         home: {
@@ -230,7 +233,7 @@ describe("Super Totem Built", () => {
   });
 
   it("returns false if collectible is not placed", () => {
-    const isBuilt = isCollectibleActive({
+    const isBuilt = isTemporaryCollectibleActive({
       game: {
         ...TEST_FARM,
       },

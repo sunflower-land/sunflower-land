@@ -1,28 +1,36 @@
+import xpIcon from "assets/icons/xp.png";
+import powerupIcon from "assets/icons/level_up.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label, LabelType } from "components/ui/Label";
+import { InnerPanel } from "components/ui/Panel";
+import Decimal from "decimal.js-light";
+import {
+  getPetEnergy,
+  getPetExperience,
+  getPetFoodRequests,
+} from "features/game/events/pets/feedPet";
 import { Context } from "features/game/GameProvider";
 import { CookableName } from "features/game/types/consumables";
+import { Inventory } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   PET_RESOURCES,
   Pet,
   PetName,
   PetResourceName,
-  getPetLevel,
   getPetFetches,
+  getPetLevel,
   getPetRequestXP,
   isPetNapping,
   isPetNeglected,
 } from "features/game/types/pets";
-import { shortenCount } from "lib/utils/formatNumber";
-import React, { useContext, useState, useMemo } from "react";
-import { PetInfo } from "./PetInfo";
-import { Inventory } from "features/game/types/game";
-import Decimal from "decimal.js-light";
-import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import xpIcon from "assets/icons/xp.png";
+import { shortenCount } from "lib/utils/formatNumber";
+import React, { useContext, useMemo, useState } from "react";
+import { PetInfo } from "./PetInfo";
+import { useSelector } from "@xstate/react";
+import { isTemporaryCollectibleActive } from "features/game/lib/collectibleBuilt";
 
 interface Props {
   petName: PetName;
@@ -89,7 +97,11 @@ export const PetCard: React.FC<Props> = ({
   inventory,
 }) => {
   const { gameService } = useContext(Context);
-
+  const state = useSelector(gameService, (state) => state.context.state);
+  const isHoundShrineActive = isTemporaryCollectibleActive({
+    name: "Hound Shrine",
+    game: state,
+  });
   const [hoveredFood, setHoveredFood] = useState<CookableName | null>(null);
   const [hoveredFetch, setHoveredFetch] = useState<PetResourceName | null>(
     null,
@@ -163,8 +175,18 @@ export const PetCard: React.FC<Props> = ({
         (item) => item.pet === petName && item.food === food,
       );
 
-      const isDisabled = !canFeed || alreadyFed;
-      const foodXP = getPetRequestXP(food);
+      const isFoodLocked = !getPetFoodRequests(pet).includes(food);
+
+      const isDisabled = !canFeed || alreadyFed || isFoodLocked;
+      const baseFoodXP = getPetRequestXP(food);
+      const foodXP = getPetExperience({
+        basePetXP: baseFoodXP,
+        game: state,
+      });
+      const foodEnergy = getPetEnergy({
+        petData: pet,
+        basePetEnergy: baseFoodXP,
+      });
 
       return {
         food,
@@ -175,9 +197,11 @@ export const PetCard: React.FC<Props> = ({
         isSelected,
         isDisabled,
         foodXP,
+        foodEnergy,
+        isFoodLocked,
       };
     });
-  }, [inventory, isBulkFeed, selectedFeed, petName, pet]);
+  }, [pet, inventory, isBulkFeed, selectedFeed, state, petName]);
   const fetchData = getPetFetches(petName);
   const { level } = getPetLevel(pet.experience);
 
@@ -217,6 +241,7 @@ export const PetCard: React.FC<Props> = ({
         handleFetchHover={handleFetchHover}
         setHoveredFetch={setHoveredFetch}
         hoveredFetch={hoveredFetch}
+        isHoundShrineActive={isHoundShrineActive}
       />
     </PetInfo>
   );
@@ -277,9 +302,12 @@ const GridItem: React.FC<{
   onMouseLeave: () => void;
   count?: Decimal;
   showConfirm?: boolean;
-  bottomLabelValue: number;
-  bottomLabelType: LabelType;
-  bottomLabelIcon?: string;
+  bottomLabels?: {
+    labelType: LabelType;
+    icon: string;
+    value: number;
+    secondaryIcon?: string;
+  }[];
   isHovered: boolean;
 }> = ({
   keyName,
@@ -290,9 +318,7 @@ const GridItem: React.FC<{
   onMouseLeave,
   count,
   showConfirm,
-  bottomLabelValue,
-  bottomLabelType,
-  bottomLabelIcon,
+  bottomLabels,
   isHovered,
 }) => {
   return (
@@ -326,9 +352,19 @@ const GridItem: React.FC<{
           </Label>
         )}
       </div>
-      <Label type={bottomLabelType} icon={bottomLabelIcon}>
-        {bottomLabelValue}
-      </Label>
+      <div className="flex flex-col gap-1">
+        {bottomLabels &&
+          bottomLabels.map((label) => (
+            <Label
+              key={label.value}
+              type={label.labelType}
+              icon={label.icon}
+              secondaryIcon={label.secondaryIcon}
+            >
+              {label.value}
+            </Label>
+          ))}
+      </div>
     </div>
   );
 };
@@ -373,6 +409,8 @@ export const PetCardContent: React.FC<{
     isSelected: boolean;
     isDisabled: boolean;
     foodXP: number;
+    foodEnergy: number;
+    isFoodLocked: boolean;
   }[];
   fetchItems: {
     fetch: {
@@ -397,6 +435,7 @@ export const PetCardContent: React.FC<{
   handlePetPet: (petName: PetName) => void;
   tooltipPosition: { x: number; y: number };
   handleFetchPet: (petName: PetName, fetch: PetResourceName) => void;
+  isHoundShrineActive: boolean;
 }> = ({
   pet,
   foodItems,
@@ -413,6 +452,7 @@ export const PetCardContent: React.FC<{
   handleFetchPet,
   handleFetchHover,
   setHoveredFetch,
+  isHoundShrineActive,
 }) => {
   const { t } = useAppTranslation();
 
@@ -461,11 +501,15 @@ export const PetCardContent: React.FC<{
               isSelected,
               isDisabled,
               foodXP,
+              foodEnergy,
+              isFoodLocked,
             }) => (
               <GridItem
                 key={food}
                 keyName={food}
-                imageSrc={foodImage}
+                imageSrc={
+                  isFoodLocked ? SUNNYSIDE.icons.expression_confused : foodImage
+                }
                 disabled={isDisabled}
                 onClick={
                   isDisabled
@@ -474,13 +518,39 @@ export const PetCardContent: React.FC<{
                       ? () => handleRemoveFromSelection(food)
                       : () => handleFeedPet(food)
                 }
-                onMouseEnter={(e) => handleFoodHover(food, e)}
-                onMouseLeave={() => setHoveredFood(null)}
-                count={foodCount}
+                onMouseEnter={(e) =>
+                  isFoodLocked ? undefined : handleFoodHover(food, e)
+                }
+                onMouseLeave={() =>
+                  isFoodLocked ? undefined : setHoveredFood(null)
+                }
+                count={isFoodLocked ? undefined : foodCount}
                 showConfirm={alreadyFed || isSelected}
-                bottomLabelValue={foodXP}
-                bottomLabelType="success"
-                bottomLabelIcon={SUNNYSIDE.icons.lightning}
+                bottomLabels={
+                  isFoodLocked
+                    ? [
+                        {
+                          labelType: "formula",
+                          icon: SUNNYSIDE.icons.lock,
+                          value: foodXP,
+                        },
+                      ]
+                    : [
+                        {
+                          labelType: "info",
+                          icon: xpIcon,
+                          value: foodXP,
+                          secondaryIcon: isHoundShrineActive
+                            ? powerupIcon
+                            : undefined,
+                        },
+                        {
+                          labelType: "success",
+                          icon: SUNNYSIDE.icons.lightning,
+                          value: foodEnergy,
+                        },
+                      ]
+                }
                 isHovered={hoveredFood === food}
               />
             ),
@@ -511,19 +581,19 @@ export const PetCardContent: React.FC<{
                 onMouseEnter={(e) => handleFetchHover(fetch.name, e)}
                 onMouseLeave={() => setHoveredFetch(null)}
                 showConfirm={false}
-                bottomLabelValue={energyRequired}
-                bottomLabelType={
-                  !hasRequiredLevel
-                    ? "formula"
-                    : !hasEnoughEnergy
-                      ? "danger"
-                      : "default"
-                }
-                bottomLabelIcon={
-                  hasRequiredLevel
-                    ? SUNNYSIDE.icons.lightning
-                    : SUNNYSIDE.icons.lock
-                }
+                bottomLabels={[
+                  {
+                    labelType: !hasRequiredLevel
+                      ? "formula"
+                      : !hasEnoughEnergy
+                        ? "danger"
+                        : "default",
+                    icon: hasRequiredLevel
+                      ? SUNNYSIDE.icons.lightning
+                      : SUNNYSIDE.icons.lock,
+                    value: energyRequired,
+                  },
+                ]}
                 isHovered={hoveredFetch === fetch.name}
               />
             ),

@@ -1,22 +1,18 @@
 import { syncProgress, SyncProgressParams } from "lib/blockchain/Game";
 import { GameState, InventoryItemName, Wardrobe } from "./game";
 import {
-  mintAuctionCollectible,
-  mintAuctionWearable,
-  MintBidParams,
-} from "lib/blockchain/Auction";
-import {
   WithdrawBudsParams,
   withdrawBudsTransaction,
   WithdrawFlowerParams,
   withdrawFlowerTransaction,
   WithdrawItemsParams,
   withdrawItemsTransaction,
+  WithdrawPetsParams,
+  withdrawPetsTransaction,
   WithdrawWearablesParams,
   withdrawWearablesTransaction,
 } from "lib/blockchain/Withdrawals";
 import { sync } from "../actions/sync";
-import { mintAuctionItemRequest } from "../actions/mintAuctionItem";
 import {
   AcceptOfferParams,
   acceptOfferTransaction,
@@ -25,21 +21,21 @@ import {
 } from "lib/blockchain/Marketplace";
 import { postEffect } from "../actions/effect";
 
-export type BidMintedTransaction = {
-  event: "transaction.bidMinted";
-  createdAt: number;
-  data: {
-    bid: GameState["auctioneer"]["bid"];
-    params: MintBidParams;
-  };
-};
-
 export type BudWithdrawnTransaction = {
   event: "transaction.budWithdrawn";
   createdAt: number;
   data: {
     buds: GameState["buds"];
     params: WithdrawBudsParams;
+  };
+};
+
+export type PetWithdrawnTransaction = {
+  event: "transaction.petWithdrawn";
+  createdAt: number;
+  data: {
+    pets: GameState["pets"];
+    params: WithdrawPetsParams;
   };
 };
 
@@ -101,7 +97,7 @@ export type GameTransaction =
   | WearablesWithdrawnTransaction
   | ItemsWithdrawnTransaction
   | BudWithdrawnTransaction
-  | BidMintedTransaction
+  | PetWithdrawnTransaction
   | AcceptOfferTransaction
   | ListingPurchasedTransaction
   | FlowerWithdrawnTransaction;
@@ -207,21 +203,13 @@ export const ONCHAIN_TRANSACTIONS: TransactionHandler = {
   "transaction.listingPurchased": (data) =>
     listingPurchasedTransaction(data.params),
   "transaction.budWithdrawn": (data) => withdrawBudsTransaction(data.params),
+  "transaction.petWithdrawn": (data) => withdrawPetsTransaction(data.params),
   "transaction.itemsWithdrawn": (data) => withdrawItemsTransaction(data.params),
   "transaction.progressSynced": (data) => syncProgress(data.params),
   "transaction.wearablesWithdrawn": (data) =>
     withdrawWearablesTransaction(data.params),
   "transaction.flowerWithdrawn": (data) =>
     withdrawFlowerTransaction(data.params),
-
-  // Minting a bid has 2 separate contract methods
-  "transaction.bidMinted": (data) => {
-    if (data.bid?.collectible) {
-      return mintAuctionCollectible(data.params);
-    }
-
-    return mintAuctionWearable(data.params);
-  },
 };
 
 export type SignatureHandler = {
@@ -239,8 +227,8 @@ export const TRANSACTION_SIGNATURES: TransactionRequest = {
   "transaction.offerAccepted": () => ({}) as any, // uses new effect flow
   "transaction.listingPurchased": () => ({}) as any, // uses new effect flow
   "transaction.progressSynced": sync,
-  "transaction.bidMinted": mintAuctionItemRequest,
   "transaction.budWithdrawn": postEffect,
+  "transaction.petWithdrawn": postEffect,
   "transaction.itemsWithdrawn": postEffect,
   "transaction.wearablesWithdrawn": postEffect,
   "transaction.flowerWithdrawn": postEffect,

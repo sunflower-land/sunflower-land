@@ -20,7 +20,7 @@ export const ITEM_TRADE_TYPES: {
     "Refined Iron Rock": "instant",
     "Tempered Iron Rock": "instant",
     "Pure Gold Rock": "instant",
-    "Enchanted Gold Rock": "instant",
+    "Prime Gold Rock": "instant",
     "Sparrow Shrine": "instant",
     "Toucan Shrine": "instant",
     "Collie Shrine": "instant",
@@ -59,6 +59,8 @@ export const ITEM_TRADE_TYPES: {
     "Bear Shrine": "instant",
     "Tortoise Shrine": "instant",
     "Moth Shrine": "instant",
+    "Bantam Shrine": "instant",
+    "Trading Shrine": "instant",
 
     Acorn: "instant",
     Ruffroot: "instant",

@@ -1,45 +1,32 @@
 import Decimal from "decimal.js-light";
 
 import { produce } from "immer";
-import { ADVANCED_RESOURCES, RockName } from "features/game/types/resources";
-import { GameState, InventoryItemName, Rock } from "features/game/types/game";
+import {
+  ADVANCED_RESOURCES,
+  TreeName,
+  RESOURCE_MULTIPLIER,
+} from "features/game/types/resources";
+import { GameState, InventoryItemName, Tree } from "features/game/types/game";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
-import { STONE_MULTIPLIERS } from "./placeStone";
-import { canMine } from "./stoneMine";
 import { trackFarmActivity } from "features/game/types/farmActivity";
+import {
+  canUpgrade,
+  getUpgradeableNodes,
+} from "features/game/lib/resourceNodes";
 
-export type UpgradeStoneAction = {
-  type: "stone.upgraded";
-  upgradeTo: Exclude<RockName, "Stone Rock">;
+export type UpgradeTreeAction = {
+  type: "tree.upgraded";
+  upgradeTo: Exclude<TreeName, "Tree">;
   id: string;
 };
 
 type Options = {
   state: Readonly<GameState>;
-  action: UpgradeStoneAction;
+  action: UpgradeTreeAction;
   createdAt?: number;
 };
 
-export const canUpgrade = (
-  game: GameState,
-  upgradeTo: Exclude<RockName, "Stone Rock">,
-) => {
-  const advancedResource = ADVANCED_RESOURCES[upgradeTo];
-  const preRequires = advancedResource.preRequires;
-
-  const upgradeableStones = Object.entries(game.stones).filter(([_, stone]) => {
-    const tier = stone?.tier ?? 1;
-    if (canMine(stone)) {
-      return tier === preRequires.tier;
-    }
-
-    return false;
-  });
-
-  return upgradeableStones.length >= preRequires.count;
-};
-
-export function upgradeStone({
+export function upgradeTree({
   state,
   action,
   createdAt = Date.now(),
@@ -54,7 +41,7 @@ export function upgradeStone({
     const advancedResource = ADVANCED_RESOURCES[action.upgradeTo];
 
     if (!advancedResource) {
-      throw new Error("Cannot upgrade node");
+      throw new Error("Cannot upgrade tree");
     }
 
     if ((game.coins ?? 0) < advancedResource.price) {
@@ -62,10 +49,10 @@ export function upgradeStone({
     }
 
     if (!canUpgrade(game, action.upgradeTo)) {
-      throw new Error("Not enough placed stones to upgrade");
+      throw new Error("Not enough placed trees to upgrade");
     }
 
-    const ingredients = advancedResource.ingredients();
+    const ingredients = advancedResource.ingredients(bumpkin.skills);
     getObjectEntries(ingredients).forEach(([item, amount]) => {
       const required = new Decimal(amount ?? 0);
       if (required.lte(0)) return;
@@ -93,41 +80,39 @@ export function upgradeStone({
     const current = game.inventory[action.upgradeTo] ?? new Decimal(0);
     game.inventory[action.upgradeTo] = current.add(1);
 
-    let stonesToRemove = advancedResource.preRequires.count;
+    let treesToRemove = advancedResource.preRequires.count;
     let placement: { x: number; y: number } | undefined;
 
-    // Sort stone IDs to ensure consistent deletion order with the backend
-    const sortedStones = Object.keys(game.stones).sort();
+    const upgradeableTrees = getUpgradeableNodes(game, action.upgradeTo);
 
-    for (let i = 0; i < sortedStones.length && stonesToRemove > 0; i++) {
-      const stoneId = sortedStones[i];
-      const rock = game.stones[stoneId];
-      const tier = rock?.tier ?? 1;
+    for (let i = 0; i < upgradeableTrees.length && treesToRemove > 0; i++) {
+      const [treeId, tree] = upgradeableTrees[i];
+      const tier = "tier" in tree ? tree.tier : 1;
 
       if (tier === advancedResource.preRequires.tier) {
-        if (!placement && rock.x && rock.y) {
-          placement = { x: rock.x, y: rock.y };
+        if (!placement && tree.x && tree.y) {
+          placement = { x: tree.x, y: tree.y };
         }
 
-        stonesToRemove--;
-        delete game.stones[stoneId];
+        treesToRemove--;
+        delete game.trees[treeId];
       }
     }
 
     if (placement) {
-      const newStone: Rock = {
+      const newTree: Tree = {
         createdAt,
-        stone: { minedAt: 0 },
+        wood: { choppedAt: 0 },
         x: placement.x,
         y: placement.y,
         tier: advancedResource.preRequires.tier === 1 ? 2 : 3,
         name: action.upgradeTo,
-        multiplier: STONE_MULTIPLIERS[action.upgradeTo],
+        multiplier: RESOURCE_MULTIPLIER[action.upgradeTo],
       };
 
-      game.stones = {
-        ...game.stones,
-        [action.id]: newStone,
+      game.trees = {
+        ...game.trees,
+        [action.id]: newTree,
       };
     }
 

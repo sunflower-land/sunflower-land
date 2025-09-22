@@ -26,6 +26,7 @@ import { calculateTradePoints } from "features/game/events/landExpansion/addTrad
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { getKeys } from "features/game/lib/crafting";
 
 const _balance = (state: MachineState) => state.context.state.balance;
 const _hasReputation = (state: MachineState) =>
@@ -65,6 +66,10 @@ export const MakeOffer: React.FC<{
     },
   });
 
+  const offerCount = getKeys(
+    gameService.getSnapshot().context.state.trades.offers ?? {},
+  ).length;
+
   const submitOffer = () => {
     setShowConfirmation(true);
   };
@@ -96,6 +101,20 @@ export const MakeOffer: React.FC<{
 
   const needsLinkedWallet =
     tradeType === "onchain" && !gameService.getSnapshot().context.linkedWallet;
+
+  if (offerCount >= 30) {
+    return (
+      <>
+        <div className="p-2">
+          <Label type="danger" className="-ml-1 mb-2">
+            {t("marketplace.offerLimitReached.label")}
+          </Label>
+          <p className="text-xs mb-2">{t("marketplace.offerLimitReached")}</p>
+        </div>
+        <Button onClick={() => onClose()}>{t("close")}</Button>
+      </>
+    );
+  }
 
   if (showConfirmation) {
     if (needsLinkedWallet) {

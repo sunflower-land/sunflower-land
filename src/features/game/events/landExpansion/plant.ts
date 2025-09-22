@@ -24,7 +24,7 @@ import {
   getKeys,
 } from "features/game/types/craftables";
 import {
-  isCollectibleActive,
+  isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { SEASONAL_SEEDS, SeedName, SEEDS } from "features/game/types/seeds";
@@ -225,13 +225,16 @@ export function getCropTime({
     boostsUsed.push("Lunar Calendar");
   }
 
-  if (isCollectibleActive({ name: "Sparrow Shrine", game })) {
+  if (isTemporaryCollectibleActive({ name: "Sparrow Shrine", game })) {
     multiplier = multiplier * 0.75;
     boostsUsed.push("Sparrow Shrine");
   }
 
-  const hasSuperTotem = isCollectibleActive({ name: "Super Totem", game });
-  const hasTimeWarpTotem = isCollectibleActive({
+  const hasSuperTotem = isTemporaryCollectibleActive({
+    name: "Super Totem",
+    game,
+  });
+  const hasTimeWarpTotem = isTemporaryCollectibleActive({
     name: "Time Warp Totem",
     game,
   });
@@ -241,7 +244,7 @@ export function getCropTime({
     else if (hasTimeWarpTotem) boostsUsed.push("Time Warp Totem");
   }
 
-  if (isCollectibleActive({ name: "Harvest Hourglass", game })) {
+  if (isTemporaryCollectibleActive({ name: "Harvest Hourglass", game })) {
     multiplier = multiplier * 0.75;
     boostsUsed.push("Harvest Hourglass");
   }
@@ -500,60 +503,117 @@ export function isPlotCrop(
   return (plant as CropName) in CROPS;
 }
 
+export function plantCropOnPlot({
+  plotId,
+  cropName,
+  cropId,
+  game,
+  createdAt,
+  seedItem,
+}: {
+  plotId: string;
+  cropName: CropName;
+  cropId: string;
+  game: GameState;
+  createdAt: number;
+  seedItem: InventoryItemName;
+}): {
+  updatedPlot: CropPlot;
+  boostedTime: number;
+  aoe: AOE;
+  boostsUsed: BoostName[];
+} {
+  const { inventory, collectibles, bumpkin, crops: plots } = game;
+  const plot = plots[plotId];
+  const seedCount = inventory[seedItem] || new Decimal(0);
+
+  if (!plot) {
+    throw new Error("Plot does not exist");
+  }
+
+  if (plot.x === undefined && plot.y === undefined) {
+    throw new Error("Plot is not placed");
+  }
+
+  if (
+    !isPlotFertile({
+      plotIndex: plotId,
+      crops: plots,
+      wellLevel: game.waterWell.level,
+      buildings: game.buildings,
+      upgradeReadyAt: game.waterWell.upgradeReadyAt ?? 0,
+      createdAt,
+      island: game.island.type,
+    })
+  ) {
+    throw new Error("Plot is not fertile");
+  }
+
+  const cropAffectedBy = getAffectedWeather({
+    id: plotId,
+    game,
+  });
+
+  if (!!cropAffectedBy && cropAffectedBy !== "insectPlague") {
+    throw new Error(`Plot is affected by ${cropAffectedBy}`);
+  }
+
+  if (plot.crop?.plantedAt) {
+    throw new Error(`Crop is already planted in plot ${plotId}`);
+  }
+
+  if (seedCount.lessThan(1)) {
+    throw new Error("Not enough seeds");
+  }
+
+  const {
+    time: boostedTime,
+    aoe,
+    boostsUsed,
+  } = getCropPlotTime({
+    crop: cropName,
+    game,
+    plot,
+    createdAt,
+  });
+
+  const activityName: BumpkinActivityName = `${cropName} Planted`;
+
+  bumpkin.activity = trackActivity(activityName, bumpkin.activity);
+
+  const updatedPlot: CropPlot = {
+    ...plot,
+    crop: {
+      id: cropId,
+      plantedAt: getPlantedAt({
+        crop: cropName,
+        inventory,
+        collectibles,
+        bumpkin,
+        createdAt,
+        plot,
+        boostedTime,
+      }),
+      boostedTime: getBoostedTime({ crop: cropName, boostedTime }),
+      name: cropName,
+    },
+  };
+
+  return {
+    updatedPlot,
+    boostedTime,
+    aoe,
+    boostsUsed,
+  };
+}
+
 export function plant({
   state,
   action,
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const {
-      crops: plots,
-      bumpkin,
-      collectibles,
-      inventory,
-      buildings,
-    } = stateCopy;
-
-    if (!bumpkin) {
-      throw new Error("You do not have a Bumpkin");
-    }
-
-    const plot = plots[action.index];
-
-    if (!plot) {
-      throw new Error("Plot does not exist");
-    }
-
-    if (plot.x === undefined && plot.y === undefined) {
-      throw new Error("Plot is not placed");
-    }
-
-    if (
-      !isPlotFertile({
-        plotIndex: action.index,
-        crops: plots,
-        wellLevel: stateCopy.waterWell.level,
-        buildings,
-        upgradeReadyAt: stateCopy.waterWell.upgradeReadyAt ?? 0,
-        createdAt,
-        island: stateCopy.island.type,
-      })
-    ) {
-      throw new Error("Plot is not fertile");
-    }
-
-    const cropAffectedBy = getAffectedWeather({
-      id: action.index,
-      game: stateCopy,
-    });
-
-    if (!!cropAffectedBy && cropAffectedBy !== "insectPlague") {
-      throw new Error(`Plot is affected by ${cropAffectedBy}`);
-    }
-
-    if (plot.crop?.plantedAt) {
-      throw new Error("Crop is already planted");
-    }
+    const { crops: plots } = stateCopy;
 
     if (!action.item) {
       throw new Error("No seed selected");
@@ -563,12 +623,6 @@ export function plant({
       throw new Error("Not a seed");
     }
 
-    const seedCount = stateCopy.inventory[action.item] || new Decimal(0);
-
-    if (seedCount.lessThan(1)) {
-      throw new Error("Not enough seeds");
-    }
-
     if (
       !SEASONAL_SEEDS[stateCopy.season.season].includes(action.item as SeedName)
     ) {
@@ -576,42 +630,20 @@ export function plant({
     }
 
     const cropName = action.item.split(" ")[0] as CropName;
+    const cropId = action.cropId || crypto.randomUUID().slice(0, 8);
 
-    const {
-      time: boostedTime,
-      aoe,
-      boostsUsed,
-    } = getCropPlotTime({
-      crop: cropName,
+    const { updatedPlot, aoe, boostsUsed } = plantCropOnPlot({
+      plotId: action.index,
+      cropName,
+      cropId,
       game: stateCopy,
-      plot,
       createdAt,
+      seedItem: action.item,
     });
+
     stateCopy.aoe = aoe;
-
-    const activityName: BumpkinActivityName = `${cropName} Planted`;
-
-    bumpkin.activity = trackActivity(activityName, bumpkin.activity);
-
-    plots[action.index] = {
-      ...plot,
-      crop: {
-        ...(action.cropId && { id: action.cropId }),
-        plantedAt: getPlantedAt({
-          crop: cropName,
-          inventory,
-          collectibles,
-          bumpkin,
-          createdAt,
-          plot,
-          boostedTime,
-        }),
-        boostedTime: getBoostedTime({ crop: cropName, boostedTime }),
-        name: cropName,
-      },
-    };
-
-    inventory[action.item] = seedCount?.sub(1);
+    plots[action.index] = updatedPlot;
+    stateCopy.inventory[action.item] = stateCopy.inventory[action.item]?.sub(1);
     stateCopy.boostsUsedAt = updateBoostUsed({
       game: stateCopy,
       boostNames: boostsUsed,

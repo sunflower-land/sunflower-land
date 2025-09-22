@@ -456,6 +456,11 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     tradeAt: new Date("2025-07-07T00:00:00Z"),
     withdrawAt: new Date("2025-07-07T00:00:00Z"),
   },
+  "Coin Aura": {
+    tradeAt: new Date("2025-09-22"),
+    withdrawAt: new Date("2025-09-22"),
+  },
+
   "Recycle Shirt": {
     tradeAt: SEASONS["Better Together"].endDate,
     withdrawAt: SEASONS["Better Together"].endDate,
@@ -496,6 +501,11 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     tradeAt: SEASONS["Better Together"].endDate,
     withdrawAt: SEASONS["Better Together"].endDate,
   },
+  "Rocket Onesie": {
+    tradeAt: new Date("2025-09-12"),
+    withdrawAt: new Date("2025-09-12"),
+  },
+  // writing a manual date so that it shows up in what's new section
 };
 
 export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =

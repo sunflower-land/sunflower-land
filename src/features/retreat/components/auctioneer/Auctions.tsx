@@ -3,7 +3,7 @@ import { MachineInterpreter } from "features/game/lib/auctionMachine";
 import { useActor } from "@xstate/react";
 import { ButtonPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ITEM_IDS } from "features/game/types/bumpkin";
+
 import token from "assets/icons/flower_token.webp";
 
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -11,12 +11,10 @@ import { Label } from "components/ui/Label";
 import { getKeys } from "features/game/types/craftables";
 import { AuctionsComingSoon } from "./AuctionsComingSoon";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getImageUrl } from "lib/utils/getImageURLS";
 import classNames from "classnames";
 import { isMobile } from "mobile-device-detect";
-import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
-import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { GameState } from "features/game/types/game";
+import { getAuctionItemDisplay } from "./lib/getAuctionItemDisplay";
 
 interface Props {
   auctionService: MachineInterpreter;
@@ -46,15 +44,13 @@ export const Auctions: React.FC<Props> = ({
       className="overflow-y-auto scrollable flex flex-wrap pt-1.5 pr-0.5"
     >
       {currentAuctions.map((auction) => {
-        const image =
-          auction.type === "collectible"
-            ? ITEM_DETAILS[auction.collectible].image
-            : getImageUrl(ITEM_IDS[auction.wearable]);
+        const { image, buffLabels, item, typeLabel } = getAuctionItemDisplay({
+          auction,
+          skills: game.bumpkin.skills,
+          collectibles: game.collectibles,
+        });
 
-        const hasBuff =
-          auction.type === "collectible"
-            ? !!COLLECTIBLE_BUFF_LABELS(game)[auction.collectible]
-            : !!BUMPKIN_ITEM_BUFF_LABELS[auction.wearable];
+        const hasBuff = buffLabels && buffLabels.length > 0;
 
         return (
           <ButtonPanel
@@ -64,9 +60,7 @@ export const Auctions: React.FC<Props> = ({
           >
             {!isMobile && (
               <Label type="default" className="absolute top-1 right-1 z-30">
-                {auction.type === "collectible"
-                  ? t("collectible")
-                  : t("wearable")}
+                {typeLabel}
               </Label>
             )}
             <div className="relative w-20 h-20 flex items-center justify-center mr-2">
@@ -78,9 +72,9 @@ export const Auctions: React.FC<Props> = ({
                 src={image}
                 className={classNames({
                   "w-1/2 h-1/2 object-contain z-10":
-                    auction.type === "collectible",
-                  "w-full h-full object-contain z-10  rounded-md":
-                    auction.type !== "collectible",
+                    auction.type === "collectible" || auction.type === "nft",
+                  "w-full h-full object-contain z-10 rounded-md":
+                    auction.type === "wearable",
                 })}
               />
               {hasBuff && (
@@ -94,11 +88,7 @@ export const Auctions: React.FC<Props> = ({
               </Label>
             </div>
             <div className="flex flex-col flex-1">
-              <p className="text-sm">
-                {auction.type === "collectible"
-                  ? auction.collectible
-                  : auction.wearable}
-              </p>
+              <p className="text-sm">{item}</p>
               <div className="ml-1 sm:flex my-1">
                 {auction.sfl > 0 && (
                   <img src={token} className="h-4 img-highlight -ml-1" />

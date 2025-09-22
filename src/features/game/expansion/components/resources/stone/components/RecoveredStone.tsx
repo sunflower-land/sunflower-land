@@ -15,19 +15,21 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
-import { RockName } from "features/game/types/resources";
+import { StoneRockName } from "features/game/types/resources";
 import { InventoryItemName } from "features/game/types/game";
 
 const tool = "Pickaxe";
 
 const STRIKE_SHEET_FRAME_WIDTH = 112;
 const STRIKE_SHEET_FRAME_HEIGHT = 48;
+const ADVANCED_STRIKE_SHEET_FRAME_WIDTH = 288 / 6;
+const ADVANCED_STRIKE_SHEET_FRAME_HEIGHT = 27;
 
 interface Props {
   hasTool: boolean;
   touchCount: number;
   showHelper: boolean;
-  stoneRockName: RockName;
+  stoneRockName: StoneRockName;
   requiredToolAmount: Decimal;
   inventory: Partial<Record<InventoryItemName, Decimal>>;
 }
@@ -76,6 +78,22 @@ const RecoveredStoneComponent: React.FC<Props> = ({
     setShowEquipTool(false);
   };
 
+  const isBaseStone = stoneRockName === "Stone Rock" || !stoneRockName;
+
+  const strikeSheetFrameWidth = isBaseStone
+    ? STRIKE_SHEET_FRAME_WIDTH
+    : ADVANCED_STRIKE_SHEET_FRAME_WIDTH;
+  const strikeSheetFrameHeight = isBaseStone
+    ? STRIKE_SHEET_FRAME_HEIGHT
+    : ADVANCED_STRIKE_SHEET_FRAME_HEIGHT;
+
+  const bottomPos = isBaseStone
+    ? `${PIXEL_SCALE * -13}px`
+    : `${PIXEL_SCALE * 0.333}px`;
+  const rightPos = isBaseStone
+    ? `${PIXEL_SCALE * -63}px`
+    : `${PIXEL_SCALE * -16.14}px`;
+
   return (
     <div
       className="absolute w-full h-full"
@@ -110,22 +128,22 @@ const RecoveredStoneComponent: React.FC<Props> = ({
             className="pointer-events-none"
             style={{
               position: "absolute",
-              width: `${STRIKE_SHEET_FRAME_WIDTH * PIXEL_SCALE}px`,
-              height: `${STRIKE_SHEET_FRAME_HEIGHT * PIXEL_SCALE}px`,
+              width: `${strikeSheetFrameWidth * PIXEL_SCALE}px`,
+              height: `${strikeSheetFrameHeight * PIXEL_SCALE}px`,
               imageRendering: "pixelated",
 
               // Adjust the base of resource node to be perfectly aligned to
               // on a grid point.
-              bottom: `${PIXEL_SCALE * -13}px`,
-              right: `${PIXEL_SCALE * -63}px`,
+              bottom: bottomPos,
+              right: rightPos,
             }}
             getInstance={(spritesheet) => {
               strikeGif.current = spritesheet;
               spritesheet.goToAndPlay(0);
             }}
-            image={SUNNYSIDE.resource.stoneStrikeSheet}
-            widthFrame={STRIKE_SHEET_FRAME_WIDTH}
-            heightFrame={STRIKE_SHEET_FRAME_HEIGHT}
+            image={SUNNYSIDE.resource.rocks.strikeSheet[stoneRockName]}
+            widthFrame={strikeSheetFrameWidth}
+            heightFrame={strikeSheetFrameHeight}
             zoomScale={scale}
             fps={24}
             steps={6}

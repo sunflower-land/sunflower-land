@@ -69,7 +69,9 @@ export const ITEM_ICONS: (
   "Smoothie Shack": SUNNYSIDE.icons.smoothieIcon,
   Toolshed: SUNNYSIDE.icons.toolshedIcon,
   Warehouse: SUNNYSIDE.icons.warehouseIcon,
-  Tree: TREE_VARIANTS[biome][season],
+  Tree: TREE_VARIANTS(biome, season, "Tree"),
+  "Ancient Tree": TREE_VARIANTS(biome, season, "Ancient Tree"),
+  "Sacred Tree": TREE_VARIANTS(biome, season, "Sacred Tree"),
   "Dirt Path": DIRT_PATH_VARIANTS[biome],
   Greenhouse: SUNNYSIDE.icons.greenhouseIcon,
   Bush: BUSH_VARIANTS[biome][season],
@@ -327,8 +329,17 @@ export const Chest: React.FC<Props> = ({
   const boosts = getKeys(collectibles)
     .filter(
       (name) =>
-        name in COLLECTIBLE_BUFF_LABELS(state) &&
-        (COLLECTIBLE_BUFF_LABELS(state)[name] ?? []).length > 0,
+        name in
+          COLLECTIBLE_BUFF_LABELS({
+            skills: state.bumpkin.skills,
+            collectibles: state.collectibles,
+          }) &&
+        (
+          COLLECTIBLE_BUFF_LABELS({
+            skills: state.bumpkin.skills,
+            collectibles: state.collectibles,
+          })[name] ?? []
+        ).length > 0,
     )
     .filter(
       (name) =>

@@ -727,6 +727,7 @@ export type BlockchainState = {
     | "airdrop"
     | "offers"
     | "marketplaceSale"
+    | "tradesCleared"
     | "coolingDown"
     | "buyingBlockBucks"
     | "auctionResults"
@@ -1360,6 +1361,19 @@ export function startGame(authContext: AuthContext) {
                   (id) => !!context.state.trades.listings![id].fulfilledAt,
                 ),
             },
+            {
+              target: "tradesCleared",
+              cond: (context: Context) => {
+                return (
+                  getKeys(context.state.trades.listings ?? {}).some(
+                    (id) => !!context.state.trades.listings![id].clearedAt,
+                  ) ||
+                  getKeys(context.state.trades.offers ?? {}).some(
+                    (id) => !!context.state.trades.offers![id].clearedAt,
+                  )
+                );
+              },
+            },
 
             {
               target: "jinAirdrop",
@@ -1497,6 +1511,15 @@ export function startGame(authContext: AuthContext) {
             RESET: {
               target: "refreshing",
             },
+            CLOSE: {
+              target: "playing",
+            },
+          },
+        },
+        tradesCleared: {
+          on: {
+            "trades.cleared": (GAME_EVENT_HANDLERS as any)["trades.cleared"],
+
             CLOSE: {
               target: "playing",
             },

@@ -1,6 +1,6 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { GameState, Rock } from "features/game/types/game";
-import { canMine } from "./stoneMine";
+import { canMine } from "features/game/lib/resourceNodes";
 import { produce } from "immer";
 
 export enum MOVE_CRIMSTONE_ERRORS {
@@ -26,7 +26,7 @@ export function isLocked(rock: Rock, createdAt: number): boolean {
 
   if (!minedAt) return false;
 
-  if (canMine(rock, createdAt)) return false;
+  if (canMine(rock, "Crimstone Rock", createdAt)) return false;
 
   return false;
 }

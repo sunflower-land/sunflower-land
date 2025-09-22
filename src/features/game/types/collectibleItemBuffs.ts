@@ -4,6 +4,7 @@ import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
 import helpIcon from "assets/icons/help.webp";
 import chefHat from "assets/icons/chef_hat.png";
+import tradeIcon from "assets/icons/trade.png";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "./images";
@@ -22,24 +23,28 @@ import { getObjectEntries } from "../expansion/lib/utils";
 
 export const COLLECTIBLE_BUFF_LABELS = memoize(getCollectibleBuffLabels);
 
-function getCollectibleBuffLabels(
-  state: GameState,
-): Partial<Record<InventoryItemName, BuffLabel[]>> {
+function getCollectibleBuffLabels({
+  skills,
+  collectibles,
+}: {
+  skills: GameState["bumpkin"]["skills"];
+  collectibles: GameState["collectibles"];
+}): Partial<Record<InventoryItemName, BuffLabel[]>> {
   // Delete the cache if this function is invoked.
   COLLECTIBLE_BUFF_LABELS.cache.clear?.();
 
-  return {
+  const buffLabels: Partial<Record<InventoryItemName, BuffLabel[]>> = {
     // Crop Boosts
     "Basic Scarecrow": [
       {
-        shortDescription: state.bumpkin.skills["Chonky Scarecrow"]
+        shortDescription: skills["Chonky Scarecrow"]
           ? translate("description.basic.scarecrow.boost.skill")
           : translate("description.basic.scarecrow.boost"),
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
       {
-        shortDescription: state.bumpkin.skills["Chonky Scarecrow"]
+        shortDescription: skills["Chonky Scarecrow"]
           ? translate("description.basic.scarecrow.boost.aoe.skill")
           : translate("description.basic.scarecrow.boost.aoe"),
         labelType: "vibrant",
@@ -48,14 +53,14 @@ function getCollectibleBuffLabels(
     ],
     "Scary Mike": [
       {
-        shortDescription: state.bumpkin.skills["Horror Mike"]
+        shortDescription: skills["Horror Mike"]
           ? translate("description.scary.mike.boost.skill")
           : translate("description.scary.mike.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
       },
       {
-        shortDescription: state.bumpkin.skills["Horror Mike"]
+        shortDescription: skills["Horror Mike"]
           ? translate("description.scary.mike.boost.aoe.skill")
           : translate("description.scary.mike.boost.aoe"),
         labelType: "vibrant",
@@ -64,14 +69,14 @@ function getCollectibleBuffLabels(
     ],
     "Laurie the Chuckle Crow": [
       {
-        shortDescription: state.bumpkin.skills["Laurie's Gains"]
+        shortDescription: skills["Laurie's Gains"]
           ? translate("description.laurie.chuckle.crow.boost.skill")
           : translate("description.laurie.chuckle.crow.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
       },
       {
-        shortDescription: state.bumpkin.skills["Laurie's Gains"]
+        shortDescription: skills["Laurie's Gains"]
           ? translate("description.laurie.chuckle.crow.boost.aoe.skill")
           : translate("description.laurie.chuckle.crow.boost.aoe"),
         labelType: "vibrant",
@@ -199,7 +204,7 @@ function getCollectibleBuffLabels(
     ],
     "Cabbage Boy": [
       {
-        shortDescription: state.collectibles["Cabbage Girl"]
+        shortDescription: collectibles["Cabbage Girl"]
           ? translate("description.cabbage.boy.boost.boosted")
           : translate("description.cabbage.boy.boost"),
         labelType: "success",
@@ -216,7 +221,7 @@ function getCollectibleBuffLabels(
       },
     ],
     Karkinos: [
-      ...(state.collectibles["Cabbage Boy"]
+      ...(collectibles["Cabbage Boy"]
         ? []
         : ([
             {
@@ -369,7 +374,7 @@ function getCollectibleBuffLabels(
     // Fruit Boosts
     "Immortal Pear": [
       {
-        shortDescription: state.bumpkin.skills["Pear Turbocharge"]
+        shortDescription: skills["Pear Turbocharge"]
           ? translate("description.immortal.pear.boosted.boost")
           : translate("description.immortal.pear.boost"),
         labelType: "success",
@@ -566,17 +571,17 @@ function getCollectibleBuffLabels(
     ],
     Bale: [
       {
-        shortDescription: state.bumpkin.skills["Double Bale"]
+        shortDescription: skills["Double Bale"]
           ? translate("description.bale.eggBoost.boosted")
           : translate("description.bale.eggBoost"),
         labelType: "success",
         boostTypeIcon: powerup,
         boostedItemIcon: SUNNYSIDE.resource.egg,
       },
-      ...(state.bumpkin.skills["Bale Economy"]
+      ...(skills["Bale Economy"]
         ? ([
             {
-              shortDescription: state.bumpkin.skills["Double Bale"]
+              shortDescription: skills["Double Bale"]
                 ? translate("description.bale.milkBoost.boosted")
                 : translate("description.bale.milkBoost"),
               labelType: "success",
@@ -584,7 +589,7 @@ function getCollectibleBuffLabels(
               boostedItemIcon: SUNNYSIDE.resource.milk,
             },
             {
-              shortDescription: state.bumpkin.skills["Double Bale"]
+              shortDescription: skills["Double Bale"]
                 ? translate("description.bale.woolBoost.boosted")
                 : translate("description.bale.woolBoost"),
               labelType: "success",
@@ -1222,7 +1227,7 @@ function getCollectibleBuffLabels(
     ],
     Macaw: [
       {
-        shortDescription: state.bumpkin.skills["Loyal Macaw"]
+        shortDescription: skills["Loyal Macaw"]
           ? translate("description.macaw.boosted.boost")
           : translate("description.macaw.boost"),
         labelType: "success",
@@ -1713,6 +1718,13 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.collieShrine.buff"),
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: SUNNYSIDE.animals.cowSleeping,
+      },
+      {
+        shortDescription: translate("description.collieShrine.buff.2"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: SUNNYSIDE.animals.sheepSleeping,
       },
     ],
     "Badger Shrine": [
@@ -1720,6 +1732,13 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.badgerShrine.buff"),
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS.Tree.image,
+      },
+      {
+        shortDescription: translate("description.badgerShrine.buff.2"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS.Stone.image,
       },
     ],
     "Legendary Shrine": [
@@ -1727,6 +1746,24 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.legendaryShrine.buff"),
         labelType: "success",
         boostTypeIcon: powerup,
+      },
+      {
+        shortDescription: translate("description.legendaryShrine.buff.2"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Fruit Patch"].image,
+      },
+      {
+        shortDescription: translate("description.legendaryShrine.buff.3"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Wood.image,
+      },
+      {
+        shortDescription: translate("description.legendaryShrine.buff.4"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Stone.image,
       },
     ],
     "Obsidian Shrine": [
@@ -1741,6 +1778,19 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.moleShrine.buff"),
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS.Iron.image,
+      },
+      {
+        shortDescription: translate("description.moleShrine.buff.2"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS.Gold.image,
+      },
+      {
+        shortDescription: translate("description.moleShrine.buff.3"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS.Crimstone.image,
       },
     ],
     "Bear Shrine": [
@@ -1756,6 +1806,13 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.tortoiseShrine.buff"),
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Greenhouse"].image,
+      },
+      {
+        shortDescription: translate("description.tortoiseShrine.buff.2"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Crop Machine"].image,
       },
     ],
     "Moth Shrine": [
@@ -1766,5 +1823,87 @@ function getCollectibleBuffLabels(
         boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
       },
     ],
+    "Bantam Shrine": [
+      {
+        shortDescription: translate("description.bantamShrine.buff"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: SUNNYSIDE.animals.chickenAsleep,
+      },
+    ],
+    "Trading Shrine": [
+      {
+        shortDescription: translate("description.tradingShrine.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: tradeIcon,
+      },
+    ],
+    "Ancient Tree": [
+      {
+        shortDescription: translate("description.ancientTree.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Wood.image,
+      },
+    ],
+    "Sacred Tree": [
+      {
+        shortDescription: translate("description.sacredTree.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Wood.image,
+      },
+    ],
+    "Fused Stone Rock": [
+      {
+        shortDescription: translate("description.fusedStoneRock.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Stone.image,
+      },
+    ],
+    "Reinforced Stone Rock": [
+      {
+        shortDescription: translate("description.reinforcedStoneRock.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Stone.image,
+      },
+    ],
+    "Refined Iron Rock": [
+      {
+        shortDescription: translate("description.refinedIronRock.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Iron.image,
+      },
+    ],
+    "Tempered Iron Rock": [
+      {
+        shortDescription: translate("description.temperedIronRock.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Iron.image,
+      },
+    ],
+    "Pure Gold Rock": [
+      {
+        shortDescription: translate("description.pureGoldRock.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Gold.image,
+      },
+    ],
+    "Prime Gold Rock": [
+      {
+        shortDescription: translate("description.primeGoldRock.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Gold.image,
+      },
+    ],
   };
+
+  return buffLabels;
 }

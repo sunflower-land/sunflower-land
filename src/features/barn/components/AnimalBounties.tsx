@@ -292,7 +292,8 @@ export const AnimalDeal: React.FC<{
 export const ExchangeHud: React.FC<{
   deal: AnimalBounty;
   onClose: () => void;
-}> = ({ deal, onClose }) => {
+  validAnimalsCount: number;
+}> = ({ deal, onClose, validAnimalsCount }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = gameService.getSnapshot().context.state;
@@ -301,6 +302,9 @@ export const ExchangeHud: React.FC<{
     game: state,
     bounty: deal,
   });
+
+  const width =
+    deal.name === "Cow" ? "160px" : deal.name === "Sheep" ? "170px" : "180px";
 
   return (
     <HudContainer>
@@ -323,9 +327,16 @@ export const ExchangeHud: React.FC<{
               </Label>
             ))}
           </div>
-          <p className="text-xs">
-            {t("bounties.animal.select", { name: deal.name })}
-          </p>
+
+          <div className="text-xs mt-1">
+            {validAnimalsCount > 0 ? (
+              <p>{t("bounties.animal.select", { name: deal.name })} </p>
+            ) : (
+              <p style={{ width }}>
+                {t("bounties.animal.noAnimalToSell", { name: deal.name })}
+              </p>
+            )}
+          </div>
         </InnerPanel>
 
         <img

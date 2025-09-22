@@ -1240,6 +1240,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Toucan Shrine": 2661,
   "Collie Shrine": 2662,
   "Badger Shrine": 2663,
+  "Bantam Shrine": 2664,
+  "Trading Shrine": 2665,
 
   "Fused Stone Rock": 2700,
   "Reinforced Stone Rock": 2701,
@@ -1248,7 +1250,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Refined Iron Rock": 2704,
   "Tempered Iron Rock": 2705,
   "Pure Gold Rock": 2706,
-  "Enchanted Gold Rock": 2707,
+  "Prime Gold Rock": 2707,
 };
 
 // The reverse of above

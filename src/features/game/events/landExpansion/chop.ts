@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import {
-  isCollectibleActive,
+  isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { TREE_RECOVERY_TIME } from "features/game/lib/constants";
@@ -54,11 +54,16 @@ export function canChop(tree: Tree, now: number = Date.now()) {
 export function getWoodDropAmount({
   criticalDropGenerator = () => false,
   game,
+  id,
 }: {
   game: GameState;
+  id: string;
   criticalDropGenerator?: (name: CriticalHitName) => boolean;
 }): { amount: Decimal; boostsUsed: BoostName[] } {
   const { bumpkin, inventory } = game;
+  const multiplier = game.trees[id]?.multiplier ?? 1;
+  const tree = game.trees[id];
+
   let amount = new Decimal(1);
   const boostsUsed: BoostName[] = [];
 
@@ -139,9 +144,24 @@ export function getWoodDropAmount({
     amount = amount.add(1);
   }
 
+  if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game })) {
+    amount = amount.add(1);
+    boostsUsed.push("Legendary Shrine");
+  }
+
   const { yieldBoost, budUsed } = getBudYieldBoosts(game.buds ?? {}, "Wood");
   amount = amount.add(yieldBoost);
   if (budUsed) boostsUsed.push(budUsed);
+
+  amount = amount.mul(multiplier);
+
+  if (tree.tier === 2) {
+    amount = amount.add(0.5);
+  }
+
+  if (tree.tier === 3) {
+    amount = amount.add(2.5);
+  }
 
   return { amount: amount.toDecimalPlaces(4), boostsUsed };
 }
@@ -179,11 +199,11 @@ export function getChoppedAt({ game, createdAt }: GetChoppedAtArgs): {
     totalSeconds = totalSeconds * 0.9;
   }
 
-  const hasSuperTotem = isCollectibleActive({
+  const hasSuperTotem = isTemporaryCollectibleActive({
     name: "Super Totem",
     game,
   });
-  const hasTimeWarpTotem = isCollectibleActive({
+  const hasTimeWarpTotem = isTemporaryCollectibleActive({
     name: "Time Warp Totem",
     game,
   });
@@ -196,12 +216,12 @@ export function getChoppedAt({ game, createdAt }: GetChoppedAtArgs): {
     else if (hasTimeWarpTotem) boostsUsed.push("Time Warp Totem");
   }
 
-  if (isCollectibleActive({ name: "Timber Hourglass", game })) {
+  if (isTemporaryCollectibleActive({ name: "Timber Hourglass", game })) {
     totalSeconds = totalSeconds * 0.75;
     boostsUsed.push("Timber Hourglass");
   }
 
-  if (isCollectibleActive({ name: "Badger Shrine", game })) {
+  if (isTemporaryCollectibleActive({ name: "Badger Shrine", game })) {
     totalSeconds = totalSeconds * 0.75;
     boostsUsed.push("Badger Shrine");
   }
@@ -217,6 +237,7 @@ export function getChoppedAt({ game, createdAt }: GetChoppedAtArgs): {
 export function getRequiredAxeAmount(
   inventory: Inventory,
   gameState: GameState,
+  id: string,
 ) {
   const boostsUsed: BoostName[] = [];
   if (isCollectibleBuilt({ name: "Foreman Beaver", game: gameState })) {
@@ -224,12 +245,14 @@ export function getRequiredAxeAmount(
     return { amount: new Decimal(0), boostsUsed };
   }
 
+  const multiplier = gameState.trees[id]?.multiplier ?? 1;
+
   if (inventory.Logger?.gte(1)) {
     boostsUsed.push("Logger");
-    return { amount: new Decimal(0.5), boostsUsed };
+    return { amount: new Decimal(0.5).mul(multiplier), boostsUsed };
   }
 
-  return { amount: new Decimal(1), boostsUsed };
+  return { amount: new Decimal(1).mul(multiplier), boostsUsed };
 }
 
 export function chop({
@@ -245,7 +268,7 @@ export function chop({
     }
 
     const { amount: requiredAxes, boostsUsed: axeBoostsUsed } =
-      getRequiredAxeAmount(state.inventory, state);
+      getRequiredAxeAmount(state.inventory, state, action.index);
 
     const axeAmount = inventory.Axe || new Decimal(0);
     if (axeAmount.lessThan(requiredAxes)) {
@@ -271,6 +294,7 @@ export function chop({
         ? { amount: tree.wood.amount, boostsUsed: [] }
         : getWoodDropAmount({
             game: stateCopy,
+            id: action.index,
             criticalDropGenerator: (name) =>
               !!(tree.wood.criticalHit?.[name] ?? 0),
           });
@@ -286,7 +310,11 @@ export function chop({
     inventory.Axe = axeAmount.sub(requiredAxes);
     inventory.Wood = woodAmount.add(woodHarvested);
 
-    bumpkin.activity = trackActivity("Tree Chopped", bumpkin.activity);
+    bumpkin.activity = trackActivity(
+      "Tree Chopped",
+      bumpkin.activity,
+      new Decimal(tree.multiplier ?? 1),
+    );
     delete tree.wood.amount;
 
     stateCopy.boostsUsedAt = updateBoostUsed({

@@ -290,7 +290,10 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
                     {t("reward")}
                   </Label>
                   {(reward.items ?? []).map((item) => {
-                    const boost = COLLECTIBLE_BUFF_LABELS(state)[item.name];
+                    const boost = COLLECTIBLE_BUFF_LABELS({
+                      skills: state.bumpkin.skills,
+                      collectibles: state.collectibles,
+                    })[item.name];
 
                     return (
                       <>

@@ -12727,7 +12727,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Moonfur",
   },
   "Legendary Shrine": {
@@ -12735,7 +12735,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Legendary Shrine",
   },
   "Fossil Shell": {
@@ -12743,7 +12743,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Fossil Shell",
   },
   "Fox Shrine": {
@@ -12751,7 +12751,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Fox Shrine",
   },
   "Boar Shrine": {
@@ -12759,7 +12759,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Boar Shrine",
   },
   "Hound Shrine": {
@@ -12767,7 +12767,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Hound Shrine",
   },
   "Stag Shrine": {
@@ -12775,7 +12775,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Stag Shrine",
   },
   "Pet Egg": {
@@ -12783,7 +12783,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Pet Egg",
   },
   Ruffroot: {
@@ -12791,7 +12791,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Ruffroot",
   },
   "Chewed Bone": {
@@ -12799,7 +12799,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Chewed Bone",
   },
   "Heart leaf": {
@@ -12807,7 +12807,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Heart leaf",
   },
   Acorn: {
@@ -12815,7 +12815,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Acorn",
   },
   Meowchi: {
@@ -12823,7 +12823,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Meowchi",
   },
   Burro: {
@@ -12831,7 +12831,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Burro",
   },
   Twizzle: {
@@ -12839,7 +12839,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Twizzle",
   },
   Barkley: {
@@ -12847,7 +12847,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Barkley",
   },
   Mudhorn: {
@@ -12855,7 +12855,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Mudhorn",
   },
   Nibbles: {
@@ -12863,7 +12863,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Nibbles",
   },
   Waddles: {
@@ -12871,7 +12871,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Waddles",
   },
   Ramsey: {
@@ -12879,7 +12879,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Ramsey",
   },
   Dewberry: {
@@ -12887,7 +12887,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Dewberry",
   },
   "Wild Grass": {
@@ -12895,7 +12895,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Wild Grass",
   },
   Ribbon: {
@@ -12903,7 +12903,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Ribbon",
   },
   "Frost Pebble": {
@@ -12911,7 +12911,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Frost Pebble",
   },
   "Mole Shrine": {
@@ -12919,7 +12919,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Mole Shrine",
   },
   "Badger Shrine": {
@@ -12927,7 +12927,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Mole Shrine",
   },
   "Collie Shrine": {
@@ -12935,7 +12935,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Mole Shrine",
   },
   "Toucan Shrine": {
@@ -12943,7 +12943,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Mole Shrine",
   },
   "Sparrow Shrine": {
@@ -12951,7 +12951,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Mole Shrine",
   },
   "Moth Shrine": {
@@ -12959,7 +12959,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Moth Shrine",
   },
   "Bear Shrine": {
@@ -12967,7 +12967,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Bear Shrine",
   },
   "Tortoise Shrine": {
@@ -12975,7 +12975,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Tortoise Shrine",
   },
   "Obsidian Shrine": {
@@ -12983,8 +12983,24 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/?.webp",
+    image: "../public/erc1155/images/question_mark.png",
     name: "Obsidian Shrine",
+  },
+  "Bantam Shrine": {
+    decimals: 0,
+    description: "",
+    attributes: [],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    name: "Bantam Shrine",
+  },
+  "Trading Shrine": {
+    decimals: 0,
+    description: "",
+    attributes: [],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    name: "Trading Shrine",
   },
   "Ancient Tree": {
     decimals: 0,
@@ -13026,13 +13042,13 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2706.png",
     name: "Pure Gold Rock",
   },
-  "Enchanted Gold Rock": {
+  "Prime Gold Rock": {
     decimals: 0,
     description: "",
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2707.png",
-    name: "Enchanted Gold Rock",
+    name: "Prime Gold Rock",
   },
   Biscuit: {
     description: "",

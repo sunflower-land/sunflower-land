@@ -95,6 +95,9 @@ describe("placeIron", () => {
         },
         x: 2,
         y: 2,
+        name: "Iron Rock",
+        multiplier: 1,
+        tier: 1,
       },
       "123": {
         createdAt: expect.any(Number),

@@ -18,6 +18,10 @@ import { translate } from "lib/i18n/translate";
 import { Transaction } from "features/island/hud/Transaction";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { GameWallet } from "features/wallet/Wallet";
+import { hasFeatureAccess } from "lib/flags";
+import { base, baseSepolia } from "viem/chains";
+import { CONFIG } from "lib/config";
+import { WithdrawPets } from "./WithdrawPets";
 
 const getPageIcon = (page: Page) => {
   switch (page) {
@@ -29,10 +33,13 @@ const getPageIcon = (page: Page) => {
       return SUNNYSIDE.icons.wardrobe;
     case "buds":
       return SUNNYSIDE.icons.plant;
+    case "pets":
+      return SUNNYSIDE.icons.expression_confused;
     case "resources":
       return SUNNYSIDE.resource.wood;
     case "verify":
       return SUNNYSIDE.icons.search;
+
     default:
       return "";
   }
@@ -48,6 +55,8 @@ const getPageText = (page: Page) => {
       return translate("wearables");
     case "buds":
       return translate("buds");
+    case "pets":
+      return translate("pets");
     case "resources":
       return translate("resources");
     case "verify":
@@ -64,7 +73,8 @@ type Page =
   | "wearables"
   | "buds"
   | "resources"
-  | "verify";
+  | "verify"
+  | "pets";
 
 const MainMenu: React.FC<{ setPage: (page: Page) => void }> = ({ setPage }) => {
   return (
@@ -106,6 +116,14 @@ const MainMenu: React.FC<{ setPage: (page: Page) => void }> = ({ setPage }) => {
             {getPageText("buds")}
           </div>
         </Button>
+        <Button onClick={() => setPage("pets")}>
+          <div className="flex items-center">
+            <img src={getPageIcon("pets")} className="h-4 mr-1" />
+            {getPageText("pets")}
+          </div>
+        </Button>
+      </div>
+      <div className="flex space-x-1">
         <Button onClick={() => setPage("verify")}>
           <div className="flex items-center">
             <img src={getPageIcon("verify")} className="h-4 mr-1" />
@@ -153,10 +171,13 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
   const [page, setPage] = useState<Page>("main");
 
-  const onWithdrawTokens = async (sfl: string) => {
+  const onWithdrawTokens = async (sfl: string, chainId: number) => {
     gameService.send("TRANSACT", {
       transaction: "transaction.flowerWithdrawn",
-      request: { farmId, effect: { type: "withdraw.flower", amount: sfl } },
+      request: {
+        farmId,
+        effect: { type: "withdraw.flower", amount: sfl, chainId },
+      },
     });
     onClose();
   };
@@ -194,17 +215,34 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
+  const onWithdrawPets = async (ids: number[]) => {
+    gameService.send("TRANSACT", {
+      transaction: "transaction.petWithdrawn",
+      request: { effect: { type: "withdraw.pets", petIds: ids } },
+    });
+    onClose();
+  };
+
   const transaction = gameService.getSnapshot().context.state.transaction;
   if (transaction) {
     return <Transaction isBlocked onClose={onClose} />;
   }
+
+  const enforceBaseWithdrawal = !hasFeatureAccess(
+    gameService.getSnapshot().context.state,
+    "RONIN_FLOWER",
+  );
+  const baseChain = CONFIG.NETWORK === "mainnet" ? base.id : baseSepolia.id;
 
   return (
     <>
       {page === "main" && <MainMenu setPage={setPage} />}
       {page !== "main" && <NavigationMenu page={page} setPage={setPage} />}
       {page === "tokens" && (
-        <GameWallet action="withdrawFlower">
+        <GameWallet
+          action="withdrawFlower"
+          enforceChainId={enforceBaseWithdrawal ? baseChain : undefined}
+        >
           <WithdrawFlower onWithdraw={onWithdrawTokens} />
         </GameWallet>
       )}
@@ -226,6 +264,11 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
       {page === "buds" && (
         <GameWallet action="withdrawItems">
           <WithdrawBuds onWithdraw={onWithdrawBuds} />
+        </GameWallet>
+      )}
+      {page === "pets" && (
+        <GameWallet action="withdrawItems">
+          <WithdrawPets onWithdraw={onWithdrawPets} />
         </GameWallet>
       )}
       {page === "verify" && <FaceRecognition />}

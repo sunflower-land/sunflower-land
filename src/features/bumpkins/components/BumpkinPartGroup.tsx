@@ -24,6 +24,7 @@ interface Props {
   equipped: BumpkinParts;
   selected: string;
   onSelect: (bumpkinPart: BumpkinPart) => void;
+  gridStyling?: string;
 }
 
 export const BumpkinPartGroup: React.FC<Props> = ({
@@ -31,9 +32,14 @@ export const BumpkinPartGroup: React.FC<Props> = ({
   equipped,
   selected,
   onSelect,
+  gridStyling,
 }) => {
   return (
-    <div className="grid grid-cols-4 gap-2">
+    <div
+      className={
+        gridStyling ?? "grid grid-cols-5 sm:grid-cols-3 md:grid-cols-4 gap-2"
+      }
+    >
       {bumpkinParts.map((name) => {
         const bumpkinItem = equipped[name];
         const boostLabel = bumpkinItem

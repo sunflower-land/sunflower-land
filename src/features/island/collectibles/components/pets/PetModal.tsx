@@ -64,6 +64,7 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
       }).length >= 3
     );
   });
+  const state = useSelector(gameService, (state) => state.context.state);
 
   const showBuildPetHouse = !hasPetHouse && hasThreeOrMorePets;
 
@@ -158,6 +159,7 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
             isRevealingState={isRevealingState}
             isRevealedState={isRevealedState}
             onAcknowledged={() => gameService.send("CONTINUE")}
+            state={state}
           />
         )}
         {tab === "Fetch" && (

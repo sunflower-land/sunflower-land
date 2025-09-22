@@ -543,12 +543,16 @@ import {
   instaGrowFlower,
   InstaGrowFlowerAction,
 } from "./landExpansion/instaGrowFlower";
-import { upgradeStone, UpgradeStoneAction } from "./landExpansion/upgradeNode";
+import { upgradeRock, UpgradeRockAction } from "./landExpansion/upgradeRock";
+import { upgradeTree, UpgradeTreeAction } from "./landExpansion/upgradeTree";
 import { bulkFeedPets, BulkFeedPetsAction } from "./pets/bulkFeedPets";
 import { NeglectPetAction, neglectPet } from "./pets/neglectPet";
 import { petPet, PetPetAction } from "./pets/petPet";
 import { fetchPet, FetchPetAction } from "./pets/fetchPet";
 import { helpPets, HelpPetsAction } from "./visiting/helpPets";
+import { BulkPlantAction, bulkPlant } from "./landExpansion/bulkPlant";
+import { bulkHarvest, BulkHarvestAction } from "./landExpansion/bulkHarvest";
+import { clearTrades, ClearTradesAction } from "./clearTrades";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -600,6 +604,7 @@ export type PlayingEvent =
   | RemoveFruitTreeAction
   | CraftCollectibleAction
   | SellTreasureAction
+  | ClearTradesAction
   | RestockAction
   | NPCRestockAction
   | SellGarbageAction
@@ -703,7 +708,10 @@ export type PlayingEvent =
   | BurnClutterAction
   | InstantGrowProjectAction
   | InstaGrowFlowerAction
-  | UpgradeStoneAction;
+  | UpgradeRockAction
+  | UpgradeTreeAction
+  | BulkPlantAction
+  | BulkHarvestAction;
 
 export type LocalVisitingEvent =
   | CollectGarbageAction
@@ -820,7 +828,9 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "airdrop.claimed": claimAirdrop,
   "bot.detected": detectBot,
   "seed.planted": landExpansionPlant,
+  "seeds.bulkPlanted": bulkPlant,
   "crop.harvested": landExpansionHarvest,
+  "crops.bulkHarvested": bulkHarvest,
   "plot.fertilised": landExpansionFertilise,
   "crop.removed": landExpansionRemoveCrop,
   "chicken.collectEgg": landExpansionCollectEggs,
@@ -947,8 +957,10 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "cheers.claimed": claimDailyCheers,
   "clutter.burned": burnClutter,
   "project.instantGrow": instantGrowProject,
-  "stone.upgraded": upgradeStone,
+  "rock.upgraded": upgradeRock,
+  "tree.upgraded": upgradeTree,
   "pet.pet": petPet,
+  "trades.cleared": clearTrades,
 };
 
 export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {

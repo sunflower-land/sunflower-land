@@ -61,9 +61,16 @@ export function fetchPet({ state, action, createdAt = Date.now() }: Options) {
     }
 
     petData.energy -= energyRequired;
+
+    const yieldAmount = petData.fetches?.[fetch] ?? 1;
     stateCopy.inventory[fetch] = (
       stateCopy.inventory[fetch] ?? new Decimal(0)
-    ).add(1);
+    ).add(yieldAmount);
+
+    petData.fetches = {
+      ...petData.fetches,
+      [fetch]: 1, // next yield is set in api
+    };
 
     return stateCopy;
   });

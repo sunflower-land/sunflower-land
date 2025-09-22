@@ -11,10 +11,11 @@ import { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
 import { DepletedIron } from "./components/DepletedIron";
 import { DepletingIron } from "./components/DepletingIron";
-import { canMine } from "features/game/expansion/lib/utils";
+import { canMine } from "features/game/lib/resourceNodes";
 import { RecoveredIron } from "./components/RecoveredIron";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getIronDropAmount } from "features/game/events/landExpansion/ironMine";
+import { IronRockName } from "features/game/types/resources";
 
 const HITS = 3;
 const tool = "Stone Pickaxe";
@@ -71,6 +72,7 @@ export const Iron: React.FC<Props> = ({ id }) => {
     (state) => state.context.state.iron[id],
     compareResource,
   );
+  const ironRockName = (resource.name ?? "Iron Rock") as IronRockName;
   const inventory = useSelector(
     gameService,
     selectInventory,
@@ -85,7 +87,7 @@ export const Iron: React.FC<Props> = ({ id }) => {
 
   const hasTool = HasTool(inventory);
   const timeLeft = getTimeLeft(resource.stone.minedAt, IRON_RECOVERY_TIME);
-  const mined = !canMine(resource, IRON_RECOVERY_TIME);
+  const mined = !canMine(resource, ironRockName);
 
   useUiRefresher({ active: mined });
 
@@ -144,7 +146,11 @@ export const Iron: React.FC<Props> = ({ id }) => {
       {/* Resource ready to collect */}
       {!mined && (
         <div ref={divRef} className="absolute w-full h-full" onClick={strike}>
-          <RecoveredIron hasTool={hasTool} touchCount={touchCount} />
+          <RecoveredIron
+            hasTool={hasTool}
+            touchCount={touchCount}
+            ironRockName={ironRockName}
+          />
         </div>
       )}
 
@@ -152,7 +158,7 @@ export const Iron: React.FC<Props> = ({ id }) => {
       {collecting && <DepletingIron resourceAmount={harvested.current} />}
 
       {/* Depleted resource */}
-      {mined && <DepletedIron timeLeft={timeLeft} />}
+      {mined && <DepletedIron timeLeft={timeLeft} name={ironRockName} />}
     </div>
   );
 };

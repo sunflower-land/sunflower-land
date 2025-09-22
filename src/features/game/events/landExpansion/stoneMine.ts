@@ -10,7 +10,7 @@ import {
   Skills,
 } from "../../types/game";
 import {
-  isCollectibleActive,
+  isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { produce } from "immer";
@@ -30,6 +30,7 @@ import {
   isCollectibleOnFarm,
   setAOELastUsed,
 } from "features/game/lib/aoe";
+import { canMine } from "features/game/lib/resourceNodes";
 
 export type LandExpansionStoneMineAction = {
   type: "stoneRock.mined";
@@ -48,11 +49,6 @@ type GetMinedAtArgs = {
   game: GameState;
 };
 
-export function canMine(rock: Rock, now: number = Date.now()) {
-  const recoveryTime = STONE_RECOVERY_TIME;
-  return now - rock.stone.minedAt >= recoveryTime * 1000;
-}
-
 function getBoostedTime({ skills, game }: GetMinedAtArgs): {
   boostedTime: number;
   boostsUsed: BoostName[];
@@ -65,11 +61,11 @@ function getBoostedTime({ skills, game }: GetMinedAtArgs): {
     boostsUsed.push("Speed Miner");
   }
 
-  const superTotem = isCollectibleActive({
+  const superTotem = isTemporaryCollectibleActive({
     name: "Super Totem",
     game,
   });
-  const timeWarpTotem = isCollectibleActive({
+  const timeWarpTotem = isTemporaryCollectibleActive({
     name: "Time Warp Totem",
     game,
   });
@@ -80,12 +76,12 @@ function getBoostedTime({ skills, game }: GetMinedAtArgs): {
     else if (timeWarpTotem) boostsUsed.push("Time Warp Totem");
   }
 
-  if (isCollectibleActive({ name: "Ore Hourglass", game })) {
+  if (isTemporaryCollectibleActive({ name: "Ore Hourglass", game })) {
     totalSeconds = totalSeconds * 0.5;
     boostsUsed.push("Ore Hourglass");
   }
 
-  if (isCollectibleActive({ name: "Badger Shrine", game })) {
+  if (isTemporaryCollectibleActive({ name: "Badger Shrine", game })) {
     totalSeconds = totalSeconds * 0.75;
     boostsUsed.push("Badger Shrine");
   }
@@ -150,7 +146,7 @@ export function getStoneDropAmount({
     aoe,
   } = game;
   const updatedAoe = cloneDeep(aoe);
-  const multiplier = game.stones[id]?.multiplier ?? 1;
+  const multiplier = rock.multiplier ?? 1;
 
   let amount = 1;
   const boostsUsed: BoostName[] = [];
@@ -292,6 +288,11 @@ export function getStoneDropAmount({
     boostsUsed.push(FACTION_ITEMS[factionName].secondaryTool);
   }
 
+  if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game })) {
+    amount += 1;
+    boostsUsed.push("Legendary Shrine");
+  }
+
   const { yieldBoost, budUsed } = getBudYieldBoosts(buds, "Stone");
   amount += yieldBoost;
   if (budUsed) boostsUsed.push(budUsed);
@@ -339,7 +340,7 @@ export function mineStone({
       throw new Error("Rock is not placed");
     }
 
-    if (!canMine(rock, createdAt)) {
+    if (!canMine(rock, rock.name ?? "Stone Rock", createdAt)) {
       throw new Error("Rock is still recovering");
     }
 

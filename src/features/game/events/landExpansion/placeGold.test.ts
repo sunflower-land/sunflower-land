@@ -95,6 +95,9 @@ describe("placeGold", () => {
         },
         x: 2,
         y: 2,
+        name: "Gold Rock",
+        multiplier: 1,
+        tier: 1,
       },
       "123": {
         createdAt: expect.any(Number),
@@ -114,7 +117,7 @@ describe("placeGold", () => {
           x: 2,
           y: 2,
         },
-        id: "1", // ID doesn't matter since it's an existing stone
+        id: "1",
         name: "Gold Rock",
         type: "gold.placed",
       },

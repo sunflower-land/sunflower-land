@@ -543,7 +543,10 @@ const BoostReelItems: (
   Record<BumpkinItem | CollectibleName | BumpkinRevampSkillName, BoostReelItem>
 > = (state) => ({
   "Reelmaster's Chair": {
-    buff: COLLECTIBLE_BUFF_LABELS(state)["Reelmaster's Chair"] as BuffLabel[],
+    buff: COLLECTIBLE_BUFF_LABELS({
+      skills: state.bumpkin.skills,
+      collectibles: state.collectibles,
+    })["Reelmaster's Chair"] as BuffLabel[],
     location: hasSeasonEnded("Better Together")
       ? "Marketplace"
       : "Stella's Megastore",

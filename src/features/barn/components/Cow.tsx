@@ -46,6 +46,7 @@ import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
 import { SleepingAnimalModal } from "./SleepingAnimalModal";
+import glow from "public/world/glow.png";
 
 export const ANIMAL_EMOTION_ICONS: Record<
   Exclude<TState["value"], "idle" | "needsLove" | "initial" | "sick">,
@@ -434,6 +435,23 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
           }}
         />
       )}
+
+      {/* Upcoming Mutant Sign */}
+      {mutantName && (
+        <img
+          src={glow}
+          className="absolute animate-pulsate pointer-events-none"
+          style={{
+            bottom: "-28px",
+            left: "-27.5px",
+            width: "165%",
+            height: "165%",
+            maxWidth: `${GRID_WIDTH_PX * 40}px`,
+            maxHeight: `${GRID_WIDTH_PX * 40}px`,
+          }}
+        />
+      )}
+
       <div
         className="relative flex items-center justify-center cursor-pointer"
         style={{

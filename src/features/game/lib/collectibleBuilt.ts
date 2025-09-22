@@ -1,3 +1,4 @@
+import { HourglassType } from "features/island/collectibles/components/Hourglass";
 import { CollectibleName, getKeys } from "../types/craftables";
 import { GameState } from "../types/game";
 import { PET_SHRINES, PetShrineName } from "../types/pets";
@@ -24,7 +25,16 @@ export function isCollectibleBuilt({
   return !!placedOnFarm || !!placedInHome;
 }
 
-export const EXPIRY_COOLDOWNS: Partial<Record<CollectibleName, number>> = {
+export type TemporaryCollectibleName = Extract<
+  CollectibleName,
+  | "Time Warp Totem"
+  | HourglassType
+  | "Super Totem"
+  | "Obsidian Shrine"
+  | PetShrineName
+>;
+
+export const EXPIRY_COOLDOWNS: Record<TemporaryCollectibleName, number> = {
   "Time Warp Totem": 2 * 60 * 60 * 1000,
   "Gourmet Hourglass": 4 * 60 * 60 * 1000,
   "Harvest Hourglass": 6 * 60 * 60 * 1000,
@@ -42,22 +52,25 @@ export const EXPIRY_COOLDOWNS: Partial<Record<CollectibleName, number>> = {
     },
     {} as Record<PetShrineName, number>,
   ),
+
+  // The following will replace the times set above for the following shrines
   "Legendary Shrine": 24 * 60 * 60 * 1000,
-  "Obsidian Shrine": 3 * 24 * 60 * 60 * 1000,
+  "Obsidian Shrine": 14 * 24 * 60 * 60 * 1000,
+  "Trading Shrine": 30 * 24 * 60 * 60 * 1000,
 };
 
 /**
  * Useful for collectibles which expire after X time
  * Currently we only support Time Warp Totem
  */
-export function isCollectibleActive({
+export function isTemporaryCollectibleActive({
   name,
   game,
 }: {
-  name: CollectibleName;
+  name: TemporaryCollectibleName;
   game: GameState;
 }) {
-  const cooldown = EXPIRY_COOLDOWNS[name] ?? 0;
+  const cooldown = EXPIRY_COOLDOWNS[name];
 
   const placedOnFarm =
     game.collectibles[name] &&

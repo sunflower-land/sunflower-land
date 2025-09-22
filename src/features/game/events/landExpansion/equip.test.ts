@@ -98,48 +98,6 @@ describe("equip", () => {
       "Cannot equip pants while wearing dress",
     );
   });
-
-  it("throws error when shoes are not included in the equipment", () => {
-    const equipment = { ...TEST_PARTS, shoes: undefined } as any;
-    const action: EquipBumpkinAction = {
-      type: "bumpkin.equipped",
-      equipment,
-    };
-
-    expect(() => equip({ state: game, action })).toThrow(`Shoes are required`);
-  });
-
-  it("throws error when body, shoes, or body is not included in the equipment", () => {
-    const equipment = { ...TEST_PARTS, body: undefined } as any;
-    const action: EquipBumpkinAction = {
-      type: "bumpkin.equipped",
-      equipment,
-    };
-
-    expect(() => equip({ state: game, action })).toThrow(`Body is required`);
-  });
-  it("throws error when hair is not included in the equipment", () => {
-    const equipment = { ...TEST_PARTS, hair: undefined } as any;
-    const action: EquipBumpkinAction = {
-      type: "bumpkin.equipped",
-      equipment,
-    };
-
-    expect(() => equip({ state: game, action })).toThrow(`Hair is required`);
-  });
-
-  it("throws error when bumpkin is naked", () => {
-    const action: EquipBumpkinAction = {
-      type: "bumpkin.equipped",
-      equipment: {
-        body: "Beige Farmer Potion",
-        shoes: "Black Farmer Boots",
-        hair: "Basic Hair",
-      } as any,
-    };
-
-    expect(() => equip({ state: game, action })).toThrow("Bumpkin is naked!");
-  });
 });
 
 describe("availableWardrobe", () => {

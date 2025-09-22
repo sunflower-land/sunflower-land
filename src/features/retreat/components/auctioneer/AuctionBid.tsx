@@ -6,14 +6,13 @@ import token from "assets/icons/flower_token.webp";
 import { Button } from "components/ui/Button";
 import { Bid } from "features/game/types/game";
 
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { Auction, MachineInterpreter } from "features/game/lib/auctionMachine";
 import { getKeys } from "features/game/types/craftables";
 import { TimerDisplay } from "./AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getImageUrl } from "lib/utils/getImageURLS";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { getAuctionItemImage } from "./lib/getAuctionItemDisplay";
 
 const AUCTION_BUFFER_SECONDS = 30;
 
@@ -27,15 +26,12 @@ export const AuctionBid: React.FC<Props> = ({
   bid,
   auctionService,
 }) => {
-  const image = bid.collectible
-    ? ITEM_DETAILS[bid?.collectible].image
-    : getImageUrl(ITEM_IDS[bid.wearable as BumpkinItem]);
-
   const readyAt = auction.endAt + AUCTION_BUFFER_SECONDS * 1000;
+  const ready = useCountdown(readyAt);
+  const image = getAuctionItemImage(auction);
 
   const { t } = useAppTranslation();
 
-  const ready = useCountdown(readyAt);
   return (
     <div className="flex justify-center flex-col w-full items-center">
       <div className="relative my-2">

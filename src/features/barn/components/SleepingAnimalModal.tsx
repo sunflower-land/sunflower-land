@@ -20,6 +20,7 @@ import {
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { useSelector } from "@xstate/react";
+import glow from "public/world/glow.png";
 
 interface Props {
   onClose: () => void;
@@ -90,6 +91,8 @@ export const SleepingAnimalModal = ({
 
   const level = getAnimalLevel(animal.experience, animal.type);
 
+  const { name: mutantName } = animal.reward?.items?.[0] ?? {};
+
   return (
     <>
       <InnerPanel className="mb-1">
@@ -145,6 +148,18 @@ export const SleepingAnimalModal = ({
             )}`}</span>
           </div>
         </div>
+
+        {mutantName && (
+          <div className="flex p-1 items-center w-[330px]">
+            <img src={glow} className="w-6 mr-2" />
+            <div>
+              <p className="text-sm mr-2">
+                {t("sleepingAnimal.mutantClue1", { type: animal.type })}
+              </p>
+              <p className="text-xs mr-2">{t("sleepingAnimal.mutantClue2")}</p>
+            </div>
+          </div>
+        )}
       </InnerPanel>
 
       {level < 15 && (

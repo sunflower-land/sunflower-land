@@ -9,7 +9,7 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
-import { canMine } from "features/game/expansion/lib/utils";
+import { canMine } from "features/game/lib/resourceNodes";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { DepletedSunstone } from "./components/DepletedSunstone";
 import { RecoveredSunstone } from "./components/RecoveredSunstone";
@@ -90,7 +90,7 @@ export const Sunstone: React.FC<Props> = ({ id, index }) => {
 
   const hasTool = HasTool(inventory);
   const timeLeft = getTimeLeft(resource.stone.minedAt, SUNSTONE_RECOVERY_TIME);
-  const mined = !canMine(resource, SUNSTONE_RECOVERY_TIME);
+  const mined = !canMine(resource, "Sunstone Rock");
 
   useUiRefresher({ active: mined });
 

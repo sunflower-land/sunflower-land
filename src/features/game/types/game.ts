@@ -649,6 +649,9 @@ export type Tree = {
   wood: Wood;
   createdAt?: number;
   removedAt?: number;
+  tier?: ResourceTier;
+  name?: ResourceName;
+  multiplier?: number;
 } & OptionalCoordinates;
 
 export type Stone = {
@@ -840,18 +843,33 @@ export type TreasureHole = {
   discovered: InventoryItemName | null;
 };
 
+export type AuctionNFT = "Pet";
+
 export type Bid = {
   auctionId: string;
   sfl: number;
   ingredients: Partial<Record<InventoryItemName, number>>;
-  collectible?: InventoryItemName;
-  wearable?: BumpkinItem;
-  type: "collectible" | "wearable";
   biddedAt: number;
   tickets: number;
-};
+} & (
+  | {
+      type: "collectible";
+      collectible: InventoryItemName;
+    }
+  | {
+      type: "wearable";
+      wearable: BumpkinItem;
+    }
+  | {
+      type: "nft";
+      nft: AuctionNFT;
+    }
+);
 export type Minted = Partial<
-  Record<SeasonName, Record<InventoryItemName | BumpkinItem, number>>
+  Record<
+    SeasonName,
+    Record<InventoryItemName | BumpkinItem | AuctionNFT, number>
+  >
 >;
 
 export type MazeAttempts = Partial<Record<SeasonWeek, MazeMetadata>>;
@@ -1183,6 +1201,8 @@ export type TradeListing = {
   fulfilledById?: number;
   initiatedAt?: number;
   tradeType: "instant" | "onchain";
+
+  clearedAt?: number;
 };
 
 export type TradeOffer = {
@@ -1196,6 +1216,8 @@ export type TradeOffer = {
   signature?: string;
   initiatedAt?: number;
   tradeType: "instant" | "onchain";
+
+  clearedAt?: number;
 };
 
 type FishingSpot = {
@@ -1487,6 +1509,7 @@ export type Calendar = Partial<Record<SeasonalEventName, CalendarEvent>> & {
 export type LavaPit = {
   createdAt: number;
   startedAt?: number;
+  readyAt?: number;
   collectedAt?: number;
   removedAt?: number;
 } & OptionalCoordinates;
@@ -1541,6 +1564,11 @@ export type SocialFarming = {
     spawnedAt: number;
     locations: { [clutterId: string]: ClutterCoordinates };
   };
+};
+
+export type Auctioneer = {
+  bid?: Bid;
+  minted?: Minted;
 };
 
 export interface GameState {
@@ -1689,10 +1717,7 @@ export interface GameState {
     }[];
   };
   dailyRewards?: DailyRewards;
-  auctioneer: {
-    bid?: Bid;
-    minted?: Minted;
-  };
+  auctioneer: Auctioneer;
   chores?: ChoresV2;
   kingdomChores: KingdomChores;
   mushrooms: Mushrooms;

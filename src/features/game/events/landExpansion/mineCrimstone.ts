@@ -1,11 +1,12 @@
 import Decimal from "decimal.js-light";
 import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { BoostName, FiniteResource, GameState, Rock } from "../../types/game";
+import { canMine } from "features/game/lib/resourceNodes";
+import { BoostName, FiniteResource, GameState } from "../../types/game";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
 import {
-  isCollectibleActive,
+  isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
@@ -20,11 +21,6 @@ type Options = {
   action: MineCrimstoneAction;
   createdAt?: number;
 };
-
-export function canMine(rock: Rock, now: number = Date.now()) {
-  const recoveryTime = CRIMSTONE_RECOVERY_TIME;
-  return now - rock.stone.minedAt > recoveryTime * 1000;
-}
 
 type GetMinedAtArgs = {
   createdAt: number;
@@ -48,7 +44,7 @@ export function getMinedAt({ createdAt, game }: GetMinedAtArgs): {
     boostsUsed.push("Fireside Alchemist");
   }
 
-  if (isCollectibleActive({ name: "Mole Shrine", game })) {
+  if (isTemporaryCollectibleActive({ name: "Mole Shrine", game })) {
     time -= CRIMSTONE_RECOVERY_TIME * 0.25 * 1000;
     boostsUsed.push("Mole Shrine");
   }
@@ -117,7 +113,7 @@ export function mineCrimstone({
       throw new Error("Crimstone rock is not placed");
     }
 
-    if (!canMine(rock, createdAt)) {
+    if (!canMine(rock, "Crimstone Rock", createdAt)) {
       throw new Error("Rock is still recovering");
     }
 

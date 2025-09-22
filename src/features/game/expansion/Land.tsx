@@ -789,6 +789,7 @@ export const LandComponent: React.FC = () => {
           y={mushroom.y}
           height={MUSHROOM_DIMENSIONS.height}
           width={MUSHROOM_DIMENSIONS.width}
+          z={99999}
         >
           <Mushroom
             key={`mushroom-${id}`}

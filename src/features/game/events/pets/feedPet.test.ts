@@ -1,7 +1,8 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { CookableName } from "features/game/types/consumables";
-import { feedPet } from "./feedPet";
+import { feedPet, getPetFoodRequests } from "./feedPet";
+import { Pet } from "features/game/types/pets";
 
 describe("feedPet", () => {
   const now = Date.now();
@@ -259,5 +260,119 @@ describe("feedPet", () => {
     expect(state.inventory["Bumpkin Salad"]).toEqual(new Decimal(9));
     expect(BarkleyData?.energy).toEqual(100);
     expect(BarkleyData?.experience).toEqual(200);
+  });
+  it("feeds pet with energy boost", () => {
+    const state = feedPet({
+      state: {
+        ...INITIAL_FARM,
+        pets: {
+          common: {
+            Barkley: {
+              name: "Barkley",
+              requests: {
+                food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+                foodFed: [],
+              },
+              energy: 0,
+              experience: 1500, // Level 5
+              pettedAt: now,
+            },
+          },
+        },
+        inventory: {
+          "Bumpkin Salad": new Decimal(10),
+        },
+      },
+      action: {
+        type: "pet.fed",
+        pet: "Barkley",
+        food: "Bumpkin Salad",
+      },
+      createdAt: now,
+    });
+    const BarkleyData = state.pets?.common?.Barkley;
+
+    expect(BarkleyData?.energy).toEqual(105);
+    expect(BarkleyData?.experience).toEqual(1600);
+  });
+
+  it("feeds pet with Hound Shrine boost", () => {
+    const state = feedPet({
+      state: {
+        ...INITIAL_FARM,
+        pets: {
+          common: {
+            Barkley: {
+              name: "Barkley",
+              requests: {
+                food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+                foodFed: [],
+              },
+              energy: 0,
+              experience: 1500, // Level 5
+              pettedAt: now,
+            },
+          },
+        },
+        inventory: {
+          "Bumpkin Salad": new Decimal(10),
+        },
+        collectibles: {
+          "Hound Shrine": [{ createdAt: now, id: "1", readyAt: now }],
+        },
+      },
+      action: {
+        type: "pet.fed",
+        pet: "Barkley",
+        food: "Bumpkin Salad",
+      },
+      createdAt: now,
+    });
+    const BarkleyData = state.pets?.common?.Barkley;
+
+    expect(BarkleyData?.energy).toEqual(105);
+    expect(BarkleyData?.experience).toEqual(1700);
+  });
+
+  describe("getPetFoodRequests", () => {
+    it("omits the hard request if the pet is less than level 10", () => {
+      const pet: Pet = {
+        name: "Barkley",
+        requests: {
+          food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+        },
+        energy: 100,
+        experience: 0,
+        pettedAt: now,
+      };
+      const requests = getPetFoodRequests(pet);
+      expect(requests).toEqual(["Pumpkin Soup", "Bumpkin Salad"]);
+      // Make sure the original requests are not modified
+      expect(pet.requests.food).toEqual([
+        "Pumpkin Soup",
+        "Bumpkin Salad",
+        "Antipasto",
+      ]);
+    });
+
+    it("includes the hard request if the pet is level 10 or higher", () => {
+      const pet: Pet = {
+        name: "Barkley",
+        requests: {
+          food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+        },
+        energy: 100,
+        experience: 5500, // Level 10
+        pettedAt: now,
+      };
+      const requests = getPetFoodRequests(pet);
+      expect(requests).toEqual(["Pumpkin Soup", "Bumpkin Salad", "Antipasto"]);
+      // Make sure the original requests are not modified
+      expect(pet.requests.food).toEqual([
+        "Pumpkin Soup",
+        "Bumpkin Salad",
+        "Antipasto",
+      ]);
+    });
   });
 });

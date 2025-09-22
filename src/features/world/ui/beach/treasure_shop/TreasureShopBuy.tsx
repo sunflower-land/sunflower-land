@@ -148,7 +148,10 @@ const CollectibleContent: React.FC<CollectibleContentProps> = ({
       selected.ingredients[name]?.greaterThan(inventory[name] || 0),
     );
   const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(1);
-  const isBoost = COLLECTIBLE_BUFF_LABELS(state)[selectedName];
+  const isBoost = COLLECTIBLE_BUFF_LABELS({
+    skills: state.bumpkin.skills,
+    collectibles: state.collectibles,
+  })[selectedName];
 
   const craft = () => {
     gameService.send("collectible.crafted", {
@@ -394,7 +397,12 @@ export const TreasureShopBuy: React.FC = () => {
                 isSelected={selectedName === name}
                 secondaryImage={SUNNYSIDE.icons.stopwatch}
                 alternateIcon={
-                  COLLECTIBLE_BUFF_LABELS(state)[name] ? lightning : undefined
+                  COLLECTIBLE_BUFF_LABELS({
+                    skills: state.bumpkin.skills,
+                    collectibles: state.collectibles,
+                  })[name]
+                    ? lightning
+                    : undefined
                 }
                 key={name}
                 onClick={() => setSelectedName(name)}
@@ -408,7 +416,12 @@ export const TreasureShopBuy: React.FC = () => {
                   isSelected={selectedName === name}
                   key={name}
                   alternateIcon={
-                    COLLECTIBLE_BUFF_LABELS(state)[name] ? lightning : undefined
+                    COLLECTIBLE_BUFF_LABELS({
+                      skills: state.bumpkin.skills,
+                      collectibles: state.collectibles,
+                    })[name]
+                      ? lightning
+                      : undefined
                   }
                   onClick={() => setSelectedName(name)}
                   count={inventory[name]}
@@ -456,7 +469,12 @@ export const TreasureShopBuy: React.FC = () => {
                   isSelected={selectedName === name}
                   key={name}
                   alternateIcon={
-                    COLLECTIBLE_BUFF_LABELS(state)[name] ? lightning : undefined
+                    COLLECTIBLE_BUFF_LABELS({
+                      skills: state.bumpkin.skills,
+                      collectibles: state.collectibles,
+                    })[name]
+                      ? lightning
+                      : undefined
                   }
                   onClick={() => setSelectedName(name)}
                   count={inventory[name]}

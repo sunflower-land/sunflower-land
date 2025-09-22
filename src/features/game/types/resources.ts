@@ -1,8 +1,18 @@
 import { Dimensions } from "./craftables";
 import { translate } from "lib/i18n/translate";
 import { AnimalResource } from "./game";
-import { GameState } from "features/game/types/game";
-import { ResourceItem } from "../expansion/placeable/lib/collisionDetection";
+import {
+  GameState,
+  Tree,
+  Rock,
+  FiniteResource,
+  CropPlot,
+  FruitPatch,
+  FlowerBed,
+  Beehive,
+  OilReserve,
+  LavaPit,
+} from "features/game/types/game";
 import { Tool } from "./tools";
 import { Decimal } from "decimal.js-light";
 
@@ -124,14 +134,29 @@ export type UpgradedResourceName =
   | "Refined Iron Rock"
   | "Tempered Iron Rock"
   | "Pure Gold Rock"
-  | "Enchanted Gold Rock";
+  | "Prime Gold Rock";
+
+export type UpgradeableResource = BasicResourceName | UpgradedResourceName;
 
 export type ResourceTier = 1 | 2 | 3;
 
-export type RockName = Extract<
-  ResourceName,
-  "Stone Rock" | "Fused Stone Rock" | "Reinforced Stone Rock"
->;
+export type StoneRockName =
+  | "Stone Rock"
+  | "Fused Stone Rock"
+  | "Reinforced Stone Rock";
+export type TreeName = "Tree" | "Ancient Tree" | "Sacred Tree";
+export type GoldRockName = "Gold Rock" | "Pure Gold Rock" | "Prime Gold Rock";
+export type IronRockName =
+  | "Iron Rock"
+  | "Refined Iron Rock"
+  | "Tempered Iron Rock";
+
+export type RockName =
+  | StoneRockName
+  | GoldRockName
+  | IronRockName
+  | "Sunstone Rock"
+  | "Crimstone Rock";
 
 type ResourceUpgradeRequirements = Tool & {
   tier: ResourceTier;
@@ -146,7 +171,7 @@ export const RESOURCES: Record<ResourceName, string> = {
   "Fruit Patch": "Plant fruit",
   "Gold Rock": "Mine gold",
   "Pure Gold Rock": "Mine gold",
-  "Enchanted Gold Rock": "Mine gold",
+  "Prime Gold Rock": "Mine gold",
   "Iron Rock": "Mine iron",
   "Refined Iron Rock": "Mine iron",
   "Tempered Iron Rock": "Mine iron",
@@ -165,22 +190,38 @@ export const RESOURCES: Record<ResourceName, string> = {
   "Lava Pit": "Craft obsidian",
 };
 
-const PLACEHOLDER_REQUIREMENTS: ResourceUpgradeRequirements = {
-  name: "Advanced Resource",
-  description: "Coming soon...",
-  tier: 2,
-  ingredients: () => ({}),
-  price: 0,
-  preRequires: {
-    tier: 1,
-    count: 1,
-  },
-};
-
 export const ADVANCED_RESOURCES: Record<
   UpgradedResourceName,
   ResourceUpgradeRequirements
 > = {
+  "Ancient Tree": {
+    name: "Ancient Tree",
+    description: "Chop Wood",
+    tier: 2,
+    ingredients: () => ({
+      Obsidian: new Decimal(3),
+      Tree: new Decimal(4),
+    }),
+    price: 25_000,
+    preRequires: {
+      tier: 1,
+      count: 4,
+    },
+  },
+  "Sacred Tree": {
+    name: "Sacred Tree",
+    description: "Chop Wood",
+    tier: 3,
+    ingredients: () => ({
+      Obsidian: new Decimal(5),
+      "Ancient Tree": new Decimal(4),
+    }),
+    price: 50_000,
+    preRequires: {
+      tier: 2,
+      count: 4,
+    },
+  },
   "Fused Stone Rock": {
     name: "Fused Stone",
     description: "Mine fused stone",
@@ -211,18 +252,92 @@ export const ADVANCED_RESOURCES: Record<
       count: 4,
     },
   },
-  "Ancient Tree": PLACEHOLDER_REQUIREMENTS,
-  "Sacred Tree": PLACEHOLDER_REQUIREMENTS,
-  "Refined Iron Rock": PLACEHOLDER_REQUIREMENTS,
-  "Tempered Iron Rock": PLACEHOLDER_REQUIREMENTS,
-  "Pure Gold Rock": PLACEHOLDER_REQUIREMENTS,
-  "Enchanted Gold Rock": PLACEHOLDER_REQUIREMENTS,
+  "Refined Iron Rock": {
+    name: "Refined Iron",
+    description: "Mine iron",
+    tier: 2,
+    ingredients: () => ({
+      "Iron Rock": new Decimal(4),
+      Obsidian: new Decimal(10),
+    }),
+    price: 100_000,
+    preRequires: {
+      tier: 1,
+      count: 4,
+    },
+  },
+  "Tempered Iron Rock": {
+    name: "Tempered Iron",
+    description: "Mine iron",
+    tier: 3,
+    ingredients: () => ({
+      "Refined Iron Rock": new Decimal(4),
+      Obsidian: new Decimal(15),
+    }),
+    price: 200_000,
+    preRequires: {
+      tier: 2,
+      count: 4,
+    },
+  },
+  "Pure Gold Rock": {
+    name: "Pure Gold",
+    description: "Mine gold",
+    tier: 2,
+    ingredients: () => ({
+      "Gold Rock": new Decimal(4),
+      Obsidian: new Decimal(15),
+    }),
+    price: 200_000,
+    preRequires: {
+      tier: 1,
+      count: 4,
+    },
+  },
+  "Prime Gold Rock": {
+    name: "Prime Gold",
+    description: "Mine gold",
+    tier: 3,
+    ingredients: () => ({
+      "Pure Gold Rock": new Decimal(4),
+      Obsidian: new Decimal(20),
+    }),
+    price: 350_000,
+    preRequires: {
+      tier: 2,
+      count: 4,
+    },
+  },
 };
 
-export const RESOURCE_STATE_ACCESSORS: Record<
-  Exclude<ResourceName, "Boulder">,
-  (game: GameState) => Record<string, ResourceItem>
-> = {
+type ResourceStateRecords = {
+  "Crop Plot": Record<string, CropPlot>;
+  Tree: Record<string, Tree>;
+  "Stone Rock": Record<string, Rock>;
+  "Iron Rock": Record<string, Rock>;
+  "Gold Rock": Record<string, Rock>;
+  "Crimstone Rock": Record<string, FiniteResource>;
+  Beehive: Record<string, Beehive>;
+  "Fruit Patch": Record<string, FruitPatch>;
+  "Flower Bed": Record<string, FlowerBed>;
+  "Sunstone Rock": Record<string, FiniteResource>;
+  "Oil Reserve": Record<string, OilReserve>;
+  "Lava Pit": Record<string, LavaPit>;
+  "Fused Stone Rock": Record<string, Rock>;
+  "Reinforced Stone Rock": Record<string, Rock>;
+  "Ancient Tree": Record<string, Tree>;
+  "Sacred Tree": Record<string, Tree>;
+  "Refined Iron Rock": Record<string, Rock>;
+  "Tempered Iron Rock": Record<string, Rock>;
+  "Pure Gold Rock": Record<string, Rock>;
+  "Prime Gold Rock": Record<string, Rock>;
+};
+
+export const RESOURCE_STATE_ACCESSORS: {
+  [K in Exclude<ResourceName, "Boulder">]: (
+    game: GameState,
+  ) => ResourceStateRecords[K];
+} = {
   "Crop Plot": (game) => game.crops,
   Tree: (game) => game.trees,
   "Stone Rock": (game) => game.stones,
@@ -242,7 +357,7 @@ export const RESOURCE_STATE_ACCESSORS: Record<
   "Refined Iron Rock": (game) => game.iron,
   "Tempered Iron Rock": (game) => game.iron,
   "Pure Gold Rock": (game) => game.gold,
-  "Enchanted Gold Rock": (game) => game.gold,
+  "Prime Gold Rock": (game) => game.gold,
 };
 
 // IMPORTANT: Order matters in the UpgradesTo array.
@@ -250,9 +365,24 @@ export const BASIC_RESOURCES_UPGRADES_TO: Partial<
   Record<BasicResourceName, UpgradedResourceName[]>
 > = {
   "Stone Rock": ["Fused Stone Rock", "Reinforced Stone Rock"],
-  // "Iron Rock": ["Tempered Iron Rock", "Pure Iron Rock"],
-  // "Gold Rock": ["Pure Gold Rock", "Enchanted Gold Rock"],
-  // "Tree": ["Ancient Tree", "Sacred Tree"],
+  "Iron Rock": ["Tempered Iron Rock", "Refined Iron Rock"],
+  "Gold Rock": ["Pure Gold Rock", "Prime Gold Rock"],
+  Tree: ["Ancient Tree", "Sacred Tree"],
+};
+
+export const RESOURCE_MULTIPLIER: Record<UpgradeableResource, number> = {
+  "Stone Rock": 1,
+  "Fused Stone Rock": 4,
+  "Reinforced Stone Rock": 16,
+  Tree: 1,
+  "Ancient Tree": 4,
+  "Sacred Tree": 16,
+  "Iron Rock": 1,
+  "Refined Iron Rock": 4,
+  "Tempered Iron Rock": 16,
+  "Gold Rock": 1,
+  "Pure Gold Rock": 4,
+  "Prime Gold Rock": 16,
 };
 
 export const RESOURCE_DIMENSIONS: Record<ResourceName, Dimensions> = {
@@ -336,7 +466,7 @@ export const RESOURCE_DIMENSIONS: Record<ResourceName, Dimensions> = {
     width: 1,
     height: 1,
   },
-  "Enchanted Gold Rock": {
+  "Prime Gold Rock": {
     width: 1,
     height: 1,
   },

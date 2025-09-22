@@ -9,7 +9,7 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
 import {
-  isCollectibleActive,
+  isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
@@ -90,7 +90,7 @@ export const getHoneyMultiplier = (game: GameState) => {
     boostsUsed.push("King of Bears");
   }
 
-  if (isCollectibleActive({ name: "Bear Shrine", game })) {
+  if (isTemporaryCollectibleActive({ name: "Bear Shrine", game })) {
     multiplier += 0.5;
     boostsUsed.push("Bear Shrine");
   }
