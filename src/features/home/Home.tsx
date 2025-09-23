@@ -177,12 +177,10 @@ export const Home: React.FC = () => {
   );
 
   mapPlacements.push(
-    ...getKeys(buds)
-      .filter(
-        (budId) => !!buds[budId].coordinates && buds[budId].location === "home",
-      )
-      .flatMap((id) => {
-        const { x, y } = buds[id]!.coordinates!;
+    ...Object.entries(buds)
+      .filter(([, bud]) => !!bud.coordinates && bud.location === "home")
+      .flatMap(([id, bud]) => {
+        const { x, y } = bud.coordinates!;
 
         return (
           <MapPlacement
@@ -193,21 +191,19 @@ export const Home: React.FC = () => {
             width={1}
             enableOnVisitClick
           >
-            <Bud id={String(id)} x={x} y={y} />
+            <Bud id={id} x={x} y={y} />
           </MapPlacement>
         );
       }),
   );
 
   mapPlacements.push(
-    ...getKeys(petNFTs)
+    ...Object.entries(petNFTs)
       .filter(
-        (petNFTId) =>
-          !!petNFTs[petNFTId].coordinates &&
-          petNFTs[petNFTId].location === "home",
+        ([, petNFT]) => !!petNFT.coordinates && petNFT.location === "home",
       )
-      .flatMap((id) => {
-        const { x, y } = petNFTs[id]!.coordinates!;
+      .flatMap(([id, petNFT]) => {
+        const { x, y } = petNFT.coordinates!;
 
         return (
           <MapPlacement
@@ -218,7 +214,7 @@ export const Home: React.FC = () => {
             width={2}
             enableOnVisitClick
           >
-            <PetNFT id={String(id)} x={x} y={y} />
+            <PetNFT id={id} x={x} y={y} />
           </MapPlacement>
         );
       }),

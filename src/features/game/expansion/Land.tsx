@@ -817,7 +817,7 @@ export const LandComponent: React.FC = () => {
   const budElements = useMemo(() => {
     if (!buds) return [];
 
-    return getObjectEntries(buds)
+    return Object.entries(buds)
       .filter(
         ([, bud]) =>
           !!bud.coordinates && (!bud.location || bud.location === "farm"),
@@ -833,7 +833,7 @@ export const LandComponent: React.FC = () => {
             width={1}
             enableOnVisitClick
           >
-            <Bud id={String(id)} x={x} y={y} />
+            <Bud id={id} x={x} y={y} />
           </MapPlacement>
         );
       });
@@ -841,7 +841,7 @@ export const LandComponent: React.FC = () => {
 
   const petNFTElements = useMemo(() => {
     if (!petNFTs) return [];
-    return getObjectEntries(petNFTs)
+    return Object.entries(petNFTs)
       .filter(
         ([, pet]) =>
           !!pet.coordinates && (!pet.location || pet.location === "farm"),
@@ -857,7 +857,7 @@ export const LandComponent: React.FC = () => {
             width={2}
             enableOnVisitClick
           >
-            <PetNFT id={String(id)} x={x} y={y} />
+            <PetNFT id={id} x={x} y={y} />
           </MapPlacement>
         );
       });
