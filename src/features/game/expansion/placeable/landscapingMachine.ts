@@ -76,7 +76,7 @@ export const isPetNFTName = (
 ): name is PetNFTName => {
   if (!name) return false;
 
-  return name.includes("Pet");
+  return name.includes("Pet-");
 };
 export interface Context {
   action?: GameEventName<PlacementEvent>;
