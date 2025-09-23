@@ -19,31 +19,26 @@ import {
   getPetRequestXP,
   Pet,
   PetName,
+  PetNFT,
 } from "features/game/types/pets";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useState } from "react";
 import { ResetFoodRequests } from "./ResetFoodRequests";
+import { getPetImage } from "./lib/petShared";
 
-interface Props {
-  petName: PetName;
-  petData: Pet;
-  inventory: Inventory;
-}
-
-export const PetFeed: React.FC<
-  Props & {
-    handleFeed: (food: CookableName) => void;
-    handleResetRequests: (petName: PetName) => void;
-    isRevealingState: boolean;
-    isRevealedState: boolean;
-    onAcknowledged: () => void;
-    state: GameState;
-  }
-> = ({
-  petName,
+export const PetFeed: React.FC<{
+  petId: PetName | number;
+  petData: Pet | PetNFT;
+  handleFeed: (food: CookableName) => void;
+  handleResetRequests: (petId: PetName | number) => void;
+  isRevealingState: boolean;
+  isRevealedState: boolean;
+  onAcknowledged: () => void;
+  state: GameState;
+}> = ({
+  petId,
   petData,
   handleFeed,
-  inventory,
   handleResetRequests,
   isRevealingState,
   isRevealedState,
@@ -63,7 +58,7 @@ export const PetFeed: React.FC<
   const resetRequests = async () => {
     setIsPicking(true);
     await new Promise((resolve) => setTimeout(resolve, 5000));
-    handleResetRequests(petName);
+    handleResetRequests(petId);
     setIsRevealing(true);
     setIsPicking(false);
   };
@@ -85,9 +80,8 @@ export const PetFeed: React.FC<
   if (showResetRequests) {
     return (
       <ResetFoodRequests
-        petName={petName}
         petData={petData}
-        inventory={inventory}
+        inventory={state.inventory}
         todayDate={todayDate}
         resetRequests={resetRequests}
         setShowResetRequests={setShowResetRequests}
@@ -105,12 +99,11 @@ export const PetFeed: React.FC<
     <SplitScreenView
       panel={
         <PetFeedPanel
-          petName={petName}
+          petId={petId}
           petData={petData}
           selectedFood={selectedFood}
           handleFeed={handleFeed}
           petLevel={petLevel}
-          inventory={inventory}
           showConfirm={showConfirm}
           setShowConfirm={setShowConfirm}
           isToday={isToday}
@@ -120,12 +113,11 @@ export const PetFeed: React.FC<
       }
       content={
         <PetFeedContent
-          petName={petName}
           petData={petData}
           petLevel={petLevel}
           selectedFood={selectedFood}
           setSelectedFood={setSelectedFood}
-          inventory={inventory}
+          inventory={state.inventory}
           setShowConfirm={setShowConfirm}
           isToday={isToday}
         />
@@ -134,24 +126,23 @@ export const PetFeed: React.FC<
   );
 };
 
-const PetFeedPanel: React.FC<
-  Props & {
-    selectedFood: CookableName | null;
-    handleFeed: (food: CookableName) => void;
-    showConfirm: boolean;
-    setShowConfirm: (showConfirm: boolean) => void;
-    isToday: boolean;
-    setShowResetRequests: (showResetRequests: boolean) => void;
-    state: GameState;
-    petLevel: number;
-  }
-> = ({
-  petName,
+const PetFeedPanel: React.FC<{
+  petId: PetName | number;
+  petData: Pet | PetNFT;
+  selectedFood: CookableName | null;
+  handleFeed: (food: CookableName) => void;
+  showConfirm: boolean;
+  setShowConfirm: (showConfirm: boolean) => void;
+  isToday: boolean;
+  setShowResetRequests: (showResetRequests: boolean) => void;
+  state: GameState;
+  petLevel: number;
+}> = ({
+  petId,
   petData,
   selectedFood,
   petLevel,
   handleFeed,
-  inventory,
   showConfirm,
   setShowConfirm,
   isToday,
@@ -159,7 +150,7 @@ const PetFeedPanel: React.FC<
   state,
 }) => {
   const { t } = useAppTranslation();
-  const petImage = ITEM_DETAILS[petName].image;
+  const petImage = getPetImage(petId, "happy");
 
   if (!selectedFood) {
     return (
@@ -167,11 +158,11 @@ const PetFeedPanel: React.FC<
         <div className="flex flex-col items-center gap-2">
           <img
             src={petImage}
-            alt={petName}
+            alt={petData.name}
             className="w-12 h-12 object-contain"
           />
           <Label type="default" className="text-xs">
-            {petName}
+            {petData.name}
           </Label>
         </div>
         <div className="flex flex-row gap-2 items-center w-full">
@@ -197,8 +188,8 @@ const PetFeedPanel: React.FC<
   );
   const isDisabled =
     (isToday && petData.requests.foodFed?.includes(selectedFood)) ||
-    !inventory[selectedFood] ||
-    inventory[selectedFood].lessThan(1) ||
+    !state.inventory[selectedFood] ||
+    state.inventory[selectedFood].lessThan(1) ||
     isFoodLocked;
   return (
     <div className="flex flex-col items-center gap-1">
@@ -207,11 +198,11 @@ const PetFeedPanel: React.FC<
         <div className="flex flex-col items-center gap-2">
           <img
             src={petImage}
-            alt={petName}
+            alt={petData.name}
             className="w-12 h-12 object-contain"
           />
           <Label type="default" className="text-xs">
-            {petName}
+            {petData.name}
           </Label>
         </div>
 
@@ -259,7 +250,8 @@ const PetFeedPanel: React.FC<
             {t("pets.foodFedToday")}
           </Label>
         </div>
-      ) : !inventory[selectedFood] || inventory[selectedFood].lessThan(1) ? (
+      ) : !state.inventory[selectedFood] ||
+        state.inventory[selectedFood].lessThan(1) ? (
         <div className="flex w-full items-start">
           <Label type="danger" className="text-xs">
             {t("pets.insufficientFood")}
@@ -275,7 +267,9 @@ const PetFeedPanel: React.FC<
             if (showConfirm) handleFeed(selectedFood);
           }}
         >
-          {showConfirm ? t("confirm") : t("pets.feedPet", { pet: petName })}
+          {showConfirm
+            ? t("confirm")
+            : t("pets.feedPet", { pet: petData.name })}
         </Button>
         {showConfirm && (
           <Button onClick={() => setShowConfirm(false)}>{t("cancel")}</Button>
@@ -292,16 +286,15 @@ const PetFeedPanel: React.FC<
   );
 };
 
-const PetFeedContent: React.FC<
-  Props & {
-    selectedFood: CookableName | null;
-    setSelectedFood: (selectedFood: CookableName) => void;
-    setShowConfirm: (showConfirm: boolean) => void;
-    isToday: boolean;
-    petLevel: number;
-  }
-> = ({
-  petName,
+const PetFeedContent: React.FC<{
+  petData: Pet | PetNFT;
+  inventory: Inventory;
+  selectedFood: CookableName | null;
+  setSelectedFood: (selectedFood: CookableName) => void;
+  setShowConfirm: (showConfirm: boolean) => void;
+  isToday: boolean;
+  petLevel: number;
+}> = ({
   petData,
   petLevel,
   selectedFood,
@@ -316,7 +309,9 @@ const PetFeedContent: React.FC<
 
   return (
     <div className="flex flex-col gap-2">
-      <Label type="default">{t("pets.requestsToday", { pet: petName })}</Label>
+      <Label type="default">
+        {t("pets.requestsToday", { pet: petData.name })}
+      </Label>
       <div className="flex flex-row gap-2">
         {allFoods.map((food) => {
           const isRequested = foodRequests.includes(food);

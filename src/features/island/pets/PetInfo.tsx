@@ -3,70 +3,59 @@ import { Label } from "components/ui/Label";
 import { ResizableBar } from "components/ui/ProgressBar";
 import {
   getPetLevel,
-  isPetNeglected,
   Pet,
   PET_CATEGORIES,
-  PET_TYPES,
-  PetName,
+  PetNFT,
+  PetType,
 } from "features/game/types/pets";
 import levelUp from "assets/icons/level_up.png";
 import xpIcon from "assets/icons/xp.png";
 import React from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { PET_STATE_IMAGES } from "./petShared";
 
 interface Props {
-  petName: PetName;
-  petData: Pet;
+  data: Pet | PetNFT;
+  type: PetType;
+  image: string;
 }
 
-export const PetInfo: React.FC<Props> = ({ petName, petData }) => {
+export const PetInfo: React.FC<Props> = ({ data, type, image }) => {
   const { t } = useAppTranslation();
   const { level, percentage, currentProgress, experienceBetweenLevels } =
-    getPetLevel(petData.experience);
-
-  const isNeglected = isPetNeglected(petData);
-  const petImage = PET_STATE_IMAGES[petName][isNeglected ? "asleep" : "happy"];
+    getPetLevel(data.experience);
 
   // Find pet type and categories
-  const petType = PET_TYPES[petName];
-  const petCategory = petType ? PET_CATEGORIES[petType] : undefined;
+  const petCategory = PET_CATEGORIES[type];
 
   return (
     <div className="flex flex-col gap-4 p-2">
       {/* Pet Header */}
       <div className="flex flex-col sm:flex-row items-center gap-4">
-        <img
-          src={petImage}
-          alt={petName}
-          className="w-24 h-24 object-contain"
-        />
+        <img src={image} alt={data.name} className="w-24 h-24 object-contain" />
         <div className="flex-1">
           <Label type="default" className="text-lg mb-2">
-            {petName}
+            {data.name}
           </Label>
 
           {/* Pet Type and Categories */}
-          {petType && petCategory && (
-            <div className="flex flex-wrap gap-2 mb-3">
-              <Label type="info" className="text-xs">
-                {petType}
+          <div className="flex flex-wrap gap-2 mb-3">
+            <Label type="info" className="text-xs">
+              {type}
+            </Label>
+            <Label type="chill" className="text-xs">
+              {petCategory.primaryCategory}
+            </Label>
+            {petCategory.secondaryCategory && (
+              <Label type="formula" className="text-xs">
+                {petCategory.secondaryCategory}
               </Label>
-              <Label type="chill" className="text-xs">
-                {petCategory.primaryCategory}
+            )}
+            {petCategory.tertiaryCategory && (
+              <Label type="vibrant" className="text-xs">
+                {petCategory.tertiaryCategory}
               </Label>
-              {petCategory.secondaryCategory && (
-                <Label type="formula" className="text-xs">
-                  {petCategory.secondaryCategory}
-                </Label>
-              )}
-              {petCategory.tertiaryCategory && (
-                <Label type="vibrant" className="text-xs">
-                  {petCategory.tertiaryCategory}
-                </Label>
-              )}
-            </div>
-          )}
+            )}
+          </div>
 
           {/* Level and Experience */}
           <div className="flex flex-col gap-2">
@@ -96,7 +85,7 @@ export const PetInfo: React.FC<Props> = ({ petName, petData }) => {
           <div className="flex items-center gap-2 mt-2">
             <img src={SUNNYSIDE.icons.lightning} className="w-5 h-5" />
             <span className="text-sm">
-              {t("pets.energy", { energy: petData.energy })}
+              {t("pets.energy", { energy: data.energy })}
             </span>
           </div>
         </div>

@@ -5,7 +5,7 @@ import { InnerPanel } from "components/ui/Panel";
 import { Loading } from "features/auth/components/Loading";
 import { Inventory } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { PetName, Pet } from "features/game/types/pets";
+import { Pet, PetNFT } from "features/game/types/pets";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useState } from "react";
 
@@ -16,8 +16,7 @@ function getGemCost(resets: number) {
 }
 
 export const ResetFoodRequests: React.FC<{
-  petName: PetName;
-  petData: Pet;
+  petData: Pet | PetNFT;
   inventory: Inventory;
   todayDate: string;
   resetRequests: () => Promise<void>;
@@ -29,7 +28,6 @@ export const ResetFoodRequests: React.FC<{
   isPicking: boolean;
   isRevealingState: boolean;
 }> = ({
-  petName,
   petData,
   inventory,
   todayDate,
@@ -61,7 +59,7 @@ export const ResetFoodRequests: React.FC<{
       <InnerPanel>
         <Label type="warning">{t("pets.requestsReset")}</Label>
         <p className="text-sm p-1">
-          {t("pets.requestsResetDescription", { pet: petName })}
+          {t("pets.requestsResetDescription", { pet: petData.name })}
         </p>
         <Button
           onClick={() => {
@@ -86,7 +84,7 @@ export const ResetFoodRequests: React.FC<{
             onClick={() => setShowResetRequests(false)}
           />
           <Label type="default">
-            {t("pets.getNewRequests", { pet: petName })}
+            {t("pets.getNewRequests", { pet: petData.name })}
           </Label>
         </div>
         <Label type="info" secondaryIcon={ITEM_DETAILS.Gem.image}>
@@ -94,10 +92,10 @@ export const ResetFoodRequests: React.FC<{
         </Label>
       </div>
       <p className="text-xs px-1">
-        {t("pets.requestsResetedAt", { pet: petName })}
+        {t("pets.requestsResetedAt", { pet: petData.name })}
       </p>
       <p className="text-xs px-1">
-        {t("pets.requestsResetedAtDescription", { pet: petName })}
+        {t("pets.requestsResetedAtDescription", { pet: petData.name })}
       </p>
       <div className="flex flex-row gap-2 items-center justify-between">
         <Button

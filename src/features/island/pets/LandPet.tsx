@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import {
+  getPetType,
   isPetNapping,
   isPetNeglected,
   PetName,
@@ -9,9 +10,9 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { Transition } from "@headlessui/react";
 import { PetSprite } from "./PetSprite";
-import { _petData } from "./petShared";
+import { _petData } from "./lib/petShared";
 
-export const HomePet: React.FC<{ name: PetName }> = ({ name }) => {
+export const LandPet: React.FC<{ name: PetName }> = ({ name }) => {
   const [showPetModal, setShowPetModal] = useState(false);
   const [showXpPopup, setShowXpPopup] = useState(false);
   const { gameService } = useContext(Context);
@@ -20,11 +21,16 @@ export const HomePet: React.FC<{ name: PetName }> = ({ name }) => {
 
   const isNeglected = isPetNeglected(petData);
   const isNapping = isPetNapping(petData);
+  const petType = getPetType(petData);
+
+  if (!petType || !petData) {
+    return null;
+  }
 
   const handlePetClick = () => {
     if (isNapping) {
       gameService.send("pet.pet", {
-        pet: name,
+        petId: name,
       });
       setShowXpPopup(true);
       window.setTimeout(() => setShowXpPopup(false), 1000);
@@ -60,7 +66,10 @@ export const HomePet: React.FC<{ name: PetName }> = ({ name }) => {
       <PetModal
         show={showPetModal}
         onClose={() => setShowPetModal(false)}
-        petName={name}
+        petId={name}
+        isNeglected={isNeglected}
+        petType={petType}
+        data={petData}
       />
     </PetSprite>
   );

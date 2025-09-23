@@ -189,3 +189,19 @@ export const PET_STATE_IMAGES: Record<
 
 export const _petData = (name: PetName) => (state: MachineState) =>
   state.context.state.pets?.common?.[name];
+
+export const isPetNFT = (petId: PetName | number): petId is number => {
+  return typeof petId === "number";
+};
+
+export const getPetImage = (
+  petId: PetName | number,
+  state: "asleep" | "happy",
+) => {
+  // TODO: Fetch Pet NFT image
+  if (isPetNFT(petId)) {
+    return ITEM_DETAILS["Ramsey"].image;
+  }
+
+  return PET_STATE_IMAGES[petId][state];
+};

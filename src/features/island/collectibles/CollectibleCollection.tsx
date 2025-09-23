@@ -369,7 +369,7 @@ import { Poseidon } from "./components/Poseidon";
 import { Project } from "./components/Project";
 import { PetShrine } from "./components/PetShrine";
 import { ObsidianShrine } from "./components/ObsidianShrine";
-import { Pet } from "./components/pets/Pet";
+import { Pet } from "../pets/Pet";
 import { PetName, PET_TYPES } from "features/game/types/pets";
 
 export const COLLECTIBLE_COMPONENTS: Record<

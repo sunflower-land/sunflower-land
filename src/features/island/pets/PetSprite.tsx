@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PetName } from "features/game/types/pets";
-import { PET_PIXEL_STYLES, PET_STATE_IMAGES } from "./petShared";
+import { PET_PIXEL_STYLES, PET_STATE_IMAGES } from "./lib/petShared";
 
 interface PetSpriteProps {
   name: PetName;

@@ -6,11 +6,16 @@ import React from "react";
 import xpIcon from "assets/icons/xp.png";
 
 interface Props {
-  handleNeglectPet: (petName: PetName) => void;
-  petName: PetName;
+  handleNeglectPet: (petId: PetName | number) => void;
+  petId: PetName | number;
+  petName: string;
 }
 
-export const NeglectPet: React.FC<Props> = ({ handleNeglectPet, petName }) => {
+export const NeglectPet: React.FC<Props> = ({
+  handleNeglectPet,
+  petId,
+  petName,
+}) => {
   const { t } = useAppTranslation();
   return (
     <div className="flex flex-col gap-1">
@@ -19,7 +24,7 @@ export const NeglectPet: React.FC<Props> = ({ handleNeglectPet, petName }) => {
         {t("pets.neglectPetDescription", { pet: petName })}
       </p>
       <Label type="danger" secondaryIcon={xpIcon}>{`-500`}</Label>
-      <Button onClick={() => handleNeglectPet(petName)}>
+      <Button onClick={() => handleNeglectPet(petId)}>
         {t("pets.cheerPet", { pet: petName })}
       </Button>
     </div>

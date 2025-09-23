@@ -4,7 +4,7 @@ import { produce } from "immer";
 
 export type NeglectPetAction = {
   type: "pet.neglected";
-  pet: PetName;
+  petId: PetName | number;
 };
 
 type Options = {
@@ -15,8 +15,13 @@ type Options = {
 
 export function neglectPet({ state, action, createdAt }: Options) {
   return produce(state, (stateCopy) => {
-    const { pet } = action;
-    const petData = stateCopy.pets?.common?.[pet];
+    const { petId } = action;
+    const isPetNFT = typeof petId === "number";
+
+    const petData = isPetNFT
+      ? stateCopy.pets?.nfts?.[petId]
+      : stateCopy.pets?.common?.[petId];
+
     if (!petData) {
       throw new Error("Pet not found");
     }

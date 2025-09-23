@@ -4,7 +4,7 @@ import {
   isPetNapping,
   PetName,
 } from "features/game/types/pets";
-import { _petData } from "./petShared";
+import { _petData } from "./lib/petShared";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";

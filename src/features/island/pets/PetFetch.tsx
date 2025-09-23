@@ -14,24 +14,26 @@ import {
   isPetNeglected,
   Pet,
   PET_RESOURCES,
+  PetNFT,
   PetName,
   PetResourceName,
 } from "features/game/types/pets";
 import React, { useState } from "react";
+import { getPetImage } from "./lib/petShared";
 
 interface Props {
-  petName: PetName;
-  petData: Pet;
-  handlePetFetch: (petName: PetName, fetch: PetResourceName) => void;
+  petId: PetName | number;
+  petData: Pet | PetNFT;
+  handlePetFetch: (petId: PetName | number, fetch: PetResourceName) => void;
 }
 
 export const PetFetch: React.FC<Props> = ({
-  petName,
+  petId,
   petData,
   handlePetFetch,
 }) => {
   const { level } = getPetLevel(petData.experience);
-  const fetchConfig = getPetFetches(petName);
+  const fetchConfig = getPetFetches(petData);
   const isNapping = isPetNapping(petData);
   const neglected = isPetNeglected(petData);
 
@@ -44,7 +46,7 @@ export const PetFetch: React.FC<Props> = ({
     (f) => f.name === selectedFetch,
   );
 
-  const petImage = ITEM_DETAILS[petName].image;
+  const petImage = getPetImage(petId, "happy");
   const energyRequired = PET_RESOURCES[selectedFetch].energy;
   const requiredLevel = selectedFetchData?.level ?? 0;
   const hasRequiredLevel = level >= requiredLevel;
@@ -58,9 +60,9 @@ export const PetFetch: React.FC<Props> = ({
           <div className="flex flex-col items-center gap-1 w-full">
             <div className="flex flex-row-reverse sm:flex-col gap-2 justify-between w-full">
               <div className="flex flex-col items-center gap-2">
-                <img src={petImage} alt={petName} className="w-12 h-12" />
+                <img src={petImage} alt={petData.name} className="w-12 h-12" />
                 <Label type="default" className="text-xs">
-                  {petName}
+                  {petData.name}
                 </Label>
               </div>
 
@@ -100,7 +102,7 @@ export const PetFetch: React.FC<Props> = ({
                   !hasRequiredLevel ||
                   !hasEnoughEnergy
                 }
-                onClick={() => handlePetFetch(petName, selectedFetch)}
+                onClick={() => handlePetFetch(petId, selectedFetch)}
               >
                 {`Fetch ${fetchYield}`}
               </Button>

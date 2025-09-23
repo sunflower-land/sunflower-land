@@ -12,7 +12,7 @@ describe("feedPet", () => {
         state: { ...INITIAL_FARM },
         action: {
           type: "pet.fed",
-          pet: "Barkley",
+          petId: "Barkley",
           food: "Bumpkin Salad",
         },
       }),
@@ -39,7 +39,7 @@ describe("feedPet", () => {
             },
           },
         },
-        action: { type: "pet.fed", pet: "Barkley", food: "Bumpkin Salad" },
+        action: { type: "pet.fed", petId: "Barkley", food: "Bumpkin Salad" },
       }),
     ).toThrow("Pet is napping");
   });
@@ -64,7 +64,7 @@ describe("feedPet", () => {
             },
           },
         },
-        action: { type: "pet.fed", pet: "Barkley", food: "Bumpkin Salad" },
+        action: { type: "pet.fed", petId: "Barkley", food: "Bumpkin Salad" },
       }),
     ).toThrow("Pet is in neglected state");
   });
@@ -90,7 +90,7 @@ describe("feedPet", () => {
         },
         action: {
           type: "pet.fed",
-          pet: "Barkley",
+          petId: "Barkley",
           food: "Bumpkin Salad",
         },
       }),
@@ -117,7 +117,7 @@ describe("feedPet", () => {
         },
         action: {
           type: "pet.fed",
-          pet: "Barkley",
+          petId: "Barkley",
           food: "Bumpkin Salad",
         },
       }),
@@ -147,7 +147,7 @@ describe("feedPet", () => {
         },
         action: {
           type: "pet.fed",
-          pet: "Barkley",
+          petId: "Barkley",
           food: "Bumpkin Salad",
         },
         createdAt: now,
@@ -181,7 +181,7 @@ describe("feedPet", () => {
         },
         action: {
           type: "pet.fed",
-          pet: "Barkley",
+          petId: "Barkley",
           food: "Bumpkin Salad",
         },
         createdAt: now,
@@ -214,7 +214,7 @@ describe("feedPet", () => {
         },
         action: {
           type: "pet.fed",
-          pet: "Barkley",
+          petId: "Barkley",
           food: "Bumpkin Salad",
         },
         createdAt: now,
@@ -246,7 +246,7 @@ describe("feedPet", () => {
       },
       action: {
         type: "pet.fed",
-        pet: "Barkley",
+        petId: "Barkley",
         food: "Bumpkin Salad",
       },
       createdAt: now,
@@ -285,7 +285,7 @@ describe("feedPet", () => {
       },
       action: {
         type: "pet.fed",
-        pet: "Barkley",
+        petId: "Barkley",
         food: "Bumpkin Salad",
       },
       createdAt: now,
@@ -323,7 +323,7 @@ describe("feedPet", () => {
       },
       action: {
         type: "pet.fed",
-        pet: "Barkley",
+        petId: "Barkley",
         food: "Bumpkin Salad",
       },
       createdAt: now,

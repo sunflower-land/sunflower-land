@@ -9,6 +9,7 @@ import {
   Pet,
   PET_REQUESTS,
   PetName,
+  PetNFT,
 } from "features/game/types/pets";
 import { produce } from "immer";
 
@@ -58,7 +59,7 @@ export function getPetExperience({
  * @param pet Pet
  * @returns Pet's food requests
  */
-export function getPetFoodRequests(pet: Pet, petLevel: number) {
+export function getPetFoodRequests(pet: Pet | PetNFT, petLevel: number) {
   let requests = [...pet.requests.food];
 
   if (petLevel < 10) {
@@ -74,7 +75,7 @@ export function getPetFoodRequests(pet: Pet, petLevel: number) {
 }
 export type FeedPetAction = {
   type: "pet.fed";
-  pet: PetName;
+  petId: PetName | number;
   food: CookableName;
 };
 
@@ -86,9 +87,13 @@ type Options = {
 
 export function feedPet({ state, action, createdAt = Date.now() }: Options) {
   return produce(state, (stateCopy) => {
-    const { pet, food } = action;
+    const { petId, food } = action;
 
-    const petData = stateCopy.pets?.common?.[pet];
+    const isPetNFT = typeof petId === "number";
+
+    const petData = isPetNFT
+      ? stateCopy.pets?.nfts?.[petId]
+      : stateCopy.pets?.common?.[petId];
 
     if (!petData) {
       throw new Error("Pet not found");

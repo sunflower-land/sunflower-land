@@ -7,7 +7,7 @@ describe("neglectPet", () => {
     expect(() =>
       neglectPet({
         state: { ...INITIAL_FARM },
-        action: { type: "pet.neglected", pet: "Barkley" },
+        action: { type: "pet.neglected", petId: "Barkley" },
         createdAt: now,
       }),
     ).toThrow("Pet not found");
@@ -29,7 +29,7 @@ describe("neglectPet", () => {
             },
           },
         },
-        action: { type: "pet.neglected", pet: "Barkley" },
+        action: { type: "pet.neglected", petId: "Barkley" },
         createdAt: now,
       }),
     ).toThrow("Pet is not in neglected state");
@@ -50,7 +50,7 @@ describe("neglectPet", () => {
           },
         },
       },
-      action: { type: "pet.neglected", pet: "Barkley" },
+      action: { type: "pet.neglected", petId: "Barkley" },
       createdAt: now,
     });
 
