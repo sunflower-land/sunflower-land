@@ -135,7 +135,7 @@ const _buildingPositions = (state: MachineState) => {
   return {
     buildings: state.context.state.buildings,
     positions: getObjectEntries(state.context.state.buildings).flatMap(
-      ([_, value]) =>
+      ([, value]) =>
         value
           ?.map((item) => item.coordinates)
           .filter((coords) => coords !== undefined)
@@ -150,7 +150,7 @@ const _mushroomPositions = (state: MachineState) => {
 
   return {
     mushrooms,
-    positions: getObjectEntries(mushrooms).flatMap(([_, mushroom]) => {
+    positions: getObjectEntries(mushrooms).flatMap(([, mushroom]) => {
       return {
         x: mushroom.x,
         y: mushroom.y,
@@ -166,7 +166,7 @@ const _clutterPositions = (state: MachineState) => {
 
   return {
     clutter,
-    positions: getObjectEntries(clutter.locations).flatMap(([_, location]) => {
+    positions: getObjectEntries(clutter.locations).flatMap(([, location]) => {
       return {
         x: location.x,
         y: location.y,
@@ -182,8 +182,8 @@ const _budPositions = (state: MachineState) => {
   return {
     buds,
     positions: getObjectEntries(buds)
-      .filter(([_, bud]) => !!bud.coordinates)
-      .flatMap(([_, bud]) => {
+      .filter(([, bud]) => !!bud.coordinates)
+      .flatMap(([, bud]) => {
         return {
           x: bud.coordinates!.x,
           y: bud.coordinates!.y,
@@ -200,8 +200,8 @@ const _petNFTPositions = (state: MachineState) => {
   return {
     nfts,
     positions: getObjectEntries(nfts)
-      .filter(([_, nft]) => !!nft.coordinates)
-      .flatMap(([_, nft]) => {
+      .filter(([, nft]) => !!nft.coordinates)
+      .flatMap(([, nft]) => {
         return {
           x: nft.coordinates!.x,
           y: nft.coordinates!.y,
@@ -334,7 +334,7 @@ export const LandComponent: React.FC = () => {
 
   useLayoutEffect(() => {
     scrollIntoView(Section.GenesisBlock, "auto");
-  }, []);
+  }, [scrollIntoView]);
 
   const isFirstRender = useFirstRender();
 
@@ -819,7 +819,7 @@ export const LandComponent: React.FC = () => {
 
     return getObjectEntries(buds)
       .filter(
-        ([_, bud]) =>
+        ([, bud]) =>
           !!bud.coordinates && (!bud.location || bud.location === "farm"),
       )
       .flatMap(([id, bud]) => {
@@ -843,7 +843,7 @@ export const LandComponent: React.FC = () => {
     if (!petNFTs) return [];
     return getObjectEntries(petNFTs)
       .filter(
-        ([_, pet]) =>
+        ([, pet]) =>
           !!pet.coordinates && (!pet.location || pet.location === "farm"),
       )
       .flatMap(([id, pet]) => {
