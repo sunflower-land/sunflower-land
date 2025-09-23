@@ -3,7 +3,6 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, {
   useCallback,
   useContext,
-  useEffect,
   useLayoutEffect,
   useState,
 } from "react";
@@ -166,17 +165,13 @@ export const RewardOptions: React.FC<{ selectedButton?: RewardType }> = ({
   // Initialize chest service to check if chest is locked
   const chestService = useInterpret(rewardChestMachine, {
     context: {
-      lastUsedCode: dailyRewards?.chest?.code ?? 0,
+      // First code is 1
+      nextCode: dailyRewards?.chest?.code ?? 1,
       openedAt: dailyRewards?.chest?.collectedAt ?? 0,
       bumpkinLevel,
     },
   });
   const [chestState] = useActor(chestService);
-
-  // Load the chest state when component mounts
-  useEffect(() => {
-    chestService.send("LOAD");
-  }, [chestService]);
 
   const [selected, setSelected] = useState<RewardType | undefined>(
     selectedButton,
@@ -187,7 +182,6 @@ export const RewardOptions: React.FC<{ selectedButton?: RewardType }> = ({
     return (
       <DailyRewardContent
         onClose={() => {
-          chestService.send("LOAD");
           setSelected(undefined);
         }}
         gameService={gameService}
