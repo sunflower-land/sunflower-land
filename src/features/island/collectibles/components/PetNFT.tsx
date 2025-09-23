@@ -38,7 +38,7 @@ export const PetNFT: React.FC<Props> = ({ id }) => {
 
   return (
     <PetSprite
-      name="Ramsey"
+      id={Number(id)}
       isNeglected={isNeglected}
       isNapping={isNapping}
       clickable

@@ -24,7 +24,7 @@ export function removePlaceable({
 }: {
   state: GameState;
   id: string;
-  name: PlaceableName | "Bud";
+  name: PlaceableName | "Bud" | "PetNFT";
 }) {
   const game = cloneDeep(state);
 
@@ -51,6 +51,11 @@ export function removePlaceable({
 
   if (name === "Bud") {
     delete game.buds?.[Number(id)].coordinates;
+    return game;
+  }
+
+  if (name === "PetNFT") {
+    delete game.pets?.nfts?.[Number(id)].coordinates;
     return game;
   }
 

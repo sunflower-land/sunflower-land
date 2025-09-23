@@ -2,10 +2,10 @@ import React from "react";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PetName } from "features/game/types/pets";
-import { PET_PIXEL_STYLES, PET_STATE_IMAGES } from "./lib/petShared";
+import { getPetImage, PET_PIXEL_STYLES } from "./lib/petShared";
 
 interface PetSpriteProps {
-  name: PetName;
+  id: PetName | number;
   isNeglected: boolean;
   isNapping: boolean;
   onClick?: () => void;
@@ -14,24 +14,29 @@ interface PetSpriteProps {
 }
 
 export const PetSprite: React.FC<PetSpriteProps> = ({
-  name,
+  id,
   isNeglected,
   isNapping,
   onClick,
   clickable = false,
   children,
 }) => {
-  const petImage =
-    PET_STATE_IMAGES[name][isNeglected || isNapping ? "asleep" : "happy"];
+  const petImage = getPetImage(
+    id,
+    isNeglected || isNapping ? "asleep" : "happy",
+  );
 
   return (
-    <div className="absolute" style={{ ...PET_PIXEL_STYLES[name] }}>
+    <div
+      className="absolute"
+      style={{ ...PET_PIXEL_STYLES[typeof id === "number" ? `Ramsey` : id] }}
+    >
       <img
         src={petImage}
         className={classNames("absolute w-full", {
           "cursor-pointer hover:img-highlight": clickable,
         })}
-        alt={name}
+        alt={typeof id === "number" ? `Ramsey` : id}
         onClick={onClick}
       />
 

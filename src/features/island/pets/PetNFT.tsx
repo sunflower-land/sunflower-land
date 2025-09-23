@@ -19,7 +19,7 @@ const PetNFTComponent: React.FC<PetNFTProps> = ({ id, x, y }) => {
 
   if (landscaping)
     return (
-      <MoveableComponent name="Bud" id={String(id)} index={0} x={x} y={y}>
+      <MoveableComponent name="PetNFT" id={String(id)} index={0} x={x} y={y}>
         <_PetNFT id={String(id)} />
       </MoveableComponent>
     );

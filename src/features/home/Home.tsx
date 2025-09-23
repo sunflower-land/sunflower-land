@@ -40,6 +40,7 @@ import { PlayerModal } from "features/social/PlayerModal";
 import { hasFeatureAccess } from "lib/flags";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { Context as AuthContext } from "features/auth/lib/Provider";
+import { PetNFT } from "features/island/pets/PetNFT";
 
 const BACKGROUND_IMAGE: Record<IslandType, string> = {
   basic: SUNNYSIDE.land.tent_inside,
@@ -59,6 +60,7 @@ function acknowledgeIntro() {
 const _landscaping = (state: MachineState) => state.matches("landscaping");
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _buds = (state: MachineState) => state.context.state.buds ?? {};
+const _petNFTs = (state: MachineState) => state.context.state.pets?.nfts ?? {};
 const _island = (state: MachineState) => state.context.state.island;
 const _homeCollectiblePositions = (state: MachineState) => {
   return {
@@ -102,6 +104,7 @@ export const Home: React.FC = () => {
   const landscaping = useSelector(gameService, _landscaping);
   const bumpkin = useSelector(gameService, _bumpkin);
   const buds = useSelector(gameService, _buds);
+  const petNFTs = useSelector(gameService, _petNFTs);
   const island = useSelector(gameService, _island);
   const { collectibles, positions: homeCollectiblePositions } = useSelector(
     gameService,
@@ -191,6 +194,31 @@ export const Home: React.FC = () => {
             enableOnVisitClick
           >
             <Bud id={String(id)} x={x} y={y} />
+          </MapPlacement>
+        );
+      }),
+  );
+
+  mapPlacements.push(
+    ...getKeys(petNFTs)
+      .filter(
+        (petNFTId) =>
+          !!petNFTs[petNFTId].coordinates &&
+          petNFTs[petNFTId].location === "home",
+      )
+      .flatMap((id) => {
+        const { x, y } = petNFTs[id]!.coordinates!;
+
+        return (
+          <MapPlacement
+            key={`petNFT-${id}`}
+            x={x}
+            y={y}
+            height={2}
+            width={2}
+            enableOnVisitClick
+          >
+            <PetNFT id={String(id)} x={x} y={y} />
           </MapPlacement>
         );
       }),

@@ -27,13 +27,13 @@ import {
   MachineState,
 } from "features/game/expansion/placeable/landscapingMachine";
 import {
-  BUILDINGS_DIMENSIONS,
   BuildingName,
+  BUILDINGS_DIMENSIONS,
   Dimensions,
 } from "features/game/types/buildings";
 import { GameEventName, PlacementEvent } from "features/game/events";
 import { RESOURCES, ResourceName } from "features/game/types/resources";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import { removePlaceable } from "./lib/placing";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -46,6 +46,13 @@ import flipped from "assets/icons/flipped.webp";
 import flipIcon from "assets/icons/flip.webp";
 import debounce from "lodash.debounce";
 import { LIMITED_ITEMS } from "features/game/events/landExpansion/burnCollectible";
+
+type MoveableName =
+  | CollectibleName
+  | BuildingName
+  | "Chicken"
+  | "Bud"
+  | "PetNFT";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -74,9 +81,7 @@ export const RESOURCE_MOVE_EVENTS: Record<
   "Prime Gold Rock": "gold.moved",
 };
 
-function getMoveAction(
-  name: InventoryItemName | "Bud",
-): GameEventName<PlacementEvent> {
+function getMoveAction(name: MoveableName): GameEventName<PlacementEvent> {
   if (name in BUILDINGS_DIMENSIONS) {
     return "building.moved";
   }
@@ -91,6 +96,10 @@ function getMoveAction(
 
   if (name === "Bud") {
     return "bud.moved";
+  }
+
+  if (name === "PetNFT") {
+    // return "petNFT.moved";
   }
 
   throw new Error("No matching move event");
@@ -123,7 +132,7 @@ export const RESOURCES_REMOVE_ACTIONS: Record<
 };
 
 export function getRemoveAction(
-  name: InventoryItemName | "Bud",
+  name: MoveableName,
 ): GameEventName<PlacementEvent> | null {
   if (
     name in BUILDINGS_DIMENSIONS &&
@@ -147,6 +156,12 @@ export function getRemoveAction(
     return "bud.removed";
   }
 
+  if (name === "PetNFT") {
+    // TODO: Implement petNFT.removed
+    // return "petNFT.removed";
+    return null;
+  }
+
   if (name in RESOURCES_REMOVE_ACTIONS) {
     return RESOURCES_REMOVE_ACTIONS[name as Exclude<ResourceName, "Boulder">];
   }
@@ -154,12 +169,11 @@ export function getRemoveAction(
   return null;
 }
 
-export const isCollectible = (
-  name: CollectibleName | BuildingName | "Bud",
-): name is CollectibleName => name in COLLECTIBLES_DIMENSIONS;
+export const isCollectible = (name: MoveableName): name is CollectibleName =>
+  name in COLLECTIBLES_DIMENSIONS;
 
 export interface MovableProps {
-  name: CollectibleName | BuildingName | "Bud";
+  name: MoveableName;
   id: string;
   index: number;
   x: number;
@@ -337,6 +351,7 @@ export const MoveableComponent: React.FC<
     ...ANIMAL_DIMENSIONS,
     ...RESOURCE_DIMENSIONS,
     ...{ Bud: { width: 1, height: 1 } },
+    ...{ PetNFT: { width: 2, height: 2 } },
   }[name];
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -355,7 +370,7 @@ export const MoveableComponent: React.FC<
         coordinatesX: number;
         coordinatesY: number;
         id: string;
-        name: CollectibleName | BuildingName | "Bud";
+        name: MoveableName;
         location: PlaceableLocation;
         dimensions: Dimensions;
       }) => {
