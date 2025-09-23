@@ -53,7 +53,7 @@ export const DEV_PlayerSearch: React.FC<ContentComponentProps> = () => {
     return <Loading />;
   }
 
-  if (state === "loaded" && !farm) {
+  if (state === "loaded" && !farm?.id) {
     return <p>{`Farm not found`}</p>;
   }
 
