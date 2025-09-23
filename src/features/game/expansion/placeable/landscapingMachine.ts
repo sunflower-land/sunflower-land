@@ -21,6 +21,7 @@ import {
   RESOURCES_REMOVE_ACTIONS,
 } from "features/island/collectibles/MovableComponent";
 import { PlaceableLocation } from "features/game/types/collectibles";
+import { PetNFTName } from "features/game/types/pets";
 
 export const RESOURCE_PLACE_EVENTS: Partial<
   Record<ResourceName, GameEventName<PlacementEvent>>
@@ -63,8 +64,20 @@ export function placeEvent(
   return "collectible.placed";
 }
 
-export type LandscapingPlaceable = BuildingName | CollectibleName | BudName;
+export type LandscapingPlaceable =
+  | BuildingName
+  | CollectibleName
+  | ResourceName
+  | BudName
+  | PetNFTName;
 
+export const isPetNFTName = (
+  name?: LandscapingPlaceable,
+): name is PetNFTName => {
+  if (!name) return false;
+
+  return name.includes("Pet");
+};
 export interface Context {
   action?: GameEventName<PlacementEvent>;
   coordinates: Coordinates;
@@ -81,7 +94,7 @@ export interface Context {
 
   moving?: {
     id: string;
-    name: InventoryItemName;
+    name: LandscapingPlaceable;
   };
 
   maximum?: number;
@@ -142,7 +155,7 @@ type ConstructEvent = {
 type MoveEvent = {
   type: "MOVE";
   id: string;
-  name: InventoryItemName;
+  name: LandscapingPlaceable;
 };
 
 export type SaveEvent = {

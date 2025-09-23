@@ -4,7 +4,6 @@ import chest from "assets/icons/chest.png";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
 import { Chest } from "./inventory/Chest";
-import { getChestBuds, getChestItems } from "./inventory/utils/inventory";
 import { getKeys } from "features/game/types/craftables";
 import { NPC_WEARABLES } from "lib/npcs";
 import { BudName } from "features/game/types/buds";
@@ -14,6 +13,7 @@ import { Biomes } from "./inventory/Biomes";
 import { LAND_BIOMES } from "features/island/biomes/biomes";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { LandscapingPlaceable } from "features/game/expansion/placeable/landscapingMachine";
 
 interface Props {
   show: boolean;
@@ -31,14 +31,8 @@ export const LandscapingChest: React.FC<Props> = ({
   onPlaceBud,
 }) => {
   const { t } = useAppTranslation();
-  const buds = getKeys(getChestBuds(state)).map(
-    (budId) => `Bud-${budId}` as BudName,
-  );
 
-  const items = getChestItems(state);
-  const [selected, setSelected] = useState(
-    [...buds, ...getKeys(items).sort((a, b) => a.localeCompare(b))][0],
-  );
+  const [selected, setSelected] = useState<LandscapingPlaceable>();
   const [currentTab, setCurrentTab] = useState<"Chest" | "Biomes">("Chest");
   const hasBiomes = getKeys(LAND_BIOMES).some((item) =>
     (state.inventory[item] ?? new Decimal(0)).gt(0),

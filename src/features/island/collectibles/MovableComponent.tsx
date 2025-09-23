@@ -23,11 +23,12 @@ import Draggable from "react-draggable";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import { useSelector } from "@xstate/react";
 import {
+  isPetNFTName,
+  LandscapingPlaceable,
   MachineInterpreter,
   MachineState,
 } from "features/game/expansion/placeable/landscapingMachine";
 import {
-  BuildingName,
   BUILDINGS_DIMENSIONS,
   Dimensions,
 } from "features/game/types/buildings";
@@ -46,13 +47,7 @@ import flipped from "assets/icons/flipped.webp";
 import flipIcon from "assets/icons/flip.webp";
 import debounce from "lodash.debounce";
 import { LIMITED_ITEMS } from "features/game/events/landExpansion/burnCollectible";
-
-type MoveableName =
-  | CollectibleName
-  | BuildingName
-  | "Chicken"
-  | "Bud"
-  | "PetNFT";
+import { isBudName } from "features/game/types/buds";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -81,7 +76,9 @@ export const RESOURCE_MOVE_EVENTS: Record<
   "Prime Gold Rock": "gold.moved",
 };
 
-function getMoveAction(name: MoveableName): GameEventName<PlacementEvent> {
+function getMoveAction(
+  name: LandscapingPlaceable,
+): GameEventName<PlacementEvent> {
   if (name in BUILDINGS_DIMENSIONS) {
     return "building.moved";
   }
@@ -94,11 +91,11 @@ function getMoveAction(name: MoveableName): GameEventName<PlacementEvent> {
     return "collectible.moved";
   }
 
-  if (name === "Bud") {
+  if (isBudName(name)) {
     return "bud.moved";
   }
 
-  if (name === "PetNFT") {
+  if (isPetNFTName(name)) {
     // return "petNFT.moved";
   }
 
@@ -132,8 +129,12 @@ export const RESOURCES_REMOVE_ACTIONS: Record<
 };
 
 export function getRemoveAction(
-  name: MoveableName,
+  name: LandscapingPlaceable | undefined,
 ): GameEventName<PlacementEvent> | null {
+  if (!name) {
+    return null;
+  }
+
   if (
     name in BUILDINGS_DIMENSIONS &&
     name !== "Manor" &&
@@ -152,12 +153,11 @@ export function getRemoveAction(
     return "collectible.removed";
   }
 
-  if (name === "Bud") {
+  if (isBudName(name)) {
     return "bud.removed";
   }
 
-  if (name === "PetNFT") {
-    // TODO: Implement petNFT.removed
+  if (isPetNFTName(name)) {
     // return "petNFT.removed";
     return null;
   }
@@ -169,11 +169,12 @@ export function getRemoveAction(
   return null;
 }
 
-export const isCollectible = (name: MoveableName): name is CollectibleName =>
-  name in COLLECTIBLES_DIMENSIONS;
+export const isCollectible = (
+  name: LandscapingPlaceable,
+): name is CollectibleName => name in COLLECTIBLES_DIMENSIONS;
 
 export interface MovableProps {
-  name: MoveableName;
+  name: LandscapingPlaceable;
   id: string;
   index: number;
   x: number;
@@ -345,14 +346,18 @@ export const MoveableComponent: React.FC<
     }
   }, [isSelected, movingItem]);
 
-  const dimensions = {
+  const DIMENSIONS_MAP = {
     ...BUILDINGS_DIMENSIONS,
     ...COLLECTIBLES_DIMENSIONS,
     ...ANIMAL_DIMENSIONS,
     ...RESOURCE_DIMENSIONS,
-    ...{ Bud: { width: 1, height: 1 } },
-    ...{ PetNFT: { width: 2, height: 2 } },
-  }[name];
+  };
+
+  const dimensions = isBudName(name)
+    ? { width: 1, height: 1 }
+    : isPetNFTName(name)
+      ? { width: 2, height: 2 }
+      : DIMENSIONS_MAP[name];
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onStop = useCallback(
@@ -370,7 +375,7 @@ export const MoveableComponent: React.FC<
         coordinatesX: number;
         coordinatesY: number;
         id: string;
-        name: MoveableName;
+        name: LandscapingPlaceable;
         location: PlaceableLocation;
         dimensions: Dimensions;
       }) => {
@@ -408,7 +413,11 @@ export const MoveableComponent: React.FC<
           setPosition({ x: 0, y: 0 });
           gameService.send(getMoveAction(name), {
             // Don't send name for resource events and Bud events
-            ...(name in RESOURCE_MOVE_EVENTS || name === "Bud" ? {} : { name }),
+            ...(name in RESOURCE_MOVE_EVENTS ||
+            isBudName(name) ||
+            isPetNFTName(name)
+              ? {}
+              : { name }),
             coordinates: { x, y },
             id,
             // Resources do not require location to be passed

@@ -65,7 +65,7 @@ export const VisitingPet: React.FC<{ name: PetName }> = ({ name }) => {
 
   return (
     <PetSprite
-      name={name}
+      id={name}
       isNeglected={isNeglected}
       isNapping={isNapping}
       onClick={handlePetClick}

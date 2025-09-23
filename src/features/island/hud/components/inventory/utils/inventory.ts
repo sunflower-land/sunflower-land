@@ -24,6 +24,7 @@ import {
   CollectionName,
   MarketplaceTradeableName,
 } from "features/game/types/marketplace";
+import { PetNFTs } from "features/game/types/pets";
 import {
   RESOURCE_STATE_ACCESSORS,
   RESOURCE_DIMENSIONS,
@@ -98,6 +99,12 @@ export const getChestBuds = (
 ): NonNullable<GameState["buds"]> => {
   return Object.fromEntries(
     Object.entries(state.buds ?? {}).filter(([id, bud]) => !bud.coordinates),
+  );
+};
+
+export const getChestPets = (pets: PetNFTs): PetNFTs => {
+  return Object.fromEntries(
+    Object.entries(pets ?? {}).filter(([id, pet]) => !pet.coordinates),
   );
 };
 

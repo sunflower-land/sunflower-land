@@ -9,6 +9,7 @@ import { useActor, useSelector } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
 import {
+  isPetNFTName,
   LandscapingPlaceable,
   MachineInterpreter,
 } from "features/game/expansion/placeable/landscapingMachine";
@@ -118,6 +119,8 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
   const dimensions = useMemo(() => {
     if (isBudName(placeable)) {
       return { width: 1, height: 1 };
+    } else if (isPetNFTName(placeable)) {
+      return { width: 2, height: 2 };
     } else if (placeable) {
       return {
         ...BUILDINGS_DIMENSIONS,
@@ -141,9 +144,10 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
     const items = getChestItems(state);
 
-    const available = isBudName(placeable)
-      ? new Decimal(1)
-      : items[placeable] ?? new Decimal(0);
+    const available =
+      isBudName(placeable) || isPetNFTName(placeable)
+        ? new Decimal(1)
+        : items[placeable] ?? new Decimal(0);
 
     let hasRequirements = false;
     if (requirements) {
@@ -169,7 +173,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
       placeMore = false;
     }
 
-    if (isBudName(placeable)) {
+    if (isBudName(placeable) || isPetNFTName(placeable)) {
       placeMore = false;
     } else {
       const previous = state.inventory[placeable] ?? new Decimal(0);
@@ -273,7 +277,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     season: TemperateSeasonName,
     level?: number,
   ) => {
-    if (placeable && isBudName(placeable)) {
+    if (placeable && (isBudName(placeable) || isPetNFTName(placeable))) {
       return "";
     }
     if (!placeable) return "";
@@ -286,9 +290,10 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
   if (!placeable) return null;
 
   const items = getChestItems(state);
-  const available = isBudName(placeable)
-    ? new Decimal(1)
-    : items[placeable] ?? new Decimal(0);
+  const available =
+    isBudName(placeable) || isPetNFTName(placeable)
+      ? new Decimal(1)
+      : items[placeable] ?? new Decimal(0);
 
   const image = getPlaceableImage(placeable, island, season, buildingLevel);
 

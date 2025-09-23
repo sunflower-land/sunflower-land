@@ -14,6 +14,7 @@ import { Biomes } from "./Biomes";
 import { getKeys } from "features/game/types/decorations";
 import { LAND_BIOMES } from "features/island/biomes/biomes";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { LandscapingPlaceable } from "features/game/expansion/placeable/landscapingMachine";
 
 interface Props {
   show: boolean;
@@ -21,8 +22,8 @@ interface Props {
   state: GameState;
   selectedBasketItem?: InventoryItemName;
   onSelectBasketItem: (name: InventoryItemName) => void;
-  selectedChestItem: InventoryItemName | BudName;
-  onSelectChestItem: (name: InventoryItemName | BudName) => void;
+  selectedChestItem?: LandscapingPlaceable;
+  onSelectChestItem: (name: LandscapingPlaceable) => void;
   onPlace?: (name: InventoryItemName) => void;
   onPlaceBud?: (bud: BudName) => void;
   onDepositClick?: () => void;

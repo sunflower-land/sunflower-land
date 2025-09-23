@@ -1,8 +1,9 @@
 import {
-  PlaceableName,
-  BUILDINGS,
-  BuildingName,
-} from "features/game/types/buildings";
+  isPetNFTName,
+  LandscapingPlaceable,
+} from "features/game/expansion/placeable/landscapingMachine";
+import { isBudName } from "features/game/types/buds";
+import { BUILDINGS, BuildingName } from "features/game/types/buildings";
 import {
   COLLECTIBLES_DIMENSIONS,
   CollectibleName,
@@ -24,7 +25,7 @@ export function removePlaceable({
 }: {
   state: GameState;
   id: string;
-  name: PlaceableName | "Bud" | "PetNFT";
+  name: LandscapingPlaceable;
 }) {
   const game = cloneDeep(state);
 
@@ -49,12 +50,12 @@ export function removePlaceable({
     return game;
   }
 
-  if (name === "Bud") {
+  if (isBudName(name)) {
     delete game.buds?.[Number(id)].coordinates;
     return game;
   }
 
-  if (name === "PetNFT") {
+  if (isPetNFTName(name)) {
     delete game.pets?.nfts?.[Number(id)].coordinates;
     return game;
   }

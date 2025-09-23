@@ -8,7 +8,7 @@ import React, {
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
-import { MachineInterpreter } from "./landscapingMachine";
+import { isPetNFTName, MachineInterpreter } from "./landscapingMachine";
 
 import Draggable from "react-draggable";
 import { detectCollision } from "./lib/collisionDetection";
@@ -135,6 +135,8 @@ export const Placeable: React.FC<Props> = ({ location }) => {
   let dimensions = { width: 0, height: 0 };
   if (isBudName(placeable)) {
     dimensions = { width: 1, height: 1 };
+  } else if (isPetNFTName(placeable)) {
+    dimensions = { width: 2, height: 2 };
   } else if (placeable) {
     dimensions = {
       ...BUILDINGS_DIMENSIONS,
@@ -232,7 +234,9 @@ export const Placeable: React.FC<Props> = ({ location }) => {
 
   const Collectible = isBudName(placeable)
     ? PLACEABLES(gameState.context.state)["Bud"]
-    : PLACEABLES(gameState.context.state)[placeable];
+    : isPetNFTName(placeable)
+      ? PLACEABLES(gameState.context.state)["PetNFT"]
+      : PLACEABLES(gameState.context.state)[placeable];
 
   return (
     <>

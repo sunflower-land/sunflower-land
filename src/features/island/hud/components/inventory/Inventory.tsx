@@ -6,13 +6,11 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { CollectibleName, getKeys } from "features/game/types/craftables";
-import { getChestItems } from "./utils/inventory";
-import { KNOWN_IDS } from "features/game/types";
+import { CollectibleName } from "features/game/types/craftables";
 import { BudName } from "features/game/types/buds";
-import { useSound } from "lib/utils/hooks/useSound";
 import { BasketButton } from "./BasketButton";
 import { SeedName, SEEDS } from "features/game/types/seeds";
+import { LandscapingPlaceable } from "features/game/expansion/placeable/landscapingMachine";
 
 interface Props {
   state: GameState;
@@ -29,7 +27,7 @@ interface Props {
 
 export const Inventory: React.FC<Props> = ({
   state,
-  selectedItem: selectedBasketItem,
+  selectedItem,
   shortcutItem,
   isFullUser,
   isFarming,
@@ -41,8 +39,6 @@ export const Inventory: React.FC<Props> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const inventory = useSound("inventory");
-
   useEffect(() => {
     const eventSubscription = PubSub.subscribe("OPEN_INVENTORY", () => {
       setIsOpen(true);
@@ -53,20 +49,14 @@ export const Inventory: React.FC<Props> = ({
     };
   }, []);
 
-  const buds = getKeys(state.buds ?? {}).map(
-    (budId) => `Bud-${budId}` as BudName,
-  );
-
-  const [selectedChestItem, setSelectedChestItem] = useState<
-    InventoryItemName | BudName
-  >(
-    [
-      ...buds,
-      ...getKeys(getChestItems(state)).sort(
-        (a, b) => KNOWN_IDS[a] - KNOWN_IDS[b],
-      ),
-    ][0],
-  );
+  const [selectedChestItem, setSelectedChestItem] =
+    useState<LandscapingPlaceable>();
+  // [
+  //   ...buds,
+  //   ...getKeys(getChestItems(state)).sort(
+  //     (a, b) => KNOWN_IDS[a] - KNOWN_IDS[b],
+  //   ),
+  // ][0],
 
   const shortcuts = getShortcuts();
 
@@ -122,7 +112,7 @@ export const Inventory: React.FC<Props> = ({
           setIsOpen(false);
         }}
         state={state}
-        selectedBasketItem={selectedBasketItem}
+        selectedBasketItem={selectedItem}
         onSelectBasketItem={handleBasketItemClick}
         selectedChestItem={selectedChestItem}
         onSelectChestItem={setSelectedChestItem}

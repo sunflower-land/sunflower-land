@@ -40,7 +40,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { RoundButton } from "components/ui/RoundButton";
 import { CraftDecorationsModal } from "./components/decorations/CraftDecorationsModal";
 import { RemoveAllConfirmation } from "../collectibles/RemoveAllConfirmation";
-import { BuildingName } from "features/game/types/buildings";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -98,17 +97,14 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   const showRemove =
     isMobile && selectedItem && getRemoveAction(selectedItem.name);
 
-  const showFlip =
-    isMobile &&
-    selectedItem &&
-    isCollectible(selectedItem.name as CollectibleName | BuildingName | "Bud");
+  const showFlip = isMobile && selectedItem && isCollectible(selectedItem.name);
 
   useEffect(() => {
     setShowRemoveConfirmation(false);
   }, [selectedItem]);
 
   const remove = () => {
-    const action = getRemoveAction(selectedItem?.name as InventoryItemName);
+    const action = getRemoveAction(selectedItem?.name);
     if (!action) {
       return;
     }
@@ -138,10 +134,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   };
 
   const flip = () => {
-    if (
-      selectedItem &&
-      isCollectible(selectedItem.name as CollectibleName | BuildingName | "Bud")
-    ) {
+    if (selectedItem && isCollectible(selectedItem.name)) {
       child.send("FLIP", {
         id: selectedItem.id,
         name: selectedItem.name,
@@ -151,13 +144,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   };
 
   const isFlipped = useSelector(gameService, (state) => {
-    if (
-      !selectedItem ||
-      !isCollectible(
-        selectedItem.name as CollectibleName | BuildingName | "Bud",
-      )
-    )
-      return false;
+    if (!selectedItem || !isCollectible(selectedItem.name)) return false;
     const collectibles =
       location === "home"
         ? state.context.state.home.collectibles

@@ -1,8 +1,6 @@
 import { Coordinates } from "../expansion/components/MapPlacement";
-import { BuildingName } from "./buildings";
+import { LandscapingPlaceable } from "../expansion/placeable/landscapingMachine";
 import { PlaceableLocation } from "./collectibles";
-import { CollectibleName } from "./craftables";
-import { InventoryItemName } from "./game";
 
 export type TraitGroup =
   | "types"
@@ -84,13 +82,7 @@ export type Bud = {
 export type BudName = `Bud-${number}`;
 
 export function isBudName(
-  name:
-    | InventoryItemName
-    | BudName
-    | "Chicken"
-    | BuildingName
-    | CollectibleName
-    | undefined,
+  name: LandscapingPlaceable | undefined,
 ): name is BudName {
   if (!name) return false;
 
