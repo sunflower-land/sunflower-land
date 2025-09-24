@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import React from "react";
 import { SquareIcon } from "../SquareIcon";
 import { getPetImage } from "features/island/pets/lib/petShared";
@@ -6,13 +5,11 @@ import { PetNFT } from "features/game/types/pets";
 
 /**
  * The props for the component.
- * @param wideLayout Whether to always use the wide layout for large screen or not.
  * @param petId Pet ID
  * @param petData Pet data
  * @param actionView The view for displaying the item action.
  */
 interface Props {
-  wideLayout?: boolean;
   petId: number;
   petData: PetNFT;
   actionView?: JSX.Element;
@@ -23,7 +20,6 @@ interface Props {
  * @props The component props.
  */
 export const PetNFTDetails: React.FC<Props> = ({
-  wideLayout = false,
   petId,
   petData,
   actionView,
@@ -34,26 +30,9 @@ export const PetNFTDetails: React.FC<Props> = ({
   return (
     <div className="flex flex-col justify-between h-full">
       <div className="flex flex-col justify-center px-1 py-0">
-        <div
-          className={classNames(
-            "flex mb-1 space-x-2 justify-start items-center",
-            {
-              "sm:flex-col-reverse md:space-x-0": !wideLayout,
-            },
-          )}
-        >
-          {icon && (
-            <div className={classNames("", { "sm:mt-2": !wideLayout })}>
-              <SquareIcon
-                icon={icon}
-                width={14}
-                className="scale-[1.8] origin-bottom"
-              />
-            </div>
-          )}
-          <span className={classNames("", { "sm:text-center": !wideLayout })}>
-            {title}
-          </span>
+        <div className="flex mb-1 items-center sm:flex-col-reverse md:space-x-0 gap-1">
+          {icon && <SquareIcon icon={icon} width={20} />}
+          <span className="sm:text-center">{title}</span>
         </div>
       </div>
       {actionView}

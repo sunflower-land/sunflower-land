@@ -209,12 +209,12 @@ export const getPetImage = (
     const isRevealed = petData.revealAt < Date.now();
     const petType = getPetType(petData);
     if (!isRevealed || !petType) {
-      return ITEM_DETAILS["Pet Egg"].image;
+      return ITEM_DETAILS["Pet Egg"].image as string;
     }
   }
   // TODO: Fetch Pet NFT image
   if (isPetNFT(petId)) {
-    return ITEM_DETAILS["Ramsey"].image;
+    return ITEM_DETAILS["Ramsey"].image as string;
   }
 
   return PET_STATE_IMAGES[petId][state];
