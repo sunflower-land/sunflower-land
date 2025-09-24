@@ -101,7 +101,6 @@ import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow
 import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
 import { hasVipAccess } from "./vipAccess";
 import { getActiveCalendarEvent, SeasonalEventName } from "../types/calendar";
-import { SpecialEventName } from "../types/specialEvents";
 import { getAccount, getChainId } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { depositFlower } from "lib/blockchain/DepositFlower";
@@ -1187,7 +1186,6 @@ export function startGame(authContext: AuthContext) {
             {
               target: "roninAirdrop",
               cond: (context) => {
-                console.log({ wallet: context.linkedWallet });
                 return (
                   !!context.linkedWallet &&
                   !context.state.roninRewards?.onchain &&
