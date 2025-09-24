@@ -8,9 +8,9 @@ import {
   IN_GAME_TASKS,
 } from "features/game/events/landExpansion/completeSocialTask";
 import { getKeys } from "features/game/types/decorations";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { isMobile } from "mobile-device-detect";
+import giftIcon from "assets/icons/gift.png";
 
 export const RewardsButton: React.FC = () => {
   const { gameState } = useGame();
@@ -61,13 +61,15 @@ export const RewardsButton: React.FC = () => {
           }}
         >
           <img
-            src={ITEM_DETAILS["Love Charm"].image}
-            className="group-active:translate-y-[2px]"
+            src={giftIcon}
+            className="group-active:translate-y-[2px] relative"
             style={{
-              width: `${PIXEL_SCALE * (isMobile ? 12 : 14)}px`,
+              width: `${PIXEL_SCALE * (isMobile ? 9 : 11)}px`,
+              left: `${PIXEL_SCALE * 1.5}px`,
             }}
           />
         </div>
+
         {(isAnyTaskCompleted || isChestLocked) && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}

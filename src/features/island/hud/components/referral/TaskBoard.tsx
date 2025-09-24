@@ -20,6 +20,7 @@ import { getKeys } from "features/game/types/decorations";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import promoteIcon from "assets/icons/promote.webp";
 import tvIcon from "assets/icons/tv.webp";
+import giftIcon from "assets/icons/gift.png";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { secondsToString } from "lib/utils/time";
 
@@ -33,13 +34,19 @@ const TaskButton: React.FC<{
   onClick: () => void;
   image: string;
   expiresAt?: Date;
-}> = ({ image, onClick, title, expiresAt }) => {
+  label?: string;
+}> = ({ image, onClick, title, expiresAt, label }) => {
   const { t } = useAppTranslation();
   return (
     <ButtonPanel key={title} onClick={onClick}>
       <div className="flex gap-3">
         <img src={image} className="w-10 h-auto object-contain" />
         <div className="flex flex-col gap-1">
+          {label && (
+            <Label type="warning" icon={giftIcon}>
+              {label}
+            </Label>
+          )}
           <p>{title}</p>
 
           <p className="underline">{t("read.more")}</p>
@@ -84,6 +91,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ state, socialTasks }) => {
             title={t("socialTask.twitter")}
             onClick={() => openModal("TWITTER")}
             image={SUNNYSIDE.icons.x}
+            label={t("ronin.reward.task")}
           />
           <TaskButton
             title={t("socialTask.merkl")}
