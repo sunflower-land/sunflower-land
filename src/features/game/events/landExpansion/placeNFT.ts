@@ -3,10 +3,12 @@ import { PlaceableLocation } from "features/game/types/collectibles";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 
+export type NFTName = "Bud" | "Pet";
+
 export type PlaceNFTAction = {
   type: "nft.placed";
   id: string;
-  nft: "Bud" | "Pet";
+  nft: NFTName;
   coordinates: Coordinates;
   location: PlaceableLocation;
 };

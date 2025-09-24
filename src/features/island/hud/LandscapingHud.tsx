@@ -39,6 +39,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { RoundButton } from "components/ui/RoundButton";
 import { CraftDecorationsModal } from "./components/decorations/CraftDecorationsModal";
 import { RemoveAllConfirmation } from "../collectibles/RemoveAllConfirmation";
+import { NFTName } from "features/game/events/landExpansion/placeNFT";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -234,10 +235,10 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                     multiple: true,
                   });
                 }}
-                onplaceNFT={(id) => {
+                onPlaceNFT={(id, nft) => {
                   child.send("SELECT", {
                     action: "nft.placed",
-                    placeable: { id, name: "Bud" },
+                    placeable: { id, name: nft },
                     location,
                   });
                 }}
@@ -367,8 +368,8 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
 
 const Chest: React.FC<{
   onPlaceChestItem: (item: LandscapingPlaceable) => void;
-  onplaceNFT: (id: string) => void;
-}> = ({ onPlaceChestItem, onplaceNFT }) => {
+  onPlaceNFT: (id: string, nft: NFTName) => void;
+}> = ({ onPlaceChestItem, onPlaceNFT }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [showChest, setShowChest] = useState(false);
@@ -403,7 +404,7 @@ const Chest: React.FC<{
         onHide={() => setShowChest(false)}
         show={showChest}
         onPlace={onPlaceChestItem}
-        onplaceNFT={onplaceNFT}
+        onPlaceNFT={onPlaceNFT}
       />
     </>
   );

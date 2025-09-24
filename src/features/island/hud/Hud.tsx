@@ -127,10 +127,10 @@ const HudComponent: React.FC<{
               multiple: true,
             });
           }}
-          onplaceNFT={(id) => {
+          onPlaceNFT={(id, nft) => {
             gameService.send("LANDSCAPE", {
               action: "nft.placed",
-              placeable: { id, name: "Bud" },
+              placeable: { id, name: nft },
               location,
             });
           }}

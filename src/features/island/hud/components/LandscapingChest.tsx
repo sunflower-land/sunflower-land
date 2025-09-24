@@ -13,13 +13,14 @@ import { LAND_BIOMES } from "features/island/biomes/biomes";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { LandscapingPlaceable } from "features/game/expansion/placeable/landscapingMachine";
+import { NFTName } from "features/game/events/landExpansion/placeNFT";
 
 interface Props {
   show: boolean;
   onHide: () => void;
   state: GameState;
   onPlace: (item: LandscapingPlaceable) => void;
-  onplaceNFT: (id: string) => void;
+  onPlaceNFT: (id: string, nft: NFTName) => void;
 }
 
 export const LandscapingChest: React.FC<Props> = ({
@@ -27,7 +28,7 @@ export const LandscapingChest: React.FC<Props> = ({
   onHide,
   state,
   onPlace,
-  onplaceNFT,
+  onPlaceNFT,
 }) => {
   const { t } = useAppTranslation();
 
@@ -67,7 +68,7 @@ export const LandscapingChest: React.FC<Props> = ({
             onSelect={setSelected}
             closeModal={onHide}
             onPlace={onPlace}
-            onplaceNFT={onplaceNFT}
+            onPlaceNFT={onPlaceNFT}
           />
         )}
         {currentTab === "Biomes" && <Biomes state={state} />}

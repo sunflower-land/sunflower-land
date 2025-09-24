@@ -10,6 +10,7 @@ import { CollectibleName } from "features/game/types/craftables";
 import { BasketButton } from "./BasketButton";
 import { SeedName, SEEDS } from "features/game/types/seeds";
 import { LandscapingPlaceable } from "features/game/expansion/placeable/landscapingMachine";
+import { NFTName } from "features/game/events/landExpansion/placeNFT";
 
 interface Props {
   state: GameState;
@@ -17,7 +18,7 @@ interface Props {
   isFullUser: boolean;
   shortcutItem?: (item: InventoryItemName) => void;
   onPlace?: (item: LandscapingPlaceable) => void;
-  onplaceNFT?: (id: string) => void;
+  onPlaceNFT?: (id: string, nft: NFTName) => void;
   onDepositClick?: () => void;
   isFarming: boolean;
   isSaving?: boolean;
@@ -32,7 +33,7 @@ export const Inventory: React.FC<Props> = ({
   isFarming,
   isSaving,
   onPlace,
-  onplaceNFT,
+  onPlaceNFT,
   onDepositClick,
   hideActions,
 }) => {
@@ -118,7 +119,7 @@ export const Inventory: React.FC<Props> = ({
         selectedChestItem={selectedChestItem}
         onSelectChestItem={setSelectedChestItem}
         onPlace={onPlace}
-        onplaceNFT={onplaceNFT}
+        onPlaceNFT={onPlaceNFT}
         onDepositClick={onDepositClick}
         isSaving={isSaving}
         isFarming={isFarming}

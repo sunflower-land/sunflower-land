@@ -20,6 +20,7 @@ import {
   RESOURCES_REMOVE_ACTIONS,
 } from "features/island/collectibles/MovableComponent";
 import { PlaceableLocation } from "features/game/types/collectibles";
+import { NFTName } from "features/game/events/landExpansion/placeNFT";
 
 export const RESOURCE_PLACE_EVENTS: Partial<
   Record<ResourceName, GameEventName<PlacementEvent>>
@@ -66,8 +67,7 @@ export type LandscapingPlaceable =
   | BuildingName
   | CollectibleName
   | ResourceName
-  | "Bud"
-  | "Pet";
+  | NFTName;
 
 export interface Context {
   action?: GameEventName<PlacementEvent>;
@@ -75,7 +75,7 @@ export interface Context {
   collisionDetected: boolean;
   placeable?:
     | {
-        name: "Bud" | "Pet";
+        name: NFTName;
         id: string;
       }
     | {
@@ -100,7 +100,7 @@ type SelectEvent = {
   type: "SELECT";
   placeable:
     | {
-        name: "Bud" | "Pet";
+        name: NFTName;
         id: string;
       }
     | {
@@ -377,7 +377,7 @@ export const landscapingMachine = createMachine<
                     ({ placeable, action, coordinates: { x, y } }, e) => {
                       return {
                         type: action,
-                        name: placeable,
+                        name: placeable?.name,
                         coordinates: { x, y },
                         id: uuidv4().slice(0, 8),
                         location: e.location,
@@ -404,7 +404,7 @@ export const landscapingMachine = createMachine<
                     ({ placeable, action, coordinates: { x, y } }, e) => {
                       return {
                         type: action,
-                        name: placeable,
+                        name: placeable?.name,
                         coordinates: { x, y },
                         id: uuidv4().slice(0, 8),
                         location: e.location,
@@ -424,11 +424,15 @@ export const landscapingMachine = createMachine<
                       { placeable, action, coordinates: { x, y } },
                       { location },
                     ) => {
-                      if (placeable?.name === "Bud") {
+                      if (
+                        placeable?.name === "Bud" ||
+                        placeable?.name === "Pet"
+                      ) {
                         return {
                           type: action,
                           coordinates: { x, y },
                           id: placeable?.id,
+                          nft: placeable?.name,
                           location,
                         } as PlacementEvent;
                       }

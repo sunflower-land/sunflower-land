@@ -14,6 +14,7 @@ import { getKeys } from "features/game/types/decorations";
 import { LAND_BIOMES } from "features/island/biomes/biomes";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { LandscapingPlaceable } from "features/game/expansion/placeable/landscapingMachine";
+import { NFTName } from "features/game/events/landExpansion/placeNFT";
 
 interface Props {
   show: boolean;
@@ -27,7 +28,7 @@ interface Props {
     id?: string;
   }) => void;
   onPlace?: (name: LandscapingPlaceable) => void;
-  onplaceNFT?: (id: string) => void;
+  onPlaceNFT?: (id: string, nft: NFTName) => void;
   onDepositClick?: () => void;
   isSaving?: boolean;
   isFarming: boolean;
@@ -48,7 +49,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
   onSelectChestItem,
   onDepositClick,
   onPlace,
-  onplaceNFT,
+  onPlaceNFT,
   isSaving,
   isFarming,
   isFullUser,
@@ -95,7 +96,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
             onSelect={onSelectChestItem}
             closeModal={onHide}
             onPlace={isFarming ? onPlace : undefined}
-            onplaceNFT={isFarming ? onplaceNFT : undefined}
+            onPlaceNFT={isFarming ? onPlaceNFT : undefined}
             onDepositClick={isFullUser ? onDepositClick : undefined}
             isSaving={isSaving}
           />

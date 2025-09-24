@@ -112,6 +112,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { BuildingName } from "../types/buildings";
 import { CollectibleName } from "../types/craftables";
 import { ResourceName } from "../types/resources";
+import { NFTName } from "../events/landExpansion/placeNFT";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -212,7 +213,7 @@ type UpdateBlockBucksEvent = {
 type LandscapeEvent = {
   placeable?:
     | {
-        name: "Bud" | "Pet";
+        name: NFTName;
         id: string;
       }
     | {
@@ -430,20 +431,22 @@ const PLACEMENT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> = [
   (events, eventName) => ({
     ...events,
     [eventName]: {
-      actions: assign((context: Context, event: PlacementEvent) => ({
-        state: processEvent({
-          state: context.state as GameState,
-          action: event,
-          farmId: context.farmId,
-        }) as GameState,
-        actions: [
-          ...context.actions,
-          {
-            ...event,
-            createdAt: new Date(),
-          },
-        ],
-      })),
+      actions: assign((context: Context, event: PlacementEvent) => {
+        return {
+          state: processEvent({
+            state: context.state as GameState,
+            action: event,
+            farmId: context.farmId,
+          }) as GameState,
+          actions: [
+            ...context.actions,
+            {
+              ...event,
+              createdAt: new Date(),
+            },
+          ],
+        };
+      }),
     },
   }),
   {},
