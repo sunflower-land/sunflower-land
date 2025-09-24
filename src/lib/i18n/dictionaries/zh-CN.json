@@ -6384,7 +6384,7 @@
   "visiting": "参访",
   "playerModal.youHelpedThemCount.singular": "你帮了他 {{count}} 次",
   "playerModal.theyHelpedYouCount.singular": "他帮了你 {{count}} 次",
-  "playerModal.youHelpedThemCount.plural": "你帮了他们 {{count}} 次",
+  "playerModal.youHelpedThemCount.plural": "你帮了他 {{count}} 次",
   "playerModal.theyHelpedYouCount.plural": "他帮了你 {{count}} 次",
   "friendStreak.short": "连续互助：{{days}}",
   "interactableModals.woodlands.message1": "这片林地正发生着奇怪的事情，这里很危险，快回头吧。",
