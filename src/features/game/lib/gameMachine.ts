@@ -42,7 +42,6 @@ import { reset } from "features/farming/hud/actions/reset";
 import { checkProgress, processEvent } from "./processEvent";
 import {
   landscapingMachine,
-  LandscapingPlaceable,
   SaveEvent,
 } from "../expansion/placeable/landscapingMachine";
 import { Context } from "../GameProvider";
@@ -110,6 +109,9 @@ import { blessingIsReady } from "./blessings";
 import { hasReadNews } from "features/farming/mail/components/News";
 import { depositSFL } from "lib/blockchain/DepositSFL";
 import { hasFeatureAccess } from "lib/flags";
+import { BuildingName } from "../types/buildings";
+import { CollectibleName } from "../types/craftables";
+import { ResourceName } from "../types/resources";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -208,7 +210,15 @@ type UpdateBlockBucksEvent = {
 };
 
 type LandscapeEvent = {
-  placeable?: { name: LandscapingPlaceable; id: string };
+  placeable?:
+    | {
+        name: "Bud" | "Pet";
+        id: string;
+      }
+    | {
+        name: BuildingName | CollectibleName | ResourceName;
+        id?: string;
+      };
   action?: GameEventName<PlacementEvent>;
   type: "LANDSCAPE";
   requirements?: {

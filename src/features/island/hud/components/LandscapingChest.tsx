@@ -19,7 +19,7 @@ interface Props {
   onHide: () => void;
   state: GameState;
   onPlace: (item: LandscapingPlaceable) => void;
-  onPlaceBud: (id: string) => void;
+  onplaceNFT: (id: string) => void;
 }
 
 export const LandscapingChest: React.FC<Props> = ({
@@ -27,7 +27,7 @@ export const LandscapingChest: React.FC<Props> = ({
   onHide,
   state,
   onPlace,
-  onPlaceBud,
+  onplaceNFT,
 }) => {
   const { t } = useAppTranslation();
 
@@ -67,7 +67,7 @@ export const LandscapingChest: React.FC<Props> = ({
             onSelect={setSelected}
             closeModal={onHide}
             onPlace={onPlace}
-            onPlaceBud={onPlaceBud}
+            onplaceNFT={onplaceNFT}
           />
         )}
         {currentTab === "Biomes" && <Biomes state={state} />}

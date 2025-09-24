@@ -17,7 +17,7 @@ interface Props {
   isFullUser: boolean;
   shortcutItem?: (item: InventoryItemName) => void;
   onPlace?: (item: LandscapingPlaceable) => void;
-  onPlaceBud?: (id: string) => void;
+  onplaceNFT?: (id: string) => void;
   onDepositClick?: () => void;
   isFarming: boolean;
   isSaving?: boolean;
@@ -32,7 +32,7 @@ export const Inventory: React.FC<Props> = ({
   isFarming,
   isSaving,
   onPlace,
-  onPlaceBud,
+  onplaceNFT,
   onDepositClick,
   hideActions,
 }) => {
@@ -118,7 +118,7 @@ export const Inventory: React.FC<Props> = ({
         selectedChestItem={selectedChestItem}
         onSelectChestItem={setSelectedChestItem}
         onPlace={onPlace}
-        onPlaceBud={onPlaceBud}
+        onplaceNFT={onplaceNFT}
         onDepositClick={onDepositClick}
         isSaving={isSaving}
         isFarming={isFarming}

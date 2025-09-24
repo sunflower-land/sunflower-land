@@ -26,7 +26,6 @@ import { WorldFeedButton } from "features/social/components/WorldFeedButton";
 import classNames from "classnames";
 import { isMobile } from "mobile-device-detect";
 import { Feed } from "features/social/Feed";
-import { v4 as uuidv4 } from "uuid";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
@@ -124,13 +123,13 @@ const HudComponent: React.FC<{
           onPlace={(selected) => {
             gameService.send("LANDSCAPE", {
               action: placeEvent(selected),
-              placeable: { name: selected, id: uuidv4().slice(0, 8) },
+              placeable: { name: selected },
               multiple: true,
             });
           }}
-          onPlaceBud={(id) => {
+          onplaceNFT={(id) => {
             gameService.send("LANDSCAPE", {
-              action: "bud.placed",
+              action: "nft.placed",
               placeable: { id, name: "Bud" },
               location,
             });

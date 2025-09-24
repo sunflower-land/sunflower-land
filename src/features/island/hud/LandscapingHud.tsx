@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 import React, { useContext, useEffect, useState } from "react";
 import { Balances } from "components/Balances";
 import { useActor, useSelector } from "@xstate/react";
@@ -231,13 +230,13 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                 onPlaceChestItem={(selected) => {
                   child.send("SELECT", {
                     action: placeEvent(selected),
-                    placeable: { id: uuidv4().slice(0, 8), name: selected },
+                    placeable: { name: selected },
                     multiple: true,
                   });
                 }}
-                onPlaceBud={(id) => {
+                onplaceNFT={(id) => {
                   child.send("SELECT", {
-                    action: "bud.placed",
+                    action: "nft.placed",
                     placeable: { id, name: "Bud" },
                     location,
                   });
@@ -368,8 +367,8 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
 
 const Chest: React.FC<{
   onPlaceChestItem: (item: LandscapingPlaceable) => void;
-  onPlaceBud: (id: string) => void;
-}> = ({ onPlaceChestItem, onPlaceBud }) => {
+  onplaceNFT: (id: string) => void;
+}> = ({ onPlaceChestItem, onplaceNFT }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [showChest, setShowChest] = useState(false);
@@ -404,7 +403,7 @@ const Chest: React.FC<{
         onHide={() => setShowChest(false)}
         show={showChest}
         onPlace={onPlaceChestItem}
-        onPlaceBud={onPlaceBud}
+        onplaceNFT={onplaceNFT}
       />
     </>
   );

@@ -3,33 +3,37 @@ import { PlaceableLocation } from "features/game/types/collectibles";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 
-export type PlaceBudAction = {
-  type: "bud.placed";
+export type PlaceNFTAction = {
+  type: "nft.placed";
   id: string;
+  nft: "Bud" | "Pet";
   coordinates: Coordinates;
   location: PlaceableLocation;
 };
 
 type Options = {
   state: Readonly<GameState>;
-  action: PlaceBudAction;
+  action: PlaceNFTAction;
   createdAt?: number;
 };
 
-export function placeBud({
+export function placeNFT({
   state,
   action,
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (copy) => {
-    const bud = copy.buds?.[Number(action.id)];
+    const nft =
+      action.nft === "Bud"
+        ? copy.buds?.[Number(action.id)]
+        : copy.pets?.nfts?.[Number(action.id)];
 
-    if (!bud) throw new Error("This bud does not exist");
+    if (!nft) throw new Error("This NFT does not exist");
 
-    if (bud.coordinates) throw new Error("This bud is already placed");
+    if (nft.coordinates) throw new Error("This NFT is already placed");
 
-    bud.coordinates = action.coordinates;
-    bud.location = action.location;
+    nft.coordinates = action.coordinates;
+    nft.location = action.location;
 
     return copy;
   });

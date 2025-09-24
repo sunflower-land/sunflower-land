@@ -88,7 +88,7 @@ interface PanelContentProps {
   buds: Record<number, Bud>;
   pets: PetNFTs;
   onPlace?: (name: LandscapingPlaceable) => void;
-  onPlaceBud?: (id: string) => void;
+  onplaceNFT?: (id: string) => void;
   isSaving?: boolean;
   onPlacePet?: (id: string) => void;
 }
@@ -101,7 +101,7 @@ export type TimeBasedConsumables =
 const PanelContent: React.FC<PanelContentProps> = ({
   isSaving,
   onPlace,
-  onPlaceBud,
+  onplaceNFT,
   selectedChestItem,
   closeModal,
   state,
@@ -123,7 +123,7 @@ const PanelContent: React.FC<PanelContentProps> = ({
       showConfirmationModal(true);
     } else {
       selectedChestItem.name === "Bud"
-        ? onPlaceBud && onPlaceBud(selectedChestItem.id!)
+        ? onplaceNFT && onplaceNFT(selectedChestItem.id!)
         : selectedChestItem.name === "Pet"
           ? onPlacePet && onPlacePet(selectedChestItem.id!)
           : onPlace && onPlace(selectedChestItem.name);
@@ -268,7 +268,7 @@ interface Props {
   onSelect: (item: { name: LandscapingPlaceable; id?: string }) => void;
   closeModal: () => void;
   onPlace?: (name: LandscapingPlaceable) => void;
-  onPlaceBud?: (id: string) => void;
+  onplaceNFT?: (id: string) => void;
   onDepositClick?: () => void;
   isSaving?: boolean;
 }
@@ -280,7 +280,7 @@ export const Chest: React.FC<Props> = ({
   closeModal,
   isSaving,
   onPlace,
-  onPlaceBud,
+  onplaceNFT,
   onDepositClick,
 }: Props) => {
   const divRef = useRef<HTMLDivElement>(null);
@@ -486,7 +486,7 @@ export const Chest: React.FC<Props> = ({
           selectedChestItem={selectedChestItem}
           closeModal={closeModal}
           onPlace={onPlace}
-          onPlaceBud={onPlaceBud}
+          onplaceNFT={onplaceNFT}
           isSaving={isSaving}
           buds={buds}
           pets={petsNFTs}

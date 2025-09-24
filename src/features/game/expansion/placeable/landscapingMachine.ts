@@ -73,7 +73,15 @@ export interface Context {
   action?: GameEventName<PlacementEvent>;
   coordinates: Coordinates;
   collisionDetected: boolean;
-  placeable?: { id: string; name: LandscapingPlaceable };
+  placeable?:
+    | {
+        name: "Bud" | "Pet";
+        id: string;
+      }
+    | {
+        name: BuildingName | CollectibleName | ResourceName;
+        id?: string;
+      };
 
   multiple?: boolean;
 
@@ -90,7 +98,15 @@ export interface Context {
 
 type SelectEvent = {
   type: "SELECT";
-  placeable: { id: string; name: LandscapingPlaceable };
+  placeable:
+    | {
+        name: "Bud" | "Pet";
+        id: string;
+      }
+    | {
+        name: BuildingName | CollectibleName | ResourceName;
+        id?: string;
+      };
   action: GameEventName<PlacementEvent>;
   requirements: {
     coins: number;
@@ -266,9 +282,7 @@ export const landscapingMachine = createMachine<
             SELECT: {
               target: "placing",
               actions: assign({
-                placeable: (_, event) => {
-                  return event.placeable;
-                },
+                placeable: (_, event) => event.placeable,
                 action: (_, event) => event.action,
                 requirements: (_, event) => event.requirements,
                 multiple: (_, event) => event.multiple,
@@ -422,7 +436,7 @@ export const landscapingMachine = createMachine<
                         type: action,
                         name: placeable?.name,
                         coordinates: { x, y },
-                        id: placeable?.id,
+                        id: uuidv4().slice(0, 8),
                         location,
                       } as PlacementEvent;
                     },

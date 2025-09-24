@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "../../lib/constants";
 import { GameState } from "../../types/game";
-import { placeBud } from "./placeBud";
+import { placeNFT } from "./placeNFT";
 
 const date = Date.now();
 const GAME_STATE: GameState = TEST_FARM;
@@ -9,7 +9,7 @@ const GAME_STATE: GameState = TEST_FARM;
 describe("Place Bud", () => {
   it("requires the bud ID is on the game state", () => {
     expect(() =>
-      placeBud({
+      placeNFT({
         state: {
           ...GAME_STATE,
           inventory: {
@@ -19,7 +19,8 @@ describe("Place Bud", () => {
         },
         action: {
           id: "1",
-          type: "bud.placed",
+          type: "nft.placed",
+          nft: "Bud",
           coordinates: {
             x: 0,
             y: 0,
@@ -32,7 +33,7 @@ describe("Place Bud", () => {
 
   it("requires the bud is not already placed", () => {
     expect(() =>
-      placeBud({
+      placeNFT({
         state: {
           ...GAME_STATE,
           inventory: {
@@ -54,7 +55,8 @@ describe("Place Bud", () => {
         },
         action: {
           id: "1",
-          type: "bud.placed",
+          type: "nft.placed",
+          nft: "Bud",
           coordinates: {
             x: 0,
             y: 0,
@@ -66,7 +68,7 @@ describe("Place Bud", () => {
   });
 
   it("places the bud", () => {
-    const state = placeBud({
+    const state = placeNFT({
       state: {
         ...GAME_STATE,
         inventory: {
@@ -84,7 +86,8 @@ describe("Place Bud", () => {
       },
       action: {
         id: "1",
-        type: "bud.placed",
+        type: "nft.placed",
+        nft: "Bud",
         coordinates: {
           x: 0,
           y: 0,
