@@ -64,13 +64,15 @@ export type StockableName = Extract<
 export const INITIAL_STOCK = (
   state?: GameState,
 ): Record<StockableName, Decimal> => {
-  const tools = Object.entries(WORKBENCH_TOOLS).reduce(
-    (acc, [toolName, tool]) => ({
-      ...acc,
-      [toolName]: tool.stock,
-    }),
-    {} as Record<WorkbenchToolName, Decimal>,
-  );
+  const tools = Object.entries(WORKBENCH_TOOLS)
+    .filter((tool) => !tool[1].disabled)
+    .reduce(
+      (acc, [toolName, tool]) => ({
+        ...acc,
+        [toolName]: tool.stock,
+      }),
+      {} as Record<WorkbenchToolName, Decimal>,
+    );
 
   // increase in 50% tool stock if you have a toolshed
   if (state?.buildings.Toolshed && isBuildingReady(state.buildings.Toolshed)) {
