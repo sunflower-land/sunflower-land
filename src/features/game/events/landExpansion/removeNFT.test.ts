@@ -19,6 +19,7 @@ describe("removeNFT", () => {
           type: "nft.removed",
           id: "1",
           nft: "Bud",
+          location: "farm",
         },
       }),
     ).toThrow(REMOVE_NFT_ERRORS.INVALID_NFT);
@@ -43,6 +44,7 @@ describe("removeNFT", () => {
           type: "nft.removed",
           id: "1",
           nft: "Bud",
+          location: "farm",
         },
       }),
     ).toThrow(REMOVE_NFT_ERRORS.NFT_NOT_PLACED);
@@ -83,6 +85,7 @@ describe("removeNFT", () => {
           type: "nft.removed",
           id: "1",
           nft: "Bud",
+          location: "farm",
         },
       }),
     ).toThrowError("Crops are growing");
@@ -124,6 +127,7 @@ describe("removeNFT", () => {
           type: "nft.removed",
           id: "1",
           nft: "Bud",
+          location: "farm",
         },
       }),
     ).toThrowError("Fruits are growing");
@@ -152,6 +156,7 @@ describe("removeNFT", () => {
         type: "nft.removed",
         id: "1",
         nft: "Bud",
+        location: "farm",
       },
     });
 

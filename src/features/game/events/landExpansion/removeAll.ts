@@ -75,6 +75,7 @@ export function removeAll({
               type: "nft.removed",
               id,
               nft: "Bud",
+              location: action.location,
             },
             createdAt,
           });
@@ -94,6 +95,7 @@ export function removeAll({
               type: "nft.removed",
               id,
               nft: "Pet",
+              location: action.location,
             },
             createdAt,
           });

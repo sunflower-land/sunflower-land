@@ -332,15 +332,13 @@ export const landscapingMachine = createMachine<
                   (_context, event: RemoveEvent) =>
                     ({
                       type: event.event,
-                      ...(event.name in RESOURCE_MOVE_EVENTS ||
-                      event.name === "Bud" ||
-                      event.name === "Pet"
-                        ? { nft: event.name }
-                        : { name: event.name }),
+                      ...(event.name in RESOURCE_MOVE_EVENTS
+                        ? {}
+                        : event.name === "Bud" || event.name === "Pet"
+                          ? { nft: event.name }
+                          : { name: event.name }),
                       id: event.id,
-                      ...(event.name in RESOURCES_REMOVE_ACTIONS ||
-                      event.name === "Bud" ||
-                      event.name === "Pet"
+                      ...(event.name in RESOURCES_REMOVE_ACTIONS
                         ? {}
                         : { location: event.location }),
                     }) as PlacementEvent,

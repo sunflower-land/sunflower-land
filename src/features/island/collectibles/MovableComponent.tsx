@@ -90,12 +90,8 @@ function getMoveAction(
     return "collectible.moved";
   }
 
-  if (name === "Bud") {
-    return "bud.moved";
-  }
-
-  if (name === "Pet") {
-    // return "petNFT.moved";
+  if (name === "Bud" || name === "Pet") {
+    return "nft.moved";
   }
 
   throw new Error("No matching move event");
@@ -409,9 +405,11 @@ export const MoveableComponent: React.FC<
           setPosition({ x: 0, y: 0 });
           gameService.send(getMoveAction(name), {
             // Don't send name for resource events and Bud events
-            ...(name in RESOURCE_MOVE_EVENTS || name === "Bud" || name === "Pet"
+            ...(name in RESOURCE_MOVE_EVENTS
               ? {}
-              : { name }),
+              : name === "Bud" || name === "Pet"
+                ? { nft: name }
+                : { name }),
             coordinates: { x, y },
             id,
             // Resources do not require location to be passed

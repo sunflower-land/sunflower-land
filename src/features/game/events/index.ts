@@ -133,7 +133,7 @@ import { mixPotion, MixPotionAction } from "./landExpansion/mixPotion";
 import { buyWearable, BuyWearableAction } from "./landExpansion/buyWearable";
 import { skipOrder, SkipOrderAction } from "./landExpansion/skipOrder";
 import { StartPotionAction, startPotion } from "./landExpansion/startPotion";
-import { moveBud, MoveBudAction } from "./landExpansion/moveBud";
+import { moveBud, MoveNFTAction } from "./landExpansion/moveNFT";
 import { removeNFT, RemoveNFTAction } from "./landExpansion/removeNFT";
 import {
   startComposter,
@@ -733,7 +733,7 @@ export type PlacementEvent =
   | RemoveBuildingAction
   | RemoveCollectibleAction
   | PlaceNFTAction
-  | MoveBudAction
+  | MoveNFTAction
   | RemoveNFTAction
   | MoveBeehiveAction
   | PlaceBeehiveAction
@@ -978,7 +978,7 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "building.removed": removeBuilding,
   "collectible.removed": removeCollectible,
   "nft.placed": placeNFT,
-  "bud.moved": moveBud,
+  "nft.moved": moveBud,
   "nft.removed": removeNFT,
   "beehive.moved": moveBeehive,
   "beehive.placed": placeBeehive,
