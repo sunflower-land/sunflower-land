@@ -70,7 +70,10 @@ export const VisitingHud: React.FC = () => {
   const handleEndVisit = () => {
     gameService.send("END_VISIT");
 
-    const target = fromRoute && !fromRoute.includes("visit") ? fromRoute : "/";
+    const target =
+      fromRoute && !fromRoute.includes("visit") && !fromRoute.includes("home")
+        ? fromRoute
+        : "/";
 
     navigate(target, { replace: true });
   };
