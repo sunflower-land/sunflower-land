@@ -38,6 +38,7 @@ type Response = {
       timestamp: number;
     };
   };
+  apiKey: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -131,6 +132,7 @@ export async function loadSession(
     fslId,
     oauthNonce,
     prices,
+    apiKey,
   } = await sanitizeHTTPResponse<{
     farm: any;
     startedAt: string;
@@ -157,6 +159,7 @@ export async function loadSession(
         timestamp: number;
       };
     };
+    apiKey: string;
   }>(response);
 
   saveSession(farm.id);
@@ -179,6 +182,7 @@ export async function loadSession(
     discordId,
     oauthNonce,
     prices,
+    apiKey,
   };
 }
 
