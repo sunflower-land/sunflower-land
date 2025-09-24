@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import React, { useContext, useEffect, useState } from "react";
 import { Balances } from "components/Balances";
 import { useActor, useSelector } from "@xstate/react";
@@ -15,6 +16,7 @@ import cleanBroom from "assets/icons/clean_broom.webp";
 import { isMobile } from "mobile-device-detect";
 
 import {
+  LandscapingPlaceable,
   MachineInterpreter,
   MachineState,
   placeEvent,
@@ -29,9 +31,7 @@ import {
   getRemoveAction,
   isCollectible,
 } from "../collectibles/MovableComponent";
-import { InventoryItemName } from "features/game/types/game";
 import { RemoveKuebikoModal } from "../collectibles/RemoveKuebikoModal";
-import { BudName } from "features/game/types/buds";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { HudContainer } from "components/ui/HudContainer";
 import { RemoveHungryCaterpillarModal } from "../collectibles/RemoveHungryCaterpillarModal";
@@ -231,14 +231,14 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                 onPlaceChestItem={(selected) => {
                   child.send("SELECT", {
                     action: placeEvent(selected),
-                    placeable: selected,
+                    placeable: { id: uuidv4().slice(0, 8), name: selected },
                     multiple: true,
                   });
                 }}
-                onPlaceBud={(selected) => {
+                onPlaceBud={(id) => {
                   child.send("SELECT", {
                     action: "bud.placed",
-                    placeable: selected,
+                    placeable: { id, name: "Bud" },
                     location,
                   });
                 }}
@@ -367,8 +367,8 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
 };
 
 const Chest: React.FC<{
-  onPlaceChestItem: (item: InventoryItemName) => void;
-  onPlaceBud: (bud: BudName) => void;
+  onPlaceChestItem: (item: LandscapingPlaceable) => void;
+  onPlaceBud: (id: string) => void;
 }> = ({ onPlaceChestItem, onPlaceBud }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);

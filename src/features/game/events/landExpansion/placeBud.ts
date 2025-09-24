@@ -1,3 +1,4 @@
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
@@ -5,10 +6,7 @@ import { produce } from "immer";
 export type PlaceBudAction = {
   type: "bud.placed";
   id: string;
-  coordinates: {
-    x: number;
-    y: number;
-  };
+  coordinates: Coordinates;
   location: PlaceableLocation;
 };
 

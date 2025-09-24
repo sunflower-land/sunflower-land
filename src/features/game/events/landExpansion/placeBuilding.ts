@@ -12,6 +12,7 @@ import { ComposterName } from "features/game/types/composters";
 import { getReadyAt } from "./startComposter";
 import { RECIPES } from "features/game/lib/crafting";
 import { getBoostedCraftingTime } from "./startCrafting";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export enum PLACE_BUILDING_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -23,10 +24,7 @@ export type PlaceBuildingAction = {
   type: "building.placed";
   name: BuildingName;
   id: string;
-  coordinates: {
-    x: number;
-    y: number;
-  };
+  coordinates: Coordinates;
 };
 
 type Options = {

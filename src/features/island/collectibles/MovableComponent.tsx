@@ -2,6 +2,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -23,7 +24,6 @@ import Draggable from "react-draggable";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import { useSelector } from "@xstate/react";
 import {
-  isPetNFTName,
   LandscapingPlaceable,
   MachineInterpreter,
   MachineState,
@@ -47,7 +47,6 @@ import flipped from "assets/icons/flipped.webp";
 import flipIcon from "assets/icons/flip.webp";
 import debounce from "lodash.debounce";
 import { LIMITED_ITEMS } from "features/game/events/landExpansion/burnCollectible";
-import { isBudName } from "features/game/types/buds";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -91,11 +90,11 @@ function getMoveAction(
     return "collectible.moved";
   }
 
-  if (isBudName(name)) {
+  if (name === "Bud") {
     return "bud.moved";
   }
 
-  if (isPetNFTName(name)) {
+  if (name === "Pet") {
     // return "petNFT.moved";
   }
 
@@ -153,11 +152,11 @@ export function getRemoveAction(
     return "collectible.removed";
   }
 
-  if (isBudName(name)) {
+  if (name === "Bud") {
     return "bud.removed";
   }
 
-  if (isPetNFTName(name)) {
+  if (name === "Pet") {
     // return "petNFT.removed";
     return null;
   }
@@ -353,11 +352,13 @@ export const MoveableComponent: React.FC<
     ...RESOURCE_DIMENSIONS,
   };
 
-  const dimensions = isBudName(name)
-    ? { width: 1, height: 1 }
-    : isPetNFTName(name)
-      ? { width: 2, height: 2 }
-      : DIMENSIONS_MAP[name];
+  const dimensions = useMemo(() => {
+    return name === "Bud"
+      ? { width: 1, height: 1 }
+      : name === "Pet"
+        ? { width: 2, height: 2 }
+        : DIMENSIONS_MAP[name];
+  }, [name]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onStop = useCallback(
@@ -413,9 +414,7 @@ export const MoveableComponent: React.FC<
           setPosition({ x: 0, y: 0 });
           gameService.send(getMoveAction(name), {
             // Don't send name for resource events and Bud events
-            ...(name in RESOURCE_MOVE_EVENTS ||
-            isBudName(name) ||
-            isPetNFTName(name)
+            ...(name in RESOURCE_MOVE_EVENTS || name === "Bud" || name === "Pet"
               ? {}
               : { name }),
             coordinates: { x, y },

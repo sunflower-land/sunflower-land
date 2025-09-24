@@ -1,3 +1,4 @@
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import Phaser from "phaser";
 
 export type Sound =
@@ -30,10 +31,7 @@ export class WalkAudioController {
 export type AudioProps = {
   sound: Sound;
   distanceThreshold: number;
-  coordinates: {
-    x: number;
-    y: number;
-  };
+  coordinates: Coordinates;
   maxVolume: number;
 };
 

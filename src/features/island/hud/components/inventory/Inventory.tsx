@@ -7,7 +7,6 @@ import { GameState, InventoryItemName } from "features/game/types/game";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleName } from "features/game/types/craftables";
-import { BudName } from "features/game/types/buds";
 import { BasketButton } from "./BasketButton";
 import { SeedName, SEEDS } from "features/game/types/seeds";
 import { LandscapingPlaceable } from "features/game/expansion/placeable/landscapingMachine";
@@ -17,8 +16,8 @@ interface Props {
   selectedItem?: InventoryItemName;
   isFullUser: boolean;
   shortcutItem?: (item: InventoryItemName) => void;
-  onPlace?: (item: InventoryItemName) => void;
-  onPlaceBud?: (bud: BudName) => void;
+  onPlace?: (item: LandscapingPlaceable) => void;
+  onPlaceBud?: (id: string) => void;
   onDepositClick?: () => void;
   isFarming: boolean;
   isSaving?: boolean;
@@ -49,8 +48,10 @@ export const Inventory: React.FC<Props> = ({
     };
   }, []);
 
-  const [selectedChestItem, setSelectedChestItem] =
-    useState<LandscapingPlaceable>();
+  const [selectedChestItem, setSelectedChestItem] = useState<{
+    name: LandscapingPlaceable;
+    id?: string;
+  }>();
   // [
   //   ...buds,
   //   ...getKeys(getChestItems(state)).sort(

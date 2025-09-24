@@ -8,20 +8,18 @@ import {
 import { CollectibleName } from "features/game/types/craftables";
 import { assign, createMachine, Interpreter, sendParent, State } from "xstate";
 import { Coordinates } from "../components/MapPlacement";
-import { Inventory, InventoryItemName } from "features/game/types/game";
+import { Inventory } from "features/game/types/game";
 import {
   Context as GameMachineContext,
   saveGame,
 } from "features/game/lib/gameMachine";
 import { RESOURCES } from "features/game/types/resources";
 import { ResourceName } from "features/game/types/resources";
-import { BudName, isBudName } from "features/game/types/buds";
 import {
   RESOURCE_MOVE_EVENTS,
   RESOURCES_REMOVE_ACTIONS,
 } from "features/island/collectibles/MovableComponent";
 import { PlaceableLocation } from "features/game/types/collectibles";
-import { PetNFTName } from "features/game/types/pets";
 
 export const RESOURCE_PLACE_EVENTS: Partial<
   Record<ResourceName, GameEventName<PlacementEvent>>
@@ -49,7 +47,7 @@ export const RESOURCE_PLACE_EVENTS: Partial<
 };
 
 export function placeEvent(
-  name: InventoryItemName,
+  name: LandscapingPlaceable,
 ): GameEventName<PlacementEvent> {
   if (name in RESOURCES) {
     return RESOURCE_PLACE_EVENTS[
@@ -68,21 +66,14 @@ export type LandscapingPlaceable =
   | BuildingName
   | CollectibleName
   | ResourceName
-  | BudName
-  | PetNFTName;
+  | "Bud"
+  | "Pet";
 
-export const isPetNFTName = (
-  name?: LandscapingPlaceable,
-): name is PetNFTName => {
-  if (!name) return false;
-
-  return name.includes("Pet-");
-};
 export interface Context {
   action?: GameEventName<PlacementEvent>;
   coordinates: Coordinates;
   collisionDetected: boolean;
-  placeable?: LandscapingPlaceable;
+  placeable?: { id: string; name: LandscapingPlaceable };
 
   multiple?: boolean;
 
@@ -92,17 +83,14 @@ export interface Context {
     ingredients: Inventory;
   };
 
-  moving?: {
-    id: string;
-    name: LandscapingPlaceable;
-  };
+  moving?: { id: string; name: LandscapingPlaceable };
 
   maximum?: number;
 }
 
 type SelectEvent = {
   type: "SELECT";
-  placeable: BuildingName | CollectibleName;
+  placeable: { id: string; name: LandscapingPlaceable };
   action: GameEventName<PlacementEvent>;
   requirements: {
     coins: number;
@@ -422,19 +410,19 @@ export const landscapingMachine = createMachine<
                       { placeable, action, coordinates: { x, y } },
                       { location },
                     ) => {
-                      if (isBudName(placeable)) {
+                      if (placeable?.name === "Bud") {
                         return {
                           type: action,
                           coordinates: { x, y },
-                          id: placeable.split("-")[1],
+                          id: placeable?.id,
                           location,
                         } as PlacementEvent;
                       }
                       return {
                         type: action,
-                        name: placeable,
+                        name: placeable?.name,
                         coordinates: { x, y },
-                        id: uuidv4().slice(0, 8),
+                        id: placeable?.id,
                         location,
                       } as PlacementEvent;
                     },

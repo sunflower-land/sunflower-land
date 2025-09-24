@@ -35,7 +35,6 @@ import {
 import { loadSession } from "../actions/loadSession";
 import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
-import { CollectibleName } from "../types/craftables";
 import { ErrorCode, ERRORS } from "lib/errors";
 import { makeGame } from "./transforms";
 import { reset } from "features/farming/hud/actions/reset";
@@ -43,9 +42,9 @@ import { reset } from "features/farming/hud/actions/reset";
 import { checkProgress, processEvent } from "./processEvent";
 import {
   landscapingMachine,
+  LandscapingPlaceable,
   SaveEvent,
 } from "../expansion/placeable/landscapingMachine";
-import { BuildingName } from "../types/buildings";
 import { Context } from "../GameProvider";
 import { isSwarming } from "../events/detectBot";
 import { generateTestLand } from "../expansion/actions/generateLand";
@@ -74,7 +73,6 @@ import { BumpkinItem } from "../types/bumpkin";
 import { getAuctionResults } from "../actions/getAuctionResults";
 import { AuctionResults } from "./auctionMachine";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
-import { BudName } from "../types/buds";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { portal } from "features/world/ui/community/actions/portal";
 
@@ -210,7 +208,7 @@ type UpdateBlockBucksEvent = {
 };
 
 type LandscapeEvent = {
-  placeable?: BuildingName | CollectibleName | BudName;
+  placeable?: { name: LandscapingPlaceable; id: string };
   action?: GameEventName<PlacementEvent>;
   type: "LANDSCAPE";
   requirements?: {

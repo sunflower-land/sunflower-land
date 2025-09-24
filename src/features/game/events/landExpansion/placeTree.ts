@@ -10,15 +10,13 @@ import {
   findExistingUnplacedNode,
   getAvailableNodes,
 } from "features/game/lib/resourceNodes";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export type PlaceTreeAction = {
   type: "tree.placed";
   name: TreeName;
   id: string;
-  coordinates: {
-    x: number;
-    y: number;
-  };
+  coordinates: Coordinates;
 };
 
 type Options = {

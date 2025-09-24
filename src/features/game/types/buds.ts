@@ -1,5 +1,4 @@
 import { Coordinates } from "../expansion/components/MapPlacement";
-import { LandscapingPlaceable } from "../expansion/placeable/landscapingMachine";
 import { PlaceableLocation } from "./collectibles";
 
 export type TraitGroup =
@@ -80,11 +79,3 @@ export type Bud = {
 };
 
 export type BudName = `Bud-${number}`;
-
-export function isBudName(
-  name: LandscapingPlaceable | undefined,
-): name is BudName {
-  if (!name) return false;
-
-  return name.startsWith(`Bud-`);
-}

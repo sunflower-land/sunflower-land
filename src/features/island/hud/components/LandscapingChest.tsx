@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import chest from "assets/icons/chest.png";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
 import { Chest } from "./inventory/Chest";
 import { getKeys } from "features/game/types/craftables";
 import { NPC_WEARABLES } from "lib/npcs";
-import { BudName } from "features/game/types/buds";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Biomes } from "./inventory/Biomes";
@@ -19,8 +18,8 @@ interface Props {
   show: boolean;
   onHide: () => void;
   state: GameState;
-  onPlace: (item: InventoryItemName) => void;
-  onPlaceBud: (bud: BudName) => void;
+  onPlace: (item: LandscapingPlaceable) => void;
+  onPlaceBud: (id: string) => void;
 }
 
 export const LandscapingChest: React.FC<Props> = ({
@@ -32,7 +31,10 @@ export const LandscapingChest: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
 
-  const [selected, setSelected] = useState<LandscapingPlaceable>();
+  const [selected, setSelected] = useState<{
+    name: LandscapingPlaceable;
+    id?: string;
+  }>();
   const [currentTab, setCurrentTab] = useState<"Chest" | "Biomes">("Chest");
   const hasBiomes = getKeys(LAND_BIOMES).some((item) =>
     (state.inventory[item] ?? new Decimal(0)).gt(0),

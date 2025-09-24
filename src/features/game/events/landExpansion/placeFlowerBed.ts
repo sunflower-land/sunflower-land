@@ -2,14 +2,12 @@ import Decimal from "decimal.js-light";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { FlowerBed, GameState } from "features/game/types/game";
 import { produce } from "immer";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export type PlaceFlowerBedAction = {
   type: "flowerBed.placed";
   id: string;
-  coordinates: {
-    x: number;
-    y: number;
-  };
+  coordinates: Coordinates;
 };
 
 type Options = {

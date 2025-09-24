@@ -7,7 +7,6 @@ import { Chest } from "./Chest";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "components/ui/Modal";
-import { BudName } from "features/game/types/buds";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Biomes } from "./Biomes";
@@ -22,10 +21,13 @@ interface Props {
   state: GameState;
   selectedBasketItem?: InventoryItemName;
   onSelectBasketItem: (name: InventoryItemName) => void;
-  selectedChestItem?: LandscapingPlaceable;
-  onSelectChestItem: (name: LandscapingPlaceable) => void;
-  onPlace?: (name: InventoryItemName) => void;
-  onPlaceBud?: (bud: BudName) => void;
+  selectedChestItem?: { name: LandscapingPlaceable; id?: string };
+  onSelectChestItem: (item: {
+    name: LandscapingPlaceable;
+    id?: string;
+  }) => void;
+  onPlace?: (name: LandscapingPlaceable) => void;
+  onPlaceBud?: (id: string) => void;
   onDepositClick?: () => void;
   isSaving?: boolean;
   isFarming: boolean;
