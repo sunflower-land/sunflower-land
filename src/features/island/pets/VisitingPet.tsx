@@ -63,6 +63,10 @@ export const VisitingPet: React.FC<{ name: PetName }> = ({ name }) => {
     }
   };
 
+  if (!petData) {
+    return null;
+  }
+
   return (
     <PetSprite
       id={name}
@@ -70,6 +74,7 @@ export const VisitingPet: React.FC<{ name: PetName }> = ({ name }) => {
       isNapping={isNapping}
       onClick={handlePetClick}
       clickable={!hasHelpedPet}
+      petData={petData}
     >
       {!hasHelpedPet && petData && (
         <div

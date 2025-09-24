@@ -126,7 +126,7 @@ export const PetModal: React.FC<Props> = ({
             ? [
                 {
                   name: t("pets.neglected"),
-                  icon: getPetImage(petId, "asleep"),
+                  icon: getPetImage(petId, "asleep", data),
                   id: "Neglected",
                 },
               ]
@@ -135,7 +135,7 @@ export const PetModal: React.FC<Props> = ({
               : [
                   {
                     name: t("pets.info"),
-                    icon: getPetImage(petId, "happy"),
+                    icon: getPetImage(petId, "happy", data),
                     id: "Info",
                   },
                   { name: t("pets.feed"), icon: foodIcon, id: "Feed" },

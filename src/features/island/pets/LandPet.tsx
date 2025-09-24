@@ -46,6 +46,7 @@ export const LandPet: React.FC<{ name: PetName }> = ({ name }) => {
       isNapping={isNapping}
       onClick={handlePetClick}
       clickable
+      petData={petData}
     >
       <Transition
         appear={true}

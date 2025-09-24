@@ -28,7 +28,7 @@ export const PetNFTDetails: React.FC<Props> = ({
   petData,
   actionView,
 }) => {
-  const icon = getPetImage(petId, "asleep");
+  const icon = getPetImage(petId, "asleep", petData);
   const title = petData.name;
 
   return (

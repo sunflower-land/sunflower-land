@@ -1,7 +1,13 @@
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
-import { PetName } from "features/game/types/pets";
+import {
+  Pet,
+  PetName,
+  PetNFT,
+  isPetNFT as isPetNFTData,
+  getPetType,
+} from "features/game/types/pets";
 import { MachineState } from "features/game/lib/gameMachine";
 
 import barkleyAsleep from "assets/sfts/pets/dogs/barkley_asleep.webp";
@@ -197,7 +203,15 @@ export const isPetNFT = (petId: PetName | number): petId is number => {
 export const getPetImage = (
   petId: PetName | number,
   state: "asleep" | "happy",
+  petData: Pet | PetNFT,
 ) => {
+  if (isPetNFTData(petData)) {
+    const isRevealed = petData.revealAt < Date.now();
+    const petType = getPetType(petData);
+    if (!isRevealed || !petType) {
+      return ITEM_DETAILS["Pet Egg"].image;
+    }
+  }
   // TODO: Fetch Pet NFT image
   if (isPetNFT(petId)) {
     return ITEM_DETAILS["Ramsey"].image;
