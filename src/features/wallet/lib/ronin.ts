@@ -23,20 +23,16 @@ export const RONIN_BOX_REWARDS: Record<
   RoninV2PackName,
   {
     items: Partial<Record<InventoryItemName, number>>;
-    estimatedValue: number;
   }
 > = {
   ["Bronze Pack"]: {
     items: { Gem: 50 },
-    estimatedValue: 0.5,
   },
   ["Silver Pack"]: {
     items: { Gem: 100, "Time Warp Totem": 1, "Bronze Food Box": 1 },
-    estimatedValue: 1,
   },
   ["Gold Pack"]: {
     items: { Gem: 300, "Time Warp Totem": 3, "Silver Food Box": 1 },
-    estimatedValue: 3,
   },
   ["Platinum Pack"]: {
     items: {
@@ -44,7 +40,6 @@ export const RONIN_BOX_REWARDS: Record<
       "Gold Food Box": 1,
       "Silver Love Box": 1,
     },
-    estimatedValue: 20,
   },
   ["Legendary Pack"]: {
     items: {
@@ -52,7 +47,6 @@ export const RONIN_BOX_REWARDS: Record<
       "Gold Love Box": 1,
       "Gold Food Box": 1,
     },
-    estimatedValue: 100,
   },
   ["Whale Pack"]: {
     items: {
@@ -60,6 +54,5 @@ export const RONIN_BOX_REWARDS: Record<
       "Lifetime Farmer Banner": 1,
       // NFT Pet Egg
     },
-    estimatedValue: 500,
   },
 };

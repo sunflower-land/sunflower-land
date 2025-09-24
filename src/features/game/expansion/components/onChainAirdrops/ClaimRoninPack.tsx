@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Label } from "components/ui/Label";
 import { useGame } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
 import { Button } from "components/ui/Button";
 
 import { RONIN_BOX_REWARDS, RoninV2PackName } from "features/wallet/lib/ronin";
@@ -9,15 +8,13 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getRoninPack } from "features/roninAirdrop/actions/getRoninPack";
 import confetti from "canvas-confetti";
 import { Loading } from "features/auth/components";
-import { Box } from "components/ui/Box";
-import giftIcon from "assets/icons/gift.png";
 import { ClaimReward } from "../ClaimReward";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 export const ClaimRoninPack: React.FC = () => {
   const { gameState, gameService } = useGame();
   const [isLoading, setIsLoading] = useState(false);
-  const [reward, setReward] = useState<RoninV2PackName | null>("Silver Pack");
+  const [reward, setReward] = useState<RoninV2PackName | null>(null);
 
   const { t } = useAppTranslation();
 
@@ -69,13 +66,10 @@ export const ClaimRoninPack: React.FC = () => {
 
   return (
     <div>
-      <Label className="ml-2 mb-2" type="warning">
-        Flower on Ronin
+      <Label className="ml-2" type="warning">
+        {t("ronin.flowerOnRonin")}
       </Label>
-      <p className="text-xs">
-        FLOWER is now available on Ronin! To celebrate this launch, we are
-        giving exclusive Ronin packs to eligible players.
-      </p>
+      <p className="text-sm p-2">{t("ronin.flowerOnRoninDescription")}</p>
 
       <img
         src={SUNNYSIDE.announcement.roninAirdrop}
@@ -83,7 +77,7 @@ export const ClaimRoninPack: React.FC = () => {
       />
 
       <Button className="mt-2" onClick={check}>
-        Claim Reward
+        {t("ronin.claimReward")}
       </Button>
     </div>
   );
@@ -95,13 +89,10 @@ export const RoninClaimedSuccess: React.FC = () => {
   return (
     <>
       <Label type="success" className="mb-2">
-        Reward claimed
+        {t("ronin.rewardClaimed")}
       </Label>
-      <p className="text-sm mb-2">Are you an X influencer?</p>
-      <p className="text-sm mb-2">
-        Don't forget to claim to visit the rewards section, connect your account
-        and claim your bonus reward.
-      </p>
+      <p className="text-sm mb-2">{t("ronin.rewardClaimedDescription")}</p>
+      <p className="text-sm mb-2">{t("ronin.rewardClaimedDescription2")}</p>
       <Button
         onClick={() => {
           gameService.send("CONTINUE");

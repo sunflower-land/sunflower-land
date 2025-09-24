@@ -792,6 +792,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     pots: {},
   },
   twitter: {
+    username: "test",
     linkedAt: Date.now(),
     followedAt: Date.now(),
     isAuthorised: true,
@@ -1533,6 +1534,12 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     },
   },
+  roninRewards: {
+    onchain: {
+      openedAt: Date.now(),
+      pack: "Bronze Pack",
+    },
+  },
   blessing: {
     offering: {
       item: "Potato",
@@ -1560,7 +1567,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       farms: [],
     },
     cheers: {
-      freeCheersClaimedAt: 0,
+      freeCheersClaimedAt: Date.now(),
     },
     clutter: {
       spawnedAt: 0,

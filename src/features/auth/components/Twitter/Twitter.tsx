@@ -61,7 +61,7 @@ const TwitterRewards: React.FC = () => {
   return (
     <InnerPanel className="p-2  mt-1">
       <div className="flex gap-1 items-center mb-2">
-        <Label type="vibrant">{t("twitter.share.earn")}</Label>
+        <Label type="default">{t("twitter.share.earn")}</Label>
         {twitter?.isAuthorised && (
           <Label type="success" className="mr-2">
             {t("twitter.connected")}
@@ -70,47 +70,51 @@ const TwitterRewards: React.FC = () => {
       </div>
 
       <p className="text-xs mb-2 px-2">{t("twitter.rewards.description")}</p>
-      {getKeys(TWITTER_REWARDS).map((key) => {
-        // In last 7 days
-        const hasCompleted =
-          (twitter?.tweets?.[key]?.completedAt ?? 0) >
-          Date.now() - 7 * 24 * 60 * 60 * 1000;
+      {getKeys(TWITTER_REWARDS)
+        .filter((key) => key !== "FLOWER")
+        .map((key) => {
+          // In last 7 days
+          const hasCompleted =
+            (twitter?.tweets?.[key]?.completedAt ?? 0) >
+            Date.now() - 7 * 24 * 60 * 60 * 1000;
 
-        return (
-          <ButtonPanel
-            className="mt-1"
-            key={key}
-            onClick={() => setSelected(key)}
-          >
-            <div className="flex flex-wrap justify-between">
-              <div className="flex gap-1">
-                {key === "RONIN" && (
-                  <Label type="vibrant">{t("twitter.ronin.label")}</Label>
-                )}
-                {
-                  // Loop through rewards and give label
-                  getKeys(TWITTER_REWARDS[key].items).map((name) => (
-                    <Label
-                      type="warning"
-                      key={name}
-                      icon={ITEM_DETAILS[name].image}
-                    >
-                      {`${name} x ${TWITTER_REWARDS[key].items[name]}`}
+          return (
+            <ButtonPanel
+              className="mt-1"
+              key={key}
+              onClick={() => setSelected(key)}
+            >
+              <div className="flex flex-wrap justify-between">
+                <div className="flex gap-1">
+                  {key === "RONIN" && (
+                    <Label type="vibrant" icon={giftIcon}>
+                      {t("twitter.ronin.label")}
                     </Label>
-                  ))
-                }
+                  )}
+                  {
+                    // Loop through rewards and give label
+                    getKeys(TWITTER_REWARDS[key].items).map((name) => (
+                      <Label
+                        type="warning"
+                        key={name}
+                        icon={ITEM_DETAILS[name].image}
+                      >
+                        {`${name} x ${TWITTER_REWARDS[key].items[name]}`}
+                      </Label>
+                    ))
+                  }
+                </div>
+                {hasCompleted && <Label type="success">{t("completed")}</Label>}
               </div>
-              {hasCompleted && <Label type="success">{t("completed")}</Label>}
-            </div>
 
-            <div>
-              <p className="text-xs my-1">
-                {t(TWITTER_POST_DESCRIPTIONS[key])}
-              </p>
-            </div>
-          </ButtonPanel>
-        );
-      })}
+              <div>
+                <p className="text-xs my-1">
+                  {t(TWITTER_POST_DESCRIPTIONS[key])}
+                </p>
+              </div>
+            </ButtonPanel>
+          );
+        })}
 
       <div className="mb-1 mx-1">
         <span
@@ -164,7 +168,7 @@ const TwitterPost: React.FC<{ name: TwitterPostName; onClose: () => void }> = ({
   if (!twitter?.isAuthorised) {
     return (
       <InnerPanel className="p-1  mt-1">
-        <Label type="vibrant" className="mb-2">
+        <Label type="default" className="mb-2">
           {t("twitter.share.earn")}
         </Label>
         <Button
@@ -186,7 +190,7 @@ const TwitterPost: React.FC<{ name: TwitterPostName; onClose: () => void }> = ({
   if (!twitter.followedAt) {
     return (
       <InnerPanel className="p-1  mt-1">
-        <Label type="vibrant" className="mb-2">
+        <Label type="default" className="mb-2">
           {t("twitter.share.earn")}
         </Label>
         <div className="flex flex-wrap">
@@ -295,7 +299,7 @@ const TwitterFarm: React.FC<{ onClose: () => void; onVerify?: () => void }> = ({
   return (
     <>
       <div className="flex  gap-1">
-        <Label type="vibrant" className="mr-2">
+        <Label type="default" className="mr-2">
           {t("twitter.farm.share")}
         </Label>
         <div className="flex flex-wrap justify-between">
@@ -427,7 +431,7 @@ const TwitterBanner: React.FC<{
   return (
     <>
       <div className="flex  gap-1">
-        <Label type="vibrant">{t("twitter.weekly.share")}</Label>
+        <Label type="default">{t("twitter.weekly.share")}</Label>
         <div className="flex flex-wrap justify-between">
           {hasCompleted ? (
             <Label type="success" className="mr-2">
@@ -523,7 +527,7 @@ const RoninAirdrop: React.FC<{
 
   const handleDownload = async () => {
     try {
-      const response = await fetch(SUNNYSIDE.announcement.roninAirdrop);
+      const response = await fetch(SUNNYSIDE.announcement.roninAirdropHires);
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
 
@@ -540,7 +544,9 @@ const RoninAirdrop: React.FC<{
   };
 
   if (hasCompleted) {
-    const items = RONIN_BOX_REWARDS[state.roninRewards?.twitter?.pack!].items;
+    const items =
+      RONIN_BOX_REWARDS[state.roninRewards?.twitter?.pack ?? "Bronze Pack"]
+        .items;
     return (
       <>
         <Label type="success" className="mr-2">
@@ -569,17 +575,18 @@ const RoninAirdrop: React.FC<{
   return (
     <>
       <div className=" gap-1">
-        <Label type="info" icon={SUNNYSIDE.icons.stopwatch} className="mr-2">
+        <Label
+          type="info"
+          icon={SUNNYSIDE.icons.stopwatch}
+          className="mr-2 ml-1"
+        >
           {t("twitter.ronin.share")}
         </Label>
-        <p className="text-sm">
-          Congratulations, you are eligible for a Ronin Airdrop!
-        </p>
+        <p className="text-xs p-2">{t("twitter.ronin.eligible")}</p>
         <div className="flex items-center ">
           <Box image={giftIcon} />
           <div className="ml-1">
-            <p className="text-sm">1 x {reward}</p>
-            <p className="text-xs">~$50.99 in-game value!</p>
+            <p className="text-sm">{`1 x ${reward}`}</p>
           </div>
         </div>
       </div>
@@ -587,11 +594,10 @@ const RoninAirdrop: React.FC<{
       <p className="text-xs mx-1 my-1">
         {t("twitter.ronin.instructions.1", { hashtag: TWITTER_HASHTAGS.RONIN })}
       </p>
-      <p className="text-xs mx-1 mb-2">{t("twitter.ronin.instructions.2")}</p>
 
       <div className="relative">
         <img
-          src={SUNNYSIDE.announcement.roninAirdrop}
+          src={SUNNYSIDE.announcement.roninAirdropHires}
           className="w-full my-2"
         />
         <div
