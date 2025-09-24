@@ -3,7 +3,6 @@ import { GameEventName, PlacementEvent } from "features/game/events";
 import {
   BUILDINGS_DIMENSIONS,
   BuildingName,
-  PlaceableName,
 } from "features/game/types/buildings";
 import { CollectibleName } from "features/game/types/craftables";
 import { assign, createMachine, Interpreter, sendParent, State } from "xstate";
@@ -134,7 +133,7 @@ type RemoveEvent = {
   type: "REMOVE";
   event: GameEventName<PlacementEvent>;
   id: string;
-  name: PlaceableName;
+  name: LandscapingPlaceable;
   location: PlaceableLocation;
 };
 
@@ -334,11 +333,14 @@ export const landscapingMachine = createMachine<
                     ({
                       type: event.event,
                       ...(event.name in RESOURCE_MOVE_EVENTS ||
-                      event.name === "Bud"
-                        ? {}
+                      event.name === "Bud" ||
+                      event.name === "Pet"
+                        ? { nft: event.name }
                         : { name: event.name }),
                       id: event.id,
-                      ...(event.name in RESOURCES_REMOVE_ACTIONS
+                      ...(event.name in RESOURCES_REMOVE_ACTIONS ||
+                      event.name === "Bud" ||
+                      event.name === "Pet"
                         ? {}
                         : { location: event.location }),
                     }) as PlacementEvent,

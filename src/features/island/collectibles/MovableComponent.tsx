@@ -152,13 +152,8 @@ export function getRemoveAction(
     return "collectible.removed";
   }
 
-  if (name === "Bud") {
-    return "bud.removed";
-  }
-
-  if (name === "Pet") {
-    // return "petNFT.removed";
-    return null;
+  if (name === "Bud" || name === "Pet") {
+    return "nft.removed";
   }
 
   if (name in RESOURCES_REMOVE_ACTIONS) {

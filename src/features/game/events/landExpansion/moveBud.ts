@@ -5,7 +5,7 @@ import { produce } from "immer";
 export enum MOVE_BUD_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
   NO_BUD = "You don't have this bud",
-  BUD_NOT_PLACED = "This bud is not placed!",
+  NFT_NOT_PLACED = "This bud is not placed!",
 }
 
 export type MoveBudAction = {
@@ -33,7 +33,7 @@ export function moveBud({
     }
 
     if (!bud.coordinates) {
-      throw new Error(MOVE_BUD_ERRORS.BUD_NOT_PLACED);
+      throw new Error(MOVE_BUD_ERRORS.NFT_NOT_PLACED);
     }
 
     bud.coordinates = action.coordinates;

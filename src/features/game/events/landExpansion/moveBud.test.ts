@@ -48,7 +48,7 @@ describe("moveBud", () => {
           coordinates: { x: 2, y: 2 },
         },
       }),
-    ).toThrow(MOVE_BUD_ERRORS.BUD_NOT_PLACED);
+    ).toThrow(MOVE_BUD_ERRORS.NFT_NOT_PLACED);
   });
 
   it("moves a bud", () => {

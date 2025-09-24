@@ -1,31 +1,32 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
-import { REMOVE_BUD_ERRORS, removeBud } from "./removeBud";
+import { REMOVE_NFT_ERRORS, removeNFT } from "./removeNFT";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
   balance: new Decimal(0),
 };
 
-describe("removeBud", () => {
+describe("removeNFT", () => {
   it("does not remove non-existent bud", () => {
     expect(() =>
-      removeBud({
+      removeNFT({
         state: {
           ...GAME_STATE,
         },
         action: {
-          type: "bud.removed",
+          type: "nft.removed",
           id: "1",
+          nft: "Bud",
         },
       }),
-    ).toThrow(REMOVE_BUD_ERRORS.INVALID_BUD);
+    ).toThrow(REMOVE_NFT_ERRORS.INVALID_NFT);
   });
 
   it("does not remove a bud that is not placed", () => {
     expect(() =>
-      removeBud({
+      removeNFT({
         state: {
           ...GAME_STATE,
           buds: {
@@ -39,16 +40,17 @@ describe("removeBud", () => {
           },
         },
         action: {
-          type: "bud.removed",
+          type: "nft.removed",
           id: "1",
+          nft: "Bud",
         },
       }),
-    ).toThrow(REMOVE_BUD_ERRORS.BUD_NOT_PLACED);
+    ).toThrow(REMOVE_NFT_ERRORS.NFT_NOT_PLACED);
   });
 
   it.skip("prevents removing a bud if stem buff is active", () => {
     expect(() =>
-      removeBud({
+      removeNFT({
         state: {
           ...GAME_STATE,
           crops: {
@@ -78,8 +80,9 @@ describe("removeBud", () => {
           },
         },
         action: {
-          type: "bud.removed",
+          type: "nft.removed",
           id: "1",
+          nft: "Bud",
         },
       }),
     ).toThrowError("Crops are growing");
@@ -87,7 +90,7 @@ describe("removeBud", () => {
 
   it.skip("prevents removing a bud if type buff is active", () => {
     expect(() =>
-      removeBud({
+      removeNFT({
         state: {
           ...GAME_STATE,
           fruitPatches: {
@@ -118,15 +121,16 @@ describe("removeBud", () => {
           },
         },
         action: {
-          type: "bud.removed",
+          type: "nft.removed",
           id: "1",
+          nft: "Bud",
         },
       }),
     ).toThrowError("Fruits are growing");
   });
 
   it("removes a bud", () => {
-    const gameState = removeBud({
+    const gameState = removeNFT({
       state: {
         ...GAME_STATE,
 
@@ -145,8 +149,9 @@ describe("removeBud", () => {
         },
       },
       action: {
-        type: "bud.removed",
+        type: "nft.removed",
         id: "1",
+        nft: "Bud",
       },
     });
 
