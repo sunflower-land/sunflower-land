@@ -60,9 +60,6 @@ export const rewardChestMachine = createMachine<
   DailyRewardState
 >({
   initial: "initialising",
-  on: {
-    LOAD: "loading",
-  },
   states: {
     initialising: {
       always: [
@@ -88,7 +85,11 @@ export const rewardChestMachine = createMachine<
         { target: "idle" },
       ],
     },
-    idle: {},
+    idle: {
+      on: {
+        LOAD: "loading",
+      },
+    },
     loading: {
       invoke: {
         src: async (context) => {
