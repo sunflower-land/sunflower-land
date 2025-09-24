@@ -34,8 +34,6 @@ import { PirateChestModal } from "./chests/PirateChest";
 import { ExampleDonations } from "./donations/ExampleDonations";
 import { WorldMap } from "features/island/hud/components/deliveries/WorldMap";
 import { Halloween } from "./portals/Halloween";
-import { ChristmasPortal } from "./portals/ChristmasPortal";
-import { ChristmasReward } from "./npcs/Santa";
 import { WeatherShop } from "features/game/expansion/components/temperateSeason/WeatherShop";
 import { PortalChooser } from "./portals/PortalChooser";
 import { EasterEggstravaganza } from "./portals/EasterEggstravaganza";
@@ -566,12 +564,6 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         </CloseButtonPanel>
       </Modal>
 
-      <Modal show={interactable === "christmas_portal"} onHide={closeModal}>
-        <CloseButtonPanel onClose={closeModal} bumpkinParts={NPC_WEARABLES.elf}>
-          <ChristmasPortal onClose={closeModal} />
-        </CloseButtonPanel>
-      </Modal>
-
       <Modal show={interactable === "dawn_book_2"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
@@ -907,9 +899,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           <EasterEggstravaganza onClose={closeModal} />
         </CloseButtonPanel>
       </Modal>
-      <Modal show={interactable === "christmas_reward"}>
-        <ChristmasReward onClose={closeModal} />
-      </Modal>
+
       <Modal show={interactable === "event_store"} onHide={closeModal}>
         <EventMegaStore onClose={closeModal} />
       </Modal>

@@ -89,10 +89,6 @@ function getMoveAction(
     return "collectible.moved";
   }
 
-  if (name === "Chicken") {
-    return "chicken.moved";
-  }
-
   if (name === "Bud") {
     return "bud.moved";
   }
@@ -143,10 +139,6 @@ export function getRemoveAction(
     return null;
   }
 
-  if (name === "Chicken") {
-    return "chicken.removed";
-  }
-
   if (name in COLLECTIBLES_DIMENSIONS) {
     return "collectible.removed";
   }
@@ -163,11 +155,11 @@ export function getRemoveAction(
 }
 
 export const isCollectible = (
-  name: CollectibleName | BuildingName | "Chicken" | "Bud",
+  name: CollectibleName | BuildingName | "Bud",
 ): name is CollectibleName => name in COLLECTIBLES_DIMENSIONS;
 
 export interface MovableProps {
-  name: CollectibleName | BuildingName | "Chicken" | "Bud";
+  name: CollectibleName | BuildingName | "Bud";
   id: string;
   index: number;
   x: number;
@@ -363,7 +355,7 @@ export const MoveableComponent: React.FC<
         coordinatesX: number;
         coordinatesY: number;
         id: string;
-        name: CollectibleName | BuildingName | "Chicken" | "Bud";
+        name: CollectibleName | BuildingName | "Bud";
         location: PlaceableLocation;
         dimensions: Dimensions;
       }) => {

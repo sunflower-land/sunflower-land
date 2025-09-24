@@ -30,12 +30,12 @@ export function speedUpCollectible({
       throw new Error("Collectible does not exists");
     }
 
-    if (collectible.readyAt < createdAt) {
+    if ((collectible.readyAt ?? 0) < createdAt) {
       throw new Error("Collectible already finished");
     }
 
     const gems = getInstantGems({
-      readyAt: collectible.readyAt,
+      readyAt: collectible.readyAt ?? 0,
       now: createdAt,
       game,
     });
