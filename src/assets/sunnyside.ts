@@ -56,7 +56,7 @@ export const SUNNYSIDE = {
   announcement: {
     loveRush: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/love_rush.webp`,
     roninAirdrop: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/ronin_airdrop.png`,
-    roninAirdropHires: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/ronin_airdro_hires.png`,
+    roninAirdropHires: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/ronin_airdrop_hires.png`,
 
     roninBanner: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/ronin_banner.png`,
     flowerBanner: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/flower_banner.png`,
