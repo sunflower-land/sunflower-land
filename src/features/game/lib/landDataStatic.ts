@@ -49,7 +49,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Better Together Banner": new Decimal(1),
     Geniseed: new Decimal(400),
     Wheat: new Decimal(400),
-    Pickaxe: new Decimal(1),
     "Blue Tile": new Decimal(1000),
     "Beta Pass": new Decimal(1),
     "Colors Token 2025": new Decimal(10000),
@@ -112,7 +111,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Volcano Biome": new Decimal(1),
     "Lava Pit": new Decimal(1),
     Bush: new Decimal(3),
-    Axe: new Decimal(10),
     Gem: new Decimal(4000),
     Rug: new Decimal(1),
     Shovel: new Decimal(1),
@@ -231,8 +229,89 @@ export const STATIC_OFFLINE_FARM: GameState = {
         criticalHit: { Native: 1 },
       },
       createdAt: 0,
-      x: 8,
-      y: -4,
+      x: -12,
+      y: -5,
+    },
+    1: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -12,
+      y: -6,
+    },
+    2: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -12,
+      y: -7,
+    },
+    3: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -12,
+      y: -8,
+    },
+    4: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -13,
+      y: -5,
+    },
+    5: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -13,
+      y: -6,
+    },
+    6: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -13,
+      y: -7,
+    },
+    7: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -13,
+      y: -8,
+    },
+    8: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -14,
+      y: -5,
+    },
+    9: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -14,
+      y: -6,
     },
   },
   iron: {
@@ -242,8 +321,89 @@ export const STATIC_OFFLINE_FARM: GameState = {
         criticalHit: { Native: 1 },
       },
       createdAt: 0,
-      x: 8,
-      y: -3,
+      x: -8,
+      y: -5,
+    },
+    1: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -8,
+      y: -6,
+    },
+    2: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -8,
+      y: -7,
+    },
+    3: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -8,
+      y: -8,
+    },
+    4: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -7,
+      y: -5,
+    },
+    5: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -7,
+      y: -6,
+    },
+    6: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -7,
+      y: -7,
+    },
+    7: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -7,
+      y: -8,
+    },
+    8: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -6,
+      y: -5,
+    },
+    9: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -6,
+      y: -6,
     },
   },
   stones: {
@@ -253,8 +413,89 @@ export const STATIC_OFFLINE_FARM: GameState = {
         criticalHit: { Native: 1 },
       },
       createdAt: 0,
-      x: 8,
-      y: -2,
+      x: -8,
+      y: -10,
+    },
+    1: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -8,
+      y: -11,
+    },
+    2: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -8,
+      y: -12,
+    },
+    3: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -8,
+      y: -13,
+    },
+    4: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -7,
+      y: -10,
+    },
+    5: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -7,
+      y: -11,
+    },
+    6: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -7,
+      y: -12,
+    },
+    7: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -7,
+      y: -13,
+    },
+    8: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -6,
+      y: -10,
+    },
+    9: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -6,
+      y: -11,
     },
   },
   trees: {
@@ -266,16 +507,64 @@ export const STATIC_OFFLINE_FARM: GameState = {
           coins: 200,
         },
       },
-      x: 4,
-      y: -2,
+      x: -12,
+      y: 10,
     },
     2: {
       wood: {
         choppedAt: 0,
         criticalHit: { Native: 1 },
       },
-      x: 6,
-      y: -2,
+      x: -12,
+      y: 12,
+    },
+    3: {
+      wood: {
+        choppedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      x: -14,
+      y: 10,
+    },
+    4: {
+      wood: {
+        choppedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      x: -14,
+      y: 12,
+    },
+    5: {
+      wood: {
+        choppedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      x: -8,
+      y: 10,
+    },
+    6: {
+      wood: {
+        choppedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      x: -8,
+      y: 12,
+    },
+    7: {
+      wood: {
+        choppedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      x: -10,
+      y: 10,
+    },
+    8: {
+      wood: {
+        choppedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      x: -10,
+      y: 12,
     },
   },
   sunstones: {},
@@ -607,7 +896,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
 
   stock: INITIAL_STOCK(),
-  chickens: {},
   trades: {},
   buildings: {
     Barn: [
@@ -1017,9 +1305,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
       items: {},
       vipDays: 1,
     },
-  },
-  treasureIsland: {
-    holes: {},
   },
   auctioneer: {},
   delivery: {

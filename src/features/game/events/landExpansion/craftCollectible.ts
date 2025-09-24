@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import {
   COLLECTIBLES_DIMENSIONS,
-  CollectibleName,
   getKeys,
 } from "features/game/types/craftables";
 
@@ -25,13 +24,6 @@ import { ExoticCropName } from "features/game/types/beans";
 import { isExoticCrop } from "features/game/types/crops";
 import { PET_SHOP_ITEMS, PetShopItemName } from "features/game/types/petShop";
 import { hasFeatureAccess } from "lib/flags";
-
-export const COLLECTIBLE_CRAFT_SECONDS: Partial<
-  Record<CollectibleName, number>
-> = {
-  Bale: 60,
-  "Scary Mike": 60,
-};
 
 type CraftableCollectibleItem =
   | HeliosBlacksmithItem
@@ -198,14 +190,9 @@ export function craftCollectible({
         throw new Error("ID already exists");
       }
 
-      const seconds = COLLECTIBLE_CRAFT_SECONDS[action.name] ?? 0;
-
       stateCopy.collectibles[action.name] = previous.concat({
         id: action.id,
         coordinates: { x: action.coordinates.x, y: action.coordinates.y },
-        readyAt: createdAt + seconds * 1000,
-
-        createdAt: createdAt,
       });
     }
 

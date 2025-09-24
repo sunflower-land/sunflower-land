@@ -1,14 +1,17 @@
 import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
 import { config } from "features/wallet/WalletProvider";
-import { NETWORKS, trackDailyReward } from "lib/blockchain/DailyReward";
+import {
+  getDailyCode,
+  NETWORKS,
+  trackDailyReward,
+} from "lib/blockchain/DailyReward";
 import { ERRORS } from "lib/errors";
 import { getAccount } from "wagmi/actions";
 import { assign, createMachine, Interpreter, State } from "xstate";
 
 export interface DailyRewardContext {
-  lastUsedCode: number;
+  nextCode: number;
   bumpkinLevel: number;
-  code: number;
   openedAt: number;
   hasAccess: boolean;
 }
@@ -57,6 +60,9 @@ export const rewardChestMachine = createMachine<
   DailyRewardState
 >({
   initial: "initialising",
+  on: {
+    LOAD: "loading",
+  },
   states: {
     initialising: {
       always: [
@@ -79,8 +85,39 @@ export const rewardChestMachine = createMachine<
             );
           },
         },
-        { target: "locked" },
+        { target: "idle" },
       ],
+    },
+    idle: {},
+    loading: {
+      invoke: {
+        src: async (context) => {
+          const { address, chain } = getAccount(config);
+
+          if (!address || !chain) throw new Error("No account");
+
+          const network = Object.entries(NETWORKS).find(
+            ([_, network]) => network.id === chain.id,
+          )?.[0] as NetworkName;
+
+          if (!network) throw new Error("No network");
+
+          const code = await getDailyCode(address, network);
+
+          return { code };
+        },
+        onDone: [
+          {
+            target: "unlocked",
+            cond: (context, event) => context.nextCode === event.data.code,
+          },
+          { target: "locked" },
+        ],
+
+        onError: {
+          target: "error",
+        },
+      },
     },
     comingSoon: {
       on: {
@@ -110,23 +147,13 @@ export const rewardChestMachine = createMachine<
 
           if (!network) throw new Error("No network");
 
-          const nextCode = (context.lastUsedCode + 1) % 100;
           await trackDailyReward({
             account: address,
             network,
-            code: nextCode,
+            code: context.nextCode,
           });
-
-          return { nextCode };
         },
-        onDone: [
-          {
-            target: "unlocked",
-            actions: assign({
-              code: (_, event) => event.data.nextCode,
-            }),
-          },
-        ],
+        onDone: [{ target: "unlocked" }],
         onError: [
           {
             target: "locked",
