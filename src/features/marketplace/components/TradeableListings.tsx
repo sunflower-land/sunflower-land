@@ -32,7 +32,6 @@ import { KeyedMutator } from "swr";
 import { isTradeResource } from "features/game/actions/tradeLimits";
 import { MAX_LIMITED_SALES } from "./Tradeable";
 import { ResourceTaxes } from "./TradeableInfo";
-import { useFirstRender } from "lib/utils/hooks/useFirstRender";
 
 type TradeableListingsProps = {
   authToken: string;
@@ -71,12 +70,9 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
 
   const isListing = useSelector(gameService, _isListing);
   const balance = useSelector(gameService, _balance);
-  const myListingsCount = useSelector(gameService, _myListingsCount);
 
   const [selectedListing, setSelectedListing] = useState<Listing>();
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
-
-  const isFirstRender = useFirstRender();
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
@@ -104,6 +100,13 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
     "marketplaceListingCancellingSuccess",
+    "playing",
+    reload,
+  );
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplaceBulkListingsCancellingSuccess",
     "playing",
     reload,
   );
