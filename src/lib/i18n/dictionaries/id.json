@@ -6664,5 +6664,7 @@
   "marketplace.offerLimitReached": "Anda telah mencapai jumlah maksimum penawaran (100). Harap hapus beberapa penawaran untuk memberi ruang bagi yang baru.",
   "petNFTs": "NFT hewan peliharaan",
   "description.basic.scarecrow.boost": "-20% Waktu Pertumbuhan Tanaman Dasar",
-  "description.basic.scarecrow.boost.skill": "-30% Waktu Pertumbuhan Tanaman Dasar"
+  "description.basic.scarecrow.boost.skill": "-30% Waktu Pertumbuhan Tanaman Dasar",
+  "share.apiKey": "Kunci API",
+  "share.apiKeyDescription": "Apakah Anda ingin membangun alat untuk komunitas? Gunakan kunci berikut di header permintaan Anda."
 }

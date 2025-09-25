@@ -6664,5 +6664,7 @@
   "marketplace.offerLimitReached": "Maksimum teklif sayısına ulaştınız (100). Yenilerine yer açmak için lütfen bazı teklifleri kaldırın.",
   "petNFTs": "Evcil Hayvan NFT'leri",
   "description.basic.scarecrow.boost": "-20% Temel Bitkilerin Büyüme Süresi",
-  "description.basic.scarecrow.boost.skill": "-30% Temel Bitkilerin Büyüme Süresi"
+  "description.basic.scarecrow.boost.skill": "-30% Temel Bitkilerin Büyüme Süresi",
+  "share.apiKey": "API Anahtarı",
+  "share.apiKeyDescription": "Topluluk için araçlar oluşturmak mı istiyorsunuz? İstek başlıklarınızda aşağıdaki anahtarı kullanın."
 }

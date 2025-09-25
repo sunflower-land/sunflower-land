@@ -6664,5 +6664,7 @@
   "marketplace.offerLimitReached": "Has alcanzado el número máximo de ofertas (100). Elimine algunas ofertas para dejar espacio para otras nuevas.",
   "petNFTs": "NFT para mascotas",
   "description.basic.scarecrow.boost": "-20% de tiempo de crecimiento de los cultivos básicos",
-  "description.basic.scarecrow.boost.skill": "-30% de tiempo de crecimiento de los cultivos básicos"
+  "description.basic.scarecrow.boost.skill": "-30% de tiempo de crecimiento de los cultivos básicos",
+  "share.apiKey": "Clave de API",
+  "share.apiKeyDescription": "¿Quieres crear herramientas para la comunidad? Usa la siguiente clave en los encabezados de tus solicitudes."
 }

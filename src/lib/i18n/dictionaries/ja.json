@@ -6664,5 +6664,7 @@
   "marketplace.offerLimitReached": "オファーの最大数（100）に達しました。新しいオファー用のスペースを空けるため、一部のオファーを削除してください。",
   "petNFTs": "ペットNFT",
   "description.basic.scarecrow.boost": "-20% 基本作物の成長時間",
-  "description.basic.scarecrow.boost.skill": "-30% 基本作物の成長時間"
+  "description.basic.scarecrow.boost.skill": "-30% 基本作物の成長時間",
+  "share.apiKey": "API キー",
+  "share.apiKeyDescription": "コミュニティ向けのツールを構築したいとお考えですか？リクエストヘッダーには以下のキーを使用してください。"
 }
