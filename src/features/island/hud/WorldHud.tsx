@@ -8,7 +8,6 @@ import { DepositArgs } from "lib/blockchain/Deposit";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { DepositGameItems } from "features/goblins/bank/components/DepositGameItems";
-import { placeEvent } from "features/game/expansion/placeable/landscapingMachine";
 import { Save } from "./components/Save";
 import { Settings } from "./components/Settings";
 import { TravelButton } from "./components/deliveries/TravelButton";
@@ -172,13 +171,6 @@ const HudComponent: React.FC<Props> = ({
             isFullUser={!!farmAddress}
             shortcutItem={shortcutItem}
             selectedItem={selectedItem}
-            onPlace={(selected) => {
-              gameService.send("LANDSCAPE", {
-                action: placeEvent(selected),
-                placeable: selected,
-                multiple: true,
-              });
-            }}
             onDepositClick={() => setShowDepositModal(true)}
             isSaving={autosaving}
             isFarming={false}

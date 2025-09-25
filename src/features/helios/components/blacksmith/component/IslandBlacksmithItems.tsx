@@ -147,7 +147,7 @@ export const IslandBlacksmithItems: React.FC = () => {
   const craft = () => {
     if (selectedName in WORKBENCH_MONUMENTS) {
       gameService.send("LANDSCAPE", {
-        placeable: selectedName,
+        placeable: { name: selectedName },
         action: "monument.bought",
         requirements: {
           coins: selectedItem?.coins ?? 0,
@@ -157,7 +157,7 @@ export const IslandBlacksmithItems: React.FC = () => {
       });
     } else {
       gameService.send("LANDSCAPE", {
-        placeable: selectedName,
+        placeable: { name: selectedName },
         action: "collectible.crafted",
         // Not used yet
         requirements: {
