@@ -36,6 +36,10 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import { useVisiting } from "lib/utils/visitUtils";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { PlayerModal } from "features/social/PlayerModal";
+import { hasFeatureAccess } from "lib/flags";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+import { Context as AuthContext } from "features/auth/lib/Provider";
 
 const BACKGROUND_IMAGE: Record<IslandType, string> = {
   basic: SUNNYSIDE.land.tent_inside,
@@ -74,14 +78,24 @@ const _homeCollectiblePositions = (state: MachineState) => {
       })),
   };
 };
+const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
 
 export const Home: React.FC = () => {
   const { isVisiting } = useVisiting();
   const [showIntro, setShowIntro] = useState(!hasReadIntro() && !isVisiting);
 
   const { gameService } = useContext(Context);
+  const { authService } = useContext(AuthContext);
 
   const { t } = useAppTranslation();
+
+  const context = gameService.getSnapshot().context;
+  const loggedInFarmId = context.visitorId ?? context.farmId;
+
+  const hasAirdropAccess = hasFeatureAccess(
+    context.visitorState ?? context.state,
+    "AIRDROP_PLAYER",
+  );
 
   // memorize game grid and only update it when the stringified value changes
 
@@ -93,6 +107,7 @@ export const Home: React.FC = () => {
     gameService,
     _homeCollectiblePositions,
   );
+  const token = useSelector(authService, _token);
 
   const [scrollIntoView] = useScrollIntoView();
   const [showPainting, setShowPainting] = useState(false);
@@ -310,6 +325,11 @@ export const Home: React.FC = () => {
             onClose={() => setShowPainting(false)}
           />
         </Modal>
+        <PlayerModal
+          loggedInFarmId={loggedInFarmId}
+          token={token}
+          hasAirdropAccess={hasAirdropAccess}
+        />
       </>
     </>
   );

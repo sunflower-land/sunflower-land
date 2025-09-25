@@ -29,8 +29,13 @@ import { EXTERIOR_ISLAND_BG } from "features/barn/BarnInside";
 import { ANIMAL_HOUSE_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";
 import { hasReadGuide } from "features/game/expansion/components/animals/AnimalBuildingModal";
 import { getCurrentBiome } from "features/island/biomes/biomes";
+import { PlayerModal } from "features/social/PlayerModal";
+import { hasFeatureAccess } from "lib/flags";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+import { Context as AuthContext } from "features/auth/lib/Provider";
 
 const _henHouse = (state: MachineState) => state.context.state.henHouse;
+const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
 
 export const ANIMAL_HOUSE_IMAGES: Record<
   number,
@@ -43,12 +48,24 @@ export const ANIMAL_HOUSE_IMAGES: Record<
 
 export const HenHouseInside: React.FC = () => {
   const { gameService } = useContext(Context);
+  const { authService } = useContext(AuthContext);
+
   const [showModal, setShowModal] = useState(!hasReadGuide());
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [deal, setDeal] = useState<AnimalBounty>();
   const [selected, setSelected] = useState<Animal>();
+
   const henHouse = useSelector(gameService, _henHouse);
+  const token = useSelector(authService, _token);
   const level = henHouse.level;
+
+  const context = gameService.getSnapshot().context;
+  const loggedInFarmId = context.visitorId ?? context.farmId;
+
+  const hasAirdropAccess = hasFeatureAccess(
+    context.visitorState ?? context.state,
+    "AIRDROP_PLAYER",
+  );
 
   const { t } = useAppTranslation();
 
@@ -270,6 +287,11 @@ export const HenHouseInside: React.FC = () => {
           validAnimalsCount={validAnimalsCount}
         />
       )}
+      <PlayerModal
+        loggedInFarmId={loggedInFarmId}
+        token={token}
+        hasAirdropAccess={hasAirdropAccess}
+      />
     </>
   );
 };
