@@ -321,10 +321,12 @@ export const RecipesTab: React.FC<Props> = ({
                       <div className="flex mt-1">
                         <SquareIcon
                           icon={
-                            COLLECTIBLE_BUFF_LABELS({
+                            COLLECTIBLE_BUFF_LABELS[
+                              recipe.name as InventoryItemName
+                            ]?.({
                               skills: state.bumpkin.skills,
                               collectibles: state.collectibles,
-                            })[recipe.name as InventoryItemName]?.length
+                            })?.length
                               ? lightningIcon
                               : SUNNYSIDE.icons.expression_confused
                           }

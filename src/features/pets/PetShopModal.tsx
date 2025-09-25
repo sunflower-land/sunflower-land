@@ -171,10 +171,10 @@ const PetShopActionView: React.FC<{
 }) => {
   const { t } = useAppTranslation();
   const boostDescription = [
-    ...(COLLECTIBLE_BUFF_LABELS({
+    ...(COLLECTIBLE_BUFF_LABELS[petItem]?.({
       skills: gameState.bumpkin.skills,
       collectibles: gameState.collectibles,
-    })[petItem] ?? []), // Spread to prevent mutations
+    }) ?? []), // Spread to prevent mutations
   ];
   const isPetEgg = (petItem: PetShopItemName): petItem is "Pet Egg" =>
     petItem === "Pet Egg";
