@@ -148,10 +148,10 @@ const CollectibleContent: React.FC<CollectibleContentProps> = ({
       selected.ingredients[name]?.greaterThan(inventory[name] || 0),
     );
   const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(1);
-  const isBoost = COLLECTIBLE_BUFF_LABELS({
+  const isBoost = COLLECTIBLE_BUFF_LABELS[selectedName]?.({
     skills: state.bumpkin.skills,
     collectibles: state.collectibles,
-  })[selectedName];
+  });
 
   const craft = () => {
     gameService.send("collectible.crafted", {
