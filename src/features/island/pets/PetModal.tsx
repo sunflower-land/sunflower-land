@@ -8,9 +8,11 @@ import { Context } from "features/game/GameProvider";
 import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
-  isPetNeglected,
+  Pet,
   PetName,
+  PetNFT,
   PetResourceName,
+  PetType,
 } from "features/game/types/pets";
 import { hasFeatureAccess } from "lib/flags";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -19,29 +21,32 @@ import { NeglectPet } from "./NeglectPet";
 import { PetFeed } from "./PetFeed";
 import { PetFetch } from "./PetFetch";
 import { PetInfo } from "./PetInfo";
-import { PET_STATE_IMAGES } from "./petShared";
+import { getPetImage, isPetNFT } from "./lib/petShared";
 
 interface Props {
   show: boolean;
   onClose: () => void;
-  petName: PetName;
+  petId: PetName | number;
+  data: Pet | PetNFT;
+  isNeglected: boolean;
+  petType: PetType;
 }
 
-export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
+export const PetModal: React.FC<Props> = ({
+  show,
+  onClose,
+  petId,
+  data,
+  isNeglected,
+  petType,
+}) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const petData = useSelector(
-    gameService,
-    (state) => state.context.state.pets?.common?.[petName],
-  );
-  const isNeglected = isPetNeglected(petData);
+
+  const isNFTPet = isPetNFT(petId);
 
   const [tab, setTab] = useState<"Info" | "Feed" | "Fetch" | "Neglected">(
     isNeglected ? "Neglected" : "Info",
-  );
-  const inventory = useSelector(
-    gameService,
-    (state) => state.context.state.inventory,
   );
   const hasPetHouse = useSelector(
     gameService,
@@ -70,36 +75,30 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
 
   const handleFeed = useCallback(
     (food: CookableName) => {
-      gameService.send("pet.fed", {
-        pet: petName,
-        food,
-      });
+      gameService.send("pet.fed", { petId, food });
     },
-    [gameService, petName],
+    [gameService, petId],
   );
 
-  const handleResetRequests = (pet: PetName) => {
+  const handleResetRequests = (petId: PetName | number) => {
     gameService.send("REVEAL", {
       event: {
         type: "reset.petRequests",
-        pet,
+        petId,
         createdAt: new Date(),
       },
     });
   };
 
-  const handleNeglectPet = (pet: PetName) => {
-    gameService.send("pet.neglected", { pet });
+  const handleNeglectPet = (petId: PetName | number) => {
+    gameService.send("pet.neglected", { petId });
     setTab("Info");
   };
 
-  const handlePetFetch = (petName: PetName, fetch: PetResourceName) =>
-    gameService.send("pet.fetched", {
-      pet: petName,
-      fetch,
-    });
+  const handlePetFetch = (petId: PetName | number, fetch: PetResourceName) =>
+    gameService.send("pet.fetched", { petId, fetch });
 
-  if (!petData || !hasPetsAccess) {
+  if (!hasPetsAccess) {
     return null;
   }
 
@@ -124,7 +123,7 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
             ? [
                 {
                   name: t("pets.neglected"),
-                  icon: PET_STATE_IMAGES[petName].asleep,
+                  icon: getPetImage(petId, "asleep", data),
                   id: "Neglected",
                 },
               ]
@@ -133,7 +132,7 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
               : [
                   {
                     name: t("pets.info"),
-                    icon: ITEM_DETAILS[petName].image,
+                    icon: getPetImage(petId, "happy", data),
                     id: "Info",
                   },
                   { name: t("pets.feed"), icon: foodIcon, id: "Feed" },
@@ -148,13 +147,18 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
         setCurrentTab={setTab}
         container={["Feed", "Fetch"].includes(tab) ? OuterPanel : undefined}
       >
-        {tab === "Info" && <PetInfo petName={petName} petData={petData} />}
+        {tab === "Info" && (
+          <PetInfo
+            data={data}
+            type={petType}
+            image={ITEM_DETAILS[isNFTPet ? "Ramsey" : petId].image}
+          />
+        )}
         {tab === "Feed" && (
           <PetFeed
-            petName={petName}
-            petData={petData}
+            petId={petId}
+            petData={data}
             handleFeed={handleFeed}
-            inventory={inventory}
             handleResetRequests={handleResetRequests}
             isRevealingState={isRevealingState}
             isRevealedState={isRevealedState}
@@ -164,13 +168,17 @@ export const PetModal: React.FC<Props> = ({ show, onClose, petName }) => {
         )}
         {tab === "Fetch" && (
           <PetFetch
-            petName={petName}
-            petData={petData}
+            petId={petId}
+            petData={data}
             handlePetFetch={handlePetFetch}
           />
         )}
         {tab === "Neglected" && (
-          <NeglectPet handleNeglectPet={handleNeglectPet} petName={petName} />
+          <NeglectPet
+            handleNeglectPet={handleNeglectPet}
+            petId={petId}
+            petName={data.name}
+          />
         )}
       </CloseButtonPanel>
     </Modal>

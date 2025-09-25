@@ -8,7 +8,7 @@ describe("fetchPet", () => {
     expect(() => {
       fetchPet({
         state: { ...INITIAL_FARM },
-        action: { type: "pet.fetched", pet: "Barkley", fetch: "Acorn" },
+        action: { type: "pet.fetched", petId: "Barkley", fetch: "Acorn" },
         createdAt: now,
       });
     }).toThrow("Pet not found");
@@ -30,7 +30,7 @@ describe("fetchPet", () => {
             },
           },
         },
-        action: { type: "pet.fetched", pet: "Barkley", fetch: "Acorn" },
+        action: { type: "pet.fetched", petId: "Barkley", fetch: "Acorn" },
         createdAt: now,
       });
     }).toThrow("Pet is napping");
@@ -53,7 +53,7 @@ describe("fetchPet", () => {
             },
           },
         },
-        action: { type: "pet.fetched", pet: "Barkley", fetch: "Acorn" },
+        action: { type: "pet.fetched", petId: "Barkley", fetch: "Acorn" },
         createdAt: now,
       });
     }).toThrow("Pet is neglected");
@@ -76,7 +76,7 @@ describe("fetchPet", () => {
             },
           },
         },
-        action: { type: "pet.fetched", pet: "Barkley", fetch: "Ruffroot" },
+        action: { type: "pet.fetched", petId: "Barkley", fetch: "Ruffroot" },
         createdAt: now,
       });
     }).toThrow("Fetch not found");
@@ -98,7 +98,7 @@ describe("fetchPet", () => {
             },
           },
         },
-        action: { type: "pet.fetched", pet: "Barkley", fetch: "Chewed Bone" },
+        action: { type: "pet.fetched", petId: "Barkley", fetch: "Chewed Bone" },
         createdAt: now,
       });
     }).toThrow("Pet level doesn't match fetch required level");
@@ -120,7 +120,7 @@ describe("fetchPet", () => {
             },
           },
         },
-        action: { type: "pet.fetched", pet: "Barkley", fetch: "Acorn" },
+        action: { type: "pet.fetched", petId: "Barkley", fetch: "Acorn" },
         createdAt: now,
       });
     }).toThrow("Pet doesn't have enough energy");
@@ -141,7 +141,7 @@ describe("fetchPet", () => {
           },
         },
       },
-      action: { type: "pet.fetched", pet: "Barkley", fetch: "Acorn" },
+      action: { type: "pet.fetched", petId: "Barkley", fetch: "Acorn" },
       createdAt: now,
     });
     const BarkleyData = state.pets?.common?.Barkley;
@@ -165,7 +165,7 @@ describe("fetchPet", () => {
           },
         },
       },
-      action: { type: "pet.fetched", pet: "Barkley", fetch: "Acorn" },
+      action: { type: "pet.fetched", petId: "Barkley", fetch: "Acorn" },
       createdAt: now,
     });
     const BarkleyData = state.pets?.common?.Barkley;

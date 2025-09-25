@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import {
@@ -16,10 +17,7 @@ export type BuyMonumentAction = {
   type: "monument.bought";
   name: WorkbenchMonumentName;
   id?: string;
-  coordinates?: {
-    x: number;
-    y: number;
-  };
+  coordinates?: Coordinates;
 };
 
 type Options = {

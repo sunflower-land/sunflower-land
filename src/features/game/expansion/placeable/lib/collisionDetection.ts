@@ -29,8 +29,8 @@ import {
   ResourceName,
 } from "features/game/types/resources";
 import { PlaceableLocation } from "features/game/types/collectibles";
-import { AnimalType } from "features/game/types/animals";
 import { getObjectEntries } from "../../lib/utils";
+import { LandscapingPlaceable } from "../landscapingMachine";
 
 export type Position = {
   width: number;
@@ -118,7 +118,7 @@ const PLACEABLE_DIMENSIONS = {
 function detectPlaceableCollision(
   state: GameState,
   boundingBox: BoundingBox,
-  name: InventoryItemName,
+  name: LandscapingPlaceable,
 ) {
   const {
     collectibles,
@@ -133,6 +133,7 @@ function detectPlaceableCollision(
     sunstones,
     fruitPatches,
     buds,
+    pets,
     beehives,
     flowers: { flowerBeds },
     oilReserves,
@@ -143,7 +144,7 @@ function detectPlaceableCollision(
     ...buildings,
   };
 
-  if (NON_COLLIDING_OBJECTS.includes(name)) {
+  if (NON_COLLIDING_OBJECTS.includes(name as InventoryItemName)) {
     return false;
   }
 
@@ -214,10 +215,24 @@ function detectPlaceableCollision(
       width: 1,
     }));
 
+  const petNFTBoundingBox = Object.values(pets?.nfts ?? {})
+    .filter(
+      (petNFT) =>
+        !!petNFT.coordinates &&
+        (!petNFT.location || petNFT.location === "farm"),
+    )
+    .map((item) => ({
+      x: item.coordinates!.x,
+      y: item.coordinates!.y,
+      height: 2,
+      width: 2,
+    }));
+
   const boundingBoxes = [
     ...placeableBounds,
     ...resourceBoundingBoxes,
     ...budsBoundingBox,
+    ...petNFTBoundingBox,
   ];
 
   return boundingBoxes.some((resourceBoundingBox) =>
@@ -341,7 +356,7 @@ function detectHomeCollision({
 }: {
   state: GameState;
   position: BoundingBox;
-  name: InventoryItemName;
+  name: LandscapingPlaceable;
 }) {
   const bounds = HOME_BOUNDS[state.island.type];
 
@@ -355,7 +370,7 @@ function detectHomeCollision({
     return true;
   }
 
-  if (NON_COLLIDING_OBJECTS.includes(name)) {
+  if (NON_COLLIDING_OBJECTS.includes(name as InventoryItemName)) {
     return false;
   }
 
@@ -390,7 +405,20 @@ function detectHomeCollision({
       width: 1,
     }));
 
-  const boundingBoxes = [...placeableBounds, ...budsBoundingBox];
+  const petNFTBoundingBox = Object.values(state.pets?.nfts ?? {})
+    .filter((petNFT) => !!petNFT.coordinates && petNFT.location === "home")
+    .map((item) => ({
+      x: item.coordinates!.x,
+      y: item.coordinates!.y,
+      height: 2,
+      width: 2,
+    }));
+
+  const boundingBoxes = [
+    ...placeableBounds,
+    ...budsBoundingBox,
+    ...petNFTBoundingBox,
+  ];
 
   return boundingBoxes.some((resourceBoundingBox) =>
     isOverlapping(position, resourceBoundingBox),
@@ -400,7 +428,7 @@ function detectHomeCollision({
 function detectMushroomCollision(
   state: GameState,
   boundingBox: BoundingBox,
-  name: InventoryItemName,
+  name: LandscapingPlaceable,
 ) {
   if (name.includes("Tile")) return false;
 
@@ -581,21 +609,19 @@ export function detectCollision({
   location: PlaceableLocation;
   state: GameState;
   position: Position;
-  name: InventoryItemName | AnimalType;
+  name: LandscapingPlaceable;
 }) {
-  const item = name as InventoryItemName;
-
   if (location === "home") {
-    return detectHomeCollision({ state, position, name: item });
+    return detectHomeCollision({ state, position, name });
   }
 
   const expansions = state.inventory["Basic Land"]?.toNumber() ?? 3;
 
   return (
     detectWaterCollision(expansions, position) ||
-    detectPlaceableCollision(state, position, item) ||
+    detectPlaceableCollision(state, position, name) ||
     detectLandCornerCollision(expansions, position) ||
-    detectMushroomCollision(state, position, item) ||
+    detectMushroomCollision(state, position, name) ||
     detectAirdropCollision(state, position)
   );
 }

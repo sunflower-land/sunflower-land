@@ -14,7 +14,7 @@ import { removePlot } from "./removePlot";
 import { removeStone } from "./removeStone";
 import { removeSunstone } from "./removeSunstone";
 import { removeTree } from "./removeTree";
-import { removeBud } from "./removeBud";
+import { removeNFT } from "./removeNFT";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { GameState } from "features/game/types/game";
@@ -69,11 +69,33 @@ export function removeAll({
       .filter(([, bud]) => bud.location === action.location)
       .forEach(([id]) => {
         try {
-          stateCopy = removeBud({
+          stateCopy = removeNFT({
             state: stateCopy,
             action: {
-              type: "bud.removed",
+              type: "nft.removed",
               id,
+              nft: "Bud",
+              location: action.location,
+            },
+            createdAt,
+          });
+        } catch (e) {
+          // Ignore errors
+        }
+      });
+
+    const pets = stateCopy.pets?.nfts ?? {};
+    Object.entries(pets)
+      .filter(([, bud]) => bud.location === action.location)
+      .forEach(([id]) => {
+        try {
+          stateCopy = removeNFT({
+            state: stateCopy,
+            action: {
+              type: "nft.removed",
+              id,
+              nft: "Pet",
+              location: action.location,
             },
             createdAt,
           });

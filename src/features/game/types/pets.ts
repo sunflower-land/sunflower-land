@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { Decoration } from "./decorations";
-import { CraftableCollectible } from "./collectibles";
+import { CraftableCollectible, PlaceableLocation } from "./collectibles";
 import { CookableName } from "./consumables";
 import { getObjectEntries } from "../expansion/lib/utils";
 import { InventoryItemName } from "./game";
@@ -106,10 +106,18 @@ export type Pet = {
 
 export type PetNFTName = `Pet-${number}`;
 
-export type PetNFT = {
+export type PetNFT = Omit<Pet, "name"> & {
   id: number;
   name: PetNFTName;
   coordinates?: Coordinates;
+  location?: PlaceableLocation;
+  revealAt: number;
+  // TODO: Add traits
+  traits?: {
+    bib: string;
+    aura: string;
+    type: PetType;
+  };
 };
 
 export type PetNFTs = Record<number, PetNFT>;
@@ -272,8 +280,30 @@ export const PET_TYPES: Record<PetName, PetType> = {
   Ramsey: "Ram",
 };
 
-export function getPetFetches(petName: PetName): PetConfig {
-  return PET_FETCHES[PET_TYPES[petName]];
+export function isPetNFT(petData: Pet | PetNFT): petData is PetNFT {
+  return "id" in petData;
+}
+
+export function getPetType(petData: Pet | PetNFT | undefined) {
+  if (!petData) {
+    return undefined;
+  }
+
+  if (isPetNFT(petData)) {
+    return petData.traits?.type;
+  }
+
+  return PET_TYPES[petData.name];
+}
+
+export function getPetFetches(petData: Pet | PetNFT): PetConfig {
+  const petType = getPetType(petData);
+
+  if (!petType) {
+    throw new Error("Pet type not found");
+  }
+
+  return PET_FETCHES[petType];
 }
 
 export const PET_RESOURCES: Record<
@@ -663,7 +693,7 @@ export function getPetLevel(currentTotalExperience: number) {
 const PET_NEGLECT_DAYS = 3;
 
 export function isPetNeglected(
-  pet: Pet | undefined,
+  pet: Pet | PetNFT | undefined,
   createdAt: number = Date.now(),
 ) {
   if (!pet) {
@@ -682,7 +712,7 @@ export function isPetNeglected(
 const PET_NAP_HOURS = 2;
 
 export function isPetNapping(
-  pet: Pet | undefined,
+  pet: Pet | PetNFT | undefined,
   createdAt: number = Date.now(),
 ) {
   if (!pet) return false;

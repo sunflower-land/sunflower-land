@@ -40,6 +40,7 @@ import { PlayerModal } from "features/social/PlayerModal";
 import { hasFeatureAccess } from "lib/flags";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { Context as AuthContext } from "features/auth/lib/Provider";
+import { PetNFT } from "features/island/pets/PetNFT";
 
 const BACKGROUND_IMAGE: Record<IslandType, string> = {
   basic: SUNNYSIDE.land.tent_inside,
@@ -59,6 +60,7 @@ function acknowledgeIntro() {
 const _landscaping = (state: MachineState) => state.matches("landscaping");
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _buds = (state: MachineState) => state.context.state.buds ?? {};
+const _petNFTs = (state: MachineState) => state.context.state.pets?.nfts ?? {};
 const _island = (state: MachineState) => state.context.state.island;
 const _homeCollectiblePositions = (state: MachineState) => {
   return {
@@ -102,6 +104,7 @@ export const Home: React.FC = () => {
   const landscaping = useSelector(gameService, _landscaping);
   const bumpkin = useSelector(gameService, _bumpkin);
   const buds = useSelector(gameService, _buds);
+  const petNFTs = useSelector(gameService, _petNFTs);
   const island = useSelector(gameService, _island);
   const { collectibles, positions: homeCollectiblePositions } = useSelector(
     gameService,
@@ -174,12 +177,10 @@ export const Home: React.FC = () => {
   );
 
   mapPlacements.push(
-    ...getKeys(buds)
-      .filter(
-        (budId) => !!buds[budId].coordinates && buds[budId].location === "home",
-      )
-      .flatMap((id) => {
-        const { x, y } = buds[id]!.coordinates!;
+    ...Object.entries(buds)
+      .filter(([, bud]) => !!bud.coordinates && bud.location === "home")
+      .flatMap(([id, bud]) => {
+        const { x, y } = bud.coordinates!;
 
         return (
           <MapPlacement
@@ -190,7 +191,30 @@ export const Home: React.FC = () => {
             width={1}
             enableOnVisitClick
           >
-            <Bud id={String(id)} x={x} y={y} />
+            <Bud id={id} x={x} y={y} />
+          </MapPlacement>
+        );
+      }),
+  );
+
+  mapPlacements.push(
+    ...Object.entries(petNFTs)
+      .filter(
+        ([, petNFT]) => !!petNFT.coordinates && petNFT.location === "home",
+      )
+      .flatMap(([id, petNFT]) => {
+        const { x, y } = petNFT.coordinates!;
+
+        return (
+          <MapPlacement
+            key={`petNFT-${id}`}
+            x={x}
+            y={y}
+            height={2}
+            width={2}
+            enableOnVisitClick
+          >
+            <PetNFT id={id} x={x} y={y} />
           </MapPlacement>
         );
       }),

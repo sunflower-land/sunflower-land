@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
-import { MOVE_BUD_ERRORS, moveBud } from "./moveBud";
+import { MOVE_NFT_ERRORS, moveBud } from "./moveNFT";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -19,12 +19,14 @@ describe("moveBud", () => {
           ...GAME_STATE,
         },
         action: {
-          type: "bud.moved",
+          type: "nft.moved",
           id: "1",
           coordinates: { x: 2, y: 2 },
+          nft: "Bud",
+          location: "farm",
         },
       }),
-    ).toThrow(MOVE_BUD_ERRORS.NO_BUD);
+    ).toThrow(MOVE_NFT_ERRORS.NO_NFT);
   });
 
   it("does not move a bud that is not placed", () => {
@@ -43,12 +45,14 @@ describe("moveBud", () => {
           },
         },
         action: {
-          type: "bud.moved",
+          type: "nft.moved",
           id: "1",
           coordinates: { x: 2, y: 2 },
+          nft: "Bud",
+          location: "farm",
         },
       }),
-    ).toThrow(MOVE_BUD_ERRORS.BUD_NOT_PLACED);
+    ).toThrow(MOVE_NFT_ERRORS.NFT_NOT_PLACED);
   });
 
   it("moves a bud", () => {
@@ -67,9 +71,11 @@ describe("moveBud", () => {
         },
       },
       action: {
-        type: "bud.moved",
+        type: "nft.moved",
         id: "1",
         coordinates: { x: 2, y: 2 },
+        nft: "Bud",
+        location: "farm",
       },
     });
 

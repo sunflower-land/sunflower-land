@@ -6,6 +6,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { produce } from "immer";
 import { hasFeatureAccess } from "lib/flags";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export enum CONSTRUCT_BUILDING_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -18,10 +19,7 @@ export type ConstructBuildingAction = {
   type: "building.constructed";
   name: BuildingName;
   id: string;
-  coordinates: {
-    x: number;
-    y: number;
-  };
+  coordinates: Coordinates;
 };
 
 type Options = {

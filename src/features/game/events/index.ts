@@ -133,9 +133,8 @@ import { mixPotion, MixPotionAction } from "./landExpansion/mixPotion";
 import { buyWearable, BuyWearableAction } from "./landExpansion/buyWearable";
 import { skipOrder, SkipOrderAction } from "./landExpansion/skipOrder";
 import { StartPotionAction, startPotion } from "./landExpansion/startPotion";
-import { placeBud, PlaceBudAction } from "./landExpansion/placeBud";
-import { moveBud, MoveBudAction } from "./landExpansion/moveBud";
-import { removeBud, RemoveBudAction } from "./landExpansion/removeBud";
+import { moveBud, MoveNFTAction } from "./landExpansion/moveNFT";
+import { removeNFT, RemoveNFTAction } from "./landExpansion/removeNFT";
 import {
   startComposter,
   StartComposterAction,
@@ -542,6 +541,7 @@ import { helpPets, HelpPetsAction } from "./visiting/helpPets";
 import { BulkPlantAction, bulkPlant } from "./landExpansion/bulkPlant";
 import { bulkHarvest, BulkHarvestAction } from "./landExpansion/bulkHarvest";
 import { clearTrades, ClearTradesAction } from "./clearTrades";
+import { placeNFT, PlaceNFTAction } from "./landExpansion/placeNFT";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -732,9 +732,9 @@ export type PlacementEvent =
   | MoveSunstoneAction
   | RemoveBuildingAction
   | RemoveCollectibleAction
-  | PlaceBudAction
-  | MoveBudAction
-  | RemoveBudAction
+  | PlaceNFTAction
+  | MoveNFTAction
+  | RemoveNFTAction
   | MoveBeehiveAction
   | PlaceBeehiveAction
   | MoveFlowerBedAction
@@ -977,9 +977,9 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "crimstone.moved": moveCrimstone,
   "building.removed": removeBuilding,
   "collectible.removed": removeCollectible,
-  "bud.placed": placeBud,
-  "bud.moved": moveBud,
-  "bud.removed": removeBud,
+  "nft.placed": placeNFT,
+  "nft.moved": moveBud,
+  "nft.removed": removeNFT,
   "beehive.moved": moveBeehive,
   "beehive.placed": placeBeehive,
   "flowerBed.moved": moveFlowerBed,

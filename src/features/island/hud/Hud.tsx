@@ -123,14 +123,14 @@ const HudComponent: React.FC<{
           onPlace={(selected) => {
             gameService.send("LANDSCAPE", {
               action: placeEvent(selected),
-              placeable: selected,
+              placeable: { name: selected },
               multiple: true,
             });
           }}
-          onPlaceBud={(selected) => {
+          onPlaceNFT={(id, nft) => {
             gameService.send("LANDSCAPE", {
-              action: "bud.placed",
-              placeable: selected,
+              action: "nft.placed",
+              placeable: { id, name: nft },
               location,
             });
           }}

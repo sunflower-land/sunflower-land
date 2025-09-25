@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { CookableName } from "features/game/types/consumables";
 import { feedPet, getPetFoodRequests } from "./feedPet";
-import { Pet } from "features/game/types/pets";
+import { getPetLevel, Pet } from "features/game/types/pets";
 
 describe("feedPet", () => {
   const now = Date.now();
@@ -12,7 +12,7 @@ describe("feedPet", () => {
         state: { ...INITIAL_FARM },
         action: {
           type: "pet.fed",
-          pet: "Barkley",
+          petId: "Barkley",
           food: "Bumpkin Salad",
         },
       }),
@@ -39,7 +39,7 @@ describe("feedPet", () => {
             },
           },
         },
-        action: { type: "pet.fed", pet: "Barkley", food: "Bumpkin Salad" },
+        action: { type: "pet.fed", petId: "Barkley", food: "Bumpkin Salad" },
       }),
     ).toThrow("Pet is napping");
   });
@@ -64,7 +64,7 @@ describe("feedPet", () => {
             },
           },
         },
-        action: { type: "pet.fed", pet: "Barkley", food: "Bumpkin Salad" },
+        action: { type: "pet.fed", petId: "Barkley", food: "Bumpkin Salad" },
       }),
     ).toThrow("Pet is in neglected state");
   });
@@ -90,7 +90,7 @@ describe("feedPet", () => {
         },
         action: {
           type: "pet.fed",
-          pet: "Barkley",
+          petId: "Barkley",
           food: "Bumpkin Salad",
         },
       }),
@@ -117,7 +117,7 @@ describe("feedPet", () => {
         },
         action: {
           type: "pet.fed",
-          pet: "Barkley",
+          petId: "Barkley",
           food: "Bumpkin Salad",
         },
       }),
@@ -147,7 +147,7 @@ describe("feedPet", () => {
         },
         action: {
           type: "pet.fed",
-          pet: "Barkley",
+          petId: "Barkley",
           food: "Bumpkin Salad",
         },
         createdAt: now,
@@ -181,7 +181,7 @@ describe("feedPet", () => {
         },
         action: {
           type: "pet.fed",
-          pet: "Barkley",
+          petId: "Barkley",
           food: "Bumpkin Salad",
         },
         createdAt: now,
@@ -214,7 +214,7 @@ describe("feedPet", () => {
         },
         action: {
           type: "pet.fed",
-          pet: "Barkley",
+          petId: "Barkley",
           food: "Bumpkin Salad",
         },
         createdAt: now,
@@ -246,7 +246,7 @@ describe("feedPet", () => {
       },
       action: {
         type: "pet.fed",
-        pet: "Barkley",
+        petId: "Barkley",
         food: "Bumpkin Salad",
       },
       createdAt: now,
@@ -285,7 +285,7 @@ describe("feedPet", () => {
       },
       action: {
         type: "pet.fed",
-        pet: "Barkley",
+        petId: "Barkley",
         food: "Bumpkin Salad",
       },
       createdAt: now,
@@ -323,7 +323,7 @@ describe("feedPet", () => {
       },
       action: {
         type: "pet.fed",
-        pet: "Barkley",
+        petId: "Barkley",
         food: "Bumpkin Salad",
       },
       createdAt: now,
@@ -345,7 +345,8 @@ describe("feedPet", () => {
         experience: 0,
         pettedAt: now,
       };
-      const requests = getPetFoodRequests(pet);
+      const { level: petLevel } = getPetLevel(pet.experience);
+      const requests = getPetFoodRequests(pet, petLevel);
       expect(requests).toEqual(["Pumpkin Soup", "Bumpkin Salad"]);
       // Make sure the original requests are not modified
       expect(pet.requests.food).toEqual([
@@ -365,7 +366,8 @@ describe("feedPet", () => {
         experience: 5500, // Level 10
         pettedAt: now,
       };
-      const requests = getPetFoodRequests(pet);
+      const { level: petLevel } = getPetLevel(pet.experience);
+      const requests = getPetFoodRequests(pet, petLevel);
       expect(requests).toEqual(["Pumpkin Soup", "Bumpkin Salad", "Antipasto"]);
       // Make sure the original requests are not modified
       expect(pet.requests.food).toEqual([

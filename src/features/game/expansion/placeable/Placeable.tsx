@@ -28,7 +28,6 @@ import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource
 import { getGameGrid } from "./lib/makeGrid";
 import { READONLY_BUILDINGS } from "features/island/buildings/components/building/BuildingComponents";
 import { ZoomContext } from "components/ZoomProvider";
-import { isBudName } from "features/game/types/buds";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -133,15 +132,17 @@ export const Placeable: React.FC<Props> = ({ location }) => {
   const { t } = useAppTranslation();
 
   let dimensions = { width: 0, height: 0 };
-  if (isBudName(placeable)) {
+  if (placeable?.name === "Bud") {
     dimensions = { width: 1, height: 1 };
-  } else if (placeable) {
+  } else if (placeable?.name === "Pet") {
+    dimensions = { width: 2, height: 2 };
+  } else if (placeable?.name) {
     dimensions = {
       ...BUILDINGS_DIMENSIONS,
       ...COLLECTIBLES_DIMENSIONS,
       ...ANIMAL_DIMENSIONS,
       ...RESOURCE_DIMENSIONS,
-    }[placeable];
+    }[placeable.name];
   }
 
   const detect = useCallback(
@@ -150,7 +151,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
         state: gameService.getSnapshot().context.state,
         position: { x, y, width: dimensions.width, height: dimensions.height },
         location,
-        name: placeable as CollectibleName,
+        name: placeable?.name as CollectibleName,
       });
 
       send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
@@ -230,9 +231,12 @@ export const Placeable: React.FC<Props> = ({ location }) => {
     return null;
   }
 
-  const Collectible = isBudName(placeable)
-    ? PLACEABLES(gameState.context.state)["Bud"]
-    : PLACEABLES(gameState.context.state)[placeable];
+  const Collectible =
+    placeable?.name === "Bud"
+      ? PLACEABLES(gameState.context.state)["Bud"]
+      : placeable?.name === "Pet"
+        ? PLACEABLES(gameState.context.state)["PetNFT"]
+        : PLACEABLES(gameState.context.state)[placeable.name];
 
   return (
     <>
@@ -323,9 +327,9 @@ export const Placeable: React.FC<Props> = ({ location }) => {
                 grid={grid}
                 showTimers={showTimers}
                 skills={gameState.context.state.bumpkin.skills}
-                id={isBudName(placeable) ? placeable.split("-")[1] : "123"}
+                id={placeable?.name === "Bud" ? placeable.id : "123"}
                 location="farm"
-                name={placeable as CollectibleName}
+                name={placeable?.name as CollectibleName}
               />
             </div>
           </div>

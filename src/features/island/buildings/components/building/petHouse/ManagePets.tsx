@@ -18,21 +18,23 @@ import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   PET_CATEGORIES,
-  PET_TYPES,
   Pet,
+  PetNFT,
   PetName,
   PetType,
   getPetLevel,
   getPetRequestXP,
+  getPetType,
   isPetNapping,
   isPetNeglected,
 } from "features/game/types/pets";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useMemo, useState } from "react";
 import { PetCard, isFoodAlreadyFed } from "./PetCard";
+import { getPetImage } from "features/island/pets/lib/petShared";
 
 type Props = {
-  activePets: [PetName, Pet | undefined][];
+  activePets: [PetName | number, Pet | PetNFT | undefined][];
 };
 
 export const ManagePets: React.FC<Props> = ({ activePets }) => {
@@ -41,7 +43,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
   const { gameService } = useContext(Context);
   const [selectedFeed, setSelectedFeed] = useState<
     {
-      pet: PetName;
+      petId: PetName | number;
       food: CookableName;
     }[]
   >([]);
@@ -70,7 +72,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
     if (!isBulkFeed) {
       setIsBulkFeed(true);
       const newSelectedFeed: {
-        pet: PetName;
+        petId: PetName | number;
         food: CookableName;
       }[] = [];
 
@@ -79,19 +81,20 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
 
       // First pass: collect all food requests and count available inventory
       const foodRequests: Array<{
-        petName: PetName;
+        petId: PetName | number;
         food: CookableName;
       }> = [];
-      activePets.forEach(([petName, pet]) => {
+      activePets.forEach(([petId, pet]) => {
         if (pet) {
           if (isPetNeglected(pet) || isPetNapping(pet)) {
             return;
           }
-          const requests = getPetFoodRequests(pet);
+          const { level: petLevel } = getPetLevel(pet.experience);
+          const requests = getPetFoodRequests(pet, petLevel);
           requests.forEach((food) => {
             const isAlreadyFed = isFoodAlreadyFed(pet, food);
             if (!isAlreadyFed) {
-              foodRequests.push({ petName, food });
+              foodRequests.push({ petId, food });
               if (!foodAllocation[food]) {
                 foodAllocation[food] = 0;
               }
@@ -101,13 +104,13 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
       });
 
       // Second pass: select food items based on available inventory
-      foodRequests.forEach(({ petName, food }) => {
+      foodRequests.forEach(({ petId, food }) => {
         const availableFood = inventory[food] ?? new Decimal(0);
         const currentAllocation = foodAllocation[food] || 0;
 
         // Only select if we have enough food available
         if (availableFood.greaterThan(currentAllocation)) {
-          newSelectedFeed.push({ pet: petName, food });
+          newSelectedFeed.push({ petId, food });
           foodAllocation[food] = currentAllocation + 1;
         }
       });
@@ -121,22 +124,22 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
   const handleBulkPet = () => {
     nappingPets.forEach(([petName, pet]) => {
       if (pet) {
-        gameService.send("pet.pet", { pet: petName });
+        gameService.send("pet.pet", { petId: petName });
       }
     });
   };
 
   const mappedPets = selectedFeed.reduce<
     {
-      pet: PetName;
+      petId: PetName | number;
       food: CookableName[];
     }[]
-  >((acc, { pet, food }) => {
-    const existingPet = acc.find((p) => p.pet === pet);
+  >((acc, { petId, food }) => {
+    const existingPet = acc.find((p) => p.petId === petId);
     if (existingPet) {
       existingPet.food.push(food);
     } else {
-      acc.push({ pet, food: [food] });
+      acc.push({ petId, food: [food] });
     }
     return acc;
   }, []);
@@ -170,8 +173,8 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
       if (!isPetNeglected(petA) && isPetNeglected(petB)) return 1;
 
       // Find the pet types for both pets
-      const petTypeA = PET_TYPES[petA.name];
-      const petTypeB = PET_TYPES[petB.name];
+      const petTypeA = getPetType(petA);
+      const petTypeB = getPetType(petB);
 
       if (!petTypeA || !petTypeB) return 0;
 
@@ -244,8 +247,8 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
               return (
                 <PetCard
                   key={petName}
-                  petName={petName}
-                  pet={pet}
+                  petId={petName}
+                  petData={pet}
                   isBulkFeed={isBulkFeed}
                   selectedFeed={selectedFeed}
                   setSelectedFeed={setSelectedFeed}
@@ -266,13 +269,14 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
           <div className="flex flex-col gap-2 p-2">
             <Label type="default">{t("pets.confirmFeedPets")}</Label>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 max-h-[400px] overflow-y-auto scrollable">
-              {mappedPets.map(({ pet, food }) => {
+              {mappedPets.map(({ petId, food }) => {
                 const petData = activePets.find(
-                  ([petName]) => petName === pet,
+                  ([petName]) => petName === petId,
                 )?.[1];
                 if (!petData) {
                   return null;
                 }
+                const { level: petLevel } = getPetLevel(petData.experience);
 
                 // Calculate total XP and energy from all selected foods
                 const totalXP = food.reduce(
@@ -288,7 +292,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
                   (sum, foodItem) =>
                     sum +
                     getPetEnergy({
-                      petData,
+                      petLevel,
                       basePetEnergy: getPetRequestXP(foodItem),
                     }),
                   0,
@@ -298,7 +302,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
                 const beforeEnergy = petData.energy;
                 const afterEnergy = beforeEnergy + totalEnergy;
 
-                const petImage = ITEM_DETAILS[pet].image;
+                const petImage = getPetImage(petId, "happy", petData);
 
                 const { level, currentProgress, experienceBetweenLevels } =
                   getPetLevel(petData.experience);
@@ -339,17 +343,17 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
 
                 return (
                   <OuterPanel
-                    key={pet}
+                    key={petId}
                     className="flex flex-row sm:flex-col p-3 gap-2 relative"
                   >
                     <div className="flex flex-col items-start sm:items-center w-3/5 sm:w-full gap-2">
                       <div className="flex flex-col sm:flex-row-reverse items-center gap-1 mb-1">
                         <img
                           src={petImage}
-                          alt={pet.toString()}
+                          alt={petData.name}
                           className="w-12 sm:w-16 h-12 sm:h-16 object-contain"
                         />
-                        <Label type={"default"}>{pet}</Label>
+                        <Label type={"default"}>{petData.name}</Label>
                       </div>
                       {/* Mobile */}
                       <SelectedFoodComponent device="mobile" foods={food} />
