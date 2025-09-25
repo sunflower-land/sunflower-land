@@ -156,14 +156,14 @@ const PetFeedPanel: React.FC<{
     return (
       <div className="flex flex-row-reverse sm:flex-col gap-2 justify-between w-full">
         <div className="flex flex-col items-center gap-2">
+          <Label type="default" className="text-xs">
+            {petData.name}
+          </Label>
           <img
             src={petImage}
             alt={petData.name}
             className="w-12 h-12 object-contain"
           />
-          <Label type="default" className="text-xs">
-            {petData.name}
-          </Label>
         </div>
         <div className="flex flex-row gap-2 items-center w-full">
           <span className="text-xs w-full text-center">
@@ -194,19 +194,19 @@ const PetFeedPanel: React.FC<{
   return (
     <div className="flex flex-col items-center gap-1">
       {/* Pet Image and Name */}
-      <div className="flex flex-row-reverse sm:flex-col gap-2 justify-between w-full">
+      <div className="flex flex-row-reverse sm:flex-col gap-2 justify-between w-full pt-1">
         <div className="flex flex-col items-center gap-2">
+          <Label type="default" className="text-xs">
+            {petData.name}
+          </Label>
           <img
             src={petImage}
             alt={petData.name}
             className="w-12 h-12 object-contain"
           />
-          <Label type="default" className="text-xs">
-            {petData.name}
-          </Label>
         </div>
 
-        <div className="flex flex-row gap-2 items-center  sm:justify-center w-full">
+        <div className="flex flex-row gap-2 items-start justify-center w-full">
           <img
             src={
               isFoodLocked
@@ -223,14 +223,12 @@ const PetFeedPanel: React.FC<{
       </div>
 
       <div className="flex flex-row sm:flex-col gap-2 justify-between w-full p-1">
-        <div className="flex flex-row gap-2 items-center">
+        <div className="flex flex-row gap-1 justify-center items-center">
           <img src={xpIcon} className="w-4" />
           <span className="text-xs">{t("pets.plusFoodXp", { foodXp })}</span>
         </div>
-        <div className="flex flex-row gap-2 items-center">
-          <div className="w-4">
-            <img src={SUNNYSIDE.icons.lightning} className="w-3" />
-          </div>
+        <div className="flex flex-row gap-1 justify-center items-center">
+          <img src={SUNNYSIDE.icons.lightning} className="w-3" />
           <span className="text-xs">
             {t("pets.plusFoodEnergy", { energy: petEnergy })}
           </span>
@@ -238,26 +236,32 @@ const PetFeedPanel: React.FC<{
       </div>
 
       {/* Labels for today's feed and insufficient food */}
-      {isFoodLocked ? (
-        <div className="flex w-full items-start">
-          <Label type="danger" className="text-xs">
-            {t("pets.foodLocked")}
-          </Label>
-        </div>
-      ) : isToday && petData.requests.foodFed?.includes(selectedFood) ? (
-        <div className="flex w-full items-start">
-          <Label type="danger" className="text-xs">
-            {t("pets.foodFedToday")}
-          </Label>
-        </div>
-      ) : !state.inventory[selectedFood] ||
-        state.inventory[selectedFood].lessThan(1) ? (
-        <div className="flex w-full items-start">
-          <Label type="danger" className="text-xs">
-            {t("pets.insufficientFood")}
-          </Label>
-        </div>
-      ) : null}
+      <div className="mb-1">
+        {isFoodLocked ? (
+          <div className="flex w-full items-start justify-center">
+            <Label type="danger" className="text-xs">
+              {t("pets.foodLocked")}
+            </Label>
+          </div>
+        ) : isToday && petData.requests.foodFed?.includes(selectedFood) ? (
+          <div className="flex w-full items-start justify-center">
+            <Label
+              type="success"
+              className="text-xs"
+              icon={SUNNYSIDE.icons.confirm}
+            >
+              {t("pets.foodFedToday")}
+            </Label>
+          </div>
+        ) : !state.inventory[selectedFood] ||
+          state.inventory[selectedFood].lessThan(1) ? (
+          <div className="flex w-full items-start justify-center">
+            <Label type="danger" className="text-xs">
+              {t("pets.insufficientFood")}
+            </Label>
+          </div>
+        ) : null}
+      </div>
 
       <div className="flex flex-row sm:flex-col gap-1 w-full">
         <Button
@@ -277,7 +281,7 @@ const PetFeedPanel: React.FC<{
       </div>
 
       <p
-        className="underline font-secondary text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
+        className="underline font-secondary text-xxs pb-1 -mt-1 cursor-pointer hover:text-blue-500"
         onClick={() => setShowResetRequests(true)}
       >
         {t("pets.resetRequests")}
@@ -308,11 +312,11 @@ const PetFeedContent: React.FC<{
   const allFoods = petData.requests.food;
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-1 pt-0.5">
       <Label type="default">
         {t("pets.requestsToday", { pet: petData.name })}
       </Label>
-      <div className="flex flex-row gap-2">
+      <div className="flex flex-row gap-1">
         {allFoods.map((food) => {
           const isRequested = foodRequests.includes(food);
           const isComplete =

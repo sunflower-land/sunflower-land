@@ -60,28 +60,30 @@ export const PetFetch: React.FC<Props> = ({
           <div className="flex flex-col items-center gap-1 w-full">
             <div className="flex flex-row-reverse sm:flex-col gap-2 justify-between w-full">
               <div className="flex flex-col items-center gap-2">
-                <img src={petImage} alt={petData.name} className="w-12 h-12" />
                 <Label type="default" className="text-xs">
                   {petData.name}
                 </Label>
+                <img src={petImage} alt={petData.name} className="w-12 h-12" />
               </div>
 
               {selectedFetch && (
-                <div className="flex flex-row gap-2 items-center w-full">
+                <div className="flex flex-row gap-2 justify-center items-center w-full">
                   <img
                     src={ITEM_DETAILS[selectedFetch].image}
                     alt={selectedFetch}
-                    className="w-8"
+                    className="w-5"
                   />
                   <span className="text-xs">{`${fetchYield} x ${selectedFetch}`}</span>
                 </div>
               )}
             </div>
 
-            <div className="flex flex-row sm:flex-col gap-2 justify-between w-full p-1">
-              <div className="flex flex-row gap-2 items-center">
-                <img src={SUNNYSIDE.icons.lightning} className="w-4" />
-                <Label type={hasEnoughEnergy ? "default" : "danger"}>
+            <div className="flex flex-row sm:flex-col justify-between w-full pt-1">
+              <div className="flex flex-row gap-2 justify-center items-center">
+                <Label
+                  icon={SUNNYSIDE.icons.lightning}
+                  type={hasEnoughEnergy ? "default" : "danger"}
+                >
                   {`Energy: ${petData.energy}/${energyRequired}`}
                 </Label>
               </div>
@@ -118,9 +120,9 @@ export const PetFetch: React.FC<Props> = ({
           </div>
         }
         content={
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-1 pt-0.5">
             <Label type="default">{"Fetchable resources"}</Label>
-            <div className="flex flex-row gap-2">
+            <div className="flex flex-row gap-1 flex-wrap">
               {fetchConfig.fetches.map(({ name, level: requiredLevel }) => {
                 const canLevel = level >= requiredLevel;
                 const isSelected = selectedFetch === name;
