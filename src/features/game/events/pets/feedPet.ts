@@ -1,3 +1,4 @@
+import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { isTemporaryCollectibleActive } from "features/game/lib/collectibleBuilt";
 import { CookableName } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
@@ -6,10 +7,11 @@ import {
   getPetRequestXP,
   isPetNapping,
   isPetNeglected,
+  isPetNFT,
   Pet,
-  PET_REQUESTS,
   PetName,
   PetNFT,
+  PET_REQUESTS,
 } from "features/game/types/pets";
 import { produce } from "immer";
 
@@ -54,25 +56,59 @@ export function getPetExperience({
 }
 
 /**
- * Removes the hard request from the pet's food requests if the pet is less than level 10
- * This ensures that the pet would instantly get the hard request when it reaches level 10
+ * Filters pet food requests based on pet level:
+ * - If pet level < 10: removes all hard requests
+ * - If pet level < 200: keeps only 1 hard request (deterministic selection)
+ * - If pet level >= 200: keeps all requests
  * @param pet Pet
- * @returns Pet's food requests
+ * @param petLevel Pet's current level
+ * @returns Filtered pet's food requests
  */
 export function getPetFoodRequests(pet: Pet | PetNFT, petLevel: number) {
-  let requests = [...pet.requests.food];
+  const requests = [...pet.requests.food];
 
+  // If pet level is less than 10, remove all hard requests
   if (petLevel < 10) {
-    const hardRequest = requests.find((request) =>
-      PET_REQUESTS.hard.includes(request),
-    );
-
-    if (hardRequest) {
-      requests = requests.filter((request) => request !== hardRequest);
-    }
+    return requests.filter((food) => {
+      const foodDifficultyEntry = getObjectEntries(PET_REQUESTS).find(
+        ([, requests]) => requests.includes(food),
+      );
+      return foodDifficultyEntry?.[0] !== "hard";
+    });
   }
+
+  // If pet level is less than 200, keep only 1 hard request (deterministic)
+  if (petLevel < 200 && isPetNFT(pet)) {
+    const hardRequests = requests.filter((food) => {
+      const foodDifficultyEntry = Object.entries(PET_REQUESTS).find(
+        ([, requests]) => requests.includes(food),
+      );
+      return foodDifficultyEntry?.[0] === "hard";
+    });
+
+    // If there are hard requests, select one deterministically based on pet ID/name
+    const petIdentifier = pet.id;
+    const seed = petIdentifier
+      .toString()
+      .split("")
+      .reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0);
+    const selectedHardRequest = hardRequests[seed % hardRequests.length];
+
+    // Remove all hard requests except the selected one
+    return requests.filter((food) => {
+      const foodDifficultyEntry = Object.entries(PET_REQUESTS).find(
+        ([, requests]) => requests.includes(food),
+      );
+      if (foodDifficultyEntry?.[0] === "hard") {
+        return food === selectedHardRequest;
+      }
+      return true;
+    });
+  }
+
   return requests;
 }
+
 export type FeedPetAction = {
   type: "pet.fed";
   petId: PetName | number;
