@@ -6663,5 +6663,6 @@
   "marketplace.offerLimitReached.label": "Limite de l'offre atteinte",
   "marketplace.offerItemLimitReached.label": "Limite d'articles de l'offre atteinte",
   "marketplace.offerItemLimitReached": "Vous avez atteint le nombre maximum d'offres pour cet article (5). Veuillez supprimer certaines offres pour laisser de la place à de nouvelles.",
-  "marketplace.offerLimitReached": "Vous avez atteint le nombre maximum d'offres (100). Veuillez supprimer certaines offres pour laisser de la place à de nouvelles offres."
+  "marketplace.offerLimitReached": "Vous avez atteint le nombre maximum d'offres (100). Veuillez supprimer certaines offres pour laisser de la place à de nouvelles offres.",
+  "petNFTs": "NFT pour animaux de compagnie"
 }

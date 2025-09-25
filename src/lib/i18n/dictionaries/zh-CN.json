@@ -6663,5 +6663,6 @@
   "marketplace.offerLimitReached.label": "已达总报价上限",
   "marketplace.offerItemLimitReached.label": "已达物品报价上限",
   "marketplace.offerItemLimitReached": "你已达到该物品的最大报价数量 (5)。请移除一些报价以腾出空间。",
-  "marketplace.offerLimitReached": "你已达到最大报价数量 (100)。请移除一些报价以腾出空间。"
+  "marketplace.offerLimitReached": "你已达到最大报价数量 (100)。请移除一些报价以腾出空间。",
+  "petNFTs": "宠物 NFT"
 }

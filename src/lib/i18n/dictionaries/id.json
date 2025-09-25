@@ -6663,5 +6663,6 @@
   "marketplace.offerLimitReached.label": "Batas Penawaran Tercapai",
   "marketplace.offerItemLimitReached.label": "Batas Item Penawaran Tercapai",
   "marketplace.offerItemLimitReached": "Anda telah mencapai jumlah maksimum penawaran untuk item ini (5). Harap hapus beberapa penawaran untuk memberi ruang bagi yang baru.",
-  "marketplace.offerLimitReached": "Anda telah mencapai jumlah maksimum penawaran (100). Harap hapus beberapa penawaran untuk memberi ruang bagi yang baru."
+  "marketplace.offerLimitReached": "Anda telah mencapai jumlah maksimum penawaran (100). Harap hapus beberapa penawaran untuk memberi ruang bagi yang baru.",
+  "petNFTs": "NFT hewan peliharaan"
 }
