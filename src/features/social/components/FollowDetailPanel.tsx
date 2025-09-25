@@ -62,11 +62,7 @@ export const FollowDetailPanel: React.FC<Props> = ({
             <NPCIcon parts={clothing} />
           </div>
           <div className="absolute -top-1 -right-1">
-            <OnlineStatus
-              loggedInFarmId={loggedInFarmId}
-              playerId={playerId}
-              lastUpdatedAt={lastOnlineAt}
-            />
+            <OnlineStatus lastUpdatedAt={lastOnlineAt} />
           </div>
         </div>
         <div className="flex flex-col gap-0.5 w-full">
