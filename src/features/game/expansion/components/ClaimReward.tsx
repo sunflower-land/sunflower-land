@@ -8,7 +8,7 @@ import powerup from "assets/icons/level_up.png";
 import factionPoint from "assets/icons/faction_point.webp";
 import vip from "assets/icons/vip.webp";
 import recipeIcon from "assets/decorations/page.png";
-import { CollectibleName, getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
@@ -130,10 +130,10 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
 
           {itemNames.length > 0 &&
             itemNames.map((name) => {
-              const buff = COLLECTIBLE_BUFF_LABELS({
+              const buff = COLLECTIBLE_BUFF_LABELS[name]?.({
                 skills: game.bumpkin.skills,
                 collectibles: game.collectibles,
-              })[name as CollectibleName];
+              });
               return (
                 <ButtonPanel
                   className="flex items-start cursor-context-menu hover:brightness-100"

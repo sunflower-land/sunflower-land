@@ -370,16 +370,12 @@ export const Chest: React.FC<Props> = ({
   const boosts = getKeys(collectibles)
     .filter(
       (name) =>
-        name in
-          COLLECTIBLE_BUFF_LABELS({
-            skills: state.bumpkin.skills,
-            collectibles: state.collectibles,
-          }) &&
+        name in COLLECTIBLE_BUFF_LABELS &&
         (
-          COLLECTIBLE_BUFF_LABELS({
+          COLLECTIBLE_BUFF_LABELS[name]?.({
             skills: state.bumpkin.skills,
             collectibles: state.collectibles,
-          })[name] ?? []
+          }) ?? []
         ).length > 0,
     )
     .filter(
