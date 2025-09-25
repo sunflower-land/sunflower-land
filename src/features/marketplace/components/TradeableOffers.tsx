@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -38,7 +38,6 @@ import { KeyedMutator } from "swr";
 import { MAX_LIMITED_PURCHASES } from "./Tradeable";
 import { ResourceTaxes } from "./TradeableInfo";
 import { hasVipAccess } from "features/game/lib/vipAccess";
-import { useFirstRender } from "lib/utils/hooks/useFirstRender";
 
 const _hasPendingOfferEffect = (state: MachineState) =>
   state.matches("marketplaceOffering") || state.matches("marketplaceAccepting");
@@ -102,7 +101,12 @@ export const TradeableOffers: React.FC<{
     return offer.sfl > highest.sfl ? offer : highest;
   }, tradeable?.offers[0]);
 
-  const isFirstRender = useFirstRender();
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
+    "marketplaceBulkOffersCancellingSuccess",
+    "playing",
+    reload,
+  );
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
@@ -138,12 +142,6 @@ export const TradeableOffers: React.FC<{
           : undefined,
       }),
   );
-
-  useEffect(() => {
-    if (isFirstRender) return;
-
-    reload();
-  }, [myOffersCount, isFirstRender, reload]);
 
   const handleHide = () => {
     if (hasPendingOfferEffect) return;
