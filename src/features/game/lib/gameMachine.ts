@@ -2461,7 +2461,9 @@ export function startGame(authContext: AuthContext) {
             id: "landscaping",
             src: landscapingMachine,
             data: {
-              placeable: (_: Context, event: LandscapeEvent) => event.placeable,
+              placeable: (_: Context, event: LandscapeEvent) => ({
+                name: event.placeable,
+              }),
               action: (_: Context, event: LandscapeEvent) => event.action,
               requirements: (_: Context, event: LandscapeEvent) =>
                 event.requirements,
