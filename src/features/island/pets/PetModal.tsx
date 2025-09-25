@@ -75,10 +75,7 @@ export const PetModal: React.FC<Props> = ({
 
   const handleFeed = useCallback(
     (food: CookableName) => {
-      gameService.send("pet.fed", {
-        petId,
-        food,
-      });
+      gameService.send("pet.fed", { petId, food });
     },
     [gameService, petId],
   );

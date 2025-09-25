@@ -124,7 +124,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
   const handleBulkPet = () => {
     nappingPets.forEach(([petName, pet]) => {
       if (pet) {
-        gameService.send("pet.pet", { pet: petName });
+        gameService.send("pet.pet", { petId: petName });
       }
     });
   };
