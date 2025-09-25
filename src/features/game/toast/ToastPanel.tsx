@@ -18,6 +18,8 @@ import { Bud } from "../types/buds";
 import { KNOWN_IDS } from "../types";
 import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 import { useVisiting } from "lib/utils/visitUtils";
+import { PetNFT } from "../types/pets";
+import { ITEM_DETAILS } from "../types/images";
 
 const MAX_TOAST = 6;
 
@@ -58,6 +60,11 @@ const getToastIcon = (item: ToastItem, faction?: FactionName) => {
     }).image;
   }
 
+  if (item.startsWith("Pet #")) {
+    // TODO: Update with pet image
+    return ITEM_DETAILS["Pet Egg"].image;
+  }
+
   return "";
 };
 
@@ -77,6 +84,7 @@ export const ToastPanel: React.FC = () => {
     setFactionPoints,
     setWardrobe,
     setBuds,
+    setPetNFTs,
   } = useContext(ToastContext);
   const [visibleToasts, setVisibleToasts] = useState<Toast[]>([]);
   const [showToasts, setShowToasts] = useState<boolean>(false);
@@ -98,6 +106,8 @@ export const ToastPanel: React.FC = () => {
   const newWardrobe = useRef<Partial<Record<BumpkinItem, number>>>();
   const oldBuds = useRef<Partial<Record<number, Bud>>>();
   const newBuds = useRef<Partial<Record<number, Bud>>>();
+  const oldPetNFTs = useRef<Partial<Record<number, PetNFT>>>();
+  const newPetNFTs = useRef<Partial<Record<number, PetNFT>>>();
 
   /**
    * Listens to game state transitions.
@@ -124,6 +134,8 @@ export const ToastPanel: React.FC = () => {
     newWardrobe.current = state.context.state.wardrobe;
     oldBuds.current = newBuds.current;
     newBuds.current = state.context.state.buds;
+    oldPetNFTs.current = newPetNFTs.current;
+    newPetNFTs.current = state.context.state.pets?.nfts ?? {};
 
     // inventory is set and changed
     if (
@@ -173,6 +185,11 @@ export const ToastPanel: React.FC = () => {
     // buds is set and changed
     if (!!newBuds.current && oldBuds.current !== newBuds.current) {
       setBuds(newBuds.current);
+    }
+
+    // pet nfts is set and changed
+    if (!!newPetNFTs.current && oldPetNFTs.current !== newPetNFTs.current) {
+      setPetNFTs(newPetNFTs.current);
     }
   });
 
