@@ -42,6 +42,7 @@ import { reset } from "features/farming/hud/actions/reset";
 import { checkProgress, processEvent } from "./processEvent";
 import {
   landscapingMachine,
+  LandscapingPlaceableType,
   SaveEvent,
 } from "../expansion/placeable/landscapingMachine";
 import { Context } from "../GameProvider";
@@ -109,10 +110,6 @@ import { blessingIsReady } from "./blessings";
 import { hasReadNews } from "features/farming/mail/components/News";
 import { depositSFL } from "lib/blockchain/DepositSFL";
 import { hasFeatureAccess } from "lib/flags";
-import { BuildingName } from "../types/buildings";
-import { CollectibleName } from "../types/craftables";
-import { ResourceName } from "../types/resources";
-import { NFTName } from "../events/landExpansion/placeNFT";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -212,15 +209,7 @@ type UpdateBlockBucksEvent = {
 };
 
 type LandscapeEvent = {
-  placeable?:
-    | {
-        name: NFTName;
-        id: string;
-      }
-    | {
-        name: BuildingName | CollectibleName | ResourceName;
-        id?: string;
-      };
+  placeable?: LandscapingPlaceableType;
   action?: GameEventName<PlacementEvent>;
   type: "LANDSCAPE";
   requirements?: {
@@ -2461,9 +2450,7 @@ export function startGame(authContext: AuthContext) {
             id: "landscaping",
             src: landscapingMachine,
             data: {
-              placeable: (_: Context, event: LandscapeEvent) => ({
-                name: event.placeable,
-              }),
+              placeable: (_: Context, event: LandscapeEvent) => event.placeable,
               action: (_: Context, event: LandscapeEvent) => event.action,
               requirements: (_: Context, event: LandscapeEvent) =>
                 event.requirements,

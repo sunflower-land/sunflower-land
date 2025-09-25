@@ -175,7 +175,7 @@ const HudComponent: React.FC<Props> = ({
             onPlace={(selected) => {
               gameService.send("LANDSCAPE", {
                 action: placeEvent(selected),
-                placeable: selected,
+                placeable: { name: selected },
                 multiple: true,
               });
             }}
