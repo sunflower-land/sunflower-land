@@ -32,7 +32,6 @@ import { AddSFL } from "../AddSFL";
 import { GeneralSettings } from "./general-settings/GeneralSettings";
 import { InstallAppModal } from "./general-settings/InstallAppModal";
 import { LanguageSwitcher } from "./general-settings/LanguageChangeModal";
-import { Share } from "./general-settings/Share";
 import { PlazaSettings } from "./plaza-settings/PlazaSettingsModal";
 import { DeveloperOptions } from "./developer-options/DeveloperOptions";
 import { Discord } from "./general-settings/DiscordModal";
@@ -59,6 +58,7 @@ import { FaceRecognitionSettings } from "features/retreat/components/personhood/
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { TransferAccountWrapper } from "./blockchain-settings/TransferAccount";
 import { DEV_PlayerSearch } from "./developer-options/DEV_PlayerSearch";
+import { ApiKey } from "./general-settings/ApiKey";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -307,8 +307,8 @@ export type SettingMenuId =
   // General Settings
   | "discord"
   | "changeLanguage"
-  | "share"
   | "preferences"
+  | "apiKey"
 
   // Amoy Testnet Actions
   | "hoardingCheck"
@@ -390,10 +390,11 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "general",
     content: LanguageSwitcher,
   },
-  share: {
-    title: translate("share.ShareYourFarmLink"),
+
+  apiKey: {
+    title: translate("share.apiKey"),
     parent: "general",
-    content: Share,
+    content: ApiKey,
   },
   preferences: {
     title: translate("gameOptions.generalSettings.preferences"),

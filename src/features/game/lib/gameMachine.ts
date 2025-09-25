@@ -178,6 +178,7 @@ export interface Context {
   visitorState?: GameState;
   hasHelpedPlayerToday?: boolean;
   totalHelpedToday?: number;
+  apiKey?: string;
 }
 
 export type Moderation = {
@@ -957,6 +958,7 @@ export function startGame(authContext: AuthContext) {
                 fslId: response.fslId,
                 oauthNonce: response.oauthNonce,
                 prices: response.prices,
+                apiKey: response.apiKey,
               };
             },
             onDone: [
@@ -2598,6 +2600,7 @@ export function startGame(authContext: AuthContext) {
           fslId: (_, event) => event.data.fslId,
           oauthNonce: (_, event) => event.data.oauthNonce,
           prices: (_, event) => event.data.prices,
+          apiKey: (_, event) => event.data.apiKey,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),
