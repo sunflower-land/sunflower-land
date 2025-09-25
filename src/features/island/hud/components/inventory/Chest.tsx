@@ -51,7 +51,10 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import { WORKBENCH_MONUMENTS } from "features/game/types/monuments";
 import { DOLLS } from "features/game/lib/crafting";
 import { PET_TYPES, PetNFTs } from "features/game/types/pets";
-import { LandscapingPlaceable } from "features/game/expansion/placeable/landscapingMachine";
+import {
+  LandscapingPlaceable,
+  LandscapingPlaceableType,
+} from "features/game/expansion/placeable/landscapingMachine";
 import { PetNFTDetails } from "components/ui/layouts/PetNFTDetails";
 import { getPetImage } from "features/island/pets/lib/petShared";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
@@ -83,7 +86,7 @@ export const ITEM_ICONS: (
 });
 
 interface PanelContentProps {
-  selectedChestItem?: { name: LandscapingPlaceable; id?: string };
+  selectedChestItem?: LandscapingPlaceableType;
   closeModal: () => void;
   state: GameState;
   buds: Record<number, Bud>;
@@ -122,8 +125,7 @@ const PanelContent: React.FC<PanelContentProps> = ({
       showConfirmationModal(true);
     } else {
       selectedChestItem.name === "Bud" || selectedChestItem.name === "Pet"
-        ? onPlaceNFT &&
-          onPlaceNFT(selectedChestItem.id!, selectedChestItem.name)
+        ? onPlaceNFT && onPlaceNFT(selectedChestItem.id, selectedChestItem.name)
         : onPlace && onPlace(selectedChestItem.name);
       closeModal();
     }
@@ -262,8 +264,8 @@ const PanelContent: React.FC<PanelContentProps> = ({
 
 interface Props {
   state: GameState;
-  selected?: { name: LandscapingPlaceable; id?: string };
-  onSelect: (item: { name: LandscapingPlaceable; id?: string }) => void;
+  selected?: LandscapingPlaceableType;
+  onSelect: (item: LandscapingPlaceableType) => void;
   closeModal: () => void;
   onPlace?: (name: LandscapingPlaceable) => void;
   onPlaceNFT?: (id: string, nft: NFTName) => void;
@@ -297,9 +299,7 @@ export const Chest: React.FC<Props> = ({
       {} as Record<CollectibleName, Decimal>,
     );
 
-  const getSelectedChestItems = ():
-    | { name: LandscapingPlaceable; id?: string }
-    | undefined => {
+  const getSelectedChestItems = (): LandscapingPlaceableType | undefined => {
     if (selected?.name === "Bud") {
       const budId = Number(selected.id);
       const bud = buds[budId];
@@ -326,10 +326,7 @@ export const Chest: React.FC<Props> = ({
 
   const selectedChestItem = getSelectedChestItems();
 
-  const handleItemClick = (item: {
-    name: LandscapingPlaceable;
-    id?: string;
-  }) => {
+  const handleItemClick = (item: LandscapingPlaceableType) => {
     onSelect(item);
   };
 
@@ -421,6 +418,11 @@ export const Chest: React.FC<Props> = ({
     icon: string;
   }[] = [
     {
+      items: pets,
+      label: "pets",
+      icon: SUNNYSIDE.icons.expression_confused,
+    },
+    {
       items: resources,
       label: "resource.nodes",
       icon: SUNNYSIDE.resource.tree,
@@ -464,11 +466,6 @@ export const Chest: React.FC<Props> = ({
       items: decorations,
       label: "decorations",
       icon: ITEM_DETAILS["Basic Bear"].image,
-    },
-    {
-      items: pets,
-      label: "pets",
-      icon: SUNNYSIDE.icons.expression_confused,
     },
   ];
 
@@ -617,8 +614,8 @@ interface ItemGroupProps {
   label: string;
   icon: string;
   chestMap: Record<string, Decimal>;
-  selectedChestItem?: { name: LandscapingPlaceable; id?: string };
-  onItemClick: (item: { name: LandscapingPlaceable; id?: string }) => void;
+  selectedChestItem?: LandscapingPlaceableType;
+  onItemClick: (item: LandscapingPlaceableType) => void;
   state: GameState;
   divRef: React.RefObject<HTMLDivElement>;
 }

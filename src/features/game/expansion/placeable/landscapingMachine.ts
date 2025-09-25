@@ -68,19 +68,21 @@ export type LandscapingPlaceable =
   | ResourceName
   | NFTName;
 
+export type LandscapingPlaceableType =
+  | {
+      name: NFTName;
+      id: string;
+    }
+  | {
+      name: BuildingName | CollectibleName | ResourceName;
+      id?: string;
+    };
+
 export interface Context {
   action?: GameEventName<PlacementEvent>;
   coordinates: Coordinates;
   collisionDetected: boolean;
-  placeable?:
-    | {
-        name: NFTName;
-        id: string;
-      }
-    | {
-        name: BuildingName | CollectibleName | ResourceName;
-        id?: string;
-      };
+  placeable?: LandscapingPlaceableType;
 
   multiple?: boolean;
 

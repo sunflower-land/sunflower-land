@@ -12,7 +12,10 @@ import { Biomes } from "./inventory/Biomes";
 import { LAND_BIOMES } from "features/island/biomes/biomes";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { LandscapingPlaceable } from "features/game/expansion/placeable/landscapingMachine";
+import {
+  LandscapingPlaceable,
+  LandscapingPlaceableType,
+} from "features/game/expansion/placeable/landscapingMachine";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
 
 interface Props {
@@ -32,10 +35,7 @@ export const LandscapingChest: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
 
-  const [selected, setSelected] = useState<{
-    name: LandscapingPlaceable;
-    id?: string;
-  }>();
+  const [selected, setSelected] = useState<LandscapingPlaceableType>();
   const [currentTab, setCurrentTab] = useState<"Chest" | "Biomes">("Chest");
   const hasBiomes = getKeys(LAND_BIOMES).some((item) =>
     (state.inventory[item] ?? new Decimal(0)).gt(0),

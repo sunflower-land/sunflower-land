@@ -13,7 +13,10 @@ import { Biomes } from "./Biomes";
 import { getKeys } from "features/game/types/decorations";
 import { LAND_BIOMES } from "features/island/biomes/biomes";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { LandscapingPlaceable } from "features/game/expansion/placeable/landscapingMachine";
+import {
+  LandscapingPlaceable,
+  LandscapingPlaceableType,
+} from "features/game/expansion/placeable/landscapingMachine";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
 
 interface Props {
@@ -22,11 +25,8 @@ interface Props {
   state: GameState;
   selectedBasketItem?: InventoryItemName;
   onSelectBasketItem: (name: InventoryItemName) => void;
-  selectedChestItem?: { name: LandscapingPlaceable; id?: string };
-  onSelectChestItem: (item: {
-    name: LandscapingPlaceable;
-    id?: string;
-  }) => void;
+  selectedChestItem?: LandscapingPlaceableType;
+  onSelectChestItem: (item: LandscapingPlaceableType) => void;
   onPlace?: (name: LandscapingPlaceable) => void;
   onPlaceNFT?: (id: string, nft: NFTName) => void;
   onDepositClick?: () => void;

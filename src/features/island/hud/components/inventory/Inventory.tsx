@@ -9,7 +9,10 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleName } from "features/game/types/craftables";
 import { BasketButton } from "./BasketButton";
 import { SeedName, SEEDS } from "features/game/types/seeds";
-import { LandscapingPlaceable } from "features/game/expansion/placeable/landscapingMachine";
+import {
+  LandscapingPlaceable,
+  LandscapingPlaceableType,
+} from "features/game/expansion/placeable/landscapingMachine";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
 
 interface Props {
@@ -49,10 +52,8 @@ export const Inventory: React.FC<Props> = ({
     };
   }, []);
 
-  const [selectedChestItem, setSelectedChestItem] = useState<{
-    name: LandscapingPlaceable;
-    id?: string;
-  }>();
+  const [selectedChestItem, setSelectedChestItem] =
+    useState<LandscapingPlaceableType>();
   // [
   //   ...buds,
   //   ...getKeys(getChestItems(state)).sort(
