@@ -693,10 +693,8 @@
   "description.barredknifejaw.two": "Утоли голод резким вкусом!",
   "description.basic.bear": "Обычный медведь.",
   "description.basic.land": "Базовая земля",
-  "description.basic.scarecrow.boost": "-20% времени роста базовых культур",
   "description.basic.scarecrow.boost.aoe": "Область действия (3x3) ниже",
   "description.basic.scarecrow.boost.aoe.skill": "Область действия (7x7) ниже",
-  "description.basic.scarecrow.boost.skill": "-30% Время роста",
   "description.basicBed": "Простая кровать, здесь может спать один фермер.",
   "description.battle.fish": "Редчайший бронированный пловец из сезона фракций!",
   "description.battle.fish.boost": "+0.05 Нефти",
@@ -6663,5 +6661,10 @@
   "marketplace.offerLimitReached.label": "Достигнут лимит предложения",
   "marketplace.offerItemLimitReached.label": "Достигнут лимит предложенных товаров",
   "marketplace.offerItemLimitReached": "Вы достигли максимального количества предложений по этому товару (5). Пожалуйста, удалите некоторые предложения, чтобы освободить место для новых.",
-  "marketplace.offerLimitReached": "Вы достигли максимального количества предложений (100). Пожалуйста, удалите некоторые предложения, чтобы освободить место для новых."
+  "marketplace.offerLimitReached": "Вы достигли максимального количества предложений (100). Пожалуйста, удалите некоторые предложения, чтобы освободить место для новых.",
+  "petNFTs": "NFT для домашних животных",
+  "description.basic.scarecrow.boost": "Время роста основных культур: -20%",
+  "description.basic.scarecrow.boost.skill": "Время роста основных культур: -30%",
+  "share.apiKey": "Ключ API",
+  "share.apiKeyDescription": "Вы хотите создать инструменты для сообщества? Используйте следующий ключ в заголовках запроса."
 }

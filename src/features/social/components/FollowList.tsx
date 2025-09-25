@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSocial } from "../hooks/useSocial";
 import { Label } from "components/ui/Label";
 import { FollowDetailPanel } from "./FollowDetailPanel";
 import { Button } from "components/ui/Button";
@@ -28,7 +27,6 @@ export const FollowList: React.FC<Props> = ({
   loggedInFarmId,
   token,
   networkFarmId,
-  networkList,
   networkCount,
   playerLoading,
   showLabel = true,
@@ -37,10 +35,6 @@ export const FollowList: React.FC<Props> = ({
   searchResults = [],
   navigateToPlayer,
 }) => {
-  useSocial({
-    farmId: networkFarmId,
-    following: networkList,
-  });
   const { t } = useTranslation();
   const [isScrollable, setIsScrollable] = useState(false);
   // Intersection observer to load more details when the loader is in view

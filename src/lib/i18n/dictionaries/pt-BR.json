@@ -137,7 +137,6 @@
   "description.purple.trail.boost": "+0,2 Berinjela",
   "description.freya.fox.boost": "+0,5 Abóbora",
   "description.maximus.boost": "+1 Berinjela",
-  "description.basic.scarecrow.boost": "-20% Tempo de Crescimento de Plantação Básica: Girassol, Batata e Abóbora (AOE 3x3)",
   "description.scary.mike.boost": "+0,2 Plantação Média: Cenoura, Repolho, Soja, Beterraba, Couve-flor e Nabo (AOE 3x3)",
   "description.laurie.chuckle.crow.boost": "+0,2 Plantação Avançada: Berinjela, Milho, Rabanete, Trigo, Couve (AOE 3x3)",
   "description.poppy.boost": "+0,1 Milho",
@@ -4290,7 +4289,6 @@
   "greatFreeze.destroyed.two": "Algumas de suas colheitas foram congeladas.",
   "calendar.events.greatFreeze.title": "Great Freeze",
   "calendar.events.greatFreeze.description": "Uma onda de frio devastadora que congela as plantações.",
-  "description.basic.scarecrow.boost.skill": "-30% de tempo de crescimento",
   "description.scary.mike.boost.skill": "+0,3 Culturas médias",
   "description.laurie.chuckle.crow.boost.skill": "+0,3 Culturas avançadas",
   "skill.chonkyScarecrow": "Aumenta a área de efeito (AOE) do Espantalho Básico para uma área de 7x7; adicional de -10% do tempo básico de crescimento da cultura",
@@ -6663,5 +6661,10 @@
   "marketplace.offerLimitReached.label": "Limite de oferta atingido",
   "marketplace.offerItemLimitReached.label": "Limite de itens da oferta atingido",
   "marketplace.offerItemLimitReached": "Você atingiu o número máximo de ofertas para este item (5). Remova algumas ofertas para abrir espaço para novas.",
-  "marketplace.offerLimitReached": "Você atingiu o número máximo de ofertas (100). Remova algumas ofertas para abrir espaço para novas."
+  "marketplace.offerLimitReached": "Você atingiu o número máximo de ofertas (100). Remova algumas ofertas para abrir espaço para novas.",
+  "petNFTs": "NFTs para animais de estimação",
+  "description.basic.scarecrow.boost": "-20% de tempo de crescimento de culturas básicas",
+  "description.basic.scarecrow.boost.skill": "-30% de tempo de crescimento das culturas básicas",
+  "share.apiKey": "Chave de API",
+  "share.apiKeyDescription": "Você está procurando criar ferramentas para a comunidade? Use a chave a seguir nos cabeçalhos de sua solicitação."
 }

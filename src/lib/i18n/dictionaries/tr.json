@@ -150,7 +150,6 @@
   "description.purple.trail.boost": "+0.2 Patlıcan",
   "description.freya.fox.boost": "+0.5 Balkabağı",
   "description.maximus.boost": "+1 Patlıcan",
-  "description.basic.scarecrow.boost": "-20% Temel Mahsullerin Büyüme süresi: Ayçiçeği, Patates ve Kabak (Etki Alanı 3x3)",
   "description.scary.mike.boost": "+0.2 Orta Mahsul: Havuç, Lahana, Soya, Pancar, Karnabahar ve Yaban havucu (Etki Alanı 3x3)",
   "description.laurie.chuckle.crow.boost": "+0.2 Gelişmiş Mahsul: Patlıcan, Mısır, Turp, Buğday, Kıvırcık lahana (Etki Alanı 3x3)",
   "description.poppy.boost": "+0.1 Mısır",
@@ -4290,7 +4289,6 @@
   "greatFreeze.destroyed.two": "Ekinlerinizin bir kısmı donmuştu.",
   "calendar.events.greatFreeze.title": "Büyük Dondurma",
   "calendar.events.greatFreeze.description": "Ekinleri donduran yıkıcı bir soğuk hava.",
-  "description.basic.scarecrow.boost.skill": "-30% Büyüme Süresi",
   "description.scary.mike.boost.skill": "+0.3 Orta Mahsuller",
   "description.laurie.chuckle.crow.boost.skill": "+0.3 Gelişmiş Bitkiler",
   "skill.chonkyScarecrow": "Temel Korkuluk etki alanını (AOE) 7x7 alana çıkarır; Ek %-10 temel ürün büyüme süresi",
@@ -6663,5 +6661,10 @@
   "marketplace.offerLimitReached.label": "Teklif Sınırına Ulaşıldı",
   "marketplace.offerItemLimitReached.label": "Teklif Öğe Sınırına Ulaşıldı",
   "marketplace.offerItemLimitReached": "Bu ürün için maksimum teklif sayısına ulaştınız (5). Yenilerine yer açmak için lütfen bazı teklifleri kaldırın.",
-  "marketplace.offerLimitReached": "Maksimum teklif sayısına ulaştınız (100). Yenilerine yer açmak için lütfen bazı teklifleri kaldırın."
+  "marketplace.offerLimitReached": "Maksimum teklif sayısına ulaştınız (100). Yenilerine yer açmak için lütfen bazı teklifleri kaldırın.",
+  "petNFTs": "Evcil Hayvan NFT'leri",
+  "description.basic.scarecrow.boost": "-20% Temel Bitkilerin Büyüme Süresi",
+  "description.basic.scarecrow.boost.skill": "-30% Temel Bitkilerin Büyüme Süresi",
+  "share.apiKey": "API Anahtarı",
+  "share.apiKeyDescription": "Topluluk için araçlar oluşturmak mı istiyorsunuz? İstek başlıklarınızda aşağıdaki anahtarı kullanın."
 }

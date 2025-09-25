@@ -3,7 +3,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
 import classNames from "classnames";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
@@ -14,12 +13,28 @@ import { Hud } from "features/island/hud/Hud";
 import { GreenhouseOil } from "./GreenhouseOil";
 import { EXTERIOR_ISLAND_BG } from "features/barn/BarnInside";
 import { getCurrentBiome } from "features/island/biomes/biomes";
+import { PlayerModal } from "features/social/PlayerModal";
+import { hasFeatureAccess } from "lib/flags";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+import { Context as AuthContext } from "features/auth/lib/Provider";
+import { useSelector } from "@xstate/react";
 
 const background = SUNNYSIDE.land.greenhouse_inside;
-const selectOil = (state: MachineState) => state.context.state.greenhouse.oil;
+
+const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
 
 export const GreenhouseInside: React.FC = () => {
   const { gameService } = useContext(Context);
+  const { authService } = useContext(AuthContext);
+
+  const token = useSelector(authService, _token);
+  const context = gameService.getSnapshot().context;
+  const loggedInFarmId = context.visitorId ?? context.farmId;
+
+  const hasAirdropAccess = hasFeatureAccess(
+    context.visitorState ?? context.state,
+    "AIRDROP_PLAYER",
+  );
 
   const { t } = useAppTranslation();
 
@@ -117,6 +132,11 @@ export const GreenhouseInside: React.FC = () => {
       </>
 
       <Hud isFarming={false} location="home" />
+      <PlayerModal
+        loggedInFarmId={loggedInFarmId}
+        token={token}
+        hasAirdropAccess={hasAirdropAccess}
+      />
     </>
   );
 };

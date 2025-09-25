@@ -176,7 +176,6 @@
   "description.purple.trail.boost": "Incremento de +0.2 en berenjena.",
   "description.freya.fox.boost": "Incrementa en +0.5 las calabaza.",
   "description.maximus.boost": "Incrementa en +1 berenjena.",
-  "description.basic.scarecrow.boost": "Reduce el tiempo de crecimiento en un -20%.",
   "description.scary.mike.boost": "Incrementa en +0.2 los cultivos medianos.",
   "description.laurie.chuckle.crow.boost": "Incrementa en +0.2 los cultivos avanzados.",
   "description.immortal.pear.boost": "Aumenta +1 cosecha de fruta adicional por cada semilla.",
@@ -4290,7 +4289,6 @@
   "greatFreeze.destroyed.two": "Algunas de sus cosechas estaban congeladas.",
   "calendar.events.greatFreeze.title": "Gran helada",
   "calendar.events.greatFreeze.description": "Una ola de frío devastadora que congela las cosechas.",
-  "description.basic.scarecrow.boost.skill": "-30% de tiempo de crecimiento",
   "description.scary.mike.boost.skill": "+0.3 Cultivos medianos",
   "description.laurie.chuckle.crow.boost.skill": "+0.3 Cultivos avanzados",
   "skill.chonkyScarecrow": "Aumenta el área de efecto (AOE) del Espantapájaros básico a un área de 7 x 7; el tiempo de crecimiento del cultivo básico aumenta un -10% más",
@@ -6663,5 +6661,10 @@
   "marketplace.offerLimitReached.label": "Se ha alcanzado el límite de oferta",
   "marketplace.offerItemLimitReached.label": "Se alcanzó el límite de artículos de la oferta",
   "marketplace.offerItemLimitReached": "Has alcanzado el número máximo de ofertas para este artículo (5). Elimine algunas ofertas para dejar espacio para otras nuevas.",
-  "marketplace.offerLimitReached": "Has alcanzado el número máximo de ofertas (100). Elimine algunas ofertas para dejar espacio para otras nuevas."
+  "marketplace.offerLimitReached": "Has alcanzado el número máximo de ofertas (100). Elimine algunas ofertas para dejar espacio para otras nuevas.",
+  "petNFTs": "NFT para mascotas",
+  "description.basic.scarecrow.boost": "-20% de tiempo de crecimiento de los cultivos básicos",
+  "description.basic.scarecrow.boost.skill": "-30% de tiempo de crecimiento de los cultivos básicos",
+  "share.apiKey": "Clave de API",
+  "share.apiKeyDescription": "¿Quieres crear herramientas para la comunidad? Usa la siguiente clave en los encabezados de tus solicitudes."
 }

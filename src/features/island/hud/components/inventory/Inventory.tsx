@@ -6,21 +6,22 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { CollectibleName, getKeys } from "features/game/types/craftables";
-import { getChestItems } from "./utils/inventory";
-import { KNOWN_IDS } from "features/game/types";
-import { BudName } from "features/game/types/buds";
-import { useSound } from "lib/utils/hooks/useSound";
+import { CollectibleName } from "features/game/types/craftables";
 import { BasketButton } from "./BasketButton";
 import { SeedName, SEEDS } from "features/game/types/seeds";
+import {
+  LandscapingPlaceable,
+  LandscapingPlaceableType,
+} from "features/game/expansion/placeable/landscapingMachine";
+import { NFTName } from "features/game/events/landExpansion/placeNFT";
 
 interface Props {
   state: GameState;
   selectedItem?: InventoryItemName;
   isFullUser: boolean;
   shortcutItem?: (item: InventoryItemName) => void;
-  onPlace?: (item: InventoryItemName) => void;
-  onPlaceBud?: (bud: BudName) => void;
+  onPlace?: (item: LandscapingPlaceable) => void;
+  onPlaceNFT?: (id: string, nft: NFTName) => void;
   onDepositClick?: () => void;
   isFarming: boolean;
   isSaving?: boolean;
@@ -29,19 +30,17 @@ interface Props {
 
 export const Inventory: React.FC<Props> = ({
   state,
-  selectedItem: selectedBasketItem,
+  selectedItem,
   shortcutItem,
   isFullUser,
   isFarming,
   isSaving,
   onPlace,
-  onPlaceBud,
+  onPlaceNFT,
   onDepositClick,
   hideActions,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-
-  const inventory = useSound("inventory");
 
   useEffect(() => {
     const eventSubscription = PubSub.subscribe("OPEN_INVENTORY", () => {
@@ -53,20 +52,14 @@ export const Inventory: React.FC<Props> = ({
     };
   }, []);
 
-  const buds = getKeys(state.buds ?? {}).map(
-    (budId) => `Bud-${budId}` as BudName,
-  );
-
-  const [selectedChestItem, setSelectedChestItem] = useState<
-    InventoryItemName | BudName
-  >(
-    [
-      ...buds,
-      ...getKeys(getChestItems(state)).sort(
-        (a, b) => KNOWN_IDS[a] - KNOWN_IDS[b],
-      ),
-    ][0],
-  );
+  const [selectedChestItem, setSelectedChestItem] =
+    useState<LandscapingPlaceableType>();
+  // [
+  //   ...buds,
+  //   ...getKeys(getChestItems(state)).sort(
+  //     (a, b) => KNOWN_IDS[a] - KNOWN_IDS[b],
+  //   ),
+  // ][0],
 
   const shortcuts = getShortcuts();
 
@@ -122,12 +115,12 @@ export const Inventory: React.FC<Props> = ({
           setIsOpen(false);
         }}
         state={state}
-        selectedBasketItem={selectedBasketItem}
+        selectedBasketItem={selectedItem}
         onSelectBasketItem={handleBasketItemClick}
         selectedChestItem={selectedChestItem}
         onSelectChestItem={setSelectedChestItem}
         onPlace={onPlace}
-        onPlaceBud={onPlaceBud}
+        onPlaceNFT={onPlaceNFT}
         onDepositClick={onDepositClick}
         isSaving={isSaving}
         isFarming={isFarming}

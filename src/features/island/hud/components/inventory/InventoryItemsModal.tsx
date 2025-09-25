@@ -7,13 +7,17 @@ import { Chest } from "./Chest";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "components/ui/Modal";
-import { BudName } from "features/game/types/buds";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Biomes } from "./Biomes";
 import { getKeys } from "features/game/types/decorations";
 import { LAND_BIOMES } from "features/island/biomes/biomes";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import {
+  LandscapingPlaceable,
+  LandscapingPlaceableType,
+} from "features/game/expansion/placeable/landscapingMachine";
+import { NFTName } from "features/game/events/landExpansion/placeNFT";
 
 interface Props {
   show: boolean;
@@ -21,10 +25,10 @@ interface Props {
   state: GameState;
   selectedBasketItem?: InventoryItemName;
   onSelectBasketItem: (name: InventoryItemName) => void;
-  selectedChestItem: InventoryItemName | BudName;
-  onSelectChestItem: (name: InventoryItemName | BudName) => void;
-  onPlace?: (name: InventoryItemName) => void;
-  onPlaceBud?: (bud: BudName) => void;
+  selectedChestItem?: LandscapingPlaceableType;
+  onSelectChestItem: (item: LandscapingPlaceableType) => void;
+  onPlace?: (name: LandscapingPlaceable) => void;
+  onPlaceNFT?: (id: string, nft: NFTName) => void;
   onDepositClick?: () => void;
   isSaving?: boolean;
   isFarming: boolean;
@@ -45,7 +49,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
   onSelectChestItem,
   onDepositClick,
   onPlace,
-  onPlaceBud,
+  onPlaceNFT,
   isSaving,
   isFarming,
   isFullUser,
@@ -92,7 +96,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
             onSelect={onSelectChestItem}
             closeModal={onHide}
             onPlace={isFarming ? onPlace : undefined}
-            onPlaceBud={isFarming ? onPlaceBud : undefined}
+            onPlaceNFT={isFarming ? onPlaceNFT : undefined}
             onDepositClick={isFullUser ? onDepositClick : undefined}
             isSaving={isSaving}
           />

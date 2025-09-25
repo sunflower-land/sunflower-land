@@ -369,11 +369,12 @@ import { Poseidon } from "./components/Poseidon";
 import { Project } from "./components/Project";
 import { PetShrine } from "./components/PetShrine";
 import { ObsidianShrine } from "./components/ObsidianShrine";
-import { Pet } from "./components/pets/Pet";
+import { Pet } from "../pets/Pet";
 import { PetName, PET_TYPES } from "features/game/types/pets";
+import { PetNFT } from "./components/PetNFT";
 
 export const COLLECTIBLE_COMPONENTS: Record<
-  CollectibleName | "Bud",
+  CollectibleName | "Bud" | "PetNFT",
   React.FC<CollectibleProps>
 > = {
   ...getKeys(DECORATION_TEMPLATES).reduce(
@@ -672,6 +673,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Town Sign": Sign,
   "White Crow": WhiteCrow,
   Bud: Bud,
+  PetNFT: PetNFT,
   "Twilight Anglerfish": TwilightAnglerfish,
   "Starlight Tuna": StarlightTuna,
   "Radiant Ray": RadiantRay,
@@ -3074,7 +3076,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
 // Need readonly versions for some troublesome components while in design mode
 
 export const READONLY_COLLECTIBLES: Record<
-  CollectibleName | "Bud",
+  CollectibleName | "Bud" | "PetNFT",
   React.FC<CollectibleProps>
 > = {
   ...COLLECTIBLE_COMPONENTS,

@@ -15,6 +15,7 @@ import cleanBroom from "assets/icons/clean_broom.webp";
 import { isMobile } from "mobile-device-detect";
 
 import {
+  LandscapingPlaceable,
   MachineInterpreter,
   MachineState,
   placeEvent,
@@ -29,9 +30,7 @@ import {
   getRemoveAction,
   isCollectible,
 } from "../collectibles/MovableComponent";
-import { InventoryItemName } from "features/game/types/game";
 import { RemoveKuebikoModal } from "../collectibles/RemoveKuebikoModal";
-import { BudName } from "features/game/types/buds";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { HudContainer } from "components/ui/HudContainer";
 import { RemoveHungryCaterpillarModal } from "../collectibles/RemoveHungryCaterpillarModal";
@@ -40,7 +39,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { RoundButton } from "components/ui/RoundButton";
 import { CraftDecorationsModal } from "./components/decorations/CraftDecorationsModal";
 import { RemoveAllConfirmation } from "../collectibles/RemoveAllConfirmation";
-import { BuildingName } from "features/game/types/buildings";
+import { NFTName } from "features/game/events/landExpansion/placeNFT";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -98,17 +97,14 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   const showRemove =
     isMobile && selectedItem && getRemoveAction(selectedItem.name);
 
-  const showFlip =
-    isMobile &&
-    selectedItem &&
-    isCollectible(selectedItem.name as CollectibleName | BuildingName | "Bud");
+  const showFlip = isMobile && selectedItem && isCollectible(selectedItem.name);
 
   useEffect(() => {
     setShowRemoveConfirmation(false);
   }, [selectedItem]);
 
   const remove = () => {
-    const action = getRemoveAction(selectedItem?.name as InventoryItemName);
+    const action = getRemoveAction(selectedItem?.name);
     if (!action) {
       return;
     }
@@ -138,10 +134,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   };
 
   const flip = () => {
-    if (
-      selectedItem &&
-      isCollectible(selectedItem.name as CollectibleName | BuildingName | "Bud")
-    ) {
+    if (selectedItem && isCollectible(selectedItem.name)) {
       child.send("FLIP", {
         id: selectedItem.id,
         name: selectedItem.name,
@@ -151,13 +144,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   };
 
   const isFlipped = useSelector(gameService, (state) => {
-    if (
-      !selectedItem ||
-      !isCollectible(
-        selectedItem.name as CollectibleName | BuildingName | "Bud",
-      )
-    )
-      return false;
+    if (!selectedItem || !isCollectible(selectedItem.name)) return false;
     const collectibles =
       location === "home"
         ? state.context.state.home.collectibles
@@ -244,14 +231,14 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                 onPlaceChestItem={(selected) => {
                   child.send("SELECT", {
                     action: placeEvent(selected),
-                    placeable: selected,
+                    placeable: { name: selected },
                     multiple: true,
                   });
                 }}
-                onPlaceBud={(selected) => {
+                onPlaceNFT={(id, nft) => {
                   child.send("SELECT", {
-                    action: "bud.placed",
-                    placeable: selected,
+                    action: "nft.placed",
+                    placeable: { id, name: nft },
                     location,
                   });
                 }}
@@ -380,9 +367,9 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
 };
 
 const Chest: React.FC<{
-  onPlaceChestItem: (item: InventoryItemName) => void;
-  onPlaceBud: (bud: BudName) => void;
-}> = ({ onPlaceChestItem, onPlaceBud }) => {
+  onPlaceChestItem: (item: LandscapingPlaceable) => void;
+  onPlaceNFT: (id: string, nft: NFTName) => void;
+}> = ({ onPlaceChestItem, onPlaceNFT }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [showChest, setShowChest] = useState(false);
@@ -417,7 +404,7 @@ const Chest: React.FC<{
         onHide={() => setShowChest(false)}
         show={showChest}
         onPlace={onPlaceChestItem}
-        onPlaceBud={onPlaceBud}
+        onPlaceNFT={onPlaceNFT}
       />
     </>
   );

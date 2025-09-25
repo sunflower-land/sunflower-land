@@ -7,6 +7,7 @@ import { InventoryItemName } from "../types/game";
 import { BumpkinItem, ITEM_IDS } from "../types/bumpkin";
 import { Bud } from "../types/buds";
 import { KNOWN_IDS } from "../types";
+import { PetNFT } from "../types/pets";
 
 /**
  * The type of the toast.
@@ -18,7 +19,8 @@ export type ToastItem =
   | "coins"
   | "faction_points"
   | BumpkinItem
-  | `Bud #${number}`;
+  | `Bud #${number}`
+  | `Pet #${number}`;
 
 /**
  * The toast props.
@@ -44,6 +46,7 @@ export interface Toast {
  * @param setFactionPoinst Sets the faction points state of the toast provider.
  * @param setWardrobe Sets the wardrobe state of the toast provider.
  * @param setBuds Sets the buds state of the toast provider.
+ * @param setPetNFTs Sets the pet nfts state of the toast provider.
  */
 export const ToastContext = createContext<{
   toastsList: Toast[];
@@ -56,6 +59,7 @@ export const ToastContext = createContext<{
   setFactionPoints: (points: number) => void;
   setWardrobe: (wardrobe: Partial<Record<BumpkinItem, number>>) => void;
   setBuds: (buds: Partial<Record<number, Bud>>) => void;
+  setPetNFTs: (petNFTs: Partial<Record<number, PetNFT>>) => void;
 }>({
   toastsList: [],
   // eslint-disable-next-line no-console
@@ -72,6 +76,8 @@ export const ToastContext = createContext<{
   setWardrobe: console.log,
   // eslint-disable-next-line no-console
   setBuds: console.log,
+  // eslint-disable-next-line no-console
+  setPetNFTs: console.log,
 });
 
 /**
@@ -102,6 +108,8 @@ export const ToastProvider: React.FC<React.PropsWithChildren> = ({
   const newWardrobe = useRef<Partial<Record<BumpkinItem, number>>>();
   const oldBuds = useRef<Partial<Record<number, Bud>>>();
   const newBuds = useRef<Partial<Record<number, Bud>>>();
+  const oldPetNFTs = useRef<Partial<Record<number, PetNFT>>>();
+  const newPetNFTs = useRef<Partial<Record<number, PetNFT>>>();
 
   const timeout = useRef<NodeJS.Timeout>();
 
@@ -140,6 +148,14 @@ export const ToastProvider: React.FC<React.PropsWithChildren> = ({
         newBuds.current?.[Number(item.split("#")[1])] ? 1 : 0,
       )?.minus(
         new Decimal(oldBuds.current?.[Number(item.split("#")[1])] ? 1 : 0),
+      );
+    }
+
+    if (item.startsWith("Pet #")) {
+      return new Decimal(
+        newPetNFTs.current?.[Number(item.split("#")[1])] ? 1 : 0,
+      )?.minus(
+        new Decimal(oldPetNFTs.current?.[Number(item.split("#")[1])] ? 1 : 0),
       );
     }
 
@@ -233,6 +249,7 @@ export const ToastProvider: React.FC<React.PropsWithChildren> = ({
     oldFactionPoints.current = newFactionPoints.current;
     oldWardrobe.current = newWardrobe.current;
     oldBuds.current = newBuds.current;
+    oldPetNFTs.current = newPetNFTs.current;
     setToastsList([]);
   };
 
@@ -460,6 +477,42 @@ export const ToastProvider: React.FC<React.PropsWithChildren> = ({
     debouncedSetOldStates();
   };
 
+  const setPetNFTs = (petNFTs: Partial<Record<number, PetNFT>>) => {
+    // set the new state
+    newPetNFTs.current = petNFTs;
+
+    // if old state is not set, skip the toast logic because it is the first time setting the state
+    if (!oldPetNFTs.current) {
+      oldPetNFTs.current = petNFTs;
+      return;
+    }
+
+    // get the inventory difference between the new and old states
+    const difference: Partial<Record<number, Decimal>> = {};
+
+    getKeys(petNFTs).forEach((id) => {
+      difference[id] = new Decimal(1);
+    });
+
+    getKeys(oldPetNFTs.current ?? {}).forEach((id) => {
+      const value = new Decimal(oldPetNFTs.current?.[id] ? 1 : 0);
+      difference[id] = difference[id]?.minus(value) ?? value.mul(-1);
+
+      // item not needed in record if there is no quantity difference
+      if (difference[id]?.equals(new Decimal(0))) {
+        delete difference[id];
+      }
+    });
+
+    // set toast for each item in the inventory with quantity difference
+    getKeys(difference).forEach((id) => {
+      addToast({ item: `Pet #${id}` });
+    });
+
+    // clear all toasts after debounced timeout
+    debouncedSetOldStates();
+  };
+
   return (
     <ToastContext.Provider
       value={{
@@ -471,6 +524,7 @@ export const ToastProvider: React.FC<React.PropsWithChildren> = ({
         setFactionPoints,
         setWardrobe,
         setBuds,
+        setPetNFTs,
       }}
     >
       {children}

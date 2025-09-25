@@ -1,30 +1,42 @@
 import React, { useContext, useState } from "react";
-import {
-  isPetNapping,
-  isPetNeglected,
-  PetName,
-} from "features/game/types/pets";
-import { PetModal } from "./PetModal";
-import { Context } from "features/game/GameProvider";
+import { PetSprite } from "../../pets/PetSprite";
+import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
+import {
+  isPetNeglected,
+  isPetNapping,
+  getPetType,
+} from "features/game/types/pets";
+import { PetModal } from "../../pets/PetModal";
 import { Transition } from "@headlessui/react";
-import { PetSprite } from "./PetSprite";
-import { _petData } from "./petShared";
 
-export const HomePet: React.FC<{ name: PetName }> = ({ name }) => {
+type Props = {
+  id: string;
+};
+
+const _petNFTData = (id: string) => (state: MachineState) => {
+  return state.context.state.pets?.nfts?.[Number(id)];
+};
+
+export const PetNFT: React.FC<Props> = ({ id }) => {
+  const { gameService } = useContext(Context);
+  const petNFTData = useSelector(gameService, _petNFTData(id));
   const [showPetModal, setShowPetModal] = useState(false);
   const [showXpPopup, setShowXpPopup] = useState(false);
-  const { gameService } = useContext(Context);
 
-  const petData = useSelector(gameService, _petData(name));
+  const isNeglected = isPetNeglected(petNFTData);
+  const isNapping = isPetNapping(petNFTData);
 
-  const isNeglected = isPetNeglected(petData);
-  const isNapping = isPetNapping(petData);
+  if (!petNFTData) return null;
+
+  const isRevealed = petNFTData.revealAt < Date.now();
+  const petType = getPetType(petNFTData);
 
   const handlePetClick = () => {
     if (isNapping) {
       gameService.send("pet.pet", {
-        pet: name,
+        petId: Number(id),
       });
       setShowXpPopup(true);
       window.setTimeout(() => setShowXpPopup(false), 1000);
@@ -35,11 +47,12 @@ export const HomePet: React.FC<{ name: PetName }> = ({ name }) => {
 
   return (
     <PetSprite
-      name={name}
+      id={Number(id)}
       isNeglected={isNeglected}
       isNapping={isNapping}
-      onClick={handlePetClick}
       clickable
+      onClick={handlePetClick}
+      petData={petNFTData}
     >
       <Transition
         appear={true}
@@ -57,11 +70,16 @@ export const HomePet: React.FC<{ name: PetName }> = ({ name }) => {
           {"+10XP"}
         </span>
       </Transition>
-      <PetModal
-        show={showPetModal}
-        onClose={() => setShowPetModal(false)}
-        petName={name}
-      />
+      {isRevealed && petType && (
+        <PetModal
+          show={showPetModal}
+          onClose={() => setShowPetModal(false)}
+          petId={Number(id)}
+          data={petNFTData}
+          isNeglected={isNeglected}
+          petType={petType}
+        />
+      )}
     </PetSprite>
   );
 };

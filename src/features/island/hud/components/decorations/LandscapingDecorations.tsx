@@ -44,7 +44,7 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
   const buy = () => {
     landscapingMachine.send("SELECT", {
       action: "decoration.bought",
-      placeable: selected.name,
+      placeable: { id: "temp", name: selected.name },
       requirements: { coins: price, ingredients: selected.ingredients },
       multiple: true,
     });

@@ -110,27 +110,29 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
         <p>{t("error.connection.three")}</p>
         <div className="flex flex-col w-full mb-2 text-xs overflow-hidden space-y-1">
           {farmId && (
-            <p>
+            <p className="select-all">
               {t("farm")}
               {": "}
               {farmId}
             </p>
           )}
           {error && (
-            <p>
+            <p className="select-all">
               {t("error")}
               {": "}
               {error}
             </p>
           )}
-          <p>
+          <p className="select-all">
             {t("date")}
             {": "}
             {date}
           </p>
           {transactionId && (
             <p>
-              {t("transaction.id")} {transactionId}
+              <span className="select-all">
+                {t("transaction.id")} {transactionId}
+              </span>
             </p>
           )}
           {tsFileName && (

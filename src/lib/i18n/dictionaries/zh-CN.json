@@ -174,7 +174,6 @@
   "description.purple.trail.boost": "+0.2 茄子",
   "description.freya.fox.boost": "+0.5 南瓜",
   "description.maximus.boost": "+1 茄子",
-  "description.basic.scarecrow.boost": "-20% 低阶庄稼生长时间：向日葵土豆和南瓜(AOE 3x3)",
   "description.scary.mike.boost": "+0.2 中阶庄稼：胡萝卜、卷心菜、大豆、甜菜根、花椰菜和防风草(AOE 3x3)",
   "description.laurie.chuckle.crow.boost": "+0.2 高阶庄稼：茄子玉米、小萝卜、小麦和羽衣甘蓝(AOE 3x3)",
   "description.immortal.pear.boost": "每个种子水果收获次数 +1",
@@ -4290,7 +4289,6 @@
   "greatFreeze.destroyed.two": "您的一些庄稼被冻结了。",
   "calendar.events.greatFreeze.title": "霜冻",
   "calendar.events.greatFreeze.description": "一场毁灭性的霜冻，部分庄稼被冻结了。",
-  "description.basic.scarecrow.boost.skill": "-30% 生长时间",
   "description.scary.mike.boost.skill": "+0.3 中阶庄稼",
   "description.laurie.chuckle.crow.boost.skill": "+0.3 高阶庄稼",
   "skill.chonkyScarecrow": "将 Basic Scarecrow 的效果区域 (AOE) 增加到 7x7 区域；低阶庄稼生长时间额外 -10%",
@@ -6663,5 +6661,10 @@
   "marketplace.offerLimitReached.label": "已达总报价上限",
   "marketplace.offerItemLimitReached.label": "已达物品报价上限",
   "marketplace.offerItemLimitReached": "你已达到该物品的最大报价数量 (5)。请移除一些报价以腾出空间。",
-  "marketplace.offerLimitReached": "你已达到最大报价数量 (100)。请移除一些报价以腾出空间。"
+  "marketplace.offerLimitReached": "你已达到最大报价数量 (100)。请移除一些报价以腾出空间。",
+  "petNFTs": "宠物 NFT",
+  "description.basic.scarecrow.boost": "-20% 基本作物生长时间",
+  "description.basic.scarecrow.boost.skill": "-30% 基本作物生长时间",
+  "share.apiKey": "API 密钥",
+  "share.apiKeyDescription": "你想为社区开发工具吗？在请求标头中使用以下密钥。"
 }

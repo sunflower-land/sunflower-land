@@ -9,7 +9,7 @@ import {
   TradeableDetails,
 } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { TradeableListItem } from "./TradeableList";
 import { ListingTable } from "./TradeTable";
 import { Context } from "features/game/GameProvider";
@@ -32,7 +32,6 @@ import { KeyedMutator } from "swr";
 import { isTradeResource } from "features/game/actions/tradeLimits";
 import { MAX_LIMITED_SALES } from "./Tradeable";
 import { ResourceTaxes } from "./TradeableInfo";
-import { useFirstRender } from "lib/utils/hooks/useFirstRender";
 
 type TradeableListingsProps = {
   authToken: string;
@@ -71,12 +70,9 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
 
   const isListing = useSelector(gameService, _isListing);
   const balance = useSelector(gameService, _balance);
-  const myListingsCount = useSelector(gameService, _myListingsCount);
 
   const [selectedListing, setSelectedListing] = useState<Listing>();
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
-
-  const isFirstRender = useFirstRender();
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
@@ -110,6 +106,13 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
+    "marketplaceBulkListingsCancellingSuccess",
+    "playing",
+    reload,
+  );
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
     "loading",
     "playing",
     () =>
@@ -125,12 +128,6 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
           : undefined,
       }),
   );
-
-  useEffect(() => {
-    if (isFirstRender) return;
-
-    reload();
-  }, [myListingsCount, isFirstRender, reload]);
 
   const handleSelectListing = (id: string) => {
     const selectedListing = tradeable?.listings.find(

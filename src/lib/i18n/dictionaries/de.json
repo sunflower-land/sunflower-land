@@ -176,7 +176,6 @@
   "description.purple.trail.boost": "+0.2 Aubergine",
   "description.freya.fox.boost": "+0.5 Kürbis",
   "description.maximus.boost": "+1 Aubergine",
-  "description.basic.scarecrow.boost": "-20% Wachstumszeit",
   "description.scary.mike.boost": "+0.2 Mittlere Ernten",
   "description.laurie.chuckle.crow.boost": "+0.2 Fortgeschrittene Nutzpflanzen",
   "description.immortal.pear.boost": "+1 Fruchternte pro Samen",
@@ -4290,7 +4289,6 @@
   "greatFreeze.destroyed.two": "Einige Ihrer Ernten waren eingefroren.",
   "calendar.events.greatFreeze.title": "Toller Frost",
   "calendar.events.greatFreeze.description": "Ein verheerender Kälteeinbruch, der die Ernte einfriert.",
-  "description.basic.scarecrow.boost.skill": "-30% Wachstumszeit",
   "description.scary.mike.boost.skill": "+0.3 Mittlere Ernten",
   "description.laurie.chuckle.crow.boost.skill": "+0.3 Fortgeschrittene Nutzpflanzen",
   "skill.chonkyScarecrow": "Erhöht den Wirkungsbereich (AOE) von Basic Scarecrow auf eine Fläche von 7x7; zusätzliche Wachstumszeit der Grundpflanze um -10%",
@@ -6663,5 +6661,10 @@
   "marketplace.offerLimitReached.label": "Angebotslimit erreicht",
   "marketplace.offerItemLimitReached.label": "Das Limit für Angebotsartikel wurde erreicht",
   "marketplace.offerItemLimitReached": "Sie haben die maximale Anzahl an Angeboten für diesen Artikel erreicht (5). Bitte entfernen Sie einige Angebote, um Platz für neue zu schaffen.",
-  "marketplace.offerLimitReached": "Sie haben die maximale Anzahl an Angeboten erreicht (100). Bitte entfernen Sie einige Angebote, um Platz für neue zu schaffen."
+  "marketplace.offerLimitReached": "Sie haben die maximale Anzahl an Angeboten erreicht (100). Bitte entfernen Sie einige Angebote, um Platz für neue zu schaffen.",
+  "petNFTs": "NFTs für Haustiere",
+  "description.basic.scarecrow.boost": "-20% Wachstumszeit der Grundpflanzen",
+  "description.basic.scarecrow.boost.skill": "-30% Wachstumszeit der Grundpflanzen",
+  "share.apiKey": "API-Schlüssel",
+  "share.apiKeyDescription": "Möchten Sie Tools für die Community entwickeln? Verwenden Sie den folgenden Schlüssel in Ihren Anforderungsheadern."
 }

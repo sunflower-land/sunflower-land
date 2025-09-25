@@ -176,7 +176,6 @@
   "description.purple.trail.boost": "+0.2 가지",
   "description.freya.fox.boost": "+0.5 펌프킨",
   "description.maximus.boost": "가지 1개",
-  "description.basic.scarecrow.boost": "-20% 성장 시간",
   "description.scary.mike.boost": "+0.2 미디엄 크롭",
   "description.laurie.chuckle.crow.boost": "+0.2 어드밴스드 크롭",
   "description.immortal.pear.boost": "씨앗당 과일 수확량 +1",
@@ -4290,7 +4289,6 @@
   "greatFreeze.destroyed.two": "자네 농작물 몇 개가 얼었어.",
   "calendar.events.greatFreeze.title": "그레이트 프리즈",
   "calendar.events.greatFreeze.description": "농작물을 얼려버리는 엄청난 한파.",
-  "description.basic.scarecrow.boost.skill": "-30% 성장 시간",
   "description.scary.mike.boost.skill": "+0.3 미디엄 크롭",
   "description.laurie.chuckle.crow.boost.skill": "+0.3 어드밴스드 크롭",
   "skill.chonkyScarecrow": "기본 허수아비의 효과 범위 (AOE) 를 7x7로 증가시킵니다. 기본 작물 성장 시간이 추가로 -10% 증가합니다.",
@@ -6663,5 +6661,10 @@
   "marketplace.offerLimitReached.label": "제안 한도 도달",
   "marketplace.offerItemLimitReached.label": "오퍼 아이템 한도 도달",
   "marketplace.offerItemLimitReached": "이 아이템의 최대 오퍼 수 (5) 에 도달했습니다.새 오퍼를 위한 공간을 확보하기 위해 일부 오퍼를 삭제해 주세요.",
-  "marketplace.offerLimitReached": "최대 오퍼 수 (100개) 에 도달했습니다.새 오퍼를 위한 공간을 확보하려면 일부 오퍼를 삭제하세요."
+  "marketplace.offerLimitReached": "최대 오퍼 수 (100개) 에 도달했습니다.새 오퍼를 위한 공간을 확보하려면 일부 오퍼를 삭제하세요.",
+  "petNFTs": "반려동물 NFT",
+  "description.basic.scarecrow.boost": "기본 작물 성장 시간 -20%",
+  "description.basic.scarecrow.boost.skill": "기본 작물 성장 시간 -30%",
+  "share.apiKey": "API 키",
+  "share.apiKeyDescription": "커뮤니티를 위한 도구를 만들고 싶으신가요?요청 헤더에 다음 키를 사용하세요."
 }

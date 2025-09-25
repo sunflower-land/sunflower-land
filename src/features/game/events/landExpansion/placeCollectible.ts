@@ -14,15 +14,13 @@ import {
   EXPIRY_COOLDOWNS,
   TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export type PlaceCollectibleAction = {
   type: "collectible.placed";
   name: CollectibleName;
   id: string;
-  coordinates: {
-    x: number;
-    y: number;
-  };
+  coordinates: Coordinates;
   location: PlaceableLocation;
 };
 

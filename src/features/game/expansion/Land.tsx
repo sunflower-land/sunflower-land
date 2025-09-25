@@ -44,6 +44,7 @@ import {
   getSortedCollectiblePositions,
 } from "./lib/utils";
 import { Clutter } from "features/island/clutter/Clutter";
+import { PetNFT } from "features/island/pets/PetNFT";
 
 export const LAND_WIDTH = 6;
 
@@ -134,7 +135,7 @@ const _buildingPositions = (state: MachineState) => {
   return {
     buildings: state.context.state.buildings,
     positions: getObjectEntries(state.context.state.buildings).flatMap(
-      ([_, value]) =>
+      ([, value]) =>
         value
           ?.map((item) => item.coordinates)
           .filter((coords) => coords !== undefined)
@@ -149,7 +150,7 @@ const _mushroomPositions = (state: MachineState) => {
 
   return {
     mushrooms,
-    positions: getObjectEntries(mushrooms).flatMap(([_, mushroom]) => {
+    positions: getObjectEntries(mushrooms).flatMap(([, mushroom]) => {
       return {
         x: mushroom.x,
         y: mushroom.y,
@@ -165,7 +166,7 @@ const _clutterPositions = (state: MachineState) => {
 
   return {
     clutter,
-    positions: getObjectEntries(clutter.locations).flatMap(([_, location]) => {
+    positions: getObjectEntries(clutter.locations).flatMap(([, location]) => {
       return {
         x: location.x,
         y: location.y,
@@ -181,8 +182,8 @@ const _budPositions = (state: MachineState) => {
   return {
     buds,
     positions: getObjectEntries(buds)
-      .filter(([_, bud]) => !!bud.coordinates)
-      .flatMap(([_, bud]) => {
+      .filter(([, bud]) => !!bud.coordinates)
+      .flatMap(([, bud]) => {
         return {
           x: bud.coordinates!.x,
           y: bud.coordinates!.y,
@@ -190,6 +191,25 @@ const _budPositions = (state: MachineState) => {
       }),
   };
 };
+
+const _petNFTPositions = (state: MachineState) => {
+  const nfts = state.context.state.pets?.nfts;
+
+  if (!nfts) return { positions: [] };
+
+  return {
+    nfts,
+    positions: getObjectEntries(nfts)
+      .filter(([, nft]) => !!nft.coordinates)
+      .flatMap(([, nft]) => {
+        return {
+          x: nft.coordinates!.x,
+          y: nft.coordinates!.y,
+        };
+      }),
+  };
+};
+
 const _airdropPositions = (state: MachineState) => {
   const airdrops = state.context.state.airdrops;
 
@@ -289,6 +309,11 @@ export const LandComponent: React.FC = () => {
     comparePositions,
   );
   const { buds } = useSelector(gameService, _budPositions, comparePositions);
+  const { nfts: petNFTs } = useSelector(
+    gameService,
+    _petNFTPositions,
+    comparePositions,
+  );
   const { airdrops } = useSelector(
     gameService,
     _airdropPositions,
@@ -792,9 +817,9 @@ export const LandComponent: React.FC = () => {
   const budElements = useMemo(() => {
     if (!buds) return [];
 
-    return getObjectEntries(buds)
+    return Object.entries(buds)
       .filter(
-        ([_, bud]) =>
+        ([, bud]) =>
           !!bud.coordinates && (!bud.location || bud.location === "farm"),
       )
       .flatMap(([id, bud]) => {
@@ -808,11 +833,35 @@ export const LandComponent: React.FC = () => {
             width={1}
             enableOnVisitClick
           >
-            <Bud id={String(id)} x={x} y={y} />
+            <Bud id={id} x={x} y={y} />
           </MapPlacement>
         );
       });
   }, [buds]);
+
+  const petNFTElements = useMemo(() => {
+    if (!petNFTs) return [];
+    return Object.entries(petNFTs)
+      .filter(
+        ([, pet]) =>
+          !!pet.coordinates && (!pet.location || pet.location === "farm"),
+      )
+      .flatMap(([id, pet]) => {
+        const { x, y } = pet.coordinates!;
+        return (
+          <MapPlacement
+            key={`pet-${id}`}
+            x={x}
+            y={y}
+            height={2}
+            width={2}
+            enableOnVisitClick
+          >
+            <PetNFT id={id} x={x} y={y} />
+          </MapPlacement>
+        );
+      });
+  }, [petNFTs]);
 
   const airdropElements = useMemo(() => {
     if (!airdrops) return [];
@@ -859,6 +908,7 @@ export const LandComponent: React.FC = () => {
       mushroomElements,
       clutterElements,
       budElements,
+      petNFTElements,
       airdropElements,
     ].flat();
 
@@ -900,6 +950,7 @@ export const LandComponent: React.FC = () => {
     lavaPitElements,
     clutterElements,
     budElements,
+    petNFTElements,
     airdropElements,
     mushroomElements,
   ]);

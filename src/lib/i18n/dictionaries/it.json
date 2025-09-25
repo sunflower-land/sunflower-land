@@ -175,7 +175,6 @@
   "description.purple.trail.boost": "+0.2 Melanzane",
   "description.freya.fox.boost": "+0.5 Zucca",
   "description.maximus.boost": "+1 melanzana",
-  "description.basic.scarecrow.boost": "-20% Tempo di crescita",
   "description.scary.mike.boost": "+0,2 raccolti medi",
   "description.laurie.chuckle.crow.boost": "+0.2 Colture avanzate",
   "description.immortal.pear.boost": "+1 Raccolta di frutta per seme",
@@ -4290,7 +4289,6 @@
   "greatFreeze.destroyed.two": "Alcuni dei tuoi raccolti sono stati congelati.",
   "calendar.events.greatFreeze.title": "Grande congelamento",
   "calendar.events.greatFreeze.description": "Una devastante ondata di freddo che congela i raccolti.",
-  "description.basic.scarecrow.boost.skill": "-30% Tempo di crescita",
   "description.scary.mike.boost.skill": "+0,3 raccolti medi",
   "description.laurie.chuckle.crow.boost.skill": "+0.3 Colture avanzate",
   "skill.chonkyScarecrow": "Aumenta l'area d'effetto dello Spaventapasseri di base (AOE) a un'area di 7x7; 10% aggiuntivo del tempo di crescita di base delle colture",
@@ -6663,5 +6661,10 @@
   "marketplace.offerLimitReached.label": "Limite di offerta raggiunto",
   "marketplace.offerItemLimitReached.label": "Limite di articoli in offerta raggiunto",
   "marketplace.offerItemLimitReached": "Hai raggiunto il numero massimo di offerte per questo articolo (5). Rimuovi alcune offerte per fare spazio a nuove offerte.",
-  "marketplace.offerLimitReached": "Hai raggiunto il numero massimo di offerte (100). Rimuovi alcune offerte per fare spazio a nuove offerte."
+  "marketplace.offerLimitReached": "Hai raggiunto il numero massimo di offerte (100). Rimuovi alcune offerte per fare spazio a nuove offerte.",
+  "petNFTs": "NFT per animali domestici",
+  "description.basic.scarecrow.boost": "-20% Tempo di crescita delle colture di base",
+  "description.basic.scarecrow.boost.skill": "-30% Tempo di crescita delle colture di base",
+  "share.apiKey": "Chiave API",
+  "share.apiKeyDescription": "Stai cercando di creare strumenti per la comunità? Usa la seguente chiave nelle intestazioni delle tue richieste."
 }

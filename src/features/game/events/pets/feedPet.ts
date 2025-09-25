@@ -9,17 +9,17 @@ import {
   Pet,
   PET_REQUESTS,
   PetName,
+  PetNFT,
 } from "features/game/types/pets";
 import { produce } from "immer";
 
 export function getPetEnergy({
-  petData,
   basePetEnergy,
+  petLevel,
 }: {
-  petData: Pet;
   basePetEnergy: number;
+  petLevel: number;
 }) {
-  const { level: petLevel } = getPetLevel(petData.experience);
   let boostEnergy = 0;
 
   if (petLevel >= 5) {
@@ -59,8 +59,7 @@ export function getPetExperience({
  * @param pet Pet
  * @returns Pet's food requests
  */
-export function getPetFoodRequests(pet: Pet) {
-  const { level: petLevel } = getPetLevel(pet.experience);
+export function getPetFoodRequests(pet: Pet | PetNFT, petLevel: number) {
   let requests = [...pet.requests.food];
 
   if (petLevel < 10) {
@@ -76,7 +75,7 @@ export function getPetFoodRequests(pet: Pet) {
 }
 export type FeedPetAction = {
   type: "pet.fed";
-  pet: PetName;
+  petId: PetName | number;
   food: CookableName;
 };
 
@@ -88,9 +87,13 @@ type Options = {
 
 export function feedPet({ state, action, createdAt = Date.now() }: Options) {
   return produce(state, (stateCopy) => {
-    const { pet, food } = action;
+    const { petId, food } = action;
 
-    const petData = stateCopy.pets?.common?.[pet];
+    const isPetNFT = typeof petId === "number";
+
+    const petData = isPetNFT
+      ? stateCopy.pets?.nfts?.[petId]
+      : stateCopy.pets?.common?.[petId];
 
     if (!petData) {
       throw new Error("Pet not found");
@@ -104,7 +107,9 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("Pet is in neglected state");
     }
 
-    const requests = getPetFoodRequests(petData);
+    const { level: petLevel } = getPetLevel(petData.experience);
+
+    const requests = getPetFoodRequests(petData, petLevel);
     if (requests.length <= 0) {
       throw new Error("No requests found");
     }
@@ -143,7 +148,7 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
     const basePetXP = getPetRequestXP(food);
 
     const experience = getPetExperience({ basePetXP, game: stateCopy });
-    const energy = getPetEnergy({ petData, basePetEnergy: basePetXP });
+    const energy = getPetEnergy({ petLevel, basePetEnergy: basePetXP });
     petData.experience += experience;
     petData.energy += energy;
 

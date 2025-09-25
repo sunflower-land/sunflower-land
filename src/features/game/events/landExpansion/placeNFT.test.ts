@@ -1,15 +1,15 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "../../lib/constants";
 import { GameState } from "../../types/game";
-import { placeBud } from "./placeBud";
+import { placeNFT } from "./placeNFT";
 
 const date = Date.now();
 const GAME_STATE: GameState = TEST_FARM;
 
-describe("Place Bud", () => {
-  it("requires the bud ID is on the game state", () => {
+describe("Place NFT", () => {
+  it("requires the NFT ID is on the game state", () => {
     expect(() =>
-      placeBud({
+      placeNFT({
         state: {
           ...GAME_STATE,
           inventory: {
@@ -19,7 +19,8 @@ describe("Place Bud", () => {
         },
         action: {
           id: "1",
-          type: "bud.placed",
+          type: "nft.placed",
+          nft: "Bud",
           coordinates: {
             x: 0,
             y: 0,
@@ -27,12 +28,12 @@ describe("Place Bud", () => {
           location: "farm",
         },
       }),
-    ).toThrow("This bud does not exist");
+    ).toThrow("This NFT does not exist");
   });
 
-  it("requires the bud is not already placed", () => {
+  it("requires the NFT is not already placed", () => {
     expect(() =>
-      placeBud({
+      placeNFT({
         state: {
           ...GAME_STATE,
           inventory: {
@@ -54,7 +55,8 @@ describe("Place Bud", () => {
         },
         action: {
           id: "1",
-          type: "bud.placed",
+          type: "nft.placed",
+          nft: "Bud",
           coordinates: {
             x: 0,
             y: 0,
@@ -62,11 +64,11 @@ describe("Place Bud", () => {
           location: "farm",
         },
       }),
-    ).toThrow("This bud is already placed");
+    ).toThrow("This NFT is already placed");
   });
 
-  it("places the bud", () => {
-    const state = placeBud({
+  it("places the NFT", () => {
+    const state = placeNFT({
       state: {
         ...GAME_STATE,
         inventory: {
@@ -84,7 +86,8 @@ describe("Place Bud", () => {
       },
       action: {
         id: "1",
-        type: "bud.placed",
+        type: "nft.placed",
+        nft: "Bud",
         coordinates: {
           x: 0,
           y: 0,

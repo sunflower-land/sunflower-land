@@ -8,7 +8,7 @@ import { feedPet } from "./feedPet";
 export type BulkFeedPetsAction = {
   type: "pets.bulkFeed";
   pets: {
-    pet: PetName;
+    petId: PetName | number;
     food: CookableName;
   }[];
 };

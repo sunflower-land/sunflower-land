@@ -176,7 +176,6 @@
   "description.purple.trail.boost": "+0.2 Terung",
   "description.freya.fox.boost": "+0.5 Labu",
   "description.maximus.boost": "+1 Terung",
-  "description.basic.scarecrow.boost": "-20% Masa Pertumbuhan",
   "description.scary.mike.boost": "+0.2 Tanaman Sederhana",
   "description.laurie.chuckle.crow.boost": "+0.2 Tanaman Lanjutan",
   "description.immortal.pear.boost": "+1 Penuaian Buah setiap biji",
@@ -4290,7 +4289,6 @@
   "greatFreeze.destroyed.two": "Beberapa tanaman anda telah dibekukan.",
   "calendar.events.greatFreeze.title": "Pembekuan Hebat",
   "calendar.events.greatFreeze.description": "Sejuk yang dahsyat yang membekukan tanaman.",
-  "description.basic.scarecrow.boost.skill": "-30% Masa Pertumbuhan",
   "description.scary.mike.boost.skill": "+0.3 Tanaman Sederhana",
   "description.laurie.chuckle.crow.boost.skill": "+0.3 Tanaman Lanjutan",
   "skill.chonkyScarecrow": "Meningkatkan kawasan kesan Basic Scarecrow (AOE) ke kawasan 7x7; Masa pertumbuhan tanaman asas tambahan -10%",
@@ -6663,5 +6661,10 @@
   "marketplace.offerLimitReached.label": "Had Tawaran Dicapai",
   "marketplace.offerItemLimitReached.label": "Had Item Tawaran Dicapai",
   "marketplace.offerItemLimitReached": "Anda telah mencapai bilangan maksimum tawaran untuk item ini (5). Sila keluarkan beberapa tawaran untuk membuat ruang untuk yang baru.",
-  "marketplace.offerLimitReached": "Anda telah mencapai bilangan maksimum tawaran (100). Sila keluarkan beberapa tawaran untuk membuat ruang untuk yang baru."
+  "marketplace.offerLimitReached": "Anda telah mencapai bilangan maksimum tawaran (100). Sila keluarkan beberapa tawaran untuk membuat ruang untuk yang baru.",
+  "petNFTs": "NFT haiwan peliharaan",
+  "description.basic.scarecrow.boost": "-20% Masa Pertumbuhan Tanaman Asas",
+  "description.basic.scarecrow.boost.skill": "-30% Masa Pertumbuhan Tanaman Asas",
+  "share.apiKey": "Kunci API",
+  "share.apiKeyDescription": "Adakah anda ingin membina alat untuk komuniti? Gunakan kekunci berikut dalam tajuk permintaan anda."
 }

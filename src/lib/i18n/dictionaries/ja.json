@@ -176,7 +176,6 @@
   "description.purple.trail.boost": "+0.2 ナス",
   "description.freya.fox.boost": "+0.5 パンプキン",
   "description.maximus.boost": "+1 ナス",
-  "description.basic.scarecrow.boost": "-20% の成長時間",
   "description.scary.mike.boost": "+0.2 ミディアムクロップ",
   "description.laurie.chuckle.crow.boost": "+0.2 アドバンスド・クロップ",
   "description.immortal.pear.boost": "種1個につき +1フルーツ収穫",
@@ -4290,7 +4289,6 @@
   "greatFreeze.destroyed.two": "あなたの作物のいくつかは凍っていました。",
   "calendar.events.greatFreeze.title": "グレート・フリーズ",
   "calendar.events.greatFreeze.description": "農作物を凍らせる壊滅的な寒波。",
-  "description.basic.scarecrow.boost.skill": "-30% の成長時間",
   "description.scary.mike.boost.skill": "+0.3 ミディアムクロップ",
   "description.laurie.chuckle.crow.boost.skill": "+0.3 アドバンスド・クロップ",
   "skill.chonkyScarecrow": "基本的なかかしの効果範囲 (AOE) を7x7の領域に増やします。基本的な作物の成長時間がさらに -10% 増加します",
@@ -6663,5 +6661,10 @@
   "marketplace.offerLimitReached.label": "オファーの上限に達しました",
   "marketplace.offerItemLimitReached.label": "出品商品の上限に達しました",
   "marketplace.offerItemLimitReached": "この商品の出品数が最大数 (5) に達しました。新しい出品用のスペースを空けるため、一部の出品を削除してください。",
-  "marketplace.offerLimitReached": "オファーの最大数（100）に達しました。新しいオファー用のスペースを空けるため、一部のオファーを削除してください。"
+  "marketplace.offerLimitReached": "オファーの最大数（100）に達しました。新しいオファー用のスペースを空けるため、一部のオファーを削除してください。",
+  "petNFTs": "ペットNFT",
+  "description.basic.scarecrow.boost": "-20% 基本作物の成長時間",
+  "description.basic.scarecrow.boost.skill": "-30% 基本作物の成長時間",
+  "share.apiKey": "API キー",
+  "share.apiKeyDescription": "コミュニティ向けのツールを構築したいとお考えですか？リクエストヘッダーには以下のキーを使用してください。"
 }

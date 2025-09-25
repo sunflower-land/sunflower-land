@@ -9,38 +9,42 @@ import {
   isPetNeglected,
   Pet,
   PetName,
+  PetNFT,
 } from "features/game/types/pets";
-import { PET_STATE_IMAGES } from "features/island/collectibles/components/pets/petShared";
+import { getPetImage } from "features/island/pets/lib/petShared";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { shortenCount } from "lib/utils/formatNumber";
 import React, { useState } from "react";
 
 type Props = {
-  petName: PetName;
-  pet: Pet;
+  petId: PetName | number;
+  petData: Pet | PetNFT;
   children: React.ReactNode;
 };
 
-export const PetInfo: React.FC<Props> = ({ children, petName, pet }) => {
+export const PetInfo: React.FC<Props> = ({ children, petId, petData }) => {
   const { t } = useAppTranslation();
   const { level, percentage, currentProgress, experienceBetweenLevels } =
-    getPetLevel(pet.experience);
+    getPetLevel(petData.experience);
   const [onHoverXp, setOnHoverXp] = useState(false);
 
-  const isNeglected = isPetNeglected(pet);
-  const isNapping = isPetNapping(pet);
+  const isNeglected = isPetNeglected(petData);
+  const isNapping = isPetNapping(petData);
 
-  const petImage =
-    PET_STATE_IMAGES[petName][isNeglected || isNapping ? "asleep" : "happy"];
+  const petImage = getPetImage(
+    petId,
+    isNeglected || isNapping ? "asleep" : "happy",
+    petData,
+  );
 
   return (
     <OuterPanel className="flex flex-row sm:flex-col p-3 gap-2 relative overflow-hidden">
       <div className="flex flex-col items-start w-1/3 sm:w-full">
-        <Label type={"default"}>{petName}</Label>
+        <Label type={"default"}>{petData.name}</Label>
         <InnerPanel className="flex flex-col sm:flex-row gap-2 sm:gap-4 items-center justify-items-center w-full mt-1">
           <img
             src={petImage}
-            alt={petName}
+            alt={petData.name}
             className="w-12 sm:w-16 h-12 sm:h-16 object-contain"
           />
           <div className="flex flex-col text-xs gap-1 sm:w-2/3 mt-1">
@@ -62,7 +66,7 @@ export const PetInfo: React.FC<Props> = ({ children, petName, pet }) => {
               <div className="w-4">
                 <img src={SUNNYSIDE.icons.lightning} className="w-3" />
               </div>
-              <p className="text-xxs">{`${pet.energy}`}</p>
+              <p className="text-xxs">{`${petData.energy}`}</p>
             </div>
           </div>
         </InnerPanel>

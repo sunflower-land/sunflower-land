@@ -176,7 +176,6 @@
   "description.purple.trail.boost": "+0.2 Terong",
   "description.freya.fox.boost": "+0.5 Labu",
   "description.maximus.boost": "+1 Eggplant",
-  "description.basic.scarecrow.boost": "-20% Waktu Pertumbuhan",
   "description.scary.mike.boost": "+0.2 Tanaman Sedang",
   "description.laurie.chuckle.crow.boost": "+0.2 Tanaman Tingkat Lanjut",
   "description.immortal.pear.boost": "+1 Panen Buah per biji",
@@ -4290,7 +4289,6 @@
   "greatFreeze.destroyed.two": "Beberapa tanaman Anda dibekukan.",
   "calendar.events.greatFreeze.title": "Pembekuan Hebat",
   "calendar.events.greatFreeze.description": "Dingin dahsyat yang membekukan tanaman.",
-  "description.basic.scarecrow.boost.skill": "-30% Waktu Pertumbuhan",
   "description.scary.mike.boost.skill": "+0,3 Tanaman Sedang",
   "description.laurie.chuckle.crow.boost.skill": "+0.3 Tanaman Tingkat Lanjut",
   "skill.chonkyScarecrow": "Meningkatkan area efek Dasar Scarecrow (AOE) ke area 7x7; Tambahan waktu pertumbuhan tanaman dasar -10%",
@@ -6663,5 +6661,10 @@
   "marketplace.offerLimitReached.label": "Batas Penawaran Tercapai",
   "marketplace.offerItemLimitReached.label": "Batas Item Penawaran Tercapai",
   "marketplace.offerItemLimitReached": "Anda telah mencapai jumlah maksimum penawaran untuk item ini (5). Harap hapus beberapa penawaran untuk memberi ruang bagi yang baru.",
-  "marketplace.offerLimitReached": "Anda telah mencapai jumlah maksimum penawaran (100). Harap hapus beberapa penawaran untuk memberi ruang bagi yang baru."
+  "marketplace.offerLimitReached": "Anda telah mencapai jumlah maksimum penawaran (100). Harap hapus beberapa penawaran untuk memberi ruang bagi yang baru.",
+  "petNFTs": "NFT hewan peliharaan",
+  "description.basic.scarecrow.boost": "-20% Waktu Pertumbuhan Tanaman Dasar",
+  "description.basic.scarecrow.boost.skill": "-30% Waktu Pertumbuhan Tanaman Dasar",
+  "share.apiKey": "Kunci API",
+  "share.apiKeyDescription": "Apakah Anda ingin membangun alat untuk komunitas? Gunakan kunci berikut di header permintaan Anda."
 }

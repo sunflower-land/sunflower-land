@@ -24,6 +24,7 @@ import { ExoticCropName } from "features/game/types/beans";
 import { isExoticCrop } from "features/game/types/crops";
 import { PET_SHOP_ITEMS, PetShopItemName } from "features/game/types/petShop";
 import { hasFeatureAccess } from "lib/flags";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 type CraftableCollectibleItem =
   | HeliosBlacksmithItem
@@ -36,10 +37,7 @@ export type CraftCollectibleAction = {
   type: "collectible.crafted";
   name: CraftableCollectibleItem;
   id?: string;
-  coordinates?: {
-    x: number;
-    y: number;
-  };
+  coordinates?: Coordinates;
 };
 
 type Options = {

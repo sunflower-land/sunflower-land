@@ -132,7 +132,6 @@ export const PlayerDetails: React.FC<Props> = ({
 
   useSocial({
     farmId: loggedInFarmId,
-    following: player?.followedBy ?? [],
     callbacks: {
       onFollow: () => mutate(),
       onUnfollow: () => mutate(),
@@ -291,8 +290,6 @@ export const PlayerDetails: React.FC<Props> = ({
                     <div className="absolute -top-2 -right-2 z-10">
                       {player?.id && (
                         <OnlineStatus
-                          playerId={player?.id}
-                          loggedInFarmId={loggedInFarmId}
                           lastUpdatedAt={player?.lastUpdatedAt ?? 0}
                         />
                       )}

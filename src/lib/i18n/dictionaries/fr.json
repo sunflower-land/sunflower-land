@@ -151,7 +151,6 @@
   "description.queen.cornelia": "Commandez le pouvoir royal de la Reine Cornelia et bénéficiez d'un magnifique boost de zone d'effet pour votre production de Corn. +1 de Corn.",
   "description.obie.boost": "-25% Temps de croissance de l'aubergine",
   "description.freya.fox.boost": "+0.5 pumpkin",
-  "description.basic.scarecrow.boost": "-20% Temps de croissance des cultures de base : Tournesol, potato et pumpkin (AOE 3x3)",
   "description.scary.mike.boost": "+0.2 Culture moyenne : Carotte, Cabbage, Soya, Betterave, Cauliflower et Parsnip (AOE 3x3)",
   "description.laurie.chuckle.crow.boost": "+0.2 Culture avancée: Eggplant, Corn, Radish, Wheat, Kale (AOE 3x3)",
   "description.kernaldo.boost": "-25% Temps de croissance du Wheat",
@@ -4290,7 +4289,6 @@
   "greatFreeze.destroyed.two": "Certaines de vos récoltes étaient gelées.",
   "calendar.events.greatFreeze.title": "Super Freeze",
   "calendar.events.greatFreeze.description": "Une vague de froid dévastatrice qui gèle les récoltes.",
-  "description.basic.scarecrow.boost.skill": "Temps de croissance de -30 %",
   "description.scary.mike.boost.skill": "+0,3 Cultures moyennes",
   "description.laurie.chuckle.crow.boost.skill": "+0,3 Cultures avancées",
   "skill.chonkyScarecrow": "Augmente la zone d'effet (AOE) de l'épouvantail de base à une zone 7x7 ; temps de croissance des cultures de base supplémentaire de -10 %",
@@ -6663,5 +6661,10 @@
   "marketplace.offerLimitReached.label": "Limite de l'offre atteinte",
   "marketplace.offerItemLimitReached.label": "Limite d'articles de l'offre atteinte",
   "marketplace.offerItemLimitReached": "Vous avez atteint le nombre maximum d'offres pour cet article (5). Veuillez supprimer certaines offres pour laisser de la place à de nouvelles.",
-  "marketplace.offerLimitReached": "Vous avez atteint le nombre maximum d'offres (100). Veuillez supprimer certaines offres pour laisser de la place à de nouvelles offres."
+  "marketplace.offerLimitReached": "Vous avez atteint le nombre maximum d'offres (100). Veuillez supprimer certaines offres pour laisser de la place à de nouvelles offres.",
+  "petNFTs": "NFT pour animaux de compagnie",
+  "description.basic.scarecrow.boost": "-20 % Temps de croissance des cultures de base",
+  "description.basic.scarecrow.boost.skill": "-30 % Temps de croissance des cultures de base",
+  "share.apiKey": "Clé API",
+  "share.apiKeyDescription": "Vous souhaitez créer des outils pour la communauté ? Utilisez la clé suivante dans les en-têtes de votre demande."
 }

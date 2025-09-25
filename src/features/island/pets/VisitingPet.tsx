@@ -4,7 +4,7 @@ import {
   isPetNapping,
   PetName,
 } from "features/game/types/pets";
-import { _petData } from "./petShared";
+import { _petData } from "./lib/petShared";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -63,13 +63,18 @@ export const VisitingPet: React.FC<{ name: PetName }> = ({ name }) => {
     }
   };
 
+  if (!petData) {
+    return null;
+  }
+
   return (
     <PetSprite
-      name={name}
+      id={name}
       isNeglected={isNeglected}
       isNapping={isNapping}
       onClick={handlePetClick}
       clickable={!hasHelpedPet}
+      petData={petData}
     >
       {!hasHelpedPet && petData && (
         <div

@@ -17,6 +17,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import {
   PET_RESOURCES,
   Pet,
+  PetNFT,
   PetName,
   PetResourceName,
   getPetFetches,
@@ -33,11 +34,13 @@ import { useSelector } from "@xstate/react";
 import { isTemporaryCollectibleActive } from "features/game/lib/collectibleBuilt";
 
 interface Props {
-  petName: PetName;
-  pet: Pet;
+  petId: PetName | number;
+  petData: Pet | PetNFT;
   isBulkFeed: boolean;
-  selectedFeed: { pet: PetName; food: CookableName }[];
-  setSelectedFeed: (feed: { pet: PetName; food: CookableName }[]) => void;
+  selectedFeed: { petId: PetName | number; food: CookableName }[];
+  setSelectedFeed: (
+    feed: { petId: PetName | number; food: CookableName }[],
+  ) => void;
   inventory: Inventory;
 }
 
@@ -45,7 +48,7 @@ export const getAdjustedFoodCount = (
   foodName: CookableName,
   inventory: Inventory,
   isBulkFeed?: boolean,
-  selectedFeed?: { pet: PetName; food: CookableName }[],
+  selectedFeed?: { petId: PetName | number; food: CookableName }[],
 ) => {
   const baseFoodCount = inventory[foodName] ?? new Decimal(0);
 
@@ -66,7 +69,7 @@ export const hasFoodInInventory = (
   foodName: CookableName,
   inventory: Inventory,
   isBulkFeed?: boolean,
-  selectedFeed?: { pet: PetName; food: CookableName }[],
+  selectedFeed?: { petId: PetName | number; food: CookableName }[],
 ) => {
   const adjustedCount = getAdjustedFoodCount(
     foodName,
@@ -77,7 +80,7 @@ export const hasFoodInInventory = (
   return adjustedCount.greaterThan(0);
 };
 
-export const isFoodAlreadyFed = (pet: Pet, food: CookableName) => {
+export const isFoodAlreadyFed = (pet: Pet | PetNFT, food: CookableName) => {
   const today = new Date().toISOString().split("T")[0];
   const lastFedDate = pet.requests.fedAt
     ? new Date(pet.requests.fedAt).toISOString().split("T")[0]
@@ -89,8 +92,8 @@ export const isFoodAlreadyFed = (pet: Pet, food: CookableName) => {
 };
 
 export const PetCard: React.FC<Props> = ({
-  petName,
-  pet,
+  petId,
+  petData,
   isBulkFeed,
   selectedFeed,
   setSelectedFeed,
@@ -110,25 +113,22 @@ export const PetCard: React.FC<Props> = ({
 
   const handleFeedPet = (food: CookableName) => {
     if (isBulkFeed) {
-      setSelectedFeed([...selectedFeed, { pet: petName, food }]);
+      setSelectedFeed([...selectedFeed, { petId, food }]);
     } else {
-      gameService.send("pet.fed", {
-        pet: petName,
-        food,
-      });
+      gameService.send("pet.fed", { petId, food });
     }
   };
 
-  const handleNeglectPet = (petName: PetName) => {
-    gameService.send("pet.neglected", { pet: petName });
+  const handleNeglectPet = (petId: PetName | number) => {
+    gameService.send("pet.neglected", { petId });
   };
 
-  const handlePetPet = (petName: PetName) => {
-    gameService.send("pet.pet", { pet: petName });
+  const handlePetPet = (petId: PetName | number) => {
+    gameService.send("pet.pet", { petId });
   };
 
-  const handleFetchPet = (petName: PetName, fetch: PetResourceName) => {
-    gameService.send("pet.fetched", { pet: petName, fetch });
+  const handleFetchPet = (petId: PetName | number, fetch: PetResourceName) => {
+    gameService.send("pet.fetched", { petId, fetch });
   };
 
   const handleFoodHover = (food: CookableName, event: React.MouseEvent) => {
@@ -148,14 +148,14 @@ export const PetCard: React.FC<Props> = ({
     setSelectedFeed([
       ...selectedFeed.filter((item) => {
         // Remove the item from the selectedFeed
-        return item.pet !== petName || item.food !== food;
+        return item.petId !== petId || item.food !== food;
       }),
     ]);
   };
 
   // Memoize the food items to avoid recreating them on every render
   const foodItems = useMemo(() => {
-    return pet.requests.food.map((food) => {
+    return petData.requests.food.map((food) => {
       const foodImage = ITEM_DETAILS[food].image;
       const canFeed = hasFoodInInventory(
         food,
@@ -170,12 +170,15 @@ export const PetCard: React.FC<Props> = ({
         selectedFeed,
       );
 
-      const alreadyFed = isFoodAlreadyFed(pet, food);
+      const alreadyFed = isFoodAlreadyFed(petData, food);
       const isSelected = selectedFeed.some(
-        (item) => item.pet === petName && item.food === food,
+        (item) => item.petId === petId && item.food === food,
       );
 
-      const isFoodLocked = !getPetFoodRequests(pet).includes(food);
+      const { level: petLevel } = getPetLevel(petData.experience);
+      const isFoodLocked = !getPetFoodRequests(petData, petLevel).includes(
+        food,
+      );
 
       const isDisabled = !canFeed || alreadyFed || isFoodLocked;
       const baseFoodXP = getPetRequestXP(food);
@@ -184,7 +187,7 @@ export const PetCard: React.FC<Props> = ({
         game: state,
       });
       const foodEnergy = getPetEnergy({
-        petData: pet,
+        petLevel,
         basePetEnergy: baseFoodXP,
       });
 
@@ -201,16 +204,16 @@ export const PetCard: React.FC<Props> = ({
         isFoodLocked,
       };
     });
-  }, [pet, inventory, isBulkFeed, selectedFeed, state, petName]);
-  const fetchData = getPetFetches(petName);
-  const { level } = getPetLevel(pet.experience);
+  }, [petData, inventory, isBulkFeed, selectedFeed, state, petId]);
+  const fetchData = getPetFetches(petData);
+  const { level } = getPetLevel(petData.experience);
 
   const fetchItems = useMemo(() => {
     return fetchData.fetches.map((fetch) => {
       const hasRequiredLevel = level >= fetch.level;
       const fetchImage = ITEM_DETAILS[fetch.name].image;
       const energyRequired = PET_RESOURCES[fetch.name].energy;
-      const hasEnoughEnergy = pet.energy >= energyRequired;
+      const hasEnoughEnergy = petData.energy >= energyRequired;
       const isDisabled = !hasRequiredLevel || !hasEnoughEnergy;
       return {
         fetch,
@@ -221,12 +224,13 @@ export const PetCard: React.FC<Props> = ({
         hasEnoughEnergy,
       };
     });
-  }, [fetchData.fetches, level, pet.energy]);
+  }, [fetchData.fetches, level, petData.energy]);
 
   return (
-    <PetInfo petName={petName} pet={pet}>
+    <PetInfo petId={petId} petData={petData}>
       <PetCardContent
-        pet={pet}
+        petId={petId}
+        petData={petData}
         foodItems={foodItems}
         handleFoodHover={handleFoodHover}
         setHoveredFood={setHoveredFood}
@@ -399,7 +403,8 @@ const TooltipOverlay: React.FC<{
 };
 
 export const PetCardContent: React.FC<{
-  pet: Pet;
+  petData: Pet | PetNFT;
+  petId: PetName | number;
   foodItems: {
     food: CookableName;
     foodImage: string;
@@ -431,13 +436,14 @@ export const PetCardContent: React.FC<{
   handleFeedPet: (food: CookableName) => void;
   hoveredFood: CookableName | null;
   hoveredFetch: PetResourceName | null;
-  handleNeglectPet: (petName: PetName) => void;
-  handlePetPet: (petName: PetName) => void;
+  handleNeglectPet: (petId: PetName | number) => void;
+  handlePetPet: (petId: PetName | number) => void;
   tooltipPosition: { x: number; y: number };
-  handleFetchPet: (petName: PetName, fetch: PetResourceName) => void;
+  handleFetchPet: (petId: PetName | number, fetch: PetResourceName) => void;
   isHoundShrineActive: boolean;
 }> = ({
-  pet,
+  petData,
+  petId,
   foodItems,
   fetchItems,
   handleFoodHover,
@@ -456,31 +462,31 @@ export const PetCardContent: React.FC<{
 }) => {
   const { t } = useAppTranslation();
 
-  if (isPetNapping(pet)) {
+  if (isPetNapping(petData)) {
     return (
       <div className="flex flex-col gap-1 w-3/4 sm:w-auto">
         <Label type={"warning"}>{t("pets.napping")}</Label>
         <p className="text-xs p-1">
-          {t("pets.nappingDescription", { pet: pet.name })}
+          {t("pets.nappingDescription", { pet: petData.name })}
         </p>
         <Label type="success" secondaryIcon={xpIcon}>{`+10`}</Label>
-        <Button onClick={() => handlePetPet(pet.name)}>
-          {t("pets.petPet", { pet: pet.name })}
+        <Button onClick={() => handlePetPet(petId)}>
+          {t("pets.petPet", { pet: petData.name })}
         </Button>
       </div>
     );
   }
 
-  if (isPetNeglected(pet)) {
+  if (isPetNeglected(petData)) {
     return (
       <div className="flex flex-col gap-1 w-3/4 sm:w-auto">
         <Label type={"danger"}>{t("pets.neglectPet")}</Label>
         <p className="text-xs p-1">
-          {t("pets.neglectPetDescription", { pet: pet.name })}
+          {t("pets.neglectPetDescription", { pet: petData.name })}
         </p>
         <Label type="danger" secondaryIcon={xpIcon}>{`-500`}</Label>
-        <Button onClick={() => handleNeglectPet(pet.name)}>
-          {t("pets.cheerPet", { pet: pet.name })}
+        <Button onClick={() => handleNeglectPet(petId)}>
+          {t("pets.cheerPet", { pet: petData.name })}
         </Button>
       </div>
     );
@@ -491,7 +497,7 @@ export const PetCardContent: React.FC<{
       <div className="flex flex-col gap-4">
         <Label type={"default"}>{`Food Requests`}</Label>
         <div className="flex flex-wrap gap-1 ml-2">
-          {pet.requests.food.length === 0 && <p>{`No food requests`}</p>}
+          {petData.requests.food.length === 0 && <p>{`No food requests`}</p>}
           {foodItems.map(
             ({
               food,
@@ -577,7 +583,7 @@ export const PetCardContent: React.FC<{
                 keyName={fetch.name}
                 imageSrc={fetchImage}
                 disabled={isDisabled}
-                onClick={() => handleFetchPet(pet.name, fetch.name)}
+                onClick={() => handleFetchPet(petId, fetch.name)}
                 onMouseEnter={(e) => handleFetchHover(fetch.name, e)}
                 onMouseLeave={() => setHoveredFetch(null)}
                 showConfirm={false}

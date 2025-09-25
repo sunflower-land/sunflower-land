@@ -15,7 +15,7 @@ import { MANOR_VARIANTS } from "features/island/lib/alternateArt";
 import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
 import { useVisiting } from "lib/utils/visitUtils";
 
-export const House: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
+export const House: React.FC<BuildingProps> = ({ isBuilt, season }) => {
   const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { isVisiting } = useVisiting();

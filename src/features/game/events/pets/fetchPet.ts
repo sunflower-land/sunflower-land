@@ -13,7 +13,7 @@ import { produce } from "immer";
 
 export type FetchPetAction = {
   type: "pet.fetched";
-  pet: PetName;
+  petId: PetName | number;
   fetch: PetResourceName;
 };
 
@@ -25,9 +25,14 @@ type Options = {
 
 export function fetchPet({ state, action, createdAt = Date.now() }: Options) {
   return produce(state, (stateCopy) => {
-    const { pet, fetch } = action;
+    const { petId, fetch } = action;
 
-    const petData = stateCopy.pets?.common?.[pet];
+    const isPetNFT = typeof petId === "number";
+
+    const petData = isPetNFT
+      ? stateCopy.pets?.nfts?.[petId]
+      : stateCopy.pets?.common?.[petId];
+
     if (!petData) {
       throw new Error("Pet not found");
     }
@@ -40,7 +45,7 @@ export function fetchPet({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("Pet is neglected");
     }
 
-    const fetchData = getPetFetches(pet);
+    const fetchData = getPetFetches(petData);
 
     const fetchEntry = fetchData.fetches.find(
       (fetchEntry) => fetchEntry.name === fetch,

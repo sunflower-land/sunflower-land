@@ -35,7 +35,6 @@ import {
 import { loadSession } from "../actions/loadSession";
 import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
-import { CollectibleName } from "../types/craftables";
 import { ErrorCode, ERRORS } from "lib/errors";
 import { makeGame } from "./transforms";
 import { reset } from "features/farming/hud/actions/reset";
@@ -43,9 +42,9 @@ import { reset } from "features/farming/hud/actions/reset";
 import { checkProgress, processEvent } from "./processEvent";
 import {
   landscapingMachine,
+  LandscapingPlaceableType,
   SaveEvent,
 } from "../expansion/placeable/landscapingMachine";
-import { BuildingName } from "../types/buildings";
 import { Context } from "../GameProvider";
 import { isSwarming } from "../events/detectBot";
 import { generateTestLand } from "../expansion/actions/generateLand";
@@ -74,7 +73,6 @@ import { BumpkinItem } from "../types/bumpkin";
 import { getAuctionResults } from "../actions/getAuctionResults";
 import { AuctionResults } from "./auctionMachine";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
-import { BudName } from "../types/buds";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { portal } from "features/world/ui/community/actions/portal";
 
@@ -177,6 +175,7 @@ export interface Context {
   visitorState?: GameState;
   hasHelpedPlayerToday?: boolean;
   totalHelpedToday?: number;
+  apiKey?: string;
 }
 
 export type Moderation = {
@@ -210,7 +209,7 @@ type UpdateBlockBucksEvent = {
 };
 
 type LandscapeEvent = {
-  placeable?: BuildingName | CollectibleName | BudName;
+  placeable?: LandscapingPlaceableType;
   action?: GameEventName<PlacementEvent>;
   type: "LANDSCAPE";
   requirements?: {
@@ -240,6 +239,7 @@ type DepositEvent = {
   wearableIds: number[];
   wearableAmounts: number[];
   budIds: number[];
+  petIds: number[];
 };
 
 type DepositFlowerFromLinkedWalletEvent = {
@@ -421,20 +421,22 @@ const PLACEMENT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> = [
   (events, eventName) => ({
     ...events,
     [eventName]: {
-      actions: assign((context: Context, event: PlacementEvent) => ({
-        state: processEvent({
-          state: context.state as GameState,
-          action: event,
-          farmId: context.farmId,
-        }) as GameState,
-        actions: [
-          ...context.actions,
-          {
-            ...event,
-            createdAt: new Date(),
-          },
-        ],
-      })),
+      actions: assign((context: Context, event: PlacementEvent) => {
+        return {
+          state: processEvent({
+            state: context.state as GameState,
+            action: event,
+            farmId: context.farmId,
+          }) as GameState,
+          actions: [
+            ...context.actions,
+            {
+              ...event,
+              createdAt: new Date(),
+            },
+          ],
+        };
+      }),
     },
   }),
   {},
@@ -945,6 +947,7 @@ export function startGame(authContext: AuthContext) {
                 fslId: response.fslId,
                 oauthNonce: response.oauthNonce,
                 prices: response.prices,
+                apiKey: response.apiKey,
               };
             },
             onDone: [
@@ -2271,6 +2274,7 @@ export function startGame(authContext: AuthContext) {
               const {
                 itemAmounts,
                 itemIds,
+                petIds,
                 wearableIds,
                 wearableAmounts,
                 budIds,
@@ -2285,6 +2289,7 @@ export function startGame(authContext: AuthContext) {
                 wearableAmounts,
                 wearableIds,
                 budIds,
+                petIds,
               });
             },
             onDone: {
@@ -2584,6 +2589,7 @@ export function startGame(authContext: AuthContext) {
           fslId: (_, event) => event.data.fslId,
           oauthNonce: (_, event) => event.data.oauthNonce,
           prices: (_, event) => event.data.prices,
+          apiKey: (_, event) => event.data.apiKey,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),

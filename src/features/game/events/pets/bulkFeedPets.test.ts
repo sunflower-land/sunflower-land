@@ -39,8 +39,8 @@ describe("bulkFeedPets", () => {
         action: {
           type: "pets.bulkFeed",
           pets: [
-            { pet: "Barkley", food: "Bumpkin Salad" },
-            { pet: "Meowchi", food: "Bumpkin Salad" },
+            { petId: "Barkley", food: "Bumpkin Salad" },
+            { petId: "Meowchi", food: "Bumpkin Salad" },
           ],
         },
       }),
@@ -80,8 +80,8 @@ describe("bulkFeedPets", () => {
     const action: BulkFeedPetsAction = {
       type: "pets.bulkFeed",
       pets: [
-        { pet: "Barkley", food: "Bumpkin Salad" },
-        { pet: "Meowchi", food: "Bumpkin Salad" },
+        { petId: "Barkley", food: "Bumpkin Salad" },
+        { petId: "Meowchi", food: "Bumpkin Salad" },
       ],
     };
     const resultState = bulkFeedPets({ state, action, createdAt: now });

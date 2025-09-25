@@ -244,8 +244,8 @@
   "description.sir.goldensnout.boost": "+0.5 crop yield",
   "description.sir.goldensnout.boost.aoe": "Affects plots around (4x4)",
   "description.maximus.boost": "+1 Eggplant",
-  "description.basic.scarecrow.boost": "-20% Growth Time",
-  "description.basic.scarecrow.boost.skill": "-30% Growth Time",
+  "description.basic.scarecrow.boost": "-20% Basic Crops Growth Time",
+  "description.basic.scarecrow.boost.skill": "-30% Basic Crops Growth Time",
   "description.basic.scarecrow.boost.aoe": "Area of Effect (3x3) below",
   "description.basic.scarecrow.boost.aoe.skill": "Area of Effect (7x7) below",
   "description.scary.mike.boost": "+0.2 Medium Crops",
@@ -6484,6 +6484,7 @@
   "description.tortoiseShrine": "A shrine to the tortoise",
   "description.mothShrine": "A shrine to the moth",
   "pets": "Pets",
+  "petNFTs": "Pet NFTs",
   "description.petEgg": "A pet egg",
   "description.meowchi": "A cute cat",
   "description.twizzle": "A cute dog",
@@ -6663,5 +6664,7 @@
   "marketplace.offerLimitReached.label": "Offer Limit Reached",
   "marketplace.offerLimitReached": "You have reached the maximum number of offers (100). Please remove some offers to make space for new ones.",
   "marketplace.offerItemLimitReached.label": "Offer Item Limit Reached",
-  "marketplace.offerItemLimitReached": "You have reached the maximum number of offers for this item (5). Please remove some offers to make space for new ones."
+  "marketplace.offerItemLimitReached": "You have reached the maximum number of offers for this item (5). Please remove some offers to make space for new ones.",
+  "share.apiKey": "API Key",
+  "share.apiKeyDescription": "Are you looking to build tools for the community? Use the following key in your request headers."
 }

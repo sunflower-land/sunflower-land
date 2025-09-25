@@ -7,7 +7,7 @@ describe("petPet", () => {
     expect(() => {
       petPet({
         state: { ...INITIAL_FARM },
-        action: { type: "pet.pet", pet: "Barkley" },
+        action: { type: "pet.pet", petId: "Barkley" },
         createdAt: now,
       });
     }).toThrow("Pet not found");
@@ -29,7 +29,7 @@ describe("petPet", () => {
             },
           },
         },
-        action: { type: "pet.pet", pet: "Barkley" },
+        action: { type: "pet.pet", petId: "Barkley" },
         createdAt: now,
       });
     }).toThrow("Pet is not napping");
@@ -50,7 +50,7 @@ describe("petPet", () => {
           },
         },
       },
-      action: { type: "pet.pet", pet: "Barkley" },
+      action: { type: "pet.pet", petId: "Barkley" },
       createdAt: now,
     });
     expect(state.pets?.common?.Barkley?.experience).toBe(10);

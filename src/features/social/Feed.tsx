@@ -225,9 +225,6 @@ export const Feed: React.FC<Props> = ({
 
   const handleCloseFeed = (): void => {
     setShowFeed(false);
-    setTimeout(() => {
-      setShowFollowing(false);
-    }, 500);
   };
 
   const showMobileFeed = showFeed && isMobile;
