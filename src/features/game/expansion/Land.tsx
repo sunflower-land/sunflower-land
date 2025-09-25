@@ -334,7 +334,7 @@ export const LandComponent: React.FC = () => {
 
   useLayoutEffect(() => {
     scrollIntoView(Section.GenesisBlock, "auto");
-  }, [scrollIntoView]);
+  }, []);
 
   const isFirstRender = useFirstRender();
 
