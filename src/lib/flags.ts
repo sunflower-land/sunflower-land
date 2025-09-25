@@ -1,6 +1,8 @@
 import type { GameState } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 
+export const RONIN_AIRDROP_ENDDATE = new Date("2025-11-04T00:00:00Z");
+
 export const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" ||
   (!!((wardrobe["Gift Giver"] ?? 0) > 0) && !!inventory["Beta Pass"]?.gt(0));
@@ -85,6 +87,12 @@ export type ExperimentName = "ONBOARDING_CHALLENGES" | "GEM_BOOSTS";
 const FEATURE_FLAGS = {
   // For testing
   JEST_TEST: defaultFeatureFlag,
+
+  RONIN_AIRDROP: (game: GameState) => {
+    if (Date.now() > RONIN_AIRDROP_ENDDATE.getTime()) return false;
+
+    return adminFeatureFlag(game);
+  },
 
   // Permanent Feature Flags
   AIRDROP_PLAYER: adminFeatureFlag,

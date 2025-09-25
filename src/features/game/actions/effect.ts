@@ -37,6 +37,8 @@ type EffectName =
   | "moderation.unmuted"
   | "blessing.offered"
   | "blessing.seeked"
+  | "roninPack.claimed"
+  | "twitter.roninPosted"
   | "nft.assigned"
   | "marketplace.bulkListingsCancelled"
   | "marketplace.bulkOffersCancelled"
@@ -92,6 +94,7 @@ export type StateMachineStateName =
   | "claimingBlockchainBox"
   | "offeringBlessing"
   | "seekingBlessing"
+  | "claimingRoninPack"
   | "marketplaceBulkListingsCancelling"
   | "marketplaceBulkOffersCancelling"
   | "linkingWallet"
@@ -134,6 +137,8 @@ export const STATE_MACHINE_EFFECTS: Record<
   "telegram.joined": "joiningTelegram",
   "twitter.followed": "followingTwitter",
   "twitter.posted": "postingTwitter",
+  "roninPack.claimed": "claimingRoninPack",
+  "twitter.roninPosted": "postingTwitter",
   "gems.bought": "buyingGems",
   "vip.bought": "buyingVIP",
   "username.assigned": "assigningUsername",
