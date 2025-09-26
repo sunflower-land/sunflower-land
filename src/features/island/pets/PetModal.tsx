@@ -27,9 +27,9 @@ interface Props {
   show: boolean;
   onClose: () => void;
   petId: PetName | number;
-  data: Pet | PetNFT;
+  data?: Pet | PetNFT;
   isNeglected: boolean;
-  petType: PetType;
+  petType?: PetType;
 }
 
 export const PetModal: React.FC<Props> = ({
@@ -98,7 +98,7 @@ export const PetModal: React.FC<Props> = ({
   const handlePetFetch = (petId: PetName | number, fetch: PetResourceName) =>
     gameService.send("pet.fetched", { petId, fetch });
 
-  if (!hasPetsAccess) {
+  if (!hasPetsAccess || !data || !petType) {
     return null;
   }
 
@@ -123,7 +123,7 @@ export const PetModal: React.FC<Props> = ({
             ? [
                 {
                   name: t("pets.neglected"),
-                  icon: getPetImage(petId, "asleep", data),
+                  icon: getPetImage("asleep", data),
                   id: "Neglected",
                 },
               ]
@@ -132,7 +132,7 @@ export const PetModal: React.FC<Props> = ({
               : [
                   {
                     name: t("pets.info"),
-                    icon: getPetImage(petId, "happy", data),
+                    icon: getPetImage("happy", data),
                     id: "Info",
                   },
                   { name: t("pets.feed"), icon: foodIcon, id: "Feed" },

@@ -100,7 +100,6 @@ export const PetFeed: React.FC<{
     <SplitScreenView
       panel={
         <PetFeedPanel
-          petId={petId}
           petData={petData}
           selectedFood={selectedFood}
           handleFeed={handleFeed}
@@ -129,7 +128,6 @@ export const PetFeed: React.FC<{
 };
 
 const PetFeedPanel: React.FC<{
-  petId: PetName | number;
   petData: Pet | PetNFT;
   selectedFood: CookableName | null;
   handleFeed: (food: CookableName) => void;
@@ -141,7 +139,6 @@ const PetFeedPanel: React.FC<{
   petLevel: number;
   foodRequests: CookableName[];
 }> = ({
-  petId,
   petData,
   selectedFood,
   petLevel,
@@ -154,7 +151,7 @@ const PetFeedPanel: React.FC<{
   foodRequests,
 }) => {
   const { t } = useAppTranslation();
-  const petImage = getPetImage(petId, "happy", petData);
+  const petImage = getPetImage("happy", petData);
 
   if (!selectedFood) {
     return (
