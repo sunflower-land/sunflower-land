@@ -346,17 +346,17 @@ const BoostDigItems: (
   state,
 ) => ({
   "Pharaoh Chicken": {
-    buff: COLLECTIBLE_BUFF_LABELS({
+    buff: COLLECTIBLE_BUFF_LABELS["Pharaoh Chicken"]?.({
       skills: state.bumpkin.skills,
       collectibles: state.collectibles,
-    })["Pharaoh Chicken"] as BuffLabel[],
+    }) as BuffLabel[],
     location: "Marketplace",
   },
   "Heart of Davy Jones": {
-    buff: COLLECTIBLE_BUFF_LABELS({
+    buff: COLLECTIBLE_BUFF_LABELS["Heart of Davy Jones"]?.({
       skills: state.bumpkin.skills,
       collectibles: state.collectibles,
-    })["Heart of Davy Jones"] as BuffLabel[],
+    }) as BuffLabel[],
     location: "Marketplace",
   },
   "Bionic Drill": {

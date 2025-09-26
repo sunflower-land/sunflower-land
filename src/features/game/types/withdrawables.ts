@@ -14,6 +14,7 @@ const CAN_WITHDRAW_AND_TRADE: Releases = {
 };
 
 export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
+  "New Years Crown": CAN_WITHDRAW_AND_TRADE,
   "Painter's Cap": CAN_WITHDRAW_AND_TRADE,
   "Festival of Colors Background": CAN_WITHDRAW_AND_TRADE,
   "Chef Apron": CAN_WITHDRAW_AND_TRADE,
@@ -308,7 +309,6 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     tradeAt: new Date("2025-01-01"),
     withdrawAt: new Date("2025-01-01"),
   },
-
   Sickle: {
     tradeAt: SEASONS["Winds of Change"].endDate,
     withdrawAt: SEASONS["Winds of Change"].endDate,
@@ -376,6 +376,7 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     tradeAt: new Date("2025-05-01"),
     withdrawAt: new Date("2025-05-01"),
   },
+
   "Bloomwarden Suit": {
     tradeAt: SEASONS["Great Bloom"].endDate,
     withdrawAt: SEASONS["Great Bloom"].endDate,
@@ -428,34 +429,36 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     tradeAt: SEASONS["Great Bloom"].endDate,
     withdrawAt: SEASONS["Great Bloom"].endDate,
   },
+
   "Paint Splattered Hair": {
-    tradeAt: new Date("2025-07-07T00:00:00Z"),
-    withdrawAt: new Date("2025-07-07T00:00:00Z"),
+    tradeAt: new Date("2025-07-08"),
+    withdrawAt: new Date("2025-07-08"),
   },
   "Paint Splattered Shirt": {
-    tradeAt: new Date("2025-07-07T00:00:00Z"),
-    withdrawAt: new Date("2025-07-07T00:00:00Z"),
+    tradeAt: new Date("2025-07-08"),
+    withdrawAt: new Date("2025-07-08"),
   },
   "Paint Splattered Overalls": {
-    tradeAt: new Date("2025-07-07T00:00:00Z"),
-    withdrawAt: new Date("2025-07-07T00:00:00Z"),
+    tradeAt: new Date("2025-07-08"),
+    withdrawAt: new Date("2025-07-08"),
   },
   "Paint Spray Can": {
-    tradeAt: new Date("2025-07-07T00:00:00Z"),
-    withdrawAt: new Date("2025-07-07T00:00:00Z"),
+    tradeAt: new Date("2025-07-08"),
+    withdrawAt: new Date("2025-07-08"),
   },
   "Slime Hat": {
-    tradeAt: new Date("2025-07-07T00:00:00Z"),
-    withdrawAt: new Date("2025-07-07T00:00:00Z"),
+    tradeAt: new Date("2025-07-08"),
+    withdrawAt: new Date("2025-07-08"),
   },
   "Slime Wings": {
-    tradeAt: new Date("2025-07-07T00:00:00Z"),
-    withdrawAt: new Date("2025-07-07T00:00:00Z"),
+    tradeAt: new Date("2025-07-08"),
+    withdrawAt: new Date("2025-07-08"),
   },
   "Slime Aura": {
-    tradeAt: new Date("2025-07-07T00:00:00Z"),
-    withdrawAt: new Date("2025-07-07T00:00:00Z"),
+    tradeAt: new Date("2025-07-08"),
+    withdrawAt: new Date("2025-07-08"),
   },
+
   "Coin Aura": {
     tradeAt: new Date("2025-09-22"),
     withdrawAt: new Date("2025-09-22"),
@@ -504,8 +507,8 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
   "Rocket Onesie": {
     tradeAt: new Date("2025-09-12"),
     withdrawAt: new Date("2025-09-12"),
+    // writing a manual date so that it shows up in what's new section
   },
-  // writing a manual date so that it shows up in what's new section
 };
 
 export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
@@ -870,39 +873,39 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
     },
     "Christmas Stocking": {
       tradeAt: new Date("2024-12-28"),
-      withdrawAt: new Date("2025-11-01"),
+      withdrawAt: new Date("2025-01-01"),
     },
     "Golden Christmas Stocking": {
       tradeAt: new Date("2024-12-28"),
-      withdrawAt: new Date("2025-11-01"),
+      withdrawAt: new Date("2025-01-01"),
     },
     "Cozy Fireplace": {
       tradeAt: new Date("2024-12-28"),
-      withdrawAt: new Date("2025-11-01"),
+      withdrawAt: new Date("2025-01-01"),
     },
     "Christmas Rug": {
       tradeAt: new Date("2024-12-28"),
-      withdrawAt: new Date("2025-11-01"),
+      withdrawAt: new Date("2025-01-01"),
     },
     "Christmas Candle": {
       tradeAt: new Date("2024-12-28"),
-      withdrawAt: new Date("2025-11-01"),
+      withdrawAt: new Date("2025-01-01"),
     },
     "Santa Penguin": {
       tradeAt: new Date("2024-12-28"),
-      withdrawAt: new Date("2025-11-01"),
+      withdrawAt: new Date("2025-01-01"),
     },
     "Penguin Pool": {
       tradeAt: new Date("2024-12-28"),
-      withdrawAt: new Date("2025-11-01"),
+      withdrawAt: new Date("2025-01-01"),
     },
     Snowman: {
       tradeAt: new Date("2024-12-28"),
-      withdrawAt: new Date("2025-11-01"),
+      withdrawAt: new Date("2025-01-01"),
     },
     "Festive Toy Train": {
       tradeAt: new Date("2024-12-28"),
-      withdrawAt: new Date("2025-11-01"),
+      withdrawAt: new Date("2025-01-01"),
     },
     "Golden Cow": {
       tradeAt: new Date("2024-12-23"),
@@ -986,7 +989,6 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
     },
     "Golden Sheep": {
       tradeAt: new Date("2025-04-08"),
-
       withdrawAt: SEASONS["Winds of Change"].endDate,
     },
     "Barn Blueprint": {
@@ -1005,6 +1007,7 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
     "Nightshade Emblem": {
       tradeAt: new Date("2021-01-01"),
     },
+
     "Frozen Cow": {
       tradeAt: SEASONS["Winds of Change"].startDate,
       withdrawAt: SEASONS["Winds of Change"].endDate,
@@ -1028,6 +1031,44 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
     Jin: {
       tradeAt: new Date("2025-08-20T00:00:00Z"),
       withdrawAt: new Date("2025-08-20T00:00:00Z"),
+    },
+
+    "Carrot House": {
+      tradeAt: new Date("2025-05-01T00:00:00Z"),
+      withdrawAt: new Date("2025-05-01T00:00:00Z"),
+    },
+    "Orange Bunny Lantern": {
+      tradeAt: new Date("2025-05-01T00:00:00Z"),
+      withdrawAt: new Date("2025-05-01T00:00:00Z"),
+    },
+    "White Bunny Lantern": {
+      tradeAt: new Date("2025-05-01T00:00:00Z"),
+      withdrawAt: new Date("2025-05-01T00:00:00Z"),
+    },
+    "Orange Tunnel Bunny": {
+      tradeAt: new Date("2025-05-01T00:00:00Z"),
+      withdrawAt: new Date("2025-05-01T00:00:00Z"),
+    },
+
+    "Pink Dolphin": {
+      tradeAt: SEASONS["Great Bloom"].startDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Love Chicken": {
+      tradeAt: SEASONS["Great Bloom"].startDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Dr Cow": {
+      tradeAt: SEASONS["Great Bloom"].startDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Nurse Sheep": {
+      tradeAt: SEASONS["Great Bloom"].startDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    Lunalist: {
+      tradeAt: SEASONS["Great Bloom"].startDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
     },
     Quarry: {
       tradeAt: new Date("2025-07-01T00:00:00Z"),
@@ -1086,32 +1127,32 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       withdrawAt: SEASONS["Great Bloom"].endDate,
     },
     "Floating Toy": {
-      tradeAt: new Date("2025-07-07T00:00:00Z"),
-      withdrawAt: new Date("2025-07-07T00:00:00Z"),
+      tradeAt: new Date("2025-07-08"),
+      withdrawAt: new Date("2025-07-08"),
     },
     "Paint Buckets": {
-      tradeAt: new Date("2025-07-07T00:00:00Z"),
-      withdrawAt: new Date("2025-07-07T00:00:00Z"),
+      tradeAt: new Date("2025-07-08"),
+      withdrawAt: new Date("2025-07-08"),
     },
     "Rainbow Well": {
-      tradeAt: new Date("2025-07-07T00:00:00Z"),
-      withdrawAt: new Date("2025-07-07T00:00:00Z"),
+      tradeAt: new Date("2025-07-08"),
+      withdrawAt: new Date("2025-07-08"),
     },
     "Rainbow Flower": {
-      tradeAt: new Date("2025-07-07T00:00:00Z"),
-      withdrawAt: new Date("2025-07-07T00:00:00Z"),
+      tradeAt: new Date("2025-07-08"),
+      withdrawAt: new Date("2025-07-08"),
     },
     "Pony Toy": {
-      tradeAt: new Date("2025-07-07T00:00:00Z"),
-      withdrawAt: new Date("2025-07-07T00:00:00Z"),
+      tradeAt: new Date("2025-07-08"),
+      withdrawAt: new Date("2025-07-08"),
     },
     "Red Slime Balloon": {
-      tradeAt: new Date("2025-07-07T00:00:00Z"),
-      withdrawAt: new Date("2025-07-07T00:00:00Z"),
+      tradeAt: new Date("2025-07-08"),
+      withdrawAt: new Date("2025-07-08"),
     },
     "Blue Slime Balloon": {
-      tradeAt: new Date("2025-07-07T00:00:00Z"),
-      withdrawAt: new Date("2025-07-07T00:00:00Z"),
+      tradeAt: new Date("2025-07-08"),
+      withdrawAt: new Date("2025-07-08"),
     },
     "Floor Mirror": {
       tradeAt: SEASONS["Better Together"].endDate,

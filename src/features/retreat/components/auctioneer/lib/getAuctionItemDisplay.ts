@@ -44,10 +44,10 @@ export function getAuctionItemDisplay({
 }): Display {
   if (auction.type === "collectible") {
     const image = ITEM_DETAILS[auction.collectible].image;
-    const buffLabels = COLLECTIBLE_BUFF_LABELS({
+    const buffLabels = COLLECTIBLE_BUFF_LABELS[auction.collectible]?.({
       skills,
       collectibles,
-    })[auction.collectible];
+    });
 
     return {
       image,

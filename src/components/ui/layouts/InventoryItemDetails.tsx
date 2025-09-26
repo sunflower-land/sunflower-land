@@ -116,10 +116,10 @@ export const InventoryItemDetails: React.FC<Props> = ({
       }
     }
 
-    const boost = COLLECTIBLE_BUFF_LABELS({
+    const boost = COLLECTIBLE_BUFF_LABELS[details.item]?.({
       skills: game.bumpkin.skills,
       collectibles: game.collectibles,
-    })[details.item];
+    });
 
     return (
       <>

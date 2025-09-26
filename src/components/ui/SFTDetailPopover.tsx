@@ -44,10 +44,10 @@ const SFTDetailPopoverBuffsImplementation = ({
   const { gameService } = useContext(Context);
 
   const state = gameService.getSnapshot().context.state;
-  const buff = COLLECTIBLE_BUFF_LABELS({
+  const buff = COLLECTIBLE_BUFF_LABELS[name]?.({
     skills: state.bumpkin.skills,
     collectibles: state.collectibles,
-  })[name];
+  });
 
   if (!buff) return null;
 
