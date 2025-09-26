@@ -5359,6 +5359,7 @@
   "vip.purchase.confirm": "Are you sure you want to purchase {{name}} of VIP access?",
   "vip.benefits": "Benefits",
   "vip.oneYear.warning": "You already have 1 year VIP access.",
+  "vip.transfer.warning": "Transferring the farm outside the game will remove your purchased VIP",
   "vip.access": "VIP Access",
   "vip.benefit.airdrop": "Monthly airdrop",
   "vip.benefit.expBoost": "10% EXP Boost",
