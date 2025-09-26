@@ -99,15 +99,7 @@ export interface Context {
 
 type SelectEvent = {
   type: "SELECT";
-  placeable:
-    | {
-        name: NFTName;
-        id: string;
-      }
-    | {
-        name: BuildingName | CollectibleName | ResourceName;
-        id?: string;
-      };
+  placeable: LandscapingPlaceableType;
   action: GameEventName<PlacementEvent>;
   requirements: {
     coins: number;

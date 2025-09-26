@@ -11,7 +11,7 @@ interface PetSpriteProps {
   onClick?: () => void;
   clickable?: boolean;
   children?: React.ReactNode;
-  petData: Pet | PetNFT;
+  petData?: Pet | PetNFT;
 }
 
 export const PetSprite: React.FC<PetSpriteProps> = ({
@@ -24,7 +24,6 @@ export const PetSprite: React.FC<PetSpriteProps> = ({
   petData,
 }) => {
   const petImage = getPetImage(
-    id,
     isNeglected || isNapping ? "asleep" : "happy",
     petData,
   );
