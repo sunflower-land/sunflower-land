@@ -11,7 +11,7 @@ import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { getStreaks } from "features/world/ui/beach/Digby";
-import { GameState } from "features/game/types/game";
+import { GameState, TemperateSeasonName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { isMinigameComplete } from "features/game/events/minigames/claimMinigamePrize";
@@ -41,6 +41,8 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { useNavigate } from "react-router";
 import { ChestRewardsList } from "./ChestRewardsList";
 import { translate } from "lib/i18n/translate";
+import { SEASON_GUARDIANS } from "features/loveIsland/blessings/Blessings";
+import { GUARDIAN_PENDING_MS } from "features/game/lib/blessings";
 
 const loveIslandBoxStatus = (state: GameState) => {
   const schedule = state.floatingIsland.schedule;
@@ -166,7 +168,32 @@ const minigamesStatus = (state: GameState) => {
   };
 };
 
-export const checklistCount = (state: GameState, bumpkinLevel: number) => {
+const tributeStatus = (state: GameState) => {
+  const season = state.season.season;
+  const { offered, offering } = state.blessing;
+
+  const guardian = SEASON_GUARDIANS[season as TemperateSeasonName];
+
+  const offeredDate = new Date(offered?.offeredAt ?? 0)
+    .toISOString()
+    .slice(0, 10);
+
+  const guardianReadyTimestamp =
+    new Date(offeredDate).getTime() + GUARDIAN_PENDING_MS;
+
+  const readyIn = guardianReadyTimestamp - Date.now();
+
+  const isReady = Date.now() > guardianReadyTimestamp;
+
+  const isCompleted = !!offered && !isReady;
+
+  return { offered, offering, guardian, readyIn, isCompleted };
+};
+
+export const dailyTravelTasksCount = (
+  state: GameState,
+  bumpkinLevel: number,
+) => {
   // Plaza Tasks
   const hasNotClaimedLoveBox = !loveIslandBoxStatus(state).hasClaimed;
 
@@ -196,11 +223,17 @@ export const checklistCount = (state: GameState, bumpkinLevel: number) => {
 
   // Kingdom Tasks
   const { completedMinigames, allMinigamesCount } = minigamesStatus(state);
+  const hasNotCompletedAllMinigames = completedMinigames !== allMinigamesCount;
+  const minigamesLeft = allMinigamesCount - completedMinigames;
+
+  const hasNotOfferedTribute = !tributeStatus(state).isCompleted;
+
   const completedKingdomTasksCount = () => {
     if (bumpkinLevel >= 7) {
-      return completedMinigames !== allMinigamesCount
-        ? allMinigamesCount - completedMinigames
-        : 0;
+      return (
+        (hasNotCompletedAllMinigames ? minigamesLeft : 0) +
+        (hasNotOfferedTribute ? 1 : 0)
+      );
     }
     return 0;
   };
@@ -212,7 +245,7 @@ export const checklistCount = (state: GameState, bumpkinLevel: number) => {
   );
 };
 
-export const Checklist: React.FC = () => {
+export const DailyTravelTasks: React.FC = () => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
@@ -223,24 +256,25 @@ export const Checklist: React.FC = () => {
     <>
       <div className="flex flex-col h-full overflow-hidden overflow-y-auto scrollable gap-y-0.5">
         <InnerPanel>
-          <div className="m-1 ml-2 mb-2">
-            <Label icon={SUNNYSIDE.icons.stopwatch} type="info">
-              {t("checkList.resetsIn", {
+          <div className="flex flex-wrap justify-between items-center gap-y-1 m-1 mr-2 mb-2">
+            <Label type="default">{t("dailyTravelTasks.title")}</Label>
+            <Label secondaryIcon={SUNNYSIDE.icons.stopwatch} type="info">
+              {t("dailyTravelTasks.resetsIn", {
                 time: secondsToString(secondsTillReset(), {
                   length: "short",
                 }),
               })}
             </Label>
           </div>
-          <div className="mb-2">
+          <div className="mr-2 mb-2">
             <NoticeboardItems
               items={[
                 {
-                  text: t("checkList.description1"),
+                  text: t("dailyTravelTasks.description1"),
                   icon: SUNNYSIDE.icons.worldIcon,
                 },
                 {
-                  text: t("checkList.description2"),
+                  text: t("dailyTravelTasks.description2"),
                   icon: bud,
                 },
               ]}
@@ -252,13 +286,13 @@ export const Checklist: React.FC = () => {
         <InnerPanel>
           <div className="p-0.5 sm:p-1">
             <Heading
-              location={t("checkList.plaza")}
+              location={t("dailyTravelTasks.plaza")}
               bumpkinLevel={bumpkinLevel}
               requiredLevel={2}
               locationPath="/world/plaza"
             />
             {/* Love Island Box */}
-            <LoveIslandBox bumpkinLevel={bumpkinLevel} />
+            <LoveIslandBoxContent bumpkinLevel={bumpkinLevel} />
             {/* Bud Box */}
             <BudBoxContent bumpkinLevel={bumpkinLevel} />
           </div>
@@ -268,7 +302,7 @@ export const Checklist: React.FC = () => {
         <InnerPanel>
           <div className="p-0.5 sm:p-1">
             <Heading
-              location={t("checkList.beach")}
+              location={t("dailyTravelTasks.beach")}
               bumpkinLevel={bumpkinLevel}
               requiredLevel={4}
               locationPath="/world/beach"
@@ -284,13 +318,15 @@ export const Checklist: React.FC = () => {
         <InnerPanel>
           <div className="p-0.5 sm:p-1">
             <Heading
-              location={t("checkList.kingdom")}
+              location={t("dailyTravelTasks.kingdom")}
               bumpkinLevel={bumpkinLevel}
               requiredLevel={7}
               locationPath="/world/kingdom"
             />
             {/* Mini Games */}
             <MiniGamesContent bumpkinLevel={bumpkinLevel} />
+            {/* Tribute */}
+            <TributeContent bumpkinLevel={bumpkinLevel} />
           </div>
         </InnerPanel>
       </div>
@@ -298,7 +334,7 @@ export const Checklist: React.FC = () => {
   );
 };
 
-const LoveIslandBox: React.FC<{ bumpkinLevel: number }> = ({
+const LoveIslandBoxContent: React.FC<{ bumpkinLevel: number }> = ({
   bumpkinLevel,
 }) => {
   const { t } = useAppTranslation();
@@ -322,8 +358,8 @@ const LoveIslandBox: React.FC<{ bumpkinLevel: number }> = ({
   const labelText = `${hasClaimed ? "" : "0/1"} ${t("completed")}`;
   const flightTimeText = `${
     isOpen
-      ? t("checkList.loveIsland.flyNow")
-      : translate("checkList.nextScheduleTime", {
+      ? t("dailyTravelTasks.loveIsland.flyNow")
+      : translate("dailyTravelTasks.nextScheduleTime", {
           time: secondsToString(nextFlightTime, {
             length: "short",
           }),
@@ -333,7 +369,7 @@ const LoveIslandBox: React.FC<{ bumpkinLevel: number }> = ({
   return (
     <RowContent
       isLocked={bumpkinLevel < 2}
-      title={t("checkList.loveIsland.title")}
+      title={t("dailyTravelTasks.loveIsland.title")}
       titleIcon={heart_air_balloon}
       labelType={hasClaimed ? "success" : "warning"}
       showConfirmIcon={hasClaimed}
@@ -353,17 +389,19 @@ const LoveIslandBox: React.FC<{ bumpkinLevel: number }> = ({
           <div className="flex justify-between pb-1">
             <Label type="default">{t("hotAirBalloon.flightTimes")}</Label>
             {isOpen && (
-              <Label type="success">{t("checkList.loveIsland.flyNow")}</Label>
+              <Label type="success">
+                {t("dailyTravelTasks.loveIsland.flyNow")}
+              </Label>
             )}
           </div>
           <p className="text-xs p-1 pb-2">
-            {t("checkList.loveIsland.description")}
+            {t("dailyTravelTasks.loveIsland.description")}
           </p>
           <OuterPanel>
             <div className="py-0.5">
               <div className="flex justify-between mr-1">
                 <Label type="default">
-                  {t("checkList.loveIsland.currentTimezone")}
+                  {t("dailyTravelTasks.loveIsland.currentTimezone")}
                 </Label>
                 <Label type="info" secondaryIcon={SUNNYSIDE.icons.stopwatch}>
                   {timeZone}
@@ -422,7 +460,7 @@ const BudBoxContent: React.FC<{ bumpkinLevel: number }> = ({
     budBoxStatus(state);
 
   const labelText = !hasBud
-    ? t("checkList.budBox.missingBudLabel")
+    ? t("dailyTravelTasks.budBox.missingBudLabel")
     : hasOpened
       ? t("completed")
       : playerBudTypes.includes(todayBud)
@@ -432,7 +470,7 @@ const BudBoxContent: React.FC<{ bumpkinLevel: number }> = ({
   return (
     <RowContent
       isLocked={bumpkinLevel < 2 || !hasBud}
-      title={t("checkList.budBox.title")}
+      title={t("dailyTravelTasks.budBox.title")}
       titleIcon={gift}
       labelType={
         hasOpened
@@ -442,7 +480,7 @@ const BudBoxContent: React.FC<{ bumpkinLevel: number }> = ({
             : "default"
       }
       requiredItemMessage={
-        !hasBud ? t("checkList.budBox.missingBudMessage") : undefined
+        !hasBud ? t("dailyTravelTasks.budBox.missingBudMessage") : undefined
       }
       showConfirmIcon={hasOpened}
       labelText={labelText}
@@ -450,14 +488,16 @@ const BudBoxContent: React.FC<{ bumpkinLevel: number }> = ({
         <div>
           <Label type="default">
             <p className="text-xxs sm:text-xs">
-              {t("checkList.budBox.todayBudType", { budType: todayBud })}
+              {t("dailyTravelTasks.budBox.todayBudType", { budType: todayBud })}
             </p>
           </Label>
         </div>
       }
       overlayContent={
         <div className="overflow-y-auto max-h-[300px] scrollable p-2 space-y-1 -ml-1">
-          <p className="text-xs mb-3">{t("checkList.budBox.description")}</p>
+          <p className="text-xs mb-3">
+            {t("dailyTravelTasks.budBox.description")}
+          </p>
           {BUD_ORDER.map((_, index) => {
             const budTypeTimestamp = now + 24 * 60 * 60 * 1000 * index;
             const dailyBud = getDailyBudBoxType(budTypeTimestamp);
@@ -489,8 +529,8 @@ const BudBoxContent: React.FC<{ bumpkinLevel: number }> = ({
                     >
                       <p className="text-xxs sm:text-xs">
                         {hasOpened
-                          ? t("checkList.openedToday")
-                          : t("checkList.budBox.today")}
+                          ? t("dailyTravelTasks.openedToday")
+                          : t("dailyTravelTasks.budBox.today")}
                       </p>
                     </Label>
                   )}
@@ -521,7 +561,7 @@ const DiggingStreakContent: React.FC<{ bumpkinLevel: number }> = ({
   return (
     <RowContent
       isLocked={bumpkinLevel < 4}
-      title={t("checkList.diggingStreak.title")}
+      title={t("dailyTravelTasks.diggingStreak.title")}
       titleIcon={ITEM_DETAILS["Sand Shovel"].image}
       labelType={hasClaimedDigbyReward ? "success" : "warning"}
       showConfirmIcon={hasClaimedDigbyReward}
@@ -529,9 +569,9 @@ const DiggingStreakContent: React.FC<{ bumpkinLevel: number }> = ({
         hasClaimedDigbyReward ? t("completed") : `0/1 ${t("completed")}`
       }
       overlayContent={
-        <div className="overflow-y-auto max-h-[300px] scrollable p-2 space-y-1 -ml-1">
+        <div className="overflow-y-auto max-h-[300px] scrollable px-1 py-2 space-y-1">
           <p className="text-xs p-1 pb-2">
-            {t("checkList.diggingStreak.description")}
+            {t("dailyTravelTasks.diggingStreak.description")}
           </p>
           <OuterPanel className="flex justify-between items-center">
             <div className="flex items-center">
@@ -548,11 +588,11 @@ const DiggingStreakContent: React.FC<{ bumpkinLevel: number }> = ({
                   className={hasClaimedDigbyReward ? "ml-1" : ""}
                 >
                   <p className="text-xxs sm:text-xs">
-                    {t("checkList.diggingStreak.title")}
+                    {t("dailyTravelTasks.diggingStreak.title")}
                   </p>
                 </Label>
                 <p className="text-xxs ml-1">
-                  {t("checkList.diggingStreak.streakCount", {
+                  {t("dailyTravelTasks.diggingStreak.streakCount", {
                     count: digbyStreakCount,
                   })}
                 </p>
@@ -567,7 +607,7 @@ const DiggingStreakContent: React.FC<{ bumpkinLevel: number }> = ({
                 className="mr-1"
               >
                 <p className="text-xxs sm:text-xs">
-                  {`${artefactsFound}/3 ${t("checkList.diggingStreak.found")}`}
+                  {`${artefactsFound}/3 ${t("dailyTravelTasks.diggingStreak.found")}`}
                 </p>
               </Label>
             </div>
@@ -587,49 +627,47 @@ const PirateChestContent: React.FC<{ bumpkinLevel: number }> = ({
 
   const { hasPiratePotion, hasOpenedPirateChest } = piratePotionStatus(state);
   return (
-    <div className="mt-1">
-      <RowContent
-        isLocked={bumpkinLevel < 4 || !hasPiratePotion}
-        title={t("checkList.pirateChest.title")}
-        titleIcon={pirate_chest}
-        labelType={hasOpenedPirateChest ? "success" : "warning"}
-        requiredItemMessage={
-          !hasPiratePotion
-            ? t("checkList.pirateChest.missingPotionMessage")
-            : undefined
-        }
-        showConfirmIcon={hasOpenedPirateChest}
-        labelText={
-          !hasPiratePotion
-            ? t("checkList.pirateChest.missingPotionLabel")
-            : hasOpenedPirateChest
-              ? t("completed")
-              : `0/1 ${t("completed")}`
-        }
-        overlayContent={
-          <div className="max-h-[300px] overflow-y-auto scrollable">
-            <div className="p-1">
-              {hasOpenedPirateChest && (
-                <Label
-                  type="success"
-                  icon={SUNNYSIDE.icons.confirm}
-                  className="ml-1"
-                >
-                  {t("checkList.openedToday")}
-                </Label>
-              )}
-              <p className="text-xs mt-1 mx-1">
-                {t("checkList.pirateChest.description")}
-              </p>
-            </div>
-            <ChestRewardsList
-              type="Pirate Chest"
-              isSubsequentInMultiList={true}
-            />
+    <RowContent
+      isLocked={bumpkinLevel < 4 || !hasPiratePotion}
+      title={t("dailyTravelTasks.pirateChest.title")}
+      titleIcon={pirate_chest}
+      labelType={hasOpenedPirateChest ? "success" : "warning"}
+      requiredItemMessage={
+        !hasPiratePotion
+          ? t("dailyTravelTasks.pirateChest.missingPotionMessage")
+          : undefined
+      }
+      showConfirmIcon={hasOpenedPirateChest}
+      labelText={
+        !hasPiratePotion
+          ? t("dailyTravelTasks.pirateChest.missingPotionLabel")
+          : hasOpenedPirateChest
+            ? t("completed")
+            : `0/1 ${t("completed")}`
+      }
+      overlayContent={
+        <div className="max-h-[300px] overflow-y-auto scrollable">
+          <div className="p-1">
+            {hasOpenedPirateChest && (
+              <Label
+                type="success"
+                icon={SUNNYSIDE.icons.confirm}
+                className="ml-1"
+              >
+                {t("dailyTravelTasks.openedToday")}
+              </Label>
+            )}
+            <p className="text-xs mt-1 mx-1">
+              {t("dailyTravelTasks.pirateChest.description")}
+            </p>
           </div>
-        }
-      />
-    </div>
+          <ChestRewardsList
+            type="Pirate Chest"
+            isSubsequentInMultiList={true}
+          />
+        </div>
+      }
+    />
   );
 };
 
@@ -652,7 +690,7 @@ const MiniGamesContent: React.FC<{ bumpkinLevel: number }> = ({
   return (
     <RowContent
       isLocked={bumpkinLevel < 7}
-      title={t("checkList.miniGames.title")}
+      title={t("dailyTravelTasks.miniGames.title")}
       titleIcon={swords}
       labelType={hasCompletedAll ? "success" : "warning"}
       showConfirmIcon={hasCompletedAll}
@@ -660,7 +698,7 @@ const MiniGamesContent: React.FC<{ bumpkinLevel: number }> = ({
       overlayContent={
         <div className="overflow-y-auto max-h-[300px] scrollable p-2 space-y-1 -ml-1">
           <p className="text-xs p-1 pb-2">
-            {t("checkList.miniGames.description")}
+            {t("dailyTravelTasks.miniGames.description")}
           </p>
           {PORTAL_OPTIONS.map((option) => {
             return (
@@ -688,7 +726,7 @@ const MiniGamesContent: React.FC<{ bumpkinLevel: number }> = ({
                       <p className="text-xxs sm:text-xs">{option.title}</p>
                     </Label>
                     <p className="text-xxs ml-1">
-                      {t("checkList.miniGames.missionPoints", {
+                      {t("dailyTravelTasks.miniGames.missionPoints", {
                         number: minigameInfo(option.id)?.prize?.score ?? 0,
                       })}
                     </p>
@@ -714,6 +752,107 @@ const MiniGamesContent: React.FC<{ bumpkinLevel: number }> = ({
               </OuterPanel>
             );
           })}
+        </div>
+      }
+    />
+  );
+};
+
+const TributeContent: React.FC<{ bumpkinLevel: number }> = ({
+  bumpkinLevel,
+}) => {
+  const { t } = useAppTranslation();
+  const { gameService } = useContext(Context);
+  const state = useSelector(gameService, (state) => state.context.state);
+
+  const { offered, offering, guardian, readyIn, isCompleted } =
+    tributeStatus(state);
+
+  const [timeLeft, setTimeLeft] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeft(readyIn / 1000);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [readyIn]);
+
+  return (
+    <RowContent
+      isLocked={bumpkinLevel < 7}
+      title={t("dailyTravelTasks.tribute.title")}
+      titleIcon={guardian}
+      labelType={isCompleted ? "success" : "warning"}
+      showConfirmIcon={isCompleted}
+      labelText={isCompleted ? t("completed") : `0/1 ${t("completed")}`}
+      overlayContent={
+        <div className="overflow-y-auto max-h-[300px] scrollable px-1 py-2 space-y-1">
+          <div className={`flex ${isCompleted ? "ml-1" : ""}`}>
+            <Label
+              type={isCompleted ? "info" : "formula"}
+              icon={isCompleted ? SUNNYSIDE.icons.stopwatch : undefined}
+            >
+              <p className="text-xs">
+                {isCompleted
+                  ? `${secondsToString(timeLeft, { length: "medium" })} ${t("dailyTravelTasks.tribute.timeLeft")}`
+                  : `${new Date().toISOString().slice(0, 10)}`}
+              </p>
+            </Label>
+          </div>
+          <p className="text-xs p-1 pb-2">
+            {isCompleted
+              ? t("dailyTravelTasks.tribute.description2")
+              : t("dailyTravelTasks.tribute.description1")}
+          </p>
+
+          <OuterPanel className="flex justify-between items-center">
+            <div className="flex items-center">
+              <img width={PIXEL_SCALE * 13} src={guardian} />
+              <div className="flex flex-col items-start gap-y-1 ml-0.5">
+                <Label
+                  type={isCompleted ? "success" : "default"}
+                  icon={isCompleted ? SUNNYSIDE.icons.confirm : undefined}
+                  className={isCompleted ? "ml-1" : ""}
+                >
+                  <p className="text-xxs sm:text-xs">
+                    {t("dailyTravelTasks.tribute.title")}
+                  </p>
+                </Label>
+                <p className="text-xxs ml-1 w-24 sm:w-full">
+                  {t("dailyTravelTasks.tribute.requestedItem", {
+                    item: offering.item,
+                  })}
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col text-xxs items-end">
+              {isCompleted ? (
+                getEntries(offered?.items ?? {}).map(
+                  (item, index) =>
+                    item && (
+                      <Label
+                        type="default"
+                        secondaryIcon={ITEM_DETAILS[item[0]].image}
+                        className="mr-1"
+                        key={index}
+                      >
+                        <p className="text-xxs sm:text-xs">
+                          {t("dailyTravelTasks.tribute.offered", {
+                            amount: item[1] ?? 0,
+                          })}
+                        </p>
+                      </Label>
+                    ),
+                )
+              ) : (
+                <Label type="default">
+                  <p className="text-xxs sm:text-xs">
+                    {t("dailyTravelTasks.tribute.guardiansAwait")}
+                  </p>
+                </Label>
+              )}
+            </div>
+          </OuterPanel>
         </div>
       }
     />
@@ -755,7 +894,7 @@ const Heading: React.FC<{
         >
           <div className="flex flex-row -m-1.5">
             <p className="text-xxs sm:text-xs mr-0.5">
-              {t("checkList.travel")}
+              {t("dailyTravelTasks.travel")}
             </p>
             <img src={SUNNYSIDE.icons.search} className="w-4 h-4" />
           </div>
