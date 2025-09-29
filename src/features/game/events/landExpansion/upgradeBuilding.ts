@@ -102,19 +102,16 @@ export const BUILDING_UPGRADES: Record<
       coins: 200,
       items: { Wood: new Decimal(5), Stone: new Decimal(2) },
       requiredLevel: 4,
-      upgradeTime: 60 * 60 * 1000,
     },
     3: {
       coins: 400,
       items: { Wood: new Decimal(5), Stone: new Decimal(5) },
       requiredLevel: 11,
-      upgradeTime: 60 * 60 * 2 * 1000,
     },
     4: {
       coins: 800,
       items: { Wood: new Decimal(10), Stone: new Decimal(10) },
       requiredLevel: 15,
-      upgradeTime: 60 * 60 * 4 * 1000,
     },
   },
 };
