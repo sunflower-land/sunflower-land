@@ -182,6 +182,19 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
               {t("vip.oneYear.warning")}
             </Label>
           )}
+          <div className="absolute -bottom-11 sm:-bottom-12 -mb-1 left-1/2 -translate-x-1/2 w-full">
+            <Label type="danger">
+              <div className="flex items-center m-1">
+                <img
+                  src={SUNNYSIDE.icons.expression_alerted}
+                  className="h-6 sm:h-7"
+                />
+                <p className="flex text-xxs sm:text-xs leading-4 ml-2">
+                  {t("vip.transfer.warning")}
+                </p>
+              </div>
+            </Label>
+          </div>
           <div className="flex ">
             <Button className="mr-1" onClick={() => setSelected(undefined)}>
               {t("no")}
