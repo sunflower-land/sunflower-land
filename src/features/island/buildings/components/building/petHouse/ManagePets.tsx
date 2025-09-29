@@ -269,7 +269,8 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
           <div className="flex flex-col gap-2 p-2">
             <Label type="default">{t("pets.confirmFeedPets")}</Label>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 max-h-[400px] overflow-y-auto scrollable">
-              {mappedPets.map(({ petId, food }) => {
+              {mappedPets.map((pet) => {
+                const { petId, food } = pet;
                 const petData = activePets.find(
                   ([petName]) => petName === petId,
                 )?.[1];
@@ -285,6 +286,8 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
                     getPetExperience({
                       basePetXP: getPetRequestXP(foodItem),
                       game: state,
+                      petLevel,
+                      isPetNFT: typeof petId === "number",
                     }),
                   0,
                 );
@@ -302,7 +305,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
                 const beforeEnergy = petData.energy;
                 const afterEnergy = beforeEnergy + totalEnergy;
 
-                const petImage = getPetImage(petId, "happy", petData);
+                const petImage = getPetImage("happy", petData);
 
                 const { level, currentProgress, experienceBetweenLevels } =
                   getPetLevel(petData.experience);

@@ -63,10 +63,6 @@ export const VisitingPet: React.FC<{ name: PetName }> = ({ name }) => {
     }
   };
 
-  if (!petData) {
-    return null;
-  }
-
   return (
     <PetSprite
       id={name}

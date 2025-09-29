@@ -223,32 +223,33 @@ export const PET_FETCHES: Record<PetType, PetConfig> = getObjectEntries(
   PET_CATEGORIES,
 ).reduce<Record<PetType, PetConfig>>(
   (acc, [petType, petCategory]) => {
-    acc[petType] = {
-      fetches: [
-        { name: "Acorn", level: 1 },
-        { name: FETCHES_BY_CATEGORY[petCategory.primaryCategory], level: 3 },
-        ...(petCategory.secondaryCategory
-          ? [
-              {
-                name: FETCHES_BY_CATEGORY[petCategory.secondaryCategory],
-                level: 7,
-              },
-            ]
-          : []),
+    const fetches: PetConfig["fetches"] = [
+      { name: "Acorn", level: 1 },
+      { name: FETCHES_BY_CATEGORY[petCategory.primaryCategory], level: 3 },
+      { name: "Fossil Shell", level: 20 },
+    ];
 
-        // TODO: Add Moonfur for NFT Pets
+    if (petCategory.secondaryCategory) {
+      fetches.push({
+        name: FETCHES_BY_CATEGORY[petCategory.secondaryCategory],
+        level: 7,
+      });
+    }
 
-        { name: "Fossil Shell", level: 20 },
-        ...(petCategory.tertiaryCategory
-          ? [
-              {
-                name: FETCHES_BY_CATEGORY[petCategory.tertiaryCategory],
-                level: 25,
-              },
-            ]
-          : []),
-      ],
-    };
+    // Only NFT Pets have tertiary categories
+    if (petCategory.tertiaryCategory) {
+      fetches.push(
+        ...([
+          { name: "Moonfur", level: 12 },
+          {
+            name: FETCHES_BY_CATEGORY[petCategory.tertiaryCategory],
+            level: 25,
+          },
+        ] as const),
+      );
+    }
+
+    acc[petType] = { fetches };
 
     return acc;
   },
@@ -328,7 +329,7 @@ export const PET_RESOURCES: Record<
   },
   Moonfur: {
     cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 150,
+    energy: 1000,
   },
 
   "Frost Pebble": {

@@ -334,6 +334,130 @@ describe("feedPet", () => {
     expect(BarkleyData?.experience).toEqual(1700);
   });
 
+  it("gives experience boost for level 27", () => {
+    const level27XP = 27 * 26 * 50;
+    const state = feedPet({
+      state: {
+        ...INITIAL_FARM,
+        pets: {
+          common: {
+            Barkley: {
+              name: "Barkley",
+              requests: {
+                food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+                foodFed: [],
+              },
+              energy: 0,
+              experience: level27XP, // Level 27
+              pettedAt: now,
+            },
+          },
+        },
+        inventory: {
+          "Bumpkin Salad": new Decimal(10),
+        },
+      },
+      action: {
+        type: "pet.fed",
+        petId: "Barkley",
+        food: "Bumpkin Salad",
+      },
+      createdAt: now,
+    });
+    const BarkleyData = state.pets?.common?.Barkley;
+
+    expect(BarkleyData?.requests.foodFed).toEqual<CookableName[]>([
+      "Bumpkin Salad",
+    ]);
+
+    expect(BarkleyData?.requests.fedAt).toEqual(now);
+    expect(BarkleyData?.experience).toEqual(level27XP + 100 * 1.1);
+  });
+
+  it("gives experience boost for level 40 for nft pets", () => {
+    const level40XP = 40 * 39 * 50;
+    const state = feedPet({
+      state: {
+        ...INITIAL_FARM,
+        pets: {
+          nfts: {
+            1: {
+              name: "Pet-1",
+              id: 1,
+              revealAt: 0,
+              requests: {
+                food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+                foodFed: [],
+              },
+              energy: 0,
+              experience: level40XP, // Level 40
+              pettedAt: now,
+            },
+          },
+        },
+        inventory: {
+          "Bumpkin Salad": new Decimal(10),
+        },
+      },
+      action: {
+        type: "pet.fed",
+        petId: 1,
+        food: "Bumpkin Salad",
+      },
+      createdAt: now,
+    });
+    const petData = state.pets?.nfts?.[1];
+
+    expect(petData?.requests.foodFed).toEqual<CookableName[]>([
+      "Bumpkin Salad",
+    ]);
+
+    expect(petData?.requests.fedAt).toEqual(now);
+    expect(petData?.experience).toEqual(level40XP + 100 * 1.25);
+  });
+
+  it("gives experience boost for level 85 for nft pets", () => {
+    const level85XP = 85 * 84 * 50;
+    const state = feedPet({
+      state: {
+        ...INITIAL_FARM,
+        pets: {
+          nfts: {
+            1: {
+              name: "Pet-1",
+              id: 1,
+              revealAt: 0,
+              requests: {
+                food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+                foodFed: [],
+              },
+              energy: 0,
+              experience: level85XP, // Level 85
+              pettedAt: now,
+            },
+          },
+        },
+        inventory: {
+          "Bumpkin Salad": new Decimal(10),
+        },
+      },
+      action: {
+        type: "pet.fed",
+        petId: 1,
+        food: "Bumpkin Salad",
+      },
+      createdAt: now,
+    });
+    const petData = state.pets?.nfts?.[1];
+
+    expect(petData?.requests.foodFed).toEqual<CookableName[]>([
+      "Bumpkin Salad",
+    ]);
+
+    expect(petData?.requests.fedAt).toEqual(now);
+    expect(petData?.experience).toEqual(level85XP + 100 * 1.5);
+  });
+
   describe("getPetFoodRequests", () => {
     it("omits the hard request if the pet is less than level 10", () => {
       const pet: Pet = {

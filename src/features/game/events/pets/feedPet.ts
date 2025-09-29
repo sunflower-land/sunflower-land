@@ -1,3 +1,4 @@
+import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { isTemporaryCollectibleActive } from "features/game/lib/collectibleBuilt";
 import { CookableName } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
@@ -6,12 +7,25 @@ import {
   getPetRequestXP,
   isPetNapping,
   isPetNeglected,
+  isPetNFT,
   Pet,
   PET_REQUESTS,
   PetName,
   PetNFT,
+  PetRequestDifficulty,
 } from "features/game/types/pets";
 import { produce } from "immer";
+import { setPrecision } from "lib/utils/formatNumber";
+
+// Build a constant-time lookup from food -> difficulty
+export const FOOD_TO_DIFFICULTY: Map<CookableName, PetRequestDifficulty> =
+  (() => {
+    const map = new Map<CookableName, PetRequestDifficulty>();
+    getObjectEntries(PET_REQUESTS).forEach(([difficulty, foods]) => {
+      foods.forEach((food) => map.set(food, difficulty));
+    });
+    return map;
+  })();
 
 export function getPetEnergy({
   basePetEnergy,
@@ -40,39 +54,128 @@ export function getPetEnergy({
 export function getPetExperience({
   game,
   basePetXP,
+  petLevel,
+  isPetNFT,
 }: {
   game: GameState;
   basePetXP: number;
+  petLevel: number;
+  isPetNFT: boolean;
 }) {
   let experience = basePetXP;
+  let experienceBoost = 1;
+
+  if (petLevel >= 27) {
+    experienceBoost += 0.1;
+  }
+
+  if (petLevel >= 40 && isPetNFT) {
+    experienceBoost += 0.15;
+  }
+
+  if (petLevel >= 85 && isPetNFT) {
+    experienceBoost += 0.25;
+  }
+
+  experience *= experienceBoost;
 
   if (isTemporaryCollectibleActive({ name: "Hound Shrine", game })) {
     experience += 100;
   }
 
-  return experience;
+  return setPrecision(experience, 2).toNumber();
 }
 
 /**
- * Removes the hard request from the pet's food requests if the pet is less than level 10
- * This ensures that the pet would instantly get the hard request when it reaches level 10
- * @param pet Pet
- * @returns Pet's food requests
+ * Returns the pet's food requests based on its level and type (Pet or PetNFT).
+ * For PetNFTs, the number and difficulty of food requests are limited depending on the pet's level:
+ *  - Below level 30: 1 easy, 1 medium, and 1 hard request.
+ *  - Level 30 to 199: 1 easy, 2 medium, and 1 hard request.
+ *  - Level 200 and above: all requests are included.
+ * For regular Pets
+ *  - Below level 10: 1 easy and 1 medium request.
+ *  - Level 10 and above: 1 easy, 1 medium, and 1 hard request.
+ * @param pet The pet object (Pet or PetNFT)
+ * @param petLevel The current level of the pet
+ * @returns The filtered list of food requests for the pet
  */
-export function getPetFoodRequests(pet: Pet | PetNFT, petLevel: number) {
-  let requests = [...pet.requests.food];
+export function getPetFoodRequests(
+  pet: Pet | PetNFT,
+  petLevel: number,
+): CookableName[] {
+  const requests = [...pet.requests.food];
 
-  if (petLevel < 10) {
-    const hardRequest = requests.find((request) =>
-      PET_REQUESTS.hard.includes(request),
-    );
+  const isNFT = isPetNFT(pet);
 
-    if (hardRequest) {
-      requests = requests.filter((request) => request !== hardRequest);
+  if (isNFT) {
+    if (petLevel < 30) {
+      // If pet is below level 30, keep only 1 easy, 1 medium, and 1 hard request
+      const filteredRequests: CookableName[] = [];
+      let hasEasy = false;
+      let hasMedium = false;
+      let hasHard = false;
+      for (const food of requests) {
+        const difficulty = FOOD_TO_DIFFICULTY.get(food);
+        if (difficulty === "easy" && !hasEasy) {
+          filteredRequests.push(food);
+          hasEasy = true;
+        } else if (difficulty === "medium" && !hasMedium) {
+          filteredRequests.push(food);
+          hasMedium = true;
+        } else if (difficulty === "hard" && !hasHard) {
+          filteredRequests.push(food);
+          hasHard = true;
+        }
+        if (filteredRequests.length === 3) break;
+      }
+      return filteredRequests;
+    }
+    if (petLevel < 200) {
+      // If pet is below level 200, keep only 1 easy, 2 medium, and 1 hard request
+      const filteredRequests: CookableName[] = [];
+      let easyCount = 0;
+      let mediumCount = 0;
+      let hardCount = 0;
+
+      for (const food of requests) {
+        const difficulty = FOOD_TO_DIFFICULTY.get(food);
+        if (difficulty === "easy" && easyCount < 1) {
+          filteredRequests.push(food);
+          easyCount++;
+        } else if (difficulty === "medium" && mediumCount < 2) {
+          filteredRequests.push(food);
+          mediumCount++;
+        } else if (difficulty === "hard" && hardCount < 1) {
+          filteredRequests.push(food);
+          hardCount++;
+        }
+        // Stop if we have all 4 requests
+        if (filteredRequests.length === 4) break;
+      }
+      return filteredRequests;
+    } else {
+      // If pet is above level 200, keep all requests ( 1 easy, 2 medium, and 2 hard requests)
+      return requests;
+    }
+  } else {
+    if (petLevel < 10) {
+      // If pet is below level 10, keep only 1 easy and 1 medium request
+      const filteredRequests: CookableName[] = [];
+      for (const food of requests) {
+        const difficulty = FOOD_TO_DIFFICULTY.get(food);
+        if (difficulty && difficulty !== "hard") {
+          filteredRequests.push(food);
+          if (filteredRequests.length === 2) break;
+        }
+      }
+      return filteredRequests;
+    } else {
+      // If pet is above level 10, keep all requests ( 1 easy, 1 medium, 1 hard request)
+      return requests;
     }
   }
-  return requests;
 }
+
 export type FeedPetAction = {
   type: "pet.fed";
   petId: PetName | number;
@@ -147,7 +250,12 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
     // Get base pet XP/Energy
     const basePetXP = getPetRequestXP(food);
 
-    const experience = getPetExperience({ basePetXP, game: stateCopy });
+    const experience = getPetExperience({
+      basePetXP,
+      game: stateCopy,
+      petLevel,
+      isPetNFT,
+    });
     const energy = getPetEnergy({ petLevel, basePetEnergy: basePetXP });
     petData.experience += experience;
     petData.energy += energy;
