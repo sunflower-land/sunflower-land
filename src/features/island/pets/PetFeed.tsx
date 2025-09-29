@@ -7,6 +7,7 @@ import { InnerPanel } from "components/ui/Panel";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { Loading } from "features/auth/components/Loading";
 import {
+  FOOD_TO_DIFFICULTY,
   getPetEnergy,
   getPetExperience,
   getPetFoodRequests,
@@ -17,6 +18,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getPetLevel,
   getPetRequestXP,
+  isPetNFT,
   Pet,
   PetName,
   PetNFT,
@@ -190,6 +192,30 @@ const PetFeedPanel: React.FC<{
     !state.inventory[selectedFood] ||
     state.inventory[selectedFood].lessThan(1) ||
     isFoodLocked;
+
+  const getPetUnlockLevel = (
+    petData: Pet | PetNFT,
+    petLevel: number,
+    foodRequest: CookableName,
+  ): number => {
+    const difficulty = FOOD_TO_DIFFICULTY.get(foodRequest);
+    if (isPetNFT(petData)) {
+      if (petLevel < 30 && difficulty === "medium") {
+        return 30;
+      }
+      if (petLevel < 200 && difficulty === "hard") {
+        return 200;
+      }
+      return 200;
+    }
+    if (petLevel < 10 && difficulty === "hard") {
+      return 10;
+    }
+    return 200;
+  };
+
+  const petUnlockLevel = getPetUnlockLevel(petData, petLevel, selectedFood);
+
   return (
     <div className="flex flex-col items-center gap-1">
       {/* Pet Image and Name */}
@@ -239,7 +265,7 @@ const PetFeedPanel: React.FC<{
         {isFoodLocked ? (
           <div className="flex w-full items-start justify-center">
             <Label type="danger" className="text-xs">
-              {t("pets.foodLocked", { level: petLevel < 10 ? 10 : 200 })}
+              {t("pets.foodLocked", { level: petUnlockLevel })}
             </Label>
           </div>
         ) : isToday && petData.requests.foodFed?.includes(selectedFood) ? (
@@ -314,7 +340,7 @@ const PetFeedContent: React.FC<{
       <Label type="default">
         {t("pets.requestsToday", { pet: petData.name })}
       </Label>
-      <div className="flex flex-row gap-1">
+      <div className="flex flex-row flex-wrap gap-1">
         {allFoods
           .sort((a, b) => {
             const aIsRequested = foodRequests.includes(a);

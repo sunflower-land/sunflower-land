@@ -9,11 +9,22 @@ import {
   isPetNeglected,
   isPetNFT,
   Pet,
+  PET_REQUESTS,
   PetName,
   PetNFT,
-  PET_REQUESTS,
+  PetRequestDifficulty,
 } from "features/game/types/pets";
 import { produce } from "immer";
+
+// Build a constant-time lookup from food -> difficulty
+export const FOOD_TO_DIFFICULTY: Map<CookableName, PetRequestDifficulty> =
+  (() => {
+    const map = new Map<CookableName, PetRequestDifficulty>();
+    getObjectEntries(PET_REQUESTS).forEach(([difficulty, foods]) => {
+      foods.forEach((food) => map.set(food, difficulty));
+    });
+    return map;
+  })();
 
 export function getPetEnergy({
   basePetEnergy,
@@ -56,57 +67,93 @@ export function getPetExperience({
 }
 
 /**
- * Filters pet food requests based on pet level:
- * - If pet level < 10: removes all hard requests
- * - If pet level < 200: keeps only 1 hard request (deterministic selection)
- * - If pet level >= 200: keeps all requests
- * @param pet Pet
- * @param petLevel Pet's current level
- * @returns Filtered pet's food requests
+ * Returns the pet's food requests based on its level and type (Pet or PetNFT).
+ * For PetNFTs, the number and difficulty of food requests are limited depending on the pet's level:
+ *  - Below level 30: 1 easy, 1 medium, and 1 hard request.
+ *  - Level 30 to 199: 1 easy, 2 medium, and 1 hard request.
+ *  - Level 200 and above: all requests are included.
+ * For regular Pets
+ *  - Below level 10: 1 easy and 1 medium request.
+ *  - Level 10 and above: 1 easy, 1 medium, and 1 hard request.
+ * @param pet The pet object (Pet or PetNFT)
+ * @param petLevel The current level of the pet
+ * @returns The filtered list of food requests for the pet
  */
-export function getPetFoodRequests(pet: Pet | PetNFT, petLevel: number) {
+export function getPetFoodRequests(
+  pet: Pet | PetNFT,
+  petLevel: number,
+): CookableName[] {
   const requests = [...pet.requests.food];
 
-  // If pet level is less than 10, remove all hard requests
-  if (petLevel < 10) {
-    return requests.filter((food) => {
-      const foodDifficultyEntry = getObjectEntries(PET_REQUESTS).find(
-        ([, requests]) => requests.includes(food),
-      );
-      return foodDifficultyEntry?.[0] !== "hard";
-    });
-  }
+  const isNFT = isPetNFT(pet);
 
-  // If pet level is less than 200, keep only 1 hard request (deterministic)
-  if (petLevel < 200 && isPetNFT(pet)) {
-    const hardRequests = requests.filter((food) => {
-      const foodDifficultyEntry = Object.entries(PET_REQUESTS).find(
-        ([, requests]) => requests.includes(food),
-      );
-      return foodDifficultyEntry?.[0] === "hard";
-    });
-
-    // If there are hard requests, select one deterministically based on pet ID/name
-    const petIdentifier = pet.id;
-    const seed = petIdentifier
-      .toString()
-      .split("")
-      .reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0);
-    const selectedHardRequest = hardRequests[seed % hardRequests.length];
-
-    // Remove all hard requests except the selected one
-    return requests.filter((food) => {
-      const foodDifficultyEntry = Object.entries(PET_REQUESTS).find(
-        ([, requests]) => requests.includes(food),
-      );
-      if (foodDifficultyEntry?.[0] === "hard") {
-        return food === selectedHardRequest;
+  if (isNFT) {
+    if (petLevel < 30) {
+      // If pet is below level 30, keep only 1 easy, 1 medium, and 1 hard request
+      const filteredRequests: CookableName[] = [];
+      let hasEasy = false;
+      let hasMedium = false;
+      let hasHard = false;
+      for (const food of requests) {
+        const difficulty = FOOD_TO_DIFFICULTY.get(food);
+        if (difficulty === "easy" && !hasEasy) {
+          filteredRequests.push(food);
+          hasEasy = true;
+        } else if (difficulty === "medium" && !hasMedium) {
+          filteredRequests.push(food);
+          hasMedium = true;
+        } else if (difficulty === "hard" && !hasHard) {
+          filteredRequests.push(food);
+          hasHard = true;
+        }
+        if (filteredRequests.length === 3) break;
       }
-      return true;
-    });
-  }
+      return filteredRequests;
+    }
+    if (petLevel < 200) {
+      // If pet is below level 200, keep only 1 easy, 2 medium, and 1 hard request
+      const filteredRequests: CookableName[] = [];
+      let easyCount = 0;
+      let mediumCount = 0;
+      let hardCount = 0;
 
-  return requests;
+      for (const food of requests) {
+        const difficulty = FOOD_TO_DIFFICULTY.get(food);
+        if (difficulty === "easy" && easyCount < 1) {
+          filteredRequests.push(food);
+          easyCount++;
+        } else if (difficulty === "medium" && mediumCount < 2) {
+          filteredRequests.push(food);
+          mediumCount++;
+        } else if (difficulty === "hard" && hardCount < 1) {
+          filteredRequests.push(food);
+          hardCount++;
+        }
+        // Stop if we have all 4 requests
+        if (filteredRequests.length === 4) break;
+      }
+      return filteredRequests;
+    } else {
+      // If pet is above level 200, keep all requests ( 1 easy, 2 medium, and 2 hard requests)
+      return requests;
+    }
+  } else {
+    if (petLevel < 10) {
+      // If pet is below level 10, keep only 1 easy and 1 medium request
+      const filteredRequests: CookableName[] = [];
+      for (const food of requests) {
+        const difficulty = FOOD_TO_DIFFICULTY.get(food);
+        if (difficulty && difficulty !== "hard") {
+          filteredRequests.push(food);
+          if (filteredRequests.length === 2) break;
+        }
+      }
+      return filteredRequests;
+    } else {
+      // If pet is above level 10, keep all requests ( 1 easy, 1 medium, 1 hard request)
+      return requests;
+    }
+  }
 }
 
 export type FeedPetAction = {
