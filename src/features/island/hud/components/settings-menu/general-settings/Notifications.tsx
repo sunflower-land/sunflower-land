@@ -113,7 +113,7 @@ export const Notifications: React.FC<{
 
   return (
     <>
-      <div className="flex flex-col space-y-1 mb-1">
+      <div className="flex flex-col space-y-1 mb-1 p-3">
         <h1 className="text-lg mb-2">
           {t("gameOptions.generalSettings.notifications")}
         </h1>
