@@ -15,6 +15,7 @@ import {
   PetRequestDifficulty,
 } from "features/game/types/pets";
 import { produce } from "immer";
+import { setPrecision } from "lib/utils/formatNumber";
 
 // Build a constant-time lookup from food -> difficulty
 export const FOOD_TO_DIFFICULTY: Map<CookableName, PetRequestDifficulty> =
@@ -53,17 +54,36 @@ export function getPetEnergy({
 export function getPetExperience({
   game,
   basePetXP,
+  petLevel,
+  isPetNFT,
 }: {
   game: GameState;
   basePetXP: number;
+  petLevel: number;
+  isPetNFT: boolean;
 }) {
   let experience = basePetXP;
+  let experienceBoost = 1;
+
+  if (petLevel >= 27) {
+    experienceBoost += 0.1;
+  }
+
+  if (petLevel >= 40 && isPetNFT) {
+    experienceBoost += 0.15;
+  }
+
+  if (petLevel >= 85 && isPetNFT) {
+    experienceBoost += 0.25;
+  }
+
+  experience *= experienceBoost;
 
   if (isTemporaryCollectibleActive({ name: "Hound Shrine", game })) {
     experience += 100;
   }
 
-  return experience;
+  return setPrecision(experience, 2).toNumber();
 }
 
 /**
@@ -230,7 +250,12 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
     // Get base pet XP/Energy
     const basePetXP = getPetRequestXP(food);
 
-    const experience = getPetExperience({ basePetXP, game: stateCopy });
+    const experience = getPetExperience({
+      basePetXP,
+      game: stateCopy,
+      petLevel,
+      isPetNFT,
+    });
     const energy = getPetEnergy({ petLevel, basePetEnergy: basePetXP });
     petData.experience += experience;
     petData.energy += energy;

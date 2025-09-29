@@ -181,6 +181,8 @@ const PetFeedPanel: React.FC<{
   const foodXp = getPetExperience({
     basePetXP: baseFoodXp,
     game: state,
+    petLevel,
+    isPetNFT: isPetNFT(petData),
   });
   const petEnergy = getPetEnergy({
     petLevel,
