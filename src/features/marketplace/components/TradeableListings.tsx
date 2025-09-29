@@ -32,6 +32,7 @@ import { KeyedMutator } from "swr";
 import { isTradeResource } from "features/game/actions/tradeLimits";
 import { MAX_LIMITED_SALES } from "./Tradeable";
 import { ResourceTaxes } from "./TradeableInfo";
+import { Button } from "components/ui/Button";
 
 type TradeableListingsProps = {
   authToken: string;
@@ -73,6 +74,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
 
   const [selectedListing, setSelectedListing] = useState<Listing>();
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
+  const [showBulkBuy, setShowBulkBuy] = useState(false);
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
@@ -181,15 +183,42 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
       </Modal>
       <InnerPanel className="mb-1">
         <div className="p-2">
-          <div className="flex items-center justify-between mb-1">
-            <Label icon={tradeIcon} type="default" className="mb-2">
-              {t("marketplace.listings")}
-            </Label>
-            {tradeable?.expiresAt && (
-              <Label type={limitedTradesLeft <= 0 ? "danger" : "warning"}>
-                {`${limitedTradesLeft}/${MAX_LIMITED_SALES} Listings left`}
+          <div className="flex justify-between mb-2">
+            <div className="flex flex-col justify-center sm:flex-row gap-1 sm:justify-normal sm:items-center">
+              <Label icon={tradeIcon} type="default" className="">
+                {t("marketplace.listings")}
               </Label>
-            )}
+              {tradeable?.expiresAt && (
+                <Label type={limitedTradesLeft <= 0 ? "danger" : "warning"}>
+                  {`${1}/${MAX_LIMITED_SALES} Listings left`}
+                </Label>
+              )}
+            </div>
+            <div className="flex">
+              {showBulkBuy && (
+                <div className="flex gap-1">
+                  <Button
+                    className="w-fit h-8 rounded-none"
+                    onClick={() => setShowBulkBuy(false)}
+                  >
+                    <p className="text-xxs sm:text-sm">{t("cancel")}</p>
+                  </Button>
+                  <Button className="w-fit h-8 rounded-none min-w-[60px]">
+                    <p className="text-xxs sm:text-sm">{t("buy")}</p>
+                  </Button>
+                </div>
+              )}
+              {!showBulkBuy && limitedTradesLeft === Infinity && (
+                <Button
+                  className="w-fit h-8 rounded-none"
+                  onClick={() => setShowBulkBuy(true)}
+                >
+                  <p className="text-xxs sm:text-sm">
+                    {t("marketplace.bulkBuy")}
+                  </p>
+                </Button>
+              )}
+            </div>
           </div>
           <div className="mb-2">
             {loading && <Loading />}

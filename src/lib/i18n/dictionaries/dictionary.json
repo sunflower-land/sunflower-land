@@ -6695,6 +6695,7 @@
   "marketplace.offerLimitReached": "You have reached the maximum number of offers (100). Please remove some offers to make space for new ones.",
   "marketplace.offerItemLimitReached.label": "Offer Item Limit Reached",
   "marketplace.offerItemLimitReached": "You have reached the maximum number of offers for this item (5). Please remove some offers to make space for new ones.",
+  "marketplace.bulkBuy": "Bulk Buy",
   "share.apiKey": "API Key",
   "share.apiKeyDescription": "Are you looking to build tools for the community? Use the following key in your request headers.",
   "ronin.flowerOnRonin": "Flower on Ronin",
