@@ -9,6 +9,7 @@ import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { TradeableDisplay } from "../lib/tradeables";
 import { formatNumber } from "lib/utils/formatNumber";
+import { Checkbox } from "components/ui/Checkbox";
 
 export type TableItem = {
   id: string;
@@ -31,7 +32,10 @@ interface RowProps {
   inventoryCount: number;
   details: TradeableDisplay;
   isResource: boolean;
+  isBulkBuy: boolean;
+  isSelected: boolean;
   onClick?: (id: string) => void;
+  onBulkListingCheck?: (id: string, checked: boolean) => void;
 }
 
 export const TableRow: React.FC<RowProps> = ({
@@ -44,6 +48,9 @@ export const TableRow: React.FC<RowProps> = ({
   onClick,
   details,
   isResource,
+  isBulkBuy,
+  isSelected,
+  onBulkListingCheck,
 }) => {
   const { t } = useAppTranslation();
   const { id, createdBy, quantity, price } = item;
@@ -117,7 +124,7 @@ export const TableRow: React.FC<RowProps> = ({
           </div>
         </div>
       </div>
-      {onClick && (
+      {onClick && !isBulkBuy && (
         <div className="p-1 text-center w-[65px] sm:min-w-[94px]">
           <Button
             disabled={
@@ -132,6 +139,14 @@ export const TableRow: React.FC<RowProps> = ({
               {t(tableType === "listings" ? "buy" : "accept")}
             </p>
           </Button>
+        </div>
+      )}
+      {isBulkBuy && (
+        <div className="p-1 flex items-center justify-end w-[65px] mr-2">
+          <Checkbox
+            checked={isSelected}
+            onChange={(checked) => onBulkListingCheck?.(id, checked)}
+          />
         </div>
       )}
     </div>

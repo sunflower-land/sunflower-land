@@ -75,6 +75,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
   const [selectedListing, setSelectedListing] = useState<Listing>();
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
   const [showBulkBuy, setShowBulkBuy] = useState(false);
+  const [bulkListingIds, setBulkListingIds] = useState<string[]>([]);
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
@@ -140,6 +141,19 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
     setShowPurchaseModal(true);
   };
 
+  const handleBulkListingCheck = (id: string, checked: boolean) => {
+    if (checked) {
+      setBulkListingIds([...bulkListingIds, id]);
+    } else {
+      setBulkListingIds(bulkListingIds.filter((id) => id !== id));
+    }
+  };
+
+  const handleCancelBulkBuy = () => {
+    setBulkListingIds([]);
+    setShowBulkBuy(false);
+  };
+
   const isResource =
     isTradeResource(KNOWN_ITEMS[Number(params.id)]) &&
     params.collection === "collectibles";
@@ -199,7 +213,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
                 <div className="flex gap-1">
                   <Button
                     className="w-fit h-8 rounded-none"
-                    onClick={() => setShowBulkBuy(false)}
+                    onClick={handleCancelBulkBuy}
                   >
                     <p className="text-xxs sm:text-sm">{t("cancel")}</p>
                   </Button>
@@ -208,16 +222,18 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
                   </Button>
                 </div>
               )}
-              {!showBulkBuy && limitedTradesLeft === Infinity && (
-                <Button
-                  className="w-fit h-8 rounded-none"
-                  onClick={() => setShowBulkBuy(true)}
-                >
-                  <p className="text-xxs sm:text-sm">
-                    {t("marketplace.bulkBuy")}
-                  </p>
-                </Button>
-              )}
+              {!!tradeable?.listings.length &&
+                !showBulkBuy &&
+                limitedTradesLeft === Infinity && (
+                  <Button
+                    className="w-fit h-8 rounded-none"
+                    onClick={() => setShowBulkBuy(true)}
+                  >
+                    <p className="text-xxs sm:text-sm">
+                      {t("marketplace.bulkBuy")}
+                    </p>
+                  </Button>
+                )}
             </div>
           </div>
           <div className="mb-2">
@@ -229,6 +245,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
               (isResource ? (
                 <ResourceTable
                   isResource={isResource}
+                  isBulkBuy={showBulkBuy}
                   balance={balance}
                   details={display}
                   items={tradeable?.listings.map((listing) => ({
@@ -253,6 +270,8 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
                         }
                       : undefined
                   }
+                  onBulkListingCheck={handleBulkListingCheck}
+                  bulkListingIds={bulkListingIds}
                 />
               ) : (
                 <ListingTable
