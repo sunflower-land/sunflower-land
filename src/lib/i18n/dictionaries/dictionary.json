@@ -140,7 +140,7 @@
   "budBox.description": "Each day, a bud type can unlock farming rewards.",
   "budBox.today": "Today - {{timeLeft}} left",
   "raffle.title": "Goblin Raffle",
-  "raffle.description": "Each month, you have a chance to win rewards. Winners will be announced on Discord.",
+  "raffle.description": "Each month, you have a chance to win rewards. The Goblin Raffle winners will be announced on the Friday Twitch Streams in the 1st or 2nd Fridays of the following month. Eg. May's winners will be announced on the first or second Friday of June. Results are also pinned in Discord on #farmers-chat",
   "raffle.entry": "entry",
   "raffle.entries": "entries",
   "raffle.noTicket": "Missing Prize Ticket",
