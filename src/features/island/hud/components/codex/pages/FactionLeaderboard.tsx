@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
@@ -29,6 +29,11 @@ import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { ChampionsPrizes } from "features/world/ui/factions/Champions";
 import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionLeaderboardTable";
 import { KingdomChores } from "features/world/ui/factions/chores/KingdomChoresCodex";
+import { KitchenDonationInfo } from "../components/KitchenDonationInfo";
+import { PetDonationInfo } from "../components/PetDonationInfo";
+import { hasFeatureAccess } from "lib/flags";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
 
 const npcs: Record<FactionName, NPCName> = {
   nightshades: "nyx",
@@ -53,7 +58,8 @@ export const FactionLeaderboard: React.FC<Props> = ({
   isLoading,
 }) => {
   const { t } = useAppTranslation();
-
+  const { gameService } = useContext(Context);
+  const state = useSelector(gameService, (state) => state.context.state);
   const [selected, setSelected] = useState<FactionName>();
 
   if (isLoading) {
@@ -166,6 +172,12 @@ export const FactionLeaderboard: React.FC<Props> = ({
           </div>
         </div>
         <ChampionsPrizes />
+        {hasFeatureAccess(state, "CODEX_FACTION_DONATION_INFO") && (
+          <>
+            <KitchenDonationInfo />
+            <PetDonationInfo />
+          </>
+        )}
         <KingdomChores />
       </div>
     </InnerPanel>

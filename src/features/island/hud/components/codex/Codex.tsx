@@ -37,6 +37,8 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { ANIMALS } from "features/game/types/animals";
 import { Checklist, checklistCount } from "components/ui/CheckList";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { kitchenDailyDonationCount } from "./components/KitchenDonationInfo";
+import { petDailyDonationCount } from "./components/PetDonationInfo";
 
 interface Props {
   show: boolean;
@@ -169,7 +171,10 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
           {
             name: "Marks" as const,
             icon: factions,
-            count: inCompleteKingdomChores,
+            count:
+              inCompleteKingdomChores +
+              kitchenDailyDonationCount(state) +
+              petDailyDonationCount(state),
           },
         ]
       : []),
