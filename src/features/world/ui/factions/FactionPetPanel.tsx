@@ -128,7 +128,9 @@ const _faction = (state: MachineState) =>
   state.context.state.faction as Faction;
 const _inventory = (state: MachineState) => state.context.state.inventory;
 
-const getPetState = (collectivePet: CollectivePet | undefined): PetState => {
+export const getPetState = (
+  collectivePet: CollectivePet | undefined,
+): PetState => {
   if (!collectivePet) return "hungry";
 
   if (collectivePet.sleeping) return "sleeping";

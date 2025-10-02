@@ -123,6 +123,7 @@ const FEATURE_FLAGS = {
   RONIN_FLOWER: testnetFeatureFlag,
   MEMORY_BETA: defaultFeatureFlag,
   PET_NFT_DEPOSIT: testnetFeatureFlag,
+  CODEX_FACTION_DONATION_INFO: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
