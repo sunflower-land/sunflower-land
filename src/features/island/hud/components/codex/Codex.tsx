@@ -35,7 +35,10 @@ import { ChoreBoard } from "./pages/ChoreBoard";
 import { CompetitionDetails } from "features/competition/CompetitionBoard";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ANIMALS } from "features/game/types/animals";
-import { Checklist, checklistCount } from "components/ui/CheckList";
+import {
+  DailyTravelTasks,
+  dailyTravelTasksCount,
+} from "components/ui/DailyTravelTasks";
 import { getBumpkinLevel } from "features/game/lib/level";
 
 interface Props {
@@ -149,9 +152,9 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       count: incompleteMegaBountiesCount,
     },
     {
-      name: "Checklist",
+      name: "Daily Travel Tasks",
       icon: SUNNYSIDE.ui.board,
-      count: checklistCount(state, bumpkinLevel),
+      count: dailyTravelTasksCount(state, bumpkinLevel),
     },
     {
       name: "Fish",
@@ -255,7 +258,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 farmId={farmId}
               />
             )}
-            {currentTab === "Checklist" && <Checklist />}
+            {currentTab === "Daily Travel Tasks" && <DailyTravelTasks />}
             {currentTab === "Fish" && (
               <Fish onMilestoneReached={handleMilestoneReached} state={state} />
             )}

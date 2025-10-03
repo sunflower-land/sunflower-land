@@ -8,7 +8,7 @@ export type CodexCategoryName =
   | "Bull Run"
   | "Deliveries"
   | "Chores"
-  | "Checklist"
+  | "Daily Travel Tasks"
   | "Bumpkins"
   | "Farming"
   | "Treasures"

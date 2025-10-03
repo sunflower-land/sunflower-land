@@ -33,7 +33,7 @@ import { NumberInput } from "components/ui/NumberInput";
 import { MAX_INVENTORY_ITEMS } from "features/game/lib/processEvent";
 import giftIcon from "assets/icons/gift.png";
 
-const SEASON_GUARDIANS: Record<TemperateSeasonName, string> = {
+export const SEASON_GUARDIANS: Record<TemperateSeasonName, string> = {
   autumn: autumnGuardian,
   spring: springGuardian,
   summer: summerGuardian,
