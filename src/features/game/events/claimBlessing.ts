@@ -24,14 +24,10 @@ export function claimBlessing({ state }: Options): GameState {
     game.coins += reward.coins ?? 0;
 
     getKeys(reward.items ?? {}).forEach((itemName) => {
-      const current = game.inventory[itemName] || new Decimal(0);
-      const previous = game.previousInventory[itemName] || new Decimal(0);
+      const previous = game.inventory[itemName] || new Decimal(0);
 
-      game.inventory[itemName] = current.add(reward.items?.[itemName] ?? 0);
-      game.previousInventory[itemName] = previous.add(
-        reward.items?.[itemName] ?? 0,
-      );
-    });
+      game.inventory[itemName] = previous.add(reward.items?.[itemName] ?? 0);
+    }, game.inventory);
 
     delete game.blessing.reward;
 
