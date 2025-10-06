@@ -16283,6 +16283,17 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/258.png",
     name: "Seedling Hat",
   },
+  "Golden Seedling": {
+    description: "A celebration of the 2 year Bud NFT Anniversary!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/484.png",
+    name: "Seedling Hat",
+  },
   "Gloomy Dumbo": {
     description:
       "This dumbo captures the melancholic stillness of winter. Perfect for those who resonate with the season's quiet, somber mood.",
