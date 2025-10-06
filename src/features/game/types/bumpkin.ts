@@ -302,6 +302,7 @@ export type BumpkinHat =
   | "Normal Fish Hat"
   | "Tiki Mask"
   | "Seedling Hat"
+  | "Golden Seedling"
   | "Deep Sea Helm"
   | "Companion Cap"
   | "Blossom Dumbo"
@@ -1030,6 +1031,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Lava Swimwear": 481,
   "Wooly Dress": 482,
   "Raccoon Onesie": 483,
+  "Golden Seedling": 484,
 };
 
 // The reverse of above
@@ -1097,6 +1099,7 @@ export const BUMPKIN_ITEMS_IDS = Object.values(ITEM_IDS);
 
 export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Festival of Colors Background": "background",
+  "Golden Seedling": "hat",
   "Painter's Cap": "hat",
   "Royal Braids": "hair",
   "Soybean Onesie": "onesie",
