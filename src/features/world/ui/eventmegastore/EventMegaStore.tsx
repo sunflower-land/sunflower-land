@@ -52,10 +52,10 @@ export const getItemBuffLabel = (
     return BUMPKIN_ITEM_BUFF_LABELS[item.name];
   }
 
-  return COLLECTIBLE_BUFF_LABELS({
+  return COLLECTIBLE_BUFF_LABELS[item.name]?.({
     skills: state.bumpkin.skills,
     collectibles: state.collectibles,
-  })[item.name];
+  });
 };
 
 const _state = (state: MachineState) => state.context.state;

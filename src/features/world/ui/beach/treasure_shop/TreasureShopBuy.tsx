@@ -148,10 +148,10 @@ const CollectibleContent: React.FC<CollectibleContentProps> = ({
       selected.ingredients[name]?.greaterThan(inventory[name] || 0),
     );
   const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(1);
-  const isBoost = COLLECTIBLE_BUFF_LABELS({
+  const isBoost = COLLECTIBLE_BUFF_LABELS[selectedName]?.({
     skills: state.bumpkin.skills,
     collectibles: state.collectibles,
-  })[selectedName];
+  });
 
   const craft = () => {
     gameService.send("collectible.crafted", {
@@ -397,10 +397,10 @@ export const TreasureShopBuy: React.FC = () => {
                 isSelected={selectedName === name}
                 secondaryImage={SUNNYSIDE.icons.stopwatch}
                 alternateIcon={
-                  COLLECTIBLE_BUFF_LABELS({
+                  COLLECTIBLE_BUFF_LABELS[name]?.({
                     skills: state.bumpkin.skills,
                     collectibles: state.collectibles,
-                  })[name]
+                  })
                     ? lightning
                     : undefined
                 }
@@ -416,10 +416,10 @@ export const TreasureShopBuy: React.FC = () => {
                   isSelected={selectedName === name}
                   key={name}
                   alternateIcon={
-                    COLLECTIBLE_BUFF_LABELS({
+                    COLLECTIBLE_BUFF_LABELS[name]?.({
                       skills: state.bumpkin.skills,
                       collectibles: state.collectibles,
-                    })[name]
+                    })
                       ? lightning
                       : undefined
                   }
@@ -469,10 +469,10 @@ export const TreasureShopBuy: React.FC = () => {
                   isSelected={selectedName === name}
                   key={name}
                   alternateIcon={
-                    COLLECTIBLE_BUFF_LABELS({
+                    COLLECTIBLE_BUFF_LABELS[name]?.({
                       skills: state.bumpkin.skills,
                       collectibles: state.collectibles,
-                    })[name]
+                    })
                       ? lightning
                       : undefined
                   }

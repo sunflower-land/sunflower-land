@@ -147,7 +147,7 @@ export const IslandBlacksmithItems: React.FC = () => {
   const craft = () => {
     if (selectedName in WORKBENCH_MONUMENTS) {
       gameService.send("LANDSCAPE", {
-        placeable: selectedName,
+        placeable: { name: selectedName },
         action: "monument.bought",
         requirements: {
           coins: selectedItem?.coins ?? 0,
@@ -157,7 +157,7 @@ export const IslandBlacksmithItems: React.FC = () => {
       });
     } else {
       gameService.send("LANDSCAPE", {
-        placeable: selectedName,
+        placeable: { name: selectedName },
         action: "collectible.crafted",
         // Not used yet
         requirements: {
@@ -215,12 +215,10 @@ export const IslandBlacksmithItems: React.FC = () => {
             from: selectedItem?.from,
             to: selectedItem?.to,
           }}
-          boost={
-            COLLECTIBLE_BUFF_LABELS({
-              skills: state.bumpkin.skills,
-              collectibles: state.collectibles,
-            })[selectedName]
-          }
+          boost={COLLECTIBLE_BUFF_LABELS[selectedName]?.({
+            skills: state.bumpkin.skills,
+            collectibles: state.collectibles,
+          })}
           requirements={{
             resources: selectedItem?.ingredients ?? {},
             coins: selectedItem?.coins ?? 0,
