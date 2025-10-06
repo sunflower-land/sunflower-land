@@ -6663,8 +6663,8 @@
   "marketplace.offerItemLimitReached": "你已达到该物品的最大报价数量 (5)。请移除一些报价以腾出空间。",
   "marketplace.offerLimitReached": "你已达到最大报价数量 (100)。请移除一些报价以腾出空间。",
   "petNFTs": "宠物 NFT",
-  "description.basic.scarecrow.boost": "-20% 基本作物生长时间",
-  "description.basic.scarecrow.boost.skill": "-30% 基本作物生长时间",
+  "description.basic.scarecrow.boost": "-20% 低阶庄稼生长时间",
+  "description.basic.scarecrow.boost.skill": "-30% 低阶庄稼生长时间",
   "share.apiKey": "API 密钥",
   "share.apiKeyDescription": "你想为社区开发工具吗？在请求标头中使用以下密钥。"
 }
