@@ -32,6 +32,7 @@ import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { NumberInput } from "components/ui/NumberInput";
 import { MAX_INVENTORY_ITEMS } from "features/game/lib/processEvent";
 import giftIcon from "assets/icons/gift.png";
+import { Maintenance } from "features/auth/components/Maintenance";
 
 const SEASON_GUARDIANS: Record<TemperateSeasonName, string> = {
   autumn: autumnGuardian,
@@ -142,6 +143,10 @@ export const BlessingOffer: React.FC<Props> = ({ onClose }) => {
         <Button onClick={offer}>{t("blessing.confirm")}</Button>
       </>
     );
+  }
+
+  if (Date.now() > new Date("2025-10-07T00:00:00Z").getTime()) {
+    return <Maintenance />;
   }
 
   if (page === 0) {
