@@ -23,6 +23,7 @@ import tvIcon from "assets/icons/tv.webp";
 import giftIcon from "assets/icons/gift.png";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { secondsToString } from "lib/utils/time";
+import { hasFeatureAccess } from "lib/flags";
 
 interface TaskBoardProps {
   state: GameState;
@@ -91,7 +92,11 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ state, socialTasks }) => {
             title={t("socialTask.twitter")}
             onClick={() => openModal("TWITTER")}
             image={SUNNYSIDE.icons.x}
-            label={t("ronin.reward.task")}
+            label={
+              hasFeatureAccess(state, "RONIN_AIRDROP")
+                ? t("ronin.reward.task")
+                : undefined
+            }
           />
           <TaskButton
             title={t("socialTask.merkl")}
