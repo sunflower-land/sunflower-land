@@ -35,6 +35,10 @@ import { GameProvider } from "features/game/GameProvider";
 import { FlowerDashboard } from "features/flowerDashboard/FlowerDashboard";
 import { ModalProvider } from "features/game/components/modal/ModalProvider";
 import { FeedProvider } from "features/social/FeedContext";
+import {
+  GameRoninAirdrop,
+  RoninAirdrop,
+} from "features/roninAirdrop/RoninAirdrop";
 
 // Lazy load routes
 const World = lazy(() =>
@@ -104,6 +108,10 @@ export const Navigation: React.FC = () => {
           <Routes>
             {/* Public routes that don't require authentication */}
             <Route path="/flower-dashboard" element={<FlowerDashboard />} />
+            {hasFeatureAccess(INITIAL_FARM, "RONIN_AIRDROP") && (
+              // Public page disabled until ready for launch
+              <Route path="/ronin" element={<RoninAirdrop />} />
+            )}
 
             {/* Protected routes that require authentication */}
             <Route
@@ -185,6 +193,10 @@ export const Navigation: React.FC = () => {
                                 <Route
                                   path="/game/flower-dashboard"
                                   element={<FlowerDashboard />}
+                                />
+                                <Route
+                                  path="/game/ronin"
+                                  element={<GameRoninAirdrop />}
                                 />
                                 <Route
                                   path="*"

@@ -1432,6 +1432,7 @@ export const ITEM_TRADE_TYPES: {
     "Maple Dumbo": "onchain",
     "Pickaxe Shark": "onchain",
     "Seedling Hat": "instant",
+    "Golden Seedling": "instant",
     "Gloomy Dumbo": "onchain",
     "Ugly Christmas Sweater": "instant",
     "Candy Cane": "onchain",
