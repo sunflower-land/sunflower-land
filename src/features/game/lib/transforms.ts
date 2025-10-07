@@ -44,6 +44,7 @@ export function makeGame(farm: any): GameState {
     balance: new Decimal(farm.balance),
     previousBalance: new Decimal(farm.previousBalance),
     username: farm.username,
+    roninRewards: farm.roninRewards,
     settings: farm.settings,
     trades: farm.trades,
     farmHands: farm.farmHands,

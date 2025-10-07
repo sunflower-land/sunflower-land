@@ -431,6 +431,7 @@ export const MAX_BUMPKIN_WEARABLES: BumpkinItem[] = [
   "Gift Giver",
   "Soybean Onesie",
   "Seedling Hat",
+  "Golden Seedling",
   "Pumpkin Hat",
   "Victorian Hat",
   "Bat Wings",
