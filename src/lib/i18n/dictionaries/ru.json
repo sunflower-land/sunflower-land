@@ -6553,7 +6553,6 @@
   "petalPuzzle.guide.cooperate": "Сотрудничайте с другими игроками и встаньте на лепестки, чтобы изменить их цвет.",
   "petalPuzzle.guide.solve": "Чтобы решить головоломку и получить награду, нужны четыре оранжевых лепестка.",
   "pets.manage": "Управление домашними животными",
-  "twitter.post.flower": "Отпразднуйте запуск $FLOWER!",
   "skill.featherweightBuff": "+0.25 перьев",
   "skill.featherweightDebuff": "-0.35 кожа и мериносовая шерсть",
   "skill.merinoWhispererBuff": "+0.25 мериносовой шерсти",
@@ -6707,5 +6706,10 @@
   "ronin.airdrop.connectTwitterAccount": "Подключите свой аккаунт Twitter и получите свой приз",
   "ronin.airdrop.loginToSunflowerLand": "Войти в Sunflower Land",
   "claiming.ronin.pack": "Подача заявки на набор «Ронин»",
-  "claiming.ronin.pack.success": "Ронин Пак заявил."
+  "claiming.ronin.pack.success": "Ронин Пак заявил.",
+  "twitter.post.vote": "Проголосуйте за «Подсолнух Лэнд» в конкурсе Gam3!",
+  "twitter.vote.share": "Поделитесь своим голосом",
+  "twitter.vote.instructions.1": "1. Посетите Gam3s.gg и проголосуйте за Sunflower Land с помощью привязанного кошелька.",
+  "twitter.vote.instructions.2": "2. Опубликуйте изображение выше в Twitter с хэштегом {{hashtag}}",
+  "twitter.vote.instructions.3": "3. Подтвердите свой твит, нажав кнопку ниже."
 }

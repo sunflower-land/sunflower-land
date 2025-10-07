@@ -6553,7 +6553,6 @@
   "petalPuzzle.guide.cooperate": "Bekerjasama dengan pemain lain dan berdiri di atas kelopak untuk mengubah warna mereka.",
   "petalPuzzle.guide.solve": "Empat kelopak oren diperlukan untuk menyelesaikan teka-teki dan menuntut ganjaran.",
   "pets.manage": "Urus Haiwan Pelihar",
-  "twitter.post.flower": "Raikan pelancaran $FLOWER!",
   "skill.featherweightBuff": "+0.25 Hasil bulu",
   "skill.featherweightDebuff": "-0.35 Hasil bulu Kulit & Merino",
   "skill.merinoWhispererBuff": "+0.25 Hasil Merino Wool",
@@ -6707,5 +6706,10 @@
   "ronin.airdrop.connectTwitterAccount": "Sambungkan akaun Twitter anda & tuntut hadiah anda",
   "ronin.airdrop.loginToSunflowerLand": "Log masuk ke Sunflower Land",
   "claiming.ronin.pack": "Menuntut Ronin Pack",
-  "claiming.ronin.pack.success": "Pek Ronin dituntut."
+  "claiming.ronin.pack.success": "Pek Ronin dituntut.",
+  "twitter.post.vote": "Undi Tanah Bunga Matahari dalam Anugerah Gam3!",
+  "twitter.vote.share": "Kongsi undi anda",
+  "twitter.vote.instructions.1": "1. Lawati Gam3s.gg dan undi Sunflower Land dengan dompet yang dipautkan anda.",
+  "twitter.vote.instructions.2": "2. Siarkan imej di atas ke Twitter dengan hashtag {{hashtag}}",
+  "twitter.vote.instructions.3": "3. Sahkan tweet anda dengan mengklik butang di bawah."
 }

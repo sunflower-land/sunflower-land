@@ -6553,7 +6553,6 @@
   "petalPuzzle.guide.cooperate": "Kooperiere mit anderen Spielern und stell dich auf die Blütenblätter, um ihre Farben zu ändern.",
   "petalPuzzle.guide.solve": "Vier Orangenblätter werden benötigt, um das Rätsel zu lösen und die Belohnung zu erhalten.",
   "pets.manage": "Haustiere verwalten",
-  "twitter.post.flower": "Feiert den Start von $FLOWER!",
   "skill.featherweightBuff": "+0.25 Federertrag",
   "skill.featherweightDebuff": "-0,35 Ertrag aus Leder und Merinowolle",
   "skill.merinoWhispererBuff": "+0.25 Ertrag aus Merinowolle",
@@ -6707,5 +6706,10 @@
   "ronin.airdrop.connectTwitterAccount": "Verbinde dein Twitter-Konto und hol dir deinen Preis",
   "ronin.airdrop.loginToSunflowerLand": "Loggen Sie sich in Sunflower Land ein",
   "claiming.ronin.pack": "Ronin Pack einfordern",
-  "claiming.ronin.pack.success": "Ronin Pack behauptete."
+  "claiming.ronin.pack.success": "Ronin Pack behauptete.",
+  "twitter.post.vote": "Stimmen Sie bei den Gam3 Awards für Sunflower Land!",
+  "twitter.vote.share": "Teile deine Stimme",
+  "twitter.vote.instructions.1": "1. Besuche Gam3s.gg und stimme mit deiner verknüpften Wallet für Sunflower Land.",
+  "twitter.vote.instructions.2": "2. Poste das Bild oben auf Twitter mit dem Hashtag {{hashtag}}",
+  "twitter.vote.instructions.3": "3. Bestätigen Sie Ihren Tweet, indem Sie auf die Schaltfläche unten klicken."
 }

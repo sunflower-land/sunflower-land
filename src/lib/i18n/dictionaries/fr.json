@@ -6553,7 +6553,6 @@
   "petalPuzzle.guide.cooperate": "Coopérez avec d'autres joueurs et montez sur les pétales pour changer de couleur.",
   "petalPuzzle.guide.solve": "Quatre pétales d'orange sont nécessaires pour résoudre l'énigme et remporter la récompense.",
   "pets.manage": "Gérer les animaux de compagnie",
-  "twitter.post.flower": "Célébrez le lancement de $FLOWER !",
   "skill.featherweightBuff": "+0,25 Rendement en plumes",
   "skill.featherweightDebuff": "-0,35 Rendement en cuir et laine mérinos",
   "skill.merinoWhispererBuff": "Rendement en laine mérinos +0,25",
@@ -6707,5 +6706,10 @@
   "ronin.airdrop.connectTwitterAccount": "Connectez votre compte Twitter et réclamez votre prix",
   "ronin.airdrop.loginToSunflowerLand": "Connectez-vous à Sunflower Land",
   "claiming.ronin.pack": "Réclamer le pack Ronin",
-  "claiming.ronin.pack.success": "Ronin Pack a réclamé."
+  "claiming.ronin.pack.success": "Ronin Pack a réclamé.",
+  "twitter.post.vote": "Votez pour Sunflower Land aux Gam3 Awards !",
+  "twitter.vote.share": "Partagez votre vote",
+  "twitter.vote.instructions.1": "1. Rendez-vous sur Gam3s.gg et votez pour Sunflower Land avec votre portefeuille associé.",
+  "twitter.vote.instructions.2": "2. Publiez l'image ci-dessus sur Twitter avec le hashtag {{hashtag}}",
+  "twitter.vote.instructions.3": "3. Vérifiez votre tweet en cliquant sur le bouton ci-dessous."
 }

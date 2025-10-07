@@ -6553,7 +6553,6 @@
   "petalPuzzle.guide.cooperate": "Diğer oyuncularla işbirliği yapın ve renklerini değiştirmek için yaprakların üzerinde durun.",
   "petalPuzzle.guide.solve": "Bulmacayı çözmek ve ödülü almak için dört portakal yaprağı gerekir.",
   "pets.manage": "Evcil Hayvanları Yönet",
-  "twitter.post.flower": "$FLOWER'ın lansmanını kutlayın!",
   "skill.featherweightBuff": "+0.25 Tüy verimi",
   "skill.featherweightDebuff": "-0.35 Deri ve Merinos Yünü verimi",
   "skill.merinoWhispererBuff": "+0.25 Merinos Yünü verimi",
@@ -6707,5 +6706,10 @@
   "ronin.airdrop.connectTwitterAccount": "Twitter hesabınızı bağlayın ve ödülünüzü alın",
   "ronin.airdrop.loginToSunflowerLand": "Sunflower Land'e Giriş Yapın",
   "claiming.ronin.pack": "Ronin Paketini Talep Etme",
-  "claiming.ronin.pack.success": "Ronin paketi talep edildi."
+  "claiming.ronin.pack.success": "Ronin paketi talep edildi.",
+  "twitter.post.vote": "Gam3 Ödülleri'nde Ayçiçeği Ülkesine oy verin!",
+  "twitter.vote.share": "Oyunu paylaş",
+  "twitter.vote.instructions.1": "1. Gam3s.gg'yi ziyaret edin ve bağlı cüzdanınızla Sunflower Land için oy verin.",
+  "twitter.vote.instructions.2": "2. Yukarıdaki resmi {{hashtag}} hashtag'iyle Twitter'a gönderin",
+  "twitter.vote.instructions.3": "3. Aşağıdaki düğmeyi tıklayarak tweet\"inizi doğrulayın."
 }

@@ -6553,7 +6553,6 @@
   "petalPuzzle.guide.cooperate": "他のプレイヤーと協力して、花びらの上に立って色を変えましょう。",
   "petalPuzzle.guide.solve": "パズルを解いて報酬を受け取るには、オレンジの花びらが4枚必要です。",
   "pets.manage": "ペットを管理",
-  "twitter.post.flower": "$FLOWERの発売を祝いましょう！",
   "skill.featherweightBuff": "+0.25 フェザーイールド",
   "skill.featherweightDebuff": "-0.35 レザー&メリノウールの生産量",
   "skill.merinoWhispererBuff": "+0.25 メリノウールの収量",
@@ -6707,5 +6706,10 @@
   "ronin.airdrop.connectTwitterAccount": "Twitterアカウントに接続して賞品を受け取りましょう",
   "ronin.airdrop.loginToSunflowerLand": "サンフラワーランドにログイン",
   "claiming.ronin.pack": "クレーム・ローニンパック",
-  "claiming.ronin.pack.success": "ローニンパックが主張した。"
+  "claiming.ronin.pack.success": "ローニンパックが主張した。",
+  "twitter.post.vote": "Gam3アワードでサンフラワーランドに投票しよう！",
+  "twitter.vote.share": "投票をシェア",
+  "twitter.vote.instructions.1": "1。Gam3s.ggにアクセスして、リンクされたウォレットでサンフラワーランドに投票してください。",
+  "twitter.vote.instructions.2": "2。上の画像をハッシュタグ {{hashtag}} を付けてツイッターに投稿してください",
+  "twitter.vote.instructions.3": "3。下のボタンをクリックしてツイートを確認してください。"
 }

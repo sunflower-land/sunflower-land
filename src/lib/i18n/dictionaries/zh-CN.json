@@ -6553,7 +6553,6 @@
   "petalPuzzle.guide.cooperate": "与其他玩家合作，站在花瓣上来改变它们的颜色。",
   "petalPuzzle.guide.solve": "需要四片橙色花瓣才能解开谜题并领取奖励。",
   "pets.manage": "管理宠物",
-  "twitter.post.flower": "庆祝 $FLOWER 的推出！",
   "skill.featherweightBuff": "+0.25 羽毛产量",
   "skill.featherweightDebuff": "-0.35 皮革和美利奴羊毛产量",
   "skill.merinoWhispererBuff": "+0.25 美利奴羊毛产量",
@@ -6707,5 +6706,10 @@
   "ronin.airdrop.connectTwitterAccount": "连接你的 Twitter 账号并领取奖品",
   "ronin.airdrop.loginToSunflowerLand": "登录向日葵乐园",
   "claiming.ronin.pack": "领取 Ronin Pack",
-  "claiming.ronin.pack.success": "Ronin pack 声称。"
+  "claiming.ronin.pack.success": "Ronin pack 声称。",
+  "twitter.post.vote": "在 Gam3 大奖中为向日葵乐园投票！",
+  "twitter.vote.share": "分享你的投票",
+  "twitter.vote.instructions.1": "1。访问Gam3s.gg，用你关联的钱包为向日葵乐园投票。",
+  "twitter.vote.instructions.2": "2。使用主题标签 {{hashtag}} 将上面的图片发布到 Twitter",
+  "twitter.vote.instructions.3": "3.点击下面的按钮验证你的推文。"
 }
