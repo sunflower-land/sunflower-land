@@ -6592,7 +6592,6 @@
   "checkList.miniGames.missionPoints": "미션: {{number}} 포인트",
   "checkList.travel": "여행",
   "pets.plusFoodEnergy": "+ {{energy}} 에너지",
-  "pets.foodLocked": "레벨 10에 도달하여 잠금 해제하세요",
   "description.ancientTree.buff": "+0.5 우드",
   "description.sacredTree.buff": "+2.5 우드",
   "description.fusedStoneRock.buff": "+0.5 스톤",
@@ -6711,5 +6710,6 @@
   "twitter.vote.share": "투표 공유하기",
   "twitter.vote.instructions.1": "1.Gam3s.gg를 방문하여 연결된 지갑으로 선플라워 랜드에 투표하세요.",
   "twitter.vote.instructions.2": "2.위 이미지를 해시태그 {{hashtag}} 와 함께 트위터에 게시하세요.",
-  "twitter.vote.instructions.3": "3.아래 버튼을 클릭하여 트윗을 인증하세요."
+  "twitter.vote.instructions.3": "3.아래 버튼을 클릭하여 트윗을 인증하세요.",
+  "pets.foodLocked": "잠금 해제하려면 레벨 {{level}} 에 도달하세요"
 }

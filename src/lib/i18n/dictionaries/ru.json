@@ -6592,7 +6592,6 @@
   "checkList.miniGames.missionPoints": "Задача: {{number}} очков",
   "checkList.travel": "Отправиться",
   "pets.plusFoodEnergy": "+ {{energy}} Энергия",
-  "pets.foodLocked": "Достигните 10-го уровня, чтобы разблокировать",
   "description.ancientTree.buff": "+0,5 Дерево",
   "description.sacredTree.buff": "+2.5 Дерево",
   "description.fusedStoneRock.buff": "+0,5 камня",
@@ -6711,5 +6710,6 @@
   "twitter.vote.share": "Поделитесь своим голосом",
   "twitter.vote.instructions.1": "1. Посетите Gam3s.gg и проголосуйте за Sunflower Land с помощью привязанного кошелька.",
   "twitter.vote.instructions.2": "2. Опубликуйте изображение выше в Twitter с хэштегом {{hashtag}}",
-  "twitter.vote.instructions.3": "3. Подтвердите свой твит, нажав кнопку ниже."
+  "twitter.vote.instructions.3": "3. Подтвердите свой твит, нажав кнопку ниже.",
+  "pets.foodLocked": "Достигните уровня {{level}}, чтобы разблокировать"
 }

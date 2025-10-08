@@ -6592,7 +6592,6 @@
   "checkList.miniGames.missionPoints": "Misi: {{number}} Poin",
   "checkList.travel": "Perjalanan",
   "pets.plusFoodEnergy": "+ {{energy}} Energi",
-  "pets.foodLocked": "Mencapai Level 10 untuk membuka",
   "description.ancientTree.buff": "+0.5 Kayu",
   "description.sacredTree.buff": "+2.5 Kayu",
   "description.fusedStoneRock.buff": "+0.5 Batu",
@@ -6711,5 +6710,6 @@
   "twitter.vote.share": "Bagikan suara Anda",
   "twitter.vote.instructions.1": "1. Kunjungi Gam3s.gg dan pilih Sunflower Land dengan dompet tertaut Anda.",
   "twitter.vote.instructions.2": "2. Posting gambar di atas ke Twitter dengan tagar {{hashtag}}",
-  "twitter.vote.instructions.3": "3. Verifikasi tweet Anda dengan mengklik tombol di bawah ini."
+  "twitter.vote.instructions.3": "3. Verifikasi tweet Anda dengan mengklik tombol di bawah ini.",
+  "pets.foodLocked": "Mencapai Level {{level}} untuk membuka"
 }

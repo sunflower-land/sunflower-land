@@ -6592,7 +6592,6 @@
   "checkList.miniGames.missionPoints": "任务：{{number}} 分",
   "checkList.travel": "前往",
   "pets.plusFoodEnergy": "+ {{energy}} 能量",
-  "pets.foodLocked": "达到 10 级即可解锁",
   "description.ancientTree.buff": "+0.5 木头",
   "description.sacredTree.buff": "+2.5 木头",
   "description.fusedStoneRock.buff": "+0.5 石头",
@@ -6711,5 +6710,6 @@
   "twitter.vote.share": "分享你的投票",
   "twitter.vote.instructions.1": "1。访问Gam3s.gg，用你关联的钱包为向日葵乐园投票。",
   "twitter.vote.instructions.2": "2。使用主题标签 {{hashtag}} 将上面的图片发布到 Twitter",
-  "twitter.vote.instructions.3": "3.点击下面的按钮验证你的推文。"
+  "twitter.vote.instructions.3": "3.点击下面的按钮验证你的推文。",
+  "pets.foodLocked": "达到等级 {{level}} 即可解锁"
 }
