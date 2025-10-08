@@ -7,6 +7,7 @@ import {
   isPetNeglected,
   isPetNapping,
   getPetType,
+  isPetOfTypeFed,
 } from "features/game/types/pets";
 import { PetModal } from "../../pets/PetModal";
 import { Transition } from "@headlessui/react";
@@ -19,6 +20,21 @@ const _petNFTData = (id: string) => (state: MachineState) => {
   return state.context.state.pets?.nfts?.[Number(id)];
 };
 
+const _isTypeFed = (id: string) => (state: MachineState) => {
+  const petData = state.context.state.pets?.nfts?.[Number(id)];
+  if (!petData) return false;
+  if (!petData.traits) return false;
+
+  const isTypeFed = isPetOfTypeFed({
+    nftPets: state.context.state.pets?.nfts ?? {},
+    petType: petData.traits.type,
+    id: Number(id),
+    now: Date.now(),
+  });
+
+  return isTypeFed;
+};
+
 export const PetNFT: React.FC<Props> = ({ id }) => {
   const { gameService } = useContext(Context);
   const petNFTData = useSelector(gameService, _petNFTData(id));
@@ -27,6 +43,7 @@ export const PetNFT: React.FC<Props> = ({ id }) => {
 
   const isNeglected = isPetNeglected(petNFTData);
   const isNapping = isPetNapping(petNFTData);
+  const isTypeFed = useSelector(gameService, _isTypeFed(id));
 
   if (!petNFTData) return null;
 
@@ -34,7 +51,7 @@ export const PetNFT: React.FC<Props> = ({ id }) => {
   const petType = getPetType(petNFTData);
 
   const handlePetClick = () => {
-    if (isNapping) {
+    if (isNapping && !isTypeFed) {
       gameService.send("pet.pet", {
         petId: Number(id),
       });
@@ -50,6 +67,7 @@ export const PetNFT: React.FC<Props> = ({ id }) => {
       id={Number(id)}
       isNeglected={isNeglected}
       isNapping={isNapping}
+      isTypeFed={isTypeFed}
       clickable
       onClick={handlePetClick}
       petData={petNFTData}
@@ -78,6 +96,7 @@ export const PetNFT: React.FC<Props> = ({ id }) => {
           data={petNFTData}
           isNeglected={isNeglected}
           petType={petType}
+          isTypeFed={isTypeFed}
         />
       )}
     </PetSprite>

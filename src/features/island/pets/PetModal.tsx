@@ -22,6 +22,7 @@ import { PetFeed } from "./PetFeed";
 import { PetFetch } from "./PetFetch";
 import { PetInfo } from "./PetInfo";
 import { getPetImage, isPetNFT } from "./lib/petShared";
+import { PetTypeFed } from "./PetTypeFed";
 
 interface Props {
   show: boolean;
@@ -29,6 +30,7 @@ interface Props {
   petId: PetName | number;
   data?: Pet | PetNFT;
   isNeglected: boolean;
+  isTypeFed?: boolean;
   petType?: PetType;
 }
 
@@ -38,6 +40,7 @@ export const PetModal: React.FC<Props> = ({
   petId,
   data,
   isNeglected,
+  isTypeFed,
   petType,
 }) => {
   const { t } = useAppTranslation();
@@ -45,9 +48,9 @@ export const PetModal: React.FC<Props> = ({
 
   const isNFTPet = isPetNFT(petId);
 
-  const [tab, setTab] = useState<"Info" | "Feed" | "Fetch" | "Neglected">(
-    isNeglected ? "Neglected" : "Info",
-  );
+  const [tab, setTab] = useState<
+    "Info" | "Feed" | "Fetch" | "Neglected" | "TypeFed"
+  >(isNeglected ? "Neglected" : isTypeFed ? "TypeFed" : "Info");
   const hasPetHouse = useSelector(
     gameService,
     (state) =>
@@ -102,6 +105,8 @@ export const PetModal: React.FC<Props> = ({
     return null;
   }
 
+  const actionTab = isNeglected ? "Neglected" : isTypeFed ? "TypeFed" : tab;
+
   return (
     <Modal
       show={show}
@@ -123,38 +128,49 @@ export const PetModal: React.FC<Props> = ({
             ? [
                 {
                   name: t("pets.neglected"),
-                  icon: getPetImage("asleep", data),
+                  icon: getPetImage("asleep", data, petId),
                   id: "Neglected",
                 },
               ]
-            : isRevealingState || isRevealedState
-              ? [{ name: t("pets.feed"), icon: foodIcon, id: "Feed" }]
-              : [
+            : isTypeFed
+              ? [
                   {
-                    name: t("pets.info"),
-                    icon: getPetImage("happy", data),
-                    id: "Info",
+                    name: t("pets.typeFed", { type: petType }),
+                    icon: getPetImage("asleep", data, petId),
+                    id: "TypeFed",
                   },
-                  { name: t("pets.feed"), icon: foodIcon, id: "Feed" },
-                  {
-                    name: t("pets.fetch"),
-                    icon: ITEM_DETAILS["Acorn"].image,
-                    id: "Fetch",
-                  },
-                ]),
+                ]
+              : isRevealingState || isRevealedState
+                ? [{ name: t("pets.feed"), icon: foodIcon, id: "Feed" }]
+                : [
+                    {
+                      name: t("pets.info"),
+                      icon: getPetImage("happy", data, petId),
+                      id: "Info",
+                    },
+                    { name: t("pets.feed"), icon: foodIcon, id: "Feed" },
+                    {
+                      name: t("pets.fetch"),
+                      icon: ITEM_DETAILS["Acorn"].image,
+                      id: "Fetch",
+                    },
+                  ]),
         ]}
-        currentTab={tab}
+        currentTab={actionTab}
         setCurrentTab={setTab}
-        container={["Feed", "Fetch"].includes(tab) ? OuterPanel : undefined}
+        container={
+          ["Feed", "Fetch"].includes(actionTab) ? OuterPanel : undefined
+        }
       >
-        {tab === "Info" && (
+        {actionTab === "TypeFed" && <PetTypeFed type={petType} />}
+        {actionTab === "Info" && (
           <PetInfo
             data={data}
             type={petType}
             image={ITEM_DETAILS[isNFTPet ? "Ramsey" : petId].image}
           />
         )}
-        {tab === "Feed" && (
+        {actionTab === "Feed" && (
           <PetFeed
             petId={petId}
             petData={data}
@@ -166,14 +182,14 @@ export const PetModal: React.FC<Props> = ({
             state={state}
           />
         )}
-        {tab === "Fetch" && (
+        {actionTab === "Fetch" && (
           <PetFetch
             petId={petId}
             petData={data}
             handlePetFetch={handlePetFetch}
           />
         )}
-        {tab === "Neglected" && (
+        {actionTab === "Neglected" && (
           <NeglectPet
             handleNeglectPet={handleNeglectPet}
             petId={petId}

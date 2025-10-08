@@ -203,8 +203,12 @@ export const isPetNFT = (petId: PetName | number): petId is number => {
 export const getPetImage = (
   state: "asleep" | "happy",
   petData: Pet | PetNFT | undefined,
+  id: number | PetName | undefined,
 ) => {
   if (!petData) {
+    if (id && typeof id !== "number") {
+      return ITEM_DETAILS[id].image as string;
+    }
     return ITEM_DETAILS["Pet Egg"].image as string;
   }
 

@@ -19,7 +19,7 @@ interface Props {
  * @props The component props.
  */
 export const PetNFTDetails: React.FC<Props> = ({ petData, actionView }) => {
-  const icon = getPetImage("asleep", petData);
+  const icon = getPetImage("asleep", petData, petData.id);
   const title = petData.name;
 
   return (

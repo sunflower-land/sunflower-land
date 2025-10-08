@@ -305,7 +305,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
                 const beforeEnergy = petData.energy;
                 const afterEnergy = beforeEnergy + totalEnergy;
 
-                const petImage = getPetImage("happy", petData);
+                const petImage = getPetImage("happy", petData, petId);
 
                 const { level, currentProgress, experienceBetweenLevels } =
                   getPetLevel(petData.experience);

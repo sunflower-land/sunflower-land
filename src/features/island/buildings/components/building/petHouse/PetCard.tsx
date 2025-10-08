@@ -231,7 +231,7 @@ export const PetCard: React.FC<Props> = ({
   }, [fetches, level, petData.energy]);
 
   return (
-    <PetInfo petData={petData}>
+    <PetInfo petId={petId} petData={petData}>
       <PetCardContent
         petId={petId}
         petData={petData}

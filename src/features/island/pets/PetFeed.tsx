@@ -103,6 +103,7 @@ export const PetFeed: React.FC<{
       panel={
         <PetFeedPanel
           petData={petData}
+          petId={petId}
           selectedFood={selectedFood}
           handleFeed={handleFeed}
           petLevel={petLevel}
@@ -131,6 +132,7 @@ export const PetFeed: React.FC<{
 
 const PetFeedPanel: React.FC<{
   petData: Pet | PetNFT;
+  petId: PetName | number;
   selectedFood: CookableName | null;
   handleFeed: (food: CookableName) => void;
   showConfirm: boolean;
@@ -142,6 +144,7 @@ const PetFeedPanel: React.FC<{
   foodRequests: CookableName[];
 }> = ({
   petData,
+  petId,
   selectedFood,
   petLevel,
   handleFeed,
@@ -153,7 +156,7 @@ const PetFeedPanel: React.FC<{
   foodRequests,
 }) => {
   const { t } = useAppTranslation();
-  const petImage = getPetImage("happy", petData);
+  const petImage = getPetImage("happy", petData, petId);
 
   if (!selectedFood) {
     return (

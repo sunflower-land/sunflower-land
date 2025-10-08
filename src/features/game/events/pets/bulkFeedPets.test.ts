@@ -73,6 +73,25 @@ describe("bulkFeedPets", () => {
           },
         },
       },
+
+      collectibles: {
+        Barkley: [
+          {
+            createdAt: now,
+            id: "1",
+            readyAt: now,
+            coordinates: { x: 1, y: 1 },
+          },
+        ],
+        Meowchi: [
+          {
+            createdAt: now,
+            id: "1",
+            readyAt: now,
+            coordinates: { x: 1, y: 1 },
+          },
+        ],
+      },
       inventory: {
         "Bumpkin Salad": new Decimal(2),
       },

@@ -533,7 +533,7 @@ export const Chest: React.FC<Props> = ({
               </Label>
               <div className="flex mb-2 flex-wrap -ml-1.5">
                 {getKeys(petsNFTs).map((petId) => {
-                  const petImage = getPetImage("happy", petsNFTs[petId]);
+                  const petImage = getPetImage("happy", petsNFTs[petId], petId);
                   return (
                     <Box
                       isSelected={
