@@ -174,6 +174,7 @@ const PanelContent: React.FC<PanelContentProps> = ({
 
     return (
       <PetNFTDetails
+        petId={petId}
         petData={petData}
         actionView={
           onPlace && (
