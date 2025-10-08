@@ -6553,7 +6553,7 @@
   "pets.plusFoodEnergy": "+{{energy}} Energy",
   "pets.energy": "{{energy}} Energy",
   "pets.foodFedToday": "Food Fed Today",
-  "pets.foodLocked": "Reach Level 10 to unlock",
+  "pets.foodLocked": "Reach Level {{level}} to unlock",
   "pets.insufficientFood": "Insufficient Food",
   "pets.feedPet": "Feed {{pet}}",
   "pets.requestsToday": "{{pet}}'s Requests Today",

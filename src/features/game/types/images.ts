@@ -1020,6 +1020,20 @@ import ribbon from "assets/icons/medal.webp";
 import frostPebble from "assets/icons/diamond.webp";
 import wildGrass from "assets/icons/wild_grass.webp";
 
+import badgerShrine from "assets/sfts/shrines/badger_shrine.webp";
+import bantamShrine from "assets/sfts/shrines/bantam_shrine.webp";
+import bearShrine from "assets/sfts/shrines/bear_shrine.webp";
+import boarShrine from "assets/sfts/shrines/boar_shrine.webp";
+import collieShrine from "assets/sfts/shrines/collie_shrine.webp";
+import foxShrine from "assets/sfts/shrines/fox_shrine.webp";
+import houndShrine from "assets/sfts/shrines/hound_shrine.webp";
+import moleShrine from "assets/sfts/shrines/mole_shrine.webp";
+import mothShrine from "assets/sfts/shrines/moth_shrine.webp";
+import sparrowShrine from "assets/sfts/shrines/sparrow_shrine.webp";
+import stagShrine from "assets/sfts/shrines/stag_shrine.webp";
+import tortoiseShrine from "assets/sfts/shrines/tortoise_shrine.webp";
+import toucanShrine from "assets/sfts/shrines/toucan_shrine.webp";
+
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
@@ -5863,35 +5877,35 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.acorn"),
   },
   "Fox Shrine": {
-    image: thermalStone,
+    image: foxShrine,
     description: translate("description.foxShrine"),
   },
   "Sparrow Shrine": {
-    image: thermalStone,
+    image: sparrowShrine,
     description: translate("description.sparrowShrine"),
   },
   "Toucan Shrine": {
-    image: thermalStone,
+    image: toucanShrine,
     description: translate("description.toucanShrine"),
   },
   "Collie Shrine": {
-    image: thermalStone,
+    image: collieShrine,
     description: translate("description.collieShrine"),
   },
   "Badger Shrine": {
-    image: thermalStone,
+    image: badgerShrine,
     description: translate("description.badgerShrine"),
   },
   "Boar Shrine": {
-    image: thermalStone,
+    image: boarShrine,
     description: translate("description.boarShrine"),
   },
   "Hound Shrine": {
-    image: thermalStone,
+    image: houndShrine,
     description: translate("description.houndShrine"),
   },
   "Stag Shrine": {
-    image: thermalStone,
+    image: stagShrine,
     description: translate("description.stagShrine"),
   },
   "Legendary Shrine": {
@@ -5927,23 +5941,23 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.ramsey"),
   },
   "Tortoise Shrine": {
-    image: thermalStone,
+    image: tortoiseShrine,
     description: translate("description.tortoiseShrine"),
   },
   "Moth Shrine": {
-    image: thermalStone,
+    image: mothShrine,
     description: translate("description.mothShrine"),
   },
   "Mole Shrine": {
-    image: thermalStone,
+    image: moleShrine,
     description: translate("description.moleShrine"),
   },
   "Bear Shrine": {
-    image: thermalStone,
+    image: bearShrine,
     description: translate("description.bearShrine"),
   },
   "Bantam Shrine": {
-    image: thermalStone,
+    image: bantamShrine,
     description: translate("description.bantamShrine"),
   },
   "Trading Shrine": {

@@ -10,7 +10,6 @@ import { PetNFT } from "features/game/types/pets";
  * @param actionView The view for displaying the item action.
  */
 interface Props {
-  petId: number;
   petData: PetNFT;
   actionView?: JSX.Element;
 }
@@ -19,12 +18,8 @@ interface Props {
  * The view for displaying item name, details, properties and action.
  * @props The component props.
  */
-export const PetNFTDetails: React.FC<Props> = ({
-  petId,
-  petData,
-  actionView,
-}) => {
-  const icon = getPetImage(petId, "asleep", petData);
+export const PetNFTDetails: React.FC<Props> = ({ petData, actionView }) => {
+  const icon = getPetImage("asleep", petData);
   const title = petData.name;
 
   return (

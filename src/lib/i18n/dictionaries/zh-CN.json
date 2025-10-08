@@ -6592,7 +6592,6 @@
   "checkList.miniGames.missionPoints": "任务：{{number}} 分",
   "checkList.travel": "前往",
   "pets.plusFoodEnergy": "+ {{energy}} 能量",
-  "pets.foodLocked": "达到 10 级即可解锁",
   "description.ancientTree.buff": "+0.5 木头",
   "description.sacredTree.buff": "+2.5 木头",
   "description.fusedStoneRock.buff": "+0.5 石头",
@@ -6711,5 +6710,6 @@
   "twitter.vote.share": "分享你的投票",
   "twitter.vote.instructions.1": "1. 前往 Gam3s.gg，并使用已连接的钱包为 Sunflower Land 投票。",
   "twitter.vote.instructions.2": "2. 在 Twitter 上发布上方图片，并添加话题标签 {{hashtag}}。",
-  "twitter.vote.instructions.3": "3. 点击下方按钮验证你的推文。"
+  "twitter.vote.instructions.3": "3. 点击下方按钮验证你的推文。",
+  "pets.foodLocked": "达到等级 {{level}} 以解锁"
 }

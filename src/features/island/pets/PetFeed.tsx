@@ -7,6 +7,7 @@ import { InnerPanel } from "components/ui/Panel";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { Loading } from "features/auth/components/Loading";
 import {
+  FOOD_TO_DIFFICULTY,
   getPetEnergy,
   getPetExperience,
   getPetFoodRequests,
@@ -17,6 +18,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getPetLevel,
   getPetRequestXP,
+  isPetNFT,
   Pet,
   PetName,
   PetNFT,
@@ -68,6 +70,7 @@ export const PetFeed: React.FC<{
   const lastFedAtDate = new Date(lastFedAt ?? 0).toISOString().split("T")[0];
   const isToday = lastFedAtDate === todayDate;
   const { level: petLevel } = getPetLevel(petData.experience);
+  const foodRequests = getPetFoodRequests(petData, petLevel);
 
   if (petData.requests.food.length === 0) {
     return (
@@ -99,7 +102,6 @@ export const PetFeed: React.FC<{
     <SplitScreenView
       panel={
         <PetFeedPanel
-          petId={petId}
           petData={petData}
           selectedFood={selectedFood}
           handleFeed={handleFeed}
@@ -108,18 +110,19 @@ export const PetFeed: React.FC<{
           setShowConfirm={setShowConfirm}
           isToday={isToday}
           setShowResetRequests={setShowResetRequests}
+          foodRequests={foodRequests}
           state={state}
         />
       }
       content={
         <PetFeedContent
           petData={petData}
-          petLevel={petLevel}
           selectedFood={selectedFood}
           setSelectedFood={setSelectedFood}
           inventory={state.inventory}
           setShowConfirm={setShowConfirm}
           isToday={isToday}
+          foodRequests={foodRequests}
         />
       }
     />
@@ -127,7 +130,6 @@ export const PetFeed: React.FC<{
 };
 
 const PetFeedPanel: React.FC<{
-  petId: PetName | number;
   petData: Pet | PetNFT;
   selectedFood: CookableName | null;
   handleFeed: (food: CookableName) => void;
@@ -137,8 +139,8 @@ const PetFeedPanel: React.FC<{
   setShowResetRequests: (showResetRequests: boolean) => void;
   state: GameState;
   petLevel: number;
+  foodRequests: CookableName[];
 }> = ({
-  petId,
   petData,
   selectedFood,
   petLevel,
@@ -148,9 +150,10 @@ const PetFeedPanel: React.FC<{
   isToday,
   setShowResetRequests,
   state,
+  foodRequests,
 }) => {
   const { t } = useAppTranslation();
-  const petImage = getPetImage(petId, "happy", petData);
+  const petImage = getPetImage("happy", petData);
 
   if (!selectedFood) {
     return (
@@ -178,19 +181,43 @@ const PetFeedPanel: React.FC<{
   const foodXp = getPetExperience({
     basePetXP: baseFoodXp,
     game: state,
+    petLevel,
+    isPetNFT: isPetNFT(petData),
   });
   const petEnergy = getPetEnergy({
     petLevel,
     basePetEnergy: baseFoodXp,
   });
-  const isFoodLocked = !getPetFoodRequests(petData, petLevel).includes(
-    selectedFood,
-  );
+  const isFoodLocked = !foodRequests.includes(selectedFood);
   const isDisabled =
     (isToday && petData.requests.foodFed?.includes(selectedFood)) ||
     !state.inventory[selectedFood] ||
     state.inventory[selectedFood].lessThan(1) ||
     isFoodLocked;
+
+  const getPetUnlockLevel = (
+    petData: Pet | PetNFT,
+    petLevel: number,
+    foodRequest: CookableName,
+  ): number => {
+    const difficulty = FOOD_TO_DIFFICULTY.get(foodRequest);
+    if (isPetNFT(petData)) {
+      if (petLevel < 30 && difficulty === "medium") {
+        return 30;
+      }
+      if (petLevel < 200 && difficulty === "hard") {
+        return 200;
+      }
+      return 200;
+    }
+    if (petLevel < 10 && difficulty === "hard") {
+      return 10;
+    }
+    return 200;
+  };
+
+  const petUnlockLevel = getPetUnlockLevel(petData, petLevel, selectedFood);
+
   return (
     <div className="flex flex-col items-center gap-1">
       {/* Pet Image and Name */}
@@ -206,7 +233,7 @@ const PetFeedPanel: React.FC<{
           />
         </div>
 
-        <div className="flex flex-row gap-2 items-start justify-center w-full">
+        <div className="flex flex-row gap-2 items-center justify-center w-full">
           <img
             src={
               isFoodLocked
@@ -240,7 +267,7 @@ const PetFeedPanel: React.FC<{
         {isFoodLocked ? (
           <div className="flex w-full items-start justify-center">
             <Label type="danger" className="text-xs">
-              {t("pets.foodLocked")}
+              {t("pets.foodLocked", { level: petUnlockLevel })}
             </Label>
           </div>
         ) : isToday && petData.requests.foodFed?.includes(selectedFood) ? (
@@ -297,56 +324,70 @@ const PetFeedContent: React.FC<{
   setSelectedFood: (selectedFood: CookableName) => void;
   setShowConfirm: (showConfirm: boolean) => void;
   isToday: boolean;
-  petLevel: number;
+  foodRequests: CookableName[];
 }> = ({
   petData,
-  petLevel,
   selectedFood,
   setSelectedFood,
   inventory,
   setShowConfirm,
   isToday,
+  foodRequests,
 }) => {
   const { t } = useAppTranslation();
-  const foodRequests = getPetFoodRequests(petData, petLevel);
-  const allFoods = petData.requests.food;
+  const allFoods = [...petData.requests.food];
 
   return (
     <div className="flex flex-col gap-1 pt-0.5">
       <Label type="default">
         {t("pets.requestsToday", { pet: petData.name })}
       </Label>
-      <div className="flex flex-row gap-1">
-        {allFoods.map((food) => {
-          const isRequested = foodRequests.includes(food);
-          const isComplete =
-            isRequested && isToday && petData.requests.foodFed?.includes(food);
-          const isUpcoming = !isRequested;
-          return (
-            <Box
-              key={food}
-              image={
-                isUpcoming
-                  ? SUNNYSIDE.icons.expression_confused
-                  : ITEM_DETAILS[food].image
-              }
-              isSelected={selectedFood === food}
-              onClick={() => {
-                setSelectedFood(food);
-                setShowConfirm(false);
-              }}
-              count={isUpcoming ? undefined : inventory[food]}
-              showOverlay={isComplete || isUpcoming}
-              secondaryImage={
-                isComplete
-                  ? SUNNYSIDE.icons.confirm
-                  : isUpcoming
-                    ? SUNNYSIDE.icons.lock
-                    : undefined
-              }
-            />
-          );
-        })}
+      <div className="flex flex-row flex-wrap gap-1">
+        {allFoods
+          .sort((a, b) => {
+            const aIsRequested = foodRequests.includes(a);
+            const bIsRequested = foodRequests.includes(b);
+
+            // If both are requested or both are not requested, maintain original order
+            if (aIsRequested === bIsRequested) {
+              return 0;
+            }
+
+            // Requested foods (available) come first
+            return aIsRequested ? -1 : 1;
+          })
+          .map((food) => {
+            const isRequested = foodRequests.includes(food);
+            const isComplete =
+              isRequested &&
+              isToday &&
+              petData.requests.foodFed?.includes(food);
+            const isUpcoming = !isRequested;
+            return (
+              <Box
+                key={food}
+                image={
+                  isUpcoming
+                    ? SUNNYSIDE.icons.expression_confused
+                    : ITEM_DETAILS[food].image
+                }
+                isSelected={selectedFood === food}
+                onClick={() => {
+                  setSelectedFood(food);
+                  setShowConfirm(false);
+                }}
+                count={isUpcoming ? undefined : inventory[food]}
+                showOverlay={isComplete || isUpcoming}
+                secondaryImage={
+                  isComplete
+                    ? SUNNYSIDE.icons.confirm
+                    : isUpcoming
+                      ? SUNNYSIDE.icons.lock
+                      : undefined
+                }
+              />
+            );
+          })}
       </div>
     </div>
   );

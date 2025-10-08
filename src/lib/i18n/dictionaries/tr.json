@@ -6592,7 +6592,6 @@
   "checkList.miniGames.missionPoints": "Görev: {{number}} Puan",
   "checkList.travel": "Seyahat",
   "pets.plusFoodEnergy": "+ {{energy}} Enerji",
-  "pets.foodLocked": "Kilidi açmak için Seviye 10'a ulaşın",
   "description.ancientTree.buff": "+0.5 Vood",
   "description.sacredTree.buff": "+2.5 Vood",
   "description.fusedStoneRock.buff": "+0.5 Sten",
@@ -6711,5 +6710,6 @@
   "twitter.vote.share": "Oyunu paylaş",
   "twitter.vote.instructions.1": "1. Gam3s.gg'yi ziyaret edin ve bağlı cüzdanınızla Sunflower Land için oy verin.",
   "twitter.vote.instructions.2": "2. Yukarıdaki resmi {{hashtag}} hashtag'iyle Twitter'a gönderin",
-  "twitter.vote.instructions.3": "3. Aşağıdaki düğmeyi tıklayarak tweet\"inizi doğrulayın."
+  "twitter.vote.instructions.3": "3. Aşağıdaki düğmeyi tıklayarak tweet\"inizi doğrulayın.",
+  "pets.foodLocked": "Kilidi açmak için Seviyeye {{level}} ulaşın"
 }
