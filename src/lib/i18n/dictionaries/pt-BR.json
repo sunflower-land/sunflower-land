@@ -6592,7 +6592,6 @@
   "checkList.miniGames.missionPoints": "Missão: {{number}} Pontos",
   "checkList.travel": "Viajar",
   "pets.plusFoodEnergy": "+ {{energy}} Energia",
-  "pets.foodLocked": "Alcance o nível 10 para desbloquear",
   "description.ancientTree.buff": "+0.5 Madeira",
   "description.sacredTree.buff": "+2.5 Madeira",
   "description.fusedStoneRock.buff": "+0,5 Pedra",
@@ -6711,5 +6710,6 @@
   "twitter.vote.share": "Compartilhe seu voto",
   "twitter.vote.instructions.1": "1. Visite Gam3s.gg e vote em Sunflower Land com sua carteira vinculada.",
   "twitter.vote.instructions.2": "2. Publique a imagem acima no Twitter com a hashtag {{hashtag}}",
-  "twitter.vote.instructions.3": "3. Verifique seu tweet clicando no botão abaixo."
+  "twitter.vote.instructions.3": "3. Verifique seu tweet clicando no botão abaixo.",
+  "pets.foodLocked": "Alcance o nível {{level}} para desbloquear"
 }

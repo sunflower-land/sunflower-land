@@ -23,10 +23,6 @@ export const LandPet: React.FC<{ name: PetName }> = ({ name }) => {
   const isNapping = isPetNapping(petData);
   const petType = getPetType(petData);
 
-  if (!petType || !petData) {
-    return null;
-  }
-
   const handlePetClick = () => {
     if (isNapping) {
       gameService.send("pet.pet", {

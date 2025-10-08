@@ -6592,7 +6592,6 @@
   "checkList.miniGames.missionPoints": "ミッション:{{number}} ポイント",
   "checkList.travel": "トラベル",
   "pets.plusFoodEnergy": "+ {{energy}} エネルギー",
-  "pets.foodLocked": "レベル10に到達してロックを解除",
   "description.ancientTree.buff": "+0.5 ウッド",
   "description.sacredTree.buff": "+2.5 ウッド",
   "description.fusedStoneRock.buff": "+0.5 ストーン",
@@ -6711,5 +6710,6 @@
   "twitter.vote.share": "投票をシェア",
   "twitter.vote.instructions.1": "1。Gam3s.ggにアクセスして、リンクされたウォレットでサンフラワーランドに投票してください。",
   "twitter.vote.instructions.2": "2。上の画像をハッシュタグ {{hashtag}} を付けてツイッターに投稿してください",
-  "twitter.vote.instructions.3": "3。下のボタンをクリックしてツイートを確認してください。"
+  "twitter.vote.instructions.3": "3。下のボタンをクリックしてツイートを確認してください。",
+  "pets.foodLocked": "レベル {{level}} に到達してロック解除"
 }

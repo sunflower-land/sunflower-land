@@ -185,6 +185,8 @@ export const PetCard: React.FC<Props> = ({
       const foodXP = getPetExperience({
         basePetXP: baseFoodXP,
         game: state,
+        petLevel,
+        isPetNFT: typeof petId === "number",
       });
       const foodEnergy = getPetEnergy({
         petLevel,
@@ -205,11 +207,13 @@ export const PetCard: React.FC<Props> = ({
       };
     });
   }, [petData, inventory, isBulkFeed, selectedFeed, state, petId]);
-  const fetchData = getPetFetches(petData);
+  const fetches = [...getPetFetches(petData).fetches].sort(
+    (a, b) => a.level - b.level,
+  );
   const { level } = getPetLevel(petData.experience);
 
   const fetchItems = useMemo(() => {
-    return fetchData.fetches.map((fetch) => {
+    return fetches.map((fetch) => {
       const hasRequiredLevel = level >= fetch.level;
       const fetchImage = ITEM_DETAILS[fetch.name].image;
       const energyRequired = PET_RESOURCES[fetch.name].energy;
@@ -224,10 +228,10 @@ export const PetCard: React.FC<Props> = ({
         hasEnoughEnergy,
       };
     });
-  }, [fetchData.fetches, level, petData.energy]);
+  }, [fetches, level, petData.energy]);
 
   return (
-    <PetInfo petId={petId} petData={petData}>
+    <PetInfo petData={petData}>
       <PetCardContent
         petId={petId}
         petData={petData}

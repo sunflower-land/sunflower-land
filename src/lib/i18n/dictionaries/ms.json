@@ -6592,7 +6592,6 @@
   "checkList.miniGames.missionPoints": "Misi: {{number}} Mata",
   "checkList.travel": "Perjalanan",
   "pets.plusFoodEnergy": "+ {{energy}} Tenaga",
-  "pets.foodLocked": "Mencapai Tahap 10 untuk membuka kunci",
   "description.ancientTree.buff": "+0.5 Kayu",
   "description.sacredTree.buff": "+2.5 Kayu",
   "description.fusedStoneRock.buff": "+0.5 Batu",
@@ -6711,5 +6710,6 @@
   "twitter.vote.share": "Kongsi undi anda",
   "twitter.vote.instructions.1": "1. Lawati Gam3s.gg dan undi Sunflower Land dengan dompet yang dipautkan anda.",
   "twitter.vote.instructions.2": "2. Siarkan imej di atas ke Twitter dengan hashtag {{hashtag}}",
-  "twitter.vote.instructions.3": "3. Sahkan tweet anda dengan mengklik butang di bawah."
+  "twitter.vote.instructions.3": "3. Sahkan tweet anda dengan mengklik butang di bawah.",
+  "pets.foodLocked": "Mencapai Tahap {{level}} untuk membuka kunci"
 }

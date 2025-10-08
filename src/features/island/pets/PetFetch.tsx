@@ -33,20 +33,18 @@ export const PetFetch: React.FC<Props> = ({
   handlePetFetch,
 }) => {
   const { level } = getPetLevel(petData.experience);
-  const fetchConfig = getPetFetches(petData);
+  const fetches = [...getPetFetches(petData).fetches].sort(
+    (a, b) => a.level - b.level,
+  );
   const isNapping = isPetNapping(petData);
   const neglected = isPetNeglected(petData);
 
-  const [selectedFetch, setSelectedFetch] = useState<PetResourceName>(
-    fetchConfig.fetches[0]?.name,
-  );
+  const [selectedFetch, setSelectedFetch] = useState<PetResourceName>("Acorn");
   const [showRewards, setShowRewards] = useState(false);
 
-  const selectedFetchData = fetchConfig.fetches.find(
-    (f) => f.name === selectedFetch,
-  );
+  const selectedFetchData = fetches.find((f) => f.name === selectedFetch);
 
-  const petImage = getPetImage(petId, "happy", petData);
+  const petImage = getPetImage("happy", petData);
   const energyRequired = PET_RESOURCES[selectedFetch].energy;
   const requiredLevel = selectedFetchData?.level ?? 0;
   const hasRequiredLevel = level >= requiredLevel;
@@ -123,7 +121,7 @@ export const PetFetch: React.FC<Props> = ({
           <div className="flex flex-col gap-1 pt-0.5">
             <Label type="default">{"Fetchable resources"}</Label>
             <div className="flex flex-row gap-1 flex-wrap">
-              {fetchConfig.fetches.map(({ name, level: requiredLevel }) => {
+              {fetches.map(({ name, level: requiredLevel }) => {
                 const canLevel = level >= requiredLevel;
                 const isSelected = selectedFetch === name;
                 return (
