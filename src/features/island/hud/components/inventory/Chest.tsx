@@ -174,7 +174,6 @@ const PanelContent: React.FC<PanelContentProps> = ({
 
     return (
       <PetNFTDetails
-        petId={petId}
         petData={petData}
         actionView={
           onPlace && (
@@ -534,11 +533,7 @@ export const Chest: React.FC<Props> = ({
               </Label>
               <div className="flex mb-2 flex-wrap -ml-1.5">
                 {getKeys(petsNFTs).map((petId) => {
-                  const petImage = getPetImage(
-                    Number(petId),
-                    "happy",
-                    petsNFTs[petId],
-                  );
+                  const petImage = getPetImage("happy", petsNFTs[petId]);
                   return (
                     <Box
                       isSelected={
