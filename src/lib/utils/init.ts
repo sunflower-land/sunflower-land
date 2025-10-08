@@ -1,8 +1,9 @@
 import util from "util";
 import Decimal from "decimal.js-light";
-import { initialiseFont } from "./fonts";
+import { sdk } from "@farcaster/miniapp-sdk";
 
-export function initialise() {
+import { initialiseFont } from "./fonts";
+export async function initialise() {
   /**
    * Override the default stringify of Decimal.js for assist in debugging.
    */
@@ -15,4 +16,6 @@ export function initialise() {
   Decimal.set({ toExpNeg: -30 });
 
   initialiseFont();
+
+  await sdk.actions.ready();
 }
