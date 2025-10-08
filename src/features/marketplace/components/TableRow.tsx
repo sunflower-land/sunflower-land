@@ -10,6 +10,7 @@ import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { TradeableDisplay } from "../lib/tradeables";
 import { formatNumber } from "lib/utils/formatNumber";
 import { Checkbox } from "components/ui/Checkbox";
+import { Listing } from "features/game/types/marketplace";
 
 export type TableItem = {
   id: string;
@@ -35,7 +36,7 @@ interface RowProps {
   isBulkBuy: boolean;
   isSelected: boolean;
   onClick?: (id: string) => void;
-  onBulkListingCheck?: (id: string, checked: boolean) => void;
+  onBulkListingSelect?: (id: string, checked: boolean) => void;
 }
 
 export const TableRow: React.FC<RowProps> = ({
@@ -50,8 +51,9 @@ export const TableRow: React.FC<RowProps> = ({
   isResource,
   isBulkBuy,
   isSelected,
-  onBulkListingCheck,
+  onBulkListingSelect,
 }) => {
+  console.log({ onClick, isBulkBuy });
   const { t } = useAppTranslation();
   const { id, createdBy, quantity, price } = item;
 
@@ -145,7 +147,7 @@ export const TableRow: React.FC<RowProps> = ({
         <div className="p-1 flex items-center justify-end w-[65px] mr-2">
           <Checkbox
             checked={isSelected}
-            onChange={(checked) => onBulkListingCheck?.(id, checked)}
+            onChange={(checked) => onBulkListingSelect?.(id, checked)}
           />
         </div>
       )}

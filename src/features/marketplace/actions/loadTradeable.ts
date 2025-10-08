@@ -1,3 +1,4 @@
+import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import {
   CollectionName,
   TradeableDetails,
@@ -26,7 +27,47 @@ export async function loadTradeable({
       isVip: false,
       lastSalePrice: 0,
       offers: [],
-      listings: [],
+      listings: [
+        {
+          id: "123",
+          sfl: 200,
+          quantity: 200,
+          listedById: 202,
+          listedAt: 0,
+          type: "instant",
+          listedBy: {
+            id: 2,
+            username: "Old mate",
+            bumpkinUri: INITIAL_BUMPKIN.tokenUri,
+          },
+        },
+        {
+          id: "1234",
+          sfl: 200,
+          quantity: 200,
+          listedById: 202,
+          listedAt: 0,
+          type: "instant",
+          listedBy: {
+            id: 2,
+            username: "Old mate",
+            bumpkinUri: INITIAL_BUMPKIN.tokenUri,
+          },
+        },
+        {
+          id: "1235",
+          sfl: 200,
+          quantity: 200,
+          listedById: 202,
+          listedAt: 0,
+          type: "instant",
+          listedBy: {
+            id: 2,
+            username: "Bobby",
+            bumpkinUri: INITIAL_BUMPKIN.tokenUri,
+          },
+        },
+      ],
       history: {
         sales: [],
         history: {

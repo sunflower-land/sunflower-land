@@ -9,7 +9,7 @@ import {
   TradeableDetails,
 } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { TradeableListItem } from "./TradeableList";
 import { ListingTable } from "./TradeTable";
 import { Context } from "features/game/GameProvider";
@@ -33,6 +33,11 @@ import { isTradeResource } from "features/game/actions/tradeLimits";
 import { MAX_LIMITED_SALES } from "./Tradeable";
 import { ResourceTaxes } from "./TradeableInfo";
 import { Button } from "components/ui/Button";
+import { BulkBuyInterface } from "./BulkBuyInterface";
+import { InventoryItemName } from "features/game/types/game";
+import Decimal from "decimal.js-light";
+import { MAX_INVENTORY_ITEMS } from "features/game/lib/processEvent";
+import debounce from "lodash.debounce";
 
 type TradeableListingsProps = {
   authToken: string;
@@ -48,10 +53,22 @@ type TradeableListingsProps = {
   reload: KeyedMutator<TradeableDetails>;
 };
 
+type BulkOrder = {
+  quantity: number;
+  price: number;
+  ids: string[];
+};
+
 const _isListing = (state: MachineState) => state.matches("marketplaceListing");
 const _balance = (state: MachineState) => state.context.state.balance;
-const _myListingsCount = (state: MachineState) =>
-  Object.keys(state.context.state.trades.listings ?? {}).length;
+const _maxLimit = (item: InventoryItemName) => (state: MachineState) => {
+  const max = MAX_INVENTORY_ITEMS[item] || new Decimal(0);
+  const current = state.context.state.inventory[item] ?? new Decimal(0);
+  const old = state.context.state.previousInventory[item] ?? new Decimal(0);
+  const diff = current.minus(old);
+
+  return max.minus(diff).toNumber();
+};
 
 export const TradeableListings: React.FC<TradeableListingsProps> = ({
   authToken,
@@ -71,11 +88,17 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
 
   const isListing = useSelector(gameService, _isListing);
   const balance = useSelector(gameService, _balance);
+  const maxLimit = useSelector(
+    gameService,
+    _maxLimit(display.name as InventoryItemName),
+  );
 
   const [selectedListing, setSelectedListing] = useState<Listing>();
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
+  const [showBulkPurchaseModal, setShowBulkPurchaseModal] = useState(false);
   const [showBulkBuy, setShowBulkBuy] = useState(false);
-  const [bulkListingIds, setBulkListingIds] = useState<string[]>([]);
+  const [minAmount, setMinAmount] = useState(0); // Min amount of resources to purchase
+  const [bulkOrder, setBulkOrder] = useState<BulkOrder>();
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
@@ -132,6 +155,27 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
       }),
   );
 
+  useEffect(() => {
+    const cheapestListing = tradeable?.listings[0];
+
+    if (!cheapestListing) return;
+    if (minAmount < cheapestListing.sfl) return;
+
+    const fn = debounce(buildBulkOrder, 200);
+
+    fn();
+  }, [minAmount]);
+
+  const listingMap = useMemo(() => {
+    return (tradeable?.listings ?? []).reduce(
+      (acc, listing) => {
+        acc[listing.id] = listing;
+        return acc;
+      },
+      {} as Record<string, Listing>,
+    );
+  }, [tradeable?.listings]);
+
   const handleSelectListing = (id: string) => {
     const selectedListing = tradeable?.listings.find(
       (listing) => listing.id === id,
@@ -141,18 +185,60 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
     setShowPurchaseModal(true);
   };
 
-  const handleBulkListingCheck = (id: string, checked: boolean) => {
+  const handleBulkSelectListing = (id: string, checked: boolean) => {
+    const listing = listingMap[id];
+
     if (checked) {
-      setBulkListingIds([...bulkListingIds, id]);
+      setBulkOrder((prev) => ({
+        quantity: (prev?.quantity ?? 0) + listing.quantity,
+        price: (prev?.price ?? 0) + listing.sfl,
+        ids: [...(prev?.ids ?? []), listing.id],
+      }));
     } else {
-      setBulkListingIds(bulkListingIds.filter((id) => id !== id));
+      setBulkOrder((prev) => ({
+        quantity: (prev?.quantity ?? 0) - listing.quantity,
+        price: (prev?.price ?? 0) - listing.sfl,
+        ids: (prev?.ids ?? []).filter((id) => id !== listing.id),
+      }));
     }
   };
 
+  console.log(bulkOrder);
+
   const handleCancelBulkBuy = () => {
-    setBulkListingIds([]);
-    setShowBulkBuy(false);
+    setBulkOrder(undefined);
+    setMinAmount(0);
   };
+
+  const buildBulkOrder = () => {
+    console.log("building bulk order");
+    let selectedQuantity = bulkOrder?.quantity ?? 0;
+    let totalPrice = bulkOrder?.price ?? 0;
+    const selectedIds = [...(bulkOrder?.ids ?? [])];
+
+    // filter already selected listings
+    const unselectedListings = (tradeable?.listings ?? []).filter(
+      (listing) => !selectedIds.includes(listing.id),
+    );
+    // iterate through the listings and add to the selected quantity until next one will push you over the max amount
+    for (const listing of unselectedListings) {
+      if (selectedQuantity >= minAmount) {
+        break;
+      }
+
+      selectedIds.push(listing.id);
+      selectedQuantity += listing.quantity;
+      totalPrice += listing.sfl;
+    }
+
+    setBulkOrder({
+      quantity: selectedQuantity,
+      ids: selectedIds,
+      price: totalPrice,
+    });
+  };
+
+  const handleBuyBulkOrder = () => {};
 
   const isResource =
     isTradeResource(KNOWN_ITEMS[Number(params.id)]) &&
@@ -182,6 +268,21 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
           />
         </Panel>
       </Modal>
+      <Modal
+        show={showBulkPurchaseModal}
+        onHide={() => setShowBulkPurchaseModal(false)}
+      >
+        <Panel>
+          <PurchaseModalContent
+            authToken={authToken}
+            listingId={selectedListing?.id as string}
+            price={selectedListing?.sfl ?? 0}
+            tradeable={tradeable as Tradeable}
+            onClose={() => setShowPurchaseModal(false)}
+            listing={selectedListing as Listing}
+          />
+        </Panel>
+      </Modal>
       <Modal show={showListItem} onHide={!isListing ? onListClose : undefined}>
         <Panel className="mb-1">
           <TradeableListItem
@@ -197,7 +298,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
       </Modal>
       <InnerPanel className="mb-1">
         <div className="p-2">
-          <div className="flex justify-between mb-2">
+          <div className="flex justify-between">
             <div className="flex flex-col justify-center sm:flex-row gap-1 sm:justify-normal sm:items-center">
               <Label icon={tradeIcon} type="default" className="">
                 {t("marketplace.listings")}
@@ -213,16 +314,26 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
                 <div className="flex gap-1">
                   <Button
                     className="w-fit h-8 rounded-none"
-                    onClick={handleCancelBulkBuy}
+                    onClick={() => setShowBulkBuy(false)}
                   >
                     <p className="text-xxs sm:text-sm">{t("cancel")}</p>
                   </Button>
-                  <Button className="w-fit h-8 rounded-none min-w-[60px]">
+                  <Button
+                    className="w-fit h-8 rounded-none"
+                    onClick={handleCancelBulkBuy}
+                  >
+                    <p className="text-xxs sm:text-sm">{t("clear")}</p>
+                  </Button>
+                  <Button
+                    className="w-fit h-8 rounded-none min-w-[60px]"
+                    onClick={handleBuyBulkOrder}
+                  >
                     <p className="text-xxs sm:text-sm">{t("buy")}</p>
                   </Button>
                 </div>
               )}
               {!!tradeable?.listings.length &&
+                isResource &&
                 !showBulkBuy &&
                 limitedTradesLeft === Infinity && (
                   <Button
@@ -236,7 +347,17 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
                 )}
             </div>
           </div>
-          <div className="mb-2">
+          {showBulkBuy && (
+            <BulkBuyInterface
+              resource={display.name as InventoryItemName}
+              totalResources={bulkOrder?.quantity ?? 0}
+              totalPrice={bulkOrder?.price ?? 0}
+              minAmountToBuy={minAmount}
+              onMinAmountChange={setMinAmount}
+              maxLimit={maxLimit}
+            />
+          )}
+          <div className="my-2">
             {loading && <Loading />}
             {!loading && tradeable?.listings.length === 0 && (
               <p className="text-sm">{t("marketplace.noListings")}</p>
@@ -270,8 +391,8 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
                         }
                       : undefined
                   }
-                  onBulkListingCheck={handleBulkListingCheck}
-                  bulkListingIds={bulkListingIds}
+                  onBulkListingSelect={handleBulkSelectListing}
+                  bulkListingIds={bulkOrder?.ids ?? []}
                 />
               ) : (
                 <ListingTable

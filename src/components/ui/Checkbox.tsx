@@ -8,14 +8,12 @@ export interface CheckboxProps {
   checked: boolean;
   onChange: (checked: boolean) => void;
   disabled?: boolean;
-  className?: string;
 }
 
 export const Checkbox: React.FC<CheckboxProps> = ({
   checked,
   onChange,
   disabled = false,
-  className = "",
 }) => {
   const handleClick = () => {
     if (!disabled) {
@@ -39,10 +37,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         <img
           src={SUNNYSIDE.icons.confirm}
           alt="checked"
-          className={classNames("absolute left-1 bottom-1")}
-          style={{
-            width: `${PIXEL_SCALE * 100}px`,
-          }}
+          className="absolute left-1 bottom-1 w-8"
         />
       )}
     </div>

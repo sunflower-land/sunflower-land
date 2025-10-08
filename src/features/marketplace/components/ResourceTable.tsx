@@ -15,7 +15,7 @@ export const ResourceTable: React.FC<{
   inventoryCount: number;
   bulkListingIds: string[];
   onClick?: (id: string) => void;
-  onBulkListingCheck?: (id: string, checked: boolean) => void;
+  onBulkListingSelect: (id: string, checked: boolean) => void;
 }> = ({
   items,
   id: farmId,
@@ -27,7 +27,7 @@ export const ResourceTable: React.FC<{
   isResource,
   isBulkBuy,
   bulkListingIds,
-  onBulkListingCheck,
+  onBulkListingSelect,
 }) => {
   return (
     <div className="max-h-[200px] scrollable overflow-y-auto relative">
@@ -45,7 +45,7 @@ export const ResourceTable: React.FC<{
           isResource={isResource}
           isBulkBuy={isBulkBuy}
           isSelected={bulkListingIds.includes(item.id)}
-          onBulkListingCheck={onBulkListingCheck}
+          onBulkListingSelect={onBulkListingSelect}
         />
       ))}
     </div>
