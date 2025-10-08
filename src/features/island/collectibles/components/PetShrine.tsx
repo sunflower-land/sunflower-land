@@ -17,19 +17,64 @@ import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { PetShrineName } from "features/game/types/pets";
+import { getObjectEntries } from "features/game/expansion/lib/utils";
 
-export const PetShrine: React.FC<CollectibleProps> = ({
-  createdAt,
-  id,
-  location,
-  name,
-}) => {
+const PET_SHRINE_DIMENSIONS: Record<
+  PetShrineName,
+  {
+    left?: number;
+    right?: number;
+    top?: number;
+    bottom?: number;
+    width?: number;
+    height?: number;
+  }
+> = {
+  "Fox Shrine": { width: 18, left: -0.5 },
+  "Hound Shrine": { width: 17, left: -0.25 },
+  "Boar Shrine": { width: 17, left: -0.25 },
+  "Sparrow Shrine": { width: 18, left: -0.5 },
+  "Toucan Shrine": { width: 19, left: -0.5 },
+  "Collie Shrine": { width: 19, left: -0.5 },
+  "Badger Shrine": { width: 18, left: -0.5 },
+  "Stag Shrine": { width: 27, left: -2.5 },
+  "Mole Shrine": { width: 19, left: -0.5 },
+  "Bear Shrine": { width: 18, left: -0.5 },
+  "Tortoise Shrine": { width: 18, left: -0.5 },
+  "Moth Shrine": { width: 21, left: -1.5 },
+  "Bantam Shrine": { width: 18, left: -0.5 },
+
+  // Sprites not out yet
+  "Trading Shrine": { width: 18, left: -0.5 },
+  "Legendary Shrine": { width: 18, left: -0.5 },
+};
+
+const PET_SHRINE_DIMENSIONS_STYLES = getObjectEntries(
+  PET_SHRINE_DIMENSIONS,
+).reduce<Record<PetShrineName, React.CSSProperties>>(
+  (acc, [pet, styles]) => {
+    acc[pet] = {
+      left: styles.left ? `${PIXEL_SCALE * styles.left}px` : undefined,
+      right: styles.right ? `${PIXEL_SCALE * styles.right}px` : undefined,
+      top: styles.top ? `${PIXEL_SCALE * styles.top}px` : undefined,
+      bottom: styles.bottom ? `${PIXEL_SCALE * styles.bottom}px` : undefined,
+      width: styles.width ? `${PIXEL_SCALE * styles.width}px` : undefined,
+      height: styles.height ? `${PIXEL_SCALE * styles.height}px` : undefined,
+    };
+    return acc;
+  },
+  { ...PET_SHRINE_DIMENSIONS },
+);
+
+export const PetShrine: React.FC<
+  CollectibleProps & { name: PetShrineName }
+> = ({ createdAt, id, location, name }) => {
   const { t } = useAppTranslation();
   const { gameService, showTimers } = useContext(Context);
 
   const [_, setRender] = useState(0);
 
-  const expiresAt = createdAt + (EXPIRY_COOLDOWNS[name as PetShrineName] ?? 0);
+  const expiresAt = createdAt + (EXPIRY_COOLDOWNS[name] ?? 0);
 
   const hasExpired = Date.now() > expiresAt;
 
@@ -43,7 +88,11 @@ export const PetShrine: React.FC<CollectibleProps> = ({
 
   if (hasExpired) {
     return (
-      <div onClick={handleRemove}>
+      <div
+        onClick={handleRemove}
+        className="absolute"
+        style={{ ...PET_SHRINE_DIMENSIONS_STYLES[name], bottom: 0 }}
+      >
         {showTimers && (
           <div className="absolute bottom-0 left-0">
             <LiveProgressBar
@@ -68,11 +117,7 @@ export const PetShrine: React.FC<CollectibleProps> = ({
 
         <img
           src={ITEM_DETAILS[name].image}
-          style={{
-            width: `${PIXEL_SCALE * 16}px`,
-            bottom: `${PIXEL_SCALE * 0}px`,
-            left: `${PIXEL_SCALE * 1}px`,
-          }}
+          style={{ ...PET_SHRINE_DIMENSIONS_STYLES[name], bottom: 0 }}
           className="absolute cursor-pointer"
           alt={name}
         />
@@ -83,28 +128,29 @@ export const PetShrine: React.FC<CollectibleProps> = ({
   return (
     <Popover>
       <PopoverButton as="div">
-        {showTimers && (
-          <div className="absolute bottom-0 left-0">
-            <LiveProgressBar
-              startAt={createdAt}
-              endAt={expiresAt}
-              formatLength="medium"
-              type={"buff"}
-              onComplete={() => setRender((r) => r + 1)}
-            />
-          </div>
-        )}
+        <div
+          className="absolute"
+          style={{ ...PET_SHRINE_DIMENSIONS_STYLES[name], bottom: 0 }}
+        >
+          {showTimers && (
+            <div className="absolute bottom-0 left-0">
+              <LiveProgressBar
+                startAt={createdAt}
+                endAt={expiresAt}
+                formatLength="medium"
+                type={"buff"}
+                onComplete={() => setRender((r) => r + 1)}
+              />
+            </div>
+          )}
 
-        <img
-          src={ITEM_DETAILS[name].image}
-          style={{
-            width: `${PIXEL_SCALE * 16}px`,
-            bottom: `${PIXEL_SCALE * 0}px`,
-            left: `${PIXEL_SCALE * 1}px`,
-          }}
-          className="absolute cursor-pointer"
-          alt={name}
-        />
+          <img
+            src={ITEM_DETAILS[name].image}
+            style={{ ...PET_SHRINE_DIMENSIONS_STYLES[name], bottom: 0 }}
+            className="absolute cursor-pointer"
+            alt={name}
+          />
+        </div>
       </PopoverButton>
 
       <PopoverPanel anchor={{ to: "left start" }} className="flex">

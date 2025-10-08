@@ -564,22 +564,52 @@ export const COLLECTIBLE_COMPONENTS: Record<
   // Treasure
   "Abandoned Bear": AbandonedBear,
   "Tiki Totem": TikiTotem,
-  "Fox Shrine": PetShrine,
-  "Sparrow Shrine": PetShrine,
-  "Toucan Shrine": PetShrine,
-  "Collie Shrine": PetShrine,
-  "Badger Shrine": PetShrine,
-  "Boar Shrine": PetShrine,
-  "Hound Shrine": PetShrine,
-  "Stag Shrine": PetShrine,
-  "Legendary Shrine": PetShrine,
+  "Fox Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Fox Shrine" />
+  ),
+  "Sparrow Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Sparrow Shrine" />
+  ),
+  "Toucan Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Toucan Shrine" />
+  ),
+  "Collie Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Collie Shrine" />
+  ),
+  "Badger Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Badger Shrine" />
+  ),
+  "Boar Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Boar Shrine" />
+  ),
+  "Hound Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Hound Shrine" />
+  ),
+  "Stag Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Stag Shrine" />
+  ),
+  "Legendary Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Legendary Shrine" />
+  ),
   "Obsidian Shrine": ObsidianShrine,
-  "Mole Shrine": PetShrine,
-  "Bear Shrine": PetShrine,
-  "Tortoise Shrine": PetShrine,
-  "Moth Shrine": PetShrine,
-  "Bantam Shrine": PetShrine,
-  "Trading Shrine": PetShrine,
+  "Mole Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Mole Shrine" />
+  ),
+  "Bear Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Bear Shrine" />
+  ),
+  "Tortoise Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Tortoise Shrine" />
+  ),
+  "Moth Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Moth Shrine" />
+  ),
+  "Bantam Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Bantam Shrine" />
+  ),
+  "Trading Shrine": (props: CollectibleProps) => (
+    <PetShrine {...props} name="Trading Shrine" />
+  ),
 
   "Lunar Calendar": LunarCalendar,
   "Goblin Bear": GoblinBear,
