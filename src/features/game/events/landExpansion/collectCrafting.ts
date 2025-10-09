@@ -8,8 +8,7 @@ import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { hasFeatureAccess } from "lib/flags";
 
-const CRAFT_TO_COMPETITION_TASK: Record<string, CompetitionTaskName> = {
-  Doll: "Craft a Doll",
+export const CRAFT_TO_COMPETITION_TASK: Record<string, CompetitionTaskName> = {
   "Moo Doll": "Craft a Moo Doll",
   "Wooly Doll": "Craft a Wooly Doll",
   "Lumber Doll": "Craft a Lumber Doll",
@@ -65,9 +64,9 @@ export function collectCrafting({
     const task = CRAFT_TO_COMPETITION_TASK[craftedName];
 
     if (
+      task &&
       hasFeatureAccess(copy, "BUILDING_FRIENDSHIPS") &&
-      copy.competitions.progress.BUILDING_FRIENDSHIPS &&
-      task
+      copy.competitions.progress.BUILDING_FRIENDSHIPS
     ) {
       const points = getCompetitionPointsPerTask({
         game: copy,
