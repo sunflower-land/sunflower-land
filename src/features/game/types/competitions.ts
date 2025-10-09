@@ -7,8 +7,14 @@ import { getKeys } from "./decorations";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { ITEM_DETAILS } from "./images";
 import { hasVipAccess } from "../lib/vipAccess";
+import helpedIcon from "assets/icons/helped.webp";
 
-export type CompetitionName = "TESTING" | "FSL" | "ANIMALS" | "PEGGYS_COOKOFF";
+export type CompetitionName =
+  | "TESTING"
+  | "FSL"
+  | "ANIMALS"
+  | "PEGGYS_COOKOFF"
+  | "BUILDING_FRIENDSHIPS";
 
 export type CompetitionProgress = {
   startedAt: number;
@@ -61,7 +67,18 @@ export type CompetitionTaskName =
   | "Cook Fermented Fish"
   | "Cook Fancy Fries"
   | "Cook Pancakes"
-  | "Cook Tofu Scramble";
+  | "Cook Tofu Scramble"
+  | "Help 10 Friends"
+  | "Complete a Basic Cooking Pot"
+  | "Complete an Expert Cooking Pot"
+  | "Complete an Advanced Cooking Pot"
+  | "Craft a Doll"
+  | "Craft a Moo Doll"
+  | "Craft a Wooly Doll"
+  | "Craft a Lumber Doll"
+  | "Craft a Gilded Doll"
+  | "Craft a Lunar Doll"
+  | "Craft an Ember Doll";
 
 export const COMPETITION_TASK_PROGRESS: Record<
   CompetitionTaskName,
@@ -177,6 +194,25 @@ export const COMPETITION_TASK_PROGRESS: Record<
   "Cook Pancakes": (game) => game.bumpkin.activity["Pancakes Cooked"] ?? 0,
   "Cook Tofu Scramble": (game) =>
     game.bumpkin.activity["Tofu Scramble Cooked"] ?? 0,
+  "Help 10 Friends": (game) => 0,
+  "Complete a Basic Cooking Pot": (game) =>
+    game.bumpkin.activity["Basic Cooking Pot Completed"] ?? 0,
+  "Complete an Expert Cooking Pot": (game) =>
+    game.bumpkin.activity["Expert Cooking Pot Completed"] ?? 0,
+  "Complete an Advanced Cooking Pot": (game) =>
+    game.bumpkin.activity["Advanced Cooking Pot Completed"] ?? 0,
+  "Craft a Doll": (game) => game.bumpkin.activity["Doll Crafted"] ?? 0,
+  "Craft a Moo Doll": (game) => game.bumpkin.activity["Moo Doll Crafted"] ?? 0,
+  "Craft a Wooly Doll": (game) =>
+    game.bumpkin.activity["Wooly Doll Crafted"] ?? 0,
+  "Craft a Lumber Doll": (game) =>
+    game.bumpkin.activity["Lumber Doll Crafted"] ?? 0,
+  "Craft a Gilded Doll": (game) =>
+    game.bumpkin.activity["Gilded Doll Crafted"] ?? 0,
+  "Craft a Lunar Doll": (game) =>
+    game.bumpkin.activity["Lunar Doll Crafted"] ?? 0,
+  "Craft an Ember Doll": (game) =>
+    game.bumpkin.activity["Ember Doll Crafted"] ?? 0,
 };
 
 export const COMPETITION_POINTS: Record<
@@ -235,6 +271,24 @@ export const COMPETITION_POINTS: Record<
       "Cook Fancy Fries": 20,
       "Cook Pancakes": 2,
       "Cook Tofu Scramble": 4,
+    },
+  },
+  BUILDING_FRIENDSHIPS: {
+    // startAt: new Date("2025-10-13T00:00:00Z").getTime(),
+    startAt: new Date("2025-10-06T00:00:00Z").getTime(),
+    endAt: new Date("2025-10-23T00:00:00Z").getTime(),
+    points: {
+      "Help 10 Friends": 1,
+      "Complete a Basic Cooking Pot": 1,
+      "Complete an Expert Cooking Pot": 5,
+      "Complete an Advanced Cooking Pot": 10,
+      "Craft a Doll": 1,
+      "Craft a Moo Doll": 5,
+      "Craft a Wooly Doll": 5,
+      "Craft a Lumber Doll": 7,
+      "Craft a Gilded Doll": 7,
+      "Craft a Lunar Doll": 10,
+      "Craft an Ember Doll": 20,
     },
   },
 };
@@ -326,6 +380,50 @@ export const COMPETITION_TASK_DETAILS: Record<
   "Cook Tofu Scramble": {
     icon: ITEM_DETAILS["Tofu Scramble"].image,
     description: "Cook a Tofu Scramble at the Kitchen",
+  },
+  "Help 10 Friends": {
+    icon: helpedIcon,
+    description: "Help 10 Friends by cleaning their farm",
+  },
+  "Complete a Basic Cooking Pot": {
+    icon: ITEM_DETAILS["Basic Cooking Pot"].image,
+    description: "Complete a Basic Cooking Pot",
+  },
+  "Complete an Expert Cooking Pot": {
+    icon: ITEM_DETAILS["Expert Cooking Pot"].image,
+    description: "Complete an Expert Cooking Pot",
+  },
+  "Complete an Advanced Cooking Pot": {
+    icon: ITEM_DETAILS["Advanced Cooking Pot"].image,
+    description: "Complete an Advanced Cooking Pot",
+  },
+  "Craft a Doll": {
+    icon: ITEM_DETAILS["Doll"].image,
+    description: "Craft a Doll at the Crafting Box",
+  },
+  "Craft a Moo Doll": {
+    icon: ITEM_DETAILS["Moo Doll"].image,
+    description: "Craft a Moo Doll at the Crafting Box",
+  },
+  "Craft a Wooly Doll": {
+    icon: ITEM_DETAILS["Wooly Doll"].image,
+    description: "Craft a Wooly Doll at the Crafting Box",
+  },
+  "Craft a Lumber Doll": {
+    icon: ITEM_DETAILS["Lumber Doll"].image,
+    description: "Craft a Lumber Doll at the Crafting Box",
+  },
+  "Craft a Gilded Doll": {
+    icon: ITEM_DETAILS["Gilded Doll"].image,
+    description: "Craft a Gilded Doll at the Crafting Box",
+  },
+  "Craft a Lunar Doll": {
+    icon: ITEM_DETAILS["Lunar Doll"].image,
+    description: "Craft a Lunar Doll at the Crafting Box",
+  },
+  "Craft an Ember Doll": {
+    icon: ITEM_DETAILS["Ember Doll"].image,
+    description: "Craft an Ember Doll at the Crafting Box",
   },
 };
 

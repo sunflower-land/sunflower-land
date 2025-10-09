@@ -36,6 +36,8 @@ import { AnimalType } from "./animals";
 import { SeasonalTierItemName } from "./megastore";
 import { WeatherShopItem } from "./calendar";
 import { PetShopItemName } from "./petShop";
+import { MonumentName } from "./monuments";
+import { RecipeCollectibleName } from "../lib/crafting";
 
 type BuyableName =
   | SeedName
@@ -87,7 +89,8 @@ export type CraftedEvent = `${
   | Keys
   | PurchaseableBait
   | WeatherShopItem
-  | PetShopItemName} Crafted`;
+  | PetShopItemName
+  | RecipeCollectibleName} Crafted`;
 export type ConsumableEvent = `${ConsumableName} Collected`;
 export type SellEvent = `${SellableName} Sold`;
 export type TreasureEvent = `${TreasureName} Dug`;
@@ -152,7 +155,8 @@ export type BumpkinActivityName =
   | "Bud Placed"
   | ComposterCollectEvent
   | "Crop Fertilised"
-  | "Rod Casted";
+  | "Rod Casted"
+  | `${MonumentName} Completed`;
 
 export function trackActivity(
   activityName: BumpkinActivityName,
