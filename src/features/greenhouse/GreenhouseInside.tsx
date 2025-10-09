@@ -18,6 +18,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import { useSelector } from "@xstate/react";
+import { isBuildingDestroyed } from "features/island/buildings/components/building/Building";
 
 const background = SUNNYSIDE.land.greenhouse_inside;
 
@@ -44,6 +45,15 @@ export const GreenhouseInside: React.FC = () => {
   useLayoutEffect(() => {
     scrollIntoView(Section.GenesisBlock, "auto");
   }, []);
+
+  const calendarEvent = isBuildingDestroyed({
+    name: "Greenhouse",
+    calendar: context.state.calendar,
+  });
+
+  if (calendarEvent) {
+    navigate("/");
+  }
 
   return (
     <>
