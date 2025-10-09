@@ -6712,6 +6712,6 @@
   "twitter.vote.instructions.2": "2. 在 Twitter 上发布上方图片，并添加话题标签 {{hashtag}}。",
   "twitter.vote.instructions.3": "3. 点击下方按钮验证你的推文。",
   "pets.foodLocked": "达到等级 {{level}} 即可解锁",
-  "pets.typeFed": "其他 {{type}} 美联储",
-  "pets.typeFedDescription": "你已经喂过这种类型的宠物了。请等到明天再喂这只宠物。"
+  "pets.typeFed": "已喂养其他 {{type}}",
+  "pets.typeFedDescription": "你今天已经喂养过该类型的宠物，请等待明天再喂养这只宠物。"
 }
