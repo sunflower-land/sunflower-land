@@ -740,10 +740,18 @@ export const SUNNYSIDE = {
   },
   //Resources
   resource: {
-    // Animals
+    // Pet Resources
     acorn: `${CONFIG.PROTECTED_IMAGE_URL}/resources/acorn.webp`,
     ruffroot: `${CONFIG.PROTECTED_IMAGE_URL}/resources/ruffroot.webp`,
     heartleaf: `${CONFIG.PROTECTED_IMAGE_URL}/resources/heartleaf.webp`,
+    moonfur: `${CONFIG.PROTECTED_IMAGE_URL}/resources/moonfur.webp`,
+    fossil_shell: `${CONFIG.PROTECTED_IMAGE_URL}/resources/fossil_shell.webp`,
+    ribbon: `${CONFIG.PROTECTED_IMAGE_URL}/resources/ribbon.webp`,
+    wild_grass: `${CONFIG.PROTECTED_IMAGE_URL}/resources/wild_grass.webp`,
+    frost_pebble: `${CONFIG.PROTECTED_IMAGE_URL}/resources/frost_pebble.webp`,
+    chewed_bone: `${CONFIG.PROTECTED_IMAGE_URL}/resources/chewed_bone.webp`,
+
+    // Animals
     chicken: `${CONFIG.PROTECTED_IMAGE_URL}/resources/animals/chicken.png`,
     egg: `${CONFIG.PROTECTED_IMAGE_URL}/resources/animals/egg.png`,
     feather: `${CONFIG.PROTECTED_IMAGE_URL}/resources/animals/feather.webp`,
