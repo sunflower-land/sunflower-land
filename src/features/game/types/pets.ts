@@ -44,17 +44,16 @@ export type PetName =
   // Goat - Not used
   | "Ramsey";
 
-export type PetType =
-  // Common Pet Types
+export type CommonPetType =
   | "Dog"
   | "Cat"
   | "Owl"
   | "Horse"
   | "Bull"
   | "Hamster"
-  | "Penguin"
+  | "Penguin";
 
-  // NFT Pet Types
+export type PetNFTType =
   | "Ram"
   | "Dragon"
   | "Phoenix"
@@ -62,6 +61,8 @@ export type PetType =
   | "Warthog"
   | "Wolf"
   | "Bear";
+
+export type PetType = CommonPetType | PetNFTType;
 
 export type PetCategoryName =
   | "Guardian"
@@ -114,9 +115,9 @@ export type PetNFT = Omit<Pet, "name"> & {
   revealAt: number;
   // TODO: Add traits
   traits?: {
-    bib: string;
-    aura: string;
-    type: PetType;
+    bib?: string;
+    aura?: string;
+    type: PetNFTType;
   };
 };
 
@@ -691,8 +692,6 @@ export function getPetLevel(currentTotalExperience: number) {
   };
 }
 
-const PET_NEGLECT_DAYS = 3;
-
 export function isPetNeglected(
   pet: Pet | PetNFT | undefined,
   createdAt: number = Date.now(),
@@ -700,6 +699,8 @@ export function isPetNeglected(
   if (!pet) {
     return false;
   }
+
+  const PET_NEGLECT_DAYS = isPetNFT(pet) ? 7 : 3;
 
   const lastFedAt = pet.requests.fedAt ?? createdAt; // Default to createdAt otherwise the pet will be neglected if it hasn't been fed before
   const lastFedAtDate = new Date(lastFedAt).toISOString().split("T")[0];
@@ -720,4 +721,31 @@ export function isPetNapping(
   const pettedAt = pet.pettedAt;
   const hoursSincePetted = (createdAt - pettedAt) / (1000 * 60 * 60);
   return hoursSincePetted >= PET_NAP_HOURS;
+}
+
+export function isPetOfTypeFed({
+  nftPets,
+  petType,
+  id,
+  now = Date.now(),
+}: {
+  nftPets: PetNFTs;
+  petType: PetNFTType;
+  id: number; // This is the id of the pet to exclude from the check
+  now?: number;
+}) {
+  const petsOfType = Object.values(nftPets).filter(
+    (pet) => pet.traits?.type === petType,
+  );
+
+  const isPetOfTypeFed = petsOfType.some((pet) => {
+    if (pet.id === id) return false;
+    const lastFedAt = pet.requests.fedAt;
+    if (!lastFedAt) return false;
+    const todayDate = new Date(now).toISOString().split("T")[0];
+    const lastFedAtDate = new Date(lastFedAt).toISOString().split("T")[0];
+    return lastFedAtDate === todayDate;
+  });
+
+  return isPetOfTypeFed;
 }

@@ -1,5 +1,10 @@
 import { GameState } from "features/game/types/game";
-import { PetName, isPetNapping } from "features/game/types/pets";
+import {
+  PetName,
+  isPetNapping,
+  isPetOfTypeFed,
+  isPetNFT as isPetNFTData,
+} from "features/game/types/pets";
 import { produce } from "immer";
 
 export type PetPetAction = {
@@ -27,6 +32,24 @@ export function petPet({ state, action, createdAt = Date.now() }: Options) {
     if (!isPetNapping(petData, createdAt)) {
       throw new Error("Pet is not napping");
     }
+
+    if (isPetNFTData(petData)) {
+      if (!petData.traits) {
+        throw new Error("Pet traits not found");
+      }
+
+      if (
+        isPetOfTypeFed({
+          nftPets: stateCopy.pets?.nfts ?? {},
+          petType: petData.traits.type,
+          id: petData.id,
+          now: createdAt,
+        })
+      ) {
+        throw new Error("Pet of type has been fed today");
+      }
+    }
+
     petData.experience += 10;
     petData.pettedAt = createdAt;
 

@@ -7,7 +7,8 @@ import {
   getPetRequestXP,
   isPetNapping,
   isPetNeglected,
-  isPetNFT,
+  isPetNFT as isPetNFTData,
+  isPetOfTypeFed,
   Pet,
   PET_REQUESTS,
   PetName,
@@ -105,7 +106,7 @@ export function getPetFoodRequests(
 ): CookableName[] {
   const requests = [...pet.requests.food];
 
-  const isNFT = isPetNFT(pet);
+  const isNFT = isPetNFTData(pet);
 
   if (isNFT) {
     if (petLevel < 30) {
@@ -208,6 +209,35 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
 
     if (isPetNeglected(petData, createdAt)) {
       throw new Error("Pet is in neglected state");
+    }
+
+    const isNFTData = isPetNFTData(petData);
+
+    const isPetPlaced = isNFTData
+      ? !!petData.coordinates
+      : !!stateCopy.collectibles[petData.name]?.some(
+          (collectible) => !!collectible.coordinates,
+        );
+
+    if (!isPetPlaced) {
+      throw new Error("Pet is not placed");
+    }
+
+    if (isNFTData) {
+      if (!petData.traits) {
+        throw new Error("Pet traits not found");
+      }
+
+      const isPetTypeFed = isPetOfTypeFed({
+        nftPets: stateCopy.pets?.nfts ?? {},
+        petType: petData.traits.type,
+        id: petData.id,
+        now: createdAt,
+      });
+
+      if (isPetTypeFed) {
+        throw new Error("Pet of type has been fed today");
+      }
     }
 
     const { level: petLevel } = getPetLevel(petData.experience);
