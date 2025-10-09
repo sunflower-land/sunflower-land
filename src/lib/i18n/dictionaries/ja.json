@@ -6711,5 +6711,7 @@
   "twitter.vote.instructions.1": "1。Gam3s.ggにアクセスして、リンクされたウォレットでサンフラワーランドに投票してください。",
   "twitter.vote.instructions.2": "2。上の画像をハッシュタグ {{hashtag}} を付けてツイッターに投稿してください",
   "twitter.vote.instructions.3": "3。下のボタンをクリックしてツイートを確認してください。",
-  "pets.foodLocked": "レベル {{level}} に到達してロック解除"
+  "pets.foodLocked": "レベル {{level}} に到達してロック解除",
+  "pets.typeFed": "その他 {{type}} フィード",
+  "pets.typeFedDescription": "あなたはすでにこのタイプのペットに餌を与えています。このペットに餌をやるには、明日まで待ってください。"
 }

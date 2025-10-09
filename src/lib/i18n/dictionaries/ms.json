@@ -6711,5 +6711,7 @@
   "twitter.vote.instructions.1": "1. Lawati Gam3s.gg dan undi Sunflower Land dengan dompet yang dipautkan anda.",
   "twitter.vote.instructions.2": "2. Siarkan imej di atas ke Twitter dengan hashtag {{hashtag}}",
   "twitter.vote.instructions.3": "3. Sahkan tweet anda dengan mengklik butang di bawah.",
-  "pets.foodLocked": "Mencapai Tahap {{level}} untuk membuka kunci"
+  "pets.foodLocked": "Mencapai Tahap {{level}} untuk membuka kunci",
+  "pets.typeFed": "Lain-lain {{type}} Fed",
+  "pets.typeFedDescription": "Anda telah memberi makan haiwan kesayangan jenis ini. Sila tunggu sehingga esok untuk memberi makan haiwan kesayangan ini."
 }

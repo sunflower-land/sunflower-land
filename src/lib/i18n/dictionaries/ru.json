@@ -6711,5 +6711,7 @@
   "twitter.vote.instructions.1": "1. Посетите Gam3s.gg и проголосуйте за Sunflower Land с помощью привязанного кошелька.",
   "twitter.vote.instructions.2": "2. Опубликуйте изображение выше в Twitter с хэштегом {{hashtag}}",
   "twitter.vote.instructions.3": "3. Подтвердите свой твит, нажав кнопку ниже.",
-  "pets.foodLocked": "Достигните уровня {{level}}, чтобы разблокировать"
+  "pets.foodLocked": "Достигните уровня {{level}}, чтобы разблокировать",
+  "pets.typeFed": "Другие {{type}} ФРС",
+  "pets.typeFedDescription": "Вы уже покормили питомца такого типа. Пожалуйста, подождите до завтра, чтобы покормить этого питомца."
 }

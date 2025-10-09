@@ -6711,5 +6711,7 @@
   "twitter.vote.instructions.1": "1. Besuche Gam3s.gg und stimme mit deiner verknüpften Wallet für Sunflower Land.",
   "twitter.vote.instructions.2": "2. Poste das Bild oben auf Twitter mit dem Hashtag {{hashtag}}",
   "twitter.vote.instructions.3": "3. Bestätigen Sie Ihren Tweet, indem Sie auf die Schaltfläche unten klicken.",
-  "pets.foodLocked": "Erreiche Level {{level}}, um das Spiel freizuschalten"
+  "pets.foodLocked": "Erreiche Level {{level}}, um das Spiel freizuschalten",
+  "pets.typeFed": "Andere {{type}} Gebühren",
+  "pets.typeFedDescription": "Sie haben bereits ein Haustier dieses Typs gefüttert. Bitte warten Sie bis morgen, um dieses Haustier zu füttern."
 }

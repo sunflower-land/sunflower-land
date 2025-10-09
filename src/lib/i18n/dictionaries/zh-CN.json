@@ -6711,5 +6711,7 @@
   "twitter.vote.instructions.1": "1。访问Gam3s.gg，用你关联的钱包为向日葵乐园投票。",
   "twitter.vote.instructions.2": "2。使用主题标签 {{hashtag}} 将上面的图片发布到 Twitter",
   "twitter.vote.instructions.3": "3.点击下面的按钮验证你的推文。",
-  "pets.foodLocked": "达到等级 {{level}} 即可解锁"
+  "pets.foodLocked": "达到等级 {{level}} 即可解锁",
+  "pets.typeFed": "其他 {{type}} 美联储",
+  "pets.typeFedDescription": "你已经喂过这种类型的宠物了。请等到明天再喂这只宠物。"
 }
