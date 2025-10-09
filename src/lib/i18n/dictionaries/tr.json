@@ -6711,5 +6711,7 @@
   "twitter.vote.instructions.1": "1. Gam3s.gg'yi ziyaret edin ve bağlı cüzdanınızla Sunflower Land için oy verin.",
   "twitter.vote.instructions.2": "2. Yukarıdaki resmi {{hashtag}} hashtag'iyle Twitter'a gönderin",
   "twitter.vote.instructions.3": "3. Aşağıdaki düğmeyi tıklayarak tweet\"inizi doğrulayın.",
-  "pets.foodLocked": "Kilidi açmak için Seviyeye {{level}} ulaşın"
+  "pets.foodLocked": "Kilidi açmak için Seviyeye {{level}} ulaşın",
+  "pets.typeFed": "Diğer {{type}} Fed",
+  "pets.typeFedDescription": "Zaten bu tür bir evcil hayvanı beslediniz. Lütfen bu evcil hayvanı beslemek için yarına kadar bekleyin."
 }

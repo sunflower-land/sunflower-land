@@ -69,6 +69,31 @@ describe("feedPet", () => {
     ).toThrow("Pet is in neglected state");
   });
 
+  it("throws an error if pet is not placed", () => {
+    expect(() =>
+      feedPet({
+        state: {
+          ...INITIAL_FARM,
+          pets: {
+            common: {
+              Barkley: {
+                name: "Barkley",
+                requests: {
+                  food: [],
+                  fedAt: now,
+                },
+                energy: 100,
+                experience: 0,
+                pettedAt: now,
+              },
+            },
+          },
+        },
+        action: { type: "pet.fed", petId: "Barkley", food: "Bumpkin Salad" },
+      }),
+    ).toThrow("Pet is not placed");
+  });
+
   it("throws an error if there are no requests", () => {
     expect(() =>
       feedPet({
@@ -86,6 +111,16 @@ describe("feedPet", () => {
                 pettedAt: now,
               },
             },
+          },
+          collectibles: {
+            Barkley: [
+              {
+                createdAt: now,
+                id: "1",
+                readyAt: now,
+                coordinates: { x: 1, y: 1 },
+              },
+            ],
           },
         },
         action: {
@@ -113,6 +148,16 @@ describe("feedPet", () => {
                 pettedAt: now,
               },
             },
+          },
+          collectibles: {
+            Barkley: [
+              {
+                createdAt: now,
+                id: "1",
+                readyAt: now,
+                coordinates: { x: 1, y: 1 },
+              },
+            ],
           },
         },
         action: {
@@ -143,6 +188,16 @@ describe("feedPet", () => {
                 pettedAt: now,
               },
             },
+          },
+          collectibles: {
+            Barkley: [
+              {
+                createdAt: now,
+                id: "1",
+                readyAt: now,
+                coordinates: { x: 1, y: 1 },
+              },
+            ],
           },
         },
         action: {
@@ -178,6 +233,16 @@ describe("feedPet", () => {
           inventory: {
             "Bumpkin Salad": new Decimal(10),
           },
+          collectibles: {
+            Barkley: [
+              {
+                createdAt: now,
+                id: "1",
+                readyAt: now,
+                coordinates: { x: 1, y: 1 },
+              },
+            ],
+          },
         },
         action: {
           type: "pet.fed",
@@ -211,6 +276,16 @@ describe("feedPet", () => {
           inventory: {
             "Bumpkin Salad": new Decimal(0),
           },
+          collectibles: {
+            Barkley: [
+              {
+                createdAt: now,
+                id: "1",
+                readyAt: now,
+                coordinates: { x: 1, y: 1 },
+              },
+            ],
+          },
         },
         action: {
           type: "pet.fed",
@@ -220,6 +295,49 @@ describe("feedPet", () => {
         createdAt: now,
       }),
     ).toThrow("Not enough food in inventory");
+  });
+
+  it("throws an error if pet of type has been fed today", () => {
+    expect(() =>
+      feedPet({
+        state: {
+          ...INITIAL_FARM,
+          pets: {
+            nfts: {
+              1: {
+                name: "Pet-1",
+                id: 1,
+                revealAt: 0,
+                traits: { type: "Dragon" },
+                energy: 100,
+                experience: 0,
+                pettedAt: now,
+                requests: {
+                  food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+                  fedAt: now,
+                },
+                coordinates: { x: 1, y: 1 },
+              },
+              2: {
+                name: "Pet-2",
+                id: 2,
+                revealAt: 0,
+                traits: { type: "Dragon" },
+                energy: 100,
+                experience: 0,
+                pettedAt: now,
+                requests: {
+                  food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+                  fedAt: now,
+                },
+                coordinates: { x: 1, y: 1 },
+              },
+            },
+          },
+        },
+        action: { type: "pet.fed", petId: 2, food: "Bumpkin Salad" },
+      }),
+    ).toThrow("Pet of type has been fed today");
   });
 
   it("feeds pet", () => {
@@ -239,6 +357,16 @@ describe("feedPet", () => {
               pettedAt: now,
             },
           },
+        },
+        collectibles: {
+          Barkley: [
+            {
+              createdAt: now,
+              id: "1",
+              readyAt: now,
+              coordinates: { x: 1, y: 1 },
+            },
+          ],
         },
         inventory: {
           "Bumpkin Salad": new Decimal(10),
@@ -261,6 +389,59 @@ describe("feedPet", () => {
     expect(BarkleyData?.energy).toEqual(100);
     expect(BarkleyData?.experience).toEqual(200);
   });
+
+  it("feeds pet with nft", () => {
+    const state = feedPet({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Bumpkin Salad": new Decimal(10),
+        },
+        pets: {
+          nfts: {
+            1: {
+              name: "Pet-1",
+              id: 1,
+              revealAt: 0,
+              traits: { type: "Dragon" },
+              energy: 100,
+              experience: 0,
+              pettedAt: now,
+              requests: {
+                food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+                fedAt: now,
+              },
+              coordinates: { x: 1, y: 1 },
+            },
+            2: {
+              name: "Pet-2",
+              id: 2,
+              revealAt: 0,
+              traits: { type: "Dragon" },
+              energy: 100,
+              experience: 0,
+              pettedAt: now,
+              requests: {
+                food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+              },
+              coordinates: { x: 1, y: 1 },
+            },
+          },
+        },
+      },
+      action: { type: "pet.fed", petId: 1, food: "Bumpkin Salad" },
+      createdAt: now,
+    });
+    const petData = state.pets?.nfts?.[1];
+
+    expect(petData?.requests.foodFed).toEqual<CookableName[]>([
+      "Bumpkin Salad",
+    ]);
+    expect(petData?.requests.fedAt).toEqual(now);
+    expect(petData?.energy).toEqual(200);
+    expect(petData?.experience).toEqual(100);
+  });
+
   it("feeds pet with energy boost", () => {
     const state = feedPet({
       state: {
@@ -281,6 +462,16 @@ describe("feedPet", () => {
         },
         inventory: {
           "Bumpkin Salad": new Decimal(10),
+        },
+        collectibles: {
+          Barkley: [
+            {
+              createdAt: now,
+              id: "1",
+              readyAt: now,
+              coordinates: { x: 1, y: 1 },
+            },
+          ],
         },
       },
       action: {
@@ -319,6 +510,14 @@ describe("feedPet", () => {
         },
         collectibles: {
           "Hound Shrine": [{ createdAt: now, id: "1", readyAt: now }],
+          Barkley: [
+            {
+              createdAt: now,
+              id: "1",
+              readyAt: now,
+              coordinates: { x: 1, y: 1 },
+            },
+          ],
         },
       },
       action: {
@@ -352,6 +551,16 @@ describe("feedPet", () => {
               pettedAt: now,
             },
           },
+        },
+        collectibles: {
+          Barkley: [
+            {
+              createdAt: now,
+              id: "1",
+              readyAt: now,
+              coordinates: { x: 1, y: 1 },
+            },
+          ],
         },
         inventory: {
           "Bumpkin Salad": new Decimal(10),
@@ -392,6 +601,8 @@ describe("feedPet", () => {
               energy: 0,
               experience: level40XP, // Level 40
               pettedAt: now,
+              traits: { type: "Dragon" },
+              coordinates: { x: 1, y: 1 },
             },
           },
         },
@@ -434,6 +645,8 @@ describe("feedPet", () => {
               energy: 0,
               experience: level85XP, // Level 85
               pettedAt: now,
+              traits: { type: "Dragon" },
+              coordinates: { x: 1, y: 1 },
             },
           },
         },

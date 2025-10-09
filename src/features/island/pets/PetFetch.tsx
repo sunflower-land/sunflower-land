@@ -44,7 +44,7 @@ export const PetFetch: React.FC<Props> = ({
 
   const selectedFetchData = fetches.find((f) => f.name === selectedFetch);
 
-  const petImage = getPetImage("happy", petData);
+  const petImage = getPetImage("happy", petData, petId);
   const energyRequired = PET_RESOURCES[selectedFetch].energy;
   const requiredLevel = selectedFetchData?.level ?? 0;
   const hasRequiredLevel = level >= requiredLevel;

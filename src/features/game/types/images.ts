@@ -1014,11 +1014,7 @@ import waddles from "assets/sfts/pets/penguins/waddles.webp";
 import ramsey from "assets/sfts/pets/ramsey.webp";
 import petEgg from "assets/icons/pet_egg.png";
 
-import moonfur from "assets/icons/moonfur.webp";
 import dewberry from "assets/icons/dewberry.webp";
-import ribbon from "assets/icons/medal.webp";
-import frostPebble from "assets/icons/diamond.webp";
-import wildGrass from "assets/icons/wild_grass.webp";
 
 import badgerShrine from "assets/sfts/shrines/badger_shrine.webp";
 import bantamShrine from "assets/sfts/shrines/bantam_shrine.webp";
@@ -5861,7 +5857,7 @@ export const ITEM_DETAILS: Items = {
     description: "",
   },
   "Chewed Bone": {
-    image: camelBone,
+    image: SUNNYSIDE.resource.chewed_bone,
     description: translate("description.chewedBone"),
   },
   "Heart leaf": {
@@ -5917,11 +5913,11 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.obsidianShrine"),
   },
   Moonfur: {
-    image: moonfur,
+    image: SUNNYSIDE.resource.moonfur,
     description: translate("description.moonfur"),
   },
   "Fossil Shell": {
-    image: SUNNYSIDE.resource.clam_shell,
+    image: SUNNYSIDE.resource.fossil_shell,
     description: translate("description.fossilShell"),
   },
   Mudhorn: {
@@ -5965,17 +5961,15 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.tradingShrine"),
   },
   "Wild Grass": {
-    image: wildGrass,
+    image: SUNNYSIDE.resource.wild_grass,
     description: translate("description.wildGrass"),
   },
   "Frost Pebble": {
-    image: frostPebble,
-
+    image: SUNNYSIDE.resource.frost_pebble,
     description: translate("description.frostPebble"),
   },
   Ribbon: {
-    image: ribbon,
-
+    image: SUNNYSIDE.resource.ribbon,
     description: translate("description.ribbon"),
   },
   Dewberry: {

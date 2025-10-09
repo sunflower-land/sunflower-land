@@ -8,6 +8,7 @@ import {
   isPetNapping,
   isPetNeglected,
   Pet,
+  PetName,
   PetNFT,
 } from "features/game/types/pets";
 import { getPetImage } from "features/island/pets/lib/petShared";
@@ -16,11 +17,12 @@ import { shortenCount } from "lib/utils/formatNumber";
 import React, { useState } from "react";
 
 type Props = {
+  petId: PetName | number;
   petData: Pet | PetNFT;
   children: React.ReactNode;
 };
 
-export const PetInfo: React.FC<Props> = ({ children, petData }) => {
+export const PetInfo: React.FC<Props> = ({ children, petData, petId }) => {
   const { t } = useAppTranslation();
   const { level, percentage, currentProgress, experienceBetweenLevels } =
     getPetLevel(petData.experience);
@@ -32,6 +34,7 @@ export const PetInfo: React.FC<Props> = ({ children, petData }) => {
   const petImage = getPetImage(
     isNeglected || isNapping ? "asleep" : "happy",
     petData,
+    petId,
   );
 
   return (

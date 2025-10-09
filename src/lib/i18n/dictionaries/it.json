@@ -6711,5 +6711,7 @@
   "twitter.vote.instructions.1": "1. Visita Gam3S.gg e vota Sunflower Land con il tuo portafoglio collegato.",
   "twitter.vote.instructions.2": "2. Pubblica l'immagine qui sopra su Twitter con l'hashtag {{hashtag}}",
   "twitter.vote.instructions.3": "3. Verifica il tuo tweet facendo clic sul pulsante in basso.",
-  "pets.foodLocked": "Raggiungi il livello {{level}} per sbloccare"
+  "pets.foodLocked": "Raggiungi il livello {{level}} per sbloccare",
+  "pets.typeFed": "Altro {{type}} Fed",
+  "pets.typeFedDescription": "Hai già dato da mangiare a un animale di questo tipo. Attendi fino a domani per dare da mangiare a questo animale domestico."
 }

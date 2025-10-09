@@ -6502,6 +6502,8 @@
   "pets.nextRequests": "Next Requests",
   "perks": "Perks",
   "pets.neglected": "Neglected",
+  "pets.typeFed": "Other {{type}} Fed",
+  "pets.typeFedDescription": "You have already fed a pet of this type. Please wait until tomorrow to feed this pet.",
   "description.moonfur": "A fluffy moonfur",
   "description.legendaryShrine": "A legendary shrine that buffs everything!",
   "description.legendaryShrine.buff": "+1 Crop Yield",

@@ -6711,5 +6711,7 @@
   "twitter.vote.instructions.1": "1. Kunjungi Gam3s.gg dan pilih Sunflower Land dengan dompet tertaut Anda.",
   "twitter.vote.instructions.2": "2. Posting gambar di atas ke Twitter dengan tagar {{hashtag}}",
   "twitter.vote.instructions.3": "3. Verifikasi tweet Anda dengan mengklik tombol di bawah ini.",
-  "pets.foodLocked": "Mencapai Level {{level}} untuk membuka"
+  "pets.foodLocked": "Mencapai Level {{level}} untuk membuka",
+  "pets.typeFed": "{{type}} Fed lainnya",
+  "pets.typeFedDescription": "Anda sudah memberi makan hewan peliharaan jenis ini. Harap tunggu sampai besok untuk memberi makan hewan peliharaan ini."
 }
