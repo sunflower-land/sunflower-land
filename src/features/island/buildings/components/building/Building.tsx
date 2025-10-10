@@ -247,7 +247,7 @@ const DESTROYED_BUILDINGS: BuildingName[] = [
   "Deli",
 ];
 
-function isBuildingDestroyed({
+export function isBuildingDestroyed({
   name,
   calendar,
 }: {
