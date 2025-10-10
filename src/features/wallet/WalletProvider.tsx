@@ -44,6 +44,8 @@ export const coinbaseConnector = coinbaseWallet({
   appLogoUrl: "https://sunflower-land.com/game-assets/brand/512px.png",
 });
 
+export const farcasterConnector = miniAppConnector();
+
 export const fallbackConnector = injected({
   target() {
     return {
@@ -108,7 +110,7 @@ export const config = createConfig({
     coinbaseConnector,
     waypointConnector,
     fallbackConnector,
-    miniAppConnector(),
+    farcasterConnector,
   ],
   transports: {
     // Testnet
