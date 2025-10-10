@@ -1286,6 +1286,9 @@ export function startGame(authContext: AuthContext) {
             {
               target: "competition",
               cond: (context) => {
+                if (!hasFeatureAccess(context.state, "BUILDING_FRIENDSHIPS"))
+                  return false;
+
                 const hasStarted =
                   Date.now() > COMPETITION_POINTS.BUILDING_FRIENDSHIPS.startAt;
                 if (!hasStarted) return false;
