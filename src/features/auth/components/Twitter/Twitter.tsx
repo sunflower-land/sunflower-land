@@ -363,7 +363,7 @@ const TwitterVote: React.FC<{ onClose: () => void; onVerify?: () => void }> = ({
 
   // In last 7 days
   const hasCompleted =
-    (twitter?.tweets?.FARM?.completedAt ?? 0) >
+    (twitter?.tweets?.VOTE?.completedAt ?? 0) >
     Date.now() - 7 * 24 * 60 * 60 * 1000;
 
   const handleDownload = async () => {
@@ -399,13 +399,13 @@ const TwitterVote: React.FC<{ onClose: () => void; onVerify?: () => void }> = ({
             <div className="flex gap-1">
               {
                 // Loop through rewards and give label
-                getKeys(TWITTER_REWARDS.FARM.items).map((name) => (
+                getKeys(TWITTER_REWARDS.VOTE.items).map((name) => (
                   <Label
                     type="warning"
                     key={name}
                     icon={ITEM_DETAILS[name].image}
                   >
-                    {`${name} x ${TWITTER_REWARDS.FARM.items[name]}`}
+                    {`${name} x ${TWITTER_REWARDS.VOTE.items[name]}`}
                   </Label>
                 ))
               }
