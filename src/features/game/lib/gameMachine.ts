@@ -109,6 +109,7 @@ import { blessingIsReady } from "./blessings";
 import { hasReadNews } from "features/farming/mail/components/News";
 import { depositSFL } from "lib/blockchain/DepositSFL";
 import { hasFeatureAccess } from "lib/flags";
+import { getBumpkinLevel } from "./level";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -1287,11 +1288,24 @@ export function startGame(authContext: AuthContext) {
             },
             {
               target: "news",
-              cond: () => !hasReadNews(),
+              cond: (context) => {
+                // Do not show if they are under level 5
+                const level = getBumpkinLevel(
+                  context.state.bumpkin?.experience ?? 0,
+                );
+                if (level < 5) return false;
+                return !hasReadNews();
+              },
             },
             {
               target: "cheers",
               cond: (context) => {
+                // Do not show if they are under level 5
+                const level = getBumpkinLevel(
+                  context.state.bumpkin?.experience ?? 0,
+                );
+                if (level < 5) return false;
+
                 const now = Date.now();
 
                 const today = new Date(now).toISOString().split("T")[0];
