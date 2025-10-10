@@ -5,6 +5,7 @@ on:
 
 jobs:
   codex:
+    environment: develop
     runs-on: ubuntu-latest
     permissions:
       contents: read
