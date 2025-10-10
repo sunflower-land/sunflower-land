@@ -1560,6 +1560,8 @@ export type SocialFarming = {
     spawnedAt: number;
     locations: { [clutterId: string]: ClutterCoordinates };
   };
+  // NOTE: Remove after Chapter competition
+  helpedForCompetition?: number;
 };
 
 export type Auctioneer = {

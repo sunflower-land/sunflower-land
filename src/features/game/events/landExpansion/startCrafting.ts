@@ -44,6 +44,18 @@ export function getBoostedCraftingTime({
     boostsUsed.push("Fox Shrine");
   }
 
+  if (
+    isTemporaryCollectibleActive({ name: "Time Warp Totem", game }) ||
+    isTemporaryCollectibleActive({ name: "Super Totem", game })
+  ) {
+    seconds *= 0.5;
+    if (isTemporaryCollectibleActive({ name: "Time Warp Totem", game })) {
+      boostsUsed.push("Time Warp Totem");
+    } else if (isTemporaryCollectibleActive({ name: "Super Totem", game })) {
+      boostsUsed.push("Super Totem");
+    }
+  }
+
   return { seconds, boostsUsed };
 }
 

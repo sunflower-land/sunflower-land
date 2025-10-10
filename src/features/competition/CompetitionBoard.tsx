@@ -218,6 +218,13 @@ export const CompetitionDetails: React.FC<{
                   name: competitionName,
                   task: name,
                 });
+                let taskName = name;
+                if (name === "Help 10 Friends") {
+                  const helpedForCompetition =
+                    state.socialFarming.helpedForCompetition ?? 0;
+                  taskName += ` (${helpedForCompetition > 10 ? helpedForCompetition % 10 : helpedForCompetition}/10)`;
+                }
+
                 return (
                   <div key={name} className="w-1/2 relative pr-0.5  h-full">
                     <ButtonPanel
@@ -229,7 +236,7 @@ export const CompetitionDetails: React.FC<{
                           src={COMPETITION_TASK_DETAILS[name].icon}
                           className="h-6 mr-1"
                         />
-                        <p className="text-xs">{name}</p>
+                        <p className="text-xs">{taskName}</p>
                       </div>
                       <Label
                         type="warning"
