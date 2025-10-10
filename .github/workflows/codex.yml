@@ -26,6 +26,12 @@ jobs:
       # If you want Codex to build and run code, install any dependencies that
       # need to be downloaded before the "Run Codex" step because Codex's
       # default sandbox disables network access.
+      - name: Start Codex server
+        uses: openai/codex-action@v1
+        with:
+          command: "start-server"
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
       - name: Run Codex
         id: run_codex
