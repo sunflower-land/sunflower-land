@@ -5998,13 +5998,8 @@
   "reward.congratulations": "¡Felicidades! ¡Has ganado {{reward}} puntos!",
   "reward.whoops": "¡Ups! ¡mejor suerte la próxima vez!",
   "potion.multiplier": "Multiplicador:",
-  "competition.intro.two": "Estamos organizando un concurso de cocina para encontrar a los mejores chefs del juego.",
   "competition.intro.three": "Empieza a jugar hoy y completa los desafíos para ganar premios.",
-  "competition.join": "¿Quieres participar en el concurso de cocina y competir por premios?",
-  "competition.farmerCompetition": "Peggy's Cookoff",
-  "competition.hurry": "¡Bienvenido a Peggy's Cookoff! Cocina tantos platos como puedas para ganar puntos y premios.",
   "competition.prizes.one": "Bolsa de premios de 5 millones de Love Charms",
-  "competition.prizes.two": "¡Cocina comida y sube en la clasificación!",
   "competition.prizes.three": "La competencia va de {{startDate}} a {{endDate}}",
   "competition.rules.three": "Love Charms se distribuirá entre los 5000 mejores jugadores en función de su clasificación.",
   "event.noticeboard.two": "¡En esta isla puedes encontrar un portal con un minijuego completamente nuevo en el que puedes ganar fichas para gastarlas en objetos especiales limitados! Tus intentos en el portal se acumulan a lo largo de los días, ¡así que no te apresures a gastarlos todos a la vez! ¡Compra la opción de intentos ilimitados para jugar cuando quieras o para jugar tanto como sea posible!",
@@ -6713,5 +6708,10 @@
   "twitter.vote.instructions.3": "3. Verifica tu tweet haciendo clic en el botón de abajo.",
   "pets.foodLocked": "Alcanza el nivel {{level}} para desbloquear",
   "pets.typeFed": "Otra tarifa de {{type}}",
-  "pets.typeFedDescription": "Ya has dado de comer a una mascota de este tipo. Espere hasta mañana para alimentar a esta mascota."
+  "pets.typeFedDescription": "Ya has dado de comer a una mascota de este tipo. Espere hasta mañana para alimentar a esta mascota.",
+  "competition.intro.two": "¡Eche una mano, ordene y comience a hacer manualidades! Crea amistades y demuestra que eres el jugador más útil de Sunflowe Land.",
+  "competition.join": "¡Conoce, crea y conecta! ¡Únete a la competencia social y demuéstrales a todos que eres la cara más amistosa del juego",
+  "competition.farmerCompetition": "Construyendo amistades",
+  "competition.hurry": "¡Bienvenido a Building Friendships! ¡Construye amistades, crea muñecas y escala en la clasificación!",
+  "competition.prizes.two": "¡Construye amistades, crea muñecas y escala en la clasificación!"
 }

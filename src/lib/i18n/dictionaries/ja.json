@@ -5998,13 +5998,8 @@
   "reward.congratulations": "おめでとう!{{reward}} ポイントを獲得しました！",
   "reward.whoops": "おっと！次回は頑張ってください！",
   "potion.multiplier": "マルチプライヤー:",
-  "competition.intro.two": "ゲームで最高のシェフを見つけるために、料理コンテストを開催しています。",
   "competition.intro.three": "今日からプレイを開始し、チャレンジを完了して賞品を獲得してください。",
-  "competition.join": "料理コンテストに参加して賞品を競いませんか？",
-  "competition.farmerCompetition": "ペギーズ・クックオフ",
-  "competition.hurry": "ペギーのクックオフへようこそ！できるだけ多くの料理を作ってポイントを獲得し、賞品を獲得しましょう。",
   "competition.prizes.one": "500万ラブチャーム賞金プール",
-  "competition.prizes.two": "料理を作ってリーダーボードに登りましょう！",
   "competition.prizes.three": "コンペティションは {{startDate}} から {{endDate}} まで続きます",
   "competition.rules.three": "ラブチャームは、ランキングに基づいて上位5,000名のプレイヤーに配布されます。",
   "event.noticeboard.two": "この島には、新しいミニゲームのポータルがあり、トークンを獲得して特別な限定アイテムを購入できます！ポータルでの試みは何日も続くため、急いですべてを一度に使う必要はありません！回数無制限オプションを購入して、暇な時にプレイしたり、できるだけたくさんプレイしたりできます！",
@@ -6713,5 +6708,10 @@
   "twitter.vote.instructions.3": "3。下のボタンをクリックしてツイートを確認してください。",
   "pets.foodLocked": "レベル {{level}} に到達してロック解除",
   "pets.typeFed": "その他 {{type}} フィード",
-  "pets.typeFedDescription": "あなたはすでにこのタイプのペットに餌を与えています。このペットに餌をやるには、明日まで待ってください。"
+  "pets.typeFedDescription": "あなたはすでにこのタイプのペットに餌を与えています。このペットに餌をやるには、明日まで待ってください。",
+  "competition.intro.two": "手を貸して、片付けて、クラフトを始めましょう！友情を築き、サンフラワーランドで最も役に立つプレイヤーであることを証明しましょう。",
+  "competition.join": "出会い、クラフトして、つながりましょう！ソーシャル・コンペティションに参加して、自分がゲームで最も親しみやすい顔であることをみんなに見せつけよう",
+  "competition.farmerCompetition": "友情を築く",
+  "competition.hurry": "友情の構築へようこそ！友情を築き、人形を作り、リーダーボードに登りましょう！",
+  "competition.prizes.two": "友情を築き、人形を作り、リーダーボードに登りましょう！"
 }

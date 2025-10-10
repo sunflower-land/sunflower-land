@@ -5998,13 +5998,8 @@
   "reward.congratulations": "Selamat! Anda memenangkan {{reward}} poin!",
   "reward.whoops": "Ups! lebih baik keberuntungan lain kali!",
   "potion.multiplier": "Pengganda:",
-  "competition.intro.two": "Kami menyelenggarakan kompetisi memasak untuk menemukan koki terbaik dalam permainan.",
   "competition.intro.three": "Mulai bermain hari ini dan selesaikan tantangan untuk memenangkan hadiah.",
-  "competition.join": "Apakah Anda ingin bergabung dengan kompetisi memasak dan bersaing untuk mendapatkan hadiah?",
-  "competition.farmerCompetition": "Peggy's Cookoff",
-  "competition.hurry": "Selamat datang di Peggy's Cookoff! Masak hidangan sebanyak yang Anda bisa untuk mendapatkan poin dan memenangkan hadiah.",
   "competition.prizes.one": "Kumpulan Hadiah Cinta 5 juta",
-  "competition.prizes.two": "Masak makanan dan naik papan peringkat!",
   "competition.prizes.three": "Kompetisi berjalan dari {{startDate}} hingga {{endDate}}",
   "competition.rules.three": "Love Charms akan didistribusikan ke 5.000 pemain teratas, berdasarkan peringkat mereka.",
   "event.noticeboard.two": "Di pulau ini Anda dapat menemukan portal dengan minigame baru di mana Anda bisa mendapatkan Token untuk dibelanjakan pada item terbatas khusus! Upaya Anda di portal berlangsung selama berhari-hari, jadi jangan terburu-buru untuk menghabiskan semuanya sekaligus! Beli opsi upaya tak terbatas untuk bermain di waktu luang Anda atau bermain sebanyak mungkin!",
@@ -6713,5 +6708,10 @@
   "twitter.vote.instructions.3": "3. Verifikasi tweet Anda dengan mengklik tombol di bawah ini.",
   "pets.foodLocked": "Mencapai Level {{level}} untuk membuka",
   "pets.typeFed": "{{type}} Fed lainnya",
-  "pets.typeFedDescription": "Anda sudah memberi makan hewan peliharaan jenis ini. Harap tunggu sampai besok untuk memberi makan hewan peliharaan ini."
+  "pets.typeFedDescription": "Anda sudah memberi makan hewan peliharaan jenis ini. Harap tunggu sampai besok untuk memberi makan hewan peliharaan ini.",
+  "competition.intro.two": "Ulangkan tangan, rapikan, dan mulai kerajinan! Bangun persahabatan dan buktikan bahwa Anda adalah pemain yang paling membantu di Sunflowe Land.",
+  "competition.join": "Bertemu, membuat, dan terhubung! Bergabunglah dengan Kompetisi Soal dan tunjukkan kepada semua orang bahwa Anda adalah wajah paling ramah dalam permainan",
+  "competition.farmerCompetition": "Membangun Persahabatan",
+  "competition.hurry": "Selamat datang di Membangun Persahabatan! Bangun persahabatan, kerajinan boneka, dan naiki papan peringkat!",
+  "competition.prizes.two": "Bangun persahabatan, kerajinan boneka, dan naiki papan peringkat!"
 }

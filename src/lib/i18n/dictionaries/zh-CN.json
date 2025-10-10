@@ -5998,13 +5998,8 @@
   "reward.congratulations": "恭喜！你赢了 {{reward}} 积分！",
   "reward.whoops": "哎哟！下回一定能更好！",
   "potion.multiplier": "倍数：",
-  "competition.intro.two": "我们正在举办烹饪比赛，以寻找游戏中最好的厨师。",
   "competition.intro.three": "立即开始玩游戏并完成挑战以赢取奖品。",
-  "competition.join": "你想参加烹饪比赛并争夺奖品吗？",
-  "competition.farmerCompetition": "Peggy's Cookoff",
-  "competition.hurry": "欢迎来到 Peggy's Cookoff！尽可能多地烹饪菜肴以赚取积分并赢取奖品。",
   "competition.prizes.one": "500 万爱心护符奖池",
-  "competition.prizes.two": "烹饪食物并攀登排行榜！",
   "competition.prizes.three": "比赛从 {{startDate}} 到 {{endDate}}",
   "competition.rules.three": "爱心护符将根据排名分发给前 5,000 名玩家。",
   "event.noticeboard.two": "在这个岛上，你可以找到一个带有全新迷你游戏的传送门，在那里你可以赚取代币来购买特殊的限量物品！你在传送门中的尝试会持续数天，所以不要急于将它们全部花掉！购买无限次尝试选项，在闲暇时玩或尽可能多地玩游戏！",
@@ -6713,5 +6708,10 @@
   "twitter.vote.instructions.3": "3.点击下面的按钮验证你的推文。",
   "pets.foodLocked": "达到等级 {{level}} 即可解锁",
   "pets.typeFed": "其他 {{type}} 美联储",
-  "pets.typeFedDescription": "你已经喂过这种类型的宠物了。请等到明天再喂这只宠物。"
+  "pets.typeFedDescription": "你已经喂过这种类型的宠物了。请等到明天再喂这只宠物。",
+  "competition.intro.two": "伸出援手，整理一下，开始手工制作吧！建立友谊，证明你是 Sunflowe Land 上最有帮助的玩家。",
+  "competition.join": "见面、创作和交流！加入社交竞赛，向所有人展示你是游戏中最友好的面孔",
+  "competition.farmerCompetition": "建立友谊",
+  "competition.hurry": "欢迎来建立友谊！建立友谊，制作娃娃，攀登排行榜！",
+  "competition.prizes.two": "建立友谊，制作娃娃，攀登排行榜！"
 }
