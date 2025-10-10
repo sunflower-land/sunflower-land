@@ -31,6 +31,7 @@ import { FSLButton } from "features/auth/components/buttons/FSLButton";
 import { WechatButton } from "features/auth/components/buttons/WechatButton";
 import { fslAuthorization } from "features/auth/actions/oauth";
 import { SignMessage } from "./SignMessage";
+import { FarcasterButton } from "./buttons/FarcasterButton";
 
 const CONTENT_HEIGHT = 365;
 
@@ -228,6 +229,7 @@ export const WalletWall: React.FC<{
               <InjectedProviderButtons onConnect={onConnect} />
               <MetaMaskButton onConnect={onConnect} />
               <CoinbaseButton onConnect={onConnect} />
+              <FarcasterButton onConnect={onConnect} />
               <RoninButtons
                 onConnect={(connector) => {
                   setRoninDeepLink(true);
