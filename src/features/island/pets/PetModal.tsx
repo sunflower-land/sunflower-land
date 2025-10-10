@@ -23,6 +23,8 @@ import { PetFetch } from "./PetFetch";
 import { PetInfo } from "./PetInfo";
 import { getPetImage, isPetNFT } from "./lib/petShared";
 import { PetTypeFed } from "./PetTypeFed";
+import { PetGuide } from "features/pets/petGuide/PetGuide";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   show: boolean;
@@ -33,6 +35,8 @@ interface Props {
   isTypeFed?: boolean;
   petType?: PetType;
 }
+
+type PetTab = "Info" | "Feed" | "Fetch" | "Neglected" | "Guide" | "TypeFed";
 
 export const PetModal: React.FC<Props> = ({
   show,
@@ -48,9 +52,9 @@ export const PetModal: React.FC<Props> = ({
 
   const isNFTPet = isPetNFT(petId);
 
-  const [tab, setTab] = useState<
-    "Info" | "Feed" | "Fetch" | "Neglected" | "TypeFed"
-  >(isNeglected ? "Neglected" : isTypeFed ? "TypeFed" : "Info");
+  const [tab, setTab] = useState<PetTab>(
+    isNeglected ? "Neglected" : isTypeFed ? "TypeFed" : "Info",
+  );
   const hasPetHouse = useSelector(
     gameService,
     (state) =>
@@ -154,12 +158,19 @@ export const PetModal: React.FC<Props> = ({
                       icon: ITEM_DETAILS["Acorn"].image,
                       id: "Fetch",
                     },
+                    {
+                      name: t("guide"),
+                      icon: SUNNYSIDE.icons.expression_confused,
+                      id: "Guide",
+                    },
                   ]),
         ]}
         currentTab={actionTab}
         setCurrentTab={setTab}
         container={
-          ["Feed", "Fetch"].includes(actionTab) ? OuterPanel : undefined
+          ["Feed", "Fetch", "Guide"].includes(actionTab)
+            ? OuterPanel
+            : undefined
         }
       >
         {actionTab === "TypeFed" && <PetTypeFed type={petType} />}
@@ -189,6 +200,7 @@ export const PetModal: React.FC<Props> = ({
             handlePetFetch={handlePetFetch}
           />
         )}
+        {actionTab === "Guide" && <PetGuide />}
         {actionTab === "Neglected" && (
           <NeglectPet
             handleNeglectPet={handleNeglectPet}
