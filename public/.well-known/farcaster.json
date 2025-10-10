@@ -1,0 +1,18 @@
+{
+  "miniapp": {
+    "version": "1",
+    "name": "Sunflower Land",
+    "iconUrl": "https://sunflower-land.com/play/farcaster/icon.png",
+    "homeUrl": "https://sunflower-land.com/play",
+    "imageUrl": "https://sunflower-land.com/play/farcaster/farcaster_banner.png",
+    "buttonTitle": "🚩 Play",
+    "splashImageUrl": "https://sunflower-land.com/play/farcaster/icon.png",
+    "splashBackgroundColor": "#63c74d",
+    "requiredChains": ["eip155:8453"],
+    "requiredCapabilities": ["actions.signIn", "wallet.getEthereumProvider"],
+    "primaryCategory": "games",
+    "tags": ["games", "rewards", "social", "earn", "farming"],
+    "tagLine": "Harvest crops, raise chickens, and build your farm in this cozy farming game!",
+    "description": "Sunflower Land is a cozy game where you farm, collect NFTs & build your empire."
+  }
+}

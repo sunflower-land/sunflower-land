@@ -44,17 +44,16 @@ export type PetName =
   // Goat - Not used
   | "Ramsey";
 
-export type PetType =
-  // Common Pet Types
+export type CommonPetType =
   | "Dog"
   | "Cat"
   | "Owl"
   | "Horse"
   | "Bull"
   | "Hamster"
-  | "Penguin"
+  | "Penguin";
 
-  // NFT Pet Types
+export type PetNFTType =
   | "Ram"
   | "Dragon"
   | "Phoenix"
@@ -62,6 +61,8 @@ export type PetType =
   | "Warthog"
   | "Wolf"
   | "Bear";
+
+export type PetType = CommonPetType | PetNFTType;
 
 export type PetCategoryName =
   | "Guardian"
@@ -114,9 +115,9 @@ export type PetNFT = Omit<Pet, "name"> & {
   revealAt: number;
   // TODO: Add traits
   traits?: {
-    bib: string;
-    aura: string;
-    type: PetType;
+    bib?: string;
+    aura?: string;
+    type: PetNFTType;
   };
 };
 
@@ -223,32 +224,33 @@ export const PET_FETCHES: Record<PetType, PetConfig> = getObjectEntries(
   PET_CATEGORIES,
 ).reduce<Record<PetType, PetConfig>>(
   (acc, [petType, petCategory]) => {
-    acc[petType] = {
-      fetches: [
-        { name: "Acorn", level: 1 },
-        { name: FETCHES_BY_CATEGORY[petCategory.primaryCategory], level: 3 },
-        ...(petCategory.secondaryCategory
-          ? [
-              {
-                name: FETCHES_BY_CATEGORY[petCategory.secondaryCategory],
-                level: 7,
-              },
-            ]
-          : []),
+    const fetches: PetConfig["fetches"] = [
+      { name: "Acorn", level: 1 },
+      { name: FETCHES_BY_CATEGORY[petCategory.primaryCategory], level: 3 },
+      { name: "Fossil Shell", level: 20 },
+    ];
 
-        // TODO: Add Moonfur for NFT Pets
+    if (petCategory.secondaryCategory) {
+      fetches.push({
+        name: FETCHES_BY_CATEGORY[petCategory.secondaryCategory],
+        level: 7,
+      });
+    }
 
-        { name: "Fossil Shell", level: 20 },
-        ...(petCategory.tertiaryCategory
-          ? [
-              {
-                name: FETCHES_BY_CATEGORY[petCategory.tertiaryCategory],
-                level: 25,
-              },
-            ]
-          : []),
-      ],
-    };
+    // Only NFT Pets have tertiary categories
+    if (petCategory.tertiaryCategory) {
+      fetches.push(
+        ...([
+          { name: "Moonfur", level: 12 },
+          {
+            name: FETCHES_BY_CATEGORY[petCategory.tertiaryCategory],
+            level: 25,
+          },
+        ] as const),
+      );
+    }
+
+    acc[petType] = { fetches };
 
     return acc;
   },
@@ -328,7 +330,7 @@ export const PET_RESOURCES: Record<
   },
   Moonfur: {
     cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 150,
+    energy: 1000,
   },
 
   "Frost Pebble": {
@@ -690,8 +692,6 @@ export function getPetLevel(currentTotalExperience: number) {
   };
 }
 
-const PET_NEGLECT_DAYS = 3;
-
 export function isPetNeglected(
   pet: Pet | PetNFT | undefined,
   createdAt: number = Date.now(),
@@ -699,6 +699,8 @@ export function isPetNeglected(
   if (!pet) {
     return false;
   }
+
+  const PET_NEGLECT_DAYS = isPetNFT(pet) ? 7 : 3;
 
   const lastFedAt = pet.requests.fedAt ?? createdAt; // Default to createdAt otherwise the pet will be neglected if it hasn't been fed before
   const lastFedAtDate = new Date(lastFedAt).toISOString().split("T")[0];
@@ -719,4 +721,31 @@ export function isPetNapping(
   const pettedAt = pet.pettedAt;
   const hoursSincePetted = (createdAt - pettedAt) / (1000 * 60 * 60);
   return hoursSincePetted >= PET_NAP_HOURS;
+}
+
+export function isPetOfTypeFed({
+  nftPets,
+  petType,
+  id,
+  now = Date.now(),
+}: {
+  nftPets: PetNFTs;
+  petType: PetNFTType;
+  id: number; // This is the id of the pet to exclude from the check
+  now?: number;
+}) {
+  const petsOfType = Object.values(nftPets).filter(
+    (pet) => pet.traits?.type === petType,
+  );
+
+  const isPetOfTypeFed = petsOfType.some((pet) => {
+    if (pet.id === id) return false;
+    const lastFedAt = pet.requests.fedAt;
+    if (!lastFedAt) return false;
+    const todayDate = new Date(now).toISOString().split("T")[0];
+    const lastFedAtDate = new Date(lastFedAt).toISOString().split("T")[0];
+    return lastFedAtDate === todayDate;
+  });
+
+  return isPetOfTypeFed;
 }

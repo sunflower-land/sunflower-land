@@ -22,7 +22,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-export const PetInfo: React.FC<Props> = ({ children, petId, petData }) => {
+export const PetInfo: React.FC<Props> = ({ children, petData, petId }) => {
   const { t } = useAppTranslation();
   const { level, percentage, currentProgress, experienceBetweenLevels } =
     getPetLevel(petData.experience);
@@ -32,9 +32,9 @@ export const PetInfo: React.FC<Props> = ({ children, petId, petData }) => {
   const isNapping = isPetNapping(petData);
 
   const petImage = getPetImage(
-    petId,
     isNeglected || isNapping ? "asleep" : "happy",
     petData,
+    petId,
   );
 
   return (

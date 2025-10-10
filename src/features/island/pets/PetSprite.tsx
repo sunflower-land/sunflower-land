@@ -8,25 +8,27 @@ interface PetSpriteProps {
   id: PetName | number;
   isNeglected: boolean;
   isNapping: boolean;
+  isTypeFed?: boolean;
   onClick?: () => void;
   clickable?: boolean;
   children?: React.ReactNode;
-  petData: Pet | PetNFT;
+  petData?: Pet | PetNFT;
 }
 
 export const PetSprite: React.FC<PetSpriteProps> = ({
   id,
   isNeglected,
   isNapping,
+  isTypeFed,
   onClick,
   clickable = false,
   children,
   petData,
 }) => {
   const petImage = getPetImage(
-    id,
-    isNeglected || isNapping ? "asleep" : "happy",
+    isNeglected || isNapping || isTypeFed ? "asleep" : "happy",
     petData,
+    id,
   );
 
   return (
@@ -43,13 +45,13 @@ export const PetSprite: React.FC<PetSpriteProps> = ({
         onClick={onClick}
       />
 
-      {isNapping ? (
+      {isNapping && !isTypeFed ? (
         <img
           src={SUNNYSIDE.icons.sleeping}
           alt="sleeping"
           className="absolute w-6 top-[-0.5rem] left-[-0.5rem]"
         />
-      ) : isNeglected ? (
+      ) : isNeglected || isTypeFed ? (
         <img
           src={SUNNYSIDE.icons.expression_stress}
           alt="stress"

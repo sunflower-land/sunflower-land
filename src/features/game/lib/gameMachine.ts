@@ -1303,11 +1303,24 @@ export function startGame(authContext: AuthContext) {
             },
             {
               target: "news",
-              cond: () => !hasReadNews(),
+              cond: (context) => {
+                // Do not show if they are under level 5
+                const level = getBumpkinLevel(
+                  context.state.bumpkin?.experience ?? 0,
+                );
+                if (level < 5) return false;
+                return !hasReadNews();
+              },
             },
             {
               target: "cheers",
               cond: (context) => {
+                // Do not show if they are under level 5
+                const level = getBumpkinLevel(
+                  context.state.bumpkin?.experience ?? 0,
+                );
+                if (level < 5) return false;
+
                 const now = Date.now();
 
                 const today = new Date(now).toISOString().split("T")[0];
