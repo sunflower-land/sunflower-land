@@ -5998,13 +5998,8 @@
   "reward.congratulations": "축하합니다!{{reward}} 포인트를 획득했습니다!",
   "reward.whoops": "으악!다음에 행운을 빕니다!",
   "potion.multiplier": "멀티플라이어:",
-  "competition.intro.two": "게임 내 최고의 셰프를 찾기 위한 요리 대회를 개최합니다.",
   "competition.intro.three": "오늘 플레이를 시작하고 챌린지를 완료하여 상품을 받으세요.",
-  "competition.join": "요리 대회에 참가하여 상품을 놓고 경쟁하고 싶으신가요?",
-  "competition.farmerCompetition": "페기 쿡오프",
-  "competition.hurry": "페기의 쿡오프에 오신 것을 환영합니다!가능한 한 많은 요리를 요리해서 포인트를 얻고 상품을 받으세요.",
   "competition.prizes.one": "500만 러브 참 상금 풀",
-  "competition.prizes.two": "음식을 요리하고 순위표에 오르세요!",
   "competition.prizes.three": "대회는 {{startDate}} 부터 {{endDate}} 까지 진행됩니다.",
   "competition.rules.three": "러브 참은 랭킹에 따라 상위 5,000명의 플레이어에게 배포됩니다.",
   "event.noticeboard.two": "이 섬에서는 특별 한정 아이템에 사용할 수 있는 토큰을 획득할 수 있는 새로운 미니게임이 있는 포털을 찾을 수 있습니다!포털에서 시도한 횟수는 며칠에 걸쳐 계속되므로 서둘러 한 번에 모두 소비할 필요가 없습니다!무제한 시도 옵션을 구매하여 여유롭게 플레이하거나 최대한 많이 플레이하세요!",
@@ -6713,5 +6708,10 @@
   "twitter.vote.instructions.3": "3.아래 버튼을 클릭하여 트윗을 인증하세요.",
   "pets.foodLocked": "잠금 해제하려면 레벨 {{level}} 에 도달하세요",
   "pets.typeFed": "기타 {{type}} 레드",
-  "pets.typeFedDescription": "이미 이런 종류의 애완 동물에게 먹이를 주셨습니다.이 애완동물에게 먹이를 주려면 내일까지 기다려주세요."
+  "pets.typeFedDescription": "이미 이런 종류의 애완 동물에게 먹이를 주셨습니다.이 애완동물에게 먹이를 주려면 내일까지 기다려주세요.",
+  "competition.intro.two": "손을 빌려서 정리하고 공예를 시작하세요!우정을 쌓고 자신이 Sunflowe Land에서 가장 도움이 되는 플레이어라는 것을 증명하세요.",
+  "competition.join": "만나고, 만들고, 연결하세요!소셜 대회에 참여하여 게임에서 가장 친근한 얼굴임을 모두에게 보여주세요.",
+  "competition.farmerCompetition": "우정 쌓기",
+  "competition.hurry": "우정 쌓기에 오신 것을 환영합니다!우정을 쌓고, 인형을 만들고, 순위표에 오르세요!",
+  "competition.prizes.two": "우정을 쌓고, 인형을 만들고, 순위표에 오르세요!"
 }

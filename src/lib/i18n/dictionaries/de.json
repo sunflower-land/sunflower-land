@@ -5998,13 +5998,8 @@
   "reward.congratulations": "Herzlichen Glückwunsch! Du hast {{reward}} Punkte gewonnen!",
   "reward.whoops": "Hoppla! Viel Glück beim nächsten Mal!",
   "potion.multiplier": "Multiplikator:",
-  "competition.intro.two": "Wir veranstalten einen Kochwettbewerb, um die besten Köche des Spiels zu finden.",
   "competition.intro.three": "Fangen Sie noch heute an zu spielen und bestehen Sie die Herausforderungen, um Preise zu gewinnen.",
-  "competition.join": "Möchtest du am Kochwettbewerb teilnehmen und um Preise kämpfen?",
-  "competition.farmerCompetition": "Peggys Cookoff",
-  "competition.hurry": "Willkommen bei Peggy's Cookoff! Koche so viele Gerichte wie möglich, um Punkte zu sammeln und Preise zu gewinnen.",
   "competition.prizes.one": "Preispool von 5 Millionen Love Charm",
-  "competition.prizes.two": "Koche Essen und erklimme die Bestenliste!",
   "competition.prizes.three": "Der Wettbewerb läuft von {{startDate}} bis {{endDate}}",
   "competition.rules.three": "Love Charms werden an die besten 5.000 Spieler verteilt, basierend auf ihrem Ranking.",
   "event.noticeboard.two": "Auf dieser Insel findest du ein Portal mit einem brandneuen Minispiel, in dem du Marken verdienen kannst, die du für limitierte Spezialgegenstände ausgeben kannst! Deine Versuche im Portal dauern mehrere Tage, also beeile dich nicht, sie alle auf einmal auszugeben! Kaufe die Option „Unbegrenzte Anzahl an Versuchen“, um nach Belieben zu spielen oder um so viel wie möglich zu spielen!",
@@ -6713,5 +6708,10 @@
   "twitter.vote.instructions.3": "3. Bestätigen Sie Ihren Tweet, indem Sie auf die Schaltfläche unten klicken.",
   "pets.foodLocked": "Erreiche Level {{level}}, um das Spiel freizuschalten",
   "pets.typeFed": "Andere {{type}} Gebühren",
-  "pets.typeFedDescription": "Sie haben bereits ein Haustier dieses Typs gefüttert. Bitte warten Sie bis morgen, um dieses Haustier zu füttern."
+  "pets.typeFedDescription": "Sie haben bereits ein Haustier dieses Typs gefüttert. Bitte warten Sie bis morgen, um dieses Haustier zu füttern.",
+  "competition.intro.two": "Packen Sie mit an, räumen Sie auf und fangen Sie an zu basteln! Schließe Freundschaften und beweise, dass du der hilfreichste Spieler auf Sunflowe Land bist.",
+  "competition.join": "Triff dich, bastle und verbinde dich! Nehmt am sozialen Wettbewerb teil und zeigt allen, dass ihr das freundlichste Gesicht im Spiel seid",
+  "competition.farmerCompetition": "Freundschaften aufbauen",
+  "competition.hurry": "Willkommen bei Building Friendships! Schließe Freundschaften, stelle Puppen her und erklimme die Bestenliste!",
+  "competition.prizes.two": "Schließe Freundschaften, stelle Puppen her und erklimme die Bestenliste!"
 }

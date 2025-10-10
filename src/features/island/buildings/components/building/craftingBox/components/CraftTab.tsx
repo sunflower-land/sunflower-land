@@ -27,6 +27,7 @@ import {
   RecipeIngredient,
   DOLLS,
   RECIPES,
+  RecipeCollectibleName,
 } from "features/game/lib/crafting";
 import {
   findMatchingRecipe,
@@ -49,6 +50,7 @@ import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe
 import fastForward from "assets/icons/fast_forward.png";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { CRAFT_TO_COMPETITION_TASK } from "features/game/events/landExpansion/collectCrafting";
 
 const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
   // Crops
@@ -168,6 +170,7 @@ export const CraftTab: React.FC<Props> = ({
     status: craftingStatus,
     readyAt: craftingReadyAt,
     recipes,
+    item,
   } = craftingBox;
 
   const [remainingTime, setRemainingTime] = useState<number | null>(null);
@@ -507,6 +510,7 @@ export const CraftTab: React.FC<Props> = ({
               wardrobe={wardrobe}
               gems={gems}
               onInstantCraft={handleInstantCraft}
+              collectible={item?.collectible}
             />
           </div>
         </div>
@@ -800,6 +804,7 @@ const CraftButton: React.FC<{
   wardrobe: Wardrobe;
   gems: number;
   onInstantCraft: (gems: number) => void;
+  collectible?: RecipeCollectibleName;
 }> = ({
   isCrafting,
   isPending,
@@ -812,6 +817,7 @@ const CraftButton: React.FC<{
   wardrobe,
   gems,
   onInstantCraft,
+  collectible,
 }) => {
   const { t } = useTranslation();
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -842,16 +848,18 @@ const CraftButton: React.FC<{
     return (
       <div className="flex flex-col sm:flex-row items-center justify-center gap-1 mt-2">
         <Button disabled={true}>{t("crafting")}</Button>
-        <Button
-          disabled={!inventory.Gem?.gte(gems) || isPending}
-          onClick={() => setShowConfirmation(true)}
-        >
-          <div className="flex items-center justify-center gap-1">
-            <img src={fastForward} className="h-5" />
-            <span className="text-sm flex items-center">{gems}</span>
-            <img src={ITEM_DETAILS["Gem"].image} className="h-5" />
-          </div>
-        </Button>
+        {collectible && !(collectible in CRAFT_TO_COMPETITION_TASK) && (
+          <Button
+            disabled={!inventory.Gem?.gte(gems) || isPending}
+            onClick={() => setShowConfirmation(true)}
+          >
+            <div className="flex items-center justify-center gap-1">
+              <img src={fastForward} className="h-5" />
+              <span className="text-sm flex items-center">{gems}</span>
+              <img src={ITEM_DETAILS["Gem"].image} className="h-5" />
+            </div>
+          </Button>
+        )}
         <ConfirmationModal
           show={showConfirmation}
           onHide={() => setShowConfirmation(false)}

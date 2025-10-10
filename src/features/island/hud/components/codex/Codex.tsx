@@ -37,6 +37,8 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { ANIMALS } from "features/game/types/animals";
 import { Checklist, checklistCount } from "components/ui/CheckList";
 import { getBumpkinLevel } from "features/game/lib/level";
+import trophyIcon from "assets/icons/trophy.png";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   show: boolean;
@@ -163,7 +165,15 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       icon: ITEM_DETAILS["Red Pansy"].image,
       count: 0,
     },
-
+    ...(hasFeatureAccess(state, "BUILDING_FRIENDSHIPS")
+      ? [
+          {
+            name: "Competition" as const,
+            icon: trophyIcon,
+            count: 0,
+          },
+        ]
+      : []),
     ...(faction
       ? [
           {
@@ -282,10 +292,10 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 )}
               >
                 <CompetitionDetails
-                  competitionName="PEGGYS_COOKOFF"
+                  competitionName="BUILDING_FRIENDSHIPS"
                   state={state}
                   hideLeaderboard={
-                    Date.now() < new Date("2025-07-17T00:00:00Z").getTime()
+                    Date.now() < new Date("2025-10-20T00:00:00Z").getTime()
                   }
                 />
               </div>

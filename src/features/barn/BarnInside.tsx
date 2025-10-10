@@ -37,6 +37,7 @@ import { PlayerModal } from "features/social/PlayerModal";
 import { hasFeatureAccess } from "lib/flags";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
+import { isBuildingDestroyed } from "features/island/buildings/components/building/Building";
 
 export const EXTERIOR_ISLAND_BG: Record<LandBiomeName, string> = {
   "Basic Biome": SUNNYSIDE.land.basic_building_bg,
@@ -142,6 +143,15 @@ export const BarnInside: React.FC = () => {
     return organizedAnimals.filter((animal) => isValidDeal({ animal, deal }))
       .length;
   }, [organizedAnimals, deal]);
+
+  const calendarEvent = isBuildingDestroyed({
+    name: "Barn",
+    calendar: context.state.calendar,
+  });
+
+  if (calendarEvent) {
+    navigate("/");
+  }
 
   return (
     <>

@@ -5998,13 +5998,8 @@
   "reward.congratulations": "Félicitations ! Vous avez gagné {{reward}} points !",
   "reward.whoops": "Oups ! Bonne chance la prochaine fois !",
   "potion.multiplier": "Multiplicateur :",
-  "competition.intro.two": "Nous organisons un concours de cuisine pour trouver les meilleurs chefs du jeu.",
   "competition.intro.three": "Commencez à jouer dès aujourd'hui et relevez les défis pour gagner des prix.",
-  "competition.join": "Vous souhaitez participer au concours de cuisine et concourir pour des prix ?",
-  "competition.farmerCompetition": "Peggy's Cookoff",
-  "competition.hurry": "Bienvenue chez Peggy's Cookoff ! Cuisinez autant de plats que possible pour gagner des points et des prix.",
   "competition.prizes.one": "Cagnotte Love Charm de 5 millions",
-  "competition.prizes.two": "Cuisinez et grimpez dans le classement !",
   "competition.prizes.three": "La compétition se déroule de {{startDate}} à {{endDate}}",
   "competition.rules.three": "Love Charms sera distribué aux 5 000 meilleurs joueurs, en fonction de leur classement.",
   "event.noticeboard.two": "Sur cette île, vous trouverez un portail avec un tout nouveau mini-jeu où vous pourrez gagner des jetons à dépenser pour des objets spéciaux en quantité limitée ! Vos tentatives sur le portail s'étalent sur plusieurs jours, alors ne vous pressez pas de les dépenser toutes en même temps ! Achetez l'option essais illimités pour jouer à votre guise ou pour jouer autant que possible !",
@@ -6713,5 +6708,10 @@
   "twitter.vote.instructions.3": "3. Vérifiez votre tweet en cliquant sur le bouton ci-dessous.",
   "pets.foodLocked": "Atteignez le niveau {{level}} pour débloquer",
   "pets.typeFed": "Autres frais {{type}}",
-  "pets.typeFedDescription": "Vous avez déjà nourri un animal de ce type. Veuillez attendre jusqu'à demain pour nourrir cet animal."
+  "pets.typeFedDescription": "Vous avez déjà nourri un animal de ce type. Veuillez attendre jusqu'à demain pour nourrir cet animal.",
+  "competition.intro.two": "Donnez un coup de main, rangez et bricolez ! Nouez des amitiés et prouvez que vous êtes le joueur le plus utile de Sunflowe Land.",
+  "competition.join": "Rencontrez, créez et établissez des liens ! Participez à la compétition sociale et montrez à tout le monde que vous êtes le visage le plus sympathique du jeu",
+  "competition.farmerCompetition": "Bâtir des amitiés",
+  "competition.hurry": "Bienvenue sur Building Friendships ! Nouez des amitiés, fabriquez des poupées et grimpez dans le classement !",
+  "competition.prizes.two": "Nouez des amitiés, fabriquez des poupées et grimpez dans le classement !"
 }

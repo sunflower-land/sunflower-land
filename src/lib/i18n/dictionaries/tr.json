@@ -5998,13 +5998,8 @@
   "reward.congratulations": "Tebrikler! {{reward}} puan kazandınız!",
   "reward.whoops": "Vay canına! bir dahaki sefere daha iyi şanslar!",
   "potion.multiplier": "çarpan:",
-  "competition.intro.two": "Oyundaki en iyi şefleri bulmak için bir yemek yarışmasına ev sahipliği yapıyoruz.",
   "competition.intro.three": "Bugün oynamaya başlayın ve ödüller kazanmak için zorlukları tamamlayın.",
-  "competition.join": "Yemek yarışmasına katılmak ve ödüller için yarışmak ister misiniz?",
-  "competition.farmerCompetition": "Peggy'nin Cookoff'u",
-  "competition.hurry": "Peggy's Cookoff\"a hoş geldiniz! Puan kazanmak ve ödüller kazanmak için olabildiğince çok yemek pişirin.",
   "competition.prizes.one": "5 milyon Love Charm Ödül Havuzu",
-  "competition.prizes.two": "Yemek pişirin ve liderlik tablosuna tırmanın!",
   "competition.prizes.three": "Yarışma {{startDate}} ile {{endDate}} arasında sürer",
   "competition.rules.three": "Love Charms, sıralamalarına göre en iyi 5.000 oyuncuya dağıtılacak.",
   "event.noticeboard.two": "Bu adada, özel sınırlı öğelere harcayabileceğiniz Jetonlar kazanabileceğiniz yepyeni bir mini oyun içeren bir portal bulabilirsiniz! Portaldaki girişimleriniz günler boyunca sürüyor, bu yüzden hepsini bir kerede harcamak için acele etmeyin! Boş zamanlarınızda oynamak veya mümkün olduğunca oynamak için sınırsız deneme seçeneğini satın alın!",
@@ -6713,5 +6708,10 @@
   "twitter.vote.instructions.3": "3. Aşağıdaki düğmeyi tıklayarak tweet\"inizi doğrulayın.",
   "pets.foodLocked": "Kilidi açmak için Seviyeye {{level}} ulaşın",
   "pets.typeFed": "Diğer {{type}} Fed",
-  "pets.typeFedDescription": "Zaten bu tür bir evcil hayvanı beslediniz. Lütfen bu evcil hayvanı beslemek için yarına kadar bekleyin."
+  "pets.typeFedDescription": "Zaten bu tür bir evcil hayvanı beslediniz. Lütfen bu evcil hayvanı beslemek için yarına kadar bekleyin.",
+  "competition.intro.two": "Yardım edin, toparlayın ve işçiliğe başlayın! Arkadaşlıklar kurun ve Sunflowe Land'deki en yardımsever oyuncu olduğunuzu kanıtlayın.",
+  "competition.join": "Tanışın, üretin ve bağlantı kurun! Sosyal Yarışmaya katılın ve herkese oyundaki en arkadaş canlısı yüz olduğunuzu gösterin",
+  "competition.farmerCompetition": "Arkadaşlık Kurmak",
+  "competition.hurry": "Arkadaşlık Kurmaya Hoş Geldiniz! Arkadaşlıklar kur, bebek yap ve liderlik tablosuna tırman!",
+  "competition.prizes.two": "Arkadaşlıklar kur, bebek yap ve liderlik tablosuna tırman!"
 }

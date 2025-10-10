@@ -9,9 +9,9 @@ export const FarcasterButton: React.FC<{
 }> = ({ onConnect }) => {
   const { connectors } = useConnect();
 
-  const eip6963Connectors = connectors
-    .filter((connector) => connector.type === "injected" && !!connector.icon)
-    .filter((connector) => connector.name === "Farcaster");
+  const eip6963Connectors = connectors.filter(
+    (connector) => connector.name === "Farcaster",
+  );
 
   if (eip6963Connectors.length === 0) return null;
 
