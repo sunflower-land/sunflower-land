@@ -12,7 +12,8 @@ export type CompetitionName =
   | "FSL"
   | "ANIMALS"
   | "PEGGYS_COOKOFF"
-  | "BUILDING_FRIENDSHIPS";
+  | "BUILDING_FRIENDSHIPS"
+  | "BUILDING_FRIENDSHIPS_V2";
 
 export type CompetitionProgress = {
   startedAt: number;
@@ -136,9 +137,25 @@ export const COMPETITION_POINTS: Record<
       "Cook Tofu Scramble": 4,
     },
   },
+  // BETA TESTING
   BUILDING_FRIENDSHIPS: {
-    // startAt: new Date("2025-10-13T00:00:00Z").getTime(),
     startAt: new Date("2025-10-06T00:00:00Z").getTime(),
+    endAt: new Date("2025-10-13T00:00:00Z").getTime(),
+    points: {
+      "Help 10 Friends": 1,
+      "Complete a Basic Cooking Pot": 1,
+      "Complete an Expert Cooking Pot": 5,
+      "Complete an Advanced Cooking Pot": 10,
+      "Craft a Moo Doll": 10,
+      "Craft a Wooly Doll": 10,
+      "Craft a Lumber Doll": 15,
+      "Craft a Gilded Doll": 15,
+      "Craft a Lunar Doll": 20,
+      "Craft an Ember Doll": 50,
+    },
+  },
+  BUILDING_FRIENDSHIPS_V2: {
+    startAt: new Date("2025-10-13T00:00:00Z").getTime(),
     endAt: new Date("2025-10-23T00:00:00Z").getTime(),
     points: {
       "Help 10 Friends": 1,
