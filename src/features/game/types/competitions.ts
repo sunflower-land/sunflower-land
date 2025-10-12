@@ -2,13 +2,17 @@ import levelupIcon from "assets/icons/level_up.png";
 import choreIcon from "assets/icons/chores.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GameState, InventoryItemName, Wardrobe } from "./game";
-import { getBumpkinLevel } from "../lib/level";
-import { getKeys } from "./decorations";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { ITEM_DETAILS } from "./images";
 import { hasVipAccess } from "../lib/vipAccess";
+import helpedIcon from "assets/icons/helped.webp";
 
-export type CompetitionName = "TESTING" | "FSL" | "ANIMALS" | "PEGGYS_COOKOFF";
+export type CompetitionName =
+  | "TESTING"
+  | "FSL"
+  | "ANIMALS"
+  | "PEGGYS_COOKOFF"
+  | "BUILDING_FRIENDSHIPS";
 
 export type CompetitionProgress = {
   startedAt: number;
@@ -61,123 +65,18 @@ export type CompetitionTaskName =
   | "Cook Fermented Fish"
   | "Cook Fancy Fries"
   | "Cook Pancakes"
-  | "Cook Tofu Scramble";
-
-export const COMPETITION_TASK_PROGRESS: Record<
-  CompetitionTaskName,
-  (game: GameState) => number
-> = {
-  "Complete chore": (game) => game.chores?.choresCompleted ?? 0,
-  "Harvest barley": (game) => game.bumpkin.activity["Barley Harvested"] ?? 0,
-  // For deliveries, count the number since yesterday
-  "Complete delivery": (game) => {
-    const delivered = game.delivery.fulfilledCount ?? 0;
-
-    if (game.competitions.progress.ANIMALS) return delivered;
-
-    const deliveredSinceYesterday = getKeys(game.npcs ?? {}).reduce(
-      (total, npc) => {
-        const npcData = game.npcs?.[npc];
-
-        if (
-          npcData?.deliveryCompletedAt &&
-          npcData.deliveryCompletedAt >
-            new Date("2024-12-17T00:00:00Z").getTime()
-        ) {
-          return total + 1;
-        }
-
-        return total;
-      },
-      0,
-    );
-
-    return delivered - deliveredSinceYesterday;
-  },
-  "Expand island": (game) => {
-    let expansions = game.inventory["Basic Land"]?.toNumber() ?? 3;
-
-    if (game.island.type === "basic") {
-      expansions -= 3; // Remove initial
-    }
-
-    if (game.island.type === "spring") {
-      expansions += 7; // On basic island
-      expansions -= 4; // Remove initial
-    }
-
-    if (game.island.type === "desert") {
-      expansions += 7; // On basic island
-      expansions += 13; // On spring island
-      expansions -= 4; // Remove initial
-    }
-
-    return expansions;
-  },
-  "Level up": (game) => getBumpkinLevel(game.bumpkin.experience),
-  "Cook Honey Cake": (game) => game.bumpkin.activity["Honey Cake Cooked"] ?? 0,
-  "Craft basic hair": (game) => game.farmActivity["Basic Hair Crafted"] ?? 0,
-  "Craft bear": () => 0,
-  "Eat pizza": (game) => game.bumpkin.activity["Pizza Margherita Fed"] ?? 0,
-
-  "Sell cow": (game) => {
-    const bountied = game.farmActivity["Cow Bountied"] ?? 0;
-
-    if (game.competitions.progress.ANIMALS) return bountied;
-
-    const soldInFirstFewDays = game.bounties.completed.filter(
-      (bounty) =>
-        !!BOUNTIES["2024-12-16"].find(
-          (b) => b.id === bounty.id && b.name === "Cow",
-        ),
-    ).length;
-
-    return bountied - soldInFirstFewDays;
-  },
-  "Sell sheep": (game) => {
-    const bountied = game.farmActivity["Sheep Bountied"] ?? 0;
-    if (game.competitions.progress.ANIMALS) return bountied;
-
-    const soldInFirstFewDays = game.bounties.completed.filter(
-      (bounty) =>
-        !!BOUNTIES["2024-12-16"].find(
-          (b) => b.id === bounty.id && b.name === "Sheep",
-        ),
-    ).length;
-
-    return bountied - soldInFirstFewDays;
-  },
-  "Sell chicken": (game) => {
-    const bountied = game.farmActivity["Chicken Bountied"] ?? 0;
-
-    if (game.competitions.progress.ANIMALS) return bountied;
-
-    const soldInFirstFewDays = game.bounties.completed.filter(
-      (bounty) =>
-        !!BOUNTIES["2024-12-16"].find(
-          (b) => b.id === bounty.id && b.name === "Chicken",
-        ),
-    ).length;
-
-    return bountied - soldInFirstFewDays;
-  },
-
-  "Cook Fried Tofu": (game) => game.bumpkin.activity["Fried Tofu Cooked"] ?? 0,
-  "Cook Rice Bun": (game) => game.bumpkin.activity["Rice Bun Cooked"] ?? 0,
-  "Prepare Grape Juice": (game) =>
-    game.bumpkin.activity["Grape Juice Cooked"] ?? 0,
-  "Prepare Banana Blast": (game) =>
-    game.bumpkin.activity["Banana Blast Cooked"] ?? 0,
-  "Cook Orange Cake": (game) =>
-    game.bumpkin.activity["Orange Cake Cooked"] ?? 0,
-  "Cook Fermented Fish": (game) =>
-    game.bumpkin.activity["Fermented Fish Cooked"] ?? 0,
-  "Cook Fancy Fries": (game) =>
-    game.bumpkin.activity["Fancy Fries Cooked"] ?? 0,
-  "Cook Pancakes": (game) => game.bumpkin.activity["Pancakes Cooked"] ?? 0,
-  "Cook Tofu Scramble": (game) =>
-    game.bumpkin.activity["Tofu Scramble Cooked"] ?? 0,
-};
+  | "Cook Tofu Scramble"
+  | "Help 10 Friends"
+  | "Complete a Basic Cooking Pot"
+  | "Complete an Expert Cooking Pot"
+  | "Complete an Advanced Cooking Pot"
+  | "Craft a Doll"
+  | "Craft a Moo Doll"
+  | "Craft a Wooly Doll"
+  | "Craft a Lumber Doll"
+  | "Craft a Gilded Doll"
+  | "Craft a Lunar Doll"
+  | "Craft an Ember Doll";
 
 export const COMPETITION_POINTS: Record<
   CompetitionName,
@@ -235,6 +134,23 @@ export const COMPETITION_POINTS: Record<
       "Cook Fancy Fries": 20,
       "Cook Pancakes": 2,
       "Cook Tofu Scramble": 4,
+    },
+  },
+  BUILDING_FRIENDSHIPS: {
+    // startAt: new Date("2025-10-13T00:00:00Z").getTime(),
+    startAt: new Date("2025-10-06T00:00:00Z").getTime(),
+    endAt: new Date("2025-10-23T00:00:00Z").getTime(),
+    points: {
+      "Help 10 Friends": 1,
+      "Complete a Basic Cooking Pot": 1,
+      "Complete an Expert Cooking Pot": 5,
+      "Complete an Advanced Cooking Pot": 10,
+      "Craft a Moo Doll": 10,
+      "Craft a Wooly Doll": 10,
+      "Craft a Lumber Doll": 15,
+      "Craft a Gilded Doll": 15,
+      "Craft a Lunar Doll": 20,
+      "Craft an Ember Doll": 50,
     },
   },
 };
@@ -327,6 +243,50 @@ export const COMPETITION_TASK_DETAILS: Record<
     icon: ITEM_DETAILS["Tofu Scramble"].image,
     description: "Cook a Tofu Scramble at the Kitchen",
   },
+  "Help 10 Friends": {
+    icon: helpedIcon,
+    description: "Help 10 Friends by cleaning their farm",
+  },
+  "Complete a Basic Cooking Pot": {
+    icon: ITEM_DETAILS["Basic Cooking Pot"].image,
+    description: "Complete a Basic Cooking Pot",
+  },
+  "Complete an Expert Cooking Pot": {
+    icon: ITEM_DETAILS["Expert Cooking Pot"].image,
+    description: "Complete an Expert Cooking Pot",
+  },
+  "Complete an Advanced Cooking Pot": {
+    icon: ITEM_DETAILS["Advanced Cooking Pot"].image,
+    description: "Complete an Advanced Cooking Pot",
+  },
+  "Craft a Doll": {
+    icon: ITEM_DETAILS["Doll"].image,
+    description: "Craft a Doll at the Crafting Box",
+  },
+  "Craft a Moo Doll": {
+    icon: ITEM_DETAILS["Moo Doll"].image,
+    description: "Craft a Moo Doll at the Crafting Box",
+  },
+  "Craft a Wooly Doll": {
+    icon: ITEM_DETAILS["Wooly Doll"].image,
+    description: "Craft a Wooly Doll at the Crafting Box",
+  },
+  "Craft a Lumber Doll": {
+    icon: ITEM_DETAILS["Lumber Doll"].image,
+    description: "Craft a Lumber Doll at the Crafting Box",
+  },
+  "Craft a Gilded Doll": {
+    icon: ITEM_DETAILS["Gilded Doll"].image,
+    description: "Craft a Gilded Doll at the Crafting Box",
+  },
+  "Craft a Lunar Doll": {
+    icon: ITEM_DETAILS["Lunar Doll"].image,
+    description: "Craft a Lunar Doll at the Crafting Box",
+  },
+  "Craft an Ember Doll": {
+    icon: ITEM_DETAILS["Ember Doll"].image,
+    description: "Craft an Ember Doll at the Crafting Box",
+  },
 };
 
 export const getCompetitionPointsPerTask = ({
@@ -345,49 +305,6 @@ export const getCompetitionPointsPerTask = ({
   }
   return points;
 };
-
-// export function getCompetitionPoints({
-//   game,
-//   name,
-// }: {
-//   game: GameState;
-//   name: CompetitionName;
-// }): number {
-//   const hasStarted = COMPETITION_POINTS[name].startAt <= Date.now();
-
-//   if (!hasStarted) return 0;
-
-//   return getKeys(COMPETITION_POINTS[name].points).reduce((total, task) => {
-//     const completed = getTaskCompleted({ game, name, task });
-//     const points = getCompetitionPointsPerTask({ game, name, task });
-
-//     return total + completed * points;
-//   }, 0);
-// }
-
-// export function getTaskCompleted({
-//   game,
-//   name,
-//   task,
-// }: {
-//   game: GameState;
-//   name: CompetitionName;
-//   task: CompetitionTaskName;
-// }): number {
-//   const { competitions } = game;
-
-//   // If the competition has not started, no progress is possible, so return 0
-//   if (!competitions.progress[name]) return 0;
-
-//   const previous = competitions.progress[name].initialProgress?.[task] ?? 0;
-
-//   if (!previous) return 0;
-
-//   const count = COMPETITION_TASK_PROGRESS[task](game);
-//   const completed = count - previous;
-
-//   return completed;
-// }
 
 export type CompetitionPlayer = {
   id: number;
@@ -570,318 +487,4 @@ export const PRIZES: Record<number, CompetitionPrize> = {
       }),
       {},
     ),
-};
-
-// Temporary put bounties in front-end for testing
-export const BOUNTIES = {
-  "2024-12-16": [
-    {
-      level: 6,
-      id: "4ee67e",
-      name: "Chicken",
-      coins: 140,
-    },
-    {
-      level: 15,
-      id: "e9dee5",
-      name: "Chicken",
-      coins: 720,
-    },
-    {
-      level: 3,
-      id: "228f0a",
-      name: "Chicken",
-      coins: 100,
-    },
-    {
-      level: 10,
-      id: "ed6d87",
-      name: "Chicken",
-      coins: 310,
-    },
-    {
-      level: 4,
-      id: "719d07",
-      name: "Chicken",
-      coins: 110,
-    },
-    {
-      level: 4,
-      id: "895746",
-      name: "Chicken",
-      items: {
-        Horseshoe: 3,
-      },
-    },
-    {
-      level: 6,
-      id: "debf92",
-      name: "Chicken",
-      items: {
-        Horseshoe: 3,
-      },
-    },
-    {
-      level: 5,
-      id: "9a8a96",
-      name: "Chicken",
-      items: {
-        Horseshoe: 3,
-      },
-    },
-    {
-      level: 7,
-      id: "1e98cd",
-      name: "Chicken",
-      items: {
-        Horseshoe: 3,
-      },
-    },
-    {
-      level: 12,
-      id: "69a44e",
-      name: "Sheep",
-      coins: 2550,
-    },
-    {
-      level: 7,
-      id: "21be87",
-      name: "Cow",
-      coins: 1810,
-    },
-    {
-      level: 8,
-      id: "5f6a54",
-      name: "Cow",
-      coins: 2400,
-    },
-    {
-      level: 3,
-      id: "65ce7b",
-      name: "Sheep",
-      coins: 320,
-    },
-    {
-      level: 7,
-      id: "971763",
-      name: "Sheep",
-      items: {
-        Horseshoe: 5,
-      },
-    },
-    {
-      level: 5,
-      id: "5f6493",
-      name: "Sheep",
-      items: {
-        Horseshoe: 3,
-      },
-    },
-    {
-      level: 3,
-      id: "d88905",
-      name: "Cow",
-      items: {
-        Horseshoe: 2,
-      },
-    },
-    {
-      level: 3,
-      id: "bac051",
-      name: "Sheep",
-      items: {
-        Horseshoe: 2,
-      },
-    },
-    {
-      level: 5,
-      id: "bba5bd",
-      name: "Cow",
-      items: {
-        Horseshoe: 3,
-      },
-    },
-    {
-      id: "6d4249",
-      name: "Purple Cosmos",
-      items: {
-        Horseshoe: 3,
-      },
-    },
-    {
-      id: "26cb11",
-      name: "White Carnation",
-      items: {
-        Horseshoe: 7,
-      },
-    },
-    {
-      id: "acc666",
-      name: "White Pansy",
-      items: {
-        Horseshoe: 3,
-      },
-    },
-    // --- NEW BOUNTIES ---
-    {
-      level: 15,
-      id: "47a94c",
-      name: "Chicken",
-      coins: 720,
-    },
-    {
-      level: 4,
-      id: "7662de",
-      name: "Chicken",
-      coins: 110,
-    },
-    {
-      level: 8,
-      id: "fbdb49",
-      name: "Chicken",
-      coins: 220,
-    },
-    {
-      level: 12,
-      id: "b79148",
-      name: "Chicken",
-      coins: 470,
-    },
-    {
-      level: 14,
-      id: "497d88",
-      name: "Chicken",
-      coins: 650,
-    },
-    {
-      level: 15,
-      id: "968b20",
-      name: "Chicken",
-      coins: 720,
-    },
-    {
-      level: 2,
-      id: "f43e6f",
-      name: "Chicken",
-      items: {
-        Horseshoe: 3,
-      },
-    },
-    {
-      level: 4,
-      id: "6c8c41",
-      name: "Chicken",
-      items: {
-        Horseshoe: 3,
-      },
-    },
-    {
-      level: 5,
-      id: "158dc6",
-      name: "Chicken",
-      items: {
-        Horseshoe: 3,
-      },
-    },
-    {
-      level: 7,
-      id: "ed45eb",
-      name: "Chicken",
-      items: {
-        Horseshoe: 3,
-      },
-    },
-    {
-      level: 7,
-      id: "894475",
-      name: "Chicken",
-      items: {
-        Gem: 10,
-      },
-    },
-    {
-      level: 5,
-      id: "a0fe79",
-      name: "Chicken",
-      items: {
-        Gem: 5,
-      },
-    },
-    {
-      level: 4,
-      id: "21016d",
-      name: "Cow",
-      items: {
-        Horseshoe: 2,
-      },
-    },
-    {
-      level: 5,
-      id: "1e8b2d",
-      name: "Cow",
-      items: {
-        Horseshoe: 3,
-      },
-    },
-    {
-      level: 7,
-      id: "67df3d",
-      name: "Cow",
-      items: {
-        Gem: 10,
-      },
-    },
-    {
-      level: 3,
-      id: "9e3e27",
-      name: "Cow",
-      coins: 540,
-    },
-    {
-      level: 5,
-      id: "a62e45",
-      name: "Cow",
-      coins: 930,
-    },
-    {
-      level: 7,
-      id: "297142",
-      name: "Cow",
-      coins: 1810,
-    },
-    {
-      level: 4,
-      id: "6ab20c",
-      name: "Sheep",
-      items: {
-        Horseshoe: 3,
-      },
-    },
-    {
-      level: 6,
-      id: "64901c",
-      name: "Sheep",
-      items: {
-        Gem: 10,
-      },
-    },
-    {
-      level: 3,
-      id: "2fa3f0",
-      name: "Sheep",
-      coins: 320,
-    },
-    {
-      level: 5,
-      id: "4543b8",
-      name: "Sheep",
-      coins: 480,
-    },
-    {
-      level: 8,
-      id: "362d96",
-      name: "Sheep",
-      coins: 1070,
-    },
-  ],
 };

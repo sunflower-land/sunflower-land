@@ -6,10 +6,18 @@ import { getNextSessionId, getSessionId } from "./Session";
 import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { saveTxHash } from "features/game/types/transactions";
-import { base, baseSepolia, polygon, polygonAmoy, saigon } from "viem/chains";
+import {
+  base,
+  baseSepolia,
+  polygon,
+  polygonAmoy,
+  ronin,
+  saigon,
+} from "viem/chains";
 
 const address = CONFIG.WITHDRAWAL_CONTRACT;
 const WITHDRAW_FLOWER_ADDRESS: Record<number, `0x${string}`> = {
+  [ronin.id]: "0x25412190379D68A34779570BB0bB194Fa395A49f",
   [saigon.id]: "0x6E625972Ca5206Ae213650CDc10fba1878540352",
   [base.id]: CONFIG.WITHDRAW_FLOWER_CONTRACT as `0x${string}`,
   [baseSepolia.id]: CONFIG.WITHDRAW_FLOWER_CONTRACT as `0x${string}`,

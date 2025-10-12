@@ -1,6 +1,6 @@
 import React from "react";
 import { CONFIG } from "lib/config";
-
+import { farcasterMiniApp as miniAppConnector } from "@farcaster/miniapp-wagmi-connector";
 import { http, createConfig, fallback, injected } from "@wagmi/core";
 import {
   base,
@@ -43,6 +43,8 @@ export const coinbaseConnector = coinbaseWallet({
   appName: "Sunflower Land",
   appLogoUrl: "https://sunflower-land.com/game-assets/brand/512px.png",
 });
+
+export const farcasterConnector = miniAppConnector();
 
 export const fallbackConnector = injected({
   target() {
@@ -108,6 +110,7 @@ export const config = createConfig({
     coinbaseConnector,
     waypointConnector,
     fallbackConnector,
+    farcasterConnector,
   ],
   transports: {
     // Testnet

@@ -29,6 +29,8 @@
     "@0xsequence/wagmi-connector": "^3.1.1",
     "@anima-protocol/personhood-sdk-react": "^0.4.6",
     "@aws-amplify/ui-react-liveness": "^3.3.2",
+    "@farcaster/miniapp-sdk": "^0.1.10",
+    "@farcaster/miniapp-wagmi-connector": "^1.0.0",
     "@headlessui/react": "^2.2.4",
     "@khmyznikov/pwa-install": "^0.3.3",
     "@metamask/onboarding": "^1.0.1",

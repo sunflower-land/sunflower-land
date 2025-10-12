@@ -178,7 +178,7 @@ export const CompetitionDetails: React.FC<{
               </Label>
             )}
           </div>
-          <p className="text-xs mb-3">{t("competition.hurry")}</p>
+          {/* <p className="text-xs mb-3">{t("competition.hurry")}</p> */}
           <NoticeboardItems
             iconWidth={8}
             items={[
@@ -212,30 +212,33 @@ export const CompetitionDetails: React.FC<{
             </div>
             <p className="text-xs mb-3">{t("competition.earnPoints.how")}</p>
             <div className="flex flex-wrap -mx-1 items-center">
-              {tasks.map((name) => (
-                <div key={name} className="w-1/2 relative pr-0.5  h-full">
-                  <ButtonPanel
-                    onClick={() => setTask(name)}
-                    className="w-full relative"
-                  >
-                    <div className="flex items-center">
-                      <img
-                        src={COMPETITION_TASK_DETAILS[name].icon}
-                        className="h-6 mr-1"
-                      />
-                      <p className="text-xs">{name}</p>
-                    </div>
-                    <Label
-                      type="warning"
-                      className="absolute -top-4 -right-2"
-                    >{`${getCompetitionPointsPerTask({
-                      game: state,
-                      name: competitionName,
-                      task: name,
-                    })} points`}</Label>
-                  </ButtonPanel>
-                </div>
-              ))}
+              {tasks.map((name) => {
+                const points = getCompetitionPointsPerTask({
+                  game: state,
+                  name: competitionName,
+                  task: name,
+                });
+                return (
+                  <div key={name} className="w-1/2 relative pr-0.5  h-full">
+                    <ButtonPanel
+                      onClick={() => setTask(name)}
+                      className="w-full relative"
+                    >
+                      <div className="flex items-center">
+                        <img
+                          src={COMPETITION_TASK_DETAILS[name].icon}
+                          className="h-6 mr-1"
+                        />
+                        <p className="text-xs">{name}</p>
+                      </div>
+                      <Label
+                        type="warning"
+                        className="absolute -top-4 -right-2"
+                      >{`${points} ${points === 1 ? "point" : "points"}`}</Label>
+                    </ButtonPanel>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </InnerPanel>

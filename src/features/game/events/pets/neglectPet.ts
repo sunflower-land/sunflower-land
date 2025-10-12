@@ -1,5 +1,10 @@
 import { GameState } from "features/game/types/game";
-import { isPetNeglected, PetName } from "features/game/types/pets";
+import {
+  isPetNeglected,
+  isPetOfTypeFed,
+  PetName,
+  isPetNFT as isPetNFTData,
+} from "features/game/types/pets";
 import { produce } from "immer";
 
 export type NeglectPetAction = {
@@ -30,6 +35,24 @@ export function neglectPet({ state, action, createdAt }: Options) {
     if (!isNeglected) {
       throw new Error("Pet is not in neglected state");
     }
+
+    if (isPetNFTData(petData)) {
+      if (!petData.traits) {
+        throw new Error("Pet traits not found");
+      }
+
+      if (
+        isPetOfTypeFed({
+          nftPets: stateCopy.pets?.nfts ?? {},
+          petType: petData.traits.type,
+          id: petData.id,
+          now: createdAt,
+        })
+      ) {
+        throw new Error("Pet of type has been fed today");
+      }
+    }
+
     petData.experience = Math.max(0, petData.experience - 500);
     petData.requests.fedAt = createdAt;
 
