@@ -243,7 +243,6 @@
   "description.blossombeard.boost": "경험치 10% 증가",
   "description.christmas.festive.tree.boost": "크리스마스 무료 선물",
   "description.grinxs.hammer.boost": "확장 비용을 절반으로 절감",
-  "description.time.warp.totem.boost": "농작물, 광물, 과일, 요리 및 나무 심기 시간 50% 감소",
   "description.radiant.ray.boost": "+0.1 아이언",
   "description.hungryHare.boost": "발효 당근 2x XP",
   "description.turbo.sprout.boost": "-50% 온실에서의 성장 시간",
@@ -3684,7 +3683,6 @@
   "description.vampireBear": "날 태양 아래 두지 마!",
   "description.superTotem": "농작물, 나무, 과일, 요리 및 미네랄을 2배 빠르게 처리할 수 있습니다.7일 동안 지속됩니다.",
   "description.kingOfBears.boost": "벌집 한 개당 벌꿀 생산량 증가 +0.25",
-  "description.superTotem.boost": "농작물, 광물, 과일, 요리 및 나무 심기 시간 50% 감소",
   "description.super.totem.expired": "슈퍼 토템이 만료되었습니다.펌킨 플라자로 가서 더 많은 마법 아이템을 발견하고 제작하여 파밍 능력을 향상시키세요!",
   "description.super.totem.temporarily": "슈퍼 토템은 요리, 농작물, 나무, 광물 섭취 시간을 일시적으로 늘려줍니다.최대한 활용하세요!",
   "season.bullRun.bonus": "동물 사료용 사료 10% 감소",
@@ -6709,9 +6707,11 @@
   "pets.foodLocked": "잠금 해제하려면 레벨 {{level}} 에 도달하세요",
   "pets.typeFed": "기타 {{type}} 레드",
   "pets.typeFedDescription": "이미 이런 종류의 애완 동물에게 먹이를 주셨습니다.이 애완동물에게 먹이를 주려면 내일까지 기다려주세요.",
-  "competition.intro.two": "손을 빌려서 정리하고 공예를 시작하세요!우정을 쌓고 자신이 Sunflowe Land에서 가장 도움이 되는 플레이어라는 것을 증명하세요.",
-  "competition.join": "만나고, 만들고, 연결하세요!소셜 대회에 참여하여 게임에서 가장 친근한 얼굴임을 모두에게 보여주세요.",
   "competition.farmerCompetition": "우정 쌓기",
   "competition.hurry": "우정 쌓기에 오신 것을 환영합니다!우정을 쌓고, 인형을 만들고, 순위표에 오르세요!",
-  "competition.prizes.two": "우정을 쌓고, 인형을 만들고, 순위표에 오르세요!"
+  "competition.prizes.two": "우정을 쌓고, 인형을 만들고, 순위표에 오르세요!",
+  "description.time.warp.totem.boost": "농작물, 광물, 과일, 요리, 제작, 나무 심기 시간 50% 감소",
+  "competition.intro.two": "손을 빌려서 정리하고 공예를 시작하세요!우정을 쌓고 Sunflower Land에서 가장 도움이 되는 플레이어임을 증명하세요.",
+  "competition.join": "만나고, 만들고, 연결하세요!소셜 대회에 참여하여 게임에서 가장 친근한 얼굴이라는 것을 모두에게 보여주세요.",
+  "description.superTotem.boost": "농작물, 광물, 과일, 요리, 제작, 나무 심기 시간 50% 감소"
 }

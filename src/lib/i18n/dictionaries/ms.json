@@ -243,7 +243,6 @@
   "description.blossombeard.boost": "+10% XP",
   "description.christmas.festive.tree.boost": "Hadiah Percuma pada Krismas",
   "description.grinxs.hammer.boost": "Kos pengembangan separuh",
-  "description.time.warp.totem.boost": "Pengurangan 50% kepada Masa Tanaman, Mineral, Buah, Memasak dan Pokok",
   "description.radiant.ray.boost": "+0.1 Besi",
   "description.hungryHare.boost": "Lobak Fermentasi 2x XP",
   "description.turbo.sprout.boost": "-50% Masa Pertumbuhan di Rumah Hijau",
@@ -3684,7 +3683,6 @@
   "description.vampireBear": "Jangan letakkan saya di bawah matahari!",
   "description.superTotem": "Kelajuan 2x untuk tanaman, pokok, buah-buahan, memasak & mineral. Bertahan selama 7 hari",
   "description.kingOfBears.boost": "Meningkatkan Hasil Madu setiap sarang lebah penuh +0.25",
-  "description.superTotem.boost": "Pengurangan 50% kepada Masa Tanaman, Mineral, Buah, Memasak dan Pokok",
   "description.super.totem.expired": "Super Totem anda telah tamat tempoh. Pergi ke Pumpkin Plaza untuk menemui dan membuat lebih banyak barangan ajaib untuk meningkatkan kebolehan pertanian anda!",
   "description.super.totem.temporarily": "Super Totem meningkatkan masa memasak, tanaman, pokok & mineral anda buat sementara waktu. Manfaatkannya sepenuhnya!",
   "season.bullRun.bonus": "10% kurang makanan untuk memberi makan haiwan",
@@ -6709,9 +6707,11 @@
   "pets.foodLocked": "Mencapai Tahap {{level}} untuk membuka kunci",
   "pets.typeFed": "Lain-lain {{type}} Fed",
   "pets.typeFedDescription": "Anda telah memberi makan haiwan kesayangan jenis ini. Sila tunggu sehingga esok untuk memberi makan haiwan kesayangan ini.",
-  "competition.intro.two": "Pinjamkan tangan, kemas, dan dapatkan kerajinan! Bina persahabatan dan buktikan bahawa anda adalah pemain yang paling membantu di Sunflowe Land.",
-  "competition.join": "Bertemu, buat, dan berhubung! Sertai Pertandingan Sosial dan tunjukkan kepada semua orang anda wajah paling mesra dalam permainan",
   "competition.farmerCompetition": "Membina Persahabatan",
   "competition.hurry": "Selamat datang ke Membina Persahabatan! Bina persahabatan, kerajinan anak patung, dan naik papan pendahulu!",
-  "competition.prizes.two": "Bina persahabatan, kerajinan anak patung, dan naik papan pendahulu!"
+  "competition.prizes.two": "Bina persahabatan, kerajinan anak patung, dan naik papan pendahulu!",
+  "description.time.warp.totem.boost": "Pengurangan 50% kepada Tanaman, Mineral, Buah, Memasak, Kerajinan dan Masa Pokok",
+  "competition.intro.two": "Pinjamkan tangan, kemas, dan dapatkan kerajinan! Bina persahabatan dan buktikan bahawa anda adalah pemain yang paling membantu di Sunflower Land.",
+  "competition.join": "Bertemu, buat, dan berhubung! Sertai Pertandingan Sosial dan tunjukkan kepada semua orang anda wajah paling mesra dalam permainan.",
+  "description.superTotem.boost": "Pengurangan 50% kepada Tanaman, Mineral, Buah, Memasak, Kerajinan dan Masa Pokok"
 }
