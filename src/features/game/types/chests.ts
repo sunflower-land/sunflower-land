@@ -159,20 +159,31 @@ export const LUXURY_REWARDS: () => RewardBoxReward[] = () => [
 ];
 
 export const BUD_BOX_REWARDS: RewardBoxReward[] = [
-  { items: { "Gold Pickaxe": 3 }, weighting: 5 },
-  { items: { Grub: 3, Earthworm: 3, "Red Wiggler": 3 }, weighting: 10 },
+  { items: { "Stone Pickaxe": 15 }, weighting: 15 },
+  { items: { "Iron Pickaxe": 10 }, weighting: 8 },
+  { items: { "Gold Pickaxe": 5 }, weighting: 3 },
+  { items: { "Fishing Lure": 10 }, weighting: 10 },
   { items: { "Pirate Cake": 3 }, weighting: 5 },
-  { items: { "Red Pansy": 2 }, weighting: 10 },
-  { items: { "Purple Cosmos": 2 }, weighting: 10 },
+  { items: { "Red Lavender": 1, "White Lavender": 1 }, weighting: 20 },
+  { items: { "Blue Clover": 1, "Yellow Clover": 1 }, weighting: 20 },
+  { items: { "Red Edelweiss": 1, "Purple Edelweiss": 1 }, weighting: 20 },
+  { items: { "Blue Gladiolus": 1, "Yellow Gladiolus": 1 }, weighting: 20 },
   { wearables: { "Seedling Hat": 1 }, weighting: 1 },
   { items: { "Prize Ticket": 1 }, weighting: 10 },
-  { items: { "Oil Drill": 2 }, weighting: 5 },
-  { items: { "Shroom Syrup": 1 }, weighting: 5 },
-  { items: { Antipasto: 1, "Steamed Red Rice": 1 }, weighting: 5 },
-  { items: { "Beetroot Blaze": 1, "Rapid Roast": 1 }, weighting: 5 },
-  { items: { "White Carrot": 1 }, weighting: 10 },
-  { items: { "Warty Goblin Pumpkin": 1 }, weighting: 5 },
-  { items: { "Rapid Root": 10, "Sprout Mix": 10 }, weighting: 10 },
+  { items: { "Oil Drill": 3 }, weighting: 5 },
+  { items: { "Pizza Margherita": 1 }, weighting: 5 },
+  { items: { "Spaghetti al Limone": 1 }, weighting: 5 },
+  {
+    items: { "Beetroot Blaze": 1, "Rapid Roast": 1, "Shroom Syrup": 1 },
+    weighting: 10,
+  },
+  { items: { "White Carrot": 1, "Warty Goblin Pumpkin": 1 }, weighting: 20 },
+  { items: { "Adirondack Potato": 1, "Purple Cauliflower": 1 }, weighting: 10 },
+  { items: { Chiogga: 1 }, weighting: 5 },
+  { items: { "Rapid Root": 30, "Sprout Mix": 30 }, weighting: 20 },
+  { items: { Doll: 5 }, weighting: 5 },
+  { items: { "Time Warp Totem": 1 }, weighting: 3 },
+  { items: { "Luxury Key": 1 }, weighting: 1 },
 ];
 
 export const GIFT_GIVER_REWARDS: RewardBoxReward[] = [
