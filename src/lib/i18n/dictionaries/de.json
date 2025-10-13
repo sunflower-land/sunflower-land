@@ -243,7 +243,6 @@
   "description.blossombeard.boost": "+10% ERFAHRUNGSPUNKTE",
   "description.christmas.festive.tree.boost": "Kostenloses Geschenk zu Weihnachten",
   "description.grinxs.hammer.boost": "Halbiert die Erweiterungskosten",
-  "description.time.warp.totem.boost": "50% Ermäßigung auf Ernte-, Mineral-, Obst-, Koch- und Baumzeit",
   "description.radiant.ray.boost": "+0.1 Eisen",
   "description.hungryHare.boost": "Fermentierte Karotten 2x XP",
   "description.turbo.sprout.boost": "-50% Wachstumszeit im Gewächshaus",
@@ -3684,7 +3683,6 @@
   "description.vampireBear": "Stell mich nicht unter die Sonne!",
   "description.superTotem": "2-fache Geschwindigkeit für Pflanzen, Bäume, Obst, Kochen und Mineralien. Hält 7 Tage an",
   "description.kingOfBears.boost": "Erhöhen Sie den Honigertrag pro vollem Bienenstock um +0,25",
-  "description.superTotem.boost": "50% Ermäßigung auf Ernte-, Mineral-, Obst-, Koch- und Baumzeit",
   "description.super.totem.expired": "Dein Super Totem ist abgelaufen. Begib dich zum Pumpkin Plaza, um weitere magische Gegenstände zu entdecken und herzustellen, um deine landwirtschaftlichen Fähigkeiten zu verbessern!",
   "description.super.totem.temporarily": "Das Super Totem erhöht vorübergehend deine Koch-, Ernte-, Baum- und Mineralzeit. Mach das Beste daraus!",
   "season.bullRun.bonus": "10% weniger Futter für Tiere",
@@ -6709,9 +6707,11 @@
   "pets.foodLocked": "Erreiche Level {{level}}, um das Spiel freizuschalten",
   "pets.typeFed": "Andere {{type}} Gebühren",
   "pets.typeFedDescription": "Sie haben bereits ein Haustier dieses Typs gefüttert. Bitte warten Sie bis morgen, um dieses Haustier zu füttern.",
-  "competition.intro.two": "Packen Sie mit an, räumen Sie auf und fangen Sie an zu basteln! Schließe Freundschaften und beweise, dass du der hilfreichste Spieler auf Sunflowe Land bist.",
-  "competition.join": "Triff dich, bastle und verbinde dich! Nehmt am sozialen Wettbewerb teil und zeigt allen, dass ihr das freundlichste Gesicht im Spiel seid",
   "competition.farmerCompetition": "Freundschaften aufbauen",
   "competition.hurry": "Willkommen bei Building Friendships! Schließe Freundschaften, stelle Puppen her und erklimme die Bestenliste!",
-  "competition.prizes.two": "Schließe Freundschaften, stelle Puppen her und erklimme die Bestenliste!"
+  "competition.prizes.two": "Schließe Freundschaften, stelle Puppen her und erklimme die Bestenliste!",
+  "description.time.warp.totem.boost": "50% Rabatt auf Ernte-, Mineral-, Obst-, Koch-, Bastel- und Baumzeit",
+  "competition.intro.two": "Packen Sie mit an, räumen Sie auf und fangen Sie an zu basteln! Schließe Freundschaften und beweise, dass du der hilfreichste Spieler auf Sunflower Land bist.",
+  "competition.join": "Triff dich, bastle und verbinde dich! Nehmt am sozialen Wettbewerb teil und zeigt allen, dass ihr das freundlichste Gesicht im Spiel seid.",
+  "description.superTotem.boost": "50% Rabatt auf Ernte-, Mineral-, Obst-, Koch-, Bastel- und Baumzeit"
 }

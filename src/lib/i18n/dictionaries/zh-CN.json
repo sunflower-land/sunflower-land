@@ -233,7 +233,6 @@
   "description.maneki.neko.boost": "每天 1 份免费食物（点击领取）",
   "description.christmas.festive.tree.boost": "圣诞节期间领取免费礼物",
   "description.grinxs.hammer.boost": "拓张材料减半（不含钻石和金币）",
-  "description.time.warp.totem.boost": "庄稼生长、基矿、水果、烹饪和树木冷却时间 -50% (请在开始计时/收获资源前放置)",
   "description.radiant.ray.boost": "+0.1 铁矿",
   "description.beekeeper.hat.boost": "+0.2 蜂蜜生产速度",
   "description.flower.fox.boost": "-10% 花卉生长时间",
@@ -3684,7 +3683,6 @@
   "description.vampireBear": "别把我放在阳光下！",
   "description.superTotem": "庄稼、树木、水果、烹饪和基矿的速度提为 2 倍。持续 7 天",
   "description.kingOfBears.boost": "提高每个满载蜂箱的蜂蜜产量 +0.25",
-  "description.superTotem.boost": "庄稼、基矿、水果、烹饪和树木的相关时间减少 50%",
   "description.super.totem.expired": "您的超级图腾已过期。前往南瓜广场，发现并制作更多魔法物品，提升您的耕作能力！",
   "description.super.totem.temporarily": "超级图腾可暂时增益您的烹饪、庄稼、树木和基矿的相关时间。充分利用它！",
   "season.bullRun.bonus": "喂动物的饲料减少 10%",
@@ -6709,9 +6707,11 @@
   "pets.foodLocked": "达到等级 {{level}} 即可解锁",
   "pets.typeFed": "已喂养其他 {{type}}",
   "pets.typeFedDescription": "你今天已经喂养过该类型的宠物，请等待明天再喂养这只宠物。",
-  "competition.intro.two": "伸出援手，整理收拾，动手制作！与他人建立友谊，证明你是 Sunflower Land 上最乐于助人的玩家。",
-  "competition.join": "相遇、制作、交流！加入社交竞赛，向大家展示你是游戏中最友善的面孔。",
   "competition.farmerCompetition": "友谊建设",
   "competition.hurry": "欢迎来到“友谊建设”活动！结交朋友、制作玩偶，并登上排行榜！",
-  "competition.prizes.two": "结交朋友、制作玩偶，并登上排行榜！"
+  "competition.prizes.two": "结交朋友、制作玩偶，并登上排行榜！",
+  "description.time.warp.totem.boost": "作物、矿物、水果、烹饪、手工制作和植树时间减少 50%",
+  "competition.intro.two": "伸出援手，整理一下，开始手工制作吧！建立友谊，证明你是向日葵乐园上最有帮助的玩家。",
+  "competition.join": "见面、创作和交流！加入社交竞赛，向所有人展示你是游戏中最友好的面孔。",
+  "description.superTotem.boost": "作物、矿物、水果、烹饪、手工制作和植树时间减少 50%"
 }

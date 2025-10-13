@@ -2245,7 +2245,6 @@
   "description.pharaoh.chicken.boost": "+1 Desert Dig",
   "description.observatory.boost": "+5% XP",
   "description.blossombeard.boost": "+10% XP",
-  "description.time.warp.totem.boost": "Mahsul, Mineral, Meyve, Pişirme ve Ağaç Zamanında %50 İndirim",
   "description.hungryHare.boost": "Fermente Havuç 2x XP",
   "description.soybliss.boost": "+1 Soya",
   "description.grape.granny.boost": "+1 Grape",
@@ -3684,7 +3683,6 @@
   "description.vampireBear": "Beni güneşin altına sokma!",
   "description.superTotem": "Mahsuller, ağaçlar, meyveler, yemek pişirme ve mineraller için 2x hız. 7 gün sürer",
   "description.kingOfBears.boost": "Tam arı kovanı başına Bal Verimini Artırın +0.25",
-  "description.superTotem.boost": "Mahsul, Mineral, Meyve, Pişirme ve Ağaç Zamanında %50 İndirim",
   "description.super.totem.expired": "Süper Totem'inizin süresi doldu. Çiftçilik yeteneklerinizi geliştirmek için daha fazla büyülü eşya keşfetmek ve üretmek için Pumpkin Plaza\"ya gidin!",
   "description.super.totem.temporarily": "Süper Totem, yemek pişirmenizi, ekinlerinizi, ağaçlarınızı ve mineral zamanınızı geçici olarak artırır. En iyi şekilde yararlanın!",
   "season.bullRun.bonus": "Hayvanları beslemek için% 10 daha az yem",
@@ -6709,9 +6707,11 @@
   "pets.foodLocked": "Kilidi açmak için Seviyeye {{level}} ulaşın",
   "pets.typeFed": "Diğer {{type}} Fed",
   "pets.typeFedDescription": "Zaten bu tür bir evcil hayvanı beslediniz. Lütfen bu evcil hayvanı beslemek için yarına kadar bekleyin.",
-  "competition.intro.two": "Yardım edin, toparlayın ve işçiliğe başlayın! Arkadaşlıklar kurun ve Sunflowe Land'deki en yardımsever oyuncu olduğunuzu kanıtlayın.",
-  "competition.join": "Tanışın, üretin ve bağlantı kurun! Sosyal Yarışmaya katılın ve herkese oyundaki en arkadaş canlısı yüz olduğunuzu gösterin",
   "competition.farmerCompetition": "Arkadaşlık Kurmak",
   "competition.hurry": "Arkadaşlık Kurmaya Hoş Geldiniz! Arkadaşlıklar kur, bebek yap ve liderlik tablosuna tırman!",
-  "competition.prizes.two": "Arkadaşlıklar kur, bebek yap ve liderlik tablosuna tırman!"
+  "competition.prizes.two": "Arkadaşlıklar kur, bebek yap ve liderlik tablosuna tırman!",
+  "description.time.warp.totem.boost": "Mahsul, Mineral, Meyve, Pişirme, İşçilik ve Ağaç Zamanında %50 İndirim",
+  "competition.intro.two": "Yardım edin, toparlayın ve işçiliğe başlayın! Arkadaşlıklar kurun ve Sunflower Land'deki en yardımsever oyuncu olduğunuzu kanıtlayın.",
+  "competition.join": "Tanışın, üretin ve bağlantı kurun! Sosyal Yarışmaya katılın ve herkese oyundaki en arkadaş canlısı yüz olduğunuzu gösterin.",
+  "description.superTotem.boost": "Mahsul, Mineral, Meyve, Pişirme, İşçilik ve Ağaç Zamanında %50 İndirim"
 }

@@ -131,7 +131,9 @@ const FEATURE_FLAGS = {
   RONIN_FLOWER: adminFeatureFlag,
   MEMORY_BETA: defaultFeatureFlag,
   PET_NFT_DEPOSIT: testnetFeatureFlag,
-  BUILDING_FRIENDSHIPS: defaultFeatureFlag,
+  BUILDING_FRIENDSHIPS: betaTimeBasedFeatureFlag(
+    new Date("2025-10-13T00:00:00Z"),
+  ),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

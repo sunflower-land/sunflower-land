@@ -2248,7 +2248,6 @@
   "description.pharaoh.chicken.boost": "+1 Desert Dig",
   "description.observatory.boost": "+5 % D'EXPÉRIENCE",
   "description.blossombeard.boost": "+10 % D'EXPÉRIENCE",
-  "description.time.warp.totem.boost": "Réduction de 50 % du temps consacré à la récolte, aux minéraux, aux fruits, à la cuisson et à l'arbre",
   "description.hungryHare.boost": "Carottes fermentées 2x XP",
   "description.soybliss.boost": "+1 Soja",
   "description.grape.granny.boost": "+1 Raisin",
@@ -3684,7 +3683,6 @@
   "description.vampireBear": "Ne me mettez pas au soleil !",
   "description.superTotem": "Vitesse 2 fois supérieure pour les cultures, les arbres, les fruits, la cuisine et les minéraux. Dure 7 jours",
   "description.kingOfBears.boost": "Augmente le rendement en miel par ruche complète de 0,25",
-  "description.superTotem.boost": "Réduction de 50 % du temps consacré à la récolte, aux minéraux, aux fruits, à la cuisson et à l'arbre",
   "description.super.totem.expired": "Votre Super Totem a expiré. Rendez-vous au Pumpkin Plaza pour découvrir et fabriquer d'autres objets magiques qui amélioreront vos capacités agricoles !",
   "description.super.totem.temporarily": "Le Super Totem augmente temporairement votre temps consacré à la cuisine, à vos récoltes, à vos arbres et à vos minéraux. Profitez-en au maximum !",
   "season.bullRun.bonus": "10 % de nourriture en moins pour nourrir les animaux",
@@ -6709,9 +6707,11 @@
   "pets.foodLocked": "Atteignez le niveau {{level}} pour débloquer",
   "pets.typeFed": "Autres frais {{type}}",
   "pets.typeFedDescription": "Vous avez déjà nourri un animal de ce type. Veuillez attendre jusqu'à demain pour nourrir cet animal.",
-  "competition.intro.two": "Donnez un coup de main, rangez et bricolez ! Nouez des amitiés et prouvez que vous êtes le joueur le plus utile de Sunflowe Land.",
-  "competition.join": "Rencontrez, créez et établissez des liens ! Participez à la compétition sociale et montrez à tout le monde que vous êtes le visage le plus sympathique du jeu",
   "competition.farmerCompetition": "Bâtir des amitiés",
   "competition.hurry": "Bienvenue sur Building Friendships ! Nouez des amitiés, fabriquez des poupées et grimpez dans le classement !",
-  "competition.prizes.two": "Nouez des amitiés, fabriquez des poupées et grimpez dans le classement !"
+  "competition.prizes.two": "Nouez des amitiés, fabriquez des poupées et grimpez dans le classement !",
+  "description.time.warp.totem.boost": "50 % de réduction sur les récoltes, les minéraux, les fruits, la cuisine, l'artisanat et le temps passé à planter des arbres",
+  "competition.intro.two": "Donnez un coup de main, rangez et bricolez ! Nouez des amitiés et prouvez que vous êtes le joueur le plus utile de Sunflower Land.",
+  "competition.join": "Rencontrez, créez et établissez des liens ! Participez à la compétition sociale et montrez à tout le monde que vous êtes le visage le plus sympathique du jeu.",
+  "description.superTotem.boost": "50 % de réduction sur les récoltes, les minéraux, les fruits, la cuisine, l'artisanat et le temps passé à planter des arbres"
 }

@@ -242,7 +242,6 @@
   "description.blossombeard.boost": "+10% XP",
   "description.christmas.festive.tree.boost": "Regalo gratuito a Natale",
   "description.grinxs.hammer.boost": "Dimezza i costi di espansione",
-  "description.time.warp.totem.boost": "Riduzione del 50% del tempo dedicato al raccolto, ai minerali, alla frutta, alla cottura e all'albero",
   "description.radiant.ray.boost": "Ferro +0,1",
   "description.hungryHare.boost": "Carote fermentate 2x XP",
   "description.soybliss.boost": "+1 Soia",
@@ -3684,7 +3683,6 @@
   "description.vampireBear": "Non mettermi sotto il sole!",
   "description.superTotem": "Velocità doppia per colture, alberi, frutta, cucina e minerali. Dura 7 giorni",
   "description.kingOfBears.boost": "Aumenta la resa di miele per alveare intero +0,25",
-  "description.superTotem.boost": "Riduzione del 50% del tempo dedicato al raccolto, ai minerali, alla frutta, alla cottura e all'albero",
   "description.super.totem.expired": "Il tuo Super Totem è scaduto. Vai al Pumpkin Plaza per scoprire e creare altri oggetti magici per potenziare le tue abilità agricole!",
   "description.super.totem.temporarily": "Il Super Totem aumenta temporaneamente il tempo di cottura, i raccolti, gli alberi e i minerali. Sfruttalo al massimo!",
   "season.bullRun.bonus": "10% in meno di mangime per nutrire gli animali",
@@ -6709,9 +6707,11 @@
   "pets.foodLocked": "Raggiungi il livello {{level}} per sbloccare",
   "pets.typeFed": "Altro {{type}} Fed",
   "pets.typeFedDescription": "Hai già dato da mangiare a un animale di questo tipo. Attendi fino a domani per dare da mangiare a questo animale domestico.",
-  "competition.intro.two": "Dai una mano, riordina e inizia a creare! Stringi amicizie e dimostra di essere il giocatore più utile di Sunflowe Land.",
-  "competition.join": "Incontra, crea e connettiti! Partecipa alla Social Competition e dimostra a tutti che sei la faccia più simpatica del gioco",
   "competition.farmerCompetition": "Costruire amicizie",
   "competition.hurry": "Benvenuto in Building Friendships! Stringi amicizie, crea bambole e scala la classifica!",
-  "competition.prizes.two": "Costruisci amicizie, crea bambole e scala la classifica!"
+  "competition.prizes.two": "Costruisci amicizie, crea bambole e scala la classifica!",
+  "description.time.warp.totem.boost": "Riduzione del 50% sul raccolto, sui minerali, sulla frutta, sulla cucina, sull'artigianato e sul tempo dedicato all'albero",
+  "competition.intro.two": "Dai una mano, riordina e inizia a creare! Stringi amicizie e dimostra di essere il giocatore più utile di Sunflower Land.",
+  "competition.join": "Incontra, crea e connettiti! Partecipa alla Social Competition e dimostra a tutti che sei il volto più amichevole del gioco.",
+  "description.superTotem.boost": "Riduzione del 50% sul raccolto, sui minerali, sulla frutta, sulla cucina, sull'artigianato e sul tempo dedicato all'albero"
 }
