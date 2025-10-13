@@ -2701,15 +2701,30 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 18}px`,
-        bottom: `${PIXEL_SCALE * 3}px`,
-        left: `${PIXEL_SCALE * -0.5}px`,
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -0}px`,
       }}
       imgStyle={{
         width: `${PIXEL_SCALE * 18}px`,
       }}
       image={ITEM_DETAILS["Better Together Banner"].image}
       alt="Better Together Banner"
+    />
+  ),
+  "Paw Prints Banner": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Paw Prints Banner"].image}
+      alt="Paw Prints Banner"
     />
   ),
   "Big Apple": (props: CollectibleProps) => (

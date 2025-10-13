@@ -6714,5 +6714,8 @@
   "ronin.airdrop.connectTwitterAccount": "Connect your Twitter account & claim your prize",
   "ronin.airdrop.loginToSunflowerLand": "Login to Sunflower Land",
   "claiming.ronin.pack": "Claiming Ronin Pack",
-  "claiming.ronin.pack.success": "Ronin pack claimed."
+  "claiming.ronin.pack.success": "Ronin pack claimed.",
+  "description.pawPrintsBanner": "A banner for the Paw Prints chapter.",
+  "description.petCookie": "Collected during the Paw Prints chapter.",
+  "description.moonCrystal": "Can be found at the digsite during the Paw Prints chapter."
 }

@@ -12650,6 +12650,34 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/765.webp",
     name: "Cheer",
   },
+  "Paw Prints Banner": {
+    description: "A banner for the Paw Prints chapter.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Banner" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/766.webp",
+    name: "Paw Prints Banner",
+  },
+  "Pet Cookie": {
+    description: "Collected during the Paw Prints chapter.",
+    decimals: 0,
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/767.webp",
+    name: "Pet Cookie",
+  },
+  "Moon Crystal": {
+    description: "Can be found at the digsite during the Paw Prints chapter.",
+    decimals: 0,
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/768.webp",
+    name: "Moon Crystal",
+  },
+
   Trash: {
     description: "A piece of trash",
     decimals: 0,
