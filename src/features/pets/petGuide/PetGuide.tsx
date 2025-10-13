@@ -11,17 +11,18 @@ import { PetCategories } from "./PetCategories";
 import { Shrines } from "./Shrines";
 import { Social } from "./Social";
 
+type PetGuideView =
+  | "Pet Egg"
+  | "Feed"
+  | "Fetch"
+  | "Pet Maintenance"
+  | "Pet Categories"
+  | "Levels & Perks"
+  | "Shrines"
+  | "Social";
+
 export const PetGuide: React.FC = () => {
-  const [view, setView] = useState<
-    | "Pet Egg"
-    | "Feed"
-    | "Fetch"
-    | "Pet Maintenance"
-    | "Pet Categories"
-    | "Levels & Perks"
-    | "Shrines"
-    | "Social"
-  >();
+  const [view, setView] = useState<PetGuideView>();
 
   const setToDefault = () => setView(undefined);
 
