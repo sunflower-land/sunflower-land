@@ -207,11 +207,11 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
     "Moon Crystal": {
       sellPrice: 200,
       description: "",
-      ...(hasSeasonEnded("Better Together")
+      ...(hasSeasonEnded("Paw Prints")
         ? {}
         : {
-            from: SEASONS["Better Together"].startDate,
-            to: SEASONS["Better Together"].endDate,
+            from: SEASONS["Paw Prints"].startDate,
+            to: SEASONS["Paw Prints"].endDate,
           }),
     },
   };
