@@ -2712,6 +2712,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Better Together Banner"
     />
   ),
+  "Paw Prints Banner": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * -0.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+      }}
+      image={ITEM_DETAILS["Paw Prints Banner"].image}
+      alt="Paw Prints Banner"
+    />
+  ),
   "Big Apple": (props: CollectibleProps) => (
     <Project
       {...props}

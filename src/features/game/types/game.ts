@@ -393,6 +393,7 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   Bracelet: { description: "" },
   Cheer: { description: translate("description.cheer") },
+  "Pet Cookie": { description: translate("description.petCookie") },
 };
 
 export type Purchase = {

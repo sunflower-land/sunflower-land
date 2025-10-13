@@ -27,7 +27,8 @@ export type BeachBountySeasonalArtefact =
   | "Cow Skull"
   | "Ancient Clock"
   | "Broken Pillar"
-  | "Coprolite";
+  | "Coprolite"
+  | "Moon Crystal";
 
 export type ConsumableTreasure =
   | "Pirate Cake"
@@ -194,6 +195,16 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
           }),
     },
     Coprolite: {
+      sellPrice: 200,
+      description: "",
+      ...(hasSeasonEnded("Better Together")
+        ? {}
+        : {
+            from: SEASONS["Better Together"].startDate,
+            to: SEASONS["Better Together"].endDate,
+          }),
+    },
+    "Moon Crystal": {
       sellPrice: 200,
       description: "",
       ...(hasSeasonEnded("Better Together")
