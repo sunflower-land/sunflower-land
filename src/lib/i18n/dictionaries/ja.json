@@ -243,7 +243,6 @@
   "description.blossombeard.boost": "+10% XP",
   "description.christmas.festive.tree.boost": "クリスマスの無料ギフト",
   "description.grinxs.hammer.boost": "拡張コストを半減",
-  "description.time.warp.totem.boost": "作物、ミネラル、フルーツ、調理、樹木にかかる時間を 50% 削減",
   "description.radiant.ray.boost": "+0.1 アイアン",
   "description.hungryHare.boost": "発酵ニンジン 2x XP",
   "description.turbo.sprout.boost": "-温室内の成長時間 -50%",
@@ -3684,7 +3683,6 @@
   "description.vampireBear": "私を太陽の下に置かないで！",
   "description.superTotem": "作物、樹木、果物、料理、ミネラルを2倍のスピードで。7日間持続します。",
   "description.kingOfBears.boost": "蜂の巣1個あたりのハチミツ生産量増加 +0.25",
-  "description.superTotem.boost": "作物、ミネラル、フルーツ、調理、樹木にかかる時間を 50% 削減",
   "description.super.totem.expired": "スーパートーテムの有効期限が切れました。パンプキンプラザに向かい、農業能力を高める魔法のアイテムをもっと見つけてクラフトしよう！",
   "description.super.totem.temporarily": "スーパートーテムは、料理、作物、樹木、ミネラルタイムを一時的に増やします。それを最大限に活用しましょう！",
   "season.bullRun.bonus": "動物に給餌する飼料を 10% 削減",
@@ -6709,9 +6707,11 @@
   "pets.foodLocked": "レベル {{level}} に到達してロック解除",
   "pets.typeFed": "その他 {{type}} フィード",
   "pets.typeFedDescription": "あなたはすでにこのタイプのペットに餌を与えています。このペットに餌をやるには、明日まで待ってください。",
-  "competition.intro.two": "手を貸して、片付けて、クラフトを始めましょう！友情を築き、サンフラワーランドで最も役に立つプレイヤーであることを証明しましょう。",
-  "competition.join": "出会い、クラフトして、つながりましょう！ソーシャル・コンペティションに参加して、自分がゲームで最も親しみやすい顔であることをみんなに見せつけよう",
   "competition.farmerCompetition": "友情を築く",
   "competition.hurry": "友情の構築へようこそ！友情を築き、人形を作り、リーダーボードに登りましょう！",
-  "competition.prizes.two": "友情を築き、人形を作り、リーダーボードに登りましょう！"
+  "competition.prizes.two": "友情を築き、人形を作り、リーダーボードに登りましょう！",
+  "description.time.warp.totem.boost": "作物、ミネラル、フルーツ、料理、クラフト、樹木にかかる時間を 50% 削減",
+  "competition.intro.two": "手を貸して、片付けて、クラフトを始めましょう！友情を築き、あなたがサンフラワーランドで最も役立つプレイヤーであることを証明してください。",
+  "competition.join": "出会い、クラフトして、つながりましょう！ソーシャルコンペティションに参加して、自分がゲームで最も親しみやすい顔であることをみんなに見せましょう。",
+  "description.superTotem.boost": "作物、ミネラル、フルーツ、料理、クラフト、樹木にかかる時間を 50% 削減"
 }

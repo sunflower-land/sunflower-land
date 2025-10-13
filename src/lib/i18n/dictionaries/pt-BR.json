@@ -2198,7 +2198,6 @@
   "description.pharaoh.chicken.boost": "+1 Desert Dig",
   "description.observatory.boost": "+5% DE XP",
   "description.blossombeard.boost": "+10% DE XP",
-  "description.time.warp.totem.boost": "Redução de 50% no tempo de colheita, minerais, frutas, cozimento e árvores",
   "description.hungryHare.boost": "Cenouras fermentadas 2x XP",
   "description.soybliss.boost": "+1 Soja",
   "description.grape.granny.boost": "+1 Uva",
@@ -3684,7 +3683,6 @@
   "description.vampireBear": "Não me coloque sob o sol!",
   "description.superTotem": "Velocidade 2x para plantações, árvores, frutas, culinária e minerais. Dura 7 dias",
   "description.kingOfBears.boost": "Aumenta a produção de mel por colmeia cheia +0,25",
-  "description.superTotem.boost": "Redução de 50% no tempo de colheita, minerais, frutas, cozimento e árvores",
   "description.super.totem.expired": "Seu Super Totem expirou. Vá até o Pumpkin Plaza para descobrir e criar mais itens mágicos para aumentar suas habilidades agrícolas!",
   "description.super.totem.temporarily": "O Super Totem aumenta temporariamente sua culinária, colheitas, árvores e tempo mineral. Aproveite ao máximo!",
   "season.bullRun.bonus": "10% menos ração para alimentar animais",
@@ -6709,9 +6707,11 @@
   "pets.foodLocked": "Alcance o nível {{level}} para desbloquear",
   "pets.typeFed": "Outros {{type}} Feed",
   "pets.typeFedDescription": "Você já alimentou um animal de estimação desse tipo. Por favor, espere até amanhã para alimentar este animal de estimação.",
-  "competition.intro.two": "Dê uma mão, arrume e comece a criar! Faça amizades e prove que você é o jogador mais útil em Sunflowe Land.",
-  "competition.join": "Conheça, crie e conecte-se! Participe da competição social e mostre a todos que você é a cara mais amigável do jogo",
   "competition.farmerCompetition": "Construindo amizades",
   "competition.hurry": "Bem-vindo ao Building Friendships! Faça amizades, crie bonecos e suba na tabela de classificação!",
-  "competition.prizes.two": "Faça amizades, crie bonecos e suba na tabela de classificação!"
+  "competition.prizes.two": "Faça amizades, crie bonecos e suba na tabela de classificação!",
+  "description.time.warp.totem.boost": "Redução de 50% na colheita, minerais, frutas, culinária, artesanato e colheita",
+  "competition.intro.two": "Dê uma mão, arrume e comece a criar! Faça amizades e prove que você é o jogador mais útil em Sunflower Land.",
+  "competition.join": "Conheça, crie e conecte-se! Participe da competição social e mostre a todos que você é a cara mais amigável do jogo.",
+  "description.superTotem.boost": "Redução de 50% na colheita, minerais, frutas, culinária, artesanato e colheita"
 }

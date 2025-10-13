@@ -243,7 +243,6 @@
   "description.blossombeard.boost": "Incrementa la ganancia de experiencia en un +10%.",
   "description.christmas.festive.tree.boost": "Otorga un regalo gratis en Navidad.",
   "description.grinxs.hammer.boost": "Reduce los costos de expansión en un -50%.",
-  "description.time.warp.totem.boost": "Disminuye el tiempo de cosecha, recolección de minerales y frutas, cocción, y producción de madera en un -50%.",
   "description.radiant.ray.boost": "Incrementa la producción de hierro en +0.1.",
   "description.hungryHare.boost": "Duplica la XP obtenida de las zanahorias fermentadas (2x XP).",
   "description.soybliss.boost": "Incrementa la producción de soja en +1.",
@@ -3684,7 +3683,6 @@
   "description.vampireBear": "¡No me pongas bajo el sol!",
   "description.superTotem": "El doble de velocidad para cultivos, árboles, frutas, alimentos y minerales. Dura 7 días",
   "description.kingOfBears.boost": "Aumenta la producción de miel por colmena llena +0.25",
-  "description.superTotem.boost": "Reducción del 50% en el tiempo dedicado a la cosecha, los minerales, las frutas, la cocción y el árbol",
   "description.super.totem.expired": "Tu supertótem ha caducado. ¡Dirígete a Pumpkin Plaza para descubrir y crear más objetos mágicos que potencien tus habilidades agrícolas!",
   "description.super.totem.temporarily": "El supertótem aumenta temporalmente tu tiempo de cocción, cosechas, árboles y minerales. ¡Sácale el máximo partido!",
   "season.bullRun.bonus": "10% menos de comida para alimentar a los animales",
@@ -6709,9 +6707,11 @@
   "pets.foodLocked": "Alcanza el nivel {{level}} para desbloquear",
   "pets.typeFed": "Otra tarifa de {{type}}",
   "pets.typeFedDescription": "Ya has dado de comer a una mascota de este tipo. Espere hasta mañana para alimentar a esta mascota.",
-  "competition.intro.two": "¡Eche una mano, ordene y comience a hacer manualidades! Crea amistades y demuestra que eres el jugador más útil de Sunflowe Land.",
-  "competition.join": "¡Conoce, crea y conecta! ¡Únete a la competencia social y demuéstrales a todos que eres la cara más amistosa del juego",
   "competition.farmerCompetition": "Construyendo amistades",
   "competition.hurry": "¡Bienvenido a Building Friendships! ¡Construye amistades, crea muñecas y escala en la clasificación!",
-  "competition.prizes.two": "¡Construye amistades, crea muñecas y escala en la clasificación!"
+  "competition.prizes.two": "¡Construye amistades, crea muñecas y escala en la clasificación!",
+  "description.time.warp.totem.boost": "Reducción del 50% en el tiempo dedicado a los cultivos, los minerales, las frutas, la cocina, la artesanía y el árbol",
+  "competition.intro.two": "¡Eche una mano, ordene y comience a hacer manualidades! Crea amistades y demuestra que eres el jugador más útil de Sunflower Land.",
+  "competition.join": "¡Conoce, crea y conecta! Únete a la competencia social y demuestra a todos que eres la cara más amistosa del juego.",
+  "description.superTotem.boost": "Reducción del 50% en el tiempo dedicado a los cultivos, los minerales, las frutas, la cocina, la artesanía y el árbol"
 }
