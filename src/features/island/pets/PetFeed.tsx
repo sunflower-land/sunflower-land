@@ -51,7 +51,6 @@ export const PetFeed: React.FC<{
   const [selectedFood, setSelectedFood] = useState<CookableName | null>(
     petData.requests.food[0] ?? null,
   );
-  const [showConfirm, setShowConfirm] = useState(false);
 
   // States for reset Requests
   const [showResetRequests, setShowResetRequests] = useState(false);
@@ -107,8 +106,6 @@ export const PetFeed: React.FC<{
           selectedFood={selectedFood}
           handleFeed={handleFeed}
           petLevel={petLevel}
-          showConfirm={showConfirm}
-          setShowConfirm={setShowConfirm}
           isToday={isToday}
           setShowResetRequests={setShowResetRequests}
           foodRequests={foodRequests}
@@ -121,7 +118,6 @@ export const PetFeed: React.FC<{
           selectedFood={selectedFood}
           setSelectedFood={setSelectedFood}
           inventory={state.inventory}
-          setShowConfirm={setShowConfirm}
           isToday={isToday}
           foodRequests={foodRequests}
         />
@@ -135,8 +131,6 @@ const PetFeedPanel: React.FC<{
   petId: PetName | number;
   selectedFood: CookableName | null;
   handleFeed: (food: CookableName) => void;
-  showConfirm: boolean;
-  setShowConfirm: (showConfirm: boolean) => void;
   isToday: boolean;
   setShowResetRequests: (showResetRequests: boolean) => void;
   state: GameState;
@@ -148,8 +142,6 @@ const PetFeedPanel: React.FC<{
   selectedFood,
   petLevel,
   handleFeed,
-  showConfirm,
-  setShowConfirm,
   isToday,
   setShowResetRequests,
   state,
@@ -294,20 +286,9 @@ const PetFeedPanel: React.FC<{
       </div>
 
       <div className="flex flex-row sm:flex-col gap-1 w-full">
-        <Button
-          disabled={isDisabled}
-          onClick={() => {
-            setShowConfirm(!showConfirm);
-            if (showConfirm) handleFeed(selectedFood);
-          }}
-        >
-          {showConfirm
-            ? t("confirm")
-            : t("pets.feedPet", { pet: petData.name })}
+        <Button disabled={isDisabled} onClick={() => handleFeed(selectedFood)}>
+          {t("pets.feedPet", { pet: petData.name })}
         </Button>
-        {showConfirm && (
-          <Button onClick={() => setShowConfirm(false)}>{t("cancel")}</Button>
-        )}
       </div>
 
       <p
@@ -325,7 +306,6 @@ const PetFeedContent: React.FC<{
   inventory: Inventory;
   selectedFood: CookableName | null;
   setSelectedFood: (selectedFood: CookableName) => void;
-  setShowConfirm: (showConfirm: boolean) => void;
   isToday: boolean;
   foodRequests: CookableName[];
 }> = ({
@@ -333,7 +313,6 @@ const PetFeedContent: React.FC<{
   selectedFood,
   setSelectedFood,
   inventory,
-  setShowConfirm,
   isToday,
   foodRequests,
 }) => {
@@ -375,10 +354,7 @@ const PetFeedContent: React.FC<{
                     : ITEM_DETAILS[food].image
                 }
                 isSelected={selectedFood === food}
-                onClick={() => {
-                  setSelectedFood(food);
-                  setShowConfirm(false);
-                }}
+                onClick={() => setSelectedFood(food)}
                 count={isUpcoming ? undefined : inventory[food]}
                 showOverlay={isComplete || isUpcoming}
                 secondaryImage={

@@ -833,6 +833,8 @@ import timeshard from "assets/icons/timeshard.webp";
 import ancientClock from "assets/icons/ancient_clock.png";
 import windsOfChangeBanner from "assets/decorations/banners/winds-of-change_banner_loop.gif";
 import betterTogetherBanner from "assets/decorations/banners/better_together_banner.webp";
+import pawPrintsBanner from "assets/decorations/banners/paw_prints_banner.webp";
+
 import pesticide from "assets/sfts/pesticide.webp";
 import jin from "assets/sfts/jin_ronin.webp";
 import loveCharm from "assets/icons/love_charm.webp";
@@ -840,6 +842,8 @@ import geniseed from "assets/icons/geniseed.webp";
 import brokenPillar from "assets/icons/broken_pillar.webp";
 import bracelet from "assets/icons/bracelet.webp";
 import coprolite from "assets/icons/coprolite.webp";
+import petCookie from "assets/icons/pet_cookie.webp";
+import moonCrystal from "assets/icons/moon_crystal.webp";
 
 import floralArch from "assets/sfts/floral_arch.webp";
 import flowerCoin from "assets/sfts/flower_coin.webp";
@@ -6007,5 +6011,17 @@ export const ITEM_DETAILS: Items = {
   "Prime Gold Rock": {
     image: SUNNYSIDE.resource.primeGoldRock,
     description: "A prime gold rock",
+  },
+  "Paw Prints Banner": {
+    image: pawPrintsBanner,
+    description: translate("description.pawPrintsBanner"),
+  },
+  "Pet Cookie": {
+    image: petCookie,
+    description: translate("description.petCookie"),
+  },
+  "Moon Crystal": {
+    image: moonCrystal,
+    description: translate("description.moonCrystal"),
   },
 };

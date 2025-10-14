@@ -118,7 +118,8 @@ const FEATURE_FLAGS = {
 
   BLESSING: () => true,
 
-  PETS: testnetFeatureFlag,
+  PETS: defaultFeatureFlag,
+  PET_HOUSE: testnetFeatureFlag,
   FLOWER_INSTA_GROW: defaultFeatureFlag,
   OBSIDIAN_SHRINE: defaultFeatureFlag,
 
@@ -127,7 +128,8 @@ const FEATURE_FLAGS = {
   OBSIDIAN_EXCHANGE: testnetFeatureFlag,
   GASLESS_AUCTIONS: () => true,
   NODE_FORGING: defaultFeatureFlag,
-  DEPOSIT_SFL: adminTimeBasedFeatureFlag(new Date("2025-08-28T00:00:00.000Z")),
+  DEPOSIT_SFL: () =>
+    Date.now() < new Date("2025-10-28T00:00:00.000Z").getTime(),
   RONIN_FLOWER: adminFeatureFlag,
   MEMORY_BETA: defaultFeatureFlag,
   PET_NFT_DEPOSIT: testnetFeatureFlag,

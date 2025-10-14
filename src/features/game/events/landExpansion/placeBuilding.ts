@@ -155,6 +155,7 @@ export function placeBuilding({
             ? getBoostedCraftingTime({
                 game: stateCopy,
                 time: RECIPES[craftingBox.item.collectible]?.time ?? 0,
+                createdAt,
               })
             : { seconds: 0 };
           craftingBox.readyAt = craftingBox.startedAt + recipeTime;

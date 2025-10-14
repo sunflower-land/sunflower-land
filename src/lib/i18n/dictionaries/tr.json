@@ -6713,5 +6713,9 @@
   "description.time.warp.totem.boost": "Mahsul, Mineral, Meyve, Pişirme, İşçilik ve Ağaç Zamanında %50 İndirim",
   "competition.intro.two": "Yardım edin, toparlayın ve işçiliğe başlayın! Arkadaşlıklar kurun ve Sunflower Land'deki en yardımsever oyuncu olduğunuzu kanıtlayın.",
   "competition.join": "Tanışın, üretin ve bağlantı kurun! Sosyal Yarışmaya katılın ve herkese oyundaki en arkadaş canlısı yüz olduğunuzu gösterin.",
-  "description.superTotem.boost": "Mahsul, Mineral, Meyve, Pişirme, İşçilik ve Ağaç Zamanında %50 İndirim"
+  "description.superTotem.boost": "Mahsul, Mineral, Meyve, Pişirme, İşçilik ve Ağaç Zamanında %50 İndirim",
+  "error.cannotPlaceFoxShrine": "Fox Shrine Engelli",
+  "description.pawPrintsBanner": "Paw Prints bölümü için bir afiş.",
+  "description.petCookie": "Paw Prints bölümünde toplanmıştır.",
+  "description.moonCrystal": "Pençe Baskıları bölümünde digsitede bulunabilir."
 }

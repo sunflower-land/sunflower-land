@@ -6713,5 +6713,9 @@
   "description.time.warp.totem.boost": "Pengurangan 50% untuk Panen, Mineral, Buah, Memasak, Kerajinan, dan Waktu Pohon",
   "competition.intro.two": "Ulangkan tangan, rapikan, dan mulai kerajinan! Bangun persahabatan dan buktikan bahwa Anda adalah pemain paling membantu di Sunflower Land.",
   "competition.join": "Bertemu, membuat, dan terhubung! Bergabunglah dengan Kompetisi Soal dan tunjukkan kepada semua orang bahwa Anda adalah wajah paling ramah dalam permainan.",
-  "description.superTotem.boost": "Pengurangan 50% untuk Panen, Mineral, Buah, Memasak, Kerajinan, dan Waktu Pohon"
+  "description.superTotem.boost": "Pengurangan 50% untuk Panen, Mineral, Buah, Memasak, Kerajinan, dan Waktu Pohon",
+  "error.cannotPlaceFoxShrine": "Kuil Fox Dinonaktifkan",
+  "description.pawPrintsBanner": "Sebuah spanduk untuk chapter Paw Prints.",
+  "description.petCookie": "Dikumpulkan selama chapter Paw Prints.",
+  "description.moonCrystal": "Dapat ditemukan di digsite selama chapter Paw Prints."
 }

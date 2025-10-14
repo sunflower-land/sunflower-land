@@ -25,6 +25,7 @@ export const SEASONAL_ARTEFACT: Record<
   "Winds of Change": "Ancient Clock",
   "Great Bloom": "Broken Pillar",
   "Better Together": "Coprolite",
+  "Paw Prints": "Moon Crystal",
 };
 
 export const DIGGING_FORMATIONS = {

@@ -47,6 +47,7 @@ import {
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { COMPETITION_POINTS } from "features/game/types/competitions";
 
 interface Props {
   location: PlaceableLocation;
@@ -337,6 +338,10 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
       placeable.name in LANDSCAPING_DECORATIONS ||
       placeable.name === "Magic Bean");
 
+  const isFoxShrineDisabled =
+    placeable.name === "Fox Shrine" &&
+    Date.now() < COMPETITION_POINTS.BUILDING_FRIENDSHIPS.endAt;
+
   return (
     <div className="absolute bottom-2 left-1/2 -translate-x-1/2">
       <OuterPanel>
@@ -349,6 +354,17 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
             {t("error.cannotPlaceInside")}
           </Label>
         )}
+
+        {isFoxShrineDisabled && (
+          <Label
+            icon={SUNNYSIDE.icons.cancel}
+            className="mx-auto my-1"
+            type="danger"
+          >
+            {t("error.cannotPlaceFoxShrine")}
+          </Label>
+        )}
+
         <Hint />
 
         <div
@@ -364,7 +380,9 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
           </Button>
 
           <Button
-            disabled={collisionDetected || isWrongLocation}
+            disabled={
+              collisionDetected || isWrongLocation || isFoxShrineDisabled
+            }
             onClick={handleConfirmPlacement}
           >
             <img

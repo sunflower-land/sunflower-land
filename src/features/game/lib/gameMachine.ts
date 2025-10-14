@@ -1056,12 +1056,12 @@ export function startGame(authContext: AuthContext) {
               }
 
               return {
-                state: makeGame(visitedFarmState),
+                state: visitedFarmState,
                 farmId,
                 hasHelpedPlayerToday,
                 totalHelpedToday,
                 visitorId,
-                visitorState: makeGame(visitorFarmState),
+                visitorState: visitorFarmState,
               };
             },
             onDone: {

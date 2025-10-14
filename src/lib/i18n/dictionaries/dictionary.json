@@ -1280,6 +1280,7 @@
   "error.cannotPlaceInside": "Cannot place inside",
   "error.file": "Error File",
   "error.betaTestersOnly": "Beta testers only!",
+  "error.cannotPlaceFoxShrine": "Fox Shrine Disabled",
   "error.congestion.one": "We are trying our best but looks like Polygon is getting a lot of traffic or you have lost your connection.",
   "error.congestion.two": "If this error continues please try changing your Metamask RPC",
   "error.connection.one": "It looks like we encountered a problem. Quite often this is just a simple connection issue. You can try again or reach out for help if the issue persists.",
@@ -6714,5 +6715,8 @@
   "ronin.airdrop.connectTwitterAccount": "Connect your Twitter account & claim your prize",
   "ronin.airdrop.loginToSunflowerLand": "Login to Sunflower Land",
   "claiming.ronin.pack": "Claiming Ronin Pack",
-  "claiming.ronin.pack.success": "Ronin pack claimed."
+  "claiming.ronin.pack.success": "Ronin pack claimed.",
+  "description.pawPrintsBanner": "A banner for the Paw Prints chapter.",
+  "description.petCookie": "Collected during the Paw Prints chapter.",
+  "description.moonCrystal": "Can be found at the digsite during the Paw Prints chapter."
 }
