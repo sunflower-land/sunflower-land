@@ -202,7 +202,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
         <>
           {[
             ...getValidBuildings(),
-            ...((hasFeatureAccess(state, "PETS")
+            ...((hasFeatureAccess(state, "PET_HOUSE")
               ? ["Pet House"]
               : []) as BuildingName[]),
           ].map((name: BuildingName) => {

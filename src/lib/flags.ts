@@ -118,7 +118,8 @@ const FEATURE_FLAGS = {
 
   BLESSING: () => true,
 
-  PETS: testnetFeatureFlag,
+  PETS: defaultFeatureFlag,
+  PET_HOUSE: testnetFeatureFlag,
   FLOWER_INSTA_GROW: defaultFeatureFlag,
   OBSIDIAN_SHRINE: defaultFeatureFlag,
 
