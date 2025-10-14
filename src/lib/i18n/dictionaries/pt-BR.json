@@ -6713,5 +6713,9 @@
   "description.time.warp.totem.boost": "Redução de 50% na colheita, minerais, frutas, culinária, artesanato e colheita",
   "competition.intro.two": "Dê uma mão, arrume e comece a criar! Faça amizades e prove que você é o jogador mais útil em Sunflower Land.",
   "competition.join": "Conheça, crie e conecte-se! Participe da competição social e mostre a todos que você é a cara mais amigável do jogo.",
-  "description.superTotem.boost": "Redução de 50% na colheita, minerais, frutas, culinária, artesanato e colheita"
+  "description.superTotem.boost": "Redução de 50% na colheita, minerais, frutas, culinária, artesanato e colheita",
+  "error.cannotPlaceFoxShrine": "Fox Shrine desativado",
+  "description.pawPrintsBanner": "Um banner para o capítulo Paw Prints.",
+  "description.petCookie": "Coletado durante o capítulo Paw Prints.",
+  "description.moonCrystal": "Pode ser encontrado no digsite durante o capítulo Paw Prints."
 }

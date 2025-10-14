@@ -6713,5 +6713,9 @@
   "description.time.warp.totem.boost": "50% Rabatt auf Ernte-, Mineral-, Obst-, Koch-, Bastel- und Baumzeit",
   "competition.intro.two": "Packen Sie mit an, räumen Sie auf und fangen Sie an zu basteln! Schließe Freundschaften und beweise, dass du der hilfreichste Spieler auf Sunflower Land bist.",
   "competition.join": "Triff dich, bastle und verbinde dich! Nehmt am sozialen Wettbewerb teil und zeigt allen, dass ihr das freundlichste Gesicht im Spiel seid.",
-  "description.superTotem.boost": "50% Rabatt auf Ernte-, Mineral-, Obst-, Koch-, Bastel- und Baumzeit"
+  "description.superTotem.boost": "50% Rabatt auf Ernte-, Mineral-, Obst-, Koch-, Bastel- und Baumzeit",
+  "error.cannotPlaceFoxShrine": "Fox Shrine deaktiviert",
+  "description.pawPrintsBanner": "Ein Banner für das Kapitel Paw Prints.",
+  "description.petCookie": "Im Kapitel Pfotenabdrücke gesammelt.",
+  "description.moonCrystal": "Ist auf der Digsite im Kapitel Paw Prints zu finden."
 }
