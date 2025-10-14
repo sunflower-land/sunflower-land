@@ -520,7 +520,12 @@ export const Project: React.FC<ProjectProps> = (input) => {
       totalHelpedToday: totalHelpedToday ?? 0,
     });
 
-    if (isHelpComplete({ game: gameService.getSnapshot().context.state })) {
+    if (
+      isHelpComplete({
+        game: gameService.getSnapshot().context.state,
+        visitorState: gameService.getSnapshot().context.visitorState,
+      })
+    ) {
       setShowHelped(true);
     }
   };

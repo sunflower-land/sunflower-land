@@ -91,7 +91,12 @@ export const ClutterItem: React.FC<
       totalHelpedToday,
     });
 
-    if (isHelpComplete({ game: gameService.getSnapshot().context.state })) {
+    if (
+      isHelpComplete({
+        game: gameService.getSnapshot().context.state,
+        visitorState: gameService.getSnapshot().context.visitorState,
+      })
+    ) {
       onComplete();
     }
   };

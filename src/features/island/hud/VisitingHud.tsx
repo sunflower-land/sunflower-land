@@ -88,6 +88,7 @@ export const VisitingHud: React.FC = () => {
 
   const helpRequired = getHelpRequired({
     game: gameState.context.state,
+    visitorState: gameState.context.visitorState,
   });
 
   const handleCloseVisitorGuide = () => {

@@ -19,6 +19,11 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 const _hasHelpedPet = (name: PetName) => (state: MachineState) => {
   if (state.context.visitorState) {
+    const hasAccess = hasFeatureAccess(state.context.visitorState, "PETS");
+    if (!hasAccess) {
+      return true;
+    }
+
     const hasHelpedToday = state.context.hasHelpedPlayerToday ?? false;
 
     const hasHelpedPet = !!state.context.state.pets?.common?.[name]?.visitedAt;
@@ -57,7 +62,12 @@ export const VisitingPet: React.FC<{ name: PetName }> = ({ name }) => {
     ) {
       gameService.send("pet.visitingPets", { pet: name, totalHelpedToday });
 
-      if (isHelpComplete({ game: gameService.getSnapshot().context.state })) {
+      if (
+        isHelpComplete({
+          game: gameService.getSnapshot().context.state,
+          visitorState: gameService.getSnapshot().context.visitorState,
+        })
+      ) {
         setShowHelped(true);
       }
     }
@@ -96,6 +106,7 @@ export const VisitingPet: React.FC<{ name: PetName }> = ({ name }) => {
                 width: `${PIXEL_SCALE * 14}px`,
                 right: `${PIXEL_SCALE * 3}px`,
                 top: `${PIXEL_SCALE * 2}px`,
+                zIndex: 1000,
               }}
             />
           </div>
