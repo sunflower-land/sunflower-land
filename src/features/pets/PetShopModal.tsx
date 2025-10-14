@@ -37,12 +37,15 @@ export const PetShopModal: React.FC = () => {
     (state) =>
       state.context.state.bumpkin.activity[`${selectedItem} Crafted`] ?? 0,
   );
-  const { ingredients, coins, limit, inventoryLimit } = selectedItemDetails;
+  const { ingredients, coins, limit, inventoryLimit, disabled } =
+    selectedItemDetails;
 
   const hasReachedInventoryLimit =
     !!inventoryLimit && (inventory[selectedItem]?.gte(inventoryLimit) ?? false);
 
   const canBuy = () => {
+    if (disabled) return false;
+
     if (coinBalance < (coins ?? 0)) return false;
 
     if (limit && craftedCount >= limit) return false;
@@ -96,13 +99,15 @@ const PetShopContent: React.FC<{
   inventory: Inventory;
 }> = ({ selectedItem, setSelectedItem, inventory }) => (
   <div className="flex flex-wrap">
-    {getKeys(PET_SHOP_ITEMS).map((name) => (
+    {getObjectEntries(PET_SHOP_ITEMS).map(([name, item]) => (
       <Box
         key={name}
         image={ITEM_DETAILS[name].image}
         isSelected={selectedItem === name}
         onClick={() => setSelectedItem(name)}
         count={inventory[name]}
+        secondaryImage={item.disabled ? SUNNYSIDE.icons.lock : undefined}
+        showOverlay={item.disabled}
       />
     ))}
   </div>

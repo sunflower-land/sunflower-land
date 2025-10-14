@@ -195,6 +195,7 @@ export type CraftableCollectible = {
   level?: number;
   limit?: number;
   inventoryLimit?: number;
+  disabled?: boolean;
 };
 
 export const HELIOS_BLACKSMITH_ITEMS: Record<

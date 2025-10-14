@@ -102,8 +102,8 @@ export function craftCollectible({
       throw new Error("Not enough stock");
     }
 
-    if (bumpkin === undefined) {
-      throw new Error("You do not have a Bumpkin!");
+    if (item.disabled) {
+      throw new Error("Item is disabled");
     }
 
     if (item.from && item.from?.getTime() > createdAt) {
