@@ -628,10 +628,10 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
           const { visitedFarmState, ...rest } = data;
 
           // if you don't have access to pets, delete pets object from their gameState
-          const hasPetsAccess = hasFeatureAccess(gameState, "PETS");
-          if (!hasPetsAccess) {
-            visitedFarmState.pets = undefined;
-          }
+          // const hasPetsAccess = hasFeatureAccess(gameState, "PETS");
+          // if (!hasPetsAccess) {
+          //   visitedFarmState.pets = undefined;
+          // }
 
           return {
             state: makeGame(visitedFarmState),
@@ -1049,11 +1049,11 @@ export function startGame(authContext: AuthContext) {
                 authContext.user.rawToken as string,
               );
 
-              const hasPetsAccess = hasFeatureAccess(visitorFarmState, "PETS");
-              // if you don't have access to pets, delete pets object from their gameState
-              if (!hasPetsAccess) {
-                visitedFarmState.pets = undefined;
-              }
+              // const hasPetsAccess = hasFeatureAccess(visitorFarmState, "PETS");
+              // // if you don't have access to pets, delete pets object from their gameState
+              // if (!hasPetsAccess) {
+              //   visitedFarmState.pets = undefined;
+              // }
 
               return {
                 state: makeGame(visitedFarmState),
