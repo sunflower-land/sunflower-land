@@ -628,15 +628,16 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
           const { visitedFarmState, ...rest } = data;
 
           // if you don't have access to pets, delete pets object from their gameState
-          // const hasPetsAccess = hasFeatureAccess(gameState, "PETS");
-          // if (!hasPetsAccess) {
-          //   visitedFarmState.pets = undefined;
-          // }
+          const madeGameState = makeGame(gameState);
+          const hasPetsAccess = hasFeatureAccess(madeGameState, "PETS");
+          if (!hasPetsAccess) {
+            visitedFarmState.pets = undefined;
+          }
 
           return {
             state: makeGame(visitedFarmState),
             data: rest,
-            visitorState: gameState,
+            visitorState: madeGameState,
           };
         },
         onDone: [
@@ -1049,11 +1050,15 @@ export function startGame(authContext: AuthContext) {
                 authContext.user.rawToken as string,
               );
 
-              // const hasPetsAccess = hasFeatureAccess(visitorFarmState, "PETS");
-              // // if you don't have access to pets, delete pets object from their gameState
-              // if (!hasPetsAccess) {
-              //   visitedFarmState.pets = undefined;
-              // }
+              const madeVisitorFarmState = makeGame(visitorFarmState);
+              const hasPetsAccess = hasFeatureAccess(
+                madeVisitorFarmState,
+                "PETS",
+              );
+              // if you don't have access to pets, delete pets object from their gameState
+              if (!hasPetsAccess) {
+                visitedFarmState.pets = undefined;
+              }
 
               return {
                 state: makeGame(visitedFarmState),
@@ -1061,7 +1066,7 @@ export function startGame(authContext: AuthContext) {
                 hasHelpedPlayerToday,
                 totalHelpedToday,
                 visitorId,
-                visitorState: makeGame(visitorFarmState),
+                visitorState: madeVisitorFarmState,
               };
             },
             onDone: {
