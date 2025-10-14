@@ -172,6 +172,11 @@ export const PetShrine: React.FC<
             </span>
           </Label>
           <SFTDetailPopoverBuffs name={name} />
+          {name === "Fox Shrine" && (
+            <Label type="danger" icon={SUNNYSIDE.icons.cancel}>
+              {t("error.cannotPlaceFoxShrine")}
+            </Label>
+          )}
         </SFTDetailPopoverInnerPanel>
       </PopoverPanel>
     </Popover>

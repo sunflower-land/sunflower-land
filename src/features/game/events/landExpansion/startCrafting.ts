@@ -44,7 +44,7 @@ export function getBoostedCraftingTime({
 
   if (
     isTemporaryCollectibleActive({ name: "Fox Shrine", game }) &&
-    createdAt < COMPETITION_POINTS.BUILDING_FRIENDSHIPS.endAt
+    createdAt > COMPETITION_POINTS.BUILDING_FRIENDSHIPS.endAt
   ) {
     seconds *= 0.75;
     boostsUsed.push("Fox Shrine");
