@@ -43,7 +43,10 @@ export function constructBuilding({
       throw new Error(CONSTRUCT_BUILDING_ERRORS.NO_BUMPKIN);
     }
 
-    if (action.name === "Pet House" && !hasFeatureAccess(stateCopy, "PETS")) {
+    if (
+      action.name === "Pet House" &&
+      !hasFeatureAccess(stateCopy, "PET_HOUSE")
+    ) {
       throw new Error("You do not have the required feature access");
     }
 

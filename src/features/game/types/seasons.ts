@@ -10,6 +10,7 @@ import bullsRunBanner from "assets/decorations/banners/bull_run_banner.webp";
 import windsOfChangeBanner from "assets/decorations/banners/winds-of-change_banner_loop.gif";
 import greatBloomBanner from "assets/decorations/banners/great_bloom_banner.png";
 import betterTogetherBanner from "assets/decorations/banners/better_together_banner.webp";
+import pawPrintsBanner from "assets/decorations/banners/paw_prints_banner.webp";
 import { BeachBountySeasonalArtefact } from "./treasure";
 import { getKeys } from "./decorations";
 import { ChapterFish } from "./fishing";
@@ -26,7 +27,8 @@ export type SeasonName =
   | "Bull Run"
   | "Winds of Change"
   | "Great Bloom"
-  | "Better Together";
+  | "Better Together"
+  | "Paw Prints";
 
 type SeasonDates = { startDate: Date; endDate: Date };
 
@@ -75,6 +77,10 @@ export const SEASONS: Record<SeasonName, SeasonDates> = {
     startDate: new Date("2025-08-04T00:00:00.000Z"),
     endDate: new Date("2025-11-03T00:00:00.000Z"),
   },
+  "Paw Prints": {
+    startDate: new Date("2025-11-03T00:00:00.000Z"),
+    endDate: new Date("2026-02-02T00:00:00.000Z"),
+  },
 };
 
 export const SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER = 10;
@@ -90,7 +96,8 @@ export type SeasonalTicket =
   | "Horseshoe"
   | "Timeshard"
   | "Geniseed"
-  | "Bracelet";
+  | "Bracelet"
+  | "Pet Cookie";
 
 export type SeasonalBanner = `${SeasonName} Banner`;
 
@@ -106,6 +113,7 @@ export const SEASONAL_BANNERS: Record<SeasonalBanner, SeasonName> = {
   "Winds of Change Banner": "Winds of Change",
   "Great Bloom Banner": "Great Bloom",
   "Better Together Banner": "Better Together",
+  "Paw Prints Banner": "Paw Prints",
 };
 
 export const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
@@ -120,6 +128,7 @@ export const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
   "Winds of Change": "Timeshard",
   "Great Bloom": "Geniseed",
   "Better Together": "Bracelet",
+  "Paw Prints": "Pet Cookie",
 };
 
 export const SEASON_ARTEFACT_NAME: Record<
@@ -137,6 +146,7 @@ export const SEASON_ARTEFACT_NAME: Record<
   "Winds of Change": "Ancient Clock",
   "Great Bloom": "Broken Pillar",
   "Better Together": "Coprolite",
+  "Paw Prints": "Moon Crystal",
 };
 
 export const CHAPTER_MARVEL_FISH: Record<SeasonName, ChapterFish> = {
@@ -151,6 +161,7 @@ export const CHAPTER_MARVEL_FISH: Record<SeasonName, ChapterFish> = {
   "Winds of Change": "Jellyfish",
   "Great Bloom": "Pink Dolphin",
   "Better Together": "Poseidon",
+  "Paw Prints": "???" as ChapterFish,
 };
 
 export function getChapterMarvelFish(now = new Date()): ChapterFish {
@@ -228,6 +239,7 @@ export function getSeasonalBannerImage() {
     "Winds of Change Banner": windsOfChangeBanner,
     "Great Bloom Banner": greatBloomBanner,
     "Better Together Banner": betterTogetherBanner,
+    "Paw Prints Banner": pawPrintsBanner,
   };
   return banners[getSeasonalBanner()];
 }

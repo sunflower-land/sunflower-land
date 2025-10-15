@@ -137,8 +137,7 @@ export const COMPETITION_POINTS: Record<
     },
   },
   BUILDING_FRIENDSHIPS: {
-    // startAt: new Date("2025-10-13T00:00:00Z").getTime(),
-    startAt: new Date("2025-10-06T00:00:00Z").getTime(),
+    startAt: new Date("2025-10-13T00:00:00Z").getTime(),
     endAt: new Date("2025-10-23T00:00:00Z").getTime(),
     points: {
       "Help 10 Friends": 1,

@@ -1141,6 +1141,7 @@ export const ITEM_TRADE_TYPES: {
     Bracelet: "instant",
     Coprolite: "instant",
     "Better Together Banner": "instant",
+    "Paw Prints Banner": "instant",
     "Big Orange": "instant",
     "Big Apple": "instant",
     "Big Banana": "instant",
@@ -1175,6 +1176,8 @@ export const ITEM_TRADE_TYPES: {
     Rat: "instant",
     Snail: "instant",
     "Pest Net": "instant",
+    "Pet Cookie": "instant",
+    "Moon Crystal": "instant",
   },
   wearables: {
     "New Years Crown": "instant",
@@ -1673,6 +1676,7 @@ export const getTradeType = ({
   };
 }) => {
   if (collection === "buds") return "onchain";
+  if (collection === "pets") return "onchain";
   if (collection === "wearables") {
     const item = ITEM_NAMES[id];
 

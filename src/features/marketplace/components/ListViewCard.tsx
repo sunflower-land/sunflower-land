@@ -5,7 +5,6 @@ import sfl from "assets/icons/flower_token.webp";
 import lightning from "assets/icons/lightning.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber } from "lib/utils/formatNumber";
-import { getTradeType } from "../lib/getTradeType";
 import { getItemId } from "../lib/offers";
 import { TradeableDisplay } from "../lib/tradeables";
 import { isTradeResource } from "features/game/actions/tradeLimits";
@@ -47,11 +46,6 @@ export const ListViewCard: React.FC<Props> = ({
   const state = useSelector(gameService, _state);
 
   const itemId = getItemId({ name, collection: type });
-  const tradeType = getTradeType({
-    collection: type,
-    id: itemId,
-    trade: { sfl: price?.toNumber() ?? 0 },
-  });
 
   const isResources =
     isTradeResource(name as InventoryItemName) && type === "collectibles";
@@ -65,6 +59,8 @@ export const ListViewCard: React.FC<Props> = ({
         );
       case "buds":
         return state.buds?.[itemId] ? 1 : 0;
+      case "pets":
+        return state.pets?.nfts?.[itemId] ? 1 : 0;
       case "wearables":
         return state.wardrobe[name as BumpkinItem] || 0;
 

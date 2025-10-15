@@ -34,7 +34,7 @@ export const PetHouseModal: React.FC<Props> = ({ show, onClose }) => {
     return [...(collectibles || []), ...(homeCollectibles || [])];
   };
   const hasPetsAccess = useSelector(gameService, (state) =>
-    hasFeatureAccess(state.context.state, "PETS"),
+    hasFeatureAccess(state.context.state, "PET_HOUSE"),
   );
 
   if (!hasPetsAccess || !pets) {

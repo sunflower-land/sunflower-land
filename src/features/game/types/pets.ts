@@ -5,6 +5,7 @@ import { CookableName } from "./consumables";
 import { getObjectEntries } from "../expansion/lib/utils";
 import { InventoryItemName } from "./game";
 import { Coordinates } from "../expansion/components/MapPlacement";
+import { COMPETITION_POINTS } from "./competitions";
 export type PetName =
   // Dogs
   | "Barkley"
@@ -413,6 +414,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
       Ruffroot: new Decimal(10),
     },
     inventoryLimit: 1,
+    disabled: Date.now() < COMPETITION_POINTS.BUILDING_FRIENDSHIPS.endAt,
   },
   "Toucan Shrine": {
     description: "",

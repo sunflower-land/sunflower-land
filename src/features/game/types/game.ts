@@ -393,6 +393,7 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   Bracelet: { description: "" },
   Cheer: { description: translate("description.cheer") },
+  "Pet Cookie": { description: translate("description.petCookie") },
 };
 
 export type Purchase = {
@@ -1560,6 +1561,8 @@ export type SocialFarming = {
     spawnedAt: number;
     locations: { [clutterId: string]: ClutterCoordinates };
   };
+  // NOTE: Remove after Chapter competition
+  helpedForCompetition?: number;
 };
 
 export type Auctioneer = {

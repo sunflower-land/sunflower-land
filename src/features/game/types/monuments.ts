@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { Decoration, getKeys } from "./decorations";
 import { GameState, InventoryItemName } from "./game";
 import { FARM_GARBAGE } from "./clutter";
+import { hasFeatureAccess } from "lib/flags";
 
 type LoveCharmMonumentName =
   | "Farmer's Monument"
@@ -185,12 +186,24 @@ export const REWARD_ITEMS: Partial<
   },
 };
 
-export function isHelpComplete({ game }: { game: GameState }) {
-  return getHelpRequired({ game }) <= 0;
+export function isHelpComplete({
+  game,
+  visitorState,
+}: {
+  game: GameState;
+  visitorState?: GameState;
+}) {
+  return getHelpRequired({ game, visitorState }) <= 0;
 }
 
 // Returns a count of help tasks needed on the farm
-export function getHelpRequired({ game }: { game: GameState }) {
+export function getHelpRequired({
+  game,
+  visitorState,
+}: {
+  game: GameState;
+  visitorState?: GameState;
+}) {
   const clutter = getKeys(game.socialFarming.clutter?.locations ?? {}).filter(
     (id) => {
       const type = game.socialFarming.clutter?.locations[id].type;
@@ -219,6 +232,11 @@ export function getHelpRequired({ game }: { game: GameState }) {
   );
 
   const pendingPets = getKeys(game.pets?.common ?? {}).filter((pet) => {
+    const hasAccess = !!visitorState && hasFeatureAccess(visitorState, "PETS");
+    if (!hasAccess) {
+      return false;
+    }
+
     const hasVisited = !!game.pets?.common?.[pet]?.visitedAt;
     return !hasVisited;
   });

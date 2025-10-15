@@ -6,6 +6,7 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { isTemporaryCollectibleActive } from "features/game/lib/collectibleBuilt";
+import { COMPETITION_POINTS } from "features/game/types/competitions";
 
 export type StartCraftingAction = {
   type: "crafting.started";
@@ -21,9 +22,11 @@ type Options = {
 export function getBoostedCraftingTime({
   game,
   time,
+  createdAt = Date.now(),
 }: {
   game: GameState;
   time: number;
+  createdAt?: number;
 }) {
   let seconds = time;
   const boostsUsed: BoostName[] = [];
@@ -39,9 +42,24 @@ export function getBoostedCraftingTime({
     boostsUsed.push("Architect Ruler");
   }
 
-  if (isTemporaryCollectibleActive({ name: "Fox Shrine", game })) {
+  if (
+    isTemporaryCollectibleActive({ name: "Fox Shrine", game }) &&
+    createdAt > COMPETITION_POINTS.BUILDING_FRIENDSHIPS.endAt
+  ) {
     seconds *= 0.75;
     boostsUsed.push("Fox Shrine");
+  }
+
+  if (
+    isTemporaryCollectibleActive({ name: "Time Warp Totem", game }) ||
+    isTemporaryCollectibleActive({ name: "Super Totem", game })
+  ) {
+    seconds *= 0.5;
+    if (isTemporaryCollectibleActive({ name: "Time Warp Totem", game })) {
+      boostsUsed.push("Time Warp Totem");
+    } else if (isTemporaryCollectibleActive({ name: "Super Totem", game })) {
+      boostsUsed.push("Super Totem");
+    }
   }
 
   return { seconds, boostsUsed };
@@ -124,6 +142,7 @@ export function startCrafting({
     const { seconds: recipeTime, boostsUsed } = getBoostedCraftingTime({
       game: state,
       time: recipe.time,
+      createdAt,
     });
 
     copy.craftingBox = {

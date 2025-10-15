@@ -870,7 +870,7 @@ export const MEGASTORE: Record<SeasonName, SeasonalStore> = {
     },
   },
   "Great Bloom": GREAT_BLOOM_ITEMS,
-
-  // TODO: To add Better Together items
   "Better Together": BETTER_TOGETHER_ITEMS,
+  // TODO: Add Paw Prints items
+  "Paw Prints": EMPTY_SEASONAL_STORE,
 };

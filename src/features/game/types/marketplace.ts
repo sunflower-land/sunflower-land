@@ -4,6 +4,7 @@ import { KNOWN_ITEMS } from ".";
 import { TRADE_LIMITS } from "../actions/tradeLimits";
 import { hasVipAccess } from "../lib/vipAccess";
 import { isTemporaryCollectibleActive } from "../lib/collectibleBuilt";
+import { PetNFTName } from "./pets";
 
 // 10% tax on sales
 export const MARKETPLACE_TAX = 0.1;
@@ -11,7 +12,7 @@ export const MARKETPLACE_TAX = 0.1;
 // Give it 15 minutes to resolve (cannot cancel while it is being purchased)
 export const TRADE_INITIATION_MS = 15 * 60 * 1000;
 
-export type CollectionName = "collectibles" | "wearables" | "buds";
+export type CollectionName = "collectibles" | "wearables" | "buds" | "pets";
 
 export type Tradeable = {
   id: number;
@@ -152,7 +153,8 @@ export type BudNFTName = `Bud #${number}`;
 export type MarketplaceTradeableName =
   | InventoryItemName
   | BumpkinItem
-  | BudNFTName;
+  | BudNFTName
+  | PetNFTName;
 
 export type PriceHistory = {
   dates: TradeHistoryDate[];
