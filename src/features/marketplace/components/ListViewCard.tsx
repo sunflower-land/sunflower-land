@@ -59,6 +59,8 @@ export const ListViewCard: React.FC<Props> = ({
         );
       case "buds":
         return state.buds?.[itemId] ? 1 : 0;
+      case "pets":
+        return state.pets?.nfts?.[itemId] ? 1 : 0;
       case "wearables":
         return state.wardrobe[name as BumpkinItem] || 0;
 
