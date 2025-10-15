@@ -6717,5 +6717,6 @@
   "error.cannotPlaceFoxShrine": "福克斯神社已禁用",
   "description.pawPrintsBanner": "Paw Prints 章节的横幅。",
   "description.petCookie": "在 Paw Prints 章节中收集。",
-  "description.moonCrystal": "可以在 Paw Prints 章节的挖掘现场找到。"
+  "description.moonCrystal": "可以在 Paw Prints 章节的挖掘现场找到。",
+  "description.pet.generic": "一只友好的宠物，它会为你收集资源来提升你的耕作体验"
 }

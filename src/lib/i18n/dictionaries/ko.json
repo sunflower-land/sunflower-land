@@ -6717,5 +6717,6 @@
   "error.cannotPlaceFoxShrine": "폭스 슈라인 비활성화",
   "description.pawPrintsBanner": "Paw Prints 챕터의 배너입니다.",
   "description.petCookie": "Paw Prints 챕터에서 수집했습니다.",
-  "description.moonCrystal": "Paw Prints 챕터의 디지트에서 찾을 수 있습니다."
+  "description.moonCrystal": "Paw Prints 챕터의 디지트에서 찾을 수 있습니다.",
+  "description.pet.generic": "자원을 모아 농사 경험을 높여줄 친절한 애완동물"
 }

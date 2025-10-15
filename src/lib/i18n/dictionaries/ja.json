@@ -6717,5 +6717,6 @@
   "error.cannotPlaceFoxShrine": "フォックス・シュライン無効",
   "description.pawPrintsBanner": "「足跡」チャプターのバナーです。",
   "description.petCookie": "「足跡」チャプターで収集されました。",
-  "description.moonCrystal": "Paw Printsチャプターのディグサイトで見つけることができます。"
+  "description.moonCrystal": "Paw Printsチャプターのディグサイトで見つけることができます。",
+  "description.pet.generic": "資源を集めて農業体験を盛り上げてくれるフレンドリーなペット"
 }

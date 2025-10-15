@@ -5253,6 +5253,7 @@
   "budBuff.type.snow.boost": "+0.3 Advanced Crops",
   "budBuff.type.beach.boost": "+0.2 Fruit",
   "description.bud.generic": "A friendly farming pet that will turbo charge your Sunflower Land farm and gaming experience",
+  "description.pet.generic": "A friendly pet that will gather resources for you to boost your farming experience",
   "skillTier.pointsToUnlock": "Points to unlock: {{points}}",
   "skillTier.notEnoughPoints": "Not enough skill points",
   "skillTier.skillDisabled": "Skill is disabled",

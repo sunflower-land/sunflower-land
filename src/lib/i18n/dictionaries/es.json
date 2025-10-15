@@ -6717,5 +6717,6 @@
   "error.cannotPlaceFoxShrine": "Fox Shrine deshabilitado",
   "description.pawPrintsBanner": "Una pancarta para el capítulo de Paw Prints.",
   "description.petCookie": "Recopilado durante el capítulo Huellas de Paw.",
-  "description.moonCrystal": "Se puede encontrar en la página de excavación durante el capítulo Huellas de Paw."
+  "description.moonCrystal": "Se puede encontrar en la página de excavación durante el capítulo Huellas de Paw.",
+  "description.pet.generic": "Una simpática mascota que recolectará recursos para mejorar tu experiencia en la granja"
 }

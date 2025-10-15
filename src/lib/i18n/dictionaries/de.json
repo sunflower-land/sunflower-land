@@ -6717,5 +6717,6 @@
   "error.cannotPlaceFoxShrine": "Fox Shrine deaktiviert",
   "description.pawPrintsBanner": "Ein Banner für das Kapitel Paw Prints.",
   "description.petCookie": "Im Kapitel Pfotenabdrücke gesammelt.",
-  "description.moonCrystal": "Ist auf der Digsite im Kapitel Paw Prints zu finden."
+  "description.moonCrystal": "Ist auf der Digsite im Kapitel Paw Prints zu finden.",
+  "description.pet.generic": "Ein freundliches Haustier, das Ressourcen für dich sammelt, um dein Farmerlebnis zu verbessern"
 }

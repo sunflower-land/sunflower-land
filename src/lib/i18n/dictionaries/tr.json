@@ -6717,5 +6717,6 @@
   "error.cannotPlaceFoxShrine": "Fox Shrine Engelli",
   "description.pawPrintsBanner": "Paw Prints bölümü için bir afiş.",
   "description.petCookie": "Paw Prints bölümünde toplanmıştır.",
-  "description.moonCrystal": "Pençe Baskıları bölümünde digsitede bulunabilir."
+  "description.moonCrystal": "Pençe Baskıları bölümünde digsitede bulunabilir.",
+  "description.pet.generic": "Çiftçilik deneyiminizi artırmak için kaynak toplayacak dost canlısı bir evcil hayvan"
 }
