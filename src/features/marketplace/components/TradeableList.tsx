@@ -120,6 +120,8 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
         );
       case "buds":
         return state.buds?.[id] ? 1 : 0;
+      case "pets":
+        return state.pets?.nfts?.[id] ? 1 : 0;
       case "wearables":
         return state.wardrobe[display.name as BumpkinItem] || 0;
 

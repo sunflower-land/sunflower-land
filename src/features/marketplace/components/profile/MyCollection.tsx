@@ -93,6 +93,7 @@ export const MyCollection: React.FC = () => {
 
   // Separate items into three categories
   const budsItems = items.filter((item) => item.collection === "buds");
+  const petsItems = items.filter((item) => item.collection === "pets");
   const wearableItems = items.filter((item) => item.collection === "wearables");
   const collectibleItems = items.filter(
     (item) => item.collection === "collectibles",
@@ -179,6 +180,15 @@ export const MyCollection: React.FC = () => {
                     {`${t("buds")} (${budsItems.length})`}
                   </Label>
                   <ItemGrid items={budsItems} />
+                </div>
+              )}
+
+              {petsItems.length > 0 && (
+                <div>
+                  <Label className="mb-2" type="default">
+                    {`${t("pets")} (${petsItems.length})`}
+                  </Label>
+                  <ItemGrid items={petsItems} />
                 </div>
               )}
             </div>
