@@ -167,6 +167,14 @@ export const RoninAirdrop: React.FC<{ onClose?: () => void }> = ({
                         {t("ronin.airdrop.checkEligibility")}
                       </Button>
                     </div>
+                    <a
+                      href="https://docs.sunflower-land.com/support/terms-of-service/ronin-launch"
+                      target="_blank"
+                      className="m-2 underline text-xs"
+                      rel="noreferrer"
+                    >
+                      {t("rules.termsOfService")}
+                    </a>
                   </div>
                 </InnerPanel>
                 {onClose && (
