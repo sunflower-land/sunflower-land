@@ -36,7 +36,7 @@ export const MyCollection: React.FC = () => {
   const [gameState] = useActor(gameService);
 
   const [search, setSearch] = useState("");
-  const { buds } = gameState.context.state;
+  const { buds, pets: { nfts: petNFTs = {} } = {} } = gameState.context.state;
 
   const navigate = useNavigate();
   let items: CollectionItem[] = [];
@@ -69,6 +69,14 @@ export const MyCollection: React.FC = () => {
     items.push({
       id,
       collection: "buds",
+      count: 1,
+    });
+  });
+
+  getKeys(petNFTs ?? {}).forEach((id) => {
+    items.push({
+      id,
+      collection: "pets",
       count: 1,
     });
   });
