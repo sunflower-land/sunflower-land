@@ -22,6 +22,8 @@ export function getItemBuffs({
     return getBudBuffs(id);
   }
 
+  // TODO: Add Pets Buffs
+
   if (collection === "wearables") {
     const buff = BUMPKIN_ITEM_BUFF_LABELS[item as BumpkinItem];
 

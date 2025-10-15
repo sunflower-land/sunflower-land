@@ -36,7 +36,7 @@ export const MyCollection: React.FC = () => {
   const [gameState] = useActor(gameService);
 
   const [search, setSearch] = useState("");
-  const { buds } = gameState.context.state;
+  const { buds, pets: { nfts: petNFTs = {} } = {} } = gameState.context.state;
 
   const navigate = useNavigate();
   let items: CollectionItem[] = [];
@@ -73,6 +73,14 @@ export const MyCollection: React.FC = () => {
     });
   });
 
+  getKeys(petNFTs ?? {}).forEach((id) => {
+    items.push({
+      id,
+      collection: "pets",
+      count: 1,
+    });
+  });
+
   items = items.filter((item) => {
     const details = getTradeableDisplay({
       id: item.id,
@@ -85,6 +93,7 @@ export const MyCollection: React.FC = () => {
 
   // Separate items into three categories
   const budsItems = items.filter((item) => item.collection === "buds");
+  const petsItems = items.filter((item) => item.collection === "pets");
   const wearableItems = items.filter((item) => item.collection === "wearables");
   const collectibleItems = items.filter(
     (item) => item.collection === "collectibles",
@@ -171,6 +180,15 @@ export const MyCollection: React.FC = () => {
                     {`${t("buds")} (${budsItems.length})`}
                   </Label>
                   <ItemGrid items={budsItems} />
+                </div>
+              )}
+
+              {petsItems.length > 0 && (
+                <div>
+                  <Label className="mb-2" type="default">
+                    {`${t("pets")} (${petsItems.length})`}
+                  </Label>
+                  <ItemGrid items={petsItems} />
                 </div>
               )}
             </div>

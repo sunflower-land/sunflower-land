@@ -73,6 +73,11 @@ export function claimPurchase({
         delete game.buds?.[id];
       }
 
+      if (listing?.collection === "pets") {
+        const id = getListingItem({ listing: listing });
+        delete game.pets?.nfts?.[id];
+      }
+
       delete game.trades.listings?.[purchaseId];
 
       if (listing?.tradeType === "onchain") {
