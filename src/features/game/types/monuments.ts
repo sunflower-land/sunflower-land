@@ -222,7 +222,8 @@ export function getHelpRequired({
         (game.socialFarming.villageProjects[project]?.cheers ?? 0);
 
       const isProjectPlaced =
-        game.collectibles?.[project]?.some((item) => !!item.coordinates) ??
+        game.collectibles?.[project]?.some((item) => !!item.coordinates) ||
+        game.home.collectibles?.[project]?.some((item) => !!item.coordinates) ||
         false;
 
       if (!isProjectPlaced) return;
@@ -236,6 +237,13 @@ export function getHelpRequired({
     if (!hasAccess) {
       return false;
     }
+
+    const isPetPlaced =
+      game.collectibles?.[pet]?.some((item) => !!item.coordinates) ||
+      game.home.collectibles?.[pet]?.some((item) => !!item.coordinates) ||
+      false;
+
+    if (!isPetPlaced) return;
 
     const hasVisited = !!game.pets?.common?.[pet]?.visitedAt;
     return !hasVisited;
