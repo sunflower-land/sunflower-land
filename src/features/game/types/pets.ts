@@ -319,40 +319,39 @@ export const PET_RESOURCES: Record<
   },
   Ruffroot: {
     cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 150,
+    energy: 200,
   },
   "Chewed Bone": {
     cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 150,
+    energy: 200,
   },
   "Heart leaf": {
     cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 150,
+    energy: 200,
+  },
+  "Frost Pebble": {
+    cooldownMs: 12 * 60 * 60 * 1000,
+    energy: 200,
+  },
+  "Wild Grass": {
+    cooldownMs: 12 * 60 * 60 * 1000,
+    energy: 200,
+  },
+  Ribbon: {
+    cooldownMs: 12 * 60 * 60 * 1000,
+    energy: 200,
+  },
+  Dewberry: {
+    cooldownMs: 12 * 60 * 60 * 1000,
+    energy: 200,
+  },
+  "Fossil Shell": {
+    cooldownMs: 24 * 60 * 60 * 1000,
+    energy: 300,
   },
   Moonfur: {
     cooldownMs: 12 * 60 * 60 * 1000,
     energy: 1000,
-  },
-
-  "Frost Pebble": {
-    cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 150,
-  },
-  "Wild Grass": {
-    cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 150,
-  },
-  Ribbon: {
-    cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 150,
-  },
-  Dewberry: {
-    cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 150,
-  },
-  "Fossil Shell": {
-    cooldownMs: 24 * 60 * 60 * 1000,
-    energy: 250,
   },
 };
 
