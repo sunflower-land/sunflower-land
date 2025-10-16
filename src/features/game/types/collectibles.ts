@@ -200,7 +200,7 @@ export type CraftableCollectible = {
 
 export const HELIOS_BLACKSMITH_ITEMS: Record<
   HeliosBlacksmithItem,
-  CraftableCollectible & { inventoryLimit: 1 }
+  CraftableCollectible
 > = {
   "Basic Scarecrow": {
     description: translate("description.basic.scarecrow"),
