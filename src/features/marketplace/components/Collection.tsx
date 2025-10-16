@@ -49,7 +49,7 @@ export const Collection: React.FC<{
 
   let filters = queryParams.get("filters") ?? "";
 
-  if (search) {
+  if (search && !filters.includes("buds")) {
     filters = "collectibles,wearables,resources";
   }
 
