@@ -55,8 +55,6 @@ export const MarketplaceNavigation: React.FC = () => {
   const navigate = useNavigate();
 
   const [search, setSearch] = useState("");
-  const [activeFilters, setActiveFilters] = useState<string>("");
-  const [navigated, setNavigated] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [showQuickswap, setShowQuickswap] = useState(false);
 
@@ -126,13 +124,7 @@ export const MarketplaceNavigation: React.FC = () => {
       </Modal>
 
       <div className="flex justify-between lg:hidden h-[50px]">
-        <MarketplaceSearch
-          search={search}
-          setSearch={setSearch}
-          navigated={navigated}
-          setNavigated={setNavigated}
-          setActiveFilters={setActiveFilters}
-        />
+        <MarketplaceSearch search={search} setSearch={setSearch} />
         <div className="flex">
           <img
             src={filterIcon}
@@ -146,13 +138,7 @@ export const MarketplaceNavigation: React.FC = () => {
       <div className="flex h-[calc(100%-50px)] lg:h-full">
         <div className="w-64  mr-1 hidden lg:flex  flex-col">
           <InnerPanel className="w-full flex-col mb-1">
-            <MarketplaceSearch
-              search={search}
-              setSearch={setSearch}
-              navigated={navigated}
-              setNavigated={setNavigated}
-              setActiveFilters={setActiveFilters}
-            />
+            <MarketplaceSearch search={search} setSearch={setSearch} />
             <div className="flex-1">
               <Filters onClose={() => setShowFilters(false)} farmId={farmId} />
             </div>
@@ -191,9 +177,7 @@ export const MarketplaceNavigation: React.FC = () => {
               search={search}
               onNavigated={() => {
                 setSearch("");
-                setNavigated(true);
               }}
-              activeFilters={activeFilters}
             />
           ) : (
             <Routes>
