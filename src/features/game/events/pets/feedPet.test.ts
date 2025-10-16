@@ -254,7 +254,7 @@ describe("feedPet", () => {
         petId: "Barkley",
         food: "Bumpkin Salad",
       },
-      createdAt: new Date("2025-10-15T23:57:00.000Z").getTime(),
+      createdAt: new Date("2025-10-15T23:57:00.000Z").getTime(), // Simulate 5 mins behind server time
     });
     expect(state.pets?.common?.Barkley?.requests.foodFed).toEqual<
       CookableName[]
@@ -271,7 +271,7 @@ describe("feedPet", () => {
           petId: "Barkley",
           food: "Bumpkin Salad",
         },
-        createdAt: Date.now(),
+        createdAt: Date.now(), // Simulate time after reset time
       }),
     ).toThrow("Food has been fed today");
   });
