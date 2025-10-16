@@ -6679,7 +6679,6 @@
   "ronin.airdrop.whalePack": "鲸鱼礼包 ~价值 $500（游戏内价值）",
   "ronin.airdrop.gems": "10,000 钻石",
   "ronin.airdrop.petNft": "宠物 NFT",
-  "ronin.airdrop.lifetimeVip": "永久 VIP",
   "ronin.airdrop.checkEligibility": "检查资格",
   "ronin.airdrop.whalePackTitle": "鲸鱼礼包",
   "ronin.airdrop.whalePackPositions": "第 1 名 - 第 100 名",
@@ -6718,5 +6717,6 @@
   "description.pawPrintsBanner": "Paw Prints 章节的横幅。",
   "description.petCookie": "在 Paw Prints 章节中收集。",
   "description.moonCrystal": "可以在 Paw Prints 章节的挖掘现场找到。",
-  "description.pet.generic": "一只友好的宠物，它会为你收集资源来提升你的耕作体验"
+  "description.pet.generic": "一只友好的宠物，它会为你收集资源来提升你的耕作体验",
+  "ronin.airdrop.lifetimeVip": "2 年 VIP 访问权限"
 }

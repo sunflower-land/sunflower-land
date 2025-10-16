@@ -6679,7 +6679,6 @@
   "ronin.airdrop.whalePack": "Paket Paus ~ $500 (nilai dalam game)",
   "ronin.airdrop.gems": "10.000 Permata",
   "ronin.airdrop.petNft": "NFT hewan peliharaan",
-  "ronin.airdrop.lifetimeVip": "VIP Seumur Hidup",
   "ronin.airdrop.checkEligibility": "Periksa Kelayakan",
   "ronin.airdrop.whalePackTitle": "Paket Paus",
   "ronin.airdrop.whalePackPositions": "1-100",
@@ -6718,5 +6717,6 @@
   "description.pawPrintsBanner": "Sebuah spanduk untuk chapter Paw Prints.",
   "description.petCookie": "Dikumpulkan selama chapter Paw Prints.",
   "description.moonCrystal": "Dapat ditemukan di digsite selama chapter Paw Prints.",
-  "description.pet.generic": "Hewan peliharaan ramah yang akan mengumpulkan sumber daya bagi Anda untuk meningkatkan pengalaman bertani Anda"
+  "description.pet.generic": "Hewan peliharaan ramah yang akan mengumpulkan sumber daya bagi Anda untuk meningkatkan pengalaman bertani Anda",
+  "ronin.airdrop.lifetimeVip": "Akses VIP 2 Tahun"
 }

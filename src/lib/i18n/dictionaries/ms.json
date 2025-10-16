@@ -6679,7 +6679,6 @@
   "ronin.airdrop.whalePack": "Pek Paus ~$500 (nilai dalam permainan)",
   "ronin.airdrop.gems": "10,000 permata",
   "ronin.airdrop.petNft": "NFT haiwan peliharaan",
-  "ronin.airdrop.lifetimeVip": "VIP Sepanjang Hayat",
   "ronin.airdrop.checkEligibility": "Semak Kelayakan",
   "ronin.airdrop.whalePackTitle": "Pek ikan paus",
   "ronin.airdrop.whalePackPositions": "1-ke-100",
@@ -6718,5 +6717,6 @@
   "description.pawPrintsBanner": "Sepanduk untuk bab Paw Prints.",
   "description.petCookie": "Dikumpulkan semasa bab Paw Prints.",
   "description.moonCrystal": "Boleh didapati di digsite semasa bab Paw Prints.",
-  "description.pet.generic": "Haiwan peliharaan yang mesra yang akan mengumpulkan sumber untuk anda untuk meningkatkan pengalaman pertanian anda"
+  "description.pet.generic": "Haiwan peliharaan yang mesra yang akan mengumpulkan sumber untuk anda untuk meningkatkan pengalaman pertanian anda",
+  "ronin.airdrop.lifetimeVip": "Akses VIP 2 Tahun"
 }

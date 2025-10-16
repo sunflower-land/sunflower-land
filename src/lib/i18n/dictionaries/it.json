@@ -6679,7 +6679,6 @@
   "ronin.airdrop.whalePack": "Whale Pack ~$500 (valore di gioco)",
   "ronin.airdrop.gems": "10.000 gemme",
   "ronin.airdrop.petNft": "NFT per animali domestici",
-  "ronin.airdrop.lifetimeVip": "VIP a vita",
   "ronin.airdrop.checkEligibility": "Verifica l'idoneità",
   "ronin.airdrop.whalePackTitle": "Pacchetto balena",
   "ronin.airdrop.whalePackPositions": "1°-100°",
@@ -6718,5 +6717,6 @@
   "description.pawPrintsBanner": "Un banner per il capitolo Paw Prints.",
   "description.petCookie": "Raccolto durante il capitolo Paw Prints.",
   "description.moonCrystal": "Può essere trovato nel digsite durante il capitolo Paw Prints.",
-  "description.pet.generic": "Un simpatico animale domestico che raccoglierà risorse per migliorare la tua esperienza agricola"
+  "description.pet.generic": "Un simpatico animale domestico che raccoglierà risorse per migliorare la tua esperienza agricola",
+  "ronin.airdrop.lifetimeVip": "2 anni di accesso VIP"
 }

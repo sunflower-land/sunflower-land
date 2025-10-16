@@ -6679,7 +6679,6 @@
   "ronin.airdrop.whalePack": "Balina Paketi ~$500 (oyun içi değer)",
   "ronin.airdrop.gems": "10.000 Mücevher",
   "ronin.airdrop.petNft": "Evcil Hayvan NFT",
-  "ronin.airdrop.lifetimeVip": "Ömür boyu VIP",
   "ronin.airdrop.checkEligibility": "Uygunluğu Kontrol Edin",
   "ronin.airdrop.whalePackTitle": "Balina Paketi",
   "ronin.airdrop.whalePackPositions": "1.-100'üncü",
@@ -6718,5 +6717,6 @@
   "description.pawPrintsBanner": "Paw Prints bölümü için bir afiş.",
   "description.petCookie": "Paw Prints bölümünde toplanmıştır.",
   "description.moonCrystal": "Pençe Baskıları bölümünde digsitede bulunabilir.",
-  "description.pet.generic": "Çiftçilik deneyiminizi artırmak için kaynak toplayacak dost canlısı bir evcil hayvan"
+  "description.pet.generic": "Çiftçilik deneyiminizi artırmak için kaynak toplayacak dost canlısı bir evcil hayvan",
+  "ronin.airdrop.lifetimeVip": "2 Yıllık VIP Erişimi"
 }

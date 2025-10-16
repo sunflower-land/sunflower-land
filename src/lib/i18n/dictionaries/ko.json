@@ -6679,7 +6679,6 @@
   "ronin.airdrop.whalePack": "웨일 팩 ~500달러 (게임 내 가치)",
   "ronin.airdrop.gems": "10,000개의 젬",
   "ronin.airdrop.petNft": "펫 NFT",
-  "ronin.airdrop.lifetimeVip": "라이프타임 VIP",
   "ronin.airdrop.checkEligibility": "자격 확인",
   "ronin.airdrop.whalePackTitle": "웨일 팩",
   "ronin.airdrop.whalePackPositions": "첫 번째부터 100번째",
@@ -6718,5 +6717,6 @@
   "description.pawPrintsBanner": "Paw Prints 챕터의 배너입니다.",
   "description.petCookie": "Paw Prints 챕터에서 수집했습니다.",
   "description.moonCrystal": "Paw Prints 챕터의 디지트에서 찾을 수 있습니다.",
-  "description.pet.generic": "자원을 모아 농사 경험을 높여줄 친절한 애완동물"
+  "description.pet.generic": "자원을 모아 농사 경험을 높여줄 친절한 애완동물",
+  "ronin.airdrop.lifetimeVip": "2년 VIP 액세스"
 }

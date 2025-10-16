@@ -6679,7 +6679,6 @@
   "ronin.airdrop.whalePack": "Whale Pack ~500 $ (Wert im Spiel)",
   "ronin.airdrop.gems": "10.000 Edelsteine",
   "ronin.airdrop.petNft": "NFT für Haustiere",
-  "ronin.airdrop.lifetimeVip": "Lebenslanger VIP",
   "ronin.airdrop.checkEligibility": "Eignung prüfen",
   "ronin.airdrop.whalePackTitle": "Walpaket",
   "ronin.airdrop.whalePackPositions": "1.-100.",
@@ -6718,5 +6717,6 @@
   "description.pawPrintsBanner": "Ein Banner für das Kapitel Paw Prints.",
   "description.petCookie": "Im Kapitel Pfotenabdrücke gesammelt.",
   "description.moonCrystal": "Ist auf der Digsite im Kapitel Paw Prints zu finden.",
-  "description.pet.generic": "Ein freundliches Haustier, das Ressourcen für dich sammelt, um dein Farmerlebnis zu verbessern"
+  "description.pet.generic": "Ein freundliches Haustier, das Ressourcen für dich sammelt, um dein Farmerlebnis zu verbessern",
+  "ronin.airdrop.lifetimeVip": "2 Jahre VIP-Zugang"
 }

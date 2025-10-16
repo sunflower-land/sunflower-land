@@ -6679,7 +6679,6 @@
   "ronin.airdrop.whalePack": "ホエールパック ~$500 (ゲーム内価格)",
   "ronin.airdrop.gems": "10,000 ジェム",
   "ronin.airdrop.petNft": "ペットNFT",
-  "ronin.airdrop.lifetimeVip": "ライフタイムVIP",
   "ronin.airdrop.checkEligibility": "資格を確認",
   "ronin.airdrop.whalePackTitle": "クジラパック",
   "ronin.airdrop.whalePackPositions": "1位-100位",
@@ -6718,5 +6717,6 @@
   "description.pawPrintsBanner": "「足跡」チャプターのバナーです。",
   "description.petCookie": "「足跡」チャプターで収集されました。",
   "description.moonCrystal": "Paw Printsチャプターのディグサイトで見つけることができます。",
-  "description.pet.generic": "資源を集めて農業体験を盛り上げてくれるフレンドリーなペット"
+  "description.pet.generic": "資源を集めて農業体験を盛り上げてくれるフレンドリーなペット",
+  "ronin.airdrop.lifetimeVip": "2年間のVIPアクセス"
 }
