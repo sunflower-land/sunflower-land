@@ -391,7 +391,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     description: "",
     coins: 0,
     ingredients: {
-      Acorn: new Decimal(25),
+      Acorn: new Decimal(20),
     },
     inventoryLimit: 1,
   },
@@ -400,8 +400,8 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     coins: 0,
     ingredients: {
       Acorn: new Decimal(15),
-      Dewberry: new Decimal(10),
-      "Heart leaf": new Decimal(10),
+      "Wild Grass": new Decimal(10),
+      Ruffroot: new Decimal(10),
     },
     inventoryLimit: 1,
   },
@@ -411,7 +411,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     ingredients: {
       Acorn: new Decimal(15),
       "Chewed Bone": new Decimal(10),
-      Ruffroot: new Decimal(10),
+      Ribbon: new Decimal(10),
     },
     inventoryLimit: 1,
     disabled: Date.now() < COMPETITION_POINTS.BUILDING_FRIENDSHIPS.endAt,
@@ -421,7 +421,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     coins: 0,
     ingredients: {
       Acorn: new Decimal(15),
-      Ribbon: new Decimal(10),
+      "Heart leaf": new Decimal(10),
       "Frost Pebble": new Decimal(10),
     },
     inventoryLimit: 1,
@@ -431,8 +431,8 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     coins: 0,
     ingredients: {
       Acorn: new Decimal(15),
-      Dewberry: new Decimal(10),
-      "Wild Grass": new Decimal(10),
+      "Frost Pebble": new Decimal(10),
+      "Chewed Bone": new Decimal(10),
     },
     inventoryLimit: 1,
   },
@@ -441,7 +441,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     coins: 0,
     ingredients: {
       Acorn: new Decimal(15),
-      "Heart leaf": new Decimal(10),
+      "Frost Pebble": new Decimal(10),
       Ribbon: new Decimal(10),
     },
     inventoryLimit: 1,
@@ -451,8 +451,8 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     coins: 0,
     ingredients: {
       Acorn: new Decimal(15),
-      Ruffroot: new Decimal(10),
-      "Chewed Bone": new Decimal(10),
+      Dewberry: new Decimal(10),
+      "Heart leaf": new Decimal(10),
     },
     inventoryLimit: 1,
   },
@@ -461,7 +461,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     coins: 0,
     ingredients: {
       Acorn: new Decimal(15),
-      "Frost Pebble": new Decimal(10),
+      Dewberry: new Decimal(10),
       Ribbon: new Decimal(10),
     },
     inventoryLimit: 1,
@@ -472,7 +472,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     ingredients: {
       Acorn: new Decimal(15),
       "Wild Grass": new Decimal(10),
-      Ruffroot: new Decimal(10),
+      "Chewed Bone": new Decimal(10),
     },
     inventoryLimit: 1,
   },
@@ -482,7 +482,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     ingredients: {
       Acorn: new Decimal(15),
       "Heart leaf": new Decimal(10),
-      "Frost Pebble": new Decimal(10),
+      "Wild Grass": new Decimal(10),
     },
     inventoryLimit: 1,
   },
@@ -492,7 +492,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     ingredients: {
       Acorn: new Decimal(15),
       "Chewed Bone": new Decimal(10),
-      "Wild Grass": new Decimal(10),
+      Ruffroot: new Decimal(10),
     },
     inventoryLimit: 1,
   },
@@ -512,7 +512,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     ingredients: {
       Obsidian: new Decimal(1),
       Moonfur: new Decimal(10),
-      Acorn: new Decimal(10),
+      Acorn: new Decimal(15),
     },
     inventoryLimit: 1,
   },
