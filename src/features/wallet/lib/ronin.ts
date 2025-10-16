@@ -23,6 +23,7 @@ export const RONIN_BOX_REWARDS: Record<
   RoninV2PackName,
   {
     items: Partial<Record<InventoryItemName, number>>;
+    vipDays?: number;
   }
 > = {
   ["Bronze Pack"]: {
@@ -39,6 +40,7 @@ export const RONIN_BOX_REWARDS: Record<
       Gem: 1000,
       "Gold Food Box": 1,
       "Silver Love Box": 1,
+      "Super Totem": 1,
     },
   },
   ["Legendary Pack"]: {
@@ -46,13 +48,14 @@ export const RONIN_BOX_REWARDS: Record<
       Gem: 5000,
       "Gold Love Box": 1,
       "Gold Food Box": 1,
+      "Super Totem": 1,
     },
   },
   ["Whale Pack"]: {
     items: {
       Gem: 10000,
-      "Lifetime Farmer Banner": 1,
       // NFT Pet Egg
     },
+    vipDays: 2 * 365,
   },
 };
