@@ -81,24 +81,6 @@ describe("craftCollectible", () => {
     expect(result.inventory["Immortal Pear"]).toEqual(new Decimal(1));
   });
 
-  it("does not craft an item that is not in stock", () => {
-    expect(() =>
-      craftCollectible({
-        state: {
-          ...GAME_STATE,
-          stock: {
-            "Immortal Pear": new Decimal(0),
-          },
-          coins: 1000,
-        },
-        action: {
-          type: "collectible.crafted",
-          name: "Immortal Pear",
-        },
-      }),
-    ).toThrow("Not enough stock");
-  });
-
   it("increments Immortal Pear Crafted activity by 1 when 1 pear is crafted", () => {
     const state = craftCollectible({
       state: {
@@ -285,5 +267,87 @@ describe("craftCollectible", () => {
     });
     expect(state.inventory["Fairy Circle"]).toEqual(new Decimal(1));
     expect(state.bumpkin.activity["Coins Spent"]).toBe(25000);
+  });
+
+  it("prevents crafting a helios item twice", () => {
+    const state = craftCollectible({
+      state: {
+        ...GAME_STATE,
+        coins: 200,
+        inventory: {
+          Gold: new Decimal(20),
+          Apple: new Decimal(30),
+          Orange: new Decimal(24),
+          Blueberry: new Decimal(20),
+        },
+      },
+      action: {
+        type: "collectible.crafted",
+        name: "Immortal Pear",
+      },
+    });
+
+    expect(() =>
+      craftCollectible({
+        state: state,
+        action: {
+          type: "collectible.crafted",
+          name: "Immortal Pear",
+        },
+      }),
+    ).toThrow("Inventory limit reached");
+  });
+
+  it("prevents crafting treasure map twice", () => {
+    const state = craftCollectible({
+      state: {
+        ...GAME_STATE,
+        coins: 100,
+        inventory: {
+          Sand: new Decimal(100),
+          Hieroglyph: new Decimal(50),
+        },
+      },
+      action: {
+        type: "collectible.crafted",
+        name: "Treasure Map",
+      },
+    });
+
+    expect(() =>
+      craftCollectible({
+        state: state,
+        action: {
+          type: "collectible.crafted",
+          name: "Treasure Map",
+        },
+      }),
+    ).toThrow("Inventory limit reached");
+  });
+
+  it("prevents crafting potion house items twice", () => {
+    const state = craftCollectible({
+      state: {
+        ...GAME_STATE,
+        coins: 100,
+        inventory: {
+          "Potion Ticket": new Decimal(20000),
+        },
+      },
+      action: {
+        type: "collectible.crafted",
+        name: "Lab Grown Carrot",
+      },
+    });
+
+    expect(() =>
+      craftCollectible({
+        state: state,
+        action: {
+          type: "collectible.crafted",
+          name: "Lab Grown Carrot",
+        },
+      }),
+    ).toThrow("Inventory limit reached");
   });
 });
