@@ -274,6 +274,8 @@ describe("feedPet", () => {
         createdAt: Date.now(), // Simulate time after reset time
       }),
     ).toThrow("Food has been fed today");
+
+    jest.useRealTimers();
   });
 
   it("does not throw an error if different food has been fed today", () => {
