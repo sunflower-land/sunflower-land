@@ -3,6 +3,7 @@ import { INITIAL_FARM } from "features/game/lib/constants";
 import { CookableName } from "features/game/types/consumables";
 import { feedPet, getPetFoodRequests } from "./feedPet";
 import { getPetLevel, Pet } from "features/game/types/pets";
+import { GameState } from "features/game/types/game";
 
 describe("feedPet", () => {
   const now = Date.now();
@@ -206,6 +207,71 @@ describe("feedPet", () => {
           food: "Bumpkin Salad",
         },
         createdAt: now,
+      }),
+    ).toThrow("Food has been fed today");
+  });
+
+  it("doesn't allow player to feed pet twice in a row", () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date("2025-10-16T00:02:00.000Z"));
+
+    let state: GameState = {
+      ...INITIAL_FARM,
+      inventory: {
+        "Bumpkin Salad": new Decimal(10),
+      },
+      pets: {
+        common: {
+          Barkley: {
+            name: "Barkley",
+            requests: {
+              food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+              foodFed: [],
+              fedAt: new Date("2025-10-15T12:00:00.000Z").getTime(),
+            },
+            energy: 100,
+            experience: 0,
+            pettedAt: now,
+          },
+        },
+      },
+      collectibles: {
+        Barkley: [
+          {
+            createdAt: now,
+            id: "1",
+            readyAt: now,
+            coordinates: { x: 1, y: 1 },
+          },
+        ],
+      },
+    };
+
+    state = feedPet({
+      state,
+      action: {
+        type: "pet.fed",
+        petId: "Barkley",
+        food: "Bumpkin Salad",
+      },
+      createdAt: new Date("2025-10-15T23:57:00.000Z").getTime(),
+    });
+    expect(state.pets?.common?.Barkley?.requests.foodFed).toEqual<
+      CookableName[]
+    >(["Bumpkin Salad"]);
+    expect(state.pets?.common?.Barkley?.requests.fedAt).toEqual(
+      new Date("2025-10-15T23:57:00.000Z").getTime(),
+    );
+
+    expect(() =>
+      feedPet({
+        state,
+        action: {
+          type: "pet.fed",
+          petId: "Barkley",
+          food: "Bumpkin Salad",
+        },
+        createdAt: Date.now(),
       }),
     ).toThrow("Food has been fed today");
   });

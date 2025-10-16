@@ -251,14 +251,9 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("Food not found");
     }
 
-    const lastFedAt = petData.requests.fedAt;
     const foodFed = petData.requests.foodFed;
 
-    const todayDate = new Date(createdAt).toISOString().split("T")[0];
-    const lastFedAtDate = new Date(lastFedAt ?? 0).toISOString().split("T")[0];
-    const isToday = lastFedAtDate === todayDate;
-
-    if (foodFed?.includes(food) && isToday) {
+    if (foodFed?.includes(food)) {
       throw new Error("Food has been fed today");
     }
 
@@ -270,7 +265,7 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
     }
 
     //   Update Food Fed
-    if (!isToday || !petData.requests.foodFed) {
+    if (!petData.requests.foodFed) {
       petData.requests.foodFed = [];
     }
     petData.requests.foodFed.push(food);
