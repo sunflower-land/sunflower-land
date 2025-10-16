@@ -9,6 +9,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 
 import { Button } from "components/ui/Button";
 import {
+  CraftableCollectible,
   HELIOS_BLACKSMITH_ITEMS,
   HeliosBlacksmithItem,
 } from "features/game/types/collectibles";
@@ -26,13 +27,14 @@ import {
   REQUIRED_CHEERS,
   REWARD_ITEMS,
   WORKBENCH_MONUMENTS,
+  WorkbenchMonumentName,
 } from "features/game/types/monuments";
 import { GameState } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import helpIcon from "assets/icons/help.webp";
 import { getBumpkinLevel } from "features/game/lib/level";
 
-const PROJECTS: HeliosBlacksmithItem[] = [
+const PROJECTS: WorkbenchMonumentName[] = [
   "Basic Cooking Pot",
   "Expert Cooking Pot",
   "Advanced Cooking Pot",
@@ -49,7 +51,7 @@ const DecorationLabel = ({
   selectedName,
 }: {
   gameState: GameState;
-  selectedName: HeliosBlacksmithItem;
+  selectedName: HeliosBlacksmithItem | WorkbenchMonumentName;
 }) => {
   const { t } = useAppTranslation();
 
@@ -98,10 +100,19 @@ const DecorationLabel = ({
   return null;
 };
 
+const BLACKSMITH_ITEMS: Record<
+  HeliosBlacksmithItem | WorkbenchMonumentName,
+  CraftableCollectible
+> = {
+  ...HELIOS_BLACKSMITH_ITEMS,
+  ...WORKBENCH_MONUMENTS,
+};
+
 export const IslandBlacksmithItems: React.FC = () => {
   const { t } = useAppTranslation();
-  const [selectedName, setSelectedName] =
-    useState<HeliosBlacksmithItem>("Basic Scarecrow");
+  const [selectedName, setSelectedName] = useState<
+    HeliosBlacksmithItem | WorkbenchMonumentName
+  >("Basic Scarecrow");
   const { gameService, shortcutItem } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
   const inventory = useSelector(
@@ -114,7 +125,7 @@ export const IslandBlacksmithItems: React.FC = () => {
     (state) => state.context.state.bumpkin,
   );
 
-  const selectedItem = HELIOS_BLACKSMITH_ITEMS[selectedName];
+  const selectedItem = BLACKSMITH_ITEMS[selectedName];
 
   // Change boost if skill is active
   if (selectedItem) {
@@ -294,7 +305,7 @@ export const IslandBlacksmithItems: React.FC = () => {
           </p>
 
           <div className="flex flex-wrap">
-            {PROJECTS.map((name: HeliosBlacksmithItem) => {
+            {PROJECTS.map((name) => {
               return (
                 <Box
                   isSelected={selectedName === name}

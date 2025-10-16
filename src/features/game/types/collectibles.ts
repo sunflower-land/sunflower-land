@@ -3,7 +3,6 @@ import { Inventory, Keys } from "./game";
 import { translate } from "lib/i18n/translate";
 import { SEASONS } from "./seasons";
 import { ExoticCropName } from "./beans";
-import { WORKBENCH_MONUMENTS, WorkbenchMonumentName } from "./monuments";
 
 export type PlaceableLocation = "farm" | "home";
 export const PLACEABLE_LOCATIONS: PlaceableLocation[] = ["farm", "home"];
@@ -37,8 +36,7 @@ export type HeliosBlacksmithItem =
   | "Fairy Circle"
   | "Squirrel"
   | "Macaw"
-  | "Butterfly"
-  | WorkbenchMonumentName;
+  | "Butterfly";
 
 export type TreasureCollectibleItem =
   | "Treasure Map"
@@ -200,7 +198,7 @@ export type CraftableCollectible = {
 
 export const HELIOS_BLACKSMITH_ITEMS: Record<
   HeliosBlacksmithItem,
-  CraftableCollectible
+  CraftableCollectible & { inventoryLimit: 1 }
 > = {
   "Basic Scarecrow": {
     description: translate("description.basic.scarecrow"),
@@ -324,7 +322,6 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     ingredients: {},
     inventoryLimit: 1,
   },
-  ...WORKBENCH_MONUMENTS,
 };
 
 export const ARTEFACT_SHOP_KEYS: Record<Keys, CraftableCollectible> = {
