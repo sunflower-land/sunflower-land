@@ -19,7 +19,6 @@ import {
 } from "react-router";
 import { Collection, preloadCollections } from "./Collection";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { TextInput } from "components/ui/TextInput";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -44,6 +43,7 @@ import {
   hasReputation,
   Reputation,
 } from "features/game/lib/reputation";
+import { MarketplaceSearch } from "./MarketplaceSearch";
 
 const _hasTradeReputation = (state: MachineState) =>
   hasReputation({
@@ -123,30 +123,22 @@ export const MarketplaceNavigation: React.FC = () => {
         </CloseButtonPanel>
       </Modal>
 
-      <div className="flex items-center lg:hidden h-[50px]">
-        <TextInput
-          icon={SUNNYSIDE.icons.search}
-          value={search}
-          onValueChange={setSearch}
-        />
-        <img
-          src={filterIcon}
-          onClick={() => setShowFilters(true)}
-          className="h-8 mx-1 block cursor-pointer"
-        />
+      <div className="flex justify-between lg:hidden h-[50px]">
+        <MarketplaceSearch search={search} setSearch={setSearch} />
+        <div className="flex">
+          <img
+            src={filterIcon}
+            onClick={() => setShowFilters(true)}
+            className="h-9 block mx-1 mt-1 cursor-pointer"
+          />
+        </div>
       </div>
 
+      {/* Desktop */}
       <div className="flex h-[calc(100%-50px)] lg:h-full">
         <div className="w-64  mr-1 hidden lg:flex  flex-col">
           <InnerPanel className="w-full flex-col mb-1">
-            <div className="flex  items-center">
-              <TextInput
-                icon={SUNNYSIDE.icons.search}
-                value={search}
-                onValueChange={setSearch}
-                onCancel={() => setSearch("")}
-              />
-            </div>
+            <MarketplaceSearch search={search} setSearch={setSearch} />
             <div className="flex-1">
               <Filters onClose={() => setShowFilters(false)} farmId={farmId} />
             </div>
@@ -181,7 +173,12 @@ export const MarketplaceNavigation: React.FC = () => {
 
         <div className="flex-1 flex flex-col w-full">
           {search ? (
-            <Collection search={search} onNavigated={() => setSearch("")} />
+            <Collection
+              search={search}
+              onNavigated={() => {
+                setSearch("");
+              }}
+            />
           ) : (
             <Routes>
               <Route path="/profile" element={<MarketplaceProfile />} />
