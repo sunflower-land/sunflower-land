@@ -133,6 +133,7 @@ const FEATURE_FLAGS = {
   RONIN_FLOWER: adminFeatureFlag,
   MEMORY_BETA: defaultFeatureFlag,
   PET_NFT_DEPOSIT: testnetFeatureFlag,
+  PET_NFT_MARKETPLACE: testnetFeatureFlag,
   BUILDING_FRIENDSHIPS: betaTimeBasedFeatureFlag(
     new Date("2025-10-13T00:00:00Z"),
   ),
