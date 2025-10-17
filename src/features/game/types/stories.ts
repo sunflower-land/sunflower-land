@@ -75,7 +75,7 @@ export const STORY_NPCS: Partial<
   },
   raven: {
     about:
-      "A mysterious potion maker who deals in dark magic and shadowy crops. Occassionally caught creating potions in the dark.",
+      "A mysterious potion maker who deals in dark magic and shadowy crops. Occasionally caught creating potions in the dark.",
     personality: "Dark, Gothic, Mysterious",
     likes: "Dark crops, Potions, Spellwork, Shadows",
     dislikes: "Bright things, Cheerfulness",
