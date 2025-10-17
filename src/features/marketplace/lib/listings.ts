@@ -17,7 +17,7 @@ export function getListingItem({ listing }: { listing: TradeListing }): number {
   }
 
   if (collection === "pets") {
-    const [_, id] = name.split("-");
+    const [_, id] = name.split("#");
     return Number(id);
   }
 

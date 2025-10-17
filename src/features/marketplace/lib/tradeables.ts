@@ -56,7 +56,7 @@ export function getTradeableDisplay({
   }
 
   if (type === "pets") {
-    const name = `Pet-${id}` as PetNFTName;
+    const name = `Pet #${id}` as PetNFTName;
 
     return {
       name,

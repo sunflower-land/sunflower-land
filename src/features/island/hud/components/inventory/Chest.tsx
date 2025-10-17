@@ -541,7 +541,7 @@ export const Chest: React.FC<Props> = ({
                         selectedChestItem?.name === "Pet" &&
                         selectedChestItem?.id === String(petId)
                       }
-                      key={`Pet-${petId}`}
+                      key={`Pet #${petId}`}
                       onClick={() =>
                         handleItemClick({ name: "Pet", id: String(petId) })
                       }

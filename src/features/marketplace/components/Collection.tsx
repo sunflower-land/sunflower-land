@@ -27,6 +27,7 @@ export const preloadCollections = (token: string) => {
   preload(["wearables", token], collectionFetcher);
   preload(["resources", token], collectionFetcher);
   preload(["buds", token], collectionFetcher);
+  preload(["pets", token], collectionFetcher);
   preload(["temporary", token], collectionFetcher);
 };
 
@@ -49,7 +50,7 @@ export const Collection: React.FC<{
 
   let filters = queryParams.get("filters") ?? "";
 
-  if (search && !filters.includes("buds")) {
+  if (search && !filters.includes("buds") && !filters.includes("pets")) {
     filters = "collectibles,wearables,resources";
   }
 
@@ -91,6 +92,14 @@ export const Collection: React.FC<{
     collectionFetcher,
   );
   const {
+    data: pets,
+    isLoading: isPetsLoading,
+    error: petsError,
+  } = useSWR(
+    filters.includes("pets") ? ["pets", token] : null,
+    collectionFetcher,
+  );
+  const {
     data: limited,
     isLoading: isLimitedLoading,
     error: limitedError,
@@ -106,15 +115,15 @@ export const Collection: React.FC<{
       ...(wearables?.items || []),
       ...(buds?.items || []),
       ...(limited?.items || []),
+      ...(pets?.items || []),
     ],
   };
 
   if (!filters.includes("resources")) {
-    // Sort by price
+    // Sort by floor, then lastSalePrice, then id
     data.items.sort((a, b) => {
-      // If floor prices are equal, sort by lastSalePrice
       if (a.floor === b.floor) {
-        // If lastSalePrice is empty, order last
+        if (a.lastSalePrice === 0 && b.lastSalePrice === 0) return a.id - b.id;
         if (a.lastSalePrice === 0) return 1;
         if (b.lastSalePrice === 0) return -1;
         return a.lastSalePrice - b.lastSalePrice;
@@ -133,7 +142,8 @@ export const Collection: React.FC<{
     isCollectiblesLoading ||
     isResourcesLoading ||
     isBudsLoading ||
-    isLimitedLoading;
+    isLimitedLoading ||
+    isPetsLoading;
 
   // Errors are handled by the game machine
   if (
@@ -141,14 +151,16 @@ export const Collection: React.FC<{
     collectiblesError ||
     resourcesError ||
     budsError ||
-    limitedError
+    limitedError ||
+    petsError
   ) {
     throw (
       wearablesError ||
       collectiblesError ||
       resourcesError ||
       budsError ||
-      limitedError
+      limitedError ||
+      petsError
     );
   }
 
@@ -210,7 +222,7 @@ export const Collection: React.FC<{
   const getRowHeight = () => {
     if (filters === "resources") return 150;
     if (filters === "buds") return 250;
-
+    if (filters === "pets") return 250;
     return 180;
   };
 

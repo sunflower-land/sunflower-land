@@ -20,6 +20,7 @@ import { ListViewCard } from "../ListViewCard";
 import chest from "assets/icons/chest.png";
 import { isNode } from "features/game/expansion/lib/expansionNodes";
 import { BUMPKIN_RELEASES } from "features/game/types/withdrawables";
+import { hasFeatureAccess } from "lib/flags";
 
 type CollectionItem = {
   id: number;
@@ -183,14 +184,18 @@ export const MyCollection: React.FC = () => {
                 </div>
               )}
 
-              {petsItems.length > 0 && (
-                <div>
-                  <Label className="mb-2" type="default">
-                    {`${t("pets")} (${petsItems.length})`}
-                  </Label>
-                  <ItemGrid items={petsItems} />
-                </div>
-              )}
+              {hasFeatureAccess(
+                gameState.context.state,
+                "PET_NFT_MARKETPLACE",
+              ) &&
+                petsItems.length > 0 && (
+                  <div>
+                    <Label className="mb-2" type="default">
+                      {`${t("pets")} (${petsItems.length})`}
+                    </Label>
+                    <ItemGrid items={petsItems} />
+                  </div>
+                )}
             </div>
           )}
         </div>

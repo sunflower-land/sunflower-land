@@ -44,6 +44,8 @@ import {
   Reputation,
 } from "features/game/lib/reputation";
 import { MarketplaceSearch } from "./MarketplaceSearch";
+import { hasFeatureAccess } from "lib/flags";
+import { GameState } from "features/game/types/game";
 
 const _hasTradeReputation = (state: MachineState) =>
   hasReputation({
@@ -70,6 +72,7 @@ export const MarketplaceNavigation: React.FC = () => {
   const { t } = useTranslation();
 
   const { gameService } = useContext(Context);
+  const state = useSelector(gameService, (state) => state.context.state);
   const price = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
   const { farmId } = gameService.getSnapshot().context;
 
@@ -87,7 +90,11 @@ export const MarketplaceNavigation: React.FC = () => {
     <>
       <Modal show={showFilters} onHide={() => setShowFilters(false)}>
         <CloseButtonPanel>
-          <Filters onClose={() => setShowFilters(false)} farmId={farmId} />
+          <Filters
+            onClose={() => setShowFilters(false)}
+            farmId={farmId}
+            game={state}
+          />
           <EstimatedPrice price={price} />
           {/* Flower Dashboard Button */}
           <Button contentAlign="start" onClick={goToFlowerDashboard}>
@@ -140,7 +147,11 @@ export const MarketplaceNavigation: React.FC = () => {
           <InnerPanel className="w-full flex-col mb-1">
             <MarketplaceSearch search={search} setSearch={setSearch} />
             <div className="flex-1">
-              <Filters onClose={() => setShowFilters(false)} farmId={farmId} />
+              <Filters
+                onClose={() => setShowFilters(false)}
+                farmId={farmId}
+                game={state}
+              />
             </div>
           </InnerPanel>
 
@@ -261,10 +272,11 @@ const Option: React.FC<OptionProps> = ({
   );
 };
 
-const Filters: React.FC<{ onClose: () => void; farmId: number }> = ({
-  onClose,
-  farmId,
-}) => {
+const Filters: React.FC<{
+  onClose: () => void;
+  farmId: number;
+  game: GameState;
+}> = ({ onClose, farmId, game }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [queryParams] = useSearchParams();
@@ -367,6 +379,32 @@ const Filters: React.FC<{ onClose: () => void; farmId: number }> = ({
               })
             }
             isActive={filters === "collectibles,wearables,cosmetic"}
+            options={
+              filters?.includes("cosmetic")
+                ? [
+                    {
+                      icon: ITEM_DETAILS["Freya Fox"].image,
+                      label: t("marketplace.collectibles"),
+                      isActive: filters === "cosmetic,collectibles",
+                      onClick: () =>
+                        navigateTo({
+                          path: "collection",
+                          filterParams: "cosmetic,collectibles",
+                        }),
+                    },
+                    {
+                      icon: wearableIcon,
+                      label: t("marketplace.wearables"),
+                      isActive: filters === "cosmetic,wearables",
+                      onClick: () =>
+                        navigateTo({
+                          path: "collection",
+                          filterParams: "cosmetic,wearables",
+                        }),
+                    },
+                  ]
+                : undefined
+            }
           />
           <Option
             icon={budIcon}
@@ -379,6 +417,19 @@ const Filters: React.FC<{ onClose: () => void; farmId: number }> = ({
             }
             isActive={filters === "buds"}
           />
+          {hasFeatureAccess(game, "PET_NFT_MARKETPLACE") && (
+            <Option
+              icon={ITEM_DETAILS.Ramsey.image}
+              label={t("marketplace.pets")}
+              onClick={() =>
+                navigateTo({
+                  path: "collection",
+                  filterParams: "pets",
+                })
+              }
+              isActive={filters === "pets"}
+            />
+          )}
         </div>
 
         <div>

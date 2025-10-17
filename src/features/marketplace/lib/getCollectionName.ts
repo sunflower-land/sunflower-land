@@ -20,7 +20,7 @@ export function getCollectionName(
     return "buds";
   }
 
-  if (itemName.startsWith("Pet-")) {
+  if (itemName.startsWith("Pet #")) {
     return "pets";
   }
 

@@ -457,7 +457,7 @@ describe("purchase.claimed", () => {
             "123": {
               collection: "pets",
               items: {
-                "Pet-1": 1,
+                "Pet #1": 1,
               },
               sfl: 13,
               createdAt: 0,
@@ -470,7 +470,7 @@ describe("purchase.claimed", () => {
         pets: {
           nfts: {
             1: {
-              name: "Pet-1",
+              name: "Pet #1",
               id: 1,
               requests: {
                 food: [],
