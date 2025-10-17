@@ -50,31 +50,31 @@ export const WhatsNew: React.FC = () => {
 
   return (
     <div className="flex flex-wrap">
-      <div className="w-full">
-        <Label type="default" className="mb-2 -ml-1">
-          {t("collectibles")}
-        </Label>
-        {collectiblesLoading ? (
-          <Loading />
-        ) : (
-          sortedCollectibles.length > 0 && (
+      {sortedCollectibles.length > 0 && (
+        <div className="w-full">
+          <Label type="default" className="mb-2 -ml-1">
+            {t("collectibles")}
+          </Label>
+          {collectiblesLoading ? (
+            <Loading />
+          ) : (
             <ItemsList items={sortedCollectibles} type="collectibles" />
-          )
-        )}
-      </div>
+          )}
+        </div>
+      )}
 
-      <div className="w-full">
-        <Label type="default" className="mb-2 -ml-1">
-          {t("wearables")}
-        </Label>
-        {wearablesLoading ? (
-          <Loading />
-        ) : (
-          sortedWearables.length > 0 && (
+      {sortedWearables.length > 0 && (
+        <div className="w-full">
+          <Label type="default" className="mb-2 -ml-1">
+            {t("wearables")}
+          </Label>
+          {wearablesLoading ? (
+            <Loading />
+          ) : (
             <ItemsList items={sortedWearables} type="wearables" />
-          )
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
