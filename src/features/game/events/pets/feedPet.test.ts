@@ -375,7 +375,6 @@ describe("feedPet", () => {
               1: {
                 name: "Pet #1",
                 id: 1,
-                revealAt: 0,
                 traits: { type: "Dragon" },
                 energy: 100,
                 experience: 0,
@@ -389,7 +388,6 @@ describe("feedPet", () => {
               2: {
                 name: "Pet #2",
                 id: 2,
-                revealAt: 0,
                 traits: { type: "Dragon" },
                 energy: 100,
                 experience: 0,
@@ -470,7 +468,6 @@ describe("feedPet", () => {
             1: {
               name: "Pet #1",
               id: 1,
-              revealAt: 0,
               traits: { type: "Dragon" },
               energy: 100,
               experience: 0,
@@ -484,7 +481,6 @@ describe("feedPet", () => {
             2: {
               name: "Pet #2",
               id: 2,
-              revealAt: 0,
               traits: { type: "Dragon" },
               energy: 100,
               experience: 0,
@@ -661,7 +657,6 @@ describe("feedPet", () => {
             1: {
               name: "Pet #1",
               id: 1,
-              revealAt: 0,
               requests: {
                 food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
                 foodFed: [],
@@ -705,7 +700,6 @@ describe("feedPet", () => {
             1: {
               name: "Pet #1",
               id: 1,
-              revealAt: 0,
               requests: {
                 food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
                 foodFed: [],

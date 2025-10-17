@@ -7,6 +7,7 @@ import {
   PetNFT,
   isPetNFT as isPetNFTData,
   getPetType,
+  isPetNFTRevealed,
 } from "features/game/types/pets";
 import { MachineState } from "features/game/lib/gameMachine";
 
@@ -213,7 +214,7 @@ export const getPetImage = (
   }
 
   if (isPetNFTData(petData)) {
-    const isRevealed = petData.revealAt < Date.now();
+    const isRevealed = isPetNFTRevealed(petData.id, Date.now());
     const petType = getPetType(petData);
     if (!isRevealed || !petType) {
       return ITEM_DETAILS["Pet Egg"].image as string;
