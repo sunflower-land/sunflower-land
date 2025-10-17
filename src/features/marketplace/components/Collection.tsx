@@ -120,11 +120,10 @@ export const Collection: React.FC<{
   };
 
   if (!filters.includes("resources")) {
-    // Sort by price
+    // Sort by floor, then lastSalePrice, then id
     data.items.sort((a, b) => {
-      // If floor prices are equal, sort by lastSalePrice
       if (a.floor === b.floor) {
-        // If lastSalePrice is empty, order last
+        if (a.lastSalePrice === 0 && b.lastSalePrice === 0) return a.id - b.id;
         if (a.lastSalePrice === 0) return 1;
         if (b.lastSalePrice === 0) return -1;
         return a.lastSalePrice - b.lastSalePrice;
