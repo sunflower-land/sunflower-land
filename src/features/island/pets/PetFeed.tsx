@@ -148,7 +148,7 @@ const PetFeedPanel: React.FC<{
   foodRequests,
 }) => {
   const { t } = useAppTranslation();
-  const petImage = getPetImage("happy", petData, petId);
+  const petImage = getPetImage("happy", petId);
 
   if (!selectedFood) {
     return (

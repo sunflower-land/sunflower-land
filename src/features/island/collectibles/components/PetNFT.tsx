@@ -8,6 +8,7 @@ import {
   isPetNapping,
   getPetType,
   isPetOfTypeFed,
+  isPetNFTRevealed,
 } from "features/game/types/pets";
 import { PetModal } from "../../pets/PetModal";
 import { Transition } from "@headlessui/react";
@@ -47,7 +48,7 @@ export const PetNFT: React.FC<Props> = ({ id }) => {
 
   if (!petNFTData) return null;
 
-  const isRevealed = petNFTData.revealAt < Date.now();
+  const isRevealed = isPetNFTRevealed(Number(id), Date.now());
   const petType = getPetType(petNFTData);
 
   const handlePetClick = () => {
@@ -70,7 +71,6 @@ export const PetNFT: React.FC<Props> = ({ id }) => {
       isTypeFed={isTypeFed}
       clickable
       onClick={handlePetClick}
-      petData={petNFTData}
     >
       <Transition
         appear={true}

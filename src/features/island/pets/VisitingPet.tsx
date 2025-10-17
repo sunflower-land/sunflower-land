@@ -80,7 +80,6 @@ export const VisitingPet: React.FC<{ name: PetName }> = ({ name }) => {
       isNapping={isNapping}
       onClick={handlePetClick}
       clickable={!hasHelpedPet}
-      petData={petData}
     >
       {!hasHelpedPet && petData && (
         <div

@@ -478,7 +478,6 @@ describe("purchase.claimed", () => {
               energy: 0,
               experience: 0,
               pettedAt: 0,
-              revealAt: 0,
             },
           },
         },
