@@ -36,7 +36,7 @@ export function getItemId({
   }
 
   if (collection === "pets") {
-    const [_, id] = name.split("-");
+    const [_, id] = name.split("#");
     return Number(id);
   }
 

@@ -106,7 +106,7 @@ export type Pet = {
   visitedAt?: number; // Local only field
 };
 
-export type PetNFTName = `Pet-${number}`;
+export type PetNFTName = `Pet #${number}`;
 
 export type PetNFT = Omit<Pet, "name"> & {
   id: number;

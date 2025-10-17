@@ -2558,6 +2558,7 @@
   "lostSunflorian.line3": "I can't wait to return to Sunfloria.",
   "marketplace.unlockSelling": "Unlock selling",
   "marketplace.unlockOffering": "Unlock offering",
+  "marketplace.pets": "Pet NFTs",
   "marketplace.youOwn": "You own: {{count}}",
   "marketplace.pricePerUnit": "{{price}}/unit",
   "marketplace.available": "Available: {{count}}",

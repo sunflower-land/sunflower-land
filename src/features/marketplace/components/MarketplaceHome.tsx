@@ -367,6 +367,32 @@ const Filters: React.FC<{ onClose: () => void; farmId: number }> = ({
               })
             }
             isActive={filters === "collectibles,wearables,cosmetic"}
+            options={
+              filters?.includes("cosmetic")
+                ? [
+                    {
+                      icon: ITEM_DETAILS["Freya Fox"].image,
+                      label: t("marketplace.collectibles"),
+                      isActive: filters === "cosmetic,collectibles",
+                      onClick: () =>
+                        navigateTo({
+                          path: "collection",
+                          filterParams: "cosmetic,collectibles",
+                        }),
+                    },
+                    {
+                      icon: wearableIcon,
+                      label: t("marketplace.wearables"),
+                      isActive: filters === "cosmetic,wearables",
+                      onClick: () =>
+                        navigateTo({
+                          path: "collection",
+                          filterParams: "cosmetic,wearables",
+                        }),
+                    },
+                  ]
+                : undefined
+            }
           />
           <Option
             icon={budIcon}
@@ -378,6 +404,17 @@ const Filters: React.FC<{ onClose: () => void; farmId: number }> = ({
               })
             }
             isActive={filters === "buds"}
+          />
+          <Option
+            icon={ITEM_DETAILS.Ramsey.image}
+            label={t("marketplace.pets")}
+            onClick={() =>
+              navigateTo({
+                path: "collection",
+                filterParams: "pets",
+              })
+            }
+            isActive={filters === "pets"}
           />
         </div>
 

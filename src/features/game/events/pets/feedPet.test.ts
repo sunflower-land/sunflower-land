@@ -373,7 +373,7 @@ describe("feedPet", () => {
           pets: {
             nfts: {
               1: {
-                name: "Pet-1",
+                name: "Pet #1",
                 id: 1,
                 revealAt: 0,
                 traits: { type: "Dragon" },
@@ -387,7 +387,7 @@ describe("feedPet", () => {
                 coordinates: { x: 1, y: 1 },
               },
               2: {
-                name: "Pet-2",
+                name: "Pet #2",
                 id: 2,
                 revealAt: 0,
                 traits: { type: "Dragon" },
@@ -468,7 +468,7 @@ describe("feedPet", () => {
         pets: {
           nfts: {
             1: {
-              name: "Pet-1",
+              name: "Pet #1",
               id: 1,
               revealAt: 0,
               traits: { type: "Dragon" },
@@ -482,7 +482,7 @@ describe("feedPet", () => {
               coordinates: { x: 1, y: 1 },
             },
             2: {
-              name: "Pet-2",
+              name: "Pet #2",
               id: 2,
               revealAt: 0,
               traits: { type: "Dragon" },
@@ -659,7 +659,7 @@ describe("feedPet", () => {
         pets: {
           nfts: {
             1: {
-              name: "Pet-1",
+              name: "Pet #1",
               id: 1,
               revealAt: 0,
               requests: {
@@ -703,7 +703,7 @@ describe("feedPet", () => {
         pets: {
           nfts: {
             1: {
-              name: "Pet-1",
+              name: "Pet #1",
               id: 1,
               revealAt: 0,
               requests: {
