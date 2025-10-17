@@ -72,6 +72,7 @@ export const MarketplaceNavigation: React.FC = () => {
   const { t } = useTranslation();
 
   const { gameService } = useContext(Context);
+  const state = useSelector(gameService, (state) => state.context.state);
   const price = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
   const { farmId } = gameService.getSnapshot().context;
 
@@ -92,7 +93,7 @@ export const MarketplaceNavigation: React.FC = () => {
           <Filters
             onClose={() => setShowFilters(false)}
             farmId={farmId}
-            game={gameService.getSnapshot().context.state}
+            game={state}
           />
           <EstimatedPrice price={price} />
           {/* Flower Dashboard Button */}
@@ -149,7 +150,7 @@ export const MarketplaceNavigation: React.FC = () => {
               <Filters
                 onClose={() => setShowFilters(false)}
                 farmId={farmId}
-                game={gameService.getSnapshot().context.state}
+                game={state}
               />
             </div>
           </InnerPanel>
