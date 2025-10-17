@@ -309,51 +309,17 @@ export function getPetFetches(petData: Pet | PetNFT): PetConfig {
   return PET_FETCHES[petType];
 }
 
-export const PET_RESOURCES: Record<
-  PetResourceName,
-  { cooldownMs: number; energy: number }
-> = {
-  Acorn: {
-    cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 100,
-  },
-  Ruffroot: {
-    cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 150,
-  },
-  "Chewed Bone": {
-    cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 150,
-  },
-  "Heart leaf": {
-    cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 150,
-  },
-  Moonfur: {
-    cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 1000,
-  },
-
-  "Frost Pebble": {
-    cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 150,
-  },
-  "Wild Grass": {
-    cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 150,
-  },
-  Ribbon: {
-    cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 150,
-  },
-  Dewberry: {
-    cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 150,
-  },
-  "Fossil Shell": {
-    cooldownMs: 24 * 60 * 60 * 1000,
-    energy: 250,
-  },
+export const PET_RESOURCES: Record<PetResourceName, { energy: number }> = {
+  Acorn: { energy: 100 },
+  Ruffroot: { energy: 200 },
+  "Chewed Bone": { energy: 200 },
+  "Heart leaf": { energy: 200 },
+  "Frost Pebble": { energy: 200 },
+  "Wild Grass": { energy: 200 },
+  Ribbon: { energy: 200 },
+  Dewberry: { energy: 200 },
+  "Fossil Shell": { energy: 300 },
+  Moonfur: { energy: 1000 },
 };
 
 export type PetShrineName =
@@ -618,9 +584,9 @@ export function getPetRequests(): CookableName[] {
 }
 
 export const PET_REQUEST_XP: Record<PetRequestDifficulty, number> = {
-  easy: 50,
+  easy: 20,
   medium: 100,
-  hard: 150,
+  hard: 300,
 };
 
 export function getPetRequestXP(food: CookableName) {
