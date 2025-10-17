@@ -48,7 +48,7 @@ export const PetNFT: React.FC<Props> = ({ id }) => {
 
   if (!petNFTData) return null;
 
-  const isRevealed = isPetNFTRevealed(petNFTData.id, Date.now());
+  const isRevealed = isPetNFTRevealed(Number(id), Date.now());
   const petType = getPetType(petNFTData);
 
   const handlePetClick = () => {
@@ -71,7 +71,6 @@ export const PetNFT: React.FC<Props> = ({ id }) => {
       isTypeFed={isTypeFed}
       clickable
       onClick={handlePetClick}
-      petData={petNFTData}
     >
       <Transition
         appear={true}
