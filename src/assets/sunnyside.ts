@@ -54,6 +54,12 @@ export const SUNNYSIDE = {
 
   //Announcement
   announcement: {
+    bronze_claimed: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/bronze_claimed.png`,
+    silver_claimed: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/silver_claimed.png`,
+    gold_claimed: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/gold_claimed.png`,
+    platinum_claimed: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/platinum_claimed.png`,
+    legendary_claimed: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/legendary_claimed.png`,
+    whale_claimed: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/whale_claimed.png`,
     vote_flower: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/vote_flower.png`,
     loveRush: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/love_rush.webp`,
     roninAirdrop: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/ronin_airdrop.png`,
