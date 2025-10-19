@@ -203,15 +203,12 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
     }
   };
 
-  console.log(bulkOrder);
-
   const handleCancelBulkBuy = () => {
     setBulkOrder(undefined);
     setMinAmount(0);
   };
 
   const buildBulkOrder = () => {
-    console.log("building bulk order");
     let selectedQuantity = bulkOrder?.quantity ?? 0;
     let totalPrice = bulkOrder?.price ?? 0;
     const selectedIds = [...(bulkOrder?.ids ?? [])];
