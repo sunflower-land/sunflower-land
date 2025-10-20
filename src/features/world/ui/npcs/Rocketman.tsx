@@ -155,12 +155,14 @@ export const FlowerExchange: React.FC<FlowerExchangeProps> = ({ onClose }) => {
     return <FaceRecognition />;
   }
 
-  if (!hasVipAccess({ game: state })) {
+  const isVIP = hasVipAccess({ game: state });
+  if (!isVIP) {
     return (
       <div className="p-1">
-        <Label type="warning" icon={flowerIcon}>
+        <Label type="danger" icon={flowerIcon}>
           {t("goblinTrade.vipRequired")}
         </Label>
+        <p className="text-sm  my-2">{t("rocketman.vip")}</p>
         <Button
           onClick={() => {
             onClose();
