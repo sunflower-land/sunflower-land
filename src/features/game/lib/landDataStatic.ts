@@ -24,6 +24,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
     expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
   },
   inventory: {
+    "Gold Love Box": new Decimal(1),
+    "Silver Love Box": new Decimal(1),
     "Fish Burger": new Decimal(5),
     Ruffroot: new Decimal(100),
     "Chewed Bone": new Decimal(100),
@@ -603,7 +605,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   flower: {},
   bumpkin: {
     equipped: INITIAL_EQUIPMENT as Equipped,
-    experience: 100000,
+    experience: 10,
 
     id: 1,
     skills: {

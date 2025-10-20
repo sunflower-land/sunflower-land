@@ -6713,7 +6713,7 @@
   "ronin.airdrop.roninWalletAddress": "Ronin Wallet Address",
   "ronin.airdrop.walletAddressPlaceholder": "0xd8dA6B....aA96045",
   "ronin.airdrop.walletAddressError": "Please enter a valid wallet address (0x followed by 40 hex characters)",
-  "ronin.airdrop.openRewardsSection": "Open the Rewards section",
+  "ronin.airdrop.openRewardsSection": "Open the Earn section in the lop left",
   "ronin.airdrop.connectTwitterAccount": "Connect your Twitter account & claim your prize",
   "ronin.airdrop.loginToSunflowerLand": "Login to Sunflower Land",
   "claiming.ronin.pack": "Claiming Ronin Pack",
