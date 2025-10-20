@@ -56,7 +56,7 @@ export const PetFetch: React.FC<Props> = ({
       <SplitScreenView
         panel={
           <div className="flex flex-col items-center gap-1 w-full">
-            <div className="flex flex-row-reverse sm:flex-col gap-2 justify-between w-full">
+            <div className="flex flex-col gap-2 justify-between w-full">
               <div className="flex flex-col items-center gap-2">
                 <Label type="default" className="text-xs">
                   {petData.name}
@@ -65,7 +65,7 @@ export const PetFetch: React.FC<Props> = ({
               </div>
 
               {selectedFetch && (
-                <div className="flex flex-row gap-2 justify-center items-center w-full">
+                <div className="flex flex-row gap-2 w-full justify-center items-center">
                   <img
                     src={ITEM_DETAILS[selectedFetch].image}
                     alt={selectedFetch}
@@ -76,16 +76,12 @@ export const PetFetch: React.FC<Props> = ({
               )}
             </div>
 
-            <div className="flex flex-row sm:flex-col justify-between w-full pt-1">
-              <div className="flex flex-row gap-2 justify-center items-center">
-                <Label
-                  icon={SUNNYSIDE.icons.lightning}
-                  type={hasEnoughEnergy ? "default" : "danger"}
-                >
-                  {`Energy: ${petData.energy}/${energyRequired}`}
-                </Label>
-              </div>
-            </div>
+            <Label
+              icon={SUNNYSIDE.icons.lightning}
+              type={hasEnoughEnergy ? "default" : "danger"}
+            >
+              {`Energy: ${petData.energy}/${energyRequired}`}
+            </Label>
 
             <div className="flex flex-col gap-1 sm:items-center w-full">
               {!hasRequiredLevel && (

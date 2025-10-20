@@ -216,7 +216,7 @@ const PetFeedPanel: React.FC<{
   return (
     <div className="flex flex-col items-center gap-1">
       {/* Pet Image and Name */}
-      <div className="flex flex-row-reverse sm:flex-col gap-2 justify-between w-full pt-1">
+      <div className="flex flex-col gap-2 justify-between w-full">
         <div className="flex flex-col items-center gap-2">
           <Label type="default" className="text-xs">
             {petData.name}
@@ -228,7 +228,7 @@ const PetFeedPanel: React.FC<{
           />
         </div>
 
-        <div className="flex flex-row gap-2 items-center justify-center w-full">
+        <div className="flex flex-row gap-2 w-full justify-center items-center">
           <img
             src={
               isFoodLocked
@@ -244,7 +244,7 @@ const PetFeedPanel: React.FC<{
         </div>
       </div>
 
-      <div className="flex flex-row sm:flex-col gap-2 justify-between w-full p-1">
+      <div className="flex flex-col gap-2 justify-between w-full p-1">
         <div className="flex flex-row gap-1 justify-center items-center">
           <img src={xpIcon} className="w-4" />
           <span className="text-xs">{t("pets.plusFoodXp", { foodXp })}</span>
