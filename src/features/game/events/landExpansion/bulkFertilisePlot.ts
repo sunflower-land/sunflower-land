@@ -6,6 +6,7 @@ import { applyFertiliserToPlot } from "./fertilisePlot";
 import { produce } from "immer";
 import { isReadyToHarvest } from "./harvest";
 import { CROPS } from "../../types/crops";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 
 export type BulkFertilisePlotAction = {
   type: "plots.bulkFertilised";
@@ -18,14 +19,14 @@ type Options = {
   createdAt?: number;
 };
 
-const getPlotsToFertilise = (state: GameState) => {
+const getPlotsToFertilise = (state: GameState, createdAt: number) => {
   return Object.entries(state.crops).filter(([, plot]) => {
     return (
       plot.x !== undefined &&
       plot.y !== undefined &&
       !plot.fertiliser &&
       plot.crop &&
-      !isReadyToHarvest(Date.now(), plot.crop, CROPS[plot.crop.name])
+      !isReadyToHarvest(createdAt, plot.crop, CROPS[plot.crop.name])
     );
   });
 };
@@ -46,7 +47,7 @@ export function bulkFertilisePlot({
       throw new Error("No fertiliser selected");
     }
 
-    const availablePlots = getPlotsToFertilise(game);
+    const availablePlots = getPlotsToFertilise(game, createdAt);
 
     const fertiliserCount = game.inventory[action.fertiliser] || new Decimal(0);
     const plotsToFertilise = Math.min(
@@ -77,5 +78,10 @@ export function bulkFertilisePlot({
     }
 
     game.inventory[action.fertiliser] = fertiliserCount.minus(applied);
+    game.bumpkin.activity = trackActivity(
+      "Crop Fertilised",
+      game.bumpkin?.activity,
+      new Decimal(applied),
+    );
   });
 }

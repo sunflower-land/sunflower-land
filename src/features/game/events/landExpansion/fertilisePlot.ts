@@ -66,7 +66,7 @@ export function applyFertiliserToPlot({
   fertiliser,
   createdAt,
 }: ApplyFertiliserArgs) {
-  if (game.bumpkin?.activity?.["Crop Fertilised"] === 1) {
+  if (game.bumpkin?.activity?.["Crop Fertilised"] === 0) {
     gameAnalytics.trackMilestone({
       event: "Tutorial:Fertilised:Completed",
     });
