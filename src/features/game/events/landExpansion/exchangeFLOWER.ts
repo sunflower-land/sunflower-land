@@ -4,6 +4,7 @@ import { GameState } from "features/game/types/game";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { trackActivity } from "features/game/types/bumpkinActivity";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 
 export const EXCHANGE_FLOWER_PRICE = 50;
 export const DAILY_LIMIT = 10000;
@@ -27,6 +28,11 @@ export function exchangeFlower({
   return produce(state, (game) => {
     if (!isFaceVerified({ game })) {
       throw new Error("Face verification required");
+    }
+
+    // If no VIP, throw an error
+    if (!hasVipAccess({ game, now: createdAt })) {
+      throw new Error("VIP is required");
     }
 
     const today = new Date(createdAt).toISOString().split("T")[0];

@@ -12,6 +12,10 @@ describe("exchangeFlower", () => {
           faceRecognition: {
             history: [],
           },
+          vip: {
+            expiresAt: createdAt + 1000,
+            bundles: [],
+          },
         },
         action: { type: "exchange.flower", amount: 50 },
         createdAt,
@@ -33,6 +37,10 @@ describe("exchangeFlower", () => {
                 confidence: 0.9,
               },
             ],
+          },
+          vip: {
+            expiresAt: createdAt + 1000,
+            bundles: [],
           },
         },
         action: { type: "exchange.flower", amount: 50 },
@@ -62,6 +70,10 @@ describe("exchangeFlower", () => {
               },
             ],
           },
+          vip: {
+            expiresAt: createdAt + 1000,
+            bundles: [],
+          },
         },
         action: { type: "exchange.flower", amount: 500 },
         createdAt,
@@ -82,6 +94,10 @@ describe("exchangeFlower", () => {
               confidence: 0.9,
             },
           ],
+        },
+        vip: {
+          expiresAt: createdAt + 1000,
+          bundles: [],
         },
       },
       action: { type: "exchange.flower", amount: 500 },
