@@ -130,7 +130,7 @@ const FEATURE_FLAGS = {
   NODE_FORGING: defaultFeatureFlag,
   DEPOSIT_SFL: () =>
     Date.now() < new Date("2025-10-28T00:00:00.000Z").getTime(),
-  RONIN_FLOWER: adminFeatureFlag,
+  RONIN_FLOWER: betaTimeBasedFeatureFlag(new Date("2025-10-21T00:00:00Z")),
   MEMORY_BETA: defaultFeatureFlag,
   PET_NFT_DEPOSIT: testnetFeatureFlag,
   PET_NFT_MARKETPLACE: testnetFeatureFlag,
