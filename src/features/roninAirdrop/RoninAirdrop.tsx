@@ -195,11 +195,11 @@ export const RoninAirdrop: React.FC<{ onClose?: () => void }> = ({
                   />
                 </div>
               </div>
-              <div className="flex flex-col md:flex-row">
+              <div className="flex flex-col md:flex-row flex-wrap">
                 <div className="w-full md:w-1/2 lg:w-1/3 pr-1 pl-2 mb-2">
                   <InnerPanel>
                     <RoninTable
-                      rows={ROWS.slice(0, 10)}
+                      rows={RONIN_ROWS.slice(0, 10)}
                       title={t("ronin.airdrop.whalePackTitle")}
                       positions={t("ronin.airdrop.whalePackPositions")}
                     />
@@ -208,16 +208,52 @@ export const RoninAirdrop: React.FC<{ onClose?: () => void }> = ({
                 <div className="w-full md:w-1/2 lg:w-1/3 px-1 mb-2">
                   <InnerPanel>
                     <RoninTable
-                      rows={ROWS.slice(10, 20)}
+                      rows={RONIN_ROWS.slice(10, 20)}
                       title={t("ronin.airdrop.legendaryPackTitle")}
                       positions={t("ronin.airdrop.legendaryPackPositions")}
                     />
                   </InnerPanel>
                 </div>
-                <div className="hidden lg:block  lg:w-1/3 px-1 pr-2 mb-2">
+                <div className="w-full md:w-1/2 lg:w-1/3  px-1 pr-2 mb-2">
                   <InnerPanel>
                     <RoninTable
-                      rows={ROWS.slice(20, 30)}
+                      rows={RONIN_ROWS.slice(20, 30)}
+                      title={t("ronin.airdrop.platinumPackTitle")}
+                      positions={t("ronin.airdrop.platinumPackPositions")}
+                    />
+                  </InnerPanel>
+                </div>
+                <div className="w-full md:w-1/2 lg:w-1/3  px-1 pr-2 mb-2">
+                  <InnerPanel>
+                    <RoninTable
+                      rows={RONIN_ROWS.slice(30, 40)}
+                      title={t("ronin.airdrop.platinumPackTitle")}
+                      positions={t("ronin.airdrop.platinumPackPositions")}
+                    />
+                  </InnerPanel>
+                </div>
+                <div className="w-full md:w-1/2 lg:w-1/3  px-1 pr-2 mb-2">
+                  <InnerPanel>
+                    <RoninTable
+                      rows={RONIN_ROWS.slice(40, 50)}
+                      title={t("ronin.airdrop.platinumPackTitle")}
+                      positions={t("ronin.airdrop.platinumPackPositions")}
+                    />
+                  </InnerPanel>
+                </div>
+                <div className="w-full md:w-1/2 lg:w-1/3  px-1 pr-2 mb-2">
+                  <InnerPanel>
+                    <RoninTable
+                      rows={RONIN_ROWS.slice(50, 60)}
+                      title={t("ronin.airdrop.platinumPackTitle")}
+                      positions={t("ronin.airdrop.platinumPackPositions")}
+                    />
+                  </InnerPanel>
+                </div>
+                <div className="w-full   px-1 pr-2 mb-2">
+                  <InnerPanel>
+                    <RoninTable
+                      rows={RONIN_ROWS.slice(60, 75)}
                       title={t("ronin.airdrop.platinumPackTitle")}
                       positions={t("ronin.airdrop.platinumPackPositions")}
                     />
@@ -391,24 +427,87 @@ type RoninPack = {
 type RoninRow = {
   npc: BumpkinParts;
   name: string;
-  prize: RoninPack;
   position: number;
 };
 
-const ROWS: RoninRow[] = new Array(100)
-  .fill({
-    npc: NPC_WEARABLES.tywin,
-    name: "Tywin", // This could be made translatable if needed
-    prize: {
-      items: {},
-      wearables: {},
-      sfl: 0,
-    },
-  })
-  .map((row, index) => ({
-    ...row,
-    position: index + 1,
-  }));
+const RONIN_ROWS: RoninRow[] = [
+  { name: "Jihoz_Axie", npc: NPC_WEARABLES.tywin, position: 1 },
+  { name: "VitalikButerin", npc: NPC_WEARABLES.bert, position: 2 },
+  { name: "heidichristne", npc: NPC_WEARABLES.betty, position: 3 },
+  { name: "gabusch", npc: NPC_WEARABLES.grubnuk, position: 4 },
+  { name: "yellowpantherx", npc: NPC_WEARABLES.garbo, position: 5 },
+  { name: "Rojankhzxr", npc: NPC_WEARABLES.blacksmith, position: 6 },
+  { name: "brycent_", npc: NPC_WEARABLES.gambit, position: 7 },
+  { name: "SamSteffanina", npc: NPC_WEARABLES.grommy, position: 8 },
+  { name: "Hantao", npc: NPC_WEARABLES.jester, position: 9 },
+  { name: "Alliestrasza", npc: NPC_WEARABLES.victoria, position: 10 },
+  { name: "MarkofTheZeal", npc: NPC_WEARABLES["pumpkin' pete"], position: 11 },
+  { name: "TheRoninRadio", npc: NPC_WEARABLES.solara, position: 12 },
+  { name: "Prismrangers", npc: NPC_WEARABLES.tywin, position: 13 },
+  { name: "BG_Crypto4", npc: NPC_WEARABLES.timmy, position: 14 },
+  { name: "xdashred", npc: NPC_WEARABLES.orlin, position: 15 },
+  { name: "AxieAur", npc: NPC_WEARABLES.stella, position: 16 },
+  { name: "Lima_Kind", npc: NPC_WEARABLES["pumpkin' pete"], position: 17 },
+  { name: "MukeGaming", npc: NPC_WEARABLES.mayor, position: 18 },
+  { name: "investingsadhu", npc: NPC_WEARABLES.barlow, position: 19 },
+  { name: "aditya_rmurali", npc: NPC_WEARABLES.bert, position: 20 },
+  { name: "zioaxie", npc: NPC_WEARABLES.wizard, position: 21 },
+  { name: "AxieArtGallery", npc: NPC_WEARABLES.wizard, position: 22 },
+  { name: "Tita_KIND", npc: NPC_WEARABLES.stevie, position: 23 },
+  { name: "ChuckFresco", npc: NPC_WEARABLES.greedclaw, position: 24 },
+  { name: "Freya_Kind", npc: NPC_WEARABLES["farmer flesh"], position: 25 },
+  { name: "brisa_bit", npc: NPC_WEARABLES.greedclaw, position: 26 },
+  { name: "Theeban1437", npc: NPC_WEARABLES.flopsy, position: 27 },
+  { name: "0xWil_", npc: NPC_WEARABLES.grimbly, position: 28 },
+  { name: "IamSHADR", npc: NPC_WEARABLES.bella, position: 29 },
+  { name: "GilaCees", npc: NPC_WEARABLES.gunter, position: 30 },
+  { name: "kimbokitten", npc: NPC_WEARABLES.hopper, position: 31 },
+  { name: "StarPlatinumSOL", npc: NPC_WEARABLES.misty, position: 32 },
+  { name: "ItsEduMock", npc: NPC_WEARABLES.tango, position: 33 },
+  { name: "cagyjan1", npc: NPC_WEARABLES.finn, position: 34 },
+  { name: "daryl24_eth", npc: NPC_WEARABLES.finley, position: 35 },
+  { name: "CosmicWolfRonin", npc: NPC_WEARABLES.garth, position: 36 },
+  { name: "eth_apple", npc: NPC_WEARABLES.eldric, position: 37 },
+  { name: "eeelistar", npc: NPC_WEARABLES.finley, position: 38 },
+  { name: "Arual3x", npc: NPC_WEARABLES.bruce, position: 39 },
+  { name: "hezelya", npc: NPC_WEARABLES.bailey, position: 40 },
+  { name: "Garrison_XV", npc: NPC_WEARABLES.glinteye, position: 41 },
+  { name: "tcaff_", npc: NPC_WEARABLES["phantom face"], position: 42 },
+  { name: "Runes_tcg", npc: NPC_WEARABLES.peggy, position: 43 },
+  { name: "Pleun_V", npc: NPC_WEARABLES["hammerin harry"], position: 44 },
+  { name: "Dabudda17", npc: NPC_WEARABLES.gordo, position: 45 },
+  { name: "RoninAddict", npc: NPC_WEARABLES.marcus, position: 46 },
+  { name: "tr3vorx", npc: NPC_WEARABLES.grabnab, position: 47 },
+  { name: "KarencitaKind", npc: NPC_WEARABLES.timmy, position: 48 },
+
+  { name: "inhuman", npc: NPC_WEARABLES.miranda, position: 49 },
+  { name: "haru_BCG", npc: NPC_WEARABLES.gilda, position: 50 },
+  { name: "Yin_NGMI", npc: NPC_WEARABLES.blacksmith, position: 51 },
+  { name: "SpikeCollects", npc: NPC_WEARABLES["lady day"], position: 52 },
+  { name: "nicky_tengku", npc: NPC_WEARABLES.jake, position: 53 },
+  { name: "iceyyy_gaming", npc: NPC_WEARABLES.guria, position: 54 },
+  { name: "RealUkin", npc: NPC_WEARABLES.haymitch, position: 55 },
+  { name: "MIR_NFT", npc: NPC_WEARABLES.igor, position: 56 },
+  { name: "joseprust", npc: NPC_WEARABLES.minewhack, position: 57 },
+  { name: "Seroynft", npc: NPC_WEARABLES.gunter, position: 58 },
+  { name: "CryptoStache", npc: NPC_WEARABLES.reginald, position: 59 },
+  { name: "stephyberry_", npc: NPC_WEARABLES["pumpkin' pete"], position: 60 },
+  { name: "Sakura_Freedom", npc: NPC_WEARABLES.misty, position: 61 },
+  { name: "LucBerkefeld", npc: NPC_WEARABLES.solara, position: 62 },
+  { name: "raidenkrn", npc: NPC_WEARABLES.stevie, position: 63 },
+  { name: "Lombrajr", npc: NPC_WEARABLES.luna, position: 64 },
+  { name: "GaspodeWD", npc: NPC_WEARABLES.stevie, position: 65 },
+  { name: "AlemaoNFTReal", npc: NPC_WEARABLES.birdie, position: 66 },
+  { name: "mizzysworld", npc: NPC_WEARABLES.chase, position: 67 },
+  { name: "vert1dkrn", npc: NPC_WEARABLES.elf, position: 68 },
+  { name: "zyrickonline", npc: NPC_WEARABLES["chef maple"], position: 69 },
+  { name: "0xPatchara", npc: NPC_WEARABLES.ginger, position: 70 },
+  { name: "ToxiC5501", npc: NPC_WEARABLES.peggy, position: 71 },
+  { name: "GeorgeInTheMeta", npc: NPC_WEARABLES.tywin, position: 72 },
+  { name: "Stormingweb3", npc: NPC_WEARABLES.victoria, position: 73 },
+  { name: "Dashke_witch", npc: NPC_WEARABLES.jester, position: 74 },
+  { name: "trungfinity", npc: NPC_WEARABLES.gambit, position: 75 },
+];
 
 const RoninTable: React.FC<{
   rows: RoninRow[];
@@ -434,9 +533,14 @@ const RoninTable: React.FC<{
                         <NPCIcon width={30} parts={npc} />
                       </div>
                     </div>
-                    <div className="flex flex-col">
+                    <div
+                      className="flex flex-col"
+                      onClick={() => {
+                        window.open(`https://x.com/${name}`, "_blank");
+                      }}
+                    >
                       <div className="flex items-center gap-1">
-                        <p className="text-xs sm:text-sm">{`${position}. ${name} `}</p>
+                        <p className="text-xs sm:text-sm">{`${position}. @${name} `}</p>
                       </div>
                     </div>
                   </div>
