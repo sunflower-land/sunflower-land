@@ -214,7 +214,7 @@ export const RoninAirdrop: React.FC<{ onClose?: () => void }> = ({
                     />
                   </InnerPanel>
                 </div>
-                <div className="hidden lg:block  lg:w-1/3 px-1 pr-2 mb-2">
+                <div className="w-full md:w-1/2 lg:w-1/3  px-1 pr-2 mb-2">
                   <InnerPanel>
                     <RoninTable
                       rows={RONIN_ROWS.slice(20, 30)}
@@ -223,7 +223,7 @@ export const RoninAirdrop: React.FC<{ onClose?: () => void }> = ({
                     />
                   </InnerPanel>
                 </div>
-                <div className="hidden lg:block  lg:w-1/3 px-1 pr-2 mb-2">
+                <div className="w-full md:w-1/2 lg:w-1/3  px-1 pr-2 mb-2">
                   <InnerPanel>
                     <RoninTable
                       rows={RONIN_ROWS.slice(30, 40)}
@@ -232,7 +232,7 @@ export const RoninAirdrop: React.FC<{ onClose?: () => void }> = ({
                     />
                   </InnerPanel>
                 </div>
-                <div className="hidden lg:block  lg:w-1/3 px-1 pr-2 mb-2">
+                <div className="w-full md:w-1/2 lg:w-1/3  px-1 pr-2 mb-2">
                   <InnerPanel>
                     <RoninTable
                       rows={RONIN_ROWS.slice(40, 50)}
@@ -241,7 +241,7 @@ export const RoninAirdrop: React.FC<{ onClose?: () => void }> = ({
                     />
                   </InnerPanel>
                 </div>
-                <div className="hidden lg:block  lg:w-1/3 px-1 pr-2 mb-2">
+                <div className="w-full md:w-1/2 lg:w-1/3  px-1 pr-2 mb-2">
                   <InnerPanel>
                     <RoninTable
                       rows={RONIN_ROWS.slice(50, 60)}
@@ -250,7 +250,7 @@ export const RoninAirdrop: React.FC<{ onClose?: () => void }> = ({
                     />
                   </InnerPanel>
                 </div>
-                <div className="hidden lg:block  lg:w-full px-1 pr-2 mb-2">
+                <div className="w-full   px-1 pr-2 mb-2">
                   <InnerPanel>
                     <RoninTable
                       rows={RONIN_ROWS.slice(60, 75)}
@@ -433,7 +433,7 @@ type RoninRow = {
 const RONIN_ROWS: RoninRow[] = [
   { name: "Jihoz_Axie", npc: NPC_WEARABLES.tywin, position: 1 },
   { name: "VitalikButerin", npc: NPC_WEARABLES.bert, position: 2 },
-  { name: "heidi", npc: NPC_WEARABLES.betty, position: 3 },
+  { name: "heidichristne", npc: NPC_WEARABLES.betty, position: 3 },
   { name: "gabusch", npc: NPC_WEARABLES.grubnuk, position: 4 },
   { name: "yellowpantherx", npc: NPC_WEARABLES.garbo, position: 5 },
   { name: "Rojankhzxr", npc: NPC_WEARABLES.blacksmith, position: 6 },
@@ -441,11 +441,11 @@ const RONIN_ROWS: RoninRow[] = [
   { name: "SamSteffanina", npc: NPC_WEARABLES.grommy, position: 8 },
   { name: "Hantao", npc: NPC_WEARABLES.jester, position: 9 },
   { name: "Alliestrasza", npc: NPC_WEARABLES.victoria, position: 10 },
-  { name: "MarkofTheZeal ", npc: NPC_WEARABLES["pumpkin' pete"], position: 11 },
+  { name: "MarkofTheZeal", npc: NPC_WEARABLES["pumpkin' pete"], position: 11 },
   { name: "TheRoninRadio", npc: NPC_WEARABLES.solara, position: 12 },
   { name: "Prismrangers", npc: NPC_WEARABLES.tywin, position: 13 },
   { name: "BG_Crypto4", npc: NPC_WEARABLES.timmy, position: 14 },
-  { name: "xdashred ", npc: NPC_WEARABLES.orlin, position: 15 },
+  { name: "xdashred", npc: NPC_WEARABLES.orlin, position: 15 },
   { name: "AxieAur", npc: NPC_WEARABLES.stella, position: 16 },
   { name: "Lima_Kind", npc: NPC_WEARABLES["pumpkin' pete"], position: 17 },
   { name: "MukeGaming", npc: NPC_WEARABLES.mayor, position: 18 },
