@@ -6693,7 +6693,6 @@
   "ronin.airdrop.roninWalletAddress": "Ronin 钱包地址",
   "ronin.airdrop.walletAddressPlaceholder": "0xd8da6b... aa96045",
   "ronin.airdrop.walletAddressError": "请输入有效的钱包地址（0x 后面是 40 个十六进制字符）",
-  "ronin.airdrop.openRewardsSection": "打开奖励专区",
   "ronin.airdrop.connectTwitterAccount": "连接你的 Twitter 账号并领取奖励",
   "ronin.airdrop.loginToSunflowerLand": "登录 Sunflower Land",
   "claiming.ronin.pack": "正在领取 Ronin 礼包",
@@ -6719,5 +6718,6 @@
   "description.moonCrystal": "可以在 Paw Prints 章节的挖掘现场找到。",
   "description.pet.generic": "一只友好的宠物，它会为你收集资源来提升你的耕作体验",
   "ronin.airdrop.lifetimeVip": "2 年 VIP 访问权限",
-  "marketplace.pets": "宠物 NFT"
+  "marketplace.pets": "宠物 NFT",
+  "ronin.airdrop.openRewardsSection": "打开左侧循环中的 “赚钱” 部分"
 }

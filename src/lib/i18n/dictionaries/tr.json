@@ -6693,7 +6693,6 @@
   "ronin.airdrop.roninWalletAddress": "Ronin Cüzdan Adresi",
   "ronin.airdrop.walletAddressPlaceholder": "0xD8DA6B... AA96045",
   "ronin.airdrop.walletAddressError": "Lütfen geçerli bir cüzdan adresi girin (0x ve ardından 40 altıgen karakter)",
-  "ronin.airdrop.openRewardsSection": "Ödüller bölümünü açın",
   "ronin.airdrop.connectTwitterAccount": "Twitter hesabınızı bağlayın ve ödülünüzü alın",
   "ronin.airdrop.loginToSunflowerLand": "Sunflower Land'e Giriş Yapın",
   "claiming.ronin.pack": "Ronin Paketini Talep Etme",
@@ -6719,5 +6718,6 @@
   "description.moonCrystal": "Pençe Baskıları bölümünde digsitede bulunabilir.",
   "description.pet.generic": "Çiftçilik deneyiminizi artırmak için kaynak toplayacak dost canlısı bir evcil hayvan",
   "ronin.airdrop.lifetimeVip": "2 Yıllık VIP Erişimi",
-  "marketplace.pets": "Evcil Hayvan NFT'leri"
+  "marketplace.pets": "Evcil Hayvan NFT'leri",
+  "ronin.airdrop.openRewardsSection": "Sol taraftaki Kazan bölümünü açın"
 }

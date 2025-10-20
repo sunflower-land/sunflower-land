@@ -6693,7 +6693,6 @@
   "ronin.airdrop.roninWalletAddress": "Alamat Dompet Ronin",
   "ronin.airdrop.walletAddressPlaceholder": "0xD8DA6B... AA96045",
   "ronin.airdrop.walletAddressError": "Sila masukkan alamat dompet yang sah (0x diikuti dengan 40 aksara hex)",
-  "ronin.airdrop.openRewardsSection": "Buka bahagian Ganjaran",
   "ronin.airdrop.connectTwitterAccount": "Sambungkan akaun Twitter anda & tuntut hadiah anda",
   "ronin.airdrop.loginToSunflowerLand": "Log masuk ke Sunflower Land",
   "claiming.ronin.pack": "Menuntut Ronin Pack",
@@ -6719,5 +6718,6 @@
   "description.moonCrystal": "Boleh didapati di digsite semasa bab Paw Prints.",
   "description.pet.generic": "Haiwan peliharaan yang mesra yang akan mengumpulkan sumber untuk anda untuk meningkatkan pengalaman pertanian anda",
   "ronin.airdrop.lifetimeVip": "Akses VIP 2 Tahun",
-  "marketplace.pets": "NFT haiwan peliharaan"
+  "marketplace.pets": "NFT haiwan peliharaan",
+  "ronin.airdrop.openRewardsSection": "Buka bahagian Dapatkan di bahagian kiri lop"
 }

@@ -6693,7 +6693,6 @@
   "ronin.airdrop.roninWalletAddress": "Dirección de Ronin Wallet",
   "ronin.airdrop.walletAddressPlaceholder": "0xD8DA6B... AA96045",
   "ronin.airdrop.walletAddressError": "Introduce una dirección de monedero válida (0x seguido de 40 caracteres hexadecimales)",
-  "ronin.airdrop.openRewardsSection": "Abre la sección Recompensas",
   "ronin.airdrop.connectTwitterAccount": "Conecta tu cuenta de Twitter y reclama tu premio",
   "ronin.airdrop.loginToSunflowerLand": "Inicie sesión en Sunflower Land",
   "claiming.ronin.pack": "Reclamando la manada Ronin",
@@ -6719,5 +6718,6 @@
   "description.moonCrystal": "Se puede encontrar en la página de excavación durante el capítulo Huellas de Paw.",
   "description.pet.generic": "Una simpática mascota que recolectará recursos para mejorar tu experiencia en la granja",
   "ronin.airdrop.lifetimeVip": "2 años de acceso VIP",
-  "marketplace.pets": "NFT para mascotas"
+  "marketplace.pets": "NFT para mascotas",
+  "ronin.airdrop.openRewardsSection": "Abre la sección Ganar en la esquina superior izquierda"
 }

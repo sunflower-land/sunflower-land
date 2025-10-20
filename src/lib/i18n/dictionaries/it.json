@@ -6693,7 +6693,6 @@
   "ronin.airdrop.roninWalletAddress": "Indirizzo Ronin Wallet",
   "ronin.airdrop.walletAddressPlaceholder": "0xD8DA6B... AA96045",
   "ronin.airdrop.walletAddressError": "Inserisci un indirizzo di portafoglio valido (0x seguito da 40 caratteri esadecimali)",
-  "ronin.airdrop.openRewardsSection": "Apri la sezione Premi",
   "ronin.airdrop.connectTwitterAccount": "Collega il tuo account Twitter e richiedi il tuo premio",
   "ronin.airdrop.loginToSunflowerLand": "Accedi a Sunflower Land",
   "claiming.ronin.pack": "Richiedere il Ronin Pack",
@@ -6719,5 +6718,6 @@
   "description.moonCrystal": "Può essere trovato nel digsite durante il capitolo Paw Prints.",
   "description.pet.generic": "Un simpatico animale domestico che raccoglierà risorse per migliorare la tua esperienza agricola",
   "ronin.airdrop.lifetimeVip": "2 anni di accesso VIP",
-  "marketplace.pets": "NFT per animali domestici"
+  "marketplace.pets": "NFT per animali domestici",
+  "ronin.airdrop.openRewardsSection": "Apri la sezione Guadagna in alto a sinistra"
 }

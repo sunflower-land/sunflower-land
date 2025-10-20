@@ -6693,7 +6693,6 @@
   "ronin.airdrop.roninWalletAddress": "로닌 지갑 주소",
   "ronin.airdrop.walletAddressPlaceholder": "0xD8DA6b... AA96045",
   "ronin.airdrop.walletAddressError": "유효한 지갑 주소 (0x 다음에 40개의 16진수) 를 입력하십시오.",
-  "ronin.airdrop.openRewardsSection": "리워드 섹션 열기",
   "ronin.airdrop.connectTwitterAccount": "트위터 계정을 연결하고 상품을 받으세요",
   "ronin.airdrop.loginToSunflowerLand": "선플라워 랜드에 로그인",
   "claiming.ronin.pack": "로닌 팩 받기",
@@ -6719,5 +6718,6 @@
   "description.moonCrystal": "Paw Prints 챕터의 디지트에서 찾을 수 있습니다.",
   "description.pet.generic": "자원을 모아 농사 경험을 높여줄 친절한 애완동물",
   "ronin.airdrop.lifetimeVip": "2년 VIP 액세스",
-  "marketplace.pets": "반려동물 NFT"
+  "marketplace.pets": "반려동물 NFT",
+  "ronin.airdrop.openRewardsSection": "왼쪽 상단에서 수익 창출 섹션을 엽니다."
 }

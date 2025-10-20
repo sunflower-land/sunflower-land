@@ -6693,7 +6693,6 @@
   "ronin.airdrop.roninWalletAddress": "Ronin ウォレットアドレス",
   "ronin.airdrop.walletAddressPlaceholder": "0xD8DA6B... AA96045",
   "ronin.airdrop.walletAddressError": "有効なウォレットアドレスを入力してください (0xの後に40文字の16進文字が続きます)",
-  "ronin.airdrop.openRewardsSection": "リワードセクションを開く",
   "ronin.airdrop.connectTwitterAccount": "Twitterアカウントに接続して賞品を受け取りましょう",
   "ronin.airdrop.loginToSunflowerLand": "サンフラワーランドにログイン",
   "claiming.ronin.pack": "クレーム・ローニンパック",
@@ -6719,5 +6718,6 @@
   "description.moonCrystal": "Paw Printsチャプターのディグサイトで見つけることができます。",
   "description.pet.generic": "資源を集めて農業体験を盛り上げてくれるフレンドリーなペット",
   "ronin.airdrop.lifetimeVip": "2年間のVIPアクセス",
-  "marketplace.pets": "ペットNFT"
+  "marketplace.pets": "ペットNFT",
+  "ronin.airdrop.openRewardsSection": "左上の「獲得」セクションを開きます"
 }
