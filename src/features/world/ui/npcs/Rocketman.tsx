@@ -25,6 +25,7 @@ import {
 } from "features/game/events/landExpansion/exchangeFLOWER";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 
 interface Props {
   onClose: () => void;
@@ -152,6 +153,23 @@ export const FlowerExchange: React.FC<FlowerExchangeProps> = ({ onClose }) => {
 
   if (!isFaceVerified({ game: state })) {
     return <FaceRecognition />;
+  }
+
+  if (!hasVipAccess({ game: state })) {
+    return (
+      <div className="p-1">
+        <Label type="warning" icon={flowerIcon}>
+          {t("goblinTrade.vipRequired")}
+        </Label>
+        <Button
+          onClick={() => {
+            onClose();
+          }}
+        >
+          {t("close")}
+        </Button>
+      </div>
+    );
   }
 
   if (showConfirmation) {
