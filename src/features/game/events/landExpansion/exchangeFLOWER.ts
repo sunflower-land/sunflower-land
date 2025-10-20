@@ -31,7 +31,7 @@ export function exchangeFlower({
     }
 
     // If no VIP, throw an error
-    if (!hasVipAccess({ game })) {
+    if (!hasVipAccess({ game, now: createdAt })) {
       throw new Error("VIP is required");
     }
 
