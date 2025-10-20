@@ -547,6 +547,10 @@ import { fetchPet, FetchPetAction } from "./pets/fetchPet";
 import { helpPets, HelpPetsAction } from "./visiting/helpPets";
 import { BulkPlantAction, bulkPlant } from "./landExpansion/bulkPlant";
 import { bulkHarvest, BulkHarvestAction } from "./landExpansion/bulkHarvest";
+import {
+  bulkFertilisePlot,
+  BulkFertilisePlotAction,
+} from "./landExpansion/bulkFertilisePlot";
 import { clearTrades, ClearTradesAction } from "./clearTrades";
 import { placeNFT, PlaceNFTAction } from "./landExpansion/placeNFT";
 import { walkPet, WalkPetAction } from "./pets/walkPet";
@@ -708,7 +712,8 @@ export type PlayingEvent =
   | UpgradeTreeAction
   | BulkPlantAction
   | BulkHarvestAction
-  | BumpkinWaveAction;
+  | BumpkinWaveAction
+  | BulkFertilisePlotAction;
 
 export type LocalVisitingEvent =
   | CollectGarbageAction
@@ -826,6 +831,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "crop.harvested": landExpansionHarvest,
   "crops.bulkHarvested": bulkHarvest,
   "plot.fertilised": landExpansionFertilise,
+  "plots.bulkFertilised": bulkFertilisePlot,
   "crop.removed": landExpansionRemoveCrop,
   "stoneRock.mined": landExpansionMineStone,
   "ironRock.mined": landExpansionIronMine,

@@ -6,7 +6,6 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
 import { Context } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -16,8 +15,6 @@ import {
   getPowerSkills,
 } from "features/game/types/bumpkinSkills";
 import { InventoryItemName } from "features/game/types/game";
-import { CROPS } from "features/game/types/crops";
-import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";
 import {
@@ -115,29 +112,14 @@ const PowerSkillsContent: React.FC<{
 
   const useSkill = () => {
     if (isCropFertiliserSkill) {
-      Object.entries(crops).map(([id, cropPlot]) => {
-        const readyToHarvest =
-          !!cropPlot.crop &&
-          isReadyToHarvest(
-            Date.now(),
-            cropPlot.crop,
-            CROPS[cropPlot.crop.name],
-          );
-        if (!cropPlot.fertiliser && !readyToHarvest) {
-          const state = gameService.send("plot.fertilised", {
-            plotID: id,
-            fertiliser:
-              skillName === "Sprout Surge" ? "Sprout Mix" : "Rapid Root",
-          });
-
-          if (state.context.state.farmActivity?.["Crop Fertilised"] === 1) {
-            gameAnalytics.trackMilestone({
-              event: "Tutorial:Fertilised:Completed",
-            });
-          }
-        }
+      gameService.send("plots.bulkFertilised", {
+        fertiliser: skillName === "Sprout Surge" ? "Sprout Mix" : "Rapid Root",
       });
-    } else if (isFruitFertiliserSkill) {
+
+      return;
+    }
+
+    if (isFruitFertiliserSkill) {
       Object.entries(fruitPatches).map(([id, fruitPatch]) => {
         if (!fruitPatch.fertiliser) {
           gameService.send("fruitPatch.fertilised", {
@@ -146,9 +128,11 @@ const PowerSkillsContent: React.FC<{
           });
         }
       });
-    } else {
-      gameService.send("skill.used", { skill: skillName });
+
+      return;
     }
+
+    gameService.send("skill.used", { skill: skillName });
   };
 
   const boostedCooldown = getSkillCooldown({ cooldown: cooldown ?? 0, state });
