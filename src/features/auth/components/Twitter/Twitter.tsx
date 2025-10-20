@@ -29,6 +29,7 @@ import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { Box } from "components/ui/Box";
 import giftIcon from "assets/icons/gift.png";
 import { hasFeatureAccess } from "lib/flags";
+import { RONIN_PACK_IMAGES } from "features/roninAirdrop/RoninAirdrop";
 
 const TWITTER_POST_DESCRIPTIONS: Record<TwitterPostName, TranslationKeys> = {
   FARM: "twitter.post.farm",
@@ -519,7 +520,7 @@ const RoninAirdrop: React.FC<{
 
   const handleDownload = async () => {
     try {
-      const response = await fetch(SUNNYSIDE.announcement.roninAirdropHires);
+      const response = await fetch(RONIN_PACK_IMAGES[reward ?? "Bronze Pack"]);
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
 
@@ -589,8 +590,8 @@ const RoninAirdrop: React.FC<{
 
       <div className="relative">
         <img
-          src={SUNNYSIDE.announcement.roninAirdropHires}
-          className="w-full my-2"
+          src={RONIN_PACK_IMAGES[reward ?? "Bronze Pack"]}
+          className="w-full sm:w-2/3 rounded-md my-2 mx-auto"
         />
         <div
           className="absolute bottom-2 right-2 h-12 w-12 cursor-pointer"

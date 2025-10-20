@@ -12,7 +12,6 @@ import { NPC_WEARABLES } from "lib/npcs";
 import classNames from "classnames";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { Label } from "components/ui/Label";
-import giftIcon from "assets/icons/gift.png";
 import whaleIcon from "assets/icons/whale.webp";
 import speakerIcon from "assets/icons/speaker.webp";
 import twitterIcon from "assets/icons/world_book.webp";
@@ -24,7 +23,6 @@ import walletIcon from "assets/icons/wallet.png";
 import vipIcon from "assets/icons/vip.webp";
 import { InventoryItemName } from "features/game/types/game";
 import { BumpkinItem } from "features/game/types/bumpkin";
-import { Box } from "components/ui/Box";
 import confetti from "canvas-confetti";
 import { RoninV2PackName } from "features/wallet/lib/ronin";
 import { getRoninPack } from "./actions/getRoninPack";
@@ -276,6 +274,15 @@ export const RoninAirdrop: React.FC<{ onClose?: () => void }> = ({
   );
 };
 
+export const RONIN_PACK_IMAGES: Record<RoninV2PackName, string> = {
+  "Bronze Pack": SUNNYSIDE.announcement.bronze_claimed,
+  "Silver Pack": SUNNYSIDE.announcement.silver_claimed,
+  "Gold Pack": SUNNYSIDE.announcement.gold_claimed,
+  "Platinum Pack": SUNNYSIDE.announcement.platinum_claimed,
+  "Legendary Pack": SUNNYSIDE.announcement.legendary_claimed,
+  "Whale Pack": SUNNYSIDE.announcement.whale_claimed,
+};
+
 export const RoninEligibility = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [reward, setReward] = useState<RoninPackName | null>(null);
@@ -327,16 +334,17 @@ export const RoninEligibility = () => {
 
   if (reward) {
     return (
-      <div>
+      <div className="flex flex-col items-center">
         <Label type="warning" className="ml-1">
           {reward}
         </Label>
-        <div className="flex items-center ">
-          <Box image={giftIcon} />
-          <div className="ml-1">
-            <p className="text-sm">{`1 x ${reward}`}</p>
-          </div>
-        </div>
+        <p className="text-sm my-2 text-center">{`Congratulations, you are eligible for the ${reward}!`}</p>
+
+        <img
+          src={RONIN_PACK_IMAGES[reward]}
+          className="w-full sm:w-2/3 rounded-md my-2"
+        />
+        <div className="flex items-center "></div>
 
         {twitterUrl && (
           <div className="p-2 mb-1">
