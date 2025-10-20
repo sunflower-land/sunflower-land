@@ -91,7 +91,7 @@ const FEATURE_FLAGS = {
   RONIN_AIRDROP: (game: GameState) => {
     if (Date.now() > RONIN_AIRDROP_ENDDATE.getTime()) return false;
 
-    return defaultFeatureFlag(game);
+    return betaTimeBasedFeatureFlag(new Date("2025-10-21T00:00:00Z"))(game);
   },
 
   // Permanent Feature Flags
