@@ -350,11 +350,18 @@ export const RoninEligibility = () => {
 
         {twitterUrl && (
           <div className="p-2 mb-1">
+            <Label type="warning">{t("ronin.airdrop.howToClaim")}</Label>
             <p className="text-xs">{t("ronin.airdrop.loginToClaim")}</p>
             <p className="text-xs">{t("ronin.airdrop.openRewardsSection")}</p>
             <p className="text-xs">
               {t("ronin.airdrop.connectTwitterAccount")}
             </p>
+            <p className="text-xs italic">{t("ronin.airdrop.bonus")}</p>
+          </div>
+        )}
+        {address && (
+          <div className="p-2 mb-1 text-center">
+            <p className="text-xs">{t("ronin.airdrop.wallet")}</p>
           </div>
         )}
         {claimed && (
@@ -377,6 +384,8 @@ export const RoninEligibility = () => {
 
   return (
     <div>
+      <Label type="formula">{t("ronin.airdrop.enterDetails")}</Label>
+      <p className="text-sm my-2 mx-1">{t("ronin.airdrop.claim.two")}</p>
       <Label className="ml-2 mb-2" type="default" icon={SUNNYSIDE.icons.search}>
         {t("ronin.airdrop.twitterUrl")}
       </Label>
