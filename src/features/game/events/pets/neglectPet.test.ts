@@ -21,7 +21,7 @@ describe("neglectPet", () => {
             common: {
               Barkley: {
                 name: "Barkley",
-                requests: { food: [] },
+                requests: { food: [], fedAt: now },
                 energy: 100,
                 experience: 0,
                 pettedAt: now,

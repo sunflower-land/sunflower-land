@@ -106,6 +106,7 @@ describe("feedPet", () => {
                 name: "Barkley",
                 requests: {
                   food: [],
+                  fedAt: now,
                 },
                 energy: 100,
                 experience: 0,
@@ -143,6 +144,7 @@ describe("feedPet", () => {
                 name: "Barkley",
                 requests: {
                   food: ["Pumpkin Soup", "Roast Veggies", "Antipasto"],
+                  fedAt: now,
                 },
                 energy: 100,
                 experience: 0,
@@ -334,6 +336,7 @@ describe("feedPet", () => {
                 requests: {
                   food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
                   foodFed: [],
+                  fedAt: now,
                 },
                 energy: 100,
                 experience: 0,
@@ -419,6 +422,7 @@ describe("feedPet", () => {
               requests: {
                 food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
                 foodFed: [],
+                fedAt: now,
               },
               energy: 0,
               experience: 100,
@@ -491,6 +495,7 @@ describe("feedPet", () => {
               pettedAt: now,
               requests: {
                 food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+                fedAt: 0,
               },
               coordinates: { x: 1, y: 1 },
             },
@@ -521,6 +526,7 @@ describe("feedPet", () => {
               requests: {
                 food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
                 foodFed: [],
+                fedAt: now,
               },
               energy: 0,
               experience: 1500, // Level 5
@@ -566,6 +572,7 @@ describe("feedPet", () => {
               requests: {
                 food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
                 foodFed: [],
+                fedAt: now,
               },
               energy: 0,
               experience: 1500, // Level 5
@@ -613,6 +620,7 @@ describe("feedPet", () => {
               requests: {
                 food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
                 foodFed: [],
+                fedAt: now,
               },
               energy: 0,
               experience: level27XP, // Level 27
@@ -665,6 +673,7 @@ describe("feedPet", () => {
               requests: {
                 food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
                 foodFed: [],
+                fedAt: now,
               },
               energy: 0,
               experience: level40XP, // Level 40
@@ -709,6 +718,7 @@ describe("feedPet", () => {
               requests: {
                 food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
                 foodFed: [],
+                fedAt: now,
               },
               energy: 0,
               experience: level85XP, // Level 85
@@ -745,6 +755,7 @@ describe("feedPet", () => {
         name: "Barkley",
         requests: {
           food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+          fedAt: now,
         },
         energy: 100,
         experience: 0,
@@ -766,6 +777,7 @@ describe("feedPet", () => {
         name: "Barkley",
         requests: {
           food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+          fedAt: now,
         },
         energy: 100,
         experience: 5500, // Level 10

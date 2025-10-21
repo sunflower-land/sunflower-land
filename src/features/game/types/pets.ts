@@ -91,7 +91,7 @@ export type Pet = {
   requests: {
     food: CookableName[];
     foodFed?: CookableName[];
-    fedAt?: number;
+    fedAt: number;
     resets?: {
       [date: string]: number;
     };
@@ -670,7 +670,7 @@ export function isPetNeglected(
 
   const PET_NEGLECT_DAYS = isPetNFT(pet) ? 7 : 3;
 
-  const lastFedAt = pet.requests.fedAt ?? createdAt; // Default to createdAt otherwise the pet will be neglected if it hasn't been fed before
+  const lastFedAt = pet.requests.fedAt;
   const lastFedAtDate = new Date(lastFedAt).toISOString().split("T")[0];
   const todayDate = new Date(createdAt).toISOString().split("T")[0];
   const daysSinceLastFedMs =
@@ -709,7 +709,6 @@ export function isPetOfTypeFed({
   const isPetOfTypeFed = petsOfType.some((pet) => {
     if (pet.id === id) return false;
     const lastFedAt = pet.requests.fedAt;
-    if (!lastFedAt) return false;
     const todayDate = new Date(now).toISOString().split("T")[0];
     const lastFedAtDate = new Date(lastFedAt).toISOString().split("T")[0];
     return lastFedAtDate === todayDate;

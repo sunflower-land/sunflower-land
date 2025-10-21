@@ -96,6 +96,7 @@ export function placeCollectible({
           energy: 0,
           requests: {
             food: [], // Pet Requests are populated on the server
+            fedAt: createdAt,
           },
           pettedAt: createdAt,
         };
