@@ -286,6 +286,7 @@ export const RONIN_PACK_IMAGES: Record<RoninV2PackName, string> = {
 export const RoninEligibility = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [reward, setReward] = useState<RoninPackName | null>(null);
+  const [claimed, setClaimed] = useState<boolean>(false);
 
   const [address, setAddress] = useState("");
   const [twitterUrl, setTwitterUrl] = useState("");
@@ -319,12 +320,13 @@ export const RoninEligibility = () => {
   const check = async () => {
     setIsLoading(true);
 
-    const { reward } = await getRoninPack({ address, twitterUrl });
+    const { reward, claimed } = await getRoninPack({ address, twitterUrl });
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     confetti();
 
     setReward(reward);
+    setClaimed(claimed);
     setIsLoading(false);
   };
 
@@ -355,13 +357,20 @@ export const RoninEligibility = () => {
             </p>
           </div>
         )}
-        <Button
-          onClick={() => {
-            window.open(`https://sunflower-land.com/play/#/`, "_blank");
-          }}
-        >
-          {t("ronin.airdrop.loginToClaim")}
-        </Button>
+        {claimed && (
+          <Label type="success" className="ml-1">
+            {t("ronin.airdrop.claimed")}
+          </Label>
+        )}
+        {!claimed && (
+          <Button
+            onClick={() => {
+              window.open(`https://sunflower-land.com/play/#/`, "_blank");
+            }}
+          >
+            {t("ronin.airdrop.loginToClaim")}
+          </Button>
+        )}
       </div>
     );
   }
