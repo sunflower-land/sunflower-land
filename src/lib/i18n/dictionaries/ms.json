@@ -6690,7 +6690,6 @@
   "ronin.airdrop.twitterUrl": "URL Twitter",
   "ronin.airdrop.twitterUrlPlaceholder": "https://x.com/bumpkinbuilder",
   "ronin.airdrop.twitterUrlError": "Sila masukkan URL Twitter/X yang sah (mis., https://x.com/username)",
-  "ronin.airdrop.roninWalletAddress": "Alamat Dompet Ronin",
   "ronin.airdrop.walletAddressPlaceholder": "0xD8DA6B... AA96045",
   "ronin.airdrop.walletAddressError": "Sila masukkan alamat dompet yang sah (0x diikuti dengan 40 aksara hex)",
   "ronin.airdrop.connectTwitterAccount": "Sambungkan akaun Twitter anda & tuntut hadiah anda",
@@ -6721,5 +6720,11 @@
   "marketplace.pets": "NFT haiwan peliharaan",
   "ronin.airdrop.openRewardsSection": "Buka bahagian Dapatkan di bahagian kiri lop",
   "rocketman.vip": "Anda perlu menjadi VIP untuk menukar Love Charms dengan FLOWER.",
-  "ronin.airdrop.claimed": "Ganjaran dituntut"
+  "ronin.airdrop.claimed": "Ganjaran dituntut",
+  "ronin.airdrop.roninWalletAddress": "Alamat Dompet",
+  "ronin.airdrop.claim.two": "Anda mungkin layak mendapat 2 ganjaran berasingan! Masukkan URL Twitter dan alamat dompet anda untuk memeriksa kelayakan anda.",
+  "ronin.airdrop.howToClaim": "Bagaimana untuk menuntut",
+  "ronin.airdrop.bonus": "Ganjaran Twitter adalah ganjaran tambahan yang anda perolehi di atas airdrop berasaskan alamat Ronin kami.",
+  "ronin.airdrop.wallet": "Ini mestilah dompet yang dipautkan yang anda gunakan untuk bermain Sunflower Land",
+  "ronin.airdrop.enterDetails": "Masukkan butiran anda"
 }

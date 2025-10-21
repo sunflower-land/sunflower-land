@@ -6690,7 +6690,6 @@
   "ronin.airdrop.twitterUrl": "트위터 URL",
   "ronin.airdrop.twitterUrlPlaceholder": "https://x.com/bumpkinbuilder",
   "ronin.airdrop.twitterUrlError": "유효한 트위터/X URL을 입력하세요 (예: https://x.com/username)",
-  "ronin.airdrop.roninWalletAddress": "로닌 지갑 주소",
   "ronin.airdrop.walletAddressPlaceholder": "0xD8DA6b... AA96045",
   "ronin.airdrop.walletAddressError": "유효한 지갑 주소 (0x 다음에 40개의 16진수) 를 입력하십시오.",
   "ronin.airdrop.connectTwitterAccount": "트위터 계정을 연결하고 상품을 받으세요",
@@ -6721,5 +6720,11 @@
   "marketplace.pets": "반려동물 NFT",
   "ronin.airdrop.openRewardsSection": "왼쪽 상단에서 수익 창출 섹션을 엽니다.",
   "rocketman.vip": "러브 부적을 FLOWER로 교환하려면 VIP가 되셔야 합니다.",
-  "ronin.airdrop.claimed": "보상 청구"
+  "ronin.airdrop.claimed": "보상 청구",
+  "ronin.airdrop.roninWalletAddress": "월렛 주소",
+  "ronin.airdrop.claim.two": "2개의 별도 보상을 받을 수 있습니다!트위터 URL과 지갑 주소를 입력하여 자격을 확인하세요.",
+  "ronin.airdrop.howToClaim": "청구 방법",
+  "ronin.airdrop.bonus": "트위터 리워드는 로닌 주소 기반 에어드랍 외에 추가로 받는 보상입니다.",
+  "ronin.airdrop.wallet": "선플라워 랜드를 플레이할 때 사용하는 연결된 지갑이어야 합니다.",
+  "ronin.airdrop.enterDetails": "세부 정보 입력"
 }

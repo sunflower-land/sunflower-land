@@ -6690,7 +6690,6 @@
   "ronin.airdrop.twitterUrl": "Twitter 链接",
   "ronin.airdrop.twitterUrlPlaceholder": "https://x.com/bumpkinbuilder",
   "ronin.airdrop.twitterUrlError": "请输入有效的 Twitter/X 网址（例如 https://x.com/username）",
-  "ronin.airdrop.roninWalletAddress": "Ronin 钱包地址",
   "ronin.airdrop.walletAddressPlaceholder": "0xd8da6b... aa96045",
   "ronin.airdrop.walletAddressError": "请输入有效的钱包地址（0x 后面是 40 个十六进制字符）",
   "ronin.airdrop.connectTwitterAccount": "连接你的 Twitter 账号并领取奖励",
@@ -6721,5 +6720,11 @@
   "marketplace.pets": "宠物 NFT",
   "ronin.airdrop.openRewardsSection": "打开左侧循环中的 “赚钱” 部分",
   "rocketman.vip": "你需要成为 VIP 才能用爱情护身符兑换 FLOWER。",
-  "ronin.airdrop.claimed": "已领取奖励"
+  "ronin.airdrop.claimed": "已领取奖励",
+  "ronin.airdrop.roninWalletAddress": "钱包地址",
+  "ronin.airdrop.claim.two": "您可能有资格获得 2 个单独的奖励！输入你的 Twitter 网址和钱包地址以查看你的资格。",
+  "ronin.airdrop.howToClaim": "如何索赔",
+  "ronin.airdrop.bonus": "Twitter 奖励是您在我们基于 Ronin 地址的空投基础上获得的额外奖励。",
+  "ronin.airdrop.wallet": "这必须是你玩向日葵乐园时使用的关联钱包",
+  "ronin.airdrop.enterDetails": "输入您的详细信息"
 }
