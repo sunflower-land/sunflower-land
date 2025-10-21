@@ -16,6 +16,7 @@ describe("bulkFeedPets", () => {
                 name: "Barkley",
                 requests: {
                   food: ["Bumpkin Salad"],
+                  fedAt: now,
                 },
                 energy: 0,
                 experience: 0,
@@ -25,6 +26,7 @@ describe("bulkFeedPets", () => {
                 name: "Meowchi",
                 requests: {
                   food: ["Bumpkin Salad"],
+                  fedAt: now,
                 },
                 energy: 0,
                 experience: 0,
@@ -57,6 +59,7 @@ describe("bulkFeedPets", () => {
             name: "Barkley",
             requests: {
               food: ["Bumpkin Salad"],
+              fedAt: now,
             },
             energy: 0,
             experience: 0,
@@ -66,6 +69,7 @@ describe("bulkFeedPets", () => {
             name: "Meowchi",
             requests: {
               food: ["Bumpkin Salad"],
+              fedAt: now,
             },
             energy: 0,
             experience: 0,
