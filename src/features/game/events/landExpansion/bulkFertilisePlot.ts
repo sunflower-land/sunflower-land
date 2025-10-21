@@ -19,7 +19,7 @@ type Options = {
   createdAt?: number;
 };
 
-const getPlotsToFertilise = (state: GameState, createdAt: number) => {
+export const getPlotsToFertilise = (state: GameState, createdAt: number) => {
   return Object.entries(state.crops).filter(([, plot]) => {
     return (
       plot.x !== undefined &&
