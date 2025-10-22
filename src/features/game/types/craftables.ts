@@ -1206,6 +1206,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Pharaoh's Treasure Banner": { width: 1, height: 2 },
   "Lifetime Farmer Banner": { width: 1, height: 2 },
   "Better Together Banner": { width: 1, height: 2 },
+  "Paw Prints Banner": { width: 1, height: 2 },
 
   // Dawn Breaker SFTs
   "Mushroom House": { height: 3, width: 2 },

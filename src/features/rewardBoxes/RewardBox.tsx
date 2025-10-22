@@ -83,7 +83,7 @@ export const OpeningBox: React.FC<{ name: RewardBoxName }> = ({ name }) => {
       setIsReady(readyToView);
     }, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [name]);
 
   // Get all available rarecrow names
   const itemNames: BoxRewardName[] = REWARD_BOXES[name].rewards.reduce(

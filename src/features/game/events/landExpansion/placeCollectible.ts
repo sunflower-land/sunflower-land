@@ -15,6 +15,7 @@ import {
   TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { COMPETITION_POINTS } from "features/game/types/competitions";
 
 export type PlaceCollectibleAction = {
   type: "collectible.placed";
@@ -55,6 +56,13 @@ export function placeCollectible({
       collectible,
     );
 
+    if (
+      action.name === "Fox Shrine" &&
+      createdAt < COMPETITION_POINTS.BUILDING_FRIENDSHIPS.endAt
+    ) {
+      throw new Error("You cannot place this item");
+    }
+
     if (!inventoryItemBalance || inventoryItemBalance.lte(0)) {
       throw new Error("You can't place an item that is not on the inventory");
     }
@@ -88,6 +96,7 @@ export function placeCollectible({
           energy: 0,
           requests: {
             food: [], // Pet Requests are populated on the server
+            fedAt: createdAt,
           },
           pettedAt: createdAt,
         };

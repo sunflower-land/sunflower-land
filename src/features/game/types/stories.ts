@@ -1,5 +1,4 @@
 import { NPCName } from "lib/npcs";
-import { SeasonName } from "./seasons";
 import { translate } from "lib/i18n/translate";
 
 /**
@@ -76,7 +75,7 @@ export const STORY_NPCS: Partial<
   },
   raven: {
     about:
-      "A mysterious potion maker who deals in dark magic and shadowy crops. Occassionally caught creating potions in the dark.",
+      "A mysterious potion maker who deals in dark magic and shadowy crops. Occasionally caught creating potions in the dark.",
     personality: "Dark, Gothic, Mysterious",
     likes: "Dark crops, Potions, Spellwork, Shadows",
     dislikes: "Bright things, Cheerfulness",
@@ -185,52 +184,6 @@ export const STORY_NPCS: Partial<
     likes: "Exploration, Discoveries, Adventure",
     dislikes: "Staying in one place, Routine",
   },
-};
-
-const SEASONAL_LORE: Record<SeasonName, string> = {
-  "Solar Flare": "",
-  "Dawn Breaker": "",
-  "Witches' Eve": "",
-  "Catch the Kraken": "",
-  "Clash of Factions": "",
-  "Spring Blossom": "",
-  "Pharaoh's Treasure": "",
-  "Bull Run": `
-    The Bull Run celebrates the launch of animals at Sunflower Land.
-
-    Bumpkins are frantically trying to collect horseshoes to exchange for goods. It has become the currency choice of the season.
-
-    There have been strange sightings of large objects in the sky and creatures in the fields. Chase has also been reporting missing farm animals. All Bumpkins are on the lookout and worried about these sightings, unsure whether they are Nightshade related or some other mysterious creatures.
-
-    Peggy is frantically trying to keep up with the demand for recipes with the new animal products.
-
-    Gordo is in love with the latest cheese, spaghetti and pizza recipes.
-
-    The Blacksmith is worried about the crafting box launch and the impact it will have on his business.
-
-    Miranda is unsure about Tomatos being a fruit or a vegetable.
-
-    Betty has never been busier at the Farmers Market. There is a serious shortage of Wheat, Corn and Barley to keep up with the demand for animal feed.
-
-    Raven prophesizes about a dark sheep that can turn the tides of Sunflower Land.
-
-    Cornwell speculates about a dangerous storm brewing in the distance.
-
-    Finley has spotted a strange cow like creature in the depths of the ocean.
-
-    Guria mentions making contact with another green creature, however it was unlike any Goblin she had met before.
-
-    Petro continues to complain about the oil shortage.
-
-    Birdie is excited about the new Megastore format and epic sales.
-
-    Tywin is planning to add a new tax on all animal products.
-
-    Old Salty has a stockpile of cow skulls he has been digging up.
-  `,
-  "Winds of Change": "",
-  "Great Bloom": "",
-  "Better Together": "",
 };
 
 export const CHORE_DIALOGUES: Partial<Record<NPCName, string[]>> = {

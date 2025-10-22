@@ -35,6 +35,11 @@ export function getItemId({
     return Number(id);
   }
 
+  if (collection === "pets") {
+    const [_, id] = name.split("#");
+    return Number(id);
+  }
+
   if (collection === "wearables") {
     return ITEM_IDS[name as BumpkinItem];
   }

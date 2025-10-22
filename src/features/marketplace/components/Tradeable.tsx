@@ -82,6 +82,10 @@ export const Tradeable: React.FC = () => {
     count = game.buds?.[Number(id)] ? 1 : 0;
   }
 
+  if (display.type === "pets") {
+    count = game.pets?.nfts?.[Number(id)] ? 1 : 0;
+  }
+
   const {
     data: tradeable,
     error,

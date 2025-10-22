@@ -29,12 +29,12 @@ import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { Box } from "components/ui/Box";
 import giftIcon from "assets/icons/gift.png";
 import { hasFeatureAccess } from "lib/flags";
+import { RONIN_PACK_IMAGES } from "features/roninAirdrop/RoninAirdrop";
 
 const TWITTER_POST_DESCRIPTIONS: Record<TwitterPostName, TranslationKeys> = {
   FARM: "twitter.post.farm",
   WEEKLY: "twitter.post.weekly",
   RONIN: "twitter.post.ronin",
-  VOTE: "twitter.post.vote",
 };
 
 export const Twitter: React.FC<{ onClose: () => void }> = ({ onClose }) => (
@@ -352,101 +352,6 @@ const TwitterFarm: React.FC<{ onClose: () => void; onVerify?: () => void }> = ({
   );
 };
 
-const TwitterVote: React.FC<{ onClose: () => void; onVerify?: () => void }> = ({
-  onClose,
-  onVerify,
-}) => {
-  const { gameState } = useGame();
-  const { t } = useAppTranslation();
-
-  const twitter = gameState.context.state.twitter;
-
-  // In last 7 days
-  const hasCompleted =
-    (twitter?.tweets?.VOTE?.completedAt ?? 0) >
-    Date.now() - 7 * 24 * 60 * 60 * 1000;
-
-  const handleDownload = async () => {
-    try {
-      const response = await fetch(SUNNYSIDE.announcement.vote_flower);
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "ronin-rewards.png";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    } catch (error) {
-      alert("Long press the image and select 'Download' manually.");
-    }
-  };
-
-  return (
-    <>
-      <div className="flex  gap-1">
-        <Label type="default" className="mr-2">
-          {t("twitter.vote.share")}
-        </Label>
-        <div className="flex flex-wrap justify-between">
-          {hasCompleted ? (
-            <Label type="success" className="mr-2">
-              {t("completed")}
-            </Label>
-          ) : (
-            <div className="flex gap-1">
-              {
-                // Loop through rewards and give label
-                getKeys(TWITTER_REWARDS.VOTE.items).map((name) => (
-                  <Label
-                    type="warning"
-                    key={name}
-                    icon={ITEM_DETAILS[name].image}
-                  >
-                    {`${name} x ${TWITTER_REWARDS.VOTE.items[name]}`}
-                  </Label>
-                ))
-              }
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div className="relative">
-        <img src={SUNNYSIDE.announcement.vote_flower} className="w-full my-2" />
-        <div
-          className="absolute bottom-2 right-2 h-12 w-12 cursor-pointer"
-          onClick={handleDownload}
-        >
-          <img src={SUNNYSIDE.icons.disc} className="w-full" />
-          <div className="absolute inset-0 flex items-center justify-center w-full h-full">
-            <img src={saveIcon} className="w-6" />
-          </div>
-        </div>
-      </div>
-
-      <p className="text-xs mx-1 my-1">{t("twitter.vote.instructions.1")}</p>
-      <p className="text-xs mx-1 mb-2">
-        {t("twitter.vote.instructions.2", { hashtag: TWITTER_HASHTAGS.VOTE })}
-      </p>
-      <p className="text-xs mx-1 mb-2">{t("twitter.vote.instructions.3")}</p>
-
-      <div className="flex">
-        <Button className="mr-1" onClick={onClose}>
-          {t("back")}
-        </Button>
-        {onVerify && (
-          <Button disabled={hasCompleted} onClick={onVerify}>
-            {t("twitter.verify.button")}
-          </Button>
-        )}
-      </div>
-    </>
-  );
-};
-
 const TwitterWeekly: React.FC<{
   onClose: () => void;
   onVerify?: () => void;
@@ -615,7 +520,7 @@ const RoninAirdrop: React.FC<{
 
   const handleDownload = async () => {
     try {
-      const response = await fetch(SUNNYSIDE.announcement.roninAirdropHires);
+      const response = await fetch(RONIN_PACK_IMAGES[reward ?? "Bronze Pack"]);
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
 
@@ -685,8 +590,8 @@ const RoninAirdrop: React.FC<{
 
       <div className="relative">
         <img
-          src={SUNNYSIDE.announcement.roninAirdropHires}
-          className="w-full my-2"
+          src={RONIN_PACK_IMAGES[reward ?? "Bronze Pack"]}
+          className="w-full sm:w-2/3 rounded-md my-2 mx-auto"
         />
         <div
           className="absolute bottom-2 right-2 h-12 w-12 cursor-pointer"
@@ -717,6 +622,5 @@ const TWITTER_COMPONENTS: Record<
 > = {
   FARM: TwitterFarm,
   WEEKLY: TwitterWeekly,
-  VOTE: TwitterVote,
   RONIN: RoninAirdrop, // Handle differently for special reward
 };

@@ -91,7 +91,7 @@ const FEATURE_FLAGS = {
   RONIN_AIRDROP: (game: GameState) => {
     if (Date.now() > RONIN_AIRDROP_ENDDATE.getTime()) return false;
 
-    return adminFeatureFlag(game);
+    return betaTimeBasedFeatureFlag(new Date("2025-10-21T00:00:00Z"))(game);
   },
 
   // Permanent Feature Flags
@@ -118,7 +118,8 @@ const FEATURE_FLAGS = {
 
   BLESSING: () => true,
 
-  PETS: testnetFeatureFlag,
+  PETS: defaultFeatureFlag,
+  PET_HOUSE: testnetFeatureFlag,
   FLOWER_INSTA_GROW: defaultFeatureFlag,
   OBSIDIAN_SHRINE: defaultFeatureFlag,
 
@@ -127,10 +128,12 @@ const FEATURE_FLAGS = {
   OBSIDIAN_EXCHANGE: testnetFeatureFlag,
   GASLESS_AUCTIONS: () => true,
   NODE_FORGING: defaultFeatureFlag,
-  DEPOSIT_SFL: adminTimeBasedFeatureFlag(new Date("2025-08-28T00:00:00.000Z")),
-  RONIN_FLOWER: adminFeatureFlag,
+  DEPOSIT_SFL: () =>
+    Date.now() < new Date("2025-10-28T00:00:00.000Z").getTime(),
+  RONIN_FLOWER: betaTimeBasedFeatureFlag(new Date("2025-10-21T00:00:00Z")),
   MEMORY_BETA: defaultFeatureFlag,
   PET_NFT_DEPOSIT: testnetFeatureFlag,
+  PET_NFT_MARKETPLACE: testnetFeatureFlag,
   BUILDING_FRIENDSHIPS: betaTimeBasedFeatureFlag(
     new Date("2025-10-13T00:00:00Z"),
   ),

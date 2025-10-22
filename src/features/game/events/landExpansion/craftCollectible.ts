@@ -98,12 +98,8 @@ export function craftCollectible({
       throw new Error("Pet Shop is not available");
     }
 
-    if (stateCopy.stock[action.name]?.lt(1)) {
-      throw new Error("Not enough stock");
-    }
-
-    if (bumpkin === undefined) {
-      throw new Error("You do not have a Bumpkin!");
+    if (item.disabled) {
+      throw new Error("Item is disabled");
     }
 
     if (item.from && item.from?.getTime() > createdAt) {
@@ -206,7 +202,6 @@ export function craftCollectible({
       ...subtractedInventory,
       [action.name]: oldAmount.add(1) as Decimal,
     };
-    stateCopy.stock[action.name] = stateCopy.stock[action.name]?.minus(1);
 
     if (isKey(action.name)) {
       const keyBoughtAt =

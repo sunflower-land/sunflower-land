@@ -18,6 +18,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { PetShrineName } from "features/game/types/pets";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { COMPETITION_POINTS } from "features/game/types/competitions";
 
 const PET_SHRINE_DIMENSIONS: Record<
   PetShrineName,
@@ -172,6 +173,12 @@ export const PetShrine: React.FC<
             </span>
           </Label>
           <SFTDetailPopoverBuffs name={name} />
+          {name === "Fox Shrine" &&
+            Date.now() < COMPETITION_POINTS.BUILDING_FRIENDSHIPS.endAt && (
+              <Label type="danger" icon={SUNNYSIDE.icons.cancel}>
+                {t("error.cannotPlaceFoxShrine")}
+              </Label>
+            )}
         </SFTDetailPopoverInnerPanel>
       </PopoverPanel>
     </Popover>

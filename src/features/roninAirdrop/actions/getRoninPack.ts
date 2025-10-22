@@ -3,6 +3,7 @@ import { RoninPackName } from "../RoninAirdrop";
 
 export type RoninPackData = {
   reward: RoninPackName;
+  claimed: boolean;
 };
 
 export const getRoninPack = async ({

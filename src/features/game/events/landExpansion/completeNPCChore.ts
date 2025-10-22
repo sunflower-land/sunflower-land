@@ -91,11 +91,17 @@ export const CHAPTER_TICKET_BOOST_ITEMS: Record<
     epic: "Heart Air Balloon",
   },
 
-  // TODO: Add Better Together items
   "Better Together": {
     basic: "Garbage Bin Hat",
     rare: "Raccoon Onesie",
     epic: "Recycle Shirt",
+  },
+
+  // TODO: Add Paw Prings items
+  "Paw Prints": {
+    basic: "Cow Scratcher",
+    rare: "Cow Scratcher",
+    epic: "Cow Scratcher",
   },
 };
 

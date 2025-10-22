@@ -603,7 +603,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   flower: {},
   bumpkin: {
     equipped: INITIAL_EQUIPMENT as Equipped,
-    experience: 100000,
+    experience: 10,
 
     id: 1,
     skills: {

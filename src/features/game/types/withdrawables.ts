@@ -466,43 +466,37 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
 
   "Recycle Shirt": {
     tradeAt: SEASONS["Better Together"].endDate,
-    withdrawAt: SEASONS["Better Together"].endDate,
+    withdrawAt: new Date("2025-12-03T00:00:00Z"),
   },
   "Pickaxe Shark": {
     tradeAt: SEASONS["Better Together"].endDate,
-    withdrawAt: SEASONS["Better Together"].endDate,
+    withdrawAt: new Date("2025-12-03T00:00:00Z"),
   },
   "Garbage Bin Hat": {
     tradeAt: SEASONS["Better Together"].endDate,
-    withdrawAt: SEASONS["Better Together"].endDate,
+    withdrawAt: new Date("2025-12-03T00:00:00Z"),
   },
   "Turd Topper": {
     tradeAt: SEASONS["Better Together"].endDate,
-    withdrawAt: SEASONS["Better Together"].endDate,
+    withdrawAt: new Date("2025-12-03T00:00:00Z"),
   },
   "Architect Ruler": {
     tradeAt: SEASONS["Better Together"].endDate,
-    withdrawAt: SEASONS["Better Together"].endDate,
+    withdrawAt: new Date("2025-12-03T00:00:00Z"),
   },
-  "Onion Leek": {
-    tradeAt: SEASONS["Better Together"].endDate,
-    withdrawAt: SEASONS["Better Together"].endDate,
-  },
+  "Onion Leek": undefined, // Not used
   "Oil Gallon": {
-    tradeAt: SEASONS["Better Together"].endDate,
-    withdrawAt: SEASONS["Better Together"].endDate,
+    tradeAt: new Date("2025-10-20T00:00:00Z"),
+    withdrawAt: new Date("2025-12-03T00:00:00Z"),
   },
   "Lava Swimwear": {
-    tradeAt: SEASONS["Better Together"].endDate,
-    withdrawAt: SEASONS["Better Together"].endDate,
+    tradeAt: new Date("2025-10-20T00:00:00Z"),
+    withdrawAt: new Date("2025-12-03T00:00:00Z"),
   },
-  "Wooly Dress": {
-    tradeAt: SEASONS["Better Together"].endDate,
-    withdrawAt: SEASONS["Better Together"].endDate,
-  },
+  "Wooly Dress": undefined, // Not used
   "Raccoon Onesie": {
     tradeAt: SEASONS["Better Together"].endDate,
-    withdrawAt: SEASONS["Better Together"].endDate,
+    withdrawAt: new Date("2025-12-03T00:00:00Z"),
   },
   "Rocket Onesie": {
     tradeAt: new Date("2025-09-12"),
@@ -1156,89 +1150,89 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
     },
     "Floor Mirror": {
       tradeAt: SEASONS["Better Together"].endDate,
-      withdrawAt: SEASONS["Better Together"].endDate,
+      withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
     "Long Rug": {
       tradeAt: SEASONS["Better Together"].endDate,
-      withdrawAt: SEASONS["Better Together"].endDate,
+      withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
     "Garbage Bin": {
       tradeAt: SEASONS["Better Together"].endDate,
-      withdrawAt: SEASONS["Better Together"].endDate,
+      withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
     Wheelbarrow: {
       tradeAt: SEASONS["Better Together"].endDate,
-      withdrawAt: SEASONS["Better Together"].endDate,
+      withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
     "Snail King": {
       tradeAt: SEASONS["Better Together"].endDate,
-      withdrawAt: SEASONS["Better Together"].endDate,
+      withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
     "Reelmaster's Chair": {
       tradeAt: SEASONS["Better Together"].endDate,
-      withdrawAt: SEASONS["Better Together"].endDate,
+      withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
     "Rat King": {
       tradeAt: SEASONS["Better Together"].endDate,
-      withdrawAt: SEASONS["Better Together"].endDate,
+      withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
     "Fruit Tune Box": {
       tradeAt: SEASONS["Better Together"].endDate,
-      withdrawAt: SEASONS["Better Together"].endDate,
+      withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
     // Double bed is not tradeable - explicitly set her to avoid accidental trade
     "Double Bed": undefined,
     "Teamwork Monument": undefined,
     "Giant Artichoke": {
       tradeAt: SEASONS["Better Together"].endDate,
-      withdrawAt: SEASONS["Better Together"].endDate,
+      withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
     "Rocket Statue": {
-      tradeAt: SEASONS["Better Together"].endDate,
-      withdrawAt: SEASONS["Better Together"].endDate,
+      tradeAt: new Date("2025-10-20T00:00:00Z"),
+      withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
     "Ant Queen": {
-      tradeAt: SEASONS["Better Together"].endDate,
-      withdrawAt: SEASONS["Better Together"].endDate,
+      tradeAt: new Date("2025-10-20T00:00:00Z"),
+      withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
     "Jurassic Droplet": {
-      tradeAt: SEASONS["Better Together"].endDate,
-      withdrawAt: SEASONS["Better Together"].endDate,
+      tradeAt: new Date("2025-10-20T00:00:00Z"),
+      withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
     "Giant Onion": {
-      tradeAt: SEASONS["Better Together"].endDate,
-      withdrawAt: SEASONS["Better Together"].endDate,
+      tradeAt: new Date("2025-10-20T00:00:00Z"),
+      withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
     "Giant Turnip": {
-      tradeAt: SEASONS["Better Together"].endDate,
-      withdrawAt: SEASONS["Better Together"].endDate,
+      tradeAt: new Date("2025-10-20T00:00:00Z"),
+      withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
     "Groovy Gramophone": {
-      tradeAt: SEASONS["Better Together"].endDate,
-      withdrawAt: SEASONS["Better Together"].endDate,
+      tradeAt: new Date("2025-10-20T00:00:00Z"),
+      withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
     "Wheat Whiskers": {
       tradeAt: SEASONS["Better Together"].endDate,
-      withdrawAt: SEASONS["Better Together"].endDate,
+      withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
     "Janitor Chicken": {
       tradeAt: SEASONS["Better Together"].endDate,
-      withdrawAt: SEASONS["Better Together"].endDate,
+      withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
     Poseidon: {
       tradeAt: SEASONS["Better Together"].endDate,
-      withdrawAt: SEASONS["Better Together"].endDate,
+      withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
     "Venus Bumpkin Trap": {
       tradeAt: SEASONS["Better Together"].endDate,
-      withdrawAt: SEASONS["Better Together"].endDate,
+      withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
     "Baby Cow": {
       tradeAt: SEASONS["Better Together"].endDate,
-      withdrawAt: SEASONS["Better Together"].endDate,
+      withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
     "Baby Sheep": {
       tradeAt: SEASONS["Better Together"].endDate,
-      withdrawAt: SEASONS["Better Together"].endDate,
+      withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
   };

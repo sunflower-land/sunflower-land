@@ -447,4 +447,49 @@ describe("purchase.claimed", () => {
 
     expect(state.previousWardrobe["Abyssal Angler Hat"]).toStrictEqual(0);
   });
+
+  it("deletes a pet from the seller if somehow it wasn't deleted when the listing was fulfilled", () => {
+    const state = claimPurchase({
+      state: {
+        ...INITIAL_FARM,
+        trades: {
+          listings: {
+            "123": {
+              collection: "pets",
+              items: {
+                "Pet #1": 1,
+              },
+              sfl: 13,
+              createdAt: 0,
+              tradeType: "instant",
+              fulfilledAt: Date.now() - 60 * 1000,
+              fulfilledById: 43,
+            },
+          },
+        },
+        pets: {
+          nfts: {
+            1: {
+              name: "Pet #1",
+              id: 1,
+              requests: {
+                food: [],
+                fedAt: 0,
+              },
+              energy: 0,
+              experience: 0,
+              pettedAt: 0,
+              revealAt: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "purchase.claimed",
+        tradeIds: ["123"],
+      },
+    });
+
+    expect(state.pets?.nfts?.[1]).toBeUndefined();
+  });
 });

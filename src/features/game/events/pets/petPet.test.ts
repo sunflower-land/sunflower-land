@@ -22,7 +22,7 @@ describe("petPet", () => {
               Barkley: {
                 pettedAt: now,
                 name: "Barkley",
-                requests: { food: [] },
+                requests: { food: [], fedAt: now },
                 energy: 0,
                 experience: 0,
               },
@@ -43,7 +43,7 @@ describe("petPet", () => {
             Barkley: {
               pettedAt: now - 2 * 60 * 60 * 1000,
               name: "Barkley",
-              requests: { food: [] },
+              requests: { food: [], fedAt: now },
               energy: 0,
               experience: 0,
             },

@@ -19,7 +19,6 @@ import {
 } from "react-router";
 import { Collection, preloadCollections } from "./Collection";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { TextInput } from "components/ui/TextInput";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -44,6 +43,9 @@ import {
   hasReputation,
   Reputation,
 } from "features/game/lib/reputation";
+import { MarketplaceSearch } from "./MarketplaceSearch";
+import { hasFeatureAccess } from "lib/flags";
+import { GameState } from "features/game/types/game";
 
 const _hasTradeReputation = (state: MachineState) =>
   hasReputation({
@@ -70,6 +72,7 @@ export const MarketplaceNavigation: React.FC = () => {
   const { t } = useTranslation();
 
   const { gameService } = useContext(Context);
+  const state = useSelector(gameService, (state) => state.context.state);
   const price = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
   const { farmId } = gameService.getSnapshot().context;
 
@@ -87,7 +90,11 @@ export const MarketplaceNavigation: React.FC = () => {
     <>
       <Modal show={showFilters} onHide={() => setShowFilters(false)}>
         <CloseButtonPanel>
-          <Filters onClose={() => setShowFilters(false)} farmId={farmId} />
+          <Filters
+            onClose={() => setShowFilters(false)}
+            farmId={farmId}
+            game={state}
+          />
           <EstimatedPrice price={price} />
           {/* Flower Dashboard Button */}
           <Button contentAlign="start" onClick={goToFlowerDashboard}>
@@ -123,32 +130,28 @@ export const MarketplaceNavigation: React.FC = () => {
         </CloseButtonPanel>
       </Modal>
 
-      <div className="flex items-center lg:hidden h-[50px]">
-        <TextInput
-          icon={SUNNYSIDE.icons.search}
-          value={search}
-          onValueChange={setSearch}
-        />
-        <img
-          src={filterIcon}
-          onClick={() => setShowFilters(true)}
-          className="h-8 mx-1 block cursor-pointer"
-        />
+      <div className="flex justify-between lg:hidden h-[50px]">
+        <MarketplaceSearch search={search} setSearch={setSearch} />
+        <div className="flex">
+          <img
+            src={filterIcon}
+            onClick={() => setShowFilters(true)}
+            className="h-9 block mx-1 mt-1 cursor-pointer"
+          />
+        </div>
       </div>
 
+      {/* Desktop */}
       <div className="flex h-[calc(100%-50px)] lg:h-full">
         <div className="w-64  mr-1 hidden lg:flex  flex-col">
           <InnerPanel className="w-full flex-col mb-1">
-            <div className="flex  items-center">
-              <TextInput
-                icon={SUNNYSIDE.icons.search}
-                value={search}
-                onValueChange={setSearch}
-                onCancel={() => setSearch("")}
-              />
-            </div>
+            <MarketplaceSearch search={search} setSearch={setSearch} />
             <div className="flex-1">
-              <Filters onClose={() => setShowFilters(false)} farmId={farmId} />
+              <Filters
+                onClose={() => setShowFilters(false)}
+                farmId={farmId}
+                game={state}
+              />
             </div>
           </InnerPanel>
 
@@ -181,7 +184,12 @@ export const MarketplaceNavigation: React.FC = () => {
 
         <div className="flex-1 flex flex-col w-full">
           {search ? (
-            <Collection search={search} onNavigated={() => setSearch("")} />
+            <Collection
+              search={search}
+              onNavigated={() => {
+                setSearch("");
+              }}
+            />
           ) : (
             <Routes>
               <Route path="/profile" element={<MarketplaceProfile />} />
@@ -264,10 +272,11 @@ const Option: React.FC<OptionProps> = ({
   );
 };
 
-const Filters: React.FC<{ onClose: () => void; farmId: number }> = ({
-  onClose,
-  farmId,
-}) => {
+const Filters: React.FC<{
+  onClose: () => void;
+  farmId: number;
+  game: GameState;
+}> = ({ onClose, farmId, game }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [queryParams] = useSearchParams();
@@ -370,6 +379,32 @@ const Filters: React.FC<{ onClose: () => void; farmId: number }> = ({
               })
             }
             isActive={filters === "collectibles,wearables,cosmetic"}
+            options={
+              filters?.includes("cosmetic")
+                ? [
+                    {
+                      icon: ITEM_DETAILS["Freya Fox"].image,
+                      label: t("marketplace.collectibles"),
+                      isActive: filters === "cosmetic,collectibles",
+                      onClick: () =>
+                        navigateTo({
+                          path: "collection",
+                          filterParams: "cosmetic,collectibles",
+                        }),
+                    },
+                    {
+                      icon: wearableIcon,
+                      label: t("marketplace.wearables"),
+                      isActive: filters === "cosmetic,wearables",
+                      onClick: () =>
+                        navigateTo({
+                          path: "collection",
+                          filterParams: "cosmetic,wearables",
+                        }),
+                    },
+                  ]
+                : undefined
+            }
           />
           <Option
             icon={budIcon}
@@ -382,6 +417,19 @@ const Filters: React.FC<{ onClose: () => void; farmId: number }> = ({
             }
             isActive={filters === "buds"}
           />
+          {hasFeatureAccess(game, "PET_NFT_MARKETPLACE") && (
+            <Option
+              icon={ITEM_DETAILS.Ramsey.image}
+              label={t("marketplace.pets")}
+              onClick={() =>
+                navigateTo({
+                  path: "collection",
+                  filterParams: "pets",
+                })
+              }
+              isActive={filters === "pets"}
+            />
+          )}
         </div>
 
         <div>

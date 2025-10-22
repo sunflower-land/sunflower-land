@@ -53,7 +53,7 @@ export function feedBumpkin({
     // reduce inventory food amount
     inventory[action.food] = inventoryFoodCount.sub(feedAmount);
 
-    // increaes bumpkin experience
+    // increase bumpkin experience
     const { boostedExp: foodExperience, boostsUsed } = getFoodExpBoost({
       food: CONSUMABLES[action.food],
       game: stateCopy,

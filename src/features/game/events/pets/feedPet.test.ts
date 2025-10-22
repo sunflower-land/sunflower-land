@@ -3,6 +3,7 @@ import { INITIAL_FARM } from "features/game/lib/constants";
 import { CookableName } from "features/game/types/consumables";
 import { feedPet, getPetFoodRequests } from "./feedPet";
 import { getPetLevel, Pet } from "features/game/types/pets";
+import { GameState } from "features/game/types/game";
 
 describe("feedPet", () => {
   const now = Date.now();
@@ -105,6 +106,7 @@ describe("feedPet", () => {
                 name: "Barkley",
                 requests: {
                   food: [],
+                  fedAt: now,
                 },
                 energy: 100,
                 experience: 0,
@@ -142,6 +144,7 @@ describe("feedPet", () => {
                 name: "Barkley",
                 requests: {
                   food: ["Pumpkin Soup", "Roast Veggies", "Antipasto"],
+                  fedAt: now,
                 },
                 energy: 100,
                 experience: 0,
@@ -210,6 +213,73 @@ describe("feedPet", () => {
     ).toThrow("Food has been fed today");
   });
 
+  it("doesn't allow player to feed pet twice in a row", () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date("2025-10-16T00:02:00.000Z"));
+
+    let state: GameState = {
+      ...INITIAL_FARM,
+      inventory: {
+        "Bumpkin Salad": new Decimal(10),
+      },
+      pets: {
+        common: {
+          Barkley: {
+            name: "Barkley",
+            requests: {
+              food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+              foodFed: [],
+              fedAt: new Date("2025-10-15T12:00:00.000Z").getTime(),
+            },
+            energy: 100,
+            experience: 0,
+            pettedAt: now,
+          },
+        },
+      },
+      collectibles: {
+        Barkley: [
+          {
+            createdAt: now,
+            id: "1",
+            readyAt: now,
+            coordinates: { x: 1, y: 1 },
+          },
+        ],
+      },
+    };
+
+    state = feedPet({
+      state,
+      action: {
+        type: "pet.fed",
+        petId: "Barkley",
+        food: "Bumpkin Salad",
+      },
+      createdAt: new Date("2025-10-15T23:57:00.000Z").getTime(), // Simulate 5 mins behind server time
+    });
+    expect(state.pets?.common?.Barkley?.requests.foodFed).toEqual<
+      CookableName[]
+    >(["Bumpkin Salad"]);
+    expect(state.pets?.common?.Barkley?.requests.fedAt).toEqual(
+      new Date("2025-10-15T23:57:00.000Z").getTime(),
+    );
+
+    expect(() =>
+      feedPet({
+        state,
+        action: {
+          type: "pet.fed",
+          petId: "Barkley",
+          food: "Bumpkin Salad",
+        },
+        createdAt: Date.now(), // Simulate time after reset time
+      }),
+    ).toThrow("Food has been fed today");
+
+    jest.useRealTimers();
+  });
+
   it("does not throw an error if different food has been fed today", () => {
     expect(() =>
       feedPet({
@@ -266,6 +336,7 @@ describe("feedPet", () => {
                 requests: {
                   food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
                   foodFed: [],
+                  fedAt: now,
                 },
                 energy: 100,
                 experience: 0,
@@ -305,7 +376,7 @@ describe("feedPet", () => {
           pets: {
             nfts: {
               1: {
-                name: "Pet-1",
+                name: "Pet #1",
                 id: 1,
                 revealAt: 0,
                 traits: { type: "Dragon" },
@@ -319,7 +390,7 @@ describe("feedPet", () => {
                 coordinates: { x: 1, y: 1 },
               },
               2: {
-                name: "Pet-2",
+                name: "Pet #2",
                 id: 2,
                 revealAt: 0,
                 traits: { type: "Dragon" },
@@ -351,6 +422,7 @@ describe("feedPet", () => {
               requests: {
                 food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
                 foodFed: [],
+                fedAt: now,
               },
               energy: 0,
               experience: 100,
@@ -400,7 +472,7 @@ describe("feedPet", () => {
         pets: {
           nfts: {
             1: {
-              name: "Pet-1",
+              name: "Pet #1",
               id: 1,
               revealAt: 0,
               traits: { type: "Dragon" },
@@ -414,7 +486,7 @@ describe("feedPet", () => {
               coordinates: { x: 1, y: 1 },
             },
             2: {
-              name: "Pet-2",
+              name: "Pet #2",
               id: 2,
               revealAt: 0,
               traits: { type: "Dragon" },
@@ -423,6 +495,7 @@ describe("feedPet", () => {
               pettedAt: now,
               requests: {
                 food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+                fedAt: 0,
               },
               coordinates: { x: 1, y: 1 },
             },
@@ -453,6 +526,7 @@ describe("feedPet", () => {
               requests: {
                 food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
                 foodFed: [],
+                fedAt: now,
               },
               energy: 0,
               experience: 1500, // Level 5
@@ -498,6 +572,7 @@ describe("feedPet", () => {
               requests: {
                 food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
                 foodFed: [],
+                fedAt: now,
               },
               energy: 0,
               experience: 1500, // Level 5
@@ -545,6 +620,7 @@ describe("feedPet", () => {
               requests: {
                 food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
                 foodFed: [],
+                fedAt: now,
               },
               energy: 0,
               experience: level27XP, // Level 27
@@ -591,12 +667,13 @@ describe("feedPet", () => {
         pets: {
           nfts: {
             1: {
-              name: "Pet-1",
+              name: "Pet #1",
               id: 1,
               revealAt: 0,
               requests: {
                 food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
                 foodFed: [],
+                fedAt: now,
               },
               energy: 0,
               experience: level40XP, // Level 40
@@ -635,12 +712,13 @@ describe("feedPet", () => {
         pets: {
           nfts: {
             1: {
-              name: "Pet-1",
+              name: "Pet #1",
               id: 1,
               revealAt: 0,
               requests: {
                 food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
                 foodFed: [],
+                fedAt: now,
               },
               energy: 0,
               experience: level85XP, // Level 85
@@ -677,6 +755,7 @@ describe("feedPet", () => {
         name: "Barkley",
         requests: {
           food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+          fedAt: now,
         },
         energy: 100,
         experience: 0,
@@ -698,6 +777,7 @@ describe("feedPet", () => {
         name: "Barkley",
         requests: {
           food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+          fedAt: now,
         },
         energy: 100,
         experience: 5500, // Level 10

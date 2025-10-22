@@ -3,7 +3,6 @@ import { Inventory, Keys } from "./game";
 import { translate } from "lib/i18n/translate";
 import { SEASONS } from "./seasons";
 import { ExoticCropName } from "./beans";
-import { WORKBENCH_MONUMENTS, WorkbenchMonumentName } from "./monuments";
 
 export type PlaceableLocation = "farm" | "home";
 export const PLACEABLE_LOCATIONS: PlaceableLocation[] = ["farm", "home"];
@@ -37,8 +36,7 @@ export type HeliosBlacksmithItem =
   | "Fairy Circle"
   | "Squirrel"
   | "Macaw"
-  | "Butterfly"
-  | WorkbenchMonumentName;
+  | "Butterfly";
 
 export type TreasureCollectibleItem =
   | "Treasure Map"
@@ -195,11 +193,12 @@ export type CraftableCollectible = {
   level?: number;
   limit?: number;
   inventoryLimit?: number;
+  disabled?: boolean;
 };
 
 export const HELIOS_BLACKSMITH_ITEMS: Record<
   HeliosBlacksmithItem,
-  CraftableCollectible
+  CraftableCollectible & { inventoryLimit: 1 }
 > = {
   "Basic Scarecrow": {
     description: translate("description.basic.scarecrow"),
@@ -208,6 +207,7 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     ingredients: {
       Wood: new Decimal(2),
     },
+    inventoryLimit: 1,
   },
   "Scary Mike": {
     description: translate("description.scary.mike"),
@@ -219,6 +219,7 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
       Wheat: new Decimal(10),
       Parsnip: new Decimal(10),
     },
+    inventoryLimit: 1,
   },
   "Laurie the Chuckle Crow": {
     description: translate("description.laurie.chuckle.crow"),
@@ -230,6 +231,7 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
       Kale: new Decimal(40),
       Wheat: new Decimal(20),
     },
+    inventoryLimit: 1,
   },
   Bale: {
     description: translate("description.bale"),
@@ -241,6 +243,7 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
       Wood: new Decimal(100),
       Stone: new Decimal(30),
     },
+    inventoryLimit: 1,
   },
   "Immortal Pear": {
     description: translate("description.immortal.pear"),
@@ -251,6 +254,7 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
       Blueberry: new Decimal(10),
       Orange: new Decimal(10),
     },
+    inventoryLimit: 1,
   },
   Squirrel: {
     description: translate("description.squirrel"),
@@ -259,6 +263,7 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     ingredients: {
       Wood: new Decimal(100),
     },
+    inventoryLimit: 1,
   },
   "Stone Beetle": {
     description: translate("description.stone.beetle"),
@@ -267,6 +272,7 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     ingredients: {
       Stone: new Decimal(20),
     },
+    inventoryLimit: 1,
   },
   "Iron Beetle": {
     description: translate("description.iron.beetle"),
@@ -275,6 +281,7 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     ingredients: {
       Iron: new Decimal(20),
     },
+    inventoryLimit: 1,
   },
   "Gold Beetle": {
     description: translate("description.gold.beetle"),
@@ -283,6 +290,7 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     ingredients: {
       Gold: new Decimal(20),
     },
+    inventoryLimit: 1,
   },
   "Fairy Circle": {
     description: translate("description.fairy.circle"),
@@ -291,6 +299,7 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     ingredients: {
       "Wild Mushroom": new Decimal(20),
     },
+    inventoryLimit: 1,
   },
   Macaw: {
     description: translate("description.macaw"),
@@ -304,14 +313,15 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
       Tomato: new Decimal(10),
       Lemon: new Decimal(10),
     },
+    inventoryLimit: 1,
   },
   Butterfly: {
     description: translate("description.butterfly"),
     boost: translate("description.butterfly.boost"),
     coins: 15000,
     ingredients: {},
+    inventoryLimit: 1,
   },
-  ...WORKBENCH_MONUMENTS,
 };
 
 export const ARTEFACT_SHOP_KEYS: Record<Keys, CraftableCollectible> = {
@@ -349,6 +359,7 @@ export const TREASURE_COLLECTIBLE_ITEM: Record<
       Sand: new Decimal(50),
       Hieroglyph: new Decimal(20),
     },
+    inventoryLimit: 1,
   },
   "Adrift Ark": {
     ingredients: {
@@ -394,33 +405,38 @@ export type PotionHouseItem = CraftableCollectible & {
   name: PotionHouseItemName | ExoticCropName;
 };
 
-export const POTION_HOUSE_ITEMS: Record<PotionHouseItemName, PotionHouseItem> =
-  {
-    "Lab Grown Carrot": {
-      name: "Lab Grown Carrot",
-      description: translate("description.lab.grown.carrot"),
-      coins: 0,
-      ingredients: {
-        "Potion Ticket": new Decimal(6000),
-      },
+export const POTION_HOUSE_ITEMS: Record<
+  PotionHouseItemName,
+  PotionHouseItem & { inventoryLimit: 1 }
+> = {
+  "Lab Grown Carrot": {
+    name: "Lab Grown Carrot",
+    description: translate("description.lab.grown.carrot"),
+    coins: 0,
+    ingredients: {
+      "Potion Ticket": new Decimal(6000),
     },
-    "Lab Grown Radish": {
-      name: "Lab Grown Radish",
-      description: translate("description.lab.grown.radish"),
-      coins: 0,
-      ingredients: {
-        "Potion Ticket": new Decimal(8000),
-      },
+    inventoryLimit: 1,
+  },
+  "Lab Grown Radish": {
+    name: "Lab Grown Radish",
+    description: translate("description.lab.grown.radish"),
+    coins: 0,
+    ingredients: {
+      "Potion Ticket": new Decimal(8000),
     },
-    "Lab Grown Pumpkin": {
-      name: "Lab Grown Pumpkin",
-      description: translate("description.lab.grow.pumpkin"),
-      coins: 0,
-      ingredients: {
-        "Potion Ticket": new Decimal(7000),
-      },
+    inventoryLimit: 1,
+  },
+  "Lab Grown Pumpkin": {
+    name: "Lab Grown Pumpkin",
+    description: translate("description.lab.grow.pumpkin"),
+    coins: 0,
+    ingredients: {
+      "Potion Ticket": new Decimal(7000),
     },
-  };
+    inventoryLimit: 1,
+  },
+};
 
 export const POTION_HOUSE_EXOTIC_CROPS: Record<
   Exclude<ExoticCropName, "Giant Orange" | "Giant Apple" | "Giant Banana">,

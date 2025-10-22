@@ -265,6 +265,7 @@ describe("Place Collectible", () => {
         energy: 0,
         requests: {
           food: [],
+          fedAt: dateNow,
         },
         pettedAt: dateNow,
       },
@@ -289,6 +290,7 @@ describe("Place Collectible", () => {
               energy: 0,
               requests: {
                 food: ["Pumpkin Cake", "Pumpkin Soup", "Antipasto"],
+                fedAt: dateNow,
               },
               pettedAt: dateNow,
             },
@@ -315,6 +317,7 @@ describe("Place Collectible", () => {
         energy: 0,
         requests: {
           food: ["Pumpkin Cake", "Pumpkin Soup", "Antipasto"],
+          fedAt: dateNow,
         },
         pettedAt: dateNow,
       },
@@ -324,6 +327,7 @@ describe("Place Collectible", () => {
         energy: 0,
         requests: {
           food: [],
+          fedAt: dateNow,
         },
         pettedAt: dateNow,
       },

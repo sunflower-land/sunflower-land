@@ -5,6 +5,7 @@ import { CookableName } from "./consumables";
 import { getObjectEntries } from "../expansion/lib/utils";
 import { InventoryItemName } from "./game";
 import { Coordinates } from "../expansion/components/MapPlacement";
+import { COMPETITION_POINTS } from "./competitions";
 export type PetName =
   // Dogs
   | "Barkley"
@@ -90,7 +91,7 @@ export type Pet = {
   requests: {
     food: CookableName[];
     foodFed?: CookableName[];
-    fedAt?: number;
+    fedAt: number;
     resets?: {
       [date: string]: number;
     };
@@ -105,7 +106,7 @@ export type Pet = {
   visitedAt?: number; // Local only field
 };
 
-export type PetNFTName = `Pet-${number}`;
+export type PetNFTName = `Pet #${number}`;
 
 export type PetNFT = Omit<Pet, "name"> & {
   id: number;
@@ -308,51 +309,17 @@ export function getPetFetches(petData: Pet | PetNFT): PetConfig {
   return PET_FETCHES[petType];
 }
 
-export const PET_RESOURCES: Record<
-  PetResourceName,
-  { cooldownMs: number; energy: number }
-> = {
-  Acorn: {
-    cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 100,
-  },
-  Ruffroot: {
-    cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 150,
-  },
-  "Chewed Bone": {
-    cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 150,
-  },
-  "Heart leaf": {
-    cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 150,
-  },
-  Moonfur: {
-    cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 1000,
-  },
-
-  "Frost Pebble": {
-    cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 150,
-  },
-  "Wild Grass": {
-    cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 150,
-  },
-  Ribbon: {
-    cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 150,
-  },
-  Dewberry: {
-    cooldownMs: 12 * 60 * 60 * 1000,
-    energy: 150,
-  },
-  "Fossil Shell": {
-    cooldownMs: 24 * 60 * 60 * 1000,
-    energy: 250,
-  },
+export const PET_RESOURCES: Record<PetResourceName, { energy: number }> = {
+  Acorn: { energy: 100 },
+  Ruffroot: { energy: 200 },
+  "Chewed Bone": { energy: 200 },
+  "Heart leaf": { energy: 200 },
+  "Frost Pebble": { energy: 200 },
+  "Wild Grass": { energy: 200 },
+  Ribbon: { energy: 200 },
+  Dewberry: { energy: 200 },
+  "Fossil Shell": { energy: 300 },
+  Moonfur: { energy: 1000 },
 };
 
 export type PetShrineName =
@@ -390,7 +357,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     description: "",
     coins: 0,
     ingredients: {
-      Acorn: new Decimal(25),
+      Acorn: new Decimal(20),
     },
     inventoryLimit: 1,
   },
@@ -399,8 +366,8 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     coins: 0,
     ingredients: {
       Acorn: new Decimal(15),
-      Dewberry: new Decimal(10),
-      "Heart leaf": new Decimal(10),
+      "Wild Grass": new Decimal(10),
+      Ruffroot: new Decimal(10),
     },
     inventoryLimit: 1,
   },
@@ -410,16 +377,17 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     ingredients: {
       Acorn: new Decimal(15),
       "Chewed Bone": new Decimal(10),
-      Ruffroot: new Decimal(10),
+      Ribbon: new Decimal(10),
     },
     inventoryLimit: 1,
+    disabled: Date.now() < COMPETITION_POINTS.BUILDING_FRIENDSHIPS.endAt,
   },
   "Toucan Shrine": {
     description: "",
     coins: 0,
     ingredients: {
       Acorn: new Decimal(15),
-      Ribbon: new Decimal(10),
+      "Heart leaf": new Decimal(10),
       "Frost Pebble": new Decimal(10),
     },
     inventoryLimit: 1,
@@ -429,8 +397,8 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     coins: 0,
     ingredients: {
       Acorn: new Decimal(15),
-      Dewberry: new Decimal(10),
-      "Wild Grass": new Decimal(10),
+      "Frost Pebble": new Decimal(10),
+      "Chewed Bone": new Decimal(10),
     },
     inventoryLimit: 1,
   },
@@ -439,7 +407,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     coins: 0,
     ingredients: {
       Acorn: new Decimal(15),
-      "Heart leaf": new Decimal(10),
+      "Frost Pebble": new Decimal(10),
       Ribbon: new Decimal(10),
     },
     inventoryLimit: 1,
@@ -449,8 +417,8 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     coins: 0,
     ingredients: {
       Acorn: new Decimal(15),
-      Ruffroot: new Decimal(10),
-      "Chewed Bone": new Decimal(10),
+      Dewberry: new Decimal(10),
+      "Heart leaf": new Decimal(10),
     },
     inventoryLimit: 1,
   },
@@ -459,7 +427,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     coins: 0,
     ingredients: {
       Acorn: new Decimal(15),
-      "Frost Pebble": new Decimal(10),
+      Dewberry: new Decimal(10),
       Ribbon: new Decimal(10),
     },
     inventoryLimit: 1,
@@ -470,7 +438,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     ingredients: {
       Acorn: new Decimal(15),
       "Wild Grass": new Decimal(10),
-      Ruffroot: new Decimal(10),
+      "Chewed Bone": new Decimal(10),
     },
     inventoryLimit: 1,
   },
@@ -480,7 +448,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     ingredients: {
       Acorn: new Decimal(15),
       "Heart leaf": new Decimal(10),
-      "Frost Pebble": new Decimal(10),
+      "Wild Grass": new Decimal(10),
     },
     inventoryLimit: 1,
   },
@@ -490,7 +458,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     ingredients: {
       Acorn: new Decimal(15),
       "Chewed Bone": new Decimal(10),
-      "Wild Grass": new Decimal(10),
+      Ruffroot: new Decimal(10),
     },
     inventoryLimit: 1,
   },
@@ -510,7 +478,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     ingredients: {
       Obsidian: new Decimal(1),
       Moonfur: new Decimal(10),
-      Acorn: new Decimal(10),
+      Acorn: new Decimal(15),
     },
     inventoryLimit: 1,
   },
@@ -616,9 +584,9 @@ export function getPetRequests(): CookableName[] {
 }
 
 export const PET_REQUEST_XP: Record<PetRequestDifficulty, number> = {
-  easy: 50,
+  easy: 20,
   medium: 100,
-  hard: 150,
+  hard: 300,
 };
 
 export function getPetRequestXP(food: CookableName) {
@@ -702,7 +670,7 @@ export function isPetNeglected(
 
   const PET_NEGLECT_DAYS = isPetNFT(pet) ? 7 : 3;
 
-  const lastFedAt = pet.requests.fedAt ?? createdAt; // Default to createdAt otherwise the pet will be neglected if it hasn't been fed before
+  const lastFedAt = pet.requests.fedAt;
   const lastFedAtDate = new Date(lastFedAt).toISOString().split("T")[0];
   const todayDate = new Date(createdAt).toISOString().split("T")[0];
   const daysSinceLastFedMs =
@@ -741,7 +709,6 @@ export function isPetOfTypeFed({
   const isPetOfTypeFed = petsOfType.some((pet) => {
     if (pet.id === id) return false;
     const lastFedAt = pet.requests.fedAt;
-    if (!lastFedAt) return false;
     const todayDate = new Date(now).toISOString().split("T")[0];
     const lastFedAtDate = new Date(lastFedAt).toISOString().split("T")[0];
     return lastFedAtDate === todayDate;

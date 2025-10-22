@@ -1,5 +1,6 @@
 import { CONFIG } from "lib/config";
 import { GameState } from "../types/game";
+import { makeGame } from "../lib/transforms";
 
 const API_URL = CONFIG.API_URL;
 
@@ -29,7 +30,7 @@ export async function loadGameStateForVisit(
   visitorFarmState: GameState;
   isBanned: boolean;
   visitorId: number;
-  visitedFarmState: VisitGameState;
+  visitedFarmState: GameState;
   hasHelpedPlayerToday: boolean;
   totalHelpedToday: number;
 }> {
@@ -45,5 +46,11 @@ export async function loadGameStateForVisit(
 
   const data = await response.json();
 
-  return data;
+  const { visitorFarmState, visitedFarmState } = data;
+
+  return {
+    ...data,
+    visitorFarmState: makeGame(visitorFarmState),
+    visitedFarmState: makeGame(visitedFarmState),
+  };
 }
