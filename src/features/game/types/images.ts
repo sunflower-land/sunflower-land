@@ -993,6 +993,10 @@ import babySheep from "assets/sfts/baby_sheep.webp";
 import janitorChicken from "assets/animals/chickens/janitor_chicken.webp";
 import venusBumpkinTrap from "assets/flowers/venus_bumpkin_trap.webp";
 import poseidon from "assets/sfts/poseidon_fish.webp";
+import blackHoleFlower from "assets/sfts/black_hole_flower.webp";
+import sleepyChicken from "assets/sfts/sleepy_chicken.webp";
+import astronautCow from "assets/sfts/cow_astronaut.webp";
+import astronautSheep from "assets/sfts/sheep_astronaut.webp";
 
 import barkley from "assets/sfts/pets/dogs/barkley.webp";
 import biscuit from "assets/sfts/pets/dogs/biscuit.webp";
@@ -4902,6 +4906,10 @@ export const ITEM_DETAILS: Items = {
     image: chicory,
     description: translate("description.chicory"),
   },
+  "Black Hole Flower": {
+    image: blackHoleFlower,
+    description: translate("description.blackHoleFlower"),
+  },
   Wagon: {
     image: Wagon,
     description: "A perfect wagon for your bears to rest and relax.",
@@ -4914,6 +4922,10 @@ export const ITEM_DETAILS: Items = {
     image: alienChicken,
     description: translate("description.alien.chicken"),
   },
+  "Sleepy Chicken": {
+    image: sleepyChicken,
+    description: translate("description.sleepyChicken"),
+  },
   "Toxic Tuft": {
     image: toxicTuft,
     description: translate("description.toxic.tuft"),
@@ -4921,6 +4933,10 @@ export const ITEM_DETAILS: Items = {
   Mootant: {
     image: mootant,
     description: translate("description.mootant"),
+  },
+  "Astronaut Cow": {
+    image: astronautCow,
+    description: translate("description.astronautCow"),
   },
   "Crop Circle": {
     image: cropCircle,
@@ -5121,6 +5137,10 @@ export const ITEM_DETAILS: Items = {
   "Frozen Sheep": {
     image: frozenSheep,
     description: translate("description.frozen.sheep"),
+  },
+  "Astronaut Sheep": {
+    image: astronautSheep,
+    description: translate("description.astronautSheep"),
   },
   "Summer Chicken": {
     image: summerChicken,

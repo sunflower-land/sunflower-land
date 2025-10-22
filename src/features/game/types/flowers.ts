@@ -642,4 +642,5 @@ export type MutantFlowerName =
   | "Chicory"
   | "Chamomile"
   | "Lunalist"
-  | "Venus Bumpkin Trap";
+  | "Venus Bumpkin Trap"
+  | "Black Hole Flower";
