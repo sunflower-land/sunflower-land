@@ -18,7 +18,7 @@ type Options = {
   createdAt?: number;
 };
 
-export function neglectPet({ state, action, createdAt }: Options) {
+export function neglectPet({ state, action, createdAt = Date.now() }: Options) {
   return produce(state, (stateCopy) => {
     const { petId } = action;
     const isPetNFT = typeof petId === "number";

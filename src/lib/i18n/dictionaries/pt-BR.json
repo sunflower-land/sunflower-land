@@ -6690,7 +6690,6 @@
   "ronin.airdrop.twitterUrl": "URL do Twitter",
   "ronin.airdrop.twitterUrlPlaceholder": "https://x.com/bumpkinbuilder",
   "ronin.airdrop.twitterUrlError": "Insira um URL válido do Twitter/X (por exemplo, https://x.com/username)",
-  "ronin.airdrop.roninWalletAddress": "Endereço da carteira Ronin",
   "ronin.airdrop.walletAddressPlaceholder": "0xD8DA6b... AA96045",
   "ronin.airdrop.walletAddressError": "Insira um endereço de carteira válido (0x seguido por 40 caracteres hexadecimais)",
   "ronin.airdrop.connectTwitterAccount": "Conecte sua conta do Twitter e reivindique seu prêmio",
@@ -6721,5 +6720,11 @@
   "marketplace.pets": "NFTs para animais de estimação",
   "ronin.airdrop.openRewardsSection": "Abra a seção Ganhar no canto superior esquerdo",
   "rocketman.vip": "Você precisa ser VIP para trocar Love Charms por FLOWER.",
-  "ronin.airdrop.claimed": "Recompensa reivindicada"
+  "ronin.airdrop.claimed": "Recompensa reivindicada",
+  "ronin.airdrop.roninWalletAddress": "Endereço da carteira",
+  "ronin.airdrop.claim.two": "Você pode se qualificar para 2 recompensas separadas! Insira o URL do Twitter e o endereço da carteira para verificar sua elegibilidade.",
+  "ronin.airdrop.howToClaim": "Como reclamar",
+  "ronin.airdrop.bonus": "As recompensas do Twitter são recompensas extras que você ganha além do nosso lançamento aéreo baseado em endereços Ronin.",
+  "ronin.airdrop.wallet": "Esta deve ser a carteira vinculada que você usa para jogar Sunflower Land",
+  "ronin.airdrop.enterDetails": "Insira seus dados"
 }

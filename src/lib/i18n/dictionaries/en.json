@@ -6709,7 +6709,7 @@
   "ronin.airdrop.twitterUrl": "Twitter URL",
   "ronin.airdrop.twitterUrlPlaceholder": "https://x.com/bumpkinbuilder",
   "ronin.airdrop.twitterUrlError": "Please enter a valid Twitter/X URL (e.g., https://x.com/username)",
-  "ronin.airdrop.roninWalletAddress": "Ronin Wallet Address",
+  "ronin.airdrop.roninWalletAddress": "Wallet Address",
   "ronin.airdrop.walletAddressPlaceholder": "0xd8dA6B....aA96045",
   "ronin.airdrop.walletAddressError": "Please enter a valid wallet address (0x followed by 40 hex characters)",
   "ronin.airdrop.openRewardsSection": "Open the Earn section in the lop left",
@@ -6721,5 +6721,10 @@
   "description.petCookie": "Collected during the Paw Prints chapter.",
   "description.moonCrystal": "Can be found at the digsite during the Paw Prints chapter.",
   "rocketman.vip": "You need to be a VIP to exchange Love Charms for FLOWER.",
-  "ronin.airdrop.claimed": "Reward claimed"
+  "ronin.airdrop.claimed": "Reward claimed",
+  "ronin.airdrop.claim.two": "You may be eligible for 2 separate rewards! Enter your Twitter URL and wallet address to check your eligibility.",
+  "ronin.airdrop.howToClaim": "How to claim",
+  "ronin.airdrop.bonus": "Twitter rewards are extra rewards you earn on top of our Ronin address based airdrop.",
+  "ronin.airdrop.wallet": "This must be the linked wallet you use to play Sunflower Land",
+  "ronin.airdrop.enterDetails": "Enter your details"
 }
