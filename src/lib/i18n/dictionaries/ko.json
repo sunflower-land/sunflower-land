@@ -6669,7 +6669,6 @@
   "twitter.ronin.share": "로닌 에어드랍 공유하기",
   "twitter.ronin.instructions.1": "X에 Ronin 에어드랍에 대해 게시하고 이미지를 공유하고 해시태그 {{hashtag}} 를 사용하세요.",
   "twitter.ronin.instructions.2": "계정을 연결하고 보너스 보상을 받는 것을 잊지 마세요.",
-  "twitter.ronin.label": "로닌 플라워 에어드랍",
   "ronin.reward.task": "로닌 에어드랍",
   "ronin.airdrop.title": "로닌의 가장 큰 에어드랍",
   "ronin.airdrop.subtitle": "로닌에서 $FLOWER 런칭을 기념하세요.",
@@ -6726,5 +6725,6 @@
   "ronin.airdrop.howToClaim": "청구 방법",
   "ronin.airdrop.bonus": "트위터 리워드는 로닌 주소 기반 에어드랍 외에 추가로 받는 보상입니다.",
   "ronin.airdrop.wallet": "선플라워 랜드를 플레이할 때 사용하는 연결된 지갑이어야 합니다.",
-  "ronin.airdrop.enterDetails": "세부 정보 입력"
+  "ronin.airdrop.enterDetails": "세부 정보 입력",
+  "twitter.ronin.label": "로닌 에어드랍"
 }

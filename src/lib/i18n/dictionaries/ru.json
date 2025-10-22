@@ -6669,7 +6669,6 @@
   "twitter.ronin.share": "Поделитесь своим Airdrop от Ronin",
   "twitter.ronin.instructions.1": "Опубликуйте информацию о Ronin Airdrop на X, поделитесь изображением и используйте хэштег {{hashtag}}.",
   "twitter.ronin.instructions.2": "Не забудьте подключить свой аккаунт и получить бонусное вознаграждение.",
-  "twitter.ronin.label": "Афиша «Ронин ФЛАУЭР»",
   "ronin.reward.task": "Ronin Airdrop",
   "ronin.airdrop.title": "Крупнейшая авиакомпания Ronin",
   "ronin.airdrop.subtitle": "Отпразднуйте запуск акции $FLOWER на сайте Ronin.",
@@ -6726,5 +6725,6 @@
   "ronin.airdrop.howToClaim": "Как подать заявку",
   "ronin.airdrop.bonus": "Вознаграждения в Твиттере — это дополнительные награды, которые вы получаете в дополнение к нашей рассылки по адресам Ronin.",
   "ronin.airdrop.wallet": "Это должен быть связанный кошелек, который вы используете для игры в Sunflower Land",
-  "ronin.airdrop.enterDetails": "Введите свои данные"
+  "ronin.airdrop.enterDetails": "Введите свои данные",
+  "twitter.ronin.label": "Ronin Airdrop"
 }
