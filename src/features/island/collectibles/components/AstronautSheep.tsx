@@ -11,11 +11,11 @@ export const AstronautSheep: React.FC<CollectibleProps> = () => {
       <ImageStyle
         name="Astronaut Sheep"
         divStyle={{
-          width: `${PIXEL_SCALE * 20}px`,
+          width: `${PIXEL_SCALE * 25}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
         }}
         imgStyle={{
-          width: `${PIXEL_SCALE * 20}px`,
+          width: `${PIXEL_SCALE * 25}px`,
         }}
         image={ITEM_DETAILS["Astronaut Sheep"].image}
         alt="Astronaut Sheep"

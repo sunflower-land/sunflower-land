@@ -11,7 +11,7 @@ export const BlackHoleFlower: React.FC = () => {
         src={image}
         className="absolute"
         style={{
-          width: `${PIXEL_SCALE * 18}px`,
+          width: `${PIXEL_SCALE * 28}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
         }}
         alt="Black Hole Flower"
