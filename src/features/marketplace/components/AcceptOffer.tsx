@@ -99,6 +99,10 @@ const AcceptOfferContent: React.FC<{
     hasItem = !!state.buds?.[itemId];
   }
 
+  if (display.type === "pets") {
+    hasItem = !!state.pets?.nfts?.[itemId];
+  }
+
   const estTradePoints =
     offer.sfl === 0
       ? 0
