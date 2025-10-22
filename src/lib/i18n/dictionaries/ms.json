@@ -6669,7 +6669,6 @@
   "twitter.ronin.share": "Kongsi Ronin Airdrop anda",
   "twitter.ronin.instructions.1": "Siarkan mengenai Ronin Airdrop pada X, kongsi imej dan gunakan hashtag {{hashtag}}.",
   "twitter.ronin.instructions.2": "Jangan lupa untuk menyambungkan akaun anda dan menuntut ganjaran bonus anda.",
-  "twitter.ronin.label": "Ronin FLOWER Airdrop",
   "ronin.reward.task": "Ronin Airdrop",
   "ronin.airdrop.title": "Airdrop terbesar Ronin",
   "ronin.airdrop.subtitle": "Raikan pelancaran $FLOWER di Ronin.",
@@ -6726,5 +6725,6 @@
   "ronin.airdrop.howToClaim": "Bagaimana untuk menuntut",
   "ronin.airdrop.bonus": "Ganjaran Twitter adalah ganjaran tambahan yang anda perolehi di atas airdrop berasaskan alamat Ronin kami.",
   "ronin.airdrop.wallet": "Ini mestilah dompet yang dipautkan yang anda gunakan untuk bermain Sunflower Land",
-  "ronin.airdrop.enterDetails": "Masukkan butiran anda"
+  "ronin.airdrop.enterDetails": "Masukkan butiran anda",
+  "twitter.ronin.label": "Ronin Airdrop"
 }

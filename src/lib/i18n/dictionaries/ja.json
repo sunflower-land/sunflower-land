@@ -6669,7 +6669,6 @@
   "twitter.ronin.share": "Ronin エアドロップをシェアしよう",
   "twitter.ronin.instructions.1": "XにRonin Airdropについて投稿し、画像を共有し、ハッシュタグ {{hashtag}} を使用してください。",
   "twitter.ronin.instructions.2": "アカウントに接続してボーナス特典を受け取ることを忘れないでください。",
-  "twitter.ronin.label": "ローニンフラワーエアドロップ",
   "ronin.reward.task": "ローニンエアドロップ",
   "ronin.airdrop.title": "Ronin 最大のエアドロップ",
   "ronin.airdrop.subtitle": "Ronin で $FLOWER がリリースされたことを祝いましょう。",
@@ -6726,5 +6725,6 @@
   "ronin.airdrop.howToClaim": "請求方法",
   "ronin.airdrop.bonus": "Twitterリワードは、Roninのアドレスベースのエアドロップに加えて獲得できる追加リワードです。",
   "ronin.airdrop.wallet": "これは、Sunflower Landをプレイするために使用するリンクされたウォレットである必要があります",
-  "ronin.airdrop.enterDetails": "詳細を入力"
+  "ronin.airdrop.enterDetails": "詳細を入力",
+  "twitter.ronin.label": "ローニンエアドロップ"
 }

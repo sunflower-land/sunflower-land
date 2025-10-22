@@ -6669,7 +6669,6 @@
   "twitter.ronin.share": "分享你的 Ronin 空投",
   "twitter.ronin.instructions.1": "在 X 平台上发布关于 Ronin 空投的帖子，分享图片并使用话题标签 {{hashtag}}。",
   "twitter.ronin.instructions.2": "别忘了连接你的账户并领取额外奖励。",
-  "twitter.ronin.label": "Ronin FLOWER 空投",
   "ronin.reward.task": "Ronin 空投",
   "ronin.airdrop.title": "Ronin 史上最大空投",
   "ronin.airdrop.subtitle": "庆祝 $FLOWER 登陆 Ronin。",
@@ -6726,5 +6725,6 @@
   "ronin.airdrop.howToClaim": "如何索赔",
   "ronin.airdrop.bonus": "Twitter 奖励是您在我们基于 Ronin 地址的空投基础上获得的额外奖励。",
   "ronin.airdrop.wallet": "这必须是你玩向日葵乐园时使用的关联钱包",
-  "ronin.airdrop.enterDetails": "输入您的详细信息"
+  "ronin.airdrop.enterDetails": "输入您的详细信息",
+  "twitter.ronin.label": "Ronin 空投"
 }

@@ -6669,7 +6669,6 @@
   "twitter.ronin.share": "Partagez votre Ronin Airdrop",
   "twitter.ronin.instructions.1": "Publiez un article sur le Ronin Airdrop sur X, partagez l'image et utilisez le hashtag {{hashtag}}.",
   "twitter.ronin.instructions.2": "N'oubliez pas de connecter votre compte et de réclamer votre bonus.",
-  "twitter.ronin.label": "Airdrop Ronin FLOWER",
   "ronin.reward.task": "Ronin Airdrop",
   "ronin.airdrop.title": "Le plus gros parachutage de Ronin",
   "ronin.airdrop.subtitle": "Célébrez le lancement de $FLOWER sur Ronin.",
@@ -6726,5 +6725,6 @@
   "ronin.airdrop.howToClaim": "Comment présenter une réclamation",
   "ronin.airdrop.bonus": "Les récompenses Twitter sont des récompenses supplémentaires que vous gagnez en plus de notre airdrop basé sur l'adresse Ronin.",
   "ronin.airdrop.wallet": "Il doit s'agir du portefeuille associé que vous utilisez pour jouer à Sunflower Land",
-  "ronin.airdrop.enterDetails": "Entrez vos coordonnées"
+  "ronin.airdrop.enterDetails": "Entrez vos coordonnées",
+  "twitter.ronin.label": "Ronin Airdrop"
 }
