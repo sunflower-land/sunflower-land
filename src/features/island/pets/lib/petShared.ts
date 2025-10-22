@@ -25,6 +25,7 @@ import peanutsAsleep from "assets/sfts/pets/hamsters/peanuts_asleep.webp";
 import waddlesAsleep from "assets/sfts/pets/penguins/waddles_asleep.webp";
 import pipAsleep from "assets/sfts/pets/penguins/pip_asleep.webp";
 import skipperAsleep from "assets/sfts/pets/penguins/skipper_asleep.webp";
+import petNFTEgg from "assets/icons/pet_nft_egg.png";
 
 const PETS_STYLES: Record<
   PetName,
@@ -201,7 +202,7 @@ export const getPetImage = (
   if (isPetNFT(id)) {
     const isRevealed = isPetNFTRevealed(id, Date.now());
     if (!isRevealed) {
-      return ITEM_DETAILS["Pet Egg"].image as string;
+      return petNFTEgg;
     }
 
     // TODO: Fetch Pet NFT image
