@@ -22,7 +22,7 @@ describe("fetchPet", () => {
             common: {
               Barkley: {
                 name: "Barkley",
-                requests: { food: [] },
+                requests: { food: [], fedAt: now },
                 energy: 100,
                 experience: 0,
                 pettedAt: now - 2 * 60 * 60 * 1000,
@@ -68,7 +68,7 @@ describe("fetchPet", () => {
             common: {
               Barkley: {
                 name: "Barkley",
-                requests: { food: [] },
+                requests: { food: [], fedAt: now },
                 energy: 100,
                 experience: 0,
                 pettedAt: now,
@@ -90,7 +90,7 @@ describe("fetchPet", () => {
             common: {
               Barkley: {
                 name: "Barkley",
-                requests: { food: [] },
+                requests: { food: [], fedAt: now },
                 energy: 100,
                 experience: 100,
                 pettedAt: now,
@@ -112,7 +112,7 @@ describe("fetchPet", () => {
             common: {
               Barkley: {
                 name: "Barkley",
-                requests: { food: [] },
+                requests: { food: [], fedAt: now },
                 energy: 0,
                 experience: 0,
                 pettedAt: now,
@@ -133,7 +133,7 @@ describe("fetchPet", () => {
           common: {
             Barkley: {
               name: "Barkley",
-              requests: { food: [] },
+              requests: { food: [], fedAt: now },
               energy: 100,
               experience: 0,
               pettedAt: now,
@@ -156,7 +156,7 @@ describe("fetchPet", () => {
           common: {
             Barkley: {
               name: "Barkley",
-              requests: { food: [] },
+              requests: { food: [], fedAt: now },
               fetches: { Acorn: 2 },
               energy: 100,
               experience: 0,
