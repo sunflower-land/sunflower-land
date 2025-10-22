@@ -6669,7 +6669,6 @@
   "twitter.ronin.share": "Ronin Airdrop'unuzu paylaşın",
   "twitter.ronin.instructions.1": "X'te Ronin Airdrop hakkında yayın yapın, resmi paylaşın ve {{hashtag}} hashtagini kullanın.",
   "twitter.ronin.instructions.2": "Hesabınızı bağlamayı ve bonus ödülünüzü almayı unutmayın.",
-  "twitter.ronin.label": "Ronin FLOWER Airdrop",
   "ronin.reward.task": "Ronin Airdrop",
   "ronin.airdrop.title": "Ronin'in en büyük airdrop",
   "ronin.airdrop.subtitle": "Ronin'de $FLOWER'ın lansmanını kutlayın.",
@@ -6726,5 +6725,6 @@
   "ronin.airdrop.howToClaim": "Nasıl talep edilir",
   "ronin.airdrop.bonus": "Twitter ödülleri, Ronin adresi tabanlı airdrop'umuzun üzerine kazandığınız ekstra ödüllerdir.",
   "ronin.airdrop.wallet": "Bu, Sunflower Land oynamak için kullandığınız bağlantılı cüzdan olmalıdır",
-  "ronin.airdrop.enterDetails": "Bilgilerinizi girin"
+  "ronin.airdrop.enterDetails": "Bilgilerinizi girin",
+  "twitter.ronin.label": "Ronin Airdrop"
 }
