@@ -50,7 +50,7 @@ import { LandBiomeName } from "features/island/biomes/biomes";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { WORKBENCH_MONUMENTS } from "features/game/types/monuments";
 import { DOLLS } from "features/game/lib/crafting";
-import { PET_TYPES, PetNFTs } from "features/game/types/pets";
+import { isPetNFTRevealed, PET_TYPES, PetNFTs } from "features/game/types/pets";
 import {
   LandscapingPlaceable,
   LandscapingPlaceableType,
@@ -171,17 +171,23 @@ const PanelContent: React.FC<PanelContentProps> = ({
   if (selectedChestItem.name === "Pet") {
     const petId = Number(selectedChestItem.id);
     const petData = pets[petId];
+    const isRevealed = isPetNFTRevealed(petId, Date.now());
 
     return (
       <PetNFTDetails
         petId={petId}
         petName={petData.name}
         actionView={
-          onPlace && (
-            <Button onClick={handlePlace} disabled={isSaving}>
-              {isSaving ? t("saving") : t("place.map")}
-            </Button>
-          )
+          <div className="flex flex-col gap-y-2">
+            {!isRevealed && (
+              <Label type="danger">{t("landscape.petNFT.notHatched")}</Label>
+            )}
+            {onPlace && (
+              <Button onClick={handlePlace} disabled={isSaving || !isRevealed}>
+                {isSaving ? t("saving") : t("place.map")}
+              </Button>
+            )}
+          </div>
         }
       />
     );
@@ -534,7 +540,7 @@ export const Chest: React.FC<Props> = ({
               </Label>
               <div className="flex mb-2 flex-wrap -ml-1.5">
                 {getKeys(petsNFTs).map((petId) => {
-                  const petImage = getPetImage("happy", petId);
+                  const petImage = getPetImage("happy", Number(petId));
                   return (
                     <Box
                       isSelected={
