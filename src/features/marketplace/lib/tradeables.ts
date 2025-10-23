@@ -62,7 +62,7 @@ export function getTradeableDisplay({
     return {
       name,
       description: translate("description.pet.generic"),
-      image: getPetImage("happy", id),
+      image: getPetImage("happy", Number(id)),
       type,
       // TODO: Add Buffs
       buffs: [],
