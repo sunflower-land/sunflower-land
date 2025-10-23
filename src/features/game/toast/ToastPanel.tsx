@@ -6,10 +6,7 @@ import { InnerPanel } from "components/ui/Panel";
 import { FactionName, InventoryItemName } from "../types/game";
 import Decimal from "decimal.js-light";
 import { formatNumber } from "lib/utils/formatNumber";
-import token from "assets/icons/flower_token.webp";
-import levelup from "assets/icons/level_up.png";
 import { HudContainer } from "components/ui/HudContainer";
-import coins from "assets/icons/coins.webp";
 import { FACTION_POINT_ICONS } from "features/world/ui/factions/FactionDonationPanel";
 import { MachineState } from "../lib/gameMachine";
 import { useSelector } from "@xstate/react";
@@ -19,7 +16,11 @@ import { KNOWN_IDS } from "../types";
 import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 import { useVisiting } from "lib/utils/visitUtils";
 import { PetNFT } from "../types/pets";
-import { ITEM_DETAILS } from "../types/images";
+
+import token from "assets/icons/flower_token.webp";
+import levelup from "assets/icons/level_up.png";
+import coins from "assets/icons/coins.webp";
+import { getPetImage } from "features/island/pets/lib/petShared";
 
 const MAX_TOAST = 6;
 
@@ -61,8 +62,7 @@ const getToastIcon = (item: ToastItem, faction?: FactionName) => {
   }
 
   if (item.startsWith("Pet #")) {
-    // TODO: Update with pet image
-    return ITEM_DETAILS["Pet Egg"].image;
+    return getPetImage("happy", Number(item.split("#")[1]));
   }
 
   return "";

@@ -13,6 +13,7 @@ import { balancesToInventory } from "lib/utils/visitUtils";
 import { toWei } from "web3-utils";
 
 import chest from "assets/icons/chest.png";
+import petNFTEgg from "assets/icons/pet_nft_egg.png";
 
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -37,6 +38,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Context as GameContext } from "features/game/GameProvider";
 import { GameWallet } from "features/wallet/Wallet";
 import { getPetsBalance } from "lib/blockchain/Pets";
+import { getPetImage } from "features/island/pets/lib/petShared";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -386,11 +388,7 @@ const DepositOptions: React.FC<Props> = ({
                 )}
                 {hasPets && (
                   <div>
-                    <Label
-                      className="mb-2"
-                      type="default"
-                      icon={ITEM_DETAILS["Pet Egg"].image}
-                    >
+                    <Label className="mb-2" type="default" icon={petNFTEgg}>
                       {t("petNFTs")}
                     </Label>
                     <div
@@ -403,7 +401,7 @@ const DepositOptions: React.FC<Props> = ({
                             key={`pet-${petId}`}
                             onClick={() => onAddPet(petId)}
                             // TODO: Update with pet image
-                            image={ITEM_DETAILS["Pet Egg"].image}
+                            image={getPetImage("happy", petId)}
                           />
                         );
                       })}
@@ -494,7 +492,7 @@ const DepositOptions: React.FC<Props> = ({
                                 key={`pet-${petId}`}
                                 onClick={() => onRemovePet(petId)}
                                 // TODO: Update with pet image
-                                image={ITEM_DETAILS["Pet Egg"].image}
+                                image={getPetImage("happy", petId)}
                               />
                             );
                           })}
