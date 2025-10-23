@@ -58,12 +58,13 @@ export const PetModal: React.FC<Props> = ({
   >(isTypeFed ? "typeFed" : "feeding");
   const [showRewards, setShowRewards] = useState(false);
   const game = useSelector(gameService, _game);
+  const petId = isPetNFT(data) ? data.id : data?.name;
 
   const handleFeed = (food: CookableName) => {
     if (!data) return;
 
     gameService.send("pet.fed", {
-      petId: isPetNFT(data) ? data.id : data?.name,
+      petId,
       food,
     });
   };
@@ -72,7 +73,7 @@ export const PetModal: React.FC<Props> = ({
     if (!data) return;
 
     gameService.send("pet.fetched", {
-      petId: isPetNFT(data) ? data.id : data?.name,
+      petId,
       fetch,
     });
   };
@@ -83,7 +84,7 @@ export const PetModal: React.FC<Props> = ({
     gameService.send("REVEAL", {
       event: {
         type: "reset.petRequests",
-        petId: data.name,
+        petId,
         createdAt: new Date(),
       },
     });
