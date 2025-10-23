@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Pet, PetName, PetNFT } from "features/game/types/pets";
+import { PetName } from "features/game/types/pets";
 import { getPetImage, PET_PIXEL_STYLES } from "./lib/petShared";
 
 interface PetSpriteProps {
@@ -12,7 +12,6 @@ interface PetSpriteProps {
   onClick?: () => void;
   clickable?: boolean;
   children?: React.ReactNode;
-  petData?: Pet | PetNFT;
 }
 
 export const PetSprite: React.FC<PetSpriteProps> = ({
@@ -23,11 +22,9 @@ export const PetSprite: React.FC<PetSpriteProps> = ({
   onClick,
   clickable = false,
   children,
-  petData,
 }) => {
   const petImage = getPetImage(
     isNeglected || isNapping || isTypeFed ? "asleep" : "happy",
-    petData,
     id,
   );
 

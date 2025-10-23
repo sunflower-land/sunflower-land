@@ -33,7 +33,6 @@ export const PetInfo: React.FC<Props> = ({ children, petData, petId }) => {
 
   const petImage = getPetImage(
     isNeglected || isNapping ? "asleep" : "happy",
-    petData,
     petId,
   );
 

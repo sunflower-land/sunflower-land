@@ -113,7 +113,6 @@ export type PetNFT = Omit<Pet, "name"> & {
   name: PetNFTName;
   coordinates?: Coordinates;
   location?: PlaceableLocation;
-  revealAt: number;
   // TODO: Add traits
   traits?: {
     bib?: string;
@@ -715,4 +714,38 @@ export function isPetOfTypeFed({
   });
 
   return isPetOfTypeFed;
+}
+
+type PetNFTRevealConfig = {
+  revealAt: Date;
+  startId: number;
+  endId: number;
+};
+
+const PET_NFT_REVEAL_CONFIG: PetNFTRevealConfig[] = [
+  {
+    revealAt: new Date("2025-11-11T00:00:00.000Z"),
+    startId: 1,
+    endId: 1000,
+  },
+  {
+    revealAt: new Date("2025-11-11T00:00:00.000Z"),
+    startId: 2501,
+    endId: 3000,
+  },
+];
+
+export function isPetNFTAllocated(petId: number) {
+  return PET_NFT_REVEAL_CONFIG.some(
+    (config) => petId >= config.startId && petId <= config.endId,
+  );
+}
+
+export function isPetNFTRevealed(petId: number, createdAt: number) {
+  return (
+    isPetNFTAllocated(petId) &&
+    PET_NFT_REVEAL_CONFIG.some(
+      (config) => createdAt >= config.revealAt.getTime(),
+    )
+  );
 }
