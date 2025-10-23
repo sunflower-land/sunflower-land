@@ -23,7 +23,7 @@ import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { CookableName } from "features/game/types/consumables";
-import { getTimeUntilUTCReset, ResetFoodRequests } from "./ResetFoodRequests";
+import { ResetFoodRequests } from "./ResetFoodRequests";
 import { PetFeed } from "./PetFeed";
 
 import levelUp from "assets/icons/level_up.png";
@@ -32,6 +32,7 @@ import { PetFetch } from "./PetFetch";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { ChestRewardsList } from "components/ui/ChestRewardsList";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { PetTypeFed } from "./PetTypeFed";
 
 interface Props {
   show: boolean;
@@ -216,35 +217,8 @@ export const PetModal: React.FC<Props> = ({
             onBack={() => setDisplay("feeding")}
           />
         )}
-        {display === "typeFed" && (
-          <div className="flex flex-col gap-1">
-            <Label type="warning">
-              {t("pets.typeFed", { type: type.toLowerCase() })}
-            </Label>
-            <InnerPanel className="flex flex-col gap-2">
-              <div className="flex flex-col gap-1 p-1">
-                <p className="text-xs">
-                  {t("pets.typeFedDescriptionOne", {
-                    type: type.toLowerCase(),
-                  })}
-                </p>
-                <p className="text-xs">
-                  {t("pets.typeFedDescriptionTwo", {
-                    type: type.toLowerCase(),
-                  })}
-                </p>
-                <Label
-                  type="info"
-                  icon={SUNNYSIDE.icons.stopwatch}
-                  className="-mb-1 mt-2"
-                >
-                  {t("pets.comeBackIn", { time: getTimeUntilUTCReset() })}
-                </Label>
-              </div>
-              <Button onClick={onClose}>{t("gotIt")}</Button>
-            </InnerPanel>
-          </div>
-        )}
+        {/* Type Fed UI */}
+        {display === "typeFed" && <PetTypeFed type={type} onClose={onClose} />}
       </OuterPanel>
       <ModalOverlay
         show={showRewards}
