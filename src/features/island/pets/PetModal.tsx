@@ -60,12 +60,21 @@ export const PetModal: React.FC<Props> = ({
   const game = useSelector(gameService, _game);
 
   const handleFeed = (food: CookableName) => {
-    if (!data?.name) return;
-    gameService.send("pet.fed", { petId: data?.name, food });
+    if (!data) return;
+
+    gameService.send("pet.fed", {
+      petId: isPetNFT(data) ? data.id : data?.name,
+      food,
+    });
   };
 
   const handlePetFetch = (fetch: PetResourceName) => {
-    gameService.send("pet.fetched", { petId: data?.name, fetch });
+    if (!data) return;
+
+    gameService.send("pet.fetched", {
+      petId: isPetNFT(data) ? data.id : data?.name,
+      fetch,
+    });
   };
 
   const handleResetRequests = () => {
