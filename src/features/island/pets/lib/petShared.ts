@@ -200,8 +200,7 @@ export const getPetImage = (
   id: number | PetName,
 ) => {
   if (isPetNFT(id)) {
-    const isRevealed = isPetNFTRevealed(id, Date.now());
-    if (!isRevealed) {
+    if (!isPetNFTRevealed(id, Date.now())) {
       return petNFTEgg;
     }
 
