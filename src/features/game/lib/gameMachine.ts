@@ -1291,7 +1291,10 @@ export function startGame(authContext: AuthContext) {
 
                 const hasStarted =
                   Date.now() > COMPETITION_POINTS.BUILDING_FRIENDSHIPS.startAt;
-                if (!hasStarted) return false;
+
+                const hasEnded =
+                  Date.now() > COMPETITION_POINTS.BUILDING_FRIENDSHIPS.endAt;
+                if (!hasStarted || hasEnded) return false;
 
                 const level = getBumpkinLevel(
                   context.state.bumpkin?.experience ?? 0,
