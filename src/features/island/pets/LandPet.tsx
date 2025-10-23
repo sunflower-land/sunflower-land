@@ -35,6 +35,8 @@ export const LandPet: React.FC<{ name: PetName }> = ({ name }) => {
     }
   };
 
+  if (!petData) return null;
+
   return (
     <PetSprite
       id={name}
@@ -59,6 +61,7 @@ export const LandPet: React.FC<{ name: PetName }> = ({ name }) => {
           {"+10XP"}
         </span>
       </Transition>
+
       <PetModal
         show={showPetModal}
         onClose={() => setShowPetModal(false)}

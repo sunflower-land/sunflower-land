@@ -37,7 +37,7 @@ import { PetTypeFed } from "./PetTypeFed";
 interface Props {
   show: boolean;
   onClose: () => void;
-  data?: Pet | PetNFT;
+  data: Pet | PetNFT;
   isNeglected: boolean;
   isTypeFed?: boolean;
   petType?: PetType;
@@ -58,7 +58,8 @@ export const PetModal: React.FC<Props> = ({
   >(isTypeFed ? "typeFed" : "feeding");
   const [showRewards, setShowRewards] = useState(false);
   const game = useSelector(gameService, _game);
-  const petId = isPetNFT(data) ? data.id : data?.name;
+  const isNFTPet = isPetNFT(data);
+  const petId = isNFTPet ? data.id : data?.name;
 
   const handleFeed = (food: CookableName) => {
     if (!data) return;
@@ -90,9 +91,6 @@ export const PetModal: React.FC<Props> = ({
     });
   };
 
-  if (!data) return null;
-
-  const isNFTPet = isPetNFT(data);
   const image = ITEM_DETAILS[isNFTPet ? "Ramsey" : data.name].image;
   const type = getPetType(data) as PetType;
   const petCategory = PET_CATEGORIES[type];
