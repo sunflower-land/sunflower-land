@@ -6732,5 +6732,6 @@
   "description.blackHoleFlower": "Une fleur cosmique qui déforme la lumière elle-même, idéale comme pièce maîtresse décorative.",
   "description.sleepyChicken": "Un poulet mutant somnolent qui maintient le troupeau en bonne santé pendant les siestes automnales.",
   "description.astronautCow": "Un explorateur bovin cosmique qui sert également de décoration stellaire.",
-  "description.astronautSheep": "Un vaisseau spatial en laine dont la polaire Stardust est tissée avec de la laine supplémentaire."
+  "description.astronautSheep": "Un vaisseau spatial en laine dont la polaire Stardust est tissée avec de la laine supplémentaire.",
+  "landscape.petNFT.notHatched": "Pet NFT n'a pas encore éclos"
 }
