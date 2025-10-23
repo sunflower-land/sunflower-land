@@ -213,15 +213,22 @@ export type MutantChicken =
   | "Alien Chicken"
   | "Summer Chicken"
   | "Love Chicken"
-  | "Janitor Chicken";
+  | "Janitor Chicken"
+  | "Sleepy Chicken";
 
-export type MutantCow = "Mootant" | "Frozen Cow" | "Dr Cow" | "Baby Cow";
+export type MutantCow =
+  | "Mootant"
+  | "Frozen Cow"
+  | "Dr Cow"
+  | "Baby Cow"
+  | "Astronaut Cow";
 
 export type MutantSheep =
   | "Toxic Tuft"
   | "Frozen Sheep"
   | "Nurse Sheep"
-  | "Baby Sheep";
+  | "Baby Sheep"
+  | "Astronaut Sheep";
 
 export type MutantAnimal = MutantChicken | MutantCow | MutantSheep;
 

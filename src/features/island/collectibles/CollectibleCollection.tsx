@@ -365,6 +365,10 @@ import { BabyCow } from "./components/BabyCow";
 import { BabySheep } from "./components/BabySheep";
 import { JanitorChicken } from "./components/JanitorChicken";
 import { VenusBumpkinTrap } from "./components/VenusBumpkinTrap";
+import { BlackHoleFlower } from "./components/BlackHoleFlower";
+import { SleepyChicken } from "./components/SleepyChicken";
+import { AstronautCow } from "./components/AstronautCow";
+import { AstronautSheep } from "./components/AstronautSheep";
 import { Poseidon } from "./components/Poseidon";
 import { Project } from "./components/Project";
 import { PetShrine } from "./components/PetShrine";
@@ -397,6 +401,10 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Baby Sheep": BabySheep,
   "Janitor Chicken": JanitorChicken,
   "Venus Bumpkin Trap": VenusBumpkinTrap,
+  "Black Hole Flower": BlackHoleFlower,
+  "Sleepy Chicken": SleepyChicken,
+  "Astronaut Cow": AstronautCow,
+  "Astronaut Sheep": AstronautSheep,
   "Love Chicken": LoveChicken,
   "Dr Cow": DrCow,
   "Nurse Sheep": NurseSheep,
