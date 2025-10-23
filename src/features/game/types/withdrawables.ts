@@ -1236,19 +1236,19 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
     "Black Hole Flower": {
-      tradeAt: SEASONS["Better Together"].endDate,
+      tradeAt: SEASONS["Paw Prints"].endDate,
       withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
     "Sleepy Chicken": {
-      tradeAt: SEASONS["Better Together"].endDate,
+      tradeAt: SEASONS["Paw Prints"].endDate,
       withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
     "Astronaut Cow": {
-      tradeAt: SEASONS["Better Together"].endDate,
+      tradeAt: SEASONS["Paw Prints"].endDate,
       withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
     "Astronaut Sheep": {
-      tradeAt: SEASONS["Better Together"].endDate,
+      tradeAt: SEASONS["Paw Prints"].endDate,
       withdrawAt: new Date("2025-12-03T00:00:00Z"),
     },
   };
