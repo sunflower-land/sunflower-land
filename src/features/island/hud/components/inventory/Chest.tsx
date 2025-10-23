@@ -180,9 +180,7 @@ const PanelContent: React.FC<PanelContentProps> = ({
         actionView={
           <div className="flex flex-col gap-y-2">
             {!isRevealed && (
-              <Label type="danger" icon={SUNNYSIDE.icons.cancel}>
-                {t("landscape.petNFT.notHatched")}
-              </Label>
+              <Label type="danger">{t("landscape.petNFT.notHatched")}</Label>
             )}
             {onPlace && (
               <Button onClick={handlePlace} disabled={isSaving || !isRevealed}>
