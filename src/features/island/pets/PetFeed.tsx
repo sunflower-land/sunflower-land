@@ -183,7 +183,7 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
                 </div>
               </InnerPanel>
               <Button
-                className="flex-shrink-0 w-auto px-2 mr-0.5"
+                className="flex-shrink-0 px-2 mr-0.5 w-[77px]"
                 disabled={isComplete || foodAvailable === 0}
                 onClick={() => onFeed(food)}
               >
