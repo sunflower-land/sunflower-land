@@ -209,16 +209,18 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
   };
 
   const buildBulkOrder = () => {
-    let selectedQuantity = bulkOrder?.quantity ?? 0;
-    let totalPrice = bulkOrder?.price ?? 0;
-    const selectedIds = [...(bulkOrder?.ids ?? [])];
+    if (minAmount === 1) {
+      setBulkOrder(undefined);
+      return;
+    }
 
-    // filter already selected listings
-    const unselectedListings = (tradeable?.listings ?? []).filter(
-      (listing) => !selectedIds.includes(listing.id),
-    );
+    // unselect all listings
+    const selectedIds: string[] = [];
+    let selectedQuantity = 0;
+    let totalPrice = 0;
+
     // iterate through the listings and add to the selected quantity until next one will push you over the max amount
-    for (const listing of unselectedListings) {
+    for (const listing of tradeable?.listings ?? []) {
       if (selectedQuantity >= minAmount) {
         break;
       }
@@ -235,7 +237,17 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
     });
   };
 
-  const handleBuyBulkOrder = () => {};
+  const handleBuyBulkOrder = () => {
+    if (bulkOrder?.ids === undefined) return;
+
+    gameService.send("marketplace.buyBulkResources", {
+      effect: {
+        type: "marketplace.buyBulkResources",
+        ids: bulkOrder.ids,
+      },
+      authToken,
+    });
+  };
 
   const isResource =
     isTradeResource(KNOWN_ITEMS[Number(params.id)]) &&
@@ -270,14 +282,14 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
         onHide={() => setShowBulkPurchaseModal(false)}
       >
         <Panel>
-          <PurchaseModalContent
+          {/* <PurchaseModalContent
             authToken={authToken}
-            listingId={selectedListing?.id as string}
-            price={selectedListing?.sfl ?? 0}
+            listingId={bulkOrder?.ids[0] as string}
+            price={bulkOrder?.price ?? 0}
             tradeable={tradeable as Tradeable}
-            onClose={() => setShowPurchaseModal(false)}
-            listing={selectedListing as Listing}
-          />
+            onClose={() => setShowBulkPurchaseModal(false)}
+            listing={bulkOrder?.ids[0] as Listing}
+          /> */}
         </Panel>
       </Modal>
       <Modal show={showListItem} onHide={!isListing ? onListClose : undefined}>
@@ -322,8 +334,11 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
                     <p className="text-xxs sm:text-sm">{t("clear")}</p>
                   </Button>
                   <Button
+                    disabled={
+                      bulkOrder === undefined || bulkOrder?.ids.length === 0
+                    }
                     className="w-fit h-8 rounded-none min-w-[60px]"
-                    onClick={handleBuyBulkOrder}
+                    onClick={() => setShowBulkPurchaseModal(true)}
                   >
                     <p className="text-xxs sm:text-sm">{t("buy")}</p>
                   </Button>

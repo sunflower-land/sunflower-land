@@ -4,13 +4,11 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 import token from "assets/icons/flower_token.webp";
 import { Decimal } from "decimal.js-light";
-
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { TradeableDisplay } from "../lib/tradeables";
 import { formatNumber } from "lib/utils/formatNumber";
 import { Checkbox } from "components/ui/Checkbox";
-import { Listing } from "features/game/types/marketplace";
 
 export type TableItem = {
   id: string;
@@ -53,7 +51,6 @@ export const TableRow: React.FC<RowProps> = ({
   isSelected,
   onBulkListingSelect,
 }) => {
-  console.log({ onClick, isBulkBuy });
   const { t } = useAppTranslation();
   const { id, createdBy, quantity, price } = item;
 
