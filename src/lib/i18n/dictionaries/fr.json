@@ -6726,5 +6726,12 @@
   "ronin.airdrop.bonus": "Les récompenses Twitter sont des récompenses supplémentaires que vous gagnez en plus de notre airdrop basé sur l'adresse Ronin.",
   "ronin.airdrop.wallet": "Il doit s'agir du portefeuille associé que vous utilisez pour jouer à Sunflower Land",
   "ronin.airdrop.enterDetails": "Entrez vos coordonnées",
-  "twitter.ronin.label": "Ronin Airdrop"
+  "twitter.ronin.label": "Ronin Airdrop",
+  "description.sleepyChicken.boost": "Pas de maladie des poulets à l'automne",
+  "description.astronautSheep.boost": "+0.1 Laine",
+  "description.blackHoleFlower": "Une fleur cosmique qui déforme la lumière elle-même, idéale comme pièce maîtresse décorative.",
+  "description.sleepyChicken": "Un poulet mutant somnolent qui maintient le troupeau en bonne santé pendant les siestes automnales.",
+  "description.astronautCow": "Un explorateur bovin cosmique qui sert également de décoration stellaire.",
+  "description.astronautSheep": "Un vaisseau spatial en laine dont la polaire Stardust est tissée avec de la laine supplémentaire.",
+  "landscape.petNFT.notHatched": "Pet NFT n'a pas encore éclos"
 }

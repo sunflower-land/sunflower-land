@@ -6726,5 +6726,12 @@
   "ronin.airdrop.bonus": "Twitter ödülleri, Ronin adresi tabanlı airdrop'umuzun üzerine kazandığınız ekstra ödüllerdir.",
   "ronin.airdrop.wallet": "Bu, Sunflower Land oynamak için kullandığınız bağlantılı cüzdan olmalıdır",
   "ronin.airdrop.enterDetails": "Bilgilerinizi girin",
-  "twitter.ronin.label": "Ronin Airdrop"
+  "twitter.ronin.label": "Ronin Airdrop",
+  "description.sleepyChicken.boost": "Sonbaharda tavuk hastalığı yok",
+  "description.astronautSheep.boost": "+0.1 Yün",
+  "description.blackHoleFlower": "Işığın kendisini büketen kozmik bir çiçek - dekoratif bir merkez parçası olarak mükemmel.",
+  "description.sleepyChicken": "Sonbahar uykuları boyunca sürüyü sağlıklı tutan uykulu bir mutant tavuk.",
+  "description.astronautCow": "Yıldız dekorasyonu olarak ikiye katlanan kozmik bir sığır kaşif.",
+  "description.astronautSheep": "Yıldız tozu yapağı fazladan yün döndüren yünlü bir uzay yolcuları.",
+  "landscape.petNFT.notHatched": "Pet NFT henüz yumurtadan çıkmadı"
 }

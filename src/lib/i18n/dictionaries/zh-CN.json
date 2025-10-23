@@ -6721,10 +6721,17 @@
   "rocketman.vip": "你需要成为 VIP 才能将爱心护符兑换为 FLOWER。",
   "ronin.airdrop.claimed": "奖励已领取",
   "ronin.airdrop.roninWalletAddress": "钱包地址",
-  "ronin.airdrop.claim.two": "你可能符合两项独立奖励的资格！请输入你的 Twitter 链接和钱包地址以检查资格。",
-  "ronin.airdrop.howToClaim": "如何领取",
-  "ronin.airdrop.bonus": "Twitter 奖励是你在 Ronin 地址空投基础上可额外获得的奖励。",
-  "ronin.airdrop.wallet": "此钱包必须为你在 SunflowerLand 中使用的绑定钱包。",
-  "ronin.airdrop.enterDetails": "输入你的详细信息",
-  "twitter.ronin.label": "Ronin 空投"
+  "ronin.airdrop.claim.two": "您可能有资格获得 2 个单独的奖励！输入你的 Twitter 网址和钱包地址以查看你的资格。",
+  "ronin.airdrop.howToClaim": "如何索赔",
+  "ronin.airdrop.bonus": "Twitter 奖励是您在我们基于 Ronin 地址的空投基础上获得的额外奖励。",
+  "ronin.airdrop.wallet": "这必须是你玩向日葵乐园时使用的关联钱包",
+  "ronin.airdrop.enterDetails": "输入您的详细信息",
+  "twitter.ronin.label": "Ronin 空投",
+  "description.sleepyChicken.boost": "秋季不会出现鸡病",
+  "description.astronautSheep.boost": "+0.1 羊毛",
+  "description.blackHoleFlower": "一朵能扭曲光线的宇宙之花，非常适合作为装饰摆设。",
+  "description.sleepyChicken": "一只昏昏欲睡的突变鸡，可以让羊群在秋天的午睡中保持健康。",
+  "description.astronautCow": "一款兼作恒星装饰品的宇宙牛探险家。",
+  "description.astronautSheep": "一个毛茸茸的太空人，其星尘羊毛会产生额外的羊毛。",
+  "landscape.petNFT.notHatched": "宠物 NFT 尚未孵化"
 }

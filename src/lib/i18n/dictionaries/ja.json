@@ -6726,5 +6726,12 @@
   "ronin.airdrop.bonus": "Twitterリワードは、Roninのアドレスベースのエアドロップに加えて獲得できる追加リワードです。",
   "ronin.airdrop.wallet": "これは、Sunflower Landをプレイするために使用するリンクされたウォレットである必要があります",
   "ronin.airdrop.enterDetails": "詳細を入力",
-  "twitter.ronin.label": "ローニンエアドロップ"
+  "twitter.ronin.label": "ローニンエアドロップ",
+  "description.sleepyChicken.boost": "秋には鶏の病気はありません",
+  "description.astronautSheep.boost": "+0.1 ウール",
+  "description.blackHoleFlower": "光そのものをゆがめる宇宙の花。装飾用のセンターピースとして最適です。",
+  "description.sleepyChicken": "秋のお昼寝の間も群れを健康に保つ眠そうな突然変異鶏。",
+  "description.astronautCow": "恒星の装飾を兼ねた宇宙のウシ探検家。",
+  "description.astronautSheep": "スターダストフリースが余分なウールを紡ぐ羊毛の宇宙飛行士。",
+  "landscape.petNFT.notHatched": "ペットNFTはまだ孵化していません"
 }

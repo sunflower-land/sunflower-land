@@ -6726,5 +6726,12 @@
   "ronin.airdrop.bonus": "Twitter-Prämien sind zusätzliche Prämien, die du zusätzlich zu unserem Airdrop, der auf der Ronin-Adresse basiert, erhältst.",
   "ronin.airdrop.wallet": "Das muss die verknüpfte Wallet sein, mit der du Sunflower Land spielst.",
   "ronin.airdrop.enterDetails": "Geben Sie Ihre Daten ein",
-  "twitter.ronin.label": "Ronin Airdrop"
+  "twitter.ronin.label": "Ronin Airdrop",
+  "description.sleepyChicken.boost": "Keine Hühnerkrankheit im Herbst",
+  "description.astronautSheep.boost": "+0.1 Wolle",
+  "description.blackHoleFlower": "Eine kosmische Blüte, die das Licht selbst verzieht — perfekt als dekoratives Herzstück.",
+  "description.sleepyChicken": "Ein schläfriges mutiertes Huhn, das die Herde auch im Herbst gesund hält.",
+  "description.astronautCow": "Ein kosmischer Rinderforscher, der gleichzeitig als Sterndekoration dient.",
+  "description.astronautSheep": "Ein wolliger Raumfahrer, dessen Sternenstaub-Fleece zusätzliche Wolle spinnt.",
+  "landscape.petNFT.notHatched": "Pet NFT ist noch nicht geschlüpft"
 }

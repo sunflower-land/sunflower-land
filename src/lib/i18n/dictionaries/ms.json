@@ -6726,5 +6726,12 @@
   "ronin.airdrop.bonus": "Ganjaran Twitter adalah ganjaran tambahan yang anda perolehi di atas airdrop berasaskan alamat Ronin kami.",
   "ronin.airdrop.wallet": "Ini mestilah dompet yang dipautkan yang anda gunakan untuk bermain Sunflower Land",
   "ronin.airdrop.enterDetails": "Masukkan butiran anda",
-  "twitter.ronin.label": "Ronin Airdrop"
+  "twitter.ronin.label": "Ronin Airdrop",
+  "description.sleepyChicken.boost": "Tiada penyakit ayam semasa musim gugur",
+  "description.astronautSheep.boost": "+0.1 Bulu",
+  "description.blackHoleFlower": "Bunga kosmik yang melengkung cahaya sendiri—sempurna sebagai bahagian tengah hiasan.",
+  "description.sleepyChicken": "Ayam mutan yang mengantuk yang menjaga kawanan sihat sepanjang tidur siang musim luruh.",
+  "description.astronautCow": "Penjelajah lembu kosmik yang berfungsi sebagai hiasan bintang.",
+  "description.astronautSheep": "Seorang pesawat angkasa berbulu yang bulu bintangnya memutar bulu tambahan.",
+  "landscape.petNFT.notHatched": "Pet NFT belum menetas lagi"
 }

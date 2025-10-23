@@ -6726,5 +6726,12 @@
   "ronin.airdrop.bonus": "트위터 리워드는 로닌 주소 기반 에어드랍 외에 추가로 받는 보상입니다.",
   "ronin.airdrop.wallet": "선플라워 랜드를 플레이할 때 사용하는 연결된 지갑이어야 합니다.",
   "ronin.airdrop.enterDetails": "세부 정보 입력",
-  "twitter.ronin.label": "로닌 에어드랍"
+  "twitter.ronin.label": "로닌 에어드랍",
+  "description.sleepyChicken.boost": "가을에는 닭병이 발생하지 않습니다.",
+  "description.astronautSheep.boost": "+0.1 울",
+  "description.blackHoleFlower": "빛 자체를 휘게 하는 우주의 꽃으로 센터피스로 제격입니다.",
+  "description.sleepyChicken": "졸린 돌연변이 닭으로 가을 낮잠에도 양떼를 건강하게 유지합니다.",
+  "description.astronautCow": "별 장식으로도 사용할 수 있는 우주 탐험가.",
+  "description.astronautSheep": "털이 많은 우주비행사로 스타더스트 플리스로 양털을 깎아냅니다.",
+  "landscape.petNFT.notHatched": "펫 NFT는 아직 해칭되지 않았습니다"
 }

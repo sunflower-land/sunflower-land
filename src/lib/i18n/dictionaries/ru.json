@@ -6726,5 +6726,12 @@
   "ronin.airdrop.bonus": "Вознаграждения в Твиттере — это дополнительные награды, которые вы получаете в дополнение к нашей рассылки по адресам Ronin.",
   "ronin.airdrop.wallet": "Это должен быть связанный кошелек, который вы используете для игры в Sunflower Land",
   "ronin.airdrop.enterDetails": "Введите свои данные",
-  "twitter.ronin.label": "Ronin Airdrop"
+  "twitter.ronin.label": "Ronin Airdrop",
+  "description.sleepyChicken.boost": "Осенью куриная болезнь отсутствует",
+  "description.astronautSheep.boost": "+0.1 Шерсть",
+  "description.blackHoleFlower": "Космический цветок, который сам по себе искажает свет и идеально подходит в качестве декоративного украшения на середине стола.",
+  "description.sleepyChicken": "Сонная курица-мутант, которая сохраняет здоровье стада во время осеннего сна.",
+  "description.astronautCow": "Космический исследователь крупного рогатого скота, который служит звездным украшением.",
+  "description.astronautSheep": "Шерстяной космонавт, чей флис из звездной пыли покрывает лишнюю шерсть.",
+  "landscape.petNFT.notHatched": "Pet NFT еще не вылупился"
 }

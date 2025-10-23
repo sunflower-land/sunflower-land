@@ -1509,6 +1509,10 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Baby Sheep": { width: 1, height: 1 },
   "Janitor Chicken": { width: 1, height: 1 },
   "Venus Bumpkin Trap": { width: 1, height: 1 },
+  "Black Hole Flower": { width: 1, height: 1 },
+  "Sleepy Chicken": { width: 1, height: 2 },
+  "Astronaut Cow": { width: 1, height: 1 },
+  "Astronaut Sheep": { width: 1, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {
