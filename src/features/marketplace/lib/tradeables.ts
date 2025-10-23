@@ -12,6 +12,7 @@ import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
 import { translate } from "lib/i18n/translate";
 import { PetNFTName } from "features/game/types/pets";
+import { getPetImage } from "features/island/pets/lib/petShared";
 
 export type TradeableDisplay = {
   name: MarketplaceTradeableName;
@@ -61,7 +62,7 @@ export function getTradeableDisplay({
     return {
       name,
       description: translate("description.pet.generic"),
-      image: ITEM_DETAILS["Pet Egg"].image,
+      image: getPetImage("happy", id),
       type,
       // TODO: Add Buffs
       buffs: [],

@@ -175,7 +175,7 @@ const PanelContent: React.FC<PanelContentProps> = ({
     return (
       <PetNFTDetails
         petId={petId}
-        petData={petData}
+        petName={petData.name}
         actionView={
           onPlace && (
             <Button onClick={handlePlace} disabled={isSaving}>
@@ -534,7 +534,7 @@ export const Chest: React.FC<Props> = ({
               </Label>
               <div className="flex mb-2 flex-wrap -ml-1.5">
                 {getKeys(petsNFTs).map((petId) => {
-                  const petImage = getPetImage("happy", petsNFTs[petId], petId);
+                  const petImage = getPetImage("happy", petId);
                   return (
                     <Box
                       isSelected={
