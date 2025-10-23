@@ -6587,6 +6587,7 @@
   "pets.napping": "Napping",
   "pets.nappingDescription": "{{pet}} is napping. Pet it to wake it up.",
   "pets.petPet": "Pet {{pet}}",
+  "pets.upcomingRequest": "Food unlocked at Level {{level}}",
   "deposit.loadingBalance": "Loading balance...",
   "transaction.migrate.sfl": "Migrate SFL",
   "transaction.migrate.sfl.description": "This migration is for converting SFL to FLOWER. SFL can only be migrated from the linked wallet.",

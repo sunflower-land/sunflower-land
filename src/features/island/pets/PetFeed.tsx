@@ -5,6 +5,7 @@ import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import Decimal from "decimal.js-light";
 import {
+  FOOD_TO_DIFFICULTY,
   getPetEnergy,
   getPetExperience,
   getPetFoodRequests,
@@ -86,6 +87,24 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
     };
   };
 
+  const getPetUnlockLevel = (
+    petData: Pet | PetNFT,
+    petLevel: number,
+    foodRequest: CookableName,
+  ): number => {
+    const difficulty = FOOD_TO_DIFFICULTY.get(foodRequest);
+
+    if (isPetNFT(petData)) {
+      if (difficulty === "medium" && petLevel < 30) return 30;
+      if (difficulty === "hard" && petLevel < 200) return 200;
+      return 200;
+    }
+
+    if (difficulty === "hard" && petLevel < 10) return 10;
+
+    return 200;
+  };
+
   return (
     <div className="flex flex-col gap-1">
       <div className="flex items-center justify-between">
@@ -97,7 +116,7 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
           {t("pets.resetRequests")}
         </p>
       </div>
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 max-h-[250px] overflow-y-auto scrollable">
         {sortedFoodRequests.map((food) => {
           const foodAvailable = (
             game.inventory[food] ?? new Decimal(0)
@@ -108,7 +127,7 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
 
           return (
             <div key={`food-request-${food}`} className="flex w-full gap-1">
-              <InnerPanel className="w-[80%] flex gap-1">
+              <InnerPanel className="flex gap-1 items-center w-full">
                 <div
                   className="bg-brown-600 relative mr-0.5 w-5 h-5 flex justify-center items-center"
                   style={{
@@ -118,15 +137,27 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
                   }}
                 >
                   <img
-                    src={ITEM_DETAILS[food].image}
+                    src={
+                      !isRequested
+                        ? SUNNYSIDE.icons.lock
+                        : ITEM_DETAILS[food].image
+                    }
                     className="w-[90%] h-[90%] object-contain"
                   />
                 </div>
                 <div className="flex flex-col flex-1 justify-center -mt-0.5">
-                  <p className="text-xs mb-0.5">{food}</p>
-                  <p className="text-xxs">
-                    {t("count.available", { count: foodAvailable })}
+                  <p className="text-xs mb-0.5">
+                    {!isRequested
+                      ? t("pets.upcomingRequest", {
+                          level: getPetUnlockLevel(data, level, food),
+                        })
+                      : food}
                   </p>
+                  {isRequested && (
+                    <p className="text-xxs">
+                      {t("count.available", { count: foodAvailable })}
+                    </p>
+                  )}
                 </div>
                 <div>
                   <div className="flex flex-row gap-1">
@@ -147,7 +178,7 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
                 </div>
               </InnerPanel>
               <Button
-                className="w-[20%]"
+                className="flex-shrink-0 w-auto px-2 mr-0.5"
                 disabled={isComplete || foodAvailable === 0}
                 onClick={() => onFeed(food)}
               >
