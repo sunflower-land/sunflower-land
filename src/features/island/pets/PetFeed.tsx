@@ -184,8 +184,8 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
               </InnerPanel>
               <Button
                 className="flex-shrink-0 px-2 mr-0.5 w-[77px]"
-                disabled={isComplete || foodAvailable === 0}
-                onClick={() => onFeed(food)}
+                disabled={isComplete || foodAvailable === 0 || !isRequested}
+                onClick={() => isRequested && onFeed(food)}
               >
                 {isComplete ? (
                   <img src={SUNNYSIDE.icons.confirm} className="w-6" />
