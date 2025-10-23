@@ -1,7 +1,7 @@
 import React from "react";
 import { SquareIcon } from "../SquareIcon";
 import { getPetImage } from "features/island/pets/lib/petShared";
-import { PetNFT } from "features/game/types/pets";
+import { PetNFTName } from "features/game/types/pets";
 
 /**
  * The props for the component.
@@ -11,8 +11,8 @@ import { PetNFT } from "features/game/types/pets";
  */
 interface Props {
   petId: number;
-  petData: PetNFT;
   actionView?: JSX.Element;
+  petName: PetNFTName;
 }
 
 /**
@@ -20,19 +20,18 @@ interface Props {
  * @props The component props.
  */
 export const PetNFTDetails: React.FC<Props> = ({
-  petData,
   actionView,
   petId,
+  petName,
 }) => {
-  const icon = getPetImage("asleep", petData, petId);
-  const title = petData.name;
+  const icon = getPetImage("asleep", petId);
 
   return (
     <div className="flex flex-col justify-between h-full">
       <div className="flex flex-col justify-center px-1 py-0">
         <div className="flex mb-1 items-center sm:flex-col-reverse md:space-x-0 gap-1">
           {icon && <SquareIcon icon={icon} width={20} />}
-          <span className="sm:text-center">{title}</span>
+          <span className="sm:text-center">{petName}</span>
         </div>
       </div>
       {actionView}
