@@ -13,7 +13,7 @@ export const SleepyChicken: React.FC<CollectibleProps> = () => {
         divStyle={{
           width: `${PIXEL_SCALE * 26}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
-          left: `${PIXEL_SCALE * -1.75}px`,
+          left: `${PIXEL_SCALE * -5}px`,
         }}
         imgStyle={{
           width: `${PIXEL_SCALE * 26}px`,

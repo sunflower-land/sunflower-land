@@ -12,7 +12,8 @@ export const AstronautCow: React.FC<CollectibleProps> = () => {
         name="Astronaut Cow"
         divStyle={{
           width: `${PIXEL_SCALE * 25}px`,
-          bottom: `${PIXEL_SCALE * 0}px`,
+          bottom: `${PIXEL_SCALE * -2}px`,
+          left: `${PIXEL_SCALE * -4.5}px`,
         }}
         imgStyle={{
           width: `${PIXEL_SCALE * 25}px`,
