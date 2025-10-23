@@ -6580,7 +6580,7 @@
   "pets.requestsResetDescription": "Your pet's food requests have been successfully reset!",
   "pets.requestsResetAt": "Your pet's food requests will be reset at 12:00 AM UTC",
   "pets.requestsResetAtDescription": "If you would like new food requests before then, you can use gems to refresh early.",
-  "pets.resetRequests": "Reset",
+  "pets.resetRequests": "Reset requests",
   "pets.neglectPet": "Pet Neglected",
   "pets.neglectPetDescription": "{{pet}} has been neglected. Please cheer it up to bring it back to life.",
   "pets.cheerPet": "Cheer {{pet}} up",

@@ -65,7 +65,6 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
     const isRequested = foodRequests.includes(food);
     const isComplete =
       isRequested && fedToday && data.requests.foodFed?.includes(food);
-    const isUpcoming = !isRequested;
 
     const baseFoodXp = getPetRequestXP(food);
     const foodXp = getPetExperience({
@@ -82,7 +81,6 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
     return {
       isRequested,
       isComplete,
-      isUpcoming,
       foodXp,
       petEnergy,
     };
@@ -105,7 +103,7 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
             game.inventory[food] ?? new Decimal(0)
           ).toNumber();
 
-          const { isRequested, isComplete, isUpcoming, foodXp, petEnergy } =
+          const { isRequested, isComplete, foodXp, petEnergy } =
             getRequestDetails(food);
 
           return (

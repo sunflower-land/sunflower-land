@@ -55,7 +55,7 @@ export const PetModal: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
-  const [action, setAction] = useState<"feeding" | "fetching" | "resetting">(
+  const [display, setDisplay] = useState<"feeding" | "fetching" | "resetting">(
     "feeding",
   );
   const [showRewards, setShowRewards] = useState(false);
@@ -176,32 +176,32 @@ export const PetModal: React.FC<Props> = ({
         </InnerPanel>
 
         {/* Feeding & Fetching UI */}
-        {(action === "feeding" || action === "fetching") && (
+        {(display === "feeding" || display === "fetching") && (
           <div className="flex flex-col gap-1">
             <div className="flex flex-row gap-1.5 my-1">
               <Button
                 className="h-10"
-                disabled={action === "feeding"}
-                onClick={() => setAction("feeding")}
+                disabled={display === "feeding"}
+                onClick={() => setDisplay("feeding")}
               >
                 {t("pets.feed")}
               </Button>
               <Button
                 className="h-10"
-                disabled={action === "fetching"}
-                onClick={() => setAction("fetching")}
+                disabled={display === "fetching"}
+                onClick={() => setDisplay("fetching")}
               >
                 {t("pets.fetch")}
               </Button>
             </div>
-            {action === "feeding" && (
+            {display === "feeding" && (
               <PetFeed
                 data={data}
                 onFeed={handleFeed}
-                onResetClick={() => setAction("resetting")}
+                onResetClick={() => setDisplay("resetting")}
               />
             )}
-            {action === "fetching" && (
+            {display === "fetching" && (
               <PetFetch
                 data={data}
                 onShowRewards={() => setShowRewards(true)}
@@ -210,7 +210,8 @@ export const PetModal: React.FC<Props> = ({
             )}
           </div>
         )}
-        {action === "resetting" && (
+        {/* Resetting Food Requests UI */}
+        {display === "resetting" && (
           <ResetFoodRequests
             petData={data}
             inventory={game.inventory}
@@ -219,7 +220,7 @@ export const PetModal: React.FC<Props> = ({
             onAcknowledged={() => {
               gameService.send("CONTINUE");
             }}
-            onBack={() => setAction("feeding")}
+            onBack={() => setDisplay("feeding")}
           />
         )}
       </OuterPanel>

@@ -12,6 +12,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Pet, PetNFT } from "features/game/types/pets";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getTimeUntil } from "lib/utils/time";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 function getGemCost(resets: number) {
   const baseCost = 40;
@@ -97,13 +98,22 @@ export const ResetFoodRequests: React.FC<Props> = ({
       </Label>
       <InnerPanel className="flex flex-col gap-2">
         {!showConfirmation && (
-          <Label
-            type="info"
-            icon={SUNNYSIDE.icons.stopwatch}
-            className="-mb-1 m-1"
-          >
-            {`Next requests in: ${getTimeUntilNewRequests()}`}
-          </Label>
+          <div className="flex justify-between items-center">
+            <img
+              src={SUNNYSIDE.icons.arrow_left}
+              style={{
+                width: `${PIXEL_SCALE * 11}px`,
+              }}
+              onClick={onBack}
+            />
+            <Label
+              type="info"
+              icon={SUNNYSIDE.icons.stopwatch}
+              className="-mb-1"
+            >
+              {`Next requests in: ${getTimeUntilNewRequests()}`}
+            </Label>
+          </div>
         )}
         {!showConfirmation && (
           <div className="flex flex-col gap-1 p-1">
