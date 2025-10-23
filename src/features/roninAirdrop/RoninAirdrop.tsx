@@ -12,15 +12,19 @@ import { NPC_WEARABLES } from "lib/npcs";
 import classNames from "classnames";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { Label } from "components/ui/Label";
+
 import whaleIcon from "assets/icons/whale.webp";
 import speakerIcon from "assets/icons/speaker.webp";
 import twitterIcon from "assets/icons/world_book.webp";
+import walletIcon from "assets/icons/wallet.png";
+import vipIcon from "assets/icons/vip.webp";
+import petNFTEgg from "assets/icons/pet_nft_egg.png";
+
 import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { TextInput } from "components/ui/TextInput";
-import walletIcon from "assets/icons/wallet.png";
-import vipIcon from "assets/icons/vip.webp";
+
 import { InventoryItemName } from "features/game/types/game";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import confetti from "canvas-confetti";
@@ -139,10 +143,7 @@ export const RoninAirdrop: React.FC<{ onClose?: () => void }> = ({
                             <p className="text-xs">{t("ronin.airdrop.gems")}</p>
                           </div>
                           <div className="flex mr-3">
-                            <img
-                              className="h-4 mr-1"
-                              src={ITEM_DETAILS["Pet Egg"].image}
-                            />
+                            <img className="h-4 mr-1" src={petNFTEgg} />
                             <p className="text-xs">
                               {t("ronin.airdrop.petNft")}
                             </p>

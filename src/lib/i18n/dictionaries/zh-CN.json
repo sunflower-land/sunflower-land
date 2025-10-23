@@ -6726,5 +6726,11 @@
   "ronin.airdrop.bonus": "Twitter 奖励是您在我们基于 Ronin 地址的空投基础上获得的额外奖励。",
   "ronin.airdrop.wallet": "这必须是你玩向日葵乐园时使用的关联钱包",
   "ronin.airdrop.enterDetails": "输入您的详细信息",
-  "twitter.ronin.label": "Ronin 空投"
+  "twitter.ronin.label": "Ronin 空投",
+  "description.sleepyChicken.boost": "秋季不会出现鸡病",
+  "description.astronautSheep.boost": "+0.1 羊毛",
+  "description.blackHoleFlower": "一朵能扭曲光线的宇宙之花，非常适合作为装饰摆设。",
+  "description.sleepyChicken": "一只昏昏欲睡的突变鸡，可以让羊群在秋天的午睡中保持健康。",
+  "description.astronautCow": "一款兼作恒星装饰品的宇宙牛探险家。",
+  "description.astronautSheep": "一个毛茸茸的太空人，其星尘羊毛会产生额外的羊毛。"
 }

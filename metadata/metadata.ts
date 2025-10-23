@@ -64,6 +64,54 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2528.png",
     attributes: [{ trait_type: "Tradable", value: "Yes" }],
   },
+  "Black Hole Flower": {
+    description:
+      "A cosmic blossom that warps light itself, best admired as a centrepiece.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2529.png",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
+  "Sleepy Chicken": {
+    description:
+      "This drowsy chicken drifts off mid cluck but keeps the coop healthy through fall.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2530.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Animal" },
+      {
+        display_type: "boost_number",
+        trait_type: "Prevent chicken sickness during fall",
+        value: 0.1,
+      },
+    ],
+  },
+  "Astronaut Cow": {
+    description:
+      "A spacefaring cow who loves grazing among the stars and moon rocks.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2531.png",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
+  "Astronaut Sheep": {
+    description:
+      "A woolly explorer equipped for zero-gravity strolls through space.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2532.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Resource" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Wool Yield",
+        value: 0.1,
+      },
+    ],
+  },
   "Love Chicken": {
     description: "A mutant chicken filled with love and affection",
     decimals: 0,

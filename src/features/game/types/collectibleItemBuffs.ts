@@ -1279,6 +1279,14 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: SUNNYSIDE.resource.merino_wool,
     },
   ],
+  "Astronaut Sheep": () => [
+    {
+      shortDescription: translate("description.astronautSheep.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.resource.wool,
+    },
+  ],
   Mootant: () => [
     {
       shortDescription: translate("description.mootant.boost"),
@@ -1381,6 +1389,13 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   "Summer Chicken": () => [
     {
       shortDescription: translate("description.summer.chicken.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+    },
+  ],
+  "Sleepy Chicken": () => [
+    {
+      shortDescription: translate("description.sleepyChicken.boost"),
       labelType: "vibrant",
       boostTypeIcon: lightning,
     },
