@@ -27,6 +27,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import xpIcon from "assets/icons/xp.png";
 import { Button } from "components/ui/Button";
+import classNames from "classnames";
 
 type Props = {
   data: Pet | PetNFT;
@@ -154,7 +155,11 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
                       : food}
                   </p>
                   {isRequested && (
-                    <p className="text-xxs">
+                    <p
+                      className={classNames("text-xxs", {
+                        "text-red-600": foodAvailable === 0,
+                      })}
+                    >
                       {t("count.available", { count: foodAvailable })}
                     </p>
                   )}

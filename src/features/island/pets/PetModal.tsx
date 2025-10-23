@@ -19,12 +19,11 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
-import { getPetFoodRequests } from "features/game/events/pets/feedPet";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { CookableName } from "features/game/types/consumables";
-import { ResetFoodRequests } from "./ResetFoodRequests";
+import { getTimeUntilUTCReset, ResetFoodRequests } from "./ResetFoodRequests";
 import { PetFeed } from "./PetFeed";
 
 import levelUp from "assets/icons/level_up.png";
@@ -49,15 +48,13 @@ export const PetModal: React.FC<Props> = ({
   show,
   onClose,
   data,
-  isNeglected,
   isTypeFed,
-  petType,
 }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
-  const [display, setDisplay] = useState<"feeding" | "fetching" | "resetting">(
-    "feeding",
-  );
+  const [display, setDisplay] = useState<
+    "feeding" | "fetching" | "resetting" | "typeFed"
+  >(isTypeFed ? "typeFed" : "feeding");
   const [showRewards, setShowRewards] = useState(false);
   const game = useSelector(gameService, _game);
 
@@ -90,11 +87,7 @@ export const PetModal: React.FC<Props> = ({
   const petCategory = PET_CATEGORIES[type];
   const { level, percentage, currentProgress, experienceBetweenLevels } =
     getPetLevel(data.experience);
-  const foodRequests = getPetFoodRequests(data, level);
-  const lastFedAt = data.requests.fedAt;
   const todayDate = new Date(Date.now()).toISOString().split("T")[0];
-  const lastFedAtDate = new Date(lastFedAt ?? 0).toISOString().split("T")[0];
-  const fedToday = lastFedAtDate === todayDate;
 
   return (
     <Modal show={show} onHide={onClose}>
@@ -223,6 +216,35 @@ export const PetModal: React.FC<Props> = ({
             onBack={() => setDisplay("feeding")}
           />
         )}
+        {display === "typeFed" && (
+          <div className="flex flex-col gap-1">
+            <Label type="warning">
+              {t("pets.typeFed", { type: type.toLowerCase() })}
+            </Label>
+            <InnerPanel className="flex flex-col gap-2">
+              <div className="flex flex-col gap-1 p-1">
+                <p className="text-xs">
+                  {t("pets.typeFedDescriptionOne", {
+                    type: type.toLowerCase(),
+                  })}
+                </p>
+                <p className="text-xs">
+                  {t("pets.typeFedDescriptionTwo", {
+                    type: type.toLowerCase(),
+                  })}
+                </p>
+                <Label
+                  type="info"
+                  icon={SUNNYSIDE.icons.stopwatch}
+                  className="-mb-1 mt-2"
+                >
+                  {t("pets.comeBackIn", { time: getTimeUntilUTCReset() })}
+                </Label>
+              </div>
+              <Button onClick={onClose}>{t("gotIt")}</Button>
+            </InnerPanel>
+          </div>
+        )}
       </OuterPanel>
       <ModalOverlay
         show={showRewards}
@@ -230,17 +252,17 @@ export const PetModal: React.FC<Props> = ({
       >
         <CloseButtonPanel
           onClose={() => setShowRewards(false)}
-          title="Rewards List"
+          title={t("pets.rewardsList")}
         >
           <ChestRewardsList
             type="Fossil Shell"
             chestDescription={[
               {
-                text: "The fossil shell will reward you with a random fetchable resource.",
+                text: t("pets.rewardsListDescription"),
                 icon: ITEM_DETAILS["Fossil Shell"].image,
               },
               {
-                text: "Spend 250 pet energy to fetch the fossil shell.",
+                text: t("pets.rewardsListDescriptionTwo"),
                 icon: SUNNYSIDE.icons.lightning,
               },
             ]}

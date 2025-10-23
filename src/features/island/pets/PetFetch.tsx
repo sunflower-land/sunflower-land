@@ -47,7 +47,7 @@ export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
           {t("pets.fossilShellRewards")}
         </p>
       </div>
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 max-h-[250px] overflow-y-auto scrollable">
         {fetches.map(({ name, level: requiredLevel }) => {
           const hasRequiredLevel = level >= requiredLevel;
           const energyRequired = PET_RESOURCES[name].energy;
@@ -56,7 +56,7 @@ export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
 
           return (
             <div key={`fetch-${name}`} className="flex w-full gap-1">
-              <InnerPanel className="w-[80%] flex gap-1 items-center">
+              <InnerPanel className="flex gap-1 items-center w-full">
                 <div
                   className="bg-brown-600 relative mr-0.5 w-5 h-5 flex justify-center items-center"
                   style={{
@@ -76,15 +76,13 @@ export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
                     <p className="text-xs mb-0.5">{`${fetchYield} x ${name}`}</p>
                   </div>
                   <div className="flex flex-row sm:flex-col justify-between w-full pt-1">
-                    <div className="flex flex-row gap-1 justify-center items-center">
-                      <div className="flex flex-row gap-1 justify-center items-center">
-                        <img src={SUNNYSIDE.icons.lightning} className="w-3" />
-                        <p
-                          className={classNames(`text-xxs`, {
-                            "text-red-600": !hasEnoughEnergy,
-                          })}
-                        >{`${data.energy}/${energyRequired} Energy`}</p>
-                      </div>
+                    <div className="flex flex-row gap-1 items-center">
+                      <img src={SUNNYSIDE.icons.lightning} className="w-3" />
+                      <p
+                        className={classNames(`text-xxs`, {
+                          "text-red-600": !hasEnoughEnergy,
+                        })}
+                      >{`${data.energy}/${energyRequired} Energy`}</p>
                     </div>
                   </div>
                 </div>
@@ -107,7 +105,7 @@ export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
                 )}
               </InnerPanel>
               <Button
-                className="w-[25%]"
+                className="flex-shrink-0 w-auto px-2 mr-0.5"
                 disabled={
                   isNapping ||
                   neglected ||

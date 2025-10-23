@@ -29,7 +29,7 @@ type Props = {
   onBack: () => void;
 };
 
-function getTimeUntilNewRequests() {
+export function getTimeUntilUTCReset() {
   const now = new Date();
   // Get UTC date components
   const utcYear = now.getUTCFullYear();
@@ -111,7 +111,7 @@ export const ResetFoodRequests: React.FC<Props> = ({
               icon={SUNNYSIDE.icons.stopwatch}
               className="-mb-1"
             >
-              {`Next requests in: ${getTimeUntilNewRequests()}`}
+              {t("pets.nextRequestsIn", { time: getTimeUntilUTCReset() })}
             </Label>
           </div>
         )}
@@ -124,7 +124,7 @@ export const ResetFoodRequests: React.FC<Props> = ({
         {showConfirmation && (
           <div className="flex flex-col gap-1 p-1">
             <p className="text-xs">
-              {`Are you sure you want to reset your pet's food requests for ${resetGemCost} gems?`}
+              {t("pets.resetConfirmation", { resetGemCost })}
             </p>
           </div>
         )}
