@@ -43,16 +43,16 @@ export const PetInfo: React.FC<Props> = ({ data, type, image }) => {
               {type}
             </Label>
             <Label type="chill" className="text-xs">
-              {petCategory.primaryCategory}
+              {petCategory.primary}
             </Label>
-            {petCategory.secondaryCategory && (
+            {petCategory.secondary && (
               <Label type="formula" className="text-xs">
-                {petCategory.secondaryCategory}
+                {petCategory.secondary}
               </Label>
             )}
-            {petCategory.tertiaryCategory && (
+            {petCategory.tertiary && (
               <Label type="vibrant" className="text-xs">
-                {petCategory.tertiaryCategory}
+                {petCategory.tertiary}
               </Label>
             )}
           </div>

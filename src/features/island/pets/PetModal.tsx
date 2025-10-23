@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   isPetNFT,
   Pet,
@@ -7,7 +7,7 @@ import {
   getPetType,
   PET_CATEGORIES,
   getPetLevel,
-  getPetRequestXP,
+  PetResourceName,
 } from "features/game/types/pets";
 import { Modal } from "components/ui/Modal";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
@@ -16,23 +16,23 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 
-import levelUp from "assets/icons/level_up.png";
-import xpIcon from "assets/icons/xp.png";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
-import {
-  getPetEnergy,
-  getPetExperience,
-  getPetFoodRequests,
-} from "features/game/events/pets/feedPet";
-import { pixelDarkBorderStyle } from "features/game/lib/style";
+import { getPetFoodRequests } from "features/game/events/pets/feedPet";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
-import { Decimal } from "decimal.js-light";
 import { CookableName } from "features/game/types/consumables";
 import { ResetFoodRequests } from "./ResetFoodRequests";
+import { PetFeed } from "./PetFeed";
+
+import levelUp from "assets/icons/level_up.png";
+import xpIcon from "assets/icons/xp.png";
+import { PetFetch } from "./PetFetch";
+import { ModalOverlay } from "components/ui/ModalOverlay";
+import { ChestRewardsList } from "components/ui/ChestRewardsList";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 interface Props {
   show: boolean;
@@ -58,16 +58,17 @@ export const PetModal: React.FC<Props> = ({
   const [action, setAction] = useState<"feeding" | "fetching" | "resetting">(
     "feeding",
   );
-
+  const [showRewards, setShowRewards] = useState(false);
   const game = useSelector(gameService, _game);
 
-  const handleFeed = useCallback(
-    (food: CookableName) => {
-      if (!data?.name) return;
-      gameService.send("pet.fed", { petId: data?.name, food });
-    },
-    [gameService, data?.name],
-  );
+  const handleFeed = (food: CookableName) => {
+    if (!data?.name) return;
+    gameService.send("pet.fed", { petId: data?.name, food });
+  };
+
+  const handlePetFetch = (fetch: PetResourceName) => {
+    gameService.send("pet.fetched", { petId: data?.name, fetch });
+  };
 
   const handleResetRequests = () => {
     if (!data?.name) return;
@@ -94,24 +95,14 @@ export const PetModal: React.FC<Props> = ({
   const todayDate = new Date(Date.now()).toISOString().split("T")[0];
   const lastFedAtDate = new Date(lastFedAt ?? 0).toISOString().split("T")[0];
   const fedToday = lastFedAtDate === todayDate;
-  const sortedFoodRequests = [...data.requests.food].sort((a, b) => {
-    const aIsRequested = foodRequests.includes(a);
-    const bIsRequested = foodRequests.includes(b);
-
-    // If both are requested or both are not requested, maintain original order
-    if (aIsRequested === bIsRequested) {
-      return 0;
-    }
-
-    // Requested foods (available) come first
-    return aIsRequested ? -1 : 1;
-  });
 
   return (
     <Modal show={show} onHide={onClose}>
       <OuterPanel className="flex flex-col gap-1">
         <div className="flex items-center p-1 justify-between">
-          <Label type="default">{data.name}</Label>
+          <Label type="default">
+            <span className="text-sm px-0.5 pb-0.5">{data.name}</span>
+          </Label>
           <img
             onClick={onClose}
             src={SUNNYSIDE.icons.close}
@@ -204,105 +195,18 @@ export const PetModal: React.FC<Props> = ({
               </Button>
             </div>
             {action === "feeding" && (
-              <div className="flex flex-col gap-1">
-                <div className="flex items-center justify-between">
-                  <Label type="default">{t("pets.requestsToday")}</Label>
-                  <p
-                    className="underline font-secondary text-xxs pb-1 -mt-1 mr-1 cursor-pointer hover:text-blue-500"
-                    onClick={() => setAction("resetting")}
-                  >
-                    {t("pets.resetRequests")}
-                  </p>
-                </div>
-                <div className="flex flex-col gap-1">
-                  {sortedFoodRequests.map((food) => {
-                    const isRequested = foodRequests.includes(food);
-                    const isComplete =
-                      isRequested &&
-                      fedToday &&
-                      data.requests.foodFed?.includes(food);
-                    const isUpcoming = !isRequested;
-
-                    const baseFoodXp = getPetRequestXP(food);
-                    const foodXp = getPetExperience({
-                      basePetXP: baseFoodXp,
-                      game,
-                      petLevel: level,
-                      isPetNFT: isNFTPet,
-                    });
-                    const petEnergy = getPetEnergy({
-                      petLevel: level,
-                      basePetEnergy: baseFoodXp,
-                    });
-                    const foodAvailable = (
-                      game.inventory[food] ?? new Decimal(0)
-                    ).toNumber();
-
-                    return (
-                      <div
-                        key={`food-request-${food}`}
-                        className="flex w-full gap-1"
-                      >
-                        <InnerPanel className="w-[80%] flex gap-1">
-                          <div
-                            className="bg-brown-600 relative mr-0.5 w-5 h-5 flex justify-center items-center"
-                            style={{
-                              width: `${PIXEL_SCALE * 15}px`,
-                              height: `${PIXEL_SCALE * 15}px`,
-                              ...pixelDarkBorderStyle,
-                            }}
-                          >
-                            <img
-                              src={ITEM_DETAILS[food].image}
-                              className="w-[90%] h-[90%] object-contain"
-                            />
-                          </div>
-                          <div className="flex flex-col flex-1 justify-center -mt-0.5">
-                            <p className="text-xs mb-0.5">{food}</p>
-                            <p className="text-xxs">
-                              {t("count.available", { count: foodAvailable })}
-                            </p>
-                          </div>
-                          <div>
-                            <div className="flex flex-row gap-1">
-                              <span className="text-xs text-right">{`+${foodXp}`}</span>
-                              <div className="flex flex-row w-5 h-5 justify-center items-center">
-                                <img
-                                  src={xpIcon}
-                                  className="w-[80%] object-contain"
-                                />
-                              </div>
-                            </div>
-                            <div className="flex flex-row gap-1 items-center">
-                              <span className="text-xs">{`+${petEnergy}`}</span>
-                              <div className="flex flex-row w-5 h-5">
-                                <img
-                                  src={SUNNYSIDE.icons.lightning}
-                                  className="w-full object-contain"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </InnerPanel>
-                        <Button
-                          className="w-[20%]"
-                          disabled={isComplete || foodAvailable === 0}
-                          onClick={() => handleFeed(food)}
-                        >
-                          {isComplete ? (
-                            <img
-                              src={SUNNYSIDE.icons.confirm}
-                              className="w-5"
-                            />
-                          ) : (
-                            <p>{t("pets.feed")}</p>
-                          )}
-                        </Button>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+              <PetFeed
+                data={data}
+                onFeed={handleFeed}
+                onResetClick={() => setAction("resetting")}
+              />
+            )}
+            {action === "fetching" && (
+              <PetFetch
+                data={data}
+                onShowRewards={() => setShowRewards(true)}
+                onFetch={handlePetFetch}
+              />
             )}
           </div>
         )}
@@ -319,6 +223,29 @@ export const PetModal: React.FC<Props> = ({
           />
         )}
       </OuterPanel>
+      <ModalOverlay
+        show={showRewards}
+        onBackdropClick={() => setShowRewards(false)}
+      >
+        <CloseButtonPanel
+          onClose={() => setShowRewards(false)}
+          title="Rewards List"
+        >
+          <ChestRewardsList
+            type="Fossil Shell"
+            chestDescription={[
+              {
+                text: "The fossil shell will reward you with a random fetchable resource.",
+                icon: ITEM_DETAILS["Fossil Shell"].image,
+              },
+              {
+                text: "Spend 250 pet energy to fetch the fossil shell.",
+                icon: SUNNYSIDE.icons.lightning,
+              },
+            ]}
+          />
+        </CloseButtonPanel>
+      </ModalOverlay>
     </Modal>
   );
 };
