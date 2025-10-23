@@ -2470,6 +2470,7 @@
   "landscape.timeWarpTotem.nonStack": "Time Warp and Super Totem don't stack.",
   "landscape.confirmation.gnomes.one": "Place the three gnomes in this order (from left to right): Cobale, Gnome, Clementine.",
   "landscape.confirmation.gnomes.two": "The crop plot should be placed directly below of the Gnome.",
+  "landscape.petNFT.notHatched": "Pet NFT has not hatched yet",
   "leaderboard.leaderboard": "Leaderboard",
   "leaderboard.error": "Error loading leaderboard. Please try again later.",
   "leaderboard.initialising": "Calculating your rank. Please try again later.",
