@@ -1,3 +1,4 @@
+import React, { useContext } from "react";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
@@ -18,7 +19,11 @@ import {
   PetResourceName,
 } from "features/game/types/pets";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React from "react";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import Decimal from "decimal.js-light";
+import { CountLabel } from "components/ui/CountLabel";
 
 type Props = {
   data: Pet | PetNFT;
@@ -26,8 +31,13 @@ type Props = {
   onFetch: (fetch: PetResourceName) => void;
 };
 
+const _inventory = (state: MachineState) => state.context.state.inventory;
+
 export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
   const { t } = useAppTranslation();
+  const { gameService } = useContext(Context);
+
+  const inventory = useSelector(gameService, _inventory);
 
   const { level } = getPetLevel(data.experience);
   const fetches = [...getPetFetches(data).fetches].sort(
@@ -53,10 +63,11 @@ export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
           const energyRequired = PET_RESOURCES[name].energy;
           const hasEnoughEnergy = data.energy >= energyRequired;
           const fetchYield = data.fetches?.[name] ?? 1;
+          const inventoryCount = inventory[name] ?? new Decimal(0);
 
           return (
             <div key={`fetch-${name}`} className="flex w-full gap-1">
-              <InnerPanel className="flex gap-1 items-center w-full">
+              <InnerPanel className="flex gap-2 items-center w-full">
                 <div
                   className="bg-brown-600 relative mr-0.5 w-5 h-5 flex justify-center items-center"
                   style={{
@@ -70,6 +81,15 @@ export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
                     alt={name}
                     className="w-[90%] h-[90%] object-contain"
                   />
+                  {inventoryCount.gt(0) && (
+                    <CountLabel
+                      isHover={false}
+                      count={inventoryCount}
+                      labelType="default"
+                      rightShiftPx={-13}
+                      topShiftPx={-11}
+                    />
+                  )}
                 </div>
                 <div className="flex flex-col flex-1">
                   <div className="flex flex-col flex-1 justify-center -mt-0.5">
