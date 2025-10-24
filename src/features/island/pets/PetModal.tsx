@@ -62,7 +62,6 @@ export const PetModal: React.FC<Props> = ({
   const petId = isNFTPet ? data.id : data?.name;
 
   const handleFeed = (food: CookableName) => {
-
     gameService.send("pet.fed", {
       petId,
       food,
@@ -70,7 +69,6 @@ export const PetModal: React.FC<Props> = ({
   };
 
   const handlePetFetch = (fetch: PetResourceName) => {
-
     gameService.send("pet.fetched", {
       petId,
       fetch,
@@ -78,7 +76,6 @@ export const PetModal: React.FC<Props> = ({
   };
 
   const handleResetRequests = () => {
-
     gameService.send("REVEAL", {
       event: {
         type: "reset.petRequests",
