@@ -12,20 +12,22 @@ import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { prng } from "lib/prng";
 
-function getFetchYield({
+export function getFetchYield({
   petLevel,
   fetchResource,
   isPetNFT,
+  createdAt,
   seed,
 }: {
   petLevel: number;
   fetchResource: PetResourceName;
   isPetNFT: boolean;
-  seed: number;
+  createdAt: number;
+  seed?: number;
 }) {
   let yieldAmount = 1;
   let fetchPercentage = 0;
-  const { value: prngValue, nextSeed } = prng(seed);
+  const { value: prngValue, nextSeed } = prng(seed ?? createdAt);
 
   if (petLevel < 15) return { yieldAmount, nextSeed }; // skips the rest of the logic if pet is less than level 15
 
@@ -43,7 +45,7 @@ function getFetchYield({
     fetchPercentage += 25; // total 50%
   }
 
-  if (prngValue * 100 < fetchPercentage) {
+  if (prngValue * 100 < fetchPercentage && !!seed) {
     yieldAmount += 1;
   }
 
@@ -116,13 +118,13 @@ export function fetchPet({ state, action, createdAt = Date.now() }: Options) {
     }
 
     petData.energy -= energyRequired;
-    const initialSeed = createdAt;
 
     const { yieldAmount, nextSeed } = getFetchYield({
       petLevel,
       fetchResource: fetch,
       isPetNFT,
-      seed: petData.fetchSeeds?.[fetch] ?? initialSeed,
+      seed: petData.fetchSeeds?.[fetch],
+      createdAt,
     });
 
     stateCopy.inventory[fetch] = (
