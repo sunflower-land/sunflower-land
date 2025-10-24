@@ -1,194 +1,92 @@
-import xpIcon from "assets/icons/xp.png";
+import React, { useContext } from "react";
+import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Box } from "components/ui/Box";
-import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
-import { SplitScreenView } from "components/ui/SplitScreenView";
-import { Loading } from "features/auth/components/Loading";
+import Decimal from "decimal.js-light";
 import {
   FOOD_TO_DIFFICULTY,
   getPetEnergy,
   getPetExperience,
   getPetFoodRequests,
 } from "features/game/events/pets/feedPet";
+import { Context } from "features/game/GameProvider";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { MachineState } from "features/game/lib/gameMachine";
+import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { CookableName } from "features/game/types/consumables";
-import { GameState, Inventory } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getPetLevel,
   getPetRequestXP,
   isPetNFT,
   Pet,
-  PetName,
   PetNFT,
 } from "features/game/types/pets";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useState } from "react";
-import { ResetFoodRequests } from "./ResetFoodRequests";
-import { getPetImage } from "./lib/petShared";
 
-export const PetFeed: React.FC<{
-  petId: PetName | number;
-  petData: Pet | PetNFT;
-  handleFeed: (food: CookableName) => void;
-  handleResetRequests: (petId: PetName | number) => void;
-  isRevealingState: boolean;
-  isRevealedState: boolean;
-  onAcknowledged: () => void;
-  state: GameState;
-}> = ({
-  petId,
-  petData,
-  handleFeed,
-  handleResetRequests,
-  isRevealingState,
-  isRevealedState,
-  onAcknowledged,
-  state,
-}) => {
-  const { t } = useAppTranslation();
-  const [selectedFood, setSelectedFood] = useState<CookableName | null>(
-    petData.requests.food[0] ?? null,
-  );
+import xpIcon from "assets/icons/xp.png";
+import { Button } from "components/ui/Button";
+import classNames from "classnames";
 
-  // States for reset Requests
-  const [showResetRequests, setShowResetRequests] = useState(false);
-  const [isRevealing, setIsRevealing] = useState(false);
-  const [isPicking, setIsPicking] = useState(false);
-  const resetRequests = async () => {
-    setIsPicking(true);
-    await new Promise((resolve) => setTimeout(resolve, 5000));
-    handleResetRequests(petId);
-    setIsRevealing(true);
-    setIsPicking(false);
-  };
-  const lastFedAt = petData.requests.fedAt;
-
-  const todayDate = new Date(Date.now()).toISOString().split("T")[0];
-  const lastFedAtDate = new Date(lastFedAt ?? 0).toISOString().split("T")[0];
-  const isToday = lastFedAtDate === todayDate;
-  const { level: petLevel } = getPetLevel(petData.experience);
-  const foodRequests = getPetFoodRequests(petData, petLevel);
-
-  if (petData.requests.food.length === 0) {
-    return (
-      <InnerPanel>
-        <Loading text={t("pets.loadingFoodRequests")} />
-      </InnerPanel>
-    );
-  }
-
-  if (showResetRequests) {
-    return (
-      <ResetFoodRequests
-        petData={petData}
-        inventory={state.inventory}
-        todayDate={todayDate}
-        resetRequests={resetRequests}
-        setShowResetRequests={setShowResetRequests}
-        isRevealedState={isRevealedState}
-        isRevealing={isRevealing}
-        onAcknowledged={onAcknowledged}
-        setIsRevealing={setIsRevealing}
-        isPicking={isPicking}
-        isRevealingState={isRevealingState}
-      />
-    );
-  }
-
-  return (
-    <SplitScreenView
-      panel={
-        <PetFeedPanel
-          petData={petData}
-          petId={petId}
-          selectedFood={selectedFood}
-          handleFeed={handleFeed}
-          petLevel={petLevel}
-          isToday={isToday}
-          setShowResetRequests={setShowResetRequests}
-          foodRequests={foodRequests}
-          state={state}
-        />
-      }
-      content={
-        <PetFeedContent
-          petData={petData}
-          selectedFood={selectedFood}
-          setSelectedFood={setSelectedFood}
-          inventory={state.inventory}
-          isToday={isToday}
-          foodRequests={foodRequests}
-        />
-      }
-    />
-  );
+type Props = {
+  data: Pet | PetNFT;
+  onResetClick: () => void;
+  onFeed: (food: CookableName) => void;
 };
 
-const PetFeedPanel: React.FC<{
-  petData: Pet | PetNFT;
-  petId: PetName | number;
-  selectedFood: CookableName | null;
-  handleFeed: (food: CookableName) => void;
-  isToday: boolean;
-  setShowResetRequests: (showResetRequests: boolean) => void;
-  state: GameState;
-  petLevel: number;
-  foodRequests: CookableName[];
-}> = ({
-  petData,
-  petId,
-  selectedFood,
-  petLevel,
-  handleFeed,
-  isToday,
-  setShowResetRequests,
-  state,
-  foodRequests,
-}) => {
+const _game = (state: MachineState) => state.context.state;
+
+export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
+  const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
-  const petImage = getPetImage("happy", petId);
 
-  if (!selectedFood) {
-    return (
-      <div className="flex flex-row-reverse sm:flex-col gap-2 justify-between w-full">
-        <div className="flex flex-col items-center gap-2">
-          <Label type="default" className="text-xs">
-            {petData.name}
-          </Label>
-          <img
-            src={petImage}
-            alt={petData.name}
-            className="w-12 h-12 object-contain"
-          />
-        </div>
-        <div className="flex flex-row gap-2 items-center w-full">
-          <span className="text-xs w-full text-center">
-            {t("pets.noFoodSelected")}
-          </span>
-        </div>
-      </div>
-    );
-  }
+  const game = useSelector(gameService, _game);
 
-  const baseFoodXp = getPetRequestXP(selectedFood);
-  const foodXp = getPetExperience({
-    basePetXP: baseFoodXp,
-    game: state,
-    petLevel,
-    isPetNFT: isPetNFT(petData),
+  const isNFTPet = isPetNFT(data);
+  const { level } = getPetLevel(data.experience);
+  const foodRequests = getPetFoodRequests(data, level);
+  const lastFedAt = data.requests.fedAt;
+  const todayDate = new Date(Date.now()).toISOString().split("T")[0];
+  const lastFedAtDate = new Date(lastFedAt ?? 0).toISOString().split("T")[0];
+  const fedToday = lastFedAtDate === todayDate;
+  const sortedFoodRequests = [...data.requests.food].sort((a, b) => {
+    const aIsRequested = foodRequests.includes(a);
+    const bIsRequested = foodRequests.includes(b);
+
+    // If both are requested or both are not requested, maintain original order
+    if (aIsRequested === bIsRequested) {
+      return 0;
+    }
+
+    // Requested foods (available) come first
+    return aIsRequested ? -1 : 1;
   });
-  const petEnergy = getPetEnergy({
-    petLevel,
-    basePetEnergy: baseFoodXp,
-  });
-  const isFoodLocked = !foodRequests.includes(selectedFood);
-  const isDisabled =
-    (isToday && petData.requests.foodFed?.includes(selectedFood)) ||
-    !state.inventory[selectedFood] ||
-    state.inventory[selectedFood].lessThan(1) ||
-    isFoodLocked;
+
+  const getRequestDetails = (food: CookableName) => {
+    const isRequested = foodRequests.includes(food);
+    const isComplete =
+      isRequested && fedToday && data.requests.foodFed?.includes(food);
+
+    const baseFoodXp = getPetRequestXP(food);
+    const foodXp = getPetExperience({
+      basePetXP: baseFoodXp,
+      game,
+      petLevel: level,
+      isPetNFT: isNFTPet,
+    });
+    const petEnergy = getPetEnergy({
+      petLevel: level,
+      basePetEnergy: baseFoodXp,
+    });
+
+    return {
+      isRequested,
+      isComplete,
+      foodXp,
+      petEnergy,
+    };
+  };
 
   const getPetUnlockLevel = (
     petData: Pet | PetNFT,
@@ -196,177 +94,108 @@ const PetFeedPanel: React.FC<{
     foodRequest: CookableName,
   ): number => {
     const difficulty = FOOD_TO_DIFFICULTY.get(foodRequest);
+
     if (isPetNFT(petData)) {
-      if (petLevel < 30 && difficulty === "medium") {
-        return 30;
-      }
-      if (petLevel < 200 && difficulty === "hard") {
-        return 200;
-      }
+      if (difficulty === "medium" && petLevel < 30) return 30;
+      if (difficulty === "hard" && petLevel < 200) return 200;
       return 200;
     }
-    if (petLevel < 10 && difficulty === "hard") {
-      return 10;
-    }
+
+    if (difficulty === "hard" && petLevel < 10) return 10;
+
     return 200;
   };
 
-  const petUnlockLevel = getPetUnlockLevel(petData, petLevel, selectedFood);
-
   return (
-    <div className="flex flex-col items-center gap-1">
-      {/* Pet Image and Name */}
-      <div className="flex flex-row-reverse sm:flex-col gap-2 justify-between w-full pt-1">
-        <div className="flex flex-col items-center gap-2">
-          <Label type="default" className="text-xs">
-            {petData.name}
-          </Label>
-          <img
-            src={petImage}
-            alt={petData.name}
-            className="w-12 h-12 object-contain"
-          />
-        </div>
-
-        <div className="flex flex-row gap-2 items-center justify-center w-full">
-          <img
-            src={
-              isFoodLocked
-                ? SUNNYSIDE.icons.expression_confused
-                : ITEM_DETAILS[selectedFood].image
-            }
-            alt={selectedFood}
-            className={"w-5"}
-          />
-          <span className="text-xs">
-            {!isFoodLocked ? selectedFood : "Food Locked"}
-          </span>
-        </div>
+    <div className="flex flex-col gap-1">
+      <div className="flex items-center justify-between">
+        <Label type="default">{t("pets.requestsToday")}</Label>
+        <p
+          className="underline font-secondary text-xxs pb-1 -mt-1 mr-1 cursor-pointer hover:text-blue-500"
+          onClick={onResetClick}
+        >
+          {t("pets.resetRequests")}
+        </p>
       </div>
+      <div className="flex flex-col gap-1 max-h-[250px] overflow-y-auto scrollable">
+        {sortedFoodRequests.map((food) => {
+          const foodAvailable = (
+            game.inventory[food] ?? new Decimal(0)
+          ).toNumber();
 
-      <div className="flex flex-row sm:flex-col gap-2 justify-between w-full p-1">
-        <div className="flex flex-row gap-1 justify-center items-center">
-          <img src={xpIcon} className="w-4" />
-          <span className="text-xs">{t("pets.plusFoodXp", { foodXp })}</span>
-        </div>
-        <div className="flex flex-row gap-1 justify-center items-center">
-          <img src={SUNNYSIDE.icons.lightning} className="w-3" />
-          <span className="text-xs">
-            {t("pets.plusFoodEnergy", { energy: petEnergy })}
-          </span>
-        </div>
-      </div>
+          const { isRequested, isComplete, foodXp, petEnergy } =
+            getRequestDetails(food);
 
-      {/* Labels for today's feed and insufficient food */}
-      <div className="mb-1">
-        {isFoodLocked ? (
-          <div className="flex w-full items-start justify-center">
-            <Label type="danger" className="text-xs">
-              {t("pets.foodLocked", { level: petUnlockLevel })}
-            </Label>
-          </div>
-        ) : isToday && petData.requests.foodFed?.includes(selectedFood) ? (
-          <div className="flex w-full items-start justify-center">
-            <Label
-              type="success"
-              className="text-xs"
-              icon={SUNNYSIDE.icons.confirm}
-            >
-              {t("pets.foodFedToday")}
-            </Label>
-          </div>
-        ) : !state.inventory[selectedFood] ||
-          state.inventory[selectedFood].lessThan(1) ? (
-          <div className="flex w-full items-start justify-center">
-            <Label type="danger" className="text-xs">
-              {t("pets.insufficientFood")}
-            </Label>
-          </div>
-        ) : null}
-      </div>
-
-      <div className="flex flex-row sm:flex-col gap-1 w-full">
-        <Button disabled={isDisabled} onClick={() => handleFeed(selectedFood)}>
-          {t("pets.feedPet", { pet: petData.name })}
-        </Button>
-      </div>
-
-      <p
-        className="underline font-secondary text-xxs pb-1 -mt-1 cursor-pointer hover:text-blue-500"
-        onClick={() => setShowResetRequests(true)}
-      >
-        {t("pets.resetRequests")}
-      </p>
-    </div>
-  );
-};
-
-const PetFeedContent: React.FC<{
-  petData: Pet | PetNFT;
-  inventory: Inventory;
-  selectedFood: CookableName | null;
-  setSelectedFood: (selectedFood: CookableName) => void;
-  isToday: boolean;
-  foodRequests: CookableName[];
-}> = ({
-  petData,
-  selectedFood,
-  setSelectedFood,
-  inventory,
-  isToday,
-  foodRequests,
-}) => {
-  const { t } = useAppTranslation();
-  const allFoods = [...petData.requests.food];
-
-  return (
-    <div className="flex flex-col gap-1 pt-0.5">
-      <Label type="default">
-        {t("pets.requestsToday", { pet: petData.name })}
-      </Label>
-      <div className="flex flex-row flex-wrap gap-1">
-        {allFoods
-          .sort((a, b) => {
-            const aIsRequested = foodRequests.includes(a);
-            const bIsRequested = foodRequests.includes(b);
-
-            // If both are requested or both are not requested, maintain original order
-            if (aIsRequested === bIsRequested) {
-              return 0;
-            }
-
-            // Requested foods (available) come first
-            return aIsRequested ? -1 : 1;
-          })
-          .map((food) => {
-            const isRequested = foodRequests.includes(food);
-            const isComplete =
-              isRequested &&
-              isToday &&
-              petData.requests.foodFed?.includes(food);
-            const isUpcoming = !isRequested;
-            return (
-              <Box
-                key={food}
-                image={
-                  isUpcoming
-                    ? SUNNYSIDE.icons.expression_confused
-                    : ITEM_DETAILS[food].image
-                }
-                isSelected={selectedFood === food}
-                onClick={() => setSelectedFood(food)}
-                count={isUpcoming ? undefined : inventory[food]}
-                showOverlay={isComplete || isUpcoming}
-                secondaryImage={
-                  isComplete
-                    ? SUNNYSIDE.icons.confirm
-                    : isUpcoming
-                      ? SUNNYSIDE.icons.lock
-                      : undefined
-                }
-              />
-            );
-          })}
+          return (
+            <div key={`food-request-${food}`} className="flex w-full gap-1">
+              <InnerPanel className="flex gap-1 items-center w-full">
+                <div
+                  className="bg-brown-600 relative mr-0.5 w-5 h-5 flex justify-center items-center"
+                  style={{
+                    width: `${PIXEL_SCALE * 15}px`,
+                    height: `${PIXEL_SCALE * 15}px`,
+                    ...pixelDarkBorderStyle,
+                  }}
+                >
+                  <img
+                    src={
+                      !isRequested
+                        ? SUNNYSIDE.icons.lock
+                        : ITEM_DETAILS[food].image
+                    }
+                    className="w-[90%] h-[90%] object-contain"
+                  />
+                </div>
+                <div className="flex flex-col flex-1 justify-center -mt-0.5">
+                  <p className="text-xs mb-0.5">
+                    {!isRequested
+                      ? t("pets.upcomingRequest", {
+                          level: getPetUnlockLevel(data, level, food),
+                        })
+                      : food}
+                  </p>
+                  {isRequested && (
+                    <p
+                      className={classNames("text-xxs", {
+                        "text-red-600": foodAvailable === 0,
+                      })}
+                    >
+                      {t("count.available", { count: foodAvailable })}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <div className="flex flex-row gap-1">
+                    <span className="text-xs text-right">{`+${foodXp}`}</span>
+                    <div className="flex flex-row w-5 h-5 justify-center items-center">
+                      <img src={xpIcon} className="w-[80%] object-contain" />
+                    </div>
+                  </div>
+                  <div className="flex flex-row gap-1 items-center">
+                    <span className="text-xs">{`+${petEnergy}`}</span>
+                    <div className="flex flex-row w-5 h-5">
+                      <img
+                        src={SUNNYSIDE.icons.lightning}
+                        className="w-full object-contain"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </InnerPanel>
+              <Button
+                className="flex-shrink-0 px-2 mr-0.5 w-[77px]"
+                disabled={isComplete || foodAvailable === 0 || !isRequested}
+                onClick={() => isRequested && onFeed(food)}
+              >
+                {isComplete ? (
+                  <img src={SUNNYSIDE.icons.confirm} className="w-6" />
+                ) : (
+                  <p>{t("pets.feed")}</p>
+                )}
+              </Button>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

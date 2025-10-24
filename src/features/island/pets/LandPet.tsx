@@ -5,12 +5,12 @@ import {
   isPetNeglected,
   PetName,
 } from "features/game/types/pets";
-import { PetModal } from "./PetModal";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { Transition } from "@headlessui/react";
 import { PetSprite } from "./PetSprite";
 import { _petData } from "./lib/petShared";
+import { PetModal } from "./PetModal";
 
 export const LandPet: React.FC<{ name: PetName }> = ({ name }) => {
   const [showPetModal, setShowPetModal] = useState(false);
@@ -34,6 +34,8 @@ export const LandPet: React.FC<{ name: PetName }> = ({ name }) => {
       setShowPetModal(true);
     }
   };
+
+  if (!petData) return null;
 
   return (
     <PetSprite
@@ -59,10 +61,10 @@ export const LandPet: React.FC<{ name: PetName }> = ({ name }) => {
           {"+10XP"}
         </span>
       </Transition>
+
       <PetModal
         show={showPetModal}
         onClose={() => setShowPetModal(false)}
-        petId={name}
         isNeglected={isNeglected}
         petType={petType}
         data={petData}

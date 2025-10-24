@@ -10,8 +10,8 @@ import {
   isPetOfTypeFed,
   isPetNFTRevealed,
 } from "features/game/types/pets";
-import { PetModal } from "../../pets/PetModal";
 import { Transition } from "@headlessui/react";
+import { PetModal } from "features/island/pets/PetModal";
 
 type Props = {
   id: string;
@@ -92,7 +92,6 @@ export const PetNFT: React.FC<Props> = ({ id }) => {
         <PetModal
           show={showPetModal}
           onClose={() => setShowPetModal(false)}
-          petId={Number(id)}
           data={petNFTData}
           isNeglected={isNeglected}
           petType={petType}
