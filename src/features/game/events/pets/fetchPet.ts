@@ -10,6 +10,56 @@ import {
 } from "features/game/types/pets";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
+import { prng } from "lib/prng";
+
+function getFetchYield({
+  petLevel,
+  fetchResource,
+  isPetNFT,
+  seed,
+}: {
+  petLevel: number;
+  fetchResource: PetResourceName;
+  isPetNFT: boolean;
+  seed: number;
+}) {
+  let yieldAmount = 1;
+  let fetchPercentage = 0;
+  const { value: prngValue, nextSeed } = prng(seed);
+
+  if (petLevel < 15) return { yieldAmount, nextSeed }; // skips the rest of the logic if pet is less than level 15
+
+  // check not really needed but just in case
+  if (petLevel >= 15) {
+    fetchPercentage += 10;
+  }
+  if (petLevel >= 50) {
+    fetchPercentage += 5;
+  }
+  if (petLevel >= 100) {
+    fetchPercentage += 10;
+  }
+  if (petLevel >= 150 && isPetNFT && fetchResource === "Moonfur") {
+    fetchPercentage += 25; // total 50%
+  }
+
+  if (prngValue * 100 < fetchPercentage) {
+    yieldAmount += 1;
+  }
+
+  if (petLevel >= 18 && fetchResource === "Acorn") {
+    yieldAmount += 1;
+  }
+
+  if (petLevel >= 60 && isPetNFT) {
+    const excludedResources: PetResourceName[] = ["Acorn", "Moonfur"];
+    if (!excludedResources.includes(fetchResource)) {
+      yieldAmount += 1;
+    }
+  }
+
+  return { yieldAmount, nextSeed };
+}
 
 export type FetchPetAction = {
   type: "pet.fetched";
@@ -66,17 +116,23 @@ export function fetchPet({ state, action, createdAt = Date.now() }: Options) {
     }
 
     petData.energy -= energyRequired;
+    const initialSeed = createdAt;
 
-    const yieldAmount = petData.fetches?.[fetch] ?? 1;
+    const { yieldAmount, nextSeed } = getFetchYield({
+      petLevel,
+      fetchResource: fetch,
+      isPetNFT,
+      seed: petData.fetchSeeds?.[fetch] ?? initialSeed,
+    });
+
     stateCopy.inventory[fetch] = (
       stateCopy.inventory[fetch] ?? new Decimal(0)
     ).add(yieldAmount);
 
-    petData.fetches = {
-      ...petData.fetches,
-      [fetch]: 1, // next yield is set in api
+    petData.fetchSeeds = {
+      ...petData.fetchSeeds,
+      [fetch]: nextSeed, // set next seed
     };
-
     return stateCopy;
   });
 }
