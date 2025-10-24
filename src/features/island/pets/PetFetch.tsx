@@ -1,11 +1,12 @@
+import React, { useContext } from "react";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Box } from "components/ui/Box";
+import classNames from "classnames";
 import { Button } from "components/ui/Button";
-import { ChestRewardsList } from "components/ui/ChestRewardsList";
 import { Label } from "components/ui/Label";
-import { Modal } from "components/ui/Modal";
-import { Panel } from "components/ui/Panel";
-import { SplitScreenView } from "components/ui/SplitScreenView";
+import { InnerPanel } from "components/ui/Panel";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getPetFetches,
@@ -15,149 +16,130 @@ import {
   Pet,
   PET_RESOURCES,
   PetNFT,
-  PetName,
   PetResourceName,
 } from "features/game/types/pets";
-import React, { useState } from "react";
-import { getPetImage } from "./lib/petShared";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import Decimal from "decimal.js-light";
+import { CountLabel } from "components/ui/CountLabel";
 
-interface Props {
-  petId: PetName | number;
-  petData: Pet | PetNFT;
-  handlePetFetch: (petId: PetName | number, fetch: PetResourceName) => void;
-}
+type Props = {
+  data: Pet | PetNFT;
+  onShowRewards: () => void;
+  onFetch: (fetch: PetResourceName) => void;
+};
 
-export const PetFetch: React.FC<Props> = ({
-  petId,
-  petData,
-  handlePetFetch,
-}) => {
-  const { level } = getPetLevel(petData.experience);
-  const fetches = [...getPetFetches(petData).fetches].sort(
+const _inventory = (state: MachineState) => state.context.state.inventory;
+
+export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
+  const { t } = useAppTranslation();
+  const { gameService } = useContext(Context);
+
+  const inventory = useSelector(gameService, _inventory);
+
+  const { level } = getPetLevel(data.experience);
+  const fetches = [...getPetFetches(data).fetches].sort(
     (a, b) => a.level - b.level,
   );
-  const isNapping = isPetNapping(petData);
-  const neglected = isPetNeglected(petData);
-
-  const [selectedFetch, setSelectedFetch] = useState<PetResourceName>("Acorn");
-  const [showRewards, setShowRewards] = useState(false);
-
-  const selectedFetchData = fetches.find((f) => f.name === selectedFetch);
-
-  const petImage = getPetImage("happy", petId);
-  const energyRequired = PET_RESOURCES[selectedFetch].energy;
-  const requiredLevel = selectedFetchData?.level ?? 0;
-  const hasRequiredLevel = level >= requiredLevel;
-  const hasEnoughEnergy = petData.energy >= energyRequired;
-  const fetchYield = petData.fetches?.[selectedFetch] ?? 1;
+  const isNapping = isPetNapping(data);
+  const neglected = isPetNeglected(data);
 
   return (
-    <>
-      <SplitScreenView
-        panel={
-          <div className="flex flex-col items-center gap-1 w-full">
-            <div className="flex flex-row-reverse sm:flex-col gap-2 justify-between w-full">
-              <div className="flex flex-col items-center gap-2">
-                <Label type="default" className="text-xs">
-                  {petData.name}
-                </Label>
-                <img src={petImage} alt={petData.name} className="w-12 h-12" />
-              </div>
+    <div className="flex flex-col gap-1">
+      <div className="flex items-center gap-2 justify-between flex-wrap">
+        <Label type="default">{t("pets.fetchableResources")}</Label>
+        <p
+          className="underline ml-1 font-secondary text-xxs pb-1 -mt-1 mr-1 cursor-pointer hover:text-blue-500"
+          onClick={onShowRewards}
+        >
+          {t("pets.fossilShellRewards")}
+        </p>
+      </div>
+      <div className="flex flex-col gap-1 max-h-[250px] overflow-y-auto scrollable">
+        {fetches.map(({ name, level: requiredLevel }) => {
+          const hasRequiredLevel = level >= requiredLevel;
+          const energyRequired = PET_RESOURCES[name].energy;
+          const hasEnoughEnergy = data.energy >= energyRequired;
+          const fetchYield = data.fetches?.[name] ?? 1;
+          const inventoryCount = inventory[name] ?? new Decimal(0);
 
-              {selectedFetch && (
-                <div className="flex flex-row gap-2 justify-center items-center w-full">
-                  <img
-                    src={ITEM_DETAILS[selectedFetch].image}
-                    alt={selectedFetch}
-                    className="w-5"
-                  />
-                  <span className="text-xs">{`${fetchYield} x ${selectedFetch}`}</span>
-                </div>
-              )}
-            </div>
-
-            <div className="flex flex-row sm:flex-col justify-between w-full pt-1">
-              <div className="flex flex-row gap-2 justify-center items-center">
-                <Label
-                  icon={SUNNYSIDE.icons.lightning}
-                  type={hasEnoughEnergy ? "default" : "danger"}
+          return (
+            <div key={`fetch-${name}`} className="flex w-full gap-1">
+              <InnerPanel className="flex gap-2 items-center w-full">
+                <div
+                  className="bg-brown-600 relative mr-0.5 w-5 h-5 flex justify-center items-center"
+                  style={{
+                    width: `${PIXEL_SCALE * 15}px`,
+                    height: `${PIXEL_SCALE * 15}px`,
+                    ...pixelDarkBorderStyle,
+                  }}
                 >
-                  {`Energy: ${petData.energy}/${energyRequired}`}
-                </Label>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-1 sm:items-center w-full">
-              {!hasRequiredLevel && (
-                <Label type="danger">{`Level ${requiredLevel} required`}</Label>
-              )}
-            </div>
-
-            <div className="flex flex-col items-center w-full">
+                  <img
+                    src={ITEM_DETAILS[name].image}
+                    alt={name}
+                    className="w-[90%] h-[90%] object-contain"
+                  />
+                  {inventoryCount.gt(0) && (
+                    <CountLabel
+                      isHover={false}
+                      count={inventoryCount}
+                      labelType="default"
+                      rightShiftPx={-13}
+                      topShiftPx={-11}
+                    />
+                  )}
+                </div>
+                <div className="flex flex-col flex-1">
+                  <div className="flex flex-col flex-1 justify-center -mt-0.5">
+                    <p className="text-xs mb-0.5">{`${fetchYield} x ${name}`}</p>
+                  </div>
+                  <div className="flex flex-row sm:flex-col justify-between w-full pt-1">
+                    <div className="flex flex-row gap-1 items-center">
+                      <img src={SUNNYSIDE.icons.lightning} className="w-3" />
+                      <p
+                        className={classNames(`text-xxs`, {
+                          "text-red-600": !hasEnoughEnergy,
+                        })}
+                      >{`${data.energy}/${energyRequired} Energy`}</p>
+                    </div>
+                  </div>
+                </div>
+                {!hasRequiredLevel && (
+                  <Popover key={name}>
+                    <PopoverButton as="div" className="cursor-pointer">
+                      <div className="flex flex-row gap-1 justify-center items-center mr-1">
+                        <img src={SUNNYSIDE.icons.lock} className="w-5" />
+                      </div>
+                    </PopoverButton>
+                    <PopoverPanel
+                      anchor={{ to: "left end", offset: 2, gap: 5 }}
+                      className="flex pointer-events-none"
+                    >
+                      <Label type="danger">
+                        {t("pets.levelRequired", { level: requiredLevel })}
+                      </Label>
+                    </PopoverPanel>
+                  </Popover>
+                )}
+              </InnerPanel>
               <Button
+                className="flex-shrink-0 w-auto px-2 mr-0.5"
                 disabled={
-                  !selectedFetch ||
                   isNapping ||
                   neglected ||
                   !hasRequiredLevel ||
                   !hasEnoughEnergy
                 }
-                onClick={() => handlePetFetch(petId, selectedFetch)}
+                onClick={() => onFetch(name)}
               >
-                {`Fetch ${fetchYield}`}
+                {t("fetch")}
               </Button>
-              {selectedFetch === "Fossil Shell" && (
-                <p
-                  className="underline font-secondary text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
-                  onClick={() => setShowRewards(true)}
-                >
-                  {`Rewards List`}
-                </p>
-              )}
             </div>
-          </div>
-        }
-        content={
-          <div className="flex flex-col gap-1 pt-0.5">
-            <Label type="default">{"Fetchable resources"}</Label>
-            <div className="flex flex-row gap-1 flex-wrap">
-              {fetches.map(({ name, level: requiredLevel }) => {
-                const canLevel = level >= requiredLevel;
-                const isSelected = selectedFetch === name;
-                return (
-                  <Box
-                    key={name}
-                    image={ITEM_DETAILS[name].image}
-                    isSelected={isSelected}
-                    onClick={() => setSelectedFetch(name)}
-                    showOverlay={!canLevel}
-                    secondaryImage={
-                      !canLevel ? SUNNYSIDE.icons.lock : undefined
-                    }
-                  />
-                );
-              })}
-            </div>
-          </div>
-        }
-      />
-      <Modal show={showRewards} onHide={() => setShowRewards(false)}>
-        <Panel>
-          <ChestRewardsList
-            type="Fossil Shell"
-            chestDescription={[
-              {
-                text: "The fossil shell will reward you with a random fetchable resource.",
-                icon: ITEM_DETAILS["Fossil Shell"].image,
-              },
-              {
-                text: "Spend 250 pet energy to fetch the fossil shell.",
-                icon: SUNNYSIDE.icons.lightning,
-              },
-            ]}
-          />
-        </Panel>
-      </Modal>
-    </>
+          );
+        })}
+      </div>
+    </div>
   );
 };

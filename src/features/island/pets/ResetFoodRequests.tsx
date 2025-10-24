@@ -1,13 +1,18 @@
+import React, { useContext, useState } from "react";
+import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { Loading } from "features/auth/components/Loading";
+import { Context } from "features/game/GameProvider";
+import { MachineState } from "features/game/lib/gameMachine";
 import { Inventory } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Pet, PetNFT } from "features/game/types/pets";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useState } from "react";
+import { getTimeUntil } from "lib/utils/time";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 function getGemCost(resets: number) {
   const baseCost = 40;
@@ -15,38 +20,51 @@ function getGemCost(resets: number) {
   return Math.round(nextPrice);
 }
 
-export const ResetFoodRequests: React.FC<{
+type Props = {
   petData: Pet | PetNFT;
   inventory: Inventory;
   todayDate: string;
-  resetRequests: () => Promise<void>;
-  setShowResetRequests: (showResetRequests: boolean) => void;
-  isRevealedState: boolean;
-  isRevealing: boolean;
+  handleResetRequests: () => void;
   onAcknowledged: () => void;
-  setIsRevealing: (isRevealing: boolean) => void;
-  isPicking: boolean;
-  isRevealingState: boolean;
-}> = ({
+  onBack: () => void;
+};
+
+export function getTimeUntilUTCReset() {
+  const now = new Date();
+  // Get UTC date components
+  const utcYear = now.getUTCFullYear();
+  const utcMonth = now.getUTCMonth();
+  const utcDate = now.getUTCDate();
+  // Create a new Date at 00:00 UTC tomorrow
+  const tomorrowUTC = new Date(
+    Date.UTC(utcYear, utcMonth, utcDate + 1, 0, 0, 0, 0),
+  );
+
+  return getTimeUntil(tomorrowUTC);
+}
+
+const _revealing = (state: MachineState) => state.matches("revealing");
+const _revealed = (state: MachineState) => state.matches("revealed");
+
+export const ResetFoodRequests: React.FC<Props> = ({
   petData,
   inventory,
   todayDate,
-  resetRequests,
-  setShowResetRequests,
-  isRevealedState,
-  isRevealing,
+  handleResetRequests,
   onAcknowledged,
-  setIsRevealing,
-  isPicking,
-  isRevealingState,
+  onBack,
 }) => {
+  const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
-  const [showResetRequestsConfirmation, setShowResetRequestsConfirmation] =
-    useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
+  const isRevealingState = useSelector(gameService, _revealing);
+  const isRevealedState = useSelector(gameService, _revealed);
+
   const resetGemCost = getGemCost(petData.requests.resets?.[todayDate] ?? 0);
   const hasEnoughGem = inventory.Gem?.gte(resetGemCost);
 
-  if (isPicking || (isRevealingState && isRevealing)) {
+  if (isRevealingState) {
     return (
       <InnerPanel>
         <Loading text={t("pets.loadingFoodRequests")} />
@@ -54,18 +72,17 @@ export const ResetFoodRequests: React.FC<{
     );
   }
 
-  if (isRevealedState && isRevealing) {
+  if (isRevealedState) {
     return (
       <InnerPanel>
-        <Label type="warning">{t("pets.requestsReset")}</Label>
-        <p className="text-sm p-1">
+        <Label type="success">{t("pets.requestsReset")}</Label>
+        <p className="text-xs py-2 px-1">
           {t("pets.requestsResetDescription", { pet: petData.name })}
         </p>
         <Button
           onClick={() => {
             onAcknowledged();
-            setIsRevealing(false);
-            setShowResetRequests(false);
+            onBack();
           }}
         >
           {t("continue")}
@@ -75,50 +92,73 @@ export const ResetFoodRequests: React.FC<{
   }
 
   return (
-    <InnerPanel className="flex flex-col gap-2">
-      <div className="flex flex-row gap-2 items-center justify-between">
-        <div className="flex flex-row gap-2">
-          <img
-            src={SUNNYSIDE.icons.arrow_left}
-            className="h-6 cursor-pointer"
-            onClick={() => setShowResetRequests(false)}
-          />
-          <Label type="default">
-            {t("pets.getNewRequests", { pet: petData.name })}
-          </Label>
-        </div>
-        <Label type="info" secondaryIcon={ITEM_DETAILS.Gem.image}>
-          {`${resetGemCost} ${t("gems")}`}
-        </Label>
-      </div>
-      <p className="text-xs px-1">
-        {t("pets.requestsResetedAt", { pet: petData.name })}
-      </p>
-      <p className="text-xs px-1">
-        {t("pets.requestsResetedAtDescription", { pet: petData.name })}
-      </p>
-      <div className="flex flex-row gap-2 items-center justify-between">
-        <Button
-          onClick={() => {
-            if (showResetRequestsConfirmation) {
-              resetRequests();
-              setShowResetRequestsConfirmation(false);
-            } else {
-              setShowResetRequestsConfirmation(true);
-            }
-          }}
-          disabled={!hasEnoughGem}
-        >
-          {showResetRequestsConfirmation
-            ? t("confirm")
-            : t("pets.resetRequests")}
-        </Button>
-        {showResetRequestsConfirmation && (
-          <Button onClick={() => setShowResetRequestsConfirmation(false)}>
-            {t("cancel")}
-          </Button>
+    <div className="flex flex-col gap-1">
+      <Label type="default">
+        {t("pets.getNewRequests", { pet: petData.name })}
+      </Label>
+      <InnerPanel className="flex flex-col gap-2">
+        {!showConfirmation && (
+          <div className="flex justify-between items-center">
+            <img
+              src={SUNNYSIDE.icons.arrow_left}
+              style={{
+                width: `${PIXEL_SCALE * 11}px`,
+              }}
+              onClick={onBack}
+            />
+            <Label
+              type="info"
+              icon={SUNNYSIDE.icons.stopwatch}
+              className="-mb-1"
+            >
+              {t("pets.nextRequestsIn", { time: getTimeUntilUTCReset() })}
+            </Label>
+          </div>
         )}
-      </div>
-    </InnerPanel>
+        {!showConfirmation && (
+          <div className="flex flex-col gap-1 p-1">
+            <p className="text-xs">{t("pets.requestsResetAt")}</p>
+            <p className="text-xs">{t("pets.requestsResetAtDescription")}</p>
+          </div>
+        )}
+        {showConfirmation && (
+          <div className="flex flex-col gap-1 p-1">
+            <p className="text-xs">
+              {t("pets.resetConfirmation", { resetGemCost })}
+            </p>
+          </div>
+        )}
+        <div className="relative flex flex-row gap-1 items-center justify-between">
+          {showConfirmation && (
+            <Button onClick={() => setShowConfirmation(false)}>
+              {t("cancel")}
+            </Button>
+          )}
+          <Button
+            onClick={() => {
+              if (showConfirmation) {
+                handleResetRequests();
+                setShowConfirmation(false);
+              } else {
+                setShowConfirmation(true);
+              }
+            }}
+            disabled={!hasEnoughGem}
+            className="relative"
+          >
+            {!showConfirmation && (
+              <Label
+                type="info"
+                secondaryIcon={ITEM_DETAILS.Gem.image}
+                className="absolute right-1.5 -top-4"
+              >
+                {`Cost: ${resetGemCost}`}
+              </Label>
+            )}
+            {showConfirmation ? t("confirm") : t("pets.resetRequests")}
+          </Button>
+        </div>
+      </InnerPanel>
+    </div>
   );
 };
