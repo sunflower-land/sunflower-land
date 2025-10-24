@@ -62,7 +62,6 @@ export const PetModal: React.FC<Props> = ({
   const petId = isNFTPet ? data.id : data?.name;
 
   const handleFeed = (food: CookableName) => {
-    if (!data) return;
 
     gameService.send("pet.fed", {
       petId,
