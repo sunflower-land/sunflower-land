@@ -137,76 +137,76 @@ export const isPet = (name: InventoryItemName): name is PetName =>
   name in PET_TYPES;
 
 export type PetCategory = {
-  primaryCategory: PetCategoryName;
-  secondaryCategory?: PetCategoryName;
-  tertiaryCategory?: PetCategoryName;
+  primary: PetCategoryName;
+  secondary?: PetCategoryName;
+  tertiary?: PetCategoryName;
 };
 
 export const PET_CATEGORIES: Record<PetType, PetCategory> = {
   Dog: {
-    primaryCategory: "Guardian",
-    secondaryCategory: "Hunter",
+    primary: "Guardian",
+    secondary: "Hunter",
   },
   Cat: {
-    primaryCategory: "Hunter",
-    secondaryCategory: "Moonkin",
+    primary: "Hunter",
+    secondary: "Moonkin",
   },
   Owl: {
-    primaryCategory: "Moonkin",
-    secondaryCategory: "Forager",
+    primary: "Moonkin",
+    secondary: "Forager",
   },
   Horse: {
-    primaryCategory: "Voyager",
-    secondaryCategory: "Beast",
+    primary: "Voyager",
+    secondary: "Beast",
   },
   Bull: {
-    primaryCategory: "Beast",
-    secondaryCategory: "Snowkin",
+    primary: "Beast",
+    secondary: "Snowkin",
   },
   Hamster: {
-    primaryCategory: "Forager",
-    secondaryCategory: "Guardian",
+    primary: "Forager",
+    secondary: "Guardian",
   },
   Penguin: {
-    primaryCategory: "Snowkin",
-    secondaryCategory: "Voyager",
+    primary: "Snowkin",
+    secondary: "Voyager",
   },
 
   // NFT Pet Types
   Ram: {
-    primaryCategory: "Snowkin",
-    secondaryCategory: "Guardian",
-    tertiaryCategory: "Forager",
+    primary: "Snowkin",
+    secondary: "Guardian",
+    tertiary: "Forager",
   },
   Dragon: {
-    primaryCategory: "Hunter",
-    secondaryCategory: "Moonkin",
-    tertiaryCategory: "Voyager",
+    primary: "Hunter",
+    secondary: "Moonkin",
+    tertiary: "Voyager",
   },
   Phoenix: {
-    primaryCategory: "Moonkin",
-    secondaryCategory: "Voyager",
-    tertiaryCategory: "Hunter",
+    primary: "Moonkin",
+    secondary: "Voyager",
+    tertiary: "Hunter",
   },
   Griffin: {
-    primaryCategory: "Voyager",
-    secondaryCategory: "Hunter",
-    tertiaryCategory: "Beast",
+    primary: "Voyager",
+    secondary: "Hunter",
+    tertiary: "Beast",
   },
   Warthog: {
-    primaryCategory: "Beast",
-    secondaryCategory: "Forager",
-    tertiaryCategory: "Guardian",
+    primary: "Beast",
+    secondary: "Forager",
+    tertiary: "Guardian",
   },
   Wolf: {
-    primaryCategory: "Guardian",
-    secondaryCategory: "Snowkin",
-    tertiaryCategory: "Moonkin",
+    primary: "Guardian",
+    secondary: "Snowkin",
+    tertiary: "Moonkin",
   },
   Bear: {
-    primaryCategory: "Forager",
-    secondaryCategory: "Beast",
-    tertiaryCategory: "Snowkin",
+    primary: "Forager",
+    secondary: "Beast",
+    tertiary: "Snowkin",
   },
 };
 
@@ -226,24 +226,24 @@ export const PET_FETCHES: Record<PetType, PetConfig> = getObjectEntries(
   (acc, [petType, petCategory]) => {
     const fetches: PetConfig["fetches"] = [
       { name: "Acorn", level: 1 },
-      { name: FETCHES_BY_CATEGORY[petCategory.primaryCategory], level: 3 },
+      { name: FETCHES_BY_CATEGORY[petCategory.primary], level: 3 },
       { name: "Fossil Shell", level: 20 },
     ];
 
-    if (petCategory.secondaryCategory) {
+    if (petCategory.secondary) {
       fetches.push({
-        name: FETCHES_BY_CATEGORY[petCategory.secondaryCategory],
+        name: FETCHES_BY_CATEGORY[petCategory.secondary],
         level: 7,
       });
     }
 
     // Only NFT Pets have tertiary categories
-    if (petCategory.tertiaryCategory) {
+    if (petCategory.tertiary) {
       fetches.push(
         ...([
           { name: "Moonfur", level: 12 },
           {
-            name: FETCHES_BY_CATEGORY[petCategory.tertiaryCategory],
+            name: FETCHES_BY_CATEGORY[petCategory.tertiary],
             level: 25,
           },
         ] as const),

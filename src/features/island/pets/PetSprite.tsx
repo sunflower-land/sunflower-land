@@ -42,17 +42,17 @@ export const PetSprite: React.FC<PetSpriteProps> = ({
         onClick={onClick}
       />
 
-      {isNapping && !isTypeFed ? (
-        <img
-          src={SUNNYSIDE.icons.sleeping}
-          alt="sleeping"
-          className="absolute w-6 top-[-0.5rem] left-[-0.5rem]"
-        />
-      ) : isNeglected || isTypeFed ? (
+      {isNeglected || isTypeFed ? (
         <img
           src={SUNNYSIDE.icons.expression_stress}
           alt="stress"
           className="absolute w-[18px] top-[-0.5rem] left-[-0.5rem]"
+        />
+      ) : isNapping && !isTypeFed ? (
+        <img
+          src={SUNNYSIDE.icons.sleeping}
+          alt="sleeping"
+          className="absolute w-6 top-[-0.5rem] left-[-0.5rem]"
         />
       ) : null}
 

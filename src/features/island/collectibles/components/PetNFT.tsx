@@ -10,8 +10,8 @@ import {
   isPetOfTypeFed,
   isPetNFTRevealed,
 } from "features/game/types/pets";
-import { PetModal } from "../../pets/PetModal";
 import { Transition } from "@headlessui/react";
+import { PetModal } from "features/island/pets/PetModal";
 
 type Props = {
   id: string;
@@ -40,7 +40,8 @@ export const PetNFT: React.FC<Props> = ({ id }) => {
   const { gameService } = useContext(Context);
   const petNFTData = useSelector(gameService, _petNFTData(id));
   const [showPetModal, setShowPetModal] = useState(false);
-  const [showXpPopup, setShowXpPopup] = useState(false);
+  const [showPositiveXpPopup, setShowPositiveXpPopup] = useState(false);
+  const [showNegativeXpPopup, setShowNegativeXpPopup] = useState(false);
 
   const isNeglected = isPetNeglected(petNFTData);
   const isNapping = isPetNapping(petNFTData);
@@ -52,12 +53,18 @@ export const PetNFT: React.FC<Props> = ({ id }) => {
   const petType = getPetType(petNFTData);
 
   const handlePetClick = () => {
-    if (isNapping && !isTypeFed) {
+    if (isNeglected && !isTypeFed) {
+      gameService.send("pet.neglected", {
+        petId: Number(id),
+      });
+      setShowNegativeXpPopup(true);
+      window.setTimeout(() => setShowNegativeXpPopup(false), 1000);
+    } else if (isNapping && !isTypeFed) {
       gameService.send("pet.pet", {
         petId: Number(id),
       });
-      setShowXpPopup(true);
-      window.setTimeout(() => setShowXpPopup(false), 1000);
+      setShowPositiveXpPopup(true);
+      window.setTimeout(() => setShowPositiveXpPopup(false), 1000);
     } else {
       setShowPetModal(true);
     }
@@ -74,7 +81,7 @@ export const PetNFT: React.FC<Props> = ({ id }) => {
     >
       <Transition
         appear={true}
-        show={showXpPopup}
+        show={showPositiveXpPopup || showNegativeXpPopup}
         enter="transition-opacity transition-transform duration-200"
         enterFrom="opacity-0 translate-y-4"
         enterTo="opacity-100 -translate-y-0"
@@ -84,15 +91,23 @@ export const PetNFT: React.FC<Props> = ({ id }) => {
         className="flex -top-2 left-1/2 -translate-x-1/2 absolute z-40 pointer-events-none"
         as="div"
       >
-        <span className="text-sm yield-text" style={{ color: "#71e358" }}>
-          {"+10XP"}
+        <span
+          className="text-sm yield-text"
+          style={{
+            color: showPositiveXpPopup
+              ? "#71e358"
+              : showNegativeXpPopup
+                ? "#ff0000"
+                : undefined,
+          }}
+        >
+          {showPositiveXpPopup ? "+10XP" : showNegativeXpPopup ? "-500XP" : ""}
         </span>
       </Transition>
       {isRevealed && petType && (
         <PetModal
           show={showPetModal}
           onClose={() => setShowPetModal(false)}
-          petId={Number(id)}
           data={petNFTData}
           isNeglected={isNeglected}
           petType={petType}
