@@ -45,7 +45,7 @@ export function getFetchYield({
     fetchPercentage += 25; // total 50%
   }
 
-  if (prngValue * 100 < fetchPercentage && !!seed) {
+  if (prngValue * 100 < fetchPercentage && seed !== undefined) {
     yieldAmount += 1;
   }
 
