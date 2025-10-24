@@ -4558,7 +4558,6 @@
   "season.codex.howToEarn.three": "Perdagangkan hadiah hewan dan bunga! ({{date}})",
   "season.codex.mutants.four": "Kumpulkan susu dari sapi Anda untuk menemukan {{item}}.",
   "season.codex.mutants.five": "Kumpulkan wol dari domba Anda untuk menemukan {{item}}.",
-  "competition.ended.description.two": "Pemenang sedang dihitung dan akan diumumkan pada 7 Februari!",
   "description.goldenSheep.boost": "Beri makan domba secara gratis!",
   "description.solflareAegis.boost": "-50% Waktu Panen Plot di Musim Panas",
   "description.autumnsEmbrace.boost": "-50% Waktu Panen Plot di Musim Gugur",
@@ -6733,5 +6732,6 @@
   "description.sleepyChicken": "Ayam mutan mengantuk yang menjaga kawanan tetap sehat selama tidur siang musim gugur.",
   "description.astronautCow": "Penjelajah sapi kosmik yang berfungsi ganda sebagai dekorasi bintang.",
   "description.astronautSheep": "Seorang pembawa ruang angkasa berbulu yang bulu bintangnya memutar wol ekstra.",
-  "landscape.petNFT.notHatched": "Pet NFT belum menetas"
+  "landscape.petNFT.notHatched": "Pet NFT belum menetas",
+  "competition.ended.description.two": "Pemenang sedang dihitung dan akan diumumkan pada 31 Oktober!"
 }

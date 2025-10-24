@@ -4558,7 +4558,6 @@
   "season.codex.howToEarn.three": "Tauschen Sie Tier- und Blumenprämien ein! ({{date}})",
   "season.codex.mutants.four": "Sammle Milch von deinen Kühen, um die {{item}} zu entdecken.",
   "season.codex.mutants.five": "Sammle Wolle von deinen Schafen, um die {{item}} zu entdecken.",
-  "competition.ended.description.two": "Die Gewinner werden berechnet und am 7. Februar bekannt gegeben!",
   "description.goldenSheep.boost": "Füttere Schafe kostenlos!",
   "description.solflareAegis.boost": "-50% Erntezeit auf der Parzelle im Sommer",
   "description.autumnsEmbrace.boost": "-50% Erntezeit auf der Parzelle im Herbst",
@@ -6733,5 +6732,6 @@
   "description.sleepyChicken": "Ein schläfriges mutiertes Huhn, das die Herde auch im Herbst gesund hält.",
   "description.astronautCow": "Ein kosmischer Rinderforscher, der gleichzeitig als Sterndekoration dient.",
   "description.astronautSheep": "Ein wolliger Raumfahrer, dessen Sternenstaub-Fleece zusätzliche Wolle spinnt.",
-  "landscape.petNFT.notHatched": "Pet NFT ist noch nicht geschlüpft"
+  "landscape.petNFT.notHatched": "Pet NFT ist noch nicht geschlüpft",
+  "competition.ended.description.two": "Die Gewinner werden gerade berechnet und am 31. Oktober bekannt gegeben!"
 }
