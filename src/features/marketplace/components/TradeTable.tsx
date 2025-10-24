@@ -37,6 +37,7 @@ export const OfferTable: React.FC<{
               }}
               isResource={isResource}
               index={index}
+              isSelected={false}
             />
           );
         })}
@@ -74,6 +75,7 @@ export const ListingTable: React.FC<{
               }}
               isResource={isResource}
               index={index}
+              isSelected={false}
             />
           );
         })}

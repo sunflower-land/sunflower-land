@@ -31,7 +31,7 @@ interface RowProps {
   inventoryCount: number;
   details: TradeableDisplay;
   isResource: boolean;
-  isBulkBuy: boolean;
+  isBulkBuy?: boolean;
   isSelected: boolean;
   onClick?: (id: string) => void;
   onBulkListingSelect?: (id: string, checked: boolean) => void;
