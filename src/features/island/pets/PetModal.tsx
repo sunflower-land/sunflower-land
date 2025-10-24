@@ -79,7 +79,6 @@ export const PetModal: React.FC<Props> = ({
   };
 
   const handleResetRequests = () => {
-    if (!data?.name) return;
 
     gameService.send("REVEAL", {
       event: {
