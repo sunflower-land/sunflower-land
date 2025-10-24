@@ -60,7 +60,7 @@ export const NumberInput: React.FC<Props> = ({
   }, [value]);
 
   return (
-    <div className="relative w-full">
+    <div className="relative">
       <input
         style={{
           textAlign: isRightAligned ? "right" : "left",

@@ -22,10 +22,12 @@ export const Preferences: React.FC<{
     notificationsSupported;
 
   return (
-    <div className="flex flex-col gap-2 m-3">
-      <AppearanceSettings />
-      <BehaviourSettings />
+    <>
+      <div className="flex flex-col gap-2 m-3">
+        <AppearanceSettings />
+        <BehaviourSettings />
+      </div>
       {showNotifications && <Notifications onSubMenuClick={onSubMenuClick} />}
-    </div>
+    </>
   );
 };

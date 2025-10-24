@@ -100,23 +100,25 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
                         </div>
                       </div>
                       <div className="flex flex-col">
-                        <div className="flex items-center gap-1">
-                          <p className="text-xxs">
-                            {seller.username}{" "}
-                            {`(${source === "listing" ? t("marketplace.soldListing") : t("marketplace.acceptedOffer")})`}
-                          </p>
+                        <div className="flex items-center gap-1 flex-wrap">
+                          <span className="text-xxs">{seller.username}</span>
+                          <span className="text-xxs">
+                            {`(${source === "listing" ? t("marketplace.sold") : t("marketplace.accepted")})`}
+                          </span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <p className="text-xxs">
-                            {buyer.username}{" "}
-                            {`(${source === "listing" ? t("marketplace.boughtListing") : t("marketplace.madeOffer")})`}
-                          </p>
+                          <div className="flex items-center gap-1 flex-wrap">
+                            <span className="text-xxs">{buyer.username}</span>
+                            <span className="text-xxs">
+                              {`(${source === "listing" ? t("marketplace.bought") : t("marketplace.offered")})`}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </td>
 
-                  <td className="p-1.5 hidden sm:table-cell">
+                  <td className="p-1.5 hidden sm:table-cell min-w-[70px]">
                     <div className="flex items-center mb-1">
                       <img src={details.image} className="w-4 mr-1" />
                       {quantity > 1 && (

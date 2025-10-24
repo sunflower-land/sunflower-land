@@ -30,7 +30,9 @@ type MyTableRowProps = {
   onClaim: (id: string) => void;
   onRowClick: () => void;
 };
+
 const _state = (state: MachineState) => state.context.state;
+
 export const MyTableRow: React.FC<MyTableRowProps> = ({
   id,
   index,
@@ -72,7 +74,7 @@ export const MyTableRow: React.FC<MyTableRowProps> = ({
       }}
       onClick={onRowClick}
     >
-      <div className="p-1.5 flex w-1/3 items-center">
+      <div className="p-1.5 flex w-[27%] sm:w-1/3 items-center">
         <div className="flex items-center">
           <img
             src={details.image}

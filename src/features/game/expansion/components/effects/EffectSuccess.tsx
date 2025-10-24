@@ -12,6 +12,7 @@ import { TwitterFollowedSuccess } from "./TwitterFollowedSuccess";
 import { TwitterPostedSuccess } from "./TwitterPostedSuccess";
 import { Loading } from "features/auth/components";
 import { RoninClaimedSuccess } from "../onChainAirdrops/ClaimRoninPack";
+import { BulkPurchaseSuccess } from "./BulkPurchaseSuccess";
 
 const SuccessSkip: React.FC = () => {
   const { gameService } = useGame();
@@ -46,6 +47,7 @@ export const EFFECT_SUCCESS_COMPONENTS: Partial<
   marketplaceBulkOffersCancellingSuccess: (
     <BulkRemoveSuccess type="offers" effect="marketplaceBulkOffersCancelling" />
   ),
+  marketplaceBuyingBulkResourcesSuccess: <BulkPurchaseSuccess />,
   seekingBlessingSuccess: <SuccessSkip />,
 };
 
