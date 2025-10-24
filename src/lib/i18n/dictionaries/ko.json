@@ -4558,7 +4558,6 @@
   "season.codex.howToEarn.three": "동물과 꽃 현상금을 거래하세요!({{date}})",
   "season.codex.mutants.four": "젖소에서 우유를 모아서 {{item}} 를 발견하세요.",
   "season.codex.mutants.five": "양에게서 양털을 모아 {{item}} 를 찾아보세요.",
-  "competition.ended.description.two": "당첨자는 현재 집계되고 있으며 2월 7일에 발표될 예정입니다!",
   "description.goldenSheep.boost": "양에게 무료로 먹이를 주세요!",
   "description.solflareAegis.boost": "여름철 플롯 크롭 타임 -50%",
   "description.autumnsEmbrace.boost": "가을철 수확량 -50%",
@@ -6733,5 +6732,6 @@
   "description.sleepyChicken": "졸린 돌연변이 닭으로 가을 낮잠에도 양떼를 건강하게 유지합니다.",
   "description.astronautCow": "별 장식으로도 사용할 수 있는 우주 탐험가.",
   "description.astronautSheep": "털이 많은 우주비행사로 스타더스트 플리스로 양털을 깎아냅니다.",
-  "landscape.petNFT.notHatched": "펫 NFT는 아직 해칭되지 않았습니다"
+  "landscape.petNFT.notHatched": "펫 NFT는 아직 해칭되지 않았습니다",
+  "competition.ended.description.two": "수상자는 계산 중이며 10월 31일에 발표될 예정입니다!"
 }

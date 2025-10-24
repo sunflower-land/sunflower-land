@@ -4558,7 +4558,6 @@
   "season.codex.howToEarn.three": "¡Intercambia recompensas de animales y flores! ({{date}})",
   "season.codex.mutants.four": "Recoge leche de tus vacas para descubrir el {{item}}.",
   "season.codex.mutants.five": "Reúne lana de tus ovejas para descubrir el {{item}}.",
-  "competition.ended.description.two": "¡Los ganadores se están calculando y se anunciarán el 7 de febrero!",
   "description.goldenSheep.boost": "¡Alimenta a tus ovejas gratis!",
   "description.solflareAegis.boost": "-50% del tiempo de cosecha en verano",
   "description.autumnsEmbrace.boost": "-50% del tiempo de cosecha en otoño",
@@ -6733,5 +6732,6 @@
   "description.sleepyChicken": "Un pollo mutante somnoliento que mantiene al rebaño sano durante las siestas otoñales.",
   "description.astronautCow": "Un explorador bovino cósmico que también sirve como decoración estelar.",
   "description.astronautSheep": "Un viajero espacial lanudo cuyo forro polar de polvo de estrellas teje lana extra.",
-  "landscape.petNFT.notHatched": "Pet NFT aún no ha eclosionado"
+  "landscape.petNFT.notHatched": "Pet NFT aún no ha eclosionado",
+  "competition.ended.description.two": "¡Los ganadores se están calculando y se anunciarán el 31 de octubre!"
 }

@@ -4558,7 +4558,6 @@
   "season.codex.howToEarn.three": "Hayvan ve çiçek ödüllerini takas et! ({{date}})",
   "season.codex.mutants.four": "{{item}} 'yi keşfetmek için ineklerinizden süt toplayın.",
   "season.codex.mutants.five": "{{item}} 'yi keşfetmek için koyunlarınızdan yün toplayın.",
-  "competition.ended.description.two": "Kazananlar hesaplanıyor ve 7 Şubat'ta açıklanacak!",
   "description.goldenSheep.boost": "Sheeps'i ücretsiz besleyin!",
   "description.solflareAegis.boost": "Yaz aylarında -50% Arsa Mahsul Zamanı",
   "description.autumnsEmbrace.boost": "Sonbaharda -50% Arsa Mahsul Zamanı",
@@ -6733,5 +6732,6 @@
   "description.sleepyChicken": "Sonbahar uykuları boyunca sürüyü sağlıklı tutan uykulu bir mutant tavuk.",
   "description.astronautCow": "Yıldız dekorasyonu olarak ikiye katlanan kozmik bir sığır kaşif.",
   "description.astronautSheep": "Yıldız tozu yapağı fazladan yün döndüren yünlü bir uzay yolcuları.",
-  "landscape.petNFT.notHatched": "Pet NFT henüz yumurtadan çıkmadı"
+  "landscape.petNFT.notHatched": "Pet NFT henüz yumurtadan çıkmadı",
+  "competition.ended.description.two": "Kazananlar hesaplanıyor ve 31 Ekim'de açıklanacak!"
 }

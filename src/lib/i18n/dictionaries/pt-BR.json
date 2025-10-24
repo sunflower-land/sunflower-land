@@ -4558,7 +4558,6 @@
   "season.codex.howToEarn.three": "Troque recompensas por animais e flores! ({{date}})",
   "season.codex.mutants.four": "Colete leite de suas vacas para descobrir o {{item}}.",
   "season.codex.mutants.five": "Colete lã de suas ovelhas para descobrir o {{item}}.",
-  "competition.ended.description.two": "Os vencedores estão sendo calculados e serão anunciados em 7 de fevereiro!",
   "description.goldenSheep.boost": "Alimente ovelhas de graça!",
   "description.solflareAegis.boost": "-50% da safra do lote no verão",
   "description.autumnsEmbrace.boost": "-50% Plote o tempo de colheita no outono",
@@ -6733,5 +6732,6 @@
   "description.sleepyChicken": "Uma galinha mutante sonolenta que mantém o rebanho saudável durante os cochilos de outono.",
   "description.astronautCow": "Um explorador cósmico de bovinos que também serve como decoração estelar.",
   "description.astronautSheep": "Um viajante espacial peludo cujo velo de poeira estelar gira lã extra.",
-  "landscape.petNFT.notHatched": "Pet NFT ainda não eclodiu"
+  "landscape.petNFT.notHatched": "Pet NFT ainda não eclodiu",
+  "competition.ended.description.two": "Os vencedores estão sendo calculados e serão anunciados em 31 de outubro!"
 }

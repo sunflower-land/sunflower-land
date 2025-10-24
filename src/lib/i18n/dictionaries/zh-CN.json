@@ -4558,7 +4558,6 @@
   "season.codex.howToEarn.three": "交易动物和花卉赏金！({{date}})",
   "season.codex.mutants.four": "从奶牛身上收集牛奶来发现 {{item}}。",
   "season.codex.mutants.five": "从绵羊身上收集羊毛来发现 {{item}}。",
-  "competition.ended.description.two": "正在计算获胜者，并将于 2 月 7 日公布！",
   "description.goldenSheep.boost": "免费喂绵羊！",
   "description.solflareAegis.boost": "夏季时田坑庄稼生长时间 -50%",
   "description.autumnsEmbrace.boost": "秋季时田坑庄稼生长时间 -50%",
@@ -6733,5 +6732,6 @@
   "description.sleepyChicken": "一只昏昏欲睡的突变鸡，可以让羊群在秋天的午睡中保持健康。",
   "description.astronautCow": "一款兼作恒星装饰品的宇宙牛探险家。",
   "description.astronautSheep": "一个毛茸茸的太空人，其星尘羊毛会产生额外的羊毛。",
-  "landscape.petNFT.notHatched": "宠物 NFT 尚未孵化"
+  "landscape.petNFT.notHatched": "宠物 NFT 尚未孵化",
+  "competition.ended.description.two": "正在计算获胜者，并将于10月31日公布！"
 }
