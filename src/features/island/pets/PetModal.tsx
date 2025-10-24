@@ -70,7 +70,6 @@ export const PetModal: React.FC<Props> = ({
   };
 
   const handlePetFetch = (fetch: PetResourceName) => {
-    if (!data) return;
 
     gameService.send("pet.fetched", {
       petId,
