@@ -22,9 +22,9 @@ const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
 const _previousWardrobe = (state: MachineState) =>
   state.context.state.previousWardrobe;
 
-type PurchaseModalContentProps = {
+type BulkPurchaseModalContentProps = {
   authToken: string;
-  listingIds: string;
+  listingIds: string[];
   tradeable: Tradeable;
   quantity: number;
   price: number;
@@ -33,14 +33,9 @@ type PurchaseModalContentProps = {
 
 const _state = (state: MachineState) => state.context.state;
 
-export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
-  authToken,
-  tradeable,
-  quantity,
-  price,
-  listingIds,
-  onClose,
-}) => {
+export const BulkPurchaseModalContent: React.FC<
+  BulkPurchaseModalContentProps
+> = ({ authToken, tradeable, quantity, price, listingIds, onClose }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const { openModal } = useContext(ModalContext);
@@ -76,7 +71,7 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
     gameService.send("marketplace.buyBulkResources", {
       effect: {
         type: "marketplace.buyBulkResources",
-        ids: listingIds,
+        listingIds,
       },
       authToken,
     });
@@ -132,7 +127,7 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
         <div className="flex justify-between">
           <Label type="default" className="mb-2 -ml-1">{`Purchase`}</Label>
         </div>
-        <p className="mb-3">{t("marketplace.areYouSureYouWantToBuy")}</p>
+        <p className="mb-3">{t("marketplace.areYouSureBulkBuy")}</p>
         <TradeableItemDetails
           display={display}
           sfl={price}

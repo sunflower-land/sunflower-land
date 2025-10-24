@@ -38,6 +38,8 @@ import { InventoryItemName } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { MAX_INVENTORY_ITEMS } from "features/game/lib/processEvent";
 import debounce from "lodash.debounce";
+import { BulkPurchaseModalContent } from "./BulkPurcahseModalContent";
+import { hasFeatureAccess } from "lib/flags";
 
 type TradeableListingsProps = {
   authToken: string;
@@ -97,7 +99,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
   const [showBulkPurchaseModal, setShowBulkPurchaseModal] = useState(false);
   const [showBulkBuy, setShowBulkBuy] = useState(false);
-  const [minAmount, setMinAmount] = useState(0); // Min amount of resources to purchase
+  const [maxAmountToBuy, setMaxAmountToBuy] = useState(0); // Max amount of resources to purchase
   const [bulkOrder, setBulkOrder] = useState<BulkOrder>();
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
@@ -139,6 +141,17 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
+    "marketplaceBuyingBulkResourcesSuccess",
+    "playing",
+    () => {
+      reload();
+      handleClearBulkBuy();
+      if (showAnimations) confetti();
+    },
+  );
+
+  useOnMachineTransition<ContextType, BlockchainEvent>(
+    gameService,
     "loading",
     "playing",
     () =>
@@ -157,14 +170,12 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
 
   useEffect(() => {
     const cheapestListing = tradeable?.listings[0];
-
     if (!cheapestListing) return;
-    if (minAmount < cheapestListing.sfl) return;
 
     const fn = debounce(buildBulkOrder, 200);
 
     fn();
-  }, [minAmount]);
+  }, [maxAmountToBuy]);
 
   const listingMap = useMemo(() => {
     return (tradeable?.listings ?? []).reduce(
@@ -203,30 +214,28 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
     }
   };
 
-  const handleCancelBulkBuy = () => {
+  const handleClearBulkBuy = () => {
     setBulkOrder(undefined);
-    setMinAmount(0);
+    setMaxAmountToBuy(0);
   };
 
   const buildBulkOrder = () => {
-    if (minAmount === 1) {
+    if (maxAmountToBuy === 1) {
       setBulkOrder(undefined);
       return;
     }
 
-    // unselect all listings
     const selectedIds: string[] = [];
     let selectedQuantity = 0;
     let totalPrice = 0;
 
-    // iterate through the listings and add to the selected quantity until next one will push you over the max amount
     for (const listing of tradeable?.listings ?? []) {
-      if (selectedQuantity >= minAmount) {
+      const nextQuantity = selectedQuantity + listing.quantity;
+      if (nextQuantity > maxAmountToBuy) {
         break;
       }
-
       selectedIds.push(listing.id);
-      selectedQuantity += listing.quantity;
+      selectedQuantity = nextQuantity;
       totalPrice += listing.sfl;
     }
 
@@ -234,18 +243,6 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
       quantity: selectedQuantity,
       ids: selectedIds,
       price: totalPrice,
-    });
-  };
-
-  const handleBuyBulkOrder = () => {
-    if (bulkOrder?.ids === undefined) return;
-
-    gameService.send("marketplace.buyBulkResources", {
-      effect: {
-        type: "marketplace.buyBulkResources",
-        ids: bulkOrder.ids,
-      },
-      authToken,
     });
   };
 
@@ -259,6 +256,13 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
     tradeable?.offers.reduce((max, offer) => {
       return Math.max(max, offer.sfl);
     }, 0) ?? 0;
+
+  const availableListings =
+    useMemo(() => {
+      return (tradeable?.listings ?? []).filter(
+        (listing) => listing.listedById !== farmId,
+      );
+    }, [tradeable?.listings, farmId]) ?? [];
 
   return (
     <>
@@ -281,16 +285,18 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
         show={showBulkPurchaseModal}
         onHide={() => setShowBulkPurchaseModal(false)}
       >
-        <Panel>
-          {/* <PurchaseModalContent
-            authToken={authToken}
-            listingId={bulkOrder?.ids[0] as string}
-            price={bulkOrder?.price ?? 0}
-            tradeable={tradeable as Tradeable}
-            onClose={() => setShowBulkPurchaseModal(false)}
-            listing={bulkOrder?.ids[0] as Listing}
-          /> */}
-        </Panel>
+        {bulkOrder && (
+          <Panel>
+            <BulkPurchaseModalContent
+              authToken={authToken}
+              tradeable={tradeable as Tradeable}
+              listingIds={bulkOrder.ids}
+              quantity={bulkOrder.quantity}
+              price={bulkOrder.price}
+              onClose={() => setShowBulkPurchaseModal(false)}
+            />
+          </Panel>
+        )}
       </Modal>
       <Modal show={showListItem} onHide={!isListing ? onListClose : undefined}>
         <Panel className="mb-1">
@@ -314,7 +320,10 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
               </Label>
               {tradeable?.expiresAt && (
                 <Label type={limitedTradesLeft <= 0 ? "danger" : "warning"}>
-                  {`${1}/${MAX_LIMITED_SALES} Listings left`}
+                  {t("marketplace.listingsLeft", {
+                    amount: 1,
+                    limit: MAX_LIMITED_SALES,
+                  })}
                 </Label>
               )}
             </div>
@@ -329,7 +338,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
                   </Button>
                   <Button
                     className="w-fit h-8 rounded-none"
-                    onClick={handleCancelBulkBuy}
+                    onClick={handleClearBulkBuy}
                   >
                     <p className="text-xxs sm:text-sm">{t("clear")}</p>
                   </Button>
@@ -344,9 +353,13 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
                   </Button>
                 </div>
               )}
-              {!!tradeable?.listings.length &&
+              {!!availableListings.length &&
                 isResource &&
                 !showBulkBuy &&
+                hasFeatureAccess(
+                  gameService.getSnapshot().context.state,
+                  "BUY_BULK_RESOURCES",
+                ) &&
                 limitedTradesLeft === Infinity && (
                   <Button
                     className="w-fit h-8 rounded-none"
@@ -364,8 +377,8 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
               resource={display.name as InventoryItemName}
               totalResources={bulkOrder?.quantity ?? 0}
               totalPrice={bulkOrder?.price ?? 0}
-              minAmountToBuy={minAmount}
-              onMinAmountChange={setMinAmount}
+              maxAmountToBuy={maxAmountToBuy}
+              onMaxAmountToBuyChange={setMaxAmountToBuy}
               maxLimit={maxLimit}
             />
           )}

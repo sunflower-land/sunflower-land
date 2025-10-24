@@ -106,7 +106,7 @@ export type StateMachineStateName =
   | "helpingFarm"
   | "claimingAuction"
   | "wakingPet"
-  | "buyingBulkResources";
+  | "marketplaceBuyingBulkResources";
 
 export type StateMachineVisitStateName =
   | "helpingFarm"
@@ -159,7 +159,7 @@ export const STATE_MACHINE_EFFECTS: Record<
   "farm.helped": "helpingFarm",
   "auction.claimed": "claimingAuction",
   "pet.wakeUp": "wakingPet",
-  "marketplace.buyBulkResources": "buyingBulkResources",
+  "marketplace.buyBulkResources": "marketplaceBuyingBulkResources",
 };
 
 export const STATE_MACHINE_VISIT_EFFECTS: Record<

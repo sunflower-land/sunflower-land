@@ -5,14 +5,17 @@ import token from "assets/icons/flower_token.webp";
 import Decimal from "decimal.js-light";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { InventoryItemName } from "features/game/types/game";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { isMobile } from "mobile-device-detect";
+import { formatNumber } from "lib/utils/formatNumber";
 
 type Props = {
   resource: InventoryItemName;
   totalResources: number;
   totalPrice: number;
   maxLimit: number;
-  minAmountToBuy: number;
-  onMinAmountChange: (value: number) => void;
+  maxAmountToBuy: number;
+  onMaxAmountToBuyChange: (value: number) => void;
 };
 
 export const BulkBuyInterface: React.FC<Props> = ({
@@ -20,43 +23,50 @@ export const BulkBuyInterface: React.FC<Props> = ({
   totalResources,
   totalPrice,
   maxLimit,
-  minAmountToBuy,
-  onMinAmountChange,
+  maxAmountToBuy,
+  onMaxAmountToBuyChange,
 }) => {
-  const atLimit = minAmountToBuy > maxLimit || minAmountToBuy < 0;
+  const { t } = useAppTranslation();
+  const atLimit = maxAmountToBuy > maxLimit || maxAmountToBuy < 0;
 
   return (
     <div className="mt-0.5 gap-1">
-      <p className="text-xs mb-2 p-1">
-        {`You can enter a min amount of resources or select individual listings.`}
-      </p>
+      <p className="text-xs mb-2 p-1">{t("marketplace.bulkBuyDescription")}</p>
       <div className="flex gap-1 border border-brown-100">
         <div className="flex flex-col w-1/2 border-r border-brown-100">
           <div className="flex flex-col gap-1 p-1">
-            <p className="text-xs ml-1">{`Want to buy:`}</p>
+            <p className="text-xs ml-1">
+              {isMobile
+                ? t("marketplace.maxAmtToBuy")
+                : t("marketplace.maxToBuy")}
+            </p>
             <div className="flex items-center gap-1">
               <NumberInput
-                value={new Decimal(minAmountToBuy)}
+                value={new Decimal(maxAmountToBuy)}
                 maxDecimalPlaces={0}
                 isOutOfRange={atLimit}
                 onValueChange={(value) => {
-                  onMinAmountChange(value.toNumber());
+                  onMaxAmountToBuyChange(value.toNumber());
                 }}
                 className="w-[120px]"
               />
             </div>
           </div>
-          <div className="pl-2 text-[16px] -mt-1.5">{`Limit: ${maxLimit}`}</div>
+          <div className="pl-2 text-[18px] -mt-1.5">
+            {t("marketplace.limit", {
+              maxLimit,
+            })}
+          </div>
         </div>
         <div className="flex flex-grow-1 flex-col w-1/2 justify-evenly p-1 text-xs sm:text-sm">
           <div className="flex justify-between">
             <div className="flex gap-1">
-              <span>Total</span>
+              <span>{t("total")}</span>
               <img
                 src={ITEM_DETAILS[resource].image}
                 alt="token"
                 className="w-4 mt-0.5"
-              />{" "}
+              />
             </div>
             <div>
               <span>{totalResources}</span>
@@ -64,11 +74,11 @@ export const BulkBuyInterface: React.FC<Props> = ({
           </div>
           <div className="flex justify-between">
             <div className="flex gap-1">
-              <span>Total</span>
-              <img src={token} alt="token" className="w-4 mt-0.5" />{" "}
+              <span>{t("total")}</span>
+              <img src={token} alt="token" className="w-4 mt-0.5" />
             </div>
             <div className="flex items-center gap-1">
-              <span>{totalPrice}</span>
+              <span>{formatNumber(totalPrice, { decimalPlaces: 4 })}</span>
             </div>
           </div>
         </div>
