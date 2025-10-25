@@ -883,6 +883,17 @@ import ponyToy from "assets/sfts/pony_toy.webp";
 import redSlimeBalloon from "assets/sfts/red_slime_balloon.webp";
 import blueSlimeBalloon from "assets/sfts/blue_slime_balloon.webp";
 
+import halloweenToken2025 from "assets/icons/halloween_token_2025.webp";
+import halloweenTicket2025 from "assets/icons/halloween_ticket_2025.webp";
+import cerberus from "assets/sfts/cerberus.webp";
+import witchsCauldron from "assets/sfts/witchs_cauldron.webp";
+import raveyard from "assets/sfts/raveyard.webp";
+import hauntedHouse from "assets/sfts/haunted_house.webp";
+import mimicEgg from "assets/sfts/mimic_egg.webp";
+import hauntedTomb from "assets/sfts/haunted_tomb.webp";
+import guillotine from "assets/sfts/guillotine.webp";
+import vampireCoffin from "assets/sfts/vampire_coffin.webp";
+
 import quarry from "assets/sfts/quarry.webp";
 import obsidianTurtle from "assets/sfts/obsidian_turtle.webp";
 import winterGuardian from "assets/sfts/winter_guardian.webp";
@@ -6043,5 +6054,45 @@ export const ITEM_DETAILS: Items = {
   "Moon Crystal": {
     image: moonCrystal,
     description: translate("description.moonCrystal"),
+  },
+  Cerberus: {
+    image: cerberus,
+    description: translate("description.cerberus"),
+  },
+  "Witch's Cauldron": {
+    image: witchsCauldron,
+    description: translate("description.witchsCauldron"),
+  },
+  Raveyard: {
+    image: raveyard,
+    description: translate("description.raveyard"),
+  },
+  "Haunted House": {
+    image: hauntedHouse,
+    description: translate("description.hauntedHouse"),
+  },
+  "Mimic Egg": {
+    image: mimicEgg,
+    description: translate("description.mimicEgg"),
+  },
+  "Haunted Tomb": {
+    image: hauntedTomb,
+    description: translate("description.hauntedTomb"),
+  },
+  Guillotine: {
+    image: guillotine,
+    description: translate("description.guillotine"),
+  },
+  "Vampire Coffin": {
+    image: vampireCoffin,
+    description: translate("description.vampireCoffin"),
+  },
+  "Halloween Token 2025": {
+    image: halloweenToken2025,
+    description: translate("description.halloweenToken2025"),
+  },
+  "Halloween Ticket 2025": {
+    image: halloweenTicket2025,
+    description: translate("description.halloweenTicket2025"),
   },
 };

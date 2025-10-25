@@ -1,0 +1,14 @@
+{ "columns":96,
+ "image":"Halloween 2025/halloween_island_assets/halloween_island_tileset.png",
+ "imageheight":512,
+ "imagewidth":1536,
+ "margin":0,
+ "name":"halloween_island_tileset",
+ "spacing":0,
+ "tilecount":3072,
+ "tiledversion":"1.11.2",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.10"
+}

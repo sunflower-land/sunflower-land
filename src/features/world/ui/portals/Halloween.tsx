@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import * as AuthProvider from "features/auth/lib/Provider";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { OuterPanel } from "components/ui/Panel";
@@ -16,12 +15,11 @@ import { Portal } from "./Portal";
 import { InlineDialogue } from "../TypingMessage";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { MinigameHistory, MinigamePrize } from "features/game/types/game";
-import { millisecondsToString, secondsToString } from "lib/utils/time";
+import { secondsToString } from "lib/utils/time";
 import { isMinigameComplete } from "features/game/events/minigames/claimMinigamePrize";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { PortalLeaderboard } from "./PortalLeaderboard";
 
 export const MinigamePrizeUI: React.FC<{
   prize?: MinigamePrize;
@@ -88,17 +86,12 @@ interface Props {
 }
 
 export const Halloween: React.FC<Props> = ({ onClose }) => {
-  const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const minigame = gameState.context.state.minigames.games["halloween"];
 
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-
-  const [page, setPage] = useState<"play" | "leaderboard" | "accumulator">(
-    "play",
-  );
 
   const { t } = useAppTranslation();
 
@@ -150,36 +143,6 @@ export const Halloween: React.FC<Props> = ({ onClose }) => {
     );
   }
 
-  if (page === "leaderboard") {
-    return (
-      <PortalLeaderboard
-        farmId={gameService.getSnapshot().context.farmId}
-        jwt={authService.getSnapshot().context.user.rawToken as string}
-        onBack={() => setPage("play")}
-        name={"halloween"}
-        startDate={new Date(Date.UTC(2024, 10, 1))}
-        endDate={new Date(Date.UTC(2024, 10, 6))}
-        formatPoints={(points: number) =>
-          millisecondsToString(points, { length: "full" })
-        }
-      />
-    );
-  }
-
-  if (page === "accumulator") {
-    return (
-      <PortalLeaderboard
-        farmId={gameService.getSnapshot().context.farmId}
-        jwt={authService.getSnapshot().context.user.rawToken as string}
-        onBack={() => setPage("play")}
-        name={"halloween"}
-        formatPoints={(points: number) =>
-          millisecondsToString(points, { length: "full" })
-        }
-      />
-    );
-  }
-
   return (
     <>
       <div className="mb-1">
@@ -193,17 +156,10 @@ export const Halloween: React.FC<Props> = ({ onClose }) => {
         <MinigamePrizeUI
           prize={prize}
           history={dailyAttempt}
-          mission={t("halloween.portal.missionObjectives", {
-            targetScore: millisecondsToString(prize?.score ?? 0, {
-              length: "full",
-            }),
-          })}
+          mission={t("halloween.portal.missionObjectives")}
         />
       </div>
       <div className="flex">
-        <Button className="mr-1" onClick={() => setPage("leaderboard")}>
-          {t("competition.leaderboard")}
-        </Button>
         <Button onClick={playNow}>{t("minigame.playNow")}</Button>
       </div>
     </>
