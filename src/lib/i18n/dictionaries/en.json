@@ -4830,8 +4830,8 @@
   "easterEgg.halloweenBook": "?????",
   "easterEgg.halloweenBookText": "There are places older than time itself, and others where the light doesn't shine. You shouldn't be here. In this forest, the trees whisper secrets of forgotten times and shadows lurk everywhere, patiently waiting for a chance to devour any source of light that dares to shine. There's no place for adventurers or the curious like you around here...",
   "halloween.portal.title": "Minigame - Halloween",
-  "halloween.portal.description": "Can you hold on inside the maze?",
-  "halloween.portal.missionObjectives": "Mission: Reach {{targetScore}}.",
+  "halloween.portal.description": "Can you conquer the dungeon and its relics?",
+  "halloween.portal.missionObjectives": "Mission: Get {{targetScore}} relics.",
   "halloween.portal.rewardMessage": "Congratulations, you completed the mission! Here is your reward.",
   "halloween.sacrifice.intro.one": "They say that on a moonless night, beneath the ancient trees, a witch gathered the most varied and powerful spirits of the earth.",
   "halloween.sacrifice.intro.two": "Each held a different echo, a unique glimmer in their gaze, and each was offered to the sacred circle under an ancient oath.",
@@ -6745,5 +6745,16 @@
   "ronin.airdrop.howToClaim": "How to claim",
   "ronin.airdrop.bonus": "Twitter rewards are extra rewards you earn on top of our Ronin address based airdrop.",
   "ronin.airdrop.wallet": "This must be the linked wallet you use to play Sunflower Land",
-  "ronin.airdrop.enterDetails": "Enter your details"
+  "ronin.airdrop.enterDetails": "Enter your details",
+  "description.halloweenToken2025": "Use this in the Halloween event shop before the event ends!",
+  "description.halloweenTicket2025": "Hold this for a chance to win $FLOWER after the Halloween event ends!",
+  "description.cerberus": "Guarding the underworld and your crops. Just don’t throw three sticks at once.",
+  "description.witchsCauldron": "Something’s bubbling… might be a potion, might be last week’s soup.",
+  "description.raveyard": "Graveyard? No, Raveyard! Even the dead can’t resist these beats.",
+  "description.hauntedHouse": "Next time, check if the house you buy comes with keys… maybe it’s good this one didn’t.",
+  "description.mimicEgg": "It wiggles. You blink. Now it’s winking back.",
+  "description.hauntedTomb": "A ghostly wisp sits atop, probably judging your farming skills.",
+  "description.guillotine": "The ultimate tool for a clean cut harvest.",
+  "description.vampireCoffin": "He only comes out for night farming. Garlic not included.",
+  "eventHalloween.noticeboard.one": "Welcome to the Halloween 2025 Event!"
 }

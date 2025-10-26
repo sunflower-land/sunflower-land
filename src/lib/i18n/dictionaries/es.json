@@ -3543,8 +3543,6 @@
   "digby.streakReward": "Descubre los tres {{name}} para conseguir un premio extra. Desbloquea rachas diarias para obtener recompensas adicionales.",
   "double.delivery.hint": "Pssssst... habrá recompensas dobles para las entregas el {{date}}.",
   "halloween.portal.title": "Minijuego - Halloween",
-  "halloween.portal.description": "¿Puedes aguantar en el interior del laberinto?",
-  "halloween.portal.missionObjectives": "Misión: Alcanzar {{targetScore}}.",
   "halloween.portal.rewardMessage": "¡Enhorabuena, has completado la misión! Aquí tienes tu recompensa.",
   "craftingBox.welcome.1": "¡Bienvenido a la Caja de Creaciones! Aquí puedes crear objetos con tus recursos.",
   "craftingBox.welcome.2": "Inserta objetos en la caja de creaciones para intentar descubrir nuevas recetas. Si encuentras una receta, ¡se guardará en Recetas!",
@@ -6745,5 +6743,18 @@
   "pets.requestsResetAt": "Las solicitudes de comida de tu mascota se restablecerán a las 12:00 a.m. UTC",
   "pets.requestsResetAtDescription": "Si quieres nuevas solicitudes de comida antes de esa fecha, puedes usar gemas para refrescarte antes.",
   "pets.resetRequests": "Solicitudes de restablecimiento",
-  "pets.upcomingRequest": "Comida desbloqueada en el nivel {{level}}"
+  "pets.upcomingRequest": "Comida desbloqueada en el nivel {{level}}",
+  "halloween.portal.description": "¿Puedes conquistar la mazmorra y sus reliquias?",
+  "halloween.portal.missionObjectives": "Misión: Consigue reliquias de {{targetScore}}.",
+  "description.halloweenToken2025": "¡Utilízala en la tienda de eventos de Halloween antes de que termine el evento!",
+  "description.halloweenTicket2025": "¡Guarda esto para tener la oportunidad de ganar $FLOWER cuando termine el evento de Halloween!",
+  "description.cerberus": "Protegiendo el inframundo y tus cultivos. Simplemente no lances tres palos a la vez.",
+  "description.witchsCauldron": "Algo burbujea... puede ser una poción, puede ser la sopa de la semana pasada.",
+  "description.raveyard": "¿Cementerio? ¡No, Raveyard! Ni siquiera los muertos pueden resistirse a estos golpes.",
+  "description.hauntedHouse": "La próxima vez, comprueba si la casa que compres viene con llaves... quizás sea bueno que esta no las tuviera.",
+  "description.mimicEgg": "Se mueve. Parpadea. Ahora está guiñando un ojo.",
+  "description.hauntedTomb": "En lo alto hay un mechón fantasmal, que probablemente juzgue tus habilidades agrícolas.",
+  "description.guillotine": "La herramienta definitiva para una cosecha limpia.",
+  "description.vampireCoffin": "Solo viene a cultivar de noche. Ajo no incluido.",
+  "eventHalloween.noticeboard.one": "¡Bienvenido al evento Halloween 2025!"
 }

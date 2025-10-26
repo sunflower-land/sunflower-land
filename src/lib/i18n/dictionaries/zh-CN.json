@@ -3543,8 +3543,6 @@
   "digby.streakReward": "发现三个 {{name}} 以获得额外奖励。解锁每日连胜以获得额外奖励。",
   "double.delivery.hint": "噗嗤…… {{date}} 的送货将配置双倍奖励。",
   "halloween.portal.title": "小游戏-万圣节",
-  "halloween.portal.description": "你能在迷宫里坚持下去吗？",
-  "halloween.portal.missionObjectives": "任务：达到 {{targetScore}}。",
   "halloween.portal.rewardMessage": "恭喜，您完成了任务！这是您的奖励。",
   "craftingBox.welcome.1": "欢迎来到锻打箱！在这里，您可以用您的资源锻造物品。",
   "craftingBox.welcome.2": "将物品放入锻打箱中，尝试发现新配方。如果您发现了新配方，它将保存到配方栏目下！",
@@ -6745,5 +6743,18 @@
   "pets.requestsResetAt": "您的宠物的食物申请将在世界标准时间上午 12:00 重置",
   "pets.requestsResetAtDescription": "如果你想在此之前申请新的食物，你可以使用宝石提早刷新。",
   "pets.resetRequests": "重置请求",
-  "pets.upcomingRequest": "食物在等级 {{level}} 时解锁"
+  "pets.upcomingRequest": "食物在等级 {{level}} 时解锁",
+  "halloween.portal.description": "你能征服地下城及其遗迹吗？",
+  "halloween.portal.missionObjectives": "任务：获得 {{targetScore}} 件遗物。",
+  "description.halloweenToken2025": "活动结束前在万圣节活动商店中使用它！",
+  "description.halloweenTicket2025": "万圣节活动结束后，持有这个有机会赢取 $FLOWER！",
+  "description.cerberus": "守卫地下世界和你的农作物。只是不要同时扔三根棍子。",
+  "description.witchsCauldron": "有些东西在冒泡... 可能是药水，可能是上周的汤。",
+  "description.raveyard": "墓地？不，Raveyard！即使是死者也无法抗拒这些节拍。",
+  "description.hauntedHouse": "下次，看看你买的房子有没有钥匙... 也许这个没有钥匙是件好事。",
+  "description.mimicEgg": "它在摆动。你眨眼。现在它又在眨眼了。",
+  "description.hauntedTomb": "一个幽灵般的精灵坐在上面，可能正在判断你的耕作技能。",
+  "description.guillotine": "干净收获的终极工具。",
+  "description.vampireCoffin": "他只出来做夜间农业。不包括大蒜。",
+  "eventHalloween.noticeboard.one": "欢迎来到 2025 年万圣节活动！"
 }
