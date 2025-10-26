@@ -6,7 +6,9 @@ export type EventShopItemName =
   | EventShopCollectibleName
   | EventShopWearableName
   | FestivalOfColorsShopItemName
-  | FestivalOfColorsShopWearableName;
+  | FestivalOfColorsShopWearableName
+  | HalloweenShopItemName
+  | HalloweenShopWearableName;
 
 export type EventShopCollectibleName = Extract<
   InventoryItemName,
@@ -38,6 +40,23 @@ export type FestivalOfColorsShopCollectibleName = Extract<
   | "Luxury Key"
 >;
 
+export type HalloweenShopCollectibleName = Extract<
+  InventoryItemName,
+  | "Super Totem"
+  | "Treasure Key"
+  | "Rare Key"
+  | "Luxury Key"
+  | "Halloween Ticket 2025"
+  | "Cerberus"
+  | "Witch's Cauldron"
+  | "Raveyard"
+  | "Haunted House"
+  | "Mimic Egg"
+  | "Haunted Tomb"
+  | "Guillotine"
+  | "Vampire Coffin"
+>;
+
 export type EventShopWearableName = Extract<
   BumpkinItem,
   | "Bunny Pants"
@@ -57,9 +76,32 @@ export type FestivalOfColorsShopWearableName = Extract<
   | "Slime Wings"
   | "Slime Aura"
 >;
+
+export type HalloweenShopWearableName = Extract<
+  BumpkinItem,
+  | "Moonseeker Potion"
+  | "Frizzy Bob Cut"
+  | "Two-toned Layered"
+  | "Halloween Deathscythe"
+  | "Moonseeker Hand Puppet"
+  | "Sweet Devil Horns"
+  | "Trick and Treat"
+  | "Jack O'Sweets"
+  | "Frank Onesie"
+  | "Research Uniform"
+  | "Sweet Devil Dress"
+  | "Underworld Stimpack"
+  | "Sweet Devil Wings"
+  | "Wisp Aura"
+>;
+
 export type FestivalOfColorsShopItemName =
   | FestivalOfColorsShopCollectibleName
   | FestivalOfColorsShopWearableName;
+
+export type HalloweenShopItemName =
+  | HalloweenShopCollectibleName
+  | HalloweenShopWearableName;
 
 type EventShopBase = {
   cost: { sfl: number; items: Partial<Record<InventoryItemName, number>> };
@@ -341,8 +383,174 @@ export const FESTIVAL_OF_COLORS_STORE: Record<
   },
 };
 
+export const HALLOWEEN_STORE: Record<HalloweenShopItemName, EventShopItem> = {
+  "Treasure Key": {
+    cost: { sfl: 0, items: { "Halloween Token 2025": 300 } },
+    max: 1,
+    name: "Treasure Key",
+    type: "collectible",
+  },
+  "Halloween Ticket 2025": {
+    cost: { sfl: 0, items: { "Halloween Token 2025": 100 } },
+    max: 100000,
+    type: "collectible",
+    name: "Halloween Ticket 2025",
+  },
+  "Rare Key": {
+    cost: { sfl: 0, items: { "Halloween Token 2025": 500 } },
+    max: 1,
+    type: "collectible",
+    name: "Rare Key",
+  },
+  "Luxury Key": {
+    cost: { sfl: 0, items: { "Halloween Token 2025": 800 } },
+    max: 1,
+    type: "collectible",
+    name: "Luxury Key",
+  },
+  "Super Totem": {
+    cost: { sfl: 0, items: { "Halloween Token 2025": 2000 } },
+    max: 1,
+    type: "collectible",
+    name: "Super Totem",
+  },
+  Cerberus: {
+    cost: { sfl: 30, items: {} },
+    max: 1,
+    type: "collectible",
+    name: "Cerberus",
+  },
+  "Witch's Cauldron": {
+    cost: { sfl: 0, items: { "Halloween Token 2025": 300 } },
+    max: 1,
+    type: "collectible",
+    name: "Witch's Cauldron",
+  },
+  Raveyard: {
+    cost: { sfl: 40, items: {} },
+    max: 1,
+    type: "collectible",
+    name: "Raveyard",
+  },
+  "Haunted House": {
+    cost: { sfl: 0, items: { "Halloween Token 2025": 750 } },
+    max: 1,
+    type: "collectible",
+    name: "Haunted House",
+  },
+  "Mimic Egg": {
+    cost: { sfl: 0, items: { "Halloween Token 2025": 250 } },
+    max: 1,
+    type: "collectible",
+    name: "Mimic Egg",
+  },
+  "Haunted Tomb": {
+    cost: { sfl: 0, items: { "Halloween Token 2025": 200 } },
+    max: 1,
+    type: "collectible",
+    name: "Haunted Tomb",
+  },
+  Guillotine: {
+    cost: { sfl: 0, items: { "Halloween Token 2025": 250 } },
+    max: 1,
+    type: "collectible",
+    name: "Guillotine",
+  },
+  "Vampire Coffin": {
+    cost: { sfl: 50, items: {} },
+    max: 1,
+    type: "collectible",
+    name: "Vampire Coffin",
+  },
+  "Moonseeker Potion": {
+    cost: { sfl: 70, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Moonseeker Potion",
+  },
+  "Frizzy Bob Cut": {
+    cost: { sfl: 0, items: { "Halloween Token 2025": 100 } },
+    max: 1,
+    type: "wearable",
+    name: "Frizzy Bob Cut",
+  },
+  "Two-toned Layered": {
+    cost: { sfl: 0, items: { "Halloween Token 2025": 200 } },
+    max: 1,
+    type: "wearable",
+    name: "Two-toned Layered",
+  },
+  "Halloween Deathscythe": {
+    cost: { sfl: 80, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Halloween Deathscythe",
+  },
+  "Moonseeker Hand Puppet": {
+    cost: { sfl: 0, items: { "Halloween Token 2025": 150 } },
+    max: 1,
+    type: "wearable",
+    name: "Moonseeker Hand Puppet",
+  },
+  "Sweet Devil Horns": {
+    cost: { sfl: 0, items: { "Halloween Token 2025": 250 } },
+    max: 1,
+    type: "wearable",
+    name: "Sweet Devil Horns",
+  },
+  "Trick and Treat": {
+    cost: { sfl: 50, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Trick and Treat",
+  },
+  "Jack O'Sweets": {
+    cost: { sfl: 0, items: { "Halloween Token 2025": 200 } },
+    max: 1,
+    type: "wearable",
+    name: "Jack O'Sweets",
+  },
+  "Frank Onesie": {
+    cost: { sfl: 0, items: { "Halloween Token 2025": 500 } },
+    max: 1,
+    type: "wearable",
+    name: "Frank Onesie",
+  },
+  "Research Uniform": {
+    cost: { sfl: 0, items: { "Halloween Token 2025": 500 } },
+    max: 1,
+    type: "wearable",
+    name: "Research Uniform",
+  },
+  "Sweet Devil Dress": {
+    cost: { sfl: 150, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Sweet Devil Dress",
+  },
+  "Underworld Stimpack": {
+    cost: { sfl: 0, items: { "Halloween Token 2025": 750 } },
+    max: 1,
+    type: "wearable",
+    name: "Underworld Stimpack",
+  },
+  "Sweet Devil Wings": {
+    cost: { sfl: 200, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Sweet Devil Wings",
+  },
+  "Wisp Aura": {
+    cost: { sfl: 600, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Wisp Aura",
+  },
+};
+
 export const MINIGAME_SHOP_ITEMS: Partial<Record<MinigameName, MinigameShop>> =
   {
     "easter-eggstravaganza": EASTER_SHOP_ITEMS,
     "festival-of-colors-2025": FESTIVAL_OF_COLORS_STORE,
+    halloween: HALLOWEEN_STORE,
   };
