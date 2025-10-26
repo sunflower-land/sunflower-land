@@ -9,7 +9,7 @@ import {
   TradeableDetails,
 } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { TradeableListItem } from "./TradeableList";
 import { ListingTable } from "./TradeTable";
 import { Context } from "features/game/GameProvider";
@@ -40,6 +40,7 @@ import { MAX_INVENTORY_ITEMS } from "features/game/lib/processEvent";
 import debounce from "lodash.debounce";
 import { BulkPurchaseModalContent } from "./BulkPurcahseModalContent";
 import { hasFeatureAccess } from "lib/flags";
+import { useDeepEffect } from "lib/utils/hooks/useDeepEffect";
 
 type TradeableListingsProps = {
   authToken: string;
@@ -168,14 +169,14 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
       }),
   );
 
-  useEffect(() => {
+  useDeepEffect(() => {
     const cheapestListing = tradeable?.listings[0];
     if (!cheapestListing) return;
 
     const fn = debounce(buildBulkOrder, 200);
 
     fn();
-  }, [maxAmountToBuy]);
+  }, [maxAmountToBuy, tradeable?.listings]);
 
   const listingMap = useMemo(() => {
     return (tradeable?.listings ?? []).reduce(
