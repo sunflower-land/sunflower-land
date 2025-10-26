@@ -49,7 +49,7 @@ export class HalloweenIslandScene extends BaseScene {
       `world/halloween_island_assets/halloween_info_board.png`,
     );
 
-    this.load.image("board_icon", "src/assets/icons/info.webp");
+    this.load.image("board_icon", "world/question_disc.png");
 
     this.load.image("shop_icon", "world/shop_disc.png");
   }
