@@ -231,6 +231,10 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
     let totalPrice = 0;
 
     for (const listing of tradeable?.listings ?? []) {
+      if (listing.listedById === farmId) {
+        continue;
+      }
+
       const nextQuantity = selectedQuantity + listing.quantity;
       if (nextQuantity > maxAmountToBuy) {
         break;

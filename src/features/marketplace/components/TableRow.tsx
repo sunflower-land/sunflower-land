@@ -142,10 +142,12 @@ export const TableRow: React.FC<RowProps> = ({
       )}
       {isBulkBuy && (
         <div className="p-1 flex items-center justify-end w-[65px] mr-2">
-          <Checkbox
-            checked={isSelected}
-            onChange={(checked) => onBulkListingSelect?.(id, checked)}
-          />
+          {createdBy.id !== farmId && (
+            <Checkbox
+              checked={isSelected}
+              onChange={(checked) => onBulkListingSelect?.(id, checked)}
+            />
+          )}
         </div>
       )}
     </div>

@@ -5,24 +5,31 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext } from "react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
+import { TradeableItemDetails } from "features/marketplace/components/TradeableSummary";
+import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 
 const _purchasingData = (state: MachineState) =>
-  state.context.data["marketplaceBuyingBulkResources"] ?? {
-    totalSpent: 0,
-    totalPurchased: 0,
-    attemptedPurchases: 0,
-    successfulPurchases: 0,
-    failedPurchases: 0,
-  };
+  state.context.data["marketplaceBuyingBulkResources"];
+const _state = (state: MachineState) => state.context.state;
 
 export const BulkPurchaseSuccess: React.FC = () => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
 
-  const { attemptedPurchases, failedPurchases } = useSelector(
-    gameService,
-    _purchasingData,
-  );
+  const {
+    attemptedPurchases,
+    failedPurchases,
+    itemId,
+    totalSpent,
+    totalPurchased,
+  } = useSelector(gameService, _purchasingData);
+  const state = useSelector(gameService, _state);
+
+  const display = getTradeableDisplay({
+    id: itemId,
+    type: "collectibles",
+    state,
+  });
 
   const getContent = () => {
     if (failedPurchases === 0) {
@@ -34,6 +41,13 @@ export const BulkPurchaseSuccess: React.FC = () => {
           <p className="text-sm mb-2">
             {t("marketplace.buying.bulk.resources.success")}
           </p>
+          <div className="my-1">
+            <TradeableItemDetails
+              display={display}
+              sfl={totalSpent}
+              quantity={totalPurchased}
+            />
+          </div>
         </>
       );
     }
@@ -59,6 +73,13 @@ export const BulkPurchaseSuccess: React.FC = () => {
         <p className="text-sm mb-2">
           {t("marketplace.buying.bulk.resources.someSuccess")}
         </p>
+        <div className="my-1">
+          <TradeableItemDetails
+            display={display}
+            sfl={totalSpent}
+            quantity={totalPurchased}
+          />
+        </div>
       </>
     );
   };
