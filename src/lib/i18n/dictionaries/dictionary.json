@@ -6133,7 +6133,7 @@
   "marketplace.buying.bulk.resources": "Purchasing",
   "marketplace.buying.bulk.resources.success": "Your bulk order was fulfilled successfully.",
   "marketplace.buying.bulk.resources.allFailed": "Your bulk order was not able to be fulfilled. This usually happens when a sale is in progress. If you still see the listings, please try again.",
-  "marketplace.buying.bulk.resources.someSuccess": "Some of your bulk order was fulfilled, however some was not able to be. This usually happens when a sale is in progress. If you still see the listings, please try again.",
+  "marketplace.buying.bulk.resources.someSuccess": "Your bulk order was partially filled due to some listings that were no longer available.",
   "walletWall.showMore": "Show More",
   "walletWall.showLess": "Show Less",
   "walletWall.connectingToWallet": "Connecting to wallet",
