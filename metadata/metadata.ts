@@ -13238,6 +13238,122 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/question_mark.png",
     name: "Skipper",
   },
+  "Halloween Token 2025": {
+    description: "Use this in the Halloween event shop before the event ends!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/769.webp",
+    name: "Halloween Token 2025",
+  },
+  "Halloween Ticket 2025": {
+    description:
+      "Hold this for a chance to win $FLOWER after the Halloween event ends!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/.webp",
+    name: "Halloween Ticket 2025",
+  },
+  Cerberus: {
+    description:
+      "Guarding the underworld and your crops. Just don’t throw three sticks at once.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/.webp",
+    name: "Cerberus",
+  },
+  "Witch's Cauldron": {
+    description:
+      "Something’s bubbling… might be a potion, might be last week’s soup.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/.webp",
+    name: "Witch's Cauldron",
+  },
+  Raveyard: {
+    description:
+      "Graveyard? No, Raveyard! Even the dead can’t resist these beats.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/.webp",
+    name: "Raveyard",
+  },
+  "Haunted House": {
+    description:
+      "Next time, check if the house you buy comes with keys… maybe it’s good this one didn’t.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/.webp",
+    name: "Haunted House",
+  },
+  "Mimic Egg": {
+    description: "It wiggles. You blink. Now it’s winking back.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/.webp",
+    name: "Mimic Egg",
+  },
+  "Haunted Tomb": {
+    description:
+      "A ghostly wisp sits atop, probably judging your farming skills.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/.webp",
+    name: "Haunted Tomb",
+  },
+  Guillotine: {
+    description: "The ultimate tool for a clean cut harvest.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/.webp",
+    name: "Guillotine",
+  },
+  "Vampire Coffin": {
+    description: "He only comes out for night farming. Garlic not included.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/.webp",
+    name: "Vampire Coffin",
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
@@ -19503,5 +19619,159 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/483.webp",
     name: "Raccoon Onesie",
+  },
+  "Moonseeker Potion": {
+    description: "Side effects include glowing bones and zero heartbeat.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Body" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/485.webp",
+    name: "Moonseeker Potion",
+  },
+  "Frizzy Bob Cut": {
+    description: "Perfect for when you wake up spooky and fabulous.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hair" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/486.webp",
+    name: "Frizzy Bob Cut",
+  },
+  "Two-toned Layered": {
+    description: "Half light, half dark — all style",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hair" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/487.webp",
+    name: "Two-toned Layered",
+  },
+  "Halloween Deathscythe": {
+    description: "For harvesting crops… or souls. Mostly crops.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/488.webp",
+    name: "Halloween Deathscythe",
+  },
+  "Moonseeker Hand Puppet": {
+    description: "It’s cute until it starts whispering.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/489.webp",
+    name: "Moonseeker Hand Puppet",
+  },
+  "Sweet Devil Horns": {
+    description: "Sweet, stylish, and just a bit sinful.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/490.webp",
+    name: "Sweet Devil Horns",
+  },
+  "Trick and Treat": {
+    description: "Trick on the left, Treat on the right — both chaos.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Necklace" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/491.webp",
+    name: "Trick and Treat",
+  },
+  "Jack O'Sweets": {
+    description: "The sweetest pumpkin in the patch.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "SecondaryTool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/492.webp",
+    name: "Jack O'Sweets",
+  },
+  "Frank Onesie": {
+    description: "Sewn with love, lightning, and a touch of madness.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Onesie" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/493.webp",
+    name: "Frank Onesie",
+  },
+  "Research Uniform": {
+    description: "For experiments that definitely won’t explode.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Suit" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/494.webp",
+    name: "Research Uniform",
+  },
+  "Sweet Devil Dress": {
+    description: "Cute, sugary, and slightly cursed.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Suit" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/495.webp",
+    name: "Sweet Devil Dress",
+  },
+  "Underworld Stimpack": {
+    description: "Boosts stamina, darkness, and dramatic entrances.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Wings" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/496.webp",
+    name: "Underworld Stimpack",
+  },
+  "Sweet Devil Wings": {
+    description: "Powered by sugar and sass.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Wings" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/497.webp",
+    name: "Sweet Devil Wings",
+  },
+  "Wisp Aura": {
+    description: "These little flames seem alive… and fond of you.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Aura" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/498.webp",
+    name: "Wisp Aura",
   },
 };

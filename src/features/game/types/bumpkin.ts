@@ -35,7 +35,8 @@ export type BumpkinBody =
   | "Pale Potion"
   | "Squirrel Monkey Potion"
   | "Mermaid Potion"
-  | "Elf Potion";
+  | "Elf Potion"
+  | "Moonseeker Potion";
 
 export type BumpkinHair =
   | "Royal Braids"
@@ -63,7 +64,9 @@ export type BumpkinHair =
   | "Silver Streaks"
   | "Brown Rancher Hair"
   | "Paint Splattered Hair"
-  | "Brush Back Hair";
+  | "Brush Back Hair"
+  | "Frizzy Bob Cut"
+  | "Two-toned Layered";
 
 export type BumpkinShirt =
   | "Pixel Perfect Hoodie"
@@ -207,7 +210,9 @@ export type BumpkinTool =
   | "Paint Spray Can"
   | "Chemist Potion"
   | "Architect Ruler"
-  | "Onion Leek";
+  | "Onion Leek"
+  | "Halloween Deathscythe"
+  | "Moonseeker Hand Puppet";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -248,7 +253,8 @@ export type BumpkinNecklace =
   | "Sunflorian Medallion"
   | "Dream Scarf"
   | "Cowbell Necklace"
-  | "Obsidian Necklace";
+  | "Obsidian Necklace"
+  | "Trick and Treat";
 
 export type BumpkinHat =
   | "Painter's Cap"
@@ -349,7 +355,8 @@ export type BumpkinHat =
   | "Coin Head"
   | "Slime Hat"
   | "Garbage Bin Hat"
-  | "Turd Topper";
+  | "Turd Topper"
+  | "Sweet Devil Horns";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -433,7 +440,8 @@ export type BumpkinSecondaryTool =
   | "Blossom Ward"
   | "Autumn's Embrace"
   | "Frozen Heart"
-  | "Oil Gallon";
+  | "Oil Gallon"
+  | "Jack O'Sweets";
 
 // Goes over clothes + head
 export type BumpkinOnesie =
@@ -460,7 +468,8 @@ export type BumpkinOnesie =
   | "Love Bear Onesie"
   | "Dino Onesie"
   | "Red Pepper Onesie"
-  | "Raccoon Onesie";
+  | "Raccoon Onesie"
+  | "Frank Onesie";
 
 // Goes over clothes
 export type BumpkinSuit =
@@ -479,7 +488,9 @@ export type BumpkinSuit =
   | "Bloomwarden Suit"
   | "Embersteel Suit"
   | "Amberfall Suit"
-  | "Glacierguard Suit";
+  | "Glacierguard Suit"
+  | "Research Uniform"
+  | "Sweet Devil Dress";
 
 export type BumpkinWings =
   | "Angel Wings"
@@ -500,7 +511,9 @@ export type BumpkinWings =
   | "Glacial Plume"
   | "Golden Wings"
   | "Oracle Syringe"
-  | "Slime Wings";
+  | "Slime Wings"
+  | "Underworld Stimpack"
+  | "Sweet Devil Wings";
 
 export type BumpkinBeard =
   | "Wise Beard"
@@ -508,7 +521,11 @@ export type BumpkinBeard =
   | "Santa Beard"
   | "Moustache";
 
-export type BumpkinAura = "Coin Aura" | "Love Puff Aura" | "Slime Aura";
+export type BumpkinAura =
+  | "Coin Aura"
+  | "Love Puff Aura"
+  | "Slime Aura"
+  | "Wisp Aura";
 
 export type BumpkinItem =
   | BumpkinBody
@@ -1032,6 +1049,22 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Wooly Dress": 482,
   "Raccoon Onesie": 483,
   "Golden Seedling": 484,
+
+  // Halloween 2025 Event Wearables
+  "Moonseeker Potion": 485,
+  "Frizzy Bob Cut": 486,
+  "Two-toned Layered": 487,
+  "Halloween Deathscythe": 488,
+  "Moonseeker Hand Puppet": 489,
+  "Sweet Devil Horns": 490,
+  "Trick and Treat": 491,
+  "Jack O'Sweets": 492,
+  "Frank Onesie": 493,
+  "Research Uniform": 494,
+  "Sweet Devil Dress": 495,
+  "Underworld Stimpack": 496,
+  "Sweet Devil Wings": 497,
+  "Wisp Aura": 498,
 };
 
 // The reverse of above
@@ -1577,6 +1610,20 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Lava Swimwear": "dress",
   "Wooly Dress": "dress",
   "Raccoon Onesie": "onesie",
+  "Moonseeker Potion": "body",
+  "Frizzy Bob Cut": "hair",
+  "Two-toned Layered": "hair",
+  "Halloween Deathscythe": "tool",
+  "Moonseeker Hand Puppet": "tool",
+  "Sweet Devil Horns": "hat",
+  "Trick and Treat": "necklace",
+  "Jack O'Sweets": "secondaryTool",
+  "Frank Onesie": "onesie",
+  "Research Uniform": "suit",
+  "Sweet Devil Dress": "suit",
+  "Underworld Stimpack": "wings",
+  "Sweet Devil Wings": "wings",
+  "Wisp Aura": "aura",
 };
 
 /**Copied from BE just for hoarding checks */
