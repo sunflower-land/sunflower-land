@@ -297,6 +297,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
                     getPetEnergy({
                       petLevel,
                       basePetEnergy: getPetRequestXP(foodItem),
+                      petData,
                     }),
                   0,
                 );

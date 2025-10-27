@@ -15,6 +15,7 @@ import {
   PetNFT,
   PetRequestDifficulty,
 } from "features/game/types/pets";
+import { AuraTrait } from "features/pets/types";
 import { produce } from "immer";
 import { setPrecision } from "lib/utils/formatNumber";
 
@@ -28,12 +29,21 @@ export const FOOD_TO_DIFFICULTY: Map<CookableName, PetRequestDifficulty> =
     return map;
   })();
 
+const AURA_ENERGY_MULTIPLIER: Record<AuraTrait, number> = {
+  "No Aura": 1,
+  "Basic Aura": 1.5,
+  "Epic Aura": 2,
+  "Mega Aura": 3,
+};
+
 export function getPetEnergy({
   basePetEnergy,
   petLevel,
+  petData,
 }: {
   basePetEnergy: number;
   petLevel: number;
+  petData: Pet | PetNFT;
 }) {
   let boostEnergy = 0;
 
@@ -49,7 +59,15 @@ export function getPetEnergy({
     boostEnergy += 5;
   }
 
-  return basePetEnergy + boostEnergy;
+  let energy = basePetEnergy + boostEnergy;
+
+  // Apply aura multiplier if the pet is a PetNFT and has an aura trait
+  if (isPetNFTData(petData) && petData.traits?.aura) {
+    const auraMultiplier = AURA_ENERGY_MULTIPLIER[petData.traits.aura];
+    energy *= auraMultiplier;
+  }
+
+  return setPrecision(energy, 2).toNumber();
 }
 
 export function getPetExperience({
@@ -281,7 +299,11 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
       petLevel,
       isPetNFT,
     });
-    const energy = getPetEnergy({ petLevel, basePetEnergy: basePetXP });
+    const energy = getPetEnergy({
+      petLevel,
+      basePetEnergy: basePetXP,
+      petData,
+    });
     petData.experience += experience;
     petData.energy += energy;
 
