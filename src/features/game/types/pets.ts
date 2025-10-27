@@ -7,6 +7,7 @@ import { InventoryItemName } from "./game";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { COMPETITION_POINTS } from "./competitions";
 import { PetTraits } from "features/pets/types";
+
 export type PetName =
   // Dogs
   | "Barkley"
@@ -116,7 +117,6 @@ export type PetNFT = Omit<Pet, "name"> & {
   coordinates?: Coordinates;
   location?: PlaceableLocation;
   traits?: PetTraits;
-  revealedAt?: number;
 };
 
 export type PetNFTs = Record<number, PetNFT>;
