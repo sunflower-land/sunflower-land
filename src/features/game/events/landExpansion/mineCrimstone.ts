@@ -27,27 +27,40 @@ type GetMinedAtArgs = {
   game: GameState;
 };
 
-export function getMinedAt({ createdAt, game }: GetMinedAtArgs): {
-  time: number;
+function getBoostedTime({ game }: GetMinedAtArgs): {
+  boostedTime: number;
   boostsUsed: BoostName[];
 } {
-  let time = createdAt;
+  let totalSeconds = CRIMSTONE_RECOVERY_TIME;
   const boostsUsed: BoostName[] = [];
 
   if (isWearableActive({ name: "Crimstone Amulet", game })) {
-    time -= CRIMSTONE_RECOVERY_TIME * 0.2 * 1000;
+    totalSeconds = totalSeconds * 0.8;
     boostsUsed.push("Crimstone Amulet");
   }
 
   if (game.bumpkin.skills["Fireside Alchemist"]) {
-    time -= CRIMSTONE_RECOVERY_TIME * 0.15 * 1000;
+    totalSeconds = totalSeconds * 0.85;
     boostsUsed.push("Fireside Alchemist");
   }
 
   if (isTemporaryCollectibleActive({ name: "Mole Shrine", game })) {
-    time -= CRIMSTONE_RECOVERY_TIME * 0.25 * 1000;
+    totalSeconds = totalSeconds * 0.75;
     boostsUsed.push("Mole Shrine");
   }
+
+  const buff = CRIMSTONE_RECOVERY_TIME - totalSeconds;
+
+  return { boostedTime: buff * 1000, boostsUsed };
+}
+
+export function getMinedAt({ createdAt, game }: GetMinedAtArgs): {
+  time: number;
+  boostsUsed: BoostName[];
+} {
+  const { boostedTime, boostsUsed } = getBoostedTime({ game, createdAt });
+
+  const time = createdAt - boostedTime;
 
   return { time, boostsUsed };
 }
