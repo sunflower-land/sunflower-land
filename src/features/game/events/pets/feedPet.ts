@@ -15,7 +15,7 @@ import {
   PetNFT,
   PetRequestDifficulty,
 } from "features/game/types/pets";
-import { AuraTrait } from "features/pets/types";
+import { AuraTrait, BibTrait } from "features/pets/types";
 import { produce } from "immer";
 import { setPrecision } from "lib/utils/formatNumber";
 
@@ -70,19 +70,27 @@ export function getPetEnergy({
   return setPrecision(energy, 2).toNumber();
 }
 
+const BIB_EXPERIENCE_BONUS: Record<BibTrait, number> = {
+  "Basic Bib": 0,
+  "Mid Bib": 5,
+  "Great Bib": 10,
+};
+
 export function getPetExperience({
   game,
   basePetXP,
   petLevel,
-  isPetNFT,
+  petData,
 }: {
   game: GameState;
   basePetXP: number;
   petLevel: number;
-  isPetNFT: boolean;
+  petData: Pet | PetNFT;
 }) {
   let experience = basePetXP;
   let experienceBoost = 1;
+
+  const isPetNFT = isPetNFTData(petData);
 
   if (petLevel >= 27) {
     experienceBoost += 0.1;
@@ -102,9 +110,12 @@ export function getPetExperience({
     experience += 100;
   }
 
+  if (isPetNFT && petData.traits?.bib) {
+    experience += BIB_EXPERIENCE_BONUS[petData.traits.bib];
+  }
+
   return setPrecision(experience, 2).toNumber();
 }
-
 /**
  * Returns the pet's food requests based on its level and type (Pet or PetNFT).
  * For PetNFTs, the number and difficulty of food requests are limited depending on the pet's level:
@@ -297,7 +308,7 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
       basePetXP,
       game: stateCopy,
       petLevel,
-      isPetNFT,
+      petData,
     });
     const energy = getPetEnergy({
       petLevel,

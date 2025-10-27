@@ -186,7 +186,7 @@ export const PetCard: React.FC<Props> = ({
         basePetXP: baseFoodXP,
         game: state,
         petLevel,
-        isPetNFT: typeof petId === "number",
+        petData,
       });
       const foodEnergy = getPetEnergy({
         petLevel,
