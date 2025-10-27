@@ -378,7 +378,13 @@ describe("feedPet", () => {
               1: {
                 name: "Pet #1",
                 id: 1,
-                traits: { type: "Dragon" },
+                traits: {
+                  type: "Dragon",
+                  fur: "DragonColor1",
+                  accessory: "DragonAccessory1",
+                  bib: "Basic Bib",
+                  aura: "No Aura",
+                },
                 energy: 100,
                 experience: 0,
                 pettedAt: now,
@@ -391,7 +397,13 @@ describe("feedPet", () => {
               2: {
                 name: "Pet #2",
                 id: 2,
-                traits: { type: "Dragon" },
+                traits: {
+                  type: "Dragon",
+                  fur: "DragonColor1",
+                  accessory: "DragonAccessory1",
+                  bib: "Basic Bib",
+                  aura: "No Aura",
+                },
                 energy: 100,
                 experience: 0,
                 pettedAt: now,
@@ -472,7 +484,13 @@ describe("feedPet", () => {
             1: {
               name: "Pet #1",
               id: 1,
-              traits: { type: "Dragon" },
+              traits: {
+                type: "Dragon",
+                fur: "DragonColor1",
+                accessory: "DragonAccessory1",
+                bib: "Basic Bib",
+                aura: "No Aura",
+              },
               energy: 100,
               experience: 0,
               pettedAt: now,
@@ -485,7 +503,13 @@ describe("feedPet", () => {
             2: {
               name: "Pet #2",
               id: 2,
-              traits: { type: "Dragon" },
+              traits: {
+                type: "Dragon",
+                fur: "DragonColor1",
+                accessory: "DragonAccessory1",
+                bib: "Basic Bib",
+                aura: "No Aura",
+              },
               energy: 100,
               experience: 0,
               pettedAt: now,
@@ -673,7 +697,13 @@ describe("feedPet", () => {
               energy: 0,
               experience: level40XP, // Level 40
               pettedAt: now,
-              traits: { type: "Dragon" },
+              traits: {
+                type: "Dragon",
+                fur: "DragonColor1",
+                accessory: "DragonAccessory1",
+                bib: "Basic Bib",
+                aura: "No Aura",
+              },
               coordinates: { x: 1, y: 1 },
             },
           },
@@ -717,7 +747,13 @@ describe("feedPet", () => {
               energy: 0,
               experience: level85XP, // Level 85
               pettedAt: now,
-              traits: { type: "Dragon" },
+              traits: {
+                type: "Dragon",
+                fur: "DragonColor1",
+                accessory: "DragonAccessory1",
+                bib: "Basic Bib",
+                aura: "No Aura",
+              },
               coordinates: { x: 1, y: 1 },
             },
           },
