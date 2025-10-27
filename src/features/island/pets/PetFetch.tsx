@@ -13,6 +13,7 @@ import {
   getPetLevel,
   isPetNapping,
   isPetNeglected,
+  isPetNFT,
   Pet,
   PET_RESOURCES,
   PetNFT,
@@ -24,6 +25,7 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import { CountLabel } from "components/ui/CountLabel";
+import { getFetchYield } from "features/game/events/pets/fetchPet";
 
 type Props = {
   data: Pet | PetNFT;
@@ -62,7 +64,14 @@ export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
           const hasRequiredLevel = level >= requiredLevel;
           const energyRequired = PET_RESOURCES[name].energy;
           const hasEnoughEnergy = data.energy >= energyRequired;
-          const fetchYield = data.fetches?.[name] ?? 1;
+          const { yieldAmount: fetchYield } = getFetchYield({
+            petLevel: level,
+            fetchResource: name,
+            isPetNFT: isPetNFT(data),
+            seed: data.fetchSeeds?.[name],
+            createdAt: Date.now(),
+          });
+
           const inventoryCount = inventory[name] ?? new Decimal(0);
 
           return (

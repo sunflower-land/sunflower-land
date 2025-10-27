@@ -96,7 +96,8 @@ export type Pet = {
       [date: string]: number;
     };
   };
-  fetches?: Partial<Record<PetResourceName, number>>; // Fetch yields
+  // fetches?: Partial<Record<PetResourceName, number>>; // Will be unused in the future
+  fetchSeeds?: Partial<Record<PetResourceName, number>>; // Store the next seed
   energy: number;
   experience: number;
   pettedAt: number;
