@@ -345,7 +345,9 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
                   </Button>
                   <Button
                     disabled={
-                      bulkOrder === undefined || bulkOrder?.ids.length === 0
+                      bulkOrder === undefined ||
+                      bulkOrder?.ids.length === 0 ||
+                      new Decimal(bulkOrder?.price ?? 0).gt(balance)
                     }
                     className="w-fit h-8 rounded-none min-w-[60px]"
                     onClick={() => setShowBulkPurchaseModal(true)}
