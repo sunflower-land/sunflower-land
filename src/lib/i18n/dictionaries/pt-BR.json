@@ -6759,5 +6759,20 @@
   "halloween.portal.missionObjectives": "Missão: Obter relíquias.",
   "pets.hatching": "Seu ovo de estimação # {{id}} está eclodindo...",
   "pets.hatched": "Seu ovo de estimação eclodiu em {{type}}!",
-  "pets.petHatched": "Animal de estimação nascido"
+  "pets.petHatched": "Animal de estimação nascido",
+  "averagePricePerUnit": "Preço médio por unidade",
+  "marketplace.areYouSureBulkBuy": "Tem certeza de que deseja fazer essa compra em massa?",
+  "marketplace.bulkBuyDescription": "Você pode inserir uma quantidade máxima de recursos ou selecionar anúncios individuais.",
+  "marketplace.listingsLeft": "{{amount}}/{{limit}} Anúncios restantes",
+  "marketplace.maxToBuy": "Quantidade máxima para comprar:",
+  "marketplace.maxAmtToBuy": "Quantidade máxima para comprar:",
+  "marketplace.limit": "Limite: {{maxLimit}}",
+  "marketplace.bought": "Comprou",
+  "marketplace.accepted": "Aceito",
+  "marketplace.offered": "Oferecido",
+  "marketplace.buying.bulk.resources": "Comprando",
+  "marketplace.buying.bulk.resources.success": "Seu pedido em massa foi atendido com sucesso.",
+  "marketplace.buying.bulk.resources.allFailed": "Seu pedido em massa não pôde ser atendido. Isso geralmente acontece quando uma venda está em andamento. Se você ainda estiver vendo os anúncios, tente novamente.",
+  "marketplace.buying.bulk.resources.someSuccess": "Seu pedido em massa foi parcialmente atendido devido a alguns anúncios que não estavam mais disponíveis.",
+  "marketplace.bulkBuy": "Compra em massa"
 }

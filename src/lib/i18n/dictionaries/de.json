@@ -6759,5 +6759,20 @@
   "halloween.portal.missionObjectives": "Auftrag: Besorgen Sie sich Relikte.",
   "pets.hatching": "Dein Tierei # {{id}} schlüpft...",
   "pets.hatched": "Aus deinem Tierei ist {{type}} geschlüpft!",
-  "pets.petHatched": "Haustier ist geschlüpft"
+  "pets.petHatched": "Haustier ist geschlüpft",
+  "averagePricePerUnit": "Durchschnittspreis pro Einheit",
+  "marketplace.areYouSureBulkBuy": "Sind Sie sicher, dass Sie diesen Großeinkauf tätigen möchten?",
+  "marketplace.bulkBuyDescription": "Sie können eine maximale Anzahl an Ressourcen eingeben oder einzelne Angebote auswählen.",
+  "marketplace.listingsLeft": "{{amount}}/{{limit}} Verbleibende Angebote",
+  "marketplace.maxToBuy": "Maximaler Kaufbetrag:",
+  "marketplace.maxAmtToBuy": "Max. Menge zum Kauf:",
+  "marketplace.limit": "Limit: {{maxLimit}}",
+  "marketplace.bought": "gekauft",
+  "marketplace.accepted": "Akzeptiert",
+  "marketplace.offered": "Angeboten",
+  "marketplace.buying.bulk.resources": "Einkauf",
+  "marketplace.buying.bulk.resources.success": "Ihre Großbestellung wurde erfolgreich ausgeführt.",
+  "marketplace.buying.bulk.resources.allFailed": "Ihre Großbestellung konnte nicht ausgeführt werden. Dies passiert normalerweise, wenn ein Verkauf im Gange ist. Wenn Sie die Angebote immer noch sehen, versuchen Sie es bitte erneut.",
+  "marketplace.buying.bulk.resources.someSuccess": "Ihre Großbestellung wurde teilweise ausgeführt, da einige Angebote nicht mehr verfügbar waren.",
+  "marketplace.bulkBuy": "Großeinkauf"
 }

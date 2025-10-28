@@ -6759,5 +6759,20 @@
   "halloween.portal.missionObjectives": "Görev: Kalıntıları alın.",
   "pets.hatching": "Evcil Hayvan Yumurtanız # {{id}} kuluçkalıyor...",
   "pets.hatched": "Evcil Hayvan Yumurtanız {{type}} içine yumurtadan çıktı!",
-  "pets.petHatched": "Evcil Hayvan Yumurtadan Çıktı"
+  "pets.petHatched": "Evcil Hayvan Yumurtadan Çıktı",
+  "averagePricePerUnit": "Birim başına ortalama fiyat",
+  "marketplace.areYouSureBulkBuy": "Bu toplu satın alma işlemi yapmak istediğinizden emin misiniz?",
+  "marketplace.bulkBuyDescription": "Maksimum kaynak miktarı girebilir veya tek tek listeleri seçebilirsiniz.",
+  "marketplace.listingsLeft": "{{amount}}/{{limit}} Kalan ilanlar",
+  "marketplace.maxToBuy": "Satın alınacak maksimum miktar:",
+  "marketplace.maxAmtToBuy": "Satın alınacak maksimum miktar:",
+  "marketplace.limit": "Sınır: {{maxLimit}}",
+  "marketplace.bought": "Satın aldım",
+  "marketplace.accepted": "Kabul Edildi",
+  "marketplace.offered": "Sunulan",
+  "marketplace.buying.bulk.resources": "Satın alma",
+  "marketplace.buying.bulk.resources.success": "Toplu siparişiniz başarıyla gönderildi.",
+  "marketplace.buying.bulk.resources.allFailed": "Toplu siparişiniz yerine getirilemedi. Bu genellikle bir satış devam ederken olur. Listeleri hala görüyorsanız, lütfen tekrar deneyin.",
+  "marketplace.buying.bulk.resources.someSuccess": "Toplu siparişiniz, artık mevcut olmayan bazı listeler nedeniyle kısmen dolduruldu.",
+  "marketplace.bulkBuy": "Toplu Satın Alma"
 }

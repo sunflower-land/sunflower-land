@@ -6759,5 +6759,20 @@
   "halloween.portal.missionObjectives": "任务：获取遗物。",
   "pets.hatching": "你的宠物蛋 # {{id}} 正在孵化...",
   "pets.hatched": "你的宠物蛋孵化成 {{type}}！",
-  "pets.petHatched": "宠物孵化"
+  "pets.petHatched": "宠物孵化",
+  "averagePricePerUnit": "每单位平均价格",
+  "marketplace.areYouSureBulkBuy": "你确定要批量购买吗？",
+  "marketplace.bulkBuyDescription": "您可以输入最大资源量或选择单个列表。",
+  "marketplace.listingsLeft": "{{amount}}/{{limit}} 剩余房源",
+  "marketplace.maxToBuy": "最大购买金额：",
+  "marketplace.maxAmtToBuy": "可购买的最大金额：",
+  "marketplace.limit": "限制：{{maxLimit}}",
+  "marketplace.bought": "买了",
+  "marketplace.accepted": "已接受",
+  "marketplace.offered": "已提供",
+  "marketplace.buying.bulk.resources": "采购",
+  "marketplace.buying.bulk.resources.success": "您的批量订单已成功发货。",
+  "marketplace.buying.bulk.resources.allFailed": "您的批量订单无法发货。这通常发生在销售进行中。如果您仍然看到清单，请重试。",
+  "marketplace.buying.bulk.resources.someSuccess": "由于某些清单不再可用，您的批量订单已部分成交。",
+  "marketplace.bulkBuy": "批量购买"
 }

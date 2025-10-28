@@ -6759,5 +6759,20 @@
   "halloween.portal.missionObjectives": "Mission : récupérer des reliques.",
   "pets.hatching": "L'œuf de votre animal de compagnie # {{id}} est en train d'éclore...",
   "pets.hatched": "L'œuf de votre animal de compagnie a éclos en {{type}} !",
-  "pets.petHatched": "Animal de compagnie éclos"
+  "pets.petHatched": "Animal de compagnie éclos",
+  "averagePricePerUnit": "Prix moyen par unité",
+  "marketplace.areYouSureBulkBuy": "Êtes-vous sûr de vouloir effectuer cet achat en gros ?",
+  "marketplace.bulkBuyDescription": "Vous pouvez saisir une quantité maximale de ressources ou sélectionner des listes individuelles.",
+  "marketplace.listingsLeft": "{{amount}}/{{limit}} Annonces restantes",
+  "marketplace.maxToBuy": "Montant maximum à acheter :",
+  "marketplace.maxAmtToBuy": "Max amt à acheter :",
+  "marketplace.limit": "Limite : {{maxLimit}}",
+  "marketplace.bought": "Acheté",
+  "marketplace.accepted": "Accepté",
+  "marketplace.offered": "Offert",
+  "marketplace.buying.bulk.resources": "Achats",
+  "marketplace.buying.bulk.resources.success": "Votre commande groupée a été traitée avec succès.",
+  "marketplace.buying.bulk.resources.allFailed": "Votre commande groupée n'a pas pu être traitée. Cela se produit généralement lorsqu'une vente est en cours. Si vous voyez toujours les annonces, veuillez réessayer.",
+  "marketplace.buying.bulk.resources.someSuccess": "Votre commande groupée a été partiellement exécutée car certaines offres n'étaient plus disponibles.",
+  "marketplace.bulkBuy": "Achat en gros"
 }

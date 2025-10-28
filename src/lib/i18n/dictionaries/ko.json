@@ -6759,5 +6759,20 @@
   "halloween.portal.missionObjectives": "임무: 유물 구하기.",
   "pets.hatching": "애완용 알 # {{id}} 이 (가) 부화하고 있습니다...",
   "pets.hatched": "펫 에그가 {{type}} 에 부화했습니다!",
-  "pets.petHatched": "애완동물 해치드"
+  "pets.petHatched": "애완동물 해치드",
+  "averagePricePerUnit": "단위당 평균 가격",
+  "marketplace.areYouSureBulkBuy": "정말 대량 구매를 원하시나요?",
+  "marketplace.bulkBuyDescription": "최대 리소스 수를 입력하거나 개별 리스팅을 선택할 수 있습니다.",
+  "marketplace.listingsLeft": "{{amount}}/{{limit}} 리스팅이 남았습니다",
+  "marketplace.maxToBuy": "최대 구매 금액:",
+  "marketplace.maxAmtToBuy": "최대 구매 수량:",
+  "marketplace.limit": "제한: {{maxLimit}}",
+  "marketplace.bought": "구입",
+  "marketplace.accepted": "수락됨",
+  "marketplace.offered": "제공",
+  "marketplace.buying.bulk.resources": "구매",
+  "marketplace.buying.bulk.resources.success": "대량 주문이 성공적으로 처리되었습니다.",
+  "marketplace.buying.bulk.resources.allFailed": "대량 주문을 처리할 수 없습니다.이는 일반적으로 판매가 진행 중일 때 발생합니다.그래도 목록이 보이면 다시 시도하세요.",
+  "marketplace.buying.bulk.resources.someSuccess": "일부 리스팅이 더 이상 제공되지 않아 대량 주문이 일부 처리되었습니다.",
+  "marketplace.bulkBuy": "대량 구매"
 }

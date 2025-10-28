@@ -6759,5 +6759,20 @@
   "halloween.portal.missionObjectives": "Misi: Dapatkan peninggalan.",
   "pets.hatching": "Telur Haiwan Peliharaan Anda # {{id}} sedang menetas...",
   "pets.hatched": "Telur Haiwan Peliharaan anda menetas menjadi {{type}}!",
-  "pets.petHatched": "Haiwan Peliharaan Menetas"
+  "pets.petHatched": "Haiwan Peliharaan Menetas",
+  "averagePricePerUnit": "Harga purata seunit",
+  "marketplace.areYouSureBulkBuy": "Adakah anda pasti ingin membuat pembelian pukal ini?",
+  "marketplace.bulkBuyDescription": "Anda boleh memasukkan jumlah maksimum sumber atau memilih penyenaraian individu.",
+  "marketplace.listingsLeft": "{{amount}}/{{limit}} Senarai yang tinggal",
+  "marketplace.maxToBuy": "Jumlah maksimum untuk dibeli:",
+  "marketplace.maxAmtToBuy": "Maksimum amt untuk membeli:",
+  "marketplace.limit": "Had: {{maxLimit}}",
+  "marketplace.bought": "Dibeli",
+  "marketplace.accepted": "Diterima",
+  "marketplace.offered": "ditawarkan",
+  "marketplace.buying.bulk.resources": "Pembelian",
+  "marketplace.buying.bulk.resources.success": "Pesanan pukal anda berjaya dipenuhi.",
+  "marketplace.buying.bulk.resources.allFailed": "Pesanan pukal anda tidak dapat dipenuhi. Ini biasanya berlaku apabila penjualan sedang dijalankan. Jika anda masih melihat penyenaraian, sila cuba lagi.",
+  "marketplace.buying.bulk.resources.someSuccess": "Pesanan pukal anda telah diisi sebahagiannya kerana beberapa penyenaraian yang tidak lagi tersedia.",
+  "marketplace.bulkBuy": "Beli Pukal"
 }

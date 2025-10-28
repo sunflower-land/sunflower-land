@@ -6759,5 +6759,20 @@
   "halloween.portal.missionObjectives": "Миссия: добыть реликвии.",
   "pets.hatching": "Яйцо вашего питомца # {{id}} вылупляется...",
   "pets.hatched": "Яйцо вашего питомца вылупилось в {{type}}!",
-  "pets.petHatched": "Вылупилось домашнее животное"
+  "pets.petHatched": "Вылупилось домашнее животное",
+  "averagePricePerUnit": "Средняя цена за единицу",
+  "marketplace.areYouSureBulkBuy": "Вы уверены, что хотите сделать эту оптовую покупку?",
+  "marketplace.bulkBuyDescription": "Можно ввести максимальное количество ресурсов или выбрать отдельные объявления.",
+  "marketplace.listingsLeft": "{{amount}}/{{limit}} Объявления остались",
+  "marketplace.maxToBuy": "Максимальная сумма покупки:",
+  "marketplace.maxAmtToBuy": "Максимальное количество покупаемых товаров:",
+  "marketplace.limit": "Лимит: {{maxLimit}}",
+  "marketplace.bought": "Куплено",
+  "marketplace.accepted": "Принято",
+  "marketplace.offered": "Предложенный",
+  "marketplace.buying.bulk.resources": "Покупка",
+  "marketplace.buying.bulk.resources.success": "Ваш оптовый заказ был успешно выполнен.",
+  "marketplace.buying.bulk.resources.allFailed": "Ваш оптовый заказ не удалось выполнить. Обычно это происходит во время продажи. Если вы все еще видите объявления, попробуйте еще раз.",
+  "marketplace.buying.bulk.resources.someSuccess": "Ваш оптовый заказ был частично выполнен из-за того, что некоторых объявлений больше не было в наличии.",
+  "marketplace.bulkBuy": "Оптовая покупка"
 }

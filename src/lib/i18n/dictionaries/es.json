@@ -6759,5 +6759,20 @@
   "halloween.portal.missionObjectives": "Misión: Consigue reliquias.",
   "pets.hatching": "El número de huevos de tu mascota {{id}} está eclosionando...",
   "pets.hatched": "¡El huevo de tu mascota eclosionó y se convirtió en {{type}}!",
-  "pets.petHatched": "Mascota eclosionada"
+  "pets.petHatched": "Mascota eclosionada",
+  "averagePricePerUnit": "Precio medio por unidad",
+  "marketplace.areYouSureBulkBuy": "¿Estás seguro de que deseas realizar esta compra al por mayor?",
+  "marketplace.bulkBuyDescription": "Puedes introducir una cantidad máxima de recursos o seleccionar listados individuales.",
+  "marketplace.listingsLeft": "{{amount}}/{{limit}} Quedan listados",
+  "marketplace.maxToBuy": "Cantidad máxima a comprar:",
+  "marketplace.maxAmtToBuy": "Cantidad máxima para comprar:",
+  "marketplace.limit": "Límite: {{maxLimit}}",
+  "marketplace.bought": "Comprado",
+  "marketplace.accepted": "Aceptado",
+  "marketplace.offered": "Ofrecido",
+  "marketplace.buying.bulk.resources": "Adquisición",
+  "marketplace.buying.bulk.resources.success": "Tu pedido al por mayor se gestionó correctamente.",
+  "marketplace.buying.bulk.resources.allFailed": "No se ha podido gestionar tu pedido en bloque. Esto suele ocurrir cuando hay una venta en curso. Si sigues viendo los anuncios, vuelve a intentarlo.",
+  "marketplace.buying.bulk.resources.someSuccess": "Tu pedido al por mayor se completó parcialmente debido a que algunos listados ya no estaban disponibles.",
+  "marketplace.bulkBuy": "Compra al por mayor"
 }

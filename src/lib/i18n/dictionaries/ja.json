@@ -6759,5 +6759,20 @@
   "halloween.portal.missionObjectives": "ミッション:遺物を入手してください。",
   "pets.hatching": "あなたのペットの卵 # {{id}} は孵化しています...",
   "pets.hatched": "ペットの卵が {{type}} に孵化しました！",
-  "pets.petHatched": "ペットハッチ"
+  "pets.petHatched": "ペットハッチ",
+  "averagePricePerUnit": "ユニットあたりの平均価格",
+  "marketplace.areYouSureBulkBuy": "この一括購入を行ってもよろしいですか？",
+  "marketplace.bulkBuyDescription": "リソースの最大数を入力するか、個別のリストを選択できます。",
+  "marketplace.listingsLeft": "{{amount}}/{{limit}} リストが残っています",
+  "marketplace.maxToBuy": "購入できる最大金額:",
+  "marketplace.maxAmtToBuy": "購入できる最大数量:",
+  "marketplace.limit": "リミット:{{maxLimit}}",
+  "marketplace.bought": "買った",
+  "marketplace.accepted": "承諾済み",
+  "marketplace.offered": "提供",
+  "marketplace.buying.bulk.resources": "購買",
+  "marketplace.buying.bulk.resources.success": "一括注文は正常に処理されました。",
+  "marketplace.buying.bulk.resources.allFailed": "お客様の一括注文は処理できませんでした。これは通常、セールの進行中に発生します。それでも出品情報が表示される場合は、もう一度試してください。",
+  "marketplace.buying.bulk.resources.someSuccess": "一部の出品情報が利用できなくなったため、一括注文の一部が処理されました。",
+  "marketplace.bulkBuy": "一括購入"
 }

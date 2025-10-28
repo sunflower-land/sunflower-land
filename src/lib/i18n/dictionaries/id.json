@@ -6759,5 +6759,20 @@
   "halloween.portal.missionObjectives": "Misi: Dapatkan relik.",
   "pets.hatching": "Telur Hewan Peliharaan Anda # {{id}} menetas...",
   "pets.hatched": "Telur Hewan Peliharaan Anda menetas menjadi {{type}}!",
-  "pets.petHatched": "Hewan Peliharaan Ditetaskan"
+  "pets.petHatched": "Hewan Peliharaan Ditetaskan",
+  "averagePricePerUnit": "Harga rata-rata per unit",
+  "marketplace.areYouSureBulkBuy": "Apakah Anda yakin ingin melakukan pembelian massal ini?",
+  "marketplace.bulkBuyDescription": "Anda dapat memasukkan jumlah maksimum sumber daya atau memilih daftar individu.",
+  "marketplace.listingsLeft": "{{amount}}/{{limit}} Daftar tersisa",
+  "marketplace.maxToBuy": "Jumlah maksimum untuk membeli:",
+  "marketplace.maxAmtToBuy": "Maksimum amt untuk membeli:",
+  "marketplace.limit": "Batas: {{maxLimit}}",
+  "marketplace.bought": "Membeli",
+  "marketplace.accepted": "Diterima",
+  "marketplace.offered": "Ditawarkan",
+  "marketplace.buying.bulk.resources": "Pembelian",
+  "marketplace.buying.bulk.resources.success": "Pesanan massal Anda berhasil dipenuhi.",
+  "marketplace.buying.bulk.resources.allFailed": "Pesanan massal Anda tidak dapat dipenuhi. Ini biasanya terjadi ketika penjualan sedang berlangsung. Jika Anda masih melihat daftar, silakan coba lagi.",
+  "marketplace.buying.bulk.resources.someSuccess": "Pesanan massal Anda sebagian terisi karena beberapa listing yang tidak lagi tersedia.",
+  "marketplace.bulkBuy": "Pembelian Massal"
 }
