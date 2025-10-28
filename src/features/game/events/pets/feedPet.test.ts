@@ -535,6 +535,122 @@ describe("feedPet", () => {
     expect(petData?.experience).toEqual(100);
   });
 
+  it("gives an energy multiplier for nft pets with aura", () => {
+    const state = feedPet({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Bumpkin Salad": new Decimal(10),
+        },
+        pets: {
+          nfts: {
+            1: {
+              name: "Pet #1",
+              id: 1,
+              traits: {
+                type: "Dragon",
+                fur: "DragonColor1",
+                accessory: "DragonAccessory1",
+                bib: "Basic Bib",
+                aura: "Basic Aura",
+              },
+              energy: 100,
+              experience: 0,
+              pettedAt: now,
+              requests: {
+                food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+                fedAt: now,
+              },
+              coordinates: { x: 1, y: 1 },
+            },
+            2: {
+              name: "Pet #2",
+              id: 2,
+              traits: {
+                type: "Dragon",
+                fur: "DragonColor1",
+                accessory: "DragonAccessory1",
+                bib: "Basic Bib",
+                aura: "No Aura",
+              },
+              energy: 100,
+              experience: 0,
+              pettedAt: now,
+              requests: {
+                fedAt: 0,
+                food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+              },
+              coordinates: { x: 1, y: 1 },
+            },
+          },
+        },
+      },
+      action: { type: "pet.fed", petId: 1, food: "Bumpkin Salad" },
+      createdAt: now,
+    });
+    const petData = state.pets?.nfts?.[1];
+
+    expect(petData?.energy).toEqual(250);
+  });
+
+  it("gives an experience bonus for nft pets with bib", () => {
+    const state = feedPet({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Bumpkin Salad": new Decimal(10),
+        },
+        pets: {
+          nfts: {
+            1: {
+              name: "Pet #1",
+              id: 1,
+              traits: {
+                type: "Dragon",
+                fur: "DragonColor1",
+                accessory: "DragonAccessory1",
+                bib: "Mid Bib",
+                aura: "No Aura",
+              },
+              energy: 100,
+              experience: 0,
+              pettedAt: now,
+              requests: {
+                food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+                fedAt: now,
+              },
+              coordinates: { x: 1, y: 1 },
+            },
+            2: {
+              name: "Pet #2",
+              id: 2,
+              traits: {
+                type: "Dragon",
+                fur: "DragonColor1",
+                accessory: "DragonAccessory1",
+                bib: "Basic Bib",
+                aura: "No Aura",
+              },
+              energy: 100,
+              experience: 0,
+              pettedAt: now,
+              requests: {
+                fedAt: 0,
+                food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+              },
+              coordinates: { x: 1, y: 1 },
+            },
+          },
+        },
+      },
+      action: { type: "pet.fed", petId: 1, food: "Bumpkin Salad" },
+      createdAt: now,
+    });
+    const petData = state.pets?.nfts?.[1];
+
+    expect(petData?.experience).toEqual(105);
+  });
+
   it("feeds pet with energy boost", () => {
     const state = feedPet({
       state: {
