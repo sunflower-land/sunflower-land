@@ -6756,5 +6756,8 @@
   "description.guillotine": "La herramienta definitiva para una cosecha limpia.",
   "description.vampireCoffin": "Solo viene a cultivar de noche. Ajo no incluido.",
   "eventHalloween.noticeboard.one": "¡Bienvenido al evento Halloween 2025!",
-  "halloween.portal.missionObjectives": "Misión: Consigue reliquias."
+  "halloween.portal.missionObjectives": "Misión: Consigue reliquias.",
+  "pets.hatching": "El número de huevos de tu mascota {{id}} está eclosionando...",
+  "pets.hatched": "¡El huevo de tu mascota eclosionó y se convirtió en {{type}}!",
+  "pets.petHatched": "Mascota eclosionada"
 }

@@ -6756,5 +6756,8 @@
   "description.guillotine": "L'outil ultime pour une récolte nette.",
   "description.vampireCoffin": "Il ne sort que pour faire de l'agriculture nocturne. L'ail n'est pas inclus.",
   "eventHalloween.noticeboard.one": "Bienvenue à l'événement Halloween 2025 !",
-  "halloween.portal.missionObjectives": "Mission : récupérer des reliques."
+  "halloween.portal.missionObjectives": "Mission : récupérer des reliques.",
+  "pets.hatching": "L'œuf de votre animal de compagnie # {{id}} est en train d'éclore...",
+  "pets.hatched": "L'œuf de votre animal de compagnie a éclos en {{type}} !",
+  "pets.petHatched": "Animal de compagnie éclos"
 }

@@ -6756,5 +6756,8 @@
   "description.guillotine": "きれいに刈り取るための究極の道具です。",
   "description.vampireCoffin": "彼は夜間農業にしか出てこない。にんにくは入っていません。",
   "eventHalloween.noticeboard.one": "2025年のハロウィンイベントへようこそ！",
-  "halloween.portal.missionObjectives": "ミッション:遺物を入手してください。"
+  "halloween.portal.missionObjectives": "ミッション:遺物を入手してください。",
+  "pets.hatching": "あなたのペットの卵 # {{id}} は孵化しています...",
+  "pets.hatched": "ペットの卵が {{type}} に孵化しました！",
+  "pets.petHatched": "ペットハッチ"
 }

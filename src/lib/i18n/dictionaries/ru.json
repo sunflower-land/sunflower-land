@@ -6756,5 +6756,8 @@
   "description.guillotine": "Идеальный инструмент для сбора чистого урожая.",
   "description.vampireCoffin": "Он занимается сельским хозяйством только в ночное время. Чеснок в комплект не входит.",
   "eventHalloween.noticeboard.one": "Добро пожаловать на мероприятие «Хэллоуин 2025»!",
-  "halloween.portal.missionObjectives": "Миссия: добыть реликвии."
+  "halloween.portal.missionObjectives": "Миссия: добыть реликвии.",
+  "pets.hatching": "Яйцо вашего питомца # {{id}} вылупляется...",
+  "pets.hatched": "Яйцо вашего питомца вылупилось в {{type}}!",
+  "pets.petHatched": "Вылупилось домашнее животное"
 }

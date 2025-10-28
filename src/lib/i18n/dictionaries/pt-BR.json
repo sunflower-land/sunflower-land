@@ -6756,5 +6756,8 @@
   "description.guillotine": "A ferramenta definitiva para uma colheita limpa.",
   "description.vampireCoffin": "Ele só sai para cultivar à noite. Alho não incluído.",
   "eventHalloween.noticeboard.one": "Bem-vindo ao evento de Halloween 2025!",
-  "halloween.portal.missionObjectives": "Missão: Obter relíquias."
+  "halloween.portal.missionObjectives": "Missão: Obter relíquias.",
+  "pets.hatching": "Seu ovo de estimação # {{id}} está eclodindo...",
+  "pets.hatched": "Seu ovo de estimação eclodiu em {{type}}!",
+  "pets.petHatched": "Animal de estimação nascido"
 }

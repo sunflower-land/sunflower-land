@@ -6756,5 +6756,8 @@
   "description.guillotine": "干净收获的终极工具。",
   "description.vampireCoffin": "他只出来做夜间农业。不包括大蒜。",
   "eventHalloween.noticeboard.one": "欢迎来到 2025 年万圣节活动！",
-  "halloween.portal.missionObjectives": "任务：获取遗物。"
+  "halloween.portal.missionObjectives": "任务：获取遗物。",
+  "pets.hatching": "你的宠物蛋 # {{id}} 正在孵化...",
+  "pets.hatched": "你的宠物蛋孵化成 {{type}}！",
+  "pets.petHatched": "宠物孵化"
 }

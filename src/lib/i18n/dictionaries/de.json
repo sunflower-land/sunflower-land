@@ -6756,5 +6756,8 @@
   "description.guillotine": "Das ultimative Werkzeug für eine saubere Ernte.",
   "description.vampireCoffin": "Er kommt nur zum Nachtfarmen raus. Knoblauch nicht enthalten.",
   "eventHalloween.noticeboard.one": "Willkommen zum Halloween-Event 2025!",
-  "halloween.portal.missionObjectives": "Auftrag: Besorgen Sie sich Relikte."
+  "halloween.portal.missionObjectives": "Auftrag: Besorgen Sie sich Relikte.",
+  "pets.hatching": "Dein Tierei # {{id}} schlüpft...",
+  "pets.hatched": "Aus deinem Tierei ist {{type}} geschlüpft!",
+  "pets.petHatched": "Haustier ist geschlüpft"
 }

@@ -6756,5 +6756,8 @@
   "description.guillotine": "Lo strumento ideale per un raccolto pulito.",
   "description.vampireCoffin": "Esce solo per l'agricoltura notturna. Aglio non incluso.",
   "eventHalloween.noticeboard.one": "Benvenuti all'evento di Halloween 2025!",
-  "halloween.portal.missionObjectives": "Missione: raccogliere reliquie."
+  "halloween.portal.missionObjectives": "Missione: raccogliere reliquie.",
+  "pets.hatching": "Il tuo uovo da compagnia # {{id}} si sta schiudendo...",
+  "pets.hatched": "Il tuo uovo da compagnia si è schiuso in {{type}}!",
+  "pets.petHatched": "Animale domestico nato"
 }

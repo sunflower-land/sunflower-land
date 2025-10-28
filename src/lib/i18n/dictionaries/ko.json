@@ -6756,5 +6756,8 @@
   "description.guillotine": "깔끔하게 잘라낸 수확을 위한 최고의 도구입니다.",
   "description.vampireCoffin": "그는 단지 야간 농사를 하러 나온다고 합니다.마늘은 포함되어 있지 않습니다.",
   "eventHalloween.noticeboard.one": "2025 할로윈 이벤트에 오신 것을 환영합니다!",
-  "halloween.portal.missionObjectives": "임무: 유물 구하기."
+  "halloween.portal.missionObjectives": "임무: 유물 구하기.",
+  "pets.hatching": "애완용 알 # {{id}} 이 (가) 부화하고 있습니다...",
+  "pets.hatched": "펫 에그가 {{type}} 에 부화했습니다!",
+  "pets.petHatched": "애완동물 해치드"
 }

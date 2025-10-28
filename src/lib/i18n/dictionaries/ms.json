@@ -6756,5 +6756,8 @@
   "description.guillotine": "Alat utama untuk penuaian potong yang bersih.",
   "description.vampireCoffin": "Dia hanya keluar untuk pertanian malam. Bawang putih tidak termasuk.",
   "eventHalloween.noticeboard.one": "Selamat datang ke Acara Halloween 2025!",
-  "halloween.portal.missionObjectives": "Misi: Dapatkan peninggalan."
+  "halloween.portal.missionObjectives": "Misi: Dapatkan peninggalan.",
+  "pets.hatching": "Telur Haiwan Peliharaan Anda # {{id}} sedang menetas...",
+  "pets.hatched": "Telur Haiwan Peliharaan anda menetas menjadi {{type}}!",
+  "pets.petHatched": "Haiwan Peliharaan Menetas"
 }

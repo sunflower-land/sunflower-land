@@ -6756,5 +6756,8 @@
   "description.guillotine": "Temiz kesilmiş bir hasat için nihai araç.",
   "description.vampireCoffin": "Sadece gece çiftçiliği için çıkıyor. Sarımsak dahil değildir.",
   "eventHalloween.noticeboard.one": "Cadılar Bayramı 2025 Etkinliğine Hoş Geldiniz!",
-  "halloween.portal.missionObjectives": "Görev: Kalıntıları alın."
+  "halloween.portal.missionObjectives": "Görev: Kalıntıları alın.",
+  "pets.hatching": "Evcil Hayvan Yumurtanız # {{id}} kuluçkalıyor...",
+  "pets.hatched": "Evcil Hayvan Yumurtanız {{type}} içine yumurtadan çıktı!",
+  "pets.petHatched": "Evcil Hayvan Yumurtadan Çıktı"
 }
