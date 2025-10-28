@@ -33,6 +33,7 @@
   "weekly": "Weekly",
   "visiting": "Visiting",
   "forge": "Forge",
+  "averagePricePerUnit": "Average price per unit",
   "count.available": "{{count}} available",
   "animals.buildingIsFull": "{{buildingName}} is full!",
   "breadWinner.description": "Earn 0.001 FLOWER",
