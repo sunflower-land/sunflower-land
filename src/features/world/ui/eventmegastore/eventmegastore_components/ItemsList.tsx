@@ -24,12 +24,12 @@ import { BumpkinItem } from "features/game/types/bumpkin";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
-  COLORS_EVENT_ITEMS,
+  HALLOWEEN_EVENT_ITEMS,
   EventStoreCollectible,
   EventStoreItem,
   EventStoreTier,
   EventStoreWearable,
-} from "features/game/types/festivalOfColors";
+} from "features/game/types/halloweenShop";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
@@ -62,13 +62,13 @@ export const ItemsList: React.FC<Props> = ({
     // Handling all types or specific ones if provided
     if (type === "wearables" || (!type && "wearable" in item)) {
       return (
-        state.minigames.games["festival-of-colors-2025"]?.shop?.wearables?.[
+        state.minigames.games["halloween"]?.shop?.wearables?.[
           (item as EventStoreWearable).wearable as BumpkinItem
         ] ?? 0
       );
     } else {
       return (
-        state.minigames.games["festival-of-colors-2025"]?.shop?.items?.[
+        state.minigames.games["halloween"]?.shop?.items?.[
           (item as EventStoreCollectible).collectible as InventoryItemName
         ] ?? 0
       );
@@ -132,7 +132,7 @@ export const ItemsList: React.FC<Props> = ({
   };
   const createdAt = Date.now();
   const currentSeason = getCurrentSeason(new Date(createdAt));
-  const eventStore = COLORS_EVENT_ITEMS;
+  const eventStore = HALLOWEEN_EVENT_ITEMS;
   const tiers = tier;
 
   // Type guard if the requirement exists
@@ -142,23 +142,23 @@ export const ItemsList: React.FC<Props> = ({
     return "requirement" in tier;
   };
 
-  const tierData = COLORS_EVENT_ITEMS[tier];
+  const tierData = HALLOWEEN_EVENT_ITEMS[tier];
   const requirements = hasRequirement(tierData) ? tierData.requirement : 0;
 
   const eventItemsCrafted =
-    Object.keys(
-      state.minigames.games["festival-of-colors-2025"]?.shop?.items ?? {},
-    ).length +
-    Object.keys(
-      state.minigames.games["festival-of-colors-2025"]?.shop?.wearables ?? {},
-    ).length;
+    Object.keys(state.minigames.games["halloween"]?.shop?.items ?? {}).length +
+    Object.keys(state.minigames.games["halloween"]?.shop?.wearables ?? {})
+      .length;
 
   const isRareUnlocked =
-    tier === "rare" && eventItemsCrafted >= COLORS_EVENT_ITEMS.rare.requirement;
+    tier === "rare" &&
+    eventItemsCrafted >= HALLOWEEN_EVENT_ITEMS.rare.requirement;
   const isEpicUnlocked =
-    tier === "epic" && eventItemsCrafted >= COLORS_EVENT_ITEMS.epic.requirement;
+    tier === "epic" &&
+    eventItemsCrafted >= HALLOWEEN_EVENT_ITEMS.epic.requirement;
   const isMegaUnlocked =
-    tier === "mega" && eventItemsCrafted >= COLORS_EVENT_ITEMS.mega.requirement;
+    tier === "mega" &&
+    eventItemsCrafted >= HALLOWEEN_EVENT_ITEMS.mega.requirement;
 
   const tierpercentage = eventItemsCrafted;
 

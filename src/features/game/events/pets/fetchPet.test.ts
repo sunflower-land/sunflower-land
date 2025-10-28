@@ -1,6 +1,8 @@
+/* eslint-disable no-var */
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { fetchPet } from "./fetchPet";
 import Decimal from "decimal.js-light";
+import { prng } from "lib/prng";
 
 describe("fetchPet", () => {
   const now = Date.now();
@@ -148,7 +150,13 @@ describe("fetchPet", () => {
     expect(BarkleyData?.energy).toBe(0);
     expect(state.inventory["Acorn"]).toEqual(new Decimal(1));
   });
+
   it("fetches a boost yield", () => {
+    do {
+      var seed = Math.random() * (2 ** 31 - 1);
+      var { value: prngValue } = prng(seed);
+    } while (prngValue * 100 >= 10);
+
     const state = fetchPet({
       state: {
         ...INITIAL_FARM,
@@ -157,9 +165,9 @@ describe("fetchPet", () => {
             Barkley: {
               name: "Barkley",
               requests: { food: [], fedAt: now },
-              fetches: { Acorn: 2 },
+              fetchSeeds: { Acorn: seed },
               energy: 100,
-              experience: 0,
+              experience: 10_500,
               pettedAt: now,
             },
           },
@@ -171,5 +179,34 @@ describe("fetchPet", () => {
     const BarkleyData = state.pets?.common?.Barkley;
     expect(BarkleyData?.energy).toBe(0);
     expect(state.inventory["Acorn"]).toEqual(new Decimal(2));
+  });
+
+  it("sets the next seed", () => {
+    do {
+      var seed = Math.random() * (2 ** 31 - 1);
+      var { value: prngValue, nextSeed } = prng(seed);
+    } while (prngValue * 100 >= 10);
+
+    const state = fetchPet({
+      state: {
+        ...INITIAL_FARM,
+        pets: {
+          common: {
+            Barkley: {
+              name: "Barkley",
+              requests: { food: [], fedAt: now },
+              fetchSeeds: { Acorn: seed },
+              energy: 100,
+              experience: 10_500,
+              pettedAt: now,
+            },
+          },
+        },
+      },
+      action: { type: "pet.fetched", petId: "Barkley", fetch: "Acorn" },
+      createdAt: now,
+    });
+    const BarkleyData = state.pets?.common?.Barkley;
+    expect(BarkleyData?.fetchSeeds?.Acorn).toBe(nextSeed);
   });
 });

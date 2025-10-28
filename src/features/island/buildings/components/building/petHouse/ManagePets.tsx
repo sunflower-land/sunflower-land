@@ -287,7 +287,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
                       basePetXP: getPetRequestXP(foodItem),
                       game: state,
                       petLevel,
-                      isPetNFT: typeof petId === "number",
+                      petData,
                     }),
                   0,
                 );
@@ -297,6 +297,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
                     getPetEnergy({
                       petLevel,
                       basePetEnergy: getPetRequestXP(foodItem),
+                      petData,
                     }),
                   0,
                 );

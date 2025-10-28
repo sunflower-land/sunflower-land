@@ -27,7 +27,6 @@ import { Loading } from "features/auth/components";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
-import { GaslessWidget } from "features/announcements/AnnouncementWidgets";
 
 const _transaction = (state: MachineState) => state.context.state.transaction;
 const compareTransaction = (prev?: GameTransaction, next?: GameTransaction) => {
@@ -64,7 +63,6 @@ export const TransactionCountdown: React.FC = () => {
         <Panel>
           <Transaction onClose={() => setShowTransaction(false)} />
         </Panel>
-        <GaslessWidget />
       </Modal>
       <ButtonPanel onClick={() => setShowTransaction(true)} className="flex">
         <TransactionWidget

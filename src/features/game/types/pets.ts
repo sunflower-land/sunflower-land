@@ -6,6 +6,8 @@ import { getObjectEntries } from "../expansion/lib/utils";
 import { InventoryItemName } from "./game";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { COMPETITION_POINTS } from "./competitions";
+import { PetTraits } from "features/pets/types";
+
 export type PetName =
   // Dogs
   | "Barkley"
@@ -96,7 +98,8 @@ export type Pet = {
       [date: string]: number;
     };
   };
-  fetches?: Partial<Record<PetResourceName, number>>; // Fetch yields
+  // fetches?: Partial<Record<PetResourceName, number>>; // Will be unused in the future
+  fetchSeeds?: Partial<Record<PetResourceName, number>>; // Store the next seed
   energy: number;
   experience: number;
   pettedAt: number;
@@ -113,12 +116,7 @@ export type PetNFT = Omit<Pet, "name"> & {
   name: PetNFTName;
   coordinates?: Coordinates;
   location?: PlaceableLocation;
-  // TODO: Add traits
-  traits?: {
-    bib?: string;
-    aura?: string;
-    type: PetNFTType;
-  };
+  traits?: PetTraits;
 };
 
 export type PetNFTs = Record<number, PetNFT>;

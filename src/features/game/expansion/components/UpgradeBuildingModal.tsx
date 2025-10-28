@@ -16,6 +16,7 @@ import Decimal from "decimal.js-light";
 import {
   BUILDING_UPGRADES,
   UpgradableBuildingType,
+  makeUpgradableBuildingKey,
 } from "features/game/events/landExpansion/upgradeBuilding";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
 import powerup from "assets/icons/level_up.png";
@@ -28,6 +29,8 @@ import {
 import { getSupportedPlots } from "features/game/events/landExpansion/plant";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getCurrentBiome, LandBiomeName } from "features/island/biomes/biomes";
+import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 interface Props {
   buildingName: UpgradableBuildingType;
@@ -54,6 +57,11 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
   const maxLevel = getKeys(BUILDING_UPGRADES[buildingName]).length;
   const isMaxLevel = currentLevel === maxLevel;
   const requirements = BUILDING_UPGRADES[buildingName][nextLevel];
+  const buildingKey = makeUpgradableBuildingKey(buildingName);
+  const building = state[buildingKey];
+  const upgradeReadyAt = building?.upgradeReadyAt;
+  const isCurrentlyUpgrading = !!upgradeReadyAt && upgradeReadyAt > Date.now();
+  const upgradeCountdown = useCountdown(upgradeReadyAt ?? 0);
 
   const upgrade = () => {
     // Implement the upgrade logic here
@@ -179,6 +187,18 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
               >
                 {t("upgrade.building", { building: buildingName })}
               </Label>
+              {isCurrentlyUpgrading && (
+                <Label
+                  type="info"
+                  icon={SUNNYSIDE.icons.stopwatch}
+                  className="mb-2 ml-1"
+                >
+                  <span className="flex items-center gap-1">
+                    {t("ready.in")}
+                    <TimerDisplay time={upgradeCountdown} />
+                  </span>
+                </Label>
+              )}
               <InlineDialogue
                 message={t(
                   buildingName === "Water Well"
@@ -258,9 +278,11 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
             <Button
               className="mt-2"
               onClick={upgrade}
-              disabled={!hasRequirements()}
+              disabled={isCurrentlyUpgrading || !hasRequirements()}
             >
-              {t("upgrade.building", { building: buildingName })}
+              {isCurrentlyUpgrading
+                ? t("in.progress")
+                : t("upgrade.building", { building: buildingName })}
             </Button>
           </div>
         )}

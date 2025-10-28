@@ -724,6 +724,49 @@ describe("claimProduce", () => {
     expect(newState.inventory["Merino Wool"]).toEqual(new Decimal(1.1));
   });
 
+  it("gives +0.1 Wool for sheep when Astronaut Sheep is placed", () => {
+    const sheepId = "123";
+
+    const newState = claimProduce({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Astronaut Sheep": new Decimal(1),
+        },
+        collectibles: {
+          "Astronaut Sheep": [
+            {
+              id: "astro-1",
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+              readyAt: now,
+            },
+          ],
+        },
+        barn: {
+          ...GAME_STATE.barn,
+          animals: {
+            [sheepId]: {
+              id: sheepId,
+              type: "Sheep",
+              createdAt: 0,
+              state: "ready",
+              experience: 240,
+              asleepAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+              awakeAt: 0,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Sheep", id: sheepId },
+      createdAt: now,
+    });
+
+    expect(newState.inventory.Wool).toEqual(new Decimal(1.1));
+  });
+
   it("gives +0.25 Leather for cows when player has Moo-ver placed", () => {
     const cowId = "123";
 
