@@ -231,6 +231,11 @@ function getWoolYieldBoosts(game: GameState): {
     boostsUsed.push("White Sheep Onesie");
   }
 
+  if (isCollectibleBuilt({ name: "Astronaut Sheep", game })) {
+    boost += 0.1;
+    boostsUsed.push("Astronaut Sheep");
+  }
+
   if (game.bumpkin.skills["Abundant Harvest"]) {
     boost += 0.2;
     boostsUsed.push("Abundant Harvest");
