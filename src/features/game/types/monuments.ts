@@ -3,6 +3,7 @@ import { Decoration, getKeys } from "./decorations";
 import { GameState, InventoryItemName } from "./game";
 import { FARM_GARBAGE } from "./clutter";
 import { hasFeatureAccess } from "lib/flags";
+import { SOCIAL_PET_DAILY_XP_LIMIT } from "./pets";
 
 type LoveCharmMonumentName =
   | "Farmer's Monument"
@@ -204,6 +205,8 @@ export function getHelpRequired({
   game: GameState;
   visitorState?: GameState;
 }) {
+  const today = new Date().toISOString().slice(0, 10);
+
   const clutter = getKeys(game.socialFarming.clutter?.locations ?? {}).filter(
     (id) => {
       const type = game.socialFarming.clutter?.locations[id].type;
@@ -244,6 +247,11 @@ export function getHelpRequired({
       false;
 
     if (!isPetPlaced) return;
+
+    const dailySocialXP = game.pets?.common?.[pet]?.dailySocialXP?.[today] ?? 0;
+    if (dailySocialXP >= SOCIAL_PET_DAILY_XP_LIMIT) {
+      return false;
+    }
 
     const hasVisited = !!game.pets?.common?.[pet]?.visitedAt;
     return !hasVisited;

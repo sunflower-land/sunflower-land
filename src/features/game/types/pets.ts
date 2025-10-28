@@ -8,6 +8,9 @@ import { Coordinates } from "../expansion/components/MapPlacement";
 import { COMPETITION_POINTS } from "./competitions";
 import { PetTraits } from "features/pets/types";
 
+export const SOCIAL_PET_XP_PER_HELP = 5;
+export const SOCIAL_PET_DAILY_XP_LIMIT = 50;
+
 export type PetName =
   // Dogs
   | "Barkley"
@@ -741,4 +744,3 @@ export function isPetNFTRevealed(petId: number, createdAt: number) {
       createdAt >= config.revealAt.getTime(),
   );
 }
-
