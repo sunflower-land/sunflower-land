@@ -28,7 +28,8 @@ export const BulkBuyInterface: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
   const atLimit = maxAmountToBuy > maxLimit || maxAmountToBuy < 0;
-  const averagePricePerUnit = totalPrice / totalResources;
+  const averagePricePerUnit =
+    totalResources > 0 ? totalPrice / totalResources : 0;
 
   return (
     <div className="mt-0.5 gap-1">
