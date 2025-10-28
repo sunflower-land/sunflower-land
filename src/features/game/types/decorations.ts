@@ -172,6 +172,9 @@ export type EventDecorationName =
   | "Gold Cooking Trophy"
   | "Silver Cooking Trophy"
   | "Bronze Cooking Trophy"
+  | "Bronze Friends Trophy"
+  | "Silver Friends Trophy"
+  | "Gold Friends Trophy"
   | "Cerberus"
   | "Witch's Cauldron"
   | "Raveyard"
@@ -221,6 +224,27 @@ export const DECORATION_TEMPLATES = {
     isWithdrawable: () => false,
   },
   "Bronze Cooking Trophy": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Bronze Friends Trophy": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Silver Friends Trophy": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Gold Friends Trophy": {
     dimensions: {
       width: 1,
       height: 1,

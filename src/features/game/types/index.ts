@@ -1205,6 +1205,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sleepy Chicken": 2530,
   "Astronaut Cow": 2531,
   "Astronaut Sheep": 2532,
+  "Bronze Friends Trophy": 2533,
+  "Silver Friends Trophy": 2534,
+  "Gold Friends Trophy": 2535,
 
   // Pets
   "Pet Egg": 2600,
