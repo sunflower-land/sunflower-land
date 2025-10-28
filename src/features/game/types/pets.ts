@@ -6,7 +6,7 @@ import { getObjectEntries } from "../expansion/lib/utils";
 import { InventoryItemName } from "./game";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { COMPETITION_POINTS } from "./competitions";
-import { PetTraits } from "features/pets/types";
+import { PetTraits } from "features/pets/data/types";
 
 export type PetName =
   // Dogs
@@ -740,4 +740,16 @@ export function isPetNFTRevealed(petId: number, createdAt: number) {
       petId <= config.endId &&
       createdAt >= config.revealAt.getTime(),
   );
+}
+
+export function getPetNFTReleaseDate(petId: number, createdAt: number) {
+  const revealAt = PET_NFT_REVEAL_CONFIG.find(
+    (config) => petId >= config.startId && petId <= config.endId,
+  )?.revealAt;
+
+  if (!revealAt || revealAt.getTime() < createdAt) {
+    return undefined;
+  }
+
+  return revealAt;
 }
