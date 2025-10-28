@@ -96,6 +96,7 @@ import { News } from "features/farming/mail/components/News";
 import { CloseButtonPanel } from "../components/CloseablePanel";
 import { TradesCleared } from "./components/TradesCleared";
 import { ClaimRoninPack } from "./components/onChainAirdrops/ClaimRoninPack";
+import { RevealPets } from "features/island/pets/RevealPets";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -713,6 +714,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
         <NewMail />
 
         <RewardBox />
+        <RevealPets />
 
         {children}
       </ToastProvider>

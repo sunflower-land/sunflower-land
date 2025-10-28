@@ -5,6 +5,7 @@ import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { SplitScreenView } from "components/ui/SplitScreenView";
+import Decimal from "decimal.js-light";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { Context } from "features/game/GameProvider";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
@@ -54,7 +55,8 @@ export const PetShopModal: React.FC = () => {
 
     const hasIngredients = getObjectEntries(ingredients).every(
       ([name, amount]) => {
-        const hasAmount = inventory[name]?.greaterThan(amount ?? 0) ?? false;
+        const hasAmount =
+          inventory[name]?.gte(amount ?? new Decimal(0)) ?? false;
         return hasAmount;
       },
     );

@@ -8,16 +8,57 @@ import { useSelector } from "@xstate/react";
 import { useGame } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
+import { Modal } from "components/ui/Modal";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { Constructing } from "../Building";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 const _waterWell = (state: MachineState) => state.context.state.waterWell;
+const _state = (state: MachineState) => state.context.state;
 
 export const WaterWell: React.FC<BuildingProps> = ({ season }) => {
   const [openUpgradeModal, setOpenUpgradeModal] = React.useState(false);
+  const [showConstructingModal, setShowConstructingModal] =
+    React.useState(false);
   const { gameService } = useGame();
   const waterWell = useSelector(gameService, _waterWell);
-  const { level, upgradeReadyAt } = waterWell;
+  const state = useSelector(gameService, _state);
+  const { level, upgradeReadyAt, upgradedAt } = waterWell;
   const isUpgrading = (upgradeReadyAt ?? 0) > Date.now();
   const currentLevel = isUpgrading ? level - 1 : level;
+  const previousIsUpgrading = React.useRef(isUpgrading);
+
+  React.useEffect(() => {
+    if (!previousIsUpgrading.current && isUpgrading) {
+      setShowConstructingModal(true);
+    }
+
+    if (previousIsUpgrading.current && !isUpgrading) {
+      setShowConstructingModal(false);
+    }
+
+    previousIsUpgrading.current = isUpgrading;
+  }, [isUpgrading]);
+
+  const handleClick = () => {
+    if (isUpgrading) {
+      setShowConstructingModal(true);
+      return;
+    }
+
+    setOpenUpgradeModal(true);
+  };
+
+  const handleSpeedUp = (gems: number) => {
+    gameService.send("upgrade.spedUp", { name: "Water Well" });
+    gameAnalytics.trackSink({
+      currency: "Gem",
+      amount: gems,
+      item: "Instant Build",
+      type: "Fee",
+    });
+    setShowConstructingModal(false);
+  };
 
   return (
     <BuildingImageWrapper name="Water Well" nonInteractible>
@@ -29,7 +70,7 @@ export const WaterWell: React.FC<BuildingProps> = ({ season }) => {
           left: `${PIXEL_SCALE * 4}px`,
         }}
         className="absolute cursor-pointer"
-        onClick={() => setOpenUpgradeModal(true)}
+        onClick={handleClick}
       />
       <UpgradeBuildingModal
         buildingName={"Water Well"}
@@ -38,6 +79,21 @@ export const WaterWell: React.FC<BuildingProps> = ({ season }) => {
         show={openUpgradeModal}
         onClose={() => setOpenUpgradeModal(false)}
       />
+      <Modal
+        show={showConstructingModal && isUpgrading}
+        onHide={() => setShowConstructingModal(false)}
+      >
+        <CloseButtonPanel onClose={() => setShowConstructingModal(false)}>
+          <Constructing
+            name="Water Well"
+            readyAt={upgradeReadyAt ?? Date.now()}
+            createdAt={upgradedAt ?? Date.now()}
+            state={state}
+            onClose={() => setShowConstructingModal(false)}
+            onInstantBuilt={handleSpeedUp}
+          />
+        </CloseButtonPanel>
+      </Modal>
     </BuildingImageWrapper>
   );
 };

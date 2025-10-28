@@ -14,10 +14,12 @@ const usernameFeatureFlag = (game: GameState) => {
       "adam",
       "tango",
       "elias",
+      "Aeon",
       "dcol",
       "birb",
       "Celinhotv",
       "LittleEins",
+      "Labochi",
       "Craig",
       "Spencer",
     ]

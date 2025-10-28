@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   pixelGreenBorderStyle,
-  pixelOrangeBorderStyle,
   pixelVibrantBorderStyle,
 } from "features/game/lib/style";
 import classNames from "classnames";
@@ -40,49 +39,6 @@ export const BuyGemsWidget: React.FC = () => {
           target="_blank"
           rel="noopener noreferrer"
           className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500 mb-2 text-white"
-        >
-          {t("read.more")}
-        </a>
-      </div>
-      <img
-        src={SUNNYSIDE.icons.close}
-        className="absolute right-2 top-1 w-5 cursor-pointer"
-        onClick={() => setShowMessage(false)}
-      />
-    </div>
-  );
-};
-
-export const GaslessWidget: React.FC = () => {
-  const [showMessage, setShowMessage] = useState(true);
-
-  const { t } = useAppTranslation();
-
-  if (!showMessage) {
-    return null;
-  }
-
-  return (
-    <div
-      className={classNames(
-        `w-full items-center flex  text-xs p-1 pr-4 mt-1 relative`,
-      )}
-      style={{
-        background: "#f09100",
-        color: "#3e2731",
-        ...pixelOrangeBorderStyle,
-      }}
-    >
-      <img src={SUNNYSIDE.icons.heart} className="w-8 mr-2" />
-      <div>
-        <p className="text-xs flex-1">{t("announcement.gasless")}</p>
-        <a
-          href={
-            "https://docs.sunflower-land.com/getting-started/usdflower-erc20/schedule#usdflower-in-game"
-          }
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500 mb-2"
         >
           {t("read.more")}
         </a>
