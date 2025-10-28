@@ -6774,5 +6774,8 @@
   "marketplace.buying.bulk.resources.success": "Pesanan massal Anda berhasil dipenuhi.",
   "marketplace.buying.bulk.resources.allFailed": "Pesanan massal Anda tidak dapat dipenuhi. Ini biasanya terjadi ketika penjualan sedang berlangsung. Jika Anda masih melihat daftar, silakan coba lagi.",
   "marketplace.buying.bulk.resources.someSuccess": "Pesanan massal Anda sebagian terisi karena beberapa listing yang tidak lagi tersedia.",
-  "marketplace.bulkBuy": "Pembelian Massal"
+  "marketplace.bulkBuy": "Pembelian Massal",
+  "description.bronzeFriendsTrophy": "Pemenang tempat ketiga dari kompetisi teman!",
+  "description.silverFriendsTrophy": "Pemenang tempat kedua dari kompetisi teman!",
+  "description.goldFriendsTrophy": "Pemenang tempat pertama dari kompetisi teman!"
 }

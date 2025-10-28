@@ -6774,5 +6774,8 @@
   "marketplace.buying.bulk.resources.success": "你的批量购买已成功完成！",
   "marketplace.buying.bulk.resources.allFailed": "批量购买未能完成。这通常发生在销售正在进行中。如果你仍然看到挂单，请稍后重试。",
   "marketplace.buying.bulk.resources.someSuccess": "由于部分挂单已下架，你的批量购买仅部分完成。",
-  "marketplace.bulkBuy": "批量购买"
+  "marketplace.bulkBuy": "批量购买",
+  "description.bronzeFriendsTrophy": "朋友比赛的第三名获胜者！",
+  "description.silverFriendsTrophy": "好友大赛第二名！",
+  "description.goldFriendsTrophy": "好友大赛第一名！"
 }

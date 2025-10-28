@@ -6774,5 +6774,8 @@
   "marketplace.buying.bulk.resources.success": "Ihre Großbestellung wurde erfolgreich ausgeführt.",
   "marketplace.buying.bulk.resources.allFailed": "Ihre Großbestellung konnte nicht ausgeführt werden. Dies passiert normalerweise, wenn ein Verkauf im Gange ist. Wenn Sie die Angebote immer noch sehen, versuchen Sie es bitte erneut.",
   "marketplace.buying.bulk.resources.someSuccess": "Ihre Großbestellung wurde teilweise ausgeführt, da einige Angebote nicht mehr verfügbar waren.",
-  "marketplace.bulkBuy": "Großeinkauf"
+  "marketplace.bulkBuy": "Großeinkauf",
+  "description.bronzeFriendsTrophy": "Der dritte Gewinner des Freundeswettbewerbs!",
+  "description.silverFriendsTrophy": "Der zweitplatzierte Gewinner des Freundeswettbewerbs!",
+  "description.goldFriendsTrophy": "Der Gewinner des ersten Platzes des Freundeswettbewerbs!"
 }

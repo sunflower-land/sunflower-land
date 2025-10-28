@@ -6774,5 +6774,8 @@
   "marketplace.buying.bulk.resources.success": "Il tuo ordine all'ingrosso è stato evaso con successo.",
   "marketplace.buying.bulk.resources.allFailed": "Il tuo ordine all'ingrosso non è stato evaso. Questo di solito accade quando è in corso una vendita. Se vedi ancora le inserzioni, riprova.",
   "marketplace.buying.bulk.resources.someSuccess": "Il tuo ordine all'ingrosso è stato parzialmente evaso a causa di alcune offerte che non erano più disponibili.",
-  "marketplace.bulkBuy": "Acquisto all'ingrosso"
+  "marketplace.bulkBuy": "Acquisto all'ingrosso",
+  "description.bronzeFriendsTrophy": "Il terzo classificato del concorso tra amici!",
+  "description.silverFriendsTrophy": "Il secondo classificato del concorso tra amici!",
+  "description.goldFriendsTrophy": "Il primo classificato del concorso tra amici!"
 }

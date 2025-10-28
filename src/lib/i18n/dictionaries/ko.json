@@ -6774,5 +6774,8 @@
   "marketplace.buying.bulk.resources.success": "대량 주문이 성공적으로 처리되었습니다.",
   "marketplace.buying.bulk.resources.allFailed": "대량 주문을 처리할 수 없습니다.이는 일반적으로 판매가 진행 중일 때 발생합니다.그래도 목록이 보이면 다시 시도하세요.",
   "marketplace.buying.bulk.resources.someSuccess": "일부 리스팅이 더 이상 제공되지 않아 대량 주문이 일부 처리되었습니다.",
-  "marketplace.bulkBuy": "대량 구매"
+  "marketplace.bulkBuy": "대량 구매",
+  "description.bronzeFriendsTrophy": "프렌즈 대회의 3위 우승자!",
+  "description.silverFriendsTrophy": "프렌즈 대회의 2위 우승자!",
+  "description.goldFriendsTrophy": "프렌즈 대회의 1등 우승자!"
 }

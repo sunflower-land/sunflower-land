@@ -6774,5 +6774,8 @@
   "marketplace.buying.bulk.resources.success": "Toplu siparişiniz başarıyla gönderildi.",
   "marketplace.buying.bulk.resources.allFailed": "Toplu siparişiniz yerine getirilemedi. Bu genellikle bir satış devam ederken olur. Listeleri hala görüyorsanız, lütfen tekrar deneyin.",
   "marketplace.buying.bulk.resources.someSuccess": "Toplu siparişiniz, artık mevcut olmayan bazı listeler nedeniyle kısmen dolduruldu.",
-  "marketplace.bulkBuy": "Toplu Satın Alma"
+  "marketplace.bulkBuy": "Toplu Satın Alma",
+  "description.bronzeFriendsTrophy": "Arkadaşlar yarışmasının üçüncü galibi!",
+  "description.silverFriendsTrophy": "Arkadaşlar yarışmasının ikinci galibi!",
+  "description.goldFriendsTrophy": "Arkadaşlar yarışmasının birincilik galibi!"
 }

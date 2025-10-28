@@ -6736,7 +6736,7 @@
   "pets.levelRequired": "Доступно с уровня {{level}}",
   "pets.fossilShellRewards": "Награды из окаменелой ракушки",
   "pets.xp": "{{currentProgress}}/{{experienceBetweenLevels}}",
-     "pets.requestsToday": "Сегодняшние запросы на корм",
+  "pets.requestsToday": "Сегодняшние запросы на корм",
   "pets.requestsReset": "Обновление запросов на корм",
   "pets.getNewRequests": "Новые запросы на корм",
   "pets.requestsResetDescription": "Запросы на корм питомца успешно сброшены!",
@@ -6774,5 +6774,8 @@
   "marketplace.buying.bulk.resources.success": "Ваш оптовый заказ был успешно выполнен.",
   "marketplace.buying.bulk.resources.allFailed": "Ваш оптовый заказ не удалось выполнить. Обычно это происходит во время продажи. Если вы все еще видите объявления, попробуйте еще раз.",
   "marketplace.buying.bulk.resources.someSuccess": "Ваш оптовый заказ был частично выполнен из-за того, что некоторых объявлений больше не было в наличии.",
-  "marketplace.bulkBuy": "Оптовая покупка"
+  "marketplace.bulkBuy": "Оптовая покупка",
+  "description.bronzeFriendsTrophy": "Победитель конкурса друзей, занявший третье место!",
+  "description.silverFriendsTrophy": "Победитель конкурса друзей, занявший второе место!",
+  "description.goldFriendsTrophy": "Победитель конкурса друзей, занявший первое место!"
 }

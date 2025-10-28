@@ -6774,5 +6774,8 @@
   "marketplace.buying.bulk.resources.success": "Tu pedido al por mayor se gestionó correctamente.",
   "marketplace.buying.bulk.resources.allFailed": "No se ha podido gestionar tu pedido en bloque. Esto suele ocurrir cuando hay una venta en curso. Si sigues viendo los anuncios, vuelve a intentarlo.",
   "marketplace.buying.bulk.resources.someSuccess": "Tu pedido al por mayor se completó parcialmente debido a que algunos listados ya no estaban disponibles.",
-  "marketplace.bulkBuy": "Compra al por mayor"
+  "marketplace.bulkBuy": "Compra al por mayor",
+  "description.bronzeFriendsTrophy": "¡El ganador del tercer puesto del concurso de amigos!",
+  "description.silverFriendsTrophy": "¡El ganador del segundo lugar del concurso de amigos!",
+  "description.goldFriendsTrophy": "¡El ganador del primer lugar del concurso de amigos!"
 }

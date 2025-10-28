@@ -6774,5 +6774,8 @@
   "marketplace.buying.bulk.resources.success": "一括注文は正常に処理されました。",
   "marketplace.buying.bulk.resources.allFailed": "お客様の一括注文は処理できませんでした。これは通常、セールの進行中に発生します。それでも出品情報が表示される場合は、もう一度試してください。",
   "marketplace.buying.bulk.resources.someSuccess": "一部の出品情報が利用できなくなったため、一括注文の一部が処理されました。",
-  "marketplace.bulkBuy": "一括購入"
+  "marketplace.bulkBuy": "一括購入",
+  "description.bronzeFriendsTrophy": "フレンズコンペティションの第3位入賞者！",
+  "description.silverFriendsTrophy": "フレンズコンペティションの準優勝！",
+  "description.goldFriendsTrophy": "フレンズコンペティションの優勝者！"
 }

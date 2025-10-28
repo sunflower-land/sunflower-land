@@ -6774,5 +6774,8 @@
   "marketplace.buying.bulk.resources.success": "Pesanan pukal anda berjaya dipenuhi.",
   "marketplace.buying.bulk.resources.allFailed": "Pesanan pukal anda tidak dapat dipenuhi. Ini biasanya berlaku apabila penjualan sedang dijalankan. Jika anda masih melihat penyenaraian, sila cuba lagi.",
   "marketplace.buying.bulk.resources.someSuccess": "Pesanan pukal anda telah diisi sebahagiannya kerana beberapa penyenaraian yang tidak lagi tersedia.",
-  "marketplace.bulkBuy": "Beli Pukal"
+  "marketplace.bulkBuy": "Beli Pukal",
+  "description.bronzeFriendsTrophy": "Pemenang tempat ketiga pertandingan rakan!",
+  "description.silverFriendsTrophy": "Pemenang tempat kedua pertandingan rakan!",
+  "description.goldFriendsTrophy": "Pemenang tempat pertama pertandingan rakan!"
 }

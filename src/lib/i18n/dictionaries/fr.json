@@ -6774,5 +6774,8 @@
   "marketplace.buying.bulk.resources.success": "Votre commande groupée a été traitée avec succès.",
   "marketplace.buying.bulk.resources.allFailed": "Votre commande groupée n'a pas pu être traitée. Cela se produit généralement lorsqu'une vente est en cours. Si vous voyez toujours les annonces, veuillez réessayer.",
   "marketplace.buying.bulk.resources.someSuccess": "Votre commande groupée a été partiellement exécutée car certaines offres n'étaient plus disponibles.",
-  "marketplace.bulkBuy": "Achat en gros"
+  "marketplace.bulkBuy": "Achat en gros",
+  "description.bronzeFriendsTrophy": "Le gagnant de la troisième place du concours entre amis !",
+  "description.silverFriendsTrophy": "Le gagnant de la deuxième place du concours entre amis !",
+  "description.goldFriendsTrophy": "Le gagnant de la première place du concours entre amis !"
 }
