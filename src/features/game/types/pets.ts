@@ -722,7 +722,7 @@ type PetNFTRevealConfig = {
 
 const PET_NFT_REVEAL_CONFIG: PetNFTRevealConfig[] = [
   {
-    revealAt: new Date("2025-11-11T00:00:00.000Z"),
+    revealAt: new Date("2025-10-11T00:00:00.000Z"),
     startId: 1,
     endId: 1000,
   },
@@ -733,17 +733,17 @@ const PET_NFT_REVEAL_CONFIG: PetNFTRevealConfig[] = [
   },
 ];
 
-export function isPetNFTAllocated(petId: number) {
+export function isPetNFTRevealed(petId: number, createdAt: number) {
   return PET_NFT_REVEAL_CONFIG.some(
-    (config) => petId >= config.startId && petId <= config.endId,
+    (config) =>
+      petId >= config.startId &&
+      petId <= config.endId &&
+      createdAt >= config.revealAt.getTime(),
   );
 }
 
-export function isPetNFTRevealed(petId: number, createdAt: number) {
-  return (
-    isPetNFTAllocated(petId) &&
-    PET_NFT_REVEAL_CONFIG.some(
-      (config) => createdAt >= config.revealAt.getTime(),
-    )
-  );
+export function getPetNFTReleaseDate(petId: number) {
+  return PET_NFT_REVEAL_CONFIG.find(
+    (config) => petId >= config.startId && petId <= config.endId,
+  )?.revealAt;
 }
