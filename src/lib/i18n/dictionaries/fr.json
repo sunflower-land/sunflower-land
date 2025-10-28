@@ -6745,7 +6745,6 @@
   "pets.resetRequests": "Demandes de réinitialisation",
   "pets.upcomingRequest": "Nourriture débloquée au niveau {{level}}",
   "halloween.portal.description": "Parviendrez-vous à conquérir le donjon et ses reliques ?",
-  "halloween.portal.missionObjectives": "Mission : récupérer des reliques {{targetScore}}.",
   "description.halloweenToken2025": "Utilisez-le dans la boutique d'Halloween avant la fin de l'événement !",
   "description.halloweenTicket2025": "Gardez-le pour courir la chance de gagner $FLOWER après la fin de l'événement d'Halloween !",
   "description.cerberus": "Protégez le monde souterrain et vos récoltes. Ne lancez pas trois bâtons à la fois.",
@@ -6756,5 +6755,6 @@
   "description.hauntedTomb": "Un feu de feu fantomatique se trouve au sommet, jugeant probablement de vos compétences agricoles.",
   "description.guillotine": "L'outil ultime pour une récolte nette.",
   "description.vampireCoffin": "Il ne sort que pour faire de l'agriculture nocturne. L'ail n'est pas inclus.",
-  "eventHalloween.noticeboard.one": "Bienvenue à l'événement Halloween 2025 !"
+  "eventHalloween.noticeboard.one": "Bienvenue à l'événement Halloween 2025 !",
+  "halloween.portal.missionObjectives": "Mission : récupérer des reliques."
 }

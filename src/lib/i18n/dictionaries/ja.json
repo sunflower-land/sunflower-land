@@ -6745,7 +6745,6 @@
   "pets.resetRequests": "リセットリクエスト",
   "pets.upcomingRequest": "レベル {{level}} でフードのロックが解除されました",
   "halloween.portal.description": "ダンジョンとその遺物を征服できますか？",
-  "halloween.portal.missionObjectives": "ミッション:{{targetScore}} 個のレリックを入手してください。",
   "description.halloweenToken2025": "イベント終了前にハロウィンイベントショップで使おう！",
   "description.halloweenTicket2025": "これを持っていると、ハロウィンイベント終了後に$FLOWERが当たるチャンス！",
   "description.cerberus": "地下世界と作物を守りましょう。一度に3本の棒を投げないでください。",
@@ -6756,5 +6755,6 @@
   "description.hauntedTomb": "頂上には幽霊のようなウィスプが座っていて、おそらく農業の腕前を判断しているのだろう。",
   "description.guillotine": "きれいに刈り取るための究極の道具です。",
   "description.vampireCoffin": "彼は夜間農業にしか出てこない。にんにくは入っていません。",
-  "eventHalloween.noticeboard.one": "2025年のハロウィンイベントへようこそ！"
+  "eventHalloween.noticeboard.one": "2025年のハロウィンイベントへようこそ！",
+  "halloween.portal.missionObjectives": "ミッション:遺物を入手してください。"
 }

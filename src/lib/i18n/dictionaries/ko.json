@@ -6745,7 +6745,6 @@
   "pets.resetRequests": "리셋 요청",
   "pets.upcomingRequest": "레벨 {{level}} 에서 음식 잠금 해제",
   "halloween.portal.description": "던전과 그 유물을 정복할 수 있을까요?",
-  "halloween.portal.missionObjectives": "임무: {{targetScore}} 유물을 획득하세요.",
   "description.halloweenToken2025": "이벤트 종료 전에 할로윈 이벤트 상점에서 사용하세요!",
   "description.halloweenTicket2025": "이걸 들고 있으면 할로윈 이벤트 종료 후 $FLOWER를 받을 수 있는 기회를 잡으세요!",
   "description.cerberus": "지하 세계와 농작물을 지키세요.한 번에 막대기 세 개를 던지지 마세요.",
@@ -6756,5 +6755,6 @@
   "description.hauntedTomb": "유령 같은 위스프가 꼭대기에 앉아 있는데, 아마도 당신의 농사 기술을 판단하고 있을 것입니다.",
   "description.guillotine": "깔끔하게 잘라낸 수확을 위한 최고의 도구입니다.",
   "description.vampireCoffin": "그는 단지 야간 농사를 하러 나온다고 합니다.마늘은 포함되어 있지 않습니다.",
-  "eventHalloween.noticeboard.one": "2025 할로윈 이벤트에 오신 것을 환영합니다!"
+  "eventHalloween.noticeboard.one": "2025 할로윈 이벤트에 오신 것을 환영합니다!",
+  "halloween.portal.missionObjectives": "임무: 유물 구하기."
 }

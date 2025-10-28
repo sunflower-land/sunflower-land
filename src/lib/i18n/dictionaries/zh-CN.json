@@ -6745,7 +6745,6 @@
   "pets.resetRequests": "重置请求",
   "pets.upcomingRequest": "食物在等级 {{level}} 时解锁",
   "halloween.portal.description": "你能征服地下城及其遗迹吗？",
-  "halloween.portal.missionObjectives": "任务：获得 {{targetScore}} 件遗物。",
   "description.halloweenToken2025": "活动结束前在万圣节活动商店中使用它！",
   "description.halloweenTicket2025": "万圣节活动结束后，持有这个有机会赢取 $FLOWER！",
   "description.cerberus": "守卫地下世界和你的农作物。只是不要同时扔三根棍子。",
@@ -6756,5 +6755,6 @@
   "description.hauntedTomb": "一个幽灵般的精灵坐在上面，可能正在判断你的耕作技能。",
   "description.guillotine": "干净收获的终极工具。",
   "description.vampireCoffin": "他只出来做夜间农业。不包括大蒜。",
-  "eventHalloween.noticeboard.one": "欢迎来到 2025 年万圣节活动！"
+  "eventHalloween.noticeboard.one": "欢迎来到 2025 年万圣节活动！",
+  "halloween.portal.missionObjectives": "任务：获取遗物。"
 }

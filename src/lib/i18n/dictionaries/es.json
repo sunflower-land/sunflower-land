@@ -6745,7 +6745,6 @@
   "pets.resetRequests": "Solicitudes de restablecimiento",
   "pets.upcomingRequest": "Comida desbloqueada en el nivel {{level}}",
   "halloween.portal.description": "¿Puedes conquistar la mazmorra y sus reliquias?",
-  "halloween.portal.missionObjectives": "Misión: Consigue reliquias de {{targetScore}}.",
   "description.halloweenToken2025": "¡Utilízala en la tienda de eventos de Halloween antes de que termine el evento!",
   "description.halloweenTicket2025": "¡Guarda esto para tener la oportunidad de ganar $FLOWER cuando termine el evento de Halloween!",
   "description.cerberus": "Protegiendo el inframundo y tus cultivos. Simplemente no lances tres palos a la vez.",
@@ -6756,5 +6755,6 @@
   "description.hauntedTomb": "En lo alto hay un mechón fantasmal, que probablemente juzgue tus habilidades agrícolas.",
   "description.guillotine": "La herramienta definitiva para una cosecha limpia.",
   "description.vampireCoffin": "Solo viene a cultivar de noche. Ajo no incluido.",
-  "eventHalloween.noticeboard.one": "¡Bienvenido al evento Halloween 2025!"
+  "eventHalloween.noticeboard.one": "¡Bienvenido al evento Halloween 2025!",
+  "halloween.portal.missionObjectives": "Misión: Consigue reliquias."
 }

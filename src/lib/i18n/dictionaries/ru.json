@@ -6745,7 +6745,6 @@
   "pets.resetRequests": "Запросы на сброс",
   "pets.upcomingRequest": "Еда разблокирована на уровне {{level}}",
   "halloween.portal.description": "Сможете ли вы покорить подземелье и его реликвии?",
-  "halloween.portal.missionObjectives": "Миссия: получить {{targetScore}} реликвии.",
   "description.halloweenToken2025": "Используйте это в магазине для мероприятий на Хэллоуин до окончания мероприятия!",
   "description.halloweenTicket2025": "Держите его и получите шанс выиграть $FLOWER после окончания мероприятия в честь Хэллоуина!",
   "description.cerberus": "Охрана подземного мира и ваших урожаев. Только не бросайте три палки одновременно.",
@@ -6756,5 +6755,6 @@
   "description.hauntedTomb": "Наверху сидит призрачный огонёк, который, вероятно, судит о ваших навыках ведения сельского хозяйства.",
   "description.guillotine": "Идеальный инструмент для сбора чистого урожая.",
   "description.vampireCoffin": "Он занимается сельским хозяйством только в ночное время. Чеснок в комплект не входит.",
-  "eventHalloween.noticeboard.one": "Добро пожаловать на мероприятие «Хэллоуин 2025»!"
+  "eventHalloween.noticeboard.one": "Добро пожаловать на мероприятие «Хэллоуин 2025»!",
+  "halloween.portal.missionObjectives": "Миссия: добыть реликвии."
 }

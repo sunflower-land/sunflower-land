@@ -6745,7 +6745,6 @@
   "pets.resetRequests": "Richieste di ripristino",
   "pets.upcomingRequest": "Cibo sbloccato al livello {{level}}",
   "halloween.portal.description": "Riuscirai a conquistare il dungeon e le sue reliquie?",
-  "halloween.portal.missionObjectives": "Missione: Ottieni {{targetScore}} reliquie.",
   "description.halloweenToken2025": "Usalo nel negozio degli eventi di Halloween prima che l'evento finisca!",
   "description.halloweenTicket2025": "Tienilo in mano per avere la possibilità di vincere $FLOWER dopo la fine dell'evento di Halloween!",
   "description.cerberus": "Proteggi gli inferi e i tuoi raccolti. Basta non lanciare tre bastoncini contemporaneamente.",
@@ -6756,5 +6755,6 @@
   "description.hauntedTomb": "Un ciuffo spettrale siede in cima, probabilmente a giudicare le tue abilità agricole.",
   "description.guillotine": "Lo strumento ideale per un raccolto pulito.",
   "description.vampireCoffin": "Esce solo per l'agricoltura notturna. Aglio non incluso.",
-  "eventHalloween.noticeboard.one": "Benvenuti all'evento di Halloween 2025!"
+  "eventHalloween.noticeboard.one": "Benvenuti all'evento di Halloween 2025!",
+  "halloween.portal.missionObjectives": "Missione: raccogliere reliquie."
 }

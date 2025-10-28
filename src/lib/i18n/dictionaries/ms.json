@@ -6745,7 +6745,6 @@
   "pets.resetRequests": "Tetapkan semula permintaan",
   "pets.upcomingRequest": "Makanan dibuka di Tahap {{level}}",
   "halloween.portal.description": "Bolehkah anda menakluki penjara bawah tanah dan peninggalannya?",
-  "halloween.portal.missionObjectives": "Misi: Dapatkan peninggalan {{targetScore}}.",
   "description.halloweenToken2025": "Gunakan ini di kedai acara Halloween sebelum acara berakhir!",
   "description.halloweenTicket2025": "Pegang ini untuk peluang memenangi $FLOWER selepas acara Halloween berakhir!",
   "description.cerberus": "Menjaga dunia bawah dan tanaman anda. Jangan buang tiga tongkat sekaligus.",
@@ -6756,5 +6755,6 @@
   "description.hauntedTomb": "Seorang bijak hantu duduk di atas, mungkin menilai kemahiran pertanian anda.",
   "description.guillotine": "Alat utama untuk penuaian potong yang bersih.",
   "description.vampireCoffin": "Dia hanya keluar untuk pertanian malam. Bawang putih tidak termasuk.",
-  "eventHalloween.noticeboard.one": "Selamat datang ke Acara Halloween 2025!"
+  "eventHalloween.noticeboard.one": "Selamat datang ke Acara Halloween 2025!",
+  "halloween.portal.missionObjectives": "Misi: Dapatkan peninggalan."
 }

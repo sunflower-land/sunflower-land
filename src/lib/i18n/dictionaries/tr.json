@@ -6745,7 +6745,6 @@
   "pets.resetRequests": "İstekleri sıfırla",
   "pets.upcomingRequest": "Yiyeceklerin Seviyede kilidi açıldı {{level}}",
   "halloween.portal.description": "Zindanı ve kalıntılarını fethedebilir misin?",
-  "halloween.portal.missionObjectives": "Görev: {{targetScore}} kalıntıları al.",
   "description.halloweenToken2025": "Etkinlik bitmeden önce bunu Cadılar Bayramı etkinlik mağazasında kullanın!",
   "description.halloweenTicket2025": "Cadılar Bayramı etkinliği sona erdikten sonra $FLOWER kazanma şansı için bunu tut!",
   "description.cerberus": "Yeraltı dünyasını ve mahsullerini koruyorsun. Sadece aynı anda üç çubuk atmayın.",
@@ -6756,5 +6755,6 @@
   "description.hauntedTomb": "Muhtemelen çiftçilik becerilerinizi yargılayan hayalet bir çırpık tepesinde oturur.",
   "description.guillotine": "Temiz kesilmiş bir hasat için nihai araç.",
   "description.vampireCoffin": "Sadece gece çiftçiliği için çıkıyor. Sarımsak dahil değildir.",
-  "eventHalloween.noticeboard.one": "Cadılar Bayramı 2025 Etkinliğine Hoş Geldiniz!"
+  "eventHalloween.noticeboard.one": "Cadılar Bayramı 2025 Etkinliğine Hoş Geldiniz!",
+  "halloween.portal.missionObjectives": "Görev: Kalıntıları alın."
 }
