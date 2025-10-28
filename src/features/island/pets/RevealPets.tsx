@@ -2,12 +2,11 @@ import { Modal } from "components/ui/Modal";
 import React, { useContext, useEffect, useRef } from "react";
 import petNFTEgg from "assets/icons/pet_nft_egg.png";
 import classNames from "classnames";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { isPetNFTRevealed, PetNFT } from "features/game/types/pets";
-import { MachineState } from "features/game/lib/gameMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ButtonPanel, Panel } from "components/ui/Panel";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
@@ -18,9 +17,20 @@ import { getPetImage } from "./lib/petShared";
 export const RevealPets: React.FC = () => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-
-  const nftPets = gameState.context.state.pets?.nfts ?? {};
+  const nftPets = useSelector(
+    gameService,
+    (state) => state.context.state.pets?.nfts ?? {},
+  );
+  const playing = useSelector(gameService, (state) => state.matches("playing"));
+  const autosaving = useSelector(gameService, (state) =>
+    state.matches("autosaving"),
+  );
+  const revealing = useSelector(gameService, (state) =>
+    state.matches("revealing"),
+  );
+  const revealed = useSelector(gameService, (state) =>
+    state.matches("revealed"),
+  );
 
   const unrevealedPet = Object.values(nftPets).find(
     (pet) => isPetNFTRevealed(pet.id, Date.now()) && !pet.traits,
@@ -39,11 +49,7 @@ export const RevealPets: React.FC = () => {
       ? nftPets[lastRevealedPetId.current]
       : undefined;
 
-  const isActiveState =
-    gameState.matches("playing") ||
-    gameState.matches("autosaving") ||
-    gameState.matches("revealing") ||
-    gameState.matches("revealed");
+  const isActiveState = playing || autosaving || revealing || revealed;
 
   if (!isActiveState) {
     return null;
@@ -51,11 +57,7 @@ export const RevealPets: React.FC = () => {
 
   const onClose = () => gameService.send("CONTINUE");
 
-  if (
-    justRevealedPet &&
-    justRevealedPet.traits &&
-    gameState.matches("revealed")
-  ) {
+  if (justRevealedPet && justRevealedPet.traits && revealed) {
     return (
       <Modal show={true} onHide={onClose}>
         <Panel>
@@ -65,11 +67,13 @@ export const RevealPets: React.FC = () => {
               type="warning"
               icon={SUNNYSIDE.decorations.treasure_chest}
             >
-              {`Pet Hatched`}
+              {t("pets.petHatched")}
             </Label>
             <div className="mb-2 ml-1 text-xxs sm:text-xs">
               <InlineDialogue
-                message={`Your Pet Egg hatched into ${justRevealedPet.traits.type}!`}
+                message={t("pets.hatched", {
+                  type: justRevealedPet.traits.type,
+                })}
               />
             </div>
             <div className="flex flex-col space-y-0.5">
@@ -93,9 +97,23 @@ export const RevealPets: React.FC = () => {
   }
 
   if (unrevealedPet) {
+    const revealPet = () => {
+      gameService.send("REVEAL", {
+        event: {
+          type: "reveal.nftPet",
+          petId: unrevealedPet.id,
+          createdAt: new Date(),
+        },
+      });
+    };
+
     return (
       <Modal show={true}>
-        <RevealPetModal pet={unrevealedPet} />
+        <RevealPetModal
+          pet={unrevealedPet}
+          revealing={revealing}
+          revealPet={revealPet}
+        />
       </Modal>
     );
   }
@@ -103,22 +121,12 @@ export const RevealPets: React.FC = () => {
   return null;
 };
 
-const _revealing = (state: MachineState) => state.matches("revealing");
-
-export const RevealPetModal: React.FC<{ pet: PetNFT }> = ({ pet }) => {
-  const { gameService } = useContext(Context);
-  const isRevealingState = useSelector(gameService, _revealing);
-
-  const revealPet = () => {
-    gameService.send("REVEAL", {
-      event: {
-        type: "reveal.nftPet",
-        petId: pet.id,
-        createdAt: new Date(),
-      },
-    });
-  };
-
+const RevealPetModal: React.FC<{
+  pet: PetNFT;
+  revealing: boolean;
+  revealPet: () => void;
+}> = ({ pet, revealing, revealPet }) => {
+  const { t } = useAppTranslation();
   return (
     <div
       className="absolute inset-0 h-full flex flex-col items-center justify-center cursor-pointer gap-2"
@@ -126,14 +134,14 @@ export const RevealPetModal: React.FC<{ pet: PetNFT }> = ({ pet }) => {
     >
       <div className="h-24">
         <Label type="warning" className="display-none">
-          {isRevealingState ? "?" : `Your Pet Egg #${pet.id} is hatching...`}
+          {revealing ? "?" : t("pets.hatching", { id: pet.id })}
         </Label>
       </div>
       <div className="w-32 h-32 relative">
         <img
           src={petNFTEgg}
           className={classNames("w-full ", {
-            "animate-pulsate": isRevealingState,
+            "animate-pulsate": revealing,
           })}
         />
       </div>
