@@ -28,6 +28,7 @@ export const BulkBuyInterface: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
   const atLimit = maxAmountToBuy > maxLimit || maxAmountToBuy < 0;
+  const averagePricePerUnit = totalPrice / totalResources;
 
   return (
     <div className="mt-0.5 gap-1">
@@ -58,7 +59,7 @@ export const BulkBuyInterface: React.FC<Props> = ({
             })}
           </div>
         </div>
-        <div className="flex flex-grow-1 flex-col w-1/2 justify-evenly p-1 text-xs sm:text-sm">
+        <div className="flex flex-grow-1 flex-col w-1/2 justify-evenly p-1 gap-1 text-xs sm:text-sm">
           <div className="flex justify-between">
             <div className="flex gap-1">
               <span>{t("total")}</span>
@@ -81,6 +82,17 @@ export const BulkBuyInterface: React.FC<Props> = ({
               <span>
                 {formatNumber(Math.max(totalPrice, 0), { decimalPlaces: 4 })}
               </span>
+            </div>
+          </div>
+          <div className="flex justify-between">
+            <div className="flex gap-1">
+              {`${t("marketplace.unitPrice")}: `}
+            </div>
+            <div>
+              {formatNumber(
+                isNaN(averagePricePerUnit) ? 0.00027 : averagePricePerUnit,
+                { decimalPlaces: 4 },
+              )}
             </div>
           </div>
         </div>
