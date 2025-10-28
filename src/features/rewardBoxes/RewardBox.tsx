@@ -18,11 +18,11 @@ import vipIcon from "assets/icons/vip.webp";
 import flowerTokenIcon from "assets/icons/flower_token.webp";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+
 export const RewardBox: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const { t } = useAppTranslation();
   const unOpenedBox = getKeys(REWARD_BOXES).find(
     (name) => !!gameState.context.state.inventory[name]?.gte(1),
   );
@@ -37,26 +37,7 @@ export const RewardBox: React.FC = () => {
     return null;
   }
 
-  return (
-    <Modal show={!!box}>
-      {box && <OpeningBox name={box!} />}
-
-      {/* {!activeBox && (
-        <div
-          className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer"
-          onClick={open}
-        >
-          <div className="h-12">
-            <Label type="warning">{t("rewardBox.tapToOpen")}</Label>
-          </div>
-          <img
-            src={box && ITEM_DETAILS[box!].image}
-            className={classNames("w-32")}
-          />
-        </div>
-      )} */}
-    </Modal>
-  );
+  return <Modal show={!!box}>{box && <OpeningBox name={box} />}</Modal>;
 };
 
 type BoxRewardName = InventoryItemName | "Coins" | "VIP" | "Flower";
@@ -108,7 +89,7 @@ export const OpeningBox: React.FC<{ name: RewardBoxName }> = ({ name }) => {
 
   // Shuffle and pick 4 random crows
   const shuffled = [...itemNames].sort(() => Math.random() - 0.5);
-  const currentCrows = useRef(shuffled.slice(0, 14));
+  const currentRewards = useRef(shuffled.slice(0, 14));
 
   // Check if there is a reward
   const reward = useSelector(
@@ -176,7 +157,7 @@ export const OpeningBox: React.FC<{ name: RewardBoxName }> = ({ name }) => {
           className={classNames("w-full ", { "animate-pulsate": isOpened })}
         />
         {isOpened &&
-          currentCrows.current
+          currentRewards.current
             .filter((_, index) => !!positions[index])
             .map((name, index) => (
               <img
