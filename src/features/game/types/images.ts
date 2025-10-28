@@ -731,6 +731,10 @@ import goldCookingTrophy from "assets/sfts/cooking_gold_trophy.webp";
 import silverCookingTrophy from "assets/sfts/cooking_silver_trophy.webp";
 import bronzeCookingTrophy from "assets/sfts/cooking_bronze_trophy.webp";
 
+import bronzeFriendsTrophy from "assets/sfts/friends_third_place_trophy.webp";
+import silverFriendsTrophy from "assets/sfts/friends_second_place_trophy.webp";
+import goldFriendsTrophy from "assets/sfts/friends_first_place_trophy.webp";
+
 import desertRose from "assets/sfts/desert_rose.webp";
 import sarcophagus from "assets/sfts/sarcophagus.webp";
 import anubisJackal from "assets/sfts/anubis_jackal.webp";
@@ -5657,7 +5661,18 @@ export const ITEM_DETAILS: Items = {
     image: bronzeCookingTrophy,
     description: translate("description.bronzeCookingTrophy"),
   },
-
+  "Bronze Friends Trophy": {
+    image: bronzeFriendsTrophy,
+    description: translate("description.bronzeFriendsTrophy"),
+  },
+  "Silver Friends Trophy": {
+    image: silverFriendsTrophy,
+    description: translate("description.silverFriendsTrophy"),
+  },
+  "Gold Friends Trophy": {
+    image: goldFriendsTrophy,
+    description: translate("description.goldFriendsTrophy"),
+  },
   Doll: {
     image: doll,
     description: translate("description.doll"),
