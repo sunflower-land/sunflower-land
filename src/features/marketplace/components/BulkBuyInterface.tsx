@@ -52,9 +52,9 @@ export const BulkBuyInterface: React.FC<Props> = ({
               />
             </div>
           </div>
-          <div className="pl-2 text-[18px] -mt-1.5">
+          <div className="pl-2 text-[20px] -mt-1.5">
             {t("marketplace.limit", {
-              maxLimit,
+              maxLimit: formatNumber(maxLimit, { decimalPlaces: 0 }),
             })}
           </div>
         </div>
@@ -78,7 +78,9 @@ export const BulkBuyInterface: React.FC<Props> = ({
               <img src={token} alt="token" className="w-4 mt-0.5" />
             </div>
             <div className="flex items-center gap-1">
-              <span>{formatNumber(totalPrice, { decimalPlaces: 4 })}</span>
+              <span>
+                {formatNumber(Math.max(totalPrice, 0), { decimalPlaces: 4 })}
+              </span>
             </div>
           </div>
         </div>
