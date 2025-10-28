@@ -742,8 +742,3 @@ export function isPetNFTRevealed(petId: number, createdAt: number) {
   );
 }
 
-export function getPetNFTReleaseDate(petId: number) {
-  return PET_NFT_REVEAL_CONFIG.find(
-    (config) => petId >= config.startId && petId <= config.endId,
-  )?.revealAt;
-}
