@@ -859,9 +859,12 @@ export class PlazaScene extends BaseScene {
     if (!server) return;
 
     Object.keys(this.pets).forEach((sessionId) => {
+      const petsMap = server.state.pets;
+      if (!petsMap) return;
+
       const hasLeft =
-        !server.state.pets.get(sessionId) ||
-        server.state.pets.get(sessionId)?.sceneId !== this.scene.key;
+        !petsMap.get(sessionId) ||
+        petsMap.get(sessionId)?.sceneId !== this.scene.key;
 
       const isInactive = !this.pets[sessionId]?.active;
 
