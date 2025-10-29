@@ -188,21 +188,21 @@ export const REWARD_ITEMS: Partial<
 
 export function isHelpComplete({
   game,
-  visitorState,
+  hasHelpedToday,
 }: {
   game: GameState;
-  visitorState?: GameState;
+  hasHelpedToday: boolean;
 }) {
-  return getHelpRequired({ game, visitorState }).totalCount <= 0;
+  return getHelpRequired({ game, hasHelpedToday }).totalCount <= 0;
 }
 
 // Returns a count of help tasks needed on the farm
 export function getHelpRequired({
   game,
-  visitorState,
+  hasHelpedToday,
 }: {
   game: GameState;
-  visitorState?: GameState;
+  hasHelpedToday: boolean;
 }) {
   const villageProjects = game.socialFarming.villageProjects;
   const collectibles = game.collectibles;
@@ -268,6 +268,7 @@ export function getHelpRequired({
 
       if (!pet) return acc;
 
+      if (pet.visitedAt) return acc;
       if (hasHitSocialPetLimit(pet)) return acc;
 
       const isPetPlacedOnLand = !!collectibles[name]?.some(
