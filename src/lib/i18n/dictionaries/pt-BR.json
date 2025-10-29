@@ -6194,7 +6194,6 @@
   "visitorGuide.welcomeMessage": "Olá, Bumpkin, bem-vindo à minha fazenda. Arregace as mangas e me ajude. Quem sabe, talvez eu retribua o favor!",
   "visiting.cleaned": "Limpo",
   "visiting.thanks": "Obrigado por limpar minha fazenda!",
-  "visitorGuide.pets": "Pegue as pragas atrevidas",
   "visitorGuide.monument": "Ajude-me a terminar o projeto",
   "visitorGuide.binGuide.burn.description": "Muito Vegemite. Código insuficiente. Nossos desenvolvedores de Sydney estão reiniciando — recurso a caminho!",
   "description.doubleBed": "Uma cama aconchegante feita para amigos.",
@@ -6347,7 +6346,6 @@
   "project.incomplete": "Convide seus amigos para visitar sua fazenda e ajudá-lo.",
   "disabled.giantFruit": "Desativado até 11 de agosto",
   "visitorGuide.helpProject": "Ajude o proprietário a concluir seus projetos.",
-  "visitorGuide.project": "Projetos",
   "visitorGuide.pickUp": "Pegar",
   "visitorGuide.clutter": "Encontre os itens escondidos na fazenda.",
   "visitorGuide.tasks": "Tarefas restantes",
@@ -6784,5 +6782,10 @@
   "petBuff.aura.epic": "2x Pet Energy",
   "petBuff.aura.mega": "3x Energia para animais de estimação",
   "petBuff.bib.mid": "+5 EXP por animal",
-  "petBuff.bib.great": "+10 EXP para animais de estimação"
+  "petBuff.bib.great": "+10 EXP para animais de estimação",
+  "visitorGuide.project": "Projetos ({{count}})",
+  "visitorGuide.pets": "Animais de estimação ({{count}})",
+  "visitorGuide.showLove": "Mostre um pouco de amor aos animais de estimação.",
+  "visitorGuide.onTheFarm": "Na fazenda",
+  "visitorGuide.inTheHouse": "Na casa"
 }

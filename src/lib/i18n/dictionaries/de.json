@@ -6194,7 +6194,6 @@
   "visitorGuide.welcomeMessage": "Hallo Bumpkin, willkommen auf meiner Farm. Krempeln Sie die Ärmel hoch und helfen Sie mir. Wer weiß, vielleicht erwidere ich den Gefallen!",
   "visiting.cleaned": "Gereinigt",
   "visiting.thanks": "Danke für die Reinigung meiner Farm!",
-  "visitorGuide.pets": "Fang die frechen Plagegeister",
   "visitorGuide.monument": "Hilf mir, das Projekt zu beenden",
   "visitorGuide.binGuide.burn.description": "Zu viel Vegemite. Nicht genug Code. Unsere Entwickler in Sydney starten neu — das Feature ist auf dem Weg!",
   "description.doubleBed": "Ein gemütliches Bett wie gemacht für Freunde.",
@@ -6347,7 +6346,6 @@
   "project.incomplete": "Lade deine Freunde ein, deine Farm zu besuchen und dir zu helfen.",
   "disabled.giantFruit": "Bis 11. August deaktiviert",
   "visitorGuide.helpProject": "Helfen Sie dem Eigentümer, seine Projekte abzuschließen.",
-  "visitorGuide.project": "Projekte",
   "visitorGuide.pickUp": "Abholen",
   "visitorGuide.clutter": "Finde die versteckten Gegenstände auf der Farm.",
   "visitorGuide.tasks": "Verbleibende Aufgaben",
@@ -6784,5 +6782,10 @@
   "petBuff.aura.epic": "2 x Pet Energy",
   "petBuff.aura.mega": "3x Pet Energy",
   "petBuff.bib.mid": "+5 Erfahrungspunkte pro Haustier",
-  "petBuff.bib.great": "+10 Erfahrungspunkte pro Haustier"
+  "petBuff.bib.great": "+10 Erfahrungspunkte pro Haustier",
+  "visitorGuide.project": "Projekte ({{count}})",
+  "visitorGuide.pets": "Haustiere ({{count}})",
+  "visitorGuide.showLove": "Zeig den Haustieren etwas Liebe.",
+  "visitorGuide.onTheFarm": "Auf dem Bauernhof",
+  "visitorGuide.inTheHouse": "Im Haus"
 }

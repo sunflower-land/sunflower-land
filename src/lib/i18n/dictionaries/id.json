@@ -6194,7 +6194,6 @@
   "visitorGuide.welcomeMessage": "Howdy Bumpkin, selamat datang di peternaku. Gulung lengan bajumu dan bantu aku keluar. Siapa tahu, saya mungkin membalas budi!",
   "visiting.cleaned": "Dibersihkan",
   "visiting.thanks": "Terima kasih telah membersihkan peternakan saya!",
-  "visitorGuide.pets": "Tangkap hama nakal",
   "visitorGuide.monument": "Bantu saya menyelesaikan proyek",
   "visitorGuide.binGuide.burn.description": "Terlalu banyak Vegemite. Tidak cukup kode. Pengembang Sydney kami sedang me-reboot - fitur dalam perjalanan!",
   "description.doubleBed": "Tempat tidur yang nyaman dibuat untuk teman-teman.",
@@ -6347,7 +6346,6 @@
   "project.incomplete": "Undang teman Anda untuk mengunjungi peternakan Anda dan membantu Anda.",
   "disabled.giantFruit": "Dinonaktifkan hingga 11 Agustus",
   "visitorGuide.helpProject": "Bantu pemilik menyelesaikan proyek mereka.",
-  "visitorGuide.project": "Proyek",
   "visitorGuide.pickUp": "Mengambil",
   "visitorGuide.clutter": "Temukan item tersembunyi di pertanian.",
   "visitorGuide.tasks": "Tugas yang tersisa",
@@ -6784,5 +6782,10 @@
   "petBuff.aura.epic": "2x Energi Hewan Peliharaan",
   "petBuff.aura.mega": "3x Energi Hewan Peliharaan",
   "petBuff.bib.mid": "+5 XP hewan peliharaan",
-  "petBuff.bib.great": "+10 XP Hewan Peliharaan"
+  "petBuff.bib.great": "+10 XP Hewan Peliharaan",
+  "visitorGuide.project": "Proyek ({{count}})",
+  "visitorGuide.pets": "Hewan peliharaan ({{count}})",
+  "visitorGuide.showLove": "Tunjukkan pada hewan peliharaan cinta.",
+  "visitorGuide.onTheFarm": "Di pertanian",
+  "visitorGuide.inTheHouse": "Di rumah"
 }

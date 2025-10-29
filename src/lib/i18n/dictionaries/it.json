@@ -6194,7 +6194,6 @@
   "visitorGuide.welcomeMessage": "Salve Bumpkin, benvenuto nella mia fattoria. Rimboccati le maniche e aiutami. Chissà, potrei ricambiare il favore!",
   "visiting.cleaned": "Pulito",
   "visiting.thanks": "Grazie per aver pulito la mia fattoria!",
-  "visitorGuide.pets": "Cattura i parassiti impertinenti",
   "visitorGuide.monument": "Aiutami a finire il progetto",
   "visitorGuide.binGuide.burn.description": "Troppa Vegemite. Codice insufficiente. I nostri sviluppatori di Sydney si stanno riavviando: una funzionalità è in arrivo!",
   "description.doubleBed": "Un comodo letto fatto per gli amici.",
@@ -6347,7 +6346,6 @@
   "project.incomplete": "Invita i tuoi amici a visitare la tua fattoria e ad aiutarti.",
   "disabled.giantFruit": "Disabili fino all'11 agosto",
   "visitorGuide.helpProject": "Aiuta il proprietario a completare i suoi progetti.",
-  "visitorGuide.project": "Progetti",
   "visitorGuide.pickUp": "Raccogli",
   "visitorGuide.clutter": "Trova gli oggetti nascosti nella fattoria.",
   "visitorGuide.tasks": "Attività rimanenti",
@@ -6784,5 +6782,10 @@
   "petBuff.aura.epic": "2x Energia per animali domestici",
   "petBuff.aura.mega": "3x Energia per animali domestici",
   "petBuff.bib.mid": "+5 PE per animale",
-  "petBuff.bib.great": "+10 PE per animale"
+  "petBuff.bib.great": "+10 PE per animale",
+  "visitorGuide.project": "Progetti ({{count}})",
+  "visitorGuide.pets": "Animali domestici ({{count}})",
+  "visitorGuide.showLove": "Mostra agli animali domestici un po' d'amore.",
+  "visitorGuide.onTheFarm": "In fattoria",
+  "visitorGuide.inTheHouse": "In casa"
 }

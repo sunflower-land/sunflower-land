@@ -6194,7 +6194,6 @@
   "visitorGuide.welcomeMessage": "Привет, Бампкин, добро пожаловать на мою ферму. Засучи рукава и помоги мне. Кто знает, возможно, я отвечу вам взаимностью!",
   "visiting.cleaned": "Очищено",
   "visiting.thanks": "Спасибо за уборку моей фермы!",
-  "visitorGuide.pets": "Ловите дерзких вредителей",
   "visitorGuide.monument": "Помогите мне закончить проект",
   "visitorGuide.binGuide.burn.description": "Слишком много Vegemite. Недостаточно кода. Наши разработчики из Сиднея перезагружаются — новая функция уже в пути!",
   "description.doubleBed": "Уютная кровать для друзей.",
@@ -6347,7 +6346,6 @@
   "project.incomplete": "Пригласите друзей посетить вашу ферму и помочь вам.",
   "disabled.giantFruit": "Отключено до 11 августа",
   "visitorGuide.helpProject": "Помогите владельцу завершить проекты.",
-  "visitorGuide.project": "Проекты",
   "visitorGuide.pickUp": "Забрать",
   "visitorGuide.clutter": "Найдите спрятанные предметы на ферме.",
   "visitorGuide.tasks": "Оставшиеся задачи",
@@ -6784,5 +6782,10 @@
   "petBuff.aura.epic": "В 2 раза больше энергии для домашних животных",
   "petBuff.aura.mega": "Энергия домашних животных в 3 раза",
   "petBuff.bib.mid": "+5 ед. опыта питомцев",
-  "petBuff.bib.great": "+10 к опыту питомца"
+  "petBuff.bib.great": "+10 к опыту питомца",
+  "visitorGuide.project": "Проекты ({{count}})",
+  "visitorGuide.pets": "Домашние животные ({{count}})",
+  "visitorGuide.showLove": "Покажите домашним животным немного любви.",
+  "visitorGuide.onTheFarm": "На ферме",
+  "visitorGuide.inTheHouse": "В доме"
 }

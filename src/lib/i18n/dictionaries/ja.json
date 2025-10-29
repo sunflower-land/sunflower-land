@@ -6194,7 +6194,6 @@
   "visitorGuide.welcomeMessage": "やあ、バンプキン、私の農場へようこそ。袖をまくり上げて私を助けてください。お返しするかもしれないけど！",
   "visiting.cleaned": "クリーニング済み",
   "visiting.thanks": "農場を掃除してくれてありがとう！",
-  "visitorGuide.pets": "生意気な害虫を捕まえろ",
   "visitorGuide.monument": "プロジェクトを完了するのを手伝ってください",
   "visitorGuide.binGuide.burn.description": "ベジマイトが多すぎる。コードが足りません。シドニーのデベロッパーが再起動中 — 機能追加準備中！",
   "description.doubleBed": "友達のために作られた居心地の良いベッド。",
@@ -6347,7 +6346,6 @@
   "project.incomplete": "友達を農場に招待して助けてください。",
   "disabled.giantFruit": "8 月 11 日まで無効",
   "visitorGuide.helpProject": "オーナーがプロジェクトを完了するのを手伝ってください。",
-  "visitorGuide.project": "プロジェクト",
   "visitorGuide.pickUp": "ピックアップ",
   "visitorGuide.clutter": "農場に隠されたアイテムを見つけてください。",
   "visitorGuide.tasks": "残りのタスク",
@@ -6784,5 +6782,10 @@
   "petBuff.aura.epic": "2x ペットエナジー",
   "petBuff.aura.mega": "3x ペットエナジー",
   "petBuff.bib.mid": "ペット経験値 +5",
-  "petBuff.bib.great": "ペット経験値 +10"
+  "petBuff.bib.great": "ペット経験値 +10",
+  "visitorGuide.project": "プロジェクト ({{count}})",
+  "visitorGuide.pets": "ペット ({{count}})",
+  "visitorGuide.showLove": "ペットに愛を示しましょう。",
+  "visitorGuide.onTheFarm": "農場で",
+  "visitorGuide.inTheHouse": "家の中で"
 }

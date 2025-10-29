@@ -6194,7 +6194,6 @@
   "visitorGuide.welcomeMessage": "안녕 범프킨, 우리 농장에 온 걸 환영해소매 걷어붙이고 나 좀 도와줘누가 알겠어요, 제가 그 은혜를 갚을 수 있을지도 몰라요!",
   "visiting.cleaned": "청소 완료",
   "visiting.thanks": "농장을 청소해 주셔서 감사합니다!",
-  "visitorGuide.pets": "건방진 해충을 잡아라",
   "visitorGuide.monument": "프로젝트 완료를 도와주세요.",
   "visitorGuide.binGuide.burn.description": "베지마이트가 너무 많아요코드가 충분하지 않아요.시드니 개발팀이 재부팅 중입니다. 곧 기능이 추가될 예정입니다!",
   "description.doubleBed": "친구를 위해 만든 아늑한 침대.",
@@ -6347,7 +6346,6 @@
   "project.incomplete": "친구들을 초대하여 농장을 방문하고 도와주세요.",
   "disabled.giantFruit": "8월 11일까지 사용 불가",
   "visitorGuide.helpProject": "소유자가 프로젝트를 완료하도록 도와주세요.",
-  "visitorGuide.project": "프로젝트",
   "visitorGuide.pickUp": "픽업",
   "visitorGuide.clutter": "농장에서 숨겨진 아이템을 찾으세요.",
   "visitorGuide.tasks": "남은 과제",
@@ -6784,5 +6782,10 @@
   "petBuff.aura.epic": "2x 펫 에너지",
   "petBuff.aura.mega": "3x 펫 에너지",
   "petBuff.bib.mid": "+5 펫 경험치",
-  "petBuff.bib.great": "+10 펫 경험치"
+  "petBuff.bib.great": "+10 펫 경험치",
+  "visitorGuide.project": "프로젝트 ({{count}})",
+  "visitorGuide.pets": "애완동물 ({{count}})",
+  "visitorGuide.showLove": "반려동물에게 사랑을 보여주세요.",
+  "visitorGuide.onTheFarm": "농장에서",
+  "visitorGuide.inTheHouse": "인 더 하우스"
 }

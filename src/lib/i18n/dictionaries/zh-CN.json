@@ -6194,7 +6194,6 @@
   "visitorGuide.welcomeMessage": "你好 Bumpkin，欢迎来到我的农场。卷起袖子来帮我。谁知道，我可能会回馈你的青睐！",
   "visiting.cleaned": "已清理",
   "visiting.thanks": "感谢你打扫我的农场！",
-  "visitorGuide.pets": "捕捉厚脸皮的害虫",
   "visitorGuide.monument": "帮我完成项目",
   "visitorGuide.binGuide.burn.description": "维吉麦吃多了，代码不够用。悉尼的开发者们正在重启大脑——新功能即将上线！",
   "description.doubleBed": "为朋友准备的舒适床。",
@@ -6347,7 +6346,6 @@
   "project.incomplete": "邀请你的朋友参观你的农场并帮助你。",
   "disabled.giantFruit": "暂不可用，直到 8 月 11 日",
   "visitorGuide.helpProject": "帮助农场主人完成他们的项目。",
-  "visitorGuide.project": "村庄项目",
   "visitorGuide.pickUp": "拾取",
   "visitorGuide.clutter": "在农场找到隐藏的废品。",
   "visitorGuide.tasks": "未完成事项",
@@ -6784,5 +6782,10 @@
   "petBuff.aura.epic": "2 倍宠物能量",
   "petBuff.aura.mega": "3 倍宠物能量",
   "petBuff.bib.mid": "+5 宠物经验值",
-  "petBuff.bib.great": "+10 宠物经验值"
+  "petBuff.bib.great": "+10 宠物经验值",
+  "visitorGuide.project": "项目 ({{count}})",
+  "visitorGuide.pets": "宠物 ({{count}})",
+  "visitorGuide.showLove": "向宠物表达爱意。",
+  "visitorGuide.onTheFarm": "在农场里",
+  "visitorGuide.inTheHouse": "在房子里"
 }

@@ -6194,7 +6194,6 @@
   "visitorGuide.welcomeMessage": "Hola Bumpkin, bienvenido a mi granja. Súbete las mangas y ayúdame. ¡Quién sabe, puede que te devuelva el favor!",
   "visiting.cleaned": "Limpiado",
   "visiting.thanks": "¡Gracias por limpiar mi granja!",
-  "visitorGuide.pets": "Atrapa las descaradas plagas",
   "visitorGuide.monument": "Ayúdame a terminar el proyecto",
   "visitorGuide.binGuide.burn.description": "Demasiado Vegemite. No hay suficiente código. Nuestros desarrolladores de Sídney se están reiniciando: ¡la función está en camino!",
   "description.doubleBed": "Una cama acogedora hecha para amigos.",
@@ -6347,7 +6346,6 @@
   "project.incomplete": "Invita a tus amigos a visitar tu granja y ayudarte.",
   "disabled.giantFruit": "Inhabilitado hasta el 11 de agosto",
   "visitorGuide.helpProject": "Ayude al propietario a terminar sus proyectos.",
-  "visitorGuide.project": "Proyectos",
   "visitorGuide.pickUp": "Recoger",
   "visitorGuide.clutter": "Encuentra los objetos escondidos en la granja.",
   "visitorGuide.tasks": "Tareas restantes",
@@ -6784,5 +6782,10 @@
   "petBuff.aura.epic": "2 veces Pet Energy",
   "petBuff.aura.mega": "3 veces más energía para mascotas",
   "petBuff.bib.mid": "+5 de EXP por mascota",
-  "petBuff.bib.great": "+10 de EXP por mascota"
+  "petBuff.bib.great": "+10 de EXP por mascota",
+  "visitorGuide.project": "Proyectos ({{count}})",
+  "visitorGuide.pets": "Mascotas ({{count}})",
+  "visitorGuide.showLove": "Muéstrales un poco de amor a las mascotas.",
+  "visitorGuide.onTheFarm": "En la granja",
+  "visitorGuide.inTheHouse": "En la casa"
 }

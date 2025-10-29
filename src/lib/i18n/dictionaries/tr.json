@@ -6194,7 +6194,6 @@
   "visitorGuide.welcomeMessage": "Merhaba Bumpkin, çiftliğime hoş geldin. Kollarını aç ve bana yardım et. Kim bilir, iyiliğe karşılık verebilirim!",
   "visiting.cleaned": "Temizlenmiş",
   "visiting.thanks": "Çiftliğimi temizlediğiniz için teşekkürler!",
-  "visitorGuide.pets": "Arsız zararlıları yakalayın",
   "visitorGuide.monument": "Projeyi bitirmemize yardım et",
   "visitorGuide.binGuide.burn.description": "Çok fazla Vegemite. Yeterli kod yok. Sydney geliştiricilerimiz yeniden başlatılıyor - özellik yolda!",
   "description.doubleBed": "Arkadaşlar için yapılmış rahat bir yatak.",
@@ -6347,7 +6346,6 @@
   "project.incomplete": "Arkadaşlarınızı çiftliğinizi ziyaret etmeye ve size yardım etmeye davet edin.",
   "disabled.giantFruit": "11 Ağustos'a kadar devre dışı",
   "visitorGuide.helpProject": "Sahibinin projelerini bitirmesine yardımcı olun.",
-  "visitorGuide.project": "Projeler",
   "visitorGuide.pickUp": "Alın",
   "visitorGuide.clutter": "Çiftlikteki gizli eşyaları bulun.",
   "visitorGuide.tasks": "Kalan görevler",
@@ -6784,5 +6782,10 @@
   "petBuff.aura.epic": "2x Evcil Hayvan Enerjisi",
   "petBuff.aura.mega": "3x Evcil Hayvan Enerjisi",
   "petBuff.bib.mid": "+5 Evcil Hayvan DP'si",
-  "petBuff.bib.great": "+10 Evcil Hayvan Deneyimi"
+  "petBuff.bib.great": "+10 Evcil Hayvan Deneyimi",
+  "visitorGuide.project": "Projeler ({{count}})",
+  "visitorGuide.pets": "Evcil Hayvanlar ({{count}})",
+  "visitorGuide.showLove": "Evcil hayvanlara biraz sevgi gösterin.",
+  "visitorGuide.onTheFarm": "Çiftlikte",
+  "visitorGuide.inTheHouse": "Evde"
 }
