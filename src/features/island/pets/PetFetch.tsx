@@ -5,8 +5,6 @@ import classNames from "classnames";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
-import { PIXEL_SCALE } from "features/game/lib/constants";
-import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getPetFetches,
@@ -24,8 +22,8 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
-import { CountLabel } from "components/ui/CountLabel";
 import { getFetchYield } from "features/game/events/pets/fetchPet";
+import { SmallBox } from "components/ui/SmallBox";
 
 type Props = {
   data: Pet | PetNFT;
@@ -77,32 +75,14 @@ export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
           return (
             <div key={`fetch-${name}`} className="flex w-full gap-1">
               <InnerPanel className="flex gap-2 items-center w-full">
-                <div
-                  className="bg-brown-600 relative mr-0.5 w-5 h-5 flex justify-center items-center"
-                  style={{
-                    width: `${PIXEL_SCALE * 15}px`,
-                    height: `${PIXEL_SCALE * 15}px`,
-                    ...pixelDarkBorderStyle,
-                  }}
-                >
-                  <img
-                    src={ITEM_DETAILS[name].image}
-                    alt={name}
-                    className="w-[90%] h-[90%] object-contain"
-                  />
-                  {inventoryCount.gt(0) && (
-                    <CountLabel
-                      isHover={false}
-                      count={inventoryCount}
-                      labelType="default"
-                      rightShiftPx={-13}
-                      topShiftPx={-11}
-                    />
-                  )}
-                </div>
+                <SmallBox
+                  image={ITEM_DETAILS[name].image}
+                  count={inventoryCount}
+                />
+
                 <div className="flex flex-col flex-1">
                   <div className="flex flex-col flex-1 justify-center -mt-0.5">
-                    <p className="text-xs mb-0.5">{`${fetchYield} x ${name}`}</p>
+                    <p className="  text-xs mb-0.5">{`${fetchYield} x ${name}`}</p>
                   </div>
                   <div className="flex flex-row sm:flex-col justify-between w-full pt-1">
                     <div className="flex flex-row gap-1 items-center">
