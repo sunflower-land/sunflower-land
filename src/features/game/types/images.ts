@@ -117,7 +117,7 @@ import gauchoRug from "assets/sfts/gaucho_rug.webp";
 import pawPrintsRug from "assets/sfts/paw_prints_rug.webp";
 import petBed from "assets/sfts/pet_bed.webp";
 import giantAcorn from "assets/sfts/giant_acorn.webp";
-import moonFoxStatue from "assets/sfts/moon_fox_statue.png";
+import moonFoxStatue from "assets/sfts/moon_fox_statue.webp";
 // Clash of Factions
 import turboSprout from "assets/sfts/turbo_sprout.webp";
 import soybliss from "assets/sfts/soybliss.webp";
