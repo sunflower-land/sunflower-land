@@ -127,6 +127,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
       jwt: authState.context.user.rawToken,
       farmId: gameState.context.farmId,
       bumpkin: gameState.context.state.bumpkin,
+      pets: gameState.context.state.pets,
       faction: gameState.context.state.faction?.name,
       sceneId: (name ?? "plaza") as SceneId,
       experience: gameState.context.state.bumpkin?.experience ?? 0,

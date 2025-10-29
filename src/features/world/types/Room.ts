@@ -4,6 +4,7 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { SceneId } from "../mmoMachine";
 import { Moderation } from "features/game/lib/gameMachine";
 import { FactionName } from "features/game/types/game";
+import { PetNFTType } from "features/game/types/pets";
 
 export interface InputData {
   x: number;
@@ -36,12 +37,15 @@ export interface Bud extends Schema {
   sceneId: SceneId;
 }
 
-export interface Bud extends Schema {
+export interface Pet extends Schema {
+  sessionId: string;
   farmId: number;
   x: number;
   y: number;
-  sceneId: SceneId;
   id: number;
+  name: string;
+  type: PetNFTType;
+  sceneId: SceneId;
 }
 
 export interface Message extends Schema {
@@ -103,6 +107,7 @@ export interface PlazaRoomState extends Schema {
 
   players: MapSchema<Player>;
   buds: MapSchema<Bud>;
+  pets: MapSchema<Pet>;
 
   messages: ArraySchema<Message>;
   reactions: ArraySchema<Reaction>;
