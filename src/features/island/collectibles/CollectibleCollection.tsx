@@ -2765,6 +2765,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Pet Bed"
     />
   ),
+  "Giant Acorn": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Giant Acorn"].image}
+      alt="Giant Acorn"
+    />
+  ),
   "Moon Fox Statue": (props: CollectibleProps) => (
     <ImageStyle
       {...props}

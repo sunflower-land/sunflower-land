@@ -172,6 +172,7 @@ export type EventDecorationName =
   | "Pony Toy"
   | "Red Slime Balloon"
   | "Blue Slime Balloon"
+  | "Giant Acorn"
   | "Gold Cooking Trophy"
   | "Silver Cooking Trophy"
   | "Bronze Cooking Trophy"
@@ -1298,6 +1299,10 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Pony Toy": {
     width: 1,
     height: 1,
+  },
+  "Giant Acorn": {
+    width: 2,
+    height: 2,
   },
   "Pet Bed": {
     width: 3,

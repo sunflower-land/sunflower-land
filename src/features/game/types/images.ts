@@ -116,6 +116,7 @@ import greenFieldRug from "assets/sfts/green_field_rug.webp";
 import gauchoRug from "assets/sfts/gaucho_rug.webp";
 import pawPrintsRug from "assets/sfts/paw_prints_rug.webp";
 import petBed from "assets/sfts/pet_bed.webp";
+import giantAcorn from "assets/sfts/giant_acorn.webp";
 import moonFoxStatue from "assets/sfts/moon_fox_statue.png";
 // Clash of Factions
 import turboSprout from "assets/sfts/turbo_sprout.webp";
@@ -5655,6 +5656,10 @@ export const ITEM_DETAILS: Items = {
   "Pet Bed": {
     image: petBed,
     description: translate("description.petBed"),
+  },
+  "Giant Acorn": {
+    image: giantAcorn,
+    description: translate("description.giantAcorn"),
   },
   "Moon Fox Statue": {
     image: moonFoxStatue,

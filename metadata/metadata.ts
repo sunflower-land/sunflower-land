@@ -12758,6 +12758,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2333.png",
     name: "Moon Fox Statue",
   },
+  "Giant Acorn": {
+    description: "A towering acorn that brings woodland charm to your farm.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2334.png",
+    name: "Giant Acorn",
+  },
 
   Trash: {
     description: "A piece of trash",
