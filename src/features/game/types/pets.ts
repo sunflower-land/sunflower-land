@@ -741,4 +741,3 @@ export function isPetNFTRevealed(petId: number, createdAt: number) {
       createdAt >= config.revealAt.getTime(),
   );
 }
-
