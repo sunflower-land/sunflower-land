@@ -16,6 +16,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { FarmHelped } from "features/island/hud/components/FarmHelped";
 import { PetSprite } from "./PetSprite";
 import { SUNNYSIDE } from "assets/sunnyside";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 const _hasHelpedPet = (name: PetName) => (state: MachineState) => {
   if (state.context.visitorState) {
@@ -71,6 +72,9 @@ export const VisitingPet: React.FC<{ name: PetName }> = ({ name }) => {
       }
     }
   };
+
+  // Used to move the pet through different states (neglected, napping)
+  useUiRefresher();
 
   return (
     <PetSprite

@@ -6777,5 +6777,12 @@
   "marketplace.bulkBuy": "一括購入",
   "description.bronzeFriendsTrophy": "フレンズコンペティションの第3位入賞者！",
   "description.silverFriendsTrophy": "フレンズコンペティションの準優勝！",
-  "description.goldFriendsTrophy": "フレンズコンペティションの優勝者！"
+  "description.goldFriendsTrophy": "フレンズコンペティションの優勝者！",
+  "marketplace.pet.reveal.date": "公開日:{{date}}",
+  "marketplace.pet.comingSoon": "近日公開",
+  "petBuff.aura.basic": "1.5x ペットエネルギー",
+  "petBuff.aura.epic": "2x ペットエナジー",
+  "petBuff.aura.mega": "3x ペットエナジー",
+  "petBuff.bib.mid": "ペット経験値 +5",
+  "petBuff.bib.great": "ペット経験値 +10"
 }

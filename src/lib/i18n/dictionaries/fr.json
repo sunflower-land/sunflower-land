@@ -6777,5 +6777,12 @@
   "marketplace.bulkBuy": "Achat en gros",
   "description.bronzeFriendsTrophy": "Le gagnant de la troisième place du concours entre amis !",
   "description.silverFriendsTrophy": "Le gagnant de la deuxième place du concours entre amis !",
-  "description.goldFriendsTrophy": "Le gagnant de la première place du concours entre amis !"
+  "description.goldFriendsTrophy": "Le gagnant de la première place du concours entre amis !",
+  "marketplace.pet.reveal.date": "Date de révélation : {{date}}",
+  "marketplace.pet.comingSoon": "Prochainement",
+  "petBuff.aura.basic": "1,5 fois plus d'énergie pour animaux de compagnie",
+  "petBuff.aura.epic": "2 fois Pet Energy",
+  "petBuff.aura.mega": "3 fois plus d'énergie pour animaux",
+  "petBuff.bib.mid": "+5 points d'expérience par animal",
+  "petBuff.bib.great": "+10 points d'expérience par animal"
 }

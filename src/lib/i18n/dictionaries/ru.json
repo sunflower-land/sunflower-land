@@ -6777,5 +6777,12 @@
   "marketplace.bulkBuy": "Оптовая покупка",
   "description.bronzeFriendsTrophy": "Победитель конкурса друзей, занявший третье место!",
   "description.silverFriendsTrophy": "Победитель конкурса друзей, занявший второе место!",
-  "description.goldFriendsTrophy": "Победитель конкурса друзей, занявший первое место!"
+  "description.goldFriendsTrophy": "Победитель конкурса друзей, занявший первое место!",
+  "marketplace.pet.reveal.date": "Дата раскрытия: {{date}}",
+  "marketplace.pet.comingSoon": "Скоро",
+  "petBuff.aura.basic": "Энергия домашних животных в 1,5 раза",
+  "petBuff.aura.epic": "В 2 раза больше энергии для домашних животных",
+  "petBuff.aura.mega": "Энергия домашних животных в 3 раза",
+  "petBuff.bib.mid": "+5 ед. опыта питомцев",
+  "petBuff.bib.great": "+10 к опыту питомца"
 }

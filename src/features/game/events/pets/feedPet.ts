@@ -15,7 +15,7 @@ import {
   PetNFT,
   PetRequestDifficulty,
 } from "features/game/types/pets";
-import { AuraTrait, BibTrait } from "features/pets/types";
+import { AuraTrait, BibTrait } from "features/pets/data/types";
 import { produce } from "immer";
 import { setPrecision } from "lib/utils/formatNumber";
 

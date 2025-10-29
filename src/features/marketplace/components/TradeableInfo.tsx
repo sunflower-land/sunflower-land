@@ -32,6 +32,11 @@ import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import classNames from "classnames";
 import { pixelGreenBorderStyle } from "features/game/lib/style";
 import { useGame } from "features/game/GameProvider";
+import { getPetNFTReleaseDate } from "features/game/types/pets";
+import { getPetTraits } from "features/pets/data/getPetTraits";
+import { PetTraits } from "features/pets/data/types";
+import { Bud } from "lib/buds/types";
+import { getBudTraits } from "features/game/types/budBuffs";
 
 const formatDate = (date: Date) => {
   return date.toLocaleDateString("en-US", {
@@ -39,6 +44,32 @@ const formatDate = (date: Date) => {
     day: "numeric",
     month: "short",
   });
+};
+
+const getNFTTraits = (
+  display?: TradeableDisplay,
+): {
+  revealDate: Date | undefined;
+  traits: PetTraits | Bud | undefined;
+} => {
+  if (!display || (display.type !== "pets" && display.type !== "buds")) {
+    return { revealDate: undefined, traits: undefined };
+  }
+
+  const id = Number(display.name.split("#")[1]);
+
+  if (Number.isNaN(id)) {
+    return { revealDate: undefined, traits: undefined };
+  }
+
+  if (display.type === "buds") {
+    return { revealDate: undefined, traits: getBudTraits(id) };
+  }
+
+  return {
+    revealDate: getPetNFTReleaseDate(id, Date.now()),
+    traits: getPetTraits(id),
+  };
 };
 
 export const TradeableImage: React.FC<{
@@ -123,6 +154,8 @@ export const TradeableDescription: React.FC<{
   const isCollectible = display.type === "collectibles";
   const isResource = isTradeResource(display.name as InventoryItemName);
 
+  const { revealDate, traits } = getNFTTraits(display);
+
   return (
     <InnerPanel className="mb-1">
       <div className="p-2">
@@ -144,16 +177,46 @@ export const TradeableDescription: React.FC<{
             ) : (
               isCollectible && <Label type="default">{t("collectible")}</Label>
             )}
-            {display.buffs.map((buff) => (
-              <Label
-                key={buff.shortDescription}
-                icon={buff.boostTypeIcon}
-                secondaryIcon={buff.boostedItemIcon}
-                type={buff.labelType}
-              >
-                {buff.shortDescription}
-              </Label>
-            ))}
+            {display.type === "pets"
+              ? !revealDate &&
+                display.buffs.map((buff) => (
+                  <Label
+                    key={buff.shortDescription}
+                    icon={buff.boostTypeIcon}
+                    secondaryIcon={buff.boostedItemIcon}
+                    type={buff.labelType}
+                  >
+                    {buff.shortDescription}
+                  </Label>
+                ))
+              : display.buffs.map((buff) => (
+                  <Label
+                    key={buff.shortDescription}
+                    icon={buff.boostTypeIcon}
+                    secondaryIcon={buff.boostedItemIcon}
+                    type={buff.labelType}
+                  >
+                    {buff.shortDescription}
+                  </Label>
+                ))}
+            {(display?.type === "pets" || display?.type === "buds") &&
+              (revealDate ? (
+                <Label type="default">
+                  {t("marketplace.pet.reveal.date", {
+                    date: formatDate(revealDate),
+                  })}
+                </Label>
+              ) : traits ? (
+                <div className="flex flex-row flex-wrap gap-1">
+                  {Object.values(traits).map((trait) => (
+                    <Label key={trait} type="default">
+                      {trait}
+                    </Label>
+                  ))}
+                </div>
+              ) : (
+                <Label type="danger">{t("marketplace.pet.comingSoon")}</Label>
+              ))}
           </div>
         </div>
         {tradeable?.expiresAt && (
