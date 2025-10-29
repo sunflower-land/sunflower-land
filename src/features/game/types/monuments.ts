@@ -186,24 +186,12 @@ export const REWARD_ITEMS: Partial<
   },
 };
 
-export function isHelpComplete({
-  game,
-  hasHelpedToday,
-}: {
-  game: GameState;
-  hasHelpedToday: boolean;
-}) {
-  return getHelpRequired({ game, hasHelpedToday }).totalCount <= 0;
+export function isHelpComplete({ game }: { game: GameState }) {
+  return getHelpRequired({ game }).totalCount <= 0;
 }
 
 // Returns a count of help tasks needed on the farm
-export function getHelpRequired({
-  game,
-  hasHelpedToday,
-}: {
-  game: GameState;
-  hasHelpedToday: boolean;
-}) {
+export function getHelpRequired({ game }: { game: GameState }) {
   const villageProjects = game.socialFarming.villageProjects;
   const collectibles = game.collectibles;
   const homeCollectibles = game.home.collectibles;

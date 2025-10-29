@@ -75,7 +75,7 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({
 
   const {
     tasks: { farm: farmTasks, home: homeTasks },
-  } = getHelpRequired({ game, visitorState });
+  } = getHelpRequired({ game });
 
   if (showConfirmation) {
     return (
