@@ -309,6 +309,12 @@ export function getPetFetches(petData: Pet | PetNFT): PetConfig {
   return PET_FETCHES[petType];
 }
 
+export function hasHitSocialPetLimit(pet: Pet | PetNFT) {
+  const dailySocialXP =
+    pet.dailySocialXP?.[new Date().toISOString().slice(0, 10)] ?? 0;
+  return dailySocialXP >= SOCIAL_PET_DAILY_XP_LIMIT;
+}
+
 export const PET_RESOURCES: Record<PetResourceName, { energy: number }> = {
   Acorn: { energy: 100 },
   Ruffroot: { energy: 200 },
