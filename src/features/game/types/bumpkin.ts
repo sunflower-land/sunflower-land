@@ -141,7 +141,8 @@ export type BumpkinShirt =
   | "Love Charm Shirt"
   | "Paint Splattered Shirt"
   | "Diamond Patterned Vest"
-  | "Recycle Shirt";
+  | "Recycle Shirt"
+  | "AU3";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -161,6 +162,8 @@ export type BumpkinTool =
   | "Parsnip"
   | "Golden Spatula"
   | "Hammer"
+  | "Frying Pan"
+  | "Lunar Weapon"
   | "Ancient War Hammer"
   | "Ancient Goblin Sword"
   | "Pirate Scimitar"
@@ -252,6 +255,7 @@ export type BumpkinNecklace =
   | "Nightshade Medallion"
   | "Sunflorian Medallion"
   | "Dream Scarf"
+  | "Training Whistle"
   | "Cowbell Necklace"
   | "Obsidian Necklace"
   | "Trick and Treat";
@@ -1065,6 +1069,10 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Underworld Stimpack": 496,
   "Sweet Devil Wings": 497,
   "Wisp Aura": 498,
+  "Lunar Weapon": 499,
+  "Frying Pan": 500,
+  "Training Whistle": 501,
+  AU3: 502,
 };
 
 // The reverse of above
@@ -1624,6 +1632,10 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Underworld Stimpack": "wings",
   "Sweet Devil Wings": "wings",
   "Wisp Aura": "aura",
+  "Lunar Weapon": "tool",
+  "Frying Pan": "tool",
+  "Training Whistle": "necklace",
+  AU3: "shirt",
 };
 
 /**Copied from BE just for hoarding checks */
