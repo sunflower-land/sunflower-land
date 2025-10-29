@@ -89,7 +89,10 @@ export type SeasonalDecorationName =
   | "Rookie Rook"
   | "Silver Sentinel"
   | "Silver Stallion"
-  | "Paper Reed";
+  | "Paper Reed"
+  | "Paw Prints Rug"
+  | "Pet Bed"
+  | "Moon Fox Statue";
 
 export type EventDecorationName =
   | "Jelly Lamp"
@@ -1164,6 +1167,10 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
     height: 1,
   },
+  "Moon Fox Statue": {
+    width: 2,
+    height: 3,
+  },
   Cetus: {
     width: 3,
     height: 2,
@@ -1197,6 +1204,10 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     height: 4,
   },
   "Large Rug": {
+    width: 4,
+    height: 4,
+  },
+  "Paw Prints Rug": {
     width: 4,
     height: 4,
   },
@@ -1287,6 +1298,10 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Pony Toy": {
     width: 1,
     height: 1,
+  },
+  "Pet Bed": {
+    width: 3,
+    height: 2,
   },
   "Red Slime Balloon": {
     width: 1,

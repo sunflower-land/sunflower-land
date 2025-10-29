@@ -114,6 +114,9 @@ import flowerRug from "assets/sfts/flower_rug.webp";
 import teaRug from "assets/sfts/tea_rug.webp";
 import greenFieldRug from "assets/sfts/green_field_rug.webp";
 import gauchoRug from "assets/sfts/gaucho_rug.webp";
+import pawPrintsRug from "assets/sfts/paw_prints_rug.png";
+import petBed from "assets/sfts/pet_bed.png";
+import moonFoxStatue from "assets/sfts/moon_fox_statue.png";
 // Clash of Factions
 import turboSprout from "assets/sfts/turbo_sprout.webp";
 import soybliss from "assets/sfts/soybliss.webp";
@@ -5644,6 +5647,18 @@ export const ITEM_DETAILS: Items = {
   "Groovy Gramophone": {
     image: groovyGramophone,
     description: translate("description.groovyGramophone"),
+  },
+  "Paw Prints Rug": {
+    image: pawPrintsRug,
+    description: translate("description.pawPrintsRug"),
+  },
+  "Pet Bed": {
+    image: petBed,
+    description: translate("description.petBed"),
+  },
+  "Moon Fox Statue": {
+    image: moonFoxStatue,
+    description: translate("description.moonFoxStatue"),
   },
   "Wheat Whiskers": {
     image: wheatWhiskers,

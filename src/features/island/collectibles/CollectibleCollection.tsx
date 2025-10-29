@@ -2735,6 +2735,51 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Paw Prints Banner"
     />
   ),
+  "Paw Prints Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+      }}
+      image={ITEM_DETAILS["Paw Prints Rug"].image}
+      alt="Paw Prints Rug"
+    />
+  ),
+  "Pet Bed": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Pet Bed"].image}
+      alt="Pet Bed"
+    />
+  ),
+  "Moon Fox Statue": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Moon Fox Statue"].image}
+      alt="Moon Fox Statue"
+    />
+  ),
   "Big Apple": (props: CollectibleProps) => (
     <Project
       {...props}

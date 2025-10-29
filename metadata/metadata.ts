@@ -12725,6 +12725,39 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/768.webp",
     name: "Moon Crystal",
   },
+  "Paw Prints Rug": {
+    description: "A cozy rug patterned with playful paw prints.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2331.png",
+    name: "Paw Prints Rug",
+  },
+  "Pet Bed": {
+    description: "A snug resting spot for your loyal companions.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2332.png",
+    name: "Pet Bed",
+  },
+  "Moon Fox Statue": {
+    description: "A statue honoring the Moon Fox's gentle watch.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2333.png",
+    name: "Moon Fox Statue",
+  },
 
   Trash: {
     description: "A piece of trash",
