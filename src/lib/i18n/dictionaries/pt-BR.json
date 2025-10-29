@@ -6777,5 +6777,12 @@
   "marketplace.bulkBuy": "Compra em massa",
   "description.bronzeFriendsTrophy": "O terceiro colocado da competição de amigos!",
   "description.silverFriendsTrophy": "O segundo colocado da competição de amigos!",
-  "description.goldFriendsTrophy": "O primeiro colocado da competição de amigos!"
+  "description.goldFriendsTrophy": "O primeiro colocado da competição de amigos!",
+  "marketplace.pet.reveal.date": "Data de revelação: {{date}}",
+  "marketplace.pet.comingSoon": "Em breve",
+  "petBuff.aura.basic": "1,5 x Pet Energy",
+  "petBuff.aura.epic": "2x Pet Energy",
+  "petBuff.aura.mega": "3x Energia para animais de estimação",
+  "petBuff.bib.mid": "+5 EXP por animal",
+  "petBuff.bib.great": "+10 EXP para animais de estimação"
 }
