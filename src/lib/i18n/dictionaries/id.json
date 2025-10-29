@@ -6777,5 +6777,12 @@
   "marketplace.bulkBuy": "Pembelian Massal",
   "description.bronzeFriendsTrophy": "Pemenang tempat ketiga dari kompetisi teman!",
   "description.silverFriendsTrophy": "Pemenang tempat kedua dari kompetisi teman!",
-  "description.goldFriendsTrophy": "Pemenang tempat pertama dari kompetisi teman!"
+  "description.goldFriendsTrophy": "Pemenang tempat pertama dari kompetisi teman!",
+  "marketplace.pet.reveal.date": "Tanggal pengungkapan: {{date}}",
+  "marketplace.pet.comingSoon": "Segera hadir",
+  "petBuff.aura.basic": "1.5x Energi Hewan Peliharaan",
+  "petBuff.aura.epic": "2x Energi Hewan Peliharaan",
+  "petBuff.aura.mega": "3x Energi Hewan Peliharaan",
+  "petBuff.bib.mid": "+5 XP hewan peliharaan",
+  "petBuff.bib.great": "+10 XP Hewan Peliharaan"
 }

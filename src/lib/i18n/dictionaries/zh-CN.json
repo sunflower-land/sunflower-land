@@ -6777,5 +6777,12 @@
   "marketplace.bulkBuy": "批量购买",
   "description.bronzeFriendsTrophy": "朋友比赛的第三名获胜者！",
   "description.silverFriendsTrophy": "好友大赛第二名！",
-  "description.goldFriendsTrophy": "好友大赛第一名！"
+  "description.goldFriendsTrophy": "好友大赛第一名！",
+  "marketplace.pet.reveal.date": "公布日期：{{date}}",
+  "marketplace.pet.comingSoon": "即将推出",
+  "petBuff.aura.basic": "1.5 倍宠物能量",
+  "petBuff.aura.epic": "2 倍宠物能量",
+  "petBuff.aura.mega": "3 倍宠物能量",
+  "petBuff.bib.mid": "+5 宠物经验值",
+  "petBuff.bib.great": "+10 宠物经验值"
 }

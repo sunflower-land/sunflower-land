@@ -6777,5 +6777,12 @@
   "marketplace.bulkBuy": "Toplu Satın Alma",
   "description.bronzeFriendsTrophy": "Arkadaşlar yarışmasının üçüncü galibi!",
   "description.silverFriendsTrophy": "Arkadaşlar yarışmasının ikinci galibi!",
-  "description.goldFriendsTrophy": "Arkadaşlar yarışmasının birincilik galibi!"
+  "description.goldFriendsTrophy": "Arkadaşlar yarışmasının birincilik galibi!",
+  "marketplace.pet.reveal.date": "Gösterim tarihi: {{date}}",
+  "marketplace.pet.comingSoon": "Yakında",
+  "petBuff.aura.basic": "1.5x Evcil Hayvan Enerjisi",
+  "petBuff.aura.epic": "2x Evcil Hayvan Enerjisi",
+  "petBuff.aura.mega": "3x Evcil Hayvan Enerjisi",
+  "petBuff.bib.mid": "+5 Evcil Hayvan DP'si",
+  "petBuff.bib.great": "+10 Evcil Hayvan Deneyimi"
 }

@@ -6777,5 +6777,12 @@
   "marketplace.bulkBuy": "대량 구매",
   "description.bronzeFriendsTrophy": "프렌즈 대회의 3위 우승자!",
   "description.silverFriendsTrophy": "프렌즈 대회의 2위 우승자!",
-  "description.goldFriendsTrophy": "프렌즈 대회의 1등 우승자!"
+  "description.goldFriendsTrophy": "프렌즈 대회의 1등 우승자!",
+  "marketplace.pet.reveal.date": "공개 날짜: {{date}}",
+  "marketplace.pet.comingSoon": "곧 출시됩니다",
+  "petBuff.aura.basic": "1.5x 펫 에너지",
+  "petBuff.aura.epic": "2x 펫 에너지",
+  "petBuff.aura.mega": "3x 펫 에너지",
+  "petBuff.bib.mid": "+5 펫 경험치",
+  "petBuff.bib.great": "+10 펫 경험치"
 }

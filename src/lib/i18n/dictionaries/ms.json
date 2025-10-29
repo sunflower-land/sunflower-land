@@ -6777,5 +6777,12 @@
   "marketplace.bulkBuy": "Beli Pukal",
   "description.bronzeFriendsTrophy": "Pemenang tempat ketiga pertandingan rakan!",
   "description.silverFriendsTrophy": "Pemenang tempat kedua pertandingan rakan!",
-  "description.goldFriendsTrophy": "Pemenang tempat pertama pertandingan rakan!"
+  "description.goldFriendsTrophy": "Pemenang tempat pertama pertandingan rakan!",
+  "marketplace.pet.reveal.date": "Tarikh mendedahkan: {{date}}",
+  "marketplace.pet.comingSoon": "Akan datang tidak lama lagi",
+  "petBuff.aura.basic": "1.5x Tenaga Haiwan Peliharaan",
+  "petBuff.aura.epic": "2x Tenaga Haiwan Peliharaan",
+  "petBuff.aura.mega": "3x Tenaga Haiwan Peliharaan",
+  "petBuff.bib.mid": "+5 Haiwan Peliharaan XP",
+  "petBuff.bib.great": "+10 Haiwan Peliharaan XP"
 }
