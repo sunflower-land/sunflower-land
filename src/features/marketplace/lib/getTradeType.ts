@@ -1152,6 +1152,7 @@ export const ITEM_TRADE_TYPES: {
     "Paw Prints Rug": "instant",
     "Pet Bed": "instant",
     "Moon Fox Statue": "instant",
+    "Giant Acorn": "instant",
     "Big Orange": "instant",
     "Big Apple": "instant",
     "Big Banana": "instant",
