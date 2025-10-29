@@ -11,9 +11,7 @@ import {
   getPetFoodRequests,
 } from "features/game/events/pets/feedPet";
 import { Context } from "features/game/GameProvider";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
-import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
@@ -28,6 +26,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import xpIcon from "assets/icons/xp.png";
 import { Button } from "components/ui/Button";
 import classNames from "classnames";
+import { SmallBox } from "components/ui/SmallBox";
 
 type Props = {
   data: Pet | PetNFT;
@@ -130,23 +129,13 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
           return (
             <div key={`food-request-${food}`} className="flex w-full gap-1">
               <InnerPanel className="flex gap-1 items-center w-full">
-                <div
-                  className="bg-brown-600 relative mr-0.5 w-5 h-5 flex justify-center items-center"
-                  style={{
-                    width: `${PIXEL_SCALE * 15}px`,
-                    height: `${PIXEL_SCALE * 15}px`,
-                    ...pixelDarkBorderStyle,
-                  }}
-                >
-                  <img
-                    src={
-                      !isRequested
-                        ? SUNNYSIDE.icons.lock
-                        : ITEM_DETAILS[food].image
-                    }
-                    className="w-[90%] h-[90%] object-contain"
-                  />
-                </div>
+                <SmallBox
+                  image={
+                    !isRequested
+                      ? SUNNYSIDE.icons.lock
+                      : ITEM_DETAILS[food].image
+                  }
+                />
                 <div className="flex flex-col flex-1 justify-center -mt-0.5">
                   <p className="text-xs mb-0.5">
                     {!isRequested

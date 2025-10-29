@@ -43,8 +43,12 @@ const _autosaving = (state: MachineState) => state.matches("autosaving");
  */
 export const VisitingHud: React.FC = () => {
   const { gameService, fromRoute } = useContext(Context);
-
   const [gameState] = useActor(gameService);
+
+  const [initialHelpRequired, setInitialHelpRequired] = useState({
+    farm: 0,
+    home: 0,
+  });
 
   const [showVisitorGuide, setShowVisitorGuide] = useState(() => {
     const hasHitLimit = hasHitHelpLimit({
@@ -88,8 +92,14 @@ export const VisitingHud: React.FC = () => {
 
   const helpRequired = getHelpRequired({
     game: gameState.context.state,
-    visitorState: gameState.context.visitorState,
   });
+
+  useEffect(() => {
+    setInitialHelpRequired({
+      farm: helpRequired.tasks.farm.count,
+      home: helpRequired.tasks.home.count,
+    });
+  }, []);
 
   const handleCloseVisitorGuide = () => {
     // Store acknowledgment in local storage
@@ -117,7 +127,11 @@ export const VisitingHud: React.FC = () => {
           bumpkinParts={gameState.context.state.bumpkin?.equipped}
           container={OuterPanel}
         >
-          <VisitorGuide onClose={handleCloseVisitorGuide} />
+          <VisitorGuide
+            onClose={handleCloseVisitorGuide}
+            farmHelpRequired={initialHelpRequired.farm}
+            homeHelpRequired={initialHelpRequired.home}
+          />
         </CloseButtonPanel>
       </Modal>
 
@@ -141,7 +155,7 @@ export const VisitingHud: React.FC = () => {
             </div>
           ) : (
             <div className="flex flex-col sm:flex-row items-center space-x-1">
-              <span className="text-md">{`${helpRequired}`}</span>
+              <span className="text-md">{`${helpRequired.totalCount}`}</span>
               <img src={choreIcon} style={{ width: `20px`, margin: `2px` }} />
             </div>
           )}

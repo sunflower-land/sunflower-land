@@ -66,7 +66,6 @@ export const VisitingPet: React.FC<{ name: PetName }> = ({ name }) => {
       if (
         isHelpComplete({
           game: gameService.getSnapshot().context.state,
-          visitorState: gameService.getSnapshot().context.visitorState,
         })
       ) {
         setShowHelped(true);

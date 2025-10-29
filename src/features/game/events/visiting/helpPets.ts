@@ -1,5 +1,9 @@
 import { GameState } from "features/game/types/game";
-import { PetName } from "features/game/types/pets";
+import {
+  hasHitSocialPetLimit,
+  PetName,
+  SOCIAL_PET_XP_PER_HELP,
+} from "features/game/types/pets";
 import { produce } from "immer";
 import { hasHitHelpLimit } from "../landExpansion/increaseHelpLimit";
 
@@ -38,6 +42,16 @@ export function helpPets({
       throw new Error("Pet not found");
     }
 
+    const day = new Date(createdAt).toISOString().slice(0, 10);
+    const dailySocialXP = pet.dailySocialXP?.[day] ?? 0;
+
+    if (hasHitSocialPetLimit(pet)) {
+      throw new Error("Pet social limit reached");
+    }
+
+    pet.dailySocialXP = pet.dailySocialXP ?? {};
+    pet.dailySocialXP[day] = dailySocialXP + SOCIAL_PET_XP_PER_HELP;
+    pet.experience = (pet.experience ?? 0) + SOCIAL_PET_XP_PER_HELP;
     pet.visitedAt = createdAt;
   });
 }

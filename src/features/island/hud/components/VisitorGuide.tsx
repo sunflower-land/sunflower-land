@@ -1,14 +1,11 @@
-import { Box } from "components/ui/Box";
 import { Label } from "components/ui/Label";
 import React, { useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { getKeys } from "features/game/lib/crafting";
-import { RAFFLE_REWARDS, REQUIRED_CHEERS } from "features/game/types/monuments";
+import { getHelpRequired } from "features/game/types/monuments";
 import { useGame } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import Decimal from "decimal.js-light";
-import { ClutterName } from "features/game/types/clutter";
 import { InnerPanel } from "components/ui/Panel";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import {
@@ -19,39 +16,48 @@ import {
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { secondsTillReset, secondsToString } from "lib/utils/time";
 import { useSelector } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
+import { ProgressBar } from "components/ui/ProgressBar";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { getKeys } from "features/game/lib/crafting";
+import { SmallBox } from "components/ui/SmallBox";
+
 import helpIcon from "assets/icons/help.webp";
 import clutterIcon from "assets/clutter/clutter.webp";
 
 interface VisitorGuideProps {
+  farmHelpRequired: number;
+  homeHelpRequired: number;
   onClose: () => void;
 }
-export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
+
+const _visitorState = (state: MachineState) => {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  return state.context.visitorState!;
+};
+const _totalHelpedToday = (state: MachineState) =>
+  state.context.totalHelpedToday ?? 0;
+const _game = (state: MachineState) => state.context.state;
+const _username = (state: MachineState) =>
+  state.context.state.username ?? `#${state.context.farmId}`;
+
+export const VisitorGuide: React.FC<VisitorGuideProps> = ({
+  farmHelpRequired,
+  homeHelpRequired,
+  onClose,
+}) => {
   const { gameState, gameService } = useGame();
 
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const { t } = useAppTranslation();
 
-  const collectibles = gameState.context.state.collectibles;
+  const visitorState = useSelector(gameService, _visitorState);
+  const totalHelpedToday = useSelector(gameService, _totalHelpedToday);
+  const username = useSelector(gameService, _username);
+  const game = useSelector(gameService, _game);
 
-  const locations = useSelector(
-    gameService,
-    (state) => state.context.state.socialFarming.clutter?.locations,
-  );
-  const villageProjects = useSelector(
-    gameService,
-    (state) => state.context.state.socialFarming.villageProjects,
-  );
-
-  // Reduce clutter to get a count of each type
-  const clutter = getKeys(locations ?? {}).reduce(
-    (acc, id) => {
-      const type = locations?.[id]?.type as ClutterName;
-      acc[type] = (acc[type] ?? 0) + 1;
-      return acc;
-    },
-    {} as Record<ClutterName, number>,
-  );
+  // Make a list of in home vs on land
 
   const hasHelpedToday = gameState.context.hasHelpedPlayerToday ?? false;
 
@@ -66,6 +72,10 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
         amount ?? new Decimal(0),
       ),
   );
+
+  const {
+    tasks: { farm: farmTasks, home: homeTasks },
+  } = getHelpRequired({ game });
 
   if (showConfirmation) {
     return (
@@ -93,7 +103,7 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
 
   if (hasHelpedToday) {
     return (
-      <InnerPanel className="max-h-[300px] overflow-y-auto scrollable pr-0.5">
+      <InnerPanel className="pr-0.5">
         <Label type="default">
           {t("visitorGuide.farmTitle", {
             username:
@@ -109,17 +119,17 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
   }
 
   const helpLimit = getHelpLimit({
-    game: gameState.context.visitorState!,
+    game: visitorState,
   });
 
   const hasHitLimit = hasHitHelpLimit({
-    game: gameState.context.visitorState!,
-    totalHelpedToday: gameState.context.totalHelpedToday ?? 0,
+    game: visitorState,
+    totalHelpedToday,
   });
 
   if (hasHitLimit) {
     return (
-      <div className="max-h-[300px] overflow-y-auto scrollable pr-0.5">
+      <div className="pr-0.5">
         <InnerPanel className="mb-1">
           <div className="flex items-center justify-between">
             <Label type="danger">{t("help.limitReached")}</Label>
@@ -176,83 +186,164 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
     );
   }
 
-  const pendingProjects = getKeys(villageProjects).filter(
-    (monument) =>
-      // Ensures the monument is placed with Coordinates
-      !!collectibles[monument]?.some((item) => !!item.coordinates) &&
-      // Ensures that the monument hasn't been completed
-      !villageProjects[monument]?.helpedAt &&
-      (villageProjects[monument]?.cheers ?? 0) < REQUIRED_CHEERS[monument],
-  );
+  const farmTasksCompleted = farmHelpRequired - farmTasks.count;
+  const homeTasksCompleted = homeHelpRequired - homeTasks.count;
+  const farmPercentage = (farmTasksCompleted / farmHelpRequired) * 100;
+  const homePercentage = (homeTasksCompleted / homeHelpRequired) * 100;
 
   return (
-    <div className="max-h-[300px] overflow-y-auto scrollable pr-0.5">
-      <InnerPanel className="mb-1">
-        <Label type="default">
-          {t("visitorGuide.farmTitle", {
-            username:
-              gameState.context.state.username ??
-              `#${gameState.context.farmId}`,
-          })}
-        </Label>
-        <p className="text-xs sm:text-sm mb-2 p-1">
+    <div className="flex flex-col gap-1">
+      <div className="flex items-center justify-between">
+        <Label type="default">{username}</Label>
+        <img
+          src={SUNNYSIDE.icons.close}
+          onClick={onClose}
+          className="h-6 cursor-pointer"
+        />
+      </div>
+      <InnerPanel>
+        <p className="text-xs sm:text-sm p-1 -mt-0.5">
           {t("visitorGuide.welcomeMessage")}
         </p>
       </InnerPanel>
+      <InnerPanel className="flex flex-col gap-1">
+        <div className="flex justify-between items-stretch">
+          <Label type="default">{t("visitorGuide.onTheFarm")}</Label>
+          <div className="relative p-1 flex-grow flex justify-end gap-1">
+            <span className="text-xs mt-[1px]">
+              {`${farmTasksCompleted}/${farmHelpRequired}`}
+            </span>
+            <ProgressBar
+              type="quantity"
+              percentage={farmPercentage}
+              formatLength="full"
+              className="relative"
+              style={{
+                width: PIXEL_SCALE * 15,
+                height: PIXEL_SCALE * 7,
+              }}
+            />
+          </div>
+        </div>
+        <div className="flex flex-col gap-2 ml-1">
+          {getKeys(farmTasks.clutter).length > 0 && (
+            <div className="flex items-center gap-2 -ml-1">
+              <SmallBox image={clutterIcon} />
+              <div className="flex-1">
+                <div className="flex items-center justify-between flex-wrap">
+                  <p className="text-xs sm:text-sm">
+                    {`${t("visitorGuide.pickUp")} ${getKeys(farmTasks.clutter)
+                      .map((type) => `${farmTasks.clutter[type]} ${type}`)
+                      .join(", ")}`}
+                  </p>
+                </div>
 
-      <InnerPanel className="mb-1">
-        <Label type="default" className="mb-1">
-          {t("visitorGuide.tasks")}
-        </Label>
-
-        {getKeys(clutter).length > 0 && (
-          <div className="flex items-center gap-1 -mt-1">
-            <Box image={clutterIcon} />
-            <div className="flex-1">
-              <div className="flex items-center justify-between flex-wrap">
-                <p className="text-xs sm:text-sm">
-                  {`${t("visitorGuide.pickUp")} ${getKeys(clutter)
-                    .map((type) => `${clutter[type]} ${type}`)
-                    .join(", ")}`}
-                </p>
-              </div>
-
-              <div className="flex items-center my-0.5">
-                <p className="text-xxs sm:text-xs mr-1">
-                  {t("visitorGuide.clutter")}
-                </p>
+                <div className="flex items-center my-0.5">
+                  <p className="text-xxs sm:text-xs mr-1">
+                    {t("visitorGuide.clutter")}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        )}
-
-        {pendingProjects.length > 0 && (
-          <div className="flex items-center gap-1">
-            <Box image={helpIcon} count={new Decimal(pendingProjects.length)} />
-            <div className="flex-1">
-              <div className="flex items-center justify-between flex-wrap">
-                <p className="text-xs sm:text-sm">
-                  {t("visitorGuide.project")}
-                </p>
-              </div>
-              <div className="flex items-center my-0.5">
-                <p className="text-xxs sm:text-xs mr-1">
-                  {t("visitorGuide.helpProject")}
-                </p>
+          )}
+          {farmTasks.projects.length > 0 && (
+            <div className="flex items-center gap-2 -ml-1 -mt-1">
+              <SmallBox image={helpIcon} />
+              <div className="flex-1">
+                <div className="flex items-center justify-between flex-wrap">
+                  <p className="text-xs sm:text-sm">
+                    {t("visitorGuide.project", {
+                      count: farmTasks.projects.length,
+                    })}
+                  </p>
+                </div>
+                <div className="flex items-center my-0.5">
+                  <p className="text-xxs sm:text-xs mr-1">
+                    {t("visitorGuide.helpProject")}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+          {farmTasks.pets.length > 0 && (
+            <div className="flex items-center gap-2 -ml-1 -mt-1">
+              <SmallBox image={SUNNYSIDE.icons.drag} />
+              <div className="flex-1">
+                <div className="flex items-center justify-between flex-wrap">
+                  <p className="text-xs sm:text-sm">
+                    {t("visitorGuide.pets", { count: farmTasks.pets.length })}
+                  </p>
+                </div>
+                <div className="flex items-center my-0.5">
+                  <p className="text-xxs sm:text-xs mr-1">
+                    {t("visitorGuide.showLove")}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </InnerPanel>
-
-      {pendingProjects.filter((name) => name in RAFFLE_REWARDS).length > 0 && (
-        <InnerPanel className="mb-1 p-1">
-          <Label type="warning">{t("rewards")}</Label>
-          <p className="text-xs p-2">{t("visitorGuide.rewards")}</p>
+      {homeHelpRequired > 0 && (
+        <InnerPanel className="flex flex-col gap-2">
+          <div className="flex justify-between items-stretch">
+            <Label type="default">{t("visitorGuide.inTheHouse")}</Label>
+            <div className="relative p-1 flex-grow flex justify-end gap-1">
+              <span className="text-xs mt-[1px]">
+                {`${homeTasksCompleted}/${homeHelpRequired}`}
+              </span>
+              <ProgressBar
+                type="quantity"
+                percentage={homePercentage}
+                formatLength="full"
+                className="relative"
+                style={{
+                  width: PIXEL_SCALE * 15,
+                  height: PIXEL_SCALE * 7,
+                }}
+              />
+            </div>
+          </div>
+          <div className="flex flex-col gap-2 ml-1">
+            {homeTasks.projects.length > 0 && (
+              <div className="flex items-center gap-2 -ml-1 -mt-1">
+                <SmallBox image={helpIcon} />
+                <div className="flex-1">
+                  <div className="flex items-center justify-between flex-wrap">
+                    <p className="text-xs sm:text-sm">
+                      {t("visitorGuide.project", {
+                        count: homeTasks.projects.length,
+                      })}
+                    </p>
+                  </div>
+                  <div className="flex items-center my-0.5">
+                    <p className="text-xxs sm:text-xs mr-1">
+                      {t("visitorGuide.helpProject")}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+            {homeTasks.pets.length > 0 && (
+              <div className="flex items-center gap-2 -ml-1 -mt-1">
+                <SmallBox image={SUNNYSIDE.icons.drag} />
+                <div className="flex-1">
+                  <div className="flex items-center justify-between flex-wrap">
+                    <p className="text-xs sm:text-sm">
+                      {t("visitorGuide.pets", { count: homeTasks.pets.length })}
+                    </p>
+                  </div>
+                  <div className="flex items-center my-0.5">
+                    <p className="text-xxs sm:text-xs mr-1">
+                      {t("visitorGuide.showLove")}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </InnerPanel>
       )}
-
-      <Button onClick={onClose}>{t("gotIt")}</Button>
     </div>
   );
 };
