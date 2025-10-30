@@ -523,7 +523,6 @@ export const Project: React.FC<ProjectProps> = (input) => {
     if (
       isHelpComplete({
         game: gameService.getSnapshot().context.state,
-        visitorState: gameService.getSnapshot().context.visitorState,
       })
     ) {
       setShowHelped(true);

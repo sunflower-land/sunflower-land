@@ -158,7 +158,6 @@ export const Monument: React.FC<MonumentProps> = (input) => {
     if (
       isHelpComplete({
         game: gameService.getSnapshot().context.state,
-        visitorState: gameService.getSnapshot().context.visitorState,
       })
     ) {
       setShowHelped(true);

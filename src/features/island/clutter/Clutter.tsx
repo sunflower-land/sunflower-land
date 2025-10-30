@@ -94,7 +94,6 @@ export const ClutterItem: React.FC<
     if (
       isHelpComplete({
         game: gameService.getSnapshot().context.state,
-        visitorState: gameService.getSnapshot().context.visitorState,
       })
     ) {
       onComplete();

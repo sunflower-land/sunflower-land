@@ -1,8 +1,8 @@
 import Decimal from "decimal.js-light";
 import { Decoration, getKeys } from "./decorations";
 import { GameState, InventoryItemName } from "./game";
-import { FARM_GARBAGE } from "./clutter";
-import { hasFeatureAccess } from "lib/flags";
+import { ClutterName } from "./clutter";
+import { hasHitSocialPetLimit, PetName, PetNFTName } from "./pets";
 
 type LoveCharmMonumentName =
   | "Farmer's Monument"
@@ -186,70 +186,173 @@ export const REWARD_ITEMS: Partial<
   },
 };
 
-export function isHelpComplete({
-  game,
-  visitorState,
-}: {
-  game: GameState;
-  visitorState?: GameState;
-}) {
-  return getHelpRequired({ game, visitorState }) <= 0;
+export function isHelpComplete({ game }: { game: GameState }) {
+  return getHelpRequired({ game }).totalCount <= 0;
 }
 
 // Returns a count of help tasks needed on the farm
-export function getHelpRequired({
-  game,
-  visitorState,
-}: {
-  game: GameState;
-  visitorState?: GameState;
-}) {
-  const clutter = getKeys(game.socialFarming.clutter?.locations ?? {}).filter(
-    (id) => {
-      const type = game.socialFarming.clutter?.locations[id].type;
+export function getHelpRequired({ game }: { game: GameState }) {
+  const villageProjects = game.socialFarming.villageProjects;
+  const collectibles = game.collectibles;
+  const homeCollectibles = game.home.collectibles;
+  const clutterLocations = game.socialFarming.clutter?.locations;
+  const pets = game.pets;
 
-      // There are no garbage items left
-      return type && type in FARM_GARBAGE;
+  // Reduce clutter to get a count of each type
+  const clutter = getKeys(clutterLocations ?? {}).reduce(
+    (acc, id) => {
+      const type = clutterLocations?.[id]?.type as ClutterName;
+      acc[type] = (acc[type] ?? 0) + 1;
+      return acc;
+    },
+    {} as Record<ClutterName, number>,
+  );
+
+  const { pendingLandProjects, pendingHomeProjects } = getKeys(
+    villageProjects,
+  ).reduce<{
+    pendingLandProjects: MonumentName[];
+    pendingHomeProjects: MonumentName[];
+  }>(
+    (acc, monument) => {
+      const canBeHelped =
+        !villageProjects[monument]?.helpedAt &&
+        (villageProjects[monument]?.cheers ?? 0) < REQUIRED_CHEERS[monument];
+
+      if (!canBeHelped) return acc;
+
+      const isProjectPlacedOnLand = !!collectibles[monument]?.some(
+        (item) => !!item.coordinates,
+      );
+      const isProjectPlacedInHome = !!homeCollectibles[monument]?.some(
+        (item) => !!item.coordinates,
+      );
+
+      if (isProjectPlacedOnLand) {
+        acc.pendingLandProjects = [...acc.pendingLandProjects, monument];
+
+        return acc;
+      }
+
+      if (isProjectPlacedInHome) {
+        acc.pendingHomeProjects = [...acc.pendingHomeProjects, monument];
+
+        return acc;
+      }
+
+      return acc;
+    },
+    { pendingLandProjects: [], pendingHomeProjects: [] },
+  );
+
+  const { pendingLandCommonPets, pendingHomeCommonPets } = getKeys(
+    pets?.common ?? {},
+  ).reduce<{
+    pendingLandCommonPets: PetName[];
+    pendingHomeCommonPets: PetName[];
+  }>(
+    (acc, name) => {
+      const pet = pets?.common?.[name];
+
+      if (!pet) return acc;
+
+      if (pet.visitedAt) return acc;
+      if (hasHitSocialPetLimit(pet)) return acc;
+
+      const isPetPlacedOnLand = !!collectibles[name]?.some(
+        (item) => !!item.coordinates,
+      );
+      const isPetPlacedOnHome = !!homeCollectibles[name]?.some(
+        (item) => !!item.coordinates,
+      );
+
+      if (isPetPlacedOnLand) {
+        acc.pendingLandCommonPets = [...acc.pendingLandCommonPets, name];
+
+        return acc;
+      }
+
+      if (isPetPlacedOnHome) {
+        acc.pendingHomeCommonPets = [...acc.pendingHomeCommonPets, name];
+
+        return acc;
+      }
+
+      return acc;
+    },
+    {
+      pendingLandCommonPets: [],
+      pendingHomeCommonPets: [],
     },
   );
 
-  const pendingProjects = getKeys(game.socialFarming.villageProjects).filter(
-    (project) => {
-      const hasHelped = !!game.socialFarming.villageProjects[project]?.helpedAt;
+  const { pendingLandNftPets, pendingHomeNftPets } = getKeys(
+    pets?.nfts ?? {},
+  ).reduce<{
+    pendingLandNftPets: PetNFTName[];
+    pendingHomeNftPets: PetNFTName[];
+  }>(
+    (acc, id) => {
+      const pet = pets?.nfts?.[id];
+      if (!pet) return acc;
 
-      const isComplete =
-        REQUIRED_CHEERS[project] <=
-        (game.socialFarming.villageProjects[project]?.cheers ?? 0);
+      if (hasHitSocialPetLimit(pet)) return acc;
 
-      const isProjectPlaced =
-        game.collectibles?.[project]?.some((item) => !!item.coordinates) ||
-        game.home.collectibles?.[project]?.some((item) => !!item.coordinates) ||
-        false;
+      if (pet.location === "farm") {
+        acc.pendingLandNftPets = [...acc.pendingLandNftPets, pet.name];
 
-      if (!isProjectPlaced) return;
+        return acc;
+      }
 
-      return !hasHelped && !isComplete;
+      if (pet.location === "home") {
+        acc.pendingHomeNftPets = [...acc.pendingHomeNftPets, pet.name];
+
+        return acc;
+      }
+
+      return acc;
     },
+    { pendingLandNftPets: [], pendingHomeNftPets: [] },
   );
 
-  const pendingPets = getKeys(game.pets?.common ?? {}).filter((pet) => {
-    const hasAccess = !!visitorState && hasFeatureAccess(visitorState, "PETS");
-    if (!hasAccess) {
-      return false;
-    }
+  const totalPendingPets =
+    pendingLandCommonPets.length +
+    pendingHomeCommonPets.length +
+    pendingLandNftPets.length +
+    pendingHomeNftPets.length;
 
-    const isPetPlaced =
-      game.collectibles?.[pet]?.some((item) => !!item.coordinates) ||
-      game.home.collectibles?.[pet]?.some((item) => !!item.coordinates) ||
-      false;
+  const totalClutter = Object.values(clutter).reduce(
+    (acc, count: number) => acc + count,
+    0,
+  );
 
-    if (!isPetPlaced) return;
-
-    const hasVisited = !!game.pets?.common?.[pet]?.visitedAt;
-    return !hasVisited;
-  });
-
-  return clutter.length + pendingProjects.length + pendingPets.length;
+  return {
+    totalCount:
+      totalClutter +
+      pendingLandProjects.length +
+      pendingHomeProjects.length +
+      totalPendingPets,
+    tasks: {
+      farm: {
+        count:
+          totalClutter +
+          pendingLandProjects.length +
+          pendingLandCommonPets.length +
+          pendingLandNftPets.length,
+        projects: pendingLandProjects,
+        clutter: clutter,
+        pets: [...pendingLandCommonPets, ...pendingLandNftPets],
+      },
+      home: {
+        count:
+          pendingHomeProjects.length +
+          pendingHomeCommonPets.length +
+          pendingHomeNftPets.length,
+        projects: pendingHomeProjects,
+        pets: [...pendingHomeCommonPets, ...pendingHomeNftPets],
+      },
+    },
+  };
 }
 
 export const RAFFLE_REWARDS: Partial<

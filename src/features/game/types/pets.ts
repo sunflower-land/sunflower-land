@@ -6,7 +6,10 @@ import { getObjectEntries } from "../expansion/lib/utils";
 import { InventoryItemName } from "./game";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { COMPETITION_POINTS } from "./competitions";
-import { PetTraits } from "features/pets/types";
+import { PetTraits } from "features/pets/data/types";
+
+export const SOCIAL_PET_XP_PER_HELP = 5;
+export const SOCIAL_PET_DAILY_XP_LIMIT = 50;
 
 export type PetName =
   // Dogs
@@ -304,6 +307,12 @@ export function getPetFetches(petData: Pet | PetNFT): PetConfig {
   }
 
   return PET_FETCHES[petType];
+}
+
+export function hasHitSocialPetLimit(pet: Pet | PetNFT) {
+  const dailySocialXP =
+    pet.dailySocialXP?.[new Date().toISOString().slice(0, 10)] ?? 0;
+  return dailySocialXP >= SOCIAL_PET_DAILY_XP_LIMIT;
 }
 
 export const PET_RESOURCES: Record<PetResourceName, { energy: number }> = {
@@ -733,17 +742,22 @@ const PET_NFT_REVEAL_CONFIG: PetNFTRevealConfig[] = [
   },
 ];
 
-export function isPetNFTAllocated(petId: number) {
+export function isPetNFTRevealed(petId: number, createdAt: number) {
   return PET_NFT_REVEAL_CONFIG.some(
-    (config) => petId >= config.startId && petId <= config.endId,
+    (config) =>
+      petId >= config.startId &&
+      petId <= config.endId &&
+      createdAt >= config.revealAt.getTime(),
   );
 }
+export function getPetNFTReleaseDate(petId: number, createdAt: number) {
+  const revealAt = PET_NFT_REVEAL_CONFIG.find(
+    (config) => petId >= config.startId && petId <= config.endId,
+  )?.revealAt;
 
-export function isPetNFTRevealed(petId: number, createdAt: number) {
-  return (
-    isPetNFTAllocated(petId) &&
-    PET_NFT_REVEAL_CONFIG.some(
-      (config) => createdAt >= config.revealAt.getTime(),
-    )
-  );
+  if (!revealAt || revealAt.getTime() < createdAt) {
+    return undefined;
+  }
+
+  return revealAt;
 }

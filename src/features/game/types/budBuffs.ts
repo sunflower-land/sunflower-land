@@ -12,6 +12,12 @@ import { CONFIG } from "lib/config";
 
 const buds = CONFIG.NETWORK === "amoy" ? testnetBuds : mainnetBuds;
 
+export const getBudTraits = (budId: number) => {
+  const bud = buds[budId];
+
+  return bud;
+};
+
 const getStemBoost = (stem: string) => {
   const buffs: BuffLabel[] = [];
 

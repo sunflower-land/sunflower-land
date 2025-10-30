@@ -6,10 +6,9 @@ import { KNOWN_IDS } from "features/game/types";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 const IMAGES: InventoryItemName[] = [
-  "Baby Cow",
-  "Baby Sheep",
-  "Janitor Chicken",
-  "Venus Bumpkin Trap",
+  "Silver Friends Trophy",
+  "Gold Friends Trophy",
+  "Bronze Friends Trophy",
 ];
 
 const WIDTH = 1920;
