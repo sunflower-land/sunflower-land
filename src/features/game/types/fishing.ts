@@ -132,6 +132,7 @@ export type Chum = Extract<
   | "Turnip"
   | "Zucchini"
   | "Weed"
+  | "Acorn"
 >;
 
 export const CHUM_AMOUNTS: Record<Chum, number> = {
@@ -182,6 +183,7 @@ export const CHUM_AMOUNTS: Record<Chum, number> = {
   "Zebra Turkeyfish": 1,
   Zucchini: 20,
   Weed: 3,
+  Acorn: 3,
 };
 
 export const CHUM_DETAILS: Record<Chum, string> = {
@@ -232,6 +234,7 @@ export const CHUM_DETAILS: Record<Chum, string> = {
   Turnip: translate("chumDetails.turnip"),
   Zucchini: "",
   Weed: translate("chumDetails.weed"),
+  Acorn: translate("chumDetails.acorn"),
 };
 
 type Fish = {
@@ -544,7 +547,7 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
   "Super Star": {
     baits: ["Red Wiggler", "Fishing Lure"],
     type: "marine marvel",
-    likes: [],
+    likes: ["Acorn"],
     seasons: ["winter", "spring", "summer", "autumn"],
   },
   "Starlight Tuna": {
