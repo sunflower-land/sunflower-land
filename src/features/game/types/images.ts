@@ -3581,7 +3581,6 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
     description: translate("description.super.star"),
-    isPermanent: true,
   },
   "Crimson Carp": {
     image: crimsonCarp,
