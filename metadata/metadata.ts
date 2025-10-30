@@ -4710,6 +4710,16 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  VIP3: {
+    description: "Redeem this voucher for three months of VIP access.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2336.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
   "Valentine Bear": {
     description:
       "A bear for those who love. Awarded to people who showed some love",
@@ -12768,6 +12778,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2334.png",
     name: "Giant Acorn",
+  },
+  "Pet Bowls": {
+    description: "Keep your furry friends happily fed with matching bowls.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2335.png",
+    name: "Pet Bowls",
   },
 
   Trash: {

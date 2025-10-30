@@ -92,6 +92,7 @@ export type SeasonalDecorationName =
   | "Paper Reed"
   | "Paw Prints Rug"
   | "Pet Bed"
+  | "Pet Bowls"
   | "Moon Fox Statue"
   | "Giant Acorn";
 
@@ -1301,6 +1302,10 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     height: 1,
   },
   "Giant Acorn": {
+    width: 2,
+    height: 1,
+  },
+  "Pet Bowls": {
     width: 2,
     height: 1,
   },

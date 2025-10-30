@@ -24,6 +24,7 @@ import lavenderSeed from "assets/flowers/lavender_seed.webp";
 import cloverSeed from "assets/flowers/clover_seed.webp";
 
 import gem from "assets/icons/gem.webp";
+import blueVipIcon from "assets/icons/blue_vip.webp";
 import tradePoint from "assets/icons/trade_points_coupon.webp";
 
 import communityEgg from "assets/sfts/easter_donation_egg.webp";
@@ -116,6 +117,7 @@ import greenFieldRug from "assets/sfts/green_field_rug.webp";
 import gauchoRug from "assets/sfts/gaucho_rug.webp";
 import pawPrintsRug from "assets/sfts/paw_prints_rug.webp";
 import petBed from "assets/sfts/pet_bed.webp";
+import petBowls from "assets/sfts/pet_bowls.webp";
 import giantAcorn from "assets/sfts/giant_acorn.webp";
 import moonFoxStatue from "assets/sfts/moon_fox_statue.webp";
 // Clash of Factions
@@ -4724,6 +4726,10 @@ export const ITEM_DETAILS: Items = {
     image: gem,
     description: translate("description.gem"),
   },
+  VIP3: {
+    image: blueVipIcon,
+    description: translate("description.vip3"),
+  },
   Marty: {
     image: marty,
     description: translate("description.marty"),
@@ -5652,6 +5658,10 @@ export const ITEM_DETAILS: Items = {
   "Paw Prints Rug": {
     image: pawPrintsRug,
     description: translate("description.pawPrintsRug"),
+  },
+  "Pet Bowls": {
+    image: petBowls,
+    description: translate("description.petBowls"),
   },
   "Pet Bed": {
     image: petBed,
