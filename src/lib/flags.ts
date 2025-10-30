@@ -124,22 +124,27 @@ const FEATURE_FLAGS = {
 
   BLESSING: () => true,
 
-  PETS: defaultFeatureFlag,
+  PETS: (game) =>
+    betaTimeBasedFeatureFlag(new Date("2025-11-03T00:00:00Z"))(game),
   PET_HOUSE: testnetFeatureFlag,
-  FLOWER_INSTA_GROW: defaultFeatureFlag,
-  OBSIDIAN_SHRINE: defaultFeatureFlag,
+  FLOWER_INSTA_GROW: (game) =>
+    betaTimeBasedFeatureFlag(new Date("2025-11-03T00:00:00Z"))(game),
 
   API_PERFORMANCE: () => true,
 
-  OBSIDIAN_EXCHANGE: testnetFeatureFlag,
+  OBSIDIAN_EXCHANGE: () =>
+    timeBasedFeatureFlag(new Date("2025-11-03T00:00:00Z"))(),
   GASLESS_AUCTIONS: () => true,
-  NODE_FORGING: defaultFeatureFlag,
+  NODE_FORGING: (game) =>
+    betaTimeBasedFeatureFlag(new Date("2025-11-03T00:00:00Z"))(game),
   DEPOSIT_SFL: () =>
     Date.now() < new Date("2025-10-28T00:00:00.000Z").getTime(),
   RONIN_FLOWER: betaTimeBasedFeatureFlag(new Date("2025-10-21T00:00:00Z")),
   MEMORY_BETA: defaultFeatureFlag,
-  PET_NFT_DEPOSIT: testnetFeatureFlag,
-  PET_NFT_MARKETPLACE: testnetFeatureFlag,
+  PET_NFT_DEPOSIT: () =>
+    timeBasedFeatureFlag(new Date("2025-11-03T00:00:00Z"))(),
+  PET_NFT_MARKETPLACE: () =>
+    timeBasedFeatureFlag(new Date("2025-11-03T00:00:00Z"))(),
   BUILDING_FRIENDSHIPS: betaTimeBasedFeatureFlag(
     new Date("2025-10-13T00:00:00Z"),
   ),
