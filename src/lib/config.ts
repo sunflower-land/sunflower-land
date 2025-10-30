@@ -46,8 +46,6 @@ const QUICKSWAP_ROUTER_CONTRACT = import.meta.env
   .VITE_QUICKSWAP_ROUTER_CONTRACT as string;
 const BUY_GEMS_CONTRACT = import.meta.env.VITE_BUY_GEMS_CONTRACT as string;
 const WMATIC_CONTRACT = import.meta.env.VITE_WMATIC_CONTRACT as string;
-const BUD_DEPOSIT_CONTRACT = import.meta.env
-  .VITE_BUD_DEPOSIT_CONTRACT as string;
 const AUCTION_CONTRACT = import.meta.env.VITE_AUCTION_CONTRACT as string;
 const BUD_CONTRACT = import.meta.env.VITE_BUD_CONTRACT as string;
 const SEAL_CONTRACT = import.meta.env.VITE_SEAL_CONTRACT as string;
@@ -140,7 +138,6 @@ export const CONFIG = {
   WMATIC_CONTRACT,
   SEAL_CONTRACT,
   LOST_AND_FOUND_CONTRACT,
-  BUD_DEPOSIT_CONTRACT,
   BUY_GEMS_CONTRACT,
   ALCHEMY_RPC,
   ALCHEMY_KEY,
