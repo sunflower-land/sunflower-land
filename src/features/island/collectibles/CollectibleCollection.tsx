@@ -162,6 +162,7 @@ import { GoblinLantern } from "./components/GoblinLantern";
 import { DawnFlower } from "./components/DawnFlower";
 import { LaurieTheChuckleCrow } from "./components/LaurieTheChuckelCrow";
 import { FreyaFox } from "./components/FreyaFox";
+import { MoonFoxStatue } from "./components/MoonFoxStatue";
 import { WitchesEveBanner } from "./components/WitchesEveBanner";
 import { ElPolloVeloz } from "./components/ElPolloVeloz";
 import { Poppy } from "./components/Poppy";
@@ -2735,6 +2736,52 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Paw Prints Banner"
     />
   ),
+  "Paw Prints Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+      }}
+      image={ITEM_DETAILS["Paw Prints Rug"].image}
+      alt="Paw Prints Rug"
+    />
+  ),
+  "Pet Bed": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Pet Bed"].image}
+      alt="Pet Bed"
+    />
+  ),
+  "Giant Acorn": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Giant Acorn"].image}
+      alt="Giant Acorn"
+    />
+  ),
+  "Moon Fox Statue": MoonFoxStatue,
   "Big Apple": (props: CollectibleProps) => (
     <Project
       {...props}
