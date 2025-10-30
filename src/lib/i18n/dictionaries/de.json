@@ -6616,7 +6616,6 @@
   "withdraw.flower.recipient": "Empfängeradresse: {{address}}",
   "withdraw.flower.cannotCancel": "Diese Auszahlung kann nicht storniert werden",
   "withdraw.flower.transaction": "Eine Transaktion muss am {{chain}} abgeschlossen sein, um die Auszahlung abzuschließen.",
-  "description.unrevealedNFT.boost": "Boost nicht aufgedeckt!",
   "description.unrevealedNFT.description": "Psst... einzigartiges Haustier, das drinnen döst!",
   "description.blossomWard.boost": "+1 Ertrag gegenüber der Frühjahrsernte im Frühjahr",
   "description.frozenHeart.boost": "+1 Ertrag für die Winterernte im Winter",
@@ -6787,5 +6786,6 @@
   "visitorGuide.pets": "Haustiere ({{count}})",
   "visitorGuide.showLove": "Zeig den Haustieren etwas Liebe.",
   "visitorGuide.onTheFarm": "Auf dem Bauernhof",
-  "visitorGuide.inTheHouse": "Im Haus"
+  "visitorGuide.inTheHouse": "Im Haus",
+  "description.unrevealedNFT.boost": "Schlüpf in ein einzigartiges Haustier!"
 }

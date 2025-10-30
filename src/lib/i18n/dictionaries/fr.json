@@ -6616,7 +6616,6 @@
   "withdraw.flower.recipient": "Adresse du destinataire : {{address}}",
   "withdraw.flower.cannotCancel": "Ce retrait ne peut pas être annulé",
   "withdraw.flower.transaction": "Une transaction doit être effectuée le {{chain}} pour terminer le retrait.",
-  "description.unrevealedNFT.boost": "Boost non dévoilé !",
   "description.unrevealedNFT.description": "Chut... un animal de compagnie unique qui fait la sieste à l'intérieur !",
   "description.blossomWard.boost": "+1 Rendement par rapport à la récolte parcellaire de printemps",
   "description.frozenHeart.boost": "+1 Rendement par rapport à la récolte en parcelles d'hiver",
@@ -6787,5 +6786,6 @@
   "visitorGuide.pets": "Animaux de compagnie ({{count}})",
   "visitorGuide.showLove": "Montrez de l'amour aux animaux de compagnie.",
   "visitorGuide.onTheFarm": "À la ferme",
-  "visitorGuide.inTheHouse": "Dans la maison"
+  "visitorGuide.inTheHouse": "Dans la maison",
+  "description.unrevealedNFT.boost": "Fais éclore un animal de compagnie unique !"
 }

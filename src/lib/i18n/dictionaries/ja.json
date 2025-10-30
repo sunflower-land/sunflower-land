@@ -6616,7 +6616,6 @@
   "withdraw.flower.recipient": "受信者の住所:{{address}}",
   "withdraw.flower.cannotCancel": "この出金はキャンセルできません",
   "withdraw.flower.transaction": "出金を完了するには、{{chain}} に取引を完了する必要があります。",
-  "description.unrevealedNFT.boost": "ブースト未公開！",
   "description.unrevealedNFT.description": "シーッ... 中で居眠りするユニークなペット！",
   "description.blossomWard.boost": "春のスプリングプロット収穫量+1",
   "description.frozenHeart.boost": "冬季の作物の収穫量+1",
@@ -6787,5 +6786,6 @@
   "visitorGuide.pets": "ペット ({{count}})",
   "visitorGuide.showLove": "ペットに愛を示しましょう。",
   "visitorGuide.onTheFarm": "農場で",
-  "visitorGuide.inTheHouse": "家の中で"
+  "visitorGuide.inTheHouse": "家の中で",
+  "description.unrevealedNFT.boost": "ユニークなペットに孵化しよう！"
 }

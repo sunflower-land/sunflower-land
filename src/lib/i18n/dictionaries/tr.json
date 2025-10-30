@@ -6616,7 +6616,6 @@
   "withdraw.flower.recipient": "Alıcı Adresi: {{address}}",
   "withdraw.flower.cannotCancel": "Bu para çekme işlemi iptal edilemez",
   "withdraw.flower.transaction": "Para çekme işleminin tamamlanması için {{chain}} tarihinde bir işlem tamamlanmalıdır.",
-  "description.unrevealedNFT.boost": "Tanıtılmamış güçlendirme!",
   "description.unrevealedNFT.description": "Şşşşt... içeride uyuyan benzersiz evcil hayvan!",
   "description.blossomWard.boost": "İlkbaharda Bahar Arsa Mahsulüne +1 Verim",
   "description.frozenHeart.boost": "Kışın Kış Arsa Mahsulüne +1 Verim",
@@ -6787,5 +6786,6 @@
   "visitorGuide.pets": "Evcil Hayvanlar ({{count}})",
   "visitorGuide.showLove": "Evcil hayvanlara biraz sevgi gösterin.",
   "visitorGuide.onTheFarm": "Çiftlikte",
-  "visitorGuide.inTheHouse": "Evde"
+  "visitorGuide.inTheHouse": "Evde",
+  "description.unrevealedNFT.boost": "Eşsiz bir evcil hayvana dönüşün!"
 }

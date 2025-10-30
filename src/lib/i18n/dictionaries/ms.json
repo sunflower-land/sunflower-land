@@ -6616,7 +6616,6 @@
   "withdraw.flower.recipient": "Alamat Penerima: {{address}}",
   "withdraw.flower.cannotCancel": "Pengeluaran ini tidak boleh dibatalkan",
   "withdraw.flower.transaction": "Transaksi mesti diselesaikan pada {{chain}} untuk menyelesaikan pengeluaran.",
-  "description.unrevealedNFT.boost": "Tingkatkan tidak didedahkan!",
   "description.unrevealedNFT.description": "Shhh... haiwan peliharaan yang unik mendengar di dalamnya!",
   "description.blossomWard.boost": "+1 Hasil untuk Tanaman Plot Musim Bunga pada Musim Bunga",
   "description.frozenHeart.boost": "+1 Hasil untuk Tanaman Plot Musim Sejuk pada Musim Sejuk",
@@ -6787,5 +6786,6 @@
   "visitorGuide.pets": "Haiwan peliharaan ({{count}})",
   "visitorGuide.showLove": "Tunjukkan haiwan kesayangan sedikit cinta.",
   "visitorGuide.onTheFarm": "Di ladang",
-  "visitorGuide.inTheHouse": "Di dalam rumah"
+  "visitorGuide.inTheHouse": "Di dalam rumah",
+  "description.unrevealedNFT.boost": "Menetas menjadi haiwan peliharaan yang unik!"
 }

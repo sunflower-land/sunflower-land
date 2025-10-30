@@ -6616,7 +6616,6 @@
   "withdraw.flower.recipient": "수신자 주소: {{address}}",
   "withdraw.flower.cannotCancel": "이 출금은 취소할 수 없습니다.",
   "withdraw.flower.transaction": "출금을 완료하려면 {{chain}} 에 거래를 완료해야 합니다.",
-  "description.unrevealedNFT.boost": "부스트 미공개!",
   "description.unrevealedNFT.description": "쉿... 독특한 애완동물이 안에서 잠을 자고 있어요!",
   "description.blossomWard.boost": "봄철 대작물의 수확량 +1",
   "description.frozenHeart.boost": "겨울철 작물의 수확량+1",
@@ -6787,5 +6786,6 @@
   "visitorGuide.pets": "애완동물 ({{count}})",
   "visitorGuide.showLove": "반려동물에게 사랑을 보여주세요.",
   "visitorGuide.onTheFarm": "농장에서",
-  "visitorGuide.inTheHouse": "인 더 하우스"
+  "visitorGuide.inTheHouse": "인 더 하우스",
+  "description.unrevealedNFT.boost": "독특한 애완동물로 부화하세요!"
 }

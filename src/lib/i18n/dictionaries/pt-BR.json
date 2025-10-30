@@ -6616,7 +6616,6 @@
   "withdraw.flower.recipient": "Endereço do destinatário: {{address}}",
   "withdraw.flower.cannotCancel": "Esta retirada não pode ser cancelada",
   "withdraw.flower.transaction": "Uma transação deve ser concluída em {{chain}} para concluir a retirada.",
-  "description.unrevealedNFT.boost": "Impulso não revelado!",
   "description.unrevealedNFT.description": "Shhh... animal de estimação único dormindo por dentro!",
   "description.blossomWard.boost": "+1 Rendimento da safra da parcela de primavera na primavera",
   "description.frozenHeart.boost": "+1 Rendimento da safra de inverno no inverno",
@@ -6787,5 +6786,6 @@
   "visitorGuide.pets": "Animais de estimação ({{count}})",
   "visitorGuide.showLove": "Mostre um pouco de amor aos animais de estimação.",
   "visitorGuide.onTheFarm": "Na fazenda",
-  "visitorGuide.inTheHouse": "Na casa"
+  "visitorGuide.inTheHouse": "Na casa",
+  "description.unrevealedNFT.boost": "Crie um animal de estimação único!"
 }

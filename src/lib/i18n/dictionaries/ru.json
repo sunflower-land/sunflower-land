@@ -6616,7 +6616,6 @@
   "withdraw.flower.recipient": "Адрес получателя: {{address}}",
   "withdraw.flower.cannotCancel": "Этот вывод средств не может быть отменен",
   "withdraw.flower.transaction": "Для вывода средств необходимо выполнить транзакцию {{chain}}.",
-  "description.unrevealedNFT.boost": "Ускорение незамечено!",
   "description.unrevealedNFT.description": "Тссс... уникальный питомец, дремлющий внутри!",
   "description.blossomWard.boost": "+1 Урожай на грядках весной",
   "description.frozenHeart.boost": "+1 Урожай на грядках зимой",
@@ -6787,5 +6786,6 @@
   "visitorGuide.pets": "Домашние животные ({{count}})",
   "visitorGuide.showLove": "Покажите домашним животным немного любви.",
   "visitorGuide.onTheFarm": "На ферме",
-  "visitorGuide.inTheHouse": "В доме"
+  "visitorGuide.inTheHouse": "В доме",
+  "description.unrevealedNFT.boost": "Вылупитесь в уникального питомца!"
 }

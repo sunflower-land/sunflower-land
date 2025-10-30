@@ -6616,7 +6616,6 @@
   "withdraw.flower.recipient": "Indirizzo destinatario: {{address}}",
   "withdraw.flower.cannotCancel": "Questo prelievo non può essere annullato",
   "withdraw.flower.transaction": "Una transazione deve essere completata il {{chain}} per completare il prelievo.",
-  "description.unrevealedNFT.boost": "Boost non rivelato!",
   "description.unrevealedNFT.description": "Shhh... animale domestico unico che sonnecchia dentro!",
   "description.blossomWard.boost": "+1 Rendimento al raccolto primaverile del terreno in primavera",
   "description.frozenHeart.boost": "+1 Rendimento al raccolto invernale del terreno in inverno",
@@ -6787,5 +6786,6 @@
   "visitorGuide.pets": "Animali domestici ({{count}})",
   "visitorGuide.showLove": "Mostra agli animali domestici un po' d'amore.",
   "visitorGuide.onTheFarm": "In fattoria",
-  "visitorGuide.inTheHouse": "In casa"
+  "visitorGuide.inTheHouse": "In casa",
+  "description.unrevealedNFT.boost": "Diventa un animale domestico unico!"
 }
