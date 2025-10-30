@@ -67,7 +67,8 @@ export type MarineMarvelName =
   | "Longhorn Cowfish"
   | "Jellyfish"
   | "Pink Dolphin"
-  | "Poseidon";
+  | "Poseidon"
+  | "Super Star";
 
 export type OldFishName = "Kraken Tentacle";
 
@@ -538,6 +539,12 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     baits: ["Red Wiggler", "Grub", "Fishing Lure"],
     type: "marine marvel",
     likes: ["Sunfish"],
+    seasons: ["winter", "spring", "summer", "autumn"],
+  },
+  "Super Star": {
+    baits: ["Red Wiggler", "Fishing Lure"],
+    type: "marine marvel",
+    likes: [],
     seasons: ["winter", "spring", "summer", "autumn"],
   },
   "Starlight Tuna": {

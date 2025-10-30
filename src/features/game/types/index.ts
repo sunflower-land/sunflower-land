@@ -809,6 +809,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Rock Blackfish": 1546,
   Cobia: 1547,
   Tilapia: 1548,
+  "Super Star": 1549,
 
   "White Festive Fox": 2001,
   Rug: 2002,

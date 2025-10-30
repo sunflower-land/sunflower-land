@@ -583,6 +583,7 @@ import weakfish from "assets/fish/weak_fish.png";
 import rockBlackfish from "assets/fish/rock_blackfish.png";
 import cobia from "assets/fish/copia.png";
 import tilapia from "assets/fish/tilapia.png";
+import superStar from "assets/sfts/starfish_marvel.webp";
 
 import festiveTree from "assets/sfts/festive_tree.png";
 import nutcracker from "assets/sfts/bumpkin_nutcracker.png";
@@ -3573,6 +3574,14 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
     description: translate("description.gilded.swordfish"),
+    isPermanent: true,
+  },
+  "Super Star": {
+    image: superStar,
+    howToGetItem: [translate("ocean.fishing")],
+    itemType: "collectible",
+    description:
+      "A dazzling celebrity of the sea that always steals the spotlight.",
     isPermanent: true,
   },
   "Crimson Carp": {
