@@ -205,7 +205,7 @@ export const petImageDomain =
  Sleeping: https://${petImageDomain}.sunflower-land.com/sleepings/${id}.webp
  Idle: https://${petImageDomain}.sunflower-land.com/idles/${id}.webp
  Marketplace: https://${petImageDomain}.sunflower-land.com/marketplace/${id}.webp
- OpenSea: https://${petImageDomain}.sunflower-land.com/opens/${id}.webp
+ OpenSea: https://${petImageDomain}.sunflower-land.com/opensea/${id}.webp
  */
 
 export const getPetImage = (
