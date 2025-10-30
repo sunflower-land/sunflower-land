@@ -5,7 +5,6 @@ import { Label } from "components/ui/Label";
 import { NumberInput } from "components/ui/NumberInput";
 import { MachineState } from "features/game/lib/gameMachine";
 import { GameWallet } from "features/wallet/Wallet";
-import { CONFIG } from "lib/config";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import { TradeableDisplay } from "../lib/tradeables";
@@ -84,7 +83,6 @@ export const MakeOffer: React.FC<{
         id: itemId,
         collection: display.type,
         signature,
-        contract: CONFIG.MARKETPLACE_VERIFIER_CONTRACT,
         quantity: Math.max(1, quantity),
         sfl: offer,
       },

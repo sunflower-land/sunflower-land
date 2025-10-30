@@ -81,8 +81,6 @@ const GAME_ANALYTICS_PUB_KEY = import.meta.env
 const PORTAL_APP = import.meta.env.VITE_PORTAL_APP as string;
 const PORTAL_GAME_URL = import.meta.env.VITE_PORTAL_GAME_URL as string;
 
-const MARKETPLACE_CONTRACT = import.meta.env
-  .VITE_MARKETPLACE_CONTRACT as string;
 const DEQUIPPER_CONTRACT = import.meta.env.VITE_DEQUIPPER_CONTRACT as string;
 const SEQUENCE_ACCESS_KEY = import.meta.env.VITE_SEQUENCE_ACCESS_KEY as string;
 
@@ -94,8 +92,6 @@ const WITHDRAW_SFL_CONTRACT = import.meta.env
 const ALGEBRA_QUOTER_CONTRACT = import.meta.env
   .VITE_ALGEBRA_QUOTER_CONTRACT as string;
 const USDC_CONTRACT = import.meta.env.VITE_USDC_CONTRACT as string;
-const MARKETPLACE_VERIFIER_CONTRACT = import.meta.env
-  .VITE_MARKETPLACE_VERIFIER_CONTRACT as string;
 const FLOWER_CONTRACT = import.meta.env.VITE_FLOWER_CONTRACT as string;
 
 const FIREBASE_VAPID_KEY = import.meta.env.VITE_FIREBASE_VAPID_KEY as string;
@@ -109,8 +105,6 @@ const TWITTER_CLIENT_ID = import.meta.env.VITE_TWITTER_CLIENT_ID as string;
 
 export const CONFIG = {
   DEQUIPPER_CONTRACT,
-  MARKETPLACE_CONTRACT,
-  MARKETPLACE_VERIFIER_CONTRACT,
   NETWORK,
   POLYGON_CHAIN_ID,
   DONATION_ADDRESS,

@@ -210,8 +210,6 @@ const WALLET_ACTIONS: Record<TransactionName, WalletAction> = {
   "transaction.wearablesWithdrawn": "withdrawItems",
   "transaction.budWithdrawn": "withdrawItems",
   "transaction.petWithdrawn": "withdrawItems",
-  "transaction.listingPurchased": "marketplace",
-  "transaction.offerAccepted": "marketplace",
   "transaction.progressSynced": "sync",
 };
 
@@ -266,8 +264,6 @@ const EVENT_TO_NAME: Record<TransactionName, string> = {
   "transaction.itemsWithdrawn": "Withdraw items",
   "transaction.progressSynced": "Store on chain",
   "transaction.wearablesWithdrawn": "Withdraw wearables",
-  "transaction.offerAccepted": "Accept offer",
-  "transaction.listingPurchased": "Purchase listing",
   "transaction.flowerWithdrawn": "Withdraw flower",
 };
 
