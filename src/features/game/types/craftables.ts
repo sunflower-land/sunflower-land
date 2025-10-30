@@ -1506,6 +1506,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Giant Turnip": { width: 2, height: 2 },
   "Groovy Gramophone": { width: 1, height: 1 },
   "Paw Prints Rug": { width: 3, height: 3 },
+  "Pet Bowls": { width: 2, height: 1 },
   "Pet Bed": { width: 2, height: 1 },
   "Giant Acorn": { width: 2, height: 1 },
   "Moon Fox Statue": { width: 2, height: 3 },
