@@ -3580,8 +3580,7 @@ export const ITEM_DETAILS: Items = {
     image: superStar,
     howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
-    description:
-      "A dazzling celebrity of the sea that always steals the spotlight.",
+    description: translate("description.super.star"),
     isPermanent: true,
   },
   "Crimson Carp": {
