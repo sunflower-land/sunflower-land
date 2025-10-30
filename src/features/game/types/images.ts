@@ -6140,4 +6140,44 @@ export const ITEM_DETAILS: Items = {
     image: halloweenTicket2025,
     description: translate("description.halloweenTicket2025"),
   },
+  "Petnip Plant": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "",
+  },
+  SD2: {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "",
+  },
+  "Pet Toys": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "",
+  },
+  "Pet Playground": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "",
+  },
+  "Fish Bowl": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "",
+  },
+  "Giant Gold Bone": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "",
+  },
+  "Lunar Temple": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "",
+  },
+  "Magma Stone": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "",
+  },
+  Cornucopia: {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "",
+  },
+  "Messy Bed": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "",
+  },
 };
