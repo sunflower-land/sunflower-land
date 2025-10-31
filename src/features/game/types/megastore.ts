@@ -839,7 +839,7 @@ const PAW_PRINTS_ITEMS: SeasonalStore = {
       },
       {
         collectible: "Pet Kennel",
-        cost: { sfl: 0, items: { "Moon Crystal": 50 } },
+        cost: { sfl: 0, items: { "Pet Cookie": 50 } },
       },
       {
         collectible: "Pet Toys",
@@ -925,7 +925,7 @@ const PAW_PRINTS_ITEMS: SeasonalStore = {
       },
       {
         wearable: "Pet Specialist Shirt",
-        cost: { sfl: 0, items: { "Pet Cookie": 400 } },
+        cost: { sfl: 400, items: {} },
       },
     ],
     requirement: 4,
