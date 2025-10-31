@@ -237,7 +237,7 @@ export class PlazaScene extends BaseScene {
     this.load.image("pet_nft_egg", "world/pet_nft_egg.png");
     this.load.image("pet_bed", "world/pet_bed.webp");
     this.load.image("paw_prints_rug", "world/paw_prints_rug.webp");
-    this.load.image("giant_acorn", "world/giant_acorn.webp");
+    this.load.image("moon_fox_statue", "world/moon_fox_statue.webp");
     this.load.image("lava_swimwear_npc", "world/lava_swimwear_npc.webp");
 
     this.load.image("ronin_banner", "world/ronin_banner.webp");
@@ -744,7 +744,7 @@ export class PlazaScene extends BaseScene {
     }
 
     // Change image every chapter change
-    const nft1 = this.add.image(567, 191, "giant_acorn");
+    const nft1 = this.add.image(567, 181, "moon_fox_statue");
     nft1.setDepth(191);
 
     const nft2 = this.add.image(589, 200, "pet_nft_egg");
@@ -756,7 +756,7 @@ export class PlazaScene extends BaseScene {
     const nft4 = this.add.image(612, 200, "lava_swimwear_npc");
     nft4.setDepth(205);
 
-    const nft5 = this.add.image(635, 191, "pet_bed");
+    const nft5 = this.add.image(635, 193, "pet_bed");
     nft5.setDepth(181);
 
     const door = this.colliders
