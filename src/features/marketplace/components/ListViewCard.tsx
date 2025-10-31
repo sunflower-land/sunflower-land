@@ -18,6 +18,7 @@ import { BumpkinItem } from "features/game/types/bumpkin";
 import { CountLabel } from "components/ui/CountLabel";
 import classNames from "classnames";
 import { ListViewImage } from "./ListViewImage";
+import petNFTEggMarketplace from "assets/pets/pet-nft-egg-marketplace.webp";
 
 type Props = {
   details: TradeableDisplay;
@@ -85,26 +86,32 @@ export const ListViewCard: React.FC<Props> = ({
       >
         <div
           className={classNames("flex flex-col items-center relative", {
-            "h-20 p-2 pt-4": details.type !== "buds",
+            "h-[70px] p-2 pt-4":
+              details.type !== "buds" && details.type !== "pets",
             "h-32": details.type === "buds",
+            "h-[138px]": details.type === "pets",
           })}
         >
           <ListViewImage
             name={name}
             image={image}
+            fallbackImage={
+              details.type === "pets" ? petNFTEggMarketplace : undefined
+            }
             type={type}
             isResources={isResources}
           />
         </div>
 
         <div
-          className="bg-white px-2 py-2 flex-1 z-10"
+          className="px-2 py-2 flex-1 z-10 overflow-y-auto"
           style={{
             background: "#fff0d4",
             borderTop: "1px solid #e4a672",
             margin: "0 -8px",
             marginBottom: "-2.6px",
             height: "100px",
+            minHeight: "57px",
           }}
         >
           {price?.gt(0) && (
@@ -147,7 +154,9 @@ export const ListViewCard: React.FC<Props> = ({
             <div key={buff.shortDescription} className="flex items-center">
               <img
                 src={buff.boostedItemIcon ?? lightning}
-                className="h-4 mr-1"
+                className={classNames("h-4 mr-1", {
+                  "h-auto w-4": buff.shortDescription.includes("XP"),
+                })}
               />
               <p className="text-xs truncate pb-0.5">{buff.shortDescription}</p>
             </div>
