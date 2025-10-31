@@ -26,6 +26,7 @@ import waddlesAsleep from "assets/sfts/pets/penguins/waddles_asleep.webp";
 import pipAsleep from "assets/sfts/pets/penguins/pip_asleep.webp";
 import skipperAsleep from "assets/sfts/pets/penguins/skipper_asleep.webp";
 import petNFTEgg from "assets/icons/pet_nft_egg.png";
+import petNFTEggMarketplace from "assets/pets/pet-nft-egg-marketplace.webp";
 import { CONFIG } from "lib/config";
 
 const PETS_STYLES: Record<
@@ -226,4 +227,12 @@ export const getPetImage = (
   }
 
   return PET_STATE_IMAGES[id][state];
+};
+
+export const getPetImageForMarketplace = (id: number) => {
+  if (!isPetNFTRevealed(id, Date.now())) {
+    return petNFTEggMarketplace;
+  }
+
+  return `https://${petImageDomain}.sunflower-land.com/marketplace/${id}.webp`;
 };
