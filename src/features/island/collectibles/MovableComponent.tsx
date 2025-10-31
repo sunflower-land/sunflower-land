@@ -7,6 +7,7 @@ import React, {
   useState,
 } from "react";
 import classNames from "classnames";
+import { InnerPanel } from "components/ui/Panel";
 
 import {
   ANIMAL_DIMENSIONS,
@@ -122,6 +123,41 @@ export const RESOURCES_REMOVE_ACTIONS: Record<
   "Pure Gold Rock": "gold.removed",
   "Prime Gold Rock": "gold.removed",
 };
+
+function getOverlappingCollectibles({
+  state,
+  x,
+  y,
+  location,
+  current,
+}: {
+  state: GameState;
+  x: number;
+  y: number;
+  location: PlaceableLocation;
+  current: { id: string; name: CollectibleName };
+}): { id: string; name: CollectibleName }[] {
+  const source =
+    location === "home" ? state.home.collectibles : state.collectibles;
+  const results: { id: string; name: CollectibleName }[] = [];
+
+  Object.entries(source).forEach(([name, placed]) => {
+    (placed ?? []).forEach((p) => {
+      if (!p.coordinates) return;
+      if (p.coordinates.x === x && p.coordinates.y === y) {
+        results.push({ id: p.id, name: name as CollectibleName });
+      }
+    });
+  });
+
+  // Ensure the currently clicked item is included as an option
+  const hasCurrent = results.some((r) => r.id === current.id);
+  if (!hasCurrent) {
+    results.unshift(current);
+  }
+
+  return results;
+}
 
 export function getRemoveAction(
   name: LandscapingPlaceable | undefined,
@@ -273,6 +309,40 @@ export const MoveableComponent: React.FC<
 
   const isActive = useRef(false);
   const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
+  const [showOverlapMenu, setShowOverlapMenu] = useState(false);
+  const [overlapChoices, setOverlapChoices] = useState<
+    { id: string; name: CollectibleName }[]
+  >([]);
+  const overlapRef = useRef<HTMLDivElement>(null);
+  const skipNextOutsideClick = useRef(false);
+  const suppressNextMenuOpen = useRef(false);
+
+  // Close overlap menu when clicking outside
+  useEffect(() => {
+    if (!showOverlapMenu) return;
+
+    const onDocMouseDown = (e: MouseEvent) => {
+      if (skipNextOutsideClick.current) {
+        skipNextOutsideClick.current = false;
+        return;
+      }
+      if (!overlapRef.current) return;
+      const target = e.target as Node;
+      if (!overlapRef.current.contains(target)) {
+        setShowOverlapMenu(false);
+      }
+    };
+
+    // Defer listener to the next tick so the opening mousedown doesn't close it immediately
+    const id = setTimeout(() => {
+      document.addEventListener("mousedown", onDocMouseDown);
+    }, 0);
+
+    return () => {
+      clearTimeout(id);
+      document.removeEventListener("mousedown", onDocMouseDown);
+    };
+  }, [showOverlapMenu]);
 
   const landscapingMachine = gameService.getSnapshot().children
     .landscaping as MachineInterpreter;
@@ -615,6 +685,36 @@ export const MoveableComponent: React.FC<
           return;
         }
 
+        // Don't reopen the menu if an item was just chosen from the overlap menu
+        if (suppressNextMenuOpen.current) {
+          suppressNextMenuOpen.current = false;
+          landscapingMachine.send("MOVE", { name, id });
+          isActive.current = true;
+          return;
+        }
+
+        const overlaps = getOverlappingCollectibles({
+          state: gameService.getSnapshot().context.state,
+          x: coordinatesX,
+          y: coordinatesY,
+          location,
+          current: { id, name: name as CollectibleName },
+        });
+
+        // Show overlap menu if there are overlapping collectibles in the same coordinates
+        if (overlaps.length > 1) {
+          // Defer opening the menu to avoid opening during an immediate drag
+          setTimeout(() => {
+            if (!isDragging) {
+              setOverlapChoices(overlaps);
+              setShowOverlapMenu(true);
+              skipNextOutsideClick.current = true;
+            }
+          }, 0);
+          isActive.current = true;
+          return;
+        }
+
         landscapingMachine.send("MOVE", { name, id });
 
         isActive.current = true;
@@ -634,6 +734,8 @@ export const MoveableComponent: React.FC<
           state: gameService.getSnapshot().context.state,
           setIsColliding,
         });
+        // Never show overlap menu while dragging
+        if (showOverlapMenu) setShowOverlapMenu(false);
       }}
       onStop={(_, data) =>
         onStop({
@@ -655,11 +757,48 @@ export const MoveableComponent: React.FC<
           "cursor-grabbing": isDragging,
           "cursor-pointer": !isDragging,
           "z-10": isSelected,
+          "z-[1000000]": showOverlapMenu,
         })}
       >
+        {showOverlapMenu && overlapChoices.length > 0 && (
+          <div
+            ref={overlapRef}
+            className="absolute z-20"
+            style={{
+              left: `${PIXEL_SCALE * 18}px`,
+              top: `${PIXEL_SCALE * -12}px`,
+              minWidth: `${PIXEL_SCALE * 60}px`,
+            }}
+          >
+            <InnerPanel>
+              {overlapChoices.map((choice) => (
+                <div
+                  key={choice.id}
+                  className="flex items-center gap-1 px-2 py-1 hover:brightness-90 cursor-pointer"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowOverlapMenu(false);
+                    // Prevent the menu from reopening on the next mousedown
+                    suppressNextMenuOpen.current = true;
+                    landscapingMachine.send("MOVE", {
+                      name: choice.name,
+                      id: choice.id,
+                    });
+                  }}
+                >
+                  <img
+                    src={ITEM_DETAILS[choice.name].image}
+                    className="h-4 w-4"
+                  />
+                  <span className="text-xxs">{choice.name}</span>
+                </div>
+              ))}
+            </InnerPanel>
+          </div>
+        )}
         {isSelected && (
           <div
-            className="absolute z-10 flex"
+            className="absolute z-20 flex"
             style={{
               right: `${PIXEL_SCALE * -(hasRemovalAction ? 34 : 12)}px`,
               top: `${PIXEL_SCALE * -12}px`,
