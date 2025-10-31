@@ -77,6 +77,15 @@ export const FARMHANDS: Equipped[] = [
     shirt: "Yellow Farmer Shirt",
     pants: "Farmer Overalls",
   },
+  {
+    background: "Farm Background",
+    body: "Goblin Potion",
+    hair: "Blondie",
+    shoes: "Black Farmer Boots",
+    tool: "Farmer Pitchfork",
+    shirt: "Yellow Farmer Shirt",
+    pants: "Farmer Overalls",
+  },
 ];
 
 export type UnlockFarmhandAction = {
