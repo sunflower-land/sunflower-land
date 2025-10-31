@@ -24,227 +24,68 @@ export const types: Trait<PetNFTType>[] = [
   { name: "Bear", supply: 450 },
 ];
 
-export const COLOR_TRAITS_BY_TYPE = {
-  Dragon: [
-    "DragonColor1",
-    "DragonColor2",
-    "DragonColor3",
-    "DragonColor4",
-    "DragonColor5",
-    "DragonColor6",
-    "DragonColor7",
-    "DragonColor8",
-    "DragonColor9",
-    "DragonColor10",
-    "DragonColor11",
-    "DragonColor12",
-    "DragonColor13",
-    "DragonColor14",
-    "DragonColor15",
-  ],
-  Phoenix: [
-    "PhoenixColor1",
-    "PhoenixColor2",
-    "PhoenixColor3",
-    "PhoenixColor4",
-    "PhoenixColor5",
-    "PhoenixColor6",
-    "PhoenixColor7",
-    "PhoenixColor8",
-    "PhoenixColor9",
-    "PhoenixColor10",
-    "PhoenixColor11",
-    "PhoenixColor12",
-    "PhoenixColor13",
-    "PhoenixColor14",
-    "PhoenixColor15",
-  ],
-  Griffin: [
-    "GriffinColor1",
-    "GriffinColor2",
-    "GriffinColor3",
-    "GriffinColor4",
-    "GriffinColor5",
-    "GriffinColor6",
-    "GriffinColor7",
-    "GriffinColor8",
-    "GriffinColor9",
-    "GriffinColor10",
-    "GriffinColor11",
-    "GriffinColor12",
-    "GriffinColor13",
-    "GriffinColor14",
-    "GriffinColor15",
-  ],
-  Ram: [
-    "RamColor1",
-    "RamColor2",
-    "RamColor3",
-    "RamColor4",
-    "RamColor5",
-    "RamColor6",
-    "RamColor7",
-    "RamColor8",
-    "RamColor9",
-    "RamColor10",
-    "RamColor11",
-    "RamColor12",
-    "RamColor13",
-    "RamColor14",
-    "RamColor15",
-  ],
-  Warthog: [
-    "WarthogColor1",
-    "WarthogColor2",
-    "WarthogColor3",
-    "WarthogColor4",
-    "WarthogColor5",
-    "WarthogColor6",
-    "WarthogColor7",
-    "WarthogColor8",
-    "WarthogColor9",
-    "WarthogColor10",
-    "WarthogColor11",
-    "WarthogColor12",
-    "WarthogColor13",
-    "WarthogColor14",
-    "WarthogColor15",
-  ],
-  Wolf: [
-    "WolfColor1",
-    "WolfColor2",
-    "WolfColor3",
-    "WolfColor4",
-    "WolfColor5",
-    "WolfColor6",
-    "WolfColor7",
-    "WolfColor8",
-    "WolfColor9",
-    "WolfColor10",
-    "WolfColor11",
-    "WolfColor12",
-    "WolfColor13",
-    "WolfColor14",
-    "WolfColor15",
-  ],
-  Bear: [
-    "BearColor1",
-    "BearColor2",
-    "BearColor3",
-    "BearColor4",
-    "BearColor5",
-    "BearColor6",
-    "BearColor7",
-    "BearColor8",
-    "BearColor9",
-    "BearColor10",
-    "BearColor11",
-    "BearColor12",
-    "BearColor13",
-    "BearColor14",
-    "BearColor15",
-  ],
-} as const;
-
-export const ACCESSORY_TRAITS_BY_TYPE = {
-  Dragon: [
-    "DragonAccessory1",
-    "DragonAccessory2",
-    "DragonAccessory3",
-    "DragonAccessory4",
-    "DragonAccessory5",
-    "DragonAccessory6",
-    "DragonAccessory7",
-    "DragonAccessory8",
-    "DragonAccessory9",
-    "DragonAccessory10",
-  ],
-  Phoenix: [
-    "PhoenixAccessory1",
-    "PhoenixAccessory2",
-    "PhoenixAccessory3",
-    "PhoenixAccessory4",
-    "PhoenixAccessory5",
-    "PhoenixAccessory6",
-    "PhoenixAccessory7",
-    "PhoenixAccessory8",
-    "PhoenixAccessory9",
-    "PhoenixAccessory10",
-  ],
-  Griffin: [
-    "GriffinAccessory1",
-    "GriffinAccessory2",
-    "GriffinAccessory3",
-    "GriffinAccessory4",
-    "GriffinAccessory5",
-    "GriffinAccessory6",
-    "GriffinAccessory7",
-    "GriffinAccessory8",
-    "GriffinAccessory9",
-    "GriffinAccessory10",
-  ],
-  Ram: [
-    "RamAccessory1",
-    "RamAccessory2",
-    "RamAccessory3",
-    "RamAccessory4",
-    "RamAccessory5",
-    "RamAccessory6",
-    "RamAccessory7",
-    "RamAccessory8",
-    "RamAccessory9",
-    "RamAccessory10",
-  ],
-  Warthog: [
-    "WarthogAccessory1",
-    "WarthogAccessory2",
-    "WarthogAccessory3",
-    "WarthogAccessory4",
-    "WarthogAccessory5",
-    "WarthogAccessory6",
-    "WarthogAccessory7",
-    "WarthogAccessory8",
-    "WarthogAccessory9",
-    "WarthogAccessory10",
-  ],
-  Wolf: [
-    "WolfAccessory1",
-    "WolfAccessory2",
-    "WolfAccessory3",
-    "WolfAccessory4",
-    "WolfAccessory5",
-    "WolfAccessory6",
-    "WolfAccessory7",
-    "WolfAccessory8",
-    "WolfAccessory9",
-    "WolfAccessory10",
-  ],
-  Bear: [
-    "BearAccessory1",
-    "BearAccessory2",
-    "BearAccessory3",
-    "BearAccessory4",
-    "BearAccessory5",
-    "BearAccessory6",
-    "BearAccessory7",
-    "BearAccessory8",
-    "BearAccessory9",
-    "BearAccessory10",
-  ],
-} as const;
-
-export const BIB_TRAITS = ["Basic Bib", "Mid Bib", "Great Bib"] as const;
-
-export type FurTraitsByType = typeof COLOR_TRAITS_BY_TYPE;
-export type FurTrait = FurTraitsByType[keyof FurTraitsByType][number];
-
-export type AccessoryTraitsByType = typeof ACCESSORY_TRAITS_BY_TYPE;
-export type AccessoryTrait =
-  AccessoryTraitsByType[keyof AccessoryTraitsByType][number];
+export const BIB_TRAITS = ["Baby Bib", "Collar", "Gold Necklace"] as const;
 
 export type BibTrait = (typeof BIB_TRAITS)[number];
 
+export const FUR_TRAITS = [
+  "Dark",
+  "White",
+  "Grey",
+  "Brown",
+  "Purple",
+  "Blue",
+  "Red",
+  "Green",
+  "Pink",
+  "Yellow",
+  "Cream",
+  "Ghost-Teal",
+  "Dark-Red",
+  "Dark-Green",
+  "Dark-Teal",
+] as const;
+
+export type FurTrait = (typeof FUR_TRAITS)[number];
+
+export const ACCESSORY_TRAITS = [
+  "Seedling Hat",
+  "Radar Hat",
+  "Halo",
+  "Brain Hat",
+  "Red Bow",
+  "Blue Bow",
+  "Glasses",
+  "Flower Crown",
+  "Crown",
+  "Propeller Hat",
+  "Cowboy Hat",
+] as const;
+
+export type AccessoryTrait = (typeof ACCESSORY_TRAITS)[number];
+
 export type AuraTrait = "No Aura" | "Basic Aura" | "Epic Aura" | "Mega Aura";
+
+export const auras: Trait<AuraTrait>[] = [
+  { name: "No Aura", supply: 2580 },
+  { name: "Basic Aura", supply: 240 },
+  { name: "Epic Aura", supply: 120 },
+  { name: "Mega Aura", supply: 60 },
+];
+
+export const initial_auction_auras: Trait<AuraTrait>[] = [
+  { name: "No Aura", supply: 860 },
+  { name: "Basic Aura", supply: 80 },
+  { name: "Epic Aura", supply: 40 },
+  { name: "Mega Aura", supply: 20 },
+];
+
+export const chapter_auction_auras: Trait<AuraTrait>[] = [
+  { name: "No Aura", supply: 215 },
+  { name: "Basic Aura", supply: 20 },
+  { name: "Epic Aura", supply: 10 },
+  { name: "Mega Aura", supply: 5 },
+];
 
 export type PetTraits = {
   type: PetNFTType;

@@ -74,9 +74,9 @@ export function getPetEnergy({
 }
 
 const BIB_EXPERIENCE_BONUS: Record<BibTrait, number> = {
-  "Basic Bib": 0,
-  "Mid Bib": 5,
-  "Great Bib": 10,
+  "Baby Bib": 0,
+  Collar: 5,
+  "Gold Necklace": 10,
 };
 
 export function getPetExperience({
