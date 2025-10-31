@@ -27,6 +27,7 @@ import {
   RAFFLE_REWARDS,
   REQUIRED_CHEERS,
   REWARD_ITEMS,
+  VillageProjectName,
 } from "features/game/types/monuments";
 import chest from "assets/icons/chest.png";
 import { Box } from "components/ui/Box";
@@ -58,6 +59,10 @@ import bigAppleThree from "assets/monuments/big_apple_stage_3.webp";
 import bigBananaOne from "assets/monuments/big_banana_stage_1.webp";
 import bigBananaTwo from "assets/monuments/big_banana_stage_2.webp";
 import bigBananaThree from "assets/monuments/big_banana_stage_3.webp";
+
+import cornucopiaOne from "assets/monuments/cornucopia_monument_stage1.webp";
+import cornucopiaTwo from "assets/monuments/cornucopia_monument_stage2.webp";
+import cornucopiaThree from "assets/monuments/cornucopia_monument_stage3.webp";
 
 import { getPlayer } from "features/social/actions/getPlayer";
 import { useAuth } from "features/auth/lib/Provider";
@@ -131,9 +136,9 @@ export const PROJECT_IMAGES: Record<
     ready: bigBananaThree,
   },
   Cornucopia: {
-    empty: ITEM_DETAILS["Cornucopia"].image,
-    halfway: ITEM_DETAILS["Cornucopia"].image,
-    ready: ITEM_DETAILS["Cornucopia"].image,
+    empty: cornucopiaOne,
+    halfway: cornucopiaTwo,
+    ready: cornucopiaThree,
   },
 };
 
@@ -190,7 +195,7 @@ export const CheerModal: React.FC<{
 
 const ProjectComplete: React.FC<{
   state: GameState;
-  project: MonumentName;
+  project: VillageProjectName;
   onClose: () => void;
   onComplete: () => void;
   cheers: number;
@@ -332,7 +337,7 @@ const ProjectComplete: React.FC<{
 
 const ProjectModal: React.FC<{
   state: GameState;
-  project: MonumentName;
+  project: VillageProjectName;
   onClose: () => void;
   onComplete: () => void;
   cheers: number;
@@ -474,7 +479,7 @@ export const _hasCheeredToday =
   };
 
 type ProjectProps = React.ComponentProps<typeof ImageStyle> & {
-  project: MonumentName;
+  project: VillageProjectName;
 };
 
 export const Project: React.FC<ProjectProps> = (input) => {

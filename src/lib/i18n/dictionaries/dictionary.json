@@ -1,4 +1,5 @@
 {
+  "villageProjects": "Village Projects",
   "pet.resources": "Pet Resources",
   "reload": "Reload",
   "exchange.flower.coins": "Exchange FLOWER for coins",
@@ -6713,6 +6714,7 @@
   "description.primeGoldRock.buff": "+2.5 Gold",
   "description.unrevealedNFT.boost": "Hatch into a unique pet!",
   "description.unrevealedNFT.description": "Shhh... unique pet snoozing inside!",
+  "description.giantGoldBone.buff": "+2 Daily Cheers",
   "withdraw.flower.confirm": "Confirm Withdrawal",
   "withdraw.flower.chain": "Chain: {{chain}}",
   "withdraw.flower.amount": "Amount: {{amount}} FLOWER",

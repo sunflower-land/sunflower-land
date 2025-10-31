@@ -158,14 +158,17 @@ export const REQUIRED_CHEERS: Record<MonumentName, number> = {
   Cornucopia: 1000,
 };
 
-export const REWARD_ITEMS: Partial<
-  Record<
-    MonumentName,
-    {
-      item: InventoryItemName;
-      amount: number;
-    }
-  >
+export type VillageProjectName = Exclude<
+  WorkbenchMonumentName,
+  LoveCharmMonumentName
+>;
+
+export const REWARD_ITEMS: Record<
+  VillageProjectName,
+  {
+    item: InventoryItemName;
+    amount: number;
+  }
 > = {
   "Big Orange": {
     item: "Giant Orange",
