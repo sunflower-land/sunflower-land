@@ -1509,29 +1509,6 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     },
   ],
 
-  ...Object.fromEntries(
-    getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)
-      .filter(([chapter]) => getCurrentSeason() === chapter)
-      .flatMap(([chapter, items]) => {
-        const ticket = getSeasonalTicket(new Date(SEASONS[chapter].startDate));
-        const translationKey =
-          `description.bonus${ticket.replace(/\s+/g, "")}.boost` as TranslationKeys;
-
-        return Object.values(items)
-          .filter(isCollectible)
-          .map((item) => [
-            item,
-            [
-              {
-                shortDescription: translate(translationKey),
-                labelType: "success",
-                boostTypeIcon: powerup,
-                boostedItemIcon: ITEM_DETAILS[ticket].image,
-              },
-            ],
-          ]);
-      }),
-  ),
   "Nurse Sheep": () => [
     {
       shortDescription: translate("description.nurseSheep.boost"),
@@ -1919,4 +1896,71 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS.Gold.image,
     },
   ],
+  "Giant Gold Bone": () => [
+    {
+      shortDescription: translate("description.giantGoldBone.buff"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Cheer.image,
+    },
+  ],
+  "Lunar Temple": () => [
+    {
+      shortDescription: translate("description.lunarTemple.buff"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+  ],
+  "Messy Bed": () => [
+    {
+      shortDescription: translate("description.messyBed.buff"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+    },
+  ],
+  "Magma Stone": () => [
+    {
+      shortDescription: translate("description.magmaStone.buff.one"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS["Lava Pit"].image,
+    },
+    {
+      shortDescription: translate("description.magmaStone.buff.two"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Obsidian"].image,
+    },
+  ],
+  Cornucopia: () => [
+    {
+      shortDescription: translate("description.cornucopia.buff"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+  ],
+
+  ...Object.fromEntries(
+    getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)
+      .filter(([chapter]) => getCurrentSeason() === chapter)
+      .flatMap(([chapter, items]) => {
+        const ticket = getSeasonalTicket(new Date(SEASONS[chapter].startDate));
+        const translationKey =
+          `description.bonus${ticket.replace(/\s+/g, "")}.boost` as TranslationKeys;
+
+        return Object.values(items)
+          .filter(isCollectible)
+          .map((item) => [
+            item,
+            [
+              {
+                shortDescription: translate(translationKey),
+                labelType: "success",
+                boostTypeIcon: powerup,
+                boostedItemIcon: ITEM_DETAILS[ticket].image,
+              },
+            ],
+          ]);
+      }),
+  ),
 };
