@@ -6802,7 +6802,7 @@
   "villageProjects": "村庄项目",
   "description.bonusPetCookie.boost": "+1 宠物饼干",
   "description.giantGoldBone.buff": "+2 每日欢呼次数",
-  "description.lunarTemple.buff": "+1 帮助进度至纪念碑",
+  "description.lunarTemple.buff": "收到帮助时，纪念碑进度额外 +1",
   "description.messyBed.buff": "+1 雇农",
   "description.magmaStone.buff.one": "-15% 岩浆池燃烧时间",
   "description.magmaStone.buff.two": "+0.15 黑曜石",
