@@ -15,6 +15,39 @@ import { capitalize } from "lib/utils/capitalize";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { DogContainer } from "../containers/DogContainer";
 import { PetContainer } from "../containers/PetContainer";
+import { getCurrentSeason, SeasonName } from "features/game/types/seasons";
+
+const CHAPTER_BANNERS: Record<SeasonName, string | undefined> = {
+  "Solar Flare": undefined,
+  "Dawn Breaker": undefined,
+  "Witches' Eve": undefined,
+  "Catch the Kraken": undefined,
+  "Spring Blossom": undefined,
+  "Clash of Factions": undefined,
+  "Pharaoh's Treasure": undefined,
+  "Bull Run": undefined,
+  "Winds of Change": undefined,
+  "Great Bloom": undefined,
+  "Better Together": "world/better_together_banner.webp",
+  "Paw Prints": "world/paw_prints_banner.webp",
+};
+
+// Tiled Layer names that get enabled during a chapter
+const CHAPTER_LAYERS: Record<SeasonName, string | undefined> = {
+  "Solar Flare": undefined,
+  "Dawn Breaker": undefined,
+  "Witches' Eve": undefined,
+  "Catch the Kraken": undefined,
+  "Spring Blossom": undefined,
+  "Clash of Factions": undefined,
+  "Pharaoh's Treasure": undefined,
+
+  "Bull Run": undefined,
+  "Winds of Change": undefined,
+  "Great Bloom": undefined,
+  "Better Together": "Better Together Decoration Base",
+  "Paw Prints": "Paw Prints",
+};
 
 export type FactionNPC = {
   npc: NPCName;
@@ -201,17 +234,17 @@ export class PlazaScene extends BaseScene {
     this.load.image("garbage_bin_hat", "world/garbage_bin_hat.webp");
 
     // Auction Items
-    this.load.image("groovy_gramophone", "world/groovy_gramophone.webp");
-    this.load.image("oil_gallon_npc", "world/oil_gallon_npc.webp");
-    this.load.image("giant_onion", "world/giant_onion.webp");
-    this.load.image("giant_turnip", "world/giant_turnip.webp");
+    this.load.image("pet_nft_egg", "world/pet_nft_egg.png");
+    this.load.image("pet_bed", "world/pet_bed.webp");
+    this.load.image("paw_prints_rug", "world/paw_prints_rug.webp");
+    this.load.image("moon_fox_statue", "world/moon_fox_statue.webp");
     this.load.image("lava_swimwear_npc", "world/lava_swimwear_npc.webp");
 
     this.load.image("ronin_banner", "world/ronin_banner.webp");
-    this.load.image(
-      "better_together_banner",
-      "world/better_together_banner.webp",
-    );
+
+    const chapter = getCurrentSeason();
+    // chapter = "Paw Prints"; // Testing only
+    this.load.image("chapter_banner", CHAPTER_BANNERS[chapter as SeasonName]);
 
     this.load.spritesheet("glint", "world/glint.png", {
       frameWidth: 7,
@@ -567,17 +600,36 @@ export class PlazaScene extends BaseScene {
         });
       });
 
+    // Enable/disable chapter-specific layers
+    const chapter = getCurrentSeason();
+
+    // Testing only
+    // chapter = "Paw Prints";
+
+    const activeChapterLayerName = CHAPTER_LAYERS[chapter];
+
+    // Hide all known chapter layers first
+    Object.values(CHAPTER_LAYERS).forEach((name) => {
+      if (!name) return;
+      this.layers[name]?.setVisible(false);
+    });
+
+    // Show only the active chapter layer (if present in the map)
+    if (activeChapterLayerName) {
+      this.layers[activeChapterLayerName]?.setVisible(true);
+    }
+
     // Banner
-    this.add.image(400, 225, "better_together_banner").setDepth(225);
+    this.add.image(400, 225, "chapter_banner").setDepth(225);
     // .setInteractive({ cursor: "pointer" })
     // .on("pointerdown", () => {
     //   interactableModalManager.open(banner);
     // });
-    this.add.image(464, 225, "better_together_banner").setDepth(225);
+    this.add.image(464, 225, "chapter_banner").setDepth(225);
 
-    this.add.image(480, 386, "better_together_banner").setDepth(386);
+    this.add.image(480, 386, "chapter_banner").setDepth(386);
 
-    this.add.sprite(385, 386, "better_together_banner").setDepth(386);
+    this.add.sprite(385, 386, "chapter_banner").setDepth(386);
 
     // Ronin Banner
     this.add.sprite(400, 150, "ronin_banner").setDepth(150);
@@ -692,19 +744,19 @@ export class PlazaScene extends BaseScene {
     }
 
     // Change image every chapter change
-    const nft1 = this.add.image(567, 191, "giant_onion");
+    const nft1 = this.add.image(567, 181, "moon_fox_statue");
     nft1.setDepth(191);
 
-    const nft2 = this.add.image(589, 205.5, "oil_gallon_npc");
+    const nft2 = this.add.image(589, 200, "pet_nft_egg");
     nft2.setDepth(205);
 
-    const nft3 = this.add.image(601, 181, "groovy_gramophone");
+    const nft3 = this.add.image(601, 196, "paw_prints_rug");
     nft3.setDepth(181);
 
-    const nft4 = this.add.image(612, 205, "lava_swimwear_npc");
+    const nft4 = this.add.image(612, 200, "lava_swimwear_npc");
     nft4.setDepth(205);
 
-    const nft5 = this.add.image(635, 191, "giant_turnip");
+    const nft5 = this.add.image(635, 193, "pet_bed");
     nft5.setDepth(181);
 
     const door = this.colliders
