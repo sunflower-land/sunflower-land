@@ -50,7 +50,7 @@ export type SeasonalCollectibleName =
 
   // Paw Prints
   | "Petnip Plant"
-  | "SD2"
+  | "Pet Kennel"
   | "Pet Toys"
   | "Pet Playground"
   | "Fish Bowl"
@@ -838,7 +838,7 @@ const PAW_PRINTS_ITEMS: SeasonalStore = {
         cost: { sfl: 10, items: {} },
       },
       {
-        collectible: "SD2",
+        collectible: "Pet Kennel",
         cost: { sfl: 0, items: { "Moon Crystal": 50 } },
       },
       {

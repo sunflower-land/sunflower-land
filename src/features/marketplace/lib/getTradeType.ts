@@ -1202,7 +1202,7 @@ export const ITEM_TRADE_TYPES: {
     Guillotine: "instant",
     "Vampire Coffin": "instant",
     "Petnip Plant": "instant",
-    SD2: "instant",
+    "Pet Kennel": "instant",
     "Pet Toys": "instant",
     "Pet Playground": "instant",
     "Fish Bowl": "instant",

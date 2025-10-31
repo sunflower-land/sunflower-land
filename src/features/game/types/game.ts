@@ -974,7 +974,8 @@ export type BedName =
   | "Cow Bed"
   | "Pirate Bed"
   | "Royal Bed"
-  | "Double Bed";
+  | "Double Bed"
+  | "Messy Bed";
 
 export type RecipeCraftableName =
   | "Cushion"

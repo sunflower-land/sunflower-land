@@ -1019,6 +1019,17 @@ import sleepyChicken from "assets/sfts/sleepy_chicken.webp";
 import astronautCow from "assets/sfts/cow_astronaut.webp";
 import astronautSheep from "assets/sfts/sheep_astronaut.webp";
 
+import petnipPlant from "assets/sfts/petnip_plant.webp";
+import petKennel from "assets/sfts/pet_kennel.webp";
+import petToys from "assets/sfts/pet_toys.webp";
+import petPlayground from "assets/sfts/pet_playground.webp";
+import fishBowl from "assets/sfts/fish_bowl.webp";
+import giantGoldBone from "assets/sfts/giant_gold_bone.webp";
+import lunarTemple from "assets/sfts/lunar_temple.webp";
+import magmaStone from "assets/sfts/magma_stone.webp";
+import cornucopia from "assets/sfts/cornucopia.webp";
+import messyBed from "assets/sfts/messy_bed.webp";
+
 import barkley from "assets/sfts/pets/dogs/barkley.webp";
 import biscuit from "assets/sfts/pets/dogs/biscuit.webp";
 import cloudy from "assets/sfts/pets/dogs/cloudy.webp";
@@ -6141,43 +6152,43 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.halloweenTicket2025"),
   },
   "Petnip Plant": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: petnipPlant,
     description: "",
   },
-  SD2: {
-    image: SUNNYSIDE.icons.expression_confused,
+  "Pet Kennel": {
+    image: petKennel,
     description: "",
   },
   "Pet Toys": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: petToys,
     description: "",
   },
   "Pet Playground": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: petPlayground,
     description: "",
   },
   "Fish Bowl": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: fishBowl,
     description: "",
   },
   "Giant Gold Bone": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: giantGoldBone,
     description: "",
   },
   "Lunar Temple": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: lunarTemple,
     description: "",
   },
   "Magma Stone": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: magmaStone,
     description: "",
   },
   Cornucopia: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: cornucopia,
     description: "",
   },
   "Messy Bed": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: messyBed,
     description: "",
   },
 };
