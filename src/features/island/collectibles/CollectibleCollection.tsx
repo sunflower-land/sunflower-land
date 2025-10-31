@@ -3346,7 +3346,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
       divStyle={{
         width: `${PIXEL_SCALE * 25}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -5}px`,
       }}
       imgStyle={{
         width: `${PIXEL_SCALE * 25}px`,
@@ -3361,7 +3361,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
       divStyle={{
         width: `${PIXEL_SCALE * 34}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 4}px`,
+        left: `${PIXEL_SCALE * -1}px`,
       }}
       imgStyle={{
         width: `${PIXEL_SCALE * 34}px`,
@@ -3376,7 +3376,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
       divStyle={{
         width: `${PIXEL_SCALE * 28}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 4}px`,
+        left: `${PIXEL_SCALE * 2}px`,
       }}
       imgStyle={{
         width: `${PIXEL_SCALE * 28}px`,
@@ -3391,7 +3391,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
       divStyle={{
         width: `${PIXEL_SCALE * 28}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 4}px`,
+        left: `${PIXEL_SCALE * 2}px`,
       }}
       imgStyle={{
         width: `${PIXEL_SCALE * 28}px`,
@@ -3406,7 +3406,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
       divStyle={{
         width: `${PIXEL_SCALE * 45}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 1.5}px`,
       }}
       imgStyle={{
         width: `${PIXEL_SCALE * 45}px`,
@@ -3421,7 +3421,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
       divStyle={{
         width: `${PIXEL_SCALE * 22}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -3}px`,
       }}
       imgStyle={{
         width: `${PIXEL_SCALE * 22}px`,
@@ -3437,7 +3437,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
       divStyle={{
         width: `${PIXEL_SCALE * 42}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 3}px`,
       }}
       imgStyle={{
         width: `${PIXEL_SCALE * 42}px`,

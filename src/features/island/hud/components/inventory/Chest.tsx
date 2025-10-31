@@ -48,7 +48,6 @@ import {
 } from "features/game/events/landExpansion/upgradeBuilding";
 import { LandBiomeName } from "features/island/biomes/biomes";
 import { getCurrentBiome } from "features/island/biomes/biomes";
-import { WORKBENCH_MONUMENTS } from "features/game/types/monuments";
 import { DOLLS } from "features/game/lib/crafting";
 import { isPetNFTRevealed, PET_TYPES, PetNFTs } from "features/game/types/pets";
 import {
@@ -58,6 +57,7 @@ import {
 import { PetNFTDetails } from "components/ui/layouts/PetNFTDetails";
 import { getPetImage } from "features/island/pets/lib/petShared";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
+import { PROJECT_IMAGES } from "features/island/collectibles/components/Project";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -371,7 +371,7 @@ export const Chest: React.FC<Props> = ({
   const resources = getKeys(collectibles).filter((name) => name in RESOURCES);
   const buildings = getKeys(collectibles).filter((name) => name in BUILDINGS);
   const monuments = getKeys(collectibles).filter(
-    (name) => name in WORKBENCH_MONUMENTS,
+    (name) => name in PROJECT_IMAGES,
   );
   const boosts = getKeys(collectibles)
     .filter(

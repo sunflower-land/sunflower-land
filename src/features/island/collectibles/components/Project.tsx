@@ -130,6 +130,11 @@ export const PROJECT_IMAGES: Record<
     halfway: bigBananaTwo,
     ready: bigBananaThree,
   },
+  Cornucopia: {
+    empty: ITEM_DETAILS["Cornucopia"].image,
+    halfway: ITEM_DETAILS["Cornucopia"].image,
+    ready: ITEM_DETAILS["Cornucopia"].image,
+  },
 };
 
 export const CheerModal: React.FC<{
