@@ -736,6 +736,11 @@ const PET_NFT_REVEAL_CONFIG: PetNFTRevealConfig[] = [
     endId: 1000,
   },
   {
+    revealAt: new Date("2026-01-13T00:00:00.000Z"),
+    startId: 1001,
+    endId: 1250,
+  },
+  {
     revealAt: new Date("2025-11-11T00:00:00.000Z"),
     startId: 2501,
     endId: 3000,
