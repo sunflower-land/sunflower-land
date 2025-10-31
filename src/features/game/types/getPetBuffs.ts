@@ -42,7 +42,7 @@ const getPetAuraBoost = (aura: AuraTrait) => {
 const getPetBibBoost = (bib: BibTrait) => {
   const buffs: BuffLabel[] = [];
 
-  if (bib === "Mid Bib") {
+  if (bib === "Collar") {
     buffs.push({
       shortDescription: translate("petBuff.bib.mid"),
       labelType: "success",
@@ -51,7 +51,7 @@ const getPetBibBoost = (bib: BibTrait) => {
     });
   }
 
-  if (bib === "Great Bib") {
+  if (bib === "Gold Necklace") {
     buffs.push({
       shortDescription: translate("petBuff.bib.great"),
       labelType: "success",

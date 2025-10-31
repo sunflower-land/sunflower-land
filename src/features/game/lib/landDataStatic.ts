@@ -1590,9 +1590,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
         id: 5,
         traits: {
           type: "Dragon",
-          fur: "DragonColor1",
-          accessory: "DragonAccessory1",
-          bib: "Basic Bib",
+          fur: "Blue",
+          accessory: "Crown",
+          bib: "Baby Bib",
           aura: "No Aura",
         },
         experience: 120,
