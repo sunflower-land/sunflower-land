@@ -835,6 +835,14 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: SUNNYSIDE.icons.fish,
     },
   ],
+  "Super Star": () => [
+    {
+      shortDescription: translate("description.super.star.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
+  ],
   Alba: () => [
     {
       shortDescription: translate("description.alba.boost"),

@@ -193,6 +193,7 @@ import { StarlightTuna } from "./components/StartlightTuna";
 import { RadiantRay } from "./components/RadiantRay";
 import { PhantomBarracuda } from "./components/PhantomBarracuda";
 import { GildedSwordfish } from "./components/GildedSwordfish";
+import { SuperStar } from "./components/SuperStar";
 import { CrimsonCarp } from "./components/CrimsonCarp";
 import { SapoDocuras } from "./components/SapoDocuras";
 import { SapoTravessuras } from "./components/SapoTravessuras";
@@ -718,6 +719,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Radiant Ray": RadiantRay,
   "Phantom Barracuda": PhantomBarracuda,
   "Gilded Swordfish": GildedSwordfish,
+  "Super Star": SuperStar,
   "Crimson Carp": CrimsonCarp,
   "Battle Fish": BattleFish,
   "Lemon Shark": LemonShark,

@@ -1251,6 +1251,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Radiant Ray": { width: 2, height: 1 },
   "Phantom Barracuda": { width: 2, height: 1 },
   "Gilded Swordfish": { width: 2, height: 1 },
+  "Super Star": { width: 2, height: 1 },
   "Crimson Carp": { width: 2, height: 1 },
   "Battle Fish": { width: 2, height: 1 },
   "Lemon Shark": { width: 2, height: 1 },

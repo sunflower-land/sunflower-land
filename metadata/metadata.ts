@@ -18,6 +18,21 @@ type Metadata = {
 };
 
 export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
+  "Super Star": {
+    description: "A super star that grants +1 fish during winter months!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1549.webp",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Fish" },
+      {
+        display_type: "boost_number",
+        trait_type: "+1 fish during winter",
+        value: 1,
+      },
+    ],
+  },
   "Baby Cow": {
     description:
       "Who doesn't love a baby cow? +10 cow xp from animal affection tools.",
