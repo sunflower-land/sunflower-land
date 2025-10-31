@@ -15,6 +15,7 @@ import { capitalize } from "lib/utils/capitalize";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { DogContainer } from "../containers/DogContainer";
 import { PetContainer } from "../containers/PetContainer";
+import { PetNFTType } from "features/game/types/pets";
 
 export type FactionNPC = {
   npc: NPCName;
@@ -846,11 +847,11 @@ export class PlazaScene extends BaseScene {
   public addPet(
     sessionId: string,
     petId: number,
-    petType: string,
+    petType: PetNFTType,
     x: number,
     y: number,
   ) {
-    const petContainer = new PetContainer(this, x, y, petId, petType as any);
+    const petContainer = new PetContainer(this, x, y, petId, petType);
     this.pets[sessionId] = petContainer;
   }
 
@@ -879,13 +880,7 @@ export class PlazaScene extends BaseScene {
 
       const petContainer = this.pets[sessionId];
       if (!petContainer) {
-        this.addPet(
-          sessionId,
-          pet.id || 0,
-          pet.type || "Unknown",
-          pet.x || 0,
-          pet.y || 0,
-        );
+        this.addPet(sessionId, pet.id || 0, pet.type, pet.x || 0, pet.y || 0);
         return;
       }
 
