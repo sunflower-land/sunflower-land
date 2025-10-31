@@ -12,7 +12,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { translate } from "lib/i18n/translate";
 
-import petEgg from "assets/icons/pet_egg.png";
+import petNFTEgg from "assets/icons/pet_nft_egg.png";
 import lightning from "assets/icons/lightning.png";
 
 const NFT_IMAGE_DESCRIPTION_MAPPING: Record<
@@ -20,7 +20,7 @@ const NFT_IMAGE_DESCRIPTION_MAPPING: Record<
   { image: string; description: string }
 > = {
   Pet: {
-    image: petEgg,
+    image: petNFTEgg,
     description: translate("description.unrevealedNFT.description"),
   },
 };

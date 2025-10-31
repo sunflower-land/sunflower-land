@@ -9,7 +9,7 @@ type LoveCharmMonumentName =
   | "Miner's Monument"
   | "Woodcutter's Monument";
 
-type MegastoreMonumentName = "Teamwork Monument";
+type MegastoreMonumentName = "Teamwork Monument" | "Cornucopia";
 
 export type WorkbenchMonumentName =
   | LoveCharmMonumentName
@@ -45,6 +45,12 @@ export const MEGASTORE_MONUMENTS: Record<
 > = {
   "Teamwork Monument": {
     name: "Teamwork Monument",
+    description: "",
+    coins: 0,
+    ingredients: {},
+  },
+  Cornucopia: {
+    name: "Cornucopia",
     description: "",
     coins: 0,
     ingredients: {},
@@ -149,16 +155,20 @@ export const REQUIRED_CHEERS: Record<MonumentName, number> = {
   "Woodcutter's Monument": 1000,
   "Miner's Monument": 10000,
   "Teamwork Monument": 100,
+  Cornucopia: 1000,
 };
 
-export const REWARD_ITEMS: Partial<
-  Record<
-    MonumentName,
-    {
-      item: InventoryItemName;
-      amount: number;
-    }
-  >
+export type VillageProjectName = Exclude<
+  WorkbenchMonumentName,
+  LoveCharmMonumentName
+>;
+
+export const REWARD_ITEMS: Record<
+  VillageProjectName,
+  {
+    item: InventoryItemName;
+    amount: number;
+  }
 > = {
   "Big Orange": {
     item: "Giant Orange",

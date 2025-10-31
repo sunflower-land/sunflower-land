@@ -1585,5 +1585,25 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   pets: {
     common: {},
+    nfts: {
+      5: {
+        id: 5,
+        traits: {
+          type: "Dragon",
+          fur: "Blue",
+          accessory: "Crown",
+          bib: "Baby Bib",
+          aura: "No Aura",
+        },
+        experience: 120,
+        energy: 0,
+        name: "Pet #1",
+        pettedAt: 0,
+        requests: {
+          food: [],
+          fedAt: 0,
+        },
+      },
+    },
   },
 };

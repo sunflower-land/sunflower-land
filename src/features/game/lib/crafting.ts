@@ -61,7 +61,7 @@ export const DOLLS: Record<DollName, object> = {
 };
 
 export type RecipeCollectibleName = Extract<
-  RecipeCraftableName | Exclude<BedName, "Double Bed"> | DollName,
+  RecipeCraftableName | Exclude<BedName, "Double Bed" | "Messy Bed"> | DollName,
   InventoryItemName
 >;
 

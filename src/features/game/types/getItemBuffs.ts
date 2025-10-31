@@ -27,6 +27,7 @@ export function getItemBuffs({
   if (collection === "pets") {
     const id = Number((item as PetNFTName).split("#")[1]);
     const petBuffs = isPetNFTRevealed(id, Date.now()) ? getPetBuffs(id) : [];
+
     return petBuffs;
   }
 

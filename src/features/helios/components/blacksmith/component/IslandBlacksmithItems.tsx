@@ -26,6 +26,7 @@ import {
   MonumentName,
   REQUIRED_CHEERS,
   REWARD_ITEMS,
+  VillageProjectName,
   WORKBENCH_MONUMENTS,
   WorkbenchMonumentName,
 } from "features/game/types/monuments";
@@ -78,7 +79,7 @@ const DecorationLabel = ({
   }
 
   if (isMonument) {
-    const reward = REWARD_ITEMS[selectedName as MonumentName];
+    const reward = REWARD_ITEMS[selectedName as VillageProjectName];
 
     return (
       <div className="flex items-center flex-col space-y-1">

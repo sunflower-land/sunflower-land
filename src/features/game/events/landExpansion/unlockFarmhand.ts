@@ -70,11 +70,20 @@ export const FARMHANDS: Equipped[] = [
   },
   {
     background: "Farm Background",
-    body: "Goblin Potion",
-    hair: "Blondie",
+    body: "Light Brown Farmer Potion",
+    hair: "Basic Hair",
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
-    shirt: "Yellow Farmer Shirt",
+    shirt: "Striped Blue Shirt",
+    pants: "Farmer Pants",
+  },
+  {
+    background: "Farm Background",
+    body: "Beige Farmer Potion",
+    hair: "Rancher Hair",
+    shoes: "Black Farmer Boots",
+    tool: "Farmer Pitchfork",
+    shirt: "Striped Red Shirt",
     pants: "Farmer Overalls",
   },
 ];
