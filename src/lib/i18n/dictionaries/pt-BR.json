@@ -6806,5 +6806,9 @@
   "description.messyBed.buff": "+1 Farm Hand",
   "description.magmaStone.buff.one": "-15% de tempo do poço de lava",
   "description.magmaStone.buff.two": "+0,15 Obsidiana",
-  "description.cornucopia.buff": "+1 Produção de frutas gigantes de projetos de vilas"
+  "description.cornucopia.buff": "+1 Produção de frutas gigantes de projetos de vilas",
+  "description.super.star.boost": "+1 Peixe",
+  "description.super.star": "Uma superestrela que concede +1 peixe durante os meses de inverno!",
+  "chumDetails.acorn": "O super amigo!",
+  "pet.grave.message": "Hmm, o animal de estimação de alguém faleceu... Seu nome era Izzy."
 }

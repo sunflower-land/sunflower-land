@@ -6806,5 +6806,9 @@
   "description.messyBed.buff": "+1 FarmHand",
   "description.magmaStone.buff.one": "-15% Waktu Lubang Lava",
   "description.magmaStone.buff.two": "+0.15 Obsidian",
-  "description.cornucopia.buff": "+1 Hasil Buah Raksasa dari proyek desa"
+  "description.cornucopia.buff": "+1 Hasil Buah Raksasa dari proyek desa",
+  "description.super.star.boost": "+1 Fishu",
+  "description.super.star": "Bintang super yang memberikan +1 ikan selama bulan-bulan musim dingin!",
+  "chumDetails.acorn": "Teman super!",
+  "pet.grave.message": "Hmm, hewan peliharaan seseorang meninggal... Namanya Izzy."
 }
