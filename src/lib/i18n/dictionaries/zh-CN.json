@@ -6798,5 +6798,13 @@
   "description.moonFoxStatue": "一座纪念月狐温柔手表的雕像。",
   "description.vip3": "VIP3。",
   "description.petBowls": "用配套的食物和水碗让每只宠物都开心。",
-  "description.petBowls.boost": "每份食物申请 +10 宠物经验值。"
+  "description.petBowls.boost": "每份食物申请 +10 宠物经验值。",
+  "villageProjects": "乡村项目",
+  "description.bonusPetCookie.boost": "+1 宠物饼干",
+  "description.giantGoldBone.buff": "+2 每日欢呼",
+  "description.lunarTemple.buff": "+1 帮助玩家进入纪念碑",
+  "description.messyBed.buff": "+1 农场之手",
+  "description.magmaStone.buff.one": "-15% 熔岩矿坑时间",
+  "description.magmaStone.buff.two": "+0.15 黑曜石",
+  "description.cornucopia.buff": "村庄项目的巨型水果产量 +1"
 }

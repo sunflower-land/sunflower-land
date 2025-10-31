@@ -6798,5 +6798,13 @@
   "description.moonFoxStatue": "Une statue rendant hommage à la gentille montre du Moon Fox.",
   "description.vip3": "VIP3.",
   "description.petBowls": "Faites plaisir à chaque animal de compagnie grâce à des bols de nourriture et d'eau assortis.",
-  "description.petBowls.boost": "+10 points d'expérience pour animaux de compagnie par demande de nourriture."
+  "description.petBowls.boost": "+10 points d'expérience pour animaux de compagnie par demande de nourriture.",
+  "villageProjects": "Projets de village",
+  "description.bonusPetCookie.boost": "+1 biscuit pour animaux de compagnie",
+  "description.giantGoldBone.buff": "+2 acclamations quotidiennes",
+  "description.lunarTemple.buff": "+1 aide à progresser vers les monuments du joueur",
+  "description.messyBed.buff": "+1 Farm Hand",
+  "description.magmaStone.buff.one": "-15 % Durée de la fosse à lave",
+  "description.magmaStone.buff.two": "+0,15 Obsidienne",
+  "description.cornucopia.buff": "+1 rendement en fruits géants grâce à des projets villageois"
 }

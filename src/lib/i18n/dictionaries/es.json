@@ -6798,5 +6798,13 @@
   "description.moonFoxStatue": "Una estatua en honor al amable reloj del zorro lunar.",
   "description.vip3": "VIP 3.",
   "description.petBowls": "Mantén a todas tus mascotas felices con tazones de comida y agua a juego.",
-  "description.petBowls.boost": "+10 puntos de EXP para mascotas por solicitud de comida."
+  "description.petBowls.boost": "+10 puntos de EXP para mascotas por solicitud de comida.",
+  "villageProjects": "Proyectos de aldea",
+  "description.bonusPetCookie.boost": "+1 galleta para mascotas",
+  "description.giantGoldBone.buff": "+2 aplausos diarios",
+  "description.lunarTemple.buff": "+1 ayuda a avanzar hacia los monumentos del jugador",
+  "description.messyBed.buff": "+1 peón de granja",
+  "description.magmaStone.buff.one": "-15% de tiempo en el pozo de lava",
+  "description.magmaStone.buff.two": "+0.15 Obsidiana",
+  "description.cornucopia.buff": "+1 Gran producción de fruta gracias a proyectos en aldeas"
 }

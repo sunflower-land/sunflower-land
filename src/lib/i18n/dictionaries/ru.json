@@ -6798,5 +6798,13 @@
   "description.moonFoxStatue": "Статуя в честь нежных часов Лунной лисы.",
   "description.vip3": "VIP3.",
   "description.petBowls": "Порадуйте каждого питомца подходящими мисками для еды и воды.",
-  "description.petBowls.boost": "+10 XP для домашних животных за каждый запрос на еду."
+  "description.petBowls.boost": "+10 XP для домашних животных за каждый запрос на еду.",
+  "villageProjects": "Сельские проекты",
+  "description.bonusPetCookie.boost": "+1 Печенье для домашних животных",
+  "description.giantGoldBone.buff": "+2 ежедневных приветствия",
+  "description.lunarTemple.buff": "+1 помощь в продвижении к памятникам игрока",
+  "description.messyBed.buff": "+1 Фермерская рука",
+  "description.magmaStone.buff.one": "-15% времени работы в лавовой яме",
+  "description.magmaStone.buff.two": "+0.15 Обсидиан",
+  "description.cornucopia.buff": "+1 гигантский урожай фруктов от деревенских проектов"
 }

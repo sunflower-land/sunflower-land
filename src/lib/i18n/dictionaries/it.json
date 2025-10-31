@@ -6798,5 +6798,13 @@
   "description.moonFoxStatue": "Una statua in onore del gentile orologio della volpe lunare.",
   "description.vip3": "VIP 3.",
   "description.petBowls": "Fai felice ogni animale domestico con ciotole per cibo e acqua abbinate.",
-  "description.petBowls.boost": "+10 Pet XP per richiesta di cibo."
+  "description.petBowls.boost": "+10 Pet XP per richiesta di cibo.",
+  "villageProjects": "Progetti del villaggio",
+  "description.bonusPetCookie.boost": "+1 biscotto per animali domestici",
+  "description.giantGoldBone.buff": "+2 Saluti giornalieri",
+  "description.lunarTemple.buff": "+1 aiuta a progredire verso i monumenti del giocatore",
+  "description.messyBed.buff": "+1 Farm Hand",
+  "description.magmaStone.buff.one": "-15% Lava Pit Time",
+  "description.magmaStone.buff.two": "+0,15 Ossidiana",
+  "description.cornucopia.buff": "+1 Rendimento Giant Fruit derivante dai progetti del villaggio"
 }

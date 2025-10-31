@@ -6798,5 +6798,13 @@
   "description.moonFoxStatue": "Ay Tilkisinin nazik saatini onurlandıran bir heykel.",
   "description.vip3": "VİP3.",
   "description.petBowls": "Eşleşen yiyecek ve su kaseleri ile her evcil hayvanı mutlu edin.",
-  "description.petBowls.boost": "Yiyecek talebi başına +10 Pet XP."
+  "description.petBowls.boost": "Yiyecek talebi başına +10 Pet XP.",
+  "villageProjects": "Köy Projeleri",
+  "description.bonusPetCookie.boost": "+1 Evcil Hayvan Kurabiyesi",
+  "description.giantGoldBone.buff": "+2 Daily Teşekkürler",
+  "description.lunarTemple.buff": "+1 oyuncunun anıtlarına ilerlemeye yardımcı olur",
+  "description.messyBed.buff": "+1 Farm Hand",
+  "description.magmaStone.buff.one": "-15% Lav Çukuru Süresi",
+  "description.magmaStone.buff.two": "+0.15 Obsidiyen",
+  "description.cornucopia.buff": "Köy projelerinden +1 Dev Meyve verimi"
 }

@@ -6798,5 +6798,13 @@
   "description.moonFoxStatue": "Uma estátua em homenagem ao relógio gentil da Moon Fox.",
   "description.vip3": "VIP3.",
   "description.petBowls": "Mantenha todos os animais de estimação felizes combinando tigelas de comida e água.",
-  "description.petBowls.boost": "+10 XP para animais de estimação por pedido de comida."
+  "description.petBowls.boost": "+10 XP para animais de estimação por pedido de comida.",
+  "villageProjects": "Projetos de vilas",
+  "description.bonusPetCookie.boost": "+1 biscoito para animais de estimação",
+  "description.giantGoldBone.buff": "+2 aplausos diários",
+  "description.lunarTemple.buff": "+1 ajuda a progredir até os monumentos do jogador",
+  "description.messyBed.buff": "+1 Farm Hand",
+  "description.magmaStone.buff.one": "-15% de tempo do poço de lava",
+  "description.magmaStone.buff.two": "+0,15 Obsidiana",
+  "description.cornucopia.buff": "+1 Produção de frutas gigantes de projetos de vilas"
 }

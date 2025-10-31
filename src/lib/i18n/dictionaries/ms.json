@@ -6798,5 +6798,13 @@
   "description.moonFoxStatue": "Patung yang menghormati jam tangan lembut Moon Fox.",
   "description.vip3": "VIP3.",
   "description.petBowls": "Pastikan setiap haiwan kesayangan gembira dengan mangkuk makanan dan air yang sepadan.",
-  "description.petBowls.boost": "+10 Pet XP setiap permintaan makanan."
+  "description.petBowls.boost": "+10 Pet XP setiap permintaan makanan.",
+  "villageProjects": "Projek Kampung",
+  "description.bonusPetCookie.boost": "+1 Kuki Haiwan Peliharaan",
+  "description.giantGoldBone.buff": "+2 Harian Cheers",
+  "description.lunarTemple.buff": "+1 membantu maju ke monumen pemain",
+  "description.messyBed.buff": "+1 Farm Hand",
+  "description.magmaStone.buff.one": "-15% Masa Lava Pit",
+  "description.magmaStone.buff.two": "+0.15 Obsidian",
+  "description.cornucopia.buff": "+1 Hasil Buah Gergasi daripada projek kampung"
 }

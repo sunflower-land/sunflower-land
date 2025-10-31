@@ -6798,5 +6798,13 @@
   "description.moonFoxStatue": "ムーンフォックスの優しい時計を称える像。",
   "description.vip3": "VIP。",
   "description.petBowls": "お揃いのフードボウルとウォーターボウルですべてのペットを幸せにしましょう。",
-  "description.petBowls.boost": "フードリクエスト1回につきペット経験値+10。"
+  "description.petBowls.boost": "フードリクエスト1回につきペット経験値+10。",
+  "villageProjects": "ビレッジプロジェクト",
+  "description.bonusPetCookie.boost": "+1 ペットクッキー",
+  "description.giantGoldBone.buff": "+2 デイリーチアーズ",
+  "description.lunarTemple.buff": "+1プレイヤーのモニュメントへの進行を助ける",
+  "description.messyBed.buff": "+1 ファームハンド",
+  "description.magmaStone.buff.one": "-15% ラバピットタイム",
+  "description.magmaStone.buff.two": "+0.15 オブシディアン",
+  "description.cornucopia.buff": "+1村のプロジェクトからの巨大果実収量"
 }

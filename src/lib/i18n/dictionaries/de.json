@@ -6798,5 +6798,13 @@
   "description.moonFoxStatue": "Eine Statue zu Ehren der sanften Wache des Mondfuchses.",
   "description.vip3": "VIP3.",
   "description.petBowls": "Sorgen Sie mit passenden Futter- und Wassernäpfen dafür, dass jedes Haustier glücklich ist.",
-  "description.petBowls.boost": "+10 Tier-XP pro Futteranfrage."
+  "description.petBowls.boost": "+10 Tier-XP pro Futteranfrage.",
+  "villageProjects": "Projekte im Dorf",
+  "description.bonusPetCookie.boost": "+1 Plätzchen für Haustiere",
+  "description.giantGoldBone.buff": "+2 tägliche Jubelrufe",
+  "description.lunarTemple.buff": "+1 hilft dabei, die Monumente des Spielers zu erreichen",
+  "description.messyBed.buff": "+1 Farmarbeiter",
+  "description.magmaStone.buff.one": "-15% Lavagrubenzeit",
+  "description.magmaStone.buff.two": "+0.15 Obsidian",
+  "description.cornucopia.buff": "+1 Riesiger Fruchtertrag aus Dorfprojekten"
 }
