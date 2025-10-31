@@ -174,7 +174,6 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
   "Fishing Spear": CAN_WITHDRAW_AND_TRADE,
   "Flip Flops": CAN_WITHDRAW_AND_TRADE,
   Wellies: CAN_WITHDRAW_AND_TRADE,
-  "Saw Fish": CAN_WITHDRAW_AND_TRADE,
   "Skinning Knife": CAN_WITHDRAW_AND_TRADE,
   "Tackle Box": CAN_WITHDRAW_AND_TRADE,
   "Infernal Rod": CAN_WITHDRAW_AND_TRADE,
@@ -502,6 +501,24 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     tradeAt: new Date("2025-09-12"),
     withdrawAt: new Date("2025-09-12"),
     // writing a manual date so that it shows up in what's new section
+  },
+
+  // Paw Prints
+  "Pet Specialist Shirt": {
+    tradeAt: SEASONS["Paw Prints"].endDate,
+    withdrawAt: new Date("2026-03-04T00:00:00Z"),
+  },
+  "Pet Specialist Pants": {
+    tradeAt: SEASONS["Paw Prints"].endDate,
+    withdrawAt: new Date("2026-03-04T00:00:00Z"),
+  },
+  "Pet Specialist Hat": {
+    tradeAt: SEASONS["Paw Prints"].endDate,
+    withdrawAt: new Date("2026-03-04T00:00:00Z"),
+  },
+  "Saw Fish": {
+    tradeAt: SEASONS["Paw Prints"].endDate,
+    withdrawAt: new Date("2026-03-04T00:00:00Z"),
   },
 };
 
@@ -1248,6 +1265,58 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       withdrawAt: new Date("2026-03-04T00:00:00Z"),
     },
     "Astronaut Sheep": {
+      tradeAt: SEASONS["Paw Prints"].endDate,
+      withdrawAt: new Date("2026-03-04T00:00:00Z"),
+    },
+    "Paw Prints Rug": {
+      tradeAt: SEASONS["Paw Prints"].endDate,
+      withdrawAt: new Date("2026-03-04T00:00:00Z"),
+    },
+    "Pet Bed": {
+      tradeAt: SEASONS["Paw Prints"].endDate,
+      withdrawAt: new Date("2026-03-04T00:00:00Z"),
+    },
+    "Pet Bowls": {
+      tradeAt: SEASONS["Paw Prints"].endDate,
+      withdrawAt: new Date("2026-03-04T00:00:00Z"),
+    },
+    "Moon Fox Statue": {
+      tradeAt: SEASONS["Paw Prints"].endDate,
+      withdrawAt: new Date("2026-03-04T00:00:00Z"),
+    },
+    "Giant Acorn": {
+      tradeAt: SEASONS["Paw Prints"].endDate,
+      withdrawAt: new Date("2026-03-04T00:00:00Z"),
+    },
+    "Petnip Plant": {
+      tradeAt: SEASONS["Paw Prints"].endDate,
+      withdrawAt: new Date("2026-03-04T00:00:00Z"),
+    },
+    "Pet Kennel": {
+      tradeAt: SEASONS["Paw Prints"].endDate,
+      withdrawAt: new Date("2026-03-04T00:00:00Z"),
+    },
+    "Pet Toys": {
+      tradeAt: SEASONS["Paw Prints"].endDate,
+      withdrawAt: new Date("2026-03-04T00:00:00Z"),
+    },
+    "Pet Playground": {
+      tradeAt: SEASONS["Paw Prints"].endDate,
+      withdrawAt: new Date("2026-03-04T00:00:00Z"),
+    },
+    "Fish Bowl": {
+      tradeAt: SEASONS["Paw Prints"].endDate,
+      withdrawAt: new Date("2026-03-04T00:00:00Z"),
+    },
+    "Giant Gold Bone": {
+      tradeAt: SEASONS["Paw Prints"].endDate,
+      withdrawAt: new Date("2026-03-04T00:00:00Z"),
+    },
+    "Lunar Temple": {
+      tradeAt: SEASONS["Paw Prints"].endDate,
+      withdrawAt: new Date("2026-03-04T00:00:00Z"),
+    },
+    "Magma Stone": {
       tradeAt: SEASONS["Paw Prints"].endDate,
       withdrawAt: new Date("2026-03-04T00:00:00Z"),
     },

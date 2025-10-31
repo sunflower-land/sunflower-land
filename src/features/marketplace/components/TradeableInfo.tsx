@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
@@ -14,6 +14,7 @@ import grassBg from "assets/ui/3x3_bg.png";
 import brownBg from "assets/brand/brown_background.png";
 import lockIcon from "assets/icons/lock.png";
 import crownIcon from "assets/icons/vip.webp";
+import petNFTEggMarketplace from "assets/pets/pet-nft-egg-marketplace.webp";
 
 import { InventoryItemName } from "features/game/types/game";
 import { isTradeResource } from "features/game/actions/tradeLimits";
@@ -79,11 +80,27 @@ export const TradeableImage: React.FC<{
   const { t } = useAppTranslation();
   const params = useParams();
   const isResource = isTradeResource(display.name as InventoryItemName);
+  // Track the URL we currently render so we can mutate it if the image fails to load.
+  const imageSrcRef = useRef<string>(display.image);
+  // Remember the most recent prop value; when the user navigates to a new item we reset the image.
+  const lastDisplayImageRef = useRef<string>(display.image);
+  if (lastDisplayImageRef.current !== display.image) {
+    imageSrcRef.current = display.image;
+    lastDisplayImageRef.current = display.image;
+  }
+  // Pets have a dedicated egg artwork fallback while other tradeables keep their default imagery.
+  const fallbackImage =
+    display.type === "pets" ? petNFTEggMarketplace : undefined;
 
   const isBumpkinBackground = display.name.includes("Background");
   const useBrownBackground = params.collection === "wearables" || isResource;
   const itemBackground = useBrownBackground ? brownBg : grassBg;
-  const background = display.type === "buds" ? display.image : itemBackground;
+  const background =
+    display.type === "buds" || display.type === "pets"
+      ? display.image
+      : itemBackground;
+  const showFullImage =
+    isBumpkinBackground || display.type === "buds" || display.type === "pets";
 
   const [isPortrait, setIsPortrait] = React.useState(false);
 
@@ -95,24 +112,25 @@ export const TradeableImage: React.FC<{
   return (
     <InnerPanel className="w-full flex relative mb-1" style={{ padding: 0 }}>
       <div className="flex flex-wrap absolute top-2 right-2">
-        {/* {tradeable && (
-      <Label
-        type="formula"
-        icon={increaseArrow}
-        className="mr-2"
-      >{`42% (7D)`}</Label>
-    )} */}
-
         {supply && !isResource ? (
           <Label type="default">{t("marketplace.supply", { supply })}</Label>
         ) : null}
       </div>
 
       <img
-        src={isBumpkinBackground ? display.image : background}
+        src={showFullImage ? imageSrcRef.current : background}
         className="w-full rounded-sm"
+        onError={(e) => {
+          // Swap to the fallback only once to avoid infinite error loops.
+          if (!fallbackImage || imageSrcRef.current === fallbackImage) {
+            return;
+          }
+
+          imageSrcRef.current = fallbackImage;
+          e.currentTarget.src = fallbackImage;
+        }}
       />
-      {!isBumpkinBackground && display.type !== "buds" && (
+      {!showFullImage && (
         <img
           src={display.image}
           className={`absolute ${isPortrait ? "h-1/2" : "w-1/3"}`}

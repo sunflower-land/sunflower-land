@@ -99,9 +99,9 @@ export const CHAPTER_TICKET_BOOST_ITEMS: Record<
 
   // TODO: Add Paw Prings items
   "Paw Prints": {
-    basic: "Cow Scratcher",
-    rare: "Cow Scratcher",
-    epic: "Cow Scratcher",
+    basic: "Pet Specialist Hat",
+    rare: "Pet Specialist Pants",
+    epic: "Pet Specialist Shirt",
   },
 };
 

@@ -26,6 +26,8 @@ import waddlesAsleep from "assets/sfts/pets/penguins/waddles_asleep.webp";
 import pipAsleep from "assets/sfts/pets/penguins/pip_asleep.webp";
 import skipperAsleep from "assets/sfts/pets/penguins/skipper_asleep.webp";
 import petNFTEgg from "assets/icons/pet_nft_egg.png";
+import petNFTEggMarketplace from "assets/pets/pet-nft-egg-marketplace.webp";
+import { CONFIG } from "lib/config";
 
 const PETS_STYLES: Record<
   PetName,
@@ -195,6 +197,18 @@ export const isPetNFT = (petId: PetName | number): petId is number => {
   return typeof petId === "number";
 };
 
+export const petImageDomain =
+  CONFIG.NETWORK === "mainnet" ? "pets" : "testnet-pets";
+
+/*
+ NFT Pet image locations
+ Sheets (Phaser) stored at: https://${petImageDomain}.sunflower-land.com/sheets/${id}.webp
+ Sleeping: https://${petImageDomain}.sunflower-land.com/sleepings/${id}.webp
+ Idle: https://${petImageDomain}.sunflower-land.com/idles/${id}.webp
+ Marketplace: https://${petImageDomain}.sunflower-land.com/marketplace/${id}.webp
+ OpenSea: https://${petImageDomain}.sunflower-land.com/opensea/${id}.webp
+ */
+
 export const getPetImage = (
   state: "asleep" | "happy",
   id: number | PetName,
@@ -205,8 +219,20 @@ export const getPetImage = (
     }
 
     // TODO: Fetch Pet NFT image
-    return ITEM_DETAILS["Ramsey"].image as string;
+    if (state === "asleep") {
+      return `https://${petImageDomain}.sunflower-land.com/sleepings/${id}.webp`;
+    }
+
+    return `https://${petImageDomain}.sunflower-land.com/idles/${id}.webp`;
   }
 
   return PET_STATE_IMAGES[id][state];
+};
+
+export const getPetImageForMarketplace = (id: number) => {
+  if (!isPetNFTRevealed(id, Date.now())) {
+    return petNFTEggMarketplace;
+  }
+
+  return `https://${petImageDomain}.sunflower-land.com/marketplace/${id}.webp`;
 };

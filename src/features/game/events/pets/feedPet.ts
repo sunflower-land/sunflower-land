@@ -1,5 +1,8 @@
 import { getObjectEntries } from "features/game/expansion/lib/utils";
-import { isTemporaryCollectibleActive } from "features/game/lib/collectibleBuilt";
+import {
+  isCollectibleBuilt,
+  isTemporaryCollectibleActive,
+} from "features/game/lib/collectibleBuilt";
 import { CookableName } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
 import {
@@ -71,9 +74,9 @@ export function getPetEnergy({
 }
 
 const BIB_EXPERIENCE_BONUS: Record<BibTrait, number> = {
-  "Basic Bib": 0,
-  "Mid Bib": 5,
-  "Great Bib": 10,
+  "Baby Bib": 0,
+  Collar: 5,
+  "Gold Necklace": 10,
 };
 
 export function getPetExperience({
@@ -108,6 +111,10 @@ export function getPetExperience({
 
   if (isTemporaryCollectibleActive({ name: "Hound Shrine", game })) {
     experience += 100;
+  }
+
+  if (isCollectibleBuilt({ name: "Pet Bowls", game })) {
+    experience += 10;
   }
 
   if (isPetNFT && petData.traits?.bib) {

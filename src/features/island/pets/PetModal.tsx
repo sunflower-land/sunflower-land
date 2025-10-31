@@ -33,6 +33,7 @@ import { ModalOverlay } from "components/ui/ModalOverlay";
 import { ChestRewardsList } from "components/ui/ChestRewardsList";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { PetTypeFed } from "./PetTypeFed";
+import { getPetImage } from "./lib/petShared";
 
 interface Props {
   show: boolean;
@@ -85,7 +86,7 @@ export const PetModal: React.FC<Props> = ({
     });
   };
 
-  const image = ITEM_DETAILS[isNFTPet ? "Ramsey" : data.name].image;
+  const image = getPetImage("happy", petId);
   const type = getPetType(data) as PetType;
   const petCategory = PET_CATEGORIES[type];
   const { level, percentage, currentProgress, experienceBetweenLevels } =

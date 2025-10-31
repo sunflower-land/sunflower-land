@@ -46,7 +46,20 @@ export type SeasonalCollectibleName =
   | "Fruit Tune Box"
   | "Double Bed"
   | "Giant Artichoke"
-  | "Teamwork Monument";
+  | "Teamwork Monument"
+
+  // Paw Prints
+  | "Petnip Plant"
+  | "Pet Kennel"
+  | "Pet Toys"
+  | "Pet Playground"
+  | "Fish Bowl"
+  | "Giant Acorn"
+  | "Giant Gold Bone"
+  | "Lunar Temple"
+  | "Magma Stone"
+  | "Cornucopia"
+  | "Messy Bed";
 
 export type SeasonalWearableName = Extract<
   BumpkinItem,
@@ -79,6 +92,12 @@ export type SeasonalWearableName = Extract<
   | "Raccoon Onesie"
   | "Recycle Shirt"
   | "Pickaxe Shark"
+
+  // Paw Prints
+  | "Pet Specialist Hat"
+  | "Pet Specialist Pants"
+  | "Pet Specialist Shirt"
+  | "Saw Fish"
 >;
 
 export type MegastoreKeys = "Treasure Key" | "Rare Key" | "Luxury Key";
@@ -95,7 +114,7 @@ export type SeasonalStoreWearable = SeasonalStoreBase & {
   wearable: SeasonalWearableName;
 };
 export type SeasonalStoreCollectible = SeasonalStoreBase & {
-  collectible: SeasonalCollectibleName | MegastoreKeys | FlowerBox;
+  collectible: SeasonalCollectibleName | MegastoreKeys | FlowerBox | "Pet Egg";
 };
 
 export type SeasonalStoreItem =
@@ -811,6 +830,125 @@ const BETTER_TOGETHER_ITEMS: SeasonalStore = {
   },
 };
 
+const PAW_PRINTS_ITEMS: SeasonalStore = {
+  basic: {
+    items: [
+      {
+        collectible: "Petnip Plant",
+        cost: { sfl: 10, items: {} },
+      },
+      {
+        collectible: "Pet Kennel",
+        cost: { sfl: 0, items: { "Pet Cookie": 50 } },
+      },
+      {
+        collectible: "Pet Toys",
+        cost: { sfl: 0, items: { "Moon Crystal": 44 } },
+      },
+      {
+        collectible: "Bronze Flower Box",
+        cooldownMs: 7 * 24 * 60 * 60 * 1000,
+        cost: { sfl: 0, items: { "Pet Cookie": 500 } },
+      },
+      {
+        collectible: "Treasure Key",
+        cooldownMs: 24 * 60 * 60 * 1000,
+        cost: { sfl: 0, items: { "Pet Cookie": 250 } },
+      },
+      {
+        wearable: "Pet Specialist Hat",
+        cost: { sfl: 0, items: { "Pet Cookie": 350 } },
+      },
+    ],
+  },
+  rare: {
+    items: [
+      {
+        collectible: "Pet Playground",
+        cost: { sfl: 70, items: {} },
+      },
+      {
+        collectible: "Fish Bowl",
+        cost: { sfl: 0, items: { "Moon Crystal": 88 } },
+      },
+      {
+        collectible: "Silver Flower Box",
+        cooldownMs: 7 * 24 * 60 * 60 * 1000,
+        cost: { sfl: 0, items: { "Pet Cookie": 1250 } },
+      },
+      {
+        collectible: "Rare Key",
+        cooldownMs: 24 * 60 * 60 * 1000,
+        cost: { sfl: 0, items: { "Pet Cookie": 500 } },
+      },
+      {
+        collectible: "Giant Gold Bone",
+        cost: { sfl: 0, items: { "Pet Cookie": 2500 } },
+      },
+      {
+        wearable: "Pet Specialist Pants",
+        cost: { sfl: 0, items: { "Pet Cookie": 700 } },
+      },
+    ],
+    requirement: 4,
+  },
+  epic: {
+    items: [
+      {
+        wearable: "Saw Fish",
+        cost: { sfl: 0, items: { "Moon Crystal": 160 } },
+      },
+      {
+        collectible: "Giant Acorn",
+        cost: { sfl: 0, items: { "Pet Cookie": 1500 } },
+      },
+      {
+        collectible: "Lunar Temple",
+        cost: { sfl: 0, items: { "Pet Cookie": 3500 } },
+      },
+      {
+        collectible: "Gold Flower Box",
+        cooldownMs: 30 * 24 * 60 * 60 * 1000,
+        cost: { sfl: 0, items: { "Pet Cookie": 2500 } },
+      },
+      {
+        collectible: "Luxury Key",
+        cooldownMs: 24 * 60 * 60 * 1000,
+        cost: { sfl: 0, items: { "Pet Cookie": 1000 } },
+      },
+      {
+        collectible: "Messy Bed",
+        cost: {
+          sfl: 0,
+          items: { "Merino Wool": 6000, Crimstone: 300, "Pet Cookie": 2000 },
+        },
+      },
+      {
+        wearable: "Pet Specialist Shirt",
+        cost: { sfl: 400, items: {} },
+      },
+    ],
+    requirement: 4,
+  },
+  mega: {
+    items: [
+      {
+        collectible: "Magma Stone",
+        cost: { sfl: 0, items: { "Pet Cookie": 8000 } },
+      },
+      {
+        collectible: "Cornucopia",
+        cost: { sfl: 0, items: { "Pet Cookie": 1500 } },
+      },
+      {
+        collectible: "Pet Egg",
+        cost: { sfl: 0, items: { "Pet Cookie": 2000 } },
+      },
+    ],
+    requirement: 4,
+  },
+};
+
 export const MEGASTORE: Record<SeasonName, SeasonalStore> = {
   "Catch the Kraken": EMPTY_SEASONAL_STORE,
   "Clash of Factions": EMPTY_SEASONAL_STORE,
@@ -871,6 +1009,5 @@ export const MEGASTORE: Record<SeasonName, SeasonalStore> = {
   },
   "Great Bloom": GREAT_BLOOM_ITEMS,
   "Better Together": BETTER_TOGETHER_ITEMS,
-  // TODO: Add Paw Prints items
-  "Paw Prints": EMPTY_SEASONAL_STORE,
+  "Paw Prints": PAW_PRINTS_ITEMS,
 };

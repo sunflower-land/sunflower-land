@@ -48,7 +48,6 @@ import {
 } from "features/game/events/landExpansion/upgradeBuilding";
 import { LandBiomeName } from "features/island/biomes/biomes";
 import { getCurrentBiome } from "features/island/biomes/biomes";
-import { WORKBENCH_MONUMENTS } from "features/game/types/monuments";
 import { DOLLS } from "features/game/lib/crafting";
 import { isPetNFTRevealed, PET_TYPES, PetNFTs } from "features/game/types/pets";
 import {
@@ -58,6 +57,11 @@ import {
 import { PetNFTDetails } from "components/ui/layouts/PetNFTDetails";
 import { getPetImage } from "features/island/pets/lib/petShared";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
+import {
+  LOVE_CHARM_MONUMENTS,
+  MEGASTORE_MONUMENTS,
+  REWARD_ITEMS,
+} from "features/game/types/monuments";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -371,8 +375,22 @@ export const Chest: React.FC<Props> = ({
   const resources = getKeys(collectibles).filter((name) => name in RESOURCES);
   const buildings = getKeys(collectibles).filter((name) => name in BUILDINGS);
   const monuments = getKeys(collectibles).filter(
-    (name) => name in WORKBENCH_MONUMENTS,
+    (name) => name in { ...LOVE_CHARM_MONUMENTS, ...MEGASTORE_MONUMENTS },
   );
+  const villageProjects = getKeys(collectibles).filter(
+    (name) => name in REWARD_ITEMS,
+  );
+
+  const banners = getKeys(collectibles).filter((name) => name in BANNERS);
+  const beds = getKeys(collectibles).filter((name) => name in BEDS);
+  const weatherItems = getKeys(collectibles).filter(
+    (name) => name in WEATHER_SHOP_ITEM_COSTS,
+  );
+
+  const dolls = getKeys(collectibles).filter((name) => name in DOLLS);
+
+  const pets = getKeys(collectibles).filter((name) => name in PET_TYPES);
+
   const boosts = getKeys(collectibles)
     .filter(
       (name) =>
@@ -388,18 +406,10 @@ export const Chest: React.FC<Props> = ({
       (name) =>
         !resources.includes(name) &&
         !buildings.includes(name) &&
-        !monuments.includes(name),
+        !monuments.includes(name) &&
+        !villageProjects.includes(name) &&
+        !beds.includes(name),
     );
-
-  const banners = getKeys(collectibles).filter((name) => name in BANNERS);
-  const beds = getKeys(collectibles).filter((name) => name in BEDS);
-  const weatherItems = getKeys(collectibles).filter(
-    (name) => name in WEATHER_SHOP_ITEM_COSTS,
-  );
-
-  const dolls = getKeys(collectibles).filter((name) => name in DOLLS);
-
-  const pets = getKeys(collectibles).filter((name) => name in PET_TYPES);
 
   const decorations = getKeys(collectibles).filter(
     (name) =>
@@ -411,7 +421,8 @@ export const Chest: React.FC<Props> = ({
       !weatherItems.includes(name) &&
       !monuments.includes(name) &&
       !dolls.includes(name) &&
-      !pets.includes(name),
+      !pets.includes(name) &&
+      !villageProjects.includes(name),
   );
 
   const ITEM_GROUPS: {
@@ -458,6 +469,11 @@ export const Chest: React.FC<Props> = ({
       items: monuments,
       label: "monuments",
       icon: ITEM_DETAILS["Farmer's Monument"].image,
+    },
+    {
+      items: villageProjects,
+      label: "villageProjects",
+      icon: ITEM_DETAILS["Big Orange"].image,
     },
     {
       items: dolls,

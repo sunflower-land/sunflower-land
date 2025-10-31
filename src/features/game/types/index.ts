@@ -809,6 +809,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Rock Blackfish": 1546,
   Cobia: 1547,
   Tilapia: 1548,
+  "Super Star": 1549,
 
   "White Festive Fox": 2001,
   Rug: 2002,
@@ -1114,6 +1115,14 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Guillotine: 2329,
   "Vampire Coffin": 2330,
 
+  // Paw Prints - Items
+  "Paw Prints Rug": 2331,
+  "Pet Bed": 2332,
+  "Moon Fox Statue": 2333,
+  "Giant Acorn": 2334,
+  "Pet Bowls": 2335,
+  VIP3: 2336,
+
   // Monument Items
   "Big Orange": 2281,
   "Big Apple": 2282,
@@ -1273,6 +1282,16 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Tempered Iron Rock": 2705,
   "Pure Gold Rock": 2706,
   "Prime Gold Rock": 2707,
+  "Petnip Plant": 2708,
+  "Pet Kennel": 2709,
+  "Pet Toys": 2710,
+  "Pet Playground": 2711,
+  "Fish Bowl": 2712,
+  "Giant Gold Bone": 2713,
+  "Lunar Temple": 2714,
+  "Magma Stone": 2715,
+  Cornucopia: 2716,
+  "Messy Bed": 2717,
 };
 
 // The reverse of above

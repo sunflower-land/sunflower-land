@@ -141,7 +141,9 @@ export type BumpkinShirt =
   | "Love Charm Shirt"
   | "Paint Splattered Shirt"
   | "Diamond Patterned Vest"
-  | "Recycle Shirt";
+  | "Recycle Shirt"
+  | "AU3"
+  | "Pet Specialist Shirt";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -161,6 +163,8 @@ export type BumpkinTool =
   | "Parsnip"
   | "Golden Spatula"
   | "Hammer"
+  | "Frying Pan"
+  | "Lunar Weapon"
   | "Ancient War Hammer"
   | "Ancient Goblin Sword"
   | "Pirate Scimitar"
@@ -252,6 +256,7 @@ export type BumpkinNecklace =
   | "Nightshade Medallion"
   | "Sunflorian Medallion"
   | "Dream Scarf"
+  | "Training Whistle"
   | "Cowbell Necklace"
   | "Obsidian Necklace"
   | "Trick and Treat";
@@ -356,7 +361,8 @@ export type BumpkinHat =
   | "Slime Hat"
   | "Garbage Bin Hat"
   | "Turd Topper"
-  | "Sweet Devil Horns";
+  | "Sweet Devil Horns"
+  | "Pet Specialist Hat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -396,7 +402,8 @@ export type BumpkinPant =
   | "Cowgirl Skirt"
   | "Fossil Pants"
   | "Bunny Pants"
-  | "Paint Splattered Overalls";
+  | "Paint Splattered Overalls"
+  | "Pet Specialist Pants";
 
 export type BumpkinDress =
   | "Royal Dress"
@@ -1065,6 +1072,13 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Underworld Stimpack": 496,
   "Sweet Devil Wings": 497,
   "Wisp Aura": 498,
+  "Lunar Weapon": 499,
+  "Frying Pan": 500,
+  "Training Whistle": 501,
+  AU3: 502,
+  "Pet Specialist Shirt": 503,
+  "Pet Specialist Pants": 504,
+  "Pet Specialist Hat": 505,
 };
 
 // The reverse of above
@@ -1624,6 +1638,13 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Underworld Stimpack": "wings",
   "Sweet Devil Wings": "wings",
   "Wisp Aura": "aura",
+  "Lunar Weapon": "tool",
+  "Frying Pan": "tool",
+  "Training Whistle": "necklace",
+  AU3: "shirt",
+  "Pet Specialist Shirt": "shirt",
+  "Pet Specialist Pants": "pants",
+  "Pet Specialist Hat": "hat",
 };
 
 /**Copied from BE just for hoarding checks */

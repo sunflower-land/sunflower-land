@@ -18,6 +18,21 @@ type Metadata = {
 };
 
 export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
+  "Super Star": {
+    description: "A super star that grants +1 fish during winter months!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1549.webp",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Fish" },
+      {
+        display_type: "boost_number",
+        trait_type: "+1 fish during winter",
+        value: 1,
+      },
+    ],
+  },
   "Baby Cow": {
     description:
       "Who doesn't love a baby cow? +10 cow xp from animal affection tools.",
@@ -4708,6 +4723,16 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     attributes: [
       { trait_type: "Purpose", value: "Coupon" },
       { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  VIP3: {
+    description: "VIP3",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2336.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "Yes" },
     ],
   },
   "Valentine Bear": {
@@ -12725,6 +12750,61 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/768.webp",
     name: "Moon Crystal",
   },
+  "Paw Prints Rug": {
+    description: "A cozy rug patterned with playful paw prints.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2331.png",
+    name: "Paw Prints Rug",
+  },
+  "Pet Bed": {
+    description: "A snug resting spot for your loyal companions.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2332.png",
+    name: "Pet Bed",
+  },
+  "Moon Fox Statue": {
+    description: "A statue honoring the Moon Fox's gentle watch.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2333.png",
+    name: "Moon Fox Statue",
+  },
+  "Giant Acorn": {
+    description: "A towering acorn that brings woodland charm to your farm.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2334.png",
+    name: "Giant Acorn",
+  },
+  "Pet Bowls": {
+    description: "Keep your furry friends happily fed with matching bowls.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2335.png",
+    name: "Pet Bowls",
+  },
 
   Trash: {
     description: "A piece of trash",
@@ -13353,6 +13433,86 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/.webp",
     name: "Vampire Coffin",
+  },
+  "Petnip Plant": {
+    description: "",
+    decimals: 0,
+    attributes: [],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "",
+    name: "Petnip Plant",
+  },
+  "Pet Kennel": {
+    description: "",
+    decimals: 0,
+    attributes: [],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "",
+    name: "Pet Kennel",
+  },
+  "Pet Toys": {
+    description: "",
+    decimals: 0,
+    attributes: [],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "",
+    name: "Pet Toys",
+  },
+  "Pet Playground": {
+    description: "",
+    decimals: 0,
+    attributes: [],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "",
+    name: "Pet Playground",
+  },
+  "Fish Bowl": {
+    description: "",
+    decimals: 0,
+    attributes: [],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "",
+    name: "Fish Bowl",
+  },
+  "Giant Gold Bone": {
+    description: "",
+    decimals: 0,
+    attributes: [],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "",
+    name: "Giant Gold Bone",
+  },
+  "Lunar Temple": {
+    description: "",
+    decimals: 0,
+    attributes: [],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "",
+    name: "Lunar Temple",
+  },
+  "Magma Stone": {
+    description: "",
+    decimals: 0,
+    attributes: [],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "",
+    name: "Magma Stone",
+  },
+  Cornucopia: {
+    description: "",
+    decimals: 0,
+    attributes: [],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "",
+    name: "Cornucopia",
+  },
+  "Messy Bed": {
+    description: "",
+    decimals: 0,
+    attributes: [],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "",
+    name: "Messy Bed",
   },
 };
 
@@ -15107,6 +15267,52 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/147.png",
     name: "Bidder's Brocade",
+  },
+  "Lunar Weapon": {
+    description:
+      "A mysterious weapon infused with moonlight, humming with celestial energy.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/499.png",
+    name: "Lunar Weapon",
+  },
+  "Frying Pan": {
+    description: "A trusty iron pan, seasoned for sizzling meals at sunrise.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/500.png",
+    name: "Frying Pan",
+  },
+  "Training Whistle": {
+    description: "A sharp whistle that keeps every champion focused and ready.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Necklace" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/501.png",
+    name: "Training Whistle",
+  },
+  AU3: {
+    description:
+      "A tailored uniform stitched for those who lead with confidence.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shirt" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/502.png",
+    name: "AU3",
   },
   "Harry's Hat": {
     description:
@@ -19773,5 +19979,29 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/498.webp",
     name: "Wisp Aura",
+  },
+  "Pet Specialist Shirt": {
+    description: "",
+    decimals: 0,
+    attributes: [],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "",
+    name: "Pet Specialist Shirt",
+  },
+  "Pet Specialist Pants": {
+    description: "",
+    decimals: 0,
+    attributes: [],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "",
+    name: "Pet Specialist Pants",
+  },
+  "Pet Specialist Hat": {
+    description: "",
+    decimals: 0,
+    attributes: [],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "",
+    name: "Pet Specialist Hat",
   },
 };
