@@ -1281,6 +1281,16 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Tempered Iron Rock": 2705,
   "Pure Gold Rock": 2706,
   "Prime Gold Rock": 2707,
+  "Petnip Plant": 2708,
+  "Pet Kennel": 2709,
+  "Pet Toys": 2710,
+  "Pet Playground": 2711,
+  "Fish Bowl": 2712,
+  "Giant Gold Bone": 2713,
+  "Lunar Temple": 2714,
+  "Magma Stone": 2715,
+  Cornucopia: 2716,
+  "Messy Bed": 2717,
 };
 
 // The reverse of above

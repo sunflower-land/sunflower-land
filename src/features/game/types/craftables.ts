@@ -1518,6 +1518,16 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Sleepy Chicken": { width: 1, height: 2 },
   "Astronaut Cow": { width: 1, height: 1 },
   "Astronaut Sheep": { width: 1, height: 1 },
+  "Petnip Plant": { width: 2, height: 1 },
+  "Pet Kennel": { width: 2, height: 2 },
+  "Pet Toys": { width: 1, height: 1 },
+  "Pet Playground": { width: 2, height: 2 },
+  "Fish Bowl": { width: 2, height: 1 },
+  "Giant Gold Bone": { width: 2, height: 1 },
+  "Lunar Temple": { width: 3, height: 3 },
+  "Magma Stone": { width: 1, height: 2 },
+  Cornucopia: { width: 3, height: 2 },
+  "Messy Bed": { width: 1, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

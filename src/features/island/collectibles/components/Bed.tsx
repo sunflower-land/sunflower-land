@@ -27,6 +27,7 @@ export const BED_WIDTH: Record<BedName, number> = {
   "Pirate Bed": 16,
   "Royal Bed": 16,
   "Double Bed": 24,
+  "Messy Bed": 17,
 };
 
 export const BED_HEIGHT: Record<BedName, number> = {
@@ -39,6 +40,7 @@ export const BED_HEIGHT: Record<BedName, number> = {
   "Pirate Bed": 34,
   "Royal Bed": 22,
   "Double Bed": 18,
+  "Messy Bed": 20,
 };
 
 const _farmhands = (state: MachineState) =>

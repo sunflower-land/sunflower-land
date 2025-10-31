@@ -142,7 +142,8 @@ export type BumpkinShirt =
   | "Paint Splattered Shirt"
   | "Diamond Patterned Vest"
   | "Recycle Shirt"
-  | "AU3";
+  | "AU3"
+  | "Pet Specialist Shirt";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -360,7 +361,8 @@ export type BumpkinHat =
   | "Slime Hat"
   | "Garbage Bin Hat"
   | "Turd Topper"
-  | "Sweet Devil Horns";
+  | "Sweet Devil Horns"
+  | "Pet Specialist Hat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -400,7 +402,8 @@ export type BumpkinPant =
   | "Cowgirl Skirt"
   | "Fossil Pants"
   | "Bunny Pants"
-  | "Paint Splattered Overalls";
+  | "Paint Splattered Overalls"
+  | "Pet Specialist Pants";
 
 export type BumpkinDress =
   | "Royal Dress"
@@ -1073,6 +1076,9 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Frying Pan": 500,
   "Training Whistle": 501,
   AU3: 502,
+  "Pet Specialist Shirt": 503,
+  "Pet Specialist Pants": 504,
+  "Pet Specialist Hat": 505,
 };
 
 // The reverse of above
@@ -1636,6 +1642,9 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Frying Pan": "tool",
   "Training Whistle": "necklace",
   AU3: "shirt",
+  "Pet Specialist Shirt": "shirt",
+  "Pet Specialist Pants": "pants",
+  "Pet Specialist Hat": "hat",
 };
 
 /**Copied from BE just for hoarding checks */
