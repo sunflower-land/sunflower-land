@@ -284,6 +284,9 @@ const detect = (
   // send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
 };
 
+// Keep track of the only one overlap menu open across all MoveableComponent instances
+let closeCurrentOverlapMenu: (() => void) | null = null;
+
 export const MoveableComponent: React.FC<
   React.PropsWithChildren<MovableProps>
 > = ({
@@ -316,6 +319,16 @@ export const MoveableComponent: React.FC<
   const overlapRef = useRef<HTMLDivElement>(null);
   const skipNextOutsideClick = useRef(false);
   const suppressNextMenuOpen = useRef(false);
+  const localCloserRef = useRef<() => void>();
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (closeCurrentOverlapMenu === localCloserRef.current) {
+        closeCurrentOverlapMenu = null;
+      }
+    };
+  }, []);
 
   // Close overlap menu when clicking outside
   useEffect(() => {
@@ -330,6 +343,9 @@ export const MoveableComponent: React.FC<
       const target = e.target as Node;
       if (!overlapRef.current.contains(target)) {
         setShowOverlapMenu(false);
+        if (closeCurrentOverlapMenu === localCloserRef.current) {
+          closeCurrentOverlapMenu = null;
+        }
       }
     };
 
@@ -337,7 +353,6 @@ export const MoveableComponent: React.FC<
     const id = setTimeout(() => {
       document.addEventListener("mousedown", onDocMouseDown);
     }, 0);
-
     return () => {
       clearTimeout(id);
       document.removeEventListener("mousedown", onDocMouseDown);
@@ -703,12 +718,17 @@ export const MoveableComponent: React.FC<
 
         // Show overlap menu if there are overlapping collectibles in the same coordinates
         if (overlaps.length > 1) {
-          // Defer opening the menu to avoid opening during an immediate drag
+          // Close any previously open overlap menu
+          if (closeCurrentOverlapMenu) closeCurrentOverlapMenu();
           setTimeout(() => {
             if (!isDragging) {
               setOverlapChoices(overlaps);
               setShowOverlapMenu(true);
               skipNextOutsideClick.current = true;
+              // Register this menu as the current one
+              const closer = () => setShowOverlapMenu(false);
+              localCloserRef.current = closer;
+              closeCurrentOverlapMenu = closer;
             }
           }, 0);
           isActive.current = true;
@@ -780,6 +800,9 @@ export const MoveableComponent: React.FC<
                     setShowOverlapMenu(false);
                     // Prevent the menu from reopening on the next mousedown
                     suppressNextMenuOpen.current = true;
+                    if (closeCurrentOverlapMenu === localCloserRef.current) {
+                      closeCurrentOverlapMenu = null;
+                    }
                     landscapingMachine.send("MOVE", {
                       name: choice.name,
                       id: choice.id,

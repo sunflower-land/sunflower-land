@@ -12,7 +12,7 @@ import { CollectibleName } from "features/game/types/craftables";
  */
 export type GameGrid = Record<number, Record<number, CollectibleName>>;
 
-function isFence(name: CollectibleName | undefined) {
+function isFence(name: CollectibleName) {
   return (
     name === "Fence" ||
     name === "Stone Fence" ||
