@@ -80,7 +80,15 @@ export const TradeableImage: React.FC<{
   const { t } = useAppTranslation();
   const params = useParams();
   const isResource = isTradeResource(display.name as InventoryItemName);
+  // Track the URL we currently render so we can mutate it if the image fails to load.
   const imageSrcRef = useRef<string>(display.image);
+  // Remember the most recent prop value; when the user navigates to a new item we reset the image.
+  const lastDisplayImageRef = useRef<string>(display.image);
+  if (lastDisplayImageRef.current !== display.image) {
+    imageSrcRef.current = display.image;
+    lastDisplayImageRef.current = display.image;
+  }
+  // Pets have a dedicated egg artwork fallback while other tradeables keep their default imagery.
   const fallbackImage =
     display.type === "pets" ? petNFTEggMarketplace : undefined;
 
@@ -113,6 +121,7 @@ export const TradeableImage: React.FC<{
         src={showFullImage ? imageSrcRef.current : background}
         className="w-full rounded-sm"
         onError={(e) => {
+          // Swap to the fallback only once to avoid infinite error loops.
           if (!fallbackImage || imageSrcRef.current === fallbackImage) {
             return;
           }
