@@ -6811,5 +6811,6 @@
   "description.hauntedTomb": "A ghostly wisp sits atop, probably judging your farming skills.",
   "description.guillotine": "The ultimate tool for a clean cut harvest.",
   "description.vampireCoffin": "He only comes out for night farming. Garlic not included.",
-  "eventHalloween.noticeboard.one": "Welcome to the Halloween 2025 Event!"
+  "eventHalloween.noticeboard.one": "Welcome to the Halloween 2025 Event!",
+  "pet.grave.message": "Hmm, someone's pet passed away...It's name was Izzy."
 }
