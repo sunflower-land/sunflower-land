@@ -6797,5 +6797,6 @@
   "description.petBed": "Um local de descanso confortável para seus companheiros leais.",
   "description.moonFoxStatue": "Uma estátua em homenagem ao relógio gentil da Moon Fox.",
   "description.vip3": "VIP3.",
-  "description.petBowls": "Mantenha todos os animais de estimação felizes combinando tigelas de comida e água."
+  "description.petBowls": "Mantenha todos os animais de estimação felizes combinando tigelas de comida e água.",
+  "description.petBowls.boost": "+10 XP para animais de estimação por pedido de comida."
 }

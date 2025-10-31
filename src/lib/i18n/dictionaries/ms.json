@@ -6797,5 +6797,6 @@
   "description.petBed": "Tempat rehat yang selesa untuk sahabat setia anda.",
   "description.moonFoxStatue": "Patung yang menghormati jam tangan lembut Moon Fox.",
   "description.vip3": "VIP3.",
-  "description.petBowls": "Pastikan setiap haiwan kesayangan gembira dengan mangkuk makanan dan air yang sepadan."
+  "description.petBowls": "Pastikan setiap haiwan kesayangan gembira dengan mangkuk makanan dan air yang sepadan.",
+  "description.petBowls.boost": "+10 Pet XP setiap permintaan makanan."
 }

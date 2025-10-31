@@ -6797,5 +6797,6 @@
   "description.petBed": "충성스러운 동반자를 위한 아늑한 휴식처입니다.",
   "description.moonFoxStatue": "문 폭스의 부드러운 시계를 기리는 조각상.",
   "description.vip3": "VIP3.",
-  "description.petBowls": "어울리는 음식과 물그릇으로 모든 반려동물을 행복하게 해주세요."
+  "description.petBowls": "어울리는 음식과 물그릇으로 모든 반려동물을 행복하게 해주세요.",
+  "description.petBowls.boost": "음식 요청당 애완동물 경험치 +10"
 }

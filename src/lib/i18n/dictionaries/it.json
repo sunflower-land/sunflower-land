@@ -6797,5 +6797,6 @@
   "description.petBed": "Un luogo di riposo accogliente per i tuoi fedeli compagni.",
   "description.moonFoxStatue": "Una statua in onore del gentile orologio della volpe lunare.",
   "description.vip3": "VIP 3.",
-  "description.petBowls": "Fai felice ogni animale domestico con ciotole per cibo e acqua abbinate."
+  "description.petBowls": "Fai felice ogni animale domestico con ciotole per cibo e acqua abbinate.",
+  "description.petBowls.boost": "+10 Pet XP per richiesta di cibo."
 }

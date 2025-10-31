@@ -6797,5 +6797,6 @@
   "description.petBed": "Sadık arkadaşlarınız için rahat bir dinlenme yeri.",
   "description.moonFoxStatue": "Ay Tilkisinin nazik saatini onurlandıran bir heykel.",
   "description.vip3": "VİP3.",
-  "description.petBowls": "Eşleşen yiyecek ve su kaseleri ile her evcil hayvanı mutlu edin."
+  "description.petBowls": "Eşleşen yiyecek ve su kaseleri ile her evcil hayvanı mutlu edin.",
+  "description.petBowls.boost": "Yiyecek talebi başına +10 Pet XP."
 }

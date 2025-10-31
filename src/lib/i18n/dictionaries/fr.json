@@ -6797,5 +6797,6 @@
   "description.petBed": "Un lieu de repos douillet pour vos fidèles compagnons.",
   "description.moonFoxStatue": "Une statue rendant hommage à la gentille montre du Moon Fox.",
   "description.vip3": "VIP3.",
-  "description.petBowls": "Faites plaisir à chaque animal de compagnie grâce à des bols de nourriture et d'eau assortis."
+  "description.petBowls": "Faites plaisir à chaque animal de compagnie grâce à des bols de nourriture et d'eau assortis.",
+  "description.petBowls.boost": "+10 points d'expérience pour animaux de compagnie par demande de nourriture."
 }

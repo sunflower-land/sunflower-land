@@ -6797,5 +6797,6 @@
   "description.petBed": "忠実な仲間たちのための心地よい休憩場所。",
   "description.moonFoxStatue": "ムーンフォックスの優しい時計を称える像。",
   "description.vip3": "VIP。",
-  "description.petBowls": "お揃いのフードボウルとウォーターボウルですべてのペットを幸せにしましょう。"
+  "description.petBowls": "お揃いのフードボウルとウォーターボウルですべてのペットを幸せにしましょう。",
+  "description.petBowls.boost": "フードリクエスト1回につきペット経験値+10。"
 }
