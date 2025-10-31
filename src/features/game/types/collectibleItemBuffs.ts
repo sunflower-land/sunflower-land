@@ -1700,6 +1700,13 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: powerup,
     },
   ],
+  "Pet Bowls": () => [
+    {
+      shortDescription: translate("description.petBowls.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+  ],
   "Stag Shrine": () => [
     {
       shortDescription: translate("description.stagShrine.buff"),

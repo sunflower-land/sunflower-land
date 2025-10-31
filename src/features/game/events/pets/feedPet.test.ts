@@ -744,6 +744,60 @@ describe("feedPet", () => {
     expect(BarkleyData?.experience).toEqual(1700);
   });
 
+  it("feeds pet with Pet Bowls boost", () => {
+    const state = feedPet({
+      state: {
+        ...INITIAL_FARM,
+        pets: {
+          common: {
+            Barkley: {
+              name: "Barkley",
+              requests: {
+                food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+                foodFed: [],
+                fedAt: now,
+              },
+              energy: 0,
+              experience: 1500, // Level 5
+              pettedAt: now,
+            },
+          },
+        },
+        inventory: {
+          "Bumpkin Salad": new Decimal(10),
+        },
+        collectibles: {
+          "Pet Bowls": [
+            {
+              createdAt: now,
+              id: "1",
+              readyAt: now,
+              coordinates: { x: 2, y: 2 },
+            },
+          ],
+          Barkley: [
+            {
+              createdAt: now,
+              id: "1",
+              readyAt: now,
+              coordinates: { x: 1, y: 1 },
+            },
+          ],
+        },
+      },
+      action: {
+        type: "pet.fed",
+        petId: "Barkley",
+        food: "Bumpkin Salad",
+      },
+      createdAt: now,
+    });
+    const BarkleyData = state.pets?.common?.Barkley;
+
+    expect(BarkleyData?.energy).toEqual(105);
+    expect(BarkleyData?.experience).toEqual(1610);
+  });
+
   it("gives experience boost for level 27", () => {
     const level27XP = 27 * 26 * 50;
     const state = feedPet({
