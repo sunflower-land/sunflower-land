@@ -2292,7 +2292,6 @@ export function startGame(authContext: AuthContext) {
               } = event as DepositEvent;
 
               await depositToFarm({
-                sfl: "0", // Hardcoded to 0 for now. SFL is retired.
                 account: wallet.getAccount() as `0x${string}`,
                 farmId: context.nftId as number,
                 itemIds: itemIds,
