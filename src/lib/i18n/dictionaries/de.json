@@ -6806,5 +6806,9 @@
   "description.messyBed.buff": "+1 Farmarbeiter",
   "description.magmaStone.buff.one": "-15% Lavagrubenzeit",
   "description.magmaStone.buff.two": "+0.15 Obsidian",
-  "description.cornucopia.buff": "+1 Riesiger Fruchtertrag aus Dorfprojekten"
+  "description.cornucopia.buff": "+1 Riesiger Fruchtertrag aus Dorfprojekten",
+  "description.super.star.boost": "+1 Fisch",
+  "description.super.star": "Ein Superstar, der in den Wintermonaten +1 Fische gewährt!",
+  "chumDetails.acorn": "Der Superkumpel!",
+  "pet.grave.message": "Hmm, das Haustier von jemandem ist gestorben... Es hieß Izzy."
 }

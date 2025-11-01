@@ -6806,5 +6806,9 @@
   "description.messyBed.buff": "+1 Farm Hand",
   "description.magmaStone.buff.one": "-15% Masa Lava Pit",
   "description.magmaStone.buff.two": "+0.15 Obsidian",
-  "description.cornucopia.buff": "+1 Hasil Buah Gergasi daripada projek kampung"
+  "description.cornucopia.buff": "+1 Hasil Buah Gergasi daripada projek kampung",
+  "description.super.star.boost": "+1 Ikan",
+  "description.super.star": "Bintang super yang memberikan +1 ikan semasa musim sejuk!",
+  "chumDetails.acorn": "Rakan super!",
+  "pet.grave.message": "Hmm, haiwan kesayangan seseorang meninggal dunia... Namanya Izzy."
 }

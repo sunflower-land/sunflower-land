@@ -6806,5 +6806,9 @@
   "description.messyBed.buff": "+1 ファームハンド",
   "description.magmaStone.buff.one": "-15% ラバピットタイム",
   "description.magmaStone.buff.two": "+0.15 オブシディアン",
-  "description.cornucopia.buff": "+1村のプロジェクトからの巨大果実収量"
+  "description.cornucopia.buff": "+1村のプロジェクトからの巨大果実収量",
+  "description.super.star.boost": "+1 フィッシュ",
+  "description.super.star": "冬の間は+1匹の魚がもらえるスーパースター！",
+  "chumDetails.acorn": "スーパーチャム！",
+  "pet.grave.message": "うーん、誰かのペットが亡くなりました... 名前はイジーでした。"
 }

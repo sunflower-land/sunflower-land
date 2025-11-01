@@ -94,6 +94,7 @@ type InteractableName =
   | "petal_clue"
   | "plaza_orange_book"
   | "plaza_green_book"
+  | "pet_grave"
   | "mega_bounty_board"
   | "potion_house"
   | "clubhouse_reward"
@@ -438,6 +439,17 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
             },
             {
               text: t("interactableModals.plazaGreenBook.message2"),
+            },
+          ]}
+        />
+      </Modal>
+      <Modal show={interactable === "pet_grave"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.chase}
+          message={[
+            {
+              text: t("pet.grave.message"),
             },
           ]}
         />

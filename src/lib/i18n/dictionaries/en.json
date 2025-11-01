@@ -353,6 +353,7 @@
   "description.humming.bird.boost": "20% Chance for +1 Flower",
   "description.beehive.boost": "10% Chance for +0.2 Crop when Beehive is full",
   "description.walrus.boost": "+1 Fish",
+  "description.super.star.boost": "+1 Fish",
   "description.alba.boost": "50% Chance of +1 Basic Fish",
   "description.knowledge.crab.boost": "Double Sprout Mix Boost Effect",
   "description.maneki.neko.boost": "1 Free Food per Day",
@@ -1595,6 +1596,7 @@
   "description.phantom.barracuda": "An elusive and ghostly fish of the deep, hiding in the shadows.",
   "description.gilded.swordfish": "A swordfish with scales that sparkle like gold, the ultimate catch!",
   "description.crimson.carp": "A rare, vibrant jewel of the Spring waters.",
+  "description.super.star": "A super star that grants +1 fish during winter months!",
   "description.battle.fish": "The rare armored swimmer of faction season!",
   "description.lemon.shark": "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure season.",
   "description.longhorn.cowfish": "A peculiar boxfish with horn-like spines, swimming through the seas with bovine grace.",
@@ -6351,6 +6353,7 @@
   "clutter.trashBinFull": "Trash bin full",
   "description.poseidon": "The mythical Poseidon, the god of the sea.",
   "chumDetails.weed": "Special chum that attracts the god of the sea",
+  "chumDetails.acorn": "The super chum!",
   "description.poseidon.boost": "+1 Fish during Autumn",
   "visitorGuide.farmTitle": "{{username}}'s Farm",
   "visitorGuide.welcomeMessage": "Howdy Bumpkin, welcome to my farm. Roll up your sleeves and help me out. Who knows, I may return the favor!",
@@ -6806,5 +6809,6 @@
   "description.hauntedTomb": "A ghostly wisp sits atop, probably judging your farming skills.",
   "description.guillotine": "The ultimate tool for a clean cut harvest.",
   "description.vampireCoffin": "He only comes out for night farming. Garlic not included.",
-  "eventHalloween.noticeboard.one": "Welcome to the Halloween 2025 Event!"
+  "eventHalloween.noticeboard.one": "Welcome to the Halloween 2025 Event!",
+  "pet.grave.message": "Hmm, someone's pet passed away...It's name was Izzy."
 }

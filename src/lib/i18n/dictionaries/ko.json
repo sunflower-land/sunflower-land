@@ -6806,5 +6806,9 @@
   "description.messyBed.buff": "+1 팜 핸드",
   "description.magmaStone.buff.one": "-15% 라바 피트 타임",
   "description.magmaStone.buff.two": "+0.15 옵시디언",
-  "description.cornucopia.buff": "마을 프로젝트를 통한 자이언트 과일 수확량 +1"
+  "description.cornucopia.buff": "마을 프로젝트를 통한 자이언트 과일 수확량 +1",
+  "description.super.star.boost": "+1 피쉬",
+  "description.super.star": "겨울철에 물고기 1마리를 획득할 수 있는 슈퍼 스타!",
+  "chumDetails.acorn": "정말 좋은 친구!",
+  "pet.grave.message": "흠, 누군가의 애완동물이 죽었어요... 이름은 이지였어요."
 }

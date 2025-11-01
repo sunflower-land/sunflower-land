@@ -6806,5 +6806,9 @@
   "description.messyBed.buff": "+1 雇农",
   "description.magmaStone.buff.one": "-15% 岩浆池燃烧时间",
   "description.magmaStone.buff.two": "+0.15 黑曜石",
-  "description.cornucopia.buff": "村庄项目的巨型水果产量 +1"
+  "description.cornucopia.buff": "村庄项目的巨型水果产量 +1",
+  "description.super.star.boost": "+1 鱼",
+  "description.super.star": "一颗超级巨星，在冬季可以获得 +1 条鱼！",
+  "chumDetails.acorn": "超级密友！",
+  "pet.grave.message": "嗯，有人家的宠物死了... 它叫伊齐。"
 }

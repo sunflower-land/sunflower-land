@@ -6806,5 +6806,9 @@
   "description.messyBed.buff": "+1 Farm Hand",
   "description.magmaStone.buff.one": "-15% Lav Çukuru Süresi",
   "description.magmaStone.buff.two": "+0.15 Obsidiyen",
-  "description.cornucopia.buff": "Köy projelerinden +1 Dev Meyve verimi"
+  "description.cornucopia.buff": "Köy projelerinden +1 Dev Meyve verimi",
+  "description.super.star.boost": "+1 Balık",
+  "description.super.star": "Kış aylarında +1 balık veren süper yıldız!",
+  "chumDetails.acorn": "Süper arkadaş!",
+  "pet.grave.message": "Hmm, birinin evcil hayvanı vefat etti... Adı Izzy'di."
 }
