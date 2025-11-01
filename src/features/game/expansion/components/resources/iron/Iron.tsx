@@ -20,8 +20,13 @@ import { IronRockName } from "features/game/types/resources";
 const HITS = 3;
 const tool = "Stone Pickaxe";
 
-const HasTool = (inventory: Partial<Record<InventoryItemName, Decimal>>) => {
-  return (inventory[tool] ?? new Decimal(0)).gte(1);
+const HasTool = (
+  inventory: Partial<Record<InventoryItemName, Decimal>>,
+  ironRock: Rock,
+) => {
+  const requiredToolAmount = ironRock.multiplier ?? 1;
+  if (requiredToolAmount <= 0) return true;
+  return (inventory[tool] ?? new Decimal(0)).gte(requiredToolAmount);
 };
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
@@ -67,6 +72,7 @@ export const Iron: React.FC<Props> = ({ id }) => {
     };
   }, []);
 
+  const state = useSelector(gameService, selectGame);
   const resource = useSelector(
     gameService,
     (state) => state.context.state.iron[id],
@@ -77,15 +83,13 @@ export const Iron: React.FC<Props> = ({ id }) => {
     gameService,
     selectInventory,
     (prev, next) =>
-      HasTool(prev) === HasTool(next) &&
+      HasTool(prev, resource) === HasTool(next, resource) &&
       (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0)),
   );
 
-  const state = useSelector(gameService, selectGame);
-
   const skills = useSelector(gameService, selectSkills, compareSkills);
 
-  const hasTool = HasTool(inventory);
+  const hasTool = HasTool(inventory, resource);
   const timeLeft = getTimeLeft(resource.stone.minedAt, IRON_RECOVERY_TIME);
   const mined = !canMine(resource, ironRockName);
 
@@ -150,6 +154,8 @@ export const Iron: React.FC<Props> = ({ id }) => {
             hasTool={hasTool}
             touchCount={touchCount}
             ironRockName={ironRockName}
+            requiredToolAmount={new Decimal(resource.multiplier ?? 1)}
+            inventory={inventory}
           />
         </div>
       )}
