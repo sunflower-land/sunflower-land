@@ -14,16 +14,28 @@ export const TRADE_INITIATION_MS = 15 * 60 * 1000;
 
 export type CollectionName = "collectibles" | "wearables" | "buds" | "pets";
 
-export type Tradeable = {
-  id: number;
-  floor: number;
-  lastSalePrice: number;
-  supply: number;
-  collection: CollectionName;
-  isActive: boolean;
-  isVip: boolean;
-  expiresAt?: number;
-};
+export type Tradeable =
+  | {
+      id: number;
+      floor: number;
+      lastSalePrice: number;
+      isActive: boolean;
+      isVip: boolean;
+      supply: number | undefined;
+      collection: Exclude<CollectionName, "pets">;
+      expiresAt?: number;
+    }
+  | {
+      id: number;
+      floor: number;
+      lastSalePrice: number;
+      isActive: boolean;
+      isVip: boolean;
+      supply: number | undefined;
+      collection: Extract<CollectionName, "pets">;
+      expiresAt?: number;
+      experience?: number;
+    };
 
 export type Offer = {
   tradeId: string;
