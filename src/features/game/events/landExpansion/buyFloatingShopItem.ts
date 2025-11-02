@@ -93,10 +93,14 @@ export function buyFloatingShopItem({
       copy.wardrobe[item.name] = current + 1;
     }
 
-    copy.bumpkin.activity = trackActivity(
-      `${name} Bought`,
-      copy.bumpkin.activity,
-    );
+    // Exclude Pet Egg from activity tracking as it conflicts with megastore.
+    // Condition to check if petEgg has been bought doesn't require "Pet Egg Bought" activity
+    if (name !== "Pet Egg") {
+      copy.bumpkin.activity = trackActivity(
+        `${name} Bought`,
+        copy.bumpkin.activity,
+      );
+    }
 
     if (!floatingIsland.boughtAt) {
       floatingIsland.boughtAt = {};
