@@ -163,7 +163,7 @@ export type BumpkinTool =
   | "Parsnip"
   | "Golden Spatula"
   | "Hammer"
-  | "Frying Pan"
+  | "Cleaver Knife"
   | "Lunar Weapon"
   | "Ancient War Hammer"
   | "Ancient Goblin Sword"
@@ -1073,7 +1073,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Sweet Devil Wings": 497,
   "Wisp Aura": 498,
   "Lunar Weapon": 499,
-  "Frying Pan": 500,
+  "Cleaver Knife": 500,
   "Training Whistle": 501,
   AU3: 502,
   "Pet Specialist Shirt": 503,
@@ -1639,7 +1639,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Sweet Devil Wings": "wings",
   "Wisp Aura": "aura",
   "Lunar Weapon": "tool",
-  "Frying Pan": "tool",
+  "Cleaver Knife": "tool",
   "Training Whistle": "necklace",
   AU3: "shirt",
   "Pet Specialist Shirt": "shirt",

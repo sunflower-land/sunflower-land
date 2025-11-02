@@ -977,6 +977,41 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       boostedItemIcon: baits,
     },
   ],
+  "Lunar Weapon": [
+    {
+      shortDescription: translate("description.lunarWeapon.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+  ],
+  "Cleaver Knife": [
+    {
+      shortDescription: translate("description.cleaverKnife.boost.1"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+    {
+      shortDescription: translate("description.cleaverKnife.boost.2"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+  ],
+  "Training Whistle": [
+    {
+      shortDescription: translate("description.trainingWhistle.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.resource.leather,
+    },
+  ],
+  "Squirrel Onesie": [
+    {
+      shortDescription: translate("description.squirrelOnesie.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.resource.acorn,
+    },
+  ],
   ...SPECIAL_ITEM_LABELS,
   ...Object.fromEntries(
     getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)
