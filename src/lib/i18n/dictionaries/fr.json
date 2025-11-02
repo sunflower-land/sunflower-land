@@ -6807,10 +6807,10 @@
   "description.magmaStone.buff.one": "-15 % Durée de la fosse à lave",
   "description.magmaStone.buff.two": "+0,15 Obsidienne",
   "description.cornucopia.buff": "+1 rendement en fruits géants grâce à des projets villageois",
-  "description.super.star.boost": "+1 Poisson",
   "description.super.star": "Une super étoile qui donne +1 poisson pendant les mois d'hiver !",
   "chumDetails.acorn": "Le super pote !",
   "pet.grave.message": "Hmm, l'animal de compagnie de quelqu'un est décédé... Il s'appelait Izzy.",
   "description.sawFish.boost.one": "+5 tentatives de pêche",
-  "description.sawFish.boost.two": "+1 ver provenant du compostage"
+  "description.sawFish.boost.two": "+1 ver provenant du compostage",
+  "description.super.star.boost": "+1 poisson en hiver"
 }

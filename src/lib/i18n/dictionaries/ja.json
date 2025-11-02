@@ -6807,10 +6807,10 @@
   "description.magmaStone.buff.one": "-15% ラバピットタイム",
   "description.magmaStone.buff.two": "+0.15 オブシディアン",
   "description.cornucopia.buff": "+1村のプロジェクトからの巨大果実収量",
-  "description.super.star.boost": "+1 フィッシュ",
   "description.super.star": "冬の間は+1匹の魚がもらえるスーパースター！",
   "chumDetails.acorn": "スーパーチャム！",
   "pet.grave.message": "うーん、誰かのペットが亡くなりました... 名前はイジーでした。",
   "description.sawFish.boost.one": "+5回釣りの試行",
-  "description.sawFish.boost.two": "コンポストからのワーム+1"
+  "description.sawFish.boost.two": "コンポストからのワーム+1",
+  "description.super.star.boost": "冬の間は魚1匹を獲る"
 }

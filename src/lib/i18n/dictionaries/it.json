@@ -6807,10 +6807,10 @@
   "description.magmaStone.buff.one": "-15% Lava Pit Time",
   "description.magmaStone.buff.two": "+0,15 Ossidiana",
   "description.cornucopia.buff": "+1 Rendimento Giant Fruit derivante dai progetti del villaggio",
-  "description.super.star.boost": "+1 pesce",
   "description.super.star": "Una super star che garantisce +1 pesce durante i mesi invernali!",
   "chumDetails.acorn": "Il super amico!",
   "pet.grave.message": "Hmm, l'animale di qualcuno è morto... Si chiamava Izzy.",
   "description.sawFish.boost.one": "+5 tentativi di pesca",
-  "description.sawFish.boost.two": "+1 Verme da compostaggio"
+  "description.sawFish.boost.two": "+1 Verme da compostaggio",
+  "description.super.star.boost": "+1 pesce durante l'inverno"
 }
