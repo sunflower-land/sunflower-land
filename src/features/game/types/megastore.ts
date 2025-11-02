@@ -1,7 +1,7 @@
 import { FlowerBox } from "../events/landExpansion/buySeasonalItem";
 import { BumpkinItem } from "./bumpkin";
 import { InventoryItemName } from "./game";
-import { SeasonName } from "./seasons";
+import { SeasonName, SEASONS } from "./seasons";
 
 export type SeasonalTierItemName =
   | SeasonalCollectibleName
@@ -930,6 +930,7 @@ const PAW_PRINTS_ITEMS: SeasonalStore = {
       {
         collectible: "Pet Egg",
         cost: { sfl: 0, items: { "Pet Cookie": 2000 } },
+        cooldownMs: SEASONS["Paw Prints"].endDate.getTime() - Date.now(),
       },
     ],
     requirement: 4,
