@@ -6812,5 +6812,10 @@
   "description.guillotine": "The ultimate tool for a clean cut harvest.",
   "description.vampireCoffin": "He only comes out for night farming. Garlic not included.",
   "eventHalloween.noticeboard.one": "Welcome to the Halloween 2025 Event!",
-  "pet.grave.message": "Hmm, someone's pet passed away...It's name was Izzy."
+  "pet.grave.message": "Hmm, someone's pet passed away...It's name was Izzy.",
+  "description.lunarWeapon.boost": "-50% Power Skill Cooldown",
+  "description.cleaverKnife.boost.1": "15% Cooking Speed",
+  "description.cleaverKnife.boost.2": "10% chance of +1 Food from cooking",
+  "description.trainingWhistle.boost": "+1 Leather",
+  "description.squirrelOnesie.boost": "+1 Acorn"
 }

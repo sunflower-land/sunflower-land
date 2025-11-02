@@ -6812,5 +6812,10 @@
   "pet.grave.message": "Hmm, haiwan kesayangan seseorang meninggal dunia... Namanya Izzy.",
   "description.sawFish.boost.one": "+5 Percubaan Memancing",
   "description.sawFish.boost.two": "+1 Cacing dari Pengkomposan",
-  "description.super.star.boost": "+1 ikan semasa musim sejuk"
+  "description.super.star.boost": "+1 ikan semasa musim sejuk",
+  "description.lunarWeapon.boost": "-50% Penyejukan Kemahiran Kuasa",
+  "description.cleaverKnife.boost.1": "15% Kelajuan Memasak",
+  "description.cleaverKnife.boost.2": "10% peluang +1 makanan dari memasak",
+  "description.trainingWhistle.boost": "+1 Kulit",
+  "description.squirrelOnesie.boost": "+1 Acorn"
 }

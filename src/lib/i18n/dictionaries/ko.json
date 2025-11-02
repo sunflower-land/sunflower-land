@@ -6812,5 +6812,10 @@
   "pet.grave.message": "흠, 누군가의 애완동물이 죽었어요... 이름은 이지였어요.",
   "description.sawFish.boost.one": "+5 낚시 시도",
   "description.sawFish.boost.two": "퇴비로 인한 벌레 +1",
-  "description.super.star.boost": "겨울철 물고기 1마리"
+  "description.super.star.boost": "겨울철 물고기 1마리",
+  "description.lunarWeapon.boost": "파워 스킬 쿨다운 -50%",
+  "description.cleaverKnife.boost.1": "15% 쿠킹 스피드",
+  "description.cleaverKnife.boost.2": "10% 의 확률로 요리로 인한 음식 +1",
+  "description.trainingWhistle.boost": "+1 가죽",
+  "description.squirrelOnesie.boost": "+1 에이콘"
 }

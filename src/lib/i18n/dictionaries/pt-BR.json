@@ -6812,5 +6812,10 @@
   "pet.grave.message": "Hmm, o animal de estimação de alguém faleceu... Seu nome era Izzy.",
   "description.sawFish.boost.one": "+5 tentativas de pesca",
   "description.sawFish.boost.two": "+1 minhoca da compostagem",
-  "description.super.star.boost": "+1 Peixe durante o inverno"
+  "description.super.star.boost": "+1 Peixe durante o inverno",
+  "description.lunarWeapon.boost": "-50% de recarga de habilidades de potência",
+  "description.cleaverKnife.boost.1": "15% de velocidade de cozimento",
+  "description.cleaverKnife.boost.2": "10% de chance de +1 comida ao cozinhar",
+  "description.trainingWhistle.boost": "+1 Couro",
+  "description.squirrelOnesie.boost": "+1 Bolota"
 }

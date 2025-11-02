@@ -6812,5 +6812,10 @@
   "pet.grave.message": "うーん、誰かのペットが亡くなりました... 名前はイジーでした。",
   "description.sawFish.boost.one": "+5回釣りの試行",
   "description.sawFish.boost.two": "コンポストからのワーム+1",
-  "description.super.star.boost": "冬の間は魚1匹を獲る"
+  "description.super.star.boost": "冬の間は魚1匹を獲る",
+  "description.lunarWeapon.boost": "パワースキルのクールダウン -50%",
+  "description.cleaverKnife.boost.1": "15% クッキングスピード",
+  "description.cleaverKnife.boost.2": "10% の確率で料理によるフード+1を獲得する",
+  "description.trainingWhistle.boost": "+1 レザー",
+  "description.squirrelOnesie.boost": "+1 エイコーン"
 }

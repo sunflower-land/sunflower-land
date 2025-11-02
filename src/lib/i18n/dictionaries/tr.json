@@ -6812,5 +6812,10 @@
   "pet.grave.message": "Hmm, birinin evcil hayvanı vefat etti... Adı Izzy'di.",
   "description.sawFish.boost.one": "+5 Balıkçılık Denemesi",
   "description.sawFish.boost.two": "+1 Kompostlamadan Solucan",
-  "description.super.star.boost": "Kış aylarında +1 Balık"
+  "description.super.star.boost": "Kış aylarında +1 Balık",
+  "description.lunarWeapon.boost": "-50% Güç Becerisi Bekleme Süresi",
+  "description.cleaverKnife.boost.1": "%15 Pişirme Hızı",
+  "description.cleaverKnife.boost.2": "Yemekten %10 +1 Yiyecek alma şansı",
+  "description.trainingWhistle.boost": "+1 Deri",
+  "description.squirrelOnesie.boost": "+1 Acorn"
 }

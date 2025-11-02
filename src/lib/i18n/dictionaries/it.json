@@ -6812,5 +6812,10 @@
   "pet.grave.message": "Hmm, l'animale di qualcuno è morto... Si chiamava Izzy.",
   "description.sawFish.boost.one": "+5 tentativi di pesca",
   "description.sawFish.boost.two": "+1 Verme da compostaggio",
-  "description.super.star.boost": "+1 pesce durante l'inverno"
+  "description.super.star.boost": "+1 pesce durante l'inverno",
+  "description.lunarWeapon.boost": "-50% di recupero delle abilità di potenza",
+  "description.cleaverKnife.boost.1": "Velocità di cottura del 15%",
+  "description.cleaverKnife.boost.2": "10% di probabilità di +1 cibo cucinato",
+  "description.trainingWhistle.boost": "+1 Pelle",
+  "description.squirrelOnesie.boost": "+1 Ghianda"
 }

@@ -6812,5 +6812,10 @@
   "pet.grave.message": "Хм, чей-то питомец умер... Его звали Иззи.",
   "description.sawFish.boost.one": "+5 попыток рыбалки",
   "description.sawFish.boost.two": "+1 червь от компостирования",
-  "description.super.star.boost": "+1 Рыба зимой"
+  "description.super.star.boost": "+1 Рыба зимой",
+  "description.lunarWeapon.boost": "Время восстановления силовых навыков: -50%",
+  "description.cleaverKnife.boost.1": "Скорость приготовления 15%",
+  "description.cleaverKnife.boost.2": "Вероятность получения +1 блюда после приготовления: 10%",
+  "description.trainingWhistle.boost": "+1 Кожа",
+  "description.squirrelOnesie.boost": "+1 Желудь"
 }
