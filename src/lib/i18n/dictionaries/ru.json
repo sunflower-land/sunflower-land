@@ -6810,5 +6810,7 @@
   "description.super.star.boost": "+1 Рыба",
   "description.super.star": "Суперзвезда, дающая 1 рыбу в зимние месяцы!",
   "chumDetails.acorn": "Супер приятель!",
-  "pet.grave.message": "Хм, чей-то питомец умер... Его звали Иззи."
+  "pet.grave.message": "Хм, чей-то питомец умер... Его звали Иззи.",
+  "description.sawFish.boost.one": "+5 попыток рыбалки",
+  "description.sawFish.boost.two": "+1 червь от компостирования"
 }

@@ -6810,5 +6810,7 @@
   "description.super.star.boost": "+1 鱼",
   "description.super.star": "一颗超级巨星，在冬季可以获得 +1 条鱼！",
   "chumDetails.acorn": "超级密友！",
-  "pet.grave.message": "嗯，有人家的宠物死了... 它叫伊齐。"
+  "pet.grave.message": "嗯，有人家的宠物死了... 它叫伊齐。",
+  "description.sawFish.boost.one": "+5 次钓鱼尝试",
+  "description.sawFish.boost.two": "+1 堆肥产生的蠕虫"
 }

@@ -6810,5 +6810,7 @@
   "description.super.star.boost": "+1 Fisch",
   "description.super.star": "Ein Superstar, der in den Wintermonaten +1 Fische gewährt!",
   "chumDetails.acorn": "Der Superkumpel!",
-  "pet.grave.message": "Hmm, das Haustier von jemandem ist gestorben... Es hieß Izzy."
+  "pet.grave.message": "Hmm, das Haustier von jemandem ist gestorben... Es hieß Izzy.",
+  "description.sawFish.boost.one": "+5 Fangversuche",
+  "description.sawFish.boost.two": "+1 Wurm aus der Kompostierung"
 }

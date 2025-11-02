@@ -6810,5 +6810,7 @@
   "description.super.star.boost": "+1 Pescado",
   "description.super.star": "¡Una superestrella que otorga +1 pez durante los meses de invierno!",
   "chumDetails.acorn": "¡El súper amigo!",
-  "pet.grave.message": "Hmm, la mascota de alguien falleció... Se llamaba Izzy."
+  "pet.grave.message": "Hmm, la mascota de alguien falleció... Se llamaba Izzy.",
+  "description.sawFish.boost.one": "+5 intentos de pesca",
+  "description.sawFish.boost.two": "+1 lombriz procedente del compostaje"
 }

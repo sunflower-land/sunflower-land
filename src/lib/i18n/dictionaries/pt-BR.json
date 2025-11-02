@@ -6810,5 +6810,7 @@
   "description.super.star.boost": "+1 Peixe",
   "description.super.star": "Uma superestrela que concede +1 peixe durante os meses de inverno!",
   "chumDetails.acorn": "O super amigo!",
-  "pet.grave.message": "Hmm, o animal de estimação de alguém faleceu... Seu nome era Izzy."
+  "pet.grave.message": "Hmm, o animal de estimação de alguém faleceu... Seu nome era Izzy.",
+  "description.sawFish.boost.one": "+5 tentativas de pesca",
+  "description.sawFish.boost.two": "+1 minhoca da compostagem"
 }
