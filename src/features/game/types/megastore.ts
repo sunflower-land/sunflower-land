@@ -1,7 +1,7 @@
 import { FlowerBox } from "../events/landExpansion/buySeasonalItem";
 import { BumpkinItem } from "./bumpkin";
 import { InventoryItemName } from "./game";
-import { SeasonName } from "./seasons";
+import { SeasonName, SEASONS } from "./seasons";
 
 export type SeasonalTierItemName =
   | SeasonalCollectibleName
@@ -889,6 +889,10 @@ const PAW_PRINTS_ITEMS: SeasonalStore = {
         wearable: "Pet Specialist Pants",
         cost: { sfl: 0, items: { "Pet Cookie": 700 } },
       },
+      {
+        collectible: "Giant Acorn",
+        cost: { sfl: 0, items: { "Pet Cookie": 1500 } },
+      },
     ],
     requirement: 4,
   },
@@ -897,10 +901,6 @@ const PAW_PRINTS_ITEMS: SeasonalStore = {
       {
         wearable: "Saw Fish",
         cost: { sfl: 0, items: { "Moon Crystal": 160 } },
-      },
-      {
-        collectible: "Giant Acorn",
-        cost: { sfl: 0, items: { "Pet Cookie": 1500 } },
       },
       {
         collectible: "Lunar Temple",
@@ -927,6 +927,11 @@ const PAW_PRINTS_ITEMS: SeasonalStore = {
         wearable: "Pet Specialist Shirt",
         cost: { sfl: 400, items: {} },
       },
+      {
+        collectible: "Pet Egg",
+        cost: { sfl: 0, items: { "Pet Cookie": 2000 } },
+        cooldownMs: SEASONS["Paw Prints"].endDate.getTime() - Date.now(),
+      },
     ],
     requirement: 4,
   },
@@ -934,15 +939,11 @@ const PAW_PRINTS_ITEMS: SeasonalStore = {
     items: [
       {
         collectible: "Magma Stone",
-        cost: { sfl: 0, items: { "Pet Cookie": 8000 } },
+        cost: { sfl: 0, items: { "Pet Cookie": 8500 } },
       },
       {
         collectible: "Cornucopia",
-        cost: { sfl: 0, items: { "Pet Cookie": 1500 } },
-      },
-      {
-        collectible: "Pet Egg",
-        cost: { sfl: 0, items: { "Pet Cookie": 2000 } },
+        cost: { sfl: 0, items: { "Pet Cookie": 1000 } },
       },
     ],
     requirement: 4,

@@ -41,6 +41,7 @@ import {
   getStore,
   isBoxBoughtWithinSeason,
   isKeyBoughtWithinSeason,
+  isPetEggBoughtWithinSeason,
 } from "features/game/events/landExpansion/buySeasonalItem";
 import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 
@@ -193,7 +194,10 @@ export const ItemsList: React.FC<Props> = ({
   // Reduction is by getting the lower tier of current tier
   const keyReduction = isKeyBoughtWithinSeason(state, tiers, true) ? 0 : 1; // Reduction is by getting the lower tier of current tier
   const boxReduction = isBoxBoughtWithinSeason(state, tiers, true) ? 0 : 1; // Reduction is by getting the lower tier of current tier
-  const reduction = keyReduction + boxReduction;
+  const petEggReduction = isPetEggBoughtWithinSeason(state, tiers, true)
+    ? 0
+    : 1;
+  const reduction = keyReduction + boxReduction + petEggReduction;
 
   const requirements = hasRequirement(tierData) ? tierData.requirement : 0;
 
