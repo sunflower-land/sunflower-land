@@ -298,6 +298,12 @@ export const CHAPTER_FISH: Record<ChapterFish, Fish> = {
     likes: [],
     seasons: [],
   },
+  "Super Star": {
+    baits: ["Red Wiggler", "Fishing Lure"],
+    type: "chapter",
+    likes: [],
+    seasons: [],
+  },
 };
 
 // TODO
@@ -542,12 +548,6 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     baits: ["Red Wiggler", "Grub", "Fishing Lure"],
     type: "marine marvel",
     likes: ["Sunfish"],
-    seasons: ["winter", "spring", "summer", "autumn"],
-  },
-  "Super Star": {
-    baits: ["Red Wiggler", "Fishing Lure"],
-    type: "marine marvel",
-    likes: ["Acorn"],
     seasons: ["winter", "spring", "summer", "autumn"],
   },
   "Starlight Tuna": {
