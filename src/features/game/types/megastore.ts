@@ -939,11 +939,11 @@ const PAW_PRINTS_ITEMS: SeasonalStore = {
     items: [
       {
         collectible: "Magma Stone",
-        cost: { sfl: 0, items: { "Pet Cookie": 8000 } },
+        cost: { sfl: 0, items: { "Pet Cookie": 8500 } },
       },
       {
         collectible: "Cornucopia",
-        cost: { sfl: 0, items: { "Pet Cookie": 1500 } },
+        cost: { sfl: 0, items: { "Pet Cookie": 1000 } },
       },
     ],
     requirement: 4,
