@@ -7,6 +7,7 @@ import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
 import bee from "assets/icons/bee.webp";
 import chefHat from "assets/icons/chef_hat.png";
+import baits from "assets/composters/baits.png";
 import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
 import { getCurrentSeason, getSeasonalTicket, SEASONS } from "./seasons";
@@ -959,6 +960,21 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Gold"].image,
+    },
+  ],
+
+  "Saw Fish": [
+    {
+      shortDescription: translate("description.sawFish.boost.one"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
+    {
+      shortDescription: translate("description.sawFish.boost.two"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: baits,
     },
   ],
   ...SPECIAL_ITEM_LABELS,

@@ -6724,6 +6724,8 @@
   "description.magmaStone.buff.one": "-15% Lava Pit Time",
   "description.magmaStone.buff.two": "+0.15 Obsidian",
   "description.cornucopia.buff": "+1 Giant Fruit yield from village projects",
+  "description.sawFish.boost.one": "+5 Fishing Attempts",
+  "description.sawFish.boost.two": "+1 Worm from Composting",
   "withdraw.flower.confirm": "Confirm Withdrawal",
   "withdraw.flower.chain": "Chain: {{chain}}",
   "withdraw.flower.amount": "Amount: {{amount}} FLOWER",
