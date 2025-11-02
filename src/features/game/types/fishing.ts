@@ -253,6 +253,7 @@ export type ChapterFish = Extract<
   | "Jellyfish"
   | "Pink Dolphin"
   | "Poseidon"
+  | "Super Star"
 >;
 
 export const CHAPTER_FISH: Record<ChapterFish, Fish> = {
