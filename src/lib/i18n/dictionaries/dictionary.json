@@ -2565,6 +2565,7 @@
   "lostSunflorian.line2": "Unfortunately, these Bumpkins don't like me watching them.",
   "lostSunflorian.line3": "I can't wait to return to Sunfloria.",
   "marketplace.pet.reveal.date": "Reveal date: {{date}}",
+  "marketplace.pet.trade.date": "Trade date: {{date}}",
   "marketplace.pet.comingSoon": "Coming soon",
   "marketplace.unlockSelling": "Unlock selling",
   "marketplace.unlockOffering": "Unlock offering",
