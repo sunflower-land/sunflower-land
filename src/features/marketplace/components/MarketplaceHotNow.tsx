@@ -197,7 +197,7 @@ export const MarketplaceStats: React.FC<{
           <div className="flex items-center p-1">
             <img src={sflIcon} className="h-10 mr-2" />
             <div>
-              <p>{`${trends.volume.toFixed(0)} FLOWER`}</p>
+              <p>{`${trends.volume.toLocaleString()} FLOWER`}</p>
               <p className="text-xs">{t("marketplace.totalVolume")}</p>
             </div>
           </div>
@@ -208,7 +208,7 @@ export const MarketplaceStats: React.FC<{
           <div className="flex items-center p-1">
             <img src={tradeIcon} className="h-10 mr-2" />
             <div>
-              <p>{`${trends.trades}`}</p>
+              <p>{`${trends.trades.toLocaleString()}`}</p>
               <p className="text-xs">{t("marketplace.totalTrades")}</p>
             </div>
           </div>
@@ -219,7 +219,7 @@ export const MarketplaceStats: React.FC<{
           <div className="flex items-center sm:p-1">
             <img src={walletIcon} className="h-10 mr-2" />
             <div>
-              <p>{`${trends.owners}`}</p>
+              <p>{`${trends.owners.toLocaleString()}`}</p>
               <p className="text-xs">
                 {t("marketplace.walletsHoldingCollectibles")}
               </p>
