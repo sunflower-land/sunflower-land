@@ -731,7 +731,7 @@ type PetNFTRevealConfig = {
 
 const PET_NFT_REVEAL_CONFIG: PetNFTRevealConfig[] = [
   {
-    revealAt: new Date("2025-11-11T00:00:00.000Z"),
+    revealAt: new Date("2025-11-12T00:00:00.000Z"),
     startId: 1,
     endId: 1000,
   },
@@ -741,7 +741,7 @@ const PET_NFT_REVEAL_CONFIG: PetNFTRevealConfig[] = [
     endId: 1250,
   },
   {
-    revealAt: new Date("2025-11-11T00:00:00.000Z"),
+    revealAt: new Date("2025-11-12T00:00:00.000Z"),
     startId: 2501,
     endId: 3000,
   },
