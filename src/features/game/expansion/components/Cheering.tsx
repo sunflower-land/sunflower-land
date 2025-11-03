@@ -1,17 +1,19 @@
 import { Button } from "components/ui/Button";
 
-import React from "react";
-import { useGame } from "features/game/GameProvider";
+import React, { useContext } from "react";
+import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import cheer from "assets/icons/cheer.webp";
 import { getDailyCheersAmount } from "features/game/events/landExpansion/claimDailyCheers";
+import { useSelector } from "@xstate/react";
 
 export const Cheering: React.FC = () => {
-  const { gameService, gameState } = useGame();
+  const { gameService } = useContext(Context);
+  const state = useSelector(gameService, (state) => state.context.state);
   const { t } = useAppTranslation();
 
-  const { amount } = getDailyCheersAmount(gameState.context.state);
+  const { amount } = getDailyCheersAmount(state);
 
   return (
     <div>
