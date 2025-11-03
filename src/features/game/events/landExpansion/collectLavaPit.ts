@@ -13,6 +13,11 @@ export function getObsidianYield({ game }: { game: GameState }) {
     boostsUsed.push("Obsidian Turtle");
   }
 
+  if (isCollectibleBuilt({ name: "Magma Stone", game })) {
+    amount += 0.15;
+    boostsUsed.push("Magma Stone");
+  }
+
   return { amount, boostsUsed };
 }
 
