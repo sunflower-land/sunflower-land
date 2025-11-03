@@ -4,7 +4,42 @@ on:
     types: [opened, synchronize]
 
 jobs:
+  should_run:
+    runs-on: ubuntu-latest
+    outputs:
+      run_codex: ${{ steps.set.outputs.run_codex }}
+    steps:
+      - uses: actions/github-script@v7
+        id: set
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            const core = require('@actions/core');
+            const action = context.payload.action;
+
+            if (action === 'opened') {
+              core.info('PR opened; Codex will run.');
+              core.setOutput('run_codex', 'true');
+              return;
+            }
+
+            const { owner, repo } = context.repo;
+            const headSha = context.payload.pull_request.head.sha;
+            const commit = await github.rest.git.getCommit({ owner, repo, commit_sha: headSha });
+            const message = commit.data.message || '';
+            const shouldRun = message.includes('[run-codex]');
+
+            if (shouldRun) {
+              core.info('Found [run-codex] in latest commit message.');
+            } else {
+              core.info('Latest commit message does not contain [run-codex]; Codex will be skipped.');
+            }
+
+            core.setOutput('run_codex', shouldRun.toString());
+
   codex:
+    needs: should_run
+    if: needs.should_run.outputs.run_codex == 'true'
     environment: develop
     runs-on: ubuntu-latest
     permissions:
@@ -45,7 +80,7 @@ jobs:
   post_feedback:
     runs-on: ubuntu-latest
     needs: codex
-    if: needs.codex.outputs.final_message != ''
+    if: needs.codex.result == 'success' && needs.codex.outputs.final_message != ''
     # permissions:
     #   issues: write
     #   pull-requests: write
