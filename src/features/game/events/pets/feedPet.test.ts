@@ -233,16 +233,16 @@ describe("feedPet", () => {
             },
             energy: 100,
             experience: 0,
-            pettedAt: now,
+            pettedAt: Date.now(),
           },
         },
       },
       collectibles: {
         Barkley: [
           {
-            createdAt: now,
+            createdAt: Date.now(),
             id: "1",
-            readyAt: now,
+            readyAt: Date.now(),
             coordinates: { x: 1, y: 1 },
           },
         ],
@@ -449,6 +449,59 @@ describe("feedPet", () => {
               coordinates: { x: 1, y: 1 },
             },
           ],
+        },
+        inventory: {
+          "Bumpkin Salad": new Decimal(10),
+        },
+      },
+      action: {
+        type: "pet.fed",
+        petId: "Barkley",
+        food: "Bumpkin Salad",
+      },
+      createdAt: now,
+    });
+    const BarkleyData = state.pets?.common?.Barkley;
+
+    expect(BarkleyData?.requests.foodFed).toEqual<CookableName[]>([
+      "Bumpkin Salad",
+    ]);
+    expect(BarkleyData?.requests.fedAt).toEqual(now);
+    expect(state.inventory["Bumpkin Salad"]).toEqual(new Decimal(9));
+    expect(BarkleyData?.energy).toEqual(100);
+    expect(BarkleyData?.experience).toEqual(200);
+  });
+
+  it("feeds pet in the house", () => {
+    const state = feedPet({
+      state: {
+        ...INITIAL_FARM,
+        pets: {
+          common: {
+            Barkley: {
+              name: "Barkley",
+              requests: {
+                food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+                foodFed: [],
+                fedAt: now,
+              },
+              energy: 0,
+              experience: 100,
+              pettedAt: now,
+            },
+          },
+        },
+        home: {
+          collectibles: {
+            Barkley: [
+              {
+                createdAt: now,
+                id: "1",
+                readyAt: now,
+                coordinates: { x: 1, y: 1 },
+              },
+            ],
+          },
         },
         inventory: {
           "Bumpkin Salad": new Decimal(10),
