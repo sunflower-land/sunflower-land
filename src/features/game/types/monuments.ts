@@ -5,7 +5,7 @@ import { ClutterName } from "./clutter";
 import { hasHitSocialPetLimit, PetName, PetNFTName } from "./pets";
 import { isCollectibleBuilt } from "../lib/collectibleBuilt";
 
-type LoveCharmMonumentName =
+type HelpLimitMonumentName =
   | "Farmer's Monument"
   | "Miner's Monument"
   | "Woodcutter's Monument";
@@ -13,7 +13,7 @@ type LoveCharmMonumentName =
 type MegastoreMonumentName = "Teamwork Monument" | "Cornucopia";
 
 export type WorkbenchMonumentName =
-  | LoveCharmMonumentName
+  | HelpLimitMonumentName
   | "Big Orange"
   | "Big Apple"
   | "Big Banana"
@@ -21,8 +21,8 @@ export type WorkbenchMonumentName =
   | "Expert Cooking Pot"
   | "Advanced Cooking Pot";
 
-type LoveCharmMonument = Omit<Decoration, "name"> & {
-  name: LoveCharmMonumentName;
+type HelpLimitMonument = Omit<Decoration, "name"> & {
+  name: HelpLimitMonumentName;
   level?: number;
 };
 
@@ -36,7 +36,7 @@ export type LandscapingMonument = Omit<Decoration, "name"> & {
 };
 
 export type Monument =
-  | LoveCharmMonument
+  | HelpLimitMonument
   | LandscapingMonument
   | MegastoreMonument;
 
@@ -58,9 +58,9 @@ export const MEGASTORE_MONUMENTS: Record<
   },
 };
 
-export const LOVE_CHARM_MONUMENTS: Record<
-  LoveCharmMonumentName,
-  LoveCharmMonument
+export const HELP_LIMIT_MONUMENTS: Record<
+  HelpLimitMonumentName,
+  HelpLimitMonument
 > = {
   "Farmer's Monument": {
     name: "Farmer's Monument",
@@ -91,11 +91,16 @@ export const LOVE_CHARM_MONUMENTS: Record<
   },
 };
 
+export const MONUMENTS = {
+  ...HELP_LIMIT_MONUMENTS,
+  ...MEGASTORE_MONUMENTS,
+};
+
 export const WORKBENCH_MONUMENTS: Record<
   WorkbenchMonumentName,
   LandscapingMonument
 > = {
-  ...LOVE_CHARM_MONUMENTS,
+  ...HELP_LIMIT_MONUMENTS,
   "Big Orange": {
     name: "Big Orange",
     description: "",
@@ -142,7 +147,7 @@ export const WORKBENCH_MONUMENTS: Record<
 
 export type MonumentName =
   | WorkbenchMonumentName
-  | LoveCharmMonumentName
+  | HelpLimitMonumentName
   | MegastoreMonumentName;
 
 export const REQUIRED_CHEERS: Record<MonumentName, number> = {
@@ -161,7 +166,7 @@ export const REQUIRED_CHEERS: Record<MonumentName, number> = {
 
 export type VillageProjectName = Exclude<
   WorkbenchMonumentName,
-  LoveCharmMonumentName
+  HelpLimitMonumentName
 >;
 
 export const REWARD_ITEMS: Record<
@@ -391,7 +396,7 @@ export function getHelpLimit({
   let limit = HELP_LIMIT;
 
   const monuments = {
-    ...LOVE_CHARM_MONUMENTS,
+    ...HELP_LIMIT_MONUMENTS,
   };
 
   getKeys(monuments).forEach((monument) => {
