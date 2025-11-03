@@ -25,24 +25,32 @@ jobs:
 
       - name: Check Codex trigger
         id: should_run
-        run: |
-          set -euo pipefail
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            const core = require('@actions/core');
+            const action = context.payload.action;
 
-          if [ "${{ github.event.action }}" = "opened" ]; then
-            echo "Codex will run for newly opened PR." >&2
-            echo "run=true" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
+            if (action === 'opened') {
+              core.info('Codex will run for newly opened PR.');
+              core.setOutput('run', 'true');
+              return;
+            }
 
-          message=$(git log -1 --pretty=%B FETCH_HEAD || echo '')
+            const { owner, repo } = context.repo;
+            const sha = context.payload.pull_request.head.sha;
+            const commit = await github.rest.git.getCommit({ owner, repo, commit_sha: sha });
+            const message = commit.data.message || '';
+            const shouldRun = message.includes('[run-codex]');
 
-          if [[ "$message" == *"[run-codex]"* ]]; then
-            echo "Found [run-codex] in latest commit message; Codex will run." >&2
-            echo "run=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "Latest commit message lacks [run-codex]; skipping Codex." >&2
-            echo "run=false" >> "$GITHUB_OUTPUT"
-          fi
+            if (shouldRun) {
+              core.info('Found [run-codex] in latest commit message; Codex will run.');
+            } else {
+              core.info('Latest commit message lacks [run-codex]; skipping Codex.');
+            }
+
+            core.setOutput('run', shouldRun ? 'true' : 'false');
 
       - name: Run Codex
         id: run_codex
