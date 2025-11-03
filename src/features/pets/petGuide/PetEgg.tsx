@@ -1,8 +1,6 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { InnerPanel } from "components/ui/Panel";
-import shopIcon from "assets/icons/shop.png";
 import React from "react";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { ChestRewardsList } from "components/ui/ChestRewardsList";
 
 export const PetEgg: React.FC<{ onBack: () => void }> = ({ onBack }) => {
@@ -19,20 +17,28 @@ export const PetEgg: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         type="Pet Egg"
         chestDescription={[
           {
-            text: "To obtain a pet egg, you can buy it at the Pet Shop or the Love Island Shop",
-            icon: shopIcon,
+            text: "Pick up your first Pet Egg from the Pet Shop counter for 150,000 coins. It’s a one-time purchase per farm.",
+            icon: SUNNYSIDE.icons.money_icon,
           },
           {
-            text: "You can only buy the pet egg once from each shop",
-            icon: SUNNYSIDE.icons.expression_alerted,
+            text: "Love Island offers a single additional Pet Egg for 10,000 Love Charms. One-and-done for romantics!",
+            icon: SUNNYSIDE.icons.heart,
           },
           {
-            text: "You can also buy 1 pet egg from the Megastore every chapter.",
-            icon: SUNNYSIDE.icons.expression_alerted,
+            text: "The Megastore refreshes one Pet Egg every Chapter for 1,500 seasonal tickets—plan your burns around the reset.",
+            icon: SUNNYSIDE.icons.treasure,
           },
           {
-            text: "Once Pet Egg is bought, it will hatch into one of the 21 available pets",
-            icon: ITEM_DETAILS.Barkley.image,
+            text: "Crack an egg to reveal a pet category you don’t already manage. You’ll cycle through all seven categories before any duplicates appear.",
+            icon: SUNNYSIDE.icons.happy,
+          },
+          {
+            text: "There are 20 common pets spread across the seven categories—collecting every companion is a multi-year chase aligned with Chapter cadence (~4.5 years).",
+            icon: SUNNYSIDE.icons.stopwatch,
+          },
+          {
+            text: "Common pets stay bound to your farm and underpin upcoming FLOWER burn moments. They cannot be traded or transferred.",
+            icon: SUNNYSIDE.icons.lock,
           },
         ]}
       />
