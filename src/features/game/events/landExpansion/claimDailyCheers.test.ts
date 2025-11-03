@@ -1,3 +1,4 @@
+import { SEASONS } from "features/game/types/seasons";
 import { claimDailyCheers } from "./claimDailyCheers";
 import { INITIAL_FARM } from "features/game/lib/constants";
 
@@ -16,6 +17,9 @@ describe("claimDailyCheers", () => {
   });
 
   it("gives six free cheers to the player if they have VIP", () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(SEASONS["Better Together"].startDate);
+
     const now = Date.now();
 
     const game = claimDailyCheers({
@@ -48,6 +52,8 @@ describe("claimDailyCheers", () => {
 
     expect(game?.socialFarming.cheers.freeCheersClaimedAt).toBe(now);
     expect(game?.inventory.Cheer?.toNumber()).toBe(6);
+
+    jest.useRealTimers();
   });
 
   it("should prevent claiming a daily cheers twice in one day", () => {
