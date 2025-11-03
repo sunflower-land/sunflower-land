@@ -10,7 +10,7 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 
-export const LAVA_PIT_REQUIREMENTS: Record<TemperateSeasonName, Inventory> = {
+const LAVA_PIT_REQUIREMENTS_OLD: Record<TemperateSeasonName, Inventory> = {
   autumn: {
     Artichoke: new Decimal(30),
     Broccoli: new Decimal(750),
@@ -37,14 +37,55 @@ export const LAVA_PIT_REQUIREMENTS: Record<TemperateSeasonName, Inventory> = {
   },
 };
 
+const LAVA_PIT_REQUIREMENTS_NEW: Record<TemperateSeasonName, Inventory> = {
+  autumn: {
+    Artichoke: new Decimal(30),
+    Broccoli: new Decimal(750),
+    Yam: new Decimal(1000),
+    Gold: new Decimal(5),
+    Crimstone: new Decimal(6),
+  },
+  winter: {
+    "Merino Wool": new Decimal(150),
+    Onion: new Decimal(400),
+    Turnip: new Decimal(200),
+    Crimstone: new Decimal(5),
+  },
+  spring: {
+    Celestine: new Decimal(2),
+    Lunara: new Decimal(2),
+    Duskberry: new Decimal(2),
+    Rhubarb: new Decimal(2000),
+    Crimstone: new Decimal(10),
+  },
+  summer: {
+    Oil: new Decimal(70),
+    Pepper: new Decimal(750),
+    Zucchini: new Decimal(1000),
+    Crimstone: new Decimal(4),
+  },
+};
+
+const NEW_REQUIREMENTS_START_DATE = new Date(
+  "2025-11-10T00:00:00.000Z",
+).getTime();
+
 export const getLavaPitRequirements = (
   game: GameState,
+  createdAt: number,
 ): {
   requirements: Inventory;
   boostUsed: BoostName[];
 } => {
   const season = game.season.season;
-  let requirements: Inventory = LAVA_PIT_REQUIREMENTS[season];
+
+  const useNewRequirements = createdAt >= NEW_REQUIREMENTS_START_DATE;
+  const requirementsMap = useNewRequirements
+    ? LAVA_PIT_REQUIREMENTS_NEW
+    : LAVA_PIT_REQUIREMENTS_OLD;
+
+  let requirements: Inventory = requirementsMap[season];
+
   let requirementsMultiplier = 1;
   const boostUsed: BoostName[] = [];
 
@@ -109,7 +150,7 @@ export function startLavaPit({
     }
 
     const { requirements, boostUsed: lavaPitBoostsUsed } =
-      getLavaPitRequirements(copy);
+      getLavaPitRequirements(copy, createdAt);
 
     getObjectEntries(requirements).forEach(([item, requiredAmount]) => {
       const inventoryAmount = inventory[item] ?? new Decimal(0);
