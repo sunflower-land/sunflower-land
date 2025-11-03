@@ -3,6 +3,7 @@ import { Decoration, getKeys } from "./decorations";
 import { GameState, InventoryItemName } from "./game";
 import { ClutterName } from "./clutter";
 import { hasHitSocialPetLimit, PetName, PetNFTName } from "./pets";
+import { isCollectibleBuilt } from "../lib/collectibleBuilt";
 
 type LoveCharmMonumentName =
   | "Farmer's Monument"
@@ -196,6 +197,19 @@ export const REWARD_ITEMS: Record<
   },
 };
 
+export function isMonumentComplete({
+  game,
+  monument,
+}: {
+  game: GameState;
+  monument: MonumentName;
+}) {
+  return (
+    (game.socialFarming.villageProjects?.[monument]?.cheers ?? 0) >=
+    REQUIRED_CHEERS[monument]
+  );
+}
+
 export function isHelpComplete({ game }: { game: GameState }) {
   return getHelpRequired({ game }).totalCount <= 0;
 }
@@ -363,6 +377,58 @@ export function getHelpRequired({ game }: { game: GameState }) {
       },
     },
   };
+}
+
+export const HELP_LIMIT = 5;
+
+export function getHelpLimit({
+  game,
+  now = new Date(),
+}: {
+  game: GameState;
+  now?: Date;
+}) {
+  let limit = HELP_LIMIT;
+
+  const monuments = {
+    ...LOVE_CHARM_MONUMENTS,
+  };
+
+  getKeys(monuments).forEach((monument) => {
+    if (
+      isMonumentComplete({ game, monument }) &&
+      isCollectibleBuilt({ name: monument, game })
+    ) {
+      limit += 1;
+    }
+  });
+
+  if (
+    isCollectibleBuilt({ name: "Teamwork Monument", game }) &&
+    isMonumentComplete({ game, monument: "Teamwork Monument" })
+  ) {
+    limit += 1;
+  }
+
+  // Get all the increases for the current UTC date
+  const increases =
+    game.socialFarming?.helpIncrease?.boughtAt.filter(
+      (date) =>
+        new Date(date).toISOString().split("T")[0] ===
+        now.toISOString().split("T")[0],
+    )?.length ?? 0;
+
+  return limit + increases;
+}
+
+export function hasHitHelpLimit({
+  game,
+  totalHelpedToday,
+}: {
+  game: GameState;
+  totalHelpedToday: number;
+}) {
+  return totalHelpedToday >= getHelpLimit({ game });
 }
 
 export const RAFFLE_REWARDS: Partial<
