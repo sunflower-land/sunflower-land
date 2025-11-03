@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
-import { hasVipAccess } from "features/game/lib/vipAccess";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { GameState } from "features/game/types/game";
-import { getCurrentSeason } from "features/game/types/seasons";
 import { produce } from "immer";
 
 export type ClaimCheersAction = {
@@ -12,6 +11,16 @@ type Options = {
   state: Readonly<GameState>;
   action: ClaimCheersAction;
   createdAt?: number;
+};
+
+const getDailyCheersAmount = (state: GameState) => {
+  let amount = 3;
+
+  if (isCollectibleBuilt({ name: "Giant Gold Bone", game: state })) {
+    amount += 2;
+  }
+
+  return amount;
 };
 
 export function claimDailyCheers({
@@ -30,14 +39,7 @@ export function claimDailyCheers({
       throw new Error("Already claimed your daily free cheers");
     }
 
-    let amount = 3;
-
-    if (
-      hasVipAccess({ game: draft }) &&
-      getCurrentSeason(new Date(createdAt)) === "Better Together"
-    ) {
-      amount = 6;
-    }
+    const amount = getDailyCheersAmount(draft);
 
     draft.inventory.Cheer = (draft.inventory.Cheer ?? new Decimal(0)).add(
       amount,
