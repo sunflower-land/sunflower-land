@@ -81,9 +81,10 @@ export const getLavaPitRequirements = (
   const season = game.season.season;
 
   const useNewRequirements = createdAt >= NEW_REQUIREMENTS_START_DATE;
-  const requirementsMap = useNewRequirements
-    ? LAVA_PIT_REQUIREMENTS_NEW
-    : LAVA_PIT_REQUIREMENTS_OLD;
+  const requirementsMap: Record<TemperateSeasonName, Inventory> =
+    useNewRequirements
+      ? { ...LAVA_PIT_REQUIREMENTS_NEW }
+      : { ...LAVA_PIT_REQUIREMENTS_OLD };
 
   let requirements: Inventory = requirementsMap[season];
 
