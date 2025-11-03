@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { GameState } from "features/game/types/game";
+import { BoostName, GameState } from "features/game/types/game";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { produce } from "immer";
 
 export type ClaimCheersAction = {
@@ -13,15 +14,17 @@ type Options = {
   createdAt?: number;
 };
 
-const getDailyCheersAmount = (state: GameState) => {
+export function getDailyCheersAmount(state: GameState) {
   let amount = 3;
+  const boostsUsed: BoostName[] = [];
 
   if (isCollectibleBuilt({ name: "Giant Gold Bone", game: state })) {
     amount += 2;
+    boostsUsed.push("Giant Gold Bone");
   }
 
-  return amount;
-};
+  return { amount, boostsUsed };
+}
 
 export function claimDailyCheers({
   state,
@@ -39,7 +42,7 @@ export function claimDailyCheers({
       throw new Error("Already claimed your daily free cheers");
     }
 
-    const amount = getDailyCheersAmount(draft);
+    const { amount, boostsUsed } = getDailyCheersAmount(draft);
 
     draft.inventory.Cheer = (draft.inventory.Cheer ?? new Decimal(0)).add(
       amount,
@@ -48,6 +51,12 @@ export function claimDailyCheers({
     if (cheers.freeCheersClaimedAt < new Date(today).getTime()) {
       cheers.freeCheersClaimedAt = createdAt;
     }
+
+    draft.boostsUsedAt = updateBoostUsed({
+      game: draft,
+      boostNames: boostsUsed,
+      createdAt,
+    });
 
     return draft;
   });
