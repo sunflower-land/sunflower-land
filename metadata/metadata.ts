@@ -15280,8 +15280,8 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/499.png",
     name: "Lunar Weapon",
   },
-  "Frying Pan": {
-    description: "A trusty iron pan, seasoned for sizzling meals at sunrise.",
+  "Cleaver Knife": {
+    description: "A sharp knife for cutting through tough ingredients.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Tool" },
@@ -15289,7 +15289,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/500.png",
-    name: "Frying Pan",
+    name: "Cleaver Knife",
   },
   "Training Whistle": {
     description: "A sharp whistle that keeps every champion focused and ready.",

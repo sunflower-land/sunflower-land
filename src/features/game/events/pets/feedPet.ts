@@ -251,9 +251,7 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
 
     const isPetPlaced = isNFTData
       ? !!petData.coordinates
-      : !!stateCopy.collectibles[petData.name]?.some(
-          (collectible) => !!collectible.coordinates,
-        );
+      : !!isCollectibleBuilt({ name: petData.name, game: stateCopy });
 
     if (!isPetPlaced) {
       throw new Error("Pet is not placed");

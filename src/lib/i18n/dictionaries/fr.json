@@ -6807,8 +6807,15 @@
   "description.magmaStone.buff.one": "-15 % Durée de la fosse à lave",
   "description.magmaStone.buff.two": "+0,15 Obsidienne",
   "description.cornucopia.buff": "+1 rendement en fruits géants grâce à des projets villageois",
-  "description.super.star.boost": "+1 Poisson",
   "description.super.star": "Une super étoile qui donne +1 poisson pendant les mois d'hiver !",
   "chumDetails.acorn": "Le super pote !",
-  "pet.grave.message": "Hmm, l'animal de compagnie de quelqu'un est décédé... Il s'appelait Izzy."
+  "pet.grave.message": "Hmm, l'animal de compagnie de quelqu'un est décédé... Il s'appelait Izzy.",
+  "description.sawFish.boost.one": "+5 tentatives de pêche",
+  "description.sawFish.boost.two": "+1 ver provenant du compostage",
+  "description.super.star.boost": "+1 poisson en hiver",
+  "description.lunarWeapon.boost": "Temps de recharge de la compétence Power : -50 %",
+  "description.cleaverKnife.boost.1": "Vitesse de cuisson de 15 %",
+  "description.cleaverKnife.boost.2": "10 % de chances d'obtenir +1 aliment en cuisinant",
+  "description.trainingWhistle.boost": "+1 Cuir",
+  "description.squirrelOnesie.boost": "+1 Gland"
 }

@@ -1320,4 +1320,6 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       tradeAt: SEASONS["Paw Prints"].endDate,
       withdrawAt: new Date("2026-03-04T00:00:00Z"),
     },
+    Cornucopia: undefined,
+    "Messy Bed": undefined,
   };

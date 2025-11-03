@@ -1358,7 +1358,7 @@ export const ITEM_TRADE_TYPES: {
     "Auctioneer Slacks": "onchain",
     "Bidder's Brocade": "onchain",
     "Lunar Weapon": "onchain",
-    "Frying Pan": "onchain",
+    "Cleaver Knife": "onchain",
     "Training Whistle": "onchain",
     AU3: "onchain",
     "Harry's Hat": "onchain",
