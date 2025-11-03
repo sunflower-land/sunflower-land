@@ -1,3 +1,4 @@
+import { KNOWN_IDS } from ".";
 import {
   FLOWER_BOXES,
   isCollectible,
@@ -5,7 +6,7 @@ import {
 } from "../events/landExpansion/buySeasonalItem";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "../events/landExpansion/completeNPCChore";
 import { getObjectEntries } from "../expansion/lib/utils";
-import { BumpkinItem } from "./bumpkin";
+import { BumpkinItem, ITEM_IDS } from "./bumpkin";
 import { ARTEFACT_SHOP_KEYS } from "./collectibles";
 import { getKeys } from "./decorations";
 import { BB_TO_GEM_RATIO, InventoryItemName } from "./game";
@@ -29,12 +30,8 @@ export const MEGASTORE_RESTRICTED_ITEMS: (InventoryItemName | BumpkinItem)[] = [
   ...Object.values(CHAPTER_TICKET_BOOST_ITEMS[currentSeason]),
   ...getKeys(FLOWER_BOXES),
   ...getKeys(ARTEFACT_SHOP_KEYS),
-  ...getObjectEntries(BUMPKIN_RELEASES)
-    .filter(([_, tradeDetail]) => !tradeDetail)
-    .map(([wearable]) => wearable),
-  ...getObjectEntries(INVENTORY_RELEASES)
-    .filter(([_, tradeDetail]) => !tradeDetail)
-    .map(([item]) => item),
+  ...getKeys(ITEM_IDS).filter((name) => !BUMPKIN_RELEASES[name]),
+  ...getKeys(KNOWN_IDS).filter((name) => !INVENTORY_RELEASES[name]),
   "Pet Egg",
 ];
 
