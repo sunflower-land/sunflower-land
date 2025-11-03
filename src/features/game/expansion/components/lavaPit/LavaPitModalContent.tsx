@@ -61,6 +61,7 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
 
   const { requirements } = getLavaPitRequirements(
     gameService.state.context.state,
+    Date.now(),
   );
 
   const hasIngredients = getKeys(requirements).every((itemName) =>
