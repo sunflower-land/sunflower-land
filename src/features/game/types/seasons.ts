@@ -161,7 +161,7 @@ export const CHAPTER_MARVEL_FISH: Record<SeasonName, ChapterFish> = {
   "Winds of Change": "Jellyfish",
   "Great Bloom": "Pink Dolphin",
   "Better Together": "Poseidon",
-  "Paw Prints": "???" as ChapterFish,
+  "Paw Prints": "Super Star",
 };
 
 export function getChapterMarvelFish(now = new Date()): ChapterFish {
