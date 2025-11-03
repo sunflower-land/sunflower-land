@@ -6807,8 +6807,15 @@
   "description.magmaStone.buff.one": "-15% de tempo do poço de lava",
   "description.magmaStone.buff.two": "+0,15 Obsidiana",
   "description.cornucopia.buff": "+1 Produção de frutas gigantes de projetos de vilas",
-  "description.super.star.boost": "+1 Peixe",
   "description.super.star": "Uma superestrela que concede +1 peixe durante os meses de inverno!",
   "chumDetails.acorn": "O super amigo!",
-  "pet.grave.message": "Hmm, o animal de estimação de alguém faleceu... Seu nome era Izzy."
+  "pet.grave.message": "Hmm, o animal de estimação de alguém faleceu... Seu nome era Izzy.",
+  "description.sawFish.boost.one": "+5 tentativas de pesca",
+  "description.sawFish.boost.two": "+1 minhoca da compostagem",
+  "description.super.star.boost": "+1 Peixe durante o inverno",
+  "description.lunarWeapon.boost": "-50% de recarga de habilidades de potência",
+  "description.cleaverKnife.boost.1": "15% de velocidade de cozimento",
+  "description.cleaverKnife.boost.2": "10% de chance de +1 comida ao cozinhar",
+  "description.trainingWhistle.boost": "+1 Couro",
+  "description.squirrelOnesie.boost": "+1 Bolota"
 }

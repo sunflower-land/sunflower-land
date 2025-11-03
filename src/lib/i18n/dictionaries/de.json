@@ -6807,8 +6807,15 @@
   "description.magmaStone.buff.one": "-15% Lavagrubenzeit",
   "description.magmaStone.buff.two": "+0.15 Obsidian",
   "description.cornucopia.buff": "+1 Riesiger Fruchtertrag aus Dorfprojekten",
-  "description.super.star.boost": "+1 Fisch",
   "description.super.star": "Ein Superstar, der in den Wintermonaten +1 Fische gewährt!",
   "chumDetails.acorn": "Der Superkumpel!",
-  "pet.grave.message": "Hmm, das Haustier von jemandem ist gestorben... Es hieß Izzy."
+  "pet.grave.message": "Hmm, das Haustier von jemandem ist gestorben... Es hieß Izzy.",
+  "description.sawFish.boost.one": "+5 Fangversuche",
+  "description.sawFish.boost.two": "+1 Wurm aus der Kompostierung",
+  "description.super.star.boost": "+1 Fische im Winter",
+  "description.lunarWeapon.boost": "-50% Abklingzeit der Power-Skill",
+  "description.cleaverKnife.boost.1": "15% Gargeschwindigkeit",
+  "description.cleaverKnife.boost.2": "10% Chance auf +1 Essen beim Kochen",
+  "description.trainingWhistle.boost": "+1 Leder",
+  "description.squirrelOnesie.boost": "+1 Eichel"
 }

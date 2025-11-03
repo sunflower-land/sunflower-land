@@ -13,12 +13,6 @@ import {
   withdrawWearablesTransaction,
 } from "lib/blockchain/Withdrawals";
 import { sync } from "../actions/sync";
-import {
-  AcceptOfferParams,
-  acceptOfferTransaction,
-  ListingPurchasedParams,
-  listingPurchasedTransaction,
-} from "lib/blockchain/Marketplace";
 import { postEffect } from "../actions/effect";
 
 export type BudWithdrawnTransaction = {
@@ -65,15 +59,6 @@ export type ProgressSyncedTransaction = {
   };
 };
 
-export type AcceptOfferTransaction = {
-  event: "transaction.offerAccepted";
-  createdAt: number;
-  data: {
-    params: AcceptOfferParams;
-    buds: GameState["buds"];
-  };
-};
-
 export type FlowerWithdrawnTransaction = {
   event: "transaction.flowerWithdrawn";
   createdAt: number;
@@ -83,23 +68,12 @@ export type FlowerWithdrawnTransaction = {
   };
 };
 
-export type ListingPurchasedTransaction = {
-  event: "transaction.listingPurchased";
-  createdAt: number;
-  data: {
-    buds: GameState["buds"];
-    params: ListingPurchasedParams;
-  };
-};
-
 export type GameTransaction =
   | ProgressSyncedTransaction
   | WearablesWithdrawnTransaction
   | ItemsWithdrawnTransaction
   | BudWithdrawnTransaction
   | PetWithdrawnTransaction
-  | AcceptOfferTransaction
-  | ListingPurchasedTransaction
   | FlowerWithdrawnTransaction;
 
 export type TransactionName = Extract<
@@ -199,9 +173,6 @@ export type TransactionHandler = {
 };
 
 export const ONCHAIN_TRANSACTIONS: TransactionHandler = {
-  "transaction.offerAccepted": (data) => acceptOfferTransaction(data.params),
-  "transaction.listingPurchased": (data) =>
-    listingPurchasedTransaction(data.params),
   "transaction.budWithdrawn": (data) => withdrawBudsTransaction(data.params),
   "transaction.petWithdrawn": (data) => withdrawPetsTransaction(data.params),
   "transaction.itemsWithdrawn": (data) => withdrawItemsTransaction(data.params),
@@ -224,8 +195,6 @@ type TransactionRequest = Record<
 >;
 
 export const TRANSACTION_SIGNATURES: TransactionRequest = {
-  "transaction.offerAccepted": () => ({}) as any, // uses new effect flow
-  "transaction.listingPurchased": () => ({}) as any, // uses new effect flow
   "transaction.progressSynced": sync,
   "transaction.budWithdrawn": postEffect,
   "transaction.petWithdrawn": postEffect,

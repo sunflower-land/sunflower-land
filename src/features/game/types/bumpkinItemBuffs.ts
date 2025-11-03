@@ -7,6 +7,7 @@ import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
 import bee from "assets/icons/bee.webp";
 import chefHat from "assets/icons/chef_hat.png";
+import baits from "assets/composters/baits.png";
 import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
 import { getCurrentSeason, getSeasonalTicket, SEASONS } from "./seasons";
@@ -959,6 +960,56 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Gold"].image,
+    },
+  ],
+
+  "Saw Fish": [
+    {
+      shortDescription: translate("description.sawFish.boost.one"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
+    {
+      shortDescription: translate("description.sawFish.boost.two"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: baits,
+    },
+  ],
+  "Lunar Weapon": [
+    {
+      shortDescription: translate("description.lunarWeapon.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+  ],
+  "Cleaver Knife": [
+    {
+      shortDescription: translate("description.cleaverKnife.boost.1"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+    {
+      shortDescription: translate("description.cleaverKnife.boost.2"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+  ],
+  "Training Whistle": [
+    {
+      shortDescription: translate("description.trainingWhistle.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.resource.leather,
+    },
+  ],
+  "Squirrel Onesie": [
+    {
+      shortDescription: translate("description.squirrelOnesie.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.resource.acorn,
     },
   ],
   ...SPECIAL_ITEM_LABELS,

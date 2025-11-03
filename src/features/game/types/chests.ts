@@ -35,6 +35,7 @@ export const MEGASTORE_RESTRICTED_ITEMS: (InventoryItemName | BumpkinItem)[] = [
   ...getObjectEntries(INVENTORY_RELEASES)
     .filter(([_, tradeDetail]) => !tradeDetail)
     .map(([item]) => item),
+  "Pet Egg",
 ];
 
 export const SEASONAL_REWARDS: (

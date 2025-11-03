@@ -14,7 +14,10 @@ import {
   SeasonalTierItemName,
 } from "features/game/types/megastore";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import {
+  BumpkinActivityName,
+  trackActivity,
+} from "features/game/types/bumpkinActivity";
 
 export function isCollectible(
   item: SeasonalStoreItem,
@@ -98,7 +101,10 @@ export function buySeasonalItem({
 
     const keyReduction = isKeyBoughtWithinSeason(state, tier, true) ? 0 : 1;
     const boxReduction = isBoxBoughtWithinSeason(state, tier, true) ? 0 : 1;
-    const reduction = keyReduction + boxReduction;
+    const petEggReduction = isPetEggBoughtWithinSeason(state, tier, true)
+      ? 0
+      : 1;
+    const reduction = keyReduction + boxReduction + petEggReduction;
 
     // Check if player meets the tier requirement
     if (tier !== "basic") {
@@ -286,6 +292,37 @@ export function isBoxBoughtWithinSeason(
 
   // This will only be triggered if isLowerTier is false
   return false;
+}
+
+export function isPetEggBoughtWithinSeason(
+  game: GameState,
+  tier: keyof SeasonalStore,
+  isLowerTier = false,
+) {
+  const tierToEvaluate = isLowerTier ? tierMapping[tier] : tier;
+
+  if (tier !== "mega" && !(isLowerTier && tierToEvaluate === "epic")) {
+    return true;
+  }
+
+  const petEggActivityName = "Pet Egg Bought" as BumpkinActivityName;
+  const petEggHistory = game.bumpkin.activity[petEggActivityName];
+
+  if (!petEggHistory) {
+    return true;
+  }
+
+  const petEggBoughtAt =
+    game.megastore?.boughtAt["Pet Egg" as SeasonalTierItemName];
+
+  if (!petEggBoughtAt) {
+    return false;
+  }
+
+  const seasonTime = SEASONS[getCurrentSeason()];
+  const boughtDate = new Date(petEggBoughtAt);
+
+  return boughtDate >= seasonTime.startDate && boughtDate <= seasonTime.endDate;
 }
 
 const tierMapping: Record<keyof SeasonalStore, keyof SeasonalStore> = {
