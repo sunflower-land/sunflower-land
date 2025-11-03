@@ -4,42 +4,7 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  should_run:
-    runs-on: ubuntu-latest
-    outputs:
-      run_codex: ${{ steps.set.outputs.run_codex }}
-    steps:
-      - uses: actions/github-script@v7
-        id: set
-        with:
-          github-token: ${{ github.token }}
-          script: |
-            const core = require('@actions/core');
-            const action = context.payload.action;
-
-            if (action === 'opened') {
-              core.info('PR opened; Codex will run.');
-              core.setOutput('run_codex', 'true');
-              return;
-            }
-
-            const { owner, repo } = context.repo;
-            const headSha = context.payload.pull_request.head.sha;
-            const commit = await github.rest.git.getCommit({ owner, repo, commit_sha: headSha });
-            const message = commit.data.message || '';
-            const shouldRun = message.includes('[run-codex]');
-
-            if (shouldRun) {
-              core.info('Found [run-codex] in latest commit message.');
-            } else {
-              core.info('Latest commit message does not contain [run-codex]; Codex will be skipped.');
-            }
-
-            core.setOutput('run_codex', shouldRun.toString());
-
   codex:
-    needs: should_run
-    if: needs.should_run.outputs.run_codex == 'true'
     environment: develop
     runs-on: ubuntu-latest
     permissions:
@@ -58,8 +23,30 @@ jobs:
             ${{ github.event.pull_request.base.ref }} \
             +refs/pull/${{ github.event.pull_request.number }}/head
 
+      - name: Check Codex trigger
+        id: should_run
+        run: |
+          set -euo pipefail
+
+          if [ "${{ github.event.action }}" = "opened" ]; then
+            echo "Codex will run for newly opened PR." >&2
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          message=$(git log -1 --pretty=%B FETCH_HEAD || echo '')
+
+          if [[ "$message" == *"[run-codex]"* ]]; then
+            echo "Found [run-codex] in latest commit message; Codex will run." >&2
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Latest commit message lacks [run-codex]; skipping Codex." >&2
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Run Codex
         id: run_codex
+        if: steps.should_run.outputs.run == 'true'
         uses: openai/codex-action@v1
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
