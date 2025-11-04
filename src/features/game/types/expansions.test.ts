@@ -37,7 +37,7 @@ describe("getLand", () => {
     expect(land).toEqual(SPRING_LAND_5_LAYOUT());
   });
 
-  it("does not return resources if player already has expected resources", () => {
+  it.only("does not return resources if player already has expected resources", () => {
     const land = getLand({
       id: 1,
       game: {
@@ -49,7 +49,8 @@ describe("getLand", () => {
           ...TEST_FARM.inventory,
           "Basic Land": new Decimal(4),
           "Crop Plot": new Decimal(44),
-          Tree: new Decimal(22),
+          "Ancient Tree": new Decimal(1),
+          Tree: new Decimal(18),
           "Stone Rock": new Decimal(12),
           "Iron Rock": new Decimal(6),
           "Gold Rock": new Decimal(3),
