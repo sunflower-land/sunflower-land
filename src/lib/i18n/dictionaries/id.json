@@ -6825,5 +6825,7 @@
   "news.chapter.auction": "Bersaing dengan Bumpkins lain di Rumah Lelang untuk NFT paling langka.",
   "news.chapter.mutants": "Temukan mutan dan NFT eksklusif babak lainnya.",
   "news.pawprints.title": "Bab Cetakan Kaki - 4 November",
-  "news.pawprints.description": "Selesaikan tugas, dapatkan token, temukan hewan peliharaan, dan menangkan NFT!"
+  "news.pawprints.description": "Selesaikan tugas, dapatkan token, temukan hewan peliharaan, dan menangkan NFT!",
+  "auction.results": "Hasil",
+  "auction.results.notAvailable": "Hasil belum tersedia."
 }

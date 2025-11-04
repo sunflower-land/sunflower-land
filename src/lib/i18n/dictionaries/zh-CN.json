@@ -6825,5 +6825,7 @@
   "news.chapter.auction": "在拍卖行与其他 Bumpkins 竞争最稀有的 NFT。",
   "news.chapter.mutants": "探索突变体和其他章节独有的 NFT。",
   "news.pawprints.title": "爪印章节——11 月 4 日",
-  "news.pawprints.description": "完成任务，赚取代币，发现宠物并赢取 NFT！"
+  "news.pawprints.description": "完成任务，赚取代币，发现宠物并赢取 NFT！",
+  "auction.results": "结果",
+  "auction.results.notAvailable": "尚无结果。"
 }

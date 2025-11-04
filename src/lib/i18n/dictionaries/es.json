@@ -6825,5 +6825,7 @@
   "news.chapter.auction": "Compite con otros torpes en la casa de subastas por los NFT más raros.",
   "news.chapter.mutants": "Descubre mutantes y otros NFT exclusivos de capítulos.",
   "news.pawprints.title": "Capítulo de Paw Prints - 4 de noviembre",
-  "news.pawprints.description": "¡Completa tareas, gana fichas, descubre mascotas y gana NFT!"
+  "news.pawprints.description": "¡Completa tareas, gana fichas, descubre mascotas y gana NFT!",
+  "auction.results": "Resultados",
+  "auction.results.notAvailable": "Los resultados aún no están disponibles."
 }

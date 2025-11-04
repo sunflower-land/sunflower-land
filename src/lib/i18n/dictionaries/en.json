@@ -110,6 +110,8 @@
   "addSFL.swapTitle": "Swap Details",
   "addSFL.minimumReceived": "Minimum Received: {{sflReceived}} FLOWER",
   "auction.title": "Auctions & Drops",
+  "auction.results": "Results",
+  "auction.results.notAvailable": "Results are not available yet.",
   "auction.bid.message": "You have placed your bid.",
   "auction.reveal": "Reveal winners",
   "auction.live": "Auction is live!",

@@ -6825,5 +6825,7 @@
   "news.chapter.auction": "Compita com outros Bumpkins na Casa de Leilões pelos NFTs mais raros.",
   "news.chapter.mutants": "Descubra mutantes e outros NFTs exclusivos do capítulo.",
   "news.pawprints.title": "Capítulo Paw Prints - 4 de novembro",
-  "news.pawprints.description": "Complete tarefas, ganhe fichas, descubra animais de estimação e ganhe NFTs!"
+  "news.pawprints.description": "Complete tarefas, ganhe fichas, descubra animais de estimação e ganhe NFTs!",
+  "auction.results": "Resultados",
+  "auction.results.notAvailable": "Os resultados ainda não estão disponíveis."
 }

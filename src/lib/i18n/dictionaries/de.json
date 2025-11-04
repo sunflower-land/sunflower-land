@@ -6825,5 +6825,7 @@
   "news.chapter.auction": "Messen Sie sich im Auktionshaus mit anderen Bumpkins um die seltensten NFTs.",
   "news.chapter.mutants": "Entdecke Mutanten und andere kapitelexklusive NFTs.",
   "news.pawprints.title": "Kapitel „Pfotenabdrücke“ — 4. November",
-  "news.pawprints.description": "Erledige Aufgaben, verdiene Tokens, entdecke Haustiere und gewinne NFTs!"
+  "news.pawprints.description": "Erledige Aufgaben, verdiene Tokens, entdecke Haustiere und gewinne NFTs!",
+  "auction.results": "Ergebnisse",
+  "auction.results.notAvailable": "Ergebnisse sind noch nicht verfügbar."
 }

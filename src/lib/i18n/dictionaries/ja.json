@@ -6825,5 +6825,7 @@
   "news.chapter.auction": "オークションハウスで他のバンプキンと競い合って、最も希少なNFTを手に入れましょう。",
   "news.chapter.mutants": "ミュータントやその他のチャプター限定のNFTを発見してください。",
   "news.pawprints.title": "ポープリントチャプター-11月4日",
-  "news.pawprints.description": "タスクを完了し、トークンを獲得し、ペットを発見してNFTを獲得しましょう！"
+  "news.pawprints.description": "タスクを完了し、トークンを獲得し、ペットを発見してNFTを獲得しましょう！",
+  "auction.results": "結果",
+  "auction.results.notAvailable": "結果はまだ出ていません。"
 }

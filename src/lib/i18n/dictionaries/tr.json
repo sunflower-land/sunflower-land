@@ -6825,5 +6825,7 @@
   "news.chapter.auction": "En nadir NFT'ler için Müzayede Evi'ndeki diğer Bumpkin'lerle rekabet edin.",
   "news.chapter.mutants": "Mutantları ve diğer bölüme özel NFT'leri keşfedin.",
   "news.pawprints.title": "Pençe Baskıları Bölümü - 4 Kasım",
-  "news.pawprints.description": "Görevleri tamamlayın, jetonlar kazanın, evcil hayvanları keşfedin ve NFT'ler kazanın!"
+  "news.pawprints.description": "Görevleri tamamlayın, jetonlar kazanın, evcil hayvanları keşfedin ve NFT'ler kazanın!",
+  "auction.results": "Sonuçlar",
+  "auction.results.notAvailable": "Sonuçlar henüz mevcut değil."
 }
