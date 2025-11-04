@@ -6511,6 +6511,7 @@
   "description.toucanShrine.buff": "-25% Fruit Growth Time",
   "description.collieShrine.buff": "-25% Cow Sleep Time",
   "description.collieShrine.buff.2": "-25% Sheep Sleep Time",
+  "description.collieShrine.buff.3": "-5% Feed to feed barn animals",
   "description.badgerShrine.buff": "-25% Tree Recovery Time",
   "description.badgerShrine.buff.2": "-25% Stone Recovery Time",
   "description.stagShrine.buff": "-25% Oil Recovery Time",

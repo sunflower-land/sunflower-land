@@ -549,6 +549,14 @@ export function getBoostedFoodQuantity({
     boostsUsed.push("Chonky Feed");
   }
 
+  if (
+    (animalType === "Sheep" || animalType === "Cow") &&
+    isTemporaryCollectibleActive({ name: "Collie Shrine", game })
+  ) {
+    baseFoodQuantity *= 0.95;
+    boostsUsed.push("Collie Shrine");
+  }
+
   return { foodQuantity: baseFoodQuantity, boostsUsed };
 }
 
