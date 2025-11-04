@@ -6504,6 +6504,7 @@
   "description.tradingShrine.buff": "-2.5% resource tax",
   "description.monument.buff": "+1 Help Limit",
   "description.foxShrine.buff": "-25% Crafting Box Time",
+  "description.foxShrine.buff.2": "10% chance to instantly craft a recipe",
   "description.boarShrine.buff": "-20% Cooking Time",
   "description.houndShrine.buff": "+100 Pet XP",
   "description.sparrowShrine.buff": "-25% Crop Growth Time",

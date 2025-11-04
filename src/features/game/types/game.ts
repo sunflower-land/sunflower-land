@@ -1836,6 +1836,7 @@ export interface GameState {
     startedAt: number;
     readyAt: number;
     recipes: Partial<Recipes>;
+    seed?: number;
   };
   season: Season;
   lavaPits: Record<string, LavaPit>;

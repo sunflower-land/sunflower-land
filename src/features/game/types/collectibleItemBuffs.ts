@@ -1669,6 +1669,12 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Crafting Box"].image,
     },
+    {
+      shortDescription: translate("description.foxShrine.buff.2"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS["Crafting Box"].image,
+    },
   ],
   "Boar Shrine": () => [
     {
