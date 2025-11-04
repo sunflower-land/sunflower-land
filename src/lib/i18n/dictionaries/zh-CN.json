@@ -6827,5 +6827,6 @@
   "news.pawprints.title": "爪印章节——11 月 4 日",
   "news.pawprints.description": "完成任务，赚取代币，发现宠物并赢取 NFT！",
   "auction.results": "结果",
-  "auction.results.notAvailable": "尚无结果。"
+  "auction.results.notAvailable": "尚无结果。",
+  "vip.benefit.bonusPetEnergy": "Paw Prints 章节期间 +5 宠物能量"
 }

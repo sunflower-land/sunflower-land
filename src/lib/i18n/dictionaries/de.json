@@ -6827,5 +6827,6 @@
   "news.pawprints.title": "Kapitel „Pfotenabdrücke“ — 4. November",
   "news.pawprints.description": "Erledige Aufgaben, verdiene Tokens, entdecke Haustiere und gewinne NFTs!",
   "auction.results": "Ergebnisse",
-  "auction.results.notAvailable": "Ergebnisse sind noch nicht verfügbar."
+  "auction.results.notAvailable": "Ergebnisse sind noch nicht verfügbar.",
+  "vip.benefit.bonusPetEnergy": "+5 Tierenergie im Kapitel „Pfotenabdrücke“"
 }

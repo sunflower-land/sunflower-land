@@ -6827,5 +6827,6 @@
   "news.pawprints.title": "Chapitre Paw Prints - 4 novembre",
   "news.pawprints.description": "Accomplissez des tâches, gagnez des jetons, découvrez des animaux de compagnie et gagnez des NFT !",
   "auction.results": "Résultats",
-  "auction.results.notAvailable": "Les résultats ne sont pas encore disponibles."
+  "auction.results.notAvailable": "Les résultats ne sont pas encore disponibles.",
+  "vip.benefit.bonusPetEnergy": "+5 points d'énergie pour animaux pendant le chapitre sur les empreintes de pattes"
 }

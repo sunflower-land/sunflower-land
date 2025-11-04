@@ -6827,5 +6827,6 @@
   "news.pawprints.title": "Глава «Отпечатки лап» - 4 ноября",
   "news.pawprints.description": "Выполняйте задания, зарабатывайте токены, находите питомцев и выигрывайте NFT!",
   "auction.results": "Результаты",
-  "auction.results.notAvailable": "Результаты пока недоступны."
+  "auction.results.notAvailable": "Результаты пока недоступны.",
+  "vip.benefit.bonusPetEnergy": "+5 энергии питомца в главе «Отпечатки лап»"
 }

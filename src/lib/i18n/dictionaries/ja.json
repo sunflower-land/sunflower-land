@@ -6827,5 +6827,6 @@
   "news.pawprints.title": "ポープリントチャプター-11月4日",
   "news.pawprints.description": "タスクを完了し、トークンを獲得し、ペットを発見してNFTを獲得しましょう！",
   "auction.results": "結果",
-  "auction.results.notAvailable": "結果はまだ出ていません。"
+  "auction.results.notAvailable": "結果はまだ出ていません。",
+  "vip.benefit.bonusPetEnergy": "「足跡」チャプター中、ペットエナジー+5"
 }

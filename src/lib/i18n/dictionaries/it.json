@@ -6827,5 +6827,6 @@
   "news.pawprints.title": "Capitolo Paw Prints - 4 novembre",
   "news.pawprints.description": "Completa le attività, guadagna gettoni, scopri animali domestici e vinci NFT!",
   "auction.results": "Risultati",
-  "auction.results.notAvailable": "I risultati non sono ancora disponibili."
+  "auction.results.notAvailable": "I risultati non sono ancora disponibili.",
+  "vip.benefit.bonusPetEnergy": "+5 Energia per animali domestici durante il capitolo Paw Prints"
 }

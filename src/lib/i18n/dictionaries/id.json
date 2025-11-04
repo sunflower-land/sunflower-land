@@ -6827,5 +6827,6 @@
   "news.pawprints.title": "Bab Cetakan Kaki - 4 November",
   "news.pawprints.description": "Selesaikan tugas, dapatkan token, temukan hewan peliharaan, dan menangkan NFT!",
   "auction.results": "Hasil",
-  "auction.results.notAvailable": "Hasil belum tersedia."
+  "auction.results.notAvailable": "Hasil belum tersedia.",
+  "vip.benefit.bonusPetEnergy": "+5 Energi Hewan Peliharaan selama Bab Cetakan Kaki"
 }

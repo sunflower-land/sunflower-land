@@ -6827,5 +6827,6 @@
   "news.pawprints.title": "Capítulo de Paw Prints - 4 de noviembre",
   "news.pawprints.description": "¡Completa tareas, gana fichas, descubre mascotas y gana NFT!",
   "auction.results": "Resultados",
-  "auction.results.notAvailable": "Los resultados aún no están disponibles."
+  "auction.results.notAvailable": "Los resultados aún no están disponibles.",
+  "vip.benefit.bonusPetEnergy": "+5 de energía para mascotas durante el capítulo Huellas de garras"
 }

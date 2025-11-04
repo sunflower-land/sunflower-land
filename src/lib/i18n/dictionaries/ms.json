@@ -6827,5 +6827,6 @@
   "news.pawprints.title": "Bab Cetakan Paw - 4 Nov",
   "news.pawprints.description": "Lengkapkan tugas, dapatkan token, temui haiwan peliharaan dan menang NFT!",
   "auction.results": "Keputusan",
-  "auction.results.notAvailable": "Keputusan belum tersedia lagi."
+  "auction.results.notAvailable": "Keputusan belum tersedia lagi.",
+  "vip.benefit.bonusPetEnergy": "+5 Tenaga Haiwan Peliharaan semasa Bab Cetakan Paw"
 }
