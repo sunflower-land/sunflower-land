@@ -104,6 +104,8 @@ export const VisitingPetNFT: React.FC<{
       isNeglected={isNeglected}
       isNapping={isNapping}
       isTypeFed={isTypeFed}
+      onClick={handlePetClick}
+      clickable={!hasHelpedPet}
     >
       {!hasHelpedPet && petNFTData && !hasHitSocialPetLimit(petNFTData) && (
         <div
