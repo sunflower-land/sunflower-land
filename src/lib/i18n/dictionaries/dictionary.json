@@ -6499,6 +6499,7 @@
   "description.collieShrine": "A shrine to the collie",
   "description.bantamShrine": "A shrine to the bantam",
   "description.bantamShrine.buff": "-25% Chicken Sleep Time",
+  "description.bantamShrine.buff.2": "-5% Feed to feed chickens",
   "description.badgerShrine": "A shrine to the badger",
   "description.tradingShrine": "A trading shrine",
   "description.tradingShrine.buff": "-2.5% resource tax",

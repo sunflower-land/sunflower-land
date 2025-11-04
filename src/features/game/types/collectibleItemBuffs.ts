@@ -1733,6 +1733,12 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: SUNNYSIDE.animals.sheepSleeping,
     },
+    {
+      shortDescription: translate("description.collieShrine.buff.3"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: SUNNYSIDE.animalFoods.kernel_blend,
+    },
   ],
   "Badger Shrine": () => [
     {
@@ -1836,6 +1842,12 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: SUNNYSIDE.animals.chickenAsleep,
+    },
+    {
+      shortDescription: translate("description.bantamShrine.buff.2"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: SUNNYSIDE.animalFoods.kernel_blend,
     },
   ],
   "Trading Shrine": () => [
