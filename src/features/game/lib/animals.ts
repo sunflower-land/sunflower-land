@@ -557,6 +557,14 @@ export function getBoostedFoodQuantity({
     boostsUsed.push("Collie Shrine");
   }
 
+  if (
+    animalType === "Chicken" &&
+    isTemporaryCollectibleActive({ name: "Bantam Shrine", game })
+  ) {
+    baseFoodQuantity *= 0.95;
+    boostsUsed.push("Bantam Shrine");
+  }
+
   return { foodQuantity: baseFoodQuantity, boostsUsed };
 }
 
