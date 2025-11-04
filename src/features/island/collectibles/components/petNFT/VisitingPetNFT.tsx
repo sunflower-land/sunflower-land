@@ -83,7 +83,10 @@ export const VisitingPetNFT: React.FC<{
       hasFeatureAccess(visitorGameState, "PETS") &&
       !hasHelpedPet
     ) {
-      gameService.send("pet.visitingPets", { pet: id, totalHelpedToday });
+      gameService.send("pet.visitingPets", {
+        pet: Number(id),
+        totalHelpedToday,
+      });
 
       if (
         isHelpComplete({
