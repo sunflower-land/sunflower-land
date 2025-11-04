@@ -5,6 +5,7 @@ import lightning from "assets/icons/lightning.png";
 import helpIcon from "assets/icons/help.webp";
 import chefHat from "assets/icons/chef_hat.png";
 import tradeIcon from "assets/icons/trade.png";
+import bee from "assets/icons/bee.webp";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "./images";
@@ -1813,6 +1814,12 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS.Honey.image,
     },
+    {
+      shortDescription: translate("description.bearShrine.buff.2"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: bee,
+    },
   ],
   "Tortoise Shrine": () => [
     {
@@ -1833,6 +1840,12 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       shortDescription: translate("description.mothShrine.buff"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
+    },
+    {
+      shortDescription: translate("description.mothShrine.buff.2"),
+      labelType: "success",
+      boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
     },
   ],
