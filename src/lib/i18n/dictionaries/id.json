@@ -6817,5 +6817,6 @@
   "description.cleaverKnife.boost.1": "15% Kecepatan Memasak",
   "description.cleaverKnife.boost.2": "10% peluang +1 Makanan dari memasak",
   "description.trainingWhistle.boost": "+1 Kulit",
-  "description.squirrelOnesie.boost": "+1 Acorn"
+  "description.squirrelOnesie.boost": "+1 Acorn",
+  "marketplace.pet.trade.date": "Tanggal perdagangan: {{date}}"
 }

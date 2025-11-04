@@ -6817,5 +6817,6 @@
   "description.cleaverKnife.boost.1": "Velocidad de cocción del 15%",
   "description.cleaverKnife.boost.2": "10% de probabilidad de obtener +1 comida al cocinarse",
   "description.trainingWhistle.boost": "+1 Cuero",
-  "description.squirrelOnesie.boost": "+1 Bellota"
+  "description.squirrelOnesie.boost": "+1 Bellota",
+  "marketplace.pet.trade.date": "Fecha de negociación: {{date}}"
 }

@@ -6817,5 +6817,6 @@
   "description.cleaverKnife.boost.1": "15% 烹饪速度",
   "description.cleaverKnife.boost.2": "10% 几率从烹饪中获得 +1 个食物",
   "description.trainingWhistle.boost": "+1 皮革",
-  "description.squirrelOnesie.boost": "+1 橡子"
+  "description.squirrelOnesie.boost": "+1 橡子",
+  "marketplace.pet.trade.date": "交易日期：{{date}}"
 }

@@ -6817,5 +6817,6 @@
   "description.cleaverKnife.boost.1": "%15 Pişirme Hızı",
   "description.cleaverKnife.boost.2": "Yemekten %10 +1 Yiyecek alma şansı",
   "description.trainingWhistle.boost": "+1 Deri",
-  "description.squirrelOnesie.boost": "+1 Acorn"
+  "description.squirrelOnesie.boost": "+1 Acorn",
+  "marketplace.pet.trade.date": "İşlem tarihi: {{date}}"
 }

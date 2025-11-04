@@ -6817,5 +6817,6 @@
   "description.cleaverKnife.boost.1": "-15% к времени готовки",
   "description.cleaverKnife.boost.2": "10% вероятность получения +1 блюда после приготовления",
   "description.trainingWhistle.boost": "+1 Кожа",
-  "description.squirrelOnesie.boost": "+1 Желудь"
+  "description.squirrelOnesie.boost": "+1 Желудь",
+  "marketplace.pet.trade.date": "Дата сделки: {{date}}"
 }

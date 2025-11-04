@@ -6817,5 +6817,6 @@
   "description.cleaverKnife.boost.1": "15% Gargeschwindigkeit",
   "description.cleaverKnife.boost.2": "10% Chance auf +1 Essen beim Kochen",
   "description.trainingWhistle.boost": "+1 Leder",
-  "description.squirrelOnesie.boost": "+1 Eichel"
+  "description.squirrelOnesie.boost": "+1 Eichel",
+  "marketplace.pet.trade.date": "Handelsdatum: {{date}}"
 }

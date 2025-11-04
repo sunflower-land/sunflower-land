@@ -6817,5 +6817,6 @@
   "description.cleaverKnife.boost.1": "15% 쿠킹 스피드",
   "description.cleaverKnife.boost.2": "10% 의 확률로 요리로 인한 음식 +1",
   "description.trainingWhistle.boost": "+1 가죽",
-  "description.squirrelOnesie.boost": "+1 에이콘"
+  "description.squirrelOnesie.boost": "+1 에이콘",
+  "marketplace.pet.trade.date": "거래일: {{date}}"
 }
