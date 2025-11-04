@@ -17,7 +17,7 @@ type SeasonalMutants = {
   sheep: InventoryItemName;
 };
 
-const SEASONAL_MUTANTS: Partial<Record<SeasonName, SeasonalMutants>> = {
+export const SEASONAL_MUTANTS: Partial<Record<SeasonName, SeasonalMutants>> = {
   "Pharaoh's Treasure": {
     chicken: "Pharaoh Chicken",
     flower: "Desert Rose",
@@ -49,6 +49,14 @@ const SEASONAL_MUTANTS: Partial<Record<SeasonName, SeasonalMutants>> = {
     cow: "Baby Cow",
     sheep: "Baby Sheep",
     banner: SUNNYSIDE.announcement.betterTogetherSeasonRares,
+  },
+  "Paw Prints": {
+    chicken: "Sleepy Chicken",
+    flower: "Black Hole Flower",
+    fish: "Super Star",
+    cow: "Astronaut Cow",
+    sheep: "Astronaut Sheep",
+    banner: SUNNYSIDE.announcement.pawPrintsSeasonRares,
   },
 };
 

@@ -6817,5 +6817,13 @@
   "description.cleaverKnife.boost.1": "Velocità di cottura del 15%",
   "description.cleaverKnife.boost.2": "10% di probabilità di +1 cibo cucinato",
   "description.trainingWhistle.boost": "+1 Pelle",
-  "description.squirrelOnesie.boost": "+1 Ghianda"
+  "description.squirrelOnesie.boost": "+1 Ghianda",
+  "marketplace.pet.trade.date": "Data di negoziazione: {{date}}",
+  "news.chapter.backButton": "{{chapter}} Capitolo",
+  "news.chapter.ticket": "Completa consegne, lavori e ricompense per guadagnare {{ticket}} gettoni.",
+  "news.chapter.megastore": "Scambia i token {{ticket}} nel Megastore con esclusivi NFT da collezione e indossabili.",
+  "news.chapter.auction": "Competi con altri Bumpkins alla Casa d'Aste per gli NFT più rari.",
+  "news.chapter.mutants": "Scopri i mutanti e altri NFT esclusivi del capitolo.",
+  "news.pawprints.title": "Capitolo Paw Prints - 4 novembre",
+  "news.pawprints.description": "Completa le attività, guadagna gettoni, scopri animali domestici e vinci NFT!"
 }

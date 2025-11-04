@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
-import { hasVipAccess } from "features/game/lib/vipAccess";
-import { GameState } from "features/game/types/game";
-import { getCurrentSeason } from "features/game/types/seasons";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { BoostName, GameState } from "features/game/types/game";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { produce } from "immer";
 
 export type ClaimCheersAction = {
@@ -13,6 +13,18 @@ type Options = {
   action: ClaimCheersAction;
   createdAt?: number;
 };
+
+export function getDailyCheersAmount(state: GameState) {
+  let amount = 3;
+  const boostsUsed: BoostName[] = [];
+
+  if (isCollectibleBuilt({ name: "Giant Gold Bone", game: state })) {
+    amount += 2;
+    boostsUsed.push("Giant Gold Bone");
+  }
+
+  return { amount, boostsUsed };
+}
 
 export function claimDailyCheers({
   state,
@@ -30,14 +42,7 @@ export function claimDailyCheers({
       throw new Error("Already claimed your daily free cheers");
     }
 
-    let amount = 3;
-
-    if (
-      hasVipAccess({ game: draft }) &&
-      getCurrentSeason(new Date(createdAt)) === "Better Together"
-    ) {
-      amount = 6;
-    }
+    const { amount, boostsUsed } = getDailyCheersAmount(draft);
 
     draft.inventory.Cheer = (draft.inventory.Cheer ?? new Decimal(0)).add(
       amount,
@@ -46,6 +51,12 @@ export function claimDailyCheers({
     if (cheers.freeCheersClaimedAt < new Date(today).getTime()) {
       cheers.freeCheersClaimedAt = createdAt;
     }
+
+    draft.boostsUsedAt = updateBoostUsed({
+      game: draft,
+      boostNames: boostsUsed,
+      createdAt,
+    });
 
     return draft;
   });

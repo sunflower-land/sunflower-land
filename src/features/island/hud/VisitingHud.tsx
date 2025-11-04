@@ -25,8 +25,10 @@ import choreIcon from "assets/icons/chores.webp";
 import { VisitorGuide } from "./components/VisitorGuide";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { getHelpRequired } from "features/game/types/monuments";
-import { hasHitHelpLimit } from "features/game/events/landExpansion/increaseHelpLimit";
+import {
+  getHelpRequired,
+  hasHitHelpLimit,
+} from "features/game/types/monuments";
 import { Feed } from "features/social/Feed";
 import { WorldFeedButton } from "features/social/components/WorldFeedButton";
 import classNames from "classnames";

@@ -51,25 +51,31 @@ const getNFTTraits = (
   display?: TradeableDisplay,
 ): {
   revealDate: Date | undefined;
+  tradeDate: Date | undefined;
   traits: PetTraits | Bud | undefined;
 } => {
   if (!display || (display.type !== "pets" && display.type !== "buds")) {
-    return { revealDate: undefined, traits: undefined };
+    return { revealDate: undefined, traits: undefined, tradeDate: undefined };
   }
 
   const id = Number(display.name.split("#")[1]);
 
   if (Number.isNaN(id)) {
-    return { revealDate: undefined, traits: undefined };
+    return { revealDate: undefined, traits: undefined, tradeDate: undefined };
   }
 
   if (display.type === "buds") {
-    return { revealDate: undefined, traits: getBudTraits(id) };
+    return {
+      revealDate: undefined,
+      traits: getBudTraits(id),
+      tradeDate: undefined,
+    };
   }
 
   return {
     revealDate: getPetNFTReleaseDate(id, Date.now()),
     traits: getPetTraits(id),
+    tradeDate: new Date("2025-11-10T00:00:00Z"),
   };
 };
 
@@ -172,7 +178,7 @@ export const TradeableDescription: React.FC<{
   const isCollectible = display.type === "collectibles";
   const isResource = isTradeResource(display.name as InventoryItemName);
 
-  const { revealDate, traits } = getNFTTraits(display);
+  const { revealDate, traits, tradeDate } = getNFTTraits(display);
 
   return (
     <InnerPanel className="mb-1">
@@ -235,6 +241,14 @@ export const TradeableDescription: React.FC<{
               ) : (
                 <Label type="danger">{t("marketplace.pet.comingSoon")}</Label>
               ))}
+
+            {tradeDate && (
+              <Label type="formula">
+                {t("marketplace.pet.trade.date", {
+                  date: formatDate(tradeDate),
+                })}
+              </Label>
+            )}
           </div>
         </div>
         {tradeable?.expiresAt && (

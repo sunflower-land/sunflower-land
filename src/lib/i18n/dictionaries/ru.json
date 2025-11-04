@@ -6817,5 +6817,13 @@
   "description.cleaverKnife.boost.1": "-15% к времени готовки",
   "description.cleaverKnife.boost.2": "10% вероятность получения +1 блюда после приготовления",
   "description.trainingWhistle.boost": "+1 Кожа",
-  "description.squirrelOnesie.boost": "+1 Желудь"
+  "description.squirrelOnesie.boost": "+1 Желудь",
+  "marketplace.pet.trade.date": "Дата сделки: {{date}}",
+  "news.chapter.backButton": "{{chapter}} Глава",
+  "news.chapter.ticket": "Выполняйте доставку, выполняйте работу по дому и получайте награды, чтобы заработать {{ticket}} токенов.",
+  "news.chapter.megastore": "Обменивайте токены {{ticket}} в Megastore на эксклюзивные коллекционные и носимые NFT.",
+  "news.chapter.auction": "Соревнуйтесь с другими Bumpkins на аукционе за самые редкие NFT.",
+  "news.chapter.mutants": "Откройте для себя мутантов и другие эксклюзивные NFT, эксклюзивные для глав.",
+  "news.pawprints.title": "Глава «Отпечатки лап» - 4 ноября",
+  "news.pawprints.description": "Выполняйте задания, зарабатывайте токены, находите питомцев и выигрывайте NFT!"
 }

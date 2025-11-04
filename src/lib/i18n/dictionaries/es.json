@@ -6817,5 +6817,13 @@
   "description.cleaverKnife.boost.1": "Velocidad de cocción del 15%",
   "description.cleaverKnife.boost.2": "10% de probabilidad de obtener +1 comida al cocinarse",
   "description.trainingWhistle.boost": "+1 Cuero",
-  "description.squirrelOnesie.boost": "+1 Bellota"
+  "description.squirrelOnesie.boost": "+1 Bellota",
+  "marketplace.pet.trade.date": "Fecha de negociación: {{date}}",
+  "news.chapter.backButton": "Capítulo {{chapter}}",
+  "news.chapter.ticket": "Completa entregas, tareas y recompensas para ganar fichas de {{ticket}}.",
+  "news.chapter.megastore": "Cambia fichas {{ticket}} en la Megastore por NFT coleccionables y portátiles exclusivos.",
+  "news.chapter.auction": "Compite con otros torpes en la casa de subastas por los NFT más raros.",
+  "news.chapter.mutants": "Descubre mutantes y otros NFT exclusivos de capítulos.",
+  "news.pawprints.title": "Capítulo de Paw Prints - 4 de noviembre",
+  "news.pawprints.description": "¡Completa tareas, gana fichas, descubre mascotas y gana NFT!"
 }
