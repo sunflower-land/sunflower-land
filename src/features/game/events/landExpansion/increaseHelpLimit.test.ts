@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
-import { getHelpLimit, increaseHelpLimit } from "./increaseHelpLimit";
+import { increaseHelpLimit } from "./increaseHelpLimit";
+import { getHelpLimit } from "features/game/types/monuments";
 import { INITIAL_FARM } from "features/game/lib/constants";
 
 describe("increaseHelpLimit", () => {

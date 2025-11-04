@@ -14,6 +14,9 @@ import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import lightningIcon from "assets/icons/lightning.png";
 import flowerIcon from "assets/icons/flower_token.webp";
 import redPansyIcon from "assets/flowers/red_pansy.webp";
+import { SEASON_TICKET_NAME, SeasonName } from "features/game/types/seasons";
+import { SEASONAL_MUTANTS } from "features/island/hud/components/codex/components/SeasonalMutants";
+import { CHAPTER_GRAPHICS } from "features/island/hud/components/codex/pages/Season";
 
 export function hasReadNews() {
   const readAt = localStorage.getItem("newsReadAt");
@@ -338,7 +341,61 @@ export const ObsidianUpdates: React.FC<NewsComponentProps> = ({ onClose }) => {
   );
 };
 
+const Chapter: React.FC<NewsComponentProps & { chapter: SeasonName }> = ({
+  onClose,
+  chapter,
+}) => {
+  const { t } = useAppTranslation();
+
+  const ticket = SEASON_TICKET_NAME[chapter];
+  const mutant = SEASONAL_MUTANTS[chapter]?.fish;
+  const banner = CHAPTER_GRAPHICS[chapter];
+
+  return (
+    <>
+      <div className="flex  cursor-pointer mb-2 items-center" onClick={onClose}>
+        <img src={SUNNYSIDE.icons.arrow_left} className="h-6 mr-2" />
+        <p className="text-xs underline">
+          {t("news.chapter.backButton", { chapter })}
+        </p>
+      </div>
+      <NoticeboardItems
+        items={[
+          {
+            icon: ITEM_DETAILS[ticket].image,
+            text: t("news.chapter.ticket", { ticket }),
+          },
+          {
+            icon: shopIcon,
+            text: t("news.chapter.megastore", { ticket }),
+          },
+          {
+            icon: SUNNYSIDE.icons.stopwatch,
+            text: t("news.chapter.auction", { ticket }),
+          },
+          {
+            icon: mutant ? ITEM_DETAILS[mutant].image : SUNNYSIDE.icons.fish,
+            text: t("news.chapter.mutants", { ticket }),
+          },
+        ]}
+      />
+      <img src={banner} className="w-full mb-2 rounded-sm my-2" />
+    </>
+  );
+};
+
+const PawPrints: React.FC<NewsComponentProps> = ({ onClose }) => {
+  return <Chapter onClose={onClose} chapter="Paw Prints" />;
+};
+
 const NEWS_ITEMS: NewsItem[] = [
+  {
+    title: "news.pawprints.title",
+    description: "news.pawprints.description",
+    image: CHAPTER_GRAPHICS["Paw Prints"],
+    component: PawPrints,
+    date: new Date("2025-11-03"),
+  },
   {
     title: "news.pets.title",
     description: "news.pets.description",

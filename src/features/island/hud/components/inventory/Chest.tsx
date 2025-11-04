@@ -57,11 +57,7 @@ import {
 import { PetNFTDetails } from "components/ui/layouts/PetNFTDetails";
 import { getPetImage } from "features/island/pets/lib/petShared";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
-import {
-  LOVE_CHARM_MONUMENTS,
-  MEGASTORE_MONUMENTS,
-  REWARD_ITEMS,
-} from "features/game/types/monuments";
+import { MONUMENTS, REWARD_ITEMS } from "features/game/types/monuments";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -374,9 +370,7 @@ export const Chest: React.FC<Props> = ({
   // Sort collectibles by type
   const resources = getKeys(collectibles).filter((name) => name in RESOURCES);
   const buildings = getKeys(collectibles).filter((name) => name in BUILDINGS);
-  const monuments = getKeys(collectibles).filter(
-    (name) => name in { ...LOVE_CHARM_MONUMENTS, ...MEGASTORE_MONUMENTS },
-  );
+  const monuments = getKeys(collectibles).filter((name) => name in MONUMENTS);
   const villageProjects = getKeys(collectibles).filter(
     (name) => name in REWARD_ITEMS,
   );

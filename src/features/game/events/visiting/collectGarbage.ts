@@ -1,7 +1,7 @@
 import { produce } from "immer";
 import { GameState } from "features/game/types/game";
 import Decimal from "decimal.js-light";
-import { hasHitHelpLimit } from "../landExpansion/increaseHelpLimit";
+import { hasHitHelpLimit } from "features/game/types/monuments";
 
 export type CollectGarbageAction = {
   type: "garbage.collected";

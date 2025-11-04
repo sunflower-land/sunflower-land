@@ -6817,5 +6817,13 @@
   "description.cleaverKnife.boost.1": "15% Kelajuan Memasak",
   "description.cleaverKnife.boost.2": "10% peluang +1 makanan dari memasak",
   "description.trainingWhistle.boost": "+1 Kulit",
-  "description.squirrelOnesie.boost": "+1 Acorn"
+  "description.squirrelOnesie.boost": "+1 Acorn",
+  "marketplace.pet.trade.date": "Tarikh dagangan: {{date}}",
+  "news.chapter.backButton": "{{chapter}} Bab",
+  "news.chapter.ticket": "Lengkapkan penghantaran, tugas kerja & hadiah untuk mendapatkan token {{ticket}}.",
+  "news.chapter.megastore": "Tukar token {{ticket}} di Megastore untuk NFT eksklusif yang boleh dikumpulkan & boleh dipakai.",
+  "news.chapter.auction": "Bersaing dengan Bumpkins lain di Auction House untuk NFT paling jarang.",
+  "news.chapter.mutants": "Temui mutan dan NFT eksklusif bab lain.",
+  "news.pawprints.title": "Bab Cetakan Paw - 4 Nov",
+  "news.pawprints.description": "Lengkapkan tugas, dapatkan token, temui haiwan peliharaan dan menang NFT!"
 }

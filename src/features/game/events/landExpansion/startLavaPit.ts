@@ -9,6 +9,7 @@ import {
 import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 const LAVA_PIT_REQUIREMENTS_OLD: Record<TemperateSeasonName, Inventory> = {
   autumn: {
@@ -80,9 +81,10 @@ export const getLavaPitRequirements = (
   const season = game.season.season;
 
   const useNewRequirements = createdAt >= NEW_REQUIREMENTS_START_DATE;
-  const requirementsMap = useNewRequirements
-    ? LAVA_PIT_REQUIREMENTS_NEW
-    : LAVA_PIT_REQUIREMENTS_OLD;
+  const requirementsMap: Record<TemperateSeasonName, Inventory> =
+    useNewRequirements
+      ? { ...LAVA_PIT_REQUIREMENTS_NEW }
+      : { ...LAVA_PIT_REQUIREMENTS_OLD };
 
   let requirements: Inventory = requirementsMap[season];
 
@@ -99,22 +101,28 @@ export const getLavaPitRequirements = (
       return acc;
     }
 
-    return {
-      ...acc,
-      [item]: req.mul(requirementsMultiplier),
-    };
+    acc[item] = req.mul(requirementsMultiplier);
+
+    return acc;
   }, requirements);
 
   return { requirements, boostUsed };
 };
 
+export const LAVA_PIT_TIME = 72 * 60 * 60 * 1000;
+
 export function getLavaPitTime({ game }: { game: GameState }) {
-  let time = 72 * 60 * 60 * 1000;
+  let time = LAVA_PIT_TIME;
   const boostsUsed: BoostName[] = [];
 
   if (isWearableActive({ name: "Obsidian Necklace", game })) {
     time = time * 0.5;
     boostsUsed.push("Obsidian Necklace");
+  }
+
+  if (isCollectibleBuilt({ name: "Magma Stone", game })) {
+    time = time * 0.85;
+    boostsUsed.push("Magma Stone");
   }
 
   return { time, boostsUsed };

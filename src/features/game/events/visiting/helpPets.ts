@@ -1,11 +1,11 @@
 import { GameState } from "features/game/types/game";
+import { hasHitHelpLimit } from "features/game/types/monuments";
 import {
   hasHitSocialPetLimit,
   PetName,
   SOCIAL_PET_XP_PER_HELP,
 } from "features/game/types/pets";
 import { produce } from "immer";
-import { hasHitHelpLimit } from "../landExpansion/increaseHelpLimit";
 
 export type HelpPetsAction = {
   type: "pet.visitingPets";

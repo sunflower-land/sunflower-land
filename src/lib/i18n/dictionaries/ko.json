@@ -6817,5 +6817,13 @@
   "description.cleaverKnife.boost.1": "15% 쿠킹 스피드",
   "description.cleaverKnife.boost.2": "10% 의 확률로 요리로 인한 음식 +1",
   "description.trainingWhistle.boost": "+1 가죽",
-  "description.squirrelOnesie.boost": "+1 에이콘"
+  "description.squirrelOnesie.boost": "+1 에이콘",
+  "marketplace.pet.trade.date": "거래일: {{date}}",
+  "news.chapter.backButton": "{{chapter}} 챕터",
+  "news.chapter.ticket": "배달, 집안일, 바운티를 완료하고 {{ticket}} 토큰을 받으세요.",
+  "news.chapter.megastore": "메가스토어에서 {{ticket}} 토큰을 전용 수집품 및 웨어러블 NFT로 교환하세요.",
+  "news.chapter.auction": "경매장에서 다른 범프킨들과 경쟁해 가장 희귀한 NFT를 획득하세요.",
+  "news.chapter.mutants": "뮤턴트 및 기타 챕터 전용 NFT를 살펴보세요.",
+  "news.pawprints.title": "포 프린트 챕터 - 11월 4일",
+  "news.pawprints.description": "작업을 완료하고, 토큰을 획득하고, 애완동물을 발견하고, NFT를 획득하세요!"
 }
