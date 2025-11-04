@@ -3,7 +3,7 @@ import { MachineState } from "features/world/mmoMachine";
 import React, { useContext } from "react";
 import { MoveableComponent } from "../collectibles/MovableComponent";
 import { Context } from "features/game/GameProvider";
-import { PetNFT as _PetNFT } from "../collectibles/components/PetNFT";
+import { PetNFT as _PetNFT } from "../collectibles/components/petNFT/PetNFT";
 
 export interface PetNFTProps {
   id: string;
