@@ -86,7 +86,7 @@ export const getLavaPitRequirements = (
       ? { ...LAVA_PIT_REQUIREMENTS_NEW }
       : { ...LAVA_PIT_REQUIREMENTS_OLD };
 
-  let requirements: Inventory = requirementsMap[season];
+  const baseRequirements: Inventory = requirementsMap[season];
 
   let requirementsMultiplier = 1;
   const boostUsed: BoostName[] = [];
@@ -96,15 +96,18 @@ export const getLavaPitRequirements = (
     boostUsed.push("Lava Swimwear");
   }
 
-  requirements = getObjectEntries(requirements).reduce((acc, [item, req]) => {
-    if (!req) {
+  const requirements = getObjectEntries(baseRequirements).reduce(
+    (acc, [item, req]) => {
+      if (!req) {
+        return acc;
+      }
+
+      acc[item] = req.mul(requirementsMultiplier);
+
       return acc;
-    }
-
-    acc[item] = req.mul(requirementsMultiplier);
-
-    return acc;
-  }, requirements);
+    },
+    { ...baseRequirements },
+  );
 
   return { requirements, boostUsed };
 };
