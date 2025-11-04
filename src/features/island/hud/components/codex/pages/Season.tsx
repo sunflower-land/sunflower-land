@@ -24,7 +24,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState } from "features/game/types/game";
 import { MegaBountyBoardContent } from "features/world/ui/flowerShop/MegaBountyBoard";
 
-const CHAPTER_GRAPHICS: Record<SeasonName, string> = {
+export const CHAPTER_GRAPHICS: Record<SeasonName, string> = {
   "Solar Flare": "?",
   "Dawn Breaker": "?",
   "Witches' Eve": "?",
@@ -36,7 +36,7 @@ const CHAPTER_GRAPHICS: Record<SeasonName, string> = {
   "Winds of Change": SUNNYSIDE.announcement.windsOfChangeSeason,
   "Great Bloom": "",
   "Better Together": SUNNYSIDE.announcement.betterTogetherSeason,
-  "Paw Prints": "",
+  "Paw Prints": SUNNYSIDE.announcement.pawPrintsSeason,
 };
 
 const CHORES_DELIVERIES_START_DATE: Record<SeasonName, string> = {
