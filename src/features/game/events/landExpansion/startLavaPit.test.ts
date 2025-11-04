@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { startLavaPit } from "./startLavaPit";
+import { LAVA_PIT_TIME, startLavaPit } from "./startLavaPit";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 
@@ -142,7 +142,31 @@ describe("startLavaPit", () => {
     });
 
     expect(result.lavaPits[1].startedAt).toEqual(now);
-    expect(result.lavaPits[1].readyAt).toEqual(now + 36 * 60 * 60 * 1000);
+    expect(result.lavaPits[1].readyAt).toEqual(now + LAVA_PIT_TIME * 0.5);
+  });
+
+  it("starts the lava pit with magma stone placed", () => {
+    const result = startLavaPit({
+      state: {
+        ...TEST_FARM,
+        lavaPits: { 1: { x: 0, y: 0, createdAt: 0 } },
+        collectibles: {
+          "Magma Stone": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              readyAt: now,
+              createdAt: now,
+            },
+          ],
+        },
+      },
+      action: { type: "lavaPit.started", id: "1" },
+      createdAt: now,
+    });
+
+    expect(result.lavaPits[1].startedAt).toEqual(now);
+    expect(result.lavaPits[1].readyAt).toEqual(now + LAVA_PIT_TIME * 0.85);
   });
 
   it("does not start the lava pit if it is already started", () => {

@@ -212,6 +212,39 @@ describe("castRod", () => {
     ).not.toThrow();
   });
 
+  it("applies Saw Fish boost which increases the daily fishing limit by 5", () => {
+    const now = Date.now();
+    const today = new Date(now).toISOString().split("T")[0];
+
+    const bumpkinWithSawFish: Bumpkin = {
+      ...INITIAL_BUMPKIN,
+      equipped: {
+        ...INITIAL_BUMPKIN.equipped,
+        secondaryTool: "Saw Fish",
+      },
+    };
+
+    expect(() =>
+      castRod({
+        action: { bait: "Earthworm", type: "rod.casted" },
+        state: {
+          ...farm,
+          bumpkin: bumpkinWithSawFish,
+          fishing: {
+            dailyAttempts: {
+              [today]: 24,
+            },
+            wharf: {},
+          },
+          inventory: {
+            Rod: new Decimal(3),
+            Earthworm: new Decimal(1),
+          },
+        },
+      }),
+    ).not.toThrow();
+  });
+
   it("requires a player with Angler Waders boost hasn't maxed out their daily attempts", () => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date("2023-10-11T09:00:00Z"));
@@ -361,7 +394,7 @@ describe("castRod", () => {
 
   describe("getDailyFishingLimit", () => {
     it("increases fishing limit by 10 when Angler Waders is equipped", () => {
-      const limit = getDailyFishingLimit({
+      const { limit } = getDailyFishingLimit({
         ...INITIAL_FARM,
         bumpkin: {
           ...INITIAL_FARM.bumpkin,
@@ -375,7 +408,7 @@ describe("castRod", () => {
     });
 
     it("increases fishing limit by 10 with Fisherman's 10 Fold skill", () => {
-      const limit = getDailyFishingLimit({
+      const { limit } = getDailyFishingLimit({
         ...INITIAL_FARM,
         bumpkin: {
           ...INITIAL_FARM.bumpkin,
@@ -388,7 +421,7 @@ describe("castRod", () => {
     });
 
     it("increases fishing limit by 5 with Fisherman's 5 Fold skill", () => {
-      const limit = getDailyFishingLimit({
+      const { limit } = getDailyFishingLimit({
         ...INITIAL_FARM,
         bumpkin: {
           ...INITIAL_FARM.bumpkin,
@@ -401,7 +434,7 @@ describe("castRod", () => {
     });
 
     it("increases fishing limit by 5 with Reelmaster's Chair", () => {
-      const limit = getDailyFishingLimit({
+      const { limit } = getDailyFishingLimit({
         ...INITIAL_FARM,
         bumpkin: {
           ...INITIAL_FARM.bumpkin,

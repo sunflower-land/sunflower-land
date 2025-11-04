@@ -1028,7 +1028,7 @@ import fishBowl from "assets/sfts/fish_bowl.webp";
 import giantGoldBone from "assets/sfts/giant_gold_bone.webp";
 import lunarTemple from "assets/sfts/lunar_temple.webp";
 import magmaStone from "assets/sfts/magma_stone.webp";
-import cornucopia from "assets/sfts/cornucopia.webp";
+import cornucopia from "assets/monuments/cornucopia_monument_stage3.webp";
 import messyBed from "assets/sfts/messy_bed.webp";
 
 import barkley from "assets/sfts/pets/dogs/barkley.webp";

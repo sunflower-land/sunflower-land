@@ -1,4 +1,4 @@
-import { GameState } from "../../types/game";
+import { BoostName, GameState } from "../../types/game";
 import {
   CHUM_AMOUNTS,
   Chum,
@@ -31,7 +31,7 @@ export const getRemainingReels = (state: GameState, now = new Date()) => {
   const { fishing } = state;
   const reelCount = fishing.dailyAttempts?.[date] ?? 0;
   const { extraReels = { count: 0 } } = fishing;
-  const regularMaxReels = getDailyFishingLimit(state);
+  const { limit: regularMaxReels } = getDailyFishingLimit(state);
   let reelsLeft = regularMaxReels - reelCount;
 
   if (reelsLeft < 0) {
@@ -57,7 +57,10 @@ export function castRod({
       throw new Error("You do not have a Bumpkin!");
     }
     const { extraReels = { count: 0 } } = game.fishing;
-    const fishingLimit = getDailyFishingLimit(game);
+    const { limit: fishingLimit, boostsUsed: fishingBoostsUsed } =
+      getDailyFishingLimit(game);
+    const boostsUsed: BoostName[] = [];
+    boostsUsed.push(...fishingBoostsUsed);
     if (getDailyFishingCount(game) >= fishingLimit && extraReels.count === 0) {
       throw new Error(`Daily attempts exhausted`);
     }
@@ -120,7 +123,7 @@ export function castRod({
       },
     };
 
-    if (getDailyFishingCount(game) >= getDailyFishingLimit(game)) {
+    if (getDailyFishingCount(game) >= fishingLimit) {
       extraReels.count -= 1;
     }
 
@@ -134,6 +137,12 @@ export function castRod({
     }
 
     bumpkin.activity = trackActivity("Rod Casted", bumpkin.activity);
+
+    game.boostsUsedAt = updateBoostUsed({
+      game,
+      boostNames: [...boostsUsed],
+      createdAt,
+    });
 
     return game;
   });

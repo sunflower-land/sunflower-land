@@ -1,7 +1,6 @@
 import { produce } from "immer";
 import { GameState } from "features/game/types/game";
-import { MonumentName } from "features/game/types/monuments";
-import { hasHitHelpLimit } from "../landExpansion/increaseHelpLimit";
+import { hasHitHelpLimit, MonumentName } from "features/game/types/monuments";
 
 export type HelpProjectAction = {
   type: "project.helped";
