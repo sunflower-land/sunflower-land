@@ -1070,6 +1070,9 @@ import sparrowShrine from "assets/sfts/shrines/sparrow_shrine.webp";
 import stagShrine from "assets/sfts/shrines/stag_shrine.webp";
 import tortoiseShrine from "assets/sfts/shrines/tortoise_shrine.webp";
 import toucanShrine from "assets/sfts/shrines/toucan_shrine.webp";
+import legendaryShrine from "assets/sfts/shrines/legendary_shrine.webp";
+import obsidianShrine from "assets/sfts/shrines/obsidian_shrine.webp";
+import tradingShrine from "assets/sfts/shrines/trading_shrine.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
@@ -6003,11 +6006,11 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.stagShrine"),
   },
   "Legendary Shrine": {
-    image: thermalStone,
+    image: legendaryShrine,
     description: translate("description.legendaryShrine"),
   },
   "Obsidian Shrine": {
-    image: thermalStone,
+    image: obsidianShrine,
     description: translate("description.obsidianShrine"),
   },
   Moonfur: {
@@ -6055,7 +6058,7 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.bantamShrine"),
   },
   "Trading Shrine": {
-    image: thermalStone,
+    image: tradingShrine,
     description: translate("description.tradingShrine"),
   },
   "Wild Grass": {
