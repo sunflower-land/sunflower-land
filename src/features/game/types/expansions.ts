@@ -2,7 +2,7 @@ import { GameState, InventoryItemName, IslandType } from "./game";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { Nodes, TOTAL_EXPANSION_NODES } from "../expansion/lib/expansionNodes";
 import { getKeys } from "./decorations";
-import { RESOURCES } from "./resources";
+import { RESOURCES, RESOURCE_MULTIPLIER } from "./resources";
 
 export type ExpandLandAction = {
   type: "land.expanded";
@@ -137,7 +137,6 @@ export function getLand({
   const expectedResources = {
     ...TOTAL_EXPANSION_NODES[game.island.type][expansion],
   };
-
   // If they have bought resource nodes, we expect they should have more resources.
   getKeys(RESOURCES).forEach((resource) => {
     const bought =
@@ -150,23 +149,41 @@ export function getLand({
   });
 
   // Remove any resources if they are past the limit already
-  const availableTrees =
-    expectedResources.Tree - (game.inventory.Tree?.toNumber() ?? 0);
+  // Count all tiers within each resource family toward the expected totals
+  const totalTrees =
+    (game.inventory.Tree?.toNumber() ?? 0) +
+    (game.inventory["Ancient Tree"]?.toNumber() ?? 0) *
+      RESOURCE_MULTIPLIER["Ancient Tree"] +
+    (game.inventory["Sacred Tree"]?.toNumber() ?? 0) *
+      RESOURCE_MULTIPLIER["Sacred Tree"];
+  const availableTrees = expectedResources.Tree - totalTrees;
   land.trees = land.trees.slice(0, availableTrees);
 
-  const availableStones =
-    expectedResources["Stone Rock"] -
-    (game.inventory["Stone Rock"]?.toNumber() ?? 0);
+  const totalStones =
+    (game.inventory["Stone Rock"]?.toNumber() ?? 0) +
+    (game.inventory["Fused Stone Rock"]?.toNumber() ?? 0) *
+      RESOURCE_MULTIPLIER["Fused Stone Rock"] +
+    (game.inventory["Reinforced Stone Rock"]?.toNumber() ?? 0) *
+      RESOURCE_MULTIPLIER["Reinforced Stone Rock"];
+  const availableStones = expectedResources["Stone Rock"] - totalStones;
   land.stones = land.stones.slice(0, availableStones);
 
-  const availableIron =
-    expectedResources["Iron Rock"] -
-    (game.inventory["Iron Rock"]?.toNumber() ?? 0);
+  const totalIron =
+    (game.inventory["Iron Rock"]?.toNumber() ?? 0) +
+    (game.inventory["Refined Iron Rock"]?.toNumber() ?? 0) *
+      RESOURCE_MULTIPLIER["Refined Iron Rock"] +
+    (game.inventory["Tempered Iron Rock"]?.toNumber() ?? 0) *
+      RESOURCE_MULTIPLIER["Tempered Iron Rock"];
+  const availableIron = expectedResources["Iron Rock"] - totalIron;
   land.iron = land.iron?.slice(0, availableIron);
 
-  const availableGold =
-    expectedResources["Gold Rock"] -
-    (game.inventory["Gold Rock"]?.toNumber() ?? 0);
+  const totalGold =
+    (game.inventory["Gold Rock"]?.toNumber() ?? 0) +
+    (game.inventory["Pure Gold Rock"]?.toNumber() ?? 0) *
+      RESOURCE_MULTIPLIER["Pure Gold Rock"] +
+    (game.inventory["Prime Gold Rock"]?.toNumber() ?? 0) *
+      RESOURCE_MULTIPLIER["Prime Gold Rock"];
+  const availableGold = expectedResources["Gold Rock"] - totalGold;
   land.gold = land.gold?.slice(0, availableGold);
 
   const availableFruit =
