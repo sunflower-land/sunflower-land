@@ -6818,5 +6818,12 @@
   "description.cleaverKnife.boost.2": "10% 几率从烹饪中获得 +1 个食物",
   "description.trainingWhistle.boost": "+1 皮革",
   "description.squirrelOnesie.boost": "+1 橡子",
-  "marketplace.pet.trade.date": "交易日期：{{date}}"
+  "marketplace.pet.trade.date": "交易日期：{{date}}",
+  "news.chapter.backButton": "{{chapter}} 章节",
+  "news.chapter.ticket": "完成配送、琐事和赏金以获得 {{ticket}} 代币。",
+  "news.chapter.megastore": "在 Megastore 兑换 {{ticket}} 代币以获得独家收藏品和可穿戴的 NFT。",
+  "news.chapter.auction": "在拍卖行与其他 Bumpkins 竞争最稀有的 NFT。",
+  "news.chapter.mutants": "探索突变体和其他章节独有的 NFT。",
+  "news.pawprints.title": "爪印章节——11 月 4 日",
+  "news.pawprints.description": "完成任务，赚取代币，发现宠物并赢取 NFT！"
 }

@@ -6818,5 +6818,12 @@
   "description.cleaverKnife.boost.1": "15% Cooking Speed",
   "description.cleaverKnife.boost.2": "10% chance of +1 Food from cooking",
   "description.trainingWhistle.boost": "+1 Leather",
-  "description.squirrelOnesie.boost": "+1 Acorn"
+  "description.squirrelOnesie.boost": "+1 Acorn",
+  "news.chapter.backButton": "{{chapter}} Chapter",
+  "news.chapter.ticket": "Complete deliveries, chores & bounties to earn {{ticket}} tokens.",
+  "news.chapter.megastore": "Exchange {{ticket}} tokens at the Megastore for exclusive collectible & wearable NFTs.",
+  "news.chapter.auction": "Compete with other Bumpkins at the Auction House for the rarest NFTs.",
+  "news.chapter.mutants": "Discover mutants and other chapter-exclusive NFTs.",
+  "news.pawprints.title": "Paw Prints Chapter - Nov 4th",
+  "news.pawprints.description": "Complete tasks, earn tokens, discover pets and win NFTs!"
 }
