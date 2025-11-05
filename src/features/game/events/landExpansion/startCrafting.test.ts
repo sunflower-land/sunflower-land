@@ -377,10 +377,10 @@ describe("startCrafting", () => {
                 { collectible: "Timber" },
                 { collectible: "Timber" },
               ],
+              seed,
               time: 8 * 60 * 60 * 1000,
             },
           },
-          seed,
         },
         collectibles: {
           "Fox Shrine": [
@@ -416,6 +416,6 @@ describe("startCrafting", () => {
     });
 
     expect(state.craftingBox.readyAt).toBe(now);
-    expect(state.craftingBox.seed).toBe(nextSeed);
+    expect(state.craftingBox.recipes["Basic Bed"]?.seed).toBe(nextSeed);
   });
 });

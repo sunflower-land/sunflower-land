@@ -151,11 +151,12 @@ export function placeBuilding({
         if (existingBuilding.removedAt && craftingBox.item) {
           const timeOffset = existingBuilding.removedAt - craftingBox.startedAt;
           craftingBox.startedAt = createdAt - timeOffset;
-          const { seconds: recipeTime } = craftingBox.item.collectible
+          const collectible = craftingBox.item.collectible;
+          const { seconds: recipeTime } = collectible
             ? getBoostedCraftingTime({
                 game: stateCopy,
-                time: RECIPES[craftingBox.item.collectible]?.time ?? 0,
-                seed: craftingBox.seed,
+                time: RECIPES[collectible]?.time ?? 0,
+                seed: craftingBox.recipes[collectible]?.seed,
                 createdAt,
               })
             : { seconds: 0 };

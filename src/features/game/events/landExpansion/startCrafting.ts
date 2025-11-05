@@ -144,6 +144,11 @@ export function startCrafting({
       }
     });
 
+    const previousSeed =
+      recipe.type === "collectible"
+        ? copy.craftingBox.recipes[recipe.name]?.seed
+        : undefined;
+
     const {
       seconds: recipeTime,
       boostsUsed,
@@ -151,7 +156,7 @@ export function startCrafting({
     } = getBoostedCraftingTime({
       game: state,
       time: recipe.time,
-      seed: copy.craftingBox.seed,
+      seed: previousSeed,
       createdAt,
     });
 
@@ -165,9 +170,8 @@ export function startCrafting({
           : { wearable: recipe.name },
       recipes: {
         ...copy.craftingBox.recipes,
-        [recipe.name]: recipe,
+        [recipe.name]: { ...recipe, seed: nextSeed },
       },
-      seed: nextSeed,
     };
 
     copy.boostsUsedAt = updateBoostUsed({
