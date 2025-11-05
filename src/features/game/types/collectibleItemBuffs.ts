@@ -1779,6 +1779,18 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Stone.image,
     },
+    {
+      shortDescription: translate("description.legendaryShrine.buff.5"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
+    },
+    {
+      shortDescription: translate("description.legendaryShrine.buff.6"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: chefHat,
+    },
   ],
   "Obsidian Shrine": () => [
     {

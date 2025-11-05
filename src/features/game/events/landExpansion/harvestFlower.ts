@@ -8,7 +8,10 @@ import { translate } from "lib/i18n/translate";
 
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { produce } from "immer";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import {
+  isCollectibleBuilt,
+  isTemporaryCollectibleActive,
+} from "features/game/lib/collectibleBuilt";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type HarvestFlowerAction = {
@@ -68,6 +71,11 @@ function getFlowerAmount({
   if (bumpkin.skills["Petalled Perk"] && criticalDrop("Petalled Perk")) {
     amount += 1;
     boostsUsed.push("Petalled Perk");
+  }
+
+  if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game })) {
+    amount += 1;
+    boostsUsed.push("Legendary Shrine");
   }
 
   return { amount, boostsUsed };

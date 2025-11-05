@@ -6566,6 +6566,8 @@
   "description.legendaryShrine.buff.2": "+1 Fruit Patch Yield",
   "description.legendaryShrine.buff.3": "+1 Wood",
   "description.legendaryShrine.buff.4": "+1 Stone",
+  "description.legendaryShrine.buff.5": "+1 Flower",
+  "description.legendaryShrine.buff.6": "-50% Cooking Time",
   "description.fossilShell": "Looks like there is something inside...",
   "description.obsidianShrine": "A shrine to the obsidian",
   "description.obsidianShrine.buff": "Bulk harvest all ready crops and plant seeds",
