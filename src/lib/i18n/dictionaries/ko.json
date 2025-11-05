@@ -6385,7 +6385,6 @@
   "pets": "애완동물",
   "description.petEgg": "애완용 달걀",
   "description.meowchi": "귀여운 고양이",
-  "description.twizzle": "귀여운 강아지",
   "description.burro": "귀여운 당나귀",
   "description.barkley": "귀여운 강아지",
   "pets.sleeping": "슬리핑",
@@ -6726,7 +6725,6 @@
   "pets.nextRequestsIn": "{{time}} 의 다음 요청",
   "pets.rewardsList": "보상 목록",
   "pets.rewardsListDescription": "화석 껍질은 보상으로 획득할 수 있는 무작위 자원을 제공합니다.",
-  "pets.rewardsListDescriptionTwo": "250 펫 에너지를 사용해 화석 껍질을 가져오세요.",
   "pets.resetConfirmation": "정말로 {{resetGemCost}} 보석에 대한 애완동물의 음식 요청을 초기화하시겠습니까?",
   "pets.loadingFoodRequests": "음식 요청 불러오기",
   "pets.fetchableResources": "가져올 수 있는 리소스",
@@ -6828,5 +6826,7 @@
   "news.pawprints.description": "작업을 완료하고, 토큰을 획득하고, 애완동물을 발견하고, NFT를 획득하세요!",
   "auction.results": "결과",
   "auction.results.notAvailable": "결과는 아직 없습니다.",
-  "vip.benefit.bonusPetEnergy": "포 프린트 챕터 중 펫 에너지 +5"
+  "vip.benefit.bonusPetEnergy": "포 프린트 챕터 중 펫 에너지 +5",
+  "description.twizzle": "귀여운 올빼미",
+  "pets.rewardsListDescriptionTwo": "300펫 에너지를 사용해 화석 껍질을 가져오세요."
 }

@@ -6385,7 +6385,6 @@
   "pets": "haiwan peliharaan",
   "description.petEgg": "Telur haiwan kesayangan",
   "description.meowchi": "Kucing comel",
-  "description.twizzle": "Anjing comel",
   "description.burro": "Keldai comel",
   "description.barkley": "Anjing comel",
   "pets.sleeping": "Tidur",
@@ -6726,7 +6725,6 @@
   "pets.nextRequestsIn": "Permintaan seterusnya dalam {{time}}",
   "pets.rewardsList": "Senarai Ganjaran",
   "pets.rewardsListDescription": "Cangkang fosil akan memberi ganjaran kepada anda dengan sumber rawak yang boleh diambil.",
-  "pets.rewardsListDescriptionTwo": "Luangkan 250 tenaga haiwan peliharaan untuk mendapatkan cangkang fosil.",
   "pets.resetConfirmation": "Adakah anda pasti ingin menetapkan semula permintaan makanan haiwan kesayangan anda untuk permata {{resetGemCost}}?",
   "pets.loadingFoodRequests": "Memuatkan permintaan makanan",
   "pets.fetchableResources": "Sumber yang boleh diambil",
@@ -6828,5 +6826,7 @@
   "news.pawprints.description": "Lengkapkan tugas, dapatkan token, temui haiwan peliharaan dan menang NFT!",
   "auction.results": "Keputusan",
   "auction.results.notAvailable": "Keputusan belum tersedia lagi.",
-  "vip.benefit.bonusPetEnergy": "+5 Tenaga Haiwan Peliharaan semasa Bab Cetakan Paw"
+  "vip.benefit.bonusPetEnergy": "+5 Tenaga Haiwan Peliharaan semasa Bab Cetakan Paw",
+  "description.twizzle": "Burung hantu comel",
+  "pets.rewardsListDescriptionTwo": "Luangkan 300 tenaga haiwan peliharaan untuk mendapatkan cangkang fosil."
 }

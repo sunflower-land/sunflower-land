@@ -6385,7 +6385,6 @@
   "pets": "Haustiere",
   "description.petEgg": "Ein Haustier-Ei",
   "description.meowchi": "Eine süße Katze",
-  "description.twizzle": "Ein süßer Hund",
   "description.burro": "Ein süßer Esel",
   "description.barkley": "Ein süßer Hund",
   "pets.sleeping": "Schlafend",
@@ -6726,7 +6725,6 @@
   "pets.nextRequestsIn": "Nächste Anfragen in {{time}}",
   "pets.rewardsList": "Liste der Prämien",
   "pets.rewardsListDescription": "Die fossile Schale belohnt dich mit einer zufällig abrufbaren Ressource.",
-  "pets.rewardsListDescriptionTwo": "Gib 250 Tierenergie aus, um die fossile Schale zu holen.",
   "pets.resetConfirmation": "Bist du sicher, dass du die Futterwünsche deines Haustieres für {{resetGemCost}} Edelsteine zurücksetzen möchtest?",
   "pets.loadingFoodRequests": "Essensanfragen werden geladen",
   "pets.fetchableResources": "Abrufbare Ressourcen",
@@ -6828,5 +6826,7 @@
   "news.pawprints.description": "Erledige Aufgaben, verdiene Tokens, entdecke Haustiere und gewinne NFTs!",
   "auction.results": "Ergebnisse",
   "auction.results.notAvailable": "Ergebnisse sind noch nicht verfügbar.",
-  "vip.benefit.bonusPetEnergy": "+5 Tierenergie im Kapitel „Pfotenabdrücke“"
+  "vip.benefit.bonusPetEnergy": "+5 Tierenergie im Kapitel „Pfotenabdrücke“",
+  "description.twizzle": "Eine süße Eule",
+  "pets.rewardsListDescriptionTwo": "Gib 300 Tierenergie aus, um die fossile Schale zu holen."
 }

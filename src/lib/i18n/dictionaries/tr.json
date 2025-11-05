@@ -6385,7 +6385,6 @@
   "pets": "Evcil Hayvanlar",
   "description.petEgg": "Bir evcil hayvan yumurtası",
   "description.meowchi": "Sevimli bir kedi",
-  "description.twizzle": "Sevimli bir köpek",
   "description.burro": "Sevimli bir eşek",
   "description.barkley": "Sevimli bir köpek",
   "pets.sleeping": "Uyuyor",
@@ -6726,7 +6725,6 @@
   "pets.nextRequestsIn": "{{time}} içindeki sonraki istekler",
   "pets.rewardsList": "Ödül Listesi",
   "pets.rewardsListDescription": "Fosil kabuğu sizi rastgele getirilebilir bir kaynakla ödüllendirecek.",
-  "pets.rewardsListDescriptionTwo": "Fosil kabuğunu almak için 250 evcil hayvan enerjisi harcayın.",
   "pets.resetConfirmation": "Evcil hayvanınızın {{resetGemCost}} mücevherler için yiyecek taleplerini sıfırlamak istediğinizden emin misiniz?",
   "pets.loadingFoodRequests": "Yiyecek istekleri yükleniyor",
   "pets.fetchableResources": "Getirilebilir kaynaklar",
@@ -6828,5 +6826,7 @@
   "news.pawprints.description": "Görevleri tamamlayın, jetonlar kazanın, evcil hayvanları keşfedin ve NFT'ler kazanın!",
   "auction.results": "Sonuçlar",
   "auction.results.notAvailable": "Sonuçlar henüz mevcut değil.",
-  "vip.benefit.bonusPetEnergy": "Pençe Baskıları Bölümü Sırasında +5 Evcil Hayvan Enerjisi"
+  "vip.benefit.bonusPetEnergy": "Pençe Baskıları Bölümü Sırasında +5 Evcil Hayvan Enerjisi",
+  "description.twizzle": "Sevimli bir baykuş",
+  "pets.rewardsListDescriptionTwo": "Fosil kabuğunu almak için 300 evcil hayvan enerjisi harcayın."
 }
