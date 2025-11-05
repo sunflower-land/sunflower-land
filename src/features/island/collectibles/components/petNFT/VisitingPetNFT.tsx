@@ -1,25 +1,43 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
+import { useSelector } from "@xstate/react";
 import {
   isPetNeglected,
   isPetNapping,
-  PetName,
+  isPetOfTypeFed,
   hasHitSocialPetLimit,
 } from "features/game/types/pets";
-import { _petData } from "./lib/petShared";
-import { useSelector } from "@xstate/react";
+import { PetSprite } from "features/island/pets/PetSprite";
+import { useContext } from "react";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
-import { PIXEL_SCALE } from "features/game/lib/constants";
-import { isHelpComplete } from "features/game/types/monuments";
-import { hasFeatureAccess } from "lib/flags";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { FarmHelped } from "features/island/hud/components/FarmHelped";
-import { PetSprite } from "./PetSprite";
-import { SUNNYSIDE } from "assets/sunnyside";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { hasFeatureAccess } from "lib/flags";
+import { isHelpComplete } from "features/game/types/monuments";
 
-const _hasHelpedPet = (name: PetName) => (state: MachineState) => {
+const _petNFTData = (id: string) => (state: MachineState) => {
+  return state.context.state.pets?.nfts?.[Number(id)];
+};
+
+const _isTypeFed = (id: string) => (state: MachineState) => {
+  const petData = state.context.state.pets?.nfts?.[Number(id)];
+  if (!petData) return false;
+  if (!petData.traits) return false;
+
+  const isTypeFed = isPetOfTypeFed({
+    nftPets: state.context.state.pets?.nfts ?? {},
+    petType: petData.traits.type,
+    id: Number(id),
+    now: Date.now(),
+  });
+
+  return isTypeFed;
+};
+
+const _hasHelpedPet = (id: number) => (state: MachineState) => {
   if (state.context.visitorState) {
     const hasAccess = hasFeatureAccess(state.context.visitorState, "PETS");
     if (!hasAccess) {
@@ -28,17 +46,21 @@ const _hasHelpedPet = (name: PetName) => (state: MachineState) => {
 
     const hasHelpedToday = state.context.hasHelpedPlayerToday ?? false;
 
-    const hasHelpedPet = !!state.context.state.pets?.common?.[name]?.visitedAt;
+    const hasHelpedPet = !!state.context.state.pets?.nfts?.[id]?.visitedAt;
 
     return hasHelpedPet || hasHelpedToday;
   }
 };
 
-export const VisitingPet: React.FC<{ name: PetName }> = ({ name }) => {
+export const VisitingPetNFT: React.FC<{
+  id: string;
+}> = ({ id }) => {
   const { gameService } = useContext(Context);
-  const petData = useSelector(gameService, _petData(name));
+  const petNFTData = useSelector(gameService, _petNFTData(id));
+  const isTypeFed = useSelector(gameService, _isTypeFed(id));
+  const hasHelpedPet = useSelector(gameService, _hasHelpedPet(Number(id)));
+  const [showHelped, setShowHelped] = useState(false);
 
-  // Visiting variables
   const visitorGameState = useSelector(
     gameService,
     (state) => state.context.visitorState,
@@ -48,21 +70,23 @@ export const VisitingPet: React.FC<{ name: PetName }> = ({ name }) => {
     gameService,
     (state) => state.context.totalHelpedToday ?? 0,
   );
-  const hasHelpedPet = useSelector(gameService, _hasHelpedPet(name));
 
-  const [showHelped, setShowHelped] = useState(false);
+  if (!petNFTData || !petNFTData.traits) return null;
 
-  const isNeglected = isPetNeglected(petData);
-  const isNapping = isPetNapping(petData);
+  const isNeglected = isPetNeglected(petNFTData);
+  const isNapping = isPetNapping(petNFTData);
 
   const handlePetClick = () => {
     if (
-      petData &&
+      petNFTData &&
       visitorGameState &&
       hasFeatureAccess(visitorGameState, "PETS") &&
       !hasHelpedPet
     ) {
-      gameService.send("pet.visitingPets", { pet: name, totalHelpedToday });
+      gameService.send("pet.visitingPets", {
+        pet: Number(id),
+        totalHelpedToday,
+      });
 
       if (
         isHelpComplete({
@@ -74,18 +98,16 @@ export const VisitingPet: React.FC<{ name: PetName }> = ({ name }) => {
     }
   };
 
-  // Used to move the pet through different states (neglected, napping)
-  useUiRefresher();
-
   return (
     <PetSprite
-      id={name}
+      id={Number(id)}
       isNeglected={isNeglected}
       isNapping={isNapping}
+      isTypeFed={isTypeFed}
       onClick={handlePetClick}
       clickable={!hasHelpedPet}
     >
-      {!hasHelpedPet && petData && !hasHitSocialPetLimit(petData) && (
+      {!hasHelpedPet && petNFTData && !hasHitSocialPetLimit(petNFTData) && (
         <div
           className="absolute -top-4 -right-4 pointer-events-auto cursor-pointer hover:img-highlight"
           onClick={(e) => {

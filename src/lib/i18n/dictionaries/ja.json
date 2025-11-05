@@ -6385,7 +6385,6 @@
   "pets": "ペット",
   "description.petEgg": "ペットエッグ",
   "description.meowchi": "かわいい猫",
-  "description.twizzle": "かわいい犬",
   "description.burro": "かわいいロバ",
   "description.barkley": "かわいい犬",
   "pets.sleeping": "睡眠",
@@ -6726,7 +6725,6 @@
   "pets.nextRequestsIn": "{{time}} の次のリクエスト",
   "pets.rewardsList": "リワードリスト",
   "pets.rewardsListDescription": "化石殻から報酬としてランダムで入手可能な資源が手に入ります。",
-  "pets.rewardsListDescriptionTwo": "ペットエネルギーを250消費して化石の殻を手に入れよう。",
   "pets.resetConfirmation": "ペットの {{resetGemCost}} ジェムのフードリクエストをリセットしてもよろしいですか？",
   "pets.loadingFoodRequests": "フードリクエストを読み込んでいます",
   "pets.fetchableResources": "フェッチ可能なリソース",
@@ -6825,5 +6823,10 @@
   "news.chapter.auction": "オークションハウスで他のバンプキンと競い合って、最も希少なNFTを手に入れましょう。",
   "news.chapter.mutants": "ミュータントやその他のチャプター限定のNFTを発見してください。",
   "news.pawprints.title": "ポープリントチャプター-11月4日",
-  "news.pawprints.description": "タスクを完了し、トークンを獲得し、ペットを発見してNFTを獲得しましょう！"
+  "news.pawprints.description": "タスクを完了し、トークンを獲得し、ペットを発見してNFTを獲得しましょう！",
+  "auction.results": "結果",
+  "auction.results.notAvailable": "結果はまだ出ていません。",
+  "vip.benefit.bonusPetEnergy": "「足跡」チャプター中、ペットエナジー+5",
+  "description.twizzle": "かわいいフクロウ",
+  "pets.rewardsListDescriptionTwo": "ペットエネルギーを300消費して、化石の殻を手に入れよう。"
 }

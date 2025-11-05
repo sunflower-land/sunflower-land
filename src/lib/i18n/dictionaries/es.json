@@ -6385,7 +6385,6 @@
   "pets": "Mascotas",
   "description.petEgg": "Un huevo de mascota",
   "description.meowchi": "Un gato lindo",
-  "description.twizzle": "Un perro lindo",
   "description.burro": "Un burro lindo",
   "description.barkley": "Un perro lindo",
   "pets.sleeping": "Durmiendo",
@@ -6726,7 +6725,6 @@
   "pets.nextRequestsIn": "Próximas solicitudes en {{time}}",
   "pets.rewardsList": "Lista de recompensas",
   "pets.rewardsListDescription": "La concha fósil te recompensará con un recurso recuperable al azar.",
-  "pets.rewardsListDescriptionTwo": "Gasta 250 de la energía de tu mascota para conseguir el caparazón fósil.",
   "pets.resetConfirmation": "¿Estás seguro de que quieres restablecer las solicitudes de comida de tu mascota para obtener gemas de {{resetGemCost}}?",
   "pets.loadingFoodRequests": "Carga de solicitudes de comida",
   "pets.fetchableResources": "Recursos recuperables",
@@ -6825,5 +6823,10 @@
   "news.chapter.auction": "Compite con otros torpes en la casa de subastas por los NFT más raros.",
   "news.chapter.mutants": "Descubre mutantes y otros NFT exclusivos de capítulos.",
   "news.pawprints.title": "Capítulo de Paw Prints - 4 de noviembre",
-  "news.pawprints.description": "¡Completa tareas, gana fichas, descubre mascotas y gana NFT!"
+  "news.pawprints.description": "¡Completa tareas, gana fichas, descubre mascotas y gana NFT!",
+  "auction.results": "Resultados",
+  "auction.results.notAvailable": "Los resultados aún no están disponibles.",
+  "vip.benefit.bonusPetEnergy": "+5 de energía para mascotas durante el capítulo Huellas de garras",
+  "description.twizzle": "Un lindo búho",
+  "pets.rewardsListDescriptionTwo": "Gasta 300 unidades de energía como mascota para conseguir el caparazón fósil."
 }

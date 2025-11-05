@@ -75,9 +75,11 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
       petData: data,
     });
     const petEnergy = getPetEnergy({
+      game,
       petLevel: level,
       basePetEnergy: baseFoodXp,
       petData: data,
+      createdAt: Date.now(),
     });
 
     return {

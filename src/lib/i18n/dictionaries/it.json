@@ -6385,7 +6385,6 @@
   "pets": "Animali domestici",
   "description.petEgg": "Un uovo da compagnia",
   "description.meowchi": "Un simpatico gatto",
-  "description.twizzle": "Un simpatico cane",
   "description.burro": "Un simpatico asino",
   "description.barkley": "Un simpatico cane",
   "pets.sleeping": "Dormire",
@@ -6726,7 +6725,6 @@
   "pets.nextRequestsIn": "Prossime richieste in {{time}}",
   "pets.rewardsList": "Elenco dei premi",
   "pets.rewardsListDescription": "La conchiglia fossile ti ricompenserà con una risorsa recuperabile a caso.",
-  "pets.rewardsListDescriptionTwo": "Spendi 250 energia per animali domestici per recuperare la conchiglia fossile.",
   "pets.resetConfirmation": "Sei sicuro di voler azzerare le richieste di cibo del tuo animale domestico per {{resetGemCost}} gemme?",
   "pets.loadingFoodRequests": "Caricamento delle richieste di cibo",
   "pets.fetchableResources": "Risorse recuperabili",
@@ -6825,5 +6823,10 @@
   "news.chapter.auction": "Competi con altri Bumpkins alla Casa d'Aste per gli NFT più rari.",
   "news.chapter.mutants": "Scopri i mutanti e altri NFT esclusivi del capitolo.",
   "news.pawprints.title": "Capitolo Paw Prints - 4 novembre",
-  "news.pawprints.description": "Completa le attività, guadagna gettoni, scopri animali domestici e vinci NFT!"
+  "news.pawprints.description": "Completa le attività, guadagna gettoni, scopri animali domestici e vinci NFT!",
+  "auction.results": "Risultati",
+  "auction.results.notAvailable": "I risultati non sono ancora disponibili.",
+  "vip.benefit.bonusPetEnergy": "+5 Energia per animali domestici durante il capitolo Paw Prints",
+  "description.twizzle": "Un simpatico gufo",
+  "pets.rewardsListDescriptionTwo": "Spendi 300 energie per animali domestici per recuperare la conchiglia fossile."
 }

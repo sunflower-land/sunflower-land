@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 import Decimal from "decimal.js-light";
 import {
   INITIAL_BUMPKIN,
@@ -13,6 +14,7 @@ import {
   CHOP_ERRORS,
 } from "./chop";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
+import { prng } from "lib/prng";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -424,6 +426,28 @@ describe("getChoppedAt", () => {
     const buff = TREE_RECOVERY_TIME - TREE_RECOVERY_TIME * 0.5;
 
     expect(time).toEqual(now - buff * 1000);
+  });
+
+  it("applies an instant growth with Tree Turnaround skill", () => {
+    const now = Date.now();
+    do {
+      var seed = Math.random() * (2 ** 31 - 1);
+      var { value: prngValue } = prng(seed);
+    } while (prngValue * 100 >= 15);
+
+    const { time } = getChoppedAt({
+      game: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Tree Turnaround": 1 },
+        },
+      },
+      createdAt: now,
+      seed,
+    });
+
+    expect(time).toEqual(now - TREE_RECOVERY_TIME * 1000);
   });
 
   it("does not go negative with all buffs", () => {

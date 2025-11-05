@@ -4,6 +4,7 @@ import { CookableName } from "features/game/types/consumables";
 import { feedPet, getPetFoodRequests } from "./feedPet";
 import { getPetLevel, Pet } from "features/game/types/pets";
 import { GameState } from "features/game/types/game";
+import { SEASONS } from "features/game/types/seasons";
 
 describe("feedPet", () => {
   const now = Date.now();
@@ -1000,6 +1001,59 @@ describe("feedPet", () => {
 
     expect(petData?.requests.fedAt).toEqual(now);
     expect(petData?.experience).toEqual(level85XP + 100 * 1.5);
+  });
+
+  it("gives energy boost for vip during paw prints season", () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(SEASONS["Paw Prints"].startDate);
+    const now = Date.now();
+
+    const state = feedPet({
+      state: {
+        ...INITIAL_FARM,
+        pets: {
+          common: {
+            Barkley: {
+              name: "Barkley",
+              requests: {
+                fedAt: now,
+                food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+                foodFed: [],
+              },
+              energy: 0,
+              experience: 0,
+              pettedAt: now,
+            },
+          },
+        },
+        collectibles: {
+          Barkley: [
+            {
+              createdAt: now,
+              id: "1",
+              readyAt: now,
+              coordinates: { x: 1, y: 1 },
+            },
+          ],
+        },
+        inventory: {
+          "Bumpkin Salad": new Decimal(10),
+        },
+        vip: {
+          expiresAt: now + 1000 * 60 * 60 * 24 * 30,
+          bundles: [],
+        },
+      },
+      action: {
+        type: "pet.fed",
+        petId: "Barkley",
+        food: "Bumpkin Salad",
+      },
+      createdAt: now,
+    });
+    const BarkleyData = state.pets?.common?.Barkley;
+
+    expect(BarkleyData?.energy).toEqual(105);
   });
 
   describe("getPetFoodRequests", () => {

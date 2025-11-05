@@ -6385,7 +6385,6 @@
   "pets": "Домашние животные",
   "description.petEgg": "Яйцо питомца",
   "description.meowchi": "Милый кот",
-  "description.twizzle": "Симпатичная собачка",
   "description.burro": "Милый осел",
   "description.barkley": "Симпатичная собачка",
   "pets.sleeping": "Спит",
@@ -6726,7 +6725,6 @@
   "pets.nextRequestsIn": "Следующие запросы через {{time}}",
   "pets.rewardsList": "Награды",
   "pets.rewardsListDescription": "Окаменелая ракушка даст случайный ресурс.",
-  "pets.rewardsListDescriptionTwo": "Используй 250 энергии питомца для поиска ракушки.",
   "pets.resetConfirmation": "Подтвердить сброс запросов на корм за {{resetGemCost}} самоцветов?",
   "pets.loadingFoodRequests": "Загружаются запросы на еду",
   "pets.fetchableResources": "Ресурсы для поиска",
@@ -6825,5 +6823,10 @@
   "news.chapter.auction": "Соревнуйтесь с другими Bumpkins на аукционе за самые редкие NFT.",
   "news.chapter.mutants": "Откройте для себя мутантов и другие эксклюзивные NFT, эксклюзивные для глав.",
   "news.pawprints.title": "Глава «Отпечатки лап» - 4 ноября",
-  "news.pawprints.description": "Выполняйте задания, зарабатывайте токены, находите питомцев и выигрывайте NFT!"
+  "news.pawprints.description": "Выполняйте задания, зарабатывайте токены, находите питомцев и выигрывайте NFT!",
+  "auction.results": "Результаты",
+  "auction.results.notAvailable": "Результаты пока недоступны.",
+  "vip.benefit.bonusPetEnergy": "+5 энергии питомца в главе «Отпечатки лап»",
+  "description.twizzle": "Милая сова",
+  "pets.rewardsListDescriptionTwo": "Потратьте 300 энергии питомца на добычу ископаемой раковины."
 }

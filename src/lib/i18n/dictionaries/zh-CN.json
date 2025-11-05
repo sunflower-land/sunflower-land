@@ -6385,7 +6385,6 @@
   "pets": "宠物",
   "description.petEgg": "一颗宠物蛋",
   "description.meowchi": "一只可爱的猫",
-  "description.twizzle": "一只可爱的猫头鹰",
   "description.burro": "一头可爱的驴",
   "description.barkley": "一只可爱的狗",
   "pets.sleeping": "正在睡觉",
@@ -6726,7 +6725,6 @@
   "pets.nextRequestsIn": "下一次请求将在 {{time}} 后出现",
   "pets.rewardsList": "奖励清单",
   "pets.rewardsListDescription": "化石贝壳会随机奖励你一个可采集的资源。",
-  "pets.rewardsListDescriptionTwo": "消耗 250 点宠物能量来采集化石贝壳。",
   "pets.resetConfirmation": "确定要重置宠物的食物请求吗？这将花费 {{resetGemCost}} 颗钻石。",
   "pets.loadingFoodRequests": "正在加载食物请求",
   "pets.fetchableResources": "可采集资源",
@@ -6825,5 +6823,10 @@
   "news.chapter.auction": "在拍卖行与其他 Bumpkins 竞争最稀有的 NFT。",
   "news.chapter.mutants": "探索突变体和其他章节独有的 NFT。",
   "news.pawprints.title": "爪印章节——11 月 4 日",
-  "news.pawprints.description": "完成任务，赚取代币，发现宠物并赢取 NFT！"
+  "news.pawprints.description": "完成任务，赚取代币，发现宠物并赢取 NFT！",
+  "auction.results": "结果",
+  "auction.results.notAvailable": "尚无结果。",
+  "vip.benefit.bonusPetEnergy": "Paw Prints 章节期间 +5 宠物能量",
+  "description.twizzle": "一只可爱的猫头鹰",
+  "pets.rewardsListDescriptionTwo": "消耗 300 点宠物能量来获取化石外壳。"
 }

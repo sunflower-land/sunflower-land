@@ -189,9 +189,11 @@ export const PetCard: React.FC<Props> = ({
         petData,
       });
       const foodEnergy = getPetEnergy({
+        game: state,
         petLevel,
         basePetEnergy: baseFoodXP,
         petData,
+        createdAt: Date.now(),
       });
 
       return {

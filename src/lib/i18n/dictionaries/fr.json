@@ -6385,7 +6385,6 @@
   "pets": "Animaux",
   "description.petEgg": "Un œuf de compagnie",
   "description.meowchi": "Un chat mignon",
-  "description.twizzle": "Un chien mignon",
   "description.burro": "Un âne mignon",
   "description.barkley": "Un chien mignon",
   "pets.sleeping": "Dormir",
@@ -6726,7 +6725,6 @@
   "pets.nextRequestsIn": "Demandes suivantes dans {{time}}",
   "pets.rewardsList": "Liste des récompenses",
   "pets.rewardsListDescription": "La coquille fossile vous récompensera avec une ressource à récupérer au hasard.",
-  "pets.rewardsListDescriptionTwo": "Dépensez 250 points d'énergie par animal pour récupérer la coquille fossile.",
   "pets.resetConfirmation": "Êtes-vous sûr de vouloir réinitialiser les demandes de nourriture de votre animal pour {{resetGemCost}} gemmes ?",
   "pets.loadingFoodRequests": "Chargement des demandes de nourriture",
   "pets.fetchableResources": "Ressources récupérables",
@@ -6825,5 +6823,10 @@
   "news.chapter.auction": "Rivalisez avec d'autres Bumpkins à la salle des ventes pour les NFT les plus rares.",
   "news.chapter.mutants": "Découvrez des mutants et d'autres NFT exclusifs au chapitre.",
   "news.pawprints.title": "Chapitre Paw Prints - 4 novembre",
-  "news.pawprints.description": "Accomplissez des tâches, gagnez des jetons, découvrez des animaux de compagnie et gagnez des NFT !"
+  "news.pawprints.description": "Accomplissez des tâches, gagnez des jetons, découvrez des animaux de compagnie et gagnez des NFT !",
+  "auction.results": "Résultats",
+  "auction.results.notAvailable": "Les résultats ne sont pas encore disponibles.",
+  "vip.benefit.bonusPetEnergy": "+5 points d'énergie pour animaux pendant le chapitre sur les empreintes de pattes",
+  "description.twizzle": "Une chouette chouette",
+  "pets.rewardsListDescriptionTwo": "Dépensez 300 points d'énergie par animal pour récupérer la coquille fossile."
 }

@@ -325,6 +325,8 @@ export function getHelpRequired({ game }: { game: GameState }) {
       const pet = pets?.nfts?.[id];
       if (!pet) return acc;
 
+      if (pet.visitedAt) return acc;
+
       if (hasHitSocialPetLimit(pet)) return acc;
 
       if (pet.location === "farm") {

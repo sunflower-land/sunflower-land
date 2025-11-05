@@ -9,7 +9,7 @@ import { produce } from "immer";
 
 export type HelpPetsAction = {
   type: "pet.visitingPets";
-  pet: PetName;
+  pet: PetName | number;
   totalHelpedToday: number;
 };
 
@@ -36,7 +36,10 @@ export function helpPets({
       throw new Error("Help limit reached");
     }
 
-    const pet = game.pets?.common?.[action.pet];
+    const pet =
+      typeof action.pet === "number"
+        ? game.pets?.nfts?.[action.pet]
+        : game.pets?.common?.[action.pet];
 
     if (!pet) {
       throw new Error("Pet not found");
