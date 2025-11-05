@@ -6385,7 +6385,6 @@
   "pets": "Animais",
   "description.petEgg": "Um ovo de estimação",
   "description.meowchi": "Um gato fofo",
-  "description.twizzle": "Um cachorro fofo",
   "description.burro": "Um burro fofo",
   "description.barkley": "Um cachorro fofo",
   "pets.sleeping": "Dormindo",
@@ -6726,7 +6725,6 @@
   "pets.nextRequestsIn": "Próximas solicitações em {{time}}",
   "pets.rewardsList": "Lista de recompensas",
   "pets.rewardsListDescription": "A concha fóssil o recompensará com um recurso buscável aleatoriamente.",
-  "pets.rewardsListDescriptionTwo": "Gaste 250 da energia do animal de estimação para pegar a concha fóssil.",
   "pets.resetConfirmation": "Tem certeza de que deseja redefinir as solicitações de comida do seu animal de estimação para gemas {{resetGemCost}}?",
   "pets.loadingFoodRequests": "Carregando pedidos de comida",
   "pets.fetchableResources": "Recursos que podem ser obtidos",
@@ -6828,5 +6826,7 @@
   "news.pawprints.description": "Complete tarefas, ganhe fichas, descubra animais de estimação e ganhe NFTs!",
   "auction.results": "Resultados",
   "auction.results.notAvailable": "Os resultados ainda não estão disponíveis.",
-  "vip.benefit.bonusPetEnergy": "+5 Pet Energy durante o capítulo Paw Prints"
+  "vip.benefit.bonusPetEnergy": "+5 Pet Energy durante o capítulo Paw Prints",
+  "description.twizzle": "Uma coruja fofa",
+  "pets.rewardsListDescriptionTwo": "Gaste 300 da energia do animal de estimação para pegar a concha fóssil."
 }
