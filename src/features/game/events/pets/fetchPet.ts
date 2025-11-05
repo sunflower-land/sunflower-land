@@ -27,6 +27,7 @@ export function getFetchYield({
 }) {
   let yieldAmount = 1;
   let fetchPercentage = 0;
+
   const { value: prngValue, nextSeed } = prng(seed ?? createdAt);
 
   if (petLevel < 15) return { yieldAmount, nextSeed }; // skips the rest of the logic if pet is less than level 15
