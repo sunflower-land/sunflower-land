@@ -54,7 +54,7 @@ export function collectTreeReward({
     }
 
     if (coins) {
-      stateCopy.coins = stateCopy.coins + coins;
+      stateCopy.coins = stateCopy.coins + coins * (tree.multiplier ?? 1);
     }
 
     delete wood.reward;
