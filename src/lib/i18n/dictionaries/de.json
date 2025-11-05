@@ -6817,5 +6817,16 @@
   "description.cleaverKnife.boost.1": "15% Gargeschwindigkeit",
   "description.cleaverKnife.boost.2": "10% Chance auf +1 Essen beim Kochen",
   "description.trainingWhistle.boost": "+1 Leder",
-  "description.squirrelOnesie.boost": "+1 Eichel"
+  "description.squirrelOnesie.boost": "+1 Eichel",
+  "marketplace.pet.trade.date": "Handelsdatum: {{date}}",
+  "news.chapter.backButton": "{{chapter}} Kapitel",
+  "news.chapter.ticket": "Schließe Lieferungen, Hausarbeiten und Kopfgelder ab, um {{ticket}} -Token zu verdienen.",
+  "news.chapter.megastore": "Tausche {{ticket}} -Token im Megastore gegen exklusive sammelbare und tragbare NFTs ein.",
+  "news.chapter.auction": "Messen Sie sich im Auktionshaus mit anderen Bumpkins um die seltensten NFTs.",
+  "news.chapter.mutants": "Entdecke Mutanten und andere kapitelexklusive NFTs.",
+  "news.pawprints.title": "Kapitel „Pfotenabdrücke“ — 4. November",
+  "news.pawprints.description": "Erledige Aufgaben, verdiene Tokens, entdecke Haustiere und gewinne NFTs!",
+  "auction.results": "Ergebnisse",
+  "auction.results.notAvailable": "Ergebnisse sind noch nicht verfügbar.",
+  "vip.benefit.bonusPetEnergy": "+5 Tierenergie im Kapitel „Pfotenabdrücke“"
 }

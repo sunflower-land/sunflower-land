@@ -1,18 +1,18 @@
 import { Label } from "components/ui/Label";
 import React, { useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { getHelpRequired } from "features/game/types/monuments";
+import {
+  getHelpLimit,
+  getHelpRequired,
+  hasHitHelpLimit,
+} from "features/game/types/monuments";
 import { useGame } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import Decimal from "decimal.js-light";
 import { InnerPanel } from "components/ui/Panel";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
-import {
-  getHelpLimit,
-  hasHitHelpLimit,
-  HELP_LIMIT_COST,
-} from "features/game/events/landExpansion/increaseHelpLimit";
+import { HELP_LIMIT_COST } from "features/game/events/landExpansion/increaseHelpLimit";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { secondsTillReset, secondsToString } from "lib/utils/time";
 import { useSelector } from "@xstate/react";

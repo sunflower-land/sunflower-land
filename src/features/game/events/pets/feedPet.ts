@@ -3,6 +3,7 @@ import {
   isCollectibleBuilt,
   isTemporaryCollectibleActive,
 } from "features/game/lib/collectibleBuilt";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 import { CookableName } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
 import {
@@ -18,6 +19,7 @@ import {
   PetNFT,
   PetRequestDifficulty,
 } from "features/game/types/pets";
+import { getCurrentSeason } from "features/game/types/seasons";
 import { AuraTrait, BibTrait } from "features/pets/data/types";
 import { produce } from "immer";
 import { setPrecision } from "lib/utils/formatNumber";
@@ -40,13 +42,17 @@ const AURA_ENERGY_MULTIPLIER: Record<AuraTrait, number> = {
 };
 
 export function getPetEnergy({
+  game,
   basePetEnergy,
   petLevel,
   petData,
+  createdAt,
 }: {
+  game: GameState;
   basePetEnergy: number;
   petLevel: number;
   petData: Pet | PetNFT;
+  createdAt: number;
 }) {
   let boostEnergy = 0;
 
@@ -68,6 +74,14 @@ export function getPetEnergy({
   if (isPetNFTData(petData) && petData.traits?.aura) {
     const auraMultiplier = AURA_ENERGY_MULTIPLIER[petData.traits.aura];
     energy *= auraMultiplier;
+  }
+
+  // To remove after current chapter
+  if (
+    hasVipAccess({ game, now: createdAt }) &&
+    getCurrentSeason(new Date(createdAt)) === "Paw Prints"
+  ) {
+    energy += 5;
   }
 
   return setPrecision(energy, 2).toNumber();
@@ -316,9 +330,11 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
       petData,
     });
     const energy = getPetEnergy({
+      game: stateCopy,
       petLevel,
       basePetEnergy: basePetXP,
       petData,
+      createdAt,
     });
     petData.experience += experience;
     petData.energy += energy;

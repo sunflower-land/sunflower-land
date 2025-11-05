@@ -624,6 +624,7 @@ export type WarCollectionOffer = {
 
 export type Wood = {
   choppedAt: number;
+  seed?: number;
   reward?: Omit<Reward, "sfl">;
   criticalHit?: CriticalHit;
   amount?: number;

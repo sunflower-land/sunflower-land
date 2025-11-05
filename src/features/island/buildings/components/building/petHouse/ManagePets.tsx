@@ -295,9 +295,11 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
                   (sum, foodItem) =>
                     sum +
                     getPetEnergy({
+                      game: state,
                       petLevel,
                       basePetEnergy: getPetRequestXP(foodItem),
                       petData,
+                      createdAt: Date.now(),
                     }),
                   0,
                 );

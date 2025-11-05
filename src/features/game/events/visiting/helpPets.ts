@@ -1,15 +1,15 @@
 import { GameState } from "features/game/types/game";
+import { hasHitHelpLimit } from "features/game/types/monuments";
 import {
   hasHitSocialPetLimit,
   PetName,
   SOCIAL_PET_XP_PER_HELP,
 } from "features/game/types/pets";
 import { produce } from "immer";
-import { hasHitHelpLimit } from "../landExpansion/increaseHelpLimit";
 
 export type HelpPetsAction = {
   type: "pet.visitingPets";
-  pet: PetName;
+  pet: PetName | number;
   totalHelpedToday: number;
 };
 
@@ -36,7 +36,10 @@ export function helpPets({
       throw new Error("Help limit reached");
     }
 
-    const pet = game.pets?.common?.[action.pet];
+    const pet =
+      typeof action.pet === "number"
+        ? game.pets?.nfts?.[action.pet]
+        : game.pets?.common?.[action.pet];
 
     if (!pet) {
       throw new Error("Pet not found");

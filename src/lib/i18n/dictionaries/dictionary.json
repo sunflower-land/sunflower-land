@@ -110,6 +110,8 @@
   "addSFL.swapTitle": "Swap Details",
   "addSFL.minimumReceived": "Minimum Received: {{sflReceived}} FLOWER",
   "auction.title": "Auctions & Drops",
+  "auction.results": "Results",
+  "auction.results.notAvailable": "Results are not available yet.",
   "auction.bid.message": "You have placed your bid.",
   "auction.reveal": "Reveal winners",
   "auction.live": "Auction is live!",
@@ -2565,6 +2567,7 @@
   "lostSunflorian.line2": "Unfortunately, these Bumpkins don't like me watching them.",
   "lostSunflorian.line3": "I can't wait to return to Sunfloria.",
   "marketplace.pet.reveal.date": "Reveal date: {{date}}",
+  "marketplace.pet.trade.date": "Trade date: {{date}}",
   "marketplace.pet.comingSoon": "Coming soon",
   "marketplace.unlockSelling": "Unlock selling",
   "marketplace.unlockOffering": "Unlock offering",
@@ -5391,6 +5394,7 @@
   "vip.benefit.windOfChange": "Winds of Change VIP yield boost (+0.25 New Crops)",
   "vip.benefit.greatBloom": "Great Bloom VIP 2x FLOWER box rewards",
   "vip.benefit.competition": "Bonus competition points + more!",
+  "vip.benefit.bonusPetEnergy": "+5 Pet Energy during Paw Prints Chapter",
   "fullMoon.specialEvent": "Special Event - Full Moon",
   "buying.vip": "Buying VIP",
   "buying.vipsuccess": "Successfully purchased VIP!",
@@ -6819,5 +6823,12 @@
   "description.cleaverKnife.boost.1": "15% Cooking Speed",
   "description.cleaverKnife.boost.2": "10% chance of +1 Food from cooking",
   "description.trainingWhistle.boost": "+1 Leather",
-  "description.squirrelOnesie.boost": "+1 Acorn"
+  "description.squirrelOnesie.boost": "+1 Acorn",
+  "news.chapter.backButton": "{{chapter}} Chapter",
+  "news.chapter.ticket": "Complete deliveries, chores & bounties to earn {{ticket}} tokens.",
+  "news.chapter.megastore": "Exchange {{ticket}} tokens at the Megastore for exclusive collectible & wearable NFTs.",
+  "news.chapter.auction": "Compete with other Bumpkins at the Auction House for the rarest NFTs.",
+  "news.chapter.mutants": "Discover mutants and other chapter-exclusive NFTs.",
+  "news.pawprints.title": "Paw Prints Chapter - Nov 4th",
+  "news.pawprints.description": "Complete tasks, earn tokens, discover pets and win NFTs!"
 }

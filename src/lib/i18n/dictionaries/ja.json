@@ -6817,5 +6817,16 @@
   "description.cleaverKnife.boost.1": "15% クッキングスピード",
   "description.cleaverKnife.boost.2": "10% の確率で料理によるフード+1を獲得する",
   "description.trainingWhistle.boost": "+1 レザー",
-  "description.squirrelOnesie.boost": "+1 エイコーン"
+  "description.squirrelOnesie.boost": "+1 エイコーン",
+  "marketplace.pet.trade.date": "取引日:{{date}}",
+  "news.chapter.backButton": "{{chapter}} チャプター",
+  "news.chapter.ticket": "配達、雑用、バウンティを完了して {{ticket}} トークンを獲得しましょう。",
+  "news.chapter.megastore": "メガストアで {{ticket}} トークンを、収集価値のあるウェアラブルNFTと交換してください。",
+  "news.chapter.auction": "オークションハウスで他のバンプキンと競い合って、最も希少なNFTを手に入れましょう。",
+  "news.chapter.mutants": "ミュータントやその他のチャプター限定のNFTを発見してください。",
+  "news.pawprints.title": "ポープリントチャプター-11月4日",
+  "news.pawprints.description": "タスクを完了し、トークンを獲得し、ペットを発見してNFTを獲得しましょう！",
+  "auction.results": "結果",
+  "auction.results.notAvailable": "結果はまだ出ていません。",
+  "vip.benefit.bonusPetEnergy": "「足跡」チャプター中、ペットエナジー+5"
 }

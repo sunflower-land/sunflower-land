@@ -1382,7 +1382,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Fishing Spear": "tool",
   "Flip Flops": "shoes",
   Wellies: "shoes",
-  "Saw Fish": "tool",
+  "Saw Fish": "secondaryTool",
   "Skinning Knife": "tool",
   "Sunflower Rod": "tool",
   "Tackle Box": "tool",

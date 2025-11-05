@@ -66,7 +66,6 @@ import { PlayerModal } from "features/social/PlayerModal";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { RewardModal } from "features/social/RewardModal";
 import { Discovery } from "features/social/Discovery";
-import { HalloweenIslandScene } from "./scenes/HalloweenIslandScene";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -144,7 +143,6 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
     InfernosScene,
     StreamScene,
     LoveIslandScene,
-    HalloweenIslandScene,
   ];
 
   useEffect(() => {

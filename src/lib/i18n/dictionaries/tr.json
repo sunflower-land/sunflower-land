@@ -6817,5 +6817,16 @@
   "description.cleaverKnife.boost.1": "%15 Pişirme Hızı",
   "description.cleaverKnife.boost.2": "Yemekten %10 +1 Yiyecek alma şansı",
   "description.trainingWhistle.boost": "+1 Deri",
-  "description.squirrelOnesie.boost": "+1 Acorn"
+  "description.squirrelOnesie.boost": "+1 Acorn",
+  "marketplace.pet.trade.date": "İşlem tarihi: {{date}}",
+  "news.chapter.backButton": "{{chapter}} Bölüm",
+  "news.chapter.ticket": "{{ticket}} jetonları kazanmak için teslimatları, işleri ve ödülleri tamamlayın.",
+  "news.chapter.megastore": "Megastore'da {{ticket}} jetonları özel koleksiyonluk ve giyilebilir NFT'ler için değiştirin.",
+  "news.chapter.auction": "En nadir NFT'ler için Müzayede Evi'ndeki diğer Bumpkin'lerle rekabet edin.",
+  "news.chapter.mutants": "Mutantları ve diğer bölüme özel NFT'leri keşfedin.",
+  "news.pawprints.title": "Pençe Baskıları Bölümü - 4 Kasım",
+  "news.pawprints.description": "Görevleri tamamlayın, jetonlar kazanın, evcil hayvanları keşfedin ve NFT'ler kazanın!",
+  "auction.results": "Sonuçlar",
+  "auction.results.notAvailable": "Sonuçlar henüz mevcut değil.",
+  "vip.benefit.bonusPetEnergy": "Pençe Baskıları Bölümü Sırasında +5 Evcil Hayvan Enerjisi"
 }
