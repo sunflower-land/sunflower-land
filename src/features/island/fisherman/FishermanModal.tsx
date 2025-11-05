@@ -223,7 +223,11 @@ const BaitSelection: React.FC<{
 
   const fishingLimitReached = reelsLeft <= 0;
   const missingRod =
-    !isWearableActive({ name: "Ancient Rod", game: state }) &&
+    !isWearableActive({
+      name: "Ancient Rod",
+      bumpkinEquipped: state.bumpkin.equipped,
+      farmHands: state.farmHands,
+    }) &&
     (!state.inventory["Rod"] || state.inventory.Rod.lt(1));
 
   const currentSeason = state.season.season;

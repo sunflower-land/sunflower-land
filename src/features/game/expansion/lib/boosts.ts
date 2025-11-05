@@ -25,6 +25,14 @@ import {
 } from "features/game/lib/factions";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { setPrecision } from "lib/utils/formatNumber";
+import { BumpkinItem } from "features/game/types/bumpkin";
+
+const isWearableActiveForGame = (game: GameState, name: BumpkinItem) =>
+  isWearableActive({
+    name,
+    bumpkinEquipped: game.bumpkin.equipped,
+    farmHands: game.farmHands,
+  });
 
 const crops = CROPS;
 
@@ -189,7 +197,7 @@ export const getCookingTime = ({
   const boostsUsed: BoostName[] = [];
 
   // Luna's Hat - 50% reduction
-  if (isWearableActive({ name: "Luna's Hat", game })) {
+  if (isWearableActiveForGame(game, "Luna's Hat")) {
     reducedSecs = reducedSecs.mul(0.5);
     boostsUsed.push("Luna's Hat");
   }
@@ -203,10 +211,7 @@ export const getCookingTime = ({
   const factionName = game.faction?.name;
   if (
     factionName &&
-    isWearableActive({
-      game,
-      name: FACTION_ITEMS[factionName].necklace,
-    })
+    isWearableActiveForGame(game, FACTION_ITEMS[factionName].necklace)
   ) {
     reducedSecs = reducedSecs.mul(0.75);
     boostsUsed.push(FACTION_ITEMS[factionName].necklace);
@@ -308,7 +313,7 @@ export const getFoodExpBoost = ({
   const boostsUsed: BoostName[] = [];
 
   //Bumpkin Wearable Boost Golden Spatula
-  if (isWearableActive({ name: "Golden Spatula", game })) {
+  if (isWearableActiveForGame(game, "Golden Spatula")) {
     boostedExp = boostedExp.mul(1.1);
     boostsUsed.push("Golden Spatula");
   }
@@ -320,14 +325,14 @@ export const getFoodExpBoost = ({
 
   if (
     food.name in FISH_CONSUMABLES &&
-    isWearableActive({ name: "Luminous Anglerfish Topper", game })
+    isWearableActiveForGame(game, "Luminous Anglerfish Topper")
   ) {
     // 50% boost
     boostedExp = boostedExp.mul(1.5);
     boostsUsed.push("Luminous Anglerfish Topper");
   }
 
-  if (isWearableActive({ name: "Pan", game })) {
+  if (isWearableActiveForGame(game, "Pan")) {
     // 25% boost
     boostedExp = boostedExp.mul(1.25);
     boostsUsed.push("Pan");

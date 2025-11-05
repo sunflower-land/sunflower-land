@@ -120,6 +120,10 @@ export function getFruitYield({
   const { bumpkin } = game;
   let amount = 1;
   const boostsUsed: BoostName[] = [];
+  const wearableContext = {
+    bumpkinEquipped: game.bumpkin.equipped,
+    farmHands: game.farmHands,
+  };
 
   if (name === "Apple" && isCollectibleBuilt({ name: "Lady Bug", game })) {
     amount += 0.25;
@@ -144,7 +148,10 @@ export function getFruitYield({
     boostsUsed.push("Macaw");
   }
 
-  if (isFruit(name) && isWearableActive({ name: "Camel Onesie", game })) {
+  if (
+    isFruit(name) &&
+    isWearableActive({ name: "Camel Onesie", ...wearableContext })
+  ) {
     amount += 0.1;
     boostsUsed.push("Camel Onesie");
   }
@@ -154,7 +161,7 @@ export function getFruitYield({
       name === "Orange" ||
       name === "Blueberry" ||
       name === "Banana") &&
-    isWearableActive({ name: "Fruit Picker Apron", game })
+    isWearableActive({ name: "Fruit Picker Apron", ...wearableContext })
   ) {
     amount += 0.1;
     boostsUsed.push("Fruit Picker Apron");
@@ -186,8 +193,8 @@ export function getFruitYield({
   if (
     factionName &&
     isWearableActive({
-      game,
       name: FACTION_ITEMS[factionName].wings,
+      ...wearableContext,
     })
   ) {
     amount += 0.25;
@@ -201,7 +208,10 @@ export function getFruitYield({
     boostsUsed.push(...fruitfulBlendBuffBoosts);
   }
 
-  if (name === "Banana" && isWearableActive({ name: "Banana Amulet", game })) {
+  if (
+    name === "Banana" &&
+    isWearableActive({ name: "Banana Amulet", ...wearableContext })
+  ) {
     amount += 0.5;
     boostsUsed.push("Banana Amulet");
   }
@@ -220,7 +230,10 @@ export function getFruitYield({
     boostsUsed.push("Lemon Shark");
   }
 
-  if (name === "Lemon" && isWearableActive({ name: "Lemon Shield", game })) {
+  if (
+    name === "Lemon" &&
+    isWearableActive({ name: "Lemon Shield", ...wearableContext })
+  ) {
     amount += 1;
     boostsUsed.push("Lemon Shield");
   }
@@ -256,7 +269,10 @@ export function getFruitYield({
     boostsUsed.push("Grape Granny");
   }
 
-  if (name === "Grape" && isWearableActive({ name: "Grape Pants", game })) {
+  if (
+    name === "Grape" &&
+    isWearableActive({ name: "Grape Pants", ...wearableContext })
+  ) {
     amount += 0.2;
     boostsUsed.push("Grape Pants");
   }

@@ -44,7 +44,13 @@ export const getFlowerTime = (
   const boostsUsed: BoostName[] = [];
 
   // If wearing Flower Crown 2x speed
-  if (isWearableActive({ name: "Flower Crown", game })) {
+  if (
+    isWearableActive({
+      name: "Flower Crown",
+      bumpkinEquipped: game.bumpkin.equipped,
+      farmHands: game.farmHands,
+    })
+  ) {
     seconds *= 0.5;
     boostsUsed.push("Flower Crown");
   }

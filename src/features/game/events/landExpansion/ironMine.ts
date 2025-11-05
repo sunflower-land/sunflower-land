@@ -30,6 +30,14 @@ import {
   isCollectibleOnFarm,
   setAOELastUsed,
 } from "features/game/lib/aoe";
+import { BumpkinItem } from "features/game/types/bumpkin";
+
+const isWearableActiveForGame = (game: GameState, name: BumpkinItem) =>
+  isWearableActive({
+    name,
+    bumpkinEquipped: game.bumpkin.equipped,
+    farmHands: game.farmHands,
+  });
 
 export type LandExpansionIronMineAction = {
   type: "ironRock.mined";
@@ -222,10 +230,7 @@ export function getIronDropAmount({
   const factionName = game.faction?.name;
   if (
     factionName &&
-    isWearableActive({
-      game,
-      name: FACTION_ITEMS[factionName].secondaryTool,
-    })
+    isWearableActiveForGame(game, FACTION_ITEMS[factionName].secondaryTool)
   ) {
     amount += 0.25;
     boostsUsed.push(FACTION_ITEMS[factionName].secondaryTool);

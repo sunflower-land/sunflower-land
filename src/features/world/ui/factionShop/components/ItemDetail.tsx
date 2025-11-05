@@ -211,8 +211,9 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const wearableReq = item?.requires as BumpkinItem;
 
   const wearableActive = isWearableActive({
-    game: state,
     name: wearableReq,
+    bumpkinEquipped: state.bumpkin.equipped,
+    farmHands: state.farmHands,
   });
 
   const getButtonLabel = () => {

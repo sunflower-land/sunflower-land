@@ -79,6 +79,10 @@ export function generateBountyTicket({
 
   const chapter = getCurrentSeason(new Date(now));
   const chapterBoost = CHAPTER_TICKET_BOOST_ITEMS[chapter];
+  const wearableContext = {
+    bumpkinEquipped: game.bumpkin.equipped,
+    farmHands: game.farmHands,
+  };
 
   Object.values(chapterBoost).forEach((item) => {
     if (isCollectible(item)) {
@@ -86,7 +90,7 @@ export function generateBountyTicket({
         amount += 1;
       }
     } else {
-      if (isWearableActive({ game, name: item })) {
+      if (isWearableActive({ name: item, ...wearableContext })) {
         amount += 1;
       }
     }

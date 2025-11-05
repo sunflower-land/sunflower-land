@@ -167,15 +167,19 @@ export function getBarnDelightCost({ state }: { state: GameState }): {
 } {
   let amount = 1;
   const boostsUsed: BoostName[] = [];
+  const wearableContext = {
+    bumpkinEquipped: state.bumpkin.equipped,
+    farmHands: state.farmHands,
+  };
 
-  if (isWearableActive({ name: "Oracle Syringe", game: state })) {
+  if (isWearableActive({ name: "Oracle Syringe", ...wearableContext })) {
     amount = 0;
     boostsUsed.push("Oracle Syringe");
     // Early return to avoid other boosts
     return { amount, boostsUsed };
   }
 
-  if (isWearableActive({ name: "Medic Apron", game: state })) {
+  if (isWearableActive({ name: "Medic Apron", ...wearableContext })) {
     amount /= 2;
     boostsUsed.push("Medic Apron");
   }

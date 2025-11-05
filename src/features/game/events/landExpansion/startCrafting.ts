@@ -32,12 +32,24 @@ export function getBoostedCraftingTime({
   const boostsUsed: BoostName[] = [];
 
   // Sol & Luna 50% Crafting Speed
-  if (isWearableActive({ name: "Sol & Luna", game })) {
+  if (
+    isWearableActive({
+      name: "Sol & Luna",
+      bumpkinEquipped: game.bumpkin.equipped,
+      farmHands: game.farmHands,
+    })
+  ) {
     seconds *= 0.5;
     boostsUsed.push("Sol & Luna");
   }
 
-  if (isWearableActive({ name: "Architect Ruler", game })) {
+  if (
+    isWearableActive({
+      name: "Architect Ruler",
+      bumpkinEquipped: game.bumpkin.equipped,
+      farmHands: game.farmHands,
+    })
+  ) {
     seconds *= 0.75;
     boostsUsed.push("Architect Ruler");
   }

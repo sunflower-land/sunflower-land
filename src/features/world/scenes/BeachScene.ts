@@ -213,9 +213,11 @@ export class BeachScene extends BaseScene {
     }
   }
   updatePirateChest() {
+    const state = this.gameService.getSnapshot().context.state;
     const piratePotionEquipped = isWearableActive({
-      game: this.gameService.getSnapshot().context.state,
       name: "Pirate Potion",
+      bumpkinEquipped: state.bumpkin.equipped,
+      farmHands: state.farmHands,
     });
 
     const openedAt =
@@ -1136,9 +1138,11 @@ export class BeachScene extends BaseScene {
   };
 
   get isAncientShovelActive() {
+    const state = this.gameService.getSnapshot().context.state;
     return isWearableActive({
       name: "Ancient Shovel",
-      game: this.gameService.getSnapshot().context.state,
+      bumpkinEquipped: state.bumpkin.equipped,
+      farmHands: state.farmHands,
     });
   }
 

@@ -34,7 +34,13 @@ function getBoostedTime({ game }: GetMinedAtArgs): {
   let totalSeconds = CRIMSTONE_RECOVERY_TIME;
   const boostsUsed: BoostName[] = [];
 
-  if (isWearableActive({ name: "Crimstone Amulet", game })) {
+  if (
+    isWearableActive({
+      name: "Crimstone Amulet",
+      bumpkinEquipped: game.bumpkin.equipped,
+      farmHands: game.farmHands,
+    })
+  ) {
     totalSeconds = totalSeconds * 0.8;
     boostsUsed.push("Crimstone Amulet");
   }
@@ -85,13 +91,25 @@ export function getCrimstoneDropAmount({
     boostsUsed.push("Crim Peckster");
   }
 
-  if (isWearableActive({ name: "Crimstone Armor", game })) {
+  if (
+    isWearableActive({
+      name: "Crimstone Armor",
+      bumpkinEquipped: game.bumpkin.equipped,
+      farmHands: game.farmHands,
+    })
+  ) {
     amount = amount.add(0.1);
     boostsUsed.push("Crimstone Armor");
   }
 
   if (rock.minesLeft === 1) {
-    if (isWearableActive({ name: "Crimstone Hammer", game })) {
+    if (
+      isWearableActive({
+        name: "Crimstone Hammer",
+        bumpkinEquipped: game.bumpkin.equipped,
+        farmHands: game.farmHands,
+      })
+    ) {
       amount = amount.add(2);
       boostsUsed.push("Crimstone Hammer");
     }

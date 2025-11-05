@@ -38,6 +38,7 @@ import {
   isPlotCrop,
 } from "features/game/lib/getBudYieldBoosts";
 import { isWearableActive } from "features/game/lib/wearables";
+import { BumpkinItem } from "features/game/types/bumpkin";
 import {
   getActiveCalendarEvent,
   getActiveGuardian,
@@ -54,6 +55,13 @@ import {
   setAOELastUsed,
 } from "features/game/lib/aoe";
 import { getAffectedWeather } from "./plant";
+
+const isWearableActiveForGame = (game: GameState, name: BumpkinItem) =>
+  isWearableActive({
+    name,
+    bumpkinEquipped: game.bumpkin.equipped,
+    farmHands: game.farmHands,
+  });
 
 export type LandExpansionHarvestAction = {
   type: "crop.harvested";
@@ -160,22 +168,19 @@ export function getCropYieldAmount({
     boostsUsed.push("Victoria Sisters");
   }
 
-  if (crop === "Parsnip" && isWearableActive({ name: "Parsnip", game })) {
+  if (crop === "Parsnip" && isWearableActiveForGame(game, "Parsnip")) {
     amount *= 1.2;
     boostsUsed.push("Parsnip");
   }
 
-  if (
-    crop === "Beetroot" &&
-    isWearableActive({ name: "Beetroot Amulet", game })
-  ) {
+  if (crop === "Beetroot" && isWearableActiveForGame(game, "Beetroot Amulet")) {
     amount *= 1.2;
     boostsUsed.push("Beetroot Amulet");
   }
 
   if (
     crop === "Sunflower" &&
-    isWearableActive({ name: "Sunflower Amulet", game })
+    isWearableActiveForGame(game, "Sunflower Amulet")
   ) {
     amount *= 1.1;
     boostsUsed.push("Sunflower Amulet");
@@ -196,7 +201,7 @@ export function getCropYieldAmount({
   }
 
   if (
-    isWearableActive({ name: "Green Amulet", game }) &&
+    isWearableActiveForGame(game, "Green Amulet") &&
     criticalDrop("Green Amulet")
   ) {
     amount *= 10;
@@ -260,10 +265,7 @@ export function getCropYieldAmount({
     boostsUsed.push("Maximus");
   }
 
-  if (
-    crop === "Eggplant" &&
-    isWearableActive({ name: "Eggplant Onesie", game })
-  ) {
+  if (crop === "Eggplant" && isWearableActiveForGame(game, "Eggplant Onesie")) {
     amount += 0.1;
     boostsUsed.push("Eggplant Onesie");
   }
@@ -281,17 +283,17 @@ export function getCropYieldAmount({
     boostsUsed.push("Giant Yam");
   }
 
-  if (crop === "Soybean" && isWearableActive({ name: "Tofu Mask", game })) {
+  if (crop === "Soybean" && isWearableActiveForGame(game, "Tofu Mask")) {
     amount += 0.1;
     boostsUsed.push("Tofu Mask");
   }
 
-  if (crop === "Corn" && isWearableActive({ name: "Corn Onesie", game })) {
+  if (crop === "Corn" && isWearableActiveForGame(game, "Corn Onesie")) {
     amount += 0.1;
     boostsUsed.push("Corn Onesie");
   }
 
-  if (crop === "Wheat" && isWearableActive({ name: "Sickle", game })) {
+  if (crop === "Wheat" && isWearableActiveForGame(game, "Sickle")) {
     amount += 2;
     boostsUsed.push("Sickle");
   }
@@ -310,7 +312,7 @@ export function getCropYieldAmount({
     boostsUsed.push("Giant Kale");
   }
   // Rice
-  if (crop === "Rice" && isWearableActive({ name: "Non La Hat", game })) {
+  if (crop === "Rice" && isWearableActiveForGame(game, "Non La Hat")) {
     amount += 1;
     boostsUsed.push("Non La Hat");
   }
@@ -329,7 +331,7 @@ export function getCropYieldAmount({
   }
 
   // Olive
-  if (crop === "Olive" && isWearableActive({ name: "Olive Shield", game })) {
+  if (crop === "Olive" && isWearableActiveForGame(game, "Olive Shield")) {
     amount += 1;
     boostsUsed.push("Olive Shield");
   }
@@ -369,7 +371,7 @@ export function getCropYieldAmount({
 
   if (
     crop === "Olive" &&
-    isWearableActive({ game, name: "Olive Royalty Shirt" })
+    isWearableActiveForGame(game, "Olive Royalty Shirt")
   ) {
     amount += 0.25;
     boostsUsed.push("Olive Royalty Shirt");
@@ -379,7 +381,7 @@ export function getCropYieldAmount({
   if (
     isSpringCrop(crop, game.season.season, SEASONAL_SEEDS) &&
     !isGreenhouseCrop(crop) &&
-    isWearableActive({ name: "Blossom Ward", game })
+    isWearableActiveForGame(game, "Blossom Ward")
   ) {
     amount += 1;
     boostsUsed.push("Blossom Ward");
@@ -388,14 +390,14 @@ export function getCropYieldAmount({
   if (
     isWinterCrop(crop, game.season.season, SEASONAL_SEEDS) &&
     !isGreenhouseCrop(crop) &&
-    isWearableActive({ name: "Frozen Heart", game })
+    isWearableActiveForGame(game, "Frozen Heart")
   ) {
     amount += 1;
     boostsUsed.push("Frozen Heart");
   }
 
   // Generic crop additions
-  if (isWearableActive({ name: "Infernal Pitchfork", game })) {
+  if (isWearableActiveForGame(game, "Infernal Pitchfork")) {
     amount += 3;
     boostsUsed.push("Infernal Pitchfork");
   }
@@ -409,10 +411,7 @@ export function getCropYieldAmount({
   const factionName = game.faction?.name;
   if (
     factionName &&
-    isWearableActive({
-      game,
-      name: FACTION_ITEMS[factionName].wings,
-    })
+    isWearableActiveForGame(game, FACTION_ITEMS[factionName].wings)
   ) {
     amount += 0.25;
     boostsUsed.push(FACTION_ITEMS[factionName].wings);

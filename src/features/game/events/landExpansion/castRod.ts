@@ -66,8 +66,15 @@ export function castRod({
     }
 
     const rodCount = game.inventory.Rod ?? new Decimal(0);
+    const wearableContext = {
+      bumpkinEquipped: game.bumpkin.equipped,
+      farmHands: game.farmHands,
+    };
     // Requires Rod
-    if (rodCount.lt(1) && !isWearableActive({ name: "Ancient Rod", game })) {
+    if (
+      rodCount.lt(1) &&
+      !isWearableActive({ name: "Ancient Rod", ...wearableContext })
+    ) {
       throw new Error(translate("error.missingRod"));
     }
 
@@ -100,7 +107,7 @@ export function castRod({
     }
 
     // Subtracts Rod
-    if (!isWearableActive({ name: "Ancient Rod", game })) {
+    if (!isWearableActive({ name: "Ancient Rod", ...wearableContext })) {
       game.inventory.Rod = rodCount.sub(1);
     } else {
       game.boostsUsedAt = updateBoostUsed({

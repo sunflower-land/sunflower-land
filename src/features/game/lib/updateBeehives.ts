@@ -35,7 +35,13 @@ const getHoneyProductionRate = (
     boostsUsed.push("Queen Bee");
   }
 
-  if (isWearableActive({ name: "Beekeeper Hat", game })) {
+  if (
+    isWearableActive({
+      name: "Beekeeper Hat",
+      bumpkinEquipped: bumpkin.equipped,
+      farmHands: game.farmHands,
+    })
+  ) {
     rate += 0.2;
     boostsUsed.push("Beekeeper Hat");
   }

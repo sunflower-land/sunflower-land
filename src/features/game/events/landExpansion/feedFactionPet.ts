@@ -20,7 +20,11 @@ import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { produce } from "immer";
 
 const isPawShieldActive = (game: GameState) =>
-  isWearableActive({ game, name: "Paw Shield" });
+  isWearableActive({
+    name: "Paw Shield",
+    bumpkinEquipped: game.bumpkin.equipped,
+    farmHands: game.farmHands,
+  });
 
 export const getKingdomPetBoost = (
   game: GameState,

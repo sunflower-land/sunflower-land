@@ -69,6 +69,10 @@ export function generateDeliveryTickets({
 
   const chapter = getCurrentSeason(now);
   const chapterBoost = CHAPTER_TICKET_BOOST_ITEMS[chapter];
+  const wearableContext = {
+    bumpkinEquipped: game.bumpkin.equipped,
+    farmHands: game.farmHands,
+  };
 
   Object.values(chapterBoost).forEach((item) => {
     if (isCollectible(item)) {
@@ -76,7 +80,7 @@ export function generateDeliveryTickets({
         amount += 1;
       }
     } else {
-      if (isWearableActive({ game, name: item })) {
+      if (isWearableActive({ name: item, ...wearableContext })) {
         amount += 1;
       }
     }
@@ -223,6 +227,10 @@ export function getOrderSellPrice<T>(
 ): { reward: T; boostsUsed: BoostName[] } {
   let mul = 1;
   const boostsUsed: BoostName[] = [];
+  const wearableContext = {
+    bumpkinEquipped: game.bumpkin.equipped,
+    farmHands: game.farmHands,
+  };
 
   if (
     order.from === "betty" &&
@@ -286,7 +294,7 @@ export function getOrderSellPrice<T>(
   const items = getKeys(order.items);
   if (
     items.some((name) => name in COOKABLE_CAKES) &&
-    isWearableActive({ name: "Chef Apron", game })
+    isWearableActive({ name: "Chef Apron", ...wearableContext })
   ) {
     mul += 0.2;
     boostsUsed.push("Chef Apron");
@@ -296,7 +304,10 @@ export function getOrderSellPrice<T>(
   const factionName = game.faction?.name;
   if (
     factionName &&
-    isWearableActive({ game, name: FACTION_OUTFITS[factionName].crown })
+    isWearableActive({
+      name: FACTION_OUTFITS[factionName].crown,
+      ...wearableContext,
+    })
   ) {
     mul += 0.25;
     boostsUsed.push(FACTION_OUTFITS[factionName].crown);

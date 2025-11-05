@@ -177,7 +177,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
   const hasOracleSyringeEquipped = isWearableActive({
     name: "Oracle Syringe",
-    game,
+    bumpkinEquipped: game.bumpkin.equipped,
+    farmHands: game.farmHands,
   });
 
   // Check if the chicken has a mutant

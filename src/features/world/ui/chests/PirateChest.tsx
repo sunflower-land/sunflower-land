@@ -38,8 +38,9 @@ const PirateChestContent: React.FC<PirateChestContentProps> = ({
   const { state } = gameState.context;
 
   const piratePotionEquipped = isWearableActive({
-    game: state,
     name: "Pirate Potion",
+    bumpkinEquipped: state.bumpkin.equipped,
+    farmHands: state.farmHands,
   });
 
   const openedAt = state.pumpkinPlaza.pirateChest?.openedAt ?? 0;

@@ -91,7 +91,13 @@ export const getLavaPitRequirements = (
   let requirementsMultiplier = 1;
   const boostUsed: BoostName[] = [];
 
-  if (isWearableActive({ game, name: "Lava Swimwear" })) {
+  if (
+    isWearableActive({
+      name: "Lava Swimwear",
+      bumpkinEquipped: game.bumpkin.equipped,
+      farmHands: game.farmHands,
+    })
+  ) {
     requirementsMultiplier *= 0.5;
     boostUsed.push("Lava Swimwear");
   }
@@ -118,7 +124,13 @@ export function getLavaPitTime({ game }: { game: GameState }) {
   let time = LAVA_PIT_TIME;
   const boostsUsed: BoostName[] = [];
 
-  if (isWearableActive({ name: "Obsidian Necklace", game })) {
+  if (
+    isWearableActive({
+      name: "Obsidian Necklace",
+      bumpkinEquipped: game.bumpkin.equipped,
+      farmHands: game.farmHands,
+    })
+  ) {
     time = time * 0.5;
     boostsUsed.push("Obsidian Necklace");
   }

@@ -22,12 +22,20 @@ import {
   GameState,
   InventoryItemName,
 } from "../types/game";
+import { BumpkinItem } from "../types/bumpkin";
 import {
   isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "./collectibleBuilt";
 import { getBudYieldBoosts } from "./getBudYieldBoosts";
 import { isWearableActive } from "./wearables";
+
+const isWearableActiveForGame = (game: GameState, name: BumpkinItem) =>
+  isWearableActive({
+    name,
+    bumpkinEquipped: game.bumpkin.equipped,
+    farmHands: game.farmHands,
+  });
 
 export const makeAnimalBuildingKey = (
   buildingName: Extract<BuildingName, "Hen House" | "Barn">,
@@ -181,7 +189,7 @@ function getFeatherYieldBoosts(game: GameState): {
   let boost = 0;
   const boostsUsed: BoostName[] = [];
 
-  if (isWearableActive({ name: "Chicken Suit", game })) {
+  if (isWearableActiveForGame(game, "Chicken Suit")) {
     boost += 1;
     boostsUsed.push("Chicken Suit");
   }
@@ -221,12 +229,12 @@ function getWoolYieldBoosts(game: GameState): {
   let boost = 0;
   const boostsUsed: BoostName[] = [];
 
-  if (isWearableActive({ name: "Black Sheep Onesie", game })) {
+  if (isWearableActiveForGame(game, "Black Sheep Onesie")) {
     boost += 2;
     boostsUsed.push("Black Sheep Onesie");
   }
   // White Sheep Onesie - +.25 wool
-  if (isWearableActive({ name: "White Sheep Onesie", game })) {
+  if (isWearableActiveForGame(game, "White Sheep Onesie")) {
     boost += 0.25;
     boostsUsed.push("White Sheep Onesie");
   }
@@ -251,7 +259,7 @@ function getMerinoWoolYieldBoosts(game: GameState): {
   let boost = 0;
   const boostsUsed: BoostName[] = [];
 
-  if (isWearableActive({ name: "Merino Jumper", game })) {
+  if (isWearableActiveForGame(game, "Merino Jumper")) {
     boost += 1;
     boostsUsed.push("Merino Jumper");
   }
@@ -295,12 +303,12 @@ function getMilkYieldBoosts(game: GameState): {
     boostsUsed.push("Longhorn Cowfish");
   }
 
-  if (isWearableActive({ name: "Milk Apron", game })) {
+  if (isWearableActiveForGame(game, "Milk Apron")) {
     boost += 0.5;
     boostsUsed.push("Milk Apron");
   }
 
-  if (isWearableActive({ name: "Cowbell Necklace", game })) {
+  if (isWearableActiveForGame(game, "Cowbell Necklace")) {
     boost += 2;
     boostsUsed.push("Cowbell Necklace");
   }
@@ -450,7 +458,7 @@ export function getResourceDropAmount({
   }
 
   // Cattlegrim boosts all produce
-  if (isWearableActive({ name: "Cattlegrim", game })) {
+  if (isWearableActiveForGame(game, "Cattlegrim")) {
     amount += 0.25;
     boostsUsed.push("Cattlegrim");
   }
@@ -506,7 +514,7 @@ export function getBoostedFoodQuantity({
 
   if (
     (animalType === "Sheep" || animalType === "Cow") &&
-    isWearableActive({ name: "Infernal Bullwhip", game })
+    isWearableActiveForGame(game, "Infernal Bullwhip")
   ) {
     baseFoodQuantity *= 0.5;
     boostsUsed.push("Infernal Bullwhip");
@@ -595,7 +603,7 @@ export function getBoostedAwakeAt({
   }
 
   if (isSheep) {
-    if (isWearableActive({ name: "Dream Scarf", game })) {
+    if (isWearableActiveForGame(game, "Dream Scarf")) {
       totalDuration *= 0.8;
       boostsUsed.push("Dream Scarf");
     }

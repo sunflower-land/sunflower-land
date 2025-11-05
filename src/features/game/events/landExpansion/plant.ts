@@ -39,6 +39,7 @@ import {
   trackActivity,
 } from "features/game/types/bumpkinActivity";
 import { isWearableActive } from "features/game/lib/wearables";
+import { BumpkinItem } from "features/game/types/bumpkin";
 import { isGreenhouseCrop } from "./plantGreenhouse";
 import { produce } from "immer";
 import {
@@ -85,6 +86,13 @@ const INITIAL_SUPPORTED_PLOTS = (island: IslandType) =>
 
 // Each well can support an additional 8 plots
 const WELL_PLOT_SUPPORT = 8;
+
+const isWearableActiveForGame = (game: GameState, name: BumpkinItem) =>
+  isWearableActive({
+    name,
+    bumpkinEquipped: game.bumpkin.equipped,
+    farmHands: game.farmHands,
+  });
 
 function isCropDestroyed({ id, game }: { id: string; game: GameState }) {
   // Sort oldest to newest
@@ -262,7 +270,7 @@ export function getCropTime({
   if (
     isSummerCrop(crop, game.season.season, SEASONAL_SEEDS) &&
     !isGreenhouseCrop(crop) &&
-    isWearableActive({ name: "Solflare Aegis", game })
+    isWearableActiveForGame(game, "Solflare Aegis")
   ) {
     multiplier = multiplier * 0.5;
     boostsUsed.push("Solflare Aegis");
@@ -271,7 +279,7 @@ export function getCropTime({
   if (
     isAutumnCrop(crop, game.season.season, SEASONAL_SEEDS) &&
     !isGreenhouseCrop(crop) &&
-    isWearableActive({ name: "Autumn's Embrace", game })
+    isWearableActiveForGame(game, "Autumn's Embrace")
   ) {
     multiplier = multiplier * 0.5;
     boostsUsed.push("Autumn's Embrace");
@@ -330,7 +338,7 @@ export const getCropPlotTime = ({
     boostsUsed.push("Mysterious Parsnip");
   }
 
-  if (crop === "Carrot" && isWearableActive({ name: "Carrot Amulet", game })) {
+  if (crop === "Carrot" && isWearableActiveForGame(game, "Carrot Amulet")) {
     seconds = seconds * 0.8;
     boostsUsed.push("Carrot Amulet");
   }
@@ -356,15 +364,12 @@ export const getCropPlotTime = ({
     boostsUsed.push("Kernaldo");
   }
 
-  if (
-    crop === "Pepper" &&
-    isWearableActive({ name: "Red Pepper Onesie", game })
-  ) {
+  if (crop === "Pepper" && isWearableActiveForGame(game, "Red Pepper Onesie")) {
     seconds = seconds * 0.75;
     boostsUsed.push("Red Pepper Onesie");
   }
 
-  if (isWearableActive({ name: "Broccoli Hat", game }) && crop === "Broccoli") {
+  if (isWearableActiveForGame(game, "Broccoli Hat") && crop === "Broccoli") {
     seconds = seconds * 0.5;
     boostsUsed.push("Broccoli Hat");
   }

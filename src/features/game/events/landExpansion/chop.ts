@@ -8,6 +8,7 @@ import { FACTION_ITEMS } from "features/game/lib/factions";
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { isWearableActive } from "features/game/lib/wearables";
 import { trackActivity } from "features/game/types/bumpkinActivity";
+import { BumpkinItem } from "features/game/types/bumpkin";
 
 import {
   BoostName,
@@ -27,6 +28,13 @@ export enum CHOP_ERRORS {
   NO_TREE = "No tree",
   STILL_GROWING = "Tree is still growing",
 }
+
+const isWearableActiveForGame = (game: GameState, name: BumpkinItem) =>
+  isWearableActive({
+    name,
+    bumpkinEquipped: game.bumpkin.equipped,
+    farmHands: game.farmHands,
+  });
 
 type GetChoppedAtArgs = {
   game: GameState;
@@ -132,10 +140,7 @@ export function getWoodDropAmount({
   const factionName = game.faction?.name;
   if (
     factionName &&
-    isWearableActive({
-      game,
-      name: FACTION_ITEMS[factionName].secondaryTool,
-    })
+    isWearableActiveForGame(game, FACTION_ITEMS[factionName].secondaryTool)
   ) {
     amount = amount.add(0.25);
     boostsUsed.push(FACTION_ITEMS[factionName].secondaryTool);

@@ -621,7 +621,13 @@ export function getDailyFishingLimit(game: GameState): {
   const boostsUsed: BoostName[] = [];
 
   // +10 daily limit if player has Angler Waders
-  if (isWearableActive({ name: "Angler Waders", game })) {
+  if (
+    isWearableActive({
+      name: "Angler Waders",
+      bumpkinEquipped: game.bumpkin.equipped,
+      farmHands: game.farmHands,
+    })
+  ) {
     limit += 10;
     boostsUsed.push("Angler Waders");
   }
@@ -651,7 +657,13 @@ export function getDailyFishingLimit(game: GameState): {
   }
 
   // +5 daily limit if player has Saw Fish
-  if (isWearableActive({ name: "Saw Fish", game })) {
+  if (
+    isWearableActive({
+      name: "Saw Fish",
+      bumpkinEquipped: game.bumpkin.equipped,
+      farmHands: game.farmHands,
+    })
+  ) {
     limit += 5;
     boostsUsed.push("Saw Fish");
   }

@@ -209,6 +209,11 @@ export function getFactionWearableBoostAmount(
   const factionName = game.faction?.name;
   if (!factionName) return [boost, boostLabels];
 
+  const wearableContext = {
+    bumpkinEquipped: game.bumpkin.equipped,
+    farmHands: game.farmHands,
+  };
+
   // Assign the boost amount with each part
   const boosts: Record<OutfitPart, number> = {
     pants: 0.05,
@@ -226,12 +231,15 @@ export function getFactionWearableBoostAmount(
     // Skip the hat boost if a crown is active
     if (
       wearable === "hat" &&
-      isWearableActive({ game, name: FACTION_OUTFITS[factionName].crown })
+      isWearableActive({
+        name: FACTION_OUTFITS[factionName].crown,
+        ...wearableContext,
+      })
     ) {
       continue;
     }
 
-    if (isWearableActive({ game, name: wearableName })) {
+    if (isWearableActive({ name: wearableName, ...wearableContext })) {
       boost += baseAmount * boosts[wearable];
       boostLabels[wearableName] = `+${boosts[wearable] * 100}%`;
     }

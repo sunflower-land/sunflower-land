@@ -60,7 +60,13 @@ function getWormOutput({
 }) {
   const { skills } = state.bumpkin;
   let { min, max } = WORM_OUTPUT[building];
-  if (isWearableActive({ name: "Bucket O' Worms", game: state })) {
+  if (
+    isWearableActive({
+      name: "Bucket O' Worms",
+      bumpkinEquipped: state.bumpkin.equipped,
+      farmHands: state.farmHands,
+    })
+  ) {
     min += 1;
     max += 1;
   }

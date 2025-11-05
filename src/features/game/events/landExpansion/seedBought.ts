@@ -35,6 +35,10 @@ export function getBuyPrice(
   const boostsUsed: BoostName[] = [];
 
   const { inventory, bumpkin } = game;
+  const wearableContext = {
+    bumpkinEquipped: game.bumpkin.equipped,
+    farmHands: game.farmHands,
+  };
 
   if (isCollectibleBuilt({ name: "Kuebiko", game })) {
     boostsUsed.push("Kuebiko");
@@ -49,7 +53,7 @@ export function getBuyPrice(
   }
 
   if (
-    isWearableActive({ name: "Sunflower Shield", game }) &&
+    isWearableActive({ name: "Sunflower Shield", ...wearableContext }) &&
     name === "Sunflower Seed"
   ) {
     boostsUsed.push("Sunflower Shield");
@@ -61,7 +65,7 @@ export function getBuyPrice(
   // Ladybug Suit 25% Onion Cost
   if (
     name === "Onion Seed" &&
-    isWearableActive({ name: "Ladybug Suit", game })
+    isWearableActive({ name: "Ladybug Suit", ...wearableContext })
   ) {
     boostsUsed.push("Ladybug Suit");
     price = price * 0.75;

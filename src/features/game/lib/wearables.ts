@@ -1,16 +1,21 @@
 import { BumpkinItem } from "../types/bumpkin";
-import { GameState } from "../types/game";
+import type { GameState } from "../types/game";
+
+type BumpkinEquipped = GameState["bumpkin"]["equipped"];
+type FarmHands = GameState["farmHands"];
 
 export function isWearableActive({
-  game,
   name,
+  bumpkinEquipped,
+  farmHands,
 }: {
-  game: GameState;
   name: BumpkinItem;
+  bumpkinEquipped: BumpkinEquipped;
+  farmHands: FarmHands;
 }) {
   const equipped = [
-    ...Object.values(game.bumpkin?.equipped ?? {}),
-    ...Object.values(game.farmHands.bumpkins).flatMap((bumpkin) =>
+    ...Object.values(bumpkinEquipped ?? {}),
+    ...Object.values(farmHands.bumpkins).flatMap((bumpkin) =>
       Object.values(bumpkin.equipped),
     ),
   ];

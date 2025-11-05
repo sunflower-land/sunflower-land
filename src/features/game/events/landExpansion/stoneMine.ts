@@ -280,8 +280,9 @@ export function getStoneDropAmount({
   if (
     factionName &&
     isWearableActive({
-      game,
       name: FACTION_ITEMS[factionName].secondaryTool,
+      bumpkinEquipped: game.bumpkin.equipped,
+      farmHands: game.farmHands,
     })
   ) {
     amount += 0.25;

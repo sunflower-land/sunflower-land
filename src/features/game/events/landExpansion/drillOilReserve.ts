@@ -8,6 +8,14 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { BoostName, GameState, OilReserve } from "features/game/types/game";
 import { produce } from "immer";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { BumpkinItem } from "features/game/types/bumpkin";
+
+const isWearableActiveForGame = (game: GameState, name: BumpkinItem) =>
+  isWearableActive({
+    name,
+    bumpkinEquipped: game.bumpkin.equipped,
+    farmHands: game.farmHands,
+  });
 
 export type DrillOilReserveAction = {
   type: "oilReserve.drilled";
@@ -42,12 +50,12 @@ export function getOilDropAmount(game: GameState, reserve: OilReserve) {
     boostsUsed.push("Knight Chicken");
   }
 
-  if (isWearableActive({ name: "Oil Can", game })) {
+  if (isWearableActiveForGame(game, "Oil Can")) {
     amount = amount.add(2);
     boostsUsed.push("Oil Can");
   }
 
-  if (isWearableActive({ game, name: "Oil Overalls" })) {
+  if (isWearableActiveForGame(game, "Oil Overalls")) {
     amount = amount.add(10);
     boostsUsed.push("Oil Overalls");
   }
@@ -57,7 +65,7 @@ export function getOilDropAmount(game: GameState, reserve: OilReserve) {
     boostsUsed.push("Oil Extraction");
   }
 
-  if (isWearableActive({ game, name: "Oil Gallon" })) {
+  if (isWearableActiveForGame(game, "Oil Gallon")) {
     amount = amount.add(5);
     boostsUsed.push("Oil Gallon");
   }
@@ -78,7 +86,7 @@ export function getRequiredOilDrillAmount(gameState: GameState): {
 } {
   let amount = new Decimal(1);
   const boostsUsed: BoostName[] = [];
-  if (isWearableActive({ name: "Infernal Drill", game: gameState })) {
+  if (isWearableActiveForGame(gameState, "Infernal Drill")) {
     amount = new Decimal(0);
     boostsUsed.push("Infernal Drill");
 
@@ -100,7 +108,7 @@ export function getDrilledAt({ createdAt, game }: getDrilledAtArgs): {
   let totalSeconds = OIL_RESERVE_RECOVERY_TIME;
   const boostsUsed: BoostName[] = [];
 
-  if (isWearableActive({ game, name: "Dev Wrench" })) {
+  if (isWearableActiveForGame(game, "Dev Wrench")) {
     totalSeconds = totalSeconds * 0.5;
     boostsUsed.push("Dev Wrench");
   }

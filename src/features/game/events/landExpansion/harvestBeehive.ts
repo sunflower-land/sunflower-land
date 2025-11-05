@@ -69,13 +69,17 @@ export const getHoneyMultiplier = (game: GameState) => {
 
   let multiplier = 1;
   const boostsUsed: BoostName[] = [];
+  const wearableContext = {
+    bumpkinEquipped: game.bumpkin.equipped,
+    farmHands: game.farmHands,
+  };
 
-  if (isWearableActive({ name: "Bee Suit", game })) {
+  if (isWearableActive({ name: "Bee Suit", ...wearableContext })) {
     multiplier += 0.1;
     boostsUsed.push("Bee Suit");
   }
 
-  if (isWearableActive({ name: "Honeycomb Shield", game })) {
+  if (isWearableActive({ name: "Honeycomb Shield", ...wearableContext })) {
     multiplier += 1;
     boostsUsed.push("Honeycomb Shield");
   }

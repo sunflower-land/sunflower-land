@@ -27,7 +27,13 @@ export const getRegularMaxDigs = (game: GameState) => {
     maxDigs += 1;
   }
 
-  if (isWearableActive({ name: "Bionic Drill", game })) {
+  if (
+    isWearableActive({
+      name: "Bionic Drill",
+      bumpkinEquipped: game.bumpkin.equipped,
+      farmHands: game.farmHands,
+    })
+  ) {
     maxDigs += 5;
   }
 

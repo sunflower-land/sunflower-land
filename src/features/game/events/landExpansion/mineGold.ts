@@ -30,6 +30,14 @@ import {
   isCollectibleOnFarm,
   setAOELastUsed,
 } from "features/game/lib/aoe";
+import { BumpkinItem } from "features/game/types/bumpkin";
+
+const isWearableActiveForGame = (game: GameState, name: BumpkinItem) =>
+  isWearableActive({
+    name,
+    bumpkinEquipped: game.bumpkin.equipped,
+    farmHands: game.farmHands,
+  });
 
 export type LandExpansionMineGoldAction = {
   type: "goldRock.mined";
@@ -91,7 +99,7 @@ const getBoostedTime = ({
     boostsUsed.push("Mole Shrine");
   }
 
-  if (isWearableActive({ name: "Pickaxe Shark", game })) {
+  if (isWearableActiveForGame(game, "Pickaxe Shark")) {
     totalSeconds = totalSeconds * 0.85;
     boostsUsed.push("Pickaxe Shark");
   }
@@ -226,10 +234,7 @@ export function getGoldDropAmount({
   const factionName = game.faction?.name;
   if (
     factionName &&
-    isWearableActive({
-      game,
-      name: FACTION_ITEMS[factionName].secondaryTool,
-    })
+    isWearableActiveForGame(game, FACTION_ITEMS[factionName].secondaryTool)
   ) {
     amount += 0.25;
     boostsUsed.push(FACTION_ITEMS[factionName].secondaryTool);

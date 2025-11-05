@@ -149,7 +149,11 @@ export const getFruitPatchTime = (
   // Banana Onesie: 20% reduction
   if (
     patchFruitSeedName === "Banana Plant" &&
-    isWearableActive({ name: "Banana Onesie", game })
+    isWearableActive({
+      name: "Banana Onesie",
+      bumpkinEquipped: game.bumpkin.equipped,
+      farmHands: game.farmHands,
+    })
   ) {
     seconds = seconds * 0.8;
     boostsUsed.push("Banana Onesie");

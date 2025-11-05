@@ -63,6 +63,10 @@ export function getCompostAmount({
   let { produceAmount } = composterDetails[building];
   const boostsUsed: BoostName[] = [];
   const { skills } = game.bumpkin;
+  const wearableContext = {
+    bumpkinEquipped: game.bumpkin.equipped,
+    farmHands: game.farmHands,
+  };
 
   if (skills["Efficient Bin"] && building === "Compost Bin") {
     produceAmount += 5;
@@ -89,7 +93,7 @@ export function getCompostAmount({
     boostsUsed.push("Composting Revamp");
   }
 
-  if (isWearableActive({ game, name: "Turd Topper" })) {
+  if (isWearableActive({ name: "Turd Topper", ...wearableContext })) {
     produceAmount += 1;
     boostsUsed.push("Turd Topper");
   }
