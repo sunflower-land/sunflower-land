@@ -6637,7 +6637,7 @@
   "marketplace.offerItemLimitReached.label": "Достигнут лимит предложенных товаров",
   "marketplace.offerItemLimitReached": "Вы достигли максимального количества предложений по этому товару (5). Пожалуйста, удалите некоторые предложения, чтобы освободить место для новых.",
   "marketplace.offerLimitReached": "Вы достигли максимального количества предложений (100). Пожалуйста, удалите некоторые предложения, чтобы освободить место для новых.",
-  "petNFTs": "NFT пи",
+  "petNFTs": "NFT питомец",
   "description.basic.scarecrow.boost": "Время роста основных культур: -20%",
   "description.basic.scarecrow.boost.skill": "Время роста основных культур: -30%",
   "share.apiKey": "Ключ API",
