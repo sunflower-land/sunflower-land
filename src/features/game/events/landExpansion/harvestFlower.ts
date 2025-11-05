@@ -68,6 +68,14 @@ function getFlowerAmount({
     boostsUsed.push("Chicory");
   }
 
+  if (
+    isTemporaryCollectibleActive({ name: "Moth Shrine", game }) &&
+    criticalDrop("Moth Shrine")
+  ) {
+    amount += 1;
+    boostsUsed.push("Moth Shrine");
+  }
+
   if (bumpkin.skills["Petalled Perk"] && criticalDrop("Petalled Perk")) {
     amount += 1;
     boostsUsed.push("Petalled Perk");
