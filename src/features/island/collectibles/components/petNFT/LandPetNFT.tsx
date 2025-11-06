@@ -83,47 +83,42 @@ export const LandPetNFT: React.FC<{ id: string }> = ({ id }) => {
         isTypeFed={isTypeFed}
         clickable
         onClick={handlePetClick}
+      />
+      <Transition
+        appear={true}
+        show={showPositiveXpPopup || showNegativeXpPopup}
+        enter="transition-opacity transition-transform duration-200"
+        enterFrom="opacity-0 translate-y-4"
+        enterTo="opacity-100 -translate-y-0"
+        leave="transition-opacity duration-100"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+        className="flex -top-2 left-1/2 -translate-x-1/2 absolute z-40 pointer-events-none"
+        as="div"
       >
-        <Transition
-          appear={true}
-          show={showPositiveXpPopup || showNegativeXpPopup}
-          enter="transition-opacity transition-transform duration-200"
-          enterFrom="opacity-0 translate-y-4"
-          enterTo="opacity-100 -translate-y-0"
-          leave="transition-opacity duration-100"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-          className="flex -top-2 left-1/2 -translate-x-1/2 absolute z-40 pointer-events-none"
-          as="div"
-        >
-          <span
-            className="text-sm yield-text"
-            style={{
-              color: showPositiveXpPopup
-                ? "#71e358"
-                : showNegativeXpPopup
-                  ? "#ff0000"
-                  : undefined,
-            }}
-          >
-            {showPositiveXpPopup
-              ? "+10XP"
+        <span
+          className="text-sm yield-text"
+          style={{
+            color: showPositiveXpPopup
+              ? "#71e358"
               : showNegativeXpPopup
-                ? "-500XP"
-                : ""}
-          </span>
-        </Transition>
-        {isRevealed && petType && (
-          <PetModal
-            show={showPetModal}
-            onClose={() => setShowPetModal(false)}
-            data={petNFTData}
-            isNeglected={isNeglected}
-            petType={petType}
-            isTypeFed={isTypeFed}
-          />
-        )}
-      </PetSprite>
+                ? "#ff0000"
+                : undefined,
+          }}
+        >
+          {showPositiveXpPopup ? "+10XP" : showNegativeXpPopup ? "-500XP" : ""}
+        </span>
+      </Transition>
+      {isRevealed && petType && (
+        <PetModal
+          show={showPetModal}
+          onClose={() => setShowPetModal(false)}
+          data={petNFTData}
+          isNeglected={isNeglected}
+          petType={petType}
+          isTypeFed={isTypeFed}
+        />
+      )}
     </div>
   );
 };

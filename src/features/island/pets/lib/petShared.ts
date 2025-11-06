@@ -202,10 +202,12 @@ export const petImageDomain =
 
 /*
  NFT Pet image locations
+ Idle, Sleeping and Marketplace have two types of files eg. animated and sheet. 
+ Append the id with _animated to get the animated webp.
  Sheets (Phaser) stored at: https://${petImageDomain}.sunflower-land.com/sheets/${id}.webp
- Sleeping: https://${petImageDomain}.sunflower-land.com/sleepings/${id}.webp
- Idle: https://${petImageDomain}.sunflower-land.com/idles/${id}.webp
- Marketplace: https://${petImageDomain}.sunflower-land.com/marketplace/${id}.webp
+ Sleeping: https://${petImageDomain}.sunflower-land.com/sleepings/${id}(_animated).webp
+ Idle: https://${petImageDomain}.sunflower-land.com/idles/${id}(_animated).webp
+ Marketplace: https://${petImageDomain}.sunflower-land.com/marketplace/${id}(_animated).webp
  OpenSea: https://${petImageDomain}.sunflower-land.com/opensea/${id}.webp
  */
 
@@ -217,13 +219,11 @@ export const getPetImage = (
     if (!isPetNFTRevealed(id, Date.now())) {
       return petNFTEgg;
     }
-
-    // TODO: Fetch Pet NFT image
     if (state === "asleep") {
-      return `https://${petImageDomain}.sunflower-land.com/sleepings/${id}.webp`;
+      return `https://${petImageDomain}.sunflower-land.com/sleepings/${id}_animated.webp`;
     }
 
-    return `https://${petImageDomain}.sunflower-land.com/idles/${id}.webp`;
+    return `https://${petImageDomain}.sunflower-land.com/idles/${id}_animated.webp`;
   }
 
   return PET_STATE_IMAGES[id][state];
@@ -234,5 +234,5 @@ export const getPetImageForMarketplace = (id: number) => {
     return petNFTEggMarketplace;
   }
 
-  return `https://${petImageDomain}.sunflower-land.com/marketplace/${id}.webp`;
+  return `https://${petImageDomain}.sunflower-land.com/marketplace/${id}_animated.webp`;
 };
