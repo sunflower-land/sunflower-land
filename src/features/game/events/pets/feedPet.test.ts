@@ -7,6 +7,8 @@ import { GameState } from "features/game/types/game";
 import { SEASONS } from "features/game/types/seasons";
 
 describe("feedPet", () => {
+  afterEach(() => jest.useRealTimers());
+
   const now = Date.now();
   it("throws an error if pet is not found", () => {
     expect(() =>
