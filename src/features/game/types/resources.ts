@@ -360,16 +360,6 @@ export const RESOURCE_STATE_ACCESSORS: {
   "Prime Gold Rock": (game) => game.gold,
 };
 
-// IMPORTANT: Order matters in the UpgradesTo array.
-export const BASIC_RESOURCES_UPGRADES_TO: Partial<
-  Record<BasicResourceName, UpgradedResourceName[]>
-> = {
-  "Stone Rock": ["Fused Stone Rock", "Reinforced Stone Rock"],
-  "Iron Rock": ["Tempered Iron Rock", "Refined Iron Rock"],
-  "Gold Rock": ["Pure Gold Rock", "Prime Gold Rock"],
-  Tree: ["Ancient Tree", "Sacred Tree"],
-};
-
 export const RESOURCES_UPGRADES_TO: Partial<
   Record<ResourceName, UpgradedResourceName>
 > = {

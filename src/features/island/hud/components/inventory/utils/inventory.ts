@@ -29,10 +29,10 @@ import {
   RESOURCE_STATE_ACCESSORS,
   RESOURCE_DIMENSIONS,
   ResourceName,
-  BASIC_RESOURCES_UPGRADES_TO,
   ADVANCED_RESOURCES,
   RESOURCE_MULTIPLIER,
   UpgradeableResource,
+  RESOURCES_UPGRADES_TO,
 } from "features/game/types/resources";
 import { getCollectionName } from "features/marketplace/lib/getCollectionName";
 import { setPrecision } from "lib/utils/formatNumber";
@@ -118,7 +118,7 @@ export const getChestItems = (state: GameState): Inventory => {
       const nodes = Object.values(stateAccessor(state) ?? {}).filter(
         (resource) => {
           if (
-            itemName in BASIC_RESOURCES_UPGRADES_TO ||
+            itemName in RESOURCES_UPGRADES_TO ||
             itemName in ADVANCED_RESOURCES
           ) {
             // If node is upgradeable, check if it has the same name as the current item
@@ -127,7 +127,7 @@ export const getChestItems = (state: GameState): Inventory => {
             }
 
             // If it has no name, it probably means it's a base resource
-            return itemName in BASIC_RESOURCES_UPGRADES_TO;
+            return itemName in RESOURCES_UPGRADES_TO;
           }
 
           return true;

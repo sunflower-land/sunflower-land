@@ -28,7 +28,7 @@ import {
   TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
 import {
-  BASIC_RESOURCES_UPGRADES_TO,
+  RESOURCES_UPGRADES_TO,
   ADVANCED_RESOURCES,
   RESOURCES,
   UpgradedResourceName,
@@ -318,7 +318,7 @@ export const CraftingRequirements: React.FC<Props> = ({
                   stateAccessor(gameState) ?? {},
                 ).filter((resource) => {
                   if (
-                    ingredientName in BASIC_RESOURCES_UPGRADES_TO ||
+                    ingredientName in RESOURCES_UPGRADES_TO ||
                     ingredientName in ADVANCED_RESOURCES
                   ) {
                     // If node is upgradeable, check if it has the same name as the current item
@@ -327,7 +327,7 @@ export const CraftingRequirements: React.FC<Props> = ({
                     }
 
                     // If it has no name, it probably means it's a base resource
-                    return ingredientName in BASIC_RESOURCES_UPGRADES_TO;
+                    return ingredientName in RESOURCES_UPGRADES_TO;
                   }
 
                   return true;
