@@ -246,7 +246,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
   return (
     <div className="relative w-full h-full">
       <Transition
-        show={isAnimationRunning}
+        show={!chopped && isAnimationRunning}
         enter="transition-opacity transition-transform duration-200"
         enterFrom="opacity-0 translate-y-4"
         enterTo="opacity-100 -translate-y-0"
