@@ -509,7 +509,7 @@ export type DollBounty = Bounty & {
   name: DollName;
 };
 
-export type VillageProjectBounty = Bounty & {
+export type GiantFruitBounty = Bounty & {
   name: GiantFruit;
 };
 
@@ -534,7 +534,7 @@ export type BountyRequest =
   | ExoticBounty
   | MarkBounty
   | DollBounty
-  | VillageProjectBounty;
+  | GiantFruitBounty;
 
 export type Bounties = {
   requests: BountyRequest[];

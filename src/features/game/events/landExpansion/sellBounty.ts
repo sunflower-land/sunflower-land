@@ -18,7 +18,7 @@ import {
   GameState,
   MarkBounty,
   ObsidianBounty,
-  VillageProjectBounty,
+  GiantFruitBounty,
 } from "features/game/types/game";
 import {
   getCurrentSeason,
@@ -50,9 +50,7 @@ export const BOUNTY_CATEGORIES = {
     getKeys(SELLABLE_TREASURE).includes(bounty.name as BeachBountyTreasure) ||
     FULL_MOON_FRUITS.includes(bounty.name as FullMoonFruit) ||
     bounty.name in RECIPE_CRAFTABLES,
-  "Giant Fruit Bounties": (
-    bounty: BountyRequest,
-  ): bounty is VillageProjectBounty =>
+  "Giant Fruit Bounties": (bounty: BountyRequest): bounty is GiantFruitBounty =>
     bounty.name === "Giant Apple" ||
     bounty.name === "Giant Banana" ||
     bounty.name === "Giant Orange",
