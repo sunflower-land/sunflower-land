@@ -36,9 +36,9 @@ export const FOOD_TO_DIFFICULTY: Map<CookableName, PetRequestDifficulty> =
 
 const AURA_ENERGY_MULTIPLIER: Record<AuraTrait, number> = {
   "No Aura": 1,
-  "Basic Aura": 1.5,
-  "Epic Aura": 2,
-  "Mega Aura": 3,
+  "Common Aura": 1.5,
+  "Rare Aura": 2,
+  "Mythic Aura": 3,
 };
 
 export function getPetEnergy({

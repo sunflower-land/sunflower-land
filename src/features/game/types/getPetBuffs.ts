@@ -9,7 +9,7 @@ import { AuraTrait, BibTrait } from "features/pets/data/types";
 const getPetAuraBoost = (aura: AuraTrait) => {
   const buffs: BuffLabel[] = [];
 
-  if (aura === "Basic Aura") {
+  if (aura === "Common Aura") {
     buffs.push({
       shortDescription: translate("petBuff.aura.basic"),
       labelType: "success",
@@ -18,7 +18,7 @@ const getPetAuraBoost = (aura: AuraTrait) => {
     });
   }
 
-  if (aura === "Epic Aura") {
+  if (aura === "Rare Aura") {
     buffs.push({
       shortDescription: translate("petBuff.aura.epic"),
       labelType: "success",
@@ -27,7 +27,7 @@ const getPetAuraBoost = (aura: AuraTrait) => {
     });
   }
 
-  if (aura === "Mega Aura") {
+  if (aura === "Mythic Aura") {
     buffs.push({
       shortDescription: translate("petBuff.aura.mega"),
       labelType: "success",
