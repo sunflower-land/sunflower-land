@@ -351,6 +351,7 @@ export function chop({
       ],
       createdAt,
     });
+
     return stateCopy;
   });
 }
