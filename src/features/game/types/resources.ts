@@ -367,8 +367,8 @@ export const RESOURCES_UPGRADES_TO: Partial<
   "Ancient Tree": "Sacred Tree",
   "Stone Rock": "Fused Stone Rock",
   "Fused Stone Rock": "Reinforced Stone Rock",
-  "Iron Rock": "Tempered Iron Rock",
-  "Tempered Iron Rock": "Refined Iron Rock",
+  "Iron Rock": "Refined Iron Rock",
+  "Refined Iron Rock": "Tempered Iron Rock",
   "Gold Rock": "Pure Gold Rock",
   "Pure Gold Rock": "Prime Gold Rock",
 };
