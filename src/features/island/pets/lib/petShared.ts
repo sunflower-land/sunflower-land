@@ -236,3 +236,7 @@ export const getPetImageForMarketplace = (id: number) => {
 
   return `https://${petImageDomain}.sunflower-land.com/marketplace/${id}_animated.webp`;
 };
+
+export const getPetImageForOpenSea = (id: number) => {
+  return `https://${petImageDomain}.sunflower-land.com/opensea/${id}.webp`;
+};

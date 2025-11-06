@@ -57,7 +57,7 @@ export const RevealPet: React.FC = () => {
       ? nftPets[revealingPetId.current]
       : undefined;
 
-  const petImageUrl = getPetImageForOpenSea(102);
+  const petImageUrl = getPetImageForOpenSea(petToBeRevealed?.id ?? 0);
   const { isLoaded: petImageLoaded, src: preloadedPetImage } =
     useImagePreload(petImageUrl);
 
@@ -112,7 +112,7 @@ export const RevealPet: React.FC = () => {
           </InnerPanel>
           <div className="flex justify-center gap-1 sm:flex-row text-[24px] leading-5 sm:text-[28px] sm:leading-6">
             <InnerPanel
-              className="flex justify-center relative w-full sm:w-[60%]"
+              className="flex justify-center relative w-[45%] sm:w-[60%]"
               style={{
                 padding: "-1px",
                 backgroundColor: "#63c74c",
@@ -121,22 +121,24 @@ export const RevealPet: React.FC = () => {
               <img
                 className="rounded-md object-contain"
                 src={preloadedPetImage ?? petImageUrl}
-                alt="Pet #1"
+                alt={`Pet #${petToBeRevealed.id}`}
               />
             </InnerPanel>
-            <InnerPanel className="w-full">
-              <Label type="default">{"Traits"}</Label>
+            <InnerPanel className="w-[55%] sm:w-full">
+              <Label type="default">{t("pets.traits")}</Label>
               <div className="flex flex-col gap-1 p-1.5 -mt-1">
                 {getKeys(petTraits).map((trait) => (
                   <div key={`${petTraits[trait]}-${petToBeRevealed.id}`}>
                     <div className="flex space-x-2 items-center">
                       <div className="gap-1">
                         <span>{`${capitalize(trait)}: `}</span>
-                        <span className="whitespace-nowrap">{`${petTraits[trait]}`}</span>
+                        <div className="inline-flex items-center gap-1">
+                          <span className="whitespace-nowrap">{`${petTraits[trait]}`}</span>
+                          {(trait === "aura" || trait === "bib") && (
+                            <img src={powerup} alt="Powerup" className="w-4" />
+                          )}
+                        </div>
                       </div>
-                      {(trait === "aura" || trait === "bib") && (
-                        <img src={powerup} alt="Powerup" className="w-4" />
-                      )}
                     </div>
                   </div>
                 ))}
@@ -148,7 +150,7 @@ export const RevealPet: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-1 w-full">
               <InnerPanel className="w-full gap-2">
                 <div>
-                  <Label type="default">{"Boosts"}</Label>
+                  <Label type="default">{t("boosts")}</Label>
                   <div className="flex flex-col gap-1 p-1.5">
                     {buffs.map((buff) => (
                       <div
@@ -172,7 +174,7 @@ export const RevealPet: React.FC = () => {
             </div>
           )}
           <Button className="w-full" onClick={onPlacePet}>
-            {"Place your pet"}
+            {t("pets.place")}
           </Button>
         </OuterPanel>
       </Modal>
