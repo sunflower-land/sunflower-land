@@ -611,14 +611,19 @@ export const MAX_WEARABLES: Wardrobe = {
   "Basic Hair": 1000,
 };
 
-export function checkProgress({ state, action, farmId }: ProcessEventArgs): {
+export function checkProgress({
+  state,
+  action,
+  farmId,
+  createdAt,
+}: ProcessEventArgs): {
   valid: boolean;
   maxedItem?: MaxedItem;
 } {
   let newState: GameState;
 
   try {
-    newState = processEvent({ state, action, farmId }) as GameState;
+    newState = processEvent({ state, action, farmId, createdAt }) as GameState;
   } catch {
     // Not our responsibility to catch events, pass on to the next handler
     return { valid: true };
@@ -724,6 +729,7 @@ export function hasMaxItems({
 type ProcessEventArgs = {
   state: GameState;
   action: GameEvent;
+  createdAt: number;
   announcements?: Announcements;
   farmId: number;
   visitorState?: GameState;
@@ -735,6 +741,7 @@ export function processEvent({
   announcements,
   farmId,
   visitorState,
+  createdAt,
 }: ProcessEventArgs): GameState | [GameState, GameState] {
   const handler = EVENTS[action.type];
 
@@ -749,6 +756,7 @@ export function processEvent({
     announcements,
     farmId,
     visitorState,
+    createdAt,
   });
 
   return newState;

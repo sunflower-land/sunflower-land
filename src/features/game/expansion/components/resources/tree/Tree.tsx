@@ -30,6 +30,8 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { setPrecision } from "lib/utils/formatNumber";
+import { Transition } from "@headlessui/react";
+import lightning from "assets/icons/lightning.png";
 
 const HITS = 3;
 const tool = "Axe";
@@ -130,6 +132,32 @@ export const Tree: React.FC<Props> = ({ id }) => {
   const timeLeft = getTimeLeft(resource.wood.choppedAt, TREE_RECOVERY_TIME);
   const chopped = !canChop(resource);
 
+  const [isAnimationRunning, setIsAnimationRunning] = useState(false);
+  const [isRecentlyChopped, setIsRecentlyChopped] = useState(false);
+  const choppedAtRef = useRef(resource.wood.choppedAt);
+
+  useEffect(() => {
+    if (choppedAtRef.current !== resource.wood.choppedAt) {
+      setIsRecentlyChopped(true);
+
+      const timeout = setTimeout(() => {
+        setIsRecentlyChopped(false);
+        setIsAnimationRunning(true);
+      }, 1900);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [resource.wood.choppedAt]);
+
+  useEffect(() => {
+    if (isAnimationRunning) {
+      const timeout = setTimeout(() => {
+        setIsAnimationRunning(false);
+      }, 500);
+      return () => clearTimeout(timeout);
+    }
+  }, [isAnimationRunning]);
+
   useUiRefresher({ active: chopped });
 
   const claimAnyReward = () => {
@@ -217,8 +245,21 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
   return (
     <div className="relative w-full h-full">
+      <Transition
+        show={isAnimationRunning}
+        enter="transition-opacity transition-transform duration-200"
+        enterFrom="opacity-0 translate-y-4"
+        enterTo="opacity-100 -translate-y-0"
+        leave="transition-opacity duration-100"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+        className="flex -top-2 right-0 absolute z-40 pointer-events-none"
+        as="div"
+      >
+        <img src={lightning} className="h-6 img-highlight-heavy" />
+      </Transition>
       {/* Resource ready to collect */}
-      {!chopped && (
+      {!chopped && !isRecentlyChopped && (
         <div ref={divRef} className="absolute w-full h-full" onClick={shake}>
           <RecoveredTree
             hasTool={hasTool}
@@ -237,7 +278,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
       )}
 
       {/* Depleted resource */}
-      {chopped && (
+      {(chopped || isRecentlyChopped) && (
         <DepletedTree timeLeft={timeLeft} island={island} season={season} />
       )}
 

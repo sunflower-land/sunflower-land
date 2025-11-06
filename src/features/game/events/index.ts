@@ -780,6 +780,7 @@ type Handlers<T> = {
     announcements?: Announcements;
     farmId?: number;
     visitorState?: GameState;
+    createdAt: number;
   }) => GameState | [GameState, GameState];
 };
 
