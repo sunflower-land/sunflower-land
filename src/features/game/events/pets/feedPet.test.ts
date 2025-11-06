@@ -608,7 +608,7 @@ describe("feedPet", () => {
                 fur: "Blue",
                 accessory: "Crown",
                 bib: "Baby Bib",
-                aura: "Basic Aura",
+                aura: "Common Aura",
               },
               energy: 100,
               experience: 0,

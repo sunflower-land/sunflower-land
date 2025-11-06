@@ -520,6 +520,63 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     tradeAt: SEASONS["Paw Prints"].endDate,
     withdrawAt: new Date("2026-03-04T00:00:00Z"),
   },
+
+  "Moonseeker Potion": {
+    tradeAt: new Date("2025-11-06"),
+    withdrawAt: new Date("2025-11-06"),
+  },
+  "Frizzy Bob Cut": {
+    tradeAt: new Date("2025-11-06"),
+    withdrawAt: new Date("2025-11-06"),
+  },
+  "Two-toned Layered": {
+    tradeAt: new Date("2025-11-06"),
+    withdrawAt: new Date("2025-11-06"),
+  },
+  "Halloween Deathscythe": {
+    tradeAt: new Date("2025-11-06"),
+    withdrawAt: new Date("2025-11-06"),
+  },
+  "Moonseeker Hand Puppet": {
+    tradeAt: new Date("2025-11-06"),
+    withdrawAt: new Date("2025-11-06"),
+  },
+  "Sweet Devil Horns": {
+    tradeAt: new Date("2025-11-06"),
+    withdrawAt: new Date("2025-11-06"),
+  },
+  "Trick and Treat": {
+    tradeAt: new Date("2025-11-06"),
+    withdrawAt: new Date("2025-11-06"),
+  },
+  "Jack O'Sweets": {
+    tradeAt: new Date("2025-11-06"),
+    withdrawAt: new Date("2025-11-06"),
+  },
+  "Frank Onesie": {
+    tradeAt: new Date("2025-11-06"),
+    withdrawAt: new Date("2025-11-06"),
+  },
+  "Research Uniform": {
+    tradeAt: new Date("2025-11-06"),
+    withdrawAt: new Date("2025-11-06"),
+  },
+  "Sweet Devil Dress": {
+    tradeAt: new Date("2025-11-06"),
+    withdrawAt: new Date("2025-11-06"),
+  },
+  "Underworld Stimpack": {
+    tradeAt: new Date("2025-11-06"),
+    withdrawAt: new Date("2025-11-06"),
+  },
+  "Sweet Devil Wings": {
+    tradeAt: new Date("2025-11-06"),
+    withdrawAt: new Date("2025-11-06"),
+  },
+  "Wisp Aura": {
+    tradeAt: new Date("2025-11-06"),
+    withdrawAt: new Date("2025-11-06"),
+  },
 };
 
 export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
@@ -839,6 +896,39 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
     "Fancy Rug": CAN_WITHDRAW_AND_TRADE,
     Clock: CAN_WITHDRAW_AND_TRADE,
     Vinny: CAN_WITHDRAW_AND_TRADE,
+
+    Cerberus: {
+      tradeAt: new Date("2025-11-06"),
+      withdrawAt: new Date("2025-11-06"),
+    },
+    "Witch's Cauldron": {
+      tradeAt: new Date("2025-11-06"),
+      withdrawAt: new Date("2025-11-06"),
+    },
+    Raveyard: {
+      tradeAt: new Date("2025-11-06"),
+      withdrawAt: new Date("2025-11-06"),
+    },
+    "Haunted House": {
+      tradeAt: new Date("2025-11-06"),
+      withdrawAt: new Date("2025-11-06"),
+    },
+    "Mimic Egg": {
+      tradeAt: new Date("2025-11-06"),
+      withdrawAt: new Date("2025-11-06"),
+    },
+    "Haunted Tomb": {
+      tradeAt: new Date("2025-11-06"),
+      withdrawAt: new Date("2025-11-06"),
+    },
+    Guillotine: {
+      tradeAt: new Date("2025-11-06"),
+      withdrawAt: new Date("2025-11-06"),
+    },
+    "Vampire Coffin": {
+      tradeAt: new Date("2025-11-06"),
+      withdrawAt: new Date("2025-11-06"),
+    },
 
     // Upcoming launches
     "Moo-ver": {
