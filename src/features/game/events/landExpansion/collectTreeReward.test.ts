@@ -97,4 +97,35 @@ describe("collectTreeReward", () => {
     expect(trees?.[0]?.wood?.reward).toBeUndefined();
     expect(state.coins).toEqual(100);
   });
+
+  it("provides coin rewards for upgraded trees", () => {
+    const state = collectTreeReward({
+      state: {
+        ...TEST_FARM,
+        trees: {
+          0: {
+            x: -2,
+            y: -1,
+            multiplier: 4,
+            wood: {
+              choppedAt: 0,
+              reward: {
+                coins: 100,
+              },
+            },
+          },
+        },
+      },
+      action: {
+        type: "treeReward.collected",
+        treeIndex: "0",
+      },
+      createdAt: dateNow,
+    });
+
+    const { trees } = state;
+
+    expect(trees?.[0]?.wood?.reward).toBeUndefined();
+    expect(state.coins).toEqual(400);
+  });
 });

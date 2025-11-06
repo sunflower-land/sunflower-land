@@ -54,10 +54,12 @@ export const BudDetailPopoverTradeDetails = ({ id }: { id: number }) => {
           <span>{`${t("marketplace.price", { price: formatNumber(tradeable.floor, { decimalPlaces: 2 }) })} FLOWER`}</span>
         </Label>
       )}
-      {tradeable.supply !== 0 && (
+      {tradeable.supply !== undefined && tradeable.supply > 0 && (
         <Label type="transparent" className="text-xs">
           <span className="text-xs -ml-1">
-            {t("marketplace.supply", { supply: tradeable.supply })}
+            {t("marketplace.supply", {
+              supply: formatNumber(tradeable.supply, { decimalPlaces: 0 }),
+            })}
           </span>
         </Label>
       )}

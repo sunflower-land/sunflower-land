@@ -377,7 +377,7 @@ import { PetShrine } from "./components/PetShrine";
 import { ObsidianShrine } from "./components/ObsidianShrine";
 import { Pet } from "../pets/Pet";
 import { PetName, PET_TYPES } from "features/game/types/pets";
-import { PetNFT } from "./components/PetNFT";
+import { PetNFT } from "./components/petNFT/PetNFT";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud" | "PetNFT",

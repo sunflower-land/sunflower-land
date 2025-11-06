@@ -1,21 +1,18 @@
-import React, { useContext, useState } from "react";
-import { PetSprite } from "../../pets/PetSprite";
-import { MachineState } from "features/game/lib/gameMachine";
+import React from "react";
 import { useSelector } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
 import {
   isPetNeglected,
   isPetNapping,
+  isPetNFTRevealed,
   getPetType,
   isPetOfTypeFed,
-  isPetNFTRevealed,
 } from "features/game/types/pets";
-import { Transition } from "@headlessui/react";
 import { PetModal } from "features/island/pets/PetModal";
-
-type Props = {
-  id: string;
-};
+import { PetSprite } from "features/island/pets/PetSprite";
+import { useContext, useState } from "react";
+import { Context } from "features/game/GameProvider";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Transition } from "@headlessui/react";
 
 const _petNFTData = (id: string) => (state: MachineState) => {
   return state.context.state.pets?.nfts?.[Number(id)];
@@ -36,7 +33,7 @@ const _isTypeFed = (id: string) => (state: MachineState) => {
   return isTypeFed;
 };
 
-export const PetNFT: React.FC<Props> = ({ id }) => {
+export const LandPetNFT: React.FC<{ id: string }> = ({ id }) => {
   const { gameService } = useContext(Context);
   const petNFTData = useSelector(gameService, _petNFTData(id));
   const [showPetModal, setShowPetModal] = useState(false);
@@ -47,7 +44,7 @@ export const PetNFT: React.FC<Props> = ({ id }) => {
   const isNapping = isPetNapping(petNFTData);
   const isTypeFed = useSelector(gameService, _isTypeFed(id));
 
-  if (!petNFTData) return null;
+  if (!petNFTData || !petNFTData.traits) return null;
 
   const isRevealed = isPetNFTRevealed(Number(id), Date.now());
   const petType = getPetType(petNFTData);

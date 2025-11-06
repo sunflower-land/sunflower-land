@@ -37,6 +37,7 @@ describe("processEvent", () => {
           buildingId: "1",
         },
         farmId: 1,
+        createdAt: Date.now(),
       });
 
       expect(result.valid).toBe(false);
@@ -72,6 +73,7 @@ describe("processEvent", () => {
           item: "Axe",
         },
         farmId: 1,
+        createdAt: Date.now(),
       });
 
       expect(result.valid).toBe(false);
@@ -106,6 +108,7 @@ describe("processEvent", () => {
           item: "Axe",
         },
         farmId: 1,
+        createdAt: Date.now(),
       });
 
       expect(result.valid).toBe(false);
@@ -140,6 +143,7 @@ describe("processEvent", () => {
           item: "Axe",
         },
         farmId: 1,
+        createdAt: Date.now(),
       });
 
       expect(result.valid).toBe(false);
@@ -161,6 +165,7 @@ describe("processEvent", () => {
           item: "Axe",
         },
         farmId: 1,
+        createdAt: Date.now(),
       });
 
       expect(result.valid).toBe(true);

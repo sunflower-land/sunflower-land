@@ -334,6 +334,7 @@ const playingEventHandler = (eventName: string) => {
             state: context.state as GameState,
             action: event,
             farmId: context.farmId,
+            createdAt: Date.now(),
           });
 
           return !valid;
@@ -344,6 +345,7 @@ const playingEventHandler = (eventName: string) => {
               state: context.state as GameState,
               action: event,
               farmId: context.farmId,
+              createdAt: Date.now(),
             });
 
             return { maxedItem };
@@ -353,19 +355,22 @@ const playingEventHandler = (eventName: string) => {
       {
         actions: assign(
           (context: Context, event: PlayingEvent | VisitingEvent) => {
+            const createdAt = new Date();
+
             const result = processEvent({
               state: context.state,
               action: event,
               announcements: context.announcements,
               farmId: context.farmId,
               visitorState: context.visitorState,
+              createdAt: createdAt.getTime(),
             });
 
             let actions = [
               ...context.actions,
               {
                 ...event,
-                createdAt: new Date(),
+                createdAt,
               },
             ];
 
@@ -423,17 +428,20 @@ const PLACEMENT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> = [
     ...events,
     [eventName]: {
       actions: assign((context: Context, event: PlacementEvent) => {
+        const createdAt = new Date();
+
         return {
           state: processEvent({
             state: context.state as GameState,
             action: event,
             farmId: context.farmId,
+            createdAt: createdAt.getTime(),
           }) as GameState,
           actions: [
             ...context.actions,
             {
               ...event,
-              createdAt: new Date(),
+              createdAt,
             },
           ],
         };
@@ -829,6 +837,7 @@ const handleSuccessfulSave = (context: Context, event: any) => {
       announcements: context.announcements,
       farmId: context.farmId,
       visitorState: context.visitorState,
+      createdAt: action.createdAt.getTime(),
     });
   }, event.data.farm);
 

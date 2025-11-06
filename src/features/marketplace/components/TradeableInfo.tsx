@@ -33,7 +33,7 @@ import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import classNames from "classnames";
 import { pixelGreenBorderStyle } from "features/game/lib/style";
 import { useGame } from "features/game/GameProvider";
-import { getPetNFTReleaseDate } from "features/game/types/pets";
+import { getPetLevel, getPetNFTReleaseDate } from "features/game/types/pets";
 import { getPetTraits } from "features/pets/data/getPetTraits";
 import { PetTraits } from "features/pets/data/types";
 import { Bud } from "lib/buds/types";
@@ -223,6 +223,13 @@ export const TradeableDescription: React.FC<{
                     {buff.shortDescription}
                   </Label>
                 ))}
+            {tradeable?.collection === "pets" && !revealDate && (
+              <Label type="info">
+                {t("marketplace.pet.level", {
+                  level: getPetLevel(tradeable.experience ?? 0).level,
+                })}
+              </Label>
+            )}
             {(display?.type === "pets" || display?.type === "buds") &&
               (revealDate ? (
                 <Label type="default">

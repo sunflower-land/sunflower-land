@@ -19,6 +19,7 @@ import {
 } from "features/game/types/game";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { produce } from "immer";
+import { prng } from "lib/prng";
 
 export enum CHOP_ERRORS {
   MISSING_AXE = "No axe",
@@ -30,6 +31,7 @@ export enum CHOP_ERRORS {
 type GetChoppedAtArgs = {
   game: GameState;
   createdAt: number;
+  seed?: number;
 };
 
 export type LandExpansionChopAction = {
@@ -169,13 +171,31 @@ export function getWoodDropAmount({
 /**
  * Set a chopped in the past to make it replenish faster
  */
-export function getChoppedAt({ game, createdAt }: GetChoppedAtArgs): {
+export function getChoppedAt({ game, createdAt, seed }: GetChoppedAtArgs): {
   time: number;
   boostsUsed: BoostName[];
+  nextSeed: number;
 } {
   const { bumpkin } = game;
   let totalSeconds = TREE_RECOVERY_TIME;
   const boostsUsed: BoostName[] = [];
+  const { value: prngValue, nextSeed } = prng(seed ?? createdAt);
+
+  const instantGrowthGenerator = () => prngValue * 100 < 15;
+
+  // If Tree Turnaround skill and instant growth
+  if (
+    bumpkin.skills["Tree Turnaround"] &&
+    instantGrowthGenerator() &&
+    seed !== undefined
+  ) {
+    boostsUsed.push("Tree Turnaround");
+    return {
+      time: createdAt - TREE_RECOVERY_TIME * 1000,
+      boostsUsed,
+      nextSeed,
+    };
+  }
 
   const hasApprenticeBeaver = isCollectibleBuilt({
     name: "Apprentice Beaver",
@@ -228,7 +248,7 @@ export function getChoppedAt({ game, createdAt }: GetChoppedAtArgs): {
 
   const buff = TREE_RECOVERY_TIME - totalSeconds;
 
-  return { time: createdAt - buff * 1000, boostsUsed };
+  return { time: createdAt - buff * 1000, boostsUsed, nextSeed };
 }
 
 /**
@@ -300,12 +320,17 @@ export function chop({
           });
     const woodAmount = inventory.Wood || new Decimal(0);
 
-    const { time, boostsUsed: choppedAtBoostsUsed } = getChoppedAt({
+    const {
+      time,
+      boostsUsed: choppedAtBoostsUsed,
+      nextSeed,
+    } = getChoppedAt({
       createdAt,
       game: stateCopy,
+      seed: tree.wood.seed,
     });
 
-    tree.wood = { choppedAt: time };
+    tree.wood = { choppedAt: time, seed: nextSeed };
 
     inventory.Axe = axeAmount.sub(requiredAxes);
     inventory.Wood = woodAmount.add(woodHarvested);
@@ -326,6 +351,7 @@ export function chop({
       ],
       createdAt,
     });
+
     return stateCopy;
   });
 }

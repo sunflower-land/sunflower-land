@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import Decimal from "decimal.js-light";
 
 import Spritesheet, {
   SpriteSheetInstance,
@@ -15,6 +16,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
 import { GoldRockName } from "features/game/types/resources";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
+import { InventoryItemName } from "features/game/types/game";
 
 const tool = "Iron Pickaxe";
 
@@ -25,12 +27,16 @@ interface Props {
   hasTool: boolean;
   touchCount: number;
   goldRockName: GoldRockName;
+  requiredToolAmount: Decimal;
+  inventory: Partial<Record<InventoryItemName, Decimal>>;
 }
 
 const RecoveredGoldComponent: React.FC<Props> = ({
   hasTool,
   touchCount,
   goldRockName,
+  requiredToolAmount,
+  inventory,
 }) => {
   const { t } = useAppTranslation();
   const { scale } = useContext(ZoomContext);
@@ -132,7 +138,9 @@ const RecoveredGoldComponent: React.FC<Props> = ({
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xs mx-1 p-1">
               <span>
-                {t("craft")} {tool.toLowerCase()}
+                {t("craft")}{" "}
+                {requiredToolAmount.sub(inventory[tool] ?? 0).toString()}{" "}
+                {tool.toLowerCase()}
               </span>
             </div>
           </InnerPanel>
