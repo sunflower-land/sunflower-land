@@ -6828,5 +6828,6 @@
   "description.swissWhiskers.boost": "+500 Bumpkin XP dari Resep Keju",
   "budBuff.type.port.boost": "+10% Bumpkin XP dari Fish",
   "vip.benefit.expBoost": "+10% XP Bumpkin",
-  "reward.vipDescription": "Perdagangan bonus, Bumpkin XP, memasak & mendapatkan keuntungan!"
+  "reward.vipDescription": "Perdagangan bonus, Bumpkin XP, memasak & mendapatkan keuntungan!",
+  "marketplace.pet.level": "Tingkat: {{level}}"
 }

@@ -6828,5 +6828,6 @@
   "description.swissWhiskers.boost": "치즈 레시피로 얻는 +500 범프킨 경험치",
   "budBuff.type.port.boost": "물고기로 얻는 범프킨 경험치 +10%",
   "vip.benefit.expBoost": "+10% 범프킨 경험치",
-  "reward.vipDescription": "보너스 거래, 범프킨 XP, 요리 및 혜택 획득!"
+  "reward.vipDescription": "보너스 거래, 범프킨 XP, 요리 및 혜택 획득!",
+  "marketplace.pet.level": "레벨: {{level}}"
 }

@@ -6828,5 +6828,6 @@
   "description.swissWhiskers.boost": "+500 Bumpkin XP grâce à Cheese Recipes",
   "budBuff.type.port.boost": "+10 % d'expérience Bumpkin avec Fish",
   "vip.benefit.expBoost": "+10 % d'expérience sur Bumpkin",
-  "reward.vipDescription": "Des bonus d'échange, de l'expérience Bumpkin, des avantages pour cuisiner et gagner de l'argent !"
+  "reward.vipDescription": "Des bonus d'échange, de l'expérience Bumpkin, des avantages pour cuisiner et gagner de l'argent !",
+  "marketplace.pet.level": "Niveau : {{level}}"
 }

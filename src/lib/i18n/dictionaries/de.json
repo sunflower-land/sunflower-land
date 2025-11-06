@@ -6828,5 +6828,6 @@
   "description.swissWhiskers.boost": "+500 Bumpkin-EP aus Käserezepten",
   "budBuff.type.port.boost": "+10% Bumpkin-EP für Fische",
   "vip.benefit.expBoost": "+10% Bumpkin-EP",
-  "reward.vipDescription": "Bonustransfer, Bumpkin-XP, Koch- und Verdienstvorteile!"
+  "reward.vipDescription": "Bonustransfer, Bumpkin-XP, Koch- und Verdienstvorteile!",
+  "marketplace.pet.level": "Stufe: {{level}}"
 }
