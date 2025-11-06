@@ -520,6 +520,21 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     tradeAt: SEASONS["Paw Prints"].endDate,
     withdrawAt: new Date("2026-03-04T00:00:00Z"),
   },
+
+  "Moonseeker Potion": CAN_WITHDRAW_AND_TRADE,
+  "Frizzy Bob Cut": CAN_WITHDRAW_AND_TRADE,
+  "Two-toned Layered": CAN_WITHDRAW_AND_TRADE,
+  "Halloween Deathscythe": CAN_WITHDRAW_AND_TRADE,
+  "Moonseeker Hand Puppet": CAN_WITHDRAW_AND_TRADE,
+  "Sweet Devil Horns": CAN_WITHDRAW_AND_TRADE,
+  "Trick and Treat": CAN_WITHDRAW_AND_TRADE,
+  "Jack O'Sweets": CAN_WITHDRAW_AND_TRADE,
+  "Frank Onesie": CAN_WITHDRAW_AND_TRADE,
+  "Research Uniform": CAN_WITHDRAW_AND_TRADE,
+  "Sweet Devil Dress": CAN_WITHDRAW_AND_TRADE,
+  "Underworld Stimpack": CAN_WITHDRAW_AND_TRADE,
+  "Sweet Devil Wings": CAN_WITHDRAW_AND_TRADE,
+  "Wisp Aura": CAN_WITHDRAW_AND_TRADE,
 };
 
 export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
@@ -839,6 +854,15 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
     "Fancy Rug": CAN_WITHDRAW_AND_TRADE,
     Clock: CAN_WITHDRAW_AND_TRADE,
     Vinny: CAN_WITHDRAW_AND_TRADE,
+
+    Cerberus: CAN_WITHDRAW_AND_TRADE,
+    "Witch's Cauldron": CAN_WITHDRAW_AND_TRADE,
+    Raveyard: CAN_WITHDRAW_AND_TRADE,
+    "Haunted House": CAN_WITHDRAW_AND_TRADE,
+    "Mimic Egg": CAN_WITHDRAW_AND_TRADE,
+    "Haunted Tomb": CAN_WITHDRAW_AND_TRADE,
+    Guillotine: CAN_WITHDRAW_AND_TRADE,
+    "Vampire Coffin": CAN_WITHDRAW_AND_TRADE,
 
     // Upcoming launches
     "Moo-ver": {
