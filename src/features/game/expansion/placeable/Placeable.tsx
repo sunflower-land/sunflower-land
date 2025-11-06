@@ -327,7 +327,11 @@ export const Placeable: React.FC<Props> = ({ location }) => {
                 grid={grid}
                 showTimers={showTimers}
                 skills={gameState.context.state.bumpkin.skills}
-                id={placeable?.name === "Bud" ? placeable.id : "123"}
+                id={
+                  placeable?.name === "Bud" || placeable?.name === "Pet"
+                    ? placeable.id
+                    : "123"
+                }
                 location="farm"
                 name={placeable?.name as CollectibleName}
               />
