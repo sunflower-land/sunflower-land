@@ -22,6 +22,25 @@ import confetti from "canvas-confetti";
 import powerup from "assets/icons/level_up.png";
 import { useImagePreload } from "lib/utils/hooks/useImagePreload";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
+import { PetTraits } from "features/pets/data/types";
+
+import blankBearBackground from "assets/pets/backgrounds/blank-bear.webp";
+import blankDragonBackground from "assets/pets/backgrounds/blank-dragon.webp";
+import blankPhoenixBackground from "assets/pets/backgrounds/blank-phoenix.webp";
+import blankGriffinBackground from "assets/pets/backgrounds/blank-griffin.webp";
+import blankWarthogBackground from "assets/pets/backgrounds/blank-warthog.webp";
+import blankWolfBackground from "assets/pets/backgrounds/blank-wolf.webp";
+import blankRamBackground from "assets/pets/backgrounds/blank-ram.webp";
+
+const BLANK_BACKGROUNDS: Record<PetTraits["type"], string> = {
+  Bear: blankBearBackground,
+  Dragon: blankDragonBackground,
+  Phoenix: blankPhoenixBackground,
+  Griffin: blankGriffinBackground,
+  Warthog: blankWarthogBackground,
+  Wolf: blankWolfBackground,
+  Ram: blankRamBackground,
+};
 
 const _nftPets = (state: MachineState) => state.context.state.pets?.nfts ?? {};
 const _playing = (state: MachineState) => state.matches("playing");
@@ -115,7 +134,9 @@ export const RevealPet: React.FC = () => {
               className="flex justify-center relative w-[45%] sm:w-[60%]"
               style={{
                 padding: "-1px",
-                backgroundColor: "#63c74c",
+                backgroundImage: `url(${BLANK_BACKGROUNDS[petToBeRevealed.traits.type]})`,
+                backgroundSize: "contain",
+                backgroundRepeat: "round",
               }}
             >
               <img
