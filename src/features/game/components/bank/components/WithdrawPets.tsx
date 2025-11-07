@@ -9,7 +9,6 @@ import { wallet } from "lib/blockchain/wallet";
 import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 
-import { CONFIG } from "lib/config";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -22,8 +21,13 @@ import { hasBoostRestriction } from "features/game/types/withdrawRestrictions";
 import { InfoPopover } from "features/island/common/InfoPopover";
 import { secondsToString } from "lib/utils/time";
 import { BoostName } from "features/game/types/game";
+import { getPetImage } from "features/island/pets/lib/petShared";
+import {
+  getPetNFTReleaseDate,
+  isPetNFTRevealed,
+} from "features/game/types/pets";
 
-const imageDomain = CONFIG.NETWORK === "mainnet" ? "pets" : "testnet-pets";
+// const imageDomain = CONFIG.NETWORK === "mainnet" ? "pets" : "testnet-pets";
 
 interface Props {
   onWithdraw: (ids: number[]) => void;
@@ -120,10 +124,14 @@ export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
               const RestrictionCooldown = cooldownTimeLeft / 1000;
 
               const handleBoxClick = () => {
-                if (isRestricted) {
+                if (isRestricted || !isRevealed) {
                   setShowInfo((prev) => (prev === petName ? "" : petName));
                 }
               };
+              const now = Date.now();
+
+              const isRevealed = isPetNFTRevealed(petId, now);
+              const revealDate = getPetNFTReleaseDate(petId, now);
 
               return (
                 <div
@@ -135,22 +143,30 @@ export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
                     className="absolute top-14 text-xxs sm:text-xs"
                     showPopover={showInfo === `Pet #${petId}`}
                   >
-                    {t("withdraw.boostedItem.timeLeft", {
-                      time: secondsToString(RestrictionCooldown, {
-                        length: "medium",
-                        isShortFormat: true,
-                        removeTrailingZeros: true,
-                      }),
-                    })}
+                    {isRestricted
+                      ? t("withdraw.boostedItem.timeLeft", {
+                          time: secondsToString(RestrictionCooldown, {
+                            length: "medium",
+                            isShortFormat: true,
+                            removeTrailingZeros: true,
+                          }),
+                        })
+                      : !isRevealed && revealDate
+                        ? t("withdraw.pet.notRevealed", {
+                            date: revealDate.toLocaleDateString(),
+                          })
+                        : undefined}
                   </InfoPopover>
 
                   <Box
                     key={`pet-${petId}`}
                     onClick={() => onAdd(petId)}
-                    image={SUNNYSIDE.icons.expression_confused}
-                    disabled={isRestricted}
+                    image={getPetImage("happy", petId)}
+                    disabled={isRestricted || !isRevealed}
                     secondaryImage={
-                      isRestricted ? SUNNYSIDE.icons.lock : undefined
+                      isRestricted || !isRevealed
+                        ? SUNNYSIDE.icons.lock
+                        : undefined
                     }
                   />
                 </div>
