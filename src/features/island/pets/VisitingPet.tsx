@@ -73,7 +73,7 @@ export const VisitingPet: React.FC<{ name: PetName }> = ({ name }) => {
 
   return (
     <div
-      className="relative bg-red-500"
+      className="relative"
       style={{
         width: `${PIXEL_SCALE * 16}px`,
         height: `${PIXEL_SCALE * 16}px`,
