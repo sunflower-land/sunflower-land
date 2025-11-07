@@ -6829,5 +6829,6 @@
   "budBuff.type.port.boost": "魚から得られるバンプキン経験値 +10%",
   "vip.benefit.expBoost": "+10% バンプキン経験値",
   "reward.vipDescription": "ボーナストレーディング、バンプキンXP、クッキング、特典の獲得！",
-  "marketplace.pet.level": "レベル:{{level}}"
+  "marketplace.pet.level": "レベル:{{level}}",
+  "withdraw.pet.notRevealed": "ペットは {{date}} で公開されます"
 }

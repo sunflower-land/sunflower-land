@@ -6829,5 +6829,6 @@
   "budBuff.type.port.boost": "+10% Bumpkin XP dari Fish",
   "vip.benefit.expBoost": "+10% XP Bumpkin",
   "reward.vipDescription": "Perdagangan bonus, Bumpkin XP, memasak & mendapatkan keuntungan!",
-  "marketplace.pet.level": "Tingkat: {{level}}"
+  "marketplace.pet.level": "Tingkat: {{level}}",
+  "withdraw.pet.notRevealed": "Hewan peliharaan akan terungkap pada {{date}}"
 }

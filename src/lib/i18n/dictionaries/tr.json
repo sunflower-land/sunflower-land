@@ -6829,5 +6829,6 @@
   "budBuff.type.port.boost": "Fish'ten %+10 Bumpkin DP'si",
   "vip.benefit.expBoost": "+10% Bumpkin DP'si",
   "reward.vipDescription": "Bonus ticareti, Bumpkin XP, yemek pişirme ve kazanma avantajları!",
-  "marketplace.pet.level": "Seviye: {{level}}"
+  "marketplace.pet.level": "Seviye: {{level}}",
+  "withdraw.pet.notRevealed": "Evcil hayvan {{date}} tarihinde açıklanacak"
 }

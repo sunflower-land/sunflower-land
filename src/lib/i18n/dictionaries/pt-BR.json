@@ -6829,5 +6829,6 @@
   "budBuff.type.port.boost": "+10% EXP Bumpkin de Fish",
   "vip.benefit.expBoost": "+10% de EXP Bumpkin",
   "reward.vipDescription": "Negociação de bônus, Bumpkin XP, benefícios de cozinhar e ganhar!",
-  "marketplace.pet.level": "Nível: {{level}}"
+  "marketplace.pet.level": "Nível: {{level}}",
+  "withdraw.pet.notRevealed": "O animal de estimação será revelado em {{date}}"
 }

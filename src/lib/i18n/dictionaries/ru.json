@@ -6829,5 +6829,6 @@
   "budBuff.type.port.boost": "Опыт тыквы от игры «Рыба»: +10%",
   "vip.benefit.expBoost": "+10% опыта тыквы",
   "reward.vipDescription": "Бонусная торговля, опыт Bumpkin, приготовление пищи и получение бонусов!",
-  "marketplace.pet.level": "Уровень: {{level}}"
+  "marketplace.pet.level": "Уровень: {{level}}",
+  "withdraw.pet.notRevealed": "Домашнее животное будет объявлено на {{date}}"
 }

@@ -6829,5 +6829,6 @@
   "budBuff.type.port.boost": "+10% Bumpkin-EP für Fische",
   "vip.benefit.expBoost": "+10% Bumpkin-EP",
   "reward.vipDescription": "Bonustransfer, Bumpkin-XP, Koch- und Verdienstvorteile!",
-  "marketplace.pet.level": "Stufe: {{level}}"
+  "marketplace.pet.level": "Stufe: {{level}}",
+  "withdraw.pet.notRevealed": "Haustier wird am {{date}} enthüllt"
 }

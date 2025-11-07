@@ -6829,5 +6829,6 @@
   "budBuff.type.port.boost": "+10% 来自鱼的 Bumpkin 经验值",
   "vip.benefit.expBoost": "+10% Bumpkin XP",
   "reward.vipDescription": "奖励交易、Bumpkin XP、烹饪和赚钱津贴！",
-  "marketplace.pet.level": "等级：{{level}}"
+  "marketplace.pet.level": "等级：{{level}}",
+  "withdraw.pet.notRevealed": "宠物将于 {{date}} 公布"
 }
