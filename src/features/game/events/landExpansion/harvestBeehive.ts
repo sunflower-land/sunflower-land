@@ -8,10 +8,7 @@ import { getKeys } from "features/game/types/craftables";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
-import {
-  isTemporaryCollectibleActive,
-  isCollectibleBuilt,
-} from "features/game/lib/collectibleBuilt";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export const HARVEST_BEEHIVE_ERRORS = {
@@ -88,11 +85,6 @@ export const getHoneyMultiplier = (game: GameState) => {
   if (isCollectibleBuilt({ name: "King of Bears", game })) {
     multiplier += 0.25;
     boostsUsed.push("King of Bears");
-  }
-
-  if (isTemporaryCollectibleActive({ name: "Bear Shrine", game })) {
-    multiplier += 0.5;
-    boostsUsed.push("Bear Shrine");
   }
 
   return { multiplier, boostsUsed };

@@ -6,7 +6,10 @@ import {
   FlowerBeds,
   GameState,
 } from "../types/game";
-import { isCollectibleBuilt } from "./collectibleBuilt";
+import {
+  isCollectibleBuilt,
+  isTemporaryCollectibleActive,
+} from "./collectibleBuilt";
 import { getKeys } from "../types/craftables";
 import { FLOWERS, FLOWER_SEEDS } from "../types/flowers";
 import { isWearableActive } from "./wearables";
@@ -48,6 +51,11 @@ const getHoneyProductionRate = (
   if (bumpkin.skills["Flowery Abode"]) {
     rate += 0.5;
     boostsUsed.push("Flowery Abode");
+  }
+
+  if (isTemporaryCollectibleActive({ name: "Bear Shrine", game })) {
+    rate += 0.5;
+    boostsUsed.push("Bear Shrine");
   }
 
   return { rate, boostsUsed };
