@@ -6670,7 +6670,6 @@
   "rocketman.vip": "ラブチャームをFLOWERと交換するにはVIPになる必要があります。",
   "ronin.airdrop.claimed": "報酬が請求されました",
   "ronin.airdrop.roninWalletAddress": "ウォレットアドレス",
-  "ronin.airdrop.claim.two": "2つの別々の報酬を受け取る資格があるかもしれません！TwitterのURLとウォレットアドレスを入力して、資格を確認してください。",
   "ronin.airdrop.howToClaim": "請求方法",
   "ronin.airdrop.bonus": "Twitterリワードは、Roninのアドレスベースのエアドロップに加えて獲得できる追加リワードです。",
   "ronin.airdrop.wallet": "これは、Sunflower Landをプレイするために使用するリンクされたウォレットである必要があります",
@@ -6829,5 +6828,7 @@
   "budBuff.type.port.boost": "魚から得られるバンプキン経験値 +10%",
   "vip.benefit.expBoost": "+10% バンプキン経験値",
   "reward.vipDescription": "ボーナストレーディング、バンプキンXP、クッキング、特典の獲得！",
-  "marketplace.pet.level": "レベル:{{level}}"
+  "marketplace.pet.level": "レベル:{{level}}",
+  "withdraw.pet.notRevealed": "ペットは {{date}} で公開されます",
+  "ronin.airdrop.claim.two": "ウォレットアドレスを入力して、資格を確認してください。"
 }

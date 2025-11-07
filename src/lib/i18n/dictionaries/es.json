@@ -6670,7 +6670,6 @@
   "rocketman.vip": "Debes ser VIP para intercambiar Love Charms por FLOWER.",
   "ronin.airdrop.claimed": "Recompensa reclamada",
   "ronin.airdrop.roninWalletAddress": "Dirección del monedero",
-  "ronin.airdrop.claim.two": "¡Puedes optar a 2 recompensas distintas! Introduce tu URL de Twitter y tu dirección de monedero para comprobar si cumples los requisitos.",
   "ronin.airdrop.howToClaim": "Cómo reclamar",
   "ronin.airdrop.bonus": "Las recompensas de Twitter son recompensas adicionales que obtienes además de nuestro airdrop basado en direcciones Ronin.",
   "ronin.airdrop.wallet": "Esta debe ser la billetera vinculada que usas para jugar a Sunflower Land",
@@ -6829,5 +6828,7 @@
   "budBuff.type.port.boost": "+10% de EXP de Bumpkin por Fish",
   "vip.benefit.expBoost": "+10% de EXP para Bumpkin",
   "reward.vipDescription": "¡Comercio de bonificaciones, Bumpkin XP, cocina y beneficios para ganar!",
-  "marketplace.pet.level": "Nivel: {{level}}"
+  "marketplace.pet.level": "Nivel: {{level}}",
+  "withdraw.pet.notRevealed": "La mascota se revelará el {{date}}",
+  "ronin.airdrop.claim.two": "Introduce la dirección de tu monedero para comprobar si cumples los requisitos."
 }

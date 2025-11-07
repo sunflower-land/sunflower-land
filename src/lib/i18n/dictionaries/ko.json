@@ -6670,7 +6670,6 @@
   "rocketman.vip": "러브 부적을 FLOWER로 교환하려면 VIP가 되셔야 합니다.",
   "ronin.airdrop.claimed": "보상 청구",
   "ronin.airdrop.roninWalletAddress": "월렛 주소",
-  "ronin.airdrop.claim.two": "2개의 별도 보상을 받을 수 있습니다!트위터 URL과 지갑 주소를 입력하여 자격을 확인하세요.",
   "ronin.airdrop.howToClaim": "청구 방법",
   "ronin.airdrop.bonus": "트위터 리워드는 로닌 주소 기반 에어드랍 외에 추가로 받는 보상입니다.",
   "ronin.airdrop.wallet": "선플라워 랜드를 플레이할 때 사용하는 연결된 지갑이어야 합니다.",
@@ -6829,5 +6828,7 @@
   "budBuff.type.port.boost": "물고기로 얻는 범프킨 경험치 +10%",
   "vip.benefit.expBoost": "+10% 범프킨 경험치",
   "reward.vipDescription": "보너스 거래, 범프킨 XP, 요리 및 혜택 획득!",
-  "marketplace.pet.level": "레벨: {{level}}"
+  "marketplace.pet.level": "레벨: {{level}}",
+  "withdraw.pet.notRevealed": "펫은 {{date}} 에 공개됩니다",
+  "ronin.airdrop.claim.two": "지갑 주소를 입력하여 자격 여부를 확인하세요."
 }
