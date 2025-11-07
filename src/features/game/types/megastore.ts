@@ -904,7 +904,7 @@ const PAW_PRINTS_ITEMS: SeasonalStore = {
       },
       {
         collectible: "Lunar Temple",
-        cost: { sfl: 0, items: { "Pet Cookie": 3500 } },
+        cost: { sfl: 0, items: { "Pet Cookie": 4500 } },
       },
       {
         collectible: "Gold Flower Box",
