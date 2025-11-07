@@ -6670,7 +6670,6 @@
   "rocketman.vip": "你需要成为 VIP 才能将爱心护符兑换为 FLOWER。",
   "ronin.airdrop.claimed": "奖励已领取",
   "ronin.airdrop.roninWalletAddress": "钱包地址",
-  "ronin.airdrop.claim.two": "你可能符合两项独立奖励的资格！请输入你的 Twitter 链接和钱包地址以检查资格。",
   "ronin.airdrop.howToClaim": "如何领取",
   "ronin.airdrop.bonus": "Twitter 奖励是你在基于 Ronin 地址空投基础上可额外获得的奖励。",
   "ronin.airdrop.wallet": "此钱包必须为你在 Sunflower Land 中绑定使用的钱包。",
@@ -6830,5 +6829,6 @@
   "vip.benefit.expBoost": "+10% Bumpkin XP",
   "reward.vipDescription": "奖励交易、Bumpkin XP、烹饪和赚钱津贴！",
   "marketplace.pet.level": "等级：{{level}}",
-  "withdraw.pet.notRevealed": "宠物将于 {{date}} 公布"
+  "withdraw.pet.notRevealed": "宠物将于 {{date}} 公布",
+  "ronin.airdrop.claim.two": "输入您的钱包地址以检查您的资格。"
 }

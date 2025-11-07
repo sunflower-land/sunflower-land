@@ -6670,7 +6670,6 @@
   "rocketman.vip": "Чтобы обменять Love Charms на FLOWER, нужно быть VIP-персоной.",
   "ronin.airdrop.claimed": "Получено вознаграждение",
   "ronin.airdrop.roninWalletAddress": "Адрес кошелька",
-  "ronin.airdrop.claim.two": "Возможно, вы получите 2 отдельные награды! Введите свой URL-адрес Twitter и адрес кошелька, чтобы проверить, имеете ли вы право на участие.",
   "ronin.airdrop.howToClaim": "Как подать заявку",
   "ronin.airdrop.bonus": "Вознаграждения в Твиттере — это дополнительные награды, которые вы получаете в дополнение к нашей рассылки по адресам Ronin.",
   "ronin.airdrop.wallet": "Это должен быть связанный кошелек, который вы используете для игры в Sunflower Land",
@@ -6830,5 +6829,6 @@
   "vip.benefit.expBoost": "+10% опыта тыквы",
   "reward.vipDescription": "Бонусная торговля, опыт Bumpkin, приготовление пищи и получение бонусов!",
   "marketplace.pet.level": "Уровень: {{level}}",
-  "withdraw.pet.notRevealed": "Домашнее животное будет объявлено на {{date}}"
+  "withdraw.pet.notRevealed": "Домашнее животное будет объявлено на {{date}}",
+  "ronin.airdrop.claim.two": "Введите адрес своего кошелька, чтобы проверить соответствие требованиям."
 }

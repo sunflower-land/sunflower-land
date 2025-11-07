@@ -6670,7 +6670,6 @@
   "rocketman.vip": "Anda harus menjadi VIP untuk menukar Love Charms dengan FLOWER.",
   "ronin.airdrop.claimed": "Hadiah diklaim",
   "ronin.airdrop.roninWalletAddress": "Alamat Dompet",
-  "ronin.airdrop.claim.two": "Anda mungkin memenuhi syarat untuk 2 hadiah terpisah! Masukkan URL Twitter dan alamat dompet Anda untuk memeriksa kelayakan Anda.",
   "ronin.airdrop.howToClaim": "Bagaimana cara mengklaim",
   "ronin.airdrop.bonus": "Hadiah Twitter adalah hadiah tambahan yang Anda peroleh di atas airdrop berbasis alamat Ronin kami.",
   "ronin.airdrop.wallet": "Ini harus dompet tertaut yang Anda gunakan untuk bermain Sunflower Land",
@@ -6830,5 +6829,6 @@
   "vip.benefit.expBoost": "+10% XP Bumpkin",
   "reward.vipDescription": "Perdagangan bonus, Bumpkin XP, memasak & mendapatkan keuntungan!",
   "marketplace.pet.level": "Tingkat: {{level}}",
-  "withdraw.pet.notRevealed": "Hewan peliharaan akan terungkap pada {{date}}"
+  "withdraw.pet.notRevealed": "Hewan peliharaan akan terungkap pada {{date}}",
+  "ronin.airdrop.claim.two": "Masukkan alamat dompet Anda untuk memeriksa kelayakan Anda."
 }
