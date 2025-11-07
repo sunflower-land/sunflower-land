@@ -3,7 +3,6 @@ import {
   isPetNeglected,
   isPetNapping,
   PetName,
-  hasHitSocialPetLimit,
 } from "features/game/types/pets";
 import { _petData } from "./lib/petShared";
 import { useSelector } from "@xstate/react";
@@ -85,7 +84,7 @@ export const VisitingPet: React.FC<{ name: PetName }> = ({ name }) => {
       onClick={handlePetClick}
       clickable={!hasHelpedPet}
     >
-      {!hasHelpedPet && petData && !hasHitSocialPetLimit(petData) && (
+      {!hasHelpedPet && petData && (
         <div
           className="absolute -top-4 -right-4 pointer-events-auto cursor-pointer hover:img-highlight"
           onClick={(e) => {

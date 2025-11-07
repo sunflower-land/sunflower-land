@@ -4,7 +4,6 @@ import {
   isPetNeglected,
   isPetNapping,
   isPetOfTypeFed,
-  hasHitSocialPetLimit,
 } from "features/game/types/pets";
 import { PetSprite } from "features/island/pets/PetSprite";
 import { useContext } from "react";
@@ -107,7 +106,7 @@ export const VisitingPetNFT: React.FC<{
       onClick={handlePetClick}
       clickable={!hasHelpedPet}
     >
-      {!hasHelpedPet && petNFTData && !hasHitSocialPetLimit(petNFTData) && (
+      {!hasHelpedPet && petNFTData && (
         <div
           className="absolute -top-4 -right-4 pointer-events-auto cursor-pointer hover:img-highlight"
           onClick={(e) => {

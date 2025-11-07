@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { Decoration, getKeys } from "./decorations";
 import { GameState, InventoryItemName } from "./game";
 import { ClutterName } from "./clutter";
-import { hasHitSocialPetLimit, PetName, PetNFTName } from "./pets";
+import { PetName, PetNFTName } from "./pets";
 import { isCollectibleBuilt } from "../lib/collectibleBuilt";
 
 type HelpLimitMonumentName =
@@ -286,7 +286,6 @@ export function getHelpRequired({ game }: { game: GameState }) {
       if (!pet) return acc;
 
       if (pet.visitedAt) return acc;
-      if (hasHitSocialPetLimit(pet)) return acc;
 
       const isPetPlacedOnLand = !!collectibles[name]?.some(
         (item) => !!item.coordinates,
@@ -326,8 +325,6 @@ export function getHelpRequired({ game }: { game: GameState }) {
       if (!pet) return acc;
 
       if (pet.visitedAt) return acc;
-
-      if (hasHitSocialPetLimit(pet)) return acc;
 
       if (pet.location === "farm") {
         acc.pendingLandNftPets = [...acc.pendingLandNftPets, pet.name];
