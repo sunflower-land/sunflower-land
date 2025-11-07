@@ -25,7 +25,7 @@ import { BumpkinSkillName, BumpkinRevampSkillName } from "./bumpkinSkills";
 import { AchievementName } from "./achievements";
 import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
-import { BeanName, ExoticCropName, MutantCropName } from "./beans";
+import { BeanName, ExoticCropName, GiantFruit, MutantCropName } from "./beans";
 import {
   FullMoonFruit,
   GreenHouseFruitName,
@@ -469,10 +469,28 @@ type Bounty = {
   items?: Partial<Record<InventoryItemName, number>>;
 };
 
-export type AnimalBounty = Bounty & {
+type AnimalCoinBounty = Bounty & {
   name: AnimalType;
   level: number;
+  coins: number;
 };
+
+type AnimalTicketBounty = Bounty & {
+  name: AnimalType;
+  level: number;
+  items: Partial<Record<SeasonalTicket, number>>;
+};
+
+type AnimalGemBounty = Bounty & {
+  name: AnimalType;
+  level: number;
+  items: { Gem: number };
+};
+
+export type AnimalBounty =
+  | AnimalCoinBounty
+  | AnimalTicketBounty
+  | AnimalGemBounty;
 
 export type FlowerBounty = Bounty & {
   name: FlowerName;
@@ -489,6 +507,10 @@ export type FishBounty = Bounty & {
 
 export type DollBounty = Bounty & {
   name: DollName;
+};
+
+export type GiantFruitBounty = Bounty & {
+  name: GiantFruit;
 };
 
 export type ExoticBounty = Bounty & {
@@ -511,7 +533,8 @@ export type BountyRequest =
   | FishBounty
   | ExoticBounty
   | MarkBounty
-  | DollBounty;
+  | DollBounty
+  | GiantFruitBounty;
 
 export type Bounties = {
   requests: BountyRequest[];
