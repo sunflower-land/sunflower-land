@@ -22,19 +22,11 @@ import saveIcon from "assets/icons/save.webp";
 import { getBumpkinBanner } from "./actions/getBumpkinBanner";
 import { Loading } from "../Loading";
 import { TextInput } from "components/ui/TextInput";
-import confetti from "canvas-confetti";
-import { getRoninPack } from "features/roninAirdrop/actions/getRoninPack";
-import { RONIN_BOX_REWARDS, RoninV2PackName } from "features/wallet/lib/ronin";
-import { ClaimReward } from "features/game/expansion/components/ClaimReward";
-import { Box } from "components/ui/Box";
-import giftIcon from "assets/icons/gift.png";
-import { hasFeatureAccess } from "lib/flags";
-import { RONIN_PACK_IMAGES } from "features/roninAirdrop/RoninAirdrop";
 
 const TWITTER_POST_DESCRIPTIONS: Record<TwitterPostName, TranslationKeys> = {
   FARM: "twitter.post.farm",
   WEEKLY: "twitter.post.weekly",
-  RONIN: "twitter.post.ronin",
+  // RONIN: "twitter.post.ronin",
 };
 
 export const Twitter: React.FC<{ onClose: () => void }> = ({ onClose }) => (
@@ -71,57 +63,44 @@ const TwitterRewards: React.FC = () => {
       </div>
 
       <p className="text-xs mb-2 px-2">{t("twitter.rewards.description")}</p>
-      {getKeys(TWITTER_REWARDS)
-        // Only enable Ronin if they have flag enabled
-        .filter(
-          (key) =>
-            key !== "RONIN" ||
-            hasFeatureAccess(gameState.context.state, "RONIN_AIRDROP"),
-        )
+      {getKeys(TWITTER_REWARDS).map((key) => {
+        // In last 7 days
+        const hasCompleted =
+          (twitter?.tweets?.[key]?.completedAt ?? 0) >
+          Date.now() - 7 * 24 * 60 * 60 * 1000;
 
-        .map((key) => {
-          // In last 7 days
-          const hasCompleted =
-            (twitter?.tweets?.[key]?.completedAt ?? 0) >
-            Date.now() - 7 * 24 * 60 * 60 * 1000;
-
-          return (
-            <ButtonPanel
-              className="mt-1"
-              key={key}
-              onClick={() => setSelected(key)}
-            >
-              <div className="flex flex-wrap justify-between">
-                <div className="flex gap-1">
-                  {key === "RONIN" && (
-                    <Label type="vibrant" icon={giftIcon}>
-                      {t("twitter.ronin.label")}
+        return (
+          <ButtonPanel
+            className="mt-1"
+            key={key}
+            onClick={() => setSelected(key)}
+          >
+            <div className="flex flex-wrap justify-between">
+              <div className="flex gap-1">
+                {
+                  // Loop through rewards and give label
+                  getKeys(TWITTER_REWARDS[key].items).map((name) => (
+                    <Label
+                      type="warning"
+                      key={name}
+                      icon={ITEM_DETAILS[name].image}
+                    >
+                      {`${name} x ${TWITTER_REWARDS[key].items[name]}`}
                     </Label>
-                  )}
-                  {
-                    // Loop through rewards and give label
-                    getKeys(TWITTER_REWARDS[key].items).map((name) => (
-                      <Label
-                        type="warning"
-                        key={name}
-                        icon={ITEM_DETAILS[name].image}
-                      >
-                        {`${name} x ${TWITTER_REWARDS[key].items[name]}`}
-                      </Label>
-                    ))
-                  }
-                </div>
-                {hasCompleted && <Label type="success">{t("completed")}</Label>}
+                  ))
+                }
               </div>
+              {hasCompleted && <Label type="success">{t("completed")}</Label>}
+            </div>
 
-              <div>
-                <p className="text-xs my-1">
-                  {t(TWITTER_POST_DESCRIPTIONS[key])}
-                </p>
-              </div>
-            </ButtonPanel>
-          );
-        })}
+            <div>
+              <p className="text-xs my-1">
+                {t(TWITTER_POST_DESCRIPTIONS[key])}
+              </p>
+            </div>
+          </ButtonPanel>
+        );
+      })}
 
       <div className="mb-1 mx-1">
         <span
@@ -151,21 +130,12 @@ const TwitterPost: React.FC<{ name: TwitterPostName; onClose: () => void }> = ({
 
   const { t } = useAppTranslation();
   const claim = () => {
-    if (name === "RONIN") {
-      gameService.send("twitter.roninPosted", {
-        effect: {
-          type: "twitter.roninPosted",
-          url,
-        },
-      });
-    } else {
-      gameService.send("twitter.posted", {
-        effect: {
-          type: "twitter.posted",
-          url,
-        },
-      });
-    }
+    gameService.send("twitter.posted", {
+      effect: {
+        type: "twitter.posted",
+        url,
+      },
+    });
 
     onClose();
   };
@@ -483,144 +453,10 @@ const TwitterBanner: React.FC<{
   );
 };
 
-const RoninAirdrop: React.FC<{
-  onClose: () => void;
-  onVerify?: () => void;
-}> = ({ onClose, onVerify }) => {
-  const { gameState } = useGame();
-
-  const state = gameState.context.state;
-
-  // In last 7 days
-  const hasCompleted = !!state.roninRewards?.twitter;
-
-  const [isLoading, setIsLoading] = useState(!hasCompleted);
-  const [reward, setReward] = useState<RoninV2PackName | null>(null);
-
-  const { t } = useAppTranslation();
-
-  const check = async () => {
-    setIsLoading(true);
-
-    const { reward } = await getRoninPack({
-      twitterUrl: `https://x.com/${state.twitter?.username}`,
-    });
-
-    confetti();
-
-    setReward(reward);
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    if (!hasCompleted) {
-      check();
-    }
-  }, []);
-
-  const handleDownload = async () => {
-    try {
-      const response = await fetch(RONIN_PACK_IMAGES[reward ?? "Bronze Pack"]);
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "ronin-rewards.png";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    } catch (error) {
-      alert("Long press the image and select 'Download' manually.");
-    }
-  };
-
-  if (hasCompleted) {
-    const items =
-      RONIN_BOX_REWARDS[state.roninRewards?.twitter?.pack ?? "Bronze Pack"]
-        .items;
-    return (
-      <>
-        <Label type="success" className="mr-2">
-          {t("completed")}
-        </Label>
-        <ClaimReward
-          onClose={onClose}
-          reward={{
-            id: "ronin-airdrop",
-            createdAt: Date.now(),
-            items,
-            wearables: {},
-            sfl: 0,
-            coins: 0,
-            message: `You recieved a ${state.roninRewards?.twitter?.pack} for your activity on X!`,
-          }}
-        />
-      </>
-    );
-  }
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  return (
-    <>
-      <div className=" gap-1">
-        <Label
-          type="info"
-          icon={SUNNYSIDE.icons.stopwatch}
-          className="mr-2 ml-1"
-        >
-          {t("twitter.ronin.share")}
-        </Label>
-        <p className="text-xs p-2">{t("twitter.ronin.eligible")}</p>
-        <div className="flex items-center ">
-          <Box image={giftIcon} />
-          <div className="ml-1">
-            <p className="text-sm">{`1 x ${reward}`}</p>
-          </div>
-        </div>
-      </div>
-
-      <p className="text-xs mx-1 my-1">
-        {t("twitter.ronin.instructions.1", { hashtag: TWITTER_HASHTAGS.RONIN })}
-      </p>
-
-      <div className="relative">
-        <img
-          src={RONIN_PACK_IMAGES[reward ?? "Bronze Pack"]}
-          className="w-full sm:w-2/3 rounded-md my-2 mx-auto"
-        />
-        <div
-          className="absolute bottom-2 right-2 h-12 w-12 cursor-pointer"
-          onClick={handleDownload}
-        >
-          <img src={SUNNYSIDE.icons.disc} className="w-full" />
-          <div className="absolute inset-0 flex items-center justify-center w-full h-full">
-            <img src={saveIcon} className="w-6" />
-          </div>
-        </div>
-      </div>
-
-      <div className="flex">
-        <Button className="mr-1" onClick={onClose}>
-          {t("back")}
-        </Button>
-        <Button disabled={hasCompleted} onClick={onVerify}>
-          {t("twitter.verify.button")}
-        </Button>
-      </div>
-    </>
-  );
-};
-
 const TWITTER_COMPONENTS: Record<
   TwitterPostName,
   React.FC<{ onClose: () => void; onVerify?: () => void }>
 > = {
   FARM: TwitterFarm,
   WEEKLY: TwitterWeekly,
-  RONIN: RoninAirdrop, // Handle differently for special reward
 };
