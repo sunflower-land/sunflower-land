@@ -174,14 +174,14 @@ export const PET_CATEGORIES: Record<PetType, PetCategory> = {
   },
 
   // NFT Pet Types
-  Ram: {
-    primary: "Snowkin",
-    secondary: "Voyager",
-    tertiary: "Forager",
-  },
   Dragon: {
-    primary: "Hunter",
+    primary: "Snowkin",
     secondary: "Guardian",
+    tertiary: "Voyager",
+  },
+  Ram: {
+    primary: "Hunter",
+    secondary: "Voyager",
     tertiary: "Moonkin",
   },
   Phoenix: {
@@ -202,7 +202,7 @@ export const PET_CATEGORIES: Record<PetType, PetCategory> = {
   Wolf: {
     primary: "Guardian",
     secondary: "Hunter",
-    tertiary: "Voyager",
+    tertiary: "Forager",
   },
   Bear: {
     primary: "Forager",
