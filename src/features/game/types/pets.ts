@@ -176,37 +176,37 @@ export const PET_CATEGORIES: Record<PetType, PetCategory> = {
   // NFT Pet Types
   Ram: {
     primary: "Snowkin",
-    secondary: "Guardian",
+    secondary: "Voyager",
     tertiary: "Forager",
   },
   Dragon: {
     primary: "Hunter",
-    secondary: "Moonkin",
-    tertiary: "Voyager",
+    secondary: "Guardian",
+    tertiary: "Moonkin",
   },
   Phoenix: {
     primary: "Moonkin",
-    secondary: "Voyager",
-    tertiary: "Hunter",
+    secondary: "Beast",
+    tertiary: "Guardian",
   },
   Griffin: {
     primary: "Voyager",
-    secondary: "Hunter",
+    secondary: "Forager",
     tertiary: "Beast",
   },
   Warthog: {
     primary: "Beast",
-    secondary: "Forager",
-    tertiary: "Guardian",
+    secondary: "Snowkin",
+    tertiary: "Hunter",
   },
   Wolf: {
     primary: "Guardian",
-    secondary: "Snowkin",
-    tertiary: "Moonkin",
+    secondary: "Hunter",
+    tertiary: "Voyager",
   },
   Bear: {
     primary: "Forager",
-    secondary: "Beast",
+    secondary: "Moonkin",
     tertiary: "Snowkin",
   },
 };
