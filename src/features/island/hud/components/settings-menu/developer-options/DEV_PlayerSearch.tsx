@@ -85,7 +85,7 @@ export const DEV_PlayerSearch: React.FC<ContentComponentProps> = () => {
         <p>{`Face Recognition: ${farm.moderator?.isFaceRecognised}`}</p>
         <p>{`Login with: ${farm.moderator?.account}`}</p>
 
-        {isManager && !farm.moderator.nftId && (
+        {isManager && !farm.moderator?.nftId && (
           <Button
             onClick={() => {
               gameService.send("admin.NFTAssigned", {
