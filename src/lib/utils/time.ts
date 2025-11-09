@@ -212,7 +212,7 @@ export const millisecondsToString = (
 
 /**
  * Gets the time left before an operation is ready.
- * @param createdAt The time where the operation is started.
+ * @param createdAt The time when the operation started.
  * @param totalTimeInSeconds The total time in seconds needed for the operation to complete.
  * @returns The time left in seconds.
  */
