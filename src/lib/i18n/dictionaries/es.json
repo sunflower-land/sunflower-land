@@ -7135,5 +7135,10 @@
   "chore.prepare.sourShake.25": "Prepara el batido agrio 25 veces",
   "chore.spend.60606": "Gasta 60606 monedas",
   "chore.spend.70707": "Gasta 70707 monedas",
-  "chore.spend.80808": "Gasta 80808 monedas"
+  "chore.spend.80808": "Gasta 80808 monedas",
+  "cancelling.bid": "Cancelación de oferta",
+  "auction.bidding.success": "La oferta se realizó correctamente",
+  "auction.bidding.failed": "Oferta fallida",
+  "auction.cancelling.success": "Oferta cancelada",
+  "auction.cancelling.failed": "Falló la cancelación de la oferta"
 }

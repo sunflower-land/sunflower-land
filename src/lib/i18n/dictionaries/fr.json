@@ -7135,5 +7135,10 @@
   "chore.prepare.sourShake.25": "Préparez le Sour Shake 25 fois",
   "chore.spend.60606": "Dépensez 60606 pièces",
   "chore.spend.70707": "Dépensez 70707 pièces",
-  "chore.spend.80808": "Dépensez 80808 pièces"
+  "chore.spend.80808": "Dépensez 80808 pièces",
+  "cancelling.bid": "Annulation de l'offre",
+  "auction.bidding.success": "Enchère placée avec succès",
+  "auction.bidding.failed": "L'enchère a échoué",
+  "auction.cancelling.success": "Enchère annulée",
+  "auction.cancelling.failed": "L'annulation de l'offre a échoué"
 }

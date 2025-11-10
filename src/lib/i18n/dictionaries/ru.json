@@ -7135,5 +7135,10 @@
   "chore.prepare.sourShake.25": "Приготовьте Sour Shake 25 раз",
   "chore.spend.60606": "Потратьте 60606 монет",
   "chore.spend.70707": "Потратьте 70707 монет",
-  "chore.spend.80808": "Потратьте 80808 монет"
+  "chore.spend.80808": "Потратьте 80808 монет",
+  "cancelling.bid": "Отмена предложения",
+  "auction.bidding.success": "Предложение размещено успешно",
+  "auction.bidding.failed": "Заявка не удалась",
+  "auction.cancelling.success": "Заявка отменена",
+  "auction.cancelling.failed": "Отмена предложения не удалась"
 }

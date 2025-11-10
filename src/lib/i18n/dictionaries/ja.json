@@ -7135,5 +7135,10 @@
   "chore.prepare.sourShake.25": "サワーシェイクを25回作る",
   "chore.spend.60606": "60606枚のコインを使う",
   "chore.spend.70707": "70707枚のコインを使う",
-  "chore.spend.80808": "80808枚のコインを使う"
+  "chore.spend.80808": "80808枚のコインを使う",
+  "cancelling.bid": "入札を取り消す",
+  "auction.bidding.success": "入札成功",
+  "auction.bidding.failed": "入札失敗",
+  "auction.cancelling.success": "入札がキャンセルされました",
+  "auction.cancelling.failed": "入札キャンセルに失敗しました"
 }

@@ -7135,5 +7135,10 @@
   "chore.prepare.sourShake.25": "准备 25 次酸奶昔",
   "chore.spend.60606": "消费 60606 个硬币",
   "chore.spend.70707": "消费 70707 枚金币",
-  "chore.spend.80808": "消费 80808 个硬币"
+  "chore.spend.80808": "消费 80808 个硬币",
+  "cancelling.bid": "取消出价",
+  "auction.bidding.success": "成功出价",
+  "auction.bidding.failed": "出价失败",
+  "auction.cancelling.success": "出价已取消",
+  "auction.cancelling.failed": "取消出价失败"
 }

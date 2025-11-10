@@ -7135,5 +7135,10 @@
   "chore.prepare.sourShake.25": "Sediakan Sour Shake 25 kali",
   "chore.spend.60606": "Belanjakan 60606 Syiling",
   "chore.spend.70707": "Belanjakan 70707 Syiling",
-  "chore.spend.80808": "Belanjakan 80808 Syiling"
+  "chore.spend.80808": "Belanjakan 80808 Syiling",
+  "cancelling.bid": "Membatalkan tawaran",
+  "auction.bidding.success": "Tawaran dibuat dengan jayanya",
+  "auction.bidding.failed": "Tawaran gagal",
+  "auction.cancelling.success": "Tawaran dibatalkan",
+  "auction.cancelling.failed": "Pembatalan tawaran gagal"
 }

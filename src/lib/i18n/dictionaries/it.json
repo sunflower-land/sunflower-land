@@ -7135,5 +7135,10 @@
   "chore.prepare.sourShake.25": "Prepara Sour Shake 25 volte",
   "chore.spend.60606": "Spendi 60606 monete",
   "chore.spend.70707": "Spendi 70707 monete",
-  "chore.spend.80808": "Spendi 80808 monete"
+  "chore.spend.80808": "Spendi 80808 monete",
+  "cancelling.bid": "Annullamento dell'offerta",
+  "auction.bidding.success": "Offerta effettuata con successo",
+  "auction.bidding.failed": "Offerta fallita",
+  "auction.cancelling.success": "Offerta annullata",
+  "auction.cancelling.failed": "Cancellazione dell'offerta non riuscita"
 }
