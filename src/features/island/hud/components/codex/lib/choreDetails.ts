@@ -1749,4 +1749,1300 @@ export const CHORE_DETAILS: Record<
     icon: ITEM_DETAILS["Fermented Fish"].image,
     description: translate("chore.cook.fermentedFish.5"),
   },
+  "Harvest Sunflowers 300 times": {
+    icon: ITEM_DETAILS.Sunflower.image,
+    description: translate("chore.harvest.sunflower.300"),
+  },
+  "Harvest Sunflowers 350 times": {
+    icon: ITEM_DETAILS.Sunflower.image,
+    description: translate("chore.harvest.sunflower.350"),
+  },
+  "Harvest Potatoes 175 times": {
+    icon: ITEM_DETAILS.Potato.image,
+    description: translate("chore.harvest.potato.175"),
+  },
+  "Harvest Potatoes 225 times": {
+    icon: ITEM_DETAILS.Potato.image,
+    description: translate("chore.harvest.potato.225"),
+  },
+  "Harvest Rhubarbs 200 times": {
+    icon: ITEM_DETAILS.Rhubarb.image,
+    description: translate("chore.harvest.rhubarb.200"),
+  },
+  "Harvest Rhubarbs 250 times": {
+    icon: ITEM_DETAILS.Rhubarb.image,
+    description: translate("chore.harvest.rhubarb.250"),
+  },
+  "Harvest Rhubarbs 300 times": {
+    icon: ITEM_DETAILS.Rhubarb.image,
+    description: translate("chore.harvest.rhubarb.300"),
+  },
+  "Harvest Zucchini 125 times": {
+    icon: ITEM_DETAILS.Zucchini.image,
+    description: translate("chore.harvest.zucchini.125"),
+  },
+  "Harvest Zucchini 150 times": {
+    icon: ITEM_DETAILS.Zucchini.image,
+    description: translate("chore.harvest.zucchini.150"),
+  },
+  "Harvest Zucchini 175 times": {
+    icon: ITEM_DETAILS.Zucchini.image,
+    description: translate("chore.harvest.zucchini.175"),
+  },
+  "Harvest Carrots 125 times": {
+    icon: ITEM_DETAILS.Carrot.image,
+    description: translate("chore.harvest.carrot.125"),
+  },
+  "Harvest Carrots 130 times": {
+    icon: ITEM_DETAILS.Carrot.image,
+    description: translate("chore.harvest.carrot.130"),
+  },
+  "Harvest Carrots 150 times": {
+    icon: ITEM_DETAILS.Carrot.image,
+    description: translate("chore.harvest.carrot.150"),
+  },
+  "Harvest Carrots 170 times": {
+    icon: ITEM_DETAILS.Carrot.image,
+    description: translate("chore.harvest.carrot.170"),
+  },
+  "Harvest Carrots 175 times": {
+    icon: ITEM_DETAILS.Carrot.image,
+    description: translate("chore.harvest.carrot.175"),
+  },
+  "Harvest Carrots 200 times": {
+    icon: ITEM_DETAILS.Carrot.image,
+    description: translate("chore.harvest.carrot.200"),
+  },
+  "Harvest Yam 200 times": {
+    icon: ITEM_DETAILS.Yam.image,
+    description: translate("chore.harvest.yam.200"),
+  },
+  "Harvest Yam 225 times": {
+    icon: ITEM_DETAILS.Yam.image,
+    description: translate("chore.harvest.yam.225"),
+  },
+  "Harvest Yam 250 times": {
+    icon: ITEM_DETAILS.Yam.image,
+    description: translate("chore.harvest.yam.250"),
+  },
+  "Harvest Yam 275 times": {
+    icon: ITEM_DETAILS.Yam.image,
+    description: translate("chore.harvest.yam.275"),
+  },
+  "Harvest Cabbage 200 times": {
+    icon: ITEM_DETAILS.Cabbage.image,
+    description: translate("chore.harvest.cabbage.200"),
+  },
+  "Harvest Cabbage 220 times": {
+    icon: ITEM_DETAILS.Cabbage.image,
+    description: translate("chore.harvest.cabbage.220"),
+  },
+  "Harvest Broccoli 125 times": {
+    icon: ITEM_DETAILS.Broccoli.image,
+    description: translate("chore.harvest.broccoli.125"),
+  },
+  "Harvest Broccoli 150 times": {
+    icon: ITEM_DETAILS.Broccoli.image,
+    description: translate("chore.harvest.broccoli.150"),
+  },
+  "Harvest Broccoli 175 times": {
+    icon: ITEM_DETAILS.Broccoli.image,
+    description: translate("chore.harvest.broccoli.175"),
+  },
+  "Harvest Soybeans 75 times": {
+    icon: ITEM_DETAILS.Soybean.image,
+    description: translate("chore.harvest.soybean.75"),
+  },
+  "Harvest Soybeans 100 times": {
+    icon: ITEM_DETAILS.Soybean.image,
+    description: translate("chore.harvest.soybean.100"),
+  },
+  "Harvest Soybeans 125 times": {
+    icon: ITEM_DETAILS.Soybean.image,
+    description: translate("chore.harvest.soybean.125"),
+  },
+  "Harvest Soybeans 150 times": {
+    icon: ITEM_DETAILS.Soybean.image,
+    description: translate("chore.harvest.soybean.150"),
+  },
+  "Harvest Beetroot 125 times": {
+    icon: ITEM_DETAILS.Beetroot.image,
+    description: translate("chore.harvest.beetroot.125"),
+  },
+  "Harvest Beetroot 150 times": {
+    icon: ITEM_DETAILS.Beetroot.image,
+    description: translate("chore.harvest.beetroot.150"),
+  },
+  "Harvest Beetroot 175 times": {
+    icon: ITEM_DETAILS.Beetroot.image,
+    description: translate("chore.harvest.beetroot.175"),
+  },
+  "Harvest Beetroots 125 times": {
+    icon: ITEM_DETAILS.Beetroot.image,
+    description: translate("chore.harvest.beetroot.125"),
+  },
+  "Harvest Beetroots 150 times": {
+    icon: ITEM_DETAILS.Beetroot.image,
+    description: translate("chore.harvest.beetroot.150"),
+  },
+  "Harvest Beetroots 200 times": {
+    icon: ITEM_DETAILS.Beetroot.image,
+    description: translate("chore.harvest.beetroot.200"),
+  },
+  "Harvest Beetroots 220 times": {
+    icon: ITEM_DETAILS.Beetroot.image,
+    description: translate("chore.harvest.beetroot.220"),
+  },
+  "Harvest Pepper 125 times": {
+    icon: ITEM_DETAILS.Pepper.image,
+    description: translate("chore.harvest.pepper.125"),
+  },
+  "Harvest Pepper 150 times": {
+    icon: ITEM_DETAILS.Pepper.image,
+    description: translate("chore.harvest.pepper.150"),
+  },
+  "Harvest Cauliflowers 75 times": {
+    icon: ITEM_DETAILS.Cauliflower.image,
+    description: translate("chore.harvest.cauliflower.75"),
+  },
+  "Harvest Cauliflowers 100 times": {
+    icon: ITEM_DETAILS.Cauliflower.image,
+    description: translate("chore.harvest.cauliflower.100"),
+  },
+  "Harvest Cauliflowers 125 times": {
+    icon: ITEM_DETAILS.Cauliflower.image,
+    description: translate("chore.harvest.cauliflower.125"),
+  },
+  "Harvest Cauliflowers 150 times": {
+    icon: ITEM_DETAILS.Cauliflower.image,
+    description: translate("chore.harvest.cauliflower.150"),
+  },
+  "Harvest Cauliflowers 175 times": {
+    icon: ITEM_DETAILS.Cauliflower.image,
+    description: translate("chore.harvest.cauliflower.175"),
+  },
+  "Harvest Parsnips 50 times": {
+    icon: ITEM_DETAILS.Parsnip.image,
+    description: translate("chore.harvest.parsnip.50"),
+  },
+  "Harvest Parsnips 75 times": {
+    icon: ITEM_DETAILS.Parsnip.image,
+    description: translate("chore.harvest.parsnip.75"),
+  },
+  "Harvest Parsnips 100 times": {
+    icon: ITEM_DETAILS.Parsnip.image,
+    description: translate("chore.harvest.parsnip.100"),
+  },
+  "Harvest Parsnips 125 times": {
+    icon: ITEM_DETAILS.Parsnip.image,
+    description: translate("chore.harvest.parsnip.125"),
+  },
+  "Harvest Eggplant 480 times": {
+    icon: ITEM_DETAILS.Eggplant.image,
+    description: translate("chore.harvest.eggplant.480"),
+  },
+  "Harvest Corn 50 times": {
+    icon: ITEM_DETAILS.Corn.image,
+    description: translate("chore.harvest.corn.50"),
+  },
+  "Harvest Corn 100 times": {
+    icon: ITEM_DETAILS.Corn.image,
+    description: translate("chore.harvest.corn.100"),
+  },
+  "Harvest Corn 125 times": {
+    icon: ITEM_DETAILS.Corn.image,
+    description: translate("chore.harvest.corn.125"),
+  },
+  "Harvest Corn 150 times": {
+    icon: ITEM_DETAILS.Corn.image,
+    description: translate("chore.harvest.corn.150"),
+  },
+  "Harvest Corn 350 times": {
+    icon: ITEM_DETAILS.Corn.image,
+    description: translate("chore.harvest.corn.350"),
+  },
+  "Harvest Corn 400 times": {
+    icon: ITEM_DETAILS.Corn.image,
+    description: translate("chore.harvest.corn.400"),
+  },
+  "Harvest Corn 450 times": {
+    icon: ITEM_DETAILS.Corn.image,
+    description: translate("chore.harvest.corn.450"),
+  },
+  "Harvest Onion 360 times": {
+    icon: ITEM_DETAILS.Onion.image,
+    description: translate("chore.harvest.onion.360"),
+  },
+  "Harvest Onion 420 times": {
+    icon: ITEM_DETAILS.Onion.image,
+    description: translate("chore.harvest.onion.420"),
+  },
+  "Harvest Onion 460 times": {
+    icon: ITEM_DETAILS.Onion.image,
+    description: translate("chore.harvest.onion.460"),
+  },
+  "Harvest Wheat 275 times": {
+    icon: ITEM_DETAILS.Wheat.image,
+    description: translate("chore.harvest.wheat.275"),
+  },
+  "Harvest Wheat 325 times": {
+    icon: ITEM_DETAILS.Wheat.image,
+    description: translate("chore.harvest.wheat.325"),
+  },
+  "Harvest Wheat 350 times": {
+    icon: ITEM_DETAILS.Wheat.image,
+    description: translate("chore.harvest.wheat.350"),
+  },
+  "Harvest Wheat 400 times": {
+    icon: ITEM_DETAILS.Wheat.image,
+    description: translate("chore.harvest.wheat.400"),
+  },
+  "Harvest Wheat 420 times": {
+    icon: ITEM_DETAILS.Wheat.image,
+    description: translate("chore.harvest.wheat.420"),
+  },
+  "Harvest Radish 275 times": {
+    icon: ITEM_DETAILS.Radish.image,
+    description: translate("chore.harvest.radish.275"),
+  },
+  "Harvest Radish 325 times": {
+    icon: ITEM_DETAILS.Radish.image,
+    description: translate("chore.harvest.radish.325"),
+  },
+  "Harvest Radish 400 times": {
+    icon: ITEM_DETAILS.Radish.image,
+    description: translate("chore.harvest.radish.400"),
+  },
+  "Harvest Turnip 350 times": {
+    icon: ITEM_DETAILS.Turnip.image,
+    description: translate("chore.harvest.turnip.350"),
+  },
+  "Harvest Turnip 400 times": {
+    icon: ITEM_DETAILS.Turnip.image,
+    description: translate("chore.harvest.turnip.400"),
+  },
+  "Harvest Kale 150 times": {
+    icon: ITEM_DETAILS.Kale.image,
+    description: translate("chore.harvest.kale.150"),
+  },
+  "Harvest Kale 220 times": {
+    icon: ITEM_DETAILS.Kale.image,
+    description: translate("chore.harvest.kale.220"),
+  },
+  "Harvest Kale 250 times": {
+    icon: ITEM_DETAILS.Kale.image,
+    description: translate("chore.harvest.kale.250"),
+  },
+  "Harvest Kale 300 times": {
+    icon: ITEM_DETAILS.Kale.image,
+    description: translate("chore.harvest.kale.300"),
+  },
+  "Harvest Artichoke 250 times": {
+    icon: ITEM_DETAILS.Artichoke.image,
+    description: translate("chore.harvest.artichoke.250"),
+  },
+  "Harvest Artichoke 300 times": {
+    icon: ITEM_DETAILS.Artichoke.image,
+    description: translate("chore.harvest.artichoke.300"),
+  },
+  "Harvest Barley 125 times": {
+    icon: ITEM_DETAILS.Barley.image,
+    description: translate("chore.harvest.barley.125"),
+  },
+  "Harvest Barley 175 times": {
+    icon: ITEM_DETAILS.Barley.image,
+    description: translate("chore.harvest.barley.175"),
+  },
+  "Harvest Barley 250 times": {
+    icon: ITEM_DETAILS.Barley.image,
+    description: translate("chore.harvest.barley.250"),
+  },
+  "Harvest Rice 28 times": {
+    icon: ITEM_DETAILS.Rice.image,
+    description: translate("chore.harvest.rice.28"),
+  },
+  "Harvest Olives 24 times": {
+    icon: ITEM_DETAILS["Olive"].image,
+    description: translate("chore.harvest.olives.24"),
+  },
+  "Eat 35 Anchovies": {
+    icon: ITEM_DETAILS.Anchovy.image,
+    description: translate("chore.eat.anchovy.35"),
+  },
+  "Eat 50 Anchovies": {
+    icon: ITEM_DETAILS.Anchovy.image,
+    description: translate("chore.eat.anchovy.50"),
+  },
+  "Eat 65 Anchovies": {
+    icon: ITEM_DETAILS.Anchovy.image,
+    description: translate("chore.eat.anchovy.65"),
+  },
+  "Eat 25 Tunas": {
+    icon: ITEM_DETAILS.Tuna.image,
+    description: translate("chore.eat.tuna.25"),
+  },
+  "Eat 50 Tunas": {
+    icon: ITEM_DETAILS.Tuna.image,
+    description: translate("chore.eat.tuna.50"),
+  },
+  "Eat 75 Tunas": {
+    icon: ITEM_DETAILS.Tuna.image,
+    description: translate("chore.eat.tuna.75"),
+  },
+  "Eat 15 Red Snappers": {
+    icon: ITEM_DETAILS["Red Snapper"].image,
+    description: translate("chore.eat.redSnapper.15"),
+  },
+  "Eat 30 Red Snappers": {
+    icon: ITEM_DETAILS["Red Snapper"].image,
+    description: translate("chore.eat.redSnapper.30"),
+  },
+  "Eat 45 Red Snappers": {
+    icon: ITEM_DETAILS["Red Snapper"].image,
+    description: translate("chore.eat.redSnapper.45"),
+  },
+  "Eat 13 Orange Cake": {
+    icon: ITEM_DETAILS["Orange Cake"].image,
+    description: translate("chore.eat.orangeCake.13"),
+  },
+  "Eat 16 Orange Cake": {
+    icon: ITEM_DETAILS["Orange Cake"].image,
+    description: translate("chore.eat.orangeCake.16"),
+  },
+  "Eat 20 Orange Cake": {
+    icon: ITEM_DETAILS["Orange Cake"].image,
+    description: translate("chore.eat.orangeCake.20"),
+  },
+  "Drink Purple Smoothies 15 times": {
+    icon: ITEM_DETAILS["Purple Smoothie"].image,
+    description: translate("chore.drink.purpleSmoothie.15"),
+  },
+  "Drink Purple Smoothies 20 times": {
+    icon: ITEM_DETAILS["Purple Smoothie"].image,
+    description: translate("chore.drink.purpleSmoothie.20"),
+  },
+  "Drink Apple Juice 10 times": {
+    icon: ITEM_DETAILS["Apple Juice"].image,
+    description: translate("chore.drink.appleJuice.10"),
+  },
+  "Drink Apple Juice 15 times": {
+    icon: ITEM_DETAILS["Apple Juice"].image,
+    description: translate("chore.drink.appleJuice.15"),
+  },
+  "Drink 45 Orange Juice": {
+    icon: ITEM_DETAILS["Orange Juice"].image,
+    description: translate("chore.drink.orangeJuice.45"),
+  },
+  "Drink 55 Orange Juice": {
+    icon: ITEM_DETAILS["Orange Juice"].image,
+    description: translate("chore.drink.orangeJuice.55"),
+  },
+  "Drink Orange Juice 15 times": {
+    icon: ITEM_DETAILS["Orange Juice"].image,
+    description: translate("chore.drink.orangeJuice.15"),
+  },
+  "Drink Orange Juice 20 times": {
+    icon: ITEM_DETAILS["Orange Juice"].image,
+    description: translate("chore.drink.orangeJuice.20"),
+  },
+  "Cook Boiled Eggs 10 times": {
+    icon: ITEM_DETAILS["Boiled Eggs"].image,
+    description: translate("chore.cook.boiledEgg.10"),
+  },
+  "Cook Boiled Eggs 15 times": {
+    icon: ITEM_DETAILS["Boiled Eggs"].image,
+    description: translate("chore.cook.boiledEgg.15"),
+  },
+  "Cook Boiled Eggs 25 times": {
+    icon: ITEM_DETAILS["Boiled Eggs"].image,
+    description: translate("chore.cook.boiledEgg.25"),
+  },
+  "Cook Reindeer Carrot 20 times": {
+    icon: ITEM_DETAILS["Reindeer Carrot"].image,
+    description: translate("chore.cook.reindeerCarrot.20"),
+  },
+  "Cook Reindeer Carrot 25 times": {
+    icon: ITEM_DETAILS["Reindeer Carrot"].image,
+    description: translate("chore.cook.reindeerCarrot.25"),
+  },
+  "Cook Mashed Potatoes 50 times": {
+    icon: ITEM_DETAILS["Mashed Potato"].image,
+    description: translate("chore.cook.mashedPotato.50"),
+  },
+  "Cook Mashed Potatoes 65 times": {
+    icon: ITEM_DETAILS["Mashed Potato"].image,
+    description: translate("chore.cook.mashedPotato.65"),
+  },
+  "Cook Pancakes 7 times": {
+    icon: ITEM_DETAILS["Pancakes"].image,
+    description: translate("chore.cook.pancake.7"),
+  },
+  "Cook Pancakes 10 times": {
+    icon: ITEM_DETAILS["Pancakes"].image,
+    description: translate("chore.cook.pancake.10"),
+  },
+  "Cook Pancakes 12 times": {
+    icon: ITEM_DETAILS["Pancakes"].image,
+    description: translate("chore.cook.pancake.12"),
+  },
+  "Cook Pancakes 15 times": {
+    icon: ITEM_DETAILS["Pancakes"].image,
+    description: translate("chore.cook.pancake.15"),
+  },
+  "Cook Fried Calamari 5 times": {
+    icon: ITEM_DETAILS["Fried Calamari"].image,
+    description: translate("chore.cook.friedCalamari.5"),
+  },
+  "Cook Cauliflower Burger 15 times": {
+    icon: ITEM_DETAILS["Cauliflower Burger"].image,
+    description: translate("chore.cook.cauliflowerBurger.15"),
+  },
+  "Cook Cauliflower Burger 17 times": {
+    icon: ITEM_DETAILS["Cauliflower Burger"].image,
+    description: translate("chore.cook.cauliflowerBurger.17"),
+  },
+  "Cook Cauliflower Burger 20 times": {
+    icon: ITEM_DETAILS["Cauliflower Burger"].image,
+    description: translate("chore.cook.cauliflowerBurger.20"),
+  },
+  "Cook Cauliflower Burger 25 times": {
+    icon: ITEM_DETAILS["Cauliflower Burger"].image,
+    description: translate("chore.cook.cauliflowerBurger.25"),
+  },
+  "Cook Cauliflower Burger 30 times": {
+    icon: ITEM_DETAILS["Cauliflower Burger"].image,
+    description: translate("chore.cook.cauliflowerBurger.30"),
+  },
+  "Cook Cauliflower Burger 35 times": {
+    icon: ITEM_DETAILS["Cauliflower Burger"].image,
+    description: translate("chore.cook.cauliflowerBurger.35"),
+  },
+  "Cook Bumpkin Salad 15 times": {
+    icon: ITEM_DETAILS["Bumpkin Salad"].image,
+    description: translate("chore.cook.bumpkinSalad.15"),
+  },
+  "Cook Bumpkin Salad 17 times": {
+    icon: ITEM_DETAILS["Bumpkin Salad"].image,
+    description: translate("chore.cook.bumpkinSalad.17"),
+  },
+  "Cook Bumpkin Salad 20 times": {
+    icon: ITEM_DETAILS["Bumpkin Salad"].image,
+    description: translate("chore.cook.bumpkinSalad.20"),
+  },
+  "Cook Bumpkin ganoush 10 times": {
+    icon: ITEM_DETAILS["Bumpkin ganoush"].image,
+    description: translate("chore.cook.bumpkinGanoush.10"),
+  },
+  "Cook Bumpkin ganoush 12 times": {
+    icon: ITEM_DETAILS["Bumpkin ganoush"].image,
+    description: translate("chore.cook.bumpkinGanoush.12"),
+  },
+  "Cook Bumpkin ganoush 15 times": {
+    icon: ITEM_DETAILS["Bumpkin ganoush"].image,
+    description: translate("chore.cook.bumpkinGanoush.15"),
+  },
+  "Cook Bumpkin ganoush 20 times": {
+    icon: ITEM_DETAILS["Bumpkin ganoush"].image,
+    description: translate("chore.cook.bumpkinGanoush.20"),
+  },
+  "Cook Goblin's Treat 10 times": {
+    icon: ITEM_DETAILS["Goblin's Treat"].image,
+    description: translate("chore.cook.goblinTreat.10"),
+  },
+  "Cook Goblin's Treat 12 times": {
+    icon: ITEM_DETAILS["Goblin's Treat"].image,
+    description: translate("chore.cook.goblinTreat.12"),
+  },
+  "Cook Gumbo 45 times": {
+    icon: ITEM_DETAILS["Gumbo"].image,
+    description: translate("chore.cook.gumbo.45"),
+  },
+  "Cook Gumbo 60 times": {
+    icon: ITEM_DETAILS["Gumbo"].image,
+    description: translate("chore.cook.gumbo.60"),
+  },
+  "Cook Gumbo 35 times": {
+    icon: ITEM_DETAILS["Gumbo"].image,
+    description: translate("chore.cook.gumbo.35"),
+  },
+  "Cook Gumbo 50 times": {
+    icon: ITEM_DETAILS["Gumbo"].image,
+    description: translate("chore.cook.gumbo.50"),
+  },
+  "Cook 10 Sunflower Cakes": {
+    icon: ITEM_DETAILS["Sunflower Cake"].image,
+    description: translate("chore.cook.sunflowerCake.10"),
+  },
+  "Cook 15 Sunflower Cakes": {
+    icon: ITEM_DETAILS["Sunflower Cake"].image,
+    description: translate("chore.cook.sunflowerCake.15"),
+  },
+  "Cook Sunflower Cakes 10 times": {
+    icon: ITEM_DETAILS["Sunflower Cake"].image,
+    description: translate("chore.cook.sunflowerCake.10"),
+  },
+  "Cook Sunflower Cakes 15 times": {
+    icon: ITEM_DETAILS["Sunflower Cake"].image,
+    description: translate("chore.cook.sunflowerCake.15"),
+  },
+  "Cook 7 Carrot Cakes": {
+    icon: ITEM_DETAILS["Carrot Cake"].image,
+    description: translate("chore.cook.carrotCake.7"),
+  },
+  "Cook 10 Carrot Cakes": {
+    icon: ITEM_DETAILS["Carrot Cake"].image,
+    description: translate("chore.cook.carrotCake.10"),
+  },
+  "Cook 7 Cabbage Cakes": {
+    icon: ITEM_DETAILS["Cabbage Cake"].image,
+    description: translate("chore.cook.cabbageCake.7"),
+  },
+  "Cook 10 Cabbage Cakes": {
+    icon: ITEM_DETAILS["Cabbage Cake"].image,
+    description: translate("chore.cook.cabbageCake.10"),
+  },
+  "Cook Cornbread 15 times": {
+    icon: ITEM_DETAILS["Cornbread"].image,
+    description: translate("chore.cook.cornbread.15"),
+  },
+  "Cook Wheat Cakes 7 times": {
+    icon: ITEM_DETAILS["Wheat Cake"].image,
+    description: translate("chore.cook.wheatCake.7"),
+  },
+  "Cook Wheat Cakes 10 times": {
+    icon: ITEM_DETAILS["Wheat Cake"].image,
+    description: translate("chore.cook.wheatCake.10"),
+  },
+  "Cook Wheat Cakes 5 times": {
+    icon: ITEM_DETAILS["Wheat Cake"].image,
+    description: translate("chore.cook.wheatCake.5"),
+  },
+  "Cook Honey Cakes 10 times": {
+    icon: ITEM_DETAILS["Honey Cake"].image,
+    description: translate("chore.cook.honeyCake.10"),
+  },
+  "Cook Honey Cakes 15 times": {
+    icon: ITEM_DETAILS["Honey Cake"].image,
+    description: translate("chore.cook.honeyCake.15"),
+  },
+  "Cook Honey Cakes 20 times": {
+    icon: ITEM_DETAILS["Honey Cake"].image,
+    description: translate("chore.cook.honeyCake.20"),
+  },
+  "Cook Fermented Fish 20 times": {
+    icon: ITEM_DETAILS["Fermented Fish"].image,
+    description: translate("chore.cook.fermentedFish.20"),
+  },
+  "Cook Fermented Fish 25 times": {
+    icon: ITEM_DETAILS["Fermented Fish"].image,
+    description: translate("chore.cook.fermentedFish.25"),
+  },
+  "Cook Fermented Fish 30 times": {
+    icon: ITEM_DETAILS["Fermented Fish"].image,
+    description: translate("chore.cook.fermentedFish.30"),
+  },
+  "Cook Fermented Fish 35 times": {
+    icon: ITEM_DETAILS["Fermented Fish"].image,
+    description: translate("chore.cook.fermentedFish.35"),
+  },
+  "Cook 20 Chowder times": {
+    icon: ITEM_DETAILS["Chowder"].image,
+    description: translate("chore.cook.chowder.20"),
+  },
+  "Cook 25 Chowder times": {
+    icon: ITEM_DETAILS["Chowder"].image,
+    description: translate("chore.cook.chowder.25"),
+  },
+  "Cook 30 Chowder times": {
+    icon: ITEM_DETAILS["Chowder"].image,
+    description: translate("chore.cook.chowder.30"),
+  },
+  "Cook 35 Chowder times": {
+    icon: ITEM_DETAILS["Chowder"].image,
+    description: translate("chore.cook.chowder.35"),
+  },
+  "Cook 50 Chowder times": {
+    icon: ITEM_DETAILS["Chowder"].image,
+    description: translate("chore.cook.chowder.50"),
+  },
+  "Cook Antipasto 40 times": {
+    icon: ITEM_DETAILS["Antipasto"].image,
+    description: translate("chore.cook.antipasto.40"),
+  },
+  "Cook Antipasto 45 times": {
+    icon: ITEM_DETAILS["Antipasto"].image,
+    description: translate("chore.cook.antipasto.45"),
+  },
+  "Cook Antipasto 50 times": {
+    icon: ITEM_DETAILS["Antipasto"].image,
+    description: translate("chore.cook.antipasto.50"),
+  },
+  "Cook Rice Bun 35 times": {
+    icon: ITEM_DETAILS["Rice Bun"].image,
+    description: translate("chore.cook.riceBun.35"),
+  },
+  "Cook Rice Bun 40 times": {
+    icon: ITEM_DETAILS["Rice Bun"].image,
+    description: translate("chore.cook.riceBun.40"),
+  },
+  "Cook Rice Bun 45 times": {
+    icon: ITEM_DETAILS["Rice Bun"].image,
+    description: translate("chore.cook.riceBun.45"),
+  },
+  "Cook Cheese 75 times": {
+    icon: ITEM_DETAILS["Cheese"].image,
+    description: translate("chore.cook.cheese.75"),
+  },
+  "Cook Cheese 100 times": {
+    icon: ITEM_DETAILS["Cheese"].image,
+    description: translate("chore.cook.cheese.100"),
+  },
+  "Cook Honey Cheddar 12 times": {
+    icon: ITEM_DETAILS["Honey Cheddar"].image,
+    description: translate("chore.cook.honeyCheddar.12"),
+  },
+  "Cook Honey Cheddar 15 times": {
+    icon: ITEM_DETAILS["Honey Cheddar"].image,
+    description: translate("chore.cook.honeyCheddar.15"),
+  },
+  "Cook Blue Cheese 33 times": {
+    icon: ITEM_DETAILS["Blue Cheese"].image,
+    description: translate("chore.cook.blueCheese.33"),
+  },
+  "Cook Blue Cheese 40 times": {
+    icon: ITEM_DETAILS["Blue Cheese"].image,
+    description: translate("chore.cook.blueCheese.40"),
+  },
+  "Cook Goblin Brunch 4 times": {
+    icon: ITEM_DETAILS["Goblin Brunch"].image,
+    description: translate("chore.cook.goblinBrunch.4"),
+  },
+  "Cook Goblin Brunch 5 times": {
+    icon: ITEM_DETAILS["Goblin Brunch"].image,
+    description: translate("chore.cook.goblinBrunch.5"),
+  },
+  "Cook Sushi Roll 7 times": {
+    icon: ITEM_DETAILS["Sushi Roll"].image,
+    description: translate("chore.cook.sushiRoll.7"),
+  },
+  "Cook Sushi Roll 10 times": {
+    icon: ITEM_DETAILS["Sushi Roll"].image,
+    description: translate("chore.cook.sushiRoll.10"),
+  },
+  "Cook Sushi Roll 12 times": {
+    icon: ITEM_DETAILS["Sushi Roll"].image,
+    description: translate("chore.cook.sushiRoll.12"),
+  },
+  "Cook Caprese Salad 12 times": {
+    icon: ITEM_DETAILS["Caprese Salad"].image,
+    description: translate("chore.cook.capreseSalad.12"),
+  },
+  "Cook Caprese Salad 15 times": {
+    icon: ITEM_DETAILS["Caprese Salad"].image,
+    description: translate("chore.cook.capreseSalad.15"),
+  },
+  "Cook Ocean's Olive 10 times": {
+    icon: ITEM_DETAILS["Ocean's Olive"].image,
+    description: translate("chore.cook.oceanOlive.10"),
+  },
+  "Cook Ocean's Olive 12 times": {
+    icon: ITEM_DETAILS["Ocean's Olive"].image,
+    description: translate("chore.cook.oceanOlive.12"),
+  },
+  "Cook Eggplant Cakes 5 times": {
+    icon: ITEM_DETAILS["Eggplant Cake"].image,
+    description: translate("chore.cook.eggplantCake.5"),
+  },
+  "Cook Eggplant Cakes 10 times": {
+    icon: ITEM_DETAILS["Eggplant Cake"].image,
+    description: translate("chore.cook.eggplantCake.10"),
+  },
+  "Cook Radish Cakes 5 times": {
+    icon: ITEM_DETAILS["Radish Cake"].image,
+    description: translate("chore.cook.radishCake.5"),
+  },
+  "Cook Radish Cakes 10 times": {
+    icon: ITEM_DETAILS["Radish Cake"].image,
+    description: translate("chore.cook.radishCake.10"),
+  },
+  "Cook Beetroot Cakes 5 times": {
+    icon: ITEM_DETAILS["Beetroot Cake"].image,
+    description: translate("chore.cook.beetrootCake.5"),
+  },
+  "Cook Beetroot Cakes 10 times": {
+    icon: ITEM_DETAILS["Beetroot Cake"].image,
+    description: translate("chore.cook.beetrootCake.10"),
+  },
+  "Cook Bumpkin Roast 12 times": {
+    icon: ITEM_DETAILS["Bumpkin Roast"].image,
+    description: translate("chore.cook.bumpkinRoast.12"),
+  },
+  "Cook Bumpkin Roast 15 times": {
+    icon: ITEM_DETAILS["Bumpkin Roast"].image,
+    description: translate("chore.cook.bumpkinRoast.15"),
+  },
+  "Cook Pizza Margherita 12 times": {
+    icon: ITEM_DETAILS["Pizza Margherita"].image,
+    description: translate("chore.cook.pizzaMargherita.12"),
+  },
+  "Cook Apple Pie 20 times": {
+    icon: ITEM_DETAILS["Apple Pie"].image,
+    description: translate("chore.cook.applePie.20"),
+  },
+  "Cook Potato Cakes 7 times": {
+    icon: ITEM_DETAILS["Potato Cake"].image,
+    description: translate("chore.cook.potatoCake.7"),
+  },
+  "Cook Potato Cakes 10 times": {
+    icon: ITEM_DETAILS["Potato Cake"].image,
+    description: translate("chore.cook.potatoCake.10"),
+  },
+  "Cook Carrot Cakes 7 times": {
+    icon: ITEM_DETAILS["Carrot Cake"].image,
+    description: translate("chore.cook.carrotCake.7"),
+  },
+  "Cook Carrot Cakes 10 times": {
+    icon: ITEM_DETAILS["Carrot Cake"].image,
+    description: translate("chore.cook.carrotCake.10"),
+  },
+  "Cook Spaghetti al Limone 7 times": {
+    icon: ITEM_DETAILS["Spaghetti al Limone"].image,
+    description: translate("chore.cook.spaghettiAlLimone.7"),
+  },
+  "Cook Spaghetti al Limone 10 times": {
+    icon: ITEM_DETAILS["Spaghetti al Limone"].image,
+    description: translate("chore.cook.spaghettiAlLimone.10"),
+  },
+  "Cook Spaghetti al Limone 12 times": {
+    icon: ITEM_DETAILS["Spaghetti al Limone"].image,
+    description: translate("chore.cook.spaghettiAlLimone.12"),
+  },
+  "Cook Beetroot Cakes 7 times": {
+    icon: ITEM_DETAILS["Beetroot Cake"].image,
+    description: translate("chore.cook.beetrootCake.7"),
+  },
+  "Cook Cabbage Cakes 7 times": {
+    icon: ITEM_DETAILS["Cabbage Cake"].image,
+    description: translate("chore.cook.cabbageCake.7"),
+  },
+  "Cook Cabbage Cakes 10 times": {
+    icon: ITEM_DETAILS["Cabbage Cake"].image,
+    description: translate("chore.cook.cabbageCake.10"),
+  },
+  "Cook Parsnip Cakes 7 times": {
+    icon: ITEM_DETAILS["Parsnip Cake"].image,
+    description: translate("chore.cook.parsnipCake.7"),
+  },
+  "Cook Parsnip Cakes 10 times": {
+    icon: ITEM_DETAILS["Parsnip Cake"].image,
+    description: translate("chore.cook.parsnipCake.10"),
+  },
+  "Cook Cauliflower Cakes 7 times": {
+    icon: ITEM_DETAILS["Cauliflower Cake"].image,
+    description: translate("chore.cook.cauliflowerCake.7"),
+  },
+  "Cook Cauliflower Cakes 10 times": {
+    icon: ITEM_DETAILS["Cauliflower Cake"].image,
+    description: translate("chore.cook.cauliflowerCake.10"),
+  },
+  "Prepare Power Smoothie 30 times": {
+    icon: ITEM_DETAILS["Power Smoothie"].image,
+    description: translate("chore.prepare.powerSmoothie.30"),
+  },
+  "Prepare Power Smoothie 45 times": {
+    icon: ITEM_DETAILS["Power Smoothie"].image,
+    description: translate("chore.prepare.powerSmoothie.45"),
+  },
+  "Prepare Power Smoothie 60 times": {
+    icon: ITEM_DETAILS["Power Smoothie"].image,
+    description: translate("chore.prepare.powerSmoothie.60"),
+  },
+  "Prepare Slow Juice 10 times": {
+    icon: ITEM_DETAILS["Slow Juice"].image,
+    description: translate("chore.prepare.slowJuice.10"),
+  },
+  "Prepare Slow Juice 12 times": {
+    icon: ITEM_DETAILS["Slow Juice"].image,
+    description: translate("chore.prepare.slowJuice.12"),
+  },
+  "Prepare Slow Juice 15 times": {
+    icon: ITEM_DETAILS["Slow Juice"].image,
+    description: translate("chore.prepare.slowJuice.15"),
+  },
+  "Prepare Banana Blast 15 times": {
+    icon: ITEM_DETAILS["Banana Blast"].image,
+    description: translate("chore.prepare.bananaBlast.15"),
+  },
+  "Prepare Banana Blast 17 times": {
+    icon: ITEM_DETAILS["Banana Blast"].image,
+    description: translate("chore.prepare.bananaBlast.17"),
+  },
+  "Prepare Grape Juice 5 times": {
+    icon: ITEM_DETAILS["Grape Juice"].image,
+    description: translate("chore.prepare.grapeJuice.5"),
+  },
+  "Cook Apple Juice 10 times": {
+    icon: ITEM_DETAILS["Apple Juice"].image,
+    description: translate("chore.cook.appleJuice.10"),
+  },
+  "Cook Apple Juice 12 times": {
+    icon: ITEM_DETAILS["Apple Juice"].image,
+    description: translate("chore.cook.appleJuice.12"),
+  },
+  "Cook Apple Juice 15 times": {
+    icon: ITEM_DETAILS["Apple Juice"].image,
+    description: translate("chore.cook.appleJuice.15"),
+  },
+  "Prepare Apple Juice 10 times": {
+    icon: ITEM_DETAILS["Apple Juice"].image,
+    description: translate("chore.prepare.appleJuice.10"),
+  },
+  "Prepare Apple Juice 12 times": {
+    icon: ITEM_DETAILS["Apple Juice"].image,
+    description: translate("chore.prepare.appleJuice.12"),
+  },
+  "Prepare Apple Juice 17 times": {
+    icon: ITEM_DETAILS["Apple Juice"].image,
+    description: translate("chore.prepare.appleJuice.17"),
+  },
+  "Prepare Orange Juice 15 times": {
+    icon: ITEM_DETAILS["Orange Juice"].image,
+    description: translate("chore.prepare.orangeJuice.15"),
+  },
+  "Prepare Orange Juice 20 times": {
+    icon: ITEM_DETAILS["Orange Juice"].image,
+    description: translate("chore.prepare.orangeJuice.20"),
+  },
+  "Cook Carrot Juice 15 times": {
+    icon: ITEM_DETAILS["Carrot Juice"].image,
+    description: translate("chore.cook.carrotJuice.15"),
+  },
+  "Cook Carrot Juice 20 times": {
+    icon: ITEM_DETAILS["Carrot Juice"].image,
+    description: translate("chore.cook.carrotJuice.20"),
+  },
+  "Cook Carrot Juice 25 times": {
+    icon: ITEM_DETAILS["Carrot Juice"].image,
+    description: translate("chore.cook.carrotJuice.25"),
+  },
+  "Prepare Purple Smoothie 10 times": {
+    icon: ITEM_DETAILS["Purple Smoothie"].image,
+    description: translate("chore.prepare.purpleSmoothie.10"),
+  },
+  "Prepare Purple Smoothie 12 times": {
+    icon: ITEM_DETAILS["Purple Smoothie"].image,
+    description: translate("chore.prepare.purpleSmoothie.12"),
+  },
+  "Prepare Purple Smoothie 15 times": {
+    icon: ITEM_DETAILS["Purple Smoothie"].image,
+    description: translate("chore.prepare.purpleSmoothie.15"),
+  },
+  "Prepare Sour Shake 15 times": {
+    icon: ITEM_DETAILS["Sour Shake"].image,
+    description: translate("chore.prepare.sourShake.15"),
+  },
+  "Prepare Sour Shake 20 times": {
+    icon: ITEM_DETAILS["Sour Shake"].image,
+    description: translate("chore.prepare.sourShake.20"),
+  },
+  "Prepare Sour Shake 25 times": {
+    icon: ITEM_DETAILS["Sour Shake"].image,
+    description: translate("chore.prepare.sourShake.25"),
+  },
+  "Prepare Power Smoothie 5 times": {
+    icon: ITEM_DETAILS["Power Smoothie"].image,
+    description: translate("chore.prepare.powerSmoothie.5"),
+  },
+  "Prepare Power Smoothie 6 times": {
+    icon: ITEM_DETAILS["Power Smoothie"].image,
+    description: translate("chore.prepare.powerSmoothie.6"),
+  },
+  "Prepare Power Smoothie 7 times": {
+    icon: ITEM_DETAILS["Power Smoothie"].image,
+    description: translate("chore.prepare.powerSmoothie.7"),
+  },
+  "Prepare Power Smoothie 15 times": {
+    icon: ITEM_DETAILS["Power Smoothie"].image,
+    description: translate("chore.prepare.powerSmoothie.15"),
+  },
+  "Grow Yellow Gladiolus 3 times": {
+    icon: ITEM_DETAILS["Yellow Gladiolus"].image,
+    description: translate("chore.grow.yellowGladiolus.3"),
+  },
+  "Grow Yellow Gladiolus 4 times": {
+    icon: ITEM_DETAILS["Yellow Gladiolus"].image,
+    description: translate("chore.grow.yellowGladiolus.4"),
+  },
+  "Grow Purple Gladiolus 3 times": {
+    icon: ITEM_DETAILS["Purple Gladiolus"].image,
+    description: translate("chore.grow.purpleGladiolus.3"),
+  },
+  "Grow Purple Gladiolus 4 times": {
+    icon: ITEM_DETAILS["Purple Gladiolus"].image,
+    description: translate("chore.grow.purpleGladiolus.4"),
+  },
+  "Grow Purple Edelweiss 3 times": {
+    icon: ITEM_DETAILS["Purple Edelweiss"].image,
+    description: translate("chore.grow.purpleEdelweiss.3"),
+  },
+  "Grow Purple Edelweiss 4 times": {
+    icon: ITEM_DETAILS["Purple Edelweiss"].image,
+    description: translate("chore.grow.purpleEdelweiss.4"),
+  },
+  "Grow Yellow Edelweiss 3 times": {
+    icon: ITEM_DETAILS["Yellow Edelweiss"].image,
+    description: translate("chore.grow.yellowEdelweiss.3"),
+  },
+  "Grow Yellow Edelweiss 4 times": {
+    icon: ITEM_DETAILS["Yellow Edelweiss"].image,
+    description: translate("chore.grow.yellowEdelweiss.4"),
+  },
+  "Grow Blue Clover 3 times": {
+    icon: ITEM_DETAILS["Blue Clover"].image,
+    description: translate("chore.grow.blueClover.3"),
+  },
+  "Grow Blue Clover 4 times": {
+    icon: ITEM_DETAILS["Blue Clover"].image,
+    description: translate("chore.grow.blueClover.4"),
+  },
+  "Grow Yellow Clover 3 times": {
+    icon: ITEM_DETAILS["Yellow Clover"].image,
+    description: translate("chore.grow.yellowClover.3"),
+  },
+  "Grow Yellow Clover 4 times": {
+    icon: ITEM_DETAILS["Yellow Clover"].image,
+    description: translate("chore.grow.yellowClover.4"),
+  },
+  "Grow Red Lavender 3 times": {
+    icon: ITEM_DETAILS["Red Lavender"].image,
+    description: translate("chore.grow.redLavender.3"),
+  },
+  "Grow Red Lavender 4 times": {
+    icon: ITEM_DETAILS["Red Lavender"].image,
+    description: translate("chore.grow.redLavender.4"),
+  },
+  "Grow White Lavender 3 times": {
+    icon: ITEM_DETAILS["White Lavender"].image,
+    description: translate("chore.grow.whiteLavender.3"),
+  },
+  "Grow White Lavender 4 times": {
+    icon: ITEM_DETAILS["White Lavender"].image,
+    description: translate("chore.grow.whiteLavender.4"),
+  },
+  "Grow Purple Cosmos 5 times": {
+    icon: ITEM_DETAILS["Purple Cosmos"].image,
+    description: translate("chore.grow.purpleCosmos.5"),
+  },
+  "Grow Purple Cosmos 6 times": {
+    icon: ITEM_DETAILS["Purple Cosmos"].image,
+    description: translate("chore.grow.purpleCosmos.6"),
+  },
+  "Grow Blue Cosmos 5 times": {
+    icon: ITEM_DETAILS["Blue Cosmos"].image,
+    description: translate("chore.grow.blueCosmos.5"),
+  },
+  "Grow Blue Cosmos 6 times": {
+    icon: ITEM_DETAILS["Blue Cosmos"].image,
+    description: translate("chore.grow.blueCosmos.6"),
+  },
+  "Grow Yellow Carnation 4 times": {
+    icon: ITEM_DETAILS["Yellow Carnation"].image,
+    description: translate("chore.grow.yellowCarnation.4"),
+  },
+  "Grow Blue Carnation 4 times": {
+    icon: ITEM_DETAILS["Blue Carnation"].image,
+    description: translate("chore.grow.blueCarnation.4"),
+  },
+  "Grow White Carnation 4 times": {
+    icon: ITEM_DETAILS["White Carnation"].image,
+    description: translate("chore.grow.whiteCarnation.4"),
+  },
+  "Grow Red Lotus 4 times": {
+    icon: ITEM_DETAILS["Red Lotus"].image,
+    description: translate("chore.grow.redLotus.4"),
+  },
+  "Grow Yellow Lotus 4 times": {
+    icon: ITEM_DETAILS["Yellow Lotus"].image,
+    description: translate("chore.grow.yellowLotus.4"),
+  },
+  "Grow White Lotus 4 times": {
+    icon: ITEM_DETAILS["White Lotus"].image,
+    description: translate("chore.grow.whiteLotus.4"),
+  },
+  "Grow White Cosmos 4 times": {
+    icon: ITEM_DETAILS["White Cosmos"].image,
+    description: translate("chore.grow.whiteCosmos.4"),
+  },
+  "Fish 300 times": {
+    icon: SUNNYSIDE.icons.fish,
+    description: translate("chore.fish.300"),
+  },
+  "Craft Axes 20 times": {
+    icon: ITEM_DETAILS["Axe"].image,
+    description: translate("chore.craft.axe.20"),
+  },
+  "Craft Axes 25 times": {
+    icon: ITEM_DETAILS["Axe"].image,
+    description: translate("chore.craft.axe.25"),
+  },
+  "Craft Axes 30 times": {
+    icon: ITEM_DETAILS["Axe"].image,
+    description: translate("chore.craft.axe.30"),
+  },
+  "Craft Pickaxes 10 times": {
+    icon: ITEM_DETAILS["Pickaxe"].image,
+    description: translate("chore.craft.pickaxe.10"),
+  },
+  "Craft Pickaxes 15 times": {
+    icon: ITEM_DETAILS["Pickaxe"].image,
+    description: translate("chore.craft.pickaxe.15"),
+  },
+  "Craft Pickaxes 20 times": {
+    icon: ITEM_DETAILS["Pickaxe"].image,
+    description: translate("chore.craft.pickaxe.20"),
+  },
+  "Craft 100 Fishing Rods": {
+    icon: ITEM_DETAILS["Rod"].image,
+    description: translate("chore.craft.fishingRod.100"),
+  },
+  "Craft 150 Fishing Rods": {
+    icon: ITEM_DETAILS["Rod"].image,
+    description: translate("chore.craft.fishingRod.150"),
+  },
+  "Craft 200 Fishing Rods": {
+    icon: ITEM_DETAILS["Rod"].image,
+    description: translate("chore.craft.fishingRod.200"),
+  },
+  "Craft 20 Sand Drill": {
+    icon: ITEM_DETAILS["Sand Drill"].image,
+    description: translate("chore.craft.sandDrill.20"),
+  },
+  "Craft 25 Sand Drill": {
+    icon: ITEM_DETAILS["Sand Drill"].image,
+    description: translate("chore.craft.sandDrill.25"),
+  },
+  "Craft 30 Sand Drill": {
+    icon: ITEM_DETAILS["Sand Drill"].image,
+    description: translate("chore.craft.sandDrill.30"),
+  },
+  "Craft 35 Sand Drill": {
+    icon: ITEM_DETAILS["Sand Drill"].image,
+    description: translate("chore.craft.sandDrill.35"),
+  },
+  "Chop Trees 25 times": {
+    icon: ITEM_DETAILS["Wood"].image,
+    description: translate("chore.chop.tree.25"),
+  },
+  "Chop Trees 30 times": {
+    icon: ITEM_DETAILS["Wood"].image,
+    description: translate("chore.chop.tree.30"),
+  },
+  "Chop Trees 200 times": {
+    icon: ITEM_DETAILS["Wood"].image,
+    description: translate("chore.chop.tree.200"),
+  },
+  "Chop Trees 250 times": {
+    icon: ITEM_DETAILS["Wood"].image,
+    description: translate("chore.chop.tree.250"),
+  },
+  "Chop Trees 550 times": {
+    icon: ITEM_DETAILS["Wood"].image,
+    description: translate("chore.chop.tree.550"),
+  },
+  "Mine Stones 10 times": {
+    icon: ITEM_DETAILS["Stone"].image,
+    description: translate("chore.mine.stone.10"),
+  },
+  "Mine Stones 12 times": {
+    icon: ITEM_DETAILS["Stone"].image,
+    description: translate("chore.mine.stone.12"),
+  },
+  "Mine Stones 20 times": {
+    icon: ITEM_DETAILS["Stone"].image,
+    description: translate("chore.mine.stone.20"),
+  },
+  "Mine Stones 135 times": {
+    icon: ITEM_DETAILS["Stone"].image,
+    description: translate("chore.mine.stone.135"),
+  },
+  "Mine Stones 175 times": {
+    icon: ITEM_DETAILS["Stone"].image,
+    description: translate("chore.mine.stone.175"),
+  },
+  "Mine Gold 50 times": {
+    icon: ITEM_DETAILS["Gold"].image,
+    description: translate("chore.mine.gold.50"),
+  },
+  "Mine Gold 55 times": {
+    icon: ITEM_DETAILS["Gold"].image,
+    description: translate("chore.mine.gold.55"),
+  },
+  "Mine Gold 60 times": {
+    icon: ITEM_DETAILS["Gold"].image,
+    description: translate("chore.mine.gold.60"),
+  },
+  "Mine Crimstone 28 times": {
+    icon: ITEM_DETAILS["Crimstone"].image,
+    description: translate("chore.mine.crimstone.28"),
+  },
+  "Mine Crimstone 32 times": {
+    icon: ITEM_DETAILS["Crimstone"].image,
+    description: translate("chore.mine.crimstone.32"),
+  },
+  "Mine Crimstone 36 times": {
+    icon: ITEM_DETAILS["Crimstone"].image,
+    description: translate("chore.mine.crimstone.36"),
+  },
+  "Mine Iron 250 times": {
+    icon: ITEM_DETAILS["Iron"].image,
+    description: translate("chore.mine.iron.250"),
+  },
+  "Mine Iron 300 times": {
+    icon: ITEM_DETAILS["Iron"].image,
+    description: translate("chore.mine.iron.300"),
+  },
+  "Mine Stones 275 times": {
+    icon: ITEM_DETAILS["Stone"].image,
+    description: translate("chore.mine.stone.275"),
+  },
+  "Pick Blueberries 180 times": {
+    icon: ITEM_DETAILS["Blueberry"].image,
+    description: translate("chore.pick.blueberries.180"),
+  },
+  "Pick Blueberries 250 times": {
+    icon: ITEM_DETAILS["Blueberry"].image,
+    description: translate("chore.pick.blueberries.250"),
+  },
+  "Pick Oranges 150 times": {
+    icon: ITEM_DETAILS["Orange"].image,
+    description: translate("chore.pick.oranges.150"),
+  },
+  "Pick Oranges 175 times": {
+    icon: ITEM_DETAILS["Orange"].image,
+    description: translate("chore.pick.oranges.175"),
+  },
+  "Pick Oranges 205 times": {
+    icon: ITEM_DETAILS["Orange"].image,
+    description: translate("chore.pick.oranges.205"),
+  },
+  "Pick Oranges 250 times": {
+    icon: ITEM_DETAILS["Orange"].image,
+    description: translate("chore.pick.oranges.250"),
+  },
+  "Pick Apples 125 times": {
+    icon: ITEM_DETAILS["Apple"].image,
+    description: translate("chore.pick.apples.125"),
+  },
+  "Pick Apples 150 times": {
+    icon: ITEM_DETAILS["Apple"].image,
+    description: translate("chore.pick.apples.150"),
+  },
+  "Pick Apples 175 times": {
+    icon: ITEM_DETAILS["Apple"].image,
+    description: translate("chore.pick.apples.175"),
+  },
+  "Pick Tomatoes 300 times": {
+    icon: ITEM_DETAILS["Tomato"].image,
+    description: translate("chore.pick.tomatoes.300"),
+  },
+  "Pick Tomatoes 350 times": {
+    icon: ITEM_DETAILS["Tomato"].image,
+    description: translate("chore.pick.tomatoes.350"),
+  },
+  "Pick Grapes 48 times": {
+    icon: ITEM_DETAILS["Grape"].image,
+    description: translate("chore.pick.grapes.48"),
+  },
+  "Pick Grapes 60 times": {
+    icon: ITEM_DETAILS["Grape"].image,
+    description: translate("chore.pick.grapes.60"),
+  },
+  "Pick Grapes 72 times": {
+    icon: ITEM_DETAILS["Grape"].image,
+    description: translate("chore.pick.grapes.72"),
+  },
+  "Pick Bananas 125 times": {
+    icon: ITEM_DETAILS["Banana"].image,
+    description: translate("chore.pick.bananas.125"),
+  },
+  "Pick Bananas 175 times": {
+    icon: ITEM_DETAILS["Banana"].image,
+    description: translate("chore.pick.bananas.175"),
+  },
+  "Pick Bananas 200 times": {
+    icon: ITEM_DETAILS["Banana"].image,
+    description: translate("chore.pick.bananas.200"),
+  },
+  "Pick Lemons 300 times": {
+    icon: ITEM_DETAILS["Lemon"].image,
+    description: translate("chore.pick.lemons.300"),
+  },
+  "Pick Lemons 350 times": {
+    icon: ITEM_DETAILS["Lemon"].image,
+    description: translate("chore.pick.lemons.350"),
+  },
+  "Collect 20 Honey": {
+    icon: ITEM_DETAILS["Honey"].image,
+    description: translate("chore.collect.honey.20"),
+  },
+  "Collect 25 Honey": {
+    icon: ITEM_DETAILS["Honey"].image,
+    description: translate("chore.collect.honey.25"),
+  },
+  "Collect 30 Honey": {
+    icon: ITEM_DETAILS["Honey"].image,
+    description: translate("chore.collect.honey.30"),
+  },
+  "Collect Eggs 75 times": {
+    icon: ITEM_DETAILS["Egg"].image,
+    description: translate("chore.collect.eggs.75"),
+  },
+  "Collect Eggs 175 times": {
+    icon: ITEM_DETAILS["Egg"].image,
+    description: translate("chore.collect.eggs.175"),
+  },
+  "Collect Eggs 200 times": {
+    icon: ITEM_DETAILS["Egg"].image,
+    description: translate("chore.collect.eggs.200"),
+  },
+  "Collect Eggs 225 times": {
+    icon: ITEM_DETAILS["Egg"].image,
+    description: translate("chore.collect.eggs.225"),
+  },
+  "Collect Wool 70 times": {
+    icon: ITEM_DETAILS["Wool"].image,
+    description: translate("chore.collect.wool.70"),
+  },
+  "Collect Wool 80 times": {
+    icon: ITEM_DETAILS["Wool"].image,
+    description: translate("chore.collect.wool.80"),
+  },
+  "Collect Wool 100 times": {
+    icon: ITEM_DETAILS["Wool"].image,
+    description: translate("chore.collect.wool.100"),
+  },
+  "Collect Wool 125 times": {
+    icon: ITEM_DETAILS["Wool"].image,
+    description: translate("chore.collect.wool.125"),
+  },
+  "Collect Milk 100 times": {
+    icon: ITEM_DETAILS["Milk"].image,
+    description: translate("chore.collect.milk.100"),
+  },
+  "Collect Milk 125 times": {
+    icon: ITEM_DETAILS["Milk"].image,
+    description: translate("chore.collect.milk.125"),
+  },
+  "Spend 60,606 Coins": {
+    icon: SUNNYSIDE.ui.coins,
+    description: translate("chore.spend.60606"),
+  },
+  "Spend 70,707 Coins": {
+    icon: SUNNYSIDE.ui.coins,
+    description: translate("chore.spend.70707"),
+  },
+  "Spend 80,808 Coins": {
+    icon: SUNNYSIDE.ui.coins,
+    description: translate("chore.spend.80808"),
+  },
 };
