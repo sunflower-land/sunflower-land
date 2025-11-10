@@ -10,7 +10,7 @@ import { isPetNFTRevealed, PetNFT } from "features/game/types/pets";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
-import { getPetImageForOpenSea } from "./lib/petShared";
+import { getPetImageForMarketplace } from "./lib/petShared";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "features/game/lib/crafting";
 import { capitalize } from "lib/utils/capitalize";
@@ -76,9 +76,14 @@ export const RevealPet: React.FC = () => {
       ? nftPets[revealingPetId.current]
       : undefined;
 
-  const petImageUrl = getPetImageForOpenSea(petToBeRevealed?.id ?? 0);
-  const { isLoaded: petImageLoaded, src: preloadedPetImage } =
-    useImagePreload(petImageUrl);
+  const petImageUrl = getPetImageForMarketplace(petToBeRevealed?.id ?? 0);
+  const {
+    isLoaded: petImageLoaded,
+    hasError: petImageFailed,
+    src: preloadedPetImage,
+  } = useImagePreload(petImageUrl);
+
+  const petImageReady = petImageLoaded || petImageFailed;
 
   const isActiveState = playing || autosaving || revealing || revealed;
 
@@ -98,7 +103,7 @@ export const RevealPet: React.FC = () => {
     });
   };
 
-  if (petToBeRevealed && petToBeRevealed.traits && revealed && petImageLoaded) {
+  if (petToBeRevealed && petToBeRevealed.traits && revealed && petImageReady) {
     const petName = `Pet #${petToBeRevealed.id}`;
     const petTraits = petToBeRevealed.traits;
     const buffs = getPetBuffs(petToBeRevealed.id);
@@ -139,9 +144,17 @@ export const RevealPet: React.FC = () => {
                 backgroundRepeat: "round",
               }}
             >
+              {/*
+                Use the preloaded image when available to avoid flashes.
+                If the preload fails, fall back to the placeholder egg.
+              */}
               <img
                 className="rounded-md object-contain"
-                src={preloadedPetImage ?? petImageUrl}
+                src={
+                  petImageLoaded
+                    ? preloadedPetImage ?? petImageUrl ?? petNFTEgg
+                    : petNFTEgg
+                }
                 alt={`Pet #${petToBeRevealed.id}`}
               />
             </InnerPanel>

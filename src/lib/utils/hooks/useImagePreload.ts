@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 type ImagePreloadResult = {
   isLoaded: boolean;
+  hasError: boolean;
   src?: string;
 };
 
@@ -12,12 +13,13 @@ type ImagePreloadResult = {
 export const useImagePreload = (src?: string | null): ImagePreloadResult => {
   const [result, setResult] = useState<ImagePreloadResult>({
     isLoaded: false,
+    hasError: false,
     src: undefined,
   });
 
   useEffect(() => {
     if (!src) {
-      setResult({ isLoaded: false, src: undefined });
+      setResult({ isLoaded: false, hasError: false, src: undefined });
       return;
     }
 
@@ -34,18 +36,18 @@ export const useImagePreload = (src?: string | null): ImagePreloadResult => {
 
     const handleImageLoad = () => {
       if (!cancelled) {
-        setResult({ isLoaded: true, src });
+        setResult({ isLoaded: true, hasError: false, src });
       }
       cleanupImageListeners();
     };
 
     const handleImageError = () => {
       if (!cancelled) {
-        setResult({ isLoaded: false, src: undefined });
+        setResult({ isLoaded: false, hasError: true, src: undefined });
       }
       cleanupImageListeners();
     };
-    setResult({ isLoaded: false, src: undefined });
+    setResult({ isLoaded: false, hasError: false, src: undefined });
 
     const loadWithFetch = async () => {
       try {
@@ -58,7 +60,7 @@ export const useImagePreload = (src?: string | null): ImagePreloadResult => {
         if (cancelled) return;
 
         objectUrl = URL.createObjectURL(blob);
-        setResult({ isLoaded: true, src: objectUrl });
+        setResult({ isLoaded: true, hasError: false, src: objectUrl });
       } catch (error) {
         if (cancelled) return;
         loadWithImage();
@@ -66,15 +68,19 @@ export const useImagePreload = (src?: string | null): ImagePreloadResult => {
     };
 
     const loadWithImage = () => {
-      image = new Image();
+      try {
+        image = new Image();
 
-      image.addEventListener("load", handleImageLoad);
-      image.addEventListener("error", handleImageError);
-      image.crossOrigin = "anonymous";
-      image.src = src;
+        image.addEventListener("load", handleImageLoad);
+        image.addEventListener("error", handleImageError);
+        image.crossOrigin = "anonymous";
+        image.src = src;
 
-      if (image.complete && image.naturalWidth > 0) {
-        handleImageLoad();
+        if (image.complete && image.naturalWidth > 0) {
+          handleImageLoad();
+        }
+      } catch (error) {
+        setResult({ isLoaded: false, hasError: true, src: undefined });
       }
     };
 
