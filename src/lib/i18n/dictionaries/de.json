@@ -6830,5 +6830,12 @@
   "reward.vipDescription": "Bonustransfer, Bumpkin-XP, Koch- und Verdienstvorteile!",
   "marketplace.pet.level": "Stufe: {{level}}",
   "withdraw.pet.notRevealed": "Haustier wird am {{date}} enthüllt",
-  "ronin.airdrop.claim.two": "Gib deine Wallet-Adresse ein, um deine Eignung zu überprüfen."
+  "ronin.airdrop.claim.two": "Gib deine Wallet-Adresse ein, um deine Eignung zu überprüfen.",
+  "description.bantamShrine.buff.2": "-5% Futter für Hühner",
+  "description.foxShrine.buff.2": "10% Chance, sofort ein Rezept herzustellen",
+  "description.collieShrine.buff.3": "-5% Futter zur Fütterung von Stalltieren",
+  "description.bearShrine.buff.2": "+10% Chance auf einen Bienenschwarm",
+  "description.mothShrine.buff.2": "10% Chance, +1 Blume zu erhalten",
+  "description.legendaryShrine.buff.5": "+1 Blume",
+  "description.legendaryShrine.buff.6": "-50% Garzeit"
 }

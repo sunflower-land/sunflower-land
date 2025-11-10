@@ -6830,5 +6830,12 @@
   "reward.vipDescription": "Бонусная торговля, опыт Bumpkin, приготовление пищи и получение бонусов!",
   "marketplace.pet.level": "Уровень: {{level}}",
   "withdraw.pet.notRevealed": "Домашнее животное будет объявлено на {{date}}",
-  "ronin.airdrop.claim.two": "Введите адрес своего кошелька, чтобы проверить соответствие требованиям."
+  "ronin.airdrop.claim.two": "Введите адрес своего кошелька, чтобы проверить соответствие требованиям.",
+  "description.bantamShrine.buff.2": "-5% Корм для кормления цыплят",
+  "description.foxShrine.buff.2": "Вероятность мгновенно создать рецепт — 10%",
+  "description.collieShrine.buff.3": "-5% Корм для кормления коровников",
+  "description.bearShrine.buff.2": "Вероятность появления пчелиного роя: +10%",
+  "description.mothShrine.buff.2": "Вероятность получить +1 цветок — 10%",
+  "description.legendaryShrine.buff.5": "+1 Цветок",
+  "description.legendaryShrine.buff.6": "-50% времени приготовления"
 }

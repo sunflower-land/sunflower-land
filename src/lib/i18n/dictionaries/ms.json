@@ -6830,5 +6830,12 @@
   "reward.vipDescription": "Dagangan bonus, Bumpkin XP, faedah memasak & memperoleh!",
   "marketplace.pet.level": "Tahap: {{level}}",
   "withdraw.pet.notRevealed": "Haiwan peliharaan akan didedahkan pada {{date}}",
-  "ronin.airdrop.claim.two": "Masukkan alamat dompet anda untuk memeriksa kelayakan anda."
+  "ronin.airdrop.claim.two": "Masukkan alamat dompet anda untuk memeriksa kelayakan anda.",
+  "description.bantamShrine.buff.2": "-5% Makanan untuk memberi makan ayam",
+  "description.foxShrine.buff.2": "10% peluang untuk membuat resipi dengan serta-merta",
+  "description.collieShrine.buff.3": "-5% Makanan untuk memberi makan haiwan kandang",
+  "description.bearShrine.buff.2": "+10% peluang kawanan lebah",
+  "description.mothShrine.buff.2": "10% peluang untuk mendapatkan +1 bunga",
+  "description.legendaryShrine.buff.5": "+1 Bunga",
+  "description.legendaryShrine.buff.6": "-50% Masa Memasak"
 }

@@ -6830,5 +6830,12 @@
   "reward.vipDescription": "¡Comercio de bonificaciones, Bumpkin XP, cocina y beneficios para ganar!",
   "marketplace.pet.level": "Nivel: {{level}}",
   "withdraw.pet.notRevealed": "La mascota se revelará el {{date}}",
-  "ronin.airdrop.claim.two": "Introduce la dirección de tu monedero para comprobar si cumples los requisitos."
+  "ronin.airdrop.claim.two": "Introduce la dirección de tu monedero para comprobar si cumples los requisitos.",
+  "description.bantamShrine.buff.2": "-5% pienso para alimentar pollos",
+  "description.foxShrine.buff.2": "10% de probabilidad de crear una receta al instante",
+  "description.collieShrine.buff.3": "-5% de pienso para alimentar a los animales de establo",
+  "description.bearShrine.buff.2": "+10% de probabilidad de formar un enjambre de abejas",
+  "description.mothShrine.buff.2": "10% de probabilidad de obtener +1 flor",
+  "description.legendaryShrine.buff.5": "+1 Flor",
+  "description.legendaryShrine.buff.6": "-50% de tiempo de cocción"
 }

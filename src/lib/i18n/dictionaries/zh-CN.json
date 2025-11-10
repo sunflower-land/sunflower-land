@@ -6830,5 +6830,12 @@
   "reward.vipDescription": "奖励交易、Bumpkin XP、烹饪和赚钱津贴！",
   "marketplace.pet.level": "等级：{{level}}",
   "withdraw.pet.notRevealed": "宠物将于 {{date}} 公布",
-  "ronin.airdrop.claim.two": "输入您的钱包地址以检查您的资格。"
+  "ronin.airdrop.claim.two": "输入您的钱包地址以检查您的资格。",
+  "description.bantamShrine.buff.2": "-5% 喂鸡的饲料",
+  "description.foxShrine.buff.2": "有 10% 的几率立即制作配方",
+  "description.collieShrine.buff.3": "-5% 喂谷仓动物的饲料",
+  "description.bearShrine.buff.2": "蜂群的几率 +10%",
+  "description.mothShrine.buff.2": "10% 几率获得 +1 朵花",
+  "description.legendaryShrine.buff.5": "+1 花",
+  "description.legendaryShrine.buff.6": "-50% 烹饪时间"
 }

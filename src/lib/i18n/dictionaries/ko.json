@@ -6830,5 +6830,12 @@
   "reward.vipDescription": "보너스 거래, 범프킨 XP, 요리 및 혜택 획득!",
   "marketplace.pet.level": "레벨: {{level}}",
   "withdraw.pet.notRevealed": "펫은 {{date}} 에 공개됩니다",
-  "ronin.airdrop.claim.two": "지갑 주소를 입력하여 자격 여부를 확인하세요."
+  "ronin.airdrop.claim.two": "지갑 주소를 입력하여 자격 여부를 확인하세요.",
+  "description.bantamShrine.buff.2": "닭에게 먹이는 사료 -5%",
+  "description.foxShrine.buff.2": "10% 의 확률로 레시피를 즉시 제작할 수 있습니다.",
+  "description.collieShrine.buff.3": "-5% 축사 동물 사료용 사료",
+  "description.bearShrine.buff.2": "꿀벌 떼 발생 확률 +10%",
+  "description.mothShrine.buff.2": "10% 확률로 꽃 1송이 획득",
+  "description.legendaryShrine.buff.5": "+1 플라워",
+  "description.legendaryShrine.buff.6": "조리 시간 -50%"
 }

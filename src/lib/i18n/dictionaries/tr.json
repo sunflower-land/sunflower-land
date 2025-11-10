@@ -6830,5 +6830,12 @@
   "reward.vipDescription": "Bonus ticareti, Bumpkin XP, yemek pişirme ve kazanma avantajları!",
   "marketplace.pet.level": "Seviye: {{level}}",
   "withdraw.pet.notRevealed": "Evcil hayvan {{date}} tarihinde açıklanacak",
-  "ronin.airdrop.claim.two": "Uygunluğunuzu kontrol etmek için cüzdan adresinizi girin."
+  "ronin.airdrop.claim.two": "Uygunluğunuzu kontrol etmek için cüzdan adresinizi girin.",
+  "description.bantamShrine.buff.2": "-5% Tavukları beslemek için yem",
+  "description.foxShrine.buff.2": "Anında bir tarif hazırlama şansı %10",
+  "description.collieShrine.buff.3": "-5% Ahır hayvanlarını beslemek için yem",
+  "description.bearShrine.buff.2": "+10% arı sürüsü şansı",
+  "description.mothShrine.buff.2": "%10 +1 Çiçek kazanma şansı",
+  "description.legendaryShrine.buff.5": "+1 Flower",
+  "description.legendaryShrine.buff.6": "-50% Pişirme Süresi"
 }

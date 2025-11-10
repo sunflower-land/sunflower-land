@@ -6830,5 +6830,12 @@
   "reward.vipDescription": "Bonus di trading, Bumpkin XP, vantaggi di cucina e guadagno!",
   "marketplace.pet.level": "Livello: {{level}}",
   "withdraw.pet.notRevealed": "L'animale verrà rivelato il {{date}}",
-  "ronin.airdrop.claim.two": "Inserisci l'indirizzo del tuo portafoglio per verificare la tua idoneità."
+  "ronin.airdrop.claim.two": "Inserisci l'indirizzo del tuo portafoglio per verificare la tua idoneità.",
+  "description.bantamShrine.buff.2": "-5% Mangime per nutrire i polli",
+  "description.foxShrine.buff.2": "10% di possibilità di creare istantaneamente una ricetta",
+  "description.collieShrine.buff.3": "-5% Mangime per nutrire animali da stalla",
+  "description.bearShrine.buff.2": "+10% di possibilità di sciame di api",
+  "description.mothShrine.buff.2": "10% di possibilità di ottenere +1 fiore",
+  "description.legendaryShrine.buff.5": "+1 Fiore",
+  "description.legendaryShrine.buff.6": "-50% Tempo di cottura"
 }

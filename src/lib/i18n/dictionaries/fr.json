@@ -6830,5 +6830,12 @@
   "reward.vipDescription": "Des bonus d'échange, de l'expérience Bumpkin, des avantages pour cuisiner et gagner de l'argent !",
   "marketplace.pet.level": "Niveau : {{level}}",
   "withdraw.pet.notRevealed": "L'animal de compagnie sera dévoilé le {{date}}",
-  "ronin.airdrop.claim.two": "Entrez l'adresse de votre portefeuille pour vérifier votre éligibilité."
+  "ronin.airdrop.claim.two": "Entrez l'adresse de votre portefeuille pour vérifier votre éligibilité.",
+  "description.bantamShrine.buff.2": "-5% d'aliments pour les poulets",
+  "description.foxShrine.buff.2": "10 % de chances de créer instantanément une recette",
+  "description.collieShrine.buff.3": "-5% d'aliments pour nourrir les animaux de la ferme",
+  "description.bearShrine.buff.2": "+10 % de chances d'apparition d'un essaim d'abeilles",
+  "description.mothShrine.buff.2": "10 % de chances d'obtenir +1 fleur",
+  "description.legendaryShrine.buff.5": "+1 Fleur",
+  "description.legendaryShrine.buff.6": "-50 % de temps de cuisson"
 }
