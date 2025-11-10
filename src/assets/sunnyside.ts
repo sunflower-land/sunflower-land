@@ -94,7 +94,7 @@ export const SUNNYSIDE = {
     obsidian_updates: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/obsidian_updates.png`,
     landscaping: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/landscaping.png`,
     cleaning: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/cleanup.png`,
-    pawPrintsSeason: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/paw_prints.png`,
+    pawPrintsSeason: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/paw_prints_banner.png`,
     pawPrintsSeasonRares: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/paw_prints_rares.png`,
   },
   //Badges(Pre-LandExpansion Skills)
