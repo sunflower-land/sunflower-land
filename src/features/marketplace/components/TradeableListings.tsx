@@ -38,7 +38,7 @@ import { InventoryItemName } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { MAX_INVENTORY_ITEMS } from "features/game/lib/processEvent";
 import debounce from "lodash.debounce";
-import { BulkPurchaseModalContent } from "./BulkPurcahseModalContent";
+import { BulkPurchaseModalContent } from "./BulkPurchaseModalContent";
 import { useDeepEffect } from "lib/utils/hooks/useDeepEffect";
 
 type TradeableListingsProps = {
@@ -362,6 +362,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
               {!!availableListings.length &&
                 isResource &&
                 !showBulkBuy &&
+                tradeable?.isActive &&
                 limitedTradesLeft === Infinity && (
                   <Button
                     className="w-fit h-8 rounded-none"

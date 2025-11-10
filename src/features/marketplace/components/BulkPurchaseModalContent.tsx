@@ -71,6 +71,7 @@ export const BulkPurchaseModalContent: React.FC<
     gameService.send("marketplace.buyBulkResources", {
       effect: {
         type: "marketplace.buyBulkResources",
+        itemId: tradeable.id,
         listingIds,
       },
       authToken,
