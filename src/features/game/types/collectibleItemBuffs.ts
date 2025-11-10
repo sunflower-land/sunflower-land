@@ -5,6 +5,7 @@ import lightning from "assets/icons/lightning.png";
 import helpIcon from "assets/icons/help.webp";
 import chefHat from "assets/icons/chef_hat.png";
 import tradeIcon from "assets/icons/trade.png";
+import bee from "assets/icons/bee.webp";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "./images";
@@ -1669,6 +1670,12 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Crafting Box"].image,
     },
+    {
+      shortDescription: translate("description.foxShrine.buff.2"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS["Crafting Box"].image,
+    },
   ],
   "Boar Shrine": () => [
     {
@@ -1727,6 +1734,12 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: SUNNYSIDE.animals.sheepSleeping,
     },
+    {
+      shortDescription: translate("description.collieShrine.buff.3"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: SUNNYSIDE.animalFoods.kernel_blend,
+    },
   ],
   "Badger Shrine": () => [
     {
@@ -1766,6 +1779,18 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Stone.image,
     },
+    {
+      shortDescription: translate("description.legendaryShrine.buff.5"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
+    },
+    {
+      shortDescription: translate("description.legendaryShrine.buff.6"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: chefHat,
+    },
   ],
   "Obsidian Shrine": () => [
     {
@@ -1801,6 +1826,12 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS.Honey.image,
     },
+    {
+      shortDescription: translate("description.bearShrine.buff.2"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: bee,
+    },
   ],
   "Tortoise Shrine": () => [
     {
@@ -1823,6 +1854,12 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
     },
+    {
+      shortDescription: translate("description.mothShrine.buff.2"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
+    },
   ],
   "Bantam Shrine": () => [
     {
@@ -1830,6 +1867,12 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: SUNNYSIDE.animals.chickenAsleep,
+    },
+    {
+      shortDescription: translate("description.bantamShrine.buff.2"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: SUNNYSIDE.animalFoods.kernel_blend,
     },
   ],
   "Trading Shrine": () => [

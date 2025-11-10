@@ -174,39 +174,39 @@ export const PET_CATEGORIES: Record<PetType, PetCategory> = {
   },
 
   // NFT Pet Types
-  Ram: {
+  Dragon: {
     primary: "Snowkin",
     secondary: "Guardian",
-    tertiary: "Forager",
-  },
-  Dragon: {
-    primary: "Hunter",
-    secondary: "Moonkin",
     tertiary: "Voyager",
+  },
+  Ram: {
+    primary: "Hunter",
+    secondary: "Voyager",
+    tertiary: "Moonkin",
   },
   Phoenix: {
     primary: "Moonkin",
-    secondary: "Voyager",
-    tertiary: "Hunter",
+    secondary: "Beast",
+    tertiary: "Guardian",
   },
   Griffin: {
     primary: "Voyager",
-    secondary: "Hunter",
+    secondary: "Forager",
     tertiary: "Beast",
   },
   Warthog: {
     primary: "Beast",
-    secondary: "Forager",
-    tertiary: "Guardian",
+    secondary: "Snowkin",
+    tertiary: "Hunter",
   },
   Wolf: {
     primary: "Guardian",
-    secondary: "Snowkin",
-    tertiary: "Moonkin",
+    secondary: "Hunter",
+    tertiary: "Forager",
   },
   Bear: {
     primary: "Forager",
-    secondary: "Beast",
+    secondary: "Moonkin",
     tertiary: "Snowkin",
   },
 };
@@ -354,16 +354,14 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
   "Boar Shrine": {
     description: "",
     coins: 0,
-    ingredients: {
-      Acorn: new Decimal(15),
-    },
+    ingredients: { Acorn: new Decimal(15) },
     inventoryLimit: 1,
   },
   "Hound Shrine": {
     description: "",
     coins: 0,
     ingredients: {
-      Acorn: new Decimal(20),
+      Acorn: new Decimal(50),
     },
     inventoryLimit: 1,
   },

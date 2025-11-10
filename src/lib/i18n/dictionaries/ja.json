@@ -6830,5 +6830,12 @@
   "reward.vipDescription": "ボーナストレーディング、バンプキンXP、クッキング、特典の獲得！",
   "marketplace.pet.level": "レベル:{{level}}",
   "withdraw.pet.notRevealed": "ペットは {{date}} で公開されます",
-  "ronin.airdrop.claim.two": "ウォレットアドレスを入力して、資格を確認してください。"
+  "ronin.airdrop.claim.two": "ウォレットアドレスを入力して、資格を確認してください。",
+  "description.bantamShrine.buff.2": "-5% 鶏用飼料",
+  "description.foxShrine.buff.2": "10% の確率で即座にレシピが作れる",
+  "description.collieShrine.buff.3": "-5% 牛舎の動物用飼料",
+  "description.bearShrine.buff.2": "蜂の群れが発生する確率 +10%",
+  "description.mothShrine.buff.2": "10% の確率で+1フラワーを獲得",
+  "description.legendaryShrine.buff.5": "+1 フラワー",
+  "description.legendaryShrine.buff.6": "-50% 調理時間"
 }

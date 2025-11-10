@@ -40,6 +40,7 @@ type EffectName =
   | "roninPack.claimed"
   | "twitter.roninPosted"
   | "nft.assigned"
+  | "admin.NFTAssigned"
   | "marketplace.bulkListingsCancelled"
   | "marketplace.bulkOffersCancelled"
   | "farm.followed"
@@ -153,6 +154,7 @@ export const STATE_MACHINE_EFFECTS: Record<
   "marketplace.bulkOffersCancelled": "marketplaceBulkOffersCancelling",
   "wallet.linked": "linkingWallet",
   "nft.assigned": "assigningNFT",
+  "admin.NFTAssigned": "assigningNFT",
   "farm.cheered": "cheeringFarm",
   "farm.followed": "followingFarm",
   "project.completed": "completingProject",

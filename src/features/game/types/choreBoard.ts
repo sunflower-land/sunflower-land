@@ -58,6 +58,14 @@ export const NPC_CHORES = {
     activity: "Sunflower Harvested",
     amount: 250,
   }),
+  "Harvest Sunflowers 300 times": bumpkinActivityTask({
+    activity: "Sunflower Harvested",
+    amount: 300,
+  }),
+  "Harvest Sunflowers 350 times": bumpkinActivityTask({
+    activity: "Sunflower Harvested",
+    amount: 350,
+  }),
   "Harvest Potatoes 100 times": bumpkinActivityTask({
     activity: "Potato Harvested",
     amount: 100,
@@ -74,9 +82,17 @@ export const NPC_CHORES = {
     activity: "Potato Harvested",
     amount: 150,
   }),
+  "Harvest Potatoes 175 times": bumpkinActivityTask({
+    activity: "Potato Harvested",
+    amount: 175,
+  }),
   "Harvest Potatoes 200 times": bumpkinActivityTask({
     activity: "Potato Harvested",
     amount: 200,
+  }),
+  "Harvest Potatoes 225 times": bumpkinActivityTask({
+    activity: "Potato Harvested",
+    amount: 225,
   }),
   "Harvest Potatoes 250 times": bumpkinActivityTask({
     activity: "Potato Harvested",
@@ -93,6 +109,18 @@ export const NPC_CHORES = {
   "Harvest Rhubarbs 150 times": bumpkinActivityTask({
     activity: "Rhubarb Harvested",
     amount: 150,
+  }),
+  "Harvest Rhubarbs 200 times": bumpkinActivityTask({
+    activity: "Rhubarb Harvested",
+    amount: 200,
+  }),
+  "Harvest Rhubarbs 250 times": bumpkinActivityTask({
+    activity: "Rhubarb Harvested",
+    amount: 250,
+  }),
+  "Harvest Rhubarbs 300 times": bumpkinActivityTask({
+    activity: "Rhubarb Harvested",
+    amount: 300,
   }),
   "Harvest Pumpkins 100 times": bumpkinActivityTask({
     activity: "Pumpkin Harvested",
@@ -126,6 +154,18 @@ export const NPC_CHORES = {
     activity: "Zucchini Harvested",
     amount: 100,
   }),
+  "Harvest Zucchini 125 times": bumpkinActivityTask({
+    activity: "Zucchini Harvested",
+    amount: 125,
+  }),
+  "Harvest Zucchini 150 times": bumpkinActivityTask({
+    activity: "Zucchini Harvested",
+    amount: 150,
+  }),
+  "Harvest Zucchini 175 times": bumpkinActivityTask({
+    activity: "Zucchini Harvested",
+    amount: 175,
+  }),
   "Harvest Carrots 50 times": bumpkinActivityTask({
     activity: "Carrot Harvested",
     amount: 50,
@@ -145,6 +185,30 @@ export const NPC_CHORES = {
   "Harvest Carrots 120 times": bumpkinActivityTask({
     activity: "Carrot Harvested",
     amount: 120,
+  }),
+  "Harvest Carrots 125 times": bumpkinActivityTask({
+    activity: "Carrot Harvested",
+    amount: 125,
+  }),
+  "Harvest Carrots 130 times": bumpkinActivityTask({
+    activity: "Carrot Harvested",
+    amount: 130,
+  }),
+  "Harvest Carrots 150 times": bumpkinActivityTask({
+    activity: "Carrot Harvested",
+    amount: 150,
+  }),
+  "Harvest Carrots 170 times": bumpkinActivityTask({
+    activity: "Carrot Harvested",
+    amount: 170,
+  }),
+  "Harvest Carrots 175 times": bumpkinActivityTask({
+    activity: "Carrot Harvested",
+    amount: 175,
+  }),
+  "Harvest Carrots 200 times": bumpkinActivityTask({
+    activity: "Carrot Harvested",
+    amount: 200,
   }),
   "Harvest Yam 30 times": bumpkinActivityTask({
     activity: "Yam Harvested",
@@ -169,6 +233,22 @@ export const NPC_CHORES = {
   "Harvest Yam 175 times": bumpkinActivityTask({
     activity: "Yam Harvested",
     amount: 175,
+  }),
+  "Harvest Yam 200 times": bumpkinActivityTask({
+    activity: "Yam Harvested",
+    amount: 200,
+  }),
+  "Harvest Yam 225 times": bumpkinActivityTask({
+    activity: "Yam Harvested",
+    amount: 225,
+  }),
+  "Harvest Yam 250 times": bumpkinActivityTask({
+    activity: "Yam Harvested",
+    amount: 250,
+  }),
+  "Harvest Yam 275 times": bumpkinActivityTask({
+    activity: "Yam Harvested",
+    amount: 275,
   }),
   "Harvest Cabbage 25 times": bumpkinActivityTask({
     activity: "Cabbage Harvested",
@@ -218,6 +298,14 @@ export const NPC_CHORES = {
     activity: "Cabbage Harvested",
     amount: 175,
   }),
+  "Harvest Cabbage 200 times": bumpkinActivityTask({
+    activity: "Cabbage Harvested",
+    amount: 200,
+  }),
+  "Harvest Cabbage 220 times": bumpkinActivityTask({
+    activity: "Cabbage Harvested",
+    amount: 220,
+  }),
   "Harvest Broccoli 40 times": bumpkinActivityTask({
     activity: "Broccoli Harvested",
     amount: 40,
@@ -230,6 +318,18 @@ export const NPC_CHORES = {
     activity: "Broccoli Harvested",
     amount: 100,
   }),
+  "Harvest Broccoli 125 times": bumpkinActivityTask({
+    activity: "Broccoli Harvested",
+    amount: 125,
+  }),
+  "Harvest Broccoli 150 times": bumpkinActivityTask({
+    activity: "Broccoli Harvested",
+    amount: 150,
+  }),
+  "Harvest Broccoli 175 times": bumpkinActivityTask({
+    activity: "Broccoli Harvested",
+    amount: 175,
+  }),
   "Harvest Soybeans 30 times": bumpkinActivityTask({
     activity: "Soybean Harvested",
     amount: 30,
@@ -241,6 +341,22 @@ export const NPC_CHORES = {
   "Harvest Soybeans 90 times": bumpkinActivityTask({
     activity: "Soybean Harvested",
     amount: 90,
+  }),
+  "Harvest Soybeans 75 times": bumpkinActivityTask({
+    activity: "Soybean Harvested",
+    amount: 75,
+  }),
+  "Harvest Soybeans 100 times": bumpkinActivityTask({
+    activity: "Soybean Harvested",
+    amount: 100,
+  }),
+  "Harvest Soybeans 125 times": bumpkinActivityTask({
+    activity: "Soybean Harvested",
+    amount: 125,
+  }),
+  "Harvest Soybeans 150 times": bumpkinActivityTask({
+    activity: "Soybean Harvested",
+    amount: 150,
   }),
   "Harvest Beetroot 30 times": bumpkinActivityTask({
     activity: "Beetroot Harvested",
@@ -270,6 +386,34 @@ export const NPC_CHORES = {
     activity: "Beetroot Harvested",
     amount: 120,
   }),
+  "Harvest Beetroot 125 times": bumpkinActivityTask({
+    activity: "Beetroot Harvested",
+    amount: 125,
+  }),
+  "Harvest Beetroot 150 times": bumpkinActivityTask({
+    activity: "Beetroot Harvested",
+    amount: 150,
+  }),
+  "Harvest Beetroot 175 times": bumpkinActivityTask({
+    activity: "Beetroot Harvested",
+    amount: 175,
+  }),
+  "Harvest Beetroots 125 times": bumpkinActivityTask({
+    activity: "Beetroot Harvested",
+    amount: 125,
+  }),
+  "Harvest Beetroots 150 times": bumpkinActivityTask({
+    activity: "Beetroot Harvested",
+    amount: 150,
+  }),
+  "Harvest Beetroots 200 times": bumpkinActivityTask({
+    activity: "Beetroot Harvested",
+    amount: 200,
+  }),
+  "Harvest Beetroots 220 times": bumpkinActivityTask({
+    activity: "Beetroot Harvested",
+    amount: 220,
+  }),
   "Harvest Pepper 25 times": bumpkinActivityTask({
     activity: "Pepper Harvested",
     amount: 25,
@@ -293,6 +437,14 @@ export const NPC_CHORES = {
   "Harvest Pepper 100 times": bumpkinActivityTask({
     activity: "Pepper Harvested",
     amount: 100,
+  }),
+  "Harvest Pepper 125 times": bumpkinActivityTask({
+    activity: "Pepper Harvested",
+    amount: 125,
+  }),
+  "Harvest Pepper 150 times": bumpkinActivityTask({
+    activity: "Pepper Harvested",
+    amount: 150,
   }),
   "Harvest Cauliflower 30 times": bumpkinActivityTask({
     activity: "Cauliflower Harvested",
@@ -318,6 +470,42 @@ export const NPC_CHORES = {
     activity: "Cauliflower Harvested",
     amount: 500,
   }),
+  "Harvest Cauliflowers 75 times": bumpkinActivityTask({
+    activity: "Cauliflower Harvested",
+    amount: 75,
+  }),
+  "Harvest Cauliflowers 100 times": bumpkinActivityTask({
+    activity: "Cauliflower Harvested",
+    amount: 100,
+  }),
+  "Harvest Cauliflowers 125 times": bumpkinActivityTask({
+    activity: "Cauliflower Harvested",
+    amount: 125,
+  }),
+  "Harvest Cauliflowers 150 times": bumpkinActivityTask({
+    activity: "Cauliflower Harvested",
+    amount: 150,
+  }),
+  "Harvest Cauliflowers 175 times": bumpkinActivityTask({
+    activity: "Cauliflower Harvested",
+    amount: 175,
+  }),
+  "Harvest Parsnips 50 times": bumpkinActivityTask({
+    activity: "Parsnip Harvested",
+    amount: 50,
+  }),
+  "Harvest Parsnips 75 times": bumpkinActivityTask({
+    activity: "Parsnip Harvested",
+    amount: 75,
+  }),
+  "Harvest Parsnips 100 times": bumpkinActivityTask({
+    activity: "Parsnip Harvested",
+    amount: 100,
+  }),
+  "Harvest Parsnips 125 times": bumpkinActivityTask({
+    activity: "Parsnip Harvested",
+    amount: 125,
+  }),
   "Harvest Eggplant 300 times": bumpkinActivityTask({
     activity: "Eggplant Harvested",
     amount: 300,
@@ -330,17 +518,61 @@ export const NPC_CHORES = {
     activity: "Eggplant Harvested",
     amount: 420,
   }),
+  "Harvest Eggplant 480 times": bumpkinActivityTask({
+    activity: "Eggplant Harvested",
+    amount: 480,
+  }),
+  "Harvest Corn 50 times": bumpkinActivityTask({
+    activity: "Corn Harvested",
+    amount: 50,
+  }),
+  "Harvest Corn 100 times": bumpkinActivityTask({
+    activity: "Corn Harvested",
+    amount: 100,
+  }),
+  "Harvest Corn 125 times": bumpkinActivityTask({
+    activity: "Corn Harvested",
+    amount: 125,
+  }),
+  "Harvest Corn 150 times": bumpkinActivityTask({
+    activity: "Corn Harvested",
+    amount: 150,
+  }),
   "Harvest Corn 300 times": bumpkinActivityTask({
     activity: "Corn Harvested",
     amount: 300,
+  }),
+  "Harvest Corn 350 times": bumpkinActivityTask({
+    activity: "Corn Harvested",
+    amount: 350,
   }),
   "Harvest Corn 360 times": bumpkinActivityTask({
     activity: "Corn Harvested",
     amount: 360,
   }),
+  "Harvest Corn 400 times": bumpkinActivityTask({
+    activity: "Corn Harvested",
+    amount: 400,
+  }),
   "Harvest Corn 420 times": bumpkinActivityTask({
     activity: "Corn Harvested",
     amount: 420,
+  }),
+  "Harvest Corn 450 times": bumpkinActivityTask({
+    activity: "Corn Harvested",
+    amount: 450,
+  }),
+  "Harvest Onion 360 times": bumpkinActivityTask({
+    activity: "Onion Harvested",
+    amount: 360,
+  }),
+  "Harvest Onion 420 times": bumpkinActivityTask({
+    activity: "Onion Harvested",
+    amount: 420,
+  }),
+  "Harvest Onion 460 times": bumpkinActivityTask({
+    activity: "Onion Harvested",
+    amount: 460,
   }),
   "Harvest Onions 300 times": bumpkinActivityTask({
     activity: "Onion Harvested",
@@ -362,25 +594,57 @@ export const NPC_CHORES = {
     activity: "Wheat Harvested",
     amount: 250,
   }),
+  "Harvest Wheat 275 times": bumpkinActivityTask({
+    activity: "Wheat Harvested",
+    amount: 275,
+  }),
   "Harvest Wheat 300 times": bumpkinActivityTask({
     activity: "Wheat Harvested",
     amount: 300,
+  }),
+  "Harvest Wheat 325 times": bumpkinActivityTask({
+    activity: "Wheat Harvested",
+    amount: 325,
+  }),
+  "Harvest Wheat 350 times": bumpkinActivityTask({
+    activity: "Wheat Harvested",
+    amount: 350,
   }),
   "Harvest Wheat 360 times": bumpkinActivityTask({
     activity: "Wheat Harvested",
     amount: 360,
   }),
+  "Harvest Wheat 400 times": bumpkinActivityTask({
+    activity: "Wheat Harvested",
+    amount: 400,
+  }),
+  "Harvest Wheat 420 times": bumpkinActivityTask({
+    activity: "Wheat Harvested",
+    amount: 420,
+  }),
   "Harvest Radish 240 times": bumpkinActivityTask({
     activity: "Radish Harvested",
     amount: 240,
+  }),
+  "Harvest Radish 275 times": bumpkinActivityTask({
+    activity: "Radish Harvested",
+    amount: 275,
   }),
   "Harvest Radish 280 times": bumpkinActivityTask({
     activity: "Radish Harvested",
     amount: 280,
   }),
+  "Harvest Radish 325 times": bumpkinActivityTask({
+    activity: "Radish Harvested",
+    amount: 325,
+  }),
   "Harvest Radish 340 times": bumpkinActivityTask({
     activity: "Radish Harvested",
     amount: 340,
+  }),
+  "Harvest Radish 400 times": bumpkinActivityTask({
+    activity: "Radish Harvested",
+    amount: 400,
   }),
   "Harvest Turnip 250 times": bumpkinActivityTask({
     activity: "Turnip Harvested",
@@ -390,13 +654,25 @@ export const NPC_CHORES = {
     activity: "Turnip Harvested",
     amount: 300,
   }),
+  "Harvest Turnip 350 times": bumpkinActivityTask({
+    activity: "Turnip Harvested",
+    amount: 350,
+  }),
   "Harvest Turnip 360 times": bumpkinActivityTask({
     activity: "Turnip Harvested",
     amount: 360,
   }),
+  "Harvest Turnip 400 times": bumpkinActivityTask({
+    activity: "Turnip Harvested",
+    amount: 400,
+  }),
   "Harvest Kale 120 times": bumpkinActivityTask({
     activity: "Kale Harvested",
     amount: 120,
+  }),
+  "Harvest Kale 150 times": bumpkinActivityTask({
+    activity: "Kale Harvested",
+    amount: 150,
   }),
   "Harvest Kale 180 times": bumpkinActivityTask({
     activity: "Kale Harvested",
@@ -406,9 +682,21 @@ export const NPC_CHORES = {
     activity: "Kale Harvested",
     amount: 200,
   }),
+  "Harvest Kale 220 times": bumpkinActivityTask({
+    activity: "Kale Harvested",
+    amount: 220,
+  }),
   "Harvest Kale 240 times": bumpkinActivityTask({
     activity: "Kale Harvested",
     amount: 240,
+  }),
+  "Harvest Kale 250 times": bumpkinActivityTask({
+    activity: "Kale Harvested",
+    amount: 250,
+  }),
+  "Harvest Kale 300 times": bumpkinActivityTask({
+    activity: "Kale Harvested",
+    amount: 300,
   }),
   "Harvest Artichoke 150 times": bumpkinActivityTask({
     activity: "Artichoke Harvested",
@@ -418,9 +706,17 @@ export const NPC_CHORES = {
     activity: "Artichoke Harvested",
     amount: 200,
   }),
+  "Harvest Artichoke 250 times": bumpkinActivityTask({
+    activity: "Artichoke Harvested",
+    amount: 250,
+  }),
   "Harvest Artichoke 260 times": bumpkinActivityTask({
     activity: "Artichoke Harvested",
     amount: 260,
+  }),
+  "Harvest Artichoke 300 times": bumpkinActivityTask({
+    activity: "Artichoke Harvested",
+    amount: 300,
   }),
   "Harvest Barley 100 times": bumpkinActivityTask({
     activity: "Barley Harvested",
@@ -430,9 +726,17 @@ export const NPC_CHORES = {
     activity: "Barley Harvested",
     amount: 120,
   }),
+  "Harvest Barley 125 times": bumpkinActivityTask({
+    activity: "Barley Harvested",
+    amount: 125,
+  }),
   "Harvest Barley 150 times": bumpkinActivityTask({
     activity: "Barley Harvested",
     amount: 150,
+  }),
+  "Harvest Barley 175 times": bumpkinActivityTask({
+    activity: "Barley Harvested",
+    amount: 175,
   }),
   "Harvest Barley 180 times": bumpkinActivityTask({
     activity: "Barley Harvested",
@@ -441,6 +745,10 @@ export const NPC_CHORES = {
   "Harvest Barley 200 times": bumpkinActivityTask({
     activity: "Barley Harvested",
     amount: 200,
+  }),
+  "Harvest Barley 250 times": bumpkinActivityTask({
+    activity: "Barley Harvested",
+    amount: 250,
   }),
   "Harvest Rice 16 times": bumpkinActivityTask({
     activity: "Rice Harvested",
@@ -454,6 +762,10 @@ export const NPC_CHORES = {
     activity: "Rice Harvested",
     amount: 24,
   }),
+  "Harvest Rice 28 times": bumpkinActivityTask({
+    activity: "Rice Harvested",
+    amount: 28,
+  }),
   "Harvest Olives 12 times": bumpkinActivityTask({
     activity: "Olive Harvested",
     amount: 12,
@@ -465,6 +777,10 @@ export const NPC_CHORES = {
   "Harvest Olives 20 times": bumpkinActivityTask({
     activity: "Olive Harvested",
     amount: 20,
+  }),
+  "Harvest Olives 24 times": bumpkinActivityTask({
+    activity: "Olive Harvested",
+    amount: 24,
   }),
 
   // Eat
@@ -500,13 +816,25 @@ export const NPC_CHORES = {
     activity: "Anchovy Fed",
     amount: 20,
   }),
+  "Eat 35 Anchovies": bumpkinActivityTask({
+    activity: "Anchovy Fed",
+    amount: 35,
+  }),
   "Eat 40 Anchovies": bumpkinActivityTask({
     activity: "Anchovy Fed",
     amount: 40,
   }),
+  "Eat 50 Anchovies": bumpkinActivityTask({
+    activity: "Anchovy Fed",
+    amount: 50,
+  }),
   "Eat 60 Anchovies": bumpkinActivityTask({
     activity: "Anchovy Fed",
     amount: 60,
+  }),
+  "Eat 65 Anchovies": bumpkinActivityTask({
+    activity: "Anchovy Fed",
+    amount: 65,
   }),
   "Eat 10 Tunas": bumpkinActivityTask({
     activity: "Tuna Fed",
@@ -516,9 +844,33 @@ export const NPC_CHORES = {
     activity: "Tuna Fed",
     amount: 20,
   }),
+  "Eat 25 Tunas": bumpkinActivityTask({
+    activity: "Tuna Fed",
+    amount: 25,
+  }),
   "Eat 30 Tunas": bumpkinActivityTask({
     activity: "Tuna Fed",
     amount: 30,
+  }),
+  "Eat 50 Tunas": bumpkinActivityTask({
+    activity: "Tuna Fed",
+    amount: 50,
+  }),
+  "Eat 75 Tunas": bumpkinActivityTask({
+    activity: "Tuna Fed",
+    amount: 75,
+  }),
+  "Eat 15 Red Snappers": bumpkinActivityTask({
+    activity: "Red Snapper Fed",
+    amount: 15,
+  }),
+  "Eat 30 Red Snappers": bumpkinActivityTask({
+    activity: "Red Snapper Fed",
+    amount: 30,
+  }),
+  "Eat 45 Red Snappers": bumpkinActivityTask({
+    activity: "Red Snapper Fed",
+    amount: 45,
   }),
   "Eat 5 Cauliflower Burgers": bumpkinActivityTask({
     activity: "Cauliflower Burger Fed",
@@ -556,9 +908,21 @@ export const NPC_CHORES = {
     activity: "Orange Cake Fed",
     amount: 10,
   }),
+  "Eat 13 Orange Cake": bumpkinActivityTask({
+    activity: "Orange Cake Fed",
+    amount: 13,
+  }),
   "Eat 15 Orange Cake": bumpkinActivityTask({
     activity: "Orange Cake Fed",
     amount: 15,
+  }),
+  "Eat 16 Orange Cake": bumpkinActivityTask({
+    activity: "Orange Cake Fed",
+    amount: 16,
+  }),
+  "Eat 20 Orange Cake": bumpkinActivityTask({
+    activity: "Orange Cake Fed",
+    amount: 20,
   }),
   "Eat 10 Mashed Potatoes": bumpkinActivityTask({
     activity: "Mashed Potato Fed",
@@ -598,9 +962,25 @@ export const NPC_CHORES = {
     activity: "Purple Smoothie Fed",
     amount: 15,
   }),
+  "Drink Purple Smoothies 15 times": bumpkinActivityTask({
+    activity: "Purple Smoothie Fed",
+    amount: 15,
+  }),
+  "Drink Purple Smoothies 20 times": bumpkinActivityTask({
+    activity: "Purple Smoothie Fed",
+    amount: 20,
+  }),
   "Drink 10 Apple Juice": bumpkinActivityTask({
     activity: "Apple Juice Fed",
     amount: 10,
+  }),
+  "Drink Apple Juice 10 times": bumpkinActivityTask({
+    activity: "Apple Juice Fed",
+    amount: 10,
+  }),
+  "Drink Apple Juice 15 times": bumpkinActivityTask({
+    activity: "Apple Juice Fed",
+    amount: 15,
   }),
   "Drink 5 Power Smoothies": bumpkinActivityTask({
     activity: "Power Smoothie Fed",
@@ -621,6 +1001,22 @@ export const NPC_CHORES = {
   "Drink 50 Orange Juice": bumpkinActivityTask({
     activity: "Orange Juice Fed",
     amount: 50,
+  }),
+  "Drink 45 Orange Juice": bumpkinActivityTask({
+    activity: "Orange Juice Fed",
+    amount: 45,
+  }),
+  "Drink 55 Orange Juice": bumpkinActivityTask({
+    activity: "Orange Juice Fed",
+    amount: 55,
+  }),
+  "Drink Orange Juice 15 times": bumpkinActivityTask({
+    activity: "Orange Juice Fed",
+    amount: 15,
+  }),
+  "Drink Orange Juice 20 times": bumpkinActivityTask({
+    activity: "Orange Juice Fed",
+    amount: 20,
   }),
   "Drink 15 Sour Shakes": bumpkinActivityTask({
     activity: "Sour Shake Fed",
@@ -652,6 +1048,18 @@ export const NPC_CHORES = {
     activity: "Boiled Eggs Cooked",
     amount: 5,
   }),
+  "Cook Boiled Eggs 10 times": bumpkinActivityTask({
+    activity: "Boiled Eggs Cooked",
+    amount: 10,
+  }),
+  "Cook Boiled Eggs 15 times": bumpkinActivityTask({
+    activity: "Boiled Eggs Cooked",
+    amount: 15,
+  }),
+  "Cook Boiled Eggs 25 times": bumpkinActivityTask({
+    activity: "Boiled Eggs Cooked",
+    amount: 25,
+  }),
   "Cook Reindeer Carrot 8 times": bumpkinActivityTask({
     activity: "Reindeer Carrot Cooked",
     amount: 8,
@@ -659,6 +1067,14 @@ export const NPC_CHORES = {
   "Cook Reindeer Carrot 12 times": bumpkinActivityTask({
     activity: "Reindeer Carrot Cooked",
     amount: 12,
+  }),
+  "Cook Reindeer Carrot 20 times": bumpkinActivityTask({
+    activity: "Reindeer Carrot Cooked",
+    amount: 20,
+  }),
+  "Cook Reindeer Carrot 25 times": bumpkinActivityTask({
+    activity: "Reindeer Carrot Cooked",
+    amount: 25,
   }),
   "Cook Mashed Potatoes 15 times": bumpkinActivityTask({
     activity: "Mashed Potato Cooked",
@@ -671,6 +1087,14 @@ export const NPC_CHORES = {
   "Cook Mashed Potatoes 20 times": bumpkinActivityTask({
     activity: "Mashed Potato Cooked",
     amount: 20,
+  }),
+  "Cook Mashed Potatoes 50 times": bumpkinActivityTask({
+    activity: "Mashed Potato Cooked",
+    amount: 50,
+  }),
+  "Cook Mashed Potatoes 65 times": bumpkinActivityTask({
+    activity: "Mashed Potato Cooked",
+    amount: 65,
   }),
   "Cook Roast Veggies 5 times": bumpkinActivityTask({
     activity: "Roast Veggies Cooked",
@@ -712,6 +1136,22 @@ export const NPC_CHORES = {
     activity: "Pancakes Cooked",
     amount: 6,
   }),
+  "Cook Pancakes 7 times": bumpkinActivityTask({
+    activity: "Pancakes Cooked",
+    amount: 7,
+  }),
+  "Cook Pancakes 10 times": bumpkinActivityTask({
+    activity: "Pancakes Cooked",
+    amount: 10,
+  }),
+  "Cook Pancakes 12 times": bumpkinActivityTask({
+    activity: "Pancakes Cooked",
+    amount: 12,
+  }),
+  "Cook Pancakes 15 times": bumpkinActivityTask({
+    activity: "Pancakes Cooked",
+    amount: 15,
+  }),
   "Cook Fried Calamari 1 time": bumpkinActivityTask({
     activity: "Fried Calamari Cooked",
     amount: 1,
@@ -728,6 +1168,10 @@ export const NPC_CHORES = {
     activity: "Fried Calamari Cooked",
     amount: 4,
   }),
+  "Cook Fried Calamari 5 times": bumpkinActivityTask({
+    activity: "Fried Calamari Cooked",
+    amount: 5,
+  }),
   "Cook Cauliflower Burger 5 times": bumpkinActivityTask({
     activity: "Cauliflower Burger Cooked",
     amount: 5,
@@ -739,6 +1183,30 @@ export const NPC_CHORES = {
   "Cook Cauliflower Burger 10 times": bumpkinActivityTask({
     activity: "Cauliflower Burger Cooked",
     amount: 10,
+  }),
+  "Cook Cauliflower Burger 15 times": bumpkinActivityTask({
+    activity: "Cauliflower Burger Cooked",
+    amount: 15,
+  }),
+  "Cook Cauliflower Burger 17 times": bumpkinActivityTask({
+    activity: "Cauliflower Burger Cooked",
+    amount: 17,
+  }),
+  "Cook Cauliflower Burger 20 times": bumpkinActivityTask({
+    activity: "Cauliflower Burger Cooked",
+    amount: 20,
+  }),
+  "Cook Cauliflower Burger 25 times": bumpkinActivityTask({
+    activity: "Cauliflower Burger Cooked",
+    amount: 25,
+  }),
+  "Cook Cauliflower Burger 30 times": bumpkinActivityTask({
+    activity: "Cauliflower Burger Cooked",
+    amount: 30,
+  }),
+  "Cook Cauliflower Burger 35 times": bumpkinActivityTask({
+    activity: "Cauliflower Burger Cooked",
+    amount: 35,
   }),
   "Cook Bumpkin Salad 5 times": bumpkinActivityTask({
     activity: "Bumpkin Salad Cooked",
@@ -752,6 +1220,18 @@ export const NPC_CHORES = {
     activity: "Bumpkin Salad Cooked",
     amount: 10,
   }),
+  "Cook Bumpkin Salad 15 times": bumpkinActivityTask({
+    activity: "Bumpkin Salad Cooked",
+    amount: 15,
+  }),
+  "Cook Bumpkin Salad 17 times": bumpkinActivityTask({
+    activity: "Bumpkin Salad Cooked",
+    amount: 17,
+  }),
+  "Cook Bumpkin Salad 20 times": bumpkinActivityTask({
+    activity: "Bumpkin Salad Cooked",
+    amount: 20,
+  }),
   "Cook Bumpkin ganoush 3 times": bumpkinActivityTask({
     activity: "Bumpkin ganoush Cooked",
     amount: 3,
@@ -763,6 +1243,22 @@ export const NPC_CHORES = {
   "Cook Bumpkin ganoush 7 times": bumpkinActivityTask({
     activity: "Bumpkin ganoush Cooked",
     amount: 7,
+  }),
+  "Cook Bumpkin ganoush 10 times": bumpkinActivityTask({
+    activity: "Bumpkin ganoush Cooked",
+    amount: 10,
+  }),
+  "Cook Bumpkin ganoush 12 times": bumpkinActivityTask({
+    activity: "Bumpkin ganoush Cooked",
+    amount: 12,
+  }),
+  "Cook Bumpkin ganoush 15 times": bumpkinActivityTask({
+    activity: "Bumpkin ganoush Cooked",
+    amount: 15,
+  }),
+  "Cook Bumpkin ganoush 20 times": bumpkinActivityTask({
+    activity: "Bumpkin ganoush Cooked",
+    amount: 20,
   }),
   "Cook Goblin's Treat 3 times": bumpkinActivityTask({
     activity: "Goblin's Treat Cooked",
@@ -776,6 +1272,14 @@ export const NPC_CHORES = {
     activity: "Goblin's Treat Cooked",
     amount: 7,
   }),
+  "Cook Goblin's Treat 10 times": bumpkinActivityTask({
+    activity: "Goblin's Treat Cooked",
+    amount: 10,
+  }),
+  "Cook Goblin's Treat 12 times": bumpkinActivityTask({
+    activity: "Goblin's Treat Cooked",
+    amount: 12,
+  }),
   "Cook Gumbo 20 times": bumpkinActivityTask({
     activity: "Gumbo Cooked",
     amount: 20,
@@ -788,17 +1292,65 @@ export const NPC_CHORES = {
     activity: "Gumbo Cooked",
     amount: 30,
   }),
+  "Cook Gumbo 45 times": bumpkinActivityTask({
+    activity: "Gumbo Cooked",
+    amount: 45,
+  }),
+  "Cook Gumbo 60 times": bumpkinActivityTask({
+    activity: "Gumbo Cooked",
+    amount: 60,
+  }),
+  "Cook Gumbo 35 times": bumpkinActivityTask({
+    activity: "Gumbo Cooked",
+    amount: 35,
+  }),
+  "Cook Gumbo 50 times": bumpkinActivityTask({
+    activity: "Gumbo Cooked",
+    amount: 50,
+  }),
   "Cook Sunflower Cake 7 times": bumpkinActivityTask({
     activity: "Sunflower Cake Cooked",
     amount: 7,
+  }),
+  "Cook 10 Sunflower Cakes": bumpkinActivityTask({
+    activity: "Sunflower Cake Cooked",
+    amount: 10,
+  }),
+  "Cook 15 Sunflower Cakes": bumpkinActivityTask({
+    activity: "Sunflower Cake Cooked",
+    amount: 15,
+  }),
+  "Cook Sunflower Cakes 10 times": bumpkinActivityTask({
+    activity: "Sunflower Cake Cooked",
+    amount: 10,
+  }),
+  "Cook Sunflower Cakes 15 times": bumpkinActivityTask({
+    activity: "Sunflower Cake Cooked",
+    amount: 15,
   }),
   "Cook Carrot Cake 5 times": bumpkinActivityTask({
     activity: "Carrot Cake Cooked",
     amount: 5,
   }),
+  "Cook 7 Carrot Cakes": bumpkinActivityTask({
+    activity: "Carrot Cake Cooked",
+    amount: 7,
+  }),
+  "Cook 10 Carrot Cakes": bumpkinActivityTask({
+    activity: "Carrot Cake Cooked",
+    amount: 10,
+  }),
   "Cook Cabbage Cake 5 times": bumpkinActivityTask({
     activity: "Cabbage Cake Cooked",
     amount: 5,
+  }),
+  "Cook 7 Cabbage Cakes": bumpkinActivityTask({
+    activity: "Cabbage Cake Cooked",
+    amount: 7,
+  }),
+  "Cook 10 Cabbage Cakes": bumpkinActivityTask({
+    activity: "Cabbage Cake Cooked",
+    amount: 10,
   }),
   "Cook Wheat Cake 5 times": bumpkinActivityTask({
     activity: "Wheat Cake Cooked",
@@ -820,6 +1372,10 @@ export const NPC_CHORES = {
     activity: "Cornbread Cooked",
     amount: 10,
   }),
+  "Cook Cornbread 15 times": bumpkinActivityTask({
+    activity: "Cornbread Cooked",
+    amount: 15,
+  }),
   "Cook Lemon Cheesecakes 3 times": bumpkinActivityTask({
     activity: "Lemon Cheesecake Cooked",
     amount: 3,
@@ -827,6 +1383,30 @@ export const NPC_CHORES = {
   "Cook Lemon Cheesecakes 5 times": bumpkinActivityTask({
     activity: "Lemon Cheesecake Cooked",
     amount: 5,
+  }),
+  "Cook Wheat Cakes 7 times": bumpkinActivityTask({
+    activity: "Wheat Cake Cooked",
+    amount: 7,
+  }),
+  "Cook Wheat Cakes 10 times": bumpkinActivityTask({
+    activity: "Wheat Cake Cooked",
+    amount: 10,
+  }),
+  "Cook Wheat Cakes 5 times": bumpkinActivityTask({
+    activity: "Wheat Cake Cooked",
+    amount: 5,
+  }),
+  "Cook Honey Cakes 10 times": bumpkinActivityTask({
+    activity: "Honey Cake Cooked",
+    amount: 10,
+  }),
+  "Cook Honey Cakes 15 times": bumpkinActivityTask({
+    activity: "Honey Cake Cooked",
+    amount: 15,
+  }),
+  "Cook Honey Cakes 20 times": bumpkinActivityTask({
+    activity: "Honey Cake Cooked",
+    amount: 20,
   }),
   "Cook Fermented Fish 10 times": bumpkinActivityTask({
     activity: "Fermented Fish Cooked",
@@ -840,6 +1420,22 @@ export const NPC_CHORES = {
     activity: "Fermented Fish Cooked",
     amount: 15,
   }),
+  "Cook Fermented Fish 20 times": bumpkinActivityTask({
+    activity: "Fermented Fish Cooked",
+    amount: 20,
+  }),
+  "Cook Fermented Fish 25 times": bumpkinActivityTask({
+    activity: "Fermented Fish Cooked",
+    amount: 25,
+  }),
+  "Cook Fermented Fish 30 times": bumpkinActivityTask({
+    activity: "Fermented Fish Cooked",
+    amount: 30,
+  }),
+  "Cook Fermented Fish 35 times": bumpkinActivityTask({
+    activity: "Fermented Fish Cooked",
+    amount: 35,
+  }),
   "Cook Chowder 15 times": bumpkinActivityTask({
     activity: "Chowder Cooked",
     amount: 15,
@@ -852,6 +1448,26 @@ export const NPC_CHORES = {
     activity: "Chowder Cooked",
     amount: 21,
   }),
+  "Cook 20 Chowder times": bumpkinActivityTask({
+    activity: "Chowder Cooked",
+    amount: 20,
+  }),
+  "Cook 25 Chowder times": bumpkinActivityTask({
+    activity: "Chowder Cooked",
+    amount: 25,
+  }),
+  "Cook 30 Chowder times": bumpkinActivityTask({
+    activity: "Chowder Cooked",
+    amount: 30,
+  }),
+  "Cook 35 Chowder times": bumpkinActivityTask({
+    activity: "Chowder Cooked",
+    amount: 35,
+  }),
+  "Cook 50 Chowder times": bumpkinActivityTask({
+    activity: "Chowder Cooked",
+    amount: 50,
+  }),
   "Cook Antipasto 25 times": bumpkinActivityTask({
     activity: "Antipasto Cooked",
     amount: 25,
@@ -863,6 +1479,18 @@ export const NPC_CHORES = {
   "Cook Antipasto 35 times": bumpkinActivityTask({
     activity: "Antipasto Cooked",
     amount: 35,
+  }),
+  "Cook Antipasto 40 times": bumpkinActivityTask({
+    activity: "Antipasto Cooked",
+    amount: 40,
+  }),
+  "Cook Antipasto 45 times": bumpkinActivityTask({
+    activity: "Antipasto Cooked",
+    amount: 45,
+  }),
+  "Cook Antipasto 50 times": bumpkinActivityTask({
+    activity: "Antipasto Cooked",
+    amount: 50,
   }),
   "Cook Fruit Salad 50 times": bumpkinActivityTask({
     activity: "Fruit Salad Cooked",
@@ -900,6 +1528,18 @@ export const NPC_CHORES = {
     activity: "Rice Bun Cooked",
     amount: 30,
   }),
+  "Cook Rice Bun 35 times": bumpkinActivityTask({
+    activity: "Rice Bun Cooked",
+    amount: 35,
+  }),
+  "Cook Rice Bun 40 times": bumpkinActivityTask({
+    activity: "Rice Bun Cooked",
+    amount: 40,
+  }),
+  "Cook Rice Bun 45 times": bumpkinActivityTask({
+    activity: "Rice Bun Cooked",
+    amount: 45,
+  }),
   "Cook Shroom Syrup 2 times": bumpkinActivityTask({
     activity: "Shroom Syrup Cooked",
     amount: 2,
@@ -907,6 +1547,14 @@ export const NPC_CHORES = {
   "Cook Cheese 50 times": bumpkinActivityTask({
     activity: "Cheese Cooked",
     amount: 50,
+  }),
+  "Cook Cheese 75 times": bumpkinActivityTask({
+    activity: "Cheese Cooked",
+    amount: 75,
+  }),
+  "Cook Cheese 100 times": bumpkinActivityTask({
+    activity: "Cheese Cooked",
+    amount: 100,
   }),
   "Cook Honey Cheddar 5 times": bumpkinActivityTask({
     activity: "Honey Cheddar Cooked",
@@ -920,6 +1568,14 @@ export const NPC_CHORES = {
     activity: "Honey Cheddar Cooked",
     amount: 10,
   }),
+  "Cook Honey Cheddar 12 times": bumpkinActivityTask({
+    activity: "Honey Cheddar Cooked",
+    amount: 12,
+  }),
+  "Cook Honey Cheddar 15 times": bumpkinActivityTask({
+    activity: "Honey Cheddar Cooked",
+    amount: 15,
+  }),
   "Cook Blue Cheese 20 times": bumpkinActivityTask({
     activity: "Blue Cheese Cooked",
     amount: 20,
@@ -931,6 +1587,14 @@ export const NPC_CHORES = {
   "Cook Blue Cheese 30 times": bumpkinActivityTask({
     activity: "Blue Cheese Cooked",
     amount: 30,
+  }),
+  "Cook Blue Cheese 33 times": bumpkinActivityTask({
+    activity: "Blue Cheese Cooked",
+    amount: 33,
+  }),
+  "Cook Blue Cheese 40 times": bumpkinActivityTask({
+    activity: "Blue Cheese Cooked",
+    amount: 40,
   }),
   "Cook Goblin Brunch 1 time": bumpkinActivityTask({
     activity: "Goblin Brunch Cooked",
@@ -944,6 +1608,14 @@ export const NPC_CHORES = {
     activity: "Goblin Brunch Cooked",
     amount: 3,
   }),
+  "Cook Goblin Brunch 4 times": bumpkinActivityTask({
+    activity: "Goblin Brunch Cooked",
+    amount: 4,
+  }),
+  "Cook Goblin Brunch 5 times": bumpkinActivityTask({
+    activity: "Goblin Brunch Cooked",
+    amount: 5,
+  }),
   "Cook Sushi Roll 3 times": bumpkinActivityTask({
     activity: "Sushi Roll Cooked",
     amount: 3,
@@ -955,6 +1627,18 @@ export const NPC_CHORES = {
   "Cook Sushi Roll 5 times": bumpkinActivityTask({
     activity: "Sushi Roll Cooked",
     amount: 5,
+  }),
+  "Cook Sushi Roll 7 times": bumpkinActivityTask({
+    activity: "Sushi Roll Cooked",
+    amount: 7,
+  }),
+  "Cook Sushi Roll 10 times": bumpkinActivityTask({
+    activity: "Sushi Roll Cooked",
+    amount: 10,
+  }),
+  "Cook Sushi Roll 12 times": bumpkinActivityTask({
+    activity: "Sushi Roll Cooked",
+    amount: 12,
   }),
   "Cook Caprese Salad 4 times": bumpkinActivityTask({
     activity: "Caprese Salad Cooked",
@@ -980,6 +1664,14 @@ export const NPC_CHORES = {
     activity: "Caprese Salad Cooked",
     amount: 10,
   }),
+  "Cook Caprese Salad 12 times": bumpkinActivityTask({
+    activity: "Caprese Salad Cooked",
+    amount: 12,
+  }),
+  "Cook Caprese Salad 15 times": bumpkinActivityTask({
+    activity: "Caprese Salad Cooked",
+    amount: 15,
+  }),
   "Cook Ocean's Olive 3 times": bumpkinActivityTask({
     activity: "Ocean's Olive Cooked",
     amount: 3,
@@ -992,17 +1684,49 @@ export const NPC_CHORES = {
     activity: "Ocean's Olive Cooked",
     amount: 7,
   }),
+  "Cook Ocean's Olive 10 times": bumpkinActivityTask({
+    activity: "Ocean's Olive Cooked",
+    amount: 10,
+  }),
+  "Cook Ocean's Olive 12 times": bumpkinActivityTask({
+    activity: "Ocean's Olive Cooked",
+    amount: 12,
+  }),
   "Cook Eggplant Cake 5 times": bumpkinActivityTask({
     activity: "Eggplant Cake Cooked",
     amount: 5,
+  }),
+  "Cook Eggplant Cakes 5 times": bumpkinActivityTask({
+    activity: "Eggplant Cake Cooked",
+    amount: 5,
+  }),
+  "Cook Eggplant Cakes 10 times": bumpkinActivityTask({
+    activity: "Eggplant Cake Cooked",
+    amount: 10,
   }),
   "Cook Radish Cake 5 times": bumpkinActivityTask({
     activity: "Radish Cake Cooked",
     amount: 5,
   }),
+  "Cook Radish Cakes 5 times": bumpkinActivityTask({
+    activity: "Radish Cake Cooked",
+    amount: 5,
+  }),
+  "Cook Radish Cakes 10 times": bumpkinActivityTask({
+    activity: "Radish Cake Cooked",
+    amount: 10,
+  }),
   "Cook Beetroot Cake 5 times": bumpkinActivityTask({
     activity: "Beetroot Cake Cooked",
     amount: 5,
+  }),
+  "Cook Beetroot Cakes 5 times": bumpkinActivityTask({
+    activity: "Beetroot Cake Cooked",
+    amount: 5,
+  }),
+  "Cook Beetroot Cakes 10 times": bumpkinActivityTask({
+    activity: "Beetroot Cake Cooked",
+    amount: 10,
   }),
   "Cook Pumpkin Soup 5 times": bumpkinActivityTask({
     activity: "Pumpkin Soup Cooked",
@@ -1028,6 +1752,14 @@ export const NPC_CHORES = {
     activity: "Bumpkin Roast Cooked",
     amount: 10,
   }),
+  "Cook Bumpkin Roast 12 times": bumpkinActivityTask({
+    activity: "Bumpkin Roast Cooked",
+    amount: 12,
+  }),
+  "Cook Bumpkin Roast 15 times": bumpkinActivityTask({
+    activity: "Bumpkin Roast Cooked",
+    amount: 15,
+  }),
   "Cook Pizza Margherita 5 times": bumpkinActivityTask({
     activity: "Pizza Margherita Cooked",
     amount: 5,
@@ -1040,17 +1772,41 @@ export const NPC_CHORES = {
     activity: "Pizza Margherita Cooked",
     amount: 10,
   }),
+  "Cook Pizza Margherita 12 times": bumpkinActivityTask({
+    activity: "Pizza Margherita Cooked",
+    amount: 12,
+  }),
   "Cook Apple Pie 15 times": bumpkinActivityTask({
     activity: "Apple Pie Cooked",
     amount: 15,
+  }),
+  "Cook Apple Pie 20 times": bumpkinActivityTask({
+    activity: "Apple Pie Cooked",
+    amount: 20,
   }),
   "Cook Potato Cake 7 times": bumpkinActivityTask({
     activity: "Potato Cake Cooked",
     amount: 7,
   }),
+  "Cook Potato Cakes 7 times": bumpkinActivityTask({
+    activity: "Potato Cake Cooked",
+    amount: 7,
+  }),
+  "Cook Potato Cakes 10 times": bumpkinActivityTask({
+    activity: "Potato Cake Cooked",
+    amount: 10,
+  }),
   "Cook Carrot Cake 7 times": bumpkinActivityTask({
     activity: "Carrot Cake Cooked",
     amount: 7,
+  }),
+  "Cook Carrot Cakes 7 times": bumpkinActivityTask({
+    activity: "Carrot Cake Cooked",
+    amount: 7,
+  }),
+  "Cook Carrot Cakes 10 times": bumpkinActivityTask({
+    activity: "Carrot Cake Cooked",
+    amount: 10,
   }),
   "Cook Wheat Cake 7 times": bumpkinActivityTask({
     activity: "Wheat Cake Cooked",
@@ -1064,11 +1820,27 @@ export const NPC_CHORES = {
     activity: "Spaghetti al Limone Cooked",
     amount: 6,
   }),
+  "Cook Spaghetti al Limone 7 times": bumpkinActivityTask({
+    activity: "Spaghetti al Limone Cooked",
+    amount: 7,
+  }),
   "Cook Spaghetti al Limone 8 times": bumpkinActivityTask({
     activity: "Spaghetti al Limone Cooked",
     amount: 8,
   }),
+  "Cook Spaghetti al Limone 10 times": bumpkinActivityTask({
+    activity: "Spaghetti al Limone Cooked",
+    amount: 10,
+  }),
+  "Cook Spaghetti al Limone 12 times": bumpkinActivityTask({
+    activity: "Spaghetti al Limone Cooked",
+    amount: 12,
+  }),
   "Cook Beetroot Cake 7 times": bumpkinActivityTask({
+    activity: "Beetroot Cake Cooked",
+    amount: 7,
+  }),
+  "Cook Beetroot Cakes 7 times": bumpkinActivityTask({
     activity: "Beetroot Cake Cooked",
     amount: 7,
   }),
@@ -1076,13 +1848,37 @@ export const NPC_CHORES = {
     activity: "Cabbage Cake Cooked",
     amount: 7,
   }),
+  "Cook Cabbage Cakes 7 times": bumpkinActivityTask({
+    activity: "Cabbage Cake Cooked",
+    amount: 7,
+  }),
+  "Cook Cabbage Cakes 10 times": bumpkinActivityTask({
+    activity: "Cabbage Cake Cooked",
+    amount: 10,
+  }),
   "Cook Parsnip Cake 7 times": bumpkinActivityTask({
     activity: "Parsnip Cake Cooked",
     amount: 7,
   }),
+  "Cook Parsnip Cakes 7 times": bumpkinActivityTask({
+    activity: "Parsnip Cake Cooked",
+    amount: 7,
+  }),
+  "Cook Parsnip Cakes 10 times": bumpkinActivityTask({
+    activity: "Parsnip Cake Cooked",
+    amount: 10,
+  }),
   "Cook Cauliflower Cake 7 times": bumpkinActivityTask({
     activity: "Cauliflower Cake Cooked",
     amount: 7,
+  }),
+  "Cook Cauliflower Cakes 7 times": bumpkinActivityTask({
+    activity: "Cauliflower Cake Cooked",
+    amount: 7,
+  }),
+  "Cook Cauliflower Cakes 10 times": bumpkinActivityTask({
+    activity: "Cauliflower Cake Cooked",
+    amount: 10,
   }),
 
   // Prepare
@@ -1090,13 +1886,25 @@ export const NPC_CHORES = {
     activity: "Power Smoothie Cooked",
     amount: 20,
   }),
+  "Prepare Power Smoothie 30 times": bumpkinActivityTask({
+    activity: "Power Smoothie Cooked",
+    amount: 30,
+  }),
   "Prepare Power Smoothie 35 times": bumpkinActivityTask({
     activity: "Power Smoothie Cooked",
     amount: 35,
   }),
+  "Prepare Power Smoothie 45 times": bumpkinActivityTask({
+    activity: "Power Smoothie Cooked",
+    amount: 45,
+  }),
   "Prepare Power Smoothie 50 times": bumpkinActivityTask({
     activity: "Power Smoothie Cooked",
     amount: 50,
+  }),
+  "Prepare Power Smoothie 60 times": bumpkinActivityTask({
+    activity: "Power Smoothie Cooked",
+    amount: 60,
   }),
   "Prepare Slow Juice 5 times": bumpkinActivityTask({
     activity: "Slow Juice Cooked",
@@ -1110,6 +1918,26 @@ export const NPC_CHORES = {
     activity: "Slow Juice Cooked",
     amount: 7,
   }),
+  "Prepare Slow Juice 10 times": bumpkinActivityTask({
+    activity: "Slow Juice Cooked",
+    amount: 10,
+  }),
+  "Prepare Slow Juice 12 times": bumpkinActivityTask({
+    activity: "Slow Juice Cooked",
+    amount: 12,
+  }),
+  "Prepare Slow Juice 15 times": bumpkinActivityTask({
+    activity: "Slow Juice Cooked",
+    amount: 15,
+  }),
+  "Prepare Banana Blast 15 times": bumpkinActivityTask({
+    activity: "Banana Blast Cooked",
+    amount: 15,
+  }),
+  "Prepare Banana Blast 17 times": bumpkinActivityTask({
+    activity: "Banana Blast Cooked",
+    amount: 17,
+  }),
   "Prepare Banana Blast 20 times": bumpkinActivityTask({
     activity: "Banana Blast Cooked",
     amount: 20,
@@ -1121,6 +1949,10 @@ export const NPC_CHORES = {
   "Prepare Banana Blast 50 times": bumpkinActivityTask({
     activity: "Banana Blast Cooked",
     amount: 50,
+  }),
+  "Prepare Grape Juice 5 times": bumpkinActivityTask({
+    activity: "Grape Juice Cooked",
+    amount: 5,
   }),
   "Prepare Grape Juice 10 times": bumpkinActivityTask({
     activity: "Grape Juice Cooked",
@@ -1146,9 +1978,33 @@ export const NPC_CHORES = {
     activity: "Apple Juice Cooked",
     amount: 7,
   }),
+  "Cook Apple Juice 10 times": bumpkinActivityTask({
+    activity: "Apple Juice Cooked",
+    amount: 10,
+  }),
+  "Cook Apple Juice 12 times": bumpkinActivityTask({
+    activity: "Apple Juice Cooked",
+    amount: 12,
+  }),
+  "Cook Apple Juice 15 times": bumpkinActivityTask({
+    activity: "Apple Juice Cooked",
+    amount: 15,
+  }),
+  "Prepare Apple Juice 10 times": bumpkinActivityTask({
+    activity: "Apple Juice Cooked",
+    amount: 10,
+  }),
+  "Prepare Apple Juice 12 times": bumpkinActivityTask({
+    activity: "Apple Juice Cooked",
+    amount: 12,
+  }),
   "Prepare Apple Juice 15 times": bumpkinActivityTask({
     activity: "Apple Juice Cooked",
     amount: 15,
+  }),
+  "Prepare Apple Juice 17 times": bumpkinActivityTask({
+    activity: "Apple Juice Cooked",
+    amount: 17,
   }),
   "Prepare Apple Juice 20 times": bumpkinActivityTask({
     activity: "Apple Juice Cooked",
@@ -1157,6 +2013,14 @@ export const NPC_CHORES = {
   "Prepare Apple Juice 25 times": bumpkinActivityTask({
     activity: "Apple Juice Cooked",
     amount: 25,
+  }),
+  "Prepare Orange Juice 15 times": bumpkinActivityTask({
+    activity: "Orange Juice Cooked",
+    amount: 15,
+  }),
+  "Prepare Orange Juice 20 times": bumpkinActivityTask({
+    activity: "Orange Juice Cooked",
+    amount: 20,
   }),
   "Prepare Carrot Juice 2 times": bumpkinActivityTask({
     activity: "Carrot Juice Cooked",
@@ -1170,6 +2034,18 @@ export const NPC_CHORES = {
     activity: "Carrot Juice Cooked",
     amount: 4,
   }),
+  "Cook Carrot Juice 15 times": bumpkinActivityTask({
+    activity: "Carrot Juice Cooked",
+    amount: 15,
+  }),
+  "Cook Carrot Juice 20 times": bumpkinActivityTask({
+    activity: "Carrot Juice Cooked",
+    amount: 20,
+  }),
+  "Cook Carrot Juice 25 times": bumpkinActivityTask({
+    activity: "Carrot Juice Cooked",
+    amount: 25,
+  }),
   "Prepare Purple Smoothie 5 times": bumpkinActivityTask({
     activity: "Purple Smoothie Cooked",
     amount: 5,
@@ -1181,6 +2057,30 @@ export const NPC_CHORES = {
   "Prepare Purple Smoothie 7 times": bumpkinActivityTask({
     activity: "Purple Smoothie Cooked",
     amount: 7,
+  }),
+  "Prepare Purple Smoothie 10 times": bumpkinActivityTask({
+    activity: "Purple Smoothie Cooked",
+    amount: 10,
+  }),
+  "Prepare Purple Smoothie 12 times": bumpkinActivityTask({
+    activity: "Purple Smoothie Cooked",
+    amount: 12,
+  }),
+  "Prepare Purple Smoothie 15 times": bumpkinActivityTask({
+    activity: "Purple Smoothie Cooked",
+    amount: 15,
+  }),
+  "Prepare Sour Shake 15 times": bumpkinActivityTask({
+    activity: "Sour Shake Cooked",
+    amount: 15,
+  }),
+  "Prepare Sour Shake 20 times": bumpkinActivityTask({
+    activity: "Sour Shake Cooked",
+    amount: 20,
+  }),
+  "Prepare Sour Shake 25 times": bumpkinActivityTask({
+    activity: "Sour Shake Cooked",
+    amount: 25,
   }),
   "Prepare Power Smoothie 2 times": bumpkinActivityTask({
     activity: "Power Smoothie Cooked",
@@ -1194,7 +2094,71 @@ export const NPC_CHORES = {
     activity: "Power Smoothie Cooked",
     amount: 4,
   }),
+  "Prepare Power Smoothie 5 times": bumpkinActivityTask({
+    activity: "Power Smoothie Cooked",
+    amount: 5,
+  }),
+  "Prepare Power Smoothie 6 times": bumpkinActivityTask({
+    activity: "Power Smoothie Cooked",
+    amount: 6,
+  }),
+  "Prepare Power Smoothie 7 times": bumpkinActivityTask({
+    activity: "Power Smoothie Cooked",
+    amount: 7,
+  }),
+  "Prepare Power Smoothie 15 times": bumpkinActivityTask({
+    activity: "Power Smoothie Cooked",
+    amount: 15,
+  }),
   // Grow
+  "Grow Yellow Gladiolus 3 times": bumpkinActivityTask({
+    activity: "Yellow Gladiolus Harvested",
+    amount: 3,
+  }),
+  "Grow Yellow Gladiolus 4 times": bumpkinActivityTask({
+    activity: "Yellow Gladiolus Harvested",
+    amount: 4,
+  }),
+  "Grow Purple Gladiolus 3 times": bumpkinActivityTask({
+    activity: "Purple Gladiolus Harvested",
+    amount: 3,
+  }),
+  "Grow Purple Gladiolus 4 times": bumpkinActivityTask({
+    activity: "Purple Gladiolus Harvested",
+    amount: 4,
+  }),
+  "Grow Purple Edelweiss 3 times": bumpkinActivityTask({
+    activity: "Purple Edelweiss Harvested",
+    amount: 3,
+  }),
+  "Grow Purple Edelweiss 4 times": bumpkinActivityTask({
+    activity: "Purple Edelweiss Harvested",
+    amount: 4,
+  }),
+  "Grow Yellow Edelweiss 3 times": bumpkinActivityTask({
+    activity: "Yellow Edelweiss Harvested",
+    amount: 3,
+  }),
+  "Grow Yellow Edelweiss 4 times": bumpkinActivityTask({
+    activity: "Yellow Edelweiss Harvested",
+    amount: 4,
+  }),
+  "Grow Blue Clover 3 times": bumpkinActivityTask({
+    activity: "Blue Clover Harvested",
+    amount: 3,
+  }),
+  "Grow Blue Clover 4 times": bumpkinActivityTask({
+    activity: "Blue Clover Harvested",
+    amount: 4,
+  }),
+  "Grow Yellow Clover 3 times": bumpkinActivityTask({
+    activity: "Yellow Clover Harvested",
+    amount: 3,
+  }),
+  "Grow Yellow Clover 4 times": bumpkinActivityTask({
+    activity: "Yellow Clover Harvested",
+    amount: 4,
+  }),
   "Grow Red Pansy 2 times": bumpkinActivityTask({
     activity: "Red Pansy Harvested",
     amount: 2,
@@ -1211,6 +2175,22 @@ export const NPC_CHORES = {
     activity: "Yellow Pansy Harvested",
     amount: 3,
   }),
+  "Grow Red Lavender 3 times": bumpkinActivityTask({
+    activity: "Red Lavender Harvested",
+    amount: 3,
+  }),
+  "Grow Red Lavender 4 times": bumpkinActivityTask({
+    activity: "Red Lavender Harvested",
+    amount: 4,
+  }),
+  "Grow White Lavender 3 times": bumpkinActivityTask({
+    activity: "White Lavender Harvested",
+    amount: 3,
+  }),
+  "Grow White Lavender 4 times": bumpkinActivityTask({
+    activity: "White Lavender Harvested",
+    amount: 4,
+  }),
   "Grow Purple Cosmos 2 times": bumpkinActivityTask({
     activity: "Purple Cosmos Harvested",
     amount: 2,
@@ -1219,6 +2199,14 @@ export const NPC_CHORES = {
     activity: "Purple Cosmos Harvested",
     amount: 3,
   }),
+  "Grow Purple Cosmos 5 times": bumpkinActivityTask({
+    activity: "Purple Cosmos Harvested",
+    amount: 5,
+  }),
+  "Grow Purple Cosmos 6 times": bumpkinActivityTask({
+    activity: "Purple Cosmos Harvested",
+    amount: 6,
+  }),
   "Grow Blue Cosmos 2 times": bumpkinActivityTask({
     activity: "Blue Cosmos Harvested",
     amount: 2,
@@ -1226,6 +2214,14 @@ export const NPC_CHORES = {
   "Grow Blue Cosmos 3 times": bumpkinActivityTask({
     activity: "Blue Cosmos Harvested",
     amount: 3,
+  }),
+  "Grow Blue Cosmos 5 times": bumpkinActivityTask({
+    activity: "Blue Cosmos Harvested",
+    amount: 5,
+  }),
+  "Grow Blue Cosmos 6 times": bumpkinActivityTask({
+    activity: "Blue Cosmos Harvested",
+    amount: 6,
   }),
   "Grow Red Balloon Flower 3 times": bumpkinActivityTask({
     activity: "Red Balloon Flower Harvested",
@@ -1275,25 +2271,49 @@ export const NPC_CHORES = {
     activity: "Yellow Carnation Harvested",
     amount: 3,
   }),
+  "Grow Yellow Carnation 4 times": bumpkinActivityTask({
+    activity: "Yellow Carnation Harvested",
+    amount: 4,
+  }),
   "Grow Blue Carnation 3 times": bumpkinActivityTask({
     activity: "Blue Carnation Harvested",
     amount: 3,
+  }),
+  "Grow Blue Carnation 4 times": bumpkinActivityTask({
+    activity: "Blue Carnation Harvested",
+    amount: 4,
   }),
   "Grow White Carnation 3 times": bumpkinActivityTask({
     activity: "White Carnation Harvested",
     amount: 3,
   }),
+  "Grow White Carnation 4 times": bumpkinActivityTask({
+    activity: "White Carnation Harvested",
+    amount: 4,
+  }),
   "Grow Red Lotus 3 times": bumpkinActivityTask({
     activity: "Red Lotus Harvested",
     amount: 3,
+  }),
+  "Grow Red Lotus 4 times": bumpkinActivityTask({
+    activity: "Red Lotus Harvested",
+    amount: 4,
   }),
   "Grow Yellow Lotus 3 times": bumpkinActivityTask({
     activity: "Yellow Lotus Harvested",
     amount: 3,
   }),
+  "Grow Yellow Lotus 4 times": bumpkinActivityTask({
+    activity: "Yellow Lotus Harvested",
+    amount: 4,
+  }),
   "Grow White Lotus 3 times": bumpkinActivityTask({
     activity: "White Lotus Harvested",
     amount: 3,
+  }),
+  "Grow White Lotus 4 times": bumpkinActivityTask({
+    activity: "White Lotus Harvested",
+    amount: 4,
   }),
   "Grow Blue Pansy 6 times": bumpkinActivityTask({
     activity: "Blue Pansy Harvested",
@@ -1306,6 +2326,10 @@ export const NPC_CHORES = {
   "Grow White Cosmos 3 times": bumpkinActivityTask({
     activity: "White Cosmos Harvested",
     amount: 3,
+  }),
+  "Grow White Cosmos 4 times": bumpkinActivityTask({
+    activity: "White Cosmos Harvested",
+    amount: 4,
   }),
   "Grow Purple Daffodil 6 times": bumpkinActivityTask({
     activity: "Purple Daffodil Harvested",
@@ -1341,6 +2365,10 @@ export const NPC_CHORES = {
     activity: "Rod Casted",
     amount: 275,
   }),
+  "Fish 300 times": bumpkinActivityTask({
+    activity: "Rod Casted",
+    amount: 300,
+  }),
 
   // Craft
   "Craft 10 Axes": bumpkinActivityTask({
@@ -1355,6 +2383,18 @@ export const NPC_CHORES = {
     activity: "Axe Crafted",
     amount: 15,
   }),
+  "Craft Axes 20 times": bumpkinActivityTask({
+    activity: "Axe Crafted",
+    amount: 20,
+  }),
+  "Craft Axes 25 times": bumpkinActivityTask({
+    activity: "Axe Crafted",
+    amount: 25,
+  }),
+  "Craft Axes 30 times": bumpkinActivityTask({
+    activity: "Axe Crafted",
+    amount: 30,
+  }),
   "Craft 6 Pickaxes": bumpkinActivityTask({
     activity: "Pickaxe Crafted",
     amount: 6,
@@ -1367,6 +2407,18 @@ export const NPC_CHORES = {
     activity: "Pickaxe Crafted",
     amount: 10,
   }),
+  "Craft Pickaxes 10 times": bumpkinActivityTask({
+    activity: "Pickaxe Crafted",
+    amount: 10,
+  }),
+  "Craft Pickaxes 15 times": bumpkinActivityTask({
+    activity: "Pickaxe Crafted",
+    amount: 15,
+  }),
+  "Craft Pickaxes 20 times": bumpkinActivityTask({
+    activity: "Pickaxe Crafted",
+    amount: 20,
+  }),
   "Craft 100 Rods": bumpkinActivityTask({
     activity: "Rod Crafted",
     amount: 100,
@@ -1376,6 +2428,18 @@ export const NPC_CHORES = {
     amount: 150,
   }),
   "Craft 200 Rods": bumpkinActivityTask({
+    activity: "Rod Crafted",
+    amount: 200,
+  }),
+  "Craft 100 Fishing Rods": bumpkinActivityTask({
+    activity: "Rod Crafted",
+    amount: 100,
+  }),
+  "Craft 150 Fishing Rods": bumpkinActivityTask({
+    activity: "Rod Crafted",
+    amount: 150,
+  }),
+  "Craft 200 Fishing Rods": bumpkinActivityTask({
     activity: "Rod Crafted",
     amount: 200,
   }),
@@ -1407,6 +2471,22 @@ export const NPC_CHORES = {
     activity: "Sand Drill Crafted",
     amount: 15,
   }),
+  "Craft 20 Sand Drill": bumpkinActivityTask({
+    activity: "Sand Drill Crafted",
+    amount: 20,
+  }),
+  "Craft 25 Sand Drill": bumpkinActivityTask({
+    activity: "Sand Drill Crafted",
+    amount: 25,
+  }),
+  "Craft 30 Sand Drill": bumpkinActivityTask({
+    activity: "Sand Drill Crafted",
+    amount: 30,
+  }),
+  "Craft 35 Sand Drill": bumpkinActivityTask({
+    activity: "Sand Drill Crafted",
+    amount: 35,
+  }),
 
   // Chop
   "Chop Trees 10 times": bumpkinActivityTask({
@@ -1421,6 +2501,14 @@ export const NPC_CHORES = {
     activity: "Tree Chopped",
     amount: 20,
   }),
+  "Chop Trees 25 times": bumpkinActivityTask({
+    activity: "Tree Chopped",
+    amount: 25,
+  }),
+  "Chop Trees 30 times": bumpkinActivityTask({
+    activity: "Tree Chopped",
+    amount: 30,
+  }),
   "Chop Trees 100 times": bumpkinActivityTask({
     activity: "Tree Chopped",
     amount: 100,
@@ -1433,6 +2521,14 @@ export const NPC_CHORES = {
     activity: "Tree Chopped",
     amount: 150,
   }),
+  "Chop Trees 200 times": bumpkinActivityTask({
+    activity: "Tree Chopped",
+    amount: 200,
+  }),
+  "Chop Trees 250 times": bumpkinActivityTask({
+    activity: "Tree Chopped",
+    amount: 250,
+  }),
   "Chop Trees 450 times": bumpkinActivityTask({
     activity: "Tree Chopped",
     amount: 450,
@@ -1440,6 +2536,10 @@ export const NPC_CHORES = {
   "Chop Trees 500 times": bumpkinActivityTask({
     activity: "Tree Chopped",
     amount: 500,
+  }),
+  "Chop Trees 550 times": bumpkinActivityTask({
+    activity: "Tree Chopped",
+    amount: 550,
   }),
   "Chop Trees 600 times": bumpkinActivityTask({
     activity: "Tree Chopped",
@@ -1459,6 +2559,18 @@ export const NPC_CHORES = {
     activity: "Stone Mined",
     amount: 8,
   }),
+  "Mine Stones 10 times": bumpkinActivityTask({
+    activity: "Stone Mined",
+    amount: 10,
+  }),
+  "Mine Stones 12 times": bumpkinActivityTask({
+    activity: "Stone Mined",
+    amount: 12,
+  }),
+  "Mine Stones 20 times": bumpkinActivityTask({
+    activity: "Stone Mined",
+    amount: 20,
+  }),
   "Mine Stones 50 times": bumpkinActivityTask({
     activity: "Stone Mined",
     amount: 50,
@@ -1470,6 +2582,14 @@ export const NPC_CHORES = {
   "Mine Stones 100 times": bumpkinActivityTask({
     activity: "Stone Mined",
     amount: 100,
+  }),
+  "Mine Stones 135 times": bumpkinActivityTask({
+    activity: "Stone Mined",
+    amount: 135,
+  }),
+  "Mine Stones 175 times": bumpkinActivityTask({
+    activity: "Stone Mined",
+    amount: 175,
   }),
   "Mine Gold 30 times": bumpkinActivityTask({
     activity: "Gold Mined",
@@ -1483,6 +2603,18 @@ export const NPC_CHORES = {
     activity: "Gold Mined",
     amount: 45,
   }),
+  "Mine Gold 50 times": bumpkinActivityTask({
+    activity: "Gold Mined",
+    amount: 50,
+  }),
+  "Mine Gold 55 times": bumpkinActivityTask({
+    activity: "Gold Mined",
+    amount: 55,
+  }),
+  "Mine Gold 60 times": bumpkinActivityTask({
+    activity: "Gold Mined",
+    amount: 60,
+  }),
   "Mine Crimstone 20 times": bumpkinActivityTask({
     activity: "Crimstone Mined",
     amount: 20,
@@ -1494,6 +2626,18 @@ export const NPC_CHORES = {
   "Mine Crimstone 24 times": bumpkinActivityTask({
     activity: "Crimstone Mined",
     amount: 24,
+  }),
+  "Mine Crimstone 28 times": bumpkinActivityTask({
+    activity: "Crimstone Mined",
+    amount: 28,
+  }),
+  "Mine Crimstone 32 times": bumpkinActivityTask({
+    activity: "Crimstone Mined",
+    amount: 32,
+  }),
+  "Mine Crimstone 36 times": bumpkinActivityTask({
+    activity: "Crimstone Mined",
+    amount: 36,
   }),
   "Mine Iron 150 times": bumpkinActivityTask({
     activity: "Iron Mined",
@@ -1511,6 +2655,14 @@ export const NPC_CHORES = {
     activity: "Iron Mined",
     amount: 225,
   }),
+  "Mine Iron 250 times": bumpkinActivityTask({
+    activity: "Iron Mined",
+    amount: 250,
+  }),
+  "Mine Iron 300 times": bumpkinActivityTask({
+    activity: "Iron Mined",
+    amount: 300,
+  }),
   "Mine Stones 200 times": bumpkinActivityTask({
     activity: "Stone Mined",
     amount: 200,
@@ -1518,6 +2670,10 @@ export const NPC_CHORES = {
   "Mine Stones 250 times": bumpkinActivityTask({
     activity: "Stone Mined",
     amount: 250,
+  }),
+  "Mine Stones 275 times": bumpkinActivityTask({
+    activity: "Stone Mined",
+    amount: 275,
   }),
   "Mine Stones 300 times": bumpkinActivityTask({
     activity: "Stone Mined",
@@ -1547,9 +2703,17 @@ export const NPC_CHORES = {
     activity: "Blueberry Harvested",
     amount: 150,
   }),
+  "Pick Blueberries 180 times": bumpkinActivityTask({
+    activity: "Blueberry Harvested",
+    amount: 180,
+  }),
   "Pick Blueberries 200 times": bumpkinActivityTask({
     activity: "Blueberry Harvested",
     amount: 200,
+  }),
+  "Pick Blueberries 250 times": bumpkinActivityTask({
+    activity: "Blueberry Harvested",
+    amount: 250,
   }),
   "Pick Oranges 100 times": bumpkinActivityTask({
     activity: "Orange Harvested",
@@ -1559,9 +2723,25 @@ export const NPC_CHORES = {
     activity: "Orange Harvested",
     amount: 125,
   }),
+  "Pick Oranges 150 times": bumpkinActivityTask({
+    activity: "Orange Harvested",
+    amount: 150,
+  }),
   "Pick Oranges 160 times": bumpkinActivityTask({
     activity: "Orange Harvested",
     amount: 160,
+  }),
+  "Pick Oranges 175 times": bumpkinActivityTask({
+    activity: "Orange Harvested",
+    amount: 175,
+  }),
+  "Pick Oranges 205 times": bumpkinActivityTask({
+    activity: "Orange Harvested",
+    amount: 205,
+  }),
+  "Pick Oranges 250 times": bumpkinActivityTask({
+    activity: "Orange Harvested",
+    amount: 250,
   }),
   "Pick Apples 60 times": bumpkinActivityTask({
     activity: "Apple Harvested",
@@ -1575,6 +2755,18 @@ export const NPC_CHORES = {
     activity: "Apple Harvested",
     amount: 90,
   }),
+  "Pick Apples 125 times": bumpkinActivityTask({
+    activity: "Apple Harvested",
+    amount: 125,
+  }),
+  "Pick Apples 150 times": bumpkinActivityTask({
+    activity: "Apple Harvested",
+    amount: 150,
+  }),
+  "Pick Apples 175 times": bumpkinActivityTask({
+    activity: "Apple Harvested",
+    amount: 175,
+  }),
   "Pick Tomatoes 150 times": bumpkinActivityTask({
     activity: "Tomato Harvested",
     amount: 150,
@@ -1587,6 +2779,14 @@ export const NPC_CHORES = {
     activity: "Tomato Harvested",
     amount: 250,
   }),
+  "Pick Tomatoes 300 times": bumpkinActivityTask({
+    activity: "Tomato Harvested",
+    amount: 300,
+  }),
+  "Pick Tomatoes 350 times": bumpkinActivityTask({
+    activity: "Tomato Harvested",
+    amount: 350,
+  }),
   "Pick Grapes 36 times": bumpkinActivityTask({
     activity: "Grape Harvested",
     amount: 36,
@@ -1595,9 +2795,21 @@ export const NPC_CHORES = {
     activity: "Grape Harvested",
     amount: 44,
   }),
+  "Pick Grapes 48 times": bumpkinActivityTask({
+    activity: "Grape Harvested",
+    amount: 48,
+  }),
   "Pick Grapes 52 times": bumpkinActivityTask({
     activity: "Grape Harvested",
     amount: 52,
+  }),
+  "Pick Grapes 60 times": bumpkinActivityTask({
+    activity: "Grape Harvested",
+    amount: 60,
+  }),
+  "Pick Grapes 72 times": bumpkinActivityTask({
+    activity: "Grape Harvested",
+    amount: 72,
   }),
   "Pick Bananas 80 times": bumpkinActivityTask({
     activity: "Banana Harvested",
@@ -1615,9 +2827,21 @@ export const NPC_CHORES = {
     activity: "Banana Harvested",
     amount: 120,
   }),
+  "Pick Bananas 125 times": bumpkinActivityTask({
+    activity: "Banana Harvested",
+    amount: 125,
+  }),
   "Pick Bananas 150 times": bumpkinActivityTask({
     activity: "Banana Harvested",
     amount: 150,
+  }),
+  "Pick Bananas 175 times": bumpkinActivityTask({
+    activity: "Banana Harvested",
+    amount: 175,
+  }),
+  "Pick Bananas 200 times": bumpkinActivityTask({
+    activity: "Banana Harvested",
+    amount: 200,
   }),
   "Pick Lemons 150 times": bumpkinActivityTask({
     activity: "Lemon Harvested",
@@ -1630,6 +2854,14 @@ export const NPC_CHORES = {
   "Pick Lemons 250 times": bumpkinActivityTask({
     activity: "Lemon Harvested",
     amount: 250,
+  }),
+  "Pick Lemons 300 times": bumpkinActivityTask({
+    activity: "Lemon Harvested",
+    amount: 300,
+  }),
+  "Pick Lemons 350 times": bumpkinActivityTask({
+    activity: "Lemon Harvested",
+    amount: 350,
   }),
 
   // Collect
@@ -1645,9 +2877,25 @@ export const NPC_CHORES = {
     activity: "Honey Harvested",
     amount: 21,
   }),
+  "Collect 20 Honey": bumpkinActivityTask({
+    activity: "Honey Harvested",
+    amount: 20,
+  }),
+  "Collect 25 Honey": bumpkinActivityTask({
+    activity: "Honey Harvested",
+    amount: 25,
+  }),
+  "Collect 30 Honey": bumpkinActivityTask({
+    activity: "Honey Harvested",
+    amount: 30,
+  }),
   "Collect Eggs 60 times": bumpkinActivityTask({
     activity: "Egg Collected",
     amount: 60,
+  }),
+  "Collect Eggs 75 times": bumpkinActivityTask({
+    activity: "Egg Collected",
+    amount: 75,
   }),
   "Collect Eggs 80 times": bumpkinActivityTask({
     activity: "Egg Collected",
@@ -1665,6 +2913,18 @@ export const NPC_CHORES = {
     activity: "Egg Collected",
     amount: 150,
   }),
+  "Collect Eggs 175 times": bumpkinActivityTask({
+    activity: "Egg Collected",
+    amount: 175,
+  }),
+  "Collect Eggs 200 times": bumpkinActivityTask({
+    activity: "Egg Collected",
+    amount: 200,
+  }),
+  "Collect Eggs 225 times": bumpkinActivityTask({
+    activity: "Egg Collected",
+    amount: 225,
+  }),
   "Collect Wool 30 times": bumpkinActivityTask({
     activity: "Wool Collected",
     amount: 30,
@@ -1681,9 +2941,25 @@ export const NPC_CHORES = {
     activity: "Wool Collected",
     amount: 60,
   }),
+  "Collect Wool 70 times": bumpkinActivityTask({
+    activity: "Wool Collected",
+    amount: 70,
+  }),
   "Collect Wool 75 times": bumpkinActivityTask({
     activity: "Wool Collected",
     amount: 75,
+  }),
+  "Collect Wool 80 times": bumpkinActivityTask({
+    activity: "Wool Collected",
+    amount: 80,
+  }),
+  "Collect Wool 100 times": bumpkinActivityTask({
+    activity: "Wool Collected",
+    amount: 100,
+  }),
+  "Collect Wool 125 times": bumpkinActivityTask({
+    activity: "Wool Collected",
+    amount: 125,
   }),
   "Collect Milk 30 times": bumpkinActivityTask({
     activity: "Milk Collected",
@@ -1704,6 +2980,14 @@ export const NPC_CHORES = {
   "Collect Milk 75 times": bumpkinActivityTask({
     activity: "Milk Collected",
     amount: 75,
+  }),
+  "Collect Milk 100 times": bumpkinActivityTask({
+    activity: "Milk Collected",
+    amount: 100,
+  }),
+  "Collect Milk 125 times": bumpkinActivityTask({
+    activity: "Milk Collected",
+    amount: 125,
   }),
 
   // Dig
@@ -1752,6 +3036,18 @@ export const NPC_CHORES = {
   "Spend 64,000 Coins": bumpkinActivityTask({
     activity: "Coins Spent",
     amount: 64000,
+  }),
+  "Spend 60,606 Coins": bumpkinActivityTask({
+    activity: "Coins Spent",
+    amount: 60606,
+  }),
+  "Spend 70,707 Coins": bumpkinActivityTask({
+    activity: "Coins Spent",
+    amount: 70707,
+  }),
+  "Spend 80,808 Coins": bumpkinActivityTask({
+    activity: "Coins Spent",
+    amount: 80808,
   }),
 
   // To Remove

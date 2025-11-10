@@ -1613,6 +1613,9 @@ export function startGame(authContext: AuthContext) {
             "nft.assigned": {
               target: STATE_MACHINE_EFFECTS["nft.assigned"],
             },
+            "admin.NFTAssigned": {
+              target: STATE_MACHINE_EFFECTS["admin.NFTAssigned"],
+            },
             TRANSACT: {
               target: "transacting",
             },

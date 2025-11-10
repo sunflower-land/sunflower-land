@@ -194,6 +194,12 @@ export const getCookingTime = ({
     boostsUsed.push("Luna's Hat");
   }
 
+  // Legendary Shrine - 50% reduction
+  if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game })) {
+    reducedSecs = reducedSecs.mul(0.5);
+    boostsUsed.push("Legendary Shrine");
+  }
+
   if (isTemporaryCollectibleActive({ name: "Boar Shrine", game })) {
     reducedSecs = reducedSecs.mul(0.8);
     boostsUsed.push("Boar Shrine");

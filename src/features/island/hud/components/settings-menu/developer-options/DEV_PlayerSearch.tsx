@@ -12,6 +12,7 @@ import { loadGameStateForAdmin } from "features/game/actions/adminSearch";
 import { useGame } from "features/game/GameProvider";
 import { Label } from "components/ui/Label";
 import { TextInput } from "components/ui/TextInput";
+import { MANAGER_IDS } from "lib/flags";
 
 export const DEV_PlayerSearch: React.FC<ContentComponentProps> = () => {
   const { t } = useAppTranslation();
@@ -25,7 +26,7 @@ export const DEV_PlayerSearch: React.FC<ContentComponentProps> = () => {
     null,
   );
   const { authState } = useAuth();
-  const { gameState } = useGame();
+  const { gameState, gameService } = useGame();
 
   const search = async () => {
     setState("loading");
@@ -58,6 +59,7 @@ export const DEV_PlayerSearch: React.FC<ContentComponentProps> = () => {
   }
 
   if (state === "loaded" && farm) {
+    const isManager = MANAGER_IDS.includes(gameState.context.farmId);
     return (
       <div className="flex flex-col p-1">
         <div className="flex items-center">
@@ -82,6 +84,19 @@ export const DEV_PlayerSearch: React.FC<ContentComponentProps> = () => {
         </div>
         <p>{`Face Recognition: ${farm.moderator?.isFaceRecognised}`}</p>
         <p>{`Login with: ${farm.moderator?.account}`}</p>
+
+        {isManager && !farm.moderator?.nftId && (
+          <Button
+            onClick={() => {
+              gameService.send("admin.NFTAssigned", {
+                effect: { type: "admin.NFTAssigned", farmId: farm.id },
+                authToken: authState.context.user.rawToken as string,
+              });
+            }}
+          >
+            {`Assign NFT`}
+          </Button>
+        )}
       </div>
     );
   }

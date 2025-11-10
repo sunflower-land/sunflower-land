@@ -6830,5 +6830,12 @@
   "reward.vipDescription": "Negociação de bônus, Bumpkin XP, benefícios de cozinhar e ganhar!",
   "marketplace.pet.level": "Nível: {{level}}",
   "withdraw.pet.notRevealed": "O animal de estimação será revelado em {{date}}",
-  "ronin.airdrop.claim.two": "Insira o endereço da sua carteira para verificar sua elegibilidade."
+  "ronin.airdrop.claim.two": "Insira o endereço da sua carteira para verificar sua elegibilidade.",
+  "description.bantamShrine.buff.2": "-5% de ração para alimentar galinhas",
+  "description.foxShrine.buff.2": "10% de chance de criar instantaneamente uma receita",
+  "description.collieShrine.buff.3": "-5% de ração para alimentar animais de celeiro",
+  "description.bearShrine.buff.2": "+10% de chance de enxame de abelhas",
+  "description.mothShrine.buff.2": "10% de chance de obter +1 flor",
+  "description.legendaryShrine.buff.5": "+1 Flor",
+  "description.legendaryShrine.buff.6": "-50% de tempo de cozimento"
 }
