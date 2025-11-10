@@ -1870,4 +1870,164 @@ describe("feedAnimal", () => {
 
     expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(0.25));
   });
+
+  it("takes 5% less food to feed a cow or sheep if Collie Shrine is active", () => {
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Kernel Blend": new Decimal(5),
+        },
+        collectibles: {
+          "Collie Shrine": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: now,
+              id: "1",
+              readyAt: now,
+            },
+          ],
+        },
+        barn: {
+          ...GAME_STATE.barn,
+          animals: {
+            "0": {
+              ...GAME_STATE.barn.animals["0"],
+              type: "Cow",
+              experience: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Cow",
+        id: "0",
+        item: "Kernel Blend",
+      },
+    });
+
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(0.25));
+  });
+
+  it("does not take 5% less food to feed Chicken if Collie Shrine is active", () => {
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Kernel Blend": new Decimal(5),
+        },
+        collectibles: {
+          "Collie Shrine": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: now,
+              id: "1",
+              readyAt: now,
+            },
+          ],
+        },
+        henHouse: {
+          ...GAME_STATE.henHouse,
+          animals: {
+            "0": {
+              ...GAME_STATE.henHouse.animals["0"],
+              type: "Chicken",
+              experience: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: "0",
+        item: "Kernel Blend",
+      },
+    });
+
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(4));
+  });
+
+  it("takes 5% less food to feed a chicken if Bantam Shrine is active", () => {
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Kernel Blend": new Decimal(5),
+        },
+        collectibles: {
+          "Bantam Shrine": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: now,
+              id: "1",
+              readyAt: now,
+            },
+          ],
+        },
+        henHouse: {
+          ...GAME_STATE.henHouse,
+          animals: {
+            "0": {
+              ...GAME_STATE.henHouse.animals["0"],
+              type: "Chicken",
+              experience: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: "0",
+        item: "Kernel Blend",
+      },
+    });
+
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(4.05));
+  });
+
+  it("does not take 5% less food to feed cow or sheep if Bantam Shrine is active", () => {
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Kernel Blend": new Decimal(5),
+        },
+        collectibles: {
+          "Bantam Shrine": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: now,
+              id: "1",
+              readyAt: now,
+            },
+          ],
+        },
+        barn: {
+          ...GAME_STATE.barn,
+          animals: {
+            "0": {
+              ...GAME_STATE.barn.animals["0"],
+              type: "Cow",
+              experience: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Cow",
+        id: "0",
+        item: "Kernel Blend",
+      },
+    });
+
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(0));
+  });
 });

@@ -354,16 +354,14 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
   "Boar Shrine": {
     description: "",
     coins: 0,
-    ingredients: {
-      Acorn: new Decimal(15),
-    },
+    ingredients: { Acorn: new Decimal(15) },
     inventoryLimit: 1,
   },
   "Hound Shrine": {
     description: "",
     coins: 0,
     ingredients: {
-      Acorn: new Decimal(20),
+      Acorn: new Decimal(50),
     },
     inventoryLimit: 1,
   },
