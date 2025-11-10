@@ -13,6 +13,7 @@ import { useContext, useState } from "react";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Transition } from "@headlessui/react";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const _petNFTData = (id: string) => (state: MachineState) => {
   return state.context.state.pets?.nfts?.[Number(id)];
@@ -68,14 +69,21 @@ export const LandPetNFT: React.FC<{ id: string }> = ({ id }) => {
   };
 
   return (
-    <PetSprite
-      id={Number(id)}
-      isNeglected={isNeglected}
-      isNapping={isNapping}
-      isTypeFed={isTypeFed}
-      clickable
-      onClick={handlePetClick}
+    <div
+      className="relative flex items-center justify-center"
+      style={{
+        width: `${PIXEL_SCALE * 32}px`,
+        height: `${PIXEL_SCALE * 32}px`,
+      }}
     >
+      <PetSprite
+        id={Number(id)}
+        isNeglected={isNeglected}
+        isNapping={isNapping}
+        isTypeFed={isTypeFed}
+        clickable
+        onClick={handlePetClick}
+      />
       <Transition
         appear={true}
         show={showPositiveXpPopup || showNegativeXpPopup}
@@ -111,6 +119,6 @@ export const LandPetNFT: React.FC<{ id: string }> = ({ id }) => {
           isTypeFed={isTypeFed}
         />
       )}
-    </PetSprite>
+    </div>
   );
 };

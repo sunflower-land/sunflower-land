@@ -55,12 +55,7 @@ export const VisitingPet: React.FC<{ name: PetName }> = ({ name }) => {
   const isNapping = isPetNapping(petData);
 
   const handlePetClick = () => {
-    if (
-      petData &&
-      visitorGameState &&
-      hasFeatureAccess(visitorGameState, "PETS") &&
-      !hasHelpedPet
-    ) {
+    if (petData && visitorGameState && !hasHelpedPet) {
       gameService.send("pet.visitingPets", { pet: name, totalHelpedToday });
 
       if (
@@ -77,27 +72,32 @@ export const VisitingPet: React.FC<{ name: PetName }> = ({ name }) => {
   useUiRefresher();
 
   return (
-    <PetSprite
-      id={name}
-      isNeglected={isNeglected}
-      isNapping={isNapping}
-      onClick={handlePetClick}
-      clickable={!hasHelpedPet}
+    <div
+      className="relative"
+      style={{
+        width: `${PIXEL_SCALE * 16}px`,
+        height: `${PIXEL_SCALE * 16}px`,
+      }}
     >
+      <PetSprite
+        id={name}
+        isNeglected={isNeglected}
+        isNapping={isNapping}
+        onClick={handlePetClick}
+        clickable={!hasHelpedPet}
+      />
       {!hasHelpedPet && petData && (
         <div
-          className="absolute -top-4 -right-4 pointer-events-auto cursor-pointer hover:img-highlight"
+          className="pointer-events-auto cursor-pointer hover:img-highlight"
           onClick={(e) => {
             e.stopPropagation();
             handlePetClick();
           }}
         >
           <div
-            className="relative mr-2"
+            className="relative mr-2 -top-8 -right-4"
             style={{
               width: `${PIXEL_SCALE * 20}px`,
-              top: `${PIXEL_SCALE * -4}px`,
-              right: `${PIXEL_SCALE * -4}px`,
             }}
           >
             <img className="w-full" src={SUNNYSIDE.icons.disc} />
@@ -119,6 +119,6 @@ export const VisitingPet: React.FC<{ name: PetName }> = ({ name }) => {
           <FarmHelped onClose={() => setShowHelped(false)} />
         </CloseButtonPanel>
       </Modal>
-    </PetSprite>
+    </div>
   );
 };

@@ -13,9 +13,10 @@ const TEST_FARM: GameState = {
   ...INITIAL_FARM,
   inventory: {
     ...INITIAL_FARM.inventory,
-    Oil: new Decimal(100),
+    Oil: new Decimal(70),
     Pepper: new Decimal(750),
     Zucchini: new Decimal(1000),
+    Crimstone: new Decimal(4),
   },
   season: {
     season: "summer",
@@ -197,9 +198,10 @@ describe("startLavaPit", () => {
       createdAt: now,
     });
 
-    expect(result.inventory.Oil).toEqual(new Decimal(50));
+    expect(result.inventory.Oil).toEqual(new Decimal(35));
     expect(result.inventory.Pepper).toEqual(new Decimal(375));
     expect(result.inventory.Zucchini).toEqual(new Decimal(500));
+    expect(result.inventory.Crimstone).toEqual(new Decimal(2));
   });
 
   it("starts the lava pit", () => {
