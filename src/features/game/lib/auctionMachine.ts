@@ -1,6 +1,7 @@
 import { createMachine, Interpreter, assign } from "xstate";
 import { randomID } from "lib/utils/random";
 import { bid } from "features/game/actions/bid";
+import { cancelBid as cancelBidAction } from "features/game/actions/cancelBid";
 import {
   GameState,
   InventoryItemName,
@@ -113,6 +114,7 @@ export type AuctioneerMachineState = {
     | "playing"
     | "draftingBid"
     | "bidding"
+    | "cancelling"
     | "bidded"
     | "checkingResults"
     | "loser"
@@ -125,9 +127,15 @@ export type AuctioneerMachineState = {
   context: Context;
 };
 
+type AuctioneerStateSchema = {
+  states: {
+    [state in AuctioneerMachineState["value"]]: Record<string, never>;
+  };
+};
+
 export type MachineInterpreter = Interpreter<
   Context,
-  any,
+  AuctioneerStateSchema,
   BlockchainEvent,
   AuctioneerMachineState
 >;
@@ -367,8 +375,43 @@ export const createAuctioneerMachine = ({
             },
           },
         },
+        cancelling: {
+          entry: "setTransactionId",
+          invoke: {
+            src: async (context) => {
+              if (!context.bid) {
+                throw new Error("No bid to cancel");
+              }
+
+              const { game } = await cancelBidAction({
+                farmId: Number(context.farmId),
+                auctionId: context.bid.auctionId,
+                token: context.token as string,
+                transactionId: context.transactionId as string,
+              });
+
+              onUpdate(game);
+
+              return {
+                bid: game.auctioneer.bid,
+              };
+            },
+            onDone: {
+              target: "playing",
+              actions: [
+                assign({
+                  bid: (_, event) => event.data.bid,
+                }),
+              ],
+            },
+            onError: {
+              target: "error",
+            },
+          },
+        },
         bidded: {
           on: {
+            CANCEL: "cancelling",
             CHECK_RESULTS: "checkingResults",
           },
         },
@@ -461,10 +504,10 @@ export const createAuctioneerMachine = ({
     },
     {
       actions: {
-        setTransactionId: assign<Context, any>({
+        setTransactionId: assign<Context, BlockchainEvent>({
           transactionId: () => randomID(),
         }),
-        clearTransactionId: assign<Context, any>({
+        clearTransactionId: assign<Context, BlockchainEvent>({
           transactionId: () => randomID(),
         }),
       },
