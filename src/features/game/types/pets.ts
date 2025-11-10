@@ -7,6 +7,7 @@ import { InventoryItemName } from "./game";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { COMPETITION_POINTS } from "./competitions";
 import { PetTraits } from "features/pets/data/types";
+import { CONFIG } from "lib/config";
 
 export const SOCIAL_PET_XP_PER_HELP = 5;
 export const SOCIAL_PET_DAILY_XP_LIMIT = 50;
@@ -727,7 +728,7 @@ type PetNFTRevealConfig = {
   endId: number;
 };
 
-const PET_NFT_REVEAL_CONFIG: PetNFTRevealConfig[] = [
+const MAINNET_PET_NFT_REVEAL_CONFIG: PetNFTRevealConfig[] = [
   {
     revealAt: new Date("2025-11-12T00:00:00.000Z"),
     startId: 1,
@@ -745,8 +746,22 @@ const PET_NFT_REVEAL_CONFIG: PetNFTRevealConfig[] = [
   },
 ];
 
+const TESTNET_PET_NFT_REVEAL_CONFIG: PetNFTRevealConfig[] = [
+  {
+    revealAt: new Date("2025-11-11T00:00:00.000Z"),
+    startId: 1,
+    endId: 1000,
+  },
+];
+
+const getPetNFTRevealConfig = () => {
+  return CONFIG.NETWORK === "mainnet"
+    ? MAINNET_PET_NFT_REVEAL_CONFIG
+    : TESTNET_PET_NFT_REVEAL_CONFIG;
+};
+
 export function isPetNFTRevealed(petId: number, createdAt: number) {
-  return PET_NFT_REVEAL_CONFIG.some(
+  return getPetNFTRevealConfig().some(
     (config) =>
       petId >= config.startId &&
       petId <= config.endId &&
@@ -754,7 +769,7 @@ export function isPetNFTRevealed(petId: number, createdAt: number) {
   );
 }
 export function getPetNFTReleaseDate(petId: number, createdAt: number) {
-  const revealAt = PET_NFT_REVEAL_CONFIG.find(
+  const revealAt = getPetNFTRevealConfig().find(
     (config) => petId >= config.startId && petId <= config.endId,
   )?.revealAt;
 
