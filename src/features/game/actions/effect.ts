@@ -51,6 +51,8 @@ type EffectName =
   | "farm.helped"
   | "pet.wakeUp"
   | "auction.claimed"
+  | "auction.bidPlaced"
+  | "auction.bidCancelled"
   | "marketplace.buyBulkResources";
 
 type VisitEffectName = "farm.helped" | "farm.cheered" | "farm.followed";
@@ -107,6 +109,8 @@ export type StateMachineStateName =
   | "helpingFarm"
   | "claimingAuction"
   | "wakingPet"
+  | "auctionBidding"
+  | "auctionCancelling"
   | "marketplaceBuyingBulkResources";
 
 export type StateMachineVisitStateName =
@@ -161,6 +165,8 @@ export const STATE_MACHINE_EFFECTS: Record<
   "farm.helped": "helpingFarm",
   "auction.claimed": "claimingAuction",
   "pet.wakeUp": "wakingPet",
+  "auction.bidPlaced": "auctionBidding",
+  "auction.bidCancelled": "auctionCancelling",
   "marketplace.buyBulkResources": "marketplaceBuyingBulkResources",
 };
 
