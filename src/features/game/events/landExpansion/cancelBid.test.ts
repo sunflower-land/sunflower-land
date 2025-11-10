@@ -1,9 +1,10 @@
 import Decimal from "decimal.js-light";
 import { cancelBid } from "./cancelBid";
 import { INITIAL_FARM } from "features/game/lib/constants";
+import { GameState } from "features/game/types/game";
 
 describe("cancelBid", () => {
-  const createState = () => ({
+  const GAME_STATE: GameState = {
     ...INITIAL_FARM,
     balance: new Decimal(0),
     inventory: {
@@ -22,7 +23,7 @@ describe("cancelBid", () => {
         collectible: "Beta Bear",
       },
     },
-  });
+  };
 
   it("throws if there is no active bid", () => {
     expect(() =>
@@ -46,7 +47,7 @@ describe("cancelBid", () => {
           type: "bid.cancelled",
           auctionId: "test-drop-2",
         },
-        state: createState(),
+        state: GAME_STATE,
       }),
     ).toThrow("Auction does not match active bid");
   });
@@ -57,7 +58,7 @@ describe("cancelBid", () => {
         type: "bid.cancelled",
         auctionId: "test-drop-1",
       },
-      state: createState(),
+      state: GAME_STATE,
     });
 
     expect(state.balance).toEqual(new Decimal(10));
