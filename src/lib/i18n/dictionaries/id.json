@@ -7135,5 +7135,10 @@
   "chore.prepare.sourShake.25": "Siapkan Sour Shake 25 kali",
   "chore.spend.60606": "Belanjakan 60606 Koin",
   "chore.spend.70707": "Belanjakan 70707 Koin",
-  "chore.spend.80808": "Belanjakan 80808 Koin"
+  "chore.spend.80808": "Belanjakan 80808 Koin",
+  "cancelling.bid": "Membatalkan tawaran",
+  "auction.bidding.success": "Tawaran berhasil ditempatkan",
+  "auction.bidding.failed": "Tawaran gagal",
+  "auction.cancelling.success": "Penawaran dibatalkan",
+  "auction.cancelling.failed": "Pembatalan tawaran gagal"
 }

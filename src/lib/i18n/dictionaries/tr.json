@@ -7135,5 +7135,10 @@
   "chore.prepare.sourShake.25": "Sour Shake 25 kez hazırlayın",
   "chore.spend.60606": "60606 Madeni Para Harcayın",
   "chore.spend.70707": "70707 Madeni Para Harcayın",
-  "chore.spend.80808": "80808 Coins Harcayın"
+  "chore.spend.80808": "80808 Coins Harcayın",
+  "cancelling.bid": "Teklifi iptal etme",
+  "auction.bidding.success": "Teklif başarıyla verildi",
+  "auction.bidding.failed": "Teklif başarısız oldu",
+  "auction.cancelling.success": "Teklif iptal edildi",
+  "auction.cancelling.failed": "Teklif iptali başarısız oldu"
 }

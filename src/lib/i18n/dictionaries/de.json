@@ -7135,5 +7135,10 @@
   "chore.prepare.sourShake.25": "Bereite Sour Shake 25 mal zu",
   "chore.spend.60606": "Gib 60606 Münzen aus",
   "chore.spend.70707": "Gib 70.707 Münzen aus",
-  "chore.spend.80808": "Gib 80808 Münzen aus"
+  "chore.spend.80808": "Gib 80808 Münzen aus",
+  "cancelling.bid": "Gebot stornieren",
+  "auction.bidding.success": "Gebot erfolgreich abgegeben",
+  "auction.bidding.failed": "Gebot gescheitert",
+  "auction.cancelling.success": "Gebot storniert",
+  "auction.cancelling.failed": "Angebotsstornierung fehlgeschlagen"
 }

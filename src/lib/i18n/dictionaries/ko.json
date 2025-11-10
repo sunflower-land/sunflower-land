@@ -7135,5 +7135,10 @@
   "chore.prepare.sourShake.25": "사워 쉐이크를 25회 준비하세요",
   "chore.spend.60606": "60606개의 코인을 사용하세요",
   "chore.spend.70707": "70707개의 코인을 사용하세요",
-  "chore.spend.80808": "80808개의 코인을 사용하세요"
+  "chore.spend.80808": "80808개의 코인을 사용하세요",
+  "cancelling.bid": "입찰 취소",
+  "auction.bidding.success": "입찰이 성공적으로 이루어졌습니다.",
+  "auction.bidding.failed": "입찰 실패",
+  "auction.cancelling.success": "입찰 취소됨",
+  "auction.cancelling.failed": "입찰 취소 실패"
 }
