@@ -129,6 +129,7 @@ import { Announcements } from "../types/announcements";
 import { deliverOrder, DeliverOrderAction } from "./landExpansion/deliver";
 import { equip, EquipBumpkinAction } from "./landExpansion/equip";
 import { refundBid, RefundBidAction } from "./landExpansion/refundBid";
+import { cancelBid, CancelBidAction } from "./landExpansion/cancelBid";
 import { mixPotion, MixPotionAction } from "./landExpansion/mixPotion";
 import { buyWearable, BuyWearableAction } from "./landExpansion/buyWearable";
 import { skipOrder, SkipOrderAction } from "./landExpansion/skipOrder";
@@ -602,6 +603,7 @@ export type PlayingEvent =
   | RemoveCollectibleAction
   | DeliverOrderAction
   | EquipBumpkinAction
+  | CancelBidAction
   | RefundBidAction
   | MixPotionAction
   | BuyWearableAction
@@ -851,6 +853,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "order.delivered": deliverOrder,
   "order.skipped": skipOrder,
   "bumpkin.equipped": equip,
+  "bid.cancelled": cancelBid,
   "bid.refunded": refundBid,
   "potion.mixed": mixPotion,
   "wearable.bought": buyWearable,

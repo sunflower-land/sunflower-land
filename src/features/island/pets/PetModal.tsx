@@ -25,15 +25,16 @@ import { useSelector } from "@xstate/react";
 import { CookableName } from "features/game/types/consumables";
 import { ResetFoodRequests } from "./ResetFoodRequests";
 import { PetFeed } from "./PetFeed";
-
-import levelUp from "assets/icons/level_up.png";
-import xpIcon from "assets/icons/xp.png";
 import { PetFetch } from "./PetFetch";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { ChestRewardsList } from "components/ui/ChestRewardsList";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { PetTypeFed } from "./PetTypeFed";
 import { getPetImage } from "./lib/petShared";
+import classNames from "classnames";
+
+import levelUp from "assets/icons/level_up.png";
+import xpIcon from "assets/icons/xp.png";
 
 interface Props {
   show: boolean;
@@ -116,7 +117,10 @@ export const PetModal: React.FC<Props> = ({
               <img
                 src={image}
                 alt={data.name}
-                className="w-16 object-contain"
+                className={classNames("object-contain", {
+                  "w-16": !isNFTPet,
+                  "w-24": isNFTPet,
+                })}
               />
             </div>
             <div className="flex flex-col">

@@ -29,6 +29,9 @@ export const AuctionBid: React.FC<Props> = ({
   const readyAt = auction.endAt + AUCTION_BUFFER_SECONDS * 1000;
   const ready = useCountdown(readyAt);
   const image = getAuctionItemImage(auction);
+  const now = Date.now();
+  const canCancel = now < auction.endAt;
+  const canReveal = readyAt <= now;
 
   const { t } = useAppTranslation();
 
@@ -68,13 +71,25 @@ export const AuctionBid: React.FC<Props> = ({
       </div>
       <TimerDisplay time={ready} />
 
-      <Button
-        className="mt-2"
-        disabled={readyAt > Date.now()}
-        onClick={() => auctionService.send("CHECK_RESULTS")}
-      >
-        {t("auction.reveal")}
-      </Button>
+      {canCancel && (
+        <Button
+          className="mt-2"
+          disabled={!canCancel}
+          onClick={() => auctionService.send("CANCEL")}
+        >
+          {t("cancel")}
+        </Button>
+      )}
+
+      {canReveal && (
+        <Button
+          className="mt-2"
+          disabled={!canReveal}
+          onClick={() => auctionService.send("CHECK_RESULTS")}
+        >
+          {t("auction.reveal")}
+        </Button>
+      )}
     </div>
   );
 };

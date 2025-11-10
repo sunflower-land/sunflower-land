@@ -49,15 +49,15 @@ export const LandPet: React.FC<{ name: PetName }> = ({ name }) => {
   if (!petData) return null;
 
   return (
-    <PetSprite
-      id={name}
-      isNeglected={isNeglected}
-      isNapping={isNapping}
-      onClick={handlePetClick}
-      clickable
-    >
+    <>
+      <PetSprite
+        id={name}
+        isNeglected={isNeglected}
+        isNapping={isNapping}
+        onClick={handlePetClick}
+        clickable
+      />
       <Transition
-        appear={true}
         show={showPositiveXpPopup || showNegativeXpPopup}
         enter="transition-opacity transition-transform duration-200"
         enterFrom="opacity-0 translate-y-4"
@@ -89,6 +89,6 @@ export const LandPet: React.FC<{ name: PetName }> = ({ name }) => {
         petType={petType}
         data={petData}
       />
-    </PetSprite>
+    </>
   );
 };

@@ -58,7 +58,6 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({
   const game = useSelector(gameService, _game);
 
   // Make a list of in home vs on land
-
   const hasHelpedToday = gameState.context.hasHelpedPlayerToday ?? false;
 
   const handleIncreaseLimit = () => {
@@ -133,7 +132,6 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({
         <InnerPanel className="mb-1">
           <div className="flex items-center justify-between">
             <Label type="danger">{t("help.limitReached")}</Label>
-
             <div className="flex items-center">
               <img src={SUNNYSIDE.icons.stopwatch} className="h-6 mr-2" />
               <p className="text-xs my-2">

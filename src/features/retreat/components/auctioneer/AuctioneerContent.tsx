@@ -107,6 +107,10 @@ export const AuctioneerContent: React.FC<Props> = ({
     return <Loading text={t("placing.bid")} />;
   }
 
+  if (auctioneerState.matches("cancelling")) {
+    return <Loading text={t("cancelling.bid")} />;
+  }
+
   if (auctioneerState.matches("refunded")) {
     return <Refunded />;
   }
