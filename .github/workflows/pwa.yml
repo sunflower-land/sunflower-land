@@ -3,7 +3,7 @@ name: PWA caching updated
 on:
   push:
     branches:
-      - feat/pwa-caching-updated
+      - feat/pwa-caching-updates
 
 jobs:
   deploy:
