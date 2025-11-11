@@ -202,7 +202,7 @@ export const TradeableOffers: React.FC<{
               </Label>
               {tradeable?.expiresAt && (
                 <Label type={limitedPurchasesLeft <= 0 ? "danger" : "warning"}>
-                  {`${limitedPurchasesLeft}/${MAX_LIMITED_PURCHASES} Offers left`}
+                  {`${limitedPurchasesLeft}/${MAX_LIMITED_PURCHASES(display.name)} Offers left`}
                 </Label>
               )}
             </div>
