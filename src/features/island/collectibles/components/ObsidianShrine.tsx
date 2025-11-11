@@ -68,7 +68,14 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
 
   if (hasExpired) {
     return (
-      <div onClick={handleRemove}>
+      <div
+        onClick={handleRemove}
+        style={{
+          bottom: `${PIXEL_SCALE * 0}px`,
+          left: `${PIXEL_SCALE * -2.5}px`,
+          width: `${PIXEL_SCALE * 19}px`,
+        }}
+      >
         {showTimers && (
           <div className="absolute bottom-0 left-0">
             <LiveProgressBar
@@ -94,9 +101,7 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
         <img
           src={ITEM_DETAILS[name].image}
           style={{
-            width: `${PIXEL_SCALE * 16}px`,
-            bottom: `${PIXEL_SCALE * 0}px`,
-            left: `${PIXEL_SCALE * 1}px`,
+            width: `${PIXEL_SCALE * 19}px`,
           }}
           className="absolute cursor-pointer"
           alt={name}
@@ -120,8 +125,8 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
     <>
       <div
         onClick={handleShrineClick}
-        className={classNames({
-          "absolute cursor-pointer hover:img-highlight":
+        className={classNames("absolute", {
+          "cursor-pointer hover:img-highlight":
             hasReadyCrops || hasAvailablePlots,
           "cursor-not-allowed": !hasReadyCrops && !hasAvailablePlots,
         })}
@@ -129,13 +134,16 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
           !hasReadyCrops && !hasAvailablePlots && setShowPopover(true)
         }
         onMouseLeave={() => setShowPopover(false)}
+        style={{
+          bottom: `${PIXEL_SCALE * 0}px`,
+          left: `${PIXEL_SCALE * -2.5}px`,
+          width: `${PIXEL_SCALE * 19}px`,
+        }}
       >
         <img
           src={ITEM_DETAILS[name].image}
           style={{
-            width: `${PIXEL_SCALE * 16}px`,
-            bottom: `${PIXEL_SCALE * 0}px`,
-            left: `${PIXEL_SCALE * 1}px`,
+            width: `${PIXEL_SCALE * 19}px`,
           }}
           alt={name}
         />
@@ -203,7 +211,7 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
       {hasReadyCrops && (
         <img
           src={SUNNYSIDE.icons.expression_alerted}
-          className="absolute animate-float z-10 left-4 -top-2"
+          className="absolute animate-float z-10 left-4 -top-12"
           style={{
             width: `${PIXEL_SCALE * 4}px`,
           }}
