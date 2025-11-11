@@ -40,6 +40,7 @@ type EffectName =
   | "roninPack.claimed"
   | "twitter.roninPosted"
   | "nft.assigned"
+  | "admin.NFTAssigned"
   | "marketplace.bulkListingsCancelled"
   | "marketplace.bulkOffersCancelled"
   | "farm.followed"
@@ -50,6 +51,8 @@ type EffectName =
   | "farm.helped"
   | "pet.wakeUp"
   | "auction.claimed"
+  | "auction.bidPlaced"
+  | "auction.bidCancelled"
   | "marketplace.buyBulkResources";
 
 type VisitEffectName = "farm.helped" | "farm.cheered" | "farm.followed";
@@ -106,6 +109,8 @@ export type StateMachineStateName =
   | "helpingFarm"
   | "claimingAuction"
   | "wakingPet"
+  | "auctionBidding"
+  | "auctionCancelling"
   | "marketplaceBuyingBulkResources";
 
 export type StateMachineVisitStateName =
@@ -153,12 +158,15 @@ export const STATE_MACHINE_EFFECTS: Record<
   "marketplace.bulkOffersCancelled": "marketplaceBulkOffersCancelling",
   "wallet.linked": "linkingWallet",
   "nft.assigned": "assigningNFT",
+  "admin.NFTAssigned": "assigningNFT",
   "farm.cheered": "cheeringFarm",
   "farm.followed": "followingFarm",
   "project.completed": "completingProject",
   "farm.helped": "helpingFarm",
   "auction.claimed": "claimingAuction",
   "pet.wakeUp": "wakingPet",
+  "auction.bidPlaced": "auctionBidding",
+  "auction.bidCancelled": "auctionCancelling",
   "marketplace.buyBulkResources": "marketplaceBuyingBulkResources",
 };
 

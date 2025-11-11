@@ -5,18 +5,16 @@ type Request = {
   auctionId: string;
   token: string;
   transactionId: string;
-  tickets: number;
 };
 
-export async function bid(request: Request) {
+export async function cancelBid(request: Request) {
   const { gameState } = await postEffect({
     farmId: request.farmId,
     token: request.token,
     transactionId: request.transactionId,
     effect: {
-      type: "auction.bidPlaced",
+      type: "auction.bidCancelled",
       auctionId: request.auctionId,
-      tickets: request.tickets,
     },
   });
 

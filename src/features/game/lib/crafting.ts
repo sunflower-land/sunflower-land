@@ -78,6 +78,7 @@ export type RecipeIngredient =
 export type Recipe = {
   ingredients: (RecipeIngredient | null)[];
   time: number;
+  seed?: number; // seed to determine prng for crafting time
 } & (
   | { name: RecipeCollectibleName; type: "collectible" }
   | { name: BumpkinItem; type: "wearable" }

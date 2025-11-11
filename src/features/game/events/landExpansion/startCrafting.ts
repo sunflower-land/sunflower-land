@@ -6,7 +6,7 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { isTemporaryCollectibleActive } from "features/game/lib/collectibleBuilt";
-import { COMPETITION_POINTS } from "features/game/types/competitions";
+import { prng } from "lib/prng";
 
 export type StartCraftingAction = {
   type: "crafting.started";
@@ -22,14 +22,27 @@ type Options = {
 export function getBoostedCraftingTime({
   game,
   time,
+  seed,
   createdAt = Date.now(),
 }: {
   game: GameState;
   time: number;
+  seed?: number;
   createdAt?: number;
 }) {
   let seconds = time;
   const boostsUsed: BoostName[] = [];
+  const { value: prngValue, nextSeed } = prng(seed ?? createdAt);
+
+  if (isTemporaryCollectibleActive({ name: "Fox Shrine", game })) {
+    boostsUsed.push("Fox Shrine");
+    if (prngValue * 100 < 10 && seed !== undefined) {
+      seconds *= 0;
+      return { seconds, boostsUsed, nextSeed };
+    } else {
+      seconds *= 0.75;
+    }
+  }
 
   // Sol & Luna 50% Crafting Speed
   if (isWearableActive({ name: "Sol & Luna", game })) {
@@ -40,14 +53,6 @@ export function getBoostedCraftingTime({
   if (isWearableActive({ name: "Architect Ruler", game })) {
     seconds *= 0.75;
     boostsUsed.push("Architect Ruler");
-  }
-
-  if (
-    isTemporaryCollectibleActive({ name: "Fox Shrine", game }) &&
-    createdAt > COMPETITION_POINTS.BUILDING_FRIENDSHIPS.endAt
-  ) {
-    seconds *= 0.75;
-    boostsUsed.push("Fox Shrine");
   }
 
   if (
@@ -62,7 +67,7 @@ export function getBoostedCraftingTime({
     }
   }
 
-  return { seconds, boostsUsed };
+  return { seconds, boostsUsed, nextSeed };
 }
 
 export function startCrafting({
@@ -139,9 +144,19 @@ export function startCrafting({
       }
     });
 
-    const { seconds: recipeTime, boostsUsed } = getBoostedCraftingTime({
+    const previousSeed =
+      recipe.type === "collectible"
+        ? copy.craftingBox.recipes[recipe.name]?.seed
+        : undefined;
+
+    const {
+      seconds: recipeTime,
+      boostsUsed,
+      nextSeed,
+    } = getBoostedCraftingTime({
       game: state,
       time: recipe.time,
+      seed: previousSeed,
       createdAt,
     });
 
@@ -155,7 +170,7 @@ export function startCrafting({
           : { wearable: recipe.name },
       recipes: {
         ...copy.craftingBox.recipes,
-        [recipe.name]: recipe,
+        [recipe.name]: { ...recipe, seed: nextSeed },
       },
     };
 

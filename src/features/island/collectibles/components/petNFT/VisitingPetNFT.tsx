@@ -76,12 +76,7 @@ export const VisitingPetNFT: React.FC<{
   const isNapping = isPetNapping(petNFTData);
 
   const handlePetClick = () => {
-    if (
-      petNFTData &&
-      visitorGameState &&
-      hasFeatureAccess(visitorGameState, "PETS") &&
-      !hasHelpedPet
-    ) {
+    if (petNFTData && visitorGameState && !hasHelpedPet) {
       gameService.send("pet.visitingPets", {
         pet: Number(id),
         totalHelpedToday,
@@ -98,14 +93,16 @@ export const VisitingPetNFT: React.FC<{
   };
 
   return (
-    <PetSprite
-      id={Number(id)}
-      isNeglected={isNeglected}
-      isNapping={isNapping}
-      isTypeFed={isTypeFed}
-      onClick={handlePetClick}
-      clickable={!hasHelpedPet}
-    >
+    <div className="relative">
+      <PetSprite
+        id={Number(id)}
+        isNeglected={isNeglected}
+        isNapping={isNapping}
+        isTypeFed={isTypeFed}
+        onClick={handlePetClick}
+        clickable={!hasHelpedPet}
+      />
+
       {!hasHelpedPet && petNFTData && (
         <div
           className="absolute -top-4 -right-4 pointer-events-auto cursor-pointer hover:img-highlight"
@@ -141,6 +138,6 @@ export const VisitingPetNFT: React.FC<{
           <FarmHelped onClose={() => setShowHelped(false)} />
         </CloseButtonPanel>
       </Modal>
-    </PetSprite>
+    </div>
   );
 };

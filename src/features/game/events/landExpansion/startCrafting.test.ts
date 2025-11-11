@@ -1,7 +1,9 @@
+/* eslint-disable no-var */
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import { startCrafting, StartCraftingAction } from "./startCrafting";
 import { INITIAL_FARM } from "features/game/lib/constants";
+import { prng } from "lib/prng";
 
 describe("startCrafting", () => {
   let gameState: GameState;
@@ -346,5 +348,74 @@ describe("startCrafting", () => {
     expect(() => startCrafting({ state: { ...gameState }, action })).toThrow(
       "You do not have the ingredients to craft this item",
     );
+  });
+
+  it("applies a 10% chance to instantly craft a recipe when Fox Shrine is active", () => {
+    do {
+      var seed = Math.random() * (2 ** 31 - 1);
+      var { value: prngValue, nextSeed } = prng(seed);
+    } while (prngValue * 100 >= 10);
+    const now = Date.now();
+
+    const state = startCrafting({
+      state: {
+        ...gameState,
+        craftingBox: {
+          ...gameState.craftingBox,
+          recipes: {
+            "Basic Bed": {
+              name: "Basic Bed",
+              type: "collectible",
+              ingredients: [
+                { collectible: "Cushion" },
+                { collectible: "Cushion" },
+                { collectible: "Cushion" },
+                { collectible: "Timber" },
+                { collectible: "Cushion" },
+                { collectible: "Timber" },
+                { collectible: "Timber" },
+                { collectible: "Timber" },
+                { collectible: "Timber" },
+              ],
+              seed,
+              time: 8 * 60 * 60 * 1000,
+            },
+          },
+        },
+        collectibles: {
+          "Fox Shrine": [
+            {
+              id: "123",
+              coordinates: { x: 0, y: 0 },
+              createdAt: now,
+              readyAt: now,
+            },
+          ],
+        },
+        inventory: {
+          Cushion: new Decimal(4),
+          Timber: new Decimal(5),
+          "Fox Shrine": new Decimal(1),
+        },
+      },
+      action: {
+        type: "crafting.started",
+        ingredients: [
+          { collectible: "Cushion" },
+          { collectible: "Cushion" },
+          { collectible: "Cushion" },
+          { collectible: "Timber" },
+          { collectible: "Cushion" },
+          { collectible: "Timber" },
+          { collectible: "Timber" },
+          { collectible: "Timber" },
+          { collectible: "Timber" },
+        ],
+      },
+      createdAt: now,
+    });
+
+    expect(state.craftingBox.readyAt).toBe(now);
+    expect(state.craftingBox.recipes["Basic Bed"]?.seed).toBe(nextSeed);
   });
 });
