@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, type JSX } from "react";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";

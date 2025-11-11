@@ -49,7 +49,7 @@ const RecoveredSunstoneComponent: React.FC<Props> = ({
   const [showEquipTool, setShowEquipTool] = useState(false);
   const [showBumpkinLevel, setShowBumpkinLevel] = useState(false);
 
-  const strikeGif = useRef<SpriteSheetInstance>();
+  const strikeGif = useRef<SpriteSheetInstance>(undefined);
 
   const { t } = useAppTranslation();
 

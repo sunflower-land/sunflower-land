@@ -80,7 +80,7 @@ const Content: React.FC<{
   state: GameState;
   selectedBiome: LandBiomeName;
   setSelectedBiome: (biome: LandBiomeName) => void;
-  divRef: React.RefObject<HTMLDivElement>;
+  divRef: React.RefObject<HTMLDivElement | null>;
 }> = ({ state, selectedBiome, setSelectedBiome, divRef }) => {
   return (
     <div className="flex flex-col pl-2 mb-2 w-full">

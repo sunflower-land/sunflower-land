@@ -19,7 +19,7 @@ type Props = {
   networkType: "followers" | "following";
   playerLoading?: boolean;
   showLabel?: boolean;
-  scrollContainerRef: React.RefObject<HTMLDivElement>;
+  scrollContainerRef: React.RefObject<HTMLDivElement | null>;
   navigateToPlayer: (playerId: number) => void;
 };
 

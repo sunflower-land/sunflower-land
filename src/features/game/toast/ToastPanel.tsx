@@ -92,22 +92,24 @@ export const ToastPanel: React.FC = () => {
 
   const faction = useSelector(gameService, _faction);
 
-  const oldInventory = useRef<Partial<Record<InventoryItemName, Decimal>>>();
-  const newInventory = useRef<Partial<Record<InventoryItemName, Decimal>>>();
-  const oldSflBalance = useRef<Decimal>();
-  const newSflBalance = useRef<Decimal>();
-  const oldExperience = useRef<Decimal>();
-  const newExperience = useRef<Decimal>();
-  const oldCoinBalance = useRef<number>();
-  const newCoinBalance = useRef<number>();
-  const oldFactionPoints = useRef<number>();
-  const newFactionPoints = useRef<number>();
-  const oldWardrobe = useRef<Partial<Record<BumpkinItem, number>>>();
-  const newWardrobe = useRef<Partial<Record<BumpkinItem, number>>>();
-  const oldBuds = useRef<Partial<Record<number, Bud>>>();
-  const newBuds = useRef<Partial<Record<number, Bud>>>();
-  const oldPetNFTs = useRef<Partial<Record<number, PetNFT>>>();
-  const newPetNFTs = useRef<Partial<Record<number, PetNFT>>>();
+  const oldInventory =
+    useRef<Partial<Record<InventoryItemName, Decimal>>>(undefined);
+  const newInventory =
+    useRef<Partial<Record<InventoryItemName, Decimal>>>(undefined);
+  const oldSflBalance = useRef<Decimal>(undefined);
+  const newSflBalance = useRef<Decimal>(undefined);
+  const oldExperience = useRef<Decimal>(undefined);
+  const newExperience = useRef<Decimal>(undefined);
+  const oldCoinBalance = useRef<number>(undefined);
+  const newCoinBalance = useRef<number>(undefined);
+  const oldFactionPoints = useRef<number>(undefined);
+  const newFactionPoints = useRef<number>(undefined);
+  const oldWardrobe = useRef<Partial<Record<BumpkinItem, number>>>(undefined);
+  const newWardrobe = useRef<Partial<Record<BumpkinItem, number>>>(undefined);
+  const oldBuds = useRef<Partial<Record<number, Bud>>>(undefined);
+  const newBuds = useRef<Partial<Record<number, Bud>>>(undefined);
+  const oldPetNFTs = useRef<Partial<Record<number, PetNFT>>>(undefined);
+  const newPetNFTs = useRef<Partial<Record<number, PetNFT>>>(undefined);
 
   /**
    * Listens to game state transitions.

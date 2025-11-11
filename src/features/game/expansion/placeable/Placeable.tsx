@@ -107,7 +107,7 @@ interface Props {
 export const Placeable: React.FC<Props> = ({ location }) => {
   const { scale } = useContext(ZoomContext);
 
-  const nodeRef = useRef(null);
+  const nodeRef = useRef<HTMLDivElement>(null);
   const { gameService, showTimers } = useContext(Context);
 
   const { island, season } = gameService.getSnapshot().context.state;
@@ -256,7 +256,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
       <div className="fixed left-1/2 top-1/2" style={{ zIndex: 100 }}>
         <Draggable
           key={`${origin?.x}-${origin?.y}`}
-          nodeRef={nodeRef}
+          nodeRef={nodeRef as React.RefObject<HTMLElement>}
           grid={[GRID_WIDTH_PX * scale.get(), GRID_WIDTH_PX * scale.get()]}
           scale={scale.get()}
           onStart={() => {

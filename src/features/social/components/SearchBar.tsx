@@ -51,7 +51,7 @@ export const SearchBar: React.FC<Props> = ({ onSearchResults, context }) => {
   const [results, setResults] = useState<Detail[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const controllerRef = useRef<AbortController>();
+  const controllerRef = useRef<AbortController>(undefined);
   const currentRequestRef = useRef<string>("");
 
   const farmId = useSelector(gameService, _farmId);

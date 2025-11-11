@@ -43,7 +43,7 @@ const RecoveredIronComponent: React.FC<Props> = ({
   const [showSpritesheet, setShowSpritesheet] = useState(false);
   const [showEquipTool, setShowEquipTool] = useState(false);
 
-  const strikeGif = useRef<SpriteSheetInstance>();
+  const strikeGif = useRef<SpriteSheetInstance>(undefined);
 
   const { t } = useAppTranslation();
 

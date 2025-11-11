@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type JSX } from "react";
 
 import { CropName } from "features/game/types/crops";
 import { PIXEL_SCALE } from "features/game/lib/constants";

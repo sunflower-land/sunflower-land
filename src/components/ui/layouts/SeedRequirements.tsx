@@ -7,7 +7,7 @@ import {
   TemperateSeasonName,
 } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React from "react";
+import React, { type JSX } from "react";
 import { Label } from "../Label";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
