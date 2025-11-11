@@ -46,8 +46,8 @@ const PET_SHRINE_DIMENSIONS: Record<
   "Bantam Shrine": { width: 18, left: -0.5 },
 
   // Sprites not out yet
-  "Trading Shrine": { width: 18, left: -0.5 },
-  "Legendary Shrine": { width: 18, left: -0.5 },
+  "Trading Shrine": { width: 22, left: -1.5 },
+  "Legendary Shrine": { width: 32, left: 0 },
 };
 
 const PET_SHRINE_DIMENSIONS_STYLES = getObjectEntries(
@@ -73,7 +73,7 @@ export const PetShrine: React.FC<
   const { t } = useAppTranslation();
   const { gameService, showTimers } = useContext(Context);
 
-  const [_, setRender] = useState(0);
+  const [, setRender] = useState(0);
 
   const expiresAt = createdAt + (EXPIRY_COOLDOWNS[name] ?? 0);
 
@@ -95,7 +95,13 @@ export const PetShrine: React.FC<
         style={{ ...PET_SHRINE_DIMENSIONS_STYLES[name], bottom: 0 }}
       >
         {showTimers && (
-          <div className="absolute bottom-0 left-0">
+          <div
+            className="absolute left-1/2"
+            style={{
+              width: `${PIXEL_SCALE * 15}px`,
+              transform: "translateX(-50%)",
+            }}
+          >
             <LiveProgressBar
               startAt={createdAt}
               endAt={expiresAt}
@@ -134,7 +140,13 @@ export const PetShrine: React.FC<
           style={{ ...PET_SHRINE_DIMENSIONS_STYLES[name], bottom: 0 }}
         >
           {showTimers && (
-            <div className="absolute bottom-0 left-0">
+            <div
+              className="absolute left-1/2"
+              style={{
+                width: `${PIXEL_SCALE * 15}px`,
+                transform: "translateX(-50%)",
+              }}
+            >
               <LiveProgressBar
                 startAt={createdAt}
                 endAt={expiresAt}
