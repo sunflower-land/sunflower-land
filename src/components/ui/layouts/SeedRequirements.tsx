@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { getBumpkinLevel } from "features/game/lib/level";
 import {
+  BoostName,
   GameState,
   InventoryItemName,
   TemperateSeasonName,
@@ -25,6 +26,7 @@ import {
   ProduceName,
 } from "features/game/types/crops";
 import { getCurrentBiome } from "features/island/biomes/biomes";
+import { BoostsDisplay } from "./BoostsDisplay";
 
 /**
  * The props for the details for items.
@@ -72,7 +74,8 @@ interface RequirementsProps {
   coins?: number;
   showCoinsIfFree?: boolean;
   harvests?: HarvestsRequirementProps;
-  timeSeconds?: number;
+  time?: { seconds: number; boostsUsed: BoostName[] };
+  baseTimeSeconds?: number;
   level?: number;
   restriction?: {
     icon: string;
@@ -102,6 +105,8 @@ interface Props {
   actionView?: JSX.Element;
   label?: JSX.Element;
   validSeeds: SeedName[];
+  setShowBoosts: (show: boolean) => void;
+  showBoosts: boolean;
 }
 
 function getDetails(
@@ -150,8 +155,11 @@ export const SeedRequirements: React.FC<Props> = ({
   actionView,
   label,
   validSeeds,
+  setShowBoosts,
+  showBoosts,
 }) => {
   const { t } = useAppTranslation();
+
   const getStock = () => {
     if (!stock) return <></>;
 
@@ -233,23 +241,49 @@ export const SeedRequirements: React.FC<Props> = ({
 
   const getRequirements = () => {
     if (!requirements) return <></>;
+    const {
+      coins,
+      showCoinsIfFree,
+      harvests,
+      time,
+      baseTimeSeconds,
+      level,
+      restriction,
+    } = requirements;
+
+    const isTimeBoosted = time?.seconds !== baseTimeSeconds;
 
     return (
       <div className="w-full mb-2 flex justify-center gap-x-3 gap-y-0 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap my-1">
         {/* Time requirement display */}
-        {!!requirements.timeSeconds && (
-          <RequirementLabel
-            type="time"
-            waitSeconds={requirements.timeSeconds}
+        <div
+          className="flex flex-col items-center cursor-pointer"
+          onClick={isTimeBoosted ? () => setShowBoosts(!showBoosts) : undefined}
+        >
+          {!!time && isTimeBoosted && (
+            <RequirementLabel type="time" waitSeconds={time.seconds} boosted />
+          )}
+          {!!baseTimeSeconds && (
+            <RequirementLabel
+              type="time"
+              waitSeconds={baseTimeSeconds}
+              strikethrough={isTimeBoosted}
+            />
+          )}
+          <BoostsDisplay
+            boosts={time?.boostsUsed ?? []}
+            show={showBoosts}
+            state={gameState}
+            onClick={() => setShowBoosts(!showBoosts)}
           />
-        )}
+        </div>
 
         {/* Level requirement */}
-        {!!requirements.level && (
+        {!!level && (
           <RequirementLabel
             type="level"
             currentLevel={getBumpkinLevel(gameState.bumpkin?.experience ?? 0)}
-            requirement={requirements.level}
+            requirement={level}
           />
         )}
 
@@ -264,23 +298,22 @@ export const SeedRequirements: React.FC<Props> = ({
         )}
 
         {/* Harvests display */}
-        {!!requirements.harvests && (
+        {!!harvests && (
           <RequirementLabel
             type="harvests"
-            minHarvest={requirements.harvests.minHarvest}
-            maxHarvest={requirements.harvests.maxHarvest}
+            minHarvest={harvests.minHarvest}
+            maxHarvest={harvests.maxHarvest}
           />
         )}
 
         {/* Coin requirement */}
-        {requirements.coins !== undefined &&
-          (requirements.coins > 0 || requirements.showCoinsIfFree) && (
-            <RequirementLabel
-              type="coins"
-              balance={gameState.coins}
-              requirement={requirements.coins}
-            />
-          )}
+        {coins !== undefined && (coins > 0 || showCoinsIfFree) && (
+          <RequirementLabel
+            type="coins"
+            balance={gameState.coins}
+            requirement={coins}
+          />
+        )}
 
         {label}
       </div>
