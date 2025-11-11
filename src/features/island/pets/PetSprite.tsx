@@ -31,7 +31,7 @@ const NFT_ICON_POSITIONS: Record<
   }
 > = {
   Dragon: { napping: "top-2 left-2", neglected: "top-1 left-4" },
-  Phoenix: { napping: "top-2 left-2", neglected: "top-1 left-4" },
+  Phoenix: { napping: "top-4 left-4", neglected: "top-1 left-4" },
   Griffin: { napping: "top-5 left-4", neglected: "top-1 left-4" },
   Ram: { napping: "top-1.5 left-1.5", neglected: "top-1.5 left-1.5" },
   Warthog: { napping: "top-5 left-4", neglected: "top-1 left-2" },
@@ -54,7 +54,7 @@ export const PetSprite: React.FC<Props> = ({
   );
   const isPetNFT = typeof id === "number";
   const nftIconPositions =
-    isPetNFT && !!petType ? NFT_ICON_POSITIONS[petType] : undefined;
+    isPetNFT && !!petType ? NFT_ICON_POSITIONS["Phoenix"] : undefined;
 
   return (
     <div

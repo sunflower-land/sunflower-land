@@ -6,7 +6,6 @@ import {
   isPetNFTRevealed,
   getPetType,
   isPetOfTypeFed,
-  PetNFTType,
 } from "features/game/types/pets";
 import { PetModal } from "features/island/pets/PetModal";
 import { PetSprite } from "features/island/pets/PetSprite";
@@ -79,7 +78,7 @@ export const LandPetNFT: React.FC<{ id: string }> = ({ id }) => {
     >
       <PetSprite
         id={Number(id)}
-        petType={petType as PetNFTType}
+        petType={petNFTData.traits.type}
         isNeglected={isNeglected}
         isNapping={isNapping}
         isTypeFed={isTypeFed}
