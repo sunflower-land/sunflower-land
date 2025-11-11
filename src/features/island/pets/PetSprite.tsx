@@ -54,7 +54,7 @@ export const PetSprite: React.FC<Props> = ({
   );
   const isPetNFT = typeof id === "number";
   const nftIconPositions =
-    isPetNFT && !!petType ? NFT_ICON_POSITIONS["Phoenix"] : undefined;
+    isPetNFT && !!petType ? NFT_ICON_POSITIONS[petType] : undefined;
 
   return (
     <div
