@@ -78,6 +78,7 @@ export const LandPetNFT: React.FC<{ id: string }> = ({ id }) => {
     >
       <PetSprite
         id={Number(id)}
+        petType={petNFTData.traits.type}
         isNeglected={isNeglected}
         isNapping={isNapping}
         isTypeFed={isTypeFed}
