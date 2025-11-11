@@ -96,6 +96,7 @@ export const VisitingPetNFT: React.FC<{
     <div className="relative">
       <PetSprite
         id={Number(id)}
+        petType={petNFTData.traits.type}
         isNeglected={isNeglected}
         isNapping={isNapping}
         isTypeFed={isTypeFed}
