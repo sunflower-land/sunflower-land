@@ -1272,7 +1272,7 @@ export abstract class BaseScene extends Phaser.Scene {
       if (petContainer) {
         const distance = Phaser.Math.Distance.BetweenPoints(petContainer, pet);
 
-        if (distance > 2) {
+        if (distance > 1) {
           if ((pet.x || 0) > petContainer.x) {
             petContainer.faceRight();
           } else if ((pet.x || 0) < petContainer.x) {
@@ -1283,8 +1283,8 @@ export abstract class BaseScene extends Phaser.Scene {
           petContainer.idle();
         }
 
-        petContainer.x = Phaser.Math.Linear(petContainer.x, pet.x, 0.07);
-        petContainer.y = Phaser.Math.Linear(petContainer.y, pet.y, 0.09);
+        petContainer.x = Phaser.Math.Linear(petContainer.x, pet.x, 0.04);
+        petContainer.y = Phaser.Math.Linear(petContainer.y, pet.y, 0.04);
         petContainer.setDepth(petContainer.y);
       }
     });
