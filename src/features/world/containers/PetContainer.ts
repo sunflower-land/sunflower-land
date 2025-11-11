@@ -1,6 +1,5 @@
 import { PetNFTType } from "features/game/types/pets";
 import { SpeechBubble } from "./SpeechBubble";
-import { petImageDomain } from "features/island/pets/lib/petShared";
 
 export class PetContainer extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite | undefined;
@@ -40,14 +39,11 @@ export class PetContainer extends Phaser.GameObjects.Container {
     this.petId = petId;
     this.petType = petType;
 
-    scene.load.spritesheet(
-      `pet_${petId}`,
-      `https://${petImageDomain}.sunflower-land.com/sheets/${petId}.webp`,
-      {
-        frameWidth: 44,
-        frameHeight: 44,
-      },
-    );
+    // TODO: Load the correct pet spritesheet based on the pet type
+    scene.load.spritesheet(`pet_${petId}`, "world/yellow_dog.webp", {
+      frameWidth: 21,
+      frameHeight: 22,
+    });
 
     scene.load.once(`filecomplete-spritesheet-pet_${petId}`, () => {
       this.sprite = this.scene.add.sprite(0, 0, `pet_${petId}`);
@@ -55,23 +51,24 @@ export class PetContainer extends Phaser.GameObjects.Container {
 
       this.sprite?.setScale(0.75);
 
+      // TODO: Update idle and walking animations based on the pet type
       this.sprite?.anims.create({
         key: `pet_${petId}-idle`,
         frames: this.sprite.anims.generateFrameNumbers(`pet_${petId}`, {
           start: 0,
-          end: 8,
+          end: 7,
         }),
-        frameRate: 8,
+        frameRate: 1000 / 280,
         repeat: -1,
       });
 
       this.sprite?.anims.create({
         key: `pet_${petId}-walking`,
         frames: this.sprite.anims.generateFrameNumbers(`pet_${petId}`, {
-          start: 18,
-          end: 25,
+          start: 10,
+          end: 17,
         }),
-        frameRate: 10,
+        frameRate: 1000 / 70,
         repeat: -1,
       });
 
