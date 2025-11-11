@@ -28,4 +28,5 @@ export const OFFCHAIN_ITEMS: InventoryItemName[] = [
   "Super Totem",
   ...getKeys(RESOURCES),
   ...getKeys(WORM),
+  "Basic Land",
 ];
