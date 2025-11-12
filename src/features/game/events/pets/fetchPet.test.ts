@@ -49,7 +49,7 @@ describe("fetchPet", () => {
                 name: "Barkley",
                 requests: { food: [], fedAt: now - 4 * 24 * 60 * 60 * 1000 },
                 energy: 100,
-                experience: 0,
+                experience: 10,
                 pettedAt: now,
               },
             },
