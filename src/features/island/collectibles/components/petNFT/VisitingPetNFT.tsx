@@ -93,7 +93,13 @@ export const VisitingPetNFT: React.FC<{
   };
 
   return (
-    <div className="relative">
+    <div
+      className="relative flex items-center justify-center"
+      style={{
+        width: `${PIXEL_SCALE * 32}px`,
+        height: `${PIXEL_SCALE * 32}px`,
+      }}
+    >
       <PetSprite
         id={Number(id)}
         petType={petNFTData.traits.type}

@@ -48,7 +48,7 @@ export interface BoxProps {
    * Only need to set if div is scrollable.
    * Otherwise leave this unset so the shifting is done if the label is outside the viewport.
    */
-  parentDivRef?: React.RefObject<HTMLElement>;
+  parentDivRef?: React.RefObject<HTMLElement | null>;
   /**
    * progress bar for the box, replaces the bottom left and bottom right
    */

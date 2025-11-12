@@ -17,7 +17,7 @@ interface Props {
 const DepletingGoldComponent: React.FC<Props> = ({ resourceAmount }) => {
   const { scale } = useContext(ZoomContext);
   const [playing, setPlaying] = useState(false);
-  const sparkGif = useRef<SpriteSheetInstance>();
+  const sparkGif = useRef<SpriteSheetInstance>(undefined);
 
   return (
     <div className="absolute w-full h-full pointer-events-none">

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, type JSX } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ResourceName } from "features/game/types/resources";

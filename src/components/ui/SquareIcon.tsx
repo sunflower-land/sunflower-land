@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, type JSX } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 

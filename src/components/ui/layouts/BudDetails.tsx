@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React from "react";
+import React, { type JSX } from "react";
 import { SquareIcon } from "../SquareIcon";
 import { Bud } from "features/game/types/buds";
 import { CONFIG } from "lib/config";

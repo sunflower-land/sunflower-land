@@ -34,7 +34,7 @@ export const ChatText: React.FC<Props> = ({
   onCommand,
   cooledDownAt,
 }) => {
-  const ref = useRef<HTMLInputElement>();
+  const ref = useRef<HTMLInputElement>(undefined);
   const [text, setText] = useState("");
   const [valid, setValid] = useState(true);
 
@@ -172,7 +172,9 @@ export const ChatText: React.FC<Props> = ({
           name="message"
           autoComplete="off"
           value={text}
-          ref={(r) => (ref.current = r as HTMLInputElement)}
+          ref={(r) => {
+            ref.current = r as HTMLInputElement;
+          }}
           onClick={() => {
             ref.current?.focus();
           }}

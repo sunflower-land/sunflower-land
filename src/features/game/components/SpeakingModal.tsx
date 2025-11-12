@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, type JSX } from "react";
 
 import { Panel } from "../../../components/ui/Panel";
 import { Equipped } from "features/game/types/bumpkin";

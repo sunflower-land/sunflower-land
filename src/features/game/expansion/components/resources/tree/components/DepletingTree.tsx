@@ -22,7 +22,7 @@ const DepletingTreeComponent: React.FC<Props> = ({
 }) => {
   const { scale } = useContext(ZoomContext);
   const [playing, setPlaying] = useState(false);
-  const choppedGif = useRef<SpriteSheetInstance>();
+  const choppedGif = useRef<SpriteSheetInstance>(undefined);
 
   return (
     <div className="absolute w-full h-full pointer-events-none">

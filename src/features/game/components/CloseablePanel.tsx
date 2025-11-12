@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type JSX } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Panel, PanelProps } from "../../../components/ui/Panel";

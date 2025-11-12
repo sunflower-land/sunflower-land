@@ -1,4 +1,4 @@
-import React, { useEffect, useState, CSSProperties } from "react";
+import React, { useEffect, useState, CSSProperties, type JSX } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import tier1Book from "src/assets/icons/tier1_book.webp";

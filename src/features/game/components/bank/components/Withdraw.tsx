@@ -22,6 +22,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { base, baseSepolia } from "viem/chains";
 import { CONFIG } from "lib/config";
 import { WithdrawPets } from "./WithdrawPets";
+import petNFTEgg from "assets/icons/pet_nft_egg.png";
 
 const getPageIcon = (page: Page) => {
   switch (page) {
@@ -34,7 +35,7 @@ const getPageIcon = (page: Page) => {
     case "buds":
       return SUNNYSIDE.icons.plant;
     case "pets":
-      return SUNNYSIDE.icons.expression_confused;
+      return petNFTEgg;
     case "resources":
       return SUNNYSIDE.resource.wood;
     case "verify":

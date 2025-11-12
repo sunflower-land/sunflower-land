@@ -122,7 +122,7 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
 
   const navigate = useNavigate();
 
-  const game = useRef<Game>();
+  const game = useRef<Game>(undefined);
 
   const mmoState = useSelector(mmoService, _roomState);
   const scene = useSelector(mmoService, _scene);

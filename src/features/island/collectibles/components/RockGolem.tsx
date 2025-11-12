@@ -24,8 +24,8 @@ export const RockGolem: React.FC = () => {
     (stone) => !canMine(stone, stone.name ?? "Stone Rock"),
   );
 
-  const golemGif = useRef<SpriteSheetInstance>();
-  const golemClosingGif = useRef<SpriteSheetInstance>();
+  const golemGif = useRef<SpriteSheetInstance>(undefined);
+  const golemClosingGif = useRef<SpriteSheetInstance>(undefined);
 
   return (
     <SFTDetailPopover name="Rock Golem">
