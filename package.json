@@ -160,8 +160,8 @@
     "async": "^2.6.4",
     "minimist": "^1.2.6",
     "simple-get": "^2.8.2",
-    "@types/react": "^18.3.1",
-    "@types/react-dom": "^18.3.1"
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint --fix",
