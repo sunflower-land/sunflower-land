@@ -6542,7 +6542,6 @@
   "description.bantamShrine.buff": "-25% 치킨 수면 시간",
   "description.tradingShrine": "무역의 성지",
   "description.tradingShrine.buff": "-2.5% 자원세",
-  "description.houndShrine.buff": "+100 펫 경험치",
   "description.collieShrine.buff": "젖소 수면 시간 -25%",
   "description.collieShrine.buff.2": "양 수면 시간 -25%",
   "description.badgerShrine.buff": "나무 회복 시간 -25%",
@@ -6735,8 +6734,6 @@
   "petBuff.aura.basic": "1.5x 펫 에너지",
   "petBuff.aura.epic": "2x 펫 에너지",
   "petBuff.aura.mega": "3x 펫 에너지",
-  "petBuff.bib.mid": "+5 펫 경험치",
-  "petBuff.bib.great": "+10 펫 경험치",
   "visitorGuide.project": "프로젝트 ({{count}})",
   "visitorGuide.pets": "애완동물 ({{count}})",
   "visitorGuide.showLove": "반려동물에게 사랑을 보여주세요.",
@@ -6769,7 +6766,6 @@
   "description.sawFish.boost.two": "퇴비로 인한 벌레 +1",
   "description.super.star.boost": "겨울철 물고기 1마리",
   "description.lunarWeapon.boost": "파워 스킬 쿨다운 -50%",
-  "description.cleaverKnife.boost.1": "15% 쿠킹 스피드",
   "description.cleaverKnife.boost.2": "10% 의 확률로 요리로 인한 음식 +1",
   "description.trainingWhistle.boost": "+1 가죽",
   "description.squirrelOnesie.boost": "+1 에이콘",
@@ -7133,5 +7129,10 @@
   "auction.bidding.success": "입찰이 성공적으로 이루어졌습니다.",
   "auction.bidding.failed": "입찰 실패",
   "auction.cancelling.success": "입찰 취소됨",
-  "auction.cancelling.failed": "입찰 취소 실패"
+  "auction.cancelling.failed": "입찰 취소 실패",
+  "description.houndShrine.buff": "음식 요청당 +100 펫 경험치",
+  "pets.walking": "워킹",
+  "petBuff.bib.mid": "음식 요청당 애완동물 경험치 +5",
+  "petBuff.bib.great": "음식 요청당 애완동물 경험치 +10",
+  "description.cleaverKnife.boost.1": "조리 시간 -15%"
 }

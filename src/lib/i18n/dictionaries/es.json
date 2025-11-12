@@ -6542,7 +6542,6 @@
   "description.bantamShrine.buff": "-25% de tiempo de sueño del pollo",
   "description.tradingShrine": "Un santuario comercial",
   "description.tradingShrine.buff": "-2,5% de impuesto sobre los recursos",
-  "description.houndShrine.buff": "+100 puntos de EXP por mascota",
   "description.collieShrine.buff": "-25% de tiempo de sueño de las vacas",
   "description.collieShrine.buff.2": "-25% de tiempo de sueño de las ovejas",
   "description.badgerShrine.buff": "-25% de tiempo de recuperación del árbol",
@@ -6735,8 +6734,6 @@
   "petBuff.aura.basic": "1,5 veces más energía para mascotas",
   "petBuff.aura.epic": "2 veces Pet Energy",
   "petBuff.aura.mega": "3 veces más energía para mascotas",
-  "petBuff.bib.mid": "+5 de EXP por mascota",
-  "petBuff.bib.great": "+10 de EXP por mascota",
   "visitorGuide.project": "Proyectos ({{count}})",
   "visitorGuide.pets": "Mascotas ({{count}})",
   "visitorGuide.showLove": "Muéstrales un poco de amor a las mascotas.",
@@ -6769,7 +6766,6 @@
   "description.sawFish.boost.two": "+1 lombriz procedente del compostaje",
   "description.super.star.boost": "+1 pez durante el invierno",
   "description.lunarWeapon.boost": "-50% de tiempo de reutilización de las habilidades de poder",
-  "description.cleaverKnife.boost.1": "Velocidad de cocción del 15%",
   "description.cleaverKnife.boost.2": "10% de probabilidad de obtener +1 comida al cocinarse",
   "description.trainingWhistle.boost": "+1 Cuero",
   "description.squirrelOnesie.boost": "+1 Bellota",
@@ -7133,5 +7129,10 @@
   "auction.bidding.success": "La oferta se realizó correctamente",
   "auction.bidding.failed": "Oferta fallida",
   "auction.cancelling.success": "Oferta cancelada",
-  "auction.cancelling.failed": "Falló la cancelación de la oferta"
+  "auction.cancelling.failed": "Falló la cancelación de la oferta",
+  "description.houndShrine.buff": "Más de 100 puntos de EXP para mascotas por pedido de comida",
+  "pets.walking": "Caminando",
+  "petBuff.bib.mid": "+5 puntos de EXP para mascotas por pedido de comida",
+  "petBuff.bib.great": "+10 puntos de EXP para mascotas por solicitud de comida",
+  "description.cleaverKnife.boost.1": "-15% de tiempo de cocción"
 }

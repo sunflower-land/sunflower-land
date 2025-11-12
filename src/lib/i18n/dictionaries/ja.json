@@ -6542,7 +6542,6 @@
   "description.bantamShrine.buff": "-25% チキンスリープタイム",
   "description.tradingShrine": "貿易の神社",
   "description.tradingShrine.buff": "-2.5% 資源税",
-  "description.houndShrine.buff": "+100 ペット経験値",
   "description.collieShrine.buff": "牛の睡眠時間 -25%",
   "description.collieShrine.buff.2": "羊の睡眠時間 -25%",
   "description.badgerShrine.buff": "-25% の木の回復時間",
@@ -6735,8 +6734,6 @@
   "petBuff.aura.basic": "1.5x ペットエネルギー",
   "petBuff.aura.epic": "2x ペットエナジー",
   "petBuff.aura.mega": "3x ペットエナジー",
-  "petBuff.bib.mid": "ペット経験値 +5",
-  "petBuff.bib.great": "ペット経験値 +10",
   "visitorGuide.project": "プロジェクト ({{count}})",
   "visitorGuide.pets": "ペット ({{count}})",
   "visitorGuide.showLove": "ペットに愛を示しましょう。",
@@ -6769,7 +6766,6 @@
   "description.sawFish.boost.two": "コンポストからのワーム+1",
   "description.super.star.boost": "冬の間は魚1匹を獲る",
   "description.lunarWeapon.boost": "パワースキルのクールダウン -50%",
-  "description.cleaverKnife.boost.1": "15% クッキングスピード",
   "description.cleaverKnife.boost.2": "10% の確率で料理によるフード+1を獲得する",
   "description.trainingWhistle.boost": "+1 レザー",
   "description.squirrelOnesie.boost": "+1 エイコーン",
@@ -7133,5 +7129,10 @@
   "auction.bidding.success": "入札成功",
   "auction.bidding.failed": "入札失敗",
   "auction.cancelling.success": "入札がキャンセルされました",
-  "auction.cancelling.failed": "入札キャンセルに失敗しました"
+  "auction.cancelling.failed": "入札キャンセルに失敗しました",
+  "description.houndShrine.buff": "フードリクエスト1件につきペット経験値+100",
+  "pets.walking": "ウォーキング",
+  "petBuff.bib.mid": "フードリクエスト1つにつきペット経験値+5",
+  "petBuff.bib.great": "フードリクエスト1件につきペット経験値+10",
+  "description.cleaverKnife.boost.1": "-15% 調理時間"
 }

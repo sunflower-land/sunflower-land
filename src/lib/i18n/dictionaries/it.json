@@ -6542,7 +6542,6 @@
   "description.bantamShrine.buff": "-25% del tempo di sonno del pollo",
   "description.tradingShrine": "Un santuario commerciale",
   "description.tradingShrine.buff": "-2,5% di imposta sulle risorse",
-  "description.houndShrine.buff": "+100 PE per animale",
   "description.collieShrine.buff": "-25% del tempo di sonno delle mucche",
   "description.collieShrine.buff.2": "-25% del tempo di sonno delle pecore",
   "description.badgerShrine.buff": "-25% Tempo di recupero dell'albero",
@@ -6735,8 +6734,6 @@
   "petBuff.aura.basic": "Energia per animali domestici 1,5 volte",
   "petBuff.aura.epic": "2x Energia per animali domestici",
   "petBuff.aura.mega": "3x Energia per animali domestici",
-  "petBuff.bib.mid": "+5 PE per animale",
-  "petBuff.bib.great": "+10 PE per animale",
   "visitorGuide.project": "Progetti ({{count}})",
   "visitorGuide.pets": "Animali domestici ({{count}})",
   "visitorGuide.showLove": "Mostra agli animali domestici un po' d'amore.",
@@ -6769,7 +6766,6 @@
   "description.sawFish.boost.two": "+1 Verme da compostaggio",
   "description.super.star.boost": "+1 pesce durante l'inverno",
   "description.lunarWeapon.boost": "-50% di recupero delle abilità di potenza",
-  "description.cleaverKnife.boost.1": "Velocità di cottura del 15%",
   "description.cleaverKnife.boost.2": "10% di probabilità di +1 cibo cucinato",
   "description.trainingWhistle.boost": "+1 Pelle",
   "description.squirrelOnesie.boost": "+1 Ghianda",
@@ -7133,5 +7129,10 @@
   "auction.bidding.success": "Offerta effettuata con successo",
   "auction.bidding.failed": "Offerta fallita",
   "auction.cancelling.success": "Offerta annullata",
-  "auction.cancelling.failed": "Cancellazione dell'offerta non riuscita"
+  "auction.cancelling.failed": "Cancellazione dell'offerta non riuscita",
+  "description.houndShrine.buff": "+100 Pet XP per richiesta di cibo",
+  "pets.walking": "Camminare",
+  "petBuff.bib.mid": "+5 Pet XP per richiesta di cibo",
+  "petBuff.bib.great": "+10 Pet XP per richiesta di cibo",
+  "description.cleaverKnife.boost.1": "-15% Tempo di cottura"
 }

@@ -6542,7 +6542,6 @@
   "description.bantamShrine.buff": "-25% Schlafzeit bei Hühnern",
   "description.tradingShrine": "Ein Handelsschrein",
   "description.tradingShrine.buff": "-2,5% Ressourcensteuer",
-  "description.houndShrine.buff": "+100 Erfahrungspunkte pro Haustier",
   "description.collieShrine.buff": "-25% Schlafzeit der Kuh",
   "description.collieShrine.buff.2": "-25% Schlafzeit bei Schafen",
   "description.badgerShrine.buff": "-25% Kostenlose Wiederherstellungszeit",
@@ -6735,8 +6734,6 @@
   "petBuff.aura.basic": "1.5x Pet Energy",
   "petBuff.aura.epic": "2 x Pet Energy",
   "petBuff.aura.mega": "3x Pet Energy",
-  "petBuff.bib.mid": "+5 Erfahrungspunkte pro Haustier",
-  "petBuff.bib.great": "+10 Erfahrungspunkte pro Haustier",
   "visitorGuide.project": "Projekte ({{count}})",
   "visitorGuide.pets": "Haustiere ({{count}})",
   "visitorGuide.showLove": "Zeig den Haustieren etwas Liebe.",
@@ -6769,7 +6766,6 @@
   "description.sawFish.boost.two": "+1 Wurm aus der Kompostierung",
   "description.super.star.boost": "+1 Fische im Winter",
   "description.lunarWeapon.boost": "-50% Abklingzeit der Power-Skill",
-  "description.cleaverKnife.boost.1": "15% Gargeschwindigkeit",
   "description.cleaverKnife.boost.2": "10% Chance auf +1 Essen beim Kochen",
   "description.trainingWhistle.boost": "+1 Leder",
   "description.squirrelOnesie.boost": "+1 Eichel",
@@ -7133,5 +7129,10 @@
   "auction.bidding.success": "Gebot erfolgreich abgegeben",
   "auction.bidding.failed": "Gebot gescheitert",
   "auction.cancelling.success": "Gebot storniert",
-  "auction.cancelling.failed": "Angebotsstornierung fehlgeschlagen"
+  "auction.cancelling.failed": "Angebotsstornierung fehlgeschlagen",
+  "description.houndShrine.buff": "+100 Tier-XP pro Futteranfrage",
+  "pets.walking": "Gehen",
+  "petBuff.bib.mid": "+5 Tier-XP pro Futteranfrage",
+  "petBuff.bib.great": "+10 Tier-XP pro Futteranfrage",
+  "description.cleaverKnife.boost.1": "-15% Garzeit"
 }

@@ -6542,7 +6542,6 @@
   "description.bantamShrine.buff": "-25% de tempo de sono do frango",
   "description.tradingShrine": "Um santuário comercial",
   "description.tradingShrine.buff": "-2,5% de imposto sobre recursos",
-  "description.houndShrine.buff": "+100 EXP para animais de estimação",
   "description.collieShrine.buff": "-25% do tempo de sono da vaca",
   "description.collieShrine.buff.2": "-25% do tempo de sono das ovelhas",
   "description.badgerShrine.buff": "-25% de tempo de recuperação da árvore",
@@ -6735,8 +6734,6 @@
   "petBuff.aura.basic": "1,5 x Pet Energy",
   "petBuff.aura.epic": "2x Pet Energy",
   "petBuff.aura.mega": "3x Energia para animais de estimação",
-  "petBuff.bib.mid": "+5 EXP por animal",
-  "petBuff.bib.great": "+10 EXP para animais de estimação",
   "visitorGuide.project": "Projetos ({{count}})",
   "visitorGuide.pets": "Animais de estimação ({{count}})",
   "visitorGuide.showLove": "Mostre um pouco de amor aos animais de estimação.",
@@ -6769,7 +6766,6 @@
   "description.sawFish.boost.two": "+1 minhoca da compostagem",
   "description.super.star.boost": "+1 Peixe durante o inverno",
   "description.lunarWeapon.boost": "-50% de recarga de habilidades de potência",
-  "description.cleaverKnife.boost.1": "15% de velocidade de cozimento",
   "description.cleaverKnife.boost.2": "10% de chance de +1 comida ao cozinhar",
   "description.trainingWhistle.boost": "+1 Couro",
   "description.squirrelOnesie.boost": "+1 Bolota",
@@ -7133,5 +7129,10 @@
   "auction.bidding.success": "Oferta feita com sucesso",
   "auction.bidding.failed": "A oferta falhou",
   "auction.cancelling.success": "Oferta cancelada",
-  "auction.cancelling.failed": "Falha no cancelamento da oferta"
+  "auction.cancelling.failed": "Falha no cancelamento da oferta",
+  "description.houndShrine.buff": "+100 EXP para animais de estimação por pedido de comida",
+  "pets.walking": "Caminhando",
+  "petBuff.bib.mid": "+5 XP para animais de estimação por pedido de comida",
+  "petBuff.bib.great": "+10 XP para animais de estimação por pedido de comida",
+  "description.cleaverKnife.boost.1": "-15% de tempo de cozimento"
 }

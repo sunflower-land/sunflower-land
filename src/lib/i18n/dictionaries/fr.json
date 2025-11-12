@@ -6542,7 +6542,6 @@
   "description.bantamShrine.buff": "-25 % du temps de sommeil du poulet",
   "description.tradingShrine": "Un sanctuaire commercial",
   "description.tradingShrine.buff": "-2,5 % de taxe sur les ressources",
-  "description.houndShrine.buff": "+100 points d'expérience par animal",
   "description.collieShrine.buff": "-25 % de temps de sommeil des vaches",
   "description.collieShrine.buff.2": "-25 % du temps de sommeil des moutons",
   "description.badgerShrine.buff": "-25 % de temps de restauration de l'arbre",
@@ -6735,8 +6734,6 @@
   "petBuff.aura.basic": "1,5 fois plus d'énergie pour animaux de compagnie",
   "petBuff.aura.epic": "2 fois Pet Energy",
   "petBuff.aura.mega": "3 fois plus d'énergie pour animaux",
-  "petBuff.bib.mid": "+5 points d'expérience par animal",
-  "petBuff.bib.great": "+10 points d'expérience par animal",
   "visitorGuide.project": "Projets ({{count}})",
   "visitorGuide.pets": "Animaux de compagnie ({{count}})",
   "visitorGuide.showLove": "Montrez de l'amour aux animaux de compagnie.",
@@ -6769,7 +6766,6 @@
   "description.sawFish.boost.two": "+1 ver provenant du compostage",
   "description.super.star.boost": "+1 poisson en hiver",
   "description.lunarWeapon.boost": "Temps de recharge de la compétence Power : -50 %",
-  "description.cleaverKnife.boost.1": "Vitesse de cuisson de 15 %",
   "description.cleaverKnife.boost.2": "10 % de chances d'obtenir +1 aliment en cuisinant",
   "description.trainingWhistle.boost": "+1 Cuir",
   "description.squirrelOnesie.boost": "+1 Gland",
@@ -7133,5 +7129,10 @@
   "auction.bidding.success": "Enchère placée avec succès",
   "auction.bidding.failed": "L'enchère a échoué",
   "auction.cancelling.success": "Enchère annulée",
-  "auction.cancelling.failed": "L'annulation de l'offre a échoué"
+  "auction.cancelling.failed": "L'annulation de l'offre a échoué",
+  "description.houndShrine.buff": "+100 points d'expérience pour animaux de compagnie par demande de nourriture",
+  "pets.walking": "Marcher",
+  "petBuff.bib.mid": "+5 points d'expérience pour animaux de compagnie par demande de nourriture",
+  "petBuff.bib.great": "+10 points d'expérience pour animaux de compagnie par demande de nourriture",
+  "description.cleaverKnife.boost.1": "-15 % Temps de cuisson"
 }

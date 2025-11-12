@@ -6542,7 +6542,6 @@
   "description.bantamShrine.buff": "-25% Tavuk Uyku Süresi",
   "description.tradingShrine": "Bir ticaret tapınağı",
   "description.tradingShrine.buff": "-% 2.5 kaynak vergisi",
-  "description.houndShrine.buff": "+100 Evcil Hayvan Deneyimi",
   "description.collieShrine.buff": "-25% İnek Uyku Süresi",
   "description.collieShrine.buff.2": "-25% Koyun Uyku Süresi",
   "description.badgerShrine.buff": "-25% Ağaç Kurtarma Süresi",
@@ -6735,8 +6734,6 @@
   "petBuff.aura.basic": "1.5x Evcil Hayvan Enerjisi",
   "petBuff.aura.epic": "2x Evcil Hayvan Enerjisi",
   "petBuff.aura.mega": "3x Evcil Hayvan Enerjisi",
-  "petBuff.bib.mid": "+5 Evcil Hayvan DP'si",
-  "petBuff.bib.great": "+10 Evcil Hayvan Deneyimi",
   "visitorGuide.project": "Projeler ({{count}})",
   "visitorGuide.pets": "Evcil Hayvanlar ({{count}})",
   "visitorGuide.showLove": "Evcil hayvanlara biraz sevgi gösterin.",
@@ -6769,7 +6766,6 @@
   "description.sawFish.boost.two": "+1 Kompostlamadan Solucan",
   "description.super.star.boost": "Kış aylarında +1 Balık",
   "description.lunarWeapon.boost": "-50% Güç Becerisi Bekleme Süresi",
-  "description.cleaverKnife.boost.1": "%15 Pişirme Hızı",
   "description.cleaverKnife.boost.2": "Yemekten %10 +1 Yiyecek alma şansı",
   "description.trainingWhistle.boost": "+1 Deri",
   "description.squirrelOnesie.boost": "+1 Acorn",
@@ -7133,5 +7129,10 @@
   "auction.bidding.success": "Teklif başarıyla verildi",
   "auction.bidding.failed": "Teklif başarısız oldu",
   "auction.cancelling.success": "Teklif iptal edildi",
-  "auction.cancelling.failed": "Teklif iptali başarısız oldu"
+  "auction.cancelling.failed": "Teklif iptali başarısız oldu",
+  "description.houndShrine.buff": "Yiyecek talebi başına +100 Pet XP",
+  "pets.walking": "Yürüyüş",
+  "petBuff.bib.mid": "Yiyecek talebi başına +5 Evcil Hayvan DP'si",
+  "petBuff.bib.great": "Yiyecek talebi başına +10 Evcil Hayvan DP'si",
+  "description.cleaverKnife.boost.1": "-15% Pişirme Süresi"
 }

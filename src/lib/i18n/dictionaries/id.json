@@ -6542,7 +6542,6 @@
   "description.bantamShrine.buff": "-25% Waktu Tidur Ayam",
   "description.tradingShrine": "Kuil perdagangan",
   "description.tradingShrine.buff": "-2,5% pajak sumber daya",
-  "description.houndShrine.buff": "+100 XP Hewan Peliharaan",
   "description.collieShrine.buff": "-25% Waktu Tidur Sapi",
   "description.collieShrine.buff.2": "-25% Waktu Tidur Domba",
   "description.badgerShrine.buff": "-25% Waktu Pemulihan Pohon",
@@ -6735,8 +6734,6 @@
   "petBuff.aura.basic": "1.5x Energi Hewan Peliharaan",
   "petBuff.aura.epic": "2x Energi Hewan Peliharaan",
   "petBuff.aura.mega": "3x Energi Hewan Peliharaan",
-  "petBuff.bib.mid": "+5 XP hewan peliharaan",
-  "petBuff.bib.great": "+10 XP Hewan Peliharaan",
   "visitorGuide.project": "Proyek ({{count}})",
   "visitorGuide.pets": "Hewan peliharaan ({{count}})",
   "visitorGuide.showLove": "Tunjukkan pada hewan peliharaan cinta.",
@@ -6769,7 +6766,6 @@
   "description.sawFish.boost.two": "+1 Cacing dari Pengomposan",
   "description.super.star.boost": "+1 ikan selama musim dingin",
   "description.lunarWeapon.boost": "-50% Cooldown Keterampilan Kekuatan",
-  "description.cleaverKnife.boost.1": "15% Kecepatan Memasak",
   "description.cleaverKnife.boost.2": "10% peluang +1 Makanan dari memasak",
   "description.trainingWhistle.boost": "+1 Kulit",
   "description.squirrelOnesie.boost": "+1 Acorn",
@@ -7133,5 +7129,10 @@
   "auction.bidding.success": "Tawaran berhasil ditempatkan",
   "auction.bidding.failed": "Tawaran gagal",
   "auction.cancelling.success": "Penawaran dibatalkan",
-  "auction.cancelling.failed": "Pembatalan tawaran gagal"
+  "auction.cancelling.failed": "Pembatalan tawaran gagal",
+  "description.houndShrine.buff": "+100 Pet XP per permintaan makanan",
+  "pets.walking": "Berjalan",
+  "petBuff.bib.mid": "+5 XP Hewan Peliharaan per permintaan makanan",
+  "petBuff.bib.great": "+10 XP Hewan Peliharaan per permintaan makanan",
+  "description.cleaverKnife.boost.1": "-15% Waktu Memasak"
 }

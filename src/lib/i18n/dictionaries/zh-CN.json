@@ -6542,7 +6542,6 @@
   "description.bantamShrine.buff": "-25% 鸡睡眠时间",
   "description.tradingShrine": "交易神龛",
   "description.tradingShrine.buff": "-2.5% 资源税",
-  "description.houndShrine.buff": "+100 宠物经验值",
   "description.collieShrine.buff": "-25% 奶牛睡眠时间",
   "description.collieShrine.buff.2": "-25% 绵羊睡眠时间",
   "description.badgerShrine.buff": "-25% 树木恢复时间",
@@ -6735,8 +6734,6 @@
   "petBuff.aura.basic": "1.5 倍宠物能量",
   "petBuff.aura.epic": "2 倍宠物能量",
   "petBuff.aura.mega": "3 倍宠物能量",
-  "petBuff.bib.mid": "+5 宠物经验值",
-  "petBuff.bib.great": "+10 宠物经验值",
   "visitorGuide.project": "项目 ({{count}})",
   "visitorGuide.pets": "宠物 ({{count}})",
   "visitorGuide.showLove": "向宠物表达爱意。",
@@ -6769,7 +6766,6 @@
   "description.sawFish.boost.two": "+1 蠕虫",
   "description.super.star.boost": "冬季，鱼类捕捞量 +1",
   "description.lunarWeapon.boost": "-50% 强力技能冷却时间",
-  "description.cleaverKnife.boost.1": "-15% 烹饪时间",
   "description.cleaverKnife.boost.2": "烹饪所得食物 10% 几率 +1",
   "description.trainingWhistle.boost": "+1 皮革",
   "description.squirrelOnesie.boost": "+1 橡果",
@@ -7133,5 +7129,10 @@
   "auction.bidding.success": "成功出价",
   "auction.bidding.failed": "出价失败",
   "auction.cancelling.success": "出价已取消",
-  "auction.cancelling.failed": "取消出价失败"
+  "auction.cancelling.failed": "取消出价失败",
+  "description.houndShrine.buff": "每份食物申请 +100 宠物经验值",
+  "pets.walking": "散步",
+  "petBuff.bib.mid": "每份食物申请 +5 宠物经验值",
+  "petBuff.bib.great": "每份食物申请 +10 宠物经验值",
+  "description.cleaverKnife.boost.1": "-15% 烹饪时间"
 }
