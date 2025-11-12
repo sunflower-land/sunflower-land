@@ -88,7 +88,9 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
   const [showQuickSelect, setShowQuickSelect] = useState(false);
   const [showTimeRemaining, setShowTimeRemaining] = useState(false);
   const [showOilWarning, setShowOilWarning] = useState(false);
-  const harvestedName = useRef<GreenHouseCropName | GreenHouseFruitName>();
+  const harvestedName = useRef<GreenHouseCropName | GreenHouseFruitName>(
+    undefined,
+  );
   const harvestedAmount = useRef<number>(0);
 
   const state = useSelector(gameService, _state);

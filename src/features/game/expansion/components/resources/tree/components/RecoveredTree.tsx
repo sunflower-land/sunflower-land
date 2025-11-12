@@ -51,7 +51,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({
 
   const biome: LandBiomeName = getCurrentBiome(island);
 
-  const shakeGif = useRef<SpriteSheetInstance>();
+  const shakeGif = useRef<SpriteSheetInstance>(undefined);
   const { t } = useAppTranslation();
 
   const { play: chopAudio } = useSound("chop");

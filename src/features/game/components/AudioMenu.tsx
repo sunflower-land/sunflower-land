@@ -15,7 +15,7 @@ import { useIsAudioMuted } from "lib/utils/hooks/useIsAudioMuted";
 import { useIsMusicPaused } from "lib/utils/hooks/useIsMusicPaused";
 
 interface Props {
-  musicPlayer: React.RefObject<HTMLAudioElement>;
+  musicPlayer: React.RefObject<HTMLAudioElement | null>;
   song: Song;
   handlePreviousSong: () => void;
   handleNextSong: () => void;

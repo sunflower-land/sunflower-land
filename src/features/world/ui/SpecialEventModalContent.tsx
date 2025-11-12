@@ -97,7 +97,7 @@ export const SpecialEventModalContent: React.FC<{
   const [gameState] = useActor(gameService);
 
   const [reward, setReward] = useState<Airdrop & { day: number }>();
-  const task = useRef<Task>();
+  const task = useRef<Task>(undefined);
   const [showLink, setShowLink] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
 

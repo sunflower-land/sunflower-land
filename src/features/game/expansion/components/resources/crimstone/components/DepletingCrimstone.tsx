@@ -25,7 +25,7 @@ const DepletingCrimstoneComponent: React.FC<Props> = ({
 }) => {
   const { scale } = useContext(ZoomContext);
   const [playing, setPlaying] = useState(false);
-  const sparkGif = useRef<SpriteSheetInstance>();
+  const sparkGif = useRef<SpriteSheetInstance>(undefined);
 
   const getDropSheet = () => {
     if (getCrimstoneStage(minesLeft, minedAt) === 6) {

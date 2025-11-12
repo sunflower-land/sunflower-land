@@ -625,7 +625,7 @@ interface ItemGroupProps {
   selectedChestItem?: LandscapingPlaceableType;
   onItemClick: (item: LandscapingPlaceableType) => void;
   state: GameState;
-  divRef: React.RefObject<HTMLDivElement>;
+  divRef: React.RefObject<HTMLDivElement | null>;
 }
 
 const ItemGroup: React.FC<ItemGroupProps> = ({

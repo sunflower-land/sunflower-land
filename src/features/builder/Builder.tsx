@@ -197,6 +197,7 @@ export const Builder: React.FC = () => {
 
                   return positions.map((coords, index) => {
                     const { x, y } = coords;
+                    const Component = resource.component;
                     return (
                       <MapPlacement
                         key={`${resourceName}-${index}`}
@@ -205,7 +206,7 @@ export const Builder: React.FC = () => {
                         height={height}
                         width={width}
                       >
-                        {resource.component({})}
+                        <Component />
                       </MapPlacement>
                     );
                   });

@@ -43,7 +43,7 @@ const RecoveredGoldComponent: React.FC<Props> = ({
   const [showSpritesheet, setShowSpritesheet] = useState(false);
   const [showEquipTool, setShowEquipTool] = useState(false);
 
-  const strikeGif = useRef<SpriteSheetInstance>();
+  const strikeGif = useRef<SpriteSheetInstance>(undefined);
 
   const Image = READONLY_RESOURCE_COMPONENTS()[goldRockName];
 

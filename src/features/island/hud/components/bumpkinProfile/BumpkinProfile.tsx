@@ -81,7 +81,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
 }) => {
   const { showAnimations } = useContext(Context);
 
-  const progressBarEl = useRef<SpriteSheetInstance>();
+  const progressBarEl = useRef<SpriteSheetInstance>(undefined);
 
   const experience = bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
@@ -205,7 +205,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
 };
 
 export const BumpkinProfile: React.FC = () => {
-  const progressBarEl = useRef<SpriteSheetInstance>();
+  const progressBarEl = useRef<SpriteSheetInstance>(undefined);
   const [viewSkillsTab, setViewSkillsTab] = useState(false);
   const [showModal, setShowModal] = useState(false);
 

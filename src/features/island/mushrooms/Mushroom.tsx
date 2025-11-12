@@ -39,7 +39,7 @@ export const Mushroom: React.FC<Props> = ({ id, isFirstRender, name }) => {
   const { gameService } = useContext(Context);
   const [grow, setGrow] = useState(false);
 
-  const mushroomGif = useRef<SpriteSheetInstance>();
+  const mushroomGif = useRef<SpriteSheetInstance>(undefined);
 
   const mushrooms = ["mushroom_1", "mushroom_2", "mushroom_3"] as const;
   const mushroomSound = useSound(
