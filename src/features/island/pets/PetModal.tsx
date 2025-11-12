@@ -124,7 +124,7 @@ export const PetModal: React.FC<Props> = ({
                 })}
               />
               {isNFTPet && (
-                <div className="flex flex-row gap-2">
+                <div className="flex flex-row gap-2 items-center">
                   <Checkbox
                     checked={!!data.walking}
                     onChange={() => gameService.send("pet.walked", { petId })}
