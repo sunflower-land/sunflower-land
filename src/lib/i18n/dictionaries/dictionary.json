@@ -3782,6 +3782,8 @@
   "withdraw.bumpkin.wearing": "Your Bumpkin is currently wearing the following item(s) that can't be withdrawn. You will need to unequip them before you can withdraw.",
   "withdraw.buds": "Select Buds to withdraw",
   "withdraw.pets": "Select Pets to withdraw",
+  "withdraw.pet.confirmation1": "Withdrawing will wipe your pet's energy and experience. Are you sure you want to continue?",
+  "withdraw.pet.confirmation2": "This withdrawal wipes your pet's energy completely. This action cannot be undone. Proceed?",
   "withdraw.budRestricted": "Used in today's bud box",
   "withdraw.flower.limited": "During the initial launch of $FLOWER, the amount of $FLOWER you can withdraw is limited.",
   "withdraw.boostedItem.timeLeft": "Withdrawable in {{time}}",
