@@ -895,76 +895,6 @@ export class PlazaScene extends BaseScene {
     });
   }
 
-  public addPet(
-    sessionId: string,
-    petId: number,
-    petType: string,
-    x: number,
-    y: number,
-  ) {
-    const petContainer = new PetContainer(this, x, y, petId, petType as any);
-    this.pets[sessionId] = petContainer;
-  }
-
-  public updatePets() {
-    const server = this.mmoServer;
-    if (!server) return;
-
-    Object.keys(this.pets).forEach((sessionId) => {
-      const petsMap = server.state.pets;
-      if (!petsMap) return;
-
-      const hasLeft =
-        !petsMap.get(sessionId) ||
-        petsMap.get(sessionId)?.sceneId !== this.scene.key;
-
-      const isInactive = !this.pets[sessionId]?.active;
-
-      if (hasLeft || isInactive) {
-        this.pets[sessionId]?.destroy();
-        delete this.pets[sessionId];
-      }
-    });
-
-    server.state.pets?.forEach((pet, sessionId) => {
-      if (pet.sceneId !== this.scene.key) return;
-
-      const petContainer = this.pets[sessionId];
-      if (!petContainer) {
-        this.addPet(
-          sessionId,
-          pet.id || 0,
-          pet.type || "Unknown",
-          pet.x || 0,
-          pet.y || 0,
-        );
-        return;
-      }
-
-      if (petContainer) {
-        const distance = Math.sqrt(
-          (petContainer.x - (pet.x || 0)) ** 2 +
-            (petContainer.y - (pet.y || 0)) ** 2,
-        );
-
-        if (distance > 2) {
-          if ((pet.x || 0) > petContainer.x) {
-            petContainer.faceRight();
-          } else if ((pet.x || 0) < petContainer.x) {
-            petContainer.faceLeft();
-          }
-          petContainer.walk();
-        } else {
-          petContainer.idle();
-        }
-
-        petContainer.x = Phaser.Math.Linear(petContainer.x, pet.x || 0, 0.05);
-        petContainer.y = Phaser.Math.Linear(petContainer.y, pet.y || 0, 0.05);
-        petContainer.setDepth(petContainer.y);
-      }
-    });
-  }
-
   public update() {
     super.update();
     this.syncPlaceables();
@@ -974,6 +904,5 @@ export class PlazaScene extends BaseScene {
     }
 
     this.updateDogs();
-    this.updatePets();
   }
 }
