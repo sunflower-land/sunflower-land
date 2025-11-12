@@ -107,6 +107,7 @@ export type Pet = {
   energy: number;
   experience: number;
   pettedAt: number;
+  cheeredAt?: number; // Used to determine if a pet has been cheered up
   dailySocialXP?: {
     [date: string]: number;
   };
@@ -679,7 +680,7 @@ export function isPetNeglected(
 
   const PET_NEGLECT_DAYS = isPetNFT(pet) ? 7 : 3;
 
-  const lastFedAt = pet.requests.fedAt;
+  const lastFedAt = Math.max(pet.requests.fedAt, pet.cheeredAt ?? 0); // To use cheeredAt or fedAt, whichever is more recent
   const lastFedAtDate = new Date(lastFedAt).toISOString().split("T")[0];
   const todayDate = new Date(createdAt).toISOString().split("T")[0];
   const daysSinceLastFedMs =

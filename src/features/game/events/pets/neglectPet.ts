@@ -54,7 +54,7 @@ export function neglectPet({ state, action, createdAt = Date.now() }: Options) {
     }
 
     petData.experience = Math.max(0, petData.experience - 500);
-    petData.requests.fedAt = createdAt;
+    petData.cheeredAt = createdAt;
 
     return stateCopy;
   });
