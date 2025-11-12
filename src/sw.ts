@@ -74,7 +74,10 @@ self.addEventListener("message", (event) => {
 cleanupOutdatedCaches();
 precacheAndRoute(self.__WB_MANIFEST);
 
+console.log("Environment", import.meta.env);
+
 if (import.meta.env.PROD) {
+  console.log("Inside Production environment");
   // Private/protected assets per category
   PROTECTED_IMAGE_CATEGORIES.forEach((category, index) => {
     const categoryPrefix = PROTECTED_PREFIXES[index];
