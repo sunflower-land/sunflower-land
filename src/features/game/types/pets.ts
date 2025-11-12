@@ -122,6 +122,7 @@ export type PetNFT = Omit<Pet, "name"> & {
   coordinates?: Coordinates;
   location?: PlaceableLocation;
   traits?: PetTraits;
+  walking?: boolean;
 };
 
 export type PetNFTs = Record<number, PetNFT>;
