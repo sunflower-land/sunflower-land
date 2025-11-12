@@ -168,7 +168,10 @@ export const RevealPet: React.FC = () => {
                         <span>{`${capitalize(trait)}: `}</span>
                         <div className="inline-flex items-center gap-1">
                           <span className="whitespace-nowrap">{`${petTraits[trait]}`}</span>
-                          {(trait === "aura" || trait === "bib") && (
+                          {((trait === "aura" &&
+                            petTraits[trait] !== "No Aura") ||
+                            (trait === "bib" &&
+                              petTraits[trait] !== "Baby Bib")) && (
                             <img src={powerup} alt="Powerup" className="w-4" />
                           )}
                         </div>
