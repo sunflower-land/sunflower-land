@@ -673,6 +673,10 @@ export function isPetNeglected(
     return false;
   }
 
+  if (pet.experience <= 0) {
+    return false;
+  }
+
   const PET_NEGLECT_DAYS = isPetNFT(pet) ? 7 : 3;
 
   const lastFedAt = pet.requests.fedAt;
@@ -713,6 +717,7 @@ export function isPetOfTypeFed({
 
   const isPetOfTypeFed = petsOfType.some((pet) => {
     if (pet.id === id) return false;
+    if (pet.experience <= 0) return false;
     const lastFedAt = pet.requests.fedAt;
     const todayDate = new Date(now).toISOString().split("T")[0];
     const lastFedAtDate = new Date(lastFedAt).toISOString().split("T")[0];
