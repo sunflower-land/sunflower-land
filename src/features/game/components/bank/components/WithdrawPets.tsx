@@ -188,7 +188,7 @@ export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
               <Box
                 key={`pet-${petId}`}
                 onClick={() => onRemove(petId)}
-                image={SUNNYSIDE.icons.expression_confused}
+                image={getPetImage("happy", petId)}
                 iconClassName="w-5"
               />
             ))}
