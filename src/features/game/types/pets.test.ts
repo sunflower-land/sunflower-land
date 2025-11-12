@@ -1,4 +1,4 @@
-import { getPetLevel } from "./pets";
+import { getPetLevel, isPetNeglected, isPetOfTypeFed } from "./pets";
 
 describe("getPetLevel", () => {
   it("should return the correct experience to next level for level 2", () => {
@@ -139,5 +139,712 @@ describe("getPetLevel", () => {
       level: 21,
       experienceBetweenLevels: 2100,
     });
+  });
+});
+
+describe("isPetNeglected", () => {
+  it("returns false if pet is undefined", () => {
+    expect(isPetNeglected(undefined)).toBe(false);
+  });
+
+  it("returns false if pet has no experience", () => {
+    const pet = {
+      name: "Barkley" as const,
+      requests: {
+        food: [],
+        fedAt: Date.now(),
+      },
+      energy: 0,
+      experience: 0,
+      pettedAt: Date.now(),
+    };
+
+    expect(isPetNeglected(pet)).toBe(false);
+  });
+
+  it("returns false if pet has negative experience", () => {
+    const pet = {
+      name: "Barkley" as const,
+      requests: {
+        food: [],
+        fedAt: Date.now() - 4 * 24 * 60 * 60 * 1000,
+      },
+      energy: 0,
+      experience: -10,
+      pettedAt: Date.now(),
+    };
+
+    expect(isPetNeglected(pet)).toBe(false);
+  });
+
+  describe("common pets", () => {
+    it("returns false if common pet was fed within 3 days", () => {
+      const now = new Date("2025-01-10T12:00:00.000Z").getTime();
+      const twoDaysAgo = new Date("2025-01-08T12:00:00.000Z").getTime();
+
+      const pet = {
+        name: "Barkley" as const,
+        requests: {
+          food: [],
+          fedAt: twoDaysAgo,
+        },
+        energy: 0,
+        experience: 100,
+        pettedAt: now,
+      };
+
+      expect(isPetNeglected(pet, now)).toBe(false);
+    });
+
+    it("returns false if common pet was fed exactly 3 days ago", () => {
+      const now = new Date("2025-01-10T12:00:00.000Z").getTime();
+      const threeDaysAgo = new Date("2025-01-07T12:00:00.000Z").getTime();
+
+      const pet = {
+        name: "Barkley" as const,
+        requests: {
+          food: [],
+          fedAt: threeDaysAgo,
+        },
+        energy: 0,
+        experience: 100,
+        pettedAt: now,
+      };
+
+      expect(isPetNeglected(pet, now)).toBe(false);
+    });
+
+    it("returns true if common pet was fed more than 3 days ago", () => {
+      const now = new Date("2025-01-10T12:00:00.000Z").getTime();
+      const fourDaysAgo = new Date("2025-01-06T12:00:00.000Z").getTime();
+
+      const pet = {
+        name: "Barkley" as const,
+        requests: {
+          food: [],
+          fedAt: fourDaysAgo,
+        },
+        energy: 0,
+        experience: 100,
+        pettedAt: now,
+      };
+
+      expect(isPetNeglected(pet, now)).toBe(true);
+    });
+
+    it("returns true if common pet was fed 4 days ago (crossing day boundary)", () => {
+      const now = new Date("2025-01-10T00:00:00.000Z").getTime();
+      const fourDaysAgo = new Date("2025-01-06T23:59:59.000Z").getTime();
+
+      const pet = {
+        name: "Barkley" as const,
+        requests: {
+          food: [],
+          fedAt: fourDaysAgo,
+        },
+        energy: 0,
+        experience: 100,
+        pettedAt: now,
+      };
+
+      expect(isPetNeglected(pet, now)).toBe(true);
+    });
+  });
+
+  describe("NFT pets", () => {
+    it("returns false if NFT pet was fed within 7 days", () => {
+      const now = new Date("2025-01-10T12:00:00.000Z").getTime();
+      const fiveDaysAgo = new Date("2025-01-05T12:00:00.000Z").getTime();
+
+      const pet = {
+        id: 1,
+        name: "Pet #1" as const,
+        requests: {
+          food: [],
+          fedAt: fiveDaysAgo,
+        },
+        energy: 0,
+        experience: 100,
+        pettedAt: now,
+      };
+
+      expect(isPetNeglected(pet, now)).toBe(false);
+    });
+
+    it("returns false if NFT pet was fed exactly 7 days ago", () => {
+      const now = new Date("2025-01-10T12:00:00.000Z").getTime();
+      const sevenDaysAgo = new Date("2025-01-03T12:00:00.000Z").getTime();
+
+      const pet = {
+        id: 1,
+        name: "Pet #1" as const,
+        requests: {
+          food: [],
+          fedAt: sevenDaysAgo,
+        },
+        energy: 0,
+        experience: 100,
+        pettedAt: now,
+      };
+
+      expect(isPetNeglected(pet, now)).toBe(false);
+    });
+
+    it("returns true if NFT pet was fed more than 7 days ago", () => {
+      const now = new Date("2025-01-10T12:00:00.000Z").getTime();
+      const eightDaysAgo = new Date("2025-01-02T12:00:00.000Z").getTime();
+
+      const pet = {
+        id: 1,
+        name: "Pet #1" as const,
+        requests: {
+          food: [],
+          fedAt: eightDaysAgo,
+        },
+        energy: 0,
+        experience: 100,
+        pettedAt: now,
+      };
+
+      expect(isPetNeglected(pet, now)).toBe(true);
+    });
+
+    it("returns true if NFT pet was fed 8 days ago (crossing day boundary)", () => {
+      const now = new Date("2025-01-10T00:00:00.000Z").getTime();
+      const eightDaysAgo = new Date("2025-01-02T23:59:59.000Z").getTime();
+
+      const pet = {
+        id: 1,
+        name: "Pet #1" as const,
+        requests: {
+          food: [],
+          fedAt: eightDaysAgo,
+        },
+        energy: 0,
+        experience: 100,
+        pettedAt: now,
+      };
+
+      expect(isPetNeglected(pet, now)).toBe(true);
+    });
+  });
+
+  it("handles date boundaries correctly (midnight)", () => {
+    const now = new Date("2025-01-10T00:00:00.000Z").getTime();
+    const fourDaysAgo = new Date("2025-01-06T00:00:00.000Z").getTime();
+
+    const pet = {
+      name: "Barkley" as const,
+      requests: {
+        food: [],
+        fedAt: fourDaysAgo,
+      },
+      energy: 0,
+      experience: 100,
+      pettedAt: now,
+    };
+
+    expect(isPetNeglected(pet, now)).toBe(true);
+  });
+
+  it("uses current time when createdAt is not provided", () => {
+    const pet = {
+      name: "Barkley" as const,
+      requests: {
+        food: [],
+        fedAt: Date.now() - 4 * 24 * 60 * 60 * 1000, // 4 days ago
+      },
+      energy: 0,
+      experience: 100,
+      pettedAt: Date.now(),
+    };
+
+    expect(isPetNeglected(pet)).toBe(true);
+  });
+});
+
+describe("isPetOfTypeFed", () => {
+  it("returns true if a pet of the type was fed today (excluding the given id)", () => {
+    const now = new Date("2025-01-10T12:00:00.000Z").getTime();
+    const today = new Date("2025-01-10T10:00:00.000Z").getTime();
+
+    const nftPets = {
+      1: {
+        id: 1,
+        name: "Pet #1" as const,
+        requests: {
+          food: [],
+          fedAt: today,
+        },
+        energy: 0,
+        experience: 100,
+        pettedAt: now,
+        traits: {
+          type: "Dragon" as const,
+          fur: "Green" as const,
+          accessory: "Crown" as const,
+          bib: "Gold Necklace" as const,
+          aura: "Common Aura" as const,
+        },
+      },
+      2: {
+        id: 2,
+        name: "Pet #2" as const,
+        requests: {
+          food: [],
+          fedAt: today,
+        },
+        energy: 0,
+        experience: 100,
+        pettedAt: now,
+        traits: {
+          type: "Dragon" as const,
+          fur: "Blue" as const,
+          accessory: "Flower Crown" as const,
+          bib: "Collar" as const,
+          aura: "No Aura" as const,
+        },
+      },
+    };
+
+    expect(
+      isPetOfTypeFed({
+        nftPets,
+        petType: "Dragon",
+        id: 1,
+        now,
+      }),
+    ).toBe(true);
+  });
+
+  it("returns false if no pet of the type was fed today", () => {
+    const now = new Date("2025-01-10T12:00:00.000Z").getTime();
+    const yesterday = new Date("2025-01-09T12:00:00.000Z").getTime();
+
+    const nftPets = {
+      1: {
+        id: 1,
+        name: "Pet #1" as const,
+        requests: {
+          food: [],
+          fedAt: yesterday,
+        },
+        energy: 0,
+        experience: 100,
+        pettedAt: now,
+        traits: {
+          type: "Dragon" as const,
+          fur: "Green" as const,
+          accessory: "Crown" as const,
+          bib: "Gold Necklace" as const,
+          aura: "Common Aura" as const,
+        },
+      },
+    };
+
+    expect(
+      isPetOfTypeFed({
+        nftPets,
+        petType: "Dragon",
+        id: 1,
+        now,
+      }),
+    ).toBe(false);
+  });
+
+  it("returns false if the only pet of that type is the excluded one", () => {
+    const now = new Date("2025-01-10T12:00:00.000Z").getTime();
+    const today = new Date("2025-01-10T10:00:00.000Z").getTime();
+
+    const nftPets = {
+      1: {
+        id: 1,
+        name: "Pet #1" as const,
+        requests: {
+          food: [],
+          fedAt: today,
+        },
+        energy: 0,
+        experience: 100,
+        pettedAt: now,
+        traits: {
+          type: "Dragon" as const,
+          fur: "Green" as const,
+          accessory: "Crown" as const,
+          bib: "Gold Necklace" as const,
+          aura: "Common Aura" as const,
+        },
+      },
+    };
+
+    expect(
+      isPetOfTypeFed({
+        nftPets,
+        petType: "Dragon",
+        id: 1,
+        now,
+      }),
+    ).toBe(false);
+  });
+
+  it("returns false if no pets of that type exist", () => {
+    const now = new Date("2025-01-10T12:00:00.000Z").getTime();
+    const today = new Date("2025-01-10T10:00:00.000Z").getTime();
+
+    const nftPets = {
+      1: {
+        id: 1,
+        name: "Pet #1" as const,
+        requests: {
+          food: [],
+          fedAt: today,
+        },
+        energy: 0,
+        experience: 100,
+        pettedAt: now,
+        traits: {
+          type: "Griffin" as const,
+          fur: "Green" as const,
+          accessory: "Crown" as const,
+          bib: "Gold Necklace" as const,
+          aura: "Common Aura" as const,
+        },
+      },
+    };
+
+    expect(
+      isPetOfTypeFed({
+        nftPets,
+        petType: "Dragon",
+        id: 1,
+        now,
+      }),
+    ).toBe(false);
+  });
+
+  it("returns false if pets don't have traits", () => {
+    const now = new Date("2025-01-10T12:00:00.000Z").getTime();
+    const today = new Date("2025-01-10T10:00:00.000Z").getTime();
+
+    const nftPets = {
+      1: {
+        id: 1,
+        name: "Pet #1" as const,
+        requests: {
+          food: [],
+          fedAt: today,
+        },
+        energy: 0,
+        experience: 100,
+        pettedAt: now,
+      },
+    };
+
+    expect(
+      isPetOfTypeFed({
+        nftPets,
+        petType: "Dragon",
+        id: 1,
+        now,
+      }),
+    ).toBe(false);
+  });
+
+  it("handles multiple pets of different types correctly", () => {
+    const now = new Date("2025-01-10T12:00:00.000Z").getTime();
+    const today = new Date("2025-01-10T10:00:00.000Z").getTime();
+    const yesterday = new Date("2025-01-09T10:00:00.000Z").getTime();
+
+    const nftPets = {
+      1: {
+        id: 1,
+        name: "Pet #1" as const,
+        requests: {
+          food: [],
+          fedAt: today,
+        },
+        energy: 0,
+        experience: 100,
+        pettedAt: now,
+        traits: {
+          type: "Dragon" as const,
+          fur: "Green" as const,
+          accessory: "Crown" as const,
+          bib: "Gold Necklace" as const,
+          aura: "Common Aura" as const,
+        },
+      },
+      2: {
+        id: 2,
+        name: "Pet #2" as const,
+        requests: {
+          food: [],
+          fedAt: yesterday,
+        },
+        energy: 0,
+        experience: 100,
+        pettedAt: now,
+        traits: {
+          type: "Griffin" as const,
+          fur: "Blue" as const,
+          accessory: "Flower Crown" as const,
+          bib: "Collar" as const,
+          aura: "No Aura" as const,
+        },
+      },
+      3: {
+        id: 3,
+        name: "Pet #3" as const,
+        requests: {
+          food: [],
+          fedAt: today,
+        },
+        energy: 0,
+        experience: 100,
+        pettedAt: now,
+        traits: {
+          type: "Griffin" as const,
+          fur: "Purple" as const,
+          accessory: "Seedling" as const,
+          bib: "Baby Bib" as const,
+          aura: "No Aura" as const,
+        },
+      },
+    };
+
+    expect(
+      isPetOfTypeFed({
+        nftPets,
+        petType: "Dragon",
+        id: 1,
+        now,
+      }),
+    ).toBe(false);
+
+    expect(
+      isPetOfTypeFed({
+        nftPets,
+        petType: "Griffin",
+        id: 2,
+        now,
+      }),
+    ).toBe(true);
+  });
+
+  it("handles date boundaries correctly (midnight)", () => {
+    const now = new Date("2025-01-10T00:00:00.000Z").getTime();
+    const today = new Date("2025-01-10T00:00:00.000Z").getTime();
+    const yesterday = new Date("2025-01-09T23:59:59.000Z").getTime();
+
+    const nftPets = {
+      1: {
+        id: 1,
+        name: "Pet #1" as const,
+        requests: {
+          food: [],
+          fedAt: today,
+        },
+        energy: 0,
+        experience: 100,
+        pettedAt: now,
+        traits: {
+          type: "Dragon" as const,
+          fur: "Green" as const,
+          accessory: "Crown" as const,
+          bib: "Gold Necklace" as const,
+          aura: "Common Aura" as const,
+        },
+      },
+      2: {
+        id: 2,
+        name: "Pet #2" as const,
+        requests: {
+          food: [],
+          fedAt: yesterday,
+        },
+        energy: 0,
+        experience: 100,
+        pettedAt: now,
+        traits: {
+          type: "Dragon" as const,
+          fur: "Blue" as const,
+          accessory: "Flower Crown" as const,
+          bib: "Collar" as const,
+          aura: "No Aura" as const,
+        },
+      },
+    };
+
+    expect(
+      isPetOfTypeFed({
+        nftPets,
+        petType: "Dragon",
+        id: 1,
+        now,
+      }),
+    ).toBe(false);
+
+    expect(
+      isPetOfTypeFed({
+        nftPets,
+        petType: "Dragon",
+        id: 2,
+        now,
+      }),
+    ).toBe(true);
+  });
+
+  it("uses current time when now is not provided", () => {
+    const today = new Date().toISOString().split("T")[0];
+    const todayTimestamp = new Date(today).getTime();
+
+    const nftPets = {
+      1: {
+        id: 1,
+        name: "Pet #1" as const,
+        requests: {
+          food: [],
+          fedAt: todayTimestamp,
+        },
+        energy: 0,
+        experience: 100,
+        pettedAt: Date.now(),
+        traits: {
+          type: "Dragon" as const,
+          fur: "Green" as const,
+          accessory: "Crown" as const,
+          bib: "Gold Necklace" as const,
+          aura: "Common Aura" as const,
+        },
+      },
+    };
+
+    expect(
+      isPetOfTypeFed({
+        nftPets,
+        petType: "Dragon",
+        id: 1,
+      }),
+    ).toBe(false);
+  });
+
+  it("returns true if multiple pets of the type were fed today", () => {
+    const now = new Date("2025-01-10T12:00:00.000Z").getTime();
+    const today1 = new Date("2025-01-10T10:00:00.000Z").getTime();
+    const today2 = new Date("2025-01-10T14:00:00.000Z").getTime();
+
+    const nftPets = {
+      1: {
+        id: 1,
+        name: "Pet #1" as const,
+        requests: {
+          food: [],
+          fedAt: today1,
+        },
+        energy: 0,
+        experience: 100,
+        pettedAt: now,
+        traits: {
+          type: "Dragon" as const,
+          fur: "Green" as const,
+          accessory: "Crown" as const,
+          bib: "Gold Necklace" as const,
+          aura: "Common Aura" as const,
+        },
+      },
+      2: {
+        id: 2,
+        name: "Pet #2" as const,
+        requests: {
+          food: [],
+          fedAt: today2,
+        },
+        energy: 0,
+        experience: 100,
+        pettedAt: now,
+        traits: {
+          type: "Dragon" as const,
+          fur: "Blue" as const,
+          accessory: "Flower Crown" as const,
+          bib: "Collar" as const,
+          aura: "No Aura" as const,
+        },
+      },
+    };
+
+    expect(
+      isPetOfTypeFed({
+        nftPets,
+        petType: "Dragon",
+        id: 1,
+        now,
+      }),
+    ).toBe(true);
+  });
+
+  it("handles empty nftPets object", () => {
+    const now = new Date("2025-01-10T12:00:00.000Z").getTime();
+
+    expect(
+      isPetOfTypeFed({
+        nftPets: {},
+        petType: "Dragon",
+        id: 1,
+        now,
+      }),
+    ).toBe(false);
+  });
+
+  it("returns false if pet has negative experience", () => {
+    const now = new Date("2025-01-10T12:00:00.000Z").getTime();
+    const today = new Date("2025-01-10T10:00:00.000Z").getTime();
+
+    const nftPets = {
+      1: {
+        id: 1,
+        name: "Pet #1" as const,
+        requests: {
+          food: [],
+          fedAt: today,
+        },
+        energy: 0,
+        experience: -10,
+        pettedAt: now,
+        traits: {
+          type: "Dragon" as const,
+          fur: "Green" as const,
+          accessory: "Crown" as const,
+          bib: "Gold Necklace" as const,
+          aura: "Common Aura" as const,
+        },
+      },
+      2: {
+        id: 2,
+        name: "Pet #2" as const,
+        requests: {
+          food: [],
+          fedAt: today,
+        },
+        energy: 0,
+        experience: -10,
+        pettedAt: now,
+        traits: {
+          type: "Dragon" as const,
+          fur: "Blue" as const,
+          accessory: "Flower Crown" as const,
+          bib: "Collar" as const,
+          aura: "No Aura" as const,
+        },
+      },
+    };
+
+    expect(
+      isPetOfTypeFed({
+        nftPets,
+        petType: "Dragon",
+        id: 1,
+        now,
+      }),
+    ).toBe(false);
   });
 });
