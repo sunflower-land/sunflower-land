@@ -162,7 +162,7 @@ export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
           backdrop="static"
         >
           <Panel className="sm:w-11/12 m-auto">
-            <div className="flex flex-col p-3 gap-3 items-center text-center">
+            <div className="flex flex-col p-1 gap-2 mb-1">
               <Label type={currentConfirmation.labelType}>
                 {currentConfirmation.labelText}
               </Label>
@@ -172,7 +172,7 @@ export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
                 {currentConfirmation.message}
               </p>
             </div>
-            <div className="flex justify-around gap-2">
+            <div className="flex justify-around gap-1">
               <Button onClick={handleCancelConfirmation}>{t("cancel")}</Button>
               <Button onClick={handleConfirmStep}>{t("confirm")}</Button>
             </div>
