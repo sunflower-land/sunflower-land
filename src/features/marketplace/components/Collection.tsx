@@ -16,7 +16,10 @@ import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { hasFeatureAccess } from "lib/flags";
 import { KNOWN_ITEMS } from "features/game/types";
-import { PET_RESOURCES } from "features/game/types/pets";
+import { PET_RESOURCES, PetCategory } from "features/game/types/pets";
+import { getNFTTraits } from "./TradeableInfo";
+import { PetTraits } from "features/pets/data/types";
+import { Bud } from "lib/buds/types";
 
 export const collectionFetcher = ([filters, token]: [string, string]) => {
   if (CONFIG.API_URL) return loadMarketplace({ filters, token });
@@ -189,6 +192,60 @@ export const Collection: React.FC<{
     const buffMatches = display.buffs.some((buff) =>
       buff.shortDescription.toLowerCase().includes(searchLower),
     );
+
+    const nftTraits = getNFTTraits(display);
+
+    if (display.type === "pets") {
+      const petTraits = nftTraits.traits as PetTraits & PetCategory;
+      const typeMatches = petTraits.type.toLowerCase().includes(searchLower);
+      const primaryMatches = !!petTraits.primary
+        .toLowerCase()
+        .includes(searchLower);
+      const secondaryMatches = !!petTraits.secondary
+        ?.toLowerCase()
+        .includes(searchLower);
+      const tertiaryMatches = !!petTraits.tertiary
+        ?.toLowerCase()
+        .includes(searchLower);
+      const auraMatches = !!petTraits.aura?.toLowerCase().includes(searchLower);
+      const furMatches = !!petTraits.fur?.toLowerCase().includes(searchLower);
+      const accessoryMatches = !!petTraits.accessory
+        ?.toLowerCase()
+        .includes(searchLower);
+      const bibMatches = !!petTraits.bib?.toLowerCase().includes(searchLower);
+      return (
+        nameMatches ||
+        buffMatches ||
+        typeMatches ||
+        primaryMatches ||
+        secondaryMatches ||
+        tertiaryMatches ||
+        auraMatches ||
+        furMatches ||
+        accessoryMatches ||
+        bibMatches
+      );
+    }
+
+    if (display.type === "buds") {
+      const budTraits = nftTraits.traits as Bud;
+      const typeMatches = budTraits.type.toLowerCase().includes(searchLower);
+      const colourMatches = budTraits.colour
+        .toLowerCase()
+        .includes(searchLower);
+      const stemMatches = budTraits.stem.toLowerCase().includes(searchLower);
+      const auraMatches = budTraits.aura.toLowerCase().includes(searchLower);
+      const earsMatches = budTraits.ears.toLowerCase().includes(searchLower);
+      return (
+        nameMatches ||
+        buffMatches ||
+        typeMatches ||
+        colourMatches ||
+        stemMatches ||
+        auraMatches ||
+        earsMatches
+      );
+    }
 
     return nameMatches || buffMatches;
   };
