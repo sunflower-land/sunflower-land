@@ -83,12 +83,27 @@ const protectedCategoryMatchers = PROTECTED_IMAGE_CATEGORIES.map((category) => {
   };
 });
 
+const hasProtectedPath = normalizedProtectedPath.length > 0;
+const protectedBaseHref = hasProtectedPath
+  ? `${normalizedProtectedUrl.origin}${normalizedProtectedPath}/`
+  : null;
+
 // Accept any request whose absolute URL or pathname aligns with a known protected category.
 const isProtectedCategoryUrl = (url: URL) =>
   protectedCategoryMatchers.some(
     ({ urlPrefix, pathPrefix }) =>
       url.href.startsWith(urlPrefix) || url.pathname.startsWith(pathPrefix),
   );
+
+const isWithinProtectedBasePath = (url: URL) => {
+  if (!hasProtectedPath || !protectedBaseHref) return false;
+
+  const pathnameWithSlash = `${normalizedProtectedPath}/`;
+  return (
+    url.href.startsWith(protectedBaseHref) ||
+    url.pathname.startsWith(pathnameWithSlash)
+  );
+};
 
 // Disable workbox logs => do not delete this static import: import "workbox-core";
 self.__WB_DISABLE_DEV_LOGS = true;
@@ -123,22 +138,22 @@ if (import.meta.env.PROD) {
   });
 
   // Catch-all for protected assets that don't fit a known category
-  registerRoute(
-    ({ url }) =>
-      (url.href.startsWith(PROTECTED_IMAGE_PREFIX) ||
-        url.pathname.startsWith(normalizedProtectedPath)) &&
-      !isProtectedCategoryUrl(url),
-    new StaleWhileRevalidate({
-      cacheName: "protected-misc",
-      plugins: [
-        new ExpirationPlugin({
-          maxAgeSeconds: THIRTY_DAYS_IN_SECONDS,
-          maxEntries: 2000,
-          purgeOnQuotaError: true,
-        }),
-      ],
-    }),
-  );
+  if (hasProtectedPath) {
+    registerRoute(
+      ({ url }) =>
+        isWithinProtectedBasePath(url) && !isProtectedCategoryUrl(url),
+      new StaleWhileRevalidate({
+        cacheName: "protected-misc",
+        plugins: [
+          new ExpirationPlugin({
+            maxAgeSeconds: THIRTY_DAYS_IN_SECONDS,
+            maxEntries: 2000,
+            purgeOnQuotaError: true,
+          }),
+        ],
+      }),
+    );
+  }
 
   // Game assets
   registerRoute(
