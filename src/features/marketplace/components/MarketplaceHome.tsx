@@ -44,7 +44,6 @@ import {
   Reputation,
 } from "features/game/lib/reputation";
 import { MarketplaceSearch } from "./MarketplaceSearch";
-import { hasFeatureAccess } from "lib/flags";
 import { GameState } from "features/game/types/game";
 
 const _hasTradeReputation = (state: MachineState) =>
@@ -300,184 +299,167 @@ const Filters: React.FC<{
     onClose();
   };
 
-  return (
-    <div className="p-1 h-full">
-      <div className="flex flex-col h-full">
-        <div>
-          <Option
-            icon={SUNNYSIDE.icons.expression_alerted}
-            label={t("marketplace.trending")}
-            onClick={() => navigateTo({ path: "hot" })}
-            isActive={pathname === `${baseUrl}/hot`}
-          />
-          <Option
-            icon={lightning}
-            label={t("marketplace.powerUps")}
-            onClick={() =>
-              navigateTo({
-                path: "collection",
-                filterParams: "collectibles,wearables,utility",
-              })
-            }
-            isActive={filters === "collectibles,wearables,utility"}
-            options={
-              filters?.includes("utility")
-                ? [
-                    {
-                      icon: ITEM_DETAILS["Freya Fox"].image,
-                      label: t("marketplace.collectibles"),
-                      isActive: filters === "utility,collectibles",
-                      onClick: () =>
-                        navigateTo({
-                          path: "collection",
-                          filterParams: "utility,collectibles",
-                        }),
-                    },
-                    {
-                      icon: wearableIcon,
-                      label: t("marketplace.wearables"),
-                      isActive: filters === "utility,wearables",
-                      onClick: () =>
-                        navigateTo({
-                          path: "collection",
-                          filterParams: "utility,wearables",
-                        }),
-                    },
-                  ]
-                : undefined
-            }
-          />
-          <Option
-            icon={ITEM_DETAILS.Eggplant.image}
-            label={t("marketplace.resources")}
-            onClick={() =>
-              navigateTo({
-                path: "collection",
-                filterParams: "resources",
-              })
-            }
-            isActive={filters === "resources"}
-          />
-          <Option
-            icon={SUNNYSIDE.icons.stopwatch}
-            label={t("marketplace.limited")}
-            onClick={() =>
-              navigateTo({
-                path: "collection",
-                filterParams: "temporary",
-              })
-            }
-            isActive={filters === "temporary"}
-          />
-          <Option
-            icon={SUNNYSIDE.icons.heart}
-            label={t("marketplace.cosmetics")}
-            onClick={() =>
-              navigateTo({
-                path: "collection",
-                filterParams: "collectibles,wearables,cosmetic",
-              })
-            }
-            isActive={filters === "collectibles,wearables,cosmetic"}
-            options={
-              filters?.includes("cosmetic")
-                ? [
-                    {
-                      icon: ITEM_DETAILS["Freya Fox"].image,
-                      label: t("marketplace.collectibles"),
-                      isActive: filters === "cosmetic,collectibles",
-                      onClick: () =>
-                        navigateTo({
-                          path: "collection",
-                          filterParams: "cosmetic,collectibles",
-                        }),
-                    },
-                    {
-                      icon: wearableIcon,
-                      label: t("marketplace.wearables"),
-                      isActive: filters === "cosmetic,wearables",
-                      onClick: () =>
-                        navigateTo({
-                          path: "collection",
-                          filterParams: "cosmetic,wearables",
-                        }),
-                    },
-                  ]
-                : undefined
-            }
-          />
-          <Option
-            icon={budIcon}
-            label={t("marketplace.budNfts")}
-            onClick={() =>
-              navigateTo({
-                path: "collection",
-                filterParams: "buds",
-              })
-            }
-            isActive={filters === "buds"}
-          />
-          {hasFeatureAccess(game, "PET_NFT_MARKETPLACE") && (
-            <Option
-              icon={ITEM_DETAILS.Ramsey.image}
-              label={t("marketplace.pets")}
-              onClick={() =>
+  const filterOptions: OptionProps[] = [
+    {
+      icon: SUNNYSIDE.icons.expression_alerted,
+      label: t("marketplace.trending"),
+      onClick: () => navigateTo({ path: "hot" }),
+      isActive: pathname === `${baseUrl}/hot`,
+    },
+    {
+      icon: lightning,
+      label: t("marketplace.powerUps"),
+      onClick: () =>
+        navigateTo({
+          path: "collection",
+          filterParams: "collectibles,wearables,utility",
+        }),
+      isActive: filters === "collectibles,wearables,utility",
+      options: filters?.includes("utility")
+        ? [
+            {
+              icon: ITEM_DETAILS["Freya Fox"].image,
+              label: t("marketplace.collectibles"),
+              isActive: filters === "utility,collectibles",
+              onClick: () =>
                 navigateTo({
                   path: "collection",
-                  filterParams: "pets",
-                })
-              }
-              isActive={filters === "pets"}
-            />
-          )}
-        </div>
+                  filterParams: "utility,collectibles",
+                }),
+            },
+            {
+              icon: wearableIcon,
+              label: t("marketplace.wearables"),
+              isActive: filters === "utility,wearables",
+              onClick: () =>
+                navigateTo({
+                  path: "collection",
+                  filterParams: "utility,wearables",
+                }),
+            },
+          ]
+        : undefined,
+    },
+    {
+      icon: ITEM_DETAILS.Eggplant.image,
+      label: t("marketplace.resources"),
+      onClick: () =>
+        navigateTo({
+          path: "collection",
+          filterParams: "resources",
+        }),
+      isActive: filters === "resources",
+    },
+    {
+      icon: SUNNYSIDE.icons.stopwatch,
+      label: t("marketplace.limited"),
+      onClick: () =>
+        navigateTo({
+          path: "collection",
+          filterParams: "temporary",
+        }),
+      isActive: filters === "temporary",
+    },
+    {
+      icon: SUNNYSIDE.icons.heart,
+      label: t("marketplace.cosmetics"),
+      onClick: () =>
+        navigateTo({
+          path: "collection",
+          filterParams: "collectibles,wearables,cosmetic",
+        }),
+      isActive: filters === "collectibles,wearables,cosmetic",
+      options: filters?.includes("cosmetic")
+        ? [
+            {
+              icon: ITEM_DETAILS["Freya Fox"].image,
+              label: t("marketplace.collectibles"),
+              isActive: filters === "cosmetic,collectibles",
+              onClick: () =>
+                navigateTo({
+                  path: "collection",
+                  filterParams: "cosmetic,collectibles",
+                }),
+            },
+            {
+              icon: wearableIcon,
+              label: t("marketplace.wearables"),
+              isActive: filters === "cosmetic,wearables",
+              onClick: () =>
+                navigateTo({
+                  path: "collection",
+                  filterParams: "cosmetic,wearables",
+                }),
+            },
+          ]
+        : undefined,
+    },
+    {
+      icon: budIcon,
+      label: t("marketplace.budNfts"),
+      onClick: () =>
+        navigateTo({
+          path: "collection",
+          filterParams: "buds",
+        }),
+      isActive: filters === "buds",
+    },
+    {
+      icon: ITEM_DETAILS.Ramsey.image,
+      label: t("marketplace.pets"),
+      onClick: () =>
+        navigateTo({
+          path: "collection",
+          filterParams: "pets",
+        }),
+      isActive: filters === "pets",
+    },
+    {
+      icon: SUNNYSIDE.icons.player,
+      label: t("marketplace.myProfile"),
+      onClick: () =>
+        navigateTo({
+          path: `profile/${farmId}`,
+        }),
+      options: pathname.includes("profile")
+        ? [
+            {
+              icon: SUNNYSIDE.icons.lightning,
+              label: t("marketplace.stats"),
+              onClick: () =>
+                navigateTo({
+                  path: `profile/${farmId}`,
+                }),
+              isActive: pathname === `${baseUrl}/profile/${farmId}`,
+            },
+            {
+              icon: tradeIcon,
+              label: t("marketplace.trades"),
+              onClick: () =>
+                navigateTo({
+                  path: `profile/${farmId}/trades`,
+                }),
+              isActive: pathname === `${baseUrl}/profile/${farmId}/trades`,
+            },
+            {
+              icon: trade_point,
+              label: t("marketplace.rewards"),
+              onClick: () =>
+                navigateTo({
+                  path: "profile/rewards",
+                }),
+              isActive: pathname === `${baseUrl}/profile/rewards`,
+            },
+          ]
+        : undefined,
+    },
+  ];
 
-        <div>
-          <Option
-            icon={SUNNYSIDE.icons.player}
-            label={t("marketplace.myProfile")}
-            onClick={() =>
-              navigateTo({
-                path: `profile/${farmId}`,
-              })
-            }
-            options={
-              pathname.includes("profile")
-                ? [
-                    {
-                      icon: SUNNYSIDE.icons.lightning,
-                      label: t("marketplace.stats"),
-                      onClick: () =>
-                        navigateTo({
-                          path: `profile/${farmId}`,
-                        }),
-                      isActive: pathname === `${baseUrl}/profile/${farmId}`,
-                    },
-                    {
-                      icon: tradeIcon,
-                      label: t("marketplace.trades"),
-                      onClick: () =>
-                        navigateTo({
-                          path: `profile/${farmId}/trades`,
-                        }),
-                      isActive:
-                        pathname === `${baseUrl}/profile/${farmId}/trades`,
-                    },
-                    {
-                      icon: trade_point,
-                      label: t("marketplace.rewards"),
-                      onClick: () =>
-                        navigateTo({
-                          path: "profile/rewards",
-                        }),
-                      isActive: pathname === `${baseUrl}/profile/rewards`,
-                    },
-                  ]
-                : undefined
-            }
-          />
-        </div>
-      </div>
+  return (
+    <div className="flex flex-col p-1 h-full">
+      {filterOptions.map((option) => (
+        <Option key={option.label} {...option} />
+      ))}
     </div>
   );
 };
