@@ -3,6 +3,8 @@ import React, { useContext, useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { Box } from "components/ui/Box";
+import { Modal } from "components/ui/Modal";
+import { Panel } from "components/ui/Panel";
 
 import { wallet } from "lib/blockchain/wallet";
 
@@ -50,6 +52,8 @@ export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
   );
   const [selected, setSelected] = useState<number[]>([]);
   const [showInfo, setShowInfo] = useState("");
+  const [confirmationStep, setConfirmationStep] = useState<1 | 2 | null>(null);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   const onAdd = (petId: number) => {
     setUnselected((prev) => prev.filter((pet) => pet !== petId));
@@ -103,8 +107,78 @@ export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
     return a - b;
   };
 
+  const confirmationConfig = {
+    1: {
+      labelType: "warning" as const,
+      labelText: t("warning"),
+      message: t("withdraw.pet.confirmation1"),
+      textClass: "text-sm",
+    },
+    2: {
+      labelType: "danger" as const,
+      labelText: t("danger"),
+      message: t("withdraw.pet.confirmation2"),
+      textClass: "text-base",
+    },
+  };
+
+  const handleOpenConfirmation = () => {
+    if (selected.length <= 0) {
+      return;
+    }
+
+    setConfirmationStep(1);
+    setShowConfirmationModal(true);
+  };
+
+  const handleCancelConfirmation = () => {
+    setConfirmationStep(null);
+    setShowConfirmationModal(false);
+  };
+
+  const handleConfirmStep = () => {
+    if (confirmationStep === 1) {
+      setConfirmationStep(2);
+      return;
+    }
+
+    if (confirmationStep === 2) {
+      setShowConfirmationModal(false);
+      setConfirmationStep(null);
+      onWithdraw(selected);
+    }
+  };
+
+  const currentConfirmation = confirmationStep
+    ? confirmationConfig[confirmationStep]
+    : null;
+
   return (
     <>
+      {showConfirmationModal && currentConfirmation && (
+        <Modal
+          show={showConfirmationModal}
+          onHide={handleCancelConfirmation}
+          backdrop="static"
+        >
+          <Panel className="sm:w-11/12 m-auto">
+            <div className="flex flex-col p-1 gap-2 mb-1">
+              <Label type={currentConfirmation.labelType}>
+                {currentConfirmation.labelText}
+              </Label>
+              <p
+                className={`${currentConfirmation.textClass} leading-5 sm:leading-6`}
+              >
+                {currentConfirmation.message}
+              </p>
+            </div>
+            <div className="flex justify-around gap-1">
+              <Button onClick={handleCancelConfirmation}>{t("cancel")}</Button>
+              <Button onClick={handleConfirmStep}>{t("confirm")}</Button>
+            </div>
+          </Panel>
+        </Modal>
+      )}
       <div className="p-2 mb-2">
         <Label type="warning" className="mb-2">
           <span className="text-xs">{t("withdraw.restricted")}</span>
@@ -228,10 +302,7 @@ export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
         </p>
       </div>
 
-      <Button
-        onClick={() => onWithdraw(selected)}
-        disabled={selected.length <= 0}
-      >
+      <Button onClick={handleOpenConfirmation} disabled={selected.length <= 0}>
         {t("withdraw")}
       </Button>
     </>
