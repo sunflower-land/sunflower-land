@@ -44,7 +44,6 @@ import {
   Reputation,
 } from "features/game/lib/reputation";
 import { MarketplaceSearch } from "./MarketplaceSearch";
-import { GameState } from "features/game/types/game";
 
 const _hasTradeReputation = (state: MachineState) =>
   hasReputation({
@@ -71,7 +70,6 @@ export const MarketplaceNavigation: React.FC = () => {
   const { t } = useTranslation();
 
   const { gameService } = useContext(Context);
-  const state = useSelector(gameService, (state) => state.context.state);
   const price = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
   const { farmId } = gameService.getSnapshot().context;
 
@@ -89,11 +87,7 @@ export const MarketplaceNavigation: React.FC = () => {
     <>
       <Modal show={showFilters} onHide={() => setShowFilters(false)}>
         <CloseButtonPanel>
-          <Filters
-            onClose={() => setShowFilters(false)}
-            farmId={farmId}
-            game={state}
-          />
+          <Filters onClose={() => setShowFilters(false)} farmId={farmId} />
           <EstimatedPrice price={price} />
           {/* Flower Dashboard Button */}
           <Button contentAlign="start" onClick={goToFlowerDashboard}>
@@ -146,11 +140,7 @@ export const MarketplaceNavigation: React.FC = () => {
           <InnerPanel className="w-full flex-col mb-1">
             <MarketplaceSearch search={search} setSearch={setSearch} />
             <div className="flex-1">
-              <Filters
-                onClose={() => setShowFilters(false)}
-                farmId={farmId}
-                game={state}
-              />
+              <Filters onClose={() => setShowFilters(false)} farmId={farmId} />
             </div>
           </InnerPanel>
 
@@ -249,9 +239,8 @@ const Option: React.FC<OptionProps> = ({
               ? SUNNYSIDE.icons.chevron_down
               : SUNNYSIDE.icons.chevron_right
           }
-          className={classNames(options ? "w-6" : "w-[18px]", {
-            "mr-5": level > 0,
-          })}
+          className={`${options ? "w-6" : "w-[18px]"}`}
+          style={{ marginRight: level > 0 ? `${level * 20}px` : undefined }}
         />
       </div>
 
@@ -265,8 +254,7 @@ const Option: React.FC<OptionProps> = ({
 const Filters: React.FC<{
   onClose: () => void;
   farmId: number;
-  game: GameState;
-}> = ({ onClose, farmId, game }) => {
+}> = ({ onClose, farmId }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [queryParams] = useSearchParams();
