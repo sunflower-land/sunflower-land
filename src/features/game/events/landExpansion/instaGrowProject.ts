@@ -21,7 +21,7 @@ export const INSTA_GROW_PRICES: Partial<Record<MonumentName, number>> = {
   "Big Banana": 4,
 };
 
-export function getPartialInstantGrowPrices({
+export function getPartialInstantGrowPrice({
   progress,
   project,
 }: {
@@ -33,8 +33,9 @@ export function getPartialInstantGrowPrices({
 
   // Round to the nearest tenth
   const progressPercentage = Math.ceil((progress / requiredCheers) * 10) / 10;
+  const partialMultiplier = 1 - progressPercentage;
 
-  return setPrecision(initialPrice * progressPercentage, 2).toNumber();
+  return setPrecision(initialPrice * partialMultiplier, 2).toNumber();
 }
 
 export function instantGrowProject({
@@ -55,7 +56,7 @@ export function instantGrowProject({
       throw new Error("Project is already finished");
     }
 
-    const price = getPartialInstantGrowPrices({
+    const price = getPartialInstantGrowPrice({
       progress: project.cheers,
       project: action.project,
     });

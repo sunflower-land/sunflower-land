@@ -1,5 +1,8 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { instantGrowProject } from "./instaGrowProject";
+import {
+  getPartialInstantGrowPrice,
+  instantGrowProject,
+} from "./instaGrowProject";
 import Decimal from "decimal.js-light";
 import { REQUIRED_CHEERS } from "features/game/types/monuments";
 
@@ -105,7 +108,7 @@ describe("instaGrowProject", () => {
       },
     });
 
-    expect(state.inventory.Obsidian).toEqual(new Decimal(4.9));
+    expect(state.inventory.Obsidian).toEqual(new Decimal(4.6));
   });
 
   it("sets cheers to the required amount", () => {
@@ -134,5 +137,25 @@ describe("instaGrowProject", () => {
     expect(
       state.socialFarming?.villageProjects?.["Big Orange"]?.cheers,
     ).toEqual(REQUIRED_CHEERS["Big Orange"]);
+  });
+
+  describe("getPartialInstantGrowPrices", () => {
+    it("returns full price for 0 progress", () => {
+      expect(
+        getPartialInstantGrowPrice({ progress: 0, project: "Big Apple" }),
+      ).toEqual(1);
+    });
+
+    it("returns partial price for progress", () => {
+      expect(
+        getPartialInstantGrowPrice({ progress: 10, project: "Big Apple" }),
+      ).toEqual(0.8);
+    });
+
+    it("returns 0 for finished project", () => {
+      expect(
+        getPartialInstantGrowPrice({ progress: 50, project: "Big Apple" }),
+      ).toEqual(0);
+    });
   });
 });

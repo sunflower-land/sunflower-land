@@ -67,7 +67,7 @@ import { Loading } from "features/auth/components";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { FarmHelped } from "features/island/hud/components/FarmHelped";
-import { getPartialInstantGrowPrices } from "features/game/events/landExpansion/instaGrowProject";
+import { getPartialInstantGrowPrice } from "features/game/events/landExpansion/instaGrowProject";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 
 export const PROJECT_IMAGES: Record<
@@ -314,7 +314,7 @@ const ProjectModal: React.FC<{
     );
   }
 
-  const instaGrowPrice = getPartialInstantGrowPrices({
+  const instaGrowPrice = getPartialInstantGrowPrice({
     progress: cheers,
     project,
   });
