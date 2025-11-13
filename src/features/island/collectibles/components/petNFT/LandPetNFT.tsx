@@ -14,6 +14,7 @@ import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Transition } from "@headlessui/react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 const _petNFTData = (id: string) => (state: MachineState) => {
   return state.context.state.pets?.nfts?.[Number(id)];
@@ -45,8 +46,6 @@ export const LandPetNFT: React.FC<{ id: string }> = ({ id }) => {
   const isNapping = isPetNapping(petNFTData);
   const isTypeFed = useSelector(gameService, _isTypeFed(id));
 
-  if (!petNFTData || !petNFTData.traits) return null;
-
   const isRevealed = isPetNFTRevealed(Number(id), Date.now());
   const petType = getPetType(petNFTData);
 
@@ -67,6 +66,11 @@ export const LandPetNFT: React.FC<{ id: string }> = ({ id }) => {
       setShowPetModal(true);
     }
   };
+
+  // Used to move the pet through different states (neglected, napping)
+  useUiRefresher({ active: !!petNFTData?.traits });
+
+  if (!petNFTData || !petNFTData.traits) return null;
 
   return (
     <div
