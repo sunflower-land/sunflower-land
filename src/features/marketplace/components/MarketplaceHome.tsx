@@ -44,6 +44,9 @@ import {
   Reputation,
 } from "features/game/lib/reputation";
 import { MarketplaceSearch } from "./MarketplaceSearch";
+import { PET_CATEGORY_NAMES, PET_NFT_TYPES } from "features/game/types/pets";
+import { AURA_TRAITS, BIB_TRAITS } from "features/pets/data/types";
+import camelCase from "lodash.camelcase";
 
 const _hasTradeReputation = (state: MachineState) =>
   hasReputation({
@@ -222,14 +225,14 @@ const Option: React.FC<OptionProps> = ({
       <div
         className={classNames(
           "flex justify-between items-center cursor-pointer mb-1 ",
-          {
-            "bg-brown-100 px-2 -mx-2": isActive,
-            "bg-brown-100 px-2 -mr-2 ml-0": isActive && level > 0,
-          },
+          { "bg-brown-100 px-2 -mx-2": isActive },
         )}
         onClick={onClick}
       >
-        <div className="flex items-center">
+        <div
+          className="flex items-center"
+          style={{ marginLeft: level > 0 ? `${level * 15}px` : undefined }}
+        >
           <SquareIcon icon={icon} width={10} />
           <span className="text-sm ml-2">{label}</span>
         </div>
@@ -392,6 +395,116 @@ const Filters: React.FC<{
           filterParams: "pets",
         }),
       isActive: filters === "pets",
+      options: filters?.includes("pets")
+        ? [
+            {
+              icon: "",
+              label: "Breed",
+              onClick: () =>
+                navigateTo({
+                  path: "collection",
+                  filterParams: "pets?type",
+                }),
+              isActive: filters === "pets?type",
+              options: filters?.includes("pets?type")
+                ? [
+                    ...PET_NFT_TYPES.map((type) => ({
+                      icon: "",
+                      label: type,
+                      onClick: () =>
+                        navigateTo({
+                          path: "collection",
+                          filterParams: `pets?type=${type}`,
+                        }),
+                      isActive: filters === `pets?type=${type}`,
+                    })),
+                  ]
+                : undefined,
+            },
+            {
+              icon: "",
+              label: "Category",
+              onClick: () =>
+                navigateTo({
+                  path: "collection",
+                  filterParams: "pets?category",
+                }),
+              isActive: filters === "pets?category",
+              options: filters?.includes("pets?category")
+                ? [
+                    ...PET_CATEGORY_NAMES.map((category) => ({
+                      icon: "",
+                      label: category,
+                      onClick: () =>
+                        navigateTo({
+                          path: "collection",
+                          filterParams: `pets?category=${category}`,
+                        }),
+                      isActive: filters === `pets?category=${category}`,
+                    })),
+                  ]
+                : undefined,
+            },
+            {
+              icon: "",
+              label: "Aura",
+              onClick: () =>
+                navigateTo({
+                  path: "collection",
+                  filterParams: "pets?aura",
+                }),
+              isActive: filters === "pets?aura",
+              options: filters?.includes("pets?aura")
+                ? [
+                    ...AURA_TRAITS.map((aura) => {
+                      const auraCamelCase = camelCase(aura);
+                      const label =
+                        aura === "No Aura" ? "None" : aura.split(" ")[0];
+
+                      return {
+                        icon: "",
+                        label,
+                        onClick: () =>
+                          navigateTo({
+                            path: "collection",
+                            filterParams: `pets?aura=${auraCamelCase}`,
+                          }),
+                        isActive: filters === `pets?aura=${auraCamelCase}`,
+                      };
+                    }),
+                  ]
+                : undefined,
+            },
+            {
+              icon: "",
+              label: "Bib",
+              onClick: () =>
+                navigateTo({
+                  path: "collection",
+                  filterParams: "pets?bib",
+                }),
+              isActive: filters === "pets?bib",
+              options: filters?.includes("pets?bib")
+                ? [
+                    ...BIB_TRAITS.map((bib) => {
+                      const bibCamelCase = camelCase(bib);
+
+                      return {
+                        icon: "",
+                        label: bib,
+                        onClick: () =>
+                          navigateTo({
+                            path: "collection",
+                            filterParams: `pets?bib=${bibCamelCase}`,
+                          }),
+                        isActive: filters === `pets?bib=${bibCamelCase}`,
+                      };
+                    }),
+                  ]
+                : undefined,
+            },
+          ]
+        : undefined,
     },
     {
       icon: SUNNYSIDE.icons.player,

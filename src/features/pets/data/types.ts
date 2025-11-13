@@ -63,7 +63,14 @@ export const ACCESSORY_TRAITS = [
 
 export type AccessoryTrait = (typeof ACCESSORY_TRAITS)[number];
 
-export type AuraTrait = "No Aura" | "Common Aura" | "Rare Aura" | "Mythic Aura";
+export const AURA_TRAITS = [
+  "No Aura",
+  "Common Aura",
+  "Rare Aura",
+  "Mythic Aura",
+] as const;
+
+export type AuraTrait = (typeof AURA_TRAITS)[number];
 
 export const auras: Trait<AuraTrait>[] = [
   { name: "No Aura", supply: 2580 },
