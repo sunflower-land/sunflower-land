@@ -6543,7 +6543,7 @@
   "description.burro": "A cute donkey",
   "description.barkley": "A cute dog",
   "pets.sleeping": "Sleeping",
-  "pets.walking": "Walking",
+  "pets.follow": "Follow in plaza",
   "pets.place": "Place your pet",
   "pets.description": "Pets are loyal animals (when fed) that will fetch items for you.",
   "fetch": "Fetch",
