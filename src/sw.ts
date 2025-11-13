@@ -6,7 +6,7 @@ import "workbox-core";
 import { googleFontsCache, offlineFallback } from "workbox-recipes";
 import { registerRoute } from "workbox-routing";
 import { cleanupOutdatedCaches, precacheAndRoute } from "workbox-precaching";
-import { CacheFirst } from "workbox-strategies";
+import { StaleWhileRevalidate } from "workbox-strategies";
 import { ExpirationPlugin } from "workbox-expiration";
 import { CONFIG } from "./lib/config";
 import { getMessaging, isSupported } from "firebase/messaging/sw";
@@ -54,12 +54,41 @@ const PROTECTED_IMAGE_CATEGORIES = [
   "world",
 ] as const;
 const THIRTY_DAYS_IN_SECONDS = 60 * 60 * 24 * 30;
-const PROTECTED_PREFIXES = PROTECTED_IMAGE_CATEGORIES.map(
-  (category) => `${PROTECTED_IMAGE_PREFIX}/${category}/`,
+// Resolve the protected asset base URL into a consistent origin/path pair so routing
+// works whether the config is absolute (https://cdn/.../game-assets) or relative (/game-assets).
+const normalizedProtectedUrl = (() => {
+  try {
+    return new URL(PROTECTED_IMAGE_PREFIX);
+  } catch (error) {
+    console.warn(
+      "[service-worker] Falling back to current origin for protected asset matching",
+      error,
+    );
+    return new URL(PROTECTED_IMAGE_PREFIX, self.location.origin);
+  }
+})();
+// Trim any trailing slash so we avoid double-slashes when appending category segments.
+const normalizedProtectedPath = normalizedProtectedUrl.pathname.replace(
+  /\/+$/,
+  "",
 );
+// Pre-compute both absolute (origin+path) and relative (pathname) prefixes for each category.
+// This lets us match assets served from the expected CDN or the current host in preview builds.
+const protectedCategoryMatchers = PROTECTED_IMAGE_CATEGORIES.map((category) => {
+  const pathPrefix = `${normalizedProtectedPath}/${category}/`;
+  return {
+    category,
+    urlPrefix: `${normalizedProtectedUrl.origin}${pathPrefix}`,
+    pathPrefix,
+  };
+});
 
-const isProtectedCategoryUrl = (href: string) =>
-  PROTECTED_PREFIXES.some((categoryPrefix) => href.startsWith(categoryPrefix));
+// Accept any request whose absolute URL or pathname aligns with a known protected category.
+const isProtectedCategoryUrl = (url: URL) =>
+  protectedCategoryMatchers.some(
+    ({ urlPrefix, pathPrefix }) =>
+      url.href.startsWith(urlPrefix) || url.pathname.startsWith(pathPrefix),
+  );
 
 // Disable workbox logs => do not delete this static import: import "workbox-core";
 self.__WB_DISABLE_DEV_LOGS = true;
@@ -74,21 +103,18 @@ self.addEventListener("message", (event) => {
 cleanupOutdatedCaches();
 precacheAndRoute(self.__WB_MANIFEST);
 
-console.log("Environment", import.meta.env);
-
 if (import.meta.env.PROD) {
-  console.log("Inside Production environment");
   // Private/protected assets per category
-  PROTECTED_IMAGE_CATEGORIES.forEach((category, index) => {
-    const categoryPrefix = PROTECTED_PREFIXES[index];
-
+  protectedCategoryMatchers.forEach(({ category, urlPrefix, pathPrefix }) => {
     registerRoute(
-      ({ url }) => url.href.startsWith(categoryPrefix),
-      new CacheFirst({
+      ({ url }) =>
+        url.href.startsWith(urlPrefix) || url.pathname.startsWith(pathPrefix),
+      new StaleWhileRevalidate({
         cacheName: `protected-${category}`,
         plugins: [
           new ExpirationPlugin({
             maxAgeSeconds: THIRTY_DAYS_IN_SECONDS,
+            maxEntries: 2000,
             purgeOnQuotaError: true,
           }),
         ],
@@ -99,13 +125,15 @@ if (import.meta.env.PROD) {
   // Catch-all for protected assets that don't fit a known category
   registerRoute(
     ({ url }) =>
-      url.href.startsWith(PROTECTED_IMAGE_PREFIX) &&
-      !isProtectedCategoryUrl(url.href),
-    new CacheFirst({
+      (url.href.startsWith(PROTECTED_IMAGE_PREFIX) ||
+        url.pathname.startsWith(normalizedProtectedPath)) &&
+      !isProtectedCategoryUrl(url),
+    new StaleWhileRevalidate({
       cacheName: "protected-misc",
       plugins: [
         new ExpirationPlugin({
           maxAgeSeconds: THIRTY_DAYS_IN_SECONDS,
+          maxEntries: 2000,
           purgeOnQuotaError: true,
         }),
       ],
@@ -116,13 +144,14 @@ if (import.meta.env.PROD) {
   registerRoute(
     ({ url }) =>
       url.pathname.startsWith(GAME_ASSETS_PATH) &&
-      !isProtectedCategoryUrl(url.href) &&
+      !isProtectedCategoryUrl(url) &&
       !url.pathname.includes("map_extruded.png"),
-    new CacheFirst({
+    new StaleWhileRevalidate({
       cacheName: `${gameAssetsCacheName}`,
       plugins: [
         new ExpirationPlugin({
           maxAgeSeconds: THIRTY_DAYS_IN_SECONDS,
+          maxEntries: 2000,
           purgeOnQuotaError: true,
         }),
       ],
