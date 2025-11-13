@@ -217,6 +217,7 @@ export const Collection: React.FC<{
         ?.toLowerCase()
         .includes(searchLower);
       const bibMatches = !!petTraits?.bib?.toLowerCase().includes(searchLower);
+
       return (
         nameMatches ||
         buffMatches ||
