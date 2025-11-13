@@ -322,6 +322,8 @@ export const Collection: React.FC<{
                 type: item.collection,
                 id: item.id,
                 state,
+                experience:
+                  item.collection === "pets" ? item.experience : undefined,
               });
 
               return (
