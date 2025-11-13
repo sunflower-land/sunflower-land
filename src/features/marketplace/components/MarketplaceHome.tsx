@@ -143,7 +143,7 @@ export const MarketplaceNavigation: React.FC = () => {
           <InnerPanel className="w-full flex-col mb-1">
             <MarketplaceSearch search={search} setSearch={setSearch} />
             <div className="flex-1">
-              <Filters onClose={() => setShowFilters(false)} farmId={farmId} />
+              <Filters farmId={farmId} />
             </div>
           </InnerPanel>
 
@@ -255,7 +255,7 @@ const Option: React.FC<OptionProps> = ({
 };
 
 const Filters: React.FC<{
-  onClose: () => void;
+  onClose?: () => void;
   farmId: number;
 }> = ({ onClose, farmId }) => {
   const navigate = useNavigate();
@@ -269,16 +269,18 @@ const Filters: React.FC<{
   const navigateTo = ({
     path,
     filterParams,
+    closeFilters = true,
   }: {
     path: string;
     filterParams?: string;
+    closeFilters?: boolean;
   }) => {
     const url = filterParams
       ? `${baseUrl}/collection?filters=${filterParams}`
       : `${baseUrl}/${path}`;
 
     navigate(url);
-    onClose();
+    if (closeFilters) onClose?.();
   };
 
   const filterOptions: OptionProps[] = [
@@ -404,6 +406,7 @@ const Filters: React.FC<{
                 navigateTo({
                   path: "collection",
                   filterParams: "pets?type",
+                  closeFilters: false,
                 }),
               isActive: filters === "pets?type",
               options: filters?.includes("pets?type")
@@ -428,6 +431,7 @@ const Filters: React.FC<{
                 navigateTo({
                   path: "collection",
                   filterParams: "pets?category",
+                  closeFilters: false,
                 }),
               isActive: filters === "pets?category",
               options: filters?.includes("pets?category")
@@ -452,6 +456,7 @@ const Filters: React.FC<{
                 navigateTo({
                   path: "collection",
                   filterParams: "pets?aura",
+                  closeFilters: false,
                 }),
               isActive: filters === "pets?aura",
               options: filters?.includes("pets?aura")
@@ -482,6 +487,7 @@ const Filters: React.FC<{
                 navigateTo({
                   path: "collection",
                   filterParams: "pets?bib",
+                  closeFilters: false,
                 }),
               isActive: filters === "pets?bib",
               options: filters?.includes("pets?bib")
