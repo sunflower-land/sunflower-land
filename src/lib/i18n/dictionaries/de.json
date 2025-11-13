@@ -7131,8 +7131,8 @@
   "auction.cancelling.success": "Gebot storniert",
   "auction.cancelling.failed": "Angebotsstornierung fehlgeschlagen",
   "description.houndShrine.buff": "+100 Tier-XP pro Futteranfrage",
-  "pets.walking": "Gehen",
   "petBuff.bib.mid": "+5 Tier-XP pro Futteranfrage",
   "petBuff.bib.great": "+10 Tier-XP pro Futteranfrage",
-  "description.cleaverKnife.boost.1": "-15% Garzeit"
+  "description.cleaverKnife.boost.1": "-15% Garzeit",
+  "pets.follow": "Folgen Sie auf der Plaza"
 }

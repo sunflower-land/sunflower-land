@@ -7131,8 +7131,8 @@
   "auction.cancelling.success": "Заявка отменена",
   "auction.cancelling.failed": "Отмена предложения не удалась",
   "description.houndShrine.buff": "+100 XP для домашних животных за каждый запрос на еду",
-  "pets.walking": "Прогулка",
   "petBuff.bib.mid": "+5 XP для домашних животных за каждый заказ еды",
   "petBuff.bib.great": "+10 XP для домашних животных за каждый запрос на еду",
-  "description.cleaverKnife.boost.1": "-15% времени приготовления"
+  "description.cleaverKnife.boost.1": "-15% времени приготовления",
+  "pets.follow": "Следуйте по площади"
 }

@@ -7131,8 +7131,8 @@
   "auction.cancelling.success": "出价已取消",
   "auction.cancelling.failed": "取消出价失败",
   "description.houndShrine.buff": "每份食物申请 +100 宠物经验值",
-  "pets.walking": "散步",
   "petBuff.bib.mid": "每份食物申请 +5 宠物经验值",
   "petBuff.bib.great": "每份食物申请 +10 宠物经验值",
-  "description.cleaverKnife.boost.1": "-15% 烹饪时间"
+  "description.cleaverKnife.boost.1": "-15% 烹饪时间",
+  "pets.follow": "在广场关注"
 }

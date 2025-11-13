@@ -7131,8 +7131,8 @@
   "auction.cancelling.success": "Teklif iptal edildi",
   "auction.cancelling.failed": "Teklif iptali başarısız oldu",
   "description.houndShrine.buff": "Yiyecek talebi başına +100 Pet XP",
-  "pets.walking": "Yürüyüş",
   "petBuff.bib.mid": "Yiyecek talebi başına +5 Evcil Hayvan DP'si",
   "petBuff.bib.great": "Yiyecek talebi başına +10 Evcil Hayvan DP'si",
-  "description.cleaverKnife.boost.1": "-15% Pişirme Süresi"
+  "description.cleaverKnife.boost.1": "-15% Pişirme Süresi",
+  "pets.follow": "Plazada takip et"
 }

@@ -7131,8 +7131,8 @@
   "auction.cancelling.success": "Tawaran dibatalkan",
   "auction.cancelling.failed": "Pembatalan tawaran gagal",
   "description.houndShrine.buff": "+100 Pet XP setiap permintaan makanan",
-  "pets.walking": "Berjalan",
   "petBuff.bib.mid": "+5 XP haiwan kesayangan setiap permintaan makanan",
   "petBuff.bib.great": "+10 Pet XP setiap permintaan makanan",
-  "description.cleaverKnife.boost.1": "-15% Masa Memasak"
+  "description.cleaverKnife.boost.1": "-15% Masa Memasak",
+  "pets.follow": "Ikut di plaza"
 }

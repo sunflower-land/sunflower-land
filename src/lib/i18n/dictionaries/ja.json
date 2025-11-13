@@ -7131,8 +7131,8 @@
   "auction.cancelling.success": "入札がキャンセルされました",
   "auction.cancelling.failed": "入札キャンセルに失敗しました",
   "description.houndShrine.buff": "フードリクエスト1件につきペット経験値+100",
-  "pets.walking": "ウォーキング",
   "petBuff.bib.mid": "フードリクエスト1つにつきペット経験値+5",
   "petBuff.bib.great": "フードリクエスト1件につきペット経験値+10",
-  "description.cleaverKnife.boost.1": "-15% 調理時間"
+  "description.cleaverKnife.boost.1": "-15% 調理時間",
+  "pets.follow": "フォロー・イン・プラザ"
 }

@@ -7131,8 +7131,8 @@
   "auction.cancelling.success": "Oferta cancelada",
   "auction.cancelling.failed": "Falha no cancelamento da oferta",
   "description.houndShrine.buff": "+100 EXP para animais de estimação por pedido de comida",
-  "pets.walking": "Caminhando",
   "petBuff.bib.mid": "+5 XP para animais de estimação por pedido de comida",
   "petBuff.bib.great": "+10 XP para animais de estimação por pedido de comida",
-  "description.cleaverKnife.boost.1": "-15% de tempo de cozimento"
+  "description.cleaverKnife.boost.1": "-15% de tempo de cozimento",
+  "pets.follow": "Siga na praça"
 }

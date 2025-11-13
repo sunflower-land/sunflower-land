@@ -7131,8 +7131,8 @@
   "auction.cancelling.success": "입찰 취소됨",
   "auction.cancelling.failed": "입찰 취소 실패",
   "description.houndShrine.buff": "음식 요청당 +100 펫 경험치",
-  "pets.walking": "워킹",
   "petBuff.bib.mid": "음식 요청당 애완동물 경험치 +5",
   "petBuff.bib.great": "음식 요청당 애완동물 경험치 +10",
-  "description.cleaverKnife.boost.1": "조리 시간 -15%"
+  "description.cleaverKnife.boost.1": "조리 시간 -15%",
+  "pets.follow": "팔로우 인 플라자"
 }

@@ -7131,8 +7131,8 @@
   "auction.cancelling.success": "Enchère annulée",
   "auction.cancelling.failed": "L'annulation de l'offre a échoué",
   "description.houndShrine.buff": "+100 points d'expérience pour animaux de compagnie par demande de nourriture",
-  "pets.walking": "Marcher",
   "petBuff.bib.mid": "+5 points d'expérience pour animaux de compagnie par demande de nourriture",
   "petBuff.bib.great": "+10 points d'expérience pour animaux de compagnie par demande de nourriture",
-  "description.cleaverKnife.boost.1": "-15 % Temps de cuisson"
+  "description.cleaverKnife.boost.1": "-15 % Temps de cuisson",
+  "pets.follow": "Suivez-nous sur la place"
 }
