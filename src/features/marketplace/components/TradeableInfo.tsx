@@ -262,11 +262,13 @@ export const TradeableDescription: React.FC<{
                 </Label>
               ) : traits ? (
                 <div className="flex flex-row flex-wrap gap-1">
-                  {Object.values(traits).map((trait) => (
-                    <Label key={trait} type="default">
-                      {trait}
-                    </Label>
-                  ))}
+                  {Object.values(traits)
+                    .filter((trait) => trait !== undefined)
+                    .map((trait) => (
+                      <Label key={trait} type="default">
+                        {trait}
+                      </Label>
+                    ))}
                 </div>
               ) : (
                 <Label type="danger">{t("marketplace.pet.comingSoon")}</Label>

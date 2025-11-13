@@ -196,23 +196,27 @@ export const Collection: React.FC<{
     const nftTraits = getNFTTraits(display);
 
     if (display.type === "pets") {
-      const petTraits = nftTraits.traits as PetTraits & PetCategory;
-      const typeMatches = petTraits.type.toLowerCase().includes(searchLower);
-      const primaryMatches = !!petTraits.primary
+      const petTraits = nftTraits.traits as
+        | (PetTraits & PetCategory)
+        | undefined;
+      const typeMatches = !!petTraits?.type.toLowerCase().includes(searchLower);
+      const primaryMatches = !!petTraits?.primary
         .toLowerCase()
         .includes(searchLower);
-      const secondaryMatches = !!petTraits.secondary
+      const secondaryMatches = !!petTraits?.secondary
         ?.toLowerCase()
         .includes(searchLower);
-      const tertiaryMatches = !!petTraits.tertiary
+      const tertiaryMatches = !!petTraits?.tertiary
         ?.toLowerCase()
         .includes(searchLower);
-      const auraMatches = !!petTraits.aura?.toLowerCase().includes(searchLower);
-      const furMatches = !!petTraits.fur?.toLowerCase().includes(searchLower);
-      const accessoryMatches = !!petTraits.accessory
+      const auraMatches = !!petTraits?.aura
         ?.toLowerCase()
         .includes(searchLower);
-      const bibMatches = !!petTraits.bib?.toLowerCase().includes(searchLower);
+      const furMatches = !!petTraits?.fur?.toLowerCase().includes(searchLower);
+      const accessoryMatches = !!petTraits?.accessory
+        ?.toLowerCase()
+        .includes(searchLower);
+      const bibMatches = !!petTraits?.bib?.toLowerCase().includes(searchLower);
       return (
         nameMatches ||
         buffMatches ||
@@ -228,14 +232,14 @@ export const Collection: React.FC<{
     }
 
     if (display.type === "buds") {
-      const budTraits = nftTraits.traits as Bud;
-      const typeMatches = budTraits.type.toLowerCase().includes(searchLower);
-      const colourMatches = budTraits.colour
+      const budTraits = nftTraits.traits as Bud | undefined;
+      const typeMatches = !!budTraits?.type.toLowerCase().includes(searchLower);
+      const colourMatches = !!budTraits?.colour
         .toLowerCase()
         .includes(searchLower);
-      const stemMatches = budTraits.stem.toLowerCase().includes(searchLower);
-      const auraMatches = budTraits.aura.toLowerCase().includes(searchLower);
-      const earsMatches = budTraits.ears.toLowerCase().includes(searchLower);
+      const stemMatches = !!budTraits?.stem.toLowerCase().includes(searchLower);
+      const auraMatches = !!budTraits?.aura.toLowerCase().includes(searchLower);
+      const earsMatches = !!budTraits?.ears.toLowerCase().includes(searchLower);
       return (
         nameMatches ||
         buffMatches ||
