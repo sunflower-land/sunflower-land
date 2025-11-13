@@ -19985,7 +19985,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     decimals: 0,
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "",
+    image: "../public/wearables/images/503.png",
     name: "Pet Specialist Shirt",
   },
   "Pet Specialist Pants": {
@@ -19993,7 +19993,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     decimals: 0,
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "",
+    image: "../public/wearables/images/504.png",
     name: "Pet Specialist Pants",
   },
   "Pet Specialist Hat": {
@@ -20001,7 +20001,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     decimals: 0,
     attributes: [],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "",
+    image: "../public/wearables/images/505.png",
     name: "Pet Specialist Hat",
   },
 };
