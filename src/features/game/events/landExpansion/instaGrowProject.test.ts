@@ -152,6 +152,15 @@ describe("instaGrowProject", () => {
       ).toEqual(0.8);
     });
 
+    it("shouldn't be free for 90% complete", () => {
+      expect(
+        getPartialInstantGrowPrice({
+          progress: 181,
+          project: "Big Banana",
+        }),
+      ).toEqual(0.39);
+    });
+
     it("returns 0 for finished project", () => {
       expect(
         getPartialInstantGrowPrice({ progress: 50, project: "Big Apple" }),

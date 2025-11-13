@@ -32,7 +32,7 @@ export function getPartialInstantGrowPrice({
   const requiredCheers = REQUIRED_CHEERS[project];
 
   // Round to the nearest tenth
-  const progressPercentage = Math.ceil((progress / requiredCheers) * 10) / 10;
+  const progressPercentage = Math.floor((progress / requiredCheers) * 10) / 10;
   const partialMultiplier = 1 - progressPercentage;
 
   return setPrecision(initialPrice * partialMultiplier, 2).toNumber();
