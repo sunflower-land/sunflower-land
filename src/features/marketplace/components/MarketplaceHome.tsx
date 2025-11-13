@@ -216,6 +216,7 @@ interface OptionProps {
   onClick: () => void;
   isActive?: boolean;
   options?: OptionProps[];
+  level?: number;
 }
 
 const Option: React.FC<OptionProps> = ({
@@ -224,13 +225,17 @@ const Option: React.FC<OptionProps> = ({
   onClick,
   options,
   isActive,
+  level = 0,
 }) => {
   return (
     <div className="mb-1">
       <div
         className={classNames(
           "flex justify-between items-center cursor-pointer mb-1 ",
-          { "bg-brown-100 px-2 -mx-2": isActive },
+          {
+            "bg-brown-100 px-2 -mx-2": isActive,
+            "bg-brown-100 px-2 -mr-2 ml-0": isActive && level > 0,
+          },
         )}
         onClick={onClick}
       >
@@ -244,28 +249,14 @@ const Option: React.FC<OptionProps> = ({
               ? SUNNYSIDE.icons.chevron_down
               : SUNNYSIDE.icons.chevron_right
           }
-          className={options ? "w-6" : "w-[18px]"}
+          className={classNames(options ? "w-6" : "w-[18px]", {
+            "mr-5": level > 0,
+          })}
         />
       </div>
 
       {options?.map((option) => (
-        <div
-          key={option.label}
-          className={classNames(
-            "flex justify-between items-center cursor-pointer mb-1 ml-4",
-            { "bg-brown-100 px-2 -mr-2 ml-0": option.isActive },
-          )}
-          onClick={option.onClick}
-        >
-          <div className="flex items-center">
-            <SquareIcon icon={option.icon} width={10} />
-            <span className="text-sm ml-2">{option.label}</span>
-          </div>
-          <img
-            src={SUNNYSIDE.icons.chevron_right}
-            className={"w-[18px] mr-5"}
-          />
-        </div>
+        <Option key={option.label} {...option} level={level + 1} />
       ))}
     </div>
   );
