@@ -7133,5 +7133,10 @@
   "auction.bidding.success": "Ставка успешно сделана",
   "auction.bidding.failed": "Ставка не прошла",
   "auction.cancelling.success": "Ставка отменена",
-  "auction.cancelling.failed": "Не удалось отменить ставку"
+  "auction.cancelling.failed": "Не удалось отменить ставку",
+  "description.houndShrine.buff": "+100 XP для питомца за каждый запрос на еду",
+  "pets.follow": "Следовать на плазе",
+  "petBuff.bib.mid": "+5 XP для питомца за каждый запрос на еду",
+  "petBuff.bib.great": "+10 XP для питомца за каждый запрос на еду",
+  "description.cleaverKnife.boost.1": "-15% времени приготовления"
 }
