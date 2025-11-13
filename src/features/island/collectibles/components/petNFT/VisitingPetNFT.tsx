@@ -92,7 +92,7 @@ export const VisitingPetNFT: React.FC<{
   };
 
   // Used to move the pet through different states (neglected, napping)
-  useUiRefresher();
+  useUiRefresher({ active: !!petNFTData?.traits });
 
   if (!petNFTData || !petNFTData.traits) return null;
 
