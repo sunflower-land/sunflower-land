@@ -67,7 +67,7 @@ import { Loading } from "features/auth/components";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { FarmHelped } from "features/island/hud/components/FarmHelped";
-import { INSTA_GROW_PRICES } from "features/game/events/landExpansion/instaGrowProject";
+import { getPartialInstantGrowPrices } from "features/game/events/landExpansion/instaGrowProject";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 
 export const PROJECT_IMAGES: Record<
@@ -314,7 +314,10 @@ const ProjectModal: React.FC<{
     );
   }
 
-  const instaGrowPrice = INSTA_GROW_PRICES[project] ?? 0;
+  const instaGrowPrice = getPartialInstantGrowPrices({
+    progress: cheers,
+    project,
+  });
   const obsidian = state.inventory.Obsidian ?? new Decimal(0);
   const hasObsidian = obsidian.gte(instaGrowPrice);
 

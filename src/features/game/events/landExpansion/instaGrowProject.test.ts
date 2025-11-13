@@ -4,18 +4,6 @@ import Decimal from "decimal.js-light";
 import { REQUIRED_CHEERS } from "features/game/types/monuments";
 
 describe("instaGrowProject", () => {
-  it("requires project can be insta-grown", () => {
-    expect(() =>
-      instantGrowProject({
-        state: INITIAL_FARM,
-        action: {
-          type: "project.instantGrow",
-          project: "Basic Cooking Pot",
-        },
-      }),
-    ).toThrow("Project can not be insta-grown");
-  });
-
   it("requires project exists", () => {
     expect(() =>
       instantGrowProject({
@@ -48,6 +36,28 @@ describe("instaGrowProject", () => {
         },
       }),
     ).toThrow("Project is already finished");
+  });
+
+  it("requires project can be insta-grown", () => {
+    expect(() =>
+      instantGrowProject({
+        state: {
+          ...INITIAL_FARM,
+          socialFarming: {
+            ...INITIAL_FARM.socialFarming,
+            villageProjects: {
+              "Basic Cooking Pot": {
+                cheers: 2,
+              },
+            },
+          },
+        },
+        action: {
+          type: "project.instantGrow",
+          project: "Basic Cooking Pot",
+        },
+      }),
+    ).toThrow("Project can not be insta-grown");
   });
 
   it("requires obsidian exists", () => {
@@ -95,7 +105,7 @@ describe("instaGrowProject", () => {
       },
     });
 
-    expect(state.inventory.Obsidian).toEqual(new Decimal(4));
+    expect(state.inventory.Obsidian).toEqual(new Decimal(4.9));
   });
 
   it("sets cheers to the required amount", () => {

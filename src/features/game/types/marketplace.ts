@@ -5,6 +5,7 @@ import { TRADE_LIMITS } from "../actions/tradeLimits";
 import { hasVipAccess } from "../lib/vipAccess";
 import { isTemporaryCollectibleActive } from "../lib/collectibleBuilt";
 import { PetNFTName } from "./pets";
+import { setPrecision } from "lib/utils/formatNumber";
 
 // 10% tax on sales
 export const MARKETPLACE_TAX = 0.1;
@@ -310,5 +311,5 @@ export function getResourceTax({ game }: { game: GameState }): number {
     tax *= 0.5;
   }
 
-  return tax;
+  return setPrecision(tax, 4).toNumber();
 }
