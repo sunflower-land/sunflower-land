@@ -3406,12 +3406,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 45}px`,
+        width: `${PIXEL_SCALE * 46}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
         left: `${PIXEL_SCALE * 1.5}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 45}px`,
+        width: `${PIXEL_SCALE * 46}px`,
       }}
       image={ITEM_DETAILS["Lunar Temple"].image}
       alt="Lunar Temple"
