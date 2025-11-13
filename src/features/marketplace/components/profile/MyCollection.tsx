@@ -20,7 +20,6 @@ import { ListViewCard } from "../ListViewCard";
 import chest from "assets/icons/chest.png";
 import { isNode } from "features/game/expansion/lib/expansionNodes";
 import { BUMPKIN_RELEASES } from "features/game/types/withdrawables";
-import { hasFeatureAccess } from "lib/flags";
 
 type CollectionItem = {
   id: number;
@@ -157,24 +156,6 @@ export const MyCollection: React.FC = () => {
             <p className="text-sm">{t("marketplace.noCollection")}</p>
           ) : (
             <div className="space-y-3">
-              {collectibleItems.length > 0 && (
-                <div>
-                  <Label className="mb-2" type="default">
-                    {`${t("collectibles")} (${collectibleItems.length})`}
-                  </Label>
-                  <ItemGrid items={collectibleItems} />
-                </div>
-              )}
-
-              {wearableItems.length > 0 && (
-                <div>
-                  <Label className="mb-2" type="default">
-                    {`${t("wearables")} (${wearableItems.length})`}
-                  </Label>
-                  <ItemGrid items={wearableItems} />
-                </div>
-              )}
-
               {budsItems.length > 0 && (
                 <div>
                   <Label className="mb-2" type="default">
@@ -183,19 +164,30 @@ export const MyCollection: React.FC = () => {
                   <ItemGrid items={budsItems} />
                 </div>
               )}
-
-              {hasFeatureAccess(
-                gameState.context.state,
-                "PET_NFT_MARKETPLACE",
-              ) &&
-                petsItems.length > 0 && (
-                  <div>
-                    <Label className="mb-2" type="default">
-                      {`${t("pets")} (${petsItems.length})`}
-                    </Label>
-                    <ItemGrid items={petsItems} />
-                  </div>
-                )}
+              {petsItems.length > 0 && (
+                <div>
+                  <Label className="mb-2" type="default">
+                    {`${t("pets")} (${petsItems.length})`}
+                  </Label>
+                  <ItemGrid items={petsItems} />
+                </div>
+              )}
+              {collectibleItems.length > 0 && (
+                <div>
+                  <Label className="mb-2" type="default">
+                    {`${t("collectibles")} (${collectibleItems.length})`}
+                  </Label>
+                  <ItemGrid items={collectibleItems} />
+                </div>
+              )}
+              {wearableItems.length > 0 && (
+                <div>
+                  <Label className="mb-2" type="default">
+                    {`${t("wearables")} (${wearableItems.length})`}
+                  </Label>
+                  <ItemGrid items={wearableItems} />
+                </div>
+              )}
             </div>
           )}
         </div>

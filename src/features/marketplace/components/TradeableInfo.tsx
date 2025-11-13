@@ -33,7 +33,12 @@ import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import classNames from "classnames";
 import { pixelGreenBorderStyle } from "features/game/lib/style";
 import { useGame } from "features/game/GameProvider";
-import { getPetLevel, getPetNFTReleaseDate } from "features/game/types/pets";
+import {
+  getPetLevel,
+  getPetNFTReleaseDate,
+  PET_CATEGORIES,
+  PetCategory,
+} from "features/game/types/pets";
 import { getPetTraits } from "features/pets/data/getPetTraits";
 import { PetTraits } from "features/pets/data/types";
 import { Bud } from "lib/buds/types";
@@ -47,12 +52,12 @@ const formatDate = (date: Date) => {
   });
 };
 
-const getNFTTraits = (
+export const getNFTTraits = (
   display?: TradeableDisplay,
 ): {
   revealDate: Date | undefined;
   tradeDate: Date | undefined;
-  traits: PetTraits | Bud | undefined;
+  traits: (PetTraits & PetCategory) | Bud | undefined;
 } => {
   if (!display || (display.type !== "pets" && display.type !== "buds")) {
     return { revealDate: undefined, traits: undefined, tradeDate: undefined };
@@ -72,9 +77,27 @@ const getNFTTraits = (
     };
   }
 
+  const traits = getPetTraits(id);
+
+  const petType = traits?.type;
+  const petCategories = petType ? PET_CATEGORIES[petType] : undefined;
+  const combinedTraits: (PetTraits & PetCategory) | undefined =
+    traits && petCategories
+      ? {
+          type: traits.type,
+          primary: petCategories.primary,
+          secondary: petCategories.secondary,
+          tertiary: petCategories.tertiary,
+          bib: traits.bib,
+          aura: traits.aura,
+          fur: traits.fur,
+          accessory: traits.accessory,
+        }
+      : undefined;
+
   return {
     revealDate: getPetNFTReleaseDate(id, Date.now()),
-    traits: getPetTraits(id),
+    traits: combinedTraits,
     tradeDate: new Date("2025-11-10T00:00:00Z"),
   };
 };
@@ -239,11 +262,13 @@ export const TradeableDescription: React.FC<{
                 </Label>
               ) : traits ? (
                 <div className="flex flex-row flex-wrap gap-1">
-                  {Object.values(traits).map((trait) => (
-                    <Label key={trait} type="default">
-                      {trait}
-                    </Label>
-                  ))}
+                  {Object.values(traits)
+                    .filter((trait) => trait !== undefined)
+                    .map((trait) => (
+                      <Label key={trait} type="default">
+                        {trait}
+                      </Label>
+                    ))}
                 </div>
               ) : (
                 <Label type="danger">{t("marketplace.pet.comingSoon")}</Label>

@@ -60,25 +60,31 @@ export type CommonPetType =
   | "Hamster"
   | "Penguin";
 
-export type PetNFTType =
-  | "Ram"
-  | "Dragon"
-  | "Phoenix"
-  | "Griffin"
-  | "Warthog"
-  | "Wolf"
-  | "Bear";
+export const PET_NFT_TYPES = [
+  "Ram",
+  "Dragon",
+  "Phoenix",
+  "Griffin",
+  "Warthog",
+  "Wolf",
+  "Bear",
+] as const;
+
+export type PetNFTType = (typeof PET_NFT_TYPES)[number];
 
 export type PetType = CommonPetType | PetNFTType;
 
-export type PetCategoryName =
-  | "Guardian"
-  | "Hunter"
-  | "Voyager"
-  | "Beast"
-  | "Moonkin"
-  | "Snowkin"
-  | "Forager";
+export const PET_CATEGORY_NAMES = [
+  "Guardian",
+  "Hunter",
+  "Voyager",
+  "Beast",
+  "Moonkin",
+  "Snowkin",
+  "Forager",
+] as const;
+
+export type PetCategoryName = (typeof PET_CATEGORY_NAMES)[number];
 
 export type PetResourceName =
   | "Acorn"
