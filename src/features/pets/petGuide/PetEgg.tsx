@@ -25,7 +25,7 @@ export const PetEgg: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             icon: SUNNYSIDE.icons.heart,
           },
           {
-            text: "The Megastore refreshes one Pet Egg every Chapter for 1,500 seasonal tickets—plan your burns around the reset.",
+            text: "The Megastore refreshes one Pet Egg every Chapter using seasonal tickets—plan your burns around the reset.",
             icon: SUNNYSIDE.icons.treasure,
           },
           {
@@ -33,11 +33,11 @@ export const PetEgg: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             icon: SUNNYSIDE.icons.happy,
           },
           {
-            text: "There are 20 common pets spread across the seven categories—collecting every companion is a multi-year chase aligned with Chapter cadence (~4.5 years).",
+            text: "There are 21 common pets spread across the seven categories—collecting every companion is a multi-year chase aligned with Chapter cadence (~4.5 years).",
             icon: SUNNYSIDE.icons.stopwatch,
           },
           {
-            text: "Common pets stay bound to your farm and underpin upcoming FLOWER burn moments. They cannot be traded or transferred.",
+            text: "Common pets stay bound to your farm—they cannot be traded or transferred.",
             icon: SUNNYSIDE.icons.lock,
           },
         ]}

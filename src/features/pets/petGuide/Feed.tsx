@@ -15,16 +15,12 @@ export const Feed: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       <NoticeboardItems
         items={[
           {
-            text: "Common pets roll 3 daily meal requests while NFT pets roll 5. Hard dishes only appear once a common pet hits level 10, and NFT companions unlock medium at level 30 and hard at level 200.",
+            text: "Common pets start with 2 daily meal requests while NFT pets roll 3. Unlock more requests by leveling up.",
             icon: SUNNYSIDE.icons.expression_confused,
           },
           {
-            text: "Base rewards are 20/100/300 XP for easy/medium/hard meals. Energy earned scales with level (+5 at levels 5, 35, and 75) and NFT auras multiply it (1.5×/2×/3×), so serve tougher dishes before big fetch runs.",
+            text: "Base rewards are 20/100/300 XP/Energy for easy/medium/hard meals. Energy and XP earned scales with level, so serve tougher dishes before big fetch runs.",
             icon: SUNNYSIDE.icons.lightning,
-          },
-          {
-            text: "Feeding any requested dish refreshes the neglect timer—missing 3 days sidelines common pets, while NFT pets have a 7-day window before they sulk.",
-            icon: SUNNYSIDE.icons.sleeping,
           },
           {
             text: "A gem reroll reshuffles the menu. The first reset costs 40 Gems and each repeat multiplies the price by 1.5 (40 → 60 → 90 ...), resetting at 00:00 UTC.",

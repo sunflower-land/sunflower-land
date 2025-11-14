@@ -1,5 +1,5 @@
 import { Button } from "components/ui/Button";
-import { InnerPanel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import React, { useState } from "react";
 import { PetEgg } from "./PetEgg";
 import { Label } from "components/ui/Label";
@@ -9,7 +9,10 @@ import { PetMaintenance } from "./PetMaintenance";
 import { PetLevelsAndPerks } from "./PetLevelsAndPerks";
 import { PetCategories } from "./PetCategories";
 import { Shrines } from "./Shrines";
-import { Social } from "./Social";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { Modal } from "components/ui/Modal";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 type PetGuideView =
   | "Pet Egg"
@@ -47,9 +50,6 @@ export const PetGuide: React.FC = () => {
   if (view === "Shrines") {
     return <Shrines onBack={setToDefault} />;
   }
-  if (view === "Social") {
-    return <Social onBack={setToDefault} />;
-  }
 
   return (
     <InnerPanel>
@@ -68,9 +68,37 @@ export const PetGuide: React.FC = () => {
         <Button onClick={() => setView("Levels & Perks")}>
           {`Levels & Perks`}
         </Button>
-        <Button onClick={() => setView("Shrines")}>{`Shrines`}</Button>
-        <Button onClick={() => setView("Social")}>{`Social`}</Button>
+        <Button
+          className="col-span-2"
+          onClick={() => setView("Shrines")}
+        >{`Shrines`}</Button>
       </div>
     </InnerPanel>
+  );
+};
+
+export const PetGuideButton: React.FC = () => {
+  const [showPetGuide, setShowPetGuide] = useState(false);
+  const { t } = useAppTranslation();
+  return (
+    <>
+      <div>
+        <Button onClick={() => setShowPetGuide(true)}>
+          <div className="flex justify-between items-center text-xs -m-1 space-x-1">
+            <img src={SUNNYSIDE.icons.expression_confused} className="w-3" />
+            <p>{t("guide")}</p>
+          </div>
+        </Button>
+      </div>
+
+      <Modal show={showPetGuide} onHide={() => setShowPetGuide(false)}>
+        <CloseButtonPanel
+          onClose={() => setShowPetGuide(false)}
+          container={OuterPanel}
+        >
+          <PetGuide />
+        </CloseButtonPanel>
+      </Modal>
+    </>
   );
 };
