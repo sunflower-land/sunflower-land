@@ -955,7 +955,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       shortDescription: translate(
         "description.time.warp.totem.boost.effectTime",
       ),
-      labelType: "info",
+      labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
