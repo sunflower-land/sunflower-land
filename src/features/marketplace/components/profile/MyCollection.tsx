@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { useLocation, useNavigate } from "react-router";
 
 import { Context } from "features/game/GameProvider";
@@ -20,6 +20,8 @@ import { ListViewCard } from "../ListViewCard";
 import chest from "assets/icons/chest.png";
 import { isNode } from "features/game/expansion/lib/expansionNodes";
 import { BUMPKIN_RELEASES } from "features/game/types/withdrawables";
+import { MachineState } from "features/game/lib/gameMachine";
+import { GameState } from "features/game/types/game";
 
 type CollectionItem = {
   id: number;
@@ -27,21 +29,20 @@ type CollectionItem = {
   count: number;
 };
 
+const _state = (state: MachineState) => state.context.state;
+
 export const MyCollection: React.FC = () => {
   const { t } = useAppTranslation();
-  const location = useLocation();
-  const isWorldRoute = location.pathname.includes("/world");
 
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const gameState = useSelector(gameService, _state);
 
   const [search, setSearch] = useState("");
-  const { buds, pets: { nfts: petNFTs = {} } = {} } = gameState.context.state;
+  const { buds, pets: { nfts: petNFTs = {} } = {} } = gameState;
 
-  const navigate = useNavigate();
   let items: CollectionItem[] = [];
 
-  const inventory = getChestItems(gameState.context.state);
+  const inventory = getChestItems(gameState);
   getKeys(inventory)
     .filter((name) => !isNode(name))
     .forEach((name) => {
@@ -52,7 +53,7 @@ export const MyCollection: React.FC = () => {
       });
     });
 
-  const wardrobe = availableWardrobe(gameState.context.state);
+  const wardrobe = availableWardrobe(gameState);
   getKeys(wardrobe).forEach((name) => {
     const withdrawAt = BUMPKIN_RELEASES[name]?.withdrawAt;
     const canWithdraw = !!withdrawAt && withdrawAt <= new Date();
@@ -85,7 +86,7 @@ export const MyCollection: React.FC = () => {
     const details = getTradeableDisplay({
       id: item.id,
       type: item.collection,
-      state: gameState.context.state,
+      state: gameState,
     });
 
     return details.name.toLowerCase().includes(search.toLowerCase());
@@ -97,39 +98,6 @@ export const MyCollection: React.FC = () => {
   const wearableItems = items.filter((item) => item.collection === "wearables");
   const collectibleItems = items.filter(
     (item) => item.collection === "collectibles",
-  );
-
-  const ItemGrid: React.FC<{ items: CollectionItem[] }> = ({ items }) => (
-    <div className="flex flex-wrap">
-      {items.map((item) => {
-        const details = getTradeableDisplay({
-          id: item.id,
-          type: item.collection,
-          state: gameState.context.state,
-        });
-
-        return (
-          <div
-            key={`${item.collection}-${item.id}`}
-            className="w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/7 p-1"
-          >
-            <ListViewCard
-              details={details}
-              onClick={() => {
-                navigate(
-                  `${isWorldRoute ? "/world" : ""}/marketplace/${item.collection}/${item.id}`,
-                  {
-                    state: {
-                      route: `${location.pathname}${location.search}`,
-                    },
-                  },
-                );
-              }}
-            />
-          </div>
-        );
-      })}
-    </div>
   );
 
   return (
@@ -161,7 +129,7 @@ export const MyCollection: React.FC = () => {
                   <Label className="mb-2" type="default">
                     {`${t("buds")} (${budsItems.length})`}
                   </Label>
-                  <ItemGrid items={budsItems} />
+                  <ItemGrid items={budsItems} gameState={gameState} />
                 </div>
               )}
               {petsItems.length > 0 && (
@@ -169,7 +137,7 @@ export const MyCollection: React.FC = () => {
                   <Label className="mb-2" type="default">
                     {`${t("pets")} (${petsItems.length})`}
                   </Label>
-                  <ItemGrid items={petsItems} />
+                  <ItemGrid items={petsItems} gameState={gameState} />
                 </div>
               )}
               {collectibleItems.length > 0 && (
@@ -177,7 +145,7 @@ export const MyCollection: React.FC = () => {
                   <Label className="mb-2" type="default">
                     {`${t("collectibles")} (${collectibleItems.length})`}
                   </Label>
-                  <ItemGrid items={collectibleItems} />
+                  <ItemGrid items={collectibleItems} gameState={gameState} />
                 </div>
               )}
               {wearableItems.length > 0 && (
@@ -185,7 +153,7 @@ export const MyCollection: React.FC = () => {
                   <Label className="mb-2" type="default">
                     {`${t("wearables")} (${wearableItems.length})`}
                   </Label>
-                  <ItemGrid items={wearableItems} />
+                  <ItemGrid items={wearableItems} gameState={gameState} />
                 </div>
               )}
             </div>
@@ -193,5 +161,46 @@ export const MyCollection: React.FC = () => {
         </div>
       </InnerPanel>
     </>
+  );
+};
+
+const ItemGrid: React.FC<{
+  items: CollectionItem[];
+  gameState: GameState;
+}> = ({ items, gameState }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isWorldRoute = location.pathname.includes("/world");
+  return (
+    <div className="flex flex-wrap">
+      {items.map((item) => {
+        const details = getTradeableDisplay({
+          id: item.id,
+          type: item.collection,
+          state: gameState,
+        });
+
+        return (
+          <div
+            key={`${item.collection}-${item.id}`}
+            className="w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/7 p-1"
+          >
+            <ListViewCard
+              details={details}
+              onClick={() => {
+                navigate(
+                  `${isWorldRoute ? "/world" : ""}/marketplace/${item.collection}/${item.id}`,
+                  {
+                    state: {
+                      route: `${location.pathname}${location.search}`,
+                    },
+                  },
+                );
+              }}
+            />
+          </div>
+        );
+      })}
+    </div>
   );
 };
