@@ -47,7 +47,11 @@ import { MarketplaceSearch } from "./MarketplaceSearch";
 import { PET_CATEGORY_NAMES, PET_NFT_TYPES } from "features/game/types/pets";
 import { AURA_TRAITS, BIB_TRAITS } from "features/pets/data/types";
 import camelCase from "lodash.camelcase";
-import { types as BUD_TYPES, auras as BUD_AURAS } from "lib/buds/types";
+import {
+  types as BUD_TYPES,
+  auras as BUD_AURAS,
+  stems as BUD_STEMS,
+} from "lib/buds/types";
 
 const _hasTradeReputation = (state: MachineState) =>
   hasReputation({
@@ -235,7 +239,9 @@ const Option: React.FC<OptionProps> = ({
           style={{ marginLeft: level > 0 ? `${level * 15}px` : undefined }}
         >
           <SquareIcon icon={icon} width={10} />
-          <span className={`${level > 0 ? "text-xs" : "text-sm"} ml-2`}>
+          <span
+            className={`${level > 0 ? "text-xs truncate max-w-[90px]" : "text-sm"} ml-2`}
+          >
             {label}
           </span>
         </div>
@@ -443,6 +449,35 @@ const Filters: React.FC<{
                             filterParams: `buds?aura=${auraCamelCase}`,
                           }),
                         isActive: filters === `buds?aura=${auraCamelCase}`,
+                      };
+                    }),
+                  ]
+                : undefined,
+            },
+            {
+              icon: "",
+              label: "Stem",
+              onClick: () =>
+                navigateTo({
+                  path: "collection",
+                  filterParams: "buds?stem",
+                  closeFilters: false,
+                }),
+              isActive: filters === "buds?stem",
+              options: filters?.includes("buds?stem")
+                ? [
+                    ...BUD_STEMS.map((stem) => {
+                      const stemCamelCase = camelCase(stem.name);
+
+                      return {
+                        icon: "",
+                        label: stem.name,
+                        onClick: () =>
+                          navigateTo({
+                            path: "collection",
+                            filterParams: `buds?stem=${stemCamelCase}`,
+                          }),
+                        isActive: filters === `buds?stem=${stemCamelCase}`,
                       };
                     }),
                   ]

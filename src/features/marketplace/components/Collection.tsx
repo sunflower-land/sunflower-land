@@ -330,6 +330,14 @@ export const Collection: React.FC<{
             .includes(filterValue);
           return auraMatches;
         }
+
+        if (filters.includes("stem")) {
+          const camelCaseStem = camelCase(budTraits?.stem);
+          const stemMatches = !!camelCaseStem
+            .toLowerCase()
+            .includes(filterValue);
+          return stemMatches;
+        }
       }
 
       return matchesSearchCriteria(display, search ?? "");
