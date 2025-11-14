@@ -27,13 +27,6 @@ import {
   EXPIRY_COOLDOWNS,
   TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
-import {
-  RESOURCES_UPGRADES_TO,
-  ADVANCED_RESOURCES,
-  RESOURCES,
-  UpgradedResourceName,
-  RESOURCE_STATE_ACCESSORS,
-} from "features/game/types/resources";
 
 /**
  * The props for the details for items.
@@ -306,36 +299,8 @@ export const CraftingRequirements: React.FC<Props> = ({
             />
             {getKeys(requirements.resources).map((ingredientName, index) => {
               // If ingredient is a node, require it to be placed
-              let balance =
+              const balance =
                 gameState.inventory[ingredientName] ?? new Decimal(0);
-
-              if (ingredientName in RESOURCES) {
-                const stateAccessor =
-                  RESOURCE_STATE_ACCESSORS[
-                    ingredientName as UpgradedResourceName
-                  ];
-                const nodes = Object.values(
-                  stateAccessor(gameState) ?? {},
-                ).filter((resource) => {
-                  if (
-                    ingredientName in RESOURCES_UPGRADES_TO ||
-                    ingredientName in ADVANCED_RESOURCES
-                  ) {
-                    // If node is upgradeable, check if it has the same name as the current item
-                    if ("name" in resource) {
-                      return resource.name === ingredientName;
-                    }
-
-                    // If it has no name, it probably means it's a base resource
-                    return ingredientName in RESOURCES_UPGRADES_TO;
-                  }
-
-                  return true;
-                });
-                balance = new Decimal(
-                  nodes.filter((node) => node.removedAt === undefined).length,
-                );
-              }
 
               return (
                 <RequirementLabel
