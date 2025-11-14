@@ -273,11 +273,11 @@ export const Collection: React.FC<{
       const nftTraits = getNFTTraits(display);
       if (filters.includes("pets")) {
         const filterValue = filters.split("=")[1]?.toLowerCase() ?? "";
+        const petTraits = nftTraits.traits as
+          | (PetTraits & PetCategory)
+          | undefined;
 
         if (filters.includes("type")) {
-          const petTraits = nftTraits.traits as
-            | (PetTraits & PetCategory)
-            | undefined;
           const typeMatches = !!petTraits?.type
             .toLowerCase()
             .includes(filterValue);
@@ -285,9 +285,6 @@ export const Collection: React.FC<{
         }
 
         if (filters.includes("category")) {
-          const petTraits = nftTraits.traits as
-            | (PetTraits & PetCategory)
-            | undefined;
           const categoryMatches =
             !!petTraits?.primary?.toLowerCase().includes(filterValue) ||
             !!petTraits?.secondary?.toLowerCase().includes(filterValue) ||
@@ -297,9 +294,6 @@ export const Collection: React.FC<{
         }
 
         if (filters.includes("aura")) {
-          const petTraits = nftTraits.traits as
-            | (PetTraits & PetCategory)
-            | undefined;
           const camelCaseAura = camelCase(petTraits?.aura);
           const auraMatches = !!camelCaseAura
             ?.toLowerCase()
@@ -309,15 +303,64 @@ export const Collection: React.FC<{
         }
 
         if (filters.includes("bib")) {
-          const petTraits = nftTraits.traits as
-            | (PetTraits & PetCategory)
-            | undefined;
           const camelCaseBib = camelCase(petTraits?.bib);
           const bibMatches = !!camelCaseBib
             ?.toLowerCase()
             .includes(filterValue);
 
           return bibMatches;
+        }
+
+        if (filters.includes("fur")) {
+          const camelCaseFur = camelCase(petTraits?.fur);
+          const furMatches = !!camelCaseFur
+            ?.toLowerCase()
+            .includes(filterValue);
+          return furMatches;
+        }
+
+        if (filters.includes("accessory")) {
+          const camelCaseAccessory = camelCase(petTraits?.accessory);
+          const accessoryMatches = !!camelCaseAccessory
+            ?.toLowerCase()
+            .includes(filterValue);
+          return accessoryMatches;
+        }
+      }
+
+      if (filters.includes("buds")) {
+        const filterValue = filters.split("=")[1]?.toLowerCase() ?? "";
+        const budTraits = nftTraits.traits as Bud | undefined;
+
+        if (filters.includes("type")) {
+          const typeMatches = !!budTraits?.type
+            .toLowerCase()
+            .includes(filterValue);
+          return typeMatches;
+        }
+
+        if (filters.includes("aura")) {
+          const camelCaseAura = camelCase(budTraits?.aura);
+          const auraMatches = !!camelCaseAura
+            .toLowerCase()
+            .includes(filterValue);
+          return auraMatches;
+        }
+
+        if (filters.includes("stem")) {
+          const camelCaseStem = camelCase(budTraits?.stem);
+          const stemMatches = !!camelCaseStem
+            .toLowerCase()
+            .includes(filterValue);
+          return stemMatches;
+        }
+
+        if (filters.includes("colour")) {
+          const colourMatches = !!budTraits?.colour
+            .toLowerCase()
+            .includes(filterValue);
+
+          return colourMatches;
         }
       }
 
@@ -326,7 +369,7 @@ export const Collection: React.FC<{
 
   const getRowHeight = () => {
     if (filters === "resources") return 150;
-    if (filters === "buds" || filters.includes("pets")) return 250;
+    if (filters.includes("buds") || filters.includes("pets")) return 250;
     return 180;
   };
 
