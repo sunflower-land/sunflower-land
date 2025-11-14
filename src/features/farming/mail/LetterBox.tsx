@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Modal } from "components/ui/Modal";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -50,73 +50,7 @@ export const LetterBox: React.FC = () => {
       .some((id) => !mailbox.read.find((message) => message.id === id)) &&
     // And not visiting
     !gameService.state.matches("visiting");
-
-  const Content = useCallback(() => {
-    if (selected) {
-      const details = announcements[selected];
-
-      return (
-        <Panel bumpkinParts={NPC_WEARABLES[details.from]}>
-          <div className="flex items-center mb-1 p-1">
-            <img
-              src={SUNNYSIDE.icons.arrow_left}
-              className="mr-2 cursor-pointer"
-              style={{
-                width: `${PIXEL_SCALE * 11}px`,
-              }}
-              onClick={() => setSelected(undefined)}
-            />
-            <p className="text-sm capitalize ml-1 underline">{details.from}</p>
-          </div>
-
-          {selected === "pwa-install-prompt" && !isPWA ? (
-            <PWAInstallMessage
-              message={details}
-              conversationId={selected}
-              read={!!mailbox.read.find((item) => item.id === selected)}
-              onAcknowledge={close}
-            />
-          ) : (
-            <Message
-              message={details}
-              conversationId={selected}
-              read={!!mailbox.read.find((item) => item.id === selected)}
-              onClose={close}
-            />
-          )}
-        </Panel>
-      );
-    }
-
-    return (
-      <CloseButtonPanel
-        onClose={close}
-        tabs={[
-          { icon: newsIcon, name: t("news.title") },
-          {
-            icon: letter,
-            name: t("mailbox"),
-            alert: hasAnnouncement,
-            unread: hasAnnouncement,
-          },
-          { icon: SUNNYSIDE.icons.stopwatch, name: t("mailbox.whatsOn") },
-        ]}
-        currentTab={tab}
-        setCurrentTab={setTab}
-        container={OuterPanel}
-      >
-        {tab === 0 && (
-          <InnerPanel>
-            <News />
-          </InnerPanel>
-        )}
-        {tab === 1 && (
-          <Mail setSelected={setSelected} announcements={announcements} />
-        )}
-        {tab === 2 && <WhatsOn />}
-      </CloseButtonPanel>
-    );
-  }, [selected, announcements, tab]);
+  const details = selected ? announcements[selected] : undefined;
 
   return (
     <>
@@ -155,7 +89,67 @@ export const LetterBox: React.FC = () => {
         />
       </div>
       <Modal show={isOpen} onHide={close}>
-        <Content />
+        {selected && details && (
+          <Panel bumpkinParts={NPC_WEARABLES[details.from]}>
+            <div className="flex items-center mb-1 p-1">
+              <img
+                src={SUNNYSIDE.icons.arrow_left}
+                className="mr-2 cursor-pointer"
+                style={{
+                  width: `${PIXEL_SCALE * 11}px`,
+                }}
+                onClick={() => setSelected(undefined)}
+              />
+              <p className="text-sm capitalize ml-1 underline">
+                {details.from}
+              </p>
+            </div>
+
+            {selected === "pwa-install-prompt" && !isPWA ? (
+              <PWAInstallMessage
+                message={details}
+                conversationId={selected}
+                read={!!mailbox.read.find((item) => item.id === selected)}
+                onAcknowledge={close}
+              />
+            ) : (
+              <Message
+                message={details}
+                conversationId={selected}
+                read={!!mailbox.read.find((item) => item.id === selected)}
+                onClose={close}
+              />
+            )}
+          </Panel>
+        )}
+        {!selected && (
+          <CloseButtonPanel
+            onClose={close}
+            tabs={[
+              { icon: newsIcon, name: t("news.title") },
+              {
+                icon: letter,
+                name: t("mailbox"),
+                alert: hasAnnouncement,
+                unread: hasAnnouncement,
+              },
+              { icon: SUNNYSIDE.icons.stopwatch, name: t("mailbox.whatsOn") },
+            ]}
+            currentTab={tab}
+            setCurrentTab={setTab}
+            container={OuterPanel}
+          >
+            {tab === 0 && (
+              <InnerPanel>
+                <News />
+              </InnerPanel>
+            )}
+            {tab === 1 && (
+              <Mail setSelected={setSelected} announcements={announcements} />
+            )}
+            {tab === 2 && <WhatsOn />}
+          </CloseButtonPanel>
+        )}
       </Modal>
     </>
   );
