@@ -25,11 +25,7 @@ export const PetMaintenance: React.FC<{ onBack: () => void }> = ({
             icon: SUNNYSIDE.icons.happy,
           },
           {
-            text: "Energy is a shared pool for feeding and fetching. High-difficulty meals restore more energy, so top up before sending pets on expensive resource runs.",
-            icon: SUNNYSIDE.icons.lightning,
-          },
-          {
-            text: "NFT management follows the proposal’s cap—only one of each NFT pet type can be active at a time (seven total). Extras wait in the kennel until you swap them in.",
+            text: "NFT Pets management has a limit—only one of each NFT pet type can be active at a time. Extras will not be available until you swap them in. Take note that they can still get neglected if you don't feed them.",
             icon: SUNNYSIDE.icons.lock,
           },
         ]}

@@ -23,20 +23,16 @@ export const Fetch: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             icon: ITEM_DETAILS.Acorn.image,
           },
           {
-            text: "Level 3 unlocks your pet's primary category resource (Chewed Bone, Ribbon, Ruffroot, etc). If the pet has a secondary category, level 7 adds that resource too. Both cost 200 energy per run.",
+            text: "Level 3 unlocks your pet's primary category resource (Chewed Bone, Ribbon, Ruffroot, etc). At level 7, the secondary category resource is added too. Both cost 200 energy per run.",
             icon: SUNNYSIDE.icons.treasure,
           },
           {
-            text: "All pets unlock Fossil Shell missions at level 20 (300 energy). These rare drops feed high-tier shrine recipes and late-game crafting.",
+            text: "All pets unlock Fossil Shell. These rare drops feed high-tier shrine recipes and late-game crafting.",
             icon: ITEM_DETAILS["Fossil Shell"].image,
           },
           {
-            text: "NFT companions gain exclusive tiers: Moonfur becomes available at level 12 (1,000 energy) and a tertiary category resource unlocks at level 25.",
+            text: "NFT companions gain exclusive tiers: Moonfur and a tertiary category resource",
             icon: ITEM_DETAILS.Moonfur.image,
-          },
-          {
-            text: "Fetch yields improve with level—extra rolls kick in at levels 15, 50, and 100, while Moonfur gets a bonus 50% double-drop chance once an NFT pet reaches level 150.",
-            icon: SUNNYSIDE.icons.powerup,
           },
         ]}
       />

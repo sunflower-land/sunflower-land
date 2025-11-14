@@ -36,6 +36,7 @@ import classNames from "classnames";
 import levelUp from "assets/icons/level_up.png";
 import xpIcon from "assets/icons/xp.png";
 import { Checkbox } from "components/ui/Checkbox";
+import { PetGuideButton } from "features/pets/petGuide/PetGuide";
 
 interface Props {
   show: boolean;
@@ -113,14 +114,17 @@ export const PetModal: React.FC<Props> = ({
               </div>
             )}
           </div>
-          <img
-            onClick={onClose}
-            src={SUNNYSIDE.icons.close}
-            alt={data.name}
-            style={{
-              width: `${PIXEL_SCALE * 11}px`,
-            }}
-          />
+          <div className="flex flex-row gap-2 items-center justify-end">
+            <PetGuideButton />
+            <img
+              onClick={onClose}
+              src={SUNNYSIDE.icons.close}
+              alt={data.name}
+              style={{
+                width: `${PIXEL_SCALE * 11}px`,
+              }}
+            />
+          </div>
         </div>
         {/* Pet Information Panel */}
         <InnerPanel>
