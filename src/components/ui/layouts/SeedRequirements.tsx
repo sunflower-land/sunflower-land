@@ -241,15 +241,8 @@ export const SeedRequirements: React.FC<Props> = ({
 
   const getRequirements = () => {
     if (!requirements) return <></>;
-    const {
-      coins,
-      showCoinsIfFree,
-      harvests,
-      time,
-      baseTimeSeconds,
-      level,
-      restriction,
-    } = requirements;
+    const { coins, showCoinsIfFree, harvests, time, baseTimeSeconds, level } =
+      requirements;
 
     const isTimeBoosted = time?.seconds !== baseTimeSeconds;
 
@@ -275,6 +268,7 @@ export const SeedRequirements: React.FC<Props> = ({
             show={showBoosts}
             state={gameState}
             onClick={() => setShowBoosts(!showBoosts)}
+            labelType="info"
           />
         </div>
 

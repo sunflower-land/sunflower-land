@@ -14,14 +14,15 @@ import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 import { AnimatedPanel } from "features/world/ui/AnimatedPanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
-import { Label } from "../Label";
+import { Label, LabelType } from "../Label";
 
 export const BoostsDisplay: React.FC<{
   boosts: BoostName[];
   show: boolean;
   state: GameState;
   onClick: () => void;
-}> = ({ boosts, show, state, onClick }) => {
+  labelType: LabelType;
+}> = ({ boosts, show, state, onClick, labelType }) => {
   const { t } = useAppTranslation();
   const isBumpkinSkill = (
     boost: BoostName,
@@ -111,17 +112,19 @@ export const BoostsDisplay: React.FC<{
             {t("faction.boostsApplied")}
           </span>
         </div>
-        <div className="flex flex-wrap gap-x-1 gap-y-0">
-          {buffs.map((buff) => (
-            <Label
-              key={buff.shortDescription}
-              type={"transparent"}
-              icon={getBoostIcon(buff.boost)}
-              className="ml-3"
-            >
-              {buff.shortDescription}
-            </Label>
-          ))}
+        <div className="flex flex-col gap-3">
+          {buffs
+            .filter((buff) => buff.labelType === labelType)
+            .map((buff) => (
+              <Label
+                key={buff.shortDescription}
+                type={"transparent"}
+                icon={getBoostIcon(buff.boost)}
+                className="ml-3"
+              >
+                {buff.shortDescription}
+              </Label>
+            ))}
         </div>
       </div>
     </AnimatedPanel>
