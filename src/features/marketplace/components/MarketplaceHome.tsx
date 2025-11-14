@@ -45,12 +45,18 @@ import {
 } from "features/game/lib/reputation";
 import { MarketplaceSearch } from "./MarketplaceSearch";
 import { PET_CATEGORY_NAMES, PET_NFT_TYPES } from "features/game/types/pets";
-import { AURA_TRAITS, BIB_TRAITS } from "features/pets/data/types";
+import {
+  ACCESSORY_TRAITS,
+  AURA_TRAITS,
+  BIB_TRAITS,
+  FUR_TRAITS,
+} from "features/pets/data/types";
 import camelCase from "lodash.camelcase";
 import {
   types as BUD_TYPES,
   auras as BUD_AURAS,
   stems as BUD_STEMS,
+  colours as BUD_COLOURS,
 } from "lib/buds/types";
 
 const _hasTradeReputation = (state: MachineState) =>
@@ -483,6 +489,33 @@ const Filters: React.FC<{
                   ]
                 : undefined,
             },
+            {
+              icon: "",
+              label: "Colour",
+              onClick: () =>
+                navigateTo({
+                  path: "collection",
+                  filterParams: "buds?colour",
+                  closeFilters: false,
+                }),
+              isActive: filters === "buds?colour",
+              options: filters?.includes("buds?colour")
+                ? [
+                    ...BUD_COLOURS.map((colour) => {
+                      return {
+                        icon: "",
+                        label: colour.name,
+                        onClick: () =>
+                          navigateTo({
+                            path: "collection",
+                            filterParams: `buds?colour=${colour.name}`,
+                          }),
+                        isActive: filters === `buds?colour=${colour.name}`,
+                      };
+                    }),
+                  ]
+                : undefined,
+            },
           ]
         : undefined,
     },
@@ -602,6 +635,65 @@ const Filters: React.FC<{
                             filterParams: `pets?bib=${bibCamelCase}`,
                           }),
                         isActive: filters === `pets?bib=${bibCamelCase}`,
+                      };
+                    }),
+                  ]
+                : undefined,
+            },
+            {
+              icon: "",
+              label: "Fur",
+              onClick: () =>
+                navigateTo({
+                  path: "collection",
+                  filterParams: "pets?fur",
+                  closeFilters: false,
+                }),
+              isActive: filters === "pets?fur",
+              options: filters?.includes("pets?fur")
+                ? [
+                    ...FUR_TRAITS.map((fur) => {
+                      const furCamelCase = camelCase(fur);
+
+                      return {
+                        icon: "",
+                        label: fur,
+                        onClick: () =>
+                          navigateTo({
+                            path: "collection",
+                            filterParams: `pets?fur=${furCamelCase}`,
+                          }),
+                        isActive: filters === `pets?fur=${furCamelCase}`,
+                      };
+                    }),
+                  ]
+                : undefined,
+            },
+            {
+              icon: "",
+              label: "Accessory",
+              onClick: () =>
+                navigateTo({
+                  path: "collection",
+                  filterParams: "pets?accessory",
+                  closeFilters: false,
+                }),
+              isActive: filters === "pets?accessory",
+              options: filters?.includes("pets?accessory")
+                ? [
+                    ...ACCESSORY_TRAITS.map((accessory) => {
+                      const accessoryCamelCase = camelCase(accessory);
+
+                      return {
+                        icon: "",
+                        label: accessory,
+                        onClick: () =>
+                          navigateTo({
+                            path: "collection",
+                            filterParams: `pets?accessory=${accessoryCamelCase}`,
+                          }),
+                        isActive:
+                          filters === `pets?accessory=${accessoryCamelCase}`,
                       };
                     }),
                   ]

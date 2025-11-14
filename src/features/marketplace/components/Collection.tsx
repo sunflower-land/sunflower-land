@@ -310,6 +310,22 @@ export const Collection: React.FC<{
 
           return bibMatches;
         }
+
+        if (filters.includes("fur")) {
+          const camelCaseFur = camelCase(petTraits?.fur);
+          const furMatches = !!camelCaseFur
+            ?.toLowerCase()
+            .includes(filterValue);
+          return furMatches;
+        }
+
+        if (filters.includes("accessory")) {
+          const camelCaseAccessory = camelCase(petTraits?.accessory);
+          const accessoryMatches = !!camelCaseAccessory
+            ?.toLowerCase()
+            .includes(filterValue);
+          return accessoryMatches;
+        }
       }
 
       if (filters.includes("buds")) {
@@ -337,6 +353,14 @@ export const Collection: React.FC<{
             .toLowerCase()
             .includes(filterValue);
           return stemMatches;
+        }
+
+        if (filters.includes("colour")) {
+          const colourMatches = !!budTraits?.colour
+            .toLowerCase()
+            .includes(filterValue);
+
+          return colourMatches;
         }
       }
 
