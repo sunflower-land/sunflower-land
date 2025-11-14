@@ -47,6 +47,7 @@ import { MarketplaceSearch } from "./MarketplaceSearch";
 import { PET_CATEGORY_NAMES, PET_NFT_TYPES } from "features/game/types/pets";
 import { AURA_TRAITS, BIB_TRAITS } from "features/pets/data/types";
 import camelCase from "lodash.camelcase";
+import { types as BUD_TYPES, auras as BUD_AURAS } from "lib/buds/types";
 
 const _hasTradeReputation = (state: MachineState) =>
   hasReputation({
@@ -234,7 +235,9 @@ const Option: React.FC<OptionProps> = ({
           style={{ marginLeft: level > 0 ? `${level * 15}px` : undefined }}
         >
           <SquareIcon icon={icon} width={10} />
-          <span className="text-sm ml-2">{label}</span>
+          <span className={`${level > 0 ? "text-xs" : "text-sm"} ml-2`}>
+            {label}
+          </span>
         </div>
         <img
           src={
@@ -387,6 +390,66 @@ const Filters: React.FC<{
           filterParams: "buds",
         }),
       isActive: filters === "buds",
+      options: filters?.includes("buds")
+        ? [
+            {
+              icon: "",
+              label: "Type",
+              onClick: () =>
+                navigateTo({
+                  path: "collection",
+                  filterParams: "buds?type",
+                  closeFilters: false,
+                }),
+              isActive: filters === "buds?type",
+              options: filters?.includes("buds?type")
+                ? [
+                    ...BUD_TYPES.map((type) => ({
+                      icon: "",
+                      label: type.name,
+                      onClick: () =>
+                        navigateTo({
+                          path: "collection",
+                          filterParams: `buds?type=${type.name}`,
+                        }),
+                      isActive: filters === `buds?type=${type.name}`,
+                    })),
+                  ]
+                : undefined,
+            },
+            {
+              icon: "",
+              label: "Aura",
+              onClick: () =>
+                navigateTo({
+                  path: "collection",
+                  filterParams: "buds?aura",
+                  closeFilters: false,
+                }),
+              isActive: filters === "buds?aura",
+              options: filters?.includes("buds?aura")
+                ? [
+                    ...BUD_AURAS.map((aura) => {
+                      const label =
+                        aura.name === "No Aura" ? "None" : aura.name;
+                      const auraCamelCase = camelCase(aura.name);
+
+                      return {
+                        icon: "",
+                        label,
+                        onClick: () =>
+                          navigateTo({
+                            path: "collection",
+                            filterParams: `buds?aura=${auraCamelCase}`,
+                          }),
+                        isActive: filters === `buds?aura=${auraCamelCase}`,
+                      };
+                    }),
+                  ]
+                : undefined,
+            },
+          ]
+        : undefined,
     },
     {
       icon: ITEM_DETAILS.Ramsey.image,
@@ -554,7 +617,7 @@ const Filters: React.FC<{
   ];
 
   return (
-    <div className="flex flex-col p-1 h-full">
+    <div className="flex flex-col p-1 sm:max-h-[500px] sm:overflow-y-auto scrollable">
       {filterOptions.map((option) => (
         <Option key={option.label} {...option} />
       ))}
