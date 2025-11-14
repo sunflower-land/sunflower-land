@@ -246,7 +246,7 @@ const Option: React.FC<OptionProps> = ({
         >
           <SquareIcon icon={icon} width={10} />
           <span
-            className={`${level > 0 ? "text-xs truncate max-w-[90px]" : "text-sm"} ml-2`}
+            className={`${level > 0 ? "text-xs truncate max-w-[160px] sm:max-w-[90px]" : "text-sm"} ml-2`}
           >
             {label}
           </span>
