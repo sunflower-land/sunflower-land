@@ -1,12 +1,15 @@
-import { useRef } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 
 export const useFirstRender = (): boolean => {
-  const isFirst = useRef(true);
+  const [isFirstRender, setIsFirstRender] = useState(true);
 
-  if (isFirst.current) {
-    isFirst.current = false;
-    return true;
-  }
+  const markRendered = useEffectEvent(() => {
+    setIsFirstRender(false);
+  });
 
-  return isFirst.current;
+  useEffect(() => {
+    markRendered();
+  }, [markRendered]);
+
+  return isFirstRender;
 };
