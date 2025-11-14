@@ -6,6 +6,7 @@ import {
 import {
   BuildingProduct,
   GameState,
+  Inventory,
   PlacedItem,
 } from "features/game/types/game";
 import { CookableName, COOKABLES } from "features/game/types/consumables";
@@ -208,53 +209,6 @@ describe("cancelQueuedRecipe", () => {
     ]);
   });
 
-  it("increments the cancelled count for recipe", () => {
-    const now = new Date("2025-01-01").getTime();
-    const carrotCakeReadyAt = now + 60 * 1000;
-    const queueItem = {
-      name: "Carrot Cake",
-      readyAt: carrotCakeReadyAt,
-      amount: 1,
-    } as BuildingProduct;
-
-    const state = cancelQueuedRecipe({
-      state: {
-        ...INITIAL_FARM,
-        buildings: {
-          Bakery: [
-            {
-              id: "1",
-              coordinates: { x: 0, y: 0 },
-              readyAt: 0,
-              createdAt: 0,
-              crafting: [
-                {
-                  name: "Cornbread",
-                  readyAt: now + 1000,
-                  amount: 1,
-                },
-                queueItem,
-              ],
-            },
-          ],
-        },
-      },
-      action: {
-        type: "recipe.cancelled",
-        buildingName: "Bakery",
-        buildingId: "1",
-        queueItem,
-      },
-      createdAt: now,
-    });
-
-    expect(state.buildings?.Bakery?.[0]?.cancelled).toEqual({
-      "Carrot Cake": {
-        cancelledAt: now,
-      },
-    });
-  });
-
   it("returns the oil consumed by the queued recipe", () => {
     const now = new Date("2025-01-01").getTime();
     const itemName = "Carrot Cake" as CookableName;
@@ -348,10 +302,10 @@ describe("cancelQueuedRecipe", () => {
       createdAt: now,
     });
 
-    expect(state.buildings?.Bakery?.[0]?.cancelled).toEqual({
-      "Carrot Cake": {
-        cancelledAt: now,
-      },
+    expect(state.inventory).toEqual<Inventory>({
+      Egg: new Decimal(30),
+      Wheat: new Decimal(10),
+      Carrot: new Decimal(120),
     });
   });
 
