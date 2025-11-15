@@ -466,7 +466,7 @@ export const LandComponent: React.FC = () => {
 
             return (
               <MapPlacement
-                key={`building-${nameIndex}`}
+                key={`building-${name}-${building.id}`}
                 x={x}
                 y={y}
                 height={height}
