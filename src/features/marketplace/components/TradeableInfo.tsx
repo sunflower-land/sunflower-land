@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
@@ -111,12 +111,14 @@ export const TradeableImage: React.FC<{
   const params = useParams();
   const isResource = isTradeResource(display.name as InventoryItemName);
   // Track the URL we currently render so we can mutate it if the image fails to load.
-  const imageSrcRef = useRef<string>(display.image);
+  const [imageSrc, setImageSrc] = useState<string>(display.image);
   // Remember the most recent prop value; when the user navigates to a new item we reset the image.
-  const lastDisplayImageRef = useRef<string>(display.image);
-  if (lastDisplayImageRef.current !== display.image) {
-    imageSrcRef.current = display.image;
-    lastDisplayImageRef.current = display.image;
+  const [lastDisplayImage, setLastDisplayImage] = useState<string>(
+    display.image,
+  );
+  if (lastDisplayImage !== display.image) {
+    setImageSrc(display.image);
+    setLastDisplayImage(display.image);
   }
   // Pets have a dedicated egg artwork fallback while other tradeables keep their default imagery.
   const fallbackImage =
@@ -148,15 +150,15 @@ export const TradeableImage: React.FC<{
       </div>
 
       <img
-        src={showFullImage ? imageSrcRef.current : background}
+        src={showFullImage ? imageSrc : background}
         className="w-full rounded-sm"
         onError={(e) => {
           // Swap to the fallback only once to avoid infinite error loops.
-          if (!fallbackImage || imageSrcRef.current === fallbackImage) {
+          if (!fallbackImage || imageSrc === fallbackImage) {
             return;
           }
 
-          imageSrcRef.current = fallbackImage;
+          setImageSrc(fallbackImage);
           e.currentTarget.src = fallbackImage;
         }}
       />

@@ -1,6 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
-import * as Auth from "features/auth/lib/Provider";
-
+import React, { useContext, useState } from "react";
 import boat from "assets/decorations/isle_boat.gif";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
@@ -22,12 +20,10 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
   onClose,
 }) => {
-  const { t } = useAppTranslation();
-  const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
-
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+
+  const { t } = useAppTranslation();
 
   const initialState = (): "connected" | "noDiscord" | "claim" | "claimed" => {
     if (
@@ -137,14 +133,9 @@ const _expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 0;
 
 export const DiscordBoat: React.FC = () => {
-  const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
-  const { openModal } = useContext(ModalContext);
-
   const { gameService } = useContext(Context);
+  const { openModal } = useContext(ModalContext);
   const isClaimed = useSelector(gameService, _isClaimed);
-
-  const alreadyClaimed = useRef(isClaimed);
 
   const expansions = useSelector(gameService, _expansions);
 
@@ -156,9 +147,7 @@ export const DiscordBoat: React.FC = () => {
   // When ready, show boat above island
   const isReady = !!gameService.getSnapshot().context.discordId && !isClaimed;
 
-  if (alreadyClaimed.current) {
-    return null;
-  }
+  if (isClaimed) return null;
 
   return (
     <>

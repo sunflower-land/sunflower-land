@@ -27,7 +27,11 @@ export function equipFarmhand({
       throw new Error("Farm hand does not exist");
     }
 
-    assertEquipment({ game, equipment: action.equipment, bumpkin });
+    assertEquipment({
+      equipment: action.equipment,
+      bumpkin,
+      game,
+    });
 
     bumpkin.equipped = action.equipment;
 
