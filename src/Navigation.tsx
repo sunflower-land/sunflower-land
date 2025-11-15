@@ -1,11 +1,4 @@
-import React, {
-  Suspense,
-  lazy,
-  useContext,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from "react";
+import React, { Suspense, lazy, useContext, useEffect, useState } from "react";
 import { useSelector } from "@xstate/react";
 import { Routes, Route, HashRouter } from "react-router";
 
@@ -54,28 +47,14 @@ const selectState = (state: AuthMachineState) => ({
 export const Navigation: React.FC = () => {
   const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
-  const state = useSelector(authService, selectState);
-  const [showGame, setShowGame] = useState(false);
-  const [showConnectionModal, setShowConnectionModal] = useState(false);
+  const [showConnectionModal, setShowConnectionModal] = useState(
+    // Check if online on initial load
+    !navigator.onLine ? true : false,
+  );
   const [landingImageLoaded, setLandingImageLoaded] = useState(false);
 
-  useEffect(() => {
-    // Testing - don't show connection modal when in UI mode
-    if (!CONFIG.API_URL) return;
-
-    // Check if online on initial load
-    if (!navigator.onLine) {
-      setShowConnectionModal(true);
-    }
-    // Set up listeners to watch for connection changes
-    window.addEventListener("offline", handleOffline);
-    window.addEventListener("online", handleOnline);
-
-    return () => {
-      window.removeEventListener("offline", handleOffline);
-      window.removeEventListener("online", handleOnline);
-    };
-  }, []);
+  const state = useSelector(authService, selectState);
+  const showGame = state.isAuthorised || state.isVisiting;
 
   const handleOffline = () => {
     setShowConnectionModal(true);
@@ -89,14 +68,18 @@ export const Navigation: React.FC = () => {
     }
   };
 
-  useLayoutEffect(() => {
-    const _showGame = state.isAuthorised || state.isVisiting;
+  useEffect(() => {
+    // Testing - don't show connection modal when in UI mode
+    if (!CONFIG.API_URL) return;
+    // Set up listeners to watch for connection changes
+    window.addEventListener("offline", handleOffline);
+    window.addEventListener("online", handleOnline);
 
-    // TODO: look into this further
-    // This is to prevent a modal clash when the authmachine switches
-    // to the game machine.
-    setShowGame(_showGame);
-  }, [state]);
+    return () => {
+      window.removeEventListener("offline", handleOffline);
+      window.removeEventListener("online", handleOnline);
+    };
+  }, []);
 
   return (
     <>

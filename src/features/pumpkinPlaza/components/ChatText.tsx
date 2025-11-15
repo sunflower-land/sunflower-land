@@ -40,6 +40,20 @@ export const ChatText: React.FC<Props> = ({
 
   const cooldown = useCountdown(cooledDownAt ?? 0);
 
+  const send = (event?: React.SyntheticEvent) => {
+    event?.preventDefault();
+
+    if (text?.trim() === "") {
+      setText("");
+      return;
+    }
+
+    const filter = new Filter();
+    const sanitized = filter.clean(text);
+    onMessage(sanitized);
+    setText("");
+  };
+
   useEffect(() => {
     const handleClickOutside = (event: any) => {
       if (ref.current && !ref.current.contains(event.target)) {
@@ -67,46 +81,10 @@ export const ChatText: React.FC<Props> = ({
       window.removeEventListener("keydown", keyDownListener);
     };
   });
-  const { t } = useAppTranslation();
-  const Validation = () => {
-    if (text.length > MAX_CHARACTERS) {
-      return (
-        <Label className="mt-1 mb-1 float-right" type="danger">
-          {`Max ${MAX_CHARACTERS} characters`}
-        </Label>
-      );
-    }
-
-    const isValidText = text.length === 0 || ALPHA_REGEX.test(text);
-
-    if (!isValidText) {
-      return (
-        <Label className="mt-1 mb-1 float-right" type="danger">
-          {t("warning.chat.noSpecialCharacters")}
-        </Label>
-      );
-    }
-
-    return null;
-  };
 
   const isValid = () => {
     const isValidText = text.length <= MAX_CHARACTERS && ALPHA_REGEX.test(text);
     setValid(isValidText);
-  };
-
-  const send = (event?: React.SyntheticEvent) => {
-    event?.preventDefault();
-
-    if (text?.trim() === "") {
-      setText("");
-      return;
-    }
-
-    const filter = new Filter();
-    const sanitized = filter.clean(text);
-    onMessage(sanitized);
-    setText("");
   };
 
   const hasMessages = messages.length > 0;
@@ -186,8 +164,32 @@ export const ChatText: React.FC<Props> = ({
           placeholder="Type here..."
           className=" placeholder-white text-white text-shadow text-xs text-shadow w-full !bg-black !bg-opacity-10 px-2 py-2 rounded-md max-h-min"
         />
-        <Validation />
+        <Validation text={text} />
       </div>
     </form>
   );
+};
+
+const Validation: React.FC<{ text: string }> = ({ text }) => {
+  const { t } = useAppTranslation();
+
+  if (text.length > MAX_CHARACTERS) {
+    return (
+      <Label className="mt-1 mb-1 float-right" type="danger">
+        {`Max ${MAX_CHARACTERS} characters`}
+      </Label>
+    );
+  }
+
+  const isValidText = text.length === 0 || ALPHA_REGEX.test(text);
+
+  if (!isValidText) {
+    return (
+      <Label className="mt-1 mb-1 float-right" type="danger">
+        {t("warning.chat.noSpecialCharacters")}
+      </Label>
+    );
+  }
+
+  return null;
 };
