@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { useContext, useState } from "react";
+=======
+import React, { useContext, useEffect, useState } from "react";
+>>>>>>> 5436e99d9 ([CHORE] Refactor useRefs and useMemo)
 
 import {
   COOKABLES,
@@ -46,6 +50,7 @@ const _equipped = (state: MachineState) => {
   return state.context.state.bumpkin?.equipped;
 };
 
+<<<<<<< HEAD
 function useLevelUp(currentLevel: number) {
   // The highest level the player has already "seen" / acknowledged
   const [acknowledgedLevel, setAcknowledgedLevel] = useState(currentLevel);
@@ -60,6 +65,8 @@ function useLevelUp(currentLevel: number) {
   return { hasLeveledUp, acknowledgeLevelUp };
 }
 
+=======
+>>>>>>> 5436e99d9 ([CHORE] Refactor useRefs and useMemo)
 export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { gameService } = useContext(Context);
   const { openModal } = useContext(ModalContext);
@@ -69,7 +76,11 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const inventory = useSelector(gameService, _inventory);
   const equipped = useSelector(gameService, _equipped);
 
+<<<<<<< HEAD
   const { hasLeveledUp, acknowledgeLevelUp } = useLevelUp(currentBumpkinLevel);
+=======
+  const [bumpkinLevelOnLoad] = useState<number>(currentBumpkinLevel);
+>>>>>>> 5436e99d9 ([CHORE] Refactor useRefs and useMemo)
 
   const allFoods: Consumable[] = [
     ...Object.values(COOKABLES)
@@ -91,6 +102,17 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const [showLevelUp, setShowLevelUp] = useState(false);
 
+<<<<<<< HEAD
+=======
+  useEffect(() => {
+    const newLevel = currentBumpkinLevel;
+
+    if (newLevel !== bumpkinLevelOnLoad) {
+      setShowLevelUp(true);
+    }
+  }, [currentBumpkinLevel, bumpkinLevelOnLoad]);
+
+>>>>>>> 5436e99d9 ([CHORE] Refactor useRefs and useMemo)
   return (
     <Modal
       show={isOpen}
