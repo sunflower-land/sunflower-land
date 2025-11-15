@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import { toWei } from "web3-utils";
@@ -36,6 +36,13 @@ const DELIVERY_FEE_PERCENTAGE = 30;
 
 const _state = (state: MachineState) => state.context.state;
 const _farmId = (state: MachineState) => state.context.farmId;
+const _inventory = (state: MachineState): Inventory => {
+  const deliverables = getDeliverableItems({ state: state.context.state });
+
+  return Object.fromEntries(
+    Object.entries(deliverables).filter(([_, v]) => v?.gt(0)),
+  );
+};
 
 export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
   const { t } = useAppTranslation();
@@ -43,19 +50,12 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const farmId = useSelector(gameService, _farmId);
+  const inventory = useSelector(gameService, _inventory);
 
   const deliveryItemsStartRef = useRef<HTMLDivElement>(null);
   const divRef = useRef<HTMLDivElement>(null);
 
   const [selected, setSelected] = useState<Inventory>({});
-
-  const inventory: Inventory = useMemo(() => {
-    const deliverables = getDeliverableItems({ state: state });
-
-    return Object.fromEntries(
-      Object.entries(deliverables).filter(([_, v]) => v?.gt(0)),
-    );
-  }, [state.inventory, state.previousInventory]);
 
   const hasWrongInputs = (): boolean => {
     const entries = Object.entries(selected) as [InventoryItemName, Decimal][];
