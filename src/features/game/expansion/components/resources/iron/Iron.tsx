@@ -42,6 +42,10 @@ const selectSkills = (state: MachineState) =>
 const compareSkills = (prev: Skills, next: Skills) =>
   (prev["Tap Prospector"] ?? false) === (next["Tap Prospector"] ?? false);
 
+const _selectSeason = (state: MachineState) =>
+  state.context.state.season.season;
+const _selectIsland = (state: MachineState) => state.context.state.island;
+
 interface Props {
   id: string;
 }
@@ -73,6 +77,8 @@ export const Iron: React.FC<Props> = ({ id }) => {
   }, []);
 
   const state = useSelector(gameService, selectGame);
+  const season = useSelector(gameService, _selectSeason);
+  const island = useSelector(gameService, _selectIsland);
   const resource = useSelector(
     gameService,
     (state) => state.context.state.iron[id],
@@ -151,6 +157,8 @@ export const Iron: React.FC<Props> = ({ id }) => {
       {!mined && (
         <div ref={divRef} className="absolute w-full h-full" onClick={strike}>
           <RecoveredIron
+            season={season}
+            island={island}
             hasTool={hasTool}
             touchCount={touchCount}
             ironRockName={ironRockName}
@@ -164,7 +172,14 @@ export const Iron: React.FC<Props> = ({ id }) => {
       {collecting && <DepletingIron resourceAmount={harvested.current} />}
 
       {/* Depleted resource */}
-      {mined && <DepletedIron timeLeft={timeLeft} name={ironRockName} />}
+      {mined && (
+        <DepletedIron
+          season={season}
+          island={island}
+          timeLeft={timeLeft}
+          name={ironRockName}
+        />
+      )}
     </div>
   );
 };

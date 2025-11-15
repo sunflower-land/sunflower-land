@@ -126,7 +126,7 @@ export const IslandBlacksmithItems: React.FC = () => {
     (state) => state.context.state.bumpkin,
   );
 
-  const selectedItem = BLACKSMITH_ITEMS[selectedName];
+  const { ...selectedItem } = BLACKSMITH_ITEMS[selectedName];
 
   // Change boost if skill is active
   if (selectedItem) {

@@ -16,7 +16,11 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
 import { StoneRockName } from "features/game/types/resources";
-import { InventoryItemName } from "features/game/types/game";
+import {
+  GameState,
+  InventoryItemName,
+  TemperateSeasonName,
+} from "features/game/types/game";
 
 const tool = "Pickaxe";
 
@@ -26,6 +30,8 @@ const ADVANCED_STRIKE_SHEET_FRAME_WIDTH = 288 / 6;
 const ADVANCED_STRIKE_SHEET_FRAME_HEIGHT = 27;
 
 interface Props {
+  season: TemperateSeasonName;
+  island: GameState["island"];
   hasTool: boolean;
   touchCount: number;
   showHelper: boolean;
@@ -35,6 +41,8 @@ interface Props {
 }
 
 const RecoveredStoneComponent: React.FC<Props> = ({
+  season,
+  island,
   hasTool,
   touchCount,
   showHelper,
@@ -51,7 +59,10 @@ const RecoveredStoneComponent: React.FC<Props> = ({
 
   const { play: miningAudio } = useSound("mining");
 
-  const Image = READONLY_RESOURCE_COMPONENTS()[stoneRockName];
+  const Image = READONLY_RESOURCE_COMPONENTS({
+    season,
+    island,
+  })[stoneRockName];
 
   useEffect(() => {
     // prevent performing react state update on an unmounted component

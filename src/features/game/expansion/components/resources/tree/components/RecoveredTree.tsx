@@ -57,7 +57,10 @@ const RecoveredTreeComponent: React.FC<Props> = ({
   const { play: chopAudio } = useSound("chop");
 
   const tree = (state.trees[id]?.name ?? "Tree") as TreeName;
-  const Image = READONLY_RESOURCE_COMPONENTS()[tree];
+  const Image = READONLY_RESOURCE_COMPONENTS({
+    season,
+    island,
+  })[tree];
 
   // prevent performing react state update on an unmounted component
   useEffect(() => {
