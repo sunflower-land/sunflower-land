@@ -285,7 +285,7 @@ export const RecipesTab: React.FC<Props> = ({
         {!searchTerm.trim() && (
           <>
             <Label type="default" className="my-2">
-              {t("Undiscovered")}
+              {t("undiscovered")}
             </Label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {Object.values(sillhouetteRecipes || {}).map((recipe) => (

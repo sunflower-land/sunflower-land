@@ -239,7 +239,7 @@ const BaitSelection: React.FC<{
                 type="default"
                 className="capitalize"
               >
-                {`${currentSeason}`}
+                {t(`season.${currentSeason}`)}
               </Label>
               {isFishFrenzy(state) && (
                 <Label icon={lightning} type="vibrant">
@@ -312,7 +312,12 @@ const BaitSelection: React.FC<{
           <div className="flex items-center justify-between mb-1">
             <div className="flex items-center">
               <img src={ITEM_DETAILS[chum].image} className="h-5 mr-1" />
-              <Label type="default">{`Chum - ${CHUM_AMOUNTS[chum]} ${chum}`}</Label>
+              <Label type="default">
+                {t("fishermanModal.chum", {
+                  count: CHUM_AMOUNTS[chum],
+                  type: chum,
+                })}
+              </Label>
             </div>
             <img
               src={SUNNYSIDE.icons.cancel}

@@ -162,7 +162,7 @@ export const BumpkinModal: React.FC<Props> = ({
       },
       {
         icon: SUNNYSIDE.badges.seedSpecialist,
-        name: "Skills",
+        name: t("skills"),
       },
     ];
   };
