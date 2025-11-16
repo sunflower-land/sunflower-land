@@ -776,6 +776,8 @@ export type PlacedItem = {
   readyAt?: number;
   createdAt?: number;
   removedAt?: number;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  cancelled?: {};
   crafting?: BuildingProduct[];
   oil?: number;
   flipped?: boolean;

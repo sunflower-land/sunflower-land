@@ -276,6 +276,9 @@ export function cook({
 
     building.oil = previousOilRemaining - oilConsumed;
 
+    // Delete cancelled property since no longer used
+    delete building.cancelled;
+
     stateCopy.boostsUsedAt = updateBoostUsed({
       game: stateCopy,
       boostNames: boostsUsed,
