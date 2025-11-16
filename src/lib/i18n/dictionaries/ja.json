@@ -7134,5 +7134,10 @@
   "petBuff.bib.mid": "フードリクエスト1つにつきペット経験値+5",
   "petBuff.bib.great": "フードリクエスト1件につきペット経験値+10",
   "description.cleaverKnife.boost.1": "-15% 調理時間",
-  "pets.follow": "フォロー・イン・プラザ"
+  "pets.follow": "フォロー・イン・プラザ",
+  "fishermanModal.chum": "チャム-{{count}} {{type}}",
+  "feeds": "フィード",
+  "undiscovered": "未発見",
+  "withdraw.pet.confirmation1": "引き落とすと、ペットのエネルギーと経験が失われます。続けてもよろしいですか？",
+  "withdraw.pet.confirmation2": "この引きこもりは、ペットのエネルギーと経験を完全に消し去ってしまいます。このアクションは元に戻せません。続行しますか?"
 }

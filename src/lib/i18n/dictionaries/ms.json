@@ -7134,5 +7134,10 @@
   "petBuff.bib.mid": "+5 XP haiwan kesayangan setiap permintaan makanan",
   "petBuff.bib.great": "+10 Pet XP setiap permintaan makanan",
   "description.cleaverKnife.boost.1": "-15% Masa Memasak",
-  "pets.follow": "Ikut di plaza"
+  "pets.follow": "Ikut di plaza",
+  "fishermanModal.chum": "Chum - {{count}} {{type}}",
+  "feeds": "Suapan",
+  "undiscovered": "Tidak Ditemui",
+  "withdraw.pet.confirmation1": "Pengeluaran akan menghapuskan tenaga dan pengalaman haiwan kesayangan anda. Adakah anda pasti mahu meneruskan?",
+  "withdraw.pet.confirmation2": "Pengeluaran ini menghilangkan tenaga dan pengalaman haiwan kesayangan anda sepenuhnya. Tindakan ini tidak boleh dibatalkan. Teruskan?"
 }

@@ -7134,5 +7134,10 @@
   "petBuff.bib.mid": "每份食物要求 +5 XP（宠物）",
   "petBuff.bib.great": "每份食物要求 +10 XP（宠物）",
   "description.cleaverKnife.boost.1": "-15% 烹饪时间",
-  "pets.follow": "在广场跟随"
+  "pets.follow": "在广场跟随",
+  "fishermanModal.chum": "Chum-{{count}} {{type}}",
+  "feeds": "饲料",
+  "undiscovered": "未被发现",
+  "withdraw.pet.confirmation1": "撤回会消灭你的宠物的能量和经验。你确定要继续吗？",
+  "withdraw.pet.confirmation2": "这种撤退会彻底消耗你的宠物的能量和经验。此操作无法撤消。继续？"
 }

@@ -7134,5 +7134,10 @@
   "petBuff.bib.mid": "+5 XP para animais de estimação por pedido de comida",
   "petBuff.bib.great": "+10 XP para animais de estimação por pedido de comida",
   "description.cleaverKnife.boost.1": "-15% de tempo de cozimento",
-  "pets.follow": "Siga na praça"
+  "pets.follow": "Siga na praça",
+  "fishermanModal.chum": "Amigão - {{count}} {{type}}",
+  "feeds": "Alimentações",
+  "undiscovered": "Desconhecida",
+  "withdraw.pet.confirmation1": "A retirada apagará a energia e a experiência do seu animal de estimação. Tem certeza de que deseja continuar?",
+  "withdraw.pet.confirmation2": "Essa abstinência limpa completamente a energia e a experiência do seu animal de estimação. Essa ação não pode ser desfeita. Prosseguir?"
 }

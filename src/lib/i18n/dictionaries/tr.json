@@ -7134,5 +7134,10 @@
   "petBuff.bib.mid": "Yiyecek talebi başına +5 Evcil Hayvan DP'si",
   "petBuff.bib.great": "Yiyecek talebi başına +10 Evcil Hayvan DP'si",
   "description.cleaverKnife.boost.1": "-15% Pişirme Süresi",
-  "pets.follow": "Plazada takip et"
+  "pets.follow": "Plazada takip et",
+  "fishermanModal.chum": "Arkadaş - {{count}} {{type}}",
+  "feeds": "Beslemeler",
+  "undiscovered": "Keşfedilmemiş",
+  "withdraw.pet.confirmation1": "Geri çekilmek evcil hayvanınızın enerjisini ve deneyimini silecektir. Devamı istediğine emin misin?",
+  "withdraw.pet.confirmation2": "Bu geri çekilme, evcil hayvanınızın enerjisini ve deneyimini tamamen siler. Bu işlem geri alınamaz. Devamı?"
 }

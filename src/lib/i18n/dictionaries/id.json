@@ -7134,5 +7134,10 @@
   "petBuff.bib.mid": "+5 XP Hewan Peliharaan per permintaan makanan",
   "petBuff.bib.great": "+10 XP Hewan Peliharaan per permintaan makanan",
   "description.cleaverKnife.boost.1": "-15% Waktu Memasak",
-  "pets.follow": "Ikuti di plaza"
+  "pets.follow": "Ikuti di plaza",
+  "fishermanModal.chum": "Teman - {{count}} {{type}}",
+  "feeds": "Umpan",
+  "undiscovered": "Belum ditemukan",
+  "withdraw.pet.confirmation1": "Penarikan akan menghapus energi dan pengalaman hewan peliharaan Anda. Apakah Anda yakin ingin melanjutkan?",
+  "withdraw.pet.confirmation2": "Penarikan ini menghapus energi dan pengalaman hewan peliharaan Anda sepenuhnya. Tindakan ini tidak dapat dibatalkan. Melanjutkan?"
 }

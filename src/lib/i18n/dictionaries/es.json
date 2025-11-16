@@ -7134,5 +7134,10 @@
   "petBuff.bib.mid": "+5 puntos de EXP para mascotas por pedido de comida",
   "petBuff.bib.great": "+10 puntos de EXP para mascotas por solicitud de comida",
   "description.cleaverKnife.boost.1": "-15% de tiempo de cocción",
-  "pets.follow": "Síguenos en la plaza"
+  "pets.follow": "Síguenos en la plaza",
+  "fishermanModal.chum": "Amo - {{count}} {{type}}",
+  "feeds": "Se alimenta",
+  "undiscovered": "Sin descubrir",
+  "withdraw.pet.confirmation1": "Retirarse acabará con la energía y la experiencia de tu mascota. ¿Estás seguro de que quieres continuar?",
+  "withdraw.pet.confirmation2": "Esta abstinencia borra por completo la energía y la experiencia de tu mascota. Esta acción no se puede deshacer. ¿Continuar?"
 }

@@ -7134,5 +7134,10 @@
   "petBuff.bib.mid": "+5 points d'expérience pour animaux de compagnie par demande de nourriture",
   "petBuff.bib.great": "+10 points d'expérience pour animaux de compagnie par demande de nourriture",
   "description.cleaverKnife.boost.1": "-15 % Temps de cuisson",
-  "pets.follow": "Suivez-nous sur la place"
+  "pets.follow": "Suivez-nous sur la place",
+  "fishermanModal.chum": "Chéri - {{count}} {{type}}",
+  "feeds": "Aliments",
+  "undiscovered": "Non découvert",
+  "withdraw.pet.confirmation1": "Le retrait effacera l'énergie et l'expérience de votre animal. Êtes-vous sûr de vouloir continuer ?",
+  "withdraw.pet.confirmation2": "Ce sevrage anéantit complètement l'énergie et l'expérience de votre animal. Cette action ne peut pas être annulée. Poursuivre ?"
 }

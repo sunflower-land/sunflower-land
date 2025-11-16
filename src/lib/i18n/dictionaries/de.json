@@ -7134,5 +7134,10 @@
   "petBuff.bib.mid": "+5 Tier-XP pro Futteranfrage",
   "petBuff.bib.great": "+10 Tier-XP pro Futteranfrage",
   "description.cleaverKnife.boost.1": "-15% Garzeit",
-  "pets.follow": "Folgen Sie auf der Plaza"
+  "pets.follow": "Folgen Sie auf der Plaza",
+  "fishermanModal.chum": "Kumpel - {{count}} {{type}}",
+  "feeds": "Feeds",
+  "undiscovered": "Unentdeckt",
+  "withdraw.pet.confirmation1": "Wenn Sie sich zurückziehen, werden Ihrem Haustier Energie und Erfahrung genommen. Bist du sicher, dass du fortfahren möchtest?",
+  "withdraw.pet.confirmation2": "Durch diesen Rückzug werden die Energie und das Erlebnis Ihres Haustieres vollständig gelöscht. Diese Aktion kann nicht rückgängig gemacht werden. Fortfahren?"
 }

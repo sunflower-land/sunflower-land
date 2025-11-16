@@ -7134,5 +7134,10 @@
   "petBuff.bib.mid": "+5 Pet XP per richiesta di cibo",
   "petBuff.bib.great": "+10 Pet XP per richiesta di cibo",
   "description.cleaverKnife.boost.1": "-15% Tempo di cottura",
-  "pets.follow": "Segui in plaza"
+  "pets.follow": "Segui in plaza",
+  "fishermanModal.chum": "Amico - {{count}} {{type}}",
+  "feeds": "Alimenti",
+  "undiscovered": "Da scoprire",
+  "withdraw.pet.confirmation1": "Il ritiro cancellerà l'energia e l'esperienza del tuo animale domestico. Sei sicuro di voler continuare?",
+  "withdraw.pet.confirmation2": "Questa astinenza cancella completamente l'energia e l'esperienza del tuo animale domestico. Questa azione non può essere annullata. Procedere?"
 }
