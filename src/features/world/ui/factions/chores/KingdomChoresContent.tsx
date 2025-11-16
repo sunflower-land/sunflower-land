@@ -207,7 +207,7 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
                 {
                   <div className="flex flex-row items-center justify-between px-1">
                     <Label type="default" className="text-center">
-                      {t(`upcoming`)}
+                      {t("upcoming")}
                     </Label>
                     <p className="text-xxs">
                       {`${
