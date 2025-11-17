@@ -184,74 +184,74 @@ export const Collection: React.FC<{
   ): boolean => {
     const searchLower = searchTerm.toLowerCase();
 
-    // Check if name matches
-    const nameMatches = display.name.toLowerCase().includes(searchLower);
+    const searchTerms = searchLower.split(",");
 
-    // Check if any buff description matches
-    const buffMatches = display.buffs.some((buff) =>
-      buff.shortDescription.toLowerCase().includes(searchLower),
-    );
+    return searchTerms.every((term) => {
+      // Check if name matches
+      const nameMatches = display.name.toLowerCase().includes(term);
 
-    const nftTraits = getNFTTraits(display);
-
-    if (display.type === "pets") {
-      const petTraits = nftTraits.traits as
-        | (PetTraits & PetCategory)
-        | undefined;
-      const typeMatches = !!petTraits?.type.toLowerCase().includes(searchLower);
-      const primaryMatches = !!petTraits?.primary
-        .toLowerCase()
-        .includes(searchLower);
-      const secondaryMatches = !!petTraits?.secondary
-        ?.toLowerCase()
-        .includes(searchLower);
-      const tertiaryMatches = !!petTraits?.tertiary
-        ?.toLowerCase()
-        .includes(searchLower);
-      const auraMatches = !!petTraits?.aura
-        ?.toLowerCase()
-        .includes(searchLower);
-      const furMatches = !!petTraits?.fur?.toLowerCase().includes(searchLower);
-      const accessoryMatches = !!petTraits?.accessory
-        ?.toLowerCase()
-        .includes(searchLower);
-      const bibMatches = !!petTraits?.bib?.toLowerCase().includes(searchLower);
-
-      return (
-        nameMatches ||
-        buffMatches ||
-        typeMatches ||
-        primaryMatches ||
-        secondaryMatches ||
-        tertiaryMatches ||
-        auraMatches ||
-        furMatches ||
-        accessoryMatches ||
-        bibMatches
+      // Check if any buff description matches
+      const buffMatches = display.buffs.some((buff) =>
+        buff.shortDescription.toLowerCase().includes(term),
       );
-    }
 
-    if (display.type === "buds") {
-      const budTraits = nftTraits.traits as Bud | undefined;
-      const typeMatches = !!budTraits?.type.toLowerCase().includes(searchLower);
-      const colourMatches = !!budTraits?.colour
-        .toLowerCase()
-        .includes(searchLower);
-      const stemMatches = !!budTraits?.stem.toLowerCase().includes(searchLower);
-      const auraMatches = !!budTraits?.aura.toLowerCase().includes(searchLower);
-      const earsMatches = !!budTraits?.ears.toLowerCase().includes(searchLower);
-      return (
-        nameMatches ||
-        buffMatches ||
-        typeMatches ||
-        colourMatches ||
-        stemMatches ||
-        auraMatches ||
-        earsMatches
-      );
-    }
+      const nftTraits = getNFTTraits(display);
 
-    return nameMatches || buffMatches;
+      if (display.type === "pets") {
+        const petTraits = nftTraits.traits as
+          | (PetTraits & PetCategory)
+          | undefined;
+        const typeMatches = !!petTraits?.type.toLowerCase().includes(term);
+        const primaryMatches = !!petTraits?.primary
+          .toLowerCase()
+          .includes(term);
+        const secondaryMatches = !!petTraits?.secondary
+          ?.toLowerCase()
+          .includes(term);
+        const tertiaryMatches = !!petTraits?.tertiary
+          ?.toLowerCase()
+          .includes(term);
+        const auraMatches = !!petTraits?.aura?.toLowerCase().includes(term);
+        const furMatches = !!petTraits?.fur?.toLowerCase().includes(term);
+        const accessoryMatches = !!petTraits?.accessory
+          ?.toLowerCase()
+          .includes(term);
+        const bibMatches = !!petTraits?.bib?.toLowerCase().includes(term);
+
+        return (
+          nameMatches ||
+          buffMatches ||
+          typeMatches ||
+          primaryMatches ||
+          secondaryMatches ||
+          tertiaryMatches ||
+          auraMatches ||
+          furMatches ||
+          accessoryMatches ||
+          bibMatches
+        );
+      }
+
+      if (display.type === "buds") {
+        const budTraits = nftTraits.traits as Bud | undefined;
+        const typeMatches = !!budTraits?.type.toLowerCase().includes(term);
+        const colourMatches = !!budTraits?.colour.toLowerCase().includes(term);
+        const stemMatches = !!budTraits?.stem.toLowerCase().includes(term);
+        const auraMatches = !!budTraits?.aura.toLowerCase().includes(term);
+        const earsMatches = !!budTraits?.ears.toLowerCase().includes(term);
+        return (
+          nameMatches ||
+          buffMatches ||
+          typeMatches ||
+          colourMatches ||
+          stemMatches ||
+          auraMatches ||
+          earsMatches
+        );
+      }
+
+      return nameMatches || buffMatches;
+    });
   };
 
   const items =
@@ -271,100 +271,103 @@ export const Collection: React.FC<{
       }
 
       const nftTraits = getNFTTraits(display);
+      const matchesSearch = matchesSearchCriteria(display, search ?? "");
+
       if (filters.includes("pets")) {
         const filterValue = filters.split("=")[1]?.toLowerCase() ?? "";
         const petTraits = nftTraits.traits as
           | (PetTraits & PetCategory)
           | undefined;
+        const includesFilterValue = (value?: string | null) =>
+          value?.includes(filterValue) ?? false;
 
-        if (filters.includes("type")) {
-          const typeMatches = !!petTraits?.type
-            .toLowerCase()
-            .includes(filterValue);
-          return typeMatches;
-        }
+        const petTraitChecks = [
+          {
+            key: "type",
+            matches: includesFilterValue(petTraits?.type?.toLowerCase()),
+          },
+          {
+            key: "category",
+            matches: ["primary", "secondary", "tertiary"].some((trait) =>
+              includesFilterValue(
+                petTraits?.[trait as keyof PetCategory]?.toLowerCase(),
+              ),
+            ),
+          },
+          {
+            key: "aura",
+            matches: includesFilterValue(
+              camelCase(petTraits?.aura)?.toLowerCase(),
+            ),
+          },
+          {
+            key: "bib",
+            matches: includesFilterValue(
+              camelCase(petTraits?.bib)?.toLowerCase(),
+            ),
+          },
+          {
+            key: "fur",
+            matches: includesFilterValue(
+              camelCase(petTraits?.fur)?.toLowerCase(),
+            ),
+          },
+          {
+            key: "accessory",
+            matches: includesFilterValue(
+              camelCase(petTraits?.accessory)?.toLowerCase(),
+            ),
+          },
+        ];
 
-        if (filters.includes("category")) {
-          const categoryMatches =
-            !!petTraits?.primary?.toLowerCase().includes(filterValue) ||
-            !!petTraits?.secondary?.toLowerCase().includes(filterValue) ||
-            !!petTraits?.tertiary?.toLowerCase().includes(filterValue);
+        const activePetFilter = petTraitChecks.find(({ key }) =>
+          filters.includes(key),
+        );
 
-          return categoryMatches;
-        }
-
-        if (filters.includes("aura")) {
-          const camelCaseAura = camelCase(petTraits?.aura);
-          const auraMatches = !!camelCaseAura
-            ?.toLowerCase()
-            .includes(filterValue);
-
-          return auraMatches;
-        }
-
-        if (filters.includes("bib")) {
-          const camelCaseBib = camelCase(petTraits?.bib);
-          const bibMatches = !!camelCaseBib
-            ?.toLowerCase()
-            .includes(filterValue);
-
-          return bibMatches;
-        }
-
-        if (filters.includes("fur")) {
-          const camelCaseFur = camelCase(petTraits?.fur);
-          const furMatches = !!camelCaseFur
-            ?.toLowerCase()
-            .includes(filterValue);
-          return furMatches;
-        }
-
-        if (filters.includes("accessory")) {
-          const camelCaseAccessory = camelCase(petTraits?.accessory);
-          const accessoryMatches = !!camelCaseAccessory
-            ?.toLowerCase()
-            .includes(filterValue);
-          return accessoryMatches;
+        if (activePetFilter) {
+          return activePetFilter.matches && matchesSearch;
         }
       }
 
       if (filters.includes("buds")) {
         const filterValue = filters.split("=")[1]?.toLowerCase() ?? "";
         const budTraits = nftTraits.traits as Bud | undefined;
+        const includesFilterValue = (value?: string | null) =>
+          value?.includes(filterValue) ?? false;
 
-        if (filters.includes("type")) {
-          const typeMatches = !!budTraits?.type
-            .toLowerCase()
-            .includes(filterValue);
-          return typeMatches;
-        }
+        const budTraitChecks = [
+          {
+            key: "type",
+            matches: includesFilterValue(budTraits?.type?.toLowerCase()),
+          },
+          {
+            key: "aura",
+            matches: includesFilterValue(
+              camelCase(budTraits?.aura)?.toLowerCase(),
+            ),
+          },
+          {
+            key: "stem",
+            matches: includesFilterValue(
+              camelCase(budTraits?.stem)?.toLowerCase(),
+            ),
+          },
+          {
+            key: "colour",
+            matches: includesFilterValue(budTraits?.colour?.toLowerCase()),
+          },
+        ];
 
-        if (filters.includes("aura")) {
-          const camelCaseAura = camelCase(budTraits?.aura);
-          const auraMatches = !!camelCaseAura
-            .toLowerCase()
-            .includes(filterValue);
-          return auraMatches;
-        }
+        const activeBudFilter = budTraitChecks.find(({ key }) =>
+          filters.includes(key),
+        );
 
-        if (filters.includes("stem")) {
-          const camelCaseStem = camelCase(budTraits?.stem);
-          const stemMatches = !!camelCaseStem
-            .toLowerCase()
-            .includes(filterValue);
-          return stemMatches;
-        }
-
-        if (filters.includes("colour")) {
-          const colourMatches = !!budTraits?.colour
-            .toLowerCase()
-            .includes(filterValue);
-
-          return colourMatches;
+        if (activeBudFilter) {
+          return activeBudFilter.matches && matchesSearch;
         }
       }
 
-      return matchesSearchCriteria(display, search ?? "");
+      return matchesSearch;
     }) ?? [];
 
   const getRowHeight = () => {
