@@ -730,7 +730,10 @@ const RecipeLabelContent: React.FC<{
     game: state,
     time: recipe.time,
     farmId,
-    itemId: KNOWN_IDS[recipe.name as InventoryItemName],
+    itemId:
+      recipe.type === "collectible"
+        ? KNOWN_IDS[recipe.name as InventoryItemName]
+        : ITEM_IDS[recipe.name as BumpkinItem],
     counter: state.farmActivity[`${recipe.name} Crafted`] ?? 0,
   });
 
