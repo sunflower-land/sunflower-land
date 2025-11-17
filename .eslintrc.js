@@ -1,3 +1,11 @@
+/* eslint-env node */
+/* eslint-disable @typescript-eslint/no-var-requires */
+const reactHooks = require("eslint-plugin-react-hooks");
+
+const hasSetStateInEffectRule =
+  reactHooks?.rules?.["set-state-in-effect"] !== undefined;
+const hasPurityRule = reactHooks?.rules?.purity !== undefined;
+
 module.exports = {
   env: {
     browser: true,
@@ -7,7 +15,6 @@ module.exports = {
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
-    "plugin:react-hooks/recommended-latest",
     "plugin:@typescript-eslint/recommended",
     "prettier",
     "plugin:prettier/recommended",
@@ -57,8 +64,10 @@ module.exports = {
         endOfLine: "auto",
       },
     ],
-    // Important React Compiler Rules. Will un-warn them individually over time.
-    "react-hooks/set-state-in-effect": "warn",
-    "react-hooks/purity": "warn",
+    // Important React Compiler Rules. Enable when available.
+    ...(hasSetStateInEffectRule
+      ? { "react-hooks/set-state-in-effect": "warn" }
+      : {}),
+    ...(hasPurityRule ? { "react-hooks/purity": "warn" } : {}),
   },
 };
