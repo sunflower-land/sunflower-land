@@ -339,7 +339,7 @@ export const ResourceList: React.FC<Props> = ({
         >
           <span className="text-xs"> {t("bumpkinTrade.youWillReceive")}</span>
           <p className="text-xs font-secondary">{`${formatNumber(
-            new Decimal(price).mul(1 - tax),
+            new Decimal(price).mul(new Decimal(1).sub(tax)),
             {
               decimalPlaces: 4,
               showTrailingZeros: true,

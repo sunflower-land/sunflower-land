@@ -6,6 +6,7 @@ import { hasVipAccess } from "../lib/vipAccess";
 import { isTemporaryCollectibleActive } from "../lib/collectibleBuilt";
 import { PetNFTName } from "./pets";
 import { setPrecision } from "lib/utils/formatNumber";
+import Decimal from "decimal.js-light";
 
 // 10% tax on sales
 export const MARKETPLACE_TAX = 0.1;
@@ -300,16 +301,16 @@ const ISLAND_RESOURCE_TAXES: Record<IslandType, number> = {
   volcano: 0.15,
 };
 
-export function getResourceTax({ game }: { game: GameState }): number {
-  let tax = ISLAND_RESOURCE_TAXES[game.island.type];
+export function getResourceTax({ game }: { game: GameState }) {
+  let tax = new Decimal(ISLAND_RESOURCE_TAXES[game.island.type]);
 
   if (hasVipAccess({ game })) {
-    tax *= 0.5;
+    tax = tax.mul(0.5);
   }
 
   if (isTemporaryCollectibleActive({ name: "Trading Shrine", game })) {
-    tax -= 0.025;
+    tax = tax.sub(0.025);
   }
 
-  return setPrecision(tax, 4).toNumber();
+  return setPrecision(tax, 4);
 }

@@ -43,6 +43,7 @@ import { getPetTraits } from "features/pets/data/getPetTraits";
 import { PetTraits } from "features/pets/data/types";
 import { Bud } from "lib/buds/types";
 import { getBudTraits } from "features/game/types/budBuffs";
+import { setPrecision } from "lib/utils/formatNumber";
 
 const formatDate = (date: Date) => {
   return date.toLocaleDateString("en-US", {
@@ -437,7 +438,9 @@ export const ResourceTaxes: React.FC = () => {
             <img src={lockIcon} className="w-4 mr-1" />
             <div>
               <p className="text-xs">
-                {t("marketplace.resourceFee", { tax: tax * 100 })}
+                {t("marketplace.resourceFee", {
+                  tax: setPrecision(tax.mul(100), 2).toNumber(),
+                })}
               </p>
             </div>
           </div>
