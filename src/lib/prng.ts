@@ -1,9 +1,14 @@
 /**
  * A PRNG implementation that uses a 32-bit MurmurHash3 algorithm to generate a random number between 0 and 1.
  * @param farmId - The farm ID
- * @param itemId - The item ID
- * @param counter - The counter
+ * @param itemId - The item ID or node ID
+ * @param counter - The counter based on farm/bumpkin activity
  * @returns A random number between 0 and 1
+ * 0x85ebca6b MurmurHash3 initialisation constant, used to imul on farmId
+ * 0x9e3779b9 Golden Ratio, used to imul on itemId
+ * 0x27d4eb2f MurmurHash3 finalisation constant, used to imul on counter
+ * 0x21f0aaad MurmurHash3 mixing constant, used to imul on seed
+ * 0x735a2d97 MurmurHash3 mixing constant, used to imul on seed
  */
 export const prng = ({
   farmId,
