@@ -129,7 +129,7 @@ export const getGreenhouseCropTime = ({
   }
 
   if (isTemporaryCollectibleActive({ name: "Tortoise Shrine", game })) {
-    seconds *= 0.75;
+    seconds *= 2 / 3; // -33% growth time
     boostsUsed.push("Tortoise Shrine");
   }
 
