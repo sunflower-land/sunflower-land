@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { BuildingName } from "features/game/types/buildings";
 import { Bar, ResizableBar } from "components/ui/ProgressBar";
@@ -7,7 +7,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useSelector } from "@xstate/react";
 import { MoveableComponent } from "features/island/collectibles/MovableComponent";
 import { MachineState } from "features/game/lib/gameMachine";
-import { Context, useGame } from "features/game/GameProvider";
+import { Context } from "features/game/GameProvider";
 import { BUILDING_COMPONENTS, READONLY_BUILDINGS } from "./BuildingComponents";
 import { CookableName } from "features/game/types/consumables";
 import { GameState, TemperateSeasonName } from "features/game/types/game";
@@ -283,6 +283,17 @@ export function isBuildingDestroyed({
   return false;
 }
 
+const _destroyedBy = (name: BuildingName) => (state: MachineState) => {
+  const calendarEvent = getActiveCalendarEvent({
+    calendar: state.context.state.calendar,
+  });
+  if (!calendarEvent) {
+    return false;
+  }
+
+  return isBuildingDestroyed({ name, calendar: state.context.state.calendar });
+};
+
 const BuildingComponent: React.FC<Prop> = ({
   name,
   id,
@@ -296,17 +307,12 @@ const BuildingComponent: React.FC<Prop> = ({
   island,
   season,
 }) => {
-  const { showTimers } = useContext(Context);
-  const { gameState } = useGame();
+  const { gameService } = useContext(Context);
   const BuildingPlaced = BUILDING_COMPONENTS[name];
 
   const inProgress = readyAt > Date.now();
 
-  const destroyedBy = useMemo(
-    () =>
-      isBuildingDestroyed({ name, calendar: gameState.context.state.calendar }),
-    [gameState.context.state.calendar],
-  );
+  const destroyedBy = useSelector(gameService, _destroyedBy(name));
 
   useUiRefresher({ active: inProgress });
 
@@ -359,17 +365,26 @@ const BuildingComponent: React.FC<Prop> = ({
 };
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
-const _gameState = (state: MachineState) => state.context.state;
+const _island = (state: MachineState) => state.context.state.island;
+const _season = (state: MachineState) => state.context.state.season.season;
+const _henHouseLevel = (state: MachineState) =>
+  state.context.state.henHouse.level;
+const _barnLevel = (state: MachineState) => state.context.state.barn.level;
 
 const MoveableBuilding: React.FC<Prop> = (props) => {
   const { gameService } = useContext(Context);
-  const gameState = useSelector(gameService, _gameState);
-  const BuildingPlaced = useMemo(
-    () => READONLY_BUILDINGS(gameState)[props.name],
-    [props.name],
-  );
-
+  const island = useSelector(gameService, _island);
+  const season = useSelector(gameService, _season);
+  const henHouseLevel = useSelector(gameService, _henHouseLevel);
+  const barnLevel = useSelector(gameService, _barnLevel);
   const landscaping = useSelector(gameService, isLandscaping);
+  const BuildingPlaced = READONLY_BUILDINGS({
+    island,
+    season,
+    henHouseLevel,
+    barnLevel,
+  })[props.name];
+
   if (landscaping) {
     const inProgress = props.readyAt > Date.now();
 
