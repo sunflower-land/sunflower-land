@@ -225,11 +225,6 @@ export function getCropTime({
     boostsUsed.push("Lunar Calendar");
   }
 
-  if (isTemporaryCollectibleActive({ name: "Sparrow Shrine", game })) {
-    multiplier = multiplier * 0.75;
-    boostsUsed.push("Sparrow Shrine");
-  }
-
   const hasSuperTotem = isTemporaryCollectibleActive({
     name: "Super Totem",
     game,
@@ -320,6 +315,11 @@ export const getCropPlotTime = ({
 
   if (seconds === 0) {
     return { time: 0, aoe: updatedAoe, boostsUsed };
+  }
+
+  if (isTemporaryCollectibleActive({ name: "Sparrow Shrine", game })) {
+    seconds = seconds * 0.75;
+    boostsUsed.push("Sparrow Shrine");
   }
 
   if (
