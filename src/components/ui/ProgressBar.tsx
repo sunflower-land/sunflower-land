@@ -202,24 +202,29 @@ export const AnimatedBar: React.FC<{
   type: ProgressType;
   shouldWrap?: boolean;
 }> = ({ percentage, type, shouldWrap = true }) => {
-  const [prevWidth, setPrevWidth] = useState(percentage);
+  const [prevPercentage, setPrevPercentage] = useState(
+    Math.min(percentage, 100),
+  );
+  const clampedPercentage = Math.min(percentage, 100);
+
+  // Detect if we need to wrap (percentage decreased)
+  const shouldReset = shouldWrap && prevPercentage > clampedPercentage;
 
   const { width } = useSpring({
-    width: Math.min(percentage, 100),
+    from: { width: shouldReset ? 0 : undefined },
+    to: { width: clampedPercentage },
     config: {
       tension: 120,
       friction: 30,
       clamp: true,
     },
+    reset: shouldReset,
   });
 
-  // Handle width wrapping in an effect instead of during render
+  // Track previous percentage for wrap detection
   useEffect(() => {
-    if (shouldWrap && prevWidth > percentage) {
-      width.set(0);
-    }
-    setPrevWidth(percentage);
-  }, [percentage, prevWidth, shouldWrap, width]);
+    setPrevPercentage(clampedPercentage);
+  }, [clampedPercentage]);
 
   return (
     <div

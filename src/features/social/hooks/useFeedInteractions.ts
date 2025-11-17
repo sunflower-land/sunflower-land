@@ -3,6 +3,7 @@ import { getFeedInteractions } from "../actions/getFeedInteractions";
 import { Interaction } from "../types/types";
 import { FeedFilter } from "../Feed";
 import { useEffect, useState } from "react";
+import isEqual from "lodash.isequal";
 
 const PAGE_SIZE = 50;
 
@@ -48,7 +49,7 @@ export function useFeedInteractions(
       setFollowing((prev) => {
         if (
           prev.length === firstFollowing.length &&
-          JSON.stringify(prev) === JSON.stringify(firstFollowing)
+          isEqual(prev, firstFollowing)
         ) {
           return prev;
         }
