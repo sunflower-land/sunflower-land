@@ -303,12 +303,12 @@ const ISLAND_RESOURCE_TAXES: Record<IslandType, number> = {
 export function getResourceTax({ game }: { game: GameState }): number {
   let tax = ISLAND_RESOURCE_TAXES[game.island.type];
 
-  if (isTemporaryCollectibleActive({ name: "Trading Shrine", game })) {
-    tax -= 0.025;
-  }
-
   if (hasVipAccess({ game })) {
     tax *= 0.5;
+  }
+
+  if (isTemporaryCollectibleActive({ name: "Trading Shrine", game })) {
+    tax -= 0.025;
   }
 
   return setPrecision(tax, 4).toNumber();
