@@ -47,7 +47,7 @@ function generateCollectibles() {
     .filter((f) => f.includes(".json"))
     .map((f) => f.split(".")[0]);
 
-  // As of November 2023, Opensea appears to be uses hex zero padded with 64 zeros to identify token IDs
+  // As of November 2023, Opensea appears to uses hex zero padded with 64 zeros to identify token IDs
   // e.g. https://URL/0000...0001.json as per https://eips.ethereum.org/EIPS/eip-1155#metadata
   // Previously was using decimals https://URL/1.json
   // We need to support both for now
@@ -108,7 +108,7 @@ function generateWearables() {
     .filter((f) => f.includes(".json"))
     .map((f) => f.split(".")[0]);
 
-  // As of November 2023, Opensea appears to be uses hex zero padded with 64 zeros to identify token IDs
+  // As of November 2023, Opensea appears to uses hex zero padded with 64 zeros to identify token IDs
   // e.g. https://URL/0000...0001.json as per https://eips.ethereum.org/EIPS/eip-1155#metadata
   // Previously was using decimals https://URL/1.json
   // We need to support both for now
