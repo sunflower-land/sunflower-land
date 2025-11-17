@@ -6524,7 +6524,7 @@
   "description.moleShrine.buff.2": "-25% Gold Recovery Time",
   "description.moleShrine.buff.3": "-25% Crimstone Recovery Time",
   "description.bearShrine.buff": "+0.5 Honey Production Speed",
-  "description.bearShrine.buff.2": "+10% chance of bee swarm",
+  "description.bearShrine.buff.2": "+20% chance of bee swarm",
   "description.tortoiseShrine.buff": "-33% Greenhouse Growth Time",
   "description.tortoiseShrine.buff.2": "-10% Crop Machine Growth Time",
   "description.mothShrine.buff": "-25% Flower Growth Time",
