@@ -1,11 +1,4 @@
-import React, {
-  Suspense,
-  lazy,
-  useContext,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from "react";
+import React, { Suspense, lazy, useContext, useEffect, useState } from "react";
 import { useSelector } from "@xstate/react";
 import { Routes, Route, HashRouter } from "react-router";
 
@@ -57,19 +50,31 @@ const selectState = (state: AuthMachineState) => ({
 export const Navigation: React.FC = () => {
   const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
-  const state = useSelector(authService, selectState);
-  const [showGame, setShowGame] = useState(false);
-  const [showConnectionModal, setShowConnectionModal] = useState(false);
+  const [showConnectionModal, setShowConnectionModal] = useState(
+    // Check if online on initial load
+    !navigator.onLine ? true : false,
+  );
   const [landingImageLoaded, setLandingImageLoaded] = useState(false);
+
+  const state = useSelector(authService, selectState);
+  const showGame = state.isAuthorised || state.isVisiting;
 
   useEffect(() => {
     // Testing - don't show connection modal when in UI mode
     if (!CONFIG.API_URL) return;
 
-    // Check if online on initial load
-    if (!navigator.onLine) {
+    const handleOffline = () => {
       setShowConnectionModal(true);
-    }
+    };
+
+    const handleOnline = async () => {
+      const response = await fetch(".");
+      // Verify we get a valid response from the server
+      if (response.status >= 200 && response.status < 500) {
+        setShowConnectionModal(false);
+      }
+    };
+
     // Set up listeners to watch for connection changes
     window.addEventListener("offline", handleOffline);
     window.addEventListener("online", handleOnline);
@@ -79,27 +84,6 @@ export const Navigation: React.FC = () => {
       window.removeEventListener("online", handleOnline);
     };
   }, []);
-
-  const handleOffline = () => {
-    setShowConnectionModal(true);
-  };
-
-  const handleOnline = async () => {
-    const response = await fetch(".");
-    // Verify we get a valid response from the server
-    if (response.status >= 200 && response.status < 500) {
-      setShowConnectionModal(false);
-    }
-  };
-
-  useLayoutEffect(() => {
-    const _showGame = state.isAuthorised || state.isVisiting;
-
-    // TODO: look into this further
-    // This is to prevent a modal clash when the authmachine switches
-    // to the game machine.
-    setShowGame(_showGame);
-  }, [state]);
 
   return (
     <>

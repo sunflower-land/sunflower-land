@@ -1,4 +1,4 @@
-import React, { memo, useRef } from "react";
+import React, { memo, useState } from "react";
 import classNames from "classnames";
 
 interface Props {
@@ -16,24 +16,23 @@ const ListViewImageComponent = ({
   fallbackImage,
   isResources,
 }: Props) => {
-  // Use ref to maintain image reference
-  const imageRef = useRef<string>(image);
+  const [imageUrl, setImageUrl] = useState<string>(image);
 
   if (type === "buds" || type === "pets") {
     return (
       <div className={"absolute -inset-1.5 overflow-hidden"}>
         <img
           alt={name}
-          src={imageRef.current}
+          src={imageUrl}
           className="object-cover w-full h-full"
           loading="lazy"
           decoding="async"
           onError={(e) => {
-            if (!fallbackImage || imageRef.current === fallbackImage) {
+            if (!fallbackImage || imageUrl === fallbackImage) {
               return;
             }
 
-            imageRef.current = fallbackImage;
+            setImageUrl(fallbackImage);
             e.currentTarget.src = fallbackImage;
           }}
         />
@@ -44,7 +43,7 @@ const ListViewImageComponent = ({
   return (
     <img
       alt={name}
-      src={imageRef.current}
+      src={imageUrl}
       className={classNames("object-contain h-[80%] mt-1", {
         "h-[55%] mt-3": isResources,
       })}

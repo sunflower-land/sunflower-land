@@ -58,7 +58,7 @@ export const SpeakingModal: React.FC<Props> = ({
 
     setCurrentMessage(0);
     onClose();
-  }, [currentTextEnded, currentMessage, message.length]);
+  }, [currentTextEnded, currentMessage, message, onClose]);
 
   useEffect(() => {
     const handleKeyPressed = (e: KeyboardEvent) => {
@@ -176,7 +176,7 @@ export const SpeakingText: React.FC<Pick<Props, "message" | "onClose">> = ({
     setCurrentMessage(0);
     onClose();
     return;
-  }, [currentTextEnded, currentMessage, message.length]);
+  }, [currentTextEnded, currentMessage, message, onClose]);
 
   useEffect(() => {
     const handleKeyPressed = (e: KeyboardEvent) => {

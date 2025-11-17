@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { SelectBox } from "components/ui/SelectBox";
@@ -24,8 +24,7 @@ export const BumpkinBox = ({
   onSelect,
 }: BumpkinBoxProps) => {
   const [isHover, setIsHover] = useState(false);
-
-  const imageUrl = useRef(
+  const [imageUrl] = useState<string>(
     `${URL}/${tokenUriBuilder(bumpkin.equipped)}x100.png`,
   );
 
@@ -49,7 +48,7 @@ export const BumpkinBox = ({
           ...pixelDarkBorderStyle,
         }}
       >
-        {imageUrl && <img src={imageUrl.current} alt="Bumpkin" />}
+        {imageUrl && <img src={imageUrl} alt="Bumpkin" />}
       </div>
       {(Number(selectedId) === bumpkin.id || isHover) && (
         <SelectBox innerCanvasWidth={INNER_CANVAS_WIDTH} />

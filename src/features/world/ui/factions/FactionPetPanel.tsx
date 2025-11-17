@@ -169,22 +169,6 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
   const [tab, setTab] = useState(0);
   const [showBoostInfo, setShowBoostInfo] = useState(false);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (refreshing || autosaving || petState === "sleeping") return;
-
-      handleRefresh();
-    }, FACTION_PET_REFRESH_INTERVAL);
-
-    return () => clearInterval(interval);
-  }, [petState]);
-
-  if (petState === "sleeping") {
-    return (
-      <PetSleeping onWake={() => setPetState(getPetState(collectivePet))} />
-    );
-  }
-
   const selectedRequest = pet.requests[selectedRequestIdx] as FactionPetRequest;
 
   const handleFeed = (amount = 1) => {
@@ -226,6 +210,22 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
       console.error("Error fetching updated pet data: ", e);
     }
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (refreshing || autosaving || petState === "sleeping") return;
+
+      handleRefresh();
+    }, FACTION_PET_REFRESH_INTERVAL);
+
+    return () => clearInterval(interval);
+  }, [petState]);
+
+  if (petState === "sleeping") {
+    return (
+      <PetSleeping onWake={() => setPetState(getPetState(collectivePet))} />
+    );
+  }
 
   const secondsTillWeekEnd =
     (getFactionWeekEndTime({ date: new Date() }) - now) / 1000;
