@@ -342,6 +342,7 @@ export function chop({
       new Decimal(tree.multiplier ?? 1),
     );
     delete tree.wood.amount;
+    delete tree.wood.seed;
 
     stateCopy.boostsUsedAt = updateBoostUsed({
       game: stateCopy,
