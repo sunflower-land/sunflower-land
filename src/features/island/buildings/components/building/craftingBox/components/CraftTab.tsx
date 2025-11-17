@@ -27,7 +27,6 @@ import {
   RecipeIngredient,
   DOLLS,
   RECIPES,
-  RecipeCollectibleName,
 } from "features/game/lib/crafting";
 import {
   findMatchingRecipe,
@@ -50,6 +49,7 @@ import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe
 import fastForward from "assets/icons/fast_forward.png";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { KNOWN_IDS } from "features/game/types";
 
 const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
   // Crops
@@ -149,6 +149,7 @@ const validCraftingResourcesSorted = (): InventoryItemName[] => {
 };
 
 const _state = (state: MachineState) => state.context.state;
+const _farmId = (state: MachineState) => state.context.farmId;
 
 interface Props {
   gameService: MachineInterpreter;
@@ -164,12 +165,12 @@ export const CraftTab: React.FC<Props> = ({
   const { t } = useTranslation();
 
   const state = useSelector(gameService, _state);
+  const farmId = useSelector(gameService, _farmId);
   const { inventory, wardrobe, craftingBox } = state;
   const {
     status: craftingStatus,
     readyAt: craftingReadyAt,
     recipes,
-    item,
   } = craftingBox;
 
   const [remainingTime, setRemainingTime] = useState<number | null>(null);
@@ -495,6 +496,7 @@ export const CraftTab: React.FC<Props> = ({
             remainingTime={remainingTime}
             isIdle={isIdle}
             key={currentRecipe?.name}
+            farmId={farmId}
           />
           <div>
             <CraftButton
@@ -509,7 +511,6 @@ export const CraftTab: React.FC<Props> = ({
               wardrobe={wardrobe}
               gems={gems}
               onInstantCraft={handleInstantCraft}
-              collectible={item?.collectible}
             />
           </div>
         </div>
@@ -615,6 +616,7 @@ export const CraftTab: React.FC<Props> = ({
                 remainingTime={remainingTime}
                 isIdle={isIdle}
                 key={currentRecipe?.name}
+                farmId={farmId}
               />
             </div>
           </div>
@@ -712,7 +714,8 @@ const CraftDetails: React.FC<{
 const RecipeLabelContent: React.FC<{
   state: GameState;
   recipe: Recipe | null;
-}> = ({ state, recipe }) => {
+  farmId: number;
+}> = ({ state, recipe, farmId }) => {
   const { t } = useTranslation();
 
   if (!recipe) {
@@ -726,6 +729,12 @@ const RecipeLabelContent: React.FC<{
   const { seconds: boostedCraftTime } = getBoostedCraftingTime({
     game: state,
     time: recipe.time,
+    farmId,
+    itemId:
+      recipe.type === "collectible"
+        ? KNOWN_IDS[recipe.name as InventoryItemName]
+        : ITEM_IDS[recipe.name as BumpkinItem],
+    counter: state.farmActivity[`${recipe.name} Crafted`] ?? 0,
   });
 
   return (
@@ -767,7 +776,8 @@ const CraftTimer: React.FC<{
   recipe: Recipe | null;
   remainingTime: number | null;
   isIdle: boolean;
-}> = ({ state, recipe, remainingTime, isIdle }) => {
+  farmId: number;
+}> = ({ state, recipe, remainingTime, isIdle, farmId }) => {
   if (isIdle) {
     return (
       <Label
@@ -775,7 +785,7 @@ const CraftTimer: React.FC<{
         className="ml-3 my-1"
         icon={SUNNYSIDE.icons.stopwatch}
       >
-        <RecipeLabelContent state={state} recipe={recipe} />
+        <RecipeLabelContent state={state} recipe={recipe} farmId={farmId} />
       </Label>
     );
   }
@@ -803,7 +813,6 @@ const CraftButton: React.FC<{
   wardrobe: Wardrobe;
   gems: number;
   onInstantCraft: (gems: number) => void;
-  collectible?: RecipeCollectibleName;
 }> = ({
   isCrafting,
   isPending,
@@ -816,7 +825,6 @@ const CraftButton: React.FC<{
   wardrobe,
   gems,
   onInstantCraft,
-  collectible,
 }) => {
   const { t } = useTranslation();
   const [showConfirmation, setShowConfirmation] = useState(false);

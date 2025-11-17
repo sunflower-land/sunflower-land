@@ -13,6 +13,7 @@ import { getReadyAt } from "./startComposter";
 import { RECIPES } from "features/game/lib/crafting";
 import { getBoostedCraftingTime } from "./startCrafting";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { KNOWN_IDS } from "features/game/types";
 
 export enum PLACE_BUILDING_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -30,12 +31,14 @@ export type PlaceBuildingAction = {
 type Options = {
   state: Readonly<GameState>;
   action: PlaceBuildingAction;
+  farmId: number;
   createdAt?: number;
 };
 
 export function placeBuilding({
   state,
   action,
+  farmId,
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
@@ -156,7 +159,9 @@ export function placeBuilding({
             ? getBoostedCraftingTime({
                 game: stateCopy,
                 time: RECIPES[collectible]?.time ?? 0,
-                createdAt,
+                farmId,
+                itemId: KNOWN_IDS[collectible],
+                counter: stateCopy.farmActivity[`${collectible} Crafted`] ?? 0,
               })
             : { seconds: 0 };
           craftingBox.readyAt = craftingBox.startedAt + recipeTime;

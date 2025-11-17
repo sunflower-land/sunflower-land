@@ -14,8 +14,10 @@ const GAME_STATE: GameState = {
 const dateNow = Date.now();
 
 describe("Place building", () => {
+  const farmId = 1;
   it("places a building", () => {
     const state = placeBuilding({
+      farmId,
       state: {
         ...GAME_STATE,
         bumpkin: {
@@ -65,6 +67,7 @@ describe("Place building", () => {
     };
 
     const newState = placeBuilding({
+      farmId,
       state,
       createdAt: dateNow,
       action: {
@@ -95,6 +98,7 @@ describe("Place building", () => {
 
   it("adjusts the new readyAt for cooking buildings", () => {
     const state = placeBuilding({
+      farmId,
       state: {
         ...GAME_STATE,
         inventory: {
@@ -166,6 +170,7 @@ describe("Place building", () => {
 
   it("adjusts the new readyAt for composters", () => {
     const state = placeBuilding({
+      farmId,
       state: {
         ...GAME_STATE,
         inventory: {
@@ -211,6 +216,7 @@ describe("Place building", () => {
   it("adjusts the new readyAt for crop machines", () => {
     const startTime = dateNow - 20000000;
     const state = placeBuilding({
+      farmId,
       state: {
         ...GAME_STATE,
         inventory: {
@@ -290,6 +296,7 @@ describe("Place building", () => {
 
   it("adjusts the new readyAt for greenhouse", () => {
     const state = placeBuilding({
+      farmId,
       state: {
         ...GAME_STATE,
         inventory: {
@@ -334,6 +341,7 @@ describe("Place building", () => {
 
   it("adjusts the new readyAt for henhouse", () => {
     const state = placeBuilding({
+      farmId,
       state: {
         ...GAME_STATE,
         inventory: {
@@ -384,6 +392,7 @@ describe("Place building", () => {
 
   it("adjusts the new lovedAt for henhouse", () => {
     const state = placeBuilding({
+      farmId,
       state: {
         ...GAME_STATE,
         inventory: {
@@ -433,6 +442,7 @@ describe("Place building", () => {
 
   it("adjusts the new readyAt for crafting box", () => {
     const state = placeBuilding({
+      farmId,
       state: {
         ...GAME_STATE,
         inventory: {
@@ -476,6 +486,7 @@ describe("Place building", () => {
 
   it("does not adjust the new readyAt for second instance of building", () => {
     const state = placeBuilding({
+      farmId,
       state: {
         ...GAME_STATE,
         inventory: {

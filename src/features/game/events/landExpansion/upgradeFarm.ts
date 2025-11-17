@@ -30,6 +30,7 @@ type Options = {
   state: Readonly<GameState>;
   action: UpgradeFarmAction;
   createdAt?: number;
+  farmId: number;
 };
 
 interface InitialLandCoordinates {
@@ -199,10 +200,12 @@ function placeInitialLand({
   state,
   createdAt = Date.now(),
   initialLandCoordinates,
+  farmId,
 }: {
   state: GameState;
   createdAt?: number;
   initialLandCoordinates: InitialLandCoordinates;
+  farmId: number;
 }) {
   let stateCopy = cloneDeep(state);
 
@@ -221,6 +224,7 @@ function placeInitialLand({
     if (coordinates) {
       try {
         stateCopy = placeBuilding({
+          farmId,
           state: stateCopy,
           action: {
             type: "building.placed",
@@ -549,7 +553,7 @@ export const populateSeason = (createdAt: number): Season => {
   return { startedAt: startAt, season };
 };
 
-export function upgrade({ state, createdAt = Date.now() }: Options) {
+export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
   let game = cloneDeep(state) as GameState;
 
   const upcoming = ISLAND_UPGRADE[game.island.type];
@@ -631,6 +635,7 @@ export function upgrade({ state, createdAt = Date.now() }: Options) {
     game.inventory["Basic Land"] = new Decimal(4);
     game = placeInitialLand({
       state: game,
+      farmId,
       createdAt,
       initialLandCoordinates: INITIAL_SPRING_LAND_COORDINATES,
     });
@@ -641,6 +646,7 @@ export function upgrade({ state, createdAt = Date.now() }: Options) {
     game.inventory["Basic Land"] = new Decimal(4);
     game = placeInitialLand({
       state: game,
+      farmId,
       createdAt,
       initialLandCoordinates: INITIAL_DESERT_LAND_COORDINATES,
     });
@@ -651,6 +657,7 @@ export function upgrade({ state, createdAt = Date.now() }: Options) {
     game.inventory["Basic Land"] = new Decimal(5);
     game = placeInitialLand({
       state: game,
+      farmId,
       createdAt,
       initialLandCoordinates: INITIAL_VOLCANO_LAND_COORDINATES,
     });

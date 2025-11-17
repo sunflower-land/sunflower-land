@@ -4,8 +4,10 @@ import { GameState } from "features/game/types/game";
 import { startCrafting, StartCraftingAction } from "./startCrafting";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { prng } from "lib/prng";
+import { KNOWN_IDS } from "features/game/types";
 
 describe("startCrafting", () => {
+  const farmId = 1;
   let gameState: GameState;
 
   beforeEach(() => {
@@ -50,7 +52,7 @@ describe("startCrafting", () => {
       ],
     };
 
-    const newState = startCrafting({ state: gameState, action });
+    const newState = startCrafting({ farmId, state: gameState, action });
 
     expect(newState.craftingBox.status).toBe("pending");
   });
@@ -90,7 +92,7 @@ describe("startCrafting", () => {
       ],
     };
 
-    const newState = startCrafting({ state: gameState, action });
+    const newState = startCrafting({ farmId, state: gameState, action });
 
     expect(newState.craftingBox.status).toBe("crafting");
   });
@@ -113,7 +115,7 @@ describe("startCrafting", () => {
       ],
     };
 
-    expect(() => startCrafting({ state: gameState, action })).toThrow(
+    expect(() => startCrafting({ farmId, state: gameState, action })).toThrow(
       "You do not have a Crafting Box",
     );
   });
@@ -143,7 +145,7 @@ describe("startCrafting", () => {
       ],
     };
 
-    expect(() => startCrafting({ state: gameState, action })).toThrow(
+    expect(() => startCrafting({ farmId, state: gameState, action })).toThrow(
       "You do not have a Crafting Box",
     );
   });
@@ -171,7 +173,7 @@ describe("startCrafting", () => {
       ],
     };
 
-    expect(() => startCrafting({ state: gameState, action })).toThrow(
+    expect(() => startCrafting({ farmId, state: gameState, action })).toThrow(
       "There's already an ongoing crafting",
     );
   });
@@ -186,7 +188,7 @@ describe("startCrafting", () => {
       ],
     };
 
-    expect(() => startCrafting({ state: gameState, action })).toThrow(
+    expect(() => startCrafting({ farmId, state: gameState, action })).toThrow(
       "You must provide 9 ingredients",
     );
   });
@@ -208,7 +210,7 @@ describe("startCrafting", () => {
       ],
     };
 
-    expect(() => startCrafting({ state: gameState, action })).toThrow(
+    expect(() => startCrafting({ farmId, state: gameState, action })).toThrow(
       "You must provide 9 ingredients",
     );
   });
@@ -249,7 +251,7 @@ describe("startCrafting", () => {
       ],
     };
 
-    expect(() => startCrafting({ state: gameState, action })).toThrow(
+    expect(() => startCrafting({ farmId, state: gameState, action })).toThrow(
       "You do not have the ingredients to craft this item",
     );
   });
@@ -291,7 +293,7 @@ describe("startCrafting", () => {
       ],
     };
 
-    const state = startCrafting({ state: gameState, action });
+    const state = startCrafting({ farmId, state: gameState, action });
 
     expect(state.inventory.Stone).toStrictEqual(new Decimal(0));
   });
@@ -345,19 +347,33 @@ describe("startCrafting", () => {
       ],
     };
 
-    expect(() => startCrafting({ state: { ...gameState }, action })).toThrow(
-      "You do not have the ingredients to craft this item",
-    );
+    expect(() =>
+      startCrafting({ farmId, state: { ...gameState }, action }),
+    ).toThrow("You do not have the ingredients to craft this item");
   });
 
   it("applies a 10% chance to instantly craft a recipe when Fox Shrine is active", () => {
-    do {
-      var seed = Math.random() * (2 ** 31 - 1);
-      var { value: prngValue, nextSeed } = prng(seed);
-    } while (prngValue * 100 >= 10);
+    function getCounter() {
+      let counter = 0;
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
+        const prngValue = prng({
+          farmId,
+          itemId: KNOWN_IDS["Basic Bed"],
+          counter,
+        });
+        if (prngValue * 100 < 10) {
+          return counter;
+        }
+        counter++;
+      }
+    }
+
+    const counter = getCounter();
     const now = Date.now();
 
     const state = startCrafting({
+      farmId,
       state: {
         ...gameState,
         craftingBox: {
@@ -377,7 +393,6 @@ describe("startCrafting", () => {
                 { collectible: "Timber" },
                 { collectible: "Timber" },
               ],
-              seed,
               time: 8 * 60 * 60 * 1000,
             },
           },
@@ -396,6 +411,9 @@ describe("startCrafting", () => {
           Cushion: new Decimal(4),
           Timber: new Decimal(5),
           "Fox Shrine": new Decimal(1),
+        },
+        farmActivity: {
+          "Basic Bed Crafted": counter,
         },
       },
       action: {
@@ -416,6 +434,5 @@ describe("startCrafting", () => {
     });
 
     expect(state.craftingBox.readyAt).toBe(now);
-    expect(state.craftingBox.recipes["Basic Bed"]?.seed).toBe(nextSeed);
   });
 });

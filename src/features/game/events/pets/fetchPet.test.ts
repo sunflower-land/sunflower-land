@@ -3,12 +3,15 @@ import { INITIAL_FARM } from "features/game/lib/constants";
 import { fetchPet } from "./fetchPet";
 import Decimal from "decimal.js-light";
 import { prng } from "lib/prng";
+import { KNOWN_IDS } from "features/game/types";
 
 describe("fetchPet", () => {
   const now = Date.now();
+  const farmId = 1;
   it("throws an error if pet is not found", () => {
     expect(() => {
       fetchPet({
+        farmId,
         state: { ...INITIAL_FARM },
         action: { type: "pet.fetched", petId: "Barkley", fetch: "Acorn" },
         createdAt: now,
@@ -18,6 +21,7 @@ describe("fetchPet", () => {
   it("throws an error if pet is napping", () => {
     expect(() => {
       fetchPet({
+        farmId,
         state: {
           ...INITIAL_FARM,
           pets: {
@@ -41,6 +45,7 @@ describe("fetchPet", () => {
   it("throws an error if pet is neglected", () => {
     expect(() => {
       fetchPet({
+        farmId,
         state: {
           ...INITIAL_FARM,
           pets: {
@@ -64,6 +69,7 @@ describe("fetchPet", () => {
   it("throws an error if fetch is not found", () => {
     expect(() => {
       fetchPet({
+        farmId,
         state: {
           ...INITIAL_FARM,
           pets: {
@@ -86,6 +92,7 @@ describe("fetchPet", () => {
   it("throws an error if pet level doesn't match fetch required level", () => {
     expect(() => {
       fetchPet({
+        farmId,
         state: {
           ...INITIAL_FARM,
           pets: {
@@ -108,6 +115,7 @@ describe("fetchPet", () => {
   it("throws an error if pet doesn't have enough energy", () => {
     expect(() => {
       fetchPet({
+        farmId,
         state: {
           ...INITIAL_FARM,
           pets: {
@@ -129,6 +137,7 @@ describe("fetchPet", () => {
   });
   it("fetches the item for the pet and deducts the energy", () => {
     const state = fetchPet({
+      farmId,
       state: {
         ...INITIAL_FARM,
         pets: {
@@ -152,12 +161,26 @@ describe("fetchPet", () => {
   });
 
   it("fetches a boost yield", () => {
-    do {
-      var seed = Math.random() * (2 ** 31 - 1);
-      var { value: prngValue } = prng(seed);
-    } while (prngValue * 100 >= 10);
+    function getCounter() {
+      let counter = 0;
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
+        const prngValue = prng({
+          farmId,
+          itemId: KNOWN_IDS.Acorn,
+          counter,
+        });
+        if (prngValue * 100 < 10) {
+          return counter;
+        }
+        counter++;
+      }
+    }
+
+    const counter = getCounter();
 
     const state = fetchPet({
+      farmId,
       state: {
         ...INITIAL_FARM,
         pets: {
@@ -165,12 +188,14 @@ describe("fetchPet", () => {
             Barkley: {
               name: "Barkley",
               requests: { food: [], fedAt: now },
-              fetchSeeds: { Acorn: seed },
               energy: 100,
               experience: 10_500,
               pettedAt: now,
             },
           },
+        },
+        farmActivity: {
+          "Acorn Fetched": counter,
         },
       },
       action: { type: "pet.fetched", petId: "Barkley", fetch: "Acorn" },
@@ -179,34 +204,5 @@ describe("fetchPet", () => {
     const BarkleyData = state.pets?.common?.Barkley;
     expect(BarkleyData?.energy).toBe(0);
     expect(state.inventory["Acorn"]).toEqual(new Decimal(2));
-  });
-
-  it("sets the next seed", () => {
-    do {
-      var seed = Math.random() * (2 ** 31 - 1);
-      var { value: prngValue, nextSeed } = prng(seed);
-    } while (prngValue * 100 >= 10);
-
-    const state = fetchPet({
-      state: {
-        ...INITIAL_FARM,
-        pets: {
-          common: {
-            Barkley: {
-              name: "Barkley",
-              requests: { food: [], fedAt: now },
-              fetchSeeds: { Acorn: seed },
-              energy: 100,
-              experience: 10_500,
-              pettedAt: now,
-            },
-          },
-        },
-      },
-      action: { type: "pet.fetched", petId: "Barkley", fetch: "Acorn" },
-      createdAt: now,
-    });
-    const BarkleyData = state.pets?.common?.Barkley;
-    expect(BarkleyData?.fetchSeeds?.Acorn).toBe(nextSeed);
   });
 });

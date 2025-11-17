@@ -4,9 +4,11 @@ import Decimal from "decimal.js-light";
 import { TOTAL_EXPANSION_NODES } from "features/game/expansion/lib/expansionNodes";
 
 describe("upgradeFarm", () => {
+  const farmId = 1;
   it("requires a player has met the expansions", () => {
     expect(() =>
       upgrade({
+        farmId,
         action: {
           type: "farm.upgraded",
         },
@@ -20,6 +22,7 @@ describe("upgradeFarm", () => {
   it("requires a player has ingredients", () => {
     expect(() =>
       upgrade({
+        farmId,
         action: {
           type: "farm.upgraded",
         },
@@ -36,6 +39,7 @@ describe("upgradeFarm", () => {
 
   it("burns the ingredients", () => {
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -53,6 +57,7 @@ describe("upgradeFarm", () => {
 
   it("resets the expansions", () => {
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -71,6 +76,7 @@ describe("upgradeFarm", () => {
   it("resets collectibles, buildings, fishing, chickens, mushrooms, buds, flowers, beehives, oil, crimstone", () => {
     const now = Date.now();
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -252,6 +258,7 @@ describe("upgradeFarm", () => {
   it("does not reset flower codex", () => {
     const createdAt = Date.now();
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -288,6 +295,7 @@ describe("upgradeFarm", () => {
 
   it("upgrades to spring island", () => {
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -488,6 +496,7 @@ describe("upgradeFarm", () => {
 
   it("upgrades to desert island", () => {
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -695,6 +704,7 @@ describe("upgradeFarm", () => {
 
   it("upgrades to volcano island", () => {
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -912,6 +922,7 @@ describe("upgradeFarm", () => {
   it("sets island history", () => {
     const createdAt = Date.now();
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -933,6 +944,7 @@ describe("upgradeFarm", () => {
     const createdAt = Date.now();
 
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -966,6 +978,7 @@ describe("upgradeFarm", () => {
     };
 
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -1005,6 +1018,7 @@ describe("upgradeFarm", () => {
     };
 
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -1031,6 +1045,7 @@ describe("upgradeFarm", () => {
 
   it("allows a player to upgrade from desert island", () => {
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -1054,6 +1069,7 @@ describe("upgradeFarm", () => {
   it("does not allow a player to upgrade from volcano island", () => {
     expect(() =>
       upgrade({
+        farmId,
         action: {
           type: "farm.upgraded",
         },
@@ -1073,6 +1089,7 @@ describe("upgradeFarm", () => {
 
   it("does not remove buds from home on upgrade", () => {
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -1114,6 +1131,7 @@ describe("upgradeFarm", () => {
 
   it("removes buds from farm on upgrade", () => {
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -1154,6 +1172,7 @@ describe("upgradeFarm", () => {
   });
   it("resets the biome upon upgrade", () => {
     const state = upgrade({
+      farmId,
       state: {
         ...INITIAL_FARM,
         inventory: {
@@ -1177,6 +1196,7 @@ describe("upgradeFarm", () => {
     const now = Date.now();
 
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },

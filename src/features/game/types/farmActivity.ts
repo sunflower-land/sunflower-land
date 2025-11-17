@@ -9,6 +9,7 @@ import { BeachBountyTreasure } from "./treasure";
 import { FullMoonFruit } from "./fruits";
 import { LandBiomeName } from "features/island/biomes/biomes";
 import { BumpkinItem } from "./bumpkin";
+import { PetResourceName } from "./pets";
 
 export type CaughtEvent = `${InventoryItemName} Caught`;
 export type HarvestedEvent = `${FlowerName} Harvested`;
@@ -38,7 +39,8 @@ export type FarmActivityName =
   | BiomeBought
   | "Obsidian Exchanged"
   | "FLOWER Exchanged"
-  | ResourceNodeUpgradeEvent;
+  | ResourceNodeUpgradeEvent
+  | `${PetResourceName} Fetched`;
 
 export function trackFarmActivity(
   activityName: FarmActivityName,
