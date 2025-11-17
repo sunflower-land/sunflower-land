@@ -280,7 +280,7 @@ export const AnimatedBar: React.FC<{
           top: `${PIXEL_SCALE * DIMENSIONS.marginTop}px`,
           left: `${PIXEL_SCALE * DIMENSIONS.marginLeft}px`,
           height: `${PIXEL_SCALE * DIMENSIONS.innerHeight}px`,
-          width: width.to(
+          width: width?.to(
             (w) => `${(PIXEL_SCALE * DIMENSIONS.innerWidth * w) / 100}px`,
           ),
         }}
@@ -293,7 +293,7 @@ export const AnimatedBar: React.FC<{
           left: `${PIXEL_SCALE * DIMENSIONS.marginLeft}px`,
           height: `${PIXEL_SCALE * DIMENSIONS.innerHeight}px`,
           // Remove the state setters from this transformation callback
-          width: width.to((w) => {
+          width: width?.to((w) => {
             return `${(PIXEL_SCALE * DIMENSIONS.innerWidth * w) / 100}px`;
           }),
         }}
