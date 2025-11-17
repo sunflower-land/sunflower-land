@@ -6519,6 +6519,7 @@
   "description.badgerShrine.buff": "-25% Tree Recovery Time",
   "description.badgerShrine.buff.2": "-25% Stone Recovery Time",
   "description.stagShrine.buff": "-25% Oil Recovery Time",
+  "description.stagShrine.buff.2": "+15 Oil every 3rd drill",
   "description.moleShrine.buff": "-25% Iron Recovery Time",
   "description.moleShrine.buff.2": "-25% Gold Recovery Time",
   "description.moleShrine.buff.3": "-25% Crimstone Recovery Time",

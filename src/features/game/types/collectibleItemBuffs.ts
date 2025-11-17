@@ -1706,6 +1706,12 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS.Oil.image,
     },
+    {
+      shortDescription: translate("description.stagShrine.buff.2"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Oil.image,
+    },
   ],
   "Sparrow Shrine": () => [
     {
