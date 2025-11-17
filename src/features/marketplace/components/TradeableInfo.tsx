@@ -289,9 +289,12 @@ export const TradeableDescription: React.FC<{
         {tradeable?.expiresAt && (
           <div className="p-2 pl-0 pb-0">
             <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-              {`${secondsToString((tradeable.expiresAt - Date.now()) / 1000, {
-                length: "short",
-              })} left`}
+              {`${secondsToString(
+                (tradeable.expiresAt - new Date().getTime()) / 1000,
+                {
+                  length: "short",
+                },
+              )} left`}
             </Label>
           </div>
         )}
