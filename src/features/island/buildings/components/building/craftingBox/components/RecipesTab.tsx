@@ -30,8 +30,10 @@ import { getChestItems } from "features/island/hud/components/inventory/utils/in
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
+import { KNOWN_IDS } from "features/game/types";
 
 const _state = (state: MachineState) => state.context.state;
+const _farmId = (state: MachineState) => state.context.farmId;
 
 interface Props {
   handleSetupRecipe: (recipe: Recipe) => void;
@@ -61,6 +63,7 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
   const remainingInventory = useSelector(gameService, _remainingInventory);
   const remainingWardrobe = useSelector(gameService, _remainingWardrobe);
 
+  const farmId = useSelector(gameService, _farmId);
   const { craftingBox } = state;
   const { recipes, status: craftingStatus } = craftingBox;
 
@@ -143,6 +146,9 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
             const { seconds: boostedCraftTime } = getBoostedCraftingTime({
               game: state,
               time: recipe.time,
+              farmId,
+              itemId: KNOWN_IDS[recipe.name as InventoryItemName],
+              counter: state.farmActivity[`${recipe.name} Crafted`] ?? 0,
             });
 
             return (

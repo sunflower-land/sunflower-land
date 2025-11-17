@@ -782,7 +782,7 @@ type Handlers<T> = {
     // Extract the correct event payload from the list of events
     action: Extract<GameEventName<T>, { type: Name }>;
     announcements?: Announcements;
-    farmId?: number;
+    farmId: number;
     visitorState?: GameState;
     createdAt: number;
   }) => GameState | [GameState, GameState];

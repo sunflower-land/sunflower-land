@@ -11,26 +11,31 @@ import {
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { prng } from "lib/prng";
+import { KNOWN_IDS } from "features/game/types";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 
 export function getFetchYield({
   petLevel,
   fetchResource,
   isPetNFT,
-  createdAt,
-  seed,
+  farmId,
+  counter,
 }: {
   petLevel: number;
   fetchResource: PetResourceName;
   isPetNFT: boolean;
-  createdAt: number;
-  seed?: number;
+  farmId: number;
+  counter: number;
 }) {
   let yieldAmount = 1;
   let fetchPercentage = 0;
+  const prngValue = prng({
+    farmId,
+    itemId: KNOWN_IDS[fetchResource],
+    counter,
+  });
 
-  const { value: prngValue, nextSeed } = prng(seed ?? createdAt);
-
-  if (petLevel < 15) return { yieldAmount, nextSeed }; // skips the rest of the logic if pet is less than level 15
+  if (petLevel < 15) return { yieldAmount }; // skips the rest of the logic if pet is less than level 15
 
   // check not really needed but just in case
   if (petLevel >= 15) {
@@ -46,7 +51,7 @@ export function getFetchYield({
     fetchPercentage += 25; // total 50%
   }
 
-  if (prngValue * 100 < fetchPercentage && seed !== undefined) {
+  if (prngValue * 100 < fetchPercentage) {
     yieldAmount += 1;
   }
 
@@ -61,7 +66,7 @@ export function getFetchYield({
     }
   }
 
-  return { yieldAmount, nextSeed };
+  return { yieldAmount };
 }
 
 export type FetchPetAction = {
@@ -73,10 +78,16 @@ export type FetchPetAction = {
 type Options = {
   state: GameState;
   action: FetchPetAction;
+  farmId: number;
   createdAt?: number;
 };
 
-export function fetchPet({ state, action, createdAt = Date.now() }: Options) {
+export function fetchPet({
+  state,
+  action,
+  farmId,
+  createdAt = Date.now(),
+}: Options) {
   return produce(state, (stateCopy) => {
     const { petId, fetch } = action;
 
@@ -120,22 +131,26 @@ export function fetchPet({ state, action, createdAt = Date.now() }: Options) {
 
     petData.energy -= energyRequired;
 
-    const { yieldAmount, nextSeed } = getFetchYield({
+    const { yieldAmount } = getFetchYield({
       petLevel,
       fetchResource: fetch,
       isPetNFT,
-      seed: petData.fetchSeeds?.[fetch],
-      createdAt,
+      farmId,
+      counter: stateCopy.farmActivity[`${fetch} Fetched`] ?? 0,
     });
 
     stateCopy.inventory[fetch] = (
       stateCopy.inventory[fetch] ?? new Decimal(0)
     ).add(yieldAmount);
 
-    petData.fetchSeeds = {
-      ...petData.fetchSeeds,
-      [fetch]: nextSeed, // set next seed
-    };
+    delete petData.fetchSeeds;
+
+    stateCopy.farmActivity = trackFarmActivity(
+      `${fetch} Fetched`,
+      stateCopy.farmActivity,
+      yieldAmount,
+    );
+
     return stateCopy;
   });
 }

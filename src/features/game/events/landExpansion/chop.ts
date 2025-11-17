@@ -31,7 +31,9 @@ export enum CHOP_ERRORS {
 type GetChoppedAtArgs = {
   game: GameState;
   createdAt: number;
-  seed?: number;
+  farmId: number;
+  itemId: number;
+  counter: number;
 };
 
 export type LandExpansionChopAction = {
@@ -43,6 +45,7 @@ export type LandExpansionChopAction = {
 type Options = {
   state: Readonly<GameState>;
   action: LandExpansionChopAction;
+  farmId: number;
   createdAt?: number;
 };
 
@@ -171,29 +174,29 @@ export function getWoodDropAmount({
 /**
  * Set a chopped in the past to make it replenish faster
  */
-export function getChoppedAt({ game, createdAt, seed }: GetChoppedAtArgs): {
+export function getChoppedAt({
+  game,
+  createdAt,
+  farmId,
+  itemId,
+  counter,
+}: GetChoppedAtArgs): {
   time: number;
   boostsUsed: BoostName[];
-  nextSeed: number;
 } {
   const { bumpkin } = game;
   let totalSeconds = TREE_RECOVERY_TIME;
   const boostsUsed: BoostName[] = [];
-  const { value: prngValue, nextSeed } = prng(seed ?? createdAt);
+  const prngValue = prng({ farmId, itemId, counter });
 
   const instantGrowthGenerator = () => prngValue * 100 < 15;
 
   // If Tree Turnaround skill and instant growth
-  if (
-    bumpkin.skills["Tree Turnaround"] &&
-    instantGrowthGenerator() &&
-    seed !== undefined
-  ) {
+  if (bumpkin.skills["Tree Turnaround"] && instantGrowthGenerator()) {
     boostsUsed.push("Tree Turnaround");
     return {
       time: createdAt - TREE_RECOVERY_TIME * 1000,
       boostsUsed,
-      nextSeed,
     };
   }
 
@@ -248,9 +251,8 @@ export function getChoppedAt({ game, createdAt, seed }: GetChoppedAtArgs): {
 
   const buff = TREE_RECOVERY_TIME - totalSeconds;
 
-  return { time: createdAt - buff * 1000, boostsUsed, nextSeed };
+  return { time: createdAt - buff * 1000, boostsUsed };
 }
-
 /**
  * Returns the amount of axe required to chop down a tree
  */
@@ -278,6 +280,7 @@ export function getRequiredAxeAmount(
 export function chop({
   state,
   action,
+  farmId,
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
@@ -320,17 +323,15 @@ export function chop({
           });
     const woodAmount = inventory.Wood || new Decimal(0);
 
-    const {
-      time,
-      boostsUsed: choppedAtBoostsUsed,
-      nextSeed,
-    } = getChoppedAt({
+    const { time, boostsUsed: choppedAtBoostsUsed } = getChoppedAt({
       createdAt,
       game: stateCopy,
-      seed: tree.wood.seed,
+      farmId,
+      itemId: parseInt(`0x${action.index}`),
+      counter: stateCopy.bumpkin.activity[`Tree Chopped`] ?? 0,
     });
 
-    tree.wood = { choppedAt: time, seed: nextSeed };
+    tree.wood = { choppedAt: time };
 
     inventory.Axe = axeAmount.sub(requiredAxes);
     inventory.Wood = woodAmount.add(woodHarvested);
