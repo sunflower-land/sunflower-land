@@ -21,8 +21,11 @@ const client = new TranslateClient({ region: "ap-southeast-2" });
 // Utility function for sleep (backoff)
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
+// Languages to exclude from translation (keep new terms in English)
+const excludedLanguages: LanguageCode[] = ["ru"];
+
 async function translateTerms(targetLanguage: LanguageCode) {
-  const translatedTerms = {};
+  const translatedTerms: Partial<Record<TranslationKeys, string>> = {};
 
   const languageJson = path.join(
     __dirname,
@@ -75,6 +78,12 @@ async function translateTerms(targetLanguage: LanguageCode) {
         continue;
       }
 
+      if (excludedLanguages.includes(targetLanguage)) {
+        // Skip translation for excluded languages
+        translatedTerms[term] = englishText;
+        continue;
+      }
+
       const regex = /{{(.*?)}}/g;
       // Extract all placeholders
       const placeholders: string[] = [];
@@ -112,8 +121,9 @@ async function translateTerms(targetLanguage: LanguageCode) {
           term,
           targetLanguage,
           ":",
-          error.message,
+          error instanceof Error ? error.message : String(error),
         );
+
         // Implement exponential backoff with a maximum retry count
         const maxRetries = 5;
         let retries = 0;
@@ -130,7 +140,9 @@ async function translateTerms(targetLanguage: LanguageCode) {
               term,
               targetLanguage,
               ":",
-              retryError.message,
+              retryError instanceof Error
+                ? retryError.message
+                : String(retryError),
             );
             retries++;
           }
@@ -169,15 +181,3 @@ async function runTranslations() {
 }
 
 runTranslations();
-
-// Parse the command line arguments
-// const args = process.argv.slice(2); // Remove the first two arguments (node and script path)
-// const targetLanguage = args[0]; // The first argument should be the language code (e.g., "fr")
-
-// if (targetLanguage) {
-//   translateTerms(targetLanguage as LanguageCode);
-// } else {
-//   console.error(
-//     "Please provide a target language code (e.g., yarn translate fr (for french)).",
-//   );
-// }
