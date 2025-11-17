@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 name: Test deploy
+=======
+name: PWA deploy
+>>>>>>> 780cf6ef3 ([CHORE] Use stable version of eslint. Update args.)
 
 on:
   push:
@@ -7,7 +11,11 @@ on:
 
 jobs:
   deploy:
+<<<<<<< HEAD
     concurrency: testnet-deploy
+=======
+    concurrency: pwa-deploy
+>>>>>>> 780cf6ef3 ([CHORE] Use stable version of eslint. Update args.)
     environment: develop
     runs-on: ubuntu-latest
     steps:

@@ -10766,10 +10766,10 @@ eslint-plugin-prettier@5.0.0:
     prettier-linter-helpers "^1.0.0"
     synckit "^0.8.5"
 
-eslint-plugin-react-hooks@^7.1.0-canary-93fc5740-20251113:
-  version "7.1.0-canary-93fc5740-20251113"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-7.1.0-canary-93fc5740-20251113.tgz#55ef127c7d5f810498aa6500c0a32e382f9299d2"
-  integrity sha512-9eJgVYZuEnXDHJ8ouII/2BxIQsae7aoq6OtU65WZarQ5I3m8++DVC6TbC6WhxxfkM8+RKGVSr0fWeU6NndG4/g==
+eslint-plugin-react-hooks@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-7.0.1.tgz#66e258db58ece50723ef20cc159f8aa908219169"
+  integrity sha512-O0d0m04evaNzEPoSW+59Mezf8Qt0InfgGIBJnpC0h3NH/WjUAR7BIKUfysC6todmtiZ/A0oUVS8Gce0WhBrHsA==
   dependencies:
     "@babel/core" "^7.24.4"
     "@babel/parser" "^7.24.4"
@@ -10802,6 +10802,9 @@ eslint-plugin-react@^7.37.2:
     string.prototype.repeat "^1.0.0"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 780cf6ef3 ([CHORE] Use stable version of eslint. Update args.)
 eslint-plugin-unused-imports@^3.1.1:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-unused-imports/-/eslint-plugin-unused-imports-3.2.0.tgz#63a98c9ad5f622cd9f830f70bc77739f25ccfe0d"
@@ -10813,12 +10816,15 @@ eslint-rule-composer@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/eslint-rule-composer/-/eslint-rule-composer-0.3.0.tgz#79320c927b0c5c0d3d3d2b76c8b4a488f25bbaf9"
   integrity sha512-bt+Sh8CtDmn2OajxvNO+BX7Wn4CIWMpTRm3MaiKPCQcnnlm0CS2mhui6QaoeQugs+3Kj2ESKEEGJUdVafwhiCg==
+<<<<<<< HEAD
 
 =======
 eslint-plugin-unused-imports@q^3.1.1:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-unused-imports/-/eslint-plugin-unused-imports-4.3.0.tgz#69ff9c4f83f02f7789808bbbab77636cb742af50"
   integrity sha512-ZFBmXMGBYfHttdRtOG9nFFpmUvMtbHSjsKrS20vdWdbfiVYsO3yA2SGYy9i9XmZJDfMGBflZGBCm70SEnFQtOA==
+=======
+>>>>>>> 780cf6ef3 ([CHORE] Use stable version of eslint. Update args.)
 
 >>>>>>> 477b85679 ([FEAT] Install react compiler and eslint upgrades)
 eslint-scope@^7.2.2:
