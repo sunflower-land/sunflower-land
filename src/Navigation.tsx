@@ -56,21 +56,22 @@ export const Navigation: React.FC = () => {
   const state = useSelector(authService, selectState);
   const showGame = state.isAuthorised || state.isVisiting;
 
-  const handleOffline = () => {
-    setShowConnectionModal(true);
-  };
-
-  const handleOnline = async () => {
-    const response = await fetch(".");
-    // Verify we get a valid response from the server
-    if (response.status >= 200 && response.status < 500) {
-      setShowConnectionModal(false);
-    }
-  };
-
   useEffect(() => {
     // Testing - don't show connection modal when in UI mode
     if (!CONFIG.API_URL) return;
+
+    const handleOffline = () => {
+      setShowConnectionModal(true);
+    };
+
+    const handleOnline = async () => {
+      const response = await fetch(".");
+      // Verify we get a valid response from the server
+      if (response.status >= 200 && response.status < 500) {
+        setShowConnectionModal(false);
+      }
+    };
+
     // Set up listeners to watch for connection changes
     window.addEventListener("offline", handleOffline);
     window.addEventListener("online", handleOnline);
