@@ -2576,6 +2576,8 @@
   "marketplace.unlockSelling": "Unlock selling",
   "marketplace.unlockOffering": "Unlock offering",
   "marketplace.pets": "Pet NFTs",
+  "marketplace.filters.applied": "Filters applied",
+  "marketplace.filters.clear": "Clear filters",
   "marketplace.youOwn": "You own: {{count}}",
   "marketplace.pricePerUnit": "{{price}}/unit",
   "marketplace.available": "Available: {{count}}",
