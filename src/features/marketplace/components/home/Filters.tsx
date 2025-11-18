@@ -1,49 +1,9 @@
-import { InnerPanel } from "components/ui/Panel";
-import { ITEM_DETAILS } from "features/game/types/images";
-import React, { useContext, useEffect, useState } from "react";
-import budIcon from "assets/icons/bud.png";
-import wearableIcon from "assets/icons/wearables.webp";
-import lightning from "assets/icons/lightning.png";
-import filterIcon from "assets/icons/filter_icon.webp";
-import tradeIcon from "assets/icons/trade.png";
-import trade_point from "src/assets/icons/trade_points_coupon.webp";
-import flowerIcon from "assets/icons/flower_token.webp";
-import crownIcon from "assets/icons/vip.webp";
-
-import {
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router";
-import { Collection, preloadCollections } from "./Collection";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { SquareIcon } from "components/ui/SquareIcon";
-import { Modal } from "components/ui/Modal";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { MarketplaceProfile } from "./MarketplaceProfile";
-import { MyTrades } from "./profile/MyTrades";
-import { MarketplaceRewards } from "./MarketplaceRewards";
-import { Tradeable } from "./Tradeable";
-import classNames from "classnames";
-import { MarketplaceHotNow } from "./MarketplaceHotNow";
-import { CONFIG } from "lib/config";
-import { MarketplaceUser } from "./MarketplaceUser";
-import { Context } from "features/game/GameProvider";
-import * as Auth from "features/auth/lib/Provider";
-import { useActor, useSelector } from "@xstate/react";
+import React from "react";
+import { useNavigate, useLocation, useSearchParams } from "react-router";
 import { useTranslation } from "react-i18next";
-import { Label } from "components/ui/Label";
-import { Button } from "components/ui/Button";
-import { MachineState } from "features/game/lib/gameMachine";
-import { ModalContext } from "features/game/components/modal/ModalProvider";
-import {
-  getRemainingTrades,
-  hasReputation,
-  Reputation,
-} from "features/game/lib/reputation";
-import { MarketplaceSearch } from "./MarketplaceSearch";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { FilterOption, FilterOptionProps } from "./FilterOption";
 import { PET_CATEGORY_NAMES, PET_NFT_TYPES } from "features/game/types/pets";
 import {
   ACCESSORY_TRAITS,
@@ -59,217 +19,13 @@ import {
   colours as BUD_COLOURS,
 } from "lib/buds/types";
 
-const _hasTradeReputation = (state: MachineState) =>
-  hasReputation({
-    game: state.context.state,
-    reputation: Reputation.Cropkeeper,
-  });
+import tradeIcon from "assets/icons/trade.png";
+import trade_point from "src/assets/icons/trade_points_coupon.webp";
+import lightning from "assets/icons/lightning.png";
+import wearableIcon from "assets/icons/wearables.webp";
+import budIcon from "assets/icons/bud.png";
 
-export const MarketplaceNavigation: React.FC = () => {
-  const navigate = useNavigate();
-
-  const [search, setSearch] = useState("");
-  const [showFilters, setShowFilters] = useState(false);
-  const [showQuickswap, setShowQuickswap] = useState(false);
-
-  const { openModal } = useContext(ModalContext);
-
-  const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
-
-  useEffect(() => {
-    const token = authState.context.user.rawToken as string;
-    if (CONFIG.API_URL) preloadCollections(token);
-  }, []);
-  const { t } = useTranslation();
-
-  const { gameService } = useContext(Context);
-  const price = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
-  const { farmId } = gameService.getSnapshot().context;
-
-  const hasTradeReputation = useSelector(gameService, _hasTradeReputation);
-
-  const listingsLeft = getRemainingTrades({
-    game: gameService.getSnapshot().context.state,
-  });
-
-  const goToFlowerDashboard = () => {
-    navigate("/game/flower-dashboard");
-  };
-
-  return (
-    <>
-      <Modal show={showFilters} onHide={() => setShowFilters(false)}>
-        <CloseButtonPanel>
-          <Filters onClose={() => setShowFilters(false)} farmId={farmId} />
-          <EstimatedPrice price={price} />
-          {/* Flower Dashboard Button */}
-          <Button contentAlign="start" onClick={goToFlowerDashboard}>
-            <div className="flex">
-              <img src={flowerIcon} className="w-6 mr-2" />
-              <span className="mt-0.5">{t("flowerDashboard.title")}</span>
-            </div>
-          </Button>
-        </CloseButtonPanel>
-      </Modal>
-
-      <Modal show={showQuickswap} onHide={() => setShowQuickswap(false)}>
-        <CloseButtonPanel onClose={() => setShowQuickswap(false)}>
-          <div className="p-1">
-            <Label type="danger" className="mb-2">
-              {t("marketplace.quickswap")}
-            </Label>
-            <p className="text-sm mb-2">
-              {t("marketplace.quickswap.description")}
-            </p>
-            <p className="text-sm mb-2">{t("marketplace.quickswap.warning")}</p>
-            <Button
-              onClick={() => {
-                window.open(
-                  "https://quickswap.exchange/#/swap?swapIndex=0&currency0=ETH&currency1=0xD1f9c58e33933a993A3891F8acFe05a68E1afC05",
-                  "_blank",
-                );
-              }}
-            >
-              {t("continue")}
-            </Button>
-          </div>
-        </CloseButtonPanel>
-      </Modal>
-
-      <div className="flex justify-between lg:hidden h-[50px]">
-        <MarketplaceSearch search={search} setSearch={setSearch} />
-        <div className="flex">
-          <img
-            src={filterIcon}
-            onClick={() => setShowFilters(true)}
-            className="h-9 block mx-1 mt-1 cursor-pointer"
-          />
-        </div>
-      </div>
-
-      {/* Desktop */}
-      <div className="flex h-[calc(100%-50px)] lg:h-full">
-        <div className="w-64  mr-1 hidden lg:flex  flex-col">
-          <InnerPanel className="w-full flex-col mb-1">
-            <MarketplaceSearch search={search} setSearch={setSearch} />
-            <div className="flex-1">
-              <Filters farmId={farmId} />
-            </div>
-          </InnerPanel>
-
-          <EstimatedPrice price={price} />
-          {/* Flower Dashboard Button */}
-          <Button contentAlign="start" onClick={goToFlowerDashboard}>
-            <div className="flex">
-              <img src={flowerIcon} className="w-6 mr-2" />
-              <span className="mt-0.5">{t("flowerDashboard.title")}</span>
-            </div>
-          </Button>
-
-          {!hasTradeReputation && (
-            <InnerPanel
-              className="cursor-pointer"
-              onClick={() => openModal("REPUTATION")}
-            >
-              <div className="flex flex-col p-1">
-                <div className="flex justify-between items-center">
-                  <Label type="danger" icon={crownIcon}>
-                    {`${listingsLeft} ${listingsLeft > 1 ? t("reputation.marketplace.listingsLeft") : t("reputation.marketplace.listingLeft")}`}
-                  </Label>
-                  <p className="text-xxs underline">{t("read.more")}</p>
-                </div>
-                <p className="text-xs">{t("reputation.marketplace.trades")}</p>
-              </div>
-            </InnerPanel>
-          )}
-        </div>
-
-        <div className="flex-1 flex flex-col w-full">
-          {search ? (
-            <Collection
-              search={search}
-              onNavigated={() => {
-                setSearch("");
-              }}
-            />
-          ) : (
-            <Routes>
-              <Route path="/profile" element={<MarketplaceProfile />} />
-              <Route path="/hot" element={<MarketplaceHotNow />} />
-              <Route path="/collection/*" element={<Collection />} />
-              <Route path="/:collection/:id" element={<Tradeable />} />
-              <Route path="/profile/:id" element={<MarketplaceUser />} />
-              <Route path="/profile/:id/trades" element={<MyTrades />} />
-              <Route path="/profile/rewards" element={<MarketplaceRewards />} />
-              {/* default to hot */}
-              <Route path="/" element={<MarketplaceHotNow />} />
-            </Routes>
-          )}
-        </div>
-      </div>
-    </>
-  );
-};
-
-export type MarketplacePurpose = "boost" | "decoration" | "resource";
-
-interface OptionProps {
-  icon: string;
-  label: string;
-  onClick: () => void;
-  isActive?: boolean;
-  options?: OptionProps[];
-  level?: number;
-}
-
-const Option: React.FC<OptionProps> = ({
-  icon,
-  label,
-  onClick,
-  options,
-  isActive,
-  level = 0,
-}) => {
-  return (
-    <div className="mb-1">
-      <div
-        className={classNames(
-          "flex justify-between items-center cursor-pointer mb-1 ",
-          { "bg-brown-100 px-2 -mx-2": isActive },
-        )}
-        onClick={onClick}
-      >
-        <div
-          className="flex items-center"
-          style={{ marginLeft: level > 0 ? `${level * 15}px` : undefined }}
-        >
-          <SquareIcon icon={icon} width={10} />
-          <span
-            className={`${level > 0 ? "text-xs truncate max-w-[160px] sm:max-w-[90px]" : "text-sm"} ml-2`}
-          >
-            {label}
-          </span>
-        </div>
-        <img
-          src={
-            options
-              ? SUNNYSIDE.icons.chevron_down
-              : SUNNYSIDE.icons.chevron_right
-          }
-          className={`${options ? "w-6" : "w-[18px]"}`}
-          style={{ marginRight: level > 0 ? `${level * 20}px` : undefined }}
-        />
-      </div>
-
-      {options?.map((option) => (
-        <Option key={option.label} {...option} level={level + 1} />
-      ))}
-    </div>
-  );
-};
-
-const Filters: React.FC<{
+export const Filters: React.FC<{
   onClose?: () => void;
   farmId: number;
 }> = ({ onClose, farmId }) => {
@@ -298,7 +54,7 @@ const Filters: React.FC<{
     if (closeFilters) onClose?.();
   };
 
-  const filterOptions: OptionProps[] = [
+  const filterOptions: FilterOptionProps[] = [
     {
       icon: SUNNYSIDE.icons.expression_alerted,
       label: t("marketplace.trending"),
@@ -744,25 +500,10 @@ const Filters: React.FC<{
   ];
 
   return (
-    <div className="flex flex-col p-1 sm:max-h-[500px] sm:overflow-y-auto scrollable">
+    <div className="flex flex-col p-1 sm:max-h-[500px] sm:overflow-y-auto sm:overflow-x-hidden scrollable">
       {filterOptions.map((option) => (
-        <Option key={option.label} {...option} />
+        <FilterOption key={option.label} {...option} />
       ))}
     </div>
-  );
-};
-
-const EstimatedPrice: React.FC<{ price: number }> = ({ price }) => {
-  const { t } = useTranslation();
-  return (
-    <InnerPanel className="mb-1">
-      <div className="flex justify-between items-center pr-1">
-        <div className="flex items-center">
-          <img src={flowerIcon} className="w-6" />
-          <span className="text-sm ml-2">{`$${price.toFixed(4)}`}</span>
-        </div>
-      </div>
-      <p className="text-xxs italic">{t("marketplace.estimated.price")}</p>
-    </InnerPanel>
   );
 };
