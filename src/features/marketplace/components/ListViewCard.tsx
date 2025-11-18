@@ -20,6 +20,7 @@ import classNames from "classnames";
 import { ListViewImage } from "./ListViewImage";
 import petNFTEggMarketplace from "assets/pets/pet-nft-egg-marketplace.webp";
 import { getPetLevel } from "features/game/types/pets";
+import { Label } from "components/ui/Label";
 
 type Props = {
   details: TradeableDisplay;
@@ -149,13 +150,21 @@ export const ListViewCard: React.FC<Props> = ({
             />
           ) : null}
 
-          <p className="text-xs mb-1 py-0.5 truncate text-[#181425]">{name}</p>
-
-          {type === "pets" && (
+          <div className="flex justify-between items-center gap-1">
             <p className="text-xs mb-1 py-0.5 truncate text-[#181425]">
-              {`Level: ${getPetLevel(experience ?? 0).level}`}
+              {name}
             </p>
-          )}
+
+            {type === "pets" && (
+              <Label type="info" className="mb-1">
+                <span className="text-xxs">
+                  {t("pets.level", {
+                    level: getPetLevel(experience ?? 0).level,
+                  })}
+                </span>
+              </Label>
+            )}
+          </div>
 
           {buffs.map((buff) => (
             <div key={buff.shortDescription} className="flex items-center">
