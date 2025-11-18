@@ -21,6 +21,7 @@ import {
   TraitGroupDefinition,
 } from "features/marketplace/lib/traitOptions";
 import { getValues } from "features/game/types/decorations";
+import { Button } from "components/ui/Button";
 
 export const Filters: React.FC<{
   onClose?: () => void;
@@ -32,20 +33,15 @@ export const Filters: React.FC<{
   const filters = queryParams.get("filters");
   const { t } = useTranslation();
   const isWorldRoute = pathname.includes("/world");
-  const activeCollection: TraitCollection | undefined = filters?.includes(
-    "pets",
-  )
-    ? "pets"
-    : filters?.includes("buds")
-      ? "buds"
-      : undefined;
-  const {
-    addFilter,
-    removeFilter,
-    clearFilters: clearTraitFilters,
-    hasFilter,
-    traitFilters,
-  } = useTraitFilters(activeCollection);
+  // Determine which collection is currently active based on the filters parameter
+  let activeCollection: TraitCollection | undefined = undefined;
+  if (filters?.includes("pets")) {
+    activeCollection = "pets";
+  } else if (filters?.includes("buds")) {
+    activeCollection = "buds";
+  }
+  const { addFilter, removeFilter, hasFilter, traitFilters } =
+    useTraitFilters(activeCollection);
   const [expandedTraitGroups, setExpandedTraitGroups] = React.useState<
     Record<string, boolean>
   >({});
@@ -83,12 +79,15 @@ export const Filters: React.FC<{
 
     if (filterParams) {
       const params = new URLSearchParams();
-      const targetCollection: TraitCollection | undefined =
-        filterParams.includes("pets")
-          ? "pets"
-          : filterParams.includes("buds")
-            ? "buds"
-            : undefined;
+      // Determine the active collection based on filterParams for preserving trait selections
+      let targetCollection: TraitCollection | undefined;
+      if (filterParams.includes("pets")) {
+        targetCollection = "pets";
+      } else if (filterParams.includes("buds")) {
+        targetCollection = "buds";
+      } else {
+        targetCollection = undefined;
+      }
 
       if (targetCollection) {
         // Preserve any in-flight trait selections that belong to the target collection.
@@ -313,6 +312,7 @@ export const Filters: React.FC<{
         navigateTo({
           path: "collection",
           filterParams: "collectibles,wearables,cosmetic",
+          closeFilters: false,
         });
       },
       isActive: isCosmeticsActive,
@@ -419,11 +419,23 @@ export const Filters: React.FC<{
     },
   ];
 
+  const showApplyFiltersButton =
+    activeCollection === "buds" ||
+    activeCollection === "pets" ||
+    isCosmeticsActive;
+
   return (
-    <div className="flex flex-col p-1 sm:max-h-[500px] sm:overflow-y-auto sm:overflow-x-hidden scrollable">
-      {filterOptions.map((option) => (
-        <FilterOption key={option.label} {...option} />
-      ))}
-    </div>
+    <>
+      <div className="max-h-[400px] mb-1 flex flex-col p-1 overflow-y-auto overflow-x-hidden scrollable sm:mb-0 sm:max-h-[500px]">
+        {filterOptions.map((option) => (
+          <FilterOption key={option.label} {...option} />
+        ))}
+      </div>
+      {showApplyFiltersButton && (
+        <Button className="mb-1 sm:hidden" onClick={onClose}>
+          {t("Apply Filters")}
+        </Button>
+      )}
+    </>
   );
 };

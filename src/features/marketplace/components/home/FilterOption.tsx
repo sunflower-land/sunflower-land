@@ -44,7 +44,7 @@ export const FilterOption: React.FC<FilterOptionProps> = ({
       <div
         className={classNames(
           "flex justify-between items-center cursor-pointer mb-1 ",
-          { "bg-brown-100 px-2 -mx-2": isActive },
+          { "bg-brown-100 px-2 py-0.5 -mx-2": isActive },
         )}
         onClick={isCheckbox || onClick ? handleClick : undefined}
       >
