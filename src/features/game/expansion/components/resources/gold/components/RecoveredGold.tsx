@@ -16,11 +16,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
 import { GoldRockName } from "features/game/types/resources";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
-import {
-  GameState,
-  InventoryItemName,
-  TemperateSeasonName,
-} from "features/game/types/game";
+import { InventoryItemName } from "features/game/types/game";
 
 const tool = "Iron Pickaxe";
 
@@ -28,8 +24,6 @@ const STRIKE_SHEET_FRAME_WIDTH = 112;
 const STRIKE_SHEET_FRAME_HEIGHT = 48;
 
 interface Props {
-  season: TemperateSeasonName;
-  island: GameState["island"];
   hasTool: boolean;
   touchCount: number;
   goldRockName: GoldRockName;
@@ -38,8 +32,6 @@ interface Props {
 }
 
 const RecoveredGoldComponent: React.FC<Props> = ({
-  season,
-  island,
   hasTool,
   touchCount,
   goldRockName,
@@ -53,10 +45,7 @@ const RecoveredGoldComponent: React.FC<Props> = ({
 
   const strikeGif = useRef<SpriteSheetInstance>(undefined);
 
-  const Image = READONLY_RESOURCE_COMPONENTS({
-    season,
-    island,
-  })[goldRockName];
+  const Image = READONLY_RESOURCE_COMPONENTS()[goldRockName];
 
   const { play: miningAudio } = useSound("mining");
   useEffect(() => {

@@ -42,10 +42,6 @@ const selectSkills = (state: MachineState) =>
 const compareSkills = (prev: Skills, next: Skills) =>
   (prev["Tap Prospector"] ?? false) === (next["Tap Prospector"] ?? false);
 
-const _selectSeason = (state: MachineState) =>
-  state.context.state.season.season;
-const _selectIsland = (state: MachineState) => state.context.state.island;
-
 interface Props {
   id: string;
 }
@@ -90,9 +86,6 @@ export const Gold: React.FC<Props> = ({ id }) => {
   );
   const skills = useSelector(gameService, selectSkills, compareSkills);
   const state = useSelector(gameService, selectGame);
-  const season = useSelector(gameService, _selectSeason);
-  const island = useSelector(gameService, _selectIsland);
-
   const hasTool = HasTool(inventory, resource);
   const goldRockName = (resource.name ?? "Gold Rock") as GoldRockName;
   const timeLeft = getTimeLeft(resource.stone.minedAt, GOLD_RECOVERY_TIME);
@@ -156,8 +149,6 @@ export const Gold: React.FC<Props> = ({ id }) => {
       {!mined && (
         <div ref={divRef} className="absolute w-full h-full" onClick={strike}>
           <RecoveredGold
-            season={season}
-            island={island}
             hasTool={hasTool}
             touchCount={touchCount}
             goldRockName={goldRockName}
@@ -171,14 +162,7 @@ export const Gold: React.FC<Props> = ({ id }) => {
       {collecting && <DepletingGold resourceAmount={harvested.current} />}
 
       {/* Depleted resource */}
-      {mined && (
-        <DepletedGold
-          season={season}
-          island={island}
-          timeLeft={timeLeft}
-          name={goldRockName}
-        />
-      )}
+      {mined && <DepletedGold timeLeft={timeLeft} name={goldRockName} />}
     </div>
   );
 };

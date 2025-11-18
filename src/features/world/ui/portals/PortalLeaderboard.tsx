@@ -36,17 +36,16 @@ export const PortalLeaderboard: React.FC<{
   isAccumulator,
 }) => {
   const [data, setData] = useState<CompetitionLeaderboardResponse>();
-  const [now] = useState(() => Date.now());
 
   const formatDate = (date: Date) => date.toISOString().substring(0, 10);
 
   // Default 7 days ago
   const from = startDate
     ? formatDate(startDate)
-    : formatDate(new Date(now - 7 * 24 * 60 * 60 * 1000));
+    : formatDate(new Date(Date.now() - 7 * 24 * 60 * 60 * 1000));
   const to = endDate
-    ? formatDate(new Date(Math.min(now, endDate.getTime())))
-    : formatDate(new Date(now));
+    ? formatDate(new Date(Math.min(Date.now(), endDate.getTime())))
+    : formatDate(new Date());
 
   const { t } = useAppTranslation();
   useEffect(() => {

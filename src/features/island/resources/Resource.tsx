@@ -23,7 +23,6 @@ import { OilReserve } from "features/game/expansion/components/resources/oilRese
 import { LavaPit } from "features/game/expansion/components/lavaPit/LavaPit";
 import { TREE_VARIANTS } from "../lib/alternateArt";
 import { getCurrentBiome } from "../biomes/biomes";
-import { GameState, TemperateSeasonName } from "features/game/types/game";
 
 export interface ResourceProps {
   name: ResourceName;
@@ -36,13 +35,14 @@ export interface ResourceProps {
 }
 
 // Used for placing
-export const READONLY_RESOURCE_COMPONENTS = ({
-  season,
-  island,
-}: {
-  season: TemperateSeasonName;
-  island: GameState["island"];
-}): Record<ResourceName, () => JSX.Element> => {
+export const READONLY_RESOURCE_COMPONENTS = (): Record<
+  ResourceName,
+  () => JSX.Element
+> => {
+  const { gameService } = useContext(Context);
+  const state = gameService.getSnapshot().context.state;
+  const season = state.season.season;
+  const island = state.island;
   const currentBiome = getCurrentBiome(island);
 
   return {

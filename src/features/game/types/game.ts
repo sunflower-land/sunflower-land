@@ -1615,10 +1615,6 @@ export type Auctioneer = {
   minted?: Minted;
 };
 
-export type FarmHands = {
-  bumpkins: Record<string, FarmHand>;
-};
-
 export interface GameState {
   home: Home;
   bank: Bank;
@@ -1678,7 +1674,10 @@ export interface GameState {
     games: Partial<Record<MinigameName, Minigame>>;
   };
 
-  farmHands: FarmHands;
+  farmHands: {
+    bumpkins: Record<string, FarmHand>;
+  };
+
   inventory: Inventory;
   previousInventory: Inventory;
   wardrobe: Wardrobe;

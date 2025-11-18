@@ -139,8 +139,18 @@ export const WithdrawItems: React.FC<Props> = ({
     return { isRestricted, cooldownTimeLeft };
   };
 
-  const withdrawableItemCache = getKeys(inventory).reduce(
-    (cache, itemName) => {
+  // Precompute/cached values for sorting to avoid repeated expensive calls
+  const withdrawableItemCache = React.useMemo(() => {
+    const cache: {
+      [key in InventoryItemName]?: {
+        cooldownMs: number;
+        isOnCooldown: boolean;
+        hasMoreOffChain: boolean;
+        hasBuff: boolean;
+      };
+    } = {};
+
+    getKeys(inventory).forEach((itemName) => {
       const { cooldownTimeLeft } = getRestrictionStatus(itemName);
       const isOnCooldown = cooldownTimeLeft > 0;
       const hasMoreOffChain = hasMoreOffChainItems(itemName);
@@ -155,17 +165,11 @@ export const WithdrawItems: React.FC<Props> = ({
         hasMoreOffChain,
         hasBuff,
       };
-      return cache;
-    },
-    {} as {
-      [key in InventoryItemName]?: {
-        cooldownMs: number;
-        isOnCooldown: boolean;
-        hasMoreOffChain: boolean;
-        hasBuff: boolean;
-      };
-    },
-  );
+    });
+
+    return cache;
+    // Only depends on inventory and state
+  }, [inventory, state]);
 
   const sortWithdrawableItems = (
     itemA: InventoryItemName,

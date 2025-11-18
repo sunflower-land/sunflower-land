@@ -72,6 +72,51 @@ export const BeachBaitShop: React.FC = () => {
     }
   };
 
+  const ButtonOptions = () => {
+    if (purchaseType) {
+      return (
+        <div className="flex flex-col gap-1">
+          <div className="flex flex-row sm:flex-col gap-1">
+            <Button disabled={lessIngredients(1)} onClick={() => craft(1)}>
+              {`${t("craft")} 1`}
+            </Button>
+            <Button disabled={lessIngredients(10)} onClick={() => craft(10)}>
+              {`${t("craft")} 10`}
+            </Button>
+          </div>
+          <Button onClick={() => setPurchaseType(undefined)}>
+            {t("back")}
+          </Button>
+        </div>
+      );
+    }
+
+    return (
+      <>
+        <p className="text-xs mb-2 px-1 text-center">{`Choose your purchase option:`}</p>
+        <div className="flex flex-row sm:flex-col gap-1">
+          {getKeys(purchaseOptions).map((type) => {
+            return (
+              <Button
+                key={type}
+                className="relative"
+                onClick={() => setPurchaseType(type)}
+              >
+                <div className="flex items-center">
+                  <p>{type}</p>
+                  <img
+                    src={ITEM_DETAILS[type].image}
+                    className="h-5 absolute right-1 top-1"
+                  />
+                </div>
+              </Button>
+            );
+          })}
+        </div>
+      </>
+    );
+  };
+
   return (
     <SplitScreenView
       panel={
@@ -83,52 +128,7 @@ export const BeachBaitShop: React.FC = () => {
           requirements={{
             resources: purchaseOption.ingredients,
           }}
-          actionView={
-            purchaseType ? (
-              <div className="flex flex-col gap-1">
-                <div className="flex flex-row sm:flex-col gap-1">
-                  <Button
-                    disabled={lessIngredients(1)}
-                    onClick={() => craft(1)}
-                  >
-                    {`${t("craft")} 1`}
-                  </Button>
-                  <Button
-                    disabled={lessIngredients(10)}
-                    onClick={() => craft(10)}
-                  >
-                    {`${t("craft")} 10`}
-                  </Button>
-                </div>
-                <Button onClick={() => setPurchaseType(undefined)}>
-                  {t("back")}
-                </Button>
-              </div>
-            ) : (
-              <>
-                <p className="text-xs mb-2 px-1 text-center">{`Choose your purchase option:`}</p>
-                <div className="flex flex-row sm:flex-col gap-1">
-                  {getKeys(purchaseOptions).map((type) => {
-                    return (
-                      <Button
-                        key={type}
-                        className="relative"
-                        onClick={() => setPurchaseType(type)}
-                      >
-                        <div className="flex items-center">
-                          <p>{type}</p>
-                          <img
-                            src={ITEM_DETAILS[type].image}
-                            className="h-5 absolute right-1 top-1"
-                          />
-                        </div>
-                      </Button>
-                    );
-                  })}
-                </div>
-              </>
-            )
-          }
+          actionView={<ButtonOptions />}
         />
       }
       content={

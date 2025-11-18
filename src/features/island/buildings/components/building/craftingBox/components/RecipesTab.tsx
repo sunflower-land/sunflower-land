@@ -1,6 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useMemo } from "react";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import {
+  MachineInterpreter,
+  MachineState,
+} from "features/game/lib/gameMachine";
 import { Label } from "components/ui/Label";
 import { useTranslation } from "react-i18next";
 import { TextInput } from "components/ui/TextInput";
@@ -29,42 +32,26 @@ import { InventoryItemName } from "features/game/types/game";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import Decimal from "decimal.js-light";
-import { Context } from "features/game/GameProvider";
 import { KNOWN_IDS } from "features/game/types";
 
 const _state = (state: MachineState) => state.context.state;
 const _farmId = (state: MachineState) => state.context.farmId;
 
 interface Props {
+  gameService: MachineInterpreter;
   handleSetupRecipe: (recipe: Recipe) => void;
 }
 
-const _remainingInventory = (state: MachineState) => {
-  const game = state.context.state;
-  const chestItems = getChestItems(game);
-  const updatedInventory = { ...game.inventory, ...chestItems };
-
-  return updatedInventory;
-};
-
-const _remainingWardrobe = (state: MachineState) => {
-  const game = state.context.state;
-  const updatedWardrobe = availableWardrobe(game);
-
-  return updatedWardrobe;
-};
-
-export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
-  const { gameService } = useContext(Context);
+export const RecipesTab: React.FC<Props> = ({
+  gameService,
+  handleSetupRecipe,
+}) => {
   const { t } = useTranslation();
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
 
   const state = useSelector(gameService, _state);
-  const remainingInventory = useSelector(gameService, _remainingInventory);
-  const remainingWardrobe = useSelector(gameService, _remainingWardrobe);
-
   const farmId = useSelector(gameService, _farmId);
-  const { craftingBox } = state;
+  const { craftingBox, inventory, wardrobe } = state;
   const { recipes, status: craftingStatus } = craftingBox;
 
   const isPending = craftingStatus === "pending";
@@ -72,27 +59,45 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredRecipes = !searchTerm.trim()
-    ? recipes
-    : getObjectEntries(recipes || {}).reduce<Partial<Recipes>>(
-        (acc, [name, recipe]) => {
-          if (name.toLowerCase().includes(searchTerm.toLowerCase())) {
-            acc[name] = recipe;
-          }
-          return acc;
-        },
-        {},
-      );
+  const filteredRecipes = useMemo(() => {
+    if (!searchTerm.trim()) return recipes;
+    return getObjectEntries(recipes || {}).reduce<Partial<Recipes>>(
+      (acc, [name, recipe]) => {
+        if (name.toLowerCase().includes(searchTerm.toLowerCase())) {
+          acc[name] = recipe;
+        }
+        return acc;
+      },
+      {},
+    );
+  }, [recipes, searchTerm]);
 
-  const sillhouetteRecipes = getObjectEntries(RECIPES).reduce<Partial<Recipes>>(
-    (acc, [name, recipe]) => {
-      if (!recipes[name]) {
-        acc[name] = recipe;
-      }
-      return acc;
-    },
-    {},
-  );
+  const sillhouetteRecipes = useMemo(() => {
+    return getObjectEntries(RECIPES).reduce<Partial<Recipes>>(
+      (acc, [name, recipe]) => {
+        if (!recipes[name]) {
+          acc[name] = recipe;
+        }
+        return acc;
+      },
+      {},
+    );
+  }, [recipes, searchTerm]);
+
+  const remainingInventory = useMemo(() => {
+    const chestItems = getChestItems(state);
+    const updatedInventory = { ...inventory, ...chestItems };
+
+    return updatedInventory;
+  }, [inventory]);
+
+  const remainingWardrobe = useMemo(() => {
+    const updatedWardrobe = availableWardrobe(
+      gameService.getSnapshot().context.state,
+    );
+
+    return updatedWardrobe;
+  }, [wardrobe]);
 
   const hasRequiredIngredients = (recipe: Recipe) => {
     // Track required amounts for each ingredient

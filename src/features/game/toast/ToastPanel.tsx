@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/refs */
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { Toast, ToastContext, ToastItem } from "./ToastProvider";
 import { Context } from "../GameProvider";
