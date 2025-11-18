@@ -27,8 +27,15 @@ const COLLECTION_TRAIT_KEYS: Record<TraitCollection, TraitKey[]> = {
   pets: ["type", "category", "aura", "bib", "fur", "accessory", "level"],
 };
 
+const TRAIT_QUERY_KEYS = new Set<TraitKey>(
+  Object.values(COLLECTION_TRAIT_KEYS).flat(),
+);
+
 const getTraitKeys = (collection?: TraitCollection) =>
   collection ? COLLECTION_TRAIT_KEYS[collection] ?? [] : [];
+
+const shouldPreserveCommaEncoding = (key: string) =>
+  key === "filters" || TRAIT_QUERY_KEYS.has(key as TraitKey);
 
 const stringifySearchParams = (params: URLSearchParams) => {
   const entries: string[] = [];
@@ -37,7 +44,9 @@ const stringifySearchParams = (params: URLSearchParams) => {
     const encodedKey = encodeURIComponent(key);
     const encodedValue = encodeURIComponent(value);
     const finalValue =
-      key === "filters" ? encodedValue.replace(/%2C/g, ",") : encodedValue;
+      shouldPreserveCommaEncoding(key) && encodedValue.includes("%2C")
+        ? encodedValue.replace(/%2C/g, ",")
+        : encodedValue;
 
     entries.push(`${encodedKey}=${finalValue}`);
   });
