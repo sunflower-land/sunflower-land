@@ -27,7 +27,6 @@ describe("cancelQueuedRecipe", () => {
           queueItem: {
             name: "Carrot Cake",
             readyAt: 0,
-            amount: 1,
           },
         },
       }),
@@ -57,7 +56,6 @@ describe("cancelQueuedRecipe", () => {
           queueItem: {
             name: "Carrot Cake",
             readyAt: 0,
-            amount: 1,
           },
         },
       }),
@@ -80,7 +78,6 @@ describe("cancelQueuedRecipe", () => {
                   {
                     name: "Carrot Cake",
                     readyAt: 0,
-                    amount: 1,
                   },
                 ],
               },
@@ -94,7 +91,6 @@ describe("cancelQueuedRecipe", () => {
           queueItem: {
             name: "Sunflower Cake",
             readyAt: 1000,
-            amount: 1,
           },
         },
       }),
@@ -107,7 +103,6 @@ describe("cancelQueuedRecipe", () => {
     const queueItem = {
       name: "Carrot Cake",
       readyAt: carrotCakeReadyAt,
-      amount: 1,
     } as BuildingProduct;
 
     expect(() =>
@@ -125,7 +120,6 @@ describe("cancelQueuedRecipe", () => {
                   {
                     name: "Cornbread",
                     readyAt: now - 1000,
-                    amount: 1,
                   },
                   queueItem,
                 ],
@@ -152,7 +146,6 @@ describe("cancelQueuedRecipe", () => {
     const queueItem = {
       name: "Carrot Cake",
       readyAt: carrotCakeReadyAt,
-      amount: 1,
     } as BuildingProduct;
 
     const state = cancelQueuedRecipe({
@@ -169,17 +162,14 @@ describe("cancelQueuedRecipe", () => {
                 {
                   name: "Honey Cake",
                   readyAt: now - 1000,
-                  amount: 1,
                 },
                 {
                   name: "Cornbread",
                   readyAt: now + 1000,
-                  amount: 1,
                 },
                 {
                   name: "Carrot Cake",
                   readyAt: carrotCakeReadyAt,
-                  amount: 1,
                 },
               ],
             },
@@ -199,12 +189,10 @@ describe("cancelQueuedRecipe", () => {
       {
         name: "Honey Cake",
         readyAt: expect.any(Number),
-        amount: 1,
       },
       {
         name: "Cornbread",
         readyAt: expect.any(Number),
-        amount: 1,
       },
     ]);
   });
@@ -218,7 +206,7 @@ describe("cancelQueuedRecipe", () => {
     const item: BuildingProduct = {
       name: itemName,
       readyAt: now + 2 * 60 * 1000,
-      amount: 1,
+
       boost: { Oil: oilConsumed },
     };
 
@@ -241,7 +229,6 @@ describe("cancelQueuedRecipe", () => {
                 {
                   name: "Sunflower Cake",
                   readyAt: now + 60 * 1000,
-                  amount: 1,
                 },
                 item,
               ],
@@ -267,7 +254,6 @@ describe("cancelQueuedRecipe", () => {
     const queueItem = {
       name: "Carrot Cake",
       readyAt: carrotCakeReadyAt,
-      amount: 1,
     } as BuildingProduct;
 
     const state = cancelQueuedRecipe({
@@ -285,7 +271,6 @@ describe("cancelQueuedRecipe", () => {
                 {
                   name: "Cornbread",
                   readyAt: now + 1000,
-                  amount: 1,
                 },
                 queueItem,
               ],
@@ -328,17 +313,14 @@ describe("cancelQueuedRecipe", () => {
                 {
                   name: "Mashed Potato",
                   readyAt: now + POTATO_TIME,
-                  amount: 1,
                 },
                 {
                   name: "Boiled Eggs",
                   readyAt: now + POTATO_TIME + EGG_TIME,
-                  amount: 1,
                 },
                 {
                   name: "Mashed Potato",
                   readyAt: now + POTATO_TIME + EGG_TIME + POTATO_TIME,
-                  amount: 1,
                 },
               ],
             },
@@ -352,7 +334,6 @@ describe("cancelQueuedRecipe", () => {
         queueItem: {
           name: "Boiled Eggs",
           readyAt: now + POTATO_TIME + EGG_TIME,
-          amount: 1,
         },
       },
       createdAt: now,
@@ -397,17 +378,14 @@ describe("cancelQueuedRecipe", () => {
                 {
                   name: "Mashed Potato",
                   readyAt: now + POTATO_TIME / 2, // Boosted
-                  amount: 1,
                 },
                 {
                   name: "Boiled Eggs",
                   readyAt: now + POTATO_TIME / 2 + EGG_TIME / 2, // Boosted
-                  amount: 1,
                 },
                 {
                   name: "Mashed Potato",
                   readyAt: now + POTATO_TIME + EGG_TIME + POTATO_TIME, // Not boosted
-                  amount: 1,
                 },
               ],
             },
@@ -421,7 +399,6 @@ describe("cancelQueuedRecipe", () => {
         queueItem: {
           name: "Boiled Eggs",
           readyAt: now + POTATO_TIME / 2 + EGG_TIME / 2,
-          amount: 1,
         },
       },
       createdAt: now,
@@ -450,22 +427,18 @@ describe("cancelQueuedRecipe", () => {
               {
                 name: "Mashed Potato",
                 readyAt: now,
-                amount: 1,
               },
               {
                 name: "Mashed Potato",
                 readyAt: now + POTATO_TIME,
-                amount: 1,
               },
               {
                 name: "Mashed Potato",
                 readyAt: now + POTATO_TIME * 2,
-                amount: 1,
               },
               {
                 name: "Mashed Potato",
                 readyAt: now + POTATO_TIME * 3,
-                amount: 1,
               },
             ],
           },
@@ -482,7 +455,6 @@ describe("cancelQueuedRecipe", () => {
         queueItem: {
           name: "Mashed Potato",
           readyAt: now + POTATO_TIME * 3,
-          amount: 1,
         },
       },
       createdAt: now,
@@ -497,7 +469,6 @@ describe("cancelQueuedRecipe", () => {
         queueItem: {
           name: "Mashed Potato",
           readyAt: now + POTATO_TIME * 2,
-          amount: 1,
         },
       },
       createdAt: now + 1000,
@@ -531,22 +502,18 @@ describe("cancelQueuedRecipe", () => {
               {
                 name: "Mashed Potato",
                 readyAt: now,
-                amount: 1,
               },
               {
                 name: "Mashed Potato",
                 readyAt: now + POTATO_TIME,
-                amount: 1,
               },
               {
                 name: "Mashed Potato",
                 readyAt: now + POTATO_TIME * 2,
-                amount: 1,
               },
               {
                 name: "Mashed Potato",
                 readyAt: now + POTATO_TIME * 3,
-                amount: 1,
               },
             ],
           },
@@ -563,7 +530,6 @@ describe("cancelQueuedRecipe", () => {
         queueItem: {
           name: "Mashed Potato",
           readyAt: now + POTATO_TIME * 3,
-          amount: 1,
         },
       },
       createdAt: now,
@@ -578,7 +544,6 @@ describe("cancelQueuedRecipe", () => {
         queueItem: {
           name: "Mashed Potato",
           readyAt: now + POTATO_TIME * 2,
-          amount: 1,
         },
       },
       createdAt: now + 1000,
@@ -631,7 +596,6 @@ describe("cancelQueuedRecipe", () => {
               {
                 name: "Caprese Salad",
                 readyAt: now + 60 * 1000,
-                amount: 1,
               },
             ],
           },
@@ -694,17 +658,14 @@ describe("getCurrentCookingItem", () => {
         {
           name: "Cornbread" as CookableName,
           readyAt: cornbreadReadyAt,
-          amount: 1,
         },
         {
           name: "Carrot Cake" as CookableName,
           readyAt: carrotCakeOneReadyAt,
-          amount: 1,
         },
         {
           name: "Carrot Cake" as CookableName,
           readyAt: carrotCakeTwoReadyAt,
-          amount: 1,
         },
       ],
     };
@@ -716,7 +677,6 @@ describe("getCurrentCookingItem", () => {
     expect(item).toEqual({
       name: "Carrot Cake",
       readyAt: carrotCakeOneReadyAt,
-      amount: 1,
     });
   });
 });

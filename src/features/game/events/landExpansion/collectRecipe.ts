@@ -1,10 +1,13 @@
 import Decimal from "decimal.js-light";
+import { KNOWN_IDS } from "features/game/types";
 import { BuildingName } from "features/game/types/buildings";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 
-import { BuildingProduct, GameState } from "features/game/types/game";
+import { BuildingProduct, Bumpkin, GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
+import { prng } from "lib/prng";
+import { isCookingBuilding } from "./cook";
 
 export type CollectRecipeAction = {
   type: "recipes.collected";
@@ -16,12 +19,47 @@ type Options = {
   state: Readonly<GameState>;
   action: CollectRecipeAction;
   createdAt?: number;
+  farmId: number;
+};
+
+export const getCookingAmount = ({
+  building,
+  bumpkin,
+  recipe,
+  farmId,
+  counter,
+}: {
+  building: BuildingName;
+  bumpkin: Bumpkin;
+  recipe: BuildingProduct;
+  farmId: number;
+  counter: number;
+}): number => {
+  let amount = 1;
+  const prngValue = prng({ farmId, itemId: KNOWN_IDS[recipe.name], counter });
+
+  // Double Nom - Guarantee +1 food
+  if (recipe.skills?.["Double Nom"] && isCookingBuilding(building)) {
+    amount += 1;
+  }
+
+  // Fiery Jackpot - 20% Chance to double the amount from Fire Pit
+  if (
+    building === "Fire Pit" &&
+    bumpkin.skills["Fiery Jackpot"] &&
+    prngValue < 0.2
+  ) {
+    amount += 1;
+  }
+
+  return amount;
 };
 
 export function collectRecipe({
   state,
   action,
   createdAt = Date.now(),
+  farmId,
 }: Options): GameState {
   return produce(state, (game) => {
     const { bumpkin } = game;
@@ -51,7 +89,13 @@ export function collectRecipe({
     // Collect all recipes that are ready
     building.crafting = (building.crafting ?? []).reduce((acc, recipe) => {
       if (recipe.readyAt <= createdAt) {
-        const amount = new Decimal(recipe?.amount || 1);
+        const amount = getCookingAmount({
+          building: action.building,
+          bumpkin,
+          recipe,
+          farmId,
+          counter: bumpkin.activity[`${recipe.name} Cooked`] || 0,
+        });
         const consumableCount = game.inventory[recipe.name] || new Decimal(0);
         game.inventory[recipe.name] = consumableCount.add(amount);
 

@@ -29,9 +29,12 @@ describe("instantCook", () => {
     jest.useRealTimers();
   });
 
+  const farmId = 1;
+
   it("requires item is cooking", () => {
     expect(() =>
       speedUpRecipe({
+        farmId,
         action: {
           buildingId: "123",
           buildingName: "Fire Pit",
@@ -57,6 +60,7 @@ describe("instantCook", () => {
   it("requires player has the gems", () => {
     expect(() =>
       speedUpRecipe({
+        farmId,
         action: {
           buildingId: "123",
           buildingName: "Fire Pit",
@@ -76,7 +80,6 @@ describe("instantCook", () => {
                   {
                     name: "Mashed Potato",
                     readyAt: Date.now() + 30000,
-                    amount: 1,
                   },
                 ],
               },
@@ -89,6 +92,7 @@ describe("instantCook", () => {
 
   it("charges gems for a mashed potato", () => {
     const state = speedUpRecipe({
+      farmId,
       action: {
         buildingId: "123",
         buildingName: "Fire Pit",
@@ -108,7 +112,6 @@ describe("instantCook", () => {
                 {
                   name: "Mashed Potato",
                   readyAt: Date.now() + 30000,
-                  amount: 1,
                 },
               ],
             },
@@ -123,6 +126,7 @@ describe("instantCook", () => {
   it("charges gems for a radish cake", () => {
     const now = Date.now();
     const state = speedUpRecipe({
+      farmId,
       action: {
         buildingId: "123",
         buildingName: "Fire Pit",
@@ -143,7 +147,6 @@ describe("instantCook", () => {
                   name: "Radish Cake",
                   readyAt:
                     now + BAKERY_COOKABLES["Radish Cake"].cookingSeconds * 1000,
-                  amount: 1,
                 },
               ],
             },
@@ -158,6 +161,7 @@ describe("instantCook", () => {
   it("charges half the gems for a half finished radish cake", () => {
     const now = Date.now();
     const state = speedUpRecipe({
+      farmId,
       action: {
         buildingId: "123",
         buildingName: "Fire Pit",
@@ -179,7 +183,6 @@ describe("instantCook", () => {
                   readyAt:
                     now +
                     (BAKERY_COOKABLES["Radish Cake"].cookingSeconds / 2) * 1000,
-                  amount: 1,
                 },
               ],
             },
@@ -194,6 +197,7 @@ describe("instantCook", () => {
   it("gives the player the food", () => {
     const now = Date.now();
     const state = speedUpRecipe({
+      farmId,
       action: {
         buildingId: "123",
         buildingName: "Fire Pit",
@@ -213,7 +217,6 @@ describe("instantCook", () => {
                 {
                   name: "Mashed Potato",
                   readyAt: now + 30000,
-                  amount: 1,
                 },
               ],
             },
@@ -230,6 +233,7 @@ describe("instantCook", () => {
   it("only speeds up the recipe that is currently cooking", () => {
     const now = Date.now();
     const state = speedUpRecipe({
+      farmId,
       action: {
         buildingId: "123",
         buildingName: "Fire Pit",
@@ -249,12 +253,10 @@ describe("instantCook", () => {
                 {
                   name: "Mashed Potato",
                   readyAt: now + 30000,
-                  amount: 1,
                 },
                 {
                   name: "Radish Cake",
                   readyAt: now + 30000 + 2000,
-                  amount: 1,
                 },
               ],
             },
@@ -270,7 +272,6 @@ describe("instantCook", () => {
       {
         name: "Radish Cake",
         readyAt: expect.any(Number),
-        amount: 1,
       },
     ]);
   });
@@ -282,6 +283,7 @@ describe("instantCook", () => {
     const RHUBARB_TIME = COOKABLES["Rhubarb Tart"].cookingSeconds * 1000;
 
     const state = speedUpRecipe({
+      farmId,
       state: {
         ...INITIAL_FARM,
         inventory: { Gem: new Decimal(100) },
@@ -296,23 +298,19 @@ describe("instantCook", () => {
                 {
                   name: "Fried Tofu",
                   readyAt: now + TOFU_TIME,
-                  amount: 1,
                 },
                 {
                   name: "Rhubarb Tart",
                   readyAt: now + TOFU_TIME + RHUBARB_TIME,
-                  amount: 1,
                 },
                 {
                   name: "Fried Tofu",
                   readyAt: now + TOFU_TIME + RHUBARB_TIME + TOFU_TIME,
-                  amount: 1,
                 },
                 {
                   name: "Mashed Potato",
                   readyAt:
                     now + TOFU_TIME + RHUBARB_TIME + TOFU_TIME + POTATO_TIME,
-                  amount: 1,
                 },
               ],
             },
@@ -363,7 +361,6 @@ describe("instantCook", () => {
               {
                 name: "Cheese",
                 readyAt: now + twentyMinutesMs, // 20 minutes
-                amount: 1,
               },
             ],
           },
@@ -415,6 +412,7 @@ describe("instantCook", () => {
 
     // Speed up the recipe
     const afterSpeedUpCheeseState = speedUpRecipe({
+      farmId,
       state: afterFermentedFishCookedState,
       action: {
         type: "recipe.spedUp",
@@ -433,6 +431,7 @@ describe("instantCook", () => {
 });
 
 describe("getInstantGems", () => {
+  const farmId = 1;
   it("returns the correct amount of gems for a 1 hour recipe", () => {
     expect(
       getInstantGems({
@@ -500,6 +499,7 @@ describe("getInstantGems", () => {
     const now = Date.now();
 
     const state = speedUpRecipe({
+      farmId,
       state: {
         ...INITIAL_FARM,
         buildings: {
@@ -513,12 +513,10 @@ describe("getInstantGems", () => {
                 {
                   name: "Mashed Potato", // Ready recipe
                   readyAt: now - 1000,
-                  amount: 1,
                 },
                 {
                   name: "Radish Cake",
                   readyAt: now + 30000 + 2000,
-                  amount: 1,
                 },
               ],
             },
@@ -537,7 +535,6 @@ describe("getInstantGems", () => {
       {
         name: "Mashed Potato",
         readyAt: expect.any(Number),
-        amount: 1,
       },
     ]);
     expect(state.inventory["Radish Cake"]).toEqual(new Decimal(1));

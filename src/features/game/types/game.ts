@@ -758,7 +758,6 @@ export type FruitPatch = {
 export type BuildingProduct = {
   name: CookableName;
   readyAt: number;
-  amount?: number;
   boost?: Partial<Record<InventoryItemName, number>>;
   skills?: Partial<Record<BumpkinRevampSkillName, boolean>>;
   timeRemaining?: number;

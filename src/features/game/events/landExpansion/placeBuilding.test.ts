@@ -115,25 +115,21 @@ describe("Place building", () => {
                 {
                   name: "Pizza Margherita",
                   readyAt: dateNow + 10000,
-                  amount: 1,
                   timeRemaining: 60000,
                 },
                 {
                   name: "Pizza Margherita",
                   readyAt: dateNow + 70000,
-                  amount: 1,
                   timeRemaining: 120000,
                 },
                 {
                   name: "Pizza Margherita",
                   readyAt: dateNow + 130000,
-                  amount: 1,
                   timeRemaining: 180000,
                 },
                 {
                   name: "Pizza Margherita",
                   readyAt: dateNow + 190000,
-                  amount: 1,
                   timeRemaining: 240000,
                 },
               ],
