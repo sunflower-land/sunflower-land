@@ -441,7 +441,7 @@ export const Collection: React.FC<{
   return (
     <InnerPanel className="h-full flex flex-col">
       {activeTraitFilters.length > 0 && (
-        <div className="flex flex-col gap-2 border-b border-brown-300 p-2 py-0.5">
+        <div className="flex flex-col gap-2 border-b border-brown-300 p-2 pt-0.5 pb-1">
           <div className="flex items-center gap-2">
             <span className="text-xxs uppercase tracking-wider text-brown-700">
               {t("marketplace.filters.applied")}
@@ -456,7 +456,7 @@ export const Collection: React.FC<{
             )}
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 -ml-1">
+          <div className="flex flex-wrap items-center gap-1 -ml-1">
             {activeTraitFilters.map((filter) => (
               <Label
                 type="default"
