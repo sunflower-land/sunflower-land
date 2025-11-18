@@ -4,26 +4,23 @@ import { useTranslation } from "react-i18next";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { FilterOption, FilterOptionProps } from "./FilterOption";
-import { PET_CATEGORY_NAMES, PET_NFT_TYPES } from "features/game/types/pets";
-import {
-  ACCESSORY_TRAITS,
-  AURA_TRAITS,
-  BIB_TRAITS,
-  FUR_TRAITS,
-} from "features/pets/data/types";
-import camelCase from "lodash.camelcase";
-import {
-  types as BUD_TYPES,
-  auras as BUD_AURAS,
-  stems as BUD_STEMS,
-  colours as BUD_COLOURS,
-} from "lib/buds/types";
-
 import tradeIcon from "assets/icons/trade.png";
 import trade_point from "src/assets/icons/trade_points_coupon.webp";
 import lightning from "assets/icons/lightning.png";
 import wearableIcon from "assets/icons/wearables.webp";
 import budIcon from "assets/icons/bud.png";
+import {
+  useTraitFilters,
+  TraitCollection,
+  TraitKey,
+  getTraitParamKeys,
+} from "features/marketplace/lib/marketplaceFilters";
+import {
+  BUD_TRAIT_GROUPS,
+  PET_TRAIT_GROUPS,
+  TraitGroupDefinition,
+} from "features/marketplace/lib/traitOptions";
+import { getKeys } from "features/game/lib/crafting";
 
 export const Filters: React.FC<{
   onClose?: () => void;
@@ -35,8 +32,44 @@ export const Filters: React.FC<{
   const filters = queryParams.get("filters");
   const { t } = useTranslation();
   const isWorldRoute = pathname.includes("/world");
+  const activeCollection: TraitCollection | undefined = filters?.includes(
+    "pets",
+  )
+    ? "pets"
+    : filters?.includes("buds")
+      ? "buds"
+      : undefined;
+  const {
+    addFilter,
+    removeFilter,
+    clearFilters: clearTraitFilters,
+    hasFilter,
+    traitFilters,
+  } = useTraitFilters(activeCollection);
+  const [expandedTraitGroups, setExpandedTraitGroups] = React.useState<
+    Record<string, boolean>
+  >({});
 
   const baseUrl = `${isWorldRoute ? "/world" : ""}/marketplace`;
+  const filterTokens = React.useMemo(
+    () =>
+      (filters ?? "")
+        .split(",")
+        .map((token) => token.trim())
+        .filter(Boolean),
+    [filters],
+  );
+  const isCosmeticsActive = filters?.includes("cosmetic");
+  const cosmeticSelection = React.useMemo(
+    () => ({
+      collectibles: isCosmeticsActive
+        ? filterTokens.includes("collectibles")
+        : true,
+      wearables: isCosmeticsActive ? filterTokens.includes("wearables") : true,
+    }),
+    [filterTokens, isCosmeticsActive],
+  );
+
   const navigateTo = ({
     path,
     filterParams,
@@ -46,21 +79,170 @@ export const Filters: React.FC<{
     filterParams?: string;
     closeFilters?: boolean;
   }) => {
-    const url = filterParams
-      ? `${baseUrl}/collection?filters=${filterParams}`
-      : `${baseUrl}/${path}`;
+    let url = `${baseUrl}/${path}`;
+
+    if (filterParams) {
+      const params = new URLSearchParams();
+      const targetCollection: TraitCollection | undefined =
+        filterParams.includes("pets")
+          ? "pets"
+          : filterParams.includes("buds")
+            ? "buds"
+            : undefined;
+
+      if (targetCollection) {
+        // Preserve any in-flight trait selections that belong to the target collection.
+        getTraitParamKeys(targetCollection).forEach((trait) => {
+          const value = queryParams.get(trait);
+          if (value) {
+            params.set(trait, value);
+          }
+        });
+      }
+
+      const traitQuery = params.toString();
+      const queryParts = [`filters=${filterParams}`];
+
+      if (traitQuery) {
+        queryParts.push(traitQuery);
+      }
+
+      url = `${baseUrl}/collection?${queryParts.join("&")}`;
+    }
 
     navigate(url);
     if (closeFilters) onClose?.();
   };
 
+  const isCollectionActive = (collection: TraitCollection) =>
+    (filters?.split(",") ?? []).includes(collection);
+
+  const ensureCollectionActive = (collection: TraitCollection) => {
+    if (!isCollectionActive(collection)) {
+      navigateTo({
+        path: "collection",
+        filterParams: collection,
+        closeFilters: false,
+      });
+    }
+  };
+
+  const toggleTraitGroup = (collection: TraitCollection, trait: string) => {
+    ensureCollectionActive(collection);
+    const key = `${collection}-${trait}`;
+    setExpandedTraitGroups((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
+
+  // Converts the shared trait metadata into nested FilterOption entries.
+  const buildTraitGroups = <T extends TraitKey>(
+    collection: TraitCollection,
+    groups: TraitGroupDefinition<T>[],
+  ): FilterOptionProps[] =>
+    groups.map((group) => {
+      const key = `${collection}-${group.trait}`;
+      const isOpen = !!expandedTraitGroups[key];
+
+      return {
+        label: group.label,
+        onClick: () => toggleTraitGroup(collection, group.trait),
+        isActive: isOpen,
+        hasOptions: true,
+        options: isOpen
+          ? group.options.map((option) => {
+              const filter = {
+                collection,
+                trait: group.trait,
+                value: option.value,
+              };
+
+              return {
+                label: option.label,
+                onToggle: (checked: boolean) => {
+                  ensureCollectionActive(collection);
+                  if (checked) {
+                    addFilter(filter);
+                  } else {
+                    removeFilter(filter);
+                  }
+                },
+                checked: hasFilter(filter),
+              };
+            })
+          : undefined,
+      };
+    });
+
+  const collectionHasTraitFilters = (collection: TraitCollection) =>
+    collection === activeCollection && traitFilters.length > 0;
+
+  const setCosmeticSelection = (selection: {
+    collectibles: boolean;
+    wearables: boolean;
+  }) => {
+    if (!selection.collectibles && !selection.wearables) {
+      return;
+    }
+
+    const nextTokens = filterTokens.filter(
+      (token) => token !== "collectibles" && token !== "wearables",
+    );
+
+    if (selection.collectibles) {
+      nextTokens.push("collectibles");
+    }
+
+    if (selection.wearables) {
+      nextTokens.push("wearables");
+    }
+
+    if (!nextTokens.includes("cosmetic")) {
+      nextTokens.push("cosmetic");
+    }
+
+    navigateTo({
+      path: "collection",
+      filterParams: nextTokens.join(","),
+      closeFilters: false,
+    });
+  };
+
+  const handleCosmeticToggle = (
+    option: "collectibles" | "wearables",
+    checked: boolean,
+  ) => {
+    if (!isCosmeticsActive) {
+      navigateTo({
+        path: "collection",
+        filterParams: "collectibles,wearables,cosmetic",
+        closeFilters: false,
+      });
+      return;
+    }
+
+    const nextSelection = {
+      ...cosmeticSelection,
+      [option]: checked,
+    };
+
+    if (!nextSelection.collectibles && !nextSelection.wearables) {
+      return;
+    }
+
+    setCosmeticSelection(nextSelection);
+  };
+
   const filterOptions: FilterOptionProps[] = [
+    // Trending
     {
       icon: SUNNYSIDE.icons.expression_alerted,
       label: t("marketplace.trending"),
       onClick: () => navigateTo({ path: "hot" }),
       isActive: pathname === `${baseUrl}/hot`,
     },
+    // Power ups
     {
       icon: lightning,
       label: t("marketplace.powerUps"),
@@ -76,395 +258,155 @@ export const Filters: React.FC<{
               icon: ITEM_DETAILS["Freya Fox"].image,
               label: t("marketplace.collectibles"),
               isActive: filters === "utility,collectibles",
-              onClick: () =>
+              onClick: () => {
+                setExpandedTraitGroups({});
                 navigateTo({
                   path: "collection",
                   filterParams: "utility,collectibles",
-                }),
+                });
+              },
             },
             {
               icon: wearableIcon,
               label: t("marketplace.wearables"),
               isActive: filters === "utility,wearables",
-              onClick: () =>
+              onClick: () => {
+                setExpandedTraitGroups({});
                 navigateTo({
                   path: "collection",
                   filterParams: "utility,wearables",
-                }),
+                });
+              },
             },
           ]
         : undefined,
     },
+    // Resources
     {
       icon: ITEM_DETAILS.Eggplant.image,
       label: t("marketplace.resources"),
-      onClick: () =>
+      onClick: () => {
+        setExpandedTraitGroups({});
         navigateTo({
           path: "collection",
           filterParams: "resources",
-        }),
+        });
+      },
       isActive: filters === "resources",
     },
+    // Limited
     {
       icon: SUNNYSIDE.icons.stopwatch,
       label: t("marketplace.limited"),
-      onClick: () =>
+      onClick: () => {
+        setExpandedTraitGroups({});
         navigateTo({
           path: "collection",
           filterParams: "temporary",
-        }),
+        });
+      },
       isActive: filters === "temporary",
     },
+    // Cosmetics
     {
       icon: SUNNYSIDE.icons.heart,
       label: t("marketplace.cosmetics"),
-      onClick: () =>
+      onClick: () => {
+        setExpandedTraitGroups({});
         navigateTo({
           path: "collection",
           filterParams: "collectibles,wearables,cosmetic",
-        }),
-      isActive: filters === "collectibles,wearables,cosmetic",
-      options: filters?.includes("cosmetic")
+        });
+      },
+      isActive: isCosmeticsActive,
+      hasOptions: true,
+      options: isCosmeticsActive
         ? [
             {
               icon: ITEM_DETAILS["Freya Fox"].image,
               label: t("marketplace.collectibles"),
-              isActive: filters === "cosmetic,collectibles",
-              onClick: () =>
-                navigateTo({
-                  path: "collection",
-                  filterParams: "cosmetic,collectibles",
-                }),
+              onToggle: (checked: boolean) =>
+                handleCosmeticToggle("collectibles", checked),
+              checked: cosmeticSelection.collectibles,
             },
             {
               icon: wearableIcon,
               label: t("marketplace.wearables"),
-              isActive: filters === "cosmetic,wearables",
-              onClick: () =>
-                navigateTo({
-                  path: "collection",
-                  filterParams: "cosmetic,wearables",
-                }),
+              onToggle: (checked: boolean) =>
+                handleCosmeticToggle("wearables", checked),
+              checked: cosmeticSelection.wearables,
             },
           ]
         : undefined,
     },
+    // Buds
     {
       icon: budIcon,
       label: t("marketplace.budNfts"),
-      onClick: () =>
+      onClick: () => {
+        setExpandedTraitGroups({});
         navigateTo({
           path: "collection",
           filterParams: "buds",
-        }),
-      isActive: filters === "buds",
-      options: filters?.includes("buds")
+          closeFilters: false,
+        });
+      },
+      isActive:
+        isCollectionActive("buds") && getKeys(expandedTraitGroups).length === 0,
+      hasOptions: true,
+      options: isCollectionActive("buds")
         ? [
-            {
-              icon: "",
-              label: "Type",
-              onClick: () =>
-                navigateTo({
-                  path: "collection",
-                  filterParams: "buds?type",
-                  closeFilters: false,
-                }),
-              isActive: filters === "buds?type",
-              options: filters?.includes("buds?type")
-                ? [
-                    ...BUD_TYPES.map((type) => ({
-                      icon: "",
-                      label: type.name,
-                      onClick: () =>
-                        navigateTo({
-                          path: "collection",
-                          filterParams: `buds?type=${type.name}`,
-                        }),
-                      isActive: filters === `buds?type=${type.name}`,
-                    })),
-                  ]
-                : undefined,
-            },
-            {
-              icon: "",
-              label: "Aura",
-              onClick: () =>
-                navigateTo({
-                  path: "collection",
-                  filterParams: "buds?aura",
-                  closeFilters: false,
-                }),
-              isActive: filters === "buds?aura",
-              options: filters?.includes("buds?aura")
-                ? [
-                    ...BUD_AURAS.map((aura) => {
-                      const label =
-                        aura.name === "No Aura" ? "None" : aura.name;
-                      const auraCamelCase = camelCase(aura.name);
-
-                      return {
-                        icon: "",
-                        label,
-                        onClick: () =>
-                          navigateTo({
-                            path: "collection",
-                            filterParams: `buds?aura=${auraCamelCase}`,
-                          }),
-                        isActive: filters === `buds?aura=${auraCamelCase}`,
-                      };
-                    }),
-                  ]
-                : undefined,
-            },
-            {
-              icon: "",
-              label: "Stem",
-              onClick: () =>
-                navigateTo({
-                  path: "collection",
-                  filterParams: "buds?stem",
-                  closeFilters: false,
-                }),
-              isActive: filters === "buds?stem",
-              options: filters?.includes("buds?stem")
-                ? [
-                    ...BUD_STEMS.map((stem) => {
-                      const stemCamelCase = camelCase(stem.name);
-
-                      return {
-                        icon: "",
-                        label: stem.name,
-                        onClick: () =>
-                          navigateTo({
-                            path: "collection",
-                            filterParams: `buds?stem=${stemCamelCase}`,
-                          }),
-                        isActive: filters === `buds?stem=${stemCamelCase}`,
-                      };
-                    }),
-                  ]
-                : undefined,
-            },
-            {
-              icon: "",
-              label: "Colour",
-              onClick: () =>
-                navigateTo({
-                  path: "collection",
-                  filterParams: "buds?colour",
-                  closeFilters: false,
-                }),
-              isActive: filters === "buds?colour",
-              options: filters?.includes("buds?colour")
-                ? [
-                    ...BUD_COLOURS.map((colour) => {
-                      return {
-                        icon: "",
-                        label: colour.name,
-                        onClick: () =>
-                          navigateTo({
-                            path: "collection",
-                            filterParams: `buds?colour=${colour.name}`,
-                          }),
-                        isActive: filters === `buds?colour=${colour.name}`,
-                      };
-                    }),
-                  ]
-                : undefined,
-            },
+            ...buildTraitGroups("buds", BUD_TRAIT_GROUPS),
+            ...(collectionHasTraitFilters("buds")
+              ? [
+                  {
+                    icon: SUNNYSIDE.icons.cancel,
+                    label: t("marketplace.filters.clear"),
+                    onClick: () => clearTraitFilters("buds"),
+                  },
+                ]
+              : []),
           ]
         : undefined,
     },
+    // Pets
     {
       icon: ITEM_DETAILS.Ramsey.image,
       label: t("marketplace.pets"),
-      onClick: () =>
+      onClick: () => {
+        setExpandedTraitGroups({});
         navigateTo({
           path: "collection",
           filterParams: "pets",
-        }),
-      isActive: filters === "pets",
-      options: filters?.includes("pets")
+          closeFilters: false,
+        });
+      },
+      isActive: isCollectionActive("pets"),
+      hasOptions: true,
+      options: isCollectionActive("pets")
         ? [
-            {
-              icon: "",
-              label: "Breed",
-              onClick: () =>
-                navigateTo({
-                  path: "collection",
-                  filterParams: "pets?type",
-                  closeFilters: false,
-                }),
-              isActive: filters === "pets?type",
-              options: filters?.includes("pets?type")
-                ? [
-                    ...PET_NFT_TYPES.map((type) => ({
-                      icon: "",
-                      label: type,
-                      onClick: () =>
-                        navigateTo({
-                          path: "collection",
-                          filterParams: `pets?type=${type}`,
-                        }),
-                      isActive: filters === `pets?type=${type}`,
-                    })),
-                  ]
-                : undefined,
-            },
-            {
-              icon: "",
-              label: "Category",
-              onClick: () =>
-                navigateTo({
-                  path: "collection",
-                  filterParams: "pets?category",
-                  closeFilters: false,
-                }),
-              isActive: filters === "pets?category",
-              options: filters?.includes("pets?category")
-                ? [
-                    ...PET_CATEGORY_NAMES.map((category) => ({
-                      icon: "",
-                      label: category,
-                      onClick: () =>
-                        navigateTo({
-                          path: "collection",
-                          filterParams: `pets?category=${category}`,
-                        }),
-                      isActive: filters === `pets?category=${category}`,
-                    })),
-                  ]
-                : undefined,
-            },
-            {
-              icon: "",
-              label: "Aura",
-              onClick: () =>
-                navigateTo({
-                  path: "collection",
-                  filterParams: "pets?aura",
-                  closeFilters: false,
-                }),
-              isActive: filters === "pets?aura",
-              options: filters?.includes("pets?aura")
-                ? [
-                    ...AURA_TRAITS.map((aura) => {
-                      const auraCamelCase = camelCase(aura);
-                      const label =
-                        aura === "No Aura" ? "None" : aura.split(" ")[0];
-
-                      return {
-                        icon: "",
-                        label,
-                        onClick: () =>
-                          navigateTo({
-                            path: "collection",
-                            filterParams: `pets?aura=${auraCamelCase}`,
-                          }),
-                        isActive: filters === `pets?aura=${auraCamelCase}`,
-                      };
-                    }),
-                  ]
-                : undefined,
-            },
-            {
-              icon: "",
-              label: "Bib",
-              onClick: () =>
-                navigateTo({
-                  path: "collection",
-                  filterParams: "pets?bib",
-                  closeFilters: false,
-                }),
-              isActive: filters === "pets?bib",
-              options: filters?.includes("pets?bib")
-                ? [
-                    ...BIB_TRAITS.map((bib) => {
-                      const bibCamelCase = camelCase(bib);
-
-                      return {
-                        icon: "",
-                        label: bib,
-                        onClick: () =>
-                          navigateTo({
-                            path: "collection",
-                            filterParams: `pets?bib=${bibCamelCase}`,
-                          }),
-                        isActive: filters === `pets?bib=${bibCamelCase}`,
-                      };
-                    }),
-                  ]
-                : undefined,
-            },
-            {
-              icon: "",
-              label: "Fur",
-              onClick: () =>
-                navigateTo({
-                  path: "collection",
-                  filterParams: "pets?fur",
-                  closeFilters: false,
-                }),
-              isActive: filters === "pets?fur",
-              options: filters?.includes("pets?fur")
-                ? [
-                    ...FUR_TRAITS.map((fur) => {
-                      const furCamelCase = camelCase(fur);
-
-                      return {
-                        icon: "",
-                        label: fur,
-                        onClick: () =>
-                          navigateTo({
-                            path: "collection",
-                            filterParams: `pets?fur=${furCamelCase}`,
-                          }),
-                        isActive: filters === `pets?fur=${furCamelCase}`,
-                      };
-                    }),
-                  ]
-                : undefined,
-            },
-            {
-              icon: "",
-              label: "Accessory",
-              onClick: () =>
-                navigateTo({
-                  path: "collection",
-                  filterParams: "pets?accessory",
-                  closeFilters: false,
-                }),
-              isActive: filters === "pets?accessory",
-              options: filters?.includes("pets?accessory")
-                ? [
-                    ...ACCESSORY_TRAITS.map((accessory) => {
-                      const accessoryCamelCase = camelCase(accessory);
-
-                      return {
-                        icon: "",
-                        label: accessory,
-                        onClick: () =>
-                          navigateTo({
-                            path: "collection",
-                            filterParams: `pets?accessory=${accessoryCamelCase}`,
-                          }),
-                        isActive:
-                          filters === `pets?accessory=${accessoryCamelCase}`,
-                      };
-                    }),
-                  ]
-                : undefined,
-            },
+            ...buildTraitGroups("pets", PET_TRAIT_GROUPS),
+            ...(collectionHasTraitFilters("pets")
+              ? [
+                  {
+                    icon: SUNNYSIDE.icons.cancel,
+                    label: t("marketplace.filters.clear"),
+                    onClick: () => clearTraitFilters("pets"),
+                  },
+                ]
+              : []),
           ]
         : undefined,
     },
     {
       icon: SUNNYSIDE.icons.player,
       label: t("marketplace.myProfile"),
-      onClick: () =>
+      onClick: () => {
+        setExpandedTraitGroups({});
         navigateTo({
           path: `profile/${farmId}`,
-        }),
+        });
+      },
       options: pathname.includes("profile")
         ? [
             {
