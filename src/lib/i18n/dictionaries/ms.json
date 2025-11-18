@@ -7139,5 +7139,7 @@
   "feeds": "Suapan",
   "undiscovered": "Tidak Ditemui",
   "withdraw.pet.confirmation1": "Pengeluaran akan menghapuskan tenaga dan pengalaman haiwan kesayangan anda. Adakah anda pasti mahu meneruskan?",
-  "withdraw.pet.confirmation2": "Pengeluaran ini menghilangkan tenaga dan pengalaman haiwan kesayangan anda sepenuhnya. Tindakan ini tidak boleh dibatalkan. Teruskan?"
+  "withdraw.pet.confirmation2": "Pengeluaran ini menghilangkan tenaga dan pengalaman haiwan kesayangan anda sepenuhnya. Tindakan ini tidak boleh dibatalkan. Teruskan?",
+  "marketplace.filters.applied": "Penapis digunakan",
+  "marketplace.filters.clear": "Kosongkan penapis"
 }

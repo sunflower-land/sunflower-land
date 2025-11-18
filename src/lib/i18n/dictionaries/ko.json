@@ -7139,5 +7139,7 @@
   "feeds": "피드",
   "undiscovered": "발견되지 않았습니다",
   "withdraw.pet.confirmation1": "철수하면 애완 동물의 에너지와 경험이 사라집니다.정말 계속하고 싶으세요?",
-  "withdraw.pet.confirmation2": "이 금단은 애완 동물의 에너지와 경험을 완전히 없애줍니다.이 동작은 되돌릴 수 없습니다.계속 진행하시겠습니까?"
+  "withdraw.pet.confirmation2": "이 금단은 애완 동물의 에너지와 경험을 완전히 없애줍니다.이 동작은 되돌릴 수 없습니다.계속 진행하시겠습니까?",
+  "marketplace.filters.applied": "필터 적용",
+  "marketplace.filters.clear": "필터 지우기"
 }

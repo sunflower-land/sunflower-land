@@ -7139,5 +7139,7 @@
   "feeds": "饲料",
   "undiscovered": "未被发现",
   "withdraw.pet.confirmation1": "撤回会消灭你的宠物的能量和经验。你确定要继续吗？",
-  "withdraw.pet.confirmation2": "这种撤退会彻底消耗你的宠物的能量和经验。此操作无法撤消。继续？"
+  "withdraw.pet.confirmation2": "这种撤退会彻底消耗你的宠物的能量和经验。此操作无法撤消。继续？",
+  "marketplace.filters.applied": "已应用过滤器",
+  "marketplace.filters.clear": "清除筛选条件"
 }

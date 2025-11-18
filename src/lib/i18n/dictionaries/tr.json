@@ -7139,5 +7139,7 @@
   "feeds": "Beslemeler",
   "undiscovered": "Keşfedilmemiş",
   "withdraw.pet.confirmation1": "Geri çekilmek evcil hayvanınızın enerjisini ve deneyimini silecektir. Devamı istediğine emin misin?",
-  "withdraw.pet.confirmation2": "Bu geri çekilme, evcil hayvanınızın enerjisini ve deneyimini tamamen siler. Bu işlem geri alınamaz. Devamı?"
+  "withdraw.pet.confirmation2": "Bu geri çekilme, evcil hayvanınızın enerjisini ve deneyimini tamamen siler. Bu işlem geri alınamaz. Devamı?",
+  "marketplace.filters.applied": "Uygulanan filtreler",
+  "marketplace.filters.clear": "Filtreleri temizle"
 }

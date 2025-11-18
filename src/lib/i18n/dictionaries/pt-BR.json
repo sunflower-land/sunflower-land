@@ -7139,5 +7139,7 @@
   "feeds": "Alimentações",
   "undiscovered": "Desconhecida",
   "withdraw.pet.confirmation1": "A retirada apagará a energia e a experiência do seu animal de estimação. Tem certeza de que deseja continuar?",
-  "withdraw.pet.confirmation2": "Essa abstinência limpa completamente a energia e a experiência do seu animal de estimação. Essa ação não pode ser desfeita. Prosseguir?"
+  "withdraw.pet.confirmation2": "Essa abstinência limpa completamente a energia e a experiência do seu animal de estimação. Essa ação não pode ser desfeita. Prosseguir?",
+  "marketplace.filters.applied": "Filtros aplicados",
+  "marketplace.filters.clear": "Filtros claros"
 }

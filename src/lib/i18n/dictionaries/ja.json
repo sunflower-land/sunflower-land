@@ -7139,5 +7139,7 @@
   "feeds": "フィード",
   "undiscovered": "未発見",
   "withdraw.pet.confirmation1": "引き落とすと、ペットのエネルギーと経験が失われます。続けてもよろしいですか？",
-  "withdraw.pet.confirmation2": "この引きこもりは、ペットのエネルギーと経験を完全に消し去ってしまいます。このアクションは元に戻せません。続行しますか?"
+  "withdraw.pet.confirmation2": "この引きこもりは、ペットのエネルギーと経験を完全に消し去ってしまいます。このアクションは元に戻せません。続行しますか?",
+  "marketplace.filters.applied": "フィルターが適用されました",
+  "marketplace.filters.clear": "フィルターをクリア"
 }

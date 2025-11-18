@@ -7139,5 +7139,7 @@
   "feeds": "Корма",
   "undiscovered": "Нераскрытые",
   "withdraw.pet.confirmation1": "При выводе питомец потеряет всю энергию и опыт. Вы уверены, что хотите продолжить?",
-  "withdraw.pet.confirmation2": "Вывод полностью обнулит энергию и опыт питомца. Отменить действие будет невозможно. Продолжить?"
+  "withdraw.pet.confirmation2": "Вывод полностью обнулит энергию и опыт питомца. Отменить действие будет невозможно. Продолжить?",
+  "marketplace.filters.applied": "Filters applied",
+  "marketplace.filters.clear": "Clear filters"
 }

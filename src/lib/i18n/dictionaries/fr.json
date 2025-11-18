@@ -7139,5 +7139,7 @@
   "feeds": "Aliments",
   "undiscovered": "Non découvert",
   "withdraw.pet.confirmation1": "Le retrait effacera l'énergie et l'expérience de votre animal. Êtes-vous sûr de vouloir continuer ?",
-  "withdraw.pet.confirmation2": "Ce sevrage anéantit complètement l'énergie et l'expérience de votre animal. Cette action ne peut pas être annulée. Poursuivre ?"
+  "withdraw.pet.confirmation2": "Ce sevrage anéantit complètement l'énergie et l'expérience de votre animal. Cette action ne peut pas être annulée. Poursuivre ?",
+  "marketplace.filters.applied": "Filtres appliqués",
+  "marketplace.filters.clear": "Effacer les filtres"
 }

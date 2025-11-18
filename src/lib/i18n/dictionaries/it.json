@@ -7139,5 +7139,7 @@
   "feeds": "Alimenti",
   "undiscovered": "Da scoprire",
   "withdraw.pet.confirmation1": "Il ritiro cancellerà l'energia e l'esperienza del tuo animale domestico. Sei sicuro di voler continuare?",
-  "withdraw.pet.confirmation2": "Questa astinenza cancella completamente l'energia e l'esperienza del tuo animale domestico. Questa azione non può essere annullata. Procedere?"
+  "withdraw.pet.confirmation2": "Questa astinenza cancella completamente l'energia e l'esperienza del tuo animale domestico. Questa azione non può essere annullata. Procedere?",
+  "marketplace.filters.applied": "Filtri applicati",
+  "marketplace.filters.clear": "Cancella filtri"
 }

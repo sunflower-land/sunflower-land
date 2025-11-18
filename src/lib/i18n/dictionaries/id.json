@@ -7139,5 +7139,7 @@
   "feeds": "Umpan",
   "undiscovered": "Belum ditemukan",
   "withdraw.pet.confirmation1": "Penarikan akan menghapus energi dan pengalaman hewan peliharaan Anda. Apakah Anda yakin ingin melanjutkan?",
-  "withdraw.pet.confirmation2": "Penarikan ini menghapus energi dan pengalaman hewan peliharaan Anda sepenuhnya. Tindakan ini tidak dapat dibatalkan. Melanjutkan?"
+  "withdraw.pet.confirmation2": "Penarikan ini menghapus energi dan pengalaman hewan peliharaan Anda sepenuhnya. Tindakan ini tidak dapat dibatalkan. Melanjutkan?",
+  "marketplace.filters.applied": "Filter diterapkan",
+  "marketplace.filters.clear": "Hapus filter"
 }

@@ -7139,5 +7139,7 @@
   "feeds": "Se alimenta",
   "undiscovered": "Sin descubrir",
   "withdraw.pet.confirmation1": "Retirarse acabará con la energía y la experiencia de tu mascota. ¿Estás seguro de que quieres continuar?",
-  "withdraw.pet.confirmation2": "Esta abstinencia borra por completo la energía y la experiencia de tu mascota. Esta acción no se puede deshacer. ¿Continuar?"
+  "withdraw.pet.confirmation2": "Esta abstinencia borra por completo la energía y la experiencia de tu mascota. Esta acción no se puede deshacer. ¿Continuar?",
+  "marketplace.filters.applied": "Filtros aplicados",
+  "marketplace.filters.clear": "Borrar filtros"
 }
