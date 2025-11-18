@@ -36,3 +36,25 @@ export const prng = ({
 
   return value;
 };
+
+/**
+ *
+ * @param farmId - The farm ID
+ * @param itemId - The item ID or node ID
+ * @param counter - The counter based on farm/bumpkin activity
+ * @param chance - The % chance of the event (0-100)
+ * @returns True if the event occurs, false otherwise
+ */
+export function prngChance({
+  farmId,
+  itemId,
+  counter,
+  chance,
+}: {
+  farmId: number;
+  itemId: number;
+  counter: number;
+  chance: number;
+}) {
+  return prng({ farmId, itemId, counter }) * 100 < chance;
+}

@@ -14,7 +14,7 @@ import {
   CHOP_ERRORS,
 } from "./chop";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
-import { prng } from "lib/prng";
+import { prngChance } from "lib/prng";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -455,12 +455,7 @@ describe("getChoppedAt", () => {
       let counter = 0;
       // eslint-disable-next-line no-constant-condition
       while (true) {
-        const prngValue = prng({
-          farmId,
-          itemId,
-          counter,
-        });
-        if (prngValue * 100 < 15) {
+        if (prngChance({ farmId, itemId, counter, chance: 15 })) {
           return counter;
         }
         counter++;

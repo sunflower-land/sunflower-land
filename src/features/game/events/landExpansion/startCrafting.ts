@@ -10,9 +10,9 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { isTemporaryCollectibleActive } from "features/game/lib/collectibleBuilt";
-import { prng } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
 import { ITEM_IDS, BumpkinItem } from "features/game/types/bumpkin";
+import { prngChance } from "lib/prng";
 
 export type StartCraftingAction = {
   type: "crafting.started";
@@ -41,11 +41,10 @@ export function getBoostedCraftingTime({
 }) {
   let seconds = time;
   const boostsUsed: BoostName[] = [];
-  const prngValue = prng({ farmId, itemId, counter });
 
   if (isTemporaryCollectibleActive({ name: "Fox Shrine", game })) {
     boostsUsed.push("Fox Shrine");
-    if (prngValue * 100 < 10) {
+    if (prngChance({ farmId, itemId, counter, chance: 10 })) {
       seconds *= 0;
       return { seconds, boostsUsed };
     } else {
