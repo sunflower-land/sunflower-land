@@ -20,7 +20,7 @@ import {
   PET_TRAIT_GROUPS,
   TraitGroupDefinition,
 } from "features/marketplace/lib/traitOptions";
-import { getKeys } from "features/game/lib/crafting";
+import { getValues } from "features/game/types/decorations";
 
 export const Filters: React.FC<{
   onClose?: () => void;
@@ -174,9 +174,6 @@ export const Filters: React.FC<{
           : undefined,
       };
     });
-
-  const collectionHasTraitFilters = (collection: TraitCollection) =>
-    collection === activeCollection && traitFilters.length > 0;
 
   const setCosmeticSelection = (selection: {
     collectibles: boolean;
@@ -352,21 +349,11 @@ export const Filters: React.FC<{
         });
       },
       isActive:
-        isCollectionActive("buds") && getKeys(expandedTraitGroups).length === 0,
+        isCollectionActive("buds") &&
+        getValues(expandedTraitGroups).filter(Boolean).length === 0,
       hasOptions: true,
       options: isCollectionActive("buds")
-        ? [
-            ...buildTraitGroups("buds", BUD_TRAIT_GROUPS),
-            ...(collectionHasTraitFilters("buds")
-              ? [
-                  {
-                    icon: SUNNYSIDE.icons.cancel,
-                    label: t("marketplace.filters.clear"),
-                    onClick: () => clearTraitFilters("buds"),
-                  },
-                ]
-              : []),
-          ]
+        ? buildTraitGroups("buds", BUD_TRAIT_GROUPS)
         : undefined,
     },
     // Pets
@@ -381,21 +368,12 @@ export const Filters: React.FC<{
           closeFilters: false,
         });
       },
-      isActive: isCollectionActive("pets"),
+      isActive:
+        isCollectionActive("pets") &&
+        getValues(expandedTraitGroups).filter(Boolean).length === 0,
       hasOptions: true,
       options: isCollectionActive("pets")
-        ? [
-            ...buildTraitGroups("pets", PET_TRAIT_GROUPS),
-            ...(collectionHasTraitFilters("pets")
-              ? [
-                  {
-                    icon: SUNNYSIDE.icons.cancel,
-                    label: t("marketplace.filters.clear"),
-                    onClick: () => clearTraitFilters("pets"),
-                  },
-                ]
-              : []),
-          ]
+        ? buildTraitGroups("pets", PET_TRAIT_GROUPS)
         : undefined,
     },
     {
