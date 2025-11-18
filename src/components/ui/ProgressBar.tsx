@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSpring, animated } from "react-spring";
 
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -202,29 +202,16 @@ export const AnimatedBar: React.FC<{
   type: ProgressType;
   shouldWrap?: boolean;
 }> = ({ percentage, type, shouldWrap = true }) => {
-  const [prevPercentage, setPrevPercentage] = useState(
-    Math.min(percentage, 100),
-  );
-  const clampedPercentage = Math.min(percentage, 100);
-
-  // Detect if we need to wrap (percentage decreased)
-  const shouldReset = shouldWrap && prevPercentage > clampedPercentage;
+  const prevWidth = useRef(percentage);
 
   const { width } = useSpring({
-    from: { width: shouldReset ? 0 : undefined },
-    to: { width: clampedPercentage },
+    width: Math.min(percentage, 100),
     config: {
       tension: 120,
       friction: 30,
       clamp: true,
     },
-    reset: shouldReset,
   });
-
-  // Track previous percentage for wrap detection
-  useEffect(() => {
-    setPrevPercentage(clampedPercentage);
-  }, [clampedPercentage]);
 
   return (
     <div
@@ -280,7 +267,7 @@ export const AnimatedBar: React.FC<{
           top: `${PIXEL_SCALE * DIMENSIONS.marginTop}px`,
           left: `${PIXEL_SCALE * DIMENSIONS.marginLeft}px`,
           height: `${PIXEL_SCALE * DIMENSIONS.innerHeight}px`,
-          width: width?.to(
+          width: width.to(
             (w) => `${(PIXEL_SCALE * DIMENSIONS.innerWidth * w) / 100}px`,
           ),
         }}
@@ -292,8 +279,14 @@ export const AnimatedBar: React.FC<{
           top: `${PIXEL_SCALE * DIMENSIONS.marginTop}px`,
           left: `${PIXEL_SCALE * DIMENSIONS.marginLeft}px`,
           height: `${PIXEL_SCALE * DIMENSIONS.innerHeight}px`,
-          // Remove the state setters from this transformation callback
-          width: width?.to((w) => {
+          width: width.to((w) => {
+            // wrap the width to 0 if the previous width is greater than the current width
+            if (prevWidth.current > w && shouldWrap) {
+              width.set(0);
+            }
+
+            prevWidth.current = w;
+
             return `${(PIXEL_SCALE * DIMENSIONS.innerWidth * w) / 100}px`;
           }),
         }}

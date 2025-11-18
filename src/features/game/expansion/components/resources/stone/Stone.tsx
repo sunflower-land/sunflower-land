@@ -58,16 +58,13 @@ const selectSkills = (state: MachineState) =>
 const compareSkills = (prev: Skills, next: Skills) =>
   (prev["Tap Prospector"] ?? false) === (next["Tap Prospector"] ?? false);
 
-const _selectSeason = (state: MachineState) =>
-  state.context.state.season.season;
-const _selectIsland = (state: MachineState) => state.context.state.island;
-
 interface Props {
   id: string;
 }
 
 export const Stone: React.FC<Props> = ({ id }) => {
   const { gameService, shortcutItem, showAnimations } = useContext(Context);
+
   const [touchCount, setTouchCount] = useState(0);
 
   // When to hide the resource that pops out
@@ -106,8 +103,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
       (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0)),
   );
   const skills = useSelector(gameService, selectSkills, compareSkills);
-  const season = useSelector(gameService, _selectSeason);
-  const island = useSelector(gameService, _selectIsland);
+
   const hasTool = HasTool(inventory, game, id);
   const timeLeft = getTimeLeft(resource.stone.minedAt, STONE_RECOVERY_TIME);
   const mined = !canMine(resource, name);
@@ -174,8 +170,6 @@ export const Stone: React.FC<Props> = ({ id }) => {
       {!mined && (
         <div ref={divRef} className="absolute w-full h-full" onClick={strike}>
           <RecoveredStone
-            season={season}
-            island={island}
             hasTool={hasTool}
             touchCount={touchCount}
             showHelper={false} // FUTURE ENHANCEMENT
@@ -191,12 +185,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
 
       {/* Depleted resource */}
       {mined && (
-        <DepletedStone
-          season={season}
-          island={island}
-          timeLeft={timeLeft}
-          name={name as StoneRockName}
-        />
+        <DepletedStone timeLeft={timeLeft} name={name as StoneRockName} />
       )}
     </div>
   );

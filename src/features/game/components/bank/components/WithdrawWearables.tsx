@@ -117,8 +117,17 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
   };
 
   // Precompute/cached values for sorting to avoid repeated expensive calls
-  const withdrawableItemCache = getKeys(wardrobe).reduce(
-    (cache, itemName) => {
+  const withdrawableItemCache = React.useMemo(() => {
+    const cache: {
+      [key in BumpkinItem]?: {
+        cooldownMs: number;
+        isOnCooldown: boolean;
+        hasMoreOffChain: boolean;
+        hasBuff: boolean;
+      };
+    } = {};
+
+    getKeys(wardrobe).forEach((itemName) => {
       const { cooldownTimeLeft } = getRestrictionStatus(itemName);
       const isOnCooldown = cooldownTimeLeft > 0;
       const hasMoreOffChain = hasMoreOffChainItems(itemName);
@@ -130,18 +139,10 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
         hasMoreOffChain,
         hasBuff,
       };
+    });
 
-      return cache;
-    },
-    {} as {
-      [key in BumpkinItem]?: {
-        cooldownMs: number;
-        isOnCooldown: boolean;
-        hasMoreOffChain: boolean;
-        hasBuff: boolean;
-      };
-    },
-  );
+    return cache;
+  }, [wardrobe, state]);
 
   const sortWithdrawableItems = (itemA: BumpkinItem, itemB: BumpkinItem) => {
     const a = withdrawableItemCache[itemA];

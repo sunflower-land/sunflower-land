@@ -12,7 +12,7 @@ import {
   FESTIVE_TREE_REWARDS,
 } from "features/game/types/chests";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 
 import sfl from "assets/icons/flower_token.webp";
 import coins from "assets/icons/coins.webp";
@@ -72,96 +72,55 @@ export const CHEST_LOOT: (
 });
 
 export const ChestRevealing: React.FC<Props> = ({ type }) => {
-  const [{ image, label }, setDisplay] = useState<{
-    image?: string;
-    label?: string;
-  }>({});
+  const [image, setImage] = useState<string>();
+  const [label, setLabel] = useState<string>();
 
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
 
-  const chestLoot = useMemo(() => CHEST_LOOT(state), [state]);
-  const items = chestLoot[type];
+  const items = CHEST_LOOT(state)[type];
 
-  useEffect(() => {
-    // Early return if no items - don't update state here
-    if (!items?.length) {
-      return;
+  const pickRandomImage = useCallback(() => {
+    let newImage = image;
+    let newLabel = label;
+
+    while (newImage === image) {
+      const randomItem = items[Math.floor(Math.random() * items.length)];
+
+      if (randomItem.flower) {
+        newImage = sfl;
+        newLabel = `${randomItem.flower} FLOWER`;
+      }
+
+      if (randomItem.coins) {
+        newImage = coins;
+        newLabel = `${randomItem.coins} Coins`;
+      }
+
+      if (randomItem.wearables) {
+        const randomWearable = getKeys(randomItem.wearables)[0];
+        newImage = getImageUrl(ITEM_IDS[randomWearable]);
+        newLabel = randomWearable;
+      }
+
+      if (randomItem.items) {
+        const first = getKeys(randomItem.items)[0];
+        newImage = ITEM_DETAILS[first].image;
+        newLabel = getKeys(randomItem.items)
+          .map((name) => `${randomItem.items?.[name]} ${name}`)
+          .join(" - ");
+      }
     }
 
-    const pickRandomReward = () => {
-      setDisplay((prev) => {
-        const chooseDisplay = () => {
-          const randomItem = items[Math.floor(Math.random() * items.length)];
+    setImage(newImage);
+    setLabel(newLabel);
+  }, [image]);
 
-          if (randomItem.flower) {
-            return {
-              image: sfl,
-              label: `${randomItem.flower} FLOWER`,
-            };
-          }
+  useEffect(() => {
+    const interval = setInterval(pickRandomImage, 500);
 
-          if (randomItem.coins) {
-            return {
-              image: coins,
-              label: `${randomItem.coins} Coins`,
-            };
-          }
-
-          if (randomItem.wearables) {
-            const randomWearable = getKeys(randomItem.wearables)[0];
-
-            if (randomWearable) {
-              return {
-                image: getImageUrl(ITEM_IDS[randomWearable]),
-                label: randomWearable,
-              };
-            }
-          }
-
-          if (randomItem.items) {
-            const names = getKeys(randomItem.items);
-
-            if (names.length) {
-              const first = names[0];
-
-              return {
-                image: ITEM_DETAILS[first].image,
-                label: names
-                  .map((name) => `${randomItem.items?.[name]} ${name}`)
-                  .join(" - "),
-              };
-            }
-          }
-
-          return prev;
-        };
-
-        let attempt = 0;
-        let next = chooseDisplay();
-
-        // Try to avoid repeating the same image consecutively.
-        while (next.image === prev.image && attempt < items.length) {
-          next = chooseDisplay();
-          attempt += 1;
-        }
-
-        return next;
-      });
-    };
-
-    // Pick an initial reward immediately.
-    pickRandomReward();
-
-    const interval = setInterval(pickRandomReward, 500);
-
-    return () => clearInterval(interval);
-  }, [items]);
-
-  // Render nothing if there are no items
-  if (!items?.length) {
-    return null;
-  }
+    () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center h-44 gap-2">
@@ -171,7 +130,7 @@ export const ChestRevealing: React.FC<Props> = ({ type }) => {
             {label}
           </Label>
         )}
-        {image && <img src={image} className="h-20 mb-5" />}
+        <img src={image} className="h-20 mb-5" />
       </div>
     </div>
   );

@@ -136,7 +136,12 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
           setSelectedItems={selectItems}
         />
       )}
-      {currentTab === 1 && <RecipesTab handleSetupRecipe={handleSetupRecipe} />}
+      {currentTab === 1 && (
+        <RecipesTab
+          gameService={gameService}
+          handleSetupRecipe={handleSetupRecipe}
+        />
+      )}
       {currentTab === 2 && (
         <CraftingBoxGuide onClose={() => setCurrentTab(0)} />
       )}

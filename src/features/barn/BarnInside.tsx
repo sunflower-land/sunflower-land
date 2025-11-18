@@ -100,8 +100,6 @@ export const BarnInside: React.FC = () => {
 
   // Sort order will remain the same as long as animals are not added or removed
   // Group animals by type (Cow, then Sheep) first, then sort by experience
-  const animalCount = getKeys(barn.animals).length;
-
   const sortedAnimalIds = useMemo(
     () =>
       getKeys(barn.animals)
@@ -112,15 +110,10 @@ export const BarnInside: React.FC = () => {
             : a.type.localeCompare(b.type),
         )
         .map((animal) => animal.id),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [getKeys(barn.animals).length],
   );
 
   // Organize the animals neatly in the barn
-  const sickAnimalCount = getValues(barn.animals).filter(
-    (animal) => animal.state === "sick",
-  ).length;
-
   const organizedAnimals = useMemo(() => {
     const maxAnimalsPerRow = Math.floor(floorWidth / ANIMALS.Cow.width);
     const verticalGap = 0.5; // Add a 0.5 grid unit gap between rows
@@ -138,8 +131,11 @@ export const BarnInside: React.FC = () => {
           },
         };
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [animalCount, sickAnimalCount, floorWidth]);
+  }, [
+    getKeys(barn.animals).length,
+    getValues(barn.animals).filter((animal) => animal.state === "sick").length,
+    floorWidth,
+  ]);
   const currentBiome = getCurrentBiome(island);
 
   const validAnimalsCount = useMemo(() => {

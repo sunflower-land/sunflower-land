@@ -41,45 +41,35 @@ export const AudioMenu: React.FC<Props> = ({
   }, [isAudioMuted]);
 
   useEffect(() => {
-    const player = musicPlayer.current;
-    if (!player) return;
+    if (!musicPlayer.current) return;
 
-    // Modifying HTMLAudioElement properties is necessary for audio control
-    // eslint-disable-next-line react-hooks/immutability
-    player.volume = 0.15;
+    musicPlayer.current.volume = 0.15;
 
     if (isMusicPaused) {
-      player.pause();
+      musicPlayer.current.pause();
     } else {
-      player.play();
-      player.muted = false;
+      musicPlayer.current.play();
+      musicPlayer.current.muted = false;
     }
-  }, [isMusicPaused, musicPlayer]);
+  }, [isMusicPaused]);
 
   useEffect(() => {
     // https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilitychange_event
-    const handleVisibilityChange = () => {
-      const player = musicPlayer.current;
-      if (!player) return;
+    document.addEventListener("visibilitychange", () => {
+      if (!musicPlayer.current) return;
 
       if (document.visibilityState === "visible") {
         if (!isMusicPaused) {
-          player.play();
-          player.muted = false;
+          musicPlayer.current.play();
+          musicPlayer.current.muted = false;
         }
         Howler.mute(isAudioMuted);
       } else {
-        player.pause();
+        musicPlayer.current.pause();
         Howler.mute(true);
       }
-    };
-
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
-  }, [isMusicPaused, isAudioMuted, musicPlayer]);
+    });
+  }, []);
 
   return (
     <Modal show={show} onHide={onClose}>

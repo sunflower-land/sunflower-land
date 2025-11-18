@@ -1,23 +1,15 @@
-import { useEffect, useState } from "react";
-
-const computeIsStandalone = () =>
-  typeof window !== "undefined" &&
-  window.matchMedia("(display-mode: standalone)").matches;
+import { useState, useEffect } from "react";
 
 export const useIsPWA = () => {
-  const [isPWA, setIsPWA] = useState(() => computeIsStandalone());
+  const [isPWA, setIsPWA] = useState(false);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const mediaQuery = window.matchMedia("(display-mode: standalone)");
-
-    const handleChange = (event: MediaQueryListEvent) => {
-      setIsPWA(event.matches);
-    };
-
-    mediaQuery.addEventListener?.("change", handleChange);
-    return () => mediaQuery.removeEventListener?.("change", handleChange);
+    if (
+      // "serviceWorker" in navigator &&
+      window.matchMedia("(display-mode: standalone)").matches
+    ) {
+      setIsPWA(true);
+    }
   }, []);
 
   return isPWA;

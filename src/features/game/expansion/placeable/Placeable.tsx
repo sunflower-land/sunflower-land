@@ -2,11 +2,10 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
-import { useActor, useSelector } from "@xstate/react";
+import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineInterpreter } from "./landscapingMachine";
@@ -32,33 +31,22 @@ import { ZoomContext } from "components/ZoomProvider";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { GameState, TemperateSeasonName } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import { DIRT_PATH_VARIANTS } from "features/island/lib/alternateArt";
 import { getCurrentBiome, LandBiomeName } from "features/island/biomes/biomes";
 import {
   getSortedCollectiblePositions,
   getSortedResourcePositions,
 } from "../lib/utils";
-import { MachineState } from "features/game/lib/gameMachine";
 
-type PlaceableArgs = {
-  island: GameState["island"];
-  season: TemperateSeasonName;
-  henHouseLevel: number;
-  barnLevel: number;
-};
-
-export const PLACEABLES = (args: PlaceableArgs) => {
-  const { island, season, henHouseLevel, barnLevel } = args;
+export const PLACEABLES = (state: GameState) => {
+  const island: GameState["island"] = state.island;
   const biome: LandBiomeName = getCurrentBiome(island);
 
   return {
     ...READONLY_COLLECTIBLES,
-    ...READONLY_RESOURCE_COMPONENTS({
-      season,
-      island,
-    }),
-    ...READONLY_BUILDINGS({ island, season, henHouseLevel, barnLevel }),
+    ...READONLY_RESOURCE_COMPONENTS(),
+    ...READONLY_BUILDINGS(state),
     "Dirt Path": () => (
       <img
         src={DIRT_PATH_VARIANTS[biome]}
@@ -116,56 +104,29 @@ interface Props {
   location: PlaceableLocation;
 }
 
-const _island = (state: MachineState) => state.context.state.island;
-const _season = (state: MachineState) => state.context.state.season.season;
-const _henHouseLevel = (state: MachineState) =>
-  state.context.state.henHouse.level;
-const _barnLevel = (state: MachineState) => state.context.state.barn.level;
-const _crops = (state: MachineState) => state.context.state.crops;
-const _collectibles = (state: MachineState) => state.context.state.collectibles;
-const _landscapingMachine = (state: MachineState) =>
-  state.children.landscaping as MachineInterpreter;
-const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
-
 export const Placeable: React.FC<Props> = ({ location }) => {
   const { scale } = useContext(ZoomContext);
-  const { gameService, showTimers } = useContext(Context);
-
-  const island = useSelector(gameService, _island);
-  const season = useSelector(gameService, _season);
-  const henHouseLevel = useSelector(gameService, _henHouseLevel);
-  const barnLevel = useSelector(gameService, _barnLevel);
-  const crops = useSelector(gameService, _crops);
-  const collectibles = useSelector(gameService, _collectibles);
-  const bumpkin = useSelector(gameService, _bumpkin);
-  const landscapingMachine = useSelector(gameService, _landscapingMachine);
-
-  const [machine, send] = useActor(landscapingMachine);
-  const { placeable, collisionDetected, origin, coordinates } = machine.context;
 
   const nodeRef = useRef<HTMLDivElement>(null);
+  const { gameService, showTimers } = useContext(Context);
 
-  const hintResetToken = useMemo(
-    () => Symbol(`origin-${origin?.x ?? "none"}-${origin?.y ?? "none"}`),
-    [origin],
+  const { island, season } = gameService.getSnapshot().context.state;
+
+  const [gameState] = useActor(gameService);
+  const [showHint, setShowHint] = useState(true);
+
+  const child = gameService.getSnapshot().children
+    .landscaping as MachineInterpreter;
+
+  const [machine, send] = useActor(child);
+  const { placeable, collisionDetected, origin, coordinates } = machine.context;
+
+  const cropPositions = getSortedResourcePositions(
+    gameState.context.state.crops,
   );
-
-  const [dismissedToken, setDismissedToken] = useState<symbol | null>(null);
-
-  const showHint = dismissedToken !== hintResetToken;
-
-  const hideHint = useCallback(() => {
-    setDismissedToken((current) => {
-      if (current === hintResetToken) {
-        return current;
-      }
-
-      return hintResetToken;
-    });
-  }, [hintResetToken]);
-
-  const cropPositions = getSortedResourcePositions(crops);
-  const collectiblePositions = getSortedCollectiblePositions(collectibles);
+  const collectiblePositions = getSortedCollectiblePositions(
+    gameState.context.state.collectibles,
+  );
   const grid = getGameGrid({ cropPositions, collectiblePositions });
 
   const { t } = useAppTranslation();
@@ -205,6 +166,14 @@ export const Placeable: React.FC<Props> = ({ location }) => {
     ],
   );
 
+  const [DEFAULT_POSITION_X, DEFAULT_POSITION_Y] =
+    getInitialCoordinates(origin);
+
+  const [position, setPosition] = useState<Coordinates>({
+    x: DEFAULT_POSITION_X,
+    y: DEFAULT_POSITION_Y,
+  });
+
   useEffect(() => {
     if (!placeable) return;
 
@@ -214,15 +183,8 @@ export const Placeable: React.FC<Props> = ({ location }) => {
       x: Math.round(startingX / GRID_WIDTH_PX),
       y: Math.round(-startingY / GRID_WIDTH_PX),
     });
+    setPosition({ x: startingX, y: startingY });
   }, [placeable, origin, detect]);
-
-  const position = useMemo<Coordinates>(
-    () => ({
-      x: coordinates.x * GRID_WIDTH_PX,
-      y: -coordinates.y * GRID_WIDTH_PX,
-    }),
-    [coordinates.x, coordinates.y],
-  );
 
   // Arrow/WASD keyboard movement to move the ghost placeable on the grid
   useEffect(() => {
@@ -249,24 +211,32 @@ export const Placeable: React.FC<Props> = ({ location }) => {
 
       const nextGrid = { x: coordinates.x + deltaX, y: coordinates.y + deltaY };
       detect(nextGrid);
-      hideHint();
+      setPosition({
+        x: nextGrid.x * GRID_WIDTH_PX,
+        y: -nextGrid.y * GRID_WIDTH_PX,
+      });
+      setShowHint(false);
       e.preventDefault();
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [placeable, coordinates.x, coordinates.y, detect, hideHint]);
+  }, [placeable, coordinates.x, coordinates.y, detect]);
 
-  if (!placeable) return null;
+  useEffect(() => {
+    setShowHint(true);
+  }, [origin]);
+
+  if (!placeable) {
+    return null;
+  }
 
   const Collectible =
     placeable?.name === "Bud"
-      ? PLACEABLES({ island, season, henHouseLevel, barnLevel })["Bud"]
+      ? PLACEABLES(gameState.context.state)["Bud"]
       : placeable?.name === "Pet"
-        ? PLACEABLES({ island, season, henHouseLevel, barnLevel })["PetNFT"]
-        : PLACEABLES({ island, season, henHouseLevel, barnLevel })[
-            placeable.name
-          ];
+        ? PLACEABLES(gameState.context.state)["PetNFT"]
+        : PLACEABLES(gameState.context.state)[placeable.name];
 
   return (
     <>
@@ -298,7 +268,8 @@ export const Placeable: React.FC<Props> = ({ location }) => {
             const y = Math.round(-data.y / GRID_WIDTH_PX);
 
             detect({ x, y });
-            hideHint();
+            setPosition({ x: data.x, y: data.y });
+            setShowHint(false);
           }}
           onStop={(_, data) => {
             const x = Math.round(data.x / GRID_WIDTH_PX);
@@ -352,10 +323,10 @@ export const Placeable: React.FC<Props> = ({ location }) => {
                 x={0}
                 y={0}
                 island={island}
-                season={season}
+                season={season.season}
                 grid={grid}
                 showTimers={showTimers}
-                skills={bumpkin.skills}
+                skills={gameState.context.state.bumpkin.skills}
                 id={
                   placeable?.name === "Bud" || placeable?.name === "Pet"
                     ? placeable.id

@@ -2,8 +2,7 @@ import useSWRInfinite from "swr/infinite";
 import { getFeedInteractions } from "../actions/getFeedInteractions";
 import { Interaction } from "../types/types";
 import { FeedFilter } from "../Feed";
-import { useEffect, useState } from "react";
-import isEqual from "lodash.isequal";
+import { useEffect, useRef } from "react";
 
 const PAGE_SIZE = 50;
 
@@ -39,25 +38,22 @@ export function useFeedInteractions(
     },
   );
 
+  const followingRef = useRef<number[] | null>(null);
+
   // Whatever SWR returned for page 0 this render
   const firstFollowing = data?.[0]?.following;
 
-  const [following, setFollowing] = useState<number[]>([]);
-
   useEffect(() => {
-    if (Array.isArray(firstFollowing)) {
-      setFollowing((prev) => {
-        if (
-          prev.length === firstFollowing.length &&
-          isEqual(prev, firstFollowing)
-        ) {
-          return prev;
-        }
-
-        return firstFollowing;
-      });
+    if (
+      firstFollowing &&
+      (followingRef.current === null ||
+        followingRef.current.length !== firstFollowing.length)
+    ) {
+      followingRef.current = firstFollowing;
     }
   }, [firstFollowing]);
+
+  const following = followingRef.current ?? firstFollowing ?? [];
 
   const feed = data ? data.flatMap((page) => page.feed).filter(Boolean) : [];
 

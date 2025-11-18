@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { RecoveredOilReserve } from "./components/RecoveredOilReserve";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -32,7 +32,7 @@ const compareResource = (prev: IOilReserve, next: IOilReserve) => {
 export const OilReserve: React.FC<Props> = ({ id }) => {
   const { gameService } = useContext(Context);
   const [drilling, setDrilling] = useState(false);
-  const [oilHarvested, setOilHarvested] = useState(0);
+  const oilHarvested = useRef(0);
 
   const state = gameService.getSnapshot().context.state;
 
@@ -56,7 +56,7 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
 
     if (!newState.matches("hoarding")) {
       setDrilling(true);
-      setOilHarvested((oilHarvested) => oilHarvested + oilDropAmount);
+      oilHarvested.current += oilDropAmount;
 
       await new Promise((res) => setTimeout(res, 2000));
       setDrilling(false);
@@ -73,9 +73,9 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
       {!ready && !halfReady && (
         <DepletedOilReserve
           drilling={drilling}
-          oilAmount={oilHarvested}
+          oilAmount={oilHarvested.current}
           timeLeft={timeLeft}
-          onOilTransitionEnd={() => setOilHarvested(0)}
+          onOilTransitionEnd={() => (oilHarvested.current = 0)}
         />
       )}
     </div>
