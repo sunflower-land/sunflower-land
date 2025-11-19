@@ -56,5 +56,11 @@ export function prngChance({
   counter: number;
   chance: number;
 }) {
-  return prng({ farmId, itemId, counter }) * 100 < chance;
+  if (chance < 0 || chance > 100) {
+    return false;
+  }
+
+  const prngValue = prng({ farmId, itemId, counter });
+
+  return prngValue * 100 < chance;
 }
