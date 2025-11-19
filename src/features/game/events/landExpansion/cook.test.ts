@@ -81,22 +81,18 @@ describe("cook", () => {
                   {
                     name: "Boiled Eggs",
                     readyAt: createdAt + 60 * 1000,
-                    amount: 1,
                   },
                   {
                     name: "Boiled Eggs",
                     readyAt: createdAt + 60 * 1000,
-                    amount: 1,
                   },
                   {
                     name: "Boiled Eggs",
                     readyAt: createdAt + 60 * 1000,
-                    amount: 1,
                   },
                   {
                     name: "Boiled Eggs",
                     readyAt: createdAt + 60 * 1000,
-                    amount: 1,
                   },
                 ],
               },
@@ -381,7 +377,6 @@ describe("cook", () => {
                 {
                   name: "Boiled Eggs",
                   readyAt: createdAt + 60 * 1000,
-                  amount: 1,
                 },
               ],
             },
@@ -430,7 +425,6 @@ describe("cook", () => {
                 {
                   name: "Boiled Eggs",
                   readyAt: createdAt + 60 * 1000,
-                  amount: 1,
                 },
               ],
             },
@@ -475,7 +469,6 @@ describe("cook", () => {
                 {
                   name: "Boiled Eggs",
                   readyAt: createdAt - 60 * 60 * 1000, // Finished 1 hour ago
-                  amount: 1,
                 },
               ],
             },
@@ -1092,7 +1085,6 @@ describe("getReadyAt", () => {
                 {
                   name: "Boiled Eggs",
                   readyAt: eggReadyAt,
-                  amount: 1,
                 },
               ],
             },
@@ -1127,7 +1119,6 @@ describe("getReadyAt", () => {
     expect(building?.crafting?.[0]).toEqual({
       name: "Boiled Eggs",
       readyAt: eggReadyAt,
-      amount: 1,
     });
   });
 
@@ -1159,7 +1150,6 @@ describe("getReadyAt", () => {
                 {
                   name: "Boiled Eggs",
                   readyAt: now + 29 * 60 * 1000, // Ready in 29 minutes
-                  amount: 1,
                 },
               ],
             },
@@ -1383,7 +1373,6 @@ describe("getCookingOilBoost", () => {
                 {
                   name: "Boiled Eggs",
                   readyAt: now + cookTimeMs,
-                  amount: 1,
                 },
               ],
             },

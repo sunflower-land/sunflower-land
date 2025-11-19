@@ -21,7 +21,6 @@ describe("processEvent", () => {
                 {
                   name: "Pumpkin Soup",
                   readyAt: Date.now(),
-                  amount: 1,
                 },
               ],
             },

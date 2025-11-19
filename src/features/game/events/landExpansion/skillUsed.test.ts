@@ -908,7 +908,6 @@ describe("skillUse", () => {
                     boost: {
                       Oil: 0.125,
                     },
-                    amount: 1,
                     readyAt: dateNow + 5000,
                   },
                 ],
@@ -930,7 +929,6 @@ describe("skillUse", () => {
                     boost: {
                       Oil: 1,
                     },
-                    amount: 1,
                     readyAt: dateNow + 6000,
                   },
                 ],
@@ -973,22 +971,18 @@ describe("skillUse", () => {
                   {
                     name: "Mashed Potato",
                     readyAt: now,
-                    amount: 1,
                   },
                   {
                     name: "Rhubarb Tart",
                     readyAt: now + RHUBARB_TIME,
-                    amount: 1,
                   },
                   {
                     name: "Rhubarb Tart",
                     readyAt: now + RHUBARB_TIME * 2,
-                    amount: 1,
                   },
                   {
                     name: "Mashed Potato",
                     readyAt: now + RHUBARB_TIME * 2 + POTATO_TIME,
-                    amount: 1,
                   },
                 ],
               },

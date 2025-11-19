@@ -9,6 +9,7 @@ import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { getCurrentCookingItem, recalculateQueue } from "./cancelQueuedRecipe";
 import { CookableName } from "features/game/types/consumables";
+import { getCookingAmount } from "./collectRecipe";
 
 export type InstantCookRecipe = {
   type: "recipe.spedUp";
@@ -20,6 +21,7 @@ type Options = {
   state: Readonly<GameState>;
   action: InstantCookRecipe;
   createdAt?: number;
+  farmId: number;
 };
 
 const SECONDS_TO_GEMS = {
@@ -111,6 +113,7 @@ export function speedUpRecipe({
   state,
   action,
   createdAt = Date.now(),
+  farmId,
 }: Options): GameState {
   return produce(state, (game) => {
     const building = game.buildings[action.buildingName]?.find(
@@ -139,10 +142,16 @@ export function speedUpRecipe({
     }
 
     game.inventory["Gem"] = (game.inventory["Gem"] ?? new Decimal(0)).sub(gems);
-
+    const amount = getCookingAmount({
+      building: action.buildingName,
+      bumpkin: game.bumpkin,
+      recipe,
+      farmId,
+      counter: game.bumpkin.activity[`${recipe.name} Cooked`] || 0,
+    });
     game.inventory[recipe.name] = (
       game.inventory[recipe.name] ?? new Decimal(0)
-    ).add(recipe.amount ?? 1);
+    ).add(amount);
 
     const queueWithoutSpedUpRecipe = queue.filter(
       (item) => item.readyAt !== recipe.readyAt,

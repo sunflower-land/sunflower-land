@@ -758,7 +758,6 @@ export type FruitPatch = {
 export type BuildingProduct = {
   name: CookableName;
   readyAt: number;
-  amount?: number;
   boost?: Partial<Record<InventoryItemName, number>>;
   skills?: Partial<Record<BumpkinRevampSkillName, boolean>>;
   timeRemaining?: number;
@@ -770,19 +769,13 @@ export type BuildingProduce = {
   readyAt: number;
 };
 
-export type Cancelled = Partial<{
-  [key in InventoryItemName]: {
-    cancelledAt: number;
-  };
-}>;
-
 export type PlacedItem = {
   id: string;
   coordinates?: { x: number; y: number };
   readyAt?: number;
   createdAt?: number;
   removedAt?: number;
-  cancelled?: Cancelled;
+  cancelled?: Record<string, unknown>;
   crafting?: BuildingProduct[];
   oil?: number;
   flipped?: boolean;

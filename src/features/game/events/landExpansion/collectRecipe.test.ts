@@ -5,9 +5,11 @@ import { collectRecipe } from "./collectRecipe";
 const GAME_STATE: GameState = TEST_FARM;
 
 describe("collect Recipes", () => {
+  const farmId = 1;
   it("throws an error if building does not exist", () => {
     expect(() =>
       collectRecipe({
+        farmId,
         state: {
           ...GAME_STATE,
           buildings: {},
@@ -25,6 +27,7 @@ describe("collect Recipes", () => {
   it("throws an error if building is not cooking anything", () => {
     expect(() =>
       collectRecipe({
+        farmId,
         state: {
           ...GAME_STATE,
           buildings: {
@@ -51,6 +54,7 @@ describe("collect Recipes", () => {
   it("throws an error if there are no recipes that are ready", () => {
     expect(() =>
       collectRecipe({
+        farmId,
         state: {
           ...GAME_STATE,
           buildings: {
@@ -64,7 +68,6 @@ describe("collect Recipes", () => {
                   {
                     name: "Boiled Eggs",
                     readyAt: Date.now() + 60 * 1000,
-                    amount: 1,
                   },
                 ],
               },
@@ -91,11 +94,11 @@ describe("collect Recipes", () => {
         {
           name: "Boiled Eggs",
           readyAt: Date.now() - 5 * 1000,
-          amount: 1,
         },
       ],
     };
     const state = collectRecipe({
+      farmId,
       state: {
         ...GAME_STATE,
         buildings: {
@@ -136,6 +139,7 @@ describe("collect Recipes", () => {
 
   it("only removes the recipes that are ready", () => {
     const state = collectRecipe({
+      farmId,
       state: {
         ...GAME_STATE,
         buildings: {
@@ -149,17 +153,14 @@ describe("collect Recipes", () => {
                 {
                   name: "Boiled Eggs",
                   readyAt: Date.now() - 5 * 1000,
-                  amount: 1,
                 },
                 {
                   name: "Mashed Potato",
                   readyAt: Date.now() + 5 * 1000,
-                  amount: 1,
                 },
                 {
                   name: "Pumpkin Soup",
                   readyAt: Date.now() + 10 * 1000,
-                  amount: 1,
                 },
               ],
             },
@@ -180,12 +181,10 @@ describe("collect Recipes", () => {
       {
         name: "Mashed Potato",
         readyAt: expect.any(Number),
-        amount: 1,
       },
       {
         name: "Pumpkin Soup",
         readyAt: expect.any(Number),
-        amount: 1,
       },
     ]);
   });
