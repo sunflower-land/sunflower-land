@@ -66,10 +66,6 @@ export function prngChance({
   chance: number;
   criticalHitName: CriticalHitName;
 }) {
-  if (chance < 0 || chance > 100) {
-    return false;
-  }
-
   const prngValue = prng({ farmId, itemId, counter, criticalHitName });
 
   return prngValue * 100 < chance;
