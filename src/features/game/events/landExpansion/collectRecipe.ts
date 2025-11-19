@@ -3,11 +3,12 @@ import { KNOWN_IDS } from "features/game/types";
 import { BuildingName } from "features/game/types/buildings";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 
-import { BuildingProduct, Bumpkin, GameState } from "features/game/types/game";
+import { BuildingProduct, GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
 import { prngChance } from "lib/prng";
 import { isCookingBuilding } from "./cook";
+import { isWearableActive } from "features/game/lib/wearables";
 
 export type CollectRecipeAction = {
   type: "recipes.collected";
@@ -24,16 +25,16 @@ type Options = {
 
 export const getCookingAmount = ({
   building,
-  bumpkin,
   recipe,
   farmId,
   counter,
+  game,
 }: {
   building: BuildingName;
-  bumpkin: Bumpkin;
   recipe: BuildingProduct;
   farmId: number;
   counter: number;
+  game: GameState;
 }): number => {
   let amount = 1;
 
@@ -45,13 +46,26 @@ export const getCookingAmount = ({
   // Fiery Jackpot - 20% Chance to double the amount from Fire Pit
   if (
     building === "Fire Pit" &&
-    bumpkin.skills["Fiery Jackpot"] &&
+    game.bumpkin.skills["Fiery Jackpot"] &&
     prngChance({
       farmId,
       itemId: KNOWN_IDS[recipe.name],
       counter,
       chance: 20,
       criticalHitName: "Fiery Jackpot",
+    })
+  ) {
+    amount += 1;
+  }
+
+  if (
+    isWearableActive({ name: "Cleaver Knife", game }) &&
+    prngChance({
+      farmId,
+      itemId: KNOWN_IDS[recipe.name],
+      counter,
+      chance: 10,
+      criticalHitName: "Cleaver Knife",
     })
   ) {
     amount += 1;
@@ -96,7 +110,7 @@ export function collectRecipe({
       if (recipe.readyAt <= createdAt) {
         const amount = getCookingAmount({
           building: action.building,
-          bumpkin,
+          game,
           recipe,
           farmId,
           counter: bumpkin.activity[`${recipe.name} Cooked`] || 0,
