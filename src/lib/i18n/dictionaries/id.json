@@ -6398,8 +6398,6 @@
   "marketplaceTransferInProgress": "Transfer Marketplace dan/atau Lelang sedang diselesaikan, silakan coba lagi dalam beberapa menit.",
   "marketplaceTransferInProgress.label": "Transfer yang tertunda sedang berlangsung",
   "description.boarShrine.buff": "-20% Waktu Memasak",
-  "description.sparrowShrine.buff": "-25% Waktu Pertumbuhan Tanaman",
-  "description.toucanShrine.buff": "-25% Waktu Pertumbuhan Buah",
   "description.stagShrine.buff": "-25% Waktu Pemulihan Minyak",
   "description.bearShrine.buff": "+0,5 Kecepatan Produksi Madu",
   "description.mothShrine.buff": "-25% Waktu Pertumbuhan Bunga",
@@ -6549,7 +6547,6 @@
   "description.moleShrine.buff": "-25% Waktu Pemulihan Besi",
   "description.moleShrine.buff.2": "-25% Waktu Pemulihan Emas",
   "description.moleShrine.buff.3": "-25% Waktu Pemulihan Crimstone",
-  "description.tortoiseShrine.buff": "-25% Waktu Pertumbuhan Rumah Kaca",
   "description.tortoiseShrine.buff.2": "-10% Waktu Pertumbuhan Mesin Tanaman",
   "description.legendaryShrine.buff": "+1 Hasil Tanaman",
   "description.legendaryShrine.buff.2": "+1 Hasil Petak Buah",
@@ -6821,8 +6818,6 @@
   "description.bantamShrine.buff.2": "-5% Pakan untuk memberi makan ayam",
   "description.foxShrine.buff.2": "10% kesempatan untuk langsung membuat resep",
   "description.collieShrine.buff.3": "-5% Pakan untuk memberi makan hewan kandang",
-  "description.bearShrine.buff.2": "Kemungkinan +10% kawanan lebah",
-  "description.mothShrine.buff.2": "10% kesempatan untuk mendapatkan +1 Bunga",
   "description.legendaryShrine.buff.5": "+1 Flower",
   "description.legendaryShrine.buff.6": "-50% Waktu Memasak",
   "pets.place": "Tempatkan hewan peliharaan Anda",
@@ -7141,5 +7136,11 @@
   "withdraw.pet.confirmation1": "Penarikan akan menghapus energi dan pengalaman hewan peliharaan Anda. Apakah Anda yakin ingin melanjutkan?",
   "withdraw.pet.confirmation2": "Penarikan ini menghapus energi dan pengalaman hewan peliharaan Anda sepenuhnya. Tindakan ini tidak dapat dibatalkan. Melanjutkan?",
   "marketplace.filters.applied": "Filter diterapkan",
-  "marketplace.filters.clear": "Hapus filter"
+  "marketplace.filters.clear": "Hapus filter",
+  "description.sparrowShrine.buff": "-25% Waktu Pertumbuhan Tanaman Plot",
+  "description.toucanShrine.buff": "-25% Waktu Pertumbuhan Petak Buah",
+  "description.stagShrine.buff.2": "+15 Minyak setiap bor ke-3",
+  "description.bearShrine.buff.2": "Kemungkinan +20% kawanan lebah",
+  "description.tortoiseShrine.buff": "-33% Waktu Pertumbuhan Rumah Kaca",
+  "description.mothShrine.buff.2": "20% kesempatan untuk mendapatkan +1 Bunga"
 }

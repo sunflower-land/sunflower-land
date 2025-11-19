@@ -6398,8 +6398,6 @@
   "marketplaceTransferInProgress": "市场和/或拍卖的转移正在完成中，请几分钟后再试。",
   "marketplaceTransferInProgress.label": "转移处理中",
   "description.boarShrine.buff": "-20% 烹饪时间",
-  "description.sparrowShrine.buff": "-25% 庄稼生长时间",
-  "description.toucanShrine.buff": "-25% 水果生长时间",
   "description.stagShrine.buff": "-25% 油田恢复时间",
   "description.bearShrine.buff": "+0.5 蜂蜜生产速度",
   "description.mothShrine.buff": "-25% 花卉生长时间",
@@ -6549,7 +6547,6 @@
   "description.moleShrine.buff": "-25% 铁脉恢复时间",
   "description.moleShrine.buff.2": "-25% 金脉恢复时间",
   "description.moleShrine.buff.3": "-25% 猩红石脉恢复时间",
-  "description.tortoiseShrine.buff": "-25% 温室生长时间",
   "description.tortoiseShrine.buff.2": "-10% 自动种植机种植时间",
   "description.legendaryShrine.buff": "+1 庄稼产量",
   "description.legendaryShrine.buff.2": "+1 果坑产量",
@@ -6821,8 +6818,6 @@
   "description.bantamShrine.buff.2": "-5% 鸡饲料",
   "description.foxShrine.buff.2": "10% 的几率立即完成配方",
   "description.collieShrine.buff.3": "-5% 畜棚牲畜饲料",
-  "description.bearShrine.buff.2": "+10% 蜂群几率",
-  "description.mothShrine.buff.2": "增加 1 层 10% 几率 +1 朵花卉的机会",
   "description.legendaryShrine.buff.5": "+1 花卉",
   "description.legendaryShrine.buff.6": "-50% 烹饪时间",
   "pets.place": "放置你的宠物",
@@ -7141,5 +7136,11 @@
   "withdraw.pet.confirmation1": "撤回会消灭你的宠物的能量和经验。你确定要继续吗？",
   "withdraw.pet.confirmation2": "这种撤退会彻底消耗你的宠物的能量和经验。此操作无法撤消。继续？",
   "marketplace.filters.applied": "已应用过滤器",
-  "marketplace.filters.clear": "清除筛选条件"
+  "marketplace.filters.clear": "清除筛选条件",
+  "description.sparrowShrine.buff": "-25% 地块作物生长时间",
+  "description.toucanShrine.buff": "-25% 水果补丁生长时间",
+  "description.stagShrine.buff.2": "每第 3 次钻探 +15 块石油",
+  "description.bearShrine.buff.2": "蜂群的几率 +20%",
+  "description.tortoiseShrine.buff": "-33% 温室生长时间",
+  "description.mothShrine.buff.2": "20% 几率获得 +1 朵花"
 }

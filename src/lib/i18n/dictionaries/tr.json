@@ -6398,8 +6398,6 @@
   "marketplaceTransferInProgress": "Pazar yeri ve/veya Açık artırma transferleri tamamlanıyor, lütfen birkaç dakika içinde tekrar deneyin.",
   "marketplaceTransferInProgress.label": "Bekleyen transfer devam ediyor",
   "description.boarShrine.buff": "-20% Pişirme Süresi",
-  "description.sparrowShrine.buff": "-25% Mahsul Büyüme Süresi",
-  "description.toucanShrine.buff": "-25% Meyve Büyüme Süresi",
   "description.stagShrine.buff": "-25% Yağ Geri Kazanım Süresi",
   "description.bearShrine.buff": "+0.5 Bal Üretim Hızı",
   "description.mothShrine.buff": "-25% Çiçek Büyüme Süresi",
@@ -6549,7 +6547,6 @@
   "description.moleShrine.buff": "-25% Demir Geri Kazanım Süresi",
   "description.moleShrine.buff.2": "-25% Altın Kurtarma Süresi",
   "description.moleShrine.buff.3": "-25% Crimstone Kurtarma Süresi",
-  "description.tortoiseShrine.buff": "-25% Sera Büyüme Süresi",
   "description.tortoiseShrine.buff.2": "-10% Mahsul Makinesi Büyüme Süresi",
   "description.legendaryShrine.buff": "+1 Mahsul Verimi",
   "description.legendaryShrine.buff.2": "+1 Meyve Yaması Verimi",
@@ -6821,8 +6818,6 @@
   "description.bantamShrine.buff.2": "-5% Tavukları beslemek için yem",
   "description.foxShrine.buff.2": "Anında bir tarif hazırlama şansı %10",
   "description.collieShrine.buff.3": "-5% Ahır hayvanlarını beslemek için yem",
-  "description.bearShrine.buff.2": "+10% arı sürüsü şansı",
-  "description.mothShrine.buff.2": "%10 +1 Çiçek kazanma şansı",
   "description.legendaryShrine.buff.5": "+1 Flower",
   "description.legendaryShrine.buff.6": "-50% Pişirme Süresi",
   "pets.place": "Evcil hayvanınızı yerleştirin",
@@ -7141,5 +7136,11 @@
   "withdraw.pet.confirmation1": "Geri çekilmek evcil hayvanınızın enerjisini ve deneyimini silecektir. Devamı istediğine emin misin?",
   "withdraw.pet.confirmation2": "Bu geri çekilme, evcil hayvanınızın enerjisini ve deneyimini tamamen siler. Bu işlem geri alınamaz. Devamı?",
   "marketplace.filters.applied": "Uygulanan filtreler",
-  "marketplace.filters.clear": "Filtreleri temizle"
+  "marketplace.filters.clear": "Filtreleri temizle",
+  "description.sparrowShrine.buff": "-25% Arsa Mahsulü Büyüme Süresi",
+  "description.toucanShrine.buff": "-25% Meyve Yaması Büyüme Süresi",
+  "description.stagShrine.buff.2": "Her 3. sondajda +15 yağ",
+  "description.bearShrine.buff.2": "+20% arı sürüsü şansı",
+  "description.tortoiseShrine.buff": "-33% Sera Büyüme Süresi",
+  "description.mothShrine.buff.2": "%20 +1 Çiçek kazanma şansı"
 }

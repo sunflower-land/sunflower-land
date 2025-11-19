@@ -6499,8 +6499,6 @@
   "description.foxShrine.buff": "-25% времени крафта в Crafting Box",
   "description.boarShrine.buff": "-20% времени готовки",
   "description.houndShrine.buff": "+100 XP для питомца за каждый запрос на еду",
-  "description.sparrowShrine.buff": "-25% времени роста урожая",
-  "description.toucanShrine.buff": "-25% времени роста фруктов",
   "description.collieShrine.buff": "-25% времени сна у Cow",
   "description.collieShrine.buff.2": "-25% времени сна у Sheep",
   "description.badgerShrine.buff": "-25% времени восстановления Tree",
@@ -6510,7 +6508,6 @@
   "description.moleShrine.buff.2": "-25% времени восстановления Gold",
   "description.moleShrine.buff.3": "-25% времени восстановления Crimstone",
   "description.bearShrine.buff": "+0.5 к скорости производства Honey",
-  "description.tortoiseShrine.buff": "-25% время роста в Greenhouse",
   "description.tortoiseShrine.buff.2": "-10% времени роста растений в Crop Machine",
   "description.mothShrine.buff": "-25% время роста цветов",
   "description.acorn": "Ореховое лакомство для ваших питомцев",
@@ -6825,8 +6822,6 @@
   "description.bantamShrine.buff.2": "-5% корма для кур",
   "description.foxShrine.buff.2": "10% шанс мгновенно скрафтить рецепт",
   "description.collieShrine.buff.3": "-5% корма для животных в Barn",
-  "description.bearShrine.buff.2": "+10% к шансу появления пчелиного роя",
-  "description.mothShrine.buff.2": "10% шанс получить +1 цветок",
   "description.legendaryShrine.buff.5": "+1 цветок",
   "description.legendaryShrine.buff.6": "-50% времени приготовления",
   "pets.place": "Поместите своего питомца",
@@ -7141,5 +7136,11 @@
   "withdraw.pet.confirmation1": "При выводе питомец потеряет всю энергию и опыт. Вы уверены, что хотите продолжить?",
   "withdraw.pet.confirmation2": "Вывод полностью обнулит энергию и опыт питомца. Отменить действие будет невозможно. Продолжить?",
   "marketplace.filters.applied": "Filters applied",
-  "marketplace.filters.clear": "Clear filters"
+  "marketplace.filters.clear": "Clear filters",
+  "description.sparrowShrine.buff": "-25% Plot Crop Growth Time",
+  "description.toucanShrine.buff": "-25% Fruit Patch Growth Time",
+  "description.stagShrine.buff.2": "+15 Oil every 3rd drill",
+  "description.bearShrine.buff.2": "+20% chance of bee swarm",
+  "description.tortoiseShrine.buff": "-33% Greenhouse Growth Time",
+  "description.mothShrine.buff.2": "20% chance to get +1 Flower"
 }

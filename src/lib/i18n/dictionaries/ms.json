@@ -6398,8 +6398,6 @@
   "marketplaceTransferInProgress": "Pemindahan Pasaran dan/atau Lelongan sedang dimuktamadkan, sila cuba lagi dalam beberapa minit.",
   "marketplaceTransferInProgress.label": "Belum pemindahan sedang dijalankan",
   "description.boarShrine.buff": "-20% Masa Memasak",
-  "description.sparrowShrine.buff": "-25% Masa Pertumbuhan Tanaman",
-  "description.toucanShrine.buff": "-25% Masa Pertumbuhan Buah",
   "description.stagShrine.buff": "-25% Masa Pemulihan Minyak",
   "description.bearShrine.buff": "+0.5 Kelajuan Pengeluaran Madu",
   "description.mothShrine.buff": "-25% Masa Pertumbuhan Bunga",
@@ -6549,7 +6547,6 @@
   "description.moleShrine.buff": "-25% Masa Pemulihan Besi",
   "description.moleShrine.buff.2": "-25% Masa Pemulihan Emas",
   "description.moleShrine.buff.3": "-25% Masa Pemulihan Crimstone",
-  "description.tortoiseShrine.buff": "-25% Masa Pertumbuhan Rumah Hijau",
   "description.tortoiseShrine.buff.2": "-10% Masa Pertumbuhan Mesin Tanaman",
   "description.legendaryShrine.buff": "+1 Hasil Tanaman",
   "description.legendaryShrine.buff.2": "+1 Hasil Patch Buah",
@@ -6821,8 +6818,6 @@
   "description.bantamShrine.buff.2": "-5% Makanan untuk memberi makan ayam",
   "description.foxShrine.buff.2": "10% peluang untuk membuat resipi dengan serta-merta",
   "description.collieShrine.buff.3": "-5% Makanan untuk memberi makan haiwan kandang",
-  "description.bearShrine.buff.2": "+10% peluang kawanan lebah",
-  "description.mothShrine.buff.2": "10% peluang untuk mendapatkan +1 bunga",
   "description.legendaryShrine.buff.5": "+1 Bunga",
   "description.legendaryShrine.buff.6": "-50% Masa Memasak",
   "pets.place": "Letakkan haiwan kesayangan anda",
@@ -7141,5 +7136,11 @@
   "withdraw.pet.confirmation1": "Pengeluaran akan menghapuskan tenaga dan pengalaman haiwan kesayangan anda. Adakah anda pasti mahu meneruskan?",
   "withdraw.pet.confirmation2": "Pengeluaran ini menghilangkan tenaga dan pengalaman haiwan kesayangan anda sepenuhnya. Tindakan ini tidak boleh dibatalkan. Teruskan?",
   "marketplace.filters.applied": "Penapis digunakan",
-  "marketplace.filters.clear": "Kosongkan penapis"
+  "marketplace.filters.clear": "Kosongkan penapis",
+  "description.sparrowShrine.buff": "-25% Masa Pertumbuhan Tanaman Plot",
+  "description.toucanShrine.buff": "-25% Masa Pertumbuhan Patch Buah",
+  "description.stagShrine.buff.2": "+15 Minyak setiap gerudi ke-3",
+  "description.bearShrine.buff.2": "+20% peluang kawanan lebah",
+  "description.tortoiseShrine.buff": "-33% Masa Pertumbuhan Rumah Hijau",
+  "description.mothShrine.buff.2": "20% peluang untuk mendapatkan +1 bunga"
 }

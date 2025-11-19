@@ -6398,8 +6398,6 @@
   "marketplaceTransferInProgress": "마켓플레이스 및/또는 경매 전송이 완료되고 있습니다. 몇 분 후에 다시 시도하세요.",
   "marketplaceTransferInProgress.label": "전송 보류 중",
   "description.boarShrine.buff": "조리 시간 -20%",
-  "description.sparrowShrine.buff": "-25% 작물 성장 시간",
-  "description.toucanShrine.buff": "-25% 과일 성장 시간",
   "description.stagShrine.buff": "-25% 오일 회수 시간",
   "description.bearShrine.buff": "+0.5 벌꿀 생산 속도",
   "description.mothShrine.buff": "꽃 성장 시간 -25%",
@@ -6549,7 +6547,6 @@
   "description.moleShrine.buff": "철분 회복 시간 -25%",
   "description.moleShrine.buff.2": "골드 회복 시간 -25%",
   "description.moleShrine.buff.3": "크림스톤 회복 시간 -25%",
-  "description.tortoiseShrine.buff": "-25% 온실 성장 시간",
   "description.tortoiseShrine.buff.2": "-10% 크롭 머신 성장 시간",
   "description.legendaryShrine.buff": "+1 작물 수확량",
   "description.legendaryShrine.buff.2": "+1 과일 패치 수확량",
@@ -6821,8 +6818,6 @@
   "description.bantamShrine.buff.2": "닭에게 먹이는 사료 -5%",
   "description.foxShrine.buff.2": "10% 의 확률로 레시피를 즉시 제작할 수 있습니다.",
   "description.collieShrine.buff.3": "-5% 축사 동물 사료용 사료",
-  "description.bearShrine.buff.2": "꿀벌 떼 발생 확률 +10%",
-  "description.mothShrine.buff.2": "10% 확률로 꽃 1송이 획득",
   "description.legendaryShrine.buff.5": "+1 플라워",
   "description.legendaryShrine.buff.6": "조리 시간 -50%",
   "pets.place": "애완동물을 배치하세요",
@@ -7141,5 +7136,11 @@
   "withdraw.pet.confirmation1": "철수하면 애완 동물의 에너지와 경험이 사라집니다.정말 계속하고 싶으세요?",
   "withdraw.pet.confirmation2": "이 금단은 애완 동물의 에너지와 경험을 완전히 없애줍니다.이 동작은 되돌릴 수 없습니다.계속 진행하시겠습니까?",
   "marketplace.filters.applied": "필터 적용",
-  "marketplace.filters.clear": "필터 지우기"
+  "marketplace.filters.clear": "필터 지우기",
+  "description.sparrowShrine.buff": "-25% 플롯 작물 성장 시간",
+  "description.toucanShrine.buff": "-25% 과일 패치 성장 시간",
+  "description.stagShrine.buff.2": "세 번째 드릴마다 오일 +15",
+  "description.bearShrine.buff.2": "꿀벌 떼 발생 확률 +20%",
+  "description.tortoiseShrine.buff": "-33% 온실 성장 시간",
+  "description.mothShrine.buff.2": "20% 의 확률로 꽃 1송이 획득"
 }

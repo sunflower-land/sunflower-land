@@ -6398,8 +6398,6 @@
   "marketplaceTransferInProgress": "I trasferimenti tramite Marketplace e/o Auction sono in fase di completamento, riprova tra qualche minuto.",
   "marketplaceTransferInProgress.label": "Trasferimento in corso in sospeso",
   "description.boarShrine.buff": "-20% Tempo di cottura",
-  "description.sparrowShrine.buff": "-25% Tempo di crescita delle colture",
-  "description.toucanShrine.buff": "-25% Tempo di crescita della frutta",
   "description.stagShrine.buff": "-25% Tempo di recupero dell'olio",
   "description.bearShrine.buff": "+0,5 Velocità di produzione del miele",
   "description.mothShrine.buff": "-25% Tempo di crescita dei fiori",
@@ -6549,7 +6547,6 @@
   "description.moleShrine.buff": "-25% Tempo di recupero del ferro",
   "description.moleShrine.buff.2": "-25% Tempo di recupero dell'oro",
   "description.moleShrine.buff.3": "-25% Tempo di recupero Crimstone",
-  "description.tortoiseShrine.buff": "-25% Tempo di crescita in serra",
   "description.tortoiseShrine.buff.2": "-10% Tempo di crescita delle macchine per il raccolto",
   "description.legendaryShrine.buff": "+1 Rendimento del raccolto",
   "description.legendaryShrine.buff.2": "+1 resa in frutteto",
@@ -6821,8 +6818,6 @@
   "description.bantamShrine.buff.2": "-5% Mangime per nutrire i polli",
   "description.foxShrine.buff.2": "10% di possibilità di creare istantaneamente una ricetta",
   "description.collieShrine.buff.3": "-5% Mangime per nutrire animali da stalla",
-  "description.bearShrine.buff.2": "+10% di possibilità di sciame di api",
-  "description.mothShrine.buff.2": "10% di possibilità di ottenere +1 fiore",
   "description.legendaryShrine.buff.5": "+1 Fiore",
   "description.legendaryShrine.buff.6": "-50% Tempo di cottura",
   "pets.place": "Posiziona il tuo animale domestico",
@@ -7141,5 +7136,11 @@
   "withdraw.pet.confirmation1": "Il ritiro cancellerà l'energia e l'esperienza del tuo animale domestico. Sei sicuro di voler continuare?",
   "withdraw.pet.confirmation2": "Questa astinenza cancella completamente l'energia e l'esperienza del tuo animale domestico. Questa azione non può essere annullata. Procedere?",
   "marketplace.filters.applied": "Filtri applicati",
-  "marketplace.filters.clear": "Cancella filtri"
+  "marketplace.filters.clear": "Cancella filtri",
+  "description.sparrowShrine.buff": "-25% Tempo di crescita delle colture del grafico",
+  "description.toucanShrine.buff": "-25% Tempo di crescita degli appezzamenti di frutta",
+  "description.stagShrine.buff.2": "+15 olio ogni 3 trapani",
+  "description.bearShrine.buff.2": "+20% di possibilità che si formi uno sciame di api",
+  "description.tortoiseShrine.buff": "-33% Tempo di crescita in serra",
+  "description.mothShrine.buff.2": "20% di possibilità di ottenere +1 fiore"
 }

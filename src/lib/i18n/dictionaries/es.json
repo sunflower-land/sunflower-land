@@ -6398,8 +6398,6 @@
   "marketplaceTransferInProgress": "Se están finalizando las transferencias al mercado o a las subastas. Vuelve a intentarlo en unos minutos.",
   "marketplaceTransferInProgress.label": "Transferencia pendiente en curso",
   "description.boarShrine.buff": "-20% de tiempo de cocción",
-  "description.sparrowShrine.buff": "-25% de tiempo de crecimiento del cultivo",
-  "description.toucanShrine.buff": "-25% de tiempo de crecimiento de la fruta",
   "description.stagShrine.buff": "-25% de tiempo de recuperación de petróleo",
   "description.bearShrine.buff": "+0.5 Velocidad de producción de miel",
   "description.mothShrine.buff": "-25% de tiempo de crecimiento de las flores",
@@ -6549,7 +6547,6 @@
   "description.moleShrine.buff": "-25% de tiempo de recuperación de hierro",
   "description.moleShrine.buff.2": "-25% de tiempo de recuperación de oro",
   "description.moleShrine.buff.3": "-25% de tiempo de recuperación de Crimstone",
-  "description.tortoiseShrine.buff": "-25% de tiempo de crecimiento en invernadero",
   "description.tortoiseShrine.buff.2": "-10% de tiempo de crecimiento de la máquina de cultivo",
   "description.legendaryShrine.buff": "+1 Rendimiento de cultivo",
   "description.legendaryShrine.buff.2": "+1 de rendimiento de un huerto de frutas",
@@ -6821,8 +6818,6 @@
   "description.bantamShrine.buff.2": "-5% pienso para alimentar pollos",
   "description.foxShrine.buff.2": "10% de probabilidad de crear una receta al instante",
   "description.collieShrine.buff.3": "-5% de pienso para alimentar a los animales de establo",
-  "description.bearShrine.buff.2": "+10% de probabilidad de formar un enjambre de abejas",
-  "description.mothShrine.buff.2": "10% de probabilidad de obtener +1 flor",
   "description.legendaryShrine.buff.5": "+1 Flor",
   "description.legendaryShrine.buff.6": "-50% de tiempo de cocción",
   "pets.place": "Coloca a tu mascota",
@@ -7141,5 +7136,11 @@
   "withdraw.pet.confirmation1": "Retirarse acabará con la energía y la experiencia de tu mascota. ¿Estás seguro de que quieres continuar?",
   "withdraw.pet.confirmation2": "Esta abstinencia borra por completo la energía y la experiencia de tu mascota. Esta acción no se puede deshacer. ¿Continuar?",
   "marketplace.filters.applied": "Filtros aplicados",
-  "marketplace.filters.clear": "Borrar filtros"
+  "marketplace.filters.clear": "Borrar filtros",
+  "description.sparrowShrine.buff": "-25% de tiempo de crecimiento del cultivo de la parcela",
+  "description.toucanShrine.buff": "-25% de tiempo de crecimiento de los huertos",
+  "description.stagShrine.buff.2": "+15 de aceite cada tercer taladro",
+  "description.bearShrine.buff.2": "+20% de probabilidad de formar un enjambre de abejas",
+  "description.tortoiseShrine.buff": "-33% de tiempo de crecimiento en invernadero",
+  "description.mothShrine.buff.2": "20% de probabilidad de obtener +1 flor"
 }

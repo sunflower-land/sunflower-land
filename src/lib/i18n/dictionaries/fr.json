@@ -6398,8 +6398,6 @@
   "marketplaceTransferInProgress": "Les transferts vers la place de marché et/ou les enchères sont en cours de finalisation, veuillez réessayer dans quelques minutes.",
   "marketplaceTransferInProgress.label": "En attente de transfert en cours",
   "description.boarShrine.buff": "-20% Temps de cuisson",
-  "description.sparrowShrine.buff": "-25 % de temps de croissance des cultures",
-  "description.toucanShrine.buff": "-25 % de temps de croissance des fruits",
   "description.stagShrine.buff": "-25 % de temps de récupération de l'huile",
   "description.bearShrine.buff": "Vitesse de production de miel +0,5",
   "description.mothShrine.buff": "-25 % de temps de croissance des fleurs",
@@ -6549,7 +6547,6 @@
   "description.moleShrine.buff": "-25 % de temps de récupération du fer",
   "description.moleShrine.buff.2": "Temps de récupération de l'or de -25 %",
   "description.moleShrine.buff.3": "Temps de rétablissement de Crimstone : -25 %",
-  "description.tortoiseShrine.buff": "-25 % de temps de croissance en serre",
   "description.tortoiseShrine.buff.2": "-10 % de temps de croissance des machines de culture",
   "description.legendaryShrine.buff": "+1 Rendement des récoltes",
   "description.legendaryShrine.buff.2": "Rendement de +1 parcelle fruitière",
@@ -6821,8 +6818,6 @@
   "description.bantamShrine.buff.2": "-5% d'aliments pour les poulets",
   "description.foxShrine.buff.2": "10 % de chances de créer instantanément une recette",
   "description.collieShrine.buff.3": "-5% d'aliments pour nourrir les animaux de la ferme",
-  "description.bearShrine.buff.2": "+10 % de chances d'apparition d'un essaim d'abeilles",
-  "description.mothShrine.buff.2": "10 % de chances d'obtenir +1 fleur",
   "description.legendaryShrine.buff.5": "+1 Fleur",
   "description.legendaryShrine.buff.6": "-50 % de temps de cuisson",
   "pets.place": "Placez votre animal de compagnie",
@@ -7141,5 +7136,11 @@
   "withdraw.pet.confirmation1": "Le retrait effacera l'énergie et l'expérience de votre animal. Êtes-vous sûr de vouloir continuer ?",
   "withdraw.pet.confirmation2": "Ce sevrage anéantit complètement l'énergie et l'expérience de votre animal. Cette action ne peut pas être annulée. Poursuivre ?",
   "marketplace.filters.applied": "Filtres appliqués",
-  "marketplace.filters.clear": "Effacer les filtres"
+  "marketplace.filters.clear": "Effacer les filtres",
+  "description.sparrowShrine.buff": "-25 % Temps de croissance des cultures sur parcelle",
+  "description.toucanShrine.buff": "-25 % de temps de croissance des parcelles fruitières",
+  "description.stagShrine.buff.2": "+15 % d'huile tous les 3 forets",
+  "description.bearShrine.buff.2": "+20 % de chances d'apparition d'un essaim d'abeilles",
+  "description.tortoiseShrine.buff": "-33 % Temps de croissance en serre",
+  "description.mothShrine.buff.2": "20 % de chances d'obtenir +1 fleur"
 }

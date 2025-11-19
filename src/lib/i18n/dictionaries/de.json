@@ -6398,8 +6398,6 @@
   "marketplaceTransferInProgress": "Marktplatz- und/oder Auktionstransfers werden gerade abgeschlossen. Bitte versuchen Sie es in ein paar Minuten erneut.",
   "marketplaceTransferInProgress.label": "Ausstehende Übertragung ist im Gange",
   "description.boarShrine.buff": "-20% Garzeit",
-  "description.sparrowShrine.buff": "-25% Wachstumszeit der Pflanzen",
-  "description.toucanShrine.buff": "-25% Fruchtwachstumszeit",
   "description.stagShrine.buff": "-25% Ölrückgewinnungszeit",
   "description.bearShrine.buff": "+0.5 Geschwindigkeit der Honigproduktion",
   "description.mothShrine.buff": "-25% Wachstumszeit der Blüten",
@@ -6549,7 +6547,6 @@
   "description.moleShrine.buff": "-25% Eisenerholungszeit",
   "description.moleShrine.buff.2": "-25% Gold-Wiederherstellungszeit",
   "description.moleShrine.buff.3": "-25% Erholungszeit für Purpurstein",
-  "description.tortoiseShrine.buff": "-25% Wachstumszeit des Gewächshauses",
   "description.tortoiseShrine.buff.2": "-10% Wachstumszeit der Erntemaschine",
   "description.legendaryShrine.buff": "+1 Ernteertrag",
   "description.legendaryShrine.buff.2": "+1 Ertrag aus Fruchtbeeten",
@@ -6821,8 +6818,6 @@
   "description.bantamShrine.buff.2": "-5% Futter für Hühner",
   "description.foxShrine.buff.2": "10% Chance, sofort ein Rezept herzustellen",
   "description.collieShrine.buff.3": "-5% Futter zur Fütterung von Stalltieren",
-  "description.bearShrine.buff.2": "+10% Chance auf einen Bienenschwarm",
-  "description.mothShrine.buff.2": "10% Chance, +1 Blume zu erhalten",
   "description.legendaryShrine.buff.5": "+1 Blume",
   "description.legendaryShrine.buff.6": "-50% Garzeit",
   "pets.place": "Platziere dein Haustier",
@@ -7141,5 +7136,11 @@
   "withdraw.pet.confirmation1": "Wenn Sie sich zurückziehen, werden Ihrem Haustier Energie und Erfahrung genommen. Bist du sicher, dass du fortfahren möchtest?",
   "withdraw.pet.confirmation2": "Durch diesen Rückzug werden die Energie und das Erlebnis Ihres Haustieres vollständig gelöscht. Diese Aktion kann nicht rückgängig gemacht werden. Fortfahren?",
   "marketplace.filters.applied": "Angewendete Filter",
-  "marketplace.filters.clear": "Filter löschen"
+  "marketplace.filters.clear": "Filter löschen",
+  "description.sparrowShrine.buff": "-25% Wachstumszeit der Parzellenfrüchte",
+  "description.toucanShrine.buff": "-25% Wachstumszeit von Fruchtbeeten",
+  "description.stagShrine.buff.2": "+15 Öl bei jeder 3. Bohrung",
+  "description.bearShrine.buff.2": "+20% Chance auf einen Bienenschwarm",
+  "description.tortoiseShrine.buff": "-33% Wachstumszeit des Gewächshauses",
+  "description.mothShrine.buff.2": "20% Chance, +1 Blume zu erhalten"
 }

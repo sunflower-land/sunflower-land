@@ -6398,8 +6398,6 @@
   "marketplaceTransferInProgress": "マーケットプレイスまたはオークションの移管が完了しています。数分後にもう一度試してください。",
   "marketplaceTransferInProgress.label": "転送保留中",
   "description.boarShrine.buff": "-20% 調理時間",
-  "description.sparrowShrine.buff": "-25% の作物成長時間",
-  "description.toucanShrine.buff": "-25% の果実成長時間",
   "description.stagShrine.buff": "-25% オイル回収時間",
   "description.bearShrine.buff": "+0.5 ハニー生産速度",
   "description.mothShrine.buff": "-25% の花の成長時間",
@@ -6549,7 +6547,6 @@
   "description.moleShrine.buff": "鉄分回復時間 -25%",
   "description.moleShrine.buff.2": "-25% ゴールド回復時間",
   "description.moleShrine.buff.3": "クリムストーン回復時間 -25%",
-  "description.tortoiseShrine.buff": "-25% 温室成長時間",
   "description.tortoiseShrine.buff.2": "-10% クロップマシンの成長時間",
   "description.legendaryShrine.buff": "+1 作物収量",
   "description.legendaryShrine.buff.2": "+1フルーツパッチ収量",
@@ -6821,8 +6818,6 @@
   "description.bantamShrine.buff.2": "-5% 鶏用飼料",
   "description.foxShrine.buff.2": "10% の確率で即座にレシピが作れる",
   "description.collieShrine.buff.3": "-5% 牛舎の動物用飼料",
-  "description.bearShrine.buff.2": "蜂の群れが発生する確率 +10%",
-  "description.mothShrine.buff.2": "10% の確率で+1フラワーを獲得",
   "description.legendaryShrine.buff.5": "+1 フラワー",
   "description.legendaryShrine.buff.6": "-50% 調理時間",
   "pets.place": "ペットを配置",
@@ -7141,5 +7136,11 @@
   "withdraw.pet.confirmation1": "引き落とすと、ペットのエネルギーと経験が失われます。続けてもよろしいですか？",
   "withdraw.pet.confirmation2": "この引きこもりは、ペットのエネルギーと経験を完全に消し去ってしまいます。このアクションは元に戻せません。続行しますか?",
   "marketplace.filters.applied": "フィルターが適用されました",
-  "marketplace.filters.clear": "フィルターをクリア"
+  "marketplace.filters.clear": "フィルターをクリア",
+  "description.sparrowShrine.buff": "-25% プロット作物の成長時間",
+  "description.toucanShrine.buff": "-25% フルーツパッチの成長時間",
+  "description.stagShrine.buff.2": "3 回目のドリルごとに +15 オイル",
+  "description.bearShrine.buff.2": "蜂の群れが発生する確率 +20%",
+  "description.tortoiseShrine.buff": "-33% 温室成長時間",
+  "description.mothShrine.buff.2": "20% の確率で+1フラワーを獲得"
 }

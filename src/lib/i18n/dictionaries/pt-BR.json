@@ -6398,8 +6398,6 @@
   "marketplaceTransferInProgress": "As transferências do Marketplace e/ou do leilão estão sendo finalizadas. Tente novamente em alguns minutos.",
   "marketplaceTransferInProgress.label": "Transferência pendente em andamento",
   "description.boarShrine.buff": "-20% de tempo de cozimento",
-  "description.sparrowShrine.buff": "-25% de tempo de crescimento da safra",
-  "description.toucanShrine.buff": "-25% de tempo de crescimento de frutas",
   "description.stagShrine.buff": "-25% de tempo de recuperação de óleo",
   "description.bearShrine.buff": "+0,5 Velocidade de produção de mel",
   "description.mothShrine.buff": "-25% de tempo de crescimento da flor",
@@ -6549,7 +6547,6 @@
   "description.moleShrine.buff": "-25% de tempo de recuperação de ferro",
   "description.moleShrine.buff.2": "-25% de tempo de recuperação de ouro",
   "description.moleShrine.buff.3": "-25% de tempo de recuperação do Crimstone",
-  "description.tortoiseShrine.buff": "-25% de tempo de crescimento da estufa",
   "description.tortoiseShrine.buff.2": "-10% de tempo de crescimento da máquina de colheita",
   "description.legendaryShrine.buff": "+1 Rendimento da safra",
   "description.legendaryShrine.buff.2": "+1 Rendimento de canteiros de frutas",
@@ -6821,8 +6818,6 @@
   "description.bantamShrine.buff.2": "-5% de ração para alimentar galinhas",
   "description.foxShrine.buff.2": "10% de chance de criar instantaneamente uma receita",
   "description.collieShrine.buff.3": "-5% de ração para alimentar animais de celeiro",
-  "description.bearShrine.buff.2": "+10% de chance de enxame de abelhas",
-  "description.mothShrine.buff.2": "10% de chance de obter +1 flor",
   "description.legendaryShrine.buff.5": "+1 Flor",
   "description.legendaryShrine.buff.6": "-50% de tempo de cozimento",
   "pets.place": "Coloque seu animal de estimação",
@@ -7141,5 +7136,11 @@
   "withdraw.pet.confirmation1": "A retirada apagará a energia e a experiência do seu animal de estimação. Tem certeza de que deseja continuar?",
   "withdraw.pet.confirmation2": "Essa abstinência limpa completamente a energia e a experiência do seu animal de estimação. Essa ação não pode ser desfeita. Prosseguir?",
   "marketplace.filters.applied": "Filtros aplicados",
-  "marketplace.filters.clear": "Filtros claros"
+  "marketplace.filters.clear": "Filtros claros",
+  "description.sparrowShrine.buff": "-25% do tempo de crescimento da safra",
+  "description.toucanShrine.buff": "-25% de tempo de crescimento do canteiro de frutas",
+  "description.stagShrine.buff.2": "+15 Óleo a cada 3ª perfuração",
+  "description.bearShrine.buff.2": "+20% de chance de enxame de abelhas",
+  "description.tortoiseShrine.buff": "-33% de tempo de crescimento da estufa",
+  "description.mothShrine.buff.2": "20% de chance de obter +1 flor"
 }
