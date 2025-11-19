@@ -125,12 +125,12 @@ const piratePotionStatus = (state: GameState) => {
   return { hasPiratePotion, hasOpenedPirateChest };
 };
 
-const minigamesStatus = (state: GameState) => {
+const minigamesStatus = (minigames: GameState["minigames"]) => {
   const allMinigamesCount = PORTAL_OPTIONS.length;
 
   const minigameInfo = (name: MinigameName) => {
-    const minigame = state.minigames.games[name];
-    const prize = state.minigames.prizes[name];
+    const minigame = minigames.games[name];
+    const prize = minigames.prizes[name];
 
     const dateKey = new Date().toISOString().slice(0, 10);
     const history = minigame?.history ?? {};
@@ -148,12 +148,12 @@ const minigamesStatus = (state: GameState) => {
   };
 
   const isMinigameCompleted = (name: MinigameName) =>
-    isMinigameComplete({ game: state, name }) &&
+    isMinigameComplete({ minigames, name }) &&
     minigameInfo(name).prizeClaimedAt;
 
   const completedMinigames = PORTAL_OPTIONS.filter(({ id }) => {
     return (
-      isMinigameComplete({ game: state, name: id as MinigameName }) &&
+      isMinigameComplete({ minigames, name: id as MinigameName }) &&
       minigameInfo(id as MinigameName).prizeClaimedAt
     );
   }).length;
@@ -195,7 +195,9 @@ export const checklistCount = (state: GameState, bumpkinLevel: number) => {
   };
 
   // Kingdom Tasks
-  const { completedMinigames, allMinigamesCount } = minigamesStatus(state);
+  const { completedMinigames, allMinigamesCount } = minigamesStatus(
+    state.minigames,
+  );
   const completedKingdomTasksCount = () => {
     if (bumpkinLevel >= 7) {
       return completedMinigames !== allMinigamesCount
@@ -646,7 +648,7 @@ const MiniGamesContent: React.FC<{ bumpkinLevel: number }> = ({
     completedMinigames,
     allMinigamesCount,
     minigameInfo,
-  } = minigamesStatus(state);
+  } = minigamesStatus(state.minigames);
 
   const hasCompletedAll = completedMinigames === allMinigamesCount;
 
