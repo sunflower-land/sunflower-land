@@ -1376,11 +1376,21 @@ export abstract class BaseScene extends Phaser.Scene {
       const warpTo = this.switchToScene;
       this.switchToScene = undefined;
 
+      let spawn = this.options.player.spawn;
+      if (SPAWNS()[warpTo]) {
+        spawn = SPAWNS()[warpTo][this.sceneId] ?? SPAWNS()[warpTo].default;
+      }
       // This will cause a loop
       // this.registry.get("navigate")(`/world/${warpTo}`);
 
       // this.mmoService?.state.context.server?.send(0, { sceneId: warpTo });
-      this.mmoService?.send("SWITCH_SCENE", { sceneId: warpTo });
+      this.mmoService?.send("SWITCH_SCENE", {
+        sceneId: warpTo,
+        playerCoordinates: {
+          x: spawn.x,
+          y: spawn.y,
+        },
+      });
     }
   }
   updateOtherPlayers() {
