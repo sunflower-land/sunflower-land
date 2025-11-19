@@ -111,6 +111,11 @@ import { RockName } from "./resources";
 import { PetShopItemName } from "./petShop";
 import { RoninV2PackName } from "features/wallet/lib/ronin";
 
+export type Coordinate = {
+  x: number;
+  y: number;
+};
+
 export type Reward = {
   coins?: number;
   sfl?: Decimal;
@@ -758,6 +763,7 @@ export type FruitPatch = {
 export type BuildingProduct = {
   name: CookableName;
   readyAt: number;
+  amount?: number;
   boost?: Partial<Record<InventoryItemName, number>>;
   skills?: Partial<Record<BumpkinRevampSkillName, boolean>>;
   timeRemaining?: number;
@@ -769,13 +775,19 @@ export type BuildingProduce = {
   readyAt: number;
 };
 
+export type Cancelled = Partial<{
+  [key in InventoryItemName]: {
+    cancelledAt: number;
+  };
+}>;
+
 export type PlacedItem = {
   id: string;
   coordinates?: { x: number; y: number };
   readyAt?: number;
   createdAt?: number;
   removedAt?: number;
-  cancelled?: Record<string, unknown>;
+  cancelled?: Cancelled;
   crafting?: BuildingProduct[];
   oil?: number;
   flipped?: boolean;

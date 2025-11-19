@@ -497,9 +497,14 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
             sceneId: (_, event) => event.sceneId,
             previousSceneId: (context, event) =>
               event.previousSceneId ?? context.previousSceneId,
+            playerCoordinates: (_, event) => event.playerCoordinates,
           }),
           (context, event) =>
-            context.server?.send(0, { sceneId: event.sceneId }),
+            context.server?.send(0, {
+              sceneId: event.sceneId,
+              x: event.playerCoordinates.x,
+              y: event.playerCoordinates.y,
+            }),
         ],
         // If going into or leaving stream scene, we need to reload the server
         target: "connecting",
