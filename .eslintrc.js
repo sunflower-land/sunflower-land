@@ -68,5 +68,6 @@ module.exports = {
     ...(hasSetStateInEffectRule
       ? { "react-hooks/set-state-in-effect": "warn" }
       : {}),
+    ...(hasPurityRule ? { "react-hooks/purity": "error" } : {}),
   },
 };
