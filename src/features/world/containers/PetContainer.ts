@@ -40,52 +40,68 @@ export class PetContainer extends Phaser.GameObjects.Container {
     this.petId = petId;
     this.petType = petType;
 
-    scene.load.spritesheet(
-      `pet_${petId}`,
-      `https://${petImageDomain}.sunflower-land.com/sheets/${petId}.webp`,
-      {
+    const spritesheetKey = `pet_${petId}`;
+    const spritesheetUrl = `https://${petImageDomain}.sunflower-land.com/sheets/${petId}.webp`;
+
+    if (scene.textures.exists(spritesheetKey)) {
+      this.createSprite(scene, spritesheetKey);
+    } else {
+      scene.load.spritesheet(spritesheetKey, spritesheetUrl, {
         frameWidth: 44,
         frameHeight: 44,
-      },
-    );
+      });
 
-    scene.load.once(`filecomplete-spritesheet-pet_${petId}`, () => {
-      this.sprite = this.scene.add.sprite(0, 0, `pet_${petId}`);
-      this.add(this.sprite);
+      scene.load.once(`filecomplete-spritesheet-${spritesheetKey}`, () => {
+        this.createSprite(scene, spritesheetKey);
+      });
 
-      this.sprite?.setScale(0.75);
+      scene.load.start();
+    }
 
-      this.sprite?.anims.create({
-        key: `pet_${petId}-idle`,
-        frames: this.sprite.anims.generateFrameNumbers(`pet_${petId}`, {
+    scene.add.existing(this);
+    this.setVisible(true);
+    this.setActive(true);
+  }
+
+  private createSprite(scene: Phaser.Scene, spritesheetKey: string) {
+    if (this.sprite) return;
+
+    this.sprite = scene.add.sprite(0, 0, spritesheetKey);
+    this.add(this.sprite);
+
+    this.sprite?.setScale(0.75);
+    this.sprite?.setVisible(true);
+    this.sprite?.setActive(true);
+
+    if (!scene.anims.exists(`${spritesheetKey}-idle`)) {
+      scene.anims.create({
+        key: `${spritesheetKey}-idle`,
+        frames: scene.anims.generateFrameNumbers(spritesheetKey, {
           start: 0,
           end: 8,
         }),
         frameRate: 8,
         repeat: -1,
       });
+    }
 
-      this.sprite?.anims.create({
-        key: `pet_${petId}-walking`,
-        frames: this.sprite.anims.generateFrameNumbers(`pet_${petId}`, {
+    if (!scene.anims.exists(`${spritesheetKey}-walking`)) {
+      scene.anims.create({
+        key: `${spritesheetKey}-walking`,
+        frames: scene.anims.generateFrameNumbers(spritesheetKey, {
           start: 18,
           end: 25,
         }),
         frameRate: 10,
         repeat: -1,
       });
+    }
 
-      this.sprite?.play(`pet_${petId}-idle`, true);
+    this.sprite?.play(`${spritesheetKey}-idle`, true);
 
-      this.sprite
-        ?.setInteractive({ cursor: "pointer" })
-        .on("pointerdown", () => {
-          this.speak(this.getRandomSpeech());
-        });
+    this.sprite?.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      this.speak(this.getRandomSpeech());
     });
-
-    scene.load.start();
-    scene.add.existing(this);
   }
 
   public speak(text: string) {
@@ -122,10 +138,12 @@ export class PetContainer extends Phaser.GameObjects.Container {
   }
 
   public idle() {
-    this.sprite?.play(`pet_${this.petId}-idle`, true);
+    const textureKey = `pet_${this.petId}`;
+    this.sprite?.play(`${textureKey}-idle`, true);
   }
 
   public walk() {
-    this.sprite?.play(`pet_${this.petId}-walking`, true);
+    const textureKey = `pet_${this.petId}`;
+    this.sprite?.play(`${textureKey}-walking`, true);
   }
 }

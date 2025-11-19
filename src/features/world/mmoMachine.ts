@@ -4,7 +4,12 @@ import { assign, createMachine, Interpreter, State } from "xstate";
 import { PlazaRoomState } from "./types/Room";
 
 import { CONFIG } from "lib/config";
-import { Bumpkin, FactionName, IslandType } from "features/game/types/game";
+import {
+  Bumpkin,
+  FactionName,
+  IslandType,
+  Coordinate,
+} from "features/game/types/game";
 import { Pets } from "features/game/types/pets";
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { SPAWNS } from "./lib/spawn";
@@ -159,6 +164,7 @@ export interface MMOContext {
   isVip: boolean;
   createdAt: number;
   islandType: IslandType;
+  playerCoordinates?: Coordinate;
 }
 
 export type MMOState = {
@@ -189,6 +195,10 @@ export type SwitchScene = {
   type: "SWITCH_SCENE";
   sceneId: SceneId;
   previousSceneId?: SceneId;
+  playerCoordinates: {
+    x: number;
+    y: number;
+  };
 };
 
 export type MMOEvent =
@@ -232,6 +242,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
       kicked: [],
       muted: [],
     },
+    playerCoordinates: undefined,
   },
   states: {
     initialising: {
@@ -499,9 +510,14 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
             sceneId: (_, event) => event.sceneId,
             previousSceneId: (context, event) =>
               event.previousSceneId ?? context.previousSceneId,
+            playerCoordinates: (_, event) => event.playerCoordinates,
           }),
           (context, event) =>
-            context.server?.send(0, { sceneId: event.sceneId }),
+            context.server?.send(0, {
+              sceneId: event.sceneId,
+              x: event.playerCoordinates.x,
+              y: event.playerCoordinates.y,
+            }),
         ],
         // TODO: If going into or leaving stream scene, we need to reload the server
         target: "joined",
