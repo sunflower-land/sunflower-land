@@ -191,7 +191,6 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
         onClaim={onClaim}
         reward={{
           message: "Congratulations, you completed the mission!",
-          createdAt: Date.now(),
           factionPoints: 0,
           id: "discord-bonus",
           items: prize?.items ?? {},

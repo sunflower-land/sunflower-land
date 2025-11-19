@@ -36,7 +36,7 @@ import { RECIPES } from "features/game/lib/crafting";
 const _game = (state: MachineState) => state.context.state;
 
 interface ClaimRewardProps {
-  reward: IAirdrop;
+  reward: Omit<IAirdrop, "createdAt"> & { createdAt?: number };
   onClaim?: () => void;
   onClose?: () => void;
   label?: string;
