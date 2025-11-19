@@ -221,7 +221,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
             <TradeableSummary
               display={display}
               sfl={price}
-              tax={price * MARKETPLACE_TAX}
+              tax={new Decimal(price).mul(MARKETPLACE_TAX)}
               quantity={Math.max(1, quantity)}
               estTradePoints={estTradePoints}
             />
@@ -243,9 +243,9 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
       );
     }
 
-    let tax = price * MARKETPLACE_TAX;
+    let tax = new Decimal(price).mul(MARKETPLACE_TAX);
     if (isResource) {
-      tax = price * getResourceTax({ game: state });
+      tax = getResourceTax({ game: state }).mul(price);
     }
 
     return (

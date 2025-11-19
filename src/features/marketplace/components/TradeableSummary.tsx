@@ -68,7 +68,7 @@ export const TradeableItemDetails: React.FC<{
 export const TradeableSummary: React.FC<{
   display: TradeableDisplay;
   sfl: number;
-  tax: number;
+  tax: Decimal;
   quantity: number;
   estTradePoints?: number;
 }> = ({ display, sfl, tax, quantity, estTradePoints }) => {

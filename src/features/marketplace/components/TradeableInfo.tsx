@@ -43,6 +43,7 @@ import { getPetTraits } from "features/pets/data/getPetTraits";
 import { PetTraits } from "features/pets/data/types";
 import { Bud } from "lib/buds/types";
 import { getBudTraits } from "features/game/types/budBuffs";
+import { setPrecision } from "lib/utils/formatNumber";
 
 const formatDate = (date: Date) => {
   return date.toLocaleDateString("en-US", {
@@ -286,9 +287,12 @@ export const TradeableDescription: React.FC<{
         {tradeable?.expiresAt && (
           <div className="p-2 pl-0 pb-0">
             <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-              {`${secondsToString((tradeable.expiresAt - Date.now()) / 1000, {
-                length: "short",
-              })} left`}
+              {`${secondsToString(
+                (tradeable.expiresAt - new Date().getTime()) / 1000,
+                {
+                  length: "short",
+                },
+              )} left`}
             </Label>
           </div>
         )}
@@ -435,7 +439,9 @@ export const ResourceTaxes: React.FC = () => {
             <img src={lockIcon} className="w-4 mr-1" />
             <div>
               <p className="text-xs">
-                {t("marketplace.resourceFee", { tax: tax * 100 })}
+                {t("marketplace.resourceFee", {
+                  tax: setPrecision(tax.mul(100), 2).toNumber(),
+                })}
               </p>
             </div>
           </div>
