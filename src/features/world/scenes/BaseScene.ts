@@ -1238,7 +1238,6 @@ export abstract class BaseScene extends Phaser.Scene {
       petType as PetNFTType,
     );
     this.pets[sessionId] = petContainer;
-    return petContainer;
   }
 
   public updatePets() {
@@ -1262,38 +1261,11 @@ export abstract class BaseScene extends Phaser.Scene {
     });
 
     server.state.pets?.forEach((pet, sessionId) => {
-      if (pet.sceneId !== this.scene.key) {
-        const warpTo = pet.sceneId;
-        let spawn = this.options.player.spawn;
-        if (SPAWNS()[warpTo]) {
-          spawn =
-            SPAWNS()[warpTo][this.sceneId] ?? SPAWNS()[this.sceneId].default;
-        }
-
-        let petContainer = this.pets[sessionId];
-        if (!petContainer) {
-          petContainer = this.addPet(
-            sessionId,
-            pet.id,
-            pet.type,
-            spawn.x,
-            spawn.y,
-          );
-        }
-
-        petContainer.setPosition(spawn.x, spawn.y);
-        return;
-      }
+      if (pet.sceneId !== this.scene.key) return;
 
       const petContainer = this.pets[sessionId];
       if (!petContainer) {
-        const from = this.mmoService?.state.context.previousSceneId as SceneId;
-        let spawn = this.options.player.spawn;
-        if (SPAWNS()[this.sceneId]) {
-          spawn =
-            SPAWNS()[this.sceneId][from] ?? SPAWNS()[this.sceneId].default;
-        }
-        this.addPet(sessionId, pet.id, pet.type, spawn.x, spawn.y);
+        this.addPet(sessionId, pet.id, pet.type, pet.x, pet.y);
         return;
       }
 

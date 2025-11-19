@@ -111,11 +111,6 @@ import { RockName } from "./resources";
 import { PetShopItemName } from "./petShop";
 import { RoninV2PackName } from "features/wallet/lib/ronin";
 
-export type Coordinate = {
-  x: number;
-  y: number;
-};
-
 export type Reward = {
   coins?: number;
   sfl?: Decimal;
