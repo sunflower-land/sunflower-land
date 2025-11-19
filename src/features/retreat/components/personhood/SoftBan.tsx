@@ -25,7 +25,11 @@ export const SoftBan: React.FC = () => {
 
   const { t } = useAppTranslation();
 
+<<<<<<< HEAD
   const now = useNow();
+=======
+  const now = useNow({ live: false });
+>>>>>>> 3035dcbb0 ([CHORE] Fix Date.now issue for more components)
 
   const hasVerifiedSocial = gameState.context.state.ban.isSocialVerified;
 
