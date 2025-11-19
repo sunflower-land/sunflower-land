@@ -10,7 +10,10 @@ import { KNOWN_IDS } from "features/game/types";
 import { CookableName } from "features/game/types/consumables";
 import { prngChance } from "lib/prng";
 
-const GAME_STATE: GameState = TEST_FARM;
+const GAME_STATE: GameState = {
+  ...TEST_FARM,
+  inventory: { ...TEST_FARM.inventory, "Boiled Eggs": new Decimal(0) },
+};
 
 describe("collect Recipes", () => {
   const farmId = 1;
