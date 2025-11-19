@@ -83,7 +83,6 @@ export const SeasonalStore: React.FC<{
   );
   const [selectedTier, setSelectedTier] = useState<SeasonalStoreTier>();
   const [isVisible, setIsVisible] = useState(false);
-  const createdAt = Date.now();
 
   useEffect(() => {
     if (selectedItem && !isVisible) {
@@ -110,7 +109,7 @@ export const SeasonalStore: React.FC<{
   );
   const { t } = useAppTranslation();
 
-  const currentSeason = getCurrentSeason(new Date(createdAt));
+  const currentSeason = getCurrentSeason();
 
   // Basic-Epic
   const basicAllItems = MEGASTORE[currentSeason].basic.items;

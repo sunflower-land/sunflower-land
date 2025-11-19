@@ -79,7 +79,6 @@ export const EventStore: React.FC<Props> = ({ readonly, state }) => {
   const [selectedItem, setSelectedItem] = useState<EventStoreItem | null>(null);
   const [selectedTier, setSelectedTier] = useState<EventStoreTier>();
   const [isVisible, setIsVisible] = useState(false);
-  const createdAt = Date.now();
 
   useEffect(() => {
     if (selectedItem && !isVisible) {
