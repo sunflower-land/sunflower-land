@@ -194,6 +194,11 @@ export const getCookingTime = ({
     boostsUsed.push("Luna's Hat");
   }
 
+  if (isWearableActive({ name: "Cleaver Knife", game })) {
+    reducedSecs = reducedSecs.mul(0.85);
+    boostsUsed.push("Cleaver Knife");
+  }
+
   // Legendary Shrine - 50% reduction
   if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game })) {
     reducedSecs = reducedSecs.mul(0.5);
