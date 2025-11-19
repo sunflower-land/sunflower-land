@@ -27,6 +27,7 @@ import { getCurrentCookingItem, recalculateQueue } from "./cancelQueuedRecipe";
 import { AOEItemName } from "features/game/expansion/placeable/lib/collisionDetection";
 import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
 import { updateBeehives } from "features/game/lib/updateBeehives";
+import { isWearableActive } from "features/game/lib/wearables";
 
 export type SkillUseAction = {
   type: "skill.used";
@@ -211,6 +212,20 @@ function useBarnyardRouse({
   return game;
 }
 
+export function getSkillCooldown({
+  cooldown,
+  state,
+}: {
+  cooldown: number;
+  state: GameState;
+}) {
+  let boostedCooldown = new Decimal(cooldown);
+  if (isWearableActive({ name: "Lunar Weapon", game: state })) {
+    boostedCooldown = boostedCooldown.mul(0.5);
+  }
+  return boostedCooldown.toNumber();
+}
+
 export function powerSkillDisabledConditions({
   state,
   skillTree,
@@ -243,9 +258,12 @@ export function powerSkillDisabledConditions({
   } & BumpkinSkillRevamp;
   const { cooldown, items } = requirements;
 
-  const nextSkillUse = (previousPowerUseAt?.[skillName] ?? 0) + (cooldown ?? 0);
+  const boostedCooldown = getSkillCooldown({ cooldown: cooldown ?? 0, state });
 
-  const powerSkillReady = nextSkillUse < createdAt;
+  const nextSkillUse = (previousPowerUseAt?.[skillName] ?? 0) + boostedCooldown;
+
+  const powerSkillReady = nextSkillUse <= createdAt;
+
   const itemsRequired =
     !items ||
     Object.entries(items).every(([item, quantity]) =>
