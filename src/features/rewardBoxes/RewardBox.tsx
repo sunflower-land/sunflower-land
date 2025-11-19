@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { Label } from "components/ui/Label";
 import { Context, useGame } from "features/game/GameProvider";
@@ -18,6 +18,7 @@ import vipIcon from "assets/icons/vip.webp";
 import flowerTokenIcon from "assets/icons/flower_token.webp";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export const RewardBox: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -42,29 +43,24 @@ export const RewardBox: React.FC = () => {
 
 type BoxRewardName = InventoryItemName | "Coins" | "VIP" | "Flower";
 
+// Animation duration for each crow
+const ANIMATION_DURATION = 1800;
+// Delay between each crow's animation
+const SEQUENCE_DELAY = 600;
+
 export const OpeningBox: React.FC<{ name: RewardBoxName }> = ({ name }) => {
-  const openedAt = useRef<number>(0);
+  const [openedAt, setOpenedAt] = useState(0);
   const { gameService, gameState } = useGame();
   const { t } = useAppTranslation();
-  // Animation duration for each crow
-  const ANIMATION_DURATION = 1800;
-  // Delay between each crow's animation
-  const SEQUENCE_DELAY = 600;
 
-  const [isReady, setIsReady] = useState(false);
+  const now = useNow({ live: true });
+  // Check if there is a reward
+  const reward = useSelector(
+    gameService,
+    (state) => state.context.state.rewardBoxes?.[name]?.reward,
+  );
 
-  // Every second, check whether it is time to show
-  // We have this effect, to ensure the animation shows for at least 3 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const reward =
-        gameService.getSnapshot().context.state.rewardBoxes?.[name]?.reward;
-      const readyToView = openedAt.current + 3000 < Date.now() && !!reward;
-
-      setIsReady(readyToView);
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [name]);
+  const readyToView = openedAt + 3000 < now && !!reward;
 
   // Get all available rarecrow names
   const itemNames: BoxRewardName[] = REWARD_BOXES[name].rewards.reduce(
@@ -87,20 +83,18 @@ export const OpeningBox: React.FC<{ name: RewardBoxName }> = ({ name }) => {
     [] as BoxRewardName[],
   );
 
-  // Shuffle and pick 4 random crows
-  const shuffled = [...itemNames].sort(() => Math.random() - 0.5);
-  const currentRewards = useRef(shuffled.slice(0, 14));
+  const getCurrentRewards = (itemNames: BoxRewardName[]) => {
+    // Shuffle and pick 4 random crows
+    const shuffled = [...itemNames].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, 14);
+  };
 
-  // Check if there is a reward
-  const reward = useSelector(
-    gameService,
-    (state) => state.context.state.rewardBoxes?.[name]?.reward,
-  );
+  const [currentRewards] = useState(() => getCurrentRewards(itemNames));
 
   const open = () => {
     gameService.send("rewardBox.opened", { name });
     gameService.send("SAVE");
-    openedAt.current = Date.now();
+    setOpenedAt(Date.now());
   };
 
   const onClaimed = () => {
@@ -110,17 +104,17 @@ export const OpeningBox: React.FC<{ name: RewardBoxName }> = ({ name }) => {
 
   const isOpened = !!gameState.context.state.rewardBoxes?.[name]?.spunAt;
 
-  if (isReady && reward) {
+  if (readyToView) {
     return (
       <Panel>
         <ClaimReward
           reward={{
-            coins: reward!.coins ?? 0,
+            coins: reward.coins ?? 0,
             id: "rewardBox",
             createdAt: 0,
-            items: reward!.items ?? {},
+            items: reward.items ?? {},
             wearables: {},
-            sfl: reward!.flower ?? 0,
+            sfl: reward.flower ?? 0,
             vipDays: reward!.vipDays ?? 0,
           }}
           onClaim={onClaimed}
@@ -157,7 +151,7 @@ export const OpeningBox: React.FC<{ name: RewardBoxName }> = ({ name }) => {
           className={classNames("w-full ", { "animate-pulsate": isOpened })}
         />
         {isOpened &&
-          currentRewards.current
+          currentRewards
             .filter((_, index) => !!positions[index])
             .map((name, index) => (
               <img
