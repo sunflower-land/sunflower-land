@@ -1,7 +1,7 @@
 import React, { useContext, useLayoutEffect, useState } from "react";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { millisecondsToString } from "lib/utils/time";
+import { secondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getWeekKey, weekResetsAt } from "features/game/lib/factions";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -9,7 +9,11 @@ import { NPC_WEARABLES } from "lib/npcs";
 import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import { BountyRequest, InventoryItemName } from "features/game/types/game";
+import {
+  Bounties,
+  BountyRequest,
+  InventoryItemName,
+} from "features/game/types/game";
 import { ANIMALS, getKeys } from "features/game/types/craftables";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
@@ -33,6 +37,7 @@ import confetti from "canvas-confetti";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { NO_BONUS_BOUNTIES_WEEK } from "features/game/events/landExpansion/claimBountyBonus";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 export const MegaBountyBoard: React.FC<{ onClose: () => void }> = ({
   onClose,
@@ -47,20 +52,34 @@ export const MegaBountyBoard: React.FC<{ onClose: () => void }> = ({
   </CloseButtonPanel>
 );
 
+const isBonusClaimed = (exchange: Bounties) => {
+  const now = Date.now();
+  const currentWeek = getWeekKey();
+  const weekStart = new Date(currentWeek).getTime();
+  const weekEnd = weekResetsAt();
+  const lastClaim = exchange.bonusClaimedAt ?? 0;
+
+  return lastClaim > weekStart && lastClaim < now && now < weekEnd;
+};
+
 export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
   readonly,
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
+
   const [selectedBounty, setSelectedBounty] = useState<BountyRequest>();
+
   const state = useSelector(gameService, (state) => state.context.state);
   const exchange = useSelector(
     gameService,
     (state) => state.context.state.bounties,
   );
+  const [bonusClaimed, setBonusClaimed] = useState(isBonusClaimed(exchange));
+
   const endTime = weekResetsAt();
-  const timeRemaining = endTime - Date.now();
-  const showDanger = timeRemaining < 1000 * 60 * 60 * 24;
+  const { seconds: secondsRemaining } = useCountdown(endTime);
+  const showDanger = secondsRemaining < 60 * 60 * 24;
 
   const getBountiesByCategory = () => {
     const result: Record<
@@ -129,21 +148,13 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
     exchange.completed.find((completed) => completed.id === bounty.id),
   );
 
-  const currentWeek = getWeekKey();
-  const noBonusBountiesWeek = NO_BONUS_BOUNTIES_WEEK.includes(currentWeek);
+  const noBonusBountiesWeek = NO_BONUS_BOUNTIES_WEEK.includes(getWeekKey());
   const seasonalTicket = getSeasonalTicket();
 
-  const isBonusClaimed = () => {
-    const now = Date.now();
-    const weekStart = new Date(currentWeek).getTime();
-    const weekEnd = weekResetsAt();
-    const lastClaim = exchange.bonusClaimedAt ?? 0;
-    return lastClaim > weekStart && lastClaim < now && now < weekEnd;
+  const handleBonusClaim = () => {
+    gameService.send("claim.bountyBoardBonus");
+    setBonusClaimed(true);
   };
-
-  const bonusClaimed = isBonusClaimed();
-
-  const handleBonusClaim = () => gameService.send("claim.bountyBoardBonus");
 
   return (
     <>
@@ -176,7 +187,7 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
             className="mb-1"
           >
             {t("megaStore.timeRemaining", {
-              timeRemaining: millisecondsToString(timeRemaining, {
+              timeRemaining: secondsToString(secondsRemaining, {
                 length: "medium",
                 removeTrailingZeros: true,
               }),
