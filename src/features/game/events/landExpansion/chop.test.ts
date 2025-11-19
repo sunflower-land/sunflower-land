@@ -455,7 +455,15 @@ describe("getChoppedAt", () => {
       let counter = 0;
       // eslint-disable-next-line no-constant-condition
       while (true) {
-        if (prngChance({ farmId, itemId, counter, chance: 15 })) {
+        if (
+          prngChance({
+            farmId,
+            itemId,
+            counter,
+            chance: 15,
+            criticalHitName: "Tree Turnaround",
+          })
+        ) {
           return counter;
         }
         counter++;

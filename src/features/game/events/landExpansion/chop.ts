@@ -191,7 +191,13 @@ export function getChoppedAt({
   // If Tree Turnaround skill and instant growth
   if (
     bumpkin.skills["Tree Turnaround"] &&
-    prngChance({ farmId, itemId, counter, chance: 15 })
+    prngChance({
+      farmId,
+      itemId,
+      counter,
+      chance: 15,
+      criticalHitName: "Tree Turnaround",
+    })
   ) {
     boostsUsed.push("Tree Turnaround");
     return {

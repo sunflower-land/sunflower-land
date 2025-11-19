@@ -363,6 +363,7 @@ describe("startCrafting", () => {
             itemId: KNOWN_IDS["Basic Bed"],
             counter,
             chance: 10,
+            criticalHitName: "Fox Shrine",
           })
         ) {
           return counter;

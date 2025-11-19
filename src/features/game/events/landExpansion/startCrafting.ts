@@ -44,7 +44,15 @@ export function getBoostedCraftingTime({
 
   if (isTemporaryCollectibleActive({ name: "Fox Shrine", game })) {
     boostsUsed.push("Fox Shrine");
-    if (prngChance({ farmId, itemId, counter, chance: 10 })) {
+    if (
+      prngChance({
+        farmId,
+        itemId,
+        counter,
+        chance: 10,
+        criticalHitName: "Fox Shrine",
+      })
+    ) {
       seconds *= 0;
       return { seconds, boostsUsed };
     } else {

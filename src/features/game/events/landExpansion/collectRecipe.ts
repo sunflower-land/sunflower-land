@@ -46,7 +46,13 @@ export const getCookingAmount = ({
   if (
     building === "Fire Pit" &&
     bumpkin.skills["Fiery Jackpot"] &&
-    prngChance({ farmId, itemId: KNOWN_IDS[recipe.name], counter, chance: 20 })
+    prngChance({
+      farmId,
+      itemId: KNOWN_IDS[recipe.name],
+      counter,
+      chance: 20,
+      criticalHitName: "Fiery Jackpot",
+    })
   ) {
     amount += 1;
   }

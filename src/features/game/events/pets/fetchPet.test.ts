@@ -166,7 +166,13 @@ describe("fetchPet", () => {
       // eslint-disable-next-line no-constant-condition
       while (true) {
         if (
-          prngChance({ farmId, itemId: KNOWN_IDS.Acorn, counter, chance: 10 })
+          prngChance({
+            farmId,
+            itemId: KNOWN_IDS.Acorn,
+            counter,
+            chance: 10,
+            criticalHitName: "Native",
+          })
         ) {
           return counter;
         }

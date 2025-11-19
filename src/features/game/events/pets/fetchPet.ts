@@ -52,6 +52,7 @@ export function getFetchYield({
       itemId: KNOWN_IDS[fetchResource],
       counter,
       chance: fetchPercentage,
+      criticalHitName: "Native",
     })
   ) {
     yieldAmount += 1;
