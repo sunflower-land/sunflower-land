@@ -4,18 +4,14 @@ import { assign, createMachine, Interpreter, State } from "xstate";
 import { PlazaRoomState } from "./types/Room";
 
 import { CONFIG } from "lib/config";
-import {
-  Bumpkin,
-  FactionName,
-  IslandType,
-  Coordinate,
-} from "features/game/types/game";
+import { Bumpkin, FactionName, IslandType } from "features/game/types/game";
 import { Pets } from "features/game/types/pets";
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { SPAWNS } from "./lib/spawn";
 import { Moderation } from "features/game/lib/gameMachine";
 import { MAX_PLAYERS } from "./lib/availableRooms";
 import { NPCName } from "lib/npcs";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export type Scenes = {
   plaza: Room<PlazaRoomState> | undefined;
@@ -164,7 +160,7 @@ export interface MMOContext {
   isVip: boolean;
   createdAt: number;
   islandType: IslandType;
-  playerCoordinates?: Coordinate;
+  playerCoordinates?: Coordinates;
 }
 
 export type MMOState = {
