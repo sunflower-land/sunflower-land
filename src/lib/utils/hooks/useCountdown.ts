@@ -22,13 +22,17 @@ export const useCountdown = (targetDate: number) => {
   );
 
   useEffect(() => {
-    setCountDown(getTimeRemaining(targetDate));
-
     const interval = setInterval(() => {
-      setCountDown(getTimeRemaining(targetDate));
+      const remaining = getTimeRemaining(targetDate);
+      setCountDown(remaining);
+
+      // Stop interval when countdown reaches 0
+      if (remaining <= 0) {
+        clearInterval(interval);
+      }
     }, 1000);
 
-    return () => clearInterval(interval);
+    return () => interval && clearInterval(interval);
   }, [targetDate]);
 
   return getReturnValues(countDown);
