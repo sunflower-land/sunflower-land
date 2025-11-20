@@ -23,7 +23,6 @@ import { produce } from "immer";
 import { ExoticCropName } from "features/game/types/beans";
 import { isExoticCrop } from "features/game/types/crops";
 import { PET_SHOP_ITEMS, PetShopItemName } from "features/game/types/petShop";
-import { hasFeatureAccess } from "lib/flags";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 type CraftableCollectibleItem =
@@ -93,9 +92,6 @@ export function craftCollectible({
 
     if (!item) {
       throw new Error("Item does not exist");
-    }
-    if (isPetShopItem(action.name) && !hasFeatureAccess(stateCopy, "PETS")) {
-      throw new Error("Pet Shop is not available");
     }
 
     if (item.disabled) {

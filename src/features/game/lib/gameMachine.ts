@@ -108,8 +108,6 @@ import { NetworkOption } from "features/island/hud/components/deposit/DepositFlo
 import { blessingIsReady } from "./blessings";
 import { hasReadNews } from "features/farming/mail/components/News";
 import { depositSFL } from "lib/blockchain/DepositSFL";
-import { hasFeatureAccess } from "lib/flags";
-import { COMPETITION_POINTS } from "../types/competitions";
 import { getBumpkinLevel } from "./level";
 
 // Run at startup in case removed from query params
@@ -635,12 +633,6 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
 
           const { visitedFarmState, ...rest } = data;
 
-          // if you don't have access to pets, delete pets object from their gameState
-          const hasPetsAccess = hasFeatureAccess(gameState, "PETS");
-          if (!hasPetsAccess) {
-            visitedFarmState.pets = undefined;
-          }
-
           return {
             state: makeGame(visitedFarmState),
             data: rest,
@@ -707,7 +699,6 @@ export type BlockchainState = {
     | "visiting"
     | "gameRules"
     | "blessing"
-    | "roninAirdrop"
     | "FLOWERTeaser"
     | "portalling"
     | "introduction"
@@ -752,7 +743,6 @@ export type BlockchainState = {
     | "competition"
     | "cheers"
     | "news"
-    | "roninAirdrop"
     | "jinAirdrop"
     | StateMachineStateName
     | StateMachineVisitStateName
@@ -1058,12 +1048,6 @@ export function startGame(authContext: AuthContext) {
                 authContext.user.rawToken as string,
               );
 
-              const hasPetsAccess = hasFeatureAccess(visitorFarmState, "PETS");
-              // if you don't have access to pets, delete pets object from their gameState
-              if (!hasPetsAccess) {
-                visitedFarmState.pets = undefined;
-              }
-
               return {
                 state: visitedFarmState,
                 farmId,
@@ -1195,16 +1179,6 @@ export function startGame(authContext: AuthContext) {
               },
             },
             {
-              target: "roninAirdrop",
-              cond: (context) => {
-                return (
-                  !!context.linkedWallet &&
-                  !context.state.roninRewards?.onchain &&
-                  hasFeatureAccess(context.state, "RONIN_AIRDROP")
-                );
-              },
-            },
-            {
               target: "vip",
               cond: (context) => {
                 const isNew = context.state.bumpkin.experience < 100;
@@ -1294,27 +1268,7 @@ export function startGame(authContext: AuthContext) {
 
             {
               target: "competition",
-              cond: (context) => {
-                if (!hasFeatureAccess(context.state, "BUILDING_FRIENDSHIPS"))
-                  return false;
-
-                const hasStarted =
-                  Date.now() > COMPETITION_POINTS.BUILDING_FRIENDSHIPS.startAt;
-
-                const hasEnded =
-                  Date.now() > COMPETITION_POINTS.BUILDING_FRIENDSHIPS.endAt;
-                if (!hasStarted || hasEnded) return false;
-
-                const level = getBumpkinLevel(
-                  context.state.bumpkin?.experience ?? 0,
-                );
-                if (level <= 5) return false;
-
-                const competition =
-                  context.state.competitions.progress.BUILDING_FRIENDSHIPS;
-
-                return !competition;
-              },
+              cond: () => false,
             },
             {
               target: "news",
@@ -1483,19 +1437,6 @@ export function startGame(authContext: AuthContext) {
             ],
             "blessing.seeked": {
               target: STATE_MACHINE_EFFECTS["blessing.seeked"],
-            },
-            ACKNOWLEDGE: {
-              target: "notifying",
-            },
-          },
-        },
-        roninAirdrop: {
-          on: {
-            // "roninPack.claimed": (GAME_EVENT_HANDLERS as any)[
-            //   "roninPack.claimed"
-            // ],
-            "roninPack.claimed": {
-              target: STATE_MACHINE_EFFECTS["roninPack.claimed"],
             },
             ACKNOWLEDGE: {
               target: "notifying",

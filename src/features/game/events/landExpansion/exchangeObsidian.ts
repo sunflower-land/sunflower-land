@@ -3,7 +3,6 @@ import { GameState } from "../../types/game";
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { hasFeatureAccess } from "lib/flags";
 
 export type ObsidianExchangedAction = {
   type: "obsidian.exchanged";
@@ -15,23 +14,7 @@ type Options = {
   createdAt?: number;
 };
 
-/**
- * Returns the price of obsidian in sunstones.
- *
- * 3 Obsidian = 1 Sunstone
- * Price increases by 1 Obsidian every 3 exchanges
- */
-export function getObsidianSunstonePrice({
-  gameState,
-}: {
-  gameState: GameState;
-}): number {
-  if (hasFeatureAccess(gameState, "OBSIDIAN_EXCHANGE")) return 3;
-
-  const exchanged = gameState.farmActivity["Obsidian Exchanged"] ?? 0;
-
-  return 3 + Math.floor(exchanged / 3);
-}
+export const OBSIDIAN_PRICE = 3;
 
 export function exchangeObsidian({
   state,
@@ -39,17 +22,13 @@ export function exchangeObsidian({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    const obsidianRequired = getObsidianSunstonePrice({
-      gameState: state,
-    });
-
     const obsidian = game.inventory.Obsidian ?? new Decimal(0);
 
-    if (obsidian.lt(obsidianRequired)) {
+    if (obsidian.lt(OBSIDIAN_PRICE)) {
       throw new Error("Not enough obsidian");
     }
 
-    game.inventory.Obsidian = obsidian.sub(obsidianRequired);
+    game.inventory.Obsidian = obsidian.sub(OBSIDIAN_PRICE);
     game.inventory.Sunstone = (game.inventory.Sunstone ?? new Decimal(0)).add(
       1,
     );

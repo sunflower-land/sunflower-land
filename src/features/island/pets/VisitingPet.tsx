@@ -10,7 +10,6 @@ import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { isHelpComplete } from "features/game/types/monuments";
-import { hasFeatureAccess } from "lib/flags";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { FarmHelped } from "features/island/hud/components/FarmHelped";
@@ -20,11 +19,6 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 const _hasHelpedPet = (name: PetName) => (state: MachineState) => {
   if (state.context.visitorState) {
-    const hasAccess = hasFeatureAccess(state.context.visitorState, "PETS");
-    if (!hasAccess) {
-      return true;
-    }
-
     const hasHelpedToday = state.context.hasHelpedPlayerToday ?? false;
 
     const hasHelpedPet = !!state.context.state.pets?.common?.[name]?.visitedAt;

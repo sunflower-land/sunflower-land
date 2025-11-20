@@ -13,9 +13,6 @@ import { NumberInput } from "components/ui/NumberInput";
 import { ButtonPanel } from "components/ui/Panel";
 import { GameWallet } from "features/wallet/Wallet";
 import { DepositHistory } from "./DepositHistory";
-import { hasFeatureAccess } from "lib/flags";
-import { base, baseSepolia } from "viem/chains";
-import { CONFIG } from "lib/config";
 
 const _depositingFlowerToLinkedWallet = (state: MachineState) =>
   state.matches("depositingFlowerFromLinkedWallet");
@@ -89,18 +86,9 @@ export const DepositFromLinkedWallet: React.FC<{
     return t("deposit.flower");
   };
 
-  const enforceBaseDeposit = !hasFeatureAccess(
-    gameService.getSnapshot().context.state,
-    "RONIN_FLOWER",
-  );
-  const baseChain = CONFIG.NETWORK === "mainnet" ? base.id : baseSepolia.id;
-
   return (
     <div className="flex flex-col mt-1">
-      <GameWallet
-        action="depositFlower"
-        enforceChainId={enforceBaseDeposit ? baseChain : undefined}
-      >
+      <GameWallet action="depositFlower">
         <div className="flex flex-col my-3 justify-center">
           {balanceState === "loading" && (
             <div className="flex justify-between w-full p-2 pt-0">
