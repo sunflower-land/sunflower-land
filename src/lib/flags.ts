@@ -113,8 +113,6 @@ const FEATURE_FLAGS = {
   MODERATOR: (game) =>
     !!((game.wardrobe.Halo ?? 0) > 0) && !!game.inventory["Beta Pass"]?.gt(0),
 
-  BLESSING: () => true,
-
   PET_HOUSE: testnetFeatureFlag,
   MEMORY_BETA: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
