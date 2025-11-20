@@ -126,10 +126,7 @@ const FEATURE_FLAGS = {
 
   BLESSING: () => true,
 
-  PETS: (game) =>
-    betaTimeBasedFeatureFlag(new Date("2025-11-03T00:00:00Z"))(game),
   PET_HOUSE: testnetFeatureFlag,
-
   MEMORY_BETA: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
