@@ -10,9 +10,9 @@ import {
 } from "features/game/types/pets";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { prng } from "lib/prng";
-import { KNOWN_IDS } from "features/game/types";
 import { trackFarmActivity } from "features/game/types/farmActivity";
+import { prngChance } from "lib/prng";
+import { KNOWN_IDS } from "features/game/types";
 
 export function getFetchYield({
   petLevel,
@@ -29,11 +29,6 @@ export function getFetchYield({
 }) {
   let yieldAmount = 1;
   let fetchPercentage = 0;
-  const prngValue = prng({
-    farmId,
-    itemId: KNOWN_IDS[fetchResource],
-    counter,
-  });
 
   if (petLevel < 15) return { yieldAmount }; // skips the rest of the logic if pet is less than level 15
 
@@ -51,7 +46,15 @@ export function getFetchYield({
     fetchPercentage += 25; // total 50%
   }
 
-  if (prngValue * 100 < fetchPercentage) {
+  if (
+    prngChance({
+      farmId,
+      itemId: KNOWN_IDS[fetchResource],
+      counter,
+      chance: fetchPercentage,
+      criticalHitName: "Native",
+    })
+  ) {
     yieldAmount += 1;
   }
 

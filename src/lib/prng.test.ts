@@ -2,20 +2,45 @@ import { prng } from "./prng";
 
 describe("prng", () => {
   it("returns a value between 0 and 1", () => {
-    const result = prng({ farmId: 1, itemId: 2, counter: 3 });
+    const result = prng({
+      farmId: 1,
+      itemId: 2,
+      counter: 3,
+      criticalHitName: "Green Amulet",
+    });
     expect(result).toBeGreaterThanOrEqual(0);
     expect(result).toBeLessThan(1);
   });
 
   it("should return two different values for two different seeds", () => {
-    const result1 = prng({ farmId: 1, itemId: 2, counter: 3 });
-    const result2 = prng({ farmId: 2, itemId: 2, counter: 3 });
+    const result1 = prng({
+      farmId: 1,
+      itemId: 2,
+      counter: 3,
+      criticalHitName: "Green Amulet",
+    });
+    const result2 = prng({
+      farmId: 2,
+      itemId: 2,
+      counter: 3,
+      criticalHitName: "Green Amulet",
+    });
     expect(result1).not.toBe(result2);
   });
 
   it("should return the same value for the same seed", () => {
-    const result = prng({ farmId: 1, itemId: 2, counter: 3 });
-    const result2 = prng({ farmId: 1, itemId: 2, counter: 3 });
+    const result = prng({
+      farmId: 1,
+      itemId: 2,
+      counter: 3,
+      criticalHitName: "Green Amulet",
+    });
+    const result2 = prng({
+      farmId: 1,
+      itemId: 2,
+      counter: 3,
+      criticalHitName: "Green Amulet",
+    });
     expect(result).toBe(result2);
   });
 
@@ -28,7 +53,12 @@ describe("prng", () => {
 
     // Test many different farmIds
     for (let farmId = 1; farmId <= numFarmIds; farmId++) {
-      const result = prng({ farmId, itemId, counter });
+      const result = prng({
+        farmId,
+        itemId,
+        counter,
+        criticalHitName: "Green Amulet",
+      });
       results.add(result);
       values.push(result);
     }

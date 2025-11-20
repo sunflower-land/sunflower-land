@@ -6,7 +6,7 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { BuildingProduct, Bumpkin, GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
-import { prng } from "lib/prng";
+import { prngChance } from "lib/prng";
 import { isCookingBuilding } from "./cook";
 
 export type CollectRecipeAction = {
@@ -36,7 +36,6 @@ export const getCookingAmount = ({
   counter: number;
 }): number => {
   let amount = 1;
-  const prngValue = prng({ farmId, itemId: KNOWN_IDS[recipe.name], counter });
 
   // Double Nom - Guarantee +1 food
   if (recipe.skills?.["Double Nom"] && isCookingBuilding(building)) {
@@ -47,7 +46,13 @@ export const getCookingAmount = ({
   if (
     building === "Fire Pit" &&
     bumpkin.skills["Fiery Jackpot"] &&
-    prngValue < 0.2
+    prngChance({
+      farmId,
+      itemId: KNOWN_IDS[recipe.name],
+      counter,
+      chance: 20,
+      criticalHitName: "Fiery Jackpot",
+    })
   ) {
     amount += 1;
   }

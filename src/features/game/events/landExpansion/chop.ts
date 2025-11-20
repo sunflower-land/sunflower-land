@@ -19,7 +19,7 @@ import {
 } from "features/game/types/game";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { produce } from "immer";
-import { prng } from "lib/prng";
+import { prngChance } from "lib/prng";
 
 export enum CHOP_ERRORS {
   MISSING_AXE = "No axe",
@@ -187,12 +187,18 @@ export function getChoppedAt({
   const { bumpkin } = game;
   let totalSeconds = TREE_RECOVERY_TIME;
   const boostsUsed: BoostName[] = [];
-  const prngValue = prng({ farmId, itemId, counter });
-
-  const instantGrowthGenerator = () => prngValue * 100 < 15;
 
   // If Tree Turnaround skill and instant growth
-  if (bumpkin.skills["Tree Turnaround"] && instantGrowthGenerator()) {
+  if (
+    bumpkin.skills["Tree Turnaround"] &&
+    prngChance({
+      farmId,
+      itemId,
+      counter,
+      chance: 15,
+      criticalHitName: "Tree Turnaround",
+    })
+  ) {
     boostsUsed.push("Tree Turnaround");
     return {
       time: createdAt - TREE_RECOVERY_TIME * 1000,

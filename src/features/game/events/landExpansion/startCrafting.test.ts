@@ -3,8 +3,8 @@ import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import { startCrafting, StartCraftingAction } from "./startCrafting";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { prng } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
+import { prngChance } from "lib/prng";
 
 describe("startCrafting", () => {
   const farmId = 1;
@@ -357,12 +357,15 @@ describe("startCrafting", () => {
       let counter = 0;
       // eslint-disable-next-line no-constant-condition
       while (true) {
-        const prngValue = prng({
-          farmId,
-          itemId: KNOWN_IDS["Basic Bed"],
-          counter,
-        });
-        if (prngValue * 100 < 10) {
+        if (
+          prngChance({
+            farmId,
+            itemId: KNOWN_IDS["Basic Bed"],
+            counter,
+            chance: 10,
+            criticalHitName: "Fox Shrine",
+          })
+        ) {
           return counter;
         }
         counter++;

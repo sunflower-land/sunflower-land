@@ -2,8 +2,8 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { fetchPet } from "./fetchPet";
 import Decimal from "decimal.js-light";
-import { prng } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
+import { prngChance } from "lib/prng";
 
 describe("fetchPet", () => {
   const now = Date.now();
@@ -165,12 +165,15 @@ describe("fetchPet", () => {
       let counter = 0;
       // eslint-disable-next-line no-constant-condition
       while (true) {
-        const prngValue = prng({
-          farmId,
-          itemId: KNOWN_IDS.Acorn,
-          counter,
-        });
-        if (prngValue * 100 < 10) {
+        if (
+          prngChance({
+            farmId,
+            itemId: KNOWN_IDS.Acorn,
+            counter,
+            chance: 10,
+            criticalHitName: "Native",
+          })
+        ) {
           return counter;
         }
         counter++;
