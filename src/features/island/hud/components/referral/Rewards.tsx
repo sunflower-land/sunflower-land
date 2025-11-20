@@ -141,7 +141,6 @@ export const RewardOptions: React.FC<{ selectedButton?: RewardType }> = ({
 }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
-
   const now = useNow({ live: false });
 
   // Get daily rewards data for chest state
