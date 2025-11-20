@@ -32,7 +32,7 @@ export const useCountdown = (targetDate: number) => {
       }
     }, 1000);
 
-    return () => clearInterval(interval);
+    return () => interval && clearInterval(interval);
   }, [targetDate]);
 
   return {
