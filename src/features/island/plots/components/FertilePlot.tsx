@@ -1,4 +1,4 @@
-import React, { useContext, useState, type JSX } from "react";
+import React, { useContext, useMemo, useState, type JSX } from "react";
 
 import { CROPS, CropName } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -12,15 +12,14 @@ import sunshower from "assets/icons/sunshower.webp";
 import bee from "assets/icons/bee.webp";
 
 import { TimerPopover } from "../../common/TimerPopover";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import classNames from "classnames";
 import { CropFertiliser, CropPlot, GameState } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { getCropPlotTime } from "features/game/events/landExpansion/plant";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   cropName?: CropName;
@@ -34,10 +33,48 @@ interface Props {
 }
 
 const _island = (state: MachineState) => state.context.state.island;
+const _calendar = (state: MachineState) => state.context.state.calendar;
 
-const FertilePlotComponent: React.FC<Props> = ({
+const clampPercentage = (value: number) => Math.min(Math.max(value, 0), 100);
+
+const getGrowthStage = (
+  cropName?: CropName,
+  percentage?: number,
+): GrowthStage | undefined => {
+  if (!cropName || percentage === undefined) return undefined;
+  if (percentage >= 100) return "ready";
+  if (percentage >= 50) return "almost";
+  if (percentage >= 25) return "halfway";
+  return "seedling";
+};
+
+const getHarvestMetrics = ({
   cropName,
-  game,
+  plot,
+  plantedAt,
+}: {
+  cropName?: CropName;
+  plot: CropPlot;
+  plantedAt?: number;
+}): { harvestSeconds: number; readyAt: number; startAt: number } => {
+  const plantedTimestamp = plantedAt ?? plot.crop?.plantedAt ?? 0;
+
+  if (!cropName || !plantedTimestamp) {
+    return { harvestSeconds: 0, readyAt: 0, startAt: 0 };
+  }
+
+  const baseHarvestSeconds = CROPS[cropName].harvestSeconds;
+  const boostOffsetMs =
+    plot.crop?.name === cropName ? plot.crop?.boostedTime ?? 0 : 0;
+  const harvestSeconds = Math.max(baseHarvestSeconds - boostOffsetMs / 1000, 0);
+  const startAt = plantedTimestamp + boostOffsetMs;
+  const readyAt = startAt + harvestSeconds * 1000;
+
+  return { harvestSeconds, readyAt, startAt };
+};
+
+export const FertilePlot: React.FC<Props> = ({
+  cropName,
   plot,
   plantedAt,
   fertiliser,
@@ -46,46 +83,32 @@ const FertilePlotComponent: React.FC<Props> = ({
   showTimers,
 }) => {
   const { gameService } = useContext(Context);
+
   const island = useSelector(gameService, _island);
+  const calendar = useSelector(gameService, _calendar);
+
   const [showTimerPopover, setShowTimerPopover] = useState(false);
-  const [, setRender] = useState<number>(0);
-
-  let harvestSeconds = cropName ? CROPS[cropName].harvestSeconds : 0;
-  const readyAt = plantedAt ? plantedAt + harvestSeconds * 1000 : 0;
-
-  let startAt = plantedAt ?? 0;
-  if (cropName && game.bumpkin) {
-    harvestSeconds = getCropPlotTime({
-      crop: cropName,
-      game,
-      plot,
-      createdAt: Date.now(),
-    }).time;
-    startAt = readyAt - harvestSeconds * 1000;
-  }
-  const timeLeft = readyAt > 0 ? (readyAt - Date.now()) / 1000 : 0;
-  const isGrowing = timeLeft > 0;
+  const { harvestSeconds, readyAt, startAt } = useMemo(
+    () => getHarvestMetrics({ cropName, plot, plantedAt }),
+    [cropName, plantedAt, plot],
+  );
+  const currentTime = useNow({ live: readyAt > 0, autoEndAt: readyAt });
+  const timeLeft =
+    readyAt > 0 ? Math.max((readyAt - currentTime) / 1000, 0) : 0;
+  const isGrowing = readyAt > currentTime;
 
   const activeInsectPlague =
-    getActiveCalendarEvent({ calendar: game.calendar }) === "insectPlague";
-  const isProtected = game.calendar.insectPlague?.protected;
+    getActiveCalendarEvent({ calendar }) === "insectPlague";
+  const isProtected = calendar.insectPlague?.protected;
 
-  // REVIEW: Is this still needed after changing to LiveProgressBar?
-  useUiRefresher({ active: isGrowing });
+  const growPercentage =
+    harvestSeconds > 0
+      ? clampPercentage(100 - (timeLeft / harvestSeconds) * 100)
+      : 0;
+  const stage =
+    harvestSeconds > 0 ? getGrowthStage(cropName, growPercentage) : undefined;
 
-  const growPercentage = 100 - (timeLeft / harvestSeconds) * 100;
-  const stage: GrowthStage | undefined = !cropName
-    ? undefined
-    : growPercentage >= 100
-      ? "ready"
-      : growPercentage >= 50
-        ? "almost"
-        : growPercentage >= 25
-          ? "halfway"
-          : "seedling";
-
-  const isSunshower =
-    getActiveCalendarEvent({ calendar: game.calendar }) === "sunshower";
+  const isSunshower = getActiveCalendarEvent({ calendar }) === "sunshower";
 
   const handleMouseEnter = () => {
     // show details if field is growing
@@ -228,7 +251,6 @@ const FertilePlotComponent: React.FC<Props> = ({
             startAt={startAt}
             endAt={readyAt}
             formatLength="short"
-            onComplete={() => setRender((r) => r + 1)}
           />
         </div>
       )}
@@ -238,5 +260,3 @@ const FertilePlotComponent: React.FC<Props> = ({
     </div>
   );
 };
-
-export const FertilePlot = React.memo(FertilePlotComponent);
