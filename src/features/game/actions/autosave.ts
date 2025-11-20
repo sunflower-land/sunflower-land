@@ -9,7 +9,6 @@ import Decimal from "decimal.js-light";
 import { SeedBoughtAction } from "../events/landExpansion/seedBought";
 import { GameState } from "../types/game";
 import { getObjectEntries } from "../expansion/lib/utils";
-import { hasFeatureAccess } from "lib/flags";
 import { AUTO_SAVE_INTERVAL } from "../expansion/Game";
 
 // Browser-friendly SHA-256 → hex
@@ -160,15 +159,11 @@ export async function autosave(request: Request, retries = 0) {
     await new Promise((res) => setTimeout(res, autosaveErrors * 5000));
   }
 
-  let stateHash: StateHash | undefined;
-
-  if (hasFeatureAccess(request.state, "API_PERFORMANCE")) {
-    // eslint-disable-next-line no-console
-    console.time("getGameHash");
-    stateHash = await getGameHash(request.state);
-    // eslint-disable-next-line no-console
-    console.timeEnd("getGameHash");
-  }
+  // eslint-disable-next-line no-console
+  console.time("getGameHash");
+  const stateHash = await getGameHash(request.state);
+  // eslint-disable-next-line no-console
+  console.timeEnd("getGameHash");
 
   const response = await autosaveRequest({
     ...request,
@@ -228,12 +223,10 @@ export async function autosave(request: Request, retries = 0) {
   farm.id = request.farmId;
 
   // Merge the changes over the previous
-  if (hasFeatureAccess(request.state, "API_PERFORMANCE")) {
-    farm = {
-      ...request.state,
-      ...farm,
-    };
-  }
+  farm = {
+    ...request.state,
+    ...farm,
+  };
 
   const game = makeGame(farm);
 
