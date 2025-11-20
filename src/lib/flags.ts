@@ -90,12 +90,6 @@ const FEATURE_FLAGS = {
   // For testing
   JEST_TEST: defaultFeatureFlag,
 
-  RONIN_AIRDROP: (game: GameState) => {
-    if (Date.now() > RONIN_AIRDROP_ENDDATE.getTime()) return false;
-
-    return betaTimeBasedFeatureFlag(new Date("2025-10-21T00:00:00Z"))(game);
-  },
-
   // Permanent Feature Flags
   AIRDROP_PLAYER: adminFeatureFlag,
   HOARDING_CHECK: defaultFeatureFlag,
