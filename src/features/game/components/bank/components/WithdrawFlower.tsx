@@ -19,7 +19,6 @@ import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
-import { hasFeatureAccess } from "lib/flags";
 import { useAccount } from "wagmi";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { InnerPanel } from "components/ui/Panel";
@@ -130,9 +129,6 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
       </ModalOverlay>
       <div className="p-2 mb-2">
         <div className="flex flex-col items-start gap-2">
-          {hasFeatureAccess(state, "WITHDRAWAL_THRESHOLD") && (
-            <Label type="warning">{t("withdraw.flower.limited")}</Label>
-          )}
           <p className="text-xs">
             {t("withdraw.sfl.available", {
               flower: formatNumber(balance, { decimalPlaces: 4 }),
