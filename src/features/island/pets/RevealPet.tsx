@@ -155,7 +155,7 @@ export const RevealPet: React.FC = () => {
                 className="rounded-md object-contain"
                 src={
                   petImageLoaded
-                    ? preloadedPetImage ?? petImageUrl ?? petNFTEgg
+                    ? (preloadedPetImage ?? petImageUrl ?? petNFTEgg)
                     : petNFTEgg
                 }
                 alt={`Pet #${petToBeRevealed.id}`}

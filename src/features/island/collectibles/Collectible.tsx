@@ -43,6 +43,7 @@ export type CollectibleProps = {
   showTimers: boolean;
   z?: number | string;
   flipped?: boolean;
+  now: number;
 };
 
 type Props = CollectibleProps & {
@@ -60,6 +61,7 @@ const InProgressCollectible: React.FC<Props> = ({
   y,
   grid,
   location,
+  now,
 }) => {
   const { gameService, showAnimations, showTimers } = useContext(Context);
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
@@ -167,6 +169,7 @@ const CollectibleComponent: React.FC<Props> = ({
     >
       {inProgress ? (
         <InProgressCollectible
+          now={now}
           key={id}
           name={name}
           id={id}
@@ -192,6 +195,7 @@ const CollectibleComponent: React.FC<Props> = ({
           location={location}
           skills={skills}
           showTimers={showTimers}
+          now={now}
         />
       )}
     </div>
