@@ -95,7 +95,6 @@ import { SystemMessageWidget } from "features/announcements/SystemMessageWidget"
 import { News } from "features/farming/mail/components/News";
 import { CloseButtonPanel } from "../components/CloseablePanel";
 import { TradesCleared } from "./components/TradesCleared";
-import { ClaimRoninPack } from "./components/onChainAirdrops/ClaimRoninPack";
 import { RevealPet } from "features/island/pets/RevealPet";
 import { LeagueResults } from "./components/LeagueResults";
 
@@ -295,7 +294,6 @@ const isCompetition = (state: MachineState) => state.matches("competition");
 const isSeasonChanged = (state: MachineState) => state.matches("seasonChanged");
 const isCalendarEvent = (state: MachineState) => state.matches("calendarEvent");
 
-const isRoninAirdrop = (state: MachineState) => state.matches("roninAirdrop");
 const isJinAirdrop = (state: MachineState) => state.matches("jinAirdrop");
 const isCheers = (state: MachineState) => state.matches("cheers");
 const isNews = (state: MachineState) => state.matches("news");
@@ -474,7 +472,6 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const competition = useSelector(gameService, isCompetition);
   const seasonChanged = useSelector(gameService, isSeasonChanged);
   const calendarEvent = useSelector(gameService, isCalendarEvent);
-  const roninAirdrop = useSelector(gameService, isRoninAirdrop);
   const jinAirdrop = useSelector(gameService, isJinAirdrop);
   const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
   const investigating = useSelector(gameService, isInvestigating);
@@ -680,7 +677,6 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             {hasSomethingArrived && <SomethingArrived />}
             {hasBBs && <Gems />}
             {hasCommunityCoin && <LoveCharm />}
-            {roninAirdrop && <ClaimRoninPack />}
             {jinAirdrop && <RoninJinClaim />}
             {showReferralRewards && <ClaimReferralRewards />}
             {investigating && <SoftBan />}

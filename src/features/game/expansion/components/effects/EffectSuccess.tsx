@@ -11,7 +11,6 @@ import { CompletingFaceRecognitionSuccess } from "./CompletingFaceRecognitionSuc
 import { TwitterFollowedSuccess } from "./TwitterFollowedSuccess";
 import { TwitterPostedSuccess } from "./TwitterPostedSuccess";
 import { Loading } from "features/auth/components";
-import { RoninClaimedSuccess } from "../onChainAirdrops/ClaimRoninPack";
 import { BulkPurchaseSuccess } from "./BulkPurchaseSuccess";
 
 const SuccessSkip: React.FC = () => {
@@ -37,7 +36,6 @@ export const EFFECT_SUCCESS_COMPONENTS: Partial<
   completingFaceRecognitionSuccess: <CompletingFaceRecognitionSuccess />,
   followingTwitterSuccess: <TwitterFollowedSuccess />,
   postingTwitterSuccess: <TwitterPostedSuccess />,
-  roninAirdrop: <RoninClaimedSuccess />,
   marketplaceBulkListingsCancellingSuccess: (
     <BulkRemoveSuccess
       type="listings"

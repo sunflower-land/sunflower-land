@@ -108,7 +108,6 @@ import { NetworkOption } from "features/island/hud/components/deposit/DepositFlo
 import { blessingIsReady } from "./blessings";
 import { hasReadNews } from "features/farming/mail/components/News";
 import { depositSFL } from "lib/blockchain/DepositSFL";
-import { hasFeatureAccess } from "lib/flags";
 import { getBumpkinLevel } from "./level";
 
 // Run at startup in case removed from query params
@@ -1180,16 +1179,6 @@ export function startGame(authContext: AuthContext) {
                 if (!offered) return false;
 
                 return blessingIsReady({ game: context.state });
-              },
-            },
-            {
-              target: "roninAirdrop",
-              cond: (context) => {
-                return (
-                  !!context.linkedWallet &&
-                  !context.state.roninRewards?.onchain &&
-                  hasFeatureAccess(context.state, "RONIN_AIRDROP")
-                );
               },
             },
             {
