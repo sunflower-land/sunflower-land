@@ -136,7 +136,6 @@ const FEATURE_FLAGS = {
 
   OBSIDIAN_EXCHANGE: () =>
     timeBasedFeatureFlag(new Date("2025-11-03T00:00:00Z"))(),
-  GASLESS_AUCTIONS: () => true,
   MEMORY_BETA: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
