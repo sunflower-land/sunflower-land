@@ -139,8 +139,6 @@ const FEATURE_FLAGS = {
   GASLESS_AUCTIONS: () => true,
   NODE_FORGING: (game) =>
     betaTimeBasedFeatureFlag(new Date("2025-11-03T00:00:00Z"))(game),
-  DEPOSIT_SFL: () =>
-    Date.now() < new Date("2025-10-28T00:00:00.000Z").getTime(),
   MEMORY_BETA: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
