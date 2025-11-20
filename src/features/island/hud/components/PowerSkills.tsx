@@ -295,7 +295,7 @@ const PowerSkillsContent: React.FC<{
                       {t("powerSkills.ready")}
                     </Label>
                   )}
-                  {cooldown && (
+                  {boostedCooldown && (
                     // If power skill has a cooldown, show the cooldown
                     <Label
                       type="info"
@@ -303,7 +303,7 @@ const PowerSkillsContent: React.FC<{
                       className="mb-2"
                     >
                       {t("skill.cooldown", {
-                        cooldown: millisecondsToString(cooldown, {
+                        cooldown: millisecondsToString(boostedCooldown, {
                           length: "short",
                           isShortFormat: true,
                           removeTrailingZeros: true,

@@ -32,6 +32,7 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { MachineState } from "features/game/lib/gameMachine";
 import { SKILL_TREE_ICONS } from "./SkillCategoryList";
 import tradeOffs from "src/assets/icons/tradeOffs.png";
+import { getSkillCooldown } from "features/game/events/landExpansion/skillUsed";
 
 interface Props {
   selectedSkillPath: BumpkinRevampSkillTree;
@@ -41,6 +42,7 @@ interface Props {
 }
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
+const _state = (state: MachineState) => state.context.state;
 
 export const getSkillImage = (
   image: string | undefined,
@@ -63,6 +65,7 @@ export const SkillPathDetails: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const bumpkin = useSelector(gameService, _bumpkin);
+  const state = useSelector(gameService, _state);
 
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState<BumpkinSkillRevamp>(
@@ -72,6 +75,7 @@ export const SkillPathDetails: React.FC<Props> = ({
   const { tree, requirements, name, image, boosts, disabled, power, npc } =
     selectedSkill;
   const { cooldown, points, tier } = requirements;
+  const boostedCooldown = getSkillCooldown({ cooldown: cooldown ?? 0, state });
   const { buff, debuff } = boosts;
 
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
@@ -174,14 +178,14 @@ export const SkillPathDetails: React.FC<Props> = ({
                   className="mb-2"
                   hideIcon={true} // Hide the div icon
                 />
-                {!!power && !!cooldown && (
+                {!!power && !!boostedCooldown && (
                   <Label
                     type="info"
                     icon={SUNNYSIDE.icons.stopwatch}
                     className="mb-2"
                   >
                     {t("skill.cooldown", {
-                      cooldown: millisecondsToString(cooldown ?? 0, {
+                      cooldown: millisecondsToString(boostedCooldown, {
                         length: "short",
                         isShortFormat: true,
                         removeTrailingZeros: true,
