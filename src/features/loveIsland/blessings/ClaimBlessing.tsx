@@ -33,7 +33,7 @@ export const ClaimBlessingReward: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
 
   const { offered, reward } = gameState.context.state.blessing;
-  const { seconds: secondsToReady } = useCountdown(
+  const { totalSeconds: secondsToReady } = useCountdown(
     offered!.offeredAt + GUARDIAN_PENDING_MS,
   );
 

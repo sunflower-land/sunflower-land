@@ -46,13 +46,13 @@ export function getPetEnergy({
   basePetEnergy,
   petLevel,
   petData,
-  createdAt,
+  createdAt = Date.now(),
 }: {
   game: GameState;
   basePetEnergy: number;
   petLevel: number;
   petData: Pet | PetNFT;
-  createdAt: number;
+  createdAt?: number;
 }) {
   let boostEnergy = 0;
 

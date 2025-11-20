@@ -41,6 +41,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import chefIcon from "assets/icons/chef_hat.png";
 import lockIcon from "assets/icons/lock.png";
 import calendarIcon from "assets/icons/calendar.webp";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const _state = (state: MachineState) => state.context.state;
 
@@ -56,12 +57,8 @@ export const CompetitionModal: React.FC<{
   const { competitions } = state;
 
   const [showIntro, setShowIntro] = useState(!competitions.progress.TESTING);
-  const [task, setTask] = useState<CompetitionTaskName>();
 
-  const competition = COMPETITION_POINTS[competitionName];
-  const end = useCountdown(competition.endAt);
-
-  const [isConnecting, setIsConnecting] = useState(false);
+  const [isConnecting] = useState(false);
 
   if (isConnecting) {
     return (
@@ -109,8 +106,6 @@ export const CompetitionModal: React.FC<{
     );
   }
 
-  const tasks = getKeys(COMPETITION_POINTS[competitionName].points);
-
   return (
     <OuterPanel
       bumpkinParts={NPC_WEARABLES.peggy}
@@ -133,6 +128,7 @@ export const CompetitionDetails: React.FC<{
   hideLeaderboard?: boolean;
 }> = ({ competitionName, state, hideLeaderboard }) => {
   const { t } = useAppTranslation();
+  const now = useNow({ live: false });
 
   const [task, setTask] = useState<CompetitionTaskName>();
 
@@ -141,7 +137,7 @@ export const CompetitionDetails: React.FC<{
 
   const tasks = getKeys(COMPETITION_POINTS[competitionName].points);
 
-  const hasEnded = Date.now() > competition.endAt;
+  const hasEnded = end.seconds <= 0;
 
   if (hasEnded) {
     return (
@@ -159,7 +155,7 @@ export const CompetitionDetails: React.FC<{
     );
   }
 
-  const hasBegun = Date.now() > competition.startAt;
+  const hasBegun = now >= competition.startAt;
 
   return (
     <>

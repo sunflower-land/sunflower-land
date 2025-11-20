@@ -38,12 +38,13 @@ export const Mushroom: React.FC<Props> = ({ id, isFirstRender, name }) => {
   const { scale } = useContext(ZoomContext);
   const { gameService } = useContext(Context);
   const [grow, setGrow] = useState(false);
+  const [randomNumber] = useState(() => Math.random());
 
   const mushroomGif = useRef<SpriteSheetInstance>(undefined);
 
   const mushrooms = ["mushroom_1", "mushroom_2", "mushroom_3"] as const;
   const mushroomSound = useSound(
-    mushrooms[Math.floor(Math.random() * mushrooms.length)],
+    mushrooms[Math.floor(randomNumber * mushrooms.length)],
   );
 
   const { image } = MUSHROOM_STYLES[name];

@@ -69,7 +69,7 @@ const PetSleeping = ({ onWake }: { onWake: () => void }) => {
   const beginningOfWeek = new Date(week).getTime();
   const wakeTime = beginningOfWeek + PET_SLEEP_DURATION;
 
-  const { seconds: secondsTillWakeUp } = useCountdown(wakeTime);
+  const { totalSeconds: secondsTillWakeUp } = useCountdown(wakeTime);
 
   useEffect(() => {
     if (secondsTillWakeUp <= 0) {

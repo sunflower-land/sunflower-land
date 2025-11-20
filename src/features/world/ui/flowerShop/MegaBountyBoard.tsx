@@ -78,7 +78,7 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
   const [bonusClaimed, setBonusClaimed] = useState(isBonusClaimed(exchange));
 
   const endTime = weekResetsAt();
-  const { seconds: secondsRemaining } = useCountdown(endTime);
+  const { totalSeconds: secondsRemaining } = useCountdown(endTime);
   const showDanger = secondsRemaining < 60 * 60 * 24;
 
   const getBountiesByCategory = () => {

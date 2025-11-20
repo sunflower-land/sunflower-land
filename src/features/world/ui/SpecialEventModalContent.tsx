@@ -110,7 +110,7 @@ export const SpecialEventModalContent: React.FC<{
   } = gameState.context;
 
   const now = useNow({ live: false });
-  const { seconds: secondsRemaining } = useCountdown(event.endAt);
+  const { totalSeconds: secondsRemaining } = useCountdown(event.endAt);
 
   const claimReward = (day: number) => {
     task.current = event.tasks[day - 1];

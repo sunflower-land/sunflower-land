@@ -13,7 +13,6 @@ import { secondsToString } from "lib/utils/time";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 
 import chores from "assets/icons/chores.webp";
-import lock from "assets/icons/lock.png";
 
 import { SeasonalAuctions } from "../components/SeasonalAuctions";
 import classNames from "classnames";
@@ -72,6 +71,7 @@ export const Season: React.FC<Props> = ({
   farmId,
 }) => {
   const { t } = useAppTranslation();
+
   return (
     <div
       className={classNames(
@@ -117,20 +117,7 @@ export const Season: React.FC<Props> = ({
                 ticket: SEASON_TICKET_NAME[season],
               })}
             </Label>
-
-            {Date.now() < new Date("2024-11-06").getTime() && (
-              <Label icon={lock} type="danger">
-                {t("coming.soon")}
-              </Label>
-            )}
           </div>
-          {Date.now() < new Date("2024-11-06").getTime() && (
-            <div className="mb-2">
-              <span className="text-xs">
-                {t("season.codex.howToEarn.comingSoon")}
-              </span>
-            </div>
-          )}
           <NoticeboardItems
             iconWidth={8}
             items={[
