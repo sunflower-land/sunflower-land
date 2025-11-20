@@ -35,7 +35,6 @@ const compareTransaction = (prev?: GameTransaction, next?: GameTransaction) => {
 };
 export const TransactionCountdown: React.FC = () => {
   const { gameService } = useContext(Context);
-  const [showTransaction, setShowTransaction] = useState(false);
   const hasInitialized = useRef(false);
 
   const transaction = useSelector(
@@ -44,6 +43,8 @@ export const TransactionCountdown: React.FC = () => {
     compareTransaction,
   );
 
+  const [showTransaction, setShowTransaction] = useState(false);
+
   useEffect(() => {
     if (!hasInitialized.current) {
       hasInitialized.current = true;
@@ -51,7 +52,9 @@ export const TransactionCountdown: React.FC = () => {
     }
 
     // Only show transaction modal if we have a transaction and we've initialized
+    // We intentionally open the modal when a new transaction arrives.
     if (transaction) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setShowTransaction(true);
     }
   }, [transaction]);
@@ -95,9 +98,14 @@ const TransactionWidget: React.FC<{
     hash: tx?.hash as `0x${string}`,
   });
 
-  if (isSuccess) {
-    onOpen();
-  }
+  const hasOpenedRef = useRef(false);
+
+  useEffect(() => {
+    if (isSuccess && !hasOpenedRef.current) {
+      hasOpenedRef.current = true;
+      onOpen();
+    }
+  }, [isSuccess, onOpen]);
 
   const timedOut =
     now > (transaction.createdAt ?? 0) + DEADLINE_MS + DEADLINE_BUFFER_MS;

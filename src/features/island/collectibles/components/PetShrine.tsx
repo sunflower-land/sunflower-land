@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleProps } from "../Collectible";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { LiveProgressBar } from "components/ui/ProgressBar";
+import { ProgressBar } from "components/ui/ProgressBar";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
@@ -18,7 +18,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { PetShrineName } from "features/game/types/pets";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
-import { COMPETITION_POINTS } from "features/game/types/competitions";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 const PET_SHRINE_DIMENSIONS: Record<
   PetShrineName,
@@ -74,10 +74,11 @@ export const PetShrine: React.FC<
   const { gameService, showTimers } = useContext(Context);
 
   const [, setRender] = useState(0);
-
   const expiresAt = createdAt + (EXPIRY_COOLDOWNS[name] ?? 0);
-
-  const hasExpired = Date.now() > expiresAt;
+  const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
+  const durationSeconds = EXPIRY_COOLDOWNS[name] ?? 0;
+  const percentage = 100 - (secondsToExpire / durationSeconds) * 100;
+  const hasExpired = secondsToExpire <= 0;
 
   const handleRemove = () => {
     gameService.send("collectible.burned", {
@@ -102,12 +103,11 @@ export const PetShrine: React.FC<
               transform: "translateX(-50%)",
             }}
           >
-            <LiveProgressBar
-              startAt={createdAt}
-              endAt={expiresAt}
+            <ProgressBar
+              seconds={secondsToExpire}
               formatLength="medium"
               type="error"
-              onComplete={() => setRender((r) => r + 1)}
+              percentage={percentage}
             />
           </div>
         )}
@@ -147,12 +147,11 @@ export const PetShrine: React.FC<
                 transform: "translateX(-50%)",
               }}
             >
-              <LiveProgressBar
-                startAt={createdAt}
-                endAt={expiresAt}
+              <ProgressBar
+                seconds={secondsToExpire}
                 formatLength="medium"
                 type={"buff"}
-                onComplete={() => setRender((r) => r + 1)}
+                percentage={percentage}
               />
             </div>
           )}
@@ -176,7 +175,7 @@ export const PetShrine: React.FC<
           >
             <span className="text-xs">
               {t("time.remaining", {
-                time: secondsToString((expiresAt - Date.now()) / 1000, {
+                time: secondsToString(secondsToExpire, {
                   length: "medium",
                   isShortFormat: true,
                   removeTrailingZeros: true,
@@ -185,12 +184,6 @@ export const PetShrine: React.FC<
             </span>
           </Label>
           <SFTDetailPopoverBuffs name={name} />
-          {name === "Fox Shrine" &&
-            Date.now() < COMPETITION_POINTS.BUILDING_FRIENDSHIPS.endAt && (
-              <Label type="danger" icon={SUNNYSIDE.icons.cancel}>
-                {t("error.cannotPlaceFoxShrine")}
-              </Label>
-            )}
         </SFTDetailPopoverInnerPanel>
       </PopoverPanel>
     </Popover>
