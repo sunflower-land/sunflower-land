@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import * as AuthProvider from "features/auth/lib/Provider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "./AuctionDetails";
 import { InnerPanel } from "components/ui/Panel";
@@ -15,6 +15,9 @@ import {
   getAuctionCountdownLastRead,
 } from "./auctionCountdownStorage";
 import { getAuctionItemType } from "./lib/getAuctionItemType";
+import { useNow } from "lib/utils/hooks/useNow";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+import { MachineState } from "features/game/lib/gameMachine";
 
 const Countdown: React.FC<{ auction: Auction; onComplete: () => void }> = ({
   auction,
@@ -24,19 +27,15 @@ const Countdown: React.FC<{ auction: Auction; onComplete: () => void }> = ({
   const end = useCountdown(auction?.endAt);
   const { t } = useAppTranslation();
 
+  const now = useNow({ live: true, autoEndAt: auction.endAt });
   const item = getAuctionItemType(auction);
 
-  useEffect(() => {
-    if (auction.endAt < Date.now()) {
-      onComplete();
-    }
-  }, [end]);
-
-  if (auction.endAt < Date.now()) {
+  if (auction.endAt <= now) {
+    onComplete();
     return null;
   }
 
-  if (auction.startAt < Date.now()) {
+  if (auction.startAt < now) {
     return (
       <div>
         <div className="h-6 flex justify-center">
@@ -82,19 +81,25 @@ const Countdown: React.FC<{ auction: Auction; onComplete: () => void }> = ({
   );
 };
 
+const _token = (state: AuthMachineState) =>
+  state.context.user.rawToken as string;
+const _transactionId = (state: MachineState) =>
+  state.context.transactionId as string;
+
 export const AuctionCountdown: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+
+  const token = useSelector(authService, _token);
+  const transactionId = useSelector(gameService, _transactionId);
 
   const [auction, setAuction] = useState<Auction | undefined>();
 
   useEffect(() => {
     const load = async () => {
       const upcoming = await loadUpcomingAuction({
-        token: authState.context.user.rawToken as string,
-        transactionId: gameState.context.transactionId as string,
+        token,
+        transactionId,
       });
 
       if (upcoming && getAuctionCountdownLastRead() !== upcoming.auctionId) {
@@ -103,7 +108,7 @@ export const AuctionCountdown: React.FC = () => {
     };
 
     load();
-  }, []);
+  }, [token, transactionId]);
 
   const handleClick = () => {
     if (auction) {
