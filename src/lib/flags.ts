@@ -145,11 +145,6 @@ const FEATURE_FLAGS = {
   MEMORY_BETA: defaultFeatureFlag,
   PET_NFT_DEPOSIT: () =>
     timeBasedFeatureFlag(new Date("2025-11-03T00:00:00Z"))(),
-  PET_NFT_MARKETPLACE: () =>
-    timeBasedFeatureFlag(new Date("2025-11-03T00:00:00Z"))(),
-  BUILDING_FRIENDSHIPS: betaTimeBasedFeatureFlag(
-    new Date("2025-10-13T00:00:00Z"),
-  ),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

@@ -109,7 +109,6 @@ import { blessingIsReady } from "./blessings";
 import { hasReadNews } from "features/farming/mail/components/News";
 import { depositSFL } from "lib/blockchain/DepositSFL";
 import { hasFeatureAccess } from "lib/flags";
-import { COMPETITION_POINTS } from "../types/competitions";
 import { getBumpkinLevel } from "./level";
 
 // Run at startup in case removed from query params
@@ -1295,27 +1294,7 @@ export function startGame(authContext: AuthContext) {
 
             {
               target: "competition",
-              cond: (context) => {
-                if (!hasFeatureAccess(context.state, "BUILDING_FRIENDSHIPS"))
-                  return false;
-
-                const hasStarted =
-                  Date.now() > COMPETITION_POINTS.BUILDING_FRIENDSHIPS.startAt;
-
-                const hasEnded =
-                  Date.now() > COMPETITION_POINTS.BUILDING_FRIENDSHIPS.endAt;
-                if (!hasStarted || hasEnded) return false;
-
-                const level = getBumpkinLevel(
-                  context.state.bumpkin?.experience ?? 0,
-                );
-                if (level <= 5) return false;
-
-                const competition =
-                  context.state.competitions.progress.BUILDING_FRIENDSHIPS;
-
-                return !competition;
-              },
+              cond: () => false,
             },
             {
               target: "news",

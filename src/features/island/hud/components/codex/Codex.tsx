@@ -37,8 +37,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { ANIMALS } from "features/game/types/animals";
 import { Checklist, checklistCount } from "components/ui/CheckList";
 import { getBumpkinLevel } from "features/game/lib/level";
-import trophyIcon from "assets/icons/trophy.png";
-import { hasFeatureAccess } from "lib/flags";
 import { LeagueLeaderboard } from "./pages/LeaguesLeaderboard";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -172,15 +170,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       icon: ITEM_DETAILS["Red Pansy"].image,
       count: 0,
     },
-    ...(hasFeatureAccess(state, "BUILDING_FRIENDSHIPS")
-      ? [
-          {
-            name: "Competition" as const,
-            icon: trophyIcon,
-            count: 0,
-          },
-        ]
-      : []),
     ...(faction
       ? [
           {
