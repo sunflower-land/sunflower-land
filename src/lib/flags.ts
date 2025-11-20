@@ -134,8 +134,6 @@ const FEATURE_FLAGS = {
 
   API_PERFORMANCE: () => true,
 
-  OBSIDIAN_EXCHANGE: () =>
-    timeBasedFeatureFlag(new Date("2025-11-03T00:00:00Z"))(),
   MEMORY_BETA: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
