@@ -33,8 +33,6 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { calculateInstaGrowCost } from "features/game/events/landExpansion/instaGrowFlower";
 import { Panel } from "components/ui/Panel";
 import { secondsToString } from "lib/utils/time";
-import { hasFeatureAccess } from "lib/flags";
-import classNames from "classnames";
 
 interface Props {
   id: string;
@@ -145,13 +143,11 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
   const hasHarvestedBefore = !!farmActivity[`${flower.name} Harvested`];
   const reward = flower.reward;
 
-  const hasInstaGrow = hasFeatureAccess(state, "FLOWER_INSTA_GROW");
-
   const instaGrowCost = calculateInstaGrowCost(timeLeftSeconds);
   const playerObsidian = inventory.Obsidian ?? new Decimal(0);
 
   const handlePlotClick = () => {
-    if (isGrowing && hasInstaGrow) {
+    if (isGrowing) {
       setShowInstaGrowModal(true);
       return;
     }
@@ -193,10 +189,8 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
   return (
     <>
       <div
-        className={classNames("relative w-full h-full", {
-          "cursor-pointer hover:img-highlight": !isGrowing || hasInstaGrow,
-        })}
-        onClick={!isGrowing || hasInstaGrow ? handlePlotClick : undefined}
+        className="relative w-full h-full cursor-pointer hover:img-highlight"
+        onClick={handlePlotClick}
         onMouseEnter={() => setShowPopover(true)}
         onMouseLeave={() => setShowPopover(false)}
       >
@@ -342,56 +336,54 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
         </Panel>
       </Modal>
 
-      {hasInstaGrow && (
-        <Modal show={showInstaGrowModal} onHide={closeInstaGrowModal}>
-          <CloseButtonPanel
-            onClose={closeInstaGrowModal}
-            bumpkinParts={NPC_WEARABLES["poppy"]}
-          >
-            <div className="p-1 flex flex-col gap-2">
-              <Label type="vibrant">{t("instaGrow")}</Label>
-              <Label type="warning">
-                {t("instaGrow.timeRemaining", {
-                  time: secondsToString(timeLeftSeconds, { length: "medium" }),
-                })}
-              </Label>
-              <p className="text-sm my-1">
-                {t("instaGrow.description", {
-                  project: hasHarvestedBefore ? flower.name : "flower",
-                })}
-              </p>
-              <div className="flex justify-start">
-                <RequirementLabel
-                  item="Obsidian"
-                  requirement={instaGrowCost}
-                  type="item"
-                  balance={playerObsidian}
-                />
-              </div>
-              {showConfirm ? (
-                <div className="flex justify-between gap-1">
-                  <Button onClick={() => setShowConfirm(false)}>
-                    {t("cancel")}
-                  </Button>
-                  <Button
-                    onClick={handleInstaGrow}
-                    disabled={!playerObsidian.gte(instaGrowCost)}
-                  >
-                    {t("confirm")}
-                  </Button>
-                </div>
-              ) : (
+      <Modal show={showInstaGrowModal} onHide={closeInstaGrowModal}>
+        <CloseButtonPanel
+          onClose={closeInstaGrowModal}
+          bumpkinParts={NPC_WEARABLES["poppy"]}
+        >
+          <div className="p-1 flex flex-col gap-2">
+            <Label type="vibrant">{t("instaGrow")}</Label>
+            <Label type="warning">
+              {t("instaGrow.timeRemaining", {
+                time: secondsToString(timeLeftSeconds, { length: "medium" }),
+              })}
+            </Label>
+            <p className="text-sm my-1">
+              {t("instaGrow.description", {
+                project: hasHarvestedBefore ? flower.name : "flower",
+              })}
+            </p>
+            <div className="flex justify-start">
+              <RequirementLabel
+                item="Obsidian"
+                requirement={instaGrowCost}
+                type="item"
+                balance={playerObsidian}
+              />
+            </div>
+            {showConfirm ? (
+              <div className="flex justify-between gap-1">
+                <Button onClick={() => setShowConfirm(false)}>
+                  {t("cancel")}
+                </Button>
                 <Button
-                  onClick={() => setShowConfirm(true)}
+                  onClick={handleInstaGrow}
                   disabled={!playerObsidian.gte(instaGrowCost)}
                 >
-                  {t("instaGrow")}
+                  {t("confirm")}
                 </Button>
-              )}
-            </div>
-          </CloseButtonPanel>
-        </Modal>
-      )}
+              </div>
+            ) : (
+              <Button
+                onClick={() => setShowConfirm(true)}
+                disabled={!playerObsidian.gte(instaGrowCost)}
+              >
+                {t("instaGrow")}
+              </Button>
+            )}
+          </div>
+        </CloseButtonPanel>
+      </Modal>
     </>
   );
 };
