@@ -47,13 +47,38 @@ describe("skillUse", () => {
           bumpkin: {
             ...INITIAL_FARM.bumpkin,
             skills: { "Instant Growth": 1 },
-            previousPowerUseAt: { "Instant Growth": dateNow },
+            previousPowerUseAt: {
+              "Instant Growth": dateNow - 1000 * 60 * 60 * 24 * 2,
+            },
           },
         },
         action: { type: "skill.used", skill: "Instant Growth" },
         createdAt: dateNow,
       });
     }).toThrow("Power Skill on Cooldown");
+  });
+
+  it("requires the skill to be off cooldown if Lunar Weapon is equipped", () => {
+    expect(() => {
+      skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Instant Growth": 1 },
+            equipped: {
+              ...INITIAL_FARM.bumpkin.equipped,
+              tool: "Lunar Weapon",
+            },
+            previousPowerUseAt: {
+              "Instant Growth": dateNow - 1000 * 60 * 60 * 24 * 1.5,
+            },
+          },
+        },
+        action: { type: "skill.used", skill: "Instant Growth" },
+        createdAt: dateNow,
+      });
+    }).not.toThrow("Power Skill on Cooldown");
   });
 
   it("adds the power.useAt to the bumpkin", () => {

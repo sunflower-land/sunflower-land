@@ -350,6 +350,11 @@ function getLeatherYieldBoosts(game: GameState): {
     boostsUsed.push("Merino Whisperer");
   }
 
+  if (isWearableActive({ name: "Training Whistle", game })) {
+    boost += 1;
+    boostsUsed.push("Training Whistle");
+  }
+
   return { amount: boost, boostsUsed };
 }
 

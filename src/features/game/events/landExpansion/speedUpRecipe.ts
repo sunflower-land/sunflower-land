@@ -144,7 +144,7 @@ export function speedUpRecipe({
     game.inventory["Gem"] = (game.inventory["Gem"] ?? new Decimal(0)).sub(gems);
     const amount = getCookingAmount({
       building: action.buildingName,
-      bumpkin: game.bumpkin,
+      game,
       recipe,
       farmId,
       counter: game.bumpkin.activity[`${recipe.name} Cooked`] || 0,

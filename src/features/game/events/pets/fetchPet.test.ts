@@ -208,4 +208,65 @@ describe("fetchPet", () => {
     expect(BarkleyData?.energy).toBe(0);
     expect(state.inventory["Acorn"]).toEqual(new Decimal(2));
   });
+
+  it("fetches +1 Acron if Squirrel Onesie is equipped", () => {
+    const state = fetchPet({
+      state: {
+        ...INITIAL_FARM,
+        pets: {
+          common: {
+            Barkley: {
+              name: "Barkley",
+              requests: { food: [], fedAt: now },
+              energy: 100,
+              experience: 0,
+              pettedAt: now,
+            },
+          },
+        },
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin.equipped,
+            onesie: "Squirrel Onesie",
+          },
+        },
+      },
+      action: { type: "pet.fetched", petId: "Barkley", fetch: "Acorn" },
+      farmId,
+      createdAt: now,
+    });
+    expect(state.inventory["Acorn"]).toEqual(new Decimal(2));
+  });
+
+  it("increments the counter for the fetch, regardless of the yield", () => {
+    const state = fetchPet({
+      state: {
+        ...INITIAL_FARM,
+        pets: {
+          common: {
+            Barkley: {
+              name: "Barkley",
+              requests: { food: [], fedAt: now },
+              energy: 100,
+              experience: 0,
+              pettedAt: now,
+            },
+          },
+        },
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin.equipped,
+            onesie: "Squirrel Onesie",
+          },
+        },
+      },
+      action: { type: "pet.fetched", petId: "Barkley", fetch: "Acorn" },
+      farmId,
+      createdAt: now,
+    });
+
+    expect(state.farmActivity["Acorn Fetched"]).toBe(1);
+  });
 });

@@ -13,6 +13,7 @@ import { produce } from "immer";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
+import { isWearableActive } from "features/game/lib/wearables";
 
 export function getFetchYield({
   petLevel,
@@ -20,15 +21,24 @@ export function getFetchYield({
   isPetNFT,
   farmId,
   counter,
+  state,
 }: {
   petLevel: number;
   fetchResource: PetResourceName;
   isPetNFT: boolean;
   farmId: number;
   counter: number;
+  state: GameState;
 }) {
   let yieldAmount = 1;
   let fetchPercentage = 0;
+
+  if (
+    isWearableActive({ game: state, name: "Squirrel Onesie" }) &&
+    fetchResource === "Acorn"
+  ) {
+    yieldAmount += 1;
+  }
 
   if (petLevel < 15) return { yieldAmount }; // skips the rest of the logic if pet is less than level 15
 
@@ -140,6 +150,7 @@ export function fetchPet({
       isPetNFT,
       farmId,
       counter: stateCopy.farmActivity[`${fetch} Fetched`] ?? 0,
+      state: stateCopy,
     });
 
     stateCopy.inventory[fetch] = (
@@ -151,7 +162,6 @@ export function fetchPet({
     stateCopy.farmActivity = trackFarmActivity(
       `${fetch} Fetched`,
       stateCopy.farmActivity,
-      yieldAmount,
     );
 
     return stateCopy;
