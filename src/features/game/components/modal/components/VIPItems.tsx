@@ -21,13 +21,10 @@ import shopIcon from "assets/icons/shop.png";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
-import { millisecondsToString } from "lib/utils/time";
 import { acknowledgeVIP } from "features/announcements/announcementsStorage";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   hasVipAccess,
-  RONIN_FARM_CREATION_CUTOFF,
-  RONIN_VIP_COOLDOWN_MS,
   VIP_DURATIONS,
   VIP_PRICES,
   VipBundle,
@@ -90,47 +87,15 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
   const hasOneYear =
     vip && vip.expiresAt > Date.now() + 1000 * 60 * 60 * 24 * 365;
 
-  const isRoninFarmCreatedAfterCutOff =
-    state.createdAt > RONIN_FARM_CREATION_CUTOFF;
-
-  const roninNFT = state.nfts?.ronin;
-
-  const roninVip = roninNFT && isRoninFarmCreatedAfterCutOff;
-
-  const isRoninVipOnCooldown =
-    !!roninNFT &&
-    !!roninNFT.acknowledgedAt &&
-    roninNFT.acknowledgedAt > Date.now() - RONIN_VIP_COOLDOWN_MS;
-
-  const roninVipCooldownTimeLeft =
-    (roninNFT?.acknowledgedAt ?? 0) + RONIN_VIP_COOLDOWN_MS - Date.now();
-
   const getExpiresAt = () => {
-    if (!vip && !roninVip) return 0;
+    if (!vip) return 0;
 
     const paidVipExpiresAt = vip?.expiresAt ?? 0;
-    const roninVipExpiresAt = state.nfts?.ronin?.expiresAt ?? 0;
 
-    const expiresAt = Math.max(paidVipExpiresAt, roninVipExpiresAt);
-
-    return expiresAt;
+    return paidVipExpiresAt;
   };
 
   const vipExpiresAt = getExpiresAt();
-  const activeRoninVip =
-    (state.nfts?.ronin?.expiresAt ?? 0) > Date.now() &&
-    isRoninFarmCreatedAfterCutOff;
-
-  // Disable VIP purchase buttons if Ronin NFT is active and expires in more than 1 day
-  const shouldDisableVipPurchase = () => {
-    if (!activeRoninVip) return false;
-
-    const roninExpiresAt = state.nfts?.ronin?.expiresAt ?? 0;
-
-    return roninExpiresAt > Date.now() + 1000 * 60 * 60 * 24 * 1;
-  };
-
-  const disableVipPurchase = shouldDisableVipPurchase();
 
   return (
     <>
@@ -241,16 +206,8 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
               )}
             </div>
           </>
-        ) : roninVip && isRoninVipOnCooldown ? (
-          <Label icon={SUNNYSIDE.icons.stopwatch} type="info" className="my-2">
-            {t("ronin.nft.cooldown", {
-              time: millisecondsToString(roninVipCooldownTimeLeft, {
-                length: "medium",
-              }),
-            })}
-          </Label>
         ) : (
-          (vip || roninVip) && (
+          vip && (
             <Label
               icon={SUNNYSIDE.icons.stopwatch}
               type="danger"
@@ -260,25 +217,13 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
             </Label>
           )
         )}
-        {disableVipPurchase && !isRoninVipOnCooldown && (
-          <Label type="info" className="ml-1 my-1">
-            {t("vip.ronin.purchase.warning")}
-          </Label>
-        )}
         <div className="flex mt-3 mb-2">
           {getKeys(VIP_PRICES).map((name) => (
             <div className="w-1/3 pr-1" key={name}>
               <ButtonPanel
                 key={name}
                 className="flex flex-col items-center relative"
-                onClick={
-                  disableVipPurchase || (roninVip && isRoninVipOnCooldown)
-                    ? undefined
-                    : () => setSelected(name)
-                }
-                disabled={
-                  disableVipPurchase || (roninVip && isRoninVipOnCooldown)
-                }
+                onClick={() => setSelected(name)}
               >
                 <span className="whitespace-nowrap mb-2 mt-0.5">
                   {t(VIP_NAME[name])}
