@@ -109,7 +109,6 @@ import { ClutterName } from "./clutter";
 import { PetName, PetResourceName, Pets } from "./pets";
 import { RockName } from "./resources";
 import { PetShopItemName } from "./petShop";
-import { RoninV2PackName } from "features/wallet/lib/ronin";
 
 export type Reward = {
   coins?: number;
@@ -1614,6 +1613,14 @@ export type Auctioneer = {
   bid?: Bid;
   minted?: Minted;
 };
+
+type RoninV2PackName =
+  | "Bronze Pack"
+  | "Silver Pack"
+  | "Gold Pack"
+  | "Platinum Pack"
+  | "Legendary Pack"
+  | "Whale Pack";
 
 export interface GameState {
   home: Home;

@@ -699,7 +699,6 @@ export type BlockchainState = {
     | "visiting"
     | "gameRules"
     | "blessing"
-    | "roninAirdrop"
     | "FLOWERTeaser"
     | "portalling"
     | "introduction"
@@ -744,7 +743,6 @@ export type BlockchainState = {
     | "competition"
     | "cheers"
     | "news"
-    | "roninAirdrop"
     | "jinAirdrop"
     | StateMachineStateName
     | StateMachineVisitStateName
@@ -1439,19 +1437,6 @@ export function startGame(authContext: AuthContext) {
             ],
             "blessing.seeked": {
               target: STATE_MACHINE_EFFECTS["blessing.seeked"],
-            },
-            ACKNOWLEDGE: {
-              target: "notifying",
-            },
-          },
-        },
-        roninAirdrop: {
-          on: {
-            // "roninPack.claimed": (GAME_EVENT_HANDLERS as any)[
-            //   "roninPack.claimed"
-            // ],
-            "roninPack.claimed": {
-              target: STATE_MACHINE_EFFECTS["roninPack.claimed"],
             },
             ACKNOWLEDGE: {
               target: "notifying",
