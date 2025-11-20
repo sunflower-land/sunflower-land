@@ -141,10 +141,7 @@ const FEATURE_FLAGS = {
     betaTimeBasedFeatureFlag(new Date("2025-11-03T00:00:00Z"))(game),
   DEPOSIT_SFL: () =>
     Date.now() < new Date("2025-10-28T00:00:00.000Z").getTime(),
-  RONIN_FLOWER: betaTimeBasedFeatureFlag(new Date("2025-10-21T00:00:00Z")),
   MEMORY_BETA: defaultFeatureFlag,
-  PET_NFT_DEPOSIT: () =>
-    timeBasedFeatureFlag(new Date("2025-11-03T00:00:00Z"))(),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
