@@ -110,7 +110,7 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
   const selectedChore = kingdomChores.chores[selected];
   const progress = getProgress(selected);
 
-  const { seconds: secondsRemaining } = useCountdown(
+  const { totalSeconds: secondsRemaining } = useCountdown(
     kingdomChores.resetsAt ?? 0,
   );
   const needsRefresh = kingdomChores.resetsAt && secondsRemaining <= 0;
@@ -287,7 +287,7 @@ const ChoresPanel: React.FC<PanelProps> = ({
   const [showBoostInfo, setShowBoostInfo] = useState(false);
 
   const { t } = useAppTranslation();
-  const { seconds: secondsRemaining } = useCountdown(skipAvailableAt);
+  const { totalSeconds: secondsRemaining } = useCountdown(skipAvailableAt);
 
   const canSkip = secondsRemaining <= 0;
   const canComplete = progress >= chore.requirement;
@@ -458,7 +458,7 @@ export const KingdomChoresTimer: React.FC<{
 }> = ({ onReset, resetsAt }) => {
   const { t } = useAppTranslation();
 
-  const { seconds: secondsRemaining } = useCountdown(resetsAt ?? 0);
+  const { totalSeconds: secondsRemaining } = useCountdown(resetsAt ?? 0);
 
   const shouldReset = secondsRemaining <= 0;
   const shouldWarn = secondsRemaining <= 100_000;

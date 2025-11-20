@@ -44,7 +44,7 @@ interface TimeLabelProps {
 
 export const TimeLabel: React.FC<TimeLabelProps> = ({ startedAt }) => {
   const { t } = useAppTranslation();
-  const { seconds: secondsToReady } = useCountdown(
+  const { totalSeconds: secondsToReady } = useCountdown(
     startedAt + 24 * 60 * 60 * 1000,
   );
   return (

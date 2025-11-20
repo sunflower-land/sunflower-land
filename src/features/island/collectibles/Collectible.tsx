@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { CollectibleName } from "features/game/types/craftables";
 import { Bar, ResizableBar } from "components/ui/ProgressBar";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
 import { useSelector } from "@xstate/react";
@@ -28,6 +27,8 @@ import confetti from "canvas-confetti";
 import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
 import { gameAnalytics } from "lib/gameAnalytics";
 import classNames from "classnames";
+import { useNow } from "lib/utils/hooks/useNow";
+import { useWhenTime } from "lib/utils/hooks/useWhenTime";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -42,6 +43,7 @@ export type CollectibleProps = {
   showTimers: boolean;
   z?: number | string;
   flipped?: boolean;
+  now: number;
 };
 
 type Props = CollectibleProps & {
@@ -59,23 +61,21 @@ const InProgressCollectible: React.FC<Props> = ({
   y,
   grid,
   location,
+  now,
 }) => {
   const { gameService, showAnimations, showTimers } = useContext(Context);
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
-
   const skills = useSelector(gameService, _skills);
 
   const [showModal, setShowModal] = useState(false);
 
   const totalSeconds = (readyAt - createdAt) / 1000;
-  const secondsLeft = (readyAt - Date.now()) / 1000;
+  const secondsLeft = (readyAt - now) / 1000;
 
-  useEffect(() => {
-    // Just built, open up building state
-    if (Date.now() - createdAt < 1000) {
-      setShowModal(true);
-    }
-  }, []);
+  useWhenTime({
+    targetTime: readyAt,
+    callback: () => setShowModal(true),
+  });
 
   const onSpeedUp = (gems: number) => {
     gameService.send("collectible.spedUp", {
@@ -117,10 +117,11 @@ const InProgressCollectible: React.FC<Props> = ({
             readyAt={readyAt}
             x={x}
             y={y}
+            skills={skills}
+            showTimers={showTimers}
             grid={grid}
             location={location}
-            showTimers={showTimers}
-            skills={skills}
+            now={now}
           />
         </div>
         {showTimers && (
@@ -156,10 +157,9 @@ const CollectibleComponent: React.FC<Props> = ({
   const { gameService, showTimers } = useContext(Context);
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
   const skills = useSelector(gameService, _skills);
+  const now = useNow({ live: true, autoEndAt: readyAt });
 
-  const inProgress = readyAt > Date.now();
-
-  useUiRefresher({ active: inProgress });
+  const inProgress = readyAt > now;
 
   return (
     <div
@@ -170,6 +170,7 @@ const CollectibleComponent: React.FC<Props> = ({
     >
       {inProgress ? (
         <InProgressCollectible
+          now={now}
           key={id}
           name={name}
           id={id}
@@ -195,6 +196,7 @@ const CollectibleComponent: React.FC<Props> = ({
           location={location}
           skills={skills}
           showTimers={showTimers}
+          now={now}
         />
       )}
     </div>
@@ -220,8 +222,6 @@ const LandscapingCollectible: React.FC<Props> = (props) => {
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
 
-const MemorizedCollectibleComponent = React.memo(CollectibleComponent);
-
 export const Collectible: React.FC<Omit<Props, "showTimers" | "skills">> = (
   props,
 ) => {
@@ -240,10 +240,11 @@ export const Collectible: React.FC<Omit<Props, "showTimers" | "skills">> = (
   }
 
   return (
-    <MemorizedCollectibleComponent
-      {...props}
-      showTimers={showTimers}
+    <CollectibleComponent
+      key={props.id}
       skills={skills}
+      showTimers={showTimers}
+      {...props}
     />
   );
 };
@@ -259,24 +260,18 @@ export const Building: React.FC<{
   const state = useSelector(gameService, (state) => state.context.state);
   const { t } = useAppTranslation();
   const totalSeconds = (readyAt - createdAt) / 1000;
-  const secondsTillReady = (readyAt - Date.now()) / 1000;
-
-  const { days, ...ready } = useCountdown(readyAt ?? 0);
+  const ready = useCountdown(readyAt ?? 0);
 
   const gems = getInstantGems({
     readyAt: readyAt as number,
     game: state,
   });
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (Date.now() > readyAt) {
-        onClose();
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
+  // Automatically close when readyAt time is reached (no re-renders)
+  useWhenTime({
+    targetTime: readyAt,
+    callback: onClose,
+  });
 
   return (
     <>
@@ -291,7 +286,7 @@ export const Building: React.FC<{
             <div className="relative flex flex-col w-full">
               <div className="flex items-center gap-x-1">
                 <ResizableBar
-                  percentage={(1 - secondsTillReady! / totalSeconds) * 100}
+                  percentage={(1 - ready.seconds / totalSeconds) * 100}
                   type="progress"
                 />
                 <TimerDisplay time={ready} />

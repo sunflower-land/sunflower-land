@@ -93,7 +93,7 @@ export const PetModal: React.FC<Props> = ({
   const petCategory = PET_CATEGORIES[type];
   const { level, percentage, currentProgress, experienceBetweenLevels } =
     getPetLevel(data.experience);
-  const todayDate = new Date(Date.now()).toISOString().split("T")[0];
+  const todayDate = new Date().toISOString().split("T")[0];
 
   return (
     <Modal show={show} onHide={onClose}>

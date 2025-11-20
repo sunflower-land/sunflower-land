@@ -19,7 +19,7 @@ export const MinigamePrizeUI: React.FC<{
   mission: string;
 }> = ({ prize, history, mission }) => {
   const { t } = useAppTranslation();
-  const { seconds } = useCountdown(prize?.endAt ?? 0);
+  const { totalSeconds } = useCountdown(prize?.endAt ?? 0);
 
   if (!prize) {
     return (
@@ -46,7 +46,7 @@ export const MinigamePrizeUI: React.FC<{
             </Label>
           ) : (
             <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-              {secondsToString(seconds, { length: "medium" })}
+              {secondsToString(totalSeconds, { length: "medium" })}
             </Label>
           )}
 

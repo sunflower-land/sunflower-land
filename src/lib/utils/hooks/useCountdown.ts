@@ -35,5 +35,8 @@ export const useCountdown = (targetDate: number) => {
     return () => interval && clearInterval(interval);
   }, [targetDate]);
 
-  return getReturnValues(countDown);
+  return {
+    ...getReturnValues(countDown),
+    totalSeconds: Math.ceil(countDown / 1000),
+  };
 };

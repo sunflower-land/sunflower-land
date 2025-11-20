@@ -38,6 +38,7 @@ import { isMobile } from "mobile-device-detect";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { getAuctionItemType } from "features/retreat/components/auctioneer/lib/getAuctionItemType";
 import { getAuctionItemDisplay } from "features/retreat/components/auctioneer/lib/getAuctionItemDisplay";
+import { useNow } from "lib/utils/hooks/useNow";
 
 type AuctionDetail = {
   supply: number;
@@ -115,6 +116,7 @@ const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
   game,
 }) => {
   const { t } = useAppTranslation();
+  const now = useNow({ live: false });
 
   let drops = getKeys(auctions).reduce((acc, name) => {
     return [...acc, ...auctions[name].auctions];
@@ -122,7 +124,7 @@ const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
 
   drops = drops.sort((a, b) => (a.startAt > b.startAt ? 1 : -1));
 
-  const nextDrop = drops.find((drop) => drop.startAt > Date.now());
+  const nextDrop = drops.find((drop) => drop.startAt > now);
 
   const starts = useCountdown(nextDrop?.startAt ?? 0);
 
@@ -264,8 +266,9 @@ const Drops: React.FC<{
 }> = ({ detail, name, maxSupply, game }) => {
   const { t } = useAppTranslation();
   const auction = detail.auctions[0];
+  const now = useNow({ live: false });
 
-  const { image, buffLabels, typeLabel } = getAuctionItemDisplay({
+  const { buffLabels, typeLabel } = getAuctionItemDisplay({
     auction,
     skills: game.bumpkin.skills,
     collectibles: game.collectibles,
@@ -384,7 +387,7 @@ const Drops: React.FC<{
                     </div>
                   </div>
 
-                  {drop.startAt > Date.now() ? (
+                  {drop.startAt > now ? (
                     <Label type="formula">
                       {t("season.codex.nextDrop.available", {
                         dropSupply: drop.supply,

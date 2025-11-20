@@ -72,7 +72,7 @@ export const RoninAirdrop: React.FC<{ onClose?: () => void }> = ({
   const [showModal, setShowModal] = useState(false);
   const [isLoading] = useState(false);
 
-  const { seconds: secondsLeft } = useCountdown(
+  const { totalSeconds: secondsLeft } = useCountdown(
     RONIN_AIRDROP_ENDDATE.getTime(),
   );
 
