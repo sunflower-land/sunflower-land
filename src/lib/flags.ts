@@ -116,11 +116,6 @@ const FEATURE_FLAGS = {
 
   STREAM_STAGE_ACCESS: adminFeatureFlag,
 
-  WITHDRAWAL_THRESHOLD: timePeriodFeatureFlag({
-    start: new Date("2025-05-08T00:00:00Z"),
-    end: new Date("2025-06-20T00:00:00.000Z"),
-  }),
-
   MODERATOR: (game) =>
     !!((game.wardrobe.Halo ?? 0) > 0) && !!game.inventory["Beta Pass"]?.gt(0),
 
