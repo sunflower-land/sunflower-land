@@ -98,7 +98,6 @@ export const MyOffers: React.FC = () => {
             onClaim={claim}
             onClose={() => setClaimId(undefined)}
             reward={{
-              createdAt: Date.now(),
               id: "offer-claimed",
               items:
                 offers[claimId as string]?.collection === "collectibles"

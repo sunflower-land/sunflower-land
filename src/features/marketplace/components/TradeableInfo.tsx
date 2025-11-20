@@ -44,6 +44,7 @@ import { PetTraits } from "features/pets/data/types";
 import { Bud } from "lib/buds/types";
 import { getBudTraits } from "features/game/types/budBuffs";
 import { setPrecision } from "lib/utils/formatNumber";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const formatDate = (date: Date) => {
   return date.toLocaleDateString("en-US", {
@@ -183,6 +184,7 @@ export const TradeableDescription: React.FC<{
   tradeable?: TradeableDetails;
 }> = ({ display, tradeable }) => {
   const { t } = useAppTranslation();
+  const now = useNow({ live: false });
 
   let tradeAt = undefined;
   let withdrawAt = undefined;
@@ -289,12 +291,9 @@ export const TradeableDescription: React.FC<{
         {tradeable?.expiresAt && (
           <div className="p-2 pl-0 pb-0">
             <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-              {`${secondsToString(
-                (tradeable.expiresAt - new Date().getTime()) / 1000,
-                {
-                  length: "short",
-                },
-              )} left`}
+              {`${secondsToString((tradeable.expiresAt - now) / 1000, {
+                length: "short",
+              })} left`}
             </Label>
           </div>
         )}
