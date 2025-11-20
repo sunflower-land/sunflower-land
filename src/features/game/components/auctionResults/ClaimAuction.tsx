@@ -7,7 +7,6 @@ import { Context as GameContext } from "features/game/GameProvider";
 import { useContext } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Transaction } from "features/island/hud/Transaction";
-import { hasFeatureAccess } from "lib/flags";
 import { getAuctionItemImage } from "features/retreat/components/auctioneer/lib/getAuctionItemDisplay";
 
 export const ClaimAuction: React.FC = () => {
@@ -34,25 +33,9 @@ export const ClaimAuction: React.FC = () => {
         </div>
         <Winner
           onMint={() => {
-            if (
-              hasFeatureAccess(
-                gameService.state.context.state,
-                "GASLESS_AUCTIONS",
-              )
-            ) {
-              gameService.send("auction.claimed", {
-                effect: {
-                  type: "auction.claimed",
-                },
-              });
-
-              return;
-            }
-
-            gameService.send("TRANSACT", {
-              transaction: "transaction.bidMinted",
-              request: {
-                auctionId: bid.auctionId,
+            gameService.send("auction.claimed", {
+              effect: {
+                type: "auction.claimed",
               },
             });
           }}

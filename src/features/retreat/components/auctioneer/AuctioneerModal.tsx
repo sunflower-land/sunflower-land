@@ -28,7 +28,7 @@ interface Props {
   farmId: number;
   onClose: () => void;
   onUpdate: (state: GameState) => void;
-  onMint: (id: string) => void;
+  onMint: () => void;
   deviceTrackerId: string;
   linkedAddress?: string;
 }
@@ -87,12 +87,8 @@ export const AuctioneerModal: React.FC<Props> = ({
     );
   }
 
-  const closeModal = () => {
-    onClose();
-  };
-
   return (
-    <Modal show={isOpen} onHide={closeModal}>
+    <Modal show={isOpen} onHide={onClose}>
       <CloseButtonPanel
         onClose={onClose}
         currentTab={tab}
