@@ -7,7 +7,7 @@ import {
   NoticeboardItemsElements,
 } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { SeasonalEventName } from "features/game/types/calendar";
 import { useSelector } from "@xstate/react";
 import { useGame } from "features/game/GameProvider";
@@ -46,7 +46,8 @@ export const WeatherEvent: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const [eventOver, setEventOver] = useState(false);
   const { gameService } = useGame();
-  const now = useNow({ live: true });
+  // Snapshot of "now" at mount – stays stable for the life of this component
+  const now = useNow();
 
   const [eventIconPositions] = useState<
     {
@@ -61,22 +62,24 @@ export const WeatherEvent: React.FC<Props> = ({
     (state: MachineState) => state.context.state.calendar[eventName]?.startedAt,
   );
 
-  const getEventEndTime = () => {
-    // In development: check at the start of each minute
-    // const now = new Date();
-    // const nextMinute = new Date(now);
-    // nextMinute.setSeconds(0);
-    // nextMinute.setMilliseconds(0);
-    // nextMinute.setMinutes(nextMinute.getMinutes() + 1);
-    // return nextMinute.getTime();
+  // Compute the event end time once from a stable base time:
+  // - Prefer the server/event-start time when available
+  // - Fallback to the initial "now" snapshot
+  const eventEndTime = useMemo(() => {
+    const baseTime = eventStartTime ?? now;
 
-    // In production: check at UTC midnight
-    const tomorrow = new Date(eventStartTime ?? now);
-    tomorrow.setUTCHours(24, 0, 0, 0);
-    return tomorrow.getTime();
-  };
+    // In development: could check at the start of each minute using baseTime
+    // const minuteStart = new Date(baseTime);
+    // minuteStart.setSeconds(0);
+    // minuteStart.setMilliseconds(0);
+    // minuteStart.setMinutes(minuteStart.getMinutes() + 1);
+    // return minuteStart.getTime();
 
-  const eventEndTime = getEventEndTime();
+    // In production: check at UTC midnight of the base day
+    const midnight = new Date(baseTime);
+    midnight.setUTCHours(24, 0, 0, 0);
+    return midnight.getTime();
+  }, [eventStartTime, now]);
 
   useWhenTime({
     targetTime: eventEndTime,
