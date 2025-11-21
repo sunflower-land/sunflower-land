@@ -14,6 +14,7 @@ import {
   findGrowingCropPackIndex,
   hasReadyCrops,
   CropMachineState,
+  isCropPackReady,
 } from "./lib/cropMachine";
 import { Planting } from "./components/Planting";
 import { Sprouting } from "./components/Sprouting";
@@ -23,6 +24,7 @@ import { CropMachineBuilding } from "features/game/types/game";
 
 import { AddSeedsInput } from "features/game/events/landExpansion/supplyCropMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const _cropMachine = (id: string) => (state: MachineState) => {
   const machines = state.context.state.buildings["Crop Machine"];
@@ -46,6 +48,8 @@ interface Props {
 export const CropMachine: React.FC<Props> = ({ id }) => {
   const { gameService, showAnimations } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
+
+  const now = useNow({ live: true });
 
   const cropMachine = useSelector(
     gameService,
@@ -134,7 +138,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
   };
 
   const readyCrops = queue
-    .filter((pack) => pack.readyAt && pack.readyAt <= Date.now())
+    .filter((pack) => isCropPackReady(pack, now))
     .map((pack) => pack.crop);
 
   return (
