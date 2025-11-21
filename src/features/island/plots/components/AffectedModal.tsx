@@ -26,7 +26,7 @@ export const WeatherAffectedModal: React.FC<Props> = ({
 }) => (
   <Modal show={showModal} onHide={() => setShowModal(false)}>
     <CloseButtonPanel onClose={() => setShowModal(false)}>
-      <div className="p-2">
+      <div className="p-2 pt-1">
         <Label icon={icon} type="danger" className="mb-1 -ml-1">
           {title}
         </Label>
@@ -51,7 +51,7 @@ export const TimeLabel: React.FC<TimeLabelProps> = ({ startedAt }) => {
     <Label
       icon={SUNNYSIDE.icons.stopwatch}
       type="transparent"
-      className="mt-2 ml-1"
+      className="mt-2 ml-2"
     >
       {`${t("ready.in")}: ${secondsToString(secondsToReady, {
         length: "medium",

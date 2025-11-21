@@ -10,7 +10,7 @@ import { SOIL_IMAGES } from "../lib/plant";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { WeatherAffectedModal } from "./AffectedModal";
 
-const GreatFreezePlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
+export const GreatFreezePlot: React.FC<{ game: GameState }> = ({ game }) => {
   const [showModal, setShowModal] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const { t } = useAppTranslation();
@@ -80,5 +80,3 @@ const GreatFreezePlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
     </>
   );
 };
-
-export const GreatFreezePlot = React.memo(GreatFreezePlotComponent);

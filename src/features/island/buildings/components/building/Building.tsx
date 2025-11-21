@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { BuildingName } from "features/game/types/buildings";
 import { Bar, ResizableBar } from "components/ui/ProgressBar";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useSelector } from "@xstate/react";
 import { MoveableComponent } from "features/island/collectibles/MovableComponent";
@@ -25,7 +24,6 @@ import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe
 import { gameAnalytics } from "lib/gameAnalytics";
 import tornadoIcon from "assets/icons/tornado.webp";
 import tsunamiIcon from "assets/icons/tsunami.webp";
-import { secondsToString } from "lib/utils/time";
 import {
   getActiveCalendarEvent,
   SeasonalEventName,
@@ -34,6 +32,8 @@ import {
   isBuildingUpgradable,
   makeUpgradableBuildingKey,
 } from "features/game/events/landExpansion/upgradeBuilding";
+import { useNow } from "lib/utils/hooks/useNow";
+import { WeatherAffectedModal } from "features/island/plots/components/AffectedModal";
 
 interface Prop {
   name: BuildingName;
@@ -70,20 +70,15 @@ const InProgressBuilding: React.FC<Prop> = ({
   season,
 }) => {
   const { gameService, showAnimations, showTimers } = useContext(Context);
-
   const BuildingPlaced = BUILDING_COMPONENTS[name];
 
-  const [showModal, setShowModal] = useState(false);
+  const now = useNow({ live: false });
+  const [showModal, setShowModal] = useState(
+    now - createdAt < 1000 ? true : false,
+  );
 
   const totalSeconds = (readyAt - createdAt) / 1000;
-  const secondsLeft = (readyAt - Date.now()) / 1000;
-
-  useEffect(() => {
-    // Just built, open up building state
-    if (Date.now() - createdAt < 1000) {
-      setShowModal(true);
-    }
-  }, []);
+  const { totalSeconds: secondsLeft } = useCountdown(readyAt ?? 0);
 
   const isUpgradable = useSelector(gameService, _isUpgradable(name));
 
@@ -176,42 +171,19 @@ const DestroyedBuilding: React.FC<
   const BuildingPlaced = BUILDING_COMPONENTS[name];
 
   const { t } = useAppTranslation();
-
   const [showModal, setShowModal] = useState(false);
-
   const game = gameService.getSnapshot().context.state;
 
   return (
     <>
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <CloseButtonPanel onClose={() => setShowModal(false)}>
-          <div className="p-2">
-            <Label
-              icon={DESTROYED_BUILDING_ICONS[calendarEvent]}
-              type="danger"
-              className="mb-1 -ml-1"
-            >
-              {t(calendarEvent)}
-            </Label>
-            <p className="text-sm">
-              {t(`${calendarEvent}.building.destroyed.description`)}
-            </p>
-            <Label
-              icon={SUNNYSIDE.icons.stopwatch}
-              type="transparent"
-              className="mt-2 ml-1"
-            >
-              {`Ready in: ${secondsToString(
-                24 * 60 * 60 -
-                  (Date.now() - game.calendar[calendarEvent]!.startedAt) / 1000,
-                {
-                  length: "medium",
-                },
-              )}`}
-            </Label>
-          </div>
-        </CloseButtonPanel>
-      </Modal>
+      <WeatherAffectedModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        icon={DESTROYED_BUILDING_ICONS[calendarEvent]}
+        title={t(calendarEvent)}
+        description={t(`${calendarEvent}.building.destroyed.description`)}
+        startedAt={game.calendar[calendarEvent]!.startedAt}
+      />
 
       <div
         className="w-full h-full cursor-pointer"
@@ -309,12 +281,10 @@ const BuildingComponent: React.FC<Prop> = ({
 }) => {
   const { gameService } = useContext(Context);
   const BuildingPlaced = BUILDING_COMPONENTS[name];
-
-  const inProgress = readyAt > Date.now();
+  const now = useNow({ live: true, autoEndAt: readyAt });
+  const inProgress = readyAt > now;
 
   const destroyedBy = useSelector(gameService, _destroyedBy(name));
-
-  useUiRefresher({ active: inProgress });
 
   if (destroyedBy) {
     return (
@@ -385,9 +355,10 @@ const MoveableBuilding: React.FC<Prop> = (props) => {
     barnLevel,
   })[props.name];
 
-  if (landscaping) {
-    const inProgress = props.readyAt > Date.now();
+  const now = useNow({ live: false }); // just capture "now" once
+  const inProgress = props.readyAt > now;
 
+  if (landscaping) {
     // In Landscaping mode, use readonly building
     return (
       <MoveableComponent
@@ -425,7 +396,7 @@ export const Constructing: React.FC<{
 }> = ({ state, onClose, onInstantBuilt, readyAt, createdAt, name }) => {
   const { t } = useAppTranslation();
   const totalSeconds = (readyAt - createdAt) / 1000;
-  const secondsTillReady = (readyAt - Date.now()) / 1000;
+  const { totalSeconds: secondsTillReady } = useCountdown(readyAt ?? 0);
 
   const { days, ...ready } = useCountdown(readyAt ?? 0);
 
