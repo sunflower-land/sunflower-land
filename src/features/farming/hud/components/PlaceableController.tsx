@@ -149,7 +149,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     const available =
       placeable?.name === "Bud" || placeable?.name === "Pet"
         ? new Decimal(1)
-        : items[placeable.name] ?? new Decimal(0);
+        : (items[placeable.name] ?? new Decimal(0));
 
     let hasRequirements = false;
     if (requirements) {
@@ -295,7 +295,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
   const available =
     placeable?.name === "Bud" || placeable?.name === "Pet"
       ? new Decimal(1)
-      : items[placeable.name] ?? new Decimal(0);
+      : (items[placeable.name] ?? new Decimal(0));
 
   const image = getPlaceableImage(
     placeable.name,
