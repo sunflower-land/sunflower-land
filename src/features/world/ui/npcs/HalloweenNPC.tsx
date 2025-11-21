@@ -3,7 +3,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES } from "lib/npcs";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { getActiveListedItems } from "features/island/hud/components/inventory/utils/inventory";
@@ -62,8 +62,6 @@ export const HalloweenNPC: React.FC<Props> = ({ onClose }) => {
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-
-  const [bearsCollection, setBearsCollection] = useState<Inventory>({});
   const [selectedItems, setSelectedItems] = useState<InventoryItemName[]>([]);
 
   const getChestBears = (state: GameState) => {
@@ -99,6 +97,10 @@ export const HalloweenNPC: React.FC<Props> = ({ onClose }) => {
 
     return validItems;
   };
+
+  const [bearsCollection, setBearsCollection] = useState<Inventory>(
+    getChestBears(gameState.context.state as GameState),
+  );
 
   const sacrifice = () => {
     // Place the purchase function here
@@ -137,12 +139,6 @@ export const HalloweenNPC: React.FC<Props> = ({ onClose }) => {
 
     setSelectedItems((prev) => prev.filter((item) => item !== itemName));
   };
-
-  useEffect(() => {
-    const bearsCollection = getChestBears(gameState.context.state as GameState);
-    setBearsCollection(bearsCollection);
-    setSelectedItems([]);
-  }, []);
 
   if (showIntro) {
     return (

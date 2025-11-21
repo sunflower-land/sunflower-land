@@ -29,11 +29,6 @@ const useDebouncedValue = (value: string, delay: number) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(() => {
-    if (value.length === 0) {
-      setDebouncedValue("");
-      return;
-    }
-
     const handler = setTimeout(() => setDebouncedValue(value), delay);
 
     return () => clearTimeout(handler);

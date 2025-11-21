@@ -1,4 +1,4 @@
-import React, { useEffect, useState, CSSProperties, type JSX } from "react";
+import React, { useMemo, CSSProperties } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import tier1Book from "src/assets/icons/tier1_book.webp";
@@ -84,23 +84,7 @@ export const SkillSquareIcon: React.FC<Props> = ({
   tier,
   npc,
 }) => {
-  const [item, setItem] = useState<JSX.Element | undefined>(
-    getImage(width, icon),
-  );
-
-  // refreshes image when icon is changed to avoid flickering when resizing image
-  useEffect(() => {
-    if (!icon) {
-      return;
-    }
-    setItem(undefined);
-  }, [icon]);
-  useEffect(() => {
-    if (item) {
-      return;
-    }
-    setItem(getImage(width, icon));
-  }, [item]);
+  const item = useMemo(() => getImage(width, icon), [width, icon]);
 
   return (
     <div

@@ -1,5 +1,5 @@
 import { useSelector } from "@xstate/react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import Decimal from "decimal.js-light";
 
 import { BoostName, Wardrobe } from "features/game/types/game";
@@ -42,26 +42,27 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
 
-  const [wardrobe, setWardrobe] = useState<Wardrobe>({});
-  const [selected, setSelected] = useState<Wardrobe>({});
-
-  const [showInfo, setShowInfo] = useState("");
-
-  useEffect(() => {
+  const getTrueAvailableWardrobe = () => {
     let available = availableWardrobe(state);
 
     available = getKeys(available).reduce((acc, key) => {
       const currentAmount = available[key] ?? 0;
       const onChainAmount = state.previousWardrobe[key] ?? 0;
-
       return {
         ...acc,
         [key]: Math.min(currentAmount, onChainAmount),
       };
     }, {} as Wardrobe);
 
-    setWardrobe(available);
-  }, [state]);
+    return available;
+  };
+
+  const [wardrobe, setWardrobe] = useState<Wardrobe>(
+    getTrueAvailableWardrobe(),
+  );
+  const [selected, setSelected] = useState<Wardrobe>({});
+
+  const [showInfo, setShowInfo] = useState("");
 
   const withdraw = () => {
     const ids = getKeys(selected).map((item) => ITEM_IDS[item]);
@@ -117,17 +118,8 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
   };
 
   // Precompute/cached values for sorting to avoid repeated expensive calls
-  const withdrawableItemCache = React.useMemo(() => {
-    const cache: {
-      [key in BumpkinItem]?: {
-        cooldownMs: number;
-        isOnCooldown: boolean;
-        hasMoreOffChain: boolean;
-        hasBuff: boolean;
-      };
-    } = {};
-
-    getKeys(wardrobe).forEach((itemName) => {
+  const withdrawableItemCache = getKeys(wardrobe).reduce(
+    (cache, itemName) => {
       const { cooldownTimeLeft } = getRestrictionStatus(itemName);
       const isOnCooldown = cooldownTimeLeft > 0;
       const hasMoreOffChain = hasMoreOffChainItems(itemName);
@@ -139,10 +131,18 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
         hasMoreOffChain,
         hasBuff,
       };
-    });
 
-    return cache;
-  }, [wardrobe, state]);
+      return cache;
+    },
+    {} as {
+      [key in BumpkinItem]?: {
+        cooldownMs: number;
+        isOnCooldown: boolean;
+        hasMoreOffChain: boolean;
+        hasBuff: boolean;
+      };
+    },
+  );
 
   const sortWithdrawableItems = (itemA: BumpkinItem, itemB: BumpkinItem) => {
     const a = withdrawableItemCache[itemA];

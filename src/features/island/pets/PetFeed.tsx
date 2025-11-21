@@ -42,11 +42,10 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
 
   const game = useSelector(gameService, _game);
 
-  const isNFTPet = isPetNFT(data);
   const { level } = getPetLevel(data.experience);
   const foodRequests = getPetFoodRequests(data, level);
   const lastFedAt = data.requests.fedAt;
-  const todayDate = new Date(Date.now()).toISOString().split("T")[0];
+  const todayDate = new Date().toISOString().split("T")[0];
   const lastFedAtDate = new Date(lastFedAt ?? 0).toISOString().split("T")[0];
   const fedToday = lastFedAtDate === todayDate;
   const sortedFoodRequests = [...data.requests.food].sort((a, b) => {
@@ -79,7 +78,6 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
       petLevel: level,
       basePetEnergy: baseFoodXp,
       petData: data,
-      createdAt: Date.now(),
     });
 
     return {

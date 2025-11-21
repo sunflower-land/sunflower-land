@@ -32,6 +32,7 @@ import {
 } from "features/game/lib/factions";
 import { formatNumber } from "lib/utils/formatNumber";
 import { BoostInfoPanel } from "./BoostInfoPanel";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 interface Props {
   bumpkinParts: Equipped;
@@ -61,7 +62,9 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showBoostInfo, setShowBoostInfo] = useState(false);
 
-  const now = Date.now();
+  const { totalSeconds: secondsTillWeekEnd } = useCountdown(
+    getFactionWeekEndTime({ date: new Date() }),
+  );
 
   if (!kitchen || kitchen.requests.length === 0) {
     return (
@@ -90,8 +93,6 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
     selectedRequestIdx
   ] as ResourceRequest;
 
-  const secondsTillWeekEnd =
-    (getFactionWeekEndTime({ date: new Date(now) }) - now) / 1000;
   const day = getFactionWeekday(now);
   const fulfilled = selectedRequest.dailyFulfilled[day] ?? 0;
   const selectedRequestReward = (amount = 1) =>

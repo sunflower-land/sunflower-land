@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -31,18 +31,16 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { useGame } from "features/game/GameProvider";
 import { hasFeatureAccess, RONIN_AIRDROP_ENDDATE } from "lib/flags";
 import { secondsToString } from "lib/utils/time";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 // Wrapper for the Ronin Airdrop page to ensure they have access
 export const GameRoninAirdrop = () => {
   const { gameState } = useGame();
-
   const navigate = useNavigate();
 
-  const { t } = useAppTranslation();
-
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     navigate(-1);
-  };
+  }, [navigate]);
 
   // exit marketplace if Escape key is pressed
   useEffect(() => {
@@ -72,9 +70,11 @@ export const RoninAirdrop: React.FC<{ onClose?: () => void }> = ({
   const { t } = useAppTranslation();
 
   const [showModal, setShowModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
 
-  const secondsLeft = (RONIN_AIRDROP_ENDDATE.getTime() - Date.now()) / 1000;
+  const { totalSeconds: secondsLeft } = useCountdown(
+    RONIN_AIRDROP_ENDDATE.getTime(),
+  );
 
   return (
     <>
@@ -222,7 +222,6 @@ export const RoninEligibility = () => {
   const [claimed, setClaimed] = useState<boolean>(false);
 
   const [address, setAddress] = useState("");
-  const [twitterError, setTwitterError] = useState("");
   const [addressError, setAddressError] = useState("");
 
   const { t } = useAppTranslation();

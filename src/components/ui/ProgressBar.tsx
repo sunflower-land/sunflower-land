@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSpring, animated } from "react-spring";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString, TimeFormatLength } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { progressBarBorderStyle } from "features/game/lib/style";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export type ProgressType =
   | "progress"
@@ -202,16 +203,29 @@ export const AnimatedBar: React.FC<{
   type: ProgressType;
   shouldWrap?: boolean;
 }> = ({ percentage, type, shouldWrap = true }) => {
-  const prevWidth = useRef(percentage);
+  const [prevPercentage, setPrevPercentage] = useState(
+    Math.min(percentage, 100),
+  );
+  const clampedPercentage = Math.min(percentage, 100);
+
+  // Detect if we need to wrap (percentage decreased)
+  const shouldReset = shouldWrap && prevPercentage > clampedPercentage;
 
   const { width } = useSpring({
-    width: Math.min(percentage, 100),
+    from: { width: shouldReset ? 0 : undefined },
+    to: { width: clampedPercentage },
     config: {
       tension: 120,
       friction: 30,
       clamp: true,
     },
+    reset: shouldReset,
   });
+
+  // Track previous percentage for wrap detection
+  useEffect(() => {
+    setPrevPercentage(clampedPercentage);
+  }, [clampedPercentage]);
 
   return (
     <div
@@ -267,7 +281,7 @@ export const AnimatedBar: React.FC<{
           top: `${PIXEL_SCALE * DIMENSIONS.marginTop}px`,
           left: `${PIXEL_SCALE * DIMENSIONS.marginLeft}px`,
           height: `${PIXEL_SCALE * DIMENSIONS.innerHeight}px`,
-          width: width.to(
+          width: width?.to(
             (w) => `${(PIXEL_SCALE * DIMENSIONS.innerWidth * w) / 100}px`,
           ),
         }}
@@ -279,14 +293,8 @@ export const AnimatedBar: React.FC<{
           top: `${PIXEL_SCALE * DIMENSIONS.marginTop}px`,
           left: `${PIXEL_SCALE * DIMENSIONS.marginLeft}px`,
           height: `${PIXEL_SCALE * DIMENSIONS.innerHeight}px`,
-          width: width.to((w) => {
-            // wrap the width to 0 if the previous width is greater than the current width
-            if (prevWidth.current > w && shouldWrap) {
-              width.set(0);
-            }
-
-            prevWidth.current = w;
-
+          // Remove the state setters from this transformation callback
+          width: width?.to((w) => {
             return `${(PIXEL_SCALE * DIMENSIONS.innerWidth * w) / 100}px`;
           }),
         }}
@@ -347,7 +355,7 @@ interface LiveProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
   startAt: number;
   endAt: number;
   formatLength: TimeFormatLength;
-  onComplete: () => void;
+  onComplete?: () => void;
   type?: ProgressBarProps["type"];
 }
 
@@ -363,25 +371,27 @@ export const LiveProgressBar: React.FC<LiveProgressBarProps> = ({
   type = "progress",
   ...divProps
 }) => {
-  const [secondsLeft, setSecondsLeft] = useState((endAt - Date.now()) / 1000);
-
-  const totalSeconds = (endAt - startAt) / 1000;
-  const percentage = (100 * (totalSeconds - secondsLeft)) / totalSeconds;
-
-  const active = endAt >= startAt;
+  const [live, setLive] = useState(() => endAt > Date.now());
+  const now = useNow({ live });
+  const secondsLeft = useMemo(
+    () => Math.max(Math.ceil((endAt - now) / 1000), 0),
+    [endAt, now],
+  );
+  const totalSeconds = Math.max((endAt - startAt) / 1000, 0);
+  const percentage =
+    totalSeconds > 0 ? (100 * (totalSeconds - secondsLeft)) / totalSeconds : 0;
 
   useEffect(() => {
-    if (active) {
-      const interval = setInterval(() => {
-        setSecondsLeft((endAt - Date.now()) / 1000);
-
-        if (Date.now() > endAt) {
-          onComplete();
-        }
-      }, 1000);
-      return () => clearInterval(interval);
+    const shouldLive = endAt > now;
+    if (shouldLive !== live) {
+      setLive(shouldLive);
+      if (!shouldLive && onComplete) {
+        onComplete();
+      }
     }
-  }, [active]);
+  }, [endAt, live, now, onComplete]);
+
+  if (secondsLeft <= 0 || !totalSeconds) return null;
 
   return (
     <ProgressBar

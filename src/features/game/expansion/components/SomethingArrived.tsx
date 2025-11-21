@@ -22,7 +22,6 @@ export const SomethingArrived: React.FC = () => {
     <ClaimReward
       label={t("reward.whatsNew")}
       reward={{
-        createdAt: Date.now(),
         id: "something-arrived-reward",
         message: "Woohoo, something has arrived for you!",
         items: items.reduce(

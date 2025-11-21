@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import { Button } from "components/ui/Button";
 
@@ -16,13 +16,9 @@ export const PlazaSettings: React.FC<ContentComponentProps> = ({
     "MAIN",
   );
 
-  const [mutedPlayers, setMutedPlayers] = useState<string[]>([]);
-
-  useEffect(() => {
-    setMutedPlayers(
-      JSON.parse(localStorage.getItem("plaza-settings.mutedFarmIds") || "[]"),
-    );
-  }, []);
+  const [mutedPlayers, setMutedPlayers] = useState<string[]>(
+    JSON.parse(localStorage.getItem("plaza-settings.mutedFarmIds") || "[]"),
+  );
 
   const removeMutedPlayer = (farmId: string) => {
     const muted = mutedPlayers;

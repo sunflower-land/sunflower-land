@@ -1,52 +1,29 @@
-import React, { useContext, useEffect, useState } from "react";
-
+import React, { useContext, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
-
 import { ExpansionConstruction } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Modal } from "components/ui/Modal";
 import { Expanding } from "components/ui/layouts/ExpansionRequirements";
 import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Panel } from "components/ui/Panel";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 interface Props {
   expansion: ExpansionConstruction;
-  onDone: () => void;
 }
 
 /**
  * Goblins working hard constructing a piece of land
  */
-export const Pontoon: React.FC<Props> = ({ expansion, onDone }) => {
-  const { gameService } = useContext(Context);
+export const Pontoon: React.FC<Props> = ({ expansion }) => {
+  const { gameService, showTimers } = useContext(Context);
 
-  const { showTimers } = useContext(Context);
-
-  const [showPopover, setShowPopover] = useState(false);
-  const [secondsLeft, setSecondsLeft] = useState(
-    (expansion.readyAt - Date.now()) / 1000,
-  );
-  const { t } = useAppTranslation();
+  const { totalSeconds: secondsLeft } = useCountdown(expansion.readyAt);
 
   const [showModal, setShowModal] = useState(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const seconds = (expansion.readyAt - Date.now()) / 1000;
-      setSecondsLeft(seconds);
-
-      if (seconds <= 0) {
-        clearInterval(interval);
-        onDone();
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   const onInstantExpand = () => {
     const readyAt =

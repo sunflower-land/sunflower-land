@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Transition } from "@headlessui/react";
 
 import emptyPot from "assets/greenhouse/greenhouse_pot.webp";
@@ -25,7 +25,7 @@ import { GreenHouseFruitName } from "features/game/types/fruits";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
-import { LiveProgressBar } from "components/ui/ProgressBar";
+import { ProgressBar } from "components/ui/ProgressBar";
 import {
   getGreenhouseCropYieldAmount,
   getReadyAt,
@@ -41,6 +41,7 @@ import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber } from "lib/utils/formatNumber";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 type Stage = "seedling" | "growing" | "almost" | "ready";
 const PLANT_STAGES: Record<
@@ -83,28 +84,39 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
   } = useContext(Context);
 
   const { t } = useAppTranslation();
-  const [_, setRender] = useState<number>(0);
   const [showHarvested, setShowHarvested] = useState(false);
   const [showQuickSelect, setShowQuickSelect] = useState(false);
   const [showTimeRemaining, setShowTimeRemaining] = useState(false);
   const [showOilWarning, setShowOilWarning] = useState(false);
-  const harvestedName = useRef<GreenHouseCropName | GreenHouseFruitName>(
-    undefined,
-  );
-  const harvestedAmount = useRef<number>(0);
+  const [harvestedName, setHarvestedName] = useState<
+    GreenHouseCropName | GreenHouseFruitName | undefined
+  >(undefined);
+  const [harvestedAmount, setHarvestedAmount] = useState<number>(0);
 
   const state = useSelector(gameService, _state);
   const { inventory, greenhouse } = state;
   const { pots } = greenhouse;
 
   const pot = pots[id];
+  const growingPlant = pot?.plant;
+
+  const plantedAt = growingPlant?.plantedAt ?? 0;
+  const readyAt = growingPlant
+    ? getReadyAt({
+        plant: growingPlant.name,
+        createdAt: plantedAt,
+      })
+    : 0;
+  const harvestSeconds = (readyAt - plantedAt) / 1000;
+  const { totalSeconds: secondsLeft } = useCountdown(readyAt);
+  const percentage = ((harvestSeconds - secondsLeft) / harvestSeconds) * 100;
 
   const { usage: oilRequired } = getOilUsage({
     seed: selectedItem as GreenHouseCropSeedName,
     game: state,
   });
 
-  const plant = async (
+  const plantSeed = async (
     seed: GreenHouseCropSeedName = selectedItem as GreenHouseCropSeedName,
   ) => {
     if (
@@ -147,11 +159,11 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
             as="div"
           >
             <img
-              src={ITEM_DETAILS[harvestedName.current ?? "Rice"].image}
+              src={ITEM_DETAILS[harvestedName ?? "Rice"].image}
               className="mr-2 img-highlight-heavy"
               style={{ width: `${PIXEL_SCALE * 7}px` }}
             />
-            <span className="text-sm yield-text">{`+${formatNumber(harvestedAmount.current)}`}</span>
+            <span className="text-sm yield-text">{`+${formatNumber(harvestedAmount)}`}</span>
           </Transition>
         )}
 
@@ -176,7 +188,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
             ]}
             onClose={() => setShowQuickSelect(false)}
             onSelected={(seed) => {
-              plant(seed as GreenHouseCropSeedName);
+              plantSeed(seed as GreenHouseCropSeedName);
               setShowQuickSelect(false);
             }}
             type={t("quickSelect.greenhouseSeeds")}
@@ -206,19 +218,11 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
           src={emptyPot}
           className="cursor-pointer hover:img-highlight"
           style={{ width: `${PIXEL_SCALE * 28}px` }}
-          onClick={() => plant()}
+          onClick={() => plantSeed()}
         />
       </div>
     );
   }
-
-  const plantedAt = pot.plant.plantedAt;
-  const readyAt = getReadyAt({ plant: pot.plant.name, createdAt: plantedAt });
-  const harvestSeconds = (readyAt - plantedAt) / 1000;
-  const secondsLeft = (readyAt - Date.now()) / 1000;
-  const startAt = plantedAt ?? 0;
-
-  const percentage = ((harvestSeconds - secondsLeft) / harvestSeconds) * 100;
 
   const harvest = async () => {
     if (!pot.plant) return;
@@ -229,15 +233,17 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    harvestedName.current = pot.plant.name;
-    harvestedAmount.current =
+    setHarvestedName(pot.plant.name);
+
+    setHarvestedAmount(
       pot.plant.amount ??
-      getGreenhouseCropYieldAmount({
-        crop: pot.plant.name,
-        game: state,
-        createdAt: Date.now(),
-        criticalDrop: (name) => !!(pot.plant?.criticalHit?.[name] ?? 0),
-      }).amount;
+        getGreenhouseCropYieldAmount({
+          crop: pot.plant.name,
+          game: state,
+          createdAt: Date.now(),
+          criticalDrop: (name) => !!(pot.plant?.criticalHit?.[name] ?? 0),
+        }).amount,
+    );
 
     gameService.send("greenhouse.harvested", { id });
 
@@ -268,7 +274,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
         style={{ width: `${PIXEL_SCALE * 28}px` }}
         onClick={harvest}
       />
-      {showTimers && Date.now() < readyAt && (
+      {showTimers && secondsLeft > 0 && (
         <div
           className="absolute pointer-events-none"
           style={{
@@ -277,12 +283,11 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
             width: `${PIXEL_SCALE * 15}px`,
           }}
         >
-          <LiveProgressBar
-            key={`${startAt}-${readyAt}`}
-            startAt={startAt}
-            endAt={readyAt}
+          <ProgressBar
+            percentage={percentage}
+            seconds={secondsLeft}
             formatLength="short"
-            onComplete={() => setRender((r) => r + 1)}
+            type="progress"
           />
         </div>
       )}

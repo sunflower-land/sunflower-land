@@ -60,8 +60,10 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
   const buildingKey = makeUpgradableBuildingKey(buildingName);
   const building = state[buildingKey];
   const upgradeReadyAt = building?.upgradeReadyAt;
-  const isCurrentlyUpgrading = !!upgradeReadyAt && upgradeReadyAt > Date.now();
-  const upgradeCountdown = useCountdown(upgradeReadyAt ?? 0);
+  const { totalSeconds: secondsLeft, ...upgradeCountdown } = useCountdown(
+    upgradeReadyAt ?? 0,
+  );
+  const isCurrentlyUpgrading = !!upgradeReadyAt && secondsLeft > 0;
 
   const upgrade = () => {
     // Implement the upgrade logic here

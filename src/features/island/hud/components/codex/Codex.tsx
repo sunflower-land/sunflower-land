@@ -39,6 +39,7 @@ import { Checklist, checklistCount } from "components/ui/CheckList";
 import { getBumpkinLevel } from "features/game/lib/level";
 import trophyIcon from "assets/icons/trophy.png";
 import { hasFeatureAccess } from "lib/flags";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   show: boolean;
@@ -53,6 +54,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const { gameService } = useContext(Context);
   const farmId = useSelector(gameService, _farmId);
   const state = useSelector(gameService, _state);
+  const now = useNow({ live: false });
 
   const bumpkinLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
 
@@ -295,7 +297,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                   competitionName="BUILDING_FRIENDSHIPS"
                   state={state}
                   hideLeaderboard={
-                    Date.now() < new Date("2025-10-20T00:00:00Z").getTime()
+                    now < new Date("2025-10-20T00:00:00Z").getTime()
                   }
                 />
               </div>

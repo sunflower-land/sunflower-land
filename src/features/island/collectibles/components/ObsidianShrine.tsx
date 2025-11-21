@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleProps } from "../Collectible";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { LiveProgressBar } from "components/ui/ProgressBar";
+import { ProgressBar } from "components/ui/ProgressBar";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
@@ -27,6 +27,7 @@ import { secondsToString } from "lib/utils/time";
 import { getCropPlotTime } from "features/game/events/landExpansion/plant";
 import { getAvailablePlots } from "features/game/events/landExpansion/bulkPlant";
 import { getCropsToHarvest } from "features/game/events/landExpansion/bulkHarvest";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 export const ObsidianShrine: React.FC<CollectibleProps> = ({
   createdAt,
@@ -40,11 +41,12 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
   const [show, setShow] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [showPopover, setShowPopover] = useState(false);
-  const [, setRender] = useState(0);
 
   const expiresAt = createdAt + (EXPIRY_COOLDOWNS[name as PetShrineName] ?? 0);
-
-  const hasExpired = Date.now() > expiresAt;
+  const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
+  const durationSeconds = EXPIRY_COOLDOWNS[name as PetShrineName] ?? 0;
+  const percentage = 100 - (secondsToExpire / durationSeconds) * 100;
+  const hasExpired = secondsToExpire <= 0;
 
   const state = useSelector(gameService, (state) => state.context.state);
 
@@ -78,12 +80,11 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
       >
         {showTimers && (
           <div className="absolute bottom-0 left-0">
-            <LiveProgressBar
-              startAt={createdAt}
-              endAt={expiresAt}
+            <ProgressBar
+              seconds={secondsToExpire}
               formatLength="medium"
               type="error"
-              onComplete={() => setRender((r) => r + 1)}
+              percentage={percentage}
             />
           </div>
         )}
@@ -149,12 +150,11 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
         />
         {showTimers && (
           <div className="absolute bottom-0 left-0">
-            <LiveProgressBar
-              startAt={createdAt}
-              endAt={expiresAt}
+            <ProgressBar
+              seconds={secondsToExpire}
               formatLength="medium"
               type={"buff"}
-              onComplete={() => setRender((r) => r + 1)}
+              percentage={percentage}
             />
           </div>
         )}
@@ -197,7 +197,7 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
           >
             <span className="text-xs">
               {t("time.remaining", {
-                time: secondsToString((expiresAt - Date.now()) / 1000, {
+                time: secondsToString(secondsToExpire, {
                   length: "medium",
                   isShortFormat: true,
                   removeTrailingZeros: true,
@@ -273,6 +273,17 @@ const HarvestAll: React.FC<{
   );
 };
 
+const getPlantSeconds = (selectedSeed: CropSeedName, state: GameState) => {
+  const yields = SEEDS[selectedSeed as SeedName].yield;
+
+  const { time } = getCropPlotTime({
+    crop: yields as CropName,
+    game: state,
+    createdAt: Date.now(),
+  });
+  return time;
+};
+
 const PlantAll: React.FC<{
   availablePlots: [string, CropPlot][];
   state: GameState;
@@ -324,17 +335,6 @@ const PlantAll: React.FC<{
     setSelectedSeed(seed);
   };
 
-  const getPlantSeconds = () => {
-    const yields = SEEDS[selectedSeed as SeedName].yield;
-
-    const { time } = getCropPlotTime({
-      crop: yields as CropName,
-      game: state,
-      createdAt: Date.now(),
-    });
-    return time;
-  };
-
   return (
     <InnerPanel>
       {Object.keys(availableSeeds).length > 0 ? (
@@ -368,7 +368,7 @@ const PlantAll: React.FC<{
                   {selectedSeed}
                 </Label>
                 <Label type="info" secondaryIcon={SUNNYSIDE.icons.stopwatch}>
-                  {secondsToString(getPlantSeconds(), {
+                  {secondsToString(getPlantSeconds(selectedSeed, state), {
                     length: "medium",
                     removeTrailingZeros: true,
                   })}

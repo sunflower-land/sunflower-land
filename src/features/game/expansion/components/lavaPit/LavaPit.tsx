@@ -9,8 +9,8 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import animatedLavaPit from "assets/resources/lava/lava_pit_animation.webp";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { LiveProgressBar } from "components/ui/ProgressBar";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const _lavaPit = (id: string) => (state: MachineState) =>
   state.context.state.lavaPits[id];
@@ -24,17 +24,16 @@ export const LavaPit: React.FC<Props> = ({ id }) => {
   const [renderKey, setRender] = useState<number>(0);
   const { gameService, showAnimations, showTimers } = useContext(Context);
   const lavaPit = useSelector(gameService, _lavaPit(id));
-
-  useUiRefresher({ active: !!lavaPit?.startedAt });
+  const now = useNow({ live: true, autoEndAt: lavaPit?.readyAt });
 
   const width = 36;
   const lavaPitStartedAt = lavaPit?.startedAt ?? 0;
   const lavaPitEndAt = lavaPit?.readyAt ?? 0;
 
-  const lavaPitRunning = lavaPitEndAt > Date.now();
+  const lavaPitRunning = lavaPitEndAt > now;
 
-  const lavaPitReady = lavaPitEndAt < Date.now() && !lavaPit?.collectedAt;
-  const isReadyWithinADay = lavaPitEndAt < Date.now() + 24 * 60 * 60 * 1000;
+  const lavaPitReady = lavaPitEndAt < now && !lavaPit?.collectedAt;
+  const isReadyWithinADay = lavaPitEndAt < now + 24 * 60 * 60 * 1000;
 
   return (
     <div className="relative w-full h-full">

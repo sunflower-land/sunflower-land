@@ -706,6 +706,7 @@ img {
   animation: rise-up 750ms ease;
   animation-fill-mode: both;
   transform-origin: bottom center;
+  animation-delay: 200ms;
 }
 
 @keyframes rise-up {

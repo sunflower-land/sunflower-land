@@ -8,32 +8,36 @@ import tradeIcon from "assets/icons/trade.png";
 import { MarketplaceProfile } from "features/game/types/marketplace";
 import { Loading } from "features/auth/components";
 import * as Auth from "features/auth/lib/Provider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { loadProfile } from "../actions/loadProfile";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { Sales } from "./PriceHistory";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+
+const _token = (state: AuthMachineState) =>
+  state.context.user.rawToken as string;
 
 export const MarketplaceUser: React.FC = () => {
   const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
+  const token = useSelector(authService, _token);
   const navigate = useNavigate();
 
   const { id } = useParams();
-
   const { t } = useAppTranslation();
 
-  const [profile, setProfile] = useState<MarketplaceProfile>();
+  const [profile, setProfile] = useState<MarketplaceProfile | undefined>(
+    undefined,
+  );
 
   useEffect(() => {
-    setProfile(undefined);
     loadProfile({
-      token: authState.context.user.rawToken as string,
+      token,
       id: Number(id),
     }).then(setProfile);
-  }, [id]);
+  }, [id, token]);
 
-  if (!profile) {
+  if (Number(id) !== profile?.id) {
     return (
       <InnerPanel>
         <Loading />

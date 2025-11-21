@@ -149,8 +149,7 @@ export const ItemsList: React.FC<Props> = ({
 
     return currencyItem;
   };
-  const createdAt = Date.now();
-  const currentSeason = getCurrentSeason(new Date(createdAt));
+  const currentSeason = getCurrentSeason();
   const seasonalStore = MEGASTORE[currentSeason];
   const tiers = tier;
 

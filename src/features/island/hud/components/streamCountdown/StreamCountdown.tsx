@@ -15,6 +15,7 @@ import {
   acknowledgeStreamCountdown,
   getStreamCountdownLastRead,
 } from "./acknowledgeStreamCountdown";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const Countdown: React.FC<{
   startAt: number;
@@ -26,8 +27,9 @@ const Countdown: React.FC<{
   const start = useCountdown(startAt);
   const end = useCountdown(endAt);
   const { t } = useAppTranslation();
+  const now = useNow({ live: true });
 
-  if (Date.now() < startAt && Date.now() > notifyAt) {
+  if (now < startAt && now > notifyAt) {
     return (
       <div className="flex justify-between">
         <div className="flex flex-col">
@@ -78,16 +80,19 @@ const Countdown: React.FC<{
   );
 };
 
+const ONE_MINUTE = 1000 * 60;
+
 export const StreamCountdown: React.FC = () => {
   const [hide, setHide] = useState(false);
   const [stream, setStream] = useState<StreamNotification | null>(getStream());
 
   const navigate = useNavigate();
+  const now = useNow({ live: true, intervalMs: ONE_MINUTE });
 
   useEffect(() => {
     const interval = setInterval(() => {
       setStream(getStream());
-    }, 1000 * 60);
+    }, ONE_MINUTE);
 
     return () => clearInterval(interval);
   }, []);
@@ -98,8 +103,8 @@ export const StreamCountdown: React.FC = () => {
   if (
     !stream ||
     hide ||
-    Date.now() < stream.notifyAt ||
-    Date.now() > stream.endAt ||
+    now < stream.notifyAt ||
+    now > stream.endAt ||
     hasAcknowledged
   ) {
     return null;
@@ -114,7 +119,7 @@ export const StreamCountdown: React.FC = () => {
     <ButtonPanel
       className="flex justify-center"
       id="test-stream"
-      disabled={stream.startAt > Date.now()}
+      disabled={stream.startAt > now}
     >
       <Countdown
         startAt={stream.startAt}

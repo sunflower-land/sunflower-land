@@ -193,7 +193,6 @@ export const PetCard: React.FC<Props> = ({
         petLevel,
         basePetEnergy: baseFoodXP,
         petData,
-        createdAt: Date.now(),
       });
 
       return {

@@ -50,7 +50,6 @@ export const ClaimRoninPack: React.FC = () => {
     return (
       <ClaimReward
         reward={{
-          createdAt: Date.now(),
           id: "ronin-airdrop",
           items,
           wearables: {},

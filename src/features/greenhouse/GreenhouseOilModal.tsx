@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useSelector } from "@xstate/react";
 
 import oilIcon from "assets/resources/oil.webp";
@@ -68,19 +68,18 @@ export const GreenhouseOilModal: React.FC<Props> = ({ show, onHide }) => {
     ? DEFAULT_INCREMENT
     : remainingOilToAdd.toDecimalPlaces(0, Decimal.ROUND_DOWN);
 
+  const close = () => {
+    setAddedOil(new Decimal(0));
+    onHide();
+  };
+
   const confirm = () => {
     gameService.send("greenhouse.oiled", {
       amount: addedOil.toNumber(),
     });
 
-    onHide();
+    close();
   };
-
-  useEffect(() => {
-    if (!show) return;
-
-    setAddedOil(new Decimal(0));
-  }, [show]);
 
   return (
     <Modal show={show} onHide={onHide}>
