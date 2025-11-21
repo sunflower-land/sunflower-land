@@ -185,7 +185,7 @@ export const ToastProvider: React.FC<React.PropsWithChildren> = ({
    * @param toast The toast to add to the toasts list.
    */
   const addToast = (toast: Omit<Toast, "id" | "difference" | "hidden">) => {
-    const id = `${Date.now()}-${randomID()}-${toast.item}`;
+    const id = `${randomID()}-${toast.item}`;
     const difference = getDifference(toast.item);
 
     if (difference.equals(0)) return;
