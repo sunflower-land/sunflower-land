@@ -1,41 +1,47 @@
-import { useCallback, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BuildingProduct } from "features/game/types/game";
-import { useTimeout } from "lib/utils/hooks/useTimeout";
+
+function computeCookingState(crafting: BuildingProduct[], now: number) {
+  const cooking = crafting.find((recipe) => recipe.readyAt > now);
+
+  const queuedRecipes = crafting.filter(
+    (recipe) => recipe.readyAt > now && recipe.readyAt !== cooking?.readyAt,
+  );
+
+  const readyRecipes = crafting.filter((recipe) => recipe.readyAt <= now);
+
+  const futureReadyTimes = crafting
+    .map((recipe) => recipe.readyAt)
+    .filter((t) => t > now);
+
+  const nextChangeAt =
+    futureReadyTimes.length > 0 ? Math.min(...futureReadyTimes) : null;
+
+  return {
+    cooking,
+    queuedRecipes,
+    readyRecipes,
+    nextChangeAt,
+  };
+}
 
 export function useCookingState(building: { crafting?: BuildingProduct[] }) {
-  const [cooking, setCooking] = useState<BuildingProduct | undefined>();
-  const [queuedRecipes, setQueuedRecipes] = useState<BuildingProduct[]>([]);
+  const [now, setNow] = useState(() => Date.now());
 
-  const getRecipeBeingCooked = useCallback(() => {
-    const crafting = building?.crafting?.find(
-      (recipe) => recipe.readyAt > Date.now(),
-    );
+  const { cooking, queuedRecipes, readyRecipes, nextChangeAt } =
+    computeCookingState(building.crafting ?? [], now);
 
-    setCooking(crafting);
-  }, [building]);
+  useEffect(() => {
+    if (!nextChangeAt) return;
 
-  const getQueue = useCallback(() => {
-    const queue = building?.crafting?.filter(
-      (recipe) =>
-        recipe.readyAt > Date.now() && recipe.readyAt !== cooking?.readyAt,
-    );
+    const timeTillReady = Math.max(nextChangeAt - Date.now(), 0);
+    // Schedule a timeout to fire when the current item cooking is ready
+    const id = setTimeout(() => {
+      setNow(Date.now());
+    }, timeTillReady);
 
-    setQueuedRecipes(queue ?? []);
-  }, [building, cooking]);
-
-  useLayoutEffect(() => {
-    getRecipeBeingCooked();
-    getQueue();
-  }, [building, getRecipeBeingCooked, getQueue]);
-
-  const readyRecipes = (building?.crafting ?? [])?.filter(
-    (recipe) => recipe.readyAt <= Date.now(),
-  );
-
-  useTimeout(
-    getRecipeBeingCooked,
-    cooking?.readyAt ? Math.max(0, cooking.readyAt - Date.now()) : null,
-  );
+    return () => clearTimeout(id);
+  }, [nextChangeAt]);
 
   return {
     cooking,

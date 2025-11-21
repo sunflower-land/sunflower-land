@@ -77,7 +77,7 @@ export const Recipes: React.FC<Props> = ({
       context: { state },
     },
   ] = useActor(gameService);
-  const { inventory, buildings, bumpkin, buds } = state;
+  const { inventory, buildings, bumpkin } = state;
   const [showQueueInformation, setShowQueueInformation] = useState(false);
 
   const availableSlots = hasVipAccess({ game: state }) ? MAX_COOKING_SLOTS : 1;
@@ -93,15 +93,16 @@ export const Recipes: React.FC<Props> = ({
     );
 
   const getNewRecipeStartAt = () => {
-    let latestRecipeCompletionTime = cooking?.readyAt ?? Date.now();
+    if (!cooking) return;
+
+    let lastRecipeInQueueReadyAt = cooking.readyAt;
 
     if (queue.length > 0) {
-      latestRecipeCompletionTime = queue.sort(
-        (a, b) => b.readyAt - a.readyAt,
-      )[0]?.readyAt;
+      lastRecipeInQueueReadyAt = queue.sort((a, b) => b.readyAt - a.readyAt)[0]
+        ?.readyAt;
     }
 
-    return latestRecipeCompletionTime;
+    return lastRecipeInQueueReadyAt;
   };
 
   const { reducedSecs: cookingTime } = getCookingTime({
@@ -154,10 +155,6 @@ export const Recipes: React.FC<Props> = ({
     (recipe) => recipe.name === selected.name && recipe.boost?.["Oil"],
   );
   const hasDoubleNom = !!bumpkin.skills["Double Nom"];
-
-  const hasReadyRecipes = buildingCrafting.some(
-    (recipe) => recipe.readyAt <= Date.now(),
-  );
   const isVIP = hasVipAccess({ game: state });
   const isQueueFull = [...readyRecipes, ...queue].length >= availableSlots;
 
@@ -209,7 +206,7 @@ export const Recipes: React.FC<Props> = ({
                     <span>{cooking ? t("recipes.addToQueue") : t("cook")}</span>
                   </Button>
                   <Button
-                    disabled={!hasReadyRecipes}
+                    disabled={readyRecipes.length === 0}
                     className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
                     onClick={() => collect()}
                   >
