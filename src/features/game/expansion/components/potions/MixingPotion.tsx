@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 
 import Spritesheet from "components/animation/SpriteAnimator";
 
@@ -82,7 +82,7 @@ export const MixingPotion: React.FC<{
   feedbackText: string | null;
 }> = ({ potionHouseService, feedbackText }) => {
   // Hack for spritesheet to display correctly
-  const [loaded, setLoaded] = useState(false);
+  // const [loaded, setLoaded] = useState(false);
 
   const { gameService } = useContext(Context);
   const [potionState] = useActor(potionHouseService);
@@ -116,7 +116,7 @@ export const MixingPotion: React.FC<{
     } else {
       potionHouseService.send("BOMB");
     }
-  }, [isGuessing]);
+  }, [isGuessing, potionHouseService]);
 
   const handleNextAnimation = () => {
     const potionHouse = gameService.getSnapshot().context.state.potionHouse;
@@ -131,16 +131,16 @@ export const MixingPotion: React.FC<{
     potionHouseService.send("NEXT_ANIMATION", { score });
   };
 
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
+  // useEffect(() => {
+  //   setLoaded(true);
+  // }, []);
 
   return (
     <div className="flex flex-col items-center justify-evenly relative w-full h-full">
       <div className="min-h-[120px] sm:min-h-[80px] flex flex-col items-center">
         {feedbackText && <SpeechBubble text={feedbackText} className="w-4/5" />}
       </div>
-      {loaded && currentAnimation === "idle" && (
+      {currentAnimation === "idle" && (
         <Spritesheet
           key={currentAnimation}
           className="w-full h-full"
@@ -166,7 +166,7 @@ export const MixingPotion: React.FC<{
           onLoopComplete={handleNextAnimation}
         />
       )}
-      {loaded && currentAnimation === "startMixing" && (
+      {currentAnimation === "startMixing" && (
         <Spritesheet
           key={currentAnimation}
           className="w-full h-full"
@@ -192,7 +192,7 @@ export const MixingPotion: React.FC<{
           onLoopComplete={handleNextAnimation}
         />
       )}
-      {loaded && currentAnimation === "loopMixing" && (
+      {currentAnimation === "loopMixing" && (
         <Spritesheet
           key={currentAnimation}
           className="w-full h-full"
@@ -218,7 +218,7 @@ export const MixingPotion: React.FC<{
           onLoopComplete={handleNextAnimation}
         />
       )}
-      {loaded && currentAnimation === "bomb" && (
+      {currentAnimation === "bomb" && (
         <Spritesheet
           key={currentAnimation}
           className="w-full h-full"
@@ -244,7 +244,7 @@ export const MixingPotion: React.FC<{
           onLoopComplete={handleNextAnimation}
         />
       )}
-      {loaded && currentAnimation === "success" && (
+      {currentAnimation === "success" && (
         <Spritesheet
           key={currentAnimation}
           className="w-full h-full"

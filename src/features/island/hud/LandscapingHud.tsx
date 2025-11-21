@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Balances } from "components/Balances";
 import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
@@ -99,10 +99,6 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
 
   const showFlip = isMobile && selectedItem && isCollectible(selectedItem.name);
 
-  useEffect(() => {
-    setShowRemoveConfirmation(false);
-  }, [selectedItem]);
-
   const remove = () => {
     const action = getRemoveAction(selectedItem?.name);
     if (!action) {
@@ -116,6 +112,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
         name: selectedItem?.name,
         location,
       });
+      setShowRemoveConfirmation(false);
     } else {
       setShowRemoveConfirmation(true);
     }

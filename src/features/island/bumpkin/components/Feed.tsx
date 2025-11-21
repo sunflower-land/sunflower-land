@@ -27,7 +27,6 @@ interface Props {
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _game = (state: MachineState) => state.context.state;
-const _buds = (state: MachineState) => state.context.state.buds;
 
 export const Feed: React.FC<Props> = ({ food }) => {
   const [selected, setSelected] = useState<Consumable | undefined>(food[0]);
@@ -36,15 +35,16 @@ export const Feed: React.FC<Props> = ({ food }) => {
   const inventory = useSelector(gameService, _inventory);
   const bumpkin = useSelector(gameService, _bumpkin);
   const game = useSelector(gameService, _game);
-  const buds = useSelector(gameService, _buds);
   const { t } = useAppTranslation();
+
   useEffect(() => {
     if (food.length) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSelected(food[0]);
     } else {
       setSelected(undefined);
     }
-  }, [food.length]);
+  }, [food]);
 
   if (!selected) {
     return (

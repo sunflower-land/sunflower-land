@@ -1,5 +1,5 @@
 import { useSelector } from "@xstate/react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import Decimal from "decimal.js-light";
 
 import {
@@ -83,16 +83,10 @@ export const WithdrawItems: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
 
-  const [inventory, setInventory] = useState<Inventory>({});
+  const [inventory, setInventory] = useState<Inventory>(getBankItems(state));
   const [selected, setSelected] = useState<Inventory>({});
 
   const [showInfo, setShowInfo] = useState("");
-
-  useEffect(() => {
-    const bankItems = getBankItems(state);
-    setInventory(bankItems);
-    setSelected({});
-  }, []);
 
   const withdraw = () => {
     const ids = getKeys(selected).map((item) => KNOWN_IDS[item]);

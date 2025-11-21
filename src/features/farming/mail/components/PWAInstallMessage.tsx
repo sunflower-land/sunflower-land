@@ -58,23 +58,23 @@ export const PWAInstallMessage: React.FC<Props> = ({
     (!isWeb3MobileBrowser && isAndroid && isChrome) || (isIOS && isSafari);
   const showQRCodeFlow = !isMobile;
 
-  const fetchMagicLink = async () => {
-    try {
-      const { link } = await getMagicLink({
-        token,
-        farmId,
-      });
-
-      setMagicLink(link);
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.error(e);
-      setMagicLink(null);
-    }
-  };
-
   useEffect(() => {
     if (magicLink) return;
+
+    const fetchMagicLink = async () => {
+      try {
+        const { link } = await getMagicLink({
+          token,
+          farmId,
+        });
+
+        setMagicLink(link);
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error(e);
+        setMagicLink(null);
+      }
+    };
 
     if (showMagicLinkFlow || showQRCodeFlow) {
       fetchMagicLink();

@@ -45,7 +45,6 @@ const RecoveredTreeComponent: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
   const { scale } = useContext(ZoomContext);
-  const [showSpritesheet, setShowSpritesheet] = useState(false);
   const [showEquipTool, setShowEquipTool] = useState(false);
   const state = useSelector(gameService, (state) => state.context.state);
 
@@ -71,11 +70,10 @@ const RecoveredTreeComponent: React.FC<Props> = ({
 
   useEffect(() => {
     if (touchCount > 0) {
-      setShowSpritesheet(true);
       chopAudio();
       shakeGif.current?.goToAndPlay(0);
     }
-  }, [touchCount]);
+  }, [touchCount, chopAudio]);
 
   const handleHover = () => {
     if (!hasTool) {
@@ -113,9 +111,10 @@ const RecoveredTreeComponent: React.FC<Props> = ({
         )}
 
         {/* static tree image */}
-        {!showSpritesheet && <Image />}
+        {touchCount === 0 && <Image />}
+
         {/* spritesheet */}
-        {showSpritesheet && (
+        {touchCount > 0 && (
           <Spritesheet
             className="pointer-events-none"
             style={{
@@ -144,9 +143,6 @@ const RecoveredTreeComponent: React.FC<Props> = ({
             loop={true}
             onLoopComplete={(spritesheet) => {
               spritesheet.pause();
-              if (touchCount == 0 && !!shakeGif.current) {
-                setShowSpritesheet(false);
-              }
             }}
           />
         )}
