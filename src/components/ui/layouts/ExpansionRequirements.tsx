@@ -180,9 +180,9 @@ export const Expanding: React.FC<{
 
   const { requirements } = expansionRequirements({ game: state });
   const totalSeconds = requirements?.seconds ?? 0;
-  const secondsTillReady = (readyAt - Date.now()) / 1000;
-
-  const ready = useCountdown(readyAt ?? 0);
+  const { totalSeconds: secondsTillReady, ...ready } = useCountdown(
+    readyAt ?? 0,
+  );
 
   const gems = getInstantGems({
     readyAt: readyAt as number,

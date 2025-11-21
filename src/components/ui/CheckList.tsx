@@ -41,6 +41,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { useNavigate } from "react-router";
 import { ChestRewardsList } from "./ChestRewardsList";
 import { translate } from "lib/i18n/translate";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const loveIslandBoxStatus = (state: GameState) => {
   const schedule = state.floatingIsland.schedule;
@@ -307,12 +308,13 @@ const LoveIslandBox: React.FC<{ bumpkinLevel: number }> = ({
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
+  const now = useNow({ live: false });
 
   const { schedule, timeZone, isOpen, nextScheduleTime, hasClaimed } =
     loveIslandBoxStatus(state);
 
   const [nextFlightTime, setNextFlightTime] = useState(
-    (nextScheduleTime - Date.now()) / 1000,
+    (nextScheduleTime - now) / 1000,
   );
 
   useEffect(() => {

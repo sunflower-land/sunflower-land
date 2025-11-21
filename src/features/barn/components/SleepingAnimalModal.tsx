@@ -21,6 +21,7 @@ import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { useSelector } from "@xstate/react";
 import glow from "public/world/glow.png";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 interface Props {
   onClose: () => void;
@@ -38,8 +39,7 @@ export const SleepingAnimalModal = ({
   const { gameService } = useContext(Context);
   const [showConfirm, setShowConfirm] = useState(false);
   const { t } = useAppTranslation();
-
-  const secondsLeft = (awakeAt - Date.now()) / 1000;
+  const { totalSeconds: secondsLeft } = useCountdown(awakeAt);
 
   const toy = getAnimalToy({ animal });
   const state = useSelector(gameService, (state) => state.context.state);
