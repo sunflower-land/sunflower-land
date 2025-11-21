@@ -26,7 +26,7 @@ export function useNow({
       setTime(() => {
         const now = Date.now();
 
-        if (autoEndAt != null && now >= autoEndAt) {
+        if (autoEndAt !== undefined && now >= autoEndAt) {
           // Stop the interval immediately when end time is reached
           // (cleanup function will also clear if effect re-runs, but null check prevents double-clearing)
           if (intervalIdRef.current !== null) {

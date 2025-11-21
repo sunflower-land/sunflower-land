@@ -6,9 +6,11 @@ import goldenCockerel from "assets/animals/chickens/golden_cockerel.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleProps } from "../Collectible";
 import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export const GoldEgg: React.FC<CollectibleProps> = ({ readyAt }) => {
-  const isReady = readyAt <= Date.now();
+  const now = useNow({ live: true, autoEndAt: readyAt });
+  const isReady = readyAt <= now;
 
   return (
     <SFTDetailPopover name="Gold Egg">
