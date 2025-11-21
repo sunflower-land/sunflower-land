@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
@@ -584,15 +584,8 @@ export const ComposterModal: React.FC<Props> = ({
   onCollect,
   onBoost,
 }) => {
-  const [tab, setTab] = useState(0);
-
+  const [tab, setTab] = useState(showModal && !hasRead() ? 1 : 0);
   const { t } = useAppTranslation();
-
-  useEffect(() => {
-    if (showModal && !hasRead()) {
-      setTab(1);
-    }
-  }, [showModal]);
 
   return (
     <Modal show={showModal} onHide={() => setShowModal(false)}>

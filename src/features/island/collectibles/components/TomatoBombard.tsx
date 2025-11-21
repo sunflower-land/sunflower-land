@@ -29,6 +29,7 @@ const TomatoBombardSpriteSheet = ({ open }: { open: boolean }) => {
 
   useEffect(() => {
     if (open) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       boom();
     }
   }, [open]);

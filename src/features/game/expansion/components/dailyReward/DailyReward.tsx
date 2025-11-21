@@ -462,7 +462,10 @@ export const DailyRewardChest: React.FC<{
   const { gameService } = useContext(Context);
 
   useLayoutEffect(() => {
-    show && setCurrentTab(tab);
+    if (show) {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      setCurrentTab(tab);
+    }
   }, [tab, show]);
 
   const state = useSelector(gameService, (state) => state.context.state);

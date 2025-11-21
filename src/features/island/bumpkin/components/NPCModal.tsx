@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import {
   COOKABLES,
@@ -46,6 +46,20 @@ const _equipped = (state: MachineState) => {
   return state.context.state.bumpkin?.equipped;
 };
 
+function useLevelUp(currentLevel: number) {
+  // The highest level the player has already "seen" / acknowledged
+  const [acknowledgedLevel, setAcknowledgedLevel] = useState(currentLevel);
+
+  const hasLeveledUp = currentLevel > acknowledgedLevel;
+
+  const acknowledgeLevelUp = () => {
+    // Move the baseline up to the current level
+    setAcknowledgedLevel(currentLevel);
+  };
+
+  return { hasLeveledUp, acknowledgeLevelUp };
+}
+
 export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { gameService } = useContext(Context);
   const { openModal } = useContext(ModalContext);
@@ -55,7 +69,7 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const inventory = useSelector(gameService, _inventory);
   const equipped = useSelector(gameService, _equipped);
 
-  const [bumpkinLevelOnLoad] = useState<number>(currentBumpkinLevel);
+  const { hasLeveledUp, acknowledgeLevelUp } = useLevelUp(currentBumpkinLevel);
 
   const allFoods: Consumable[] = [
     ...Object.values(COOKABLES)
@@ -77,14 +91,6 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const [showLevelUp, setShowLevelUp] = useState(false);
 
-  useEffect(() => {
-    const newLevel = currentBumpkinLevel;
-
-    if (newLevel !== bumpkinLevelOnLoad) {
-      setShowLevelUp(true);
-    }
-  }, [currentBumpkinLevel, bumpkinLevelOnLoad]);
-
   return (
     <Modal
       show={isOpen}
@@ -97,7 +103,7 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
         setTimeout(() => setShowLevelUp(false), 500);
       }}
     >
-      {showLevelUp ? (
+      {hasLeveledUp ? (
         <CloseButtonPanel
           onClose={() => {
             onClose();
@@ -106,7 +112,7 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
               openModal("SECOND_LEVEL");
             }
 
-            setTimeout(() => setShowLevelUp(false), 500);
+            setTimeout(() => acknowledgeLevelUp(), 500);
           }}
           title="Level up!"
           bumpkinParts={equipped}
@@ -120,7 +126,7 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 openModal("SECOND_LEVEL");
               }
 
-              setTimeout(() => setShowLevelUp(false), 500);
+              setTimeout(() => acknowledgeLevelUp(), 500);
             }}
             wearables={equipped as Equipped}
           />
