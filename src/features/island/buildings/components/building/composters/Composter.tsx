@@ -12,6 +12,7 @@ import { ComposterName } from "features/game/types/composters";
 import { CompostBuilding } from "features/game/types/game";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 const getComposter = (type: BuildingName) => (state: MachineState) =>
   state.context.state.buildings[type]?.[0] as CompostBuilding;
@@ -38,11 +39,12 @@ export const Composter: React.FC<Props> = ({ name }) => {
   const [renderKey, setRender] = useState<number>(0);
 
   const composter = useSelector(gameService, getComposter(name), compare);
+  const { totalSeconds: secondsLeft } = useCountdown(
+    composter?.producing?.readyAt ?? 0,
+  );
 
-  const ready =
-    !!composter?.producing && composter.producing.readyAt < Date.now();
-  const composting =
-    !!composter?.producing && composter.producing.readyAt > Date.now();
+  const ready = secondsLeft <= 0;
+  const composting = secondsLeft >= 0;
 
   const startComposter = () => {
     // Simulate delayed closing of lid

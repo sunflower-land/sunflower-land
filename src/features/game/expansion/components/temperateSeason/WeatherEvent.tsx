@@ -7,13 +7,15 @@ import {
   NoticeboardItemsElements,
 } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { SeasonalEventName } from "features/game/types/calendar";
 import { useSelector } from "@xstate/react";
 import { useGame } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getRelativeTime } from "lib/utils/time";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { useNow } from "lib/utils/hooks/useNow";
+import { useMathRandom } from "lib/utils/hooks/useMathRandom";
+import { useWhenTime } from "lib/utils/hooks/useWhenTime";
 
 interface Props {
   eventTitle: string;
@@ -23,30 +25,6 @@ interface Props {
   acknowledge: () => void;
   handleAFK: () => void;
   showEventIcons?: boolean;
-}
-
-function useEventOver({
-  setEventOver,
-  eventEndTime,
-}: {
-  setEventOver: () => void;
-  eventEndTime: number;
-}) {
-  // Calculate time until next check
-  const getNextCheckTime = eventEndTime - Date.now();
-
-  useEffect(() => {
-    if (getNextCheckTime <= 0) {
-      setEventOver();
-      return;
-    }
-
-    const timeout = setTimeout(() => {
-      setEventOver();
-    }, getNextCheckTime);
-
-    return () => clearTimeout(timeout);
-  }, [getNextCheckTime, setEventOver]);
 }
 
 export const WeatherEvent: React.FC<Props> = ({
@@ -61,8 +39,12 @@ export const WeatherEvent: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const [eventOver, setEventOver] = useState(false);
   const { gameService } = useGame();
+  const randomOne = useMathRandom();
+  const randomTwo = useMathRandom();
+  const randomThree = useMathRandom();
+  const now = useNow({ live: true });
 
-  const eventIconPositions = useRef<
+  const [eventIconPositions] = useState<
     {
       top: number;
       left: number;
@@ -70,9 +52,9 @@ export const WeatherEvent: React.FC<Props> = ({
     }[]
   >(
     [...Array(30)].map(() => ({
-      top: Math.random() * 100,
-      left: Math.random() * 100,
-      delay: Math.random() * 2,
+      top: randomOne * 100,
+      left: randomTwo * 100,
+      delay: randomThree * 2,
     })),
   );
 
@@ -91,20 +73,17 @@ export const WeatherEvent: React.FC<Props> = ({
     // return nextMinute.getTime();
 
     // In production: check at UTC midnight
-    const tomorrow = new Date(eventStartTime ?? Date.now());
+    const tomorrow = new Date(eventStartTime ?? now);
     tomorrow.setUTCHours(24, 0, 0, 0);
     return tomorrow.getTime();
   };
 
   const eventEndTime = getEventEndTime();
 
-  useUiRefresher();
-  const eventOverCallback = useCallback(
-    () => setEventOver(true),
-    [setEventOver],
-  );
-
-  useEventOver({ setEventOver: eventOverCallback, eventEndTime });
+  useWhenTime({
+    targetTime: eventEndTime,
+    callback: () => setEventOver(true),
+  });
 
   return (
     <>
@@ -128,7 +107,7 @@ export const WeatherEvent: React.FC<Props> = ({
       </Panel>
       {showEventIcons && (
         <div className="fixed inset-0  overflow-hidden">
-          {eventIconPositions.current.map(({ top, left, delay }, i) => (
+          {eventIconPositions.map(({ top, left, delay }, i) => (
             <img
               key={i}
               src={eventIcon}
