@@ -13,7 +13,6 @@ import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 interface Props {
   expansion: ExpansionConstruction;
-  onDone: () => void;
 }
 
 /**

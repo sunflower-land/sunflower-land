@@ -161,9 +161,8 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
 
 export const ExpansionBuilding: React.FC<{
   state: GameState;
-  onDone: () => void;
   onReveal: () => void;
-}> = ({ state, onDone, onReveal }) => {
+}> = ({ state, onReveal }) => {
   const now = useNow({ live: false });
   // Land is still being built
   if (state.expansionConstruction) {
@@ -179,7 +178,7 @@ export const ExpansionBuilding: React.FC<{
           height={LAND_SIZE}
           width={LAND_SIZE}
         >
-          <Pontoon onDone={onDone} expansion={state.expansionConstruction} />
+          <Pontoon expansion={state.expansionConstruction} />
         </MapPlacement>
       );
     }
@@ -231,7 +230,6 @@ export const ExpansionBuilding: React.FC<{
  * The next piece of land to expand into
  */
 export const UpcomingExpansion: React.FC = () => {
-  const [_, setRender] = useState(0);
   const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { isVisiting } = useVisiting();
@@ -240,10 +238,7 @@ export const UpcomingExpansion: React.FC = () => {
   const { openModal } = useContext(ModalContext);
 
   const state = gameState.context.state;
-
   const { requirements } = expansionRequirements({ game: state });
-
-  const { t } = useAppTranslation();
 
   const expansions =
     (gameState.context.state.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
@@ -289,11 +284,7 @@ export const UpcomingExpansion: React.FC = () => {
   return (
     <div className={isVisiting ? "pointer-events-none" : ""}>
       {state.expansionConstruction && (
-        <ExpansionBuilding
-          state={state}
-          onDone={() => setRender((r) => r + 1)}
-          onReveal={onReveal}
-        />
+        <ExpansionBuilding state={state} onReveal={onReveal} />
       )}
 
       {!state.expansionConstruction && requirements && !maxExpanded && (
