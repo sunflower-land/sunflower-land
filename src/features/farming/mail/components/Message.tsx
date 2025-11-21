@@ -48,7 +48,7 @@ export const Message: React.FC<Props> = ({
       style={{ maxHeight: CONTENT_HEIGHT }}
       className="overflow-y-auto divide-brown-600 pb-0 scrollable"
     >
-      {showReward && conversation.reward && (
+      {showReward && conversation.reward ? (
         <ClaimReward
           onClaim={acknowledge}
           reward={{
@@ -59,43 +59,41 @@ export const Message: React.FC<Props> = ({
             coins: conversation.reward.coins ?? 0,
           }}
         />
+      ) : (
+        <>
+          <div className="">
+            {conversation.content.map((content, index) => (
+              <div className="mb-2" key={index}>
+                <p className="text-sm px-1 mb-2">{content.text}</p>
+                {content.image && (
+                  <img
+                    src={content.image}
+                    className="w-full mx-auto rounded-md mt-1"
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+
+          {!read && (
+            <Button onClick={next}>
+              {!!conversation.reward && !read ? t("open.gift") : t("gotIt")}
+            </Button>
+          )}
+
+          {/* Links */}
+          {conversation.link && (
+            <a
+              href={conversation.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500 mb-2"
+            >
+              {t("read.more")}
+            </a>
+          )}
+        </>
       )}
-      {!showReward ||
-        (!conversation.reward && (
-          <>
-            <div className="">
-              {conversation.content.map((content, index) => (
-                <div className="mb-2" key={index}>
-                  <p className="text-sm px-1 mb-2">{content.text}</p>
-                  {content.image && (
-                    <img
-                      src={content.image}
-                      className="w-full mx-auto rounded-md mt-1"
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
-
-            {!read && (
-              <Button onClick={next}>
-                {!!conversation.reward && !read ? t("open.gift") : t("gotIt")}
-              </Button>
-            )}
-
-            {/* Links */}
-            {conversation.link && (
-              <a
-                href={conversation.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500 mb-2"
-              >
-                {t("read.more")}
-              </a>
-            )}
-          </>
-        ))}
     </div>
   );
 };

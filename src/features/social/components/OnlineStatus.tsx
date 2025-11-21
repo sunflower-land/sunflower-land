@@ -10,7 +10,7 @@ export const OnlineStatus: React.FC<OnlineStatusProps> = ({
   lastUpdatedAt,
   size = 12,
 }) => {
-  const now = useNow({ live: false });
+  const now = useNow({ live: true });
   const lastOnlineAt = lastUpdatedAt ?? 0;
   const isOnline = lastOnlineAt > now - 30 * 60 * 1000;
 

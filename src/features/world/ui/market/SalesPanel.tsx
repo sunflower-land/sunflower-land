@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
@@ -89,7 +89,6 @@ export const SalesPanel: React.FC<{
   const { gameService } = useContext(Context);
 
   const [warning, setWarning] = useState<"pendingTransaction">();
-  const [showPulse, setShowPulse] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [selected, setSelected] = useState<TradeableName>("Apple");
 
@@ -98,14 +97,6 @@ export const SalesPanel: React.FC<{
       context: { state },
     },
   ] = useActor(gameService);
-
-  useEffect(() => {
-    if (loadingNewPrices) {
-      setShowPulse(true);
-    } else {
-      setTimeout(() => setShowPulse(false), 1000);
-    }
-  }, [loadingNewPrices]);
 
   const onSell = (item: TradeableName, price: number) => {
     // Open Confirmation modal
@@ -270,7 +261,7 @@ export const SalesPanel: React.FC<{
                       pricePerUnit={marketPrices?.prices?.currentPrices?.[name]}
                       disabled={!hasPrices || !hasExchangeReputation}
                       marketBundle={MARKET_BUNDLES[name]}
-                      showPulse={showPulse}
+                      showPulse={!!loadingNewPrices}
                       priceMovement={priceMovement}
                       onClick={() => {
                         if (!hasPrices || !hasExchangeReputation) return;
