@@ -40,6 +40,7 @@ import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { REPUTATION_POINTS } from "features/game/lib/reputation";
 import * as Auth from "features/auth/lib/Provider";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _vip = (state: MachineState) => state.context.state.vip;
@@ -65,6 +66,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
   const inventory = useSelector(gameService, _inventory);
   const vip = useSelector(gameService, _vip);
   const state = useSelector(gameService, _state);
+  const now = useNow({ live: false });
 
   const gemBalance = inventory["Gem"] ?? new Decimal(0);
 
@@ -84,11 +86,9 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
 
   const hasVip = hasVipAccess({ game: state });
 
-  const expiresSoon =
-    vip && vip.expiresAt < Date.now() + 1000 * 60 * 60 * 24 * 7;
+  const expiresSoon = vip && vip.expiresAt < now + 1000 * 60 * 60 * 24 * 7;
 
-  const hasOneYear =
-    vip && vip.expiresAt > Date.now() + 1000 * 60 * 60 * 24 * 365;
+  const hasOneYear = vip && vip.expiresAt > now + 1000 * 60 * 60 * 24 * 365;
 
   const isRoninFarmCreatedAfterCutOff =
     state.createdAt > RONIN_FARM_CREATION_CUTOFF;
@@ -100,10 +100,10 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
   const isRoninVipOnCooldown =
     !!roninNFT &&
     !!roninNFT.acknowledgedAt &&
-    roninNFT.acknowledgedAt > Date.now() - RONIN_VIP_COOLDOWN_MS;
+    roninNFT.acknowledgedAt > now - RONIN_VIP_COOLDOWN_MS;
 
   const roninVipCooldownTimeLeft =
-    (roninNFT?.acknowledgedAt ?? 0) + RONIN_VIP_COOLDOWN_MS - Date.now();
+    (roninNFT?.acknowledgedAt ?? 0) + RONIN_VIP_COOLDOWN_MS - now;
 
   const getExpiresAt = () => {
     if (!vip && !roninVip) return 0;
@@ -118,8 +118,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
 
   const vipExpiresAt = getExpiresAt();
   const activeRoninVip =
-    (state.nfts?.ronin?.expiresAt ?? 0) > Date.now() &&
-    isRoninFarmCreatedAfterCutOff;
+    (state.nfts?.ronin?.expiresAt ?? 0) > now && isRoninFarmCreatedAfterCutOff;
 
   // Disable VIP purchase buttons if Ronin NFT is active and expires in more than 1 day
   const shouldDisableVipPurchase = () => {
@@ -127,7 +126,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
 
     const roninExpiresAt = state.nfts?.ronin?.expiresAt ?? 0;
 
-    return roninExpiresAt > Date.now() + 1000 * 60 * 60 * 24 * 1;
+    return roninExpiresAt > now + 1000 * 60 * 60 * 24 * 1;
   };
 
   const disableVipPurchase = shouldDisableVipPurchase();

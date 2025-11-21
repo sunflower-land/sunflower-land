@@ -77,7 +77,6 @@ export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
       <ClaimReward
         onClaim={claim}
         reward={{
-          createdAt: Date.now(),
           id: "discord-bonus",
           items: BONUSES["discord-signup"].reward.inventory,
           wearables: BONUSES["discord-signup"].reward.wearables,

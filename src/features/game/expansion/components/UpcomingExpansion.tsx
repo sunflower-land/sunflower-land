@@ -32,6 +32,7 @@ import { ExpansionRequirements } from "components/ui/layouts/ExpansionRequiremen
 import confetti from "canvas-confetti";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { useVisiting } from "lib/utils/visitUtils";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface ExpandIconProps {
   onOpen: () => void;
@@ -163,13 +164,14 @@ export const ExpansionBuilding: React.FC<{
   onDone: () => void;
   onReveal: () => void;
 }> = ({ state, onDone, onReveal }) => {
+  const now = useNow({ live: false });
   // Land is still being built
   if (state.expansionConstruction) {
     const origin =
       EXPANSION_ORIGINS[state.inventory["Basic Land"]?.toNumber() ?? 3];
 
     // Being Built
-    if (state.expansionConstruction.readyAt > Date.now()) {
+    if (state.expansionConstruction.readyAt > now) {
       return (
         <MapPlacement
           x={origin.x - LAND_SIZE / 2}
