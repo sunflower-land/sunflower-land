@@ -1,7 +1,7 @@
 import React from "react";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 type Props = {
   awakeAt: number;
@@ -10,9 +10,7 @@ type Props = {
 
 export const WakesIn = ({ awakeAt, className }: Props) => {
   const { t } = useAppTranslation();
-  const secondsLeft = (awakeAt - Date.now()) / 1000;
-
-  useUiRefresher({ active: secondsLeft > 0 });
+  const { totalSeconds: secondsLeft } = useCountdown(awakeAt);
 
   return (
     <div className={`flex justify-center absolute w-full ${className}`}>
