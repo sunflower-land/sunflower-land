@@ -64,10 +64,5 @@ module.exports = {
         endOfLine: "auto",
       },
     ],
-    // Important React Compiler Rules. Enable when available.
-    ...(hasSetStateInEffectRule
-      ? { "react-hooks/set-state-in-effect": "warn" }
-      : {}),
-    ...(hasPurityRule ? { "react-hooks/purity": "error" } : {}),
   },
 };

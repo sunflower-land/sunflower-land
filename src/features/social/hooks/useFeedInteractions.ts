@@ -46,6 +46,10 @@ export function useFeedInteractions(
 
   useEffect(() => {
     if (Array.isArray(firstFollowing)) {
+      // We intentionally bridge SWR's `data[0].following` into local state
+      // with extra semantics (sticky last value + deep equality), which
+      // isn't expressible as a pure derivation.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFollowing((prev) => {
         if (
           prev.length === firstFollowing.length &&

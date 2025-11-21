@@ -1,11 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import giftIcon from "assets/icons/gift.png";
 
@@ -39,10 +34,6 @@ export const RewardModal: React.FC = () => {
     } else {
       setShowRewardModal(false);
     }
-  }, []);
-
-  useLayoutEffect(() => {
-    setInitialTab(rewardGiver?.clothing);
   }, []);
 
   useEffect(() => {

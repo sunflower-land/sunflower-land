@@ -44,7 +44,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
   );
 
   const ready = secondsLeft <= 0;
-  const composting = secondsLeft >= 0;
+  const composting = secondsLeft > 0;
 
   const startComposter = () => {
     // Simulate delayed closing of lid
