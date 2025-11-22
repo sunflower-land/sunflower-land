@@ -499,7 +499,7 @@
   "bumpkinItemBuff.crimstone.hammer": "+2 Crimstones on 5th mine",
   "bumpkinItemBuff.crimstone.amulet": "-20% Crimstone Cooldown Time",
   "bumpkinItemBuff.crimstone.armor": "+0.1 Crimstones",
-  "bumpkinItemBuff.hornet.mask": "+10% chance of Bee Swarm",
+  "bumpkinItemBuff.hornet.mask": "2x base Bee Swarm chance (+10% chance)",
   "bumpkinItemBuff.honeycomb.shield": "+1 Honey per Full Beehive",
   "bumpkinItemBuff.flower.crown": "-50% Flower Growth Time",
   "bumpkinItemBuff.goblin.armor": "+20% Marks",
