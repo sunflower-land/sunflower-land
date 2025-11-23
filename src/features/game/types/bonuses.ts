@@ -1,6 +1,6 @@
 import { GameState, InventoryItemName, Wardrobe } from "./game";
 
-export type BonusName = "discord-signup" | "pixel-font-bonus";
+export type BonusName = "discord-signup" | "pixel-font-bonus" | "gam3s-cap";
 
 export type Bonus = {
   isClaimed: (game: GameState) => boolean;
@@ -28,6 +28,15 @@ export const BONUSES: Record<BonusName, Bonus> = {
     reward: {
       wearables: {
         "Pixel Perfect Hoodie": 1,
+      },
+      inventory: {},
+    },
+  },
+  "gam3s-cap": {
+    isClaimed: (game) => !!game.wardrobe["Gam3s Cap"],
+    reward: {
+      wearables: {
+        "Gam3s Cap": 1,
       },
       inventory: {},
     },

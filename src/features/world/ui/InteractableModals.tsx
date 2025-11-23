@@ -48,6 +48,7 @@ import { EventNoticeboard } from "./EventNoticeboard";
 import { PotionMaster } from "features/helios/components/potions/component/PotionHouseShopItems";
 import { PetShop } from "features/pets/PetShop";
 import { LoveIslandNoticeboard } from "./loveRewardShop/LoveIslandNoticeboard";
+import { Gam3TrophiesModal } from "./Gam3TrophiesModal";
 
 type InteractableName =
   | "guardian"
@@ -149,6 +150,7 @@ type InteractableName =
   | "petal_puzzle_prize"
   | "flower_exchange"
   | "event_store"
+  | "gam3_trophies"
   | "event_noticeboard";
 
 class InteractableModalManager {
@@ -237,6 +239,9 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       </Modal>
       <Modal show={interactable === "pet_shop"} onHide={closeModal}>
         <PetShop onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "gam3_trophies"} onHide={closeModal}>
+        <Gam3TrophiesModal onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "desert_noticeboard"} onHide={closeModal}>
         <DesertNoticeboard onClose={closeModal} />
