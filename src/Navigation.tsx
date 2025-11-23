@@ -33,6 +33,7 @@ import { LedgerDashboardProfile } from "features/ledgerDashboard/LedgerDashboard
 import { hasFeatureAccess } from "lib/flags";
 import { GameProvider } from "features/game/GameProvider";
 import { FlowerDashboard } from "features/flowerDashboard/FlowerDashboard";
+import { EconomyDashboard } from "features/economyDashboard/EconomyDashboard";
 import { ModalProvider } from "features/game/components/modal/ModalProvider";
 import { FeedProvider } from "features/social/FeedContext";
 import {
@@ -190,6 +191,10 @@ export const Navigation: React.FC = () => {
                                 <Route
                                   path="/game/flower-dashboard"
                                   element={<FlowerDashboard />}
+                                />
+                                <Route
+                                  path="/game/economy-dashboard"
+                                  element={<EconomyDashboard />}
                                 />
                                 <Route
                                   path="/game/ronin"
