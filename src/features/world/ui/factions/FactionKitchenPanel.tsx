@@ -33,6 +33,7 @@ import {
 import { formatNumber } from "lib/utils/formatNumber";
 import { BoostInfoPanel } from "./BoostInfoPanel";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   bumpkinParts: Equipped;
@@ -62,8 +63,9 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showBoostInfo, setShowBoostInfo] = useState(false);
 
+  const now = useNow();
   const { totalSeconds: secondsTillWeekEnd } = useCountdown(
-    getFactionWeekEndTime({ date: new Date() }),
+    getFactionWeekEndTime({ date: new Date(now) }),
   );
 
   if (!kitchen || kitchen.requests.length === 0) {
