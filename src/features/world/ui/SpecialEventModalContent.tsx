@@ -109,7 +109,7 @@ export const SpecialEventModalContent: React.FC<{
     linkedWallet,
   } = gameState.context;
 
-  const now = useNow();
+  const now = useNow({ live: true });
   const { totalSeconds: secondsRemaining } = useCountdown(event.endAt);
 
   const claimReward = (day: number) => {

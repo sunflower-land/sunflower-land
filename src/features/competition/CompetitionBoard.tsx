@@ -128,7 +128,6 @@ export const CompetitionDetails: React.FC<{
   hideLeaderboard?: boolean;
 }> = ({ competitionName, state, hideLeaderboard }) => {
   const { t } = useAppTranslation();
-  const now = useNow();
 
   const [task, setTask] = useState<CompetitionTaskName>();
 
@@ -136,8 +135,13 @@ export const CompetitionDetails: React.FC<{
   const end = useCountdown(competition.endAt);
 
   const tasks = getKeys(COMPETITION_POINTS[competitionName].points);
+  const now = useNow({
+    live: true,
+    autoEndAt: Math.max(competition.startAt, competition.endAt),
+  });
 
   const hasEnded = end.seconds <= 0;
+  const hasBegun = now >= competition.startAt;
 
   if (hasEnded) {
     return (
@@ -154,8 +158,6 @@ export const CompetitionDetails: React.FC<{
       </InnerPanel>
     );
   }
-
-  const hasBegun = now >= competition.startAt;
 
   return (
     <>

@@ -125,7 +125,7 @@ export const DeliveryOrders: React.FC<Props> = ({
   const [showSkipDialog, setShowSkipDialog] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
 
-  const now = useNow();
+  const now = useNow({ live: true });
 
   const orders = delivery.orders
     .filter((order) => now >= order.readyAt)
