@@ -167,7 +167,7 @@ const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
               type="formula"
               icon={ITEM_DETAILS[name].image}
               className="mb-1"
-              key={name}
+              key={`${name}-${nextDrop.startAt}`}
             >
               {t("season.codex.nextDrop.available", {
                 dropSupply: nextDrop.supply,
@@ -200,17 +200,14 @@ const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
                     ) : (
                       <div className="flex flex-col gap-1">
                         {buffLabels.map(
-                          (
-                            {
-                              labelType,
-                              boostTypeIcon,
-                              boostedItemIcon,
-                              shortDescription,
-                            },
-                            index,
-                          ) => (
+                          ({
+                            labelType,
+                            boostTypeIcon,
+                            boostedItemIcon,
+                            shortDescription,
+                          }) => (
                             <Label
-                              key={index}
+                              key={shortDescription}
                               type={labelType}
                               icon={boostTypeIcon}
                               secondaryIcon={boostedItemIcon}
@@ -376,7 +373,10 @@ const Drops: React.FC<{
                           </div>
                         )}
                         {getKeys(drop.ingredients).map((name) => (
-                          <div className="flex items-center ml-1" key={name}>
+                          <div
+                            className="flex items-center ml-1"
+                            key={`${name}-${drop.auctionId}`}
+                          >
                             <img
                               src={ITEM_DETAILS[name].image}
                               className="h-4"
@@ -524,8 +524,8 @@ export const SeasonalAuctions: React.FC<Props> = ({
               return (
                 <ButtonPanel
                   onClick={() => setSelected(item)}
-                  key={name}
                   className="relative"
+                  key={`${name}-${auction.auctionId}-button`}
                 >
                   <div className="flex">
                     <div className="w-12 h-12  mr-1">

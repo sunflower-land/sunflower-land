@@ -29,22 +29,26 @@ export const Dropdown: React.FC<DropdownProps> = ({
   maxHeight = 14,
   showSearch = false,
 }) => {
+  const isControlled = value !== undefined;
   const [isOpen, setIsOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [selectedValue, setSelectedValue] = useState<string | undefined>(
-    initialIndex !== undefined ? options[initialIndex] : undefined,
-  );
+  const [internalValue, setInternalValue] = useState<string | undefined>(() => {
+    if (isControlled) return undefined;
 
-  // Initialize with provided value
-  useEffect(() => {
-    if (value !== undefined) {
-      setSelectedValue(value);
-    } else {
-      setSelectedValue(undefined);
+    if (
+      initialIndex !== undefined &&
+      initialIndex >= 0 &&
+      initialIndex < options.length
+    ) {
+      return options[initialIndex];
     }
-  }, [value]);
+
+    return undefined;
+  });
+
+  const selectedValue = isControlled ? value : internalValue;
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -66,7 +70,10 @@ export const Dropdown: React.FC<DropdownProps> = ({
   }, [selectedValue]);
 
   const handleChange = (newValue: string) => {
-    setSelectedValue(newValue);
+    if (!isControlled) {
+      setInternalValue(newValue);
+    }
+
     onChange(newValue);
     setIsOpen(false);
     setSearchTerm("");

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 import { setPrecision } from "lib/utils/formatNumber";
@@ -39,25 +39,21 @@ export const NumberInput: React.FC<Props> = ({
   );
   const INPUT_MAX_CHAR = Math.max(maxDecimalPlaces + 4, 20);
 
-  const [numberDisplay, setNumberDisplay] = useState("");
+  const [draftValue, setDraftValue] = useState<string | null>(null);
   const [isFocused, setIsFocused] = useState(false); // State for focus
 
-  useEffect(() => {
-    const newValue = setPrecision(
-      new Decimal(value),
-      maxDecimalPlaces,
-    ).toString();
+  const formattedValue = setPrecision(value, maxDecimalPlaces).toString();
 
-    if (
-      new Decimal(newValue).equals(
-        new Decimal(numberDisplay ? numberDisplay : 0),
-      )
-    )
-      return;
+  const inputValue =
+    isFocused && draftValue !== null ? draftValue : formattedValue;
 
-    setNumberDisplay(newValue);
-    onValueChange?.(new Decimal(newValue));
-  }, [value]);
+  const shouldDeferCommit = (amount: string) => {
+    if (!allowNegative) {
+      return amount === ".";
+    }
+
+    return amount === "." || amount === "-" || amount === "-.";
+  };
 
   return (
     <div className="relative">
@@ -75,29 +71,59 @@ export const NumberInput: React.FC<Props> = ({
         }}
         type="number"
         placeholder="0"
-        value={numberDisplay}
+        value={inputValue}
         readOnly={readOnly}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          if (/^0+(?!\.)/.test(e.target.value) && e.target.value.length > 1) {
-            e.target.value = e.target.value.replace(/^0/, "");
+          if (readOnly) return;
+
+          let nextValue = e.target.value;
+
+          if (
+            inputValue === "0" &&
+            nextValue.length === 2 &&
+            nextValue.includes("0")
+          ) {
+            const sanitizedValue = nextValue.replace("0", "") || "0";
+            nextValue = sanitizedValue;
+            e.target.value = sanitizedValue;
           }
 
-          if (e.target.value === "") {
-            setNumberDisplay("");
-            onValueChange?.(new Decimal(0));
-          } else if (
-            (maxDecimalPlaces > 0
-              ? VALID_DECIMAL_NUMBER_WITH_PRECISION
-              : VALID_INTEGER
-            ).test(e.target.value)
-          ) {
-            const amount = e.target.value.slice(0, INPUT_MAX_CHAR);
-            setNumberDisplay(amount);
-            onValueChange?.(new Decimal(amount ?? 0));
+          if (/^0+(?!\.)/.test(nextValue) && nextValue.length > 1) {
+            const trimmedValue = nextValue.replace(/^0/, "");
+            e.target.value = trimmedValue;
+            nextValue = trimmedValue;
           }
+
+          const validator =
+            maxDecimalPlaces > 0
+              ? VALID_DECIMAL_NUMBER_WITH_PRECISION
+              : VALID_INTEGER;
+
+          if (nextValue === "") {
+            setDraftValue("");
+            onValueChange?.(new Decimal(0));
+            return;
+          }
+
+          if (!validator.test(nextValue)) {
+            return;
+          }
+
+          const amount = nextValue.slice(0, INPUT_MAX_CHAR);
+
+          if (shouldDeferCommit(amount)) {
+            setDraftValue(amount);
+            return;
+          }
+
+          setDraftValue(amount);
+          onValueChange?.(new Decimal(amount));
         }}
         onFocus={() => setIsFocused(true)} // Set focus state to true
-        onBlur={() => setIsFocused(false)} // Set focus state to false
+        onBlur={() => {
+          setIsFocused(false);
+          setDraftValue(null);
+        }} // Set focus state to false
         className={classNames(
           "!bg-transparent cursor-pointer w-full p-2 h-10 font-secondary",
           {

@@ -14,7 +14,6 @@ import { useGame } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getRelativeTime } from "lib/utils/time";
 import { useNow } from "lib/utils/hooks/useNow";
-import { useMathRandom } from "lib/utils/hooks/useMathRandom";
 import { useWhenTime } from "lib/utils/hooks/useWhenTime";
 
 interface Props {
@@ -25,6 +24,14 @@ interface Props {
   acknowledge: () => void;
   handleAFK: () => void;
   showEventIcons?: boolean;
+}
+
+function createEventIconPositions() {
+  return Array.from({ length: 30 }, () => ({
+    top: Math.random() * 100,
+    left: Math.random() * 100,
+    delay: Math.random() * 2,
+  }));
 }
 
 export const WeatherEvent: React.FC<Props> = ({
@@ -39,9 +46,6 @@ export const WeatherEvent: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const [eventOver, setEventOver] = useState(false);
   const { gameService } = useGame();
-  const randomOne = useMathRandom();
-  const randomTwo = useMathRandom();
-  const randomThree = useMathRandom();
   const now = useNow({ live: true });
 
   const [eventIconPositions] = useState<
@@ -50,13 +54,7 @@ export const WeatherEvent: React.FC<Props> = ({
       left: number;
       delay: number;
     }[]
-  >(
-    [...Array(30)].map(() => ({
-      top: randomOne * 100,
-      left: randomTwo * 100,
-      delay: randomThree * 2,
-    })),
-  );
+  >(createEventIconPositions());
 
   const eventStartTime = useSelector(
     gameService,

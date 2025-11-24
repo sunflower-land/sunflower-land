@@ -1,11 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSpring, animated } from "react-spring";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString, TimeFormatLength } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { progressBarBorderStyle } from "features/game/lib/style";
-import { useNow } from "lib/utils/hooks/useNow";
 
 export type ProgressType =
   | "progress"
@@ -348,58 +347,5 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
         <Bar percentage={percentage} type={type} />
       </div>
     </div>
-  );
-};
-
-interface LiveProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
-  startAt: number;
-  endAt: number;
-  formatLength: TimeFormatLength;
-  onComplete?: () => void;
-  type?: ProgressBarProps["type"];
-}
-
-/**
- * A progress bar which re-renders it's own timer
- * This avoids parents needing to render on their own
- */
-export const LiveProgressBar: React.FC<LiveProgressBarProps> = ({
-  startAt,
-  endAt,
-  formatLength,
-  onComplete,
-  type = "progress",
-  ...divProps
-}) => {
-  const [live, setLive] = useState(() => endAt > Date.now());
-  const now = useNow({ live });
-  const secondsLeft = useMemo(
-    () => Math.max(Math.ceil((endAt - now) / 1000), 0),
-    [endAt, now],
-  );
-  const totalSeconds = Math.max((endAt - startAt) / 1000, 0);
-  const percentage =
-    totalSeconds > 0 ? (100 * (totalSeconds - secondsLeft)) / totalSeconds : 0;
-
-  useEffect(() => {
-    const shouldLive = endAt > now;
-    if (shouldLive !== live) {
-      setLive(shouldLive);
-      if (!shouldLive && onComplete) {
-        onComplete();
-      }
-    }
-  }, [endAt, live, now, onComplete]);
-
-  if (secondsLeft <= 0 || !totalSeconds) return null;
-
-  return (
-    <ProgressBar
-      seconds={secondsLeft}
-      formatLength={formatLength}
-      percentage={percentage}
-      type={type}
-      {...divProps}
-    />
   );
 };

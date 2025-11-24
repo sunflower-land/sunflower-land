@@ -9,8 +9,8 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import animatedLavaPit from "assets/resources/lava/lava_pit_animation.webp";
-import { LiveProgressBar } from "components/ui/ProgressBar";
-import { useNow } from "lib/utils/hooks/useNow";
+import { ProgressBar } from "components/ui/ProgressBar";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 const _lavaPit = (id: string) => (state: MachineState) =>
   state.context.state.lavaPits[id];
@@ -21,19 +21,30 @@ interface Props {
 
 export const LavaPit: React.FC<Props> = ({ id }) => {
   const [showModal, setShowModal] = useState(false);
-  const [renderKey, setRender] = useState<number>(0);
   const { gameService, showAnimations, showTimers } = useContext(Context);
   const lavaPit = useSelector(gameService, _lavaPit(id));
-  const now = useNow({ live: true, autoEndAt: lavaPit?.readyAt });
+  const { totalSeconds: secondsToReady } = useCountdown(lavaPit?.readyAt ?? 0);
 
   const width = 36;
   const lavaPitStartedAt = lavaPit?.startedAt ?? 0;
   const lavaPitEndAt = lavaPit?.readyAt ?? 0;
+  const totalSecondsRequired = Math.max(
+    (lavaPitEndAt - lavaPitStartedAt) / 1000,
+    0,
+  );
+  const percentage =
+    totalSecondsRequired > 0
+      ? Math.min(
+          ((totalSecondsRequired - secondsToReady) / totalSecondsRequired) *
+            100,
+          100,
+        )
+      : 0;
 
-  const lavaPitRunning = lavaPitEndAt > now;
+  const lavaPitRunning = secondsToReady > 0;
 
-  const lavaPitReady = lavaPitEndAt < now && !lavaPit?.collectedAt;
-  const isReadyWithinADay = lavaPitEndAt < now + 24 * 60 * 60 * 1000;
+  const lavaPitReady = secondsToReady <= 0 && !lavaPit?.collectedAt;
+  const isReadyWithinADay = secondsToReady <= 24 * 60 * 60;
 
   return (
     <div className="relative w-full h-full">
@@ -74,16 +85,11 @@ export const LavaPit: React.FC<Props> = ({ id }) => {
               left: `${PIXEL_SCALE * ((32 - width) / 2)}px`,
             }}
           >
-            <LiveProgressBar
-              key={renderKey}
-              startAt={lavaPitStartedAt}
-              endAt={lavaPitEndAt}
+            <ProgressBar
+              percentage={percentage}
+              type="progress"
               formatLength={isReadyWithinADay ? "short" : "medium"}
-              className="relative"
-              style={{
-                width: `${PIXEL_SCALE * 14}px`,
-              }}
-              onComplete={() => setRender((r) => r + 1)}
+              seconds={secondsToReady}
             />
           </div>
         )}

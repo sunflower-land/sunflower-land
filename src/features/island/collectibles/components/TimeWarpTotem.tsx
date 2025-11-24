@@ -5,7 +5,7 @@ import fastForward from "assets/icons/fast_forward.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleProps } from "../Collectible";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { LiveProgressBar, ProgressBar } from "components/ui/ProgressBar";
+import { ProgressBar } from "components/ui/ProgressBar";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
@@ -47,9 +47,9 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({
       <div onClick={handleRemove}>
         {showTimers && (
           <div className="absolute bottom-0 left-0">
-            <LiveProgressBar
-              startAt={createdAt}
-              endAt={expiresAt}
+            <ProgressBar
+              percentage={percentage}
+              seconds={secondsToExpire}
               formatLength="medium"
               type="error"
             />

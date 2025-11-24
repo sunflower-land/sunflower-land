@@ -4,7 +4,7 @@ import { CROPS, CropName } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { GrowthStage, Soil } from "features/island/plots/components/Soil";
-import { Bar, LiveProgressBar } from "components/ui/ProgressBar";
+import { Bar, ProgressBar } from "components/ui/ProgressBar";
 
 import powerup from "assets/icons/level_up.png";
 import locust from "assets/icons/locust.webp";
@@ -246,10 +246,10 @@ export const FertilePlot: React.FC<Props> = ({
             width: `${PIXEL_SCALE * 15}px`,
           }}
         >
-          <LiveProgressBar
-            key={`${startAt}-${readyAt}`}
-            startAt={startAt}
-            endAt={readyAt}
+          <ProgressBar
+            percentage={growPercentage}
+            seconds={timeLeft}
+            type="progress"
             formatLength="short"
           />
         </div>

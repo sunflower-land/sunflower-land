@@ -216,7 +216,7 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
                 ([category, { categoryName, bounties }], index) => {
                   if (bounties.length === 0) return null;
                   return (
-                    <div key={`${category}-${index}`}>
+                    <div key={`${category}-${index}-bounty-board`}>
                       <Label type="default" className="mb-2">
                         {categoryName}
                       </Label>
@@ -228,7 +228,7 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
                           );
                           return (
                             <div
-                              key={bounty.name}
+                              key={`${bounty.name}-${bounty.id}-bounty-card`}
                               className="flex flex-col space-y-1"
                             >
                               <div
@@ -432,7 +432,7 @@ const Deal: React.FC<{
                 {getKeys(bounty.items ?? {}).map((name) => {
                   return (
                     <Label
-                      key={name}
+                      key={`${name}-${bounty.id}-reward-label`}
                       type={isSold ? "success" : "warning"}
                       icon={ITEM_DETAILS[name].image}
                       secondaryIcon={
