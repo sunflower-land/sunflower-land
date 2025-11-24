@@ -6,7 +6,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getRelativeTime } from "lib/utils/time";
 import { Label } from "components/ui/Label";
 import { LeaguesTable } from "features/game/expansion/components/leaderboard/LeagueTable";
-import { InnerPanel } from "components/ui/Panel";
 import { CropName } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 
@@ -24,9 +23,9 @@ export const LeagueLeaderboard: React.FC<LeaderboardProps> = ({
 
   if (!data) {
     return (
-      <InnerPanel className="p-1">
+      <div className="p-1">
         <Label type="danger">{t("leaderboard.error")}</Label>
-      </InnerPanel>
+      </div>
     );
   }
 
@@ -34,7 +33,7 @@ export const LeagueLeaderboard: React.FC<LeaderboardProps> = ({
   const leagueCrop = playerLeague.split(" ")[0] as CropName;
 
   return (
-    <InnerPanel>
+    <>
       <div className="flex flex-col md:flex-row md:items-center justify-between p-1">
         <Label type="default" icon={ITEM_DETAILS[leagueCrop].image}>
           {`${playerLeague} ${t("leaderboard.leaderboard")}`}
@@ -53,6 +52,6 @@ export const LeagueLeaderboard: React.FC<LeaderboardProps> = ({
           />
         </>
       )}
-    </InnerPanel>
+    </>
   );
 };

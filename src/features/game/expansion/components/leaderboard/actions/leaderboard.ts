@@ -119,6 +119,35 @@ export async function getLeaderboard<T>({
   return data;
 }
 
+export async function getFinalisedLeaguesLeaderboard({
+  farmId,
+  finalisedDate,
+}: {
+  farmId: number;
+  finalisedDate: string;
+}): Promise<LeaguesLeaderboard | undefined> {
+  const url = `${API_URL}/leaderboard/leagues/${finalisedDate}/${farmId}`;
+
+  const response = await window.fetch(url, {
+    method: "GET",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+    },
+  });
+
+  if (response.status === 429) {
+    throw new Error(ERRORS.TOO_MANY_REQUESTS);
+  }
+
+  if (response.status >= 400) {
+    return;
+  }
+
+  const data = await response.json();
+
+  return data;
+}
+
 export async function getCompetitionLeaderboard({
   farmId,
   name,

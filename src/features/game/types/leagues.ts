@@ -19,4 +19,6 @@ export interface Leagues {
   currentLeague: LeagueName;
   previousLeague?: LeagueName;
   points: number;
+  previousPoints?: number;
+  leagueResetAt?: number;
 }
