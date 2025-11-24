@@ -1,0 +1,125 @@
+import React from "react";
+import classNames from "classnames";
+import { RankData } from "./actions/leaderboard";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionLeaderboardTable";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
+import { Label } from "components/ui/Label";
+import arrowUp from "assets/icons/level_up.png";
+import arrowDown from "assets/icons/decrease_arrow.png";
+
+interface Props {
+  rankings: RankData[];
+  showHeader?: boolean;
+  promotionRank: number;
+  demotionRank: number;
+}
+
+export const LeaguesTable: React.FC<Props> = ({
+  rankings,
+  showHeader = true,
+  promotionRank,
+  demotionRank,
+}) => {
+  const { t } = useAppTranslation();
+
+  return (
+    <table className="w-full text-xs table-fixed border-collapse">
+      {showHeader && (
+        <thead>
+          <tr>
+            <th style={{ border: "1px solid #b96f50" }} className="p-1.5 w-1/5">
+              <p>{t("rank")}</p>
+            </th>
+            <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
+              <p>{t("player")}</p>
+            </th>
+            <th style={{ border: "1px solid #b96f50" }} className="p-1.5 w-1/5">
+              <p>{t("total")}</p>
+            </th>
+          </tr>
+        </thead>
+      )}
+      <tbody>
+        {rankings.map(({ id, count, rank, bumpkin }, index) => {
+          const previous = rankings[index - 1];
+          const currentRank = rank ?? index + 1;
+          const previousRank = previous?.rank ?? currentRank - 1;
+          return (
+            <>
+              {previousRank !== currentRank - 1 && (
+                <tr key={`${id}-${currentRank}`}>
+                  <td colSpan={3} style={{ border: "1px solid #b96f50" }}>
+                    <div className="flex justify-center items-center">
+                      <p className="mb-[10px]">{"..."}</p>
+                    </div>
+                  </td>
+                </tr>
+              )}
+
+              {currentRank === demotionRank && (
+                <tr key={`${id}-demotion`}>
+                  <td colSpan={3} style={{ border: "1px solid #b96f50" }}>
+                    <div className="flex justify-center items-center">
+                      <Label type="danger" secondaryIcon={arrowDown}>
+                        {`Demotion Zone`}
+                      </Label>
+                    </div>
+                  </td>
+                </tr>
+              )}
+              <tr
+                key={id}
+                className={classNames("relative", {
+                  "bg-[#ead4aa]": index % 2 === 0,
+                })}
+              >
+                <td
+                  style={{ border: "1px solid #b96f50" }}
+                  className="p-1.5 w-1/5"
+                >
+                  <div className="flex items-center gap-2">
+                    {currentRank <= promotionRank && (
+                      <img src={arrowUp} className="w-4 h-4" />
+                    )}
+                    {currentRank >= demotionRank && (
+                      <img src={arrowDown} className="w-4 h-4" />
+                    )}
+                    {toOrdinalSuffix(currentRank)}
+                  </div>
+                </td>
+                <td
+                  style={{ border: "1px solid #b96f50" }}
+                  className="p-1.5 text-left pl-8 relative truncate"
+                >
+                  <div className="absolute" style={{ left: "4px", top: "1px" }}>
+                    <NPCIcon width={24} parts={bumpkin} />
+                  </div>
+                  {id}
+                </td>
+                <td
+                  style={{ border: "1px solid #b96f50" }}
+                  className="p-1.5 w-1/5"
+                >
+                  {count}
+                </td>
+              </tr>
+              {currentRank === promotionRank && (
+                <tr key={`${id}-promotion`}>
+                  <td colSpan={3} style={{ border: "1px solid #b96f50" }}>
+                    <div className="flex justify-center items-center">
+                      <Label
+                        type="success"
+                        secondaryIcon={arrowUp}
+                      >{`Promotion Zone`}</Label>
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </>
+          );
+        })}
+      </tbody>
+    </table>
+  );
+};

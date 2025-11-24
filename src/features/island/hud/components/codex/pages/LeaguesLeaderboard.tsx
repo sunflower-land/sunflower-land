@@ -1,12 +1,12 @@
 import React from "react";
 
 import { Loading } from "features/auth/components";
-import { TicketTable } from "features/game/expansion/components/leaderboard/TicketTable";
 import { LeaguesLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getRelativeTime } from "lib/utils/time";
 import { Label } from "components/ui/Label";
 import { LeagueName } from "features/game/types/leagues";
+import { LeaguesTable } from "features/game/expansion/components/leaderboard/LeagueTable";
 
 interface LeaderboardProps {
   id: string;
@@ -24,12 +24,15 @@ export const LeagueLeaderboard: React.FC<LeaderboardProps> = ({
 
   if (isLoading && !data) return <Loading />;
 
-  if (!data)
+  if (!data) {
     return (
       <div className="p-1">
         <Label type="danger">{t("leaderboard.error")}</Label>
       </div>
     );
+  }
+
+  const { playersToShow, promotionRank, demotionRank } = data;
 
   return (
     <div>
@@ -41,15 +44,22 @@ export const LeagueLeaderboard: React.FC<LeaderboardProps> = ({
           {t("last.updated")} {getRelativeTime(data.lastUpdated)}
         </p>
       </div>
-      {data.topTen && <TicketTable rankings={data.topTen} />}
-      {data.farmRankingDetails && (
+      {playersToShow.length && (
         <>
-          <div className="flex justify-center items-center">
-            <p className="mb-[13px]">{"..."}</p>
-          </div>
-          <TicketTable showHeader={false} rankings={data.farmRankingDetails} />
+          <LeaguesTable
+            showHeader
+            rankings={playersToShow}
+            promotionRank={promotionRank}
+            demotionRank={demotionRank}
+          />
         </>
       )}
     </div>
   );
 };
+
+/**
+ *           <div className="flex justify-center items-center">
+            <p className="mb-[13px]">{"..."}</p>
+          </div>
+ */
