@@ -1282,19 +1282,6 @@ export class BeachScene extends BaseScene {
     petContainer.idle();
   }
 
-  private resetPetPosition(sessionId: string) {
-    const petState = this.mmoServer?.state?.pets?.get(sessionId);
-    const petContainer = this.pets[sessionId];
-
-    if (!petContainer || !petState) return;
-
-    petContainer.setPosition(
-      petState.x ?? petContainer.x,
-      petState.y ?? petContainer.y,
-    );
-    petContainer.setDepth(petState.y ?? petContainer.y);
-  }
-
   public handleOtherDiggersPositions() {
     // Create a grid for the dig site with a buffer
     const gridRect = new Phaser.Geom.Rectangle(
@@ -1346,7 +1333,6 @@ export class BeachScene extends BaseScene {
           this.mmoServer?.state?.players.get(sessionId)?.x,
           this.mmoServer?.state?.players.get(sessionId)?.y,
         );
-        this.resetPetPosition(sessionId);
       }
     });
   }
