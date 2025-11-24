@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { BuildingProduct } from "features/game/types/game";
+import { useNow } from "lib/utils/hooks/useNow";
 
 function computeCookingState(crafting: BuildingProduct[], now: number) {
   const cooking = crafting.find((recipe) => recipe.readyAt > now);
@@ -26,22 +27,29 @@ function computeCookingState(crafting: BuildingProduct[], now: number) {
 }
 
 export function useCookingState(building: { crafting?: BuildingProduct[] }) {
-  const [now, setNow] = useState(() => Date.now());
+  const crafting = useMemo(() => building.crafting ?? [], [building.crafting]);
 
-  const { cooking, queuedRecipes, readyRecipes, nextChangeAt } =
-    computeCookingState(building.crafting ?? [], now);
+  // Find the last time anything in this building will change readiness
+  const lastReadyAt = useMemo(
+    () =>
+      crafting.length > 0
+        ? Math.max(...crafting.map((recipe) => recipe.readyAt))
+        : undefined,
+    [crafting],
+  );
 
-  useEffect(() => {
-    if (!nextChangeAt) return;
+  // `useNow` gives us a monotonic clock as React state.
+  // We keep it "live" only while there is something in the queue.
+  const now = useNow({
+    live: lastReadyAt !== undefined,
+    autoEndAt: lastReadyAt,
+    intervalMs: 500, // tweak if you want snappier updates
+  });
 
-    const timeTillReady = Math.max(nextChangeAt - Date.now(), 0);
-    // Schedule a timeout to fire when the current item cooking is ready
-    const id = setTimeout(() => {
-      setNow(Date.now());
-    }, timeTillReady);
-
-    return () => clearTimeout(id);
-  }, [nextChangeAt]);
+  const { cooking, queuedRecipes, readyRecipes } = useMemo(
+    () => computeCookingState(crafting, now),
+    [crafting, now],
+  );
 
   return {
     cooking,
