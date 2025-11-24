@@ -113,11 +113,7 @@ const PanelContent: React.FC<PanelContentProps> = ({
   pets,
 }) => {
   const { t } = useAppTranslation();
-<<<<<<< HEAD
   const now = useNow();
-=======
-  const now = useNow({ live: false });
->>>>>>> 9d14ac6e8 ([CHORE] Update useCountdown. Refactorrrrr)
 
   const [confirmationModal, showConfirmationModal] = useState(false);
 
