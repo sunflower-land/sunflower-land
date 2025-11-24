@@ -3,7 +3,7 @@ name: PWA deploy
 on:
   push:
     branches:
-      - feat/react-compiler
+      - feat/react-compiler-2
 
 jobs:
   deploy:
