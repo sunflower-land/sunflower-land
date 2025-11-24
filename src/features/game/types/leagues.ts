@@ -17,8 +17,8 @@ export type LeagueName = (typeof LEAGUE_NAMES)[number];
 
 export interface Leagues {
   currentLeague: LeagueName;
+  currentLeagueStartDate?: string; // YYYY-MM-DD
   previousLeague?: LeagueName;
   points: number;
   previousPoints?: number;
-  leagueResetAt?: number;
 }

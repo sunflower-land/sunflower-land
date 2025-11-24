@@ -1415,32 +1415,22 @@ export function startGame(authContext: AuthContext) {
               target: "leaguesResults",
               cond: (context) => {
                 const now = new Date();
-                const leagueResultsAvailableAt = new Date(
-                  now.getFullYear(),
-                  now.getMonth(),
-                  now.getDate(),
-                  0,
-                  30,
-                  0,
-                );
+                const utcHours = now.getUTCHours();
+                const utcMinutes = now.getUTCMinutes();
+                if (utcHours === 0 && utcMinutes < 30) {
+                  return false;
+                }
+
                 const hasLeaguesAccess = hasFeatureAccess(
                   context.state,
                   "LEAGUES",
                 );
-                const leagueResetAt =
-                  context.state.prototypes?.leagues?.leagueResetAt ?? 0;
+                const currentLeagueStartDate =
+                  context.state.prototypes?.leagues?.currentLeagueStartDate;
 
-                const lastLeagueResetAt = new Date(leagueResetAt);
-                const lastLeagueResetDate = lastLeagueResetAt
-                  .toISOString()
-                  .split("T")[0];
                 const today = new Date(now).toISOString().split("T")[0];
 
-                return (
-                  hasLeaguesAccess &&
-                  now.getTime() >= leagueResultsAvailableAt.getTime() &&
-                  lastLeagueResetDate !== today
-                );
+                return hasLeaguesAccess && currentLeagueStartDate !== today;
               },
             },
             {
