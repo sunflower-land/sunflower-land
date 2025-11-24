@@ -10,6 +10,7 @@ import { getWeekKey } from "features/game/lib/factions";
 import { CompetitionName } from "features/game/types/competitions";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { MinigameName } from "features/game/types/minigames";
+import { LeagueName } from "features/game/types/leagues";
 
 const API_URL = CONFIG.API_URL;
 
@@ -39,6 +40,7 @@ export type TicketLeaderboard = {
 
 export type LeaguesLeaderboard = {
   lastUpdated: number;
+  playerLeague: LeagueName;
   playersToShow: RankData[];
   promotionRank: number;
   demotionRank: number;

@@ -5,20 +5,18 @@ import { LeaguesLeaderboard } from "features/game/expansion/components/leaderboa
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getRelativeTime } from "lib/utils/time";
 import { Label } from "components/ui/Label";
-import { LeagueName } from "features/game/types/leagues";
 import { LeaguesTable } from "features/game/expansion/components/leaderboard/LeagueTable";
+import { InnerPanel } from "components/ui/Panel";
+import { CropName } from "features/game/types/crops";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 interface LeaderboardProps {
-  id: string;
   isLoading: boolean;
   data: LeaguesLeaderboard | null;
-  leagueName: LeagueName;
 }
 export const LeagueLeaderboard: React.FC<LeaderboardProps> = ({
-  id,
   isLoading,
   data,
-  leagueName,
 }) => {
   const { t } = useAppTranslation();
 
@@ -26,20 +24,21 @@ export const LeagueLeaderboard: React.FC<LeaderboardProps> = ({
 
   if (!data) {
     return (
-      <div className="p-1">
+      <InnerPanel className="p-1">
         <Label type="danger">{t("leaderboard.error")}</Label>
-      </div>
+      </InnerPanel>
     );
   }
 
-  const { playersToShow, promotionRank, demotionRank } = data;
+  const { playerLeague, playersToShow, promotionRank, demotionRank } = data;
+  const leagueCrop = playerLeague.split(" ")[0] as CropName;
 
   return (
-    <div>
+    <InnerPanel>
       <div className="flex flex-col md:flex-row md:items-center justify-between p-1">
-        <Label type="default">{`${leagueName} ${t(
-          "leaderboard.leaderboard",
-        )}`}</Label>
+        <Label type="default" icon={ITEM_DETAILS[leagueCrop].image}>
+          {`${playerLeague} ${t("leaderboard.leaderboard")}`}
+        </Label>
         <p className="font-secondary text-xs">
           {t("last.updated")} {getRelativeTime(data.lastUpdated)}
         </p>
@@ -54,12 +53,6 @@ export const LeagueLeaderboard: React.FC<LeaderboardProps> = ({
           />
         </>
       )}
-    </div>
+    </InnerPanel>
   );
 };
-
-/**
- *           <div className="flex justify-center items-center">
-            <p className="mb-[13px]">{"..."}</p>
-          </div>
- */
