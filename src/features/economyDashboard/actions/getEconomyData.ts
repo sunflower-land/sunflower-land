@@ -1,43 +1,38 @@
 import { CONFIG } from "lib/config";
 
-export interface EconomyBatchCursor {
-  reportDate: string;
-  batchNumber: number;
-}
-
-export interface EconomyBatchResult {
-  reportDate: string;
-  batchNumber: number;
-  farmCount: number;
+export interface EconomyFarmCollectibles {
   totals: Record<string, string>;
   holders: Record<string, number>;
-  skills: Record<string, number>;
-  islands: Record<string, number>;
-  dailyActiveUsers: number;
-  startedAt: string;
-  completedAt: string;
-  cursor?: EconomyBatchCursor;
+}
+
+export interface EconomyFarmSkills {
+  totals: Record<string, number>;
+}
+
+export interface EconomyFarmActivity {
+  totals: Record<string, number>;
+  holders: Record<string, number>;
+}
+
+export interface EconomyFarmCoins {
+  total: number;
+}
+
+export interface EconomyFarmSnapshot {
+  collectibles: EconomyFarmCollectibles;
+  skills: EconomyFarmSkills;
+  activity: EconomyFarmActivity;
+  coins: EconomyFarmCoins;
+  daus: number;
+  maus: number;
 }
 
 export interface EconomyReportSummary {
   reportDate: string;
   farmCount: number;
-  totals: Record<string, string>;
-  holders: Record<string, number>;
   batches: number[];
-  skills: Record<string, number>;
-  islands: Record<string, number>;
-  activityTotals?: Record<string, number>;
-  coinsTotal?: string;
-  balanceTotal?: string;
+  farm: EconomyFarmSnapshot;
   xsollaUsdTotal?: string;
-  newUsers?: number;
-  retention?: {
-    d1: number;
-    d7: number;
-    d30: number;
-  };
-  dailyActiveUsers: number;
 }
 
 export interface EconomyReportStats {
@@ -63,7 +58,6 @@ export interface EconomyReportEntry {
 
 export interface EconomyDataResponse {
   summary: EconomyReportSummary | null;
-  batches: EconomyBatchResult[];
   reports: EconomyReportEntry[];
 }
 
@@ -112,12 +106,8 @@ export const getEconomyData = async ({
       stats: entry.stats,
     }));
 
-    const latestSummary =
-      entries.length > 0 ? entries[entries.length - 1].summary : null;
-
     return {
-      summary: latestSummary,
-      batches: [],
+      summary: entries.length > 0 ? entries[entries.length - 1].summary : null,
       reports: entries,
     };
   }
@@ -127,7 +117,6 @@ export const getEconomyData = async ({
   if (data.summary && data.stats) {
     return {
       summary: data.summary,
-      batches: data.batches ?? [],
       reports: [
         {
           summary: data.summary,
@@ -138,27 +127,10 @@ export const getEconomyData = async ({
   }
 
   const summary = data.summary ?? null;
-  const batches = data.batches ?? [];
-  const reports: EconomyReportEntry[] =
-    data.reports ??
-    (batches.length > 0
-      ? (batches.map((batch: EconomyBatchResult) => ({
-          summary: {
-            reportDate: batch.reportDate,
-            farmCount: batch.farmCount,
-            totals: batch.totals,
-            holders: batch.holders,
-            batches: [batch.batchNumber],
-            skills: batch.skills ?? {},
-            islands: batch.islands ?? {},
-            dailyActiveUsers: batch.dailyActiveUsers ?? 0,
-          },
-        })) as EconomyReportEntry[])
-      : []);
+  const reports: EconomyReportEntry[] = data.reports ?? [];
 
   return {
     summary,
-    batches,
     reports,
   };
 };

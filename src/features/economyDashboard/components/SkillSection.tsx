@@ -1,36 +1,97 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { Dropdown } from "components/ui/Dropdown";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import {
+  EconomyReportEntry,
+  EconomyReportSummary,
+} from "../actions/getEconomyData";
 
 interface Props {
-  selectedSkill: string;
-  options: string[];
-  onSkillChange: (skill: string) => void;
-  currentValue: number;
-  history: Array<{ date: string; value: number }>;
+  summary: EconomyReportSummary | null;
+  reports: EconomyReportEntry[];
 }
 
-export const SkillSection: React.FC<Props> = ({
-  selectedSkill,
-  options,
-  onSkillChange,
-  currentValue,
-  history,
-}) => {
+export const SkillSection: React.FC<Props> = ({ summary, reports }) => {
   const { t } = useAppTranslation();
 
-  const hasOptions = options.length > 0;
+  const summaryReports = useMemo(
+    () => reports.map((entry) => entry.summary),
+    [reports],
+  );
+
+  const skillOptions = useMemo(() => {
+    const skillSet = new Set<string>();
+    if (summary?.farm?.skills?.totals) {
+      Object.keys(summary.farm.skills.totals).forEach((skill) =>
+        skillSet.add(skill),
+      );
+    }
+    summaryReports.forEach((report) => {
+      Object.keys(report.farm.skills?.totals ?? {}).forEach((skill) =>
+        skillSet.add(skill),
+      );
+    });
+    return Array.from(skillSet).sort((a, b) =>
+      a.localeCompare(b, undefined, { sensitivity: "base" }),
+    );
+  }, [summary?.farm?.skills?.totals, summaryReports]);
+
+  const [selectedSkill, setSelectedSkill] = useState("");
+
+  useEffect(() => {
+    if (skillOptions.length === 0) {
+      setSelectedSkill("");
+      return;
+    }
+
+    if (!selectedSkill || !skillOptions.includes(selectedSkill)) {
+      const randomSkill =
+        skillOptions[Math.floor(Math.random() * skillOptions.length)];
+      setSelectedSkill(randomSkill);
+    }
+  }, [selectedSkill, skillOptions]);
+
+  const normalizedSkill = selectedSkill.trim();
+
+  const history = useMemo(() => {
+    if (!normalizedSkill) return [];
+    return summaryReports
+      .map((report) => ({
+        date: report.reportDate,
+        value: report.farm.skills?.totals?.[normalizedSkill] ?? 0,
+      }))
+      .filter((entry) => !!entry.date)
+      .sort((a, b) => (a.date! < b.date! ? 1 : -1));
+  }, [summaryReports, normalizedSkill]);
+
+  const selectedSkillValue = useMemo(() => {
+    if (!normalizedSkill) return 0;
+    if (summary?.farm?.skills?.totals?.[normalizedSkill] !== undefined) {
+      return summary.farm.skills.totals[normalizedSkill];
+    }
+
+    for (let i = summaryReports.length - 1; i >= 0; i -= 1) {
+      const value = summaryReports[i].farm.skills?.totals?.[normalizedSkill];
+      if (value !== undefined) {
+        return value;
+      }
+    }
+
+    return 0;
+  }, [normalizedSkill, summary?.farm?.skills?.totals, summaryReports]);
+
+  const hasOptions = skillOptions.length > 0;
 
   return (
     <InnerPanel className="flex flex-col gap-2">
       <Label type="default">{t("economyDashboard.skillTitle")}</Label>
       <Dropdown
-        options={options}
+        options={skillOptions}
         value={selectedSkill || undefined}
-        onChange={onSkillChange}
+        onChange={setSelectedSkill}
         placeholder={t("economyDashboard.skillPlaceholder")}
         showSearch
         maxHeight={8}
@@ -41,7 +102,7 @@ export const SkillSection: React.FC<Props> = ({
         <p className="text-xs text-white -mt-1">
           {t("economyDashboard.skillCurrent", {
             skill: selectedSkill,
-            value: currentValue.toLocaleString(),
+            value: selectedSkillValue.toLocaleString(),
           })}
         </p>
       ) : (

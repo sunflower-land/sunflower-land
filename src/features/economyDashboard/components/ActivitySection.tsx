@@ -1,16 +1,35 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import {
+  EconomyReportEntry,
+  EconomyReportSummary,
+} from "../actions/getEconomyData";
 
 interface Props {
-  currentValue: number;
-  history: Array<{ date: string; value: number }>;
+  summary: EconomyReportSummary | null;
+  reports: EconomyReportEntry[];
 }
 
-export const ActivitySection: React.FC<Props> = ({ currentValue, history }) => {
+export const ActivitySection: React.FC<Props> = ({ summary, reports }) => {
   const { t } = useAppTranslation();
+  const history = useMemo(
+    () =>
+      reports
+        .map((entry) => ({
+          date: entry.summary.reportDate,
+          value: entry.summary.farm.daus ?? 0,
+        }))
+        .filter((entry) => !!entry.date)
+        .sort((a, b) => (a.date! < b.date! ? 1 : -1)),
+    [reports],
+  );
+
+  const latestReportValue = reports[reports.length - 1]?.summary.farm.daus ?? 0;
+
+  const currentValue = summary?.farm.daus ?? latestReportValue;
 
   return (
     <InnerPanel className="flex flex-col">

@@ -1,22 +1,42 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import {
+  EconomyReportEntry,
+  EconomyReportSummary,
+} from "../actions/getEconomyData";
 
 interface Props {
-  xsollaTotal: number;
-  history: Array<{
-    date: string;
-    xsollaUsd: number;
-    feesUsd: number;
-    deposits: number;
-    withdrawals: number;
-  }>;
+  summary: EconomyReportSummary | null;
+  reports: EconomyReportEntry[];
 }
 
-export const FinancialSection: React.FC<Props> = ({ xsollaTotal, history }) => {
+export const FinancialSection: React.FC<Props> = ({ summary, reports }) => {
   const { t } = useAppTranslation();
+
+  const history = useMemo(
+    () =>
+      reports
+        .map((entry) => ({
+          date: entry.summary.reportDate,
+          xsollaUsd: Number(entry.summary.xsollaUsdTotal ?? 0),
+          feesUsd: entry.stats?.processedFees?.totalUsd ?? 0,
+          deposits: entry.stats?.flowerDeposits?.total ?? 0,
+          withdrawals: entry.stats?.flowerWithdrawals?.total ?? 0,
+        }))
+        .filter((entry) => !!entry.date),
+    [reports],
+  );
+
+  const xsollaTotal = Number(summary?.xsollaUsdTotal ?? 0);
+  const hasFinancialSummary = summary?.xsollaUsdTotal !== undefined;
+  const hasHistory = history.length > 0;
+
+  if (!hasFinancialSummary && !hasHistory) {
+    return null;
+  }
 
   return (
     <InnerPanel className="flex flex-col">

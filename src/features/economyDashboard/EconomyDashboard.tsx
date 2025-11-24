@@ -25,9 +25,9 @@ import { getKeys } from "features/game/types/craftables";
 import { useAuth } from "features/auth/lib/Provider";
 import { ResourceSection } from "./components/ResourceSection";
 import { ActivitySection } from "./components/ActivitySection";
-import { IslandSection } from "./components/IslandSection";
 import { SkillSection } from "./components/SkillSection";
 import { FinancialSection } from "./components/FinancialSection";
+import { AnalyticsSection } from "./components/AnalyticsSection";
 import classNames from "classnames";
 
 const formatDateInput = (date: Date) =>
@@ -38,35 +38,6 @@ const initialStartDate = formatDateInput(
   new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
 );
 
-const filterRecords = (
-  record: Record<string, string | number> | undefined,
-  resource: string,
-) => {
-  if (!record || !resource) return [];
-  const entries = Object.entries(record);
-
-  if (!resource) {
-    return entries;
-  }
-
-  return entries.filter(([key]) =>
-    key.toLowerCase().includes(resource.toLowerCase()),
-  );
-};
-
-const formatRecordValue = (value: string | number) => {
-  if (typeof value === "number") {
-    return value.toLocaleString();
-  }
-
-  if (/^-?\d+(\.\d+)?$/.test(value)) {
-    const numericValue = Number(value);
-    return numericValue.toLocaleString();
-  }
-
-  return value;
-};
-
 export const EconomyDashboard: React.FC = () => {
   const { t } = useAppTranslation();
   const navigate = useNavigate();
@@ -76,8 +47,6 @@ export const EconomyDashboard: React.FC = () => {
 
   const [startDate, setStartDate] = useState(initialStartDate);
   const [endDate, setEndDate] = useState(initialEndDate);
-  const [selectedResource, setSelectedResource] = useState("");
-  const [selectedSkill, setSelectedSkill] = useState("");
   const [requestParams, setRequestParams] = useState<EconomyDataRequest | null>(
     null,
   );
@@ -90,18 +59,6 @@ export const EconomyDashboard: React.FC = () => {
       ),
     [],
   );
-
-  useEffect(() => {
-    if (selectedResource || inventoryOptions.length === 0) return;
-
-    const fallback =
-      inventoryOptions.find((option) => option === "Sunflower") ??
-      inventoryOptions[0];
-
-    if (fallback) {
-      setSelectedResource(fallback);
-    }
-  }, [inventoryOptions, selectedResource]);
 
   const handleClose = useCallback(() => {
     navigate(-1);
@@ -126,7 +83,7 @@ export const EconomyDashboard: React.FC = () => {
       requestParams
         ? ["economy-dashboard", requestParams.startDate, requestParams.endDate]
         : null,
-      ([, start, end]) =>
+      ([, start, end]: [string, string, string]) =>
         getEconomyData({
           startDate: start,
           endDate: end,
@@ -137,10 +94,10 @@ export const EconomyDashboard: React.FC = () => {
       },
     );
 
-  const summary = data?.summary;
+  const summary = data?.summary ?? null;
   const reportEntries = data?.reports ?? [];
-  const summaryReports = reportEntries.map((entry) => entry.summary);
   const isFetching = Boolean(requestParams) && (isLoading || isValidating);
+  const hasFetchedData = Boolean(data);
 
   const handleStartDateChange = (value: string) => {
     setStartDate(value);
@@ -156,132 +113,11 @@ export const EconomyDashboard: React.FC = () => {
     setEndDate(value);
   };
 
-  const normalizedResource = selectedResource.trim();
-  const normalizedSkill = selectedSkill.trim();
-
-  const supplyRecords = filterRecords(summary?.totals, normalizedResource);
-  const holderRecords = filterRecords(summary?.holders, normalizedResource);
-
-  const resourceHistory = useMemo(() => {
-    if (!normalizedResource) return [];
-
-    const baseHistory =
-      summaryReports.length > 0
-        ? summaryReports.map((report) => ({
-            date: report.reportDate,
-            supply: report.totals?.[normalizedResource],
-            distribution: report.holders?.[normalizedResource],
-          }))
-        : (data?.batches ?? []).map((batch) => ({
-            date: batch.reportDate ?? batch.startedAt ?? "",
-            supply: batch.totals?.[normalizedResource],
-            distribution: batch.holders?.[normalizedResource],
-          }));
-
-    return baseHistory
-      .filter(
-        (entry) =>
-          entry.date &&
-          (entry.supply !== undefined || entry.distribution !== undefined),
-      )
-      .sort((a, b) => (a.date < b.date ? 1 : -1));
-  }, [summaryReports, data?.batches, normalizedResource]);
-
-  const formattedSupplyRecords = supplyRecords.map(
-    ([key, value]) => [key, formatRecordValue(value)] as [string, string],
-  );
-
-  const formattedHolderRecords = holderRecords.map(
-    ([key, value]) => [key, formatRecordValue(value)] as [string, string],
-  );
-
-  const formattedHistory = resourceHistory.map((entry) => ({
-    ...entry,
-    supply:
-      entry.supply !== undefined ? formatRecordValue(entry.supply) : undefined,
-    distribution:
-      entry.distribution !== undefined
-        ? formatRecordValue(entry.distribution)
-        : undefined,
-  }));
-
-  const activityHistory = summaryReports
-    .map((report) => ({
-      date: report.reportDate,
-      value: report.dailyActiveUsers ?? 0,
-    }))
-    .filter((entry) => !!entry.date)
-    .sort((a, b) => (a.date! < b.date! ? 1 : -1));
-
-  const islands =
-    Object.keys(summary?.islands ?? {}).length > 0
-      ? summary?.islands ?? {}
-      : summaryReports[summaryReports.length - 1]?.islands ?? {};
-
-  const skillOptions = useMemo(() => {
-    const skillSet = new Set<string>();
-    if (summary?.skills) {
-      Object.keys(summary.skills).forEach((skill) => skillSet.add(skill));
-    }
-    summaryReports.forEach((report) => {
-      Object.keys(report.skills ?? {}).forEach((skill) => skillSet.add(skill));
-    });
-    return Array.from(skillSet).sort((a, b) =>
-      a.localeCompare(b, undefined, { sensitivity: "base" }),
-    );
-  }, [summary?.skills, summaryReports]);
-
-  useEffect(() => {
-    if (normalizedSkill || skillOptions.length === 0) return;
-
-    const randomSkill =
-      skillOptions[Math.floor(Math.random() * skillOptions.length)];
-
-    if (randomSkill) {
-      setSelectedSkill(randomSkill);
-    }
-  }, [normalizedSkill, skillOptions]);
-
-  const skillHistory = useMemo(() => {
-    if (!normalizedSkill) return [];
-    return summaryReports
-      .map((report) => ({
-        date: report.reportDate,
-        value: report.skills?.[normalizedSkill] ?? 0,
-      }))
-      .filter((entry) => !!entry.date)
-      .sort((a, b) => (a.date! < b.date! ? 1 : -1));
-  }, [summaryReports, normalizedSkill]);
-
-  const selectedSkillValue = normalizedSkill
-    ? summary?.skills?.[normalizedSkill] ??
-      summaryReports[summaryReports.length - 1]?.skills?.[normalizedSkill] ??
-      0
-    : 0;
-
-  const financialHistory = reportEntries
-    .map((entry) => ({
-      date: entry.summary.reportDate,
-      xsollaUsd: Number(entry.summary.xsollaUsdTotal ?? 0),
-      feesUsd: entry.stats?.processedFees?.totalUsd ?? 0,
-      deposits: entry.stats?.flowerDeposits?.total ?? 0,
-      withdrawals: entry.stats?.flowerWithdrawals?.total ?? 0,
-    }))
-    .filter((entry) => !!entry.date);
-
-  const latestBatch =
-    data?.batches && data.batches.length > 0
-      ? data.batches[data.batches.length - 1]
-      : undefined;
-
   const rangeLabel = requestParams
     ? requestParams.startDate === requestParams.endDate
       ? requestParams.startDate
       : `${requestParams.startDate} - ${requestParams.endDate}`
     : t("economyDashboard.notLoaded");
-
-  const resourceLabel =
-    normalizedResource || t("economyDashboard.resourceUnset");
 
   const canLoad = Boolean(startDate && endDate);
 
@@ -428,13 +264,6 @@ export const EconomyDashboard: React.FC = () => {
                   })}
                 </span>
               )}
-              {!!latestBatch?.completedAt && (
-                <span className="text-white text-shadow">
-                  {t("economyDashboard.completedAt", {
-                    date: new Date(latestBatch.completedAt).toLocaleString(),
-                  })}
-                </span>
-              )}
             </div>
           </InnerPanel>
 
@@ -483,27 +312,7 @@ export const EconomyDashboard: React.FC = () => {
                         {t("economyDashboard.dailyActive")}
                       </span>
                       <span className="text-xs">
-                        {summary.dailyActiveUsers.toLocaleString()}
-                      </span>
-                    </div>
-                  </div>
-                </InnerPanel>
-
-                <InnerPanel>
-                  <div className="flex w-full space-x-3 p-1">
-                    <div className="flex items-start justify-center w-8">
-                      <img
-                        src={SUNNYSIDE.icons.timer}
-                        alt="Batches"
-                        className="img-highlight w-full object-contain"
-                      />
-                    </div>
-                    <div className="flex-1 flex flex-col -mt-1">
-                      <span className="text-sm">
-                        {t("economyDashboard.batchCount")}
-                      </span>
-                      <span className="text-xs">
-                        {(summary.batches?.length ?? 0).toLocaleString()}
+                        {(summary.farm?.maus ?? 0).toLocaleString()}
                       </span>
                     </div>
                   </div>
@@ -511,65 +320,52 @@ export const EconomyDashboard: React.FC = () => {
               </div>
 
               <ResourceSection
-                selectedResource={selectedResource}
-                normalizedResource={normalizedResource}
-                resourceLabel={resourceLabel}
-                options={inventoryOptions}
-                onResourceChange={setSelectedResource}
-                supplyRecords={formattedSupplyRecords}
-                holderRecords={formattedHolderRecords}
-                history={formattedHistory}
+                reports={reportEntries}
+                inventoryOptions={inventoryOptions}
               />
 
-              {!!summary.skills && Object.keys(summary.skills).length > 0 && (
-                <InnerPanel className="flex flex-col">
-                  <Label type="default" className="mb-1.5">
-                    {t("economyDashboard.skillDistribution")}
-                  </Label>
-                  {Object.entries(summary.skills).map(
-                    ([skill, count], index) => (
-                      <div
-                        key={skill}
-                        className={classNames(
-                          "flex items-center justify-between p-1.5 text-xs",
-                          {
-                            "bg-[#ead4aa]": index % 2 === 0,
-                          },
-                        )}
-                        style={{
-                          borderBottom: "1px solid #b96f50",
-                          borderTop: index === 0 ? "1px solid #b96f50" : "",
-                        }}
-                      >
-                        <span>{skill}</span>
-                        <span>{count.toLocaleString()}</span>
-                      </div>
-                    ),
-                  )}
-                </InnerPanel>
-              )}
+              {!!summary.farm?.skills?.totals &&
+                Object.keys(summary.farm.skills.totals).length > 0 && (
+                  <InnerPanel className="flex flex-col">
+                    <Label type="default" className="mb-1.5">
+                      {t("economyDashboard.skillDistribution")}
+                    </Label>
+                    {Object.entries(summary.farm.skills.totals).map(
+                      ([skill, count], index) => (
+                        <div
+                          key={skill}
+                          className={classNames(
+                            "flex items-center justify-between p-1.5 text-xs",
+                            {
+                              "bg-[#ead4aa]": index % 2 === 0,
+                            },
+                          )}
+                          style={{
+                            borderBottom: "1px solid #b96f50",
+                            borderTop: index === 0 ? "1px solid #b96f50" : "",
+                          }}
+                        >
+                          <span>{skill}</span>
+                          <span>{count.toLocaleString()}</span>
+                        </div>
+                      ),
+                    )}
+                  </InnerPanel>
+                )}
             </>
           )}
 
-          <ActivitySection
-            currentValue={summary?.dailyActiveUsers ?? 0}
-            history={activityHistory}
-          />
+          {hasFetchedData && (
+            <>
+              <ActivitySection summary={summary} reports={reportEntries} />
 
-          <IslandSection islands={islands ?? {}} />
+              <SkillSection summary={summary} reports={reportEntries} />
 
-          <SkillSection
-            selectedSkill={selectedSkill}
-            onSkillChange={setSelectedSkill}
-            options={skillOptions}
-            currentValue={selectedSkillValue}
-            history={skillHistory}
-          />
+              <AnalyticsSection summary={summary} reports={reportEntries} />
 
-          <FinancialSection
-            xsollaTotal={Number(summary?.xsollaUsdTotal ?? 0)}
-            history={financialHistory}
-          />
+              <FinancialSection summary={summary} reports={reportEntries} />
+            </>
+          )}
         </div>
       </Panel>
     </div>
