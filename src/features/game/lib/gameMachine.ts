@@ -754,6 +754,7 @@ export type BlockchainState = {
     | "news"
     | "roninAirdrop"
     | "jinAirdrop"
+    | "leaguesResults"
     | StateMachineStateName
     | StateMachineVisitStateName
     | StateNameWithStatus; // TEST ONLY
@@ -1411,6 +1412,38 @@ export function startGame(authContext: AuthContext) {
                 (context.state.inventory["Jin"] ?? new Decimal(0)).lt(1),
             },
             {
+              target: "leaguesResults",
+              cond: (context) => {
+                const now = new Date();
+                const leagueResultsAvailableAt = new Date(
+                  now.getFullYear(),
+                  now.getMonth(),
+                  now.getDate(),
+                  0,
+                  30,
+                  0,
+                );
+                const hasLeaguesAccess = hasFeatureAccess(
+                  context.state,
+                  "LEAGUES",
+                );
+                const leagueResetAt =
+                  context.state.prototypes?.leagues?.leagueResetAt ?? 0;
+
+                const lastLeagueResetAt = new Date(leagueResetAt);
+                const lastLeagueResetDate = lastLeagueResetAt
+                  .toISOString()
+                  .split("T")[0];
+                const today = new Date(now).toISOString().split("T")[0];
+
+                return (
+                  hasLeaguesAccess &&
+                  now.getTime() >= leagueResultsAvailableAt.getTime() &&
+                  lastLeagueResetDate !== today
+                );
+              },
+            },
+            {
               target: "playing",
             },
           ],
@@ -1629,6 +1662,16 @@ export function startGame(authContext: AuthContext) {
             "bid.refunded": (GAME_EVENT_HANDLERS as any)["bid.refunded"],
             CLOSE: {
               target: "autosaving",
+            },
+          },
+        },
+        leaguesResults: {
+          on: {
+            "leagues.updated": {
+              target: STATE_MACHINE_EFFECTS["leagues.updated"],
+            },
+            CLOSE: {
+              target: "playing",
             },
           },
         },
