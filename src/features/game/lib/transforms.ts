@@ -131,5 +131,6 @@ export function makeGame(farm: any): GameState {
     boostsUsedAt: farm.boostsUsedAt,
     socialFarming: farm.socialFarming,
     pets: farm.pets,
+    prototypes: farm.prototypes,
   };
 }
