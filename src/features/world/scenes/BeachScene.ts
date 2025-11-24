@@ -50,7 +50,6 @@ export type DigAnalytics = { outputCoins: number; percentageFound: number };
 const SITE_COLS = DESERT_GRID_WIDTH;
 const SITE_ROWS = DESERT_GRID_HEIGHT;
 const PET_FOLLOW_OFFSET_X = 13;
-const PET_FOLLOW_OFFSET_Y = 11;
 
 export class BeachScene extends BaseScene {
   sceneId: SceneId = "beach";
@@ -1274,11 +1273,25 @@ export class BeachScene extends BaseScene {
       return;
     }
 
-    const targetX = perimeterPosition.x - PET_FOLLOW_OFFSET_X;
-    const targetY = perimeterPosition.y + PET_FOLLOW_OFFSET_Y;
+    const gridRight = this.gridX + this.cellSize * SITE_COLS;
+    const gridTop = this.gridY;
+    const gridBottom = this.gridY + this.cellSize * SITE_ROWS;
 
-    petContainer.setPosition(targetX, targetY);
-    petContainer.setDepth(targetY);
+    let offsetX = -PET_FOLLOW_OFFSET_X;
+
+    const isTopOrBottom =
+      perimeterPosition.y <= gridTop || perimeterPosition.y >= gridBottom;
+    const isRightEdge = perimeterPosition.x >= gridRight;
+
+    if (!isTopOrBottom && isRightEdge) {
+      offsetX = PET_FOLLOW_OFFSET_X;
+    }
+
+    petContainer.setPosition(
+      perimeterPosition.x + offsetX,
+      perimeterPosition.y,
+    );
+    petContainer.setDepth(perimeterPosition.y);
     petContainer.idle();
   }
 
@@ -1648,6 +1661,7 @@ export class BeachScene extends BaseScene {
       this.updateOtherPlayers();
       this.updateShaders();
       this.handleDigbyWarnings();
+      this.updatePets();
     } else {
       // this.noToolHoverBox?.setVisible(false);
       this.alreadyWarnedOfNoDigs = false;
