@@ -82,7 +82,7 @@ export const LeaguesTable: React.FC<Props> = ({
                     {currentRank <= promotionRank && (
                       <img src={arrowUp} className="w-4 h-4" />
                     )}
-                    {currentRank >= demotionRank && (
+                    {!!demotionRank && currentRank >= demotionRank && (
                       <img src={arrowDown} className="w-4 h-4" />
                     )}
                     {toOrdinalSuffix(currentRank)}
@@ -108,10 +108,9 @@ export const LeaguesTable: React.FC<Props> = ({
                 <tr key={`${id}-promotion`}>
                   <td colSpan={3} style={{ border: "1px solid #b96f50" }}>
                     <div className="flex justify-center items-center">
-                      <Label
-                        type="success"
-                        secondaryIcon={arrowUp}
-                      >{`Promotion Zone`}</Label>
+                      <Label type="success" secondaryIcon={arrowUp}>
+                        {`Promotion Zone`}
+                      </Label>
                     </div>
                   </td>
                 </tr>
