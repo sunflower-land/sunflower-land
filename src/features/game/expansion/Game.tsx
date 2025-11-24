@@ -211,7 +211,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   sellMarketResource: false,
   somethingArrived: true,
   seasonChanged: false,
-  roninAirdrop: true,
   jinAirdrop: true,
   investigating: true,
   blessing: true,
