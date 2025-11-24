@@ -142,7 +142,7 @@ export type BumpkinShirt =
   | "Paint Splattered Shirt"
   | "Diamond Patterned Vest"
   | "Recycle Shirt"
-  | "AU3"
+  | "Chef Shirt"
   | "Pet Specialist Shirt";
 
 export type BumpkinCoat =
@@ -163,8 +163,6 @@ export type BumpkinTool =
   | "Parsnip"
   | "Golden Spatula"
   | "Hammer"
-  | "Cleaver Knife"
-  | "Lunar Weapon"
   | "Ancient War Hammer"
   | "Ancient Goblin Sword"
   | "Pirate Scimitar"
@@ -216,7 +214,9 @@ export type BumpkinTool =
   | "Architect Ruler"
   | "Onion Leek"
   | "Halloween Deathscythe"
-  | "Moonseeker Hand Puppet";
+  | "Moonseeker Hand Puppet"
+  | "Master Chef's Cleaver"
+  | "Luna's Crescent";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -256,10 +256,10 @@ export type BumpkinNecklace =
   | "Nightshade Medallion"
   | "Sunflorian Medallion"
   | "Dream Scarf"
-  | "Training Whistle"
   | "Cowbell Necklace"
   | "Obsidian Necklace"
-  | "Trick and Treat";
+  | "Trick and Treat"
+  | "Training Whistle";
 
 export type BumpkinHat =
   | "Painter's Cap"
@@ -1072,10 +1072,12 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Underworld Stimpack": 496,
   "Sweet Devil Wings": 497,
   "Wisp Aura": 498,
-  "Lunar Weapon": 499,
-  "Cleaver Knife": 500,
+
+  // Paw Prints Wearables
+  "Luna's Crescent": 499,
+  "Master Chef's Cleaver": 500,
   "Training Whistle": 501,
-  AU3: 502,
+  "Chef Shirt": 502,
   "Pet Specialist Shirt": 503,
   "Pet Specialist Pants": 504,
   "Pet Specialist Hat": 505,
@@ -1638,10 +1640,10 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Underworld Stimpack": "wings",
   "Sweet Devil Wings": "wings",
   "Wisp Aura": "aura",
-  "Lunar Weapon": "tool",
-  "Cleaver Knife": "tool",
+  "Luna's Crescent": "tool",
+  "Master Chef's Cleaver": "tool",
   "Training Whistle": "necklace",
-  AU3: "shirt",
+  "Chef Shirt": "shirt",
   "Pet Specialist Shirt": "shirt",
   "Pet Specialist Pants": "pants",
   "Pet Specialist Hat": "hat",

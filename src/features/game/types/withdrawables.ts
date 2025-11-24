@@ -504,6 +504,18 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
   },
 
   // Paw Prints
+  "Luna's Crescent": {
+    tradeAt: SEASONS["Paw Prints"].endDate,
+    withdrawAt: new Date("2026-03-04T00:00:00Z"),
+  },
+  "Master Chef's Cleaver": {
+    tradeAt: SEASONS["Paw Prints"].endDate,
+    withdrawAt: new Date("2026-03-04T00:00:00Z"),
+  },
+  "Training Whistle": {
+    tradeAt: SEASONS["Paw Prints"].endDate,
+    withdrawAt: new Date("2026-03-04T00:00:00Z"),
+  },
   "Pet Specialist Shirt": {
     tradeAt: SEASONS["Paw Prints"].endDate,
     withdrawAt: new Date("2026-03-04T00:00:00Z"),
