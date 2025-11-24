@@ -7,7 +7,6 @@ import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-p
 import { PhaserNavMeshPlugin } from "phaser-navmesh";
 
 import * as AuthProvider from "features/auth/lib/Provider";
-import { Message } from "features/pumpkinPlaza/components/ChatUI";
 
 import { Kicked } from "./ui/moderationTools/components/Kicked";
 import {
@@ -85,6 +84,15 @@ type Player = {
   moderation?: Moderation;
   experience: number;
   sceneId: SceneId;
+};
+
+export type Message = {
+  farmId: number;
+  username: string;
+  sessionId: string;
+  text: string;
+  sceneId: SceneId;
+  sentAt: number;
 };
 
 export type ModerationEvent = {
