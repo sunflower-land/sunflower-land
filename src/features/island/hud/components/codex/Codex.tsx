@@ -184,7 +184,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
           },
         ]
       : []),
-    ...(hasFeatureAccess(state, "LEAGUES")
+    ...(hasFeatureAccess(state, "LEAGUES") && state.prototypes?.leagues
       ? [
           {
             name: "Leagues" as const,

@@ -46,9 +46,9 @@ export const LeaguesTable: React.FC<Props> = ({
           const currentRank = rank ?? index + 1;
           const previousRank = previous?.rank ?? currentRank - 1;
           return (
-            <>
+            <React.Fragment key={id}>
               {previousRank !== currentRank - 1 && (
-                <tr key={`${id}-${currentRank}`}>
+                <tr>
                   <td colSpan={3} style={{ border: "1px solid #b96f50" }}>
                     <div className="flex justify-center items-center">
                       <p className="mb-[10px]">{"..."}</p>
@@ -58,7 +58,7 @@ export const LeaguesTable: React.FC<Props> = ({
               )}
 
               {currentRank === demotionRank && (
-                <tr key={`${id}-demotion`}>
+                <tr>
                   <td colSpan={3} style={{ border: "1px solid #b96f50" }}>
                     <div className="flex justify-center items-center">
                       <Label type="danger" secondaryIcon={arrowDown}>
@@ -69,7 +69,6 @@ export const LeaguesTable: React.FC<Props> = ({
                 </tr>
               )}
               <tr
-                key={id}
                 className={classNames("relative", {
                   "bg-[#ead4aa]": index % 2 === 0,
                 })}
@@ -105,7 +104,7 @@ export const LeaguesTable: React.FC<Props> = ({
                 </td>
               </tr>
               {currentRank === promotionRank && (
-                <tr key={`${id}-promotion`}>
+                <tr>
                   <td colSpan={3} style={{ border: "1px solid #b96f50" }}>
                     <div className="flex justify-center items-center">
                       <Label type="success" secondaryIcon={arrowUp}>
@@ -115,7 +114,7 @@ export const LeaguesTable: React.FC<Props> = ({
                   </td>
                 </tr>
               )}
-            </>
+            </React.Fragment>
           );
         })}
       </tbody>

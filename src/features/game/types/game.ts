@@ -1904,6 +1904,8 @@ export interface GameState {
   aoe: AOE;
   socialFarming: SocialFarming;
   pets?: Pets;
+
+  // prototype object to store test features - to be deleted when the prototype ends
   prototypes?: {
     leagues?: Leagues;
   };
