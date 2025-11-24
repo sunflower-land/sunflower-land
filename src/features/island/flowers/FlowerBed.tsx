@@ -153,12 +153,15 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
   const bumpkin = useSelector(gameService, _bumpkin);
   const collectibles = useSelector(gameService, _collectibles);
 
-  const growTime = FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds * 1000;
+  // Keep growth calculations in seconds to match `useCountdown`, and only use
+  // milliseconds for the countdown target date.
+  const growSeconds = FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds;
+  const growTimeMs = growSeconds * 1000;
 
   const { totalSeconds: secondsLeft } = useCountdown(
-    flower.plantedAt + growTime,
+    flower.plantedAt + growTimeMs,
   );
-  const growPercentage = 100 - (Math.max(secondsLeft, 0) / growTime) * 100;
+  const growPercentage = 100 - (Math.max(secondsLeft, 0) / growSeconds) * 100;
 
   const isGrowing = secondsLeft > 0;
 

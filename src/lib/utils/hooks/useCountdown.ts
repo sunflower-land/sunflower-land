@@ -17,26 +17,31 @@ const getTimeRemaining = (targetDate: number) => {
 };
 
 export const useCountdown = (targetDate: number) => {
-  const [countDown, setCountDown] = useState<number>(
-    getTimeRemaining(targetDate),
-  );
+  // Internal tick purely to trigger re-renders; actual time left is derived
+  // from `targetDate` and the current time so it updates immediately when
+  // `targetDate` changes, without needing to synchronously set state in
+  // the effect body.
+  const [, setTick] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       const remaining = getTimeRemaining(targetDate);
-      setCountDown(remaining);
-
-      // Stop interval when countdown reaches 0
       if (remaining <= 0) {
+        // Trigger a final render at 0, then stop.
+        setTick((tick) => tick + 1);
         clearInterval(interval);
+        return;
       }
+      setTick((tick) => tick + 1);
     }, 1000);
 
     return () => clearInterval(interval);
   }, [targetDate]);
 
+  const timeLeft = getTimeRemaining(targetDate);
+
   return {
-    ...getReturnValues(countDown),
-    totalSeconds: Math.ceil(countDown / 1000),
+    ...getReturnValues(timeLeft),
+    totalSeconds: Math.ceil(timeLeft / 1000),
   };
 };

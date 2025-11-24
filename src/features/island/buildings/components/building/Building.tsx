@@ -72,7 +72,7 @@ const InProgressBuilding: React.FC<Prop> = ({
   const { gameService, showAnimations, showTimers } = useContext(Context);
   const BuildingPlaced = BUILDING_COMPONENTS[name];
 
-  const now = useNow();
+  const now = useNow({ live: true, autoEndAt: readyAt });
   const [showModal, setShowModal] = useState(
     now - createdAt < 1000 ? true : false,
   );
