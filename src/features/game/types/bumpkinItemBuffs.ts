@@ -977,14 +977,14 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       boostedItemIcon: baits,
     },
   ],
-  "Lunar Weapon": [
+  "Luna's Crescent": [
     {
       shortDescription: translate("description.lunarWeapon.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
-  "Cleaver Knife": [
+  "Master Chef's Cleaver": [
     {
       shortDescription: translate("description.cleaverKnife.boost.1"),
       labelType: "info",

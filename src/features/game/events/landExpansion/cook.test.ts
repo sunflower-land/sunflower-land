@@ -553,7 +553,7 @@ describe("getReadyAt", () => {
     expect(time).toEqual(readyAt);
   });
 
-  it("applies a -15% cooking time boost when cleaver knife is equipped", () => {
+  it("applies a -15% cooking time boost when Master Chef's Cleaver is equipped", () => {
     const now = createdAt;
 
     const state: GameState = {
@@ -562,7 +562,7 @@ describe("getReadyAt", () => {
         ...INITIAL_FARM.bumpkin,
         equipped: {
           ...INITIAL_FARM.bumpkin.equipped,
-          tool: "Cleaver Knife",
+          tool: "Master Chef's Cleaver",
         },
       },
       buildings: {
