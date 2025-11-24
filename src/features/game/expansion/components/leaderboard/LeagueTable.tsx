@@ -78,11 +78,13 @@ export const LeaguesTable: React.FC<Props> = ({
                   className="p-1.5 w-1/5"
                 >
                   <div className="flex items-center gap-2">
-                    {currentRank <= promotionRank && (
+                    {currentRank <= promotionRank ? (
                       <img src={arrowUp} className="w-4 h-4" />
-                    )}
-                    {!!demotionRank && currentRank >= demotionRank && (
+                    ) : !!demotionRank && currentRank >= demotionRank ? (
                       <img src={arrowDown} className="w-4 h-4" />
+                    ) : (
+                      // empty div to align the text
+                      <div className="w-4 h-4" />
                     )}
                     {toOrdinalSuffix(currentRank)}
                   </div>
