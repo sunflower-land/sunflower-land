@@ -105,7 +105,7 @@ const FEATURE_FLAGS = {
   // Temporary Feature Flags
   FACE_RECOGNITION_TEST: defaultFeatureFlag,
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
-  LEAGUES: testnetFeatureFlag,
+  LEAGUES: defaultFeatureFlag,
 
   EASTER: () => false,
 
