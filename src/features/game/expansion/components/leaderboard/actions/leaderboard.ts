@@ -38,9 +38,10 @@ export type TicketLeaderboard = {
 };
 
 export type LeaguesLeaderboard = {
-  topTen: RankData[];
   lastUpdated: number;
-  farmRankingDetails?: RankData[] | null;
+  playersToShow: RankData[];
+  promotionRank: number;
+  demotionRank: number;
 };
 
 type Percentiles = 1 | 5 | 10 | 20 | 50 | 80 | 100;
