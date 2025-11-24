@@ -35,7 +35,7 @@ export const RemoveListing: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const now = useNow();
+  const now = useNow({ live: true });
 
   const trades = useSelector(gameService, _trades);
   const listings = trades.listings ?? {};

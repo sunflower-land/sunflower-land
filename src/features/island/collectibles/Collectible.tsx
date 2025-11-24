@@ -65,10 +65,13 @@ const InProgressCollectible: React.FC<Props> = ({
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
   const skills = useSelector(gameService, _skills);
   const now = useNow();
-  const [showModal, setShowModal] = useState(false);
 
   const totalSeconds = (readyAt - createdAt) / 1000;
   const secondsLeft = (readyAt - now) / 1000;
+
+  const [showModal, setShowModal] = useState(
+    now - createdAt < 1000 ? true : false,
+  );
 
   useWhenTime({
     targetTime: readyAt,
@@ -251,11 +254,11 @@ export const Building: React.FC<{
   createdAt: number;
   name: CollectibleName;
 }> = ({ onClose, onInstantBuilt, readyAt, createdAt, name }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
-  const { t } = useAppTranslation();
   const totalSeconds = (readyAt - createdAt) / 1000;
-  const ready = useCountdown(readyAt ?? 0);
+  const { totalSeconds: secondsLeft, ...ready } = useCountdown(readyAt ?? 0);
 
   const gems = getInstantGems({
     readyAt: readyAt as number,
@@ -281,7 +284,7 @@ export const Building: React.FC<{
             <div className="relative flex flex-col w-full">
               <div className="flex items-center gap-x-1">
                 <ResizableBar
-                  percentage={(1 - ready.seconds / totalSeconds) * 100}
+                  percentage={(1 - secondsLeft / totalSeconds) * 100}
                   type="progress"
                 />
                 <TimerDisplay time={ready} />

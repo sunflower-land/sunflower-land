@@ -35,7 +35,7 @@ export const RemoveOffer: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const now = useNow();
+  const now = useNow({ live: true });
 
   const confirm = async () => {
     gameService.send("marketplace.offerCancelled", {
