@@ -295,7 +295,7 @@ const PowerSkillsContent: React.FC<{
                       {t("powerSkills.ready")}
                     </Label>
                   )}
-                  {boostedCooldown && (
+                  {!!boostedCooldown && (
                     // If power skill has a cooldown, show the cooldown
                     <Label
                       type="info"

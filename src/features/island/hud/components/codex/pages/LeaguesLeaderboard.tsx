@@ -42,7 +42,7 @@ export const LeagueLeaderboard: React.FC<LeaderboardProps> = ({
           {t("last.updated")} {getRelativeTime(data.lastUpdated)}
         </p>
       </div>
-      {playersToShow.length && (
+      {!!playersToShow.length && (
         <>
           <LeaguesTable
             showHeader
