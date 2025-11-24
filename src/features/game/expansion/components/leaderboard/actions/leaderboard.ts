@@ -37,6 +37,12 @@ export type TicketLeaderboard = {
   farmRankingDetails?: RankData[] | null;
 };
 
+export type LeaguesLeaderboard = {
+  topTen: RankData[];
+  lastUpdated: number;
+  farmRankingDetails?: RankData[] | null;
+};
+
 type Percentiles = 1 | 5 | 10 | 20 | 50 | 80 | 100;
 export type PercentileData = Record<Percentiles, number>;
 
@@ -209,6 +215,7 @@ export async function fetchLeaderboardData(
       kingdomLeaderboard,
       emblemsLeaderboard,
       socialPointsLeaderboard,
+      leaguesLeaderboard,
     ] = await Promise.all([
       getLeaderboard<TicketLeaderboard>({
         farmId: Number(farmId),
@@ -231,6 +238,10 @@ export async function fetchLeaderboardData(
         farmId: Number(farmId),
         leaderboardName: "socialPoints",
       }),
+      getLeaderboard<LeaguesLeaderboard>({
+        farmId: Number(farmId),
+        leaderboardName: "leagues",
+      }),
     ]);
 
     return {
@@ -239,6 +250,7 @@ export async function fetchLeaderboardData(
       kingdom: kingdomLeaderboard,
       emblems: emblemsLeaderboard,
       socialPoints: socialPointsLeaderboard,
+      leagues: leaguesLeaderboard,
     };
   } catch (error) {
     // eslint-disable-next-line no-console
