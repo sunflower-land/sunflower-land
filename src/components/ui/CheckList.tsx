@@ -308,7 +308,7 @@ const LoveIslandBox: React.FC<{ bumpkinLevel: number }> = ({
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
-  const now = useNow({ live: false });
+  const now = useNow();
 
   const { schedule, timeZone, isOpen, nextScheduleTime, hasClaimed } =
     loveIslandBoxStatus(state);

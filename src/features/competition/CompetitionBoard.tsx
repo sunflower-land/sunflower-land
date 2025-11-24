@@ -128,7 +128,7 @@ export const CompetitionDetails: React.FC<{
   hideLeaderboard?: boolean;
 }> = ({ competitionName, state, hideLeaderboard }) => {
   const { t } = useAppTranslation();
-  const now = useNow({ live: false });
+  const now = useNow();
 
   const [task, setTask] = useState<CompetitionTaskName>();
 

@@ -56,7 +56,7 @@ export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
   const [confirmationStep, setConfirmationStep] = useState<1 | 2 | null>(null);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
-  const now = useNow({ live: false });
+  const now = useNow();
 
   const onAdd = (petId: number) => {
     setUnselected((prev) => prev.filter((pet) => pet !== petId));

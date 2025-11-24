@@ -85,7 +85,7 @@ export const SeasonalSeeds: React.FC = () => {
   const currentSeasonSeeds = getKeys(SEEDS).filter((seed) =>
     SEASONAL_SEEDS[currentSeason].includes(seed),
   );
-  const now = useNow({ live: false });
+  const now = useNow();
 
   const [selectedName, setSelectedName] = useState<SeedName>(
     currentSeasonSeeds[0],

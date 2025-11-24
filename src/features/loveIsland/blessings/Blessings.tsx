@@ -115,7 +115,7 @@ export const BlessingOffer: React.FC<Props> = ({ onClose }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [amount, setAmount] = useState(1);
 
-  const now = useNow({ live: false });
+  const now = useNow();
 
   const { offering, offered } = gameState.context.state.blessing;
 
@@ -233,7 +233,7 @@ const fetcher = async ([token, date]: [string, string]) => {
 export const BlessingResults: React.FC<Props> = ({ onClose }) => {
   const { authState } = useAuth();
 
-  const now = useNow({ live: false });
+  const now = useNow();
 
   const previousDayKey = new Date(now - 24 * 60 * 60 * 1000)
     .toISOString()

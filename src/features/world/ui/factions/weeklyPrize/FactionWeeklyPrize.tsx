@@ -29,7 +29,7 @@ interface Props {
 export const FactionWeeklyPrize: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const createdAt = useNow({ live: false });
+  const createdAt = useNow();
 
   const { t } = useAppTranslation();
 

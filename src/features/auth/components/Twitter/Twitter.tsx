@@ -41,7 +41,7 @@ const VERIFY_COOLDOWN_MS = 15 * 60 * 1000;
 const TwitterRewards: React.FC = () => {
   const [selected, setSelected] = useState<TwitterPostName>();
   const { gameState } = useGame();
-  const now = useNow({ live: false });
+  const now = useNow();
   const { t } = useAppTranslation();
 
   const twitter = gameState.context.state.twitter;
@@ -124,7 +124,7 @@ const TwitterPost: React.FC<{ name: TwitterPostName; onClose: () => void }> = ({
   const { gameService, gameState } = useGame();
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
-  const now = useNow({ live: false });
+  const now = useNow();
 
   const [url, setUrl] = useState<string>();
 
@@ -261,7 +261,7 @@ const TwitterFarm: React.FC<{ onClose: () => void; onVerify?: () => void }> = ({
 }) => {
   const { gameState } = useGame();
   const { t } = useAppTranslation();
-  const now = useNow({ live: false });
+  const now = useNow();
 
   const twitter = gameState.context.state.twitter;
 

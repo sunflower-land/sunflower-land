@@ -73,7 +73,7 @@ const PowerSkillsContent: React.FC<{
   const state = useSelector(gameService, _state);
   const { bumpkin, crops, fruitPatches, inventory } = state;
   const { skills, previousPowerUseAt } = bumpkin;
-  const now = useNow({ live: false });
+  const now = useNow();
 
   const powerSkills = getPowerSkills();
   const powerSkillsUnlocked = powerSkills.filter(

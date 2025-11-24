@@ -49,7 +49,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
   const [cost, setCost] = useState(10000000);
   const [isLoading, setIsLoading] = useState(true);
 
-  const now = useNow({ live: false });
+  const now = useNow();
 
   const joinedFaction = useSelector(gameService, _joinedFaction);
   const farmId = useSelector(gameService, _farmId);

@@ -116,7 +116,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     Coordinates | undefined
   >();
 
-  const now = useNow({ live: false });
+  const now = useNow();
 
   const dimensions = useMemo(() => {
     if (placeable?.name === "Bud") {

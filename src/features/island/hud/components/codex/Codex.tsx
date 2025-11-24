@@ -39,13 +39,10 @@ import { Checklist, checklistCount } from "components/ui/CheckList";
 import { getBumpkinLevel } from "features/game/lib/level";
 import trophyIcon from "assets/icons/trophy.png";
 import { hasFeatureAccess } from "lib/flags";
-<<<<<<< HEAD
 import { LeagueLeaderboard } from "./pages/LeaguesLeaderboard";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import * as AuthProvider from "features/auth/lib/Provider";
-=======
 import { useNow } from "lib/utils/hooks/useNow";
->>>>>>> 35647c788 ([CHORE] Update useCountdown. Refactorrrrr)
 
 interface Props {
   show: boolean;
@@ -63,11 +60,8 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const { authService } = useContext(AuthProvider.Context);
   const farmId = useSelector(gameService, _farmId);
   const state = useSelector(gameService, _state);
-<<<<<<< HEAD
   const token = useSelector(authService, _token);
-=======
-  const now = useNow({ live: false });
->>>>>>> 35647c788 ([CHORE] Update useCountdown. Refactorrrrr)
+  const now = useNow();
 
   const bumpkinLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
 

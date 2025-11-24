@@ -63,7 +63,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
   const inventory = useSelector(gameService, _inventory);
   const vip = useSelector(gameService, _vip);
   const state = useSelector(gameService, _state);
-  const now = useNow({ live: false });
+  const now = useNow();
 
   const gemBalance = inventory["Gem"] ?? new Decimal(0);
 

@@ -29,7 +29,7 @@ export const Auctions: React.FC<Props> = ({
 }) => {
   const [auctioneerState] = useActor(auctionService);
   const { t } = useAppTranslation();
-  const now = useNow({ live: false });
+  const now = useNow();
   const { auctions } = auctioneerState.context;
 
   const currentAuctions = auctions.filter((auction) => auction.endAt > now);

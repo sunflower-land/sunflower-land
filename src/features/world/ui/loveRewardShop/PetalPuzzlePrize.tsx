@@ -16,7 +16,7 @@ export const PetalPuzzlePrize: React.FC<{ onClose: () => void }> = ({
 
   const { t } = useAppTranslation();
 
-  const createdAt = useNow({ live: false });
+  const createdAt = useNow();
 
   const hasClaimed = hasClaimedPetalPrize({
     state,

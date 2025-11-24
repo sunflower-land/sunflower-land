@@ -70,7 +70,7 @@ const IslandUpgraderModal: React.FC<{
 }> = ({ onClose, onUpgrade }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const now = useNow({ live: false });
+  const now = useNow();
 
   const [showConfirmation, setShowConfirmation] = useState(false);
 

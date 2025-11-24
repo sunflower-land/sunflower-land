@@ -116,7 +116,7 @@ const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
   game,
 }) => {
   const { t } = useAppTranslation();
-  const now = useNow({ live: false });
+  const now = useNow();
 
   let drops = getKeys(auctions).reduce((acc, name) => {
     return [...acc, ...auctions[name].auctions];
@@ -263,7 +263,7 @@ const Drops: React.FC<{
 }> = ({ detail, name, maxSupply, game }) => {
   const { t } = useAppTranslation();
   const auction = detail.auctions[0];
-  const now = useNow({ live: false });
+  const now = useNow();
 
   const { buffLabels, typeLabel } = getAuctionItemDisplay({
     auction,

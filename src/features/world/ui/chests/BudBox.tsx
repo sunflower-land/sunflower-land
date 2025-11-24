@@ -60,7 +60,7 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
     { icon: chestIcon, name: t("budBox.title") },
     { icon: rewardsIcon, name: t("chestRewardsList.rewardsTitle") },
   ];
-  const now = useNow({ live: false });
+  const now = useNow();
 
   // Just a prolonged UI state to show the shuffle of items animation
   const [isPicking, setIsPicking] = useState(false);

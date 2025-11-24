@@ -156,7 +156,7 @@ export const AnimalDeal: React.FC<{
 }> = ({ deal, animal, onClose, onSold }) => {
   const { gameService } = useContext(Context);
   const state = gameService.getSnapshot().context.state;
-  const now = useNow({ live: false });
+  const now = useNow();
   const { t } = useAppTranslation();
   const sell = () => {
     gameService.send("animal.sold", {

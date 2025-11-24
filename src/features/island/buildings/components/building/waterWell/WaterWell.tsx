@@ -22,7 +22,7 @@ export const WaterWell: React.FC<BuildingProps> = ({ season }) => {
   const [showConstructingModal, setShowConstructingModal] =
     React.useState(false);
   const { gameService } = useGame();
-  const now = useNow({ live: false });
+  const now = useNow();
   const waterWell = useSelector(gameService, _waterWell);
   const state = useSelector(gameService, _state);
   const { level, upgradeReadyAt, upgradedAt } = waterWell;

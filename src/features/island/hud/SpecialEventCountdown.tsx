@@ -31,7 +31,7 @@ const _specialEvents = (state: MachineState) =>
 export const SpecialEventCountdown: React.FC = () => {
   const { gameService } = useContext(Context);
   const specialEvents = useSelector(gameService, _specialEvents);
-  const now = useNow({ live: false });
+  const now = useNow();
 
   const [isClosed, setIsClosed] = useState(false);
 

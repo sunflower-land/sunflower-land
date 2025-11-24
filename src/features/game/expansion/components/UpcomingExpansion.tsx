@@ -163,7 +163,7 @@ export const ExpansionBuilding: React.FC<{
   state: GameState;
   onReveal: () => void;
 }> = ({ state, onReveal }) => {
-  const now = useNow({ live: false });
+  const now = useNow();
   // Land is still being built
   if (state.expansionConstruction) {
     const origin =

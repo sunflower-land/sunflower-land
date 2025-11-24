@@ -11,7 +11,7 @@ export const TwitterPostedSuccess: React.FC = () => {
   const { t } = useAppTranslation();
 
   const tweets = gameState.context.state.twitter?.tweets ?? {};
-  const now = useNow({ live: false });
+  const now = useNow();
 
   // Get recently posted tweets in the last 10 minutes
   const recentlyPostedTweets = Object.values(tweets).filter(

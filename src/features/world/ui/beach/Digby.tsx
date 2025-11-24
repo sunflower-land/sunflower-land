@@ -157,7 +157,7 @@ export const DailyPuzzle: React.FC = () => {
   const [isPicking, setIsPicking] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
 
-  const now = useNow({ live: false });
+  const now = useNow();
 
   const { patterns, completedPatterns = [] } =
     gameState.context.state.desert.digging;

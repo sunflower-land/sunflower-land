@@ -113,7 +113,7 @@ const PanelContent: React.FC<PanelContentProps> = ({
   pets,
 }) => {
   const { t } = useAppTranslation();
-  const now = useNow({ live: false });
+  const now = useNow();
 
   const [confirmationModal, showConfirmationModal] = useState(false);
 

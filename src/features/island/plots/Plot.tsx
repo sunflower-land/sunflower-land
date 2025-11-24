@@ -111,7 +111,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const [showHarvested, setShowHarvested] = useState(false);
   const [cropAmount, setCropAmount] = useState(0);
 
-  const now = useNow({ live: false });
+  const now = useNow();
 
   const { openModal } = useContext(ModalContext);
 

@@ -82,7 +82,7 @@ interface Prop {
 
 export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const divRef = useRef<HTMLDivElement>(null);
-  const now = useNow({ live: false });
+  const now = useNow();
 
   const { t } = useAppTranslation();
 

@@ -20,7 +20,7 @@ export const NyeButton: React.FC<Props> = ({ onClose }) => {
   const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const now = useNow({ live: false });
+  const now = useNow();
 
   const hasClaimed = !!gameState.context.state.wardrobe?.["New Years Tiara"];
 

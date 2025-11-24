@@ -59,7 +59,7 @@ export const RevealPet: React.FC = () => {
   const revealing = useSelector(gameService, _revealing);
   const revealed = useSelector(gameService, _revealed);
 
-  const now = useNow({ live: false });
+  const now = useNow();
 
   // Pet without traits but reveal date has passed
   const unrevealedPet = Object.values(nftPets).find(

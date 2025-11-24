@@ -42,7 +42,7 @@ export const LandPetNFT: React.FC<{ id: string }> = ({ id }) => {
   const [showPetModal, setShowPetModal] = useState(false);
   const [showPositiveXpPopup, setShowPositiveXpPopup] = useState(false);
   const [showNegativeXpPopup, setShowNegativeXpPopup] = useState(false);
-  const now = useNow({ live: false });
+  const now = useNow();
 
   const isNeglected = isPetNeglected(petNFTData);
   const isNapping = isPetNapping(petNFTData);

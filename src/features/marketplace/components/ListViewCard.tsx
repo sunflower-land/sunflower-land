@@ -46,7 +46,7 @@ export const ListViewCard: React.FC<Props> = ({
 
   const { type, name, image, buffs, experience } = details;
   const { t } = useAppTranslation();
-  const now = useNow({ live: false });
+  const now = useNow();
 
   const state = useSelector(gameService, _state);
 

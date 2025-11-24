@@ -330,7 +330,7 @@ export const TreasureShopBuy: React.FC = () => {
   const isKey = (name: ArtefactShopItems): name is Keys =>
     name in ARTEFACT_SHOP_KEYS;
 
-  const now = useNow({ live: false });
+  const now = useNow();
   const shopCollectibles = getKeys(TREASURE_COLLECTIBLE_ITEM).filter(
     (itemName) =>
       (TREASURE_COLLECTIBLE_ITEM[itemName].from?.getTime() ?? 0) <= now &&

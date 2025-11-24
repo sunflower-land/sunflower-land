@@ -61,7 +61,7 @@ export const AuctionHistory: React.FC = () => {
 
   const [selectedAuctionId, setSelectedAuctionId] = useState<string>();
 
-  const now = useNow({ live: false });
+  const now = useNow();
 
   const {
     data: auctions,

@@ -143,7 +143,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
   const week = getWeekKey({ date: new Date() });
   const pet = faction.pet as FactionPet;
   const collectivePet = faction.history?.[week]?.collectivePet;
-  const now = useNow({ live: false });
+  const now = useNow();
   const day = getFactionWeekday(now);
 
   // All pets sleep for the first day of the week if the streak is 0

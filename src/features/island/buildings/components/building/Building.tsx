@@ -72,7 +72,7 @@ const InProgressBuilding: React.FC<Prop> = ({
   const { gameService, showAnimations, showTimers } = useContext(Context);
   const BuildingPlaced = BUILDING_COMPONENTS[name];
 
-  const now = useNow({ live: false });
+  const now = useNow();
   const [showModal, setShowModal] = useState(
     now - createdAt < 1000 ? true : false,
   );
@@ -355,7 +355,7 @@ const MoveableBuilding: React.FC<Prop> = (props) => {
     barnLevel,
   })[props.name];
 
-  const now = useNow({ live: false }); // just capture "now" once
+  const now = useNow(); // just capture "now" once
   const inProgress = props.readyAt > now;
 
   if (landscaping) {

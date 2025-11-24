@@ -82,8 +82,8 @@ export const GreenhouseOilModal: React.FC<Props> = ({ show, onHide }) => {
   };
 
   return (
-    <Modal show={show} onHide={onHide}>
-      <CloseButtonPanel onClose={onHide}>
+    <Modal show={show} onHide={close}>
+      <CloseButtonPanel onClose={close}>
         <div ref={divRef} className="p-1">
           <Label type="default" className="mb-2" icon={barrel}>
             {t("greenhouse.oilInMachine", {

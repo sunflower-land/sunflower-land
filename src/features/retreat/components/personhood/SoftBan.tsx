@@ -25,7 +25,7 @@ export const SoftBan: React.FC = () => {
 
   const { t } = useAppTranslation();
 
-  const now = useNow({ live: false });
+  const now = useNow();
 
   const hasVerifiedSocial = gameState.context.state.ban.isSocialVerified;
 

@@ -64,7 +64,7 @@ const InProgressCollectible: React.FC<Props> = ({
   const { gameService, showAnimations, showTimers } = useContext(Context);
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
   const skills = useSelector(gameService, _skills);
-  const now = useNow({ live: false });
+  const now = useNow();
   const [showModal, setShowModal] = useState(false);
 
   const totalSeconds = (readyAt - createdAt) / 1000;

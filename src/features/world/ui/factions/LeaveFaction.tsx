@@ -14,7 +14,7 @@ export const LeaveFaction: React.FC<{
   onLeave: () => void;
 }> = ({ game, onClose, onLeave }) => {
   const { t } = useAppTranslation();
-  const now = useNow({ live: false });
+  const now = useNow();
 
   const emblem = FACTION_EMBLEMS[game.faction!.name];
   const hasEmblems = (game.inventory[emblem] ?? new Decimal(0)).gt(0);
