@@ -60,7 +60,7 @@ export const LeaguesTable: React.FC<Props> = ({
               {currentRank === demotionRank && (
                 <tr>
                   <td colSpan={3} style={{ border: "1px solid #b96f50" }}>
-                    <div className="flex justify-center items-center">
+                    <div className="flex justify-center items-center py-1">
                       <Label type="danger" secondaryIcon={arrowDown}>
                         {`Demotion Zone`}
                       </Label>
