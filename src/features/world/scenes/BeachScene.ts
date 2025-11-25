@@ -49,6 +49,7 @@ export type DigAnalytics = { outputCoins: number; percentageFound: number };
 
 const SITE_COLS = DESERT_GRID_WIDTH;
 const SITE_ROWS = DESERT_GRID_HEIGHT;
+const PET_FOLLOW_OFFSET_X = 13;
 
 export class BeachScene extends BaseScene {
   sceneId: SceneId = "beach";
@@ -1261,6 +1262,39 @@ export class BeachScene extends BaseScene {
     return pos;
   };
 
+  private movePetToPerimeter(
+    sessionId: string,
+    perimeterPosition: Coordinates,
+  ) {
+    const petState = this.mmoServer?.state?.pets?.get(sessionId);
+    const petContainer = this.pets[sessionId];
+
+    if (!petContainer || !petState || petState.sceneId !== this.scene.key) {
+      return;
+    }
+
+    const gridRight = this.gridX + this.cellSize * SITE_COLS;
+    const gridTop = this.gridY;
+    const gridBottom = this.gridY + this.cellSize * SITE_ROWS;
+
+    let offsetX = -PET_FOLLOW_OFFSET_X;
+
+    const isTopOrBottom =
+      perimeterPosition.y <= gridTop || perimeterPosition.y >= gridBottom;
+    const isRightEdge = perimeterPosition.x >= gridRight;
+
+    if (!isTopOrBottom && isRightEdge) {
+      offsetX = PET_FOLLOW_OFFSET_X;
+    }
+
+    petContainer.setPosition(
+      perimeterPosition.x + offsetX,
+      perimeterPosition.y,
+    );
+    petContainer.setDepth(perimeterPosition.y);
+    petContainer.idle();
+  }
+
   public handleOtherDiggersPositions() {
     // Create a grid for the dig site with a buffer
     const gridRect = new Phaser.Geom.Rectangle(
@@ -1270,43 +1304,48 @@ export class BeachScene extends BaseScene {
       this.cellSize * (SITE_ROWS + 0.5),
     );
 
+    const currentPlayerBounds = this.currentPlayer?.getBounds();
+
+    if (!currentPlayerBounds) return;
+
     // If any other players are inside of the dig area, move them to the perimeter
     this.mmoServer?.state?.players.forEach((player, sessionId) => {
+      if (sessionId === this.mmoServer?.sessionId) return;
+
       const otherPlayerBounds = new Phaser.Geom.Rectangle(
         player.x,
         player.y,
         16,
         16,
       );
-      const currentPlayerBounds = this.currentPlayer?.getBounds();
-
-      if (!currentPlayerBounds) return;
 
       if (
         Phaser.Geom.Rectangle.Overlaps(otherPlayerBounds, gridRect) &&
         Phaser.Geom.Rectangle.Overlaps(currentPlayerBounds, gridRect)
       ) {
+        let perimeterPosition = this.otherDiggers.get(sessionId);
+
         // Player has entered the dig site
-        if (!this.otherDiggers.get(sessionId)) {
-          this.otherDiggers.set(sessionId, this.pickRandomDiggerPosition());
+        if (!perimeterPosition) {
+          perimeterPosition = this.pickRandomDiggerPosition();
+          this.otherDiggers.set(sessionId, perimeterPosition);
         }
 
         this.playerEntities[sessionId]?.setPosition(
-          this.otherDiggers.get(sessionId)!.x,
-          this.otherDiggers.get(sessionId)!.y,
+          perimeterPosition.x,
+          perimeterPosition.y,
         );
         this.playerEntities[sessionId]?.idle();
-      } else {
+        this.movePetToPerimeter(sessionId, perimeterPosition);
+      } else if (this.otherDiggers.get(sessionId)) {
         // Player has left the dig site
-        if (this.otherDiggers.get(sessionId)) {
-          this.playerEntities[sessionId]?.showSmoke();
+        this.playerEntities[sessionId]?.showSmoke();
 
-          this.otherDiggers.delete(sessionId);
-          this.playerEntities[sessionId]?.setPosition(
-            this.mmoServer?.state?.players.get(sessionId)?.x,
-            this.mmoServer?.state?.players.get(sessionId)?.y,
-          );
-        }
+        this.otherDiggers.delete(sessionId);
+        this.playerEntities[sessionId]?.setPosition(
+          this.mmoServer?.state?.players.get(sessionId)?.x,
+          this.mmoServer?.state?.players.get(sessionId)?.y,
+        );
       }
     });
   }
@@ -1622,6 +1661,7 @@ export class BeachScene extends BaseScene {
       this.updateOtherPlayers();
       this.updateShaders();
       this.handleDigbyWarnings();
+      this.updatePets();
     } else {
       // this.noToolHoverBox?.setVisible(false);
       this.alreadyWarnedOfNoDigs = false;
