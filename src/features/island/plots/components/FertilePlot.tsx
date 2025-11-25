@@ -65,7 +65,7 @@ const getHarvestMetrics = ({
 
   const baseHarvestSeconds = CROPS[cropName].harvestSeconds;
   const boostOffsetMs =
-    plot.crop?.name === cropName ? plot.crop?.boostedTime ?? 0 : 0;
+    plot.crop?.name === cropName ? (plot.crop?.boostedTime ?? 0) : 0;
   const harvestSeconds = Math.max(baseHarvestSeconds - boostOffsetMs / 1000, 0);
   const startAt = plantedTimestamp + boostOffsetMs;
   const readyAt = startAt + harvestSeconds * 1000;

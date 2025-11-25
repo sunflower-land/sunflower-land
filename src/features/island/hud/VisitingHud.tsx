@@ -144,7 +144,7 @@ export const VisitingHud: React.FC = () => {
             </div>
           </div>
           <div className="w-px h-[36px] bg-gray-300 mx-3 self-center" />
-          {gameState.context.hasHelpedPlayerToday ?? false ? (
+          {(gameState.context.hasHelpedPlayerToday ?? false) ? (
             <div className="flex justify-center items-center flex-grow">
               <img src={SUNNYSIDE.icons.confirm} className="w-5" />
             </div>

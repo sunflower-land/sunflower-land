@@ -140,8 +140,8 @@ export function getExpectedResources({
   getKeys(RESOURCES).forEach((resource) => {
     const bought =
       resource === "Beehive"
-        ? game.farmActivity[`Flower Bed Bought`] ?? 0
-        : game.farmActivity[`${resource} Bought`] ?? 0;
+        ? (game.farmActivity[`Flower Bed Bought`] ?? 0)
+        : (game.farmActivity[`${resource} Bought`] ?? 0);
 
     // Subtract the resources that were burned during upgrades
     let burned = 0;

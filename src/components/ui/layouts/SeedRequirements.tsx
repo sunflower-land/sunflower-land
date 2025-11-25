@@ -205,8 +205,8 @@ export const SeedRequirements: React.FC<Props> = ({
                 icon={
                   isCropMachineSeed
                     ? SUNNYSIDE.building.cropMachine
-                    : PLANTING_SPOT_ICONS[SEEDS[details.item].plantingSpot] ??
-                      SUNNYSIDE.icons.expression_confused
+                    : (PLANTING_SPOT_ICONS[SEEDS[details.item].plantingSpot] ??
+                      SUNNYSIDE.icons.expression_confused)
                 }
                 width={14}
               />

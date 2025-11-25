@@ -105,8 +105,8 @@ export function placeCollectible({
     // Search for existing collectible in current location
     const collectibleItems =
       action.location === "home"
-        ? stateCopy.home.collectibles[action.name] ?? []
-        : stateCopy.collectibles[action.name] ?? [];
+        ? (stateCopy.home.collectibles[action.name] ?? [])
+        : (stateCopy.collectibles[action.name] ?? []);
 
     let existingCollectible = collectibleItems.find(
       (collectible) => !collectible.coordinates,
@@ -124,8 +124,8 @@ export function placeCollectible({
 
     const otherCollectibleItems =
       action.location === "home"
-        ? stateCopy.collectibles[action.name] ?? []
-        : stateCopy.home.collectibles[action.name] ?? [];
+        ? (stateCopy.collectibles[action.name] ?? [])
+        : (stateCopy.home.collectibles[action.name] ?? []);
 
     const existingCollectibleIndex = otherCollectibleItems.findIndex(
       (collectible) => !collectible.coordinates,

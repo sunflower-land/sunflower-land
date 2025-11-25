@@ -32,7 +32,7 @@ const TRAIT_QUERY_KEYS = new Set<TraitKey>(
 );
 
 const getTraitKeys = (collection?: TraitCollection) =>
-  collection ? COLLECTION_TRAIT_KEYS[collection] ?? [] : [];
+  collection ? (COLLECTION_TRAIT_KEYS[collection] ?? []) : [];
 
 const shouldPreserveCommaEncoding = (key: string) =>
   key === "filters" || TRAIT_QUERY_KEYS.has(key as TraitKey);

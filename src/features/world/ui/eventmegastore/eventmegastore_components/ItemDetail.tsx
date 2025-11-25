@@ -119,12 +119,12 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     tier === "mega" && eventItemsCrafted >= eventStore.mega.requirement;
 
   const itemsCrafted = isWearable
-    ? state.minigames.games["halloween"]?.shop?.wearables?.[
+    ? (state.minigames.games["halloween"]?.shop?.wearables?.[
         itemName as BumpkinItem
-      ] ?? 0
-    : state.minigames.games["halloween"]?.shop?.items?.[
+      ] ?? 0)
+    : (state.minigames.games["halloween"]?.shop?.items?.[
         itemName as InventoryItemName
-      ] ?? 0;
+      ] ?? 0);
 
   const canCraftMore =
     itemsCrafted <
@@ -195,7 +195,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
         ? sfl
         : item.cost.sfl === 0 &&
             (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-          ? item.cost?.items[getSeasonalTicket()] ?? 0
+          ? (item.cost?.items[getSeasonalTicket()] ?? 0)
           : sfl;
     const itemName = isWearable
       ? ((item as EventStoreWearable).wearable as BumpkinItem)
