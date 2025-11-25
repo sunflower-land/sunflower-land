@@ -62,6 +62,8 @@ export const WaterWell: React.FC<BuildingProps> = ({ season }) => {
     setShowConstructingModal(false);
   };
 
+  const nextLevel = Math.min(currentLevel + 1, 4);
+
   return (
     <BuildingImageWrapper name="Water Well" nonInteractible>
       <img
@@ -77,7 +79,7 @@ export const WaterWell: React.FC<BuildingProps> = ({ season }) => {
       <UpgradeBuildingModal
         buildingName={"Water Well"}
         currentLevel={currentLevel}
-        nextLevel={currentLevel + 1}
+        nextLevel={nextLevel}
         show={openUpgradeModal}
         onClose={() => setOpenUpgradeModal(false)}
       />
