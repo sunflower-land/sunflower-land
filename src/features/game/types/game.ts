@@ -110,7 +110,7 @@ import { PetName, PetResourceName, Pets } from "./pets";
 import { RockName } from "./resources";
 import { PetShopItemName } from "./petShop";
 import { RoninV2PackName } from "features/wallet/lib/ronin";
-import { Leagues } from "./leagues";
+import { Leagues } from "./leagues/leagues";
 
 export type Reward = {
   coins?: number;

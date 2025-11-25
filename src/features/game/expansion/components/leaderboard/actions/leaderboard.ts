@@ -10,7 +10,7 @@ import { getWeekKey } from "features/game/lib/factions";
 import { CompetitionName } from "features/game/types/competitions";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { MinigameName } from "features/game/types/minigames";
-import { LeagueName } from "features/game/types/leagues";
+import { LeagueName } from "features/game/types/leagues/leagues";
 
 const API_URL = CONFIG.API_URL;
 
@@ -86,13 +86,15 @@ export async function getLeaderboard<T>({
   leaderboardName,
   cacheExpiry,
 }: Options): Promise<T | undefined> {
-  const cache = getCachedLeaderboardData({
-    name: leaderboardName,
-    duration: cacheExpiry,
-  });
+  if (cacheExpiry !== 0) {
+    const cache = getCachedLeaderboardData({
+      name: leaderboardName,
+      duration: cacheExpiry,
+    });
 
-  if (cache) {
-    return cache as T;
+    if (cache) {
+      return cache as T;
+    }
   }
 
   const url = `${API_URL}/leaderboard/${leaderboardName}/${farmId}`;
@@ -114,7 +116,9 @@ export async function getLeaderboard<T>({
 
   const data = await response.json();
 
-  cacheLeaderboard({ name: leaderboardName, data });
+  if (cacheExpiry !== 0) {
+    cacheLeaderboard({ name: leaderboardName, data });
+  }
 
   return data;
 }
@@ -273,6 +277,7 @@ export async function fetchLeaderboardData(
       getLeaderboard<LeaguesLeaderboard>({
         farmId: Number(farmId),
         leaderboardName: "leagues",
+        cacheExpiry: 0,
       }),
     ]);
 

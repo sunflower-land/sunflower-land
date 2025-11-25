@@ -19,6 +19,7 @@ import { MaxedItem } from "./gameMachine";
 import { SEASON_TICKET_NAME } from "../types/seasons";
 import { OFFCHAIN_ITEMS } from "./offChainItems";
 import { PET_RESOURCES } from "../types/pets";
+import { updateLeaguePoints } from "../types/leagues/points";
 
 export const MAX_INVENTORY_ITEMS: Inventory = {
   ...getKeys(EXOTIC_CROPS).reduce(
@@ -759,5 +760,16 @@ export function processEvent({
     createdAt,
   });
 
-  return newState;
+  if (newState instanceof Array) {
+    const [playerState, _visitorState] = newState;
+
+    // Award league points based on activity delta
+    const updatedState = updateLeaguePoints(playerState, state);
+
+    return [updatedState, _visitorState];
+  } else {
+    const updatedState = updateLeaguePoints(newState, state);
+
+    return updatedState;
+  }
 }
