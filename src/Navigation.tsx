@@ -15,6 +15,7 @@ import { ZoomProvider } from "components/ZoomProvider";
 import { LoadingFallback } from "./LoadingFallback";
 import { Panel } from "components/ui/Panel";
 import { Modal } from "components/ui/Modal";
+import { Button } from "components/ui/Button";
 import { PWAInstallProvider } from "features/pwa/PWAInstallProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -29,6 +30,8 @@ import { FlowerDashboard } from "features/flowerDashboard/FlowerDashboard";
 import { EconomyDashboard } from "features/economyDashboard/EconomyDashboard";
 import { ModalProvider } from "features/game/components/modal/ModalProvider";
 import { FeedProvider } from "features/social/FeedContext";
+
+import { FishingMinigame } from "features/fishing/FishingMinigame";
 
 // Lazy load routes
 const World = lazy(() =>
@@ -52,6 +55,7 @@ export const Navigation: React.FC = () => {
     !navigator.onLine ? true : false,
   );
   const [landingImageLoaded, setLandingImageLoaded] = useState(false);
+  const [showFishingMinigame, setShowFishingMinigame] = useState(true);
 
   const state = useSelector(authService, selectState);
   const showGame = state.isAuthorised || state.isVisiting;
@@ -107,6 +111,34 @@ export const Navigation: React.FC = () => {
                                   <div className="text-sm p-1 mb-1">
                                     {t("welcome.offline")}
                                   </div>
+                                </Panel>
+                              </Modal>
+                              <Modal
+                                show={showFishingMinigame}
+                                size="lg"
+                                onHide={() => setShowFishingMinigame(false)}
+                              >
+                                <Panel>
+                                  <div className="flex items-center justify-between mb-3">
+                                    <div>
+                                      <div className="text-base font-semibold text-brown-700">
+                                        Fishing Minigame (Test)
+                                      </div>
+                                      <p className="text-xs text-brown-500">
+                                        Mounted at root level for quick
+                                        iteration.
+                                      </p>
+                                    </div>
+                                    <Button
+                                      className="w-auto text-xs px-2"
+                                      onClick={() =>
+                                        setShowFishingMinigame(false)
+                                      }
+                                    >
+                                      Close
+                                    </Button>
+                                  </div>
+                                  <FishingMinigame />
                                 </Panel>
                               </Modal>
                               <Routes>
