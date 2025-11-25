@@ -4,31 +4,18 @@ import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { Dropdown } from "components/ui/Dropdown";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import {
-  EconomyReportEntry,
-  EconomyReportSummary,
-} from "../actions/getEconomyData";
+import { EconomyReportSummary } from "../actions/getEconomyData";
 
 interface Props {
-  summary: EconomyReportSummary | null;
-  reports: EconomyReportEntry[];
+  reports: EconomyReportSummary[];
+  startDate?: string;
 }
 
-export const AnalyticsSection: React.FC<Props> = ({ summary, reports }) => {
+export const AnalyticsSection: React.FC<Props> = ({ reports, startDate }) => {
   const { t } = useAppTranslation();
-  const summaryReports = useMemo(
-    () => reports.map((report) => report.summary),
-    [reports],
-  );
-
   const activityOptions = useMemo(() => {
     const activitySet = new Set<string>();
-    if (summary?.farm?.activity?.totals) {
-      Object.keys(summary.farm.activity.totals).forEach((activity) =>
-        activitySet.add(activity),
-      );
-    }
-    summaryReports.forEach((report) => {
+    reports.forEach((report) => {
       Object.keys(report.farm.activity?.totals ?? {}).forEach((activity) =>
         activitySet.add(activity),
       );
@@ -36,7 +23,7 @@ export const AnalyticsSection: React.FC<Props> = ({ summary, reports }) => {
     return Array.from(activitySet).sort((a, b) =>
       a.localeCompare(b, undefined, { sensitivity: "base" }),
     );
-  }, [summary?.farm?.activity?.totals, summaryReports]);
+  }, [reports]);
 
   const [selectedActivity, setSelectedActivity] = useState("");
 
@@ -54,11 +41,19 @@ export const AnalyticsSection: React.FC<Props> = ({ summary, reports }) => {
   const normalizedActivity = selectedActivity.trim();
   const hasOptions = activityOptions.length > 0;
 
+  const formatDiffValue = (value?: number) => {
+    if (value === undefined || value === null) return "-";
+    if (value === 0) return "0";
+
+    const formatted = Math.abs(value).toLocaleString();
+    return value > 0 ? `+${formatted}` : `-${formatted}`;
+  };
+
   const history = useMemo(() => {
     if (!normalizedActivity) return [];
 
     const entries: Array<{ date: string; value: number }> = [];
-    summaryReports.forEach((report) => {
+    reports.forEach((report) => {
       const date = report.reportDate;
       const value = report.farm.activity?.totals?.[normalizedActivity];
 
@@ -72,8 +67,23 @@ export const AnalyticsSection: React.FC<Props> = ({ summary, reports }) => {
       }
     });
 
-    return entries.sort((a, b) => (a.date < b.date ? 1 : -1));
-  }, [summaryReports, normalizedActivity]);
+    entries.sort((a, b) => (a.date < b.date ? -1 : 1));
+
+    const withDiff = entries.map((entry, index) => {
+      const prev = entries[index - 1];
+      return {
+        ...entry,
+        diff:
+          entry.value !== undefined && prev?.value !== undefined
+            ? entry.value - prev.value
+            : undefined,
+      };
+    });
+
+    return withDiff
+      .filter((entry) => !startDate || entry.date >= startDate)
+      .sort((a, b) => (a.date < b.date ? 1 : -1));
+  }, [reports, normalizedActivity, startDate]);
 
   return (
     <InnerPanel className="flex flex-col gap-2">
@@ -113,13 +123,14 @@ export const AnalyticsSection: React.FC<Props> = ({ summary, reports }) => {
                 <th className="py-1 pr-2">
                   {t("economyDashboard.historyDate")}
                 </th>
-                <th className="py-1">
+                <th className="py-1 pr-2">
                   {t("economyDashboard.analyticsValueColumn")}
                 </th>
+                <th className="py-1">{t("economyDashboard.diffColumn")}</th>
               </tr>
             </thead>
             <tbody>
-              {history.map(({ date, value }) => (
+              {history.map(({ date, value, diff }) => (
                 <tr
                   key={`${date}-${value}`}
                   className="border-b border-[#b96f50] last:border-b-0"
@@ -127,7 +138,8 @@ export const AnalyticsSection: React.FC<Props> = ({ summary, reports }) => {
                   <td className="py-1 pr-2 whitespace-nowrap">
                     {date || t("economyDashboard.unknownDate")}
                   </td>
-                  <td className="py-1">{value.toLocaleString()}</td>
+                  <td className="py-1 pr-2">{value.toLocaleString()}</td>
+                  <td className="py-1">{formatDiffValue(diff)}</td>
                 </tr>
               ))}
             </tbody>

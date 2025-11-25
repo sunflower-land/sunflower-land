@@ -1,52 +1,39 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { Dropdown } from "components/ui/Dropdown";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { EconomyReportEntry } from "../actions/getEconomyData";
-
-export interface ResourceHistoryEntry {
-  date: string;
-  supply?: string | number;
-  distribution?: string | number;
-}
+import { EconomyReportSummary } from "../actions/getEconomyData";
+import { getKeys } from "features/game/lib/crafting";
+import { KNOWN_IDS } from "features/game/types";
 
 interface Props {
-  reports: EconomyReportEntry[];
-  inventoryOptions: string[];
+  reports: EconomyReportSummary[];
+  startDate?: string;
 }
 
-export const ResourceSection: React.FC<Props> = ({
-  reports,
-  inventoryOptions,
-}) => {
+type ResourceHistoryRow = {
+  date: string;
+  supply?: number;
+  supplyDiff?: number;
+  distribution?: number;
+  distributionDiff?: number;
+};
+
+export const ResourceSection: React.FC<Props> = ({ reports, startDate }) => {
   const { t } = useAppTranslation();
   const [selectedResource, setSelectedResource] = useState("");
 
-  useEffect(() => {
-    if (inventoryOptions.length === 0) return;
-    if (selectedResource && inventoryOptions.includes(selectedResource)) return;
-
-    const fallback =
-      inventoryOptions.find((option) => option === "Sunflower") ??
-      inventoryOptions[0];
-
-    if (fallback) {
-      setSelectedResource(fallback);
-    }
-  }, [inventoryOptions, selectedResource]);
+  const options = getKeys(KNOWN_IDS);
 
   const normalizedResource = selectedResource.trim();
   const resourceLabel =
     normalizedResource || t("economyDashboard.resourceUnset");
 
-  const summaryReports = useMemo(
-    () => reports.map((report) => report.summary),
-    [reports],
-  );
+  const formatRecordValue = (value?: string | number) => {
+    if (value === undefined || value === null) return "-";
 
-  const formatRecordValue = (value: string | number) => {
     if (typeof value === "number") {
       return value.toLocaleString();
     }
@@ -59,36 +46,65 @@ export const ResourceSection: React.FC<Props> = ({
     return value;
   };
 
+  const formatDiffValue = (value?: number) => {
+    if (value === undefined || value === null) return "-";
+    if (value === 0) return "0";
+
+    const formatted = Math.abs(value).toLocaleString();
+    return value > 0 ? `+${formatted}` : `-${formatted}`;
+  };
+
+  const parseNumericValue = (value?: string | number) => {
+    if (value === undefined || value === null) return undefined;
+    if (typeof value === "number") return value;
+
+    if (/^-?\d+(\.\d+)?$/.test(value)) {
+      const parsed = Number(value);
+      return Number.isNaN(parsed) ? undefined : parsed;
+    }
+
+    return undefined;
+  };
+
   const history = useMemo(() => {
     if (!normalizedResource) return [];
 
-    return summaryReports
+    const entries = reports
       .map((report) => ({
         date: report.reportDate,
-        supply: report.farm.collectibles.totals?.[normalizedResource],
-        distribution: report.farm.collectibles.holders?.[normalizedResource],
+        supply: parseNumericValue(
+          report.farm.collectibles.totals?.[normalizedResource],
+        ),
+        distribution: parseNumericValue(
+          report.farm.collectibles.holders?.[normalizedResource],
+        ),
       }))
       .filter(
         (entry) =>
           entry.date &&
           (entry.supply !== undefined || entry.distribution !== undefined),
       )
-      .map(
-        (entry) =>
-          ({
-            ...entry,
-            supply:
-              entry.supply !== undefined
-                ? formatRecordValue(entry.supply)
-                : undefined,
-            distribution:
-              entry.distribution !== undefined
-                ? formatRecordValue(entry.distribution)
-                : undefined,
-          }) satisfies ResourceHistoryEntry,
-      )
+      .sort((a, b) => (a.date! < b.date! ? -1 : 1));
+
+    const withDiff: ResourceHistoryRow[] = entries.map((entry, index) => {
+      const prev = entries[index - 1];
+      return {
+        ...entry,
+        supplyDiff:
+          entry.supply !== undefined && prev?.supply !== undefined
+            ? entry.supply - prev.supply
+            : undefined,
+        distributionDiff:
+          entry.distribution !== undefined && prev?.distribution !== undefined
+            ? entry.distribution - prev.distribution
+            : undefined,
+      };
+    });
+
+    return withDiff
+      .filter((entry) => !startDate || entry.date >= startDate)
       .sort((a, b) => (a.date! < b.date! ? 1 : -1));
-  }, [summaryReports, normalizedResource]);
+  }, [reports, normalizedResource, startDate]);
 
   return (
     <div className="flex flex-col gap-2">
@@ -97,7 +113,7 @@ export const ResourceSection: React.FC<Props> = ({
           {t("economyDashboard.resource")}
         </Label>
         <Dropdown
-          options={inventoryOptions}
+          options={options}
           value={selectedResource || undefined}
           onChange={setSelectedResource}
           placeholder={t("economyDashboard.resourcePlaceholder")}
@@ -133,24 +149,44 @@ export const ResourceSection: React.FC<Props> = ({
                   <th className="py-1 pr-2">
                     {t("economyDashboard.supplyColumn")}
                   </th>
+                  <th className="py-1 pr-2">
+                    {t("economyDashboard.diffColumn")}
+                  </th>
                   <th className="py-1">
                     {t("economyDashboard.distributionColumn")}
                   </th>
+                  <th className="py-1">{t("economyDashboard.diffColumn")}</th>
                 </tr>
               </thead>
               <tbody>
-                {history.map(({ date, supply, distribution }) => (
-                  <tr
-                    key={`${date}-${supply ?? "nos"}-${distribution ?? "nod"}`}
-                    className="border-b border-[#b96f50] last:border-b-0"
-                  >
-                    <td className="py-1 pr-2 whitespace-nowrap">
-                      {date || t("economyDashboard.unknownDate")}
-                    </td>
-                    <td className="py-1 pr-2">{supply ?? "-"}</td>
-                    <td className="py-1">{distribution ?? "-"}</td>
-                  </tr>
-                ))}
+                {history.map(
+                  ({
+                    date,
+                    supply,
+                    distribution,
+                    supplyDiff,
+                    distributionDiff,
+                  }) => (
+                    <tr
+                      key={`${date}-${supply ?? "nos"}-${distribution ?? "nod"}`}
+                      className="border-b border-[#b96f50] last:border-b-0"
+                    >
+                      <td className="py-1 pr-2 whitespace-nowrap">
+                        {date || t("economyDashboard.unknownDate")}
+                      </td>
+                      <td className="py-1 pr-2">{formatRecordValue(supply)}</td>
+                      <td className="py-1 pr-2">
+                        {formatDiffValue(supplyDiff)}
+                      </td>
+                      <td className="py-1">
+                        {formatRecordValue(distribution)}
+                      </td>
+                      <td className="py-1">
+                        {formatDiffValue(distributionDiff)}
+                      </td>
+                    </tr>
+                  ),
+                )}
               </tbody>
             </table>
           </div>

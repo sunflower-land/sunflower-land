@@ -1,10 +1,4 @@
-import React, {
-  ChangeEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import useSWR from "swr";
 import { useLocation, useNavigate } from "react-router";
 
@@ -20,18 +14,19 @@ import {
   EconomyDataResponse,
   EconomyDataRequest,
 } from "./actions/getEconomyData";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { getKeys } from "features/game/types/craftables";
 import { useAuth } from "features/auth/lib/Provider";
 import { ResourceSection } from "./components/ResourceSection";
-import { ActivitySection } from "./components/ActivitySection";
-import { SkillSection } from "./components/SkillSection";
-import { FinancialSection } from "./components/FinancialSection";
 import { AnalyticsSection } from "./components/AnalyticsSection";
-import classNames from "classnames";
 
 const formatDateInput = (date: Date) =>
   date.toISOString().split("T")[0] as string;
+
+const getPreviousDate = (value: string) => {
+  const parsed = new Date(`${value}T00:00:00Z`);
+  if (Number.isNaN(parsed.getTime())) return value;
+  parsed.setUTCDate(parsed.getUTCDate() - 1);
+  return formatDateInput(parsed);
+};
 
 const initialEndDate = formatDateInput(new Date());
 const initialStartDate = formatDateInput(
@@ -50,15 +45,11 @@ export const EconomyDashboard: React.FC = () => {
   const [requestParams, setRequestParams] = useState<EconomyDataRequest | null>(
     null,
   );
+  const [loadedRange, setLoadedRange] = useState<{
+    startDate: string;
+    endDate: string;
+  } | null>(null);
   const maxSelectableDate = formatDateInput(new Date());
-
-  const inventoryOptions = useMemo(
-    () =>
-      getKeys(ITEM_DETAILS).sort((a, b) =>
-        a.localeCompare(b, undefined, { sensitivity: "base" }),
-      ),
-    [],
-  );
 
   const handleClose = useCallback(() => {
     navigate(-1);
@@ -94,10 +85,8 @@ export const EconomyDashboard: React.FC = () => {
       },
     );
 
-  const summary = data?.summary ?? null;
   const reportEntries = data?.reports ?? [];
   const isFetching = Boolean(requestParams) && (isLoading || isValidating);
-  const hasFetchedData = Boolean(data);
 
   const handleStartDateChange = (value: string) => {
     setStartDate(value);
@@ -113,18 +102,23 @@ export const EconomyDashboard: React.FC = () => {
     setEndDate(value);
   };
 
-  const rangeLabel = requestParams
-    ? requestParams.startDate === requestParams.endDate
-      ? requestParams.startDate
-      : `${requestParams.startDate} - ${requestParams.endDate}`
+  const rangeLabel = loadedRange
+    ? loadedRange.startDate === loadedRange.endDate
+      ? loadedRange.startDate
+      : `${loadedRange.startDate} - ${loadedRange.endDate}`
     : t("economyDashboard.notLoaded");
 
   const canLoad = Boolean(startDate && endDate);
 
   const handleLoad = () => {
     if (!canLoad) return;
-    setRequestParams({
+    const fetchStartDate = getPreviousDate(startDate);
+    setLoadedRange({
       startDate,
+      endDate,
+    });
+    setRequestParams({
+      startDate: fetchStartDate,
       endDate,
     });
   };
@@ -255,16 +249,6 @@ export const EconomyDashboard: React.FC = () => {
                 </Button>
               </div>
             </div>
-
-            <div className="flex flex-wrap gap-3 text-xs">
-              {summary && (
-                <span className="text-white text-shadow">
-                  {t("economyDashboard.latestReport", {
-                    date: summary.reportDate ?? "—",
-                  })}
-                </span>
-              )}
-            </div>
           </InnerPanel>
 
           {isFetching && <Loading />}
@@ -275,95 +259,17 @@ export const EconomyDashboard: React.FC = () => {
             </InnerPanel>
           )}
 
-          {!isFetching && summary && (
+          {!!reportEntries.length && (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                <InnerPanel>
-                  <div className="flex w-full space-x-3 p-1">
-                    <div className="flex items-start justify-center w-8">
-                      <img
-                        src={SUNNYSIDE.icons.money_icon}
-                        alt="Supply"
-                        className="img-highlight w-full object-contain"
-                      />
-                    </div>
-                    <div className="flex-1 flex flex-col -mt-1">
-                      <span className="text-sm">
-                        {t("economyDashboard.farmCount")}
-                      </span>
-                      <span className="text-xs">
-                        {summary.farmCount.toLocaleString()}
-                      </span>
-                    </div>
-                  </div>
-                </InnerPanel>
-
-                <InnerPanel>
-                  <div className="flex w-full space-x-3 p-1">
-                    <div className="flex items-start justify-center w-8">
-                      <img
-                        src={SUNNYSIDE.icons.player}
-                        alt="Players"
-                        className="img-highlight w-full object-contain"
-                      />
-                    </div>
-                    <div className="flex-1 flex flex-col -mt-1">
-                      <span className="text-sm">
-                        {t("economyDashboard.dailyActive")}
-                      </span>
-                      <span className="text-xs">
-                        {(summary.farm?.maus ?? 0).toLocaleString()}
-                      </span>
-                    </div>
-                  </div>
-                </InnerPanel>
-              </div>
-
               <ResourceSection
                 reports={reportEntries}
-                inventoryOptions={inventoryOptions}
+                startDate={loadedRange?.startDate}
               />
 
-              {!!summary.farm?.skills?.totals &&
-                Object.keys(summary.farm.skills.totals).length > 0 && (
-                  <InnerPanel className="flex flex-col">
-                    <Label type="default" className="mb-1.5">
-                      {t("economyDashboard.skillDistribution")}
-                    </Label>
-                    {Object.entries(summary.farm.skills.totals).map(
-                      ([skill, count], index) => (
-                        <div
-                          key={skill}
-                          className={classNames(
-                            "flex items-center justify-between p-1.5 text-xs",
-                            {
-                              "bg-[#ead4aa]": index % 2 === 0,
-                            },
-                          )}
-                          style={{
-                            borderBottom: "1px solid #b96f50",
-                            borderTop: index === 0 ? "1px solid #b96f50" : "",
-                          }}
-                        >
-                          <span>{skill}</span>
-                          <span>{count.toLocaleString()}</span>
-                        </div>
-                      ),
-                    )}
-                  </InnerPanel>
-                )}
-            </>
-          )}
-
-          {hasFetchedData && (
-            <>
-              <ActivitySection summary={summary} reports={reportEntries} />
-
-              <SkillSection summary={summary} reports={reportEntries} />
-
-              <AnalyticsSection summary={summary} reports={reportEntries} />
-
-              <FinancialSection summary={summary} reports={reportEntries} />
+              <AnalyticsSection
+                reports={reportEntries}
+                startDate={loadedRange?.startDate}
+              />
             </>
           )}
         </div>

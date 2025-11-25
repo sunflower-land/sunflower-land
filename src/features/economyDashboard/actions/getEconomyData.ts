@@ -32,33 +32,10 @@ export interface EconomyReportSummary {
   farmCount: number;
   batches: number[];
   farm: EconomyFarmSnapshot;
-  xsollaUsdTotal?: string;
-}
-
-export interface EconomyReportStats {
-  reportDate: string;
-  flowerWithdrawals: {
-    total: number;
-    uniqueFarms: number;
-  };
-  flowerDeposits: {
-    total: number;
-    uniqueFarms: number;
-  };
-  processedFees: {
-    totalUsd: number;
-    breakdown: Record<string, number>;
-  };
-}
-
-export interface EconomyReportEntry {
-  summary: EconomyReportSummary;
-  stats?: EconomyReportStats;
 }
 
 export interface EconomyDataResponse {
-  summary: EconomyReportSummary | null;
-  reports: EconomyReportEntry[];
+  reports: EconomyReportSummary[];
 }
 
 export type EconomyDataRequest = {
@@ -93,44 +70,13 @@ export const getEconomyData = async ({
     throw new Error(errorMessage || "Failed to fetch economy data");
   }
 
-  const response = await res.json();
+  const response = (await res.json()) as {
+    data: EconomyReportSummary[];
+  };
 
-  if (Array.isArray(response.data)) {
-    const entries = (
-      response.data as Array<{
-        summary: EconomyReportSummary;
-        stats?: EconomyReportStats;
-      }>
-    ).map((entry) => ({
-      summary: entry.summary,
-      stats: entry.stats,
-    }));
-
-    return {
-      summary: entries.length > 0 ? entries[entries.length - 1].summary : null,
-      reports: entries,
-    };
-  }
-
-  const data = response.data ?? response;
-
-  if (data.summary && data.stats) {
-    return {
-      summary: data.summary,
-      reports: [
-        {
-          summary: data.summary,
-          stats: data.stats,
-        },
-      ],
-    };
-  }
-
-  const summary = data.summary ?? null;
-  const reports: EconomyReportEntry[] = data.reports ?? [];
+  const reports: EconomyReportSummary[] = response.data ?? [];
 
   return {
-    summary,
     reports,
   };
 };
