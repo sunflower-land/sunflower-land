@@ -140,7 +140,7 @@ export const SeasonalSeeds: React.FC = () => {
     return getBumpkinLevel(bumpkin?.experience ?? 0) < seed.bumpkinLevel;
   };
 
-  const Action = () => {
+  const getAction = () => {
     if (!inventory[plantingSpot]) {
       return undefined;
     }
@@ -363,7 +363,7 @@ export const SeasonalSeeds: React.FC = () => {
               text: plantingSpot,
             },
           }}
-          actionView={Action()}
+          actionView={getAction()}
           validSeeds={validSeeds}
         />
       }

@@ -102,7 +102,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, island }) => {
     gameState.context.state.createdAt + CROP_SHORTAGE_HOURS * 60 * 60 * 1000,
   );
 
-  const isCropShortage = cropShortageSecondsLeft >= 0;
+  const isCropShortage = cropShortageSecondsLeft > 0;
 
   const specialEventDetails = specialEvents[0];
 
