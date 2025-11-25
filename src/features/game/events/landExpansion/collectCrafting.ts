@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { trackFarmActivity } from "features/game/types/farmActivity";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 
@@ -41,9 +41,9 @@ export function collectCrafting({
       copy.wardrobe[item.wearable] = (copy.wardrobe[item.wearable] || 0) + 1;
     }
 
-    copy.farmActivity = trackFarmActivity(
+    copy.bumpkin.activity = trackActivity(
       `${item.collectible || item.wearable} Crafted`,
-      copy.farmActivity,
+      copy.bumpkin.activity,
     );
 
     copy.craftingBox.status = "idle";

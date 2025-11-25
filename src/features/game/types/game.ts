@@ -110,6 +110,7 @@ import { PetName, PetResourceName, Pets } from "./pets";
 import { RockName } from "./resources";
 import { PetShopItemName } from "./petShop";
 import { RoninV2PackName } from "features/wallet/lib/ronin";
+import { League } from "features/leagues/leagues";
 
 export type Reward = {
   coins?: number;
@@ -1903,6 +1904,10 @@ export interface GameState {
   aoe: AOE;
   socialFarming: SocialFarming;
   pets?: Pets;
+
+  prototypes?: {
+    leagues?: League;
+  };
 }
 
 export type AOE = Partial<
