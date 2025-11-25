@@ -7142,5 +7142,17 @@
   "description.stagShrine.buff.2": "+15 Minyak setiap gerudi ke-3",
   "description.bearShrine.buff.2": "+20% peluang kawanan lebah",
   "description.tortoiseShrine.buff": "-33% Masa Pertumbuhan Rumah Hijau",
-  "description.mothShrine.buff.2": "20% peluang untuk mendapatkan +1 bunga"
+  "description.mothShrine.buff.2": "20% peluang untuk mendapatkan +1 bunga",
+  "gam3.trophies.title": "Sambutan Pilihan Rakyat",
+  "gam3.trophies.body1": "Tahniah, Sunflower Land memenangi Anugerah Pilihan Rakyat untuk tahun 2025! Terima kasih besar kepada masyarakat kerana bersorak kepada kami.",
+  "gam3.trophies.body2": "Untuk meraikan kami mengadakan pesta plaza. Pakai Cap Gam3s, berkumpul dengan 10 Bumpkins lain yang memakai topi mereka, dan anda akan dapat menuntut hadiah harian.",
+  "gam3.trophies.tip": "Petua: Pastikan topi berguna! Ganjaran parti hanya boleh dicetuskan sekali setiap 24 jam.",
+  "gam3.trophies.button.claim": "Tuntut Cap Gam3s",
+  "gam3.trophies.button.claimed": "Cap sudah dituntut",
+  "gam3.party.title": "Masa Parti!",
+  "gam3.party.label": "Woohoo, ia adalah pesta!",
+  "gam3.party.body": "Anda mendapati sepuluh Bumpkins lain di dekatnya menggoyung Cap Gam3 mereka. Terima kasih kerana meraikan kemenangan Pilihan Rakyat bersama kami.",
+  "gam3.party.tip": "Ganjaran istimewa ini hanya boleh dicetuskan sekali setiap 24 jam.",
+  "gam3.party.button": "Tuntut ganjaran",
+  "gam3.party.backIn": "Kembali masuk {{time}}"
 }

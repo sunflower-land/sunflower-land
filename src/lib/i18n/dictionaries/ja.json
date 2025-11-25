@@ -7142,5 +7142,17 @@
   "description.stagShrine.buff.2": "3 回目のドリルごとに +15 オイル",
   "description.bearShrine.buff.2": "蜂の群れが発生する確率 +20%",
   "description.tortoiseShrine.buff": "-33% 温室成長時間",
-  "description.mothShrine.buff.2": "20% の確率で+1フラワーを獲得"
+  "description.mothShrine.buff.2": "20% の確率で+1フラワーを獲得",
+  "gam3.trophies.title": "ピープルズ・チョイス・セレブレーション",
+  "gam3.trophies.body1": "おめでとうございます。サンフラワーランドが2025年のピープルズチョイスアワードを受賞しました！私たちを応援してくれたコミュニティの皆さんに心から感謝します。",
+  "gam3.trophies.body2": "お祝いとして、プラザパーティーを開催します。Gam3sの帽子をかぶって、彼らの帽子をかぶっている他の10人のバンプキンと一緒に集めれば、毎日のギフトを受け取ることができます。",
+  "gam3.trophies.tip": "ヒント：帽子は手元に置いておきましょう！パーティー報酬は24時間に1回しか発動できません。",
+  "gam3.trophies.button.claim": "Gam3s キャップを請求する",
+  "gam3.trophies.button.claimed": "キャップはすでに申請されています",
+  "gam3.party.title": "パーティータイム！",
+  "gam3.party.label": "ウーフー、パーティーだ！",
+  "gam3.party.body": "近くで他に10人のバンプキンがGam3sキャップを揺らしているのを発見した。ピープルズ・チョイスの勝利を私たちと一緒に祝ってくれてありがとう。",
+  "gam3.party.tip": "この特別な報酬は、24時間に1回のみトリガーできます。",
+  "gam3.party.button": "報酬を請求する",
+  "gam3.party.backIn": "{{time}} に戻る"
 }

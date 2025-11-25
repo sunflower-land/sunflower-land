@@ -7142,5 +7142,17 @@
   "description.stagShrine.buff.2": "+15 de aceite cada tercer taladro",
   "description.bearShrine.buff.2": "+20% de probabilidad de formar un enjambre de abejas",
   "description.tortoiseShrine.buff": "-33% de tiempo de crecimiento en invernadero",
-  "description.mothShrine.buff.2": "20% de probabilidad de obtener +1 flor"
+  "description.mothShrine.buff.2": "20% de probabilidad de obtener +1 flor",
+  "gam3.trophies.title": "Celebración de People's Choice",
+  "gam3.trophies.body1": "¡Felicidades, Sunflower Land ganó el People's Choice Award de 2025! Muchísimas gracias a la comunidad por apoyarnos.",
+  "gam3.trophies.body2": "Para celebrarlo vamos a organizar una fiesta en la plaza. Ponte la gorra de Gam3, reúnete con otros 10 Bumpkins que llevan puesta la suya y podrás llevarte un regalo diario.",
+  "gam3.trophies.tip": "Consejo: ¡Ten el sombrero a mano! La recompensa del grupo solo se puede activar una vez cada 24 horas.",
+  "gam3.trophies.button.claim": "Gorra Claim Gam3",
+  "gam3.trophies.button.claimed": "El límite ya ha sido reclamado",
+  "gam3.party.title": "¡Hora de fiesta!",
+  "gam3.party.label": "¡Woohoo, es una fiesta!",
+  "gam3.party.body": "Encontraste a otros diez Bumpkins cerca con su gorra Gam3. Gracias por celebrar con nosotros la victoria de People's Choice.",
+  "gam3.party.tip": "Esta recompensa especial solo se puede activar una vez cada 24 horas.",
+  "gam3.party.button": "Reclame la recompensa",
+  "gam3.party.backIn": "De vuelta en {{time}}"
 }

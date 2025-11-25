@@ -7142,5 +7142,17 @@
   "description.stagShrine.buff.2": "+15 Öl bei jeder 3. Bohrung",
   "description.bearShrine.buff.2": "+20% Chance auf einen Bienenschwarm",
   "description.tortoiseShrine.buff": "-33% Wachstumszeit des Gewächshauses",
-  "description.mothShrine.buff.2": "20% Chance, +1 Blume zu erhalten"
+  "description.mothShrine.buff.2": "20% Chance, +1 Blume zu erhalten",
+  "gam3.trophies.title": "People's Choice Feier",
+  "gam3.trophies.body1": "Herzlichen Glückwunsch, Sunflower Land hat den People's Choice Award für 2025 gewonnen! Ein großes Dankeschön an die Community, die uns angefeuert hat.",
+  "gam3.trophies.body2": "Um das zu feiern, veranstalten wir eine Plaza-Party. Setzt die Gam3-Mütze auf, trefft euch mit 10 anderen Bumpkins, die ihre tragen, und ihr erhaltet täglich ein Geschenk.",
+  "gam3.trophies.tip": "Tipp: Halte den Hut griffbereit! Die Partybelohnung kann nur einmal alle 24 Stunden ausgelöst werden.",
+  "gam3.trophies.button.claim": "Hol dir die Gam3s-Obergrenze",
+  "gam3.trophies.button.claimed": "Die Obergrenze wurde bereits beansprucht",
+  "gam3.party.title": "Partyzeit!",
+  "gam3.party.label": "Woohoo, es ist eine Party!",
+  "gam3.party.body": "Du hast zehn andere Bumpkins in der Nähe gefunden, die ihre Gam3s Cap rocken. Danke, dass du mit uns den People's Choice Sieg gefeiert hast.",
+  "gam3.party.tip": "Diese besondere Belohnung kann nur einmal alle 24 Stunden ausgelöst werden.",
+  "gam3.party.button": "Prämie einfordern",
+  "gam3.party.backIn": "Zurück in {{time}}"
 }

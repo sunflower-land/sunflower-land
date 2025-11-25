@@ -7142,5 +7142,17 @@
   "description.stagShrine.buff.2": "+15 olio ogni 3 trapani",
   "description.bearShrine.buff.2": "+20% di possibilità che si formi uno sciame di api",
   "description.tortoiseShrine.buff": "-33% Tempo di crescita in serra",
-  "description.mothShrine.buff.2": "20% di possibilità di ottenere +1 fiore"
+  "description.mothShrine.buff.2": "20% di possibilità di ottenere +1 fiore",
+  "gam3.trophies.title": "Celebrazione della scelta popolare",
+  "gam3.trophies.body1": "Congratulazioni, Sunflower Land ha vinto il People's Choice Award per il 2025! Un enorme ringraziamento alla community per il tifo per noi.",
+  "gam3.trophies.body2": "Per festeggiare stiamo organizzando una festa in piazza. Indossa il berretto Gam3s, radunalo con altri 10 Bumpkins che indossano il loro e potrai richiedere un regalo giornaliero.",
+  "gam3.trophies.tip": "Suggerimento: tieni il cappello a portata di mano! La ricompensa del party può essere attivata solo una volta ogni 24 ore.",
+  "gam3.trophies.button.claim": "Richiedi Gam3s Cap",
+  "gam3.trophies.button.claimed": "Cappuccio già richiesto",
+  "gam3.party.title": "È ora di festa!",
+  "gam3.party.label": "Woohoo, è una festa!",
+  "gam3.party.body": "Hai trovato altri dieci Bumpkins nelle vicinanze che indoslavano il loro berretto Gam3s. Grazie per aver festeggiato con noi la vittoria del People's Choice.",
+  "gam3.party.tip": "Questa ricompensa speciale può essere attivata solo una volta ogni 24 ore.",
+  "gam3.party.button": "Richiedi la ricompensa",
+  "gam3.party.backIn": "Torna in {{time}}"
 }

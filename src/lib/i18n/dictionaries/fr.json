@@ -7142,5 +7142,17 @@
   "description.stagShrine.buff.2": "+15 % d'huile tous les 3 forets",
   "description.bearShrine.buff.2": "+20 % de chances d'apparition d'un essaim d'abeilles",
   "description.tortoiseShrine.buff": "-33 % Temps de croissance en serre",
-  "description.mothShrine.buff.2": "20 % de chances d'obtenir +1 fleur"
+  "description.mothShrine.buff.2": "20 % de chances d'obtenir +1 fleur",
+  "gam3.trophies.title": "Célébration du choix du public",
+  "gam3.trophies.body1": "Félicitations, Sunflower Land a remporté le People's Choice Award pour 2025 ! Un immense merci à la communauté pour ses encouragements.",
+  "gam3.trophies.body2": "Pour fêter ça, nous organisons une fête sur la place. Enfilez la casquette Gam3s, retrouvez-vous avec 10 autres Bumpkins qui portent la leur, et vous pourrez réclamer un cadeau quotidien.",
+  "gam3.trophies.tip": "Conseil : gardez le chapeau à portée de main ! La récompense de fête ne peut être déclenchée qu'une fois toutes les 24 heures.",
+  "gam3.trophies.button.claim": "Réclamez la casquette Gam3",
+  "gam3.trophies.button.claimed": "Casquette déjà réclamée",
+  "gam3.party.title": "L'heure de la fête !",
+  "gam3.party.label": "Woohoo, c'est une fête !",
+  "gam3.party.body": "Vous avez trouvé dix autres Bumpkins à proximité portant leur casquette Gam3. Merci d'avoir célébré la victoire du People's Choice avec nous.",
+  "gam3.party.tip": "Cette récompense spéciale ne peut être déclenchée qu'une fois toutes les 24 heures.",
+  "gam3.party.button": "Réclamer une récompense",
+  "gam3.party.backIn": "De retour dans {{time}}"
 }

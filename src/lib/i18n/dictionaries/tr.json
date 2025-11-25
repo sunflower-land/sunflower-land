@@ -7142,5 +7142,17 @@
   "description.stagShrine.buff.2": "Her 3. sondajda +15 yağ",
   "description.bearShrine.buff.2": "+20% arı sürüsü şansı",
   "description.tortoiseShrine.buff": "-33% Sera Büyüme Süresi",
-  "description.mothShrine.buff.2": "%20 +1 Çiçek kazanma şansı"
+  "description.mothShrine.buff.2": "%20 +1 Çiçek kazanma şansı",
+  "gam3.trophies.title": "Halkın Seçimi Kutlaması",
+  "gam3.trophies.body1": "Tebrikler, Ayçiçeği Ülkesi 2025 Halkın Seçimi Ödülü'nü kazandı! Bizi tezahürat ettikleri için topluluğa çok teşekkürler.",
+  "gam3.trophies.body2": "Kutlamak için plaza partisi veriyoruz. Gam3s Şapkasını takın, onlarınkini giyen diğer 10 Bumpkin'le bir araya geldiğinizde günlük bir hediye alabileceksiniz.",
+  "gam3.trophies.tip": "İpucu: Şapkayı elinizin altında tutun! Parti ödülü sadece 24 saatte bir tetiklenebilir.",
+  "gam3.trophies.button.claim": "Gam3s Kapağını Talep Edin",
+  "gam3.trophies.button.claimed": "Kapak zaten talep edildi",
+  "gam3.party.title": "Parti zamanı!",
+  "gam3.party.label": "Woohoo, bu bir parti!",
+  "gam3.party.body": "Yakınlarda Gam3s Kapaklarını sallayan on tane daha Bumpkin buldun. Halkın Seçimi zaferini bizimle kutladığınız için teşekkür ederiz.",
+  "gam3.party.tip": "Bu özel ödül sadece 24 saatte bir tetiklenebilir.",
+  "gam3.party.button": "Ödül talep edin",
+  "gam3.party.backIn": "Geri {{time}}"
 }

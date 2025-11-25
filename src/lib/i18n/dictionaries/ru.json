@@ -7142,5 +7142,17 @@
   "description.stagShrine.buff.2": "+15 Oil every 3rd drill",
   "description.bearShrine.buff.2": "+20% chance of bee swarm",
   "description.tortoiseShrine.buff": "-33% Greenhouse Growth Time",
-  "description.mothShrine.buff.2": "20% chance to get +1 Flower"
+  "description.mothShrine.buff.2": "20% chance to get +1 Flower",
+  "gam3.trophies.title": "People's Choice Celebration",
+  "gam3.trophies.body1": "Congratulations, Sunflower Land won the People's Choice Award for 2025! A huge thanks to the community for cheering us on.",
+  "gam3.trophies.body2": "To celebrate we are throwing a plaza party. Pop on the Gam3s Cap, gather with 10 other Bumpkins wearing theirs, and you'll be able to claim a daily gift.",
+  "gam3.trophies.tip": "Tip: Keep the hat handy! The party reward can only be triggered once every 24 hours.",
+  "gam3.trophies.button.claim": "Claim Gam3s Cap",
+  "gam3.trophies.button.claimed": "Cap already claimed",
+  "gam3.party.title": "Party Time!",
+  "gam3.party.label": "Woohoo, it's a party!",
+  "gam3.party.body": "You found ten other Bumpkins nearby rocking their Gam3s Cap. Thanks for celebrating the People's Choice win with us.",
+  "gam3.party.tip": "This special reward can only be triggered once every 24 hours.",
+  "gam3.party.button": "Claim reward",
+  "gam3.party.backIn": "Back in {{time}}"
 }

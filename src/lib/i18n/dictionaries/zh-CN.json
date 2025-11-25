@@ -7142,5 +7142,17 @@
   "description.stagShrine.buff.2": "第 3 次提取油田 +15 石油",
   "description.bearShrine.buff.2": "+20% 蜂群几率",
   "description.tortoiseShrine.buff": "-33% 温室生长时间",
-  "description.mothShrine.buff.2": "增加 1 层 20% 几率 +1 朵花卉的机会"
+  "description.mothShrine.buff.2": "增加 1 层 20% 几率 +1 朵花卉的机会",
+  "gam3.trophies.title": "人民选择庆典",
+  "gam3.trophies.body1": "恭喜，向日葵乐园荣获2025年人民选择奖！非常感谢社区为我们加油。",
+  "gam3.trophies.body2": "为了庆祝，我们将举办一场广场派对。戴上 Gam3s 帽子，与其他 10 个戴着他们的 Bumpkins 聚集在一起，你就能领取每日礼物。",
+  "gam3.trophies.tip": "提示：随身携带帽子！派对奖励每隔 24 小时只能触发一次。",
+  "gam3.trophies.button.claim": "领取 Gam3s Cap",
+  "gam3.trophies.button.claimed": "上限已经申领了",
+  "gam3.party.title": "派对时间！",
+  "gam3.party.label": "哇，这是个派对！",
+  "gam3.party.body": "你在附近发现了另外十个正在摇动 Gam3s Cap 的 Bumpkins。感谢您与我们一起庆祝 “人民选择” 大获全胜。",
+  "gam3.party.tip": "此特殊奖励只能每 24 小时触发一次。",
+  "gam3.party.button": "申领奖励",
+  "gam3.party.backIn": "回到 {{time}}"
 }

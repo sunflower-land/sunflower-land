@@ -7142,5 +7142,17 @@
   "description.stagShrine.buff.2": "세 번째 드릴마다 오일 +15",
   "description.bearShrine.buff.2": "꿀벌 떼 발생 확률 +20%",
   "description.tortoiseShrine.buff": "-33% 온실 성장 시간",
-  "description.mothShrine.buff.2": "20% 의 확률로 꽃 1송이 획득"
+  "description.mothShrine.buff.2": "20% 의 확률로 꽃 1송이 획득",
+  "gam3.trophies.title": "피플스 초이스 셀러브레이션",
+  "gam3.trophies.body1": "축하합니다. 선플라워 랜드가 2025년 피플스 초이스 어워드를 수상했습니다!응원해 주신 커뮤니티에 큰 감사를 드립니다.",
+  "gam3.trophies.body2": "축하하기 위해 플라자 파티를 엽니다.Gam3s 모자를 쓰고, 모자를 쓰고 있는 다른 범프킨 10명과 함께 모이면 매일 선물을 받을 수 있습니다.",
+  "gam3.trophies.tip": "팁: 모자를 가까이에 두세요!파티 보상은 24시간에 한 번만 발동할 수 있습니다.",
+  "gam3.trophies.button.claim": "클레임 Gam3s 캡",
+  "gam3.trophies.button.claimed": "캡은 이미 청구되었습니다",
+  "gam3.party.title": "파티 타임!",
+  "gam3.party.label": "우후, 파티예요!",
+  "gam3.party.body": "근처에서 Gam3 캡을 흔들고 있는 범프킨 열 마리를 발견했습니다.피플스 초이스 우승을 함께 축하해주셔서 감사합니다.",
+  "gam3.party.tip": "이 특별 보상은 24시간에 한 번만 발동할 수 있습니다.",
+  "gam3.party.button": "클레임 보상",
+  "gam3.party.backIn": "다시 돌아오세요 {{time}}"
 }

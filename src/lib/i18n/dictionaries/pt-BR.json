@@ -7142,5 +7142,17 @@
   "description.stagShrine.buff.2": "+15 Óleo a cada 3ª perfuração",
   "description.bearShrine.buff.2": "+20% de chance de enxame de abelhas",
   "description.tortoiseShrine.buff": "-33% de tempo de crescimento da estufa",
-  "description.mothShrine.buff.2": "20% de chance de obter +1 flor"
+  "description.mothShrine.buff.2": "20% de chance de obter +1 flor",
+  "gam3.trophies.title": "Celebração da Escolha do Povo",
+  "gam3.trophies.body1": "Parabéns, Sunflower Land ganhou o People's Choice Award em 2025! Muito obrigado à comunidade por nos apoiar.",
+  "gam3.trophies.body2": "Para comemorar, vamos fazer uma festa na praça. Coloque o boné Gam3s, junte-se a outros 10 Bumpkins usando o deles e você poderá reivindicar um presente diário.",
+  "gam3.trophies.tip": "Dica: mantenha o chapéu à mão! A recompensa da festa só pode ser acionada uma vez a cada 24 horas.",
+  "gam3.trophies.button.claim": "Reivindique o boné Gam3s",
+  "gam3.trophies.button.claimed": "Boné já reivindicado",
+  "gam3.party.title": "Hora da festa!",
+  "gam3.party.label": "Uau, é uma festa!",
+  "gam3.party.body": "Você encontrou outros dez Bumpkins por perto balançando seu boné Gam3s. Obrigado por comemorar a vitória do People's Choice conosco.",
+  "gam3.party.tip": "Essa recompensa especial só pode ser acionada uma vez a cada 24 horas.",
+  "gam3.party.button": "Solicite uma recompensa",
+  "gam3.party.backIn": "De volta em {{time}}"
 }

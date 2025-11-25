@@ -7142,5 +7142,17 @@
   "description.stagShrine.buff.2": "+15 Minyak setiap bor ke-3",
   "description.bearShrine.buff.2": "Kemungkinan +20% kawanan lebah",
   "description.tortoiseShrine.buff": "-33% Waktu Pertumbuhan Rumah Kaca",
-  "description.mothShrine.buff.2": "20% kesempatan untuk mendapatkan +1 Bunga"
+  "description.mothShrine.buff.2": "20% kesempatan untuk mendapatkan +1 Bunga",
+  "gam3.trophies.title": "Perayaan Pilihan Rakyat",
+  "gam3.trophies.body1": "Selamat, Sunflower Land memenangkan People's Choice Award untuk tahun 2025! Terima kasih banyak kepada komunitas karena telah menyemangati kami.",
+  "gam3.trophies.body2": "Untuk merayakannya kami mengadakan pesta plaza. Pasang Topi Gam3s, berkumpul dengan 10 Bumpkins lain yang mengenakan milik mereka, dan Anda akan dapat mengklaim hadiah harian.",
+  "gam3.trophies.tip": "Tip: Jaga topi tetap berguna! Hadiah pesta hanya dapat dipicu setiap 24 jam sekali.",
+  "gam3.trophies.button.claim": "Klaim Cap Gam3s",
+  "gam3.trophies.button.claimed": "Cap sudah diklaim",
+  "gam3.party.title": "Waktu pesta!",
+  "gam3.party.label": "Woohoo, ini pesta!",
+  "gam3.party.body": "Anda menemukan sepuluh Bumpkins lain di dekatnya menggoyangkan Cap Gam3s mereka. Terima kasih telah merayakan kemenangan People's Choice bersama kami.",
+  "gam3.party.tip": "Hadiah khusus ini hanya dapat dipicu setiap 24 jam sekali.",
+  "gam3.party.button": "Klaim hadiah",
+  "gam3.party.backIn": "Kembali ke {{time}}"
 }
