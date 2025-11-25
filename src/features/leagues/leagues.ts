@@ -8,6 +8,7 @@ import {
   OrderDeliveredEvent,
 } from "features/game/types/bumpkinActivity";
 import { Bumpkin, GameState } from "features/game/types/game";
+import { setPrecision } from "lib/utils/formatNumber";
 import cloneDeep from "lodash.clonedeep";
 
 export const LEAGUE_NAMES = [
@@ -365,8 +366,10 @@ export function updateLeaguePoints(
     }
 
     // Add points
-    stateCopy.prototypes.leagues.points =
-      stateCopy.prototypes.leagues.points + pointsDelta.toNumber();
+    stateCopy.prototypes.leagues.points = setPrecision(
+      stateCopy.prototypes.leagues.points + pointsDelta.toNumber(),
+      2,
+    ).toNumber();
 
     return stateCopy;
   }
