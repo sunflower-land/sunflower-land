@@ -234,6 +234,7 @@ export const LandComponent: React.FC = () => {
 
   const showMarketplace = pathname.includes("marketplace");
   const showFlowerDashboard = pathname.includes("flower-dashboard");
+  const showEconomyDashboard = pathname.includes("economy-dashboard");
 
   const paused = useSelector(gameService, isPaused);
   const island = useSelector(gameService, _island);
@@ -1038,7 +1039,7 @@ export const LandComponent: React.FC = () => {
 
       {!landscaping && !visiting && <Hud isFarming={true} location="farm" />}
 
-      {(showMarketplace || showFlowerDashboard) &&
+      {(showMarketplace || showFlowerDashboard || showEconomyDashboard) &&
         createPortal(
           <div
             data-html2canvas-ignore="true"
