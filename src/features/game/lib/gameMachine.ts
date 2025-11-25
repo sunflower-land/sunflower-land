@@ -754,6 +754,7 @@ export type BlockchainState = {
     | "news"
     | "roninAirdrop"
     | "jinAirdrop"
+    | "leagueResults"
     | StateMachineStateName
     | StateMachineVisitStateName
     | StateNameWithStatus; // TEST ONLY
@@ -1411,6 +1412,27 @@ export function startGame(authContext: AuthContext) {
                 (context.state.inventory["Jin"] ?? new Decimal(0)).lt(1),
             },
             {
+              target: "leagueResults",
+              cond: (context) => {
+                const now = new Date();
+                const utcHours = now.getUTCHours();
+                const utcMinutes = now.getUTCMinutes();
+                if (utcHours === 0 && utcMinutes < 30) {
+                  return false;
+                }
+
+                const hasLeaguesAccess = hasFeatureAccess(
+                  context.state,
+                  "LEAGUES",
+                );
+                const currentLeagueStartDate =
+                  context.state.prototypes?.leagues?.currentLeagueStartDate;
+
+                const today = new Date(now).toISOString().split("T")[0];
+                return hasLeaguesAccess && currentLeagueStartDate !== today;
+              },
+            },
+            {
               target: "playing",
             },
           ],
@@ -1638,6 +1660,16 @@ export function startGame(authContext: AuthContext) {
             "specialEvent.taskCompleted": (GAME_EVENT_HANDLERS as any)[
               "specialEvent.taskCompleted"
             ],
+            CLOSE: {
+              target: "playing",
+            },
+          },
+        },
+        leagueResults: {
+          on: {
+            "leagues.updated": {
+              target: STATE_MACHINE_EFFECTS["leagues.updated"],
+            },
             CLOSE: {
               target: "playing",
             },

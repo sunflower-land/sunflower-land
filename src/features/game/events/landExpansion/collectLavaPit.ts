@@ -4,6 +4,7 @@ import { BoostName, GameState } from "features/game/types/game";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getLavaPitTime } from "./startLavaPit";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 
 export function getObsidianYield({ game }: { game: GameState }) {
   let amount = 1;
@@ -76,6 +77,12 @@ export function collectLavaPit({
       boostNames: [...lavaPitTimeBoostsUsed, ...obsidianYieldBoostsUsed],
       createdAt,
     });
+
+    copy.bumpkin.activity = trackActivity(
+      "Obsidian Collected",
+      copy.bumpkin.activity,
+    );
+
     return copy;
   });
 }

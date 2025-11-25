@@ -30,7 +30,8 @@ export type LeagueName = (typeof LEAGUE_NAMES)[number];
 export type LeagueId = `${LeagueName}-${string}`;
 
 export interface League {
-  id: LeagueId;
+  id?: LeagueId;
+  currentLeagueStartDate?: string;
   currentLeague: LeagueName;
   points: number;
 }

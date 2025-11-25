@@ -3,6 +3,7 @@ import {
   FactionLeaderboard,
   KingdomLeaderboard,
   EmblemsLeaderboard,
+  LeaguesLeaderboard,
 } from "./leaderboard";
 
 // Default leaderboard data is updated every 1 hour
@@ -17,6 +18,7 @@ export type Leaderboards = {
   emblems?: EmblemsLeaderboard;
   champions?: KingdomLeaderboard;
   socialPoints?: TicketLeaderboard;
+  leagues?: LeaguesLeaderboard;
 };
 
 export function cacheLeaderboard<T extends keyof Leaderboards>({

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { OuterPanel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Modal } from "components/ui/Modal";
@@ -39,6 +39,7 @@ import { Checklist, checklistCount } from "components/ui/CheckList";
 import { getBumpkinLevel } from "features/game/lib/level";
 import trophyIcon from "assets/icons/trophy.png";
 import { hasFeatureAccess } from "lib/flags";
+import { LeagueLeaderboard } from "./pages/LeaguesLeaderboard";
 
 interface Props {
   show: boolean;
@@ -183,6 +184,16 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
           },
         ]
       : []),
+
+    ...(hasFeatureAccess(state, "LEAGUES") && state.prototypes?.leagues
+      ? [
+          {
+            name: "Leagues" as const,
+            icon: trophyIcon,
+            count: 0,
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -275,7 +286,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 state={state}
               />
             )}
-
             {currentTab === "Marks" && faction && (
               <FactionLeaderboard
                 leaderboard={data?.kingdom ?? null}
@@ -284,7 +294,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 faction={faction.name}
               />
             )}
-
             {currentTab === "Competition" && (
               <div
                 className={classNames(
@@ -299,6 +308,16 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                   }
                 />
               </div>
+            )}{" "}
+            {currentTab === "Leagues" && state.prototypes?.leagues && (
+              <InnerPanel>
+                <LeagueLeaderboard
+                  data={data?.leagues ?? null}
+                  isLoading={data?.leagues === undefined}
+                  username={username}
+                  farmId={farmId}
+                />
+              </InnerPanel>
             )}
           </div>
         </OuterPanel>
