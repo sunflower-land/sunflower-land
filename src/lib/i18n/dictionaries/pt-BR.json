@@ -7200,5 +7200,6 @@
   "economyDashboard.skillHistoryColumn": "Jogadores",
   "economyDashboard.notLoaded": "Selecione um intervalo de datas e um recurso e, em seguida, carregue os dados.",
   "economyDashboard.resourceRequired": "Selecione um recurso para visualizar os dados.",
-  "economyDashboard.resourceUnset": "Selecione o recurso"
+  "economyDashboard.resourceUnset": "Selecione o recurso",
+  "economyDashboard.exportCsv": "Exportar CSV"
 }

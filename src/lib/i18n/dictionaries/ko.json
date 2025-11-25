@@ -7200,5 +7200,6 @@
   "economyDashboard.skillHistoryColumn": "플레이어",
   "economyDashboard.notLoaded": "날짜 범위와 리소스를 선택한 다음 데이터를 로드합니다.",
   "economyDashboard.resourceRequired": "리소스를 선택하면 데이터를 볼 수 있습니다.",
-  "economyDashboard.resourceUnset": "리소스 선택"
+  "economyDashboard.resourceUnset": "리소스 선택",
+  "economyDashboard.exportCsv": "CSV 내보내기"
 }
