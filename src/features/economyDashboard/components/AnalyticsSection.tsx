@@ -3,8 +3,10 @@ import React, { useEffect, useMemo, useState } from "react";
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { Dropdown } from "components/ui/Dropdown";
+import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { EconomyReportSummary } from "../actions/getEconomyData";
+import { downloadCsv } from "../utils/downloadCsv";
 
 interface Props {
   reports: EconomyReportSummary[];
@@ -85,9 +87,43 @@ export const AnalyticsSection: React.FC<Props> = ({ reports, startDate }) => {
       .sort((a, b) => (a.date < b.date ? 1 : -1));
   }, [reports, normalizedActivity, startDate]);
 
+  const canExportHistory = Boolean(
+    hasOptions && normalizedActivity && history.length > 0,
+  );
+
+  const handleExportCsv = () => {
+    if (!canExportHistory) return;
+
+    const headers = [
+      t("economyDashboard.historyDate"),
+      t("economyDashboard.analyticsValueColumn"),
+      t("economyDashboard.diffColumn"),
+    ];
+
+    const rows = history.map(({ date, value, diff }) => [
+      date || t("economyDashboard.unknownDate"),
+      value.toString(),
+      formatDiffValue(diff),
+    ]);
+
+    downloadCsv(
+      [headers, ...rows].map((row) => row.map((value) => value ?? "")),
+      `analytics-${normalizedActivity}-${Date.now()}.csv`,
+    );
+  };
+
   return (
     <InnerPanel className="flex flex-col gap-2">
-      <Label type="default">{t("economyDashboard.analyticsTitle")}</Label>
+      <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+        <Label type="default">{t("economyDashboard.analyticsTitle")}</Label>
+        <Button
+          className="w-full md:w-auto"
+          onClick={handleExportCsv}
+          disabled={!canExportHistory}
+        >
+          {t("economyDashboard.exportCsv")}
+        </Button>
+      </div>
       {hasOptions ? (
         <Dropdown
           options={activityOptions}

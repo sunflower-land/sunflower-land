@@ -6134,6 +6134,7 @@
   "economyDashboard.analyticsValueColumn": "Value",
   "economyDashboard.diffColumn": "Diff",
   "economyDashboard.analyticsNoOptions": "No activity analytics were returned for this range.",
+  "economyDashboard.exportCsv": "Export CSV",
   "economyDashboard.islandTitle": "Islands",
   "economyDashboard.islandName": "Island",
   "economyDashboard.playersColumn": "Players",
