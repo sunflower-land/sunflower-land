@@ -7200,5 +7200,6 @@
   "economyDashboard.skillHistoryColumn": "Spieler",
   "economyDashboard.notLoaded": "Wählen Sie einen Datumsbereich und eine Ressource aus und laden Sie dann Daten.",
   "economyDashboard.resourceRequired": "Wählen Sie eine Ressource aus, um Daten anzuzeigen.",
-  "economyDashboard.resourceUnset": "Wählen Sie eine Ressource"
+  "economyDashboard.resourceUnset": "Wählen Sie eine Ressource",
+  "economyDashboard.exportCsv": "CSV exportieren"
 }

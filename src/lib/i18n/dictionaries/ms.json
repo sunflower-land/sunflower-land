@@ -7200,5 +7200,6 @@
   "economyDashboard.skillHistoryColumn": "Pemain",
   "economyDashboard.notLoaded": "Pilih julat tarikh dan sumber, kemudian muatkan data.",
   "economyDashboard.resourceRequired": "Pilih sumber untuk melihat data.",
-  "economyDashboard.resourceUnset": "Pilih sumber"
+  "economyDashboard.resourceUnset": "Pilih sumber",
+  "economyDashboard.exportCsv": "Eksport CSV"
 }

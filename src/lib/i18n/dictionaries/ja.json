@@ -7200,5 +7200,6 @@
   "economyDashboard.skillHistoryColumn": "プレイヤー",
   "economyDashboard.notLoaded": "日付範囲とリソースを選択し、データをロードします。",
   "economyDashboard.resourceRequired": "データを表示するリソースを選択します。",
-  "economyDashboard.resourceUnset": "リソースを選択"
+  "economyDashboard.resourceUnset": "リソースを選択",
+  "economyDashboard.exportCsv": "CSV をエクスポート"
 }
