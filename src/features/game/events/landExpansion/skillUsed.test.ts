@@ -58,7 +58,7 @@ describe("skillUse", () => {
     }).toThrow("Power Skill on Cooldown");
   });
 
-  it("requires the skill to be off cooldown if Lunar Weapon is equipped", () => {
+  it("requires the skill to be off cooldown if Luna's Crescent is equipped", () => {
     expect(() => {
       skillUse({
         state: {
@@ -68,7 +68,7 @@ describe("skillUse", () => {
             skills: { "Instant Growth": 1 },
             equipped: {
               ...INITIAL_FARM.bumpkin.equipped,
-              tool: "Lunar Weapon",
+              tool: "Luna's Crescent",
             },
             previousPowerUseAt: {
               "Instant Growth": dateNow - 1000 * 60 * 60 * 24 * 1.5,

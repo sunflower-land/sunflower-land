@@ -15268,52 +15268,6 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/147.png",
     name: "Bidder's Brocade",
   },
-  "Lunar Weapon": {
-    description:
-      "A mysterious weapon infused with moonlight, humming with celestial energy.",
-    decimals: 0,
-    attributes: [
-      { trait_type: "Part", value: "Tool" },
-      { trait_type: "Tradable", value: "No" },
-    ],
-    external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/wearables/images/499.png",
-    name: "Lunar Weapon",
-  },
-  "Cleaver Knife": {
-    description: "A sharp knife for cutting through tough ingredients.",
-    decimals: 0,
-    attributes: [
-      { trait_type: "Part", value: "Tool" },
-      { trait_type: "Tradable", value: "No" },
-    ],
-    external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/wearables/images/500.png",
-    name: "Cleaver Knife",
-  },
-  "Training Whistle": {
-    description: "A sharp whistle that keeps every champion focused and ready.",
-    decimals: 0,
-    attributes: [
-      { trait_type: "Part", value: "Necklace" },
-      { trait_type: "Tradable", value: "No" },
-    ],
-    external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/wearables/images/501.png",
-    name: "Training Whistle",
-  },
-  AU3: {
-    description:
-      "A tailored uniform stitched for those who lead with confidence.",
-    decimals: 0,
-    attributes: [
-      { trait_type: "Part", value: "Shirt" },
-      { trait_type: "Tradable", value: "No" },
-    ],
-    external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/wearables/images/502.png",
-    name: "AU3",
-  },
   "Harry's Hat": {
     description:
       "From the sun-drenched wheat fields to the auction's spotlight, this hat's a symbol of Harry's dedication to his craft.",
@@ -19979,6 +19933,52 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/498.webp",
     name: "Wisp Aura",
+  },
+  "Luna's Crescent": {
+    description:
+      "A mysterious weapon infused with moonlight, humming with celestial energy.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/499.png",
+    name: "Luna's Crescent",
+  },
+  "Master Chef's Cleaver": {
+    description: "A sharp knife for cutting through tough ingredients.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/500.png",
+    name: "Master Chef's Cleaver",
+  },
+  "Training Whistle": {
+    description: "A sharp whistle that keeps every champion focused and ready.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Necklace" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/501.png",
+    name: "Training Whistle",
+  },
+  "Chef Shirt": {
+    description:
+      "A tailored uniform stitched for those who master the art of cooking.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shirt" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/502.png",
+    name: "Chef Shirt",
   },
   "Pet Specialist Shirt": {
     description: "",

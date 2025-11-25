@@ -180,9 +180,9 @@ export const getCookingTime = ({
     boostsUsed.push("Luna's Hat");
   }
 
-  if (isWearableActive({ name: "Cleaver Knife", game })) {
+  if (isWearableActive({ name: "Master Chef's Cleaver", game })) {
     reducedSecs = reducedSecs.mul(0.85);
-    boostsUsed.push("Cleaver Knife");
+    boostsUsed.push("Master Chef's Cleaver");
   }
 
   // Legendary Shrine - 50% reduction

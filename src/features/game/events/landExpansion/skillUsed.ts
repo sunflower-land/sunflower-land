@@ -220,7 +220,7 @@ export function getSkillCooldown({
   state: GameState;
 }) {
   let boostedCooldown = new Decimal(cooldown);
-  if (isWearableActive({ name: "Lunar Weapon", game: state })) {
+  if (isWearableActive({ name: "Luna's Crescent", game: state })) {
     boostedCooldown = boostedCooldown.mul(0.5);
   }
   return boostedCooldown.toNumber();

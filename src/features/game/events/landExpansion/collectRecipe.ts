@@ -59,13 +59,13 @@ export const getCookingAmount = ({
   }
 
   if (
-    isWearableActive({ name: "Cleaver Knife", game }) &&
+    isWearableActive({ name: "Master Chef's Cleaver", game }) &&
     prngChance({
       farmId,
       itemId: KNOWN_IDS[recipe.name],
       counter,
       chance: 10,
-      criticalHitName: "Cleaver Knife",
+      criticalHitName: "Master Chef's Cleaver",
     })
   ) {
     amount += 1;
