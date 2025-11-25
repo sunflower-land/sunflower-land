@@ -18,6 +18,7 @@ import { PetContainer } from "../containers/PetContainer";
 import { getCurrentSeason, SeasonName } from "features/game/types/seasons";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { partyModalManager } from "../lib/partyModalManager";
+import { hasFeatureAccess } from "lib/flags";
 
 const CHAPTER_BANNERS: Record<SeasonName, string | undefined> = {
   "Solar Flare": undefined,
@@ -473,11 +474,15 @@ export class PlazaScene extends BaseScene {
 
     this.add.sprite(321.5, 230, "shop_icon");
 
-    const gam3Trophies = this.add.image(431, 316, "gam3_trophies");
-    gam3Trophies.setDepth(200);
-    gam3Trophies.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      interactableModalManager.open("gam3_trophies");
-    });
+    if (hasFeatureAccess(this.gameState, "GAM3_CONTENT")) {
+      const gam3Trophies = this.add.image(431, 316, "gam3_trophies");
+      gam3Trophies.setDepth(200);
+      gam3Trophies
+        .setInteractive({ cursor: "pointer" })
+        .on("pointerdown", () => {
+          interactableModalManager.open("gam3_trophies");
+        });
+    }
 
     const dragon = this.add
       .sprite(142, 16, "sleeping_dragon")
@@ -911,7 +916,13 @@ export class PlazaScene extends BaseScene {
   }
 
   private monitorGam3Party() {
-    if (!this.currentPlayer) return;
+    if (!this.currentPlayer || !this.gameService) return;
+
+    const hasGam3Access = hasFeatureAccess(
+      this.gameService.getSnapshot().context.state,
+      "GAM3_CONTENT",
+    );
+    if (!hasGam3Access) return;
 
     const now = Date.now();
     if (now - this.lastGam3PartyCheckAt < 1000) return;
@@ -943,7 +954,19 @@ export class PlazaScene extends BaseScene {
       },
     );
 
-    const hasParty = nearbyCelebrators.length >= 10;
+    let amountNeeded = 10;
+
+    if (
+      hasFeatureAccess(
+        this.gameService.getSnapshot().context.state,
+        "GAM3_CONTENT",
+      )
+    ) {
+      // TESTING ONLY - remove for everyone
+      amountNeeded = 1;
+    }
+
+    const hasParty = nearbyCelebrators.length >= amountNeeded;
 
     if (
       hasParty &&

@@ -10,17 +10,29 @@ import { ChestRevealing } from "../chests/ChestRevealing";
 import { Revealed } from "features/game/components/Revealed";
 import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { hasFeatureAccess } from "lib/flags";
+import confetti from "canvas-confetti";
+
+import dancingGirl from "assets/npcs/dancing_girl.gif";
 
 export const PartyModal: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { t } = useAppTranslation();
+  const hasGam3Access = hasFeatureAccess(
+    gameState.context.state,
+    "GAM3_CONTENT",
+  );
 
   const [showModal, setShowModal] = useState(false);
   const [isPicking, setIsPicking] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
 
   useEffect(() => {
+    if (!hasGam3Access) return;
+
+    confetti();
+
     partyModalManager.listen((isOpen) => {
       setShowModal(isOpen);
       if (!isOpen) {
@@ -28,7 +40,7 @@ export const PartyModal: React.FC = () => {
         setIsRevealing(false);
       }
     });
-  }, []);
+  }, [hasGam3Access]);
 
   const closeModal = () => {
     partyModalManager.close();
@@ -58,6 +70,7 @@ export const PartyModal: React.FC = () => {
   };
 
   if (!showModal) return null;
+  if (!hasGam3Access) return null;
 
   if (isPicking || (gameState.matches("revealing") && isRevealing)) {
     return (
@@ -90,6 +103,11 @@ export const PartyModal: React.FC = () => {
         <div className="flex flex-col gap-2 px-1 mb-2">
           <p className="text-sm">{t("gam3.party.body")}</p>
           <p className="text-xs ">{t("gam3.party.tip")}</p>
+        </div>
+        <div className="flex justify-center m-2">
+          {new Array(10).fill(0).map((_, index) => (
+            <img src={dancingGirl} key={index} className="w-10 h-10" />
+          ))}
         </div>
         <Button onClick={handleClaim} disabled={hasOpened}>
           {hasOpened

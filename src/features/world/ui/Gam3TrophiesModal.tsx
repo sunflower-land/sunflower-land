@@ -6,6 +6,8 @@ import { Context } from "features/game/GameProvider";
 import { BONUSES } from "features/game/types/bonuses";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { hasFeatureAccess } from "lib/flags";
+import confetti from "canvas-confetti";
 
 interface Props {
   onClose: () => void;
@@ -16,12 +18,20 @@ export const Gam3TrophiesModal: React.FC<Props> = ({ onClose }) => {
   const [gameState] = useActor(gameService);
   const hasClaimed = BONUSES["gam3s-cap"].isClaimed(gameState.context.state);
   const { t } = useAppTranslation();
+  const hasGam3Access = hasFeatureAccess(
+    gameState.context.state,
+    "GAM3_CONTENT",
+  );
 
   const claim = () => {
     if (hasClaimed) return;
 
     gameService.send("bonus.claimed", { name: "gam3s-cap" });
+
+    confetti();
   };
+
+  if (!hasGam3Access) return null;
 
   return (
     <CloseButtonPanel title={t("gam3.trophies.title")} onClose={onClose}>
