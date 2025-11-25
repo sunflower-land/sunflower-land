@@ -47,6 +47,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   public label: Label | undefined;
   public backfx: Phaser.GameObjects.Sprite | undefined;
   public frontfx: Phaser.GameObjects.Sprite | undefined;
+  public gam3Sparkle?: Phaser.GameObjects.Sprite | undefined;
   public backParticles:
     | Phaser.GameObjects.Particles.ParticleEmitter
     | undefined;
@@ -187,6 +188,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     // });
 
     this.scene.add.existing(this);
+    this.updateGam3sCelebrationEffect();
 
     if (onClick) {
       this.setInteractive({ cursor: "pointer" }).on(
@@ -449,6 +451,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     }
 
     this.showSmoke();
+    this.updateGam3sCelebrationEffect();
   }
 
   public showCharm() {
@@ -701,6 +704,37 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     }
 
     this.backParticles = undefined;
+  }
+
+  private updateGam3sCelebrationEffect() {
+    if (this.clothing?.hat === "Gam3s Cap") {
+      if (this.gam3Sparkle?.active) return;
+
+      if (this.scene.textures.exists("sparkle")) {
+        this.gam3Sparkle = this.scene.add
+          .sprite(0, -12, "sparkle")
+          .setOrigin(0.5)
+          .setZ(10);
+        this.add(this.gam3Sparkle);
+
+        if (!this.scene.anims.get("sparkel_anim")) {
+          this.scene.anims.create({
+            key: `sparkel_anim`,
+            frames: this.scene.anims.generateFrameNumbers("sparkle", {
+              start: 0,
+              end: 6,
+            }),
+            repeat: -1,
+            frameRate: 10,
+          });
+        }
+
+        this.gam3Sparkle.play(`sparkel_anim`, true);
+      }
+    } else if (this.gam3Sparkle?.active) {
+      this.gam3Sparkle.destroy();
+      this.gam3Sparkle = undefined;
+    }
   }
 
   public faceRight() {

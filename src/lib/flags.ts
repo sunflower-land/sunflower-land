@@ -95,6 +95,7 @@ const FEATURE_FLAGS = {
 
     return betaTimeBasedFeatureFlag(new Date("2025-10-21T00:00:00Z"))(game);
   },
+  GAM3_CONTENT: adminFeatureFlag,
 
   // Permanent Feature Flags
   AIRDROP_PLAYER: adminFeatureFlag,
