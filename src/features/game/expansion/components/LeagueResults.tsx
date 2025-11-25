@@ -28,25 +28,28 @@ export const LeagueResults: React.FC = () => {
   >(undefined);
 
   useEffect(() => {
+    if (!leagues?.id) {
+      return;
+    }
+
+    const leagueId = leagues.id;
     gameService.send("SAVE");
 
     const fetchLeaderboards = async () => {
       try {
-        if (!leagues?.id) return;
-
         const data = await getFinalisedLeaguesLeaderboard({
           farmId,
-          leagueId: leagues.id,
+          leagueId,
         });
 
-        setLeaguesData(data);
+        setLeaguesData(data ?? null);
       } catch (e) {
-        if (!leaguesData) setLeaguesData(null);
+        setLeaguesData(null);
       }
     };
 
     fetchLeaderboards();
-  }, []);
+  }, [farmId, gameService, leagues?.id]);
 
   const onClick = () => {
     gameService.send("leagues.updated", {

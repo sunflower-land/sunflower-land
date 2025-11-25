@@ -313,7 +313,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               <InnerPanel>
                 <LeagueLeaderboard
                   data={data?.leagues ?? null}
-                  isLoading={data?.leagues === undefined}
+                  isLoading={data === undefined}
                   username={username}
                   farmId={farmId}
                 />
