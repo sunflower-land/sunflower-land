@@ -38,6 +38,7 @@ import { WeatherShopItem } from "./calendar";
 import { PetShopItemName } from "./petShop";
 import { MonumentName } from "./monuments";
 import { RecipeCollectibleName } from "../lib/crafting";
+import { BumpkinItem } from "./bumpkin";
 
 type BuyableName =
   | SeedName
@@ -90,7 +91,8 @@ export type CraftedEvent = `${
   | PurchaseableBait
   | WeatherShopItem
   | PetShopItemName
-  | RecipeCollectibleName} Crafted`;
+  | RecipeCollectibleName
+  | BumpkinItem} Crafted`;
 export type ConsumableEvent = `${ConsumableName} Collected`;
 export type SellEvent = `${SellableName} Sold`;
 export type TreasureEvent = `${TreasureName} Dug`;
@@ -103,6 +105,10 @@ export type AnimalFeedMixedEvent =
 export type AnimalFeedEvent = `${Animal} Fed`;
 export type AnimalCuredEvent = `${Animal} Cured`;
 export type AnimalResourceEvent = `${AnimalResource} Collected`;
+export type OrderDeliveredEvent = `${
+  | "Ticket Order"
+  | "Coins Order"
+  | "FLOWER Order"} Delivered`;
 
 export type BumpkinActivityName =
   | PlantGreenHouseFruitEvent
@@ -123,6 +129,8 @@ export type BumpkinActivityName =
   | AnimalFeedEvent
   | AnimalCuredEvent
   | AnimalResourceEvent
+  | OrderDeliveredEvent
+
   // Resources
   | "Tree Chopped"
   | "Stone Mined"
@@ -132,6 +140,9 @@ export type BumpkinActivityName =
   | "Sunstone Mined"
   | "Egg Collected"
   | "Oil Drilled"
+  | "Obsidian Collected"
+  | "Potion Mixed"
+
   // Misc
   | "Coins Spent"
   | "Coins Earned"
@@ -156,6 +167,8 @@ export type BumpkinActivityName =
   | ComposterCollectEvent
   | "Crop Fertilised"
   | "Rod Casted"
+  | "Farms Cheered"
+  | "Farms Helped"
   | `${MonumentName} Completed`;
 
 export function trackActivity(

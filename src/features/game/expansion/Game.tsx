@@ -97,6 +97,7 @@ import { CloseButtonPanel } from "../components/CloseablePanel";
 import { TradesCleared } from "./components/TradesCleared";
 import { ClaimRoninPack } from "./components/onChainAirdrops/ClaimRoninPack";
 import { RevealPet } from "features/island/pets/RevealPet";
+import { LeagueResults } from "./components/LeagueResults";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -216,6 +217,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   investigating: true,
   blessing: true,
   cheers: true,
+  leagueResults: true,
 };
 
 // State change selectors
@@ -230,8 +232,6 @@ const isDeletingListing = (state: MachineState) =>
   state.matches("deleteTradeListing");
 const isListingDeleted = (state: MachineState) =>
   state.matches("tradeListingDeleted");
-const isFulfillingTradeListing = (state: MachineState) =>
-  state.matches("fulfillTradeListing");
 const isSniped = (state: MachineState) => state.matches("sniped");
 const isTradeAlreadyFulfilled = (state: MachineState) =>
   state.matches("tradeAlreadyFulfilled");
@@ -301,6 +301,8 @@ const isCheers = (state: MachineState) => state.matches("cheers");
 const isNews = (state: MachineState) => state.matches("news");
 const _isVisiting = (state: MachineState) =>
   state.context.visitorId !== undefined;
+const isLeagueResultsReleased = (state: MachineState) =>
+  state.matches("leagueResults");
 
 const GameContent: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -480,6 +482,10 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const cheers = useSelector(gameService, isCheers);
   const news = useSelector(gameService, isNews);
   const tradesCleared = useSelector(gameService, isTradesCleared);
+  const leagueResultsReleased = useSelector(
+    gameService,
+    isLeagueResultsReleased,
+  );
   const { t } = useAppTranslation();
 
   useInterval(() => {
@@ -684,6 +690,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
               />
             )}
             {cheers && <Cheering />}
+            {leagueResultsReleased && <LeagueResults />}
           </Panel>
         </Modal>
 

@@ -447,6 +447,10 @@ export function deliverOrder({
       game.balance = game.balance.add(sfl);
 
       bumpkin.activity = trackActivity("SFL Earned", bumpkin.activity, sfl);
+      bumpkin.activity = trackActivity(
+        "FLOWER Order Delivered",
+        bumpkin.activity,
+      );
     }
 
     if (order.reward.coins) {
@@ -463,6 +467,10 @@ export function deliverOrder({
         bumpkin.activity,
         new Decimal(coinsReward),
       );
+      bumpkin.activity = trackActivity(
+        "Coins Order Delivered",
+        bumpkin.activity,
+      );
     }
 
     if (tickets > 0) {
@@ -472,6 +480,10 @@ export function deliverOrder({
       const amount = tickets || new Decimal(0);
 
       game.inventory[seasonalTicket] = count.add(amount);
+      bumpkin.activity = trackActivity(
+        "Ticket Order Delivered",
+        bumpkin.activity,
+      );
     }
 
     const rewardItems = order.reward.items ?? {};
