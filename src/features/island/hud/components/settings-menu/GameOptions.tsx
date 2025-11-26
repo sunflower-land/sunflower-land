@@ -55,9 +55,9 @@ import { ReferralWidget } from "features/announcements/AnnouncementWidgets";
 import { AirdropPlayer } from "./general-settings/AirdropPlayer";
 import { hasFeatureAccess } from "lib/flags";
 import { FaceRecognitionSettings } from "features/retreat/components/personhood/FaceRecognition";
-import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { TransferAccountWrapper } from "./blockchain-settings/TransferAccount";
 import { DEV_PlayerSearch } from "./developer-options/DEV_PlayerSearch";
+import { DEV_ErrorSearch } from "./developer-options/DEV_ErrorSearch";
 import { ApiKey } from "./general-settings/ApiKey";
 
 export interface ContentComponentProps {
@@ -79,8 +79,6 @@ const GameOptions: React.FC<ContentComponentProps> = ({
 }) => {
   const { gameService } = useContext(GameContext);
   const { authService } = useContext(Auth.Context);
-
-  const { openModal } = useContext(ModalContext);
 
   const { t } = useAppTranslation();
 
@@ -313,6 +311,7 @@ export type SettingMenuId =
   // Amoy Testnet Actions
   | "hoardingCheck"
   | "playerSearch"
+  | "errorSearch"
   // Plaza Settings
   | "pickServer"
   | "shader";
@@ -414,7 +413,11 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "amoy",
     content: (props) => <DEV_PlayerSearch {...props} />,
   },
-
+  errorSearch: {
+    title: "Error Search (DEV)",
+    parent: "amoy",
+    content: (props) => <DEV_ErrorSearch {...props} />,
+  },
   // Plaza Settings
   pickServer: {
     title: translate("gameOptions.plazaSettings.pickServer"),
