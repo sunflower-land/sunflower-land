@@ -13,7 +13,6 @@ import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe
 import { BuildingProduct, GameState } from "features/game/types/game";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import fastForward from "assets/icons/fast_forward.png";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 interface Props {
@@ -31,7 +30,6 @@ export const InProgressInfo: React.FC<Props> = ({
   state,
 }) => {
   const { t } = useAppTranslation();
-  useUiRefresher();
 
   const [showConfirmation, setShowConfirmation] = useState(false);
   const { totalSeconds: secondsTillReady } = useCountdown(cooking.readyAt ?? 0);

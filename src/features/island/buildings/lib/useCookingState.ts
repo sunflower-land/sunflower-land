@@ -43,7 +43,7 @@ export function useCookingState(building: { crafting?: BuildingProduct[] }) {
   const now = useNow({
     live: lastReadyAt !== undefined,
     autoEndAt: lastReadyAt,
-    intervalMs: 500, // tweak if you want snappier updates
+    intervalMs: 1000, // tweak if you want snappier updates
   });
 
   const { cooking, queuedRecipes, readyRecipes } = useMemo(

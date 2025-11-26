@@ -12,33 +12,38 @@ export const getReturnValues = (timeLeft: number) => {
   return { days, hours, minutes, seconds };
 };
 
-const getTimeRemaining = (targetDate: number) => {
+const getTimeRemaining = (targetDate?: number | null) => {
+  if (!targetDate) return 0;
+
   return Math.max(targetDate - Date.now(), 0);
 };
 
-export const useCountdown = (targetDate: number) => {
-  // Internal tick purely to trigger re-renders; actual time left is derived
-  // from `targetDate` and the current time so it updates immediately when
-  // `targetDate` changes, without needing to synchronously set state in
-  // the effect body.
-  const [, setTick] = useState(0);
+export const useCountdown = (targetDate?: number | null) => {
+  const [timeLeft, setTimeLeft] = useState(() => getTimeRemaining(targetDate));
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    let intervalId: ReturnType<typeof setInterval> | undefined;
+
+    const tick = () => {
       const remaining = getTimeRemaining(targetDate);
-      if (remaining <= 0) {
-        // Trigger a final render at 0, then stop.
-        setTick((tick) => tick + 1);
-        clearInterval(interval);
-        return;
+      setTimeLeft(remaining);
+
+      if (remaining <= 0 && intervalId) {
+        clearInterval(intervalId);
+        intervalId = undefined;
       }
-      setTick((tick) => tick + 1);
-    }, 1000);
+    };
 
-    return () => clearInterval(interval);
+    tick();
+
+    intervalId = setInterval(tick, 1000);
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
   }, [targetDate]);
-
-  const timeLeft = getTimeRemaining(targetDate);
 
   return {
     ...getReturnValues(timeLeft),
