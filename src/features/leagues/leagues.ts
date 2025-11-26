@@ -374,7 +374,7 @@ export function updateLeaguePoints(
 
   // Add points
   stateCopy.prototypes.leagues.points = setPrecision(
-    stateCopy.prototypes.leagues.points + pointsDelta.toNumber(),
+    pointsDelta.add(stateCopy.prototypes.leagues.points),
     2,
   ).toNumber();
 
