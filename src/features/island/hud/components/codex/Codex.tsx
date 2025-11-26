@@ -172,15 +172,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       icon: ITEM_DETAILS["Red Pansy"].image,
       count: 0,
     },
-    ...(hasFeatureAccess(state, "BUILDING_FRIENDSHIPS")
-      ? [
-          {
-            name: "Competition" as const,
-            icon: trophyIcon,
-            count: 0,
-          },
-        ]
-      : []),
     ...(faction
       ? [
           {

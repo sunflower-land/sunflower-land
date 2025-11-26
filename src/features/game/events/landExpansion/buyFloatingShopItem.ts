@@ -11,7 +11,6 @@ import {
   FloatingShopCollectible,
   FloatingShopItem,
 } from "features/game/types/floatingIsland";
-import { hasFeatureAccess } from "lib/flags";
 
 export const isFloatingShopCollectible = (
   item: FloatingShopItem,
@@ -40,10 +39,6 @@ export function buyFloatingShopItem({
 
     if (!bumpkin) {
       throw new Error("Bumpkin not found");
-    }
-
-    if (action.name === "Pet Egg" && !hasFeatureAccess(copy, "PETS")) {
-      throw new Error("Pet Egg is not available yet");
     }
 
     const item =

@@ -8,7 +8,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useState } from "react";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
-import { hasFeatureAccess } from "lib/flags";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Buy } from "./tabs/Buy";
 import { Forge } from "./tabs/Forge";
@@ -50,8 +49,6 @@ export const SolarForge: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     );
   }
 
-  const hasUpgradeAccess = hasFeatureAccess(state, "NODE_FORGING");
-
   return (
     <CloseButtonPanel
       bumpkinParts={NPC_WEARABLES.gunter}
@@ -59,21 +56,17 @@ export const SolarForge: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       onClose={onClose}
       tabs={[
         { icon: ITEM_DETAILS.Tree.image, name: t("buy"), id: "Buy" },
-        ...(hasUpgradeAccess
-          ? [
-              {
-                icon: SUNNYSIDE.icons.hammer,
-                name: t("upgrade"),
-                id: "Upgrade",
-              },
-            ]
-          : []),
+        {
+          icon: SUNNYSIDE.icons.hammer,
+          name: t("upgrade"),
+          id: "Upgrade",
+        },
       ]}
       currentTab={tab}
       setCurrentTab={setTab}
     >
       {tab === "Buy" && <Buy game={state} />}
-      {tab === "Upgrade" && hasUpgradeAccess && <Forge />}
+      {tab === "Upgrade" && <Forge />}
     </CloseButtonPanel>
   );
 };
