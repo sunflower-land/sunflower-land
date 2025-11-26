@@ -122,11 +122,11 @@ export async function getLeaderboard<T>({
 export async function getLeaguesLeaderboard({
   farmId,
   leagueId,
-  token,
+  token = "",
 }: {
   farmId: number;
   leagueId?: LeagueId;
-  token: string;
+  token?: string;
 }): Promise<LeaguesLeaderboard | undefined> {
   const url = new URL(`${API_URL}/data`);
   url.searchParams.set("type", "leagues");
@@ -245,7 +245,7 @@ export async function getChampionsLeaderboard<T>({
 
 export async function fetchLeaderboardData(
   farmId: number,
-  token: string,
+  token?: string,
 ): Promise<Leaderboards | null> {
   try {
     const [
