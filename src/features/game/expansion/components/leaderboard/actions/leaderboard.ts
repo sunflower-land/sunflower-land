@@ -119,22 +119,29 @@ export async function getLeaderboard<T>({
   return data;
 }
 
-export async function getFinalisedLeaguesLeaderboard({
+export async function getLeaguesLeaderboard({
   farmId,
   leagueId,
+  token,
 }: {
   farmId: number;
-  leagueId: LeagueId;
+  leagueId?: LeagueId;
+  token: string;
 }): Promise<LeaguesLeaderboard | undefined> {
-  const url = `${API_URL}/leaderboard/leagues/${farmId}/${leagueId}`;
+  const url = new URL(`${API_URL}/data`);
+  url.searchParams.set("type", "leagues");
+  url.searchParams.set("farmId", farmId.toString());
+  if (leagueId) {
+    url.searchParams.set("leagueId", leagueId);
+  }
 
-  const response = await window.fetch(url, {
+  const response = await window.fetch(url.toString(), {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",
+      Authorization: `Bearer ${token}`,
     },
   });
-
   if (response.status === 429) {
     throw new Error(ERRORS.TOO_MANY_REQUESTS);
   }
@@ -142,7 +149,6 @@ export async function getFinalisedLeaguesLeaderboard({
   if (response.status >= 400) {
     return;
   }
-
   const data = await response.json();
 
   return data;
@@ -239,6 +245,7 @@ export async function getChampionsLeaderboard<T>({
 
 export async function fetchLeaderboardData(
   farmId: number,
+  token: string,
 ): Promise<Leaderboards | null> {
   try {
     const [
@@ -270,10 +277,9 @@ export async function fetchLeaderboardData(
         farmId: Number(farmId),
         leaderboardName: "socialPoints",
       }),
-      getLeaderboard<LeaguesLeaderboard>({
+      getLeaguesLeaderboard({
         farmId: Number(farmId),
-        leaderboardName: "leagues",
-        cacheExpiry: 5 * 60 * 1000,
+        token,
       }),
     ]);
 

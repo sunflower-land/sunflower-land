@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
-  getFinalisedLeaguesLeaderboard,
+  getLeaguesLeaderboard,
   LeaguesLeaderboard,
 } from "./leaderboard/actions/leaderboard";
 import { Context } from "features/game/GameProvider";
@@ -10,12 +10,16 @@ import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { LeagueLeaderboard } from "features/island/hud/components/codex/pages/LeaguesLeaderboard";
+import * as AuthProvider from "features/auth/lib/Provider";
+import { AuthMachineState } from "features/auth/lib/authMachine";
 
 const _farmId = (state: MachineState) => state.context.farmId;
 const _leagues = (state: MachineState) =>
   state.context.state.prototypes?.leagues;
 
 const _username = (state: MachineState) => state.context.state.username;
+const _token = (state: AuthMachineState) =>
+  state.context.user.rawToken as string;
 
 export const LeagueResults: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -23,6 +27,8 @@ export const LeagueResults: React.FC = () => {
   const farmId = useSelector(gameService, _farmId);
   const leagues = useSelector(gameService, _leagues);
   const username = useSelector(gameService, _username);
+  const { authService } = useContext(AuthProvider.Context);
+  const token = useSelector(authService, _token);
   const [leaguesData, setLeaguesData] = useState<
     LeaguesLeaderboard | null | undefined
   >(undefined);
@@ -37,9 +43,10 @@ export const LeagueResults: React.FC = () => {
 
     const fetchLeaderboards = async () => {
       try {
-        const data = await getFinalisedLeaguesLeaderboard({
+        const data = await getLeaguesLeaderboard({
           farmId,
           leagueId,
+          token,
         });
 
         setLeaguesData(data ?? null);
@@ -73,7 +80,7 @@ export const LeagueResults: React.FC = () => {
   }
 
   return (
-    <>
+    <div className="flex flex-col gap-2">
       <LeagueLeaderboard
         isLoading={isLoading}
         data={leaguesData ?? null}
@@ -81,6 +88,6 @@ export const LeagueResults: React.FC = () => {
         farmId={farmId}
       />
       {!isLoading && <Button onClick={onClick}>{t("close")}</Button>}
-    </>
+    </div>
   );
 };

@@ -40,6 +40,8 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import trophyIcon from "assets/icons/trophy.png";
 import { hasFeatureAccess } from "lib/flags";
 import { LeagueLeaderboard } from "./pages/LeaguesLeaderboard";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+import * as AuthProvider from "features/auth/lib/Provider";
 
 interface Props {
   show: boolean;
@@ -48,12 +50,16 @@ interface Props {
 
 const _farmId = (state: MachineState) => state.context.farmId;
 const _state = (state: MachineState) => state.context.state;
+const _token = (state: AuthMachineState) =>
+  state.context.user.rawToken as string;
 
 export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
+  const { authService } = useContext(AuthProvider.Context);
   const farmId = useSelector(gameService, _farmId);
   const state = useSelector(gameService, _state);
+  const token = useSelector(authService, _token);
 
   const bumpkinLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
 
@@ -74,7 +80,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
 
     const fetchLeaderboards = async () => {
       try {
-        const data = await fetchLeaderboardData(farmId);
+        const data = await fetchLeaderboardData(farmId, token);
         setData(data);
       } catch (e) {
         // eslint-disable-next-line no-console

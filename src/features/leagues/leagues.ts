@@ -349,31 +349,34 @@ export function updateLeaguePoints(
     currentActivity,
   );
 
-  if (pointsDelta.gt(new Decimal(0))) {
-    // Use cloneDeep to create a mutable copy
-    const stateCopy = cloneDeep(state);
+  if (pointsDelta.lte(new Decimal(0))) return state;
 
-    // Initialize leagues structure if it doesn't exist
-    if (!stateCopy.prototypes) {
-      stateCopy.prototypes = {};
-    }
-    if (!stateCopy.prototypes.leagues) {
-      const currentLeagueDate = new Date(now).toISOString().split("T")[0];
-      stateCopy.prototypes.leagues = {
-        id: `Sunflower 1-${currentLeagueDate}`,
-        currentLeague: "Sunflower 1",
-        points: 0,
-      };
-    }
+  const nowDate = new Date(now);
+  const utcHours = nowDate.getUTCHours();
+  const utcMinutes = nowDate.getUTCMinutes();
+  if (utcHours === 0 && utcMinutes < 30) return state;
 
-    // Add points
-    stateCopy.prototypes.leagues.points = setPrecision(
-      stateCopy.prototypes.leagues.points + pointsDelta.toNumber(),
-      2,
-    ).toNumber();
+  // Use cloneDeep to create a mutable copy
+  const stateCopy = cloneDeep(state);
 
-    return stateCopy;
+  // Initialize leagues structure if it doesn't exist
+  if (!stateCopy.prototypes) {
+    stateCopy.prototypes = {};
+  }
+  if (!stateCopy.prototypes.leagues) {
+    const currentLeagueDate = new Date(now).toISOString().split("T")[0];
+    stateCopy.prototypes.leagues = {
+      id: `Sunflower 1-${currentLeagueDate}`,
+      currentLeague: "Sunflower 1",
+      points: 0,
+    };
   }
 
-  return state;
+  // Add points
+  stateCopy.prototypes.leagues.points = setPrecision(
+    stateCopy.prototypes.leagues.points + pointsDelta.toNumber(),
+    2,
+  ).toNumber();
+
+  return stateCopy;
 }
