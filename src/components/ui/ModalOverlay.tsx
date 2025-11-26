@@ -20,7 +20,7 @@ export const ModalOverlay: React.FC<React.PropsWithChildren<Props>> = ({
   children,
   onBackdropClick,
 }) => {
-  const [hideChildren, setHideChildren] = useState(false);
+  const [hideChildren, setHideChildren] = useState(true);
 
   return (
     <Transition show={show}>
