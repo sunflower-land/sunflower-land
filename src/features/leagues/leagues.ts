@@ -146,8 +146,8 @@ export const LEAGUE_POINTS_EVENTS: Record<LeaguePointsEvent, Decimal> = {
   "White Clover Harvested": new Decimal(600),
   "Blue Clover Harvested": new Decimal(600),
   "Grape Harvested": new Decimal(108),
-  "Olive Harvested": new Decimal(288),
-  "Rice Harvested": new Decimal(396),
+  "Rice Harvested": new Decimal(288),
+  "Olive Harvested": new Decimal(396),
 
   // Cook Events
   "Pumpkin Soup Cooked": new Decimal(0.9),
@@ -280,11 +280,11 @@ export const LEAGUE_POINTS_EVENTS: Record<LeaguePointsEvent, Decimal> = {
 
   // Animal Resource Events
   "Egg Collected": new Decimal(10),
-  "Leather Collected": new Decimal(20),
+  "Feather Collected": new Decimal(30),
+  "Milk Collected": new Decimal(20),
+  "Leather Collected": new Decimal(40),
   "Wool Collected": new Decimal(15),
   "Merino Wool Collected": new Decimal(35),
-  "Feather Collected": new Decimal(30),
-  "Milk Collected": new Decimal(40),
 
   // Resource Events
   "Tree Chopped": new Decimal(5),

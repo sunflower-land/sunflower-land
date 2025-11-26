@@ -314,7 +314,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                   }
                 />
               </div>
-            )}{" "}
+            )}
             {currentTab === "Leagues" && state.prototypes?.leagues && (
               <InnerPanel>
                 <LeagueLeaderboard
