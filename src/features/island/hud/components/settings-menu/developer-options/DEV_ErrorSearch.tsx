@@ -1,10 +1,12 @@
-import React, { useMemo, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { TextInput } from "components/ui/TextInput";
 import { ContentComponentProps } from "../GameOptions";
 import { CONFIG } from "lib/config";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useActor } from "@xstate/react";
+import * as AuthProvider from "features/auth/lib/Provider";
 
 const FIFTEEN_MINUTES_MS = 15 * 60 * 1000;
 
@@ -38,6 +40,10 @@ const toUtcMs = (value: string) => {
 
 export const DEV_ErrorSearch: React.FC<ContentComponentProps> = () => {
   const { t } = useAppTranslation();
+
+  const { authService } = useContext(AuthProvider.Context);
+  const [authState] = useActor(authService);
+
   const defaultRange = useMemo(() => {
     const alignedEnd = new Date(Math.floor(Date.now() / 60000) * 60000);
     const alignedStart = new Date(alignedEnd.getTime() - FIFTEEN_MINUTES_MS);
@@ -95,6 +101,7 @@ export const DEV_ErrorSearch: React.FC<ContentComponentProps> = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json;charset=UTF-8",
+            Authorization: `Bearer ${authState.context.user.rawToken as string}`,
           },
           body: JSON.stringify({
             startTime: startTimeMs,
