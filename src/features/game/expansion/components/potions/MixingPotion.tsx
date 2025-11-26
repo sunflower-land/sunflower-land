@@ -9,10 +9,11 @@ import potionMasterBombSheet from "assets/npcs/potion_master_sheet_bomb.png";
 import potionMasterSuccessSheet from "assets/npcs/potion_master_sheet_success.png";
 import { SpringValue } from "react-spring";
 import { PotionHouseMachineInterpreter } from "./lib/potionHouseMachine";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { calculateScore } from "features/game/events/landExpansion/mixPotion";
 import { SpeechBubble } from "./SpeechBubble";
+import { MachineState } from "features/game/lib/gameMachine";
 
 export type DesiredAnimation =
   | "idle"
@@ -77,6 +78,12 @@ const getFPS = (animation: DesiredAnimation, frameNumber: number): number => {
   }
 };
 
+const _potionHouseLastAttempt = (state: MachineState) => {
+  const potionHouse = state.context.state.potionHouse;
+  const previousAttempts = potionHouse?.game.attempts ?? [];
+  return previousAttempts[previousAttempts.length - 1] ?? [];
+};
+
 export const MixingPotion: React.FC<{
   potionHouseService: PotionHouseMachineInterpreter;
   feedbackText: string | null;
@@ -100,10 +107,7 @@ export const MixingPotion: React.FC<{
   const currentAnimation = getCurrentAnimation();
   const settings = SETTINGS[currentAnimation];
 
-  const potionHouse = gameService.getSnapshot().context.state.potionHouse;
-  const previousAttempts = potionHouse?.game.attempts ?? [];
-  const lastAttempt = previousAttempts[previousAttempts.length - 1] ?? [];
-
+  const lastAttempt = useSelector(gameService, _potionHouseLastAttempt);
   const isGuessing = lastAttempt.some((potion) => potion.status === "pending");
 
   useEffect(() => {
@@ -116,13 +120,9 @@ export const MixingPotion: React.FC<{
     } else {
       potionHouseService.send("BOMB");
     }
-  }, [isGuessing, potionHouseService]);
+  }, [isGuessing, lastAttempt, potionHouseService]);
 
   const handleNextAnimation = () => {
-    const potionHouse = gameService.getSnapshot().context.state.potionHouse;
-    const previousAttempts = potionHouse?.game.attempts ?? [];
-    const lastAttempt = previousAttempts[previousAttempts.length - 1] ?? [];
-
     const isGuessing = lastAttempt.some(
       (potion) => potion.status === "pending",
     );
@@ -130,10 +130,6 @@ export const MixingPotion: React.FC<{
 
     potionHouseService.send("NEXT_ANIMATION", { score });
   };
-
-  // useEffect(() => {
-  //   setLoaded(true);
-  // }, []);
 
   return (
     <div className="flex flex-col items-center justify-evenly relative w-full h-full">
