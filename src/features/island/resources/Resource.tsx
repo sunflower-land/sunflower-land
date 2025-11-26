@@ -99,8 +99,10 @@ export const READONLY_RESOURCE_COMPONENTS = (): Record<
         className="relative pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 14}px`,
-          top: `${PIXEL_SCALE * 4.52}px`,
-          left: `${PIXEL_SCALE * 1.38}px`,
+          // Align the base stone rock with the gold/iron rocks so that the
+          // shared strike animation lines up without a visible jump.
+          top: `${PIXEL_SCALE * 3}px`,
+          left: `${PIXEL_SCALE * 1}px`,
         }}
       />
     ),

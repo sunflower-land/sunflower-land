@@ -111,7 +111,6 @@ const RecoveredTreeComponent: React.FC<Props> = ({
 
         {/* static tree image */}
         {!showSpritesheet && <Image />}
-
         {/* spritesheet */}
         {showSpritesheet && (
           <Spritesheet
@@ -124,7 +123,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({
 
               // Adjust the base of tree to be perfectly aligned to
               // on a grid point.
-              bottom: `${PIXEL_SCALE * 2}px`,
+              bottom: `${PIXEL_SCALE * 0}px`,
               right: `${PIXEL_SCALE * -4}px`,
             }}
             getInstance={(spritesheet) => {
