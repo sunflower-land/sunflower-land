@@ -82,7 +82,7 @@ export const LEAGUE_POINTS_EVENTS: Record<LeaguePointsEvent, Decimal> = {
   "Onion Harvested": new Decimal(12),
   "Turnip Harvested": new Decimal(14.4),
   "Artichoke Harvested": new Decimal(21.6),
-  "Honey Harvested": new Decimal(0.0),
+  "Honey Harvested": new Decimal(200),
   "Apple Harvested": new Decimal(28.8),
   "Blueberry Harvested": new Decimal(14.4),
   "Orange Harvested": new Decimal(19.2),
