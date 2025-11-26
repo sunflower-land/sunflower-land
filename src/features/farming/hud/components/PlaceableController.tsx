@@ -48,6 +48,7 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { COMPETITION_POINTS } from "features/game/types/competitions";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   location: PlaceableLocation;
@@ -115,6 +116,8 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     Coordinates | undefined
   >();
 
+  const now = useNow();
+
   const dimensions = useMemo(() => {
     if (placeable?.name === "Bud") {
       return { width: 1, height: 1 };
@@ -146,7 +149,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     const available =
       placeable?.name === "Bud" || placeable?.name === "Pet"
         ? new Decimal(1)
-        : items[placeable.name] ?? new Decimal(0);
+        : (items[placeable.name] ?? new Decimal(0));
 
     let hasRequirements = false;
     if (requirements) {
@@ -292,7 +295,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
   const available =
     placeable?.name === "Bud" || placeable?.name === "Pet"
       ? new Decimal(1)
-      : items[placeable.name] ?? new Decimal(0);
+      : (items[placeable.name] ?? new Decimal(0));
 
   const image = getPlaceableImage(
     placeable.name,
@@ -301,7 +304,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     buildingLevel,
   );
 
-  const Hint = () => {
+  const getHint = () => {
     if (!requirements) {
       return (
         <div className="flex justify-center items-center mb-1">
@@ -340,7 +343,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
   const isFoxShrineDisabled =
     placeable.name === "Fox Shrine" &&
-    Date.now() < COMPETITION_POINTS.BUILDING_FRIENDSHIPS.endAt;
+    now < COMPETITION_POINTS.BUILDING_FRIENDSHIPS.endAt;
 
   return (
     <div className="absolute bottom-2 left-1/2 -translate-x-1/2">
@@ -365,7 +368,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
           </Label>
         )}
 
-        <Hint />
+        {getHint()}
 
         <div
           className="flex items-stretch space-x-2 sm:h-12 w-80 sm:w-[400px]"

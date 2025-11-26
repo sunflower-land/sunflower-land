@@ -1,17 +1,16 @@
 import clipboard from "clipboard";
-import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { Telegram } from "features/auth/components/Telegram/Telegram";
 import { DiscordBonus } from "features/game/expansion/components/DiscordBoat";
 import { useGame } from "features/game/GameProvider";
-import React, { useContext, useState } from "react";
-import * as AuthProvider from "features/auth/lib/Provider";
+import React, { useState } from "react";
 import { CONFIG } from "lib/config";
 import { FaceRecognition } from "./FaceRecognition";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export const SoftBan: React.FC = () => {
   const { gameService, gameState } = useGame();
@@ -26,8 +25,7 @@ export const SoftBan: React.FC = () => {
 
   const { t } = useAppTranslation();
 
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
+  const now = useNow();
 
   const hasVerifiedSocial = gameState.context.state.ban.isSocialVerified;
 
@@ -105,10 +103,10 @@ export const SoftBan: React.FC = () => {
   // Since we are not in playing state, we use this to check if they have already begun.
   const hasBegun = faceRecognition?.session?.createdAt ?? 0;
   const hasScanned = faceRecognition?.history.some(
-    (h) => h.createdAt > Date.now() - 60 * 1000,
+    (h) => h.createdAt > now - 60 * 1000,
   );
 
-  if (showFaceRecognition || hasBegun >= Date.now() - 60 * 1000 || hasScanned) {
+  if (showFaceRecognition || hasBegun >= now - 60 * 1000 || hasScanned) {
     return <FaceRecognition skipIntro />;
   }
 

@@ -15,6 +15,7 @@ import {
 } from "features/game/types/marketplace";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const _trades = (state: MachineState) => state.context.state.trades;
 
@@ -34,6 +35,7 @@ export const RemoveListing: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
+  const now = useNow({ live: true });
 
   const trades = useSelector(gameService, _trades);
   const listings = trades.listings ?? {};
@@ -42,7 +44,7 @@ export const RemoveListing: React.FC<Props> = ({
 
   const initiatedAt = listing.initiatedAt;
   const isBeingPurchased =
-    !!initiatedAt && Date.now() - initiatedAt < TRADE_INITIATION_MS;
+    !!initiatedAt && now - initiatedAt < TRADE_INITIATION_MS;
 
   const confirm = async () => {
     gameService.send("marketplace.listingCancelled", {

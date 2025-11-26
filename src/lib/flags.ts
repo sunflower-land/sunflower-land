@@ -7,26 +7,26 @@ export const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" ||
   (!!((wardrobe["Gift Giver"] ?? 0) > 0) && !!inventory["Beta Pass"]?.gt(0));
 
-const usernameFeatureFlag = (game: GameState) => {
-  return (
-    testnetFeatureFlag() ||
-    [
-      "adam",
-      "tango",
-      "elias",
-      "Aeon",
-      "dcol",
-      "birb",
-      "Celinhotv",
-      "LittleEins",
-      "Labochi",
-      "Craig",
-      "Spencer",
-    ]
-      .map((name) => name.toLowerCase())
-      .includes(game.username?.toLowerCase() ?? "")
-  );
-};
+// const usernameFeatureFlag = (game: GameState) => {
+//   return (
+//     testnetFeatureFlag() ||
+//     [
+//       "adam",
+//       "tango",
+//       "elias",
+//       "Aeon",
+//       "dcol",
+//       "birb",
+//       "Celinhotv",
+//       "LittleEins",
+//       "Labochi",
+//       "Craig",
+//       "Spencer",
+//     ]
+//       .map((name) => name.toLowerCase())
+//       .includes(game.username?.toLowerCase() ?? "")
+//   );
+// };
 
 const defaultFeatureFlag = ({ inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" || !!inventory["Beta Pass"]?.gt(0);

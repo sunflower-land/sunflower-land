@@ -28,6 +28,7 @@ import {
   getPetNFTReleaseDate,
   isPetNFTRevealed,
 } from "features/game/types/pets";
+import { useNow } from "lib/utils/hooks/useNow";
 
 // const imageDomain = CONFIG.NETWORK === "mainnet" ? "pets" : "testnet-pets";
 
@@ -54,6 +55,8 @@ export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
   const [showInfo, setShowInfo] = useState("");
   const [confirmationStep, setConfirmationStep] = useState<1 | 2 | null>(null);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+
+  const now = useNow();
 
   const onAdd = (petId: number) => {
     setUnselected((prev) => prev.filter((pet) => pet !== petId));
@@ -202,7 +205,6 @@ export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
                   setShowInfo((prev) => (prev === petName ? "" : petName));
                 }
               };
-              const now = Date.now();
 
               const isRevealed = isPetNFTRevealed(petId, now);
               const revealDate = getPetNFTReleaseDate(petId, now);

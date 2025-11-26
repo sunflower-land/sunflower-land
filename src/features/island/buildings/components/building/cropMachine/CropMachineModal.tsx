@@ -50,6 +50,7 @@ import { OilTank } from "./components/OilTank";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { isMobile } from "mobile-device-detect";
 import { getPackYieldAmount } from "features/game/events/landExpansion/harvestCropMachine";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   show: boolean;
@@ -85,6 +86,7 @@ export const ALLOWED_SEEDS = (
 const _growingCropPackIndex = (state: CropMachineState) =>
   state.context.growingCropPackIndex;
 const _inventory = (state: MachineState) => state.context.state.inventory;
+
 export const CropMachineModalContent: React.FC<Props> = ({
   show,
   queue,
@@ -122,11 +124,13 @@ export const CropMachineModalContent: React.FC<Props> = ({
 
   useLayoutEffect(() => {
     if (show) {
+      // We intentionally reset modal UI state when it opens / active pack changes.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSelectedPackIndex(growingCropPackIndex ?? 0);
       setSelectedSeed(undefined);
       setTotalSeeds(0);
     }
-  }, [show]);
+  }, [show, growingCropPackIndex]);
 
   const getProjectedOilTimeMillis = () => {
     const projectedOilTime = getOilTimeInMillis(totalOil, state);
@@ -188,21 +192,6 @@ export const CropMachineModalContent: React.FC<Props> = ({
     return <Label type="default">{t("cropMachine.idle")}</Label>;
   };
 
-  const getQueueItemCountLabelType = (
-    packIndex: number,
-    itemReady: boolean,
-  ) => {
-    if (itemReady) return "success";
-
-    if (packIndex === growingCropPackIndex && paused) {
-      return "danger";
-    }
-
-    if (packIndex === growingCropPackIndex) return "info";
-
-    return "default";
-  };
-
   const canIncrementSeeds = () => {
     if (!selectedSeed) return false;
 
@@ -247,11 +236,6 @@ export const CropMachineModalContent: React.FC<Props> = ({
     setTotalSeeds(0);
   };
 
-  const handleHide = () => {
-    setShowOverlayScreen(false);
-    onClose();
-  };
-
   const selectedPack = queue[selectedPackIndex];
   const stackedQueue: (CropMachineQueueItem | null)[] = [
     ...queue,
@@ -260,7 +244,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
 
   const allowedSeeds = ALLOWED_SEEDS(state.bumpkin, inventory);
   const cropYield = selectedPack
-    ? selectedPack.amount ?? getPackYieldAmount(state, selectedPack).amount
+    ? (selectedPack.amount ?? getPackYieldAmount(state, selectedPack).amount)
     : 0;
 
   return (
@@ -539,39 +523,15 @@ export const CropMachineModalContent: React.FC<Props> = ({
             }}
           >
             {stackedQueue.map((item, index) => {
-              if (item === null)
-                return (
-                  <Box
-                    key={index}
-                    image={add}
-                    onClick={() => setSelectedPackIndex(index)}
-                    isSelected={index === selectedPackIndex}
-                  />
-                );
-
-              const isReady = item.readyAt && item.readyAt < Date.now();
-
               return (
-                <Box
-                  key={`${item.startTime}-${index}`}
-                  isSelected={index === selectedPackIndex}
-                  image={ITEM_DETAILS[`${item.crop} Seed`].image}
-                  count={!isReady ? new Decimal(item.seeds) : undefined}
-                  countLabelType={getQueueItemCountLabelType(index, !!isReady)}
-                  overlayIcon={
-                    <img
-                      src={SUNNYSIDE.icons.confirm}
-                      alt="confirm"
-                      className="object-contain absolute z-10"
-                      style={{
-                        width: `${PIXEL_SCALE * 8}px`,
-                        bottom: `${0.5}px`,
-                        right: `${0.5}px`,
-                      }}
-                    />
-                  }
-                  showOverlay={!!isReady}
-                  onClick={() => setSelectedPackIndex(index)}
+                <PackBox
+                  key={index}
+                  item={item}
+                  index={index}
+                  growingCropPackIndex={growingCropPackIndex}
+                  paused={paused}
+                  selectedPackIndex={selectedPackIndex}
+                  setSelectedPackIndex={setSelectedPackIndex}
                 />
               );
             })}
@@ -728,3 +688,71 @@ export const CropMachineModal: React.FC<Props> = ({
     />
   </Modal>
 );
+
+const PackBox: React.FC<{
+  item: CropMachineQueueItem | null;
+  index: number;
+  growingCropPackIndex?: number;
+  paused: boolean;
+  selectedPackIndex: number;
+  setSelectedPackIndex: (index: number) => void;
+}> = ({
+  item,
+  index,
+  growingCropPackIndex,
+  paused,
+  selectedPackIndex,
+  setSelectedPackIndex,
+}) => {
+  const now = useNow({ live: true, autoEndAt: item?.readyAt });
+  const getQueueItemCountLabelType = (
+    packIndex: number,
+    itemReady: boolean,
+  ) => {
+    if (itemReady) return "success";
+
+    if (packIndex === growingCropPackIndex && paused) {
+      return "danger";
+    }
+
+    if (packIndex === growingCropPackIndex) return "info";
+
+    return "default";
+  };
+
+  if (item === null)
+    return (
+      <Box
+        key={index}
+        image={add}
+        onClick={() => setSelectedPackIndex(index)}
+        isSelected={index === selectedPackIndex}
+      />
+    );
+
+  const isReady = item.readyAt && item.readyAt < now;
+
+  return (
+    <Box
+      key={`${item.startTime}-${index}`}
+      isSelected={index === selectedPackIndex}
+      image={ITEM_DETAILS[`${item.crop} Seed`].image}
+      count={!isReady ? new Decimal(item.seeds) : undefined}
+      countLabelType={getQueueItemCountLabelType(index, !!isReady)}
+      overlayIcon={
+        <img
+          src={SUNNYSIDE.icons.confirm}
+          alt="confirm"
+          className="object-contain absolute z-10"
+          style={{
+            width: `${PIXEL_SCALE * 8}px`,
+            bottom: `${0.5}px`,
+            right: `${0.5}px`,
+          }}
+        />
+      }
+      showOverlay={!!isReady}
+      onClick={() => setSelectedPackIndex(index)}
+    />
+  );
+};

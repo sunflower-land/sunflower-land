@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import saveIcon from "assets/icons/save.webp";
@@ -26,8 +26,7 @@ export const Save: React.FC = () => {
   const savedWithoutError = playing && !hasUnsavedProgress;
 
   const [enableButton, setEnableButton] = useState<boolean>(false);
-  const [disableSaveButtonTimer, setDisableSaveButtonTimer] =
-    useState<number>();
+  const disableSaveButtonTimerRef = useRef<number | undefined>(undefined);
 
   const showSaved = savedWithoutError && enableButton;
   const buttonState: ButtonState = autoSaving
@@ -37,23 +36,37 @@ export const Save: React.FC = () => {
       : "unsaved";
 
   useEffect(() => {
-    // enable button when there are unsaved progress
-    if (hasUnsavedProgress) {
-      setEnableButton(true);
-      setDisableSaveButtonTimer(
-        clearTimeout(disableSaveButtonTimer) as undefined,
-      );
+    if (!hasUnsavedProgress) {
+      return;
     }
 
-    // disable button after 2 seconds when changes are saved
-    if (showSaved) {
-      setDisableSaveButtonTimer(
-        window.setTimeout(() => setEnableButton(false), 2000),
-      );
+    if (disableSaveButtonTimerRef.current) {
+      window.clearTimeout(disableSaveButtonTimerRef.current);
+      disableSaveButtonTimerRef.current = undefined;
     }
 
-    return () => clearTimeout(disableSaveButtonTimer);
-  }, [hasUnsavedProgress, savedWithoutError]);
+    const frame = window.requestAnimationFrame(() => setEnableButton(true));
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [hasUnsavedProgress]);
+
+  useEffect(() => {
+    if (!showSaved) {
+      return;
+    }
+
+    disableSaveButtonTimerRef.current = window.setTimeout(() => {
+      setEnableButton(false);
+      disableSaveButtonTimerRef.current = undefined;
+    }, 2000);
+
+    return () => {
+      if (disableSaveButtonTimerRef.current) {
+        window.clearTimeout(disableSaveButtonTimerRef.current);
+        disableSaveButtonTimerRef.current = undefined;
+      }
+    };
+  }, [showSaved]);
 
   const save = () => {
     gameService.send("SAVE");

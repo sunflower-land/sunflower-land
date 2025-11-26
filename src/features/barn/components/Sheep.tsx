@@ -265,9 +265,9 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 
   const handleShowDetails = () => {
     // Check if an event has been fired in the last 0.5 seconds - if so return;
-    const lastEventTime = gameService
-      .getSnapshot()
-      .context.actions.at(-1)?.createdAt;
+    const actions = gameService.getSnapshot().context.actions;
+    const lastEventTime =
+      actions.length > 0 ? actions[actions.length - 1]?.createdAt : undefined;
     const currentTime = Date.now();
 
     if (currentTime - (lastEventTime?.getTime() ?? 0) < 500) return;

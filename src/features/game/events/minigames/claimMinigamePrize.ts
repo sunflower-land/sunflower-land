@@ -9,15 +9,14 @@ import { getWeekKey } from "features/game/lib/factions";
 import { produce } from "immer";
 
 export function isMinigameComplete({
-  game,
+  minigames,
   name,
   now = new Date(),
 }: {
-  game: GameState;
+  minigames: GameState["minigames"];
   name: MinigameName;
   now?: Date;
 }) {
-  const minigames = (game.minigames ?? {}) as Required<GameState>["minigames"];
   const { games, prizes } = minigames;
 
   const todayKey = new Date(now).toISOString().slice(0, 10);

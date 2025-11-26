@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
@@ -68,45 +68,46 @@ export const ResourceSection: React.FC<Props> = ({ reports, startDate }) => {
     return undefined;
   };
 
-  const history = useMemo(() => {
-    if (!normalizedResource) return [];
+  const history: ResourceHistoryRow[] = !normalizedResource
+    ? []
+    : (() => {
+        const entries = reports
+          .map((report) => ({
+            date: report.reportDate,
+            supply: parseNumericValue(
+              report.farm.collectibles.totals?.[normalizedResource],
+            ),
+            distribution: parseNumericValue(
+              report.farm.collectibles.holders?.[normalizedResource],
+            ),
+          }))
+          .filter(
+            (entry) =>
+              entry.date &&
+              (entry.supply !== undefined || entry.distribution !== undefined),
+          )
+          .sort((a, b) => (a.date! < b.date! ? -1 : 1));
 
-    const entries = reports
-      .map((report) => ({
-        date: report.reportDate,
-        supply: parseNumericValue(
-          report.farm.collectibles.totals?.[normalizedResource],
-        ),
-        distribution: parseNumericValue(
-          report.farm.collectibles.holders?.[normalizedResource],
-        ),
-      }))
-      .filter(
-        (entry) =>
-          entry.date &&
-          (entry.supply !== undefined || entry.distribution !== undefined),
-      )
-      .sort((a, b) => (a.date! < b.date! ? -1 : 1));
+        const withDiff: ResourceHistoryRow[] = entries.map((entry, index) => {
+          const prev = entries[index - 1];
+          return {
+            ...entry,
+            supplyDiff:
+              entry.supply !== undefined && prev?.supply !== undefined
+                ? entry.supply - prev.supply
+                : undefined,
+            distributionDiff:
+              entry.distribution !== undefined &&
+              prev?.distribution !== undefined
+                ? entry.distribution - prev.distribution
+                : undefined,
+          };
+        });
 
-    const withDiff: ResourceHistoryRow[] = entries.map((entry, index) => {
-      const prev = entries[index - 1];
-      return {
-        ...entry,
-        supplyDiff:
-          entry.supply !== undefined && prev?.supply !== undefined
-            ? entry.supply - prev.supply
-            : undefined,
-        distributionDiff:
-          entry.distribution !== undefined && prev?.distribution !== undefined
-            ? entry.distribution - prev.distribution
-            : undefined,
-      };
-    });
-
-    return withDiff
-      .filter((entry) => !startDate || entry.date >= startDate)
-      .sort((a, b) => (a.date! < b.date! ? 1 : -1));
-  }, [reports, normalizedResource, startDate]);
+        return withDiff
+          .filter((entry) => !startDate || entry.date >= startDate)
+          .sort((a, b) => (a.date! < b.date! ? 1 : -1));
+      })();
 
   const canExportHistory = Boolean(normalizedResource && history.length > 0);
 

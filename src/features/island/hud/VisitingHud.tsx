@@ -47,9 +47,13 @@ export const VisitingHud: React.FC = () => {
   const { gameService, fromRoute } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const [initialHelpRequired, setInitialHelpRequired] = useState({
-    farm: 0,
-    home: 0,
+  const helpRequired = getHelpRequired({
+    game: gameState.context.state,
+  });
+
+  const [helpRequiredOnLoad] = useState({
+    farm: helpRequired.tasks.farm.count,
+    home: helpRequired.tasks.home.count,
   });
 
   const [showVisitorGuide, setShowVisitorGuide] = useState(() => {
@@ -92,17 +96,6 @@ export const VisitingHud: React.FC = () => {
   const displayId =
     gameState.context.state.username ?? gameState.context.farmId;
 
-  const helpRequired = getHelpRequired({
-    game: gameState.context.state,
-  });
-
-  useEffect(() => {
-    setInitialHelpRequired({
-      farm: helpRequired.tasks.farm.count,
-      home: helpRequired.tasks.home.count,
-    });
-  }, []);
-
   const handleCloseVisitorGuide = () => {
     // Store acknowledgment in local storage
     localStorage.setItem("visitorGuideAcknowledged", "true");
@@ -131,8 +124,8 @@ export const VisitingHud: React.FC = () => {
         >
           <VisitorGuide
             onClose={handleCloseVisitorGuide}
-            farmHelpRequired={initialHelpRequired.farm}
-            homeHelpRequired={initialHelpRequired.home}
+            farmHelpRequired={helpRequiredOnLoad.farm}
+            homeHelpRequired={helpRequiredOnLoad.home}
           />
         </CloseButtonPanel>
       </Modal>
@@ -151,7 +144,7 @@ export const VisitingHud: React.FC = () => {
             </div>
           </div>
           <div className="w-px h-[36px] bg-gray-300 mx-3 self-center" />
-          {gameState.context.hasHelpedPlayerToday ?? false ? (
+          {(gameState.context.hasHelpedPlayerToday ?? false) ? (
             <div className="flex justify-center items-center flex-grow">
               <img src={SUNNYSIDE.icons.confirm} className="w-5" />
             </div>

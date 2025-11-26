@@ -1,4 +1,4 @@
-import React, { useEffect, useState, type JSX } from "react";
+import React from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 
@@ -57,23 +57,7 @@ export const SquareIcon: React.FC<Props> = ({
   className,
   style,
 }) => {
-  const [item, setItem] = useState<JSX.Element | undefined>(
-    getImage(icon, width),
-  );
-
-  // refreshes image when icon is changed to avoid flickering when resizing image
-  useEffect(() => {
-    if (!icon) {
-      return;
-    }
-    setItem(undefined);
-  }, [icon]);
-  useEffect(() => {
-    if (item) {
-      return;
-    }
-    setItem(getImage(icon, width));
-  }, [item]);
+  const item = getImage(icon, width);
 
   return (
     <div

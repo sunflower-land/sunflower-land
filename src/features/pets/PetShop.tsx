@@ -9,18 +9,20 @@ interface Props {
   onClose: () => void;
 }
 
-export const PetShop: React.FC<Props> = ({ onClose }) => (
-  <CloseButtonPanel
-    tabs={[
-      {
-        icon: ITEM_DETAILS.Barkley.image,
-        name: "Pet Shop",
-      },
-    ]}
-    onClose={onClose}
-    bumpkinParts={NPC_WEARABLES.chase}
-    container={OuterPanel}
-  >
-    <PetShopModal />
-  </CloseButtonPanel>
-);
+export const PetShop: React.FC<Props> = ({ onClose }) => {
+  return (
+    <CloseButtonPanel
+      tabs={[
+        {
+          icon: ITEM_DETAILS.Barkley.image,
+          name: "Pet Shop",
+        },
+      ]}
+      onClose={onClose}
+      bumpkinParts={NPC_WEARABLES.chase}
+      container={OuterPanel}
+    >
+      <PetShopModal />
+    </CloseButtonPanel>
+  );
+};

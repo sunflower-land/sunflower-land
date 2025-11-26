@@ -42,6 +42,7 @@ import { SeasonalSeed } from "./components/SeasonalSeed";
 import { Modal } from "components/ui/Modal";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export function getYieldColour(yieldAmount: number) {
   if (yieldAmount < 2) {
@@ -107,8 +108,10 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const plantCount = useSelector(gameService, selectPlants);
   const soldCount = useSelector(gameService, selectCropsSold);
   const isSeasoned = useSelector(gameService, isSeasonedPlayer);
-  const harvested = useRef<number>(0);
   const [showHarvested, setShowHarvested] = useState(false);
+  const [cropAmount, setCropAmount] = useState(0);
+
+  const now = useNow();
 
   const { openModal } = useContext(ModalContext);
 
@@ -128,7 +131,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
     wellLevel: waterWell.level,
     buildings: state.buildings,
     upgradeReadyAt: waterWell.upgradeReadyAt ?? 0,
-    createdAt: Date.now(),
+    createdAt: now,
     island: state.island.type,
   });
 
@@ -187,7 +190,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
       });
     }
 
-    harvested.current = cropAmount;
+    setCropAmount(cropAmount);
 
     if (showAnimations) {
       setShowHarvested(true);
@@ -381,8 +384,8 @@ export const Plot: React.FC<Props> = ({ id }) => {
         >
           <span
             className="text-sm yield-text"
-            style={{ color: getYieldColour(harvested.current) }}
-          >{`+${formatNumber(harvested.current)}`}</span>
+            style={{ color: getYieldColour(cropAmount) }}
+          >{`+${formatNumber(cropAmount)}`}</span>
         </Transition>
       )}
     </>

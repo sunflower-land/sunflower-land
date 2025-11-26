@@ -1,5 +1,5 @@
 import { Modal } from "components/ui/Modal";
-import React, { useContext, useRef } from "react";
+import React, { useContext, useState } from "react";
 import petNFTEgg from "assets/icons/pet_nft_egg.png";
 import classNames from "classnames";
 import { useSelector } from "@xstate/react";
@@ -31,6 +31,7 @@ import blankGriffinBackground from "assets/pets/backgrounds/blank-griffin.webp";
 import blankWarthogBackground from "assets/pets/backgrounds/blank-warthog.webp";
 import blankWolfBackground from "assets/pets/backgrounds/blank-wolf.webp";
 import blankRamBackground from "assets/pets/backgrounds/blank-ram.webp";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const BLANK_BACKGROUNDS: Record<PetTraits["type"], string> = {
   Bear: blankBearBackground,
@@ -58,23 +59,25 @@ export const RevealPet: React.FC = () => {
   const revealing = useSelector(gameService, _revealing);
   const revealed = useSelector(gameService, _revealed);
 
+  const now = useNow();
+
   // Pet without traits but reveal date has passed
   const unrevealedPet = Object.values(nftPets).find(
-    (pet) => isPetNFTRevealed(pet.id, Date.now()) && !pet.traits,
+    (pet) => isPetNFTRevealed(pet.id, now) && !pet.traits,
   );
   // Id of pet to be revealed
-  const revealingPetId = useRef<number | undefined>(unrevealedPet?.id);
+  const [revealingPetId, setRevealingPetId] = useState<number | undefined>(
+    unrevealedPet?.id,
+  );
 
   useDeepEffect(() => {
-    if (unrevealedPet) revealingPetId.current = unrevealedPet.id;
+    if (unrevealedPet) setRevealingPetId(unrevealedPet.id);
   }, [unrevealedPet]);
 
   useOnMachineTransition(gameService, "revealing", "revealed", confetti);
 
   const petToBeRevealed: PetNFT | undefined =
-    revealingPetId.current !== undefined
-      ? nftPets[revealingPetId.current]
-      : undefined;
+    revealingPetId !== undefined ? nftPets[revealingPetId] : undefined;
 
   const petImageUrl = getPetImageForMarketplace(petToBeRevealed?.id ?? 0);
   const {
@@ -152,7 +155,7 @@ export const RevealPet: React.FC = () => {
                 className="rounded-md object-contain"
                 src={
                   petImageLoaded
-                    ? preloadedPetImage ?? petImageUrl ?? petNFTEgg
+                    ? (preloadedPetImage ?? petImageUrl ?? petNFTEgg)
                     : petNFTEgg
                 }
                 alt={`Pet #${petToBeRevealed.id}`}

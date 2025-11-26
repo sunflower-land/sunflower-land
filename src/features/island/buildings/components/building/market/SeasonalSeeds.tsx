@@ -65,6 +65,7 @@ import {
 } from "features/game/events/landExpansion/supplyCropMachine";
 import { isFullMoon } from "features/game/types/calendar";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export const SEASON_ICONS: Record<TemperateSeasonName, string> = {
   spring: springIcon,
@@ -84,6 +85,7 @@ export const SeasonalSeeds: React.FC = () => {
   const currentSeasonSeeds = getKeys(SEEDS).filter((seed) =>
     SEASONAL_SEEDS[currentSeason].includes(seed),
   );
+  const now = useNow();
 
   const [selectedName, setSelectedName] = useState<SeedName>(
     currentSeasonSeeds[0],
@@ -138,7 +140,7 @@ export const SeasonalSeeds: React.FC = () => {
     return getBumpkinLevel(bumpkin?.experience ?? 0) < seed.bumpkinLevel;
   };
 
-  const Action = () => {
+  const getAction = () => {
     if (!inventory[plantingSpot]) {
       return undefined;
     }
@@ -260,7 +262,7 @@ export const SeasonalSeeds: React.FC = () => {
     const { time } = getCropPlotTime({
       crop: yields as CropName,
       game: state,
-      createdAt: Date.now(),
+      createdAt: now,
     });
     return time;
   };
@@ -361,7 +363,7 @@ export const SeasonalSeeds: React.FC = () => {
               text: plantingSpot,
             },
           }}
-          actionView={Action()}
+          actionView={getAction()}
           validSeeds={validSeeds}
         />
       }

@@ -26,6 +26,8 @@ import {
 import { GameWallet } from "features/wallet/Wallet";
 import classNames from "classnames";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { useNow } from "lib/utils/hooks/useNow";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 export const Dialogue: React.FC<{
   message: string;
@@ -96,8 +98,8 @@ export const SpecialEventModalContent: React.FC<{
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const [reward, setReward] = useState<Airdrop & { day: number }>();
   const task = useRef<Task>(undefined);
+  const [reward, setReward] = useState<Airdrop & { day: number }>();
   const [showLink, setShowLink] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -106,6 +108,9 @@ export const SpecialEventModalContent: React.FC<{
     state: { inventory, balance },
     linkedWallet,
   } = gameState.context;
+
+  const now = useNow({ live: true });
+  const { totalSeconds: secondsRemaining } = useCountdown(event.endAt);
 
   const claimReward = (day: number) => {
     task.current = event.tasks[day - 1];
@@ -118,7 +123,7 @@ export const SpecialEventModalContent: React.FC<{
       items: task.current.reward.items,
       sfl: task.current.reward.sfl,
       coins: 0,
-      createdAt: Date.now(),
+      createdAt: now,
       id: `${eventName}-${day}`,
       wearables: task.current.reward.wearables,
       day,
@@ -154,9 +159,7 @@ export const SpecialEventModalContent: React.FC<{
     const taskIndex = day - 1;
     const previousTaskIndex = taskIndex - 1;
 
-    const currentDay = Math.floor(
-      (Date.now() - event.startAt) / TWENTY_FOUR_HOURS,
-    );
+    const currentDay = Math.floor((now - event.startAt) / TWENTY_FOUR_HOURS);
 
     const previousTask = event.tasks[previousTaskIndex];
 
@@ -210,7 +213,7 @@ export const SpecialEventModalContent: React.FC<{
     );
   }
 
-  if (event.endAt < Date.now()) {
+  if (event.endAt < now) {
     return (
       <div>
         <div className="flex justify-between items-center p-2">
@@ -275,7 +278,7 @@ export const SpecialEventModalContent: React.FC<{
             )}
 
             <Label type="info" className="mr-8" icon={SUNNYSIDE.icons.timer}>
-              {secondsToString((event.endAt - Date.now()) / 1000, {
+              {secondsToString(secondsRemaining, {
                 length: "medium",
                 removeTrailingZeros: true,
               })}{" "}
@@ -438,7 +441,7 @@ export const SpecialEventModalContent: React.FC<{
               disabled={
                 !!selected.completedAt ||
                 !hasRequirements(selectedIndex + 1) ||
-                getTaskStartDate(selectedIndex + 1).getTime() > Date.now()
+                getTaskStartDate(selectedIndex + 1).getTime() > now
               }
             >
               {t("complete")}

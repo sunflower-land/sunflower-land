@@ -16,7 +16,11 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
 import { StoneRockName } from "features/game/types/resources";
-import { InventoryItemName } from "features/game/types/game";
+import {
+  GameState,
+  InventoryItemName,
+  TemperateSeasonName,
+} from "features/game/types/game";
 
 const tool = "Pickaxe";
 
@@ -26,6 +30,8 @@ const ADVANCED_STRIKE_SHEET_FRAME_WIDTH = 288 / 6;
 const ADVANCED_STRIKE_SHEET_FRAME_HEIGHT = 27;
 
 interface Props {
+  season: TemperateSeasonName;
+  island: GameState["island"];
   hasTool: boolean;
   touchCount: number;
   showHelper: boolean;
@@ -35,6 +41,8 @@ interface Props {
 }
 
 const RecoveredStoneComponent: React.FC<Props> = ({
+  season,
+  island,
   hasTool,
   touchCount,
   showHelper,
@@ -43,7 +51,6 @@ const RecoveredStoneComponent: React.FC<Props> = ({
   inventory,
 }) => {
   const { scale } = useContext(ZoomContext);
-  const [showSpritesheet, setShowSpritesheet] = useState(false);
   const [showEquipTool, setShowEquipTool] = useState(false);
 
   const strikeGif = useRef<SpriteSheetInstance>(undefined);
@@ -51,7 +58,10 @@ const RecoveredStoneComponent: React.FC<Props> = ({
 
   const { play: miningAudio } = useSound("mining");
 
-  const Image = READONLY_RESOURCE_COMPONENTS()[stoneRockName];
+  const Image = READONLY_RESOURCE_COMPONENTS({
+    season,
+    island,
+  })[stoneRockName];
 
   useEffect(() => {
     // prevent performing react state update on an unmounted component
@@ -62,11 +72,10 @@ const RecoveredStoneComponent: React.FC<Props> = ({
 
   useEffect(() => {
     if (touchCount > 0) {
-      setShowSpritesheet(true);
       miningAudio();
       strikeGif.current?.goToAndPlay(0);
     }
-  }, [touchCount]);
+  }, [touchCount, miningAudio]);
 
   const handleHover = () => {
     if (!hasTool) {
@@ -120,10 +129,10 @@ const RecoveredStoneComponent: React.FC<Props> = ({
         )}
 
         {/* static resource node image */}
-        {!showSpritesheet && <Image />}
+        {touchCount === 0 && <Image />}
 
         {/* spritesheet */}
-        {showSpritesheet && (
+        {touchCount > 0 && (
           <Spritesheet
             className="pointer-events-none"
             style={{
@@ -152,9 +161,6 @@ const RecoveredStoneComponent: React.FC<Props> = ({
             loop={true}
             onLoopComplete={(spritesheet) => {
               spritesheet.pause();
-              if (touchCount == 0 && !!strikeGif.current) {
-                setShowSpritesheet(false);
-              }
             }}
           />
         )}

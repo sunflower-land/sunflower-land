@@ -27,6 +27,7 @@ import { translate } from "lib/i18n/translate";
 import { Loading } from "features/auth/components";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { MachineState } from "features/game/lib/gameMachine";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const UPGRADE_DATES: Record<IslandType, number | null> = {
   basic: new Date(0).getTime(),
@@ -69,6 +70,7 @@ const IslandUpgraderModal: React.FC<{
 }> = ({ onClose, onUpgrade }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const now = useNow();
 
   const [showConfirmation, setShowConfirmation] = useState(false);
 
@@ -125,7 +127,7 @@ const IslandUpgraderModal: React.FC<{
 
   const upgradeDate = UPGRADE_DATES[island.type];
   const hasUpgrade = upgradeDate !== null;
-  const isReady = hasUpgrade && upgradeDate < Date.now();
+  const isReady = hasUpgrade && upgradeDate <= now;
 
   const hasResources = getKeys(upgrade.items).every(
     (name) => inventory[name]?.gte(upgrade.items[name] ?? 0) ?? false,

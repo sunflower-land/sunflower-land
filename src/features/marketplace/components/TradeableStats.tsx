@@ -1,6 +1,6 @@
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import increaseArrow from "assets/icons/increase_arrow.png";
 import decreaseArrow from "assets/icons/decrease_arrow.png";
 import {
@@ -10,6 +10,7 @@ import {
 } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber } from "lib/utils/formatNumber";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   marketPrice: number;
@@ -18,18 +19,13 @@ interface Props {
 
 export const TradeableStats: React.FC<Props> = ({ history, marketPrice }) => {
   const { t } = useAppTranslation();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (history) {
-      setLoading(false);
-    }
-  }, [history]);
+  const loading = !history;
+  const now = useNow();
 
   const prices: PriceHistory = history
     ? getPriceHistory({
         history: history.history,
-        from: new Date(Date.now() - 1000 * 60 * 60 * 24 * 31).getTime(), // 31 days ago
+        from: new Date(now - 1000 * 60 * 60 * 24 * 31).getTime(), // 31 days ago
         price: marketPrice,
       })
     : {

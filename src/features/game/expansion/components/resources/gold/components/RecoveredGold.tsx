@@ -16,7 +16,11 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
 import { GoldRockName } from "features/game/types/resources";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
-import { InventoryItemName } from "features/game/types/game";
+import {
+  GameState,
+  InventoryItemName,
+  TemperateSeasonName,
+} from "features/game/types/game";
 
 const tool = "Iron Pickaxe";
 
@@ -24,6 +28,8 @@ const STRIKE_SHEET_FRAME_WIDTH = 112;
 const STRIKE_SHEET_FRAME_HEIGHT = 48;
 
 interface Props {
+  season: TemperateSeasonName;
+  island: GameState["island"];
   hasTool: boolean;
   touchCount: number;
   goldRockName: GoldRockName;
@@ -32,6 +38,8 @@ interface Props {
 }
 
 const RecoveredGoldComponent: React.FC<Props> = ({
+  season,
+  island,
   hasTool,
   touchCount,
   goldRockName,
@@ -40,12 +48,14 @@ const RecoveredGoldComponent: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
   const { scale } = useContext(ZoomContext);
-  const [showSpritesheet, setShowSpritesheet] = useState(false);
   const [showEquipTool, setShowEquipTool] = useState(false);
 
   const strikeGif = useRef<SpriteSheetInstance>(undefined);
 
-  const Image = READONLY_RESOURCE_COMPONENTS()[goldRockName];
+  const Image = READONLY_RESOURCE_COMPONENTS({
+    season,
+    island,
+  })[goldRockName];
 
   const { play: miningAudio } = useSound("mining");
   useEffect(() => {
@@ -57,11 +67,10 @@ const RecoveredGoldComponent: React.FC<Props> = ({
 
   useEffect(() => {
     if (touchCount > 0) {
-      setShowSpritesheet(true);
       miningAudio();
       strikeGif.current?.goToAndPlay(0);
     }
-  }, [touchCount]);
+  }, [touchCount, miningAudio]);
 
   const handleHover = () => {
     if (!hasTool) {
@@ -87,10 +96,10 @@ const RecoveredGoldComponent: React.FC<Props> = ({
         })}
       >
         {/* static resource node image */}
-        {!showSpritesheet && <Image />}
+        {touchCount === 0 && <Image />}
 
         {/* spritesheet */}
-        {showSpritesheet && (
+        {touchCount > 0 && (
           <Spritesheet
             className="pointer-events-none"
             style={{
@@ -119,9 +128,6 @@ const RecoveredGoldComponent: React.FC<Props> = ({
             loop={true}
             onLoopComplete={(spritesheet) => {
               spritesheet.pause();
-              if (touchCount == 0 && !!strikeGif.current) {
-                setShowSpritesheet(false);
-              }
             }}
           />
         )}

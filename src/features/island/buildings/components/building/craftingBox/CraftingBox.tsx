@@ -11,6 +11,7 @@ import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { CraftingBoxModalContent } from "./components/CraftingBoxModalContent";
 
 import craftingBoxAnimation from "assets/buildings/crafting_box_animation.webp";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const _craftingStatus = (state: MachineState) =>
   state.context.state.craftingBox.status;
@@ -26,9 +27,9 @@ export const CraftingBox: React.FC = () => {
 
   const craftingStatus = useSelector(gameService, _craftingStatus);
   const craftingReadyAt = useSelector(gameService, _craftingReadyAt);
+  const now = useNow({ live: true, autoEndAt: craftingReadyAt });
 
-  const isReady =
-    craftingStatus === "crafting" && craftingReadyAt <= Date.now();
+  const isReady = craftingStatus === "crafting" && craftingReadyAt <= now;
 
   const handleOpen = () => {
     gameService.send("SAVE");

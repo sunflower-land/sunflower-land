@@ -58,6 +58,7 @@ import { PetNFTDetails } from "components/ui/layouts/PetNFTDetails";
 import { getPetImage } from "features/island/pets/lib/petShared";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { MONUMENTS, REWARD_ITEMS } from "features/game/types/monuments";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -112,6 +113,7 @@ const PanelContent: React.FC<PanelContentProps> = ({
   pets,
 }) => {
   const { t } = useAppTranslation();
+  const now = useNow();
 
   const [confirmationModal, showConfirmationModal] = useState(false);
 
@@ -171,7 +173,7 @@ const PanelContent: React.FC<PanelContentProps> = ({
   if (selectedChestItem.name === "Pet") {
     const petId = Number(selectedChestItem.id);
     const petData = pets[petId];
-    const isRevealed = isPetNFTRevealed(petId, Date.now());
+    const isRevealed = isPetNFTRevealed(petId, now);
 
     return (
       <PetNFTDetails

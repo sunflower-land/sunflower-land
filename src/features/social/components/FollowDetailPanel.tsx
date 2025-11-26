@@ -12,6 +12,7 @@ import helpIcon from "assets/icons/help.webp";
 import helpedIcon from "assets/icons/helped.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { shortenCount } from "lib/utils/formatNumber";
+import { useNow } from "lib/utils/hooks/useNow";
 
 type Props = {
   loggedInFarmId: number;
@@ -42,8 +43,9 @@ export const FollowDetailPanel: React.FC<Props> = ({
 }: Props) => {
   const { t } = useTranslation();
   const lastOnline = getRelativeTime(lastOnlineAt, "short");
+  const now = useNow();
 
-  const isOnline = lastOnlineAt > Date.now() - 30 * 60 * 1000;
+  const isOnline = lastOnlineAt > now - 30 * 60 * 1000;
   const isYou = loggedInFarmId === playerId;
 
   // Use useCallback to memoize the click handler

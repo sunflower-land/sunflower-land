@@ -27,6 +27,7 @@ import {
 
 interface GameContext {
   shortcutItem: (item: InventoryItemName) => void;
+  shortcuts: InventoryItemName[];
   selectedItem?: InventoryItemName;
   gameService: MachineInterpreter;
   showAnimations: boolean;
@@ -56,7 +57,7 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
     const handleRouteChange = () => {
       if (
         !window.location.href.includes("visit") &&
-        gameService.state.matches("visiting")
+        gameService.getSnapshot().matches("visiting")
       ) {
         gameService.send("END_VISIT");
       }
@@ -128,6 +129,7 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
     <Context.Provider
       value={{
         shortcutItem,
+        shortcuts,
         selectedItem,
         gameService,
         showAnimations,

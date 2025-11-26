@@ -38,7 +38,6 @@ export const Revealed: React.FC<{
     <>
       <ClaimReward
         reward={{
-          createdAt: Date.now(),
           id: "revealed-reward",
           items: items.reduce(
             (acc, name) => ({

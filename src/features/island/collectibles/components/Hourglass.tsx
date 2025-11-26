@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 import gourmetHourglassFull from "assets/factions/boosts/cooking_boost_full.webp";
 import gourmetHourglassHalf from "assets/factions/boosts/cooking_boost_half.webp";
@@ -26,10 +26,9 @@ import shadow from "assets/npcs/shadow.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleProps } from "../Collectible";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { LiveProgressBar } from "components/ui/ProgressBar";
+import { ProgressBar } from "components/ui/ProgressBar";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -40,6 +39,7 @@ import {
 } from "components/ui/SFTDetailPopover";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import classNames from "classnames";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 export type HourglassType =
   | "Gourmet Hourglass"
@@ -115,20 +115,20 @@ export const Hourglass: React.FC<HourglassProps> = ({
   hourglass,
 }) => {
   const { gameService, showTimers } = useContext(Context);
-  const [_, setRender] = useState(0);
   const { t } = useAppTranslation();
 
   const expiresAt = createdAt + HOURGLASS_DETAILS[hourglass].boostMillis;
-  const hasExpired = Date.now() > expiresAt;
-
-  useUiRefresher({ active: !hasExpired });
+  const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
+  const durationSeconds = HOURGLASS_DETAILS[hourglass].boostMillis / 1000;
+  const percentage = 100 - (secondsToExpire / durationSeconds) * 100;
+  const hasExpired = secondsToExpire <= 0;
 
   const getHourglassImage = () => {
     if (hasExpired) {
       return HOURGLASS_DETAILS[hourglass].doneImage;
     }
 
-    if (Date.now() - createdAt < HOURGLASS_DETAILS[hourglass].boostMillis / 2) {
+    if (secondsToExpire < durationSeconds / 2) {
       return HOURGLASS_DETAILS[hourglass].halfImage;
     }
 
@@ -148,12 +148,11 @@ export const Hourglass: React.FC<HourglassProps> = ({
       <div onClick={handleRemove}>
         {showTimers && (
           <div className="absolute bottom-0 left-0">
-            <LiveProgressBar
-              startAt={createdAt}
-              endAt={expiresAt}
+            <ProgressBar
+              seconds={secondsToExpire}
               formatLength="medium"
               type="error"
-              onComplete={() => setRender((r) => r + 1)}
+              percentage={percentage}
             />
           </div>
         )}
@@ -195,12 +194,11 @@ export const Hourglass: React.FC<HourglassProps> = ({
       <PopoverButton as="div">
         {showTimers && (
           <div className="absolute bottom-0 left-0">
-            <LiveProgressBar
-              startAt={createdAt}
-              endAt={expiresAt}
+            <ProgressBar
+              seconds={secondsToExpire}
               formatLength="medium"
               type="buff"
-              onComplete={() => setRender((r) => r + 1)}
+              percentage={percentage}
             />
           </div>
         )}
@@ -231,7 +229,7 @@ export const Hourglass: React.FC<HourglassProps> = ({
           <Label type="info" className="mt-2 mb-2">
             <span className="text-xs">
               {t("time.remaining", {
-                time: secondsToString((expiresAt - Date.now()) / 1000, {
+                time: secondsToString(secondsToExpire, {
                   length: "medium",
                   isShortFormat: true,
                   removeTrailingZeros: true,

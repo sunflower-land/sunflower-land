@@ -42,6 +42,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { LeagueLeaderboard } from "./pages/LeaguesLeaderboard";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import * as AuthProvider from "features/auth/lib/Provider";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   show: boolean;
@@ -60,6 +61,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const farmId = useSelector(gameService, _farmId);
   const state = useSelector(gameService, _state);
   const token = useSelector(authService, _token);
+  const now = useNow();
 
   const bumpkinLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
 
@@ -301,7 +303,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                   competitionName="BUILDING_FRIENDSHIPS"
                   state={state}
                   hideLeaderboard={
-                    Date.now() < new Date("2025-10-20T00:00:00Z").getTime()
+                    now < new Date("2025-10-20T00:00:00Z").getTime()
                   }
                 />
               </div>

@@ -26,7 +26,7 @@ type Options = {
   createdAt?: number;
 };
 
-type BuildingUpgradeCost = {
+export type BuildingUpgradeCost = {
   coins: number;
   items: Partial<Record<InventoryItemName, Decimal>>;
   requiredLevel?: number;

@@ -22,6 +22,7 @@ import shadow from "assets/npcs/shadow.png";
 import lightning from "assets/icons/lightning.png";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getCurrentBiome } from "features/island/biomes/biomes";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 const _season = (state: MachineState) => state.context.state.season.season;
 
@@ -97,12 +98,11 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, island }) => {
     gameState.context.state.bumpkin?.activity?.["Sunflower Harvested"] === 9 &&
     !gameState.context.state.bumpkin?.activity?.["Sunflower Sold"];
 
-  const cropShortageSecondsLeft =
-    (gameState.context.state.createdAt +
-      CROP_SHORTAGE_HOURS * 60 * 60 * 1000 -
-      Date.now()) /
-    1000;
-  const isCropShortage = cropShortageSecondsLeft >= 0;
+  const { totalSeconds: cropShortageSecondsLeft } = useCountdown(
+    gameState.context.state.createdAt + CROP_SHORTAGE_HOURS * 60 * 60 * 1000,
+  );
+
+  const isCropShortage = cropShortageSecondsLeft > 0;
 
   const specialEventDetails = specialEvents[0];
 

@@ -1,10 +1,9 @@
 import PubSub from "pubsub-js";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box } from "components/ui/Box";
 import { InventoryItemsModal } from "./InventoryItemsModal";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState, InventoryItemName } from "features/game/types/game";
-import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleName } from "features/game/types/craftables";
 import { BasketButton } from "./BasketButton";
@@ -14,6 +13,7 @@ import {
   LandscapingPlaceableType,
 } from "features/game/expansion/placeable/landscapingMachine";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
+import { Context } from "features/game/GameProvider";
 
 interface Props {
   state: GameState;
@@ -40,6 +40,7 @@ export const Inventory: React.FC<Props> = ({
   onDepositClick,
   hideActions,
 }) => {
+  const { shortcuts } = useContext(Context);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -61,13 +62,12 @@ export const Inventory: React.FC<Props> = ({
   //   ),
   // ][0],
 
-  const shortcuts = getShortcuts();
-
   const handleBasketItemClick = (item: InventoryItemName) => {
     if (!shortcutItem) return;
 
     shortcutItem(item);
   };
+
   const getSecondaryImage = (item: InventoryItemName) => {
     const seed = SEEDS[item as SeedName];
     return seed?.yield

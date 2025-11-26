@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 import tikiTotem from "assets/sfts/time_warp_totem.webp";
 import fastForward from "assets/icons/fast_forward.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleProps } from "../Collectible";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { LiveProgressBar } from "components/ui/ProgressBar";
+import { ProgressBar } from "components/ui/ProgressBar";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
@@ -16,6 +16,9 @@ import {
 } from "components/ui/SFTDetailPopover";
 import { secondsToString } from "lib/utils/time";
 import { Label } from "components/ui/Label";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
+
+const TIME_WARP_TOTEM_DURATION = 2 * 60 * 60 * 1000;
 
 export const TimeWarpTotem: React.FC<CollectibleProps> = ({
   createdAt,
@@ -24,12 +27,12 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({
 }) => {
   const { t } = useAppTranslation();
   const { gameService, showTimers } = useContext(Context);
+  const expiresAt = createdAt + TIME_WARP_TOTEM_DURATION;
+  const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
+  const durationSeconds = TIME_WARP_TOTEM_DURATION / 1000;
+  const percentage = 100 - (secondsToExpire / durationSeconds) * 100;
 
-  const [_, setRender] = useState(0);
-
-  const expiresAt = createdAt + 2 * 60 * 60 * 1000;
-
-  const hasExpired = Date.now() > expiresAt;
+  const hasExpired = secondsToExpire <= 0;
 
   const handleRemove = () => {
     gameService.send("collectible.burned", {
@@ -44,12 +47,11 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({
       <div onClick={handleRemove}>
         {showTimers && (
           <div className="absolute bottom-0 left-0">
-            <LiveProgressBar
-              startAt={createdAt}
-              endAt={expiresAt}
+            <ProgressBar
+              percentage={percentage}
+              seconds={secondsToExpire}
               formatLength="medium"
               type="error"
-              onComplete={() => setRender((r) => r + 1)}
             />
           </div>
         )}
@@ -83,12 +85,11 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({
       <PopoverButton as="div">
         {showTimers && (
           <div className="absolute bottom-0 left-0">
-            <LiveProgressBar
-              startAt={createdAt}
-              endAt={expiresAt}
+            <ProgressBar
+              seconds={secondsToExpire}
               formatLength="medium"
-              type={"buff"}
-              onComplete={() => setRender((r) => r + 1)}
+              type="buff"
+              percentage={percentage}
             />
           </div>
         )}
@@ -120,7 +121,7 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({
           <Label type="info" className="mt-2 mb-2">
             <span className="text-xs">
               {t("time.remaining", {
-                time: secondsToString((expiresAt - Date.now()) / 1000, {
+                time: secondsToString(secondsToExpire, {
                   length: "medium",
                   isShortFormat: true,
                   removeTrailingZeros: true,

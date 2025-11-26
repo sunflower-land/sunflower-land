@@ -71,6 +71,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
   useLayoutEffect(() => {
     if (isWearable) {
+      // Valid use case here as we are reading the width of the image
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setImageWidth(PIXEL_SCALE * 50);
       return;
     }

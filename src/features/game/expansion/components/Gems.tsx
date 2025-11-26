@@ -43,7 +43,6 @@ export const Gems: React.FC = () => {
       onClaim={onClaim}
       reward={{
         message: "Spend them wisely!",
-        createdAt: Date.now(),
         id: "revealed-reward",
         items: { Gem: gems * BB_TO_GEM_RATIO },
         wearables: {},

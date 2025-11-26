@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -10,13 +10,13 @@ import Spritesheet, {
 import { ZoomContext } from "components/ZoomProvider";
 import { MushroomName } from "features/game/types/resources";
 import { useSound } from "lib/utils/hooks/useSound";
+import { useMathRandom } from "lib/utils/hooks/useMathRandom";
 
 const FIFTEEN_SECONDS = 15000;
 const getDelay = () => Math.random() * FIFTEEN_SECONDS;
 
 interface Props {
   id: string;
-  isFirstRender: boolean;
   name: MushroomName;
 }
 
@@ -34,16 +34,16 @@ const MUSHROOM_STYLES: Record<
   },
 };
 
-export const Mushroom: React.FC<Props> = ({ id, isFirstRender, name }) => {
+export const Mushroom: React.FC<Props> = ({ id, name }) => {
   const { scale } = useContext(ZoomContext);
   const { gameService } = useContext(Context);
-  const [grow, setGrow] = useState(false);
+  const randomNumber = useMathRandom();
 
   const mushroomGif = useRef<SpriteSheetInstance>(undefined);
 
   const mushrooms = ["mushroom_1", "mushroom_2", "mushroom_3"] as const;
   const mushroomSound = useSound(
-    mushrooms[Math.floor(Math.random() * mushrooms.length)],
+    mushrooms[Math.floor(randomNumber * mushrooms.length)],
   );
 
   const { image } = MUSHROOM_STYLES[name];
@@ -53,15 +53,10 @@ export const Mushroom: React.FC<Props> = ({ id, isFirstRender, name }) => {
     gameService.send("mushroom.picked", { id });
   };
 
-  useEffect(() => {
-    setGrow(!isFirstRender);
-  }, []);
-
   return (
     <div
       className={classNames(
-        "relative w-full h-full cursor-pointer hover:img-highlight flex items-center justify-center",
-        { mushroom: grow },
+        "relative w-full h-full cursor-pointer hover:img-highlight flex items-center justify-center mushroom",
       )}
       onClick={pickMushroom}
     >

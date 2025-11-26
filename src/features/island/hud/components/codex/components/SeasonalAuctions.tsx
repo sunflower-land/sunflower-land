@@ -38,6 +38,7 @@ import { isMobile } from "mobile-device-detect";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { getAuctionItemType } from "features/retreat/components/auctioneer/lib/getAuctionItemType";
 import { getAuctionItemDisplay } from "features/retreat/components/auctioneer/lib/getAuctionItemDisplay";
+import { useNow } from "lib/utils/hooks/useNow";
 
 type AuctionDetail = {
   supply: number;
@@ -115,6 +116,7 @@ const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
   game,
 }) => {
   const { t } = useAppTranslation();
+  const now = useNow();
 
   let drops = getKeys(auctions).reduce((acc, name) => {
     return [...acc, ...auctions[name].auctions];
@@ -122,7 +124,7 @@ const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
 
   drops = drops.sort((a, b) => (a.startAt > b.startAt ? 1 : -1));
 
-  const nextDrop = drops.find((drop) => drop.startAt > Date.now());
+  const nextDrop = drops.find((drop) => drop.startAt > now);
 
   const starts = useCountdown(nextDrop?.startAt ?? 0);
 
@@ -165,7 +167,7 @@ const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
               type="formula"
               icon={ITEM_DETAILS[name].image}
               className="mb-1"
-              key={name}
+              key={`${name}-${nextDrop.startAt}`}
             >
               {t("season.codex.nextDrop.available", {
                 dropSupply: nextDrop.supply,
@@ -198,17 +200,14 @@ const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
                     ) : (
                       <div className="flex flex-col gap-1">
                         {buffLabels.map(
-                          (
-                            {
-                              labelType,
-                              boostTypeIcon,
-                              boostedItemIcon,
-                              shortDescription,
-                            },
-                            index,
-                          ) => (
+                          ({
+                            labelType,
+                            boostTypeIcon,
+                            boostedItemIcon,
+                            shortDescription,
+                          }) => (
                             <Label
-                              key={index}
+                              key={shortDescription}
                               type={labelType}
                               icon={boostTypeIcon}
                               secondaryIcon={boostedItemIcon}
@@ -264,8 +263,9 @@ const Drops: React.FC<{
 }> = ({ detail, name, maxSupply, game }) => {
   const { t } = useAppTranslation();
   const auction = detail.auctions[0];
+  const now = useNow();
 
-  const { image, buffLabels, typeLabel } = getAuctionItemDisplay({
+  const { buffLabels, typeLabel } = getAuctionItemDisplay({
     auction,
     skills: game.bumpkin.skills,
     collectibles: game.collectibles,
@@ -373,7 +373,10 @@ const Drops: React.FC<{
                           </div>
                         )}
                         {getKeys(drop.ingredients).map((name) => (
-                          <div className="flex items-center ml-1" key={name}>
+                          <div
+                            className="flex items-center ml-1"
+                            key={`${name}-${drop.auctionId}`}
+                          >
                             <img
                               src={ITEM_DETAILS[name].image}
                               className="h-4"
@@ -384,7 +387,7 @@ const Drops: React.FC<{
                     </div>
                   </div>
 
-                  {drop.startAt > Date.now() ? (
+                  {drop.startAt > now ? (
                     <Label type="formula">
                       {t("season.codex.nextDrop.available", {
                         dropSupply: drop.supply,
@@ -521,8 +524,8 @@ export const SeasonalAuctions: React.FC<Props> = ({
               return (
                 <ButtonPanel
                   onClick={() => setSelected(item)}
-                  key={name}
                   className="relative"
+                  key={`${name}-${auction.auctionId}-button`}
                 >
                   <div className="flex">
                     <div className="w-12 h-12  mr-1">

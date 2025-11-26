@@ -16,6 +16,7 @@ import {
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { TradeInitiated } from "./RemoveListing";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   id: string;
@@ -34,6 +35,7 @@ export const RemoveOffer: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
+  const now = useNow({ live: true });
 
   const confirm = async () => {
     gameService.send("marketplace.offerCancelled", {
@@ -61,7 +63,7 @@ export const RemoveOffer: React.FC<Props> = ({
 
   const initiatedAt = offer.initiatedAt;
   const isBeingPurchased =
-    !!initiatedAt && Date.now() - initiatedAt < TRADE_INITIATION_MS;
+    !!initiatedAt && now - initiatedAt < TRADE_INITIATION_MS;
 
   if (isBeingPurchased) {
     return (

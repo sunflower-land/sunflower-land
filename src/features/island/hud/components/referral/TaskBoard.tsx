@@ -1,4 +1,3 @@
-import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { ModalOverlay } from "components/ui/ModalOverlay";
@@ -23,6 +22,8 @@ import tvIcon from "assets/icons/tv.webp";
 import giftIcon from "assets/icons/gift.png";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { secondsToString } from "lib/utils/time";
+import { useNow } from "lib/utils/hooks/useNow";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface TaskBoardProps {
   state: GameState;
@@ -37,6 +38,8 @@ const TaskButton: React.FC<{
   label?: string;
 }> = ({ image, onClick, title, expiresAt, label }) => {
   const { t } = useAppTranslation();
+  const now = useNow({ live: true });
+
   return (
     <ButtonPanel key={title} onClick={onClick}>
       <div className="flex gap-3">
@@ -58,7 +61,7 @@ const TaskButton: React.FC<{
           icon={SUNNYSIDE.icons.stopwatch}
           className="absolute -right-0 -bottom-0"
         >
-          {`${secondsToString((expiresAt.getTime() - Date.now()) / 1000, {
+          {`${secondsToString((expiresAt.getTime() - now) / 1000, {
             length: "short",
           })} left`}
         </Label>

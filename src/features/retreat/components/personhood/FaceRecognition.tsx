@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import "./amplifyStyles.css";
 
 import { FaceLivenessDetectorCore } from "@aws-amplify/ui-react-liveness";
@@ -21,6 +21,7 @@ import { isMobile } from "mobile-device-detect";
 import { HudContainer } from "components/ui/HudContainer";
 import { secondsToString } from "lib/utils/time";
 import { InstallAppModal } from "features/island/hud/components/settings-menu/general-settings/InstallAppModal";
+import { useNow } from "lib/utils/hooks/useNow";
 
 // Text keys embedded in the liveness detector
 const TRANSLATION_KEYS: TranslationKeys[] = [
@@ -88,10 +89,11 @@ export const FaceRecognition: React.FC<{ skipIntro?: boolean }> = ({
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
-  const ref = useRef<HTMLDivElement>(null);
   const [showIntro, setShowIntro] = useState(!skipIntro);
   const [showMobileInstall, setShowMobileInstall] = useState(false);
   const { t } = useAppTranslation();
+
+  const now = useNow();
 
   const { gameState, gameService } = useGame();
 
@@ -101,18 +103,6 @@ export const FaceRecognition: React.FC<{ skipIntro?: boolean }> = ({
     faceRecognition?.session?.createdAt &&
     faceRecognition?.session.createdAt + 3 * 60 * 1000;
   const expires = useCountdown(expiresAt ?? 0);
-
-  // On load, if there is already a session let's check if it is completed
-  useEffect(() => {
-    if (faceRecognition?.session) {
-      const hasExpired =
-        faceRecognition.session.createdAt + 3 * 60 * 1000 < Date.now();
-
-      if (!hasExpired) {
-        // handleAnalysisComplete();
-      }
-    }
-  }, []);
 
   const handleAnalysisComplete = async () => {
     // Go off to the server and check the session ID if it has completed
@@ -162,7 +152,7 @@ export const FaceRecognition: React.FC<{ skipIntro?: boolean }> = ({
         game: gameState.context.state,
       });
 
-      const isOnCooldown = Date.now() < cooldownUntil;
+      const isOnCooldown = now < cooldownUntil;
 
       return (
         <div>
@@ -190,7 +180,7 @@ export const FaceRecognition: React.FC<{ skipIntro?: boolean }> = ({
   }
 
   // Has expired (after 3 minutes)
-  if (faceRecognition.session.createdAt + 3 * 60 * 1000 < Date.now()) {
+  if (faceRecognition.session.createdAt + 3 * 60 * 1000 < now) {
     return (
       <div>
         <Label type="danger">{t("faceRecognition.expiredTitle")}</Label>
@@ -290,6 +280,8 @@ export const RecognitionAttempt: React.FC<{
 }> = ({ game, event }) => {
   const { t } = useAppTranslation();
 
+  const now = useNow();
+
   if (event.event === "succeeded") {
     return (
       <div>
@@ -304,7 +296,7 @@ export const RecognitionAttempt: React.FC<{
   }
 
   const cooldownUntil = faceCooldownUntil({ game });
-  const isOnCooldown = Date.now() < cooldownUntil;
+  const isOnCooldown = now < cooldownUntil;
 
   if (isOnCooldown) {
     return (
@@ -314,7 +306,7 @@ export const RecognitionAttempt: React.FC<{
             {t("faceRecognition.cooldownTitle")}
           </Label>
           <Label type="info" className="my-2">
-            {secondsToString((cooldownUntil - Date.now()) / 1000, {
+            {secondsToString((cooldownUntil - now) / 1000, {
               length: "medium",
             })}
           </Label>

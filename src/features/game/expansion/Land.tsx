@@ -21,7 +21,6 @@ import { MachineState } from "../lib/gameMachine";
 import { getGameGrid } from "./placeable/lib/makeGrid";
 import { LandscapingHud } from "features/island/hud/LandscapingHud";
 import { Mushroom } from "features/island/mushrooms/Mushroom";
-import { useFirstRender } from "lib/utils/hooks/useFirstRender";
 import { MUSHROOM_DIMENSIONS, RESOURCE_DIMENSIONS } from "../types/resources";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
 import { Bud } from "features/island/buds/Bud";
@@ -337,8 +336,6 @@ export const LandComponent: React.FC = () => {
     scrollIntoView(Section.GenesisBlock, "auto");
   }, []);
 
-  const isFirstRender = useFirstRender();
-
   // memorize game grid and only update it when the stringified value changes
   const gameGrid = useMemo(() => {
     return getGameGrid({
@@ -466,7 +463,7 @@ export const LandComponent: React.FC = () => {
 
             return (
               <MapPlacement
-                key={`building-${nameIndex}`}
+                key={`building-${name}-${building.id}`}
                 x={x}
                 y={y}
                 height={height}
@@ -796,16 +793,11 @@ export const LandComponent: React.FC = () => {
           width={MUSHROOM_DIMENSIONS.width}
           z={99999}
         >
-          <Mushroom
-            key={`mushroom-${id}`}
-            id={id}
-            isFirstRender={isFirstRender}
-            name={mushroom.name}
-          />
+          <Mushroom key={`mushroom-${id}`} id={id} name={mushroom.name} />
         </MapPlacement>
       );
     });
-  }, [mushrooms, isFirstRender]);
+  }, [mushrooms]);
 
   const clutterElements = useMemo(() => {
     if (!visiting || !clutter) {

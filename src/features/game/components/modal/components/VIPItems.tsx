@@ -37,6 +37,7 @@ import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { REPUTATION_POINTS } from "features/game/lib/reputation";
 import * as Auth from "features/auth/lib/Provider";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _vip = (state: MachineState) => state.context.state.vip;
@@ -62,6 +63,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
   const inventory = useSelector(gameService, _inventory);
   const vip = useSelector(gameService, _vip);
   const state = useSelector(gameService, _state);
+  const now = useNow();
 
   const gemBalance = inventory["Gem"] ?? new Decimal(0);
 
@@ -81,11 +83,9 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
 
   const hasVip = hasVipAccess({ game: state });
 
-  const expiresSoon =
-    vip && vip.expiresAt < Date.now() + 1000 * 60 * 60 * 24 * 7;
+  const expiresSoon = vip && vip.expiresAt < now + 1000 * 60 * 60 * 24 * 7;
 
-  const hasOneYear =
-    vip && vip.expiresAt > Date.now() + 1000 * 60 * 60 * 24 * 365;
+  const hasOneYear = vip && vip.expiresAt > now + 1000 * 60 * 60 * 24 * 365;
 
   const getExpiresAt = () => {
     if (!vip) return 0;

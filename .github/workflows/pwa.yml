@@ -1,0 +1,131 @@
+name: PWA deploy
+
+on:
+  push:
+    branches:
+      - feat/react-compiler-2
+
+jobs:
+  deploy:
+    concurrency: pwa-deploy
+    environment: develop
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M')"
+
+      - name: Get the current version ref
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_SHA}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Build
+        run: yarn build
+        env:
+          NODE_OPTIONS: --max-old-space-size=6144
+          CI: false
+
+          VITE_API_URL: ${{ secrets.API_URL }}
+          VITE_ROOM_URL: ${{ secrets.ROOM_URL }}
+          VITE_DONATION_ADDRESS: ${{ secrets.DONATION_ADDRESS }}
+          VITE_NETWORK: amoy
+          VITE_ACCOUNT_MINTER_CONTRACT: "0x891a1910fCf5Fae3e91DECE231806fae720b7743"
+          VITE_SESSION_CONTRACT: "0x91083eE5761D5b0C286AB6bfb1E73E5895EaBe22"
+          VITE_AUCTION_CONTRACT: "0x4AF3425117D7D50f84aA300cc6EF72a1211f543F"
+          VITE_GAME_CONTRACT: "0x6EC7018cA99bd820077D16724AAD72706524B1dF"
+          VITE_FARM_CONTRACT: "0x6E625972Ca5206Ae213650CDc10fba1878540352"
+          VITE_INVENTORY_CONTRACT: "0xAF9f4013b569A69Ed43DB368598B37fE08fa3520"
+          VITE_TOKEN_CONTRACT: "0x64C865248a4ba3E9993F0c948246C0cC17E50F8F"
+          VITE_WITHDRAWAL_CONTRACT: "0x95FEaC8a82cDaD65BC0187df0628686688b49586"
+          VITE_WISHING_WELL_CONTRACT: "0x4B6176fACF562A68258980863f1188941f734248"
+          VITE_PAIR_CONTRACT: "0x000000000000000000000000000000000000dEaD"
+          VITE_TRADER_CONTRACT: "0x00733B03b6f3Ae6Ed195B369ddac47FF903f123f"
+          VITE_TREASURY_ADDRESS: "0x1DB57407EE80709D4d862fe81399FBB35B8B9586"
+          VITE_BUMPKIN_DETAILS_CONTRACT: "0xD35D367B7268fec464DBbD2a8cDFCF2fe993C688"
+          VITE_BUMPKIN_ITEMS_CONTRACT: "0x8184641F9E132Ff28077E9C1C2e36BB98106e254"
+          VITE_BUMPKIN_CONTRACT: "0x9141AAc3CF88C8545a7F7C0e51cA62BD9b5AAC4b"
+          VITE_DISCORD_REDIRECT: "https://api-dev.sunflower-land.com/oauth/discord"
+          VITE_CLIENT_VERSION: ${{ steps.date.outputs.date }}
+          VITE_RELEASE_VERSION: ${{ steps.get_version.outputs.VERSION }}
+          VITE_RECAPTCHA_SITEKEY: "6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
+          VITE_CLOUDFLARE_CAPTCHA_SITEKEY: "0x4AAAAAAAAoHFfoj3YbRYSO"
+          VITE_FROG_CONTRACT: "0x000000000000000000000000000000000000dEaD"
+          VITE_FROG_DONATION: "0x000000000000000000000000000000000000dEaD"
+          VITE_TADPOLE_CONTRACT: "0x000000000000000000000000000000000000dEaD"
+          VITE_INCUBATOR_CONTRACT: "0x000000000000000000000000000000000000dEaD"
+          VITE_WHITELIST_TOKEN_CONTRACT: "0x000000000000000000000000000000000000dEaD"
+          VITE_QUEST_CONTRACT: "0xB7C85B0A62BF284168Cdb33126Fc987AeD728323"
+          VITE_SEAL_CONTRACT: "0x000000000000000000000000000000000000dEaD"
+          VITE_BUY_SFL_CONTRACT: "0x4196d162B9d4Bd3C31e64284A4E5f58c2cDb90FE"
+          VITE_BUY_GEMS_CONTRACT: "0x0BF15a83889cAfcBAa19e5C44E319D96AbD0cD3E"
+          VITE_QUICKSWAP_ROUTER_CONTRACT: "0x000000000000000000000000000000000000dEaD"
+          VITE_WMATIC_CONTRACT: "0x000000000000000000000000000000000000dEaD"
+          VITE_GREEDY_GOBLIN_DONATION: "0x7bC6Fe738E5f4FdCbd034489A0320507BCA9806D"
+          VITE_CHICKEN_FIGHT_DONATION: "0x99B4E9Dc0b20E4A8a2D5be4145C38196A80e164B"
+          VITE_DAILY_REWARD_CONTRACT: "0x50CEA29a39fF01E50F2317DFEb51caBDaf46477C"
+          VITE_RONIN_DAILY_REWARD_CONTRACT: "0xAF9f4013b569A69Ed43DB368598B37fE08fa3520"
+          VITE_CHRISTMAS_EVENT_DONATION: "0xc84F151276b93a9c94B7642c738C9e5c4Cf6a316"
+          VITE_BUD_CONTRACT: "0x5b6563e99A8FCafE125b6023D723E8d372e36E96"
+          VITE_DEQUIPPER_CONTRACT: "0x1D14762E8A50E031e4Da3125c300a1D7370CBA4f"
+          VITE_WITHDRAW_SFL_CONTRACT: "0x7667a67eede741141A46ce21717aDCEA40fE7dc0"
+          VITE_ALGEBRA_QUOTER_CONTRACT: "0xd11db1Dd39D266D4eAcfaF8dbFCB9B8B691F66AF"
+          VITE_USDC_CONTRACT: "0x41e94eb019c0762f9bfcf9fb1e58725bfb0e7582"
+          VITE_FLOWER_CONTRACT: "0xC462c9611871906b8C0152bDa5Ca55E1f439D7e4"
+          VITE_WITHDRAW_FLOWER_CONTRACT: "0x9dDD15Fd393523F57EDf8937D44705C9044B16c0"
+          VITE_WITHDRAW_PET_CONTRACT: "0x787B11842F600495606D4d3F4Df911Df9eecD1e5"
+          VITE_DEPOSIT_V2_CONTRACT: "0x180f96d2FF1Be8C49eA10815216873606C3054D0"
+          VITE_PET_CONTRACT: "0x03049Ccb68858d5Be158a137BD1e390A6DF63f0A"
+
+          VITE_ALCHEMY_RPC: ${{ secrets.ALCHEMY_RPC }}
+          VITE_ALCHEMY_KEY: ${{ secrets.ALCHEMY_KEY }}
+          VITE_POKO_API_KEY: ${{ secrets.POKO_API_KEY }}
+          VITE_POKO_DIRECT_CHECKOUT_API_KEY: ${{ secrets.POKO_DIRECT_CHECKOUT_API_KEY }}
+          VITE_WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
+          VITE_PRIVATE_IMAGE_URL: "https://sunflower-land.com/testnet-assets"
+          VITE_GAME_ANALYTICS_APP_ID: ${{ secrets.GAME_ANALYTICS_APP_ID }}
+          VITE_GAME_ANALYTICS_PUB_KEY: ${{ secrets.GAME_ANALYTICS_PUB_KEY }}
+          VITE_SEQUENCE_ACCESS_KEY: ${{ secrets.SEQUENCE_ACCESS_KEY }}
+          VITE_ANIMATION_URL: "https://animations-dev.sunflower-land.com"
+          VITE_FIREBASE_VAPID_KEY: ${{ secrets.FIREBASE_VAPID_KEY }}
+          VITE_TELEGRAM_BOT: "sunflower_land_testnet_bot"
+          VITE_TWITTER_CLIENT_ID: ${{ secrets.TWITTER_CLIENT_ID }}
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-2
+
+      - name: Deploy static site to S3 bucket
+        run: aws s3 sync ./dist/ s3://sunflower-land.com/pwa --delete
+
+      - name: Deploy static site to S3 bucket
+        run: aws s3 sync ./dist/ s3://www.sunflower-land.com/pwa --delete
+
+      - name: Invalidate CloudFront
+        uses: chetan/invalidate-cloudfront-action@v2
+        env:
+          DISTRIBUTION: ${{ secrets.CF_DISTRIBUTION }}
+          PATHS: "/pwa/*"
+          AWS_REGION: "us-east-1"
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  update_release_draft:
+    runs-on: ubuntu-latest
+    steps:
+      # Drafts your next Release notes as Pull Requests are merged into "master"
+      - uses: release-drafter/release-drafter@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

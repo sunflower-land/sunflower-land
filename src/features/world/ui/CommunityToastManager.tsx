@@ -43,8 +43,12 @@ export const communityToastManager = new CommunityToastManager();
 export const CommunityToasts: React.FC = () => {
   const [toasts, setToasts] = useState<CommunityToast[]>([]);
 
+  const hideToast = (toast: CommunityToast) => {
+    setToasts((prevToasts) => prevToasts.filter((t) => t !== toast));
+  };
+
   useEffect(() => {
-    communityToastManager.listen((toast, isShown) => {
+    communityToastManager.listen((toast) => {
       if (!toast.text) {
         // eslint-disable-next-line no-console
         return console.warn(translate("community.toast"));
@@ -69,10 +73,6 @@ export const CommunityToasts: React.FC = () => {
       }, 5000);
     });
   }, []);
-
-  const hideToast = (toast: CommunityToast) => {
-    setToasts((prevToasts) => prevToasts.filter((t) => t !== toast));
-  };
 
   return (
     <>

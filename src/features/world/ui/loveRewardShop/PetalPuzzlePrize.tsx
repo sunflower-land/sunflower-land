@@ -5,6 +5,7 @@ import { hasClaimedPetalPrize } from "features/game/events/landExpansion/claimPe
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { useGame } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useNow } from "lib/utils/hooks/useNow";
 import React from "react";
 
 export const PetalPuzzlePrize: React.FC<{ onClose: () => void }> = ({
@@ -15,9 +16,11 @@ export const PetalPuzzlePrize: React.FC<{ onClose: () => void }> = ({
 
   const { t } = useAppTranslation();
 
+  const createdAt = useNow();
+
   const hasClaimed = hasClaimedPetalPrize({
     state,
-    createdAt: Date.now(),
+    createdAt,
   });
 
   const onClaim = () => {
@@ -46,8 +49,8 @@ export const PetalPuzzlePrize: React.FC<{ onClose: () => void }> = ({
         onClaim={onClaim}
         reward={{
           message: t("petalPuzzle.congratulations"),
-          createdAt: Date.now(),
           id: "bronze-love-box",
+          createdAt,
           items: {
             "Bronze Love Box": 1,
           },

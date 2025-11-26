@@ -28,6 +28,7 @@ import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDeta
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES } from "lib/npcs";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { useNow } from "lib/utils/hooks/useNow";
 import React, { useContext, useMemo } from "react";
 
 const _exchange = (state: MachineState) => state.context.state.bounties;
@@ -155,7 +156,7 @@ export const AnimalDeal: React.FC<{
 }> = ({ deal, animal, onClose, onSold }) => {
   const { gameService } = useContext(Context);
   const state = gameService.getSnapshot().context.state;
-
+  const now = useNow();
   const { t } = useAppTranslation();
   const sell = () => {
     gameService.send("animal.sold", {
@@ -195,7 +196,6 @@ export const AnimalDeal: React.FC<{
               )}
               {getKeys(deal.items ?? {}).map((name) => {
                 let amount = deal.items?.[name] ?? 0;
-                const now = Date.now();
 
                 if (name === getSeasonalTicket(new Date(now))) {
                   amount = generateBountyTicket({

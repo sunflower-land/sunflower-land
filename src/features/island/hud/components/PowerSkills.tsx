@@ -33,6 +33,7 @@ import {
 } from "features/game/events/landExpansion/skillUsed";
 import { getRelativeTime, millisecondsToString } from "lib/utils/time";
 import { ConfirmButton } from "components/ui/ConfirmButton";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface PowerSkillsProps {
   onHide: () => void;
@@ -72,6 +73,7 @@ const PowerSkillsContent: React.FC<{
   const state = useSelector(gameService, _state);
   const { bumpkin, crops, fruitPatches, inventory } = state;
   const { skills, previousPowerUseAt } = bumpkin;
+  const now = useNow();
 
   const powerSkills = getPowerSkills();
   const powerSkillsUnlocked = powerSkills.filter(
@@ -154,8 +156,7 @@ const PowerSkillsContent: React.FC<{
   const boostedCooldown = getSkillCooldown({ cooldown: cooldown ?? 0, state });
 
   const nextSkillUse = (previousPowerUseAt?.[skillName] ?? 0) + boostedCooldown;
-
-  const powerSkillReady = nextSkillUse <= Date.now();
+  const powerSkillReady = nextSkillUse < now;
 
   const { disabled, reason } = powerSkillDisabledConditions({
     state,

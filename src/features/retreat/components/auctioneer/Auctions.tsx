@@ -15,6 +15,7 @@ import classNames from "classnames";
 import { isMobile } from "mobile-device-detect";
 import { GameState } from "features/game/types/game";
 import { getAuctionItemDisplay } from "./lib/getAuctionItemDisplay";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   auctionService: MachineInterpreter;
@@ -28,12 +29,10 @@ export const Auctions: React.FC<Props> = ({
 }) => {
   const [auctioneerState] = useActor(auctionService);
   const { t } = useAppTranslation();
-
+  const now = useNow();
   const { auctions } = auctioneerState.context;
 
-  const currentAuctions = auctions.filter(
-    (auction) => auction.endAt > Date.now(),
-  );
+  const currentAuctions = auctions.filter((auction) => auction.endAt > now);
   if (currentAuctions.length === 0) {
     return <AuctionsComingSoon />;
   }
@@ -101,7 +100,7 @@ export const Auctions: React.FC<Props> = ({
                   />
                 ))}
               </div>
-              {Date.now() > auction.startAt ? (
+              {now > auction.startAt ? (
                 <div>
                   <Label type="warning">{t("auction.live")}</Label>
                 </div>

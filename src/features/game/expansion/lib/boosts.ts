@@ -161,12 +161,12 @@ export const getCookingTime = ({
   seconds,
   item,
   game,
-  cookStartAt,
+  cookStartAt = Date.now(),
 }: {
   seconds: number;
   item: CookableName;
   game: GameState;
-  cookStartAt: number;
+  cookStartAt?: number;
 }): { reducedSecs: number; boostsUsed: BoostName[] } => {
   const { bumpkin } = game;
   const buildingName = COOKABLES[item].building;

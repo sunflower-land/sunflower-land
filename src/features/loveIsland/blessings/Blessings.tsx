@@ -33,6 +33,7 @@ import { NumberInput } from "components/ui/NumberInput";
 import { MAX_INVENTORY_ITEMS } from "features/game/lib/processEvent";
 import giftIcon from "assets/icons/gift.png";
 import { Maintenance } from "features/auth/components/Maintenance";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const SEASON_GUARDIANS: Record<TemperateSeasonName, string> = {
   autumn: autumnGuardian,
@@ -114,6 +115,8 @@ export const BlessingOffer: React.FC<Props> = ({ onClose }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [amount, setAmount] = useState(1);
 
+  const now = useNow();
+
   const { offering, offered } = gameState.context.state.blessing;
 
   const offer = () => {
@@ -145,7 +148,7 @@ export const BlessingOffer: React.FC<Props> = ({ onClose }) => {
     );
   }
 
-  if (Date.now() > new Date("2025-10-07T00:00:00Z").getTime()) {
+  if (now >= new Date("2025-10-07T00:00:00Z").getTime()) {
     return <Maintenance />;
   }
 
@@ -228,12 +231,11 @@ const fetcher = async ([token, date]: [string, string]) => {
 };
 
 export const BlessingResults: React.FC<Props> = ({ onClose }) => {
-  const { gameState, gameService } = useGame();
   const { authState } = useAuth();
 
-  const [showReward, setShowReward] = useState(false);
+  const now = useNow();
 
-  const previousDayKey = new Date(Date.now() - 24 * 60 * 60 * 1000)
+  const previousDayKey = new Date(now - 24 * 60 * 60 * 1000)
     .toISOString()
     .slice(0, 10);
 
@@ -241,10 +243,7 @@ export const BlessingResults: React.FC<Props> = ({ onClose }) => {
     data: response,
     isLoading,
     error,
-    mutate,
   } = useSWR([authState.context.user.rawToken!, previousDayKey], fetcher);
-
-  const { offered, reward } = gameState.context.state.blessing;
 
   const { t } = useAppTranslation();
 

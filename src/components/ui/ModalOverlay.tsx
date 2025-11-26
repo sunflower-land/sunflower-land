@@ -6,7 +6,7 @@
  */
 
 import { Transition, TransitionChild } from "@headlessui/react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 interface Props {
   show: boolean;
@@ -20,13 +20,7 @@ export const ModalOverlay: React.FC<React.PropsWithChildren<Props>> = ({
   children,
   onBackdropClick,
 }) => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    if (show && !isVisible) {
-      setIsVisible(true);
-    }
-  }, [show, isVisible]);
+  const [hideChildren, setHideChildren] = useState(true);
 
   return (
     <Transition show={show}>
@@ -55,11 +49,12 @@ export const ModalOverlay: React.FC<React.PropsWithChildren<Props>> = ({
         leave="transition-transform ease-linear duration-100"
         leaveFrom="scale-100"
         leaveTo="scale-0"
-        afterLeave={() => setIsVisible(false)}
+        beforeEnter={() => setHideChildren(false)}
+        afterLeave={() => setHideChildren(true)}
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform w-full sm:w-5/6 z-50"
         as="div"
       >
-        {isVisible && <>{children}</>}
+        {!hideChildren && <>{children}</>}
       </TransitionChild>
     </Transition>
   );

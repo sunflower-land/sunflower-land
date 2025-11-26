@@ -1,5 +1,5 @@
 import { useSelector } from "@xstate/react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import Decimal from "decimal.js-light";
 import { toWei } from "web3-utils";
 import { Button } from "components/ui/Button";
@@ -40,19 +40,14 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
   const { chain } = useAccount();
 
   const [amount, setAmount] = useState<Decimal>(new Decimal(0));
-  const [tax, setTax] = useState(0);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const { balance } = state;
 
-  useEffect(() => {
-    const _tax = getTax({
-      amount: typeof amount !== "string" ? amount : new Decimal(0),
-      game: state,
-    });
-
-    setTax(_tax);
-  }, [amount]);
+  const tax = getTax({
+    amount: typeof amount !== "string" ? amount : new Decimal(0),
+    game: state,
+  });
 
   const withdraw = (chainId: number) => {
     if (amount > new Decimal(0)) {

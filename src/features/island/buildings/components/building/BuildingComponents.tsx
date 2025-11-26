@@ -112,13 +112,24 @@ export const BUILDING_COMPONENTS: Record<
   "Pet House": PetHouse,
 };
 
-export const READONLY_BUILDINGS: (
-  gameState: GameState,
-) => Record<BuildingName, React.FC<BuildingProps>> = (gameState) => {
-  const island: GameState["island"] = gameState.island;
-  const season: TemperateSeasonName = gameState.season.season;
-  const henHouseLevel = gameState.henHouse.level;
-  const barnLevel = gameState.barn.level;
+type ReadonlyBuildingArgs = {
+  island: GameState["island"];
+  season: TemperateSeasonName;
+  henHouseLevel: number;
+  barnLevel: number;
+};
+
+export const READONLY_BUILDINGS: ({
+  island,
+  season,
+  henHouseLevel,
+  barnLevel,
+}: ReadonlyBuildingArgs) => Record<BuildingName, React.FC<BuildingProps>> = ({
+  island,
+  season,
+  henHouseLevel,
+  barnLevel,
+}) => {
   const biome = getCurrentBiome(island);
 
   return {

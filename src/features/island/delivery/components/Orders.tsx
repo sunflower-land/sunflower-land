@@ -19,7 +19,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/craftables";
 import { GameState, Order } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { NPCIcon } from "features/island/bumpkin/components/NPC";
 
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import {
@@ -38,7 +37,7 @@ import {
 } from "../lib/delivery";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Button } from "components/ui/Button";
-import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
@@ -53,10 +52,13 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { isMobile } from "mobile-device-detect";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_IDS } from "features/game/types/bumpkin";
-import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import { Context } from "features/game/GameProvider";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
+import { useNow } from "lib/utils/hooks/useNow";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { OrderCard } from "./OrderCard";
+import { LockedOrderCard } from "./LockedOrderCard";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -108,210 +110,6 @@ export function hasOrderRequirements({
   });
 }
 
-const makeRewardAmountForLabel = ({
-  order,
-  state,
-}: {
-  order: Order;
-  state: GameState;
-}) => {
-  if (order.reward.sfl !== undefined) {
-    const { reward: sfl } = getOrderSellPrice<Decimal>(state, order);
-
-    return formatNumber(sfl, { decimalPlaces: 4 });
-  }
-
-  const { reward: coins } = getOrderSellPrice<number>(state, order);
-
-  return formatNumber(coins);
-};
-
-export type OrderCardProps = {
-  order: Order;
-  selected: Order;
-  onClick: (id: string) => void;
-  state: GameState;
-};
-export const OrderCard: React.FC<OrderCardProps> = ({
-  order,
-  selected,
-  onClick,
-  state,
-}) => {
-  const npcName = order.from;
-  const tickets = generateDeliveryTickets({ game: state, npc: npcName });
-
-  return (
-    <div className="py-1 px-1" key={order.id}>
-      <ButtonPanel
-        onClick={() => onClick(order.id)}
-        className={classNames("w-full !py-2 relative", {
-          "sm:!bg-brown-200": order.id === selected?.id,
-        })}
-        style={{ paddingBottom: "20px" }}
-      >
-        {hasOrderRequirements({ order, state }) && !order.completedAt && (
-          <img
-            src={SUNNYSIDE.icons.heart}
-            className="absolute top-0.5 right-0.5 w-3 sm:w-4"
-          />
-        )}
-        <div className="flex flex-col pb-2">
-          <div className="flex items-center my-1">
-            <div className="relative mb-2 mr-0.5 -ml-1">
-              <NPCIcon parts={NPC_WEARABLES[npcName]} />
-            </div>
-            <div className="flex-1 flex justify-center h-8 items-center w-6">
-              {getKeys(order.items).map((name) => {
-                let img: string;
-
-                if (name === "coins") {
-                  img = SUNNYSIDE.ui.coinsImg;
-                } else if (name === "sfl") {
-                  img = token;
-                } else {
-                  if (isCollectible(name)) {
-                    img = ITEM_DETAILS[name].image;
-                  } else {
-                    img =
-                      new URL(
-                        `/src/assets/wearables/${ITEM_IDS[name]}.webp`,
-                        import.meta.url,
-                      ).href ?? SUNNYSIDE.icons.expression_confused;
-                  }
-                }
-
-                return (
-                  <img key={name} src={img} className="w-6 img-highlight" />
-                );
-              })}
-            </div>
-          </div>
-        </div>
-        {order.completedAt && (
-          <Label
-            type="success"
-            className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10 h-6"
-            style={{ width: "calc(100% + 15px)" }}
-          >
-            <img src={SUNNYSIDE.icons.confirm} className="h-4" />
-          </Label>
-        )}
-        {!order.completedAt && order.reward.sfl !== undefined && (
-          <Label
-            type="warning"
-            iconWidth={8}
-            icon={token}
-            className={"absolute -bottom-2 text-center p-1 "}
-            style={{
-              left: `${PIXEL_SCALE * -3}px`,
-              right: `${PIXEL_SCALE * -3}px`,
-              width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-              height: "25px",
-            }}
-          >
-            {`${`${makeRewardAmountForLabel({ order, state })}`}`}
-          </Label>
-        )}
-        {!order.completedAt && order.reward.coins !== undefined && (
-          <Label
-            type="warning"
-            icon={SUNNYSIDE.ui.coinsImg}
-            className={"absolute -bottom-2 text-center p-1 "}
-            style={{
-              left: `${PIXEL_SCALE * -3}px`,
-              right: `${PIXEL_SCALE * -3}px`,
-              width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-              height: "25px",
-            }}
-          >
-            {`${makeRewardAmountForLabel({ order, state })}`}
-          </Label>
-        )}
-        {!order.completedAt && !!tickets && (
-          <Label
-            icon={ITEM_DETAILS[getSeasonalTicket()].image}
-            type="warning"
-            className={"absolute -bottom-2 text-center p-1 "}
-            style={{
-              left: `${PIXEL_SCALE * -3}px`,
-              right: `${PIXEL_SCALE * -3}px`,
-              width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-              height: "25px",
-            }}
-          >
-            {tickets}
-          </Label>
-        )}
-        {order.id === selected?.id && (
-          <div id="select-box" className="hidden md:block">
-            <img
-              className="absolute pointer-events-none"
-              src={SUNNYSIDE.ui.selectBoxBR}
-              style={{
-                bottom: `${PIXEL_SCALE * -3}px`,
-                right: `${PIXEL_SCALE * -3}px`,
-                width: `${PIXEL_SCALE * 8}px`,
-              }}
-            />
-            <img
-              className="absolute pointer-events-none"
-              src={SUNNYSIDE.ui.selectBoxTR}
-              style={{
-                top: `${PIXEL_SCALE * -3}px`,
-                right: `${PIXEL_SCALE * -3}px`,
-                width: `${PIXEL_SCALE * 8}px`,
-              }}
-            />
-          </div>
-        )}
-      </ButtonPanel>
-    </div>
-  );
-};
-
-export const LockedOrderCard: React.FC<{ npc: NPCName }> = ({ npc }) => {
-  return (
-    <div className="py-1 px-1">
-      <ButtonPanel
-        disabled
-        className={classNames(
-          "w-full !py-2 relative h-full flex items-center justify-center cursor-not-allowed",
-        )}
-        style={{ paddingBottom: "20px" }}
-      >
-        <div className="flex flex-col pb-2">
-          <div className="flex items-center my-1">
-            <div className="relative mb-2 mr-0.5 -ml-1">
-              <NPCIcon parts={NPC_WEARABLES[npc]} />
-            </div>
-            <div className="flex-1 flex justify-center h-8 items-center w-6 ">
-              <img
-                src={SUNNYSIDE.icons.expression_confused}
-                className="h-6 img-highlight"
-              />
-            </div>
-          </div>
-        </div>
-
-        <Label
-          type="formula"
-          icon={SUNNYSIDE.icons.lock}
-          className="absolute -bottom-2 text-center p-1"
-          style={{
-            left: `${PIXEL_SCALE * -3}px`,
-            right: `${PIXEL_SCALE * -3}px`,
-            width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-            height: "25px",
-          }}
-        >
-          {`Lvl ${NPC_DELIVERY_LEVELS[npc as DeliveryNpcName]}`}
-        </Label>
-      </ButtonPanel>
-    </div>
-  );
-};
-
 export const DeliveryOrders: React.FC<Props> = ({
   selectedId,
   onSelect,
@@ -327,8 +125,10 @@ export const DeliveryOrders: React.FC<Props> = ({
   const [showSkipDialog, setShowSkipDialog] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
 
+  const now = useNow({ live: true });
+
   const orders = delivery.orders
-    .filter((order) => Date.now() >= order.readyAt)
+    .filter((order) => now >= order.readyAt)
     .sort((a, b) => (a.createdAt < b.createdAt ? -1 : 1));
 
   useEffect(() => {
@@ -362,7 +162,7 @@ export const DeliveryOrders: React.FC<Props> = ({
     onSelect(id);
   };
 
-  const nextOrder = delivery.orders.find((order) => order.readyAt > Date.now());
+  const nextOrder = delivery.orders.find((order) => order.readyAt > now);
   const skippedOrder = delivery.orders.find((order) => order.id === "skipping");
   const { t } = useAppTranslation();
 
@@ -398,8 +198,7 @@ export const DeliveryOrders: React.FC<Props> = ({
   // Check if matches UTC date
   const isHoliday = holiday === new Date().toISOString().split("T")[0];
 
-  const nextHolidayInSecs =
-    (new Date(holiday ?? 0).getTime() - Date.now()) / 1000;
+  const nextHolidayInSecs = (new Date(holiday ?? 0).getTime() - now) / 1000;
 
   const level = getBumpkinLevel(bumpkin?.experience ?? 0);
 
@@ -450,7 +249,7 @@ export const DeliveryOrders: React.FC<Props> = ({
           className="ml-2 mb-2"
           icon={SUNNYSIDE.ui.coinsImg}
         >
-          {`Coins`}
+          {t("coins")}
         </Label>
         <div className="grid grid-cols-3 sm:grid-cols-4 w-full ml-1">
           {coinOrders.map((order) => {
@@ -481,13 +280,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                 {t("delivery.holiday")}
               </Label>
             )}
-            {nextHolidayInSecs > 0 && nextHolidayInSecs < 24 * 60 * 60 && (
-              <Label type="danger" icon={lock} className="mt-1">
-                {`${secondsToString(nextHolidayInSecs, {
-                  length: "medium",
-                })} left`}
-              </Label>
-            )}
+            <NextHolidayLabel holiday={holiday} now={now} />
           </div>
           {level <= 8 && (
             <span className="text-xs mb-2">
@@ -548,26 +341,7 @@ export const DeliveryOrders: React.FC<Props> = ({
           {nextSFLUnlock && <LockedOrderCard npc={nextSFLUnlock} />}
         </div>
 
-        {nextOrder && !skippedOrder && (
-          <div className="w-1/2 sm:w-1/3 p-1">
-            <OuterPanel
-              className="w-full !py-2 relative"
-              style={{ height: "80px" }}
-            >
-              <p className="text-center mb-0.5 mt-1 text-sm">
-                {t("next.order")}{" "}
-              </p>
-              <div className="flex justify-center items-center">
-                <img src={SUNNYSIDE.icons.timer} className="h-4 mr-2" />
-                <p className="text-xs">
-                  {secondsToString((nextOrder.readyAt - Date.now()) / 1000, {
-                    length: "medium",
-                  })}
-                </p>
-              </div>
-            </OuterPanel>
-          </div>
-        )}
+        {nextOrder && !skippedOrder && <NextOrderPanel nextOrder={nextOrder} />}
         {skippedOrder && (
           <div className="w-1/2 sm:w-1/3 p-1">
             <OuterPanel
@@ -868,6 +642,49 @@ export const DeliveryOrders: React.FC<Props> = ({
             )}
         </InnerPanel>
       )}
+    </div>
+  );
+};
+
+const NextHolidayLabel: React.FC<{
+  holiday: string | undefined;
+  now: number;
+}> = ({ holiday }) => {
+  const { totalSeconds: secondsRemaining } = useCountdown(
+    new Date(holiday ?? 0).getTime(),
+  );
+
+  if (!holiday) return null;
+
+  if (secondsRemaining > 0 && secondsRemaining < 24 * 60 * 60) {
+    return (
+      <Label type="danger" icon={lock} className="mt-1">
+        {`${secondsToString(secondsRemaining, {
+          length: "medium",
+        })} left`}
+      </Label>
+    );
+  }
+  return null;
+};
+
+const NextOrderPanel: React.FC<{ nextOrder: Order }> = ({ nextOrder }) => {
+  const { t } = useAppTranslation();
+  const { totalSeconds: secondsRemaining } = useCountdown(nextOrder.readyAt);
+
+  return (
+    <div className="w-1/2 sm:w-1/3 p-1">
+      <OuterPanel className="w-full !py-2 relative" style={{ height: "80px" }}>
+        <p className="text-center mb-0.5 mt-1 text-sm">{t("next.order")} </p>
+        <div className="flex justify-center items-center">
+          <img src={SUNNYSIDE.icons.timer} className="h-4 mr-2" />
+          <p className="text-xs">
+            {secondsToString(secondsRemaining, {
+              length: "medium",
+            })}
+          </p>
+        </div>
+      </OuterPanel>
     </div>
   );
 };

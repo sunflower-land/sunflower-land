@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useRef, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import useSWR from "swr";
 import { useActor } from "@xstate/react";
 
@@ -16,6 +16,7 @@ import { AuctionLeaderboardTable } from "./AuctionLeaderboardTable";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { randomID } from "lib/utils/random";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const historyFetcher = async ([, token]: [string, string]): Promise<
   Auction[]
@@ -59,7 +60,8 @@ export const AuctionHistory: React.FC = () => {
   const game = gameState.context.state;
 
   const [selectedAuctionId, setSelectedAuctionId] = useState<string>();
-  const hasInitialisedSelectionRef = useRef(false);
+
+  const now = useNow();
 
   const {
     data: auctions,
@@ -79,26 +81,10 @@ export const AuctionHistory: React.FC = () => {
     }
 
     return auctions
-      .filter((auction) => auction.endAt < Date.now())
+      .filter((auction) => auction.endAt < now)
       .sort((a, b) => b.endAt - a.endAt)
       .slice(0, 20);
-  }, [auctions]);
-
-  //   useEffect(() => {
-  //     if (completedAuctions.length === 0) {
-  //       return;
-  //     }
-
-  //     if (
-  //       !hasInitialisedSelectionRef.current ||
-  //       !completedAuctions.find(
-  //         (auction) => auction.auctionId === selectedAuctionId,
-  //       )
-  //     ) {
-  //       setSelectedAuctionId(completedAuctions[0].auctionId);
-  //       hasInitialisedSelectionRef.current = true;
-  //     }
-  //   }, [completedAuctions, selectedAuctionId]);
+  }, [auctions, now]);
 
   const selectedAuction = completedAuctions.find(
     (auction) => auction.auctionId === selectedAuctionId,
@@ -200,12 +186,6 @@ export const AuctionHistory: React.FC = () => {
 
           {!resultsLoading && selectedResults && (
             <div className="flex flex-col gap-1">
-              {/* <Label type="default" className="-ml-1">
-                {`Status: ${
-                  selectedResults.status.charAt(0).toUpperCase() +
-                  selectedResults.status.slice(1)
-                }`}
-              </Label> */}
               {selectedResults.leaderboard.length > 0 ? (
                 <AuctionLeaderboardTable
                   leaderboard={selectedResults.leaderboard}

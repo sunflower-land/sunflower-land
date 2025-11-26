@@ -1,8 +1,7 @@
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { ModalOverlay } from "components/ui/ModalOverlay";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   HALLOWEEN_EVENT_ITEMS,
   EventStoreCollectible,
@@ -78,21 +77,10 @@ export const getItemDescription = (item: EventStoreItem | null): string => {
 export const EventStore: React.FC<Props> = ({ readonly, state }) => {
   const [selectedItem, setSelectedItem] = useState<EventStoreItem | null>(null);
   const [selectedTier, setSelectedTier] = useState<EventStoreTier>();
-  const [isVisible, setIsVisible] = useState(false);
-  const createdAt = Date.now();
-
-  useEffect(() => {
-    if (selectedItem && !isVisible) {
-      setIsVisible(true);
-    }
-  }, [selectedItem, isVisible]);
-
   const handleClickItem = (item: EventStoreItem, tier: EventStoreTier) => {
     setSelectedItem(item);
     setSelectedTier(tier);
   };
-
-  const { t } = useAppTranslation();
 
   const EVENTMEGASTORE = HALLOWEEN_EVENT_ITEMS;
 
@@ -109,7 +97,7 @@ export const EventStore: React.FC<Props> = ({ readonly, state }) => {
         onBackdropClick={() => setSelectedItem(null)}
       >
         <ItemDetail
-          isVisible={isVisible}
+          isVisible={!!selectedItem}
           item={selectedItem}
           tier={selectedTier}
           image={getItemImage(selectedItem)}

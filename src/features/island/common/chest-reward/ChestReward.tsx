@@ -1,5 +1,5 @@
 import { Panel } from "components/ui/Panel";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 
 import { InventoryItemName, Reward } from "features/game/types/game";
@@ -14,6 +14,7 @@ import Decimal from "decimal.js-light";
 import { translate } from "lib/i18n/translate";
 import classNames from "classnames";
 import { CaptchaInfo } from "./CaptchaInfo";
+import { useMathRandom } from "lib/utils/hooks/useMathRandom";
 
 interface Props {
   collectedItem?: InventoryItemName;
@@ -32,21 +33,18 @@ export const ChestReward: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
   const [opened, setOpened] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const challenge = useRef<Challenge>(
-    Math.random() > 0.3 ? "chest" : "goblins",
-  );
+  const [loading, setLoading] = useState(reward ? true : false);
+  const random = useMathRandom();
+  const [challenge] = useState<Challenge>(random > 0.3 ? "chest" : "goblins");
 
   useEffect(() => {
     if (reward) {
-      setLoading(true);
-      setTimeout(() => setLoading(false), 500);
+      const timeout = setTimeout(() => setLoading(false), 500);
+      return () => clearTimeout(timeout);
     }
   }, [reward]);
 
-  if (!reward) {
-    return null;
-  }
+  if (!reward) return null;
 
   const open = () => {
     setOpened(true);
@@ -78,7 +76,6 @@ export const ChestReward: React.FC<Props> = ({
           <ClaimReward
             reward={{
               id: "chest-reward",
-              createdAt: Date.now(),
               items:
                 items?.reduce(
                   (acc, { name, amount }) => {
@@ -102,14 +99,14 @@ export const ChestReward: React.FC<Props> = ({
                 { hidden: loading },
               )}
             >
-              {challenge.current === "goblins" && (
+              {challenge === "goblins" && (
                 <StopTheGoblins
                   onFail={fail}
                   onOpen={open}
                   collectedItem={collectedItem}
                 />
               )}
-              {challenge.current === "chest" && (
+              {challenge === "chest" && (
                 <ChestCaptcha onFail={fail} onOpen={open} />
               )}
             </div>

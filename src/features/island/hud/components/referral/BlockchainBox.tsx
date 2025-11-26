@@ -8,9 +8,7 @@ import { useActor } from "@xstate/react";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-export const BlockchainBox: React.FC<{
-  onClose: () => void;
-}> = ({ onClose }) => {
+export const BlockchainBox: React.FC = () => {
   const { gameService, gameState } = useGame();
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
@@ -45,7 +43,6 @@ export const BlockchainBox: React.FC<{
       <ClaimReward
         reward={{
           message: t("reward.blockchainBoxSuccess"),
-          createdAt: Date.now(),
           id: "revealed-reward",
           items: reward.items,
           wearables: {},

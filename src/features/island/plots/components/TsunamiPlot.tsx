@@ -1,20 +1,16 @@
 import React, { useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Modal } from "components/ui/Modal";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GameState } from "features/game/types/game";
 
 import tsunamiIcon from "assets/icons/tsunami.webp";
-import { Label } from "components/ui/Label";
-import { secondsToString } from "lib/utils/time";
 import { SOIL_IMAGES } from "../lib/plant";
 import { getCurrentBiome } from "features/island/biomes/biomes";
+import { WeatherAffectedModal } from "./AffectedModal";
 
-const TsunamiPlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
+export const TsunamiPlot: React.FC<{ game: GameState }> = ({ game }) => {
   const [showModal, setShowModal] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const { t } = useAppTranslation();
@@ -73,34 +69,14 @@ const TsunamiPlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
         </div>
       )}
 
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <CloseButtonPanel onClose={() => setShowModal(false)}>
-          <div className="p-2">
-            <Label icon={tsunamiIcon} type="danger" className="mb-1 -ml-1">
-              {t("tsunami")}
-            </Label>
-            <p className="text-sm mb-3">
-              {t("tsunami.crops.destroyed.description")}
-            </p>
-            <Label
-              icon={SUNNYSIDE.icons.stopwatch}
-              type="transparent"
-              className="mt-2 ml-1"
-            >
-              {`${t("ready.in")}: ${secondsToString(
-                24 * 60 * 60 -
-                  (Date.now() - game.calendar.tsunami!.startedAt) / 1000,
-                {
-                  length: "medium",
-                },
-              )}`}
-            </Label>
-            <p className="text-xs"></p>
-          </div>
-        </CloseButtonPanel>
-      </Modal>
+      <WeatherAffectedModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        icon={tsunamiIcon}
+        title={t("tsunami")}
+        description={t("tsunami.crops.destroyed.description")}
+        startedAt={game.calendar.tsunami!.startedAt}
+      />
     </>
   );
 };
-
-export const TsunamiPlot = React.memo(TsunamiPlotComponent);

@@ -19,6 +19,7 @@ export const InfoPopover: React.FC<React.PropsWithChildren<Props>> = ({
 
   useEffect(() => {
     if (showPopover) {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       setContent(children);
     } else {
       const timer = setTimeout(() => {

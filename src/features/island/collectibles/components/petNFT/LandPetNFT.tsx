@@ -15,6 +15,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Transition } from "@headlessui/react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const _petNFTData = (id: string) => (state: MachineState) => {
   return state.context.state.pets?.nfts?.[Number(id)];
@@ -41,12 +42,13 @@ export const LandPetNFT: React.FC<{ id: string }> = ({ id }) => {
   const [showPetModal, setShowPetModal] = useState(false);
   const [showPositiveXpPopup, setShowPositiveXpPopup] = useState(false);
   const [showNegativeXpPopup, setShowNegativeXpPopup] = useState(false);
+  const now = useNow();
 
   const isNeglected = isPetNeglected(petNFTData);
   const isNapping = isPetNapping(petNFTData);
   const isTypeFed = useSelector(gameService, _isTypeFed(id));
 
-  const isRevealed = isPetNFTRevealed(Number(id), Date.now());
+  const isRevealed = isPetNFTRevealed(Number(id), now);
   const petType = getPetType(petNFTData);
 
   const handlePetClick = () => {

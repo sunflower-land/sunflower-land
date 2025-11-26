@@ -43,13 +43,13 @@ export const BumpkinPartGroup: React.FC<Props> = ({
       {bumpkinParts.map((name) => {
         const bumpkinItem = equipped[name];
         const boostLabel = bumpkinItem
-          ? (BUMPKIN_ITEM_BUFF_LABELS[bumpkinItem] &&
+          ? ((BUMPKIN_ITEM_BUFF_LABELS[bumpkinItem] &&
               !SPECIAL_ITEM_LABELS[bumpkinItem]) ??
-            ""
+            "")
           : "";
 
         const specialItem = bumpkinItem
-          ? SPECIAL_ITEM_LABELS[bumpkinItem] ?? ""
+          ? (SPECIAL_ITEM_LABELS[bumpkinItem] ?? "")
           : "";
 
         const buffLabel = boostLabel || specialItem;
