@@ -7201,5 +7201,6 @@
   "economyDashboard.notLoaded": "Seleccione un intervalo de fechas y un recurso y, a continuación, cargue los datos.",
   "economyDashboard.resourceRequired": "Seleccione un recurso para ver los datos.",
   "economyDashboard.resourceUnset": "Seleccione un recurso",
-  "economyDashboard.exportCsv": "Exportar CSV"
+  "economyDashboard.exportCsv": "Exportar CSV",
+  "noOptionsFound": "No se ha encontrado ninguna opción"
 }

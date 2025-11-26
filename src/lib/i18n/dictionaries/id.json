@@ -7201,5 +7201,6 @@
   "economyDashboard.notLoaded": "Pilih rentang tanggal dan sumber daya, lalu muat data.",
   "economyDashboard.resourceRequired": "Pilih sumber daya untuk melihat data.",
   "economyDashboard.resourceUnset": "Pilih sumber daya",
-  "economyDashboard.exportCsv": "Ekspor CSV"
+  "economyDashboard.exportCsv": "Ekspor CSV",
+  "noOptionsFound": "Tidak ada opsi yang ditemukan"
 }

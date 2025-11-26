@@ -7201,5 +7201,6 @@
   "economyDashboard.notLoaded": "Bir tarih aralığı ve kaynak seçin, ardından verileri yükleyin.",
   "economyDashboard.resourceRequired": "Verileri görüntülemek için bir kaynak seçin.",
   "economyDashboard.resourceUnset": "Kaynağı seç",
-  "economyDashboard.exportCsv": "CSV'yi dışa aktarma"
+  "economyDashboard.exportCsv": "CSV'yi dışa aktarma",
+  "noOptionsFound": "Seçenek bulunamadı"
 }
