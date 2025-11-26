@@ -197,7 +197,7 @@ export const AnimalDeal: React.FC<{
               {getKeys(deal.items ?? {}).map((name) => {
                 let amount = deal.items?.[name] ?? 0;
 
-                if (name === getSeasonalTicket(new Date())) {
+                if (name === getSeasonalTicket(new Date(now))) {
                   amount = generateBountyTicket({
                     game: state,
                     bounty: deal,
