@@ -32,13 +32,9 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { calculateInstaGrowCost } from "features/game/events/landExpansion/instaGrowFlower";
 import { Panel } from "components/ui/Panel";
 import { secondsToString } from "lib/utils/time";
-<<<<<<< HEAD
-=======
-import classNames from "classnames";
 import { PlantedFlower } from "features/game/types/game";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
->>>>>>> 35647c788 ([CHORE] Update useCountdown. Refactorrrrr)
 
 interface Props {
   id: string;
@@ -170,11 +166,7 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
   const hasHarvestedBefore = !!farmActivity[`${flower.name} Harvested`];
   const reward = flower.reward;
 
-<<<<<<< HEAD
-  const instaGrowCost = calculateInstaGrowCost(timeLeftSeconds);
-=======
   const instaGrowCost = calculateInstaGrowCost(secondsLeft);
->>>>>>> 35647c788 ([CHORE] Update useCountdown. Refactorrrrr)
   const playerObsidian = inventory.Obsidian ?? new Decimal(0);
 
   const handlePlotClick = () => {
@@ -219,15 +211,8 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
   return (
     <>
       <div
-<<<<<<< HEAD
         className="relative w-full h-full cursor-pointer hover:img-highlight"
         onClick={handlePlotClick}
-=======
-        className={classNames("relative w-full h-full", {
-          "cursor-pointer hover:img-highlight": !isGrowing,
-        })}
-        onClick={!isGrowing ? handlePlotClick : undefined}
->>>>>>> 35647c788 ([CHORE] Update useCountdown. Refactorrrrr)
         onMouseEnter={() => setShowPopover(true)}
         onMouseLeave={() => setShowPopover(false)}
       >
@@ -380,11 +365,7 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
             <Label type="vibrant">{t("instaGrow")}</Label>
             <Label type="warning">
               {t("instaGrow.timeRemaining", {
-<<<<<<< HEAD
-                time: secondsToString(timeLeftSeconds, { length: "medium" }),
-=======
                 time: secondsToString(secondsLeft, { length: "medium" }),
->>>>>>> 35647c788 ([CHORE] Update useCountdown. Refactorrrrr)
               })}
             </Label>
             <p className="text-sm my-1">
