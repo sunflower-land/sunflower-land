@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
@@ -29,18 +29,17 @@ export const AnalyticsSection: React.FC<Props> = ({ reports, startDate }) => {
 
   const [selectedActivity, setSelectedActivity] = useState("");
 
-  useEffect(() => {
-    if (activityOptions.length === 0) {
-      setSelectedActivity("");
-      return;
-    }
+  const effectiveActivity = useMemo(() => {
+    if (activityOptions.length === 0) return "";
 
     if (!selectedActivity || !activityOptions.includes(selectedActivity)) {
-      setSelectedActivity(activityOptions[0]);
+      return activityOptions[0];
     }
+
+    return selectedActivity;
   }, [activityOptions, selectedActivity]);
 
-  const normalizedActivity = selectedActivity.trim();
+  const normalizedActivity = effectiveActivity.trim();
   const hasOptions = activityOptions.length > 0;
 
   const formatDiffValue = (value?: number) => {
@@ -127,7 +126,7 @@ export const AnalyticsSection: React.FC<Props> = ({ reports, startDate }) => {
       {hasOptions ? (
         <Dropdown
           options={activityOptions}
-          value={normalizedActivity || undefined}
+          value={effectiveActivity || undefined}
           onChange={setSelectedActivity}
           placeholder={t("economyDashboard.analyticsPlaceholder")}
           showSearch
