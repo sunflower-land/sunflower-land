@@ -109,6 +109,7 @@ import { blessingIsReady } from "./blessings";
 import { hasReadNews } from "features/farming/mail/components/News";
 import { depositSFL } from "lib/blockchain/DepositSFL";
 import { getBumpkinLevel } from "./level";
+import { hasFeatureAccess } from "lib/flags";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");

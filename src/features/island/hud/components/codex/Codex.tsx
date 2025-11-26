@@ -37,6 +37,8 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { ANIMALS } from "features/game/types/animals";
 import { Checklist, checklistCount } from "components/ui/CheckList";
 import { getBumpkinLevel } from "features/game/lib/level";
+import trophyIcon from "assets/icons/trophy.png";
+import { hasFeatureAccess } from "lib/flags";
 import { LeagueLeaderboard } from "./pages/LeaguesLeaderboard";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import * as AuthProvider from "features/auth/lib/Provider";
