@@ -44,7 +44,7 @@ export const ListViewCard: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
 
-  const { type, name, image, buffs, experience } = details;
+  const { type, name, image, buffs, experience, translatedName } = details;
   const { t } = useAppTranslation();
   const now = useNow();
 
@@ -154,7 +154,7 @@ export const ListViewCard: React.FC<Props> = ({
 
           <div className="flex justify-between items-center gap-1">
             <p className="text-xs mb-1 py-0.5 truncate text-[#181425]">
-              {name}
+              {translatedName ?? name}
             </p>
 
             {type === "pets" && (

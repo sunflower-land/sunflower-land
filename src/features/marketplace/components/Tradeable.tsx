@@ -163,7 +163,9 @@ export const Tradeable: React.FC = () => {
           <div className="flex flex-wrap justify-between items-center">
             <div className="flex cursor-pointer items-center w-fit">
               <img src={SUNNYSIDE.icons.arrow_left} className="h-6 mr-2 mt-1" />
-              <p className="capitalize underline">{display.name}</p>
+              <p className="capitalize underline">
+                {display.translatedName ?? display.name}
+              </p>
             </div>
           </div>
         </InnerPanel>

@@ -21,6 +21,7 @@ export type TradeableDisplay = {
   type: CollectionName;
   buffs: BuffLabel[];
   experience?: number;
+  translatedName?: string;
 };
 
 export function getTradeableDisplay({
@@ -78,6 +79,7 @@ export function getTradeableDisplay({
 
   return {
     name,
+    translatedName: details.translatedName,
     description: details.description,
     image: details.image,
     buffs: getItemBuffs({ state, item: name, collection: "collectibles" }),
