@@ -149,8 +149,8 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
 };
 
 export const AnimalDeal: React.FC<{
-  deal: BountyRequest;
-  animal: Animal;
+  deal?: BountyRequest;
+  animal?: Animal;
   onClose: () => void;
   onSold: () => void;
 }> = ({ deal, animal, onClose, onSold }) => {
@@ -158,6 +158,12 @@ export const AnimalDeal: React.FC<{
   const state = gameService.getSnapshot().context.state;
   const now = useNow();
   const { t } = useAppTranslation();
+
+  // Guard against transient undefined props
+  if (!deal || !animal) {
+    return null;
+  }
+
   const sell = () => {
     gameService.send("animal.sold", {
       requestId: deal.id,
@@ -166,10 +172,6 @@ export const AnimalDeal: React.FC<{
 
     onSold();
   };
-
-  if (!deal || !animal) {
-    return null;
-  }
 
   const { coins } = generateBountyCoins({
     game: state,

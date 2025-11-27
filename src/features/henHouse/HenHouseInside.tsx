@@ -147,7 +147,7 @@ export const HenHouseInside: React.FC = () => {
         onClose={() => setShowUpgradeModal(false)}
       />
 
-      <Modal show={!!selected} onHide={() => setSelected(undefined)}>
+      <Modal show={!!selected && !!deal} onHide={() => setSelected(undefined)}>
         <AnimalDeal
           onClose={() => {
             setSelected(undefined);
@@ -156,8 +156,8 @@ export const HenHouseInside: React.FC = () => {
             setDeal(undefined);
             setSelected(undefined);
           }}
-          deal={deal!}
-          animal={selected!}
+          deal={deal}
+          animal={selected}
         />
       </Modal>
       <div
