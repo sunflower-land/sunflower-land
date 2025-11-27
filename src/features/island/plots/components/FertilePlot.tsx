@@ -93,8 +93,10 @@ export const FertilePlot: React.FC<Props> = ({
   );
   const currentTime = useNow({ live: readyAt > 0, autoEndAt: readyAt });
   const timeLeft =
-    readyAt > 0 ? Math.max((readyAt - currentTime) / 1000, 0) : 0;
-  const isGrowing = readyAt > currentTime;
+    readyAt > 0 && harvestSeconds > 0
+      ? Math.max((readyAt - currentTime) / 1000, 0)
+      : 0;
+  const isGrowing = harvestSeconds > 0 ? readyAt > currentTime : false;
 
   const activeInsectPlague =
     getActiveCalendarEvent({ calendar }) === "insectPlague";
