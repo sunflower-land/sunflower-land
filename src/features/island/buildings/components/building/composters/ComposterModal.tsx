@@ -224,8 +224,8 @@ const ComposterModalContent: React.FC<{
   const state = useSelector(gameService, (state) => state.context.state);
 
   const now = useNow({ live: !!readyAt, autoEndAt: readyAt ?? 0 });
-  const composting = !!readyAt && readyAt > now;
-  const isReady = readyAt && readyAt < now;
+  const composting = !!readyAt && readyAt >= now;
+  const isReady = readyAt && readyAt <= now;
 
   const { inventory, bumpkin, buildings } = state;
   const { produce, worm } = composterDetails[composterName];

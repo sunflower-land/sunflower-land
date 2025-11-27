@@ -33,7 +33,6 @@ export function useNow({
             clearInterval(intervalIdRef.current);
             intervalIdRef.current = null;
           }
-          return autoEndAt;
         }
 
         return now;
