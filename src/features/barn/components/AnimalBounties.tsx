@@ -10,7 +10,7 @@ import {
   generateBountyCoins,
   generateBountyTicket,
 } from "features/game/events/landExpansion/sellBounty";
-import { Context } from "features/game/GameProvider";
+import { Context, useGame } from "features/game/GameProvider";
 import { getAnimalLevel } from "features/game/lib/animals";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { weekResetsAt } from "features/game/lib/factions";
@@ -154,8 +154,8 @@ export const AnimalDeal: React.FC<{
   onClose: () => void;
   onSold: () => void;
 }> = ({ deal, animal, onClose, onSold }) => {
-  const { gameService } = useContext(Context);
-  const state = gameService.getSnapshot().context.state;
+  const { gameService, gameState } = useGame();
+  const state = gameState.context.state;
   const now = useNow();
   const { t } = useAppTranslation();
 
