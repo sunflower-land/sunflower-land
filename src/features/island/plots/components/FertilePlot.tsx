@@ -13,7 +13,7 @@ import bee from "assets/icons/bee.webp";
 
 import { TimerPopover } from "../../common/TimerPopover";
 import classNames from "classnames";
-import { CropFertiliser, CropPlot, GameState } from "features/game/types/game";
+import { CropFertiliser, CropPlot } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -23,7 +23,6 @@ import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   cropName?: CropName;
-  game: GameState;
   plot: CropPlot;
   plantedAt?: number;
   fertiliser?: CropFertiliser;
@@ -88,7 +87,7 @@ export const FertilePlot: React.FC<Props> = ({
   const calendar = useSelector(gameService, _calendar);
 
   const [showTimerPopover, setShowTimerPopover] = useState(false);
-  const { harvestSeconds, readyAt, startAt } = useMemo(
+  const { harvestSeconds, readyAt } = useMemo(
     () => getHarvestMetrics({ cropName, plot, plantedAt }),
     [cropName, plantedAt, plot],
   );
@@ -104,9 +103,8 @@ export const FertilePlot: React.FC<Props> = ({
   const growPercentage =
     harvestSeconds > 0
       ? clampPercentage(100 - (timeLeft / harvestSeconds) * 100)
-      : 0;
-  const stage =
-    harvestSeconds > 0 ? getGrowthStage(cropName, growPercentage) : undefined;
+      : 100;
+  const stage = getGrowthStage(cropName, growPercentage);
 
   const isSunshower = getActiveCalendarEvent({ calendar }) === "sunshower";
 
