@@ -31,7 +31,7 @@ type TimeObject = {
     hours?: number;
     minutes: number;
     seconds: number;
-    totalSeconds: number;
+    totalSeconds?: number;
   };
   fontSize?: number;
   color?: string;
