@@ -24,6 +24,7 @@ const _reserve = (id: string) => (state: MachineState) =>
   state.context.state.oilReserves[id];
 const _drills = (state: MachineState) =>
   state.context.state.inventory["Oil Drill"] ?? new Decimal(0);
+const selectGame = (state: MachineState) => state.context.state;
 
 const compareResource = (prev: IOilReserve, next: IOilReserve) => {
   return JSON.stringify(prev) === JSON.stringify(next);
@@ -34,8 +35,7 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
   const [drilling, setDrilling] = useState(false);
   const [oilHarvested, setOilHarvested] = useState(0);
 
-  const state = gameService.getSnapshot().context.state;
-
+  const state = useSelector(gameService, selectGame);
   const reserve = useSelector(gameService, _reserve(id), compareResource);
   const drills = useSelector(gameService, _drills);
   const timeLeft = getTimeLeft(
