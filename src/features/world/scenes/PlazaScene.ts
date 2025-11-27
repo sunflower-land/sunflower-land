@@ -238,15 +238,15 @@ export class PlazaScene extends BaseScene {
     this.load.image("luxury_key_disc", "world/luxury_key_disc.png");
 
     // Stella Megastore items
-    this.load.image("fruit_tune_box", "world/fruit_tune_box.webp");
-    this.load.image("garbage_bin_hat", "world/garbage_bin_hat.webp");
+    this.load.image("magma_stone", "world/magma_stone.webp");
+    this.load.image("pet_specialist_hat", "world/pet_specialist_hat.webp");
 
     // Auction Items
     this.load.image("pet_nft_egg", "world/pet_nft_egg.png");
     this.load.image("pet_bed", "world/pet_bed.webp");
     this.load.image("paw_prints_rug", "world/paw_prints_rug.webp");
     this.load.image("moon_fox_statue", "world/moon_fox_statue.webp");
-    this.load.image("lava_swimwear_npc", "world/lava_swimwear_npc.webp");
+    this.load.image("squirrel_onesie_npc", "world/squirrel_onesie_npc.webp");
     this.load.image("gam3_trophies", "world/gam3_trophies.png");
 
     this.load.image("ronin_banner", "world/ronin_banner.webp");
@@ -474,7 +474,15 @@ export class PlazaScene extends BaseScene {
     this.add.sprite(321.5, 230, "shop_icon");
 
     const gam3Trophies = this.add.image(431, 316, "gam3_trophies");
-    gam3Trophies.setDepth(200);
+    gam3Trophies.setDepth(316);
+    this.physics.world.enable(gam3Trophies);
+    this.colliders?.add(gam3Trophies);
+    (gam3Trophies.body as Phaser.Physics.Arcade.Body)
+      .setSize(64, 52)
+      .setOffset(0, 0)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
+
     gam3Trophies.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       interactableModalManager.open("gam3_trophies");
     });
@@ -721,9 +729,9 @@ export class PlazaScene extends BaseScene {
         }
       });
 
-    this.add.image(250, 244, "fruit_tune_box");
+    this.add.image(248, 244, "magma_stone");
 
-    this.add.image(288.5, 247, "garbage_bin_hat");
+    this.add.image(288.5, 247, "pet_specialist_hat");
 
     if (this.textures.exists("sparkle")) {
       const sparkle = this.add.sprite(567, 191, "sparkle");
@@ -768,7 +776,7 @@ export class PlazaScene extends BaseScene {
     const nft3 = this.add.image(601, 196, "paw_prints_rug");
     nft3.setDepth(181);
 
-    const nft4 = this.add.image(612, 200, "lava_swimwear_npc");
+    const nft4 = this.add.image(612, 200, "squirrel_onesie_npc");
     nft4.setDepth(205);
 
     const nft5 = this.add.image(635, 193, "pet_bed");
