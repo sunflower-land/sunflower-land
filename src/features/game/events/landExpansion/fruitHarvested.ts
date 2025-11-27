@@ -8,9 +8,9 @@ import {
   Resource,
 } from "features/game/lib/getBudYieldBoosts";
 import {
-  BumpkinActivityName,
-  trackActivity,
-} from "features/game/types/bumpkinActivity";
+  trackFarmActivity,
+  FarmActivityName,
+} from "features/game/types/farmActivity";
 import {
   GreenHouseFruitName,
   PATCH_FRUIT,
@@ -387,9 +387,12 @@ export function harvestFruit({
     delete patch.fruit.amount;
     patch.fruit.harvestedAt = newPlantedAt;
 
-    const activityName: BumpkinActivityName = `${name} Harvested`;
+    const activityName: FarmActivityName = `${name} Harvested`;
 
-    bumpkin.activity = trackActivity(activityName, bumpkin.activity);
+    stateCopy.farmActivity = trackFarmActivity(
+      activityName,
+      stateCopy.farmActivity,
+    );
 
     stateCopy.boostsUsedAt = updateBoostUsed({
       game: stateCopy,

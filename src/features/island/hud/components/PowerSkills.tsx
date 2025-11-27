@@ -130,9 +130,7 @@ const PowerSkillsContent: React.FC<{
               skillName === "Sprout Surge" ? "Sprout Mix" : "Rapid Root",
           });
 
-          if (
-            state.context.state.bumpkin?.activity?.["Crop Fertilised"] === 1
-          ) {
+          if (state.context.state.farmActivity?.["Crop Fertilised"] === 1) {
             gameAnalytics.trackMilestone({
               event: "Tutorial:Fertilised:Completed",
             });

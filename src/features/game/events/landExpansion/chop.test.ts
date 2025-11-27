@@ -316,7 +316,7 @@ describe("chop", () => {
         } as LandExpansionChopAction,
       });
 
-      expect(game.bumpkin?.activity?.["Tree Chopped"]).toBe(1);
+      expect(game.farmActivity?.["Tree Chopped"]).toBe(1);
     });
     it("increments Trees Chopped activity by 2 when 2 trees are chopped", () => {
       const createdAt = Date.now();
@@ -352,7 +352,7 @@ describe("chop", () => {
         } as LandExpansionChopAction,
       });
 
-      expect(game.bumpkin?.activity?.["Tree Chopped"]).toBe(2);
+      expect(game.farmActivity?.["Tree Chopped"]).toBe(2);
     });
   });
 });

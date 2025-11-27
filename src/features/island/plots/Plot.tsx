@@ -62,8 +62,7 @@ const _state = (state: MachineState) => state.context.state;
 const selectHarvests = (state: MachineState) => {
   return getKeys(CROPS).reduce(
     (total, crop) =>
-      total +
-      (state.context.state.bumpkin?.activity?.[`${crop} Harvested`] ?? 0),
+      total + (state.context.state.farmActivity?.[`${crop} Harvested`] ?? 0),
     0,
   );
 };
@@ -71,12 +70,12 @@ const selectHarvests = (state: MachineState) => {
 const selectPlants = (state: MachineState) =>
   getKeys(CROPS).reduce(
     (total, crop) =>
-      total + (state.context.state.bumpkin?.activity?.[`${crop} Planted`] ?? 0),
+      total + (state.context.state.farmActivity?.[`${crop} Planted`] ?? 0),
     0,
   );
 
 const selectCropsSold = (state: MachineState) =>
-  state.context.state.bumpkin?.activity?.["Sunflower Sold"] ?? 0;
+  state.context.state.farmActivity?.["Sunflower Sold"] ?? 0;
 
 // A player that has been vetted and is engaged in the season.
 const isSeasonedPlayer = (state: MachineState): boolean =>
@@ -183,9 +182,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
       );
     }
 
-    if (
-      newState.context.state.bumpkin?.activity?.["Sunflower Harvested"] === 1
-    ) {
+    if (newState.context.state.farmActivity?.["Sunflower Harvested"] === 1) {
       gameAnalytics.trackMilestone({
         event: "Tutorial:SunflowerHarvested:Completed",
       });
@@ -246,7 +243,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
         fertiliser: seed,
       });
 
-      if (state.context.state.bumpkin?.activity?.["Crop Fertilised"] === 1) {
+      if (state.context.state.farmActivity?.["Crop Fertilised"] === 1) {
         gameAnalytics.trackMilestone({
           event: "Tutorial:Fertilised:Completed",
         });
@@ -270,7 +267,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
       plantAudio();
 
       const planted =
-        newState.context.state.bumpkin?.activity?.["Sunflower Planted"] ?? 0;
+        newState.context.state.farmActivity?.["Sunflower Planted"] ?? 0;
 
       if (planted === 1) {
         gameAnalytics.trackMilestone({

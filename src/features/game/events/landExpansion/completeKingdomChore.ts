@@ -5,7 +5,7 @@ import {
   getWeekKey,
 } from "features/game/lib/factions";
 import { BoostType, BoostValue } from "features/game/types/boosts";
-import { Bumpkin, GameState, KingdomChores } from "features/game/types/game";
+import { GameState, KingdomChores } from "features/game/types/game";
 import { produce } from "immer";
 import cloneDeep from "lodash.clonedeep";
 
@@ -24,7 +24,7 @@ export const getKingdomChoreBoost = (
 
 export function populateKingdomChores(
   kingdomChores: KingdomChores | undefined,
-  bumpkin: Bumpkin | undefined,
+  farmActivity: GameState["farmActivity"],
   createdAt: number,
 ): KingdomChores {
   let nextKingdomChores = cloneDeep(kingdomChores);
@@ -49,7 +49,7 @@ export function populateKingdomChores(
     .forEach((chore) => {
       chore.startedAt = chore.startedAt ?? createdAt;
       chore.startCount =
-        chore.startCount ?? bumpkin?.activity?.[chore.activity] ?? 0;
+        chore.startCount ?? farmActivity?.[chore.activity] ?? 0;
     });
 
   nextKingdomChores.chores = updatedChores;
@@ -76,7 +76,7 @@ export function completeKingdomChore({
 }: Options): GameState {
   return produce(state, (game) => {
     const { id } = action;
-    const { kingdomChores, bumpkin, inventory, faction } = game;
+    const { kingdomChores, inventory, faction, farmActivity } = game;
 
     const chore = kingdomChores.chores[id];
 
@@ -86,10 +86,6 @@ export function completeKingdomChore({
 
     if (chore === undefined) {
       throw new Error("Chore not found");
-    }
-
-    if (!bumpkin) {
-      throw new Error("No bumpkin found");
     }
 
     if (chore.completedAt !== undefined) {
@@ -104,8 +100,7 @@ export function completeKingdomChore({
       throw new Error("Chore is not active");
     }
 
-    const progress =
-      (bumpkin?.activity?.[chore.activity] ?? 0) - chore.startCount;
+    const progress = (farmActivity?.[chore.activity] ?? 0) - chore.startCount;
 
     if (progress < chore.requirement) {
       throw new Error("Chore is not completed");
@@ -116,7 +111,7 @@ export function completeKingdomChore({
     kingdomChores.choresCompleted += 1;
     game.kingdomChores = populateKingdomChores(
       kingdomChores,
-      bumpkin,
+      farmActivity,
       createdAt,
     );
 

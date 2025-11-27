@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { KNOWN_IDS } from "features/game/types";
 import { BuildingName } from "features/game/types/buildings";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 
 import { BuildingProduct, GameState } from "features/game/types/game";
 import { produce } from "immer";
@@ -113,14 +113,14 @@ export function collectRecipe({
           game,
           recipe,
           farmId,
-          counter: bumpkin.activity[`${recipe.name} Cooked`] || 0,
+          counter: game.farmActivity[`${recipe.name} Cooked`] || 0,
         });
         const consumableCount = game.inventory[recipe.name] || new Decimal(0);
         game.inventory[recipe.name] = consumableCount.add(amount);
 
-        bumpkin.activity = trackActivity(
+        game.farmActivity = trackFarmActivity(
           `${recipe.name} Cooked`,
-          bumpkin.activity,
+          game.farmActivity,
         );
 
         return acc;

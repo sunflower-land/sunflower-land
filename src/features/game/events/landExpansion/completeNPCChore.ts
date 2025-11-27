@@ -20,7 +20,7 @@ import {
   MegastoreKeys,
 } from "features/game/types/megastore";
 import { isCollectible } from "./garbageSold";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 
 export type CompleteNPCChoreAction = {
   type: "chore.fulfilled";
@@ -165,9 +165,9 @@ export function completeNPCChore({
     draft.npcs[npcName].friendship.points += 1;
     draft.npcs[npcName].friendship.updatedAt = createdAt;
 
-    draft.bumpkin.activity = trackActivity(
+    draft.farmActivity = trackFarmActivity(
       "Chore Completed",
-      draft.bumpkin.activity,
+      draft.farmActivity,
     );
 
     return draft;

@@ -3,7 +3,7 @@ import { GameState, InventoryItemName } from "features/game/types/game";
 
 import { produce } from "immer";
 
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 
 import { BumpkinItem } from "features/game/types/bumpkin";
 import {
@@ -91,9 +91,9 @@ export function buyFloatingShopItem({
     // Exclude Pet Egg from activity tracking as it conflicts with megastore.
     // Condition to check if petEgg has been bought doesn't require "Pet Egg Bought" activity
     if (name !== "Pet Egg") {
-      copy.bumpkin.activity = trackActivity(
+      copy.farmActivity = trackFarmActivity(
         `${name} Bought`,
-        copy.bumpkin.activity,
+        copy.farmActivity,
       );
     }
 

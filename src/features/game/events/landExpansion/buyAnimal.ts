@@ -7,7 +7,7 @@ import {
   ANIMALS,
   AnimalType,
 } from "features/game/types/animals";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { getKeys } from "features/game/types/decorations";
 import { AnimalBuilding, BoostName, GameState } from "features/game/types/game";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
@@ -139,13 +139,13 @@ export function buyAnimal({
       item: "Petting Hand",
     };
 
-    bumpkin.activity = trackActivity(
+    copy.farmActivity = trackFarmActivity(
       `${action.animal} Bought`,
-      bumpkin.activity,
+      copy.farmActivity,
     );
-    bumpkin.activity = trackActivity(
+    copy.farmActivity = trackFarmActivity(
       "Coins Spent",
-      bumpkin.activity,
+      copy.farmActivity,
       new Decimal(price),
     );
 

@@ -14,10 +14,7 @@ import {
   SeasonalTierItemName,
 } from "features/game/types/megastore";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
-import {
-  BumpkinActivityName,
-  trackActivity,
-} from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 
 export function isCollectible(
   item: SeasonalStoreItem,
@@ -137,7 +134,7 @@ export function buySeasonalItem({
     // Ensure items without a cooldown, can only be bought once
     if (!item.cooldownMs) {
       const itemCrafted =
-        copy.bumpkin.activity[`${name as SeasonalTierItemName} Bought`];
+        copy.farmActivity[`${name as SeasonalTierItemName} Bought`];
 
       if (itemCrafted) {
         throw new Error("This item has already been crafted");
@@ -189,9 +186,9 @@ export function buySeasonalItem({
       }
     }
 
-    copy.bumpkin.activity = trackActivity(
+    copy.farmActivity = trackFarmActivity(
       `${name as SeasonalTierItemName} Bought`,
-      copy.bumpkin.activity,
+      copy.farmActivity,
     );
 
     if (!copy.megastore) {
@@ -233,7 +230,7 @@ export function isKeyBoughtWithinSeason(
 
   const seasonTime = SEASONS[getCurrentSeason()];
   const historyKey =
-    game.bumpkin.activity[`${tierKey as SeasonalTierItemName} Bought`];
+    game.farmActivity[`${tierKey as SeasonalTierItemName} Bought`];
   //If player has no history of buying keys at megastore
   if (!keyBoughtAt && isLowerTier && !historyKey) return true;
 
@@ -278,7 +275,7 @@ export function isBoxBoughtWithinSeason(
 
   const seasonTime = SEASONS[getCurrentSeason()];
   const historyBox =
-    game.bumpkin.activity[`${tierBox as SeasonalTierItemName} Bought`];
+    game.farmActivity[`${tierBox as SeasonalTierItemName} Bought`];
 
   //If player has no history of buying keys at megastore
   if (!boxBoughtAt && isLowerTier && !historyBox) return true;
@@ -305,8 +302,8 @@ export function isPetEggBoughtWithinSeason(
     return true;
   }
 
-  const petEggActivityName = "Pet Egg Bought" as BumpkinActivityName;
-  const petEggHistory = game.bumpkin.activity[petEggActivityName];
+  const petEggActivityName = "Pet Egg Bought";
+  const petEggHistory = game.farmActivity[petEggActivityName];
 
   if (!petEggHistory) {
     return true;
@@ -372,12 +369,12 @@ export function getSeasonalItemsCrafted(
     (tierItem: SeasonalStoreItem) =>
       (itemType === "collectible" &&
         "collectible" in tierItem &&
-        game.bumpkin.activity[
+        game.farmActivity[
           `${tierItem.collectible as SeasonalTierItemName} Bought`
         ]) ||
       (itemType === "wearable" &&
         "wearable" in tierItem &&
-        game.bumpkin.activity[
+        game.farmActivity[
           `${tierItem.wearable as SeasonalTierItemName} Bought`
         ]),
   );

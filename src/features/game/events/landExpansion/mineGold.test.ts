@@ -823,7 +823,7 @@ describe("mineGold", () => {
         } as LandExpansionMineGoldAction,
       });
 
-      expect(game.bumpkin?.activity["Gold Mined"]).toBe(1);
+      expect(game.farmActivity["Gold Mined"]).toBe(1);
     });
 
     it("increments Gold Mined activity by 2", () => {
@@ -856,7 +856,7 @@ describe("mineGold", () => {
         } as LandExpansionMineGoldAction,
       });
 
-      expect(game.bumpkin?.activity["Gold Mined"]).toBe(2);
+      expect(game.farmActivity["Gold Mined"]).toBe(2);
     });
   });
 

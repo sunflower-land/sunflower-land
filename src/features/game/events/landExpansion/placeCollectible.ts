@@ -3,7 +3,7 @@ import {
   COLLECTIBLES_DIMENSIONS,
 } from "../../types/craftables";
 import { GameState, PlacedItem } from "features/game/types/game";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { produce } from "immer";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
@@ -177,9 +177,9 @@ export function placeCollectible({
       stateCopy.collectibles[action.name] = collectibleItems;
     }
 
-    stateCopy.bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       "Collectible Placed",
-      stateCopy.bumpkin.activity,
+      stateCopy.farmActivity,
     );
 
     return stateCopy;

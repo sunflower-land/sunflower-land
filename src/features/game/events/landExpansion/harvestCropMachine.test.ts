@@ -234,6 +234,6 @@ describe("harvestCropMachine", () => {
       },
     });
 
-    expect(state.bumpkin?.activity?.["Sunflower Harvested"]).toEqual(10);
+    expect(state.farmActivity["Sunflower Harvested"]).toEqual(10);
   });
 });

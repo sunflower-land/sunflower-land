@@ -4,7 +4,7 @@ import {
   getKeys,
 } from "features/game/types/craftables";
 
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 
 import { GameState, Keys } from "../../types/game";
 import {
@@ -66,8 +66,6 @@ export function craftCollectible({
   createdAt = Date.now(),
 }: Options) {
   return produce(state, (stateCopy) => {
-    const bumpkin = stateCopy.bumpkin;
-
     let item: CraftableCollectible | undefined;
 
     if (isPotionHouseItem(action.name)) {
@@ -112,7 +110,7 @@ export function craftCollectible({
       throw new Error("Insufficient Coins");
     }
     const { limit } = item;
-    const isItemCrafted = stateCopy.bumpkin.activity[`${action.name} Crafted`];
+    const isItemCrafted = stateCopy.farmActivity[`${action.name} Crafted`];
 
     if (limit && isItemCrafted && isItemCrafted >= limit) {
       throw new Error("Limit reached");
@@ -146,9 +144,9 @@ export function craftCollectible({
 
     const oldAmount = stateCopy.inventory[action.name] || new Decimal(0);
 
-    bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       `${action.name} Crafted`,
-      bumpkin.activity,
+      stateCopy.farmActivity,
     );
 
     if (
@@ -188,9 +186,9 @@ export function craftCollectible({
 
     stateCopy.coins = stateCopy.coins - price;
 
-    bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       "Coins Spent",
-      bumpkin.activity,
+      stateCopy.farmActivity,
       new Decimal(price),
     );
 

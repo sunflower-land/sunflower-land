@@ -24,14 +24,14 @@ export const QUESTS: Record<QuestName, Quest> = {
   "Farmer Quest 1": {
     description: translate("questDescription.farmerQuest1"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Sunflower Harvested"] || 0,
+      gameState.farmActivity["Sunflower Harvested"] || 0,
     requirement: 1000,
     wearable: "Red Farmer Shirt",
   },
   "Fruit Quest 1": {
     description: translate("questDescription.fruitQuest1"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Blueberry Harvested"] || 0,
+      gameState.farmActivity["Blueberry Harvested"] || 0,
     requirement: 10,
     wearable: "Fruit Picker Shirt",
     deadline: new Date(Date.now() + 10000000000).toISOString(),
@@ -39,7 +39,7 @@ export const QUESTS: Record<QuestName, Quest> = {
   "Fruit Quest 2": {
     description: translate("questDescription.fruitQuest2"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Orange Harvested"] || 0,
+      gameState.farmActivity["Orange Harvested"] || 0,
     requirement: 100,
     wearable: "Fruit Picker Apron",
     deadline: new Date(Date.now() + 10000000000).toISOString(),
@@ -47,7 +47,7 @@ export const QUESTS: Record<QuestName, Quest> = {
   "Fruit Quest 3": {
     description: translate("questDescription.fruitQuest3"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Apple Harvested"] || 0,
+      gameState.farmActivity["Apple Harvested"] || 0,
     requirement: 750,
     wearable: "Fruit Bowl",
     deadline: new Date(Date.now() + 10000000000).toISOString(),
@@ -55,8 +55,8 @@ export const QUESTS: Record<QuestName, Quest> = {
   "Pirate Quest 1": {
     description: translate("questDescription.pirateQuest1"),
     progress: (gameState: GameState) =>
-      (gameState.bumpkin?.activity?.["Treasure Dug"] || 0) +
-      (gameState.bumpkin?.activity?.["Treasure Drilled"] || 0),
+      (gameState.farmActivity["Treasure Dug"] || 0) +
+      (gameState.farmActivity["Treasure Drilled"] || 0),
     requirement: 30,
     wearable: "Striped Blue Shirt",
     deadline: new Date(Date.now() + 10000000000).toISOString(),
@@ -64,15 +64,14 @@ export const QUESTS: Record<QuestName, Quest> = {
   "Pirate Quest 2": {
     description: translate("questDescription.pirateQuest2"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Seaweed Dug"] || 0,
+      gameState.farmActivity["Seaweed Dug"] || 0,
     requirement: 10,
     wearable: "Peg Leg",
     deadline: new Date(Date.now() + 10000000000).toISOString(),
   },
   "Pirate Quest 3": {
     description: translate("questDescription.pirateQuest3"),
-    progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Pipi Dug"] || 0,
+    progress: (gameState: GameState) => gameState.farmActivity["Pipi Dug"] || 0,
     requirement: 10,
     wearable: "Pirate Potion",
     deadline: new Date(Date.now() + 10000000000).toISOString(),
@@ -80,7 +79,7 @@ export const QUESTS: Record<QuestName, Quest> = {
   "Pirate Quest 4": {
     description: translate("questDescription.pirateQuest4"),
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Coral Dug"] || 0,
+      gameState.farmActivity["Coral Dug"] || 0,
     requirement: 5,
     wearable: "Pirate Hat",
     deadline: new Date(Date.now() + 10000000000).toISOString(),

@@ -18,10 +18,6 @@ import {
 } from "../../types/crops";
 import { SEASONAL_SEEDS, SeedName } from "features/game/types/seeds";
 import Decimal from "decimal.js-light";
-import {
-  BumpkinActivityName,
-  trackActivity,
-} from "features/game/types/bumpkinActivity";
 import { CropPlot } from "features/game/types/game";
 import { produce } from "immer";
 import {
@@ -54,7 +50,10 @@ import {
   setAOELastUsed,
 } from "features/game/lib/aoe";
 import { getAffectedWeather } from "./plant";
-
+import {
+  trackFarmActivity,
+  FarmActivityName,
+} from "features/game/types/farmActivity";
 export type LandExpansionHarvestAction = {
   type: "crop.harvested";
   index: string;
@@ -908,8 +907,8 @@ export function harvestCropFromPlot({
     }
   }
 
-  const activityName: BumpkinActivityName = `${cropName} Harvested`;
-  bumpkin.activity = trackActivity(activityName, bumpkin.activity);
+  const activityName: FarmActivityName = `${cropName} Harvested`;
+  game.farmActivity = trackFarmActivity(activityName, game.farmActivity);
 
   // Create updated plot without crop data
   const updatedPlot: CropPlot = {

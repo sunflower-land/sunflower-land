@@ -3,7 +3,7 @@ import { GameState } from "../../types/game";
 import { CropCompostName } from "features/game/types/composters";
 import { CROPS, Crop, isBasicCrop } from "features/game/types/crops";
 import { isReadyToHarvest } from "./harvest";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { produce } from "immer";
 import {
   Position,
@@ -158,9 +158,9 @@ export function fertilisePlot({
 
     inventory[action.fertiliser] = fertiliserAmount.minus(1);
 
-    bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       `Crop Fertilised`,
-      stateCopy.bumpkin?.activity,
+      stateCopy.farmActivity,
     );
 
     return stateCopy;

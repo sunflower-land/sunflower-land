@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import {
   COLLECTIBLES_DIMENSIONS,
   getKeys,
@@ -27,11 +27,7 @@ type Options = {
   createdAt?: number;
 };
 
-export function buyDecoration({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options) {
+export function buyDecoration({ state, action }: Options) {
   return produce(state, (stateCopy) => {
     const { name } = action;
     const desiredItem = DECORATIONS[name];
@@ -72,14 +68,14 @@ export function buyDecoration({
 
     const oldAmount = stateCopy.inventory[name] ?? new Decimal(0);
 
-    bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       "Coins Spent",
-      bumpkin?.activity,
+      stateCopy.farmActivity,
       new Decimal(price),
     );
-    bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       `${name} Bought`,
-      bumpkin?.activity,
+      stateCopy.farmActivity,
       new Decimal(1),
     );
 

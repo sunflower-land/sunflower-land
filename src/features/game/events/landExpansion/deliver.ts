@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { CONSUMABLES, COOKABLE_CAKES } from "features/game/types/consumables";
 import { getKeys } from "features/game/types/craftables";
 import {
@@ -404,9 +404,9 @@ export function deliverOrder({
 
         game.coins = coins - amount;
 
-        bumpkin.activity = trackActivity(
+        game.farmActivity = trackFarmActivity(
           "Coins Spent",
-          bumpkin.activity,
+          game.farmActivity,
           new Decimal(amount),
         );
       } else if (name === "sfl") {
@@ -446,10 +446,14 @@ export function deliverOrder({
       );
       game.balance = game.balance.add(sfl);
 
-      bumpkin.activity = trackActivity("SFL Earned", bumpkin.activity, sfl);
-      bumpkin.activity = trackActivity(
+      game.farmActivity = trackFarmActivity(
+        "SFL Earned",
+        game.farmActivity,
+        sfl,
+      );
+      game.farmActivity = trackFarmActivity(
         "FLOWER Order Delivered",
-        bumpkin.activity,
+        game.farmActivity,
       );
     }
 
@@ -462,14 +466,14 @@ export function deliverOrder({
 
       game.coins = game.coins + coinsReward;
 
-      bumpkin.activity = trackActivity(
+      game.farmActivity = trackFarmActivity(
         "Coins Earned",
-        bumpkin.activity,
+        game.farmActivity,
         new Decimal(coinsReward),
       );
-      bumpkin.activity = trackActivity(
+      game.farmActivity = trackFarmActivity(
         "Coins Order Delivered",
-        bumpkin.activity,
+        game.farmActivity,
       );
     }
 
@@ -480,9 +484,9 @@ export function deliverOrder({
       const amount = tickets || new Decimal(0);
 
       game.inventory[seasonalTicket] = count.add(amount);
-      bumpkin.activity = trackActivity(
+      game.farmActivity = trackFarmActivity(
         "Ticket Order Delivered",
-        bumpkin.activity,
+        game.farmActivity,
       );
     }
 

@@ -268,6 +268,6 @@ describe("upgradeBuilding", () => {
       },
     });
 
-    expect(result.bumpkin.activity["Coins Spent"]).toBe(50000);
+    expect(result.farmActivity["Coins Spent"]).toBe(50000);
   });
 });

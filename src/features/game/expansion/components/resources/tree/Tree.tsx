@@ -54,7 +54,7 @@ const selectIsland = (state: MachineState) => state.context.state.island;
 const selectSeason = (state: MachineState) => state.context.state.season.season;
 const selectInventory = (state: MachineState) => state.context.state.inventory;
 const selectTreesChopped = (state: MachineState) =>
-  state.context.state.bumpkin?.activity?.["Tree Chopped"] ?? 0;
+  state.context.state.farmActivity["Tree Chopped"] ?? 0;
 const selectGame = (state: MachineState) => state.context.state;
 
 const compareResource = (prev: TreeType, next: TreeType) => {
@@ -238,7 +238,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
       }
     }
 
-    if (newState.context.state.bumpkin?.activity?.["Tree Chopped"] === 1) {
+    if (newState.context.state.farmActivity["Tree Chopped"] === 1) {
       gameAnalytics.trackMilestone({ event: "Tutorial:TreeChopped:Completed" });
     }
   };

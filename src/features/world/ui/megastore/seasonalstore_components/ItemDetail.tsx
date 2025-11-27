@@ -59,16 +59,6 @@ interface ItemOverlayProps {
 const _sflBalance = (state: MachineState) => state.context.state.balance;
 const _inventory = (state: MachineState) => state.context.state.inventory;
 
-const getCooldownLabel = (cooldownMs: number) => {
-  const days = cooldownMs / (24 * 60 * 60 * 1000);
-
-  if (days === 1) return "Limit: 1 every day";
-  if (days === 7) return "Limit: 1 every week";
-  if (days >= 30) return "Limit: 1 every 30 days";
-
-  return `Limit: 1 per ${days} days`;
-};
-
 export const ItemDetail: React.FC<ItemOverlayProps> = ({
   item,
   tier,
@@ -149,7 +139,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     !!boughtAt && boughtAt + (item?.cooldownMs ?? 0) > createdAt;
 
   const itemCrafted =
-    state.bumpkin.activity[`${itemName as SeasonalTierItemName} Bought`];
+    state.farmActivity[`${itemName as SeasonalTierItemName} Bought`];
 
   const description = getItemDescription(item);
   const { sfl = 0 } = item?.cost || {};

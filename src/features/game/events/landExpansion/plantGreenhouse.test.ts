@@ -282,7 +282,7 @@ describe("plantGreenhouse", () => {
       createdAt: now,
     });
 
-    expect(state.bumpkin?.activity?.["Rice Planted"]).toEqual(1);
+    expect(state.farmActivity["Rice Planted"]).toEqual(1);
   });
 
   it("boosts +1 rice yield when Non La Hat is equipped", () => {

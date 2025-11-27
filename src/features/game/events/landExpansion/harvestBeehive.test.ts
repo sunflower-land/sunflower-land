@@ -418,7 +418,7 @@ describe("harvestBeehive", () => {
         id: "1234",
       },
     });
-    expect(state.bumpkin?.activity?.["Honey Harvested"]).toEqual(amount);
+    expect(state.farmActivity["Honey Harvested"]).toEqual(amount);
   });
 
   it("adds bumpkin activity for honey harvested from a partially full hive", () => {
@@ -443,7 +443,7 @@ describe("harvestBeehive", () => {
         id: "1234",
       },
     });
-    expect(state.bumpkin?.activity?.["Honey Harvested"]).toEqual(amount);
+    expect(state.farmActivity["Honey Harvested"]).toEqual(amount);
   });
 
   it("updates the beehives", () => {

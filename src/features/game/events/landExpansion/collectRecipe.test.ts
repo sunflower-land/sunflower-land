@@ -248,13 +248,13 @@ describe("collect Recipes", () => {
         bumpkin: {
           ...GAME_STATE.bumpkin,
           skills: { "Fiery Jackpot": 1 },
-          activity: {
-            "Boiled Eggs Cooked": getPrngCounter(
-              "Boiled Eggs",
-              "Fiery Jackpot",
-              20,
-            ),
-          },
+        },
+        farmActivity: {
+          "Boiled Eggs Cooked": getPrngCounter(
+            "Boiled Eggs",
+            "Fiery Jackpot",
+            20,
+          ),
         },
       },
       action: {
@@ -293,13 +293,13 @@ describe("collect Recipes", () => {
         bumpkin: {
           ...GAME_STATE.bumpkin,
           skills: { "Fiery Jackpot": 1 },
-          activity: {
-            "Boiled Eggs Cooked": getPrngCounter(
-              "Boiled Eggs",
-              "Fiery Jackpot",
-              20,
-            ),
-          },
+        },
+        farmActivity: {
+          "Boiled Eggs Cooked": getPrngCounter(
+            "Boiled Eggs",
+            "Fiery Jackpot",
+            20,
+          ),
         },
       },
       action: {

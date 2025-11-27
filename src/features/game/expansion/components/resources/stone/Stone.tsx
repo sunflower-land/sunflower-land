@@ -144,7 +144,6 @@ export const Stone: React.FC<Props> = ({ id }) => {
           createdAt: Date.now(),
           criticalDropGenerator: (name) =>
             !!(resource.stone.criticalHit?.[name] ?? 0),
-          id,
         }).amount,
     );
 

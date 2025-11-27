@@ -96,6 +96,6 @@ describe("expandLand", () => {
       },
     });
 
-    expect(state.bumpkin.activity["Coins Spent"]).toBe(960);
+    expect(state.farmActivity["Coins Spent"]).toBe(960);
   });
 });

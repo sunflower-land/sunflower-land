@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import { ARTEFACT_SHOP_WEARABLES } from "features/game/types/artefactShop";
 import { BumpkinItem } from "features/game/types/bumpkin";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { getKeys } from "features/game/types/craftables";
 
 import { GameState } from "features/game/types/game";
@@ -79,9 +79,9 @@ export function buyWearable({
       stateCopy.inventory,
     );
 
-    bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       "Coins Spent",
-      bumpkin?.activity,
+      stateCopy.farmActivity,
       new Decimal(price),
     );
 

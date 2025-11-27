@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { isWearableActive } from "features/game/lib/wearables";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import {
   FLOWER_CROSS_BREED_AMOUNTS,
   FLOWER_SEEDS,
@@ -180,10 +180,9 @@ export function plantFlower({
       dirty: !flower,
     };
 
-    bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       `${action.seed} Planted`,
-      bumpkin?.activity,
-      new Decimal(1),
+      stateCopy.farmActivity,
     );
 
     stateCopy.boostsUsedAt = updateBoostUsed({

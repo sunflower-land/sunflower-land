@@ -138,7 +138,7 @@ describe("harvestFlower", () => {
       action: { type: "flower.harvested", id: flowerBedId },
     });
 
-    expect(state.bumpkin?.activity?.["Red Pansy Harvested"]).toEqual(amount);
+    expect(state.farmActivity["Red Pansy Harvested"]).toEqual(amount);
   });
 
   it("increments the farm flower harvested activity", () => {

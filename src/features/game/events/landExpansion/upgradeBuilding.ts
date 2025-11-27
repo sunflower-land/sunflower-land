@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { AnimalBuildingType } from "features/game/types/animals";
 import { BuildingName } from "features/game/types/buildings";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { getKeys } from "features/game/types/decorations";
 import {
   GameState,
@@ -187,9 +187,9 @@ export function upgradeBuilding({
 
     // Deduct coins
     copy.coins -= upgradeCost.coins;
-    bumpkin.activity = trackActivity(
+    copy.farmActivity = trackFarmActivity(
       "Coins Spent",
-      bumpkin.activity,
+      copy.farmActivity,
       new Decimal(upgradeCost.coins),
     );
 

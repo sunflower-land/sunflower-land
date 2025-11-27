@@ -70,7 +70,7 @@ describe("buyMonument", () => {
         name: "Farmer's Monument",
       },
     });
-    expect(state.bumpkin?.activity?.["Farmer's Monument Bought"]).toEqual(1);
+    expect(state.farmActivity["Farmer's Monument Bought"]).toEqual(1);
   });
 
   it("requires ID does not exist", () => {

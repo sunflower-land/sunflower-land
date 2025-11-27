@@ -79,10 +79,10 @@ const KingdomChoreRow: React.FC<KingdomChoreRowProps> = ({
   chore,
   gameService,
 }) => {
-  const { faction, bumpkin } = gameService.getSnapshot().context.state;
+  const { faction, farmActivity } = gameService.getSnapshot().context.state;
 
   const progress =
-    (bumpkin?.activity?.[chore.activity] ?? 0) - (chore.startCount ?? 0);
+    (farmActivity[chore.activity] ?? 0) - (chore.startCount ?? 0);
 
   const boost = getKingdomChoreBoost(
     gameService.getSnapshot().context.state,

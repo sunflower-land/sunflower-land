@@ -1938,6 +1938,6 @@ describe("deliver", () => {
       },
     });
 
-    expect(state.bumpkin.activity["Coins Spent"]).toBe(9600);
+    expect(state.farmActivity["Coins Spent"]).toBe(9600);
   });
 });
