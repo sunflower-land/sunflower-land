@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useRef, useState } from "react";
 import classNames from "classnames";
 import { Button } from "components/ui/Button";
 
-const FAILURE_REVEAL_MS = 900;
+const FAILURE_REVEAL_MS = 1000;
 const MIN_ROWS = 3;
 const MAX_ROWS = 8;
 const MIN_COLS = 3;
@@ -15,14 +15,31 @@ type Coordinate = {
   col: number;
 };
 
-type MistakeTile = Coordinate & {
-  variant: "default" | "straightHint";
-};
+type MistakeTile = Coordinate;
 
 const coordinateKey = (row: number, col: number) => `${row}-${col}`;
 
 const clampValue = (value: number, min: number, max: number) =>
   Math.min(max, Math.max(min, value));
+
+const getSurroundingTiles = (
+  row: number,
+  col: number,
+  rows: number,
+  cols: number,
+) => {
+  const coordinates: string[] = [];
+
+  for (let r = row - 1; r <= row + 1; r++) {
+    for (let c = col - 1; c <= col + 1; c++) {
+      if (r === row && c === col) continue;
+      if (r < 0 || r >= rows || c < 0 || c >= cols) continue;
+      coordinates.push(coordinateKey(r, c));
+    }
+  }
+
+  return coordinates;
+};
 
 const generateSafePath = (rows: number, cols: number): Coordinate[] => {
   const path: Coordinate[] = [];
@@ -76,12 +93,14 @@ export const FishingMinigame: React.FC<FishingMinigameProps> = ({
   const [revealedTiles, setRevealedTiles] = useState<Set<string>>(
     () => new Set(),
   );
+  const [temporaryReveals, setTemporaryReveals] = useState<Set<string>>(
+    () => new Set(),
+  );
   const [progress, setProgress] = useState(0);
   const [attemptsLeft, setAttemptsLeft] = useState(initialAttemptLimit);
   const [mistakeTile, setMistakeTile] = useState<MistakeTile | null>(null);
   const [isResolvingMistake, setIsResolvingMistake] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
-  const [showHints, setShowHints] = useState(true);
   const failureTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
   const rowsArray = useMemo(
@@ -114,6 +133,7 @@ export const FishingMinigame: React.FC<FishingMinigameProps> = ({
       setIsResolvingMistake(false);
       setIsComplete(false);
       setPendingAttempts(attemptLimit);
+      setTemporaryReveals(new Set());
     },
     [attemptLimit],
   );
@@ -141,6 +161,7 @@ export const FishingMinigame: React.FC<FishingMinigameProps> = ({
     setMistakeTile(null);
     setIsResolvingMistake(false);
     setIsComplete(false);
+    setTemporaryReveals(new Set());
   };
 
   const handleCorrectSelection = (row: number, col: number) => {
@@ -158,25 +179,26 @@ export const FishingMinigame: React.FC<FishingMinigameProps> = ({
   const handleIncorrectSelection = (
     row: number,
     col: number,
-    showStraightHint: boolean,
   ) => {
     if (failureTimerRef.current) {
       clearTimeout(failureTimerRef.current);
     }
 
-    setMistakeTile({
-      row,
-      col,
-      variant: showStraightHint ? "straightHint" : "default",
-    });
+    setMistakeTile({ row, col });
     setIsResolvingMistake(true);
     setAttemptsLeft((prev) => Math.max(0, prev - 1));
+    setTemporaryReveals(
+      new Set(
+        getSurroundingTiles(row, col, dimensions.rows, dimensions.cols),
+      ),
+    );
 
     failureTimerRef.current = setTimeout(() => {
       setMistakeTile(null);
       setIsResolvingMistake(false);
       setRevealedTiles(new Set());
       setProgress(0);
+      setTemporaryReveals(new Set());
     }, FAILURE_REVEAL_MS);
   };
 
@@ -186,19 +208,13 @@ export const FishingMinigame: React.FC<FishingMinigameProps> = ({
     if (revealedTiles.has(key)) return;
 
     const expectedStep = path[progress];
-    const lastStep = progress === 0 ? null : path[progress - 1];
     if (!expectedStep) return;
     if (row !== expectedStep.row) return;
 
     if (expectedStep.row === row && expectedStep.col === col) {
       handleCorrectSelection(row, col);
     } else {
-      const showStraightHint =
-        showHints &&
-        !!lastStep &&
-        expectedStep.col === lastStep.col &&
-        col !== expectedStep.col;
-      handleIncorrectSelection(row, col, showStraightHint);
+      handleIncorrectSelection(row, col);
     }
   };
 
@@ -218,7 +234,6 @@ export const FishingMinigame: React.FC<FishingMinigameProps> = ({
 
   const currentStep = Math.min(progress + 1, path.length);
 
-  const previousStep = progress === 0 ? null : path[progress - 1];
   const nextStep = path[progress];
 
   return (
@@ -301,15 +316,6 @@ export const FishingMinigame: React.FC<FishingMinigameProps> = ({
             Update Attempts
           </Button>
         </div>
-        <div className="flex flex-col justify-end flex-1 min-w-[120px]">
-          <Button
-            onClick={() => setShowHints((prev) => !prev)}
-            disabled={isResolvingMistake}
-            className="text-xs"
-          >
-            {showHints ? "Hide Hints" : "Show Hints"}
-          </Button>
-        </div>
       </div>
 
       <div
@@ -321,19 +327,14 @@ export const FishingMinigame: React.FC<FishingMinigameProps> = ({
         {rowsArray.map((row) =>
           colsArray.map((col) => {
             const key = coordinateKey(row, col);
+            const isTemporarilyRevealed = temporaryReveals.has(key);
             const isRevealed = revealedTiles.has(key);
             const isMistake =
               mistakeTile?.row === row && mistakeTile?.col === col;
-            const isStraightHintMistake =
-              isMistake && mistakeTile?.variant === "straightHint";
             const pathIndex = path.findIndex(
               (step) => step.row === row && step.col === col,
             );
-            const isNextTile =
-              !isComplete &&
-              attemptsLeft > 0 &&
-              !isResolvingMistake &&
-              progress === pathIndex;
+            const isPathTile = pathIndex >= 0;
             const isSelectable =
               !!nextStep &&
               row === nextStep.row;
@@ -342,12 +343,11 @@ export const FishingMinigame: React.FC<FishingMinigameProps> = ({
               attemptsLeft === 0 ||
               isResolvingMistake ||
               !isSelectable;
-            const isHorizontalHint =
-              showHints &&
-              isNextTile &&
-              previousStep &&
-              nextStep &&
-              nextStep.col !== previousStep.col;
+            const showGreen =
+              (isRevealed || (isTemporarilyRevealed && isPathTile)) &&
+              !isMistake;
+            const showRed =
+              isMistake || (isTemporarilyRevealed && !isPathTile);
 
             return (
               <button
@@ -358,22 +358,10 @@ export const FishingMinigame: React.FC<FishingMinigameProps> = ({
                 className={classNames(
                   "aspect-square rounded border-2 shadow-inner transition-colors duration-200",
                   {
-                    "bg-green-500 border-green-600 text-white": isRevealed,
-                    "bg-red-500 border-red-600 text-white":
-                      isMistake && !isStraightHintMistake,
-                    "bg-orange-400 border-orange-500 text-white":
-                      isStraightHintMistake,
-                    "bg-blue-400 border-blue-500 text-white":
-                      isHorizontalHint && !isRevealed,
-                    "bg-amber-200 border-amber-300 animate-pulse":
-                      showHints &&
-                      isNextTile &&
-                      !isRevealed &&
-                      !isHorizontalHint,
+                    "bg-green-500 border-green-600 text-white": showGreen,
+                    "bg-red-500 border-red-600 text-white": showRed,
                     "bg-slate-200 border-slate-300":
-                      !isRevealed &&
-                      !isMistake &&
-                      (!showHints || !isNextTile || isHorizontalHint),
+                      !showGreen && !showRed,
                     "opacity-60 cursor-not-allowed": isDisabled,
                   },
                 )}
