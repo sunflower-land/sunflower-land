@@ -162,7 +162,6 @@ import { GoblinLantern } from "./components/GoblinLantern";
 import { DawnFlower } from "./components/DawnFlower";
 import { LaurieTheChuckleCrow } from "./components/LaurieTheChuckelCrow";
 import { FreyaFox } from "./components/FreyaFox";
-import { MoonFoxStatue } from "./components/MoonFoxStatue";
 import { WitchesEveBanner } from "./components/WitchesEveBanner";
 import { ElPolloVeloz } from "./components/ElPolloVeloz";
 import { Poppy } from "./components/Poppy";
@@ -2801,7 +2800,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Giant Acorn"
     />
   ),
-  "Moon Fox Statue": MoonFoxStatue,
+  "Moon Fox Statue": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 31}px`,
+        bottom: `${PIXEL_SCALE * -2}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 31}px`,
+      }}
+      image={ITEM_DETAILS["Moon Fox Statue"].image}
+      alt="Moon Fox Statue"
+    />
+  ),
   "Big Apple": (props: CollectibleProps) => (
     <Project
       {...props}
