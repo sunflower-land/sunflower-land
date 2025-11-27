@@ -622,8 +622,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
       "Instant Gratification": Date.now() - 1000 * 60,
       "Instant Growth": Date.now() - 1000 * 60,
     },
-
-    activity: {},
   },
 
   minigames: {

@@ -444,7 +444,7 @@ export type Bumpkin = {
   experience: number;
   skills: Skills;
   achievements?: Partial<Record<AchievementName, number>>;
-  activity: Partial<Record<FarmActivityName, number>>;
+  activity?: Partial<Record<FarmActivityName, number>>;
   previousFreeSkillResetAt?: number;
   previousPowerUseAt?: Partial<Record<BumpkinRevampSkillName, number>>;
   paidSkillResets?: number;
