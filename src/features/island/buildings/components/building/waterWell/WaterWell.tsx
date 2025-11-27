@@ -22,10 +22,12 @@ export const WaterWell: React.FC<BuildingProps> = ({ season }) => {
   const [showConstructingModal, setShowConstructingModal] =
     React.useState(false);
   const { gameService } = useGame();
-  const now = useNow();
+
   const waterWell = useSelector(gameService, _waterWell);
   const state = useSelector(gameService, _state);
   const { level, upgradeReadyAt, upgradedAt } = waterWell;
+  const now = useNow({ live: true, autoEndAt: upgradeReadyAt ?? 0 });
+
   const isUpgrading = (upgradeReadyAt ?? 0) > now;
   const currentLevel = isUpgrading ? level - 1 : level;
   const previousIsUpgrading = React.useRef(isUpgrading);
