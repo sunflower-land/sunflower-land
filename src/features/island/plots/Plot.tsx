@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { Reward, CropPlot } from "features/game/types/game";
 import { CROPS } from "features/game/types/crops";
-import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import {
   getAffectedWeather,
   isPlotFertile,
@@ -104,6 +104,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const crops = useSelector(gameService, _crops, (prev, next) => {
     return JSON.stringify(prev[id]) === JSON.stringify(next[id]);
   });
+
   const harvestCount = useSelector(gameService, selectHarvests);
   const plantCount = useSelector(gameService, selectPlants);
   const soldCount = useSelector(gameService, selectCropsSold);
@@ -347,7 +348,6 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
         <FertilePlot
           cropName={crop?.name}
-          game={gameService.getSnapshot()?.context?.state ?? TEST_FARM}
           plot={plot}
           plantedAt={crop?.plantedAt}
           fertiliser={fertiliser}
