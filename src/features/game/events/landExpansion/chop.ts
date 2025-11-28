@@ -334,10 +334,13 @@ export function chop({
       game: stateCopy,
       farmId,
       itemId: parseInt(`0x${action.index}`),
-      counter: stateCopy.farmActivity[`Tree Chopped`] ?? 0,
+      counter: tree.wood.choppedCount ?? 0,
     });
 
-    tree.wood = { choppedAt: time };
+    tree.wood = {
+      choppedAt: time,
+      choppedCount: (tree.wood.choppedCount ?? 0) + 1,
+    };
 
     inventory.Axe = axeAmount.sub(requiredAxes);
     inventory.Wood = woodAmount.add(woodHarvested);
