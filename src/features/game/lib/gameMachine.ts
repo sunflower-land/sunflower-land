@@ -126,6 +126,17 @@ const getError = () => {
   return error;
 };
 
+const shouldShowLeagueResults = (context: Context) => {
+  const hasLeaguesAccess = hasFeatureAccess(context.state, "LEAGUES");
+  const currentLeagueStartDate =
+    context.state.prototypes?.leagues?.currentLeagueStartDate;
+
+  return (
+    hasLeaguesAccess &&
+    currentLeagueStartDate !== new Date().toISOString().split("T")[0]
+  );
+};
+
 export type PastAction = GameEvent & {
   createdAt: Date;
 };
@@ -320,6 +331,7 @@ export type BlockchainEvent =
   | { type: "RANDOMISE" }
   | DepositFlowerFromLinkedWalletEvent
   | DepositSFLFromLinkedWalletEvent
+  | { type: "CHECK_LEAGUE_RESULTS" }
   | { type: StateMachineVisitEffectName }
   | Effect; // Test only
 
@@ -1368,24 +1380,7 @@ export function startGame(authContext: AuthContext) {
             },
             {
               target: "leagueResults",
-              cond: (context) => {
-                const now = new Date();
-                const utcHours = now.getUTCHours();
-                const utcMinutes = now.getUTCMinutes();
-                if (utcHours === 0 && utcMinutes < 30) {
-                  return false;
-                }
-
-                const hasLeaguesAccess = hasFeatureAccess(
-                  context.state,
-                  "LEAGUES",
-                );
-                const currentLeagueStartDate =
-                  context.state.prototypes?.leagues?.currentLeagueStartDate;
-
-                const today = new Date(now).toISOString().split("T")[0];
-                return hasLeaguesAccess && currentLeagueStartDate !== today;
-              },
+              cond: shouldShowLeagueResults,
             },
             {
               target: "playing",
@@ -1626,7 +1621,7 @@ export function startGame(authContext: AuthContext) {
              * It is a rare event but it saves a user from making too much progress that would not be synced
              */
             src: (context) => (cb) => {
-              const interval = setInterval(
+              const sessionInterval = setInterval(
                 async () => {
                   if (!context.farmAddress) return;
 
@@ -1641,8 +1636,13 @@ export function startGame(authContext: AuthContext) {
                 1000 * 60 * 2,
               );
 
+              const leagueResultsInterval = setInterval(() => {
+                cb("CHECK_LEAGUE_RESULTS");
+              }, 1000 * 60);
+
               return () => {
-                clearInterval(interval);
+                clearInterval(sessionInterval);
+                clearInterval(leagueResultsInterval);
               };
             },
             onError: [
@@ -1707,6 +1707,10 @@ export function startGame(authContext: AuthContext) {
               target: "buyingSFL",
             },
             SELL_MARKET_RESOURCE: { target: "sellMarketResource" },
+            CHECK_LEAGUE_RESULTS: {
+              target: "leagueResults",
+              cond: shouldShowLeagueResults,
+            },
             UPDATE_GEMS: {
               actions: assign((context, event) => ({
                 state: {
