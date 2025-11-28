@@ -679,6 +679,10 @@ export function isPetNeglected(
     return false;
   }
 
+  if (pet.experience <= 0) {
+    return false;
+  }
+
   const PET_NEGLECT_DAYS = isPetNFT(pet) ? 7 : 3;
 
   const lastFedAt = Math.max(pet.requests.fedAt, pet.cheeredAt ?? 0); // To use cheeredAt or fedAt, whichever is more recent

@@ -24,6 +24,7 @@ import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import { getFetchYield } from "features/game/events/pets/fetchPet";
 import { SmallBox } from "components/ui/SmallBox";
+import { useNow } from "lib/utils/hooks/useNow";
 
 type Props = {
   data: Pet | PetNFT;
@@ -40,6 +41,7 @@ const _state = (state: MachineState) => state.context.state;
 export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
+  const now = useNow();
 
   const inventory = useSelector(gameService, _inventory);
   const farmId = useSelector(gameService, _farmId);
@@ -50,8 +52,8 @@ export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
   const fetches = [...getPetFetches(data).fetches].sort(
     (a, b) => a.level - b.level,
   );
-  const isNapping = isPetNapping(data);
-  const neglected = isPetNeglected(data);
+  const isNapping = isPetNapping(data, now);
+  const neglected = isPetNeglected(data, now);
 
   return (
     <div className="flex flex-col gap-1">
