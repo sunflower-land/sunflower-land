@@ -43,13 +43,14 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
   const [activeTab, setActiveTab] = useState(0);
   const [showPopover, setShowPopover] = useState(false);
 
-  const now = useNow({ live: true });
-
   const expiresAt = createdAt + (EXPIRY_COOLDOWNS[name as PetShrineName] ?? 0);
+
   const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
   const durationSeconds = EXPIRY_COOLDOWNS[name as PetShrineName] ?? 0;
   const percentage = 100 - (secondsToExpire / durationSeconds) * 100;
   const hasExpired = secondsToExpire <= 0;
+
+  const now = useNow({ live: !hasExpired, autoEndAt: expiresAt });
 
   const state = useSelector(gameService, (state) => state.context.state);
 
