@@ -151,7 +151,7 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
         {showTimers && (
           <div
             className="absolute bottom-0 left-1/2 -translate-x-1/2"
-            style={{ width: `${PIXEL_SCALE * 14}px` }}
+            style={{ width: `${PIXEL_SCALE * 15}px` }}
           >
             <ProgressBar
               seconds={secondsToExpire}
