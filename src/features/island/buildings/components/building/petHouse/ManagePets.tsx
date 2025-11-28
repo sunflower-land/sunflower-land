@@ -29,9 +29,10 @@ import {
   isPetNeglected,
 } from "features/game/types/pets";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useState } from "react";
 import { PetCard, isFoodAlreadyFed } from "./PetCard";
 import { getPetImage } from "features/island/pets/lib/petShared";
+import { useNow } from "lib/utils/hooks/useNow";
 
 type Props = {
   activePets: [PetName | number, Pet | PetNFT | undefined][];
@@ -39,6 +40,7 @@ type Props = {
 
 export const ManagePets: React.FC<Props> = ({ activePets }) => {
   const { t } = useAppTranslation();
+  const now = useNow({ live: true });
   const [isBulkFeed, setIsBulkFeed] = useState(false);
   const { gameService } = useContext(Context);
   const [selectedFeed, setSelectedFeed] = useState<
@@ -86,7 +88,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
       }> = [];
       activePets.forEach(([petId, pet]) => {
         if (pet) {
-          if (isPetNeglected(pet) || isPetNapping(pet)) {
+          if (isPetNeglected(pet, now) || isPetNapping(pet, now)) {
             return;
           }
           const { level: petLevel } = getPetLevel(pet.experience);
@@ -149,45 +151,39 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
     setIsBulkFeed(false);
   };
 
-  // Memoize the pet type order map separately (static data)
-  const petTypeOrder = useMemo(
-    () =>
-      getKeys(PET_CATEGORIES).reduce(
-        (acc, petType, index) => {
-          acc[petType] = index;
-          return acc;
-        },
-        {} as Record<PetType, number>,
-      ),
-    [],
+  // Pet type order map (static data - React Compiler will optimize)
+  const petTypeOrder = getKeys(PET_CATEGORIES).reduce(
+    (acc, petType, index) => {
+      acc[petType] = index;
+      return acc;
+    },
+    {} as Record<PetType, number>,
   );
 
-  const activePetsSortedByType = useMemo(() => {
-    return [...activePets].sort(([, petA], [, petB]) => {
-      if (!petA || !petB) return 0;
+  const activePetsSortedByType = [...activePets].sort(([, petA], [, petB]) => {
+    if (!petA || !petB) return 0;
 
-      if (isPetNapping(petA) && !isPetNapping(petB)) return -1;
-      if (!isPetNapping(petA) && isPetNapping(petB)) return 1;
+    if (isPetNapping(petA, now) && !isPetNapping(petB, now)) return -1;
+    if (!isPetNapping(petA, now) && isPetNapping(petB, now)) return 1;
 
-      if (isPetNeglected(petA) && !isPetNeglected(petB)) return -1;
-      if (!isPetNeglected(petA) && isPetNeglected(petB)) return 1;
+    if (isPetNeglected(petA, now) && !isPetNeglected(petB, now)) return -1;
+    if (!isPetNeglected(petA, now) && isPetNeglected(petB, now)) return 1;
 
-      // Find the pet types for both pets
-      const petTypeA = getPetType(petA);
-      const petTypeB = getPetType(petB);
+    // Find the pet types for both pets
+    const petTypeA = getPetType(petA);
+    const petTypeB = getPetType(petB);
 
-      if (!petTypeA || !petTypeB) return 0;
+    if (!petTypeA || !petTypeB) return 0;
 
-      // Sort by pet type order first
-      const typeComparison = petTypeOrder[petTypeA] - petTypeOrder[petTypeB];
-      if (typeComparison !== 0) return typeComparison;
+    // Sort by pet type order first
+    const typeComparison = petTypeOrder[petTypeA] - petTypeOrder[petTypeB];
+    if (typeComparison !== 0) return typeComparison;
 
-      // If same type, sort by experience (highest first)
-      return petB.experience - petA.experience;
-    });
-  }, [activePets, petTypeOrder]);
+    // If same type, sort by experience (highest first)
+    return petB.experience - petA.experience;
+  });
 
-  const nappingPets = activePets.filter(([, pet]) => isPetNapping(pet));
+  const nappingPets = activePets.filter(([, pet]) => isPetNapping(pet, now));
 
   const areSomePetsNapping = nappingPets.length > 0;
 

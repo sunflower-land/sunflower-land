@@ -5,37 +5,40 @@ import { isPetNeglected } from "features/game/types/pets";
 describe("neglectPet", () => {
   describe("isPetNeglected", () => {
     it("returns false if pet is undefined", () => {
-      expect(isPetNeglected(undefined)).toBe(false);
+      const now = Date.now();
+      expect(isPetNeglected(undefined, now)).toBe(false);
     });
 
     it("returns false if pet has no experience", () => {
+      const now = Date.now();
       const pet = {
         name: "Barkley" as const,
         requests: {
           food: [],
-          fedAt: Date.now(),
+          fedAt: now,
         },
         energy: 0,
         experience: 0,
-        pettedAt: Date.now(),
+        pettedAt: now,
       };
 
-      expect(isPetNeglected(pet)).toBe(false);
+      expect(isPetNeglected(pet, now)).toBe(false);
     });
 
     it("returns false if pet has negative experience", () => {
+      const now = Date.now();
       const pet = {
         name: "Barkley" as const,
         requests: {
           food: [],
-          fedAt: Date.now() - 4 * 24 * 60 * 60 * 1000,
+          fedAt: now - 4 * 24 * 60 * 60 * 1000,
         },
         energy: 0,
         experience: -10,
-        pettedAt: Date.now(),
+        pettedAt: now,
       };
 
-      expect(isPetNeglected(pet)).toBe(false);
+      expect(isPetNeglected(pet, now)).toBe(false);
     });
 
     describe("common pets", () => {
@@ -229,18 +232,19 @@ describe("neglectPet", () => {
     });
 
     it("uses current time when createdAt is not provided", () => {
+      const now = Date.now();
       const pet = {
         name: "Barkley" as const,
         requests: {
           food: [],
-          fedAt: Date.now() - 4 * 24 * 60 * 60 * 1000, // 4 days ago
+          fedAt: now - 4 * 24 * 60 * 60 * 1000, // 4 days ago
         },
         energy: 0,
         experience: 100,
-        pettedAt: Date.now(),
+        pettedAt: now,
       };
 
-      expect(isPetNeglected(pet)).toBe(true);
+      expect(isPetNeglected(pet, now)).toBe(true);
     });
   });
 
