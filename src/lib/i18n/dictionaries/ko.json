@@ -7202,5 +7202,7 @@
   "economyDashboard.resourceRequired": "리소스를 선택하면 데이터를 볼 수 있습니다.",
   "economyDashboard.resourceUnset": "리소스 선택",
   "economyDashboard.exportCsv": "CSV 내보내기",
-  "noOptionsFound": "옵션을 찾을 수 없음"
+  "noOptionsFound": "옵션을 찾을 수 없음",
+  "drink": "드링크",
+  "eat": "먹어"
 }

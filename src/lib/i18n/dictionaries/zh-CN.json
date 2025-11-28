@@ -7202,5 +7202,7 @@
   "economyDashboard.resourceRequired": "选择资源来查看数据。",
   "economyDashboard.resourceUnset": "选择资源",
   "economyDashboard.exportCsv": "导出 CSV",
-  "noOptionsFound": "未找到选项"
+  "noOptionsFound": "未找到选项",
+  "drink": "喝",
+  "eat": "吃"
 }

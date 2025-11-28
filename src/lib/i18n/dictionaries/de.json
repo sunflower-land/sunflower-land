@@ -7202,5 +7202,7 @@
   "economyDashboard.resourceRequired": "Wählen Sie eine Ressource aus, um Daten anzuzeigen.",
   "economyDashboard.resourceUnset": "Wählen Sie eine Ressource",
   "economyDashboard.exportCsv": "CSV exportieren",
-  "noOptionsFound": "Keine Optionen gefunden"
+  "noOptionsFound": "Keine Optionen gefunden",
+  "drink": "Trinken",
+  "eat": "Essen"
 }
