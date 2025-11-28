@@ -297,7 +297,7 @@ export const LEAGUE_POINTS_EVENTS: Record<LeaguePointsEvent, Decimal> = {
 
   "Rod Casted": new Decimal(200),
   "Treasure Dug": new Decimal(200),
-  "Potion Mixed": new Decimal(320),
+  "Potion Mixed": new Decimal(32),
   "Farms Cheered": new Decimal(300),
   "Farms Helped": new Decimal(300),
   "Ticket Order Delivered": new Decimal(500),
