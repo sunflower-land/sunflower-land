@@ -289,7 +289,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               <FactionLeaderboard
                 leaderboard={data?.kingdom ?? null}
                 isLoading={data?.kingdom === undefined}
-                playerId={id}
                 faction={faction.name}
               />
             )}

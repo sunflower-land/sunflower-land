@@ -20,12 +20,11 @@ import {
   getLeaderboard,
   RankData,
 } from "features/game/expansion/components/leaderboard/actions/leaderboard";
-import { getRelativeTime } from "lib/utils/time";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
 import { useNavigate } from "react-router";
 import { LeaveFaction } from "../LeaveFaction";
-import { useNow } from "lib/utils/hooks/useNow";
+import { LastUpdatedAt } from "components/LastUpdatedAt";
 
 interface Props {
   emblem: FactionEmblem;
@@ -164,7 +163,6 @@ const Leaderboard: React.FC<{
   emblem: FactionEmblem;
 }> = ({ leaderboard, faction, playerId, emblem }) => {
   const { t } = useAppTranslation();
-  const now = useNow({ live: true });
   const topTen = leaderboard.emblems.topTens[faction];
 
   // Where is the player ranked?
@@ -258,10 +256,7 @@ const Leaderboard: React.FC<{
       </table>
 
       <div className="flex justify-between font-secondary text-xs pt-1">
-        <span>
-          {t("last.updated")}{" "}
-          {getRelativeTime(leaderboard.lastUpdated, now, "short")}
-        </span>
+        <LastUpdatedAt lastUpdated={leaderboard.lastUpdated} />
       </div>
     </>
   );

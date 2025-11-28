@@ -4,7 +4,6 @@ import {
   RankData,
 } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getRelativeTime } from "lib/utils/time";
 import { Label } from "components/ui/Label";
 import socialPointsIcon from "assets/icons/social_score.webp";
 import useSWR from "swr";
@@ -17,7 +16,7 @@ import {
   playerModalManager,
   PlayerModalPlayer,
 } from "../lib/playerModalManager";
-import { useNow } from "lib/utils/hooks/useNow";
+import { LastUpdatedAt } from "components/LastUpdatedAt";
 
 interface LeaderboardProps {
   id: number;
@@ -33,7 +32,6 @@ export const SocialLeaderboard: React.FC<LeaderboardProps> = ({
     "weekly",
   );
   const [showTooltip, setShowTooltip] = useState(false);
-  const now = useNow({ live: true });
   const { data, isLoading } = useSWR(
     id ? ["socialLeaderboard", id] : null,
     () => fetchSocialLeaderboardData(Number(id)),
@@ -111,8 +109,7 @@ export const SocialLeaderboard: React.FC<LeaderboardProps> = ({
 
           <div className="flex items-center gap-2">
             <p className="font-secondary text-xs">
-              {t("last.updated")}{" "}
-              {getRelativeTime(data.lastUpdated, now, "short")}
+              <LastUpdatedAt lastUpdated={data.lastUpdated} />
             </p>
           </div>
         </div>
