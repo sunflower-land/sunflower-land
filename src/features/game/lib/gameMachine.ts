@@ -126,6 +126,17 @@ const getError = () => {
   return error;
 };
 
+const shouldShowLeagueResults = (context: Context) => {
+  const hasLeaguesAccess = hasFeatureAccess(context.state, "LEAGUES");
+  const currentLeagueStartDate =
+    context.state.prototypes?.leagues?.currentLeagueStartDate;
+
+  return (
+    hasLeaguesAccess &&
+    currentLeagueStartDate !== new Date().toISOString().split("T")[0]
+  );
+};
+
 export type PastAction = GameEvent & {
   createdAt: Date;
 };
@@ -1368,24 +1379,7 @@ export function startGame(authContext: AuthContext) {
             },
             {
               target: "leagueResults",
-              cond: (context) => {
-                const now = new Date();
-                const utcHours = now.getUTCHours();
-                const utcMinutes = now.getUTCMinutes();
-                if (utcHours === 0 && utcMinutes < 30) {
-                  return false;
-                }
-
-                const hasLeaguesAccess = hasFeatureAccess(
-                  context.state,
-                  "LEAGUES",
-                );
-                const currentLeagueStartDate =
-                  context.state.prototypes?.leagues?.currentLeagueStartDate;
-
-                const today = new Date(now).toISOString().split("T")[0];
-                return hasLeaguesAccess && currentLeagueStartDate !== today;
-              },
+              cond: shouldShowLeagueResults,
             },
             {
               target: "playing",
@@ -1825,6 +1819,13 @@ export function startGame(authContext: AuthContext) {
 
                   return !isAcknowledged;
                 },
+                actions: assign((context: Context, event) =>
+                  handleSuccessfulSave(context, event),
+                ),
+              },
+              {
+                target: "leagueResults",
+                cond: shouldShowLeagueResults,
                 actions: assign((context: Context, event) =>
                   handleSuccessfulSave(context, event),
                 ),
