@@ -8,6 +8,7 @@ import { Label } from "components/ui/Label";
 import { LeaguesTable } from "features/game/expansion/components/leaderboard/LeagueTable";
 import { CropName } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface LeaderboardProps {
   isLoading: boolean;
@@ -21,6 +22,7 @@ export const LeagueLeaderboard: React.FC<LeaderboardProps> = ({
   username,
   farmId,
 }) => {
+  const now = useNow();
   const { t } = useAppTranslation();
 
   if (isLoading && !data) return <Loading />;
@@ -43,7 +45,7 @@ export const LeagueLeaderboard: React.FC<LeaderboardProps> = ({
           {`${playerLeague} ${t("leaderboard.leaderboard")}`}
         </Label>
         <p className="font-secondary text-xs">
-          {t("last.updated")} {getRelativeTime(data.lastUpdated)}
+          {t("last.updated")} {getRelativeTime(data.lastUpdated, now)}
         </p>
       </div>
       {!!playersToShow.length && (

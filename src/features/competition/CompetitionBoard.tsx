@@ -248,7 +248,9 @@ export const CompetitionDetails: React.FC<{
           </div>
         </InnerPanel>
 
-        {hideLeaderboard && <CompetitionLeaderboard name={competitionName} />}
+        {hideLeaderboard && (
+          <CompetitionLeaderboard name={competitionName} now={now} />
+        )}
 
         <InnerPanel>
           <div className="p-1">
@@ -304,9 +306,10 @@ export const CompetitionDetails: React.FC<{
   );
 };
 
-export const CompetitionLeaderboard: React.FC<{ name: CompetitionName }> = ({
-  name,
-}) => {
+const CompetitionLeaderboard: React.FC<{
+  name: CompetitionName;
+  now: number;
+}> = ({ name, now }) => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const [data, setData] = useState<CompetitionLeaderboardResponse>();
@@ -343,7 +346,7 @@ export const CompetitionLeaderboard: React.FC<{ name: CompetitionName }> = ({
               {t("competition.leaderboard")}
             </Label>
             <p className="font-secondary text-xs">
-              {t("last.updated")} {getRelativeTime(lastUpdated)}
+              {t("last.updated")} {getRelativeTime(lastUpdated, now)}
             </p>
           </div>
           <CompetitionTable items={leaderboard} />

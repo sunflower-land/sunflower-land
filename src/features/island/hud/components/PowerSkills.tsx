@@ -274,7 +274,7 @@ const PowerSkillsContent: React.FC<{
                   className="mb-2"
                 >
                   {t("powerSkills.nextUse", {
-                    time: getRelativeTime(nextSkillUse, "medium"),
+                    time: getRelativeTime(nextSkillUse, now, "medium"),
                   })}
                 </Label>
               ) : (

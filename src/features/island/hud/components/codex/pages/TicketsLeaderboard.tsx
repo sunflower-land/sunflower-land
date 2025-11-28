@@ -7,20 +7,19 @@ import { getSeasonalTicket } from "features/game/types/seasons";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getRelativeTime } from "lib/utils/time";
 import { Label } from "components/ui/Label";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface LeaderboardProps {
-  id: string;
   isLoading: boolean;
   data: TicketLeaderboard | null;
 }
 export const TicketsLeaderboard: React.FC<LeaderboardProps> = ({
-  id,
   isLoading,
   data,
 }) => {
   const { t } = useAppTranslation();
   const seasonTicket = getSeasonalTicket();
-
+  const now = useNow();
   if (isLoading && !data) return <Loading />;
 
   if (!data)
@@ -37,7 +36,7 @@ export const TicketsLeaderboard: React.FC<LeaderboardProps> = ({
           "leaderboard.leaderboard",
         )}`}</Label>
         <p className="font-secondary text-xs">
-          {t("last.updated")} {getRelativeTime(data.lastUpdated)}
+          {t("last.updated")} {getRelativeTime(data.lastUpdated, now)}
         </p>
       </div>
       {data.topTen && <TicketTable rankings={data.topTen} />}

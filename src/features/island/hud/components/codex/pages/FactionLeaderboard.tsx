@@ -29,6 +29,7 @@ import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { ChampionsPrizes } from "features/world/ui/factions/Champions";
 import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionLeaderboardTable";
 import { KingdomChores } from "features/world/ui/factions/chores/KingdomChoresCodex";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const npcs: Record<FactionName, NPCName> = {
   nightshades: "nyx",
@@ -180,7 +181,7 @@ export const FactionDetails: React.FC<{
   isPledged?: boolean;
 }> = ({ leaderboard, faction, playerId, onBack, isPledged }) => {
   const { t } = useAppTranslation();
-
+  const now = useNow();
   const topTen = leaderboard.marks.topTens[faction];
 
   // Where is the player ranked?
@@ -305,7 +306,7 @@ export const FactionDetails: React.FC<{
 
       <div className="flex justify-between font-secondary text-xs pt-1">
         <span>
-          {t("last.updated")} {getRelativeTime(leaderboard.lastUpdated)}
+          {t("last.updated")} {getRelativeTime(leaderboard.lastUpdated, now)}
         </span>
       </div>
     </>

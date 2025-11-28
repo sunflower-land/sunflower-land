@@ -11,7 +11,7 @@ import { useSound } from "lib/utils/hooks/useSound";
 
 /**
  * @icon The icon of the tab.
- * @name The name of the tab.
+ * @name The name of the tab. (Must be translated if using string-based tabs)
  * @id The unique identifier of the tab. (Compulsory for string-based tabs)
  * @unread Whether the tab has unread content.
  * @alert Whether the tab has an alert.

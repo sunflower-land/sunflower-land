@@ -17,6 +17,7 @@ import {
   playerModalManager,
   PlayerModalPlayer,
 } from "../lib/playerModalManager";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface LeaderboardProps {
   id: number;
@@ -32,7 +33,7 @@ export const SocialLeaderboard: React.FC<LeaderboardProps> = ({
     "weekly",
   );
   const [showTooltip, setShowTooltip] = useState(false);
-
+  const now = useNow();
   const { data, isLoading } = useSWR(
     id ? ["socialLeaderboard", id] : null,
     () => fetchSocialLeaderboardData(Number(id)),
@@ -110,7 +111,8 @@ export const SocialLeaderboard: React.FC<LeaderboardProps> = ({
 
           <div className="flex items-center gap-2">
             <p className="font-secondary text-xs">
-              {t("last.updated")} {getRelativeTime(data.lastUpdated)}
+              {t("last.updated")}{" "}
+              {getRelativeTime(data.lastUpdated, now, "short")}
             </p>
           </div>
         </div>

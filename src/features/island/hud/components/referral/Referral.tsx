@@ -24,6 +24,7 @@ import { Loading } from "features/auth/components";
 import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong";
 import classNames from "classnames";
 import { getRelativeTime } from "lib/utils/time";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface ReferralProps {
   onHide: () => void;
@@ -37,19 +38,29 @@ const REFERRAL_PACKAGE: Partial<Record<InventoryItemName, number>> = {
 
 export const ReferralContent: React.FC<ReferralProps> = ({ onHide }) => {
   const { t } = useAppTranslation();
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState<"Refer a friend" | "Referred">(
+    "Refer a friend",
+  );
   return (
     <CloseButtonPanel
       onClose={onHide}
       currentTab={tab}
       setCurrentTab={setTab}
       tabs={[
-        { icon: promoteIcon, name: "Refer a friend" },
-        { icon: SUNNYSIDE.icons.player, name: "Referred" },
+        {
+          icon: promoteIcon,
+          name: t("socialTask.referFriend"),
+          id: "Refer a friend",
+        },
+        {
+          icon: SUNNYSIDE.icons.player,
+          name: t("referral.referred"),
+          id: "Referred",
+        },
       ]}
     >
-      {tab === 0 && <ReferralInfo onHide={onHide} />}
-      {tab === 1 && <Referrees />}
+      {tab === "Refer a friend" && <ReferralInfo />}
+      {tab === "Referred" && <Referrees />}
     </CloseButtonPanel>
   );
 };
@@ -62,10 +73,11 @@ export const Referrees: React.FC = () => {
   const { t } = useAppTranslation();
   const { authState } = useAuth();
   const { gameState } = useGame();
-  const { data, isLoading, error, mutate } = useSWR(
+  const { data, isLoading, error } = useSWR(
     [authState.context.user.rawToken as string, gameState.context.farmId],
     fetcher,
   );
+  const now = useNow();
 
   if (isLoading) return <Loading />;
   if (error) return <SomethingWentWrong />;
@@ -121,7 +133,7 @@ export const Referrees: React.FC = () => {
                 />
                 <div>
                   <p className="text-xs">{username ?? `#${id}`}</p>
-                  <p className="text-xxs">{getRelativeTime(createdAt)}</p>
+                  <p className="text-xxs">{getRelativeTime(createdAt, now)}</p>
                 </div>
               </td>
 
@@ -148,7 +160,7 @@ export const Referrees: React.FC = () => {
   );
 };
 
-export const ReferralInfo: React.FC<ReferralProps> = ({ onHide }) => {
+export const ReferralInfo: React.FC = () => {
   const { t } = useAppTranslation();
   const [showFarm, setShowFarm] = useState(false);
   const { gameService } = useContext(Context);

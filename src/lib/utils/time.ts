@@ -249,10 +249,10 @@ export const formatDateTime = (isoString: string) => {
  */
 export function getRelativeTime(
   timestamp: number,
+  now: number,
   length: "short" | "medium" | "long" = "short",
 ): string {
-  const now = new Date();
-  const diffInSeconds = Math.round((timestamp - now.getTime()) / 1000);
+  const diffInSeconds = Math.round((timestamp - now) / 1000);
   const isInFuture = diffInSeconds > 0;
   const secondsAbs = Math.abs(diffInSeconds);
 

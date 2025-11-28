@@ -6175,6 +6175,7 @@
   "referral.multipleReferrees": "Congratulations! You have referred {{totalReferrees}} friends ({{vipCount}} VIP).",
   "referral.flowerLabel": "Flower",
   "referral.more": "...",
+  "referral.referred": "Referred",
   "offering.blessing": "Your tribute is being sent.",
   "offering.blessing.success.winner": "Winner",
   "offering.blessing.success.loser": "Not this time",

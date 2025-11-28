@@ -25,6 +25,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
 import { useNavigate } from "react-router";
 import { LeaveFaction } from "../LeaveFaction";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   emblem: FactionEmblem;
@@ -163,7 +164,7 @@ const Leaderboard: React.FC<{
   emblem: FactionEmblem;
 }> = ({ leaderboard, faction, playerId, emblem }) => {
   const { t } = useAppTranslation();
-
+  const now = useNow();
   const topTen = leaderboard.emblems.topTens[faction];
 
   // Where is the player ranked?
@@ -258,7 +259,8 @@ const Leaderboard: React.FC<{
 
       <div className="flex justify-between font-secondary text-xs pt-1">
         <span>
-          {t("last.updated")} {getRelativeTime(leaderboard.lastUpdated)}
+          {t("last.updated")}{" "}
+          {getRelativeTime(leaderboard.lastUpdated, now, "short")}
         </span>
       </div>
     </>

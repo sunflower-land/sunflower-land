@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useContext, useState } from "react";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -24,6 +24,8 @@ import { Box } from "components/ui/Box";
 import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export const MARKET_BUNDLES: Record<TradeableName, number> = {
   // Crops
@@ -67,11 +69,13 @@ export const MARKET_BUNDLES: Record<TradeableName, number> = {
 
 const LastUpdated: React.FC<{ cachedAt: number }> = ({ cachedAt }) => {
   const { t } = useAppTranslation();
+  const now = useNow();
 
   useUiRefresher();
   return (
     <span className="text-xs">{`${t("last.updated")} ${getRelativeTime(
       cachedAt,
+      now,
     )}`}</span>
   );
 };
@@ -80,6 +84,8 @@ const getPriceMovement = (current: number, yesterday: number) => {
   if (current >= yesterday * 0.95 && current <= yesterday * 1.05) return "same";
   return current > yesterday ? "up" : "down";
 };
+
+const _state = (state: MachineState) => state.context.state;
 
 export const SalesPanel: React.FC<{
   marketPrices: { prices: MarketPrices; cachedAt: number } | undefined;
@@ -92,13 +98,9 @@ export const SalesPanel: React.FC<{
   const [confirm, setConfirm] = useState(false);
   const [selected, setSelected] = useState<TradeableName>("Apple");
 
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, _state);
 
-  const onSell = (item: TradeableName, price: number) => {
+  const onSell = (item: TradeableName) => {
     // Open Confirmation modal
     setConfirm(true);
     setSelected(item);
@@ -265,7 +267,7 @@ export const SalesPanel: React.FC<{
                       priceMovement={priceMovement}
                       onClick={() => {
                         if (!hasPrices || !hasExchangeReputation) return;
-                        onSell(name, marketPrices.prices.currentPrices[name]);
+                        onSell(name);
                       }}
                     />
                   </div>
