@@ -15,7 +15,6 @@ import { MarketPrices } from "features/game/actions/getMarketPrices";
 import { TradeableName } from "features/game/actions/sellMarketResource";
 import { Button } from "components/ui/Button";
 import classNames from "classnames";
-import { getRelativeTime } from "lib/utils/time";
 import { formatNumber } from "lib/utils/formatNumber";
 
 import { Box } from "components/ui/Box";
@@ -24,7 +23,7 @@ import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { MachineState } from "features/game/lib/gameMachine";
-import { useNow } from "lib/utils/hooks/useNow";
+import { LastUpdatedAt } from "components/LastUpdatedAt";
 
 export const MARKET_BUNDLES: Record<TradeableName, number> = {
   // Crops
@@ -64,18 +63,6 @@ export const MARKET_BUNDLES: Record<TradeableName, number> = {
   Milk: 200,
   Wool: 200,
   "Merino Wool": 200,
-};
-
-const LastUpdated: React.FC<{ cachedAt: number }> = ({ cachedAt }) => {
-  const { t } = useAppTranslation();
-  const now = useNow({ live: true });
-
-  return (
-    <span className="text-xs">{`${t("last.updated")} ${getRelativeTime(
-      cachedAt,
-      now,
-    )}`}</span>
-  );
 };
 
 const getPriceMovement = (current: number, yesterday: number) => {
@@ -235,11 +222,11 @@ export const SalesPanel: React.FC<{
               {marketPrices && (
                 <div
                   className={classNames(
-                    "flex items-center justify-start sm:justify-end w-64",
+                    "flex items-center justify-start sm:justify-end w-64 text-xs",
                     { "opacity-75": !hasExchangeReputation },
                   )}
                 >
-                  <LastUpdated cachedAt={marketPrices.cachedAt ?? 0} />
+                  <LastUpdatedAt lastUpdated={marketPrices.cachedAt} />
                 </div>
               )}
             </div>

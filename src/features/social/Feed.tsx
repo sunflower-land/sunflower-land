@@ -458,7 +458,6 @@ const FeedContent: React.FC<FeedContentProps> = ({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
   const { t } = useAppTranslation();
-  const now = useNow({ live: true });
   const [canPaginate, setCanPaginate] = useState(false);
 
   // Intersection observer to load more interactions when the loader is in view
@@ -576,7 +575,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
                       ) : (
                         `${sender ?? ""} ${interaction.sender ? "- " : ""}`
                       )}
-                      {`${getRelativeTime(interaction.createdAt, now)}`}
+                      <RelativeTime createdAt={interaction.createdAt} />
                     </span>
                     <div className="flex justify-between items-center w-full">
                       <div
@@ -628,4 +627,9 @@ const FeedContent: React.FC<FeedContentProps> = ({
       )}
     </div>
   );
+};
+
+const RelativeTime: React.FC<{ createdAt: number }> = ({ createdAt }) => {
+  const now = useNow({ live: true });
+  return <>{getRelativeTime(createdAt, now)}</>;
 };
