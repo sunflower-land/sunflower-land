@@ -15,6 +15,7 @@ import { getPetImage } from "features/island/pets/lib/petShared";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { shortenCount } from "lib/utils/formatNumber";
 import React, { useState } from "react";
+import { useNow } from "lib/utils/hooks/useNow";
 
 type Props = {
   petId: PetName | number;
@@ -27,9 +28,9 @@ export const PetInfo: React.FC<Props> = ({ children, petData, petId }) => {
   const { level, percentage, currentProgress, experienceBetweenLevels } =
     getPetLevel(petData.experience);
   const [onHoverXp, setOnHoverXp] = useState(false);
-
-  const isNeglected = isPetNeglected(petData);
-  const isNapping = isPetNapping(petData);
+  const now = useNow({ live: true });
+  const isNeglected = isPetNeglected(petData, now);
+  const isNapping = isPetNapping(petData, now);
 
   const petImage = getPetImage(
     isNeglected || isNapping ? "asleep" : "happy",

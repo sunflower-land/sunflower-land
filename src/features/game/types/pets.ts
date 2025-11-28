@@ -5,7 +5,6 @@ import { CookableName } from "./consumables";
 import { getObjectEntries } from "../expansion/lib/utils";
 import { InventoryItemName } from "./game";
 import { Coordinates } from "../expansion/components/MapPlacement";
-import { COMPETITION_POINTS } from "./competitions";
 import { PetTraits } from "features/pets/data/types";
 import { CONFIG } from "lib/config";
 
@@ -393,7 +392,6 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
       Ribbon: new Decimal(10),
     },
     inventoryLimit: 1,
-    disabled: Date.now() < COMPETITION_POINTS.BUILDING_FRIENDSHIPS.endAt,
   },
   "Toucan Shrine": {
     description: "",
@@ -675,7 +673,7 @@ export function getPetLevel(currentTotalExperience: number) {
 
 export function isPetNeglected(
   pet: Pet | PetNFT | undefined,
-  createdAt: number = Date.now(),
+  createdAt: number,
 ) {
   if (!pet) {
     return false;
@@ -698,10 +696,7 @@ export function isPetNeglected(
 
 const PET_NAP_HOURS = 2;
 
-export function isPetNapping(
-  pet: Pet | PetNFT | undefined,
-  createdAt: number = Date.now(),
-) {
+export function isPetNapping(pet: Pet | PetNFT | undefined, createdAt: number) {
   if (!pet) return false;
   const pettedAt = pet.pettedAt;
   const hoursSincePetted = (createdAt - pettedAt) / (1000 * 60 * 60);
@@ -712,12 +707,12 @@ export function isPetOfTypeFed({
   nftPets,
   petType,
   id,
-  now = Date.now(),
+  now,
 }: {
   nftPets: PetNFTs;
   petType: PetNFTType;
   id: number; // This is the id of the pet to exclude from the check
-  now?: number;
+  now: number;
 }) {
   const petsOfType = Object.values(nftPets).filter(
     (pet) => pet.traits?.type === petType,

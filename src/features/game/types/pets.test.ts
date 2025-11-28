@@ -474,7 +474,8 @@ describe("isPetOfTypeFed", () => {
   });
 
   it("uses current time when now is not provided", () => {
-    const today = new Date().toISOString().split("T")[0];
+    const now = Date.now();
+    const today = new Date(now).toISOString().split("T")[0];
     const todayTimestamp = new Date(today).getTime();
 
     const nftPets = {
@@ -487,7 +488,7 @@ describe("isPetOfTypeFed", () => {
         },
         energy: 0,
         experience: 100,
-        pettedAt: Date.now(),
+        pettedAt: now,
         traits: {
           type: "Dragon" as const,
           fur: "Green" as const,
@@ -503,6 +504,7 @@ describe("isPetOfTypeFed", () => {
         nftPets,
         petType: "Dragon",
         id: 1,
+        now,
       }),
     ).toBe(false);
   });
