@@ -331,7 +331,6 @@ export type BlockchainEvent =
   | { type: "RANDOMISE" }
   | DepositFlowerFromLinkedWalletEvent
   | DepositSFLFromLinkedWalletEvent
-  | { type: "CHECK_LEAGUE_RESULTS" }
   | { type: StateMachineVisitEffectName }
   | Effect; // Test only
 
@@ -1621,7 +1620,7 @@ export function startGame(authContext: AuthContext) {
              * It is a rare event but it saves a user from making too much progress that would not be synced
              */
             src: (context) => (cb) => {
-              const sessionInterval = setInterval(
+              const interval = setInterval(
                 async () => {
                   if (!context.farmAddress) return;
 
@@ -1636,13 +1635,8 @@ export function startGame(authContext: AuthContext) {
                 1000 * 60 * 2,
               );
 
-              const leagueResultsInterval = setInterval(() => {
-                cb("CHECK_LEAGUE_RESULTS");
-              }, 1000 * 60);
-
               return () => {
-                clearInterval(sessionInterval);
-                clearInterval(leagueResultsInterval);
+                clearInterval(interval);
               };
             },
             onError: [
@@ -1707,10 +1701,6 @@ export function startGame(authContext: AuthContext) {
               target: "buyingSFL",
             },
             SELL_MARKET_RESOURCE: { target: "sellMarketResource" },
-            CHECK_LEAGUE_RESULTS: {
-              target: "leagueResults",
-              cond: shouldShowLeagueResults,
-            },
             UPDATE_GEMS: {
               actions: assign((context, event) => ({
                 state: {
@@ -1829,6 +1819,13 @@ export function startGame(authContext: AuthContext) {
 
                   return !isAcknowledged;
                 },
+                actions: assign((context: Context, event) =>
+                  handleSuccessfulSave(context, event),
+                ),
+              },
+              {
+                target: "leagueResults",
+                cond: shouldShowLeagueResults,
                 actions: assign((context: Context, event) =>
                   handleSuccessfulSave(context, event),
                 ),
