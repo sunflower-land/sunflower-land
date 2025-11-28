@@ -11,7 +11,7 @@ import { Transition } from "@headlessui/react";
 import { PetSprite } from "./PetSprite";
 import { _petData } from "./lib/petShared";
 import { PetModal } from "./PetModal";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export const LandPet: React.FC<{ name: PetName }> = ({ name }) => {
   const [showPetModal, setShowPetModal] = useState(false);
@@ -20,9 +20,10 @@ export const LandPet: React.FC<{ name: PetName }> = ({ name }) => {
   const { gameService } = useContext(Context);
 
   const petData = useSelector(gameService, _petData(name));
+  const now = useNow({ live: true });
 
-  const isNeglected = isPetNeglected(petData);
-  const isNapping = isPetNapping(petData);
+  const isNeglected = isPetNeglected(petData, now);
+  const isNapping = isPetNapping(petData, now);
   const petType = getPetType(petData);
 
   const handlePetClick = () => {
@@ -42,9 +43,6 @@ export const LandPet: React.FC<{ name: PetName }> = ({ name }) => {
       setShowPetModal(true);
     }
   };
-
-  // Used to move the pet through different states (neglected, napping)
-  useUiRefresher();
 
   if (!petData) return null;
 

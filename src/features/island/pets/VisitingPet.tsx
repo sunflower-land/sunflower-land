@@ -15,7 +15,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { FarmHelped } from "features/island/hud/components/FarmHelped";
 import { PetSprite } from "./PetSprite";
 import { SUNNYSIDE } from "assets/sunnyside";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const _hasHelpedPet = (name: PetName) => (state: MachineState) => {
   if (state.context.visitorState) {
@@ -45,8 +45,11 @@ export const VisitingPet: React.FC<{ name: PetName }> = ({ name }) => {
 
   const [showHelped, setShowHelped] = useState(false);
 
-  const isNeglected = isPetNeglected(petData);
-  const isNapping = isPetNapping(petData);
+  // Keep visiting pet state (neglected / napping) in sync with wall-clock time.
+  const now = useNow({ live: true });
+
+  const isNeglected = isPetNeglected(petData, now);
+  const isNapping = isPetNapping(petData, now);
 
   const handlePetClick = () => {
     if (petData && visitorGameState && !hasHelpedPet) {
@@ -61,9 +64,6 @@ export const VisitingPet: React.FC<{ name: PetName }> = ({ name }) => {
       }
     }
   };
-
-  // Used to move the pet through different states (neglected, napping)
-  useUiRefresher();
 
   return (
     <div
