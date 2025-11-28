@@ -16,7 +16,6 @@ import { TradeableName } from "features/game/actions/sellMarketResource";
 import { Button } from "components/ui/Button";
 import classNames from "classnames";
 import { getRelativeTime } from "lib/utils/time";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { formatNumber } from "lib/utils/formatNumber";
 
 import { Box } from "components/ui/Box";
@@ -71,7 +70,6 @@ const LastUpdated: React.FC<{ cachedAt: number }> = ({ cachedAt }) => {
   const { t } = useAppTranslation();
   const now = useNow({ live: true });
 
-  useUiRefresher();
   return (
     <span className="text-xs">{`${t("last.updated")} ${getRelativeTime(
       cachedAt,
