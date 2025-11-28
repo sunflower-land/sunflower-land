@@ -28,6 +28,7 @@ import { getCropPlotTime } from "features/game/events/landExpansion/plant";
 import { getAvailablePlots } from "features/game/events/landExpansion/bulkPlant";
 import { getCropsToHarvest } from "features/game/events/landExpansion/bulkHarvest";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export const ObsidianShrine: React.FC<CollectibleProps> = ({
   createdAt,
@@ -43,10 +44,13 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
   const [showPopover, setShowPopover] = useState(false);
 
   const expiresAt = createdAt + (EXPIRY_COOLDOWNS[name as PetShrineName] ?? 0);
+
   const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
   const durationSeconds = EXPIRY_COOLDOWNS[name as PetShrineName] ?? 0;
   const percentage = 100 - (secondsToExpire / durationSeconds) * 100;
   const hasExpired = secondsToExpire <= 0;
+
+  const now = useNow({ live: !hasExpired, autoEndAt: expiresAt });
 
   const state = useSelector(gameService, (state) => state.context.state);
 
@@ -59,7 +63,7 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
   };
 
   const availablePlots = getAvailablePlots(state);
-  const { readyCrops } = getCropsToHarvest(state);
+  const { readyCrops } = getCropsToHarvest(state, now);
   const hasReadyCrops = Object.keys(readyCrops).length > 0;
   const hasAvailablePlots = availablePlots.length > 0;
 
