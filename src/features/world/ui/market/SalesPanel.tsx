@@ -69,7 +69,7 @@ export const MARKET_BUNDLES: Record<TradeableName, number> = {
 
 const LastUpdated: React.FC<{ cachedAt: number }> = ({ cachedAt }) => {
   const { t } = useAppTranslation();
-  const now = useNow();
+  const now = useNow({ live: true });
 
   useUiRefresher();
   return (

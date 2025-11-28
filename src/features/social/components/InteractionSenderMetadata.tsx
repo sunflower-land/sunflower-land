@@ -8,7 +8,7 @@ export const InteractionSenderMetadata: React.FC<{
   createdAt: number;
 }> = ({ sender, createdAt }) => {
   useUiRefresher();
-  const now = useNow();
+  const now = useNow({ live: true });
   return (
     <div className="text-xxs">{`${sender} - ${getRelativeTime(createdAt, now)}`}</div>
   );

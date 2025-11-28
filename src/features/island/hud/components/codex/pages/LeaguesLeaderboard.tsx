@@ -22,7 +22,7 @@ export const LeagueLeaderboard: React.FC<LeaderboardProps> = ({
   username,
   farmId,
 }) => {
-  const now = useNow();
+  const now = useNow({ live: true });
   const { t } = useAppTranslation();
 
   if (isLoading && !data) return <Loading />;

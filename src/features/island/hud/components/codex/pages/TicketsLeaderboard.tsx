@@ -19,7 +19,7 @@ export const TicketsLeaderboard: React.FC<LeaderboardProps> = ({
 }) => {
   const { t } = useAppTranslation();
   const seasonTicket = getSeasonalTicket();
-  const now = useNow();
+  const now = useNow({ live: true });
   if (isLoading && !data) return <Loading />;
 
   if (!data)

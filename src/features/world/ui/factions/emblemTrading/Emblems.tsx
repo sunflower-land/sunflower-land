@@ -164,7 +164,7 @@ const Leaderboard: React.FC<{
   emblem: FactionEmblem;
 }> = ({ leaderboard, faction, playerId, emblem }) => {
   const { t } = useAppTranslation();
-  const now = useNow();
+  const now = useNow({ live: true });
   const topTen = leaderboard.emblems.topTens[faction];
 
   // Where is the player ranked?

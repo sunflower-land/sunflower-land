@@ -33,7 +33,7 @@ export const SocialLeaderboard: React.FC<LeaderboardProps> = ({
     "weekly",
   );
   const [showTooltip, setShowTooltip] = useState(false);
-  const now = useNow();
+  const now = useNow({ live: true });
   const { data, isLoading } = useSWR(
     id ? ["socialLeaderboard", id] : null,
     () => fetchSocialLeaderboardData(Number(id)),

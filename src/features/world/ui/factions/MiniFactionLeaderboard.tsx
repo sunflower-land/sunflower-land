@@ -24,7 +24,7 @@ export const MiniFactionLeaderboard: React.FC<LeaderboardProps> = ({
   onBack,
 }) => {
   const { t } = useAppTranslation();
-  const now = useNow();
+  const now = useNow({ live: true });
   if (isLoading && !data) return <Loading />;
 
   if (!data)
