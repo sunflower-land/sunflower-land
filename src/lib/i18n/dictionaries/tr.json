@@ -7202,5 +7202,7 @@
   "economyDashboard.resourceRequired": "Verileri görüntülemek için bir kaynak seçin.",
   "economyDashboard.resourceUnset": "Kaynağı seç",
   "economyDashboard.exportCsv": "CSV'yi dışa aktarma",
-  "noOptionsFound": "Seçenek bulunamadı"
+  "noOptionsFound": "Seçenek bulunamadı",
+  "drink": "İçki",
+  "eat": "Yeme"
 }

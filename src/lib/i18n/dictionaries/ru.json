@@ -7202,5 +7202,7 @@
   "economyDashboard.resourceRequired": "Выбери ресурс для просмотра данных.",
   "economyDashboard.resourceUnset": "Выбери ресурс",
   "economyDashboard.exportCsv": "Экспорт в CSV",
-  "noOptionsFound": "Нет доступных вариантов"
+  "noOptionsFound": "Нет доступных вариантов",
+  "drink": "Drink",
+  "eat": "Eat"
 }

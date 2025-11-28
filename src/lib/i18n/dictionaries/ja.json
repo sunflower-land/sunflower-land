@@ -7202,5 +7202,7 @@
   "economyDashboard.resourceRequired": "データを表示するリソースを選択します。",
   "economyDashboard.resourceUnset": "リソースを選択",
   "economyDashboard.exportCsv": "CSV をエクスポート",
-  "noOptionsFound": "オプションが見つかりません"
+  "noOptionsFound": "オプションが見つかりません",
+  "drink": "ドリンク",
+  "eat": "食べる"
 }

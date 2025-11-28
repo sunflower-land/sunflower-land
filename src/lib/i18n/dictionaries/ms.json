@@ -7202,5 +7202,7 @@
   "economyDashboard.resourceRequired": "Pilih sumber untuk melihat data.",
   "economyDashboard.resourceUnset": "Pilih sumber",
   "economyDashboard.exportCsv": "Eksport CSV",
-  "noOptionsFound": "Tiada pilihan ditemui"
+  "noOptionsFound": "Tiada pilihan ditemui",
+  "drink": "Minum",
+  "eat": "Makan"
 }
