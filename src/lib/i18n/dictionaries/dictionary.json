@@ -143,6 +143,8 @@
   "auction.closed": "Auction closed",
   "auction.const": "A new seasonal collection is coming...",
   "auction.const.soon": "This feature is coming soon.",
+  "version.updateReady": "A new version is ready.",
+  "version.updateCta": "Update",
   "availableSeeds.select": "Seed not selected",
   "availableSeeds.select.plant": "What seed would you like to select and plant?",
   "quickSelect.empty": "No greenhouse seeds.",

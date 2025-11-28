@@ -100,6 +100,15 @@ jobs:
           VITE_FIREBASE_VAPID_KEY: ${{ secrets.FIREBASE_VAPID_KEY }}
           VITE_TELEGRAM_BOT: "sunflower_land_testnet_bot"
           VITE_TWITTER_CLIENT_ID: ${{ secrets.TWITTER_CLIENT_ID }}
+
+      - name: Write version metadata
+        run: |
+          cat <<EOF > dist/version.json
+          {
+            "releaseVersion": "${{ steps.get_version.outputs.VERSION }}",
+            "clientVersion": "${{ steps.date.outputs.date }}"
+          }
+          EOF
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
