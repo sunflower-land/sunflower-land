@@ -125,7 +125,7 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
                         <p className="text-xs sm:text-sm mr-1.5">{`${quantity} x `}</p>
                       )}
                       <p className="text-xs sm:text-sm truncate">
-                        {details.name}
+                        {details.translatedName ?? details.name}
                       </p>
                     </div>
                   </td>

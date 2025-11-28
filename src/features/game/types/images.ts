@@ -1124,6 +1124,7 @@ export interface ItemDetails {
   // TODO: Extend this as the codex grows eg. Resource etc
   itemType?: "collectible";
   isPermanent?: boolean;
+  translatedName?: string;
 }
 
 type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
@@ -1529,22 +1530,27 @@ export const ITEM_DETAILS: Items = {
   Wood: {
     image: SUNNYSIDE.resource.wood,
     description: COMMODITIES.Wood.description,
+    translatedName: translate("resource.wood"),
   },
   Stone: {
     image: SUNNYSIDE.resource.stone,
     description: COMMODITIES.Stone.description,
+    translatedName: translate("resource.stone"),
   },
   Iron: {
     image: iron,
     description: COMMODITIES.Iron.description,
+    translatedName: translate("resource.iron"),
   },
   Crimstone: {
     image: crimstone,
     description: COMMODITIES.Crimstone.description,
+    translatedName: translate("resource.crimstone"),
   },
   Gold: {
     image: gold,
     description: COMMODITIES.Gold.description,
+    translatedName: translate("resource.gold"),
   },
   Diamond: {
     image: SUNNYSIDE.resource.diamond,
@@ -1553,14 +1559,17 @@ export const ITEM_DETAILS: Items = {
   Obsidian: {
     image: obsidian,
     description: COMMODITIES.Obsidian.description,
+    translatedName: translate("resource.obsidian"),
   },
   Sunstone: {
     image: sunstone,
     description: COMMODITIES.Sunstone.description,
+    translatedName: translate("resource.sunstone"),
   },
   Oil: {
     image: oil,
     description: COMMODITIES.Oil.description,
+    translatedName: translate("resource.oil"),
   },
   Egg: {
     image: SUNNYSIDE.resource.egg,
@@ -3041,46 +3050,57 @@ export const ITEM_DETAILS: Items = {
   "Crop Plot": {
     image: SUNNYSIDE.resource.plot,
     description: translate("description.crop.plot"),
+    translatedName: translate("node.cropPlot"),
   },
   "Sunstone Rock": {
     image: sunstoneRock,
     description: translate("description.sunstone.rock"),
+    translatedName: translate("node.sunstone"),
   },
   "Gold Rock": {
     image: SUNNYSIDE.resource.goldStone,
     description: translate("description.gold.rock"),
+    translatedName: translate("node.gold"),
   },
   "Iron Rock": {
     image: SUNNYSIDE.resource.ironStone,
     description: translate("description.iron.rock"),
+    translatedName: translate("node.iron"),
   },
   "Stone Rock": {
     image: SUNNYSIDE.resource.stone_small,
     description: translate("description.stone.rock"),
+    translatedName: translate("node.stone"),
   },
   "Crimstone Rock": {
     image: crimstoneRock,
     description: translate("description.crimstone.rock"),
+    translatedName: translate("node.crimstone"),
   },
   "Oil Reserve": {
     image: oilReserve,
     description: translate("description.oil.reserve"),
+    translatedName: translate("node.oilReserve"),
   },
   "Lava Pit": {
     image: lavaPit,
     description: translate("description.lava.pit"),
+    translatedName: translate("node.lavaPit"),
   },
   Tree: {
     image: SUNNYSIDE.resource.tree,
     description: translate("description.tree"),
+    translatedName: translate("node.tree"),
   },
   "Fruit Patch": {
     image: SUNNYSIDE.resource.fruitPatch,
     description: translate("description.fruit.patch"),
+    translatedName: translate("node.fruitPatch"),
   },
   "Flower Bed": {
     image: flowerBed,
     description: translate("description.flower.bed"),
+    translatedName: translate("node.flowerBed"),
   },
   Boulder: {
     image: SUNNYSIDE.resource.boulder,
