@@ -106,7 +106,10 @@ export const VersionUpdateWidget: React.FC = () => {
       <img
         src={SUNNYSIDE.icons.close}
         className="h-5 cursor-pointer"
-        onClick={handleClose}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleClose();
+        }}
       />
     </ButtonPanel>
   );

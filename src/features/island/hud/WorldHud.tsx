@@ -153,7 +153,9 @@ const HudComponent: React.FC<Props> = ({
           <StreamCountdown />
           <FloatingIslandCountdown />
           <AuctionCountdown />
-          <VersionUpdateWidget />
+          {hasFeatureAccess(state, "VERSION_UPDATES") && (
+            <VersionUpdateWidget />
+          )}
         </div>
 
         {/* Right side of the HUD*/}
