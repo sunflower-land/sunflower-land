@@ -215,7 +215,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   investigating: true,
   blessing: true,
   cheers: true,
-  leagueResults: true,
+  leagueResults: false,
 };
 
 // State change selectors
@@ -478,10 +478,12 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const cheers = useSelector(gameService, isCheers);
   const news = useSelector(gameService, isNews);
   const tradesCleared = useSelector(gameService, isTradesCleared);
+  const isVisiting = useSelector(gameService, _isVisiting);
   const leagueResultsReleased = useSelector(
     gameService,
     isLeagueResultsReleased,
   );
+
   const { t } = useAppTranslation();
 
   useInterval(() => {
@@ -685,7 +687,6 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
               />
             )}
             {cheers && <Cheering />}
-            {leagueResultsReleased && <LeagueResults />}
           </Panel>
         </Modal>
 
@@ -711,7 +712,15 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             </CloseButtonPanel>
           </Modal>
         )}
-
+        {leagueResultsReleased && !isVisiting && (
+          <Modal show>
+            <Panel
+              bumpkinParts={error ? NPC_WEARABLES["worried pete"] : undefined}
+            >
+              <LeagueResults />
+            </Panel>
+          </Modal>
+        )}
         <Introduction />
         <NewMail />
 
