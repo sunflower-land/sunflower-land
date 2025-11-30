@@ -713,7 +713,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
           </Modal>
         )}
         {leagueResultsReleased && !isVisiting && (
-          <Modal show onHide={onHide}>
+          <Modal show>
             <Panel
               bumpkinParts={error ? NPC_WEARABLES["worried pete"] : undefined}
             >
