@@ -39,7 +39,7 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
   const readyAt = reserve.oil.drilledAt + OIL_RESERVE_RECOVERY_TIME * 1000;
   const { totalSeconds: timeLeft } = useCountdown(readyAt);
   const ready = timeLeft <= 0;
-  const halfReady = !ready && timeLeft < OIL_RESERVE_RECOVERY_TIME / 2;
+  const halfReady = !ready && timeLeft <= OIL_RESERVE_RECOVERY_TIME / 2;
 
   const handleDrill = async () => {
     const requiredDrillAmount = getRequiredOilDrillAmount(state).amount;
