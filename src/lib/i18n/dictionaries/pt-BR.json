@@ -2159,7 +2159,6 @@
   "budBox.description": "Todos os dias, um tipo de broto pode desbloquear recompensas agrícolas.",
   "budBox.today": "Hoje - {{timeLeft}} saiu",
   "raffle.title": "Sorteio de duendes",
-  "raffle.description": "Todo mês, você tem a chance de ganhar recompensas. Os vencedores serão anunciados no Discord.",
   "raffle.entries": "entradas",
   "raffle.noTicket": "Bilhete de prêmio perdido",
   "raffle.how": "Você pode coletar bilhetes-prêmio gratuitamente por meio de eventos especiais e entregas da Bumpkin.",
@@ -7226,5 +7225,6 @@
   "node.tree": "Árvore",
   "version.updateReady": "Uma nova versão está pronta.",
   "version.updateCta": "Atualizar",
-  "referral.referred": "Referido"
+  "referral.referred": "Referido",
+  "raffle.description": "Todo mês, você tem a chance de ganhar recompensas. Os vencedores do Goblin Raffle serão anunciados nas transmissões da Twitch de sexta-feira, na 1ª ou 2ª sexta-feira do mês seguinte. Ex. Os vencedores de maio serão anunciados na primeira ou segunda sexta-feira de junho. Os resultados também estão fixados no Discord em #farmers -chat"
 }

@@ -95,7 +95,6 @@
   "budBox.description": "매일 버드 타입이 파밍 보상을 잠금 해제할 수 있습니다.",
   "budBox.today": "오늘 - {{timeLeft}} 남음",
   "raffle.title": "고블린 래플",
-  "raffle.description": "매달 보상을 받을 수 있는 기회가 있습니다.수상자는 Discord에서 발표됩니다.",
   "raffle.entries": "출품작",
   "raffle.noTicket": "분실된 상품 티켓",
   "raffle.how": "특별 이벤트 및 범프킨 배송을 통해 경품 티켓을 무료로 수령할 수 있습니다.",
@@ -7226,5 +7225,6 @@
   "node.tree": "트리",
   "version.updateReady": "새 버전이 준비되었습니다.",
   "version.updateCta": "업데이트",
-  "referral.referred": "참조됨"
+  "referral.referred": "참조됨",
+  "raffle.description": "매달 보상을 받을 수 있는 기회가 있습니다.고블린 추첨 당첨자는 다음 달 첫째 주 또는 둘째 주 금요일에 열리는 금요일 Twitch Streams에서 발표됩니다.예:5월 수상자는 6월 첫 번째 또는 두 번째 금요일에 발표됩니다.결과는 #farmers -chat의 디스코드에도 표시됩니다."
 }

@@ -95,7 +95,6 @@
   "budBox.description": "Setiap hari, jenis tunas dapat membuka hadiah pertanian.",
   "budBox.today": "Hari ini - {{timeLeft}} tersisa",
   "raffle.title": "Undian Goblin",
-  "raffle.description": "Setiap bulan, Anda memiliki kesempatan untuk memenangkan hadiah. Pemenang akan diumumkan di Discord.",
   "raffle.entries": "entri",
   "raffle.noTicket": "Tiket Hadiah Hilang",
   "raffle.how": "Anda dapat mengumpulkan Tiket Hadiah secara gratis melalui acara khusus dan pengiriman Bumpkin.",
@@ -7226,5 +7225,6 @@
   "node.tree": "Pohon",
   "version.updateReady": "Versi baru sudah siap.",
   "version.updateCta": "Perbarui",
-  "referral.referred": "Direferensikan"
+  "referral.referred": "Direferensikan",
+  "raffle.description": "Setiap bulan, Anda memiliki kesempatan untuk memenangkan hadiah. Pemenang Goblin Raffle akan diumumkan pada Jumat Twitch Streaming pada hari Jumat pertama atau ke-2 bulan berikutnya. Contohnya. Pemenang Mei akan diumumkan pada hari Jumat pertama atau kedua bulan Juni. Hasil juga disematkan di Discord di #farmers -chat"
 }

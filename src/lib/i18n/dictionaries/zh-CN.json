@@ -91,7 +91,6 @@
   "budBox.description": "每天，对应的蕾芽类型可以解锁宝箱奖励。",
   "budBox.today": "今天 - 剩下 {{timeLeft}}",
   "raffle.title": "哥布林抽奖",
-  "raffle.description": "每个月您都有机会赢得奖励。获奖者名单将在 Discord 上公布。",
   "raffle.entries": "投注",
   "raffle.noTicket": "未有奖券",
   "raffle.how": "您可以通过特殊活动和乡包佬送货免费领取奖券。",
@@ -7226,5 +7225,6 @@
   "node.tree": "树",
   "version.updateReady": "新版本已准备就绪。",
   "version.updateCta": "更新",
-  "referral.referred": "已提交"
+  "referral.referred": "已提交",
+  "raffle.description": "每个月，你都有机会赢取奖励。哥布林抽奖的获胜者将在下个月的第一个或第二个星期五的星期五在周五的Twitch直播中公布。例如。五月的获奖者将在六月的第一个或第二个星期五公布。结果也固定在 Discord 的 #farmers-chat 上"
 }

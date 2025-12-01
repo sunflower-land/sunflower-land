@@ -95,7 +95,6 @@
   "budBox.description": "Cada día, un tipo de cogollo puede desbloquear recompensas agrícolas.",
   "budBox.today": "Hoy queda {{timeLeft}}",
   "raffle.title": "Rifa del Goblin",
-  "raffle.description": "Cada mes, tienes la oportunidad de ganar recompensas. Los ganadores se anunciarán en Discord.",
   "raffle.entries": "entradas",
   "raffle.noTicket": "No tienes entradas",
   "raffle.how": "Puedes recoger Tickets de premio de forma gratuita a través de eventos especiales y entregas de Bumpkin.",
@@ -7226,5 +7225,6 @@
   "node.tree": "Árbol",
   "version.updateReady": "Está lista una nueva versión.",
   "version.updateCta": "Actualización",
-  "referral.referred": "Referido"
+  "referral.referred": "Referido",
+  "raffle.description": "Cada mes, tienes la oportunidad de ganar recompensas. Los ganadores del sorteo de duendes se anunciarán en las retransmisiones de Twitch de los viernes, el primer o segundo viernes del mes siguiente. Por ejemplo. Los ganadores de mayo se anunciarán el primer o segundo viernes de junio. Los resultados también están publicados en Discord en #farmers -chat"
 }

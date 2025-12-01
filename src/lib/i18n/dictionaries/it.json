@@ -94,7 +94,6 @@
   "budBox.description": "Ogni giorno, un tipo di gemma può sbloccare ricompense agricole.",
   "budBox.today": "Oggi - {{timeLeft}} rimasto",
   "raffle.title": "Lotteria Goblin",
-  "raffle.description": "Ogni mese, hai la possibilità di vincere premi. I vincitori saranno annunciati su Discord.",
   "raffle.entries": "voci",
   "raffle.noTicket": "Biglietto premio mancante",
   "raffle.how": "Puoi ritirare i biglietti premio gratuitamente tramite eventi speciali e consegne Bumpkin.",
@@ -7226,5 +7225,6 @@
   "node.tree": "Albero",
   "version.updateReady": "Una nuova versione è pronta.",
   "version.updateCta": "Aggiornamento",
-  "referral.referred": "Riferito"
+  "referral.referred": "Riferito",
+  "raffle.description": "Ogni mese, hai la possibilità di vincere premi. I vincitori della Goblin Raffle saranno annunciati negli stream di Twitch del venerdì il primo o il secondo venerdì del mese successivo. Ad esempio. I vincitori di maggio saranno annunciati il primo o il secondo venerdì di giugno. I risultati sono inoltre disponibili in Discord su #farmers -chat"
 }

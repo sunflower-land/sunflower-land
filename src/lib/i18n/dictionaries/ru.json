@@ -145,7 +145,6 @@
   "budBox.description": "Каждый день определенный вид бада поможет получить тебе награду.",
   "budBox.today": "Сегодня - {{timeLeft}} осталось",
   "raffle.title": "Розыгрыш от гоблинов",
-  "raffle.description": "Каждый месяц у тебя есть шанс выиграть награды. Победители будут объявлены в Discord.",
   "raffle.entry": "запись",
   "raffle.entries": "Записи",
   "raffle.noTicket": "Отсутствует Prize Ticket",
@@ -7226,5 +7225,6 @@
   "node.tree": "Tree",
   "version.updateReady": "A new version is ready.",
   "version.updateCta": "Update",
-  "referral.referred": "Referred"
+  "referral.referred": "Referred",
+  "raffle.description": "Each month, you have a chance to win rewards. The Goblin Raffle winners will be announced on the Friday Twitch Streams in the 1st or 2nd Fridays of the following month. Eg. May's winners will be announced on the first or second Friday of June. Results are also pinned in Discord on #farmers-chat"
 }

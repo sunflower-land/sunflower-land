@@ -85,7 +85,6 @@
   "budBox.title": "Tomurcuk kutusu",
   "budBox.description": "Her gün bir tomurcuk türü çiftçilik ödüllerinin kilidini açabilir.",
   "raffle.title": "Goblin Çekilişi",
-  "raffle.description": "Her ay ödül kazanma şansınız var. Kazananlar Discord'da duyurulacaktır.",
   "raffle.entries": "girişler",
   "raffle.noTicket": "Eksik Ödül Bileti",
   "raffle.how": "Özel etkinlikler ve Bumpkin teslimatları aracılığıyla Ödül Biletlerini ücretsiz olarak toplayabilirsiniz.",
@@ -7226,5 +7225,6 @@
   "node.tree": "Ağaç",
   "version.updateReady": "Yeni bir versiyon hazır.",
   "version.updateCta": "Güncelleme",
-  "referral.referred": "Tavsiye Edilen"
+  "referral.referred": "Tavsiye Edilen",
+  "raffle.description": "Her ay ödül kazanma şansınız var. Goblin Çekilişi kazananları, bir sonraki ayın 1. veya 2. Cuma günü Cuma Twitch Yayınlarında açıklanacaktır.. Örneğin. Mayıs ayının kazananları Haziran ayının ilk veya ikinci Cuma günü açıklanacak. Sonuçlar ayrıca #farmers -chat'te Discord'da sabitlenir"
 }

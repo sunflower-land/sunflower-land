@@ -95,7 +95,6 @@
   "budBox.description": "毎日、つぼみの種類によって農業報酬を獲得できます。",
   "budBox.today": "今日-{{timeLeft}} 残り",
   "raffle.title": "ゴブリンラッフル",
-  "raffle.description": "毎月、報酬を獲得するチャンスがあります。受賞者はDiscordで発表されます。",
   "raffle.entries": "エントリー",
   "raffle.noTicket": "賞品チケットが見つからない",
   "raffle.how": "賞品チケットは、特別なイベントやバンプキンの配達を通じて無料で集めることができます。",
@@ -7226,5 +7225,6 @@
   "node.tree": "ツリー",
   "version.updateReady": "新しいバージョンの準備ができました。",
   "version.updateCta": "[更新]",
-  "referral.referred": "紹介された"
+  "referral.referred": "紹介された",
+  "raffle.description": "毎月、報酬を獲得するチャンスがあります。ゴブリンラッフルの当選者は、翌月の第1金曜日または第2金曜日の金曜日のTwitchストリームで発表されます。例えば。5月の受賞者は、6月の第1金曜日または第2金曜日に発表されます。結果はDiscordの #farmers-chatでも確認できます。"
 }

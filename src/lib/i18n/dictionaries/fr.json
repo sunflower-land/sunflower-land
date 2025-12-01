@@ -84,7 +84,6 @@
   "budBox.title": "Bud Box",
   "budBox.description": "Chaque jour, un type de tête peut débloquer des récompenses agricoles.",
   "raffle.title": "Tombola Gobelin",
-  "raffle.description": "Chaque mois, vous avez une chance de gagner des récompenses. Les gagnants seront annoncés sur Discord.",
   "raffle.entries": "entrées",
   "raffle.noTicket": "Billet gagnant manquant",
   "raffle.how": "Vous pouvez collecter des tickets de récompense gratuitement grâce à des événements spéciaux et des livraisons de Bumpkin.",
@@ -7226,5 +7225,6 @@
   "node.tree": "Arbre",
   "version.updateReady": "Une nouvelle version est prête.",
   "version.updateCta": "Mettre à jour",
-  "referral.referred": "Référé"
+  "referral.referred": "Référé",
+  "raffle.description": "Chaque mois, tu as la chance de gagner des récompenses. Les gagnants de la tombola des gobelins seront annoncés sur les streams Twitch du vendredi, les 1er ou 2e vendredis du mois suivant. Par exemple. Les gagnants du mois de mai seront annoncés le premier ou le deuxième vendredi de juin. Les résultats sont également publiés dans Discord sur #farmers -chat"
 }

@@ -95,7 +95,6 @@
   "budBox.description": "Jeden Tag kann ein Knospentyp Farmbelohnungen freischalten.",
   "budBox.today": "Heute - {{timeLeft}} übrig",
   "raffle.title": "Goblin-Verlosung",
-  "raffle.description": "Jeden Monat hast du die Chance, Belohnungen zu gewinnen. Die Gewinner werden auf Discord bekannt gegeben.",
   "raffle.entries": "Einträge",
   "raffle.noTicket": "Fehlendes Preisticket",
   "raffle.how": "Im Rahmen von Sonderveranstaltungen und Bumpkin-Lieferungen können Sie Preiskarten kostenlos abholen.",
@@ -7226,5 +7225,6 @@
   "node.tree": "Baum",
   "version.updateReady": "Eine neue Version ist fertig.",
   "version.updateCta": "Aktualisieren",
-  "referral.referred": "Verwiesen"
+  "referral.referred": "Verwiesen",
+  "raffle.description": "Jeden Monat hast du die Chance, Belohnungen zu gewinnen. Die Gewinner der Goblin-Verlosung werden am 1. oder 2. Freitag des Folgemonats in den Twitch-Streams am Freitag bekannt gegeben. Z. B. Die Gewinner von May werden am ersten oder zweiten Freitag im Juni bekannt gegeben. Die Ergebnisse werden auch in Discord auf #farmers -chat veröffentlicht"
 }
