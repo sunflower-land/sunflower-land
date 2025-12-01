@@ -7223,5 +7223,7 @@
   "node.lavaPit": "라바 피트",
   "node.fruitPatch": "과일 패치",
   "node.flowerBed": "플라워 베드",
-  "node.tree": "트리"
+  "node.tree": "트리",
+  "version.updateReady": "새 버전이 준비되었습니다.",
+  "version.updateCta": "업데이트"
 }

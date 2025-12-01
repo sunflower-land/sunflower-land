@@ -7223,5 +7223,7 @@
   "node.lavaPit": "Lav Çukuru",
   "node.fruitPatch": "Meyve Yaması",
   "node.flowerBed": "Çiçek yatağı",
-  "node.tree": "Ağaç"
+  "node.tree": "Ağaç",
+  "version.updateReady": "Yeni bir versiyon hazır.",
+  "version.updateCta": "Güncelleme"
 }

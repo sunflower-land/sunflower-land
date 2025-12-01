@@ -7223,5 +7223,7 @@
   "node.lavaPit": "Lavagrube",
   "node.fruitPatch": "Fruchtbeet",
   "node.flowerBed": "Blumenbeet",
-  "node.tree": "Baum"
+  "node.tree": "Baum",
+  "version.updateReady": "Eine neue Version ist fertig.",
+  "version.updateCta": "Aktualisieren"
 }

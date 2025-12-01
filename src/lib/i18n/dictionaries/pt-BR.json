@@ -7223,5 +7223,7 @@
   "node.lavaPit": "Poço de lava",
   "node.fruitPatch": "Patch de frutas",
   "node.flowerBed": "Canteiro de flores",
-  "node.tree": "Árvore"
+  "node.tree": "Árvore",
+  "version.updateReady": "Uma nova versão está pronta.",
+  "version.updateCta": "Atualizar"
 }

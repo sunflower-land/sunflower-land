@@ -7223,5 +7223,7 @@
   "node.lavaPit": "ラバピット",
   "node.fruitPatch": "フルーツパッチ",
   "node.flowerBed": "フラワーベッド",
-  "node.tree": "ツリー"
+  "node.tree": "ツリー",
+  "version.updateReady": "新しいバージョンの準備ができました。",
+  "version.updateCta": "[更新]"
 }

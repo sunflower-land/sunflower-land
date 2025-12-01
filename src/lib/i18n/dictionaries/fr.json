@@ -7223,5 +7223,7 @@
   "node.lavaPit": "Fosse à lave",
   "node.fruitPatch": "Patch de fruits",
   "node.flowerBed": "Parterre de fleurs",
-  "node.tree": "Arbre"
+  "node.tree": "Arbre",
+  "version.updateReady": "Une nouvelle version est prête.",
+  "version.updateCta": "Mettre à jour"
 }

@@ -7223,5 +7223,7 @@
   "node.lavaPit": "Lubang Lava",
   "node.fruitPatch": "Patch Buah",
   "node.flowerBed": "Tempat tidur bunga",
-  "node.tree": "Pohon"
+  "node.tree": "Pohon",
+  "version.updateReady": "Versi baru sudah siap.",
+  "version.updateCta": "Perbarui"
 }
