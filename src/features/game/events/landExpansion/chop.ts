@@ -330,12 +330,17 @@ export function chop({
           });
     const woodAmount = inventory.Wood || new Decimal(0);
 
+    const treeName = tree.name ?? "Tree";
+
     const { time, boostsUsed: choppedAtBoostsUsed } = getChoppedAt({
       createdAt,
       game: stateCopy,
       farmId,
-      itemId: KNOWN_IDS[tree.name ?? "Tree"],
-      counter: stateCopy.farmActivity[`Tree Chopped`] ?? 0,
+      itemId: KNOWN_IDS[treeName],
+      counter:
+        stateCopy.farmActivity[
+          `${treeName === "Tree" ? "Basic Tree" : treeName} Chopped`
+        ] ?? 0,
     });
 
     tree.wood = { choppedAt: time };
@@ -349,9 +354,14 @@ export function chop({
       new Decimal(tree.multiplier ?? 1),
     );
 
-    if (tree.name && tree.name !== "Tree") {
+    if (treeName !== "Tree") {
       stateCopy.farmActivity = trackFarmActivity(
-        `${tree.name} Chopped`,
+        `${treeName} Chopped`,
+        stateCopy.farmActivity,
+      );
+    } else {
+      stateCopy.farmActivity = trackFarmActivity(
+        "Basic Tree Chopped",
         stateCopy.farmActivity,
       );
     }

@@ -172,6 +172,7 @@ export type FarmActivityName =
   // Resources
   | `${TreeName} Chopped`
   | `${RockName} Mined`
+  | "Basic Tree Chopped"
   | "Stone Mined"
   | "Iron Mined"
   | "Gold Mined"
