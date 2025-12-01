@@ -571,20 +571,26 @@ describe("time", () => {
     });
 
     it("should return 0 if elapsed", () => {
-      expect(getTimeLeft(getTimestamp("2022-04-15T11:00:00"), ONE_DAY)).toBe(0);
-      expect(getTimeLeft(getTimestamp("2022-04-16T00:00:00"), ONE_DAY)).toBe(0);
+      const now = Date.now();
+      expect(
+        getTimeLeft(getTimestamp("2022-04-15T11:00:00"), ONE_DAY, now),
+      ).toBe(0);
+      expect(
+        getTimeLeft(getTimestamp("2022-04-16T00:00:00"), ONE_DAY, now),
+      ).toBe(0);
     });
 
     it("should return correct time left", () => {
-      expect(getTimeLeft(getTimestamp("2022-04-16T01:00:00"), ONE_DAY)).toBe(
-        ONE_HR,
-      );
-      expect(getTimeLeft(getTimestamp("2022-04-16T23:59:30"), ONE_MIN)).toBe(
-        30 * ONE_SEC,
-      );
-      expect(getTimeLeft(getTimestamp("2022-04-16T23:30:00"), ONE_HR)).toBe(
-        30 * ONE_MIN,
-      );
+      const now = Date.now();
+      expect(
+        getTimeLeft(getTimestamp("2022-04-16T01:00:00"), ONE_DAY, now),
+      ).toBe(ONE_HR);
+      expect(
+        getTimeLeft(getTimestamp("2022-04-16T23:59:30"), ONE_MIN, now),
+      ).toBe(30 * ONE_SEC);
+      expect(
+        getTimeLeft(getTimestamp("2022-04-16T23:30:00"), ONE_HR, now),
+      ).toBe(30 * ONE_MIN);
     });
 
     afterAll(() => {

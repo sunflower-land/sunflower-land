@@ -24,8 +24,6 @@ import {
   GameState,
   PlantedFruit,
 } from "features/game/types/game";
-import { getTimeLeft } from "lib/utils/time";
-import { FruitPatch } from "features/game/types/game";
 import { FruitCompostName } from "features/game/types/composters";
 import { getPlantedAt } from "./fruitPlanted";
 import { isWearableActive } from "features/game/lib/wearables";
@@ -73,25 +71,6 @@ type FruitYield = {
   fertiliser?: FruitCompostName;
   criticalDrop?: (name: CriticalHitName) => boolean;
 };
-
-export function isFruitGrowing(patch: FruitPatch) {
-  const fruit = patch.fruit;
-  if (!fruit) return false;
-
-  const { name, harvestsLeft, harvestedAt, plantedAt } = fruit;
-  if (!harvestsLeft) return false;
-
-  const { seed } = PATCH_FRUIT[name];
-  const { plantSeconds } = PATCH_FRUIT_SEEDS[seed];
-
-  if (harvestedAt) {
-    const replenishingTimeLeft = getTimeLeft(harvestedAt, plantSeconds);
-    if (replenishingTimeLeft > 0) return true;
-  }
-
-  const growingTimeLeft = getTimeLeft(plantedAt, plantSeconds);
-  return growingTimeLeft > 0;
-}
 
 const isFruit = (resource: Resource): resource is PatchFruitName => {
   return resource in PATCH_FRUIT;

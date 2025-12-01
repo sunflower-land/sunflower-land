@@ -32,6 +32,7 @@ import { isFaceVerified } from "features/retreat/components/personhood/lib/faceR
 import { setPrecision } from "lib/utils/formatNumber";
 import { Transition } from "@headlessui/react";
 import lightning from "assets/icons/lightning.png";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const HITS = 3;
 const tool = "Axe";
@@ -129,7 +130,13 @@ export const Tree: React.FC<Props> = ({ id }) => {
   const island = useSelector(gameService, selectIsland);
   const season = useSelector(gameService, selectSeason);
   const hasTool = HasTool(inventory, game, id);
-  const timeLeft = getTimeLeft(resource.wood.choppedAt, TREE_RECOVERY_TIME);
+  const readyAt = resource.wood.choppedAt + TREE_RECOVERY_TIME * 1000;
+  const now = useNow({ live: true, autoEndAt: readyAt });
+  const timeLeft = getTimeLeft(
+    resource.wood.choppedAt,
+    TREE_RECOVERY_TIME,
+    now,
+  );
   const chopped = !canChop(resource);
 
   const [isAnimationRunning, setIsAnimationRunning] = useState(false);

@@ -16,6 +16,7 @@ import { canMine } from "features/game/lib/resourceNodes";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getGoldDropAmount } from "features/game/events/landExpansion/mineGold";
 import { GoldRockName } from "features/game/types/resources";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const HITS = 3;
 const tool = "Iron Pickaxe";
@@ -93,9 +94,12 @@ export const Gold: React.FC<Props> = ({ id }) => {
   const season = useSelector(gameService, _selectSeason);
   const island = useSelector(gameService, _selectIsland);
 
+  const readyAt = resource.stone.minedAt + GOLD_RECOVERY_TIME * 1000;
+  const now = useNow({ live: true, autoEndAt: readyAt });
+
   const hasTool = HasTool(inventory, resource);
   const goldRockName = (resource.name ?? "Gold Rock") as GoldRockName;
-  const timeLeft = getTimeLeft(resource.stone.minedAt, GOLD_RECOVERY_TIME);
+  const timeLeft = getTimeLeft(resource.stone.minedAt, GOLD_RECOVERY_TIME, now);
   const mined = !canMine(resource, goldRockName);
 
   useUiRefresher({ active: mined });

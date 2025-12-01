@@ -25,6 +25,7 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuff
 import { FACTION_SHOP_KEYS } from "features/game/types/factionShop";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
 import { GameState } from "features/game/types/game";
+import { useNow } from "lib/utils/hooks/useNow";
 
 // type guard for WearablesItem | CollectiblesItem
 export const isWearablesItem = (
@@ -95,9 +96,15 @@ export const SeasonalStore: React.FC<{
     return (endDate.getTime() - startDate.getTime()) / 1000;
   };
 
+  const now = useNow({
+    live: true,
+    autoEndAt: SEASONS[getCurrentSeason()].endDate.getTime(),
+  });
+
   const timeRemaining = getTimeLeft(
     SEASONS[getCurrentSeason()].startDate.getTime(),
     getTotalSecondsAvailable(),
+    now,
   );
   const { t } = useAppTranslation();
 
