@@ -7225,5 +7225,6 @@
   "node.flowerBed": "Flower Bed",
   "node.tree": "Tree",
   "version.updateReady": "A new version is ready.",
-  "version.updateCta": "Update"
+  "version.updateCta": "Update",
+  "referral.referred": "Referred"
 }

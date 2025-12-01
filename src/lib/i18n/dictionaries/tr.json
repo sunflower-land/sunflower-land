@@ -7225,5 +7225,6 @@
   "node.flowerBed": "Çiçek yatağı",
   "node.tree": "Ağaç",
   "version.updateReady": "Yeni bir versiyon hazır.",
-  "version.updateCta": "Güncelleme"
+  "version.updateCta": "Güncelleme",
+  "referral.referred": "Tavsiye Edilen"
 }

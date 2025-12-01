@@ -7225,5 +7225,6 @@
   "node.flowerBed": "フラワーベッド",
   "node.tree": "ツリー",
   "version.updateReady": "新しいバージョンの準備ができました。",
-  "version.updateCta": "[更新]"
+  "version.updateCta": "[更新]",
+  "referral.referred": "紹介された"
 }

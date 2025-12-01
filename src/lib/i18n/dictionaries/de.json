@@ -7225,5 +7225,6 @@
   "node.flowerBed": "Blumenbeet",
   "node.tree": "Baum",
   "version.updateReady": "Eine neue Version ist fertig.",
-  "version.updateCta": "Aktualisieren"
+  "version.updateCta": "Aktualisieren",
+  "referral.referred": "Verwiesen"
 }

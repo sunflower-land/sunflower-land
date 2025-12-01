@@ -7225,5 +7225,6 @@
   "node.flowerBed": "Macizo de flores",
   "node.tree": "Árbol",
   "version.updateReady": "Está lista una nueva versión.",
-  "version.updateCta": "Actualización"
+  "version.updateCta": "Actualización",
+  "referral.referred": "Referido"
 }

@@ -7225,5 +7225,6 @@
   "node.flowerBed": "Tempat tidur bunga",
   "node.tree": "Pohon",
   "version.updateReady": "Versi baru sudah siap.",
-  "version.updateCta": "Perbarui"
+  "version.updateCta": "Perbarui",
+  "referral.referred": "Direferensikan"
 }

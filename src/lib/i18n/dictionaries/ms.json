@@ -7225,5 +7225,6 @@
   "node.flowerBed": "Katil Bunga",
   "node.tree": "Pokok",
   "version.updateReady": "Versi baru sudah siap.",
-  "version.updateCta": "Kemas kini"
+  "version.updateCta": "Kemas kini",
+  "referral.referred": "Dirujuk"
 }

@@ -7225,5 +7225,6 @@
   "node.flowerBed": "Aiuola",
   "node.tree": "Albero",
   "version.updateReady": "Una nuova versione è pronta.",
-  "version.updateCta": "Aggiornamento"
+  "version.updateCta": "Aggiornamento",
+  "referral.referred": "Riferito"
 }

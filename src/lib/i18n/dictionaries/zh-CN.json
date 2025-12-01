@@ -7225,5 +7225,6 @@
   "node.flowerBed": "花坛",
   "node.tree": "树",
   "version.updateReady": "新版本已准备就绪。",
-  "version.updateCta": "更新"
+  "version.updateCta": "更新",
+  "referral.referred": "已提交"
 }

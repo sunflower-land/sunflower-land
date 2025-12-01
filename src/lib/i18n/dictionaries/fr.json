@@ -7225,5 +7225,6 @@
   "node.flowerBed": "Parterre de fleurs",
   "node.tree": "Arbre",
   "version.updateReady": "Une nouvelle version est prête.",
-  "version.updateCta": "Mettre à jour"
+  "version.updateCta": "Mettre à jour",
+  "referral.referred": "Référé"
 }
