@@ -11,6 +11,7 @@ import { DepositGameItemsModal } from "features/goblins/bank/components/DepositG
 import { placeEvent } from "features/game/expansion/placeable/landscapingMachine";
 import { TravelButton } from "./components/deliveries/TravelButton";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
+import { VersionUpdateWidget } from "./components/VersionUpdateWidget";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { HudContainer } from "components/ui/HudContainer";
 import Decimal from "decimal.js-light";
@@ -26,6 +27,7 @@ import { WorldFeedButton } from "features/social/components/WorldFeedButton";
 import classNames from "classnames";
 import { isMobile } from "mobile-device-detect";
 import { Feed } from "features/social/Feed";
+import { hasFeatureAccess } from "lib/flags";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
@@ -102,6 +104,9 @@ const HudComponent: React.FC<{
         <TransactionCountdown />
         <StreamCountdown />
         <AuctionCountdown />
+        {hasFeatureAccess(gameState.context.state, "VERSION_UPDATES") && (
+          <VersionUpdateWidget />
+        )}
       </div>
 
       {/* Right side of the HUD */}
