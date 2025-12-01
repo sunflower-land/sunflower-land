@@ -29,9 +29,4 @@ export const TEST_BUMPKIN: Bumpkin = {
   },
   skills: {},
   achievements: {},
-  activity: {
-    "Reindeer Carrot Fed": 50,
-    "Sunflower Planted": 5,
-    "Tree Chopped": 5,
-  },
 };

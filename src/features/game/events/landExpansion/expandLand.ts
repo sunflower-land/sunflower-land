@@ -6,7 +6,7 @@ import { onboardingAnalytics } from "lib/onboardingAnalytics";
 
 import { expansionRequirements } from "./revealLand";
 import { produce } from "immer";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type ExpandLandAction = {
@@ -20,7 +20,7 @@ type Options = {
   createdAt?: number;
 };
 
-export function expandLand({ state, action, createdAt = Date.now() }: Options) {
+export function expandLand({ state, createdAt = Date.now() }: Options) {
   return produce(state, (game) => {
     const bumpkin = game.bumpkin;
 
@@ -43,9 +43,9 @@ export function expandLand({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("Insufficient coins");
     }
     game.coins -= coinRequirement;
-    bumpkin.activity = trackActivity(
+    game.farmActivity = trackFarmActivity(
       "Coins Spent",
-      bumpkin.activity,
+      game.farmActivity,
       new Decimal(coinRequirement),
     );
 

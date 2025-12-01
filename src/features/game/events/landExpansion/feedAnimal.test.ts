@@ -954,7 +954,7 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.bumpkin?.activity["Chicken Fed"]).toBe(1);
+    expect(state.farmActivity["Chicken Fed"]).toBe(1);
   });
 
   it("increments the bumpkin activity when curing an animal", () => {
@@ -984,7 +984,7 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.bumpkin?.activity["Chicken Cured"]).toBe(1);
+    expect(state.farmActivity["Chicken Cured"]).toBe(1);
   });
 
   it("takes 10% less food to feed a chicken if a user has a Fat Chicken placed", () => {

@@ -211,7 +211,7 @@ describe("seedBought", () => {
         amount: 1,
       },
     });
-    expect(state.bumpkin?.activity?.["Coins Spent"]).toEqual(
+    expect(state.farmActivity["Coins Spent"]).toEqual(
       CROP_SEEDS["Sunflower Seed"].price,
     );
   });
@@ -229,7 +229,7 @@ describe("seedBought", () => {
         amount,
       },
     });
-    expect(state.bumpkin?.activity?.["Sunflower Seed Bought"]).toEqual(amount);
+    expect(state.farmActivity["Sunflower Seed Bought"]).toEqual(amount);
   });
 
   it("purchases seeds for free when Kuebiko is placed and ready", () => {

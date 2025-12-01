@@ -30,7 +30,7 @@ type Props = {
 };
 
 const _mashedPotatoCooked = (state: MachineState) =>
-  state.context.state.bumpkin?.activity?.["Mashed Potato Cooked"];
+  state.context.state.farmActivity["Mashed Potato Cooked"] ?? 0;
 const _experience = (state: MachineState) =>
   state.context.state.bumpkin?.experience;
 const _potatoCount = (state: MachineState) =>

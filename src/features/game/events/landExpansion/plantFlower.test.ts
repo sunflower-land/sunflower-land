@@ -195,7 +195,7 @@ describe("plantFlower", () => {
         crossbreed: "Sunflower",
       },
     });
-    expect(state.bumpkin?.activity?.["Sunpetal Seed Planted"]).toEqual(amount);
+    expect(state.farmActivity["Sunpetal Seed Planted"]).toEqual(amount);
   });
 
   it("deducts the seed from the inventory", () => {

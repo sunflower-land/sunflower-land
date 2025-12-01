@@ -3,7 +3,7 @@ import { PURCHASEABLE_BAIT, PurchaseableBait } from "./fishing";
 import { GameState, Inventory } from "./game";
 import { getObjectEntries } from "../expansion/lib/utils";
 import Decimal from "decimal.js-light";
-import { trackActivity } from "./bumpkinActivity";
+import { trackFarmActivity } from "./farmActivity";
 
 // Add to this type if more purchase types are added
 export type PurchaseType = "Gem" | "Feather";
@@ -79,9 +79,9 @@ export function buyOptionPurchaseItem({ state, action }: Options) {
 
       // Subtract from coins
       copy.coins -= coinCost;
-      copy.bumpkin.activity = trackActivity(
+      copy.farmActivity = trackFarmActivity(
         "Coins Spent",
-        copy.bumpkin.activity,
+        copy.farmActivity,
         new Decimal(coinCost),
       );
     }
@@ -104,9 +104,9 @@ export function buyOptionPurchaseItem({ state, action }: Options) {
       new Decimal(amount),
     );
 
-    copy.bumpkin.activity = trackActivity(
+    copy.farmActivity = trackFarmActivity(
       `${item} Crafted`,
-      copy.bumpkin.activity,
+      copy.farmActivity,
       new Decimal(amount),
     );
 

@@ -439,7 +439,7 @@ describe("harvest", () => {
         createdAt: dateNow,
       });
 
-      expect(state.bumpkin?.activity["Sunflower Harvested"]).toEqual(1);
+      expect(state.farmActivity["Sunflower Harvested"]).toEqual(1);
     });
 
     it("increments Sunflowers Harvested activity by 2", () => {
@@ -488,8 +488,8 @@ describe("harvest", () => {
         createdAt: dateNow,
       });
 
-      expect(state.bumpkin?.activity["Sunflower Harvested"]).toEqual(1);
-      expect(state.bumpkin?.activity["Potato Harvested"]).toEqual(1);
+      expect(state.farmActivity["Sunflower Harvested"]).toEqual(1);
+      expect(state.farmActivity["Potato Harvested"]).toEqual(1);
     });
   });
 

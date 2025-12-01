@@ -706,7 +706,6 @@ describe("mineStone", () => {
           y: 0,
         },
         createdAt: Date.now(),
-        id: "0",
         criticalDropGenerator: () => false,
       });
 
@@ -728,7 +727,6 @@ describe("mineStone", () => {
           y: 0,
         },
         createdAt: Date.now(),
-        id: "0",
         criticalDropGenerator: () => false,
       });
 
@@ -748,7 +746,6 @@ describe("mineStone", () => {
           y: 0,
         },
         createdAt: Date.now(),
-        id: "0",
         criticalDropGenerator: (name) => name === "Native",
       });
 
@@ -777,7 +774,7 @@ describe("mineStone", () => {
         } as LandExpansionStoneMineAction,
       });
 
-      expect(game.bumpkin?.activity["Stone Mined"]).toBe(1);
+      expect(game.farmActivity["Stone Mined"]).toBe(1);
     });
 
     it("increments Trees Chopped activity by 2 when 2 trees are chopped", () => {
@@ -809,7 +806,7 @@ describe("mineStone", () => {
         } as LandExpansionStoneMineAction,
       });
 
-      expect(game.bumpkin?.activity["Stone Mined"]).toBe(2);
+      expect(game.farmActivity["Stone Mined"]).toBe(2);
     });
   });
 

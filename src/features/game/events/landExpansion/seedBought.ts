@@ -3,7 +3,7 @@ import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 import { BoostName, GameState } from "features/game/types/game";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SeedName, SEEDS } from "features/game/types/seeds";
 import { isWearableActive } from "features/game/lib/wearables";
@@ -179,16 +179,16 @@ export function seedBought({ state, action, createdAt = Date.now() }: Options) {
 
     const oldAmount = stateCopy.inventory[item] ?? new Decimal(0);
 
-    bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       `${item} Bought`,
-      bumpkin?.activity,
+      stateCopy.farmActivity,
       new Decimal(amount),
     );
 
     stateCopy.coins = stateCopy.coins - totalExpenses;
-    bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       "Coins Spent",
-      bumpkin?.activity,
+      stateCopy.farmActivity,
       new Decimal(totalExpenses),
     );
 

@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { PotionName, GameState } from "features/game/types/game";
 import { produce } from "immer";
 
@@ -35,9 +35,9 @@ export function startPotion({ state, action }: Options): GameState {
     }
 
     stateCopy.coins = coins - fee;
-    bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       "Coins Spent",
-      bumpkin?.activity,
+      stateCopy.farmActivity,
       new Decimal(fee),
     );
 

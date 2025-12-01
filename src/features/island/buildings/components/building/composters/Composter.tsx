@@ -70,7 +70,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
 
     if (
       name === "Compost Bin" &&
-      state.context.state.bumpkin?.activity?.["Compost Bin Collected"] === 1
+      state.context.state.farmActivity["Compost Bin Collected"] === 1
     ) {
       gameAnalytics.trackMilestone({
         event: "Tutorial:Composting:Completed",

@@ -1,4 +1,4 @@
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { CollectibleName } from "features/game/types/craftables";
 import { GameState, PlacedItem, PlacedLamp } from "features/game/types/game";
 
@@ -92,7 +92,10 @@ export function removeCollectible({
       }
     }
 
-    bumpkin.activity = trackActivity("Collectible Removed", bumpkin.activity);
+    stateCopy.farmActivity = trackFarmActivity(
+      "Collectible Removed",
+      stateCopy.farmActivity,
+    );
 
     return stateCopy;
   });

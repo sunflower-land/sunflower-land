@@ -11,10 +11,7 @@ import {
   GreenHouseFruitSeedName,
 } from "features/game/types/fruits";
 import Decimal from "decimal.js-light";
-import {
-  BumpkinActivityName,
-  trackActivity,
-} from "features/game/types/bumpkinActivity";
+
 import { GREENHOUSE_CROP_TIME_SECONDS } from "./harvestGreenHouse";
 import {
   isTemporaryCollectibleActive,
@@ -25,6 +22,10 @@ import { getFruitTime } from "./fruitPlanted";
 import { Resource } from "features/game/lib/getBudYieldBoosts";
 import { produce } from "immer";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import {
+  FarmActivityName,
+  trackFarmActivity,
+} from "features/game/types/farmActivity";
 
 export type PlantGreenhouseAction = {
   type: "greenhouse.planted";
@@ -266,9 +267,9 @@ export function plantGreenhouse({
     game.greenhouse.oil -= oilUsage;
 
     // Tracks Analytics
-    const activityName: BumpkinActivityName = `${plantName} Planted`;
+    const activityName: FarmActivityName = `${plantName} Planted`;
 
-    game.bumpkin.activity = trackActivity(activityName, game.bumpkin.activity);
+    game.farmActivity = trackFarmActivity(activityName, game.farmActivity);
 
     game.boostsUsedAt = updateBoostUsed({
       game,

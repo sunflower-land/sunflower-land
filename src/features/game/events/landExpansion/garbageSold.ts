@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { BumpkinItem } from "features/game/types/bumpkin";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { GARBAGE, GarbageName } from "features/game/types/garbage";
 import { produce } from "immer";
@@ -100,9 +100,9 @@ export function sellGarbage({ state, action }: Options) {
     const { sellPrice = 0 } = GARBAGE[item];
     if (sellPrice) {
       const coinsEarned = sellPrice * amount;
-      bumpkin.activity = trackActivity(
+      game.farmActivity = trackFarmActivity(
         "Coins Earned",
-        bumpkin.activity,
+        game.farmActivity,
         new Decimal(coinsEarned),
       );
       game.coins += coinsEarned;
@@ -126,9 +126,9 @@ export function sellGarbage({ state, action }: Options) {
     }
 
     // Track activity
-    bumpkin.activity = trackActivity(
+    game.farmActivity = trackFarmActivity(
       `${item} Sold`,
-      bumpkin?.activity,
+      game.farmActivity,
       new Decimal(amount),
     );
 

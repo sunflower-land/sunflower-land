@@ -147,7 +147,7 @@ describe("garbageSold", () => {
         amount: 1,
       },
     });
-    expect(state.bumpkin?.activity?.["Coins Earned"]).toEqual(
+    expect(state.farmActivity["Coins Earned"]).toEqual(
       GARBAGE["Solar Flare Ticket"].sellPrice,
     );
   });
@@ -167,9 +167,7 @@ describe("garbageSold", () => {
         amount,
       },
     });
-    expect(state.bumpkin?.activity?.["Solar Flare Ticket Sold"]).toEqual(
-      amount,
-    );
+    expect(state.farmActivity["Solar Flare Ticket Sold"]).toEqual(amount);
   });
 
   it("gives items", () => {

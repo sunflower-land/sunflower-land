@@ -13,7 +13,7 @@ import {
 } from "features/game/lib/animals";
 import { makeAnimalBuildingKey } from "features/game/lib/animals";
 import { getKeys } from "features/game/types/craftables";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type ClaimProduceAction = {
@@ -72,9 +72,9 @@ export function claimProduce({
         copy.inventory[resource] ?? new Decimal(0)
       ).add(boostedAmount ?? new Decimal(0));
 
-      copy.bumpkin.activity = trackActivity(
+      copy.farmActivity = trackFarmActivity(
         `${resource} Collected`,
-        copy.bumpkin.activity,
+        copy.farmActivity,
       );
 
       copy.boostsUsedAt = updateBoostUsed({

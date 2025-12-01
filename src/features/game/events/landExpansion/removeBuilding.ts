@@ -1,5 +1,5 @@
 import { BuildingName } from "features/game/types/buildings";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { CropMachineBuilding, GameState } from "features/game/types/game";
 import { produce } from "immer";
 export enum REMOVE_BUILDING_ERRORS {
@@ -80,7 +80,10 @@ export function removeBuilding({
       }
     }
 
-    bumpkin.activity = trackActivity("Building Removed", bumpkin.activity);
+    stateCopy.farmActivity = trackFarmActivity(
+      "Building Removed",
+      stateCopy.farmActivity,
+    );
 
     return stateCopy;
   });

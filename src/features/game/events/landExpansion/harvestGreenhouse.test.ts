@@ -208,6 +208,6 @@ describe("plantGreenhouse", () => {
       },
     });
 
-    expect(state.bumpkin?.activity?.["Rice Harvested"]).toEqual(1);
+    expect(state.farmActivity["Rice Harvested"]).toEqual(1);
   });
 });

@@ -24,7 +24,7 @@ const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 0;
 
 const hint = (state: MachineState) => {
-  const activity = state.context.state.bumpkin?.activity;
+  const activity = state.context.state.farmActivity;
   const inventory = state.context.state.inventory;
   const level = getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
 
@@ -32,7 +32,7 @@ const hint = (state: MachineState) => {
     return "Explore";
   }
 
-  const choppedTrees = activity?.["Tree Chopped"] ?? 0;
+  const choppedTrees = activity["Tree Chopped"] ?? 0;
   if (choppedTrees < 3) {
     return translate("pete.teaser.one");
   }

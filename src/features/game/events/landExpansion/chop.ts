@@ -7,7 +7,7 @@ import { TREE_RECOVERY_TIME } from "features/game/lib/constants";
 import { FACTION_ITEMS } from "features/game/lib/factions";
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { isWearableActive } from "features/game/lib/wearables";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 
 import {
   BoostName,
@@ -334,7 +334,7 @@ export function chop({
       game: stateCopy,
       farmId,
       itemId: parseInt(`0x${action.index}`),
-      counter: stateCopy.bumpkin.activity[`Tree Chopped`] ?? 0,
+      counter: stateCopy.farmActivity[`Tree Chopped`] ?? 0,
     });
 
     tree.wood = { choppedAt: time };
@@ -342,9 +342,9 @@ export function chop({
     inventory.Axe = axeAmount.sub(requiredAxes);
     inventory.Wood = woodAmount.add(woodHarvested);
 
-    bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       "Tree Chopped",
-      bumpkin.activity,
+      stateCopy.farmActivity,
       new Decimal(tree.multiplier ?? 1),
     );
     delete tree.wood.amount;

@@ -266,7 +266,7 @@ describe("bulkPlant", () => {
       },
     });
 
-    expect(newState.bumpkin?.activity?.["Rhubarb Planted"]).toBe(2);
+    expect(newState.farmActivity["Rhubarb Planted"]).toBe(2);
   });
 
   it("handles different crop types correctly", () => {
@@ -295,6 +295,6 @@ describe("bulkPlant", () => {
     );
 
     expect(plantedCrops).toHaveLength(3);
-    expect(newState.bumpkin?.activity?.["Potato Planted"]).toBe(3);
+    expect(newState.farmActivity["Potato Planted"]).toBe(3);
   });
 });

@@ -415,12 +415,8 @@ describe("startCrafting", () => {
           Timber: new Decimal(5),
           "Fox Shrine": new Decimal(1),
         },
-        bumpkin: {
-          ...gameState.bumpkin,
-          activity: {
-            ...gameState.bumpkin.activity,
-            "Basic Bed Crafted": counter,
-          },
+        farmActivity: {
+          "Basic Bed Crafted": counter,
         },
       },
       action: {

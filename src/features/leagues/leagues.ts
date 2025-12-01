@@ -1,13 +1,13 @@
 import Decimal from "decimal.js-light";
 import { RecipeCollectibleName, getKeys } from "features/game/lib/crafting";
 import {
-  BumpkinActivityName,
   HarvestEvent,
   CookEvent,
   AnimalResourceEvent,
   OrderDeliveredEvent,
-} from "features/game/types/bumpkinActivity";
-import { Bumpkin, GameState } from "features/game/types/game";
+  FarmActivityName,
+} from "features/game/types/farmActivity";
+import { GameState } from "features/game/types/game";
 import { setPrecision } from "lib/utils/formatNumber";
 import cloneDeep from "lodash.clonedeep";
 
@@ -37,7 +37,7 @@ export interface League {
 }
 
 export type LeaguePointsEvent = Extract<
-  BumpkinActivityName,
+  FarmActivityName,
   | HarvestEvent
   | CookEvent
   | AnimalResourceEvent
@@ -53,8 +53,8 @@ export type LeaguePointsEvent = Extract<
   | "Rod Casted"
   | "Treasure Dug"
   | "Potion Mixed"
-  | "Farms Cheered"
-  | "Farms Helped"
+  | "Farm Cheered"
+  | "Farm Helped"
   | "Chore Completed"
 >;
 
@@ -298,8 +298,8 @@ export const LEAGUE_POINTS_EVENTS: Record<LeaguePointsEvent, Decimal> = {
   "Rod Casted": new Decimal(200),
   "Treasure Dug": new Decimal(200),
   "Potion Mixed": new Decimal(32),
-  "Farms Cheered": new Decimal(300),
-  "Farms Helped": new Decimal(300),
+  "Farm Cheered": new Decimal(50),
+  "Farm Helped": new Decimal(50),
   "Ticket Order Delivered": new Decimal(500),
   "Coins Order Delivered": new Decimal(100),
   "FLOWER Order Delivered": new Decimal(300),
@@ -314,8 +314,8 @@ export const LEAGUE_POINTS_EVENTS: Record<LeaguePointsEvent, Decimal> = {
  * @returns Total league points to award based on activity increases
  */
 export function calculateLeaguePointsFromActivityDelta(
-  previousActivity: Bumpkin["activity"],
-  currentActivity: Bumpkin["activity"],
+  previousActivity: GameState["farmActivity"],
+  currentActivity: GameState["farmActivity"],
 ): Decimal {
   let totalPoints = new Decimal(0);
 
@@ -342,8 +342,8 @@ export function updateLeaguePoints(
   previousState: GameState,
   now: number,
 ): GameState {
-  const previousActivity = previousState.bumpkin?.activity;
-  const currentActivity = state.bumpkin?.activity;
+  const previousActivity = previousState.farmActivity;
+  const currentActivity = state.farmActivity;
   const pointsDelta = calculateLeaguePointsFromActivityDelta(
     previousActivity,
     currentActivity,

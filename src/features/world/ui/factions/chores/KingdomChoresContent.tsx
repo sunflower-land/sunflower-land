@@ -25,13 +25,13 @@ import levelup from "assets/icons/level_up.png";
 import chefsHat from "assets/icons/chef_hat.png";
 import lightning from "assets/icons/lightning.png";
 
-import { BumpkinActivityName } from "features/game/types/bumpkinActivity";
+import { FarmActivityName } from "features/game/types/farmActivity";
 import { getKingdomChoreBoost } from "features/game/events/landExpansion/completeKingdomChore";
 import { formatNumber } from "lib/utils/formatNumber";
 import { BoostInfoPanel } from "../BoostInfoPanel";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 
-const getSecondaryImage = (activity: BumpkinActivityName) => {
+const getSecondaryImage = (activity: FarmActivityName) => {
   if (activity.endsWith("Cooked")) return chefsHat;
   if (activity.endsWith("Fed")) return levelup;
 
@@ -51,15 +51,14 @@ interface Props {
 
 const WEEKLY_CHORES = 21;
 const _autosaving = (state: MachineState) => state.matches("autosaving");
-const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
+const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
 
 export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
   const autosaving = useSelector(gameService, _autosaving);
-  const bumpkin = useSelector(gameService, _bumpkin);
-
+  const farmActivity = useSelector(gameService, _farmActivity);
   const chores = Object.entries(kingdomChores.chores);
   const activeChores = chores.filter(
     ([, chore]) => chore.startedAt && !chore.completedAt && !chore.skippedAt,
@@ -81,7 +80,7 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
       return 0;
     }
 
-    return (bumpkin?.activity?.[chore.activity] ?? 0) - (chore.startCount ?? 0);
+    return (farmActivity?.[chore.activity] ?? 0) - (chore.startCount ?? 0);
   };
 
   const handleComplete = (index: number) => {

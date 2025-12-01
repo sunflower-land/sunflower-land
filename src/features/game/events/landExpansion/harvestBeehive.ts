@@ -5,7 +5,7 @@ import {
   updateBeehives,
 } from "features/game/lib/updateBeehives";
 import { getKeys } from "features/game/types/craftables";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
@@ -154,9 +154,9 @@ export function harvestBeehive({
       createdAt,
     });
 
-    stateCopy.bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       `Honey Harvested`,
-      stateCopy.bumpkin?.activity,
+      stateCopy.farmActivity,
       new Decimal(totalHoneyProduced),
     );
 

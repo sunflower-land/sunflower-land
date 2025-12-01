@@ -110,9 +110,7 @@ export const SeasonalSeeds: React.FC = () => {
 
     shortcutItem(selectedName);
 
-    if (
-      state.context.state.bumpkin?.activity?.["Sunflower Seed Bought"] === 1
-    ) {
+    if (state.context.state.farmActivity?.["Sunflower Seed Bought"] === 1) {
       gameAnalytics.trackMilestone({
         event: "Tutorial:SunflowerSeedBought:Completed",
       });

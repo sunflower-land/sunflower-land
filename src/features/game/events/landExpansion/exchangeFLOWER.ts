@@ -3,7 +3,6 @@ import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { trackActivity } from "features/game/types/bumpkinActivity";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 
 export const EXCHANGE_FLOWER_PRICE = 50;
@@ -72,12 +71,12 @@ export function exchangeFlower({
     game.farmActivity = trackFarmActivity(
       "FLOWER Exchanged",
       game.farmActivity,
-      flowerEarned,
+      new Decimal(flowerEarned),
     );
 
-    game.bumpkin.activity = trackActivity(
+    game.farmActivity = trackFarmActivity(
       "Love Charm Sold",
-      game.bumpkin.activity,
+      game.farmActivity,
       new Decimal(loveCharmsRequired),
     );
 

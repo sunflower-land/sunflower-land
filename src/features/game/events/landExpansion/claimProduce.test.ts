@@ -1533,8 +1533,8 @@ describe("claimProduce", () => {
       createdAt: now,
     });
 
-    expect(newState.bumpkin.activity["Egg Collected"]).toEqual(1);
-    expect(newState.bumpkin.activity["Feather Collected"]).toEqual(1);
+    expect(newState.farmActivity["Egg Collected"]).toEqual(1);
+    expect(newState.farmActivity["Feather Collected"]).toEqual(1);
   });
 
   it("correctly applies El Pollo Veloz 2-hour reduction with percentage boosts", () => {

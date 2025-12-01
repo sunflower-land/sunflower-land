@@ -9,7 +9,7 @@ import {
 import Decimal from "decimal.js-light";
 import { isWearableActive } from "features/game/lib/wearables";
 import { translate } from "lib/i18n/translate";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { produce } from "immer";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
@@ -136,7 +136,7 @@ export function castRod({
       };
     }
 
-    bumpkin.activity = trackActivity("Rod Casted", bumpkin.activity);
+    game.farmActivity = trackFarmActivity("Rod Casted", game.farmActivity);
 
     game.boostsUsedAt = updateBoostUsed({
       game,

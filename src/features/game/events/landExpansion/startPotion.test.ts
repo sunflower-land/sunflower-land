@@ -118,7 +118,7 @@ describe("startPotion", () => {
     });
 
     expect(newState.coins).toEqual(GAME_STATE.coins - GAME_FEE);
-    expect(newState.bumpkin?.activity?.["Coins Spent"]).toEqual(GAME_FEE);
+    expect(newState.farmActivity["Coins Spent"]).toEqual(GAME_FEE);
   });
 
   it("increments the coins spent activity with correct multiplied amount", () => {
@@ -133,8 +133,6 @@ describe("startPotion", () => {
     });
 
     expect(newState.coins).toEqual(coins - GAME_FEE * multiplier);
-    expect(newState.bumpkin?.activity?.["Coins Spent"]).toEqual(
-      GAME_FEE * multiplier,
-    );
+    expect(newState.farmActivity["Coins Spent"]).toEqual(GAME_FEE * multiplier);
   });
 });

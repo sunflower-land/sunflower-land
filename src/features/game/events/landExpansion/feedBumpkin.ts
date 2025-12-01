@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
@@ -63,9 +63,9 @@ export function feedBumpkin({
     bumpkin.experience += Number(foodExperience.mul(feedAmount));
 
     // tracks activity
-    bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       `${action.food} Fed`,
-      bumpkin.activity,
+      stateCopy.farmActivity,
       feedAmount,
     );
     stateCopy.boostsUsedAt = updateBoostUsed({

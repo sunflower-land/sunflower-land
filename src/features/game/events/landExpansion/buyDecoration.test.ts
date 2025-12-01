@@ -114,7 +114,7 @@ describe("buyDecoration", () => {
         name: "Potted Sunflower",
       },
     });
-    expect(state.bumpkin?.activity?.["Coins Spent"]).toEqual(
+    expect(state.farmActivity["Coins Spent"]).toEqual(
       LANDSCAPING_DECORATIONS["Potted Sunflower"].coins ?? 0,
     );
   });
@@ -133,7 +133,7 @@ describe("buyDecoration", () => {
         name: "Potted Sunflower",
       },
     });
-    expect(state.bumpkin?.activity?.["Potted Sunflower Bought"]).toEqual(1);
+    expect(state.farmActivity["Potted Sunflower Bought"]).toEqual(1);
   });
 
   it("requires ID does not exist", () => {

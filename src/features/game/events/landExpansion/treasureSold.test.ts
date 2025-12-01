@@ -214,7 +214,7 @@ describe("treasureSold", () => {
         amount: 1,
       },
     });
-    expect(state.bumpkin?.activity?.["Coins Earned"]).toEqual(
+    expect(state.farmActivity["Coins Earned"]).toEqual(
       SELLABLE_TREASURE["Clam Shell"].sellPrice,
     );
   });
@@ -234,7 +234,7 @@ describe("treasureSold", () => {
         amount,
       },
     });
-    expect(state.bumpkin?.activity?.["Clam Shell Sold"]).toEqual(amount);
+    expect(state.farmActivity["Clam Shell Sold"]).toEqual(amount);
   });
 
   it("only sells one treasure even when they are placed", () => {

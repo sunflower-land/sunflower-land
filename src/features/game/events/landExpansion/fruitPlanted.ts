@@ -3,7 +3,7 @@ import {
   isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import {
   GreenHouseFruitSeedName,
   isPatchFruitSeed,
@@ -321,10 +321,9 @@ export function plantFruit({
       harvestsLeft: harvestCount,
     };
 
-    bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       `${action.seed} Planted`,
-      bumpkin?.activity,
-      new Decimal(1),
+      stateCopy.farmActivity,
     );
 
     stateCopy.boostsUsedAt = updateBoostUsed({

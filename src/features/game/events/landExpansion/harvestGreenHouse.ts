@@ -13,14 +13,15 @@ import {
   GreenHouseFruitName,
 } from "features/game/types/fruits";
 import Decimal from "decimal.js-light";
-import {
-  BumpkinActivityName,
-  trackActivity,
-} from "features/game/types/bumpkinActivity";
+
 import { produce } from "immer";
 import { getFruitYield } from "./fruitHarvested";
 import { getCropYieldAmount } from "./harvest";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import {
+  FarmActivityName,
+  trackFarmActivity,
+} from "features/game/types/farmActivity";
 
 export const GREENHOUSE_CROP_TIME_SECONDS: Record<
   GreenHouseCropName | GreenHouseFruitName,
@@ -125,9 +126,9 @@ export function harvestGreenHouse({
     game.inventory[pot.plant.name] = previousAmount.add(greenhouseProduce);
 
     // Tracks Analytics
-    const activityName: BumpkinActivityName = `${pot.plant.name} Harvested`;
+    const activityName: FarmActivityName = `${pot.plant.name} Harvested`;
 
-    game.bumpkin.activity = trackActivity(activityName, game.bumpkin.activity);
+    game.farmActivity = trackFarmActivity(activityName, game.farmActivity);
 
     game.boostsUsedAt = updateBoostUsed({
       game,

@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { canMine } from "features/game/lib/resourceNodes";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 
@@ -73,7 +73,10 @@ export function mineSunstone({
         stateCopy.inventory["Sunstone Rock"]?.sub(1);
     }
 
-    bumpkin.activity = trackActivity("Sunstone Mined", bumpkin.activity);
+    stateCopy.farmActivity = trackFarmActivity(
+      "Sunstone Mined",
+      stateCopy.farmActivity,
+    );
 
     return stateCopy;
   });

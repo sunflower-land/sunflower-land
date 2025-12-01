@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { STONE_RECOVERY_TIME } from "features/game/lib/constants";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import {
   BoostName,
   CriticalHitName,
@@ -122,7 +122,6 @@ type GetStoneDropAmountArgs = {
   game: GameState;
   rock: Rock;
   createdAt: number;
-  id: string;
   criticalDropGenerator?: (name: CriticalHitName) => boolean;
 };
 /**
@@ -133,7 +132,6 @@ export function getStoneDropAmount({
   rock,
   createdAt,
   criticalDropGenerator = () => false,
-  id,
 }: GetStoneDropAmountArgs): {
   amount: Decimal;
   boostsUsed: BoostName[];
@@ -368,7 +366,6 @@ export function mineStone({
           createdAt,
           criticalDropGenerator: (name) =>
             !!(rock.stone.criticalHit?.[name] ?? 0),
-          id: action.index,
         });
     stateCopy.aoe = aoe;
 
@@ -392,9 +389,9 @@ export function mineStone({
     stateCopy.inventory.Stone = amountInInventory.add(stoneMined);
     delete rock.stone.amount;
 
-    bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       "Stone Mined",
-      bumpkin.activity,
+      stateCopy.farmActivity,
       new Decimal(rock?.multiplier ?? 1),
     );
 

@@ -4,7 +4,7 @@ import {
   AnimalMedicineName,
 } from "features/game/types/game";
 import Decimal from "decimal.js-light";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { getKeys } from "features/game/types/decorations";
 import { ANIMAL_FOODS } from "features/game/types/animals";
 import { produce } from "immer";
@@ -89,14 +89,14 @@ export function feedMixed({ state, action }: Options) {
 
     const oldAmount = copy.inventory[item] ?? new Decimal(0);
 
-    bumpkin.activity = trackActivity(
+    copy.farmActivity = trackFarmActivity(
       "Coins Spent",
-      bumpkin?.activity,
+      copy.farmActivity,
       new Decimal(price),
     );
-    bumpkin.activity = trackActivity(
+    copy.farmActivity = trackFarmActivity(
       `${item} Mixed`,
-      bumpkin?.activity,
+      copy.farmActivity,
       new Decimal(amount ?? 0),
     );
     copy.coins -= price;

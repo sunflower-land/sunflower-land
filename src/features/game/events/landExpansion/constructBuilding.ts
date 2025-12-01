@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { BuildingName, BUILDINGS } from "../../types/buildings";
 import { GameState, PlacedItem } from "../../types/game";
 import { getBumpkinLevel } from "features/game/lib/level";
@@ -112,12 +112,15 @@ export function constructBuilding({
       readyAt: createdAt + buildingToConstruct.constructionSeconds * 1000,
     };
 
-    bumpkin.activity = trackActivity("Building Constructed", bumpkin.activity);
+    stateCopy.farmActivity = trackFarmActivity(
+      "Building Constructed",
+      stateCopy.farmActivity,
+    );
 
     stateCopy.coins = coins - buildingToConstruct.coins;
-    bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       "Coins Spent",
-      bumpkin.activity,
+      stateCopy.farmActivity,
       new Decimal(buildingToConstruct.coins),
     );
     stateCopy.inventory = inventoryMinusIngredients;

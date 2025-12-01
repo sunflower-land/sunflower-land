@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { canMine } from "features/game/lib/resourceNodes";
 import { IRON_RECOVERY_TIME } from "../../lib/constants";
-import { trackActivity } from "../../types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import {
   AOE,
   BoostName,
@@ -325,9 +325,9 @@ export function mineIron({
       boostedTime: boostedTime,
     };
 
-    bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       "Iron Mined",
-      bumpkin.activity,
+      stateCopy.farmActivity,
       new Decimal(ironRock.multiplier ?? 1),
     );
 

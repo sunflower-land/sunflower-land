@@ -2,10 +2,7 @@ import { FLOWERS, FLOWER_SEEDS } from "features/game/types/flowers";
 import { BoostName, CriticalHitName, GameState } from "../../types/game";
 import Decimal from "decimal.js-light";
 import { updateBeehives } from "features/game/lib/updateBeehives";
-import { trackActivity } from "features/game/types/bumpkinActivity";
-
 import { translate } from "lib/i18n/translate";
-
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { produce } from "immer";
 import {
@@ -147,16 +144,9 @@ export function harvestFlower({
 
     delete flowerBed.flower;
 
-    bumpkin.activity = trackActivity(
-      `${flower.name} Harvested`,
-      bumpkin?.activity,
-      new Decimal(1),
-    );
-
     stateCopy.farmActivity = trackFarmActivity(
       `${flower.name} Harvested`,
       stateCopy.farmActivity,
-      1,
     );
 
     stateCopy.boostsUsedAt = updateBoostUsed({

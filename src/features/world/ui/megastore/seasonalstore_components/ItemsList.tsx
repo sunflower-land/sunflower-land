@@ -73,19 +73,19 @@ export const ItemsList: React.FC<Props> = ({
     // Handling all types or specific ones if provided
     if (type === "wearables" || (!type && "wearable" in item)) {
       return (
-        state.bumpkin.activity[
+        state.farmActivity[
           `${(item as SeasonalStoreWearable).wearable as SeasonalTierItemName} Bought`
         ] ?? 0
       );
     } else if (type === "collectibles" || (!type && "collectible" in item)) {
       return (
-        state.bumpkin.activity[
+        state.farmActivity[
           `${(item as SeasonalStoreCollectible).collectible as SeasonalTierItemName} Bought`
         ] ?? 0
       );
     } else if (type === "keys" || (!type && "key" in item)) {
       return (
-        state.bumpkin.activity[
+        state.farmActivity[
           `${(item as SeasonalStoreCollectible).collectible as SeasonalTierItemName} Bought`
         ] ?? 0
       );

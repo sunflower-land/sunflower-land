@@ -338,8 +338,6 @@ export const INITIAL_BUMPKIN: Bumpkin = {
   skills: {},
   tokenUri: `1_${tokenUriBuilder(INITIAL_EQUIPMENT)}`,
   achievements: {},
-
-  activity: {},
 };
 
 export const INITIAL_CHORE_BOARD: ChoreBoard = {

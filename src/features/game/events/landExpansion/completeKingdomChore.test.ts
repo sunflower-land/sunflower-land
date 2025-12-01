@@ -121,11 +121,8 @@ describe("kingdomChore.completed", () => {
         },
         state: {
           ...state,
-          bumpkin: {
-            ...INITIAL_BUMPKIN,
-            activity: {
-              "Sunflower Harvested": 20,
-            },
+          farmActivity: {
+            "Sunflower Harvested": 20,
           },
           kingdomChores: {
             choresCompleted: 0,
@@ -159,9 +156,9 @@ describe("kingdomChore.completed", () => {
           ...state,
           bumpkin: {
             ...INITIAL_BUMPKIN,
-            activity: {
-              "Sunflower Harvested": 30,
-            },
+          },
+          farmActivity: {
+            "Sunflower Harvested": 30,
           },
           kingdomChores: {
             choresCompleted: 0,
@@ -192,11 +189,8 @@ describe("kingdomChore.completed", () => {
         },
         state: {
           ...state,
-          bumpkin: {
-            ...INITIAL_BUMPKIN,
-            activity: {
-              "Sunflower Harvested": 30,
-            },
+          farmActivity: {
+            "Sunflower Harvested": 30,
           },
           kingdomChores: {
             choresCompleted: 0,
@@ -226,11 +220,8 @@ describe("kingdomChore.completed", () => {
       },
       state: {
         ...state,
-        bumpkin: {
-          ...INITIAL_BUMPKIN,
-          activity: {
-            "Sunflower Harvested": 30,
-          },
+        farmActivity: {
+          "Sunflower Harvested": 30,
         },
         kingdomChores: {
           choresCompleted: 0,
@@ -264,9 +255,9 @@ describe("kingdomChore.completed", () => {
         ...state,
         bumpkin: {
           ...INITIAL_BUMPKIN,
-          activity: {
-            "Sunflower Harvested": 30,
-          },
+        },
+        farmActivity: {
+          "Sunflower Harvested": 30,
         },
         kingdomChores: {
           choresCompleted: 0,
@@ -303,9 +294,9 @@ describe("kingdomChore.completed", () => {
         ...state,
         bumpkin: {
           ...INITIAL_BUMPKIN,
-          activity: {
-            "Sunflower Harvested": 30,
-          },
+        },
+        farmActivity: {
+          "Sunflower Harvested": 30,
         },
         kingdomChores: {
           choresCompleted: 0,
@@ -340,13 +331,13 @@ describe("kingdomChore.completed", () => {
         ...state,
         bumpkin: {
           ...INITIAL_BUMPKIN,
-          activity: {
-            "Sunflower Harvested": 30,
-          },
           equipped: {
             ...INITIAL_BUMPKIN.equipped,
             shoes: "Goblin Sabatons",
           },
+        },
+        farmActivity: {
+          "Sunflower Harvested": 30,
         },
         kingdomChores: {
           choresCompleted: 0,
@@ -385,9 +376,9 @@ describe("kingdomChore.completed", () => {
         },
         bumpkin: {
           ...INITIAL_BUMPKIN,
-          activity: {
-            "Sunflower Harvested": 30,
-          },
+        },
+        farmActivity: {
+          "Sunflower Harvested": 30,
         },
         kingdomChores: {
           choresCompleted: 0,
@@ -426,13 +417,14 @@ describe("kingdomChore.completed", () => {
         },
         bumpkin: {
           ...INITIAL_BUMPKIN,
-          activity: {
-            "Sunflower Harvested": 30,
-          },
+
           equipped: {
             ...INITIAL_BUMPKIN.equipped,
             shoes: "Goblin Sabatons",
           },
+        },
+        farmActivity: {
+          "Sunflower Harvested": 30,
         },
         kingdomChores: {
           choresCompleted: 0,
@@ -474,13 +466,14 @@ describe("kingdomChore.completed", () => {
         },
         bumpkin: {
           ...INITIAL_BUMPKIN,
-          activity: {
-            "Sunflower Harvested": 30,
-          },
+
           equipped: {
             ...INITIAL_BUMPKIN.equipped,
             shoes: "Goblin Sabatons",
           },
+        },
+        farmActivity: {
+          "Sunflower Harvested": 30,
         },
         kingdomChores: {
           choresCompleted: 0,

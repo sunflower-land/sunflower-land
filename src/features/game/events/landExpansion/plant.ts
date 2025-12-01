@@ -34,10 +34,7 @@ import {
 } from "features/game/expansion/placeable/lib/collisionDetection";
 import { isSummerCrop, isAutumnCrop } from "./harvest";
 import { getBudSpeedBoosts } from "features/game/lib/getBudSpeedBoosts";
-import {
-  BumpkinActivityName,
-  trackActivity,
-} from "features/game/types/bumpkinActivity";
+
 import { isWearableActive } from "features/game/lib/wearables";
 import { isGreenhouseCrop } from "./plantGreenhouse";
 import { produce } from "immer";
@@ -55,6 +52,10 @@ import {
 import cloneDeep from "lodash.clonedeep";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
+import {
+  FarmActivityName,
+  trackFarmActivity,
+} from "features/game/types/farmActivity";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -577,9 +578,9 @@ export function plantCropOnPlot({
     createdAt,
   });
 
-  const activityName: BumpkinActivityName = `${cropName} Planted`;
+  const activityName: FarmActivityName = `${cropName} Planted`;
 
-  bumpkin.activity = trackActivity(activityName, bumpkin.activity);
+  game.farmActivity = trackFarmActivity(activityName, game.farmActivity);
 
   const updatedPlot: CropPlot = {
     ...plot,

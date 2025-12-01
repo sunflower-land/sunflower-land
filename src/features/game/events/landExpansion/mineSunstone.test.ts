@@ -153,7 +153,7 @@ describe("mineSunstone", () => {
         } as MineSunstoneAction,
       });
 
-      expect(game.bumpkin?.activity?.["Sunstone Mined"]).toBe(1);
+      expect(game.farmActivity["Sunstone Mined"]).toBe(1);
     });
 
     it("increments Sunstone Mined activity by 2", () => {
@@ -185,7 +185,7 @@ describe("mineSunstone", () => {
         } as MineSunstoneAction,
       });
 
-      expect(game.bumpkin?.activity?.["Sunstone Mined"]).toBe(2);
+      expect(game.farmActivity["Sunstone Mined"]).toBe(2);
     });
   });
 });
