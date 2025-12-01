@@ -10,7 +10,6 @@ import {
   Rock,
   Skills,
 } from "features/game/types/game";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
@@ -25,6 +24,7 @@ import {
   getStoneDropAmount,
 } from "features/game/events/landExpansion/stoneMine";
 import { StoneRockName } from "features/game/types/resources";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const HITS = 3;
 const tool = "Pickaxe";
@@ -109,10 +109,14 @@ export const Stone: React.FC<Props> = ({ id }) => {
   const season = useSelector(gameService, _selectSeason);
   const island = useSelector(gameService, _selectIsland);
   const hasTool = HasTool(inventory, game, id);
-  const timeLeft = getTimeLeft(resource.stone.minedAt, STONE_RECOVERY_TIME);
+  const readyAt = resource.stone.minedAt + STONE_RECOVERY_TIME * 1000;
+  const now = useNow({ live: true, autoEndAt: readyAt });
+  const timeLeft = getTimeLeft(
+    resource.stone.minedAt,
+    STONE_RECOVERY_TIME,
+    now,
+  );
   const mined = !canMine(resource, name);
-
-  useUiRefresher({ active: mined });
 
   const strike = () => {
     if (!hasTool) return;

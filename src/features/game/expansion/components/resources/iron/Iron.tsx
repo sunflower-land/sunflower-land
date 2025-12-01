@@ -16,6 +16,7 @@ import { RecoveredIron } from "./components/RecoveredIron";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getIronDropAmount } from "features/game/events/landExpansion/ironMine";
 import { IronRockName } from "features/game/types/resources";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const HITS = 3;
 const tool = "Stone Pickaxe";
@@ -96,7 +97,9 @@ export const Iron: React.FC<Props> = ({ id }) => {
   const skills = useSelector(gameService, selectSkills, compareSkills);
 
   const hasTool = HasTool(inventory, resource);
-  const timeLeft = getTimeLeft(resource.stone.minedAt, IRON_RECOVERY_TIME);
+  const readyAt = resource.stone.minedAt + IRON_RECOVERY_TIME * 1000;
+  const now = useNow({ live: true, autoEndAt: readyAt });
+  const timeLeft = getTimeLeft(resource.stone.minedAt, IRON_RECOVERY_TIME, now);
   const mined = !canMine(resource, ironRockName);
 
   useUiRefresher({ active: mined });

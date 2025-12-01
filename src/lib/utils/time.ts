@@ -216,8 +216,12 @@ export const millisecondsToString = (
  * @param totalTimeInSeconds The total time in seconds needed for the operation to complete.
  * @returns The time left in seconds.
  */
-export const getTimeLeft = (createdAt: number, totalTimeInSeconds: number) => {
-  const millisecondsElapsed = Date.now() - createdAt;
+export const getTimeLeft = (
+  createdAt: number,
+  totalTimeInSeconds: number,
+  now: number,
+) => {
+  const millisecondsElapsed = now - createdAt;
 
   if (millisecondsElapsed > totalTimeInSeconds * 1000) return 0;
 
