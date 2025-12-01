@@ -15,6 +15,7 @@ import {
   MushroomName,
   ResourceName,
   ResourceTier,
+  TreeName,
 } from "./resources";
 import { LegacyBadgeName } from "./skills";
 import { BuildingName } from "./buildings";
@@ -650,7 +651,6 @@ export type Wood = {
   reward?: Omit<Reward, "sfl">;
   criticalHit?: CriticalHit;
   amount?: number;
-  choppedCount?: number;
 };
 
 export type CriticalHitName =
@@ -690,7 +690,7 @@ export type Tree = {
   createdAt?: number;
   removedAt?: number;
   tier?: ResourceTier;
-  name?: ResourceName;
+  name?: TreeName;
   multiplier?: number;
 } & OptionalCoordinates;
 

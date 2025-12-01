@@ -395,6 +395,11 @@ export function mineStone({
       new Decimal(rock?.multiplier ?? 1),
     );
 
+    stateCopy.farmActivity = trackFarmActivity(
+      `${rock.name ?? "Stone Rock"} Mined`,
+      stateCopy.farmActivity,
+    );
+
     stateCopy.boostsUsedAt = updateBoostUsed({
       game: stateCopy,
       boostNames: [
