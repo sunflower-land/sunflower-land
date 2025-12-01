@@ -45,7 +45,6 @@ import {
   LandscapingPlaceableType,
   SaveEvent,
 } from "../expansion/placeable/landscapingMachine";
-import { Context } from "../GameProvider";
 import { isSwarming } from "../events/detectBot";
 import { generateTestLand } from "../expansion/actions/generateLand";
 

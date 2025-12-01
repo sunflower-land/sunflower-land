@@ -248,13 +248,8 @@ export const LandComponent: React.FC = () => {
   const { collectibles, positions: collectiblePositions } = useSelector(
     gameService,
     _collectiblePositions,
-    comparePositions,
   );
-  const { buildings } = useSelector(
-    gameService,
-    _buildingPositions,
-    comparePositions,
-  );
+  const { buildings } = useSelector(gameService, _buildingPositions);
   const { stones } = useSelector(
     gameService,
     _stonePositions,
@@ -453,7 +448,7 @@ export const LandComponent: React.FC = () => {
 
     return getKeys(buildings)
       .filter((name) => buildings[name])
-      .flatMap((name, nameIndex) => {
+      .flatMap((name) => {
         const items = buildings[name]!;
         return items
           .filter((building) => building.coordinates !== undefined)
