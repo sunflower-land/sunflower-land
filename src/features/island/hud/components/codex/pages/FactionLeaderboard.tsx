@@ -5,7 +5,7 @@ import { Label } from "components/ui/Label";
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getRelativeTime, secondsToString } from "lib/utils/time";
+import { secondsToString } from "lib/utils/time";
 
 import { FactionName } from "features/game/types/game";
 
@@ -29,6 +29,7 @@ import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { ChampionsPrizes } from "features/world/ui/factions/Champions";
 import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionLeaderboardTable";
 import { KingdomChores } from "features/world/ui/factions/chores/KingdomChoresCodex";
+import { LastUpdatedAt } from "components/LastUpdatedAt";
 
 const npcs: Record<FactionName, NPCName> = {
   nightshades: "nyx",
@@ -41,14 +42,11 @@ const POSITION_LABELS = ["1st", "2nd", "3rd", "4th"];
 
 interface Props {
   leaderboard: KingdomLeaderboard | null;
-  // Either username or fallback to farm ID
-  playerId: string;
   faction: FactionName;
   isLoading: boolean;
 }
 export const FactionLeaderboard: React.FC<Props> = ({
   leaderboard,
-  playerId,
   faction,
   isLoading,
 }) => {
@@ -87,7 +85,6 @@ export const FactionLeaderboard: React.FC<Props> = ({
         )}
       >
         <FactionDetails
-          playerId={playerId}
           faction={selected}
           onBack={() => setSelected(undefined)}
           leaderboard={leaderboard}
@@ -174,13 +171,11 @@ export const FactionLeaderboard: React.FC<Props> = ({
 
 export const FactionDetails: React.FC<{
   faction: FactionName;
-  playerId: string;
   onBack: () => void;
   leaderboard: KingdomLeaderboard;
   isPledged?: boolean;
-}> = ({ leaderboard, faction, playerId, onBack, isPledged }) => {
+}> = ({ leaderboard, faction, onBack, isPledged }) => {
   const { t } = useAppTranslation();
-
   const topTen = leaderboard.marks.topTens[faction];
 
   // Where is the player ranked?
@@ -304,9 +299,7 @@ export const FactionDetails: React.FC<{
       </table>
 
       <div className="flex justify-between font-secondary text-xs pt-1">
-        <span>
-          {t("last.updated")} {getRelativeTime(leaderboard.lastUpdated)}
-        </span>
+        <LastUpdatedAt lastUpdated={leaderboard.lastUpdated} />
       </div>
     </>
   );

@@ -10,16 +10,18 @@ import { getRelativeTime } from "lib/utils/time";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export const CheersGuide = () => {
   const { t } = useAppTranslation();
   // Calculate tomorrow's date in UTC by creating a new Date for now, then adding one day
-  const now = new Date();
+  const now = useNow();
+  const nowDate = new Date(now);
   const tomorrowUTCDate = new Date(
     Date.UTC(
-      now.getUTCFullYear(),
-      now.getUTCMonth(),
-      now.getUTCDate() + 1,
+      nowDate.getUTCFullYear(),
+      nowDate.getUTCMonth(),
+      nowDate.getUTCDate() + 1,
       0,
       0,
       0,
@@ -32,7 +34,7 @@ export const CheersGuide = () => {
       <div className="flex flex-col space-y-2 p-2">
         <Label type="info" icon={cheer}>
           {t("cheers.moreFreeCheersIn", {
-            time: getRelativeTime(tomorrowUTCDate.getTime()),
+            time: getRelativeTime(tomorrowUTCDate.getTime(), now),
           })}
         </Label>
         <NoticeboardItems

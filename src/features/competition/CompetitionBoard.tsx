@@ -32,7 +32,6 @@ import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDeta
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { getCompetitionLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { Loading } from "features/auth/components";
-import { getRelativeTime } from "lib/utils/time";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -42,6 +41,7 @@ import chefIcon from "assets/icons/chef_hat.png";
 import lockIcon from "assets/icons/lock.png";
 import calendarIcon from "assets/icons/calendar.webp";
 import { useNow } from "lib/utils/hooks/useNow";
+import { LastUpdatedAt } from "components/LastUpdatedAt";
 
 const _state = (state: MachineState) => state.context.state;
 
@@ -304,9 +304,9 @@ export const CompetitionDetails: React.FC<{
   );
 };
 
-export const CompetitionLeaderboard: React.FC<{ name: CompetitionName }> = ({
-  name,
-}) => {
+const CompetitionLeaderboard: React.FC<{
+  name: CompetitionName;
+}> = ({ name }) => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const [data, setData] = useState<CompetitionLeaderboardResponse>();
@@ -343,7 +343,7 @@ export const CompetitionLeaderboard: React.FC<{ name: CompetitionName }> = ({
               {t("competition.leaderboard")}
             </Label>
             <p className="font-secondary text-xs">
-              {t("last.updated")} {getRelativeTime(lastUpdated)}
+              <LastUpdatedAt lastUpdated={lastUpdated} />
             </p>
           </div>
           <CompetitionTable items={leaderboard} />
@@ -364,7 +364,6 @@ export const CompetitionLeaderboard: React.FC<{ name: CompetitionName }> = ({
 export const CompetitionTable: React.FC<{ items: CompetitionPlayer[] }> = ({
   items,
 }) => {
-  const { t } = useAppTranslation();
   return (
     <table className="w-full text-xs table-fixed border-collapse">
       <tbody>

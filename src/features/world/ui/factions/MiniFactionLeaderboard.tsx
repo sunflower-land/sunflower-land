@@ -6,11 +6,10 @@ import { FactionLeaderboard } from "features/game/expansion/components/leaderboa
 import { FactionName } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { shortenCount } from "lib/utils/formatNumber";
-import { getRelativeTime } from "lib/utils/time";
 import React from "react";
+import { LastUpdatedAt } from "components/LastUpdatedAt";
 
 interface LeaderboardProps {
-  id: string;
   faction: FactionName;
   isLoading: boolean;
   data: FactionLeaderboard | null | undefined;
@@ -18,14 +17,12 @@ interface LeaderboardProps {
 }
 
 export const MiniFactionLeaderboard: React.FC<LeaderboardProps> = ({
-  id,
   faction,
   isLoading,
   data,
   onBack,
 }) => {
   const { t } = useAppTranslation();
-
   if (isLoading && !data) return <Loading />;
 
   if (!data)
@@ -46,7 +43,7 @@ export const MiniFactionLeaderboard: React.FC<LeaderboardProps> = ({
           -1,
         )} ${t("leaderboard.leaderboard")}`}</Label>
         <p className="text-xs">
-          {t("last.updated")} {getRelativeTime(data.lastUpdated)}
+          <LastUpdatedAt lastUpdated={data.lastUpdated} />
         </p>
       </div>
       <div className="py-1">

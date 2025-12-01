@@ -13,6 +13,7 @@ import { useNavigate } from "react-router";
 import { getTradeableDisplay } from "../lib/tradeables";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export const SaleHistory: React.FC<{ history?: ISaleHistory }> = ({
   history,
@@ -34,7 +35,7 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
   sales,
 }) => {
   const { t } = useAppTranslation();
-
+  const now = useNow();
   const navigate = useNavigate();
 
   if (sales.length === 0) {
@@ -138,7 +139,7 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
                   <td className="p-1.5 text-xs   hidden sm:table-cell">
                     <div className="flex items-center justify-end">
                       <p className="text-xs truncate">
-                        {getRelativeTime(fulfilledAt)}
+                        {getRelativeTime(fulfilledAt, now)}
                       </p>
                     </div>
                   </td>
@@ -160,7 +161,7 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
                         className="w-4 mr-1"
                       />
                       <p className="text-xs sm:text-sm">
-                        {getRelativeTime(fulfilledAt)}
+                        {getRelativeTime(fulfilledAt, now)}
                       </p>
                     </div>
                   </td>

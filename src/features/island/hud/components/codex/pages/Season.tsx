@@ -148,7 +148,7 @@ export const Season: React.FC<Props> = ({
       <SeasonalAuctions gameState={state} farmId={farmId} season={season} />
       <SeasonalMutants season={season} />
       <InnerPanel className="mb-1">
-        <TicketsLeaderboard id={id} isLoading={isLoading} data={data} />
+        <TicketsLeaderboard isLoading={isLoading} data={data} />
       </InnerPanel>
     </div>
   );

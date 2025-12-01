@@ -3,11 +3,11 @@ import React from "react";
 import { Loading } from "features/auth/components";
 import { LeaguesLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getRelativeTime } from "lib/utils/time";
 import { Label } from "components/ui/Label";
 import { LeaguesTable } from "features/game/expansion/components/leaderboard/LeagueTable";
 import { CropName } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { LastUpdatedAt } from "components/LastUpdatedAt";
 
 interface LeaderboardProps {
   isLoading: boolean;
@@ -43,7 +43,7 @@ export const LeagueLeaderboard: React.FC<LeaderboardProps> = ({
           {`${playerLeague} ${t("leaderboard.leaderboard")}`}
         </Label>
         <p className="font-secondary text-xs">
-          {t("last.updated")} {getRelativeTime(data.lastUpdated)}
+          <LastUpdatedAt lastUpdated={data.lastUpdated} />
         </p>
       </div>
       {!!playersToShow.length && (

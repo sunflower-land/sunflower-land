@@ -96,7 +96,7 @@ export const WeatherEvent: React.FC<Props> = ({
             </Label>
             {eventOver && (
               <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
-                {`Event Over - ${getRelativeTime(eventEndTime)}`}
+                {`Event Over - ${getRelativeTime(eventEndTime, now)}`}
               </Label>
             )}
           </div>

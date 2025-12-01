@@ -42,8 +42,8 @@ export const FollowDetailPanel: React.FC<Props> = ({
   helpStreak,
 }: Props) => {
   const { t } = useTranslation();
-  const lastOnline = getRelativeTime(lastOnlineAt, "short");
   const now = useNow();
+  const lastOnline = getRelativeTime(lastOnlineAt, now, "short");
 
   const isOnline = lastOnlineAt > now - 30 * 60 * 1000;
   const isYou = loggedInFarmId === playerId;
