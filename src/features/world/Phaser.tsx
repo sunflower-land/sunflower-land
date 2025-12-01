@@ -67,6 +67,7 @@ import { RewardModal } from "features/social/RewardModal";
 import { PartyModal } from "./ui/player/PartyModal";
 import { Discovery } from "features/social/Discovery";
 import { SPAWNS } from "./lib/spawn";
+import { PlayerInteractionMenu } from "./ui/player/PlayerInteractionMenu";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -463,6 +464,7 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
         )}
 
         <CommunityToasts />
+        <PlayerInteractionMenu />
 
         {mmoState === "connecting" && (
           <Label

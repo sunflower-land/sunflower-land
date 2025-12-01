@@ -21,7 +21,7 @@ import {
   MachineInterpreter as MMOMachineInterpreter,
   SceneId,
 } from "../mmoMachine";
-import { Player, PlazaRoomState } from "../types/Room";
+import { MicroInteraction, Player, PlazaRoomState } from "../types/Room";
 import { FactionName, GameState, IslandType } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 import { Room } from "colyseus.js";
@@ -43,10 +43,14 @@ import {
   getPlazaShaderSetting,
 } from "lib/utils/hooks/usePlazaShader";
 import { playerSelectionListManager } from "../ui/PlayerSelectionList";
+import { playerInteractionMenuManager } from "../ui/player/PlayerInteractionMenu";
 
 import { STREAM_REWARD_COOLDOWN } from "../ui/player/StreamReward";
 import { hasVipAccess } from "features/game/lib/vipAccess";
-import { playerModalManager } from "features/social/lib/playerModalManager";
+import {
+  playerModalManager,
+  PlayerModalPlayer,
+} from "features/social/lib/playerModalManager";
 import { rewardModalManager } from "features/social/lib/rewardModalManager";
 
 export type NPCBumpkin = {
@@ -89,6 +93,16 @@ export const FACTION_NAME_COLORS: Record<FactionName, string> = {
   nightshades: "#a878ac",
 };
 
+type MicroInteractionState = {
+  senderId: number;
+  receiverId: number;
+  type: "wave" | "wave_ack" | "wave_cancel";
+  indicator?: Phaser.GameObjects.Container;
+  pulseTween?: Phaser.Tweens.Tween;
+};
+
+const MICRO_INTERACTION_TIMEOUT_MS = 5000;
+
 export abstract class BaseScene extends Phaser.Scene {
   abstract sceneId: SceneId;
   eventListener?: (event: EventObject) => void;
@@ -110,6 +124,11 @@ export abstract class BaseScene extends Phaser.Scene {
   packetSentAt = 0;
 
   playerEntities: { [sessionId: string]: BumpkinContainer } = {};
+
+  private receivedMicroInteractions: Map<number, MicroInteractionState> =
+    new Map();
+  private outgoingMicroInteractions: Map<number, Phaser.Time.TimerEvent> =
+    new Map();
 
   pets: { [sessionId: string]: PetContainer } = {};
 
@@ -340,6 +359,8 @@ export abstract class BaseScene extends Phaser.Scene {
         // ignore click if the joystick is active
         if (this.joystick?.pointer) return;
 
+        playerInteractionMenuManager.close();
+
         const clickedObjects = this.input.hitTestPointer(pointer);
 
         // filter other players
@@ -397,15 +418,26 @@ export abstract class BaseScene extends Phaser.Scene {
           }
 
           const player = players[0];
+          const target = clickedBumpkins[0];
 
-          if (
-            player.clothing?.hat === "Streamer Hat" ||
-            player.clothing?.shirt === "Gift Giver"
-          ) {
-            rewardModalManager.open(player);
-          } else {
-            playerModalManager.open(player);
-          }
+          playerInteractionMenuManager.open({
+            targetFarmId: player.farmId,
+            targetUsername: player.username,
+            position: { x: pointer.x, y: pointer.y },
+            options: [
+              {
+                id: "details",
+                label: "Open details modal",
+                action: () => this.openPlayerProfile(player),
+              },
+              {
+                id: "wave",
+                label: "Hello interaction",
+                action: () => this.requestMicroInteraction(target, "wave"),
+              },
+            ],
+          });
+
           return;
         }
 
@@ -454,6 +486,303 @@ export abstract class BaseScene extends Phaser.Scene {
       16,
     );
   };
+
+  private openPlayerProfile(player: PlayerModalPlayer) {
+    if (
+      player.clothing?.hat === "Streamer Hat" ||
+      player.clothing?.shirt === "Gift Giver"
+    ) {
+      rewardModalManager.open(player);
+      return;
+    }
+
+    playerModalManager.open(player);
+  }
+
+  protected requestMicroInteraction(
+    target: BumpkinContainer,
+    interaction: "wave",
+  ) {
+    const initiatorFarmId = this.currentPlayer?.farmId;
+    const receiverFarmId = target.farmId;
+
+    // Must have two valid and different farm ids
+    if (!initiatorFarmId || !receiverFarmId) return;
+    if (initiatorFarmId === receiverFarmId) {
+      return;
+    }
+
+    // Only allow a single pending hello for a given receiver at a time
+    if (this.receivedMicroInteractions.has(receiverFarmId)) {
+      // Don't spam
+      return;
+    }
+
+    if (this.outgoingMicroInteractions.has(receiverFarmId)) {
+      // Don't spam
+      return;
+    }
+
+    // Send wave request to the server (initiator -> receiver)
+    this.sendMicroInteraction(interaction, initiatorFarmId, receiverFarmId);
+
+    // Auto cancel the event after 5 seconds if no acknowledgement is received
+    const timeout = this.time.addEvent({
+      delay: MICRO_INTERACTION_TIMEOUT_MS,
+      callback: () => {
+        if (!this.outgoingMicroInteractions.has(receiverFarmId)) {
+          return;
+        }
+
+        this.sendMicroInteraction(
+          `${interaction}_cancel`,
+          initiatorFarmId,
+          receiverFarmId,
+        );
+        this.clearOutgoingMicroInteractionRequest(receiverFarmId);
+      },
+    });
+
+    this.outgoingMicroInteractions.set(receiverFarmId, timeout);
+  }
+
+  private sendMicroInteraction(
+    type: "wave" | "wave_ack" | "wave_cancel",
+    senderId: number,
+    receiverId: number,
+  ) {
+    this.mmoServer?.send(0, {
+      microInteraction: {
+        type,
+        senderId,
+        receiverId,
+        sentAt: Date.now(),
+        sceneId: this.options.name,
+      },
+    });
+  }
+
+  /**
+   * Renders a lightweight clickable indicator above the receiver bumpkin.
+   */
+  private createMicroInteractionIndicator(
+    target: BumpkinContainer,
+    interaction: "wave",
+    senderId: number,
+    receiverId: number,
+  ) {
+    const indicator = this.add.container(0, -22);
+    indicator.setName(`${interaction}-indicator`);
+
+    const background = this.add
+      .rectangle(0, 0, 36, 18, 0x14532d, 0.95)
+      .setOrigin(0.5)
+      .setStrokeStyle(1, 0xffffff, 0.9);
+
+    const text = this.add
+      .bitmapText(0, -6, "Teeny Tiny Pixls", "HELLO", 6, 1)
+      .setOrigin(0.5)
+      .setTint(0xfef3c7);
+
+    indicator.add(background);
+    indicator.add(text);
+
+    indicator.setSize(36, 18);
+
+    const isReceiver = receiverId === this.currentPlayer?.farmId;
+
+    if (isReceiver) {
+      indicator.setInteractive(
+        new Phaser.Geom.Rectangle(-18, -9, 36, 18),
+        Phaser.Geom.Rectangle.Contains,
+      );
+      indicator.on("pointerdown", (p: Phaser.Input.Pointer) => {
+        if (p.downElement.nodeName !== "CANVAS") return;
+        // Receiver explicitly acknowledges the hello
+        this.sendMicroInteraction("wave_ack", receiverId, senderId);
+      });
+    }
+
+    target.add(indicator);
+    target.bringToTop(indicator);
+
+    const pulseTween = this.tweens.add({
+      targets: background,
+      alpha: { from: 0.95, to: 0.5 },
+      duration: 600,
+      repeat: -1,
+      yoyo: true,
+    });
+    return { indicator, pulseTween };
+  }
+
+  private finalizeMicroInteraction(
+    initiatorFarmId: number,
+    receiverFarmId: number,
+  ) {
+    // receiverFarmId is the farm that had the pending hello indicator
+    const interaction = this.receivedMicroInteractions.get(receiverFarmId);
+    if (interaction) {
+      this.receivedMicroInteractions.delete(receiverFarmId);
+
+      interaction.pulseTween?.remove();
+      this.destroyMicroInteractionIndicator(interaction.indicator);
+    }
+
+    this.triggerHelloWave(initiatorFarmId, receiverFarmId);
+  }
+
+  private handleMicroInteractionAction(action: MicroInteraction) {
+    if (action.sceneId && action.sceneId !== this.options.name) return;
+    // Expired
+    if (action.sentAt && action.sentAt < Date.now() - 5000) return;
+
+    const { receiverId, senderId } = action;
+
+    switch (action.type) {
+      case "wave": {
+        // Only track a single pending hello per receiver at a time
+        if (this.receivedMicroInteractions.has(receiverId)) return;
+
+        const target = this.findBumpkinByFarmId(receiverId);
+        if (!target) return;
+
+        const indicatorState = this.createMicroInteractionIndicator(
+          target,
+          "wave",
+          senderId,
+          receiverId,
+        );
+
+        this.receivedMicroInteractions.set(receiverId, {
+          senderId,
+          receiverId,
+          type: "wave",
+          ...indicatorState,
+        });
+
+        this.findBumpkinByFarmId(senderId)?.speak("Hey!");
+        target.speak("Hey there!");
+        break;
+      }
+      case "wave_ack": {
+        // For an acknowledgement, senderId is the original receiver of the hello
+        const waveReceiverId = senderId;
+        const waveInitiatorId = receiverId;
+
+        // Stop the initiator's local timeout
+        this.clearOutgoingMicroInteractionRequest(waveReceiverId);
+        this.finalizeMicroInteraction(waveInitiatorId, waveReceiverId);
+        break;
+      }
+      case "wave_cancel": {
+        // Cancel sent from the initiator after their timeout
+        this.clearOutgoingMicroInteractionRequest(receiverId);
+        this.cancelMicroInteraction(receiverId, "timeout");
+        break;
+      }
+      default:
+        break;
+    }
+  }
+
+  private cancelMicroInteraction(
+    receiverFarmId: number,
+    reason: "timeout" | "despawn" | "initiatorLeft",
+  ) {
+    this.clearOutgoingMicroInteractionRequest(receiverFarmId);
+
+    const interaction = this.receivedMicroInteractions.get(receiverFarmId);
+    if (!interaction) return;
+
+    this.receivedMicroInteractions.delete(receiverFarmId);
+    interaction.pulseTween?.remove();
+    this.destroyMicroInteractionIndicator(interaction.indicator);
+
+    const initiator = this.findBumpkinByFarmId(interaction.senderId);
+
+    if (reason === "timeout") {
+      initiator?.speak("Maybe later!");
+    }
+  }
+
+  private destroyMicroInteractionIndicator(
+    indicator?: Phaser.GameObjects.Container,
+  ) {
+    if (!indicator || !indicator.active) return;
+
+    indicator.removeAll(true);
+    indicator.destroy();
+  }
+
+  private triggerHelloWave(senderId: number, receiverId: number) {
+    const initiator = this.findBumpkinByFarmId(senderId);
+    const receiver = this.findBumpkinByFarmId(receiverId);
+
+    if (!initiator || !receiver) return;
+
+    this.waveBumpkin(initiator);
+    this.waveBumpkin(receiver);
+
+    initiator.speak("Great to see you!");
+    receiver.speak("Hey there!");
+  }
+
+  private waveBumpkin(entity: BumpkinContainer) {
+    if (!entity.sprite) return;
+
+    const sprite = entity.sprite;
+    const startingAngle = sprite.angle;
+
+    this.tweens.add({
+      targets: sprite,
+      angle: { from: -8, to: 8 },
+      duration: 150,
+      ease: "Sine.easeInOut",
+      yoyo: true,
+      repeat: 4,
+      onComplete: () => sprite.setAngle(startingAngle),
+    });
+  }
+
+  private findBumpkinByFarmId(farmId?: number) {
+    if (!farmId) return undefined;
+
+    if (this.currentPlayer?.farmId === farmId) {
+      return this.currentPlayer;
+    }
+
+    return Object.values(this.playerEntities).find(
+      (entity) => entity.farmId === farmId,
+    );
+  }
+
+  private cleanupHelloInteractionsForFarm(farmId?: number) {
+    if (!farmId) return;
+
+    if (this.receivedMicroInteractions.has(farmId)) {
+      this.cancelMicroInteraction(farmId, "despawn");
+    }
+
+    // Ensure we also drop outgoing hellos initiated by this player to avoid stale timers.
+    Array.from(this.receivedMicroInteractions.values())
+      .filter((interaction) => interaction.senderId === farmId)
+      .forEach((interaction) =>
+        this.cancelMicroInteraction(interaction.receiverId, "initiatorLeft"),
+      );
+
+    this.clearOutgoingMicroInteractionRequest(farmId);
+  }
+
+  private clearOutgoingMicroInteractionRequest(receiverFarmId?: number) {
+    if (!receiverFarmId) return;
+
+    const timeout = this.outgoingMicroInteractions.get(receiverFarmId);
+    if (timeout) {
+      timeout.remove();
+      this.outgoingMicroInteractions.delete(receiverFarmId);
+    }
+  }
 
   private roof: Phaser.Tilemaps.TilemapLayer | null = null;
 
@@ -615,6 +944,7 @@ export abstract class BaseScene extends Phaser.Scene {
         serverId: this.options.mmo.serverId,
       });
     }
+
     const initialiseReactions = (server: Room<PlazaRoomState>) => {
       const removeMessageListener = server.state.messages.onAdd((message) => {
         // Old message
@@ -663,9 +993,16 @@ export abstract class BaseScene extends Phaser.Scene {
         },
       );
 
+      const removeActionListener = server.state.microInteractions?.onAdd(
+        (action) => {
+          this.handleMicroInteractionAction(action as MicroInteraction);
+        },
+      );
+
       this.events.on("shutdown", () => {
         removeMessageListener();
         removeReactionListener();
+        removeActionListener?.();
 
         window.removeEventListener(AUDIO_MUTED_EVENT as any, this.onAudioMuted);
         this.input.off("pointerdown"); // clean up pointerdown event listener
@@ -949,6 +1286,8 @@ export abstract class BaseScene extends Phaser.Scene {
   destroyPlayer(sessionId: string) {
     const entity = this.playerEntities[sessionId];
     if (entity) {
+      this.cleanupHelloInteractionsForFarm(entity.farmId);
+
       // Dispatch player leave event
       const event = new CustomEvent("player_leave", {
         detail: { playerId: entity.farmId },
