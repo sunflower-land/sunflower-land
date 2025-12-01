@@ -120,9 +120,10 @@ export const ListViewCard: React.FC<Props> = ({
         >
           {price?.gt(0) && (
             <div className="absolute top-0 left-0">
-              <div className="flex items-center ">
+              <div className="flex items-center">
+                <div className="bg-[#fff0d4] opacity-65 absolute nft-marketplace-flower-price-backdrop w-[120%] h-[20px]" />
                 <img src={sfl} className="h-4 sm:h-5 mr-1" />
-                <p className="text-xs whitespace-nowrap">
+                <p className="text-xs font-normal whitespace-nowrap">
                   {isResources
                     ? t("marketplace.pricePerUnit", {
                         price: formatNumber(price, {
@@ -135,9 +136,12 @@ export const ListViewCard: React.FC<Props> = ({
                 </p>
               </div>
               {!isResources && (
-                <p className="text-xxs">
-                  {`$${new Decimal(usd).mul(price).toFixed(2)}`}
-                </p>
+                <div className="flex items-center relative">
+                  <p className="text-xxs relative">
+                    <div className="bg-[#fff0d4] opacity-65 absolute nft-marketplace-usd-price-backdrop w-[130%] h-[14px]" />
+                    {`$${new Decimal(usd).mul(price).toFixed(2)}`}
+                  </p>
+                </div>
               )}
             </div>
           )}
