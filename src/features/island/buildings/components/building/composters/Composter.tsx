@@ -47,7 +47,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
   const readyAt = composter?.producing?.readyAt ?? 0;
   const totalRunningSeconds = Math.max((readyAt - startedAt) / 1000, 0);
   const percentage = Math.min((secondsLeft / totalRunningSeconds) * 100, 100);
-  const ready = secondsLeft <= 0;
+  const ready = !!readyAt && secondsLeft <= 0;
   const composting = secondsLeft > 0;
 
   const startComposter = () => {
@@ -109,7 +109,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
           />
           {showTimers && composting && composter?.producing?.readyAt && (
             <div
-              className="flex justify-center absolute bg-red-500"
+              className="flex justify-center absolute"
               style={{
                 bottom: "24px",
                 width: `${PIXEL_SCALE * width}px`,

@@ -43,7 +43,8 @@ export const LavaPit: React.FC<Props> = ({ id }) => {
 
   const lavaPitRunning = secondsToReady > 0;
 
-  const lavaPitReady = secondsToReady <= 0 && !lavaPit?.collectedAt;
+  const lavaPitReady =
+    lavaPit?.readyAt && secondsToReady <= 0 && !lavaPit?.collectedAt;
   const isReadyWithinADay = secondsToReady <= 24 * 60 * 60;
 
   return (
@@ -78,7 +79,7 @@ export const LavaPit: React.FC<Props> = ({ id }) => {
 
         {lavaPitRunning && showTimers && (
           <div
-            className="flex justify-center absolute bg-red-500"
+            className="flex justify-center absolute"
             style={{
               bottom: "12px",
               width: `${width * PIXEL_SCALE}px`,
@@ -90,6 +91,9 @@ export const LavaPit: React.FC<Props> = ({ id }) => {
               type="progress"
               formatLength={isReadyWithinADay ? "short" : "medium"}
               seconds={secondsToReady}
+              style={{
+                width: `${PIXEL_SCALE * 14}px`,
+              }}
             />
           </div>
         )}
