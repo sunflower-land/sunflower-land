@@ -354,17 +354,10 @@ export function chop({
       new Decimal(tree.multiplier ?? 1),
     );
 
-    if (treeName !== "Tree") {
-      stateCopy.farmActivity = trackFarmActivity(
-        `${treeName} Chopped`,
-        stateCopy.farmActivity,
-      );
-    } else {
-      stateCopy.farmActivity = trackFarmActivity(
-        "Basic Tree Chopped",
-        stateCopy.farmActivity,
-      );
-    }
+    stateCopy.farmActivity = trackFarmActivity(
+      `${treeName === "Tree" ? "Basic Tree" : treeName} Chopped`,
+      stateCopy.farmActivity,
+    );
 
     delete tree.wood.amount;
     delete tree.wood.seed;
