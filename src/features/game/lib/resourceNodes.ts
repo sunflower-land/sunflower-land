@@ -17,6 +17,8 @@ import {
   RESOURCES,
   UpgradeableResource,
   TreeName,
+  BASIC_RESOURCES,
+  BasicResourceName,
 } from "../types/resources";
 
 export const canGatherResource = (
@@ -157,7 +159,9 @@ export const findExistingUnplacedNode = <T extends ResourceItem>({
       return node.name === nodeToFind;
     }
 
-    const isBaseResource = "multiplier" in node && node.multiplier === 1;
+    const isBaseResource =
+      !hasName && BASIC_RESOURCES.includes(nodeToFind as BasicResourceName);
+
     return isBaseResource;
   });
 
