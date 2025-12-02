@@ -137,10 +137,10 @@ export const ListViewCard: React.FC<Props> = ({
               </div>
               {!isResources && (
                 <div className="flex items-center relative">
-                  <p className="text-xxs relative">
+                  <div className="text-xxs relative">
                     <div className="bg-[#fff0d4] opacity-65 absolute nft-marketplace-usd-price-backdrop w-[130%] h-[14px]" />
                     {`$${new Decimal(usd).mul(price).toFixed(2)}`}
-                  </p>
+                  </div>
                 </div>
               )}
             </div>
