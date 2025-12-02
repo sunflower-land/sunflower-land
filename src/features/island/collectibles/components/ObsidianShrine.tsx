@@ -29,6 +29,10 @@ import { getAvailablePlots } from "features/game/events/landExpansion/bulkPlant"
 import { getCropsToHarvest } from "features/game/events/landExpansion/bulkHarvest";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useVisiting } from "lib/utils/visitUtils";
+
+const _visiting = (state: MachineState) => state.matches("visiting");
 
 export const ObsidianShrine: React.FC<CollectibleProps> = ({
   createdAt,
@@ -38,6 +42,7 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
 }) => {
   const { t } = useAppTranslation();
   const { gameService, showTimers } = useContext(Context);
+  const { isVisiting } = useVisiting();
 
   const [show, setShow] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
@@ -75,7 +80,7 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
   if (hasExpired) {
     return (
       <div
-        onClick={handleRemove}
+        onClick={isVisiting ? undefined : handleRemove}
         style={{
           bottom: `${PIXEL_SCALE * 0}px`,
           left: `${PIXEL_SCALE * -2.5}px`,
@@ -134,7 +139,7 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
   return (
     <>
       <div
-        onClick={handleShrineClick}
+        onClick={isVisiting ? undefined : handleShrineClick}
         className={classNames("absolute", {
           "cursor-pointer hover:img-highlight":
             hasReadyCrops || hasAvailablePlots,

@@ -17,7 +17,6 @@ import { Box } from "components/ui/Box";
 
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import Decimal from "decimal.js-light";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { secondsToString } from "lib/utils/time";
 import { getObsidianYield } from "features/game/events/landExpansion/collectLavaPit";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
@@ -50,8 +49,6 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
   const season = useSelector(gameService, _season);
   const [showIngredients, setShowIngredients] = useState(false);
   const now = useNow({ live: true });
-
-  useUiRefresher();
 
   const throwResourcesIntoPit = () => {
     gameService.send("lavaPit.started", { id });

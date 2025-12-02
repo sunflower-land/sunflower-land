@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
   isResources?: boolean;
 }
 
-const ListViewImageComponent = ({
+export const ListViewImage = ({
   name,
   image,
   type,
@@ -20,7 +20,7 @@ const ListViewImageComponent = ({
 
   if (type === "buds" || type === "pets") {
     return (
-      <div className={"absolute -inset-1.5 overflow-hidden"}>
+      <div className="absolute -inset-1.5 overflow-hidden">
         <img
           alt={name}
           src={imageUrl}
@@ -52,5 +52,3 @@ const ListViewImageComponent = ({
     />
   );
 };
-
-export const ListViewImage = memo(ListViewImageComponent);
