@@ -470,7 +470,7 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   "Hen House": { width: 4, height: 3 },
   Deli: { width: 4, height: 3 },
   "Smoothie Shack": { width: 3, height: 2 },
-  Toolshed: { width: 2, height: 3 },
+  Toolshed: { width: 2, height: 2 },
   Warehouse: { width: 3, height: 2 },
   "Compost Bin": { width: 2, height: 2 },
   "Turbo Composter": { width: 2, height: 2 },
