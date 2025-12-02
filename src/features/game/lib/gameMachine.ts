@@ -1322,7 +1322,6 @@ export function startGame(authContext: AuthContext) {
             {
               target: "linkWallet",
               cond: (context) => {
-                return true;
                 return (
                   (context.method === "fsl" || context.method === "wechat") &&
                   !context.linkedWallet
