@@ -42,7 +42,6 @@ export function placeIron({
     const existingIron = findExistingUnplacedNode({
       nodeStateAccessor,
       nodeToFind: action.name,
-      baseNode: "Iron Rock",
     });
 
     if (existingIron) {
