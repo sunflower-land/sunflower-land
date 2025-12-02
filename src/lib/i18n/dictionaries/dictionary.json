@@ -7227,5 +7227,8 @@
   "chore.prepare.sourShake.25": "Prepare Sour Shake 25 times",
   "chore.spend.60606": "Spend 60606 Coins",
   "chore.spend.70707": "Spend 70707 Coins",
-  "chore.spend.80808": "Spend 80808 Coins"
+  "chore.spend.80808": "Spend 80808 Coins",
+  "description.fslWechatDeprecation": "On {{date}} we are removing support for {{title}} login. Going forward {{title}} players will need to sign in with a web3 wallet.",
+  "description.fslWechatDeprecationLinkWallet": "Please link a wallet to continue to prepare for the change.",
+  "description.fslWechatDeprecationThankYou": "Thank you for linking your wallet. You can now continue to play the game."
 }

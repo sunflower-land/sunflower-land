@@ -97,6 +97,7 @@ import { CloseButtonPanel } from "../components/CloseablePanel";
 import { TradesCleared } from "./components/TradesCleared";
 import { RevealPet } from "features/island/pets/RevealPet";
 import { LeagueResults } from "./components/LeagueResults";
+import { MigrateToLinkedWallet } from "./components/MigrateToLinkedWallet";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -216,6 +217,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   blessing: true,
   cheers: true,
   leagueResults: false,
+  linkWallet: true,
 };
 
 // State change selectors
@@ -295,6 +297,7 @@ const isCalendarEvent = (state: MachineState) => state.matches("calendarEvent");
 
 const isJinAirdrop = (state: MachineState) => state.matches("jinAirdrop");
 const isCheers = (state: MachineState) => state.matches("cheers");
+const isLinkWallet = (state: MachineState) => state.matches("linkWallet");
 const isNews = (state: MachineState) => state.matches("news");
 const _isVisiting = (state: MachineState) =>
   state.context.visitorId !== undefined;
@@ -476,6 +479,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const investigating = useSelector(gameService, isInvestigating);
   const blessing = useSelector(gameService, isBlessing);
   const cheers = useSelector(gameService, isCheers);
+  const linkWallet = useSelector(gameService, isLinkWallet);
   const news = useSelector(gameService, isNews);
   const tradesCleared = useSelector(gameService, isTradesCleared);
   const isVisiting = useSelector(gameService, _isVisiting);
@@ -687,6 +691,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
               />
             )}
             {cheers && <Cheering />}
+            {linkWallet && <MigrateToLinkedWallet />}
           </Panel>
         </Modal>
 

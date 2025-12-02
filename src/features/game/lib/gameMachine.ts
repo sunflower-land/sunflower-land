@@ -191,6 +191,7 @@ export interface Context {
   hasHelpedPlayerToday?: boolean;
   totalHelpedToday?: number;
   apiKey?: string;
+  method?: "google" | "wallet" | "wechat" | "fsl";
 }
 
 export type Moderation = {
@@ -761,6 +762,7 @@ export type BlockchainState = {
     | "news"
     | "jinAirdrop"
     | "leagueResults"
+    | "linkWallet"
     | StateMachineStateName
     | StateMachineVisitStateName
     | StateNameWithStatus; // TEST ONLY
@@ -1314,6 +1316,15 @@ export function startGame(authContext: AuthContext) {
                 return (
                   context.state.socialFarming.cheers?.freeCheersClaimedAt <
                   new Date(today).getTime()
+                );
+              },
+            },
+            {
+              target: "linkWallet",
+              cond: (context) => {
+                return (
+                  (context.method === "fsl" || context.method === "wechat") &&
+                  !context.linkedWallet
                 );
               },
             },
@@ -2403,6 +2414,13 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
+        linkWallet: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+          },
+        },
         news: {
           on: {
             ACKNOWLEDGE: {
@@ -2591,6 +2609,7 @@ export function startGame(authContext: AuthContext) {
           oauthNonce: (_, event) => event.data.oauthNonce,
           prices: (_, event) => event.data.prices,
           apiKey: (_, event) => event.data.apiKey,
+          method: (_, event) => event.data.method,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),
