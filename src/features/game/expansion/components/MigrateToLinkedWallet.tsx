@@ -26,7 +26,7 @@ export const MigrateToLinkedWallet: React.FC = () => {
   const [showLinkingWallet, setShowLinkingWallet] = useState(false);
   const { t } = useAppTranslation();
 
-  const title = isFSL ? "FSL" : isWechat ? "Wechat" : "Wallet";
+  const title = isFSL ? "FSL" : isWechat ? "Wechat" : "this";
 
   if (showLinkingWallet) {
     return (
