@@ -762,7 +762,7 @@ export type BlockchainState = {
     | "news"
     | "jinAirdrop"
     | "leagueResults"
-    | "fslWechatDeprecation"
+    | "linkWallet"
     | StateMachineStateName
     | StateMachineVisitStateName
     | StateNameWithStatus; // TEST ONLY
