@@ -723,6 +723,7 @@ export type BlockchainState = {
     | "gems"
     | "communityCoin"
     | "referralRewards"
+    | "dailyReward"
     | "playing"
     | "autosaving"
     | "buyingSFL"
@@ -1246,6 +1247,17 @@ export function startGame(authContext: AuthContext) {
               target: "referralRewards",
               cond: (context) => {
                 return !!context.state.referrals?.rewards;
+              },
+            },
+            {
+              target: "dailyReward",
+              cond: (context) => {
+                return !!context.state.dailyRewards;
+                const dailyRewards = context.state.dailyRewards;
+
+                if (!dailyRewards) return false;
+
+                return dailyRewards.chest.collectedAt < Date.now();
               },
             },
             {
