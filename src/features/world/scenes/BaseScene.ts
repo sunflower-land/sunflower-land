@@ -662,7 +662,7 @@ export abstract class BaseScene extends Phaser.Scene {
         });
 
         this.findBumpkinByFarmId(senderId)?.speak("Hey!");
-        target.speak("Hey there!");
+
         break;
       }
       case "wave_ack": {
@@ -721,11 +721,26 @@ export abstract class BaseScene extends Phaser.Scene {
 
     if (!initiator || !receiver) return;
 
+    this.faceReceiverTowardInitiator(receiver, initiator);
+
     this.waveBumpkin(initiator);
     this.waveBumpkin(receiver);
 
     initiator.speak("Great to see you!");
     receiver.speak("Hey there!");
+  }
+
+  private faceReceiverTowardInitiator(
+    receiver: BumpkinContainer,
+    initiator: BumpkinContainer,
+  ) {
+    if (!receiver || !initiator) return;
+
+    if (initiator.x > receiver.x) {
+      receiver.faceRight();
+    } else if (initiator.x < receiver.x) {
+      receiver.faceLeft();
+    }
   }
 
   private waveBumpkin(entity: BumpkinContainer) {
@@ -995,6 +1010,7 @@ export abstract class BaseScene extends Phaser.Scene {
 
       const removeActionListener = server.state.microInteractions?.onAdd(
         (action) => {
+          // console.log("Micro interaction received", action);
           this.handleMicroInteractionAction(action as MicroInteraction);
         },
       );
