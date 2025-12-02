@@ -7226,5 +7226,8 @@
   "version.updateReady": "새 버전이 준비되었습니다.",
   "version.updateCta": "업데이트",
   "referral.referred": "참조됨",
-  "raffle.description": "매달 보상을 받을 수 있는 기회가 있습니다.고블린 추첨 당첨자는 다음 달 첫째 주 또는 둘째 주 금요일에 열리는 금요일 Twitch Streams에서 발표됩니다.예:5월 수상자는 6월 첫 번째 또는 두 번째 금요일에 발표됩니다.결과는 #farmers -chat의 디스코드에도 표시됩니다."
+  "raffle.description": "매달 보상을 받을 수 있는 기회가 있습니다.고블린 추첨 당첨자는 다음 달 첫째 주 또는 둘째 주 금요일에 열리는 금요일 Twitch Streams에서 발표됩니다.예:5월 수상자는 6월 첫 번째 또는 두 번째 금요일에 발표됩니다.결과는 #farmers -chat의 디스코드에도 표시됩니다.",
+  "description.fslWechatDeprecation": "{{date}} 에서 {{title}} 로그인에 대한 지원을 제거합니다.앞으로 {{title}} 플레이어는 web3 지갑으로 로그인해야 합니다.",
+  "description.fslWechatDeprecationLinkWallet": "변경 준비를 계속하려면 지갑을 연결하세요.",
+  "description.fslWechatDeprecationThankYou": "지갑을 연결해 주셔서 감사합니다.이제 게임을 계속 플레이할 수 있습니다."
 }

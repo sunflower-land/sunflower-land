@@ -7226,5 +7226,8 @@
   "version.updateReady": "Una nuova versione è pronta.",
   "version.updateCta": "Aggiornamento",
   "referral.referred": "Riferito",
-  "raffle.description": "Ogni mese, hai la possibilità di vincere premi. I vincitori della Goblin Raffle saranno annunciati negli stream di Twitch del venerdì il primo o il secondo venerdì del mese successivo. Ad esempio. I vincitori di maggio saranno annunciati il primo o il secondo venerdì di giugno. I risultati sono inoltre disponibili in Discord su #farmers -chat"
+  "raffle.description": "Ogni mese, hai la possibilità di vincere premi. I vincitori della Goblin Raffle saranno annunciati negli stream di Twitch del venerdì il primo o il secondo venerdì del mese successivo. Ad esempio. I vincitori di maggio saranno annunciati il primo o il secondo venerdì di giugno. I risultati sono inoltre disponibili in Discord su #farmers -chat",
+  "description.fslWechatDeprecation": "Su {{date}} stiamo rimuovendo il supporto per l'accesso {{title}}. D'ora in avanti i giocatori {{title}} dovranno accedere con un portafoglio web3.",
+  "description.fslWechatDeprecationLinkWallet": "Collega un portafoglio per continuare a prepararti alla modifica.",
+  "description.fslWechatDeprecationThankYou": "Grazie per aver collegato il tuo portafoglio. Ora puoi continuare a giocare."
 }

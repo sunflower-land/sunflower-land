@@ -7226,5 +7226,8 @@
   "version.updateReady": "新版本已准备就绪。",
   "version.updateCta": "更新",
   "referral.referred": "已提交",
-  "raffle.description": "每个月，你都有机会赢取奖励。哥布林抽奖的获胜者将在下个月的第一个或第二个星期五的星期五在周五的Twitch直播中公布。例如。五月的获奖者将在六月的第一个或第二个星期五公布。结果也固定在 Discord 的 #farmers-chat 上"
+  "raffle.description": "每个月，你都有机会赢取奖励。哥布林抽奖的获胜者将在下个月的第一个或第二个星期五的星期五在周五的Twitch直播中公布。例如。五月的获奖者将在六月的第一个或第二个星期五公布。结果也固定在 Discord 的 #farmers-chat 上",
+  "description.fslWechatDeprecation": "在 {{date}} 上，我们将取消对 {{title}} 登录的支持。展望未来 {{title}} 玩家将需要使用web3钱包登录。",
+  "description.fslWechatDeprecationLinkWallet": "请关联钱包以继续为变更做准备。",
+  "description.fslWechatDeprecationThankYou": "感谢您关联您的钱包。你现在可以继续玩游戏了。"
 }

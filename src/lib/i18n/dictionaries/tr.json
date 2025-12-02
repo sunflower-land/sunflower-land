@@ -7226,5 +7226,8 @@
   "version.updateReady": "Yeni bir versiyon hazır.",
   "version.updateCta": "Güncelleme",
   "referral.referred": "Tavsiye Edilen",
-  "raffle.description": "Her ay ödül kazanma şansınız var. Goblin Çekilişi kazananları, bir sonraki ayın 1. veya 2. Cuma günü Cuma Twitch Yayınlarında açıklanacaktır.. Örneğin. Mayıs ayının kazananları Haziran ayının ilk veya ikinci Cuma günü açıklanacak. Sonuçlar ayrıca #farmers -chat'te Discord'da sabitlenir"
+  "raffle.description": "Her ay ödül kazanma şansınız var. Goblin Çekilişi kazananları, bir sonraki ayın 1. veya 2. Cuma günü Cuma Twitch Yayınlarında açıklanacaktır.. Örneğin. Mayıs ayının kazananları Haziran ayının ilk veya ikinci Cuma günü açıklanacak. Sonuçlar ayrıca #farmers -chat'te Discord'da sabitlenir",
+  "description.fslWechatDeprecation": "{{date}} 'de {{title}} giriş desteğini kaldırıyoruz. İleride {{title}} oyuncuların bir web3 cüzdanıyla oturum açmaları gerekecektir.",
+  "description.fslWechatDeprecationLinkWallet": "Değişikliğe hazırlanmaya devam etmek için lütfen bir cüzdan bağlayın.",
+  "description.fslWechatDeprecationThankYou": "Cüzdanınızı bağladığınız için teşekkür ederiz. Artık oyunu oynamaya devam edebilirsiniz."
 }

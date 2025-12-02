@@ -7226,5 +7226,8 @@
   "version.updateReady": "Está lista una nueva versión.",
   "version.updateCta": "Actualización",
   "referral.referred": "Referido",
-  "raffle.description": "Cada mes, tienes la oportunidad de ganar recompensas. Los ganadores del sorteo de duendes se anunciarán en las retransmisiones de Twitch de los viernes, el primer o segundo viernes del mes siguiente. Por ejemplo. Los ganadores de mayo se anunciarán el primer o segundo viernes de junio. Los resultados también están publicados en Discord en #farmers -chat"
+  "raffle.description": "Cada mes, tienes la oportunidad de ganar recompensas. Los ganadores del sorteo de duendes se anunciarán en las retransmisiones de Twitch de los viernes, el primer o segundo viernes del mes siguiente. Por ejemplo. Los ganadores de mayo se anunciarán el primer o segundo viernes de junio. Los resultados también están publicados en Discord en #farmers -chat",
+  "description.fslWechatDeprecation": "El {{date}} eliminaremos la compatibilidad con el inicio de sesión {{title}}. De ahora en adelante, los jugadores de {{title}} deberán iniciar sesión con una billetera web3.",
+  "description.fslWechatDeprecationLinkWallet": "Vincula un monedero para seguir preparándote para el cambio.",
+  "description.fslWechatDeprecationThankYou": "Gracias por vincular tu monedero. Ahora puedes seguir jugando al juego."
 }

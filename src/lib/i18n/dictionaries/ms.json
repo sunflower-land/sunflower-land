@@ -7226,5 +7226,8 @@
   "version.updateReady": "Versi baru sudah siap.",
   "version.updateCta": "Kemas kini",
   "referral.referred": "Dirujuk",
-  "raffle.description": "Setiap bulan, anda mempunyai peluang untuk memenangi ganjaran. Pemenang Raffle Goblin akan diumumkan pada Friday Twitch Streams pada hari Jumaat pertama atau ke-2 bulan berikutnya. Cth. Pemenang Mei akan diumumkan pada hari Jumaat pertama atau kedua bulan Jun. Keputusan juga disematkan dalam Discord di #farmers -chat"
+  "raffle.description": "Setiap bulan, anda mempunyai peluang untuk memenangi ganjaran. Pemenang Raffle Goblin akan diumumkan pada Friday Twitch Streams pada hari Jumaat pertama atau ke-2 bulan berikutnya. Cth. Pemenang Mei akan diumumkan pada hari Jumaat pertama atau kedua bulan Jun. Keputusan juga disematkan dalam Discord di #farmers -chat",
+  "description.fslWechatDeprecation": "Pada {{date}} kami mengeluarkan sokongan untuk log masuk {{title}}. Ke hadapan {{title}} pemain perlu log masuk dengan dompet web3.",
+  "description.fslWechatDeprecationLinkWallet": "Sila pautkan dompet untuk terus bersedia untuk perubahan tersebut.",
+  "description.fslWechatDeprecationThankYou": "Terima kasih kerana menghubungkan dompet anda. Anda kini boleh terus bermain permainan."
 }

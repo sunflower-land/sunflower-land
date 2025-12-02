@@ -7226,5 +7226,8 @@
   "version.updateReady": "新しいバージョンの準備ができました。",
   "version.updateCta": "[更新]",
   "referral.referred": "紹介された",
-  "raffle.description": "毎月、報酬を獲得するチャンスがあります。ゴブリンラッフルの当選者は、翌月の第1金曜日または第2金曜日の金曜日のTwitchストリームで発表されます。例えば。5月の受賞者は、6月の第1金曜日または第2金曜日に発表されます。結果はDiscordの #farmers-chatでも確認できます。"
+  "raffle.description": "毎月、報酬を獲得するチャンスがあります。ゴブリンラッフルの当選者は、翌月の第1金曜日または第2金曜日の金曜日のTwitchストリームで発表されます。例えば。5月の受賞者は、6月の第1金曜日または第2金曜日に発表されます。結果はDiscordの #farmers-chatでも確認できます。",
+  "description.fslWechatDeprecation": "{{date}} では、{{title}} ログインのサポートを終了します。今後、{{title}} のプレイヤーはweb3ウォレットでサインインする必要があります。",
+  "description.fslWechatDeprecationLinkWallet": "ウォレットをリンクして、引き続き変更に備えてください。",
+  "description.fslWechatDeprecationThankYou": "ウォレットをリンクしていただきありがとうございます。これで、ゲームを続けてプレイできます。"
 }

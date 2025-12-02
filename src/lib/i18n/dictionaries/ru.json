@@ -7226,5 +7226,8 @@
   "version.updateReady": "A new version is ready.",
   "version.updateCta": "Update",
   "referral.referred": "Referred",
-  "raffle.description": "Each month, you have a chance to win rewards. The Goblin Raffle winners will be announced on the Friday Twitch Streams in the 1st or 2nd Fridays of the following month. Eg. May's winners will be announced on the first or second Friday of June. Results are also pinned in Discord on #farmers-chat"
+  "raffle.description": "Each month, you have a chance to win rewards. The Goblin Raffle winners will be announced on the Friday Twitch Streams in the 1st or 2nd Fridays of the following month. Eg. May's winners will be announced on the first or second Friday of June. Results are also pinned in Discord on #farmers-chat",
+  "description.fslWechatDeprecation": "On {{date}} we are removing support for {{title}} login. Going forward {{title}} players will need to sign in with a web3 wallet.",
+  "description.fslWechatDeprecationLinkWallet": "Please link a wallet to continue to prepare for the change.",
+  "description.fslWechatDeprecationThankYou": "Thank you for linking your wallet. You can now continue to play the game."
 }
