@@ -1,6 +1,11 @@
 import { GameState, InventoryItemName, RecipeCraftableName } from "./game";
 import { DollName, RecipeCollectibleName } from "../lib/crafting";
-import { ResourceName, UpgradedResourceName } from "./resources";
+import {
+  ResourceName,
+  RockName,
+  TreeName,
+  UpgradedResourceName,
+} from "./resources";
 import { FishName } from "./fishing";
 import { FullMoonFruit } from "./fruits";
 import { LandBiomeName } from "features/island/biomes/biomes";
@@ -165,7 +170,9 @@ export type FarmActivityName =
   | OrderDeliveredEvent
 
   // Resources
-  | "Tree Chopped"
+  | `${TreeName} Chopped`
+  | `${RockName} Mined`
+  | "Basic Tree Chopped"
   | "Stone Mined"
   | "Iron Mined"
   | "Gold Mined"

@@ -331,6 +331,11 @@ export function mineIron({
       new Decimal(ironRock.multiplier ?? 1),
     );
 
+    stateCopy.farmActivity = trackFarmActivity(
+      `${ironRock.name ?? "Iron Rock"} Mined`,
+      stateCopy.farmActivity,
+    );
+
     stateCopy.inventory["Stone Pickaxe"] = toolAmount.sub(requiredToolAmount);
     stateCopy.inventory.Iron = amountInInventory.add(ironMined);
 

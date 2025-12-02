@@ -330,6 +330,11 @@ export function mineGold({
       new Decimal(goldRock.multiplier ?? 1),
     );
 
+    stateCopy.farmActivity = trackFarmActivity(
+      `${goldRock.name ?? "Gold Rock"} Mined`,
+      stateCopy.farmActivity,
+    );
+
     stateCopy.inventory["Iron Pickaxe"] = toolAmount.sub(requiredToolAmount);
     stateCopy.inventory.Gold = amountInInventory.add(goldMined);
     delete goldRock.stone.amount;

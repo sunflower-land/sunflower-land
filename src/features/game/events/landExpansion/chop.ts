@@ -7,6 +7,7 @@ import { TREE_RECOVERY_TIME } from "features/game/lib/constants";
 import { FACTION_ITEMS } from "features/game/lib/factions";
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { isWearableActive } from "features/game/lib/wearables";
+import { KNOWN_IDS } from "features/game/types";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 
 import {
@@ -329,12 +330,17 @@ export function chop({
           });
     const woodAmount = inventory.Wood || new Decimal(0);
 
+    const treeName = tree.name ?? "Tree";
+
     const { time, boostsUsed: choppedAtBoostsUsed } = getChoppedAt({
       createdAt,
       game: stateCopy,
       farmId,
-      itemId: parseInt(`0x${action.index}`),
-      counter: stateCopy.farmActivity[`Tree Chopped`] ?? 0,
+      itemId: KNOWN_IDS[treeName],
+      counter:
+        stateCopy.farmActivity[
+          `${treeName === "Tree" ? "Basic Tree" : treeName} Chopped`
+        ] ?? 0,
     });
 
     tree.wood = { choppedAt: time };
@@ -347,6 +353,12 @@ export function chop({
       stateCopy.farmActivity,
       new Decimal(tree.multiplier ?? 1),
     );
+
+    stateCopy.farmActivity = trackFarmActivity(
+      `${treeName === "Tree" ? "Basic Tree" : treeName} Chopped`,
+      stateCopy.farmActivity,
+    );
+
     delete tree.wood.amount;
     delete tree.wood.seed;
 
