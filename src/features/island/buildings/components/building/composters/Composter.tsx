@@ -45,8 +45,12 @@ export const Composter: React.FC<Props> = ({ name }) => {
 
   const startedAt = composter?.producing?.startedAt ?? 0;
   const readyAt = composter?.producing?.readyAt ?? 0;
-  const totalRunningSeconds = Math.max((readyAt - startedAt) / 1000, 0);
-  const percentage = Math.min((secondsLeft / totalRunningSeconds) * 100, 100);
+  const totalRunningSeconds = Math.max((readyAt - startedAt) / 1000, 1);
+  const elapsedSeconds = Math.max(totalRunningSeconds - secondsLeft, 0);
+  const percentage = Math.min(
+    (elapsedSeconds / totalRunningSeconds) * 100,
+    100,
+  );
   const ready = !!readyAt && secondsLeft <= 0;
   const composting = secondsLeft > 0;
 
