@@ -1292,6 +1292,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Magma Stone": 2715,
   Cornucopia: 2716,
   "Messy Bed": 2717,
+
+  "Basic Farming Pack": 2718,
+  "Basic Food Box": 2719,
+  "Weekly Mega Box": 2720,
 };
 
 // The reverse of above
