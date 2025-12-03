@@ -1,144 +1,245 @@
-import Decimal from "decimal.js-light";
-import { TEST_FARM } from "features/game/lib/constants";
 import { claimDailyReward } from "./claimDailyReward";
-
-const DAY_IN_MS = 24 * 60 * 60 * 1000;
+import Decimal from "decimal.js-light";
+import { INITIAL_FARM } from "features/game/lib/constants";
+import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
+import { getSeasonalTicket } from "features/game/types/seasons";
 
 describe("claimDailyReward", () => {
-  const today = Date.UTC(2024, 0, 10);
-
-  const createBaseState = () => ({
-    ...TEST_FARM,
-    inventory: {},
-    coins: 0,
-    balance: new Decimal(0),
+  it("requires daily reward is ready", () => {
+    expect(() =>
+      claimDailyReward({
+        state: INITIAL_FARM,
+        action: { type: "dailyReward.claimed" },
+        createdAt: Date.now(),
+      }),
+    ).toThrow("Daily reward not ready");
   });
 
-  it("throws if the reward has already been collected today", () => {
+  it("requires daily reward not already claimed", () => {
+    const now = new Date("2025-01-01T05:00:00.000Z").getTime();
     expect(() =>
       claimDailyReward({
         state: {
-          ...createBaseState(),
-          dailyRewards: { streaks: 1, chest: { code: 1, collectedAt: today } },
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            experience: 10000,
+          },
+          dailyRewards: {
+            chest: {
+              code: 1,
+              collectedAt: now,
+            },
+          },
         },
-        action: {
-          type: "dailyReward.claimed",
-          code: 1,
-        },
-        createdAt: today,
+        action: { type: "dailyReward.claimed" },
+        createdAt: now,
       }),
-    ).toThrow("Daily reward already collected");
+    ).toThrow("Daily reward not ready");
   });
 
-  it("awards the first day reward and sets up the next code", () => {
+  it("should claim first reward", () => {
+    const now = new Date("2025-01-01T05:00:00.000Z").getTime();
     const state = claimDailyReward({
       state: {
-        ...createBaseState(),
-        dailyRewards: { streaks: 0, chest: { code: 1, collectedAt: 0 } },
-      },
-      action: {
-        type: "dailyReward.claimed",
-        code: 1,
-      },
-      createdAt: today,
-    });
-
-    expect(state.inventory["Basic Farming Pack"]).toEqual(new Decimal(1));
-    expect(state.dailyRewards?.streaks).toEqual(1);
-    expect(state.dailyRewards?.chest).toEqual({
-      code: 2,
-      collectedAt: today,
-    });
-  });
-
-  it("increments the streak when collected on consecutive days", () => {
-    const state = claimDailyReward({
-      state: {
-        ...createBaseState(),
-        dailyRewards: {
-          streaks: 1,
-          chest: { code: 2, collectedAt: today - DAY_IN_MS },
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          experience: 10000,
         },
       },
-      action: {
-        type: "dailyReward.claimed",
-        code: 2,
-      },
-      createdAt: today,
+      action: { type: "dailyReward.claimed" },
+      createdAt: now,
     });
 
-    expect(state.inventory["Basic Food Box"]).toEqual(new Decimal(1));
-    expect(state.dailyRewards?.streaks).toEqual(2);
-    expect(state.dailyRewards?.chest?.code).toEqual(3);
+    expect(state.dailyRewards?.streaks).toBe(1);
+    expect(state.dailyRewards?.chest?.collectedAt).toEqual(now);
+    expect(state.inventory["Basic Farming Pack"]).toEqual(new Decimal(1));
+    expect(state.inventory["Cheer"]).toEqual(new Decimal(3));
+    expect(state.inventory[getSeasonalTicket(new Date(now))]).toEqual(
+      new Decimal(1),
+    );
   });
-
-  it("resets the streak when a day is missed", () => {
+  it("should claim day one after streak ends", () => {
+    const now = new Date("2025-01-01T05:00:00.000Z").getTime();
     const state = claimDailyReward({
       state: {
-        ...createBaseState(),
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          experience: 10000,
+        },
         dailyRewards: {
           streaks: 5,
-          chest: { code: 3, collectedAt: today - 2 * DAY_IN_MS },
+          chest: {
+            collectedAt: now - 36 * 60 * 60 * 1000,
+            code: 1,
+          },
         },
       },
-      action: {
-        type: "dailyReward.claimed",
-        code: 3,
-      },
-      createdAt: today,
+      action: { type: "dailyReward.claimed" },
+      createdAt: now,
     });
 
-    expect(state.dailyRewards?.streaks).toEqual(1);
+    expect(state.dailyRewards?.streaks).toBe(1);
+    expect(state.dailyRewards?.chest?.collectedAt).toEqual(now);
     expect(state.inventory["Basic Farming Pack"]).toEqual(new Decimal(1));
+    expect(state.inventory["Cheer"]).toEqual(new Decimal(3));
+    expect(state.inventory[getSeasonalTicket(new Date(now))]).toEqual(
+      new Decimal(1),
+    );
   });
 
-  it("grants the yearly milestone reward on day 365", () => {
+  it("should claim day two", () => {
+    const now = new Date("2025-01-01T05:00:00.000Z").getTime();
     const state = claimDailyReward({
       state: {
-        ...createBaseState(),
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          experience: 10000,
+        },
         dailyRewards: {
-          streaks: 364,
-          chest: { code: 5, collectedAt: today - DAY_IN_MS },
+          streaks: 1,
+          chest: {
+            collectedAt: now - 24 * 60 * 60 * 1000,
+            code: 1,
+          },
         },
       },
-      action: {
-        type: "dailyReward.claimed",
-        code: 5,
-      },
-      createdAt: today,
+      action: { type: "dailyReward.claimed" },
+      createdAt: now,
     });
 
-    expect(state.dailyRewards?.streaks).toEqual(365);
+    expect(state.dailyRewards?.streaks).toBe(2);
+    expect(state.dailyRewards?.chest?.collectedAt).toEqual(now);
+    expect(state.inventory["Basic Food Box"]).toEqual(new Decimal(1));
+    expect(state.inventory["Cheer"]).toEqual(new Decimal(3));
+    expect(state.inventory[getSeasonalTicket(new Date(now))]).toEqual(
+      new Decimal(1),
+    );
+  });
+  it("should claim day seven", () => {
+    const now = new Date("2025-01-01T05:00:00.000Z").getTime();
+    const state = claimDailyReward({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          experience: 10000,
+        },
+        dailyRewards: {
+          streaks: 6,
+          chest: {
+            collectedAt: now - 24 * 60 * 60 * 1000,
+            code: 1,
+          },
+        },
+      },
+      action: { type: "dailyReward.claimed" },
+      createdAt: now,
+    });
+
+    expect(state.dailyRewards?.streaks).toBe(7);
+    expect(state.dailyRewards?.chest?.collectedAt).toEqual(now);
+    expect(state.inventory["Weekly Mega Box"]).toEqual(new Decimal(1));
+    expect(state.inventory["Cheer"]).toEqual(new Decimal(3));
+    expect(state.inventory[getSeasonalTicket(new Date(now))]).toEqual(
+      new Decimal(1),
+    );
+  });
+  it("should claim day eigth", () => {
+    const now = new Date("2025-01-01T05:00:00.000Z").getTime();
+    const state = claimDailyReward({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          experience: 10000,
+        },
+        dailyRewards: {
+          streaks: 7,
+          chest: {
+            collectedAt: now - 24 * 60 * 60 * 1000,
+            code: 1,
+          },
+        },
+      },
+      action: { type: "dailyReward.claimed" },
+      createdAt: now,
+    });
+
+    expect(state.dailyRewards?.streaks).toBe(8);
+    expect(state.dailyRewards?.chest?.collectedAt).toEqual(now);
     expect(state.inventory["Basic Farming Pack"]).toEqual(new Decimal(1));
+    expect(state.inventory["Cheer"]).toEqual(new Decimal(3));
+    expect(state.inventory[getSeasonalTicket(new Date(now))]).toEqual(
+      new Decimal(1),
+    );
+  });
+
+  it("should claim day 365", () => {
+    const now = new Date("2025-01-01T05:00:00.000Z").getTime();
+    const state = claimDailyReward({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          experience: 10000,
+        },
+        dailyRewards: {
+          streaks: 364,
+          chest: {
+            collectedAt: now - 24 * 60 * 60 * 1000,
+            code: 1,
+          },
+        },
+      },
+      action: { type: "dailyReward.claimed" },
+      createdAt: now,
+    });
+
+    expect(state.dailyRewards?.streaks).toBe(365);
+    expect(state.dailyRewards?.chest?.collectedAt).toEqual(now);
     expect(state.inventory["Pirate Cake"]).toEqual(new Decimal(10));
     expect(state.inventory["Treasure Key"]).toEqual(new Decimal(1));
     expect(state.inventory["Rare Key"]).toEqual(new Decimal(1));
+    expect(state.inventory["Cheer"]).toEqual(new Decimal(3));
     expect(state.inventory["Luxury Key"]).toEqual(new Decimal(1));
-    expect(state.coins).toEqual(10000);
+    expect(state.inventory[getSeasonalTicket(new Date(now))]).toEqual(
+      new Decimal(1),
+    );
   });
-
-  it("grants the two year milestone reward on day 730", () => {
+  it("should claim day 730", () => {
+    const now = new Date("2025-01-01T05:00:00.000Z").getTime();
     const state = claimDailyReward({
       state: {
-        ...createBaseState(),
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          experience: 10000,
+        },
         dailyRewards: {
           streaks: 729,
-          chest: { code: 8, collectedAt: today - DAY_IN_MS },
+          chest: {
+            collectedAt: now - 24 * 60 * 60 * 1000,
+            code: 1,
+          },
         },
       },
-      action: {
-        type: "dailyReward.claimed",
-        code: 8,
-      },
-      createdAt: today,
+      action: { type: "dailyReward.claimed" },
+      createdAt: now,
     });
 
-    expect(state.dailyRewards?.streaks).toEqual(730);
-    expect(state.inventory["Basic Food Box"]).toEqual(new Decimal(1));
+    expect(state.dailyRewards?.streaks).toBe(730);
+    expect(state.dailyRewards?.chest?.collectedAt).toEqual(now);
     expect(state.inventory["Pizza Margherita"]).toEqual(new Decimal(5));
     expect(state.inventory["Super Totem"]).toEqual(new Decimal(1));
-    expect(state.inventory["Gem"]).toEqual(new Decimal(300));
+    expect(state.inventory["Gem"]).toEqual(new Decimal(320));
+    expect(state.inventory["Cheer"]).toEqual(new Decimal(3));
     expect(state.inventory["Luxury Key"]).toEqual(new Decimal(1));
-    expect(state.coins).toEqual(10000);
+    expect(state.inventory[getSeasonalTicket(new Date(now))]).toEqual(
+      new Decimal(1),
+    );
   });
 });

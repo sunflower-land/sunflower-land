@@ -950,6 +950,9 @@ import goldFoodBox from "assets/rewardBoxes/gold_food_box.webp";
 import bronzeToolBox from "assets/rewardBoxes/bronze_tool_box.webp";
 import silverToolBox from "assets/rewardBoxes/silver_tool_box.webp";
 import goldToolBox from "assets/rewardBoxes/gold_tool_box.webp";
+import basicFarmerBox from "assets/rewardBoxes/basic_farmer_box.webp";
+import basicFoodBox from "assets/rewardBoxes/basic_food_box.webp";
+import weeklyBox from "assets/rewardBoxes/weekly_box.webp";
 
 import doll from "assets/sfts/dolls/doll.webp";
 import buzzDoll from "assets/sfts/dolls/buzz_doll.webp";
@@ -6222,15 +6225,15 @@ export const ITEM_DETAILS: Items = {
     description: "",
   },
   "Basic Farming Pack": {
-    image: bronzeFoodBox,
-    description: "",
+    image: basicFarmerBox,
+    description: translate("description.basicFarmerBox"),
   },
   "Basic Food Box": {
-    image: bronzeFoodBox,
-    description: "",
+    image: basicFoodBox,
+    description: translate("description.basicFoodBox"),
   },
   "Weekly Mega Box": {
-    image: bronzeToolBox,
-    description: "",
+    image: weeklyBox,
+    description: translate("description.weeklyBox"),
   },
 };

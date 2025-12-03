@@ -9,7 +9,6 @@ import { getBumpkinLevel } from "features/game/lib/level";
 
 export type ClaimDailyRewardAction = {
   type: "dailyReward.claimed";
-  code: number;
 };
 
 type Options = {
@@ -18,7 +17,13 @@ type Options = {
   createdAt?: number;
 };
 
-export function isDailyRewardReady(state: GameState): boolean {
+export function isDailyRewardReady({
+  state,
+  now = Date.now(),
+}: {
+  state: GameState;
+  now?: number;
+}): boolean {
   // Do not give them daily reward until level 3
   if (getBumpkinLevel(state.bumpkin?.experience ?? 0) < 3) {
     return false;
@@ -31,9 +36,7 @@ export function isDailyRewardReady(state: GameState): boolean {
   const dateKey = new Date(state.dailyRewards.chest?.collectedAt ?? 0)
     .toISOString()
     .slice(0, 10);
-  const currentDateKey = new Date(Date.now()).toISOString().slice(0, 10);
-
-  console.log(dateKey, currentDateKey);
+  const currentDateKey = new Date(now).toISOString().slice(0, 10);
 
   return dateKey !== currentDateKey;
 }
@@ -49,7 +52,7 @@ export function getDailyRewardStreak({
     return 0;
   }
 
-  let streak = state.dailyRewards.streaks ?? 0;
+  const streak = state.dailyRewards.streaks ?? 0;
 
   // If missed the day, reset the streak
   const collectedDate = new Date(state.dailyRewards.chest?.collectedAt ?? 0)
@@ -80,7 +83,7 @@ export function claimDailyReward({
       game.dailyRewards = { streaks: 0 };
     }
 
-    if (!isDailyRewardReady(game)) {
+    if (!isDailyRewardReady({ state: game, now: createdAt })) {
       throw new Error("Daily reward not ready");
     }
 

@@ -10,7 +10,7 @@ export type DailyRewardDefinition = {
 };
 
 type StreakMilestone = {
-  every: number;
+  days: number;
   reward: DailyRewardDefinition;
 };
 
@@ -31,9 +31,9 @@ const WEEKLY_REWARDS: DailyRewardDefinition[] = [
   },
   {
     id: "weekly-tiki-totem",
-    label: "Tiki Totem",
+    label: "Time Warp Totem",
     items: {
-      "Tiki Totem": 1,
+      "Time Warp Totem": 1,
     },
   },
   {
@@ -68,7 +68,7 @@ const WEEKLY_REWARDS: DailyRewardDefinition[] = [
 
 const STREAK_MILESTONES: StreakMilestone[] = [
   {
-    every: 365,
+    days: 364,
     reward: {
       id: "streak-one-year",
       label: "Yearly Streak Reward",
@@ -82,7 +82,7 @@ const STREAK_MILESTONES: StreakMilestone[] = [
     },
   },
   {
-    every: 730,
+    days: 729,
     reward: {
       id: "streak-two-year",
       label: "Two Year Streak Reward",
@@ -109,8 +109,8 @@ export function getMilestoneRewards(streak: number): DailyRewardDefinition[] {
 
   let milestone: DailyRewardDefinition | undefined;
 
-  STREAK_MILESTONES.forEach(({ every, reward }) => {
-    if (streak % every === 0) {
+  STREAK_MILESTONES.forEach(({ days, reward }) => {
+    if (streak === days) {
       milestone = reward;
     }
   });
