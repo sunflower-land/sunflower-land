@@ -93,12 +93,32 @@ export const REWARD_BOXES: Record<RewardBoxName, RewardBoxDetails> = {
     ],
   },
   "Basic Food Box": {
-    rewards: [{ items: { "Sunflower Cake": 1 }, weighting: 100 }],
+    rewards: [
+      // Average
+      { items: { "Boiled Eggs": 1 }, weighting: 50 },
+      { items: { "Bumpkin Broth": 1 }, weighting: 50 },
+      { items: { "Fried Tofu": 1 }, weighting: 50 },
+      { items: { "Mushroom Soup": 1 }, weighting: 50 },
+
+      // Good
+      { items: { "Sunflower Cake": 1 }, weighting: 100 },
+      { items: { "Apple Pie": 1 }, weighting: 100 },
+      { items: { "Kale & Mushroom Pie": 1 }, weighting: 100 },
+      { items: { "Wheat Cake": 1 }, weighting: 50 },
+      { items: { "Pirate Cake": 1 }, weighting: 50 },
+    ],
   },
   "Weekly Mega Box": {
     rewards: [
-      { items: { "Pumpkin Seed": 100 }, weighting: 100 },
+      { coins: 5000, weighting: 100 },
+      { items: { "Fishing Lure": 5 }, weighting: 100 },
+
+      // Good
       { coins: 10000, weighting: 100 },
+      { coins: 50000, weighting: 100 },
+      { items: { Gem: 100 }, weighting: 10 },
+      { items: { Gem: 500 }, weighting: 10 },
+      { items: { Gem: 1000 }, weighting: 5 },
     ],
   },
   "Fossil Shell": {

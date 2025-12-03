@@ -6221,4 +6221,16 @@ export const ITEM_DETAILS: Items = {
     image: messyBed,
     description: "",
   },
+  "Basic Farming Pack": {
+    image: bronzeFoodBox,
+    description: "",
+  },
+  "Basic Food Box": {
+    image: bronzeFoodBox,
+    description: "",
+  },
+  "Weekly Mega Box": {
+    image: bronzeToolBox,
+    description: "",
+  },
 };

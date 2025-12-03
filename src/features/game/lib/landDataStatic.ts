@@ -604,9 +604,17 @@ export const STATIC_OFFLINE_FARM: GameState = {
   shipments: {},
   gems: {},
   flower: {},
+  prototypes: {
+    leagues: {
+      id: "Sunflower 1-2025-01-01",
+      currentLeague: "Sunflower 1",
+      points: 0,
+      currentLeagueStartDate: new Date().toISOString().split("T")[0],
+    },
+  },
   bumpkin: {
     equipped: INITIAL_EQUIPMENT as Equipped,
-    experience: 10,
+    experience: 1000,
 
     id: 1,
     skills: {

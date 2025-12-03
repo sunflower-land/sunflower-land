@@ -109,6 +109,7 @@ import { hasReadNews } from "features/farming/mail/components/News";
 import { depositSFL } from "lib/blockchain/DepositSFL";
 import { getBumpkinLevel } from "./level";
 import { hasFeatureAccess } from "lib/flags";
+import { isDailyRewardReady } from "../events/landExpansion/claimDailyReward";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -1249,17 +1250,7 @@ export function startGame(authContext: AuthContext) {
                 return !!context.state.referrals?.rewards;
               },
             },
-            {
-              target: "dailyReward",
-              cond: (context) => {
-                return !!context.state.dailyRewards;
-                const dailyRewards = context.state.dailyRewards;
 
-                if (!dailyRewards) return false;
-
-                return dailyRewards.chest.collectedAt < Date.now();
-              },
-            },
             {
               target: "somethingArrived",
               cond: (context) => !!context.revealed,
@@ -1315,6 +1306,10 @@ export function startGame(authContext: AuthContext) {
             {
               target: "cheers",
               cond: (context) => {
+                // Players now receive cheers in daily rewards
+                if (hasFeatureAccess(context.state, "DAILY_BOXES"))
+                  return false;
+
                 // Do not show if they are under level 5
                 const level = getBumpkinLevel(
                   context.state.bumpkin?.experience ?? 0,
@@ -1338,6 +1333,16 @@ export function startGame(authContext: AuthContext) {
                   (context.method === "fsl" || context.method === "wechat") &&
                   !context.linkedWallet
                 );
+              },
+            },
+
+            {
+              target: "dailyReward",
+              cond: (context) => {
+                if (!hasFeatureAccess(context.state, "DAILY_BOXES"))
+                  return false;
+
+                return isDailyRewardReady(context.state);
               },
             },
 
@@ -2465,6 +2470,17 @@ export function startGame(authContext: AuthContext) {
             },
             "referral.rewardsClaimed": (GAME_EVENT_HANDLERS as any)[
               "referral.rewardsClaimed"
+            ],
+          },
+        },
+
+        dailyReward: {
+          on: {
+            CONTINUE: {
+              target: "notifying",
+            },
+            "dailyReward.claimed": (GAME_EVENT_HANDLERS as any)[
+              "dailyReward.claimed"
             ],
           },
         },

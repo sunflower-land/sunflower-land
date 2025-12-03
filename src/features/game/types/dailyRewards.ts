@@ -1,4 +1,5 @@
-import { InventoryItemName } from "./game";
+import { GameState, InventoryItemName } from "./game";
+import { getSeasonalTicket } from "./seasons";
 
 export type DailyRewardDefinition = {
   id: string;
@@ -11,13 +12,6 @@ export type DailyRewardDefinition = {
 type StreakMilestone = {
   every: number;
   reward: DailyRewardDefinition;
-};
-
-const BRONZE_FARMING_PACK: Partial<Record<InventoryItemName, number>> = {
-  "Sunflower Seed": 75,
-  "Potato Seed": 50,
-  "Carrot Seed": 25,
-  "Rapid Growth": 5,
 };
 
 const WEEKLY_REWARDS: DailyRewardDefinition[] = [
@@ -59,7 +53,9 @@ const WEEKLY_REWARDS: DailyRewardDefinition[] = [
   {
     id: "weekly-bronze-farming-pack",
     label: "Bronze Farming Pack",
-    items: BRONZE_FARMING_PACK,
+    items: {
+      "Basic Farming Pack": 1,
+    },
   },
   {
     id: "weekly-mega-box",
@@ -102,11 +98,7 @@ const STREAK_MILESTONES: StreakMilestone[] = [
 ];
 
 export function getWeeklyReward(streak: number): DailyRewardDefinition {
-  if (streak <= 0) {
-    throw new Error("Invalid streak");
-  }
-
-  const index = (streak - 1) % WEEKLY_REWARDS.length;
+  const index = streak % WEEKLY_REWARDS.length;
   return WEEKLY_REWARDS[index];
 }
 
@@ -115,15 +107,37 @@ export function getMilestoneRewards(streak: number): DailyRewardDefinition[] {
     return [];
   }
 
-  return STREAK_MILESTONES.filter(({ every }) => streak % every === 0).map(
-    ({ reward }) => reward,
-  );
+  let milestone: DailyRewardDefinition | undefined;
+
+  STREAK_MILESTONES.forEach(({ every, reward }) => {
+    if (streak % every === 0) {
+      milestone = reward;
+    }
+  });
+
+  return milestone ? [milestone] : [];
 }
 
-export function getRewardsForStreak(streak: number): DailyRewardDefinition[] {
-  if (streak <= 0) {
-    return [];
-  }
-
-  return [getWeeklyReward(streak), ...getMilestoneRewards(streak)];
+export function getRewardsForStreak({
+  game,
+  streak,
+  now,
+}: {
+  game: GameState;
+  streak: number;
+  now: number;
+}): DailyRewardDefinition[] {
+  const DEFAULT_REWARD: DailyRewardDefinition = {
+    id: "default-reward",
+    label: "Default Reward",
+    items: {
+      Cheer: 3,
+      [getSeasonalTicket(new Date(now))]: 1,
+    },
+  };
+  return [
+    getWeeklyReward(streak),
+    DEFAULT_REWARD,
+    ...getMilestoneRewards(streak),
+  ];
 }
