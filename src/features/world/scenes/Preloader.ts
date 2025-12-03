@@ -70,6 +70,13 @@ export abstract class Preloader extends Phaser.Scene {
       this.load.image("hammer", SUNNYSIDE.icons.hammer);
       this.load.image("disc", SUNNYSIDE.icons.disc);
       this.load.image("gift_icon", "world/gift.png");
+      this.load.image("round_button", SUNNYSIDE.ui.round_button);
+      this.load.image(
+        "round_button_pressed",
+        SUNNYSIDE.ui.round_button_pressed,
+      );
+      this.load.image("player_small", SUNNYSIDE.icons.player_small);
+      this.load.image("chat_icon", SUNNYSIDE.icons.expression_chat);
       this.load.image("charm_icon", ITEM_DETAILS["Love Charm"].image); // TODO: Replace with actual charm icon
       this.load.image("shadow", "world/shadow.png");
       this.load.spritesheet("poof", "world/poof.png", {

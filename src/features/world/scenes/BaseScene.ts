@@ -93,12 +93,14 @@ export const FACTION_NAME_COLORS: Record<FactionName, string> = {
   nightshades: "#a878ac",
 };
 
+type MicroInteractionAction = "wave";
+type MicroInteractionResponse = "wave_ack" | "wave_cancel";
+
 type MicroInteractionState = {
   senderId: number;
   receiverId: number;
-  type: "wave" | "wave_ack" | "wave_cancel";
+  type: MicroInteractionAction | MicroInteractionResponse;
   indicator?: Phaser.GameObjects.Container;
-  pulseTween?: Phaser.Tweens.Tween;
 };
 
 const MICRO_INTERACTION_TIMEOUT_MS = 5000;
@@ -419,24 +421,31 @@ export abstract class BaseScene extends Phaser.Scene {
 
           const player = players[0];
           const target = clickedBumpkins[0];
+          const existing = target.getByName("interactionMenu") as
+            | Phaser.GameObjects.Container
+            | undefined;
 
-          playerInteractionMenuManager.open({
-            targetFarmId: player.farmId,
-            targetUsername: player.username,
-            position: { x: pointer.x, y: pointer.y },
-            options: [
-              {
-                id: "details",
-                label: "Open details modal",
-                action: () => this.openPlayerProfile(player),
-              },
-              {
-                id: "wave",
-                label: "Hello interaction",
-                action: () => this.requestMicroInteraction(target, "wave"),
-              },
-            ],
-          });
+          if (!existing) {
+            this.showInteractionMenu(player, target);
+          }
+
+          // playerInteractionMenuManager.open({
+          //   targetFarmId: player.farmId,
+          //   targetUsername: player.username,
+          //   position: { x: pointer.x, y: pointer.y },
+          //   options: [
+          //     {
+          //       id: "details",
+          //       label: "Open details modal",
+          //       action: () => this.openPlayerProfile(player),
+          //     },
+          //     {
+          //       id: "wave",
+          //       label: "Hello interaction",
+          //       action: () => this.requestMicroInteraction(target, "wave"),
+          //     },
+          //   ],
+          // });
 
           return;
         }
@@ -474,6 +483,84 @@ export abstract class BaseScene extends Phaser.Scene {
     }
 
     this.setUpNavMesh();
+  }
+
+  private showInteractionMenu(
+    player: PlayerModalPlayer,
+    target: BumpkinContainer,
+  ) {
+    // 1. Destroy any existing menu on this target
+    const existing = target.getByName("interactionMenu") as
+      | Phaser.GameObjects.Container
+      | undefined;
+    existing?.destroy();
+
+    // 2. Container positioned above the head, in *local* coordinates
+    const menu = this.add.container(0, -20);
+    menu.setName("interactionMenu");
+
+    const spacing = 16; // distance between buttons
+
+    // Left button - "details"
+    const detailsBtnContainer = this.add.container(-spacing / 2, 0);
+    const detailsBtn = this.add.image(0, 0, "round_button");
+    const detailsIcon = this.add.image(0, 0, "player_small");
+    detailsIcon.setDisplaySize(7, 7);
+    detailsBtnContainer.add(detailsBtn);
+    detailsBtnContainer.add(detailsIcon);
+    detailsBtn.setDisplaySize(14, 14); // see section 2 below
+    detailsBtn.setInteractive({ useHandCursor: true });
+    detailsBtn.on("pointerdown", () => {
+      this.sound.play("button");
+      detailsBtn.setTexture("round_button_pressed");
+    });
+    detailsBtn.on("pointerup", () => {
+      detailsBtn.setTexture("round_button");
+      this.openPlayerProfile(player);
+      const existing = target.getByName("interactionMenu") as
+        | Phaser.GameObjects.Container
+        | undefined;
+      existing?.destroy();
+    });
+    // Right button - "interaction"
+    const microInteractionBtnContainer = this.add.container(spacing / 2, 0);
+    const microInteractionBtn = this.add.image(0, 0, "round_button");
+    const microInteractionIcon = this.add.image(0, 0, "chat_icon");
+    microInteractionIcon.setDisplaySize(6, 6);
+    microInteractionBtnContainer.add(microInteractionBtn);
+    microInteractionBtnContainer.add(microInteractionIcon);
+    microInteractionBtn.setDisplaySize(14, 14);
+    microInteractionBtn.setInteractive({ useHandCursor: true });
+    microInteractionBtn.on("pointerdown", () => {
+      microInteractionBtn.setTexture("round_button_pressed");
+    });
+    microInteractionBtn.on("pointerup", () => {
+      this.requestMicroInteraction(target, "wave");
+      microInteractionBtn.setTexture("round_button");
+      const existing = target.getByName("interactionMenu") as
+        | Phaser.GameObjects.Container
+        | undefined;
+      existing?.destroy();
+    });
+
+    menu.add([detailsBtnContainer, microInteractionBtnContainer]);
+
+    menu.y = 4; // roughly where their body is
+    menu.alpha = 0;
+    menu.scale = 0.6;
+
+    target.add(menu);
+    target.bringToTop(menu);
+
+    // Tween up above the head
+    this.tweens.add({
+      targets: menu,
+      y: -18, // final position above the head
+      alpha: 1,
+      scale: 1,
+      duration: 220,
+      ease: "Back.Out",
+    });
   }
 
   public setUpNavMesh = () => {
@@ -544,6 +631,7 @@ export abstract class BaseScene extends Phaser.Scene {
     });
 
     this.outgoingMicroInteractions.set(receiverFarmId, timeout);
+    return;
   }
 
   private sendMicroInteraction(
@@ -606,32 +694,32 @@ export abstract class BaseScene extends Phaser.Scene {
     target.add(indicator);
     target.bringToTop(indicator);
 
-    const pulseTween = this.tweens.add({
-      targets: background,
-      alpha: { from: 0.95, to: 0.5 },
-      duration: 600,
-      repeat: -1,
-      yoyo: true,
-    });
-    return { indicator, pulseTween };
+    return { indicator };
   }
 
-  private finalizeMicroInteraction(
+  // Trigger the micro interaction and clean up the indicator
+  private triggerMicroInteraction(
     initiatorFarmId: number,
     receiverFarmId: number,
   ) {
     // receiverFarmId is the farm that had the pending hello indicator
     const interaction = this.receivedMicroInteractions.get(receiverFarmId);
-    if (interaction) {
-      this.receivedMicroInteractions.delete(receiverFarmId);
+    if (!interaction) return;
 
-      interaction.pulseTween?.remove();
-      this.destroyMicroInteractionIndicator(interaction.indicator);
+    this.receivedMicroInteractions.delete(receiverFarmId);
+
+    this.destroyMicroInteractionIndicator(interaction.indicator);
+
+    const interactionActions = interaction.type.split("_");
+
+    if (interactionActions.length === 1) {
+      const action = interactionActions[0] as MicroInteractionAction;
+
+      this.triggerInteraction(initiatorFarmId, receiverFarmId, action);
     }
-
-    this.triggerHelloWave(initiatorFarmId, receiverFarmId);
   }
 
+  // Handle the action coming from the server
   private handleMicroInteractionAction(action: MicroInteraction) {
     if (action.sceneId && action.sceneId !== this.options.name) return;
     // Expired
@@ -639,13 +727,14 @@ export abstract class BaseScene extends Phaser.Scene {
 
     const { receiverId, senderId } = action;
 
+    if (this.receivedMicroInteractions.has(receiverId)) return;
+
+    const target = this.findBumpkinByFarmId(receiverId);
+    if (!target) return;
+
     switch (action.type) {
       case "wave": {
         // Only track a single pending hello per receiver at a time
-        if (this.receivedMicroInteractions.has(receiverId)) return;
-
-        const target = this.findBumpkinByFarmId(receiverId);
-        if (!target) return;
 
         const indicatorState = this.createMicroInteractionIndicator(
           target,
@@ -672,7 +761,7 @@ export abstract class BaseScene extends Phaser.Scene {
 
         // Stop the initiator's local timeout
         this.clearOutgoingMicroInteractionRequest(waveReceiverId);
-        this.finalizeMicroInteraction(waveInitiatorId, waveReceiverId);
+        this.triggerMicroInteraction(waveInitiatorId, waveReceiverId);
         break;
       }
       case "wave_cancel": {
@@ -696,7 +785,6 @@ export abstract class BaseScene extends Phaser.Scene {
     if (!interaction) return;
 
     this.receivedMicroInteractions.delete(receiverFarmId);
-    interaction.pulseTween?.remove();
     this.destroyMicroInteractionIndicator(interaction.indicator);
 
     const initiator = this.findBumpkinByFarmId(interaction.senderId);
@@ -715,7 +803,11 @@ export abstract class BaseScene extends Phaser.Scene {
     indicator.destroy();
   }
 
-  private triggerHelloWave(senderId: number, receiverId: number) {
+  private triggerInteraction(
+    senderId: number,
+    receiverId: number,
+    interaction: MicroInteractionAction,
+  ) {
     const initiator = this.findBumpkinByFarmId(senderId);
     const receiver = this.findBumpkinByFarmId(receiverId);
 
@@ -723,11 +815,11 @@ export abstract class BaseScene extends Phaser.Scene {
 
     this.faceReceiverTowardInitiator(receiver, initiator);
 
-    this.waveBumpkin(initiator);
-    this.waveBumpkin(receiver);
+    this.interact(initiator, interaction);
+    this.interact(receiver, interaction);
 
-    initiator.speak("Great to see you!");
-    receiver.speak("Hey there!");
+    initiator.speak(translate("microInteraction.great.to.see.you"));
+    receiver.speak(translate("microInteraction.hey.there"));
   }
 
   private faceReceiverTowardInitiator(
@@ -743,21 +835,17 @@ export abstract class BaseScene extends Phaser.Scene {
     }
   }
 
-  private waveBumpkin(entity: BumpkinContainer) {
-    if (!entity.sprite) return;
-
-    const sprite = entity.sprite;
-    const startingAngle = sprite.angle;
-
-    this.tweens.add({
-      targets: sprite,
-      angle: { from: -8, to: 8 },
-      duration: 150,
-      ease: "Sine.easeInOut",
-      yoyo: true,
-      repeat: 4,
-      onComplete: () => sprite.setAngle(startingAngle),
-    });
+  private interact(
+    entity: BumpkinContainer,
+    interaction: MicroInteractionAction,
+  ) {
+    switch (interaction) {
+      case "wave":
+        entity.wave();
+        break;
+      default:
+        return;
+    }
   }
 
   private findBumpkinByFarmId(farmId?: number) {
@@ -1010,7 +1098,6 @@ export abstract class BaseScene extends Phaser.Scene {
 
       const removeActionListener = server.state.microInteractions?.onAdd(
         (action) => {
-          // console.log("Micro interaction received", action);
           this.handleMicroInteractionAction(action as MicroInteraction);
         },
       );
@@ -1435,10 +1522,14 @@ export abstract class BaseScene extends Phaser.Scene {
       console.error("walkAudioController is undefined");
     }
 
-    if (isMoving) {
-      this.currentPlayer.walk();
-    } else {
-      this.currentPlayer.idle();
+    const isInteracting = this.currentPlayer?.isInteracting();
+
+    if (!isInteracting) {
+      if (isMoving) {
+        this.currentPlayer.walk();
+      } else {
+        this.currentPlayer.idle();
+      }
     }
 
     this.currentPlayer.setDepth(Math.floor(this.currentPlayer.y));
@@ -1672,11 +1763,14 @@ export abstract class BaseScene extends Phaser.Scene {
       }
 
       const distance = Phaser.Math.Distance.BetweenPoints(player, entity);
+      const isInteracting = entity.isInteracting();
 
-      if (distance < 2) {
-        entity.idle();
-      } else {
-        entity.walk();
+      if (!isInteracting) {
+        if (distance < 2) {
+          entity.idle();
+        } else {
+          entity.walk();
+        }
       }
 
       entity.x = Phaser.Math.Linear(entity.x, player.x, 0.05);

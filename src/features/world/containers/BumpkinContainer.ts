@@ -74,6 +74,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   private walkingAnimationKey: string | undefined;
   private digAnimationKey: string | undefined;
   private drillAnimationKey: string | undefined;
+  private waveAnimationKey: string | undefined;
   private backAuraKey: string | undefined;
   private frontAuraKey: string | undefined;
   private frontAuraAnimationKey: string | undefined;
@@ -227,6 +228,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.walkingAnimationKey = `${this.spriteKey}-bumpkin-walking`;
     this.digAnimationKey = `${this.spriteKey}-bumpkin-dig`;
     this.drillAnimationKey = `${this.spriteKey}-bumpkin-drilling`;
+    this.waveAnimationKey = `${this.spriteKey}-bumpkin-wave`;
 
     await buildNPCSheets({
       parts: this.clothing,
@@ -260,6 +262,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         "walking",
         "dig",
         "drilling",
+        "wave",
       ]);
       const idleLoader = scene.load.spritesheet(this.spriteKey, url, {
         frameWidth: 96,
@@ -291,6 +294,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         this.createWalkingAnimation(9, 16);
         this.createDigAnimation(17, 29);
         this.createDrillAnimation(30, 38);
+        this.createWaveAnimation(39, 52);
         this.sprite.play(this.idleAnimationKey as string, true);
 
         this.ready = true;
@@ -389,6 +393,20 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         end,
       }),
       repeat: -1,
+      frameRate: 10,
+    });
+  }
+
+  private createWaveAnimation(start: number, end: number) {
+    if (!this.scene || !this.scene.anims) return;
+
+    this.scene.anims.create({
+      key: this.waveAnimationKey,
+      frames: this.scene.anims.generateFrameNumbers(this.spriteKey as string, {
+        start,
+        end, // Only play half of the wave animation
+      }),
+      repeat: 1,
       frameRate: 10,
     });
   }
@@ -960,6 +978,15 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     }
   }
 
+  public isInteracting() {
+    const interactionAnimations = [this.waveAnimationKey];
+
+    return (
+      this.sprite?.anims?.isPlaying &&
+      interactionAnimations.includes(this.sprite?.anims.getName() as string)
+    );
+  }
+
   public idle() {
     if (
       this.sprite?.anims &&
@@ -980,6 +1007,18 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
     if (this.backParticles?.active) {
       this.backParticles.emitting = false;
+    }
+  }
+
+  public wave() {
+    if (!this.scene || !this.sprite) return;
+
+    if (
+      this.waveAnimationKey &&
+      this.scene?.anims.exists(this.waveAnimationKey)
+    ) {
+      this.sprite.anims.play(this.waveAnimationKey, true);
+      return;
     }
   }
 
