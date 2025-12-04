@@ -49,6 +49,7 @@ import { PotionMaster } from "features/helios/components/potions/component/Potio
 import { PetShop } from "features/pets/PetShop";
 import { LoveIslandNoticeboard } from "./loveRewardShop/LoveIslandNoticeboard";
 import { Gam3TrophiesModal } from "./Gam3TrophiesModal";
+import { Rarecrows } from "./Rarecrows";
 
 type InteractableName =
   | "guardian"
@@ -120,6 +121,7 @@ type InteractableName =
   | "nightshades_faction"
   | "sunflorians_faction"
   | "chicken_rescue"
+  | "rarecrows"
   | "crops_and_chickens"
   | "fruit_dash"
   | "festival_of_colors"
@@ -242,6 +244,9 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       </Modal>
       <Modal show={interactable === "gam3_trophies"} onHide={closeModal}>
         <Gam3TrophiesModal onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "rarecrows"} onHide={closeModal}>
+        <Rarecrows onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "desert_noticeboard"} onHide={closeModal}>
         <DesertNoticeboard onClose={closeModal} />
