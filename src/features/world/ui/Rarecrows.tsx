@@ -10,7 +10,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 export const Rarecrows: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { t } = useAppTranslation();
   return (
-    <CloseButtonPanel>
+    <CloseButtonPanel onClose={onClose}>
       <Label type="vibrant" className="mb-2">
         {t("description.rarecrows.title")}
       </Label>
