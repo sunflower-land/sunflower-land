@@ -7239,5 +7239,6 @@
   "dailyReward.claim": "Claim",
   "description.basicFarmerBox": "A box of basic farming supplies",
   "description.basicFoodBox": "A box of basic food supplies",
-  "description.weeklyBox": "A box of special rewards"
+  "description.weeklyBox": "A box of special rewards",
+  "description.basicLoveBox": "A box of lovely rewards"
 }

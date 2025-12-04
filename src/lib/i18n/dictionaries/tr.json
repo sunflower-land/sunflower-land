@@ -7239,5 +7239,6 @@
   "dailyReward.claim": "Talep",
   "description.basicFarmerBox": "Bir kutu temel tarım malzemeleri",
   "description.basicFoodBox": "Bir kutu temel gıda malzemeleri",
-  "description.weeklyBox": "Özel ödüller kutusu"
+  "description.weeklyBox": "Özel ödüller kutusu",
+  "description.basicLoveBox": "Güzel ödüller kutusu"
 }
