@@ -18,6 +18,7 @@ export const ITEM_TRADE_TYPES: {
     "Basic Farming Pack": "instant",
     "Basic Food Box": "instant",
     "Weekly Mega Box": "instant",
+    "Basic Love Box": "instant",
     "Super Star": "instant",
     "Ancient Tree": "instant",
     "Sacred Tree": "instant",
