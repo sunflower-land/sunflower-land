@@ -7229,5 +7229,15 @@
   "raffle.description": "Todo mês, você tem a chance de ganhar recompensas. Os vencedores do Goblin Raffle serão anunciados nas transmissões da Twitch de sexta-feira, na 1ª ou 2ª sexta-feira do mês seguinte. Ex. Os vencedores de maio serão anunciados na primeira ou segunda sexta-feira de junho. Os resultados também estão fixados no Discord em #farmers -chat",
   "description.fslWechatDeprecation": "Em {{date}}, estamos removendo o suporte para login {{title}}. A partir de agora, os jogadores {{title}} precisarão fazer login com uma carteira web3.",
   "description.fslWechatDeprecationLinkWallet": "Vincule uma carteira para continuar se preparando para a alteração.",
-  "description.fslWechatDeprecationThankYou": "Obrigado por vincular sua carteira. Agora você pode continuar jogando o jogo."
+  "description.fslWechatDeprecationThankYou": "Obrigado por vincular sua carteira. Agora você pode continuar jogando o jogo.",
+  "dailyReward.title": "Recompensa diária",
+  "dailyReward.megaRewardCountdown": "Jogue por mais {{days}} dias para reivindicar sua Mega Recompensa.",
+  "dailyReward.today": "Hoje",
+  "dailyReward.day": "Dia {{day}}",
+  "dailyReward.returnTomorrow": "Volte amanhã para reivindicar sua próxima recompensa.",
+  "dailyReward.timeLeft": "{{time}} Esquerda",
+  "dailyReward.claim": "Reclamação",
+  "description.basicFarmerBox": "Uma caixa de suprimentos agrícolas básicos",
+  "description.basicFoodBox": "Uma caixa de suprimentos básicos de alimentos",
+  "description.weeklyBox": "Uma caixa de recompensas especiais"
 }

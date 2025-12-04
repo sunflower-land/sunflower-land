@@ -7229,5 +7229,15 @@
   "raffle.description": "Setiap bulan, Anda memiliki kesempatan untuk memenangkan hadiah. Pemenang Goblin Raffle akan diumumkan pada Jumat Twitch Streaming pada hari Jumat pertama atau ke-2 bulan berikutnya. Contohnya. Pemenang Mei akan diumumkan pada hari Jumat pertama atau kedua bulan Juni. Hasil juga disematkan di Discord di #farmers -chat",
   "description.fslWechatDeprecation": "Pada {{date}} kami menghapus dukungan untuk login {{title}}. Ke depan pemain {{title}} harus masuk dengan dompet web3.",
   "description.fslWechatDeprecationLinkWallet": "Silakan tautkan dompet untuk terus mempersiapkan perubahan.",
-  "description.fslWechatDeprecationThankYou": "Terima kasih telah menghubungkan dompet Anda. Sekarang Anda dapat terus memainkan permainan."
+  "description.fslWechatDeprecationThankYou": "Terima kasih telah menghubungkan dompet Anda. Sekarang Anda dapat terus memainkan permainan.",
+  "dailyReward.title": "Hadiah Harian",
+  "dailyReward.megaRewardCountdown": "Mainkan selama {{days}} hari lagi untuk mengklaim Mega Reward Anda.",
+  "dailyReward.today": "Hari ini",
+  "dailyReward.day": "Hari {{day}}",
+  "dailyReward.returnTomorrow": "Kembalilah besok untuk mengklaim hadiah Anda berikutnya.",
+  "dailyReward.timeLeft": "{{time}} Kiri",
+  "dailyReward.claim": "Klaim",
+  "description.basicFarmerBox": "Sekotak persediaan pertanian dasar",
+  "description.basicFoodBox": "Sekotak persediaan makanan dasar",
+  "description.weeklyBox": "Kotak hadiah khusus"
 }

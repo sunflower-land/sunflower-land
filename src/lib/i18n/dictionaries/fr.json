@@ -7229,5 +7229,15 @@
   "raffle.description": "Chaque mois, tu as la chance de gagner des récompenses. Les gagnants de la tombola des gobelins seront annoncés sur les streams Twitch du vendredi, les 1er ou 2e vendredis du mois suivant. Par exemple. Les gagnants du mois de mai seront annoncés le premier ou le deuxième vendredi de juin. Les résultats sont également publiés dans Discord sur #farmers -chat",
   "description.fslWechatDeprecation": "Le {{date}}, nous supprimons la prise en charge de la connexion {{title}}. À l'avenir, les joueurs {{title}} devront se connecter avec un portefeuille Web3.",
   "description.fslWechatDeprecationLinkWallet": "Veuillez associer un portefeuille pour continuer à vous préparer au changement.",
-  "description.fslWechatDeprecationThankYou": "Merci d'avoir associé votre portefeuille. Vous pouvez maintenant continuer à jouer."
+  "description.fslWechatDeprecationThankYou": "Merci d'avoir associé votre portefeuille. Vous pouvez maintenant continuer à jouer.",
+  "dailyReward.title": "Récompense quotidienne",
+  "dailyReward.megaRewardCountdown": "Jouez pendant {{days}} jours supplémentaires pour réclamer votre Mega Reward.",
+  "dailyReward.today": "Aujourd'hui",
+  "dailyReward.day": "Journée {{day}}",
+  "dailyReward.returnTomorrow": "Revenez demain pour réclamer votre prochaine récompense.",
+  "dailyReward.timeLeft": "{{time}} Gauche",
+  "dailyReward.claim": "Réclamation",
+  "description.basicFarmerBox": "Une boîte de fournitures agricoles de base",
+  "description.basicFoodBox": "Une boîte de produits alimentaires de base",
+  "description.weeklyBox": "Une boîte de récompenses spéciales"
 }

@@ -7229,5 +7229,15 @@
   "raffle.description": "Her ay ödül kazanma şansınız var. Goblin Çekilişi kazananları, bir sonraki ayın 1. veya 2. Cuma günü Cuma Twitch Yayınlarında açıklanacaktır.. Örneğin. Mayıs ayının kazananları Haziran ayının ilk veya ikinci Cuma günü açıklanacak. Sonuçlar ayrıca #farmers -chat'te Discord'da sabitlenir",
   "description.fslWechatDeprecation": "{{date}} 'de {{title}} giriş desteğini kaldırıyoruz. İleride {{title}} oyuncuların bir web3 cüzdanıyla oturum açmaları gerekecektir.",
   "description.fslWechatDeprecationLinkWallet": "Değişikliğe hazırlanmaya devam etmek için lütfen bir cüzdan bağlayın.",
-  "description.fslWechatDeprecationThankYou": "Cüzdanınızı bağladığınız için teşekkür ederiz. Artık oyunu oynamaya devam edebilirsiniz."
+  "description.fslWechatDeprecationThankYou": "Cüzdanınızı bağladığınız için teşekkür ederiz. Artık oyunu oynamaya devam edebilirsiniz.",
+  "dailyReward.title": "Günlük Ödül",
+  "dailyReward.megaRewardCountdown": "Mega Ödülünüzü almak için {{days}} gün daha oynayın.",
+  "dailyReward.today": "Bugün",
+  "dailyReward.day": "Gün {{day}}",
+  "dailyReward.returnTomorrow": "Bir sonraki ödülünüzü almak için yarın geri gelin.",
+  "dailyReward.timeLeft": "{{time}} Kaldı",
+  "dailyReward.claim": "Talep",
+  "description.basicFarmerBox": "Bir kutu temel tarım malzemeleri",
+  "description.basicFoodBox": "Bir kutu temel gıda malzemeleri",
+  "description.weeklyBox": "Özel ödüller kutusu"
 }

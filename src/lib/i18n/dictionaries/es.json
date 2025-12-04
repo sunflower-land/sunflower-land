@@ -7229,5 +7229,15 @@
   "raffle.description": "Cada mes, tienes la oportunidad de ganar recompensas. Los ganadores del sorteo de duendes se anunciarán en las retransmisiones de Twitch de los viernes, el primer o segundo viernes del mes siguiente. Por ejemplo. Los ganadores de mayo se anunciarán el primer o segundo viernes de junio. Los resultados también están publicados en Discord en #farmers -chat",
   "description.fslWechatDeprecation": "El {{date}} eliminaremos la compatibilidad con el inicio de sesión {{title}}. De ahora en adelante, los jugadores de {{title}} deberán iniciar sesión con una billetera web3.",
   "description.fslWechatDeprecationLinkWallet": "Vincula un monedero para seguir preparándote para el cambio.",
-  "description.fslWechatDeprecationThankYou": "Gracias por vincular tu monedero. Ahora puedes seguir jugando al juego."
+  "description.fslWechatDeprecationThankYou": "Gracias por vincular tu monedero. Ahora puedes seguir jugando al juego.",
+  "dailyReward.title": "Recompensa diaria",
+  "dailyReward.megaRewardCountdown": "Juega {{days}} días más para conseguir tu Mega Recompensa.",
+  "dailyReward.today": "Hoy",
+  "dailyReward.day": "Día {{day}}",
+  "dailyReward.returnTomorrow": "Regresa mañana para conseguir tu próxima recompensa.",
+  "dailyReward.timeLeft": "{{time}} Izquierda",
+  "dailyReward.claim": "Reclamación",
+  "description.basicFarmerBox": "Una caja de suministros agrícolas básicos",
+  "description.basicFoodBox": "Una caja de alimentos básicos",
+  "description.weeklyBox": "Una caja de recompensas especiales"
 }
