@@ -84,7 +84,6 @@ export const DailyRewardClaim: React.FC = () => {
         onClaim={() => {
           gameService.send("dailyReward.claimed");
           gameService.send("CONTINUE");
-          // setShowClaim(false);
         }}
       />
     );
