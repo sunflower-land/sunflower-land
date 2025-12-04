@@ -9,7 +9,7 @@ import walletIcon from "assets/icons/wallet.png";
 import { GameWallet } from "features/wallet/Wallet";
 import { formatDateTime } from "lib/utils/time";
 
-const FSL_WECHAT_DEPRECATION_DATE = new Date("2025-12-09");
+const FSL_WECHAT_DEPRECATION_DATE = new Date("2025-12-10");
 
 export const MigrateToLinkedWallet: React.FC = () => {
   const { gameService } = useContext(Context);
