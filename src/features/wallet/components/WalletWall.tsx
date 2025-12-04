@@ -221,7 +221,7 @@ export const WalletWall: React.FC<{
                   <GoogleButton
                     onClick={() => {
                       setShowLoading(true);
-                      window.location.href = `${CONFIG.API_URL}/auth/google/authorize`;
+                      window.location.href = `${CONFIG.AUTH_URL}/google/authorize`;
                     }}
                   />
                 </>
@@ -293,7 +293,7 @@ export const WalletWall: React.FC<{
                 <GoogleButton
                   onClick={() => {
                     setShowLoading(true);
-                    window.location.href = `${CONFIG.API_URL}/auth/google/authorize`;
+                    window.location.href = `${CONFIG.AUTH_URL}/google/authorize`;
                   }}
                 />
               </>
