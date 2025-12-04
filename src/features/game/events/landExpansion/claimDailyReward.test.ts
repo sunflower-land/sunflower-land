@@ -215,6 +215,7 @@ describe("claimDailyReward", () => {
     const state = claimDailyReward({
       state: {
         ...INITIAL_FARM,
+        inventory: {},
         bumpkin: {
           ...TEST_BUMPKIN,
           experience: 10000,

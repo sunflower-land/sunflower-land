@@ -30,7 +30,7 @@ const WEEKLY_REWARDS: DailyRewardDefinition[] = [
     },
   },
   {
-    id: "weekly-tiki-totem",
+    id: "weekly-time-warp-totem",
     label: "Time Warp Totem",
     items: {
       "Time Warp Totem": 1,
