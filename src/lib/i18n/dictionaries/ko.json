@@ -7240,5 +7240,9 @@
   "description.basicFarmerBox": "기본 농산물 상자",
   "description.basicFoodBox": "기본 식품 용품 상자",
   "description.weeklyBox": "특별 보상이 담긴 상자",
-  "description.basicLoveBox": "멋진 보상이 담긴 상자"
+  "description.basicLoveBox": "멋진 보상이 담긴 상자",
+  "description.rarecrows.title": "레어크로우 - 텔레그램 미니게임",
+  "description.rarecrows": "캐주얼 텔레그램 미니게임에서 희귀아비를 사육하고 수집하세요!",
+  "description.rarecrows.2": "15,000명 이상의 플레이어와 함께 레어클로우가 바닥나기 전에 발견하세요",
+  "description.rarecrows.3": "지금 플레이하세요"
 }

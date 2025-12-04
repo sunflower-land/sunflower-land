@@ -7240,5 +7240,9 @@
   "description.basicFarmerBox": "Una caja de suministros agrícolas básicos",
   "description.basicFoodBox": "Una caja de alimentos básicos",
   "description.weeklyBox": "Una caja de recompensas especiales",
-  "description.basicLoveBox": "Una caja de encantadoras recompensas"
+  "description.basicLoveBox": "Una caja de encantadoras recompensas",
+  "description.rarecrows.title": "Rarecrows - Minijuego de Telegram",
+  "description.rarecrows": "¡Cultiva y recolecta cuervos raros en nuestro minijuego casual de Telegram!",
+  "description.rarecrows.2": "Únete a más de 15 000 jugadores y descubre a los Rarecrows antes de que se acaben",
+  "description.rarecrows.3": "Juega ahora"
 }
