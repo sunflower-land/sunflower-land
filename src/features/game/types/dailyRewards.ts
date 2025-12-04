@@ -90,7 +90,7 @@ const STREAK_MILESTONES: StreakMilestone[] = [
       items: {
         "Pizza Margherita": 5,
         "Super Totem": 1,
-        Gem: 300,
+        Gem: 320,
         "Luxury Key": 1,
       },
     },
