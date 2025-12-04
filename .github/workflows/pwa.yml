@@ -37,6 +37,7 @@ jobs:
           CI: false
 
           VITE_API_URL: "https://h3men7qyv0.execute-api.us-east-1.amazonaws.com"
+          VITE_AUTH_URL: "https://auth-dev.sunflower-land.com"
           VITE_ROOM_URL: ${{ secrets.ROOM_URL }}
           VITE_DONATION_ADDRESS: ${{ secrets.DONATION_ADDRESS }}
           VITE_NETWORK: amoy
