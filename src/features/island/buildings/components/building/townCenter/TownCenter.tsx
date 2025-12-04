@@ -12,6 +12,7 @@ import { useNavigate } from "react-router";
 import { HomeBumpkins } from "../house/HomeBumpkins";
 import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
 import { useVisiting } from "lib/utils/visitUtils";
+import { hasFeatureAccess } from "lib/flags";
 
 export const TownCenter: React.FC<BuildingProps> = ({ isBuilt }) => {
   const { gameService, showAnimations } = useContext(Context);
@@ -68,15 +69,17 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt }) => {
         />
       </BuildingImageWrapper>
 
-      <div
-        className="absolute"
-        style={{
-          left: `${PIXEL_SCALE * 16}px`,
-          top: `${PIXEL_SCALE * 14}px`,
-        }}
-      >
-        <DailyReward />
-      </div>
+      {!hasFeatureAccess(gameState.context.state, "DAILY_BOXES") && (
+        <div
+          className="absolute"
+          style={{
+            left: `${PIXEL_SCALE * 16}px`,
+            top: `${PIXEL_SCALE * 14}px`,
+          }}
+        >
+          <DailyReward />
+        </div>
+      )}
 
       <div
         className="absolute w-full"
