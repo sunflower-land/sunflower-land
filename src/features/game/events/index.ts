@@ -162,6 +162,10 @@ import {
 } from "./landExpansion/burnCollectible";
 import { claimBonus, ClaimBonusAction } from "./landExpansion/claimBonus";
 import {
+  claimDailyReward,
+  ClaimDailyRewardAction,
+} from "./landExpansion/claimDailyReward";
+import {
   accelerateComposter,
   AccelerateComposterAction,
 } from "./landExpansion/accelerateComposter";
@@ -621,6 +625,7 @@ export type PlayingEvent =
   | BurnCollectibleAction
   | ClaimReferralRewardsAction
   | ClaimBonusAction
+  | ClaimDailyRewardAction
   | AccelerateComposterAction
   | BuyFarmHandAction
   | EquipFarmHandAction
@@ -870,6 +875,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "land.revealed": revealLand,
   "collectible.burned": burnCollectible,
   "bonus.claimed": claimBonus,
+  "dailyReward.claimed": claimDailyReward,
   "compost.accelerated": accelerateComposter,
   "farmHand.bought": buyFarmhand,
   "farmHand.equipped": equipFarmhand,

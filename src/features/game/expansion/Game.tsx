@@ -98,6 +98,7 @@ import { TradesCleared } from "./components/TradesCleared";
 import { RevealPet } from "features/island/pets/RevealPet";
 import { LeagueResults } from "./components/LeagueResults";
 import { MigrateToLinkedWallet } from "./components/MigrateToLinkedWallet";
+import { DailyRewardClaim } from "../components/DailyReward";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -218,6 +219,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   cheers: true,
   leagueResults: false,
   linkWallet: true,
+  dailyReward: true,
 };
 
 // State change selectors
@@ -276,6 +278,7 @@ const isBlessing = (state: MachineState) => state.matches("blessing");
 const hasFulfilledOffers = (state: MachineState) => state.matches("offers");
 const hasVipNotification = (state: MachineState) => state.matches("vip");
 const isPlaying = (state: MachineState) => state.matches("playing");
+const isDailyReward = (state: MachineState) => state.matches("dailyReward");
 const somethingArrived = (state: MachineState) =>
   state.matches("somethingArrived");
 
@@ -487,7 +490,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
     gameService,
     isLeagueResultsReleased,
   );
-
+  const dailyReward = useSelector(gameService, isDailyReward);
   const { t } = useAppTranslation();
 
   useInterval(() => {
@@ -662,6 +665,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             {coolingDown && <Cooldown />}
             {gameRules && <Rules />}
             {FLOWERTeaser && <FLOWERTeaserContent />}
+            {dailyReward && <DailyRewardClaim />}
             {transacting && <Transaction />}
             {depositing && <Loading text={t("depositing")} />}
             {trading && <Loading text={t("trading")} />}

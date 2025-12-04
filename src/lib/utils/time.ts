@@ -448,13 +448,11 @@ export function getShortRelativeTime(timestamp: number): string {
  * A function that gives you the time until the next day in seconds.
  * @returns Time until the next day in seconds eg: 86400
  */
-export function secondsTillReset() {
-  const currentTime = Date.now();
-
+export function secondsTillReset(now = Date.now()) {
   // Calculate the time until the next day in milliseconds
-  const nextDay = new Date(currentTime);
+  const nextDay = new Date(now);
   nextDay.setUTCHours(24, 0, 0, 0);
-  const timeUntilNextDay = nextDay.getTime() - currentTime;
+  const timeUntilNextDay = nextDay.getTime() - now;
 
   // Convert milliseconds to seconds
   const secondsUntilNextDay = Math.floor(timeUntilNextDay / 1000);

@@ -29,6 +29,8 @@ import {
 } from "features/game/events/landExpansion/completeSocialTask";
 import { getKeys } from "features/game/types/decorations";
 import { useNow } from "lib/utils/hooks/useNow";
+import { hasFeatureAccess } from "lib/flags";
+import { DailyRewardClaim } from "features/game/components/DailyReward";
 
 const _chestCollectedAt = (state: MachineState) =>
   state.context.state.dailyRewards?.chest?.collectedAt ?? 0;
@@ -95,7 +97,12 @@ export const Rewards: React.FC<Props> = ({ show, onHide, tab }) => {
         {currentTab === "Earn" && (
           <TaskBoard state={state} socialTasks={state.socialTasks} />
         )}
-        {currentTab === "Rewards" && <RewardOptions />}
+        {currentTab === "Rewards" &&
+          (hasFeatureAccess(state, "DAILY_BOXES") ? (
+            <DailyRewardClaim />
+          ) : (
+            <RewardOptions />
+          ))}
         {/* {tab === 2 && <RewardsShop />} */}
       </CloseButtonPanel>
       {showMessage && (

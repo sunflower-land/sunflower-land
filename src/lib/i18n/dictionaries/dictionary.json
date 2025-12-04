@@ -6332,6 +6332,13 @@
   "chestRewardsList.dailyReward.listTitle1": "Basic: 1-4 Lands",
   "chestRewardsList.dailyReward.listTitle2": "Advanced: 5-8 Lands",
   "chestRewardsList.dailyReward.listTitle3": "Expert: 9+ Lands",
+  "dailyReward.title": "Daily Reward",
+  "dailyReward.megaRewardCountdown": "Play for {{days}} more days to claim your Mega Reward.",
+  "dailyReward.today": "Today",
+  "dailyReward.day": "Day {{day}}",
+  "dailyReward.returnTomorrow": "Come back tomorrow to claim your next reward.",
+  "dailyReward.timeLeft": "{{time}} Left",
+  "dailyReward.claim": "Claim",
   "chestRewardsList.otherChests.desc1": "Open the chest for a chance to receive one of the following rewards.",
   "chestRewardsList.otherChests.desc2": "Some rewards are exclusive to specific chest types.",
   "chestRewardsList.listTitle1": "Reward",
@@ -7230,5 +7237,8 @@
   "chore.spend.80808": "Spend 80808 Coins",
   "description.fslWechatDeprecation": "On {{date}} we are removing support for {{title}} login. Going forward {{title}} players will need to sign in with a web3 wallet.",
   "description.fslWechatDeprecationLinkWallet": "Please link a wallet to continue to prepare for the change.",
-  "description.fslWechatDeprecationThankYou": "Thank you for linking your wallet. You can now continue to play the game."
+  "description.fslWechatDeprecationThankYou": "Thank you for linking your wallet. You can now continue to play the game.",
+  "description.basicFarmerBox": "A box of basic farming supplies",
+  "description.basicFoodBox": "A box of basic food supplies",
+  "description.weeklyBox": "A box of special rewards"
 }
