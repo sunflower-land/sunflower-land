@@ -9453,6 +9453,17 @@
           "width": 32,
           "x": 480,
           "y": 404
+        },
+        {
+          "height": 27.4676365116102,
+          "id": 320,
+          "name": "",
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 26.95897657621,
+          "x": 266.029146214298,
+          "y": 416.083827157354
         }
       ],
       "opacity": 1,
@@ -9785,7 +9796,7 @@
     }
   ],
   "nextlayerid": 162,
-  "nextobjectid": 317,
+  "nextobjectid": 321,
   "orientation": "orthogonal",
   "renderorder": "right-down",
   "tiledversion": "1.11.2",
@@ -9794,7 +9805,7 @@
     {
       "columns": 64,
       "firstgid": 1,
-      "image": "../../../../images/assets/world/seasonal-map.png",
+      "image": "..\/..\/..\/..\/images\/assets\/world\/seasonal-map.png",
       "imageheight": 2048,
       "imagewidth": 1024,
       "margin": 0,

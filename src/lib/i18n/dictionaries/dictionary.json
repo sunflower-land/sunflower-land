@@ -7241,5 +7241,9 @@
   "description.basicFarmerBox": "A box of basic farming supplies",
   "description.basicFoodBox": "A box of basic food supplies",
   "description.weeklyBox": "A box of special rewards",
-  "description.basicLoveBox": "A box of lovely rewards"
+  "description.basicLoveBox": "A box of lovely rewards",
+  "description.rarecrows.title": "Rarecrows - Telegram Minigame",
+  "description.rarecrows": "Farm & collect rarecrows in our casual Telegram minigame!",
+  "description.rarecrows.2": "Join over 15,000+ players and discover the Rarecrows before they run out",
+  "description.rarecrows.3": "Play now"
 }
