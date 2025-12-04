@@ -35,7 +35,11 @@ export const DailyRewardClaim: React.FC = () => {
 
   const [showClaim, setShowClaim] = useState(false);
 
-  const hasClaimed = !isDailyRewardReady({ dailyRewards, bumpkinExperience });
+  const hasClaimed = !isDailyRewardReady({
+    dailyRewards,
+    bumpkinExperience,
+    now,
+  });
 
   const rewards = useMemo(() => {
     let streak = getDailyRewardStreak({ dailyRewards, currentDate });
@@ -90,7 +94,7 @@ export const DailyRewardClaim: React.FC = () => {
   }
 
   const daysTillWeeklyMega = 7 - (rewards[0].day % 7);
-  const timeLeft = secondsToString(secondsTillReset(), { length: "full" });
+  const timeLeft = secondsToString(secondsTillReset(now), { length: "full" });
 
   return (
     <div>
