@@ -29,6 +29,7 @@ export type RewardBox = {
 };
 
 export type RewardBoxName =
+  | "Basic Love Box"
   | "Bronze Love Box"
   | "Silver Love Box"
   | "Gold Love Box"
@@ -71,6 +72,18 @@ function getSeedSeasons(seedName: SeedName): TemperateSeasonName[] {
 }
 
 export const REWARD_BOXES: Record<RewardBoxName, RewardBoxDetails> = {
+  "Basic Love Box": {
+    rewards: [
+      { coins: 25, weighting: 5 },
+      { coins: 50, weighting: 5 },
+      { coins: 100, weighting: 5 },
+      { items: { "Pumpkin Soup": 1 }, weighting: 2 },
+      { items: { "Sunflower Cake": 1 }, weighting: 5 },
+      { items: { "Love Charm": 2 }, weighting: 50 },
+      { items: { "Love Charm": 5 }, weighting: 50 },
+      { items: { "Love Charm": 10 }, weighting: 100 },
+    ],
+  },
   "Basic Farming Pack": {
     rewards: [
       // TODO - filter out non seasonal seeds

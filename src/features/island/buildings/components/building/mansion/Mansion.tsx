@@ -14,6 +14,7 @@ import { HomeBumpkins } from "../house/HomeBumpkins";
 import { MANOR_VARIANTS } from "features/island/lib/alternateArt";
 import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
 import { useVisiting } from "lib/utils/visitUtils";
+import { hasFeatureAccess } from "lib/flags";
 
 export const Mansion: React.FC<BuildingProps> = ({ isBuilt, season }) => {
   const { gameService, showAnimations } = useContext(Context);
