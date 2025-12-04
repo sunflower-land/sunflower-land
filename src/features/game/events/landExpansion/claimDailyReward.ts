@@ -1,5 +1,9 @@
 import Decimal from "decimal.js-light";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import {
+  DailyRewards,
+  GameState,
+  InventoryItemName,
+} from "features/game/types/game";
 import {
   DailyRewardDefinition,
   getRewardsForStreak,
@@ -18,22 +22,24 @@ type Options = {
 };
 
 export function isDailyRewardReady({
-  state,
+  bumpkinExperience,
+  dailyRewards,
   now = Date.now(),
 }: {
-  state: GameState;
+  bumpkinExperience: number;
+  dailyRewards?: DailyRewards;
   now?: number;
 }): boolean {
   // Do not give them daily reward until level 3
-  if (getBumpkinLevel(state.bumpkin?.experience ?? 0) < 3) {
+  if (getBumpkinLevel(bumpkinExperience) < 3) {
     return false;
   }
 
-  if (!state.dailyRewards) {
+  if (!dailyRewards) {
     return true;
   }
 
-  const dateKey = new Date(state.dailyRewards.chest?.collectedAt ?? 0)
+  const dateKey = new Date(dailyRewards.chest?.collectedAt ?? 0)
     .toISOString()
     .slice(0, 10);
   const currentDateKey = new Date(now).toISOString().slice(0, 10);
@@ -42,23 +48,22 @@ export function isDailyRewardReady({
 }
 
 export function getDailyRewardStreak({
-  state,
-  now,
+  dailyRewards,
+  currentDate,
 }: {
-  state: GameState;
-  now: number;
+  dailyRewards?: DailyRewards;
+  currentDate: string;
 }): number {
-  if (!state.dailyRewards) {
+  if (!dailyRewards) {
     return 0;
   }
 
-  const streak = state.dailyRewards.streaks ?? 0;
+  const streak = dailyRewards.streaks ?? 0;
 
   // If missed the day, reset the streak
-  const collectedDate = new Date(state.dailyRewards.chest?.collectedAt ?? 0)
+  const collectedDate = new Date(dailyRewards.chest?.collectedAt ?? 0)
     .toISOString()
     .substring(0, 10);
-  const currentDate = new Date(now).toISOString().substring(0, 10);
 
   // Calculate the day difference
   const dayDifference =
@@ -83,16 +88,26 @@ export function claimDailyReward({
       game.dailyRewards = { streaks: 0 };
     }
 
-    if (!isDailyRewardReady({ state: game, now: createdAt })) {
+    if (
+      !isDailyRewardReady({
+        dailyRewards: game.dailyRewards,
+        bumpkinExperience: game.bumpkin?.experience ?? 0,
+        now: createdAt,
+      })
+    ) {
       throw new Error("Daily reward not ready");
     }
 
-    const currentStreak = getDailyRewardStreak({ state: game, now: createdAt });
+    const currentDate = new Date(createdAt).toISOString().substring(0, 10);
+
+    const currentStreak = getDailyRewardStreak({
+      dailyRewards: game.dailyRewards,
+      currentDate,
+    });
 
     const rewards = getRewardsForStreak({
-      game,
       streak: currentStreak,
-      now: createdAt,
+      currentDate,
     });
 
     rewards.forEach((reward) => applyReward(game, reward));

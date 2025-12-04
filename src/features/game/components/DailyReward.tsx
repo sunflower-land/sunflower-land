@@ -1,6 +1,6 @@
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useGame } from "../GameProvider";
 import { ButtonPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "../types/images";
@@ -15,18 +15,30 @@ import { ClaimReward } from "../expansion/components/ClaimReward";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsTillReset, secondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { MachineState } from "../lib/gameMachine";
+import { useSelector } from "@xstate/react";
+import { useNow } from "lib/utils/hooks/useNow";
+
+const _bumpkinExperience = (state: MachineState) =>
+  state.context.state.bumpkin?.experience ?? 0;
+const _dailyRewards = (state: MachineState) => state.context.state.dailyRewards;
 
 export const DailyRewardClaim: React.FC = () => {
-  const { gameService, gameState } = useGame();
+  const { gameService } = useGame();
   const { t } = useAppTranslation();
-  const state = gameState.context.state;
+
+  const bumpkinExperience = useSelector(gameService, _bumpkinExperience);
+  const dailyRewards = useSelector(gameService, _dailyRewards);
+
+  const now = useNow({ live: true });
+  const currentDate = new Date(now).toISOString().substring(0, 10);
 
   const [showClaim, setShowClaim] = useState(false);
 
-  const hasClaimed = !isDailyRewardReady({ state });
+  const hasClaimed = !isDailyRewardReady({ dailyRewards, bumpkinExperience });
 
-  const [rewards, __] = useState(() => {
-    let streak = getDailyRewardStreak({ state, now: Date.now() });
+  const rewards = useMemo(() => {
+    let streak = getDailyRewardStreak({ dailyRewards, currentDate });
 
     if (hasClaimed) {
       streak -= 1;
@@ -36,13 +48,12 @@ export const DailyRewardClaim: React.FC = () => {
       return {
         day: streak + index + 1,
         reward: getRewardsForStreak({
-          game: state,
           streak: streak + index,
-          now: Date.now(),
+          currentDate,
         }),
       };
     });
-  });
+  }, [dailyRewards, hasClaimed, currentDate]);
 
   if (showClaim) {
     const items = rewards[0].reward.reduce(
@@ -73,6 +84,7 @@ export const DailyRewardClaim: React.FC = () => {
         onClaim={() => {
           gameService.send("dailyReward.claimed");
           gameService.send("CONTINUE");
+          // setShowClaim(false);
         }}
       />
     );
@@ -132,7 +144,7 @@ export const DailyRewardClaim: React.FC = () => {
         })}
       </div>
       {hasClaimed ? (
-        <div>
+        <div className="pb-2 space-y-2">
           <span className="text-xs m-1">{t("dailyReward.returnTomorrow")}</span>
           <Label
             type="transparent"

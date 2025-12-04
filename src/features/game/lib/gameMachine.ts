@@ -1342,7 +1342,11 @@ export function startGame(authContext: AuthContext) {
                 if (!hasFeatureAccess(context.state, "DAILY_BOXES"))
                   return false;
 
-                return isDailyRewardReady({ state: context.state });
+                return isDailyRewardReady({
+                  bumpkinExperience: context.state.bumpkin?.experience ?? 0,
+                  dailyRewards: context.state.dailyRewards,
+                  now: Date.now(),
+                });
               },
             },
 

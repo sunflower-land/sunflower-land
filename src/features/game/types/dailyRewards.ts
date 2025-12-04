@@ -1,4 +1,4 @@
-import { GameState, InventoryItemName } from "./game";
+import { InventoryItemName } from "./game";
 import { getSeasonalTicket } from "./seasons";
 
 export type DailyRewardDefinition = {
@@ -119,20 +119,18 @@ export function getMilestoneRewards(streak: number): DailyRewardDefinition[] {
 }
 
 export function getRewardsForStreak({
-  game,
   streak,
-  now,
+  currentDate,
 }: {
-  game: GameState;
   streak: number;
-  now: number;
+  currentDate: string;
 }): DailyRewardDefinition[] {
   const DEFAULT_REWARD: DailyRewardDefinition = {
     id: "default-reward",
     label: "Default Reward",
     items: {
       Cheer: 3,
-      [getSeasonalTicket(new Date(now))]: 1,
+      [getSeasonalTicket(new Date(currentDate))]: 1,
     },
   };
   return [
