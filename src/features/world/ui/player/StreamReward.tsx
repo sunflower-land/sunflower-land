@@ -4,7 +4,7 @@ import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { millisecondsToString } from "lib/utils/time";
+import { millisecondsToString, getDayOfYear } from "lib/utils/time";
 import * as Auth from "features/auth/lib/Provider";
 import React, { useContext, useState, useEffect } from "react";
 import { Button } from "components/ui/Button";
@@ -14,6 +14,7 @@ import { Loading } from "features/auth/components";
 import { InnerPanel } from "components/ui/Panel";
 
 export const STREAM_REWARD_COOLDOWN = 1000 * 60 * 5;
+export const MAX_DAILY_CLAIMS = 10;
 
 const RewardHeader: React.FC<{ timeToNextClaim: number }> = ({
   timeToNextClaim,
@@ -39,16 +40,27 @@ export const StreamReward: React.FC<{ streamerId: number }> = ({
   const { gameService } = useContext(Context);
   const { authService } = useContext(Auth.Context);
 
-  const streamHatLastClaimed = useSelector(
+  const streamHatData = useSelector(
     gameService,
-    (state) => state.context.state.pumpkinPlaza.streamerHat?.openedAt ?? 0,
+    (state) => state.context.state.pumpkinPlaza.streamerHat,
   );
+  const streamHatLastClaimed = streamHatData?.openedAt ?? 0;
+  const dailyCount = streamHatData?.dailyCount ?? 0;
+
   const gameState = useSelector(gameService, (state) => ({
     isClaiming: state.matches("claimingStreamReward"),
     isSuccess: state.matches("claimingStreamRewardSuccess"),
     isFailed: state.matches("claimingStreamRewardFailed"),
     errorCode: state.context.errorCode,
   }));
+
+  // Check if openedAt is from today and get today's claim count
+  const today = getDayOfYear(new Date());
+  const lastClaimedDay =
+    streamHatLastClaimed > 0 ? getDayOfYear(new Date(streamHatLastClaimed)) : 0;
+  const todayClaimCount = lastClaimedDay === today ? dailyCount : 0;
+  const remainingClaims = Math.max(0, MAX_DAILY_CLAIMS - todayClaimCount);
+  const hasReachedDailyLimit = todayClaimCount >= MAX_DAILY_CLAIMS;
 
   const [timeToNextClaim, setTimeToNextClaim] = useState(0);
 
@@ -103,14 +115,29 @@ export const StreamReward: React.FC<{ streamerId: number }> = ({
     );
   }
 
+  const isDisabled = timeToNextClaim > 0 || hasReachedDailyLimit;
+
   return (
     <InnerPanel>
       <div className="ml-1 mb-2">
         <RewardHeader timeToNextClaim={timeToNextClaim} />
         <p className="text-sm">{`You have found a streamer! Claim 5 Love Charms every 5 minutes.`}</p>
+        {hasReachedDailyLimit ? (
+          <p className="text-sm text-red-500 mt-1">
+            {`Daily limit reached! You can claim again tomorrow.`}
+          </p>
+        ) : (
+          <p className="text-sm text-gray-600 mt-1">
+            {`${remainingClaims} claim${remainingClaims !== 1 ? "s" : ""} remaining today.`}
+          </p>
+        )}
       </div>
-      <Button onClick={claimReward} disabled={timeToNextClaim > 0}>
-        {timeToNextClaim > 0 ? t("claimed") : t("claim")}
+      <Button onClick={claimReward} disabled={isDisabled}>
+        {hasReachedDailyLimit
+          ? "Daily limit reached"
+          : timeToNextClaim > 0
+            ? t("claimed")
+            : t("claim")}
       </Button>
     </InnerPanel>
   );
