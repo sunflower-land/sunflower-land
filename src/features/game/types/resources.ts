@@ -373,6 +373,13 @@ export const RESOURCES_UPGRADES_TO: Partial<
   "Pure Gold Rock": "Prime Gold Rock",
 };
 
+export const BASIC_RESOURCES: BasicResourceName[] = [
+  "Stone Rock",
+  "Iron Rock",
+  "Gold Rock",
+  "Tree",
+];
+
 export const REQUIRED_NODES_TO_FORGE = 4;
 
 export const RESOURCE_MULTIPLIER: Record<UpgradeableResource, number> = {

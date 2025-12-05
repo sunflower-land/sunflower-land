@@ -29,10 +29,12 @@ import {
   RESOURCE_STATE_ACCESSORS,
   RESOURCE_DIMENSIONS,
   ResourceName,
-  ADVANCED_RESOURCES,
   RESOURCE_MULTIPLIER,
   UpgradeableResource,
+  BASIC_RESOURCES,
+  BasicResourceName,
   RESOURCES_UPGRADES_TO,
+  ADVANCED_RESOURCES,
 } from "features/game/types/resources";
 import { getCollectionName } from "features/marketplace/lib/getCollectionName";
 import { setPrecision } from "lib/utils/formatNumber";
@@ -115,19 +117,20 @@ export const getChestItems = (state: GameState): Inventory => {
     if (itemName in RESOURCE_STATE_ACCESSORS) {
       const stateAccessor =
         RESOURCE_STATE_ACCESSORS[itemName as Exclude<ResourceName, "Boulder">];
-      const nodes = Object.values(stateAccessor(state) ?? {}).filter(
+      const placedNodes = Object.values(stateAccessor(state) ?? {}).filter(
         (resource) => {
           if (
             itemName in RESOURCES_UPGRADES_TO ||
             itemName in ADVANCED_RESOURCES
           ) {
-            // If node is upgradeable, check if it has the same name as the current item
-            if ("name" in resource) {
-              return resource.name === itemName;
-            }
+            const placed = resource.x !== undefined && resource.y !== undefined;
+            const hasName = "name" in resource;
+            const nameMatch = hasName && resource.name === itemName;
+            const isBaseResource =
+              !hasName &&
+              BASIC_RESOURCES.includes(itemName as BasicResourceName);
 
-            // If it has no name, it probably means it's a base resource
-            return itemName in RESOURCES_UPGRADES_TO;
+            return (nameMatch || isBaseResource) && placed;
           }
 
           return true;
@@ -137,12 +140,7 @@ export const getChestItems = (state: GameState): Inventory => {
       return {
         ...acc,
         [itemName]: new Decimal(
-          state.inventory[itemName]?.minus(
-            nodes.filter(
-              (resource) =>
-                resource.x !== undefined && resource.y !== undefined,
-            ).length,
-          ) ?? 0,
+          state.inventory[itemName]?.minus(placedNodes.length) ?? 0,
         ),
       };
     }

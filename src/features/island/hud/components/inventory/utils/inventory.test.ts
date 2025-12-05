@@ -1,5 +1,7 @@
 import Decimal from "decimal.js-light";
-import { getBasketItems } from "./inventory";
+import { TEST_FARM } from "features/game/lib/constants";
+import { GameState } from "features/game/types/game";
+import { getBasketItems, getChestItems } from "./inventory";
 
 describe("getBasketItems", () => {
   it("creates an empty basket", () => {
@@ -123,5 +125,99 @@ describe("getBasketItems", () => {
     const basket = getBasketItems({ Wheat: new Decimal(0.00009) });
 
     expect(basket).toEqual({});
+  });
+});
+
+describe("getChestItems", () => {
+  it("returns empty chest when there are no placeable items", () => {
+    const chest = getChestItems({
+      ...TEST_FARM,
+      inventory: {},
+      collectibles: {},
+      buildings: {},
+    });
+
+    expect(chest).toEqual({});
+  });
+
+  it("subtracts placed collectible and building quantities from inventory", () => {
+    const chest = getChestItems({
+      ...TEST_FARM,
+      inventory: {
+        "Fire Pit": new Decimal(2),
+        "Abandoned Bear": new Decimal(3),
+      },
+      collectibles: {
+        "Abandoned Bear": [
+          {
+            id: "1",
+            createdAt: Date.now(),
+            readyAt: Date.now(),
+            coordinates: { x: 1, y: 1 },
+          },
+        ],
+      },
+      buildings: {
+        ...TEST_FARM.buildings,
+        "Fire Pit": [
+          {
+            id: "3",
+            createdAt: Date.now(),
+            coordinates: { x: 3, y: 3 },
+            readyAt: Date.now(),
+          },
+        ],
+      },
+    });
+
+    expect(chest).toEqual({
+      "Fire Pit": new Decimal(1),
+      "Abandoned Bear": new Decimal(2),
+    });
+  });
+
+  it("subtracts placed resource nodes and never goes below zero", () => {
+    const baseState: GameState = {
+      ...TEST_FARM,
+      inventory: {
+        Tree: new Decimal(3),
+      },
+      trees: {
+        // Not placed tree
+        "1": {
+          wood: { choppedAt: 0 },
+          name: "Tree",
+        },
+        // Placed trees
+        "2": {
+          wood: { choppedAt: 0 },
+          name: "Tree",
+          x: 1,
+          y: 1,
+        },
+        "3": {
+          wood: { choppedAt: 0 },
+          name: "Tree",
+          x: 2,
+          y: 2,
+        },
+      },
+    };
+
+    const chestWithPositive = getChestItems(baseState);
+    expect(chestWithPositive).toEqual({
+      Tree: new Decimal(1),
+    });
+
+    const chestWithZero = getChestItems({
+      ...baseState,
+      inventory: {
+        Tree: new Decimal(1),
+      },
+    });
+
+    expect(chestWithZero).toEqual({
+      Tree: new Decimal(0),
+    });
   });
 });

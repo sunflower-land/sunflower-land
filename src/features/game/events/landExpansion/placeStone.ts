@@ -42,7 +42,6 @@ export function placeStone({
     const existingStone = findExistingUnplacedNode({
       nodeStateAccessor,
       nodeToFind: action.name,
-      baseNode: "Stone Rock",
     });
 
     if (existingStone) {

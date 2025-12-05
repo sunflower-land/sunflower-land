@@ -42,7 +42,6 @@ export function placeGold({
     const existingGold = findExistingUnplacedNode({
       nodeStateAccessor,
       nodeToFind: action.name,
-      baseNode: "Gold Rock",
     });
 
     if (existingGold) {
