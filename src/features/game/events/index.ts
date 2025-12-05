@@ -949,7 +949,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "biome.applied": applyBiome,
   "animal.wakeUp": wakeAnimal,
   "cheers.claimed": claimDailyCheers,
-  "social.wave": bumpkinWave,
+  "bumpkin.wave": bumpkinWave,
   "clutter.burned": burnClutter,
   "project.instantGrow": instantGrowProject,
   "rock.upgraded": upgradeRock,

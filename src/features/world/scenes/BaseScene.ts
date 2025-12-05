@@ -832,7 +832,7 @@ export abstract class BaseScene extends Phaser.Scene {
       (this.currentPlayer.farmId === senderId ||
         this.currentPlayer.farmId === receiverId)
     ) {
-      this.gameService?.send("social.wave");
+      this.gameService?.send("bumpkin.wave");
     }
   }
 
@@ -1503,13 +1503,14 @@ export abstract class BaseScene extends Phaser.Scene {
 
     const isMoving =
       this.movementAngle !== undefined && this.walkingSpeed !== 0;
+    const isInteracting = this.currentPlayer?.isInteracting();
 
     // change player direction if angle is changed from left to right or vise versa
     if (
       this.movementAngle !== undefined &&
       Math.abs(this.movementAngle) !== 90 &&
       isMoving &&
-      !this.currentPlayer?.isInteracting()
+      !isInteracting
     ) {
       this.isFacingLeft = Math.abs(this.movementAngle) > 90;
       this.isFacingLeft
@@ -1520,7 +1521,9 @@ export abstract class BaseScene extends Phaser.Scene {
     // set player velocity
     const currentPlayerBody = this.currentPlayer
       .body as Phaser.Physics.Arcade.Body;
-    if (this.movementAngle !== undefined) {
+    if (isInteracting) {
+      currentPlayerBody.setVelocity(0, 0);
+    } else if (this.movementAngle !== undefined) {
       currentPlayerBody.setVelocity(
         this.walkingSpeed * Math.cos((this.movementAngle * Math.PI) / 180),
         this.walkingSpeed * Math.sin((this.movementAngle * Math.PI) / 180),
@@ -1544,13 +1547,11 @@ export abstract class BaseScene extends Phaser.Scene {
     }
 
     if (this.walkAudioController) {
-      this.walkAudioController.handleWalkSound(isMoving);
+      this.walkAudioController.handleWalkSound(isMoving && !isInteracting);
     } else {
       // eslint-disable-next-line no-console
       console.error("walkAudioController is undefined");
     }
-
-    const isInteracting = this.currentPlayer?.isInteracting();
 
     if (!isInteracting) {
       if (isMoving) {

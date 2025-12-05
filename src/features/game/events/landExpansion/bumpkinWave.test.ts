@@ -5,7 +5,7 @@ describe("bumpkinWave", () => {
   it("awards +1 all-time social point", () => {
     const state = bumpkinWave({
       state: INITIAL_FARM,
-      action: { type: "social.wave" },
+      action: { type: "bumpkin.wave" },
     });
 
     expect(state.socialFarming.points).toBe(
@@ -16,7 +16,7 @@ describe("bumpkinWave", () => {
   it("increments weekly social point total by 1", () => {
     const state = bumpkinWave({
       state: INITIAL_FARM,
-      action: { type: "social.wave" },
+      action: { type: "bumpkin.wave" },
     });
 
     expect(state.socialFarming.weeklyPoints.points).toBe(
@@ -27,12 +27,12 @@ describe("bumpkinWave", () => {
   it("is additive across multiple waves", () => {
     const once = bumpkinWave({
       state: INITIAL_FARM,
-      action: { type: "social.wave" },
+      action: { type: "bumpkin.wave" },
     });
 
     const twice = bumpkinWave({
       state: once,
-      action: { type: "social.wave" },
+      action: { type: "bumpkin.wave" },
     });
 
     expect(twice.socialFarming.points).toBe(

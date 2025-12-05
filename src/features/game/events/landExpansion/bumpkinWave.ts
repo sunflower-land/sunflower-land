@@ -2,7 +2,7 @@ import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 
 export type BumpkinWaveAction = {
-  type: "social.wave";
+  type: "bumpkin.wave";
 };
 
 type Options = {
