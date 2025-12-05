@@ -1,5 +1,5 @@
 import { Button } from "components/ui/Button";
-import { Label } from "components/ui/Label";
+import { Label, LabelType } from "components/ui/Label";
 import React, { useMemo, useState } from "react";
 import { useGame } from "../GameProvider";
 import { ButtonPanel } from "components/ui/Panel";
@@ -23,7 +23,19 @@ const _bumpkinExperience = (state: MachineState) =>
   state.context.state.bumpkin?.experience ?? 0;
 const _dailyRewards = (state: MachineState) => state.context.state.dailyRewards;
 
-export const DailyRewardClaim: React.FC = () => {
+function acknowledgeDailyReward() {
+  localStorage.setItem("dailyRewardAcknowledged", new Date().toISOString());
+}
+
+export function getDailyRewardLastAcknowledged(): Date | null {
+  const value = localStorage.getItem("dailyRewardAcknowledged");
+  if (!value) return null;
+  return new Date(value as string);
+}
+
+export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
+  showClose,
+}) => {
   const { gameService } = useGame();
   const { t } = useAppTranslation();
 
@@ -88,6 +100,7 @@ export const DailyRewardClaim: React.FC = () => {
         onClaim={() => {
           gameService.send("dailyReward.claimed");
           gameService.send("CONTINUE");
+          setShowClaim(false);
         }}
       />
     );
@@ -97,7 +110,17 @@ export const DailyRewardClaim: React.FC = () => {
   const timeLeft = secondsToString(secondsTillReset(now), { length: "full" });
 
   return (
-    <div>
+    <div className="relative">
+      {showClose && (
+        <img
+          src={SUNNYSIDE.icons.close}
+          className="absolute top-0 right-0 w-8 cursor-pointer"
+          onClick={() => {
+            acknowledgeDailyReward();
+            gameService.send("CONTINUE");
+          }}
+        />
+      )}
       <Label type="warning">{t("dailyReward.title")}</Label>
       <p className="text-xs mx-1 my-2">
         {t("dailyReward.megaRewardCountdown", {
@@ -110,21 +133,33 @@ export const DailyRewardClaim: React.FC = () => {
             return [...acc, ...getKeys(reward.items ?? {})];
           }, [] as InventoryItemName[]);
 
+          let labelType: LabelType = "default";
+
+          if (index === 0) {
+            labelType = "info";
+          } else if (day % 7 === 0) {
+            labelType = "vibrant";
+          }
+
+          let labelText = t("dailyReward.day", { day });
+
+          if (index === 0) {
+            labelText = t("dailyReward.today");
+          }
+
+          if (hasClaimed && index === 0) {
+            labelType = "success";
+            labelText = t("dailyReward.claimed");
+          }
+
           return (
             <ButtonPanel
               key={`${day}`}
               variant={index === 0 ? "primary" : "secondary"}
               className="w-32 min-w-32 flex flex-col items-center mr-1"
             >
-              <Label
-                type={
-                  index === 0 ? "info" : day % 7 === 0 ? "vibrant" : "default"
-                }
-                className="mb-1"
-              >
-                {index === 0
-                  ? t("dailyReward.today")
-                  : t("dailyReward.day", { day })}
+              <Label type={labelType} className="mb-1">
+                {labelText}
               </Label>
               <div className="relative mb-1">
                 <div className="w-16 flex items-center justify-center">
