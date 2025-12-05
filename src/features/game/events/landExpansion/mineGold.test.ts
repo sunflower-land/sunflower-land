@@ -3,6 +3,8 @@ import { GOLD_RECOVERY_TIME, INITIAL_FARM } from "../../lib/constants";
 import { CriticalHitName, GameState } from "../../types/game";
 import { LandExpansionMineGoldAction, mineGold, getMinedAt } from "./mineGold";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
+import { KNOWN_IDS } from "features/game/types";
+import { prngChance } from "lib/prng";
 
 const GAME_STATE: GameState = {
   ...INITIAL_FARM,
@@ -30,6 +32,7 @@ describe("mineGold", () => {
   it("throws an error if no axes are left", () => {
     expect(() =>
       mineGold({
+        farmId: 1,
         state: { ...GAME_STATE, bumpkin: TEST_BUMPKIN },
         createdAt: Date.now(),
         action: {
@@ -44,6 +47,7 @@ describe("mineGold", () => {
   it("throws an error if gold is not placed", () => {
     expect(() =>
       mineGold({
+        farmId: 1,
         state: {
           ...GAME_STATE,
           bumpkin: GAME_STATE.bumpkin,
@@ -60,6 +64,7 @@ describe("mineGold", () => {
   it("throws an error if gold does not exist", () => {
     expect(() =>
       mineGold({
+        farmId: 1,
         state: {
           ...GAME_STATE,
           bumpkin: TEST_BUMPKIN,
@@ -79,6 +84,7 @@ describe("mineGold", () => {
 
   it("throws an error if gold is not ready", () => {
     const payload = {
+      farmId: 1,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -98,6 +104,7 @@ describe("mineGold", () => {
     // Try same payload
     expect(() =>
       mineGold({
+        farmId: 1,
         state: game,
         action: payload.action,
         createdAt: Date.now(),
@@ -107,6 +114,7 @@ describe("mineGold", () => {
 
   it("mines gold", () => {
     const payload = {
+      farmId: 1,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -130,6 +138,7 @@ describe("mineGold", () => {
 
   it("mines multiple gold", () => {
     let game = mineGold({
+      farmId: 1,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -146,6 +155,7 @@ describe("mineGold", () => {
     });
 
     game = mineGold({
+      farmId: 1,
       state: game,
       createdAt: Date.now(),
       action: {
@@ -163,6 +173,7 @@ describe("mineGold", () => {
     jest.useFakeTimers();
 
     const payload = {
+      farmId: 1,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -196,6 +207,7 @@ describe("mineGold", () => {
 
   it("adds 25% gold when Nugget (T3 Mole) is placed and ready", () => {
     const payload = {
+      farmId: 1,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -230,6 +242,7 @@ describe("mineGold", () => {
 
   it("adds +0.5 gold when Golden Touch skill is active", () => {
     const payload = {
+      farmId: 1,
       state: {
         ...GAME_STATE,
         bumpkin: {
@@ -256,6 +269,7 @@ describe("mineGold", () => {
 
   it("dos not apply boost when Nugget (T3 Mole) is placed but not ready", () => {
     const payload = {
+      farmId: 1,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -290,6 +304,7 @@ describe("mineGold", () => {
 
   it("adds bonus drop", () => {
     const payload = {
+      farmId: 1,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -324,6 +339,7 @@ describe("mineGold", () => {
 
   it("adds +0.5 gold when gold is within Emerald Turtle AoE", () => {
     const payload = {
+      farmId: 1,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -360,6 +376,7 @@ describe("mineGold", () => {
     const now = Date.now();
 
     const payload = {
+      farmId: 1,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -399,6 +416,7 @@ describe("mineGold", () => {
     const now = Date.now();
 
     const payload = {
+      farmId: 1,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -441,6 +459,7 @@ describe("mineGold", () => {
     const now = Date.now();
 
     const payload = {
+      farmId: 1,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -485,6 +504,7 @@ describe("mineGold", () => {
     const now = Date.now();
 
     const payload = {
+      farmId: 1,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -536,6 +556,7 @@ describe("mineGold", () => {
 
   it("adds +0.1 gold when Gilded Swordfish is placed", () => {
     const payload = {
+      farmId: 1,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -569,6 +590,7 @@ describe("mineGold", () => {
 
   it("adds +0.1 gold when Gilded Swordfish is placed", () => {
     const payload = {
+      farmId: 1,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -602,6 +624,7 @@ describe("mineGold", () => {
 
   it("adds +0.5 gold when Golden Touch skill is active", () => {
     const payload = {
+      farmId: 1,
       state: {
         ...GAME_STATE,
         bumpkin: {
@@ -647,6 +670,7 @@ describe("mineGold", () => {
       },
     };
     const payload = {
+      farmId: 1,
       state,
       createdAt: Date.now(),
       action: {
@@ -684,6 +708,7 @@ describe("mineGold", () => {
       },
     };
     const payload = {
+      farmId: 1,
       state,
       createdAt: Date.now(),
       action: {
@@ -715,6 +740,7 @@ describe("mineGold", () => {
       },
     };
     const payload = {
+      farmId: 1,
       state,
       createdAt: Date.now(),
       action: {
@@ -754,6 +780,7 @@ describe("mineGold", () => {
     };
 
     const payload = {
+      farmId: 1,
       state,
       createdAt: Date.now(),
       action: {
@@ -773,6 +800,7 @@ describe("mineGold", () => {
     const now = Date.now();
 
     const state = mineGold({
+      farmId: 1,
       state: {
         ...GAME_STATE,
         inventory: {
@@ -808,6 +836,7 @@ describe("mineGold", () => {
         ...TEST_BUMPKIN,
       };
       const game = mineGold({
+        farmId: 1,
         state: {
           ...GAME_STATE,
           bumpkin: bumpkin,
@@ -832,6 +861,7 @@ describe("mineGold", () => {
         ...TEST_BUMPKIN,
       };
       const state1 = mineGold({
+        farmId: 1,
         state: {
           ...GAME_STATE,
           bumpkin: bumpkin,
@@ -848,6 +878,7 @@ describe("mineGold", () => {
       });
 
       const game = mineGold({
+        farmId: 1,
         state: state1,
         createdAt,
         action: {
@@ -864,6 +895,9 @@ describe("mineGold", () => {
     const now = Date.now();
 
     const time = getMinedAt({
+      farmId: 1,
+      itemId: KNOWN_IDS["Gold Rock"],
+      counter: 0,
       game: {
         ...INITIAL_FARM,
         collectibles: {
@@ -890,6 +924,9 @@ describe("mineGold", () => {
     const now = Date.now();
 
     const time = getMinedAt({
+      farmId: 1,
+      itemId: KNOWN_IDS["Gold Rock"],
+      counter: 0,
       game: {
         ...INITIAL_FARM,
         collectibles: {
@@ -916,6 +953,9 @@ describe("mineGold", () => {
     const now = Date.now();
 
     const time = getMinedAt({
+      farmId: 1,
+      itemId: KNOWN_IDS["Gold Rock"],
+      counter: 0,
       game: {
         ...INITIAL_FARM,
         collectibles: {
@@ -949,6 +989,9 @@ describe("mineGold", () => {
   it("applies a Ore Hourglass boost of -50% recovery time for 3 hours", () => {
     const now = Date.now();
     const time = getMinedAt({
+      farmId: 1,
+      itemId: KNOWN_IDS["Gold Rock"],
+      counter: 0,
       game: {
         ...INITIAL_FARM,
         collectibles: {
@@ -974,6 +1017,9 @@ describe("mineGold", () => {
   it("applies a boost of -10% recovery time when Midas Sprint skill is active", () => {
     const now = Date.now();
     const time = getMinedAt({
+      farmId: 1,
+      itemId: KNOWN_IDS["Gold Rock"],
+      counter: 0,
       game: {
         ...INITIAL_FARM,
         bumpkin: {
@@ -993,6 +1039,9 @@ describe("mineGold", () => {
   it("applies a boost of -10% recovery time when Pickaxe Shark is equipped", () => {
     const now = Date.now();
     const time = getMinedAt({
+      farmId: 1,
+      itemId: KNOWN_IDS["Gold Rock"],
+      counter: 0,
       game: {
         ...INITIAL_FARM,
         bumpkin: {
@@ -1017,6 +1066,9 @@ describe("mineGold", () => {
     const fourHoursAgo = now - 4 * 60 * 60 * 1000;
 
     const time = getMinedAt({
+      farmId: 1,
+      itemId: KNOWN_IDS["Gold Rock"],
+      counter: 0,
       game: {
         ...INITIAL_FARM,
         collectibles: {
@@ -1034,5 +1086,45 @@ describe("mineGold", () => {
     });
 
     expect(time).toEqual({ time: now, boostsUsed: [] });
+  });
+
+  it("has a 10% chance to instant regrow when Pickaxe Shark is equipped", () => {
+    function getCounter() {
+      let counter = 0;
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
+        if (
+          prngChance({
+            farmId: 1,
+            itemId: KNOWN_IDS["Gold Rock"],
+            counter,
+            chance: 10,
+            criticalHitName: "Pickaxe Shark",
+          })
+        ) {
+          return counter;
+        }
+        counter++;
+      }
+    }
+    const now = Date.now();
+    const { time } = getMinedAt({
+      farmId: 1,
+      itemId: KNOWN_IDS["Gold Rock"],
+      counter: getCounter(),
+      game: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin.equipped,
+            tool: "Pickaxe Shark",
+          },
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(time).toEqual(now - GOLD_RECOVERY_TIME * 1000);
   });
 });
