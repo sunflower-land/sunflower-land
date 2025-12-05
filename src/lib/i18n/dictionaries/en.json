@@ -6335,6 +6335,7 @@
   "dailyReward.title": "Daily Reward",
   "dailyReward.megaRewardCountdown": "Play for {{days}} more days to claim your Mega Reward.",
   "dailyReward.today": "Today",
+  "dailyReward.claimed": "Claimed",
   "dailyReward.day": "Day {{day}}",
   "dailyReward.returnTomorrow": "Come back tomorrow to claim your next reward.",
   "dailyReward.timeLeft": "{{time}} Left",
