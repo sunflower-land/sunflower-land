@@ -110,6 +110,7 @@ import { depositSFL } from "lib/blockchain/DepositSFL";
 import { getBumpkinLevel } from "./level";
 import { hasFeatureAccess } from "lib/flags";
 import { isDailyRewardReady } from "../events/landExpansion/claimDailyReward";
+import { getDailyRewardLastAcknowledged } from "../components/DailyReward";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -1341,6 +1342,16 @@ export function startGame(authContext: AuthContext) {
               cond: (context) => {
                 if (!hasFeatureAccess(context.state, "DAILY_BOXES"))
                   return false;
+
+                // If already acknowledged in last 24 hours, don't show
+                const lastAcknowledged = getDailyRewardLastAcknowledged();
+                if (
+                  lastAcknowledged &&
+                  lastAcknowledged.toISOString().slice(0, 10) ===
+                    new Date().toISOString().slice(0, 10)
+                ) {
+                  return false;
+                }
 
                 return isDailyRewardReady({
                   bumpkinExperience: context.state.bumpkin?.experience ?? 0,

@@ -665,7 +665,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             {coolingDown && <Cooldown />}
             {gameRules && <Rules />}
             {FLOWERTeaser && <FLOWERTeaserContent />}
-            {dailyReward && <DailyRewardClaim />}
+            {dailyReward && <DailyRewardClaim showClose />}
             {transacting && <Transaction />}
             {depositing && <Loading text={t("depositing")} />}
             {trading && <Loading text={t("trading")} />}
