@@ -509,7 +509,7 @@ export abstract class BaseScene extends Phaser.Scene {
       buttonImage.setTexture("round_button");
     });
 
-    return { container, buttonImage };
+    return { container, buttonImage, iconImage };
   }
 
   // micro interactions code
@@ -545,7 +545,18 @@ export abstract class BaseScene extends Phaser.Scene {
     const {
       container: microInteractionBtnContainer,
       buttonImage: microInteractionBtn,
-    } = this.createRoundIconButton(spacing / 2, 0, "chat_icon");
+      iconImage: microInteractionIcon,
+    } = this.createRoundIconButton(spacing / 2, 0, "hand_wave");
+
+    // Animate the wave icon so it gently waves back and forth
+    this.tweens.add({
+      targets: microInteractionIcon,
+      angle: { from: -15, to: 15 },
+      duration: 260,
+      yoyo: true,
+      repeat: 1,
+      ease: "Sine.InOut",
+    });
     microInteractionBtn.on("pointerup", () => {
       this.requestMicroInteraction(target, "wave");
       const existing = target.getByName("interactionMenu") as
@@ -655,8 +666,21 @@ export abstract class BaseScene extends Phaser.Scene {
     const indicator = this.add.container(0, -20);
     indicator.setName("microInteractionIndicator");
 
-    const { container: indicatorBtnContainer, buttonImage: indicatorBtn } =
-      this.createRoundIconButton(0, 0, "chat_icon");
+    const {
+      container: indicatorBtnContainer,
+      buttonImage: indicatorBtn,
+      iconImage: indicatorIcon,
+    } = this.createRoundIconButton(0, 0, "hand_wave");
+
+    // Match the same wave animation on the indicator icon
+    this.tweens.add({
+      targets: indicatorIcon,
+      angle: { from: -15, to: 15 },
+      duration: 260,
+      yoyo: true,
+      repeat: -1,
+      ease: "Sine.InOut",
+    });
 
     indicatorBtn.on("pointerup", () => {
       this.sendMicroInteraction("wave_ack", senderId, receiverId);
@@ -801,6 +825,15 @@ export abstract class BaseScene extends Phaser.Scene {
 
     sender.speak(translate("microInteraction.great.to.see.you"));
     receiver.speak(translate("microInteraction.hey.there"));
+
+    // Award social points to both participants on successful wave interaction
+    if (
+      this.currentPlayer &&
+      (this.currentPlayer.farmId === senderId ||
+        this.currentPlayer.farmId === receiverId)
+    ) {
+      this.gameService?.send("social.wave");
+    }
   }
 
   private faceReceiverTowardSender(

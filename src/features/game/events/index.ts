@@ -24,6 +24,8 @@ import {
   LandExpansionIronMineAction,
 } from "./landExpansion/ironMine";
 
+import { bumpkinWave, BumpkinWaveAction } from "./landExpansion/bumpkinWave";
+
 import { GameState } from "../types/game";
 import { claimAirdrop, ClaimAirdropAction } from "./claimAirdrop";
 import {
@@ -705,7 +707,8 @@ export type PlayingEvent =
   | UpgradeRockAction
   | UpgradeTreeAction
   | BulkPlantAction
-  | BulkHarvestAction;
+  | BulkHarvestAction
+  | BumpkinWaveAction;
 
 export type LocalVisitingEvent =
   | CollectGarbageAction
@@ -946,6 +949,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "biome.applied": applyBiome,
   "animal.wakeUp": wakeAnimal,
   "cheers.claimed": claimDailyCheers,
+  "social.wave": bumpkinWave,
   "clutter.burned": burnClutter,
   "project.instantGrow": instantGrowProject,
   "rock.upgraded": upgradeRock,
