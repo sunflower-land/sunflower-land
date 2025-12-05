@@ -117,6 +117,8 @@ export abstract class BaseScene extends Phaser.Scene {
 
   public map: Phaser.Tilemaps.Tilemap = {} as Phaser.Tilemaps.Tilemap;
 
+  private activeInteractionMenu?: Phaser.GameObjects.Container;
+
   npcs: Partial<Record<NPCName, BumpkinContainer>> = {};
 
   currentPlayer: BumpkinContainer | undefined;
@@ -429,24 +431,6 @@ export abstract class BaseScene extends Phaser.Scene {
             this.showInteractionMenu(player, target);
           }
 
-          // playerInteractionMenuManager.open({
-          //   targetFarmId: player.farmId,
-          //   targetUsername: player.username,
-          //   position: { x: pointer.x, y: pointer.y },
-          //   options: [
-          //     {
-          //       id: "details",
-          //       label: "Open details modal",
-          //       action: () => this.openPlayerProfile(player),
-          //     },
-          //     {
-          //       id: "wave",
-          //       label: "Hello interaction",
-          //       action: () => this.requestMicroInteraction(target, "wave"),
-          //     },
-          //   ],
-          // });
-
           return;
         }
 
@@ -485,35 +469,70 @@ export abstract class BaseScene extends Phaser.Scene {
     this.setUpNavMesh();
   }
 
+  public setUpNavMesh = () => {
+    const meshLayer = this.map.getObjectLayer("NavMesh");
+    if (!meshLayer) return;
+
+    this.navMesh = this.navMeshPlugin.buildMeshFromTiled(
+      "NavMesh",
+      meshLayer,
+      16,
+    );
+  };
+
+  private openPlayerProfile(player: PlayerModalPlayer) {
+    if (
+      player.clothing?.hat === "Streamer Hat" ||
+      player.clothing?.shirt === "Gift Giver"
+    ) {
+      rewardModalManager.open(player);
+      return;
+    }
+
+    playerModalManager.open(player);
+  }
+
+  private createRoundIconButton(x: number, y: number, icon: string) {
+    const container = this.add.container(x, y);
+    const buttonImage = this.add.image(0, 0, "round_button");
+    const iconImage = this.add.image(0, 0, icon);
+    iconImage.setDisplaySize(6, 6);
+    container.add(buttonImage);
+    container.add(iconImage);
+    buttonImage.setDisplaySize(14, 14);
+    buttonImage.setInteractive({ useHandCursor: true });
+    buttonImage.on("pointerdown", () => {
+      this.sound.play("button");
+      buttonImage.setTexture("round_button_pressed");
+    });
+    buttonImage.on("pointerup", () => {
+      buttonImage.setTexture("round_button");
+    });
+
+    return { container, buttonImage };
+  }
+
+  // micro interactions code
   private showInteractionMenu(
     player: PlayerModalPlayer,
     target: BumpkinContainer,
   ) {
-    // 1. Destroy any existing menu on this target
-    const existing = target.getByName("interactionMenu") as
-      | Phaser.GameObjects.Container
-      | undefined;
-    existing?.destroy();
+    // Destroy any existing menu anywhere
+    if (this.activeInteractionMenu && this.activeInteractionMenu.active) {
+      this.activeInteractionMenu.destroy();
+      this.activeInteractionMenu = undefined;
+    }
 
     // 2. Container positioned above the head, in *local* coordinates
     const menu = this.add.container(0, -20);
     menu.setName("interactionMenu");
+    this.activeInteractionMenu = menu;
 
     const spacing = 16; // distance between buttons
 
     // Left button - "details"
-    const detailsBtnContainer = this.add.container(-spacing / 2, 0);
-    const detailsBtn = this.add.image(0, 0, "round_button");
-    const detailsIcon = this.add.image(0, 0, "player_small");
-    detailsIcon.setDisplaySize(7, 7);
-    detailsBtnContainer.add(detailsBtn);
-    detailsBtnContainer.add(detailsIcon);
-    detailsBtn.setDisplaySize(14, 14); // see section 2 below
-    detailsBtn.setInteractive({ useHandCursor: true });
-    detailsBtn.on("pointerdown", () => {
-      this.sound.play("button");
-      detailsBtn.setTexture("round_button_pressed");
-    });
+    const { container: detailsBtnContainer, buttonImage: detailsBtn } =
+      this.createRoundIconButton(-spacing / 2, 0, "player_small");
     detailsBtn.on("pointerup", () => {
       detailsBtn.setTexture("round_button");
       this.openPlayerProfile(player);
@@ -523,20 +542,12 @@ export abstract class BaseScene extends Phaser.Scene {
       existing?.destroy();
     });
     // Right button - "interaction"
-    const microInteractionBtnContainer = this.add.container(spacing / 2, 0);
-    const microInteractionBtn = this.add.image(0, 0, "round_button");
-    const microInteractionIcon = this.add.image(0, 0, "chat_icon");
-    microInteractionIcon.setDisplaySize(6, 6);
-    microInteractionBtnContainer.add(microInteractionBtn);
-    microInteractionBtnContainer.add(microInteractionIcon);
-    microInteractionBtn.setDisplaySize(14, 14);
-    microInteractionBtn.setInteractive({ useHandCursor: true });
-    microInteractionBtn.on("pointerdown", () => {
-      microInteractionBtn.setTexture("round_button_pressed");
-    });
+    const {
+      container: microInteractionBtnContainer,
+      buttonImage: microInteractionBtn,
+    } = this.createRoundIconButton(spacing / 2, 0, "chat_icon");
     microInteractionBtn.on("pointerup", () => {
       this.requestMicroInteraction(target, "wave");
-      microInteractionBtn.setTexture("round_button");
       const existing = target.getByName("interactionMenu") as
         | Phaser.GameObjects.Container
         | undefined;
@@ -562,40 +573,16 @@ export abstract class BaseScene extends Phaser.Scene {
       ease: "Back.Out",
     });
   }
-
-  public setUpNavMesh = () => {
-    const meshLayer = this.map.getObjectLayer("NavMesh");
-    if (!meshLayer) return;
-
-    this.navMesh = this.navMeshPlugin.buildMeshFromTiled(
-      "NavMesh",
-      meshLayer,
-      16,
-    );
-  };
-
-  private openPlayerProfile(player: PlayerModalPlayer) {
-    if (
-      player.clothing?.hat === "Streamer Hat" ||
-      player.clothing?.shirt === "Gift Giver"
-    ) {
-      rewardModalManager.open(player);
-      return;
-    }
-
-    playerModalManager.open(player);
-  }
-
   protected requestMicroInteraction(
     target: BumpkinContainer,
     interaction: "wave",
   ) {
-    const initiatorFarmId = this.currentPlayer?.farmId;
+    const senderFarmId = this.currentPlayer?.farmId;
     const receiverFarmId = target.farmId;
 
     // Must have two valid and different farm ids
-    if (!initiatorFarmId || !receiverFarmId) return;
-    if (initiatorFarmId === receiverFarmId) {
+    if (!senderFarmId || !receiverFarmId) return;
+    if (senderFarmId === receiverFarmId) {
       return;
     }
 
@@ -610,8 +597,8 @@ export abstract class BaseScene extends Phaser.Scene {
       return;
     }
 
-    // Send wave request to the server (initiator -> receiver)
-    this.sendMicroInteraction(interaction, initiatorFarmId, receiverFarmId);
+    // Send wave request to the server (sender -> receiver)
+    this.sendMicroInteraction(interaction, senderFarmId, receiverFarmId);
 
     // Auto cancel the event after 5 seconds if no acknowledgement is received
     const timeout = this.time.addEvent({
@@ -623,7 +610,7 @@ export abstract class BaseScene extends Phaser.Scene {
 
         this.sendMicroInteraction(
           `${interaction}_cancel`,
-          initiatorFarmId,
+          senderFarmId,
           receiverFarmId,
         );
         this.clearOutgoingMicroInteractionRequest(receiverFarmId);
@@ -659,114 +646,109 @@ export abstract class BaseScene extends Phaser.Scene {
     senderId: number,
     receiverId: number,
   ) {
-    const indicator = this.add.container(0, -22);
-    indicator.setName(`${interaction}-indicator`);
+    // 1. Destroy any existing menu on this target
+    const existingIndicator = target.getByName("microInteractionIndicator") as
+      | Phaser.GameObjects.Container
+      | undefined;
+    existingIndicator?.destroy();
 
-    const background = this.add
-      .rectangle(0, 0, 36, 18, 0x14532d, 0.95)
-      .setOrigin(0.5)
-      .setStrokeStyle(1, 0xffffff, 0.9);
+    const indicator = this.add.container(0, -20);
+    indicator.setName("microInteractionIndicator");
 
-    const text = this.add
-      .bitmapText(0, -6, "Teeny Tiny Pixls", "HELLO", 6, 1)
-      .setOrigin(0.5)
-      .setTint(0xfef3c7);
+    const { container: indicatorBtnContainer, buttonImage: indicatorBtn } =
+      this.createRoundIconButton(0, 0, "chat_icon");
 
-    indicator.add(background);
-    indicator.add(text);
+    indicatorBtn.on("pointerup", () => {
+      this.sendMicroInteraction("wave_ack", senderId, receiverId);
+      indicator.destroy();
+    });
 
-    indicator.setSize(36, 18);
+    indicator.add(indicatorBtnContainer);
 
-    const isReceiver = receiverId === this.currentPlayer?.farmId;
-
-    if (isReceiver) {
-      indicator.setInteractive(
-        new Phaser.Geom.Rectangle(-18, -9, 36, 18),
-        Phaser.Geom.Rectangle.Contains,
-      );
-      indicator.on("pointerdown", (p: Phaser.Input.Pointer) => {
-        if (p.downElement.nodeName !== "CANVAS") return;
-        // Receiver explicitly acknowledges the hello
-        this.sendMicroInteraction("wave_ack", receiverId, senderId);
-      });
-    }
+    indicator.y = 4; // roughly where their body is
+    indicator.alpha = 0;
+    indicator.scale = 0.6;
 
     target.add(indicator);
     target.bringToTop(indicator);
 
+    // Tween up above the head
+    this.tweens.add({
+      targets: indicator,
+      y: -16, // final position above the head
+      alpha: 1,
+      scale: 1,
+      duration: 220,
+      ease: "Back.Out",
+    });
+
+    this.tweens.add({
+      targets: indicator,
+      scale: 0.9,
+      delay: 220,
+      duration: 500,
+      ease: "Linear",
+      repeat: -1,
+      yoyo: true,
+    });
+
     return { indicator };
-  }
-
-  // Trigger the micro interaction and clean up the indicator
-  private triggerMicroInteraction(
-    initiatorFarmId: number,
-    receiverFarmId: number,
-  ) {
-    // receiverFarmId is the farm that had the pending hello indicator
-    const interaction = this.receivedMicroInteractions.get(receiverFarmId);
-    if (!interaction) return;
-
-    this.receivedMicroInteractions.delete(receiverFarmId);
-
-    this.destroyMicroInteractionIndicator(interaction.indicator);
-
-    const interactionActions = interaction.type.split("_");
-
-    if (interactionActions.length === 1) {
-      const action = interactionActions[0] as MicroInteractionAction;
-
-      this.triggerInteraction(initiatorFarmId, receiverFarmId, action);
-    }
   }
 
   // Handle the action coming from the server
   private handleMicroInteractionAction(action: MicroInteraction) {
     if (action.sceneId && action.sceneId !== this.options.name) return;
-    // Expired
     if (action.sentAt && action.sentAt < Date.now() - 5000) return;
 
     const { receiverId, senderId } = action;
 
-    if (this.receivedMicroInteractions.has(receiverId)) return;
-
-    const target = this.findBumpkinByFarmId(receiverId);
+    const target = this.findBumpkinByFarmId(senderId);
     if (!target) return;
 
     switch (action.type) {
       case "wave": {
-        // Only track a single pending hello per receiver at a time
+        // Only allow one wave per receiver at any given time
+        if (this.receivedMicroInteractions.has(receiverId)) return;
 
-        const indicatorState = this.createMicroInteractionIndicator(
-          target,
-          "wave",
-          senderId,
-          receiverId,
-        );
+        if (this.currentPlayer?.farmId === receiverId) {
+          const { indicator } = this.createMicroInteractionIndicator(
+            target,
+            "wave",
+            senderId,
+            receiverId,
+          );
 
-        this.receivedMicroInteractions.set(receiverId, {
-          senderId,
-          receiverId,
-          type: "wave",
-          ...indicatorState,
-        });
-
-        this.findBumpkinByFarmId(senderId)?.speak("Hey!");
+          this.receivedMicroInteractions.set(receiverId, {
+            senderId,
+            receiverId,
+            type: "wave",
+            indicator,
+          });
+        }
 
         break;
       }
       case "wave_ack": {
-        // For an acknowledgement, senderId is the original receiver of the hello
-        const waveReceiverId = senderId;
-        const waveInitiatorId = receiverId;
+        if (this.currentPlayer?.farmId === senderId) {
+          // Stop the initiator's local timeout
+          this.clearOutgoingMicroInteractionRequest(receiverId);
+        }
 
-        // Stop the initiator's local timeout
-        this.clearOutgoingMicroInteractionRequest(waveReceiverId);
-        this.triggerMicroInteraction(waveInitiatorId, waveReceiverId);
+        if (this.currentPlayer?.farmId === receiverId) {
+          const pending = this.receivedMicroInteractions.get(receiverId);
+          if (pending) {
+            this.receivedMicroInteractions.delete(receiverId);
+            this.destroyMicroInteractionIndicator(pending.indicator);
+          }
+        }
+
+        // Trigger interaction between the two bumpkins
+        this.triggerInteraction(senderId, receiverId, "wave");
         break;
       }
       case "wave_cancel": {
-        // Cancel sent from the initiator after their timeout
-        this.clearOutgoingMicroInteractionRequest(receiverId);
+        if (this.currentPlayer?.farmId !== receiverId) return;
+        // Cancel sent from the sender after their timeout
         this.cancelMicroInteraction(receiverId, "timeout");
         break;
       }
@@ -779,18 +761,16 @@ export abstract class BaseScene extends Phaser.Scene {
     receiverFarmId: number,
     reason: "timeout" | "despawn" | "initiatorLeft",
   ) {
-    this.clearOutgoingMicroInteractionRequest(receiverFarmId);
-
     const interaction = this.receivedMicroInteractions.get(receiverFarmId);
     if (!interaction) return;
 
     this.receivedMicroInteractions.delete(receiverFarmId);
     this.destroyMicroInteractionIndicator(interaction.indicator);
 
-    const initiator = this.findBumpkinByFarmId(interaction.senderId);
+    const sender = this.findBumpkinByFarmId(interaction.senderId);
 
     if (reason === "timeout") {
-      initiator?.speak("Maybe later!");
+      sender?.speak("Maybe later!");
     }
   }
 
@@ -808,33 +788,46 @@ export abstract class BaseScene extends Phaser.Scene {
     receiverId: number,
     interaction: MicroInteractionAction,
   ) {
-    const initiator = this.findBumpkinByFarmId(senderId);
+    const sender = this.findBumpkinByFarmId(senderId);
     const receiver = this.findBumpkinByFarmId(receiverId);
 
-    if (!initiator || !receiver) return;
+    if (!sender || !receiver) return;
 
-    this.faceReceiverTowardInitiator(receiver, initiator);
+    this.faceReceiverTowardSender(receiver, sender);
+    this.faceSenderTowardReceiver(sender, receiver);
 
-    this.interact(initiator, interaction);
+    this.interact(sender, interaction);
     this.interact(receiver, interaction);
 
-    initiator.speak(translate("microInteraction.great.to.see.you"));
+    sender.speak(translate("microInteraction.great.to.see.you"));
     receiver.speak(translate("microInteraction.hey.there"));
   }
 
-  private faceReceiverTowardInitiator(
+  private faceReceiverTowardSender(
     receiver: BumpkinContainer,
-    initiator: BumpkinContainer,
+    sender: BumpkinContainer,
   ) {
-    if (!receiver || !initiator) return;
+    if (!receiver || !sender) return;
 
-    if (initiator.x > receiver.x) {
+    if (sender.x > receiver.x) {
       receiver.faceRight();
-    } else if (initiator.x < receiver.x) {
+    } else if (sender.x < receiver.x) {
       receiver.faceLeft();
     }
   }
 
+  private faceSenderTowardReceiver(
+    sender: BumpkinContainer,
+    receiver: BumpkinContainer,
+  ) {
+    if (!sender || !receiver) return;
+
+    if (receiver.x > sender.x) {
+      sender.faceRight();
+    } else if (receiver.x < sender.x) {
+      sender.faceLeft();
+    }
+  }
   private interact(
     entity: BumpkinContainer,
     interaction: MicroInteractionAction,
@@ -860,14 +853,14 @@ export abstract class BaseScene extends Phaser.Scene {
     );
   }
 
-  private cleanupHelloInteractionsForFarm(farmId?: number) {
+  private cleanupMicroInteractionsForFarm(farmId?: number) {
     if (!farmId) return;
 
     if (this.receivedMicroInteractions.has(farmId)) {
       this.cancelMicroInteraction(farmId, "despawn");
     }
 
-    // Ensure we also drop outgoing hellos initiated by this player to avoid stale timers.
+    // Ensure we also drop outgoing interactions sent by this player to avoid stale timers.
     Array.from(this.receivedMicroInteractions.values())
       .filter((interaction) => interaction.senderId === farmId)
       .forEach((interaction) =>
@@ -1389,7 +1382,7 @@ export abstract class BaseScene extends Phaser.Scene {
   destroyPlayer(sessionId: string) {
     const entity = this.playerEntities[sessionId];
     if (entity) {
-      this.cleanupHelloInteractionsForFarm(entity.farmId);
+      this.cleanupMicroInteractionsForFarm(entity.farmId);
 
       // Dispatch player leave event
       const event = new CustomEvent("player_leave", {
@@ -1475,10 +1468,15 @@ export abstract class BaseScene extends Phaser.Scene {
       this.movementAngle = this.keysToAngle(left, right, up, down);
     }
 
+    const isMoving =
+      this.movementAngle !== undefined && this.walkingSpeed !== 0;
+
     // change player direction if angle is changed from left to right or vise versa
     if (
       this.movementAngle !== undefined &&
-      Math.abs(this.movementAngle) !== 90
+      Math.abs(this.movementAngle) !== 90 &&
+      isMoving &&
+      !this.currentPlayer?.isInteracting()
     ) {
       this.isFacingLeft = Math.abs(this.movementAngle) > 90;
       this.isFacingLeft
@@ -1499,9 +1497,6 @@ export abstract class BaseScene extends Phaser.Scene {
     }
 
     this.sendPositionToServer();
-
-    const isMoving =
-      this.movementAngle !== undefined && this.walkingSpeed !== 0;
 
     if (this.soundEffects) {
       this.soundEffects.forEach((audio) =>
@@ -1756,14 +1751,20 @@ export abstract class BaseScene extends Phaser.Scene {
       // Skip if the player hasn't been set up yet
       if (!entity?.active) return;
 
-      if (player.x > entity.x) {
-        entity.faceRight();
-      } else if (player.x < entity.x) {
-        entity.faceLeft();
+      const isInteracting = entity.isInteracting();
+
+      if (!isInteracting) {
+        const movingHorizontally = Math.abs(player.x - entity.x) > 0.5;
+        if (movingHorizontally) {
+          if (player.x > entity.x) {
+            entity.faceRight();
+          } else if (player.x < entity.x) {
+            entity.faceLeft();
+          }
+        }
       }
 
       const distance = Phaser.Math.Distance.BetweenPoints(player, entity);
-      const isInteracting = entity.isInteracting();
 
       if (!isInteracting) {
         if (distance < 2) {
