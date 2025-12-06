@@ -849,7 +849,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     }
   }
 
-  private _react(react: ReactionName | InventoryItemName, quantity?: number) {
+  private _react(
+    react: ReactionName | InventoryItemName | "Social Point",
+    quantity?: number,
+  ) {
     this.stopSpeaking();
 
     this.reaction.clear(true, true);
@@ -893,9 +896,20 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.destroyReaction();
   }
 
-  public react(reaction: ReactionName | InventoryItemName, quantity?: number) {
+  public react(
+    reaction: ReactionName | InventoryItemName | "Social Point",
+    quantity?: number,
+  ) {
     if (this.scene.textures.exists(reaction)) {
       return this._react(reaction, quantity);
+    }
+
+    if (reaction === "Social Point") {
+      this.loadTexture(reaction, "world/social_score.webp", () => {
+        this._react(reaction, quantity);
+      });
+
+      return;
     }
 
     if (reaction in KNOWN_IDS) {

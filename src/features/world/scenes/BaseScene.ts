@@ -545,18 +545,8 @@ export abstract class BaseScene extends Phaser.Scene {
     const {
       container: microInteractionBtnContainer,
       buttonImage: microInteractionBtn,
-      iconImage: microInteractionIcon,
     } = this.createRoundIconButton(spacing / 2, 0, "hand_wave");
 
-    // Animate the wave icon so it gently waves back and forth
-    this.tweens.add({
-      targets: microInteractionIcon,
-      angle: { from: -15, to: 15 },
-      duration: 260,
-      yoyo: true,
-      repeat: 1,
-      ease: "Sine.InOut",
-    });
     microInteractionBtn.on("pointerup", () => {
       this.requestMicroInteraction(target, "wave");
       const existing = target.getByName("interactionMenu") as
@@ -653,7 +643,8 @@ export abstract class BaseScene extends Phaser.Scene {
    */
   private createMicroInteractionIndicator(
     target: BumpkinContainer,
-    interaction: "wave",
+    // Need to determine the icon based on the interaction
+    type: MicroInteractionAction,
     senderId: number,
     receiverId: number,
   ) {
@@ -666,21 +657,8 @@ export abstract class BaseScene extends Phaser.Scene {
     const indicator = this.add.container(0, -20);
     indicator.setName("microInteractionIndicator");
 
-    const {
-      container: indicatorBtnContainer,
-      buttonImage: indicatorBtn,
-      iconImage: indicatorIcon,
-    } = this.createRoundIconButton(0, 0, "hand_wave");
-
-    // Match the same wave animation on the indicator icon
-    this.tweens.add({
-      targets: indicatorIcon,
-      angle: { from: -15, to: 15 },
-      duration: 260,
-      yoyo: true,
-      repeat: -1,
-      ease: "Sine.InOut",
-    });
+    const { container: indicatorBtnContainer, buttonImage: indicatorBtn } =
+      this.createRoundIconButton(0, 0, "hand_wave");
 
     indicatorBtn.on("pointerup", () => {
       this.sendMicroInteraction("wave_ack", senderId, receiverId);
@@ -833,6 +811,15 @@ export abstract class BaseScene extends Phaser.Scene {
         this.currentPlayer.farmId === receiverId)
     ) {
       this.gameService?.send("bumpkin.wave");
+      setTimeout(() => {
+        this.mmoServer?.send(0, {
+          reaction: {
+            reaction: "Social Point",
+            quantity: 1,
+          },
+        });
+        // Wait for the speech bubble to be gone
+      }, 5000);
     }
   }
 
@@ -861,6 +848,7 @@ export abstract class BaseScene extends Phaser.Scene {
       sender.faceLeft();
     }
   }
+
   private interact(
     entity: BumpkinContainer,
     interaction: MicroInteractionAction,
