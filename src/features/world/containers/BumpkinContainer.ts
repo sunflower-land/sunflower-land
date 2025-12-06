@@ -75,6 +75,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   private digAnimationKey: string | undefined;
   private drillAnimationKey: string | undefined;
   private waveAnimationKey: string | undefined;
+  private cheerAnimationKey: string | undefined;
   private backAuraKey: string | undefined;
   private frontAuraKey: string | undefined;
   private frontAuraAnimationKey: string | undefined;
@@ -229,6 +230,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.digAnimationKey = `${this.spriteKey}-bumpkin-dig`;
     this.drillAnimationKey = `${this.spriteKey}-bumpkin-drilling`;
     this.waveAnimationKey = `${this.spriteKey}-bumpkin-wave`;
+    this.cheerAnimationKey = `${this.spriteKey}-bumpkin-cheer`; // Jump animation for now
 
     await buildNPCSheets({
       parts: this.clothing,
@@ -263,6 +265,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         "dig",
         "drilling",
         "wave",
+        "jump",
       ]);
       const idleLoader = scene.load.spritesheet(this.spriteKey, url, {
         frameWidth: 96,
@@ -295,6 +298,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         this.createDigAnimation(17, 29);
         this.createDrillAnimation(30, 38);
         this.createWaveAnimation(39, 52);
+        this.createCheerAnimation(53, 57);
         this.sprite.play(this.idleAnimationKey as string, true);
 
         this.ready = true;
@@ -406,7 +410,21 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         start,
         end, // Only play half of the wave animation
       }),
-      repeat: 1,
+      repeat: 0,
+      frameRate: 10,
+    });
+  }
+
+  private createCheerAnimation(start: number, end: number) {
+    if (!this.scene || !this.scene.anims) return;
+
+    this.scene.anims.create({
+      key: this.cheerAnimationKey,
+      frames: this.scene.anims.generateFrameNumbers(this.spriteKey as string, {
+        start,
+        end,
+      }),
+      repeat: 2,
       frameRate: 10,
     });
   }
@@ -993,7 +1011,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   }
 
   public isInteracting() {
-    const interactionAnimations = [this.waveAnimationKey];
+    const interactionAnimations = [
+      this.waveAnimationKey,
+      this.cheerAnimationKey,
+    ];
 
     return (
       this.sprite?.anims?.isPlaying &&
@@ -1032,6 +1053,18 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.scene?.anims.exists(this.waveAnimationKey)
     ) {
       this.sprite.anims.play(this.waveAnimationKey, true);
+      return;
+    }
+  }
+
+  public cheer() {
+    if (!this.scene || !this.sprite) return;
+
+    if (
+      this.cheerAnimationKey &&
+      this.scene?.anims.exists(this.cheerAnimationKey)
+    ) {
+      this.sprite.anims.play(this.cheerAnimationKey, true);
       return;
     }
   }

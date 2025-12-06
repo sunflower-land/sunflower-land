@@ -93,8 +93,12 @@ export const FACTION_NAME_COLORS: Record<FactionName, string> = {
   nightshades: "#a878ac",
 };
 
-type MicroInteractionAction = "wave";
-type MicroInteractionResponse = "wave_ack" | "wave_cancel";
+type MicroInteractionAction = "wave" | "cheer";
+type MicroInteractionResponse =
+  | "wave_ack"
+  | "wave_cancel"
+  | "cheer_ack"
+  | "cheer_cancel";
 
 type MicroInteractionState = {
   senderId: number;
@@ -513,6 +517,15 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   // micro interactions code
+
+  private canCheerBumpkin(receiverId: number) {
+    const today = new Date().toISOString().split("T")[0];
+
+    if (this.gameState.socialFarming.cheersGiven.date !== today) return true;
+
+    return !this.gameState.socialFarming.cheersGiven.farms.includes(receiverId);
+  }
+
   private showInteractionMenu(
     player: PlayerModalPlayer,
     target: BumpkinContainer,
@@ -528,11 +541,31 @@ export abstract class BaseScene extends Phaser.Scene {
     menu.setName("interactionMenu");
     this.activeInteractionMenu = menu;
 
-    const spacing = 16; // distance between buttons
+    const canCheer = target.farmId && this.canCheerBumpkin(target.farmId);
+
+    const totalButtons = canCheer ? 3 : 2;
+    const spacing = totalButtons === 3 ? 14 : 16; // distance between buttons (horizontal)
+    const verticalSpacing = totalButtons === 3 ? 5 : 0;
+
+    // Compute positions so:
+    // - With 3 buttons: [-spacing, 0, +spacing]
+    // - With 2 buttons: [-spacing/2, +spacing/2]
+    let detailsX: number;
+    let waveX: number;
+    let cheerX: number | null = null;
+
+    if (totalButtons === 3) {
+      detailsX = -spacing;
+      waveX = 0;
+      cheerX = spacing;
+    } else {
+      detailsX = -spacing / 2;
+      waveX = spacing / 2;
+    }
 
     // Left button - "details"
     const { container: detailsBtnContainer, buttonImage: detailsBtn } =
-      this.createRoundIconButton(-spacing / 2, 0, "player_small");
+      this.createRoundIconButton(detailsX, verticalSpacing, "player_small");
     detailsBtn.on("pointerup", () => {
       detailsBtn.setTexture("round_button");
       this.openPlayerProfile(player);
@@ -541,13 +574,12 @@ export abstract class BaseScene extends Phaser.Scene {
         | undefined;
       existing?.destroy();
     });
-    // Right button - "interaction"
-    const {
-      container: microInteractionBtnContainer,
-      buttonImage: microInteractionBtn,
-    } = this.createRoundIconButton(spacing / 2, 0, "hand_wave");
 
-    microInteractionBtn.on("pointerup", () => {
+    // middle/right button - "wave"
+    const { container: waveBtnContainer, buttonImage: waveBtn } =
+      this.createRoundIconButton(waveX, 0, "hand_wave");
+
+    waveBtn.on("pointerup", () => {
       this.requestMicroInteraction(target, "wave");
       const existing = target.getByName("interactionMenu") as
         | Phaser.GameObjects.Container
@@ -555,7 +587,31 @@ export abstract class BaseScene extends Phaser.Scene {
       existing?.destroy();
     });
 
-    menu.add([detailsBtnContainer, microInteractionBtnContainer]);
+    // right button - "cheer"
+    let cheerBtnContainer: Phaser.GameObjects.Container | undefined;
+    if (canCheer) {
+      const { container, buttonImage: cheerBtn } = this.createRoundIconButton(
+        cheerX ?? spacing,
+        verticalSpacing,
+        "cheer",
+      );
+      cheerBtnContainer = container;
+
+      cheerBtn.on("pointerup", () => {
+        this.requestMicroInteraction(target, "cheer");
+        const existing = target.getByName("interactionMenu") as
+          | Phaser.GameObjects.Container
+          | undefined;
+        existing?.destroy();
+      });
+    }
+
+    const menuButtons = [detailsBtnContainer, waveBtnContainer];
+    if (cheerBtnContainer) {
+      menuButtons.push(cheerBtnContainer);
+    }
+
+    menu.add(menuButtons);
 
     menu.y = 4; // roughly where their body is
     menu.alpha = 0;
@@ -576,7 +632,7 @@ export abstract class BaseScene extends Phaser.Scene {
   }
   protected requestMicroInteraction(
     target: BumpkinContainer,
-    interaction: "wave",
+    interaction: "wave" | "cheer",
   ) {
     const senderFarmId = this.currentPlayer?.farmId;
     const receiverFarmId = target.farmId;
@@ -623,7 +679,13 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   private sendMicroInteraction(
-    type: "wave" | "wave_ack" | "wave_cancel",
+    type:
+      | "wave"
+      | "wave_ack"
+      | "wave_cancel"
+      | "cheer"
+      | "cheer_ack"
+      | "cheer_cancel",
     senderId: number,
     receiverId: number,
   ) {
@@ -654,14 +716,16 @@ export abstract class BaseScene extends Phaser.Scene {
       | undefined;
     existingIndicator?.destroy();
 
+    const icon = type === "wave" ? "hand_wave" : "cheer";
+
     const indicator = this.add.container(0, -20);
     indicator.setName("microInteractionIndicator");
 
     const { container: indicatorBtnContainer, buttonImage: indicatorBtn } =
-      this.createRoundIconButton(0, 0, "hand_wave");
+      this.createRoundIconButton(0, 0, icon);
 
     indicatorBtn.on("pointerup", () => {
-      this.sendMicroInteraction("wave_ack", senderId, receiverId);
+      this.sendMicroInteraction(`${type}_ack`, senderId, receiverId);
       indicator.destroy();
     });
 
@@ -707,15 +771,21 @@ export abstract class BaseScene extends Phaser.Scene {
     const target = this.findBumpkinByFarmId(senderId);
     if (!target) return;
 
-    switch (action.type) {
-      case "wave": {
+    const type = action.type.includes("ack")
+      ? "acknowledged"
+      : action.type.includes("cancel")
+        ? "cancelled"
+        : "action";
+
+    switch (type) {
+      case "action": {
         // Only allow one wave per receiver at any given time
         if (this.receivedMicroInteractions.has(receiverId)) return;
 
         if (this.currentPlayer?.farmId === receiverId) {
           const { indicator } = this.createMicroInteractionIndicator(
             target,
-            "wave",
+            action.type as MicroInteractionAction,
             senderId,
             receiverId,
           );
@@ -723,14 +793,14 @@ export abstract class BaseScene extends Phaser.Scene {
           this.receivedMicroInteractions.set(receiverId, {
             senderId,
             receiverId,
-            type: "wave",
+            type: action.type,
             indicator,
           });
         }
 
         break;
       }
-      case "wave_ack": {
+      case "acknowledged": {
         if (this.currentPlayer?.farmId === senderId) {
           // Stop the initiator's local timeout
           this.clearOutgoingMicroInteractionRequest(receiverId);
@@ -745,10 +815,14 @@ export abstract class BaseScene extends Phaser.Scene {
         }
 
         // Trigger interaction between the two bumpkins
-        this.triggerInteraction(senderId, receiverId, "wave");
+        this.triggerInteraction(
+          senderId,
+          receiverId,
+          action.type as MicroInteractionResponse,
+        );
         break;
       }
-      case "wave_cancel": {
+      case "cancelled": {
         if (this.currentPlayer?.farmId !== receiverId) return;
         // Cancel sent from the sender after their timeout
         this.cancelMicroInteraction(receiverId, "timeout");
@@ -788,7 +862,7 @@ export abstract class BaseScene extends Phaser.Scene {
   private triggerInteraction(
     senderId: number,
     receiverId: number,
-    interaction: MicroInteractionAction,
+    interaction: MicroInteractionResponse,
   ) {
     const sender = this.findBumpkinByFarmId(senderId);
     const receiver = this.findBumpkinByFarmId(receiverId);
@@ -801,25 +875,43 @@ export abstract class BaseScene extends Phaser.Scene {
     this.interact(sender, interaction);
     this.interact(receiver, interaction);
 
-    sender.speak(translate("microInteraction.great.to.see.you"));
-    receiver.speak(translate("microInteraction.hey.there"));
-
-    // Award social points to both participants on successful wave interaction
     if (
       this.currentPlayer &&
       (this.currentPlayer.farmId === senderId ||
         this.currentPlayer.farmId === receiverId)
     ) {
-      this.gameService?.send("bumpkin.wave");
-      setTimeout(() => {
-        this.mmoServer?.send(0, {
-          reaction: {
-            reaction: "Social Point",
-            quantity: 1,
-          },
-        });
-        // Wait for the speech bubble to be gone
-      }, 5000);
+      switch (interaction) {
+        case "wave_ack":
+          sender.speak(translate("microInteraction.great.to.see.you"));
+          receiver.speak(translate("microInteraction.hey.there"));
+          // Award social points to both participants on successful wave interaction
+          this.gameService?.send("bumpkin.wave");
+          setTimeout(() => {
+            this.mmoServer?.send(0, {
+              reaction: {
+                reaction: "Social Point",
+                quantity: 1,
+              },
+            });
+            // Wait for the speech bubble to be gone
+          }, 5000);
+          break;
+        case "cheer_ack":
+          if (this.currentPlayer?.farmId === receiverId) {
+            sender.speak("Here's a cheer for you!");
+            receiver.speak("Whoo!");
+          }
+          if (this.currentPlayer?.farmId === senderId) {
+            this.gameService.send("farm.cheered", {
+              effect: {
+                type: "farm.cheered",
+                cheeredFarmId: receiverId,
+                visitedFarmId: senderId,
+              },
+            });
+          }
+          break;
+      }
     }
   }
 
@@ -851,11 +943,14 @@ export abstract class BaseScene extends Phaser.Scene {
 
   private interact(
     entity: BumpkinContainer,
-    interaction: MicroInteractionAction,
+    interaction: MicroInteractionResponse,
   ) {
     switch (interaction) {
-      case "wave":
+      case "wave_ack":
         entity.wave();
+        break;
+      case "cheer_ack":
+        entity.cheer();
         break;
       default:
         return;

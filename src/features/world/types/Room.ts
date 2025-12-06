@@ -85,7 +85,13 @@ export interface Trade extends Schema {
 }
 
 export interface MicroInteraction extends Schema {
-  type: "wave" | "wave_ack" | "wave_cancel";
+  type:
+    | "wave"
+    | "wave_ack"
+    | "wave_cancel"
+    | "cheer"
+    | "cheer_ack"
+    | "cheer_cancel";
   receiverId: number;
   senderId: number;
   sentAt: number;
