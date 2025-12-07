@@ -1438,7 +1438,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Snowman: { width: 1, height: 1 },
   "Festive Toy Train": { width: 2, height: 2 },
   "Golden Cow": { width: 2, height: 2 },
-  Kite: { width: 1, height: 1 },
+  Kite: { width: 2, height: 1 },
   "Acorn House": { width: 2, height: 2 },
   "Spring Duckling": { width: 1, height: 1 },
   Igloo: { width: 2, height: 2 },
