@@ -1,5 +1,4 @@
 import Phaser, { Physics } from "phaser";
-
 import VirtualJoystick from "phaser3-rex-plugins/plugins/virtualjoystick.js";
 
 import { SQUARE_WIDTH } from "features/game/lib/constants";
@@ -52,6 +51,7 @@ import {
   PlayerModalPlayer,
 } from "features/social/lib/playerModalManager";
 import { rewardModalManager } from "features/social/lib/rewardModalManager";
+import { hasFeatureAccess } from "lib/flags";
 
 export type NPCBumpkin = {
   x: number;
@@ -122,6 +122,7 @@ export abstract class BaseScene extends Phaser.Scene {
   public map: Phaser.Tilemaps.Tilemap = {} as Phaser.Tilemaps.Tilemap;
 
   private activeInteractionMenu?: Phaser.GameObjects.Container;
+  private activeInteractionTarget?: BumpkinContainer;
 
   npcs: Partial<Record<NPCName, BumpkinContainer>> = {};
 
@@ -432,7 +433,11 @@ export abstract class BaseScene extends Phaser.Scene {
             | undefined;
 
           if (!existing) {
-            this.showInteractionMenu(player, target);
+            if (hasFeatureAccess(this.gameState, "MICRO_INTERACTIONS")) {
+              this.showInteractionMenu(player, target);
+            } else {
+              this.openPlayerProfile(player);
+            }
           }
 
           return;
@@ -526,6 +531,29 @@ export abstract class BaseScene extends Phaser.Scene {
     return !this.gameState.socialFarming.cheersGiven.farms.includes(receiverId);
   }
 
+  private updateInteractionTargetProximity() {
+    if (
+      !this.currentPlayer ||
+      !this.activeInteractionMenu ||
+      !this.activeInteractionMenu.active ||
+      !this.activeInteractionTarget
+    ) {
+      return;
+    }
+
+    const distance = Phaser.Math.Distance.BetweenPoints(
+      this.currentPlayer as BumpkinContainer,
+      this.activeInteractionTarget,
+    );
+
+    if (distance > 50) {
+      this.activeInteractionMenu.destroy();
+      this.activeInteractionTarget = undefined;
+      this.activeInteractionMenu = undefined;
+      return;
+    }
+  }
+
   private showInteractionMenu(
     player: PlayerModalPlayer,
     target: BumpkinContainer,
@@ -533,6 +561,7 @@ export abstract class BaseScene extends Phaser.Scene {
     // Destroy any existing menu anywhere
     if (this.activeInteractionMenu && this.activeInteractionMenu.active) {
       this.activeInteractionMenu.destroy();
+      this.activeInteractionTarget = undefined;
       this.activeInteractionMenu = undefined;
     }
 
@@ -540,6 +569,7 @@ export abstract class BaseScene extends Phaser.Scene {
     const menu = this.add.container(0, -20);
     menu.setName("interactionMenu");
     this.activeInteractionMenu = menu;
+    this.activeInteractionTarget = target;
 
     const canCheer = target.farmId && this.canCheerBumpkin(target.farmId);
 
@@ -897,11 +927,23 @@ export abstract class BaseScene extends Phaser.Scene {
           }, 5000);
           break;
         case "cheer_ack":
+          sender.speak(translate("microInteraction.here.s.a.cheer.for.you"));
+          setTimeout(() => {
+            receiver.speak(translate("microInteraction.thanks"));
+          }, 1000);
           if (this.currentPlayer?.farmId === receiverId) {
-            sender.speak("Here's a cheer for you!");
-            receiver.speak("Whoo!");
+            setTimeout(() => {
+              this.mmoServer?.send(0, {
+                reaction: {
+                  reaction: "Social Point",
+                  quantity: 3,
+                },
+              });
+              // Wait for the speech bubble to be gone
+            }, 5000);
           }
           if (this.currentPlayer?.farmId === senderId) {
+            // Farm who is doing the cheering
             this.gameService.send("farm.cheered", {
               effect: {
                 type: "farm.cheered",
@@ -909,6 +951,15 @@ export abstract class BaseScene extends Phaser.Scene {
                 visitedFarmId: senderId,
               },
             });
+            setTimeout(() => {
+              this.mmoServer?.send(0, {
+                reaction: {
+                  reaction: "Social Point",
+                  quantity: 3,
+                },
+              });
+              // Wait for the speech bubble to be gone
+            }, 6000);
           }
           break;
       }
@@ -1616,6 +1667,7 @@ export abstract class BaseScene extends Phaser.Scene {
     }
 
     this.sendPositionToServer();
+    this.updateInteractionTargetProximity();
 
     if (this.soundEffects) {
       this.soundEffects.forEach((audio) =>
