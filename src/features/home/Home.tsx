@@ -1,4 +1,10 @@
-import React, { useContext, useLayoutEffect, useMemo, useState } from "react";
+import React, {
+  useContext,
+  useLayoutEffect,
+  useMemo,
+  useState,
+  type JSX,
+} from "react";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Hud } from "features/island/hud/Hud";

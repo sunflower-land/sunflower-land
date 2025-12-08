@@ -32,6 +32,7 @@ import React, { useContext, useMemo, useState } from "react";
 import { PetInfo } from "./PetInfo";
 import { useSelector } from "@xstate/react";
 import { isTemporaryCollectibleActive } from "features/game/lib/collectibleBuilt";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   petId: PetName | number;
@@ -189,6 +190,7 @@ export const PetCard: React.FC<Props> = ({
         petData,
       });
       const foodEnergy = getPetEnergy({
+        game: state,
         petLevel,
         basePetEnergy: baseFoodXP,
         petData,
@@ -466,8 +468,8 @@ export const PetCardContent: React.FC<{
   isHoundShrineActive,
 }) => {
   const { t } = useAppTranslation();
-
-  if (isPetNapping(petData)) {
+  const now = useNow({ live: true });
+  if (isPetNapping(petData, now)) {
     return (
       <div className="flex flex-col gap-1 w-3/4 sm:w-auto">
         <Label type={"warning"}>{t("pets.napping")}</Label>
@@ -482,7 +484,7 @@ export const PetCardContent: React.FC<{
     );
   }
 
-  if (isPetNeglected(petData)) {
+  if (isPetNeglected(petData, now)) {
     return (
       <div className="flex flex-col gap-1 w-3/4 sm:w-auto">
         <Label type={"danger"}>{t("pets.neglectPet")}</Label>

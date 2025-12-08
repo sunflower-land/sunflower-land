@@ -15,6 +15,10 @@ export const ITEM_TRADE_TYPES: {
   wearables: Record<BumpkinItem, TradeType>;
 } = {
   collectibles: {
+    "Basic Farming Pack": "instant",
+    "Basic Food Box": "instant",
+    "Weekly Mega Box": "instant",
+    "Basic Love Box": "instant",
     "Super Star": "instant",
     "Ancient Tree": "instant",
     "Sacred Tree": "instant",
@@ -1357,10 +1361,6 @@ export const ITEM_TRADE_TYPES: {
     "Auction Megaphone": "onchain",
     "Auctioneer Slacks": "onchain",
     "Bidder's Brocade": "onchain",
-    "Lunar Weapon": "onchain",
-    "Frying Pan": "onchain",
-    "Training Whistle": "onchain",
-    AU3: "onchain",
     "Harry's Hat": "onchain",
     "Leather Shoes": "onchain",
     "Tangerine Hair": "onchain",
@@ -1710,6 +1710,10 @@ export const ITEM_TRADE_TYPES: {
     "Underworld Stimpack": "instant",
     "Sweet Devil Wings": "onchain",
     "Wisp Aura": "onchain",
+    "Luna's Crescent": "onchain",
+    "Master Chef's Cleaver": "onchain",
+    "Training Whistle": "onchain",
+    "Chef Shirt": "onchain",
     "Pet Specialist Shirt": "instant",
     "Pet Specialist Pants": "instant",
     "Pet Specialist Hat": "instant",

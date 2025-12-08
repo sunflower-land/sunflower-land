@@ -251,13 +251,44 @@ class Spritesheet extends React.Component<Props> {
 
   resize = (callback = true) => {
     const { widthFrame, onResize } = this.props;
+    if (!this.spriteEl || !this.spriteElContainer) return;
 
-    this.spriteScale =
-      this.spriteEl.getBoundingClientRect().width /
-      widthFrame /
-      this.zoomScale.get();
+    const elementWidth = this.spriteEl.getBoundingClientRect().width;
+    // Fallback to an explicit style width if the element has not yet been laid out
+    let effectiveWidth = elementWidth;
+    if ((!effectiveWidth || Number.isNaN(effectiveWidth)) && this.props.style) {
+      const styleWidth = this.props.style.width as number | string | undefined;
+
+      if (typeof styleWidth === "number") {
+        effectiveWidth = styleWidth;
+      } else if (typeof styleWidth === "string") {
+        const parsed = parseFloat(styleWidth);
+        if (!Number.isNaN(parsed)) {
+          effectiveWidth = parsed;
+        }
+      }
+    }
+
+    const zoom =
+      typeof this.zoomScale?.get === "function" && this.zoomScale.get() !== 0
+        ? this.zoomScale.get()
+        : 1;
+
+    // If the element has not yet been laid out, fall back to a neutral scale.
+    if (!effectiveWidth || !widthFrame) {
+      this.spriteScale = 1;
+    } else {
+      this.spriteScale = effectiveWidth / widthFrame / zoom;
+    }
+
     this.spriteElContainer.style.transform = `scale(${this.spriteScale})`;
-    this.spriteEl.style.height = `${this.getInfo("height")}px`;
+
+    const containerHeight =
+      this.spriteElContainer.getBoundingClientRect().height;
+    if (containerHeight) {
+      this.spriteEl.style.height = `${containerHeight / zoom}px`;
+    }
+
     if (callback && onResize) onResize(this.setInstance());
   };
 
@@ -384,15 +415,29 @@ class Spritesheet extends React.Component<Props> {
       case "steps":
         return this.steps;
       case "width":
-        return (
-          this.spriteElContainer.getBoundingClientRect().width /
-          this.zoomScale.get()
-        );
+        if (!this.spriteElContainer) return 0;
+
+        {
+          const zoom =
+            typeof this.zoomScale?.get === "function" &&
+            this.zoomScale.get() !== 0
+              ? this.zoomScale.get()
+              : 1;
+
+          return this.spriteElContainer.getBoundingClientRect().width / zoom;
+        }
       case "height":
-        return (
-          this.spriteElContainer.getBoundingClientRect().height /
-          this.zoomScale.get()
-        );
+        if (!this.spriteElContainer) return 0;
+
+        {
+          const zoom =
+            typeof this.zoomScale?.get === "function" &&
+            this.zoomScale.get() !== 0
+              ? this.zoomScale.get()
+              : 1;
+
+          return this.spriteElContainer.getBoundingClientRect().height / zoom;
+        }
       case "scale":
         return this.spriteScale;
       case "zoomScale":

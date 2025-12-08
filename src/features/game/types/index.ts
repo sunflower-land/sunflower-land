@@ -1208,8 +1208,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Solar Doll": 2524,
   "Baby Cow": 2525,
   "Baby Sheep": 2526,
-  "Janitor Chicken": 2527,
-  "Venus Bumpkin Trap": 2528,
+  "Venus Bumpkin Trap": 2527,
+  "Janitor Chicken": 2528,
   "Black Hole Flower": 2529,
   "Sleepy Chicken": 2530,
   "Astronaut Cow": 2531,
@@ -1292,6 +1292,11 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Magma Stone": 2715,
   Cornucopia: 2716,
   "Messy Bed": 2717,
+
+  "Basic Farming Pack": 2718,
+  "Basic Food Box": 2719,
+  "Weekly Mega Box": 2720,
+  "Basic Love Box": 2721,
 };
 
 // The reverse of above

@@ -15,6 +15,7 @@ import {
   MushroomName,
   ResourceName,
   ResourceTier,
+  TreeName,
 } from "./resources";
 import { LegacyBadgeName } from "./skills";
 import { BuildingName } from "./buildings";
@@ -23,9 +24,8 @@ import { BumpkinItem, Equipped as BumpkinParts } from "./bumpkin";
 import { ConsumableName, CookableName } from "./consumables";
 import { BumpkinSkillName, BumpkinRevampSkillName } from "./bumpkinSkills";
 import { AchievementName } from "./achievements";
-import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
-import { BeanName, ExoticCropName, MutantCropName } from "./beans";
+import { BeanName, ExoticCropName, GiantFruit, MutantCropName } from "./beans";
 import {
   FullMoonFruit,
   GreenHouseFruitName,
@@ -109,7 +109,7 @@ import { ClutterName } from "./clutter";
 import { PetName, PetResourceName, Pets } from "./pets";
 import { RockName } from "./resources";
 import { PetShopItemName } from "./petShop";
-import { RoninV2PackName } from "features/wallet/lib/ronin";
+import { League } from "features/leagues/leagues";
 
 export type Reward = {
   coins?: number;
@@ -445,7 +445,7 @@ export type Bumpkin = {
   experience: number;
   skills: Skills;
   achievements?: Partial<Record<AchievementName, number>>;
-  activity: Partial<Record<BumpkinActivityName, number>>;
+  activity?: Partial<Record<FarmActivityName, number>>;
   previousFreeSkillResetAt?: number;
   previousPowerUseAt?: Partial<Record<BumpkinRevampSkillName, number>>;
   paidSkillResets?: number;
@@ -469,10 +469,28 @@ type Bounty = {
   items?: Partial<Record<InventoryItemName, number>>;
 };
 
-export type AnimalBounty = Bounty & {
+type AnimalCoinBounty = Bounty & {
   name: AnimalType;
   level: number;
+  coins: number;
 };
+
+type AnimalTicketBounty = Bounty & {
+  name: AnimalType;
+  level: number;
+  items: Partial<Record<SeasonalTicket, number>>;
+};
+
+type AnimalGemBounty = Bounty & {
+  name: AnimalType;
+  level: number;
+  items: { Gem: number };
+};
+
+export type AnimalBounty =
+  | AnimalCoinBounty
+  | AnimalTicketBounty
+  | AnimalGemBounty;
 
 export type FlowerBounty = Bounty & {
   name: FlowerName;
@@ -489,6 +507,10 @@ export type FishBounty = Bounty & {
 
 export type DollBounty = Bounty & {
   name: DollName;
+};
+
+export type GiantFruitBounty = Bounty & {
+  name: GiantFruit;
 };
 
 export type ExoticBounty = Bounty & {
@@ -511,7 +533,8 @@ export type BountyRequest =
   | FishBounty
   | ExoticBounty
   | MarkBounty
-  | DollBounty;
+  | DollBounty
+  | GiantFruitBounty;
 
 export type Bounties = {
   requests: BountyRequest[];
@@ -624,6 +647,7 @@ export type WarCollectionOffer = {
 
 export type Wood = {
   choppedAt: number;
+  seed?: number;
   reward?: Omit<Reward, "sfl">;
   criticalHit?: CriticalHit;
   amount?: number;
@@ -666,7 +690,7 @@ export type Tree = {
   createdAt?: number;
   removedAt?: number;
   tier?: ResourceTier;
-  name?: ResourceName;
+  name?: TreeName;
   multiplier?: number;
 } & OptionalCoordinates;
 
@@ -1096,7 +1120,7 @@ export type NPCData = {
 };
 
 export type ChoreV2 = {
-  activity: BumpkinActivityName;
+  activity: FarmActivityName;
   description: string;
   createdAt: number;
   completedAt?: number;
@@ -1114,7 +1138,7 @@ export type KingdomChores = {
 };
 
 export type KingdomChore = {
-  activity: BumpkinActivityName;
+  activity: FarmActivityName;
   description: string;
   image: InventoryItemName;
   requirement: number;
@@ -1591,6 +1615,18 @@ export type Auctioneer = {
   minted?: Minted;
 };
 
+type RoninV2PackName =
+  | "Bronze Pack"
+  | "Silver Pack"
+  | "Gold Pack"
+  | "Platinum Pack"
+  | "Legendary Pack"
+  | "Whale Pack";
+
+export type FarmHands = {
+  bumpkins: Record<string, FarmHand>;
+};
+
 export interface GameState {
   home: Home;
   bank: Bank;
@@ -1650,10 +1686,7 @@ export interface GameState {
     games: Partial<Record<MinigameName, Minigame>>;
   };
 
-  farmHands: {
-    bumpkins: Record<string, FarmHand>;
-  };
-
+  farmHands: FarmHands;
   inventory: Inventory;
   previousInventory: Inventory;
   wardrobe: Wardrobe;
@@ -1879,6 +1912,10 @@ export interface GameState {
   aoe: AOE;
   socialFarming: SocialFarming;
   pets?: Pets;
+
+  prototypes?: {
+    leagues?: League;
+  };
 }
 
 export type AOE = Partial<

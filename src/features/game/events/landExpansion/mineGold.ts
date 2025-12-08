@@ -12,7 +12,7 @@ import { GOLD_RECOVERY_TIME } from "features/game/lib/constants";
 import { FACTION_ITEMS } from "features/game/lib/factions";
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { isWearableActive } from "features/game/lib/wearables";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import {
   AOE,
@@ -324,10 +324,15 @@ export function mineGold({
       minedAt,
       boostedTime,
     };
-    bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       "Gold Mined",
-      bumpkin.activity,
+      stateCopy.farmActivity,
       new Decimal(goldRock.multiplier ?? 1),
+    );
+
+    stateCopy.farmActivity = trackFarmActivity(
+      `${goldRock.name ?? "Gold Rock"} Mined`,
+      stateCopy.farmActivity,
     );
 
     stateCopy.inventory["Iron Pickaxe"] = toolAmount.sub(requiredToolAmount);

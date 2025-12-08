@@ -4,8 +4,11 @@ import { CookableName } from "features/game/types/consumables";
 import { feedPet, getPetFoodRequests } from "./feedPet";
 import { getPetLevel, Pet } from "features/game/types/pets";
 import { GameState } from "features/game/types/game";
+import { SEASONS } from "features/game/types/seasons";
 
 describe("feedPet", () => {
+  afterEach(() => jest.useRealTimers());
+
   const now = Date.now();
   it("throws an error if pet is not found", () => {
     expect(() =>
@@ -59,7 +62,7 @@ describe("feedPet", () => {
                   fedAt: now - 4 * 24 * 60 * 60 * 1000,
                 },
                 energy: 100,
-                experience: 0,
+                experience: 10,
                 pettedAt: now,
               },
             },
@@ -233,16 +236,16 @@ describe("feedPet", () => {
             },
             energy: 100,
             experience: 0,
-            pettedAt: now,
+            pettedAt: Date.now(),
           },
         },
       },
       collectibles: {
         Barkley: [
           {
-            createdAt: now,
+            createdAt: Date.now(),
             id: "1",
-            readyAt: now,
+            readyAt: Date.now(),
             coordinates: { x: 1, y: 1 },
           },
         ],
@@ -386,7 +389,7 @@ describe("feedPet", () => {
                   aura: "No Aura",
                 },
                 energy: 100,
-                experience: 0,
+                experience: 10,
                 pettedAt: now,
                 requests: {
                   food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
@@ -405,7 +408,7 @@ describe("feedPet", () => {
                   aura: "No Aura",
                 },
                 energy: 100,
-                experience: 0,
+                experience: 10,
                 pettedAt: now,
                 requests: {
                   food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
@@ -449,6 +452,59 @@ describe("feedPet", () => {
               coordinates: { x: 1, y: 1 },
             },
           ],
+        },
+        inventory: {
+          "Bumpkin Salad": new Decimal(10),
+        },
+      },
+      action: {
+        type: "pet.fed",
+        petId: "Barkley",
+        food: "Bumpkin Salad",
+      },
+      createdAt: now,
+    });
+    const BarkleyData = state.pets?.common?.Barkley;
+
+    expect(BarkleyData?.requests.foodFed).toEqual<CookableName[]>([
+      "Bumpkin Salad",
+    ]);
+    expect(BarkleyData?.requests.fedAt).toEqual(now);
+    expect(state.inventory["Bumpkin Salad"]).toEqual(new Decimal(9));
+    expect(BarkleyData?.energy).toEqual(100);
+    expect(BarkleyData?.experience).toEqual(200);
+  });
+
+  it("feeds pet in the house", () => {
+    const state = feedPet({
+      state: {
+        ...INITIAL_FARM,
+        pets: {
+          common: {
+            Barkley: {
+              name: "Barkley",
+              requests: {
+                food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+                foodFed: [],
+                fedAt: now,
+              },
+              energy: 0,
+              experience: 100,
+              pettedAt: now,
+            },
+          },
+        },
+        home: {
+          collectibles: {
+            Barkley: [
+              {
+                createdAt: now,
+                id: "1",
+                readyAt: now,
+                coordinates: { x: 1, y: 1 },
+              },
+            ],
+          },
         },
         inventory: {
           "Bumpkin Salad": new Decimal(10),
@@ -552,7 +608,7 @@ describe("feedPet", () => {
                 fur: "Blue",
                 accessory: "Crown",
                 bib: "Baby Bib",
-                aura: "Basic Aura",
+                aura: "Common Aura",
               },
               energy: 100,
               experience: 0,
@@ -947,6 +1003,59 @@ describe("feedPet", () => {
 
     expect(petData?.requests.fedAt).toEqual(now);
     expect(petData?.experience).toEqual(level85XP + 100 * 1.5);
+  });
+
+  it("gives energy boost for vip during paw prints season", () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(SEASONS["Paw Prints"].startDate);
+    const now = Date.now();
+
+    const state = feedPet({
+      state: {
+        ...INITIAL_FARM,
+        pets: {
+          common: {
+            Barkley: {
+              name: "Barkley",
+              requests: {
+                fedAt: now,
+                food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+                foodFed: [],
+              },
+              energy: 0,
+              experience: 0,
+              pettedAt: now,
+            },
+          },
+        },
+        collectibles: {
+          Barkley: [
+            {
+              createdAt: now,
+              id: "1",
+              readyAt: now,
+              coordinates: { x: 1, y: 1 },
+            },
+          ],
+        },
+        inventory: {
+          "Bumpkin Salad": new Decimal(10),
+        },
+        vip: {
+          expiresAt: now + 1000 * 60 * 60 * 24 * 30,
+          bundles: [],
+        },
+      },
+      action: {
+        type: "pet.fed",
+        petId: "Barkley",
+        food: "Bumpkin Salad",
+      },
+      createdAt: now,
+    });
+    const BarkleyData = state.pets?.common?.Barkley;
+
+    expect(BarkleyData?.energy).toEqual(105);
   });
 
   describe("getPetFoodRequests", () => {

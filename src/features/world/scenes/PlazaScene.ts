@@ -15,7 +15,44 @@ import { capitalize } from "lib/utils/capitalize";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { DogContainer } from "../containers/DogContainer";
 import { PetContainer } from "../containers/PetContainer";
-import { PetNFTType } from "features/game/types/pets";
+import { getCurrentSeason, SeasonName } from "features/game/types/seasons";
+import { BumpkinContainer } from "../containers/BumpkinContainer";
+import { partyModalManager } from "../lib/partyModalManager";
+
+const CHAPTER_BANNERS: Record<SeasonName, string | undefined> = {
+  "Solar Flare": undefined,
+  "Dawn Breaker": undefined,
+  "Witches' Eve": undefined,
+  "Catch the Kraken": undefined,
+  "Spring Blossom": undefined,
+  "Clash of Factions": undefined,
+  "Pharaoh's Treasure": undefined,
+  "Bull Run": undefined,
+  "Winds of Change": undefined,
+  "Great Bloom": undefined,
+  "Better Together": "world/better_together_banner.webp",
+  "Paw Prints": "world/paw_prints_banner.webp",
+};
+
+// Tiled Layer names that get enabled during a chapter
+const CHAPTER_LAYERS: Record<SeasonName, string | undefined> = {
+  "Solar Flare": undefined,
+  "Dawn Breaker": undefined,
+  "Witches' Eve": undefined,
+  "Catch the Kraken": undefined,
+  "Spring Blossom": undefined,
+  "Clash of Factions": undefined,
+  "Pharaoh's Treasure": undefined,
+
+  "Bull Run": undefined,
+  "Winds of Change": undefined,
+  "Great Bloom": undefined,
+  "Better Together": "Better Together Decoration Base",
+  "Paw Prints": "Paw Prints",
+};
+
+const GAM3_PARTY_RADIUS = 50;
+const GAM3_PARTY_MODAL_COOLDOWN = 60 * 1000;
 
 export type FactionNPC = {
   npc: NPCName;
@@ -114,6 +151,9 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
 export class PlazaScene extends BaseScene {
   sceneId: SceneId = "plaza";
 
+  private lastGam3PartyCheckAt = 0;
+  private lastGam3PartyModalAt = 0;
+
   placeables: {
     [sessionId: string]: PlaceableContainer;
   } = {};
@@ -144,6 +184,7 @@ export class PlazaScene extends BaseScene {
     this.load.audio("chime", SOUNDS.notifications.chime);
 
     this.load.image("vip_gift", "world/vip_gift.png");
+    this.load.image("rarecrows", "world/rarecrows.webp");
 
     this.load.image("page", "world/page.png");
     this.load.image("arrows_to_move", "world/arrows_to_move.png");
@@ -198,21 +239,22 @@ export class PlazaScene extends BaseScene {
     this.load.image("luxury_key_disc", "world/luxury_key_disc.png");
 
     // Stella Megastore items
-    this.load.image("fruit_tune_box", "world/fruit_tune_box.webp");
-    this.load.image("garbage_bin_hat", "world/garbage_bin_hat.webp");
+    this.load.image("magma_stone", "world/magma_stone.webp");
+    this.load.image("pet_specialist_hat", "world/pet_specialist_hat.webp");
 
     // Auction Items
-    this.load.image("groovy_gramophone", "world/groovy_gramophone.webp");
-    this.load.image("oil_gallon_npc", "world/oil_gallon_npc.webp");
-    this.load.image("giant_onion", "world/giant_onion.webp");
-    this.load.image("giant_turnip", "world/giant_turnip.webp");
-    this.load.image("lava_swimwear_npc", "world/lava_swimwear_npc.webp");
+    this.load.image("pet_nft_egg", "world/pet_nft_egg.png");
+    this.load.image("pet_bed", "world/pet_bed.webp");
+    this.load.image("paw_prints_rug", "world/paw_prints_rug.webp");
+    this.load.image("moon_fox_statue", "world/moon_fox_statue.webp");
+    this.load.image("squirrel_onesie_npc", "world/squirrel_onesie_npc.webp");
+    this.load.image("gam3_trophies", "world/gam3_trophies.png");
 
     this.load.image("ronin_banner", "world/ronin_banner.webp");
-    this.load.image(
-      "better_together_banner",
-      "world/better_together_banner.webp",
-    );
+
+    const chapter = getCurrentSeason();
+    // chapter = "Paw Prints"; // Testing only
+    this.load.image("chapter_banner", CHAPTER_BANNERS[chapter as SeasonName]);
 
     this.load.spritesheet("glint", "world/glint.png", {
       frameWidth: 7,
@@ -271,6 +313,17 @@ export class PlazaScene extends BaseScene {
     weatherShop.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(weatherShop, 75)) {
         interactableModalManager.open("weather_shop");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
+    });
+
+    const rarecrows = this.add
+      .sprite(277, 420, "rarecrows")
+      .setDepth(100000000);
+    rarecrows.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (this.checkDistanceToSprite(rarecrows, 75)) {
+        interactableModalManager.open("rarecrows");
       } else {
         this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
@@ -432,6 +485,20 @@ export class PlazaScene extends BaseScene {
 
     this.add.sprite(321.5, 230, "shop_icon");
 
+    const gam3Trophies = this.add.image(431, 316, "gam3_trophies");
+    gam3Trophies.setDepth(316);
+    this.physics.world.enable(gam3Trophies);
+    this.colliders?.add(gam3Trophies);
+    (gam3Trophies.body as Phaser.Physics.Arcade.Body)
+      .setSize(64, 52)
+      .setOffset(0, 0)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
+
+    gam3Trophies.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      interactableModalManager.open("gam3_trophies");
+    });
+
     const dragon = this.add
       .sprite(142, 16, "sleeping_dragon")
       .setDepth(10000000);
@@ -568,17 +635,36 @@ export class PlazaScene extends BaseScene {
         });
       });
 
+    // Enable/disable chapter-specific layers
+    const chapter = getCurrentSeason();
+
+    // Testing only
+    // chapter = "Paw Prints";
+
+    const activeChapterLayerName = CHAPTER_LAYERS[chapter];
+
+    // Hide all known chapter layers first
+    Object.values(CHAPTER_LAYERS).forEach((name) => {
+      if (!name) return;
+      this.layers[name]?.setVisible(false);
+    });
+
+    // Show only the active chapter layer (if present in the map)
+    if (activeChapterLayerName) {
+      this.layers[activeChapterLayerName]?.setVisible(true);
+    }
+
     // Banner
-    this.add.image(400, 225, "better_together_banner").setDepth(225);
+    this.add.image(400, 225, "chapter_banner").setDepth(225);
     // .setInteractive({ cursor: "pointer" })
     // .on("pointerdown", () => {
     //   interactableModalManager.open(banner);
     // });
-    this.add.image(464, 225, "better_together_banner").setDepth(225);
+    this.add.image(464, 225, "chapter_banner").setDepth(225);
 
-    this.add.image(480, 386, "better_together_banner").setDepth(386);
+    this.add.image(480, 386, "chapter_banner").setDepth(386);
 
-    this.add.sprite(385, 386, "better_together_banner").setDepth(386);
+    this.add.sprite(385, 386, "chapter_banner").setDepth(386);
 
     // Ronin Banner
     this.add.sprite(400, 150, "ronin_banner").setDepth(150);
@@ -655,9 +741,9 @@ export class PlazaScene extends BaseScene {
         }
       });
 
-    this.add.image(250, 244, "fruit_tune_box");
+    this.add.image(248, 244, "magma_stone");
 
-    this.add.image(288.5, 247, "garbage_bin_hat");
+    this.add.image(288.5, 247, "pet_specialist_hat");
 
     if (this.textures.exists("sparkle")) {
       const sparkle = this.add.sprite(567, 191, "sparkle");
@@ -685,27 +771,32 @@ export class PlazaScene extends BaseScene {
       const sparkle5 = this.add.sprite(634, 191, "sparkle");
       sparkle5.setDepth(1000000);
 
+      // Rarecrows
+      const rarecrowsSparkle = this.add.sprite(277, 410, "sparkle");
+      rarecrowsSparkle.setDepth(100000000);
+
       sparkle.play(`sparkel_anim`, true);
       sparkle2.play(`sparkel_anim`, true);
       sparkle3.play(`sparkel_anim`, true);
       sparkle4.play(`sparkel_anim`, true);
       sparkle5.play(`sparkel_anim`, true);
+      rarecrowsSparkle.play(`sparkel_anim`, true);
     }
 
     // Change image every chapter change
-    const nft1 = this.add.image(567, 191, "giant_onion");
+    const nft1 = this.add.image(567, 181, "moon_fox_statue");
     nft1.setDepth(191);
 
-    const nft2 = this.add.image(589, 205.5, "oil_gallon_npc");
+    const nft2 = this.add.image(589, 200, "pet_nft_egg");
     nft2.setDepth(205);
 
-    const nft3 = this.add.image(601, 181, "groovy_gramophone");
+    const nft3 = this.add.image(601, 196, "paw_prints_rug");
     nft3.setDepth(181);
 
-    const nft4 = this.add.image(612, 205, "lava_swimwear_npc");
+    const nft4 = this.add.image(612, 200, "squirrel_onesie_npc");
     nft4.setDepth(205);
 
-    const nft5 = this.add.image(635, 191, "giant_turnip");
+    const nft5 = this.add.image(635, 193, "pet_bed");
     nft5.setDepth(181);
 
     const door = this.colliders
@@ -844,79 +935,62 @@ export class PlazaScene extends BaseScene {
     });
   }
 
-  public addPet(
-    sessionId: string,
-    petId: number,
-    petType: PetNFTType,
-    x: number,
-    y: number,
-  ) {
-    const petContainer = new PetContainer(this, x, y, petId, petType);
-    this.pets[sessionId] = petContainer;
-  }
+  private monitorGam3Party() {
+    if (!this.currentPlayer || !this.gameService) return;
 
-  public updatePets() {
-    const server = this.mmoServer;
-    if (!server) return;
+    const now = Date.now();
+    if (now - this.lastGam3PartyCheckAt < 1000) return;
+    this.lastGam3PartyCheckAt = now;
 
-    Object.keys(this.pets).forEach((sessionId) => {
-      const petsMap = server.state.pets;
-      if (!petsMap) return;
+    if (this.currentPlayer.clothing?.hat !== "Gam3s Cap") return;
 
-      const hasLeft =
-        !petsMap.get(sessionId) ||
-        petsMap.get(sessionId)?.sceneId !== this.scene.key;
+    const openedAt =
+      this.gameService.getSnapshot().context.state.pumpkinPlaza.giftGiver
+        ?.openedAt ?? 0;
 
-      const isInactive = !this.pets[sessionId]?.active;
+    const hasOpenedToday =
+      !!openedAt &&
+      new Date(openedAt).toISOString().substring(0, 10) ===
+        new Date().toISOString().substring(0, 10);
 
-      if (hasLeft || isInactive) {
-        this.pets[sessionId]?.destroy();
-        delete this.pets[sessionId];
-      }
-    });
+    if (hasOpenedToday) return;
 
-    server.state.pets?.forEach((pet, sessionId) => {
-      if (pet.sceneId !== this.scene.key) return;
+    const nearbyCelebrators = Object.values(this.playerEntities).filter(
+      (entity) => {
+        if (entity.clothing?.hat !== "Gam3s Cap") return false;
 
-      const petContainer = this.pets[sessionId];
-      if (!petContainer) {
-        this.addPet(sessionId, pet.id || 0, pet.type, pet.x || 0, pet.y || 0);
-        return;
-      }
-
-      if (petContainer) {
-        const distance = Math.sqrt(
-          (petContainer.x - (pet.x || 0)) ** 2 +
-            (petContainer.y - (pet.y || 0)) ** 2,
+        const distance = Phaser.Math.Distance.BetweenPoints(
+          entity,
+          this.currentPlayer as BumpkinContainer,
         );
 
-        if (distance > 2) {
-          if ((pet.x || 0) > petContainer.x) {
-            petContainer.faceRight();
-          } else if ((pet.x || 0) < petContainer.x) {
-            petContainer.faceLeft();
-          }
-          petContainer.walk();
-        } else {
-          petContainer.idle();
-        }
+        return distance <= GAM3_PARTY_RADIUS;
+      },
+    );
 
-        petContainer.x = Phaser.Math.Linear(petContainer.x, pet.x || 0, 0.05);
-        petContainer.y = Phaser.Math.Linear(petContainer.y, pet.y || 0, 0.05);
-        petContainer.setDepth(petContainer.y);
-      }
-    });
+    const amountNeeded = 10;
+
+    const hasParty = nearbyCelebrators.length >= amountNeeded;
+
+    if (
+      hasParty &&
+      !partyModalManager.isOpen &&
+      now - this.lastGam3PartyModalAt > GAM3_PARTY_MODAL_COOLDOWN
+    ) {
+      partyModalManager.open();
+      this.lastGam3PartyModalAt = now;
+    }
   }
 
   public update() {
     super.update();
     this.syncPlaceables();
+    this.monitorGam3Party();
 
     if (this.movementAngle && this.arrows) {
       this.arrows.setVisible(false);
     }
 
     this.updateDogs();
-    this.updatePets();
   }
 }

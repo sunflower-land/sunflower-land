@@ -360,29 +360,41 @@ export const RESOURCE_STATE_ACCESSORS: {
   "Prime Gold Rock": (game) => game.gold,
 };
 
-// IMPORTANT: Order matters in the UpgradesTo array.
-export const BASIC_RESOURCES_UPGRADES_TO: Partial<
-  Record<BasicResourceName, UpgradedResourceName[]>
+export const RESOURCES_UPGRADES_TO: Partial<
+  Record<ResourceName, UpgradedResourceName>
 > = {
-  "Stone Rock": ["Fused Stone Rock", "Reinforced Stone Rock"],
-  "Iron Rock": ["Tempered Iron Rock", "Refined Iron Rock"],
-  "Gold Rock": ["Pure Gold Rock", "Prime Gold Rock"],
-  Tree: ["Ancient Tree", "Sacred Tree"],
+  Tree: "Ancient Tree",
+  "Ancient Tree": "Sacred Tree",
+  "Stone Rock": "Fused Stone Rock",
+  "Fused Stone Rock": "Reinforced Stone Rock",
+  "Iron Rock": "Refined Iron Rock",
+  "Refined Iron Rock": "Tempered Iron Rock",
+  "Gold Rock": "Pure Gold Rock",
+  "Pure Gold Rock": "Prime Gold Rock",
 };
+
+export const BASIC_RESOURCES: BasicResourceName[] = [
+  "Stone Rock",
+  "Iron Rock",
+  "Gold Rock",
+  "Tree",
+];
+
+export const REQUIRED_NODES_TO_FORGE = 4;
 
 export const RESOURCE_MULTIPLIER: Record<UpgradeableResource, number> = {
   "Stone Rock": 1,
-  "Fused Stone Rock": 4,
-  "Reinforced Stone Rock": 16,
+  "Fused Stone Rock": REQUIRED_NODES_TO_FORGE,
+  "Reinforced Stone Rock": REQUIRED_NODES_TO_FORGE * REQUIRED_NODES_TO_FORGE,
   Tree: 1,
-  "Ancient Tree": 4,
-  "Sacred Tree": 16,
+  "Ancient Tree": REQUIRED_NODES_TO_FORGE,
+  "Sacred Tree": REQUIRED_NODES_TO_FORGE * REQUIRED_NODES_TO_FORGE,
   "Iron Rock": 1,
-  "Refined Iron Rock": 4,
-  "Tempered Iron Rock": 16,
+  "Refined Iron Rock": REQUIRED_NODES_TO_FORGE,
+  "Tempered Iron Rock": REQUIRED_NODES_TO_FORGE * REQUIRED_NODES_TO_FORGE,
   "Gold Rock": 1,
-  "Pure Gold Rock": 4,
-  "Prime Gold Rock": 16,
+  "Pure Gold Rock": REQUIRED_NODES_TO_FORGE,
+  "Prime Gold Rock": REQUIRED_NODES_TO_FORGE * REQUIRED_NODES_TO_FORGE,
 };
 
 export const RESOURCE_DIMENSIONS: Record<ResourceName, Dimensions> = {

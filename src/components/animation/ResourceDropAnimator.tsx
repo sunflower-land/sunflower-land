@@ -15,7 +15,7 @@ export const ResourceDropAnimatorComponent: React.FC<Props> = ({
   resourceName,
   resourceAmount,
 }) => {
-  const { current: direction } = useRef<"left" | "right">(
+  const [direction] = useState<"left" | "right">(
     randomInt(0, 2) === 0 ? "left" : "right",
   );
   const textRef = useRef<HTMLSpanElement>(null);

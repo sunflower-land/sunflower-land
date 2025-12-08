@@ -2,13 +2,13 @@ import { FLOWERS, FLOWER_SEEDS } from "features/game/types/flowers";
 import { BoostName, CriticalHitName, GameState } from "../../types/game";
 import Decimal from "decimal.js-light";
 import { updateBeehives } from "features/game/lib/updateBeehives";
-import { trackActivity } from "features/game/types/bumpkinActivity";
-
 import { translate } from "lib/i18n/translate";
-
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { produce } from "immer";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import {
+  isCollectibleBuilt,
+  isTemporaryCollectibleActive,
+} from "features/game/lib/collectibleBuilt";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type HarvestFlowerAction = {
@@ -65,9 +65,22 @@ function getFlowerAmount({
     boostsUsed.push("Chicory");
   }
 
+  if (
+    isTemporaryCollectibleActive({ name: "Moth Shrine", game }) &&
+    criticalDrop("Moth Shrine")
+  ) {
+    amount += 1;
+    boostsUsed.push("Moth Shrine");
+  }
+
   if (bumpkin.skills["Petalled Perk"] && criticalDrop("Petalled Perk")) {
     amount += 1;
     boostsUsed.push("Petalled Perk");
+  }
+
+  if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game })) {
+    amount += 1;
+    boostsUsed.push("Legendary Shrine");
   }
 
   return { amount, boostsUsed };
@@ -131,16 +144,9 @@ export function harvestFlower({
 
     delete flowerBed.flower;
 
-    bumpkin.activity = trackActivity(
-      `${flower.name} Harvested`,
-      bumpkin?.activity,
-      new Decimal(1),
-    );
-
     stateCopy.farmActivity = trackFarmActivity(
       `${flower.name} Harvested`,
       stateCopy.farmActivity,
-      1,
     );
 
     stateCopy.boostsUsedAt = updateBoostUsed({

@@ -460,22 +460,18 @@ describe("removeBuilding", () => {
                 {
                   name: "Pizza Margherita",
                   readyAt: dateNow + 60000,
-                  amount: 1,
                 },
                 {
                   name: "Pizza Margherita",
                   readyAt: dateNow + 120000,
-                  amount: 1,
                 },
                 {
                   name: "Pizza Margherita",
                   readyAt: dateNow + 180000,
-                  amount: 1,
                 },
                 {
                   name: "Pizza Margherita",
                   readyAt: dateNow + 240000,
-                  amount: 1,
                 },
               ],
             },

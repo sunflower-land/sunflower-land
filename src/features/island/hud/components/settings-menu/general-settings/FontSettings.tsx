@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   changeFont,
   CHINESE_FONT_CONFIG,
@@ -11,10 +11,13 @@ import { getKeys } from "features/game/types/decorations";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Dropdown } from "components/ui/Dropdown";
 
+const getStoredFont = (): Font =>
+  (localStorage.getItem("settings.font") ?? "default") as Font;
+
 export const FontSettings: React.FC = () => {
   const { t } = useAppTranslation();
   const language = localStorage.getItem("language") ?? "en";
-  const fonts = (() => {
+  const fonts = useMemo(() => {
     switch (language) {
       case "zh-CN":
         return getKeys(CHINESE_FONT_CONFIG);
@@ -25,11 +28,26 @@ export const FontSettings: React.FC = () => {
       default:
         return getKeys(FONT_CONFIG);
     }
-  })();
+  }, [language]);
 
-  const font = (localStorage.getItem("settings.font") ?? "default") as Font;
+  const [font, setFont] = useState<Font>(() => getStoredFont());
 
-  const handleFontChange = (font: string) => changeFont(font as Font);
+  useEffect(() => {
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === "settings.font" && event.newValue) {
+        setFont(event.newValue as Font);
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
+
+  const handleFontChange = (nextFont: string) => {
+    const typedFont = nextFont as Font;
+    setFont(typedFont);
+    changeFont(typedFont);
+  };
 
   return (
     <div className={"flex items-center justify-between w-full"}>

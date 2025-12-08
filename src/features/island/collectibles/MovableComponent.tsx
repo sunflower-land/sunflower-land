@@ -299,7 +299,7 @@ export const MoveableComponent: React.FC<
 }) => {
   const { scale } = useContext(ZoomContext);
 
-  const nodeRef = useRef(null);
+  const nodeRef = useRef<HTMLDivElement>(null);
 
   const { gameService } = useContext(Context);
   const [isColliding, setIsColliding] = useState(false);
@@ -685,7 +685,7 @@ export const MoveableComponent: React.FC<
   return (
     <Draggable
       key={`${coordinatesX}-${coordinatesY}-${counts}`}
-      nodeRef={nodeRef}
+      nodeRef={nodeRef as React.RefObject<HTMLElement>}
       grid={[GRID_WIDTH_PX * scale.get(), GRID_WIDTH_PX * scale.get()]}
       scale={scale.get()}
       allowAnyClick

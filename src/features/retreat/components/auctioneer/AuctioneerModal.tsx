@@ -1,8 +1,9 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 
 import { Panel } from "components/ui/Panel";
 import { AuctioneerContent } from "./AuctioneerContent";
+import { AuctionHistory } from "./AuctionHistory";
 import { useActor, useInterpret } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
@@ -19,6 +20,7 @@ import { Loading } from "features/auth/components";
 import { hasReputation } from "features/game/lib/reputation";
 import { Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
+import choreIcon from "assets/icons/chores.webp";
 
 interface Props {
   gameState: GameState;
@@ -26,7 +28,7 @@ interface Props {
   farmId: number;
   onClose: () => void;
   onUpdate: (state: GameState) => void;
-  onMint: (id: string) => void;
+  onMint: () => void;
   deviceTrackerId: string;
   linkedAddress?: string;
 }
@@ -44,6 +46,8 @@ export const AuctioneerModal: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
+
+  const [tab, setTab] = useState(0);
 
   const auctionService = useInterpret(createAuctioneerMachine({ onUpdate }), {
     context: {
@@ -83,15 +87,19 @@ export const AuctioneerModal: React.FC<Props> = ({
     );
   }
 
-  const closeModal = () => {
-    onClose();
-  };
-
   return (
-    <Modal show={isOpen} onHide={closeModal}>
+    <Modal show={isOpen} onHide={onClose}>
       <CloseButtonPanel
         onClose={onClose}
-        tabs={[{ icon: SUNNYSIDE.icons.stopwatch, name: t("auction.title") }]}
+        currentTab={tab}
+        setCurrentTab={setTab}
+        tabs={[
+          { icon: SUNNYSIDE.icons.stopwatch, name: t("auction.title") },
+          {
+            icon: choreIcon,
+            name: t("auction.results"),
+          },
+        ]}
         bumpkinParts={NPC_WEARABLES["hammerin harry"]}
         secondaryAction={
           <a
@@ -112,24 +120,27 @@ export const AuctioneerModal: React.FC<Props> = ({
           </a>
         }
       >
-        <div
-          style={{
-            minHeight: "200px",
-          }}
-        >
-          <div className="flex flex-col">
-            {!hasAuctionAccess && (
-              <div className="pt-2 pl-2">
-                <RequiredReputation reputation={Reputation.Grower} />
-              </div>
-            )}
-            <AuctioneerContent
-              auctionService={auctionService}
-              gameState={gameState}
-              onMint={onMint}
-            />
+        {tab === 0 && (
+          <div
+            style={{
+              minHeight: "200px",
+            }}
+          >
+            <div className="flex flex-col">
+              {!hasAuctionAccess && (
+                <div className="pt-2 pl-2">
+                  <RequiredReputation reputation={Reputation.Grower} />
+                </div>
+              )}
+              <AuctioneerContent
+                auctionService={auctionService}
+                gameState={gameState}
+                onMint={onMint}
+              />
+            </div>
           </div>
-        </div>
+        )}
+        {tab === 1 && <AuctionHistory />}
       </CloseButtonPanel>
     </Modal>
   );

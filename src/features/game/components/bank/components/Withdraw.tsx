@@ -18,10 +18,8 @@ import { translate } from "lib/i18n/translate";
 import { Transaction } from "features/island/hud/Transaction";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { GameWallet } from "features/wallet/Wallet";
-import { hasFeatureAccess } from "lib/flags";
-import { base, baseSepolia } from "viem/chains";
-import { CONFIG } from "lib/config";
 import { WithdrawPets } from "./WithdrawPets";
+import petNFTEgg from "assets/icons/pet_nft_egg.png";
 
 const getPageIcon = (page: Page) => {
   switch (page) {
@@ -34,7 +32,7 @@ const getPageIcon = (page: Page) => {
     case "buds":
       return SUNNYSIDE.icons.plant;
     case "pets":
-      return SUNNYSIDE.icons.expression_confused;
+      return petNFTEgg;
     case "resources":
       return SUNNYSIDE.resource.wood;
     case "verify":
@@ -228,21 +226,12 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     return <Transaction isBlocked onClose={onClose} />;
   }
 
-  const enforceBaseWithdrawal = !hasFeatureAccess(
-    gameService.getSnapshot().context.state,
-    "RONIN_FLOWER",
-  );
-  const baseChain = CONFIG.NETWORK === "mainnet" ? base.id : baseSepolia.id;
-
   return (
     <>
       {page === "main" && <MainMenu setPage={setPage} />}
       {page !== "main" && <NavigationMenu page={page} setPage={setPage} />}
       {page === "tokens" && (
-        <GameWallet
-          action="withdrawFlower"
-          enforceChainId={enforceBaseWithdrawal ? baseChain : undefined}
-        >
+        <GameWallet action="withdrawFlower">
           <WithdrawFlower onWithdraw={onWithdrawTokens} />
         </GameWallet>
       )}

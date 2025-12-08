@@ -18,7 +18,6 @@ import { Button } from "components/ui/Button";
 import { getBasketItems } from "features/island/hud/components/inventory/utils/inventory";
 import { NumberInput } from "components/ui/NumberInput";
 import { GameWallet } from "features/wallet/Wallet";
-import { CONFIG } from "lib/config";
 import { formatNumber } from "lib/utils/formatNumber";
 import { InventoryItemName } from "features/game/types/game";
 import { BumpkinItem } from "features/game/types/bumpkin";
@@ -163,7 +162,6 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
         sfl: price,
         signature,
         quantity: Math.max(1, quantity),
-        contract: CONFIG.MARKETPLACE_VERIFIER_CONTRACT,
       },
       authToken,
     });
@@ -223,7 +221,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
             <TradeableSummary
               display={display}
               sfl={price}
-              tax={price * MARKETPLACE_TAX}
+              tax={new Decimal(price).mul(MARKETPLACE_TAX)}
               quantity={Math.max(1, quantity)}
               estTradePoints={estTradePoints}
             />
@@ -245,9 +243,9 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
       );
     }
 
-    let tax = price * MARKETPLACE_TAX;
+    let tax = new Decimal(price).mul(MARKETPLACE_TAX);
     if (isResource) {
-      tax = price * getResourceTax({ game: state });
+      tax = getResourceTax({ game: state }).mul(price);
     }
 
     return (

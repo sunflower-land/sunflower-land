@@ -12,6 +12,7 @@ import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Constructing } from "../Building";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const _waterWell = (state: MachineState) => state.context.state.waterWell;
 const _state = (state: MachineState) => state.context.state;
@@ -21,10 +22,13 @@ export const WaterWell: React.FC<BuildingProps> = ({ season }) => {
   const [showConstructingModal, setShowConstructingModal] =
     React.useState(false);
   const { gameService } = useGame();
+
   const waterWell = useSelector(gameService, _waterWell);
   const state = useSelector(gameService, _state);
   const { level, upgradeReadyAt, upgradedAt } = waterWell;
-  const isUpgrading = (upgradeReadyAt ?? 0) > Date.now();
+  const now = useNow({ live: true, autoEndAt: upgradeReadyAt ?? 0 });
+
+  const isUpgrading = (upgradeReadyAt ?? 0) > now;
   const currentLevel = isUpgrading ? level - 1 : level;
   const previousIsUpgrading = React.useRef(isUpgrading);
 
@@ -60,6 +64,8 @@ export const WaterWell: React.FC<BuildingProps> = ({ season }) => {
     setShowConstructingModal(false);
   };
 
+  const nextLevel = Math.min(currentLevel + 1, 4);
+
   return (
     <BuildingImageWrapper name="Water Well" nonInteractible>
       <img
@@ -75,7 +81,7 @@ export const WaterWell: React.FC<BuildingProps> = ({ season }) => {
       <UpgradeBuildingModal
         buildingName={"Water Well"}
         currentLevel={currentLevel}
-        nextLevel={currentLevel + 1}
+        nextLevel={nextLevel}
         show={openUpgradeModal}
         onClose={() => setOpenUpgradeModal(false)}
       />
@@ -86,8 +92,8 @@ export const WaterWell: React.FC<BuildingProps> = ({ season }) => {
         <CloseButtonPanel onClose={() => setShowConstructingModal(false)}>
           <Constructing
             name="Water Well"
-            readyAt={upgradeReadyAt ?? Date.now()}
-            createdAt={upgradedAt ?? Date.now()}
+            readyAt={upgradeReadyAt ?? 0}
+            createdAt={upgradedAt ?? 0}
             state={state}
             onClose={() => setShowConstructingModal(false)}
             onInstantBuilt={handleSpeedUp}

@@ -54,7 +54,7 @@ export function skipKingdomChore({
 
     game.kingdomChores = populateKingdomChores(
       kingdomChores,
-      bumpkin,
+      game.farmActivity,
       createdAt,
     );
 

@@ -1,6 +1,12 @@
 import { getKeys } from "./decorations";
-import { Inventory, InventoryItemName, Wardrobe } from "./game";
+import {
+  Inventory,
+  InventoryItemName,
+  TemperateSeasonName,
+  Wardrobe,
+} from "./game";
 import { isPet, PET_TYPES, PetType } from "./pets";
+import { SEASONAL_SEEDS, SeedName } from "./seeds";
 
 export type RewardBox = {
   spunAt?: number;
@@ -23,6 +29,7 @@ export type RewardBox = {
 };
 
 export type RewardBoxName =
+  | "Basic Love Box"
   | "Bronze Love Box"
   | "Silver Love Box"
   | "Gold Love Box"
@@ -37,7 +44,10 @@ export type RewardBoxName =
   | "Silver Food Box"
   | "Gold Food Box"
   | "Pet Egg"
-  | "Fossil Shell";
+  | "Fossil Shell"
+  | "Basic Farming Pack"
+  | "Basic Food Box"
+  | "Weekly Mega Box";
 
 export type RewardBoxes = Partial<Record<RewardBoxName, RewardBox>>;
 
@@ -48,13 +58,82 @@ export type RewardBoxReward = {
   items?: Partial<Record<InventoryItemName, number>>;
   wearables?: Wardrobe;
   flower?: number;
+  seasons?: (now?: number) => TemperateSeasonName[]; // Seasons that the reward is available in
 };
 
 type RewardBoxDetails = {
   rewards: RewardBoxReward[];
 };
 
+function getSeedSeasons(seedName: SeedName): TemperateSeasonName[] {
+  return getKeys(SEASONAL_SEEDS).filter((season) =>
+    SEASONAL_SEEDS[season].includes(seedName),
+  );
+}
+
 export const REWARD_BOXES: Record<RewardBoxName, RewardBoxDetails> = {
+  "Basic Love Box": {
+    rewards: [
+      { coins: 25, weighting: 5 },
+      { coins: 50, weighting: 5 },
+      { coins: 100, weighting: 5 },
+      { items: { "Pumpkin Soup": 1 }, weighting: 2 },
+      { items: { "Sunflower Cake": 1 }, weighting: 5 },
+      { items: { "Love Charm": 2 }, weighting: 50 },
+      { items: { "Love Charm": 5 }, weighting: 50 },
+      { items: { "Love Charm": 10 }, weighting: 100 },
+    ],
+  },
+  "Basic Farming Pack": {
+    rewards: [
+      // TODO - filter out non seasonal seeds
+      { items: { "Sunflower Seed": 50 }, weighting: 50 },
+      { items: { "Potato Seed": 20 }, weighting: 100 },
+      { items: { "Rhubarb Seed": 20 }, weighting: 100 },
+      { items: { "Pumpkin Seed": 20 }, weighting: 100 },
+      { items: { "Carrot Seed": 20 }, weighting: 100 },
+      { items: { "Zucchini Seed": 20 }, weighting: 100 },
+      { items: { "Yam Seed": 20 }, weighting: 100 },
+
+      // Good rewards
+      { items: { "Sprout Mix": 5 }, weighting: 50 },
+      { items: { "Rapid Root": 5 }, weighting: 50 },
+      { items: { "Beetroot Seed": 20 }, weighting: 30 },
+      { items: { "Cauliflower Seed": 20 }, weighting: 30 },
+      { items: { "Wheat Seed": 10 }, weighting: 30 },
+      { items: { "Kale Seed": 10 }, weighting: 30 },
+      { items: { "Barley Seed": 10 }, weighting: 30 },
+    ],
+  },
+  "Basic Food Box": {
+    rewards: [
+      // Average
+      { items: { "Boiled Eggs": 1 }, weighting: 50 },
+      { items: { "Bumpkin Broth": 1 }, weighting: 50 },
+      { items: { "Fried Tofu": 1 }, weighting: 50 },
+      { items: { "Mushroom Soup": 1 }, weighting: 50 },
+
+      // Good
+      { items: { "Sunflower Cake": 1 }, weighting: 100 },
+      { items: { "Apple Pie": 1 }, weighting: 100 },
+      { items: { "Kale & Mushroom Pie": 1 }, weighting: 100 },
+      { items: { "Wheat Cake": 1 }, weighting: 50 },
+      { items: { "Pirate Cake": 1 }, weighting: 50 },
+    ],
+  },
+  "Weekly Mega Box": {
+    rewards: [
+      { coins: 5000, weighting: 100 },
+      { items: { "Fishing Lure": 5 }, weighting: 100 },
+
+      // Good
+      { coins: 10000, weighting: 100 },
+      { coins: 50000, weighting: 100 },
+      { items: { Gem: 100 }, weighting: 10 },
+      { items: { Gem: 500 }, weighting: 10 },
+      { items: { Gem: 1000 }, weighting: 5 },
+    ],
+  },
   "Fossil Shell": {
     rewards: [
       { items: { Acorn: 3 }, weighting: 50 },

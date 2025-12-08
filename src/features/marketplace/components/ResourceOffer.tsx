@@ -100,7 +100,9 @@ export const ResourceOffer: React.FC<Props> = ({
         <div className="flex justify-between">
           <div className="flex items-center">
             <Box image={ITEM_DETAILS[itemName].image} disabled />
-            <span className="text-sm">{itemName}</span>
+            <span className="text-sm">
+              {ITEM_DETAILS[itemName].translatedName ?? itemName}
+            </span>
           </div>
         </div>
 

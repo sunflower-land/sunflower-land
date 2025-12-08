@@ -808,6 +808,44 @@ describe("claimProduce", () => {
     expect(newState.inventory.Leather).toEqual(new Decimal(1.25));
   });
 
+  it("gives +1 Leather for cows when player has Training Whistle equipped", () => {
+    const cowId = "123";
+
+    const newState = claimProduce({
+      state: {
+        ...GAME_STATE,
+        inventory: {},
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          equipped: {
+            ...GAME_STATE.bumpkin?.equipped,
+            necklace: "Training Whistle",
+          },
+        },
+        barn: {
+          ...GAME_STATE.barn,
+          animals: {
+            [cowId]: {
+              id: cowId,
+              type: "Cow",
+              createdAt: 0,
+              state: "ready",
+              experience: 360,
+              asleepAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+              awakeAt: 0,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Cow", id: cowId },
+      createdAt: now,
+    });
+
+    expect(newState.inventory.Leather).toEqual(new Decimal(2));
+  });
+
   it("gives +2 Wool for sheeps when Black Sheep Onesie is worn", () => {
     const sheepID = "123";
 
@@ -1495,8 +1533,8 @@ describe("claimProduce", () => {
       createdAt: now,
     });
 
-    expect(newState.bumpkin.activity["Egg Collected"]).toEqual(1);
-    expect(newState.bumpkin.activity["Feather Collected"]).toEqual(1);
+    expect(newState.farmActivity["Egg Collected"]).toEqual(1);
+    expect(newState.farmActivity["Feather Collected"]).toEqual(1);
   });
 
   it("correctly applies El Pollo Veloz 2-hour reduction with percentage boosts", () => {

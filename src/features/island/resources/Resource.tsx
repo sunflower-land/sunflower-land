@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, type JSX } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ResourceName } from "features/game/types/resources";
@@ -23,6 +23,7 @@ import { OilReserve } from "features/game/expansion/components/resources/oilRese
 import { LavaPit } from "features/game/expansion/components/lavaPit/LavaPit";
 import { TREE_VARIANTS } from "../lib/alternateArt";
 import { getCurrentBiome } from "../biomes/biomes";
+import { GameState, TemperateSeasonName } from "features/game/types/game";
 
 export interface ResourceProps {
   name: ResourceName;
@@ -35,14 +36,13 @@ export interface ResourceProps {
 }
 
 // Used for placing
-export const READONLY_RESOURCE_COMPONENTS = (): Record<
-  ResourceName,
-  () => JSX.Element
-> => {
-  const { gameService } = useContext(Context);
-  const state = gameService.getSnapshot().context.state;
-  const season = state.season.season;
-  const island = state.island;
+export const READONLY_RESOURCE_COMPONENTS = ({
+  season,
+  island,
+}: {
+  season: TemperateSeasonName;
+  island: GameState["island"];
+}): Record<ResourceName, () => JSX.Element> => {
   const currentBiome = getCurrentBiome(island);
 
   return {
@@ -99,8 +99,10 @@ export const READONLY_RESOURCE_COMPONENTS = (): Record<
         className="relative pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 14}px`,
-          top: `${PIXEL_SCALE * 4.52}px`,
-          left: `${PIXEL_SCALE * 1.38}px`,
+          // Align the base stone rock with the gold/iron rocks so that the
+          // shared strike animation lines up without a visible jump.
+          top: `${PIXEL_SCALE * 3}px`,
+          left: `${PIXEL_SCALE * 1}px`,
         }}
       />
     ),

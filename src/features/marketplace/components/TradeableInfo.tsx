@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
@@ -33,11 +33,18 @@ import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import classNames from "classnames";
 import { pixelGreenBorderStyle } from "features/game/lib/style";
 import { useGame } from "features/game/GameProvider";
-import { getPetNFTReleaseDate } from "features/game/types/pets";
+import {
+  getPetLevel,
+  getPetNFTReleaseDate,
+  PET_CATEGORIES,
+  PetCategory,
+} from "features/game/types/pets";
 import { getPetTraits } from "features/pets/data/getPetTraits";
 import { PetTraits } from "features/pets/data/types";
 import { Bud } from "lib/buds/types";
 import { getBudTraits } from "features/game/types/budBuffs";
+import { setPrecision } from "lib/utils/formatNumber";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const formatDate = (date: Date) => {
   return date.toLocaleDateString("en-US", {
@@ -47,29 +54,53 @@ const formatDate = (date: Date) => {
   });
 };
 
-const getNFTTraits = (
+export const getNFTTraits = (
   display?: TradeableDisplay,
 ): {
   revealDate: Date | undefined;
-  traits: PetTraits | Bud | undefined;
+  tradeDate: Date | undefined;
+  traits: (PetTraits & PetCategory) | Bud | undefined;
 } => {
   if (!display || (display.type !== "pets" && display.type !== "buds")) {
-    return { revealDate: undefined, traits: undefined };
+    return { revealDate: undefined, traits: undefined, tradeDate: undefined };
   }
 
   const id = Number(display.name.split("#")[1]);
 
   if (Number.isNaN(id)) {
-    return { revealDate: undefined, traits: undefined };
+    return { revealDate: undefined, traits: undefined, tradeDate: undefined };
   }
 
   if (display.type === "buds") {
-    return { revealDate: undefined, traits: getBudTraits(id) };
+    return {
+      revealDate: undefined,
+      traits: getBudTraits(id),
+      tradeDate: undefined,
+    };
   }
+
+  const traits = getPetTraits(id);
+
+  const petType = traits?.type;
+  const petCategories = petType ? PET_CATEGORIES[petType] : undefined;
+  const combinedTraits: (PetTraits & PetCategory) | undefined =
+    traits && petCategories
+      ? {
+          type: traits.type,
+          primary: petCategories.primary,
+          secondary: petCategories.secondary,
+          tertiary: petCategories.tertiary,
+          bib: traits.bib,
+          aura: traits.aura,
+          fur: traits.fur,
+          accessory: traits.accessory,
+        }
+      : undefined;
 
   return {
     revealDate: getPetNFTReleaseDate(id, Date.now()),
-    traits: getPetTraits(id),
+    traits: combinedTraits,
+    tradeDate: new Date("2025-11-10T00:00:00Z"),
   };
 };
 
@@ -81,12 +112,14 @@ export const TradeableImage: React.FC<{
   const params = useParams();
   const isResource = isTradeResource(display.name as InventoryItemName);
   // Track the URL we currently render so we can mutate it if the image fails to load.
-  const imageSrcRef = useRef<string>(display.image);
+  const [imageSrc, setImageSrc] = useState<string>(display.image);
   // Remember the most recent prop value; when the user navigates to a new item we reset the image.
-  const lastDisplayImageRef = useRef<string>(display.image);
-  if (lastDisplayImageRef.current !== display.image) {
-    imageSrcRef.current = display.image;
-    lastDisplayImageRef.current = display.image;
+  const [lastDisplayImage, setLastDisplayImage] = useState<string>(
+    display.image,
+  );
+  if (lastDisplayImage !== display.image) {
+    setImageSrc(display.image);
+    setLastDisplayImage(display.image);
   }
   // Pets have a dedicated egg artwork fallback while other tradeables keep their default imagery.
   const fallbackImage =
@@ -118,15 +151,15 @@ export const TradeableImage: React.FC<{
       </div>
 
       <img
-        src={showFullImage ? imageSrcRef.current : background}
+        src={showFullImage ? imageSrc : background}
         className="w-full rounded-sm"
         onError={(e) => {
           // Swap to the fallback only once to avoid infinite error loops.
-          if (!fallbackImage || imageSrcRef.current === fallbackImage) {
+          if (!fallbackImage || imageSrc === fallbackImage) {
             return;
           }
 
-          imageSrcRef.current = fallbackImage;
+          setImageSrc(fallbackImage);
           e.currentTarget.src = fallbackImage;
         }}
       />
@@ -151,6 +184,7 @@ export const TradeableDescription: React.FC<{
   tradeable?: TradeableDetails;
 }> = ({ display, tradeable }) => {
   const { t } = useAppTranslation();
+  const now = useNow();
 
   let tradeAt = undefined;
   let withdrawAt = undefined;
@@ -172,7 +206,7 @@ export const TradeableDescription: React.FC<{
   const isCollectible = display.type === "collectibles";
   const isResource = isTradeResource(display.name as InventoryItemName);
 
-  const { revealDate, traits } = getNFTTraits(display);
+  const { revealDate, traits, tradeDate } = getNFTTraits(display);
 
   return (
     <InnerPanel className="mb-1">
@@ -217,6 +251,13 @@ export const TradeableDescription: React.FC<{
                     {buff.shortDescription}
                   </Label>
                 ))}
+            {tradeable?.collection === "pets" && !revealDate && (
+              <Label type="info">
+                {t("marketplace.pet.level", {
+                  level: getPetLevel(tradeable.experience ?? 0).level,
+                })}
+              </Label>
+            )}
             {(display?.type === "pets" || display?.type === "buds") &&
               (revealDate ? (
                 <Label type="default">
@@ -226,21 +267,31 @@ export const TradeableDescription: React.FC<{
                 </Label>
               ) : traits ? (
                 <div className="flex flex-row flex-wrap gap-1">
-                  {Object.values(traits).map((trait) => (
-                    <Label key={trait} type="default">
-                      {trait}
-                    </Label>
-                  ))}
+                  {Object.values(traits)
+                    .filter((trait) => trait !== undefined)
+                    .map((trait) => (
+                      <Label key={trait} type="default">
+                        {trait}
+                      </Label>
+                    ))}
                 </div>
               ) : (
                 <Label type="danger">{t("marketplace.pet.comingSoon")}</Label>
               ))}
+
+            {tradeDate && (
+              <Label type="formula">
+                {t("marketplace.pet.trade.date", {
+                  date: formatDate(tradeDate),
+                })}
+              </Label>
+            )}
           </div>
         </div>
         {tradeable?.expiresAt && (
           <div className="p-2 pl-0 pb-0">
             <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-              {`${secondsToString((tradeable.expiresAt - Date.now()) / 1000, {
+              {`${secondsToString((tradeable.expiresAt - now) / 1000, {
                 length: "short",
               })} left`}
             </Label>
@@ -389,7 +440,9 @@ export const ResourceTaxes: React.FC = () => {
             <img src={lockIcon} className="w-4 mr-1" />
             <div>
               <p className="text-xs">
-                {t("marketplace.resourceFee", { tax: tax * 100 })}
+                {t("marketplace.resourceFee", {
+                  tax: setPrecision(tax.mul(100), 2).toNumber(),
+                })}
               </p>
             </div>
           </div>

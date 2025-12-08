@@ -162,7 +162,6 @@ import { GoblinLantern } from "./components/GoblinLantern";
 import { DawnFlower } from "./components/DawnFlower";
 import { LaurieTheChuckleCrow } from "./components/LaurieTheChuckelCrow";
 import { FreyaFox } from "./components/FreyaFox";
-import { MoonFoxStatue } from "./components/MoonFoxStatue";
 import { WitchesEveBanner } from "./components/WitchesEveBanner";
 import { ElPolloVeloz } from "./components/ElPolloVeloz";
 import { Poppy } from "./components/Poppy";
@@ -377,7 +376,7 @@ import { PetShrine } from "./components/PetShrine";
 import { ObsidianShrine } from "./components/ObsidianShrine";
 import { Pet } from "../pets/Pet";
 import { PetName, PET_TYPES } from "features/game/types/pets";
-import { PetNFT } from "./components/PetNFT";
+import { PetNFT } from "./components/petNFT/PetNFT";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud" | "PetNFT",
@@ -2801,7 +2800,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Giant Acorn"
     />
   ),
-  "Moon Fox Statue": MoonFoxStatue,
+  "Moon Fox Statue": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 31}px`,
+        bottom: `${PIXEL_SCALE * -2}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 31}px`,
+      }}
+      image={ITEM_DETAILS["Moon Fox Statue"].image}
+      alt="Moon Fox Statue"
+    />
+  ),
   "Big Apple": (props: CollectibleProps) => (
     <Project
       {...props}
@@ -3406,12 +3419,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 45}px`,
+        width: `${PIXEL_SCALE * 46}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
         left: `${PIXEL_SCALE * 1.5}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 45}px`,
+        width: `${PIXEL_SCALE * 46}px`,
       }}
       image={ITEM_DETAILS["Lunar Temple"].image}
       alt="Lunar Temple"

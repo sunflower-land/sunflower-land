@@ -13,7 +13,7 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 
 const WickerManSpriteSheet = ({ open }: { open: boolean }) => {
   const { scale } = useContext(ZoomContext);
-  const wickerManGif = useRef<SpriteSheetInstance>();
+  const wickerManGif = useRef<SpriteSheetInstance>(undefined);
 
   const { play: burningSound, stop: stopBurningSound } = useSound("burning");
 

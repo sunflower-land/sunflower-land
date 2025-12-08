@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { canMine } from "features/game/lib/resourceNodes";
 import { BoostName, FiniteResource, GameState } from "../../types/game";
 import { isWearableActive } from "features/game/lib/wearables";
@@ -167,7 +167,10 @@ export function mineCrimstone({
     stateCopy.inventory["Gold Pickaxe"] = toolAmount.sub(1);
     stateCopy.inventory.Crimstone = amountInInventory.add(stoneMined);
 
-    bumpkin.activity = trackActivity("Crimstone Mined", bumpkin.activity);
+    stateCopy.farmActivity = trackFarmActivity(
+      "Crimstone Mined",
+      stateCopy.farmActivity,
+    );
 
     stateCopy.boostsUsedAt = updateBoostUsed({
       game: stateCopy,

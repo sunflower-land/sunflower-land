@@ -179,6 +179,6 @@ describe("buyWearable", () => {
 
     const shirt = STYLIST_WEARABLES["Red Farmer Shirt"] as StylistWearable;
 
-    expect(state.bumpkin?.activity?.["Coins Spent"]).toEqual(shirt.coins ?? 0);
+    expect(state.farmActivity?.["Coins Spent"]).toEqual(shirt.coins ?? 0);
   });
 });

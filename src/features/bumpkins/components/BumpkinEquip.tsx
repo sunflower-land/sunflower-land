@@ -4,7 +4,7 @@ import {
   BumpkinPart,
   ITEM_IDS,
 } from "features/game/types/bumpkin";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { DynamicNFT } from "./DynamicNFT";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { OuterPanel, InnerPanel } from "components/ui/Panel";
@@ -65,12 +65,6 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip }) => {
   const { gameService } = useContext(Context);
   const [equipped, setEquipped] = useState(equipment);
   const [selectedBumpkinPart, setSelectedBumpkinPart] = useState(REQUIRED[0]);
-  const [selectedBumpkinItem, setSelectedBumpkinItem] = useState(
-    equipped[REQUIRED[0]],
-  );
-  const [filteredWardrobeNames, setFilteredWardrobeNames] = useState<
-    BumpkinItem[]
-  >([]);
 
   const game = useSelector(gameService, _game);
 
@@ -129,13 +123,6 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip }) => {
 
   const equippedItems = Object.values(equipped);
 
-  const isMissingBackground = !equipped.background;
-  const isMissingHair = !equipped.hair;
-  const isMissingBody = !equipped.body;
-  const isMissingShoes = !equipped.shoes;
-  const isMissingShirt = !equipped.shirt && !equipped.dress;
-  const isMissingPants = !equipped.pants && !equipped.dress;
-
   const { t } = useAppTranslation();
 
   const sortedWardrobeNames = getKeys(wardrobe).sort((a, b) =>
@@ -147,13 +134,11 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip }) => {
       sortedWardrobeNames.filter((name) => !BUMPKIN_ITEM_BUFF_LABELS[name]),
     );
 
-  useEffect(() => {
-    const filteredWardrobe = wardrobeSortedByBuff.filter(
-      (name) => BUMPKIN_ITEM_PART[name] === selectedBumpkinPart,
-    );
-    setFilteredWardrobeNames(filteredWardrobe);
-    setSelectedBumpkinItem(equipped[selectedBumpkinPart]);
-  }, [selectedBumpkinPart, equipped, wardrobeSortedByBuff]);
+  const filteredWardrobeNames = wardrobeSortedByBuff.filter(
+    (name) => BUMPKIN_ITEM_PART[name] === selectedBumpkinPart,
+  );
+
+  const selectedBumpkinItem = equipped[selectedBumpkinPart];
 
   return (
     <div className="p-2">
@@ -268,7 +253,6 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip }) => {
                               if (unavailable) {
                                 return;
                               }
-                              setSelectedBumpkinItem(name);
                               // Already equipped
                               if (equippedItems.includes(name)) {
                                 unequipPart(name);
@@ -338,7 +322,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip }) => {
             </div>
             {(() => {
               const buffLabel = selectedBumpkinItem
-                ? BUMPKIN_ITEM_BUFF_LABELS[selectedBumpkinItem] ?? ""
+                ? (BUMPKIN_ITEM_BUFF_LABELS[selectedBumpkinItem] ?? "")
                 : "";
 
               return (

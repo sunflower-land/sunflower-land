@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { buySeasonalItem } from "./buySeasonalItem";
-import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
+import { TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 
 describe("buySeasonalItem", () => {
@@ -180,12 +180,7 @@ describe("buySeasonalItem", () => {
           inventory: {
             "Acorn House": new Decimal(0),
           },
-          bumpkin: {
-            ...INITIAL_BUMPKIN,
-            activity: {
-              "Acorn House Bought": 1,
-            },
-          },
+          farmActivity: { "Acorn House Bought": 1 },
         },
         action: {
           type: "seasonalItem.bought",
@@ -209,11 +204,8 @@ describe("buySeasonalItem", () => {
           "Treasure Key": new Decimal(1),
           Timeshard: new Decimal(300),
         },
-        bumpkin: {
-          ...INITIAL_BUMPKIN,
-          activity: {
-            "Treasure Key Bought": 1,
-          },
+        farmActivity: {
+          "Treasure Key Bought": 1,
         },
       },
       action: {
@@ -224,7 +216,7 @@ describe("buySeasonalItem", () => {
       createdAt: new Date("2025-02-05").getTime(),
     });
     expect(state.inventory["Treasure Key"]).toStrictEqual(new Decimal(2));
-    expect(state.bumpkin.activity["Treasure Key Bought"])?.toEqual(2);
+    expect(state.farmActivity["Treasure Key Bought"])?.toEqual(2);
     expect(state.inventory["Timeshard"]).toStrictEqual(new Decimal(100));
   });
 
@@ -240,15 +232,12 @@ describe("buySeasonalItem", () => {
           inventory: {
             Timeshard: new Decimal(600),
           },
-          bumpkin: {
-            ...INITIAL_BUMPKIN,
-            activity: {
-              "Acorn House Bought": 1,
-              "Kite Bought": 1,
-              "Spring Duckling Bought": 1,
-              "Acorn Hat Bought": 1,
-              "Igloo Bought": 1,
-            },
+          farmActivity: {
+            "Acorn House Bought": 1,
+            "Kite Bought": 1,
+            "Spring Duckling Bought": 1,
+            "Acorn Hat Bought": 1,
+            "Igloo Bought": 1,
           },
         },
         action: {
@@ -274,15 +263,12 @@ describe("buySeasonalItem", () => {
           Timeshard: new Decimal(600),
           "Rare Key": new Decimal(1),
         },
-        bumpkin: {
-          ...INITIAL_BUMPKIN,
-          activity: {
-            "Acorn House Bought": 1,
-            "Kite Bought": 1,
-            "Spring Duckling Bought": 1,
-            "Acorn Hat Bought": 1,
-            "Rare Key Bought": 1,
-          },
+        farmActivity: {
+          "Acorn House Bought": 1,
+          "Kite Bought": 1,
+          "Spring Duckling Bought": 1,
+          "Acorn Hat Bought": 1,
+          "Rare Key Bought": 1,
         },
       },
       action: {
@@ -293,7 +279,7 @@ describe("buySeasonalItem", () => {
       createdAt: new Date("2025-02-05").getTime(),
     });
     expect(state.inventory["Rare Key"]).toStrictEqual(new Decimal(2));
-    expect(state.bumpkin.activity["Rare Key Bought"])?.toEqual(2);
+    expect(state.farmActivity["Rare Key Bought"])?.toEqual(2);
   });
 
   it("throws an error if Mammoth item is already crafted", () => {
@@ -308,19 +294,16 @@ describe("buySeasonalItem", () => {
           inventory: {
             Timeshard: new Decimal(2000),
           },
-          bumpkin: {
-            ...INITIAL_BUMPKIN,
-            activity: {
-              "Acorn House Bought": 1,
-              "Kite Bought": 1,
-              "Spring Duckling Bought": 1,
-              "Acorn Hat Bought": 1,
-              "Igloo Bought": 1,
-              "Ladybug Suit Bought": 1,
-              "Ugly Duckling Bought": 1,
-              "Lake Rug Bought": 1,
-              "Mammoth Bought": 1,
-            },
+          farmActivity: {
+            "Acorn House Bought": 1,
+            "Kite Bought": 1,
+            "Spring Duckling Bought": 1,
+            "Acorn Hat Bought": 1,
+            "Igloo Bought": 1,
+            "Ladybug Suit Bought": 1,
+            "Ugly Duckling Bought": 1,
+            "Lake Rug Bought": 1,
+            "Mammoth Bought": 1,
           },
         },
         action: {
@@ -346,20 +329,17 @@ describe("buySeasonalItem", () => {
           Timeshard: new Decimal(1000),
           "Luxury Key": new Decimal(1),
         },
-        bumpkin: {
-          ...INITIAL_BUMPKIN,
-          activity: {
-            "Acorn House Bought": 1,
-            "Kite Bought": 1,
-            "Spring Duckling Bought": 1,
-            "Acorn Hat Bought": 1,
-            "Igloo Bought": 1,
-            "Ladybug Suit Bought": 1,
-            "Ugly Duckling Bought": 1,
-            "Lake Rug Bought": 1,
-            "Mammoth Bought": 1,
-            "Luxury Key Bought": 1,
-          },
+        farmActivity: {
+          "Acorn House Bought": 1,
+          "Kite Bought": 1,
+          "Spring Duckling Bought": 1,
+          "Acorn Hat Bought": 1,
+          "Igloo Bought": 1,
+          "Ladybug Suit Bought": 1,
+          "Ugly Duckling Bought": 1,
+          "Lake Rug Bought": 1,
+          "Mammoth Bought": 1,
+          "Luxury Key Bought": 1,
         },
       },
       action: {
@@ -370,7 +350,7 @@ describe("buySeasonalItem", () => {
       createdAt: new Date("2025-02-05").getTime(),
     });
     expect(state.inventory["Luxury Key"]).toStrictEqual(new Decimal(2));
-    expect(state.bumpkin.activity["Luxury Key Bought"])?.toEqual(2);
+    expect(state.farmActivity["Luxury Key Bought"])?.toEqual(2);
   });
 
   it("throws an error if Sickle item is already crafted", () => {
@@ -385,23 +365,20 @@ describe("buySeasonalItem", () => {
           inventory: {
             Timeshard: new Decimal(4500),
           },
-          bumpkin: {
-            ...INITIAL_BUMPKIN,
-            activity: {
-              "Acorn House Bought": 1,
-              "Kite Bought": 1,
-              "Spring Duckling Bought": 1,
-              "Acorn Hat Bought": 1,
-              "Igloo Bought": 1,
-              "Ladybug Suit Bought": 1,
-              "Ugly Duckling Bought": 1,
-              "Lake Rug Bought": 1,
-              "Mammoth Bought": 1,
-              "Hammock Bought": 1,
-              "Crab Hat Bought": 1,
-              "Cup of Chocolate Bought": 1,
-              "Sickle Bought": 1,
-            },
+          farmActivity: {
+            "Acorn House Bought": 1,
+            "Kite Bought": 1,
+            "Spring Duckling Bought": 1,
+            "Acorn Hat Bought": 1,
+            "Igloo Bought": 1,
+            "Ladybug Suit Bought": 1,
+            "Ugly Duckling Bought": 1,
+            "Lake Rug Bought": 1,
+            "Mammoth Bought": 1,
+            "Hammock Bought": 1,
+            "Crab Hat Bought": 1,
+            "Cup of Chocolate Bought": 1,
+            "Sickle Bought": 1,
           },
         },
         action: {

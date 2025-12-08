@@ -52,7 +52,7 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
 
   // Determine the current recipe if any
   const itemName = craftingItem?.collectible;
-  const currentRecipe = itemName ? recipes[itemName] ?? null : null;
+  const currentRecipe = itemName ? (recipes[itemName] ?? null) : null;
   const paddedIngredients = [
     ...(currentRecipe?.ingredients ?? []),
     ...Array(9).fill(null),
@@ -136,12 +136,7 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
           setSelectedItems={selectItems}
         />
       )}
-      {currentTab === 1 && (
-        <RecipesTab
-          gameService={gameService}
-          handleSetupRecipe={handleSetupRecipe}
-        />
-      )}
+      {currentTab === 1 && <RecipesTab handleSetupRecipe={handleSetupRecipe} />}
       {currentTab === 2 && (
         <CraftingBoxGuide onClose={() => setCurrentTab(0)} />
       )}

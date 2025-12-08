@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 
 import PubSub from "pubsub-js";
 import { OuterPanel } from "components/ui/Panel";
@@ -74,7 +74,7 @@ const progressBar = (progress: number, max: number, server: number) => {
 export const PickServer: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
 
-  const [tab, setTab] = useState(0);
+  const [tab] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
   const [availableServers, setAvailableServers] = useState<Server[]>([]);
   const [selectedServer, setSelectedServer] = useState<ServerId | undefined>(
@@ -90,22 +90,19 @@ export const PickServer: React.FC<Props> = ({ onClose }) => {
     fetchServers();
   }, []);
 
-  const handleServerChange = useCallback(
-    (server: Server) => {
-      if (server.id === selectedServer) return;
-      setSelectedServer(server.id);
+  const handleServerChange = (server: Server) => {
+    if (server.id === selectedServer) return;
+    setSelectedServer(server.id);
 
-      // If player is in MMO, change server
-      const isSubscribed = PubSub.getSubscriptions("CHANGE_SERVER").length > 0;
-      if (isSubscribed) {
-        PubSub.publish("CHANGE_SERVER", { serverId: server.id });
-      }
+    // If player is in MMO, change server
+    const isSubscribed = PubSub.getSubscriptions("CHANGE_SERVER").length > 0;
+    if (isSubscribed) {
+      PubSub.publish("CHANGE_SERVER", { serverId: server.id });
+    }
 
-      saveDefaultServer(server.id);
-      onClose();
-    },
-    [selectedServer],
-  );
+    saveDefaultServer(server.id);
+    onClose();
+  };
 
   return (
     <>

@@ -7,7 +7,8 @@ import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext, useRef } from "react";
+import { useNow } from "lib/utils/hooks/useNow";
+import React, { useContext, useState } from "react";
 
 export function getFactionPrize({ game }: { game: GameState }) {
   const history = game.faction?.history ?? {};
@@ -28,17 +29,16 @@ interface Props {
 export const FactionWeeklyPrize: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const createdAt = useNow();
 
   const { t } = useAppTranslation();
 
   const { history, week, prize } = getFactionPrize({
     game: gameState.context.state,
   });
+  const [reward] = useState(prize);
 
-  // We store as a ref to avoid re-renders when claiming
-  const reward = useRef(prize);
-
-  if (!reward.current) {
+  if (!reward) {
     return (
       <Panel>
         <div className="p-2">
@@ -65,12 +65,12 @@ export const FactionWeeklyPrize: React.FC<Props> = ({ onClose }) => {
       <ClaimReward
         reward={{
           id: "faction-prize",
-          createdAt: Date.now(),
           wearables: {},
+          createdAt,
           message: `Woohoo, you have received a prize for your efforts in the faction. Your rank: ${
             history[week as string]?.results?.rank
           }`,
-          ...reward.current,
+          ...reward,
         }}
         onClaim={claim}
         onClose={onClose}

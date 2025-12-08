@@ -51,7 +51,8 @@ import bumpkinEmblem from "assets/icons/bumpkin_emblem.webp";
 import sunflorianEmblem from "assets/icons/sunflorian_emblem.webp";
 import nightshadeEmblem from "assets/icons/nightshade_emblem.webp";
 import xpIcon from "assets/icons/xp.png";
-import { DOLLS } from "features/game/lib/crafting";
+import { useNow } from "lib/utils/hooks/useNow";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 const FACTION_EMBLEM_ICONS: Record<FactionName, string> = {
   goblins: goblinEmblem,
@@ -67,24 +68,14 @@ const PetSleeping = ({ onWake }: { onWake: () => void }) => {
   const week = getWeekKey({ date: new Date() });
   const beginningOfWeek = new Date(week).getTime();
   const wakeTime = beginningOfWeek + PET_SLEEP_DURATION;
-  const [secondsTillWakeUp, setSecondsTillWakeUp] = useState(
-    (wakeTime - Date.now()) / 1000,
-  );
+
+  const { totalSeconds: secondsTillWakeUp } = useCountdown(wakeTime);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const seconds = (wakeTime - Date.now()) / 1000;
-
-      setSecondsTillWakeUp(seconds);
-
-      if (seconds <= 1) {
-        onWake();
-        clearInterval(interval);
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
+    if (secondsTillWakeUp <= 0) {
+      onWake();
+    }
+  }, [secondsTillWakeUp, onWake]);
 
   return (
     <>
@@ -152,7 +143,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
   const week = getWeekKey({ date: new Date() });
   const pet = faction.pet as FactionPet;
   const collectivePet = faction.history?.[week]?.collectivePet;
-  const now = Date.now();
+  const now = useNow();
   const day = getFactionWeekday(now);
 
   // All pets sleep for the first day of the week if the streak is 0
@@ -168,22 +159,6 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
   );
   const [tab, setTab] = useState(0);
   const [showBoostInfo, setShowBoostInfo] = useState(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (refreshing || autosaving || petState === "sleeping") return;
-
-      handleRefresh();
-    }, FACTION_PET_REFRESH_INTERVAL);
-
-    return () => clearInterval(interval);
-  }, [petState]);
-
-  if (petState === "sleeping") {
-    return (
-      <PetSleeping onWake={() => setPetState(getPetState(collectivePet))} />
-    );
-  }
 
   const selectedRequest = pet.requests[selectedRequestIdx] as FactionPetRequest;
 
@@ -227,6 +202,22 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
     }
   };
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (refreshing || autosaving || petState === "sleeping") return;
+
+      handleRefresh();
+    }, FACTION_PET_REFRESH_INTERVAL);
+
+    return () => clearInterval(interval);
+  }, [petState]);
+
+  if (petState === "sleeping") {
+    return (
+      <PetSleeping onWake={() => setPetState(getPetState(collectivePet))} />
+    );
+  }
+
   const secondsTillWeekEnd =
     (getFactionWeekEndTime({ date: new Date() }) - now) / 1000;
   const fulfilled = selectedRequest.dailyFulfilled?.[day] ?? 0;
@@ -267,7 +258,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
   const isStreakWeek =
     (faction?.history[lastWeek]?.collectivePet?.streak ?? 0) >= 2;
   const isBoostCooldown =
-    faction?.boostCooldownUntil && faction.boostCooldownUntil > Date.now();
+    faction?.boostCooldownUntil && faction.boostCooldownUntil > now;
 
   return (
     <>
@@ -351,7 +342,6 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                           fulfilled,
                           PET_FED_REWARDS_KEY[idx as DifficultyIndex],
                         );
-                        const isDoll = request.food in DOLLS;
 
                         const boost = getKingdomPetBoost(
                           gameService.getSnapshot().context.state,

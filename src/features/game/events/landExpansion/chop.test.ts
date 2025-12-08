@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 import Decimal from "decimal.js-light";
 import {
   INITIAL_BUMPKIN,
@@ -13,6 +14,7 @@ import {
   CHOP_ERRORS,
 } from "./chop";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
+import { prngChance } from "lib/prng";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -36,10 +38,11 @@ const GAME_STATE: GameState = {
 
 describe("chop", () => {
   const dateNow = Date.now();
-
+  const farmId = 1;
   it("throws an error if no axes are left", () => {
     expect(() =>
       chop({
+        farmId,
         state: { ...GAME_STATE, inventory: {} },
         action: {
           type: "timber.chopped",
@@ -53,6 +56,7 @@ describe("chop", () => {
   it("throws an error if tree is not placed", () => {
     expect(() =>
       chop({
+        farmId,
         state: {
           ...GAME_STATE,
           trees: { 0: { x: undefined, y: undefined, wood: { choppedAt: 0 } } },
@@ -81,15 +85,12 @@ describe("chop", () => {
       } as LandExpansionChopAction,
     };
 
-    const game = chop(payload);
+    const game = chop({ farmId, ...payload });
 
     // Try same payload
-    expect(() =>
-      chop({
-        state: game,
-        action: payload.action,
-      }),
-    ).toThrow(CHOP_ERRORS.STILL_GROWING);
+    expect(() => chop({ farmId, state: game, action: payload.action })).toThrow(
+      CHOP_ERRORS.STILL_GROWING,
+    );
   });
 
   it("chops a tree", () => {
@@ -107,7 +108,7 @@ describe("chop", () => {
       } as LandExpansionChopAction,
     };
 
-    const game = chop(payload);
+    const game = chop({ farmId, ...payload });
 
     expect(game.inventory.Axe).toEqual(new Decimal(0));
     expect(game.inventory.Wood).toEqual(new Decimal(1));
@@ -115,6 +116,7 @@ describe("chop", () => {
 
   it("chops multiple trees", () => {
     let game = chop({
+      farmId,
       state: {
         ...GAME_STATE,
         inventory: {
@@ -129,6 +131,7 @@ describe("chop", () => {
     });
 
     game = chop({
+      farmId,
       state: game,
       action: {
         type: "timber.chopped",
@@ -143,6 +146,7 @@ describe("chop", () => {
 
   it("chops trees with the logger Skill", () => {
     const game = chop({
+      farmId,
       state: {
         ...GAME_STATE,
         inventory: {
@@ -166,6 +170,7 @@ describe("chop", () => {
   it("tree replenishes normally", () => {
     const dateNow = Date.now();
     const game = chop({
+      farmId,
       state: {
         ...GAME_STATE,
         bumpkin: INITIAL_BUMPKIN,
@@ -190,6 +195,7 @@ describe("chop", () => {
 
   it("tree replenishes on normal rate when Apprentice Beaver is placed but not ready", () => {
     const game = chop({
+      farmId,
       state: {
         ...GAME_STATE,
         bumpkin: INITIAL_BUMPKIN,
@@ -223,6 +229,7 @@ describe("chop", () => {
 
   it("tree replenishes faster when Apprentice Beaver is placed", () => {
     const game = chop({
+      farmId,
       state: {
         ...GAME_STATE,
         bumpkin: INITIAL_BUMPKIN,
@@ -259,6 +266,7 @@ describe("chop", () => {
 
   it("chops trees without axes when Foreman Beaver is placed and ready", () => {
     const game = chop({
+      farmId,
       state: {
         ...GAME_STATE,
         bumpkin: INITIAL_BUMPKIN,
@@ -292,6 +300,7 @@ describe("chop", () => {
         ...INITIAL_BUMPKIN,
       };
       const game = chop({
+        farmId,
         state: {
           ...GAME_STATE,
           bumpkin,
@@ -307,7 +316,7 @@ describe("chop", () => {
         } as LandExpansionChopAction,
       });
 
-      expect(game.bumpkin?.activity?.["Tree Chopped"]).toBe(1);
+      expect(game.farmActivity?.["Tree Chopped"]).toBe(1);
     });
     it("increments Trees Chopped activity by 2 when 2 trees are chopped", () => {
       const createdAt = Date.now();
@@ -315,6 +324,7 @@ describe("chop", () => {
         ...INITIAL_BUMPKIN,
       };
       const state1 = chop({
+        farmId,
         state: {
           ...GAME_STATE,
           bumpkin,
@@ -330,6 +340,7 @@ describe("chop", () => {
         } as LandExpansionChopAction,
       });
       const game = chop({
+        farmId,
         state: {
           ...state1,
         },
@@ -341,12 +352,13 @@ describe("chop", () => {
         } as LandExpansionChopAction,
       });
 
-      expect(game.bumpkin?.activity?.["Tree Chopped"]).toBe(2);
+      expect(game.farmActivity?.["Tree Chopped"]).toBe(2);
     });
   });
 });
 
 describe("getChoppedAt", () => {
+  const farmId = 1;
   it("tree replenishes faster with time warp", () => {
     const now = Date.now();
 
@@ -365,6 +377,9 @@ describe("getChoppedAt", () => {
         },
       },
       createdAt: now,
+      farmId,
+      itemId: 0,
+      counter: 0,
     });
 
     expect(time).toEqual(now - (TREE_RECOVERY_TIME * 1000) / 2);
@@ -388,6 +403,9 @@ describe("getChoppedAt", () => {
         },
       },
       createdAt: now,
+      farmId,
+      itemId: 0,
+      counter: 0,
     });
 
     expect(time).toEqual(now - (TREE_RECOVERY_TIME * 1000) / 2);
@@ -419,11 +437,56 @@ describe("getChoppedAt", () => {
         },
       },
       createdAt: now,
+      farmId,
+      itemId: 0,
+      counter: 0,
     });
 
     const buff = TREE_RECOVERY_TIME - TREE_RECOVERY_TIME * 0.5;
 
     expect(time).toEqual(now - buff * 1000);
+  });
+
+  it("applies an instant growth with Tree Turnaround skill", () => {
+    const now = Date.now();
+    const itemId = parseInt("0x0876d42a");
+
+    function getCounter() {
+      let counter = 0;
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
+        if (
+          prngChance({
+            farmId,
+            itemId,
+            counter,
+            chance: 15,
+            criticalHitName: "Tree Turnaround",
+          })
+        ) {
+          return counter;
+        }
+        counter++;
+      }
+    }
+
+    const counter = getCounter();
+
+    const { time } = getChoppedAt({
+      game: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Tree Turnaround": 1 },
+        },
+      },
+      createdAt: now,
+      farmId,
+      itemId,
+      counter,
+    });
+
+    expect(time).toEqual(now - TREE_RECOVERY_TIME * 1000);
   });
 
   it("does not go negative with all buffs", () => {
@@ -460,6 +523,9 @@ describe("getChoppedAt", () => {
         },
       },
       createdAt: now,
+      farmId,
+      itemId: 0,
+      counter: 0,
     });
 
     const buff = TREE_RECOVERY_TIME - TREE_RECOVERY_TIME * 0.5 * 0.5;
@@ -485,6 +551,9 @@ describe("getChoppedAt", () => {
         },
       },
       createdAt: now,
+      farmId,
+      itemId: 0,
+      counter: 0,
     });
 
     const boostedRecoveryTime =
@@ -512,6 +581,9 @@ describe("getChoppedAt", () => {
         },
       },
       createdAt: now,
+      farmId,
+      itemId: 0,
+      counter: 0,
     });
 
     expect(createdAt).toEqual(now);
@@ -529,6 +601,9 @@ describe("getChoppedAt", () => {
         },
       },
       createdAt: now,
+      farmId,
+      itemId: 0,
+      counter: 0,
     });
 
     const treeTimeWithBoost = TREE_RECOVERY_TIME * 1000 * 0.1;
@@ -551,6 +626,9 @@ describe("getChoppedAt", () => {
         },
       },
       createdAt: now,
+      farmId,
+      itemId: 0,
+      counter: 0,
     });
 
     expect(time).toEqual(now - TREE_RECOVERY_TIME * 0.25 * 1000);
@@ -573,6 +651,9 @@ describe("getChoppedAt", () => {
         },
       },
       createdAt: now,
+      farmId,
+      itemId: 0,
+      counter: 0,
     });
 
     expect(time).toEqual(now);

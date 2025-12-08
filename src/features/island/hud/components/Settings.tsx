@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, type JSX } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { AudioMenu } from "features/game/components/AudioMenu";

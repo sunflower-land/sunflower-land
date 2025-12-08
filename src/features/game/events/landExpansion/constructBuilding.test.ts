@@ -524,6 +524,6 @@ describe("Construct building", () => {
       createdAt: dateNow,
     });
 
-    expect(state.bumpkin.activity["Coins Spent"]).toBe(200);
+    expect(state.farmActivity["Coins Spent"]).toBe(200);
   });
 });

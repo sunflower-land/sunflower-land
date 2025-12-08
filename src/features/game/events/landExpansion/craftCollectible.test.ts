@@ -99,7 +99,7 @@ describe("craftCollectible", () => {
       },
     });
 
-    expect(state.bumpkin?.activity?.["Immortal Pear Crafted"]).toBe(1);
+    expect(state.farmActivity["Immortal Pear Crafted"]).toBe(1);
   });
 
   it("requires ID does not exist", () => {
@@ -266,7 +266,7 @@ describe("craftCollectible", () => {
       },
     });
     expect(state.inventory["Fairy Circle"]).toEqual(new Decimal(1));
-    expect(state.bumpkin.activity["Coins Spent"]).toBe(25000);
+    expect(state.farmActivity["Coins Spent"]).toBe(25000);
   });
 
   it("prevents crafting a helios item twice", () => {

@@ -4,9 +4,11 @@ import Decimal from "decimal.js-light";
 import { TOTAL_EXPANSION_NODES } from "features/game/expansion/lib/expansionNodes";
 
 describe("upgradeFarm", () => {
+  const farmId = 1;
   it("requires a player has met the expansions", () => {
     expect(() =>
       upgrade({
+        farmId,
         action: {
           type: "farm.upgraded",
         },
@@ -20,6 +22,7 @@ describe("upgradeFarm", () => {
   it("requires a player has ingredients", () => {
     expect(() =>
       upgrade({
+        farmId,
         action: {
           type: "farm.upgraded",
         },
@@ -36,6 +39,7 @@ describe("upgradeFarm", () => {
 
   it("burns the ingredients", () => {
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -53,6 +57,7 @@ describe("upgradeFarm", () => {
 
   it("resets the expansions", () => {
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -71,6 +76,7 @@ describe("upgradeFarm", () => {
   it("resets collectibles, buildings, fishing, chickens, mushrooms, buds, flowers, beehives, oil, crimstone", () => {
     const now = Date.now();
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -252,6 +258,7 @@ describe("upgradeFarm", () => {
   it("does not reset flower codex", () => {
     const createdAt = Date.now();
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -288,6 +295,7 @@ describe("upgradeFarm", () => {
 
   it("upgrades to spring island", () => {
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -488,6 +496,7 @@ describe("upgradeFarm", () => {
 
   it("upgrades to desert island", () => {
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -695,6 +704,7 @@ describe("upgradeFarm", () => {
 
   it("upgrades to volcano island", () => {
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -912,6 +922,7 @@ describe("upgradeFarm", () => {
   it("sets island history", () => {
     const createdAt = Date.now();
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -929,51 +940,11 @@ describe("upgradeFarm", () => {
     expect(state.island.previousExpansions).toEqual(16);
   });
 
-  it("removes all temporary collectibles", () => {
-    const now = Date.now();
-
-    const state = upgrade({
-      action: {
-        type: "farm.upgraded",
-      },
-      state: {
-        ...INITIAL_FARM,
-        inventory: {
-          "Basic Land": new Decimal(16),
-          Gold: new Decimal(15),
-          "Time Warp Totem": new Decimal(1),
-          "Super Totem": new Decimal(1),
-        },
-        collectibles: {
-          "Time Warp Totem": [
-            {
-              id: "1",
-              readyAt: now + 1 * 60 * 60 * 1000,
-              createdAt: now + 1 * 60 * 60 * 1000,
-              coordinates: { x: 0, y: 0 },
-            },
-          ],
-          "Super Totem": [
-            {
-              id: "1",
-              readyAt: now + 1 * 60 * 60 * 1000,
-              createdAt: now + 1 * 60 * 60 * 1000,
-              coordinates: { x: 1, y: 2 },
-            },
-          ],
-        },
-      },
-      createdAt: now,
-    });
-
-    expect(state.inventory["Time Warp Totem"]).toEqual(new Decimal(0));
-    expect(state.inventory["Super Totem"]).toEqual(new Decimal(0));
-  });
-
   it("does not give extra sunstones", () => {
     const createdAt = Date.now();
 
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -1007,6 +978,7 @@ describe("upgradeFarm", () => {
     };
 
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -1046,6 +1018,7 @@ describe("upgradeFarm", () => {
     };
 
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -1072,6 +1045,7 @@ describe("upgradeFarm", () => {
 
   it("allows a player to upgrade from desert island", () => {
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -1095,6 +1069,7 @@ describe("upgradeFarm", () => {
   it("does not allow a player to upgrade from volcano island", () => {
     expect(() =>
       upgrade({
+        farmId,
         action: {
           type: "farm.upgraded",
         },
@@ -1114,6 +1089,7 @@ describe("upgradeFarm", () => {
 
   it("does not remove buds from home on upgrade", () => {
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -1155,6 +1131,7 @@ describe("upgradeFarm", () => {
 
   it("removes buds from farm on upgrade", () => {
     const state = upgrade({
+      farmId,
       action: {
         type: "farm.upgraded",
       },
@@ -1195,6 +1172,7 @@ describe("upgradeFarm", () => {
   });
   it("resets the biome upon upgrade", () => {
     const state = upgrade({
+      farmId,
       state: {
         ...INITIAL_FARM,
         inventory: {
@@ -1212,5 +1190,52 @@ describe("upgradeFarm", () => {
     });
 
     expect(state.island.biome).toBeUndefined();
+  });
+
+  it("Does not remove temporary collectibles on upgrade", () => {
+    const now = Date.now();
+
+    const state = upgrade({
+      farmId,
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(9),
+          Gold: new Decimal(15),
+          "Fire Pit": new Decimal(1),
+          "Crop Plot": new Decimal(31),
+          Tree: new Decimal(9),
+          "Stone Rock": new Decimal(7),
+          "Iron Rock": new Decimal(4),
+          "Gold Rock": new Decimal(2),
+          "Super Totem": new Decimal(2),
+        },
+        collectibles: {
+          "Super Totem": [
+            {
+              id: "1",
+              readyAt: now,
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.collectibles["Super Totem"]).toEqual([
+      {
+        id: "1",
+        readyAt: now,
+        createdAt: now,
+        coordinates: { x: 0, y: 0 },
+      },
+    ]);
+    expect(state.inventory["Super Totem"]).toEqual(new Decimal(2));
   });
 });

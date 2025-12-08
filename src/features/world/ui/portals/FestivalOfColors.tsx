@@ -11,7 +11,7 @@ import factions from "assets/icons/factions.webp";
 import { Portal } from "./Portal";
 import { InlineDialogue } from "../TypingMessage";
 import { SpeakingText } from "features/game/components/SpeakingModal";
-import { MinigamePrizeUI } from "./ChickenRescue";
+import { MinigamePrizeUI } from "./MinigamePrizeUI";
 
 interface Props {
   onClose: () => void;

@@ -1,18 +1,18 @@
 import { Label } from "components/ui/Label";
 import React, { useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { getHelpRequired } from "features/game/types/monuments";
+import {
+  getHelpLimit,
+  getHelpRequired,
+  hasHitHelpLimit,
+} from "features/game/types/monuments";
 import { useGame } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import Decimal from "decimal.js-light";
 import { InnerPanel } from "components/ui/Panel";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
-import {
-  getHelpLimit,
-  hasHitHelpLimit,
-  HELP_LIMIT_COST,
-} from "features/game/events/landExpansion/increaseHelpLimit";
+import { HELP_LIMIT_COST } from "features/game/events/landExpansion/increaseHelpLimit";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { secondsTillReset, secondsToString } from "lib/utils/time";
 import { useSelector } from "@xstate/react";
@@ -58,7 +58,6 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({
   const game = useSelector(gameService, _game);
 
   // Make a list of in home vs on land
-
   const hasHelpedToday = gameState.context.hasHelpedPlayerToday ?? false;
 
   const handleIncreaseLimit = () => {
@@ -133,7 +132,6 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({
         <InnerPanel className="mb-1">
           <div className="flex items-center justify-between">
             <Label type="danger">{t("help.limitReached")}</Label>
-
             <div className="flex items-center">
               <img src={SUNNYSIDE.icons.stopwatch} className="h-6 mr-2" />
               <p className="text-xs my-2">

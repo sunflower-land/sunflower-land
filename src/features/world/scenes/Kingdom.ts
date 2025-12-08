@@ -25,7 +25,6 @@ import {
 import { hasReadKingdomNotice } from "../ui/kingdom/KingdomNoticeboard";
 import { EventObject } from "xstate";
 import { capitalize } from "lib/utils/capitalize";
-import { hasFeatureAccess } from "lib/flags";
 import { Label } from "../containers/Label";
 
 const GUARDIAN_MAP: Record<TemperateSeasonName, string> = {
@@ -348,21 +347,19 @@ export class KingdomScene extends BaseScene {
       nature1.play({ loop: true, volume: 0.3 });
     }
 
-    if (hasFeatureAccess(this.gameState, "BLESSING")) {
-      const guardian = this.add.sprite(192, 324, "guardian");
-      guardian.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-        if (this.checkDistanceToSprite(guardian, 40)) {
-          interactableModalManager.open("guardian");
-        } else {
-          this.currentPlayer?.speak(translate("base.iam.far.away"));
-        }
-      });
+    const guardian = this.add.sprite(192, 324, "guardian");
+    guardian.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (this.checkDistanceToSprite(guardian, 40)) {
+        interactableModalManager.open("guardian");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
+    });
 
-      const guardianLabel = new Label(this, "TRIBUTE", "grey");
-      guardianLabel.setPosition(192, 294);
-      guardianLabel.setDepth(10000000);
-      this.add.existing(guardianLabel);
-    }
+    const guardianLabel = new Label(this, "TRIBUTE", "grey");
+    guardianLabel.setPosition(192, 294);
+    guardianLabel.setDepth(10000000);
+    this.add.existing(guardianLabel);
 
     // Shut down the sound when the scene changes
     this.events.once("shutdown", () => {

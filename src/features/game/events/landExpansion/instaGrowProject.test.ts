@@ -1,21 +1,12 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { instantGrowProject } from "./instaGrowProject";
+import {
+  getPartialInstantGrowPrice,
+  instantGrowProject,
+} from "./instaGrowProject";
 import Decimal from "decimal.js-light";
 import { REQUIRED_CHEERS } from "features/game/types/monuments";
 
 describe("instaGrowProject", () => {
-  it("requires project can be insta-grown", () => {
-    expect(() =>
-      instantGrowProject({
-        state: INITIAL_FARM,
-        action: {
-          type: "project.instantGrow",
-          project: "Basic Cooking Pot",
-        },
-      }),
-    ).toThrow("Project can not be insta-grown");
-  });
-
   it("requires project exists", () => {
     expect(() =>
       instantGrowProject({
@@ -48,6 +39,28 @@ describe("instaGrowProject", () => {
         },
       }),
     ).toThrow("Project is already finished");
+  });
+
+  it("requires project can be insta-grown", () => {
+    expect(() =>
+      instantGrowProject({
+        state: {
+          ...INITIAL_FARM,
+          socialFarming: {
+            ...INITIAL_FARM.socialFarming,
+            villageProjects: {
+              "Basic Cooking Pot": {
+                cheers: 2,
+              },
+            },
+          },
+        },
+        action: {
+          type: "project.instantGrow",
+          project: "Basic Cooking Pot",
+        },
+      }),
+    ).toThrow("Project can not be insta-grown");
   });
 
   it("requires obsidian exists", () => {
@@ -95,7 +108,7 @@ describe("instaGrowProject", () => {
       },
     });
 
-    expect(state.inventory.Obsidian).toEqual(new Decimal(4));
+    expect(state.inventory.Obsidian).toEqual(new Decimal(4.6));
   });
 
   it("sets cheers to the required amount", () => {
@@ -124,5 +137,34 @@ describe("instaGrowProject", () => {
     expect(
       state.socialFarming?.villageProjects?.["Big Orange"]?.cheers,
     ).toEqual(REQUIRED_CHEERS["Big Orange"]);
+  });
+
+  describe("getPartialInstantGrowPrices", () => {
+    it("returns full price for 0 progress", () => {
+      expect(
+        getPartialInstantGrowPrice({ progress: 0, project: "Big Apple" }),
+      ).toEqual(1);
+    });
+
+    it("returns partial price for progress", () => {
+      expect(
+        getPartialInstantGrowPrice({ progress: 10, project: "Big Apple" }),
+      ).toEqual(0.8);
+    });
+
+    it("shouldn't be free for 90% complete", () => {
+      expect(
+        getPartialInstantGrowPrice({
+          progress: 181,
+          project: "Big Banana",
+        }),
+      ).toEqual(0.39);
+    });
+
+    it("returns 0 for finished project", () => {
+      expect(
+        getPartialInstantGrowPrice({ progress: 50, project: "Big Apple" }),
+      ).toEqual(0);
+    });
   });
 });

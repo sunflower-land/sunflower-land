@@ -60,7 +60,9 @@ export const IngredientsPopover: React.FC<Props> = ({
                   alt={ingredient}
                   className="w-3"
                 />
-                <span className="text-xs">{ingredient}</span>
+                <span className="text-xs">
+                  {ITEM_DETAILS[ingredient].translatedName ?? ingredient}
+                </span>
               </div>
             ))}
           </div>

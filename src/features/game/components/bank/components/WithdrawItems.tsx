@@ -1,5 +1,5 @@
 import { useSelector } from "@xstate/react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import Decimal from "decimal.js-light";
 
 import {
@@ -83,16 +83,10 @@ export const WithdrawItems: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
 
-  const [inventory, setInventory] = useState<Inventory>({});
+  const [inventory, setInventory] = useState<Inventory>(getBankItems(state));
   const [selected, setSelected] = useState<Inventory>({});
 
   const [showInfo, setShowInfo] = useState("");
-
-  useEffect(() => {
-    const bankItems = getBankItems(state);
-    setInventory(bankItems);
-    setSelected({});
-  }, []);
 
   const withdraw = () => {
     const ids = getKeys(selected).map((item) => KNOWN_IDS[item]);
@@ -139,18 +133,8 @@ export const WithdrawItems: React.FC<Props> = ({
     return { isRestricted, cooldownTimeLeft };
   };
 
-  // Precompute/cached values for sorting to avoid repeated expensive calls
-  const withdrawableItemCache = React.useMemo(() => {
-    const cache: {
-      [key in InventoryItemName]?: {
-        cooldownMs: number;
-        isOnCooldown: boolean;
-        hasMoreOffChain: boolean;
-        hasBuff: boolean;
-      };
-    } = {};
-
-    getKeys(inventory).forEach((itemName) => {
+  const withdrawableItemCache = getKeys(inventory).reduce(
+    (cache, itemName) => {
       const { cooldownTimeLeft } = getRestrictionStatus(itemName);
       const isOnCooldown = cooldownTimeLeft > 0;
       const hasMoreOffChain = hasMoreOffChainItems(itemName);
@@ -165,11 +149,17 @@ export const WithdrawItems: React.FC<Props> = ({
         hasMoreOffChain,
         hasBuff,
       };
-    });
-
-    return cache;
-    // Only depends on inventory and state
-  }, [inventory, state]);
+      return cache;
+    },
+    {} as {
+      [key in InventoryItemName]?: {
+        cooldownMs: number;
+        isOnCooldown: boolean;
+        hasMoreOffChain: boolean;
+        hasBuff: boolean;
+      };
+    },
+  );
 
   const sortWithdrawableItems = (
     itemA: InventoryItemName,

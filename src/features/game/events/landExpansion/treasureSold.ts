@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { EXOTIC_CROPS, ExoticCropName } from "features/game/types/beans";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { BoostName, GameState } from "features/game/types/game";
 import {
   SellableTreasure,
@@ -75,15 +75,15 @@ export function sellTreasure({ state, action }: Options) {
       ? { price: EXOTIC_CROPS[item].sellPrice, boostsUsed: [] }
       : getSellPrice(SELLABLES[item], game);
     const earned = price * amount;
-    bumpkin.activity = trackActivity(
+    game.farmActivity = trackFarmActivity(
       "Coins Earned",
-      bumpkin.activity,
+      game.farmActivity,
       new Decimal(earned),
     );
 
-    bumpkin.activity = trackActivity(
+    game.farmActivity = trackFarmActivity(
       `${item} Sold`,
-      bumpkin?.activity,
+      game.farmActivity,
       new Decimal(amount),
     );
 

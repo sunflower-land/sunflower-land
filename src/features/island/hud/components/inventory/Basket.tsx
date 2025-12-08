@@ -72,6 +72,7 @@ import { SEASON_ICONS } from "features/island/buildings/components/building/mark
 import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
 import { CLUTTER } from "features/game/types/clutter";
 import { PET_RESOURCES } from "features/game/types/pets";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Prop {
   gameState: GameState;
@@ -81,6 +82,7 @@ interface Prop {
 
 export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const divRef = useRef<HTMLDivElement>(null);
+  const now = useNow();
 
   const { t } = useAppTranslation();
 
@@ -139,7 +141,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     return getCropPlotTime({
       crop,
       game: gameState,
-      createdAt: Date.now(),
+      createdAt: now,
     }).time;
   };
 
@@ -324,7 +326,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
             ITEM_DETAILS["Acorn"].image,
           )}
           {itemsSection(t("animal"), animalResources, ITEM_DETAILS.Egg.image)}
-          {itemsSection("Feeds", animalFeeds, ITEM_DETAILS.Hay.image)}
+          {itemsSection(t("feeds"), animalFeeds, ITEM_DETAILS.Hay.image)}
           {itemsSection(
             t("bait"),
             [...worm, ...purchaseableBait],

@@ -3,13 +3,14 @@ import React, { useContext, useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { Box } from "components/ui/Box";
+import { Modal } from "components/ui/Modal";
+import { Panel } from "components/ui/Panel";
 
 import { wallet } from "lib/blockchain/wallet";
 
 import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 
-import { CONFIG } from "lib/config";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -22,8 +23,14 @@ import { hasBoostRestriction } from "features/game/types/withdrawRestrictions";
 import { InfoPopover } from "features/island/common/InfoPopover";
 import { secondsToString } from "lib/utils/time";
 import { BoostName } from "features/game/types/game";
+import { getPetImage } from "features/island/pets/lib/petShared";
+import {
+  getPetNFTReleaseDate,
+  isPetNFTRevealed,
+} from "features/game/types/pets";
+import { useNow } from "lib/utils/hooks/useNow";
 
-const imageDomain = CONFIG.NETWORK === "mainnet" ? "pets" : "testnet-pets";
+// const imageDomain = CONFIG.NETWORK === "mainnet" ? "pets" : "testnet-pets";
 
 interface Props {
   onWithdraw: (ids: number[]) => void;
@@ -46,6 +53,10 @@ export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
   );
   const [selected, setSelected] = useState<number[]>([]);
   const [showInfo, setShowInfo] = useState("");
+  const [confirmationStep, setConfirmationStep] = useState<1 | 2 | null>(null);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+
+  const now = useNow();
 
   const onAdd = (petId: number) => {
     setUnselected((prev) => prev.filter((pet) => pet !== petId));
@@ -99,8 +110,78 @@ export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
     return a - b;
   };
 
+  const confirmationConfig = {
+    1: {
+      labelType: "warning" as const,
+      labelText: t("warning"),
+      message: t("withdraw.pet.confirmation1"),
+      textClass: "text-sm",
+    },
+    2: {
+      labelType: "danger" as const,
+      labelText: t("danger"),
+      message: t("withdraw.pet.confirmation2"),
+      textClass: "text-base",
+    },
+  };
+
+  const handleOpenConfirmation = () => {
+    if (selected.length <= 0) {
+      return;
+    }
+
+    setConfirmationStep(1);
+    setShowConfirmationModal(true);
+  };
+
+  const handleCancelConfirmation = () => {
+    setConfirmationStep(null);
+    setShowConfirmationModal(false);
+  };
+
+  const handleConfirmStep = () => {
+    if (confirmationStep === 1) {
+      setConfirmationStep(2);
+      return;
+    }
+
+    if (confirmationStep === 2) {
+      setShowConfirmationModal(false);
+      setConfirmationStep(null);
+      onWithdraw(selected);
+    }
+  };
+
+  const currentConfirmation = confirmationStep
+    ? confirmationConfig[confirmationStep]
+    : null;
+
   return (
     <>
+      {showConfirmationModal && currentConfirmation && (
+        <Modal
+          show={showConfirmationModal}
+          onHide={handleCancelConfirmation}
+          backdrop="static"
+        >
+          <Panel className="sm:w-11/12 m-auto">
+            <div className="flex flex-col p-1 gap-2 mb-1">
+              <Label type={currentConfirmation.labelType}>
+                {currentConfirmation.labelText}
+              </Label>
+              <p
+                className={`${currentConfirmation.textClass} leading-5 sm:leading-6`}
+              >
+                {currentConfirmation.message}
+              </p>
+            </div>
+            <div className="flex justify-around gap-1">
+              <Button onClick={handleCancelConfirmation}>{t("cancel")}</Button>
+              <Button onClick={handleConfirmStep}>{t("confirm")}</Button>
+            </div>
+          </Panel>
+        </Modal>
+      )}
       <div className="p-2 mb-2">
         <Label type="warning" className="mb-2">
           <span className="text-xs">{t("withdraw.restricted")}</span>
@@ -120,10 +201,13 @@ export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
               const RestrictionCooldown = cooldownTimeLeft / 1000;
 
               const handleBoxClick = () => {
-                if (isRestricted) {
+                if (isRestricted || !isRevealed) {
                   setShowInfo((prev) => (prev === petName ? "" : petName));
                 }
               };
+
+              const isRevealed = isPetNFTRevealed(petId, now);
+              const revealDate = getPetNFTReleaseDate(petId, now);
 
               return (
                 <div
@@ -135,22 +219,30 @@ export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
                     className="absolute top-14 text-xxs sm:text-xs"
                     showPopover={showInfo === `Pet #${petId}`}
                   >
-                    {t("withdraw.boostedItem.timeLeft", {
-                      time: secondsToString(RestrictionCooldown, {
-                        length: "medium",
-                        isShortFormat: true,
-                        removeTrailingZeros: true,
-                      }),
-                    })}
+                    {isRestricted
+                      ? t("withdraw.boostedItem.timeLeft", {
+                          time: secondsToString(RestrictionCooldown, {
+                            length: "medium",
+                            isShortFormat: true,
+                            removeTrailingZeros: true,
+                          }),
+                        })
+                      : !isRevealed && revealDate
+                        ? t("withdraw.pet.notRevealed", {
+                            date: revealDate.toLocaleDateString(),
+                          })
+                        : undefined}
                   </InfoPopover>
 
                   <Box
                     key={`pet-${petId}`}
                     onClick={() => onAdd(petId)}
-                    image={SUNNYSIDE.icons.expression_confused}
-                    disabled={isRestricted}
+                    image={getPetImage("happy", petId)}
+                    disabled={isRestricted || !isRevealed}
                     secondaryImage={
-                      isRestricted ? SUNNYSIDE.icons.lock : undefined
+                      isRestricted || !isRevealed
+                        ? SUNNYSIDE.icons.lock
+                        : undefined
                     }
                   />
                 </div>
@@ -172,7 +264,7 @@ export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
               <Box
                 key={`pet-${petId}`}
                 onClick={() => onRemove(petId)}
-                image={SUNNYSIDE.icons.expression_confused}
+                image={getPetImage("happy", petId)}
                 iconClassName="w-5"
               />
             ))}
@@ -212,10 +304,7 @@ export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
         </p>
       </div>
 
-      <Button
-        onClick={() => onWithdraw(selected)}
-        disabled={selected.length <= 0}
-      >
+      <Button onClick={handleOpenConfirmation} disabled={selected.length <= 0}>
         {t("withdraw")}
       </Button>
     </>

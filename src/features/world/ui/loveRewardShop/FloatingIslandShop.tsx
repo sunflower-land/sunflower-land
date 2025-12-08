@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import { isAlreadyBought, ItemsList } from "./components/ItemsList";
 import { ItemDetail } from "./components/ItemDetail";
@@ -28,7 +28,6 @@ import shopIcon from "assets/icons/shop.png";
 import guideIcon from "assets/icons/tier1_book.webp";
 import { getKeys } from "features/game/types/craftables";
 import { Box } from "components/ui/Box";
-import { hasFeatureAccess } from "lib/flags";
 
 export const getItemImage = (item: FloatingShopItem | null): string => {
   if (!item) return "";
@@ -73,13 +72,6 @@ export const Shop: React.FC<{
   const [selectedItem, setSelectedItem] = useState<FloatingShopItem | null>(
     null,
   );
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    if (selectedItem && !isVisible) {
-      setIsVisible(true);
-    }
-  }, [selectedItem, isVisible]);
 
   const handleClickItem = (item: FloatingShopItem) => {
     setSelectedItem(item);
@@ -87,11 +79,10 @@ export const Shop: React.FC<{
 
   const { t } = useAppTranslation();
 
-  const shopItems = Object.values(state.floatingIsland.shop);
-
-  if (hasFeatureAccess(state, "PETS")) {
-    shopItems.push(FLOATING_ISLAND_SHOP_ITEMS["Pet Egg"]);
-  }
+  const shopItems = [
+    ...Object.values(state.floatingIsland.shop),
+    FLOATING_ISLAND_SHOP_ITEMS["Pet Egg"],
+  ];
 
   return (
     <>
@@ -100,7 +91,7 @@ export const Shop: React.FC<{
         onBackdropClick={() => setSelectedItem(null)}
       >
         <ItemDetail
-          isVisible={isVisible}
+          isVisible={!!selectedItem}
           item={selectedItem}
           image={getItemImage(selectedItem)}
           buff={getItemBuffLabel(selectedItem, state)}
@@ -160,28 +151,7 @@ const Guide: React.FC = () => {
 export const FloatingIslandShop: React.FC<{
   onClose: () => void;
 }> = ({ onClose }) => {
-  const { gameState } = useGame();
-  const state = gameState.context.state;
-  const [selectedItem, setSelectedItem] = useState<FloatingShopItem | null>(
-    null,
-  );
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    if (selectedItem && !isVisible) {
-      setIsVisible(true);
-    }
-  }, [selectedItem, isVisible]);
-
-  const handleClickItem = (item: FloatingShopItem) => {
-    setSelectedItem(item);
-  };
-
   const [tab, setTab] = useState(0);
-
-  const { t } = useAppTranslation();
-
-  const shopItems = Object.values(state.floatingIsland.shop);
 
   return (
     <>

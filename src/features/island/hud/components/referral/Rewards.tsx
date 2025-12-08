@@ -1,11 +1,6 @@
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import React, {
-  useCallback,
-  useContext,
-  useLayoutEffect,
-  useState,
-} from "react";
+import React, { useCallback, useContext, useState } from "react";
 // import giftIcon from "assets/icons/gift.png";
 import vipGift from "assets/decorations/vip_gift.png";
 import flowerIcon from "assets/icons/flower_token.webp";
@@ -33,6 +28,9 @@ import {
   InGameTaskName,
 } from "features/game/events/landExpansion/completeSocialTask";
 import { getKeys } from "features/game/types/decorations";
+import { useNow } from "lib/utils/hooks/useNow";
+import { hasFeatureAccess } from "lib/flags";
+import { DailyRewardClaim } from "features/game/components/DailyReward";
 
 const _chestCollectedAt = (state: MachineState) =>
   state.context.state.dailyRewards?.chest?.collectedAt ?? 0;
@@ -44,13 +42,9 @@ interface Props {
 }
 
 export const Rewards: React.FC<Props> = ({ show, onHide, tab }) => {
-  const [currentTab, setCurrentTab] = useState(tab);
   const { t } = useAppTranslation();
   const [showMessage, setShowMessage] = useState(true);
-
-  useLayoutEffect(() => {
-    show && setCurrentTab(tab);
-  }, [tab, show]);
+  const [currentTab, setCurrentTab] = useState(tab);
 
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
@@ -103,7 +97,12 @@ export const Rewards: React.FC<Props> = ({ show, onHide, tab }) => {
         {currentTab === "Earn" && (
           <TaskBoard state={state} socialTasks={state.socialTasks} />
         )}
-        {currentTab === "Rewards" && <RewardOptions />}
+        {currentTab === "Rewards" &&
+          (hasFeatureAccess(state, "DAILY_BOXES") ? (
+            <DailyRewardClaim />
+          ) : (
+            <RewardOptions />
+          ))}
         {/* {tab === 2 && <RewardsShop />} */}
       </CloseButtonPanel>
       {showMessage && (
@@ -149,6 +148,7 @@ export const RewardOptions: React.FC<{ selectedButton?: RewardType }> = ({
 }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
+  const now = useNow();
 
   // Get daily rewards data for chest state
   const dailyRewards = useSelector(
@@ -199,7 +199,7 @@ export const RewardOptions: React.FC<{ selectedButton?: RewardType }> = ({
   }
 
   if (selected === "BLOCKCHAIN_BOX") {
-    return <BlockchainBox onClose={() => setSelected(undefined)} />;
+    return <BlockchainBox />;
   }
 
   const vipOpenedAt = state.pumpkinPlaza.vipChest?.openedAt ?? 0;
@@ -269,7 +269,7 @@ export const RewardOptions: React.FC<{ selectedButton?: RewardType }> = ({
               {t("rewards.vip.claimed")}
             </Label>
           )}
-          {!hasOpenedVIP && !hasVipAccess({ game: state, now: Date.now() }) && (
+          {!hasOpenedVIP && !hasVipAccess({ game: state, now }) && (
             <Label
               icon={lockIcon}
               className="absolute top-0 right-0"

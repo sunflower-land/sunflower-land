@@ -220,8 +220,8 @@ describe("buyAnimal", () => {
       },
     });
 
-    expect(state.bumpkin.activity["Cow Bought"]).toBe(1);
-    expect(state.bumpkin.activity["Coins Spent"]).toBe(100);
+    expect(state.farmActivity["Cow Bought"]).toBe(1);
+    expect(state.farmActivity["Coins Spent"]).toBe(100);
   });
 });
 

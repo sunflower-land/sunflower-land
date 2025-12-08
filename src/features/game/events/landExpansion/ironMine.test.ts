@@ -922,7 +922,7 @@ describe("mineIron", () => {
         } as LandExpansionIronMineAction,
       });
 
-      expect(game.bumpkin?.activity["Iron Mined"]).toBe(1);
+      expect(game.farmActivity["Iron Mined"]).toBe(1);
     });
 
     it("increments Iron Mined activity by 2", () => {
@@ -955,7 +955,7 @@ describe("mineIron", () => {
         } as LandExpansionIronMineAction,
       });
 
-      expect(game.bumpkin?.activity["Iron Mined"]).toBe(2);
+      expect(game.farmActivity["Iron Mined"]).toBe(2);
     });
 
     it("adds bonus drop", () => {

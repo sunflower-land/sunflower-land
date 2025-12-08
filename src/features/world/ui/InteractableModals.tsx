@@ -48,6 +48,8 @@ import { EventNoticeboard } from "./EventNoticeboard";
 import { PotionMaster } from "features/helios/components/potions/component/PotionHouseShopItems";
 import { PetShop } from "features/pets/PetShop";
 import { LoveIslandNoticeboard } from "./loveRewardShop/LoveIslandNoticeboard";
+import { Gam3TrophiesModal } from "./Gam3TrophiesModal";
+import { Rarecrows } from "./Rarecrows";
 
 type InteractableName =
   | "guardian"
@@ -94,6 +96,7 @@ type InteractableName =
   | "petal_clue"
   | "plaza_orange_book"
   | "plaza_green_book"
+  | "pet_grave"
   | "mega_bounty_board"
   | "potion_house"
   | "clubhouse_reward"
@@ -118,6 +121,7 @@ type InteractableName =
   | "nightshades_faction"
   | "sunflorians_faction"
   | "chicken_rescue"
+  | "rarecrows"
   | "crops_and_chickens"
   | "fruit_dash"
   | "festival_of_colors"
@@ -148,6 +152,7 @@ type InteractableName =
   | "petal_puzzle_prize"
   | "flower_exchange"
   | "event_store"
+  | "gam3_trophies"
   | "event_noticeboard";
 
 class InteractableModalManager {
@@ -236,6 +241,12 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       </Modal>
       <Modal show={interactable === "pet_shop"} onHide={closeModal}>
         <PetShop onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "gam3_trophies"} onHide={closeModal}>
+        <Gam3TrophiesModal onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "rarecrows"} onHide={closeModal}>
+        <Rarecrows onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "desert_noticeboard"} onHide={closeModal}>
         <DesertNoticeboard onClose={closeModal} />
@@ -438,6 +449,17 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
             },
             {
               text: t("interactableModals.plazaGreenBook.message2"),
+            },
+          ]}
+        />
+      </Modal>
+      <Modal show={interactable === "pet_grave"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.chase}
+          message={[
+            {
+              text: t("pet.grave.message"),
             },
           ]}
         />

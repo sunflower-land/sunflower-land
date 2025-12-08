@@ -66,7 +66,7 @@ export const SeasonalCrops: React.FC = () => {
         amount: setPrecision(amount, 2),
       });
 
-      if (state.context.state.bumpkin?.activity?.["Sunflower Sold"] === 1) {
+      if (state.context.state.farmActivity?.["Sunflower Sold"] === 1) {
         gameAnalytics.trackMilestone({
           event: "Tutorial:SunflowerSold:Completed",
         });

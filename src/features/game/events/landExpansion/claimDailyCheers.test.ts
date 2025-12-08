@@ -15,31 +15,25 @@ describe("claimDailyCheers", () => {
     expect(game?.inventory.Cheer?.toNumber()).toBe(3);
   });
 
-  it("gives six free cheers to the player if they have VIP", () => {
+  it("should give 5 free cheers to the player if they have Giant Gold Bone placed", () => {
     const now = Date.now();
 
     const game = claimDailyCheers({
       state: {
         ...INITIAL_FARM,
-        vip: {
-          bundles: [],
-          expiresAt: now + 24 * 60 * 60 * 1000,
-        },
-        socialFarming: {
-          weeklyPoints: {
-            points: 0,
-            week: "2025-08-04",
-          },
-          points: 0,
-          villageProjects: {},
-          cheersGiven: {
-            date: new Date(now).toISOString().split("T")[0],
-            projects: {},
-            farms: [],
-          },
-          cheers: {
-            freeCheersClaimedAt: now - 24 * 60 * 60 * 1000,
-          },
+        collectibles: {
+          ...INITIAL_FARM.collectibles,
+          "Giant Gold Bone": [
+            {
+              id: "1",
+              createdAt: now,
+              coordinates: {
+                x: 0,
+                y: 0,
+              },
+              readyAt: now,
+            },
+          ],
         },
       },
       action: { type: "cheers.claimed" },
@@ -47,7 +41,7 @@ describe("claimDailyCheers", () => {
     });
 
     expect(game?.socialFarming.cheers.freeCheersClaimedAt).toBe(now);
-    expect(game?.inventory.Cheer?.toNumber()).toBe(6);
+    expect(game?.inventory.Cheer?.toNumber()).toBe(5);
   });
 
   it("should prevent claiming a daily cheers twice in one day", () => {

@@ -41,6 +41,7 @@ import {
   getStore,
   isBoxBoughtWithinSeason,
   isKeyBoughtWithinSeason,
+  isPetEggBoughtWithinSeason,
 } from "features/game/events/landExpansion/buySeasonalItem";
 import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 
@@ -72,19 +73,19 @@ export const ItemsList: React.FC<Props> = ({
     // Handling all types or specific ones if provided
     if (type === "wearables" || (!type && "wearable" in item)) {
       return (
-        state.bumpkin.activity[
+        state.farmActivity[
           `${(item as SeasonalStoreWearable).wearable as SeasonalTierItemName} Bought`
         ] ?? 0
       );
     } else if (type === "collectibles" || (!type && "collectible" in item)) {
       return (
-        state.bumpkin.activity[
+        state.farmActivity[
           `${(item as SeasonalStoreCollectible).collectible as SeasonalTierItemName} Bought`
         ] ?? 0
       );
     } else if (type === "keys" || (!type && "key" in item)) {
       return (
-        state.bumpkin.activity[
+        state.farmActivity[
           `${(item as SeasonalStoreCollectible).collectible as SeasonalTierItemName} Bought`
         ] ?? 0
       );
@@ -148,8 +149,7 @@ export const ItemsList: React.FC<Props> = ({
 
     return currencyItem;
   };
-  const createdAt = Date.now();
-  const currentSeason = getCurrentSeason(new Date(createdAt));
+  const currentSeason = getCurrentSeason();
   const seasonalStore = MEGASTORE[currentSeason];
   const tiers = tier;
 
@@ -193,7 +193,10 @@ export const ItemsList: React.FC<Props> = ({
   // Reduction is by getting the lower tier of current tier
   const keyReduction = isKeyBoughtWithinSeason(state, tiers, true) ? 0 : 1; // Reduction is by getting the lower tier of current tier
   const boxReduction = isBoxBoughtWithinSeason(state, tiers, true) ? 0 : 1; // Reduction is by getting the lower tier of current tier
-  const reduction = keyReduction + boxReduction;
+  const petEggReduction = isPetEggBoughtWithinSeason(state, tiers, true)
+    ? 0
+    : 1;
+  const reduction = keyReduction + boxReduction + petEggReduction;
 
   const requirements = hasRequirement(tierData) ? tierData.requirement : 0;
 

@@ -8,7 +8,7 @@ import {
 } from "../../types/crops";
 import { GameState } from "../../types/game";
 import { getSellPrice } from "features/game/expansion/lib/boosts";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { setPrecision } from "lib/utils/formatNumber";
 import {
   GREENHOUSE_FRUIT,
@@ -84,14 +84,14 @@ export function sellCrop({
     });
 
     const coinsEarned = price * action.amount;
-    bumpkin.activity = trackActivity(
+    game.farmActivity = trackFarmActivity(
       "Coins Earned",
-      bumpkin.activity,
+      game.farmActivity,
       new Decimal(coinsEarned),
     );
-    bumpkin.activity = trackActivity(
+    game.farmActivity = trackFarmActivity(
       `${action.crop} Sold`,
-      bumpkin?.activity,
+      game.farmActivity,
       new Decimal(amount),
     );
 

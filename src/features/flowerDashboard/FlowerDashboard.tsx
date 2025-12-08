@@ -23,8 +23,8 @@ import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { capitalize } from "lib/utils/capitalize";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { getRelativeTime } from "lib/utils/time";
 import { getFlowerDashboard } from "./actions/getFlowerDashboard";
+import { LastUpdatedAt } from "components/LastUpdatedAt";
 
 const TOTAL_SUPPLY = 256000000;
 
@@ -143,8 +143,7 @@ export const FlowerDashboard = () => {
               {t("flowerDashboard.title")}
             </p>
             <span className="text-xs text-white z-10 text-shadow">
-              {t("last.updated")}{" "}
-              {data?.lastUpdated ? getRelativeTime(data?.lastUpdated) : "..."}
+              <LastUpdatedAt lastUpdated={data?.lastUpdated} />
             </span>
           </div>
 

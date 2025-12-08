@@ -350,6 +350,11 @@ function getLeatherYieldBoosts(game: GameState): {
     boostsUsed.push("Merino Whisperer");
   }
 
+  if (isWearableActive({ name: "Training Whistle", game })) {
+    boost += 1;
+    boostsUsed.push("Training Whistle");
+  }
+
   return { amount: boost, boostsUsed };
 }
 
@@ -547,6 +552,22 @@ export function getBoostedFoodQuantity({
   if (game.bumpkin.skills["Chonky Feed"]) {
     baseFoodQuantity *= 1.5;
     boostsUsed.push("Chonky Feed");
+  }
+
+  if (
+    (animalType === "Sheep" || animalType === "Cow") &&
+    isTemporaryCollectibleActive({ name: "Collie Shrine", game })
+  ) {
+    baseFoodQuantity *= 0.95;
+    boostsUsed.push("Collie Shrine");
+  }
+
+  if (
+    animalType === "Chicken" &&
+    isTemporaryCollectibleActive({ name: "Bantam Shrine", game })
+  ) {
+    baseFoodQuantity *= 0.95;
+    boostsUsed.push("Bantam Shrine");
   }
 
   return { foodQuantity: baseFoodQuantity, boostsUsed };

@@ -950,6 +950,10 @@ import goldFoodBox from "assets/rewardBoxes/gold_food_box.webp";
 import bronzeToolBox from "assets/rewardBoxes/bronze_tool_box.webp";
 import silverToolBox from "assets/rewardBoxes/silver_tool_box.webp";
 import goldToolBox from "assets/rewardBoxes/gold_tool_box.webp";
+import basicFarmerBox from "assets/rewardBoxes/basic_farmer_box.webp";
+import basicFoodBox from "assets/rewardBoxes/basic_food_box.webp";
+import weeklyBox from "assets/rewardBoxes/weekly_box.webp";
+import basicLoveBox from "assets/rewardBoxes/basic_love_box.webp";
 
 import doll from "assets/sfts/dolls/doll.webp";
 import buzzDoll from "assets/sfts/dolls/buzz_doll.webp";
@@ -1028,7 +1032,7 @@ import fishBowl from "assets/sfts/fish_bowl.webp";
 import giantGoldBone from "assets/sfts/giant_gold_bone.webp";
 import lunarTemple from "assets/sfts/lunar_temple.webp";
 import magmaStone from "assets/sfts/magma_stone.webp";
-import cornucopia from "assets/sfts/cornucopia.webp";
+import cornucopia from "assets/monuments/cornucopia_monument_stage3.webp";
 import messyBed from "assets/sfts/messy_bed.webp";
 
 import barkley from "assets/sfts/pets/dogs/barkley.webp";
@@ -1070,6 +1074,9 @@ import sparrowShrine from "assets/sfts/shrines/sparrow_shrine.webp";
 import stagShrine from "assets/sfts/shrines/stag_shrine.webp";
 import tortoiseShrine from "assets/sfts/shrines/tortoise_shrine.webp";
 import toucanShrine from "assets/sfts/shrines/toucan_shrine.webp";
+import legendaryShrine from "assets/sfts/shrines/legendary_shrine.webp";
+import obsidianShrine from "assets/sfts/shrines/obsidian_shrine.webp";
+import tradingShrine from "assets/sfts/shrines/trading_shrine.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
@@ -1121,6 +1128,7 @@ export interface ItemDetails {
   // TODO: Extend this as the codex grows eg. Resource etc
   itemType?: "collectible";
   isPermanent?: boolean;
+  translatedName?: string;
 }
 
 type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
@@ -1526,22 +1534,27 @@ export const ITEM_DETAILS: Items = {
   Wood: {
     image: SUNNYSIDE.resource.wood,
     description: COMMODITIES.Wood.description,
+    translatedName: translate("resource.wood"),
   },
   Stone: {
     image: SUNNYSIDE.resource.stone,
     description: COMMODITIES.Stone.description,
+    translatedName: translate("resource.stone"),
   },
   Iron: {
     image: iron,
     description: COMMODITIES.Iron.description,
+    translatedName: translate("resource.iron"),
   },
   Crimstone: {
     image: crimstone,
     description: COMMODITIES.Crimstone.description,
+    translatedName: translate("resource.crimstone"),
   },
   Gold: {
     image: gold,
     description: COMMODITIES.Gold.description,
+    translatedName: translate("resource.gold"),
   },
   Diamond: {
     image: SUNNYSIDE.resource.diamond,
@@ -1550,14 +1563,17 @@ export const ITEM_DETAILS: Items = {
   Obsidian: {
     image: obsidian,
     description: COMMODITIES.Obsidian.description,
+    translatedName: translate("resource.obsidian"),
   },
   Sunstone: {
     image: sunstone,
     description: COMMODITIES.Sunstone.description,
+    translatedName: translate("resource.sunstone"),
   },
   Oil: {
     image: oil,
     description: COMMODITIES.Oil.description,
+    translatedName: translate("resource.oil"),
   },
   Egg: {
     image: SUNNYSIDE.resource.egg,
@@ -3038,46 +3054,57 @@ export const ITEM_DETAILS: Items = {
   "Crop Plot": {
     image: SUNNYSIDE.resource.plot,
     description: translate("description.crop.plot"),
+    translatedName: translate("node.cropPlot"),
   },
   "Sunstone Rock": {
     image: sunstoneRock,
     description: translate("description.sunstone.rock"),
+    translatedName: translate("node.sunstone"),
   },
   "Gold Rock": {
     image: SUNNYSIDE.resource.goldStone,
     description: translate("description.gold.rock"),
+    translatedName: translate("node.gold"),
   },
   "Iron Rock": {
     image: SUNNYSIDE.resource.ironStone,
     description: translate("description.iron.rock"),
+    translatedName: translate("node.iron"),
   },
   "Stone Rock": {
     image: SUNNYSIDE.resource.stone_small,
     description: translate("description.stone.rock"),
+    translatedName: translate("node.stone"),
   },
   "Crimstone Rock": {
     image: crimstoneRock,
     description: translate("description.crimstone.rock"),
+    translatedName: translate("node.crimstone"),
   },
   "Oil Reserve": {
     image: oilReserve,
     description: translate("description.oil.reserve"),
+    translatedName: translate("node.oilReserve"),
   },
   "Lava Pit": {
     image: lavaPit,
     description: translate("description.lava.pit"),
+    translatedName: translate("node.lavaPit"),
   },
   Tree: {
     image: SUNNYSIDE.resource.tree,
     description: translate("description.tree"),
+    translatedName: translate("node.tree"),
   },
   "Fruit Patch": {
     image: SUNNYSIDE.resource.fruitPatch,
     description: translate("description.fruit.patch"),
+    translatedName: translate("node.fruitPatch"),
   },
   "Flower Bed": {
     image: flowerBed,
     description: translate("description.flower.bed"),
+    translatedName: translate("node.flowerBed"),
   },
   Boulder: {
     image: SUNNYSIDE.resource.boulder,
@@ -6003,11 +6030,11 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.stagShrine"),
   },
   "Legendary Shrine": {
-    image: thermalStone,
+    image: legendaryShrine,
     description: translate("description.legendaryShrine"),
   },
   "Obsidian Shrine": {
-    image: thermalStone,
+    image: obsidianShrine,
     description: translate("description.obsidianShrine"),
   },
   Moonfur: {
@@ -6055,7 +6082,7 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.bantamShrine"),
   },
   "Trading Shrine": {
-    image: thermalStone,
+    image: tradingShrine,
     description: translate("description.tradingShrine"),
   },
   "Wild Grass": {
@@ -6197,5 +6224,21 @@ export const ITEM_DETAILS: Items = {
   "Messy Bed": {
     image: messyBed,
     description: "",
+  },
+  "Basic Farming Pack": {
+    image: basicFarmerBox,
+    description: translate("description.basicFarmerBox"),
+  },
+  "Basic Food Box": {
+    image: basicFoodBox,
+    description: translate("description.basicFoodBox"),
+  },
+  "Weekly Mega Box": {
+    image: weeklyBox,
+    description: translate("description.weeklyBox"),
+  },
+  "Basic Love Box": {
+    image: basicLoveBox,
+    description: translate("description.basicLoveBox"),
   },
 };

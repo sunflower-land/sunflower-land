@@ -1,6 +1,7 @@
 import {
   CollectionName,
   getMarketPrice,
+  MarketplaceTradeableName,
 } from "features/game/types/marketplace";
 import React, { useContext, useState } from "react";
 import * as Auth from "features/auth/lib/Provider";
@@ -33,7 +34,8 @@ import { MachineState } from "features/game/lib/gameMachine";
 
 const _trades = (state: MachineState) => state.context.state.trades;
 export const MAX_LIMITED_SALES = 1;
-export const MAX_LIMITED_PURCHASES = 3;
+export const MAX_LIMITED_PURCHASES = (item: MarketplaceTradeableName) =>
+  item === "Obsidian" ? 9 : 3;
 
 export const Tradeable: React.FC = () => {
   const { authService } = useContext(Auth.Context);
@@ -120,7 +122,7 @@ export const Tradeable: React.FC = () => {
     (offer) => offer.items[display.name],
   ).length;
   const limitedPurchasesLeft = isLimited
-    ? MAX_LIMITED_PURCHASES - weeklyPurchasesCount - offersCount
+    ? MAX_LIMITED_PURCHASES(display.name) - weeklyPurchasesCount - offersCount
     : Infinity;
 
   if (error) throw error;
@@ -161,7 +163,9 @@ export const Tradeable: React.FC = () => {
           <div className="flex flex-wrap justify-between items-center">
             <div className="flex cursor-pointer items-center w-fit">
               <img src={SUNNYSIDE.icons.arrow_left} className="h-6 mr-2 mt-1" />
-              <p className="capitalize underline">{display.name}</p>
+              <p className="capitalize underline">
+                {display.translatedName ?? display.name}
+              </p>
             </div>
           </div>
         </InnerPanel>

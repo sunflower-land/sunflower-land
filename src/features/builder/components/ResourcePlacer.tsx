@@ -164,12 +164,12 @@ export const ResourcePlacer: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const { scale } = useContext(ZoomContext);
 
-  const nodeRef = useRef(null);
+  const nodeRef = useRef<HTMLDivElement>(null);
   const island = useSelector(gameService, _island);
 
   const [isDragging, setIsDragging] = useState(false);
   const [coordinates, setCoordinates] = useState<Coordinates>();
-  const { component, dimensions } = getResources(island)[name];
+  const { component: Component, dimensions } = getResources(island)[name];
 
   return (
     <>
@@ -188,7 +188,7 @@ export const ResourcePlacer: React.FC<Props> = ({
         }}
       >
         <Draggable
-          nodeRef={nodeRef}
+          nodeRef={nodeRef as React.RefObject<HTMLElement>}
           grid={[GRID_WIDTH_PX * scale.get(), GRID_WIDTH_PX * scale.get()]}
           scale={scale.get()}
           onStart={() => {
@@ -219,7 +219,7 @@ export const ResourcePlacer: React.FC<Props> = ({
                 height: `${dimensions.height * GRID_WIDTH_PX}px`,
               }}
             >
-              {component({})}
+              <Component />
             </div>
           </div>
         </Draggable>

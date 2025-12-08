@@ -4,7 +4,7 @@ import { Label } from "components/ui/Label";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getTimeLeft, secondsToString } from "lib/utils/time";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { getCurrentSeason, SEASONS } from "features/game/types/seasons";
 import {
   MEGASTORE,
@@ -25,6 +25,7 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuff
 import { FACTION_SHOP_KEYS } from "features/game/types/factionShop";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
 import { GameState } from "features/game/types/game";
+import { useNow } from "lib/utils/hooks/useNow";
 
 // type guard for WearablesItem | CollectiblesItem
 export const isWearablesItem = (
@@ -82,15 +83,6 @@ export const SeasonalStore: React.FC<{
     null,
   );
   const [selectedTier, setSelectedTier] = useState<SeasonalStoreTier>();
-  const [isVisible, setIsVisible] = useState(false);
-  const createdAt = Date.now();
-
-  useEffect(() => {
-    if (selectedItem && !isVisible) {
-      setIsVisible(true);
-    }
-  }, [selectedItem, isVisible]);
-
   const handleClickItem = (
     item: SeasonalStoreItem,
     tier: SeasonalStoreTier,
@@ -104,13 +96,19 @@ export const SeasonalStore: React.FC<{
     return (endDate.getTime() - startDate.getTime()) / 1000;
   };
 
+  const now = useNow({
+    live: true,
+    autoEndAt: SEASONS[getCurrentSeason()].endDate.getTime(),
+  });
+
   const timeRemaining = getTimeLeft(
     SEASONS[getCurrentSeason()].startDate.getTime(),
     getTotalSecondsAvailable(),
+    now,
   );
   const { t } = useAppTranslation();
 
-  const currentSeason = getCurrentSeason(new Date(createdAt));
+  const currentSeason = getCurrentSeason();
 
   // Basic-Epic
   const basicAllItems = MEGASTORE[currentSeason].basic.items;
@@ -125,7 +123,7 @@ export const SeasonalStore: React.FC<{
         onBackdropClick={() => setSelectedItem(null)}
       >
         <ItemDetail
-          isVisible={isVisible}
+          isVisible={!!selectedItem}
           item={selectedItem}
           tier={selectedTier}
           image={getItemImage(selectedItem)}

@@ -49,42 +49,48 @@ export const FUR_TRAITS = [
 export type FurTrait = (typeof FUR_TRAITS)[number];
 
 export const ACCESSORY_TRAITS = [
-  "Seedling Hat",
-  "Radar Hat",
+  "Seedling",
   "Halo",
-  "Brain Hat",
+  "Brain",
+  "Firefly",
+  "Glasses",
   "Red Bow",
   "Blue Bow",
-  "Glasses",
   "Flower Crown",
   "Crown",
   "Propeller Hat",
-  "Cowboy Hat",
 ] as const;
 
 export type AccessoryTrait = (typeof ACCESSORY_TRAITS)[number];
 
-export type AuraTrait = "No Aura" | "Basic Aura" | "Epic Aura" | "Mega Aura";
+export const AURA_TRAITS = [
+  "No Aura",
+  "Common Aura",
+  "Rare Aura",
+  "Mythic Aura",
+] as const;
+
+export type AuraTrait = (typeof AURA_TRAITS)[number];
 
 export const auras: Trait<AuraTrait>[] = [
   { name: "No Aura", supply: 2580 },
-  { name: "Basic Aura", supply: 240 },
-  { name: "Epic Aura", supply: 120 },
-  { name: "Mega Aura", supply: 60 },
+  { name: "Common Aura", supply: 240 },
+  { name: "Rare Aura", supply: 120 },
+  { name: "Mythic Aura", supply: 60 },
 ];
 
 export const initial_auction_auras: Trait<AuraTrait>[] = [
   { name: "No Aura", supply: 860 },
-  { name: "Basic Aura", supply: 80 },
-  { name: "Epic Aura", supply: 40 },
-  { name: "Mega Aura", supply: 20 },
+  { name: "Common Aura", supply: 80 },
+  { name: "Rare Aura", supply: 40 },
+  { name: "Mythic Aura", supply: 20 },
 ];
 
 export const chapter_auction_auras: Trait<AuraTrait>[] = [
   { name: "No Aura", supply: 215 },
-  { name: "Basic Aura", supply: 20 },
-  { name: "Epic Aura", supply: 10 },
-  { name: "Mega Aura", supply: 5 },
+  { name: "Common Aura", supply: 20 },
+  { name: "Rare Aura", supply: 10 },
+  { name: "Mythic Aura", supply: 5 },
 ];
 
 export type PetTraits = {

@@ -62,6 +62,11 @@ export const HenHouseInside: React.FC = () => {
   const context = gameService.getSnapshot().context;
   const loggedInFarmId = context.visitorId ?? context.farmId;
 
+  const animalCount = getKeys(henHouse.animals).length;
+  const sickAnimalCount = getValues(henHouse.animals).filter(
+    (animal) => animal.state === "sick",
+  ).length;
+
   const hasAirdropAccess = hasFeatureAccess(
     context.visitorState ?? context.state,
     "AIRDROP_PLAYER",
@@ -90,6 +95,7 @@ export const HenHouseInside: React.FC = () => {
         .map((id) => henHouse.animals[id])
         .sort((a, b) => b.experience - a.experience)
         .map((animal) => animal.id),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [getKeys(henHouse.animals).length],
   );
 
@@ -111,12 +117,8 @@ export const HenHouseInside: React.FC = () => {
           },
         };
       });
-  }, [
-    getKeys(henHouse.animals).length,
-    getValues(henHouse.animals).filter((animal) => animal.state === "sick")
-      .length,
-    floorWidth,
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [animalCount, sickAnimalCount, floorWidth]);
 
   const nextLevel = Math.min(level + 1, 3);
 
@@ -145,7 +147,7 @@ export const HenHouseInside: React.FC = () => {
         onClose={() => setShowUpgradeModal(false)}
       />
 
-      <Modal show={!!selected} onHide={() => setSelected(undefined)}>
+      <Modal show={!!selected && !!deal} onHide={() => setSelected(undefined)}>
         <AnimalDeal
           onClose={() => {
             setSelected(undefined);
@@ -154,8 +156,8 @@ export const HenHouseInside: React.FC = () => {
             setDeal(undefined);
             setSelected(undefined);
           }}
-          deal={deal!}
-          animal={selected!}
+          deal={deal}
+          animal={selected}
         />
       </Modal>
       <div

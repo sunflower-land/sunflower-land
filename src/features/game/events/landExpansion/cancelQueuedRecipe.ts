@@ -4,7 +4,6 @@ import {
 } from "features/game/types/buildings";
 import {
   BuildingProduct,
-  Cancelled,
   GameState,
   InventoryItemName,
   PlacedItem,
@@ -256,14 +255,6 @@ export function cancelQueuedRecipe({
       isInstantCook: false,
       game,
     });
-
-    const cancelled = building.cancelled || ({} as Cancelled);
-
-    cancelled[recipe.name] = {
-      cancelledAt: createdAt,
-    };
-
-    building.cancelled = cancelled;
 
     return game;
   });

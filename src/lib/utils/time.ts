@@ -216,8 +216,12 @@ export const millisecondsToString = (
  * @param totalTimeInSeconds The total time in seconds needed for the operation to complete.
  * @returns The time left in seconds.
  */
-export const getTimeLeft = (createdAt: number, totalTimeInSeconds: number) => {
-  const millisecondsElapsed = Date.now() - createdAt;
+export const getTimeLeft = (
+  createdAt: number,
+  totalTimeInSeconds: number,
+  now: number,
+) => {
+  const millisecondsElapsed = now - createdAt;
 
   if (millisecondsElapsed > totalTimeInSeconds * 1000) return 0;
 
@@ -249,10 +253,10 @@ export const formatDateTime = (isoString: string) => {
  */
 export function getRelativeTime(
   timestamp: number,
+  now: number,
   length: "short" | "medium" | "long" = "short",
 ): string {
-  const now = new Date();
-  const diffInSeconds = Math.round((timestamp - now.getTime()) / 1000);
+  const diffInSeconds = Math.round((timestamp - now) / 1000);
   const isInFuture = diffInSeconds > 0;
   const secondsAbs = Math.abs(diffInSeconds);
 
@@ -444,13 +448,11 @@ export function getShortRelativeTime(timestamp: number): string {
  * A function that gives you the time until the next day in seconds.
  * @returns Time until the next day in seconds eg: 86400
  */
-export function secondsTillReset() {
-  const currentTime = Date.now();
-
+export function secondsTillReset(now = Date.now()) {
   // Calculate the time until the next day in milliseconds
-  const nextDay = new Date(currentTime);
+  const nextDay = new Date(now);
   nextDay.setUTCHours(24, 0, 0, 0);
-  const timeUntilNextDay = nextDay.getTime() - currentTime;
+  const timeUntilNextDay = nextDay.getTime() - now;
 
   // Convert milliseconds to seconds
   const secondsUntilNextDay = Math.floor(timeUntilNextDay / 1000);

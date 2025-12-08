@@ -13,7 +13,6 @@ import { secondsToString } from "lib/utils/time";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 
 import chores from "assets/icons/chores.webp";
-import lock from "assets/icons/lock.png";
 
 import { SeasonalAuctions } from "../components/SeasonalAuctions";
 import classNames from "classnames";
@@ -24,7 +23,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState } from "features/game/types/game";
 import { MegaBountyBoardContent } from "features/world/ui/flowerShop/MegaBountyBoard";
 
-const CHAPTER_GRAPHICS: Record<SeasonName, string> = {
+export const CHAPTER_GRAPHICS: Record<SeasonName, string> = {
   "Solar Flare": "?",
   "Dawn Breaker": "?",
   "Witches' Eve": "?",
@@ -36,7 +35,7 @@ const CHAPTER_GRAPHICS: Record<SeasonName, string> = {
   "Winds of Change": SUNNYSIDE.announcement.windsOfChangeSeason,
   "Great Bloom": "",
   "Better Together": SUNNYSIDE.announcement.betterTogetherSeason,
-  "Paw Prints": "",
+  "Paw Prints": SUNNYSIDE.announcement.pawPrintsSeason,
 };
 
 const CHORES_DELIVERIES_START_DATE: Record<SeasonName, string> = {
@@ -72,6 +71,7 @@ export const Season: React.FC<Props> = ({
   farmId,
 }) => {
   const { t } = useAppTranslation();
+
   return (
     <div
       className={classNames(
@@ -117,20 +117,7 @@ export const Season: React.FC<Props> = ({
                 ticket: SEASON_TICKET_NAME[season],
               })}
             </Label>
-
-            {Date.now() < new Date("2024-11-06").getTime() && (
-              <Label icon={lock} type="danger">
-                {t("coming.soon")}
-              </Label>
-            )}
           </div>
-          {Date.now() < new Date("2024-11-06").getTime() && (
-            <div className="mb-2">
-              <span className="text-xs">
-                {t("season.codex.howToEarn.comingSoon")}
-              </span>
-            </div>
-          )}
           <NoticeboardItems
             iconWidth={8}
             items={[
@@ -161,7 +148,7 @@ export const Season: React.FC<Props> = ({
       <SeasonalAuctions gameState={state} farmId={farmId} season={season} />
       <SeasonalMutants season={season} />
       <InnerPanel className="mb-1">
-        <TicketsLeaderboard id={id} isLoading={isLoading} data={data} />
+        <TicketsLeaderboard isLoading={isLoading} data={data} />
       </InnerPanel>
     </div>
   );

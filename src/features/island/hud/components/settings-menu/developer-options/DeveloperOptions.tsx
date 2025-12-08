@@ -47,6 +47,17 @@ export const DeveloperOptions: React.FC<ContentComponentProps> = ({
           {`Player Search`}
         </Button>
       )}
+      {hasFeatureAccess(
+        gameService.getSnapshot()?.context?.state,
+        "MODERATOR",
+      ) && (
+        <Button
+          onClick={() => onSubMenuClick("errorSearch")}
+          className="p-1 mb-1"
+        >
+          {`Error Search`}
+        </Button>
+      )}
       {CONFIG.NETWORK === "amoy" && (
         <>
           <Button

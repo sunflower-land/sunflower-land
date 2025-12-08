@@ -21,7 +21,7 @@ import {
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { getKeys } from "features/game/types/decorations";
 import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
@@ -133,10 +133,7 @@ const handleFreeFeeding = ({
 
   animal.state = isReady ? "ready" : "happy";
 
-  copy.bumpkin.activity = trackActivity(
-    `${animalType} Fed`,
-    copy.bumpkin.activity,
-  );
+  copy.farmActivity = trackFarmActivity(`${animalType} Fed`, copy.farmActivity);
 
   return copy;
 };
@@ -230,9 +227,9 @@ export function feedAnimal({
       copy.inventory["Barn Delight"] = barnDelightAmount.sub(barnDelightCost);
       animal.state = "idle";
 
-      copy.bumpkin.activity = trackActivity(
+      copy.farmActivity = trackFarmActivity(
         `${action.animal} Cured`,
-        copy.bumpkin.activity,
+        copy.farmActivity,
       );
 
       copy.boostsUsedAt = updateBoostUsed({
@@ -347,9 +344,9 @@ export function feedAnimal({
       animal.state = "ready";
     }
 
-    copy.bumpkin.activity = trackActivity(
+    copy.farmActivity = trackFarmActivity(
       `${action.animal} Fed`,
-      copy.bumpkin.activity,
+      copy.farmActivity,
     );
 
     copy.boostsUsedAt = updateBoostUsed({

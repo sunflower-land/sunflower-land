@@ -1,5 +1,10 @@
 import { Worm } from "./composters";
-import { GameState, InventoryItemName, TemperateSeasonName } from "./game";
+import {
+  BoostName,
+  GameState,
+  InventoryItemName,
+  TemperateSeasonName,
+} from "./game";
 import { isWearableActive } from "../lib/wearables";
 import { translate } from "lib/i18n/translate";
 import { PurchaseOptions } from "./buyOptionPurchaseItem";
@@ -253,6 +258,7 @@ export type ChapterFish = Extract<
   | "Jellyfish"
   | "Pink Dolphin"
   | "Poseidon"
+  | "Super Star"
 >;
 
 export const CHAPTER_FISH: Record<ChapterFish, Fish> = {
@@ -294,6 +300,12 @@ export const CHAPTER_FISH: Record<ChapterFish, Fish> = {
   },
   Poseidon: {
     baits: ["Grub", "Red Wiggler", "Fishing Lure"],
+    type: "chapter",
+    likes: [],
+    seasons: [],
+  },
+  "Super Star": {
+    baits: ["Red Wiggler", "Fishing Lure"],
     type: "chapter",
     likes: [],
     seasons: [],
@@ -544,12 +556,6 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     likes: ["Sunfish"],
     seasons: ["winter", "spring", "summer", "autumn"],
   },
-  "Super Star": {
-    baits: ["Red Wiggler", "Fishing Lure"],
-    type: "marine marvel",
-    likes: ["Acorn"],
-    seasons: ["winter", "spring", "summer", "autumn"],
-  },
   "Starlight Tuna": {
     baits: ["Red Wiggler", "Fishing Lure"],
     type: "marine marvel",
@@ -607,34 +613,50 @@ export function getDailyFishingCount(state: GameState): number {
   return state.fishing.dailyAttempts?.[today] ?? 0;
 }
 
-export function getDailyFishingLimit(game: GameState): number {
+export function getDailyFishingLimit(game: GameState): {
+  limit: number;
+  boostsUsed: BoostName[];
+} {
   let limit = 20;
+  const boostsUsed: BoostName[] = [];
 
   // +10 daily limit if player has Angler Waders
   if (isWearableActive({ name: "Angler Waders", game })) {
     limit += 10;
+    boostsUsed.push("Angler Waders");
   }
 
-  // +5 daily limit if player has Reelmaster's Chair
+  // +5 Daily Limit if the player has Reelmaster's Chair
   if (isCollectibleBuilt({ name: "Reelmaster's Chair", game })) {
     limit += 5;
+    boostsUsed.push("Reelmaster's Chair");
   }
 
+  // +5 daily limit if player had Fisherman's 5 Fold skill
   if (game.bumpkin?.skills["Fisherman's 5 Fold"]) {
     limit += 5;
+    boostsUsed.push("Fisherman's 5 Fold");
   }
 
   // +10 daily limit if player had Fisherman's 10 Fold skill
   if (game.bumpkin?.skills["Fisherman's 10 Fold"]) {
     limit += 10;
+    boostsUsed.push("Fisherman's 10 Fold");
   }
 
   // +10 daily limit if player has the More With Less skill
   if (game.bumpkin?.skills["More With Less"]) {
     limit += 15;
+    boostsUsed.push("More With Less");
   }
 
-  return limit;
+  // +5 daily limit if player has Saw Fish
+  if (isWearableActive({ name: "Saw Fish", game })) {
+    limit += 5;
+    boostsUsed.push("Saw Fish");
+  }
+
+  return { limit, boostsUsed };
 }
 
 export const BAIT: Record<FishingBait, true> = {

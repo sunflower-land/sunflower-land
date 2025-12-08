@@ -8,7 +8,7 @@ import {
 import { GameState, InventoryItemName, Keys } from "features/game/types/game";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 
 export type BuyFactionShopItemAction = {
   type: "factionShopItem.bought";
@@ -126,7 +126,10 @@ export function buyFactionShopItem({
       };
     }
 
-    bumpkin.activity = trackActivity(`${action.item} Bought`, bumpkin.activity);
+    stateCopy.farmActivity = trackFarmActivity(
+      `${action.item} Bought`,
+      stateCopy.farmActivity,
+    );
 
     return stateCopy;
   });

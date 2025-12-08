@@ -4,6 +4,8 @@ import VirtualJoystick from "phaser3-rex-plugins/plugins/virtualjoystick.js";
 
 import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
+import { PetContainer } from "../containers/PetContainer";
+import { PetNFTType } from "features/game/types/pets";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { npcModalManager } from "../ui/NPCModals";
@@ -108,6 +110,8 @@ export abstract class BaseScene extends Phaser.Scene {
   packetSentAt = 0;
 
   playerEntities: { [sessionId: string]: BumpkinContainer } = {};
+
+  pets: { [sessionId: string]: PetContainer } = {};
 
   colliders?: Phaser.GameObjects.Group;
   triggerColliders?: Phaser.GameObjects.Group;
@@ -965,6 +969,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.updateShaders();
     this.updateUsernames();
     this.updateFactions();
+    this.updatePets();
   }
 
   keysToAngle(
@@ -1218,6 +1223,73 @@ export abstract class BaseScene extends Phaser.Scene {
     });
   }
 
+  public addPet(
+    sessionId: string,
+    petId: number,
+    petType: string,
+    x: number,
+    y: number,
+  ) {
+    const petContainer = new PetContainer(
+      this,
+      x,
+      y,
+      petId,
+      petType as PetNFTType,
+    );
+    this.pets[sessionId] = petContainer;
+  }
+
+  public updatePets() {
+    const server = this.mmoServer;
+    if (!server) return;
+
+    Object.keys(this.pets).forEach((sessionId) => {
+      const petsMap = server.state.pets;
+      if (!petsMap) return;
+
+      const hasLeft =
+        !petsMap.get(sessionId) ||
+        petsMap.get(sessionId)?.sceneId !== this.scene.key;
+
+      const isInactive = !this.pets[sessionId]?.active;
+
+      if (hasLeft || isInactive) {
+        this.pets[sessionId]?.destroy();
+        delete this.pets[sessionId];
+      }
+    });
+
+    server.state.pets?.forEach((pet, sessionId) => {
+      if (pet.sceneId !== this.scene.key) return;
+
+      const petContainer = this.pets[sessionId];
+      if (!petContainer) {
+        this.addPet(sessionId, pet.id, pet.type, pet.x, pet.y);
+        return;
+      }
+
+      if (petContainer) {
+        const distance = Phaser.Math.Distance.BetweenPoints(petContainer, pet);
+
+        if (distance > 1) {
+          if ((pet.x || 0) > petContainer.x) {
+            petContainer.faceRight();
+          } else if ((pet.x || 0) < petContainer.x) {
+            petContainer.faceLeft();
+          }
+          petContainer.walk();
+        } else {
+          petContainer.idle();
+        }
+
+        petContainer.x = Phaser.Math.Linear(petContainer.x, pet.x, 0.04);
+        petContainer.y = Phaser.Math.Linear(petContainer.y, pet.y, 0.04);
+        petContainer.setDepth(petContainer.y);
+      }
+    });
+  }
+
   renderPlayers() {
     const server = this.mmoServer;
     if (!server) return;
@@ -1304,11 +1376,21 @@ export abstract class BaseScene extends Phaser.Scene {
       const warpTo = this.switchToScene;
       this.switchToScene = undefined;
 
+      let spawn = this.options.player.spawn;
+      if (SPAWNS()[warpTo]) {
+        spawn = SPAWNS()[warpTo][this.sceneId] ?? SPAWNS()[warpTo].default;
+      }
       // This will cause a loop
       // this.registry.get("navigate")(`/world/${warpTo}`);
 
       // this.mmoService?.state.context.server?.send(0, { sceneId: warpTo });
-      this.mmoService?.send("SWITCH_SCENE", { sceneId: warpTo });
+      this.mmoService?.send("SWITCH_SCENE", {
+        sceneId: warpTo,
+        playerCoordinates: {
+          x: spawn.x,
+          y: spawn.y,
+        },
+      });
     }
   }
   updateOtherPlayers() {

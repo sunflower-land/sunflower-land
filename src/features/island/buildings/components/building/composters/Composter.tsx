@@ -5,13 +5,14 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { COMPOSTER_IMAGES, ComposterModal } from "./ComposterModal";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { LiveProgressBar } from "components/ui/ProgressBar";
+import { ProgressBar } from "components/ui/ProgressBar";
 import { MachineState } from "features/game/lib/gameMachine";
 import { BuildingName } from "features/game/types/buildings";
 import { ComposterName } from "features/game/types/composters";
 import { CompostBuilding } from "features/game/types/game";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 const getComposter = (type: BuildingName) => (state: MachineState) =>
   state.context.state.buildings[type]?.[0] as CompostBuilding;
@@ -35,14 +36,23 @@ export const Composter: React.FC<Props> = ({ name }) => {
   const { gameService, showAnimations, showTimers } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
 
-  const [renderKey, setRender] = useState<number>(0);
+  const [_, setRender] = useState<number>(0);
 
   const composter = useSelector(gameService, getComposter(name), compare);
+  const { totalSeconds: secondsLeft } = useCountdown(
+    composter?.producing?.readyAt ?? 0,
+  );
 
-  const ready =
-    !!composter?.producing && composter.producing.readyAt < Date.now();
-  const composting =
-    !!composter?.producing && composter.producing.readyAt > Date.now();
+  const startedAt = composter?.producing?.startedAt ?? 0;
+  const readyAt = composter?.producing?.readyAt ?? 0;
+  const totalRunningSeconds = Math.max((readyAt - startedAt) / 1000, 1);
+  const elapsedSeconds = Math.max(totalRunningSeconds - secondsLeft, 0);
+  const percentage = Math.min(
+    (elapsedSeconds / totalRunningSeconds) * 100,
+    100,
+  );
+  const ready = !!readyAt && secondsLeft <= 0;
+  const composting = secondsLeft > 0;
 
   const startComposter = () => {
     // Simulate delayed closing of lid
@@ -64,7 +74,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
 
     if (
       name === "Compost Bin" &&
-      state.context.state.bumpkin?.activity?.["Compost Bin Collected"] === 1
+      state.context.state.farmActivity["Compost Bin Collected"] === 1
     ) {
       gameAnalytics.trackMilestone({
         event: "Tutorial:Composting:Completed",
@@ -85,7 +95,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
     <>
       <BuildingImageWrapper name={name} onClick={handleClick} ready={ready}>
         <div
-          className="absolute pointer-events-none"
+          className="absolute pointer-events-none bg-black"
           style={{
             width: `${PIXEL_SCALE * width}px`,
             bottom: `${PIXEL_SCALE * 0}px`,
@@ -103,7 +113,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
           />
           {showTimers && composting && composter?.producing?.readyAt && (
             <div
-              className="flex justify-center absolute bg-red-500"
+              className="flex justify-center absolute"
               style={{
                 bottom: "24px",
                 width: `${PIXEL_SCALE * width}px`,
@@ -111,16 +121,14 @@ export const Composter: React.FC<Props> = ({ name }) => {
                 left: `${PIXEL_SCALE * ((32 - width) / 2)}px`,
               }}
             >
-              <LiveProgressBar
-                key={`${renderKey}-${composter?.producing?.readyAt}`}
-                startAt={composter?.producing?.startedAt}
-                endAt={composter?.producing?.readyAt}
+              <ProgressBar
+                percentage={percentage}
+                type="progress"
                 formatLength="short"
-                className="relative"
+                seconds={secondsLeft}
                 style={{
                   width: `${PIXEL_SCALE * 14}px`,
                 }}
-                onComplete={() => setRender((r) => r + 1)}
               />
             </div>
           )}

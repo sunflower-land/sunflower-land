@@ -211,8 +211,8 @@ describe("bulkHarvest", () => {
       },
     });
 
-    expect(newState.bumpkin?.activity?.["Sunflower Harvested"]).toBe(2);
-    expect(newState.bumpkin?.activity?.["Potato Harvested"]).toBe(1);
+    expect(newState.farmActivity["Sunflower Harvested"]).toBe(2);
+    expect(newState.farmActivity["Potato Harvested"]).toBe(1);
   });
 
   it("harvests different crops", () => {
@@ -278,7 +278,7 @@ describe("bulkHarvest", () => {
 
     expect(newState.inventory.Sunflower?.toNumber()).toBeGreaterThan(5);
 
-    expect(newState.bumpkin?.activity?.["Sunflower Harvested"]).toBe(2);
+    expect(newState.farmActivity["Sunflower Harvested"]).toBe(2);
   });
 });
 

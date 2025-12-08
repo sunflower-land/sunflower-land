@@ -17,12 +17,12 @@ import { Box } from "components/ui/Box";
 
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import Decimal from "decimal.js-light";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { secondsToString } from "lib/utils/time";
 import { getObsidianYield } from "features/game/events/landExpansion/collectLavaPit";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { IngredientsPopover } from "components/ui/IngredientsPopover";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _lavaPit = (id: string) => (state: MachineState) =>
@@ -48,8 +48,7 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
   const obsidianYield = useSelector(gameService, _obsidianYield);
   const season = useSelector(gameService, _season);
   const [showIngredients, setShowIngredients] = useState(false);
-
-  useUiRefresher();
+  const now = useNow({ live: true });
 
   const throwResourcesIntoPit = () => {
     gameService.send("lavaPit.started", { id });
@@ -61,6 +60,7 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
 
   const { requirements } = getLavaPitRequirements(
     gameService.state.context.state,
+    now,
   );
 
   const hasIngredients = getKeys(requirements).every((itemName) =>
@@ -70,9 +70,9 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
   );
 
   const lavaPitInProgress = lavaPit?.startedAt !== undefined;
-  const timeRemaining = Math.max(0, (lavaPit.readyAt ?? 0) - Date.now());
+  const timeRemaining = Math.max(0, (lavaPit.readyAt ?? 0) - now);
   const canCollect = lavaPitInProgress && timeRemaining <= 0;
-  const wasRecentlyCollected = Date.now() - (lavaPit?.collectedAt ?? 0) < 1000;
+  const wasRecentlyCollected = now - (lavaPit?.collectedAt ?? 0) < 1000;
 
   return (
     <CloseButtonPanel

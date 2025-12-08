@@ -1,13 +1,12 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { BuildingName } from "features/game/types/buildings";
 import { Bar, ResizableBar } from "components/ui/ProgressBar";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useSelector } from "@xstate/react";
 import { MoveableComponent } from "features/island/collectibles/MovableComponent";
 import { MachineState } from "features/game/lib/gameMachine";
-import { Context, useGame } from "features/game/GameProvider";
+import { Context } from "features/game/GameProvider";
 import { BUILDING_COMPONENTS, READONLY_BUILDINGS } from "./BuildingComponents";
 import { CookableName } from "features/game/types/consumables";
 import { GameState, TemperateSeasonName } from "features/game/types/game";
@@ -25,7 +24,6 @@ import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe
 import { gameAnalytics } from "lib/gameAnalytics";
 import tornadoIcon from "assets/icons/tornado.webp";
 import tsunamiIcon from "assets/icons/tsunami.webp";
-import { secondsToString } from "lib/utils/time";
 import {
   getActiveCalendarEvent,
   SeasonalEventName,
@@ -34,6 +32,8 @@ import {
   isBuildingUpgradable,
   makeUpgradableBuildingKey,
 } from "features/game/events/landExpansion/upgradeBuilding";
+import { useNow } from "lib/utils/hooks/useNow";
+import { WeatherAffectedModal } from "features/island/plots/components/AffectedModal";
 
 interface Prop {
   name: BuildingName;
@@ -70,20 +70,15 @@ const InProgressBuilding: React.FC<Prop> = ({
   season,
 }) => {
   const { gameService, showAnimations, showTimers } = useContext(Context);
-
   const BuildingPlaced = BUILDING_COMPONENTS[name];
 
-  const [showModal, setShowModal] = useState(false);
+  const now = useNow({ live: true, autoEndAt: readyAt });
+  const [showModal, setShowModal] = useState(
+    now - createdAt < 1000 ? true : false,
+  );
 
   const totalSeconds = (readyAt - createdAt) / 1000;
-  const secondsLeft = (readyAt - Date.now()) / 1000;
-
-  useEffect(() => {
-    // Just built, open up building state
-    if (Date.now() - createdAt < 1000) {
-      setShowModal(true);
-    }
-  }, []);
+  const { totalSeconds: secondsLeft } = useCountdown(readyAt ?? 0);
 
   const isUpgradable = useSelector(gameService, _isUpgradable(name));
 
@@ -176,42 +171,19 @@ const DestroyedBuilding: React.FC<
   const BuildingPlaced = BUILDING_COMPONENTS[name];
 
   const { t } = useAppTranslation();
-
   const [showModal, setShowModal] = useState(false);
-
   const game = gameService.getSnapshot().context.state;
 
   return (
     <>
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <CloseButtonPanel onClose={() => setShowModal(false)}>
-          <div className="p-2">
-            <Label
-              icon={DESTROYED_BUILDING_ICONS[calendarEvent]}
-              type="danger"
-              className="mb-1 -ml-1"
-            >
-              {t(calendarEvent)}
-            </Label>
-            <p className="text-sm">
-              {t(`${calendarEvent}.building.destroyed.description`)}
-            </p>
-            <Label
-              icon={SUNNYSIDE.icons.stopwatch}
-              type="transparent"
-              className="mt-2 ml-1"
-            >
-              {`Ready in: ${secondsToString(
-                24 * 60 * 60 -
-                  (Date.now() - game.calendar[calendarEvent]!.startedAt) / 1000,
-                {
-                  length: "medium",
-                },
-              )}`}
-            </Label>
-          </div>
-        </CloseButtonPanel>
-      </Modal>
+      <WeatherAffectedModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        icon={DESTROYED_BUILDING_ICONS[calendarEvent]}
+        title={t(calendarEvent)}
+        description={t(`${calendarEvent}.building.destroyed.description`)}
+        startedAt={game.calendar[calendarEvent]!.startedAt}
+      />
 
       <div
         className="w-full h-full cursor-pointer"
@@ -283,6 +255,17 @@ export function isBuildingDestroyed({
   return false;
 }
 
+const _destroyedBy = (name: BuildingName) => (state: MachineState) => {
+  const calendarEvent = getActiveCalendarEvent({
+    calendar: state.context.state.calendar,
+  });
+  if (!calendarEvent) {
+    return false;
+  }
+
+  return isBuildingDestroyed({ name, calendar: state.context.state.calendar });
+};
+
 const BuildingComponent: React.FC<Prop> = ({
   name,
   id,
@@ -296,19 +279,12 @@ const BuildingComponent: React.FC<Prop> = ({
   island,
   season,
 }) => {
-  const { showTimers } = useContext(Context);
-  const { gameState } = useGame();
+  const { gameService } = useContext(Context);
   const BuildingPlaced = BUILDING_COMPONENTS[name];
+  const now = useNow({ live: true, autoEndAt: readyAt });
+  const inProgress = readyAt > now;
 
-  const inProgress = readyAt > Date.now();
-
-  const destroyedBy = useMemo(
-    () =>
-      isBuildingDestroyed({ name, calendar: gameState.context.state.calendar }),
-    [gameState.context.state.calendar],
-  );
-
-  useUiRefresher({ active: inProgress });
+  const destroyedBy = useSelector(gameService, _destroyedBy(name));
 
   if (destroyedBy) {
     return (
@@ -359,20 +335,30 @@ const BuildingComponent: React.FC<Prop> = ({
 };
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
-const _gameState = (state: MachineState) => state.context.state;
+const _island = (state: MachineState) => state.context.state.island;
+const _season = (state: MachineState) => state.context.state.season.season;
+const _henHouseLevel = (state: MachineState) =>
+  state.context.state.henHouse.level;
+const _barnLevel = (state: MachineState) => state.context.state.barn.level;
 
 const MoveableBuilding: React.FC<Prop> = (props) => {
   const { gameService } = useContext(Context);
-  const gameState = useSelector(gameService, _gameState);
-  const BuildingPlaced = useMemo(
-    () => READONLY_BUILDINGS(gameState)[props.name],
-    [props.name],
-  );
-
+  const island = useSelector(gameService, _island);
+  const season = useSelector(gameService, _season);
+  const henHouseLevel = useSelector(gameService, _henHouseLevel);
+  const barnLevel = useSelector(gameService, _barnLevel);
   const landscaping = useSelector(gameService, isLandscaping);
-  if (landscaping) {
-    const inProgress = props.readyAt > Date.now();
+  const BuildingPlaced = READONLY_BUILDINGS({
+    island,
+    season,
+    henHouseLevel,
+    barnLevel,
+  })[props.name];
 
+  const now = useNow(); // just capture "now" once
+  const inProgress = props.readyAt > now;
+
+  if (landscaping) {
     // In Landscaping mode, use readonly building
     return (
       <MoveableComponent
@@ -410,7 +396,7 @@ export const Constructing: React.FC<{
 }> = ({ state, onClose, onInstantBuilt, readyAt, createdAt, name }) => {
   const { t } = useAppTranslation();
   const totalSeconds = (readyAt - createdAt) / 1000;
-  const secondsTillReady = (readyAt - Date.now()) / 1000;
+  const { totalSeconds: secondsTillReady } = useCountdown(readyAt ?? 0);
 
   const { days, ...ready } = useCountdown(readyAt ?? 0);
 

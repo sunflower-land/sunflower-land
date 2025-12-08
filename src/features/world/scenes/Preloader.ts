@@ -45,7 +45,7 @@ export abstract class Preloader extends Phaser.Scene {
 
       this.load.image(
         "seasonal-tileset",
-        `${CONFIG.PROTECTED_IMAGE_URL}/world/seasonal-map-extruded.png`,
+        `${CONFIG.PROTECTED_IMAGE_URL}/world/seasonal-map-extruded.png?t=1`,
       );
 
       this.load.image(
@@ -61,11 +61,6 @@ export abstract class Preloader extends Phaser.Scene {
       this.load.image(
         "easter-tileset",
         `${CONFIG.PROTECTED_IMAGE_URL}/world/easter-map-extruded.png`,
-      );
-
-      this.load.image(
-        "halloween_island_tileset",
-        `world/halloween_island_assets/halloween_island_tileset.png`,
       );
 
       this.load.image("speech_bubble", "world/speech_bubble.png");

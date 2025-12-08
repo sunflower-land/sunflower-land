@@ -12,6 +12,7 @@ import { Save } from "./components/Save";
 import { Settings } from "./components/Settings";
 import { TravelButton } from "./components/deliveries/TravelButton";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
+import { VersionUpdateWidget } from "./components/VersionUpdateWidget";
 import { HudContainer } from "components/ui/HudContainer";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -152,6 +153,9 @@ const HudComponent: React.FC<Props> = ({
           <StreamCountdown />
           <FloatingIslandCountdown />
           <AuctionCountdown />
+          {hasFeatureAccess(state, "VERSION_UPDATES") && (
+            <VersionUpdateWidget />
+          )}
         </div>
 
         {/* Right side of the HUD*/}

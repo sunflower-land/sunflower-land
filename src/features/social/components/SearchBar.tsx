@@ -29,11 +29,6 @@ const useDebouncedValue = (value: string, delay: number) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(() => {
-    if (value.length === 0) {
-      setDebouncedValue("");
-      return;
-    }
-
     const handler = setTimeout(() => setDebouncedValue(value), delay);
 
     return () => clearTimeout(handler);
@@ -51,7 +46,7 @@ export const SearchBar: React.FC<Props> = ({ onSearchResults, context }) => {
   const [results, setResults] = useState<Detail[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const controllerRef = useRef<AbortController>();
+  const controllerRef = useRef<AbortController>(undefined);
   const currentRequestRef = useRef<string>("");
 
   const farmId = useSelector(gameService, _farmId);

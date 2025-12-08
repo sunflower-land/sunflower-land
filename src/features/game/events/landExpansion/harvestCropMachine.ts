@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import {
   BoostName,
   CriticalHitName,
@@ -96,9 +96,9 @@ export function harvestCropMachine({
         : getPackYieldAmount(stateCopy, pack);
 
     stateCopy.inventory[pack.crop] = cropsInInventory.add(amount);
-    bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       `${pack.crop} Harvested`,
-      bumpkin.activity,
+      stateCopy.farmActivity,
       new Decimal(pack.seeds),
     );
 

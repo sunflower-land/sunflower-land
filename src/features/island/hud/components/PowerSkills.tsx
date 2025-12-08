@@ -27,9 +27,13 @@ import {
 import { SkillSquareIcon } from "features/bumpkins/components/revamp/SkillSquareIcon";
 import { getSkillImage } from "features/bumpkins/components/revamp/SkillPathDetails";
 import tradeOffs from "src/assets/icons/tradeOffs.png";
-import { powerSkillDisabledConditions } from "features/game/events/landExpansion/skillUsed";
+import {
+  getSkillCooldown,
+  powerSkillDisabledConditions,
+} from "features/game/events/landExpansion/skillUsed";
 import { getRelativeTime, millisecondsToString } from "lib/utils/time";
 import { ConfirmButton } from "components/ui/ConfirmButton";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface PowerSkillsProps {
   onHide: () => void;
@@ -69,6 +73,7 @@ const PowerSkillsContent: React.FC<{
   const state = useSelector(gameService, _state);
   const { bumpkin, crops, fruitPatches, inventory } = state;
   const { skills, previousPowerUseAt } = bumpkin;
+  const now = useNow();
 
   const powerSkills = getPowerSkills();
   const powerSkillsUnlocked = powerSkills.filter(
@@ -125,9 +130,7 @@ const PowerSkillsContent: React.FC<{
               skillName === "Sprout Surge" ? "Sprout Mix" : "Rapid Root",
           });
 
-          if (
-            state.context.state.bumpkin?.activity?.["Crop Fertilised"] === 1
-          ) {
+          if (state.context.state.farmActivity?.["Crop Fertilised"] === 1) {
             gameAnalytics.trackMilestone({
               event: "Tutorial:Fertilised:Completed",
             });
@@ -148,9 +151,10 @@ const PowerSkillsContent: React.FC<{
     }
   };
 
-  const nextSkillUse = (previousPowerUseAt?.[skillName] ?? 0) + (cooldown ?? 0);
+  const boostedCooldown = getSkillCooldown({ cooldown: cooldown ?? 0, state });
 
-  const powerSkillReady = nextSkillUse < Date.now();
+  const nextSkillUse = (previousPowerUseAt?.[skillName] ?? 0) + boostedCooldown;
+  const powerSkillReady = nextSkillUse < now;
 
   const { disabled, reason } = powerSkillDisabledConditions({
     state,
@@ -268,7 +272,7 @@ const PowerSkillsContent: React.FC<{
                   className="mb-2"
                 >
                   {t("powerSkills.nextUse", {
-                    time: getRelativeTime(nextSkillUse, "medium"),
+                    time: getRelativeTime(nextSkillUse, now, "medium"),
                   })}
                 </Label>
               ) : (
@@ -290,7 +294,7 @@ const PowerSkillsContent: React.FC<{
                       {t("powerSkills.ready")}
                     </Label>
                   )}
-                  {cooldown && (
+                  {!!boostedCooldown && (
                     // If power skill has a cooldown, show the cooldown
                     <Label
                       type="info"
@@ -298,7 +302,7 @@ const PowerSkillsContent: React.FC<{
                       className="mb-2"
                     >
                       {t("skill.cooldown", {
-                        cooldown: millisecondsToString(cooldown, {
+                        cooldown: millisecondsToString(boostedCooldown, {
                           length: "short",
                           isShortFormat: true,
                           removeTrailingZeros: true,

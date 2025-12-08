@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 
-import { getTimeLeft } from "lib/utils/time";
 import { PlantedFruit } from "features/game/types/game";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { useNow } from "lib/utils/hooks/useNow";
 import { PATCH_FRUIT_SEEDS, PATCH_FRUIT } from "features/game/types/fruits";
 import { FruitSoil } from "./FruitSoil";
 
@@ -22,7 +21,10 @@ type FruitTreeStatus = {
   timeLeft?: number;
 };
 
-const getFruitTreeStatus = (plantedFruit?: PlantedFruit): FruitTreeStatus => {
+const getFruitTreeStatus = (
+  plantedFruit: PlantedFruit | undefined,
+  now: number,
+): FruitTreeStatus => {
   // No fruits planted
   if (!plantedFruit) return { stage: "Empty" };
 
@@ -34,23 +36,27 @@ const getFruitTreeStatus = (plantedFruit?: PlantedFruit): FruitTreeStatus => {
   const { seed } = PATCH_FRUIT[name];
   const { plantSeconds } = PATCH_FRUIT_SEEDS[seed];
 
-  if (harvestedAt) {
-    const replenishingTimeLeft = getTimeLeft(harvestedAt, plantSeconds);
+  const growMsTotal = plantSeconds * 1000;
 
-    // Replenishing tree
-    if (replenishingTimeLeft > 0) {
-      return { stage: "Replenishing", timeLeft: replenishingTimeLeft };
+  // If the tree has been harvested and still has harvests left, it may be replenishing.
+  if (harvestedAt) {
+    const replenishMsLeft = harvestedAt + growMsTotal - now;
+    const replenishSecondsLeft = replenishMsLeft / 1000;
+
+    if (replenishSecondsLeft > 0) {
+      return { stage: "Replenishing", timeLeft: replenishSecondsLeft };
     }
   }
 
-  const growingTimeLeft = getTimeLeft(plantedAt, plantSeconds);
+  // Otherwise, it may still be growing from the original planting time.
+  const growMsLeft = plantedAt + growMsTotal - now;
+  const growSecondsLeft = growMsLeft / 1000;
 
-  // Seedling
-  if (growingTimeLeft > 0) {
-    return { stage: "Seedling", timeLeft: growingTimeLeft };
+  if (growSecondsLeft > 0) {
+    return { stage: "Seedling", timeLeft: growSecondsLeft };
   }
 
-  // Replenished tree
+  // Fully grown and ready to harvest.
   return { stage: "Replenished" };
 };
 
@@ -77,8 +83,8 @@ export const FruitTree: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
   const island = useSelector(gameService, _island);
-  const treeStatus = getFruitTreeStatus(plantedFruit);
-  useUiRefresher({ active: !!treeStatus.timeLeft });
+  const now = useNow({ live: !!plantedFruit });
+  const treeStatus = getFruitTreeStatus(plantedFruit, now);
 
   // Empty plot
   if (!plantedFruit) {

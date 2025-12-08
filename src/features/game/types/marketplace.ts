@@ -5,6 +5,8 @@ import { TRADE_LIMITS } from "../actions/tradeLimits";
 import { hasVipAccess } from "../lib/vipAccess";
 import { isTemporaryCollectibleActive } from "../lib/collectibleBuilt";
 import { PetNFTName } from "./pets";
+import { setPrecision } from "lib/utils/formatNumber";
+import Decimal from "decimal.js-light";
 
 // 10% tax on sales
 export const MARKETPLACE_TAX = 0.1;
@@ -14,16 +16,28 @@ export const TRADE_INITIATION_MS = 15 * 60 * 1000;
 
 export type CollectionName = "collectibles" | "wearables" | "buds" | "pets";
 
-export type Tradeable = {
-  id: number;
-  floor: number;
-  lastSalePrice: number;
-  supply: number;
-  collection: CollectionName;
-  isActive: boolean;
-  isVip: boolean;
-  expiresAt?: number;
-};
+export type Tradeable =
+  | {
+      id: number;
+      floor: number;
+      lastSalePrice: number;
+      isActive: boolean;
+      isVip: boolean;
+      supply: number | undefined;
+      collection: Exclude<CollectionName, "pets">;
+      expiresAt?: number;
+    }
+  | {
+      id: number;
+      floor: number;
+      lastSalePrice: number;
+      isActive: boolean;
+      isVip: boolean;
+      supply: number | undefined;
+      collection: Extract<CollectionName, "pets">;
+      expiresAt?: number;
+      experience?: number;
+    };
 
 export type Offer = {
   tradeId: string;
@@ -287,16 +301,16 @@ const ISLAND_RESOURCE_TAXES: Record<IslandType, number> = {
   volcano: 0.15,
 };
 
-export function getResourceTax({ game }: { game: GameState }): number {
-  let tax = ISLAND_RESOURCE_TAXES[game.island.type];
+export function getResourceTax({ game }: { game: GameState }) {
+  let tax = new Decimal(ISLAND_RESOURCE_TAXES[game.island.type]);
 
   if (hasVipAccess({ game })) {
-    tax *= 0.5;
+    tax = tax.mul(0.5);
   }
 
   if (isTemporaryCollectibleActive({ name: "Trading Shrine", game })) {
-    tax -= 2.5;
+    tax = tax.sub(0.025);
   }
 
-  return tax;
+  return setPrecision(tax, 4);
 }

@@ -1,12 +1,18 @@
 import Decimal from "decimal.js-light";
 import { Recipe, RecipeIngredient, Recipes } from "features/game/lib/crafting";
-import { BoostName, GameState } from "features/game/types/game";
+import {
+  BoostName,
+  GameState,
+  InventoryItemName,
+} from "features/game/types/game";
 import { produce } from "immer";
 import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { isTemporaryCollectibleActive } from "features/game/lib/collectibleBuilt";
-import { COMPETITION_POINTS } from "features/game/types/competitions";
+import { KNOWN_IDS } from "features/game/types";
+import { ITEM_IDS, BumpkinItem } from "features/game/types/bumpkin";
+import { prngChance } from "lib/prng";
 
 export type StartCraftingAction = {
   type: "crafting.started";
@@ -16,20 +22,43 @@ export type StartCraftingAction = {
 type Options = {
   state: Readonly<GameState>;
   action: StartCraftingAction;
+  farmId: number;
   createdAt?: number;
 };
 
 export function getBoostedCraftingTime({
   game,
   time,
-  createdAt = Date.now(),
+  farmId,
+  itemId,
+  counter,
 }: {
   game: GameState;
   time: number;
-  createdAt?: number;
+  farmId: number;
+  itemId: number;
+  counter: number;
 }) {
   let seconds = time;
   const boostsUsed: BoostName[] = [];
+
+  if (isTemporaryCollectibleActive({ name: "Fox Shrine", game })) {
+    boostsUsed.push("Fox Shrine");
+    if (
+      prngChance({
+        farmId,
+        itemId,
+        counter,
+        chance: 10,
+        criticalHitName: "Fox Shrine",
+      })
+    ) {
+      seconds *= 0;
+      return { seconds, boostsUsed };
+    } else {
+      seconds *= 0.75;
+    }
+  }
 
   // Sol & Luna 50% Crafting Speed
   if (isWearableActive({ name: "Sol & Luna", game })) {
@@ -40,14 +69,6 @@ export function getBoostedCraftingTime({
   if (isWearableActive({ name: "Architect Ruler", game })) {
     seconds *= 0.75;
     boostsUsed.push("Architect Ruler");
-  }
-
-  if (
-    isTemporaryCollectibleActive({ name: "Fox Shrine", game }) &&
-    createdAt > COMPETITION_POINTS.BUILDING_FRIENDSHIPS.endAt
-  ) {
-    seconds *= 0.75;
-    boostsUsed.push("Fox Shrine");
   }
 
   if (
@@ -68,6 +89,7 @@ export function getBoostedCraftingTime({
 export function startCrafting({
   state,
   action,
+  farmId,
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (copy) => {
@@ -142,7 +164,12 @@ export function startCrafting({
     const { seconds: recipeTime, boostsUsed } = getBoostedCraftingTime({
       game: state,
       time: recipe.time,
-      createdAt,
+      farmId,
+      itemId:
+        recipe.type === "collectible"
+          ? KNOWN_IDS[recipe.name as InventoryItemName]
+          : ITEM_IDS[recipe.name as BumpkinItem],
+      counter: state.farmActivity[`${recipe.name} Crafted`] ?? 0,
     });
 
     copy.craftingBox = {
@@ -155,7 +182,7 @@ export function startCrafting({
           : { wearable: recipe.name },
       recipes: {
         ...copy.craftingBox.recipes,
-        [recipe.name]: recipe,
+        [recipe.name]: { ...recipe },
       },
     };
 

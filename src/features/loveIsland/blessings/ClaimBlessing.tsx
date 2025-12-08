@@ -19,6 +19,7 @@ import { Box } from "components/ui/Box";
 import { formatNumber } from "lib/utils/formatNumber";
 import { ITEM_DETAILS } from "features/game/types/images";
 import coins from "assets/icons/coins.webp";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 interface Props {
   onClose: () => void;
@@ -32,6 +33,9 @@ export const ClaimBlessingReward: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
 
   const { offered, reward } = gameState.context.state.blessing;
+  const { totalSeconds: secondsToReady } = useCountdown(
+    offered!.offeredAt + GUARDIAN_PENDING_MS,
+  );
 
   const seekBlessing = () => {
     gameService.send("blessing.seeked", {
@@ -58,11 +62,6 @@ export const ClaimBlessingReward: React.FC<Props> = ({ onClose }) => {
   const isReady = blessingIsReady({ game: gameState.context.state });
 
   if (!isReady) {
-    const offeredDate = new Date(offered!.offeredAt).toISOString().slice(0, 10);
-
-    const readyIn =
-      new Date(offeredDate).getTime() + GUARDIAN_PENDING_MS - Date.now();
-
     return (
       <div>
         <Label type="default" className="mb-1">
@@ -74,7 +73,7 @@ export const ClaimBlessingReward: React.FC<Props> = ({ onClose }) => {
           icon={SUNNYSIDE.icons.stopwatch}
           className="ml-4 my-2"
         >
-          {secondsToString(readyIn / 1000, { length: "medium" })}{" "}
+          {secondsToString(secondsToReady, { length: "medium" })}{" "}
           {t("blessing.left")}
         </Label>
         <Button onClick={onClose}>{t("close")}</Button>

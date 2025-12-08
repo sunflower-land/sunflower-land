@@ -22,6 +22,7 @@ import {
   secondsToString,
 } from "lib/utils/time";
 import { ChestRewardsList } from "components/ui/ChestRewardsList";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   onClose: () => void;
@@ -59,6 +60,7 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
     { icon: chestIcon, name: t("budBox.title") },
     { icon: rewardsIcon, name: t("chestRewardsList.rewardsTitle") },
   ];
+  const now = useNow();
 
   // Just a prolonged UI state to show the shuffle of items animation
   const [isPicking, setIsPicking] = useState(false);
@@ -103,8 +105,6 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
   }
 
   const buds = getKeys(gameState.context.state.buds ?? {});
-
-  const now = Date.now();
 
   const playerBudTypes = buds.map((id) => {
     const bud = gameState.context.state.buds?.[id] as Bud;

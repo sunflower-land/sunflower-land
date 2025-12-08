@@ -35,8 +35,7 @@ export const PetShopModal: React.FC = () => {
   );
   const craftedCount = useSelector(
     gameService,
-    (state) =>
-      state.context.state.bumpkin.activity[`${selectedItem} Crafted`] ?? 0,
+    (state) => state.context.state.farmActivity[`${selectedItem} Crafted`] ?? 0,
   );
   const { ingredients, coins, limit, inventoryLimit, disabled } =
     selectedItemDetails;

@@ -2,38 +2,88 @@ import { prng } from "./prng";
 
 describe("prng", () => {
   it("returns a value between 0 and 1", () => {
-    const result = prng(1);
-    expect(result.value).toBeGreaterThanOrEqual(0);
-    expect(result.value).toBeLessThan(1);
-  });
-
-  it("should return the next seed between -2^31 and 2^31 - 1", () => {
-    const result = prng(1);
-    expect(result.nextSeed).toBeGreaterThanOrEqual(-(2 ** 31));
-    expect(result.nextSeed).toBeLessThan(2 ** 31 - 1);
+    const result = prng({
+      farmId: 1,
+      itemId: 2,
+      counter: 3,
+      criticalHitName: "Green Amulet",
+    });
+    expect(result).toBeGreaterThanOrEqual(0);
+    expect(result).toBeLessThan(1);
   });
 
   it("should return two different values for two different seeds", () => {
-    const result1 = prng(1);
-    const result2 = prng(2);
-    expect(result1.value).not.toBe(result2.value);
-  });
-
-  it("should return two different nextSeeds for two different seeds", () => {
-    const result1 = prng(1);
-    const result2 = prng(2);
-    expect(result1.nextSeed).not.toBe(result2.nextSeed);
+    const result1 = prng({
+      farmId: 1,
+      itemId: 2,
+      counter: 3,
+      criticalHitName: "Green Amulet",
+    });
+    const result2 = prng({
+      farmId: 2,
+      itemId: 2,
+      counter: 3,
+      criticalHitName: "Green Amulet",
+    });
+    expect(result1).not.toBe(result2);
   });
 
   it("should return the same value for the same seed", () => {
-    const result = prng(1);
-    const result2 = prng(1);
-    expect(result.value).toBe(result2.value);
+    const result = prng({
+      farmId: 1,
+      itemId: 2,
+      counter: 3,
+      criticalHitName: "Green Amulet",
+    });
+    const result2 = prng({
+      farmId: 1,
+      itemId: 2,
+      counter: 3,
+      criticalHitName: "Green Amulet",
+    });
+    expect(result).toBe(result2);
   });
 
-  it("should return the same nextSeed for the same seed", () => {
-    const result = prng(1);
-    const result2 = prng(1);
-    expect(result.nextSeed).toBe(result2.nextSeed);
+  it("should reliably produce different values for different farmIds", () => {
+    const itemId = 5;
+    const counter = 10;
+    const numFarmIds = 10000;
+    const results = new Set<number>();
+    const values: number[] = [];
+
+    // Test many different farmIds
+    for (let farmId = 1; farmId <= numFarmIds; farmId++) {
+      const result = prng({
+        farmId,
+        itemId,
+        counter,
+        criticalHitName: "Green Amulet",
+      });
+      results.add(result);
+      values.push(result);
+    }
+
+    // All values should be unique (no collisions)
+    expect(results.size).toBe(numFarmIds);
+
+    // Values should be well-distributed across [0, 1)
+    // Check that values span a reasonable range
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    expect(max - min).toBeGreaterThan(0.5); // Should span at least half the range
+
+    // Check distribution: values should be spread across different buckets
+    const buckets = 10;
+    const bucketCounts = new Array(buckets).fill(0);
+    values.forEach((value) => {
+      const bucket = Math.floor(value * buckets);
+      bucketCounts[bucket] += 1;
+    });
+
+    // Each bucket should have some values (at least 1% of total)
+    const minExpectedPerBucket = numFarmIds * 0.01;
+    bucketCounts.forEach((count) => {
+      expect(count).toBeGreaterThan(minExpectedPerBucket);
+    });
   });
 });

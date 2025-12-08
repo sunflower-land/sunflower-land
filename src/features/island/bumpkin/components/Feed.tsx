@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
 
 import { Box } from "components/ui/Box";
@@ -27,7 +27,6 @@ interface Props {
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _game = (state: MachineState) => state.context.state;
-const _buds = (state: MachineState) => state.context.state.buds;
 
 export const Feed: React.FC<Props> = ({ food }) => {
   const [selected, setSelected] = useState<Consumable | undefined>(food[0]);
@@ -36,17 +35,23 @@ export const Feed: React.FC<Props> = ({ food }) => {
   const inventory = useSelector(gameService, _inventory);
   const bumpkin = useSelector(gameService, _bumpkin);
   const game = useSelector(gameService, _game);
-  const buds = useSelector(gameService, _buds);
   const { t } = useAppTranslation();
-  useEffect(() => {
-    if (food.length) {
-      setSelected(food[0]);
-    } else {
-      setSelected(undefined);
-    }
-  }, [food.length]);
+  // Derive the "active" selected food from the current props so that
+  // we never point at a food item that is no longer available.
+  const activeSelected =
+    food.find((item) => item.name === selected?.name) ?? food[0];
 
-  if (!selected) {
+  const inventoryFoodCount = activeSelected
+    ? (inventory[activeSelected.name] ?? new Decimal(0))
+    : new Decimal(0);
+
+  const feedVerb = activeSelected
+    ? isJuice(activeSelected.name)
+      ? t("drink")
+      : t("eat")
+    : "";
+
+  if (!activeSelected) {
     return (
       <InnerPanel>
         <div className="flex flex-col p-2">
@@ -70,13 +75,13 @@ export const Feed: React.FC<Props> = ({ food }) => {
   }
 
   const feed = (amount: number) => {
-    if (!selected) return;
+    if (!activeSelected) return;
 
     const previousExperience = bumpkin?.experience ?? 0;
     let previousLevel: number = getBumpkinLevel(bumpkin?.experience ?? 0);
 
     const newState = gameService.send("bumpkin.feed", {
-      food: selected.name,
+      food: activeSelected.name,
       amount,
     });
 
@@ -98,19 +103,16 @@ export const Feed: React.FC<Props> = ({ food }) => {
     }
   };
 
-  const inventoryFoodCount = inventory[selected.name] ?? new Decimal(0);
-  const feedVerb = isJuice(selected.name) ? "Drink" : "Eat";
-
   return (
     <SplitScreenView
       panel={
         <FeedBumpkinDetails
           details={{
-            item: selected.name,
+            item: activeSelected.name,
           }}
           properties={{
             xp: getFoodExpBoost({
-              food: selected,
+              food: activeSelected,
               game,
             }).boostedExp,
           }}
@@ -138,7 +140,7 @@ export const Feed: React.FC<Props> = ({ food }) => {
         <>
           {food.map((item) => (
             <Box
-              isSelected={selected.name === item.name}
+              isSelected={activeSelected?.name === item.name}
               key={item.name}
               onClick={() => setSelected(item)}
               image={ITEM_DETAILS[item.name].image}

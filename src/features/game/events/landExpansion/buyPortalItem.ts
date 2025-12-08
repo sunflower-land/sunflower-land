@@ -3,7 +3,7 @@ import { GameState } from "features/game/types/game";
 
 import { produce } from "immer";
 
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import {
   EventShopItemName,
   isEventShopCollectible,
@@ -25,15 +25,11 @@ type Options = {
   createdAt?: number;
 };
 
-export function buyEventShopItem({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options): GameState {
+export function buyEventShopItem({ state, action }: Options): GameState {
   return produce(state, (stateCopy) => {
     const { name } = action;
 
-    const { bumpkin, minigames, balance } = stateCopy;
+    const { minigames, balance } = stateCopy;
 
     const minigame = minigames.games[action.id] ?? {
       history: {},
@@ -129,9 +125,9 @@ export function buyEventShopItem({
 
     minigames.games[action.id] = minigame;
 
-    stateCopy.bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       `${name} Bought`,
-      stateCopy.bumpkin.activity,
+      stateCopy.farmActivity,
     );
 
     return stateCopy;

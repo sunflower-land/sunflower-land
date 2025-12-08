@@ -15,8 +15,8 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 const TomatoBombardSpriteSheet = ({ open }: { open: boolean }) => {
   const { scale } = useContext(ZoomContext);
   const [showSpritesheet, setShowSpritesheet] = useState(false);
-  const tomatofire = useRef<SpriteSheetInstance>();
-  const tomatoidle = useRef<SpriteSheetInstance>();
+  const tomatofire = useRef<SpriteSheetInstance>(undefined);
+  const tomatoidle = useRef<SpriteSheetInstance>(undefined);
 
   const boom = () => {
     const isPlaying = tomatofire.current?.getInfo("isPlaying");
@@ -29,6 +29,7 @@ const TomatoBombardSpriteSheet = ({ open }: { open: boolean }) => {
 
   useEffect(() => {
     if (open) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       boom();
     }
   }, [open]);

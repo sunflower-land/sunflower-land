@@ -571,20 +571,26 @@ describe("time", () => {
     });
 
     it("should return 0 if elapsed", () => {
-      expect(getTimeLeft(getTimestamp("2022-04-15T11:00:00"), ONE_DAY)).toBe(0);
-      expect(getTimeLeft(getTimestamp("2022-04-16T00:00:00"), ONE_DAY)).toBe(0);
+      const now = Date.now();
+      expect(
+        getTimeLeft(getTimestamp("2022-04-15T11:00:00"), ONE_DAY, now),
+      ).toBe(0);
+      expect(
+        getTimeLeft(getTimestamp("2022-04-16T00:00:00"), ONE_DAY, now),
+      ).toBe(0);
     });
 
     it("should return correct time left", () => {
-      expect(getTimeLeft(getTimestamp("2022-04-16T01:00:00"), ONE_DAY)).toBe(
-        ONE_HR,
-      );
-      expect(getTimeLeft(getTimestamp("2022-04-16T23:59:30"), ONE_MIN)).toBe(
-        30 * ONE_SEC,
-      );
-      expect(getTimeLeft(getTimestamp("2022-04-16T23:30:00"), ONE_HR)).toBe(
-        30 * ONE_MIN,
-      );
+      const now = Date.now();
+      expect(
+        getTimeLeft(getTimestamp("2022-04-16T01:00:00"), ONE_DAY, now),
+      ).toBe(ONE_HR);
+      expect(
+        getTimeLeft(getTimestamp("2022-04-16T23:59:30"), ONE_MIN, now),
+      ).toBe(30 * ONE_SEC);
+      expect(
+        getTimeLeft(getTimestamp("2022-04-16T23:30:00"), ONE_HR, now),
+      ).toBe(30 * ONE_MIN);
     });
 
     afterAll(() => {
@@ -595,35 +601,35 @@ describe("time", () => {
   describe("getRelativeTime", () => {
     it('returns "now" for the current timestamp', () => {
       const now = new Date();
-      const result = getRelativeTime(now.getTime());
+      const result = getRelativeTime(now.getTime(), now.getTime());
       expect(result).toEqual("now");
     });
 
     it("returns a string indicating the number of seconds ago for timestamps within the past minute", () => {
       const now = new Date();
       const pastTimestamp = now.getTime() - 5000; // 5 seconds ago
-      const result = getRelativeTime(pastTimestamp);
+      const result = getRelativeTime(pastTimestamp, now.getTime());
       expect(result).toMatch("5 seconds ago");
     });
 
     it("returns a string indicating the number of minutes ago for timestamps within the past hour", () => {
       const now = new Date();
       const pastTimestamp = now.getTime() - 300000; // 5 minutes ago
-      const result = getRelativeTime(pastTimestamp);
+      const result = getRelativeTime(pastTimestamp, now.getTime());
       expect(result).toMatch("5 minutes ago");
     });
 
     it("returns a string indicating the number of hours ago for timestamps within the past day", () => {
       const now = new Date();
       const pastTimestamp = now.getTime() - 7200000; // 2 hours ago
-      const result = getRelativeTime(pastTimestamp);
+      const result = getRelativeTime(pastTimestamp, now.getTime());
       expect(result).toMatch("2 hours ago");
     });
 
     it("returns a string indicating the number of days ago for timestamps older than a day", () => {
       const now = new Date();
       const pastTimestamp = now.getTime() - 604800000; // 7 days ago
-      const result = getRelativeTime(pastTimestamp);
+      const result = getRelativeTime(pastTimestamp, now.getTime());
       expect(result).toMatch("7 days ago");
     });
   });
@@ -731,44 +737,52 @@ describe("time", () => {
     // New tests for future times
     it('returns "now" for the current timestamp', () => {
       const now = new Date();
-      const result = getRelativeTime(now.getTime());
+      const result = getRelativeTime(now.getTime(), now.getTime());
       expect(result).toEqual("now");
     });
 
     it("returns a string indicating the number of seconds in the future", () => {
       const now = new Date();
       const futureTimestamp = now.getTime() + 5000; // 5 seconds in future
-      const result = getRelativeTime(futureTimestamp);
+      const result = getRelativeTime(futureTimestamp, now.getTime());
       expect(result).toMatch("in 5 seconds");
     });
 
     it("returns a string indicating the number of minutes in the future", () => {
       const now = new Date();
       const futureTimestamp = now.getTime() + 300000; // 5 minutes in future
-      const result = getRelativeTime(futureTimestamp);
+      const result = getRelativeTime(futureTimestamp, now.getTime());
       expect(result).toMatch("in 5 minutes");
     });
 
     it("returns a string indicating the number of hours in the future", () => {
       const now = new Date();
       const futureTimestamp = now.getTime() + 7200000; // 2 hours in future
-      const result = getRelativeTime(futureTimestamp);
+      const result = getRelativeTime(futureTimestamp, now.getTime());
       expect(result).toMatch("in 2 hours");
     });
 
     it("returns a string indicating the number of days in the future", () => {
       const now = new Date();
       const futureTimestamp = now.getTime() + 604800000; // 7 days in future
-      const result = getRelativeTime(futureTimestamp);
+      const result = getRelativeTime(futureTimestamp, now.getTime());
       expect(result).toMatch("in 7 days");
     });
 
     it("handles singular units correctly for future times", () => {
       const now = new Date();
-      expect(getRelativeTime(now.getTime() + 1000)).toMatch("in 1 second");
-      expect(getRelativeTime(now.getTime() + 60000)).toMatch("in 1 minute");
-      expect(getRelativeTime(now.getTime() + 3600000)).toMatch("in 1 hour");
-      expect(getRelativeTime(now.getTime() + 86400000)).toMatch("in 1 day");
+      expect(getRelativeTime(now.getTime() + 1000, now.getTime())).toMatch(
+        "in 1 second",
+      );
+      expect(getRelativeTime(now.getTime() + 60000, now.getTime())).toMatch(
+        "in 1 minute",
+      );
+      expect(getRelativeTime(now.getTime() + 3600000, now.getTime())).toMatch(
+        "in 1 hour",
+      );
+      expect(getRelativeTime(now.getTime() + 86400000, now.getTime())).toMatch(
+        "in 1 day",
+      );
     });
 
     // Test both past and future in same test suite
@@ -776,12 +790,20 @@ describe("time", () => {
       const now = new Date();
 
       // Past times
-      expect(getRelativeTime(now.getTime() - 5000)).toMatch("5 seconds ago");
-      expect(getRelativeTime(now.getTime() - 120000)).toMatch("2 minutes ago");
+      expect(getRelativeTime(now.getTime() - 5000, now.getTime())).toMatch(
+        "5 seconds ago",
+      );
+      expect(getRelativeTime(now.getTime() - 120000, now.getTime())).toMatch(
+        "2 minutes ago",
+      );
 
       // Future times
-      expect(getRelativeTime(now.getTime() + 5000)).toMatch("in 5 seconds");
-      expect(getRelativeTime(now.getTime() + 120000)).toMatch("in 2 minutes");
+      expect(getRelativeTime(now.getTime() + 5000, now.getTime())).toMatch(
+        "in 5 seconds",
+      );
+      expect(getRelativeTime(now.getTime() + 120000, now.getTime())).toMatch(
+        "in 2 minutes",
+      );
     });
 
     // Edge cases
@@ -789,12 +811,16 @@ describe("time", () => {
       const now = new Date();
 
       // Very small differences (less than a second)
-      expect(getRelativeTime(now.getTime() + 100)).toBe("now");
-      expect(getRelativeTime(now.getTime() - 100)).toBe("now");
+      expect(getRelativeTime(now.getTime() + 100, now.getTime())).toBe("now");
+      expect(getRelativeTime(now.getTime() - 100, now.getTime())).toBe("now");
 
       // Exactly one unit
-      expect(getRelativeTime(now.getTime() + 60000)).toMatch("in 1 minute");
-      expect(getRelativeTime(now.getTime() - 60000)).toMatch("1 minute ago");
+      expect(getRelativeTime(now.getTime() + 60000, now.getTime())).toMatch(
+        "in 1 minute",
+      );
+      expect(getRelativeTime(now.getTime() - 60000, now.getTime())).toMatch(
+        "1 minute ago",
+      );
     });
   });
 });

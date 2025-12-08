@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSpring, animated } from "react-spring";
 
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -202,16 +202,29 @@ export const AnimatedBar: React.FC<{
   type: ProgressType;
   shouldWrap?: boolean;
 }> = ({ percentage, type, shouldWrap = true }) => {
-  const prevWidth = useRef(percentage);
+  const [prevPercentage, setPrevPercentage] = useState(
+    Math.min(percentage, 100),
+  );
+  const clampedPercentage = Math.min(percentage, 100);
+
+  // Detect if we need to wrap (percentage decreased)
+  const shouldReset = shouldWrap && prevPercentage > clampedPercentage;
 
   const { width } = useSpring({
-    width: Math.min(percentage, 100),
+    from: { width: shouldReset ? 0 : undefined },
+    to: { width: clampedPercentage },
     config: {
       tension: 120,
       friction: 30,
       clamp: true,
     },
+    reset: shouldReset,
   });
+
+  // Track previous percentage for wrap detection
+  useEffect(() => {
+    setPrevPercentage(clampedPercentage);
+  }, [clampedPercentage]);
 
   return (
     <div
@@ -267,7 +280,7 @@ export const AnimatedBar: React.FC<{
           top: `${PIXEL_SCALE * DIMENSIONS.marginTop}px`,
           left: `${PIXEL_SCALE * DIMENSIONS.marginLeft}px`,
           height: `${PIXEL_SCALE * DIMENSIONS.innerHeight}px`,
-          width: width.to(
+          width: width?.to(
             (w) => `${(PIXEL_SCALE * DIMENSIONS.innerWidth * w) / 100}px`,
           ),
         }}
@@ -279,14 +292,8 @@ export const AnimatedBar: React.FC<{
           top: `${PIXEL_SCALE * DIMENSIONS.marginTop}px`,
           left: `${PIXEL_SCALE * DIMENSIONS.marginLeft}px`,
           height: `${PIXEL_SCALE * DIMENSIONS.innerHeight}px`,
-          width: width.to((w) => {
-            // wrap the width to 0 if the previous width is greater than the current width
-            if (prevWidth.current > w && shouldWrap) {
-              width.set(0);
-            }
-
-            prevWidth.current = w;
-
+          // Remove the state setters from this transformation callback
+          width: width?.to((w) => {
             return `${(PIXEL_SCALE * DIMENSIONS.innerWidth * w) / 100}px`;
           }),
         }}
@@ -340,56 +347,5 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
         <Bar percentage={percentage} type={type} />
       </div>
     </div>
-  );
-};
-
-interface LiveProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
-  startAt: number;
-  endAt: number;
-  formatLength: TimeFormatLength;
-  onComplete: () => void;
-  type?: ProgressBarProps["type"];
-}
-
-/**
- * A progress bar which re-renders it's own timer
- * This avoids parents needing to render on their own
- */
-export const LiveProgressBar: React.FC<LiveProgressBarProps> = ({
-  startAt,
-  endAt,
-  formatLength,
-  onComplete,
-  type = "progress",
-  ...divProps
-}) => {
-  const [secondsLeft, setSecondsLeft] = useState((endAt - Date.now()) / 1000);
-
-  const totalSeconds = (endAt - startAt) / 1000;
-  const percentage = (100 * (totalSeconds - secondsLeft)) / totalSeconds;
-
-  const active = endAt >= startAt;
-
-  useEffect(() => {
-    if (active) {
-      const interval = setInterval(() => {
-        setSecondsLeft((endAt - Date.now()) / 1000);
-
-        if (Date.now() > endAt) {
-          onComplete();
-        }
-      }, 1000);
-      return () => clearInterval(interval);
-    }
-  }, [active]);
-
-  return (
-    <ProgressBar
-      seconds={secondsLeft}
-      formatLength={formatLength}
-      percentage={percentage}
-      type={type}
-      {...divProps}
-    />
   );
 };

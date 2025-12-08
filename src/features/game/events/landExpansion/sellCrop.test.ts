@@ -152,7 +152,7 @@ describe("sell", () => {
       },
     });
 
-    expect(state.bumpkin?.activity?.["Coins Earned"]).toEqual(
+    expect(state.farmActivity["Coins Earned"]).toEqual(
       CROPS.Cauliflower.sellPrice,
     );
   });
@@ -190,7 +190,7 @@ describe("sell", () => {
         amount,
       },
     });
-    expect(state.bumpkin?.activity?.["Apple Sold"]).toEqual(amount);
+    expect(state.farmActivity["Apple Sold"]).toEqual(amount);
   });
 
   it("sells tomato for two times the normal price during La Tomatina", () => {

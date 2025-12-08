@@ -656,7 +656,7 @@ describe("fruitPlanted", () => {
         seed: "Apple Seed",
       },
     });
-    expect(state.bumpkin?.activity?.["Apple Seed Planted"]).toEqual(amount);
+    expect(state.farmActivity["Apple Seed Planted"]).toEqual(amount);
   });
 });
 

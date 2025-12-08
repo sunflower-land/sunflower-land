@@ -20,6 +20,7 @@ import { CALEDNAR_EVENT_INFORMATION } from "./WeatherGuide";
 import { SpecialEvents } from "./WeatherGuide";
 import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useNow } from "lib/utils/hooks/useNow";
 
 type Props = {
   season: TemperateSeasonName;
@@ -89,7 +90,7 @@ export const SeasonDaySpecialEvent: React.FC<{
   timestamp: number;
 }> = ({ event, timestamp }) => {
   const { t } = useAppTranslation();
-
+  const now = useNow();
   const { name } = event;
   const title =
     name === "calendar"
@@ -117,7 +118,7 @@ export const SeasonDaySpecialEvent: React.FC<{
           {title}
         </Label>
         <Label type="info" secondaryIcon={SUNNYSIDE.icons.stopwatch}>
-          {getRelativeTime(timestamp, "medium")}
+          {getRelativeTime(timestamp, now, "medium")}
         </Label>
       </div>
 

@@ -5,13 +5,10 @@ import {
   updateBeehives,
 } from "features/game/lib/updateBeehives";
 import { getKeys } from "features/game/types/craftables";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
-import {
-  isTemporaryCollectibleActive,
-  isCollectibleBuilt,
-} from "features/game/lib/collectibleBuilt";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export const HARVEST_BEEHIVE_ERRORS = {
@@ -90,11 +87,6 @@ export const getHoneyMultiplier = (game: GameState) => {
     boostsUsed.push("King of Bears");
   }
 
-  if (isTemporaryCollectibleActive({ name: "Bear Shrine", game })) {
-    multiplier += 0.5;
-    boostsUsed.push("Bear Shrine");
-  }
-
   return { multiplier, boostsUsed };
 };
 
@@ -162,9 +154,9 @@ export function harvestBeehive({
       createdAt,
     });
 
-    stateCopy.bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       `Honey Harvested`,
-      stateCopy.bumpkin?.activity,
+      stateCopy.farmActivity,
       new Decimal(totalHoneyProduced),
     );
 

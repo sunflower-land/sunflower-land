@@ -4,7 +4,7 @@ export const useScrollToBottom = (): {
   scrollContainerRef: (node: HTMLDivElement | null) => void;
   scrollToBottom: () => void;
   scrolledToBottom: boolean;
-  isScrolledToBottomRef: React.RefObject<boolean>;
+  isScrolledToBottomRef: React.RefObject<boolean | null>;
   scrollNode: HTMLDivElement | null;
 } => {
   const containerRef = useRef<HTMLDivElement | null>(null);

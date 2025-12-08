@@ -10,7 +10,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/craftables";
 import { CROPS } from "features/game/types/crops";
-import { Bumpkin } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import { CROP_SHORTAGE_HOURS } from "features/game/expansion/lib/boosts";
 import { MARKET_VARIANTS } from "features/island/lib/alternateArt";
 import { Label } from "components/ui/Label";
@@ -22,6 +22,7 @@ import shadow from "assets/npcs/shadow.png";
 import lightning from "assets/icons/lightning.png";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getCurrentBiome } from "features/island/biomes/biomes";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 const _season = (state: MachineState) => state.context.state.season.season;
 
@@ -33,23 +34,15 @@ const _specialEvents = (state: MachineState) =>
     )
     .filter(([, specialEvent]) => (specialEvent?.startAt ?? 0) < Date.now());
 
-const hasSoldCropsBefore = (bumpkin?: Bumpkin) => {
-  if (!bumpkin) return false;
-
-  const { activity = {} } = bumpkin;
-
+const hasSoldCropsBefore = (farmActivity: GameState["farmActivity"]) => {
   return !!getKeys(CROPS).find((crop) =>
-    getKeys(activity).includes(`${crop} Sold`),
+    getKeys(farmActivity).includes(`${crop} Sold`),
   );
 };
 
-const hasBoughtCropsBefore = (bumpkin?: Bumpkin) => {
-  if (!bumpkin) return false;
-
-  const { activity = {} } = bumpkin;
-
+const hasBoughtCropsBefore = (farmActivity: GameState["farmActivity"]) => {
   return !!getKeys(CROPS).find((crop) =>
-    getKeys(activity).includes(`${crop} Seed Bought`),
+    getKeys(farmActivity).includes(`${crop} Seed Bought`),
   );
 };
 
@@ -89,20 +82,22 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, island }) => {
     }
   };
 
-  const hasSoldBefore = hasSoldCropsBefore(gameState.context.state.bumpkin);
+  const hasSoldBefore = hasSoldCropsBefore(
+    gameState.context.state.farmActivity,
+  );
   const showBuyHelper =
-    !hasBoughtCropsBefore(gameState.context.state.bumpkin) && !!hasSoldBefore;
+    !hasBoughtCropsBefore(gameState.context.state.farmActivity) &&
+    !!hasSoldBefore;
 
   const showHelper =
-    gameState.context.state.bumpkin?.activity?.["Sunflower Harvested"] === 9 &&
-    !gameState.context.state.bumpkin?.activity?.["Sunflower Sold"];
+    gameState.context.state.farmActivity["Sunflower Harvested"] === 9 &&
+    !gameState.context.state.farmActivity["Sunflower Sold"];
 
-  const cropShortageSecondsLeft =
-    (gameState.context.state.createdAt +
-      CROP_SHORTAGE_HOURS * 60 * 60 * 1000 -
-      Date.now()) /
-    1000;
-  const isCropShortage = cropShortageSecondsLeft >= 0;
+  const { totalSeconds: cropShortageSecondsLeft } = useCountdown(
+    gameState.context.state.createdAt + CROP_SHORTAGE_HOURS * 60 * 60 * 1000,
+  );
+
+  const isCropShortage = cropShortageSecondsLeft > 0;
 
   const specialEventDetails = specialEvents[0];
 

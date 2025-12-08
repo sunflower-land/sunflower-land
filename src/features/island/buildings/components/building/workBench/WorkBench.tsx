@@ -17,7 +17,7 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 const needsHelp = (state: MachineState) => {
   const missingScarecrow =
     !state.context.state.inventory["Basic Scarecrow"] &&
-    (state.context.state.bumpkin?.activity?.["Sunflower Planted"] ?? 0) >= 6 &&
+    (state.context.state.farmActivity?.["Sunflower Planted"] ?? 0) >= 6 &&
     !state.context.state.inventory["Sunflower Seed"]?.gt(0);
 
   if (missingScarecrow) {

@@ -77,7 +77,7 @@ const _state = (state: MachineState) => state.context.state;
 
 export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const { t } = useAppTranslation();
-  const spriteRef = useRef<SpriteSheetInstance>();
+  const spriteRef = useRef<SpriteSheetInstance>(undefined);
   const didRefresh = useRef(false);
 
   const [showReelLabel, setShowReelLabel] = useState(false);

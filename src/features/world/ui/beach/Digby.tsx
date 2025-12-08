@@ -44,6 +44,7 @@ import {
 } from "features/game/types/seasons";
 import { ChestRewardsList } from "components/ui/ChestRewardsList";
 import { ModalOverlay } from "components/ui/ModalOverlay";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export function hasReadDigbyIntro() {
   return !!localStorage.getItem("digging.intro");
@@ -156,6 +157,8 @@ export const DailyPuzzle: React.FC = () => {
   const [isPicking, setIsPicking] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
 
+  const now = useNow();
+
   const { patterns, completedPatterns = [] } =
     gameState.context.state.desert.digging;
   const streak = gameState.context.state.desert.digging.streak ?? {
@@ -175,7 +178,7 @@ export const DailyPuzzle: React.FC = () => {
 
   const streakCount = getStreaks({
     game: gameState.context.state,
-    now: Date.now(),
+    now,
   });
 
   const open = async () => {

@@ -116,7 +116,7 @@ describe("craftTool", () => {
       },
     });
 
-    expect(state.bumpkin?.activity?.["Axe Crafted"]).toBe(1);
+    expect(state.farmActivity["Axe Crafted"]).toBe(1);
   });
 
   it("increments Coins spent when axe is crafted", () => {
@@ -132,7 +132,7 @@ describe("craftTool", () => {
       },
     });
 
-    expect(state.bumpkin?.activity?.["Coins Spent"]).toEqual(20);
+    expect(state.farmActivity["Coins Spent"]).toEqual(20);
   });
 
   it("does not craft a tool that has a required island expansion that the player has not reached", () => {

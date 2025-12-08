@@ -74,7 +74,7 @@ export const Tools: React.FC = () => {
       amount,
     });
 
-    if (state.context.state.bumpkin?.activity?.["Axe Crafted"] === 1) {
+    if (state.context.state.farmActivity?.["Axe Crafted"] === 1) {
       gameAnalytics.trackMilestone({
         event: "Tutorial:AxeCrafted:Completed",
       });

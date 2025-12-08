@@ -117,7 +117,7 @@ export function startComposter({
     const composter = buildings[0];
     const { producing } = composter;
 
-    if (producing && producing.readyAt > createdAt) {
+    if (producing) {
       throw new Error(translate("error.alr.composter"));
     }
 

@@ -31,13 +31,14 @@ type TimeObject = {
     hours?: number;
     minutes: number;
     seconds: number;
+    totalSeconds?: number;
   };
   fontSize?: number;
   color?: string;
 };
 
 export const TimerDisplay = ({ time, fontSize, color }: TimeObject) => {
-  let timeKeys = getKeys(time);
+  let timeKeys = getKeys(time).filter((key) => key !== "totalSeconds");
 
   // remove day keys if days is 0
   if (time.days === 0) {

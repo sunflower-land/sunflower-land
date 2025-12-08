@@ -7,7 +7,7 @@ import {
   TemperateSeasonName,
 } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React from "react";
+import React, { type JSX } from "react";
 import { Label } from "../Label";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
@@ -205,8 +205,8 @@ export const SeedRequirements: React.FC<Props> = ({
                 icon={
                   isCropMachineSeed
                     ? SUNNYSIDE.building.cropMachine
-                    : PLANTING_SPOT_ICONS[SEEDS[details.item].plantingSpot] ??
-                      SUNNYSIDE.icons.expression_confused
+                    : (PLANTING_SPOT_ICONS[SEEDS[details.item].plantingSpot] ??
+                      SUNNYSIDE.icons.expression_confused)
                 }
                 width={14}
               />

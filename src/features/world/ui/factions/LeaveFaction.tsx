@@ -6,6 +6,7 @@ import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import mark from "assets/icons/faction_mark.webp";
 import Decimal from "decimal.js-light";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export const LeaveFaction: React.FC<{
   game: GameState;
@@ -13,12 +14,12 @@ export const LeaveFaction: React.FC<{
   onLeave: () => void;
 }> = ({ game, onClose, onLeave }) => {
   const { t } = useAppTranslation();
+  const now = useNow();
 
   const emblem = FACTION_EMBLEMS[game.faction!.name];
   const hasEmblems = (game.inventory[emblem] ?? new Decimal(0)).gt(0);
   const marks = game.inventory.Mark;
-  const isNew =
-    Date.now() - (game.faction?.pledgedAt ?? 0) < 24 * 60 * 60 * 1000;
+  const isNew = now - (game.faction?.pledgedAt ?? 0) < 24 * 60 * 60 * 1000;
   const hasEmblemsListed = Object.values(game.trades.listings ?? {}).some(
     (listing) => (listing.items[emblem] ?? 0) > 0,
   );

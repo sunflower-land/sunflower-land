@@ -8,7 +8,7 @@ import {
   TemperateSeasonName,
 } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React from "react";
+import React, { type JSX } from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
@@ -96,7 +96,7 @@ export const InventoryItemDetails: React.FC<Props> = ({
       ITEM_ICONS(game.season.season, getCurrentBiome(game.island), hasLevel)[
         details.item
       ] ?? item.image;
-    const title = details.item;
+    const title = item.translatedName ?? details.item;
 
     let description = item.description;
 

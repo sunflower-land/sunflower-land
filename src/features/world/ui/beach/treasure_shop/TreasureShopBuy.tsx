@@ -35,6 +35,7 @@ import { Keys } from "features/game/types/game";
 import { isMobile } from "mobile-device-detect";
 import { Restock } from "features/island/buildings/components/building/market/restock/Restock";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface ToolContentProps {
   selectedName: TreasureToolName;
@@ -329,7 +330,7 @@ export const TreasureShopBuy: React.FC = () => {
   const isKey = (name: ArtefactShopItems): name is Keys =>
     name in ARTEFACT_SHOP_KEYS;
 
-  const now = Date.now();
+  const now = useNow();
   const shopCollectibles = getKeys(TREASURE_COLLECTIBLE_ITEM).filter(
     (itemName) =>
       (TREASURE_COLLECTIBLE_ITEM[itemName].from?.getTime() ?? 0) <= now &&

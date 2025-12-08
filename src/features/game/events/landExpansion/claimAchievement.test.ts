@@ -100,9 +100,9 @@ describe("claim achievements", () => {
           ...INITIAL_BUMPKIN,
           experience,
           achievements: undefined,
-          activity: {
-            "Sunflower Harvested": 10000,
-          },
+        },
+        farmActivity: {
+          "Sunflower Harvested": 10000,
         },
       },
       action: {

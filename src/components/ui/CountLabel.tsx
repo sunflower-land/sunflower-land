@@ -10,7 +10,7 @@ interface CountLabelProps {
   labelType?: LabelType;
   rightShiftPx: number;
   topShiftPx: number;
-  parentDivRef?: React.RefObject<HTMLElement>;
+  parentDivRef?: React.RefObject<HTMLElement | null>;
 }
 
 export const CountLabel: React.FC<CountLabelProps> = ({

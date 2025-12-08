@@ -47,13 +47,38 @@ describe("skillUse", () => {
           bumpkin: {
             ...INITIAL_FARM.bumpkin,
             skills: { "Instant Growth": 1 },
-            previousPowerUseAt: { "Instant Growth": dateNow },
+            previousPowerUseAt: {
+              "Instant Growth": dateNow - 1000 * 60 * 60 * 24 * 2,
+            },
           },
         },
         action: { type: "skill.used", skill: "Instant Growth" },
         createdAt: dateNow,
       });
     }).toThrow("Power Skill on Cooldown");
+  });
+
+  it("requires the skill to be off cooldown if Luna's Crescent is equipped", () => {
+    expect(() => {
+      skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Instant Growth": 1 },
+            equipped: {
+              ...INITIAL_FARM.bumpkin.equipped,
+              tool: "Luna's Crescent",
+            },
+            previousPowerUseAt: {
+              "Instant Growth": dateNow - 1000 * 60 * 60 * 24 * 1.5,
+            },
+          },
+        },
+        action: { type: "skill.used", skill: "Instant Growth" },
+        createdAt: dateNow,
+      });
+    }).not.toThrow("Power Skill on Cooldown");
   });
 
   it("adds the power.useAt to the bumpkin", () => {
@@ -908,7 +933,6 @@ describe("skillUse", () => {
                     boost: {
                       Oil: 0.125,
                     },
-                    amount: 1,
                     readyAt: dateNow + 5000,
                   },
                 ],
@@ -930,7 +954,6 @@ describe("skillUse", () => {
                     boost: {
                       Oil: 1,
                     },
-                    amount: 1,
                     readyAt: dateNow + 6000,
                   },
                 ],
@@ -973,22 +996,18 @@ describe("skillUse", () => {
                   {
                     name: "Mashed Potato",
                     readyAt: now,
-                    amount: 1,
                   },
                   {
                     name: "Rhubarb Tart",
                     readyAt: now + RHUBARB_TIME,
-                    amount: 1,
                   },
                   {
                     name: "Rhubarb Tart",
                     readyAt: now + RHUBARB_TIME * 2,
-                    amount: 1,
                   },
                   {
                     name: "Mashed Potato",
                     readyAt: now + RHUBARB_TIME * 2 + POTATO_TIME,
-                    amount: 1,
                   },
                 ],
               },

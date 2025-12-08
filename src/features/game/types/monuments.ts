@@ -2,9 +2,10 @@ import Decimal from "decimal.js-light";
 import { Decoration, getKeys } from "./decorations";
 import { GameState, InventoryItemName } from "./game";
 import { ClutterName } from "./clutter";
-import { hasHitSocialPetLimit, PetName, PetNFTName } from "./pets";
+import { PetName, PetNFTName } from "./pets";
+import { isCollectibleBuilt } from "../lib/collectibleBuilt";
 
-type LoveCharmMonumentName =
+type HelpLimitMonumentName =
   | "Farmer's Monument"
   | "Miner's Monument"
   | "Woodcutter's Monument";
@@ -12,7 +13,7 @@ type LoveCharmMonumentName =
 type MegastoreMonumentName = "Teamwork Monument" | "Cornucopia";
 
 export type WorkbenchMonumentName =
-  | LoveCharmMonumentName
+  | HelpLimitMonumentName
   | "Big Orange"
   | "Big Apple"
   | "Big Banana"
@@ -20,8 +21,8 @@ export type WorkbenchMonumentName =
   | "Expert Cooking Pot"
   | "Advanced Cooking Pot";
 
-type LoveCharmMonument = Omit<Decoration, "name"> & {
-  name: LoveCharmMonumentName;
+type HelpLimitMonument = Omit<Decoration, "name"> & {
+  name: HelpLimitMonumentName;
   level?: number;
 };
 
@@ -35,7 +36,7 @@ export type LandscapingMonument = Omit<Decoration, "name"> & {
 };
 
 export type Monument =
-  | LoveCharmMonument
+  | HelpLimitMonument
   | LandscapingMonument
   | MegastoreMonument;
 
@@ -57,9 +58,9 @@ export const MEGASTORE_MONUMENTS: Record<
   },
 };
 
-export const LOVE_CHARM_MONUMENTS: Record<
-  LoveCharmMonumentName,
-  LoveCharmMonument
+export const HELP_LIMIT_MONUMENTS: Record<
+  HelpLimitMonumentName,
+  HelpLimitMonument
 > = {
   "Farmer's Monument": {
     name: "Farmer's Monument",
@@ -90,11 +91,16 @@ export const LOVE_CHARM_MONUMENTS: Record<
   },
 };
 
+export const MONUMENTS = {
+  ...HELP_LIMIT_MONUMENTS,
+  ...MEGASTORE_MONUMENTS,
+};
+
 export const WORKBENCH_MONUMENTS: Record<
   WorkbenchMonumentName,
   LandscapingMonument
 > = {
-  ...LOVE_CHARM_MONUMENTS,
+  ...HELP_LIMIT_MONUMENTS,
   "Big Orange": {
     name: "Big Orange",
     description: "",
@@ -141,7 +147,7 @@ export const WORKBENCH_MONUMENTS: Record<
 
 export type MonumentName =
   | WorkbenchMonumentName
-  | LoveCharmMonumentName
+  | HelpLimitMonumentName
   | MegastoreMonumentName;
 
 export const REQUIRED_CHEERS: Record<MonumentName, number> = {
@@ -160,7 +166,7 @@ export const REQUIRED_CHEERS: Record<MonumentName, number> = {
 
 export type VillageProjectName = Exclude<
   WorkbenchMonumentName,
-  LoveCharmMonumentName
+  HelpLimitMonumentName
 >;
 
 export const REWARD_ITEMS: Record<
@@ -195,6 +201,19 @@ export const REWARD_ITEMS: Record<
     amount: 2,
   },
 };
+
+export function isMonumentComplete({
+  game,
+  monument,
+}: {
+  game: GameState;
+  monument: MonumentName;
+}) {
+  return (
+    (game.socialFarming.villageProjects?.[monument]?.cheers ?? 0) >=
+    REQUIRED_CHEERS[monument]
+  );
+}
 
 export function isHelpComplete({ game }: { game: GameState }) {
   return getHelpRequired({ game }).totalCount <= 0;
@@ -267,7 +286,6 @@ export function getHelpRequired({ game }: { game: GameState }) {
       if (!pet) return acc;
 
       if (pet.visitedAt) return acc;
-      if (hasHitSocialPetLimit(pet)) return acc;
 
       const isPetPlacedOnLand = !!collectibles[name]?.some(
         (item) => !!item.coordinates,
@@ -306,7 +324,7 @@ export function getHelpRequired({ game }: { game: GameState }) {
       const pet = pets?.nfts?.[id];
       if (!pet) return acc;
 
-      if (hasHitSocialPetLimit(pet)) return acc;
+      if (pet.visitedAt) return acc;
 
       if (pet.location === "farm") {
         acc.pendingLandNftPets = [...acc.pendingLandNftPets, pet.name];
@@ -363,6 +381,58 @@ export function getHelpRequired({ game }: { game: GameState }) {
       },
     },
   };
+}
+
+export const HELP_LIMIT = 5;
+
+export function getHelpLimit({
+  game,
+  now = new Date(),
+}: {
+  game: GameState;
+  now?: Date;
+}) {
+  let limit = HELP_LIMIT;
+
+  const monuments = {
+    ...HELP_LIMIT_MONUMENTS,
+  };
+
+  getKeys(monuments).forEach((monument) => {
+    if (
+      isMonumentComplete({ game, monument }) &&
+      isCollectibleBuilt({ name: monument, game })
+    ) {
+      limit += 1;
+    }
+  });
+
+  if (
+    isCollectibleBuilt({ name: "Teamwork Monument", game }) &&
+    isMonumentComplete({ game, monument: "Teamwork Monument" })
+  ) {
+    limit += 1;
+  }
+
+  // Get all the increases for the current UTC date
+  const increases =
+    game.socialFarming?.helpIncrease?.boughtAt.filter(
+      (date) =>
+        new Date(date).toISOString().split("T")[0] ===
+        now.toISOString().split("T")[0],
+    )?.length ?? 0;
+
+  return limit + increases;
+}
+
+export function hasHitHelpLimit({
+  game,
+  totalHelpedToday,
+}: {
+  game: GameState;
+  totalHelpedToday: number;
+}) {
+  return totalHelpedToday >= getHelpLimit({ game });
 }
 
 export const RAFFLE_REWARDS: Partial<

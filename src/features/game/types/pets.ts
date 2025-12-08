@@ -5,8 +5,8 @@ import { CookableName } from "./consumables";
 import { getObjectEntries } from "../expansion/lib/utils";
 import { InventoryItemName } from "./game";
 import { Coordinates } from "../expansion/components/MapPlacement";
-import { COMPETITION_POINTS } from "./competitions";
 import { PetTraits } from "features/pets/data/types";
+import { CONFIG } from "lib/config";
 
 export const SOCIAL_PET_XP_PER_HELP = 5;
 export const SOCIAL_PET_DAILY_XP_LIMIT = 50;
@@ -59,25 +59,31 @@ export type CommonPetType =
   | "Hamster"
   | "Penguin";
 
-export type PetNFTType =
-  | "Ram"
-  | "Dragon"
-  | "Phoenix"
-  | "Griffin"
-  | "Warthog"
-  | "Wolf"
-  | "Bear";
+export const PET_NFT_TYPES = [
+  "Ram",
+  "Dragon",
+  "Phoenix",
+  "Griffin",
+  "Warthog",
+  "Wolf",
+  "Bear",
+] as const;
+
+export type PetNFTType = (typeof PET_NFT_TYPES)[number];
 
 export type PetType = CommonPetType | PetNFTType;
 
-export type PetCategoryName =
-  | "Guardian"
-  | "Hunter"
-  | "Voyager"
-  | "Beast"
-  | "Moonkin"
-  | "Snowkin"
-  | "Forager";
+export const PET_CATEGORY_NAMES = [
+  "Guardian",
+  "Hunter",
+  "Voyager",
+  "Beast",
+  "Moonkin",
+  "Snowkin",
+  "Forager",
+] as const;
+
+export type PetCategoryName = (typeof PET_CATEGORY_NAMES)[number];
 
 export type PetResourceName =
   | "Acorn"
@@ -106,6 +112,7 @@ export type Pet = {
   energy: number;
   experience: number;
   pettedAt: number;
+  cheeredAt?: number; // Used to determine if a pet has been cheered up
   dailySocialXP?: {
     [date: string]: number;
   };
@@ -120,6 +127,7 @@ export type PetNFT = Omit<Pet, "name"> & {
   coordinates?: Coordinates;
   location?: PlaceableLocation;
   traits?: PetTraits;
+  walking?: boolean;
 };
 
 export type PetNFTs = Record<number, PetNFT>;
@@ -174,39 +182,39 @@ export const PET_CATEGORIES: Record<PetType, PetCategory> = {
   },
 
   // NFT Pet Types
-  Ram: {
+  Dragon: {
     primary: "Snowkin",
     secondary: "Guardian",
-    tertiary: "Forager",
-  },
-  Dragon: {
-    primary: "Hunter",
-    secondary: "Moonkin",
     tertiary: "Voyager",
+  },
+  Ram: {
+    primary: "Hunter",
+    secondary: "Voyager",
+    tertiary: "Moonkin",
   },
   Phoenix: {
     primary: "Moonkin",
-    secondary: "Voyager",
-    tertiary: "Hunter",
+    secondary: "Beast",
+    tertiary: "Guardian",
   },
   Griffin: {
     primary: "Voyager",
-    secondary: "Hunter",
+    secondary: "Forager",
     tertiary: "Beast",
   },
   Warthog: {
     primary: "Beast",
-    secondary: "Forager",
-    tertiary: "Guardian",
+    secondary: "Snowkin",
+    tertiary: "Hunter",
   },
   Wolf: {
     primary: "Guardian",
-    secondary: "Snowkin",
-    tertiary: "Moonkin",
+    secondary: "Hunter",
+    tertiary: "Forager",
   },
   Bear: {
     primary: "Forager",
-    secondary: "Beast",
+    secondary: "Moonkin",
     tertiary: "Snowkin",
   },
 };
@@ -354,16 +362,14 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
   "Boar Shrine": {
     description: "",
     coins: 0,
-    ingredients: {
-      Acorn: new Decimal(15),
-    },
+    ingredients: { Acorn: new Decimal(15) },
     inventoryLimit: 1,
   },
   "Hound Shrine": {
     description: "",
     coins: 0,
     ingredients: {
-      Acorn: new Decimal(20),
+      Acorn: new Decimal(50),
     },
     inventoryLimit: 1,
   },
@@ -386,7 +392,6 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
       Ribbon: new Decimal(10),
     },
     inventoryLimit: 1,
-    disabled: Date.now() < COMPETITION_POINTS.BUILDING_FRIENDSHIPS.endAt,
   },
   "Toucan Shrine": {
     description: "",
@@ -668,15 +673,19 @@ export function getPetLevel(currentTotalExperience: number) {
 
 export function isPetNeglected(
   pet: Pet | PetNFT | undefined,
-  createdAt: number = Date.now(),
+  createdAt: number,
 ) {
   if (!pet) {
     return false;
   }
 
+  if (pet.experience <= 0) {
+    return false;
+  }
+
   const PET_NEGLECT_DAYS = isPetNFT(pet) ? 7 : 3;
 
-  const lastFedAt = pet.requests.fedAt;
+  const lastFedAt = Math.max(pet.requests.fedAt, pet.cheeredAt ?? 0); // To use cheeredAt or fedAt, whichever is more recent
   const lastFedAtDate = new Date(lastFedAt).toISOString().split("T")[0];
   const todayDate = new Date(createdAt).toISOString().split("T")[0];
   const daysSinceLastFedMs =
@@ -687,10 +696,7 @@ export function isPetNeglected(
 
 const PET_NAP_HOURS = 2;
 
-export function isPetNapping(
-  pet: Pet | PetNFT | undefined,
-  createdAt: number = Date.now(),
-) {
+export function isPetNapping(pet: Pet | PetNFT | undefined, createdAt: number) {
   if (!pet) return false;
   const pettedAt = pet.pettedAt;
   const hoursSincePetted = (createdAt - pettedAt) / (1000 * 60 * 60);
@@ -701,12 +707,12 @@ export function isPetOfTypeFed({
   nftPets,
   petType,
   id,
-  now = Date.now(),
+  now,
 }: {
   nftPets: PetNFTs;
   petType: PetNFTType;
   id: number; // This is the id of the pet to exclude from the check
-  now?: number;
+  now: number;
 }) {
   const petsOfType = Object.values(nftPets).filter(
     (pet) => pet.traits?.type === petType,
@@ -714,6 +720,7 @@ export function isPetOfTypeFed({
 
   const isPetOfTypeFed = petsOfType.some((pet) => {
     if (pet.id === id) return false;
+    if (pet.experience <= 0) return false;
     const lastFedAt = pet.requests.fedAt;
     const todayDate = new Date(now).toISOString().split("T")[0];
     const lastFedAtDate = new Date(lastFedAt).toISOString().split("T")[0];
@@ -729,9 +736,9 @@ type PetNFTRevealConfig = {
   endId: number;
 };
 
-const PET_NFT_REVEAL_CONFIG: PetNFTRevealConfig[] = [
+const MAINNET_PET_NFT_REVEAL_CONFIG: PetNFTRevealConfig[] = [
   {
-    revealAt: new Date("2025-11-11T00:00:00.000Z"),
+    revealAt: new Date("2025-11-12T00:00:00.000Z"),
     startId: 1,
     endId: 1000,
   },
@@ -741,14 +748,28 @@ const PET_NFT_REVEAL_CONFIG: PetNFTRevealConfig[] = [
     endId: 1250,
   },
   {
-    revealAt: new Date("2025-11-11T00:00:00.000Z"),
+    revealAt: new Date("2025-11-12T00:00:00.000Z"),
     startId: 2501,
     endId: 3000,
   },
 ];
 
+const TESTNET_PET_NFT_REVEAL_CONFIG: PetNFTRevealConfig[] = [
+  {
+    revealAt: new Date("2025-11-11T00:00:00.000Z"),
+    startId: 1,
+    endId: 1000,
+  },
+];
+
+const getPetNFTRevealConfig = () => {
+  return CONFIG.NETWORK === "mainnet"
+    ? MAINNET_PET_NFT_REVEAL_CONFIG
+    : TESTNET_PET_NFT_REVEAL_CONFIG;
+};
+
 export function isPetNFTRevealed(petId: number, createdAt: number) {
-  return PET_NFT_REVEAL_CONFIG.some(
+  return getPetNFTRevealConfig().some(
     (config) =>
       petId >= config.startId &&
       petId <= config.endId &&
@@ -756,7 +777,7 @@ export function isPetNFTRevealed(petId: number, createdAt: number) {
   );
 }
 export function getPetNFTReleaseDate(petId: number, createdAt: number) {
-  const revealAt = PET_NFT_REVEAL_CONFIG.find(
+  const revealAt = getPetNFTRevealConfig().find(
     (config) => petId >= config.startId && petId <= config.endId,
   )?.revealAt;
 

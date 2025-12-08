@@ -4,7 +4,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { getKeys } from "features/game/types/craftables";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React, { useState } from "react";
+import React, { useState, type JSX } from "react";
 import { Label } from "../Label";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
@@ -28,7 +28,7 @@ import {
   TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
 import {
-  BASIC_RESOURCES_UPGRADES_TO,
+  RESOURCES_UPGRADES_TO,
   ADVANCED_RESOURCES,
   RESOURCES,
   UpgradedResourceName,
@@ -137,7 +137,7 @@ function getDetails(
         ITEM_ICONS(game.season.season, getCurrentBiome(game.island))[
           details.item
         ] ?? ITEM_DETAILS[details.item].image,
-      name: details.item,
+      name: ITEM_DETAILS[details.item].translatedName ?? details.item,
       limit: limit as Decimal,
     };
   }
@@ -204,9 +204,7 @@ export const CraftingRequirements: React.FC<Props> = ({
     hideDescription?: boolean;
   }) => {
     const { image: icon, description, name } = getDetails(gameState, details);
-    const title = details.quantity
-      ? `${details.quantity} x ${details.item}`
-      : name;
+    const title = details.quantity ? `${details.quantity} x ${name}` : name;
 
     return (
       <>
@@ -318,7 +316,7 @@ export const CraftingRequirements: React.FC<Props> = ({
                   stateAccessor(gameState) ?? {},
                 ).filter((resource) => {
                   if (
-                    ingredientName in BASIC_RESOURCES_UPGRADES_TO ||
+                    ingredientName in RESOURCES_UPGRADES_TO ||
                     ingredientName in ADVANCED_RESOURCES
                   ) {
                     // If node is upgradeable, check if it has the same name as the current item
@@ -327,7 +325,7 @@ export const CraftingRequirements: React.FC<Props> = ({
                     }
 
                     // If it has no name, it probably means it's a base resource
-                    return ingredientName in BASIC_RESOURCES_UPGRADES_TO;
+                    return ingredientName in RESOURCES_UPGRADES_TO;
                   }
 
                   return true;

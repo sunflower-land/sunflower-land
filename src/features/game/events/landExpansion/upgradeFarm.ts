@@ -2,10 +2,7 @@ import Decimal from "decimal.js-light";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { TOTAL_EXPANSION_NODES } from "features/game/expansion/lib/expansionNodes";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
-import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
-import { getKeys } from "features/game/lib/crafting";
 import { BuildingName } from "features/game/types/buildings";
-import { CollectibleName } from "features/game/types/craftables";
 import {
   GameState,
   IslandType,
@@ -33,6 +30,7 @@ type Options = {
   state: Readonly<GameState>;
   action: UpgradeFarmAction;
   createdAt?: number;
+  farmId: number;
 };
 
 interface InitialLandCoordinates {
@@ -202,10 +200,12 @@ function placeInitialLand({
   state,
   createdAt = Date.now(),
   initialLandCoordinates,
+  farmId,
 }: {
   state: GameState;
   createdAt?: number;
   initialLandCoordinates: InitialLandCoordinates;
+  farmId: number;
 }) {
   let stateCopy = cloneDeep(state);
 
@@ -224,6 +224,7 @@ function placeInitialLand({
     if (coordinates) {
       try {
         stateCopy = placeBuilding({
+          farmId,
           state: stateCopy,
           action: {
             type: "building.placed",
@@ -397,44 +398,6 @@ export const ISLAND_UPGRADE: Record<
   },
 };
 
-/**
- * Any stale items that are still on the island or home
- */
-export function expireItems({ game }: { game: GameState }) {
-  // iterate and remove any temporary collectibles
-
-  const temporaryCollectibles = getKeys(EXPIRY_COOLDOWNS).reduce(
-    (acc, name) => {
-      const items = game.collectibles[name as CollectibleName] ?? [];
-      const homeItems = game.home.collectibles[name as CollectibleName] ?? [];
-
-      const count = [...items, ...homeItems].length;
-
-      if (count > 0) {
-        return {
-          ...acc,
-          [name]: count,
-        };
-      }
-
-      return acc;
-    },
-    {} as Record<string, number>,
-  );
-
-  if (getKeys(temporaryCollectibles).length > 0) {
-    getKeys(temporaryCollectibles).forEach((name) => {
-      const previous =
-        game.inventory[name as InventoryItemName] ?? new Decimal(0);
-      game.inventory[name as InventoryItemName] = previous.sub(
-        temporaryCollectibles[name],
-      );
-    });
-  }
-
-  return game;
-}
-
 function springUpgrade(state: GameState) {
   const game = cloneDeep(state) as GameState;
   // Clear the house
@@ -590,7 +553,7 @@ export const populateSeason = (createdAt: number): Season => {
   return { startedAt: startAt, season };
 };
 
-export function upgrade({ state, createdAt = Date.now() }: Options) {
+export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
   let game = cloneDeep(state) as GameState;
 
   const upcoming = ISLAND_UPGRADE[game.island.type];
@@ -614,7 +577,6 @@ export function upgrade({ state, createdAt = Date.now() }: Options) {
     game.inventory[name as InventoryItemName] = amount.minus(required);
   });
 
-  game = expireItems({ game });
   // Remove all items from the farm
   try {
     game = removeAll({
@@ -673,6 +635,7 @@ export function upgrade({ state, createdAt = Date.now() }: Options) {
     game.inventory["Basic Land"] = new Decimal(4);
     game = placeInitialLand({
       state: game,
+      farmId,
       createdAt,
       initialLandCoordinates: INITIAL_SPRING_LAND_COORDINATES,
     });
@@ -683,6 +646,7 @@ export function upgrade({ state, createdAt = Date.now() }: Options) {
     game.inventory["Basic Land"] = new Decimal(4);
     game = placeInitialLand({
       state: game,
+      farmId,
       createdAt,
       initialLandCoordinates: INITIAL_DESERT_LAND_COORDINATES,
     });
@@ -693,6 +657,7 @@ export function upgrade({ state, createdAt = Date.now() }: Options) {
     game.inventory["Basic Land"] = new Decimal(5);
     game = placeInitialLand({
       state: game,
+      farmId,
       createdAt,
       initialLandCoordinates: INITIAL_VOLCANO_LAND_COORDINATES,
     });

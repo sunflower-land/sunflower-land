@@ -13,6 +13,7 @@ import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getAuctionItemImage } from "./lib/getAuctionItemDisplay";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const AUCTION_BUFFER_SECONDS = 30;
 
@@ -29,6 +30,9 @@ export const AuctionBid: React.FC<Props> = ({
   const readyAt = auction.endAt + AUCTION_BUFFER_SECONDS * 1000;
   const ready = useCountdown(readyAt);
   const image = getAuctionItemImage(auction);
+  const now = useNow({ live: true, autoEndAt: readyAt });
+  const canCancel = now < auction.endAt;
+  const canReveal = now >= readyAt;
 
   const { t } = useAppTranslation();
 
@@ -68,13 +72,25 @@ export const AuctionBid: React.FC<Props> = ({
       </div>
       <TimerDisplay time={ready} />
 
-      <Button
-        className="mt-2"
-        disabled={readyAt > Date.now()}
-        onClick={() => auctionService.send("CHECK_RESULTS")}
-      >
-        {t("auction.reveal")}
-      </Button>
+      {canCancel && (
+        <Button
+          className="mt-2"
+          disabled={!canCancel}
+          onClick={() => auctionService.send("CANCEL")}
+        >
+          {t("cancel")}
+        </Button>
+      )}
+
+      {canReveal && (
+        <Button
+          className="mt-2"
+          disabled={!canReveal}
+          onClick={() => auctionService.send("CHECK_RESULTS")}
+        >
+          {t("auction.reveal")}
+        </Button>
+      )}
     </div>
   );
 };

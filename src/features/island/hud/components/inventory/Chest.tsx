@@ -57,11 +57,8 @@ import {
 import { PetNFTDetails } from "components/ui/layouts/PetNFTDetails";
 import { getPetImage } from "features/island/pets/lib/petShared";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
-import {
-  LOVE_CHARM_MONUMENTS,
-  MEGASTORE_MONUMENTS,
-  REWARD_ITEMS,
-} from "features/game/types/monuments";
+import { MONUMENTS, REWARD_ITEMS } from "features/game/types/monuments";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -116,6 +113,7 @@ const PanelContent: React.FC<PanelContentProps> = ({
   pets,
 }) => {
   const { t } = useAppTranslation();
+  const now = useNow();
 
   const [confirmationModal, showConfirmationModal] = useState(false);
 
@@ -175,7 +173,7 @@ const PanelContent: React.FC<PanelContentProps> = ({
   if (selectedChestItem.name === "Pet") {
     const petId = Number(selectedChestItem.id);
     const petData = pets[petId];
-    const isRevealed = isPetNFTRevealed(petId, Date.now());
+    const isRevealed = isPetNFTRevealed(petId, now);
 
     return (
       <PetNFTDetails
@@ -374,9 +372,7 @@ export const Chest: React.FC<Props> = ({
   // Sort collectibles by type
   const resources = getKeys(collectibles).filter((name) => name in RESOURCES);
   const buildings = getKeys(collectibles).filter((name) => name in BUILDINGS);
-  const monuments = getKeys(collectibles).filter(
-    (name) => name in { ...LOVE_CHARM_MONUMENTS, ...MEGASTORE_MONUMENTS },
-  );
+  const monuments = getKeys(collectibles).filter((name) => name in MONUMENTS);
   const villageProjects = getKeys(collectibles).filter(
     (name) => name in REWARD_ITEMS,
   );
@@ -631,7 +627,7 @@ interface ItemGroupProps {
   selectedChestItem?: LandscapingPlaceableType;
   onItemClick: (item: LandscapingPlaceableType) => void;
   state: GameState;
-  divRef: React.RefObject<HTMLDivElement>;
+  divRef: React.RefObject<HTMLDivElement | null>;
 }
 
 const ItemGroup: React.FC<ItemGroupProps> = ({

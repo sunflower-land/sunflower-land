@@ -6,12 +6,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import helpIcon from "assets/icons/help.webp";
 import { Context, useGame } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
-import {
-  ButtonPanel,
-  InnerPanel,
-  OuterPanel,
-  Panel,
-} from "components/ui/Panel";
+import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -72,7 +67,7 @@ import { Loading } from "features/auth/components";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { FarmHelped } from "features/island/hud/components/FarmHelped";
-import { INSTA_GROW_PRICES } from "features/game/events/landExpansion/instaGrowProject";
+import { getPartialInstantGrowPrice } from "features/game/events/landExpansion/instaGrowProject";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 
 export const PROJECT_IMAGES: Record<
@@ -140,57 +135,6 @@ export const PROJECT_IMAGES: Record<
     halfway: cornucopiaTwo,
     ready: cornucopiaThree,
   },
-};
-
-export const CheerModal: React.FC<{
-  project: MonumentName;
-  cheers: number;
-  username: string;
-  onClose: () => void;
-  onCheer: () => void;
-  cheersAvailable: Decimal;
-}> = ({ project, cheers, username, onClose, onCheer, cheersAvailable }) => {
-  const { t } = useAppTranslation();
-
-  const hasCheersAvailable = cheersAvailable.gt(0);
-
-  return (
-    <Panel>
-      <div className="flex justify-between sm:flex-row flex-col space-y-1">
-        <Label
-          type="default"
-          icon={ITEM_DETAILS[project].image}
-          className="ml-1"
-        >
-          {t("cheer.village.project")}
-        </Label>
-        <Label type="info" icon={helpIcon} className="ml-2 sm:ml-0">
-          {t("kingdomChores.progress", {
-            progress: `${cheers}/${REQUIRED_CHEERS[project]}`,
-          })}
-        </Label>
-      </div>
-      <div className="p-2 text-xs flex flex-col gap-2">
-        <span>
-          {t("cheer.village.project.description.charm", {
-            project,
-            username,
-          })}
-        </span>
-        <span>
-          {t("cheer.village.project.confirm", {
-            project,
-          })}
-        </span>
-      </div>
-      <div className="flex space-x-1">
-        <Button onClick={onClose}>{t("cancel")}</Button>
-        <Button onClick={onCheer} disabled={!hasCheersAvailable}>
-          {t("cheer")}
-        </Button>
-      </div>
-    </Panel>
-  );
 };
 
 const ProjectComplete: React.FC<{
@@ -370,7 +314,10 @@ const ProjectModal: React.FC<{
     );
   }
 
-  const instaGrowPrice = INSTA_GROW_PRICES[project] ?? 0;
+  const instaGrowPrice = getPartialInstantGrowPrice({
+    progress: cheers,
+    project,
+  });
   const obsidian = state.inventory.Obsidian ?? new Decimal(0);
   const hasObsidian = obsidian.gte(instaGrowPrice);
 

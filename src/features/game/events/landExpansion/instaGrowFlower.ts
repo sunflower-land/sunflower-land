@@ -3,7 +3,6 @@ import { produce } from "immer";
 import { FLOWERS, FLOWER_SEEDS } from "../../types/flowers";
 import Decimal from "decimal.js-light";
 import { translate } from "lib/i18n/translate";
-import { hasFeatureAccess } from "lib/flags";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 
 export type InstaGrowFlowerAction = {
@@ -31,10 +30,6 @@ export function instaGrowFlower({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  if (!hasFeatureAccess(state, "FLOWER_INSTA_GROW")) {
-    throw new Error("Feature is not available");
-  }
-
   return produce(state, (stateCopy) => {
     const { flowers } = stateCopy;
 

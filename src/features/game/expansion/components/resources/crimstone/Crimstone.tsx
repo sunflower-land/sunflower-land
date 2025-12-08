@@ -5,7 +5,6 @@ import { Context } from "features/game/GameProvider";
 
 import { getTimeLeft } from "lib/utils/time";
 import { InventoryItemName, Rock } from "features/game/types/game";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
@@ -15,6 +14,7 @@ import { DepletingCrimstone } from "./components/DepletingCrimstone";
 import { DepletedCrimstone } from "./components/DepletedCrimstone";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getCrimstoneDropAmount } from "features/game/events/landExpansion/mineCrimstone";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const HITS = 3;
 const tool = "Gold Pickaxe";
@@ -96,10 +96,14 @@ export const Crimstone: React.FC<Props> = ({ id, index }) => {
   );
 
   const hasTool = HasTool(inventory);
-  const timeLeft = getTimeLeft(resource.stone.minedAt, CRIMSTONE_RECOVERY_TIME);
+  const readyAt = resource.stone.minedAt + CRIMSTONE_RECOVERY_TIME * 1000;
+  const now = useNow({ live: true, autoEndAt: readyAt });
+  const timeLeft = getTimeLeft(
+    resource.stone.minedAt,
+    CRIMSTONE_RECOVERY_TIME,
+    now,
+  );
   const mined = !canMine(resource, "Crimstone Rock");
-
-  useUiRefresher({ active: mined });
 
   const strike = () => {
     if (!hasTool) return;

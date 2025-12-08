@@ -789,7 +789,7 @@ describe("fruitHarvested", () => {
       createdAt: dateNow,
     });
 
-    expect(state.bumpkin?.activity?.["Apple Harvested"]).toEqual(1);
+    expect(state.farmActivity["Apple Harvested"]).toEqual(1);
   });
 
   it("applies a buds boost", () => {

@@ -129,6 +129,7 @@ import { Announcements } from "../types/announcements";
 import { deliverOrder, DeliverOrderAction } from "./landExpansion/deliver";
 import { equip, EquipBumpkinAction } from "./landExpansion/equip";
 import { refundBid, RefundBidAction } from "./landExpansion/refundBid";
+import { cancelBid, CancelBidAction } from "./landExpansion/cancelBid";
 import { mixPotion, MixPotionAction } from "./landExpansion/mixPotion";
 import { buyWearable, BuyWearableAction } from "./landExpansion/buyWearable";
 import { skipOrder, SkipOrderAction } from "./landExpansion/skipOrder";
@@ -160,6 +161,10 @@ import {
   BurnCollectibleAction,
 } from "./landExpansion/burnCollectible";
 import { claimBonus, ClaimBonusAction } from "./landExpansion/claimBonus";
+import {
+  claimDailyReward,
+  ClaimDailyRewardAction,
+} from "./landExpansion/claimDailyReward";
 import {
   accelerateComposter,
   AccelerateComposterAction,
@@ -542,6 +547,7 @@ import { BulkPlantAction, bulkPlant } from "./landExpansion/bulkPlant";
 import { bulkHarvest, BulkHarvestAction } from "./landExpansion/bulkHarvest";
 import { clearTrades, ClearTradesAction } from "./clearTrades";
 import { placeNFT, PlaceNFTAction } from "./landExpansion/placeNFT";
+import { walkPet, WalkPetAction } from "./pets/walkPet";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -602,6 +608,7 @@ export type PlayingEvent =
   | RemoveCollectibleAction
   | DeliverOrderAction
   | EquipBumpkinAction
+  | CancelBidAction
   | RefundBidAction
   | MixPotionAction
   | BuyWearableAction
@@ -618,6 +625,7 @@ export type PlayingEvent =
   | BurnCollectibleAction
   | ClaimReferralRewardsAction
   | ClaimBonusAction
+  | ClaimDailyRewardAction
   | AccelerateComposterAction
   | BuyFarmHandAction
   | EquipFarmHandAction
@@ -650,6 +658,7 @@ export type PlayingEvent =
   | ClaimFactionPrizeAction
   | FeedFactionPetAction
   | FeedPetAction
+  | WalkPetAction
   | FetchPetAction
   | BulkFeedPetsAction
   | NeglectPetAction
@@ -778,8 +787,9 @@ type Handlers<T> = {
     // Extract the correct event payload from the list of events
     action: Extract<GameEventName<T>, { type: Name }>;
     announcements?: Announcements;
-    farmId?: number;
+    farmId: number;
     visitorState?: GameState;
+    createdAt: number;
   }) => GameState | [GameState, GameState];
 };
 
@@ -850,6 +860,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "order.delivered": deliverOrder,
   "order.skipped": skipOrder,
   "bumpkin.equipped": equip,
+  "bid.cancelled": cancelBid,
   "bid.refunded": refundBid,
   "potion.mixed": mixPotion,
   "wearable.bought": buyWearable,
@@ -864,6 +875,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "land.revealed": revealLand,
   "collectible.burned": burnCollectible,
   "bonus.claimed": claimBonus,
+  "dailyReward.claimed": claimDailyReward,
   "compost.accelerated": accelerateComposter,
   "farmHand.bought": buyFarmhand,
   "farmHand.equipped": equipFarmhand,
@@ -891,6 +903,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "factionShopItem.bought": buyFactionShopItem,
   "factionPet.fed": feedFactionPet,
   "pet.fed": feedPet,
+  "pet.walked": walkPet,
   "pet.fetched": fetchPet,
   "pets.bulkFeed": bulkFeedPets,
   "pet.neglected": neglectPet,

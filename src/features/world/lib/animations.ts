@@ -28,6 +28,7 @@ export enum ANIMATION {
   walking = "walking",
   "walking-small" = "walking-small",
   watering = "watering",
+  wave = "wave",
 }
 
 export const getAnimationUrl = (

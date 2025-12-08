@@ -3,7 +3,7 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { DOLLS, RECIPE_CRAFTABLES } from "features/game/lib/crafting";
 import { isWearableActive } from "features/game/lib/wearables";
 import { ANIMALS } from "features/game/types/animals";
-import { EXOTIC_CROPS, ExoticCropName } from "features/game/types/beans";
+import { EXOTIC_CROPS } from "features/game/types/beans";
 import { getKeys } from "features/game/types/decorations";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { FISH, FishName } from "features/game/types/fishing";
@@ -18,6 +18,7 @@ import {
   GameState,
   MarkBounty,
   ObsidianBounty,
+  GiantFruitBounty,
 } from "features/game/types/game";
 import {
   getCurrentSeason,
@@ -38,16 +39,27 @@ export const BOUNTY_CATEGORIES = {
   "Fish Bounties": (bounty: BountyRequest): bounty is FishBounty =>
     getKeys(FISH).includes(bounty.name as FishName),
   "Exotic Bounties": (bounty: BountyRequest): bounty is ExoticBounty =>
-    getKeys(EXOTIC_CROPS).includes(bounty.name as ExoticCropName) ||
+    Object.keys(EXOTIC_CROPS)
+      .filter(
+        (crop) =>
+          crop !== "Giant Apple" &&
+          crop !== "Giant Banana" &&
+          crop !== "Giant Orange",
+      )
+      .includes(bounty.name) ||
     getKeys(SELLABLE_TREASURE).includes(bounty.name as BeachBountyTreasure) ||
     FULL_MOON_FRUITS.includes(bounty.name as FullMoonFruit) ||
     bounty.name in RECIPE_CRAFTABLES,
+  "Giant Fruit Bounties": (bounty: BountyRequest): bounty is GiantFruitBounty =>
+    bounty.name === "Giant Apple" ||
+    bounty.name === "Giant Banana" ||
+    bounty.name === "Giant Orange",
+  "Doll Bounties": (bounty: BountyRequest): bounty is DollBounty =>
+    bounty.name in DOLLS,
   "Mark Bounties": (bounty: BountyRequest): bounty is MarkBounty =>
     bounty.name === "Mark",
   "Obsidian Bounties": (bounty: BountyRequest): bounty is ObsidianBounty =>
     bounty.name === "Obsidian",
-  "Doll Bounties": (bounty: BountyRequest): bounty is DollBounty =>
-    bounty.name in DOLLS,
 };
 
 export type SellBountyAction = {

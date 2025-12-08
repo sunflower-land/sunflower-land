@@ -16,7 +16,6 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { InlineDialogue } from "../../TypingMessage";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import classNames from "classnames";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { ResizableBar } from "components/ui/ProgressBar";
@@ -26,12 +25,13 @@ import levelup from "assets/icons/level_up.png";
 import chefsHat from "assets/icons/chef_hat.png";
 import lightning from "assets/icons/lightning.png";
 
-import { BumpkinActivityName } from "features/game/types/bumpkinActivity";
+import { FarmActivityName } from "features/game/types/farmActivity";
 import { getKingdomChoreBoost } from "features/game/events/landExpansion/completeKingdomChore";
 import { formatNumber } from "lib/utils/formatNumber";
 import { BoostInfoPanel } from "../BoostInfoPanel";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
-const getSecondaryImage = (activity: BumpkinActivityName) => {
+const getSecondaryImage = (activity: FarmActivityName) => {
   if (activity.endsWith("Cooked")) return chefsHat;
   if (activity.endsWith("Fed")) return levelup;
 
@@ -51,15 +51,14 @@ interface Props {
 
 const WEEKLY_CHORES = 21;
 const _autosaving = (state: MachineState) => state.matches("autosaving");
-const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
+const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
 
 export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
   const autosaving = useSelector(gameService, _autosaving);
-  const bumpkin = useSelector(gameService, _bumpkin);
-
+  const farmActivity = useSelector(gameService, _farmActivity);
   const chores = Object.entries(kingdomChores.chores);
   const activeChores = chores.filter(
     ([, chore]) => chore.startedAt && !chore.completedAt && !chore.skippedAt,
@@ -81,7 +80,7 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
       return 0;
     }
 
-    return (bumpkin?.activity?.[chore.activity] ?? 0) - (chore.startCount ?? 0);
+    return (farmActivity?.[chore.activity] ?? 0) - (chore.startCount ?? 0);
   };
 
   const handleComplete = (index: number) => {
@@ -110,8 +109,10 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
   const selectedChore = kingdomChores.chores[selected];
   const progress = getProgress(selected);
 
-  const needsRefresh =
-    kingdomChores.resetsAt && kingdomChores.resetsAt < Date.now();
+  const { totalSeconds: secondsRemaining } = useCountdown(
+    kingdomChores.resetsAt ?? 0,
+  );
+  const needsRefresh = kingdomChores.resetsAt && secondsRemaining <= 0;
   const isRefreshing = !!(needsRefresh && autosaving);
 
   if (activeChoresCount === 0) {
@@ -207,7 +208,7 @@ export const KingdomChoresContent: React.FC<Props> = ({ kingdomChores }) => {
                 {
                   <div className="flex flex-row items-center justify-between px-1">
                     <Label type="default" className="text-center">
-                      {t(`upcoming`)}
+                      {t("upcoming")}
                     </Label>
                     <p className="text-xxs">
                       {`${
@@ -285,10 +286,9 @@ const ChoresPanel: React.FC<PanelProps> = ({
   const [showBoostInfo, setShowBoostInfo] = useState(false);
 
   const { t } = useAppTranslation();
+  const { totalSeconds: secondsRemaining } = useCountdown(skipAvailableAt);
 
-  useUiRefresher();
-
-  const canSkip = skipAvailableAt < Date.now();
+  const canSkip = secondsRemaining <= 0;
   const canComplete = progress >= chore.requirement;
 
   const boost = getKingdomChoreBoost(
@@ -386,10 +386,10 @@ const ChoresPanel: React.FC<PanelProps> = ({
                     className="whitespace-nowrap"
                   >
                     {t("kingdomChores.nextSkip", {
-                      skip: secondsToString(
-                        (skipAvailableAt - Date.now()) / 1000,
-                        { length: "short", removeTrailingZeros: true },
-                      ),
+                      skip: secondsToString(secondsRemaining, {
+                        length: "short",
+                        removeTrailingZeros: true,
+                      }),
                     })}
                   </Label>
                 </div>
@@ -457,14 +457,14 @@ export const KingdomChoresTimer: React.FC<{
 }> = ({ onReset, resetsAt }) => {
   const { t } = useAppTranslation();
 
-  useUiRefresher();
+  const { totalSeconds: secondsRemaining } = useCountdown(resetsAt ?? 0);
 
-  const shouldReset = resetsAt && resetsAt < Date.now();
-  const shouldWarn = resetsAt && resetsAt - Date.now() < 100_000;
+  const shouldReset = secondsRemaining <= 0;
+  const shouldWarn = secondsRemaining <= 100_000;
 
   useEffect(() => {
     if (shouldReset) onReset();
-  }, [shouldReset]);
+  }, [shouldReset, onReset]);
 
   if (shouldReset) {
     return (
@@ -484,7 +484,7 @@ export const KingdomChoresTimer: React.FC<{
         icon={SUNNYSIDE.icons.stopwatch}
       >
         {t("kingdomChores.reset", {
-          timeLeft: secondsToString((resetsAt - Date.now()) / 1000, {
+          timeLeft: secondsToString(secondsRemaining, {
             length: "medium",
             removeTrailingZeros: true,
           }),

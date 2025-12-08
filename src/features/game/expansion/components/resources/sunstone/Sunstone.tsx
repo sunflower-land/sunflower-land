@@ -15,6 +15,7 @@ import { DepletedSunstone } from "./components/DepletedSunstone";
 import { RecoveredSunstone } from "./components/RecoveredSunstone";
 import { DepletingSunstone } from "./components/DepletingSunstone";
 import { useSound } from "lib/utils/hooks/useSound";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const HITS = 3;
 const tool = "Gold Pickaxe";
@@ -89,7 +90,13 @@ export const Sunstone: React.FC<Props> = ({ id, index }) => {
   );
 
   const hasTool = HasTool(inventory);
-  const timeLeft = getTimeLeft(resource.stone.minedAt, SUNSTONE_RECOVERY_TIME);
+  const readyAt = resource.stone.minedAt + SUNSTONE_RECOVERY_TIME * 1000;
+  const now = useNow({ live: true, autoEndAt: readyAt });
+  const timeLeft = getTimeLeft(
+    resource.stone.minedAt,
+    SUNSTONE_RECOVERY_TIME,
+    now,
+  );
   const mined = !canMine(resource, "Sunstone Rock");
 
   useUiRefresher({ active: mined });

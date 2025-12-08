@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type JSX } from "react";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 
@@ -14,7 +14,7 @@ import classNames from "classnames";
  * @param mobileReversePanelOrder Whether to show the panel below the content on mobile.
  */
 interface Props {
-  divRef?: React.RefObject<HTMLDivElement>;
+  divRef?: React.RefObject<HTMLDivElement | null>;
   tallMobileContent?: boolean;
   tallDesktopContent?: boolean;
   wideModal?: boolean;

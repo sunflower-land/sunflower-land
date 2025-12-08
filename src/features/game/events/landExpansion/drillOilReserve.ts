@@ -4,7 +4,7 @@ import {
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { isWearableActive } from "features/game/lib/wearables";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { BoostName, GameState, OilReserve } from "features/game/types/game";
 import { produce } from "immer";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
@@ -30,6 +30,11 @@ export function getOilDropAmount(game: GameState, reserve: OilReserve) {
 
   if ((reserve.drilled + 1) % 3 === 0) {
     amount = amount.add(OIL_BONUS_DROP_AMOUNT);
+
+    if (isTemporaryCollectibleActive({ name: "Stag Shrine", game })) {
+      amount = amount.add(15);
+      boostsUsed.push("Stag Shrine");
+    }
   }
 
   if (isCollectibleBuilt({ name: "Battle Fish", game })) {
@@ -165,7 +170,7 @@ export function drillOilReserve({
     // Increment drilled count
     oilReserve.drilled += 1;
 
-    game.bumpkin.activity = trackActivity("Oil Drilled", game.bumpkin.activity);
+    game.farmActivity = trackFarmActivity("Oil Drilled", game.farmActivity);
 
     game.boostsUsedAt = updateBoostUsed({
       game,

@@ -32,6 +32,7 @@ import { isFaceVerified } from "features/retreat/components/personhood/lib/faceR
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { isTradeResource } from "features/game/actions/tradeLimits";
 import { SUNNYSIDE } from "assets/sunnyside";
+import Decimal from "decimal.js-light";
 const _state = (state: MachineState) => state.context.state;
 const _hasReputation = (state: MachineState) =>
   hasReputation({
@@ -127,12 +128,12 @@ const AcceptOfferContent: React.FC<{
     );
   }
 
-  let tax = offer.sfl * MARKETPLACE_TAX;
+  let tax = new Decimal(offer.sfl).mul(MARKETPLACE_TAX);
   if (
     display.type === "collectibles" &&
     isTradeResource(display.name as InventoryItemName)
   ) {
-    tax = offer.sfl * getResourceTax({ game: state });
+    tax = getResourceTax({ game: state }).mul(offer.sfl);
   }
 
   return (

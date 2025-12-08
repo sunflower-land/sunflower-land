@@ -4,7 +4,7 @@ import {
   getKeys,
 } from "features/game/types/craftables";
 
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 
 import { GameState, Keys } from "../../types/game";
 import {
@@ -23,7 +23,6 @@ import { produce } from "immer";
 import { ExoticCropName } from "features/game/types/beans";
 import { isExoticCrop } from "features/game/types/crops";
 import { PET_SHOP_ITEMS, PetShopItemName } from "features/game/types/petShop";
-import { hasFeatureAccess } from "lib/flags";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 type CraftableCollectibleItem =
@@ -67,8 +66,6 @@ export function craftCollectible({
   createdAt = Date.now(),
 }: Options) {
   return produce(state, (stateCopy) => {
-    const bumpkin = stateCopy.bumpkin;
-
     let item: CraftableCollectible | undefined;
 
     if (isPotionHouseItem(action.name)) {
@@ -94,9 +91,6 @@ export function craftCollectible({
     if (!item) {
       throw new Error("Item does not exist");
     }
-    if (isPetShopItem(action.name) && !hasFeatureAccess(stateCopy, "PETS")) {
-      throw new Error("Pet Shop is not available");
-    }
 
     if (item.disabled) {
       throw new Error("Item is disabled");
@@ -116,7 +110,7 @@ export function craftCollectible({
       throw new Error("Insufficient Coins");
     }
     const { limit } = item;
-    const isItemCrafted = stateCopy.bumpkin.activity[`${action.name} Crafted`];
+    const isItemCrafted = stateCopy.farmActivity[`${action.name} Crafted`];
 
     if (limit && isItemCrafted && isItemCrafted >= limit) {
       throw new Error("Limit reached");
@@ -150,9 +144,9 @@ export function craftCollectible({
 
     const oldAmount = stateCopy.inventory[action.name] || new Decimal(0);
 
-    bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       `${action.name} Crafted`,
-      bumpkin.activity,
+      stateCopy.farmActivity,
     );
 
     if (
@@ -192,9 +186,9 @@ export function craftCollectible({
 
     stateCopy.coins = stateCopy.coins - price;
 
-    bumpkin.activity = trackActivity(
+    stateCopy.farmActivity = trackFarmActivity(
       "Coins Spent",
-      bumpkin.activity,
+      stateCopy.farmActivity,
       new Decimal(price),
     );
 

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Equipped } from "features/game/types/bumpkin";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -9,7 +9,6 @@ import { SpeakingText } from "features/game/components/SpeakingModal";
 import { OuterPanel, Panel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SeasonalSeeds } from "./SeasonalSeeds";
-import { Context } from "features/game/GameProvider";
 import { SeasonalCrops } from "./SeasonalCrops";
 import book from "assets/icons/tier1_book.webp";
 import { CropGuide } from "./CropGuide";
@@ -45,7 +44,6 @@ export const ShopItems: React.FC<Props> = ({
   const [tab, setTab] = useState(0);
   const [showIntro, setShowIntro] = React.useState(!hasReadIntro());
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
   const bumpkinParts: Partial<Equipped> = NPC_WEARABLES.betty;
 
   if (showIntro) {

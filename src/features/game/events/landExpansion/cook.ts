@@ -2,7 +2,6 @@ import Decimal from "decimal.js-light";
 import { CookableName, COOKABLES } from "features/game/types/consumables";
 import {
   BuildingProduct,
-  Bumpkin,
   GameState,
   Inventory,
   InventoryItemName,
@@ -161,21 +160,6 @@ export function getCookingRequirements({
   return ingredients;
 }
 
-export const getCookingAmount = (
-  building: BuildingName,
-  recipe: { name: CookableName; amount: number },
-  bumpkin: Bumpkin,
-): number => {
-  let amount = recipe.amount;
-
-  // Double Nom - Guarantee +1 food
-  if (bumpkin.skills["Double Nom"] && isCookingBuilding(building)) {
-    amount += 1;
-  }
-
-  return amount;
-};
-
 export const MAX_COOKING_SLOTS = 4;
 
 export function cook({
@@ -238,11 +222,6 @@ export function cook({
       stateCopy.inventory,
     );
 
-    const amount = getCookingAmount(
-      requiredBuilding,
-      { name: item, amount: 1 },
-      bumpkin,
-    );
     // Start the new recipe when the last recipe is ready or now (createdAt)
     let recipeStartAt = createdAt;
     const lastRecipeReadyAt =
@@ -267,14 +246,15 @@ export function cook({
         // Marks whether the Double Nom skill was applied at the time of cooking
         skills: { "Double Nom": !!bumpkin.skills["Double Nom"] },
         readyAt,
-        // Placeholder - can be different from backend
-        amount,
       },
     ];
 
     const previousOilRemaining = building.oil || 0;
 
     building.oil = previousOilRemaining - oilConsumed;
+
+    // Delete cancelled property since no longer used
+    delete building.cancelled;
 
     stateCopy.boostsUsedAt = updateBoostUsed({
       game: stateCopy,

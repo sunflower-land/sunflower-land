@@ -1,5 +1,5 @@
 import { useSelector } from "@xstate/react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import Decimal from "decimal.js-light";
 import { toWei } from "web3-utils";
 import { Button } from "components/ui/Button";
@@ -19,7 +19,6 @@ import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
-import { hasFeatureAccess } from "lib/flags";
 import { useAccount } from "wagmi";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { InnerPanel } from "components/ui/Panel";
@@ -41,19 +40,14 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
   const { chain } = useAccount();
 
   const [amount, setAmount] = useState<Decimal>(new Decimal(0));
-  const [tax, setTax] = useState(0);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const { balance } = state;
 
-  useEffect(() => {
-    const _tax = getTax({
-      amount: typeof amount !== "string" ? amount : new Decimal(0),
-      game: state,
-    });
-
-    setTax(_tax);
-  }, [amount]);
+  const tax = getTax({
+    amount: typeof amount !== "string" ? amount : new Decimal(0),
+    game: state,
+  });
 
   const withdraw = (chainId: number) => {
     if (amount > new Decimal(0)) {
@@ -130,9 +124,6 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
       </ModalOverlay>
       <div className="p-2 mb-2">
         <div className="flex flex-col items-start gap-2">
-          {hasFeatureAccess(state, "WITHDRAWAL_THRESHOLD") && (
-            <Label type="warning">{t("withdraw.flower.limited")}</Label>
-          )}
           <p className="text-xs">
             {t("withdraw.sfl.available", {
               flower: formatNumber(balance, { decimalPlaces: 4 }),

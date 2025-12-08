@@ -15,7 +15,6 @@ type Options = {
 
 export function collectCrafting({
   state,
-  action,
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (copy) => {

@@ -24,6 +24,7 @@ import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import { getFetchYield } from "features/game/events/pets/fetchPet";
 import { SmallBox } from "components/ui/SmallBox";
+import { useNow } from "lib/utils/hooks/useNow";
 
 type Props = {
   data: Pet | PetNFT;
@@ -32,19 +33,27 @@ type Props = {
 };
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
+const _farmId = (state: MachineState) => state.context.farmId;
+const _farmActivity = (state: MachineState) => (name: PetResourceName) =>
+  state.context.state.farmActivity[`${name} Fetched`] ?? 0;
+const _state = (state: MachineState) => state.context.state;
 
 export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
+  const now = useNow();
 
   const inventory = useSelector(gameService, _inventory);
+  const farmId = useSelector(gameService, _farmId);
+  const farmActivity = useSelector(gameService, _farmActivity);
+  const state = useSelector(gameService, _state);
 
   const { level } = getPetLevel(data.experience);
   const fetches = [...getPetFetches(data).fetches].sort(
     (a, b) => a.level - b.level,
   );
-  const isNapping = isPetNapping(data);
-  const neglected = isPetNeglected(data);
+  const isNapping = isPetNapping(data, now);
+  const neglected = isPetNeglected(data, now);
 
   return (
     <div className="flex flex-col gap-1">
@@ -66,8 +75,9 @@ export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
             petLevel: level,
             fetchResource: name,
             isPetNFT: isPetNFT(data),
-            seed: data.fetchSeeds?.[name],
-            createdAt: Date.now(),
+            farmId,
+            counter: farmActivity(name),
+            state,
           });
 
           const inventoryCount = inventory[name] ?? new Decimal(0);

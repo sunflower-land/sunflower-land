@@ -4,16 +4,27 @@ import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { IronRockName } from "features/game/types/resources";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
+import { GameState, TemperateSeasonName } from "features/game/types/game";
 
 interface Props {
+  season: TemperateSeasonName;
+  island: GameState["island"];
   timeLeft: number;
   name: IronRockName;
 }
 
-const DepletedIronComponent: React.FC<Props> = ({ timeLeft, name }) => {
+const DepletedIronComponent: React.FC<Props> = ({
+  season,
+  island,
+  timeLeft,
+  name,
+}) => {
   const { t } = useAppTranslation();
   const [showTimeLeft, setShowTimeLeft] = useState(false);
-  const Image = READONLY_RESOURCE_COMPONENTS()[name];
+  const Image = READONLY_RESOURCE_COMPONENTS({
+    season,
+    island,
+  })[name];
 
   return (
     <div

@@ -24,6 +24,7 @@ import {
 } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { getKeys } from "features/game/types/decorations";
 import { Loading } from "features/auth/components";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export const FACTION_RECRUITERS: Record<FactionName, NPCName> = {
   goblins: "graxle",
@@ -38,7 +39,6 @@ interface Props {
 }
 
 const _joinedFaction = (state: MachineState) => state.context.state.faction;
-const _username = (state: MachineState) => state.context.state.username;
 const _farmId = (state: MachineState) => state.context.farmId;
 
 export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
@@ -48,6 +48,8 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
   const [confirmed, setConfirmed] = useState(false);
   const [cost, setCost] = useState(10000000);
   const [isLoading, setIsLoading] = useState(true);
+
+  const now = useNow();
 
   const joinedFaction = useSelector(gameService, _joinedFaction);
   const farmId = useSelector(gameService, _farmId);
@@ -60,7 +62,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
     gameService.getSnapshot().context.state.previousFaction;
   const hasRecentlyLeftFaction =
     previousFaction &&
-    Date.now() - previousFaction.leftAt < FACTION_BOOST_COOLDOWN &&
+    now - previousFaction.leftAt < FACTION_BOOST_COOLDOWN &&
     previousFaction.name !== faction;
 
   useEffect(() => {

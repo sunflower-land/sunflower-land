@@ -20,7 +20,11 @@ export default defineConfig(() => {
 
   return {
     plugins: [
-      react(),
+      react({
+        babel: {
+          plugins: ["babel-plugin-react-compiler"],
+        },
+      }),
       preload(),
       tsconfigPaths(),
       minifyHtml(),

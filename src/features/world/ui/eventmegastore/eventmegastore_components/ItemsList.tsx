@@ -7,7 +7,6 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { shortenCount } from "lib/utils/formatNumber";
 import {
-  getCurrentSeason,
   getSeasonalArtefact,
   getSeasonalTicket,
 } from "features/game/types/seasons";
@@ -130,10 +129,6 @@ export const ItemsList: React.FC<Props> = ({
 
     return currencyItem;
   };
-  const createdAt = Date.now();
-  const currentSeason = getCurrentSeason(new Date(createdAt));
-  const eventStore = HALLOWEEN_EVENT_ITEMS;
-  const tiers = tier;
 
   // Type guard if the requirement exists
   const hasRequirement = (
