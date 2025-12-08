@@ -572,6 +572,10 @@ const BoostReelItems: (
     buff: Object.values(BUMPKIN_REVAMP_SKILL_TREE["More With Less"].boosts),
     location: "Fishing Skill Tree",
   },
+  "Saw Fish": {
+    buff: BUMPKIN_ITEM_BUFF_LABELS["Saw Fish"] as BuffLabel[],
+    location: "Stella's Megastore",
+  },
 });
 
 const isWearable = (
@@ -685,7 +689,7 @@ const FishermanExtras: React.FC<{
               {t("fishing.lookingMoreReels")}
             </span>
           </InnerPanel>
-          <InnerPanel className="flex flex-col mb-1 overflow-y-scroll overflow-x-hidden scrollable max-h-[330px] sm:max-h-max sm:overflow-y-hidden">
+          <InnerPanel className="flex flex-col mb-1 overflow-y-scroll overflow-x-hidden scrollable max-h-[330px]">
             {Object.entries(BoostReelItems(state)).map(([name, item]) => (
               <div key={name} className="flex -ml-1">
                 {getItemIcon(
