@@ -42,7 +42,6 @@ export function placeTree({
     const existingTree = findExistingUnplacedNode({
       nodeStateAccessor,
       nodeToFind: action.name,
-      baseNode: "Tree",
     });
 
     if (existingTree) {
