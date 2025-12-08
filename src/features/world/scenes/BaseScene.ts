@@ -730,17 +730,14 @@ export abstract class BaseScene extends Phaser.Scene {
     });
   }
 
-  /**
-   * Renders a lightweight clickable indicator above the receiver bumpkin.
-   */
+  // Renders a lightweight clickable indicator above the receiver bumpkin.
   private createMicroInteractionIndicator(
     target: BumpkinContainer,
-    // Need to determine the icon based on the interaction
     type: MicroInteractionAction,
     senderId: number,
     receiverId: number,
   ) {
-    // 1. Destroy any existing menu on this target
+    // Destroy any existing menu on this target
     const existingIndicator = target.getByName("microInteractionIndicator") as
       | Phaser.GameObjects.Container
       | undefined;
@@ -876,7 +873,7 @@ export abstract class BaseScene extends Phaser.Scene {
     const sender = this.findBumpkinByFarmId(interaction.senderId);
 
     if (reason === "timeout") {
-      sender?.speak("Maybe later!");
+      sender?.speak(translate("microInteraction.maybe.later"));
     }
   }
 
@@ -943,12 +940,11 @@ export abstract class BaseScene extends Phaser.Scene {
             }, 5000);
           }
           if (this.currentPlayer?.farmId === senderId) {
-            // Farm who is doing the cheering
             this.gameService.send("farm.cheered", {
               effect: {
                 type: "farm.cheered",
-                cheeredFarmId: receiverId,
-                visitedFarmId: senderId,
+                cheeredFarmId: senderId,
+                visitedFarmId: receiverId,
               },
             });
             setTimeout(() => {
