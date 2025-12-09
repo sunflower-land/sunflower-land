@@ -1,5 +1,4 @@
 import { CONFIG } from "lib/config";
-import { fromWei } from "web3-utils";
 
 export type LiquidityTableEntry = {
   usd: number;
@@ -11,35 +10,6 @@ export type PlayerLiquidity = {
   amount: number;
   lastUpdatedAt?: number;
   [key: string]: unknown;
-};
-
-const toEtherNumber = (value?: string | number | bigint | null): number => {
-  if (value === undefined || value === null) {
-    return 0;
-  }
-
-  try {
-    return Number(fromWei(value.toString()));
-  } catch {
-    const parsed = Number(value);
-    return Number.isNaN(parsed) ? 0 : parsed;
-  }
-};
-
-const resolveTable = (data: any): any[] => {
-  if (Array.isArray(data?.table)) {
-    return data.table;
-  }
-
-  if (Array.isArray(data?.liquidityTable)) {
-    return data.liquidityTable;
-  }
-
-  if (Array.isArray(data?.liquidity?.table)) {
-    return data.liquidity.table;
-  }
-
-  return [];
 };
 
 export const getPlayerLiquidity = async ({
