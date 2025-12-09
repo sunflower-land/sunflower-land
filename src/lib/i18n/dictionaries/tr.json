@@ -7252,5 +7252,10 @@
   "flowerRewards.howToParticipate": "Katılmak için V4 USDC/FLOWER havuzuna likidite ekleyebilirsiniz.",
   "flowerRewards.uniswap": "Uniswap",
   "flowerRewards.uniswapDisclaimer": "Uniswap üçüncü taraf, merkezi olmayan bir protokoldür ve Sunflower Land ile bağlantılı değildir. Likidite sağlamak risk içerir. Lütfen kendi araştırmanızı yapın ve yalnızca nasıl çalıştığını tam olarak anlarsanız katılın.",
-  "flowerRewards.title": "Ödüller"
+  "flowerRewards.title": "Ödüller",
+  "microInteraction.great.to.see.you": "Seni gördüğüme sevindim!",
+  "microInteraction.hey.there": "Selamlar!",
+  "microInteraction.here.s.a.cheer.for.you": "İşte size bir tezahürat!",
+  "microInteraction.thanks": "Teşekkürler!",
+  "microInteraction.maybe.later": "Belki daha sonra!"
 }

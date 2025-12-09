@@ -7252,5 +7252,10 @@
   "flowerRewards.howToParticipate": "参加するには、次の方法でV4 USDC/FLOWERプールに流動性を追加できます",
   "flowerRewards.uniswap": "ユニスワップ",
   "flowerRewards.uniswapDisclaimer": "Uniswapはサードパーティの分散型プロトコルであり、サンフラワーランドとは提携していません。流動性の提供にはリスクが伴います。独自の調査を行い、その仕組みを完全に理解している場合にのみ参加してください。",
-  "flowerRewards.title": "報酬"
+  "flowerRewards.title": "報酬",
+  "microInteraction.great.to.see.you": "お会いできて嬉しいです！",
+  "microInteraction.hey.there": "やあ、そこ！",
+  "microInteraction.here.s.a.cheer.for.you": "乾杯です！",
+  "microInteraction.thanks": "ありがとう!",
+  "microInteraction.maybe.later": "多分後で！"
 }

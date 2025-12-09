@@ -7252,5 +7252,10 @@
   "flowerRewards.howToParticipate": "Pour participer, vous pouvez ajouter des liquidités au pool V4 USDC/FLOWER sur",
   "flowerRewards.uniswap": "Uniswap",
   "flowerRewards.uniswapDisclaimer": "Uniswap est un protocole tiers décentralisé et n'est pas affilié à Sunflower Land. Fournir des liquidités comporte des risques. Veuillez faire vos propres recherches et ne participer que si vous comprenez parfaitement comment cela fonctionne.",
-  "flowerRewards.title": "Récompenses"
+  "flowerRewards.title": "Récompenses",
+  "microInteraction.great.to.see.you": "Content de te voir !",
+  "microInteraction.hey.there": "Salut !",
+  "microInteraction.here.s.a.cheer.for.you": "Je vous encourage !",
+  "microInteraction.thanks": "Merci !",
+  "microInteraction.maybe.later": "Peut-être plus tard !"
 }

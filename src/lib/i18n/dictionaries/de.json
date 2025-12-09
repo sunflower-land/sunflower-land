@@ -7252,5 +7252,10 @@
   "flowerRewards.howToParticipate": "Um teilzunehmen, können Sie dem V4 USDC/FLOWER-Pool unter",
   "flowerRewards.uniswap": "Uniswap",
   "flowerRewards.uniswapDisclaimer": "Uniswap ist ein dezentrales Protokoll eines Drittanbieters und nicht mit Sunflower Land verbunden. Die Bereitstellung von Liquidität ist mit Risiken verbunden. Bitte recherchieren Sie selbst und nehmen Sie nur teil, wenn Sie die Funktionsweise vollständig verstehen.",
-  "flowerRewards.title": "Prämien"
+  "flowerRewards.title": "Prämien",
+  "microInteraction.great.to.see.you": "Schön dich zu sehen!",
+  "microInteraction.hey.there": "Hallo da!",
+  "microInteraction.here.s.a.cheer.for.you": "Hier ist ein Applaus für dich!",
+  "microInteraction.thanks": "Danke!",
+  "microInteraction.maybe.later": "Vielleicht später!"
 }

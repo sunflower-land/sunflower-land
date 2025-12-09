@@ -7252,5 +7252,10 @@
   "flowerRewards.howToParticipate": "참여하려면 다음의 V4 USDC/FLOWER 풀에 유동성을 추가할 수 있습니다.",
   "flowerRewards.uniswap": "유니스왑",
   "flowerRewards.uniswapDisclaimer": "유니스왑은 타사 탈중앙화 프로토콜이며 선플라워 랜드와 제휴하지 않습니다.유동성 제공에는 위험이 수반됩니다.직접 조사하고 작동 방식을 완전히 이해하는 경우에만 참여하시기 바랍니다.",
-  "flowerRewards.title": "리워드"
+  "flowerRewards.title": "리워드",
+  "microInteraction.great.to.see.you": "만나서 반가워요!",
+  "microInteraction.hey.there": "안녕하세요!",
+  "microInteraction.here.s.a.cheer.for.you": "여러분을 응원합니다!",
+  "microInteraction.thanks": "고마워요!",
+  "microInteraction.maybe.later": "나중에 할지도 몰라요!"
 }
