@@ -1451,7 +1451,6 @@
   "amount.pol": "POL 금액",
   "deposit": "예치금",
   "add": "추가",
-  "add.liquidity": "유동성 추가",
   "alr.completed": "이미 완료됨",
   "alr.crafted": "이미 제작되었습니다!",
   "alr.minted": "이미 발행되었습니다!",
@@ -7245,5 +7244,13 @@
   "description.rarecrows": "캐주얼 텔레그램 미니게임에서 희귀아비를 사육하고 수집하세요!",
   "description.rarecrows.2": "15,000명 이상의 플레이어와 함께 레어클로우가 바닥나기 전에 발견하세요",
   "description.rarecrows.3": "지금 플레이하세요",
-  "dailyReward.claimed": "클레임"
+  "dailyReward.claimed": "클레임",
+  "add.liquidity": "유동성을 추가했습니다",
+  "flowerRewards.thanks": "선플라워 랜드 생태계를 지원해 주셔서 감사합니다!",
+  "flowerRewards.dailyReview": "우리는 매일 커뮤니티 참여를 검토합니다.최대 500명의 적극적인 서포터즈를 선정하면 감사의 표시로 무료 꾸미기 또는 재미있는 게임 내 보너스를 받을 수 있습니다.이러한 선물은 선택 사항이고 비금전적이며 보장되지 않습니다.",
+  "flowerRewards.participationDescription": "탈중앙화된 경제를 적극적으로 지지하는 플레이어는 선택적 보너스 화장품, 음식 또는 기타 비금전적 게임 내 보상을 받을 수 있습니다.이러한 보상은 보장되지 않으며 커뮤니티에 대한 감사의 표시일 뿐입니다.",
+  "flowerRewards.howToParticipate": "참여하려면 다음의 V4 USDC/FLOWER 풀에 유동성을 추가할 수 있습니다.",
+  "flowerRewards.uniswap": "유니스왑",
+  "flowerRewards.uniswapDisclaimer": "유니스왑은 타사 탈중앙화 프로토콜이며 선플라워 랜드와 제휴하지 않습니다.유동성 제공에는 위험이 수반됩니다.직접 조사하고 작동 방식을 완전히 이해하는 경우에만 참여하시기 바랍니다.",
+  "flowerRewards.title": "리워드"
 }

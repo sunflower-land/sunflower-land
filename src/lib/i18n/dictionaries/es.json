@@ -1434,7 +1434,6 @@
   "amount.pol": "Importe en POL",
   "deposit": "Depósito",
   "add": "Agregar",
-  "add.liquidity": "Agregar liquidez",
   "alr.completed": "Ya se ha completado",
   "alr.crafted": "Ya está fabricado!",
   "alr.minted": "Ya acuñado!",
@@ -7245,5 +7244,13 @@
   "description.rarecrows": "¡Cultiva y recolecta cuervos raros en nuestro minijuego casual de Telegram!",
   "description.rarecrows.2": "Únete a más de 15 000 jugadores y descubre a los Rarecrows antes de que se acaben",
   "description.rarecrows.3": "Juega ahora",
-  "dailyReward.claimed": "Reclamado"
+  "dailyReward.claimed": "Reclamado",
+  "add.liquidity": "He añadido liquidez",
+  "flowerRewards.thanks": "¡Gracias por apoyar el ecosistema de Sunflower Land!",
+  "flowerRewards.dailyReview": "Todos los días revisamos la participación de la comunidad. Una selección de hasta 500 seguidores activos puede recibir un cosmético gratis o una bonificación divertida en el juego como muestra de agradecimiento. Estos obsequios son opcionales, no económicos y nunca están garantizados.",
+  "flowerRewards.participationDescription": "Los jugadores que apoyen activamente la economía descentralizada pueden ser reconocidos con bonificaciones opcionales de cosméticos, alimentos u otras recompensas no financieras del juego. Estas recompensas no están garantizadas y no son más que un gesto de agradecimiento a la comunidad.",
+  "flowerRewards.howToParticipate": "Para participar, puedes añadir liquidez al fondo común V4 USDC/FLOWER en",
+  "flowerRewards.uniswap": "Uniswap",
+  "flowerRewards.uniswapDisclaimer": "Uniswap es un protocolo descentralizado de terceros y no está afiliado a Sunflower Land. Proporcionar liquidez implica un riesgo. Investigue por su cuenta y participe solo si comprende completamente cómo funciona.",
+  "flowerRewards.title": "Recompensas"
 }

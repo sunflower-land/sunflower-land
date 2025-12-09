@@ -1243,7 +1243,6 @@
   "achievements": "成就",
   "deposit": "存入",
   "add": "添加",
-  "add.liquidity": "添加流动性",
   "alr.completed": "已完成",
   "alr.crafted": "已锻造！",
   "alr.minted": "已铸造！",
@@ -7245,5 +7244,13 @@
   "description.rarecrows": "在我们的休闲 Telegram 小游戏中耕种并收集火箭！",
   "description.rarecrows.2": "加入超过 15,000 名玩家，在 Rarecrows 用完之前发现它们",
   "description.rarecrows.3": "立即播放",
-  "dailyReward.claimed": "已申领"
+  "dailyReward.claimed": "已申领",
+  "add.liquidity": "我增加了流动性",
+  "flowerRewards.thanks": "感谢您支持向日葵乐园生态系统！",
+  "flowerRewards.dailyReview": "每天，我们都会审查社区参与情况。最多500名活跃支持者可获得免费的装饰品或有趣的游戏内奖励，以示感谢。这些礼物是可选的，非财务的，绝不保证。",
+  "flowerRewards.participationDescription": "积极支持去中心化经济的玩家可以通过可选的奖励化妆品、食物或其他非金融游戏内奖励获得认可。这些奖励无法保证，只是对社区的感激之情。",
+  "flowerRewards.howToParticipate": "要参与，您可以在 V4 USDC/FLOWER 池中添加流动性",
+  "flowerRewards.uniswap": "uniswap",
+  "flowerRewards.uniswapDisclaimer": "Uniswap 是第三方去中心化协议，不隶属于向日葵乐园。提供流动性涉及风险。请自己做研究，只有在完全了解其工作原理的情况下才能参与。",
+  "flowerRewards.title": "奖励"
 }

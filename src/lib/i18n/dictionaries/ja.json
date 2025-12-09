@@ -1451,7 +1451,6 @@
   "amount.pol": "POLでの金額",
   "deposit": "デポジット",
   "add": "追加",
-  "add.liquidity": "流動性を追加",
   "alr.completed": "すでに完了しています",
   "alr.crafted": "すでに作成されています！",
   "alr.minted": "すでに鋳造されています！",
@@ -7245,5 +7244,13 @@
   "description.rarecrows": "カジュアルなテレグラムミニゲームでレアクロスを育てて集めよう！",
   "description.rarecrows.2": "15,000人以上のプレイヤーに加わって、レアクロウがなくなる前に発見しよう",
   "description.rarecrows.3": "今すぐプレイ",
-  "dailyReward.claimed": "請求済み"
+  "dailyReward.claimed": "請求済み",
+  "add.liquidity": "流動性を追加しました",
+  "flowerRewards.thanks": "サンフラワーランドのエコシステムをサポートしていただきありがとうございます！",
+  "flowerRewards.dailyReview": "私たちは毎日、コミュニティの参加状況を見直しています。500名までのアクティブなサポーターの中から選ばれた方には、感謝の印として、装飾アイテムや楽しいゲーム内ボーナスが無料で贈られます。これらのギフトはオプションであり、金銭的なものではなく、保証されるものではありません。",
+  "flowerRewards.participationDescription": "分散型経済を積極的に支援しているプレイヤーには、オプションのボーナス装飾アイテム、食品、その他の非金銭的なゲーム内報酬が贈られます。これらの報酬は保証されるものではなく、コミュニティへの感謝のしるしに過ぎません。",
+  "flowerRewards.howToParticipate": "参加するには、次の方法でV4 USDC/FLOWERプールに流動性を追加できます",
+  "flowerRewards.uniswap": "ユニスワップ",
+  "flowerRewards.uniswapDisclaimer": "Uniswapはサードパーティの分散型プロトコルであり、サンフラワーランドとは提携していません。流動性の提供にはリスクが伴います。独自の調査を行い、その仕組みを完全に理解している場合にのみ参加してください。",
+  "flowerRewards.title": "報酬"
 }

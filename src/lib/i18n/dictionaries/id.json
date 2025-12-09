@@ -1451,7 +1451,6 @@
   "amount.pol": "Jumlah dalam POL",
   "deposit": "Deposit",
   "add": "Tambah",
-  "add.liquidity": "Tambahkan Likuiditas",
   "alr.completed": "Sudah Selesai",
   "alr.crafted": "Sudah Dibuat!",
   "alr.minted": "Sudah dicetak!",
@@ -7245,5 +7244,13 @@
   "description.rarecrows": "Bertani & kumpulkan barang langka di minigame Telegram kasual kami!",
   "description.rarecrows.2": "Bergabunglah dengan lebih dari 15.000+ pemain dan temukan Rarecrows sebelum kehabisan",
   "description.rarecrows.3": "Mainkan sekarang",
-  "dailyReward.claimed": "Diklaim"
+  "dailyReward.claimed": "Diklaim",
+  "add.liquidity": "Saya telah menambahkan likuiditas",
+  "flowerRewards.thanks": "Terima kasih telah mendukung ekosistem Sunflower Land!",
+  "flowerRewards.dailyReview": "Setiap hari, kami meninjau partisipasi masyarakat. Pilihan hingga 500 pendukung aktif dapat menerima kosmetik gratis atau bonus menyenangkan dalam game sebagai tanda penghargaan. Hadiah ini opsional, non-finansial, dan tidak pernah dijamin.",
+  "flowerRewards.participationDescription": "Pemain yang secara aktif mendukung ekonomi terdesentralisasi dapat diakui dengan kosmetik bonus opsional, makanan, atau hadiah dalam game non-finansial lainnya. Penghargaan ini tidak dijamin dan hanyalah isyarat penghargaan kepada masyarakat.",
+  "flowerRewards.howToParticipate": "Untuk berpartisipasi, Anda dapat menambahkan likuiditas ke kolam V4 USDC/FLOWER di",
+  "flowerRewards.uniswap": "Uniswap",
+  "flowerRewards.uniswapDisclaimer": "Uniswap adalah protokol terdesentralisasi pihak ketiga dan tidak berafiliasi dengan Sunflower Land. Menyediakan likuiditas melibatkan risiko. Silakan lakukan penelitian Anda sendiri dan hanya berpartisipasi jika Anda sepenuhnya memahami cara kerjanya.",
+  "flowerRewards.title": "Imbalan"
 }

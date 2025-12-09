@@ -953,7 +953,6 @@
   "achievements": "Başarımlar",
   "deposit": "Yatır",
   "add": "Ekle",
-  "add.liquidity": "Likidite Ekle",
   "alr.completed": "Çoktan Tamamlandı",
   "alr.crafted": "Zaten Üretildi!",
   "alr.minted": "Zaten Mintlendi!",
@@ -7245,5 +7244,13 @@
   "description.rarecrows": "Sıradan Telegram mini oyunumuzda nadirleri çiftçilik yapın ve toplayın!",
   "description.rarecrows.2": "15.000'den fazla oyuncuya katılın ve Rarecrows'u tükenmeden keşfedin",
   "description.rarecrows.3": "Şimdi oyna",
-  "dailyReward.claimed": "İddia Edildi"
+  "dailyReward.claimed": "İddia Edildi",
+  "add.liquidity": "Likidite ekledim",
+  "flowerRewards.thanks": "Ayçiçeği Ülkesi ekosistemini desteklediğiniz için teşekkürler!",
+  "flowerRewards.dailyReview": "Her gün, topluluk katılımını gözden geçiriyoruz. 500 adede kadar aktif destekçiden oluşan bir seçki, takdir göstergesi olarak ücretsiz kozmetik veya eğlenceli oyun içi bonus alabilir. Bu hediyeler isteğe bağlıdır, finansal değildir ve asla garanti edilmez.",
+  "flowerRewards.participationDescription": "Merkezi olmayan ekonomiyi aktif olarak destekleyen oyuncular isteğe bağlı bonus kozmetik ürünleri, yiyecekler veya diğer finansal olmayan oyun içi ödüllerle tanınabilir. Bu ödüller garanti edilmez ve sadece topluma bir takdir jestidir.",
+  "flowerRewards.howToParticipate": "Katılmak için V4 USDC/FLOWER havuzuna likidite ekleyebilirsiniz.",
+  "flowerRewards.uniswap": "Uniswap",
+  "flowerRewards.uniswapDisclaimer": "Uniswap üçüncü taraf, merkezi olmayan bir protokoldür ve Sunflower Land ile bağlantılı değildir. Likidite sağlamak risk içerir. Lütfen kendi araştırmanızı yapın ve yalnızca nasıl çalıştığını tam olarak anlarsanız katılın.",
+  "flowerRewards.title": "Ödüller"
 }
