@@ -28,7 +28,6 @@ import {
   TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
 import {
-  RESOURCES_UPGRADES_TO,
   ADVANCED_RESOURCES,
   RESOURCES,
   UpgradedResourceName,
@@ -312,23 +311,27 @@ export const CraftingRequirements: React.FC<Props> = ({
                   RESOURCE_STATE_ACCESSORS[
                     ingredientName as UpgradedResourceName
                   ];
+
+                // Determine the expected tier for this ingredient
+                let expectedTier: number;
+                if (ingredientName in ADVANCED_RESOURCES) {
+                  expectedTier =
+                    ADVANCED_RESOURCES[ingredientName as UpgradedResourceName]
+                      .tier;
+                } else {
+                  // Base resources (Stone Rock, Iron Rock, etc.) are tier 1
+                  expectedTier = 1;
+                }
+
                 const nodes = Object.values(
                   stateAccessor(gameState) ?? {},
                 ).filter((resource) => {
-                  if (
-                    ingredientName in RESOURCES_UPGRADES_TO ||
-                    ingredientName in ADVANCED_RESOURCES
-                  ) {
-                    // If node is upgradeable, check if it has the same name as the current item
-                    if ("name" in resource) {
-                      return resource.name === ingredientName;
-                    }
-
-                    // If it has no name, it probably means it's a base resource
-                    return ingredientName in RESOURCES_UPGRADES_TO;
-                  }
-
-                  return true;
+                  // Check the node's tier matches the expected tier for this ingredient
+                  const nodeTier = "tier" in resource ? resource.tier : 1;
+                  // Ensure node is placed and matches the expected tier
+                  const isPlaced =
+                    resource.x !== undefined && resource.y !== undefined;
+                  return isPlaced && nodeTier === expectedTier;
                 });
                 balance = new Decimal(
                   nodes.filter((node) => node.removedAt === undefined).length,
