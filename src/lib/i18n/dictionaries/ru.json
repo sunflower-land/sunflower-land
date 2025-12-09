@@ -7252,5 +7252,10 @@
   "flowerRewards.howToParticipate": "To participate, you can add liquidity to the V4 USDC/FLOWER pool on",
   "flowerRewards.uniswap": "Uniswap",
   "flowerRewards.uniswapDisclaimer": "Uniswap is a third-party, decentralized protocol and is not affiliated with Sunflower Land. Providing liquidity involves risk. Please do your own research and only participate if you fully understand how it works.",
-  "flowerRewards.title": "Rewards"
+  "flowerRewards.title": "Rewards",
+  "microInteraction.great.to.see.you": "Great to see you!",
+  "microInteraction.hey.there": "Hey there!",
+  "microInteraction.here.s.a.cheer.for.you": "Here's a cheer for you!",
+  "microInteraction.thanks": "Thanks!",
+  "microInteraction.maybe.later": "Maybe later!"
 }

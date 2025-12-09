@@ -7252,5 +7252,10 @@
   "flowerRewards.howToParticipate": "要参与，您可以在 V4 USDC/FLOWER 池中添加流动性",
   "flowerRewards.uniswap": "uniswap",
   "flowerRewards.uniswapDisclaimer": "Uniswap 是第三方去中心化协议，不隶属于向日葵乐园。提供流动性涉及风险。请自己做研究，只有在完全了解其工作原理的情况下才能参与。",
-  "flowerRewards.title": "奖励"
+  "flowerRewards.title": "奖励",
+  "microInteraction.great.to.see.you": "很高兴见到你！",
+  "microInteraction.hey.there": "嘿！",
+  "microInteraction.here.s.a.cheer.for.you": "这里为你加油！",
+  "microInteraction.thanks": "谢谢！",
+  "microInteraction.maybe.later": "也许以后再说！"
 }

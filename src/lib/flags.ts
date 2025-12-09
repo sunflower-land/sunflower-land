@@ -114,6 +114,7 @@ const FEATURE_FLAGS = {
   VERSION_UPDATES: defaultFeatureFlag,
   DAILY_BOXES: defaultFeatureFlag,
   LP_REWARDS: defaultFeatureFlag,
+  MICRO_INTERACTIONS: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

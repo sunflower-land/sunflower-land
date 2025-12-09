@@ -7253,5 +7253,10 @@
   "description.rarecrows": "Farm & collect rarecrows in our casual Telegram minigame!",
   "description.rarecrows.2": "Join over 15,000+ players and discover the Rarecrows before they run out",
   "description.rarecrows.3": "Play now",
-  "flowerRewards.title": "Rewards"
+  "flowerRewards.title": "Rewards",
+  "microInteraction.great.to.see.you": "Great to see you!",
+  "microInteraction.hey.there": "Hey there!",
+  "microInteraction.here.s.a.cheer.for.you": "Here's a cheer for you!",
+  "microInteraction.thanks": "Thanks!",
+  "microInteraction.maybe.later": "Maybe later!"
 }
