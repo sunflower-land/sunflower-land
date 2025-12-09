@@ -1030,16 +1030,19 @@ export abstract class BaseScene extends Phaser.Scene {
   private cleanupMicroInteractionsForFarm(farmId?: number) {
     if (!farmId) return;
 
-    if (this.receivedMicroInteractions.has(farmId)) {
-      this.cancelMicroInteraction(farmId, "despawn");
-    }
+    // If this farm had a pending request *towards* us (they were the initiator),
+    // clear the indicator so we don't keep showing an interaction from a player
+    // that has already left the scene.
+    const pendingFromDepartingFarm = Array.from(
+      this.receivedMicroInteractions.values(),
+    ).find((interaction) => interaction.senderId === farmId);
 
-    // Ensure we also drop outgoing interactions sent by this player to avoid stale timers.
-    Array.from(this.receivedMicroInteractions.values())
-      .filter((interaction) => interaction.senderId === farmId)
-      .forEach((interaction) =>
-        this.cancelMicroInteraction(interaction.receiverId, "initiatorLeft"),
+    if (pendingFromDepartingFarm) {
+      this.cancelMicroInteraction(
+        pendingFromDepartingFarm.receiverId,
+        "initiatorLeft",
       );
+    }
 
     this.clearOutgoingMicroInteractionRequest(farmId);
   }
