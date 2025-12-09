@@ -8,6 +8,7 @@ import { Label } from "./Label";
 import useSWR from "swr";
 import { loadTradeable } from "features/marketplace/actions/loadTradeable";
 import { KNOWN_IDS } from "features/game/types";
+import { ITEM_IDS } from "features/game/types/bumpkin";
 import { useSelector } from "@xstate/react";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
@@ -94,11 +95,18 @@ export const SFTDetailPopoverTradeDetails = ({
   const { authService } = useContext(AuthProvider.Context);
   const rawToken = useSelector(authService, _rawToken);
 
+  // Determine collection type and ID based on item type
+  const isWearable = name in ITEM_IDS;
+  const collectionType = isWearable ? "wearables" : "collectibles";
+  const itemId = isWearable
+    ? ITEM_IDS[name as keyof typeof ITEM_IDS]
+    : KNOWN_IDS[name];
+
   const { data: tradeable, error } = useSWR(
-    ["collectibles", KNOWN_IDS[name], rawToken],
-    ([, id, token]) =>
+    [collectionType, itemId, rawToken],
+    ([type, id, token]) =>
       loadTradeable({
-        type: "collectibles",
+        type: type as "collectibles" | "wearables",
         id: Number(id),
         token: token as string,
       }),
