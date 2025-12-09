@@ -52,7 +52,8 @@ type EffectName =
   | "auction.bidPlaced"
   | "auction.bidCancelled"
   | "marketplace.buyBulkResources"
-  | "leagues.updated";
+  | "leagues.updated"
+  | "liquidity.registered";
 
 type VisitEffectName = "farm.helped" | "farm.cheered" | "farm.followed";
 
@@ -69,6 +70,7 @@ export type StateMachineEffectName = Exclude<
   | "moderation.unmuted"
   | "farm.unfollowed"
   | "message.sent"
+  | "liquidity.registered"
 >;
 
 export type StateMachineVisitEffectName = VisitEffectName;
