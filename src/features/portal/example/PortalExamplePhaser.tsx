@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef } from "react";
 import { Game, AUTO } from "phaser";
-import NinePatchPlugin from "phaser3-rex-plugins/plugins/ninepatch-plugin.js";
+import NinePatch2Plugin from "phaser3-rex-plugins/plugins/ninepatch2-plugin.js";
 import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin.js";
 
 import { Preloader } from "features/world/scenes/Preloader";
@@ -37,8 +37,8 @@ export const PortalExamplePhaser: React.FC = () => {
       plugins: {
         global: [
           {
-            key: "rexNinePatchPlugin",
-            plugin: NinePatchPlugin,
+            key: "rexNinePatch2Plugin",
+            plugin: NinePatch2Plugin,
             start: true,
           },
           {

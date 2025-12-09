@@ -13820,7 +13820,7 @@ phaser-navmesh@^2.3.1:
     core-js "3"
     navmesh "^2.3.1"
 
-phaser3-rex-plugins@^1.60.1:
+phaser3-rex-plugins@^1.80.17:
   version "1.80.17"
   resolved "https://registry.yarnpkg.com/phaser3-rex-plugins/-/phaser3-rex-plugins-1.80.17.tgz#bd5c1cb1a183118c2de5a198e14f0e4490704dff"
   integrity sha512-0xNgjA2rbh9323hP1dFwasYgKO1CyYJO6PwznnNTaWnn8ksbg9VQhprpAp4ASxSPkfn1ISgzxw8LqWjNJK8Rew==

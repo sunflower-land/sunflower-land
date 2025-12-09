@@ -74,6 +74,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   private walkingAnimationKey: string | undefined;
   private digAnimationKey: string | undefined;
   private drillAnimationKey: string | undefined;
+  private waveAnimationKey: string | undefined;
+  private cheerAnimationKey: string | undefined;
   private backAuraKey: string | undefined;
   private frontAuraKey: string | undefined;
   private frontAuraAnimationKey: string | undefined;
@@ -227,6 +229,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.walkingAnimationKey = `${this.spriteKey}-bumpkin-walking`;
     this.digAnimationKey = `${this.spriteKey}-bumpkin-dig`;
     this.drillAnimationKey = `${this.spriteKey}-bumpkin-drilling`;
+    this.waveAnimationKey = `${this.spriteKey}-bumpkin-wave`;
+    this.cheerAnimationKey = `${this.spriteKey}-bumpkin-cheer`; // Jump animation for now
 
     await buildNPCSheets({
       parts: this.clothing,
@@ -260,6 +264,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         "walking",
         "dig",
         "drilling",
+        "wave",
+        "jump",
       ]);
       const idleLoader = scene.load.spritesheet(this.spriteKey, url, {
         frameWidth: 96,
@@ -291,6 +297,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         this.createWalkingAnimation(9, 16);
         this.createDigAnimation(17, 29);
         this.createDrillAnimation(30, 38);
+        this.createWaveAnimation(39, 52);
+        this.createCheerAnimation(53, 57);
         this.sprite.play(this.idleAnimationKey as string, true);
 
         this.ready = true;
@@ -389,6 +397,34 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         end,
       }),
       repeat: -1,
+      frameRate: 10,
+    });
+  }
+
+  private createWaveAnimation(start: number, end: number) {
+    if (!this.scene || !this.scene.anims) return;
+
+    this.scene.anims.create({
+      key: this.waveAnimationKey,
+      frames: this.scene.anims.generateFrameNumbers(this.spriteKey as string, {
+        start,
+        end, // Only play half of the wave animation
+      }),
+      repeat: 0,
+      frameRate: 10,
+    });
+  }
+
+  private createCheerAnimation(start: number, end: number) {
+    if (!this.scene || !this.scene.anims) return;
+
+    this.scene.anims.create({
+      key: this.cheerAnimationKey,
+      frames: this.scene.anims.generateFrameNumbers(this.spriteKey as string, {
+        start,
+        end,
+      }),
+      repeat: 2,
       frameRate: 10,
     });
   }
@@ -831,7 +867,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     }
   }
 
-  private _react(react: ReactionName | InventoryItemName, quantity?: number) {
+  private _react(
+    react: ReactionName | InventoryItemName | "Social Point",
+    quantity?: number,
+  ) {
     this.stopSpeaking();
 
     this.reaction.clear(true, true);
@@ -875,9 +914,20 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.destroyReaction();
   }
 
-  public react(reaction: ReactionName | InventoryItemName, quantity?: number) {
+  public react(
+    reaction: ReactionName | InventoryItemName | "Social Point",
+    quantity?: number,
+  ) {
     if (this.scene.textures.exists(reaction)) {
       return this._react(reaction, quantity);
+    }
+
+    if (reaction === "Social Point") {
+      this.loadTexture(reaction, "world/social_score.webp", () => {
+        this._react(reaction, quantity);
+      });
+
+      return;
     }
 
     if (reaction in KNOWN_IDS) {
@@ -960,6 +1010,18 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     }
   }
 
+  public isInteracting() {
+    const interactionAnimations = [
+      this.waveAnimationKey,
+      this.cheerAnimationKey,
+    ];
+
+    return (
+      this.sprite?.anims?.isPlaying &&
+      interactionAnimations.includes(this.sprite?.anims.getName() as string)
+    );
+  }
+
   public idle() {
     if (
       this.sprite?.anims &&
@@ -980,6 +1042,30 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
     if (this.backParticles?.active) {
       this.backParticles.emitting = false;
+    }
+  }
+
+  public wave() {
+    if (!this.scene || !this.sprite) return;
+
+    if (
+      this.waveAnimationKey &&
+      this.scene?.anims.exists(this.waveAnimationKey)
+    ) {
+      this.sprite.anims.play(this.waveAnimationKey, true);
+      return;
+    }
+  }
+
+  public cheer() {
+    if (!this.scene || !this.sprite) return;
+
+    if (
+      this.cheerAnimationKey &&
+      this.scene?.anims.exists(this.cheerAnimationKey)
+    ) {
+      this.sprite.anims.play(this.cheerAnimationKey, true);
+      return;
     }
   }
 

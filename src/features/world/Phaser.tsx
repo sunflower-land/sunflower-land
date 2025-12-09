@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Game, AUTO } from "phaser";
 import { useSelector } from "@xstate/react";
-import NinePatchPlugin from "phaser3-rex-plugins/plugins/ninepatch-plugin.js";
+import NinePatch2Plugin from "phaser3-rex-plugins/plugins/ninepatch2-plugin.js";
 import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin.js";
 import { PhaserNavMeshPlugin } from "phaser-navmesh";
 
@@ -67,6 +67,7 @@ import { RewardModal } from "features/social/RewardModal";
 import { PartyModal } from "./ui/player/PartyModal";
 import { Discovery } from "features/social/Discovery";
 import { SPAWNS } from "./lib/spawn";
+import { PlayerInteractionMenu } from "./ui/player/PlayerInteractionMenu";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -175,7 +176,7 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
       pixelArt: true,
       plugins: {
         global: [
-          { key: "rexNinePatchPlugin", plugin: NinePatchPlugin, start: true },
+          { key: "rexNinePatch2Plugin", plugin: NinePatch2Plugin, start: true },
           {
             key: "rexVirtualJoystick",
             plugin: VirtualJoystickPlugin,
@@ -463,6 +464,7 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
         )}
 
         <CommunityToasts />
+        <PlayerInteractionMenu />
 
         {mmoState === "connecting" && (
           <Label

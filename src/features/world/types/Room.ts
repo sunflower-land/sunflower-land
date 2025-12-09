@@ -84,6 +84,20 @@ export interface Trade extends Schema {
   tradeId: string;
 }
 
+export interface MicroInteraction extends Schema {
+  type:
+    | "wave"
+    | "wave_ack"
+    | "wave_cancel"
+    | "cheer"
+    | "cheer_ack"
+    | "cheer_cancel";
+  receiverId: number;
+  senderId: number;
+  sentAt: number;
+  sceneId: SceneId;
+}
+
 export interface Dog extends Schema {
   id: 1 | 2;
   x: number;
@@ -112,6 +126,7 @@ export interface PlazaRoomState extends Schema {
   messages: ArraySchema<Message>;
   reactions: ArraySchema<Reaction>;
   trades: ArraySchema<Trade>;
+  microInteractions: ArraySchema<MicroInteraction>;
   actions: ArraySchema<Action>;
 
   dogs: MapSchema<Dog>;
