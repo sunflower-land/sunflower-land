@@ -1974,7 +1974,7 @@
   "deposit": "Deposit",
   "add": "Add",
   "addSFL": "Add FLOWER",
-  "add.liquidity": "Add Liquidity",
+  "add.liquidity": "I've added liquidity",
   "alr.claim": "Already Claimed",
   "alr.completed": "Already Completed",
   "alr.crafted": "Already Crafted!",
@@ -6124,6 +6124,12 @@
   "flowerDashboard.title": "Flower Dashboard",
   "flowerDashboard.last7Days": "Last 7 days",
   "flowerDashboard.comingSoon": "Coming Soon",
+  "flowerRewards.thanks": "Thanks for supporting the Sunflower Land ecosystem!",
+  "flowerRewards.dailyReview": "Each day, we review community participation. A selection of up to 500 active supporters may receive a free cosmetic or fun in-game bonus as a token of appreciation. These gifts are optional, non-financial, and never guaranteed.",
+  "flowerRewards.participationDescription": "Players who actively support the decentralized economy may be recognised with optional bonus cosmetics, foods, or other non-financial in-game rewards. These rewards are not guaranteed and are simply a gesture of appreciation to the community.",
+  "flowerRewards.howToParticipate": "To participate, you can add liquidity to the V4 USDC/FLOWER pool on",
+  "flowerRewards.uniswap": "Uniswap",
+  "flowerRewards.uniswapDisclaimer": "Uniswap is a third-party, decentralized protocol and is not affiliated with Sunflower Land. Providing liquidity involves risk. Please do your own research and only participate if you fully understand how it works.",
   "economyDashboard.title": "Economy Dashboard",
   "economyDashboard.startDate": "Start date",
   "economyDashboard.endDate": "End date",
@@ -7246,5 +7252,6 @@
   "description.rarecrows.title": "Rarecrows - Telegram Minigame",
   "description.rarecrows": "Farm & collect rarecrows in our casual Telegram minigame!",
   "description.rarecrows.2": "Join over 15,000+ players and discover the Rarecrows before they run out",
-  "description.rarecrows.3": "Play now"
+  "description.rarecrows.3": "Play now",
+  "flowerRewards.title": "Rewards"
 }
