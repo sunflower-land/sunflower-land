@@ -139,7 +139,7 @@ export const FlowerRewards: React.FC<{ onClose: () => void }> = ({
         <p className="text-xs mx-1 mb-2">
           {t("flowerRewards.howToParticipate")}{" "}
           <a
-            href="https://app.uniswap.org/positions/create/v4?currencyA=0x3e12b9d6a4d12cd9b4a6d613872d0eb32f68b380&currencyB=0x833589fcd6edb6e08f4c7c32d4f71b54bda02913&chain=base&fee={%22isDynamic%22:false,%22feeAmount%22:3000,%22tickSpacing%22:60}&hook=undefined&priceRangeState={%22priceInverted%22:false,%22fullRange%22:true,%22minPrice%22:%22%22,%22maxPrice%22:%22%22,%22initialPrice%22:%22%22,%22inputMode%22:%22price%22}&depositState={%22exactField%22:%22TOKEN0%22,%22exactAmounts%22:{}}&step=1"
+            href="https://app.uniswap.org/positions/create/v3?currencyA=0x3e12b9d6a4d12cd9b4a6d613872d0eb32f68b380&currencyB=0x833589fcd6edb6e08f4c7c32d4f71b54bda02913&chain=base&fee={%22feeAmount%22:3000,%22tickSpacing%22:60,%22isDynamic%22:false}&hook=undefined&priceRangeState={%22priceInverted%22:false,%22fullRange%22:true,%22minPrice%22:%22%22,%22maxPrice%22:%22%22,%22initialPrice%22:%22%22,%22inputMode%22:%22price%22}&depositState={%22exactField%22:%22TOKEN1%22,%22exactAmounts%22:{%22TOKEN1%22:%220.05%22}}&step=1"
             target="_blank"
             rel="noopener noreferrer"
             className="underline"
