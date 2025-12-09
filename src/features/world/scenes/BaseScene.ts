@@ -532,12 +532,23 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   private updateInteractionTargetProximity() {
+    if (!this.currentPlayer) return;
+
+    // If we no longer have a valid menu/target, clear any stale references
+    if (!this.activeInteractionMenu || !this.activeInteractionTarget) {
+      this.activeInteractionMenu = undefined;
+      this.activeInteractionTarget = undefined;
+      return;
+    }
+
+    // If either the menu or the target bumpkin has been destroyed/despawned,
+    // clear the state and avoid accessing a destroyed entity.
     if (
-      !this.currentPlayer ||
-      !this.activeInteractionMenu ||
       !this.activeInteractionMenu.active ||
-      !this.activeInteractionTarget
+      !this.activeInteractionTarget.active
     ) {
+      this.activeInteractionMenu = undefined;
+      this.activeInteractionTarget = undefined;
       return;
     }
 
@@ -940,7 +951,7 @@ export abstract class BaseScene extends Phaser.Scene {
             }, 5000);
           }
           if (this.currentPlayer?.farmId === senderId) {
-            this.gameService.send("farm.cheered", {
+            this.gameService?.send("farm.cheered", {
               effect: {
                 type: "farm.cheered",
                 cheeredFarmId: senderId,
@@ -1545,6 +1556,16 @@ export abstract class BaseScene extends Phaser.Scene {
   destroyPlayer(sessionId: string) {
     const entity = this.playerEntities[sessionId];
     if (entity) {
+      // If the interaction menu is currently open for this entity, close it and
+      // clear the tracked target to avoid orphaned UI or stale references.
+      if (this.activeInteractionTarget === entity) {
+        if (this.activeInteractionMenu?.active) {
+          this.activeInteractionMenu.destroy();
+        }
+        this.activeInteractionMenu = undefined;
+        this.activeInteractionTarget = undefined;
+      }
+
       this.cleanupMicroInteractionsForFarm(entity.farmId);
 
       // Dispatch player leave event
