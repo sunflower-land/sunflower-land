@@ -1601,6 +1601,10 @@ export type SocialFarming = {
     farms: number[];
   };
   cheers: { freeCheersClaimedAt: number };
+  waves?: {
+    date: string;
+    farms: number[];
+  };
   helpIncrease?: { boughtAt: number[] };
   clutter?: {
     spawnedAt: number;
