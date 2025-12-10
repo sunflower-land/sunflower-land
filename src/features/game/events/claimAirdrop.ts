@@ -19,6 +19,7 @@ import {
   RESOURCE_STATE_ACCESSORS,
   RESOURCE_MULTIPLIER,
 } from "../types/resources";
+import { BUMPKIN_ITEM_PART, BumpkinItem } from "../types/bumpkin";
 
 export function addVipDays({
   game,
@@ -77,11 +78,19 @@ export function claimAirdrop({
 
   game.wardrobe = getKeys(airdrop.wearables ?? {}).reduce((acc, itemName) => {
     const previous = acc[itemName] || 0;
+    const amount = Number(airdrop.wearables[itemName] || 0);
+    const newValue = previous + amount;
 
-    return {
-      ...acc,
-      [itemName]: previous + (airdrop.wearables[itemName] || 0),
-    };
+    if (newValue > 0) {
+      return {
+        ...acc,
+        [itemName]: newValue,
+      };
+    } else {
+      const newAcc = { ...acc };
+      delete newAcc[itemName];
+      return newAcc;
+    }
   }, game.wardrobe);
 
   // Add VIP (don't set purchased bundle though)
@@ -205,6 +214,38 @@ export function claimAirdrop({
 
       // Clone game state only once after all removals are complete
       game = cloneDeep(game);
+    }
+  });
+
+  // Handle negative wearable airdrops - unequip from bumpkin and farmhands first
+  getObjectEntries(airdrop.wearables ?? {}).forEach(([itemName, amount]) => {
+    if (!amount || amount >= 0) return;
+
+    const amountToRemove = -amount;
+    let remainingToRemove = amountToRemove;
+
+    const part = BUMPKIN_ITEM_PART[itemName as BumpkinItem];
+    if (!part) {
+      return;
+    }
+
+    // Unequip from main bumpkin first
+    if (game.bumpkin?.equipped && game.bumpkin.equipped[part] === itemName) {
+      delete game.bumpkin.equipped[part];
+      remainingToRemove -= 1;
+    }
+
+    // Unequip from farmhands
+    if (remainingToRemove > 0) {
+      getKeys(game.farmHands.bumpkins).forEach((farmhandId) => {
+        if (remainingToRemove <= 0) return;
+
+        const farmhand = game.farmHands.bumpkins[farmhandId];
+        if (farmhand?.equipped && farmhand.equipped[part] === itemName) {
+          delete farmhand.equipped[part];
+          remainingToRemove -= 1;
+        }
+      });
     }
   });
 
