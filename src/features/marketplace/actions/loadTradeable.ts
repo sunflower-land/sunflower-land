@@ -11,10 +11,12 @@ export async function loadTradeable({
   type,
   id,
   token,
+  attempts = 0,
 }: {
   type: CollectionName;
   id: number;
   token: string;
+  attempts?: number;
 }): Promise<TradeableDetails> {
   if (!CONFIG.API_URL)
     return {
@@ -49,6 +51,11 @@ export async function loadTradeable({
   });
 
   if (response.status === 429) {
+    if (attempts < 3) {
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      return await loadTradeable({ type, id, token, attempts: attempts + 1 });
+    }
+
     throw new Error(ERRORS.TOO_MANY_REQUESTS);
   }
 
