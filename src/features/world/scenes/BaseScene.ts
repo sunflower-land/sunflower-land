@@ -1915,11 +1915,15 @@ export abstract class BaseScene extends Phaser.Scene {
 
         petContainer.x = Phaser.Math.Linear(petContainer.x, pet.x, 0.04);
         petContainer.y = Phaser.Math.Linear(petContainer.y, pet.y, 0.04);
-        // Get the player's depth and subtract a small amount so pet renders behind
-        const playerDepth = this.currentPlayer
-          ? Math.floor(this.currentPlayer.y)
-          : petContainer.y;
-        petContainer.setDepth(Math.max(0, playerDepth - 2));
+        // Render the pet behind its owner
+        const ownerEntity = this.playerEntities[sessionId];
+        const ownerPlayer = server.state.players.get(sessionId);
+        const ownerDepth = ownerEntity
+          ? Math.floor(ownerEntity.y)
+          : ownerPlayer
+            ? Math.floor(ownerPlayer.y ?? petContainer.y)
+            : petContainer.y;
+        petContainer.setDepth(Math.max(0, ownerDepth - 2));
       }
     });
   }
