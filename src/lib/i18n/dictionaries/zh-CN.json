@@ -7249,7 +7249,6 @@
   "flowerRewards.thanks": "感谢您支持向日葵乐园生态系统！",
   "flowerRewards.dailyReview": "每天，我们都会审查社区参与情况。最多500名活跃支持者可获得免费的装饰品或有趣的游戏内奖励，以示感谢。这些礼物是可选的，非财务的，绝不保证。",
   "flowerRewards.participationDescription": "积极支持去中心化经济的玩家可以通过可选的奖励化妆品、食物或其他非金融游戏内奖励获得认可。这些奖励无法保证，只是对社区的感激之情。",
-  "flowerRewards.howToParticipate": "要参与，您可以在 V4 USDC/FLOWER 池中添加流动性",
   "flowerRewards.uniswap": "uniswap",
   "flowerRewards.uniswapDisclaimer": "Uniswap 是第三方去中心化协议，不隶属于向日葵乐园。提供流动性涉及风险。请自己做研究，只有在完全了解其工作原理的情况下才能参与。",
   "flowerRewards.title": "奖励",
@@ -7257,5 +7256,6 @@
   "microInteraction.hey.there": "嘿！",
   "microInteraction.here.s.a.cheer.for.you": "这里为你加油！",
   "microInteraction.thanks": "谢谢！",
-  "microInteraction.maybe.later": "也许以后再说！"
+  "microInteraction.maybe.later": "也许以后再说！",
+  "flowerRewards.howToParticipate": "要参与，您可以在 V3 USDC/FLOWER 池中增加流动性（0.3%）"
 }

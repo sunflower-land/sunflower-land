@@ -7249,7 +7249,6 @@
   "flowerRewards.thanks": "Merci de soutenir l'écosystème Sunflower Land !",
   "flowerRewards.dailyReview": "Chaque jour, nous examinons la participation de la communauté. Une sélection de 500 supporters actifs peut recevoir un bonus cosmétique gratuit ou un bonus amusant en jeu en guise de remerciement. Ces cadeaux sont facultatifs, non financiers et ne sont jamais garantis.",
   "flowerRewards.participationDescription": "Les joueurs qui soutiennent activement l'économie décentralisée peuvent être récompensés par des bonus facultatifs en matière de cosmétiques, de nourriture ou d'autres récompenses non financières en jeu. Ces récompenses ne sont pas garanties et constituent simplement un geste d'appréciation envers la communauté.",
-  "flowerRewards.howToParticipate": "Pour participer, vous pouvez ajouter des liquidités au pool V4 USDC/FLOWER sur",
   "flowerRewards.uniswap": "Uniswap",
   "flowerRewards.uniswapDisclaimer": "Uniswap est un protocole tiers décentralisé et n'est pas affilié à Sunflower Land. Fournir des liquidités comporte des risques. Veuillez faire vos propres recherches et ne participer que si vous comprenez parfaitement comment cela fonctionne.",
   "flowerRewards.title": "Récompenses",
@@ -7257,5 +7256,6 @@
   "microInteraction.hey.there": "Salut !",
   "microInteraction.here.s.a.cheer.for.you": "Je vous encourage !",
   "microInteraction.thanks": "Merci !",
-  "microInteraction.maybe.later": "Peut-être plus tard !"
+  "microInteraction.maybe.later": "Peut-être plus tard !",
+  "flowerRewards.howToParticipate": "Pour participer, vous pouvez ajouter des liquidités au pool V3 USDC/FLOWER (0,3 %) sur"
 }

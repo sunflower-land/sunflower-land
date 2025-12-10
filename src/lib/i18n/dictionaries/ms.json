@@ -7249,7 +7249,6 @@
   "flowerRewards.thanks": "Terima kasih kerana menyokong ekosistem Sunflower Land!",
   "flowerRewards.dailyReview": "Setiap hari, kami mengkaji penyertaan masyarakat. Pilihan sehingga 500 penyokong aktif boleh menerima kosmetik percuma atau bonus dalam permainan yang menyeronokkan sebagai tanda penghargaan. Hadiah ini adalah pilihan, bukan kewangan, dan tidak pernah dijamin.",
   "flowerRewards.participationDescription": "Pemain yang secara aktif menyokong ekonomi terdesentralisasi boleh diiktiraf dengan kosmetik bonus pilihan, makanan, atau ganjaran dalam permainan bukan kewangan lain. Ganjaran ini tidak dijamin dan hanyalah isyarat penghargaan kepada masyarakat.",
-  "flowerRewards.howToParticipate": "Untuk mengambil bahagian, anda boleh menambah kecairan ke kolam V4 USDC/FLOWER pada",
   "flowerRewards.uniswap": "Uniswap",
   "flowerRewards.uniswapDisclaimer": "Uniswap adalah protokol pihak ketiga, terdesentralisasi dan tidak bergabung dengan Sunflower Land. Menyediakan kecairan melibatkan risiko. Sila lakukan penyelidikan anda sendiri dan hanya mengambil bahagian jika anda memahami sepenuhnya bagaimana ia berfungsi.",
   "flowerRewards.title": "Ganjaran",
@@ -7257,5 +7256,6 @@
   "microInteraction.hey.there": "Hei sana!",
   "microInteraction.here.s.a.cheer.for.you": "Inilah sorakan untuk anda!",
   "microInteraction.thanks": "Terima kasih!",
-  "microInteraction.maybe.later": "Mungkin kemudian!"
+  "microInteraction.maybe.later": "Mungkin kemudian!",
+  "flowerRewards.howToParticipate": "Untuk mengambil bahagian, anda boleh menambah kecairan ke kolam V3 USDC/FLOWER (0.3%) pada"
 }

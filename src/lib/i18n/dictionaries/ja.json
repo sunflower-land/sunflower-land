@@ -7249,7 +7249,6 @@
   "flowerRewards.thanks": "サンフラワーランドのエコシステムをサポートしていただきありがとうございます！",
   "flowerRewards.dailyReview": "私たちは毎日、コミュニティの参加状況を見直しています。500名までのアクティブなサポーターの中から選ばれた方には、感謝の印として、装飾アイテムや楽しいゲーム内ボーナスが無料で贈られます。これらのギフトはオプションであり、金銭的なものではなく、保証されるものではありません。",
   "flowerRewards.participationDescription": "分散型経済を積極的に支援しているプレイヤーには、オプションのボーナス装飾アイテム、食品、その他の非金銭的なゲーム内報酬が贈られます。これらの報酬は保証されるものではなく、コミュニティへの感謝のしるしに過ぎません。",
-  "flowerRewards.howToParticipate": "参加するには、次の方法でV4 USDC/FLOWERプールに流動性を追加できます",
   "flowerRewards.uniswap": "ユニスワップ",
   "flowerRewards.uniswapDisclaimer": "Uniswapはサードパーティの分散型プロトコルであり、サンフラワーランドとは提携していません。流動性の提供にはリスクが伴います。独自の調査を行い、その仕組みを完全に理解している場合にのみ参加してください。",
   "flowerRewards.title": "報酬",
@@ -7257,5 +7256,6 @@
   "microInteraction.hey.there": "やあ、そこ！",
   "microInteraction.here.s.a.cheer.for.you": "乾杯です！",
   "microInteraction.thanks": "ありがとう!",
-  "microInteraction.maybe.later": "多分後で！"
+  "microInteraction.maybe.later": "多分後で！",
+  "flowerRewards.howToParticipate": "参加するには、以下のV3 USDC/FLOWERプール（0.3％）に流動性を追加することができます"
 }
