@@ -1588,6 +1588,10 @@ export const STATIC_OFFLINE_FARM: GameState = {
         },
       },
     },
+    waves: {
+      date: new Date().toISOString().split("T")[0],
+      farms: [],
+    },
   },
   pets: {
     common: {},

@@ -919,11 +919,24 @@ export abstract class BaseScene extends Phaser.Scene {
         this.currentPlayer.farmId === receiverId)
     ) {
       switch (interaction) {
-        case "wave_ack":
+        case "wave_ack": {
           sender.speak(translate("microInteraction.great.to.see.you"));
           receiver.speak(translate("microInteraction.hey.there"));
-          // Award social points to both participants on successful wave interaction
-          this.gameService?.send("bumpkin.wave");
+
+          // Determine the other participant for wave tracking
+          const currentFarmId = this.currentPlayer?.farmId;
+          const otherFarmId =
+            currentFarmId === senderId ? receiverId : senderId;
+
+          if (currentFarmId && otherFarmId) {
+            // Award social points via the game machine (subject to daily limits)
+            this.gameService?.send({
+              type: "bumpkin.wave",
+              otherFarmId,
+            });
+          }
+
+          // Visual feedback for a successful social interaction
           setTimeout(() => {
             this.mmoServer?.send(0, {
               reaction: {
@@ -934,6 +947,7 @@ export abstract class BaseScene extends Phaser.Scene {
             // Wait for the speech bubble to be gone
           }, 5000);
           break;
+        }
         case "cheer_ack":
           sender.speak(translate("microInteraction.here.s.a.cheer.for.you"));
           setTimeout(() => {
