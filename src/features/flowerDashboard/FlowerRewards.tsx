@@ -172,6 +172,11 @@ export const FlowerRewards: React.FC<{ onClose: () => void }> = ({
                   {error.message}
                 </Label>
               )}
+              {status?.type === "error" && (
+                <Label type="danger" className="mt-1">
+                  {status.message}
+                </Label>
+              )}
             </>
           </>
         )}
