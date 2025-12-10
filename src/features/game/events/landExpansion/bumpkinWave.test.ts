@@ -3,9 +3,12 @@ import { bumpkinWave } from "./bumpkinWave";
 
 describe("bumpkinWave", () => {
   it("awards +1 all-time social point for the first wave with a player on a given day", () => {
+    const createdAt = new Date("2025-01-01T00:00:00.000Z").getTime();
+
     const state = bumpkinWave({
       state: INITIAL_FARM,
       action: { type: "bumpkin.wave", otherFarmId: 2 },
+      createdAt,
     });
 
     expect(state.socialFarming.points).toBe(
@@ -15,7 +18,7 @@ describe("bumpkinWave", () => {
       (INITIAL_FARM.socialFarming.weeklyPoints.points ?? 0) + 1,
     );
     expect(state.socialFarming.waves).toEqual({
-      date: new Date().toISOString().split("T")[0],
+      date: new Date(createdAt).toISOString().split("T")[0],
       farms: [2],
     });
   });
