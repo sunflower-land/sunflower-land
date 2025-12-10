@@ -7257,5 +7257,6 @@
   "microInteraction.here.s.a.cheer.for.you": "Inilah sorakan untuk anda!",
   "microInteraction.thanks": "Terima kasih!",
   "microInteraction.maybe.later": "Mungkin kemudian!",
-  "flowerRewards.howToParticipate": "Untuk mengambil bahagian, anda boleh menambah kecairan ke kolam V3 USDC/FLOWER (0.3%) pada"
+  "flowerRewards.howToParticipate": "Untuk mengambil bahagian, anda boleh menambah kecairan ke kolam V3 USDC/FLOWER (0.3%) pada",
+  "withdraw.flower.minimumWithdrawal": "Jumlah pengeluaran minimum ialah 5 BUNGA."
 }

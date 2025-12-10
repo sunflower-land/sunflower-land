@@ -7257,5 +7257,6 @@
   "microInteraction.here.s.a.cheer.for.you": "İşte size bir tezahürat!",
   "microInteraction.thanks": "Teşekkürler!",
   "microInteraction.maybe.later": "Belki daha sonra!",
-  "flowerRewards.howToParticipate": "Katılmak için V3 USDC/FLOWER havuzuna (%0.3) likidite ekleyebilirsiniz."
+  "flowerRewards.howToParticipate": "Katılmak için V3 USDC/FLOWER havuzuna (%0.3) likidite ekleyebilirsiniz.",
+  "withdraw.flower.minimumWithdrawal": "Minimum para çekme miktarı 5 ÇIÇEK."
 }

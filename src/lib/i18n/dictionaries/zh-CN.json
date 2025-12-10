@@ -7257,5 +7257,6 @@
   "microInteraction.here.s.a.cheer.for.you": "这里为你加油！",
   "microInteraction.thanks": "谢谢！",
   "microInteraction.maybe.later": "也许以后再说！",
-  "flowerRewards.howToParticipate": "要参与，您可以在 V3 USDC/FLOWER 池中增加流动性（0.3%）"
+  "flowerRewards.howToParticipate": "要参与，您可以在 V3 USDC/FLOWER 池中增加流动性（0.3%）",
+  "withdraw.flower.minimumWithdrawal": "最低提款金额为 5 FLOWER。"
 }

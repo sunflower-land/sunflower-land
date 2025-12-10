@@ -7257,5 +7257,6 @@
   "microInteraction.here.s.a.cheer.for.you": "乾杯です！",
   "microInteraction.thanks": "ありがとう!",
   "microInteraction.maybe.later": "多分後で！",
-  "flowerRewards.howToParticipate": "参加するには、以下のV3 USDC/FLOWERプール（0.3％）に流動性を追加することができます"
+  "flowerRewards.howToParticipate": "参加するには、以下のV3 USDC/FLOWERプール（0.3％）に流動性を追加することができます",
+  "withdraw.flower.minimumWithdrawal": "最低出金額は5フラワーです。"
 }

@@ -7257,5 +7257,6 @@
   "microInteraction.here.s.a.cheer.for.you": "여러분을 응원합니다!",
   "microInteraction.thanks": "고마워요!",
   "microInteraction.maybe.later": "나중에 할지도 몰라요!",
-  "flowerRewards.howToParticipate": "참여하려면 다음과 같이 V3 USDC/FLOWER 풀 (0.3%) 에 유동성을 추가할 수 있습니다."
+  "flowerRewards.howToParticipate": "참여하려면 다음과 같이 V3 USDC/FLOWER 풀 (0.3%) 에 유동성을 추가할 수 있습니다.",
+  "withdraw.flower.minimumWithdrawal": "최소 인출 금액은 5 플라워입니다."
 }

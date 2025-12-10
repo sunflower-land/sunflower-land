@@ -7257,5 +7257,6 @@
   "microInteraction.here.s.a.cheer.for.you": "Ini sorakan untukmu!",
   "microInteraction.thanks": "Terima kasih",
   "microInteraction.maybe.later": "Mungkin nanti!",
-  "flowerRewards.howToParticipate": "Untuk berpartisipasi, Anda dapat menambahkan likuiditas ke kolam V3 USDC/FLOWER (0,3%) pada"
+  "flowerRewards.howToParticipate": "Untuk berpartisipasi, Anda dapat menambahkan likuiditas ke kolam V3 USDC/FLOWER (0,3%) pada",
+  "withdraw.flower.minimumWithdrawal": "Jumlah penarikan minimum adalah 5 FLOWER."
 }

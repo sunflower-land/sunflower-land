@@ -7257,5 +7257,6 @@
   "microInteraction.here.s.a.cheer.for.you": "Ecco un applauso per te!",
   "microInteraction.thanks": "Grazie!",
   "microInteraction.maybe.later": "Forse più tardi!",
-  "flowerRewards.howToParticipate": "Per partecipare, puoi aggiungere liquidità al pool V3 USDC/FLOWER (0,3%) il"
+  "flowerRewards.howToParticipate": "Per partecipare, puoi aggiungere liquidità al pool V3 USDC/FLOWER (0,3%) il",
+  "withdraw.flower.minimumWithdrawal": "L'importo minimo di prelievo è di 5 FIORI."
 }
