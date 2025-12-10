@@ -116,16 +116,10 @@ export type Marketplace = {
   items: Tradeable[];
 };
 
-type TrendingItem = {
-  id: number;
-  collection: CollectionName;
-};
-
 export type MarketplaceTrends = {
   volume: number;
   trades: number;
   owners: number;
-  items: TrendingItem[];
   topTrades: {
     buyer: {
       id: number;
