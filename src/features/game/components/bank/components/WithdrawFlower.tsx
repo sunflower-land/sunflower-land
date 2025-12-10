@@ -51,14 +51,6 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
     game: state,
   });
 
-  const withdraw = (chainId: number) => {
-    if (amount.greaterThanOrEqualTo(MIN_FLOWER_WITHDRAW_AMOUNT)) {
-      onWithdraw(toWei(amount.toString()), chainId);
-    } else {
-      setAmount(new Decimal(0));
-    }
-  };
-
   const hasAccess = hasReputation({
     game: state,
     reputation: Reputation.Grower,
@@ -74,6 +66,12 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
 
   const disableWithdraw =
     amount.greaterThan(balance) || amount.lessThan(MIN_FLOWER_WITHDRAW_AMOUNT);
+
+  const withdraw = (chainId: number) => {
+    if (disableWithdraw) return;
+
+    onWithdraw(toWei(amount.toString()), chainId);
+  };
 
   return (
     <>
@@ -118,7 +116,10 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
             <Button onClick={() => setShowConfirmation(false)}>
               {t("back")}
             </Button>
-            <Button onClick={() => chain && withdraw(chain.id)}>
+            <Button
+              disabled={disableWithdraw || autosaving || !chain}
+              onClick={() => chain && withdraw(chain.id)}
+            >
               {t("confirm")}
             </Button>
           </div>
