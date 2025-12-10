@@ -67,10 +67,10 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
   const disableWithdraw =
     amount.greaterThan(balance) || amount.lessThan(MIN_FLOWER_WITHDRAW_AMOUNT);
 
-  const withdraw = (chainId: number) => {
-    if (disableWithdraw) return;
+  const withdraw = () => {
+    if (disableWithdraw || autosaving || !chain) return;
 
-    onWithdraw(toWei(amount.toString()), chainId);
+    onWithdraw(toWei(amount.toString()), chain!.id);
   };
 
   return (
@@ -118,7 +118,7 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
             </Button>
             <Button
               disabled={disableWithdraw || autosaving || !chain}
-              onClick={() => chain && withdraw(chain.id)}
+              onClick={withdraw}
             >
               {t("confirm")}
             </Button>
