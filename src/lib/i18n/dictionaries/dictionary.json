@@ -3815,6 +3815,7 @@
   "withdraw.pet.confirmation2": "This withdrawal wipes your pet's energy and experience completely. This action cannot be undone. Proceed?",
   "withdraw.budRestricted": "Used in today's bud box",
   "withdraw.flower.limited": "During the initial launch of $FLOWER, the amount of $FLOWER you can withdraw is limited.",
+  "withdraw.flower.minimumWithdrawal": "Minimum withdrawal amount is 5 FLOWER.",
   "withdraw.boostedItem.timeLeft": "Withdrawable in {{time}}",
   "withdraw.requires.storeOnChain": "Store on Chain Required",
   "withdraw.pet.notRevealed": "Pet will be revealed on {{date}}",
