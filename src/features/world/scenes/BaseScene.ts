@@ -928,7 +928,25 @@ export abstract class BaseScene extends Phaser.Scene {
           const otherFarmId =
             currentFarmId === senderId ? receiverId : senderId;
 
+          let shouldShowSocialPointReaction = false;
+
           if (currentFarmId && otherFarmId) {
+            // Mirror the bumpkinWave logic to determine whether this wave
+            // will actually award a social point for the current player.
+            const socialFarming = this.gameState.socialFarming;
+            const today = new Date().toISOString().split("T")[0];
+
+            const waves = socialFarming.waves;
+            const isToday = waves?.date === today;
+            const farmsToday = isToday ? (waves?.farms ?? []) : [];
+
+            const hasAlreadyWavedThisPlayerToday =
+              farmsToday.includes(otherFarmId);
+            const hasReachedDailyWaveLimit = farmsToday.length >= 20;
+
+            shouldShowSocialPointReaction =
+              !hasAlreadyWavedThisPlayerToday && !hasReachedDailyWaveLimit;
+
             // Award social points via the game machine (subject to daily limits)
             this.gameService?.send({
               type: "bumpkin.wave",
@@ -936,16 +954,21 @@ export abstract class BaseScene extends Phaser.Scene {
             });
           }
 
-          // Visual feedback for a successful social interaction
-          setTimeout(() => {
-            this.mmoServer?.send(0, {
-              reaction: {
-                reaction: "Social Point",
-                quantity: 1,
-              },
-            });
-            // Wait for the speech bubble to be gone
-          }, 5000);
+          // Visual feedback for a successful social interaction:
+          // only show the Social Point reaction if this wave is expected
+          // to actually grant a point to the current player.
+          if (shouldShowSocialPointReaction) {
+            setTimeout(() => {
+              this.mmoServer?.send(0, {
+                reaction: {
+                  reaction: "Social Point",
+                  quantity: 1,
+                },
+              });
+              // Wait for the speech bubble to be gone
+            }, 5000);
+          }
+
           break;
         }
         case "cheer_ack":
