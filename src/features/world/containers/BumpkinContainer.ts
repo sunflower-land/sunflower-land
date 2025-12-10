@@ -70,6 +70,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
   // Animation Keys
   private spriteKey: string | undefined;
+  private spriteKey2: string | undefined;
   private idleAnimationKey: string | undefined;
   private walkingAnimationKey: string | undefined;
   private digAnimationKey: string | undefined;
@@ -225,6 +226,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
   private async loadSprites(scene: Phaser.Scene) {
     this.spriteKey = tokenUriBuilder(this.clothing);
+    this.spriteKey2 = `${this.spriteKey}-2`;
     this.idleAnimationKey = `${this.spriteKey}-bumpkin-idle`;
     this.walkingAnimationKey = `${this.spriteKey}-bumpkin-walking`;
     this.digAnimationKey = `${this.spriteKey}-bumpkin-dig`;
@@ -259,13 +261,12 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
       this.ready = true;
     } else {
+      // Set up base animations
       const url = getAnimationUrl(this.clothing, [
         "idle",
         "walking",
         "dig",
         "drilling",
-        "wave",
-        "jump",
       ]);
       const idleLoader = scene.load.spritesheet(this.spriteKey, url, {
         frameWidth: 96,
@@ -297,8 +298,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         this.createWalkingAnimation(9, 16);
         this.createDigAnimation(17, 29);
         this.createDrillAnimation(30, 38);
-        this.createWaveAnimation(39, 52);
-        this.createCheerAnimation(53, 57);
         this.sprite.play(this.idleAnimationKey as string, true);
 
         this.ready = true;
@@ -306,6 +305,31 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
           this.silhouette?.destroy();
         }
       });
+
+      // Load micro interactions animations
+      const url2 = getAnimationUrl(this.clothing, ["wave", "jump"]);
+      const secondaryLoader = scene.load.spritesheet(this.spriteKey2, url2, {
+        frameWidth: 96,
+        frameHeight: 64,
+      });
+
+      secondaryLoader.once(
+        `filecomplete-spritesheet-${this.spriteKey2}`,
+        () => {
+          if (!scene.textures.exists(this.spriteKey2 as string)) {
+            return;
+          }
+
+          // Ensure these animations exist once the secondary sheet is loaded
+          if (!this.scene?.anims.exists(this.waveAnimationKey as string)) {
+            this.createWaveAnimation(0, 13);
+          }
+
+          if (!this.scene?.anims.exists(this.cheerAnimationKey as string)) {
+            this.createCheerAnimation(14, 18);
+          }
+        },
+      );
     }
 
     scene.load.start();
@@ -406,7 +430,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
     this.scene.anims.create({
       key: this.waveAnimationKey,
-      frames: this.scene.anims.generateFrameNumbers(this.spriteKey as string, {
+      frames: this.scene.anims.generateFrameNumbers(this.spriteKey2 as string, {
         start,
         end, // Only play half of the wave animation
       }),
@@ -420,7 +444,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
     this.scene.anims.create({
       key: this.cheerAnimationKey,
-      frames: this.scene.anims.generateFrameNumbers(this.spriteKey as string, {
+      frames: this.scene.anims.generateFrameNumbers(this.spriteKey2 as string, {
         start,
         end,
       }),
