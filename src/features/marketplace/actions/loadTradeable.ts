@@ -16,7 +16,7 @@ export async function loadTradeable({
   type: CollectionName;
   id: number;
   token: string;
-  attempts: number;
+  attempts?: number;
 }): Promise<TradeableDetails> {
   if (!CONFIG.API_URL)
     return {
