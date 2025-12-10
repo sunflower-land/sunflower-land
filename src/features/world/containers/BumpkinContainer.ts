@@ -190,7 +190,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     // });
 
     this.scene.add.existing(this);
-    // this.updateGam3sCelebrationEffect();
+    this.updateGam3sCelebrationEffect();
 
     if (onClick) {
       this.setInteractive({ cursor: "pointer" }).on(
@@ -487,7 +487,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     }
 
     this.showSmoke();
-    // this.updateGam3sCelebrationEffect();
+    this.updateGam3sCelebrationEffect();
   }
 
   public showCharm() {
