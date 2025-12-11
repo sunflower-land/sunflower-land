@@ -12,14 +12,18 @@ interface Props {
   farmActivity: GameState["farmActivity"];
   caught: Partial<Record<InventoryItemName, number>>;
   onClaim: () => void;
+  multiplier?: number;
 }
 
 export const FishCaught: React.FC<Props> = ({
   farmActivity,
   caught,
   onClaim,
+  multiplier = 1,
 }) => {
   const { t } = useAppTranslation();
+  const isMultiCast = (multiplier ?? 1) > 1;
+
   if (!caught || getKeys(caught).length === 0) {
     return (
       <>
@@ -36,6 +40,56 @@ export const FishCaught: React.FC<Props> = ({
       </>
     );
   }
+  if (isMultiCast) {
+    const entries = getKeys(caught).filter((name) => (caught[name] ?? 0) > 0);
+
+    return (
+      <>
+        <div className="p-2">
+          <Label type="default" className="mb-2">
+            {t("fishing.yourCatch")}
+          </Label>
+          <div className="space-y-1">
+            {entries.map((name) => {
+              const amount = caught[name] ?? 0;
+              const isNew =
+                name in FISH &&
+                (!farmActivity[`${name} Caught`] ||
+                  farmActivity[`${name} Caught`] === 0);
+
+              return (
+                <div
+                  key={name}
+                  className="flex items-center justify-between bg-brown-600 p-1 rounded-md"
+                >
+                  <div className="flex items-center gap-2">
+                    <img
+                      src={ITEM_DETAILS[name]?.image}
+                      className="h-6"
+                      alt={name}
+                    />
+                    <span className="text-xs">{name}</span>
+                    {isNew && (
+                      <Label
+                        type="warning"
+                        className="ml-1 text-[10px] px-1 py-0.5"
+                        icon={SUNNYSIDE.icons.search}
+                      >
+                        {t("fishermanQuest.Newfish")}
+                      </Label>
+                    )}
+                  </div>
+                  <span className="text-xs font-semibold">{`x${amount}`}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <Button onClick={onClaim}>{t("ok")}</Button>
+      </>
+    );
+  }
+
   return (
     <>
       <div className="p-2">

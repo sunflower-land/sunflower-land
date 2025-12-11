@@ -58,6 +58,8 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { SEASON_ICONS } from "../buildings/components/building/market/SeasonalSeeds";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
+import { hasVipAccess } from "features/game/lib/vipAccess";
+import { Checkbox } from "components/ui/Checkbox";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -166,7 +168,11 @@ const BAIT: FishingBait[] = [
 ];
 
 const BaitSelection: React.FC<{
-  onCast: (bait: FishingBait, chum?: InventoryItemName) => void;
+  onCast: (
+    bait: FishingBait,
+    chum?: InventoryItemName,
+    multiplier?: number,
+  ) => void;
   onClickBuy: () => void;
   state: GameState;
 }> = ({ onCast, onClickBuy, state }) => {
@@ -197,8 +203,11 @@ const BaitSelection: React.FC<{
   const [showChum, setShowChum] = useState(false);
   const [chum, setChum] = useState<Chum | undefined>();
   const [bait, setBait] = useState<FishingBait>("Earthworm");
+  const [multiplier, setMultiplier] = useState<number>(1);
 
   const { t } = useAppTranslation();
+
+  const isVip = hasVipAccess({ game: state });
 
   if (showChum) {
     return (
@@ -221,9 +230,15 @@ const BaitSelection: React.FC<{
   const reelsLeft = getRemainingReels(state);
 
   const fishingLimitReached = reelsLeft <= 0;
+  const hasAncientRod = isWearableActive({ name: "Ancient Rod", game: state });
+
+  const effectiveMultiplier = isVip ? multiplier : 1;
+
+  const rodsRequired = hasAncientRod ? 0 : effectiveMultiplier;
+
   const missingRod =
-    !isWearableActive({ name: "Ancient Rod", game: state }) &&
-    (!state.inventory["Rod"] || state.inventory.Rod.lt(1));
+    !hasAncientRod &&
+    (!state.inventory["Rod"] || state.inventory.Rod.lt(rodsRequired));
 
   const currentSeason = state.season.season;
 
@@ -286,6 +301,12 @@ const BaitSelection: React.FC<{
             </div>
             <div>
               <p className="text-sm mb-1">{bait}</p>
+              <p className="text-xs mb-1">
+                {t("fishing.baitMultiplier", {
+                  count: effectiveMultiplier,
+                  bait,
+                })}
+              </p>
               <p className="text-xs">{ITEM_DETAILS[bait].description}</p>
               {!items[bait] && bait !== "Fishing Lure" && (
                 <Label className="mt-2" type="default">
@@ -306,6 +327,36 @@ const BaitSelection: React.FC<{
           )}
         </InnerPanel>
       </div>
+      {isVip && (
+        <InnerPanel className="mb-1">
+          <div className="flex items-center justify-between p-2 gap-2">
+            <Label type="default" className="text-xs">
+              {t("fishing.multiCast")}
+            </Label>
+            <div className="flex gap-2">
+              {[1, 5, 10].map((value) => {
+                const disabled = value > reelsLeft;
+                const isSelected = effectiveMultiplier === value;
+
+                return (
+                  <div
+                    key={value}
+                    className="flex items-center gap-1 cursor-pointer"
+                    onClick={() => !disabled && setMultiplier(value)}
+                  >
+                    <Checkbox
+                      checked={isSelected}
+                      onChange={() => {}}
+                      disabled={disabled}
+                    />
+                    <span className="text-xs">{`${value}x`}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </InnerPanel>
+      )}
       <InnerPanel className="mb-1">
         {chum ? (
           <div className="flex items-center justify-between mb-1">
@@ -313,7 +364,7 @@ const BaitSelection: React.FC<{
               <img src={ITEM_DETAILS[chum].image} className="h-5 mr-1" />
               <Label type="default">
                 {t("fishermanModal.chum", {
-                  count: CHUM_AMOUNTS[chum],
+                  count: CHUM_AMOUNTS[chum] * effectiveMultiplier,
                   type: chum,
                 })}
               </Label>
@@ -370,11 +421,16 @@ const BaitSelection: React.FC<{
         </Button>
       ) : (
         <Button
-          onClick={() => onCast(bait, chum)}
+          onClick={() => onCast(bait, chum, effectiveMultiplier)}
           disabled={
             fishingLimitReached ||
             missingRod ||
-            !items[bait as InventoryItemName]?.gte(1)
+            !items[bait as InventoryItemName]?.gte(effectiveMultiplier) ||
+            (chum
+              ? !items[chum as InventoryItemName]?.gte(
+                  new Decimal(CHUM_AMOUNTS[chum] * effectiveMultiplier),
+                )
+              : false)
           }
         >
           <div className="flex items-center">
@@ -392,7 +448,11 @@ const capitalizeFirstLetters = (inputString: string) => {
 };
 
 interface Props {
-  onCast: (bait: FishingBait, chum?: InventoryItemName) => void;
+  onCast: (
+    bait: FishingBait,
+    chum?: InventoryItemName,
+    multiplier?: number,
+  ) => void;
   onClose: () => void;
   npc?: NPCName;
 }

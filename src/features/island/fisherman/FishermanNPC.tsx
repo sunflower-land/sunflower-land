@@ -393,6 +393,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
         >
           <FishCaught
             caught={fishing.wharf.caught ?? {}}
+            multiplier={fishing.wharf.multiplier}
             onClaim={close}
             farmActivity={farmActivity}
           />

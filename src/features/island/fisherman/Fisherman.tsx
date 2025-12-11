@@ -44,8 +44,12 @@ export const Fisherman: React.FC = () => {
     }
   };
 
-  const cast = (bait: FishingBait, chum?: InventoryItemName) => {
-    gameService.send("rod.casted", { bait, chum });
+  const cast = (
+    bait: FishingBait,
+    chum?: InventoryItemName,
+    multiplier?: number,
+  ) => {
+    gameService.send("rod.casted", { bait, chum, multiplier });
     gameService.send("SAVE");
     setShowModal(false);
   };
