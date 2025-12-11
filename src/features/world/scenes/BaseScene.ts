@@ -375,9 +375,28 @@ export abstract class BaseScene extends Phaser.Scene {
         // ignore click if the joystick is active
         if (this.joystick?.pointer) return;
 
-        playerInteractionMenuManager.close();
-
         const clickedObjects = this.input.hitTestPointer(pointer);
+
+        // If an interaction menu is open and the click happened outside of it,
+        // close the menu.
+        if (this.activeInteractionMenu) {
+          const menu = this.activeInteractionMenu;
+          const menuChildren = (menu.list ??
+            []) as Phaser.GameObjects.GameObject[];
+
+          const clickInsideMenu = clickedObjects.some((obj) => {
+            if (obj === menu) return true;
+            return menuChildren.includes(obj as Phaser.GameObjects.GameObject);
+          });
+
+          if (!clickInsideMenu) {
+            menu.destroy();
+            this.activeInteractionMenu = undefined;
+            this.activeInteractionTarget = undefined;
+          }
+        }
+
+        playerInteractionMenuManager.close();
 
         // filter other players
         const clickedBumpkins = clickedObjects.filter((clickedObject) => {
