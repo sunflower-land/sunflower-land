@@ -794,14 +794,11 @@ export abstract class BaseScene extends Phaser.Scene {
     indicator.setName("outgoingMicroInteractionIndicator");
 
     const iconImage = this.add.image(0, 0, icon);
-    // Make the icon approximately the size of the round button
-    // (the button is 14x14 with a 6x6 icon). Since we're only
-    // rendering the icon, make it larger and use scale 1.
     iconImage.setDisplaySize(8, 8);
     indicator.add(iconImage);
 
     indicator.y = 4; // roughly where their body is
-    indicator.alpha = 0.8; // slightly translucent but visually opaque
+    indicator.alpha = 0.8;
     indicator.scale = 1;
 
     target.add(indicator);
