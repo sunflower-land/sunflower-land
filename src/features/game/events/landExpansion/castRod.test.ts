@@ -177,6 +177,67 @@ describe("castRod", () => {
     expect(state.inventory.Sunflower).toEqual(new Decimal(450));
   });
 
+  it("multiplies rods, bait and chum when multi casting", () => {
+    const state = castRod({
+      action: {
+        bait: "Earthworm",
+        type: "rod.casted",
+        chum: "Sunflower",
+        multiplier: 5,
+      },
+      state: {
+        ...farm,
+        vip: {
+          expiresAt: Date.now() + 1000 * 60 * 60,
+        },
+        inventory: {
+          Rod: new Decimal(10),
+          Earthworm: new Decimal(10),
+          Sunflower: new Decimal(1000),
+        },
+        fishing: {
+          wharf: {},
+          dailyAttempts: {},
+          extraReels: {
+            count: 20,
+          },
+        },
+      },
+    });
+
+    expect(state.inventory.Rod).toEqual(new Decimal(5));
+    expect(state.inventory.Earthworm).toEqual(new Decimal(5));
+    // 50 sunflower per chum * 5 casts = 250
+    expect(state.inventory.Sunflower).toEqual(new Decimal(750));
+    expect(state.fishing.wharf.multiplier).toEqual(5);
+  });
+
+  it("requires VIP when multiplier is greater than 1", () => {
+    expect(() => {
+      castRod({
+        action: {
+          bait: "Earthworm",
+          type: "rod.casted",
+          multiplier: 5,
+        },
+        state: {
+          ...farm,
+          inventory: {
+            Rod: new Decimal(10),
+            Earthworm: new Decimal(10),
+          },
+          fishing: {
+            wharf: {},
+            dailyAttempts: {},
+            extraReels: {
+              count: 20,
+            },
+          },
+        },
+      });
+    }).toThrow("VIP is required");
+  });
+
   it("applies the Angler Waders boost which increases the daily fishing limit by 10", () => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date("2023-10-11T09:00:00Z"));
@@ -321,6 +382,7 @@ describe("castRod", () => {
       castedAt: expect.any(Number),
       bait: "Earthworm",
       chum: "Sunflower",
+      multiplier: 1,
     });
   });
 

@@ -3,7 +3,6 @@ import {
   CHUM_AMOUNTS,
   Chum,
   FishingBait,
-  getDailyFishingCount,
   getDailyFishingLimit,
 } from "features/game/types/fishing";
 import Decimal from "decimal.js-light";
@@ -12,12 +11,17 @@ import { translate } from "lib/i18n/translate";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { produce } from "immer";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 
 export type CastRodAction = {
   type: "rod.casted";
   bait: FishingBait;
   chum?: Chum;
   location?: string;
+  /**
+   * Number of simultaneous casts. VIP only when > 1.
+   */
+  multiplier?: number;
 };
 
 type Options = {
@@ -61,19 +65,38 @@ export function castRod({
       getDailyFishingLimit(game);
     const boostsUsed: BoostName[] = [];
     boostsUsed.push(...fishingBoostsUsed);
-    if (getDailyFishingCount(game) >= fishingLimit && extraReels.count === 0) {
+
+    const multiplier = Math.max(1, Math.floor(action.multiplier ?? 1));
+
+    if (multiplier < 1) {
+      throw new Error("Invalid multiplier");
+    }
+
+    // VIP gated feature
+    if (multiplier > 1 && !hasVipAccess({ game, now: createdAt })) {
+      throw new Error("VIP is required");
+    }
+
+    const todayAttempts = game.fishing.dailyAttempts?.[today] ?? 0;
+    const regularReelsRemaining = Math.max(0, fishingLimit - todayAttempts);
+    const totalReelsAvailable = regularReelsRemaining + extraReels.count;
+
+    if (totalReelsAvailable <= 0 || multiplier > totalReelsAvailable) {
       throw new Error(`Daily attempts exhausted`);
     }
 
     const rodCount = game.inventory.Rod ?? new Decimal(0);
     // Requires Rod
-    if (rodCount.lt(1) && !isWearableActive({ name: "Ancient Rod", game })) {
+    if (
+      rodCount.lt(multiplier) &&
+      !isWearableActive({ name: "Ancient Rod", game })
+    ) {
       throw new Error(translate("error.missingRod"));
     }
 
     // Requires Bait
     const baitCount = game.inventory[action.bait] ?? new Decimal(0);
-    if (baitCount.lt(1)) {
+    if (baitCount.lt(multiplier)) {
       throw new Error(`Missing ${action.bait}`);
     }
 
@@ -89,19 +112,20 @@ export function castRod({
       }
 
       const inventoryChum = game.inventory[action.chum] ?? new Decimal(0);
+      const chumRequired = chumAmount * multiplier;
 
-      if (inventoryChum.lt(chumAmount)) {
+      if (inventoryChum.lt(chumRequired)) {
         throw new Error(
           `${translate("error.insufficientChum")}: ${action.chum}`,
         );
       }
 
-      game.inventory[action.chum] = inventoryChum.sub(chumAmount);
+      game.inventory[action.chum] = inventoryChum.sub(chumRequired);
     }
 
     // Subtracts Rod
     if (!isWearableActive({ name: "Ancient Rod", game })) {
-      game.inventory.Rod = rodCount.sub(1);
+      game.inventory.Rod = rodCount.sub(multiplier);
     } else {
       game.boostsUsedAt = updateBoostUsed({
         game,
@@ -111,7 +135,7 @@ export function castRod({
     }
 
     // Subtracts Bait
-    game.inventory[action.bait] = baitCount.sub(1);
+    game.inventory[action.bait] = baitCount.sub(multiplier);
 
     // Casts Rod
     game.fishing = {
@@ -120,19 +144,23 @@ export function castRod({
         castedAt: createdAt,
         bait: action.bait,
         chum: action.chum,
+        multiplier,
       },
     };
 
-    if (getDailyFishingCount(game) >= fishingLimit) {
-      extraReels.count -= 1;
+    // Track daily attempts
+    const attemptsAfter = todayAttempts + multiplier;
+    const overDailyLimit = Math.max(0, attemptsAfter - fishingLimit);
+
+    if (overDailyLimit > 0) {
+      extraReels.count -= overDailyLimit;
     }
 
-    // Track daily attempts
     if (game.fishing.dailyAttempts && game.fishing.dailyAttempts[today]) {
-      game.fishing.dailyAttempts[today] += 1;
+      game.fishing.dailyAttempts[today] += multiplier;
     } else {
       game.fishing.dailyAttempts = {
-        [today]: 1,
+        [today]: multiplier,
       };
     }
 
