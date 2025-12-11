@@ -196,6 +196,7 @@ describe("castRod", () => {
           Rod: new Decimal(10),
           Earthworm: new Decimal(10),
           Sunflower: new Decimal(1000),
+          "Beta Pass": new Decimal(1),
         },
         fishing: {
           wharf: {},
