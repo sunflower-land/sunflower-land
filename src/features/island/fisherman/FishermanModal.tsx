@@ -309,6 +309,7 @@ const BaitSelection: React.FC<{
                   bait,
                 })}
               </p>
+
               <p className="text-xs">{ITEM_DETAILS[bait].description}</p>
               {!items[bait] && bait !== "Fishing Lure" && (
                 <Label className="mt-2" type="default">
