@@ -107,6 +107,11 @@ type MicroInteractionState = {
   indicator?: Phaser.GameObjects.Container;
 };
 
+type OutgoingMicroInteractionState = {
+  timeout: Phaser.Time.TimerEvent;
+  indicator?: Phaser.GameObjects.Container;
+};
+
 const MICRO_INTERACTION_TIMEOUT_MS = 5000;
 
 export abstract class BaseScene extends Phaser.Scene {
@@ -136,8 +141,10 @@ export abstract class BaseScene extends Phaser.Scene {
 
   private receivedMicroInteractions: Map<number, MicroInteractionState> =
     new Map();
-  private outgoingMicroInteractions: Map<number, Phaser.Time.TimerEvent> =
-    new Map();
+  private outgoingMicroInteractions: Map<
+    number,
+    OutgoingMicroInteractionState
+  > = new Map();
 
   pets: { [sessionId: string]: PetContainer } = {};
 
@@ -368,9 +375,40 @@ export abstract class BaseScene extends Phaser.Scene {
         // ignore click if the joystick is active
         if (this.joystick?.pointer) return;
 
-        playerInteractionMenuManager.close();
-
         const clickedObjects = this.input.hitTestPointer(pointer);
+
+        // If an interaction menu is open and the click happened outside of it,
+        // close the menu.
+        if (this.activeInteractionMenu) {
+          const menu = this.activeInteractionMenu;
+          const clickInsideMenu = clickedObjects.some((obj) => {
+            let current = obj as Phaser.GameObjects.GameObject | null;
+
+            // Traverse up the parentContainer chain so any descendant of the
+            // menu (not just direct children) is treated as "inside" the menu.
+            while (current) {
+              if (current === menu) return true;
+
+              const withParent = current as Phaser.GameObjects.GameObject & {
+                parentContainer?: Phaser.GameObjects.Container | null;
+              };
+
+              current =
+                (withParent.parentContainer as Phaser.GameObjects.GameObject | null) ??
+                null;
+            }
+
+            return false;
+          });
+
+          if (!clickInsideMenu) {
+            menu.destroy();
+            this.activeInteractionMenu = undefined;
+            this.activeInteractionTarget = undefined;
+          }
+        }
+
+        playerInteractionMenuManager.close();
 
         // filter other players
         const clickedBumpkins = clickedObjects.filter((clickedObject) => {
@@ -695,8 +733,15 @@ export abstract class BaseScene extends Phaser.Scene {
       return;
     }
 
-    // Send wave request to the server (sender -> receiver)
+    // Send micro interaction request to the server (sender -> receiver)
     this.sendMicroInteraction(interaction, senderFarmId, receiverFarmId);
+
+    // Show a local, non-clickable indicator above the receiver so the sender
+    // knows their interaction is pending.
+    const outgoingIndicator = this.createOutgoingMicroInteractionIndicator(
+      target,
+      interaction,
+    );
 
     // Auto cancel the event after 5 seconds if no acknowledgement is received
     const timeout = this.time.addEvent({
@@ -715,7 +760,10 @@ export abstract class BaseScene extends Phaser.Scene {
       },
     });
 
-    this.outgoingMicroInteractions.set(receiverFarmId, timeout);
+    this.outgoingMicroInteractions.set(receiverFarmId, {
+      timeout,
+      indicator: outgoingIndicator,
+    });
     return;
   }
 
@@ -739,6 +787,53 @@ export abstract class BaseScene extends Phaser.Scene {
         sceneId: this.options.name,
       },
     });
+  }
+
+  // Renders a local, non-clickable indicator above the receiver bumpkin
+  // so the initiator can see that their micro interaction is pending.
+  private createOutgoingMicroInteractionIndicator(
+    target: BumpkinContainer,
+    type: MicroInteractionAction,
+  ) {
+    const existingIndicator = target.getByName(
+      "outgoingMicroInteractionIndicator",
+    ) as Phaser.GameObjects.Container | undefined;
+    existingIndicator?.destroy();
+
+    const icon = type === "wave" ? "hand_wave" : "cheer";
+
+    const indicator = this.add.container(0, -20);
+    indicator.setName("outgoingMicroInteractionIndicator");
+
+    const iconImage = this.add.image(0, 0, icon);
+    iconImage.setDisplaySize(8, 8);
+    indicator.add(iconImage);
+
+    indicator.y = 4; // roughly where their body is
+    indicator.alpha = 0.8;
+    indicator.scale = 1;
+
+    target.add(indicator);
+    target.bringToTop(indicator);
+
+    // Tween up above the head
+    this.tweens.add({
+      targets: indicator,
+      y: -16, // final position above the head
+      duration: 220,
+      ease: "Back.Out",
+    });
+
+    this.tweens.add({
+      targets: indicator,
+      scale: 1.1,
+      duration: 500,
+      ease: "Linear",
+      repeat: -1,
+      yoyo: true,
+    });
+
+    return indicator;
   }
 
   // Renders a lightweight clickable indicator above the receiver bumpkin.
@@ -991,8 +1086,7 @@ export abstract class BaseScene extends Phaser.Scene {
             this.gameService?.send("farm.cheered", {
               effect: {
                 type: "farm.cheered",
-                cheeredFarmId: senderId,
-                visitedFarmId: receiverId,
+                cheeredFarmId: receiverId,
               },
             });
             setTimeout(() => {
@@ -1087,11 +1181,15 @@ export abstract class BaseScene extends Phaser.Scene {
   private clearOutgoingMicroInteractionRequest(receiverFarmId?: number) {
     if (!receiverFarmId) return;
 
-    const timeout = this.outgoingMicroInteractions.get(receiverFarmId);
-    if (timeout) {
-      timeout.remove();
-      this.outgoingMicroInteractions.delete(receiverFarmId);
+    const state = this.outgoingMicroInteractions.get(receiverFarmId);
+    if (!state) return;
+
+    state.timeout.remove();
+    if (state.indicator) {
+      this.destroyMicroInteractionIndicator(state.indicator);
     }
+
+    this.outgoingMicroInteractions.delete(receiverFarmId);
   }
 
   private roof: Phaser.Tilemaps.TilemapLayer | null = null;
