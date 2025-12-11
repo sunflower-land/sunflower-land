@@ -381,12 +381,24 @@ export abstract class BaseScene extends Phaser.Scene {
         // close the menu.
         if (this.activeInteractionMenu) {
           const menu = this.activeInteractionMenu;
-          const menuChildren = (menu.list ??
-            []) as Phaser.GameObjects.GameObject[];
-
           const clickInsideMenu = clickedObjects.some((obj) => {
-            if (obj === menu) return true;
-            return menuChildren.includes(obj as Phaser.GameObjects.GameObject);
+            let current = obj as Phaser.GameObjects.GameObject | null;
+
+            // Traverse up the parentContainer chain so any descendant of the
+            // menu (not just direct children) is treated as "inside" the menu.
+            while (current) {
+              if (current === menu) return true;
+
+              const withParent = current as Phaser.GameObjects.GameObject & {
+                parentContainer?: Phaser.GameObjects.Container | null;
+              };
+
+              current =
+                (withParent.parentContainer as Phaser.GameObjects.GameObject | null) ??
+                null;
+            }
+
+            return false;
           });
 
           if (!clickInsideMenu) {
