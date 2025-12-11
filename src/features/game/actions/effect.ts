@@ -53,7 +53,8 @@ type EffectName =
   | "auction.bidCancelled"
   | "marketplace.buyBulkResources"
   | "leagues.updated"
-  | "liquidity.registered";
+  | "liquidity.registered"
+  | "appInstall.generate";
 
 type VisitEffectName = "farm.helped" | "farm.cheered" | "farm.followed";
 
@@ -112,7 +113,8 @@ export type StateMachineStateName =
   | "auctionBidding"
   | "auctionCancelling"
   | "marketplaceBuyingBulkResources"
-  | "updatingLeagues";
+  | "updatingLeagues"
+  | "generatingAppInstall";
 
 export type StateMachineVisitStateName =
   | "helpingFarm"
@@ -168,6 +170,7 @@ export const STATE_MACHINE_EFFECTS: Record<
   "auction.bidCancelled": "auctionCancelling",
   "marketplace.buyBulkResources": "marketplaceBuyingBulkResources",
   "leagues.updated": "updatingLeagues",
+  "appInstall.generate": "generatingAppInstall",
 };
 
 export const STATE_MACHINE_VISIT_EFFECTS: Record<

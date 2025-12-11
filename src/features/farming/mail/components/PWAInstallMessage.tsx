@@ -6,7 +6,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Message as IMessage } from "features/game/types/announcements";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import * as AuthProvider from "features/auth/lib/Provider";
-import { getMagicLink } from "features/auth/actions/magicLink";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { usePWAInstall } from "features/pwa/PWAInstallProvider";
 import {
@@ -21,6 +20,8 @@ import {
   MagicLinkFlow,
   QRCodeFlow,
 } from "features/island/hud/components/settings-menu/general-settings/InstallAppModal";
+import { postEffect } from "features/game/actions/effect";
+import { randomID } from "lib/utils/random";
 
 interface Props {
   conversationId: string;
@@ -63,9 +64,15 @@ export const PWAInstallMessage: React.FC<Props> = ({
 
     const fetchMagicLink = async () => {
       try {
-        const { link } = await getMagicLink({
-          token,
-          farmId,
+        const {
+          data: { link },
+        } = await postEffect({
+          farmId: farmId,
+          token: token,
+          transactionId: randomID(),
+          effect: {
+            type: "appInstall.generate",
+          },
         });
 
         setMagicLink(link);
