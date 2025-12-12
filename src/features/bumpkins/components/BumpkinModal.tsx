@@ -32,6 +32,11 @@ import { setImageWidth } from "lib/images";
 import { LegacyBadges } from "./LegacyBadges";
 import { getKeys } from "features/game/types/decorations";
 import { PowerSkills } from "features/island/hud/components/PowerSkills";
+import { isBuffActive } from "features/game/types/buffs";
+import { Label } from "components/ui/Label";
+import { CountdownLabel } from "components/ui/CountdownLabel";
+import { Countdown } from "features/auth/components/Countdown";
+import { secondsToString } from "lib/utils/time";
 
 export type ViewState =
   | "home"
@@ -252,6 +257,11 @@ export const BumpkinInfo: React.FC<{
     return null;
   }).filter(Boolean);
 
+  const isPowerHourActive = isBuffActive({
+    buff: "Power hour",
+    game: gameState,
+  });
+
   return (
     <div className="flex flex-wrap">
       <div className="w-full sm:w-1/3 z-10 mr-0 sm:mr-2">
@@ -318,6 +328,23 @@ export const BumpkinInfo: React.FC<{
             </div>
             <div className="flex flex-wrap items-center mt-2">{badges}</div>
           </ButtonPanel>
+        )}
+
+        {isPowerHourActive && (
+          <div className="flex items-center">
+            <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+              {`Power hour`}
+            </Label>
+            <span className="text-xs ml-2">
+              {secondsToString(
+                ((gameState.buffs?.["Power hour"]?.startedAt ?? 0) +
+                  (gameState.buffs?.["Power hour"]?.durationMS ?? 0) -
+                  Date.now()) /
+                  1000,
+                { length: "medium" },
+              )}
+            </span>
+          </div>
         )}
 
         <ButtonPanel

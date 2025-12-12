@@ -56,6 +56,7 @@ import {
   FarmActivityName,
   trackFarmActivity,
 } from "features/game/types/farmActivity";
+import { isBuffActive } from "features/game/types/buffs";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -321,6 +322,10 @@ export const getCropPlotTime = ({
   if (isTemporaryCollectibleActive({ name: "Sparrow Shrine", game })) {
     seconds = seconds * 0.75;
     boostsUsed.push("Sparrow Shrine");
+  }
+
+  if (isBuffActive({ buff: "Power hour", game })) {
+    seconds = seconds * 0.5;
   }
 
   if (
