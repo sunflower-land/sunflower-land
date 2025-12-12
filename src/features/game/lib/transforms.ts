@@ -71,6 +71,7 @@ export function makeGame(farm: any): GameState {
     auctioneer: farm.auctioneer ?? {},
     minigames: farm.minigames,
     kingdomChores: farm.kingdomChores,
+    buffs: farm.buffs,
     chores: farm.chores,
     tradedAt: farm.tradedAt,
     trees: farm.trees ?? {},

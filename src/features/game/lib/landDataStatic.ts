@@ -888,14 +888,14 @@ export const STATIC_OFFLINE_FARM: GameState = {
     ],
   },
   farmActivity: {
-    "Daily Reward Collected": 0,
+    "Daily Reward Collected": 10,
   },
   dailyRewards: {
     chest: {
       code: 1,
       collectedAt: Date.now() - 24 * 60 * 60 * 1000,
     },
-    streaks: 364,
+    streaks: 1,
   },
 
   conversations: [],

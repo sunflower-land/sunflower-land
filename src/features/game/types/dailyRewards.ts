@@ -112,13 +112,12 @@ const WEEKLY_REWARDS: (game: GameState) => DailyRewardDefinition[] = (
   const baseExperience = experienceToNextLevel ?? 0;
 
   const scaleAmount = (base: number, multiplier: number) => {
-    let baseMultiplier = Math.ceil(multiplier);
+    const baseMultiplier = Math.ceil(multiplier);
     return Math.max(1, Math.floor(base * baseMultiplier));
   };
 
-  const safeLevel = Math.max(level, 1);
-  const day2Multiplier =
-    Math.pow(Math.log(safeLevel), 0.35) + Math.pow(0.6, 0.55);
+  const safeLevel = Math.max(level, 2); // avoid div-by-zero on ln(1)
+  const day2Multiplier = 1 / Math.pow(Math.log(safeLevel), 0.35) + 0.6 + 0.55;
   const day2Xp = Math.floor(baseExperience * day2Multiplier);
 
   const loveBox = (() => {
@@ -134,13 +133,6 @@ const WEEKLY_REWARDS: (game: GameState) => DailyRewardDefinition[] = (
 
     return "Basic Love Box";
   })();
-
-  console.log({
-    level,
-    Axe: scaleAmount(5, level / 12),
-    Pickaxe: scaleAmount(2, level / 12),
-    "Iron Pickaxe": scaleAmount(1, level / 12),
-  });
 
   return [
     {
