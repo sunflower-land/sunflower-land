@@ -12,6 +12,15 @@ import { CollectibleName } from "features/game/types/craftables";
  */
 export type GameGrid = Record<number, Record<number, CollectibleName>>;
 
+function isFence(name: CollectibleName) {
+  return (
+    name === "Fence" ||
+    name === "Stone Fence" ||
+    name === "Golden Fence" ||
+    name === "Golden Stone Fence"
+  );
+}
+
 export function getGameGrid({
   cropPositions = [],
   collectiblePositions = [],
@@ -29,14 +38,34 @@ export function getGameGrid({
     if (!grid[x]) {
       grid[x] = {};
     }
-    grid[x][y] = "Dirt Path";
+    // Only set if empty, fences/collectibles will override as needed
+    if (!grid[x][y]) {
+      grid[x][y] = "Dirt Path";
+    }
   });
 
   collectiblePositions.forEach(({ x, y, name }) => {
     if (!grid[x]) {
       grid[x] = {};
     }
-    grid[x][y] = name;
+
+    const existing = grid[x][y];
+
+    if (isFence(existing) && !isFence(name)) {
+      // Keep existing fence, don't let non-fence overwrite
+      return;
+    }
+
+    // Prefer fences, allow fence to replace non-fence or empty
+    if (isFence(name)) {
+      grid[x][y] = name;
+      return;
+    }
+
+    // If not a fence, only set when empty or not already a fence
+    if (!existing) {
+      grid[x][y] = name;
+    }
   });
 
   return grid;

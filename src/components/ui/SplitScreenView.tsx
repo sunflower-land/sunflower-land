@@ -14,7 +14,7 @@ import classNames from "classnames";
  * @param mobileReversePanelOrder Whether to show the panel below the content on mobile.
  */
 interface Props {
-  divRef?: React.RefObject<HTMLDivElement | null>;
+  divRef?: React.RefObject<HTMLDivElement>;
   tallMobileContent?: boolean;
   tallDesktopContent?: boolean;
   wideModal?: boolean;
