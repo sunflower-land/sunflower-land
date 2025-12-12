@@ -46,11 +46,16 @@ interface SelectedItem {
   quantity: number;
 }
 
+interface SelectedWearable {
+  name: BumpkinItem;
+  quantity: number;
+}
+
 interface AdvancedItemsProps {
   selectedItems: SelectedItem[];
   setSelectedItems: (items: SelectedItem[]) => void;
-  selectedWearables: BumpkinItem[];
-  setSelectedWearables: (wearables: BumpkinItem[]) => void;
+  selectedWearables: SelectedWearable[];
+  setSelectedWearables: (wearables: SelectedWearable[]) => void;
 }
 
 interface AirdropContentProps {
@@ -81,6 +86,7 @@ const AdvancedItems: React.FC<AdvancedItemsProps> = ({
   const [currentItem, setCurrentItem] = useState<string>();
   const [currentQuantity, setCurrentQuantity] = useState(0);
   const [currentWearable, setCurrentWearable] = useState<string>();
+  const [currentWearableQuantity, setCurrentWearableQuantity] = useState(0);
 
   const addItem = () => {
     if (!currentItem) return;
@@ -100,17 +106,19 @@ const AdvancedItems: React.FC<AdvancedItemsProps> = ({
   const addWearable = () => {
     if (!currentWearable) return;
 
-    if (!selectedWearables.includes(currentWearable as BumpkinItem)) {
-      setSelectedWearables([
-        ...selectedWearables,
-        currentWearable as BumpkinItem,
-      ]);
-    }
+    setSelectedWearables([
+      ...selectedWearables.filter((w) => w.name !== currentWearable),
+      {
+        name: currentWearable as BumpkinItem,
+        quantity: currentWearableQuantity,
+      },
+    ]);
     setCurrentWearable(undefined);
+    setCurrentWearableQuantity(0);
   };
 
   const removeWearable = (wearable: BumpkinItem) => {
-    setSelectedWearables(selectedWearables.filter((w) => w !== wearable));
+    setSelectedWearables(selectedWearables.filter((w) => w.name !== wearable));
   };
 
   return (
@@ -193,6 +201,16 @@ const AdvancedItems: React.FC<AdvancedItemsProps> = ({
               showSearch
             />
           </div>
+          <div className="w-24">
+            <NumberInput
+              value={currentWearableQuantity}
+              onValueChange={(decimal) =>
+                setCurrentWearableQuantity(decimal.toNumber())
+              }
+              maxDecimalPlaces={0}
+              allowNegative
+            />
+          </div>
           <img
             src={add}
             alt="add"
@@ -207,13 +225,13 @@ const AdvancedItems: React.FC<AdvancedItemsProps> = ({
         </div>
 
         {selectedWearables.map((wearable) => (
-          <div key={wearable} className="flex items-center gap-2 px-2">
-            <span className="flex-1">{wearable}</span>
-            <span>{`x1`}</span>
+          <div key={wearable.name} className="flex items-center gap-2 px-2">
+            <span className="flex-1">{wearable.name}</span>
+            <span>{`x${wearable.quantity}`}</span>
             <img
               src={SUNNYSIDE.icons.close}
               className="cursor-pointer px-2 h-5"
-              onClick={() => removeWearable(wearable as BumpkinItem)}
+              onClick={() => removeWearable(wearable.name)}
             />
           </div>
         ))}
@@ -373,7 +391,9 @@ export const AirdropPlayer: React.FC<
 
   // Advanced items state
   const [selectedItems, setSelectedItems] = useState<SelectedItem[]>([]);
-  const [selectedWearables, setSelectedWearables] = useState<BumpkinItem[]>([]);
+  const [selectedWearables, setSelectedWearables] = useState<
+    SelectedWearable[]
+  >([]);
   const canSendAdvancedItems = showAdvancedItems && hasDevAccess;
 
   const items = {
@@ -385,10 +405,10 @@ export const AirdropPlayer: React.FC<
     ),
   };
 
-  const wearables = selectedWearables.reduce(
-    (acc, wearable) => ({ ...acc, [wearable]: 1 }),
-    {} as Wardrobe,
-  );
+  const wearables = selectedWearables.reduce((acc, wearable) => {
+    acc[wearable.name] = Math.floor(Number(wearable.quantity));
+    return acc;
+  }, {} as Wardrobe);
 
   const send = async (signature?: string) => {
     const farmIdArray = farmIds

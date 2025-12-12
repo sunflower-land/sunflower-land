@@ -11,7 +11,6 @@ import { useSelector } from "@xstate/react";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { postEffect } from "features/game/actions/effect";
 import { randomID } from "lib/utils/random";
-import { hasFeatureAccess } from "lib/flags";
 import { useGame } from "features/game/GameProvider";
 import { Panel } from "components/ui/Panel";
 
@@ -89,16 +88,6 @@ export const FlowerRewards: React.FC<{ onClose: () => void }> = ({
       setRegistering(false);
     }
   };
-
-  if (!hasFeatureAccess(gameState.context.state, "LP_REWARDS")) {
-    return (
-      <div>
-        <Label type="info" className="text-xxs">
-          {t("coming.soon")}
-        </Label>
-      </div>
-    );
-  }
 
   if (isLoading) {
     return (

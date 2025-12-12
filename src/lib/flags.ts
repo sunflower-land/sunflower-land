@@ -113,7 +113,6 @@ const FEATURE_FLAGS = {
   MEMORY_BETA: defaultFeatureFlag,
   VERSION_UPDATES: defaultFeatureFlag,
   DAILY_BOXES: defaultFeatureFlag,
-  LP_REWARDS: defaultFeatureFlag,
   MICRO_INTERACTIONS: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
