@@ -7,6 +7,7 @@ import coins from "assets/icons/coins.webp";
 import powerup from "assets/icons/level_up.png";
 import factionPoint from "assets/icons/faction_point.webp";
 import vip from "assets/icons/vip.webp";
+import xpIcon from "assets/icons/xp.png";
 import recipeIcon from "assets/decorations/page.png";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -32,6 +33,7 @@ import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { ButtonPanel } from "components/ui/Panel";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
 import { RECIPES } from "features/game/lib/crafting";
+import blueLightning from "assets/icons/blue_lightning.png";
 
 const _game = (state: MachineState) => state.context.state;
 
@@ -124,6 +126,32 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                   {`${formatNumber(airdrop.coins)} ${airdrop.coins === 1 ? "Coin" : "Coins"}`}
                 </Label>
                 <p className="text-xs ml-0.5 mt-1">{t("reward.spendWisely")}</p>
+              </div>
+            </ButtonPanel>
+          )}
+
+          {!!airdrop.xp && (
+            <ButtonPanel
+              variant="card"
+              className="flex items-start cursor-context-menu hover:brightness-100"
+            >
+              <Box image={xpIcon} className="-mt-2 -ml-1 -mb-1" />
+              <div>
+                <Label type="warning">{`${formatNumber(airdrop.xp)} XP`}</Label>
+                <p className="text-xs ml-0.5 mt-1">{t("reward.xp")}</p>
+              </div>
+            </ButtonPanel>
+          )}
+
+          {!!airdrop.buff && (
+            <ButtonPanel
+              variant="card"
+              className="flex items-start cursor-context-menu hover:brightness-100"
+            >
+              <Box image={blueLightning} className="-mt-2 -ml-1 -mb-1" />
+              <div>
+                <Label type="info">{`${airdrop.buff} buff`}</Label>
+                <p className="text-xs ml-0.5 mt-1">{t("reward.powerHour")}</p>
               </div>
             </ButtonPanel>
           )}
