@@ -19,27 +19,33 @@ import { MachineState } from "../lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { useNow } from "lib/utils/hooks/useNow";
 
-import basicFarmerBox from "assets/rewardBoxes/basic_farmer_box.webp";
+import basicToolBox from "assets/rewardBoxes/basic_tool_box.png";
+import streakBox from "assets/rewardBoxes/streak_box.png";
+import basicResourceBox from "assets/rewardBoxes/basic_resource_box.png";
+import basicFishingBox from "assets/rewardBoxes/basic_fishing_box.png";
+import basicBuffBox from "assets/rewardBoxes/basic_buff_box.png";
+import basicXPBox from "assets/rewardBoxes/basic_xp_box.png";
 import { BuffName } from "../types/buffs";
+import coinsIcon from "assets/icons/coins_stack.webp";
 
 export const DAILY_REWARD_IMAGES: Record<DailyRewardName, string> = {
-  "default-reward": basicFarmerBox,
-  "onboarding-day-1-sprout-starter": basicFarmerBox,
-  "onboarding-day-2-builder-basics": basicFarmerBox,
-  "onboarding-day-3-harvesters-gift": basicFarmerBox,
-  "onboarding-day-4-tool-tune-up": basicFarmerBox,
-  "onboarding-day-5-bumpkin-gift": basicFarmerBox,
-  "onboarding-day-6-anchovy-kit": basicFarmerBox,
-  "onboarding-day-7-first-week-finale": basicFarmerBox,
-  "weekly-day-1-tool-cache": basicFarmerBox,
-  "weekly-day-2-growth-feast": basicFarmerBox,
-  "weekly-day-3-love-box": basicFarmerBox,
-  "weekly-day-4-angler-pack": basicFarmerBox,
-  "weekly-day-5-growth-boost": basicFarmerBox,
-  "weekly-day-6-coin-stash": basicFarmerBox,
-  "weekly-mega-box": basicFarmerBox,
-  "streak-one-year": basicFarmerBox,
-  "streak-two-year": basicFarmerBox,
+  "default-reward": SUNNYSIDE.icons.expression_confused,
+  "onboarding-day-1-sprout-starter": ITEM_DETAILS["Basic Farming Pack"].image,
+  "onboarding-day-2-builder-basics": basicResourceBox,
+  "onboarding-day-3-harvesters-gift": ITEM_DETAILS["Basic Love Box"].image,
+  "onboarding-day-4-tool-tune-up": basicToolBox,
+  "onboarding-day-5-bumpkin-gift": coinsIcon,
+  "onboarding-day-6-anchovy-kit": basicFishingBox,
+  "onboarding-day-7-first-week-finale": ITEM_DETAILS["Weekly Mega Box"].image,
+  "weekly-day-1-tool-cache": basicToolBox,
+  "weekly-day-2-growth-feast": basicXPBox,
+  "weekly-day-3-love-box": ITEM_DETAILS["Basic Love Box"].image,
+  "weekly-day-4-angler-pack": basicFishingBox,
+  "weekly-day-5-growth-boost": basicBuffBox,
+  "weekly-day-6-coin-stash": coinsIcon,
+  "weekly-mega-box": ITEM_DETAILS["Weekly Mega Box"].image,
+  "streak-one-year": streakBox,
+  "streak-two-year": streakBox,
 };
 
 const _bumpkinExperience = (state: MachineState) =>
@@ -201,7 +207,9 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
             labelText = t("dailyReward.claimed");
           }
 
-          console.log({ COINS: coins });
+          const boxes = reward.filter(
+            (reward) => reward.id !== "default-reward",
+          );
 
           return (
             <ButtonPanel
@@ -214,21 +222,10 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
               </Label>
               <div className="relative mb-1">
                 <div className="w-16 flex items-center justify-center">
-                  {reward
-                    .filter((reward) => reward.id !== "default-reward")
-                    .map((reward) => {
-                      return (
-                        <>
-                          <img
-                            src={DAILY_REWARD_IMAGES[reward.id]}
-                            className="h-16"
-                          />
-                          <Label type="default" className="mb-1">
-                            {reward.id}
-                          </Label>
-                        </>
-                      );
-                    })}
+                  <img
+                    src={DAILY_REWARD_IMAGES[boxes[boxes.length - 1].id]}
+                    className="h-16"
+                  />
                 </div>
               </div>
             </ButtonPanel>
