@@ -51,7 +51,6 @@ import {
   PlayerModalPlayer,
 } from "features/social/lib/playerModalManager";
 import { rewardModalManager } from "features/social/lib/rewardModalManager";
-import { hasFeatureAccess } from "lib/flags";
 
 export type NPCBumpkin = {
   x: number;
@@ -471,11 +470,7 @@ export abstract class BaseScene extends Phaser.Scene {
             | undefined;
 
           if (!existing) {
-            if (hasFeatureAccess(this.gameState, "MICRO_INTERACTIONS")) {
-              this.showInteractionMenu(player, target);
-            } else {
-              this.openPlayerProfile(player);
-            }
+            this.showInteractionMenu(player, target);
           }
 
           return;
