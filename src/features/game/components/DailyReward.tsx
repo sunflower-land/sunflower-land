@@ -8,7 +8,7 @@ import {
   getDailyRewardStreak,
   isDailyRewardReady,
 } from "../events/landExpansion/claimDailyReward";
-import { getRewardsForStreak } from "../types/dailyRewards";
+import { DailyRewardName, getRewardsForStreak } from "../types/dailyRewards";
 import { InventoryItemName } from "../types/game";
 import { getKeys } from "../lib/crafting";
 import { ClaimReward } from "../expansion/components/ClaimReward";
@@ -19,9 +19,33 @@ import { MachineState } from "../lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { useNow } from "lib/utils/hooks/useNow";
 
+import basicFarmerBox from "assets/rewardBoxes/basic_farmer_box.webp";
+import { BuffName } from "../types/buffs";
+
+export const DAILY_REWARD_IMAGES: Record<DailyRewardName, string> = {
+  "default-reward": basicFarmerBox,
+  "onboarding-day-1-sprout-starter": basicFarmerBox,
+  "onboarding-day-2-builder-basics": basicFarmerBox,
+  "onboarding-day-3-harvesters-gift": basicFarmerBox,
+  "onboarding-day-4-tool-tune-up": basicFarmerBox,
+  "onboarding-day-5-bumpkin-gift": basicFarmerBox,
+  "onboarding-day-6-anchovy-kit": basicFarmerBox,
+  "onboarding-day-7-first-week-finale": basicFarmerBox,
+  "weekly-day-1-tool-cache": basicFarmerBox,
+  "weekly-day-2-growth-feast": basicFarmerBox,
+  "weekly-day-3-love-box": basicFarmerBox,
+  "weekly-day-4-angler-pack": basicFarmerBox,
+  "weekly-day-5-growth-boost": basicFarmerBox,
+  "weekly-day-6-coin-stash": basicFarmerBox,
+  "weekly-mega-box": basicFarmerBox,
+  "streak-one-year": basicFarmerBox,
+  "streak-two-year": basicFarmerBox,
+};
+
 const _bumpkinExperience = (state: MachineState) =>
   state.context.state.bumpkin?.experience ?? 0;
 const _dailyRewards = (state: MachineState) => state.context.state.dailyRewards;
+const _gameState = (state: MachineState) => state.context.state;
 
 function acknowledgeDailyReward() {
   localStorage.setItem("dailyRewardAcknowledged", new Date().toISOString());
@@ -41,6 +65,7 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
 
   const bumpkinExperience = useSelector(gameService, _bumpkinExperience);
   const dailyRewards = useSelector(gameService, _dailyRewards);
+  const gameState = useSelector(gameService, _gameState);
 
   const now = useNow({ live: true });
   const currentDate = new Date(now).toISOString().substring(0, 10);
@@ -54,7 +79,11 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
   });
 
   const rewards = useMemo(() => {
-    let streak = getDailyRewardStreak({ dailyRewards, currentDate });
+    let streak = getDailyRewardStreak({
+      game: gameState,
+      dailyRewards,
+      currentDate,
+    });
 
     if (hasClaimed) {
       streak -= 1;
@@ -64,12 +93,13 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
       return {
         day: streak + index + 1,
         reward: getRewardsForStreak({
+          game: gameState,
           streak: streak + index,
           currentDate,
         }),
       };
     });
-  }, [dailyRewards, hasClaimed, currentDate]);
+  }, [dailyRewards, hasClaimed, currentDate, gameState]);
 
   if (showClaim) {
     const items = rewards[0].reward.reduce(
@@ -88,6 +118,17 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
       return acc + (reward.coins ?? 0);
     }, 0);
 
+    const xp = rewards[0].reward.reduce((acc, reward) => {
+      return acc + (reward.xp ?? 0);
+    }, 0);
+
+    const buffs = rewards[0].reward.reduce((acc, reward) => {
+      if (reward.buff) {
+        return [...acc, reward.buff];
+      }
+      return acc;
+    }, [] as BuffName[]);
+
     return (
       <ClaimReward
         reward={{
@@ -96,6 +137,8 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
           coins,
           sfl: 0,
           id: "daily-reward",
+          xp,
+          buff: buffs[0],
         }}
         onClaim={() => {
           gameService.send("dailyReward.claimed");
@@ -133,11 +176,17 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
             return [...acc, ...getKeys(reward.items ?? {})];
           }, [] as InventoryItemName[]);
 
+          const coins = reward.reduce((acc, reward) => {
+            return acc + (reward.coins ?? 0);
+          }, 0);
+
           let labelType: LabelType = "default";
 
           if (index === 0) {
             labelType = "info";
-          } else if (day % 7 === 0) {
+          }
+
+          if (day % 7 === 0) {
             labelType = "vibrant";
           }
 
@@ -152,6 +201,8 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
             labelText = t("dailyReward.claimed");
           }
 
+          console.log({ COINS: coins });
+
           return (
             <ButtonPanel
               key={`${day}`}
@@ -163,18 +214,21 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
               </Label>
               <div className="relative mb-1">
                 <div className="w-16 flex items-center justify-center">
-                  <img src={ITEM_DETAILS[items[0]].image} className="h-16" />
-                </div>
-                <div className="absolute -bottom-1 -left-4 -right-4  flex justify-between items-end">
-                  {items.slice(1).map((item, index) => {
-                    return (
-                      <img
-                        key={`${index}`}
-                        src={ITEM_DETAILS[item].image}
-                        className="w-8 "
-                      />
-                    );
-                  })}
+                  {reward
+                    .filter((reward) => reward.id !== "default-reward")
+                    .map((reward) => {
+                      return (
+                        <>
+                          <img
+                            src={DAILY_REWARD_IMAGES[reward.id]}
+                            className="h-16"
+                          />
+                          <Label type="default" className="mb-1">
+                            {reward.id}
+                          </Label>
+                        </>
+                      );
+                    })}
                 </div>
               </div>
             </ButtonPanel>

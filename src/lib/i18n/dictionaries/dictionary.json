@@ -7259,5 +7259,7 @@
   "microInteraction.hey.there": "Hey there!",
   "microInteraction.here.s.a.cheer.for.you": "Here's a cheer for you!",
   "microInteraction.thanks": "Thanks!",
+  "reward.xp": "Wow, a nice XP boost!",
+  "reward.powerHour": "50% faster crops +0.2 yield for 1 hour",
   "microInteraction.maybe.later": "Maybe later!"
 }

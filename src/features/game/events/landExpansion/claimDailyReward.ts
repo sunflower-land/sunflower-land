@@ -10,6 +10,8 @@ import {
 } from "features/game/types/dailyRewards";
 import { produce } from "immer";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { trackFarmActivity } from "features/game/types/farmActivity";
+import { applyBuff } from "features/game/types/buffs";
 
 export type ClaimDailyRewardAction = {
   type: "dailyReward.claimed";
@@ -48,9 +50,11 @@ export function isDailyRewardReady({
 }
 
 export function getDailyRewardStreak({
+  game,
   dailyRewards,
   currentDate,
 }: {
+  game: GameState;
   dailyRewards?: DailyRewards;
   currentDate: string;
 }): number {
@@ -59,6 +63,11 @@ export function getDailyRewardStreak({
   }
 
   const streak = dailyRewards.streaks ?? 0;
+
+  // If they are a new player, don't ruin a streak.
+  if (streak <= 6 && (game.farmActivity["Daily Reward Collected"] ?? 0) <= 6) {
+    return streak;
+  }
 
   // If missed the day, reset the streak
   const collectedDate = new Date(dailyRewards.chest?.collectedAt ?? 0)
@@ -101,11 +110,13 @@ export function claimDailyReward({
     const currentDate = new Date(createdAt).toISOString().substring(0, 10);
 
     const currentStreak = getDailyRewardStreak({
+      game,
       dailyRewards: game.dailyRewards,
       currentDate,
     });
 
     const rewards = getRewardsForStreak({
+      game,
       streak: currentStreak,
       currentDate,
     });
@@ -119,6 +130,13 @@ export function claimDailyReward({
 
       collectedAt: createdAt,
     };
+
+    game.farmActivity = trackFarmActivity(
+      "Daily Reward Collected",
+      game.farmActivity,
+    );
+
+    console.log({ buffs: game.buffs });
   });
 }
 
@@ -139,5 +157,13 @@ function applyReward(game: GameState, reward: DailyRewardDefinition) {
 
   if (reward.sfl) {
     game.balance = game.balance.add(reward.sfl);
+  }
+
+  if (reward.xp && game.bumpkin) {
+    game.bumpkin.experience += reward.xp;
+  }
+
+  if (reward.buff) {
+    game.buffs = applyBuff({ buff: reward.buff, game }).buffs;
   }
 }

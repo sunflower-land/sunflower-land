@@ -54,6 +54,7 @@ import {
   trackFarmActivity,
   FarmActivityName,
 } from "features/game/types/farmActivity";
+import { isBuffActive } from "features/game/types/buffs";
 export type LandExpansionHarvestAction = {
   type: "crop.harvested";
   index: string;
@@ -136,6 +137,10 @@ export function getCropYieldAmount({
   const { inventory, bumpkin, buds, aoe } = game;
   const updatedAoe = cloneDeep(aoe);
   const skills = bumpkin?.skills ?? {};
+
+  if (isBuffActive({ buff: "Power hour", game })) {
+    amount += 0.2;
+  }
 
   // Specific crop multipliers
   if (
