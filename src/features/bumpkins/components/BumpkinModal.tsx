@@ -34,9 +34,8 @@ import { getKeys } from "features/game/types/decorations";
 import { PowerSkills } from "features/island/hud/components/PowerSkills";
 import { isBuffActive } from "features/game/types/buffs";
 import { Label } from "components/ui/Label";
-import { CountdownLabel } from "components/ui/CountdownLabel";
-import { Countdown } from "features/auth/components/Countdown";
 import { secondsToString } from "lib/utils/time";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export type ViewState =
   | "home"
@@ -234,6 +233,7 @@ export const BumpkinInfo: React.FC<{
   readonly,
 }) => {
   const { t } = useAppTranslation();
+  const now = useNow();
   const { bumpkin, inventory } = gameState;
   const BADGES = getKeys(LEGACY_BADGE_TREE);
 
@@ -339,7 +339,7 @@ export const BumpkinInfo: React.FC<{
               {secondsToString(
                 ((gameState.buffs?.["Power hour"]?.startedAt ?? 0) +
                   (gameState.buffs?.["Power hour"]?.durationMS ?? 0) -
-                  Date.now()) /
+                  now) /
                   1000,
                 { length: "medium" },
               )}
