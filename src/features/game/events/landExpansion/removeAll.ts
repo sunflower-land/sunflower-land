@@ -1,6 +1,6 @@
 import { produce } from "immer";
 
-import { removeBuilding } from "./removeBuilding";
+import { removeBuilding } from "../buildings/removeBuilding";
 import { removeBeehive } from "./removeBeehive";
 import { removeCollectible } from "./removeCollectible";
 import { removeCrimstone } from "./removeCrimstone";

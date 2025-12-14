@@ -5,7 +5,7 @@ import {
   isFullMoonBerry,
   isGreenhouseCropSeed,
   isGreenhouseFruitSeed,
-} from "../events/landExpansion/seedBought";
+} from "../events/farming/seedBought";
 import { PatchFruitSeedName } from "../types/fruits";
 import {
   isAdvancedFruitSeed,

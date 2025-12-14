@@ -20,8 +20,8 @@ import { SEASON_ICONS } from "features/island/buildings/components/building/mark
 import {
   isBuildingUpgradable,
   UpgradableBuildingType,
-} from "features/game/events/landExpansion/upgradeBuilding";
-import { makeUpgradableBuildingKey } from "features/game/events/landExpansion/upgradeBuilding";
+  makeUpgradableBuildingKey,
+} from "features/game/events/buildings/upgradeBuilding";
 import { BuildingName } from "features/game/types/buildings";
 import { BumpkinRevampSkillName } from "features/game/types/bumpkinSkills";
 import { getCurrentBiome } from "features/island/biomes/biomes";

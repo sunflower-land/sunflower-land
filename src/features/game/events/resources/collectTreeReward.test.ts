@@ -1,5 +1,5 @@
 import { TEST_FARM } from "features/game/lib/constants";
-import { collectTreeReward } from "features/game/events/landExpansion/collectTreeReward";
+import { collectTreeReward } from "./collectTreeReward";
 
 describe("collectTreeReward", () => {
   const dateNow = Date.now();

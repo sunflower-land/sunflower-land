@@ -20,7 +20,7 @@ import {
   getCookingOilBoost,
   getCookingRequirements,
   MAX_COOKING_SLOTS,
-} from "features/game/events/landExpansion/cook";
+} from "features/game/events/crafting/cook";
 import { BuildingName } from "features/game/types/buildings";
 import { BuildingOilTank } from "./BuildingOilTank";
 import pumpkinSoup from "assets/food/pumpkin_soup.png";

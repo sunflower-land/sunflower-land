@@ -22,7 +22,7 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import {
   getRequiredPickaxeAmount,
   getStoneDropAmount,
-} from "features/game/events/landExpansion/stoneMine";
+} from "features/game/events/resources/stoneMine";
 import { StoneRockName } from "features/game/types/resources";
 import { useNow } from "lib/utils/hooks/useNow";
 

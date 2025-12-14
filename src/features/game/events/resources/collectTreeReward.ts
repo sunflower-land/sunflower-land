@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 
 import { GameState } from "../../types/game";
-import { canChop, CHOP_ERRORS } from "features/game/events/landExpansion/chop";
+import { canChop, CHOP_ERRORS } from "./chop";
 import { produce } from "immer";
 
 export type CollectTreeRewardAction = {

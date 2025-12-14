@@ -43,7 +43,7 @@ import {
   isBuildingUpgradable,
   makeUpgradableBuildingKey,
   UpgradableBuildingType,
-} from "features/game/events/landExpansion/upgradeBuilding";
+} from "features/game/events/buildings/upgradeBuilding";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";

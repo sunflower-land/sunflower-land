@@ -6,7 +6,7 @@ import { PastAction } from "../lib/gameMachine";
 import { makeGame } from "../lib/transforms";
 import { getSessionId } from "./loadSession";
 import Decimal from "decimal.js-light";
-import { SeedBoughtAction } from "../events/landExpansion/seedBought";
+import { SeedBoughtAction } from "../events/farming/seedBought";
 import { GameState } from "../types/game";
 import { getObjectEntries } from "../expansion/lib/utils";
 import { AUTO_SAVE_INTERVAL } from "../expansion/Game";

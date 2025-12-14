@@ -26,11 +26,11 @@ import {
   PATCH_FRUIT_SEEDS,
 } from "features/game/types/fruits";
 import { secondsToString } from "lib/utils/time";
-import { SELLABLE } from "features/game/events/landExpansion/sellCrop";
+import { SELLABLE } from "features/game/events/farming/sellCrop";
 import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/events/landExpansion/harvestGreenHouse";
 import { useGame } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
+import { isFullMoonBerry } from "features/game/events/farming/seedBought";
 import fullMoon from "assets/icons/full_moon.png";
 
 export const CropGuide = () => {

@@ -6,7 +6,7 @@ import { Context } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Modal } from "components/ui/Modal";
 import { Expanding } from "components/ui/layouts/ExpansionRequirements";
-import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
+import { getInstantGems } from "features/game/events/crafting/speedUpRecipe";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Panel } from "components/ui/Panel";
 import { useCountdown } from "lib/utils/hooks/useCountdown";

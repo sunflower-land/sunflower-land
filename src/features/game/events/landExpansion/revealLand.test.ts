@@ -19,7 +19,7 @@ import {
   TOTAL_EXPANSION_NODES,
 } from "features/game/expansion/lib/expansionNodes";
 import { BB_TO_GEM_RATIO, FiniteResource } from "features/game/types/game";
-import { OIL_RESERVE_RECOVERY_TIME } from "./drillOilReserve";
+import { OIL_RESERVE_RECOVERY_TIME } from "../resources/drillOilReserve";
 
 describe("expansionRequirements", () => {
   it("returns normal expansion requirements", () => {

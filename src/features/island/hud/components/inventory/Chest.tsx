@@ -45,7 +45,7 @@ import {
   isBuildingUpgradable,
   makeUpgradableBuildingKey,
   UpgradableBuildingType,
-} from "features/game/events/landExpansion/upgradeBuilding";
+} from "features/game/events/buildings/upgradeBuilding";
 import { LandBiomeName } from "features/island/biomes/biomes";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { DOLLS } from "features/game/lib/crafting";

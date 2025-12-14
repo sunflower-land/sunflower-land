@@ -17,7 +17,7 @@ import {
   isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
-import { getCropTime } from "./plant";
+import { getCropTime } from "../farming/plant";
 import { getFruitTime } from "./fruitPlanted";
 import { Resource } from "features/game/lib/getBudYieldBoosts";
 import { produce } from "immer";

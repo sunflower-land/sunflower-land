@@ -20,7 +20,7 @@ import { capitalize } from "lib/utils/capitalize";
 import {
   makeUpgradableBuildingKey,
   isBuildingUpgradable,
-} from "features/game/events/landExpansion/upgradeBuilding";
+} from "features/game/events/buildings/upgradeBuilding";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { hasFeatureAccess } from "lib/flags";

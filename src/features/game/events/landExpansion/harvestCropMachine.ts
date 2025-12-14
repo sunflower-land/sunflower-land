@@ -7,7 +7,7 @@ import {
   GameState,
 } from "features/game/types/game";
 import { produce } from "immer";
-import { getCropYieldAmount } from "./harvest";
+import { getCropYieldAmount } from "../farming/harvest";
 import cloneDeep from "lodash.clonedeep";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 

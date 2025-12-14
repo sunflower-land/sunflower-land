@@ -22,7 +22,7 @@ import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { RecipeInfoPanel } from "./RecipeInfoPanel";
 import { CollectibleName } from "features/game/types/craftables";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
-import { getBoostedCraftingTime } from "features/game/events/landExpansion/startCrafting";
+import { getBoostedCraftingTime } from "features/game/events/crafting/startCrafting";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import lightningIcon from "assets/icons/lightning.png";
 import { InventoryItemName } from "features/game/types/game";

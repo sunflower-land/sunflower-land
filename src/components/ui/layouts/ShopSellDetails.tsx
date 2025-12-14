@@ -15,7 +15,7 @@ import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
-import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
+import { isFullMoonBerry } from "features/game/events/farming/seedBought";
 import { SeedName } from "features/game/types/seeds";
 import fullMoon from "assets/icons/full_moon.png";
 import { ClutterName } from "features/game/types/clutter";

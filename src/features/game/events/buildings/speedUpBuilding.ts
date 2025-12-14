@@ -1,7 +1,7 @@
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
-import { getInstantGems, makeGemHistory } from "./speedUpRecipe";
+import { getInstantGems, makeGemHistory } from "../crafting/speedUpRecipe";
 import { BuildingName } from "features/game/types/buildings";
 
 export type SpeedUpBuilding = {

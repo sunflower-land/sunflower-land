@@ -2,9 +2,9 @@ import { GameState } from "features/game/types/game";
 import {
   makeUpgradableBuildingKey,
   UpgradableBuildingType,
-} from "./upgradeBuilding";
+} from "../buildings/upgradeBuilding";
 import { produce } from "immer";
-import { getInstantGems, makeGemHistory } from "./speedUpRecipe";
+import { getInstantGems, makeGemHistory } from "../crafting/speedUpRecipe";
 import Decimal from "decimal.js-light";
 
 export type SpeedUpUpgradeAction = {

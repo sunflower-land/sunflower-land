@@ -1,77 +1,77 @@
 import {
   LandExpansionPlantAction,
   plant as landExpansionPlant,
-} from "./landExpansion/plant";
+} from "./farming/plant";
 import {
   harvest as landExpansionHarvest,
   LandExpansionHarvestAction,
-} from "./landExpansion/harvest";
+} from "./farming/harvest";
 import {
   chop as landExpansionChop,
   LandExpansionChopAction,
-} from "./landExpansion/chop";
+} from "./resources/chop";
 import {
   mineStone as landExpansionMineStone,
   LandExpansionStoneMineAction,
-} from "./landExpansion/stoneMine";
+} from "./resources/stoneMine";
 import {
   mineGold as landExpansionMineGold,
   LandExpansionMineGoldAction,
-} from "./landExpansion/mineGold";
+} from "./resources/mineGold";
 
 import {
   mineIron as landExpansionIronMine,
   LandExpansionIronMineAction,
-} from "./landExpansion/ironMine";
+} from "./resources/ironMine";
 
 import { bumpkinWave, BumpkinWaveAction } from "./landExpansion/bumpkinWave";
 
 import { GameState } from "../types/game";
 import { claimAirdrop, ClaimAirdropAction } from "./claimAirdrop";
+// Building domain imports
 import {
   placeBuilding,
   PlaceBuildingAction,
-} from "./landExpansion/placeBuilding";
-import {
   constructBuilding,
   ConstructBuildingAction,
-} from "./landExpansion/constructBuilding";
+  moveBuilding,
+  MoveBuildingAction,
+  removeBuilding,
+  RemoveBuildingAction,
+  upgradeBuilding,
+  UpgradeBuildingAction,
+  speedUpBuilding,
+  SpeedUpBuilding,
+} from "./buildings";
 import {
   placeCollectible,
   PlaceCollectibleAction,
 } from "./landExpansion/placeCollectible";
-import { cook, RecipeCookedAction } from "./landExpansion/cook";
-import {
-  collectRecipe,
-  CollectRecipeAction,
-} from "./landExpansion/collectRecipe";
+import { cook, RecipeCookedAction } from "./crafting/cook";
+import { collectRecipe, CollectRecipeAction } from "./crafting/collectRecipe";
 import { feedBumpkin, FeedBumpkinAction } from "./landExpansion/feedBumpkin";
 import { detectBot, DetectBotAction } from "./detectBot";
 import { choseSkill, ChoseSkillAction } from "./landExpansion/choseSkill";
 import { resetSkills, ResetSkillsAction } from "./landExpansion/resetSkills";
-import { seedBought, SeedBoughtAction } from "./landExpansion/seedBought";
+import { seedBought, SeedBoughtAction } from "./farming/seedBought";
 import {
   claimAchievement,
   ClaimAchievementAction,
 } from "./landExpansion/claimAchievement";
-import { craftTool, CraftToolAction } from "./landExpansion/craftTool";
+import { craftTool, CraftToolAction } from "./crafting/craftTool";
 import {
   buyDecoration,
   BuyDecorationAction,
 } from "./landExpansion/buyDecoration";
-import { sellCrop, SellCropAction } from "./landExpansion/sellCrop";
+import { sellCrop, SellCropAction } from "./farming/sellCrop";
 import {
   fertilisePlot as landExpansionFertilise,
   LandExpansionFertiliseCropAction,
-} from "./landExpansion/fertilisePlot";
+} from "./farming/fertilisePlot";
 import {
   removeCrop as landExpansionRemoveCrop,
   LandExpansionRemoveCropAction,
-} from "./landExpansion/removeCrop";
-import {
-  removeBuilding,
-  RemoveBuildingAction,
-} from "./landExpansion/removeBuilding";
+} from "./farming/removeCrop";
 import {
   removeCollectible,
   RemoveCollectibleAction,
@@ -79,11 +79,11 @@ import {
 import {
   collectCropReward,
   CollectCropRewardAction,
-} from "./landExpansion/collectCropReward";
+} from "./farming/collectCropReward";
 import {
   collectTreeReward,
   CollectTreeRewardAction,
-} from "features/game/events/landExpansion/collectTreeReward";
+} from "features/game/events/resources/collectTreeReward";
 
 import { plantFruit, PlantFruitAction } from "./landExpansion/fruitPlanted";
 import {
@@ -97,7 +97,7 @@ import {
 import {
   craftCollectible,
   CraftCollectibleAction,
-} from "./landExpansion/craftCollectible";
+} from "./crafting/craftCollectible";
 import { sellTreasure, SellTreasureAction } from "./landExpansion/treasureSold";
 import { restock, RestockAction } from "./landExpansion/restock";
 import { sellGarbage, SellGarbageAction } from "./landExpansion/garbageSold";
@@ -116,7 +116,6 @@ import {
   moveCollectible,
   MoveCollectibleAction,
 } from "./landExpansion/moveCollectible";
-import { moveBuilding, MoveBuildingAction } from "./landExpansion/moveBuilding";
 import { moveTree, MoveTreeAction } from "./landExpansion/moveTree";
 import { moveCrop, MoveCropAction } from "./landExpansion/moveCrop";
 import {
@@ -175,10 +174,7 @@ import {
   moveCrimstone,
   MoveCrimstoneAction,
 } from "./landExpansion/moveCrimstone";
-import {
-  mineCrimstone,
-  MineCrimstoneAction,
-} from "./landExpansion/mineCrimstone";
+import { mineCrimstone, MineCrimstoneAction } from "./resources/mineCrimstone";
 import {
   placeCrimstone,
   PlaceCrimstoneAction,
@@ -220,7 +216,7 @@ import {
   PlaceSunstoneAction,
 } from "./landExpansion/placeSunstone";
 import { moveSunstone, MoveSunstoneAction } from "./landExpansion/moveSunstone";
-import { mineSunstone, MineSunstoneAction } from "./landExpansion/mineSunstone";
+import { mineSunstone, MineSunstoneAction } from "./resources/mineSunstone";
 import {
   FlowerShopTradedAction,
   tradeFlowerShop,
@@ -248,7 +244,7 @@ import {
 import {
   drillOilReserve,
   DrillOilReserveAction,
-} from "./landExpansion/drillOilReserve";
+} from "./resources/drillOilReserve";
 import {
   harvestGreenHouse,
   HarvestGreenhouseAction,
@@ -332,10 +328,7 @@ import {
   shipmentRestock,
   ShipmentRestockAction,
 } from "./landExpansion/shipmentRestocked";
-import {
-  speedUpRecipe,
-  InstantCookRecipe,
-} from "./landExpansion/speedUpRecipe";
+import { speedUpRecipe, InstantCookRecipe } from "./crafting/speedUpRecipe";
 import {
   speedUpExpansion,
   InstantExpand,
@@ -344,10 +337,6 @@ import {
   speedUpCollectible,
   SpeedUpCollectible,
 } from "./landExpansion/speedUpCollectible";
-import {
-  speedUpBuilding,
-  SpeedUpBuilding,
-} from "./landExpansion/speedUpBuilding";
 // Animal domain imports
 import {
   buyAnimal,
@@ -364,18 +353,11 @@ import {
   WakeUpAnimalAction,
 } from "./animals";
 import { feedMixed, FeedMixedAction } from "features/feederMachine/feedMixed";
-import {
-  upgradeBuilding,
-  UpgradeBuildingAction,
-} from "./landExpansion/upgradeBuilding";
-import {
-  startCrafting,
-  StartCraftingAction,
-} from "./landExpansion/startCrafting";
+import { startCrafting, StartCraftingAction } from "./crafting/startCrafting";
 import {
   collectCrafting,
   CollectCraftingAction,
-} from "./landExpansion/collectCrafting";
+} from "./crafting/collectCrafting";
 import {
   completeNPCChore,
   CompleteNPCChoreAction,
@@ -423,7 +405,7 @@ import {
 import {
   cancelQueuedRecipe,
   CancelQueuedRecipeAction,
-} from "./landExpansion/cancelQueuedRecipe";
+} from "./crafting/cancelQueuedRecipe";
 import {
   speedUpUpgrade,
   SpeedUpUpgradeAction,
@@ -480,7 +462,7 @@ import {
 import {
   InstantCraftAction,
   speedUpCrafting,
-} from "./landExpansion/speedUpCrafting";
+} from "./crafting/speedUpCrafting";
 import { buyBiome, BuyBiomeAction } from "./landExpansion/buyBiome";
 import { applyBiome, ApplyBiomeAction } from "./landExpansion/applyBiome";
 import { buyMonument, BuyMonumentAction } from "./landExpansion/buyMonument";
@@ -554,8 +536,8 @@ import { NeglectPetAction, neglectPet } from "./pets/neglectPet";
 import { petPet, PetPetAction } from "./pets/petPet";
 import { fetchPet, FetchPetAction } from "./pets/fetchPet";
 import { helpPets, HelpPetsAction } from "./visiting/helpPets";
-import { BulkPlantAction, bulkPlant } from "./landExpansion/bulkPlant";
-import { bulkHarvest, BulkHarvestAction } from "./landExpansion/bulkHarvest";
+import { BulkPlantAction, bulkPlant } from "./farming/bulkPlant";
+import { bulkHarvest, BulkHarvestAction } from "./farming/bulkHarvest";
 import { clearTrades, ClearTradesAction } from "./clearTrades";
 import { placeNFT, PlaceNFTAction } from "./landExpansion/placeNFT";
 import { walkPet, WalkPetAction } from "./pets/walkPet";

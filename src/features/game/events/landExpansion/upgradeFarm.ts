@@ -12,7 +12,7 @@ import {
   TemperateSeasonName,
 } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
-import { placeBuilding } from "./placeBuilding";
+import { placeBuilding } from "../buildings/placeBuilding";
 import { placeFruitPatch } from "./placeFruitPatch";
 import { placeGold } from "./placeGold";
 import { placeIron } from "./placeIron";

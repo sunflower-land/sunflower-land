@@ -13,7 +13,7 @@ import { RecoveredCrimstone } from "./components/RecoveredCrimstone";
 import { DepletingCrimstone } from "./components/DepletingCrimstone";
 import { DepletedCrimstone } from "./components/DepletedCrimstone";
 import { useSound } from "lib/utils/hooks/useSound";
-import { getCrimstoneDropAmount } from "features/game/events/landExpansion/mineCrimstone";
+import { getCrimstoneDropAmount } from "features/game/events/resources/mineCrimstone";
 import { useNow } from "lib/utils/hooks/useNow";
 
 const HITS = 3;

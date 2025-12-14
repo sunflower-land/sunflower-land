@@ -20,7 +20,7 @@ import {
   isFullMoonBerry,
   isGreenhouseCropSeed,
   isGreenhouseFruitSeed,
-} from "../events/landExpansion/seedBought";
+} from "../events/farming/seedBought";
 import {
   isAdvancedFruitSeed,
   isBasicFruitSeed,

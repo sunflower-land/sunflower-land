@@ -17,7 +17,7 @@ import {
   BUILDING_DAILY_OIL_CONSUMPTION,
   BUILDING_OIL_BOOSTS,
   isCookingBuilding,
-} from "features/game/events/landExpansion/cook";
+} from "features/game/events/crafting/cook";
 import { Context } from "features/game/GameProvider";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { InnerPanel } from "components/ui/Panel";

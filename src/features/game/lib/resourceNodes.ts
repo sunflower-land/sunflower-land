@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { canChop } from "../events/landExpansion/chop";
+import { canChop } from "../events/resources/chop";
 import {
   GOLD_RECOVERY_TIME,
   IRON_RECOVERY_TIME,

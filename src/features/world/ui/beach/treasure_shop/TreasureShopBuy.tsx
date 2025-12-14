@@ -30,7 +30,7 @@ import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 
 import lightning from "assets/icons/lightning.png";
-import { getToolPrice } from "features/game/events/landExpansion/craftTool";
+import { getToolPrice } from "features/game/events/crafting/craftTool";
 import { Keys } from "features/game/types/game";
 import { isMobile } from "mobile-device-detect";
 import { Restock } from "features/island/buildings/components/building/market/restock/Restock";

@@ -9,9 +9,9 @@ import {
 } from "../../types/game";
 import { produce } from "immer";
 import { ComposterName } from "features/game/types/composters";
-import { getReadyAt } from "./startComposter";
+import { getReadyAt } from "../landExpansion/startComposter";
 import { RECIPES } from "features/game/lib/crafting";
-import { getBoostedCraftingTime } from "./startCrafting";
+import { getBoostedCraftingTime } from "../crafting/startCrafting";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { KNOWN_IDS } from "features/game/types";
 

@@ -14,7 +14,7 @@ import {
   CookingBuildingName,
 } from "features/game/types/buildings";
 import { produce } from "immer";
-import { BUILDING_DAILY_OIL_CAPACITY } from "./supplyCookingOil";
+import { BUILDING_DAILY_OIL_CAPACITY } from "../landExpansion/supplyCookingOil";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 

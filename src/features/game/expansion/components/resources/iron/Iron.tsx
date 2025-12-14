@@ -14,7 +14,7 @@ import { DepletingIron } from "./components/DepletingIron";
 import { canMine } from "features/game/lib/resourceNodes";
 import { RecoveredIron } from "./components/RecoveredIron";
 import { useSound } from "lib/utils/hooks/useSound";
-import { getIronDropAmount } from "features/game/events/landExpansion/ironMine";
+import { getIronDropAmount } from "features/game/events/resources/ironMine";
 import { IronRockName } from "features/game/types/resources";
 import { useNow } from "lib/utils/hooks/useNow";
 

@@ -14,7 +14,7 @@ import {
   canChop,
   getRequiredAxeAmount,
   getWoodDropAmount,
-} from "features/game/events/landExpansion/chop";
+} from "features/game/events/resources/chop";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 import { useSelector } from "@xstate/react";

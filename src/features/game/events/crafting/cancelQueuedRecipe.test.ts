@@ -12,7 +12,7 @@ import {
 import { CookableName, COOKABLES } from "features/game/types/consumables";
 import { cook, getOilConsumption } from "./cook";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
-import { choseSkill } from "./choseSkill";
+import { choseSkill } from "../landExpansion/choseSkill";
 import Decimal from "decimal.js-light";
 
 describe("cancelQueuedRecipe", () => {

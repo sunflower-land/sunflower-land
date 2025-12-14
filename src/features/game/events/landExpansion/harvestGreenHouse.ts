@@ -16,7 +16,7 @@ import Decimal from "decimal.js-light";
 
 import { produce } from "immer";
 import { getFruitYield } from "./fruitHarvested";
-import { getCropYieldAmount } from "./harvest";
+import { getCropYieldAmount } from "../farming/harvest";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import {
   FarmActivityName,

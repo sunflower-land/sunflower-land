@@ -18,7 +18,7 @@ import {
   BuildingUpgradeCost,
   UpgradableBuildingType,
   makeUpgradableBuildingKey,
-} from "features/game/events/landExpansion/upgradeBuilding";
+} from "features/game/events/buildings/upgradeBuilding";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
 import powerup from "assets/icons/level_up.png";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
@@ -27,7 +27,7 @@ import {
   HEN_HOUSE_VARIANTS,
   WATER_WELL_VARIANTS,
 } from "features/island/lib/alternateArt";
-import { getSupportedPlots } from "features/game/events/landExpansion/plant";
+import { getSupportedPlots } from "features/game/events/farming/plant";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getCurrentBiome, LandBiomeName } from "features/island/biomes/biomes";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";

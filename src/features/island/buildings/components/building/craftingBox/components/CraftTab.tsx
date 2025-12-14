@@ -31,7 +31,7 @@ import {
 import {
   findMatchingRecipe,
   getBoostedCraftingTime,
-} from "features/game/events/landExpansion/startCrafting";
+} from "features/game/events/crafting/startCrafting";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -45,7 +45,7 @@ import { ANIMAL_RESOURCES, COMMODITIES } from "features/game/types/resources";
 import { BEDS } from "features/game/types/beds";
 import { FLOWERS } from "features/game/types/flowers";
 import { SELLABLE_TREASURE } from "features/game/types/treasure";
-import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
+import { getInstantGems } from "features/game/events/crafting/speedUpRecipe";
 import fastForward from "assets/icons/fast_forward.png";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { gameAnalytics } from "lib/gameAnalytics";

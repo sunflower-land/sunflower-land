@@ -18,7 +18,7 @@ import {
 import { getBudExperienceBoosts } from "features/game/lib/getBudExperienceBoosts";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { isWearableActive } from "features/game/lib/wearables";
-import { SellableItem } from "features/game/events/landExpansion/sellCrop";
+import { SellableItem } from "features/game/events/farming/sellCrop";
 import {
   FACTION_ITEMS,
   getFactionPetBoostMultiplier,

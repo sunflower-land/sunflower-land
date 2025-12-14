@@ -20,10 +20,13 @@ import { BUILDING_DAILY_OIL_CAPACITY } from "./supplyCookingOil";
 import Decimal from "decimal.js-light";
 import { translate } from "lib/i18n/translate";
 import { CROPS } from "features/game/types/crops";
-import { canChop } from "./chop";
-import { canDrillOilReserve } from "./drillOilReserve";
-import { isReadyToHarvest } from "./harvest";
-import { getCurrentCookingItem, recalculateQueue } from "./cancelQueuedRecipe";
+import { canChop } from "../resources/chop";
+import { canDrillOilReserve } from "../resources/drillOilReserve";
+import { isReadyToHarvest } from "../farming/harvest";
+import {
+  getCurrentCookingItem,
+  recalculateQueue,
+} from "../crafting/cancelQueuedRecipe";
 import { AOEItemName } from "features/game/expansion/placeable/lib/collisionDetection";
 import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
 import { updateBeehives } from "features/game/lib/updateBeehives";

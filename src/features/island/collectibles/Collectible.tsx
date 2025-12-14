@@ -24,7 +24,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import confetti from "canvas-confetti";
-import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
+import { getInstantGems } from "features/game/events/crafting/speedUpRecipe";
 import { gameAnalytics } from "lib/gameAnalytics";
 import classNames from "classnames";
 import { useNow } from "lib/utils/hooks/useNow";

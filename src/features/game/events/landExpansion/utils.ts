@@ -1,7 +1,7 @@
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 import { GameState } from "features/game/types/game";
-import { isFullMoonBerry } from "./seedBought";
+import { isFullMoonBerry } from "../farming/seedBought";
 import { SeedName } from "features/game/types/seeds";
 
 export const getFruitHarvests = (

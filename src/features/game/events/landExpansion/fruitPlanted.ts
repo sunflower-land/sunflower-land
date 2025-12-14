@@ -15,7 +15,7 @@ import { randomInt } from "lib/utils/random";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
 import { SEASONAL_SEEDS } from "features/game/types/seeds";
-import { isFullMoonBerry } from "./seedBought";
+import { isFullMoonBerry } from "../farming/seedBought";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type PlantFruitAction = {

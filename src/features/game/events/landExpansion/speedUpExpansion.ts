@@ -1,6 +1,6 @@
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { getInstantGems, makeGemHistory } from "./speedUpRecipe";
+import { getInstantGems, makeGemHistory } from "../crafting/speedUpRecipe";
 import Decimal from "decimal.js-light";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 

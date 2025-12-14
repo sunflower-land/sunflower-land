@@ -14,7 +14,7 @@ import { DepletingGold } from "./components/DepletingGold";
 import { RecoveredGold } from "./components/RecoveredGold";
 import { canMine } from "features/game/lib/resourceNodes";
 import { useSound } from "lib/utils/hooks/useSound";
-import { getGoldDropAmount } from "features/game/events/landExpansion/mineGold";
+import { getGoldDropAmount } from "features/game/events/resources/mineGold";
 import { GoldRockName } from "features/game/types/resources";
 import { useNow } from "lib/utils/hooks/useNow";
 

@@ -4,7 +4,7 @@ import { GameState } from "../types/game";
 
 import cloneDeep from "lodash.clonedeep";
 import { getObjectEntries } from "../expansion/lib/utils";
-import { removeBuilding } from "./landExpansion/removeBuilding";
+import { removeBuilding } from "./buildings/removeBuilding";
 import { removeCollectible } from "./landExpansion/removeCollectible";
 import {
   isPlaceableCollectible,

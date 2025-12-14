@@ -36,7 +36,7 @@ import { isSummerCrop, isAutumnCrop } from "./harvest";
 import { getBudSpeedBoosts } from "features/game/lib/getBudSpeedBoosts";
 
 import { isWearableActive } from "features/game/lib/wearables";
-import { isGreenhouseCrop } from "./plantGreenhouse";
+import { isGreenhouseCrop } from "../landExpansion/plantGreenhouse";
 import { produce } from "immer";
 import {
   CalendarEventName,

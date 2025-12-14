@@ -33,7 +33,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SEASONAL_SEEDS, SeedName } from "features/game/types/seeds";
 import { SeasonalSeed } from "../plots/components/SeasonalSeed";
 import { Modal } from "components/ui/Modal";
-import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
+import { isFullMoonBerry } from "features/game/events/farming/seedBought";
 import { getCurrentBiome } from "../biomes/biomes";
 import { getFruitYield } from "features/game/events/landExpansion/fruitHarvested";
 

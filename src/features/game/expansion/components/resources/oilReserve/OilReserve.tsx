@@ -9,7 +9,7 @@ import {
   OIL_RESERVE_RECOVERY_TIME,
   getOilDropAmount,
   getRequiredOilDrillAmount,
-} from "features/game/events/landExpansion/drillOilReserve";
+} from "features/game/events/resources/drillOilReserve";
 import { RecoveringOilReserve } from "./components/RecoveringOilReserve";
 import { DepletedOilReserve } from "./components/DepletedOilReserve";
 import { useCountdown } from "lib/utils/hooks/useCountdown";

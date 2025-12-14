@@ -16,8 +16,8 @@ import {
   FULL_MOON_SEEDS,
   getBuyPrice,
   isFullMoonBerry,
-} from "features/game/events/landExpansion/seedBought";
-import { getCropPlotTime } from "features/game/events/landExpansion/plant";
+} from "features/game/events/farming/seedBought";
+import { getCropPlotTime } from "features/game/events/farming/plant";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { makeBulkBuySeeds } from "./lib/makeBulkBuyAmount";
 import { getBumpkinLevel } from "features/game/lib/level";

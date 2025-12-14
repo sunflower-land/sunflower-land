@@ -41,7 +41,7 @@ import {
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { setPrecision } from "lib/utils/formatNumber";
-import { isGreenhouseCrop } from "./plantGreenhouse";
+import { isGreenhouseCrop } from "../landExpansion/plantGreenhouse";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import cloneDeep from "lodash.clonedeep";
 import {

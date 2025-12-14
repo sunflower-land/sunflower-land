@@ -24,7 +24,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { capitalize } from "lib/utils/capitalize";
 import { IslandType, LoveAnimalItem } from "features/game/types/game";
-import { getToolPrice } from "features/game/events/landExpansion/craftTool";
+import { getToolPrice } from "features/game/events/crafting/craftTool";
 import { Restock } from "../../market/restock/Restock";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 

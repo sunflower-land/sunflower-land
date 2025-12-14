@@ -25,7 +25,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Context } from "features/game/GameProvider";
 import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
-import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
+import { getInstantGems } from "features/game/events/crafting/speedUpRecipe";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 /**
  * The props for the component.

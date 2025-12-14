@@ -7,13 +7,13 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import {
   getAffectedWeather,
   isPlotFertile,
-} from "features/game/events/landExpansion/plant";
+} from "features/game/events/farming/plant";
 import Spritesheet from "components/animation/SpriteAnimator";
 import { HARVEST_PROC_ANIMATION } from "features/island/plots/lib/plant";
 import {
   getCropYieldAmount,
   isReadyToHarvest,
-} from "features/game/events/landExpansion/harvest";
+} from "features/game/events/farming/harvest";
 import { NonFertilePlot } from "./components/NonFertilePlot";
 import { FertilePlot } from "./components/FertilePlot";
 import { ChestReward } from "../common/chest-reward/ChestReward";

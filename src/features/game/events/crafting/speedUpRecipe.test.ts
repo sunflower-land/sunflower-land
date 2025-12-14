@@ -16,7 +16,7 @@ import { getInstantGems, speedUpRecipe } from "./speedUpRecipe";
 import Decimal from "decimal.js-light";
 import { BAKERY_COOKABLES, COOKABLES } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
-import { supplyCookingOil } from "./supplyCookingOil";
+import { supplyCookingOil } from "../landExpansion/supplyCookingOil";
 import { cook, getCookingOilBoost } from "./cook";
 
 describe("instantCook", () => {
