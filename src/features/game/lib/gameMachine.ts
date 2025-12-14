@@ -45,7 +45,6 @@ import {
   LandscapingPlaceableType,
   SaveEvent,
 } from "../expansion/placeable/landscapingMachine";
-import { isSwarming } from "../events/detectBot";
 import { generateTestLand } from "../expansion/actions/generateLand";
 
 import { loadGameStateForVisit } from "../actions/loadGameStateForVisit";
@@ -53,11 +52,7 @@ import { randomID } from "lib/utils/random";
 
 import { buySFL } from "../actions/buySFL";
 import { PlaceableLocation } from "../types/collectibles";
-import {
-  getGameRulesLastRead,
-  getIntroductionRead,
-  getVipRead,
-} from "features/announcements/announcementsStorage";
+
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
 import { setOnboardingComplete } from "features/auth/actions/onboardingComplete";
@@ -98,21 +93,15 @@ import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
 import { getKeys } from "../types/decorations";
 import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow";
 import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
-import { hasVipAccess } from "./vipAccess";
-import { getActiveCalendarEvent, SeasonalEventName } from "../types/calendar";
+import { getActiveCalendarEvent } from "../types/calendar";
 import { getAccount, getChainId } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { depositFlower } from "lib/blockchain/DepositFlower";
 import { NetworkOption } from "features/island/hud/components/deposit/DepositFlower";
-import { blessingIsReady } from "./blessings";
-import { hasReadNews } from "features/farming/mail/components/News";
 import { depositSFL } from "lib/blockchain/DepositSFL";
-import { getBumpkinLevel } from "./level";
-import { hasFeatureAccess } from "lib/flags";
-import { isDailyRewardReady } from "../events/landExpansion/claimDailyReward";
-import { getDailyRewardLastAcknowledged } from "../components/DailyReward";
 
 import { shouldShowLeagueResults } from "./machines/notificationGuards";
+import { createNotifyingTransitions } from "./machines/notificationStates";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -1117,308 +1106,7 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-        notifying: {
-          always: [
-            {
-              target: "gameRules",
-              cond: () => {
-                const lastRead = getGameRulesLastRead();
-
-                // Don't show game rules if they have been read in the last 7 days
-                // or if the user has come from a pwa install magic link
-                return (
-                  !lastRead ||
-                  Date.now() - lastRead.getTime() > 7 * 24 * 60 * 60 * 1000
-                );
-              },
-            },
-
-            {
-              target: "introduction",
-              cond: (context) => {
-                return (
-                  context.state.bumpkin?.experience === 0 &&
-                  !getIntroductionRead()
-                );
-              },
-            },
-
-            {
-              target: "investigating",
-              cond: (context) => {
-                return context.state.ban.status === "investigating";
-              },
-            },
-
-            {
-              target: "gems",
-              cond: (context) => {
-                return !!context.state.inventory["Block Buck"]?.gte(1);
-              },
-            },
-
-            {
-              target: "communityCoin",
-              cond: (context) => {
-                return !!context.state.inventory["Community Coin"]?.gte(1);
-              },
-            },
-
-            // TODO - FIX
-            // {
-            //   target: "mailbox",
-            //   cond: (context) =>
-            //     hasUnreadMail(context.announcements, context.state.mailbox),
-            // },
-            {
-              target: "swarming",
-              cond: () => isSwarming(),
-            },
-            {
-              target: "blessing",
-              cond: (context) => {
-                const { offered, reward } = context.state.blessing;
-
-                if (reward) return true;
-
-                if (!offered) return false;
-
-                return blessingIsReady({ game: context.state });
-              },
-            },
-            {
-              target: "vip",
-              cond: (context) => {
-                const isNew = context.state.bumpkin.experience < 100;
-
-                // Don't show for new players
-                if (isNew) return false;
-
-                // Wow, they haven't seen the VIP promo in 1 month
-                const readAt = getVipRead();
-                if (
-                  !hasVipAccess({ game: context.state }) &&
-                  (!readAt ||
-                    readAt.getTime() <
-                      Date.now() - 1 * 31 * 24 * 60 * 60 * 1000)
-                ) {
-                  return true;
-                }
-
-                const vip = context.state.vip;
-
-                // Show them a reminder if it is expiring in 3 days
-                const isExpiring =
-                  vip &&
-                  vip.expiresAt &&
-                  vip.expiresAt < Date.now() + 3 * 24 * 60 * 60 * 1000 &&
-                  // Haven't read since expiry approached
-                  (readAt?.getTime() ?? 0) <
-                    vip.expiresAt - 3 * 24 * 60 * 60 * 1000;
-
-                if (isExpiring) return true;
-
-                const hasExpired =
-                  vip &&
-                  vip.expiresAt &&
-                  vip.expiresAt < Date.now() &&
-                  // Hasn't read since expired
-                  (readAt?.getTime() ?? 0) < vip.expiresAt;
-
-                if (hasExpired) return true;
-
-                return false;
-              },
-            },
-
-            {
-              target: "referralRewards",
-              cond: (context) => {
-                return !!context.state.referrals?.rewards;
-              },
-            },
-
-            {
-              target: "somethingArrived",
-              cond: (context) => !!context.revealed,
-            },
-
-            {
-              target: "seasonChanged",
-              cond: (context) => {
-                return (
-                  context.state.island.type !== "basic" &&
-                  (context.state.island.upgradedAt ?? 0) <
-                    context.state.season.startedAt &&
-                  context.state.season.startedAt !==
-                    getLastTemperateSeasonStartedAt()
-                );
-              },
-            },
-
-            {
-              target: "calendarEvent",
-              cond: (context) => {
-                const game = context.state;
-
-                const activeEvent = getActiveCalendarEvent({
-                  calendar: game.calendar,
-                });
-
-                if (!activeEvent) return false;
-
-                const isAcknowledged =
-                  game?.calendar[activeEvent as SeasonalEventName]
-                    ?.acknowledgedAt;
-
-                return !isAcknowledged;
-              },
-            },
-
-            {
-              target: "competition",
-              cond: () => false,
-            },
-            {
-              target: "news",
-              cond: (context) => {
-                // Do not show if they are under level 5
-                const level = getBumpkinLevel(
-                  context.state.bumpkin?.experience ?? 0,
-                );
-                if (level < 5) return false;
-                return !hasReadNews();
-              },
-            },
-            {
-              target: "cheers",
-              cond: (context) => {
-                // Players now receive cheers in daily rewards
-                if (hasFeatureAccess(context.state, "DAILY_BOXES"))
-                  return false;
-
-                // Do not show if they are under level 5
-                const level = getBumpkinLevel(
-                  context.state.bumpkin?.experience ?? 0,
-                );
-                if (level < 5) return false;
-
-                const now = Date.now();
-
-                const today = new Date(now).toISOString().split("T")[0];
-
-                return (
-                  context.state.socialFarming.cheers?.freeCheersClaimedAt <
-                  new Date(today).getTime()
-                );
-              },
-            },
-            {
-              target: "linkWallet",
-              cond: (context) => {
-                return (
-                  (context.method === "fsl" || context.method === "wechat") &&
-                  !context.linkedWallet
-                );
-              },
-            },
-
-            {
-              target: "dailyReward",
-              cond: (context) => {
-                if (!hasFeatureAccess(context.state, "DAILY_BOXES"))
-                  return false;
-
-                // If already acknowledged in last 24 hours, don't show
-                const lastAcknowledged = getDailyRewardLastAcknowledged();
-                if (
-                  lastAcknowledged &&
-                  lastAcknowledged.toISOString().slice(0, 10) ===
-                    new Date().toISOString().slice(0, 10)
-                ) {
-                  return false;
-                }
-
-                return isDailyRewardReady({
-                  bumpkinExperience: context.state.bumpkin?.experience ?? 0,
-                  dailyRewards: context.state.dailyRewards,
-                  now: Date.now(),
-                });
-              },
-            },
-
-            // EVENTS THAT TARGET NOTIFYING OR LOADING MUST GO ABOVE THIS LINE
-
-            // EVENTS THAT TARGET PLAYING MUST GO BELOW THIS LINE
-            // {
-            //   target: "promo",
-            //   cond: (context) => {
-            //     return (
-            //       context.state.bumpkin?.experience === 0 &&
-            //       getPromoCode() === "crypto-com"
-            //     );
-            //   },
-            // },
-            {
-              target: "airdrop",
-              cond: (context) => {
-                const airdrop = context.state.airdrops?.find(
-                  (airdrop) => !airdrop.coordinates,
-                );
-
-                return !!airdrop;
-              },
-            },
-
-            {
-              // auctionResults needs to be the last check as it transitions directly
-              // to playing. It does not target notifying.
-              target: "auctionResults",
-              cond: (context: Context) => !!context.state.auctioneer.bid,
-            },
-            {
-              target: "offers",
-              cond: (context: Context) =>
-                getKeys(context.state.trades.offers ?? {}).some(
-                  (id) => !!context.state.trades.offers![id].fulfilledAt,
-                ),
-            },
-            {
-              target: "marketplaceSale",
-              cond: (context: Context) =>
-                getKeys(context.state.trades.listings ?? {}).some(
-                  (id) => !!context.state.trades.listings![id].fulfilledAt,
-                ),
-            },
-            {
-              target: "tradesCleared",
-              cond: (context: Context) => {
-                return (
-                  getKeys(context.state.trades.listings ?? {}).some(
-                    (id) => !!context.state.trades.listings![id].clearedAt,
-                  ) ||
-                  getKeys(context.state.trades.offers ?? {}).some(
-                    (id) => !!context.state.trades.offers![id].clearedAt,
-                  )
-                );
-              },
-            },
-
-            {
-              target: "jinAirdrop",
-              cond: (context) =>
-                !!context.state.nfts?.ronin?.acknowledgedAt &&
-                (context.state.inventory["Jin"] ?? new Decimal(0)).lt(1),
-            },
-            {
-              target: "leagueResults",
-              cond: shouldShowLeagueResults,
-            },
-            {
-              target: "playing",
-            },
-          ],
-        },
+        notifying: createNotifyingTransitions(),
 
         vip: {
           on: {

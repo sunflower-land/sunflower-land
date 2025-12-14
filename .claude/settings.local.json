@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(for dir in /Users/evgeny/sunflower-land/src/features/game/events/*/)",
+      "Bash(done)"
+    ]
+  }
+}
