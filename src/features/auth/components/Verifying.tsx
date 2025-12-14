@@ -34,10 +34,9 @@ export const Verifying: React.FC = () => {
           const frame = document.getElementById("iframe") as HTMLIFrameElement;
 
           // Only listen to events from the IFrame in focus
-          if (
-            e.origin.includes(CONFIG.API_URL as string) ||
-            (e.origin === "null" && e.source === frame?.contentWindow)
-          ) {
+          // Use strict origin comparison to prevent subdomain attacks
+          const apiOrigin = new URL(CONFIG.API_URL as string).origin;
+          if (e.origin === apiOrigin && e.source === frame?.contentWindow) {
             authService.send("VERIFIED", {
               data: {
                 account: wallet.getAccount(),
