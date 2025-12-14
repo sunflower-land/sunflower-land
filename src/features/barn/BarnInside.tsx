@@ -28,7 +28,7 @@ import { Animal, AnimalBounty } from "features/game/types/game";
 import { AnimalDeal, ExchangeHud } from "./components/AnimalBounties";
 import { Modal } from "components/ui/Modal";
 import classNames from "classnames";
-import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
+import { isValidDeal } from "features/game/events/animals/sellAnimal";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { ANIMAL_HOUSE_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";
 import { LandBiomeName } from "features/island/biomes/biomes";

@@ -5,7 +5,7 @@ import { Button } from "components/ui/Button";
 import { HudContainer } from "components/ui/HudContainer";
 import { Label } from "components/ui/Label";
 import { ButtonPanel, InnerPanel, Panel } from "components/ui/Panel";
-import { getSickAnimalRewardAmount } from "features/game/events/landExpansion/sellAnimal";
+import { getSickAnimalRewardAmount } from "features/game/events/animals/sellAnimal";
 import {
   generateBountyCoins,
   generateBountyTicket,

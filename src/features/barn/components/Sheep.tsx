@@ -37,8 +37,8 @@ import {
   getBarnDelightCost,
   handleFoodXP,
   REQUIRED_FOOD_QTY,
-} from "features/game/events/landExpansion/feedAnimal";
-import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
+} from "features/game/events/animals/feedAnimal";
+import { getAnimalXP } from "features/game/events/animals/loveAnimal";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { isWearableActive } from "features/game/lib/wearables";

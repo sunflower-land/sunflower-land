@@ -348,15 +348,26 @@ import {
   speedUpBuilding,
   SpeedUpBuilding,
 } from "./landExpansion/speedUpBuilding";
-import { buyAnimal, BuyAnimalAction } from "./landExpansion/buyAnimal";
-import { feedAnimal, FeedAnimalAction } from "./landExpansion/feedAnimal";
-import { loveAnimal, LoveAnimalAction } from "./landExpansion/loveAnimal";
+// Animal domain imports
+import {
+  buyAnimal,
+  BuyAnimalAction,
+  feedAnimal,
+  FeedAnimalAction,
+  loveAnimal,
+  LoveAnimalAction,
+  sellAnimal,
+  SellAnimalAction,
+  claimProduce,
+  ClaimProduceAction,
+  wakeAnimal,
+  WakeUpAnimalAction,
+} from "./animals";
 import { feedMixed, FeedMixedAction } from "features/feederMachine/feedMixed";
 import {
   upgradeBuilding,
   UpgradeBuildingAction,
 } from "./landExpansion/upgradeBuilding";
-import { sellAnimal, SellAnimalAction } from "./landExpansion/sellAnimal";
 import {
   startCrafting,
   StartCraftingAction,
@@ -369,7 +380,6 @@ import {
   completeNPCChore,
   CompleteNPCChoreAction,
 } from "./landExpansion/completeNPCChore";
-import { claimProduce, ClaimProduceAction } from "./landExpansion/claimProduce";
 import { sellBounty, SellBountyAction } from "./landExpansion/sellBounty";
 import {
   buySeasonalItem,
@@ -508,7 +518,6 @@ import {
   RemoveBeehiveAction,
 } from "./landExpansion/removeBeehive";
 import { removeAll, RemoveAllAction } from "./landExpansion/removeAll";
-import { wakeAnimal, WakeUpAnimalAction } from "./landExpansion/wakeUpAnimal";
 import {
   ClaimCheersAction,
   claimDailyCheers,

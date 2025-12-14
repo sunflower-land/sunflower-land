@@ -11,13 +11,13 @@ import sleepIcon from "assets/icons/sleep.webp";
 import { InnerPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
-import { getAnimalToy } from "features/game/events/landExpansion/wakeUpAnimal";
+import { getAnimalToy } from "features/game/events/animals/wakeUpAnimal";
 import { Animal } from "features/game/types/game";
 import {
   getAnimalFavoriteFood,
   getAnimalLevel,
 } from "features/game/lib/animals";
-import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
+import { getAnimalXP } from "features/game/events/animals/loveAnimal";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { useSelector } from "@xstate/react";
 import glow from "public/world/glow.png";

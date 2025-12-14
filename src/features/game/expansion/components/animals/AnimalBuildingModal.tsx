@@ -19,7 +19,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { AnimalBounty, AnimalBuildingKey } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { getBoostedAnimalCapacity } from "features/game/events/landExpansion/buyAnimal";
+import { getBoostedAnimalCapacity } from "features/game/events/animals/buyAnimal";
 import { Label } from "components/ui/Label";
 
 import coinsIcon from "assets/icons/coins.webp";
@@ -32,7 +32,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { isMobile } from "mobile-device-detect";
-import { SICK_ANIMAL_REWARD_MULTIPLIER } from "features/game/events/landExpansion/sellAnimal";
+import { SICK_ANIMAL_REWARD_MULTIPLIER } from "features/game/events/animals/sellAnimal";
 import { formatNumber } from "lib/utils/formatNumber";
 import { SquareIcon } from "components/ui/SquareIcon";
 

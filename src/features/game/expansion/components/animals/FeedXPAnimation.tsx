@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { Transition } from "@headlessui/react";
 import { formatNumber } from "lib/utils/formatNumber";
 import { AnimalFoodName } from "features/game/types/game";
-import { handleFoodXP } from "features/game/events/landExpansion/feedAnimal";
+import { handleFoodXP } from "features/game/events/animals/feedAnimal";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";

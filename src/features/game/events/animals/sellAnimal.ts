@@ -5,7 +5,10 @@ import { trackFarmActivity } from "features/game/types/farmActivity";
 import { Animal, BountyRequest, GameState } from "features/game/types/game";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { produce } from "immer";
-import { generateBountyTicket, generateBountyCoins } from "./sellBounty";
+import {
+  generateBountyTicket,
+  generateBountyCoins,
+} from "../landExpansion/sellBounty";
 
 export function isValidDeal({
   animal,

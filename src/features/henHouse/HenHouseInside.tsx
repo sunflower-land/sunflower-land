@@ -23,7 +23,7 @@ import {
   ExchangeHud,
 } from "features/barn/components/AnimalBounties";
 import { Animal, AnimalBounty } from "features/game/types/game";
-import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
+import { isValidDeal } from "features/game/events/animals/sellAnimal";
 import classNames from "classnames";
 import { EXTERIOR_ISLAND_BG } from "features/barn/BarnInside";
 import { ANIMAL_HOUSE_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";

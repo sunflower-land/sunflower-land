@@ -1,5 +1,5 @@
 import cloneDeep from "lodash.clonedeep";
-import { ANIMAL_SLEEP_DURATION } from "../events/landExpansion/feedAnimal";
+import { ANIMAL_SLEEP_DURATION } from "../events/animals/feedAnimal";
 import {
   ANIMAL_FOOD_EXPERIENCE,
   ANIMAL_FOODS,
