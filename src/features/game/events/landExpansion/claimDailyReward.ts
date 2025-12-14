@@ -121,12 +121,15 @@ export function claimDailyReward({
       currentDate,
     });
 
-    rewards.forEach((reward) => applyReward(game, reward));
+    game = rewards.reduce(
+      (gameState, reward) => applyReward(gameState, reward),
+      game,
+    );
     const newStreak = currentStreak + 1;
 
-    game.dailyRewards.streaks = newStreak;
-    game.dailyRewards.chest = {
-      code: (game.dailyRewards.chest?.code ?? 0) + 1, // Legacy
+    game.dailyRewards!.streaks = newStreak;
+    game.dailyRewards!.chest = {
+      code: (game.dailyRewards!.chest?.code ?? 0) + 1, // Legacy
 
       collectedAt: createdAt,
     };
@@ -135,12 +138,13 @@ export function claimDailyReward({
       "Daily Reward Collected",
       game.farmActivity,
     );
-
-    console.log({ buffs: game.buffs });
   });
 }
 
-function applyReward(game: GameState, reward: DailyRewardDefinition) {
+function applyReward(
+  game: GameState,
+  reward: DailyRewardDefinition,
+): GameState {
   if (reward.items) {
     Object.entries(reward.items).forEach(([itemName, amount]) => {
       if (!amount) return;
@@ -164,6 +168,8 @@ function applyReward(game: GameState, reward: DailyRewardDefinition) {
   }
 
   if (reward.buff) {
-    game.buffs = applyBuff({ buff: reward.buff, game }).buffs;
+    game = applyBuff({ buff: reward.buff, game });
   }
+
+  return game;
 }
