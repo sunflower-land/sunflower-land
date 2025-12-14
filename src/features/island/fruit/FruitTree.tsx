@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { PlantedFruit } from "features/game/types/game";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -10,9 +10,7 @@ import { FruitSeedling } from "./FruitSeedling";
 import { DeadTree } from "./DeadTree";
 import { ReplenishingTree } from "./ReplenishingTree";
 import { ReplenishedTree } from "./ReplenishedTree";
-import { MachineState } from "features/game/lib/gameMachine";
-import { useSelector } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
+import { useIsland } from "features/game/hooks";
 
 type Stage = "Empty" | "Seedling" | "Replenishing" | "Replenished" | "Dead";
 
@@ -70,8 +68,6 @@ interface Props {
   hasAxes: boolean;
 }
 
-const _island = (state: MachineState) => state.context.state.island;
-
 export const FruitTree: React.FC<Props> = ({
   plantedFruit,
   plantTree,
@@ -81,8 +77,7 @@ export const FruitTree: React.FC<Props> = ({
   playShakingAnimation,
   hasAxes,
 }) => {
-  const { gameService } = useContext(Context);
-  const island = useSelector(gameService, _island);
+  const island = useIsland();
   const now = useNow({ live: !!plantedFruit });
   const treeStatus = getFruitTreeStatus(plantedFruit, now);
 

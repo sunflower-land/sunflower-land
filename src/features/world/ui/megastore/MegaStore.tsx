@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
@@ -15,10 +15,8 @@ import {
 
 import shopIcon from "assets/icons/shop.png";
 import { getImageUrl } from "lib/utils/getImageURLS";
-import { MachineState } from "features/game/lib/gameMachine";
 import { SeasonalStore } from "./SeasonalStore";
-import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
+import { useGameState } from "features/game/hooks";
 import {
   getCurrentSeason,
   getSeasonalTicket,
@@ -64,11 +62,8 @@ export const getItemBuffLabel = (
   });
 };
 
-const _state = (state: MachineState) => state.context.state;
-
 export const MegaStore: React.FC<Props> = ({ onClose }) => {
-  const { gameService } = useContext(Context);
-  const state = useSelector(gameService, _state);
+  const state = useGameState();
 
   const icon = ITEM_DETAILS[getSeasonalTicket()].image ?? shopIcon;
   const { t } = useAppTranslation();

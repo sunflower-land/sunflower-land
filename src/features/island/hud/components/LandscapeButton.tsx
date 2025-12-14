@@ -1,13 +1,13 @@
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Context } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useSound } from "lib/utils/hooks/useSound";
-import React, { useContext } from "react";
+import React from "react";
 import { RoundButton } from "components/ui/RoundButton";
+import { useGameService } from "features/game/hooks";
 
 export const LandscapeButton: React.FC = () => {
   const button = useSound("button");
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
 
   return (
     <RoundButton

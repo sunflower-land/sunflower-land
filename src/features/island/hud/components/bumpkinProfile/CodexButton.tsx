@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -7,13 +7,13 @@ import codex from "assets/icons/codex.webp";
 
 import { Codex } from "../codex/Codex";
 import { hasNewOrders } from "features/island/delivery/lib/delivery";
-import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSelector } from "@xstate/react";
 import { RoundButton } from "components/ui/RoundButton";
 import { isMobile } from "mobile-device-detect";
+import { useGameService } from "features/game/hooks";
 
 const _delivery = (state: MachineState) => state.context.state.delivery;
 const _level = (state: MachineState) =>
@@ -22,7 +22,7 @@ const _level = (state: MachineState) =>
 export const CodexButton: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
 
   const deliveries = useSelector(gameService, _delivery);
   const level = useSelector(gameService, _level);

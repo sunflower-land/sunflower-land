@@ -6,8 +6,6 @@ import {
   isPetOfTypeFed,
 } from "features/game/types/pets";
 import { PetSprite } from "features/island/pets/PetSprite";
-import { useContext } from "react";
-import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "components/ui/Modal";
@@ -17,6 +15,7 @@ import { FarmHelped } from "features/island/hud/components/FarmHelped";
 import { isHelpComplete } from "features/game/types/monuments";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useGameService } from "features/game/hooks";
 
 const _petNFTData = (id: string) => (state: MachineState) => {
   return state.context.state.pets?.nfts?.[Number(id)];
@@ -50,7 +49,7 @@ const _hasHelpedPet = (id: number) => (state: MachineState) => {
 export const VisitingPetNFT: React.FC<{
   id: string;
 }> = ({ id }) => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const petNFTData = useSelector(gameService, _petNFTData(id));
   const isTypeFed = useSelector(gameService, _isTypeFed(id));
   const hasHelpedPet = useSelector(gameService, _hasHelpedPet(Number(id)));

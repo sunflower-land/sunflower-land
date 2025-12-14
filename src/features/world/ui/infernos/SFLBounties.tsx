@@ -1,20 +1,18 @@
-import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { ButtonPanel } from "components/ui/Panel";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
-import { Context } from "features/game/GameProvider";
+import { useGameState } from "features/game/hooks";
 import { weekResetsAt } from "features/game/lib/factions";
-import { MachineState } from "features/game/lib/gameMachine";
 import { BountyRequest, GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES } from "lib/npcs";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Deal } from "../flowerShop/FlowerBounties";
 import sflIcon from "assets/icons/flower_token.webp";
 import { BOUNTY_CATEGORIES } from "features/game/events/landExpansion/sellBounty";
@@ -24,12 +22,9 @@ interface Props {
   onClose: () => void;
 }
 
-const _state = (state: MachineState) => state.context.state;
-
 export const SFLBounties: React.FC<Props> = ({ readonly, onClose }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
-  const state = useSelector(gameService, _state);
+  const state = useGameState();
 
   const [showIntro, setShowIntro] = useState(
     !state.farmActivity["Obsidian Bountied"],

@@ -1,10 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Context } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getKeys } from "features/game/types/decorations";
@@ -16,6 +15,7 @@ import {
   useFarmHands,
   useCollectibles,
   useHomeCollectibles,
+  useGameService,
 } from "features/game/hooks";
 
 interface BedProps {
@@ -51,7 +51,7 @@ export const BED_HEIGHT: Record<BedName, number> = {
 const _isLandscaping = (state: MachineState) => state.matches("landscaping");
 
 export const Bed: React.FC<BedProps> = ({ name }) => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const { t } = useAppTranslation();
 
   const [showModal, setShowModal] = useState(false);

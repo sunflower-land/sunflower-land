@@ -1,12 +1,12 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
+import { useGameService } from "features/game/hooks";
 
 import { secondsToString } from "lib/utils/time";
 
@@ -29,7 +29,7 @@ const _specialEvents = (state: MachineState) =>
     .filter(([, specialEvent]) => (specialEvent?.startAt ?? 0) < Date.now());
 
 export const SpecialEventCountdown: React.FC = () => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const specialEvents = useSelector(gameService, _specialEvents);
   const now = useNow();
 

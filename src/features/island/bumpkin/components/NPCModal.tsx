@@ -21,7 +21,11 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BuildingName } from "features/game/types/buildings";
 import { OuterPanel } from "components/ui/Panel";
 import { MachineState } from "features/game/lib/gameMachine";
-import { useGameService, useInventory } from "features/game/hooks";
+import {
+  useGameService,
+  useInventory,
+  useBumpkinEquipped,
+} from "features/game/hooks";
 
 interface Props {
   isOpen: boolean;
@@ -38,9 +42,6 @@ export const BUILDING_ORDER: BuildingName[] = [
 
 const _currentBumpkinLevel = (state: MachineState) => {
   return getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
-};
-const _equipped = (state: MachineState) => {
-  return state.context.state.bumpkin?.equipped;
 };
 
 function useLevelUp(currentLevel: number) {
@@ -64,7 +65,7 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const currentBumpkinLevel = useSelector(gameService, _currentBumpkinLevel);
   const inventory = useInventory();
-  const equipped = useSelector(gameService, _equipped);
+  const equipped = useBumpkinEquipped();
 
   const { hasLeveledUp, acknowledgeLevelUp } = useLevelUp(currentBumpkinLevel);
 

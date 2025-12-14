@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -6,7 +6,6 @@ import { Recipe } from "features/game/lib/crafting";
 import { useSelector } from "@xstate/react";
 import { RecipeIngredient } from "features/game/lib/crafting";
 import { useSound } from "lib/utils/hooks/useSound";
-import { Context } from "features/game/GameProvider";
 import { RecipesTab } from "./RecipesTab";
 import { CraftTab } from "./CraftTab";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -14,6 +13,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { Panel } from "components/ui/Panel";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { CraftingBoxGuide } from "./CraftingBoxGuide";
+import { useGameService } from "features/game/hooks";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `crafting-box-read.${host}-${window.location.pathname}`;
@@ -45,7 +45,7 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
   const [showIntro, setShowIntro] = React.useState(!hasReadIntro());
   const [currentTab, setCurrentTab] = useState(0);
 
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
 
   const craftingItem = useSelector(gameService, _craftingItem);
   const recipes = useSelector(gameService, _craftingBoxRecipes);

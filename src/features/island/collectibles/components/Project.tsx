@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ImageStyle } from "./template/ImageStyle";
 import { useVisiting } from "lib/utils/visitUtils";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import helpIcon from "assets/icons/help.webp";
-import { Context, useGame } from "features/game/GameProvider";
+import { useGame } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
@@ -16,6 +16,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
+import { useGameService } from "features/game/hooks";
 import {
   isHelpComplete,
   MonumentName,
@@ -431,7 +432,7 @@ type ProjectProps = React.ComponentProps<typeof ImageStyle> & {
 
 export const Project: React.FC<ProjectProps> = (input) => {
   const { isVisiting } = useVisiting();
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
 
   const projectCheers = useSelector(gameService, _cheers(input.project));
   const cheersAvailable = useSelector(gameService, _cheersAvailable);

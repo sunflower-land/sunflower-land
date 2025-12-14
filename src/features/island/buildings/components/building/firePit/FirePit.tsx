@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
 import classNames from "classnames";
 import { FirePitModal } from "./FirePitModal";
@@ -7,7 +7,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
-import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { gameAnalytics } from "lib/gameAnalytics";
 
@@ -21,7 +20,7 @@ import { ReadyRecipes } from "../ReadyRecipes";
 import { useCookingState } from "features/island/buildings/lib/useCookingState";
 import { GameState, TemperateSeasonName } from "features/game/types/game";
 import { getCurrentBiome } from "features/island/biomes/biomes";
-import { useBuilding } from "features/game/hooks";
+import { useBuilding, useGameService } from "features/game/hooks";
 
 type Props = {
   buildingId: string;
@@ -39,7 +38,7 @@ const _potatoCount = (state: MachineState) =>
 const _season = (state: MachineState) => state.context.state.season.season;
 
 export const FirePit: React.FC<Props> = ({ buildingId, isBuilt, island }) => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const [showModal, setShowModal] = useState(false);
 
   const mashedPotatoCooked = useSelector(gameService, _mashedPotatoCooked);

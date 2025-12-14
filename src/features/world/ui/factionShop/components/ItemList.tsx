@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Label } from "components/ui/Label";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { SquareIcon } from "components/ui/SquareIcon";
@@ -9,9 +9,7 @@ import lightning from "assets/icons/lightning.png";
 
 import { ITEM_DETAILS } from "features/game/types/images";
 import { FactionName, InventoryItemName } from "features/game/types/game";
-import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
-import { useSelector } from "@xstate/react";
+import { useGameState, useInventory, useWardrobe } from "features/game/hooks";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -27,20 +25,15 @@ interface Props {
   onItemClick: (item: FactionShopItem) => void;
 }
 
-const _inventory = (state: MachineState) => state.context.state.inventory;
-const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
-const _state = (state: MachineState) => state.context.state;
 export const ItemsList: React.FC<Props> = ({
   items,
   type,
   itemsLabel,
   onItemClick,
 }) => {
-  const { gameService } = useContext(Context);
-  const state = useSelector(gameService, _state);
-
-  const inventory = useSelector(gameService, _inventory);
-  const wardrobe = useSelector(gameService, _wardrobe);
+  const state = useGameState();
+  const inventory = useInventory();
+  const wardrobe = useWardrobe();
 
   const getBalanceOfItem = (item: FactionShopItem): number => {
     if (type === "wearables") {

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { getItemImage, getItemBuffLabel } from "../FloatingIslandShop";
 import { Label } from "components/ui/Label";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
@@ -8,11 +8,9 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import lightning from "assets/icons/lightning.png";
 
 import { ITEM_DETAILS } from "features/game/types/images";
-import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
+import { useGameState } from "features/game/hooks";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-import { MachineState } from "features/game/lib/gameMachine";
 import {
   FloatingShopItem,
   FloatingShopItemName,
@@ -26,8 +24,6 @@ interface Props {
   items: FloatingShopItem[];
   onItemClick: (item: FloatingShopItem) => void;
 }
-
-const _state = (state: MachineState) => state.context.state;
 
 export function isAlreadyBought({
   name,
@@ -55,8 +51,7 @@ export const ItemsList: React.FC<Props> = ({
   itemsLabel,
   onItemClick,
 }) => {
-  const { gameService } = useContext(Context);
-  const state = useSelector(gameService, _state);
+  const state = useGameState();
 
   const sortedItems = items
     .slice()

@@ -1,5 +1,5 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 
 import {
@@ -13,9 +13,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import giftIcon from "assets/icons/gift.png";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { MachineState } from "features/game/lib/gameMachine";
-import { useSelector } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
+import { useFarmId } from "features/game/hooks";
 import { rewardModalManager } from "features/social/lib/rewardModalManager";
 
 class PlayerSelectionListManager {
@@ -34,12 +32,9 @@ class PlayerSelectionListManager {
 
 export const playerSelectionListManager = new PlayerSelectionListManager();
 
-const _farmId = (state: MachineState) => state.context.farmId;
-
 export const PlayerSelectionList: React.FC = () => {
-  const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
-  const farmId = useSelector(gameService, _farmId);
+  const farmId = useFarmId();
 
   const [players, setPlayers] = useState<PlayerModalPlayer[]>([]);
 

@@ -6,12 +6,12 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useTranslation } from "react-i18next";
 import { MachineState } from "features/game/lib/gameMachine";
 import { hasVipAccess } from "features/game/lib/vipAccess";
-import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { BuildingProduct } from "features/game/types/game";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { BuildingName } from "features/game/types/buildings";
+import { useGameService } from "features/game/hooks";
 
 type Props = {
   cooking?: BuildingProduct;
@@ -32,7 +32,7 @@ export const Queue: React.FC<Props> = ({
   readyRecipes,
   onClose,
 }) => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const { openModal } = useContext(ModalContext);
   const state = useSelector(gameService, _state);
   const { t } = useTranslation();

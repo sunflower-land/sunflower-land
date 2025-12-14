@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "@xstate/react";
 import {
   isPetNeglected,
@@ -9,12 +9,11 @@ import {
 } from "features/game/types/pets";
 import { PetModal } from "features/island/pets/PetModal";
 import { PetSprite } from "features/island/pets/PetSprite";
-import { useContext, useState } from "react";
-import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Transition } from "@headlessui/react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useGameService } from "features/game/hooks";
 
 const _petNFTData = (id: string) => (state: MachineState) => {
   return state.context.state.pets?.nfts?.[Number(id)];
@@ -36,7 +35,7 @@ const _isTypeFed = (id: string) => (state: MachineState) => {
 };
 
 export const LandPetNFT: React.FC<{ id: string }> = ({ id }) => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const petNFTData = useSelector(gameService, _petNFTData(id));
   const [showPetModal, setShowPetModal] = useState(false);
   const [showPositiveXpPopup, setShowPositiveXpPopup] = useState(false);

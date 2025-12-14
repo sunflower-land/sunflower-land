@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
+import { useGameService } from "features/game/hooks";
 
 import { getTimeLeft } from "lib/utils/time";
 import { InventoryItemName, Rock } from "features/game/types/game";
@@ -52,7 +53,8 @@ interface Props {
 }
 
 export const Crimstone: React.FC<Props> = ({ id, index }) => {
-  const { gameService, shortcutItem, showAnimations } = useContext(Context);
+  const gameService = useGameService();
+  const { shortcutItem, showAnimations } = useContext(Context);
 
   const [touchCount, setTouchCount] = useState(0);
 

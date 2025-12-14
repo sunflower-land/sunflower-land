@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { useContext, useState } from "react";
-import { useSelector } from "@xstate/react";
+import React, { useState } from "react";
 
-import { Context } from "features/game/GameProvider";
+import { useGameService, useGameState } from "features/game/hooks";
 import { ITEM_DETAILS } from "features/game/types/images";
 import token from "assets/icons/flower_token.webp";
 
@@ -22,7 +21,6 @@ import { Box } from "components/ui/Box";
 import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
-import { MachineState } from "features/game/lib/gameMachine";
 import { LastUpdatedAt } from "components/LastUpdatedAt";
 
 export const MARKET_BUNDLES: Record<TradeableName, number> = {
@@ -70,20 +68,18 @@ const getPriceMovement = (current: number, yesterday: number) => {
   return current > yesterday ? "up" : "down";
 };
 
-const _state = (state: MachineState) => state.context.state;
-
 export const SalesPanel: React.FC<{
   marketPrices: { prices: MarketPrices; cachedAt: number } | undefined;
   loadingNewPrices: boolean;
 }> = ({ marketPrices, loadingNewPrices }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
 
   const [warning, setWarning] = useState<"pendingTransaction">();
   const [confirm, setConfirm] = useState(false);
   const [selected, setSelected] = useState<TradeableName>("Apple");
 
-  const state = useSelector(gameService, _state);
+  const state = useGameState();
 
   const onSell = (item: TradeableName) => {
     // Open Confirmation modal

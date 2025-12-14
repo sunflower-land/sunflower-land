@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { WorkbenchModal } from "./components/WorkbenchModal";
@@ -6,13 +6,13 @@ import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
 import { Modal } from "components/ui/Modal";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { WORKBENCH_VARIANTS } from "features/island/lib/alternateArt";
 import shadow from "assets/npcs/shadow.png";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getCurrentBiome } from "features/island/biomes/biomes";
+import { useGameService } from "features/game/hooks";
 
 const needsHelp = (state: MachineState) => {
   const missingScarecrow =
@@ -28,8 +28,7 @@ const needsHelp = (state: MachineState) => {
 };
 
 export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, island }) => {
-  const { gameService } = useContext(Context);
-  // TODO: feat/crafting-box - remove this
+  const gameService = useGameService();
   const [isOpen, setIsOpen] = useState(false);
   const showHelper = useSelector(gameService, needsHelp);
 

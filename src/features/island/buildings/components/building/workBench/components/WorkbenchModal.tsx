@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useContext, useState } from "react";
+import React, { SyntheticEvent, useState } from "react";
 
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -11,7 +11,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { OuterPanel } from "components/ui/Panel";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
+import { useGameService } from "features/game/hooks";
 
 const needsHelp = (state: MachineState) => {
   const missingScarecrow =
@@ -30,7 +30,7 @@ interface Props {
 }
 
 export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const showCrafting = useSelector(gameService, needsHelp);
   const [tab, setTab] = useState<"Tools" | "Craft" | "Build" | "Upgrade">(
     showCrafting ? "Craft" : "Tools",

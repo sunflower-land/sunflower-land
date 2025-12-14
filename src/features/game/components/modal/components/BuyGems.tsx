@@ -1,6 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
+import { useGameService } from "features/game/hooks";
 
 import creditCard from "assets/icons/credit_card.png";
 import whaleIcon from "assets/icons/whale.webp";
@@ -17,7 +18,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Loading } from "features/auth/components";
 import { SquareIcon } from "components/ui/SquareIcon";
-import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { secondsToString } from "lib/utils/time";
@@ -75,7 +75,7 @@ export const BuyGems: React.FC<Props> = ({
   onHideBuyBBLabel,
   onBack,
 }) => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const startOfferSecondsLeft = useSelector(
     gameService,
     _starterOfferSecondsLeft,

@@ -7,21 +7,15 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SOIL_IMAGES } from "../lib/plant";
-import { MachineState } from "features/game/lib/gameMachine";
-import { useSelector } from "@xstate/react";
 import { getCurrentBiome } from "features/island/biomes/biomes";
-import { useGameService, useInventory } from "features/game/hooks";
-
-const _island = (state: MachineState) => state.context.state.island;
-const _buildings = (state: MachineState) => state.context.state.buildings;
+import { useBuildings, useInventory, useIsland } from "features/game/hooks";
 
 const NonFertilePlotComponent = () => {
-  const gameService = useGameService();
   const [showModal, setShowModal] = useState(false);
   const [showWaterWell, setShowWaterWell] = useState(false);
 
-  const island = useSelector(gameService, _island);
-  const buildings = useSelector(gameService, _buildings);
+  const island = useIsland();
+  const buildings = useBuildings();
   const inventory = useInventory();
   const { t } = useAppTranslation();
   const handleHover = () => {

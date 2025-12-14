@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { useContext, useLayoutEffect, useMemo } from "react";
+import React, { useLayoutEffect, useMemo } from "react";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { MapPlacement } from "./components/MapPlacement";
-import { Context } from "../GameProvider";
 import { COLLECTIBLES_DIMENSIONS, getKeys } from "../types/craftables";
 import { LandBase } from "./components/LandBase";
 import { UpcomingExpansion } from "./components/UpcomingExpansion";
@@ -56,6 +55,7 @@ import {
   useOilReserves,
   useCrimstones,
   useSunstones,
+  useGameService,
 } from "features/game/hooks";
 
 export const LAND_WIDTH = 6;
@@ -177,7 +177,7 @@ const _airdropPositions = (state: MachineState) => {
 };
 
 export const LandComponent: React.FC = () => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const { pathname } = useLocation();
 
   const showMarketplace = pathname.includes("marketplace");

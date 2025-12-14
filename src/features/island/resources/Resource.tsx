@@ -1,4 +1,4 @@
-import React, { useContext, type JSX } from "react";
+import React, { type JSX } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ResourceName } from "features/game/types/resources";
@@ -11,8 +11,6 @@ import { Plot } from "../plots/Plot";
 import { FruitPatch } from "../fruit/FruitPatch";
 import { Boulder } from "../boulder/Boulder";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
 import { MoveableComponent } from "../collectibles/MovableComponent";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Crimstone } from "features/game/expansion/components/resources/crimstone/Crimstone";
@@ -24,6 +22,8 @@ import { LavaPit } from "features/game/expansion/components/lavaPit/LavaPit";
 import { TREE_VARIANTS } from "../lib/alternateArt";
 import { getCurrentBiome } from "../biomes/biomes";
 import { GameState, TemperateSeasonName } from "features/game/types/game";
+import { useGameService } from "features/game/hooks";
+import { useSelector } from "@xstate/react";
 
 export interface ResourceProps {
   name: ResourceName;
@@ -328,7 +328,7 @@ const LandscapingResource: React.FC<ResourceProps> = (props) => {
 };
 
 const ResourceComponent: React.FC<ResourceProps> = (props) => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const landscaping = useSelector(gameService, isLandscaping);
   const Component = RESOURCE_COMPONENTS[props.name];
 

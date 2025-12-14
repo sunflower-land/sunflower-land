@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
@@ -6,7 +6,6 @@ import { BuildingProps } from "../Building";
 import { Modal } from "components/ui/Modal";
 import { ShopItems } from "./ShopItems";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/craftables";
 import { CROPS } from "features/game/types/crops";
@@ -23,6 +22,7 @@ import lightning from "assets/icons/lightning.png";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { useGameService } from "features/game/hooks";
 
 const _season = (state: MachineState) => state.context.state.season.season;
 
@@ -64,7 +64,7 @@ const getBettyPositioning = () => {
 
 export const Market: React.FC<BuildingProps> = ({ isBuilt, island }) => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const [gameState] = useActor(gameService);
   const specialEvents = useSelector(gameService, _specialEvents);
 

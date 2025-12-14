@@ -1,5 +1,5 @@
 import { useSelector } from "@xstate/react";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Decimal from "decimal.js-light";
 import { toWei } from "web3-utils";
 import { Button } from "components/ui/Button";
@@ -8,7 +8,6 @@ import lightning from "assets/icons/lightning.png";
 import { getTax } from "lib/utils/tax";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { Context } from "features/game/GameProvider";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -24,6 +23,7 @@ import { ModalOverlay } from "components/ui/ModalOverlay";
 import { InnerPanel } from "components/ui/Panel";
 import { shortAddress } from "lib/utils/shortAddress";
 import withdrawIcon from "assets/icons/withdraw.png";
+import { useGameService } from "features/game/hooks";
 
 interface Props {
   onWithdraw: (sfl: string, chainId: number) => void;
@@ -36,7 +36,7 @@ const MIN_FLOWER_WITHDRAW_AMOUNT = new Decimal(5);
 
 export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const state = useSelector(gameService, _state);
   const autosaving = useSelector(gameService, _autosaving);
   const { chain } = useAccount();

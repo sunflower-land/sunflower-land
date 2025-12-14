@@ -10,7 +10,6 @@ import {
   getPetExperience,
   getPetFoodRequests,
 } from "features/game/events/pets/feedPet";
-import { Context } from "features/game/GameProvider";
 import { CookableName } from "features/game/types/consumables";
 import { Inventory } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -28,11 +27,12 @@ import {
 } from "features/game/types/pets";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { shortenCount } from "lib/utils/formatNumber";
-import React, { useContext, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { PetInfo } from "./PetInfo";
 import { useSelector } from "@xstate/react";
 import { isTemporaryCollectibleActive } from "features/game/lib/collectibleBuilt";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useGameService } from "features/game/hooks";
 
 interface Props {
   petId: PetName | number;
@@ -100,7 +100,7 @@ export const PetCard: React.FC<Props> = ({
   setSelectedFeed,
   inventory,
 }) => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const state = useSelector(gameService, (state) => state.context.state);
   const isHoundShrineActive = isTemporaryCollectibleActive({
     name: "Hound Shrine",

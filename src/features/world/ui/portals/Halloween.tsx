@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "components/ui/Button";
 import { useSelector } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
+import { useGameService } from "features/game/hooks";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import factions from "assets/icons/factions.webp";
@@ -18,7 +18,7 @@ interface Props {
 const _minigames = (state: MachineState) => state.context.state.minigames;
 
 export const Halloween: React.FC<Props> = ({ onClose }) => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
 
   const minigames = useSelector(gameService, _minigames);
   const minigame = minigames.games["halloween"];

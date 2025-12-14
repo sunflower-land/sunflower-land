@@ -1,8 +1,6 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ButtonPanel, Panel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
-
-import { Context } from "features/game/GameProvider";
 
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
@@ -28,13 +26,14 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useGameService, useFarmId } from "features/game/hooks";
 
 const _transaction = (state: MachineState) => state.context.state.transaction;
 const compareTransaction = (prev?: GameTransaction, next?: GameTransaction) => {
   return JSON.stringify(prev) === JSON.stringify(next);
 };
 export const TransactionCountdown: React.FC = () => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const hasInitialized = useRef(false);
 
   const transaction = useSelector(
@@ -82,7 +81,7 @@ const TransactionWidget: React.FC<{
   transaction: GameTransaction;
   onOpen: () => void;
 }> = ({ transaction, onOpen }) => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const { isConnected } = useAccount();
   const { t } = useAppTranslation();
   const now = useNow({ live: true });
@@ -219,7 +218,7 @@ interface Props {
 const _isTransacting = (state: MachineState) => state.matches("transacting");
 
 export const Transaction: React.FC<Props> = ({ onClose, isBlocked }) => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const isTransacting = useSelector(gameService, _isTransacting);
   const { t } = useAppTranslation();
 
@@ -265,18 +264,16 @@ const EVENT_TO_NAME: Record<TransactionName, string> = {
   "transaction.flowerWithdrawn": "Withdraw flower",
 };
 
-const _farmId = (state: MachineState) => state.context.farmId;
-
 export const TransactionProgress: React.FC<Props> = ({
   onClose,
   isBlocked,
 }) => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const { t } = useAppTranslation();
   const [error, setError] = useState<string>();
   const [showError, setShowError] = useState<boolean>();
 
-  const farmId = useSelector(gameService, _farmId);
+  const farmId = useFarmId();
   const transaction = useSelector(gameService, _transaction);
 
   const [isSubmitting, setIsSubmitting] = useState(false);

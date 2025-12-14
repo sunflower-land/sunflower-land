@@ -8,11 +8,11 @@ import {
   nextShipmentAt,
   canRestockShipment,
 } from "features/game/events/landExpansion/shipmentRestocked";
-import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
+import { useGameService } from "features/game/hooks";
 
 import stockIcon from "assets/icons/stock.webp";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
@@ -36,7 +36,7 @@ const _state = (state: MachineState) => state.context.state;
 
 export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const state = useSelector(gameService, _state);
 
   const [showConfirm, setShowConfirm] = useState(false);
@@ -95,7 +95,7 @@ const RestockSelectionModal: React.FC<{
   npc: RestockNPC;
   showShipment: boolean;
 }> = ({ npc, showShipment }) => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const island = useSelector(gameService, _island);
   const { t } = useAppTranslation();
 

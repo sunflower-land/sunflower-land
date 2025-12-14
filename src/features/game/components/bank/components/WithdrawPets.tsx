@@ -1,5 +1,4 @@
-import { useSelector } from "@xstate/react";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { Box } from "components/ui/Box";
@@ -12,8 +11,7 @@ import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import { useGameState } from "features/game/hooks";
 import { Label } from "components/ui/Label";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -36,13 +34,10 @@ interface Props {
   onWithdraw: (ids: number[]) => void;
 }
 
-const _state = (state: MachineState) => state.context.state;
-
 export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
   const { t } = useAppTranslation();
 
-  const { gameService } = useContext(Context);
-  const state = useSelector(gameService, _state);
+  const state = useGameState();
 
   const nfts = state.pets?.nfts ?? {};
 

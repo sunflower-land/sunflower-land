@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { RecoveredOilReserve } from "./components/RecoveredOilReserve";
-import { Context } from "features/game/GameProvider";
+import { useGameService } from "features/game/hooks";
 import { MachineState } from "features/game/lib/gameMachine";
 import { OilReserve as IOilReserve } from "features/game/types/game";
 import { useSelector } from "@xstate/react";
@@ -29,7 +29,7 @@ const compareResource = (prev: IOilReserve, next: IOilReserve) => {
 };
 
 export const OilReserve: React.FC<Props> = ({ id }) => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const [drilling, setDrilling] = useState(false);
   const [oilHarvested, setOilHarvested] = useState(0);
 

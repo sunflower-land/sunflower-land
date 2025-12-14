@@ -12,7 +12,7 @@ import {
   FESTIVE_TREE_REWARDS,
 } from "features/game/types/chests";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import sfl from "assets/icons/flower_token.webp";
 import coins from "assets/icons/coins.webp";
@@ -28,8 +28,7 @@ import {
   ADVANCED_DAILY_REWARDS,
   EXPERT_DAILY_REWARDS,
 } from "features/game/types/collectDailyReward";
-import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
+import { useGameState } from "features/game/hooks";
 import { RewardBoxReward } from "features/game/types/rewardBoxes";
 
 export type ChestRewardType =
@@ -77,8 +76,7 @@ export const ChestRevealing: React.FC<Props> = ({ type }) => {
     label?: string;
   }>({});
 
-  const { gameService } = useContext(Context);
-  const state = useSelector(gameService, (state) => state.context.state);
+  const state = useGameState();
 
   const chestLoot = useMemo(() => CHEST_LOOT(state), [state]);
   const items = chestLoot[type];

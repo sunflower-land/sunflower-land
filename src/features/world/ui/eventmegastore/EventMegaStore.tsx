@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
@@ -14,10 +14,8 @@ import {
 
 import shopIcon from "assets/icons/shop.png";
 import { getImageUrl } from "lib/utils/getImageURLS";
-import { MachineState } from "features/game/lib/gameMachine";
 import { EventStore } from "./EventStore";
-import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
+import { useGameState } from "features/game/hooks";
 
 interface Props {
   onClose: () => void;
@@ -58,12 +56,9 @@ export const getItemBuffLabel = (
   });
 };
 
-const _state = (state: MachineState) => state.context.state;
-
 export const EventMegaStore: React.FC<Props> = ({ onClose }) => {
-  const { gameService } = useContext(Context);
   const [tab, setTab] = useState(0);
-  const state = useSelector(gameService, _state);
+  const state = useGameState();
 
   // Update logic after release
   return (

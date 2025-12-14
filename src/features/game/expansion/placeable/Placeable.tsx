@@ -7,8 +7,9 @@ import React, {
   useState,
 } from "react";
 import { useActor, useSelector } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { useGameService } from "features/game/hooks";
+import { Context as GameContext } from "features/game/GameProvider";
 import { MachineInterpreter } from "./landscapingMachine";
 
 import Draggable from "react-draggable";
@@ -129,7 +130,8 @@ const _landscapingMachine = (state: MachineState) =>
 
 export const Placeable: React.FC<Props> = ({ location }) => {
   const { scale } = useContext(ZoomContext);
-  const { gameService, showTimers } = useContext(Context);
+  const gameService = useGameService();
+  const { showTimers } = useContext(GameContext);
 
   const island = useSelector(gameService, _island);
   const season = useSelector(gameService, _season);

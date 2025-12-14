@@ -1,8 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "components/ui/Modal";
-import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useTranslation } from "react-i18next";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -12,6 +11,7 @@ import { CraftingBoxModalContent } from "./components/CraftingBoxModalContent";
 
 import craftingBoxAnimation from "assets/buildings/crafting_box_animation.webp";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useGameService } from "features/game/hooks";
 
 const _craftingStatus = (state: MachineState) =>
   state.context.state.craftingBox.status;
@@ -23,7 +23,7 @@ export const CraftingBox: React.FC = () => {
 
   const { t } = useTranslation();
 
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
 
   const craftingStatus = useSelector(gameService, _craftingStatus);
   const craftingReadyAt = useSelector(gameService, _craftingReadyAt);

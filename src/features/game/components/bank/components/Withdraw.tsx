@@ -1,5 +1,4 @@
-import React, { useContext, useState } from "react";
-import { useSelector } from "@xstate/react";
+import React, { useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { WithdrawFlower } from "./WithdrawFlower";
@@ -9,17 +8,16 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import chest from "assets/icons/chest.png";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { WithdrawBuds } from "./WithdrawBuds";
-import { Context } from "features/game/GameProvider";
 import { WithdrawResources } from "./WithdrawResources";
 import { Label } from "components/ui/Label";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { MachineState } from "features/game/lib/gameMachine";
 import { translate } from "lib/i18n/translate";
 import { Transaction } from "features/island/hud/Transaction";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { GameWallet } from "features/wallet/Wallet";
 import { WithdrawPets } from "./WithdrawPets";
 import petNFTEgg from "assets/icons/pet_nft_egg.png";
+import { useGameService, useFarmId } from "features/game/hooks";
 
 const getPageIcon = (page: Page) => {
   switch (page) {
@@ -161,11 +159,9 @@ interface Props {
   onClose: () => void;
 }
 
-const _farmId = (state: MachineState) => state.context.farmId;
-
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
-  const { gameService } = useContext(Context);
-  const farmId = useSelector(gameService, _farmId);
+  const gameService = useGameService();
+  const farmId = useFarmId();
 
   const [page, setPage] = useState<Page>("main");
 

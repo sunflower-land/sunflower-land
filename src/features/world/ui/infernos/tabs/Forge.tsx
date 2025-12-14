@@ -1,6 +1,5 @@
 import confetti from "canvas-confetti";
 import { v4 as uuidv4 } from "uuid";
-import { useSelector } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { ConfirmButton } from "components/ui/ConfirmButton";
@@ -8,6 +7,11 @@ import { Label } from "components/ui/Label";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { Context } from "features/game/GameProvider";
+import {
+  useGameService,
+  useGameState,
+  useBumpkinSkills,
+} from "features/game/hooks";
 import { getKeys } from "features/game/lib/crafting";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
@@ -26,17 +30,15 @@ import { UpgradeRockAction } from "features/game/events/landExpansion/upgradeRoc
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 
 export const Forge: React.FC = () => {
-  const { gameService, showAnimations } = useContext(Context);
+  const { showAnimations } = useContext(Context);
+  const gameService = useGameService();
   const { t } = useAppTranslation();
   const [selectedResource, setSelectedResource] =
     useState<UpgradedResourceName>("Ancient Tree");
   const [showSuccess, setShowSuccess] = useState(false);
 
-  const state = useSelector(gameService, (state) => state.context.state);
-  const skills = useSelector(
-    gameService,
-    (state) => state.context.state.bumpkin.skills,
-  );
+  const state = useGameState();
+  const skills = useBumpkinSkills();
   const selected = ADVANCED_RESOURCES[selectedResource];
   const season = state.season.season;
   const biome = getCurrentBiome(state.island);

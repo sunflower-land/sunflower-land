@@ -1,22 +1,20 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import sign from "assets/decorations/woodsign.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
-import { useSelector } from "@xstate/react";
 import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
+import { useUsername, useFarmId } from "features/game/hooks";
+import { useSelector } from "@xstate/react";
+import { useGameService } from "features/game/hooks";
+import { MachineState } from "features/game/lib/gameMachine";
 
-const _username = (state: MachineState) => state.context.state.username;
 const _nftId = (state: MachineState) => state.context.nftId;
-const _farmId = (state: MachineState) => state.context.farmId;
 
 export const Sign: React.FC = () => {
-  const { gameService } = useContext(Context);
-
-  const username = useSelector(gameService, _username);
+  const gameService = useGameService();
+  const username = useUsername();
+  const farmId = useFarmId();
   const nftId = useSelector(gameService, _nftId);
-  const farmId = useSelector(gameService, _farmId);
 
   return (
     <SFTDetailPopover name="Town Sign">

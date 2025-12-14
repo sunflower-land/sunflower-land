@@ -1,12 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import sflIcon from "assets/icons/flower_token.webp";
-import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
-import { useSelector } from "@xstate/react";
+import { useGameService, useFaction, useFarmId } from "features/game/hooks";
 import { capitalize } from "lib/utils/capitalize";
 import { FactionName } from "features/game/types/game";
 import {
@@ -38,11 +36,8 @@ interface Props {
   onClose: () => void;
 }
 
-const _joinedFaction = (state: MachineState) => state.context.state.faction;
-const _farmId = (state: MachineState) => state.context.farmId;
-
 export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const { t } = useAppTranslation();
   const [showConfirm, setShowConfirm] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
@@ -51,8 +46,8 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
 
   const now = useNow();
 
-  const joinedFaction = useSelector(gameService, _joinedFaction);
-  const farmId = useSelector(gameService, _farmId);
+  const joinedFaction = useFaction();
+  const farmId = useFarmId();
 
   const recruiterVoice = useSound(FACTION_RECRUITERS[faction] as any);
 

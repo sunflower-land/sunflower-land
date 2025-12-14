@@ -13,6 +13,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
+import { useGameService } from "features/game/hooks";
 import { useInterpret, useSelector } from "@xstate/react";
 import { Bar } from "components/ui/ProgressBar";
 import { Beehive as IBeehive } from "features/game/types/game";
@@ -74,7 +75,8 @@ const _state = (state: MachineState) => state.context.state;
 
 export const Beehive: React.FC<Props> = ({ id }) => {
   const { t } = useAppTranslation();
-  const { showTimers, gameService } = useContext(Context);
+  const gameService = useGameService();
+  const { showTimers } = useContext(Context);
   const isInitialMount = useRef(true);
   const [showProducingBee, setShowProducingBee] = useState<boolean>();
   const [showHoneyLevelModal, setShowHoneyLevelModal] = useState(false);

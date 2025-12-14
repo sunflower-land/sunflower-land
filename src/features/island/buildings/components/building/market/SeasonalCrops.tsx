@@ -1,8 +1,7 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Decimal from "decimal.js-light";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
-import { Context } from "features/game/GameProvider";
 import {
   ALL_PRODUCE,
   Crop,
@@ -32,6 +31,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { isExoticCrop } from "features/game/types/crops";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
+import { useGameService } from "features/game/hooks";
 
 const _state = (state: MachineState) => state.context.state;
 
@@ -44,7 +44,7 @@ export const SeasonalCrops: React.FC = () => {
   const [customAmount, setCustomAmount] = useState(new Decimal(0));
   const [isCustomSellModalOpen, showCustomSellModal] = useState(false);
 
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const { t } = useAppTranslation();
 
   const state = useSelector(gameService, _state);

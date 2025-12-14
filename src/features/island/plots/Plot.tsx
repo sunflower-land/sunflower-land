@@ -43,7 +43,7 @@ import { Modal } from "components/ui/Modal";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { useNow } from "lib/utils/hooks/useNow";
-import { useCrops } from "features/game/hooks";
+import { useGameService, useCrops } from "features/game/hooks";
 
 export function getYieldColour(yieldAmount: number) {
   if (yieldAmount < 2) {
@@ -92,8 +92,8 @@ interface Props {
 
 export const Plot: React.FC<Props> = ({ id }) => {
   const { scale } = useContext(ZoomContext);
-  const { gameService, selectedItem, showAnimations, showTimers } =
-    useContext(Context);
+  const gameService = useGameService();
+  const { selectedItem, showAnimations, showTimers } = useContext(Context);
   const [procAnimation, setProcAnimation] = useState<JSX.Element>();
   const [touchCount, setTouchCount] = useState(0);
   const [showSeasonalSeed, setShowSeasonalSeed] = useState(false);

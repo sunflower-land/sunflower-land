@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState, type JSX } from "react";
+import React, { useMemo, useState, type JSX } from "react";
 
 import { CROPS, CropName } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -17,9 +17,9 @@ import { CropFertiliser, CropPlot } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { MachineState } from "features/game/lib/gameMachine";
-import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useGameService, useIsland } from "features/game/hooks";
 
 interface Props {
   cropName?: CropName;
@@ -31,7 +31,6 @@ interface Props {
   showTimers: boolean;
 }
 
-const _island = (state: MachineState) => state.context.state.island;
 const _calendar = (state: MachineState) => state.context.state.calendar;
 
 const clampPercentage = (value: number) => Math.min(Math.max(value, 0), 100);
@@ -81,9 +80,9 @@ export const FertilePlot: React.FC<Props> = ({
   touchCount,
   showTimers,
 }) => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
 
-  const island = useSelector(gameService, _island);
+  const island = useIsland();
   const calendar = useSelector(gameService, _calendar);
 
   const [showTimerPopover, setShowTimerPopover] = useState(false);

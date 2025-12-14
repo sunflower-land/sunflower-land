@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Label } from "components/ui/Label";
@@ -30,7 +30,7 @@ import { getChestItems } from "features/island/hud/components/inventory/utils/in
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import Decimal from "decimal.js-light";
 import { KNOWN_IDS } from "features/game/types";
-import { Context } from "features/game/GameProvider";
+import { useGameService } from "features/game/hooks";
 
 const _state = (state: MachineState) => state.context.state;
 const _farmId = (state: MachineState) => state.context.farmId;
@@ -55,7 +55,7 @@ const _remainingWardrobe = (state: MachineState) => {
 };
 
 export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const { t } = useTranslation();
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
 

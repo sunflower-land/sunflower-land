@@ -32,7 +32,11 @@ import { Modal } from "components/ui/Modal";
 import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
 import { getCurrentBiome } from "../biomes/biomes";
 import { getFruitYield } from "features/game/events/landExpansion/fruitHarvested";
-import { useFruitPatches } from "features/game/hooks";
+import {
+  useGameService,
+  useFruitPatches,
+  useIsland,
+} from "features/game/hooks";
 
 const HasAxes = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
@@ -64,15 +68,13 @@ const compareGame = (prev: GameState, next: GameState) =>
   isCollectibleBuilt({ name: "Foreman Beaver", game: prev }) ===
   isCollectibleBuilt({ name: "Foreman Beaver", game: next });
 
-const _island = (state: MachineState) => state.context.state.island;
-
 interface Props {
   id: string;
 }
 
 export const FruitPatch: React.FC<Props> = ({ id }) => {
-  const { gameService, selectedItem, shortcutItem, enableQuickSelect } =
-    useContext(Context);
+  const gameService = useGameService();
+  const { selectedItem, shortcutItem, enableQuickSelect } = useContext(Context);
   const { t } = useAppTranslation();
 
   const [playShakingAnimation, setPlayShakingAnimation] = useState(false);
@@ -96,7 +98,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
       JSON.stringify(HasFruitSeeds(prev)) ===
         JSON.stringify(HasFruitSeeds(next)),
   );
-  const island = useSelector(gameService, _island);
+  const island = useIsland();
   const biome = getCurrentBiome(island);
   const { play: harvestAudio } = useSound("harvest");
   const { play: plantAudio } = useSound("plant");

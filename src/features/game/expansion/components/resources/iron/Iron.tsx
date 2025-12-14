@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { IRON_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
+import { useGameService } from "features/game/hooks";
 
 import { getTimeLeft } from "lib/utils/time";
 import { InventoryItemName, Rock, Skills } from "features/game/types/game";
@@ -49,7 +50,8 @@ interface Props {
 }
 
 export const Iron: React.FC<Props> = ({ id }) => {
-  const { gameService, shortcutItem, showAnimations } = useContext(Context);
+  const gameService = useGameService();
+  const { shortcutItem, showAnimations } = useContext(Context);
 
   const [touchCount, setTouchCount] = useState(0);
 

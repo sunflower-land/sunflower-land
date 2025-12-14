@@ -1,14 +1,14 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import saveIcon from "assets/icons/save.webp";
 import loadingIcon from "assets/icons/timer.gif";
-import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { MachineState } from "features/game/lib/gameMachine";
 import { RoundButton } from "components/ui/RoundButton";
 import classNames from "classnames";
+import { useGameService } from "features/game/hooks";
 
 type ButtonState = "unsaved" | "inProgress" | "saved";
 
@@ -18,7 +18,7 @@ const _hasUnsavedProgress = (state: MachineState) =>
   state.context.actions.length > 0;
 
 export const Save: React.FC = () => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
 
   const playing = useSelector(gameService, _playing);
   const autoSaving = useSelector(gameService, _autosaving);

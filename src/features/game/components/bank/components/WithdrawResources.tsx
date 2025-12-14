@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import { toWei } from "web3-utils";
@@ -15,8 +15,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/craftables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { Context } from "features/game/GameProvider";
 import { getDeliverableItems } from "features/goblins/storageHouse/lib/storageItems";
+import { useGameService, useFarmId } from "features/game/hooks";
 import { formatNumber } from "lib/utils/formatNumber";
 import { NumberInput } from "components/ui/NumberInput";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -47,9 +47,9 @@ const _inventory = (state: MachineState): Inventory => {
 export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
   const { t } = useAppTranslation();
 
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const state = useSelector(gameService, _state);
-  const farmId = useSelector(gameService, _farmId);
+  const farmId = useFarmId();
   const inventory = useSelector(gameService, _inventory);
 
   const deliveryItemsStartRef = useRef<HTMLDivElement>(null);

@@ -5,7 +5,6 @@ import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
 import { WATER_WELL_VARIANTS } from "features/island/lib/alternateArt";
 import { useSelector } from "@xstate/react";
-import { useGame } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
 import { Modal } from "components/ui/Modal";
@@ -13,6 +12,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Constructing } from "../Building";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useGameService } from "features/game/hooks";
 
 const _waterWell = (state: MachineState) => state.context.state.waterWell;
 const _state = (state: MachineState) => state.context.state;
@@ -21,7 +21,7 @@ export const WaterWell: React.FC<BuildingProps> = ({ season }) => {
   const [openUpgradeModal, setOpenUpgradeModal] = React.useState(false);
   const [showConstructingModal, setShowConstructingModal] =
     React.useState(false);
-  const { gameService } = useGame();
+  const gameService = useGameService();
 
   const waterWell = useSelector(gameService, _waterWell);
   const state = useSelector(gameService, _state);

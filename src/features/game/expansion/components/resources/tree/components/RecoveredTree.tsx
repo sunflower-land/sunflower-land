@@ -18,7 +18,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
 import { TREE_SHAKE_SHEET_VARIANTS } from "features/island/lib/alternateArt";
 import { getCurrentBiome, LandBiomeName } from "features/island/biomes/biomes";
-import { Context } from "features/game/GameProvider";
+import { useGameService } from "features/game/hooks";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
 
 const tool = "Axe";
@@ -43,7 +43,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({
   season,
   id,
 }) => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const { scale } = useContext(ZoomContext);
   const [showEquipTool, setShowEquipTool] = useState(false);
   const state = useSelector(gameService, (state) => state.context.state);

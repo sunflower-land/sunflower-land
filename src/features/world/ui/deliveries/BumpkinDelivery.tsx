@@ -1,9 +1,9 @@
 import { NPCName } from "lib/npcs";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Context } from "features/game/GameProvider";
-import { useActor, useSelector } from "@xstate/react";
+import { useGameService, useGameState } from "features/game/hooks";
+import { useSelector } from "@xstate/react";
 import { Airdrop, GameState, Order } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 
@@ -306,7 +306,7 @@ export const Gifts: React.FC<{
   name: NPCName;
 }> = ({ game, onClose, onOpen, name }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
 
   const [selected, setSelected] = useState<FlowerName>();
   const [message, setMessage] = useState<TranslationKeys>(
@@ -637,10 +637,8 @@ const _hasReputation = (state: MachineState) =>
 
 export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-
-  const game = gameState.context.state;
+  const gameService = useGameService();
+  const game = useGameState();
   const [showFlowers, setShowFlowers] = useState(false);
   const [gift, setGift] = useState<Airdrop>();
 
@@ -753,7 +751,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
       {showFlowers && (
         <Gifts
           onClose={() => setShowFlowers(false)}
-          game={gameState.context.state}
+          game={game}
           onOpen={openReward}
           name={npc}
         />
@@ -796,7 +794,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
               <div className="flex flex-col justify-between items-stretch mb-2 gap-1">
                 <div className="flex flex-row justify-between w-full">
                   {getActiveCalendarEvent({
-                    calendar: gameState.context.state.calendar,
+                    calendar: game.calendar,
                   }) === "doubleDelivery" && !hasClaimedBonus ? (
                     <Label type="vibrant" icon={lightning}>
                       {t("double.rewards.delivery")}
@@ -846,7 +844,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
               {delivery && !deliveryFrozen && (
                 <>
                   <OrderCard
-                    game={gameState.context.state}
+                    game={game}
                     order={delivery as Order}
                     hasRequirementsCheck={() => true}
                     onDeliver={deliver}

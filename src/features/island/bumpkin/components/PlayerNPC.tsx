@@ -1,8 +1,6 @@
-import React, { useContext } from "react";
-import { useState } from "react";
+import React, { useContext, useState } from "react";
 import { NPCPlaceable, NPCProps } from "./NPC";
 import { NPCModal } from "./NPCModal";
-import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -18,6 +16,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { PlayerModal } from "features/social/PlayerModal";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { Discovery } from "features/social/Discovery";
+import { useGameService } from "features/game/hooks";
 
 const _showHelper = (state: MachineState) =>
   // First Mashed Potato
@@ -30,7 +29,7 @@ const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
 
 export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
   const [open, setOpen] = useState(false);
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const { authService } = useContext(AuthContext);
 
   const showHelper = useSelector(gameService, _showHelper);

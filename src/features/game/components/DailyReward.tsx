@@ -1,8 +1,8 @@
 import { Button } from "components/ui/Button";
 import { Label, LabelType } from "components/ui/Label";
 import React, { useMemo, useState } from "react";
-import { useGame } from "../GameProvider";
 import { ButtonPanel } from "components/ui/Panel";
+import { useGameService } from "../hooks";
 import { ITEM_DETAILS } from "../types/images";
 import {
   getDailyRewardStreak,
@@ -36,7 +36,7 @@ export function getDailyRewardLastAcknowledged(): Date | null {
 export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
   showClose,
 }) => {
-  const { gameService } = useGame();
+  const gameService = useGameService();
   const { t } = useAppTranslation();
 
   const bumpkinExperience = useSelector(gameService, _bumpkinExperience);

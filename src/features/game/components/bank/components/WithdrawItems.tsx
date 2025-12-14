@@ -1,5 +1,4 @@
-import { useSelector } from "@xstate/react";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Decimal from "decimal.js-light";
 
 import {
@@ -22,11 +21,10 @@ import { getBankItems } from "features/goblins/storageHouse/lib/storageItems";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { INVENTORY_RELEASES } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { Context } from "features/game/GameProvider";
 import { Label } from "components/ui/Label";
+import { useGameState } from "features/game/hooks";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { MachineState } from "features/game/lib/gameMachine";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
@@ -72,16 +70,13 @@ export function transferInventoryItem(
   }));
 }
 
-const _state = (state: MachineState) => state.context.state;
-
 export const WithdrawItems: React.FC<Props> = ({
   onWithdraw,
   allowLongpressWithdrawal = true,
 }) => {
   const { t } = useAppTranslation();
 
-  const { gameService } = useContext(Context);
-  const state = useSelector(gameService, _state);
+  const state = useGameState();
 
   const [inventory, setInventory] = useState<Inventory>(getBankItems(state));
   const [selected, setSelected] = useState<Inventory>({});

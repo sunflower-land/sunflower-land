@@ -1,8 +1,12 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
 import { Box } from "components/ui/Box";
 
-import { Context } from "features/game/GameProvider";
+import {
+  useGameService,
+  useGameState,
+  useInventory,
+} from "features/game/hooks";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 
@@ -17,7 +21,6 @@ import { PurchaseType } from "features/game/types/buyOptionPurchaseItem";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
-import { useSelector } from "@xstate/react";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { Button } from "components/ui/Button";
 import Decimal from "decimal.js-light";
@@ -28,9 +31,9 @@ export const BeachBaitShop: React.FC = () => {
   const [selectedName, setSelectedName] =
     useState<PurchaseableBait>("Fishing Lure");
   const [purchaseType, setPurchaseType] = useState<PurchaseType>();
-  const { gameService } = useContext(Context);
-  const state = useSelector(gameService, (state) => state.context.state);
-  const inventory = state.inventory;
+  const gameService = useGameService();
+  const state = useGameState();
+  const inventory = useInventory();
 
   const selectedItem = PURCHASEABLE_BAIT[selectedName];
   const purchaseOptions = selectedItem.purchaseOptions;

@@ -1,8 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SplitScreenView } from "components/ui/SplitScreenView";
-import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { BumpkinParts, interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { BumpkinBox } from "./BumpkinBox";
@@ -13,6 +12,7 @@ import { PlacedItem } from "features/game/types/game";
 import { MachineState } from "features/game/lib/gameMachine";
 import { OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useGameService } from "features/game/hooks";
 
 interface Props {
   defaultSelectedIndex?: number;
@@ -40,7 +40,7 @@ export const TentModal: React.FC<Props> = ({
   bumpkins,
 }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const buildings = useSelector(gameService, selectBuildings, compareBuildings);
 
   const [selectedBumpkin, setSelectedBumpkin] = useState<{

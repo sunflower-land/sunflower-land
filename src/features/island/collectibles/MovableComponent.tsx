@@ -17,12 +17,12 @@ import {
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
-import { Context } from "features/game/GameProvider";
 
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import Draggable from "react-draggable";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import { useSelector } from "@xstate/react";
+import { useGameService } from "features/game/hooks";
 import {
   LandscapingPlaceable,
   MachineInterpreter,
@@ -262,7 +262,7 @@ export const MoveableComponent: React.FC<
 
   const nodeRef = useRef<HTMLDivElement>(null);
 
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const [isColliding, setIsColliding] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [counts, setCounts] = useState(0);

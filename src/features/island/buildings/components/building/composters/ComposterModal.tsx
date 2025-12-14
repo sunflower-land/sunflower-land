@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
 import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
@@ -17,7 +17,6 @@ import {
   CompostName,
 } from "features/game/types/composters";
 import Decimal from "decimal.js-light";
-import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
@@ -46,6 +45,7 @@ import { secondsTillWeekReset } from "features/game/lib/factions";
 import { getFruitfulBlendBuff } from "features/game/events/landExpansion/fertiliseFruitPatch";
 import { useNow } from "lib/utils/hooks/useNow";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { useGameService } from "features/game/hooks";
 
 const WORM_OUTPUT: Record<ComposterName, { min: number; max: number }> = {
   "Compost Bin": { min: 2, max: 4 },
@@ -216,7 +216,7 @@ const ComposterModalContent: React.FC<{
   onCollect: () => void;
   onBoost: () => void;
 }> = ({ composterName, startComposter, readyAt, onCollect, onBoost }) => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const [showRequirements, setShowRequirements] = useState(false);
 
   const { t } = useAppTranslation();
