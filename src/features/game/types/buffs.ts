@@ -1,6 +1,7 @@
 import cloneDeep from "lodash.clonedeep";
 import { GameState } from "./game";
 import { getKeys } from "./decorations";
+import { CROPS } from "./crops";
 
 // 50% faster crops, +0.2 Crops
 export type BuffName = "Power hour";
@@ -41,7 +42,10 @@ export function applyBuff({
 
       // Half the remaining time to harvest
       if (plot?.crop?.plantedAt) {
-        plot.crop.plantedAt -= (plot.crop.plantedAt - now) / 2;
+        const readyAt =
+          plot.crop.plantedAt + CROPS[plot.crop.name].harvestSeconds * 1000;
+        const remainingTime = readyAt - now;
+        plot.crop.plantedAt -= remainingTime / 2;
       }
     });
 

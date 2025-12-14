@@ -121,10 +121,7 @@ export function claimDailyReward({
       currentDate,
     });
 
-    game = rewards.reduce(
-      (gameState, reward) => applyReward(gameState, reward),
-      game,
-    );
+    rewards.forEach((reward) => applyReward(game, reward));
     const newStreak = currentStreak + 1;
 
     game.dailyRewards!.streaks = newStreak;
@@ -141,10 +138,7 @@ export function claimDailyReward({
   });
 }
 
-function applyReward(
-  game: GameState,
-  reward: DailyRewardDefinition,
-): GameState {
+function applyReward(game: GameState, reward: DailyRewardDefinition) {
   if (reward.items) {
     Object.entries(reward.items).forEach(([itemName, amount]) => {
       if (!amount) return;
@@ -168,8 +162,7 @@ function applyReward(
   }
 
   if (reward.buff) {
-    game = applyBuff({ buff: reward.buff, game });
+    const buffedGame = applyBuff({ buff: reward.buff, game });
+    Object.assign(game, buffedGame);
   }
-
-  return game;
 }

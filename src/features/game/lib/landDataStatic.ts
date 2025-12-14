@@ -895,7 +895,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       code: 1,
       collectedAt: Date.now() - 24 * 60 * 60 * 1000,
     },
-    streaks: 1,
+    streaks: 4,
   },
 
   conversations: [],
