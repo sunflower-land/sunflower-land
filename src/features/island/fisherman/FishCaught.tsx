@@ -7,6 +7,7 @@ import { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { InnerPanel } from "components/ui/Panel";
 
 interface Props {
   farmActivity: GameState["farmActivity"];
@@ -45,11 +46,15 @@ export const FishCaught: React.FC<Props> = ({
 
     return (
       <>
-        <div className="p-2">
-          <Label type="default" className="mb-2">
+        <div className="p-1">
+          <Label
+            type="default"
+            className="mb-2"
+            icon={SUNNYSIDE.tools.fishing_rod}
+          >
             {t("fishing.yourCatch")}
           </Label>
-          <div className="space-y-1">
+          <div className="flex flex-col gap-1 -py-1">
             {entries.map((name) => {
               const amount = caught[name] ?? 0;
               const isNew =
@@ -58,29 +63,31 @@ export const FishCaught: React.FC<Props> = ({
                   farmActivity[`${name} Caught`] === 0);
 
               return (
-                <div
+                <InnerPanel
                   key={name}
-                  className="flex items-center justify-between bg-brown-600 p-1 rounded-md"
+                  className="flex items-center justify-between"
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center p-1 space-x-1 w-full">
                     <img
                       src={ITEM_DETAILS[name]?.image}
                       className="h-6"
                       alt={name}
                     />
-                    <span className="text-xs">{name}</span>
-                    {isNew && (
-                      <Label
-                        type="warning"
-                        className="ml-1 text-[10px] px-1 py-0.5"
-                        icon={SUNNYSIDE.icons.search}
-                      >
-                        {t("fishermanQuest.Newfish")}
-                      </Label>
-                    )}
+                    <div className="flex justify-between items-center w-full pr-2">
+                      <span className="text-xs">{name}</span>
+                      {isNew && (
+                        <Label
+                          type="warning"
+                          className="text-[10px] px-1 py-0.5"
+                          icon={SUNNYSIDE.icons.search}
+                        >
+                          {t("fishermanQuest.Newfish")}
+                        </Label>
+                      )}
+                    </div>
                   </div>
-                  <span className="text-xs font-semibold">{`x${amount}`}</span>
-                </div>
+                  <span className="text-sm whitespace-nowrap">{`x ${amount}`}</span>
+                </InnerPanel>
               );
             })}
           </div>

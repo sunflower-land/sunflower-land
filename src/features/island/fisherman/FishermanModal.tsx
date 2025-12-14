@@ -370,7 +370,6 @@ const BaitSelection: React.FC<{
         {chum ? (
           <div className="flex items-center justify-between mb-1">
             <div className="flex items-center">
-              {/* <img src={ITEM_DETAILS[chum].image} className="h-5 mr-1" /> */}
               <Label
                 type="default"
                 icon={ITEM_DETAILS[chum].image}
@@ -470,6 +469,7 @@ interface Props {
   npc?: NPCName;
 }
 const _state = (state: MachineState) => state.context.state;
+
 export const FishermanModal: React.FC<Props> = ({
   onCast,
   onClose,
