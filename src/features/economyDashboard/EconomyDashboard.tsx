@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
-import useSWR from "swr";
+import { useQuery } from "@tanstack/react-query";
 import { useLocation, useNavigate } from "react-router";
 
 import { Panel, InnerPanel } from "components/ui/Panel";
@@ -69,24 +69,24 @@ export const EconomyDashboard: React.FC = () => {
     };
   }, [handleClose]);
 
-  const { data, error, isLoading, isValidating, mutate } =
-    useSWR<EconomyDataResponse>(
-      requestParams
-        ? ["economy-dashboard", requestParams.startDate, requestParams.endDate]
-        : null,
-      ([, start, end]: [string, string, string]) =>
+  const { data, error, isLoading, isFetching, refetch } =
+    useQuery<EconomyDataResponse>({
+      queryKey: [
+        "economy-dashboard",
+        requestParams?.startDate,
+        requestParams?.endDate,
+      ],
+      queryFn: () =>
         getEconomyData({
-          startDate: start,
-          endDate: end,
+          startDate: requestParams!.startDate,
+          endDate: requestParams!.endDate,
           token: authState.context.user.rawToken as string,
         }),
-      {
-        revalidateOnFocus: false,
-      },
-    );
+      enabled: !!requestParams,
+    });
 
   const reportEntries = data?.reports ?? [];
-  const isFetching = Boolean(requestParams) && (isLoading || isValidating);
+  const isLoadingData = isLoading || isFetching;
 
   const handleStartDateChange = (value: string) => {
     setStartDate(value);
@@ -125,7 +125,7 @@ export const EconomyDashboard: React.FC = () => {
 
   const handleRetry = () => {
     if (requestParams) {
-      mutate();
+      refetch();
     } else {
       handleLoad();
     }
@@ -243,15 +243,17 @@ export const EconomyDashboard: React.FC = () => {
                 <Button
                   className="w-full"
                   onClick={handleLoad}
-                  disabled={!canLoad || isFetching}
+                  disabled={!canLoad || isLoadingData}
                 >
-                  {isFetching ? t("loading") : t("economyDashboard.loadData")}
+                  {isLoadingData
+                    ? t("loading")
+                    : t("economyDashboard.loadData")}
                 </Button>
               </div>
             </div>
           </InnerPanel>
 
-          {isFetching && <Loading />}
+          {isLoadingData && <Loading />}
 
           {!requestParams && !data && !error && (
             <InnerPanel>

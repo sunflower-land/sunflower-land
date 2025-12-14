@@ -15,7 +15,7 @@ import { playerModalManager } from "./lib/playerModalManager";
 import { PlayerDetails } from "./components/PlayerDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ModalOverlay } from "components/ui/ModalOverlay";
-import useSWR from "swr";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getPlayer } from "./actions/getPlayer";
 import { postEffect } from "features/game/actions/effect";
 import { randomID } from "lib/utils/random";
@@ -69,6 +69,8 @@ export const PlayerModal: React.FC<Props> = ({
   const [showReport, setShowReport] = useState(false);
   const [followLoading, setFollowLoading] = useState(false);
 
+  const queryClient = useQueryClient();
+
   const closeModal = useCallback(() => {
     setShowPlayerModal(false);
     setTimeout(() => {
@@ -76,27 +78,30 @@ export const PlayerModal: React.FC<Props> = ({
     }, 100);
   }, [clearHistory]);
 
+  const queryKey = ["player", token, loggedInFarmId, currentPlayerId];
+
+  const updatePlayerCache = (response: Player) => {
+    queryClient.setQueryData<Player>(queryKey, (current) =>
+      current ? mergeResponse(current, response) : response,
+    );
+  };
+
   const {
     data,
     isLoading: playerLoading,
-    isValidating: playerValidating,
+    isFetching: playerValidating,
     error,
-    mutate,
-  } = useSWR(
-    [currentPlayerId ? "player" : null, token, loggedInFarmId, currentPlayerId],
-    ([, token, loggedInFarmId, followedPlayerId]) => {
-      if (!followedPlayerId) return;
-
-      return getPlayer({
-        token: token as string,
+    refetch,
+  } = useQuery({
+    queryKey: ["player", token, loggedInFarmId, currentPlayerId],
+    queryFn: () =>
+      getPlayer({
+        token,
         farmId: loggedInFarmId,
-        followedPlayerId,
-      });
-    },
-    {
-      revalidateOnFocus: false,
-    },
-  );
+        followedPlayerId: currentPlayerId!,
+      }),
+    enabled: !!currentPlayerId,
+  });
 
   const player = data?.data;
 
@@ -131,9 +136,7 @@ export const PlayerModal: React.FC<Props> = ({
           farmId: loggedInFarmId,
         });
 
-        mutate((current) => mergeResponse(current!, response), {
-          revalidate: false,
-        });
+        updatePlayerCache(response);
       } else {
         const { data: response } = await postEffect({
           effect: {
@@ -145,9 +148,7 @@ export const PlayerModal: React.FC<Props> = ({
           farmId: loggedInFarmId,
         });
 
-        mutate((current) => mergeResponse(current!, response), {
-          revalidate: false,
-        });
+        updatePlayerCache(response);
       }
     } catch (e) {
       /* eslint-disable-next-line no-console */
@@ -210,11 +211,11 @@ export const PlayerModal: React.FC<Props> = ({
                 loggedInFarmId={loggedInFarmId}
                 playerLoading={playerLoading}
                 playerValidating={playerValidating}
-                error={error}
+                error={error ?? undefined}
                 followLoading={followLoading}
                 iAmFollowing={!!iAmFollowing}
                 isFollowMutual={!!isMutual}
-                mutate={mutate}
+                onRefetch={refetch}
                 onFollow={handleFollow}
                 onFollowersClick={() => setTab("Followers")}
                 canGoBack={canGoBack}

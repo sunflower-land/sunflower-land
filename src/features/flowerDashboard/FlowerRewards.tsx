@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import useSWR from "swr";
+import { useQuery } from "@tanstack/react-query";
 import { Loading } from "features/auth/components/Loading";
 import { getPlayerLiquidity } from "./actions/getPlayerLiquidity";
 import { useAuth } from "features/auth/lib/Provider";
@@ -42,11 +42,12 @@ export const FlowerRewards: React.FC<{ onClose: () => void }> = ({
     data: liquidity,
     isLoading,
     error,
-    mutate,
-  } = useSWR(
-    shouldFetchLiquidity ? ["player-liquidity", address, token] : null,
-    () => getPlayerLiquidity({ farmId: farmId as number, token }),
-  );
+    refetch,
+  } = useQuery({
+    queryKey: ["player-liquidity", address, token],
+    queryFn: () => getPlayerLiquidity({ farmId: farmId as number, token }),
+    enabled: shouldFetchLiquidity,
+  });
 
   const amount = Number(liquidity?.amount ?? 0);
   const isRegistered = amount > 0;
@@ -75,7 +76,7 @@ export const FlowerRewards: React.FC<{ onClose: () => void }> = ({
         message: t("success"),
       });
 
-      await mutate();
+      await refetch();
     } catch (err) {
       setStatus({
         type: "error",

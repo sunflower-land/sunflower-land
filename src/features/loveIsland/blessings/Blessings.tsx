@@ -11,7 +11,7 @@ import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
-import useSWR from "swr";
+import { useQuery } from "@tanstack/react-query";
 import { getBlessingResults } from "../actions/getBlessingResults";
 import { Loading } from "features/auth/components";
 import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong";
@@ -226,10 +226,6 @@ export const BlessingOffer: React.FC<Props> = ({ onClose }) => {
   );
 };
 
-const fetcher = async ([token, date]: [string, string]) => {
-  return getBlessingResults({ token, date });
-};
-
 export const BlessingResults: React.FC<Props> = ({ onClose }) => {
   const { authState } = useAuth();
 
@@ -239,11 +235,15 @@ export const BlessingResults: React.FC<Props> = ({ onClose }) => {
     .toISOString()
     .slice(0, 10);
 
+  const token = authState.context.user.rawToken!;
   const {
     data: response,
     isLoading,
     error,
-  } = useSWR([authState.context.user.rawToken!, previousDayKey], fetcher);
+  } = useQuery({
+    queryKey: ["blessing-results", token, previousDayKey],
+    queryFn: () => getBlessingResults({ token, date: previousDayKey }),
+  });
 
   const { t } = useAppTranslation();
 

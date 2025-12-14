@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { InnerPanel, Panel } from "components/ui/Panel";
 import { useContext } from "react";
-import useSWR from "swr";
+import { useQuery } from "@tanstack/react-query";
+import { dashboardKeys } from "lib/query/queryKeys";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
@@ -35,10 +36,10 @@ export const FlowerDashboard = () => {
   const navigate = useNavigate();
   const { openModal } = useContext(ModalContext);
   const [showRewards, setShowRewards] = useState(false);
-  const { data, isLoading, error, mutate } = useSWR(
-    ["/data?type=flowerDashboard"],
-    getFlowerDashboard,
-  );
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: dashboardKeys.flower(),
+    queryFn: getFlowerDashboard,
+  });
 
   const { pathname } = useLocation();
 
@@ -66,11 +67,11 @@ export const FlowerDashboard = () => {
   // Refresh data every minute
   useEffect(() => {
     const interval = setInterval(() => {
-      mutate();
+      refetch();
     }, 60 * 1000);
 
     return () => clearInterval(interval);
-  }, [mutate]);
+  }, [refetch]);
 
   if (error) {
     return (

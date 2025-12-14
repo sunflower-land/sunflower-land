@@ -15,7 +15,8 @@ import { sequenceWallet } from "@0xsequence/wagmi-connector";
 import { WaypointProvider } from "@sky-mavis/waypoint";
 import { EIP1193Provider } from "viem";
 import { WagmiProvider } from "wagmi";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "lib/query/queryClient";
 
 export const sequenceConnector = sequenceWallet({
   defaultNetwork: "polygon",
@@ -124,8 +125,6 @@ export const config = createConfig({
     [baseSepolia.id]: fallback([http(getAlchemyRpc("baseSepolia")), http()]),
   },
 });
-
-export const queryClient = new QueryClient();
 
 export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
   children,

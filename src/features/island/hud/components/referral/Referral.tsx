@@ -18,7 +18,7 @@ import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { useSound } from "lib/utils/hooks/useSound";
 import clipboard from "clipboard";
 import { getReferrees } from "./actions/getReferrees";
-import useSWR from "swr";
+import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "features/auth/lib/Provider";
 import { Loading } from "features/auth/components";
 import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong";
@@ -65,18 +65,17 @@ export const ReferralContent: React.FC<ReferralProps> = ({ onHide }) => {
   );
 };
 
-const fetcher = async ([token, farmId]: [string, number]) => {
-  return getReferrees({ token, farmId });
-};
-
 export const Referrees: React.FC = () => {
   const { t } = useAppTranslation();
   const { authState } = useAuth();
   const { gameState } = useGame();
-  const { data, isLoading, error } = useSWR(
-    [authState.context.user.rawToken as string, gameState.context.farmId],
-    fetcher,
-  );
+  const token = authState.context.user.rawToken as string;
+  const farmId = gameState.context.farmId;
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["referrees", token, farmId],
+    queryFn: () => getReferrees({ token, farmId }),
+  });
   const now = useNow();
 
   if (isLoading) return <Loading />;

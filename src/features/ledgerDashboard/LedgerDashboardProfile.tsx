@@ -1,7 +1,8 @@
 import React from "react";
 import { Panel } from "components/ui/Panel";
 import { useAuth } from "features/auth/lib/Provider";
-import useSWR from "swr";
+import { useQuery } from "@tanstack/react-query";
+import { dashboardKeys } from "lib/query/queryKeys";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { useSelector } from "@xstate/react";
 import { useParams } from "react-router";
@@ -12,10 +13,6 @@ import { Button } from "components/ui/Button";
 import classNames from "classnames";
 import flowerToken from "assets/icons/flower_token.webp";
 
-const fetcher = async ([url, token, id]: [string, string, string]) => {
-  return getLedgerDashboardProfile(token, id);
-};
-
 const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
 
 export const LedgerDashboardProfile = () => {
@@ -25,10 +22,10 @@ export const LedgerDashboardProfile = () => {
   const rawToken = useSelector(authService, _rawToken);
   const { t } = useAppTranslation();
 
-  const { data, isLoading, error } = useSWR(
-    ["/ledger-dashboard", rawToken!, id!],
-    fetcher,
-  );
+  const { data, isLoading, error } = useQuery({
+    queryKey: dashboardKeys.ledger(id!),
+    queryFn: () => getLedgerDashboardProfile(rawToken!, id!),
+  });
 
   if (error) {
     return (

@@ -32,7 +32,6 @@ import { useLocation, useNavigate } from "react-router";
 import { useVisiting } from "lib/utils/visitUtils";
 import { ActiveProjects, Player } from "../types/types";
 import { useSocial } from "../hooks/useSocial";
-import { KeyedMutator } from "swr";
 import { PlayerDetailsSkeleton } from "./skeletons/PlayerDetailsSkeleton";
 import { FollowerFeedSkeleton } from "./skeletons/FollowerFeedSkeleton";
 import { OnlineStatus } from "./OnlineStatus";
@@ -67,7 +66,7 @@ type Props = {
   followLoading: boolean;
   iAmFollowing: boolean;
   isFollowMutual: boolean;
-  mutate: KeyedMutator<Player | undefined>;
+  onRefetch: () => void;
   canGoBack?: boolean;
   onFollow: () => void;
   onFollowersClick: () => void;
@@ -100,7 +99,7 @@ export const PlayerDetails: React.FC<Props> = ({
   loggedInFarmId,
   iAmFollowing,
   isFollowMutual,
-  mutate,
+  onRefetch,
   onFollow,
   onFollowersClick,
   canGoBack,
@@ -122,7 +121,7 @@ export const PlayerDetails: React.FC<Props> = ({
     gameService,
     "cheeringFarm",
     "cheeringFarmSuccess",
-    mutate,
+    onRefetch,
   );
 
   const hasCheeredToday = useSelector(
@@ -133,8 +132,8 @@ export const PlayerDetails: React.FC<Props> = ({
   useSocial({
     farmId: loggedInFarmId,
     callbacks: {
-      onFollow: () => mutate(),
-      onUnfollow: () => mutate(),
+      onFollow: () => onRefetch(),
+      onUnfollow: () => onRefetch(),
     },
   });
 

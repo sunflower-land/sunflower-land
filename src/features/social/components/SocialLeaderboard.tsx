@@ -6,7 +6,7 @@ import {
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import socialPointsIcon from "assets/icons/social_score.webp";
-import useSWR from "swr";
+import { useQuery } from "@tanstack/react-query";
 import { LeaderboardSkeleton } from "./skeletons/LeaderboardSkeleton";
 import classNames from "classnames";
 import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionLeaderboardTable";
@@ -32,10 +32,11 @@ export const SocialLeaderboard: React.FC<LeaderboardProps> = ({
     "weekly",
   );
   const [showTooltip, setShowTooltip] = useState(false);
-  const { data, isLoading } = useSWR(
-    id ? ["socialLeaderboard", id] : null,
-    () => fetchSocialLeaderboardData(Number(id)),
-  );
+  const { data, isLoading } = useQuery({
+    queryKey: ["socialLeaderboard", id],
+    queryFn: () => fetchSocialLeaderboardData(Number(id)),
+    enabled: !!id,
+  });
 
   if (isLoading) return <LeaderboardSkeleton />;
 
