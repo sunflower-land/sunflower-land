@@ -16,6 +16,7 @@ import { PlayerDetails } from "./components/PlayerDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { playerKeys } from "lib/query/queryKeys";
 import { getPlayer } from "./actions/getPlayer";
 import { postEffect } from "features/game/actions/effect";
 import { randomID } from "lib/utils/random";
@@ -78,7 +79,7 @@ export const PlayerModal: React.FC<Props> = ({
     }, 100);
   }, [clearHistory]);
 
-  const queryKey = ["player", token, loggedInFarmId, currentPlayerId];
+  const queryKey = playerKeys.detail(currentPlayerId!);
 
   const updatePlayerCache = (response: Player) => {
     queryClient.setQueryData<Player>(queryKey, (current) =>
@@ -93,7 +94,7 @@ export const PlayerModal: React.FC<Props> = ({
     error,
     refetch,
   } = useQuery({
-    queryKey: ["player", token, loggedInFarmId, currentPlayerId],
+    queryKey: playerKeys.detail(currentPlayerId!),
     queryFn: () =>
       getPlayer({
         token,

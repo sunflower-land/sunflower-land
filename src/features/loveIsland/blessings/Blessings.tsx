@@ -12,6 +12,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useQuery } from "@tanstack/react-query";
+import { socialKeys } from "lib/query/queryKeys";
 import { getBlessingResults } from "../actions/getBlessingResults";
 import { Loading } from "features/auth/components";
 import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong";
@@ -241,7 +242,7 @@ export const BlessingResults: React.FC<Props> = ({ onClose }) => {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["blessing-results", token, previousDayKey],
+    queryKey: socialKeys.blessingResults(previousDayKey),
     queryFn: () => getBlessingResults({ token, date: previousDayKey }),
   });
 

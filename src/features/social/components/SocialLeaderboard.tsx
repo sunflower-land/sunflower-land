@@ -7,6 +7,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import socialPointsIcon from "assets/icons/social_score.webp";
 import { useQuery } from "@tanstack/react-query";
+import { socialKeys } from "lib/query/queryKeys";
 import { LeaderboardSkeleton } from "./skeletons/LeaderboardSkeleton";
 import classNames from "classnames";
 import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionLeaderboardTable";
@@ -33,8 +34,8 @@ export const SocialLeaderboard: React.FC<LeaderboardProps> = ({
   );
   const [showTooltip, setShowTooltip] = useState(false);
   const { data, isLoading } = useQuery({
-    queryKey: ["socialLeaderboard", id],
-    queryFn: () => fetchSocialLeaderboardData(Number(id)),
+    queryKey: socialKeys.leaderboard(id),
+    queryFn: () => fetchSocialLeaderboardData(id),
     enabled: !!id,
   });
 

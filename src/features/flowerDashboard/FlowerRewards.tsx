@@ -4,6 +4,7 @@ import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useQuery } from "@tanstack/react-query";
+import { liquidityKeys } from "lib/query/queryKeys";
 import { Loading } from "features/auth/components/Loading";
 import { getPlayerLiquidity } from "./actions/getPlayerLiquidity";
 import { useAuth } from "features/auth/lib/Provider";
@@ -44,7 +45,7 @@ export const FlowerRewards: React.FC<{ onClose: () => void }> = ({
     error,
     refetch,
   } = useQuery({
-    queryKey: ["player-liquidity", address, token],
+    queryKey: liquidityKeys.player(address!),
     queryFn: () => getPlayerLiquidity({ farmId: farmId as number, token }),
     enabled: shouldFetchLiquidity,
   });

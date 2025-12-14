@@ -19,6 +19,7 @@ import { useSound } from "lib/utils/hooks/useSound";
 import clipboard from "clipboard";
 import { getReferrees } from "./actions/getReferrees";
 import { useQuery } from "@tanstack/react-query";
+import { referralKeys } from "lib/query/queryKeys";
 import { useAuth } from "features/auth/lib/Provider";
 import { Loading } from "features/auth/components";
 import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong";
@@ -73,7 +74,7 @@ export const Referrees: React.FC = () => {
   const farmId = gameState.context.farmId;
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["referrees", token, farmId],
+    queryKey: referralKeys.referrees(farmId),
     queryFn: () => getReferrees({ token, farmId }),
   });
   const now = useNow();

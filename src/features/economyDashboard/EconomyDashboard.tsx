@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { dashboardKeys } from "lib/query/queryKeys";
 import { useLocation, useNavigate } from "react-router";
 
 import { Panel, InnerPanel } from "components/ui/Panel";
@@ -71,11 +72,10 @@ export const EconomyDashboard: React.FC = () => {
 
   const { data, error, isLoading, isFetching, refetch } =
     useQuery<EconomyDataResponse>({
-      queryKey: [
-        "economy-dashboard",
+      queryKey: dashboardKeys.economy(
         requestParams?.startDate,
         requestParams?.endDate,
-      ],
+      ),
       queryFn: () =>
         getEconomyData({
           startDate: requestParams!.startDate,
