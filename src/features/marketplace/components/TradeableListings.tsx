@@ -28,7 +28,8 @@ import { useParams } from "react-router";
 import { PurchaseModalContent } from "./PurchaseModalContent";
 import { TradeableDisplay } from "../lib/tradeables";
 import { KNOWN_ITEMS } from "features/game/types";
-import { KeyedMutator } from "swr";
+import { useQueryClient, QueryObserverResult } from "@tanstack/react-query";
+import { marketplaceKeys } from "lib/query/queryKeys";
 import { isTradeResource } from "features/game/actions/tradeLimits";
 import { MAX_LIMITED_SALES } from "./Tradeable";
 import { ResourceTaxes } from "./TradeableInfo";
@@ -52,7 +53,7 @@ type TradeableListingsProps = {
   count: number;
   onListClick: () => void;
   onListClose: () => void;
-  reload: KeyedMutator<TradeableDetails>;
+  reload: () => Promise<QueryObserverResult<TradeableDetails | null, Error>>;
 };
 
 type BulkOrder = {
@@ -87,6 +88,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
   const { gameService, showAnimations } = useContext(Context);
   const { t } = useAppTranslation();
   const params = useParams();
+  const queryClient = useQueryClient();
 
   const isListing = useSelector(gameService, _isListing);
   const balance = useSelector(gameService, _balance);
@@ -217,18 +219,21 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
     gameService,
     "loading",
     "playing",
-    () =>
-      reload(undefined, {
-        optimisticData: tradeable
-          ? {
-              ...tradeable,
-              listings:
-                tradeable?.listings?.filter(
-                  (listing) => selectedListing?.id !== listing.id,
-                ) ?? [],
-            }
-          : undefined,
-      }),
+    () => {
+      // Optimistic update
+      if (tradeable && selectedListing) {
+        queryClient.setQueryData(
+          marketplaceKeys.tradeable(params.collection as string, id),
+          {
+            ...tradeable,
+            listings: tradeable.listings.filter(
+              (listing) => selectedListing.id !== listing.id,
+            ),
+          },
+        );
+      }
+      reload();
+    },
   );
 
   useDeepEffect(() => {

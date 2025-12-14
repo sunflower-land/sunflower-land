@@ -13,7 +13,8 @@ import { KNOWN_ITEMS } from "features/game/types";
 import { ITEM_NAMES as BUMPKIN_ITEM_NAMES } from "features/game/types/bumpkin";
 import { ListViewCard } from "./ListViewCard";
 import { useAuth } from "features/auth/lib/Provider";
-import useSWR from "swr";
+import { useQuery } from "@tanstack/react-query";
+import { marketplaceKeys } from "lib/query/queryKeys";
 import { collectionFetcher } from "./Collection";
 import Decimal from "decimal.js-light";
 import { Tradeable } from "features/game/types/marketplace";
@@ -23,20 +24,26 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 const _state = (state: MachineState) => state.context.state;
 export const WhatsNew: React.FC = () => {
   const { t } = useAppTranslation();
-  const { authService, authState } = useAuth();
+  const { authState } = useAuth();
 
   const token = authState.context.user.rawToken as string;
   const {
     data: collectibles,
     isLoading: collectiblesLoading,
     error: collectiblesError,
-  } = useSWR(["collectibles", token], collectionFetcher);
+  } = useQuery({
+    queryKey: marketplaceKeys.collection("collectibles"),
+    queryFn: () => collectionFetcher("collectibles", token),
+  });
 
   const {
     data: wearables,
     isLoading: wearablesLoading,
     error: wearablesError,
-  } = useSWR(["wearables", token], collectionFetcher);
+  } = useQuery({
+    queryKey: marketplaceKeys.collection("wearables"),
+    queryFn: () => collectionFetcher("wearables", token),
+  });
 
   if (collectiblesError || wearablesError)
     throw collectiblesError || wearablesError;

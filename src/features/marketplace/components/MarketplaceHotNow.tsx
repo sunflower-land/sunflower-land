@@ -15,27 +15,35 @@ import { Loading } from "features/auth/components";
 import { loadTrends } from "../actions/loadTrends";
 import { useAuth } from "features/auth/lib/Provider";
 import { TopTrades } from "./TopTrades";
-import useSWR, { preload } from "swr";
+import { useQuery } from "@tanstack/react-query";
+import { queryClient } from "lib/query/queryClient";
+import { marketplaceKeys } from "lib/query/queryKeys";
 import { CONFIG } from "lib/config";
 import { useGame } from "features/game/GameProvider";
 
-const hotNowFetcher = ([, token]: [string, string]) => {
+const hotNowFetcher = (token: string) => {
   if (CONFIG.API_URL) return loadTrends({ token });
+  return Promise.resolve(undefined);
 };
+
 export const preloadHotNow = (token: string) =>
-  preload(["/marketplace/trends", token], hotNowFetcher);
+  queryClient.prefetchQuery({
+    queryKey: marketplaceKeys.hotNow(),
+    queryFn: () => hotNowFetcher(token),
+  });
 
 export const MarketplaceHotNow: React.FC = () => {
-  const { authService, authState } = useAuth();
+  const { authState } = useAuth();
   const { gameState } = useGame();
   const navigate = useNavigate();
 
   const { t } = useAppTranslation();
 
-  const { data, error } = useSWR(
-    ["/marketplace/trends", authState.context.user.rawToken as string],
-    hotNowFetcher,
-  );
+  const token = authState.context.user.rawToken as string;
+  const { data, error } = useQuery({
+    queryKey: marketplaceKeys.hotNow(),
+    queryFn: () => hotNowFetcher(token),
+  });
 
   // Errors are handled by the game machine
   if (error) throw error;

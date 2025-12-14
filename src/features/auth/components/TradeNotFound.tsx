@@ -3,16 +3,16 @@ import { Label } from "components/ui/Label";
 import { useGame } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
-import { useSWRConfig } from "swr";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const TradeNotFound: React.FC = () => {
   const { t } = useAppTranslation();
   const { gameService } = useGame();
 
-  const { mutate } = useSWRConfig();
+  const queryClient = useQueryClient();
 
   const reload = () => {
-    mutate(() => true, undefined, { revalidate: true });
+    queryClient.invalidateQueries();
     gameService.send("CONTINUE");
   };
 

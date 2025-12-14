@@ -28,7 +28,8 @@ import { TradeableStats } from "./TradeableStats";
 import { getKeys } from "features/game/types/decorations";
 import { tradeToId } from "../lib/offers";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
-import useSWR from "swr";
+import { useQuery } from "@tanstack/react-query";
+import { marketplaceKeys } from "lib/query/queryKeys";
 import { getWeekKey } from "features/game/lib/factions";
 import { MachineState } from "features/game/lib/gameMachine";
 
@@ -90,16 +91,16 @@ export const Tradeable: React.FC = () => {
   const {
     data: tradeable,
     error,
-    mutate: reload,
-  } = useSWR(
-    [collection, id, authState.context.user.rawToken as string],
-    ([collection, id, token]) =>
+    refetch: reload,
+  } = useQuery({
+    queryKey: marketplaceKeys.tradeable(collection as string, Number(id)),
+    queryFn: () =>
       loadTradeable({
         type: collection as CollectionName,
         id: Number(id),
-        token,
+        token: authToken,
       }),
-  );
+  });
 
   const trades = useSelector(gameService, _trades);
   const currentWeek = getWeekKey({ date: new Date() });

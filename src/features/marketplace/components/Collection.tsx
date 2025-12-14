@@ -8,7 +8,9 @@ import { ListViewCard } from "./ListViewCard";
 import Decimal from "decimal.js-light";
 import { getTradeableDisplay, TradeableDisplay } from "../lib/tradeables";
 import { InnerPanel } from "components/ui/Panel";
-import useSWR, { preload } from "swr";
+import { useQueries } from "@tanstack/react-query";
+import { queryClient } from "lib/query/queryClient";
+import { marketplaceKeys } from "lib/query/queryKeys";
 import { CONFIG } from "lib/config";
 import { FixedSizeGrid as Grid } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -40,17 +42,27 @@ import { Label } from "components/ui/Label";
 const budTraitLabels = createTraitLabelLookup(BUD_TRAIT_GROUPS);
 const petTraitLabels = createTraitLabelLookup(PET_TRAIT_GROUPS);
 
-export const collectionFetcher = ([filters, token]: [string, string]) => {
+export const collectionFetcher = (filters: string, token: string) => {
   if (CONFIG.API_URL) return loadMarketplace({ filters, token });
+  return Promise.resolve(undefined);
 };
 
+const COLLECTION_TYPES = [
+  "collectibles",
+  "wearables",
+  "resources",
+  "buds",
+  "pets",
+  "temporary",
+] as const;
+
 export const preloadCollections = (token: string) => {
-  preload(["collectibles", token], collectionFetcher);
-  preload(["wearables", token], collectionFetcher);
-  preload(["resources", token], collectionFetcher);
-  preload(["buds", token], collectionFetcher);
-  preload(["pets", token], collectionFetcher);
-  preload(["temporary", token], collectionFetcher);
+  COLLECTION_TYPES.forEach((type) => {
+    queryClient.prefetchQuery({
+      queryKey: marketplaceKeys.collection(type),
+      queryFn: () => collectionFetcher(type, token),
+    });
+  });
 };
 
 const _state = (state: MachineState) => state.context.state;
@@ -103,55 +115,29 @@ export const Collection: React.FC<{
 
   const token = authState.context.user.rawToken as string;
 
-  const {
-    data: wearables,
-    isLoading: isWearablesLoading,
-    error: wearablesError,
-  } = useSWR(
-    filters.includes("wearables") ? ["wearables", token] : null,
-    collectionFetcher,
-  );
+  const collectionQueries = useQueries({
+    queries: COLLECTION_TYPES.map((type) => ({
+      queryKey: marketplaceKeys.collection(type),
+      queryFn: () => collectionFetcher(type, token),
+      enabled: filters.includes(type),
+    })),
+  });
 
-  const {
-    data: collectibles,
-    isLoading: isCollectiblesLoading,
-    error: collectiblesError,
-  } = useSWR(
-    filters.includes("collectibles") ? ["collectibles", token] : null,
-    collectionFetcher,
-  );
-  const {
-    data: resources,
-    isLoading: isResourcesLoading,
-    error: resourcesError,
-  } = useSWR(
-    filters.includes("resources") ? ["resources", token] : null,
-    collectionFetcher,
-  );
-  const {
-    data: buds,
-    isLoading: isBudsLoading,
-    error: budsError,
-  } = useSWR(
-    filters.includes("buds") ? ["buds", token] : null,
-    collectionFetcher,
-  );
-  const {
-    data: pets,
-    isLoading: isPetsLoading,
-    error: petsError,
-  } = useSWR(
-    filters.includes("pets") ? ["pets", token] : null,
-    collectionFetcher,
-  );
-  const {
-    data: limited,
-    isLoading: isLimitedLoading,
-    error: limitedError,
-  } = useSWR(
-    filters.includes("temporary") ? ["temporary", token] : null,
-    collectionFetcher,
-  );
+  const [
+    collectiblesQuery,
+    wearablesQuery,
+    resourcesQuery,
+    budsQuery,
+    petsQuery,
+    limitedQuery,
+  ] = collectionQueries;
+
+  const wearables = wearablesQuery.data;
+  const collectibles = collectiblesQuery.data;
+  const resources = resourcesQuery.data;
+  const buds = budsQuery.data;
+  const pets = petsQuery.data;
+  const limited = limitedQuery.data;
 
   const data = {
     items: [
@@ -182,31 +168,12 @@ export const Collection: React.FC<{
     });
   }
 
-  const isLoading =
-    isWearablesLoading ||
-    isCollectiblesLoading ||
-    isResourcesLoading ||
-    isBudsLoading ||
-    isLimitedLoading ||
-    isPetsLoading;
+  const isLoading = collectionQueries.some((query) => query.isLoading);
 
   // Errors are handled by the game machine
-  if (
-    wearablesError ||
-    collectiblesError ||
-    resourcesError ||
-    budsError ||
-    limitedError ||
-    petsError
-  ) {
-    throw (
-      wearablesError ||
-      collectiblesError ||
-      resourcesError ||
-      budsError ||
-      limitedError ||
-      petsError
-    );
+  const firstError = collectionQueries.find((query) => query.error)?.error;
+  if (firstError) {
+    throw firstError;
   }
 
   // Get scroll position from location state if it exists

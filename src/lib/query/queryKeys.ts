@@ -15,6 +15,22 @@ export const socialKeys = {
     [...socialKeys.all, "leaderboard", farmId] as const,
   blessingResults: (date: string) =>
     [...socialKeys.all, "blessing-results", date] as const,
+  chatInteractions: (farmId: number, followedPlayerId: number) =>
+    [...socialKeys.all, "chat-interactions", farmId, followedPlayerId] as const,
+  feedInteractions: (farmId: number, isGlobal: boolean, filter: string) =>
+    [...socialKeys.all, "feed-interactions", farmId, isGlobal, filter] as const,
+  followNetwork: (
+    networkFarmId: number,
+    loggedInFarmId: number,
+    networkType: string,
+  ) =>
+    [
+      ...socialKeys.all,
+      "follow-network",
+      networkFarmId,
+      loggedInFarmId,
+      networkType,
+    ] as const,
 };
 
 export const dashboardKeys = {
@@ -54,4 +70,10 @@ export const auctionKeys = {
   history: () => [...auctionKeys.all, "history"] as const,
   results: (auctionId: string) =>
     [...auctionKeys.history(), auctionId] as const,
+};
+
+export const notificationKeys = {
+  all: ["notifications"] as const,
+  subscriptions: (farmId: number) =>
+    [...notificationKeys.all, "subscriptions", farmId] as const,
 };

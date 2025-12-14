@@ -1,5 +1,6 @@
 import React, { useContext, useMemo, useState } from "react";
-import useSWR from "swr";
+import { useQuery } from "@tanstack/react-query";
+import { auctionKeys } from "lib/query/queryKeys";
 import { useActor } from "@xstate/react";
 
 import { ButtonPanel } from "components/ui/Panel";
@@ -18,9 +19,7 @@ import { randomID } from "lib/utils/random";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
 
-const historyFetcher = async ([, token]: [string, string]): Promise<
-  Auction[]
-> => {
+const historyFetcher = async (token: string): Promise<Auction[]> => {
   const { auctions } = await loadAuctions({
     token,
     transactionId: randomID(),
@@ -29,16 +28,15 @@ const historyFetcher = async ([, token]: [string, string]): Promise<
   return auctions;
 };
 
-const resultsFetcher = async ([, auctionId, token, farmId]: [
-  string,
-  string,
-  string,
-  number | undefined,
-]): Promise<AuctionResults> => {
+const resultsFetcher = async (
+  auctionId: string,
+  token: string,
+  farmId: number,
+): Promise<AuctionResults> => {
   const result = await getAuctionResults({
     auctionId,
     token,
-    farmId: Number(farmId ?? 0),
+    farmId,
     transactionId: randomID(),
   });
 
@@ -66,8 +64,11 @@ export const AuctionHistory: React.FC = () => {
     data: auctions,
     isLoading: auctionsLoading,
     error: auctionsError,
-  } = useSWR(token ? ["auction-history", token] : null, historyFetcher, {
-    revalidateOnFocus: false,
+  } = useQuery({
+    queryKey: auctionKeys.history(),
+    queryFn: () => historyFetcher(token as string),
+    enabled: !!token,
+    refetchOnWindowFocus: false,
   });
 
   if (auctionsError) {
@@ -93,15 +94,13 @@ export const AuctionHistory: React.FC = () => {
     data: selectedResults,
     isLoading: resultsLoading,
     error: resultsError,
-  } = useSWR(
-    token && selectedAuction
-      ? ["auction-results", selectedAuction.auctionId, token, farmId]
-      : null,
-    resultsFetcher,
-    {
-      revalidateOnFocus: false,
-    },
-  );
+  } = useQuery({
+    queryKey: auctionKeys.results(selectedAuction?.auctionId ?? ""),
+    queryFn: () =>
+      resultsFetcher(selectedAuction!.auctionId, token as string, farmId),
+    enabled: !!token && !!selectedAuction,
+    refetchOnWindowFocus: false,
+  });
 
   if (resultsError) {
     throw resultsError;

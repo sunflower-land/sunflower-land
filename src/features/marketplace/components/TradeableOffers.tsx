@@ -34,7 +34,8 @@ import { isTradeResource } from "features/game/actions/tradeLimits";
 
 import Decimal from "decimal.js-light";
 import { useParams } from "react-router";
-import { KeyedMutator } from "swr";
+import { useQueryClient, QueryObserverResult } from "@tanstack/react-query";
+import { marketplaceKeys } from "lib/query/queryKeys";
 import { MAX_LIMITED_PURCHASES } from "./Tradeable";
 import { ResourceTaxes } from "./TradeableInfo";
 import { hasVipAccess } from "features/game/lib/vipAccess";
@@ -55,7 +56,7 @@ export const TradeableOffers: React.FC<{
   farmId: number;
   display: TradeableDisplay;
   itemId: number;
-  reload: KeyedMutator<TradeableDetails>;
+  reload: () => Promise<QueryObserverResult<TradeableDetails | null, Error>>;
 }> = ({
   tradeable,
   limitedTradesLeft,
@@ -68,7 +69,8 @@ export const TradeableOffers: React.FC<{
   const { authService } = useAuth();
   const { gameService, showAnimations } = useContext(Context);
   const { t } = useAppTranslation();
-  const { id } = useParams();
+  const params = useParams();
+  const queryClient = useQueryClient();
 
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
 
@@ -129,18 +131,21 @@ export const TradeableOffers: React.FC<{
     gameService,
     "loading",
     "playing",
-    () =>
-      reload(undefined, {
-        optimisticData: tradeable
-          ? {
-              ...tradeable,
-              offers:
-                tradeable?.offers?.filter(
-                  (offer) => selectedOffer?.tradeId !== offer.tradeId,
-                ) ?? [],
-            }
-          : undefined,
-      }),
+    () => {
+      // Optimistic update
+      if (tradeable && selectedOffer) {
+        queryClient.setQueryData(
+          marketplaceKeys.tradeable(params.collection as string, itemId),
+          {
+            ...tradeable,
+            offers: tradeable.offers.filter(
+              (offer) => selectedOffer.tradeId !== offer.tradeId,
+            ),
+          },
+        );
+      }
+      reload();
+    },
   );
 
   const handleHide = () => {
@@ -159,7 +164,7 @@ export const TradeableOffers: React.FC<{
   };
 
   const loading = !tradeable;
-  const isResource = isTradeResource(KNOWN_ITEMS[Number(id)]);
+  const isResource = isTradeResource(KNOWN_ITEMS[itemId]);
 
   const vipIsRequired =
     tradeable?.isVip &&

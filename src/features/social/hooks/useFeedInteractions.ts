@@ -1,11 +1,22 @@
-import useSWRInfinite from "swr/infinite";
+import {
+  useInfiniteQuery,
+  useQueryClient,
+  InfiniteData,
+} from "@tanstack/react-query";
+import { socialKeys } from "lib/query/queryKeys";
 import { getFeedInteractions } from "../actions/getFeedInteractions";
 import { Interaction } from "../types/types";
 import { FeedFilter } from "../Feed";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import isEqual from "lodash.isequal";
 
 const PAGE_SIZE = 50;
+
+type FeedPage = { feed: Interaction[]; following: number[] };
+
+type MutateOptions = {
+  revalidate?: boolean;
+};
 
 export function useFeedInteractions(
   token: string,
@@ -13,40 +24,41 @@ export function useFeedInteractions(
   filter: FeedFilter,
   isGlobal: boolean,
 ) {
-  const getKey = (
-    _: number,
-    previousPageData: { feed: Interaction[]; following: number[] },
-  ) => {
-    if (previousPageData && previousPageData.feed.length === 0) return null;
+  const queryClient = useQueryClient();
+  const queryKey = socialKeys.feedInteractions(farmId, isGlobal, filter);
 
-    const cursor =
-      previousPageData?.feed[previousPageData.feed.length - 1]?.createdAt ?? 0;
-    return `feed-interactions-${farmId}-${isGlobal}-${filter}-${cursor}`;
-  };
-
-  const { data, size, setSize, isValidating, mutate } = useSWRInfinite(
-    getKey,
-    (key) => {
-      const cursor = key.split("-")[5];
-
-      return getFeedInteractions({
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    refetch,
+  } = useInfiniteQuery({
+    queryKey,
+    queryFn: ({ pageParam }) =>
+      getFeedInteractions({
         token,
         farmId,
         filter,
         isGlobal,
-        cursor: Number(cursor),
-      });
+        cursor: pageParam,
+      }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      if (!lastPage?.feed || lastPage.feed.length < PAGE_SIZE) return undefined;
+      return lastPage.feed[lastPage.feed.length - 1]?.createdAt;
     },
-  );
+  });
 
-  // Whatever SWR returned for page 0 this render
-  const firstFollowing = data?.[0]?.following;
+  // Whatever React Query returned for page 0 this render
+  const firstFollowing = data?.pages[0]?.following;
 
   const [following, setFollowing] = useState<number[]>([]);
 
   useEffect(() => {
     if (Array.isArray(firstFollowing)) {
-      // We intentionally bridge SWR's `data[0].following` into local state
+      // We intentionally bridge React Query's `data.pages[0].following` into local state
       // with extra semantics (sticky last value + deep equality), which
       // isn't expressible as a pure derivation.
       // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -63,19 +75,37 @@ export function useFeedInteractions(
     }
   }, [firstFollowing]);
 
-  const feed = data ? data.flatMap((page) => page.feed).filter(Boolean) : [];
+  const feed = data?.pages.flatMap((page) => page.feed).filter(Boolean) ?? [];
+
+  // SWR-compatible mutate function for optimistic updates
+  const mutate = useCallback(
+    async (
+      updater?: (current: FeedPage[]) => FeedPage[],
+      options?: MutateOptions,
+    ) => {
+      if (typeof updater === "function") {
+        const currentData = data?.pages ?? [];
+        const newPages = updater(currentData);
+        queryClient.setQueryData<InfiniteData<FeedPage>>(queryKey, (old) =>
+          old ? { ...old, pages: newPages } : undefined,
+        );
+      }
+
+      // Revalidate if not explicitly disabled and no updater provided
+      if (options?.revalidate !== false && !updater) {
+        await refetch();
+      }
+    },
+    [data?.pages, queryClient, queryKey, refetch],
+  );
 
   return {
     feed,
     following,
-    isLoadingInitialData: !data && isValidating,
-    isLoadingMore:
-      isValidating && size > 0 && typeof data?.[size - 1] === "undefined",
-    hasMore:
-      data &&
-      data[data.length - 1]?.feed &&
-      data[data.length - 1]?.feed.length === PAGE_SIZE,
-    loadMore: () => setSize(size + 1),
+    isLoadingInitialData: isFetching && !data,
+    isLoadingMore: isFetchingNextPage,
+    hasMore: hasNextPage,
+    loadMore: () => fetchNextPage(),
     mutate,
   };
 }

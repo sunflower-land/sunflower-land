@@ -13,8 +13,9 @@ import { getBudBuffs } from "features/game/types/budBuffs";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useAuth } from "features/auth/lib/Provider";
 import { useSelector } from "@xstate/react";
-import useSWR from "swr";
+import { useQuery } from "@tanstack/react-query";
 import { loadTradeable } from "features/marketplace/actions/loadTradeable";
+import { marketplaceKeys } from "lib/query/queryKeys";
 import { formatNumber } from "lib/utils/formatNumber";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 
@@ -34,16 +35,16 @@ export const BudDetailPopoverTradeDetails = ({ id }: { id: number }) => {
   const { authService } = useAuth();
   const rawToken = useSelector(authService, _rawToken);
 
-  const { data: tradeable, error } = useSWR(
-    ["collectibles", id, rawToken],
-    ([, id, token]) =>
+  const { data: tradeable, error } = useQuery({
+    queryKey: marketplaceKeys.tradeable("buds", id),
+    queryFn: () =>
       loadTradeable({
         type: "buds",
-        id: Number(id),
-        token: token as string,
+        id,
+        token: rawToken as string,
       }),
-    { dedupingInterval: 60_000 }, // only refresh every minute
-  );
+    staleTime: 60_000, // only refresh every minute
+  });
 
   if (!tradeable || error || !tradeable.isActive) return null;
 

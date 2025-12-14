@@ -48,7 +48,8 @@ import {
   getSubscriptionsForFarmId,
   Subscriptions,
 } from "features/game/actions/subscriptions";
-import { preload } from "swr";
+import { queryClient } from "lib/query/queryClient";
+import { notificationKeys } from "lib/query/queryKeys";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ReferralWidget } from "features/announcements/AnnouncementWidgets";
@@ -65,11 +66,10 @@ export interface ContentComponentProps {
   onClose: () => void;
 }
 
-export const subscriptionsFetcher = ([, token, farmId]: [
-  string,
-  string,
-  number,
-]): Promise<Subscriptions> => {
+export const subscriptionsFetcher = (
+  token: string,
+  farmId: number,
+): Promise<Subscriptions> => {
   return getSubscriptionsForFarmId(farmId, token);
 };
 
@@ -238,10 +238,10 @@ const _token = (state: AuthMachineState) =>
 const _farmId = (state: MachineState) => state.context.farmId;
 
 const preloadSubscriptions = async (token: string, farmId: number) => {
-  preload(
-    ["/notifications/subscriptions", token, farmId],
-    subscriptionsFetcher,
-  );
+  queryClient.prefetchQuery({
+    queryKey: notificationKeys.subscriptions(farmId),
+    queryFn: () => subscriptionsFetcher(token, farmId),
+  });
 };
 
 export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({

@@ -5,9 +5,10 @@ import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { Label } from "./Label";
-import useSWR from "swr";
+import { useQuery } from "@tanstack/react-query";
 import { loadTradeable } from "features/marketplace/actions/loadTradeable";
 import { KNOWN_IDS } from "features/game/types";
+import { marketplaceKeys } from "lib/query/queryKeys";
 import { useSelector } from "@xstate/react";
 import { useAuth } from "features/auth/lib/Provider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
@@ -94,16 +95,16 @@ export const SFTDetailPopoverTradeDetails = ({
   const { authService } = useAuth();
   const rawToken = useSelector(authService, _rawToken);
 
-  const { data: tradeable, error } = useSWR(
-    ["collectibles", KNOWN_IDS[name], rawToken],
-    ([, id, token]) =>
+  const { data: tradeable, error } = useQuery({
+    queryKey: marketplaceKeys.tradeable("collectibles", KNOWN_IDS[name]),
+    queryFn: () =>
       loadTradeable({
         type: "collectibles",
-        id: Number(id),
-        token: token as string,
+        id: KNOWN_IDS[name],
+        token: rawToken as string,
       }),
-    { dedupingInterval: 60_000 }, // only refresh every minute
-  );
+    staleTime: 60_000, // only refresh every minute
+  });
 
   if (!tradeable || error || !tradeable.isActive) return null;
 

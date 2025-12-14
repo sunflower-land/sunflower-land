@@ -11,7 +11,8 @@ import {
 } from "features/game/actions/subscriptions";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import useSWR from "swr";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { notificationKeys } from "lib/query/queryKeys";
 import { SettingMenuId, subscriptionsFetcher } from "../GameOptions";
 import { getKeys } from "features/game/types/decorations";
 import Switch from "components/ui/Switch";
@@ -38,15 +39,12 @@ export const Notifications: React.FC<{
   const token = useSelector(authService, _token);
   const farmId = useSelector(gameService, _farmId);
   const [saving, setSaving] = useState(false);
+  const queryClient = useQueryClient();
 
-  const {
-    data: subscriptions,
-    error,
-    mutate,
-  } = useSWR(
-    ["/notifications/subscriptions", token, farmId],
-    subscriptionsFetcher,
-  );
+  const { data: subscriptions, error } = useQuery({
+    queryKey: notificationKeys.subscriptions(farmId),
+    queryFn: () => subscriptionsFetcher(token, farmId),
+  });
 
   if (error) {
     // eslint-disable-next-line no-console
@@ -95,7 +93,13 @@ export const Notifications: React.FC<{
       });
 
       if (result.success) {
-        await mutate(options, { revalidate: true });
+        queryClient.setQueryData(
+          notificationKeys.subscriptions(farmId),
+          options,
+        );
+        await queryClient.invalidateQueries({
+          queryKey: notificationKeys.subscriptions(farmId),
+        });
         onSubMenuClick("main");
       }
     } catch (error) {
