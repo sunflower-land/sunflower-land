@@ -1,11 +1,10 @@
-import React, { Suspense, lazy, useEffect, useState } from "react";
+import React, { Suspense, lazy, useState } from "react";
 import { useSelector } from "@xstate/react";
 import { Routes, Route, HashRouter } from "react-router";
 
 import { useAuth } from "features/auth/lib/Provider";
 
 import { Auth } from "features/auth/Auth";
-import { CONFIG } from "lib/config";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { ZoomProvider } from "components/ZoomProvider";
 import { LoadingFallback } from "./LoadingFallback";
@@ -13,6 +12,7 @@ import { Panel } from "components/ui/Panel";
 import { Modal } from "components/ui/Modal";
 import { PWAInstallProvider } from "features/pwa/PWAInstallProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useConnectionStatus } from "lib/hooks/useConnectionStatus";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PixelBackground } from "components/ui/PixelBackground";
@@ -49,40 +49,11 @@ const AppProviders = composeProviders([
 export const Navigation: React.FC = () => {
   const { t } = useAppTranslation();
   const { authService } = useAuth();
-  const [showConnectionModal, setShowConnectionModal] = useState(
-    // Check if online on initial load
-    !navigator.onLine ? true : false,
-  );
+  const isOffline = useConnectionStatus();
   const [landingImageLoaded, setLandingImageLoaded] = useState(false);
 
   const state = useSelector(authService, selectState);
   const showGame = state.isAuthorised || state.isVisiting;
-
-  useEffect(() => {
-    // Testing - don't show connection modal when in UI mode
-    if (!CONFIG.API_URL) return;
-
-    const handleOffline = () => {
-      setShowConnectionModal(true);
-    };
-
-    const handleOnline = async () => {
-      const response = await fetch(".");
-      // Verify we get a valid response from the server
-      if (response.status >= 200 && response.status < 500) {
-        setShowConnectionModal(false);
-      }
-    };
-
-    // Set up listeners to watch for connection changes
-    window.addEventListener("offline", handleOffline);
-    window.addEventListener("online", handleOnline);
-
-    return () => {
-      window.removeEventListener("offline", handleOffline);
-      window.removeEventListener("online", handleOnline);
-    };
-  }, []);
 
   return (
     <>
@@ -97,11 +68,11 @@ export const Navigation: React.FC = () => {
               path="/*"
               element={
                 <>
-                  <Auth showOfflineModal={showConnectionModal} />
+                  <Auth showOfflineModal={isOffline} />
                   {showGame ? (
                     <>
                       <AppProviders>
-                        <Modal show={showConnectionModal}>
+                        <Modal show={isOffline}>
                           <Panel>
                             <div className="text-sm p-1 mb-1">
                               {t("welcome.offline")}
