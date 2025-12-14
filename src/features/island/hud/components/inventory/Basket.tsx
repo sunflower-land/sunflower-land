@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
@@ -89,6 +89,119 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const { inventory } = gameState;
   const basketMap = getBasketItems(inventory);
 
+  // Memoize all item categorization to prevent recalculation on every render
+  // Must be called before early returns to follow React hooks rules
+  const {
+    allSeeds,
+    allTools,
+    allResources,
+    crops,
+    fruits,
+    flowers,
+    exotic,
+    exotics,
+    foods,
+    pirateCake,
+    fertilisers,
+    cropCompost,
+    fruitCompost,
+    coupons,
+    easterEggs,
+    treasure,
+    worm,
+    purchaseableBait,
+    fish,
+    animalResources,
+    animalFeeds,
+    petResources,
+    clutter,
+  } = useMemo(() => {
+    const getItems = <T extends string | number | symbol, K>(
+      items: Record<T, K>,
+    ) => {
+      return getKeys(items).filter((item) => item in basketMap);
+    };
+
+    const seeds = getItems(CROP_SEEDS);
+    const fruitSeeds = getItems(PATCH_FRUIT_SEEDS);
+    const greenhouseSeeds = [
+      ...getItems(GREENHOUSE_FRUIT_SEEDS),
+      ...getItems(GREENHOUSE_SEEDS),
+    ];
+    const flowerSeeds = getItems(FLOWER_SEEDS);
+    const crops = [...getItems(CROPS), ...getItems(GREENHOUSE_CROPS)];
+    const fruits = [...getItems(PATCH_FRUIT), ...getItems(GREENHOUSE_FRUIT)];
+    const flowers = getItems(FLOWERS);
+    const workbenchTools = getItems(WORKBENCH_TOOLS);
+    const treasureTools = getItems(TREASURE_TOOLS);
+    const animalTools = getItems(LOVE_ANIMAL_TOOLS);
+    const exotic = getItems(BEANS());
+    const resources = getItems(COMMODITIES).filter(
+      (resource) => resource !== "Egg",
+    );
+    const craftingResources = getItems(RECIPE_CRAFTABLES);
+    const animalResources = getItems(ANIMAL_RESOURCES);
+    const animalFeeds = getItems(ANIMAL_FOODS);
+
+    // Sort all foods by Cooking Time and Building
+    const foods = getItems(COOKABLES)
+      .sort((a, b) => COOKABLES[a].cookingSeconds - COOKABLES[b].cookingSeconds)
+      .sort(
+        (a, b) =>
+          BUILDING_ORDER.indexOf(COOKABLES[a].building) -
+          BUILDING_ORDER.indexOf(COOKABLES[b].building),
+      );
+    const pirateCake = getItems(PIRATE_CAKE);
+
+    const fertilisers = getItems(FERTILISERS);
+    const coupons = getItems(COUPONS).sort((a, b) => a.localeCompare(b));
+    const easterEggs = getItems(EASTER_EGG);
+    const treasure = getItems(SELLABLE_TREASURE);
+    const exotics = getItems(EXOTIC_CROPS);
+    const cropCompost = getItems(CROP_COMPOST);
+    const fruitCompost = getItems(FRUIT_COMPOST);
+    const worm = getItems(WORM);
+    const purchaseableBait = getItems(PURCHASEABLE_BAIT);
+    const fish = getItems(FISH).sort((a, b) => a.localeCompare(b));
+    const petResources = getItems(PET_RESOURCES);
+    const clutter = getItems(CLUTTER);
+
+    const allSeeds = [
+      ...seeds,
+      ...fruitSeeds,
+      ...flowerSeeds,
+      ...greenhouseSeeds,
+    ];
+    const allTools = [...workbenchTools, ...treasureTools, ...animalTools];
+    const allResources = [...resources, ...craftingResources];
+
+    return {
+      allSeeds,
+      allTools,
+      allResources,
+      crops,
+      fruits,
+      flowers,
+      exotic,
+      exotics,
+      foods,
+      pirateCake,
+      fertilisers,
+      cropCompost,
+      fruitCompost,
+      coupons,
+      easterEggs,
+      treasure,
+      worm,
+      purchaseableBait,
+      fish,
+      animalResources,
+      animalFeeds,
+      petResources,
+      clutter,
+    };
+  }, [basketMap]);
+
   const basketIsEmpty = Object.values(basketMap).length === 0;
   if (basketIsEmpty) {
     return (
@@ -150,66 +263,6 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const handleItemClick = (item: InventoryItemName) => {
     onSelect(item);
   };
-
-  const getItems = <T extends string | number | symbol, K>(
-    items: Record<T, K>,
-  ) => {
-    return getKeys(items).filter((item) => item in basketMap);
-  };
-
-  const seeds = getItems(CROP_SEEDS);
-  const fruitSeeds = getItems(PATCH_FRUIT_SEEDS);
-  const greenhouseSeeds = [
-    ...getItems(GREENHOUSE_FRUIT_SEEDS),
-    ...getItems(GREENHOUSE_SEEDS),
-  ];
-  const flowerSeeds = getItems(FLOWER_SEEDS);
-  const crops = [...getItems(CROPS), ...getItems(GREENHOUSE_CROPS)];
-  const fruits = [...getItems(PATCH_FRUIT), ...getItems(GREENHOUSE_FRUIT)];
-  const flowers = getItems(FLOWERS);
-  const workbenchTools = getItems(WORKBENCH_TOOLS);
-  const treasureTools = getItems(TREASURE_TOOLS);
-  const animalTools = getItems(LOVE_ANIMAL_TOOLS);
-  const exotic = getItems(BEANS());
-  const resources = getItems(COMMODITIES).filter(
-    (resource) => resource !== "Egg",
-  );
-  const craftingResources = getItems(RECIPE_CRAFTABLES);
-  const animalResources = getItems(ANIMAL_RESOURCES);
-  const animalFeeds = getItems(ANIMAL_FOODS);
-
-  // Sort all foods by Cooking Time and Building
-  const foods = getItems(COOKABLES)
-    .sort((a, b) => COOKABLES[a].cookingSeconds - COOKABLES[b].cookingSeconds)
-    .sort(
-      (a, b) =>
-        BUILDING_ORDER.indexOf(COOKABLES[a].building) -
-        BUILDING_ORDER.indexOf(COOKABLES[b].building),
-    );
-  const pirateCake = getItems(PIRATE_CAKE);
-
-  const fertilisers = getItems(FERTILISERS);
-  const coupons = getItems(COUPONS).sort((a, b) => a.localeCompare(b));
-  const easterEggs = getItems(EASTER_EGG);
-  const treasure = getItems(SELLABLE_TREASURE);
-  const exotics = getItems(EXOTIC_CROPS);
-  const cropCompost = getItems(CROP_COMPOST);
-  const fruitCompost = getItems(FRUIT_COMPOST);
-  const worm = getItems(WORM);
-  const purchaseableBait = getItems(PURCHASEABLE_BAIT);
-  const fish = getItems(FISH).sort((a, b) => a.localeCompare(b));
-  const petResources = getItems(PET_RESOURCES);
-
-  const allSeeds = [
-    ...seeds,
-    ...fruitSeeds,
-    ...flowerSeeds,
-    ...greenhouseSeeds,
-  ];
-  const allTools = [...workbenchTools, ...treasureTools, ...animalTools];
-  const allResources = [...resources, ...craftingResources];
-
-  const clutter = getItems(CLUTTER);
 
   const itemsSection = (
     title: string,
