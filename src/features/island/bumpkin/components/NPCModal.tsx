@@ -8,7 +8,6 @@ import {
   FACTION_FOOD,
   TRADE_FOOD,
 } from "features/game/types/consumables";
-import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { Feed } from "./Feed";
 import { Modal } from "components/ui/Modal";
@@ -22,6 +21,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BuildingName } from "features/game/types/buildings";
 import { OuterPanel } from "components/ui/Panel";
 import { MachineState } from "features/game/lib/gameMachine";
+import { useGameService, useInventory } from "features/game/hooks";
 
 interface Props {
   isOpen: boolean;
@@ -38,9 +38,6 @@ export const BUILDING_ORDER: BuildingName[] = [
 
 const _currentBumpkinLevel = (state: MachineState) => {
   return getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
-};
-const _inventory = (state: MachineState) => {
-  return state.context.state.inventory;
 };
 const _equipped = (state: MachineState) => {
   return state.context.state.bumpkin?.equipped;
@@ -61,12 +58,12 @@ function useLevelUp(currentLevel: number) {
 }
 
 export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
 
   const currentBumpkinLevel = useSelector(gameService, _currentBumpkinLevel);
-  const inventory = useSelector(gameService, _inventory);
+  const inventory = useInventory();
   const equipped = useSelector(gameService, _equipped);
 
   const { hasLeveledUp, acknowledgeLevelUp } = useLevelUp(currentBumpkinLevel);

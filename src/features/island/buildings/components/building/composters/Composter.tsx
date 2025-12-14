@@ -2,32 +2,15 @@ import React, { useContext, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
 import { COMPOSTER_IMAGES, ComposterModal } from "./ComposterModal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ProgressBar } from "components/ui/ProgressBar";
-import { MachineState } from "features/game/lib/gameMachine";
-import { BuildingName } from "features/game/types/buildings";
 import { ComposterName } from "features/game/types/composters";
 import { CompostBuilding } from "features/game/types/game";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
-
-const getComposter = (type: BuildingName) => (state: MachineState) =>
-  state.context.state.buildings[type]?.[0] as CompostBuilding;
-
-const compare = (prev?: CompostBuilding, next?: CompostBuilding) => {
-  // Force update if readyAt time changed (for boost updates)
-  if (prev?.producing?.readyAt !== next?.producing?.readyAt) {
-    return false;
-  }
-  // Force update if boost state changed
-  if (!!prev?.boost !== !!next?.boost) {
-    return false;
-  }
-  return JSON.stringify(prev) === JSON.stringify(next);
-};
+import { useBuilding } from "features/game/hooks";
 
 interface Props {
   name: ComposterName;
@@ -38,7 +21,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
 
   const [_, setRender] = useState<number>(0);
 
-  const composter = useSelector(gameService, getComposter(name), compare);
+  const composter = useBuilding(name)?.[0] as CompostBuilding;
   const { totalSeconds: secondsLeft } = useCountdown(
     composter?.producing?.readyAt ?? 0,
   );

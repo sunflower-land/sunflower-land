@@ -33,6 +33,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { SKILL_TREE_ICONS } from "./SkillCategoryList";
 import tradeOffs from "src/assets/icons/tradeOffs.png";
 import { getSkillCooldown } from "features/game/events/landExpansion/skillUsed";
+import { useBumpkin } from "features/game/hooks";
 
 interface Props {
   selectedSkillPath: BumpkinRevampSkillTree;
@@ -41,7 +42,6 @@ interface Props {
   onBack: () => void;
 }
 
-const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _state = (state: MachineState) => state.context.state;
 
 export const getSkillImage = (
@@ -64,7 +64,7 @@ export const SkillPathDetails: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const bumpkin = useSelector(gameService, _bumpkin);
+  const bumpkin = useBumpkin();
   const state = useSelector(gameService, _state);
 
   const [showConfirmation, setShowConfirmation] = useState(false);

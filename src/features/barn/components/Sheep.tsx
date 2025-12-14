@@ -4,6 +4,11 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useInterpret, useSelector } from "@xstate/react";
+import {
+  useGameService,
+  useInventory,
+  useInventoryItem,
+} from "features/game/hooks";
 import { capitalize } from "lib/utils/capitalize";
 import {
   animalMachine,
@@ -55,14 +60,14 @@ const _animalState = (state: AnimalMachineState) =>
 
 const _sheep = (id: string) => (state: MachineState) =>
   state.context.state.barn.animals[id];
-const _inventory = (state: MachineState) => state.context.state.inventory;
 const _game = (state: MachineState) => state.context.state;
 
 export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   id,
   disabled,
 }) => {
-  const { gameService, selectedItem, shortcutItem } = useContext(Context);
+  const gameService = useGameService();
+  const { selectedItem, shortcutItem } = useContext(Context);
 
   const sheep = useSelector(gameService, _sheep(id));
   const sheepService = useInterpret(animalMachine, {
@@ -72,7 +77,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   }) as unknown as AnimalMachineInterpreter;
 
   const sheepState = useSelector(sheepService, _animalState);
-  const inventory = useSelector(gameService, _inventory);
+  const inventory = useInventory();
+  const barnDelightCount = useInventoryItem("Barn Delight");
   const game = useSelector(gameService, _game);
   const [showDrops, setShowDrops] = useState(false);
   const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
@@ -220,7 +226,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   };
 
   const onSickClick = async () => {
-    const medicineCount = inventory["Barn Delight"] ?? new Decimal(0);
+    const medicineCount = barnDelightCount ?? new Decimal(0);
     const { amount: barnDelightCost } = getBarnDelightCost({ state: game });
     const hasEnoughMedicine = medicineCount.gte(barnDelightCost);
 

@@ -44,6 +44,19 @@ import {
 } from "./lib/utils";
 import { Clutter } from "features/island/clutter/Clutter";
 import { PetNFT } from "features/island/pets/PetNFT";
+import {
+  useTrees,
+  useStones,
+  useIron,
+  useGold,
+  useCrops,
+  useFruitPatches,
+  useFlowerBeds,
+  useBeehives,
+  useOilReserves,
+  useCrimstones,
+  useSunstones,
+} from "features/game/hooks";
 
 export const LAND_WIDTH = 6;
 
@@ -54,70 +67,6 @@ const _season = (state: MachineState) => state.context.state.season.season;
 const _expansionCount = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 3;
 
-const _cropPositions = (state: MachineState) => ({
-  crops: state.context.state.crops,
-  positions: getSortedResourcePositions(state.context.state.crops),
-});
-const _treePositions = (state: MachineState) => ({
-  trees: state.context.state.trees,
-  positions: getSortedResourcePositions(state.context.state.trees),
-});
-const _stonePositions = (state: MachineState) => {
-  return {
-    stones: state.context.state.stones,
-    positions: getSortedResourcePositions(state.context.state.stones),
-  };
-};
-const _goldPositions = (state: MachineState) => {
-  return {
-    gold: state.context.state.gold,
-    positions: getSortedResourcePositions(state.context.state.gold),
-  };
-};
-const _ironPositions = (state: MachineState) => {
-  return {
-    iron: state.context.state.iron,
-    positions: getSortedResourcePositions(state.context.state.iron),
-  };
-};
-const _crimstonePositions = (state: MachineState) => {
-  return {
-    crimstones: state.context.state.crimstones,
-    positions: getSortedResourcePositions(state.context.state.crimstones),
-  };
-};
-const _sunstonePositions = (state: MachineState) => {
-  return {
-    sunstones: state.context.state.sunstones,
-    positions: getSortedResourcePositions(state.context.state.sunstones),
-  };
-};
-const _beehivePositions = (state: MachineState) => {
-  return {
-    beehives: state.context.state.beehives,
-    positions: getSortedResourcePositions(state.context.state.beehives),
-  };
-};
-const _flowerBedPositions = (state: MachineState) => {
-  return {
-    flowerBeds: state.context.state.flowers.flowerBeds,
-    positions: getSortedResourcePositions(
-      state.context.state.flowers.flowerBeds,
-    ),
-  };
-};
-const _fruitPatchPositions = (state: MachineState) => {
-  return {
-    fruitPatches: state.context.state.fruitPatches,
-    positions: getSortedResourcePositions(state.context.state.fruitPatches),
-  };
-};
-const _oilReservePositions = (state: MachineState) => {
-  return {
-    oilReserves: state.context.state.oilReserves,
-    positions: getSortedResourcePositions(state.context.state.oilReserves),
-  };
-};
 const _lavaPitPositions = (state: MachineState) => {
   return {
     lavaPits: state.context.state.lavaPits,
@@ -239,54 +188,28 @@ export const LandComponent: React.FC = () => {
   const island = useSelector(gameService, _island);
   const season = useSelector(gameService, _season);
   const expansionCount = useSelector(gameService, _expansionCount);
-  const { crops, positions: cropPositions } = useSelector(
-    gameService,
-    _cropPositions,
-    comparePositions,
-  );
-  const { trees } = useSelector(gameService, _treePositions, comparePositions);
+
+  const crops = useCrops();
+  const cropPositions = getSortedResourcePositions(crops);
+
+  const trees = useTrees();
+
   const { collectibles, positions: collectiblePositions } = useSelector(
     gameService,
     _collectiblePositions,
   );
   const { buildings } = useSelector(gameService, _buildingPositions);
-  const { stones } = useSelector(
-    gameService,
-    _stonePositions,
-    comparePositions,
-  );
-  const { gold } = useSelector(gameService, _goldPositions, comparePositions);
-  const { iron } = useSelector(gameService, _ironPositions, comparePositions);
-  const { crimstones } = useSelector(
-    gameService,
-    _crimstonePositions,
-    comparePositions,
-  );
-  const { sunstones } = useSelector(
-    gameService,
-    _sunstonePositions,
-    comparePositions,
-  );
-  const { beehives } = useSelector(
-    gameService,
-    _beehivePositions,
-    comparePositions,
-  );
-  const { flowerBeds } = useSelector(
-    gameService,
-    _flowerBedPositions,
-    comparePositions,
-  );
-  const { fruitPatches } = useSelector(
-    gameService,
-    _fruitPatchPositions,
-    comparePositions,
-  );
-  const { oilReserves } = useSelector(
-    gameService,
-    _oilReservePositions,
-    comparePositions,
-  );
+
+  const stones = useStones();
+  const gold = useGold();
+  const iron = useIron();
+  const crimstones = useCrimstones();
+  const sunstones = useSunstones();
+  const beehives = useBeehives();
+  const flowerBeds = useFlowerBeds();
+  const fruitPatches = useFruitPatches();
+  const oilReserves = useOilReserves();
+
   const { lavaPits } = useSelector(
     gameService,
     _lavaPitPositions,

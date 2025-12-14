@@ -43,6 +43,7 @@ import { Modal } from "components/ui/Modal";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useCrops } from "features/game/hooks";
 
 export function getYieldColour(yieldAmount: number) {
   if (yieldAmount < 2) {
@@ -56,7 +57,6 @@ export function getYieldColour(yieldAmount: number) {
   return "#71e358"; // Green
 }
 
-const _crops = (state: MachineState) => state.context.state.crops;
 const _state = (state: MachineState) => state.context.state;
 
 const selectHarvests = (state: MachineState) => {
@@ -100,9 +100,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const [reward, setReward] = useState<Omit<Reward, "sfl">>();
   const clickedAt = useRef<number>(0);
 
-  const crops = useSelector(gameService, _crops, (prev, next) => {
-    return JSON.stringify(prev[id]) === JSON.stringify(next[id]);
-  });
+  const crops = useCrops();
 
   const harvestCount = useSelector(gameService, selectHarvests);
   const plantCount = useSelector(gameService, selectPlants);

@@ -10,9 +10,8 @@ import { setImageWidth } from "lib/images";
 import { DELI_VARIANTS } from "features/island/lib/alternateArt";
 import shadow from "assets/npcs/shadow.png";
 import { useSound } from "lib/utils/hooks/useSound";
-import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
+import { useBuilding } from "features/game/hooks";
 import { useCookingState } from "features/island/buildings/lib/useCookingState";
 import { ReadyRecipes } from "../ReadyRecipes";
 import { TemperateSeasonName } from "features/game/types/game";
@@ -23,13 +22,10 @@ type Props = {
   season: TemperateSeasonName;
 };
 
-const _deli = (id: string) => (state: MachineState) =>
-  state.context.state.buildings["Deli"]?.find((b) => b.id === id);
-
 export const Deli: React.FC<Props> = ({ buildingId, isBuilt, season }) => {
   const { gameService } = useContext(Context);
 
-  const deli = useSelector(gameService, _deli(buildingId));
+  const deli = useBuilding("Deli")?.find((b) => b.id === buildingId);
   const [showModal, setShowModal] = useState(false);
   const { cooking, queuedRecipes, readyRecipes } = useCookingState(deli ?? {});
 

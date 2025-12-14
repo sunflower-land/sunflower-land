@@ -40,6 +40,7 @@ import {
   getSortedResourcePositions,
 } from "../lib/utils";
 import { MachineState } from "features/game/lib/gameMachine";
+import { useBumpkinSkills } from "features/game/hooks";
 
 type PlaceableArgs = {
   island: GameState["island"];
@@ -125,7 +126,6 @@ const _crops = (state: MachineState) => state.context.state.crops;
 const _collectibles = (state: MachineState) => state.context.state.collectibles;
 const _landscapingMachine = (state: MachineState) =>
   state.children.landscaping as MachineInterpreter;
-const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 
 export const Placeable: React.FC<Props> = ({ location }) => {
   const { scale } = useContext(ZoomContext);
@@ -137,7 +137,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
   const barnLevel = useSelector(gameService, _barnLevel);
   const crops = useSelector(gameService, _crops);
   const collectibles = useSelector(gameService, _collectibles);
-  const bumpkin = useSelector(gameService, _bumpkin);
+  const bumpkinSkills = useBumpkinSkills();
   const landscapingMachine = useSelector(gameService, _landscapingMachine);
 
   const [machine, send] = useActor(landscapingMachine);
@@ -355,7 +355,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
                 season={season}
                 grid={grid}
                 showTimers={showTimers}
-                skills={bumpkin.skills}
+                skills={bumpkinSkills}
                 id={
                   placeable?.name === "Bud" || placeable?.name === "Pet"
                     ? placeable.id

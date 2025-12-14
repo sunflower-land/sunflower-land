@@ -21,6 +21,7 @@ import { ReadyRecipes } from "../ReadyRecipes";
 import { useCookingState } from "features/island/buildings/lib/useCookingState";
 import { GameState, TemperateSeasonName } from "features/game/types/game";
 import { getCurrentBiome } from "features/island/biomes/biomes";
+import { useBuilding } from "features/game/hooks";
 
 type Props = {
   buildingId: string;
@@ -36,8 +37,6 @@ const _experience = (state: MachineState) =>
 const _potatoCount = (state: MachineState) =>
   state.context.state.inventory.Potato ?? new Decimal(0);
 const _season = (state: MachineState) => state.context.state.season.season;
-const _firePit = (id: string) => (state: MachineState) =>
-  state.context.state.buildings["Fire Pit"]?.find((b) => b.id === id);
 
 export const FirePit: React.FC<Props> = ({ buildingId, isBuilt, island }) => {
   const { gameService } = useContext(Context);
@@ -47,7 +46,7 @@ export const FirePit: React.FC<Props> = ({ buildingId, isBuilt, island }) => {
   const experience = useSelector(gameService, _experience);
   const potatoCount = useSelector(gameService, _potatoCount);
   const season = useSelector(gameService, _season);
-  const firePit = useSelector(gameService, _firePit(buildingId));
+  const firePit = useBuilding("Fire Pit")?.find((b) => b.id === buildingId);
 
   const { cooking, queuedRecipes, readyRecipes } = useCookingState(
     firePit ?? {},

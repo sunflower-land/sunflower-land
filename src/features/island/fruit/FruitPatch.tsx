@@ -15,11 +15,7 @@ import {
 } from "features/game/events/landExpansion/fruitTreeRemoved";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import {
-  FruitPatch as Patch,
-  InventoryItemName,
-  GameState,
-} from "features/game/types/game";
+import { InventoryItemName, GameState } from "features/game/types/game";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { ResourceDropAnimator } from "components/animation/ResourceDropAnimator";
 
@@ -36,6 +32,7 @@ import { Modal } from "components/ui/Modal";
 import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
 import { getCurrentBiome } from "../biomes/biomes";
 import { getFruitYield } from "features/game/events/landExpansion/fruitHarvested";
+import { useFruitPatches } from "features/game/hooks";
 
 const HasAxes = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
@@ -63,8 +60,6 @@ const HasFruitSeeds = (
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
 const selectGame = (state: MachineState) => state.context.state;
-const compareFruit = (prev?: Patch, next?: Patch) =>
-  JSON.stringify(prev) === JSON.stringify(next);
 const compareGame = (prev: GameState, next: GameState) =>
   isCollectibleBuilt({ name: "Foreman Beaver", game: prev }) ===
   isCollectibleBuilt({ name: "Foreman Beaver", game: next });
@@ -89,11 +84,8 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
   const [showQuickSelect, setShowQuickSelect] = useState(false);
   const [showSeasonalSeed, setShowSeasonalSeed] = useState(false);
   const fruitHarvested = useRef(0);
-  const fruitPatch = useSelector(
-    gameService,
-    (state) => state.context.state.fruitPatches[id],
-    compareFruit,
-  );
+  const fruitPatches = useFruitPatches();
+  const fruitPatch = fruitPatches[id];
   const { fruit, fertiliser } = fruitPatch;
   const game = useSelector(gameService, selectGame, compareGame);
   const inventory = useSelector(

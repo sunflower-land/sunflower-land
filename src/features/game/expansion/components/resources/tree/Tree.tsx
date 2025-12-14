@@ -4,12 +4,7 @@ import { TREE_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
 import { getTimeLeft } from "lib/utils/time";
-import {
-  GameState,
-  InventoryItemName,
-  Reward,
-  Tree as TreeType,
-} from "features/game/types/game";
+import { GameState, InventoryItemName, Reward } from "features/game/types/game";
 import {
   canChop,
   getRequiredAxeAmount,
@@ -33,6 +28,7 @@ import { setPrecision } from "lib/utils/formatNumber";
 import { Transition } from "@headlessui/react";
 import lightning from "assets/icons/lightning.png";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useTrees } from "features/game/hooks";
 
 const HITS = 3;
 const tool = "Axe";
@@ -58,9 +54,6 @@ const selectTreesChopped = (state: MachineState) =>
   state.context.state.farmActivity["Tree Chopped"] ?? 0;
 const selectGame = (state: MachineState) => state.context.state;
 
-const compareResource = (prev: TreeType, next: TreeType) => {
-  return JSON.stringify(prev) === JSON.stringify(next);
-};
 const compareGame = (prev: GameState, next: GameState) =>
   isCollectibleBuilt({ name: "Foreman Beaver", game: prev }) ===
     isCollectibleBuilt({ name: "Foreman Beaver", game: next }) &&
@@ -112,11 +105,8 @@ export const Tree: React.FC<Props> = ({ id }) => {
     };
   }, []);
 
-  const resource = useSelector(
-    gameService,
-    (state) => state.context.state.trees[id],
-    compareResource,
-  );
+  const trees = useTrees();
+  const resource = trees[id];
   const game = useSelector(gameService, selectGame, compareGame);
   const inventory = useSelector(
     gameService,

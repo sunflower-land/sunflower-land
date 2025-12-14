@@ -7,6 +7,13 @@ import { Context } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { useSelector } from "@xstate/react";
 import {
+  useGameService,
+  useInventory,
+  useBumpkin,
+  useCollectibles,
+  useFlowerBeds,
+} from "features/game/hooks";
+import {
   FLOWERS,
   FLOWER_SEEDS,
   FlowerName,
@@ -79,21 +86,20 @@ const getGrowthStage = (
         : "sprout";
 };
 
-const _flowers = (state: MachineState) => state.context.state.flowers;
 const _biome = (state: MachineState) =>
   getCurrentBiome(state.context.state.island);
 const _season = (state: MachineState) => state.context.state.season.season;
 
 export const FlowerBed: React.FC<Props> = ({ id }) => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
 
-  const flowers = useSelector(gameService, _flowers);
+  const flowerBeds = useFlowerBeds();
   const biome = useSelector(gameService, _biome);
   const season = useSelector(gameService, _season);
 
   const [showPlantModal, setShowPlantModal] = useState(false);
 
-  const flowerBed = flowers.flowerBeds[id];
+  const flowerBed = flowerBeds[id];
 
   if (!flowerBed.flower) {
     return (
@@ -124,9 +130,6 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
 };
 
 const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
-const _inventory = (state: MachineState) => state.context.state.inventory;
-const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
-const _collectibles = (state: MachineState) => state.context.state.collectibles;
 
 const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
   flower,
@@ -143,11 +146,11 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
   const [showConfirm, setShowConfirm] = useState(false);
 
   const farmActivity = useSelector(gameService, _farmActivity);
-  const inventory = useSelector(gameService, _inventory);
+  const inventory = useInventory();
   const biome = useSelector(gameService, _biome);
   const season = useSelector(gameService, _season);
-  const bumpkin = useSelector(gameService, _bumpkin);
-  const collectibles = useSelector(gameService, _collectibles);
+  const bumpkin = useBumpkin();
+  const collectibles = useCollectibles();
 
   // Keep growth calculations in seconds to match `useCountdown`, and only use
   // milliseconds for the countdown target date.

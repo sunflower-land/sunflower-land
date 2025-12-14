@@ -18,10 +18,8 @@ import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
+import { useBumpkin, useFarmHands } from "features/game/hooks";
 
-const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
-const _farmHands = (state: MachineState) =>
-  state.context.state.farmHands.bumpkins;
 const _collectibles = (state: MachineState) => state.context.state.collectibles;
 const _homeCollectibles = (state: MachineState) =>
   state.context.state.home.collectibles;
@@ -34,10 +32,12 @@ export const InteriorBumpkins: React.FC = () => {
   const [showBuyFarmHand, setShowBuyFarmHandModal] = React.useState(false);
   const [selectedFarmHandId, setSelectedFarmHandId] = React.useState<string>();
 
-  const bumpkin = useSelector(gameService, _bumpkin);
-  const farmHands = useSelector(gameService, _farmHands);
+  const bumpkin = useBumpkin();
+  const farmHandsData = useFarmHands();
   const collectibles = useSelector(gameService, _collectibles);
   const homeCollectibles = useSelector(gameService, _homeCollectibles);
+
+  const farmHands = farmHandsData.bumpkins;
 
   const count = getKeys(farmHands).length + 1;
   const max = Object.keys(BEDS).length;

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
@@ -19,12 +19,16 @@ import {
 } from "features/game/types/pets";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
-import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import { getFetchYield } from "features/game/events/pets/fetchPet";
 import { SmallBox } from "components/ui/SmallBox";
 import { useNow } from "lib/utils/hooks/useNow";
+import {
+  useGameService,
+  useInventory,
+  useGameState,
+} from "features/game/hooks";
 
 type Props = {
   data: Pet | PetNFT;
@@ -32,21 +36,19 @@ type Props = {
   onFetch: (fetch: PetResourceName) => void;
 };
 
-const _inventory = (state: MachineState) => state.context.state.inventory;
 const _farmId = (state: MachineState) => state.context.farmId;
 const _farmActivity = (state: MachineState) => (name: PetResourceName) =>
   state.context.state.farmActivity[`${name} Fetched`] ?? 0;
-const _state = (state: MachineState) => state.context.state;
 
 export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const now = useNow();
 
-  const inventory = useSelector(gameService, _inventory);
+  const inventory = useInventory();
   const farmId = useSelector(gameService, _farmId);
   const farmActivity = useSelector(gameService, _farmActivity);
-  const state = useSelector(gameService, _state);
+  const state = useGameState();
 
   const { level } = getPetLevel(data.experience);
   const fetches = [...getPetFetches(data).fetches].sort(

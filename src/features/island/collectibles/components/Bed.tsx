@@ -12,6 +12,11 @@ import { BedName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BED_FARMHAND_COUNT, BEDS } from "features/game/types/beds";
+import {
+  useFarmHands,
+  useCollectibles,
+  useHomeCollectibles,
+} from "features/game/hooks";
 
 interface BedProps {
   name: BedName;
@@ -43,11 +48,6 @@ export const BED_HEIGHT: Record<BedName, number> = {
   "Messy Bed": 20,
 };
 
-const _farmhands = (state: MachineState) =>
-  state.context.state.farmHands.bumpkins;
-const _collectibles = (state: MachineState) => state.context.state.collectibles;
-const _homeCollectibles = (state: MachineState) =>
-  state.context.state.home.collectibles;
 const _isLandscaping = (state: MachineState) => state.matches("landscaping");
 
 export const Bed: React.FC<BedProps> = ({ name }) => {
@@ -56,9 +56,9 @@ export const Bed: React.FC<BedProps> = ({ name }) => {
 
   const [showModal, setShowModal] = useState(false);
 
-  const farmhands = useSelector(gameService, _farmhands);
-  const collectibles = useSelector(gameService, _collectibles);
-  const homeCollectibles = useSelector(gameService, _homeCollectibles);
+  const farmhands = useFarmHands();
+  const collectibles = useCollectibles();
+  const homeCollectibles = useHomeCollectibles();
   const isLandscaping = useSelector(gameService, _isLandscaping);
 
   // The main bumpkin + the farmhands that are already on the bed

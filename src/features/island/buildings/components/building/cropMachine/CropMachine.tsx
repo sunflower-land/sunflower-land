@@ -4,7 +4,6 @@ import { CropMachineModal } from "./CropMachineModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useInterpret, useSelector } from "@xstate/react";
 import {
@@ -25,14 +24,7 @@ import { CropMachineBuilding } from "features/game/types/game";
 import { AddSeedsInput } from "features/game/events/landExpansion/supplyCropMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useNow } from "lib/utils/hooks/useNow";
-
-const _cropMachine = (id: string) => (state: MachineState) => {
-  const machines = state.context.state.buildings["Crop Machine"];
-
-  if (!machines) return null;
-
-  return machines.find((machine) => machine.id === id);
-};
+import { useBuilding } from "features/game/hooks";
 
 const _growingCropPackStage = (state: CropMachineState) =>
   state.context.growingCropPackStage;
@@ -51,9 +43,8 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
 
   const now = useNow({ live: true });
 
-  const cropMachine = useSelector(
-    gameService,
-    _cropMachine(id),
+  const cropMachine = useBuilding("Crop Machine")?.find(
+    (machine) => machine.id === id,
   ) as CropMachineBuilding;
   const queue = cropMachine?.queue ?? [];
 

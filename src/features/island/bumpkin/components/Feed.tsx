@@ -1,9 +1,7 @@
-import React, { useContext, useState } from "react";
-import { useSelector } from "@xstate/react";
+import React, { useState } from "react";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
-import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Consumable, isJuice } from "features/game/types/consumables";
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
@@ -13,28 +11,29 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import { FeedBumpkinDetails } from "components/ui/layouts/FeedBumpkinDetails";
 import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
+import {
+  useGameService,
+  useInventory,
+  useBumpkin,
+  useGameState,
+} from "features/game/hooks";
 
 interface Props {
   food: Consumable[];
 }
 
-const _inventory = (state: MachineState) => state.context.state.inventory;
-const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
-const _game = (state: MachineState) => state.context.state;
-
 export const Feed: React.FC<Props> = ({ food }) => {
   const [selected, setSelected] = useState<Consumable | undefined>(food[0]);
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
 
-  const inventory = useSelector(gameService, _inventory);
-  const bumpkin = useSelector(gameService, _bumpkin);
-  const game = useSelector(gameService, _game);
+  const inventory = useInventory();
+  const bumpkin = useBumpkin();
+  const game = useGameState();
   const { t } = useAppTranslation();
   // Derive the "active" selected food from the current props so that
   // we never point at a food item that is no longer available.

@@ -11,9 +11,8 @@ import { KITCHEN_VARIANTS } from "features/island/lib/alternateArt";
 import shadow from "assets/npcs/shadow.png";
 import { useSound } from "lib/utils/hooks/useSound";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
 import { useCookingState } from "features/island/buildings/lib/useCookingState";
-import { useSelector } from "@xstate/react";
+import { useBuilding } from "features/game/hooks";
 import { GameState, TemperateSeasonName } from "features/game/types/game";
 import { ReadyRecipes } from "../ReadyRecipes";
 import { getCurrentBiome } from "features/island/biomes/biomes";
@@ -25,9 +24,6 @@ type Props = {
   season: TemperateSeasonName;
 };
 
-const _kitchen = (id: string) => (state: MachineState) =>
-  state.context.state.buildings["Kitchen"]?.find((b) => b.id === id);
-
 export const Kitchen: React.FC<Props> = ({
   buildingId,
   isBuilt,
@@ -37,7 +33,7 @@ export const Kitchen: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
 
-  const kitchen = useSelector(gameService, _kitchen(buildingId));
+  const kitchen = useBuilding("Kitchen")?.find((b) => b.id === buildingId);
   const { cooking, queuedRecipes, readyRecipes } = useCookingState(
     kitchen ?? {},
   );

@@ -17,6 +17,7 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { getIronDropAmount } from "features/game/events/landExpansion/ironMine";
 import { IronRockName } from "features/game/types/resources";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useIron } from "features/game/hooks";
 
 const HITS = 3;
 const tool = "Stone Pickaxe";
@@ -32,10 +33,6 @@ const HasTool = (
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
 const selectGame = (state: MachineState) => state.context.state;
-
-const compareResource = (prev: Rock, next: Rock) => {
-  return JSON.stringify(prev) === JSON.stringify(next);
-};
 
 const selectSkills = (state: MachineState) =>
   state.context.state.bumpkin?.skills;
@@ -80,11 +77,8 @@ export const Iron: React.FC<Props> = ({ id }) => {
   const state = useSelector(gameService, selectGame);
   const season = useSelector(gameService, _selectSeason);
   const island = useSelector(gameService, _selectIsland);
-  const resource = useSelector(
-    gameService,
-    (state) => state.context.state.iron[id],
-    compareResource,
-  );
+  const iron = useIron();
+  const resource = iron[id];
   const ironRockName = (resource.name ?? "Iron Rock") as IronRockName;
   const inventory = useSelector(
     gameService,

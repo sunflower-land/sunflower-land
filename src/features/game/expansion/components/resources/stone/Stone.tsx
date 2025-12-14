@@ -4,12 +4,7 @@ import { STONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
 import { getTimeLeft } from "lib/utils/time";
-import {
-  GameState,
-  InventoryItemName,
-  Rock,
-  Skills,
-} from "features/game/types/game";
+import { GameState, InventoryItemName, Skills } from "features/game/types/game";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
@@ -25,6 +20,7 @@ import {
 } from "features/game/events/landExpansion/stoneMine";
 import { StoneRockName } from "features/game/types/resources";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useStones } from "features/game/hooks";
 
 const HITS = 3;
 const tool = "Pickaxe";
@@ -43,9 +39,6 @@ const HasTool = (
 };
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
-const compareResource = (prev: Rock, next: Rock) => {
-  return JSON.stringify(prev) === JSON.stringify(next);
-};
 
 const _state = (state: MachineState) => state.context.state;
 const _compareQuarryExistence = (prev: GameState, next: GameState) =>
@@ -92,11 +85,8 @@ export const Stone: React.FC<Props> = ({ id }) => {
   }, []);
 
   const game = useSelector(gameService, _state, _compareQuarryExistence);
-  const resource = useSelector(
-    gameService,
-    (state) => state.context.state.stones[id],
-    compareResource,
-  );
+  const stones = useStones();
+  const resource = stones[id];
   const name = (resource.name ?? "Stone Rock") as StoneRockName;
   const inventory = useSelector(
     gameService,

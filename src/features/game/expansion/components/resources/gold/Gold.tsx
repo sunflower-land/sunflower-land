@@ -17,6 +17,7 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { getGoldDropAmount } from "features/game/events/landExpansion/mineGold";
 import { GoldRockName } from "features/game/types/resources";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useGold } from "features/game/hooks";
 
 const HITS = 3;
 const tool = "Iron Pickaxe";
@@ -32,10 +33,6 @@ const HasTool = (
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
 const selectGame = (state: MachineState) => state.context.state;
-
-const compareResource = (prev: Rock, next: Rock) => {
-  return JSON.stringify(prev) === JSON.stringify(next);
-};
 
 const selectSkills = (state: MachineState) =>
   state.context.state.bumpkin?.skills;
@@ -77,11 +74,8 @@ export const Gold: React.FC<Props> = ({ id }) => {
     };
   }, []);
 
-  const resource = useSelector(
-    gameService,
-    (state) => state.context.state.gold[id],
-    compareResource,
-  );
+  const gold = useGold();
+  const resource = gold[id];
   const inventory = useSelector(
     gameService,
     selectInventory,

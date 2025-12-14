@@ -41,7 +41,7 @@ import { CROP_SEEDS, CropSeedName } from "features/game/types/crops";
 import { useActor, useSelector } from "@xstate/react";
 import { _paused, _running, _idle } from "./CropMachine";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import { useInventory } from "features/game/hooks";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import lightning from "assets/icons/lightning.png";
 import { PackGrowthProgressBar } from "./components/PackGrowthProgressBar";
@@ -85,7 +85,6 @@ export const ALLOWED_SEEDS = (
 
 const _growingCropPackIndex = (state: CropMachineState) =>
   state.context.growingCropPackIndex;
-const _inventory = (state: MachineState) => state.context.state.inventory;
 
 export const CropMachineModalContent: React.FC<Props> = ({
   show,
@@ -109,7 +108,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
   const idle = useSelector(service, _idle);
   const running = useSelector(service, _running);
   const paused = useSelector(service, _paused);
-  const inventory = useSelector(gameService, _inventory);
+  const inventory = useInventory();
 
   const [selectedPackIndex, setSelectedPackIndex] = useState<number>(
     growingCropPackIndex ?? 0,

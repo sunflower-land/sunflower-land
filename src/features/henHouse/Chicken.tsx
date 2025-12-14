@@ -4,6 +4,11 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useInterpret, useSelector } from "@xstate/react";
+import {
+  useGameService,
+  useInventory,
+  useInventoryItem,
+} from "features/game/hooks";
 import { capitalize } from "lib/utils/capitalize";
 import {
   animalMachine,
@@ -91,7 +96,6 @@ const _animalState = (state: AnimalMachineState) =>
 const _chicken = (id: string) => (state: MachineState) =>
   state.context.state.henHouse.animals[id];
 const _game = (state: MachineState) => state.context.state;
-const _inventory = (state: MachineState) => state.context.state.inventory;
 
 export const getMedicineOption = (): {
   name: InventoryItemName;
@@ -109,11 +113,13 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   id,
   disabled,
 }) => {
-  const { gameService, selectedItem, shortcutItem } = useContext(Context);
+  const gameService = useGameService();
+  const { selectedItem, shortcutItem } = useContext(Context);
   const { t } = useAppTranslation();
   const chicken = useSelector(gameService, _chicken(id));
   const game = useSelector(gameService, _game);
-  const inventory = useSelector(gameService, _inventory);
+  const inventory = useInventory();
+  const barnDelightCount = useInventoryItem("Barn Delight");
   const chickenService = useInterpret(animalMachine, {
     context: { animal: chicken },
     devTools: true,
@@ -278,7 +284,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   };
 
   const onSickClick = async () => {
-    const medicineCount = inventory["Barn Delight"] ?? new Decimal(0);
+    const medicineCount = barnDelightCount ?? new Decimal(0);
     const { amount: barnDelightCost } = getBarnDelightCost({ state: game });
     const hasEnoughMedicine = medicineCount.gte(barnDelightCost);
 

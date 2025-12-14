@@ -9,29 +9,17 @@ import { Modal } from "components/ui/Modal";
 import { TentModal } from "./TentModal";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
-import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import classNames from "classnames";
-import { BuildingName } from "features/game/types/buildings";
-import { MachineState } from "features/game/lib/gameMachine";
-import { PlacedItem } from "features/game/types/game";
 import { OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
 import { useVisiting } from "lib/utils/visitUtils";
 import { useNavigate } from "react-router";
-
-const selectBuildings = (state: MachineState) => state.context.state.buildings;
-
-const compareBuildings = (
-  prev: Partial<Record<BuildingName, PlacedItem[]>>,
-  next: Partial<Record<BuildingName, PlacedItem[]>>,
-) => {
-  return prev.Tent?.length === next.Tent?.length;
-};
+import { useBuildings } from "features/game/hooks";
 
 export const Tent: React.FC<BuildingProps> = ({ buildingId, isBuilt }) => {
   const { gameService } = useContext(Context);
 
-  const buildings = useSelector(gameService, selectBuildings, compareBuildings);
+  const buildings = useBuildings();
   const navigate = useNavigate();
   const { isVisiting } = useVisiting();
 

@@ -35,6 +35,7 @@ import { isMobile } from "mobile-device-detect";
 import { SICK_ANIMAL_REWARD_MULTIPLIER } from "features/game/events/landExpansion/sellAnimal";
 import { formatNumber } from "lib/utils/formatNumber";
 import { SquareIcon } from "components/ui/SquareIcon";
+import { useBumpkin } from "features/game/hooks";
 
 function acknowledgeIntro() {
   localStorage.setItem(
@@ -62,7 +63,6 @@ type Props = {
 };
 
 const _state = (state: MachineState) => state.context.state;
-const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _building = (buildingKey: AnimalBuildingKey) => (state: MachineState) =>
   state.context.state[buildingKey];
 
@@ -76,7 +76,7 @@ export const AnimalBuildingModal: React.FC<Props> = ({
   const [currentTab, setCurrentTab] = useState(!hasReadGuide() ? 2 : 0);
 
   const state = useSelector(gameService, _state);
-  const bumpkin = useSelector(gameService, _bumpkin);
+  const bumpkin = useBumpkin();
   // camelCase buildingKey eg. henHouse
   const buildingKey = makeAnimalBuildingKey(buildingName);
   const building = useSelector(gameService, _building(buildingKey));
