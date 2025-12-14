@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { Balances } from "components/Balances";
-import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { Inventory } from "./components/inventory/Inventory";
 import Decimal from "decimal.js-light";
@@ -19,6 +18,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useLocation } from "react-router";
 import { TransactionCountdown } from "./Transaction";
 import { MarketplaceButton } from "./components/MarketplaceButton";
+import { useGameState, useCoins, useBalance } from "features/game/hooks";
 
 import chest from "assets/icons/chest.png";
 import { StreamCountdown } from "./components/streamCountdown/StreamCountdown";
@@ -29,13 +29,13 @@ import { Feed } from "features/social/Feed";
 import { isMobile } from "mobile-device-detect";
 import { hasFeatureAccess } from "lib/flags";
 import { WorldFeedButton } from "features/social/components/WorldFeedButton";
-import { MachineState } from "features/game/lib/gameMachine";
 import {
   Message,
   ModerationTools,
   Player,
 } from "features/world/ui/moderationTools/ModerationTools";
 import { DesertDiggingDisplay } from "./components/DesertDiggingDisplay";
+import { useSelector } from "@xstate/react";
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
  * Balances, Inventory, actions etc.
@@ -47,13 +47,6 @@ type Props = {
   messages: Message[];
   players: Player[];
 };
-
-const _autosaving = (state: MachineState) => state.matches("autosaving");
-const _farmAddress = (state: MachineState) => state.context.farmAddress;
-const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
-const _isTutorial = (state: MachineState) =>
-  state.context.state.island.type === "basic";
-const _state = (state: MachineState) => state.context.state;
 
 const HudComponent: React.FC<Props> = ({
   server,
@@ -69,11 +62,24 @@ const HudComponent: React.FC<Props> = ({
   const [depositDataLoaded, setDepositDataLoaded] = useState(false);
   const [showFeed, setShowFeed] = useState(false);
 
-  const autosaving = useSelector(gameService, _autosaving);
-  const farmAddress = useSelector(gameService, _farmAddress);
-  const linkedWallet = useSelector(gameService, _linkedWallet);
-  const isTutorial = useSelector(gameService, _isTutorial);
-  const state = useSelector(gameService, _state);
+  const autosaving = useSelector(gameService, (state) =>
+    state.matches("autosaving"),
+  );
+  const farmAddress = useSelector(
+    gameService,
+    (state) => state.context.farmAddress,
+  );
+  const linkedWallet = useSelector(
+    gameService,
+    (state) => state.context.linkedWallet,
+  );
+  const isTutorial = useSelector(
+    gameService,
+    (state) => state.context.state.island.type === "basic",
+  );
+  const state = useGameState();
+  const balance = useBalance();
+  const coins = useCoins();
 
   const { pathname } = useLocation();
 
@@ -163,8 +169,8 @@ const HudComponent: React.FC<Props> = ({
         <div className="absolute right-0 top-0 p-2.5">
           <Balances
             onClick={farmAddress ? handleCurrenciesModal : undefined}
-            sfl={state.balance}
-            coins={state.coins}
+            sfl={balance}
+            coins={coins}
             gems={state.inventory["Gem"] ?? new Decimal(0)}
           />
         </div>

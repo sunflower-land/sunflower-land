@@ -15,8 +15,8 @@ import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
-import { useSelector } from "@xstate/react";
 import { SeedName } from "features/game/types/seeds";
+import { useGameState } from "features/game/hooks";
 import { CropSeedName } from "features/game/types/crops";
 import { SEASONAL_SEEDS, SEEDS } from "features/game/types/seeds";
 import { CropName } from "features/game/types/crops";
@@ -57,7 +57,7 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
 
   const now = useNow({ live: !hasExpired, autoEndAt: expiresAt });
 
-  const state = useSelector(gameService, (state) => state.context.state);
+  const state = useGameState();
 
   const handleRemove = () => {
     gameService.send("collectible.burned", {

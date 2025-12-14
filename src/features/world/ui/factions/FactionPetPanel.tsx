@@ -2,9 +2,7 @@ import { useSelector } from "@xstate/react";
 import { Label } from "components/ui/Label";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { SquareIcon } from "components/ui/SquareIcon";
-import { Context } from "features/game/GameProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { MachineState } from "features/game/lib/gameMachine";
 import {
   CollectivePet,
   Faction,
@@ -17,7 +15,13 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import powerup from "assets/icons/level_up.png";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import {
+  useGameService,
+  useInventory,
+  useFaction,
+  useFarmId,
+} from "features/game/hooks";
 import { TypingMessage } from "../TypingMessage";
 import {
   calculatePoints,
@@ -113,12 +117,6 @@ export type PetState = "sleeping" | "hungry" | "happy";
 
 export const FACTION_PET_REFRESH_INTERVAL = 60 * 1000;
 
-const _autosaving = (state: MachineState) => state.matches("autosaving");
-const _farmId = (state: MachineState) => state.context.farmId;
-const _faction = (state: MachineState) =>
-  state.context.state.faction as Faction;
-const _inventory = (state: MachineState) => state.context.state.inventory;
-
 const getPetState = (collectivePet: CollectivePet | undefined): PetState => {
   if (!collectivePet) return "hungry";
 
@@ -132,13 +130,15 @@ const getPetState = (collectivePet: CollectivePet | undefined): PetState => {
 // set wake time to 10 seconds after the component loads
 
 export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const { t } = useAppTranslation();
 
-  const faction = useSelector(gameService, _faction);
-  const farmId = useSelector(gameService, _farmId);
-  const inventory = useSelector(gameService, _inventory);
-  const autosaving = useSelector(gameService, _autosaving);
+  const faction = useFaction() as Faction;
+  const farmId = useFarmId();
+  const inventory = useInventory();
+  const autosaving = useSelector(gameService, (state) =>
+    state.matches("autosaving"),
+  );
 
   const week = getWeekKey({ date: new Date() });
   const pet = faction.pet as FactionPet;

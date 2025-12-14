@@ -5,7 +5,7 @@ import Decimal from "decimal.js-light";
 import { FactionName, InventoryItemName, Keys } from "features/game/types/game";
 
 import { Context } from "features/game/GameProvider";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
@@ -13,7 +13,6 @@ import { Button } from "components/ui/Button";
 import { BuffLabel } from "features/game/types";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { MachineState } from "features/game/lib/gameMachine";
 import confetti from "canvas-confetti";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -26,6 +25,12 @@ import {
   FactionShopItem,
   FactionShopItemName,
 } from "features/game/types/factionShop";
+import {
+  useGameService,
+  useInventory,
+  useFaction,
+  useWardrobe,
+} from "features/game/hooks";
 
 interface ItemOverlayProps {
   item: FactionShopItem | null;
@@ -36,12 +41,6 @@ interface ItemOverlayProps {
   onClose: () => void;
 }
 
-const _inventory = (state: MachineState) => state.context.state.inventory;
-const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
-const _faction = (state: MachineState) => state.context.state.faction;
-const _keysBought = (state: MachineState) =>
-  state.context.state.pumpkinPlaza.keysBought;
-
 export const ItemDetail: React.FC<ItemOverlayProps> = ({
   item,
   image,
@@ -51,19 +50,19 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   onClose,
 }) => {
   const { t } = useAppTranslation();
-  const { shortcutItem, gameService, showAnimations } = useContext(Context);
+  const { shortcutItem, showAnimations } = useContext(Context);
 
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const gameService = useGameService();
+  const state = useSelector(gameService, (state) => state.context.state);
 
-  const inventory = useSelector(gameService, _inventory);
-  const wardrobe = useSelector(gameService, _wardrobe);
-  const faction = useSelector(gameService, _faction);
+  const inventory = useInventory();
+  const wardrobe = useWardrobe();
+  const faction = useFaction();
   const pledgedFaction = faction?.name;
-  const keysBought = useSelector(gameService, _keysBought);
+  const keysBought = useSelector(
+    gameService,
+    (state) => state.context.state.pumpkinPlaza.keysBought,
+  );
 
   const [imageWidth, setImageWidth] = useState<number>(0);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);

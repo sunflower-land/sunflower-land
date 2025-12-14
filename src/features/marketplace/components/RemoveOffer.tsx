@@ -1,9 +1,8 @@
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
-import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext } from "react";
+import React from "react";
 import { getTradeableDisplay } from "../lib/tradeables";
 import { tradeToId } from "../lib/offers";
 import { TradeOffer } from "features/game/types/game";
@@ -17,6 +16,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { TradeInitiated } from "./RemoveListing";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useGameService } from "features/game/hooks";
 
 interface Props {
   id: string;
@@ -33,7 +33,7 @@ export const RemoveOffer: React.FC<Props> = ({
   authToken,
 }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const state = useSelector(gameService, _state);
   const now = useNow({ live: true });
 

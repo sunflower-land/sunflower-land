@@ -1,16 +1,16 @@
 import { useSelector } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 
-import React, { useContext } from "react";
+import React from "react";
 import { TradePointsProgressBar } from "./rewards/TradePointsProgressBar";
 import { TradeRewardsShop } from "./rewards/MarketplaceRewardsShop";
+import { useGameService } from "features/game/hooks";
 
 const _tradingPoints = (state: MachineState) =>
   state.context.state.trades.tradePoints;
 
 export const MarketplaceRewards: React.FC = () => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   // To be used to access total tradePoints
   const tradePoints = useSelector(gameService, _tradingPoints);
 

@@ -1,6 +1,5 @@
 import React, { useState, useContext, useCallback, useEffect } from "react";
 import { useActor, useSelector } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
 import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Button } from "components/ui/Button";
@@ -17,6 +16,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { useGameService, useUsername } from "features/game/hooks";
 
 const COOLDOWN = 1000 * 60 * 60 * 24 * 30; // 30 days
 const gemCost = 250;
@@ -29,11 +29,8 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
-  const { gameService } = useContext(Context);
-  const currentUsername = useSelector(
-    gameService,
-    (state) => state.context.state.username,
-  );
+  const gameService = useGameService();
+  const currentUsername = useUsername();
   const usernameChangeSuccess = useSelector(gameService, (state) =>
     state.matches("changingUsernameSuccess"),
   );

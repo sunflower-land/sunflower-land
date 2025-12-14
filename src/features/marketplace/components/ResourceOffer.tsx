@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Box } from "components/ui/Box";
@@ -22,7 +22,7 @@ import lockIcon from "assets/icons/lock.png";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { MachineState } from "features/game/lib/gameMachine";
-import { Context } from "features/game/GameProvider";
+import { useGameService } from "features/game/hooks";
 
 type Props = {
   itemName: TradeResource;
@@ -57,7 +57,7 @@ export const ResourceOffer: React.FC<Props> = ({
   onOffer,
 }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const hasTradeReputation = useSelector(gameService, _hasReputation);
   const [pricePerUnit, setPricePerUnit] = useState(0);
   const [inputType, setInputType] = useState<"price" | "pricePerUnit">(

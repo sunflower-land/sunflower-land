@@ -1,9 +1,8 @@
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
-import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext } from "react";
+import React from "react";
 import { getTradeableDisplay, TradeableDisplay } from "../lib/tradeables";
 import { TradeableItemDetails } from "./TradeableSummary";
 import { getListingCollection, getListingItem } from "../lib/listings";
@@ -16,8 +15,7 @@ import {
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
-
-const _trades = (state: MachineState) => state.context.state.trades;
+import { useGameService, useTrades } from "features/game/hooks";
 
 interface Props {
   listingId: string;
@@ -33,11 +31,11 @@ export const RemoveListing: React.FC<Props> = ({
   authToken,
 }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const state = useSelector(gameService, _state);
   const now = useNow({ live: true });
 
-  const trades = useSelector(gameService, _trades);
+  const trades = useTrades();
   const listings = trades.listings ?? {};
 
   const listing = listings[listingId];

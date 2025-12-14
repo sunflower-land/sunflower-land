@@ -16,13 +16,12 @@ import { BEDS } from "features/game/types/beds";
 import { BED_WIDTH } from "features/island/collectibles/components/Bed";
 import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
-import { MachineState } from "features/game/lib/gameMachine";
-import { useSelector } from "@xstate/react";
-import { useBumpkin, useFarmHands } from "features/game/hooks";
-
-const _collectibles = (state: MachineState) => state.context.state.collectibles;
-const _homeCollectibles = (state: MachineState) =>
-  state.context.state.home.collectibles;
+import {
+  useBumpkin,
+  useFarmHands,
+  useCollectibles,
+  useHomeCollectibles,
+} from "features/game/hooks";
 
 export const InteriorBumpkins: React.FC = () => {
   const { t } = useAppTranslation();
@@ -34,8 +33,8 @@ export const InteriorBumpkins: React.FC = () => {
 
   const bumpkin = useBumpkin();
   const farmHandsData = useFarmHands();
-  const collectibles = useSelector(gameService, _collectibles);
-  const homeCollectibles = useSelector(gameService, _homeCollectibles);
+  const collectibles = useCollectibles();
+  const homeCollectibles = useHomeCollectibles();
 
   const farmHands = farmHandsData.bumpkins;
 

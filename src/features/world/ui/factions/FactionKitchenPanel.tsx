@@ -1,14 +1,17 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Equipped } from "features/game/types/bumpkin";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Label } from "components/ui/Label";
 import { SplitScreenView } from "components/ui/SplitScreenView";
-import { MachineState } from "features/game/lib/gameMachine";
-import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
 import { Faction, ResourceRequest } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SquareIcon } from "components/ui/SquareIcon";
+import {
+  useGameService,
+  useInventory,
+  useFaction,
+  useGameState,
+} from "features/game/hooks";
 import {
   BASE_POINTS,
   getKingdomKitchenBoost,
@@ -43,19 +46,13 @@ export const FACTION_KITCHEN_START_TIME = new Date(
   "2024-07-08T00:00:00Z",
 ).getTime();
 
-const _faction = (state: MachineState) =>
-  state.context.state.faction as Faction;
-const _inventory = (state: MachineState) => state.context.state.inventory;
-// TODO: Remove when feature released
-const _game = (state: MachineState) => state.context.state;
-
 export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const { t } = useAppTranslation();
 
-  const inventory = useSelector(gameService, _inventory);
-  const faction = useSelector(gameService, _faction);
-  const game = useSelector(gameService, _game);
+  const inventory = useInventory();
+  const faction = useFaction() as Faction;
+  const game = useGameState();
 
   const kitchen = faction.kitchen;
 

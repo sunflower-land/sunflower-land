@@ -4,10 +4,11 @@ import { CollectibleName } from "features/game/types/craftables";
 import { Bar, ResizableBar } from "components/ui/ProgressBar";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
-import { useSelector } from "@xstate/react";
 import { MoveableComponent } from "./MovableComponent";
-import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
+import { useBumpkin, useGameState } from "features/game/hooks";
+import { useSelector } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
   COLLECTIBLE_COMPONENTS,
@@ -49,8 +50,6 @@ type Props = CollectibleProps & {
   location: PlaceableLocation;
 };
 
-const _skills = (state: MachineState) => state.context.state.bumpkin.skills;
-
 const InProgressCollectible: React.FC<Props> = ({
   name,
   id,
@@ -63,7 +62,8 @@ const InProgressCollectible: React.FC<Props> = ({
 }) => {
   const { gameService, showAnimations, showTimers } = useContext(Context);
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
-  const skills = useSelector(gameService, _skills);
+  const bumpkin = useBumpkin();
+  const skills = bumpkin?.skills || {};
   const now = useNow({ live: true, autoEndAt: readyAt });
 
   const totalSeconds = (readyAt - createdAt) / 1000;
@@ -156,7 +156,8 @@ const CollectibleComponent: React.FC<Props> = ({
 }) => {
   const { gameService, showTimers } = useContext(Context);
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
-  const skills = useSelector(gameService, _skills);
+  const bumpkin = useBumpkin();
+  const skills = bumpkin?.skills || {};
   const now = useNow({ live: true, autoEndAt: readyAt });
 
   const inProgress = readyAt > now;
@@ -225,7 +226,8 @@ export const Collectible: React.FC<Omit<Props, "showTimers" | "skills">> = (
 ) => {
   const { gameService, showTimers } = useContext(Context);
   const landscaping = useSelector(gameService, isLandscaping);
-  const skills = useSelector(gameService, _skills);
+  const bumpkin = useBumpkin();
+  const skills = bumpkin?.skills || {};
 
   if (landscaping) {
     return (
@@ -256,7 +258,7 @@ export const Building: React.FC<{
 }> = ({ onClose, onInstantBuilt, readyAt, createdAt, name }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const state = useSelector(gameService, (state) => state.context.state);
+  const state = useGameState();
   const totalSeconds = (readyAt - createdAt) / 1000;
   const { totalSeconds: secondsLeft, ...ready } = useCountdown(readyAt ?? 0);
 

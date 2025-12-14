@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -22,7 +22,6 @@ import {
   MachineState,
 } from "features/game/lib/gameMachine";
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
-import { Context } from "features/game/GameProvider";
 import { TradeableSummary } from "./TradeableSummary";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
 import { InventoryItemName } from "features/game/types/game";
@@ -33,7 +32,8 @@ import { FaceRecognition } from "features/retreat/components/personhood/FaceReco
 import { isTradeResource } from "features/game/actions/tradeLimits";
 import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
-const _state = (state: MachineState) => state.context.state;
+import { useGameService, useGameState } from "features/game/hooks";
+
 const _hasReputation = (state: MachineState) =>
   hasReputation({
     game: state.context.state,
@@ -50,9 +50,9 @@ const AcceptOfferContent: React.FC<{
 }> = ({ onClose, display, itemId, authToken, offer, onOfferAccepted }) => {
   const { t } = useAppTranslation();
 
-  const { gameService } = useContext(Context);
-  const state = useSelector(gameService, _state);
-  const hasReputation = useSelector(gameService, _hasReputation);
+  const gameService = useGameService();
+  const state = useGameState();
+  const hasTradeReputation = useSelector(gameService, _hasReputation);
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
@@ -143,7 +143,7 @@ const AcceptOfferContent: React.FC<{
           <Label type="default" className="-ml-1">
             {t("marketplace.acceptOffer")}
           </Label>
-          {!hasReputation && (
+          {!hasTradeReputation && (
             <RequiredReputation reputation={Reputation.Cropkeeper} />
           )}
         </div>
@@ -167,7 +167,7 @@ const AcceptOfferContent: React.FC<{
           {t("cancel")}
         </Button>
         <Button
-          disabled={!hasReputation || !hasItem}
+          disabled={!hasTradeReputation || !hasItem}
           onClick={() => confirm()}
           className="relative"
         >

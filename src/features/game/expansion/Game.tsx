@@ -10,7 +10,7 @@ import { ErrorCode } from "lib/errors";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 import { Refreshing } from "features/auth/components/Refreshing";
 import { AddingSFL } from "features/auth/components/AddingSFL";
-import { Context } from "../GameProvider";
+import { useGameService, useIsPlaying } from "features/game/hooks";
 import {
   BlockchainState,
   INITIAL_SESSION,
@@ -308,7 +308,7 @@ const isLeagueResultsReleased = (state: MachineState) =>
   state.matches("leagueResults");
 
 const GameContent: React.FC = () => {
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   useSound("desert", true);
 
   const isVisiting = useSelector(gameService, _isVisiting);
@@ -425,7 +425,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
   const { authService } = useContext(AuthProvider.Context);
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const pwaInstallRef = usePWAInstall();
 
   const loading = useSelector(gameService, isLoading);
@@ -465,7 +465,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const airdrop = useSelector(gameService, hasAirdrop);
   const showOffers = useSelector(gameService, hasFulfilledOffers);
   const vip = useSelector(gameService, hasVipNotification);
-  const playing = useSelector(gameService, isPlaying);
+  const playing = useIsPlaying();
   const hasSomethingArrived = useSelector(gameService, somethingArrived);
   const hasBBs = useSelector(gameService, showGems);
   const hasCommunityCoin = useSelector(gameService, showCommunityCoin);

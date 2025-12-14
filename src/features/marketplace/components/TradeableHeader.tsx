@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { Modal } from "components/ui/Modal";
@@ -12,7 +12,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import sflIcon from "assets/icons/flower_token.webp";
 import { GameWallet } from "features/wallet/Wallet";
-import { Context } from "features/game/GameProvider";
 import confetti from "canvas-confetti";
 import {
   BlockchainEvent,
@@ -33,6 +32,7 @@ import { getRemainingTrades, Reputation } from "features/game/lib/reputation";
 import { hasReputation } from "features/game/lib/reputation";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { TradeableDisplay } from "../lib/tradeables";
+import { useGameService, useBalance } from "features/game/hooks";
 
 type TradeableHeaderProps = {
   authToken: string;
@@ -49,7 +49,6 @@ type TradeableHeaderProps = {
   display: TradeableDisplay;
 };
 
-const _balance = (state: MachineState) => state.context.state.balance;
 const _hasTradeReputation = (state: MachineState) =>
   hasReputation({
     game: state.context.state,
@@ -67,8 +66,8 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   reload,
   display,
 }) => {
-  const { gameService } = useContext(Context);
-  const balance = useSelector(gameService, _balance);
+  const gameService = useGameService();
+  const balance = useBalance();
   const hasTradeReputation = useSelector(gameService, _hasTradeReputation);
   const params = useParams();
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);

@@ -3,6 +3,7 @@ import { Balances } from "components/Balances";
 import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import Decimal from "decimal.js-light";
+import { useBalance, useCoins } from "features/game/hooks";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -41,20 +42,6 @@ import { CraftDecorationsModal } from "./components/decorations/CraftDecorations
 import { RemoveAllConfirmation } from "../collectibles/RemoveAllConfirmation";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
 
-const compareBalance = (prev: Decimal, next: Decimal) => {
-  return prev.eq(next);
-};
-
-const compareCoins = (prev: number, next: number) => {
-  return prev === next;
-};
-
-const compareBlockBucks = (prev: Decimal, next: Decimal) => {
-  const previous = prev ?? new Decimal(0);
-  const current = next ?? new Decimal(0);
-  return previous.eq(current);
-};
-
 const selectMovingItem = (state: MachineState) => state.context.moving;
 const isIdle = (state: MachineState) => state.matches({ editing: "idle" });
 
@@ -73,22 +60,11 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   const child = gameService.getSnapshot().children
     .landscaping as MachineInterpreter;
 
-  const balance = useSelector(
-    gameService,
-    (state) => state.context.state.balance,
-    compareBalance,
-  );
-
-  const coins = useSelector(
-    gameService,
-    (state) => state.context.state.coins,
-    compareCoins,
-  );
-
+  const balance = useBalance();
+  const coins = useCoins();
   const gems = useSelector(
     gameService,
     (state) => state.context.state.inventory["Gem"] ?? new Decimal(0),
-    compareBlockBucks,
   );
 
   const selectedItem = useSelector(child, selectMovingItem);

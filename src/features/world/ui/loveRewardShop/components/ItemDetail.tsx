@@ -5,7 +5,6 @@ import Decimal from "decimal.js-light";
 import { InventoryItemName } from "features/game/types/game";
 
 import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
@@ -13,7 +12,6 @@ import { Button } from "components/ui/Button";
 import { BuffLabel } from "features/game/types";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { MachineState } from "features/game/lib/gameMachine";
 import confetti from "canvas-confetti";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -21,6 +19,7 @@ import { getItemDescription } from "../FloatingIslandShop";
 import { REWARD_BOXES } from "features/game/types/rewardBoxes";
 import { FloatingShopItem } from "features/game/types/floatingIsland";
 import { getKeys } from "features/game/types/decorations";
+import { useGameService, useInventory } from "features/game/hooks";
 
 interface ItemOverlayProps {
   item: FloatingShopItem | null;
@@ -33,8 +32,6 @@ interface ItemOverlayProps {
   isBought?: boolean;
 }
 
-const _inventory = (state: MachineState) => state.context.state.inventory;
-
 export const ItemDetail: React.FC<ItemOverlayProps> = ({
   item,
   image,
@@ -44,8 +41,9 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   onClose,
   isBought,
 }) => {
-  const { shortcutItem, gameService, showAnimations } = useContext(Context);
-  const inventory = useSelector(gameService, _inventory);
+  const { shortcutItem, showAnimations } = useContext(Context);
+  const gameService = useGameService();
+  const inventory = useInventory();
 
   const [imageWidth, setImageWidth] = useState<number>(0);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);

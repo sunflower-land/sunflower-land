@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Decimal from "decimal.js-light";
 import { ButtonPanel } from "components/ui/Panel";
 import sfl from "assets/icons/flower_token.webp";
@@ -11,7 +11,6 @@ import { isTradeResource } from "features/game/actions/tradeLimits";
 import { InventoryItemName } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { BumpkinItem } from "features/game/types/bumpkin";
@@ -22,6 +21,7 @@ import petNFTEggMarketplace from "assets/pets/pet-nft-egg-marketplace.webp";
 import { getPetLevel } from "features/game/types/pets";
 import { Label } from "components/ui/Label";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useGameService } from "features/game/hooks";
 
 type Props = {
   details: TradeableDisplay;
@@ -48,7 +48,7 @@ export const ListViewCard: React.FC<Props> = ({
   expiresAt,
 }) => {
   const [isHover, setIsHover] = useState(false);
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
 
   const { type, name, image, buffs, experience, translatedName } = details;

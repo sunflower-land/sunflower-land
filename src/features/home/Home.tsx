@@ -8,9 +8,9 @@ import React, {
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Hud } from "features/island/hud/Hud";
-import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
+import { useGameService, useBumpkin } from "features/game/hooks";
+import { useSelector } from "@xstate/react";
 import {
   COLLECTIBLES_DIMENSIONS,
   getKeys,
@@ -64,7 +64,6 @@ function acknowledgeIntro() {
 }
 
 const _landscaping = (state: MachineState) => state.matches("landscaping");
-const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _buds = (state: MachineState) => state.context.state.buds ?? {};
 const _petNFTs = (state: MachineState) => state.context.state.pets?.nfts ?? {};
 const _island = (state: MachineState) => state.context.state.island;
@@ -92,7 +91,7 @@ export const Home: React.FC = () => {
   const { isVisiting } = useVisiting();
   const [showIntro, setShowIntro] = useState(!hasReadIntro() && !isVisiting);
 
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const { authService } = useContext(AuthContext);
 
   const { t } = useAppTranslation();
@@ -108,7 +107,7 @@ export const Home: React.FC = () => {
   // memorize game grid and only update it when the stringified value changes
 
   const landscaping = useSelector(gameService, _landscaping);
-  const bumpkin = useSelector(gameService, _bumpkin);
+  const bumpkin = useBumpkin();
   const buds = useSelector(gameService, _buds);
   const petNFTs = useSelector(gameService, _petNFTs);
   const island = useSelector(gameService, _island);

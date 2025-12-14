@@ -4,7 +4,6 @@ import { Label } from "components/ui/Label";
 import { Tradeable } from "features/game/types/marketplace";
 import { getTradeableDisplay } from "../lib/tradeables";
 import walletIcon from "assets/icons/wallet.png";
-import { Context } from "features/game/GameProvider";
 import { TradeableItemDetails } from "./TradeableSummary";
 import { KNOWN_ITEMS } from "features/game/types";
 import { useSelector } from "@xstate/react";
@@ -14,11 +13,9 @@ import Decimal from "decimal.js-light";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useGameService, useInventory, useWardrobe } from "features/game/hooks";
+import { selectPreviousInventory } from "features/game/selectors/inventory";
 
-const _inventory = (state: MachineState) => state.context.state.inventory;
-const _previousInventory = (state: MachineState) =>
-  state.context.state.previousInventory;
-const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
 const _previousWardrobe = (state: MachineState) =>
   state.context.state.previousWardrobe;
 
@@ -37,13 +34,13 @@ export const BulkPurchaseModalContent: React.FC<
   BulkPurchaseModalContentProps
 > = ({ authToken, tradeable, quantity, price, listingIds, onClose }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const { openModal } = useContext(ModalContext);
   const state = useSelector(gameService, _state);
 
-  const inventory = useSelector(gameService, _inventory);
-  const previousInventory = useSelector(gameService, _previousInventory);
-  const wardrobe = useSelector(gameService, _wardrobe);
+  const inventory = useInventory();
+  const previousInventory = useSelector(gameService, selectPreviousInventory);
+  const wardrobe = useWardrobe();
   const previousWardrobe = useSelector(gameService, _previousWardrobe);
 
   const collection = tradeable.collection;

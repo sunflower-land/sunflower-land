@@ -4,8 +4,6 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import * as AuthProvider from "features/auth/lib/Provider";
 import flowerIcon from "assets/icons/flower_token.webp";
-import { MachineState } from "features/game/lib/gameMachine";
-import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { useTranslation } from "react-i18next";
 import { CONFIG } from "lib/config";
@@ -16,6 +14,7 @@ import { DepositAddress } from "./DepositAddress";
 import { AcknowledgeConditions } from "./AcknowledgeConditions";
 import { DepositFromLinkedWallet } from "./DepositFromLinkedWallet";
 import { Button } from "components/ui/Button";
+import { useGameService } from "features/game/hooks";
 import {
   BASE_MAINNET_NETWORK,
   BASE_TESTNET_NETWORK,
@@ -61,22 +60,13 @@ const getManualDepositNetwork = () => {
   return networkOptions[0];
 };
 
-const _depositAddress = (state: MachineState): string =>
-  state.context.data["depositingFlower"]?.depositAddress;
-
-const _success = (state: MachineState) =>
-  state.matches("depositingFlowerSuccess");
-const _failed = (state: MachineState) =>
-  state.matches("depositingFlowerFailed");
 const _authToken = (state: AuthMachineState) => state.context.user.rawToken;
-const _linkedWallet = (state: MachineState) =>
-  state.context.linkedWallet ?? "0xc23Ea4b3fFA70DF89874ff657500000000000000";
 
 export const DepositFlower: React.FC<{ onClose: () => void }> = ({
   onClose,
 }) => {
   const { authService } = useContext(AuthProvider.Context);
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
   const { t } = useTranslation();
 
   const [balanceState, setBalanceState] = useState<
@@ -90,10 +80,22 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
   const [manualDepositNetwork, setManualDepositNetwork] =
     useState<NetworkOption>(getManualDepositNetwork());
 
-  const depositAddress = useSelector(gameService, _depositAddress);
-  const success = useSelector(gameService, _success);
-  const failed = useSelector(gameService, _failed);
-  const linkedWallet = useSelector(gameService, _linkedWallet);
+  const depositAddress = useSelector(
+    gameService,
+    (state) => state.context.data["depositingFlower"]?.depositAddress,
+  );
+  const success = useSelector(gameService, (state) =>
+    state.matches("depositingFlowerSuccess"),
+  );
+  const failed = useSelector(gameService, (state) =>
+    state.matches("depositingFlowerFailed"),
+  );
+  const linkedWallet = useSelector(
+    gameService,
+    (state) =>
+      state.context.linkedWallet ??
+      "0xc23Ea4b3fFA70DF89874ff657500000000000000",
+  );
   const authToken = useSelector(authService, _authToken);
 
   const { chainId } = useAccount();

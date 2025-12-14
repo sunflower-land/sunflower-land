@@ -1,4 +1,3 @@
-import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -22,6 +21,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { secondsToString } from "lib/utils/time";
 import React, { useState, useContext, useEffect } from "react";
+import { useGameState } from "features/game/hooks";
 
 function isNotReady(
   name: BumpkinItem,
@@ -55,7 +55,7 @@ export const WardrobeWearables: React.FC = () => {
     getKeys(STYLIST_WEARABLES)[0],
   );
   const { gameService } = useContext(Context);
-  const state = useSelector(gameService, (state) => state.context.state);
+  const state = useGameState();
   const { inventory, coins, wardrobe } = state;
   const [isTimeout, setTimeout] = useState(false);
 

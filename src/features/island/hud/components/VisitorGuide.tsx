@@ -16,11 +16,11 @@ import { HELP_LIMIT_COST } from "features/game/events/landExpansion/increaseHelp
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { secondsTillReset, secondsToString } from "lib/utils/time";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "features/game/lib/crafting";
 import { SmallBox } from "components/ui/SmallBox";
+import { useGameState, useUsername, useFarmId } from "features/game/hooks";
 
 import helpIcon from "assets/icons/help.webp";
 import clutterIcon from "assets/clutter/clutter.webp";
@@ -30,16 +30,6 @@ interface VisitorGuideProps {
   homeHelpRequired: number;
   onClose: () => void;
 }
-
-const _visitorState = (state: MachineState) => {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  return state.context.visitorState!;
-};
-const _totalHelpedToday = (state: MachineState) =>
-  state.context.totalHelpedToday ?? 0;
-const _game = (state: MachineState) => state.context.state;
-const _username = (state: MachineState) =>
-  state.context.state.username ?? `#${state.context.farmId}`;
 
 export const VisitorGuide: React.FC<VisitorGuideProps> = ({
   farmHelpRequired,
@@ -52,10 +42,18 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({
 
   const { t } = useAppTranslation();
 
-  const visitorState = useSelector(gameService, _visitorState);
-  const totalHelpedToday = useSelector(gameService, _totalHelpedToday);
-  const username = useSelector(gameService, _username);
-  const game = useSelector(gameService, _game);
+  const visitorState = useSelector(gameService, (state) => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return state.context.visitorState!;
+  });
+  const totalHelpedToday = useSelector(
+    gameService,
+    (state) => state.context.totalHelpedToday ?? 0,
+  );
+  const savedUsername = useUsername();
+  const farmId = useFarmId();
+  const username = savedUsername ?? `#${farmId}`;
+  const game = useGameState();
 
   // Make a list of in home vs on land
   const hasHelpedToday = gameState.context.hasHelpedPlayerToday ?? false;

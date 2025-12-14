@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -8,7 +8,6 @@ import { GameWallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import { TradeableDisplay } from "../lib/tradeables";
-import { Context } from "features/game/GameProvider";
 
 import sflIcon from "assets/icons/flower_token.webp";
 import lockIcon from "assets/icons/lock.png";
@@ -26,8 +25,8 @@ import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getKeys } from "features/game/lib/crafting";
+import { useGameService, useBalance } from "features/game/hooks";
 
-const _balance = (state: MachineState) => state.context.state.balance;
 const _hasReputation = (state: MachineState) =>
   hasReputation({
     game: state.context.state,
@@ -43,9 +42,9 @@ export const MakeOffer: React.FC<{
   onClose: () => void;
 }> = ({ onClose, display, itemId, authToken, floorPrice }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
+  const gameService = useGameService();
 
-  const balance = useSelector(gameService, _balance);
+  const balance = useBalance();
   const hasTradeReputation = useSelector(gameService, _hasReputation);
   const usd = useSelector(gameService, _usd);
 
