@@ -7670,6 +7670,10 @@
   "description.frozenMeat": "A frozen piece of meat said to be used in special recipes in the ancient holiday times.",
   "description.hoHoOhOh": "With Santa stuck like this, maybe the holidays were the friends we made along the way?",
   "eventHolidays.noticeboard.one": "Welcome to the Holidays 2025 Community Event!",
+<<<<<<< HEAD
   "fishing.yourCatch": "Your Catch",
   "fishing.missedFish": "Fish that got away!"
+=======
+  "fishing.yourCatch": "Your Catch"
+>>>>>>> 169cdcfc7d ([FEAT] Remove fishing challenge. Fix up caught modal.)
 }
