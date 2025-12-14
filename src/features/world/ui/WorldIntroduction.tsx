@@ -1,7 +1,7 @@
 import React, { useState, useContext, useCallback, useEffect } from "react";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 
 import { Button } from "components/ui/Button";
 import {
@@ -28,8 +28,7 @@ interface WorldIntroductionProps {
 export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
   onClose,
 }) => {
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
+  const { authService, authState } = useAuth();
 
   const { gameService } = useContext(Context);
   const currentUsername = useSelector(

@@ -1,17 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import { GameWallet } from "features/wallet/Wallet";
 import { useGame } from "features/game/GameProvider";
-import * as AuthProvider from "features/auth/lib/Provider";
-import { useActor } from "@xstate/react";
+import { useAuth } from "features/auth/lib/Provider";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const BlockchainBox: React.FC = () => {
   const { gameService, gameState } = useGame();
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
+  const { authService, authState } = useAuth();
   const [showWalletWall, setShowWalletWall] = useState(false);
 
   const { t } = useAppTranslation();

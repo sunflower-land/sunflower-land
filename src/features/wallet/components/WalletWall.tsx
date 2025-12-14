@@ -3,7 +3,7 @@ import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
 import { isMobile } from "mobile-device-detect";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Connector,
   CreateConnectorFn,
@@ -23,7 +23,7 @@ import { SequenceButton } from "./buttons/SequenceButton";
 import { WalletConnectButton } from "./buttons/WalletConnectButton";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Context as AuthContext } from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { GoogleButton } from "features/auth/components/buttons/GoogleButton";
 import { Loading } from "features/auth/components";
 import { CONFIG } from "lib/config";
@@ -133,7 +133,7 @@ export const WalletWall: React.FC<{
     signature: string;
   }) => void;
 }> = ({ header, screen = "walletWall", onSignMessage }) => {
-  const { authService } = useContext(AuthContext);
+  const { authService } = useAuth();
   const { t } = useAppTranslation();
 
   const [page, setPage] = useState<"home" | "other" | "ronin">("home");

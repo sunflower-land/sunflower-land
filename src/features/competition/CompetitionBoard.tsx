@@ -1,4 +1,4 @@
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
@@ -307,7 +307,7 @@ export const CompetitionDetails: React.FC<{
 const CompetitionLeaderboard: React.FC<{
   name: CompetitionName;
 }> = ({ name }) => {
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
   const { gameService } = useContext(Context);
   const [data, setData] = useState<CompetitionLeaderboardResponse>();
 

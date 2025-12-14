@@ -3,7 +3,7 @@ import { Modal } from "components/ui/Modal";
 import { useActor, useSelector } from "@xstate/react";
 
 import { useInterval } from "lib/utils/hooks/useInterval";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 
 import { Loading } from "features/auth/components";
 import { ErrorCode } from "lib/errors";
@@ -424,7 +424,7 @@ const _showPWAInstallPrompt = (state: AuthMachineState) =>
 export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
   const { gameService } = useContext(Context);
   const pwaInstallRef = usePWAInstall();
 

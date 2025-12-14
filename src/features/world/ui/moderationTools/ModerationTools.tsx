@@ -1,6 +1,5 @@
-import React, { useState, useContext } from "react";
-import * as AuthProvider from "features/auth/lib/Provider";
-import { useActor } from "@xstate/react";
+import React, { useState } from "react";
+import { useAuth } from "features/auth/lib/Provider";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -50,8 +49,7 @@ export const ModerationTools: React.FC<Props> = ({
   players,
   gameService,
 }) => {
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
+  const { authService, authState } = useAuth();
 
   const [showModerationTool, setShowModerationTool] = useState(false);
   const [tab, setTab] = useState(0);

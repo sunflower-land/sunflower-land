@@ -1,17 +1,10 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-  useRef,
-} from "react";
-import { Context } from "../lib/Provider";
+import React, { useCallback, useEffect, useState, useRef } from "react";
+import { useAuth } from "../lib/Provider";
 import { getFarms } from "lib/blockchain/Farm";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { isAddress } from "web3-utils";
-import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "./Loading";
@@ -28,8 +21,7 @@ type ValidationState = "notFound" | "checking" | "valid" | "error";
 
 export const NoAccount: React.FC = () => {
   const { t } = useAppTranslation();
-  const { authService } = useContext(Context);
-  const [authState] = useActor(authService);
+  const { authService, authState } = useAuth();
 
   const [showReferralId, setShowReferralId] = useState(false);
   const [referralId, setReferralId] = useState(getReferrerId() ?? undefined);
@@ -205,8 +197,7 @@ export const ClaimAccount: React.FC<{
   onClaim: (id: number) => void;
   onBack: () => void;
 }> = ({ onBack, onClaim }) => {
-  const { authService } = useContext(Context);
-  const [authState] = useActor(authService);
+  const { authService, authState } = useAuth();
 
   const [isLoading, setIsLoading] = useState(false);
   const [tokenIds, setTokenIds] = useState<number[]>([]);

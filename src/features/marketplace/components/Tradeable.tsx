@@ -4,7 +4,7 @@ import {
   MarketplaceTradeableName,
 } from "features/game/types/marketplace";
 import React, { useContext, useState } from "react";
-import * as Auth from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { useActor, useSelector } from "@xstate/react";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { loadTradeable } from "../actions/loadTradeable";
@@ -38,8 +38,7 @@ export const MAX_LIMITED_PURCHASES = (item: MarketplaceTradeableName) =>
   item === "Obsidian" ? 9 : 3;
 
 export const Tradeable: React.FC = () => {
-  const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
+  const { authService, authState } = useAuth();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const location = useLocation();

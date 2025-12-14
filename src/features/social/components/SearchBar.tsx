@@ -4,7 +4,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { Detail } from "../actions/getFollowNetworkDetails";
 import { searchPlayerByUsername } from "../actions/searchPlayerByUsername";
 import { TextInput } from "components/ui/TextInput";
@@ -38,7 +38,7 @@ const useDebouncedValue = (value: string, delay: number) => {
 
 export const SearchBar: React.FC<Props> = ({ onSearchResults, context }) => {
   const { gameService } = useContext(Context);
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
 
   const { t } = useAppTranslation();
 

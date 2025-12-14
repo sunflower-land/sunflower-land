@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { useSelector } from "@xstate/react";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "./AuctionDetails";
@@ -87,7 +87,7 @@ const _transactionId = (state: MachineState) =>
   state.context.transactionId as string;
 
 export const AuctionCountdown: React.FC = () => {
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
   const { gameService } = useContext(Context);
 
   const token = useSelector(authService, _token);

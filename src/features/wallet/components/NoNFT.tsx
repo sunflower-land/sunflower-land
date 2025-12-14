@@ -9,7 +9,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useContext } from "react";
-import { Context as AuthContext } from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 
 const _isSeedling = (state: MachineState) =>
   hasReputation({ game: state.context.state, reputation: Reputation.Seedling });
@@ -17,7 +17,7 @@ const _isSeedling = (state: MachineState) =>
 export const NoNFT: React.FC = () => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const { authService } = useContext(AuthContext);
+  const { authService } = useAuth();
 
   const isSeedling = useSelector(gameService, _isSeedling);
 

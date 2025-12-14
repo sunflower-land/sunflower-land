@@ -9,7 +9,7 @@ import {
 } from "mobile-device-detect";
 import { QRCodeSVG } from "qrcode.react";
 import { Context } from "features/game/GameProvider";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { translate } from "lib/i18n/translate";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -34,7 +34,7 @@ const _token = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 
 export const InstallAppModal: React.FC = () => {
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
   const { gameService } = useContext(Context);
 
   const [magicLink, setMagicLink] = useState<string | null>();

@@ -1,7 +1,7 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
-import React, { useContext } from "react";
+import React from "react";
 import { WhatsNew } from "./WhatsNew";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useLocation, useNavigate } from "react-router";
@@ -13,8 +13,7 @@ import walletIcon from "assets/icons/wallet.png";
 import { MarketplaceTrends } from "features/game/types/marketplace";
 import { Loading } from "features/auth/components";
 import { loadTrends } from "../actions/loadTrends";
-import * as Auth from "features/auth/lib/Provider";
-import { useActor } from "@xstate/react";
+import { useAuth } from "features/auth/lib/Provider";
 import { TopTrades } from "./TopTrades";
 import useSWR, { preload } from "swr";
 import { CONFIG } from "lib/config";
@@ -27,8 +26,7 @@ export const preloadHotNow = (token: string) =>
   preload(["/marketplace/trends", token], hotNowFetcher);
 
 export const MarketplaceHotNow: React.FC = () => {
-  const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
+  const { authService, authState } = useAuth();
   const { gameState } = useGame();
   const navigate = useNavigate();
 

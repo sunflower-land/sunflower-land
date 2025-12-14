@@ -1,10 +1,9 @@
 import { Label } from "components/ui/Label";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useGame } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
-import { useActor } from "@xstate/react";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { CONFIG } from "lib/config";
 import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -122,8 +121,7 @@ const TwitterPost: React.FC<{ name: TwitterPostName; onClose: () => void }> = ({
   onClose,
 }) => {
   const { gameService, gameState } = useGame();
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
+  const { authState } = useAuth();
   const now = useNow();
 
   const [url, setUrl] = useState<string>();
@@ -338,8 +336,7 @@ const TwitterBanner: React.FC<{
   onClose: () => void;
   onVerify?: () => void;
 }> = ({ type, postName, onClose, onVerify }) => {
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
+  const { authState } = useAuth();
   const { gameState } = useGame();
   const { t } = useAppTranslation();
 

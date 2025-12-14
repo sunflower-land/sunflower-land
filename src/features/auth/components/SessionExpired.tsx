@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import * as Auth from "features/auth/lib/Provider";
+import React from "react";
+import { useAuth } from "features/auth/lib/Provider";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
@@ -7,7 +7,7 @@ import { removeJWT } from "../actions/social";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const SessionExpired: React.FC = () => {
-  const { authService } = useContext(Auth.Context);
+  const { authService } = useAuth();
   const { t } = useAppTranslation();
 
   return (

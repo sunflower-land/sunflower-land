@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useActor, useInterpret, useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -12,7 +12,7 @@ import {
   GameState,
   InventoryItemName,
 } from "features/game/types/game";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
@@ -420,7 +420,7 @@ export const SeasonalAuctions: React.FC<Props> = ({
   season,
 }) => {
   const { t } = useAppTranslation();
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
   const rawToken = useSelector(authService, _rawToken);
 
   const [selected, setSelected] = useState<

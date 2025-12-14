@@ -1,8 +1,8 @@
-import React, { Suspense, lazy, useContext, useEffect, useState } from "react";
+import React, { Suspense, lazy, useEffect, useState } from "react";
 import { useSelector } from "@xstate/react";
 import { Routes, Route, HashRouter } from "react-router";
 
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 
 import { Splash } from "features/auth/components/Splash";
 import { Auth } from "features/auth/Auth";
@@ -46,7 +46,7 @@ const selectState = (state: AuthMachineState) => ({
  */
 export const Navigation: React.FC = () => {
   const { t } = useAppTranslation();
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
   const [showConnectionModal, setShowConnectionModal] = useState(
     // Check if online on initial load
     !navigator.onLine ? true : false,

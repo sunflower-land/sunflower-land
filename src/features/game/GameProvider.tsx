@@ -3,9 +3,9 @@
  */
 import { useState, useCallback, useEffect } from "react";
 import { useActor, useInterpret } from "@xstate/react";
-import React, { useContext } from "react";
+import React from "react";
 
-import * as Auth from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import {
   cacheShortcuts,
   getShortcuts,
@@ -45,8 +45,7 @@ export const Context = React.createContext<GameContext>({} as GameContext);
 export const GameProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
-  const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
+  const { authState } = useAuth();
 
   const [gameMachine] = useState(startGame(authState.context) as any);
 

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 
 import { discordOAuth } from "features/auth/actions/oauth";
-import * as Auth from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import budIcon from "assets/icons/bud.png";
 
 // faction banners
@@ -54,7 +54,7 @@ function getFactionImage(faction: FactionName) {
   }
 }
 export const Discord: React.FC = () => {
-  const { authService } = useContext(Auth.Context);
+  const { authService } = useAuth();
   const { t } = useAppTranslation();
   const [authState] = useActor(authService);
 

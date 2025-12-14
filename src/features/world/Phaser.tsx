@@ -6,7 +6,7 @@ import NinePatch2Plugin from "phaser3-rex-plugins/plugins/ninepatch2-plugin.js";
 import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin.js";
 import { PhaserNavMeshPlugin } from "phaser-navmesh";
 
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 
 import { Kicked } from "./ui/moderationTools/components/Kicked";
 import {
@@ -117,7 +117,7 @@ const _state = (state: GameMachineState) => state.context.state;
 export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
   const { t } = useAppTranslation();
 
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
   const { gameService, selectedItem, shortcutItem } = useContext(Context);
   const { toastsList } = useContext(ToastContext);
 

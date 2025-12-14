@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { Button } from "components/ui/Button";
 import { ContentComponentProps } from "../GameOptions";
 import { NumberInput } from "components/ui/NumberInput";
@@ -356,7 +356,7 @@ const AirdropContent: React.FC<AirdropContentProps> = ({
 export const AirdropPlayer: React.FC<
   ContentComponentProps & { id?: number }
 > = ({ id }) => {
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
   const { gameService } = useContext(Context);
 
   const hasDevAccess = useSelector(

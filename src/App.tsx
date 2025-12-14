@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { initialise } from "lib/utils/init";
 
 import "./styles.css";
-import * as Auth from "features/auth/lib/Provider";
+import { Provider as AuthProvider } from "features/auth/lib/Provider";
 import ErrorBoundary from "features/auth/components/ErrorBoundary";
 import { Navigation } from "./Navigation";
 import "./lib/i18n";
@@ -54,13 +54,13 @@ export const App: React.FC = () => {
       ) : (
         <ServiceWorker />
       )}
-      <Auth.Provider>
-        <WalletProvider>
-          <ErrorBoundary>
+      <ErrorBoundary>
+        <AuthProvider>
+          <WalletProvider>
             <Navigation />
-          </ErrorBoundary>
-        </WalletProvider>
-      </Auth.Provider>
+          </WalletProvider>
+        </AuthProvider>
+      </ErrorBoundary>
     </>
   );
 };

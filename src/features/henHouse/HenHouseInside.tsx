@@ -32,7 +32,7 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import { PlayerModal } from "features/social/PlayerModal";
 import { hasFeatureAccess } from "lib/flags";
 import { AuthMachineState } from "features/auth/lib/authMachine";
-import { Context as AuthContext } from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 
 const _henHouse = (state: MachineState) => state.context.state.henHouse;
 const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
@@ -48,7 +48,7 @@ export const ANIMAL_HOUSE_IMAGES: Record<
 
 export const HenHouseInside: React.FC = () => {
   const { gameService } = useContext(Context);
-  const { authService } = useContext(AuthContext);
+  const { authService } = useAuth();
 
   const [showModal, setShowModal] = useState(!hasReadGuide());
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);

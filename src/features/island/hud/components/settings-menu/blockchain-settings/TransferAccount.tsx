@@ -4,7 +4,7 @@ import { isAddress } from "web3-utils";
 
 import farmImg from "assets/brand/nft.png";
 
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong";
 import { transferAccount } from "features/farming/hud/actions/transfer";
 import { Button } from "components/ui/Button";
@@ -20,7 +20,7 @@ const transferring = SUNNYSIDE.npcs.minting;
 export const TransferAccount: React.FC = () => {
   const { t } = useAppTranslation();
 
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
   const { gameService } = useContext(Context);
   const [authState] = useActor(authService);
 

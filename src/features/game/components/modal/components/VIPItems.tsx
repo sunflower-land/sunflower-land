@@ -36,7 +36,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { REPUTATION_POINTS } from "features/game/lib/reputation";
-import * as Auth from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { useNow } from "lib/utils/hooks/useNow";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
@@ -59,7 +59,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
   const { gameService } = useContext(Context);
   const [selected, setSelected] = useState<VipBundle>();
   const { t } = useAppTranslation();
-  const { authService } = useContext(Auth.Context);
+  const { authService } = useAuth();
   const inventory = useSelector(gameService, _inventory);
   const vip = useSelector(gameService, _vip);
   const state = useSelector(gameService, _state);

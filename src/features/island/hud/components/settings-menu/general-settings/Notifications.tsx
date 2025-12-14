@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { requestForToken } from "lib/messaging";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { useSelector } from "@xstate/react";
@@ -32,7 +32,7 @@ export const Notifications: React.FC<{
 }> = ({ onSubMenuClick }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
   const deviceType = useGetDeviceType();
 
   const token = useSelector(authService, _token);

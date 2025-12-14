@@ -16,7 +16,7 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import { PlayerModal } from "features/social/PlayerModal";
 import { hasFeatureAccess } from "lib/flags";
 import { AuthMachineState } from "features/auth/lib/authMachine";
-import { Context as AuthContext } from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { useSelector } from "@xstate/react";
 import { isBuildingDestroyed } from "features/island/buildings/components/building/Building";
 
@@ -26,7 +26,7 @@ const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
 
 export const GreenhouseInside: React.FC = () => {
   const { gameService } = useContext(Context);
-  const { authService } = useContext(AuthContext);
+  const { authService } = useAuth();
 
   const token = useSelector(authService, _token);
   const context = gameService.getSnapshot().context;

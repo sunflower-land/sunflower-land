@@ -6,7 +6,7 @@ import { ButtonPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 
 import { Loading } from "features/auth/components";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { Context as GameContext } from "features/game/GameProvider";
 import { Auction, AuctionResults } from "features/game/lib/auctionMachine";
 import { getAuctionResults } from "features/game/actions/getAuctionResults";
@@ -50,8 +50,7 @@ const resultsFetcher = async ([, auctionId, token, farmId]: [
 
 export const AuctionHistory: React.FC = () => {
   const { t } = useAppTranslation();
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
+  const { authService, authState } = useAuth();
   const { gameService } = useContext(GameContext);
   const [gameState] = useActor(gameService);
 

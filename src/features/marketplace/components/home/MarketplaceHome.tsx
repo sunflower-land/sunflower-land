@@ -15,8 +15,8 @@ import { MarketplaceHotNow } from "../MarketplaceHotNow";
 import { CONFIG } from "lib/config";
 import { MarketplaceUser } from "../MarketplaceUser";
 import { Context } from "features/game/GameProvider";
-import * as Auth from "features/auth/lib/Provider";
-import { useActor, useSelector } from "@xstate/react";
+import { useAuth } from "features/auth/lib/Provider";
+import { useSelector } from "@xstate/react";
 import { useTranslation } from "react-i18next";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
@@ -47,8 +47,7 @@ export const MarketplaceNavigation: React.FC = () => {
 
   const { openModal } = useContext(ModalContext);
 
-  const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
+  const { authService, authState } = useAuth();
 
   useEffect(() => {
     const token = authState.context.user.rawToken as string;

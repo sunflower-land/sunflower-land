@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import factions from "assets/icons/factions.webp";
@@ -21,7 +21,7 @@ interface Props {
 const _minigames = (state: MachineState) => state.context.state.minigames;
 
 export const MineWhack: React.FC<Props> = ({ onClose }) => {
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
   const { gameService } = useContext(Context);
 
   const minigames = useSelector(gameService, _minigames);

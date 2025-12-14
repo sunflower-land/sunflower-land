@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CONFIG } from "lib/config";
@@ -11,7 +11,7 @@ import { SFTDetailPopoverInnerPanel } from "components/ui/SFTDetailPopover";
 import { Label } from "components/ui/Label";
 import { getBudBuffs } from "features/game/types/budBuffs";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { useSelector } from "@xstate/react";
 import useSWR from "swr";
 import { loadTradeable } from "features/marketplace/actions/loadTradeable";
@@ -31,7 +31,7 @@ const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
 export const BudDetailPopoverTradeDetails = ({ id }: { id: number }) => {
   const { t } = useAppTranslation();
 
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
   const rawToken = useSelector(authService, _rawToken);
 
   const { data: tradeable, error } = useSWR(

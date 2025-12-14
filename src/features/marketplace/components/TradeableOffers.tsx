@@ -22,7 +22,7 @@ import {
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import { Context } from "features/game/GameProvider";
 import { MakeOffer } from "./MakeOffer";
-import * as Auth from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { AcceptOffer } from "./AcceptOffer";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import confetti from "canvas-confetti";
@@ -65,7 +65,7 @@ export const TradeableOffers: React.FC<{
   reload,
   limitedPurchasesLeft,
 }) => {
-  const { authService } = useContext(Auth.Context);
+  const { authService } = useAuth();
   const { gameService, showAnimations } = useContext(Context);
   const { t } = useAppTranslation();
   const { id } = useParams();

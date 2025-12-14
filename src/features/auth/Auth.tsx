@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
-import { useActor } from "@xstate/react";
+import React from "react";
 import { Modal } from "components/ui/Modal";
 
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 
 import { ErrorMessage } from "./ErrorMessage";
 import { Panel } from "components/ui/Panel";
@@ -32,8 +31,7 @@ type Props = {
 };
 
 export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
+  const { authState } = useAuth();
   const { t } = useAppTranslation();
 
   return (

@@ -16,7 +16,7 @@ import {
   mmoMachine,
   MachineState as MMOMachineState,
 } from "./mmoMachine";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { Ocean } from "./ui/Ocean";
 import { PickServer } from "./ui/PickServer";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -111,8 +111,7 @@ const SCENE_ACCESS: Partial<Record<SceneId, (game: GameState) => boolean>> = {
 };
 
 export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
+  const { authState } = useAuth();
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);

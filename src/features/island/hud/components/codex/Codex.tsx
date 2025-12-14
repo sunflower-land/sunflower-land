@@ -41,7 +41,7 @@ import trophyIcon from "assets/icons/trophy.png";
 import { hasFeatureAccess } from "lib/flags";
 import { LeagueLeaderboard } from "./pages/LeaguesLeaderboard";
 import { AuthMachineState } from "features/auth/lib/authMachine";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
@@ -57,7 +57,7 @@ const _token = (state: AuthMachineState) =>
 export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
   const farmId = useSelector(gameService, _farmId);
   const state = useSelector(gameService, _state);
   const token = useSelector(authService, _token);

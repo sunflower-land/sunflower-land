@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 
-import * as Auth from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
@@ -217,7 +217,7 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
 };
 
 export const SomethingWentWrong: React.FC = () => {
-  const { authService } = useContext(Auth.Context);
+  const { authService } = useAuth();
   const { gameService } = useContext(Context);
 
   // If we get a connecting error before the game has loaded then try to connect again via the authService

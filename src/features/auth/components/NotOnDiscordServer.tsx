@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
@@ -10,7 +10,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 
 export const NotOnDiscordServer: React.FC = () => {
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);

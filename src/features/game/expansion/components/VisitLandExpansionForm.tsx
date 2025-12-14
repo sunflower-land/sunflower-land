@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { Button } from "components/ui/Button";
 
-import * as Auth from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -18,8 +18,7 @@ export const VisitLandExpansionForm: React.FC<{ onBack?: () => void }> = ({
 }) => {
   const { t } = useAppTranslation();
 
-  const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
+  const { authService, authState } = useAuth();
   const { gameService } = useContext(Context);
   const [gameState, gameSend] = useActor(gameService);
   const navigate = useNavigate();

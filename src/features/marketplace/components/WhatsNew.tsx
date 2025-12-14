@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router";
 import { Loading } from "features/auth/components";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import {
   BUMPKIN_RELEASES,
   INVENTORY_RELEASES,
@@ -12,7 +12,7 @@ import {
 import { KNOWN_ITEMS } from "features/game/types";
 import { ITEM_NAMES as BUMPKIN_ITEM_NAMES } from "features/game/types/bumpkin";
 import { ListViewCard } from "./ListViewCard";
-import * as Auth from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import useSWR from "swr";
 import { collectionFetcher } from "./Collection";
 import Decimal from "decimal.js-light";
@@ -23,8 +23,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 const _state = (state: MachineState) => state.context.state;
 export const WhatsNew: React.FC = () => {
   const { t } = useAppTranslation();
-  const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
+  const { authService, authState } = useAuth();
 
   const token = authState.context.user.rawToken as string;
   const {

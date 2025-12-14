@@ -1,7 +1,6 @@
 import React from "react";
 import { Panel } from "components/ui/Panel";
-import { useContext } from "react";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import useSWR from "swr";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { useSelector } from "@xstate/react";
@@ -22,7 +21,7 @@ const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
 export const LedgerDashboardProfile = () => {
   const { id } = useParams();
 
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
   const rawToken = useSelector(authService, _rawToken);
   const { t } = useAppTranslation();
 

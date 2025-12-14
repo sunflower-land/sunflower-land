@@ -26,7 +26,7 @@ import { isMobile } from "mobile-device-detect";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useFeedInteractions } from "./hooks/useFeedInteractions";
 import { AuthMachineState } from "features/auth/lib/authMachine";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { FeedSkeleton } from "./components/skeletons/FeedSkeleton";
 import { Interaction } from "./types/types";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
@@ -93,7 +93,7 @@ export const Feed: React.FC<Props> = ({
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const { gameService } = useContext(Context);
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
 
   const [showFollowing, setShowFollowing] = useState(false);
   const feedRef = useRef<HTMLDivElement>(null);

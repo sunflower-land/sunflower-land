@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import minting from "assets/npcs/minting.gif";
 import { secondsToString } from "lib/utils/time";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 /**
@@ -10,7 +10,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
  */
 export const Countdown: React.FC = () => {
   const [time, setTime] = useState("30secs");
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
 
   const { t } = useAppTranslation();
   useEffect(() => {

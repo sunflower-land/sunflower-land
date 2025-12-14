@@ -1,30 +1,27 @@
 import React from "react";
 import { useActor, useInterpret } from "@xstate/react";
-import { authMachine, MachineInterpreter } from "./authMachine";
+import { authMachine } from "./authMachine";
 
-interface AuthContext {
-  authService: MachineInterpreter;
-}
+type AuthService = ReturnType<typeof useInterpret<typeof authMachine>>;
 
-export const Context = React.createContext<AuthContext>({} as AuthContext);
+const AuthContext = React.createContext<AuthService | null>(null);
 
 export const Provider: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const authService = useInterpret(
-    authMachine,
-  ) as unknown as MachineInterpreter;
+  const authService = useInterpret(authMachine);
 
   return (
-    <Context.Provider value={{ authService }}>{children}</Context.Provider>
+    <AuthContext.Provider value={authService}>{children}</AuthContext.Provider>
   );
 };
 
 export const useAuth = () => {
-  const context = React.useContext(Context);
-  const [authState] = useActor(context.authService);
+  const service = React.useContext(AuthContext);
 
-  if (!context) {
-    throw new Error("useAuth must be used within an GameProvider");
+  if (!service) {
+    throw new Error("useAuth must be used within an AuthProvider");
   }
 
-  return { authState, authService: context.authService };
+  const [authState] = useActor(service);
+
+  return { authState, authService: service };
 };

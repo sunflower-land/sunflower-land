@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
@@ -75,7 +75,7 @@ const _linkedWallet = (state: MachineState) =>
 export const DepositFlower: React.FC<{ onClose: () => void }> = ({
   onClose,
 }) => {
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
   const { gameService } = useContext(Context);
   const { t } = useTranslation();
 

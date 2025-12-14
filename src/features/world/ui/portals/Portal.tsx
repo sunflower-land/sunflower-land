@@ -2,7 +2,7 @@ import { createPortal } from "react-dom";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 import { MinigameName } from "features/game/types/minigames";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -48,8 +48,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
+  const { authService, authState } = useAuth();
   const [url, setUrl] = useState<string>();
 
   const [loading, setLoading] = useState(true);

@@ -45,7 +45,7 @@ import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { PlayerModal } from "features/social/PlayerModal";
 import { hasFeatureAccess } from "lib/flags";
 import { AuthMachineState } from "features/auth/lib/authMachine";
-import { Context as AuthContext } from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { PetNFT } from "features/island/pets/PetNFT";
 
 const BACKGROUND_IMAGE: Record<IslandType, string> = {
@@ -93,7 +93,7 @@ export const Home: React.FC = () => {
   const [showIntro, setShowIntro] = useState(!hasReadIntro() && !isVisiting);
 
   const { gameService } = useContext(Context);
-  const { authService } = useContext(AuthContext);
+  const { authService } = useAuth();
 
   const { t } = useAppTranslation();
 

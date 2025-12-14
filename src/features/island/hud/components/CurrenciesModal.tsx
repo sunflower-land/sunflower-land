@@ -10,7 +10,7 @@ import { VIPItems } from "features/game/components/modal/components/VIPItems";
 import { BuyGemsWidget } from "features/announcements/AnnouncementWidgets";
 import { DepositFlower } from "./deposit/DepositFlower";
 import { SwapSFLForCoins } from "./SwapSFLForCoins";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { XsollaLoading } from "features/game/components/modal/components/XsollaLoading";
 import { XsollaIFrame } from "features/game/components/modal/components/XsollaIFrame";
 import {
@@ -69,7 +69,7 @@ export const CurrenciesModal: React.FC<Props> = ({
   onClose,
   initialPage,
 }) => {
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
   const { gameService } = useContext(Context);
 
   const [page, setPage] = useState<TransactionPage>(initialPage ?? "menu");

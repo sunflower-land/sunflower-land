@@ -10,7 +10,7 @@ import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { LeagueLeaderboard } from "features/island/hud/components/codex/pages/LeaguesLeaderboard";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 
 const _farmId = (state: MachineState) => state.context.farmId;
@@ -27,7 +27,7 @@ export const LeagueResults: React.FC = () => {
   const farmId = useSelector(gameService, _farmId);
   const leagues = useSelector(gameService, _leagues);
   const username = useSelector(gameService, _username);
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
   const token = useSelector(authService, _token);
   const [leaguesData, setLeaguesData] = useState<
     LeaguesLeaderboard | null | undefined

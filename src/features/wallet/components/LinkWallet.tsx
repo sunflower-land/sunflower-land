@@ -6,7 +6,7 @@ import { Label } from "components/ui/Label";
 import walletIcon from "assets/icons/wallet.png";
 import { WalletWall } from "./WalletWall";
 import { Context } from "features/game/GameProvider";
-import { Context as AuthContext } from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 
 const LinkHeader: React.FC = () => {
   const { t } = useAppTranslation();
@@ -28,7 +28,7 @@ const LinkHeader: React.FC = () => {
 
 export const LinkWallet: React.FC = () => {
   const { gameService } = useContext(Context);
-  const { authService } = useContext(AuthContext);
+  const { authService } = useAuth();
 
   return (
     <WalletWall

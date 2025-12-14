@@ -19,7 +19,7 @@ import { ChatInput } from "./ChatInput";
 import { isMobile } from "mobile-device-detect";
 import { Interaction } from "../types/types";
 import { AuthMachineState } from "features/auth/lib/authMachine";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { useInView } from "react-intersection-observer";
 import { Loading } from "features/auth/components";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -62,7 +62,7 @@ export const FollowerFeed: React.FC<Props> = ({
   playerLoading,
 }) => {
   const { gameService } = useContext(Context);
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
   const loaderRef = useRef<HTMLDivElement>(null);
 
   const { t } = useAppTranslation();

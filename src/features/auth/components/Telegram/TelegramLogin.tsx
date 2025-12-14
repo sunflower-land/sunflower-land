@@ -1,12 +1,10 @@
 import { CONFIG } from "lib/config";
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useGame } from "features/game/GameProvider";
-import * as AuthProvider from "features/auth/lib/Provider";
-import { useActor } from "@xstate/react";
+import { useAuth } from "features/auth/lib/Provider";
 
 export const TelegramLogin: React.FC = () => {
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
+  const { authState } = useAuth();
 
   // Refs
   const telegramWrapperRef = useRef<HTMLDivElement>(null);

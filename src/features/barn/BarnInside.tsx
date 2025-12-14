@@ -35,7 +35,7 @@ import { LandBiomeName } from "features/island/biomes/biomes";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { PlayerModal } from "features/social/PlayerModal";
 import { hasFeatureAccess } from "lib/flags";
-import { Context as AuthContext } from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { isBuildingDestroyed } from "features/island/buildings/components/building/Building";
 
@@ -66,7 +66,7 @@ export const BarnInside: React.FC = () => {
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [selected, setSelected] = useState<Animal>();
   const [deal, setDeal] = useState<AnimalBounty>();
-  const { authService } = useContext(AuthContext);
+  const { authService } = useAuth();
   const context = gameService.getSnapshot().context;
   const loggedInFarmId = context.visitorId ?? context.farmId;
 

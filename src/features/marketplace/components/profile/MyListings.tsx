@@ -1,7 +1,7 @@
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import React, { useContext, useState } from "react";
-import * as Auth from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 
 import trade from "assets/icons/trade.png";
 
@@ -36,7 +36,7 @@ export const MyListings: React.FC = () => {
   const params = useParams();
   const { gameService } = useContext(Context);
 
-  const { authService } = useContext(Auth.Context);
+  const { authService } = useAuth();
   const isWorldRoute = useLocation().pathname.includes("/world");
 
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;

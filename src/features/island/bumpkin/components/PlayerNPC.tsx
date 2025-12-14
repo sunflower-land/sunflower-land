@@ -9,7 +9,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useVisiting } from "lib/utils/visitUtils";
-import { Context as AuthContext } from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import {
   playerModalManager,
   PlayerModalPlayer,
@@ -31,7 +31,7 @@ const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
 export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
   const [open, setOpen] = useState(false);
   const { gameService } = useContext(Context);
-  const { authService } = useContext(AuthContext);
+  const { authService } = useAuth();
 
   const showHelper = useSelector(gameService, _showHelper);
   const token = useSelector(authService, _token);

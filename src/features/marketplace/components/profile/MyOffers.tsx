@@ -1,7 +1,7 @@
 import { Label } from "components/ui/Label";
 import { InnerPanel, Panel } from "components/ui/Panel";
 import React, { useContext, useState } from "react";
-import * as Auth from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/decorations";
@@ -33,7 +33,7 @@ export const MyOffers: React.FC = () => {
   const isWorldRoute = useLocation().pathname.includes("/world");
 
   const { gameService } = useContext(Context);
-  const { authService } = useContext(Auth.Context);
+  const { authService } = useAuth();
   const [gameState] = useActor(gameService);
 
   const [claimId, setClaimId] = useState<string>();

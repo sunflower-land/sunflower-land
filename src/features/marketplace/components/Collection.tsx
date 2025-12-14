@@ -1,8 +1,8 @@
 import { Loading } from "features/auth/components";
 import React, { useContext, useMemo, useRef } from "react";
 import { loadMarketplace as loadMarketplace } from "../actions/loadMarketplace";
-import * as Auth from "features/auth/lib/Provider";
-import { useActor, useSelector } from "@xstate/react";
+import { useAuth } from "features/auth/lib/Provider";
+import { useSelector } from "@xstate/react";
 import { useLocation, useNavigate, useSearchParams } from "react-router";
 import { ListViewCard } from "./ListViewCard";
 import Decimal from "decimal.js-light";
@@ -61,8 +61,7 @@ export const Collection: React.FC<{
 }> = ({ search, onNavigated }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const { authService } = useContext(Auth.Context);
-  const [authState] = useActor(authService);
+  const { authService, authState } = useAuth();
   const { t } = useTranslation();
   const isWorldRoute = useLocation().pathname.includes("/world");
   // Get query string params

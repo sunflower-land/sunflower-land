@@ -1,11 +1,10 @@
 import { Label } from "components/ui/Label";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import TelegramLogin from "./TelegramLogin";
 import { useGame } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
-import { useActor } from "@xstate/react";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { CONFIG } from "lib/config";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -79,8 +78,7 @@ export const Telegram: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
 const TelegramConnect: React.FC = () => {
   const { gameService, gameState } = useGame();
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
+  const { authState } = useAuth();
 
   const [startedBotAt, setStartedBotAt] = useState<number>(0);
 

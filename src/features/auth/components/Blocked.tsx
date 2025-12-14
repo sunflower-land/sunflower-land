@@ -1,14 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Button } from "components/ui/Button";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { removeJWT } from "../actions/social";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Blocked: React.FC = () => {
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
 
   const { t } = useAppTranslation();
   const tryAgain = () => {

@@ -9,7 +9,7 @@ import useSWR from "swr";
 import { loadTradeable } from "features/marketplace/actions/loadTradeable";
 import { KNOWN_IDS } from "features/game/types";
 import { useSelector } from "@xstate/react";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { Context } from "features/game/GameProvider";
 import { formatNumber } from "lib/utils/formatNumber";
@@ -91,7 +91,7 @@ export const SFTDetailPopoverTradeDetails = ({
 }) => {
   const { t } = useAppTranslation();
 
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
   const rawToken = useSelector(authService, _rawToken);
 
   const { data: tradeable, error } = useSWR(

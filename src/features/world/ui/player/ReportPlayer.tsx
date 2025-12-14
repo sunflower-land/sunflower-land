@@ -4,9 +4,9 @@ import { Dropdown } from "components/ui/Dropdown";
 import { Label } from "components/ui/Label";
 import { NumberInput } from "components/ui/NumberInput";
 import { TextInput } from "components/ui/TextInput";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { CONFIG } from "lib/config";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { useSelector } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -29,7 +29,7 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [logMessage, setLogMessage] = useState<string>("");
 
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
   const rawToken = useSelector(
     authService,
     (state) => state.context.user.rawToken as string,

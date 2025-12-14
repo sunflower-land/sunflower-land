@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 
 import { Panel } from "components/ui/Panel";
@@ -11,7 +11,7 @@ import {
   createAuctioneerMachine,
 } from "features/game/lib/auctionMachine";
 import { GameState } from "features/game/types/game";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -44,8 +44,7 @@ export const AuctioneerModal: React.FC<Props> = ({
   linkedAddress,
 }) => {
   const { t } = useAppTranslation();
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
+  const { authService, authState } = useAuth();
 
   const [tab, setTab] = useState(0);
 

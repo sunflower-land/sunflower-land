@@ -1,13 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
 
-import { Context as AuthContext } from "../lib/Provider";
+import { useAuth } from "../lib/Provider";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import { WalletWall } from "features/wallet/components/WalletWall";
 
 const Login: React.FC<{ screen: "signin" | "signup" }> = ({ screen }) => {
-  const { authService } = useContext(AuthContext);
+  const { authService } = useAuth();
   const { t } = useAppTranslation();
 
   return (

@@ -5,7 +5,7 @@ import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Message as IMessage } from "features/game/types/announcements";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { getMagicLink } from "features/auth/actions/magicLink";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { usePWAInstall } from "features/pwa/PWAInstallProvider";
@@ -42,7 +42,7 @@ export const PWAInstallMessage: React.FC<Props> = ({
   onAcknowledge,
 }) => {
   const { t } = useAppTranslation();
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
   const { gameService } = useContext(Context);
   const [magicLink, setMagicLink] = useState<string | null>();
 

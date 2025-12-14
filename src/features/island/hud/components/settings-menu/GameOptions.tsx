@@ -4,7 +4,7 @@ import clipboard from "clipboard";
 import { CONFIG } from "lib/config";
 
 import { Button } from "components/ui/Button";
-import * as Auth from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 
 import { Context as GameContext } from "features/game/GameProvider";
 
@@ -78,7 +78,7 @@ const GameOptions: React.FC<ContentComponentProps> = ({
   onClose,
 }) => {
   const { gameService } = useContext(GameContext);
-  const { authService } = useContext(Auth.Context);
+  const { authService } = useAuth();
 
   const { t } = useAppTranslation();
 
@@ -248,7 +248,7 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
   show,
   onClose,
 }) => {
-  const { authService } = useContext(Auth.Context);
+  const { authService } = useAuth();
 
   const token = useSelector(authService, _token);
   const { gameService } = useContext(GameContext);

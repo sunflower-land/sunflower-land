@@ -5,7 +5,7 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { millisecondsToString } from "lib/utils/time";
-import * as Auth from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import React, { useContext, useState, useEffect } from "react";
 import { Button } from "components/ui/Button";
 import { ErrorCode } from "lib/errors";
@@ -37,7 +37,7 @@ export const StreamReward: React.FC<{ streamerId: number }> = ({
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const { authService } = useContext(Auth.Context);
+  const { authService } = useAuth();
 
   const streamHatLastClaimed = useSelector(
     gameService,

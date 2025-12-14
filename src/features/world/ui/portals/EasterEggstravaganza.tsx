@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { Button } from "components/ui/Button";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
@@ -33,7 +33,7 @@ interface Props {
 
 export const EasterEggstravaganza: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
 
   const minigames = useSelector(gameService, _minigames);
   const minigame = minigames.games["easter-eggstravaganza"];

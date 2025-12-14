@@ -1,12 +1,12 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import useSWR from "swr";
 import { Loading } from "features/auth/components/Loading";
 import { getPlayerLiquidity } from "./actions/getPlayerLiquidity";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { useSelector } from "@xstate/react";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { postEffect } from "features/game/actions/effect";
@@ -21,7 +21,7 @@ export const FlowerRewards: React.FC<{ onClose: () => void }> = ({
   onClose,
 }) => {
   const { gameState } = useGame();
-  const { authService } = useContext(AuthProvider.Context);
+  const { authService } = useAuth();
   const token = useSelector(authService, _token);
   const farmId = useSelector(authService, _farmId);
   const address = gameState.context.linkedWallet;

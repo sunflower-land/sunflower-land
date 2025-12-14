@@ -1,13 +1,13 @@
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import sflIcon from "assets/icons/flower_token.webp";
 import tradeIcon from "assets/icons/trade.png";
 import { MarketplaceProfile } from "features/game/types/marketplace";
 import { Loading } from "features/auth/components";
-import * as Auth from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { useSelector } from "@xstate/react";
 import { loadProfile } from "../actions/loadProfile";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
@@ -19,7 +19,7 @@ const _token = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 
 export const MarketplaceUser: React.FC = () => {
-  const { authService } = useContext(Auth.Context);
+  const { authService } = useAuth();
   const token = useSelector(authService, _token);
   const navigate = useNavigate();
 

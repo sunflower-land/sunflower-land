@@ -1,9 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import "./amplifyStyles.css";
 
 import { FaceLivenessDetectorCore } from "@aws-amplify/ui-react-liveness";
-import { useActor } from "@xstate/react";
-import * as AuthProvider from "features/auth/lib/Provider";
+import { useAuth } from "features/auth/lib/Provider";
 import { useGame } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
@@ -86,8 +85,7 @@ const TRANSLATION_KEYS: TranslationKeys[] = [
 export const FaceRecognition: React.FC<{ skipIntro?: boolean }> = ({
   skipIntro = false,
 }) => {
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
+  const { authService, authState } = useAuth();
 
   const [showIntro, setShowIntro] = useState(!skipIntro);
   const [showMobileInstall, setShowMobileInstall] = useState(false);
