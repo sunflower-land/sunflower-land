@@ -102,6 +102,27 @@ const ONBOARDING_REWARDS: DailyRewardDefinition[] = [
     },
   },
 ];
+
+const POTION_XP_END_GAME_FLOOR = 0.08;
+const POTION_XP_CURVE_TUNING = 1.5;
+const LN_200 = Math.log(200);
+
+/**
+ * Calculates:
+ * L3 + 0.42 * ((ln(200) - ln(value)) / ln(200)) ^ L2
+ */
+export function calculateXPPotion(
+  level: number,
+  xpToNextLevel: number,
+): number {
+  const percetangeIncrease =
+    POTION_XP_END_GAME_FLOOR +
+    0.42 *
+      Math.pow((LN_200 - Math.log(level)) / LN_200, POTION_XP_CURVE_TUNING);
+
+  return Math.floor(xpToNextLevel * percetangeIncrease);
+}
+
 const WEEKLY_REWARDS: (game: GameState) => DailyRewardDefinition[] = (
   game: GameState,
 ) => {
@@ -109,21 +130,15 @@ const WEEKLY_REWARDS: (game: GameState) => DailyRewardDefinition[] = (
   const { experienceToNextLevel } = getExperienceToNextLevel(
     game.bumpkin?.experience ?? 0,
   );
-  const baseExperience = experienceToNextLevel ?? 0;
 
   const scaleAmount = (base: number, multiplier: number) => {
     const baseMultiplier = Math.ceil(multiplier);
     return Math.max(1, Math.floor(base * baseMultiplier));
   };
 
-  const safeLevel = Math.max(level, 2); // avoid div-by-zero on ln(1)
-  const day2Multiplier = 1 / Math.pow(Math.log(safeLevel), 0.35) + 0.6 + 0.55;
-  const day2Xp = Math.floor(baseExperience * day2Multiplier);
+  const day2Xp = calculateXPPotion(level, experienceToNextLevel);
 
   const loveBox = (() => {
-    if (level > 150) {
-      return "Gold Love Box";
-    }
     if (level > 100) {
       return "Silver Love Box";
     }
