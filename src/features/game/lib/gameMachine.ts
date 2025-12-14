@@ -112,6 +112,8 @@ import { hasFeatureAccess } from "lib/flags";
 import { isDailyRewardReady } from "../events/landExpansion/claimDailyReward";
 import { getDailyRewardLastAcknowledged } from "../components/DailyReward";
 
+import { shouldShowLeagueResults } from "./machines/notificationGuards";
+
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
 
@@ -125,22 +127,6 @@ const getError = () => {
   const error = new URLSearchParams(window.location.search).get("error");
 
   return error;
-};
-
-const shouldShowLeagueResults = (context: Context) => {
-  // Don't show league results for visitors
-  if (context.visitorId !== undefined) {
-    return false;
-  }
-
-  const hasLeaguesAccess = hasFeatureAccess(context.state, "LEAGUES");
-  const currentLeagueStartDate =
-    context.state.prototypes?.leagues?.currentLeagueStartDate;
-
-  return (
-    hasLeaguesAccess &&
-    currentLeagueStartDate !== new Date().toISOString().split("T")[0]
-  );
 };
 
 export type PastAction = GameEvent & {
