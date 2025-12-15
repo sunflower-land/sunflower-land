@@ -24,6 +24,8 @@ import {
   LandExpansionIronMineAction,
 } from "./landExpansion/ironMine";
 
+import { bumpkinWave, BumpkinWaveAction } from "./landExpansion/bumpkinWave";
+
 import { GameState } from "../types/game";
 import { claimAirdrop, ClaimAirdropAction } from "./claimAirdrop";
 import {
@@ -545,6 +547,10 @@ import { fetchPet, FetchPetAction } from "./pets/fetchPet";
 import { helpPets, HelpPetsAction } from "./visiting/helpPets";
 import { BulkPlantAction, bulkPlant } from "./landExpansion/bulkPlant";
 import { bulkHarvest, BulkHarvestAction } from "./landExpansion/bulkHarvest";
+import {
+  bulkFertilisePlot,
+  BulkFertilisePlotAction,
+} from "./landExpansion/bulkFertilisePlot";
 import { clearTrades, ClearTradesAction } from "./clearTrades";
 import { placeNFT, PlaceNFTAction } from "./landExpansion/placeNFT";
 import { walkPet, WalkPetAction } from "./pets/walkPet";
@@ -705,7 +711,9 @@ export type PlayingEvent =
   | UpgradeRockAction
   | UpgradeTreeAction
   | BulkPlantAction
-  | BulkHarvestAction;
+  | BulkHarvestAction
+  | BumpkinWaveAction
+  | BulkFertilisePlotAction;
 
 export type LocalVisitingEvent =
   | CollectGarbageAction
@@ -823,6 +831,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "crop.harvested": landExpansionHarvest,
   "crops.bulkHarvested": bulkHarvest,
   "plot.fertilised": landExpansionFertilise,
+  "plots.bulkFertilised": bulkFertilisePlot,
   "crop.removed": landExpansionRemoveCrop,
   "stoneRock.mined": landExpansionMineStone,
   "ironRock.mined": landExpansionIronMine,
@@ -946,6 +955,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "biome.applied": applyBiome,
   "animal.wakeUp": wakeAnimal,
   "cheers.claimed": claimDailyCheers,
+  "bumpkin.wave": bumpkinWave,
   "clutter.burned": burnClutter,
   "project.instantGrow": instantGrowProject,
   "rock.upgraded": upgradeRock,

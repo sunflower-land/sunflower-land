@@ -119,11 +119,11 @@ export const getChestItems = (state: GameState): Inventory => {
         RESOURCE_STATE_ACCESSORS[itemName as Exclude<ResourceName, "Boulder">];
       const placedNodes = Object.values(stateAccessor(state) ?? {}).filter(
         (resource) => {
+          const placed = resource.x !== undefined && resource.y !== undefined;
           if (
             itemName in RESOURCES_UPGRADES_TO ||
             itemName in ADVANCED_RESOURCES
           ) {
-            const placed = resource.x !== undefined && resource.y !== undefined;
             const hasName = "name" in resource;
             const nameMatch = hasName && resource.name === itemName;
             const isBaseResource =
@@ -133,7 +133,7 @@ export const getChestItems = (state: GameState): Inventory => {
             return (nameMatch || isBaseResource) && placed;
           }
 
-          return true;
+          return placed;
         },
       );
 

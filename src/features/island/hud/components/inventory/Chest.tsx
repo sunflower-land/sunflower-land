@@ -369,25 +369,37 @@ export const Chest: React.FC<Props> = ({
     );
   }
 
+  const collectibleNames = getKeys(collectibles);
+
   // Sort collectibles by type
-  const resources = getKeys(collectibles).filter((name) => name in RESOURCES);
-  const buildings = getKeys(collectibles).filter((name) => name in BUILDINGS);
-  const monuments = getKeys(collectibles).filter((name) => name in MONUMENTS);
-  const villageProjects = getKeys(collectibles).filter(
+  const resources = collectibleNames.filter((name) => name in RESOURCES);
+  const buildings = collectibleNames.filter((name) => name in BUILDINGS);
+  const monuments = collectibleNames.filter((name) => name in MONUMENTS);
+  const villageProjects = collectibleNames.filter(
     (name) => name in REWARD_ITEMS,
   );
 
-  const banners = getKeys(collectibles).filter((name) => name in BANNERS);
-  const beds = getKeys(collectibles).filter((name) => name in BEDS);
-  const weatherItems = getKeys(collectibles).filter(
+  const banners = collectibleNames.filter((name) => name in BANNERS);
+  const beds = collectibleNames.filter((name) => name in BEDS);
+  const weatherItems = collectibleNames.filter(
     (name) => name in WEATHER_SHOP_ITEM_COSTS,
   );
 
-  const dolls = getKeys(collectibles).filter((name) => name in DOLLS);
+  const dolls = collectibleNames.filter((name) => name in DOLLS);
+  const pets = collectibleNames.filter((name) => name in PET_TYPES);
 
-  const pets = getKeys(collectibles).filter((name) => name in PET_TYPES);
+  // Use Sets for O(1) lookups instead of O(n) .includes()
+  const resourcesSet = new Set(resources);
+  const buildingsSet = new Set(buildings);
+  const monumentsSet = new Set(monuments);
+  const villageProjectsSet = new Set(villageProjects);
+  const bedsSet = new Set(beds);
+  const bannersSet = new Set(banners);
+  const weatherItemsSet = new Set(weatherItems);
+  const dollsSet = new Set(dolls);
+  const petsSet = new Set(pets);
 
-  const boosts = getKeys(collectibles)
+  const boosts = collectibleNames
     .filter(
       (name) =>
         name in COLLECTIBLE_BUFF_LABELS &&
@@ -400,25 +412,27 @@ export const Chest: React.FC<Props> = ({
     )
     .filter(
       (name) =>
-        !resources.includes(name) &&
-        !buildings.includes(name) &&
-        !monuments.includes(name) &&
-        !villageProjects.includes(name) &&
-        !beds.includes(name),
+        !resourcesSet.has(name) &&
+        !buildingsSet.has(name) &&
+        !monumentsSet.has(name) &&
+        !villageProjectsSet.has(name) &&
+        !bedsSet.has(name),
     );
 
-  const decorations = getKeys(collectibles).filter(
+  const boostsSet = new Set(boosts);
+
+  const decorations = collectibleNames.filter(
     (name) =>
-      !resources.includes(name) &&
-      !buildings.includes(name) &&
-      !boosts.includes(name) &&
-      !banners.includes(name) &&
-      !beds.includes(name) &&
-      !weatherItems.includes(name) &&
-      !monuments.includes(name) &&
-      !dolls.includes(name) &&
-      !pets.includes(name) &&
-      !villageProjects.includes(name),
+      !resourcesSet.has(name) &&
+      !buildingsSet.has(name) &&
+      !boostsSet.has(name) &&
+      !bannersSet.has(name) &&
+      !bedsSet.has(name) &&
+      !weatherItemsSet.has(name) &&
+      !monumentsSet.has(name) &&
+      !dollsSet.has(name) &&
+      !petsSet.has(name) &&
+      !villageProjectsSet.has(name),
   );
 
   const ITEM_GROUPS: {

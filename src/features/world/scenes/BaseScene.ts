@@ -1,5 +1,4 @@
 import Phaser, { Physics } from "phaser";
-
 import VirtualJoystick from "phaser3-rex-plugins/plugins/virtualjoystick.js";
 
 import { SQUARE_WIDTH } from "features/game/lib/constants";
@@ -21,7 +20,7 @@ import {
   MachineInterpreter as MMOMachineInterpreter,
   SceneId,
 } from "../mmoMachine";
-import { Player, PlazaRoomState } from "../types/Room";
+import { MicroInteraction, Player, PlazaRoomState } from "../types/Room";
 import { FactionName, GameState, IslandType } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 import { Room } from "colyseus.js";
@@ -43,10 +42,14 @@ import {
   getPlazaShaderSetting,
 } from "lib/utils/hooks/usePlazaShader";
 import { playerSelectionListManager } from "../ui/PlayerSelectionList";
+import { playerInteractionMenuManager } from "../ui/player/PlayerInteractionMenu";
 
 import { STREAM_REWARD_COOLDOWN } from "../ui/player/StreamReward";
 import { hasVipAccess } from "features/game/lib/vipAccess";
-import { playerModalManager } from "features/social/lib/playerModalManager";
+import {
+  playerModalManager,
+  PlayerModalPlayer,
+} from "features/social/lib/playerModalManager";
 import { rewardModalManager } from "features/social/lib/rewardModalManager";
 
 export type NPCBumpkin = {
@@ -89,6 +92,27 @@ export const FACTION_NAME_COLORS: Record<FactionName, string> = {
   nightshades: "#a878ac",
 };
 
+type MicroInteractionAction = "wave" | "cheer";
+type MicroInteractionResponse =
+  | "wave_ack"
+  | "wave_cancel"
+  | "cheer_ack"
+  | "cheer_cancel";
+
+type MicroInteractionState = {
+  senderId: number;
+  receiverId: number;
+  type: MicroInteractionAction | MicroInteractionResponse;
+  indicator?: Phaser.GameObjects.Container;
+};
+
+type OutgoingMicroInteractionState = {
+  timeout: Phaser.Time.TimerEvent;
+  indicator?: Phaser.GameObjects.Container;
+};
+
+const MICRO_INTERACTION_TIMEOUT_MS = 5000;
+
 export abstract class BaseScene extends Phaser.Scene {
   abstract sceneId: SceneId;
   eventListener?: (event: EventObject) => void;
@@ -101,6 +125,9 @@ export abstract class BaseScene extends Phaser.Scene {
 
   public map: Phaser.Tilemaps.Tilemap = {} as Phaser.Tilemaps.Tilemap;
 
+  private activeInteractionMenu?: Phaser.GameObjects.Container;
+  private activeInteractionTarget?: BumpkinContainer;
+
   npcs: Partial<Record<NPCName, BumpkinContainer>> = {};
 
   currentPlayer: BumpkinContainer | undefined;
@@ -110,6 +137,13 @@ export abstract class BaseScene extends Phaser.Scene {
   packetSentAt = 0;
 
   playerEntities: { [sessionId: string]: BumpkinContainer } = {};
+
+  private receivedMicroInteractions: Map<number, MicroInteractionState> =
+    new Map();
+  private outgoingMicroInteractions: Map<
+    number,
+    OutgoingMicroInteractionState
+  > = new Map();
 
   pets: { [sessionId: string]: PetContainer } = {};
 
@@ -342,6 +376,39 @@ export abstract class BaseScene extends Phaser.Scene {
 
         const clickedObjects = this.input.hitTestPointer(pointer);
 
+        // If an interaction menu is open and the click happened outside of it,
+        // close the menu.
+        if (this.activeInteractionMenu) {
+          const menu = this.activeInteractionMenu;
+          const clickInsideMenu = clickedObjects.some((obj) => {
+            let current = obj as Phaser.GameObjects.GameObject | null;
+
+            // Traverse up the parentContainer chain so any descendant of the
+            // menu (not just direct children) is treated as "inside" the menu.
+            while (current) {
+              if (current === menu) return true;
+
+              const withParent = current as Phaser.GameObjects.GameObject & {
+                parentContainer?: Phaser.GameObjects.Container | null;
+              };
+
+              current =
+                (withParent.parentContainer as Phaser.GameObjects.GameObject | null) ??
+                null;
+            }
+
+            return false;
+          });
+
+          if (!clickInsideMenu) {
+            menu.destroy();
+            this.activeInteractionMenu = undefined;
+            this.activeInteractionTarget = undefined;
+          }
+        }
+
+        playerInteractionMenuManager.close();
+
         // filter other players
         const clickedBumpkins = clickedObjects.filter((clickedObject) => {
           const isBumpkinContainer = clickedObject instanceof BumpkinContainer;
@@ -397,15 +464,15 @@ export abstract class BaseScene extends Phaser.Scene {
           }
 
           const player = players[0];
+          const target = clickedBumpkins[0];
+          const existing = target.getByName("interactionMenu") as
+            | Phaser.GameObjects.Container
+            | undefined;
 
-          if (
-            player.clothing?.hat === "Streamer Hat" ||
-            player.clothing?.shirt === "Gift Giver"
-          ) {
-            rewardModalManager.open(player);
-          } else {
-            playerModalManager.open(player);
+          if (!existing) {
+            this.showInteractionMenu(player, target);
           }
+
           return;
         }
 
@@ -454,6 +521,708 @@ export abstract class BaseScene extends Phaser.Scene {
       16,
     );
   };
+
+  private openPlayerProfile(player: PlayerModalPlayer) {
+    if (
+      player.clothing?.hat === "Streamer Hat" ||
+      player.clothing?.shirt === "Gift Giver"
+    ) {
+      rewardModalManager.open(player);
+      return;
+    }
+
+    playerModalManager.open(player);
+  }
+
+  private createRoundIconButton(x: number, y: number, icon: string) {
+    const container = this.add.container(x, y);
+    const buttonImage = this.add.image(0, 0, "round_button");
+    const iconImage = this.add.image(0, 0, icon);
+    iconImage.setDisplaySize(6, 6);
+    container.add(buttonImage);
+    container.add(iconImage);
+    buttonImage.setDisplaySize(14, 14);
+    buttonImage.setInteractive({ useHandCursor: true });
+    buttonImage.on("pointerdown", () => {
+      this.sound.play("button");
+      buttonImage.setTexture("round_button_pressed");
+    });
+    buttonImage.on("pointerup", () => {
+      buttonImage.setTexture("round_button");
+    });
+
+    return { container, buttonImage, iconImage };
+  }
+
+  // micro interactions code
+
+  private canCheerBumpkin(receiverId: number) {
+    const today = new Date().toISOString().split("T")[0];
+
+    if (this.gameState.socialFarming.cheersGiven.date !== today) return true;
+
+    return !this.gameState.socialFarming.cheersGiven.farms.includes(receiverId);
+  }
+
+  private updateInteractionTargetProximity() {
+    if (!this.currentPlayer) return;
+
+    // If we no longer have a valid menu/target, clear any stale references
+    if (!this.activeInteractionMenu || !this.activeInteractionTarget) {
+      this.activeInteractionMenu = undefined;
+      this.activeInteractionTarget = undefined;
+      return;
+    }
+
+    // If either the menu or the target bumpkin has been destroyed/despawned,
+    // clear the state and avoid accessing a destroyed entity.
+    if (
+      !this.activeInteractionMenu.active ||
+      !this.activeInteractionTarget.active
+    ) {
+      this.activeInteractionMenu = undefined;
+      this.activeInteractionTarget = undefined;
+      return;
+    }
+
+    const distance = Phaser.Math.Distance.BetweenPoints(
+      this.currentPlayer as BumpkinContainer,
+      this.activeInteractionTarget,
+    );
+
+    if (distance > 50) {
+      this.activeInteractionMenu.destroy();
+      this.activeInteractionTarget = undefined;
+      this.activeInteractionMenu = undefined;
+      return;
+    }
+  }
+
+  private showInteractionMenu(
+    player: PlayerModalPlayer,
+    target: BumpkinContainer,
+  ) {
+    // Destroy any existing menu anywhere
+    if (this.activeInteractionMenu && this.activeInteractionMenu.active) {
+      this.activeInteractionMenu.destroy();
+      this.activeInteractionTarget = undefined;
+      this.activeInteractionMenu = undefined;
+    }
+
+    // If there is already a pending micro interaction from this target player
+    // *towards* the current player, don't allow opening an interaction menu on
+    // them. This keeps the flow focused on responding to the existing request.
+    const currentFarmId = this.currentPlayer?.farmId;
+    const targetFarmId = target.farmId;
+    if (currentFarmId && targetFarmId) {
+      const pendingForUs = this.receivedMicroInteractions.get(currentFarmId);
+      if (pendingForUs && pendingForUs.senderId === targetFarmId) {
+        return;
+      }
+    }
+
+    // 2. Container positioned above the head, in *local* coordinates
+    const menu = this.add.container(0, -20);
+    menu.setName("interactionMenu");
+    this.activeInteractionMenu = menu;
+    this.activeInteractionTarget = target;
+
+    const canCheer = target.farmId && this.canCheerBumpkin(target.farmId);
+
+    const totalButtons = canCheer ? 3 : 2;
+    const spacing = totalButtons === 3 ? 14 : 16; // distance between buttons (horizontal)
+    const verticalSpacing = totalButtons === 3 ? 5 : 0;
+
+    // Compute positions so:
+    // - With 3 buttons: [-spacing, 0, +spacing]
+    // - With 2 buttons: [-spacing/2, +spacing/2]
+    let detailsX: number;
+    let waveX: number;
+    let cheerX: number | null = null;
+
+    if (totalButtons === 3) {
+      detailsX = -spacing;
+      waveX = 0;
+      cheerX = spacing;
+    } else {
+      detailsX = -spacing / 2;
+      waveX = spacing / 2;
+    }
+
+    // Left button - "details"
+    const { container: detailsBtnContainer, buttonImage: detailsBtn } =
+      this.createRoundIconButton(detailsX, verticalSpacing, "player_small");
+    detailsBtn.on("pointerup", () => {
+      detailsBtn.setTexture("round_button");
+      this.openPlayerProfile(player);
+      const existing = target.getByName("interactionMenu") as
+        | Phaser.GameObjects.Container
+        | undefined;
+      existing?.destroy();
+    });
+
+    // middle/right button - "wave"
+    const { container: waveBtnContainer, buttonImage: waveBtn } =
+      this.createRoundIconButton(waveX, 0, "hand_wave");
+
+    waveBtn.on("pointerup", () => {
+      this.requestMicroInteraction(target, "wave");
+      const existing = target.getByName("interactionMenu") as
+        | Phaser.GameObjects.Container
+        | undefined;
+      existing?.destroy();
+    });
+
+    // right button - "cheer"
+    let cheerBtnContainer: Phaser.GameObjects.Container | undefined;
+    if (canCheer) {
+      const { container, buttonImage: cheerBtn } = this.createRoundIconButton(
+        cheerX ?? spacing,
+        verticalSpacing,
+        "cheer",
+      );
+      cheerBtnContainer = container;
+
+      cheerBtn.on("pointerup", () => {
+        this.requestMicroInteraction(target, "cheer");
+        const existing = target.getByName("interactionMenu") as
+          | Phaser.GameObjects.Container
+          | undefined;
+        existing?.destroy();
+      });
+    }
+
+    const menuButtons = [detailsBtnContainer, waveBtnContainer];
+    if (cheerBtnContainer) {
+      menuButtons.push(cheerBtnContainer);
+    }
+
+    menu.add(menuButtons);
+
+    menu.y = 4; // roughly where their body is
+    menu.alpha = 0;
+    menu.scale = 0.6;
+
+    target.add(menu);
+    target.bringToTop(menu);
+
+    // Tween up above the head
+    this.tweens.add({
+      targets: menu,
+      y: -18, // final position above the head
+      alpha: 1,
+      scale: 1,
+      duration: 220,
+      ease: "Back.Out",
+    });
+  }
+  protected requestMicroInteraction(
+    target: BumpkinContainer,
+    interaction: "wave" | "cheer",
+  ) {
+    const senderFarmId = this.currentPlayer?.farmId;
+    const receiverFarmId = target.farmId;
+
+    // Must have two valid and different farm ids
+    if (!senderFarmId || !receiverFarmId) return;
+    if (senderFarmId === receiverFarmId) {
+      return;
+    }
+
+    // Only allow a single pending hello for a given receiver at a time
+    if (this.receivedMicroInteractions.has(receiverFarmId)) {
+      // Don't spam
+      return;
+    }
+
+    if (this.outgoingMicroInteractions.has(receiverFarmId)) {
+      // Don't spam
+      return;
+    }
+
+    // Send micro interaction request to the server (sender -> receiver)
+    this.sendMicroInteraction(interaction, senderFarmId, receiverFarmId);
+
+    // Show a local, non-clickable indicator above the receiver so the sender
+    // knows their interaction is pending.
+    const outgoingIndicator = this.createOutgoingMicroInteractionIndicator(
+      target,
+      interaction,
+    );
+
+    // Auto cancel the event after 5 seconds if no acknowledgement is received
+    const timeout = this.time.addEvent({
+      delay: MICRO_INTERACTION_TIMEOUT_MS,
+      callback: () => {
+        if (!this.outgoingMicroInteractions.has(receiverFarmId)) {
+          return;
+        }
+
+        this.sendMicroInteraction(
+          `${interaction}_cancel`,
+          senderFarmId,
+          receiverFarmId,
+        );
+        this.clearOutgoingMicroInteractionRequest(receiverFarmId);
+      },
+    });
+
+    this.outgoingMicroInteractions.set(receiverFarmId, {
+      timeout,
+      indicator: outgoingIndicator,
+    });
+    return;
+  }
+
+  private sendMicroInteraction(
+    type:
+      | "wave"
+      | "wave_ack"
+      | "wave_cancel"
+      | "cheer"
+      | "cheer_ack"
+      | "cheer_cancel",
+    senderId: number,
+    receiverId: number,
+  ) {
+    this.mmoServer?.send(0, {
+      microInteraction: {
+        type,
+        senderId,
+        receiverId,
+        sentAt: Date.now(),
+        sceneId: this.options.name,
+      },
+    });
+  }
+
+  // Renders a local, non-clickable indicator above the receiver bumpkin
+  // so the initiator can see that their micro interaction is pending.
+  private createOutgoingMicroInteractionIndicator(
+    target: BumpkinContainer,
+    type: MicroInteractionAction,
+  ) {
+    const existingIndicator = target.getByName(
+      "outgoingMicroInteractionIndicator",
+    ) as Phaser.GameObjects.Container | undefined;
+    existingIndicator?.destroy();
+
+    const icon = type === "wave" ? "hand_wave" : "cheer";
+
+    const indicator = this.add.container(0, -20);
+    indicator.setName("outgoingMicroInteractionIndicator");
+
+    const iconImage = this.add.image(0, 0, icon);
+    iconImage.setDisplaySize(8, 8);
+    indicator.add(iconImage);
+
+    indicator.y = 4; // roughly where their body is
+    indicator.alpha = 0.8;
+    indicator.scale = 1;
+
+    target.add(indicator);
+    target.bringToTop(indicator);
+
+    // Tween up above the head
+    this.tweens.add({
+      targets: indicator,
+      y: -16, // final position above the head
+      duration: 220,
+      ease: "Back.Out",
+    });
+
+    this.tweens.add({
+      targets: indicator,
+      scale: 1.1,
+      duration: 500,
+      ease: "Linear",
+      repeat: -1,
+      yoyo: true,
+    });
+
+    return indicator;
+  }
+
+  // Renders a lightweight clickable indicator above the receiver bumpkin.
+  private createMicroInteractionIndicator(
+    target: BumpkinContainer,
+    type: MicroInteractionAction,
+    senderId: number,
+    receiverId: number,
+  ) {
+    // Destroy any existing menu on this target
+    const existingIndicator = target.getByName("microInteractionIndicator") as
+      | Phaser.GameObjects.Container
+      | undefined;
+    existingIndicator?.destroy();
+
+    const icon = type === "wave" ? "hand_wave" : "cheer";
+
+    const indicator = this.add.container(0, -20);
+    indicator.setName("microInteractionIndicator");
+
+    const { container: indicatorBtnContainer, buttonImage: indicatorBtn } =
+      this.createRoundIconButton(0, 0, icon);
+
+    indicatorBtn.on("pointerup", () => {
+      this.sendMicroInteraction(`${type}_ack`, senderId, receiverId);
+      indicator.destroy();
+    });
+
+    indicator.add(indicatorBtnContainer);
+
+    indicator.y = 4; // roughly where their body is
+    indicator.alpha = 0;
+    indicator.scale = 0.6;
+
+    target.add(indicator);
+    target.bringToTop(indicator);
+
+    // Tween up above the head
+    this.tweens.add({
+      targets: indicator,
+      y: -16, // final position above the head
+      alpha: 1,
+      scale: 1,
+      duration: 220,
+      ease: "Back.Out",
+    });
+
+    this.tweens.add({
+      targets: indicator,
+      scale: 0.9,
+      delay: 220,
+      duration: 500,
+      ease: "Linear",
+      repeat: -1,
+      yoyo: true,
+    });
+
+    return { indicator };
+  }
+
+  // Handle the action coming from the server
+  private handleMicroInteractionAction(action: MicroInteraction) {
+    if (action.sceneId && action.sceneId !== this.options.name) return;
+    if (action.sentAt && action.sentAt < Date.now() - 5000) return;
+
+    const { receiverId, senderId } = action;
+
+    const target = this.findBumpkinByFarmId(senderId);
+    if (!target) return;
+
+    const type = action.type.includes("ack")
+      ? "acknowledged"
+      : action.type.includes("cancel")
+        ? "cancelled"
+        : "action";
+
+    switch (type) {
+      case "action": {
+        const isReceiver = this.currentPlayer?.farmId === receiverId;
+
+        if (isReceiver) {
+          // If we are the receiver and currently have an interaction menu open
+          // (e.g. we were inspecting or initiating something ourselves), close it
+          // so we can clearly see and respond to the incoming request.
+          if (this.activeInteractionMenu) {
+            this.activeInteractionMenu.destroy();
+            this.activeInteractionMenu = undefined;
+            this.activeInteractionTarget = undefined;
+          }
+
+          // Clear any stale pending interaction for this receiver before showing
+          // the new one, so we always surface the latest request.
+          const existing = this.receivedMicroInteractions.get(receiverId);
+          if (existing?.indicator) {
+            this.destroyMicroInteractionIndicator(existing.indicator);
+          }
+          if (existing) {
+            this.receivedMicroInteractions.delete(receiverId);
+          }
+
+          const { indicator } = this.createMicroInteractionIndicator(
+            target,
+            action.type as MicroInteractionAction,
+            senderId,
+            receiverId,
+          );
+
+          this.receivedMicroInteractions.set(receiverId, {
+            senderId,
+            receiverId,
+            type: action.type,
+            indicator,
+          });
+        }
+
+        break;
+      }
+      case "acknowledged": {
+        if (this.currentPlayer?.farmId === senderId) {
+          // Stop the initiator's local timeout
+          this.clearOutgoingMicroInteractionRequest(receiverId);
+        }
+
+        if (this.currentPlayer?.farmId === receiverId) {
+          const pending = this.receivedMicroInteractions.get(receiverId);
+          // Only clear if this ack corresponds to the current pending sender.
+          // Otherwise this is a stale ack from an older interaction.
+          if (pending && pending.senderId === senderId) {
+            this.receivedMicroInteractions.delete(receiverId);
+            this.destroyMicroInteractionIndicator(pending.indicator);
+          }
+        }
+
+        // Trigger interaction between the two bumpkins
+        this.triggerInteraction(
+          senderId,
+          receiverId,
+          action.type as MicroInteractionResponse,
+        );
+        break;
+      }
+      case "cancelled": {
+        if (this.currentPlayer?.farmId !== receiverId) return;
+        // Cancel sent from the sender after their timeout
+        const pending = this.receivedMicroInteractions.get(receiverId);
+        // Only cancel if the current pending request is from the cancelling sender.
+        // This prevents a late cancel from wiping a newer pending request.
+        if (!pending || pending.senderId !== senderId) return;
+
+        this.cancelMicroInteraction(receiverId, "timeout");
+        break;
+      }
+      default:
+        break;
+    }
+  }
+
+  private cancelMicroInteraction(
+    receiverFarmId: number,
+    reason: "timeout" | "despawn" | "initiatorLeft",
+  ) {
+    const interaction = this.receivedMicroInteractions.get(receiverFarmId);
+    if (!interaction) return;
+
+    this.receivedMicroInteractions.delete(receiverFarmId);
+    this.destroyMicroInteractionIndicator(interaction.indicator);
+
+    const sender = this.findBumpkinByFarmId(interaction.senderId);
+
+    if (reason === "timeout") {
+      sender?.speak(translate("microInteraction.maybe.later"));
+    }
+  }
+
+  private destroyMicroInteractionIndicator(
+    indicator?: Phaser.GameObjects.Container,
+  ) {
+    if (!indicator || !indicator.active) return;
+
+    indicator.removeAll(true);
+    indicator.destroy();
+  }
+
+  private triggerInteraction(
+    senderId: number,
+    receiverId: number,
+    interaction: MicroInteractionResponse,
+  ) {
+    const sender = this.findBumpkinByFarmId(senderId);
+    const receiver = this.findBumpkinByFarmId(receiverId);
+
+    if (!sender || !receiver) return;
+
+    this.faceReceiverTowardSender(receiver, sender);
+    this.faceSenderTowardReceiver(sender, receiver);
+
+    this.interact(sender, interaction);
+    this.interact(receiver, interaction);
+
+    if (
+      this.currentPlayer &&
+      (this.currentPlayer.farmId === senderId ||
+        this.currentPlayer.farmId === receiverId)
+    ) {
+      switch (interaction) {
+        case "wave_ack": {
+          sender.speak(translate("microInteraction.great.to.see.you"));
+          receiver.speak(translate("microInteraction.hey.there"));
+
+          // Determine the other participant for wave tracking
+          const currentFarmId = this.currentPlayer?.farmId;
+          const otherFarmId =
+            currentFarmId === senderId ? receiverId : senderId;
+
+          let shouldShowSocialPointReaction = false;
+
+          if (currentFarmId && otherFarmId) {
+            // Mirror the bumpkinWave logic to determine whether this wave
+            // will actually award a social point for the current player.
+            const socialFarming = this.gameState.socialFarming;
+            const today = new Date().toISOString().split("T")[0];
+
+            const waves = socialFarming.waves;
+            const isToday = waves?.date === today;
+            const farmsToday = isToday ? (waves?.farms ?? []) : [];
+
+            const hasAlreadyWavedThisPlayerToday =
+              farmsToday.includes(otherFarmId);
+            const hasReachedDailyWaveLimit = farmsToday.length >= 20;
+
+            shouldShowSocialPointReaction =
+              !hasAlreadyWavedThisPlayerToday && !hasReachedDailyWaveLimit;
+
+            // Award social points via the game machine (subject to daily limits)
+            this.gameService?.send({
+              type: "bumpkin.wave",
+              otherFarmId,
+            });
+          }
+
+          // Visual feedback for a successful social interaction:
+          // only show the Social Point reaction if this wave is expected
+          // to actually grant a point to the current player.
+          if (shouldShowSocialPointReaction) {
+            setTimeout(() => {
+              this.mmoServer?.send(0, {
+                reaction: {
+                  reaction: "Social Point",
+                  quantity: 1,
+                },
+              });
+              // Wait for the speech bubble to be gone
+            }, 5000);
+          }
+
+          break;
+        }
+        case "cheer_ack":
+          sender.speak(translate("microInteraction.here.s.a.cheer.for.you"));
+          setTimeout(() => {
+            receiver.speak(translate("microInteraction.thanks"));
+          }, 1000);
+          if (this.currentPlayer?.farmId === receiverId) {
+            setTimeout(() => {
+              this.mmoServer?.send(0, {
+                reaction: {
+                  reaction: "Social Point",
+                  quantity: 3,
+                },
+              });
+              // Wait for the speech bubble to be gone
+            }, 5000);
+          }
+          if (this.currentPlayer?.farmId === senderId) {
+            this.gameService?.send("farm.cheered", {
+              effect: {
+                type: "farm.cheered",
+                cheeredFarmId: receiverId,
+              },
+            });
+            setTimeout(() => {
+              this.mmoServer?.send(0, {
+                reaction: {
+                  reaction: "Social Point",
+                  quantity: 3,
+                },
+              });
+              // Wait for the speech bubble to be gone
+            }, 6000);
+          }
+          break;
+      }
+    }
+  }
+
+  private faceReceiverTowardSender(
+    receiver: BumpkinContainer,
+    sender: BumpkinContainer,
+  ) {
+    if (!receiver || !sender) return;
+
+    if (sender.x > receiver.x) {
+      receiver.faceRight();
+    } else if (sender.x < receiver.x) {
+      receiver.faceLeft();
+    }
+  }
+
+  private faceSenderTowardReceiver(
+    sender: BumpkinContainer,
+    receiver: BumpkinContainer,
+  ) {
+    if (!sender || !receiver) return;
+
+    if (receiver.x > sender.x) {
+      sender.faceRight();
+    } else if (receiver.x < sender.x) {
+      sender.faceLeft();
+    }
+  }
+
+  private interact(
+    entity: BumpkinContainer,
+    interaction: MicroInteractionResponse,
+  ) {
+    switch (interaction) {
+      case "wave_ack":
+        entity.wave();
+        break;
+      case "cheer_ack":
+        entity.cheer();
+        break;
+      default:
+        return;
+    }
+  }
+
+  private findBumpkinByFarmId(farmId?: number) {
+    if (!farmId) return undefined;
+
+    if (this.currentPlayer?.farmId === farmId) {
+      return this.currentPlayer;
+    }
+
+    return Object.values(this.playerEntities).find(
+      (entity) => entity.farmId === farmId,
+    );
+  }
+
+  private cleanupMicroInteractionsForFarm(farmId?: number) {
+    if (!farmId) return;
+
+    // If this farm had a pending request *towards* us (they were the initiator),
+    // clear the indicator so we don't keep showing an interaction from a player
+    // that has already left the scene.
+    const pendingFromDepartingFarm = Array.from(
+      this.receivedMicroInteractions.values(),
+    ).find((interaction) => interaction.senderId === farmId);
+
+    if (pendingFromDepartingFarm) {
+      this.cancelMicroInteraction(
+        pendingFromDepartingFarm.receiverId,
+        "initiatorLeft",
+      );
+    }
+
+    this.clearOutgoingMicroInteractionRequest(farmId);
+  }
+
+  private clearOutgoingMicroInteractionRequest(receiverFarmId?: number) {
+    if (!receiverFarmId) return;
+
+    const state = this.outgoingMicroInteractions.get(receiverFarmId);
+    if (!state) return;
+
+    state.timeout.remove();
+    if (state.indicator) {
+      this.destroyMicroInteractionIndicator(state.indicator);
+    }
+
+    this.outgoingMicroInteractions.delete(receiverFarmId);
+  }
 
   private roof: Phaser.Tilemaps.TilemapLayer | null = null;
 
@@ -615,6 +1384,7 @@ export abstract class BaseScene extends Phaser.Scene {
         serverId: this.options.mmo.serverId,
       });
     }
+
     const initialiseReactions = (server: Room<PlazaRoomState>) => {
       const removeMessageListener = server.state.messages.onAdd((message) => {
         // Old message
@@ -663,9 +1433,16 @@ export abstract class BaseScene extends Phaser.Scene {
         },
       );
 
+      const removeActionListener = server.state.microInteractions?.onAdd(
+        (action) => {
+          this.handleMicroInteractionAction(action as MicroInteraction);
+        },
+      );
+
       this.events.on("shutdown", () => {
         removeMessageListener();
         removeReactionListener();
+        removeActionListener?.();
 
         window.removeEventListener(AUDIO_MUTED_EVENT as any, this.onAudioMuted);
         this.input.off("pointerdown"); // clean up pointerdown event listener
@@ -949,6 +1726,18 @@ export abstract class BaseScene extends Phaser.Scene {
   destroyPlayer(sessionId: string) {
     const entity = this.playerEntities[sessionId];
     if (entity) {
+      // If the interaction menu is currently open for this entity, close it and
+      // clear the tracked target to avoid orphaned UI or stale references.
+      if (this.activeInteractionTarget === entity) {
+        if (this.activeInteractionMenu?.active) {
+          this.activeInteractionMenu.destroy();
+        }
+        this.activeInteractionMenu = undefined;
+        this.activeInteractionTarget = undefined;
+      }
+
+      this.cleanupMicroInteractionsForFarm(entity.farmId);
+
       // Dispatch player leave event
       const event = new CustomEvent("player_leave", {
         detail: { playerId: entity.farmId },
@@ -1033,10 +1822,16 @@ export abstract class BaseScene extends Phaser.Scene {
       this.movementAngle = this.keysToAngle(left, right, up, down);
     }
 
+    const isMoving =
+      this.movementAngle !== undefined && this.walkingSpeed !== 0;
+    const isInteracting = this.currentPlayer?.isInteracting();
+
     // change player direction if angle is changed from left to right or vise versa
     if (
       this.movementAngle !== undefined &&
-      Math.abs(this.movementAngle) !== 90
+      Math.abs(this.movementAngle) !== 90 &&
+      isMoving &&
+      !isInteracting
     ) {
       this.isFacingLeft = Math.abs(this.movementAngle) > 90;
       this.isFacingLeft
@@ -1047,7 +1842,9 @@ export abstract class BaseScene extends Phaser.Scene {
     // set player velocity
     const currentPlayerBody = this.currentPlayer
       .body as Phaser.Physics.Arcade.Body;
-    if (this.movementAngle !== undefined) {
+    if (isInteracting) {
+      currentPlayerBody.setVelocity(0, 0);
+    } else if (this.movementAngle !== undefined) {
       currentPlayerBody.setVelocity(
         this.walkingSpeed * Math.cos((this.movementAngle * Math.PI) / 180),
         this.walkingSpeed * Math.sin((this.movementAngle * Math.PI) / 180),
@@ -1057,9 +1854,7 @@ export abstract class BaseScene extends Phaser.Scene {
     }
 
     this.sendPositionToServer();
-
-    const isMoving =
-      this.movementAngle !== undefined && this.walkingSpeed !== 0;
+    this.updateInteractionTargetProximity();
 
     if (this.soundEffects) {
       this.soundEffects.forEach((audio) =>
@@ -1074,16 +1869,18 @@ export abstract class BaseScene extends Phaser.Scene {
     }
 
     if (this.walkAudioController) {
-      this.walkAudioController.handleWalkSound(isMoving);
+      this.walkAudioController.handleWalkSound(isMoving && !isInteracting);
     } else {
       // eslint-disable-next-line no-console
       console.error("walkAudioController is undefined");
     }
 
-    if (isMoving) {
-      this.currentPlayer.walk();
-    } else {
-      this.currentPlayer.idle();
+    if (!isInteracting) {
+      if (isMoving) {
+        this.currentPlayer.walk();
+      } else {
+        this.currentPlayer.idle();
+      }
     }
 
     this.currentPlayer.setDepth(Math.floor(this.currentPlayer.y));
@@ -1285,7 +2082,15 @@ export abstract class BaseScene extends Phaser.Scene {
 
         petContainer.x = Phaser.Math.Linear(petContainer.x, pet.x, 0.04);
         petContainer.y = Phaser.Math.Linear(petContainer.y, pet.y, 0.04);
-        petContainer.setDepth(petContainer.y);
+        // Render the pet behind its owner
+        const ownerEntity = this.playerEntities[sessionId];
+        const ownerPlayer = server.state.players.get(sessionId);
+        const ownerDepth = ownerEntity
+          ? Math.floor(ownerEntity.y)
+          : ownerPlayer
+            ? Math.floor(ownerPlayer.y ?? petContainer.y)
+            : petContainer.y;
+        petContainer.setDepth(Math.max(0, ownerDepth - 2));
       }
     });
   }
@@ -1310,18 +2115,27 @@ export abstract class BaseScene extends Phaser.Scene {
       // Skip if the player hasn't been set up yet
       if (!entity?.active) return;
 
-      if (player.x > entity.x) {
-        entity.faceRight();
-      } else if (player.x < entity.x) {
-        entity.faceLeft();
+      const isInteracting = entity.isInteracting();
+
+      if (!isInteracting) {
+        const movingHorizontally = Math.abs(player.x - entity.x) > 0.5;
+        if (movingHorizontally) {
+          if (player.x > entity.x) {
+            entity.faceRight();
+          } else if (player.x < entity.x) {
+            entity.faceLeft();
+          }
+        }
       }
 
       const distance = Phaser.Math.Distance.BetweenPoints(player, entity);
 
-      if (distance < 2) {
-        entity.idle();
-      } else {
-        entity.walk();
+      if (!isInteracting) {
+        if (distance < 2) {
+          entity.idle();
+        } else {
+          entity.walk();
+        }
       }
 
       entity.x = Phaser.Math.Linear(entity.x, player.x, 0.05);

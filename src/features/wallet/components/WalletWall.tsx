@@ -1,5 +1,7 @@
 import React from "react";
 import { Button } from "components/ui/Button";
+import { Modal } from "components/ui/Modal";
+import { Panel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
 import { isMobile } from "mobile-device-detect";
@@ -29,9 +31,10 @@ import { Loading } from "features/auth/components";
 import { CONFIG } from "lib/config";
 import { FSLButton } from "features/auth/components/buttons/FSLButton";
 import { WechatButton } from "features/auth/components/buttons/WechatButton";
-import { fslAuthorization } from "features/auth/actions/oauth";
 import { SignMessage } from "./SignMessage";
 import { FarcasterButton } from "./buttons/FarcasterButton";
+import walletIcon from "assets/icons/wallet.png";
+import { Label } from "components/ui/Label";
 
 const CONTENT_HEIGHT = 365;
 
@@ -139,6 +142,9 @@ export const WalletWall: React.FC<{
   const [page, setPage] = useState<"home" | "other" | "ronin">("home");
   const [showLoading, setShowLoading] = useState(false);
   const [hasClickedWallet, setHasClickedWallet] = useState(false);
+  const [deprecatedLogin, setDeprecatedLogin] = useState<
+    "wechat" | "fsl" | null
+  >(null);
 
   const { isConnecting, isConnected } = useAccount();
   const { connect, reset, error, isError, connectors } = useConnect();
@@ -173,6 +179,21 @@ export const WalletWall: React.FC<{
   const isMobilePWA = isMobile && isPWA;
   const isLoginScreen = screen === "signin" || screen === "signup";
   const showWechat = !isMobile && screen !== "signup";
+
+  const deprecatedLoginTitle =
+    deprecatedLogin === "fsl"
+      ? "FSL ID"
+      : deprecatedLogin === "wechat"
+        ? "WeChat"
+        : "";
+
+  const openDiscord = () => {
+    window.open(
+      "https://discord.gg/sunflowerland",
+      "_blank",
+      "noopener,noreferrer",
+    );
+  };
 
   const onConnect = (connector: Connector | CreateConnectorFn) => {
     setHasClickedWallet(true);
@@ -211,6 +232,30 @@ export const WalletWall: React.FC<{
         style={{ maxHeight: CONTENT_HEIGHT }}
       >
         <>
+          <Modal
+            show={!!deprecatedLogin}
+            onHide={() => setDeprecatedLogin(null)}
+          >
+            <Panel className="sm:w-4/5 m-auto">
+              <div className="p-2 space-y-2">
+                <p className="text-sm">
+                  {t("description.fslWechatDeprecation", {
+                    // Some languages still reference {{date}}
+                    date: "December 2025",
+                    title: deprecatedLoginTitle,
+                  })}
+                </p>
+              </div>
+              <div className="flex justify-content-around mt-2 space-x-1">
+                <Button onClick={openDiscord}>
+                  {t("error.contactSupport")}
+                </Button>
+                <Button onClick={() => setDeprecatedLogin(null)}>
+                  {t("ok")}
+                </Button>
+              </div>
+            </Panel>
+          </Modal>
           {header}
 
           {page === "home" && (
@@ -221,7 +266,7 @@ export const WalletWall: React.FC<{
                   <GoogleButton
                     onClick={() => {
                       setShowLoading(true);
-                      window.location.href = `${CONFIG.API_URL}/auth/google/authorize`;
+                      window.location.href = `${CONFIG.API_URL}/google/authorize`;
                     }}
                   />
                 </>
@@ -257,12 +302,7 @@ export const WalletWall: React.FC<{
               {isLoginScreen && (
                 <FSLButton
                   onClick={() => {
-                    setShowLoading(true);
-                    fslAuthorization.signIn().then((code) => {
-                      if (code) {
-                        window.location.href = `${CONFIG.API_URL}/auth/fsl/callback?code=${code}`;
-                      }
-                    });
+                    setDeprecatedLogin("fsl");
                   }}
                 />
               )}
@@ -283,6 +323,31 @@ export const WalletWall: React.FC<{
       style={{ maxHeight: CONTENT_HEIGHT }}
     >
       <>
+        <Modal show={!!deprecatedLogin} onHide={() => setDeprecatedLogin(null)}>
+          <Panel className="sm:w-4/5 m-auto">
+            <Label type="default" icon={walletIcon} className="ml-2">
+              {t("description.loginUnavailable")}
+            </Label>
+            <div className="p-2 space-y-2">
+              <p className="text-xs">
+                {t("description.fslWechatDeprecation", {
+                  // Some languages still reference {{date}}
+                  date: "December 2025",
+                  title: deprecatedLoginTitle,
+                })}
+              </p>
+              <p className="text-xs">
+                {t("description.fslWEchatDeprecationDescription")}
+              </p>
+            </div>
+            <div className="flex justify-content-around mt-2 space-x-1">
+              <Button onClick={openDiscord}>{t("error.contactSupport")}</Button>
+              <Button onClick={() => setDeprecatedLogin(null)}>
+                {t("ok")}
+              </Button>
+            </div>
+          </Panel>
+        </Modal>
         {header}
 
         {page === "home" && (
@@ -293,7 +358,7 @@ export const WalletWall: React.FC<{
                 <GoogleButton
                   onClick={() => {
                     setShowLoading(true);
-                    window.location.href = `${CONFIG.API_URL}/auth/google/authorize`;
+                    window.location.href = `${CONFIG.API_URL}/google/authorize`;
                   }}
                 />
               </>
@@ -323,20 +388,14 @@ export const WalletWall: React.FC<{
             {showWechat && (
               <WechatButton
                 onClick={() => {
-                  setShowLoading(true);
-                  window.location.href = `${CONFIG.API_URL}/auth/wechat/authorize`;
+                  setDeprecatedLogin("wechat");
                 }}
               />
             )}
             {isLoginScreen && (
               <FSLButton
                 onClick={() => {
-                  setShowLoading(true);
-                  fslAuthorization.signIn().then((code) => {
-                    if (code) {
-                      window.location.href = `${CONFIG.API_URL}/auth/fsl/callback?code=${code}`;
-                    }
-                  });
+                  setDeprecatedLogin("fsl");
                 }}
               />
             )}

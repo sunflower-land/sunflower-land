@@ -209,7 +209,8 @@ export type FarmActivityName =
   | "Rod Casted"
   | "Farm Cheered"
   | "Farm Helped"
-  | `${MonumentName} Completed`;
+  | `${MonumentName} Completed`
+  | "Daily Reward Collected";
 
 export function trackFarmActivity(
   activityName: FarmActivityName,

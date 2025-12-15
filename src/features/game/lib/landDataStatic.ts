@@ -614,7 +614,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   bumpkin: {
     equipped: INITIAL_EQUIPMENT as Equipped,
-    experience: 1000,
+    experience: 150000,
 
     id: 1,
     skills: {
@@ -886,6 +886,16 @@ export const STATIC_OFFLINE_FARM: GameState = {
         confidence: 67.58869171142578,
       },
     ],
+  },
+  farmActivity: {
+    "Daily Reward Collected": 10,
+  },
+  dailyRewards: {
+    chest: {
+      code: 1,
+      collectedAt: Date.now() - 24 * 60 * 60 * 1000,
+    },
+    streaks: 4,
   },
 
   conversations: [],
@@ -1383,7 +1393,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     },
   },
-  farmActivity: {},
+
   milestones: {},
   specialEvents: {
     history: {},
@@ -1587,6 +1597,10 @@ export const STATIC_OFFLINE_FARM: GameState = {
           type: "Trash",
         },
       },
+    },
+    waves: {
+      date: new Date().toISOString().split("T")[0],
+      farms: [],
     },
   },
   pets: {

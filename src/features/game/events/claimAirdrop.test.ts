@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_FARM, TEST_FARM } from "../lib/constants";
+import { INITIAL_EQUIPMENT, INITIAL_FARM, TEST_FARM } from "../lib/constants";
 import { claimAirdrop } from "./claimAirdrop";
 
 describe("claimAirdrop", () => {
@@ -682,6 +682,169 @@ describe("claimAirdrop", () => {
 
     expect(state.inventory["Pure Gold Rock"]).toEqual(new Decimal(1));
     expect(state.gold).toEqual({});
+    expect(state.airdrops).toEqual([]);
+  });
+
+  it("unequips wearable from bumpkin when claiming negative airdrop", () => {
+    const state = claimAirdrop({
+      state: {
+        ...INITIAL_FARM,
+        wardrobe: {
+          "Red Farmer Shirt": 2,
+          "Farmer Overalls": 1,
+        },
+        airdrops: [
+          {
+            id: "123",
+            createdAt: Date.now(),
+            items: {},
+            wearables: {
+              "Red Farmer Shirt": -1,
+            },
+            sfl: 0,
+            coins: 0,
+          },
+        ],
+      },
+      action: {
+        type: "airdrop.claimed",
+        id: "123",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.wardrobe["Red Farmer Shirt"]).toEqual(1);
+    expect(state.bumpkin?.equipped.shirt).toBeUndefined();
+    expect(state.bumpkin?.equipped.pants).toEqual("Farmer Overalls");
+    expect(state.airdrops).toEqual([]);
+  });
+
+  it("unequips wearable from farmhands when claiming negative airdrop", () => {
+    const state = claimAirdrop({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_EQUIPMENT,
+            shirt: "Yellow Farmer Shirt",
+          },
+        },
+        farmHands: {
+          bumpkins: {
+            1: {
+              equipped: {
+                ...INITIAL_EQUIPMENT,
+              },
+            },
+          },
+        },
+        wardrobe: {
+          "Red Farmer Shirt": 2,
+          "Yellow Farmer Shirt": 1,
+        },
+        airdrops: [
+          {
+            id: "123",
+            createdAt: Date.now(),
+            items: {},
+            wearables: {
+              "Red Farmer Shirt": -1,
+            },
+            sfl: 0,
+            coins: 0,
+          },
+        ],
+      },
+      action: {
+        type: "airdrop.claimed",
+        id: "123",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.wardrobe["Red Farmer Shirt"]).toEqual(1);
+    expect(state.farmHands.bumpkins[1]?.equipped.shirt).toBeUndefined();
+    expect(state.farmHands.bumpkins[1]?.equipped.pants).toEqual(
+      "Farmer Overalls",
+    );
+    expect(state.bumpkin?.equipped.shirt).toEqual("Yellow Farmer Shirt");
+    expect(state.airdrops).toEqual([]);
+  });
+
+  it("unequips wearable from bumpkin first, then farmhands when claiming negative airdrop", () => {
+    const state = claimAirdrop({
+      state: {
+        ...INITIAL_FARM,
+        farmHands: {
+          bumpkins: {
+            1: {
+              equipped: {
+                ...INITIAL_EQUIPMENT,
+              },
+            },
+          },
+        },
+        wardrobe: {
+          "Red Farmer Shirt": 2,
+        },
+        airdrops: [
+          {
+            id: "123",
+            createdAt: Date.now(),
+            items: {},
+            wearables: {
+              "Red Farmer Shirt": -1,
+            },
+            sfl: 0,
+            coins: 0,
+          },
+        ],
+      },
+      action: {
+        type: "airdrop.claimed",
+        id: "123",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.wardrobe["Red Farmer Shirt"]).toEqual(1);
+    expect(state.bumpkin?.equipped.shirt).toBeUndefined();
+    expect(state.farmHands.bumpkins[1]?.equipped.shirt).toEqual(
+      "Red Farmer Shirt",
+    );
+    expect(state.airdrops).toEqual([]);
+  });
+
+  it("claims a positive wearable airdrop without unequipping", () => {
+    const state = claimAirdrop({
+      state: {
+        ...INITIAL_FARM,
+        wardrobe: {
+          "Red Farmer Shirt": 1,
+        },
+        airdrops: [
+          {
+            id: "123",
+            createdAt: Date.now(),
+            items: {},
+            wearables: {
+              "Red Farmer Shirt": 2,
+            },
+            sfl: 0,
+            coins: 0,
+          },
+        ],
+      },
+      action: {
+        type: "airdrop.claimed",
+        id: "123",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.wardrobe["Red Farmer Shirt"]).toEqual(3);
+    expect(state.bumpkin?.equipped.shirt).toEqual("Red Farmer Shirt");
     expect(state.airdrops).toEqual([]);
   });
 });

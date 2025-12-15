@@ -116,16 +116,10 @@ export type Marketplace = {
   items: Tradeable[];
 };
 
-type TrendingItem = {
-  id: number;
-  collection: CollectionName;
-};
-
 export type MarketplaceTrends = {
   volume: number;
   trades: number;
   owners: number;
-  items: TrendingItem[];
   topTrades: {
     buyer: {
       id: number;
@@ -223,11 +217,12 @@ export function getPriceHistory({
   // Sort by most recent date first
   dates.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-  // For any dates that have no price, use the previous date's price
-  for (let i = 1; i < dates.length; i++) {
+  // For any dates that have no price, use the next older date's price
+  // Since array is sorted newest-first, we iterate backwards from oldest to newest
+  for (let i = dates.length - 2; i >= 0; i--) {
     if (dates[i].low === 0) {
-      dates[i].low = dates[i - 1].low;
-      dates[i].high = dates[i - 1].high;
+      dates[i].low = dates[i + 1].low;
+      dates[i].high = dates[i + 1].high;
     }
   }
 

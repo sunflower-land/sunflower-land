@@ -28,6 +28,7 @@ import { AOEItemName } from "features/game/expansion/placeable/lib/collisionDete
 import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { isWearableActive } from "features/game/lib/wearables";
+import { getPlotsToFertilise } from "./bulkFertilisePlot";
 
 export type SkillUseAction = {
   type: "skill.used";
@@ -283,22 +284,23 @@ export function powerSkillDisabledConditions({
     // Crop fertiliser skills
     case "Sprout Surge":
     case "Root Rocket": {
-      const unfertilisedPlots = Object.values(crops).filter(
-        (plot) => !plot.fertiliser,
-      ).length;
+      const unfertilisedPlots = getPlotsToFertilise(state, createdAt);
       const fertiliser =
         skillName === "Sprout Surge" ? "Sprout Mix" : "Rapid Root";
       const fertiliserCount = inventory[fertiliser] ?? new Decimal(0);
-
-      if (fertiliserCount.lt(unfertilisedPlots)) {
-        return {
-          disabled: true,
-        };
-      }
-      if (unfertilisedPlots === 0) {
+      if (unfertilisedPlots.length === 0) {
         return {
           disabled: true,
           reason: translate("powerSkills.reason.allPlotsFertilised"),
+        };
+      }
+
+      if (fertiliserCount.lt(unfertilisedPlots.length)) {
+        return {
+          disabled: true,
+          reason: translate("powerSkills.reason.insufficientFertiliser", {
+            fertiliser,
+          }),
         };
       }
       break;

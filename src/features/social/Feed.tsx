@@ -198,6 +198,13 @@ export const Feed: React.FC<Props> = ({
     mutate,
   );
 
+  useOnMachineTransition(
+    gameService,
+    "helpingFarm",
+    "helpingFarmSuccess",
+    mutate,
+  );
+
   const handleInteractionClick = (interaction: Interaction) => {
     setShowFeed(false);
     playerModalManager.open({

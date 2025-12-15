@@ -14,13 +14,14 @@ import { translate } from "lib/i18n/translate";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { AuthMachineState } from "features/auth/lib/authMachine";
-import { getMagicLink } from "features/auth/actions/magicLink";
 import { Label } from "components/ui/Label";
 import logo from "assets/brand/icon.png";
 import classNames from "classnames";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CopySvg } from "components/ui/CopyField";
 import clipboard from "clipboard";
+import { postEffect } from "features/game/actions/effect";
+import { randomID } from "lib/utils/random";
 
 const TOOL_TIP_MESSAGE = translate("copy.link");
 
@@ -51,11 +52,16 @@ export const InstallAppModal: React.FC = () => {
 
   const fetchMagicLink = async () => {
     try {
-      const { link } = await getMagicLink({
-        token,
-        farmId,
+      const {
+        data: { link },
+      } = await postEffect({
+        farmId: farmId,
+        token: token,
+        transactionId: randomID(),
+        effect: {
+          type: "appInstall.generate",
+        },
       });
-
       setMagicLink(link);
     } catch (e) {
       // eslint-disable-next-line no-console
