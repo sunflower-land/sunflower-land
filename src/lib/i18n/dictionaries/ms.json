@@ -7226,7 +7226,6 @@
   "version.updateCta": "Kemas kini",
   "referral.referred": "Dirujuk",
   "raffle.description": "Setiap bulan, anda mempunyai peluang untuk memenangi ganjaran. Pemenang Raffle Goblin akan diumumkan pada Friday Twitch Streams pada hari Jumaat pertama atau ke-2 bulan berikutnya. Cth. Pemenang Mei akan diumumkan pada hari Jumaat pertama atau kedua bulan Jun. Keputusan juga disematkan dalam Discord di #farmers -chat",
-  "description.fslWechatDeprecation": "Pada {{date}} kami mengeluarkan sokongan untuk log masuk {{title}}. Ke hadapan {{title}} pemain perlu log masuk dengan dompet web3.",
   "description.fslWechatDeprecationLinkWallet": "Sila pautkan dompet untuk terus bersedia untuk perubahan tersebut.",
   "description.fslWechatDeprecationThankYou": "Terima kasih kerana menghubungkan dompet anda. Anda kini boleh terus bermain permainan.",
   "dailyReward.title": "Ganjaran Harian",
@@ -7260,5 +7259,8 @@
   "flowerRewards.howToParticipate": "Untuk mengambil bahagian, anda boleh menambah kecairan ke kolam V3 USDC/FLOWER (0.3%) pada",
   "withdraw.flower.minimumWithdrawal": "Jumlah pengeluaran minimum ialah 5 BUNGA.",
   "reward.xp": "Wow, rangsangan XP yang bagus!",
-  "reward.powerHour": "50% tanaman lebih cepat +0.2 hasil selama 1 jam"
+  "reward.powerHour": "50% tanaman lebih cepat +0.2 hasil selama 1 jam",
+  "description.loginUnavailable": "Log Masuk Tidak Tersedia",
+  "description.fslWechatDeprecation": "{{title}} log masuk telah dikeluarkan.",
+  "description.fslWEchatDeprecationDescription": "Sila log masuk dengan dompet yang dipautkan ladang anda atau hubungi sokongan di discord."
 }

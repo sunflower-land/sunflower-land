@@ -7226,7 +7226,6 @@
   "version.updateCta": "Actualización",
   "referral.referred": "Referido",
   "raffle.description": "Cada mes, tienes la oportunidad de ganar recompensas. Los ganadores del sorteo de duendes se anunciarán en las retransmisiones de Twitch de los viernes, el primer o segundo viernes del mes siguiente. Por ejemplo. Los ganadores de mayo se anunciarán el primer o segundo viernes de junio. Los resultados también están publicados en Discord en #farmers -chat",
-  "description.fslWechatDeprecation": "El {{date}} eliminaremos la compatibilidad con el inicio de sesión {{title}}. De ahora en adelante, los jugadores de {{title}} deberán iniciar sesión con una billetera web3.",
   "description.fslWechatDeprecationLinkWallet": "Vincula un monedero para seguir preparándote para el cambio.",
   "description.fslWechatDeprecationThankYou": "Gracias por vincular tu monedero. Ahora puedes seguir jugando al juego.",
   "dailyReward.title": "Recompensa diaria",
@@ -7260,5 +7259,8 @@
   "flowerRewards.howToParticipate": "Para participar, puedes añadir liquidez a la reserva V3 de USDC/FLOWER (0,3%) en",
   "withdraw.flower.minimumWithdrawal": "El monto mínimo de retiro es de 5 FLOWER.",
   "reward.xp": "¡Vaya, un buen aumento de XP!",
-  "reward.powerHour": "Cultivos un 50% más rápidos +rendimiento del 0,2 durante 1 hora"
+  "reward.powerHour": "Cultivos un 50% más rápidos +rendimiento del 0,2 durante 1 hora",
+  "description.loginUnavailable": "Inicio de sesión no disponible",
+  "description.fslWechatDeprecation": "Se ha eliminado el inicio de sesión de {{title}}.",
+  "description.fslWEchatDeprecationDescription": "Inicia sesión con la billetera vinculada de tu granja o ponte en contacto con el servicio de asistencia en Discord."
 }

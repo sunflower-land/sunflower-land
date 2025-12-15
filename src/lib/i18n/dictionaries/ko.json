@@ -7226,7 +7226,6 @@
   "version.updateCta": "업데이트",
   "referral.referred": "참조됨",
   "raffle.description": "매달 보상을 받을 수 있는 기회가 있습니다.고블린 추첨 당첨자는 다음 달 첫째 주 또는 둘째 주 금요일에 열리는 금요일 Twitch Streams에서 발표됩니다.예:5월 수상자는 6월 첫 번째 또는 두 번째 금요일에 발표됩니다.결과는 #farmers -chat의 디스코드에도 표시됩니다.",
-  "description.fslWechatDeprecation": "{{date}} 에서 {{title}} 로그인에 대한 지원을 제거합니다.앞으로 {{title}} 플레이어는 web3 지갑으로 로그인해야 합니다.",
   "description.fslWechatDeprecationLinkWallet": "변경 준비를 계속하려면 지갑을 연결하세요.",
   "description.fslWechatDeprecationThankYou": "지갑을 연결해 주셔서 감사합니다.이제 게임을 계속 플레이할 수 있습니다.",
   "dailyReward.title": "데일리 리워드",
@@ -7260,5 +7259,8 @@
   "flowerRewards.howToParticipate": "참여하려면 다음과 같이 V3 USDC/FLOWER 풀 (0.3%) 에 유동성을 추가할 수 있습니다.",
   "withdraw.flower.minimumWithdrawal": "최소 인출 금액은 5 플라워입니다.",
   "reward.xp": "와우, 멋진 XP 부스트!",
-  "reward.powerHour": "1시간 동안 50% 더 빠른 작물 수확량 +0.2 수확량"
+  "reward.powerHour": "1시간 동안 50% 더 빠른 작물 수확량 +0.2 수확량",
+  "description.loginUnavailable": "로그인 불가능",
+  "description.fslWechatDeprecation": "{{title}} 로그인이 제거되었습니다.",
+  "description.fslWEchatDeprecationDescription": "팜의 연결된 지갑으로 로그인하거나 Discord에서 지원팀에 문의하세요."
 }

@@ -7226,7 +7226,6 @@
   "version.updateCta": "Обновить",
   "referral.referred": "Приглашённые",
   "raffle.description": "Каждый месяц у тебя есть шанс выиграть награды. Победители Goblin Raffle объявляются во время пятничных стримов на Twitch в первую или вторую пятницу следующего месяца. Например, победители майского розыгрыша будут объявлены в первую или вторую пятницу июня. Результаты также закрепляются в Discord в канале #farmers-chat.",
-  "description.fslWechatDeprecation": "{{date}} мы прекращаем поддержку входа через {{title}}. Дальше игрокам {{title}} нужно будет входить через web3-кошелёк.",
   "description.fslWechatDeprecationLinkWallet": "Пожалуйста, привяжи кошелёк, чтобы подготовиться к изменениям.",
   "description.fslWechatDeprecationThankYou": "Спасибо, что привязал(а) кошелёк. Можно играть дальше!",
   "dailyReward.title": "Ежедневная награда",
@@ -7260,5 +7259,8 @@
   "flowerRewards.howToParticipate": "Чтобы присоединиться, добавь ликвидность в пул V3 USDC/FLOWER (0.3%) на",
   "withdraw.flower.minimumWithdrawal": "Минимальная сумма вывода - 5 FLOWER.",
   "reward.xp": "Wow, a nice XP boost!",
-  "reward.powerHour": "50% faster crops +0.2 yield for 1 hour"
+  "reward.powerHour": "50% faster crops +0.2 yield for 1 hour",
+  "description.loginUnavailable": "Login Unavailable",
+  "description.fslWechatDeprecation": "{{title}} login has been removed.",
+  "description.fslWEchatDeprecationDescription": "Please sign in with your farm's linked wallet or contact support on discord."
 }

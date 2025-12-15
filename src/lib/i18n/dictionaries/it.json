@@ -7226,7 +7226,6 @@
   "version.updateCta": "Aggiornamento",
   "referral.referred": "Riferito",
   "raffle.description": "Ogni mese, hai la possibilità di vincere premi. I vincitori della Goblin Raffle saranno annunciati negli stream di Twitch del venerdì il primo o il secondo venerdì del mese successivo. Ad esempio. I vincitori di maggio saranno annunciati il primo o il secondo venerdì di giugno. I risultati sono inoltre disponibili in Discord su #farmers -chat",
-  "description.fslWechatDeprecation": "Su {{date}} stiamo rimuovendo il supporto per l'accesso {{title}}. D'ora in avanti i giocatori {{title}} dovranno accedere con un portafoglio web3.",
   "description.fslWechatDeprecationLinkWallet": "Collega un portafoglio per continuare a prepararti alla modifica.",
   "description.fslWechatDeprecationThankYou": "Grazie per aver collegato il tuo portafoglio. Ora puoi continuare a giocare.",
   "dailyReward.title": "Ricompensa giornaliera",
@@ -7260,5 +7259,8 @@
   "flowerRewards.howToParticipate": "Per partecipare, puoi aggiungere liquidità al pool V3 USDC/FLOWER (0,3%) il",
   "withdraw.flower.minimumWithdrawal": "L'importo minimo di prelievo è di 5 FIORI.",
   "reward.xp": "Wow, un bel aumento di XP!",
-  "reward.powerHour": "Colture più veloci del 50% +0,2% di resa per 1 ora"
+  "reward.powerHour": "Colture più veloci del 50% +0,2% di resa per 1 ora",
+  "description.loginUnavailable": "Login non disponibile",
+  "description.fslWechatDeprecation": "L'accesso {{title}} è stato rimosso.",
+  "description.fslWEchatDeprecationDescription": "Accedi con il portafoglio collegato alla tua fattoria o contatta l'assistenza su discord."
 }

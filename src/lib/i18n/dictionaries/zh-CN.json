@@ -7226,7 +7226,6 @@
   "version.updateCta": "更新",
   "referral.referred": "已推荐",
   "raffle.description": "每个月你都有机会赢得奖励。Goblin 抽奖的获奖者，将在下个月的第 1 或第 2 个星期五，于周五的 Twitch 直播中公布（例如：5 月的获奖者会在 6 月的第一个或第二个星期五公布）。得奖名单也会置顶发布在 Discord 的 #farmers-chat 频道中。",
-  "description.fslWechatDeprecation": "从 {{date}} 起，我们将停止支持使用 {{title}} 登录。今后，{{title}} 玩家需要通过 web3 钱包登录游戏。",
   "description.fslWechatDeprecationLinkWallet": "请先绑定钱包，为这项变更做好准备。",
   "description.fslWechatDeprecationThankYou": "感谢你完成钱包绑定，现在可以继续畅玩游戏了。",
   "dailyReward.title": "每日奖励",
@@ -7260,5 +7259,8 @@
   "flowerRewards.howToParticipate": "想参加活动的话，可以到 V3 USDC/FLOWER（0.3%）资金池里提供流动性。",
   "withdraw.flower.minimumWithdrawal": "单次最低提领数量为 5 FLOWER。",
   "reward.xp": "哇，一个不错的经验值提升！",
-  "reward.powerHour": "作物速度提高 50%，1 小时产量增加 0.2"
+  "reward.powerHour": "作物速度提高 50%，1 小时产量增加 0.2",
+  "description.loginUnavailable": "登录不可用",
+  "description.fslWechatDeprecation": "{{title}} 登录名已删除。",
+  "description.fslWEchatDeprecationDescription": "请使用您农场的关联钱包登录，或通过 Discord 联系客服。"
 }

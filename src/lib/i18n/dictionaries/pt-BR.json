@@ -7226,7 +7226,6 @@
   "version.updateCta": "Atualizar",
   "referral.referred": "Referido",
   "raffle.description": "Todo mês, você tem a chance de ganhar recompensas. Os vencedores do Goblin Raffle serão anunciados nas transmissões da Twitch de sexta-feira, na 1ª ou 2ª sexta-feira do mês seguinte. Ex. Os vencedores de maio serão anunciados na primeira ou segunda sexta-feira de junho. Os resultados também estão fixados no Discord em #farmers -chat",
-  "description.fslWechatDeprecation": "Em {{date}}, estamos removendo o suporte para login {{title}}. A partir de agora, os jogadores {{title}} precisarão fazer login com uma carteira web3.",
   "description.fslWechatDeprecationLinkWallet": "Vincule uma carteira para continuar se preparando para a alteração.",
   "description.fslWechatDeprecationThankYou": "Obrigado por vincular sua carteira. Agora você pode continuar jogando o jogo.",
   "dailyReward.title": "Recompensa diária",
@@ -7260,5 +7259,8 @@
   "flowerRewards.howToParticipate": "Para participar, você pode adicionar liquidez ao pool V3 USDC/FLOWER (0,3%) em",
   "withdraw.flower.minimumWithdrawal": "O valor mínimo de retirada é de 5 FLOWER.",
   "reward.xp": "Nossa, um ótimo aumento de XP!",
-  "reward.powerHour": "Culturas 50% mais rápidas +0,2 rendimento por 1 hora"
+  "reward.powerHour": "Culturas 50% mais rápidas +0,2 rendimento por 1 hora",
+  "description.loginUnavailable": "Login indisponível",
+  "description.fslWechatDeprecation": "O login {{title}} foi removido.",
+  "description.fslWEchatDeprecationDescription": "Faça login com a carteira vinculada da sua fazenda ou entre em contato com o suporte no discord."
 }

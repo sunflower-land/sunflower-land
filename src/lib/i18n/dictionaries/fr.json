@@ -7226,7 +7226,6 @@
   "version.updateCta": "Mettre à jour",
   "referral.referred": "Référé",
   "raffle.description": "Chaque mois, tu as la chance de gagner des récompenses. Les gagnants de la tombola des gobelins seront annoncés sur les streams Twitch du vendredi, les 1er ou 2e vendredis du mois suivant. Par exemple. Les gagnants du mois de mai seront annoncés le premier ou le deuxième vendredi de juin. Les résultats sont également publiés dans Discord sur #farmers -chat",
-  "description.fslWechatDeprecation": "Le {{date}}, nous supprimons la prise en charge de la connexion {{title}}. À l'avenir, les joueurs {{title}} devront se connecter avec un portefeuille Web3.",
   "description.fslWechatDeprecationLinkWallet": "Veuillez associer un portefeuille pour continuer à vous préparer au changement.",
   "description.fslWechatDeprecationThankYou": "Merci d'avoir associé votre portefeuille. Vous pouvez maintenant continuer à jouer.",
   "dailyReward.title": "Récompense quotidienne",
@@ -7260,5 +7259,8 @@
   "flowerRewards.howToParticipate": "Pour participer, vous pouvez ajouter des liquidités au pool V3 USDC/FLOWER (0,3 %) sur",
   "withdraw.flower.minimumWithdrawal": "Le montant minimum de retrait est de 5 FLEURS.",
   "reward.xp": "Waouh, une belle augmentation d'XP !",
-  "reward.powerHour": "Récoltes 50 % plus rapides +0,2 rendement pendant 1 heure"
+  "reward.powerHour": "Récoltes 50 % plus rapides +0,2 rendement pendant 1 heure",
+  "description.loginUnavailable": "Login non disponible",
+  "description.fslWechatDeprecation": "La connexion {{title}} a été supprimée.",
+  "description.fslWEchatDeprecationDescription": "Connectez-vous à l'aide du portefeuille associé à votre ferme ou contactez l'assistance sur Discord."
 }
