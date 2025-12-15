@@ -6,7 +6,7 @@ import { applyFertiliserToPlot } from "./fertilisePlot";
 import { produce } from "immer";
 import { isReadyToHarvest } from "./harvest";
 import { CROPS } from "../../types/crops";
-import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 
 export type BulkFertilisePlotAction = {
   type: "plots.bulkFertilised";
@@ -78,9 +78,9 @@ export function bulkFertilisePlot({
     }
 
     game.inventory[action.fertiliser] = fertiliserCount.minus(applied);
-    game.bumpkin.activity = trackActivity(
-      "Crop Fertilised",
-      game.bumpkin?.activity,
+    game.farmActivity = trackFarmActivity(
+      `Crop Fertilised`,
+      game.farmActivity,
       new Decimal(applied),
     );
   });
