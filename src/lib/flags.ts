@@ -113,7 +113,6 @@ const FEATURE_FLAGS = {
   MEMORY_BETA: defaultFeatureFlag,
   VERSION_UPDATES: defaultFeatureFlag,
   DAILY_BOXES: defaultFeatureFlag,
-  MICRO_INTERACTIONS: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

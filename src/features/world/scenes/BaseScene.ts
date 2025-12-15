@@ -51,7 +51,6 @@ import {
   PlayerModalPlayer,
 } from "features/social/lib/playerModalManager";
 import { rewardModalManager } from "features/social/lib/rewardModalManager";
-import { hasFeatureAccess } from "lib/flags";
 
 export type NPCBumpkin = {
   x: number;
@@ -471,11 +470,7 @@ export abstract class BaseScene extends Phaser.Scene {
             | undefined;
 
           if (!existing) {
-            if (hasFeatureAccess(this.gameState, "MICRO_INTERACTIONS")) {
-              this.showInteractionMenu(player, target);
-            } else {
-              this.openPlayerProfile(player);
-            }
+            this.showInteractionMenu(player, target);
           }
 
           return;
@@ -612,6 +607,18 @@ export abstract class BaseScene extends Phaser.Scene {
       this.activeInteractionMenu.destroy();
       this.activeInteractionTarget = undefined;
       this.activeInteractionMenu = undefined;
+    }
+
+    // If there is already a pending micro interaction from this target player
+    // *towards* the current player, don't allow opening an interaction menu on
+    // them. This keeps the flow focused on responding to the existing request.
+    const currentFarmId = this.currentPlayer?.farmId;
+    const targetFarmId = target.farmId;
+    if (currentFarmId && targetFarmId) {
+      const pendingForUs = this.receivedMicroInteractions.get(currentFarmId);
+      if (pendingForUs && pendingForUs.senderId === targetFarmId) {
+        return;
+      }
     }
 
     // 2. Container positioned above the head, in *local* coordinates
@@ -912,10 +919,28 @@ export abstract class BaseScene extends Phaser.Scene {
 
     switch (type) {
       case "action": {
-        // Only allow one wave per receiver at any given time
-        if (this.receivedMicroInteractions.has(receiverId)) return;
+        const isReceiver = this.currentPlayer?.farmId === receiverId;
 
-        if (this.currentPlayer?.farmId === receiverId) {
+        if (isReceiver) {
+          // If we are the receiver and currently have an interaction menu open
+          // (e.g. we were inspecting or initiating something ourselves), close it
+          // so we can clearly see and respond to the incoming request.
+          if (this.activeInteractionMenu) {
+            this.activeInteractionMenu.destroy();
+            this.activeInteractionMenu = undefined;
+            this.activeInteractionTarget = undefined;
+          }
+
+          // Clear any stale pending interaction for this receiver before showing
+          // the new one, so we always surface the latest request.
+          const existing = this.receivedMicroInteractions.get(receiverId);
+          if (existing?.indicator) {
+            this.destroyMicroInteractionIndicator(existing.indicator);
+          }
+          if (existing) {
+            this.receivedMicroInteractions.delete(receiverId);
+          }
+
           const { indicator } = this.createMicroInteractionIndicator(
             target,
             action.type as MicroInteractionAction,
@@ -941,7 +966,9 @@ export abstract class BaseScene extends Phaser.Scene {
 
         if (this.currentPlayer?.farmId === receiverId) {
           const pending = this.receivedMicroInteractions.get(receiverId);
-          if (pending) {
+          // Only clear if this ack corresponds to the current pending sender.
+          // Otherwise this is a stale ack from an older interaction.
+          if (pending && pending.senderId === senderId) {
             this.receivedMicroInteractions.delete(receiverId);
             this.destroyMicroInteractionIndicator(pending.indicator);
           }
@@ -958,6 +985,11 @@ export abstract class BaseScene extends Phaser.Scene {
       case "cancelled": {
         if (this.currentPlayer?.farmId !== receiverId) return;
         // Cancel sent from the sender after their timeout
+        const pending = this.receivedMicroInteractions.get(receiverId);
+        // Only cancel if the current pending request is from the cancelling sender.
+        // This prevents a late cancel from wiping a newer pending request.
+        if (!pending || pending.senderId !== senderId) return;
+
         this.cancelMicroInteraction(receiverId, "timeout");
         break;
       }
