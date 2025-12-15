@@ -369,23 +369,24 @@ export const Chest: React.FC<Props> = ({
     );
   }
 
+  const collectibleNames = getKeys(collectibles);
+
   // Sort collectibles by type
-  const resources = getKeys(collectibles).filter((name) => name in RESOURCES);
-  const buildings = getKeys(collectibles).filter((name) => name in BUILDINGS);
-  const monuments = getKeys(collectibles).filter((name) => name in MONUMENTS);
-  const villageProjects = getKeys(collectibles).filter(
+  const resources = collectibleNames.filter((name) => name in RESOURCES);
+  const buildings = collectibleNames.filter((name) => name in BUILDINGS);
+  const monuments = collectibleNames.filter((name) => name in MONUMENTS);
+  const villageProjects = collectibleNames.filter(
     (name) => name in REWARD_ITEMS,
   );
 
-  const banners = getKeys(collectibles).filter((name) => name in BANNERS);
-  const beds = getKeys(collectibles).filter((name) => name in BEDS);
-  const weatherItems = getKeys(collectibles).filter(
+  const banners = collectibleNames.filter((name) => name in BANNERS);
+  const beds = collectibleNames.filter((name) => name in BEDS);
+  const weatherItems = collectibleNames.filter(
     (name) => name in WEATHER_SHOP_ITEM_COSTS,
   );
 
-  const dolls = getKeys(collectibles).filter((name) => name in DOLLS);
-
-  const pets = getKeys(collectibles).filter((name) => name in PET_TYPES);
+  const dolls = collectibleNames.filter((name) => name in DOLLS);
+  const pets = collectibleNames.filter((name) => name in PET_TYPES);
 
   // Use Sets for O(1) lookups instead of O(n) .includes()
   const resourcesSet = new Set(resources);
@@ -398,7 +399,7 @@ export const Chest: React.FC<Props> = ({
   const dollsSet = new Set(dolls);
   const petsSet = new Set(pets);
 
-  const boosts = getKeys(collectibles)
+  const boosts = collectibleNames
     .filter(
       (name) =>
         name in COLLECTIBLE_BUFF_LABELS &&
@@ -420,7 +421,7 @@ export const Chest: React.FC<Props> = ({
 
   const boostsSet = new Set(boosts);
 
-  const decorations = getKeys(collectibles).filter(
+  const decorations = collectibleNames.filter(
     (name) =>
       !resourcesSet.has(name) &&
       !buildingsSet.has(name) &&
