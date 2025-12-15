@@ -13,7 +13,7 @@ import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/decorations";
 import { GameState, Inventory } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/chapters";
 import {
   STYLIST_WEARABLES,
   StylistWearable,

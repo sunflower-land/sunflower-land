@@ -11,7 +11,7 @@ import { getKeys } from "./decorations";
 import { BB_TO_GEM_RATIO, InventoryItemName } from "./game";
 import { MEGASTORE, SeasonalStore } from "./megastore";
 import { RewardBoxReward } from "./rewardBoxes";
-import { getCurrentSeason } from "./seasons";
+import { getCurrentSeason } from "./chapters";
 import { BUMPKIN_RELEASES, INVENTORY_RELEASES } from "./withdrawables";
 
 export const CHEST_MULTIPLIER = 900;

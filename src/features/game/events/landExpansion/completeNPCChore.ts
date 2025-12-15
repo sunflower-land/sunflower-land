@@ -11,7 +11,7 @@ import {
   getCurrentSeason,
   getSeasonalTicket,
   SeasonName,
-} from "features/game/types/seasons";
+} from "features/game/types/chapters";
 import { isWearableActive } from "features/game/lib/wearables";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";

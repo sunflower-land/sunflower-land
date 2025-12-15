@@ -18,7 +18,7 @@ import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { BulkSellModal } from "components/ui/BulkSellModal";
 import { SEASONAL_ARTEFACT } from "features/game/types/desert";
-import { getCurrentSeason } from "features/game/types/seasons";
+import { getCurrentSeason } from "features/game/types/chapters";
 
 export const TreasureShopSell: React.FC = () => {
   const { t } = useAppTranslation();

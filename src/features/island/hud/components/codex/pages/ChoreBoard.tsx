@@ -15,7 +15,7 @@ import { getImageUrl } from "lib/utils/getImageURLS";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import React, { useContext, useState } from "react";
 
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/chapters";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getChoreProgress,

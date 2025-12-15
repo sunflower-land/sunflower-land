@@ -35,7 +35,7 @@ import {
   getArtefactsFound,
   SEASONAL_ARTEFACT,
 } from "features/game/types/desert";
-import { getCurrentSeason } from "features/game/types/seasons";
+import { getCurrentSeason } from "features/game/types/chapters";
 import { hasClaimedPetalPrize } from "features/game/events/landExpansion/claimPetalPrize";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useNavigate } from "react-router";

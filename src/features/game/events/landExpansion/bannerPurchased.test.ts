@@ -7,7 +7,7 @@ import {
   getCurrentSeason,
   getPreviousSeasonalBanner,
   getSeasonalBanner,
-} from "features/game/types/seasons";
+} from "features/game/types/chapters";
 import { BB_TO_GEM_RATIO } from "features/game/types/game";
 
 describe("purchaseBanner", () => {

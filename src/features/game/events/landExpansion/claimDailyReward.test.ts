@@ -2,7 +2,7 @@ import { claimDailyReward } from "./claimDailyReward";
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/chapters";
 import { calculateXPPotion } from "features/game/types/dailyRewards";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 

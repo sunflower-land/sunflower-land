@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import { FlowerName } from "features/game/types/flowers";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/chapters";
 import { produce } from "immer";
 
 export type FlowerShopTradedAction = {

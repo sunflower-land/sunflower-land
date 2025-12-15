@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { Inventory, Keys } from "./game";
 import { translate } from "lib/i18n/translate";
-import { SEASONS } from "./seasons";
+import { SEASONS } from "./chapters";
 import { ExoticCropName } from "./beans";
 
 export type PlaceableLocation = "farm" | "home";

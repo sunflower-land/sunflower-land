@@ -22,7 +22,7 @@ import {
   getCurrentSeason,
   SeasonName,
   SEASONS,
-} from "features/game/types/seasons";
+} from "features/game/types/chapters";
 import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 

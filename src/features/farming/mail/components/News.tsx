@@ -14,7 +14,7 @@ import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import lightningIcon from "assets/icons/lightning.png";
 import flowerIcon from "assets/icons/flower_token.webp";
 import redPansyIcon from "assets/flowers/red_pansy.webp";
-import { SEASON_TICKET_NAME, SeasonName } from "features/game/types/seasons";
+import { SEASON_TICKET_NAME, SeasonName } from "features/game/types/chapters";
 import { SEASONAL_MUTANTS } from "features/island/hud/components/codex/components/SeasonalMutants";
 import { CHAPTER_GRAPHICS } from "features/island/hud/components/codex/pages/Season";
 

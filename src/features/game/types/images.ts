@@ -1117,7 +1117,7 @@ import { LANDSCAPING_DECORATIONS } from "./decorations";
 import { SELLABLE_TREASURE } from "./treasure";
 import { TREASURE_COLLECTIBLE_ITEM } from "./collectibles";
 import { ANIMAL_FOODS } from "./animals";
-import { hasSeasonEnded } from "./seasons";
+import { hasSeasonEnded } from "./chapters";
 
 export interface ItemDetails {
   description: string;

@@ -41,7 +41,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import {
   getCurrentSeason,
   getSeasonalArtefact,
-} from "features/game/types/seasons";
+} from "features/game/types/chapters";
 import { ChestRewardsList } from "components/ui/ChestRewardsList";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useNow } from "lib/utils/hooks/useNow";

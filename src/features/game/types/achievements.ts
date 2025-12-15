@@ -6,7 +6,7 @@ import { COOKABLES, COOKABLE_CAKES } from "./consumables";
 import { getKeys, TOOLS } from "./craftables";
 import { CROPS } from "./crops";
 import { GREENHOUSE_FRUIT, PATCH_FRUIT } from "./fruits";
-import { getSeasonalTicket } from "./seasons";
+import { getSeasonalTicket } from "./chapters";
 import { translate } from "lib/i18n/translate";
 
 export type AchievementName =

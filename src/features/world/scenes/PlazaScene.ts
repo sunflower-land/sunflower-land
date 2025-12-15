@@ -15,7 +15,7 @@ import { capitalize } from "lib/utils/capitalize";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { DogContainer } from "../containers/DogContainer";
 import { PetContainer } from "../containers/PetContainer";
-import { getCurrentSeason, SeasonName } from "features/game/types/seasons";
+import { getCurrentSeason, SeasonName } from "features/game/types/chapters";
 
 const CHAPTER_BANNERS: Record<SeasonName, string | undefined> = {
   "Solar Flare": undefined,

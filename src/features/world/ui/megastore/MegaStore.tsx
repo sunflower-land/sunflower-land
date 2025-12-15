@@ -22,7 +22,7 @@ import { useSelector } from "@xstate/react";
 import {
   getCurrentSeason,
   getSeasonalTicket,
-} from "features/game/types/seasons";
+} from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {

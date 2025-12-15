@@ -23,7 +23,7 @@ import {
 import {
   getCurrentSeason,
   getSeasonalTicket,
-} from "features/game/types/seasons";
+} from "features/game/types/chapters";
 import {
   SELLABLE_TREASURE,
   BeachBountyTreasure,

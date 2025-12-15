@@ -14,7 +14,7 @@ import { Equipped } from "../types/bumpkin";
 import { isSeed, SeedName } from "../types/seeds";
 import { makeAnimalBuilding } from "./animals";
 import { ChoreBoard } from "../types/choreBoard";
-import { getSeasonalTicket } from "../types/seasons";
+import { getSeasonalTicket } from "../types/chapters";
 import { getObjectEntries } from "../expansion/lib/utils";
 import {
   isFullMoonBerry,

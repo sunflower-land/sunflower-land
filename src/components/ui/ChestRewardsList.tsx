@@ -18,7 +18,7 @@ import {
   NoticeboardItems,
   NoticeboardItemsElements,
 } from "features/world/ui/kingdom/KingdomNoticeboard";
-import { getCurrentSeason } from "features/game/types/seasons";
+import { getCurrentSeason } from "features/game/types/chapters";
 import chestIcon from "assets/icons/chest.png";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 

@@ -5,7 +5,7 @@ import {
   Auctioneer,
   AuctionNFT,
 } from "features/game/types/game";
-import { getCurrentSeason } from "features/game/types/seasons";
+import { getCurrentSeason } from "features/game/types/chapters";
 
 export function getMintedChapterLimit(
   auctioneer: Auctioneer,

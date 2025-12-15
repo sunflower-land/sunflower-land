@@ -1,7 +1,7 @@
 import { FlowerBox } from "../events/landExpansion/buySeasonalItem";
 import { BumpkinItem } from "./bumpkin";
 import { InventoryItemName } from "./game";
-import { SeasonName, SEASONS } from "./seasons";
+import { SeasonName, SEASONS } from "./chapters";
 
 export type SeasonalTierItemName =
   | SeasonalCollectibleName

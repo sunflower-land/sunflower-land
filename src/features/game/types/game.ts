@@ -47,7 +47,7 @@ import {
 import { TreasureToolName, WorkbenchToolName } from "./tools";
 import { ConversationName } from "./announcements";
 import { NPCName } from "lib/npcs";
-import { SeasonalBanner, SeasonalTicket, SeasonName } from "./seasons";
+import { SeasonalBanner, SeasonalTicket, SeasonName } from "./chapters";
 import { Bud } from "./buds";
 import {
   CompostName,

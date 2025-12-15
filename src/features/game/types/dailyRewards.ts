@@ -1,7 +1,7 @@
 import { BuffName } from "./buffs";
 import { GameState, InventoryItemName } from "./game";
 import { getBumpkinLevel, getExperienceToNextLevel } from "../lib/level";
-import { getSeasonalTicket } from "./seasons";
+import { getSeasonalTicket } from "./chapters";
 
 export type DailyRewardDefinition = {
   id: DailyRewardName;

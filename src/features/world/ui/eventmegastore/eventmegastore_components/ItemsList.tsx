@@ -9,7 +9,7 @@ import { shortenCount } from "lib/utils/formatNumber";
 import {
   getSeasonalArtefact,
   getSeasonalTicket,
-} from "features/game/types/seasons";
+} from "features/game/types/chapters";
 
 import token from "assets/icons/flower_token.webp";
 import lightning from "assets/icons/lightning.png";

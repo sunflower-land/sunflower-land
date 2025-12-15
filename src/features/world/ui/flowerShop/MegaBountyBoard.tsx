@@ -21,7 +21,7 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import {
   getSeasonalArtefact,
   getSeasonalTicket,
-} from "features/game/types/seasons";
+} from "features/game/types/chapters";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ModalOverlay } from "components/ui/ModalOverlay";

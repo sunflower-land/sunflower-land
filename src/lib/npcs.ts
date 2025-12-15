@@ -1,5 +1,5 @@
 import { Equipped } from "features/game/types/bumpkin";
-import { hasSeasonEnded } from "features/game/types/seasons";
+import { hasSeasonEnded } from "features/game/types/chapters";
 
 export type NPCName =
   | "richie"
