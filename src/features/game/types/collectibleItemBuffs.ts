@@ -11,8 +11,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
 import {
-  getCurrentSeason,
-  getSeasonalTicket,
+  getCurrentChapter,
+  getChapterTicket,
   hasSeasonEnded,
   CHAPTERS,
 } from "./chapters";
@@ -1999,9 +1999,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
 
   ...Object.fromEntries(
     getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)
-      .filter(([chapter]) => getCurrentSeason() === chapter)
+      .filter(([chapter]) => getCurrentChapter() === chapter)
       .flatMap(([chapter, items]) => {
-        const ticket = getSeasonalTicket(new Date(CHAPTERS[chapter].startDate));
+        const ticket = getChapterTicket(new Date(CHAPTERS[chapter].startDate));
         const translationKey =
           `description.bonus${ticket.replace(/\s+/g, "")}.boost` as TranslationKeys;
 

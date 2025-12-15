@@ -21,8 +21,8 @@ import {
   GiantFruitBounty,
 } from "features/game/types/game";
 import {
-  getCurrentSeason,
-  getSeasonalTicket,
+  getCurrentChapter,
+  getChapterTicket,
 } from "features/game/types/chapters";
 import {
   SELLABLE_TREASURE,
@@ -83,13 +83,13 @@ export function generateBountyTicket({
   bounty: BountyRequest;
   now?: number;
 }) {
-  let amount = bounty.items?.[getSeasonalTicket(new Date(now))] ?? 0;
+  let amount = bounty.items?.[getChapterTicket(new Date(now))] ?? 0;
 
   if (!amount) {
     return 0;
   }
 
-  const chapter = getCurrentSeason(new Date(now));
+  const chapter = getCurrentChapter(new Date(now));
   const chapterBoost = CHAPTER_TICKET_BOOST_ITEMS[chapter];
 
   Object.values(chapterBoost).forEach((item) => {
@@ -183,7 +183,7 @@ export function sellBounty({
 
     getKeys(request.items ?? {}).forEach((name) => {
       const previous = draft.inventory[name] ?? new Decimal(0);
-      const seasonalTicket = getSeasonalTicket();
+      const seasonalTicket = getChapterTicket();
       if (tickets > 0 && seasonalTicket === name) {
         draft.inventory[name] = previous.add(tickets ?? 0);
       } else draft.inventory[name] = previous.add(request.items?.[name] ?? 0);

@@ -15,8 +15,8 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { MachineState } from "features/game/lib/gameMachine";
 import {
-  getCurrentSeason,
-  getSeasonalTicket,
+  getCurrentChapter,
+  getChapterTicket,
 } from "features/game/types/chapters";
 import confetti from "canvas-confetti";
 import { BumpkinItem } from "features/game/types/bumpkin";
@@ -84,7 +84,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   ] = useActor(gameService);
 
   const createdAt = Date.now();
-  const currentSeason = getCurrentSeason(new Date(createdAt));
+  const currentSeason = getCurrentChapter(new Date(createdAt));
   const seasonalStore = MEGASTORE[currentSeason];
   const tiers =
     tier === "basic"
@@ -202,16 +202,14 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     const currency =
       item.cost.sfl !== 0
         ? "SFL"
-        : item.cost.sfl === 0 &&
-            (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
+        : item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
           ? "Seasonal Ticket"
           : "SFL";
     const price =
       item.cost.sfl !== 0
         ? sfl
-        : item.cost.sfl === 0 &&
-            (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-          ? (item.cost?.items[getSeasonalTicket()] ?? 0)
+        : item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
+          ? (item.cost?.items[getChapterTicket()] ?? 0)
           : sfl;
     const itemName = isWearable
       ? ((item as SeasonalStoreWearable).wearable as BumpkinItem)

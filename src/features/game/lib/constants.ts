@@ -14,7 +14,7 @@ import { Equipped } from "../types/bumpkin";
 import { isSeed, SeedName } from "../types/seeds";
 import { makeAnimalBuilding } from "./animals";
 import { ChoreBoard } from "../types/choreBoard";
-import { getSeasonalTicket } from "../types/chapters";
+import { getChapterTicket } from "../types/chapters";
 import { getObjectEntries } from "../expansion/lib/utils";
 import {
   isFullMoonBerry,
@@ -344,19 +344,19 @@ export const INITIAL_CHORE_BOARD: ChoreBoard = {
   chores: {
     "pumpkin' pete": {
       name: "CHOP_1_TREE",
-      reward: { items: { [getSeasonalTicket()]: 1 } },
+      reward: { items: { [getChapterTicket()]: 1 } },
       initialProgress: 0,
       startedAt: Date.now(),
     },
     betty: {
       name: "CHOP_2_TREE",
-      reward: { items: { [getSeasonalTicket()]: 2 } },
+      reward: { items: { [getChapterTicket()]: 2 } },
       initialProgress: 0,
       startedAt: Date.now(),
     },
     finley: {
       name: "CHOP_1_TREE",
-      reward: { items: { [getSeasonalTicket()]: 2 } },
+      reward: { items: { [getChapterTicket()]: 2 } },
       initialProgress: 0,
       startedAt: Date.now(),
     },

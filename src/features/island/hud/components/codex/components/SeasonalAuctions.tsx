@@ -19,7 +19,7 @@ import { Loading } from "features/auth/components";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/decorations";
 import {
-  getCurrentSeason,
+  getCurrentChapter,
   ChapterName,
   CHAPTERS,
 } from "features/game/types/chapters";
@@ -271,7 +271,7 @@ const Drops: React.FC<{
     collectibles: game.collectibles,
   });
 
-  const chapter = CHAPTERS[getCurrentSeason()];
+  const chapter = CHAPTERS[getCurrentChapter()];
   const chapterSupply = detail.auctions.reduce((acc, drop) => {
     if (
       drop.startAt < chapter.startDate.getTime() ||

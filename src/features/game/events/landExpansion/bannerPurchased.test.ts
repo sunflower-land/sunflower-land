@@ -4,7 +4,7 @@ import Decimal from "decimal.js-light";
 import {
   CHAPTERS,
   ChapterBanner,
-  getCurrentSeason,
+  getCurrentChapter,
   getPreviousSeasonalBanner,
   getSeasonalBanner,
 } from "features/game/types/chapters";
@@ -65,7 +65,7 @@ describe("purchaseBanner", () => {
 
   it("purchases banner on first week without previous banner", () => {
     const SIX_DAYS = 1000 * 60 * 60 * 24 * 6;
-    const season = getCurrentSeason();
+    const season = getCurrentChapter();
     const seasonStart = CHAPTERS[season].startDate;
     const banner = getSeasonalBanner();
 
@@ -94,7 +94,7 @@ describe("purchaseBanner", () => {
 
   it("purchases banner on first week with previous banner", () => {
     const SIX_DAYS = 1000 * 60 * 60 * 24 * 6;
-    const season = getCurrentSeason();
+    const season = getCurrentChapter();
     const seasonStart = CHAPTERS[season].startDate;
     const banner = getSeasonalBanner();
     const previousSeasonalBanner = getPreviousSeasonalBanner();
@@ -126,7 +126,7 @@ describe("purchaseBanner", () => {
 
   it("purchases banner on 2-4 weeks", () => {
     const WEEK = 1000 * 60 * 60 * 24 * 7;
-    const season = getCurrentSeason();
+    const season = getCurrentChapter();
     const seasonStart = CHAPTERS[season].startDate;
     const banner = getSeasonalBanner();
 
@@ -155,7 +155,7 @@ describe("purchaseBanner", () => {
 
   it("purchases banner on 4-8 weeks", () => {
     const WEEK = 1000 * 60 * 60 * 24 * 7;
-    const season = getCurrentSeason();
+    const season = getCurrentChapter();
     const seasonStart = CHAPTERS[season].startDate;
     const banner = getSeasonalBanner();
 
@@ -184,7 +184,7 @@ describe("purchaseBanner", () => {
 
   it("purchases banner after 8 weeks", () => {
     const WEEK = 1000 * 60 * 60 * 24 * 7;
-    const season = getCurrentSeason();
+    const season = getCurrentChapter();
     const seasonStart = CHAPTERS[season].startDate;
     const banner = getSeasonalBanner();
 

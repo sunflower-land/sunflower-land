@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import {
-  getCurrentSeason,
-  getSeasonalTicket,
+  getCurrentChapter,
+  getChapterTicket,
 } from "features/game/types/chapters";
 import { ButtonPanel, Panel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
@@ -266,7 +266,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
             { text: t("vip.benefit.stellaDiscounts"), icon: shopIcon },
             {
               text: t("vip.benefit.bonusDelivery"),
-              icon: ITEM_DETAILS[getSeasonalTicket()].image,
+              icon: ITEM_DETAILS[getChapterTicket()].image,
             },
             {
               text: t("vip.benefit.reputation", {
@@ -275,7 +275,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
               icon: increaseArrow,
             },
             { text: t("vip.benefit.competition"), icon: trophyIcon },
-            ...(getCurrentSeason() === "Paw Prints"
+            ...(getCurrentChapter() === "Paw Prints"
               ? [
                   {
                     text: t("vip.benefit.bonusPetEnergy"),

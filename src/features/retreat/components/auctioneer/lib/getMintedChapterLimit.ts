@@ -5,14 +5,14 @@ import {
   Auctioneer,
   AuctionNFT,
 } from "features/game/types/game";
-import { getCurrentSeason } from "features/game/types/chapters";
+import { getCurrentChapter } from "features/game/types/chapters";
 
 export function getMintedChapterLimit(
   auctioneer: Auctioneer,
   auction: Auction,
   item: InventoryItemName | BumpkinItem | AuctionNFT,
 ) {
-  const currentChapter = getCurrentSeason();
+  const currentChapter = getCurrentChapter();
   const { chapterLimit } = auction;
 
   const countMinted = auctioneer.minted?.[currentChapter]?.[item] ?? 0;

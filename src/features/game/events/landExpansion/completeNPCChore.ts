@@ -8,8 +8,8 @@ import {
 import { produce } from "immer";
 import { NPCName } from "lib/npcs";
 import {
-  getCurrentSeason,
-  getSeasonalTicket,
+  getCurrentChapter,
+  getChapterTicket,
   ChapterName,
 } from "features/game/types/chapters";
 import { isWearableActive } from "features/game/lib/wearables";
@@ -185,13 +185,13 @@ export function generateChoreRewards({
 }) {
   const items = Object.assign({}, chore.reward.items) ?? {};
 
-  if (!items[getSeasonalTicket(now)]) return items;
-  let amount = items[getSeasonalTicket(now)] ?? 0;
+  if (!items[getChapterTicket(now)]) return items;
+  let amount = items[getChapterTicket(now)] ?? 0;
 
   if (hasVipAccess({ game, now: now.getTime() })) {
     amount += 2;
   }
-  const chapter = getCurrentSeason(now);
+  const chapter = getCurrentChapter(now);
   const chapterBoost = CHAPTER_TICKET_BOOST_ITEMS[chapter];
 
   Object.values(chapterBoost).forEach((item) => {
@@ -206,7 +206,7 @@ export function generateChoreRewards({
     }
   });
 
-  items[getSeasonalTicket(now)] = amount;
+  items[getChapterTicket(now)] = amount;
 
   return items;
 }

@@ -12,8 +12,8 @@ import {
 } from "features/game/types/game";
 import { BUMPKIN_GIFTS } from "features/game/types/gifts";
 import {
-  getCurrentSeason,
-  getSeasonalTicket,
+  getCurrentChapter,
+  getChapterTicket,
 } from "features/game/types/chapters";
 import { NPCName } from "lib/npcs";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
@@ -67,7 +67,7 @@ export function generateDeliveryTickets({
     amount += 2;
   }
 
-  const chapter = getCurrentSeason(now);
+  const chapter = getCurrentChapter(now);
   const chapterBoost = CHAPTER_TICKET_BOOST_ITEMS[chapter];
 
   Object.values(chapterBoost).forEach((item) => {
@@ -478,7 +478,7 @@ export function deliverOrder({
     }
 
     if (tickets > 0) {
-      const seasonalTicket = getSeasonalTicket();
+      const seasonalTicket = getChapterTicket();
 
       const count = game.inventory[seasonalTicket] || new Decimal(0);
       const amount = tickets || new Decimal(0);

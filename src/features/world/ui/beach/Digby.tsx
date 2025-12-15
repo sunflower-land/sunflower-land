@@ -39,7 +39,7 @@ import { Revealed } from "features/game/components/Revealed";
 import { ChestRevealing, ChestRewardType } from "../chests/ChestRevealing";
 import { gameAnalytics } from "lib/gameAnalytics";
 import {
-  getCurrentSeason,
+  getCurrentChapter,
   getSeasonalArtefact,
 } from "features/game/types/chapters";
 import { ChestRewardsList } from "components/ui/ChestRewardsList";
@@ -259,7 +259,7 @@ export const DailyPuzzle: React.FC = () => {
             />
             <span className="text-xs ml-2">{`${artefactsFound}/3`}</span>
             <img
-              src={ITEM_DETAILS[SEASONAL_ARTEFACT[getCurrentSeason()]].image}
+              src={ITEM_DETAILS[SEASONAL_ARTEFACT[getCurrentChapter()]].image}
               className="h-5 ml-1"
             />
           </div>
@@ -268,7 +268,7 @@ export const DailyPuzzle: React.FC = () => {
         <div className="mb-2">
           <span className="text-xs">
             {t("digby.streakReward", {
-              name: SEASONAL_ARTEFACT[getCurrentSeason()],
+              name: SEASONAL_ARTEFACT[getCurrentChapter()],
             })}
           </span>
         </div>
@@ -366,7 +366,7 @@ const BoostDigItems: (
     buff: BUMPKIN_ITEM_BUFF_LABELS["Bionic Drill"] as BuffLabel[],
     location: "Artefact Shop",
   },
-  ...(getCurrentSeason() === "Pharaoh's Treasure"
+  ...(getCurrentChapter() === "Pharaoh's Treasure"
     ? {
         "Pharaoh's Treasure Banner": {
           buff: [

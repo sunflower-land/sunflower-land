@@ -13,7 +13,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "features/game/lib/crafting";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getSeasonalTicket } from "features/game/types/chapters";
+import { getChapterTicket } from "features/game/types/chapters";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -146,7 +146,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
         )}
         {!order.completedAt && !!tickets && (
           <Label
-            icon={ITEM_DETAILS[getSeasonalTicket()].image}
+            icon={ITEM_DETAILS[getChapterTicket()].image}
             type="warning"
             className={"absolute -bottom-2 text-center p-1 "}
             style={{

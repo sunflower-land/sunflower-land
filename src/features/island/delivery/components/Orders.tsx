@@ -38,7 +38,7 @@ import {
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Button } from "components/ui/Button";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
-import { getSeasonalTicket } from "features/game/types/chapters";
+import { getChapterTicket } from "features/game/types/chapters";
 import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
 import { Label } from "components/ui/Label";
@@ -270,10 +270,10 @@ export const DeliveryOrders: React.FC<Props> = ({
           <div className="flex justify-between items-center">
             <Label
               type="default"
-              icon={ITEM_DETAILS[getSeasonalTicket()].image}
+              icon={ITEM_DETAILS[getChapterTicket()].image}
               className="mb-2"
             >
-              {getSeasonalTicket()}
+              {getChapterTicket()}
             </Label>
             {isHoliday && (
               <Label type="formula" icon={lock} className="mt-1">
@@ -285,7 +285,7 @@ export const DeliveryOrders: React.FC<Props> = ({
           {level <= 8 && (
             <span className="text-xs mb-2">
               {t("bumpkin.delivery.earnTickets", {
-                ticket: getSeasonalTicket(),
+                ticket: getChapterTicket(),
               })}
             </span>
           )}
@@ -527,7 +527,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                           ? SUNNYSIDE.ui.coinsImg
                           : previewOrder.reward.sfl
                             ? token
-                            : ITEM_DETAILS[getSeasonalTicket()].image
+                            : ITEM_DETAILS[getChapterTicket()].image
                       }
                       width={7}
                     />
@@ -545,7 +545,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                           ? t("coins")
                           : previewOrder.reward.sfl
                             ? "FLOWER"
-                            : getSeasonalTicket()
+                            : getChapterTicket()
                       }`}
                     </span>
                   </Label>

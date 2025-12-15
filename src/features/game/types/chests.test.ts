@@ -12,10 +12,10 @@ import {
 } from "./chests";
 import { MEGASTORE, SeasonalStore } from "./megastore";
 import { RewardBoxReward } from "./rewardBoxes";
-import { getCurrentSeason } from "./chapters";
+import { getCurrentChapter } from "./chapters";
 
 describe("SEASONAL_REWARDS", () => {
-  const currentSeason = getCurrentSeason(new Date()); // Test all reward types
+  const currentSeason = getCurrentChapter(new Date()); // Test all reward types
   const rewardTypes: {
     rewards: RewardBoxReward[];
     weight: number;

@@ -7,9 +7,9 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { shortenCount } from "lib/utils/formatNumber";
 import {
-  getCurrentSeason,
+  getCurrentChapter,
   getSeasonalArtefact,
-  getSeasonalTicket,
+  getChapterTicket,
 } from "features/game/types/chapters";
 
 import token from "assets/icons/flower_token.webp";
@@ -122,8 +122,8 @@ export const ItemsList: React.FC<Props> = ({
     if (item.cost.sfl !== 0) return token;
 
     const currencyItem =
-      item.cost.sfl === 0 && (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-        ? getSeasonalTicket()
+      item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
+        ? getChapterTicket()
         : item.cost.sfl === 0 &&
             (item.cost?.items[getSeasonalArtefact()] ?? 0 > 0)
           ? getSeasonalArtefact()
@@ -137,8 +137,8 @@ export const ItemsList: React.FC<Props> = ({
       return shortenCount(SFLDiscount(state, new Decimal(item.cost.sfl)));
 
     const currency =
-      item.cost.sfl === 0 && (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-        ? getSeasonalTicket()
+      item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
+        ? getChapterTicket()
         : getSeasonalArtefact();
     const currencyItem =
       item.cost.sfl === 0 && (item.cost?.items[currency] ?? 0 > 0)
@@ -149,7 +149,7 @@ export const ItemsList: React.FC<Props> = ({
 
     return currencyItem;
   };
-  const currentSeason = getCurrentSeason();
+  const currentSeason = getCurrentChapter();
   const seasonalStore = MEGASTORE[currentSeason];
   const tiers = tier;
 

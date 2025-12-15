@@ -15,7 +15,7 @@ import { capitalize } from "lib/utils/capitalize";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { DogContainer } from "../containers/DogContainer";
 import { PetContainer } from "../containers/PetContainer";
-import { getCurrentSeason, ChapterName } from "features/game/types/chapters";
+import { getCurrentChapter, ChapterName } from "features/game/types/chapters";
 
 const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {
   "Solar Flare": undefined,
@@ -243,7 +243,7 @@ export class PlazaScene extends BaseScene {
 
     this.load.image("ronin_banner", "world/ronin_banner.webp");
 
-    const chapter = getCurrentSeason();
+    const chapter = getCurrentChapter();
     // chapter = "Paw Prints"; // Testing only
     this.load.image("chapter_banner", CHAPTER_BANNERS[chapter as ChapterName]);
 
@@ -613,7 +613,7 @@ export class PlazaScene extends BaseScene {
       });
 
     // Enable/disable chapter-specific layers
-    const chapter = getCurrentSeason();
+    const chapter = getCurrentChapter();
 
     // Testing only
     // chapter = "Paw Prints";

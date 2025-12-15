@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { tradeFlowerShop } from "./tradeFlowerShop";
-import { CHAPTERS, getSeasonalTicket } from "features/game/types/chapters";
+import { CHAPTERS, getChapterTicket } from "features/game/types/chapters";
 import { TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 
@@ -119,7 +119,7 @@ describe("tradeFlowerShop", () => {
     });
 
     expect(
-      state.inventory[getSeasonalTicket(new Date(createdAt + 1))]?.toNumber(),
+      state.inventory[getChapterTicket(new Date(createdAt + 1))]?.toNumber(),
     ).toBeGreaterThanOrEqual(1);
   });
 });

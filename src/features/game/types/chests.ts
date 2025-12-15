@@ -11,7 +11,7 @@ import { getKeys } from "./decorations";
 import { BB_TO_GEM_RATIO, InventoryItemName } from "./game";
 import { MEGASTORE, SeasonalStore } from "./megastore";
 import { RewardBoxReward } from "./rewardBoxes";
-import { getCurrentSeason } from "./chapters";
+import { getCurrentChapter } from "./chapters";
 import { BUMPKIN_RELEASES, INVENTORY_RELEASES } from "./withdrawables";
 
 export const CHEST_MULTIPLIER = 900;
@@ -23,7 +23,7 @@ export const MEGASTORE_TIER_WEIGHTS: Record<keyof SeasonalStore, number> = {
   mega: 0.05,
 };
 
-const currentSeason = getCurrentSeason(new Date());
+const currentSeason = getCurrentChapter(new Date());
 
 export const MEGASTORE_RESTRICTED_ITEMS: (InventoryItemName | BumpkinItem)[] = [
   ...Object.values(CHAPTER_TICKET_BOOST_ITEMS[currentSeason]),

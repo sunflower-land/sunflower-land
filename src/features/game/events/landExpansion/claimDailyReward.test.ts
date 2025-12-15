@@ -2,7 +2,7 @@ import { claimDailyReward } from "./claimDailyReward";
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
-import { getSeasonalTicket } from "features/game/types/chapters";
+import { getChapterTicket } from "features/game/types/chapters";
 import { calculateXPPotion } from "features/game/types/dailyRewards";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 
@@ -63,7 +63,7 @@ describe("claimDailyReward", () => {
     expect(state.inventory["Carrot Seed"]).toEqual(new Decimal(20));
     expect(state.coins).toBe(50);
     expect(state.inventory["Cheer"]).toEqual(new Decimal(3));
-    expect(state.inventory[getSeasonalTicket(new Date(now))]).toEqual(
+    expect(state.inventory[getChapterTicket(new Date(now))]).toEqual(
       new Decimal(1),
     );
   });
@@ -122,7 +122,7 @@ describe("claimDailyReward", () => {
     expect(state.inventory["Weekly Mega Box"]).toEqual(new Decimal(1));
     expect(state.inventory["Gem"]).toEqual(new Decimal(50 + 20)); // 20 initial + 50 reward
     expect(state.inventory["Cheer"]).toEqual(new Decimal(3));
-    expect(state.inventory[getSeasonalTicket(new Date(now))]).toEqual(
+    expect(state.inventory[getChapterTicket(new Date(now))]).toEqual(
       new Decimal(1),
     );
   });
@@ -182,7 +182,7 @@ describe("claimDailyReward", () => {
     expect(state.dailyRewards?.streaks).toBe(5);
     expect(state.buffs?.["Power hour"]).toBeDefined();
     expect(state.inventory["Cheer"]).toEqual(new Decimal(3));
-    expect(state.inventory[getSeasonalTicket(new Date(now))]).toEqual(
+    expect(state.inventory[getChapterTicket(new Date(now))]).toEqual(
       new Decimal(1),
     );
   });
@@ -315,7 +315,7 @@ describe("claimDailyReward", () => {
     expect(state.inventory["Rare Key"]).toEqual(new Decimal(1));
     expect(state.inventory["Cheer"]).toEqual(new Decimal(3));
     expect(state.inventory["Luxury Key"]).toEqual(new Decimal(1));
-    expect(state.inventory[getSeasonalTicket(new Date(now))]).toEqual(
+    expect(state.inventory[getChapterTicket(new Date(now))]).toEqual(
       new Decimal(1),
     );
   });
@@ -348,7 +348,7 @@ describe("claimDailyReward", () => {
     expect(state.inventory["Gem"]).toEqual(new Decimal(320));
     expect(state.inventory["Cheer"]).toEqual(new Decimal(3));
     expect(state.inventory["Luxury Key"]).toEqual(new Decimal(1));
-    expect(state.inventory[getSeasonalTicket(new Date(now))]).toEqual(
+    expect(state.inventory[getChapterTicket(new Date(now))]).toEqual(
       new Decimal(1),
     );
   });

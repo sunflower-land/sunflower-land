@@ -20,8 +20,8 @@ import { SeasonalStore } from "./SeasonalStore";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import {
-  getCurrentSeason,
-  getSeasonalTicket,
+  getCurrentChapter,
+  getChapterTicket,
 } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -70,13 +70,13 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
 
-  const icon = ITEM_DETAILS[getSeasonalTicket()].image ?? shopIcon;
+  const icon = ITEM_DETAILS[getChapterTicket()].image ?? shopIcon;
   const { t } = useAppTranslation();
 
   // If no season is found, use "Chapter"
   let chapter: string;
   try {
-    chapter = getCurrentSeason();
+    chapter = getCurrentChapter();
   } catch {
     chapter = "Chapter";
   }

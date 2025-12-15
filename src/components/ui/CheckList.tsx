@@ -35,7 +35,7 @@ import {
   getArtefactsFound,
   SEASONAL_ARTEFACT,
 } from "features/game/types/desert";
-import { getCurrentSeason } from "features/game/types/chapters";
+import { getCurrentChapter } from "features/game/types/chapters";
 import { hasClaimedPetalPrize } from "features/game/events/landExpansion/claimPetalPrize";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useNavigate } from "react-router";
@@ -567,7 +567,7 @@ const DiggingStreakContent: React.FC<{ bumpkinLevel: number }> = ({
               <Label
                 type="default"
                 secondaryIcon={
-                  ITEM_DETAILS[SEASONAL_ARTEFACT[getCurrentSeason()]].image
+                  ITEM_DETAILS[SEASONAL_ARTEFACT[getCurrentChapter()]].image
                 }
                 className="mr-1"
               >

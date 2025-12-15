@@ -28,8 +28,8 @@ import { fetchLeaderboardData } from "features/game/expansion/components/leaderb
 import { FactionLeaderboard } from "./pages/FactionLeaderboard";
 import { Season } from "./pages/Season";
 import {
-  getCurrentSeason,
-  getSeasonalTicket,
+  getCurrentChapter,
+  getChapterTicket,
 } from "features/game/types/chapters";
 import { ChoreBoard } from "./pages/ChoreBoard";
 import { CompetitionDetails } from "features/competition/CompetitionBoard";
@@ -156,7 +156,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
 
     {
       name: "Leaderboard",
-      icon: ITEM_DETAILS[getSeasonalTicket()].image,
+      icon: ITEM_DETAILS[getChapterTicket()].image,
       count: incompleteMegaBountiesCount,
     },
     {
@@ -270,7 +270,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 id={id}
                 isLoading={data?.tickets === undefined}
                 data={data?.tickets ?? null}
-                season={getCurrentSeason()}
+                season={getCurrentChapter()}
                 state={state}
                 farmId={farmId}
               />

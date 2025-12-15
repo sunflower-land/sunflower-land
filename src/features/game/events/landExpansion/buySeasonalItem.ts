@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { GameState, InventoryItemName, Keys } from "features/game/types/game";
 
 import { produce } from "immer";
-import { getCurrentSeason, CHAPTERS } from "features/game/types/chapters";
+import { getCurrentChapter, CHAPTERS } from "features/game/types/chapters";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import {
   MEGASTORE,
@@ -59,7 +59,7 @@ export function buySeasonalItem({
   return produce(state, (copy) => {
     const { name, tier } = action;
 
-    const currentSeason = getCurrentSeason(new Date(createdAt));
+    const currentSeason = getCurrentChapter(new Date(createdAt));
     const seasonalStore = MEGASTORE[currentSeason];
 
     if (!seasonalStore) {
@@ -228,7 +228,7 @@ export function isKeyBoughtWithinSeason(
       game.pumpkinPlaza.keysBought?.megastore?.[tierKey as Keys]?.boughtAt;
   }
 
-  const seasonTime = CHAPTERS[getCurrentSeason()];
+  const seasonTime = CHAPTERS[getCurrentChapter()];
   const historyKey =
     game.farmActivity[`${tierKey as SeasonalTierItemName} Bought`];
   //If player has no history of buying keys at megastore
@@ -273,7 +273,7 @@ export function isBoxBoughtWithinSeason(
       game.pumpkinPlaza.keysBought?.megastore?.[tierBox as Keys]?.boughtAt;
   }
 
-  const seasonTime = CHAPTERS[getCurrentSeason()];
+  const seasonTime = CHAPTERS[getCurrentChapter()];
   const historyBox =
     game.farmActivity[`${tierBox as SeasonalTierItemName} Bought`];
 
@@ -316,7 +316,7 @@ export function isPetEggBoughtWithinSeason(
     return false;
   }
 
-  const seasonTime = CHAPTERS[getCurrentSeason()];
+  const seasonTime = CHAPTERS[getCurrentChapter()];
   const boughtDate = new Date(petEggBoughtAt);
 
   return boughtDate >= seasonTime.startDate && boughtDate <= seasonTime.endDate;

@@ -13,7 +13,7 @@ import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/decorations";
 import { GameState, Inventory } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getSeasonalTicket } from "features/game/types/chapters";
+import { getChapterTicket } from "features/game/types/chapters";
 import {
   STYLIST_WEARABLES,
   StylistWearable,
@@ -88,10 +88,10 @@ export const WardrobeWearables: React.FC = () => {
       });
     }
 
-    if (wearable.ingredients[getSeasonalTicket()]) {
+    if (wearable.ingredients[getChapterTicket()]) {
       gameAnalytics.trackSink({
         currency: "Seasonal Ticket",
-        amount: wearable.ingredients[getSeasonalTicket()]?.toNumber() ?? 1,
+        amount: wearable.ingredients[getChapterTicket()]?.toNumber() ?? 1,
         item: selected,
         type: "Wearable",
       });

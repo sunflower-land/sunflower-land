@@ -23,7 +23,7 @@ import {
   InventoryItemName,
 } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getSeasonalTicket } from "features/game/types/chapters";
+import { getChapterTicket } from "features/game/types/chapters";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -138,7 +138,7 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
           <div className="flex items-center">
             <p className="text-xs">
               {t("bounties.board.ticketAmount", {
-                seasonalTicket: getSeasonalTicket(),
+                seasonalTicket: getChapterTicket(),
               })}
             </p>
           </div>
@@ -199,7 +199,7 @@ export const AnimalDeal: React.FC<{
               {getKeys(deal.items ?? {}).map((name) => {
                 let amount = deal.items?.[name] ?? 0;
 
-                if (name === getSeasonalTicket(new Date(now))) {
+                if (name === getChapterTicket(new Date(now))) {
                   amount = generateBountyTicket({
                     game: state,
                     bounty: deal,
@@ -249,7 +249,7 @@ export const AnimalDeal: React.FC<{
                   type="warning"
                   icon={ITEM_DETAILS[name].image}
                 >
-                  {name !== getSeasonalTicket()
+                  {name !== getChapterTicket()
                     ? deal.items?.[name]
                     : generateBountyTicket({
                         game: state,
@@ -267,7 +267,7 @@ export const AnimalDeal: React.FC<{
                       .map(
                         (name) =>
                           `${
-                            name !== getSeasonalTicket()
+                            name !== getChapterTicket()
                               ? deal.items?.[name]
                               : generateBountyTicket({
                                   game: state,
@@ -442,7 +442,7 @@ const BountyCard: React.FC<BountyCardProps> = ({
               height: "25px",
             }}
           >
-            {name !== getSeasonalTicket()
+            {name !== getChapterTicket()
               ? deal.items?.[name]
               : generateBountyTicket({
                   game: state,

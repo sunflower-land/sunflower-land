@@ -1,7 +1,7 @@
 import { BuffName } from "./buffs";
 import { GameState, InventoryItemName } from "./game";
 import { getBumpkinLevel, getExperienceToNextLevel } from "../lib/level";
-import { getSeasonalTicket } from "./chapters";
+import { getChapterTicket } from "./chapters";
 
 export type DailyRewardDefinition = {
   id: DailyRewardName;
@@ -276,7 +276,7 @@ export function getRewardsForStreak({
     label: "Default Reward",
     items: {
       Cheer: 3,
-      [getSeasonalTicket(new Date(currentDate))]: 1,
+      [getChapterTicket(new Date(currentDate))]: 1,
     },
   };
 

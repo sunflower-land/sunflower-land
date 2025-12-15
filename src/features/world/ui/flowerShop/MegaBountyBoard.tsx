@@ -20,7 +20,7 @@ import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { SquareIcon } from "components/ui/SquareIcon";
 import {
   getSeasonalArtefact,
-  getSeasonalTicket,
+  getChapterTicket,
 } from "features/game/types/chapters";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -116,7 +116,7 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
 
     // Otherwise handle item rewards
     const items = bounty.items ?? {};
-    const seasonalTicket = getSeasonalTicket();
+    const seasonalTicket = getChapterTicket();
     const seasonalArtefact = getSeasonalArtefact();
 
     // Calculate bounty tickets if needed
@@ -149,7 +149,7 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
   );
 
   const noBonusBountiesWeek = NO_BONUS_BOUNTIES_WEEK.includes(getWeekKey());
-  const seasonalTicket = getSeasonalTicket();
+  const seasonalTicket = getChapterTicket();
 
   const handleBonusClaim = () => {
     gameService.send("claim.bountyBoardBonus");
@@ -440,7 +440,7 @@ const Deal: React.FC<{
                       }
                     >
                       {`Reward: ${
-                        name !== getSeasonalTicket()
+                        name !== getChapterTicket()
                           ? bounty.items?.[name]
                           : generateBountyTicket({
                               game: state,

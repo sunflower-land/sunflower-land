@@ -18,7 +18,7 @@ import {
   NoticeboardItems,
   NoticeboardItemsElements,
 } from "features/world/ui/kingdom/KingdomNoticeboard";
-import { getCurrentSeason } from "features/game/types/chapters";
+import { getCurrentChapter } from "features/game/types/chapters";
 import chestIcon from "assets/icons/chest.png";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 
@@ -118,7 +118,7 @@ const MultipleRewardsRow: React.FC<{
               {isStoreChapterItem(rewardName) && (
                 <div className="flex items-center w-20 sm:w-40 space-x-1 pl-[15%]">
                   <img src={SUNNYSIDE.icons.stopwatch} />
-                  <p className="text-xxs">{`${getCurrentSeason()}`}</p>
+                  <p className="text-xxs">{`${getCurrentChapter()}`}</p>
                 </div>
               )}
             </div>
