@@ -3,7 +3,7 @@ import { purchaseBanner } from "./bannerPurchased";
 import Decimal from "decimal.js-light";
 import {
   CHAPTERS,
-  SeasonalBanner,
+  ChapterBanner,
   getCurrentSeason,
   getPreviousSeasonalBanner,
   getSeasonalBanner,
@@ -22,7 +22,7 @@ describe("purchaseBanner", () => {
         },
         action: {
           type: "banner.purchased",
-          name: "Invalid Banner" as SeasonalBanner,
+          name: "Invalid Banner" as ChapterBanner,
         },
       }),
     ).toThrow("Invalid banner");

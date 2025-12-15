@@ -47,7 +47,7 @@ import {
 import { TreasureToolName, WorkbenchToolName } from "./tools";
 import { ConversationName } from "./announcements";
 import { NPCName } from "lib/npcs";
-import { SeasonalBanner, ChapterTicket, ChapterName } from "./chapters";
+import { ChapterBanner, ChapterTicket, ChapterName } from "./chapters";
 import { Bud } from "./buds";
 import {
   CompostName,
@@ -607,7 +607,7 @@ export type InventoryItemName =
   | RecipeCraftableName
   | SeasonalCollectibleName
   | TradeFood
-  | SeasonalBanner
+  | ChapterBanner
   | RewardBoxName
   | LandBiomeName
   | MonumentName
