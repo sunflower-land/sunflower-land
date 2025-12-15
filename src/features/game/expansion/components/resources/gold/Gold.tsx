@@ -111,6 +111,8 @@ export const Gold: React.FC<Props> = ({ id }) => {
 
   useEffect(() => {
     if (minedAtRef.current !== resource.stone.minedAt) {
+      // Important: update the ref so this change is only handled once.
+      minedAtRef.current = resource.stone.minedAt;
       setIsRecentlyMined(true);
 
       const timeout = setTimeout(() => {
