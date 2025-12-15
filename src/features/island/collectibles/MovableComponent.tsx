@@ -319,7 +319,7 @@ export const MoveableComponent: React.FC<
   const overlapRef = useRef<HTMLDivElement>(null);
   const skipNextOutsideClick = useRef(false);
   const suppressNextMenuOpen = useRef(false);
-  const localCloserRef = useRef<() => void>();
+  const localCloserRef = useRef<() => void>(() => {});
 
   // Cleanup on unmount
   useEffect(() => {
@@ -795,8 +795,9 @@ export const MoveableComponent: React.FC<
                 <div
                   key={choice.id}
                   className="flex items-center gap-1 px-2 py-1 hover:brightness-90 cursor-pointer"
-                  onClick={(e) => {
+                  onMouseDown={(e) => {
                     e.stopPropagation();
+                    e.preventDefault();
                     setShowOverlapMenu(false);
                     // Prevent the menu from reopening on the next mousedown
                     suppressNextMenuOpen.current = true;
