@@ -7258,5 +7258,7 @@
   "microInteraction.thanks": "ありがとう!",
   "microInteraction.maybe.later": "多分後で！",
   "flowerRewards.howToParticipate": "参加するには、以下のV3 USDC/FLOWERプール（0.3％）に流動性を追加することができます",
-  "withdraw.flower.minimumWithdrawal": "最低出金額は5フラワーです。"
+  "withdraw.flower.minimumWithdrawal": "最低出金額は5フラワーです。",
+  "reward.xp": "うわー、素晴らしいXPブースト！",
+  "reward.powerHour": "1時間の収穫速度が 50% 向上+収穫量が0.2％"
 }

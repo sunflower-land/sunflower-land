@@ -7258,5 +7258,7 @@
   "microInteraction.thanks": "Terima kasih",
   "microInteraction.maybe.later": "Mungkin nanti!",
   "flowerRewards.howToParticipate": "Untuk berpartisipasi, Anda dapat menambahkan likuiditas ke kolam V3 USDC/FLOWER (0,3%) pada",
-  "withdraw.flower.minimumWithdrawal": "Jumlah penarikan minimum adalah 5 FLOWER."
+  "withdraw.flower.minimumWithdrawal": "Jumlah penarikan minimum adalah 5 FLOWER.",
+  "reward.xp": "Wow, dorongan XP yang bagus!",
+  "reward.powerHour": "50% tanaman lebih cepat +0,2 hasil selama 1 jam"
 }

@@ -7258,5 +7258,7 @@
   "microInteraction.thanks": "Danke!",
   "microInteraction.maybe.later": "Vielleicht später!",
   "flowerRewards.howToParticipate": "Um teilzunehmen, können Sie dem V3 USDC/FLOWER-Pool (0,3%) Liquidität hinzufügen",
-  "withdraw.flower.minimumWithdrawal": "Der Mindestauszahlungsbetrag beträgt 5 FLOWER."
+  "withdraw.flower.minimumWithdrawal": "Der Mindestauszahlungsbetrag beträgt 5 FLOWER.",
+  "reward.xp": "Wow, ein netter XP-Boost!",
+  "reward.powerHour": "50% schnellere Ernte +0,2 Ertrag für 1 Stunde"
 }

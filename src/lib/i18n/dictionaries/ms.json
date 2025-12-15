@@ -7258,5 +7258,7 @@
   "microInteraction.thanks": "Terima kasih!",
   "microInteraction.maybe.later": "Mungkin kemudian!",
   "flowerRewards.howToParticipate": "Untuk mengambil bahagian, anda boleh menambah kecairan ke kolam V3 USDC/FLOWER (0.3%) pada",
-  "withdraw.flower.minimumWithdrawal": "Jumlah pengeluaran minimum ialah 5 BUNGA."
+  "withdraw.flower.minimumWithdrawal": "Jumlah pengeluaran minimum ialah 5 BUNGA.",
+  "reward.xp": "Wow, rangsangan XP yang bagus!",
+  "reward.powerHour": "50% tanaman lebih cepat +0.2 hasil selama 1 jam"
 }

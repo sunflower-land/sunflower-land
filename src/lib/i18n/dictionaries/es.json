@@ -7258,5 +7258,7 @@
   "microInteraction.thanks": "¡Gracias!",
   "microInteraction.maybe.later": "¡Quizás más tarde!",
   "flowerRewards.howToParticipate": "Para participar, puedes añadir liquidez a la reserva V3 de USDC/FLOWER (0,3%) en",
-  "withdraw.flower.minimumWithdrawal": "El monto mínimo de retiro es de 5 FLOWER."
+  "withdraw.flower.minimumWithdrawal": "El monto mínimo de retiro es de 5 FLOWER.",
+  "reward.xp": "¡Vaya, un buen aumento de XP!",
+  "reward.powerHour": "Cultivos un 50% más rápidos +rendimiento del 0,2 durante 1 hora"
 }

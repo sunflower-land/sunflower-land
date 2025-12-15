@@ -7258,5 +7258,7 @@
   "microInteraction.thanks": "Спасибо!",
   "microInteraction.maybe.later": "Может, позже!",
   "flowerRewards.howToParticipate": "Чтобы присоединиться, добавь ликвидность в пул V3 USDC/FLOWER (0.3%) на",
-  "withdraw.flower.minimumWithdrawal": "Минимальная сумма вывода - 5 FLOWER."
+  "withdraw.flower.minimumWithdrawal": "Минимальная сумма вывода - 5 FLOWER.",
+  "reward.xp": "Wow, a nice XP boost!",
+  "reward.powerHour": "50% faster crops +0.2 yield for 1 hour"
 }

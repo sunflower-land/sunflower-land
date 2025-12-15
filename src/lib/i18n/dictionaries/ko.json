@@ -7258,5 +7258,7 @@
   "microInteraction.thanks": "고마워요!",
   "microInteraction.maybe.later": "나중에 할지도 몰라요!",
   "flowerRewards.howToParticipate": "참여하려면 다음과 같이 V3 USDC/FLOWER 풀 (0.3%) 에 유동성을 추가할 수 있습니다.",
-  "withdraw.flower.minimumWithdrawal": "최소 인출 금액은 5 플라워입니다."
+  "withdraw.flower.minimumWithdrawal": "최소 인출 금액은 5 플라워입니다.",
+  "reward.xp": "와우, 멋진 XP 부스트!",
+  "reward.powerHour": "1시간 동안 50% 더 빠른 작물 수확량 +0.2 수확량"
 }

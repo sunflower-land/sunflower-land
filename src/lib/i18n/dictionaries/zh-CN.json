@@ -7258,5 +7258,7 @@
   "microInteraction.thanks": "谢谢！",
   "microInteraction.maybe.later": "改天再说吧！",
   "flowerRewards.howToParticipate": "想参加活动的话，可以到 V3 USDC/FLOWER（0.3%）资金池里提供流动性。",
-  "withdraw.flower.minimumWithdrawal": "单次最低提领数量为 5 FLOWER。"
+  "withdraw.flower.minimumWithdrawal": "单次最低提领数量为 5 FLOWER。",
+  "reward.xp": "哇，一个不错的经验值提升！",
+  "reward.powerHour": "作物速度提高 50%，1 小时产量增加 0.2"
 }

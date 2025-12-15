@@ -7258,5 +7258,7 @@
   "microInteraction.thanks": "Obrigado!",
   "microInteraction.maybe.later": "Talvez mais tarde!",
   "flowerRewards.howToParticipate": "Para participar, você pode adicionar liquidez ao pool V3 USDC/FLOWER (0,3%) em",
-  "withdraw.flower.minimumWithdrawal": "O valor mínimo de retirada é de 5 FLOWER."
+  "withdraw.flower.minimumWithdrawal": "O valor mínimo de retirada é de 5 FLOWER.",
+  "reward.xp": "Nossa, um ótimo aumento de XP!",
+  "reward.powerHour": "Culturas 50% mais rápidas +0,2 rendimento por 1 hora"
 }
