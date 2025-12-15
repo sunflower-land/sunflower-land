@@ -238,16 +238,10 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
     // apply fertilisers
     if (!readyToHarvest && seed && seed in CROP_COMPOST) {
-      const state = gameService.send("plot.fertilised", {
+      gameService.send("plot.fertilised", {
         plotID: id,
         fertiliser: seed,
       });
-
-      if (state.context.state.farmActivity?.["Crop Fertilised"] === 1) {
-        gameAnalytics.trackMilestone({
-          event: "Tutorial:Fertilised:Completed",
-        });
-      }
 
       return;
     }

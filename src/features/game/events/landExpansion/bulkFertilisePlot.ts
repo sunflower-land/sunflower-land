@@ -7,6 +7,7 @@ import { produce } from "immer";
 import { isReadyToHarvest } from "./harvest";
 import { CROPS } from "../../types/crops";
 import { trackFarmActivity } from "features/game/types/farmActivity";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 export type BulkFertilisePlotAction = {
   type: "plots.bulkFertilised";
@@ -59,6 +60,8 @@ export function bulkFertilisePlot({
       throw new Error("Not enough fertiliser to apply");
     }
 
+    const previousFertilised = game.farmActivity?.["Crop Fertilised"] ?? 0;
+
     let applied = 0;
     for (let i = 0; i < plotsToFertilise && applied < plotsToFertilise; i++) {
       const [plotID, plot] = availablePlots[i];
@@ -83,5 +86,11 @@ export function bulkFertilisePlot({
       game.farmActivity,
       new Decimal(applied),
     );
+
+    if (previousFertilised === 0 && applied > 0) {
+      gameAnalytics.trackMilestone({
+        event: "Tutorial:Fertilised:Completed",
+      });
+    }
   });
 }

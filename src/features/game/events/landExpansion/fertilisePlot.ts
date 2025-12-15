@@ -66,12 +66,6 @@ export function applyFertiliserToPlot({
   fertiliser,
   createdAt,
 }: ApplyFertiliserArgs) {
-  if (game.bumpkin?.activity?.["Crop Fertilised"] === 0) {
-    gameAnalytics.trackMilestone({
-      event: "Tutorial:Fertilised:Completed",
-    });
-  }
-
   const plot = game.crops[plotId];
 
   plot.fertiliser = {
@@ -199,10 +193,18 @@ export function fertilisePlot({
 
     inventory[action.fertiliser] = fertiliserAmount.minus(1);
 
+    const previousFertilised = stateCopy.farmActivity?.["Crop Fertilised"] ?? 0;
     stateCopy.farmActivity = trackFarmActivity(
       `Crop Fertilised`,
       stateCopy.farmActivity,
     );
+
+    const fertilised = stateCopy.farmActivity?.["Crop Fertilised"] ?? 0;
+    if (previousFertilised === 0 && fertilised > 0) {
+      gameAnalytics.trackMilestone({
+        event: "Tutorial:Fertilised:Completed",
+      });
+    }
 
     return stateCopy;
   });
