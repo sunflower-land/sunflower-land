@@ -6571,11 +6571,8 @@
   "description.blossomWard.boost": "春のスプリングプロット収穫量+1",
   "description.frozenHeart.boost": "冬季の作物の収穫量+1",
   "memory.portal.title": "ミニゲーム-メモリ",
-  "memory.portal.description": "カードをめくったり、マッチするものを見つけたり、記憶力をテストしながら健康を維持しましょう。",
-  "memory.portal.missionObjective": "ミッション:{{targetScore}} 個のマッチを見つけましょう。",
   "memory.portal.rewardMessage": "おめでとうございます。ミッションを完了しました！報酬はこちらです。",
   "portal.memory.title": "メモリー",
-  "portal.memory.description": "このメモリーチャレンジでは、カードをめくって、マッチを見つけて、健康を維持しましょう！",
   "description.potion.ticket": "ポーションゲームからの報酬。これを使ってアインズからアイテムを購入しよう。",
   "select.network": "ネットワークを選択",
   "switching.network": "ネットワークを切り替えています...",
@@ -7262,5 +7259,8 @@
   "description.fslWechatDeprecation": "{{title}} ログインは削除されました。",
   "description.fslWEchatDeprecationDescription": "ファームのリンクされたウォレットでサインインするか、Discordでサポートに連絡してください。",
   "description.speed.chicken.boost": "-10% チキンスリープタイム",
-  "description.el.pollo.veloz.boost": "-2時間のチキンスリープタイム"
+  "description.el.pollo.veloz.boost": "-2時間のチキンスリープタイム",
+  "memory.portal.description": "カードをめくったり、マッチを見つけたり、記憶力をテストしながら時間をつぶしたりしてみてください。",
+  "memory.portal.missionObjective": "ミッション:{{targetScore}} ポイント達成",
+  "portal.memory.description": "このメモリーチャレンジでは、カードをめくったり、マッチを見つけたり、時間をつぶしたりしてみてください！"
 }

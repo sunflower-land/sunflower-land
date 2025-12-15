@@ -6571,11 +6571,8 @@
   "description.blossomWard.boost": "İlkbaharda Bahar Arsa Mahsulüne +1 Verim",
   "description.frozenHeart.boost": "Kışın Kış Arsa Mahsulüne +1 Verim",
   "memory.portal.title": "Mini Oyun - Bellek",
-  "memory.portal.description": "Kartları çevirin, eşleşmeleri bulun ve hafızanızı test ederken sağlıklı kalmaya çalışın.",
-  "memory.portal.missionObjective": "Görev: {{targetScore}} eşleşmeleri bulun.",
   "memory.portal.rewardMessage": "Tebrikler, görevi tamamladınız! İşte ödülünüz.",
   "portal.memory.title": "Bellek",
-  "portal.memory.description": "Kartları çevir, eşleşmeleri bul ve bu hafıza mücadelesinde sağlıklı kalmaya çalış!",
   "description.potion.ticket": "İksir Oyunundan bir ödül. Bunu Eins\"den ürün satın almak için kullanın.",
   "select.network": "Ağ Seçin",
   "switching.network": "Ağ Değiştirme...",
@@ -7262,5 +7259,8 @@
   "description.fslWechatDeprecation": "{{title}} giriş kaldırıldı.",
   "description.fslWEchatDeprecationDescription": "Lütfen çiftliğinizin bağlantılı cüzdanıyla oturum açın veya discord'daki desteğe başvurun.",
   "description.speed.chicken.boost": "-10% Tavuk Uyku Süresi",
-  "description.el.pollo.veloz.boost": "-2h Tavuk Uyku Süresi"
+  "description.el.pollo.veloz.boost": "-2h Tavuk Uyku Süresi",
+  "memory.portal.description": "Kartları çevirin, eşleşmeleri bulun ve hafızanızı test ederken saati yenmeye çalışın.",
+  "memory.portal.missionObjective": "Görev: {{targetScore}} puana ulaşın.",
+  "portal.memory.description": "Kartları çevir, eşleşmeleri bul ve bu hafıza mücadelesinde saati yenmeye çalış!"
 }

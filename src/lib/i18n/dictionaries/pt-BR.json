@@ -6571,11 +6571,8 @@
   "description.blossomWard.boost": "+1 Rendimento da safra da parcela de primavera na primavera",
   "description.frozenHeart.boost": "+1 Rendimento da safra de inverno no inverno",
   "memory.portal.title": "Minijogo - Memória",
-  "memory.portal.description": "Vire cartas, encontre fósforos e tente se manter saudável enquanto testa sua memória.",
-  "memory.portal.missionObjective": "Missão: Encontre combinações de {{targetScore}}.",
   "memory.portal.rewardMessage": "Parabéns, você completou a missão! Aqui está sua recompensa.",
   "portal.memory.title": "Memória",
-  "portal.memory.description": "Vire cartas, encontre fósforos e tente se manter saudável neste desafio de memória!",
   "description.potion.ticket": "Uma recompensa do Jogo de Poções. Use isso para comprar itens da Eins.",
   "select.network": "Selecione Rede",
   "switching.network": "Mudando de rede...",
@@ -7262,5 +7259,8 @@
   "description.fslWechatDeprecation": "O login {{title}} foi removido.",
   "description.fslWEchatDeprecationDescription": "Faça login com a carteira vinculada da sua fazenda ou entre em contato com o suporte no discord.",
   "description.speed.chicken.boost": "-10% de tempo de sono do frango",
-  "description.el.pollo.veloz.boost": "-2h de tempo de sono do frango"
+  "description.el.pollo.veloz.boost": "-2h de tempo de sono do frango",
+  "memory.portal.description": "Vire cartas, encontre fósforos e tente vencer o relógio enquanto testa sua memória.",
+  "memory.portal.missionObjective": "Missão: Alcançar {{targetScore}} pontos.",
+  "portal.memory.description": "Vire cartas, encontre fósforos e tente vencer o relógio neste desafio de memória!"
 }

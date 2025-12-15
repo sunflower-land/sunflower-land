@@ -6571,11 +6571,8 @@
   "description.blossomWard.boost": "+1 de rendimiento respecto a la cosecha de parcelas de primavera en primavera",
   "description.frozenHeart.boost": "+1 de rendimiento respecto a la cosecha de parcelas de invierno en invierno",
   "memory.portal.title": "Minijuego - Memoria",
-  "memory.portal.description": "Da la vuelta a las cartas, busca fósforos y trata de mantenerte sano mientras pones a prueba tu memoria.",
-  "memory.portal.missionObjective": "Misión: Encuentra coincidencias de {{targetScore}}.",
   "memory.portal.rewardMessage": "¡Enhorabuena, has completado la misión! Aquí tienes tu recompensa.",
   "portal.memory.title": "Memoria",
-  "portal.memory.description": "¡Voltea cartas, encuentra coincidencias y trata de mantenerte sano en este desafío de memoria!",
   "description.potion.ticket": "Una recompensa del juego de pociones. Utilízala para comprar objetos de Eins.",
   "select.network": "Seleccione la red",
   "switching.network": "Red de conmutación...",
@@ -7262,5 +7259,8 @@
   "description.fslWechatDeprecation": "Se ha eliminado el inicio de sesión de {{title}}.",
   "description.fslWEchatDeprecationDescription": "Inicia sesión con la billetera vinculada de tu granja o ponte en contacto con el servicio de asistencia en Discord.",
   "description.speed.chicken.boost": "-10% de tiempo de sueño con pollo",
-  "description.el.pollo.veloz.boost": "-2h de tiempo de sueño con pollo"
+  "description.el.pollo.veloz.boost": "-2h de tiempo de sueño con pollo",
+  "memory.portal.description": "Da la vuelta a las cartas, encuentra coincidencias e intenta batir el reloj mientras pones a prueba tu memoria.",
+  "memory.portal.missionObjective": "Misión: Alcanzar {{targetScore}} puntos.",
+  "portal.memory.description": "¡Voltea cartas, encuentra coincidencias e intenta batir el reloj en este desafío de memoria!"
 }

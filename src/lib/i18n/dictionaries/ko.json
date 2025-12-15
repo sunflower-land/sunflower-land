@@ -6571,11 +6571,8 @@
   "description.blossomWard.boost": "봄철 대작물의 수확량 +1",
   "description.frozenHeart.boost": "겨울철 작물의 수확량+1",
   "memory.portal.title": "미니게임 - 메모리",
-  "memory.portal.description": "카드를 뒤집고, 짝을 찾고, 기억력을 테스트하면서 건강을 유지하세요.",
-  "memory.portal.missionObjective": "임무: {{targetScore}} 일치 항목을 찾으세요.",
   "memory.portal.rewardMessage": "축하합니다. 임무를 완수했습니다!보상은 다음과 같습니다.",
   "portal.memory.title": "메모리",
-  "portal.memory.description": "이 메모리 챌린지에서 카드를 뒤집고, 짝을 찾고, 건강을 유지하세요!",
   "description.potion.ticket": "포션 게임의 보상입니다.이를 사용해 아인스에게서 아이템을 구매할 수 있습니다.",
   "select.network": "네트워크 선택",
   "switching.network": "네트워크 전환 중...",
@@ -7262,5 +7259,8 @@
   "description.fslWechatDeprecation": "{{title}} 로그인이 제거되었습니다.",
   "description.fslWEchatDeprecationDescription": "팜의 연결된 지갑으로 로그인하거나 Discord에서 지원팀에 문의하세요.",
   "description.speed.chicken.boost": "-10% 치킨 수면 시간",
-  "description.el.pollo.veloz.boost": "-2시간 치킨 슬립 타임"
+  "description.el.pollo.veloz.boost": "-2시간 치킨 슬립 타임",
+  "memory.portal.description": "카드를 뒤집고, 성냥을 찾고, 기억력을 테스트하면서 시간을 초월해 보세요.",
+  "memory.portal.missionObjective": "임무: {{targetScore}} 포인트를 달성하세요.",
+  "portal.memory.description": "이 메모리 챌린지에서 카드를 뒤집고, 성냥을 찾고, 시간을 초월해 보세요!"
 }

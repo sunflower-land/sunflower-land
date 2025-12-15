@@ -897,8 +897,6 @@
   "mine-whack.portal.missionObjectives": "Миссия: набрать {{targetScore}} очков.",
   "mine-whack.portal.rewardMessage": "Поздравляем, вы выполнили задание! Вот ваша награда.",
   "memory.portal.title": "Мини-игра «Память»",
-  "memory.portal.description": "Перелистывайте карточки, находите совпадения и старайтесь оставаться здоровыми, проверяя память.",
-  "memory.portal.missionObjective": "Миссия: найти {{targetScore}} совпадения.",
   "memory.portal.rewardMessage": "Поздравляем, вы выполнили задание! Вот ваша награда.",
   "description.wicker.man": "Возьмитесь за руки и образуйте цепь, и тень Wicker Man появится вновь",
   "description.golden bonsai": "Гоблины тоже любят бонсай",
@@ -5614,7 +5612,6 @@
   "portal.mineWhack.title": "Бей шахту!",
   "portal.mineWhack.description": "Нажимайте кротов, уклоняйтесь от кроликов и соревнуйтесь со временем в этом рефлекторном испытании!",
   "portal.memory.title": "Память",
-  "portal.memory.description": "Перелистывайте карточки, находите совпадения и постарайтесь сохранить здоровье в этом испытании на память!",
   "recipes.upNext": "На очереди",
   "recipes.addToQueue": "В очередь",
   "recipes.queue": "Очередь",
@@ -7262,5 +7259,8 @@
   "description.fslWechatDeprecation": "{{title}} login has been removed.",
   "description.fslWEchatDeprecationDescription": "Please sign in with your farm's linked wallet or contact support on discord.",
   "description.speed.chicken.boost": "-10% Chicken Sleep Time",
-  "description.el.pollo.veloz.boost": "-2h Chicken Sleep Time"
+  "description.el.pollo.veloz.boost": "-2h Chicken Sleep Time",
+  "memory.portal.description": "Flip cards, find matches and try to beat the clock while testing your memory.",
+  "memory.portal.missionObjective": "Mission: Reach {{targetScore}} points.",
+  "portal.memory.description": "Flip cards, find matches and try to beat the clock in this memory challenge!"
 }

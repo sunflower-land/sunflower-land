@@ -6571,11 +6571,8 @@
   "description.blossomWard.boost": "春季庄稼产量 +1（限春季种子，不含温室）",
   "description.frozenHeart.boost": "冬季庄稼产量 +1（限冬季种子，不含温室）",
   "memory.portal.title": "小游戏 - 记忆翻牌",
-  "memory.portal.description": "翻开卡牌，找到配对，并在考验记忆的同时保持状态良好。",
-  "memory.portal.missionObjective": "任务：找到 {{targetScore}} 对配对卡牌。",
   "memory.portal.rewardMessage": "恭喜，你完成了任务！这是你的奖励。",
   "portal.memory.title": "记忆翻牌",
-  "portal.memory.description": "翻开卡牌，找到配对，并在这场记忆挑战中保持良好状态！",
   "description.potion.ticket": "来自药水游戏的奖励。可用于在 Eins 处购买物品。",
   "select.network": "选择网络",
   "switching.network": "正在切换网络...",
@@ -7262,5 +7259,8 @@
   "description.fslWechatDeprecation": "{{title}} 登录名已删除。",
   "description.fslWEchatDeprecationDescription": "请使用您农场的关联钱包登录，或通过 Discord 联系客服。",
   "description.speed.chicken.boost": "-10% 小鸡睡眠时间",
-  "description.el.pollo.veloz.boost": "-2 小时小鸡睡眠时间"
+  "description.el.pollo.veloz.boost": "-2 小时小鸡睡眠时间",
+  "memory.portal.description": "翻转卡片，寻找匹配项，在测试记忆力的同时尝试打破时间。",
+  "memory.portal.missionObjective": "任务：达到 {{targetScore}} 点数。",
+  "portal.memory.description": "在这场记忆挑战赛中，翻转卡片，寻找匹配项并尝试打破时间！"
 }

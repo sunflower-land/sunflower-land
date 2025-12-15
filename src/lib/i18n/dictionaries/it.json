@@ -6571,11 +6571,8 @@
   "description.blossomWard.boost": "+1 Rendimento al raccolto primaverile del terreno in primavera",
   "description.frozenHeart.boost": "+1 Rendimento al raccolto invernale del terreno in inverno",
   "memory.portal.title": "Minigioco - Memoria",
-  "memory.portal.description": "Gira le carte, trova i fiammiferi e cerca di rimanere in salute mentre metti alla prova la tua memoria.",
-  "memory.portal.missionObjective": "Missione: trova {{targetScore}} corrispondenze.",
   "memory.portal.rewardMessage": "Congratulazioni, hai completato la missione! Ecco la tua ricompensa.",
   "portal.memory.title": "Memoria",
-  "portal.memory.description": "Gira le carte, trova i fiammiferi e cerca di rimanere in salute in questa sfida della memoria!",
   "description.potion.ticket": "Una ricompensa del gioco delle pozioni. Usalo per acquistare oggetti da Eins.",
   "select.network": "Seleziona rete",
   "switching.network": "Rete di commutazione...",
@@ -7262,5 +7259,8 @@
   "description.fslWechatDeprecation": "L'accesso {{title}} è stato rimosso.",
   "description.fslWEchatDeprecationDescription": "Accedi con il portafoglio collegato alla tua fattoria o contatta l'assistenza su discord.",
   "description.speed.chicken.boost": "-10% Tempo di sonno del pollo",
-  "description.el.pollo.veloz.boost": "-2h Chicken Sleep Time"
+  "description.el.pollo.veloz.boost": "-2h Chicken Sleep Time",
+  "memory.portal.description": "Gira le carte, trova le partite e prova a battere il tempo mentre metti alla prova la tua memoria.",
+  "memory.portal.missionObjective": "Missione: Raggiungi {{targetScore}} punti.",
+  "portal.memory.description": "Gira le carte, trova i fiammiferi e prova a battere il tempo in questa sfida di memoria!"
 }

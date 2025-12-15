@@ -6571,11 +6571,8 @@
   "description.blossomWard.boost": "+1 Rendement par rapport à la récolte parcellaire de printemps",
   "description.frozenHeart.boost": "+1 Rendement par rapport à la récolte en parcelles d'hiver",
   "memory.portal.title": "Mini-jeu - Memory",
-  "memory.portal.description": "Retournez des cartes, trouvez des allumettes et essayez de rester en bonne santé tout en testant votre mémoire.",
-  "memory.portal.missionObjective": "Mission : trouver des allumettes {{targetScore}}.",
   "memory.portal.rewardMessage": "Félicitations, vous avez terminé la mission ! Voici ta récompense.",
   "portal.memory.title": "Mémoire",
-  "portal.memory.description": "Retournez des cartes, trouvez des allumettes et essayez de rester en bonne santé dans ce défi de mémoire !",
   "description.potion.ticket": "Une récompense issue du jeu de potions. Utilisez-le pour acheter des objets chez Eins.",
   "select.network": "Sélectionnez le réseau",
   "switching.network": "Réseau de commutation...",
@@ -7262,5 +7259,8 @@
   "description.fslWechatDeprecation": "La connexion {{title}} a été supprimée.",
   "description.fslWEchatDeprecationDescription": "Connectez-vous à l'aide du portefeuille associé à votre ferme ou contactez l'assistance sur Discord.",
   "description.speed.chicken.boost": "-10 % du temps de sommeil du poulet",
-  "description.el.pollo.veloz.boost": "-2 h de sommeil pour le poulet"
+  "description.el.pollo.veloz.boost": "-2 h de sommeil pour le poulet",
+  "memory.portal.description": "Retournez des cartes, trouvez des allumettes et essayez de battre la montre tout en testant votre mémoire.",
+  "memory.portal.missionObjective": "Mission : Atteindre {{targetScore}} points.",
+  "portal.memory.description": "Retournez des cartes, trouvez des allumettes et tentez de battre le chronomètre dans ce défi de mémoire !"
 }

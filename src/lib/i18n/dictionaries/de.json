@@ -6571,11 +6571,8 @@
   "description.blossomWard.boost": "+1 Ertrag gegenüber der Frühjahrsernte im Frühjahr",
   "description.frozenHeart.boost": "+1 Ertrag für die Winterernte im Winter",
   "memory.portal.title": "Minispiel - Memory",
-  "memory.portal.description": "Drehe Karten um, finde Streichhölzer und versuche gesund zu bleiben, während du dein Gedächtnis testest.",
-  "memory.portal.missionObjective": "Auftrag: Finde {{targetScore}} -Übereinstimmungen.",
   "memory.portal.rewardMessage": "Herzlichen Glückwunsch, du hast die Mission abgeschlossen! Hier ist deine Belohnung.",
   "portal.memory.title": "Erinnerung",
-  "portal.memory.description": "Drehe Karten um, finde Streichhölzer und versuche, bei dieser Gedächtnisherausforderung gesund zu bleiben!",
   "description.potion.ticket": "Eine Belohnung aus dem Potion Game. Benutze dies, um Artikel von Eins zu kaufen.",
   "select.network": "Wählen Sie Netzwerk",
   "switching.network": "Netzwerk wird gewechselt...",
@@ -7262,5 +7259,8 @@
   "description.fslWechatDeprecation": "{{title}} -Login wurde entfernt.",
   "description.fslWEchatDeprecationDescription": "Bitte melde dich mit der verlinkten Wallet deiner Farm an oder kontaktiere den Support auf Discord.",
   "description.speed.chicken.boost": "-10% Schlafzeit für Hühner",
-  "description.el.pollo.veloz.boost": "-2 Stunden Schlafzeit für Hühner"
+  "description.el.pollo.veloz.boost": "-2 Stunden Schlafzeit für Hühner",
+  "memory.portal.description": "Drehe Karten um, finde Streichhölzer und versuche, die Zeit zu schlagen, während du dein Gedächtnis testest.",
+  "memory.portal.missionObjective": "Auftrag: Erreiche {{targetScore}} Punkte.",
+  "portal.memory.description": "Drehe Karten um, finde Streichhölzer und versuche, bei dieser Gedächtnis-Herausforderung die Zeit zu schlagen!"
 }
