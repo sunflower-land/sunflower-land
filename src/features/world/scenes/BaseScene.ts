@@ -966,7 +966,9 @@ export abstract class BaseScene extends Phaser.Scene {
 
         if (this.currentPlayer?.farmId === receiverId) {
           const pending = this.receivedMicroInteractions.get(receiverId);
-          if (pending) {
+          // Only clear if this ack corresponds to the current pending sender.
+          // Otherwise this is a stale ack from an older interaction.
+          if (pending && pending.senderId === senderId) {
             this.receivedMicroInteractions.delete(receiverId);
             this.destroyMicroInteractionIndicator(pending.indicator);
           }
@@ -983,6 +985,11 @@ export abstract class BaseScene extends Phaser.Scene {
       case "cancelled": {
         if (this.currentPlayer?.farmId !== receiverId) return;
         // Cancel sent from the sender after their timeout
+        const pending = this.receivedMicroInteractions.get(receiverId);
+        // Only cancel if the current pending request is from the cancelling sender.
+        // This prevents a late cancel from wiping a newer pending request.
+        if (!pending || pending.senderId !== senderId) return;
+
         this.cancelMicroInteraction(receiverId, "timeout");
         break;
       }
