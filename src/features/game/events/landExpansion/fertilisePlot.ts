@@ -12,6 +12,7 @@ import {
 import { isCollectibleOnFarm, setAOEAvailableAt } from "features/game/lib/aoe";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 export type LandExpansionFertiliseCropAction = {
   type: "plot.fertilised";
@@ -52,6 +53,94 @@ const getPlantedAt = (
   return { newPlantedAt: plantedAt, timeReduction: 0 };
 };
 
+type ApplyFertiliserArgs = {
+  game: GameState;
+  plotId: string;
+  fertiliser: CropCompostName;
+  createdAt: number;
+};
+
+export function applyFertiliserToPlot({
+  game,
+  plotId,
+  fertiliser,
+  createdAt,
+}: ApplyFertiliserArgs) {
+  const plot = game.crops[plotId];
+
+  plot.fertiliser = {
+    name: fertiliser,
+    fertilisedAt: createdAt,
+  };
+
+  const crop = plot.crop;
+  if (!crop) return plot;
+
+  const cropDetails = CROPS[crop.name];
+
+  if (fertiliser === "Rapid Root" && cropDetails) {
+    const { newPlantedAt, timeReduction } = getPlantedAt(
+      fertiliser,
+      crop.plantedAt,
+      createdAt,
+      cropDetails,
+    );
+
+    crop.plantedAt = newPlantedAt;
+    crop.boostedTime = (crop.boostedTime ?? 0) + timeReduction;
+
+    if (
+      isCollectibleOnFarm({ name: "Basic Scarecrow", game }) &&
+      isBasicCrop(crop.name)
+    ) {
+      const scarecrow = game.collectibles["Basic Scarecrow"]?.[0];
+      const coordinates = scarecrow?.coordinates;
+      if (
+        !coordinates ||
+        plot.x === undefined ||
+        plot.y === undefined ||
+        !game.bumpkin
+      ) {
+        return plot;
+      }
+
+      const dimensions = COLLECTIBLES_DIMENSIONS["Basic Scarecrow"];
+      const px = plot.x as number;
+      const py = plot.y as number;
+      const plotPosition: Position = {
+        x: px,
+        y: py,
+        ...RESOURCE_DIMENSIONS["Crop Plot"],
+      };
+      const scarecrowPosition: Position = {
+        ...dimensions,
+        ...coordinates,
+      };
+
+      if (
+        isWithinAOE(
+          "Basic Scarecrow",
+          scarecrowPosition,
+          plotPosition,
+          game.bumpkin.skills,
+        )
+      ) {
+        const dx = px - coordinates.x;
+        const dy = py - coordinates.y;
+        setAOEAvailableAt(
+          game.aoe,
+          "Basic Scarecrow",
+          { dx, dy },
+          createdAt,
+          crop.plantedAt + cropDetails.harvestSeconds * 1000 - createdAt,
+        );
+      }
+    }
+  }
+
+  return plot;
+}
+
 export function fertilisePlot({
   state,
   action,
@@ -83,85 +172,39 @@ export function fertilisePlot({
       throw new Error(FERTILISE_CROP_ERRORS.NOT_ENOUGH_FERTILISER);
     }
 
-    // Apply fertiliser
-    plot.fertiliser = {
-      name: action.fertiliser,
-      fertilisedAt: createdAt,
-    };
-
-    // Apply buff if already planted
-    const crop = plot.crop;
-
     if (plot.x === undefined || plot.y === undefined) {
       throw new Error(FERTILISE_CROP_ERRORS.PLOT_NOT_PLACED);
     }
 
+    const crop = plot.crop;
     if (crop) {
       const cropDetails = crop && CROPS[crop.name];
       if (cropDetails && isReadyToHarvest(createdAt, crop, cropDetails)) {
         throw new Error(FERTILISE_CROP_ERRORS.READY_TO_HARVEST);
       }
-
-      if (cropDetails && action.fertiliser === "Rapid Root") {
-        const { newPlantedAt, timeReduction } = getPlantedAt(
-          action.fertiliser,
-          crop.plantedAt,
-          createdAt,
-          cropDetails,
-        );
-
-        crop.plantedAt = newPlantedAt;
-
-        crop.boostedTime = (crop.boostedTime ?? 0) + timeReduction;
-
-        if (
-          isCollectibleOnFarm({ name: "Basic Scarecrow", game: stateCopy }) &&
-          isBasicCrop(crop.name)
-        ) {
-          // Get Coordinates of the Scarecrow
-          // Get Dimensions of the Scarecrow
-          const dimensions = COLLECTIBLES_DIMENSIONS["Basic Scarecrow"];
-          const coordinates =
-            stateCopy.collectibles["Basic Scarecrow"]![0].coordinates!;
-          // Coordinates is always defined because isCollectibleBuilt is true
-          const plotPosition: Position = {
-            x: plot?.x,
-            y: plot?.y,
-            ...RESOURCE_DIMENSIONS["Crop Plot"],
-          };
-          const scarecrowPosition: Position = {
-            ...dimensions,
-            ...coordinates,
-          };
-
-          if (
-            isWithinAOE(
-              "Basic Scarecrow",
-              scarecrowPosition,
-              plotPosition,
-              stateCopy.bumpkin.skills,
-            )
-          ) {
-            const dx = plot.x - coordinates.x;
-            const dy = plot.y - coordinates.y;
-            setAOEAvailableAt(
-              stateCopy.aoe,
-              "Basic Scarecrow",
-              { dx, dy },
-              createdAt,
-              crop.plantedAt + cropDetails.harvestSeconds * 1000 - createdAt,
-            );
-          }
-        }
-      }
     }
+
+    applyFertiliserToPlot({
+      game: stateCopy,
+      plotId: action.plotID,
+      fertiliser: action.fertiliser,
+      createdAt,
+    });
 
     inventory[action.fertiliser] = fertiliserAmount.minus(1);
 
+    const previousFertilised = stateCopy.farmActivity?.["Crop Fertilised"] ?? 0;
     stateCopy.farmActivity = trackFarmActivity(
       `Crop Fertilised`,
       stateCopy.farmActivity,
     );
+
+    const fertilised = stateCopy.farmActivity?.["Crop Fertilised"] ?? 0;
+    if (previousFertilised === 0 && fertilised > 0) {
+      gameAnalytics.trackMilestone({
+        event: "Tutorial:Fertilised:Completed",
+      });
+    }
 
     return stateCopy;
   });
