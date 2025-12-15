@@ -336,7 +336,9 @@ export const getExperienceToNextLevel = (experience: number) => {
   if (level === MAX_BUMPKIN_LEVEL) {
     return {
       currentExperienceProgress,
-      experienceToNextLevel: 0,
+      experienceToNextLevel:
+        LEVEL_EXPERIENCE[MAX_BUMPKIN_LEVEL] -
+        LEVEL_EXPERIENCE[(MAX_BUMPKIN_LEVEL - 1) as BumpkinLevel],
     };
   }
 
