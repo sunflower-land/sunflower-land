@@ -528,7 +528,7 @@ describe("castRod", () => {
       action: {
         bait: "Earthworm",
         type: "rod.casted",
-        multiplier: 1,
+        multiplier: 5,
       },
       state: {
         ...farm,
@@ -540,6 +540,7 @@ describe("castRod", () => {
         inventory: {
           Rod: new Decimal(20),
           Earthworm: new Decimal(20),
+          "Beta Pass": new Decimal(1),
         },
         fishing: {
           wharf: {},
@@ -548,14 +549,13 @@ describe("castRod", () => {
             [date]: 21,
           },
           extraReels: {
-            count: 4,
+            count: 6,
           },
         },
       },
       createdAt: now,
     });
 
-    // Only 2 extra reels should be used for this cast (delta over limit), not 3 (total over limit)
-    expect(state.fishing.extraReels?.count).toEqual(3);
+    expect(state.fishing.extraReels?.count).toEqual(1);
   });
 });
