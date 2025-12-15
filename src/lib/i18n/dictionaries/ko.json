@@ -208,7 +208,6 @@
   "description.lg.carrot.boost": "+0.2 캐롯",
   "description.lg.radish.boost": "+0.4 래디쉬",
   "description.rich.chicken.boost": "+0.1 에그",
-  "description.speed.chicken.boost": "-10% 계란 생산 시간",
   "description.ayam.cemani.boost": "+0.2 에그",
   "description.rooster.boost": "뮤턴트 치킨 확률 2배",
   "description.undead.rooster.boost": "+0.1 에그",
@@ -3616,7 +3615,6 @@
   "description.ayam.cemani": "선플라워 랜드에서 가장 희귀한 치킨!",
   "description.undead.rooster": "전쟁으로 인한 불행한 희생자. +0.1 알 생산량.",
   "description.fat.chicken.boost": "-10% 닭고기에게 먹이기",
-  "description.el.pollo.veloz.boost": "-2시간 계란 생산 시간",
   "description.farm.dog.boost": "양 생산 시간 -25%",
   "description.free.range": "+0.1 애니멀 프로듀스",
   "description.chicken.coop": "닭을 기르는 데 사용할 수 있는 닭장입니다.이 희귀한 닭장으로 계란 생산량을 늘리세요.",
@@ -7262,5 +7260,7 @@
   "reward.powerHour": "1시간 동안 50% 더 빠른 작물 수확량 +0.2 수확량",
   "description.loginUnavailable": "로그인 불가능",
   "description.fslWechatDeprecation": "{{title}} 로그인이 제거되었습니다.",
-  "description.fslWEchatDeprecationDescription": "팜의 연결된 지갑으로 로그인하거나 Discord에서 지원팀에 문의하세요."
+  "description.fslWEchatDeprecationDescription": "팜의 연결된 지갑으로 로그인하거나 Discord에서 지원팀에 문의하세요.",
+  "description.speed.chicken.boost": "-10% 치킨 수면 시간",
+  "description.el.pollo.veloz.boost": "-2시간 치킨 슬립 타임"
 }

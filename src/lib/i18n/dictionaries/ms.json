@@ -208,7 +208,6 @@
   "description.lg.carrot.boost": "+0.2 Wortel",
   "description.lg.radish.boost": "+0.4 Lobak",
   "description.rich.chicken.boost": "+0.1 Telur",
-  "description.speed.chicken.boost": "-10% Masa Pengeluaran Telur",
   "description.ayam.cemani.boost": "+0.2 Telur",
   "description.rooster.boost": "2x Peluang Ayam Mutan",
   "description.undead.rooster.boost": "+0.1 Telur",
@@ -3616,7 +3615,6 @@
   "description.ayam.cemani": "Ayam paling jarang di Sunflower Land!",
   "description.undead.rooster": "Korban perang yang malang. +0.1 hasil telur.",
   "description.fat.chicken.boost": "-10% Makanan kepada Ayam",
-  "description.el.pollo.veloz.boost": "Masa Pengeluaran Telur -2h",
   "description.farm.dog.boost": "-25% Masa Pengeluaran Domba",
   "description.free.range": "+0.1 Hasil Haiwan",
   "description.chicken.coop": "Kandang ayam yang boleh digunakan untuk membesarkan ayam. Meningkatkan pengeluaran telur dengan kandang langka ini.",
@@ -7262,5 +7260,7 @@
   "reward.powerHour": "50% tanaman lebih cepat +0.2 hasil selama 1 jam",
   "description.loginUnavailable": "Log Masuk Tidak Tersedia",
   "description.fslWechatDeprecation": "{{title}} log masuk telah dikeluarkan.",
-  "description.fslWEchatDeprecationDescription": "Sila log masuk dengan dompet yang dipautkan ladang anda atau hubungi sokongan di discord."
+  "description.fslWEchatDeprecationDescription": "Sila log masuk dengan dompet yang dipautkan ladang anda atau hubungi sokongan di discord.",
+  "description.speed.chicken.boost": "-10% Masa Tidur Ayam",
+  "description.el.pollo.veloz.boost": "Waktu Tidur Ayam -2h"
 }

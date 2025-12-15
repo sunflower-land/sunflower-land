@@ -206,7 +206,6 @@
   "description.lg.carrot.boost": "+0.2 胡萝卜",
   "description.lg.radish.boost": "+0.4 小萝卜",
   "description.rich.chicken.boost": "+0.1 鸡蛋",
-  "description.speed.chicken.boost": "-10% 鸡睡眠时间",
   "description.ayam.cemani.boost": "+0.2 鸡蛋",
   "description.rooster.boost": "变种鸡出现几率提升 2 倍",
   "description.undead.rooster.boost": "+0.1 鸡蛋",
@@ -3616,7 +3615,6 @@
   "description.ayam.cemani": "Sunflower Land 最稀有的鸡！",
   "description.undead.rooster": "战争的不幸牺牲品。+0.1 鸡蛋产量。",
   "description.fat.chicken.boost": "-10% 鸡饲料",
-  "description.el.pollo.veloz.boost": "-2 小时鸡睡眠时间",
   "description.farm.dog.boost": "-25% 绵羊睡眠时间",
   "description.free.range": "+0.1 动物产出",
   "description.chicken.coop": "可以用来养鸡的鸡舍。使用这种稀有鸡舍来增加产蛋量。",
@@ -7262,5 +7260,7 @@
   "reward.powerHour": "作物速度提高 50%，1 小时产量增加 0.2",
   "description.loginUnavailable": "登录不可用",
   "description.fslWechatDeprecation": "{{title}} 登录名已删除。",
-  "description.fslWEchatDeprecationDescription": "请使用您农场的关联钱包登录，或通过 Discord 联系客服。"
+  "description.fslWEchatDeprecationDescription": "请使用您农场的关联钱包登录，或通过 Discord 联系客服。",
+  "description.speed.chicken.boost": "-10% 小鸡睡眠时间",
+  "description.el.pollo.veloz.boost": "-2 小时小鸡睡眠时间"
 }

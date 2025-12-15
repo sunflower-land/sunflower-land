@@ -176,7 +176,6 @@
   "description.radical.radish.boost": "Chance de 3% d'obtenir +10 Radish",
   "description.lg.pumpkin.boost": "+0.3 pumpkin",
   "description.lg.carrot.boost": "+0.2 Carotte",
-  "description.speed.chicken.boost": "-10% Temps de production des Eggs",
   "description.rooster.boost": "Chance x2 d'obtenir un poulet mutant",
   "description.tunnel.mole.boost": "+0.25 Pierre",
   "description.rocky.mole.boost": "+0.25 Fer",
@@ -3616,7 +3615,6 @@
   "description.ayam.cemani": "Le poulet le plus rare de Sunflower Land !",
   "description.undead.rooster": "Malheureuse victime de la guerre. +0,1 rendement en œufs.",
   "description.fat.chicken.boost": "-10 % Nourriture pour poulets",
-  "description.el.pollo.veloz.boost": "-2h de temps de production d'œufs",
   "description.farm.dog.boost": "-25 % de temps de production des moutons",
   "description.free.range": "+0,1 Produits d'origine animale",
   "description.chicken.coop": "Un poulailler qui peut être utilisé pour élever des poulets. Augmentez la production d'œufs avec ce poulailler rare.",
@@ -7262,5 +7260,7 @@
   "reward.powerHour": "Récoltes 50 % plus rapides +0,2 rendement pendant 1 heure",
   "description.loginUnavailable": "Login non disponible",
   "description.fslWechatDeprecation": "La connexion {{title}} a été supprimée.",
-  "description.fslWEchatDeprecationDescription": "Connectez-vous à l'aide du portefeuille associé à votre ferme ou contactez l'assistance sur Discord."
+  "description.fslWEchatDeprecationDescription": "Connectez-vous à l'aide du portefeuille associé à votre ferme ou contactez l'assistance sur Discord.",
+  "description.speed.chicken.boost": "-10 % du temps de sommeil du poulet",
+  "description.el.pollo.veloz.boost": "-2 h de sommeil pour le poulet"
 }

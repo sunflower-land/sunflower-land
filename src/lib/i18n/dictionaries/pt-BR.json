@@ -168,7 +168,6 @@
   "description.lg.carrot.boost": "+0.2 Cenoura",
   "description.lg.radish.boost": "+0.4 Rabanete",
   "description.rich.chicken.boost": "+0.1 Ovo",
-  "description.speed.chicken.boost": "-10% Tempo de Produção de Ovos",
   "description.ayam.cemani.boost": "+0.2 Ovo",
   "description.rooster.boost": "Chance 2x de Galinha Mutante",
   "description.undead.rooster.boost": "+0.1 Ovo",
@@ -3616,7 +3615,6 @@
   "description.ayam.cemani": "A galinha mais rara da Terra do Girassol!",
   "description.undead.rooster": "Uma infeliz vítima da guerra. +0,1 produção de ovos.",
   "description.fat.chicken.boost": "-10% de ração para frango",
-  "description.el.pollo.veloz.boost": "-2h de tempo de produção de ovos",
   "description.farm.dog.boost": "-25% de tempo de produção de ovinos",
   "description.free.range": "+0.1 Produtos de origem animal",
   "description.chicken.coop": "Um galinheiro que pode ser usado para criar galinhas. Aumente a produção de ovos com este galinheiro raro.",
@@ -7262,5 +7260,7 @@
   "reward.powerHour": "Culturas 50% mais rápidas +0,2 rendimento por 1 hora",
   "description.loginUnavailable": "Login indisponível",
   "description.fslWechatDeprecation": "O login {{title}} foi removido.",
-  "description.fslWEchatDeprecationDescription": "Faça login com a carteira vinculada da sua fazenda ou entre em contato com o suporte no discord."
+  "description.fslWEchatDeprecationDescription": "Faça login com a carteira vinculada da sua fazenda ou entre em contato com o suporte no discord.",
+  "description.speed.chicken.boost": "-10% de tempo de sono do frango",
+  "description.el.pollo.veloz.boost": "-2h de tempo de sono do frango"
 }

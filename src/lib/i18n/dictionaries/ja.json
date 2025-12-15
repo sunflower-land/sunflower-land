@@ -208,7 +208,6 @@
   "description.lg.carrot.boost": "+0.2 キャロット",
   "description.lg.radish.boost": "+0.4 ラディッシュ",
   "description.rich.chicken.boost": "+0.1 エッグ",
-  "description.speed.chicken.boost": "-10% の卵生産時間",
   "description.ayam.cemani.boost": "+0.2 エッグ",
   "description.rooster.boost": "2x ミュータント・チキンの確率",
   "description.undead.rooster.boost": "+0.1 エッグ",
@@ -3616,7 +3615,6 @@
   "description.ayam.cemani": "ひまわりランドで一番希少なチキン！",
   "description.undead.rooster": "戦争による不幸な犠牲者。産卵量+0.1。",
   "description.fat.chicken.boost": "-10% 鶏への飼料",
-  "description.el.pollo.veloz.boost": "-2時間の卵生産時間",
   "description.farm.dog.boost": "羊の生産時間 -25%",
   "description.free.range": "+0.1 アニマル・プロデュース",
   "description.chicken.coop": "鶏の飼育に使用できる鶏小屋。この珍しい小屋で産卵量を増やしましょう。",
@@ -7262,5 +7260,7 @@
   "reward.powerHour": "1時間の収穫速度が 50% 向上+収穫量が0.2％",
   "description.loginUnavailable": "ログインできません",
   "description.fslWechatDeprecation": "{{title}} ログインは削除されました。",
-  "description.fslWEchatDeprecationDescription": "ファームのリンクされたウォレットでサインインするか、Discordでサポートに連絡してください。"
+  "description.fslWEchatDeprecationDescription": "ファームのリンクされたウォレットでサインインするか、Discordでサポートに連絡してください。",
+  "description.speed.chicken.boost": "-10% チキンスリープタイム",
+  "description.el.pollo.veloz.boost": "-2時間のチキンスリープタイム"
 }

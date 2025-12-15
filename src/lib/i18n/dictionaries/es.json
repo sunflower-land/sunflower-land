@@ -208,7 +208,6 @@
   "description.lg.carrot.boost": "Incrementa en +0.2 las zanahorias.",
   "description.lg.radish.boost": "Incrementa en +0.4 los rábanos.",
   "description.rich.chicken.boost": "Aumenta la producción de huevos en +0.1.",
-  "description.speed.chicken.boost": "Reduce el tiempo de producción de huevos en un -10%.",
   "description.ayam.cemani.boost": "Aumenta la producción de huevos en +0.2",
   "description.rooster.boost": "Duplica la probabilidad de obtener un pollo mutante.",
   "description.undead.rooster.boost": "Aumenta la producción de huevos en +0.1.",
@@ -3616,7 +3615,6 @@
   "description.ayam.cemani": "¡El pollo más raro de Sunflower Land!",
   "description.undead.rooster": "Una desafortunada víctima de la guerra. +0,1 huevos.",
   "description.fat.chicken.boost": "-10% de comida para pollos",
-  "description.el.pollo.veloz.boost": "-2h de tiempo de producción de huevos",
   "description.farm.dog.boost": "-25% de tiempo de producción ovina",
   "description.free.range": "+0.1 Productos de origen animal",
   "description.chicken.coop": "Un gallinero que se puede utilizar para criar pollos. Aumente la producción de huevos con este raro gallinero.",
@@ -7262,5 +7260,7 @@
   "reward.powerHour": "Cultivos un 50% más rápidos +rendimiento del 0,2 durante 1 hora",
   "description.loginUnavailable": "Inicio de sesión no disponible",
   "description.fslWechatDeprecation": "Se ha eliminado el inicio de sesión de {{title}}.",
-  "description.fslWEchatDeprecationDescription": "Inicia sesión con la billetera vinculada de tu granja o ponte en contacto con el servicio de asistencia en Discord."
+  "description.fslWEchatDeprecationDescription": "Inicia sesión con la billetera vinculada de tu granja o ponte en contacto con el servicio de asistencia en Discord.",
+  "description.speed.chicken.boost": "-10% de tiempo de sueño con pollo",
+  "description.el.pollo.veloz.boost": "-2h de tiempo de sueño con pollo"
 }

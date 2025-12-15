@@ -181,7 +181,6 @@
   "description.lg.carrot.boost": "+0.2 Havuç",
   "description.lg.radish.boost": "+0.4 Turp",
   "description.rich.chicken.boost": "+0.1 Yumurta",
-  "description.speed.chicken.boost": "-10% Yumurtlama Süresi",
   "description.ayam.cemani.boost": "+0.2 Yumurta",
   "description.rooster.boost": "2x Mutant Tavuk Şansı",
   "description.undead.rooster.boost": "+0.1 Yumurta",
@@ -3616,7 +3615,6 @@
   "description.ayam.cemani": "Ayçiçeği Ülkesindeki en nadir tavuk!",
   "description.undead.rooster": "Savaşın talihsiz bir zayiatı. +0.1 yumurta verimi.",
   "description.fat.chicken.boost": "-10% Tavuk Yemi",
-  "description.el.pollo.veloz.boost": "-2h Yumurta Üretim Süresi",
   "description.farm.dog.boost": "-25% Koyun Üretim Süresi",
   "description.free.range": "+0.1 Hayvan Ürünleri",
   "description.chicken.coop": "Tavuk yetiştirmek için kullanılabilecek bir tavuk kümesi. Bu nadir küme ile yumurta üretimini artırın.",
@@ -7262,5 +7260,7 @@
   "reward.powerHour": "1 saat boyunca% 50 daha hızlı mahsul +0.2 verim",
   "description.loginUnavailable": "Oturum Açılamıyor",
   "description.fslWechatDeprecation": "{{title}} giriş kaldırıldı.",
-  "description.fslWEchatDeprecationDescription": "Lütfen çiftliğinizin bağlantılı cüzdanıyla oturum açın veya discord'daki desteğe başvurun."
+  "description.fslWEchatDeprecationDescription": "Lütfen çiftliğinizin bağlantılı cüzdanıyla oturum açın veya discord'daki desteğe başvurun.",
+  "description.speed.chicken.boost": "-10% Tavuk Uyku Süresi",
+  "description.el.pollo.veloz.boost": "-2h Tavuk Uyku Süresi"
 }

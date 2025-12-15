@@ -207,7 +207,6 @@
   "description.lg.carrot.boost": "+0.2 Carota",
   "description.lg.radish.boost": "+0.4 Ravanello",
   "description.rich.chicken.boost": "+0,1 uovo",
-  "description.speed.chicken.boost": "-10% Tempo di produzione delle uova",
   "description.ayam.cemani.boost": "+0,2 uova",
   "description.rooster.boost": "2x Possibilità di un pollo mutante",
   "description.undead.rooster.boost": "+0,1 uovo",
@@ -3616,7 +3615,6 @@
   "description.ayam.cemani": "Il pollo più raro di Sunflower Land!",
   "description.undead.rooster": "Una sfortunata vittima della guerra. +0,1 uova.",
   "description.fat.chicken.boost": "-10% da somministrare ai polli",
-  "description.el.pollo.veloz.boost": "-2h Tempo di produzione delle uova",
   "description.farm.dog.boost": "-25% Tempo di produzione delle pecore",
   "description.free.range": "+0,1 Prodotti di origine animale",
   "description.chicken.coop": "Un pollaio che può essere utilizzato per allevare polli. Aumenta la produzione di uova con questo raro pollaio.",
@@ -7262,5 +7260,7 @@
   "reward.powerHour": "Colture più veloci del 50% +0,2% di resa per 1 ora",
   "description.loginUnavailable": "Login non disponibile",
   "description.fslWechatDeprecation": "L'accesso {{title}} è stato rimosso.",
-  "description.fslWEchatDeprecationDescription": "Accedi con il portafoglio collegato alla tua fattoria o contatta l'assistenza su discord."
+  "description.fslWEchatDeprecationDescription": "Accedi con il portafoglio collegato alla tua fattoria o contatta l'assistenza su discord.",
+  "description.speed.chicken.boost": "-10% Tempo di sonno del pollo",
+  "description.el.pollo.veloz.boost": "-2h Chicken Sleep Time"
 }

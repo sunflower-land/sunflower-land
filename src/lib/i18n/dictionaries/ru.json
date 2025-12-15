@@ -320,9 +320,7 @@
   "description.lg.radish.boost": "+0.4 Radish",
   "description.fat.chicken.boost": "-10% корма для куриц",
   "description.rich.chicken.boost": "+0.1 Egg",
-  "description.speed.chicken.boost": "-10% времени производства Egg",
   "description.ayam.cemani.boost": "+0.2 Egg",
-  "description.el.pollo.veloz.boost": "-2 часа времени производства Egg",
   "description.rooster.boost": "x2 шанс получить курицу-мутанта",
   "description.undead.rooster.boost": "+0.1 Egg",
   "description.chicken.coop.boost": "+1 Egg",
@@ -7262,5 +7260,7 @@
   "reward.powerHour": "50% faster crops +0.2 yield for 1 hour",
   "description.loginUnavailable": "Login Unavailable",
   "description.fslWechatDeprecation": "{{title}} login has been removed.",
-  "description.fslWEchatDeprecationDescription": "Please sign in with your farm's linked wallet or contact support on discord."
+  "description.fslWEchatDeprecationDescription": "Please sign in with your farm's linked wallet or contact support on discord.",
+  "description.speed.chicken.boost": "-10% Chicken Sleep Time",
+  "description.el.pollo.veloz.boost": "-2h Chicken Sleep Time"
 }
