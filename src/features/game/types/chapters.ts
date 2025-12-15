@@ -114,7 +114,7 @@ export const CHAPTER_BANNERS: Record<ChapterBanner, ChapterName> = {
   "Paw Prints Banner": "Paw Prints",
 };
 
-export const SEASON_TICKET_NAME: Record<ChapterName, ChapterTicket> = {
+export const CHAPTER_TICKET_NAME: Record<ChapterName, ChapterTicket> = {
   "Solar Flare": "Solar Flare Ticket",
   "Dawn Breaker": "Dawn Breaker Ticket",
   "Witches' Eve": "Crow Feather",
@@ -187,7 +187,7 @@ export function getCurrentSeason(now = new Date()): ChapterName {
 export function getSeasonalTicket(now = new Date()): ChapterTicket {
   const currentSeason = getCurrentSeason(now);
 
-  return SEASON_TICKET_NAME[currentSeason];
+  return CHAPTER_TICKET_NAME[currentSeason];
 }
 
 export function getSeasonalArtefact(now = new Date()) {
