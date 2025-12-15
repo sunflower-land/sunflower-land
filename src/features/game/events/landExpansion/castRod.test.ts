@@ -178,6 +178,7 @@ describe("castRod", () => {
   });
 
   it("multiplies rods, bait and chum when multi casting", () => {
+    const now = Date.now();
     const state = castRod({
       action: {
         bait: "Earthworm",
@@ -188,7 +189,8 @@ describe("castRod", () => {
       state: {
         ...farm,
         vip: {
-          expiresAt: Date.now() + 1000 * 60 * 60,
+          bundles: [{ name: "1_MONTH", boughtAt: now }],
+          expiresAt: now + 31 * 24 * 60 * 60 * 1000,
         },
         inventory: {
           Rod: new Decimal(10),
@@ -404,6 +406,7 @@ describe("castRod", () => {
 
     expect(state.inventory.Rod).toEqual(new Decimal(3));
   });
+
   it("subtracts extra reels", () => {
     const now = Date.now();
     const date = new Date(now).toISOString().split("T")[0];
@@ -514,5 +517,44 @@ describe("castRod", () => {
       });
       expect(limit).toEqual(25);
     });
+  });
+
+  it("subtracts extra reels by the delta over the daily limit when already over the limit (multi-cast)", () => {
+    const now = Date.now();
+    const date = new Date(now).toISOString().split("T")[0];
+
+    const state = castRod({
+      action: {
+        bait: "Earthworm",
+        type: "rod.casted",
+        multiplier: 2,
+      },
+      state: {
+        ...farm,
+        // Provide VIP so multi-cast is allowed
+        vip: {
+          bundles: [{ name: "1_MONTH", boughtAt: now }],
+          expiresAt: now + 31 * 24 * 60 * 60 * 1000,
+        },
+        inventory: {
+          Rod: new Decimal(20),
+          Earthworm: new Decimal(20),
+        },
+        fishing: {
+          wharf: {},
+          dailyAttempts: {
+            // Limit is 20 by default, so we're already 1 over
+            [date]: 21,
+          },
+          extraReels: {
+            count: 4,
+          },
+        },
+      },
+      createdAt: now,
+    });
+
+    // Only 2 extra reels should be used for this cast (delta over limit), not 3 (total over limit)
+    expect(state.fishing.extraReels?.count).toEqual(2);
   });
 });

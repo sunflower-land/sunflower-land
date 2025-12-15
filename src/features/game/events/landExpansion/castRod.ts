@@ -149,11 +149,14 @@ export function castRod({
     };
 
     // Track daily attempts
+    const attemptsBefore = todayAttempts;
     const attemptsAfter = todayAttempts + multiplier;
-    const overDailyLimit = Math.max(0, attemptsAfter - fishingLimit);
+    const overBefore = Math.max(0, attemptsBefore - fishingLimit);
+    const overAfter = Math.max(0, attemptsAfter - fishingLimit);
+    const extraReelsUsed = Math.max(0, overAfter - overBefore);
 
-    if (overDailyLimit > 0) {
-      extraReels.count -= overDailyLimit;
+    if (extraReelsUsed > 0) {
+      extraReels.count -= extraReelsUsed;
     }
 
     if (game.fishing.dailyAttempts && game.fishing.dailyAttempts[today]) {
