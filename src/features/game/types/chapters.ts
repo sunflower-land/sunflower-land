@@ -83,8 +83,6 @@ export const CHAPTERS: Record<ChapterName, ChapterDates> = {
   },
 };
 
-export const SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER = 10;
-
 export type SeasonalTicket =
   | "Solar Flare Ticket"
   | "Dawn Breaker Ticket"
