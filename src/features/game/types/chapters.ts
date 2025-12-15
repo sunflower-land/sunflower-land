@@ -11,7 +11,7 @@ import windsOfChangeBanner from "assets/decorations/banners/winds-of-change_bann
 import greatBloomBanner from "assets/decorations/banners/great_bloom_banner.png";
 import betterTogetherBanner from "assets/decorations/banners/better_together_banner.webp";
 import pawPrintsBanner from "assets/decorations/banners/paw_prints_banner.webp";
-import { BeachBountySeasonalArtefact } from "./treasure";
+import { BeachBountyChapterArtefact } from "./treasure";
 import { getKeys } from "./decorations";
 import { ChapterFish } from "./fishing";
 import { getObjectEntries } from "../expansion/lib/utils";
@@ -129,9 +129,9 @@ export const CHAPTER_TICKET_NAME: Record<ChapterName, ChapterTicket> = {
   "Paw Prints": "Pet Cookie",
 };
 
-export const SEASON_ARTEFACT_NAME: Record<
+export const CHAPTER_ARTEFACT_NAME: Record<
   ChapterName,
-  BeachBountySeasonalArtefact
+  BeachBountyChapterArtefact
 > = {
   "Solar Flare": "Scarab",
   "Dawn Breaker": "Scarab",
@@ -193,7 +193,7 @@ export function getSeasonalTicket(now = new Date()): ChapterTicket {
 export function getSeasonalArtefact(now = new Date()) {
   const currentSeason = getCurrentSeason(now);
 
-  return SEASON_ARTEFACT_NAME[currentSeason];
+  return CHAPTER_ARTEFACT_NAME[currentSeason];
 }
 
 export function getSeasonalBanner(now = new Date()): ChapterBanner {
