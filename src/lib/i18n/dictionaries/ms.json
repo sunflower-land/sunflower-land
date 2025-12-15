@@ -7262,5 +7262,6 @@
   "memory.portal.missionObjective": "Misi: Mencapai mata {{targetScore}}.",
   "portal.memory.description": "Balikkan kad, cari padanan dan cuba mengalahkan jam dalam cabaran ingatan ini!",
   "bumpkinItemBuff.chef.apron.boost": "+20% Keuntungan Penghantaran Kek",
-  "bumpkinItemBuff.hornet.mask": "Peluang asas 2x Bee Swarm"
+  "bumpkinItemBuff.hornet.mask": "Peluang asas 2x Bee Swarm",
+  "reward.streak.twoYear": "Ganjaran rentetan 730 hari"
 }

@@ -7262,5 +7262,6 @@
   "memory.portal.missionObjective": "ミッション:{{targetScore}} ポイント達成",
   "portal.memory.description": "このメモリーチャレンジでは、カードをめくったり、マッチを見つけたり、時間をつぶしたりしてみてください！",
   "bumpkinItemBuff.chef.apron.boost": "+20% ケーキデリバリー利益",
-  "bumpkinItemBuff.hornet.mask": "2x ベース・ビー・スウォーム・チャンス"
+  "bumpkinItemBuff.hornet.mask": "2x ベース・ビー・スウォーム・チャンス",
+  "reward.streak.twoYear": "730日連続リワード"
 }

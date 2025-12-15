@@ -7262,5 +7262,6 @@
   "memory.portal.missionObjective": "Misión: Alcanzar {{targetScore}} puntos.",
   "portal.memory.description": "¡Voltea cartas, encuentra coincidencias e intenta batir el reloj en este desafío de memoria!",
   "bumpkinItemBuff.chef.apron.boost": "+20% de beneficio por entrega de pasteles",
-  "bumpkinItemBuff.hornet.mask": "2 veces la probabilidad básica de Bee Swarm"
+  "bumpkinItemBuff.hornet.mask": "2 veces la probabilidad básica de Bee Swarm",
+  "reward.streak.twoYear": "Recompensa de racha de 730 días"
 }

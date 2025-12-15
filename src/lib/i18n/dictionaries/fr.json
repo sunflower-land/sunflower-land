@@ -7262,5 +7262,6 @@
   "memory.portal.missionObjective": "Mission : Atteindre {{targetScore}} points.",
   "portal.memory.description": "Retournez des cartes, trouvez des allumettes et tentez de battre le chronomètre dans ce défi de mémoire !",
   "bumpkinItemBuff.chef.apron.boost": "+20 % de profit sur la livraison de gâteaux",
-  "bumpkinItemBuff.hornet.mask": "2 fois la chance de base de Bee Swarm"
+  "bumpkinItemBuff.hornet.mask": "2 fois la chance de base de Bee Swarm",
+  "reward.streak.twoYear": "Récompense d'une série de 730 jours"
 }

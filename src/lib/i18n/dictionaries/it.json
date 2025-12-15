@@ -7262,5 +7262,6 @@
   "memory.portal.missionObjective": "Missione: Raggiungi {{targetScore}} punti.",
   "portal.memory.description": "Gira le carte, trova i fiammiferi e prova a battere il tempo in questa sfida di memoria!",
   "bumpkinItemBuff.chef.apron.boost": "+20% di profitto sulla consegna di torte",
-  "bumpkinItemBuff.hornet.mask": "2x probabilità base di Bee Swarm"
+  "bumpkinItemBuff.hornet.mask": "2x probabilità base di Bee Swarm",
+  "reward.streak.twoYear": "Ricompensa per una serie di 730 giorni"
 }

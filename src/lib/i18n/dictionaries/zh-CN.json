@@ -7262,5 +7262,6 @@
   "memory.portal.missionObjective": "任务：达到 {{targetScore}} 点数。",
   "portal.memory.description": "在这场记忆挑战赛中，翻转卡片，寻找匹配项并尝试打破时间！",
   "bumpkinItemBuff.chef.apron.boost": "+20% 蛋糕配送利润",
-  "bumpkinItemBuff.hornet.mask": "基本 Bee Swarm 几率为 2 倍"
+  "bumpkinItemBuff.hornet.mask": "基本 Bee Swarm 几率为 2 倍",
+  "reward.streak.twoYear": "730 天连胜奖励"
 }

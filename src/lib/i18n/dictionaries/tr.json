@@ -7262,5 +7262,6 @@
   "memory.portal.missionObjective": "Görev: {{targetScore}} puana ulaşın.",
   "portal.memory.description": "Kartları çevir, eşleşmeleri bul ve bu hafıza mücadelesinde saati yenmeye çalış!",
   "bumpkinItemBuff.chef.apron.boost": "+20% Pasta Teslimat Kârı",
-  "bumpkinItemBuff.hornet.mask": "2x temel Arı Sürü şansı"
+  "bumpkinItemBuff.hornet.mask": "2x temel Arı Sürü şansı",
+  "reward.streak.twoYear": "730 günlük seri ödül"
 }

@@ -7262,5 +7262,6 @@
   "memory.portal.missionObjective": "Misi: Mencapai {{targetScore}} poin.",
   "portal.memory.description": "Balikkan kartu, temukan kecocokan, dan cobalah untuk mengalahkan waktu dalam tantangan memori ini!",
   "bumpkinItemBuff.chef.apron.boost": "+20% Keuntungan Pengiriman Kue",
-  "bumpkinItemBuff.hornet.mask": "2x peluang dasar Bea Swarm"
+  "bumpkinItemBuff.hornet.mask": "2x peluang dasar Bea Swarm",
+  "reward.streak.twoYear": "Hadiah 730 hari beruntun"
 }

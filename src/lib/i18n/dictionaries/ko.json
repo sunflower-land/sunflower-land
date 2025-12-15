@@ -7262,5 +7262,6 @@
   "memory.portal.missionObjective": "임무: {{targetScore}} 포인트를 달성하세요.",
   "portal.memory.description": "이 메모리 챌린지에서 카드를 뒤집고, 성냥을 찾고, 시간을 초월해 보세요!",
   "bumpkinItemBuff.chef.apron.boost": "+20% 케이크 배달 수익",
-  "bumpkinItemBuff.hornet.mask": "기본 꿀벌 떼 확률 2배"
+  "bumpkinItemBuff.hornet.mask": "기본 꿀벌 떼 확률 2배",
+  "reward.streak.twoYear": "730일 연속 보상"
 }

@@ -7262,5 +7262,6 @@
   "memory.portal.missionObjective": "Auftrag: Erreiche {{targetScore}} Punkte.",
   "portal.memory.description": "Drehe Karten um, finde Streichhölzer und versuche, bei dieser Gedächtnis-Herausforderung die Zeit zu schlagen!",
   "bumpkinItemBuff.chef.apron.boost": "+20% Gewinn bei der Kuchenlieferung",
-  "bumpkinItemBuff.hornet.mask": "2x Basischance für Bienenschwarm"
+  "bumpkinItemBuff.hornet.mask": "2x Basischance für Bienenschwarm",
+  "reward.streak.twoYear": "Belohnung für eine Serie von 730 Tagen"
 }

@@ -7262,5 +7262,6 @@
   "memory.portal.missionObjective": "Missão: Alcançar {{targetScore}} pontos.",
   "portal.memory.description": "Vire cartas, encontre fósforos e tente vencer o relógio neste desafio de memória!",
   "bumpkinItemBuff.chef.apron.boost": "+20% de lucro na entrega do bolo",
-  "bumpkinItemBuff.hornet.mask": "2x a chance básica de Enxame de Abelhas"
+  "bumpkinItemBuff.hornet.mask": "2x a chance básica de Enxame de Abelhas",
+  "reward.streak.twoYear": "Recompensa consecutiva de 730 dias"
 }

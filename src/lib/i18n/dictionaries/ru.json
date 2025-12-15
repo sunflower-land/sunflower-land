@@ -7262,5 +7262,6 @@
   "memory.portal.missionObjective": "Mission: Reach {{targetScore}} points.",
   "portal.memory.description": "Flip cards, find matches and try to beat the clock in this memory challenge!",
   "bumpkinItemBuff.chef.apron.boost": "+20% Cake Delivery Profit",
-  "bumpkinItemBuff.hornet.mask": "2x base Bee Swarm chance"
+  "bumpkinItemBuff.hornet.mask": "2x base Bee Swarm chance",
+  "reward.streak.twoYear": "730 day streak reward"
 }
