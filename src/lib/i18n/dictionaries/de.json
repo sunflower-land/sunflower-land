@@ -322,7 +322,6 @@
   "bumpkinItemBuff.crimstone.hammer": "+2 Purpursteine bei der 5. Mine",
   "bumpkinItemBuff.crimstone.amulet": "-20% Abklingzeit für Crimstone",
   "bumpkinItemBuff.crimstone.armor": "+0.1 Purpursteine",
-  "bumpkinItemBuff.hornet.mask": "2x Chance Bienenschwarm",
   "bumpkinItemBuff.honeycomb.shield": "+1 Honig pro vollem Bienenstock",
   "bumpkinItemBuff.flower.crown": "-50% Wachstumszeit der Blüten",
   "bumpkinItemBuff.goblin.armor": "+20% Punkte",
@@ -7262,5 +7261,6 @@
   "memory.portal.description": "Drehe Karten um, finde Streichhölzer und versuche, die Zeit zu schlagen, während du dein Gedächtnis testest.",
   "memory.portal.missionObjective": "Auftrag: Erreiche {{targetScore}} Punkte.",
   "portal.memory.description": "Drehe Karten um, finde Streichhölzer und versuche, bei dieser Gedächtnis-Herausforderung die Zeit zu schlagen!",
-  "bumpkinItemBuff.chef.apron.boost": "+20% Gewinn bei der Kuchenlieferung"
+  "bumpkinItemBuff.chef.apron.boost": "+20% Gewinn bei der Kuchenlieferung",
+  "bumpkinItemBuff.hornet.mask": "2x Basischance für Bienenschwarm"
 }

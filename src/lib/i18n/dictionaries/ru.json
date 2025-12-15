@@ -495,7 +495,6 @@
   "bumpkinItemBuff.crimstone.hammer": "+2 Crimstones на 5-ой добыче",
   "bumpkinItemBuff.crimstone.amulet": "-20% времени восстановления Crimstone",
   "bumpkinItemBuff.crimstone.armor": "+0.1 Crimstones",
-  "bumpkinItemBuff.hornet.mask": "x2 шанс получить пчелиный рой",
   "bumpkinItemBuff.honeycomb.shield": "+1 Honey за полный улей",
   "bumpkinItemBuff.flower.crown": "-50% времени роста цветов",
   "bumpkinItemBuff.goblin.armor": "+20% Marks",
@@ -7262,5 +7261,6 @@
   "memory.portal.description": "Flip cards, find matches and try to beat the clock while testing your memory.",
   "memory.portal.missionObjective": "Mission: Reach {{targetScore}} points.",
   "portal.memory.description": "Flip cards, find matches and try to beat the clock in this memory challenge!",
-  "bumpkinItemBuff.chef.apron.boost": "+20% Cake Delivery Profit"
+  "bumpkinItemBuff.chef.apron.boost": "+20% Cake Delivery Profit",
+  "bumpkinItemBuff.hornet.mask": "2x base Bee Swarm chance"
 }

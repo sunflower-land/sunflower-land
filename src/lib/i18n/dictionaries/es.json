@@ -321,7 +321,6 @@
   "bumpkinItemBuff.crimstone.hammer": "Aumenta la recolección de Crimstones en +2 en la quinta mina.",
   "bumpkinItemBuff.crimstone.amulet": "Reduce el tiempo de recarga de Crimstone en un 20%.",
   "bumpkinItemBuff.crimstone.armor": "Aumenta la recolección de Crimstones en +0.1.",
-  "bumpkinItemBuff.hornet.mask": "Aumenta la probabilidad de que ocurra un Enjambre de Abejas al doble.",
   "bumpkinItemBuff.honeycomb.shield": "Incrementa la recolección de miel en +1 por colmena llena.",
   "bumpkinItemBuff.flower.crown": "Reduce el tiempo de crecimiento de las flores en un -50%.",
   "bumpkinItemBuff.goblin.armor": "Aumenta las marcas en +20% puntos.",
@@ -7262,5 +7261,6 @@
   "memory.portal.description": "Da la vuelta a las cartas, encuentra coincidencias e intenta batir el reloj mientras pones a prueba tu memoria.",
   "memory.portal.missionObjective": "Misión: Alcanzar {{targetScore}} puntos.",
   "portal.memory.description": "¡Voltea cartas, encuentra coincidencias e intenta batir el reloj en este desafío de memoria!",
-  "bumpkinItemBuff.chef.apron.boost": "+20% de beneficio por entrega de pasteles"
+  "bumpkinItemBuff.chef.apron.boost": "+20% de beneficio por entrega de pasteles",
+  "bumpkinItemBuff.hornet.mask": "2 veces la probabilidad básica de Bee Swarm"
 }

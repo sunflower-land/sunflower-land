@@ -244,7 +244,6 @@
   "bumpkinItemBuff.deep.sea.helm": "Chance 3x de Maravilhas Marinhas",
   "bumpkinItemBuff.crimstone.hammer": "+2 Crimstones na 5ª coleta seguida",
   "bumpkinItemBuff.crimstone.amulet": "-20% Tempo de Recarga de Crimstones",
-  "bumpkinItemBuff.hornet.mask": "Chance 2x de Enxame de Abelhas",
   "bumpkinItemBuff.flower.crown": "-50% Tempo de Crescimento de Flores",
   "equip.missingHair": "Cabelo é necessário",
   "equip.missingBody": "Corpo é necessário",
@@ -7262,5 +7261,6 @@
   "memory.portal.description": "Vire cartas, encontre fósforos e tente vencer o relógio enquanto testa sua memória.",
   "memory.portal.missionObjective": "Missão: Alcançar {{targetScore}} pontos.",
   "portal.memory.description": "Vire cartas, encontre fósforos e tente vencer o relógio neste desafio de memória!",
-  "bumpkinItemBuff.chef.apron.boost": "+20% de lucro na entrega do bolo"
+  "bumpkinItemBuff.chef.apron.boost": "+20% de lucro na entrega do bolo",
+  "bumpkinItemBuff.hornet.mask": "2x a chance básica de Enxame de Abelhas"
 }

@@ -322,7 +322,6 @@
   "bumpkinItemBuff.crimstone.hammer": "+2 Crimstones di lombong ke-5",
   "bumpkinItemBuff.crimstone.amulet": "-20% Masa Penyejukan Crimstone",
   "bumpkinItemBuff.crimstone.armor": "+0.1 Crimstones",
-  "bumpkinItemBuff.hornet.mask": "2x peluang Bee Swarm",
   "bumpkinItemBuff.honeycomb.shield": "+1 Madu setiap Sarang Lebah Penuh",
   "bumpkinItemBuff.flower.crown": "-50% Masa Pertumbuhan Bunga",
   "bumpkinItemBuff.goblin.armor": "+20% Markah",
@@ -7262,5 +7261,6 @@
   "memory.portal.description": "Balikkan kad, cari padanan dan cuba mengalahkan jam semasa menguji ingatan anda.",
   "memory.portal.missionObjective": "Misi: Mencapai mata {{targetScore}}.",
   "portal.memory.description": "Balikkan kad, cari padanan dan cuba mengalahkan jam dalam cabaran ingatan ini!",
-  "bumpkinItemBuff.chef.apron.boost": "+20% Keuntungan Penghantaran Kek"
+  "bumpkinItemBuff.chef.apron.boost": "+20% Keuntungan Penghantaran Kek",
+  "bumpkinItemBuff.hornet.mask": "Peluang asas 2x Bee Swarm"
 }

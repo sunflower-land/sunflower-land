@@ -260,7 +260,6 @@
   "bumpkinItemBuff.crimstone.hammer": "5. Gün +2 Crimstone",
   "bumpkinItemBuff.crimstone.amulet": "-20% Crimstone Bekleme Süresi",
   "bumpkinItemBuff.crimstone.armor": "+0.1 Crimstone",
-  "bumpkinItemBuff.hornet.mask": "Arı Sürüsü için 2x Şans",
   "bumpkinItemBuff.flower.crown": "-50% Çiçek Büyüme süresi",
   "equip.missingHair": "Saç Gerekli",
   "equip.missingBody": "Vücut gerekli",
@@ -7262,5 +7261,6 @@
   "memory.portal.description": "Kartları çevirin, eşleşmeleri bulun ve hafızanızı test ederken saati yenmeye çalışın.",
   "memory.portal.missionObjective": "Görev: {{targetScore}} puana ulaşın.",
   "portal.memory.description": "Kartları çevir, eşleşmeleri bul ve bu hafıza mücadelesinde saati yenmeye çalış!",
-  "bumpkinItemBuff.chef.apron.boost": "+20% Pasta Teslimat Kârı"
+  "bumpkinItemBuff.chef.apron.boost": "+20% Pasta Teslimat Kârı",
+  "bumpkinItemBuff.hornet.mask": "2x temel Arı Sürü şansı"
 }

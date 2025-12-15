@@ -322,7 +322,6 @@
   "bumpkinItemBuff.crimstone.hammer": "5番目のマインに+2クリムストーン",
   "bumpkinItemBuff.crimstone.amulet": "-20% クリムストーンのクールダウン時間",
   "bumpkinItemBuff.crimstone.armor": "+0.1 クリムストーン",
-  "bumpkinItemBuff.hornet.mask": "2x チャンス・ビー・スウォーム",
   "bumpkinItemBuff.honeycomb.shield": "蜂の巣一杯につきハチミツ+1",
   "bumpkinItemBuff.flower.crown": "-50% 花の成長時間",
   "bumpkinItemBuff.goblin.armor": "+20% マーク",
@@ -7262,5 +7261,6 @@
   "memory.portal.description": "カードをめくったり、マッチを見つけたり、記憶力をテストしながら時間をつぶしたりしてみてください。",
   "memory.portal.missionObjective": "ミッション:{{targetScore}} ポイント達成",
   "portal.memory.description": "このメモリーチャレンジでは、カードをめくったり、マッチを見つけたり、時間をつぶしたりしてみてください！",
-  "bumpkinItemBuff.chef.apron.boost": "+20% ケーキデリバリー利益"
+  "bumpkinItemBuff.chef.apron.boost": "+20% ケーキデリバリー利益",
+  "bumpkinItemBuff.hornet.mask": "2x ベース・ビー・スウォーム・チャンス"
 }

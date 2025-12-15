@@ -319,7 +319,6 @@
   "bumpkinItemBuff.crimstone.hammer": "第 5 次开采 +2 猩红宝石",
   "bumpkinItemBuff.crimstone.amulet": "-20% 猩红宝石冷却时间",
   "bumpkinItemBuff.crimstone.armor": "+0.1 猩红宝石",
-  "bumpkinItemBuff.hornet.mask": "2 倍蜂群几率",
   "bumpkinItemBuff.honeycomb.shield": "+1 蜂蜜（限满载蜂箱）",
   "bumpkinItemBuff.flower.crown": "-50% 花卉生长时间",
   "bumpkinItemBuff.goblin.armor": "+20% 徽记",
@@ -7262,5 +7261,6 @@
   "memory.portal.description": "翻转卡片，寻找匹配项，在测试记忆力的同时尝试打破时间。",
   "memory.portal.missionObjective": "任务：达到 {{targetScore}} 点数。",
   "portal.memory.description": "在这场记忆挑战赛中，翻转卡片，寻找匹配项并尝试打破时间！",
-  "bumpkinItemBuff.chef.apron.boost": "+20% 蛋糕配送利润"
+  "bumpkinItemBuff.chef.apron.boost": "+20% 蛋糕配送利润",
+  "bumpkinItemBuff.hornet.mask": "基本 Bee Swarm 几率为 2 倍"
 }

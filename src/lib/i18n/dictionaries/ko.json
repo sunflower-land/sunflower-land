@@ -322,7 +322,6 @@
   "bumpkinItemBuff.crimstone.hammer": "5번째 광산 시 크림스톤 +2",
   "bumpkinItemBuff.crimstone.amulet": "크림스톤 쿨타임 -20%",
   "bumpkinItemBuff.crimstone.armor": "+0.1 크림스톤",
-  "bumpkinItemBuff.hornet.mask": "2x 찬스 비 스웜",
   "bumpkinItemBuff.honeycomb.shield": "풀 벌집당 꿀 +1",
   "bumpkinItemBuff.flower.crown": "꽃 성장 시간 -50%",
   "bumpkinItemBuff.goblin.armor": "+20% 마크",
@@ -7262,5 +7261,6 @@
   "memory.portal.description": "카드를 뒤집고, 성냥을 찾고, 기억력을 테스트하면서 시간을 초월해 보세요.",
   "memory.portal.missionObjective": "임무: {{targetScore}} 포인트를 달성하세요.",
   "portal.memory.description": "이 메모리 챌린지에서 카드를 뒤집고, 성냥을 찾고, 시간을 초월해 보세요!",
-  "bumpkinItemBuff.chef.apron.boost": "+20% 케이크 배달 수익"
+  "bumpkinItemBuff.chef.apron.boost": "+20% 케이크 배달 수익",
+  "bumpkinItemBuff.hornet.mask": "기본 꿀벌 떼 확률 2배"
 }

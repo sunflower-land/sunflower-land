@@ -320,7 +320,6 @@
   "bumpkinItemBuff.crimstone.hammer": "+2 Crimstones sulla quinta mina",
   "bumpkinItemBuff.crimstone.amulet": "-20% Tempo di recupero di Crimstone",
   "bumpkinItemBuff.crimstone.armor": "+0.1 Crimstones",
-  "bumpkinItemBuff.hornet.mask": "2x possibilità Bee Swarm",
   "bumpkinItemBuff.honeycomb.shield": "+1 miele per alveare completo",
   "bumpkinItemBuff.flower.crown": "-50% Tempo di crescita dei fiori",
   "bumpkinItemBuff.goblin.armor": "+20% di voti",
@@ -7262,5 +7261,6 @@
   "memory.portal.description": "Gira le carte, trova le partite e prova a battere il tempo mentre metti alla prova la tua memoria.",
   "memory.portal.missionObjective": "Missione: Raggiungi {{targetScore}} punti.",
   "portal.memory.description": "Gira le carte, trova i fiammiferi e prova a battere il tempo in questa sfida di memoria!",
-  "bumpkinItemBuff.chef.apron.boost": "+20% di profitto sulla consegna di torte"
+  "bumpkinItemBuff.chef.apron.boost": "+20% di profitto sulla consegna di torte",
+  "bumpkinItemBuff.hornet.mask": "2x probabilità base di Bee Swarm"
 }

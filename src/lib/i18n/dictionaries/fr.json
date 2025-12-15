@@ -249,7 +249,6 @@
   "bumpkinItemBuff.crimstone.hammer": "+2 Crimstones à la 5e mine",
   "bumpkinItemBuff.crimstone.amulet": "20 % de vitesse de Crimstone",
   "bumpkinItemBuff.crimstone.armor": "+0,1 Crimstones",
-  "bumpkinItemBuff.hornet.mask": "Chances x2 d'obtenir un Essaim d'Abeilles",
   "bumpkinItemBuff.flower.crown": "Vitesse des fleurs x2",
   "equip.missingHair": "Les cheveux sont nécessaires",
   "equip.missingBody": "Le corps est nécessaire",
@@ -7262,5 +7261,6 @@
   "memory.portal.description": "Retournez des cartes, trouvez des allumettes et essayez de battre la montre tout en testant votre mémoire.",
   "memory.portal.missionObjective": "Mission : Atteindre {{targetScore}} points.",
   "portal.memory.description": "Retournez des cartes, trouvez des allumettes et tentez de battre le chronomètre dans ce défi de mémoire !",
-  "bumpkinItemBuff.chef.apron.boost": "+20 % de profit sur la livraison de gâteaux"
+  "bumpkinItemBuff.chef.apron.boost": "+20 % de profit sur la livraison de gâteaux",
+  "bumpkinItemBuff.hornet.mask": "2 fois la chance de base de Bee Swarm"
 }
