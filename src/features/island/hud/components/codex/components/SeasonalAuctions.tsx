@@ -21,7 +21,7 @@ import { getKeys } from "features/game/types/decorations";
 import {
   getCurrentSeason,
   ChapterName,
-  SEASONS,
+  CHAPTERS,
 } from "features/game/types/chapters";
 import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -63,7 +63,7 @@ function getSeasonalAuctions({
   totalSupply: Record<string, number>;
   season: ChapterName;
 }) {
-  const { startDate, endDate } = SEASONS[season];
+  const { startDate, endDate } = CHAPTERS[season];
 
   // Aggregate supplies
   let details: AuctionItems = auctions.reduce((acc, auction) => {
@@ -271,7 +271,7 @@ const Drops: React.FC<{
     collectibles: game.collectibles,
   });
 
-  const chapter = SEASONS[getCurrentSeason()];
+  const chapter = CHAPTERS[getCurrentSeason()];
   const chapterSupply = detail.auctions.reduce((acc, drop) => {
     if (
       drop.startAt < chapter.startDate.getTime() ||

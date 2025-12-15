@@ -1,5 +1,5 @@
 import { translate } from "lib/i18n/translate";
-import { hasSeasonEnded, SEASONS } from "./chapters";
+import { hasSeasonEnded, CHAPTERS } from "./chapters";
 
 export type BeachBountyTreasure =
   | "Pirate Bounty"
@@ -170,8 +170,8 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
       ...(hasSeasonEnded("Bull Run")
         ? {}
         : {
-            from: SEASONS["Bull Run"].startDate,
-            to: SEASONS["Bull Run"].endDate,
+            from: CHAPTERS["Bull Run"].startDate,
+            to: CHAPTERS["Bull Run"].endDate,
           }),
     },
     "Ancient Clock": {
@@ -180,8 +180,8 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
       ...(hasSeasonEnded("Winds of Change")
         ? {}
         : {
-            from: SEASONS["Winds of Change"].startDate,
-            to: SEASONS["Winds of Change"].endDate,
+            from: CHAPTERS["Winds of Change"].startDate,
+            to: CHAPTERS["Winds of Change"].endDate,
           }),
     },
     "Broken Pillar": {
@@ -190,8 +190,8 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
       ...(hasSeasonEnded("Great Bloom")
         ? {}
         : {
-            from: SEASONS["Great Bloom"].startDate,
-            to: SEASONS["Great Bloom"].endDate,
+            from: CHAPTERS["Great Bloom"].startDate,
+            to: CHAPTERS["Great Bloom"].endDate,
           }),
     },
     Coprolite: {
@@ -200,8 +200,8 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
       ...(hasSeasonEnded("Better Together")
         ? {}
         : {
-            from: SEASONS["Better Together"].startDate,
-            to: SEASONS["Better Together"].endDate,
+            from: CHAPTERS["Better Together"].startDate,
+            to: CHAPTERS["Better Together"].endDate,
           }),
     },
     "Moon Crystal": {
@@ -210,8 +210,8 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
       ...(hasSeasonEnded("Paw Prints")
         ? {}
         : {
-            from: SEASONS["Paw Prints"].startDate,
-            to: SEASONS["Paw Prints"].endDate,
+            from: CHAPTERS["Paw Prints"].startDate,
+            to: CHAPTERS["Paw Prints"].endDate,
           }),
     },
   };

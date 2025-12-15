@@ -14,7 +14,7 @@ import {
   getCurrentSeason,
   getSeasonalTicket,
   hasSeasonEnded,
-  SEASONS,
+  CHAPTERS,
 } from "./chapters";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "../events/landExpansion/completeNPCChore";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
@@ -2001,7 +2001,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)
       .filter(([chapter]) => getCurrentSeason() === chapter)
       .flatMap(([chapter, items]) => {
-        const ticket = getSeasonalTicket(new Date(SEASONS[chapter].startDate));
+        const ticket = getSeasonalTicket(new Date(CHAPTERS[chapter].startDate));
         const translationKey =
           `description.bonus${ticket.replace(/\s+/g, "")}.boost` as TranslationKeys;
 

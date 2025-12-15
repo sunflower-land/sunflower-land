@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { BB_TO_GEM_RATIO, GameState } from "../../types/game";
 import {
   SEASONAL_BANNERS,
-  SEASONS,
+  CHAPTERS,
   SeasonalBanner,
   getPreviousSeasonalBanner,
   getSeasonByBanner,
@@ -38,7 +38,7 @@ export function getBannerPrice(
   if (hasLifetimeBanner) return new Decimal(0);
 
   const season = getSeasonByBanner(banner);
-  const seasonStartDate = SEASONS[season].startDate;
+  const seasonStartDate = CHAPTERS[season].startDate;
 
   const WEEK = 1000 * 60 * 60 * 24 * 7;
 
