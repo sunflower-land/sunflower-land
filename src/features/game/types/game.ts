@@ -47,7 +47,7 @@ import {
 import { TreasureToolName, WorkbenchToolName } from "./tools";
 import { ConversationName } from "./announcements";
 import { NPCName } from "lib/npcs";
-import { SeasonalBanner, SeasonalTicket, ChapterName } from "./chapters";
+import { SeasonalBanner, ChapterTicket, ChapterName } from "./chapters";
 import { Bud } from "./buds";
 import {
   CompostName,
@@ -267,7 +267,7 @@ export type Coupons =
   | "Halloween Ticket 2025"
   | "Cheer"
   | Keys
-  | SeasonalTicket
+  | ChapterTicket
   | FactionEmblem;
 
 export type Keys = "Treasure Key" | "Rare Key" | "Luxury Key";
@@ -479,7 +479,7 @@ type AnimalCoinBounty = Bounty & {
 type AnimalTicketBounty = Bounty & {
   name: AnimalType;
   level: number;
-  items: Partial<Record<SeasonalTicket, number>>;
+  items: Partial<Record<ChapterTicket, number>>;
 };
 
 type AnimalGemBounty = Bounty & {
