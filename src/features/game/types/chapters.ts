@@ -169,34 +169,34 @@ export function getChapterMarvelFish(now = new Date()): ChapterFish {
 }
 
 export function getCurrentChapter(now = new Date()): ChapterName {
-  const seasons = getKeys(CHAPTERS);
+  const chapters = getKeys(CHAPTERS);
 
-  const currentSeason = seasons.find((season) => {
-    const { startDate, endDate } = CHAPTERS[season];
+  const currentChapter = chapters.find((chapter) => {
+    const { startDate, endDate } = CHAPTERS[chapter];
 
     return now >= startDate && now < endDate;
   });
 
-  if (!currentSeason) {
+  if (!currentChapter) {
     throw new Error("No Season found");
   }
 
-  return currentSeason;
+  return currentChapter;
 }
 
 export function getChapterTicket(now = new Date()): ChapterTicket {
-  const currentSeason = getCurrentChapter(now);
+  const currentChapter = getCurrentChapter(now);
 
-  return CHAPTER_TICKET_NAME[currentSeason];
+  return CHAPTER_TICKET_NAME[currentChapter];
 }
 
-export function getSeasonalArtefact(now = new Date()) {
-  const currentSeason = getCurrentChapter(now);
+export function getChapterArtefact(now = new Date()) {
+  const currentChapter = getCurrentChapter(now);
 
-  return CHAPTER_ARTEFACT_NAME[currentSeason];
+  return CHAPTER_ARTEFACT_NAME[currentChapter];
 }
 
-export function getSeasonalBanner(now = new Date()): ChapterBanner {
+export function getChapterBanner(now = new Date()): ChapterBanner {
   const currentSeason = getCurrentChapter(now);
 
   return `${currentSeason} Banner`;
@@ -239,7 +239,7 @@ export function getSeasonalBannerImage() {
     "Better Together Banner": betterTogetherBanner,
     "Paw Prints Banner": pawPrintsBanner,
   };
-  return banners[getSeasonalBanner()];
+  return banners[getChapterBanner()];
 }
 
 function getPreviousSeason(now = new Date()): ChapterName {

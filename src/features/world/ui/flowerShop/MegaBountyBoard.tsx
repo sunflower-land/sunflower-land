@@ -19,7 +19,7 @@ import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { SquareIcon } from "components/ui/SquareIcon";
 import {
-  getSeasonalArtefact,
+  getChapterArtefact,
   getChapterTicket,
 } from "features/game/types/chapters";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -117,7 +117,7 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
     // Otherwise handle item rewards
     const items = bounty.items ?? {};
     const seasonalTicket = getChapterTicket();
-    const seasonalArtefact = getSeasonalArtefact();
+    const seasonalArtefact = getChapterArtefact();
 
     // Calculate bounty tickets if needed
     const bountyTickets = generateBountyTicket({

@@ -40,7 +40,7 @@ import { ChestRevealing, ChestRewardType } from "../chests/ChestRevealing";
 import { gameAnalytics } from "lib/gameAnalytics";
 import {
   getCurrentChapter,
-  getSeasonalArtefact,
+  getChapterArtefact,
 } from "features/game/types/chapters";
 import { ChestRewardsList } from "components/ui/ChestRewardsList";
 import { ModalOverlay } from "components/ui/ModalOverlay";
@@ -421,7 +421,7 @@ const Rewards: React.FC = () => {
                   },
                   {
                     text: t("chestRewardsList.desertReward.desc2"),
-                    icon: ITEM_DETAILS[getSeasonalArtefact()].image,
+                    icon: ITEM_DETAILS[getChapterArtefact()].image,
                   },
                 ]}
               />
