@@ -225,7 +225,6 @@
   "bumpkin.delivery.thanks": "Merci beaucoup, Bumpkin !!!",
   "bumpkin.delivery.waiting": "J'attendais ça. Merci beaucoup ! Reviens bientôt pour plus de livraisons.",
   "bumpkin.delivery.proveYourself": "Prouve que tu es digne. Agrandis ton île {{missingLevels}} fois de plus.",
-  "bumpkinItemBuff.chef.apron.boost": "+20 % de profit de gâteau",
   "bumpkinItemBuff.fruit.picker.apron.boost": "+0,1 Fruit",
   "bumpkinItemBuff.angel.wings.boost": "30 % de chances de cultures instantanées",
   "bumpkinItemBuff.devil.wings.boost": "30 % de chances de cultures instantanées",
@@ -7262,5 +7261,6 @@
   "description.el.pollo.veloz.boost": "-2 h de sommeil pour le poulet",
   "memory.portal.description": "Retournez des cartes, trouvez des allumettes et essayez de battre la montre tout en testant votre mémoire.",
   "memory.portal.missionObjective": "Mission : Atteindre {{targetScore}} points.",
-  "portal.memory.description": "Retournez des cartes, trouvez des allumettes et tentez de battre le chronomètre dans ce défi de mémoire !"
+  "portal.memory.description": "Retournez des cartes, trouvez des allumettes et tentez de battre le chronomètre dans ce défi de mémoire !",
+  "bumpkinItemBuff.chef.apron.boost": "+20 % de profit sur la livraison de gâteaux"
 }

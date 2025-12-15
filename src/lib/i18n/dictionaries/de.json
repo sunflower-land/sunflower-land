@@ -297,7 +297,6 @@
   "bumpkin.delivery.waiting": "Darauf habe ich gewartet. Vielen Dank! Komm bald zurück für weitere Lieferungen.",
   "bumpkin.delivery.proveYourself": "Beweisen Sie, dass Sie würdig sind. Steige mehrmals {{missingLevels}} auf.",
   "bumpkin.delivery.earnTickets": "Verdiene {{ticket}} s, um exklusive Gegenstände herzustellen.",
-  "bumpkinItemBuff.chef.apron.boost": "+20% Kuchengewinn",
   "bumpkinItemBuff.fruit.picker.apron.boost": "+0.1 Apfel, Blaubeere, Orange + Banane",
   "bumpkinItemBuff.angel.wings.boost": "30% Chance auf sofortige Ernten",
   "bumpkinItemBuff.devil.wings.boost": "30% Chance auf sofortige Ernten",
@@ -7262,5 +7261,6 @@
   "description.el.pollo.veloz.boost": "-2 Stunden Schlafzeit für Hühner",
   "memory.portal.description": "Drehe Karten um, finde Streichhölzer und versuche, die Zeit zu schlagen, während du dein Gedächtnis testest.",
   "memory.portal.missionObjective": "Auftrag: Erreiche {{targetScore}} Punkte.",
-  "portal.memory.description": "Drehe Karten um, finde Streichhölzer und versuche, bei dieser Gedächtnis-Herausforderung die Zeit zu schlagen!"
+  "portal.memory.description": "Drehe Karten um, finde Streichhölzer und versuche, bei dieser Gedächtnis-Herausforderung die Zeit zu schlagen!",
+  "bumpkinItemBuff.chef.apron.boost": "+20% Gewinn bei der Kuchenlieferung"
 }

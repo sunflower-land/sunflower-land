@@ -296,7 +296,6 @@
   "bumpkin.delivery.waiting": "He estado esperando esto. Muchísimas gracias! Vuelve pronto para recibir más entregas.",
   "bumpkin.delivery.proveYourself": "Demuestra que eres digno. Sube de nivel {{missingLevels}} más veces.",
   "bumpkin.delivery.earnTickets": "Gana {{ticket}}s para crear objetos exclusivos.",
-  "bumpkinItemBuff.chef.apron.boost": "Aumenta en un +20% las ganancias por la venta de tartas.",
   "bumpkinItemBuff.fruit.picker.apron.boost": "Incrementa la producción de manzanas, arándanos, naranjas y plátanos en +0.1.",
   "bumpkinItemBuff.angel.wings.boost": "Proporciona un +30% de probabilidad de cosechas instantáneas.",
   "bumpkinItemBuff.devil.wings.boost": "Proporciona un +30% de probabilidad de cosechas instantáneas.",
@@ -7262,5 +7261,6 @@
   "description.el.pollo.veloz.boost": "-2h de tiempo de sueño con pollo",
   "memory.portal.description": "Da la vuelta a las cartas, encuentra coincidencias e intenta batir el reloj mientras pones a prueba tu memoria.",
   "memory.portal.missionObjective": "Misión: Alcanzar {{targetScore}} puntos.",
-  "portal.memory.description": "¡Voltea cartas, encuentra coincidencias e intenta batir el reloj en este desafío de memoria!"
+  "portal.memory.description": "¡Voltea cartas, encuentra coincidencias e intenta batir el reloj en este desafío de memoria!",
+  "bumpkinItemBuff.chef.apron.boost": "+20% de beneficio por entrega de pasteles"
 }

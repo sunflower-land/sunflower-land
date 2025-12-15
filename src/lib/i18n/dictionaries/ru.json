@@ -466,7 +466,6 @@
   "bumpkin.delivery.proveYourself": "Докажи, что достоин. Получи еще {{missingLevels}} уровней.",
   "bumpkin.delivery.earnTickets": "Зарабатывай {{ticket}}’ы, чтобы скрафтить эксклюзивные предметы.",
   "bumpkin.delivery.earnSFL": "Зарабатывайте FLOWER, чтобы торговать и строить свою империю.",
-  "bumpkinItemBuff.chef.apron.boost": "+20% прибыли от тортов",
   "bumpkinItemBuff.fruit.picker.apron.boost": "+0.1 Apple, Blueberry, Orange и Banana",
   "bumpkinItemBuff.angel.wings.boost": "30% шанс мгновенного урожая",
   "bumpkinItemBuff.devil.wings.boost": "30% шанс мгновенного урожая",
@@ -7262,5 +7261,6 @@
   "description.el.pollo.veloz.boost": "-2h Chicken Sleep Time",
   "memory.portal.description": "Flip cards, find matches and try to beat the clock while testing your memory.",
   "memory.portal.missionObjective": "Mission: Reach {{targetScore}} points.",
-  "portal.memory.description": "Flip cards, find matches and try to beat the clock in this memory challenge!"
+  "portal.memory.description": "Flip cards, find matches and try to beat the clock in this memory challenge!",
+  "bumpkinItemBuff.chef.apron.boost": "+20% Cake Delivery Profit"
 }

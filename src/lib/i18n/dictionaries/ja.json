@@ -297,7 +297,6 @@
   "bumpkin.delivery.waiting": "これを待っていました。どうもありがとう！すぐに戻ってきて、より多くの配達を受けてください。",
   "bumpkin.delivery.proveYourself": "自分の価値を証明してください。{{missingLevels}} を何回もレベルアップしてください。",
   "bumpkin.delivery.earnTickets": "{{ticket}} を獲得して限定アイテムを作りましょう。",
-  "bumpkinItemBuff.chef.apron.boost": "+20% ケーキ利益",
   "bumpkinItemBuff.fruit.picker.apron.boost": "+0.1 アップル、ブルーベリー、オレンジ + バナナ",
   "bumpkinItemBuff.angel.wings.boost": "30% の確率でインスタントクロップが可能",
   "bumpkinItemBuff.devil.wings.boost": "30% の確率でインスタントクロップが可能",
@@ -7262,5 +7261,6 @@
   "description.el.pollo.veloz.boost": "-2時間のチキンスリープタイム",
   "memory.portal.description": "カードをめくったり、マッチを見つけたり、記憶力をテストしながら時間をつぶしたりしてみてください。",
   "memory.portal.missionObjective": "ミッション:{{targetScore}} ポイント達成",
-  "portal.memory.description": "このメモリーチャレンジでは、カードをめくったり、マッチを見つけたり、時間をつぶしたりしてみてください！"
+  "portal.memory.description": "このメモリーチャレンジでは、カードをめくったり、マッチを見つけたり、時間をつぶしたりしてみてください！",
+  "bumpkinItemBuff.chef.apron.boost": "+20% ケーキデリバリー利益"
 }

@@ -222,7 +222,6 @@
   "bumpkin.delivery.noFlowers": "Oh não, você não tem nenhuma flor para presentear!",
   "bumpkin.delivery.thanks": "Caramba, obrigado Bumpkin!!!",
   "bumpkin.delivery.waiting": "Eu estava esperando por isso. Obrigado! Volte logo para mais entregas.",
-  "bumpkinItemBuff.chef.apron.boost": "+20% Lucro com Bolos",
   "bumpkinItemBuff.fruit.picker.apron.boost": "+0.1 Fruta",
   "bumpkinItemBuff.angel.wings.boost": "30% de Chance de colheita Instantânea",
   "bumpkinItemBuff.devil.wings.boost": "30% de Chance de colheita Instantânea",
@@ -7262,5 +7261,6 @@
   "description.el.pollo.veloz.boost": "-2h de tempo de sono do frango",
   "memory.portal.description": "Vire cartas, encontre fósforos e tente vencer o relógio enquanto testa sua memória.",
   "memory.portal.missionObjective": "Missão: Alcançar {{targetScore}} pontos.",
-  "portal.memory.description": "Vire cartas, encontre fósforos e tente vencer o relógio neste desafio de memória!"
+  "portal.memory.description": "Vire cartas, encontre fósforos e tente vencer o relógio neste desafio de memória!",
+  "bumpkinItemBuff.chef.apron.boost": "+20% de lucro na entrega do bolo"
 }

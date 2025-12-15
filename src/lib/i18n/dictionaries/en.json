@@ -493,7 +493,7 @@
   "bumpkin.delivery.proveYourself": "Prove yourself worthy. Level up {{missingLevels}} more times.",
   "bumpkin.delivery.earnTickets": "Earn {{ticket}}s to craft exclusive items.",
   "bumpkin.delivery.earnSFL": "Earn FLOWER to trade & build your empire.",
-  "bumpkinItemBuff.chef.apron.boost": "+20% Cake Profit",
+  "bumpkinItemBuff.chef.apron.boost": "+20% Cake Delivery Profit",
   "bumpkinItemBuff.fruit.picker.apron.boost": "+0.1 Apple, Blueberry, Orange + Banana",
   "bumpkinItemBuff.angel.wings.boost": "30% Chance of Instant Crops",
   "bumpkinItemBuff.devil.wings.boost": "30% Chance of Instant Crops",

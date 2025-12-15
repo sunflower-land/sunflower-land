@@ -297,7 +297,6 @@
   "bumpkin.delivery.waiting": "이걸 기다리고 있었어요.정말 고마워요!더 많은 배송을 위해 곧 다시 오세요.",
   "bumpkin.delivery.proveYourself": "자신의 가치를 증명하세요.{{missingLevels}} 레벨을 더 올리세요.",
   "bumpkin.delivery.earnTickets": "{{ticket}} s를 적립하여 독점 아이템을 제작하세요.",
-  "bumpkinItemBuff.chef.apron.boost": "+20% 케이크 프로핏",
   "bumpkinItemBuff.fruit.picker.apron.boost": "+0.1 애플, 블루베리, 오렌지+바나나",
   "bumpkinItemBuff.angel.wings.boost": "30% 확률로 즉시 수확할 수 있습니다.",
   "bumpkinItemBuff.devil.wings.boost": "30% 확률로 즉시 수확할 수 있습니다.",
@@ -7262,5 +7261,6 @@
   "description.el.pollo.veloz.boost": "-2시간 치킨 슬립 타임",
   "memory.portal.description": "카드를 뒤집고, 성냥을 찾고, 기억력을 테스트하면서 시간을 초월해 보세요.",
   "memory.portal.missionObjective": "임무: {{targetScore}} 포인트를 달성하세요.",
-  "portal.memory.description": "이 메모리 챌린지에서 카드를 뒤집고, 성냥을 찾고, 시간을 초월해 보세요!"
+  "portal.memory.description": "이 메모리 챌린지에서 카드를 뒤집고, 성냥을 찾고, 시간을 초월해 보세요!",
+  "bumpkinItemBuff.chef.apron.boost": "+20% 케이크 배달 수익"
 }

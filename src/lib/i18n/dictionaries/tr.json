@@ -236,7 +236,6 @@
   "bumpkin.delivery.noFlowers": "Olamaz hayır, hediye edebilecek bir çiçeğin yok!",
   "bumpkin.delivery.thanks": "Vay Wizz teşekkürler Bumpkin!!!",
   "bumpkin.delivery.waiting": "Bunun için bekliyordum. Çok teşekkürler! Daha fazla teslimat için yakında tekrar gel.",
-  "bumpkinItemBuff.chef.apron.boost": "+20% Pasta Kârı",
   "bumpkinItemBuff.fruit.picker.apron.boost": "+0.1 Meyve",
   "bumpkinItemBuff.angel.wings.boost": "Anında Mahsüller",
   "bumpkinItemBuff.devil.wings.boost": "Anında Mahsüller",
@@ -7262,5 +7261,6 @@
   "description.el.pollo.veloz.boost": "-2h Tavuk Uyku Süresi",
   "memory.portal.description": "Kartları çevirin, eşleşmeleri bulun ve hafızanızı test ederken saati yenmeye çalışın.",
   "memory.portal.missionObjective": "Görev: {{targetScore}} puana ulaşın.",
-  "portal.memory.description": "Kartları çevir, eşleşmeleri bul ve bu hafıza mücadelesinde saati yenmeye çalış!"
+  "portal.memory.description": "Kartları çevir, eşleşmeleri bul ve bu hafıza mücadelesinde saati yenmeye çalış!",
+  "bumpkinItemBuff.chef.apron.boost": "+20% Pasta Teslimat Kârı"
 }

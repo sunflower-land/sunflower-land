@@ -295,7 +295,6 @@
   "bumpkin.delivery.waiting": "Stavo aspettando questo momento. Grazie mille! Torna presto per altre consegne.",
   "bumpkin.delivery.proveYourself": "Dimostrati degno. Sali di livello {{missingLevels}} altre volte.",
   "bumpkin.delivery.earnTickets": "Guadagna {{ticket}} s per creare oggetti esclusivi.",
-  "bumpkinItemBuff.chef.apron.boost": "+20% Cake Profit",
   "bumpkinItemBuff.fruit.picker.apron.boost": "+0.1 Mela, mirtillo, arancia + banana",
   "bumpkinItemBuff.angel.wings.boost": "30% di possibilità di raccolti istantanei",
   "bumpkinItemBuff.devil.wings.boost": "30% di possibilità di raccolti istantanei",
@@ -7262,5 +7261,6 @@
   "description.el.pollo.veloz.boost": "-2h Chicken Sleep Time",
   "memory.portal.description": "Gira le carte, trova le partite e prova a battere il tempo mentre metti alla prova la tua memoria.",
   "memory.portal.missionObjective": "Missione: Raggiungi {{targetScore}} punti.",
-  "portal.memory.description": "Gira le carte, trova i fiammiferi e prova a battere il tempo in questa sfida di memoria!"
+  "portal.memory.description": "Gira le carte, trova i fiammiferi e prova a battere il tempo in questa sfida di memoria!",
+  "bumpkinItemBuff.chef.apron.boost": "+20% di profitto sulla consegna di torte"
 }

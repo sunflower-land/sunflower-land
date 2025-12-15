@@ -297,7 +297,6 @@
   "bumpkin.delivery.waiting": "Saya telah menunggu ini. Terima kasih banyak! Kembali tidak lama lagi untuk lebih banyak penghantaran.",
   "bumpkin.delivery.proveYourself": "Buktikan diri anda layak. Menaikkan tahap {{missingLevels}} lebih banyak kali.",
   "bumpkin.delivery.earnTickets": "Dapatkan {{ticket}} s untuk membuat item eksklusif.",
-  "bumpkinItemBuff.chef.apron.boost": "+20% Keuntungan Kek",
   "bumpkinItemBuff.fruit.picker.apron.boost": "+0.1 Epal, Blueberry, Jeruk+Pisang",
   "bumpkinItemBuff.angel.wings.boost": "30% Peluang Tanaman Segera",
   "bumpkinItemBuff.devil.wings.boost": "30% Peluang Tanaman Segera",
@@ -7262,5 +7261,6 @@
   "description.el.pollo.veloz.boost": "Waktu Tidur Ayam -2h",
   "memory.portal.description": "Balikkan kad, cari padanan dan cuba mengalahkan jam semasa menguji ingatan anda.",
   "memory.portal.missionObjective": "Misi: Mencapai mata {{targetScore}}.",
-  "portal.memory.description": "Balikkan kad, cari padanan dan cuba mengalahkan jam dalam cabaran ingatan ini!"
+  "portal.memory.description": "Balikkan kad, cari padanan dan cuba mengalahkan jam dalam cabaran ingatan ini!",
+  "bumpkinItemBuff.chef.apron.boost": "+20% Keuntungan Penghantaran Kek"
 }
