@@ -20,7 +20,7 @@ import { BumpkinItem } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/decorations";
 import {
   getCurrentSeason,
-  SeasonName,
+  ChapterName,
   SEASONS,
 } from "features/game/types/chapters";
 import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
@@ -61,7 +61,7 @@ function getSeasonalAuctions({
 }: {
   auctions: Auction[];
   totalSupply: Record<string, number>;
-  season: SeasonName;
+  season: ChapterName;
 }) {
   const { startDate, endDate } = SEASONS[season];
 
@@ -409,7 +409,7 @@ const Drops: React.FC<{
 interface Props {
   gameState: GameState;
   farmId: number;
-  season: SeasonName;
+  season: ChapterName;
 }
 
 const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;

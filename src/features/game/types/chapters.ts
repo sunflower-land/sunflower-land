@@ -16,7 +16,7 @@ import { getKeys } from "./decorations";
 import { ChapterFish } from "./fishing";
 import { getObjectEntries } from "../expansion/lib/utils";
 
-export type SeasonName =
+export type ChapterName =
   | "Solar Flare"
   | "Dawn Breaker"
   | "Witches' Eve"
@@ -32,7 +32,7 @@ export type SeasonName =
 
 type SeasonDates = { startDate: Date; endDate: Date };
 
-export const SEASONS: Record<SeasonName, SeasonDates> = {
+export const SEASONS: Record<ChapterName, SeasonDates> = {
   "Solar Flare": {
     startDate: new Date("2023-01-01T00:00:00.000Z"),
     endDate: new Date("2023-05-01T00:00:00.000Z"),
@@ -99,9 +99,9 @@ export type SeasonalTicket =
   | "Bracelet"
   | "Pet Cookie";
 
-export type SeasonalBanner = `${SeasonName} Banner`;
+export type SeasonalBanner = `${ChapterName} Banner`;
 
-export const SEASONAL_BANNERS: Record<SeasonalBanner, SeasonName> = {
+export const SEASONAL_BANNERS: Record<SeasonalBanner, ChapterName> = {
   "Solar Flare Banner": "Solar Flare",
   "Dawn Breaker Banner": "Dawn Breaker",
   "Witches' Eve Banner": "Witches' Eve",
@@ -116,7 +116,7 @@ export const SEASONAL_BANNERS: Record<SeasonalBanner, SeasonName> = {
   "Paw Prints Banner": "Paw Prints",
 };
 
-export const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
+export const SEASON_TICKET_NAME: Record<ChapterName, SeasonalTicket> = {
   "Solar Flare": "Solar Flare Ticket",
   "Dawn Breaker": "Dawn Breaker Ticket",
   "Witches' Eve": "Crow Feather",
@@ -132,7 +132,7 @@ export const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
 };
 
 export const SEASON_ARTEFACT_NAME: Record<
-  SeasonName,
+  ChapterName,
   BeachBountySeasonalArtefact
 > = {
   "Solar Flare": "Scarab",
@@ -149,7 +149,7 @@ export const SEASON_ARTEFACT_NAME: Record<
   "Paw Prints": "Moon Crystal",
 };
 
-export const CHAPTER_MARVEL_FISH: Record<SeasonName, ChapterFish> = {
+export const CHAPTER_MARVEL_FISH: Record<ChapterName, ChapterFish> = {
   "Solar Flare": "Crimson Carp",
   "Dawn Breaker": "Crimson Carp",
   "Witches' Eve": "Crimson Carp",
@@ -170,7 +170,7 @@ export function getChapterMarvelFish(now = new Date()): ChapterFish {
   return CHAPTER_MARVEL_FISH[currentSeason];
 }
 
-export function getCurrentSeason(now = new Date()): SeasonName {
+export function getCurrentSeason(now = new Date()): ChapterName {
   const seasons = getKeys(SEASONS);
 
   const currentSeason = seasons.find((season) => {
@@ -214,15 +214,15 @@ export function secondsLeftInSeason() {
   return secondsLeft;
 }
 
-export function hasSeasonStarted(season: SeasonName, now = Date.now()) {
+export function hasSeasonStarted(season: ChapterName, now = Date.now()) {
   return now >= SEASONS[season].startDate.getTime();
 }
 
-export function hasSeasonEnded(season: SeasonName, now = Date.now()) {
+export function hasSeasonEnded(season: ChapterName, now = Date.now()) {
   return now >= SEASONS[season].endDate.getTime();
 }
 
-export function getSeasonByBanner(banner: SeasonalBanner): SeasonName {
+export function getSeasonByBanner(banner: SeasonalBanner): ChapterName {
   return SEASONAL_BANNERS[banner];
 }
 
@@ -244,7 +244,7 @@ export function getSeasonalBannerImage() {
   return banners[getSeasonalBanner()];
 }
 
-function getPreviousSeason(now = new Date()): SeasonName {
+function getPreviousSeason(now = new Date()): ChapterName {
   const currentSeason = getCurrentSeason(now);
   const startDateOfCurrentSeason = SEASONS[currentSeason].startDate;
 

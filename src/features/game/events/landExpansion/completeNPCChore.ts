@@ -10,7 +10,7 @@ import { NPCName } from "lib/npcs";
 import {
   getCurrentSeason,
   getSeasonalTicket,
-  SeasonName,
+  ChapterName,
 } from "features/game/types/chapters";
 import { isWearableActive } from "features/game/lib/wearables";
 import { hasVipAccess } from "features/game/lib/vipAccess";
@@ -34,7 +34,7 @@ type Options = {
 };
 
 export const CHAPTER_TICKET_BOOST_ITEMS: Record<
-  SeasonName,
+  ChapterName,
   {
     basic: Exclude<SeasonalTierItemName, MegastoreKeys>;
     rare: Exclude<SeasonalTierItemName, MegastoreKeys>;

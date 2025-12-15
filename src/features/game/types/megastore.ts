@@ -1,7 +1,7 @@
 import { FlowerBox } from "../events/landExpansion/buySeasonalItem";
 import { BumpkinItem } from "./bumpkin";
 import { InventoryItemName } from "./game";
-import { SeasonName, SEASONS } from "./chapters";
+import { ChapterName, SEASONS } from "./chapters";
 
 export type SeasonalTierItemName =
   | SeasonalCollectibleName
@@ -950,7 +950,7 @@ const PAW_PRINTS_ITEMS: SeasonalStore = {
   },
 };
 
-export const MEGASTORE: Record<SeasonName, SeasonalStore> = {
+export const MEGASTORE: Record<ChapterName, SeasonalStore> = {
   "Catch the Kraken": EMPTY_SEASONAL_STORE,
   "Clash of Factions": EMPTY_SEASONAL_STORE,
   "Dawn Breaker": EMPTY_SEASONAL_STORE,

@@ -15,9 +15,9 @@ import { capitalize } from "lib/utils/capitalize";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { DogContainer } from "../containers/DogContainer";
 import { PetContainer } from "../containers/PetContainer";
-import { getCurrentSeason, SeasonName } from "features/game/types/chapters";
+import { getCurrentSeason, ChapterName } from "features/game/types/chapters";
 
-const CHAPTER_BANNERS: Record<SeasonName, string | undefined> = {
+const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {
   "Solar Flare": undefined,
   "Dawn Breaker": undefined,
   "Witches' Eve": undefined,
@@ -33,7 +33,7 @@ const CHAPTER_BANNERS: Record<SeasonName, string | undefined> = {
 };
 
 // Tiled Layer names that get enabled during a chapter
-const CHAPTER_LAYERS: Record<SeasonName, string | undefined> = {
+const CHAPTER_LAYERS: Record<ChapterName, string | undefined> = {
   "Solar Flare": undefined,
   "Dawn Breaker": undefined,
   "Witches' Eve": undefined,
@@ -245,7 +245,7 @@ export class PlazaScene extends BaseScene {
 
     const chapter = getCurrentSeason();
     // chapter = "Paw Prints"; // Testing only
-    this.load.image("chapter_banner", CHAPTER_BANNERS[chapter as SeasonName]);
+    this.load.image("chapter_banner", CHAPTER_BANNERS[chapter as ChapterName]);
 
     this.load.spritesheet("glint", "world/glint.png", {
       frameWidth: 7,
