@@ -3426,6 +3426,21 @@ export const ITEM_DETAILS: Items = {
     image: fishingLure,
     description: translate("purchaseableBait.fishingLure.description"),
   },
+  "Fish Flake": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description:
+      "A processed fish ingredient with many benefits but the most important is guaranteeing catches.",
+  },
+  "Fish Stick": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description:
+      "A sturdy processed fish ingredient with many benefits but the most important is guaranteeing catches.",
+  },
+  "Fish Oil": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description:
+      "A refined fish ingredient with many benefits but the most important is guaranteeing catches.",
+  },
   "Sprout Mix": {
     boostedDescriptions: [
       {
