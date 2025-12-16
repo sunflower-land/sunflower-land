@@ -26,7 +26,7 @@ export function getSeasonWeek(now: number): SeasonWeek {
  * Helps implement a preseason where tasks are 'frozen'
  * This ensures a smooth transition and testing period.
  */
-export function getSeasonChangeover({
+export function getChapterChangeover({
   id,
   now = Date.now(),
 }: {
@@ -100,7 +100,7 @@ export const HOLIDAYS: string[] = [
   "2025-11-09",
 ];
 
-export function getBumpkinHoliday({ now = Date.now() }: { now?: number }) {
+export function getBumpkinHoliday({ now }: { now: number }) {
   // Get upcoming holiday, return today if there is one today.
   const todayKey = new Date(now).toISOString().split("T")[0];
 

@@ -194,7 +194,7 @@ export const DeliveryOrders: React.FC<Props> = ({
     return <Revealed onAcknowledged={() => setIsRevealing(false)} />;
   }
 
-  const { holiday } = getBumpkinHoliday({});
+  const { holiday } = getBumpkinHoliday({ now });
 
   // Check if matches UTC date
   const isHoliday = holiday === new Date().toISOString().split("T")[0];
