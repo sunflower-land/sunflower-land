@@ -18,6 +18,42 @@ type Metadata = {
 };
 
 export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
+  "Fish Flake": {
+    description:
+      "A processed fish ingredient with many benefits but the most important is guaranteeing catches.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Bait" },
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Fish Stick": {
+    description:
+      "A sturdy processed fish ingredient with many benefits but the most important is guaranteeing catches.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Bait" },
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Fish Oil": {
+    description:
+      "A refined fish ingredient with many benefits but the most important is guaranteeing catches.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Bait" },
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   "Super Star": {
     description: "A super star that grants +1 fish during winter months!",
     decimals: 0,
