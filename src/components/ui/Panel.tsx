@@ -60,7 +60,7 @@ export const Panel: React.FC<React.PropsWithChildren<PanelProps>> = ({
 export const InnerPanel: React.FC<
   React.PropsWithChildren<
     React.HTMLAttributes<HTMLDivElement> & {
-      divRef?: React.RefObject<HTMLDivElement>;
+      divRef?: React.RefObject<HTMLDivElement | null>;
     }
   >
 > = ({ children, ...divProps }) => {
