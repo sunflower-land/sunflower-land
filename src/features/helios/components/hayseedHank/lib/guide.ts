@@ -232,7 +232,7 @@ ${translate("crops.guide.three")}`,
 
   chapters: {
     achievements: ["Seasoned Farmer"],
-    icon: ITEM_DETAILS[getChapterTicket()].image,
+    icon: ITEM_DETAILS[getChapterTicket(Date.now())].image,
     description: [
       {
         text: `${translate("chapters.guide.one")}

@@ -5,7 +5,8 @@ import { InnerPanel } from "components/ui/Panel";
 import {
   CHAPTER_TICKET_NAME,
   ChapterName,
-  secondsLeftInSeason,
+  CHAPTERS,
+  secondsLeftInChapter,
 } from "features/game/types/chapters";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -22,6 +23,7 @@ import { SeasonalStore } from "features/world/ui/megastore/SeasonalStore";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState } from "features/game/types/game";
 import { MegaBountyBoardContent } from "features/world/ui/flowerShop/MegaBountyBoard";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export const CHAPTER_GRAPHICS: Record<ChapterName, string> = {
   "Solar Flare": "?",
@@ -54,23 +56,25 @@ const CHORES_DELIVERIES_START_DATE: Record<ChapterName, string> = {
 };
 
 interface Props {
-  id: string;
   isLoading: boolean;
   data: TicketLeaderboard | null;
-  season: ChapterName;
+  chapter: ChapterName;
   state: GameState;
   farmId: number;
 }
 
-export const Season: React.FC<Props> = ({
-  id,
+export const Chapter: React.FC<Props> = ({
   isLoading,
   data,
-  season,
+  chapter,
   state,
   farmId,
 }) => {
   const { t } = useAppTranslation();
+  const now = useNow({
+    live: true,
+    autoEndAt: CHAPTERS[chapter].endDate.getTime(),
+  });
 
   return (
     <div
@@ -82,25 +86,25 @@ export const Season: React.FC<Props> = ({
         <div className="p-1">
           <div className="flex justify-between mb-1 flex-wrap">
             <Label className="-ml-1 mb-1" type="default">
-              {season}
+              {chapter}
             </Label>
             <Label
               type="info"
               className="mb-1"
               icon={SUNNYSIDE.icons.stopwatch}
             >
-              {`${secondsToString(secondsLeftInSeason(), { length: "short" })} left`}
+              {`${secondsToString(secondsLeftInChapter(now), { length: "short" })} left`}
             </Label>
           </div>
           <p className="text-xs">
-            {t("season.codex.intro", { ticket: CHAPTER_TICKET_NAME[season] })}
+            {t("season.codex.intro", { ticket: CHAPTER_TICKET_NAME[chapter] })}
           </p>
         </div>
       </InnerPanel>
       <InnerPanel className="mb-1">
         <div
           style={{
-            backgroundImage: `url(${CHAPTER_GRAPHICS[season]})`,
+            backgroundImage: `url(${CHAPTER_GRAPHICS[chapter]})`,
             imageRendering: "pixelated",
             height: "125px",
             backgroundSize: "600px",
@@ -114,7 +118,7 @@ export const Season: React.FC<Props> = ({
           <div className="flex justify-between mb-2">
             <Label className="-ml-1" type="default">
               {t("season.codex.howToEarn", {
-                ticket: CHAPTER_TICKET_NAME[season],
+                ticket: CHAPTER_TICKET_NAME[chapter],
               })}
             </Label>
           </div>
@@ -127,13 +131,13 @@ export const Season: React.FC<Props> = ({
               },
               {
                 text: t("season.codex.howToEarn.two", {
-                  date: CHORES_DELIVERIES_START_DATE[season],
+                  date: CHORES_DELIVERIES_START_DATE[chapter],
                 }),
                 icon: chores,
               },
               {
                 text: t("season.codex.howToEarn.three", {
-                  date: CHORES_DELIVERIES_START_DATE[season],
+                  date: CHORES_DELIVERIES_START_DATE[chapter],
                 }),
                 icon: ITEM_DETAILS["White Pansy"].image,
               },
@@ -145,8 +149,8 @@ export const Season: React.FC<Props> = ({
       <InnerPanel className="mb-1">
         <SeasonalStore readonly state={state} />
       </InnerPanel>
-      <SeasonalAuctions gameState={state} farmId={farmId} season={season} />
-      <SeasonalMutants season={season} />
+      <SeasonalAuctions gameState={state} farmId={farmId} season={chapter} />
+      <SeasonalMutants season={chapter} />
       <InnerPanel className="mb-1">
         <TicketsLeaderboard isLoading={isLoading} data={data} />
       </InnerPanel>

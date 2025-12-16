@@ -270,8 +270,8 @@ const Drops: React.FC<{
     skills: game.bumpkin.skills,
     collectibles: game.collectibles,
   });
-
-  const chapter = CHAPTERS[getCurrentChapter()];
+  const currentChapter = getCurrentChapter(now);
+  const chapter = CHAPTERS[currentChapter];
   const chapterSupply = detail.auctions.reduce((acc, drop) => {
     if (
       drop.startAt < chapter.startDate.getTime() ||

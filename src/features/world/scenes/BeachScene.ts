@@ -174,6 +174,7 @@ export class BeachScene extends BaseScene {
   get treasuresFound() {
     return getArtefactsFound({
       game: this.gameService.getSnapshot().context.state,
+      now: Date.now(),
     });
   }
 

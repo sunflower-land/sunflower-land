@@ -20,6 +20,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { Label } from "components/ui/Label";
 import { Decimal } from "decimal.js-light";
 import { formatNumber } from "lib/utils/formatNumber";
+import { useNow } from "lib/utils/hooks/useNow";
 
 import token from "assets/icons/flower_token.webp";
 
@@ -54,8 +55,9 @@ export const OrderCard: React.FC<OrderCardProps> = ({
   onClick,
   state,
 }) => {
+  const now = useNow();
   const npcName = order.from;
-  const tickets = generateDeliveryTickets({ game: state, npc: npcName });
+  const tickets = generateDeliveryTickets({ game: state, npc: npcName, now });
 
   return (
     <div className="py-1 px-1" key={order.id}>
@@ -146,7 +148,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
         )}
         {!order.completedAt && !!tickets && (
           <Label
-            icon={ITEM_DETAILS[getChapterTicket()].image}
+            icon={ITEM_DETAILS[getChapterTicket(now)].image}
             type="warning"
             className={"absolute -bottom-2 text-center p-1 "}
             style={{

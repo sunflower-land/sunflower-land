@@ -24,6 +24,7 @@ import {
   getChapterTicket,
 } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   onClose: () => void;
@@ -69,14 +70,15 @@ const _state = (state: MachineState) => state.context.state;
 export const MegaStore: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
+  const now = useNow();
 
-  const icon = ITEM_DETAILS[getChapterTicket()].image ?? shopIcon;
+  const icon = ITEM_DETAILS[getChapterTicket(now)].image ?? shopIcon;
   const { t } = useAppTranslation();
 
   // If no season is found, use "Chapter"
   let chapter: string;
   try {
-    chapter = getCurrentChapter();
+    chapter = getCurrentChapter(now);
   } catch {
     chapter = "Chapter";
   }

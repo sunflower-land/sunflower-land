@@ -15,7 +15,7 @@ import { RewardBoxReward } from "./rewardBoxes";
 import { getCurrentChapter } from "./chapters";
 
 describe("SEASONAL_REWARDS", () => {
-  const currentSeason = getCurrentChapter(new Date()); // Test all reward types
+  const currentSeason = getCurrentChapter(Date.now()); // Test all reward types
   const rewardTypes: {
     rewards: RewardBoxReward[];
     weight: number;

@@ -32,6 +32,7 @@ import {
   RewardBoxName,
   RewardBoxReward,
 } from "features/game/types/rewardBoxes";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const RewardRow: React.FC<{
   rewardName: string;
@@ -71,6 +72,8 @@ const MultipleRewardsRow: React.FC<{
   secondBG?: boolean;
 }> = ({ reward, chance, secondBG }) => {
   const { t } = useAppTranslation();
+  const now = useNow();
+  const currentChapter = getCurrentChapter(now);
   const rewards = reward.wearables
     ? Object.entries(reward.wearables)
     : reward.items
@@ -118,7 +121,7 @@ const MultipleRewardsRow: React.FC<{
               {isStoreChapterItem(rewardName) && (
                 <div className="flex items-center w-20 sm:w-40 space-x-1 pl-[15%]">
                   <img src={SUNNYSIDE.icons.stopwatch} />
-                  <p className="text-xxs">{`${getCurrentChapter()}`}</p>
+                  <p className="text-xxs">{`${currentChapter}`}</p>
                 </div>
               )}
             </div>

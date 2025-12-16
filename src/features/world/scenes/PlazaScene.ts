@@ -243,7 +243,7 @@ export class PlazaScene extends BaseScene {
 
     this.load.image("ronin_banner", "world/ronin_banner.webp");
 
-    const chapter = getCurrentChapter();
+    const chapter = getCurrentChapter(Date.now());
     // chapter = "Paw Prints"; // Testing only
     this.load.image("chapter_banner", CHAPTER_BANNERS[chapter as ChapterName]);
 
@@ -613,7 +613,7 @@ export class PlazaScene extends BaseScene {
       });
 
     // Enable/disable chapter-specific layers
-    const chapter = getCurrentChapter();
+    const chapter = getCurrentChapter(Date.now());
 
     // Testing only
     // chapter = "Paw Prints";

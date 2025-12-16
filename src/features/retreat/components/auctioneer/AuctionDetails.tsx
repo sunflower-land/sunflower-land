@@ -16,6 +16,7 @@ import classNames from "classnames";
 import { getMintedChapterLimit } from "./lib/getMintedChapterLimit";
 import { getAuctionItemType } from "./lib/getAuctionItemType";
 import { getAuctionItemDisplay } from "./lib/getAuctionItemDisplay";
+import { useNow } from "lib/utils/hooks/useNow";
 
 type Props = {
   auction: Auction;
@@ -80,6 +81,7 @@ export const AuctionDetails: React.FC<Props> = ({
   const isMintComplete = Date.now() > releaseEndDate;
 
   const { t } = useAppTranslation();
+  const now = useNow();
 
   const hasIngredients =
     getKeys(auction.ingredients).every((name) =>
@@ -93,6 +95,7 @@ export const AuctionDetails: React.FC<Props> = ({
       game.auctioneer,
       auction,
       getAuctionItemType(auction),
+      now,
     );
 
     if (chapterLimitReached) {

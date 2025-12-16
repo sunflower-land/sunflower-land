@@ -6,9 +6,8 @@ import { ADMIN_IDS } from "lib/flags";
  * Helper function to get the week number of the season
  * @returns week number of the season 1-12
  */
-export function getSeasonWeek(): SeasonWeek {
-  const now = Date.now();
-  const { startDate, endDate } = CHAPTERS[getCurrentChapter()];
+export function getSeasonWeek(now: number): SeasonWeek {
+  const { startDate, endDate } = CHAPTERS[getCurrentChapter(now)];
   const endTime = endDate.getTime();
   const startTime = startDate.getTime();
 
@@ -34,7 +33,7 @@ export function getSeasonChangeover({
   id: number;
   now?: number;
 }) {
-  const season = getCurrentChapter(new Date(now));
+  const season = getCurrentChapter(now);
 
   const tasksCloseAt = CHAPTERS[season].endDate.getTime();
 
@@ -123,7 +122,7 @@ export function getBumpkinHoliday({ now = Date.now() }: { now?: number }) {
 export function getSeasonWeekByCreatedAt(createdAt: number): SeasonWeek {
   const now = createdAt;
 
-  const season = getCurrentChapter(new Date(now));
+  const season = getCurrentChapter(now);
   const { startDate, endDate } = CHAPTERS[season];
   const endTime = endDate.getTime();
   const startTime = startDate.getTime();

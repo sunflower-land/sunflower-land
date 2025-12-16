@@ -106,7 +106,7 @@ export function sellAnimal({
       const previous = game.inventory[name] ?? new Decimal(0);
       let amount = request.items?.[name] ?? 0;
 
-      if (name === getChapterTicket(new Date(createdAt))) {
+      if (name === getChapterTicket(createdAt)) {
         amount = generateBountyTicket({
           game,
           bounty: request,

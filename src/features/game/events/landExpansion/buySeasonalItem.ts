@@ -59,7 +59,7 @@ export function buySeasonalItem({
   return produce(state, (copy) => {
     const { name, tier } = action;
 
-    const currentSeason = getCurrentChapter(new Date(createdAt));
+    const currentSeason = getCurrentChapter(createdAt);
     const seasonalStore = MEGASTORE[currentSeason];
 
     if (!seasonalStore) {
@@ -96,9 +96,18 @@ export function buySeasonalItem({
     const seasonalItemsCrafted =
       seasonalCollectiblesCrafted + seasonalWearablesCrafted;
 
-    const keyReduction = isKeyBoughtWithinSeason(state, tier, true) ? 0 : 1;
-    const boxReduction = isBoxBoughtWithinSeason(state, tier, true) ? 0 : 1;
-    const petEggReduction = isPetEggBoughtWithinSeason(state, tier, true)
+    const keyReduction = isKeyBoughtWithinSeason(state, tier, createdAt, true)
+      ? 0
+      : 1;
+    const boxReduction = isBoxBoughtWithinSeason(state, tier, createdAt, true)
+      ? 0
+      : 1;
+    const petEggReduction = isPetEggBoughtWithinSeason(
+      state,
+      tier,
+      createdAt,
+      true,
+    )
       ? 0
       : 1;
     const reduction = keyReduction + boxReduction + petEggReduction;
@@ -205,6 +214,7 @@ export function buySeasonalItem({
 export function isKeyBoughtWithinSeason(
   game: GameState,
   tier: keyof SeasonalStore,
+  now: number,
   isLowerTier = false,
 ) {
   const tierKey =
@@ -228,7 +238,7 @@ export function isKeyBoughtWithinSeason(
       game.pumpkinPlaza.keysBought?.megastore?.[tierKey as Keys]?.boughtAt;
   }
 
-  const seasonTime = CHAPTERS[getCurrentChapter()];
+  const seasonTime = CHAPTERS[getCurrentChapter(now)];
   const historyKey =
     game.farmActivity[`${tierKey as SeasonalTierItemName} Bought`];
   //If player has no history of buying keys at megastore
@@ -250,6 +260,7 @@ export function isKeyBoughtWithinSeason(
 export function isBoxBoughtWithinSeason(
   game: GameState,
   tier: keyof SeasonalStore,
+  now: number,
   isLowerTier = false,
 ) {
   const tierBox =
@@ -273,7 +284,7 @@ export function isBoxBoughtWithinSeason(
       game.pumpkinPlaza.keysBought?.megastore?.[tierBox as Keys]?.boughtAt;
   }
 
-  const seasonTime = CHAPTERS[getCurrentChapter()];
+  const seasonTime = CHAPTERS[getCurrentChapter(now)];
   const historyBox =
     game.farmActivity[`${tierBox as SeasonalTierItemName} Bought`];
 
@@ -294,6 +305,7 @@ export function isBoxBoughtWithinSeason(
 export function isPetEggBoughtWithinSeason(
   game: GameState,
   tier: keyof SeasonalStore,
+  now: number,
   isLowerTier = false,
 ) {
   const tierToEvaluate = isLowerTier ? tierMapping[tier] : tier;
@@ -316,7 +328,7 @@ export function isPetEggBoughtWithinSeason(
     return false;
   }
 
-  const seasonTime = CHAPTERS[getCurrentChapter()];
+  const seasonTime = CHAPTERS[getCurrentChapter(now)];
   const boughtDate = new Date(petEggBoughtAt);
 
   return boughtDate >= seasonTime.startDate && boughtDate <= seasonTime.endDate;

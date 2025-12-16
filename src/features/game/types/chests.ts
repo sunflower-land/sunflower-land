@@ -23,7 +23,7 @@ export const MEGASTORE_TIER_WEIGHTS: Record<keyof SeasonalStore, number> = {
   mega: 0.05,
 };
 
-const currentSeason = getCurrentChapter(new Date());
+const currentSeason = getCurrentChapter(Date.now());
 
 export const MEGASTORE_RESTRICTED_ITEMS: (InventoryItemName | BumpkinItem)[] = [
   ...Object.values(CHAPTER_TICKET_BOOST_ITEMS[currentSeason]),

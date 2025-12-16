@@ -51,11 +51,11 @@ const isFruit = (name: PatchFruitName) => name in PATCH_FRUIT;
 export function generateDeliveryTickets({
   game,
   npc,
-  now = new Date(),
+  now,
 }: {
   game: GameState;
   npc: NPCName;
-  now?: Date;
+  now: number;
 }) {
   let amount = TICKET_REWARDS[npc as QuestNPCName];
 
@@ -63,7 +63,7 @@ export function generateDeliveryTickets({
     return 0;
   }
 
-  if (hasVipAccess({ game, now: now.getTime() })) {
+  if (hasVipAccess({ game, now })) {
     amount += 2;
   }
 
@@ -385,7 +385,7 @@ export function deliverOrder({
     const tickets = generateDeliveryTickets({
       game,
       npc: order.from,
-      now: new Date(createdAt),
+      now: createdAt,
     });
     const isTicketOrder = tickets > 0;
 
@@ -478,7 +478,7 @@ export function deliverOrder({
     }
 
     if (tickets > 0) {
-      const seasonalTicket = getChapterTicket();
+      const seasonalTicket = getChapterTicket(createdAt);
 
       const count = game.inventory[seasonalTicket] || new Decimal(0);
       const amount = tickets || new Decimal(0);

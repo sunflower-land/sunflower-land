@@ -149,6 +149,7 @@ export const RewardOptions: React.FC<{ selectedButton?: RewardType }> = ({
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
   const now = useNow();
+  const chapterTicket = getChapterTicket(now);
 
   // Get daily rewards data for chest state
   const dailyRewards = useSelector(
@@ -236,7 +237,7 @@ export const RewardOptions: React.FC<{ selectedButton?: RewardType }> = ({
           <div className="relative flex-1">
             <p className="text-sm mb-1">{t("rewards.daily.title")}</p>
             <p className="text-xs">
-              {t("rewards.daily.description", { ticket: getChapterTicket() })}
+              {t("rewards.daily.description", { ticket: chapterTicket })}
             </p>
           </div>
           {hasOpenedDaily && (

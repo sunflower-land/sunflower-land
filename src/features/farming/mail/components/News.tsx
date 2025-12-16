@@ -16,7 +16,7 @@ import flowerIcon from "assets/icons/flower_token.webp";
 import redPansyIcon from "assets/flowers/red_pansy.webp";
 import { CHAPTER_TICKET_NAME, ChapterName } from "features/game/types/chapters";
 import { SEASONAL_MUTANTS } from "features/island/hud/components/codex/components/SeasonalMutants";
-import { CHAPTER_GRAPHICS } from "features/island/hud/components/codex/pages/Season";
+import { CHAPTER_GRAPHICS } from "features/island/hud/components/codex/pages/Chapter";
 
 export function hasReadNews() {
   const readAt = localStorage.getItem("newsReadAt");

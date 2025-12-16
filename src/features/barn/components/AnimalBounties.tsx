@@ -43,7 +43,8 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
   const exchange = useSelector(gameService, _exchange);
 
   const { t } = useAppTranslation();
-
+  const now = useNow();
+  const chapterTicket = getChapterTicket(now);
   const state = gameService.getSnapshot().context.state;
   const { requests = [] } = exchange;
 
@@ -138,7 +139,7 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
           <div className="flex items-center">
             <p className="text-xs">
               {t("bounties.board.ticketAmount", {
-                seasonalTicket: getChapterTicket(),
+                seasonalTicket: chapterTicket,
               })}
             </p>
           </div>
@@ -158,6 +159,7 @@ export const AnimalDeal: React.FC<{
   const state = gameState.context.state;
   const now = useNow();
   const { t } = useAppTranslation();
+  const chapterTicket = getChapterTicket(now);
 
   // Guard against transient undefined props
   if (!deal || !animal) {
@@ -199,7 +201,7 @@ export const AnimalDeal: React.FC<{
               {getKeys(deal.items ?? {}).map((name) => {
                 let amount = deal.items?.[name] ?? 0;
 
-                if (name === getChapterTicket(new Date(now))) {
+                if (name === chapterTicket) {
                   amount = generateBountyTicket({
                     game: state,
                     bounty: deal,
@@ -249,7 +251,7 @@ export const AnimalDeal: React.FC<{
                   type="warning"
                   icon={ITEM_DETAILS[name].image}
                 >
-                  {name !== getChapterTicket()
+                  {name !== chapterTicket
                     ? deal.items?.[name]
                     : generateBountyTicket({
                         game: state,
@@ -267,7 +269,7 @@ export const AnimalDeal: React.FC<{
                       .map(
                         (name) =>
                           `${
-                            name !== getChapterTicket()
+                            name !== chapterTicket
                               ? deal.items?.[name]
                               : generateBountyTicket({
                                   game: state,
@@ -367,6 +369,8 @@ const BountyCard: React.FC<BountyCardProps> = ({
   state,
 }) => {
   const { t } = useAppTranslation();
+  const now = useNow();
+  const chapterTicket = getChapterTicket(now);
 
   const isSold = !!state.bounties.completed.find(
     (request) => request.id === deal.id,
@@ -442,7 +446,7 @@ const BountyCard: React.FC<BountyCardProps> = ({
               height: "25px",
             }}
           >
-            {name !== getChapterTicket()
+            {name !== chapterTicket
               ? deal.items?.[name]
               : generateBountyTicket({
                   game: state,

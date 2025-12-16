@@ -119,7 +119,7 @@ describe("tradeFlowerShop", () => {
     });
 
     expect(
-      state.inventory[getChapterTicket(new Date(createdAt + 1))]?.toNumber(),
+      state.inventory[getChapterTicket(createdAt + 1)]?.toNumber(),
     ).toBeGreaterThanOrEqual(1);
   });
 });

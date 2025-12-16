@@ -38,6 +38,7 @@ import flowerIcon from "assets/icons/flower_token.webp";
 import { NO_BONUS_BOUNTIES_WEEK } from "features/game/events/landExpansion/claimBountyBonus";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export const MegaBountyBoard: React.FC<{ onClose: () => void }> = ({
   onClose,
@@ -67,6 +68,7 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
+  const now = useNow();
 
   const [selectedBounty, setSelectedBounty] = useState<BountyRequest>();
 
@@ -116,8 +118,8 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
 
     // Otherwise handle item rewards
     const items = bounty.items ?? {};
-    const seasonalTicket = getChapterTicket();
-    const seasonalArtefact = getChapterArtefact();
+    const seasonalTicket = getChapterTicket(now);
+    const seasonalArtefact = getChapterArtefact(now);
 
     // Calculate bounty tickets if needed
     const bountyTickets = generateBountyTicket({
@@ -149,7 +151,7 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
   );
 
   const noBonusBountiesWeek = NO_BONUS_BOUNTIES_WEEK.includes(getWeekKey());
-  const seasonalTicket = getChapterTicket();
+  const seasonalTicket = getChapterTicket(now);
 
   const handleBonusClaim = () => {
     gameService.send("claim.bountyBoardBonus");
@@ -173,6 +175,7 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
               )
             }
             readonly={readonly}
+            now={now}
           />
         </ModalOverlay>
       )}
@@ -325,7 +328,8 @@ const Deal: React.FC<{
   onSold: () => void;
   isSold: boolean;
   readonly?: boolean;
-}> = ({ bounty, onClose, onSold, isSold, readonly }) => {
+  now: number;
+}> = ({ bounty, onClose, onSold, isSold, readonly, now }) => {
   const [imageWidth, setImageWidth] = useState(0);
   const [confirmExchange, setConfirmExchange] = useState(false);
   const { t } = useAppTranslation();
@@ -440,7 +444,7 @@ const Deal: React.FC<{
                       }
                     >
                       {`Reward: ${
-                        name !== getChapterTicket()
+                        name !== getChapterTicket(now)
                           ? bounty.items?.[name]
                           : generateBountyTicket({
                               game: state,

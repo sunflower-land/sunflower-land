@@ -53,7 +53,7 @@ export function tradeFlowerShop({
     }
     game.inventory[weeklyFlower] = flowerCount.minus(1);
 
-    const seasonTicket = getChapterTicket(new Date(createdAt));
+    const seasonTicket = getChapterTicket(createdAt);
     const ticketCount = game.inventory[seasonTicket] ?? new Decimal(0);
     game.inventory[seasonTicket] = ticketCount.plus(TICKETS_REWARDED);
 

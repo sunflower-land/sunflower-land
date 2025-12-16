@@ -276,7 +276,7 @@ export function getRewardsForStreak({
     label: "Default Reward",
     items: {
       Cheer: 3,
-      [getChapterTicket(new Date(currentDate))]: 1,
+      [getChapterTicket(new Date(currentDate).getTime())]: 1,
     },
   };
 

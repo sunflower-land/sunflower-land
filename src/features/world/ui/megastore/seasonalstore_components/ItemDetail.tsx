@@ -5,7 +5,7 @@ import Decimal from "decimal.js-light";
 import { InventoryItemName, Keys } from "features/game/types/game";
 
 import { Context } from "features/game/GameProvider";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
@@ -21,6 +21,7 @@ import {
 import confetti from "canvas-confetti";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useNow } from "lib/utils/hooks/useNow";
 import {
   MEGASTORE,
   SeasonalStoreCollectible,
@@ -58,6 +59,7 @@ interface ItemOverlayProps {
 
 const _sflBalance = (state: MachineState) => state.context.state.balance;
 const _inventory = (state: MachineState) => state.context.state.inventory;
+const _state = (state: MachineState) => state.context.state;
 
 export const ItemDetail: React.FC<ItemOverlayProps> = ({
   item,
@@ -72,19 +74,14 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const { shortcutItem, gameService, showAnimations } = useContext(Context);
   const sflBalance = useSelector(gameService, _sflBalance);
   const inventory = useSelector(gameService, _inventory);
-
+  const state = useSelector(gameService, _state);
   const [imageWidth, setImageWidth] = useState<number>(0);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
   const [confirmBuy, setConfirmBuy] = useState<boolean>(false);
-  //For Discount
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
 
-  const createdAt = Date.now();
-  const currentSeason = getCurrentChapter(new Date(createdAt));
+  const now = useNow();
+  const currentSeason = getCurrentChapter(now);
+  const chapterTicket = getChapterTicket(now);
   const seasonalStore = MEGASTORE[currentSeason];
   const tiers =
     tier === "basic"
@@ -123,7 +120,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const isKey = (name: InventoryItemName): name is Keys =>
     name in ARTEFACT_SHOP_KEYS;
 
-  const reduction = isKeyBoughtWithinSeason(state, tiers, true) ? 0 : 1;
+  const reduction = isKeyBoughtWithinSeason(state, tiers, now, true) ? 0 : 1;
   const isRareUnlocked =
     tiers === "rare" &&
     seasonalItemsCrafted - reduction >= seasonalStore.rare.requirement;
@@ -135,8 +132,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     seasonalItemsCrafted - reduction >= seasonalStore.mega.requirement;
 
   const boughtAt = state.megastore?.boughtAt[itemName as Keys] ?? 0;
-  const itemInCooldown =
-    !!boughtAt && boughtAt + (item?.cooldownMs ?? 0) > createdAt;
+  const itemInCooldown = !!boughtAt && boughtAt + (item?.cooldownMs ?? 0) > now;
 
   const itemCrafted =
     state.farmActivity[`${itemName as SeasonalTierItemName} Bought`];
@@ -202,14 +198,14 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     const currency =
       item.cost.sfl !== 0
         ? "SFL"
-        : item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
+        : item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0 > 0)
           ? "Seasonal Ticket"
           : "SFL";
     const price =
       item.cost.sfl !== 0
         ? sfl
-        : item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
-          ? (item.cost?.items[getChapterTicket()] ?? 0)
+        : item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0 > 0)
+          ? (item.cost?.items[chapterTicket] ?? 0)
           : sfl;
     const itemName = isWearable
       ? ((item as SeasonalStoreWearable).wearable as BumpkinItem)
@@ -357,8 +353,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                         {t("megastore.limit", {
                           time: secondsToString(
                             itemInCooldown
-                              ? (item.cooldownMs - (createdAt - boughtAt)) /
-                                  1000
+                              ? (item.cooldownMs - (now - boughtAt)) / 1000
                               : item.cooldownMs / 1000,
                             {
                               length: "short",

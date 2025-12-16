@@ -33,7 +33,7 @@ import bud from "assets/icons/bud.png";
 import heart_air_balloon from "public/world/heart_air_balloon.webp";
 import {
   getArtefactsFound,
-  SEASONAL_ARTEFACT,
+  CHAPTER_ARTEFACT,
 } from "features/game/types/desert";
 import { getCurrentChapter } from "features/game/types/chapters";
 import { hasClaimedPetalPrize } from "features/game/events/landExpansion/claimPetalPrize";
@@ -98,7 +98,7 @@ const budBoxStatus = (state: GameState) => {
   return { hasBud, now, todayBud, playerBudTypes, hasOpened };
 };
 
-const digbyStreakStatus = (state: GameState) => {
+const digbyStreakStatus = (state: GameState, now: number) => {
   const collectedAt = state.desert.digging.streak?.collectedAt ?? 0;
   const hasClaimedDigbyReward =
     new Date().toISOString().substring(0, 10) ===
@@ -106,10 +106,10 @@ const digbyStreakStatus = (state: GameState) => {
 
   const digbyStreakCount = getStreaks({
     game: state,
-    now: Date.now(),
+    now,
   });
 
-  const artefactsFound = getArtefactsFound({ game: state });
+  const artefactsFound = getArtefactsFound({ game: state, now });
 
   return { hasClaimedDigbyReward, digbyStreakCount, artefactsFound };
 };
@@ -167,7 +167,11 @@ const minigamesStatus = (minigames: GameState["minigames"]) => {
   };
 };
 
-export const checklistCount = (state: GameState, bumpkinLevel: number) => {
+export const checklistCount = (
+  state: GameState,
+  bumpkinLevel: number,
+  now: number,
+) => {
   // Plaza Tasks
   const hasNotClaimedLoveBox = !loveIslandBoxStatus(state).hasClaimed;
 
@@ -183,7 +187,8 @@ export const checklistCount = (state: GameState, bumpkinLevel: number) => {
   };
 
   // Beach Tasks
-  const hasNotClaimedDigbyBox = !digbyStreakStatus(state).hasClaimedDigbyReward;
+  const hasNotClaimedDigbyBox = !digbyStreakStatus(state, now)
+    .hasClaimedDigbyReward;
 
   const { hasPiratePotion, hasOpenedPirateChest } = piratePotionStatus(state);
   const hasNotClaimedPirateBox = hasPiratePotion && !hasOpenedPirateChest;
@@ -520,9 +525,10 @@ const DiggingStreakContent: React.FC<{ bumpkinLevel: number }> = ({
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
+  const now = useNow();
 
   const { hasClaimedDigbyReward, digbyStreakCount, artefactsFound } =
-    digbyStreakStatus(state);
+    digbyStreakStatus(state, now);
   return (
     <RowContent
       isLocked={bumpkinLevel < 4}
@@ -567,7 +573,7 @@ const DiggingStreakContent: React.FC<{ bumpkinLevel: number }> = ({
               <Label
                 type="default"
                 secondaryIcon={
-                  ITEM_DETAILS[SEASONAL_ARTEFACT[getCurrentChapter()]].image
+                  ITEM_DETAILS[CHAPTER_ARTEFACT[getCurrentChapter(now)]].image
                 }
                 className="mr-1"
               >

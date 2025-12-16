@@ -162,69 +162,70 @@ export const CHAPTER_MARVEL_FISH: Record<ChapterName, ChapterFish> = {
   "Paw Prints": "Super Star",
 };
 
-export function getChapterMarvelFish(now = new Date()): ChapterFish {
+export function getChapterMarvelFish(now: number): ChapterFish {
   const currentChapter = getCurrentChapter(now);
 
   return CHAPTER_MARVEL_FISH[currentChapter];
 }
 
-export function getCurrentChapter(now = new Date()): ChapterName {
+export function getCurrentChapter(now: number): ChapterName {
   const chapters = getKeys(CHAPTERS);
+  const nowDate = new Date(now);
 
   const currentChapter = chapters.find((chapter) => {
     const { startDate, endDate } = CHAPTERS[chapter];
 
-    return now >= startDate && now < endDate;
+    return nowDate >= startDate && nowDate < endDate;
   });
 
   if (!currentChapter) {
-    throw new Error("No Season found");
+    throw new Error("No Chapter found");
   }
 
   return currentChapter;
 }
 
-export function getChapterTicket(now = new Date()): ChapterTicket {
+export function getChapterTicket(now: number): ChapterTicket {
   const currentChapter = getCurrentChapter(now);
 
   return CHAPTER_TICKET_NAME[currentChapter];
 }
 
-export function getChapterArtefact(now = new Date()) {
+export function getChapterArtefact(now: number) {
   const currentChapter = getCurrentChapter(now);
 
   return CHAPTER_ARTEFACT_NAME[currentChapter];
 }
 
-export function getChapterBanner(now = new Date()): ChapterBanner {
-  const currentSeason = getCurrentChapter(now);
+export function getChapterBanner(now: number): ChapterBanner {
+  const currentChapter = getCurrentChapter(now);
 
-  return `${currentSeason} Banner`;
+  return `${currentChapter} Banner`;
 }
 
-export function secondsLeftInSeason() {
-  const season = getCurrentChapter();
+export function secondsLeftInChapter(now: number) {
+  const chapter = getCurrentChapter(now);
 
-  const times = CHAPTERS[season];
+  const times = CHAPTERS[chapter];
 
-  const secondsLeft = (times.endDate.getTime() - Date.now()) / 1000;
+  const secondsLeft = (times.endDate.getTime() - now) / 1000;
 
   return secondsLeft;
 }
 
-export function hasSeasonStarted(season: ChapterName, now = Date.now()) {
-  return now >= CHAPTERS[season].startDate.getTime();
+export function hasChapterStarted(chapter: ChapterName, now: number) {
+  return now >= CHAPTERS[chapter].startDate.getTime();
 }
 
-export function hasSeasonEnded(season: ChapterName, now = Date.now()) {
-  return now >= CHAPTERS[season].endDate.getTime();
+export function hasChapterEnded(chapter: ChapterName, now: number) {
+  return now >= CHAPTERS[chapter].endDate.getTime();
 }
 
-export function getSeasonByBanner(banner: ChapterBanner): ChapterName {
+export function getChapterByBanner(banner: ChapterBanner): ChapterName {
   return CHAPTER_BANNERS[banner];
 }
 
-export function getSeasonalBannerImage() {
+export function getChapterBannerImage(now: number) {
   const banners: Record<ChapterBanner, string> = {
     "Solar Flare Banner": solarFlareBanner,
     "Dawn Breaker Banner": dawnBreakerBanner,
@@ -239,28 +240,28 @@ export function getSeasonalBannerImage() {
     "Better Together Banner": betterTogetherBanner,
     "Paw Prints Banner": pawPrintsBanner,
   };
-  return banners[getChapterBanner()];
+  return banners[getChapterBanner(now)];
 }
 
-function getPreviousSeason(now = new Date()): ChapterName {
-  const currentSeason = getCurrentChapter(now);
-  const startDateOfCurrentSeason = CHAPTERS[currentSeason].startDate;
+function getPreviousChapter(now: number): ChapterName {
+  const currentChapter = getCurrentChapter(now);
+  const startDateOfCurrentChapter = CHAPTERS[currentChapter].startDate;
 
-  // Find the season where the end date matches the start date of the current season
-  const previousSeason = getObjectEntries(CHAPTERS).find(
+  // Find the chapter where the end date matches the start date of the current chapter
+  const previousChapter = getObjectEntries(CHAPTERS).find(
     ([, { endDate }]) =>
-      endDate.getTime() === startDateOfCurrentSeason.getTime(),
+      endDate.getTime() === startDateOfCurrentChapter.getTime(),
   );
 
-  if (!previousSeason) {
+  if (!previousChapter) {
     throw new Error("No previous banner found");
   }
 
-  return previousSeason[0];
+  return previousChapter[0];
 }
 
-export function getPreviousSeasonalBanner(now = new Date()): ChapterBanner {
-  const previousSeason = getPreviousSeason(now);
+export function getPreviousChapterBanner(now: number): ChapterBanner {
+  const previousChapter = getPreviousChapter(now);
 
-  return `${previousSeason} Banner`;
+  return `${previousChapter} Banner`;
 }

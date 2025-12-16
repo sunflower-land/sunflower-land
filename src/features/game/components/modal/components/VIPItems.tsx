@@ -96,6 +96,8 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
   };
 
   const vipExpiresAt = getExpiresAt();
+  const chapterTicket = getChapterTicket(now);
+  const currentChapter = getCurrentChapter(now);
 
   return (
     <>
@@ -266,7 +268,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
             { text: t("vip.benefit.stellaDiscounts"), icon: shopIcon },
             {
               text: t("vip.benefit.bonusDelivery"),
-              icon: ITEM_DETAILS[getChapterTicket()].image,
+              icon: ITEM_DETAILS[chapterTicket].image,
             },
             {
               text: t("vip.benefit.reputation", {
@@ -275,7 +277,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
               icon: increaseArrow,
             },
             { text: t("vip.benefit.competition"), icon: trophyIcon },
-            ...(getCurrentChapter() === "Paw Prints"
+            ...(currentChapter === "Paw Prints"
               ? [
                   {
                     text: t("vip.benefit.bonusPetEnergy"),

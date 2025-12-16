@@ -79,7 +79,7 @@ export function getPetEnergy({
   // To remove after current chapter
   if (
     hasVipAccess({ game, now: createdAt }) &&
-    getCurrentChapter(new Date(createdAt)) === "Paw Prints"
+    getCurrentChapter(createdAt) === "Paw Prints"
   ) {
     energy += 5;
   }

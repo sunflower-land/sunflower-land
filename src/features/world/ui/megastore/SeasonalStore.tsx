@@ -90,25 +90,18 @@ export const SeasonalStore: React.FC<{
     setSelectedItem(item);
     setSelectedTier(tier);
   };
-  const getTotalSecondsAvailable = () => {
-    const { startDate, endDate } = CHAPTERS[getCurrentChapter()];
-
-    return (endDate.getTime() - startDate.getTime()) / 1000;
-  };
-
-  const now = useNow({
-    live: true,
-    autoEndAt: CHAPTERS[getCurrentChapter()].endDate.getTime(),
-  });
+  const now = useNow({ live: true });
+  const currentSeason = getCurrentChapter(now);
+  const { startDate, endDate } = CHAPTERS[currentSeason];
+  const totalSecondsAvailable =
+    (endDate.getTime() - startDate.getTime()) / 1000;
 
   const timeRemaining = getTimeLeft(
-    CHAPTERS[getCurrentChapter()].startDate.getTime(),
-    getTotalSecondsAvailable(),
+    startDate.getTime(),
+    totalSecondsAvailable,
     now,
   );
   const { t } = useAppTranslation();
-
-  const currentSeason = getCurrentChapter();
 
   // Basic-Epic
   const basicAllItems = MEGASTORE[currentSeason].basic.items;

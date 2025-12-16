@@ -344,19 +344,19 @@ export const INITIAL_CHORE_BOARD: ChoreBoard = {
   chores: {
     "pumpkin' pete": {
       name: "CHOP_1_TREE",
-      reward: { items: { [getChapterTicket()]: 1 } },
+      reward: { items: { [getChapterTicket(Date.now())]: 1 } },
       initialProgress: 0,
       startedAt: Date.now(),
     },
     betty: {
       name: "CHOP_2_TREE",
-      reward: { items: { [getChapterTicket()]: 2 } },
+      reward: { items: { [getChapterTicket(Date.now())]: 2 } },
       initialProgress: 0,
       startedAt: Date.now(),
     },
     finley: {
       name: "CHOP_1_TREE",
-      reward: { items: { [getChapterTicket()]: 2 } },
+      reward: { items: { [getChapterTicket(Date.now())]: 2 } },
       initialProgress: 0,
       startedAt: Date.now(),
     },

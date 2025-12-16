@@ -1,5 +1,5 @@
 import { translate } from "lib/i18n/translate";
-import { hasSeasonEnded, CHAPTERS } from "./chapters";
+import { CHAPTERS, hasChapterEnded } from "./chapters";
 
 export type BeachBountyTreasure =
   | "Pirate Bounty"
@@ -167,47 +167,23 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
     "Cow Skull": {
       sellPrice: 200,
       description: translate("description.cowSkull"),
-      ...(hasSeasonEnded("Bull Run")
-        ? {}
-        : {
-            from: CHAPTERS["Bull Run"].startDate,
-            to: CHAPTERS["Bull Run"].endDate,
-          }),
     },
     "Ancient Clock": {
       description: "",
       sellPrice: 200,
-      ...(hasSeasonEnded("Winds of Change")
-        ? {}
-        : {
-            from: CHAPTERS["Winds of Change"].startDate,
-            to: CHAPTERS["Winds of Change"].endDate,
-          }),
     },
     "Broken Pillar": {
       sellPrice: 200,
       description: "",
-      ...(hasSeasonEnded("Great Bloom")
-        ? {}
-        : {
-            from: CHAPTERS["Great Bloom"].startDate,
-            to: CHAPTERS["Great Bloom"].endDate,
-          }),
     },
     Coprolite: {
       sellPrice: 200,
       description: "",
-      ...(hasSeasonEnded("Better Together")
-        ? {}
-        : {
-            from: CHAPTERS["Better Together"].startDate,
-            to: CHAPTERS["Better Together"].endDate,
-          }),
     },
     "Moon Crystal": {
       sellPrice: 200,
       description: "",
-      ...(hasSeasonEnded("Paw Prints")
+      ...(hasChapterEnded("Paw Prints", Date.now())
         ? {}
         : {
             from: CHAPTERS["Paw Prints"].startDate,

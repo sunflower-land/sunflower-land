@@ -78,9 +78,8 @@ export function claimBountyBonus({
     }
 
     // Claim bonus
-    inventory[getChapterTicket()] = (
-      inventory[getChapterTicket()] ?? new Decimal(0)
-    ).add(50);
+    const ticket = getChapterTicket(createdAt);
+    inventory[ticket] = (inventory[ticket] ?? new Decimal(0)).add(50);
     bounties.bonusClaimedAt = createdAt;
 
     return draft;

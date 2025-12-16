@@ -32,6 +32,7 @@ import {
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   itemsLabel?: string;
@@ -49,6 +50,9 @@ export const ItemsList: React.FC<Props> = ({
   onItemClick,
 }) => {
   const { gameService } = useContext(Context);
+  const now = useNow();
+  const chapterTicket = getChapterTicket(now);
+  const chapterArtefact = getChapterArtefact(now);
 
   //For Discount
   const [
@@ -102,11 +106,10 @@ export const ItemsList: React.FC<Props> = ({
     if (item.cost.sfl !== 0) return token;
 
     const currencyItem =
-      item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
-        ? getChapterTicket()
-        : item.cost.sfl === 0 &&
-            (item.cost?.items[getChapterArtefact()] ?? 0 > 0)
-          ? getChapterArtefact()
+      item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0 > 0)
+        ? chapterTicket
+        : item.cost.sfl === 0 && (item.cost?.items[chapterArtefact] ?? 0 > 0)
+          ? chapterArtefact
           : Object.keys(item.cost.items)[0];
 
     return ITEM_DETAILS[currencyItem as InventoryItemName].image;
@@ -117,9 +120,9 @@ export const ItemsList: React.FC<Props> = ({
       return shortenCount(SFLDiscount(state, new Decimal(item.cost.sfl)));
 
     const currency =
-      item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
-        ? getChapterTicket()
-        : getChapterArtefact();
+      item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0 > 0)
+        ? chapterTicket
+        : chapterArtefact;
     const currencyItem =
       item.cost.sfl === 0 && (item.cost?.items[currency] ?? 0 > 0)
         ? item.cost?.items[currency]

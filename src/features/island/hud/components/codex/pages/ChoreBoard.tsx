@@ -36,6 +36,7 @@ import { CHORE_DIALOGUES } from "features/game/types/stories";
 import { isMobile } from "mobile-device-detect";
 import { Context } from "features/game/GameProvider";
 import { formatNumber } from "lib/utils/formatNumber";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   state: GameState;
@@ -44,6 +45,7 @@ interface Props {
 export const ChoreBoard: React.FC<Props> = ({ state }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
+  const now = useNow();
 
   const [selectedId, setSelectedId] = useState<NPCName>();
 
@@ -103,7 +105,7 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
 
         <p className="text-xs mb-2 px-2">
           {t("chores.completeChoresToEarn", {
-            seasonalTicket: getChapterTicket(),
+            seasonalTicket: getChapterTicket(now),
           })}
         </p>
 
@@ -360,14 +362,17 @@ export const ChoreRewardLabel: React.FC<{
   chore: NpcChore;
   state: GameState;
 }> = ({ chore, state }) => {
-  if (chore.reward.items[getChapterTicket()]) {
+  const now = useNow();
+  const ticket = getChapterTicket(now);
+
+  if (chore.reward.items[ticket]) {
     return (
-      <Label type={"warning"} icon={ITEM_DETAILS[getChapterTicket()].image}>
+      <Label type={"warning"} icon={ITEM_DETAILS[ticket].image}>
         {generateChoreRewards({
           game: state,
           chore,
           now: new Date(),
-        })[getChapterTicket()] ?? 0}
+        })[ticket] ?? 0}
       </Label>
     );
   }

@@ -44,6 +44,7 @@ import {
   isPetEggBoughtWithinSeason,
 } from "features/game/events/landExpansion/buySeasonalItem";
 import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   itemsLabel?: string;
@@ -61,6 +62,9 @@ export const ItemsList: React.FC<Props> = ({
   onItemClick,
 }) => {
   const { gameService } = useContext(Context);
+  const now = useNow();
+  const chapterTicket = getChapterTicket(now);
+  const chapterArtefact = getChapterArtefact(now);
 
   //For Discount
   const [
@@ -122,11 +126,10 @@ export const ItemsList: React.FC<Props> = ({
     if (item.cost.sfl !== 0) return token;
 
     const currencyItem =
-      item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
-        ? getChapterTicket()
-        : item.cost.sfl === 0 &&
-            (item.cost?.items[getChapterArtefact()] ?? 0 > 0)
-          ? getChapterArtefact()
+      item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0 > 0)
+        ? chapterTicket
+        : item.cost.sfl === 0 && (item.cost?.items[chapterArtefact] ?? 0 > 0)
+          ? chapterArtefact
           : Object.keys(item.cost.items)[0];
 
     return ITEM_DETAILS[currencyItem as InventoryItemName].image;
@@ -137,9 +140,9 @@ export const ItemsList: React.FC<Props> = ({
       return shortenCount(SFLDiscount(state, new Decimal(item.cost.sfl)));
 
     const currency =
-      item.cost.sfl === 0 && (item.cost?.items[getChapterTicket()] ?? 0 > 0)
-        ? getChapterTicket()
-        : getChapterArtefact();
+      item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0 > 0)
+        ? chapterTicket
+        : chapterArtefact;
     const currencyItem =
       item.cost.sfl === 0 && (item.cost?.items[currency] ?? 0 > 0)
         ? item.cost?.items[currency]
@@ -149,7 +152,7 @@ export const ItemsList: React.FC<Props> = ({
 
     return currencyItem;
   };
-  const currentSeason = getCurrentChapter();
+  const currentSeason = getCurrentChapter(now);
   const seasonalStore = MEGASTORE[currentSeason];
   const tiers = tier;
 
@@ -186,14 +189,14 @@ export const ItemsList: React.FC<Props> = ({
     name in FLOWER_BOXES;
 
   // For Current Tier Key - Unlocked(0) / Locked(1)
-  const isKeyCounted = isKeyBoughtWithinSeason(state, tiers) ? 0 : 1;
+  const isKeyCounted = isKeyBoughtWithinSeason(state, tiers, now) ? 0 : 1;
   // For Current Tier Box - Unlocked(0) / Locked(1)
-  const isBoxCounted = isBoxBoughtWithinSeason(state, tiers) ? 0 : 1;
+  const isBoxCounted = isBoxBoughtWithinSeason(state, tiers, now) ? 0 : 1;
 
   // Reduction is by getting the lower tier of current tier
-  const keyReduction = isKeyBoughtWithinSeason(state, tiers, true) ? 0 : 1; // Reduction is by getting the lower tier of current tier
-  const boxReduction = isBoxBoughtWithinSeason(state, tiers, true) ? 0 : 1; // Reduction is by getting the lower tier of current tier
-  const petEggReduction = isPetEggBoughtWithinSeason(state, tiers, true)
+  const keyReduction = isKeyBoughtWithinSeason(state, tiers, now, true) ? 0 : 1; // Reduction is by getting the lower tier of current tier
+  const boxReduction = isBoxBoughtWithinSeason(state, tiers, now, true) ? 0 : 1; // Reduction is by getting the lower tier of current tier
+  const petEggReduction = isPetEggBoughtWithinSeason(state, tiers, now, true)
     ? 0
     : 1;
   const reduction = keyReduction + boxReduction + petEggReduction;

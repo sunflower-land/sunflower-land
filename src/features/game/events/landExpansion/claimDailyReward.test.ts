@@ -63,9 +63,7 @@ describe("claimDailyReward", () => {
     expect(state.inventory["Carrot Seed"]).toEqual(new Decimal(20));
     expect(state.coins).toBe(50);
     expect(state.inventory["Cheer"]).toEqual(new Decimal(3));
-    expect(state.inventory[getChapterTicket(new Date(now))]).toEqual(
-      new Decimal(1),
-    );
+    expect(state.inventory[getChapterTicket(now)]).toEqual(new Decimal(1));
   });
   it("keeps streak for first 7 days even if a day is missed", () => {
     const now = new Date("2025-01-10T05:00:00.000Z").getTime();
@@ -122,9 +120,7 @@ describe("claimDailyReward", () => {
     expect(state.inventory["Weekly Mega Box"]).toEqual(new Decimal(1));
     expect(state.inventory["Gem"]).toEqual(new Decimal(50 + 20)); // 20 initial + 50 reward
     expect(state.inventory["Cheer"]).toEqual(new Decimal(3));
-    expect(state.inventory[getChapterTicket(new Date(now))]).toEqual(
-      new Decimal(1),
-    );
+    expect(state.inventory[getChapterTicket(now)]).toEqual(new Decimal(1));
   });
 
   it("resets streak after onboarding when a day is missed", () => {
@@ -182,9 +178,7 @@ describe("claimDailyReward", () => {
     expect(state.dailyRewards?.streaks).toBe(5);
     expect(state.buffs?.["Power hour"]).toBeDefined();
     expect(state.inventory["Cheer"]).toEqual(new Decimal(3));
-    expect(state.inventory[getChapterTicket(new Date(now))]).toEqual(
-      new Decimal(1),
-    );
+    expect(state.inventory[getChapterTicket(now)]).toEqual(new Decimal(1));
   });
 
   it("scales weekly tool rewards with higher level", () => {
@@ -315,9 +309,7 @@ describe("claimDailyReward", () => {
     expect(state.inventory["Rare Key"]).toEqual(new Decimal(1));
     expect(state.inventory["Cheer"]).toEqual(new Decimal(3));
     expect(state.inventory["Luxury Key"]).toEqual(new Decimal(1));
-    expect(state.inventory[getChapterTicket(new Date(now))]).toEqual(
-      new Decimal(1),
-    );
+    expect(state.inventory[getChapterTicket(now)]).toEqual(new Decimal(1));
   });
   it("should claim day 730", () => {
     const now = new Date("2025-01-01T05:00:00.000Z").getTime();
@@ -348,8 +340,6 @@ describe("claimDailyReward", () => {
     expect(state.inventory["Gem"]).toEqual(new Decimal(320));
     expect(state.inventory["Cheer"]).toEqual(new Decimal(3));
     expect(state.inventory["Luxury Key"]).toEqual(new Decimal(1));
-    expect(state.inventory[getChapterTicket(new Date(now))]).toEqual(
-      new Decimal(1),
-    );
+    expect(state.inventory[getChapterTicket(now)]).toEqual(new Decimal(1));
   });
 });

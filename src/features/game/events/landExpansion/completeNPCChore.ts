@@ -185,13 +185,14 @@ export function generateChoreRewards({
 }) {
   const items = Object.assign({}, chore.reward.items) ?? {};
 
-  if (!items[getChapterTicket(now)]) return items;
-  let amount = items[getChapterTicket(now)] ?? 0;
+  const ticket = getChapterTicket(now.getTime());
+  if (!items[ticket]) return items;
+  let amount = items[ticket] ?? 0;
 
   if (hasVipAccess({ game, now: now.getTime() })) {
     amount += 2;
   }
-  const chapter = getCurrentChapter(now);
+  const chapter = getCurrentChapter(now.getTime());
   const chapterBoost = CHAPTER_TICKET_BOOST_ITEMS[chapter];
 
   Object.values(chapterBoost).forEach((item) => {
@@ -206,7 +207,7 @@ export function generateChoreRewards({
     }
   });
 
-  items[getChapterTicket(now)] = amount;
+  items[ticket] = amount;
 
   return items;
 }

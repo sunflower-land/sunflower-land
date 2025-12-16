@@ -10,7 +10,7 @@ import chefHat from "assets/icons/chef_hat.png";
 import baits from "assets/composters/baits.png";
 import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
-import { getCurrentChapter, getChapterTicket, CHAPTERS } from "./chapters";
+import { getChapterTicket, CHAPTERS } from "./chapters";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 import { isCollectible } from "../events/landExpansion/garbageSold";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
@@ -1014,26 +1014,25 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
   ],
   ...SPECIAL_ITEM_LABELS,
   ...Object.fromEntries(
-    getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)
-      .filter(([chapter]) => getCurrentChapter() === chapter)
-      .flatMap(([chapter, items]) => {
-        const ticket = getChapterTicket(new Date(CHAPTERS[chapter].startDate));
-        const translationKey =
-          `description.bonus${ticket.replace(/\s+/g, "")}.boost` as TranslationKeys;
+    getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS).flatMap(([chapter, items]) => {
+      const chapterStart = CHAPTERS[chapter].startDate.getTime();
+      const ticket = getChapterTicket(chapterStart);
+      const translationKey =
+        `description.bonus${ticket.replace(/\s+/g, "")}.boost` as TranslationKeys;
 
-        return Object.values(items)
-          .filter((item) => !isCollectible(item))
-          .map((item) => [
-            item,
-            [
-              {
-                shortDescription: translate(translationKey),
-                labelType: "success",
-                boostTypeIcon: powerup,
-                boostedItemIcon: ITEM_DETAILS[ticket].image,
-              },
-            ],
-          ]);
-      }),
+      return Object.values(items)
+        .filter((item) => !isCollectible(item))
+        .map((item) => [
+          item,
+          [
+            {
+              shortDescription: translate(translationKey),
+              labelType: "success",
+              boostTypeIcon: powerup,
+              boostedItemIcon: ITEM_DETAILS[ticket].image,
+            },
+          ],
+        ]);
+    }),
   ),
 };

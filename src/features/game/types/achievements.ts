@@ -599,7 +599,8 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Seasoned Farmer": {
     description: translate("seasonedFarmer.description"),
     progress: (gameState: GameState) => {
-      return gameState.inventory[getChapterTicket()]?.toNumber() ?? 0;
+      const ticket = getChapterTicket(Date.now());
+      return gameState.inventory[ticket]?.toNumber() ?? 0;
     },
     requirement: 50,
     coins: 0,

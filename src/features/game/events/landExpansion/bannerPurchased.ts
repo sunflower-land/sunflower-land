@@ -4,9 +4,9 @@ import {
   CHAPTER_BANNERS,
   CHAPTERS,
   ChapterBanner,
-  getPreviousSeasonalBanner,
-  getSeasonByBanner,
   getChapterBanner,
+  getChapterByBanner,
+  getPreviousChapterBanner,
 } from "features/game/types/chapters";
 import { produce } from "immer";
 
@@ -19,7 +19,6 @@ type Options = {
   state: Readonly<GameState>;
   action: PurchaseBannerAction;
   createdAt?: number;
-  farmId?: number;
 };
 
 export function getBannerPrice(
@@ -27,7 +26,6 @@ export function getBannerPrice(
   hasPreviousBanner: boolean,
   hasLifetimeBanner: boolean,
   createdAt: number,
-  farmId?: number,
 ): Decimal {
   const lifeTimePrice = 740 * BB_TO_GEM_RATIO;
 
@@ -37,7 +35,7 @@ export function getBannerPrice(
 
   if (hasLifetimeBanner) return new Decimal(0);
 
-  const season = getSeasonByBanner(banner);
+  const season = getChapterByBanner(banner);
   const seasonStartDate = CHAPTERS[season].startDate;
 
   const WEEK = 1000 * 60 * 60 * 24 * 7;
@@ -63,7 +61,6 @@ export function purchaseBanner({
   state,
   action,
   createdAt = Date.now(),
-  farmId,
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const { bumpkin, inventory } = stateCopy;
@@ -99,14 +96,14 @@ export function purchaseBanner({
       throw new Error("You already have this banner");
     }
 
-    const seasonBanner = getChapterBanner(new Date(createdAt));
+    const seasonBanner = getChapterBanner(createdAt);
     if (action.name !== seasonBanner) {
       throw new Error(
         `Attempt to purchase ${action.name} in ${seasonBanner} Season`,
       );
     }
 
-    const previousBanner = getPreviousSeasonalBanner(new Date(createdAt));
+    const previousBanner = getPreviousChapterBanner(createdAt);
     const hasPreviousBanner = (inventory[previousBanner] ?? new Decimal(0)).gt(
       0,
     );
@@ -119,7 +116,6 @@ export function purchaseBanner({
       hasPreviousBanner,
       hasLifetimeBanner,
       createdAt,
-      farmId,
     );
 
     if (currentBlockBucks.lessThan(price)) {

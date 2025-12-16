@@ -10,12 +10,7 @@ import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
-import {
-  getCurrentChapter,
-  getChapterTicket,
-  hasSeasonEnded,
-  CHAPTERS,
-} from "./chapters";
+import { getChapterTicket, CHAPTERS } from "./chapters";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "../events/landExpansion/completeNPCChore";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { isCollectible } from "../events/landExpansion/garbageSold";
@@ -1340,30 +1335,6 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: SUNNYSIDE.resource.stone,
     },
   ],
-  Igloo: () => [
-    ...(hasSeasonEnded("Winds of Change")
-      ? []
-      : ([
-          {
-            shortDescription: translate("description.bonusTimeshard.boost"),
-            labelType: "success",
-            boostTypeIcon: powerup,
-            boostedItemIcon: ITEM_DETAILS.Timeshard.image,
-          },
-        ] as BuffLabel[])),
-  ],
-  Hammock: () => [
-    ...(hasSeasonEnded("Winds of Change")
-      ? []
-      : ([
-          {
-            shortDescription: translate("description.bonusTimeshard.boost"),
-            labelType: "success",
-            boostTypeIcon: powerup,
-            boostedItemIcon: ITEM_DETAILS.Timeshard.image,
-          },
-        ] as BuffLabel[])),
-  ],
 
   Mammoth: () => [
     {
@@ -1998,26 +1969,24 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   ],
 
   ...Object.fromEntries(
-    getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)
-      .filter(([chapter]) => getCurrentChapter() === chapter)
-      .flatMap(([chapter, items]) => {
-        const ticket = getChapterTicket(new Date(CHAPTERS[chapter].startDate));
-        const translationKey =
-          `description.bonus${ticket.replace(/\s+/g, "")}.boost` as TranslationKeys;
+    getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS).flatMap(([chapter, items]) => {
+      const ticket = getChapterTicket(CHAPTERS[chapter].startDate.getTime());
+      const translationKey =
+        `description.bonus${ticket.replace(/\s+/g, "")}.boost` as TranslationKeys;
 
-        return Object.values(items)
-          .filter(isCollectible)
-          .map((item) => [
-            item,
-            [
-              {
-                shortDescription: translate(translationKey),
-                labelType: "success",
-                boostTypeIcon: powerup,
-                boostedItemIcon: ITEM_DETAILS[ticket].image,
-              },
-            ],
-          ]);
-      }),
+      return Object.values(items)
+        .filter(isCollectible)
+        .map((item) => [
+          item,
+          [
+            {
+              shortDescription: translate(translationKey),
+              labelType: "success",
+              boostTypeIcon: powerup,
+              boostedItemIcon: ITEM_DETAILS[ticket].image,
+            },
+          ],
+        ]);
+    }),
   ),
 };

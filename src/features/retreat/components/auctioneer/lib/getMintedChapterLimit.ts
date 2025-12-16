@@ -11,8 +11,9 @@ export function getMintedChapterLimit(
   auctioneer: Auctioneer,
   auction: Auction,
   item: InventoryItemName | BumpkinItem | AuctionNFT,
+  now: number,
 ) {
-  const currentChapter = getCurrentChapter();
+  const currentChapter = getCurrentChapter(now);
   const { chapterLimit } = auction;
 
   const countMinted = auctioneer.minted?.[currentChapter]?.[item] ?? 0;

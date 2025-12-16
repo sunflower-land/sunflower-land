@@ -126,6 +126,7 @@ export const DeliveryOrders: React.FC<Props> = ({
   const [isRevealing, setIsRevealing] = useState(false);
 
   const now = useNow({ live: true });
+  const chapterTicket = getChapterTicket(now);
 
   const orders = delivery.orders
     .filter((order) => now >= order.readyAt)
@@ -270,10 +271,10 @@ export const DeliveryOrders: React.FC<Props> = ({
           <div className="flex justify-between items-center">
             <Label
               type="default"
-              icon={ITEM_DETAILS[getChapterTicket()].image}
+              icon={ITEM_DETAILS[chapterTicket].image}
               className="mb-2"
             >
-              {getChapterTicket()}
+              {chapterTicket}
             </Label>
             {isHoliday && (
               <Label type="formula" icon={lock} className="mt-1">
@@ -285,7 +286,7 @@ export const DeliveryOrders: React.FC<Props> = ({
           {level <= 8 && (
             <span className="text-xs mb-2">
               {t("bumpkin.delivery.earnTickets", {
-                ticket: getChapterTicket(),
+                ticket: chapterTicket,
               })}
             </span>
           )}
@@ -527,7 +528,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                           ? SUNNYSIDE.ui.coinsImg
                           : previewOrder.reward.sfl
                             ? token
-                            : ITEM_DETAILS[getChapterTicket()].image
+                            : ITEM_DETAILS[chapterTicket].image
                       }
                       width={7}
                     />
@@ -539,13 +540,14 @@ export const DeliveryOrders: React.FC<Props> = ({
                         generateDeliveryTickets({
                           game: state,
                           npc: previewOrder.from,
+                          now,
                         }) || makeRewardAmountForLabel(previewOrder)
                       } ${
                         previewOrder.reward.coins
                           ? t("coins")
                           : previewOrder.reward.sfl
                             ? "FLOWER"
-                            : getChapterTicket()
+                            : chapterTicket
                       }`}
                     </span>
                   </Label>
@@ -631,6 +633,7 @@ export const DeliveryOrders: React.FC<Props> = ({
             !!generateDeliveryTickets({
               game: state,
               npc: previewOrder.from,
+              now,
             }) && (
               <Label
                 type="danger"

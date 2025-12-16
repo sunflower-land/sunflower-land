@@ -20,6 +20,7 @@ import {
 } from "features/game/types/stylist";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useNow } from "lib/utils/hooks/useNow";
 import { secondsToString } from "lib/utils/time";
 import React, { useState, useContext, useEffect } from "react";
 
@@ -58,6 +59,8 @@ export const WardrobeWearables: React.FC = () => {
   const state = useSelector(gameService, (state) => state.context.state);
   const { inventory, coins, wardrobe } = state;
   const [isTimeout, setTimeout] = useState(false);
+  const now = useNow();
+  const ticket = getChapterTicket(now);
 
   const wearable = STYLIST_WEARABLES[selected] as StylistWearable; // Add type assertion to StylistWearable
 
@@ -88,10 +91,10 @@ export const WardrobeWearables: React.FC = () => {
       });
     }
 
-    if (wearable.ingredients[getChapterTicket()]) {
+    if (wearable.ingredients[ticket]) {
       gameAnalytics.trackSink({
         currency: "Seasonal Ticket",
-        amount: wearable.ingredients[getChapterTicket()]?.toNumber() ?? 1,
+        amount: wearable.ingredients[ticket]?.toNumber() ?? 1,
         item: selected,
         type: "Wearable",
       });

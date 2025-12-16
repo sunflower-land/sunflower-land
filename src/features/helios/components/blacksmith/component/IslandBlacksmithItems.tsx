@@ -34,6 +34,7 @@ import { GameState } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import helpIcon from "assets/icons/help.webp";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const PROJECTS: WorkbenchMonumentName[] = [
   "Basic Cooking Pot",
@@ -116,6 +117,8 @@ export const IslandBlacksmithItems: React.FC = () => {
   >("Basic Scarecrow");
   const { gameService, shortcutItem } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
+  const now = useNow();
+  const ticket = getChapterTicket(now);
   const inventory = useSelector(
     gameService,
     (state) => state.context.state.inventory,
@@ -184,12 +187,10 @@ export const IslandBlacksmithItems: React.FC = () => {
       event: `Crafting:Collectible:${selectedName}${count}`,
     });
 
-    if ((selectedItem?.ingredients ?? {})[getChapterTicket()]) {
+    if ((selectedItem?.ingredients ?? {})[ticket]) {
       gameAnalytics.trackSink({
         currency: "Seasonal Ticket",
-        amount:
-          (selectedItem?.ingredients ?? {})[getChapterTicket()]?.toNumber() ??
-          1,
+        amount: (selectedItem?.ingredients ?? {})[ticket]?.toNumber() ?? 1,
         item: selectedName,
         type: "Collectible",
       });
