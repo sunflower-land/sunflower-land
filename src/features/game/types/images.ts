@@ -1118,6 +1118,7 @@ import { SELLABLE_TREASURE } from "./treasure";
 import { TREASURE_COLLECTIBLE_ITEM } from "./collectibles";
 import { ANIMAL_FOODS } from "./animals";
 import { hasSeasonEnded } from "./seasons";
+import { PROCESSED_FOODS } from "./processedFood";
 
 export interface ItemDetails {
   description: string;
@@ -3428,18 +3429,15 @@ export const ITEM_DETAILS: Items = {
   },
   "Fish Flake": {
     image: SUNNYSIDE.icons.expression_confused,
-    description:
-      "A processed fish ingredient with many benefits but the most important is guaranteeing catches.",
+    description: PROCESSED_FOODS["Fish Flake"].description,
   },
   "Fish Stick": {
     image: SUNNYSIDE.icons.expression_confused,
-    description:
-      "A sturdy processed fish ingredient with many benefits but the most important is guaranteeing catches.",
+    description: PROCESSED_FOODS["Fish Stick"].description,
   },
   "Fish Oil": {
     image: SUNNYSIDE.icons.expression_confused,
-    description:
-      "A refined fish ingredient with many benefits but the most important is guaranteeing catches.",
+    description: PROCESSED_FOODS["Fish Oil"].description,
   },
   "Sprout Mix": {
     boostedDescriptions: [
