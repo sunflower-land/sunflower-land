@@ -217,34 +217,21 @@ export function getPriceHistory({
   // Sort by most recent date first
   dates.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-  // For any dates that have no price, use the next older date's price
-  // Since array is sorted newest-first, we iterate backwards from oldest to newest
-  for (let i = dates.length - 2; i >= 0; i--) {
-    if (dates[i].low === 0) {
-      dates[i].low = dates[i + 1].low;
-      dates[i].high = dates[i + 1].high;
-    }
-  }
-
-  // If the first trade in the window is recent, the oldest dates can still be 0.
-  // Backfill any remaining oldest zeros using the oldest known non-zero price.
-  let oldestKnownNonZeroIndex = -1;
+  // For any dates that have no price, use the next older *non-zero* date's price.
+  // Since array is sorted newest-first, we iterate from oldest -> newest and carry
+  // forward the last known non-zero price to avoid propagating zeros.
+  let lastNonZeroLow = 0;
+  let lastNonZeroHigh = 0;
   for (let i = dates.length - 1; i >= 0; i--) {
     if (dates[i].low > 0) {
-      oldestKnownNonZeroIndex = i;
-      break;
+      lastNonZeroLow = dates[i].low;
+      lastNonZeroHigh = dates[i].high;
+      continue;
     }
-  }
 
-  if (oldestKnownNonZeroIndex !== -1) {
-    const oldestKnownPrice = dates[oldestKnownNonZeroIndex].low;
-    const oldestKnownHigh = dates[oldestKnownNonZeroIndex].high;
-
-    for (let i = dates.length - 1; i > oldestKnownNonZeroIndex; i--) {
-      if (dates[i].low === 0) {
-        dates[i].low = oldestKnownPrice;
-        dates[i].high = oldestKnownHigh;
-      }
+    if (lastNonZeroLow > 0) {
+      dates[i].low = lastNonZeroLow;
+      dates[i].high = lastNonZeroHigh;
     }
   }
 
