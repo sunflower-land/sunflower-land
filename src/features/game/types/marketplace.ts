@@ -217,25 +217,52 @@ export function getPriceHistory({
   // Sort by most recent date first
   dates.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-  // For any dates that have no price, use the previous date's price
-  for (let i = 1; i < dates.length; i++) {
+  // For any dates that have no price, use the next older date's price
+  // Since array is sorted newest-first, we iterate backwards from oldest to newest
+  for (let i = dates.length - 2; i >= 0; i--) {
     if (dates[i].low === 0) {
-      dates[i].low = dates[i - 1].low;
-      dates[i].high = dates[i - 1].high;
+      dates[i].low = dates[i + 1].low;
+      dates[i].high = dates[i + 1].high;
     }
   }
 
-  const currentPrice = price ?? dates[0].high;
+  // If the first trade in the window is recent, the oldest dates can still be 0.
+  // Backfill any remaining oldest zeros using the oldest known non-zero price.
+  let oldestKnownNonZeroIndex = -1;
+  for (let i = dates.length - 1; i >= 0; i--) {
+    if (dates[i].low > 0) {
+      oldestKnownNonZeroIndex = i;
+      break;
+    }
+  }
 
-  const sevenDayPrice = dates[6].low;
+  if (oldestKnownNonZeroIndex !== -1) {
+    const oldestKnownPrice = dates[oldestKnownNonZeroIndex].low;
+    const oldestKnownHigh = dates[oldestKnownNonZeroIndex].high;
+
+    for (let i = dates.length - 1; i > oldestKnownNonZeroIndex; i--) {
+      if (dates[i].low === 0) {
+        dates[i].low = oldestKnownPrice;
+        dates[i].high = oldestKnownHigh;
+      }
+    }
+  }
+
+  const currentPrice = price ?? dates[0]?.high ?? 0;
+
+  const sevenDayPrice = dates[6]?.low ?? 0;
   const sevenDayPriceChange = currentPrice - sevenDayPrice;
   const sevenDayChange =
-    sevenDayPriceChange === 0 ? 0 : (sevenDayPriceChange / sevenDayPrice) * 100;
+    sevenDayPrice === 0 || sevenDayPriceChange === 0
+      ? 0
+      : (sevenDayPriceChange / sevenDayPrice) * 100;
 
-  const oneDayPrice = dates[1].low;
+  const oneDayPrice = dates[1]?.low ?? 0;
   const oneDayPriceChange = currentPrice - oneDayPrice;
   const oneDayChange =
-    oneDayPriceChange === 0 ? 0 : (oneDayPriceChange / oneDayPrice) * 100;
+    oneDayPrice === 0 || oneDayPriceChange === 0
+      ? 0
+      : (oneDayPriceChange / oneDayPrice) * 100;
 
   return {
     dates,
