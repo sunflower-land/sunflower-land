@@ -320,6 +320,7 @@ export const MoveableComponent: React.FC<
   const skipNextOutsideClick = useRef(false);
   const suppressNextMenuOpen = useRef(false);
   const localCloserRef = useRef<() => void>(() => {});
+  const dragStartChecked = useRef(false);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -343,6 +344,7 @@ export const MoveableComponent: React.FC<
       const target = e.target as Node;
       if (!overlapRef.current.contains(target)) {
         setShowOverlapMenu(false);
+        dragStartChecked.current = false;
         if (closeCurrentOverlapMenu === localCloserRef.current) {
           closeCurrentOverlapMenu = null;
         }
@@ -682,6 +684,19 @@ export const MoveableComponent: React.FC<
     position,
   ]);
 
+  const overlaps = useMemo(() => {
+    return getOverlappingCollectibles({
+      state: gameService.getSnapshot().context.state,
+      x: coordinatesX,
+      y: coordinatesY,
+      location,
+      current: { id, name: name as CollectibleName },
+    });
+  }, [gameService, coordinatesX, coordinatesY, location, id, name]);
+
+  // Disable dragging if there are overlaps and this item is not selected
+  const shouldDisableDrag = overlaps.length > 1 && !isSelected;
+
   return (
     <Draggable
       key={`${coordinatesX}-${coordinatesY}-${counts}`}
@@ -690,7 +705,8 @@ export const MoveableComponent: React.FC<
       scale={scale.get()}
       allowAnyClick
       // Mobile must click first, before dragging
-      disabled={isMobile && !isSelected}
+      // Also disable if there are overlaps and this item isn't selected
+      disabled={(isMobile && !isSelected) || shouldDisableDrag}
       onMouseDown={() => {
         // Mobile must click first, before dragging
 
@@ -707,14 +723,6 @@ export const MoveableComponent: React.FC<
           isActive.current = true;
           return;
         }
-
-        const overlaps = getOverlappingCollectibles({
-          state: gameService.getSnapshot().context.state,
-          x: coordinatesX,
-          y: coordinatesY,
-          location,
-          current: { id, name: name as CollectibleName },
-        });
 
         // Show overlap menu if there are overlapping collectibles in the same coordinates
         if (overlaps.length > 1) {
@@ -740,24 +748,46 @@ export const MoveableComponent: React.FC<
         isActive.current = true;
       }}
       onDrag={(_, data) => {
-        onDrag({
-          data,
-          coordinatesX,
-          coordinatesY,
-          detect,
-          setIsDragging,
-          setPosition,
-          name: name as CollectibleName,
-          id,
-          location,
-          dimensions,
-          state: gameService.getSnapshot().context.state,
-          setIsColliding,
-        });
-        // Never show overlap menu while dragging
-        if (showOverlapMenu) setShowOverlapMenu(false);
+        // Check for overlaps when drag starts and show menu
+        if (
+          !dragStartChecked.current &&
+          overlaps.length > 1 &&
+          !showOverlapMenu
+        ) {
+          dragStartChecked.current = true;
+          if (closeCurrentOverlapMenu) closeCurrentOverlapMenu();
+          setOverlapChoices(overlaps);
+          setShowOverlapMenu(true);
+          skipNextOutsideClick.current = true;
+          const closer = () => {
+            setShowOverlapMenu(false);
+            dragStartChecked.current = false;
+          };
+          localCloserRef.current = closer;
+          closeCurrentOverlapMenu = closer;
+          // Don't process the drag yet, wait for player to select from menu
+          return;
+        }
+
+        if (!showOverlapMenu) {
+          onDrag({
+            data,
+            coordinatesX,
+            coordinatesY,
+            detect,
+            setIsDragging,
+            setPosition,
+            name: name as CollectibleName,
+            id,
+            location,
+            dimensions,
+            state: gameService.getSnapshot().context.state,
+            setIsColliding,
+          });
+        }
       }}
-      onStop={(_, data) =>
+      onStop={(_, data) => {
+        dragStartChecked.current = false;
         onStop({
           data,
           coordinatesX,
@@ -766,8 +796,8 @@ export const MoveableComponent: React.FC<
           name,
           location,
           dimensions,
-        })
-      }
+        });
+      }}
       position={position}
     >
       <div
@@ -799,6 +829,7 @@ export const MoveableComponent: React.FC<
                     e.stopPropagation();
                     e.preventDefault();
                     setShowOverlapMenu(false);
+                    dragStartChecked.current = false;
                     // Prevent the menu from reopening on the next mousedown
                     suppressNextMenuOpen.current = true;
                     if (closeCurrentOverlapMenu === localCloserRef.current) {
