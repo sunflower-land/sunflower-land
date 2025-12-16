@@ -100,9 +100,9 @@ const budBoxStatus = (state: GameState) => {
 
 const digbyStreakStatus = (state: GameState, now: number) => {
   const collectedAt = state.desert.digging.streak?.collectedAt ?? 0;
-  const hasClaimedDigbyReward =
-    new Date().toISOString().substring(0, 10) ===
-    new Date(collectedAt).toISOString().substring(0, 10);
+  const today = new Date(now).toISOString().substring(0, 10);
+  const collectedDay = new Date(collectedAt).toISOString().substring(0, 10);
+  const hasClaimedDigbyReward = today === collectedDay;
 
   const digbyStreakCount = getStreaks({
     game: state,

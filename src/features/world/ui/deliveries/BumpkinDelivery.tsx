@@ -642,7 +642,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const now = useNow();
+  const now = useNow({ live: true, intervalMs: 60_000 });
 
   const game = gameState.context.state;
   const [showFlowers, setShowFlowers] = useState(false);
@@ -652,7 +652,8 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   const { holiday } = getBumpkinHoliday({ now });
 
-  const isHoliday = holiday === new Date().toISOString().split("T")[0];
+  const today = new Date(now).toISOString().split("T")[0];
+  const isHoliday = holiday === today;
 
   const deliver = () => {
     gameService.send("order.delivered", {

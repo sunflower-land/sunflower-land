@@ -43,7 +43,7 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
   const exchange = useSelector(gameService, _exchange);
 
   const { t } = useAppTranslation();
-  const now = useNow();
+  const now = useNow({ live: true, intervalMs: 60_000 });
   const chapterTicket = getChapterTicket(now);
   const state = gameService.getSnapshot().context.state;
   const { requests = [] } = exchange;
@@ -128,6 +128,7 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
                     deal={deal}
                     onExchanging={onExchanging}
                     state={state}
+                    now={now}
                   />
                 ))}
               </div>
@@ -157,7 +158,7 @@ export const AnimalDeal: React.FC<{
 }> = ({ deal, animal, onClose, onSold }) => {
   const { gameService, gameState } = useGame();
   const state = gameState.context.state;
-  const now = useNow();
+  const now = useNow({ live: true, intervalMs: 60_000 });
   const { t } = useAppTranslation();
   const chapterTicket = getChapterTicket(now);
 
@@ -256,6 +257,7 @@ export const AnimalDeal: React.FC<{
                     : generateBountyTicket({
                         game: state,
                         bounty: deal,
+                        now,
                       })}
                 </Label>
               ))}
@@ -361,15 +363,16 @@ interface BountyCardProps {
   deal: AnimalBounty;
   onExchanging: (deal: AnimalBounty) => void;
   state: MachineState["context"]["state"];
+  now: number;
 }
 
 const BountyCard: React.FC<BountyCardProps> = ({
   deal,
   onExchanging,
   state,
+  now,
 }) => {
   const { t } = useAppTranslation();
-  const now = useNow();
   const chapterTicket = getChapterTicket(now);
 
   const isSold = !!state.bounties.completed.find(
@@ -451,6 +454,7 @@ const BountyCard: React.FC<BountyCardProps> = ({
               : generateBountyTicket({
                   game: state,
                   bounty: deal,
+                  now,
                 })}
           </Label>
         ))}
