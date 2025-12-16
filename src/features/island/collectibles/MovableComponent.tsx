@@ -709,6 +709,7 @@ export const MoveableComponent: React.FC<
       disabled={(isMobile && !isSelected) || shouldDisableDrag}
       onMouseDown={() => {
         // Mobile must click first, before dragging
+        if (closeCurrentOverlapMenu) closeCurrentOverlapMenu();
 
         if (isMobile && !isActive.current) {
           isActive.current = true;
@@ -748,12 +749,35 @@ export const MoveableComponent: React.FC<
         isActive.current = true;
       }}
       onDrag={(_, data) => {
-        // Check for overlaps when drag starts and show menu
-        if (
-          !dragStartChecked.current &&
-          overlaps.length > 1 &&
-          !showOverlapMenu
-        ) {
+        // If item is selected, process drag immediately and close any open menu
+        if (isSelected) {
+          if (closeCurrentOverlapMenu) closeCurrentOverlapMenu();
+          if (showOverlapMenu) {
+            setShowOverlapMenu(false);
+            if (closeCurrentOverlapMenu === localCloserRef.current) {
+              closeCurrentOverlapMenu();
+              closeCurrentOverlapMenu = null;
+            }
+          }
+          onDrag({
+            data,
+            coordinatesX,
+            coordinatesY,
+            detect,
+            setIsDragging,
+            setPosition,
+            name: name as CollectibleName,
+            id,
+            location,
+            dimensions,
+            state: gameService.getSnapshot().context.state,
+            setIsColliding,
+          });
+          return;
+        }
+
+        // If item is not selected and there are overlaps, show menu and don't process drag
+        if (!dragStartChecked.current && overlaps.length > 1) {
           dragStartChecked.current = true;
           if (closeCurrentOverlapMenu) closeCurrentOverlapMenu();
           setOverlapChoices(overlaps);
@@ -769,7 +793,7 @@ export const MoveableComponent: React.FC<
           return;
         }
 
-        if (!showOverlapMenu) {
+        if (overlaps.length === 1 || dragStartChecked.current) {
           onDrag({
             data,
             coordinatesX,
