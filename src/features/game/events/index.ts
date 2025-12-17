@@ -212,10 +212,6 @@ import {
   UpgradeFarmAction,
 } from "./landExpansion/upgradeFarm";
 import {
-  purchaseBanner,
-  PurchaseBannerAction,
-} from "./landExpansion/bannerPurchased";
-import {
   placeSunstone,
   PlaceSunstoneAction,
 } from "./landExpansion/placeSunstone";
@@ -639,7 +635,6 @@ export type PlayingEvent =
   | PlantFlowerAction
   | HarvestFlowerAction
   | UpgradeFarmAction
-  | PurchaseBannerAction
   | FlowerShopTradedAction
   | CompleteSpecialEventTaskAction
   | GiftFlowersAction
@@ -893,7 +888,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "flower.harvested": harvestFlower,
   "flower.instaGrown": instaGrowFlower,
   "farm.upgraded": upgrade,
-  "banner.purchased": purchaseBanner,
   "flowerShop.traded": tradeFlowerShop,
   "specialEvent.taskCompleted": completeSpecialEventTask,
   "flowers.gifted": giftFlowers,
