@@ -14,6 +14,8 @@ import { PlaceableLocation } from "../types/collectibles";
 import { MachineState } from "../lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { PET_SHOP_ITEMS } from "../types/petShop";
+import { Inventory } from "../types/game";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type Props = {
   show: boolean;
@@ -34,7 +36,6 @@ export const RenewPetShrine: React.FC<Props> = ({
   location,
 }) => {
   const { gameService } = useContext(Context);
-  const [showIngredients, setShowIngredients] = useState(false);
 
   const inventory = useSelector(gameService, _inventory);
   const coinBalance = useSelector(gameService, _coinBalance);
@@ -46,6 +47,34 @@ export const RenewPetShrine: React.FC<Props> = ({
   const handleRenew = () => {
     gameService.send("petShrine.renewed", { name, location, id });
   };
+
+  return (
+    <Modal show={show} onHide={onHide}>
+      <Panel>
+        <RenewPetShrineContent
+          handleRemove={handleRemove}
+          handleRenew={handleRenew}
+          name={name}
+          inventory={inventory}
+          coinBalance={coinBalance}
+        />
+      </Panel>
+    </Modal>
+  );
+};
+
+const RenewPetShrineContent: React.FC<{
+  handleRemove: () => void;
+  handleRenew: () => void;
+  name: PetShrineName | "Obsidian Shrine";
+  inventory: Inventory;
+  coinBalance: number;
+}> = ({ handleRemove, handleRenew, name, inventory, coinBalance }) => {
+  const { t } = useAppTranslation();
+  const [showIngredients, setShowIngredients] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState<
+    "burn" | "renew" | undefined
+  >(undefined);
 
   const petShrineCost = PET_SHOP_ITEMS[name];
 
@@ -66,16 +95,29 @@ export const RenewPetShrine: React.FC<Props> = ({
     return hasIngredients;
   };
 
-  return (
-    <Modal show={show} onHide={onHide}>
-      <Panel>
+  if (showConfirmation === "burn") {
+    return (
+      <>
         <div className="flex flex-col gap-2 p-1">
-          <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-            {`${name} Expired`}
-          </Label>
-          <p className="text-xs">
-            {`${name} has expired. You can renew it or burn it.`}
-          </p>
+          <Label type="warning">{t("confirm.burn")}</Label>
+          <p className="text-xs">{t("confirm.burn.message", { name })}</p>
+        </div>
+        <div className="flex justify-between gap-1">
+          <Button onClick={() => setShowConfirmation(undefined)}>
+            {t("cancel")}
+          </Button>
+          <Button onClick={handleRemove}>{t("burn")}</Button>
+        </div>
+      </>
+    );
+  }
+
+  if (showConfirmation === "renew") {
+    return (
+      <>
+        <div className="flex flex-col gap-2 p-1">
+          <Label type="warning">{t("confirm.renew")}</Label>
+          <p className="text-xs">{t("confirm.renew.message", { name })}</p>
           <div
             className="flex flex-wrap p-2 gap-2 cursor-pointer"
             onClick={() => setShowIngredients(!showIngredients)}
@@ -99,12 +141,53 @@ export const RenewPetShrine: React.FC<Props> = ({
           </div>
         </div>
         <div className="flex justify-between gap-1">
-          <Button onClick={handleRemove}>{`Burn`}</Button>
-          <Button onClick={handleRenew} disabled={!canRenew()}>
-            {`Renew`}
+          <Button onClick={() => setShowConfirmation(undefined)}>
+            {t("cancel")}
           </Button>
+          <Button onClick={handleRenew}>{t("renew")}</Button>
         </div>
-      </Panel>
-    </Modal>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <div className="flex flex-col gap-2 p-1">
+        <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+          {t("shrine.expired", { name })}
+        </Label>
+        <p className="text-xs">{t("renew.expired.message", { name })}</p>
+        <div
+          className="flex flex-wrap p-2 gap-2 cursor-pointer"
+          onClick={() => setShowIngredients(!showIngredients)}
+        >
+          <IngredientsPopover
+            show={showIngredients}
+            ingredients={getKeys(requirements)}
+            onClick={() => setShowIngredients(false)}
+          />
+          {getKeys(requirements).map((itemName) => {
+            return (
+              <RequirementLabel
+                key={itemName}
+                type="item"
+                item={itemName}
+                balance={inventory[itemName] ?? new Decimal(0)}
+                requirement={requirements[itemName] ?? new Decimal(0)}
+              />
+            );
+          })}
+        </div>
+      </div>
+      <div className="flex justify-between gap-1">
+        <Button onClick={() => setShowConfirmation("burn")}>{t("burn")}</Button>
+        <Button
+          onClick={() => setShowConfirmation("renew")}
+          disabled={!canRenew()}
+        >
+          {t("renew")}
+        </Button>
+      </div>
+    </>
   );
 };

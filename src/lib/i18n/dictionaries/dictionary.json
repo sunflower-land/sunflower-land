@@ -1,4 +1,12 @@
 {
+  "burn": "Burn",
+  "confirm.burn": "Confirm Burn",
+  "confirm.burn.message": "Are you sure you want to burn {{name}}? This action cannot be undone.",
+  "renew": "Renew",
+  "confirm.renew": "Confirm Renew",
+  "confirm.renew.message": "Are you sure you want to renew {{name}}?",
+  "renew.expired.message": "{{name}} has expired. You can renew it or burn it.",
+  "shrine.expired": "{{name}} Expired",
   "drink": "Drink",
   "eat": "Eat",
   "resource.wood": "Wood",
