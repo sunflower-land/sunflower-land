@@ -50,8 +50,9 @@ export function renewPetShrine({
     }
 
     const cost = PET_SHOP_ITEMS[action.name];
+    const coinCost = cost.coins ?? 0;
 
-    if (stateCopy.coins < (cost.coins ?? 0)) {
+    if (stateCopy.coins < coinCost) {
       throw new Error("Insufficient Coins");
     }
 
@@ -72,6 +73,7 @@ export function renewPetShrine({
     );
 
     stateCopy.inventory = subtractedInventory;
+    stateCopy.coins -= coinCost;
 
     // Set the createdAt timestamp to the current time to renew the cooldown
     collectibleToRenew.createdAt = createdAt;
