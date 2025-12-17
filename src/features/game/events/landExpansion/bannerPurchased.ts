@@ -35,13 +35,13 @@ export function getBannerPrice(
 
   if (hasLifetimeBanner) return new Decimal(0);
 
-  const season = getChapterByBanner(banner);
-  const seasonStartDate = CHAPTERS[season].startDate;
+  const chapter = getChapterByBanner(banner);
+  const chapterStartDate = CHAPTERS[chapter].startDate;
 
   const WEEK = 1000 * 60 * 60 * 24 * 7;
 
   const weeksElapsed = Math.floor(
-    (createdAt - seasonStartDate.getTime()) / WEEK,
+    (createdAt - chapterStartDate.getTime()) / WEEK,
   );
 
   if (weeksElapsed < 1) {

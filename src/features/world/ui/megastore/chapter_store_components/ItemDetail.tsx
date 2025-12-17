@@ -24,19 +24,19 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
 import {
   MEGASTORE,
-  SeasonalStoreCollectible,
-  SeasonalStoreItem,
-  SeasonalStoreWearable,
-  SeasonalTierItemName,
+  ChapterStoreCollectible,
+  ChapterStoreItem,
+  ChapterStoreWearable,
+  ChapterTierItemName,
 } from "features/game/types/megastore";
-import { getItemDescription } from "../SeasonalStore";
+import { getItemDescription } from "../ChapterStore";
 import { getKeys } from "features/game/types/craftables";
 import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import {
-  getSeasonalItemsCrafted,
-  isKeyBoughtWithinSeason,
-} from "features/game/events/landExpansion/buySeasonalItem";
+  getChapterItemsCrafted,
+  isKeyBoughtWithinChapter,
+} from "features/game/events/landExpansion/buyChapterItem";
 import { REWARD_BOXES } from "features/game/types/rewardBoxes";
 import { secondsToString } from "lib/utils/time";
 import {
@@ -47,7 +47,7 @@ import {
 import lockIcon from "assets/icons/lock.png";
 
 interface ItemOverlayProps {
-  item: SeasonalStoreItem | null;
+  item: ChapterStoreItem | null;
   image: string;
   isWearable: boolean;
   buff?: BuffLabel[];
@@ -94,14 +94,14 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
             ? "mega"
             : "basic";
 
-  const seasonalCollectiblesCrafted = getSeasonalItemsCrafted(
+  const seasonalCollectiblesCrafted = getChapterItemsCrafted(
     state,
     seasonalStore,
     "collectible",
     tiers,
     true,
   );
-  const seasonalWearablesCrafted = getSeasonalItemsCrafted(
+  const seasonalWearablesCrafted = getChapterItemsCrafted(
     state,
     seasonalStore,
     "wearable",
@@ -113,14 +113,14 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
   const itemName = item
     ? isWearable
-      ? (item as SeasonalStoreWearable).wearable
-      : (item as SeasonalStoreCollectible).collectible
+      ? (item as ChapterStoreWearable).wearable
+      : (item as ChapterStoreCollectible).collectible
     : undefined;
 
   const isKey = (name: InventoryItemName): name is Keys =>
     name in ARTEFACT_SHOP_KEYS;
 
-  const reduction = isKeyBoughtWithinSeason(state, tiers, now, true) ? 0 : 1;
+  const reduction = isKeyBoughtWithinChapter(state, tiers, now, true) ? 0 : 1;
   const isRareUnlocked =
     tiers === "rare" &&
     seasonalItemsCrafted - reduction >= seasonalStore.rare.requirement;
@@ -135,7 +135,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const itemInCooldown = !!boughtAt && boughtAt + (item?.cooldownMs ?? 0) > now;
 
   const itemCrafted =
-    state.farmActivity[`${itemName as SeasonalTierItemName} Bought`];
+    state.farmActivity[`${itemName as ChapterTierItemName} Bought`];
 
   const description = getItemDescription(item);
   const { sfl = 0 } = item?.cost || {};
@@ -208,8 +208,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
           ? (item.cost?.items[chapterTicket] ?? 0)
           : sfl;
     const itemName = isWearable
-      ? ((item as SeasonalStoreWearable).wearable as BumpkinItem)
-      : ((item as SeasonalStoreCollectible).collectible as InventoryItemName);
+      ? ((item as ChapterStoreWearable).wearable as BumpkinItem)
+      : ((item as ChapterStoreCollectible).collectible as InventoryItemName);
 
     gameAnalytics.trackSink({
       currency,
@@ -219,7 +219,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     });
 
     if (!isWearable) {
-      const itemName = (item as SeasonalStoreCollectible)
+      const itemName = (item as ChapterStoreCollectible)
         .collectible as InventoryItemName;
       const count = inventory[itemName]?.toNumber() ?? 1;
       gameAnalytics.trackMilestone({
@@ -231,7 +231,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const handleBuy = () => {
     if (!item) return;
 
-    gameService.send("seasonalItem.bought", {
+    gameService.send("chapterItem.bought", {
       name: itemName,
       tier: tiers,
     });
@@ -274,8 +274,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   };
 
   const isTradeable = isWearable
-    ? !!BUMPKIN_RELEASES[(item as SeasonalStoreWearable)?.wearable]
-    : !!INVENTORY_RELEASES[(item as SeasonalStoreCollectible)?.collectible];
+    ? !!BUMPKIN_RELEASES[(item as ChapterStoreWearable)?.wearable]
+    : !!INVENTORY_RELEASES[(item as ChapterStoreCollectible)?.collectible];
 
   return (
     <InnerPanel className="shadow">

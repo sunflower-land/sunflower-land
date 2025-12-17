@@ -15,11 +15,11 @@ import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 
 import chores from "assets/icons/chores.webp";
 
-import { SeasonalAuctions } from "../components/SeasonalAuctions";
+import { ChapterAuctions } from "../components/ChapterAuctions";
 import classNames from "classnames";
-import { SeasonalMutants } from "../components/SeasonalMutants";
+import { ChapterMutants } from "../components/ChapterMutants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { SeasonalStore } from "features/world/ui/megastore/SeasonalStore";
+import { ChapterStore } from "features/world/ui/megastore/ChapterStore";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState } from "features/game/types/game";
 import { MegaBountyBoardContent } from "features/world/ui/flowerShop/MegaBountyBoard";
@@ -147,10 +147,10 @@ export const Chapter: React.FC<Props> = ({
       </InnerPanel>
       <MegaBountyBoardContent readonly />
       <InnerPanel className="mb-1">
-        <SeasonalStore readonly state={state} />
+        <ChapterStore readonly state={state} />
       </InnerPanel>
-      <SeasonalAuctions gameState={state} farmId={farmId} season={chapter} />
-      <SeasonalMutants season={chapter} />
+      <ChapterAuctions gameState={state} farmId={farmId} chapter={chapter} />
+      <ChapterMutants chapter={chapter} />
       <InnerPanel className="mb-1">
         <TicketsLeaderboard isLoading={isLoading} data={data} />
       </InnerPanel>

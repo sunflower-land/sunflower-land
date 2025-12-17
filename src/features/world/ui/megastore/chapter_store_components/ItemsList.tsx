@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 // import { getItemBuffLabel, getItemImage } from "../MegaStore";
-import { getItemImage, getItemBuffLabel } from "../SeasonalStore";
+import { getItemImage, getItemBuffLabel } from "../ChapterStore";
 import { Label } from "components/ui/Label";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { SquareIcon } from "components/ui/SquareIcon";
@@ -25,11 +25,11 @@ import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   MEGASTORE,
-  SeasonalStoreCollectible,
-  SeasonalStoreItem,
-  SeasonalStoreTier,
-  SeasonalStoreWearable,
-  SeasonalTierItemName,
+  ChapterStoreCollectible,
+  ChapterStoreItem,
+  ChapterStoreTier,
+  ChapterStoreWearable,
+  ChapterTierItemName,
 } from "features/game/types/megastore";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ResizableBar } from "components/ui/ProgressBar";
@@ -37,21 +37,21 @@ import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import {
   FLOWER_BOXES,
   FlowerBox,
-  getSeasonalItemsCrafted,
+  getChapterItemsCrafted,
   getStore,
-  isBoxBoughtWithinSeason,
-  isKeyBoughtWithinSeason,
-  isPetEggBoughtWithinSeason,
-} from "features/game/events/landExpansion/buySeasonalItem";
+  isBoxBoughtWithinChapter,
+  isKeyBoughtWithinChapter,
+  isPetEggBoughtWithinChapter,
+} from "features/game/events/landExpansion/buyChapterItem";
 import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   itemsLabel?: string;
   type?: "wearables" | "collectibles" | "keys";
-  tier: SeasonalStoreTier;
-  items: SeasonalStoreItem[];
-  onItemClick: (item: SeasonalStoreItem, tier: SeasonalStoreTier) => void;
+  tier: ChapterStoreTier;
+  items: ChapterStoreItem[];
+  onItemClick: (item: ChapterStoreItem, tier: ChapterStoreTier) => void;
 }
 
 export const ItemsList: React.FC<Props> = ({
@@ -73,24 +73,24 @@ export const ItemsList: React.FC<Props> = ({
     },
   ] = useActor(gameService);
 
-  const getBalanceOfItem = (item: SeasonalStoreItem): number => {
+  const getBalanceOfItem = (item: ChapterStoreItem): number => {
     // Handling all types or specific ones if provided
     if (type === "wearables" || (!type && "wearable" in item)) {
       return (
         state.farmActivity[
-          `${(item as SeasonalStoreWearable).wearable as SeasonalTierItemName} Bought`
+          `${(item as ChapterStoreWearable).wearable as ChapterTierItemName} Bought`
         ] ?? 0
       );
     } else if (type === "collectibles" || (!type && "collectible" in item)) {
       return (
         state.farmActivity[
-          `${(item as SeasonalStoreCollectible).collectible as SeasonalTierItemName} Bought`
+          `${(item as ChapterStoreCollectible).collectible as ChapterTierItemName} Bought`
         ] ?? 0
       );
     } else if (type === "keys" || (!type && "key" in item)) {
       return (
         state.farmActivity[
-          `${(item as SeasonalStoreCollectible).collectible as SeasonalTierItemName} Bought`
+          `${(item as ChapterStoreCollectible).collectible as ChapterTierItemName} Bought`
         ] ?? 0
       );
     }
@@ -98,15 +98,13 @@ export const ItemsList: React.FC<Props> = ({
     return 0;
   };
 
-  const getItemName = (item: SeasonalStoreItem): string => {
+  const getItemName = (item: ChapterStoreItem): string => {
     if (type === "wearables" || (!type && "wearable" in item)) {
-      return (item as SeasonalStoreWearable).wearable as BumpkinItem;
+      return (item as ChapterStoreWearable).wearable as BumpkinItem;
     } else if (type === "collectibles" || (!type && "collectible" in item)) {
-      return (item as SeasonalStoreCollectible)
-        .collectible as InventoryItemName;
+      return (item as ChapterStoreCollectible).collectible as InventoryItemName;
     } else if (type === "keys" || (!type && "key" in item)) {
-      return (item as SeasonalStoreCollectible)
-        .collectible as InventoryItemName;
+      return (item as ChapterStoreCollectible).collectible as InventoryItemName;
     }
 
     return "";
@@ -122,7 +120,7 @@ export const ItemsList: React.FC<Props> = ({
       })
     : items; // If no type provided, show all items
 
-  const getCurrencyIcon = (item: SeasonalStoreItem) => {
+  const getCurrencyIcon = (item: ChapterStoreItem) => {
     if (item.cost.sfl !== 0) return token;
 
     const currencyItem =
@@ -135,7 +133,7 @@ export const ItemsList: React.FC<Props> = ({
     return ITEM_DETAILS[currencyItem as InventoryItemName].image;
   };
 
-  const getCurrency = (item: SeasonalStoreItem) => {
+  const getCurrency = (item: ChapterStoreItem) => {
     if (item.cost.sfl !== 0)
       return shortenCount(SFLDiscount(state, new Decimal(item.cost.sfl)));
 
@@ -156,14 +154,14 @@ export const ItemsList: React.FC<Props> = ({
   const seasonalStore = MEGASTORE[currentSeason];
   const tiers = tier;
 
-  const seasonalCollectiblesCrafted = getSeasonalItemsCrafted(
+  const seasonalCollectiblesCrafted = getChapterItemsCrafted(
     state,
     seasonalStore,
     "collectible",
     tier,
     true,
   );
-  const seasonalWearablesCrafted = getSeasonalItemsCrafted(
+  const seasonalWearablesCrafted = getChapterItemsCrafted(
     state,
     seasonalStore,
     "wearable",
@@ -176,7 +174,7 @@ export const ItemsList: React.FC<Props> = ({
   // Type guard if the requirement exists
   const hasRequirement = (
     tier: any,
-  ): tier is { items: SeasonalStoreItem[]; requirement: number } => {
+  ): tier is { items: ChapterStoreItem[]; requirement: number } => {
     return "requirement" in tier;
   };
 
@@ -189,14 +187,18 @@ export const ItemsList: React.FC<Props> = ({
     name in FLOWER_BOXES;
 
   // For Current Tier Key - Unlocked(0) / Locked(1)
-  const isKeyCounted = isKeyBoughtWithinSeason(state, tiers, now) ? 0 : 1;
+  const isKeyCounted = isKeyBoughtWithinChapter(state, tiers, now) ? 0 : 1;
   // For Current Tier Box - Unlocked(0) / Locked(1)
-  const isBoxCounted = isBoxBoughtWithinSeason(state, tiers, now) ? 0 : 1;
+  const isBoxCounted = isBoxBoughtWithinChapter(state, tiers, now) ? 0 : 1;
 
   // Reduction is by getting the lower tier of current tier
-  const keyReduction = isKeyBoughtWithinSeason(state, tiers, now, true) ? 0 : 1; // Reduction is by getting the lower tier of current tier
-  const boxReduction = isBoxBoughtWithinSeason(state, tiers, now, true) ? 0 : 1; // Reduction is by getting the lower tier of current tier
-  const petEggReduction = isPetEggBoughtWithinSeason(state, tiers, now, true)
+  const keyReduction = isKeyBoughtWithinChapter(state, tiers, now, true)
+    ? 0
+    : 1; // Reduction is by getting the lower tier of current tier
+  const boxReduction = isBoxBoughtWithinChapter(state, tiers, now, true)
+    ? 0
+    : 1; // Reduction is by getting the lower tier of current tier
+  const petEggReduction = isPetEggBoughtWithinChapter(state, tiers, now, true)
     ? 0
     : 1;
   const reduction = keyReduction + boxReduction + petEggReduction;

@@ -2,21 +2,21 @@ import {
   FLOWER_BOXES,
   isCollectible,
   isWearable,
-} from "../events/landExpansion/buySeasonalItem";
+} from "../events/landExpansion/buyChapterItem";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "../events/landExpansion/completeNPCChore";
 import { getObjectEntries } from "../expansion/lib/utils";
 import { BumpkinItem } from "./bumpkin";
 import { ARTEFACT_SHOP_KEYS } from "./collectibles";
 import { getKeys } from "./decorations";
 import { BB_TO_GEM_RATIO, InventoryItemName } from "./game";
-import { MEGASTORE, SeasonalStore } from "./megastore";
+import { MEGASTORE, ChapterStore } from "./megastore";
 import { RewardBoxReward } from "./rewardBoxes";
 import { getCurrentChapter } from "./chapters";
 import { BUMPKIN_RELEASES, INVENTORY_RELEASES } from "./withdrawables";
 
 export const CHEST_MULTIPLIER = 900;
 
-export const MEGASTORE_TIER_WEIGHTS: Record<keyof SeasonalStore, number> = {
+export const MEGASTORE_TIER_WEIGHTS: Record<keyof ChapterStore, number> = {
   basic: 0.5,
   rare: 0.2,
   epic: 0.1,

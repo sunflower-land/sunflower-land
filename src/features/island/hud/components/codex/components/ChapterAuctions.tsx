@@ -54,16 +54,16 @@ type AuctionItems = Record<
 /**
  * Aggregates the seasonal auction items
  */
-function getSeasonalAuctions({
+function getChapterAuctions({
   auctions,
   totalSupply,
-  season,
+  chapter,
 }: {
   auctions: Auction[];
   totalSupply: Record<string, number>;
-  season: ChapterName;
+  chapter: ChapterName;
 }) {
-  const { startDate, endDate } = CHAPTERS[season];
+  const { startDate, endDate } = CHAPTERS[chapter];
 
   // Aggregate supplies
   let details: AuctionItems = auctions.reduce((acc, auction) => {
@@ -409,15 +409,15 @@ const Drops: React.FC<{
 interface Props {
   gameState: GameState;
   farmId: number;
-  season: ChapterName;
+  chapter: ChapterName;
 }
 
 const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
 
-export const SeasonalAuctions: React.FC<Props> = ({
+export const ChapterAuctions: React.FC<Props> = ({
   farmId,
   gameState,
-  season,
+  chapter,
 }) => {
   const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
@@ -460,10 +460,10 @@ export const SeasonalAuctions: React.FC<Props> = ({
   }
 
   const { details: auctionItems, filteredTotalSupply: totalItems } =
-    getSeasonalAuctions({
+    getChapterAuctions({
       auctions: auctioneerState.context.auctions,
       totalSupply: auctioneerState.context.totalSupply,
-      season,
+      chapter,
     });
 
   return (

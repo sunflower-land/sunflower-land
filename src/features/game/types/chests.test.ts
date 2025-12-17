@@ -1,7 +1,7 @@
 import {
   isCollectible,
   isWearable,
-} from "../events/landExpansion/buySeasonalItem";
+} from "../events/landExpansion/buyChapterItem";
 import {
   BASIC_REWARDS,
   RARE_REWARDS,
@@ -10,7 +10,7 @@ import {
   MEGASTORE_RESTRICTED_ITEMS,
   CHEST_MULTIPLIER,
 } from "./chests";
-import { MEGASTORE, SeasonalStore } from "./megastore";
+import { MEGASTORE, ChapterStore } from "./megastore";
 import { RewardBoxReward } from "./rewardBoxes";
 import { getCurrentChapter } from "./chapters";
 
@@ -37,7 +37,7 @@ describe("SEASONAL_REWARDS", () => {
           return;
         if (chestTier === "rare" && tier === "mega") return;
 
-        const tierItems = store[tier as keyof SeasonalStore].items;
+        const tierItems = store[tier as keyof ChapterStore].items;
 
         // For each item in the tier, verify it exists in rewards with correct weighting
         tierItems.forEach((item) => {
@@ -83,7 +83,7 @@ describe("SEASONAL_REWARDS", () => {
 
         // Check all tiers in other seasons
         Object.entries(MEGASTORE_TIER_WEIGHTS).forEach(([tier]) => {
-          const tierItems = seasonStore[tier as keyof SeasonalStore].items;
+          const tierItems = seasonStore[tier as keyof ChapterStore].items;
 
           tierItems.forEach((item) => {
             if (isCollectible(item)) {

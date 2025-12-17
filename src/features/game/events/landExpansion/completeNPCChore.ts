@@ -16,7 +16,7 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import {
-  SeasonalTierItemName,
+  ChapterTierItemName,
   MegastoreKeys,
 } from "features/game/types/megastore";
 import { isCollectible } from "./garbageSold";
@@ -36,9 +36,9 @@ type Options = {
 export const CHAPTER_TICKET_BOOST_ITEMS: Record<
   ChapterName,
   {
-    basic: Exclude<SeasonalTierItemName, MegastoreKeys>;
-    rare: Exclude<SeasonalTierItemName, MegastoreKeys>;
-    epic: Exclude<SeasonalTierItemName, MegastoreKeys>;
+    basic: Exclude<ChapterTierItemName, MegastoreKeys>;
+    rare: Exclude<ChapterTierItemName, MegastoreKeys>;
+    epic: Exclude<ChapterTierItemName, MegastoreKeys>;
   }
 > = {
   "Solar Flare": {

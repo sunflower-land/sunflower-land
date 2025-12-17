@@ -87,7 +87,7 @@ import { CompetitionName, CompetitionProgress } from "./competitions";
 import { AnimalType } from "./animals";
 import { ChoreBoard } from "./choreBoard";
 import { DollName, RecipeCollectibleName, Recipes } from "../lib/crafting";
-import { SeasonalCollectibleName, SeasonalTierItemName } from "./megastore";
+import { ChapterCollectibleName, ChapterTierItemName } from "./megastore";
 import { TradeFood } from "../events/landExpansion/redeemTradeReward";
 import {
   CalendarEvent,
@@ -605,7 +605,7 @@ export type InventoryItemName =
   | LoveAnimalItem
   | BedName
   | RecipeCraftableName
-  | SeasonalCollectibleName
+  | ChapterCollectibleName
   | TradeFood
   | ChapterBanner
   | RewardBoxName
@@ -1911,7 +1911,7 @@ export interface GameState {
     petalPuzzleSolvedAt?: number;
   };
   megastore?: {
-    boughtAt: Partial<Record<SeasonalTierItemName, number>>;
+    boughtAt: Partial<Record<ChapterTierItemName, number>>;
   };
   withdrawals?: {
     amount: number;

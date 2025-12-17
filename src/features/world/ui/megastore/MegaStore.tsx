@@ -16,7 +16,7 @@ import {
 import shopIcon from "assets/icons/shop.png";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { MachineState } from "features/game/lib/gameMachine";
-import { SeasonalStore } from "./SeasonalStore";
+import { ChapterStore } from "./ChapterStore";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import {
@@ -90,7 +90,7 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
       tabs={[{ icon, name: t("chapterStore.title", { chapter }) }]}
       onClose={onClose}
     >
-      <SeasonalStore state={state} />
+      <ChapterStore state={state} />
     </CloseButtonPanel>
   );
 };
