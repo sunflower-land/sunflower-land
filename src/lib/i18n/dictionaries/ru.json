@@ -166,14 +166,11 @@
   "birdieplaza.admiringOutfit": "Я заметила, что ты восхищаешься моим нарядом. Ну разве он не великолепен?!",
   "birdieplaza.currentChapter": "Сейчас мы в главе {{currentChapter}}, а Бампкинс сходит с ума по {{chapterTicket}}.",
   "birdieplaza.collectTickets": "Собери достаточно {{chapterTicket}} и ты сможешь купить редкие NFTs. Так у меня и появился этот редкий наряд!",
-  "birdieplaza.whatIsSeason": "Что такое сезон?",
   "birdieplaza.howToEarnTickets": "{{chapterTicket}}’ы?",
   "birdieplaza.earnTicketsVariety": "Ты можешь заработать {{chapterTicket}} различными способами.",
   "birdieplaza.commonMethod": "Самый распространенный способ заработать {{chapterTicket}} s - собирать ресурсы или другие запрашиваемые предметы, а затем доставлять на площадь и в другие районы.",
   "birdieplaza.choresAndRewards": "Вы также можете заработать {{chapterTicket}}s, выполняя еженедельные задания по дому, ежедневные награды за сундуки и систему наград!",
   "birdieplaza.gatherAndCraft": "Собери достаточно {{chapterTicket}} и ты сможешь купить некоторые редкие предметы, как я.",
-  "birdieplaza.newSeasonIntro": "Каждые 3 месяца в Sunflower Land начинается новый сезон.",
-  "birdieplaza.seasonQuests": "В этом сезоне вас ждут увлекательные задания, редкие коллекционные предметы и эксклюзивные носимые вещи, которые вы можете заработать.",
   "birdieplaza.craftItems": "Чтобы приобрести эти редкие предметы, вы должны собрать {{chapterTicket}} и обменять их в Stella's Megastore или участвовать в аукционах.",
   "description.speed.chicken.one": "Твои куры теперь будут производить яйца на 10% быстрее.",
   "description.speed.chicken.two": "Производит яйца на 10% быстрее.",
@@ -7263,5 +7260,8 @@
   "portal.memory.description": "Flip cards, find matches and try to beat the clock in this memory challenge!",
   "bumpkinItemBuff.chef.apron.boost": "+20% Cake Delivery Profit",
   "bumpkinItemBuff.hornet.mask": "2x base Bee Swarm chance",
+  "birdieplaza.whatIsSeason": "What is a chapter?",
+  "birdieplaza.newSeasonIntro": "Every 3 months a new chapter is introduced at Sunflower Land.",
+  "birdieplaza.seasonQuests": "This chapter has exciting quests, rare collectibles and exclusive wearables you can earn.",
   "reward.streak.twoYear": "730 day streak reward"
 }

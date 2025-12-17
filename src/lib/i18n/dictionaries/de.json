@@ -113,11 +113,9 @@
   "birdieplaza.birdieIntro": "Hallo, ich bin Birdie, der schönste Bumpkin, den es gibt!",
   "birdieplaza.admiringOutfit": "Mir ist aufgefallen, dass du mein Outfit bewunderst. Ist es nicht fantastisch?!?",
   "birdieplaza.collectTickets": "Sammle genug {{chapterTicket}} s und du kannst seltene NFTs herstellen. So habe ich dieses seltene Outfit bekommen!",
-  "birdieplaza.whatIsSeason": "Was ist eine Jahreszeit?",
   "birdieplaza.howToEarnTickets": "{{chapterTicket}} s?",
   "birdieplaza.earnTicketsVariety": "Du kannst auf verschiedene Arten {{chapterTicket}} verdienen.",
   "birdieplaza.gatherAndCraft": "Sammelt genug {{chapterTicket}} s und ihr werdet seltene Gegenstände kaufen können, so wie ich es getan habe.",
-  "birdieplaza.newSeasonIntro": "Alle 3 Monate wird im Sunflower Land eine neue Saison eingeführt.",
   "description.speed.chicken.one": "Ihre Hühner produzieren jetzt 10% schneller Eier.",
   "description.banana.chicken": "Ein Huhn, das Bananen stärkt. In was für einer Welt leben wir.",
   "description.pharaoh.chicken": "Ein herrschendes Huhn, +1 Dig.",
@@ -3328,7 +3326,6 @@
   "gems.intro": "Um uns auf das Onboarding neuer Spieler vorzubereiten, haben wir Block Bucks durch eine neue Währung ersetzt... Edelsteine!",
   "gems.intro.two": "Du erhältst 20 Edelsteine für jeden Block Buck, den du besitzt.",
   "birdieplaza.commonMethod": "Die gängigste Methode, {{chapterTicket}} s zu verdienen, besteht darin, Ressourcen oder andere angeforderte Gegenstände zu sammeln und sie dann an Bumpkins auf der Plaza und in einigen anderen Bereichen zu liefern.",
-  "birdieplaza.seasonQuests": "In dieser Saison erwarten dich spannende Quests, seltene Sammlerstücke und exklusive Wearables, die du dir verdienen kannst.",
   "birdieplaza.craftItems": "Um diese seltenen Gegenstände zu erhalten, müsst ihr {{chapterTicket}} s sammeln und sie in Stellas Megastore eintauschen oder im Auktionshaus bieten.",
   "reward.streak.oneYear": "Belohnung für eine 365-tägige Serie",
   "season.codex.nextDrop.available": "{{dropSupply}} verfügbar",
@@ -7263,5 +7260,8 @@
   "portal.memory.description": "Drehe Karten um, finde Streichhölzer und versuche, bei dieser Gedächtnis-Herausforderung die Zeit zu schlagen!",
   "bumpkinItemBuff.chef.apron.boost": "+20% Gewinn bei der Kuchenlieferung",
   "bumpkinItemBuff.hornet.mask": "2x Basischance für Bienenschwarm",
+  "birdieplaza.whatIsSeason": "Was ist ein Kapitel?",
+  "birdieplaza.newSeasonIntro": "Alle 3 Monate wird bei Sunflower Land ein neues Kapitel eingeführt.",
+  "birdieplaza.seasonQuests": "Dieses Kapitel enthält spannende Quests, seltene Sammlerstücke und exklusive Wearables, die du dir verdienen kannst.",
   "reward.streak.twoYear": "Belohnung für eine Serie von 730 Tagen"
 }

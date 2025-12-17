@@ -94,8 +94,6 @@
   "beehive.beeSwarm": "Arı sürüsü",
   "birdieplaza.birdieIntro": "Merhaba ben Birdie, çevredeki en güzel Bumpkin’im!",
   "birdieplaza.admiringOutfit": "Kıyafetime hayran olduğunu fark ettim. Harika değil mi?!?",
-  "birdieplaza.whatIsSeason": "Sezon nedir?",
-  "birdieplaza.newSeasonIntro": "Sunflower Land’de her 3 ayda bir yeni sezon tanıtılıyor.",
   "description.speed.chicken.one": "Artık tavukların 10% daha hızlı yumurta üretecek.",
   "description.banana.chicken": "Muzları artıran bir tavuk. Nasıl bir dünyada yaşıyoruz.",
   "description.lab.grow.pumpkin": "+0.3 Kabak Verimi",
@@ -3328,7 +3326,6 @@
   "gems.intro": "Yeni oyunculara katılmaya hazırlanmak için Block Bucks'ı yeni bir para birimi ile değiştirdik... Gems!",
   "gems.intro.two": "Sahip olduğunuz her Blok Buck için 20 Mücevher alacaksınız.",
   "birdieplaza.commonMethod": "{{chapterTicket}} s kazanmanın en yaygın yöntemi, kaynakları toplamak veya istenen diğer öğeleri toplamak ve ardından bunları Plaza'daki Bumpkins'e ve diğer bazı bölgelere teslim etmektir.",
-  "birdieplaza.seasonQuests": "Bu sezon heyecan verici görevler, nadir koleksiyonlar ve kazanabileceğiniz özel giyilebilir ürünler var.",
   "birdieplaza.craftItems": "Bu nadir eşyaları elde etmek için {{chapterTicket}} s toplamanız ve bunları Stella's Megastore'da değiştirmeniz veya Müzayede Evi'nde teklif vermeniz gerekir.",
   "reward.streak.oneYear": "365 gün seri ödülü",
   "season.codex.nextDrop.available": "{{dropSupply}} mevcut",
@@ -7263,5 +7260,8 @@
   "portal.memory.description": "Kartları çevir, eşleşmeleri bul ve bu hafıza mücadelesinde saati yenmeye çalış!",
   "bumpkinItemBuff.chef.apron.boost": "+20% Pasta Teslimat Kârı",
   "bumpkinItemBuff.hornet.mask": "2x temel Arı Sürü şansı",
+  "birdieplaza.whatIsSeason": "Bölüm nedir?",
+  "birdieplaza.newSeasonIntro": "Her 3 ayda bir Ayçiçeği Ülkesinde yeni bir bölüm tanıtılıyor.",
+  "birdieplaza.seasonQuests": "Bu bölümde heyecan verici görevler, nadir koleksiyonlar ve kazanabileceğiniz özel giyilebilir ürünler var.",
   "reward.streak.twoYear": "730 günlük seri ödül"
 }

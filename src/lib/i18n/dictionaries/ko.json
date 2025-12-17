@@ -113,11 +113,9 @@
   "birdieplaza.birdieIntro": "안녕하세요, 저는 세상에서 가장 아름다운 범프킨인 버디예요!",
   "birdieplaza.admiringOutfit": "내 옷차림에 감탄하는 걸 봤어.환상적이지 않나요?!?",
   "birdieplaza.collectTickets": "{{chapterTicket}} 를 충분히 모으면 희귀 NFT를 만들 수 있습니다.그렇게 해서 이 희귀한 의상을 얻게 됐어요!",
-  "birdieplaza.whatIsSeason": "시즌이란 무엇인가요?",
   "birdieplaza.howToEarnTickets": "{{chapterTicket}}?",
   "birdieplaza.earnTicketsVariety": "다양한 방법으로 {{chapterTicket}} 를 벌 수 있습니다.",
   "birdieplaza.gatherAndCraft": "{{chapterTicket}} 를 충분히 모으면 저처럼 희귀 아이템을 살 수 있을 거예요.",
-  "birdieplaza.newSeasonIntro": "선플라워 랜드에서는 3개월마다 새로운 시즌이 시작됩니다.",
   "description.speed.chicken.one": "이제 닭이 달걀을 10% 더 빨리 생산할 수 있습니다.",
   "description.banana.chicken": "바나나를 부스트하는 치킨.우리가 살고 있는 세상은 정말 대단합니다.",
   "description.pharaoh.chicken": "최고의 치킨, +1 디그.",
@@ -3328,7 +3326,6 @@
   "gems.intro": "신규 플레이어의 온보딩을 준비하기 위해 블록 벅스를 새로운 화폐인 보석으로 교체했습니다!",
   "gems.intro.two": "블록벅을 소유할 때마다 보석 20개를 받게 됩니다.",
   "birdieplaza.commonMethod": "{{chapterTicket}} s를 얻는 가장 일반적인 방법은 자원을 수집하거나 다른 요청 아이템을 수집하여 플라자 및 기타 지역의 범킨에게 전달하는 것입니다.",
-  "birdieplaza.seasonQuests": "이번 시즌에는 흥미진진한 퀘스트, 희귀 수집품, 획득할 수 있는 독점 웨어러블이 있습니다.",
   "birdieplaza.craftItems": "이러한 희귀 아이템을 얻으려면 {{chapterTicket}} s를 모아 스텔라의 메가스토어에서 교환하거나 경매장에서 입찰해야 합니다.",
   "reward.streak.oneYear": "365일 연속 보상",
   "season.codex.nextDrop.available": "{{dropSupply}} 사용 가능",
@@ -7263,5 +7260,8 @@
   "portal.memory.description": "이 메모리 챌린지에서 카드를 뒤집고, 성냥을 찾고, 시간을 초월해 보세요!",
   "bumpkinItemBuff.chef.apron.boost": "+20% 케이크 배달 수익",
   "bumpkinItemBuff.hornet.mask": "기본 꿀벌 떼 확률 2배",
+  "birdieplaza.whatIsSeason": "챕터란 무엇인가?",
+  "birdieplaza.newSeasonIntro": "3개월마다 새로운 챕터가 선플라워 랜드에 도입됩니다.",
+  "birdieplaza.seasonQuests": "이 챕터에는 흥미로운 퀘스트, 희귀 수집품, 획득할 수 있는 독점 웨어러블이 있습니다.",
   "reward.streak.twoYear": "730일 연속 보상"
 }

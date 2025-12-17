@@ -112,11 +112,9 @@
   "birdieplaza.birdieIntro": "Ehi, sono Birdie, la Bumpkin più bella in circolazione!",
   "birdieplaza.admiringOutfit": "Ho notato che ammiravi il mio abbigliamento. Non è fantastico?!?",
   "birdieplaza.collectTickets": "Raccogli abbastanza {{chapterTicket}} e puoi creare NFT rari. È così che mi sono procurato questo abito raro!",
-  "birdieplaza.whatIsSeason": "Cos'è una stagione?",
   "birdieplaza.howToEarnTickets": "{{chapterTicket}} s?",
   "birdieplaza.earnTicketsVariety": "Puoi guadagnare {{chapterTicket}} in diversi modi.",
   "birdieplaza.gatherAndCraft": "Raccogli abbastanza {{chapterTicket}} e potrai acquistare alcuni oggetti rari come ho fatto io.",
-  "birdieplaza.newSeasonIntro": "Ogni 3 mesi viene introdotta una nuova stagione a Sunflower Land.",
   "description.speed.chicken.one": "Le tue galline ora produrranno uova il 10% più velocemente.",
   "description.banana.chicken": "Un pollo che fa crescere le banane. In che mondo viviamo.",
   "description.pharaoh.chicken": "Una gallina dominante, +1 Dig.",
@@ -3328,7 +3326,6 @@
   "gems.intro": "Per prepararci all'onboarding di nuovi giocatori, abbiamo sostituito i Block Bucks con una nuova valuta: le gemme!",
   "gems.intro.two": "Riceverai 20 gemme per ogni Block Buck che possiedi.",
   "birdieplaza.commonMethod": "Il metodo più comune per guadagnare {{chapterTicket}} è raccogliere risorse o raccogliere altri oggetti richiesti e poi consegnarli a Bumpkins in the Plaza e in altre aree.",
-  "birdieplaza.seasonQuests": "Questa stagione offre missioni entusiasmanti, rari oggetti da collezione e dispositivi indossabili esclusivi che puoi guadagnare.",
   "birdieplaza.craftItems": "Per ottenere questi oggetti rari, devi raccogliere {{chapterTicket}} e cambiarli allo Stella's Megastore o fare un'offerta presso la Casa d'Aste.",
   "reward.streak.oneYear": "Premi per una serie di 365 giorni",
   "season.codex.nextDrop.available": "{{dropSupply}} disponibile",
@@ -7263,5 +7260,8 @@
   "portal.memory.description": "Gira le carte, trova i fiammiferi e prova a battere il tempo in questa sfida di memoria!",
   "bumpkinItemBuff.chef.apron.boost": "+20% di profitto sulla consegna di torte",
   "bumpkinItemBuff.hornet.mask": "2x probabilità base di Bee Swarm",
+  "birdieplaza.whatIsSeason": "Che cos'è un capitolo?",
+  "birdieplaza.newSeasonIntro": "Ogni 3 mesi viene introdotto un nuovo capitolo a Sunflower Land.",
+  "birdieplaza.seasonQuests": "Questo capitolo contiene missioni entusiasmanti, rari oggetti da collezione e dispositivi indossabili esclusivi che puoi guadagnare.",
   "reward.streak.twoYear": "Ricompensa per una serie di 730 giorni"
 }

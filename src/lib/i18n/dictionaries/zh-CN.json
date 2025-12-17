@@ -111,11 +111,9 @@
   "birdieplaza.birdieIntro": "嘿，我是 Birdie，这儿最美的乡包佬！",
   "birdieplaza.admiringOutfit": "我看你是在欣赏我的衣服。漂亮坏了，是吧？！？",
   "birdieplaza.collectTickets": "收集足够的 {{chapterTicket}} 即可锻造稀有 NFT。这就是我获得这套稀有服装的方法！",
-  "birdieplaza.whatIsSeason": "什么是时季？",
   "birdieplaza.howToEarnTickets": "我怎样赚取",
   "birdieplaza.earnTicketsVariety": "您可以通过多种方式赚取 {{chapterTicket}}。",
   "birdieplaza.gatherAndCraft": "收集足够的 {{chapterTicket}} 你就可以像我一样购买一些稀有物品。",
-  "birdieplaza.newSeasonIntro": "Sunflower Land 每 3 个月会迎来一个新的时季。",
   "description.speed.chicken.one": "你的鸡生产速度会加快 10%。",
   "description.banana.chicken": "一只能让香蕉增加产量的鸡。我们这世界可真奇妙。",
   "description.lab.grow.pumpkin": "+0.3 南瓜产量",
@@ -3328,7 +3326,6 @@
   "gems.intro": "为了准备引入新玩家，我们已经用一种新货币……钻石取代了 Block Bucks！",
   "gems.intro.two": "您每拥有一个 Block Bucks，都将获得 20 颗钻石。",
   "birdieplaza.commonMethod": "赚取 {{chapterTicket}} 最常见方法是收集资源或收集其他所需物品，然后将其送货交付给广场和其他区域的乡包佬。",
-  "birdieplaza.seasonQuests": "本时季有激动人心的任务、稀有收藏品和独家穿戴品供您赚取。",
   "birdieplaza.craftItems": "要获得这些稀有物品，您必须收集 {{chapterTicket}} 并在 Stella 的超星商店兑换或在拍卖行竞拍。",
   "reward.streak.oneYear": "365 天连续奖励",
   "season.codex.nextDrop.available": "{{dropSupply}} 可用",
@@ -7263,5 +7260,8 @@
   "portal.memory.description": "在这场记忆挑战赛中，翻转卡片，寻找匹配项并尝试打破时间！",
   "bumpkinItemBuff.chef.apron.boost": "+20% 蛋糕配送利润",
   "bumpkinItemBuff.hornet.mask": "基本 Bee Swarm 几率为 2 倍",
+  "birdieplaza.whatIsSeason": "什么是章节？",
+  "birdieplaza.newSeasonIntro": "向日葵乐园每三个月就会推出一个新的篇章。",
+  "birdieplaza.seasonQuests": "本章包含精彩的任务、稀有收藏品和您可以获得的专属可穿戴设备。",
   "reward.streak.twoYear": "730 天连胜奖励"
 }

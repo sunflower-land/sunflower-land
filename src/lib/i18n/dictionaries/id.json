@@ -113,11 +113,9 @@
   "birdieplaza.birdieIntro": "Hei, aku Birdie, Bumpkin yang paling cantik di sekitar!",
   "birdieplaza.admiringOutfit": "Aku melihat kau mengagumi pakaianku. Bukankah itu fantastis?!?",
   "birdieplaza.collectTickets": "Kumpulkan cukup {{chapterTicket}} s dan Anda dapat membuat NFT langka. Begitulah cara saya mendapatkan pakaian langka ini!",
-  "birdieplaza.whatIsSeason": "Apa itu musim?",
   "birdieplaza.howToEarnTickets": "{{chapterTicket}} s?",
   "birdieplaza.earnTicketsVariety": "Anda bisa mendapatkan {{chapterTicket}} dengan berbagai cara.",
   "birdieplaza.gatherAndCraft": "Kumpulkan cukup {{chapterTicket}} s dan Anda akan dapat membeli beberapa barang langka seperti yang saya lakukan.",
-  "birdieplaza.newSeasonIntro": "Setiap 3 bulan musim baru diperkenalkan di Sunflower Land.",
   "description.speed.chicken.one": "Ayam Anda sekarang akan menghasilkan telur 10% lebih cepat.",
   "description.banana.chicken": "Ayam yang meningkatkan pisang. Betapa dunia yang kita tinggali.",
   "description.pharaoh.chicken": "Ayam yang berkuasa, +1 Dig.",
@@ -3328,7 +3326,6 @@
   "gems.intro": "Untuk mempersiapkan onboarding pemain baru, kami telah mengganti Block Bucks dengan mata uang baru... Permata!",
   "gems.intro.two": "Anda akan menerima 20 Permata untuk setiap Block Buck yang Anda miliki.",
   "birdieplaza.commonMethod": "Metode yang paling umum untuk mendapatkan {{chapterTicket}} s adalah dengan mengumpulkan sumber daya atau mengumpulkan item lain yang diminta, dan kemudian mengirimkannya ke Bumpkins di Plaza dan beberapa area lainnya.",
-  "birdieplaza.seasonQuests": "Musim ini memiliki pencarian menarik, koleksi langka, dan pakaian eksklusif yang bisa Anda peroleh.",
   "birdieplaza.craftItems": "Untuk mendapatkan barang-barang langka ini, Anda harus mengumpulkan {{chapterTicket}} s dan menukarnya di Stella's Megastore atau menawar di Rumah Lelang.",
   "reward.streak.oneYear": "Hadiah beruntun 365 hari",
   "season.codex.nextDrop.available": "{{dropSupply}} tersedia",
@@ -7263,5 +7260,8 @@
   "portal.memory.description": "Balikkan kartu, temukan kecocokan, dan cobalah untuk mengalahkan waktu dalam tantangan memori ini!",
   "bumpkinItemBuff.chef.apron.boost": "+20% Keuntungan Pengiriman Kue",
   "bumpkinItemBuff.hornet.mask": "2x peluang dasar Bea Swarm",
+  "birdieplaza.whatIsSeason": "Apa itu chapter?",
+  "birdieplaza.newSeasonIntro": "Setiap 3 bulan babak baru diperkenalkan di Sunflower Land.",
+  "birdieplaza.seasonQuests": "Bab ini memiliki pencarian menarik, koleksi langka, dan pakaian eksklusif yang bisa Anda peroleh.",
   "reward.streak.twoYear": "Hadiah 730 hari beruntun"
 }

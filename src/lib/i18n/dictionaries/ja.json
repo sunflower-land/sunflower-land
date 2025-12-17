@@ -113,11 +113,9 @@
   "birdieplaza.birdieIntro": "こんにちは、私はバーディー、周りで一番美しいバンプキンです！",
   "birdieplaza.admiringOutfit": "あなたが私の服を賞賛しているのに気づきました。素晴らしくない？！？",
   "birdieplaza.collectTickets": "十分な {{chapterTicket}} を集めると、レアなNFTを作成できます。そんなわけで、このレアな衣装を手に入れました！",
-  "birdieplaza.whatIsSeason": "シーズンとは？",
   "birdieplaza.howToEarnTickets": "{{chapterTicket}} s?",
   "birdieplaza.earnTicketsVariety": "さまざまな方法で {{chapterTicket}} を獲得できます。",
   "birdieplaza.gatherAndCraft": "{{chapterTicket}} をたくさん集めれば、私のようにレアなアイテムを購入できるようになります。",
-  "birdieplaza.newSeasonIntro": "サンフラワーランドでは、3か月ごとに新しいシーズンが始まります。",
   "description.speed.chicken.one": "鶏の卵生産が 10% 速くなりました。",
   "description.banana.chicken": "バナナを美味しくするチキン。私たちはなんて素晴らしい世界に住んでいるのでしょう。",
   "description.pharaoh.chicken": "ルーリングチキン、+1ディグ",
@@ -3328,7 +3326,6 @@
   "gems.intro": "新規プレイヤーのオンボーディングに備えて、Block Bucksを新しい通貨「ジェム」に置き換えました！",
   "gems.intro.two": "所有しているブロックバックごとに20ジェムを受け取ります。",
   "birdieplaza.commonMethod": "{{chapterTicket}} を獲得する最も一般的な方法は、資源を集めるか、他のリクエストされたアイテムを集めて、プラザや他のエリアのバンプキンに届けることです。",
-  "birdieplaza.seasonQuests": "今シーズンには、エキサイティングなクエスト、レアな収集品、限定ウェアラブルが手に入ります。",
   "birdieplaza.craftItems": "これらのレアアイテムを入手するには、{{chapterTicket}} を集めてステラのメガストアで交換するか、オークションハウスで入札する必要があります。",
   "reward.streak.oneYear": "365 日連続リワード",
   "season.codex.nextDrop.available": "{{dropSupply}} ご利用可能",
@@ -7263,5 +7260,8 @@
   "portal.memory.description": "このメモリーチャレンジでは、カードをめくったり、マッチを見つけたり、時間をつぶしたりしてみてください！",
   "bumpkinItemBuff.chef.apron.boost": "+20% ケーキデリバリー利益",
   "bumpkinItemBuff.hornet.mask": "2x ベース・ビー・スウォーム・チャンス",
+  "birdieplaza.whatIsSeason": "チャプターとは？",
+  "birdieplaza.newSeasonIntro": "サンフラワーランドでは、3か月ごとに新しい章が紹介されます。",
+  "birdieplaza.seasonQuests": "このチャプターには、エキサイティングなクエスト、珍しい収集品、獲得できる限定ウェアラブルがあります。",
   "reward.streak.twoYear": "730日連続リワード"
 }

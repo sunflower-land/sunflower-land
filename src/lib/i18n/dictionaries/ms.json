@@ -113,11 +113,9 @@
   "birdieplaza.birdieIntro": "Hei sana, saya Birdie, Bumpkin yang paling indah di sekitar!",
   "birdieplaza.admiringOutfit": "Saya perhatikan anda mengagumi pakaian saya. Bukankah ia hebat?!?",
   "birdieplaza.collectTickets": "Kumpulkan cukup {{chapterTicket}} s dan anda boleh membuat NFT yang jarang berlaku. Itulah bagaimana saya mendapat pakaian langka ini!",
-  "birdieplaza.whatIsSeason": "Apa itu musim?",
   "birdieplaza.howToEarnTickets": "{{chapterTicket}} s?",
   "birdieplaza.earnTicketsVariety": "Anda boleh memperoleh {{chapterTicket}} dalam pelbagai cara.",
   "birdieplaza.gatherAndCraft": "Kumpulkan cukup {{chapterTicket}} s dan anda akan dapat membeli beberapa barang langka seperti yang saya lakukan.",
-  "birdieplaza.newSeasonIntro": "Setiap 3 bulan musim baru diperkenalkan di Sunflower Land.",
   "description.speed.chicken.one": "Ayam anda kini akan menghasilkan telur 10% lebih cepat.",
   "description.banana.chicken": "Ayam yang meningkatkan pisang. Dunia apa yang kita hidup.",
   "description.pharaoh.chicken": "Ayam yang memerintah, +1 Dig.",
@@ -3328,7 +3326,6 @@
   "gems.intro": "Untuk mempersiapkan diri untuk memasuki pemain baru, kami telah menggantikan Block Bucks dengan mata wang baru... Permata!",
   "gems.intro.two": "Anda akan menerima 20 Permata untuk setiap Block Buck yang anda miliki.",
   "birdieplaza.commonMethod": "Kaedah yang paling biasa untuk mendapatkan {{chapterTicket}} s adalah dengan mengumpulkan sumber atau mengumpul item lain yang diminta, dan kemudian menghantarnya ke Bumpkins di Plaza dan beberapa kawasan lain.",
-  "birdieplaza.seasonQuests": "Musim ini mempunyai pencarian menarik, koleksi langka dan barang pakai eksklusif yang boleh anda perolehi.",
   "birdieplaza.craftItems": "Untuk mendapatkan barang-barang langka ini, anda mesti mengumpul {{chapterTicket}} s dan menukarnya di Stella's Megastore atau membida di Rumah Lelongan.",
   "reward.streak.oneYear": "Ganjaran rentetan 365 hari",
   "season.codex.nextDrop.available": "{{dropSupply}} tersedia",
@@ -7263,5 +7260,8 @@
   "portal.memory.description": "Balikkan kad, cari padanan dan cuba mengalahkan jam dalam cabaran ingatan ini!",
   "bumpkinItemBuff.chef.apron.boost": "+20% Keuntungan Penghantaran Kek",
   "bumpkinItemBuff.hornet.mask": "Peluang asas 2x Bee Swarm",
+  "birdieplaza.whatIsSeason": "Apakah bab itu?",
+  "birdieplaza.newSeasonIntro": "Setiap 3 bulan bab baru diperkenalkan di Sunflower Land.",
+  "birdieplaza.seasonQuests": "Bab ini mempunyai pencarian menarik, koleksi langka dan barang pakai eksklusif yang boleh anda perolehi.",
   "reward.streak.twoYear": "Ganjaran rentetan 730 hari"
 }

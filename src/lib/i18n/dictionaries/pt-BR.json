@@ -82,8 +82,6 @@
   "beehive.beeSwarm": "Enxame de abelhas",
   "birdieplaza.birdieIntro": "Olá, eu sou Birdie, a Bumpkin mais bonita por aqui!",
   "birdieplaza.admiringOutfit": "Notei você admirando meu traje. Não é fantástico?!?",
-  "birdieplaza.whatIsSeason": "O que é uma Temporada?",
-  "birdieplaza.newSeasonIntro": "A cada 3 meses, uma nova temporada é introduzida em Sunflower Land.",
   "description.speed.chicken.one": "Seus frangos agora produzirão ovos 10% mais rápido.",
   "description.banana.chicken": "Um frango que impulsiona bananas. Em que mundo vivemos?!",
   "description.lab.grow.pumpkin": "+0,3 Rendimento de Abóbora",
@@ -3328,7 +3326,6 @@
   "gems.intro": "Para nos prepararmos para a contratação de novos jogadores, substituímos o Block Bucks por uma nova moeda... Gems!",
   "gems.intro.two": "Você receberá 20 joias por cada Block Buck que possuir.",
   "birdieplaza.commonMethod": "O método mais comum de ganhar {{chapterTicket}} s é reunir recursos ou coletar outros itens solicitados e, em seguida, entregá-los ao Bumpkins in the Plaza e a algumas outras áreas.",
-  "birdieplaza.seasonQuests": "Esta temporada tem missões emocionantes, itens colecionáveis raros e dispositivos vestíveis exclusivos que você pode ganhar.",
   "birdieplaza.craftItems": "Para obter esses itens raros, você deve coletar {{chapterTicket}} s e trocá-los na Stella's Megastore ou licitar na Casa de Leilões.",
   "reward.streak.oneYear": "Recompensa de sequência de 365 dias",
   "season.codex.nextDrop.available": "{{dropSupply}} disponível",
@@ -7263,5 +7260,8 @@
   "portal.memory.description": "Vire cartas, encontre fósforos e tente vencer o relógio neste desafio de memória!",
   "bumpkinItemBuff.chef.apron.boost": "+20% de lucro na entrega do bolo",
   "bumpkinItemBuff.hornet.mask": "2x a chance básica de Enxame de Abelhas",
+  "birdieplaza.whatIsSeason": "O que é um capítulo?",
+  "birdieplaza.newSeasonIntro": "A cada 3 meses, um novo capítulo é introduzido na Sunflower Land.",
+  "birdieplaza.seasonQuests": "Este capítulo tem missões empolgantes, itens colecionáveis raros e dispositivos vestíveis exclusivos que você pode ganhar.",
   "reward.streak.twoYear": "Recompensa consecutiva de 730 dias"
 }
