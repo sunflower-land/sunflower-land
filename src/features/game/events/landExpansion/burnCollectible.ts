@@ -5,6 +5,10 @@ import { HourglassType } from "features/island/collectibles/components/Hourglass
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import { PET_SHRINES } from "features/game/types/pets";
+import {
+  EXPIRY_COOLDOWNS,
+  TemporaryCollectibleName,
+} from "features/game/lib/collectibleBuilt";
 
 export type BurnCollectibleAction = {
   type: "collectible.burned";
@@ -61,6 +65,12 @@ export function burnCollectible({
 
     if (!collectibleToRemove) {
       throw new Error("Collectible does not exist");
+    }
+
+    const cooldown = EXPIRY_COOLDOWNS[action.name as TemporaryCollectibleName];
+
+    if ((collectibleToRemove.createdAt ?? 0) + cooldown > createdAt) {
+      throw new Error("Collectible is still active");
     }
 
     collectibleGroup = collectibleGroup.filter(

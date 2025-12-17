@@ -546,6 +546,10 @@ import {
 import { clearTrades, ClearTradesAction } from "./clearTrades";
 import { placeNFT, PlaceNFTAction } from "./landExpansion/placeNFT";
 import { walkPet, WalkPetAction } from "./pets/walkPet";
+import {
+  renewPetShrine,
+  RenewPetShrineAction,
+} from "./landExpansion/renewPetShrine";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -703,7 +707,8 @@ export type PlayingEvent =
   | BulkPlantAction
   | BulkHarvestAction
   | BumpkinWaveAction
-  | BulkFertilisePlotAction;
+  | BulkFertilisePlotAction
+  | RenewPetShrineAction;
 
 export type LocalVisitingEvent =
   | CollectGarbageAction
@@ -950,6 +955,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "tree.upgraded": upgradeTree,
   "pet.pet": petPet,
   "trades.cleared": clearTrades,
+  "petShrine.renewed": renewPetShrine,
 };
 
 export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {
