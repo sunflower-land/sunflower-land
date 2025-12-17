@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNow } from "./useNow";
 
 export const getReturnValues = (timeLeft: number) => {
   // calculate time left
@@ -12,20 +13,23 @@ export const getReturnValues = (timeLeft: number) => {
   return { days, hours, minutes, seconds };
 };
 
-const getTimeRemaining = (targetDate?: number | null) => {
+const getTimeRemaining = (now: number, targetDate?: number | null) => {
   if (!targetDate) return 0;
 
-  return Math.max(targetDate - Date.now(), 0);
+  return Math.max(targetDate - now, 0);
 };
 
 export const useCountdown = (targetDate?: number | null) => {
-  const [timeLeft, setTimeLeft] = useState(() => getTimeRemaining(targetDate));
+  const now = useNow();
+  const [timeLeft, setTimeLeft] = useState(() =>
+    getTimeRemaining(now, targetDate),
+  );
 
   useEffect(() => {
     let intervalId: ReturnType<typeof setInterval> | undefined;
 
     const tick = () => {
-      const remaining = getTimeRemaining(targetDate);
+      const remaining = getTimeRemaining(now, targetDate);
       setTimeLeft(remaining);
 
       if (remaining <= 0 && intervalId) {
