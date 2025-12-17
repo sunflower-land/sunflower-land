@@ -151,7 +151,11 @@ export function craftTool({ state, action }: Options) {
     ...subtractedInventory,
     [action.tool]: oldAmount.add(amount) as Decimal,
   };
-  stateCopy.stock[action.tool] = stateCopy.stock[action.tool]?.minus(amount);
+
+  const stock = stateCopy.stock[action.tool];
+  if (stock !== undefined) {
+    stateCopy.stock[action.tool] = stock.minus(amount);
+  }
 
   return stateCopy;
 }
