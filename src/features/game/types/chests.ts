@@ -262,9 +262,8 @@ export const MANEKI_NEKO_REWARDS: RewardBoxReward[] = [
 
 export const FESTIVE_TREE_REWARDS: RewardBoxReward[] = [
   { items: { "Treasure Key": 1 }, wearables: {}, weighting: 20 },
-  { items: { "Golden Christmas Stocking": 1 }, wearables: {}, weighting: 20 },
-  { items: { "Christmas Candle": 1 }, wearables: {}, weighting: 20 },
-  { items: { "Christmas Rug": 1 }, wearables: {}, weighting: 20 },
-  { items: { "Rare Key": 1 }, wearables: {}, weighting: 10 },
-  { items: {}, wearables: { "Candy Cane": 1 }, weighting: 10 },
+  { items: { "Bronze Food Box": 1 }, wearables: {}, weighting: 20 },
+  { items: { "Bronze Love Box": 1 }, wearables: {}, weighting: 10 },
+  { items: { "Bronze Tool Box": 1 }, wearables: {}, weighting: 10 },
+  { items: { "Rare Key": 1 }, wearables: {}, weighting: 5 },
 ];
