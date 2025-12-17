@@ -19,7 +19,7 @@ import {
   PetNFT,
   PetRequestDifficulty,
 } from "features/game/types/pets";
-import { getCurrentSeason } from "features/game/types/seasons";
+import { getCurrentChapter } from "features/game/types/chapters";
 import { AuraTrait, BibTrait } from "features/pets/data/types";
 import { produce } from "immer";
 import { setPrecision } from "lib/utils/formatNumber";
@@ -79,7 +79,7 @@ export function getPetEnergy({
   // To remove after current chapter
   if (
     hasVipAccess({ game, now: createdAt }) &&
-    getCurrentSeason(new Date(createdAt)) === "Paw Prints"
+    getCurrentChapter(createdAt) === "Paw Prints"
   ) {
     energy += 5;
   }

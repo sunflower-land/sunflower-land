@@ -5,7 +5,7 @@ import Decimal from "decimal.js-light";
 import { InventoryItemName, Keys } from "features/game/types/game";
 
 import { Context } from "features/game/GameProvider";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
@@ -15,27 +15,28 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { MachineState } from "features/game/lib/gameMachine";
 import {
-  getCurrentSeason,
-  getSeasonalTicket,
-} from "features/game/types/seasons";
+  getCurrentChapter,
+  getChapterTicket,
+} from "features/game/types/chapters";
 import confetti from "canvas-confetti";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useNow } from "lib/utils/hooks/useNow";
 import {
   MEGASTORE,
-  SeasonalStoreCollectible,
-  SeasonalStoreItem,
-  SeasonalStoreWearable,
-  SeasonalTierItemName,
+  ChapterStoreCollectible,
+  ChapterStoreItem,
+  ChapterStoreWearable,
+  ChapterTierItemName,
 } from "features/game/types/megastore";
-import { getItemDescription } from "../SeasonalStore";
+import { getItemDescription } from "../ChapterStore";
 import { getKeys } from "features/game/types/craftables";
 import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import {
-  getSeasonalItemsCrafted,
-  isKeyBoughtWithinSeason,
-} from "features/game/events/landExpansion/buySeasonalItem";
+  getChapterItemsCrafted,
+  isKeyBoughtWithinChapter,
+} from "features/game/events/landExpansion/buyChapterItem";
 import { REWARD_BOXES } from "features/game/types/rewardBoxes";
 import { secondsToString } from "lib/utils/time";
 import {
@@ -46,7 +47,7 @@ import {
 import lockIcon from "assets/icons/lock.png";
 
 interface ItemOverlayProps {
-  item: SeasonalStoreItem | null;
+  item: ChapterStoreItem | null;
   image: string;
   isWearable: boolean;
   buff?: BuffLabel[];
@@ -58,6 +59,7 @@ interface ItemOverlayProps {
 
 const _sflBalance = (state: MachineState) => state.context.state.balance;
 const _inventory = (state: MachineState) => state.context.state.inventory;
+const _state = (state: MachineState) => state.context.state;
 
 export const ItemDetail: React.FC<ItemOverlayProps> = ({
   item,
@@ -72,20 +74,15 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const { shortcutItem, gameService, showAnimations } = useContext(Context);
   const sflBalance = useSelector(gameService, _sflBalance);
   const inventory = useSelector(gameService, _inventory);
-
+  const state = useSelector(gameService, _state);
   const [imageWidth, setImageWidth] = useState<number>(0);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
   const [confirmBuy, setConfirmBuy] = useState<boolean>(false);
-  //For Discount
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
 
-  const createdAt = Date.now();
-  const currentSeason = getCurrentSeason(new Date(createdAt));
-  const seasonalStore = MEGASTORE[currentSeason];
+  const now = useNow();
+  const currentChapter = getCurrentChapter(now);
+  const chapterTicket = getChapterTicket(now);
+  const seasonalStore = MEGASTORE[currentChapter];
   const tiers =
     tier === "basic"
       ? "basic"
@@ -97,14 +94,14 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
             ? "mega"
             : "basic";
 
-  const seasonalCollectiblesCrafted = getSeasonalItemsCrafted(
+  const seasonalCollectiblesCrafted = getChapterItemsCrafted(
     state,
     seasonalStore,
     "collectible",
     tiers,
     true,
   );
-  const seasonalWearablesCrafted = getSeasonalItemsCrafted(
+  const seasonalWearablesCrafted = getChapterItemsCrafted(
     state,
     seasonalStore,
     "wearable",
@@ -116,14 +113,14 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
   const itemName = item
     ? isWearable
-      ? (item as SeasonalStoreWearable).wearable
-      : (item as SeasonalStoreCollectible).collectible
+      ? (item as ChapterStoreWearable).wearable
+      : (item as ChapterStoreCollectible).collectible
     : undefined;
 
   const isKey = (name: InventoryItemName): name is Keys =>
     name in ARTEFACT_SHOP_KEYS;
 
-  const reduction = isKeyBoughtWithinSeason(state, tiers, true) ? 0 : 1;
+  const reduction = isKeyBoughtWithinChapter(state, tiers, now, true) ? 0 : 1;
   const isRareUnlocked =
     tiers === "rare" &&
     seasonalItemsCrafted - reduction >= seasonalStore.rare.requirement;
@@ -135,11 +132,10 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     seasonalItemsCrafted - reduction >= seasonalStore.mega.requirement;
 
   const boughtAt = state.megastore?.boughtAt[itemName as Keys] ?? 0;
-  const itemInCooldown =
-    !!boughtAt && boughtAt + (item?.cooldownMs ?? 0) > createdAt;
+  const itemInCooldown = !!boughtAt && boughtAt + (item?.cooldownMs ?? 0) > now;
 
   const itemCrafted =
-    state.farmActivity[`${itemName as SeasonalTierItemName} Bought`];
+    state.farmActivity[`${itemName as ChapterTierItemName} Bought`];
 
   const description = getItemDescription(item);
   const { sfl = 0 } = item?.cost || {};
@@ -202,20 +198,18 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     const currency =
       item.cost.sfl !== 0
         ? "SFL"
-        : item.cost.sfl === 0 &&
-            (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
+        : item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0 > 0)
           ? "Seasonal Ticket"
           : "SFL";
     const price =
       item.cost.sfl !== 0
         ? sfl
-        : item.cost.sfl === 0 &&
-            (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-          ? (item.cost?.items[getSeasonalTicket()] ?? 0)
+        : item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0 > 0)
+          ? (item.cost?.items[chapterTicket] ?? 0)
           : sfl;
     const itemName = isWearable
-      ? ((item as SeasonalStoreWearable).wearable as BumpkinItem)
-      : ((item as SeasonalStoreCollectible).collectible as InventoryItemName);
+      ? ((item as ChapterStoreWearable).wearable as BumpkinItem)
+      : ((item as ChapterStoreCollectible).collectible as InventoryItemName);
 
     gameAnalytics.trackSink({
       currency,
@@ -225,7 +219,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     });
 
     if (!isWearable) {
-      const itemName = (item as SeasonalStoreCollectible)
+      const itemName = (item as ChapterStoreCollectible)
         .collectible as InventoryItemName;
       const count = inventory[itemName]?.toNumber() ?? 1;
       gameAnalytics.trackMilestone({
@@ -237,7 +231,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const handleBuy = () => {
     if (!item) return;
 
-    gameService.send("seasonalItem.bought", {
+    gameService.send("chapterItem.bought", {
       name: itemName,
       tier: tiers,
     });
@@ -280,8 +274,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   };
 
   const isTradeable = isWearable
-    ? !!BUMPKIN_RELEASES[(item as SeasonalStoreWearable)?.wearable]
-    : !!INVENTORY_RELEASES[(item as SeasonalStoreCollectible)?.collectible];
+    ? !!BUMPKIN_RELEASES[(item as ChapterStoreWearable)?.wearable]
+    : !!INVENTORY_RELEASES[(item as ChapterStoreCollectible)?.collectible];
 
   return (
     <InnerPanel className="shadow">
@@ -359,8 +353,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                         {t("megastore.limit", {
                           time: secondsToString(
                             itemInCooldown
-                              ? (item.cooldownMs - (createdAt - boughtAt)) /
-                                  1000
+                              ? (item.cooldownMs - (now - boughtAt)) / 1000
                               : item.cooldownMs / 1000,
                             {
                               length: "short",

@@ -1,5 +1,5 @@
 import { BB_TO_GEM_RATIO, Inventory, InventoryItemName } from "./game";
-import { SEASON_TICKET_NAME, SeasonalTicket, SEASONS } from "./seasons";
+import { CHAPTER_TICKET_NAME, ChapterTicket, CHAPTERS } from "./chapters";
 import Decimal from "decimal.js-light";
 import { BumpkinItem } from "./bumpkin";
 import { getObjectEntries } from "../expansion/lib/utils";
@@ -23,7 +23,7 @@ export type GarbageName =
       | "Yellow Egg"
       | "Rapid Growth"
       | "Tent"
-      | SeasonalTicket
+      | ChapterTicket
       | "Chicken"
       | "Hen House"
       | "Basic Bear"
@@ -104,11 +104,11 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
     sellPrice: 20,
     gems: 0,
   },
-  ...getObjectEntries(SEASON_TICKET_NAME).reduce(
+  ...getObjectEntries(CHAPTER_TICKET_NAME).reduce(
     (acc, [season, ticket]) => {
       return {
         ...acc,
-        ...(SEASONS[season].endDate.getTime() < Date.now()
+        ...(CHAPTERS[season].endDate.getTime() < Date.now()
           ? {
               [ticket]: {
                 sellPrice: 0.1,
@@ -118,7 +118,7 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
           : {}),
       };
     },
-    {} as Record<SeasonalTicket, Garbage>,
+    {} as Record<ChapterTicket, Garbage>,
   ),
 
   Chicken: {

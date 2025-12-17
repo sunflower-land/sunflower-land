@@ -5,17 +5,17 @@ import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getTimeLeft, secondsToString } from "lib/utils/time";
 import React, { useState } from "react";
-import { getCurrentSeason, SEASONS } from "features/game/types/seasons";
+import { getCurrentChapter, CHAPTERS } from "features/game/types/chapters";
 import {
   MEGASTORE,
-  SeasonalStoreCollectible,
-  SeasonalStoreItem,
-  SeasonalStoreTier,
-  SeasonalStoreWearable,
+  ChapterStoreCollectible,
+  ChapterStoreItem,
+  ChapterStoreTier,
+  ChapterStoreWearable,
 } from "features/game/types/megastore";
 
-import { ItemsList } from "./seasonalstore_components/ItemsList";
-import { ItemDetail } from "./seasonalstore_components/ItemDetail";
+import { ItemsList } from "./chapter_store_components/ItemsList";
+import { ItemDetail } from "./chapter_store_components/ItemDetail";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getImageUrl } from "lib/utils/getImageURLS";
@@ -29,18 +29,18 @@ import { useNow } from "lib/utils/hooks/useNow";
 
 // type guard for WearablesItem | CollectiblesItem
 export const isWearablesItem = (
-  item: SeasonalStoreItem | null,
-): item is SeasonalStoreWearable => {
-  return (item as SeasonalStoreWearable).wearable in ITEM_IDS;
+  item: ChapterStoreItem | null,
+): item is ChapterStoreWearable => {
+  return (item as ChapterStoreWearable).wearable in ITEM_IDS;
 };
 // type guard for Keys
 export const isKeys = (
-  item: SeasonalStoreItem | null,
-): item is SeasonalStoreCollectible => {
-  return (item as SeasonalStoreCollectible).collectible in FACTION_SHOP_KEYS;
+  item: ChapterStoreItem | null,
+): item is ChapterStoreCollectible => {
+  return (item as ChapterStoreCollectible).collectible in FACTION_SHOP_KEYS;
 };
 
-export const getItemImage = (item: SeasonalStoreItem | null): string => {
+export const getItemImage = (item: ChapterStoreItem | null): string => {
   if (!item) return "";
 
   if (isWearablesItem(item)) {
@@ -51,7 +51,7 @@ export const getItemImage = (item: SeasonalStoreItem | null): string => {
 };
 
 export const getItemBuffLabel = (
-  item: SeasonalStoreItem | null,
+  item: ChapterStoreItem | null,
   state: GameState,
 ): BuffLabel[] | undefined => {
   if (!item) return;
@@ -65,7 +65,7 @@ export const getItemBuffLabel = (
     collectibles: state.collectibles,
   });
 };
-export const getItemDescription = (item: SeasonalStoreItem | null): string => {
+export const getItemDescription = (item: ChapterStoreItem | null): string => {
   if (!item) return "";
 
   if (isWearablesItem(item)) {
@@ -75,46 +75,36 @@ export const getItemDescription = (item: SeasonalStoreItem | null): string => {
   return ITEM_DETAILS[item.collectible].description;
 };
 
-export const SeasonalStore: React.FC<{
+export const ChapterStore: React.FC<{
   readonly?: boolean;
   state: GameState;
 }> = ({ readonly, state }) => {
-  const [selectedItem, setSelectedItem] = useState<SeasonalStoreItem | null>(
+  const [selectedItem, setSelectedItem] = useState<ChapterStoreItem | null>(
     null,
   );
-  const [selectedTier, setSelectedTier] = useState<SeasonalStoreTier>();
-  const handleClickItem = (
-    item: SeasonalStoreItem,
-    tier: SeasonalStoreTier,
-  ) => {
+  const [selectedTier, setSelectedTier] = useState<ChapterStoreTier>();
+  const handleClickItem = (item: ChapterStoreItem, tier: ChapterStoreTier) => {
     setSelectedItem(item);
     setSelectedTier(tier);
   };
-  const getTotalSecondsAvailable = () => {
-    const { startDate, endDate } = SEASONS[getCurrentSeason()];
-
-    return (endDate.getTime() - startDate.getTime()) / 1000;
-  };
-
-  const now = useNow({
-    live: true,
-    autoEndAt: SEASONS[getCurrentSeason()].endDate.getTime(),
-  });
+  const now = useNow({ live: true });
+  const currentChapter = getCurrentChapter(now);
+  const { startDate, endDate } = CHAPTERS[currentChapter];
+  const totalSecondsAvailable =
+    (endDate.getTime() - startDate.getTime()) / 1000;
 
   const timeRemaining = getTimeLeft(
-    SEASONS[getCurrentSeason()].startDate.getTime(),
-    getTotalSecondsAvailable(),
+    startDate.getTime(),
+    totalSecondsAvailable,
     now,
   );
   const { t } = useAppTranslation();
 
-  const currentSeason = getCurrentSeason();
-
   // Basic-Epic
-  const basicAllItems = MEGASTORE[currentSeason].basic.items;
-  const rareAllItems = MEGASTORE[currentSeason].rare.items;
-  const epicAllItems = MEGASTORE[currentSeason].epic.items;
-  const megaItems = MEGASTORE[currentSeason].mega.items;
+  const basicAllItems = MEGASTORE[currentChapter].basic.items;
+  const rareAllItems = MEGASTORE[currentChapter].rare.items;
+  const epicAllItems = MEGASTORE[currentChapter].epic.items;
+  const megaItems = MEGASTORE[currentChapter].mega.items;
 
   return (
     <>

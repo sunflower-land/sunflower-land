@@ -9,7 +9,6 @@ import { Modal } from "components/ui/Modal";
 import { Digby } from "features/world/ui/beach/Digby";
 import { useTranslation } from "react-i18next";
 import { isWearableActive } from "features/game/lib/wearables";
-import { getCurrentSeason } from "features/game/types/seasons";
 
 export const getRegularMaxDigs = (game: GameState) => {
   let maxDigs = 25;
@@ -28,13 +27,6 @@ export const getRegularMaxDigs = (game: GameState) => {
   }
 
   if (isWearableActive({ name: "Bionic Drill", game })) {
-    maxDigs += 5;
-  }
-
-  if (
-    !!game.inventory["Pharaoh's Treasure Banner"] &&
-    getCurrentSeason() === "Pharaoh's Treasure"
-  ) {
     maxDigs += 5;
   }
 

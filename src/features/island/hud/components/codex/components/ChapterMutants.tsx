@@ -3,12 +3,12 @@ import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { SeasonName } from "features/game/types/seasons";
+import { ChapterName } from "features/game/types/chapters";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 
-type SeasonalMutants = {
+type ChapterMutants = {
   banner: string;
   chicken: InventoryItemName;
   flower: InventoryItemName;
@@ -17,7 +17,7 @@ type SeasonalMutants = {
   sheep: InventoryItemName;
 };
 
-export const SEASONAL_MUTANTS: Partial<Record<SeasonName, SeasonalMutants>> = {
+export const CHAPTER_MUTANTS: Partial<Record<ChapterName, ChapterMutants>> = {
   "Pharaoh's Treasure": {
     chicken: "Pharaoh Chicken",
     flower: "Desert Rose",
@@ -61,10 +61,10 @@ export const SEASONAL_MUTANTS: Partial<Record<SeasonName, SeasonalMutants>> = {
 };
 
 interface Props {
-  season: SeasonName;
+  chapter: ChapterName;
 }
-export const SeasonalMutants: React.FC<Props> = ({ season }) => {
-  const mutants = SEASONAL_MUTANTS[season];
+export const ChapterMutants: React.FC<Props> = ({ chapter }) => {
+  const mutants = CHAPTER_MUTANTS[chapter];
 
   const { t } = useAppTranslation();
 

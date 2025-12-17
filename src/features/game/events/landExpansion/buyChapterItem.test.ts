@@ -1,9 +1,9 @@
 import Decimal from "decimal.js-light";
-import { buySeasonalItem } from "./buySeasonalItem";
+import { buyChapterItem } from "./buyChapterItem";
 import { TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 
-describe("buySeasonalItem", () => {
+describe("buyChapterItem", () => {
   const mockState: GameState = {
     ...TEST_FARM,
     balance: new Decimal(1000),
@@ -17,27 +17,27 @@ describe("buySeasonalItem", () => {
 
   // Remove beforeEach and afterEach hooks
 
-  it("throws an error if the item is not found in the seasonal store", () => {
+  it("throws an error if the item is not found in the chapter store", () => {
     expect(() =>
-      buySeasonalItem({
+      buyChapterItem({
         state: mockState,
         action: {
-          type: "seasonalItem.bought",
+          type: "chapterItem.bought",
           name: "Non-existent Item" as any,
           tier: "basic",
         },
         createdAt: mockDate,
       }),
-    ).toThrow("Item not found in the seasonal store");
+    ).toThrow("Item not found in the chapter store");
   });
 
   it("throws an error if the player doesn't have enough SFL", () => {
     const poorState = { ...mockState, balance: new Decimal(0) };
     expect(() =>
-      buySeasonalItem({
+      buyChapterItem({
         state: poorState,
         action: {
-          type: "seasonalItem.bought",
+          type: "chapterItem.bought",
           name: "Treasure Key",
           tier: "basic",
         },
@@ -52,10 +52,10 @@ describe("buySeasonalItem", () => {
       inventory: { Wood: new Decimal(0) },
     };
     expect(() =>
-      buySeasonalItem({
+      buyChapterItem({
         state: lowInventoryState,
         action: {
-          type: "seasonalItem.bought",
+          type: "chapterItem.bought",
           name: "Basic Bear",
           tier: "basic",
         },
@@ -65,10 +65,10 @@ describe("buySeasonalItem", () => {
   });
 
   it("subtracts SFL when buying an item", () => {
-    const result = buySeasonalItem({
+    const result = buyChapterItem({
       state: mockState,
       action: {
-        type: "seasonalItem.bought",
+        type: "chapterItem.bought",
         name: "Treasure Key",
         tier: "basic",
       },
@@ -79,10 +79,10 @@ describe("buySeasonalItem", () => {
   });
 
   it("subtracts items when buying an item", () => {
-    const result = buySeasonalItem({
+    const result = buyChapterItem({
       state: mockState,
       action: {
-        type: "seasonalItem.bought",
+        type: "chapterItem.bought",
         name: "Basic Bear",
         tier: "basic",
       },
@@ -93,10 +93,10 @@ describe("buySeasonalItem", () => {
   });
 
   it("successfully buys a collectible item", () => {
-    const result = buySeasonalItem({
+    const result = buyChapterItem({
       state: mockState,
       action: {
-        type: "seasonalItem.bought",
+        type: "chapterItem.bought",
         name: "Basic Bear",
         tier: "basic",
       },
@@ -107,10 +107,10 @@ describe("buySeasonalItem", () => {
   });
 
   it("successfully buys a wearable item", () => {
-    const result = buySeasonalItem({
+    const result = buyChapterItem({
       state: mockState,
       action: {
-        type: "seasonalItem.bought",
+        type: "chapterItem.bought",
         name: "Red Farmer Shirt",
         tier: "basic",
       },
@@ -122,7 +122,7 @@ describe("buySeasonalItem", () => {
 
   it("throws an error if key already bought today", () => {
     expect(() =>
-      buySeasonalItem({
+      buyChapterItem({
         state: {
           ...mockState,
           inventory: {
@@ -136,7 +136,7 @@ describe("buySeasonalItem", () => {
           },
         },
         action: {
-          type: "seasonalItem.bought",
+          type: "chapterItem.bought",
           name: "Treasure Key",
           tier: "basic",
         },
@@ -146,7 +146,7 @@ describe("buySeasonalItem", () => {
   });
 
   it("updates createdAt when key is bought", () => {
-    const state = buySeasonalItem({
+    const state = buyChapterItem({
       state: {
         ...mockState,
         inventory: {
@@ -155,7 +155,7 @@ describe("buySeasonalItem", () => {
         },
       },
       action: {
-        type: "seasonalItem.bought",
+        type: "chapterItem.bought",
         name: "Treasure Key",
         tier: "basic",
       },
@@ -173,7 +173,7 @@ describe("buySeasonalItem", () => {
     jest.useFakeTimers();
     jest.setSystemTime(mockedDate);
     expect(() =>
-      buySeasonalItem({
+      buyChapterItem({
         state: {
           ...mockState,
           balance: new Decimal(5),
@@ -183,7 +183,7 @@ describe("buySeasonalItem", () => {
           farmActivity: { "Acorn House Bought": 1 },
         },
         action: {
-          type: "seasonalItem.bought",
+          type: "chapterItem.bought",
           name: "Acorn House",
           tier: "basic",
         },
@@ -196,7 +196,7 @@ describe("buySeasonalItem", () => {
     const mockedDate = new Date(2025, 1, 5);
     jest.useFakeTimers();
     jest.setSystemTime(mockedDate);
-    const state = buySeasonalItem({
+    const state = buyChapterItem({
       state: {
         ...mockState,
         balance: new Decimal(5),
@@ -209,7 +209,7 @@ describe("buySeasonalItem", () => {
         },
       },
       action: {
-        type: "seasonalItem.bought",
+        type: "chapterItem.bought",
         name: "Treasure Key",
         tier: "basic",
       },
@@ -225,7 +225,7 @@ describe("buySeasonalItem", () => {
     jest.useFakeTimers();
     jest.setSystemTime(mockedDate);
     expect(() =>
-      buySeasonalItem({
+      buyChapterItem({
         state: {
           ...mockState,
           balance: new Decimal(5),
@@ -241,7 +241,7 @@ describe("buySeasonalItem", () => {
           },
         },
         action: {
-          type: "seasonalItem.bought",
+          type: "chapterItem.bought",
           name: "Igloo",
           tier: "rare",
         },
@@ -255,7 +255,7 @@ describe("buySeasonalItem", () => {
     jest.useFakeTimers();
     jest.setSystemTime(mockedDate);
 
-    const state = buySeasonalItem({
+    const state = buyChapterItem({
       state: {
         ...mockState,
         balance: new Decimal(5),
@@ -272,7 +272,7 @@ describe("buySeasonalItem", () => {
         },
       },
       action: {
-        type: "seasonalItem.bought",
+        type: "chapterItem.bought",
         name: "Rare Key",
         tier: "rare",
       },
@@ -287,7 +287,7 @@ describe("buySeasonalItem", () => {
     jest.useFakeTimers();
     jest.setSystemTime(mockedDate);
     expect(() =>
-      buySeasonalItem({
+      buyChapterItem({
         state: {
           ...mockState,
           balance: new Decimal(5),
@@ -307,7 +307,7 @@ describe("buySeasonalItem", () => {
           },
         },
         action: {
-          type: "seasonalItem.bought",
+          type: "chapterItem.bought",
           name: "Mammoth",
           tier: "epic",
         },
@@ -321,7 +321,7 @@ describe("buySeasonalItem", () => {
     jest.useFakeTimers();
     jest.setSystemTime(mockedDate);
 
-    const state = buySeasonalItem({
+    const state = buyChapterItem({
       state: {
         ...mockState,
         balance: new Decimal(5),
@@ -343,7 +343,7 @@ describe("buySeasonalItem", () => {
         },
       },
       action: {
-        type: "seasonalItem.bought",
+        type: "chapterItem.bought",
         name: "Luxury Key",
         tier: "epic",
       },
@@ -358,7 +358,7 @@ describe("buySeasonalItem", () => {
     jest.useFakeTimers();
     jest.setSystemTime(mockedDate);
     expect(() =>
-      buySeasonalItem({
+      buyChapterItem({
         state: {
           ...mockState,
           balance: new Decimal(5),
@@ -382,7 +382,7 @@ describe("buySeasonalItem", () => {
           },
         },
         action: {
-          type: "seasonalItem.bought",
+          type: "chapterItem.bought",
           name: "Sickle",
           tier: "mega",
         },

@@ -1,5 +1,4 @@
 import { Equipped } from "features/game/types/bumpkin";
-import { hasSeasonEnded } from "features/game/types/seasons";
 
 export type NPCName =
   | "richie"
@@ -684,23 +683,14 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     body: "Beige Farmer Potion",
     background: "Pumpkin Plaza Background",
     hair: "Brown Long Hair",
-    shirt: hasSeasonEnded("Pharaoh's Treasure")
-      ? "Merino Jumper"
-      : "Explorer Shirt",
-    pants: hasSeasonEnded("Pharaoh's Treasure")
-      ? "Cowgirl Skirt"
-      : "Oil Overalls",
+    shirt: "Merino Jumper",
+    pants: "Cowgirl Skirt",
     hat: "Flower Mask",
-    tool: hasSeasonEnded("Pharaoh's Treasure")
-      ? "Shepherd Staff"
-      : "Ancient Shovel",
-    necklace: hasSeasonEnded("Pharaoh's Treasure") ? "Dream Scarf" : undefined,
-    coat: hasSeasonEnded("Pharaoh's Treasure") ? "Milk Apron" : undefined,
-    secondaryTool: hasSeasonEnded("Pharaoh's Treasure")
-      ? undefined
-      : "Lemon Shield",
+    tool: "Shepherd Staff",
+    necklace: "Dream Scarf",
+    coat: "Milk Apron",
     shoes: "Black Farmer Boots",
-    wings: hasSeasonEnded("Pharaoh's Treasure") ? "Sol & Luna" : "Scarab Wings",
+    wings: "Sol & Luna",
   },
   // Old loving grandma of the game
   buttons: {

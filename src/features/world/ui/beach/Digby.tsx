@@ -6,7 +6,7 @@ import {
   DiggingFormation,
   DIGGING_FORMATIONS,
   getArtefactsFound,
-  SEASONAL_ARTEFACT,
+  CHAPTER_ARTEFACT,
   hasClaimedReward,
   DiggingFormationName,
 } from "features/game/types/desert";
@@ -39,9 +39,9 @@ import { Revealed } from "features/game/components/Revealed";
 import { ChestRevealing, ChestRewardType } from "../chests/ChestRevealing";
 import { gameAnalytics } from "lib/gameAnalytics";
 import {
-  getCurrentSeason,
-  getSeasonalArtefact,
-} from "features/game/types/seasons";
+  getCurrentChapter,
+  getChapterArtefact,
+} from "features/game/types/chapters";
 import { ChestRewardsList } from "components/ui/ChestRewardsList";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -70,7 +70,8 @@ function centerFormation(formation: DiggingFormation): DiggingFormation {
 export const Pattern: React.FC<{
   pattern: DiggingFormation;
   isDiscovered: boolean;
-}> = ({ pattern, isDiscovered }) => {
+  now: number;
+}> = ({ pattern, isDiscovered, now }) => {
   const width = 25;
 
   const centeredPattern = centerFormation(pattern);
@@ -105,7 +106,13 @@ export const Pattern: React.FC<{
         >
           <img
             className="w-full h-full"
-            src={ITEM_DETAILS[name].image}
+            src={
+              ITEM_DETAILS[
+                name === "Seasonal Artefact"
+                  ? CHAPTER_ARTEFACT[getCurrentChapter(now)]
+                  : name
+              ].image
+            }
             key={`${name}-${x}-${y}`}
           />
         </div>
@@ -169,7 +176,10 @@ export const DailyPuzzle: React.FC = () => {
 
   const { t } = useAppTranslation();
 
-  const artefactsFound = getArtefactsFound({ game: gameState.context.state });
+  const artefactsFound = getArtefactsFound({
+    game: gameState.context.state,
+    now,
+  });
   const percentage = Math.round((artefactsFound / 3) * 100);
 
   const hasClaimedReward =
@@ -233,7 +243,11 @@ export const DailyPuzzle: React.FC = () => {
           className="flex flex-wrap  scrollable overflow-y-auto pt-2 overflow-x-hidden pr-1"
           style={{ maxHeight: "300px" }}
         >
-          <Patterns patterns={patterns} completedPatterns={completedPatterns} />
+          <Patterns
+            patterns={patterns}
+            completedPatterns={completedPatterns}
+            now={now}
+          />
         </div>
 
         <div className="flex justify-between items-center mt-2 mb-1">
@@ -259,7 +273,7 @@ export const DailyPuzzle: React.FC = () => {
             />
             <span className="text-xs ml-2">{`${artefactsFound}/3`}</span>
             <img
-              src={ITEM_DETAILS[SEASONAL_ARTEFACT[getCurrentSeason()]].image}
+              src={ITEM_DETAILS[CHAPTER_ARTEFACT[getCurrentChapter(now)]].image}
               className="h-5 ml-1"
             />
           </div>
@@ -268,7 +282,7 @@ export const DailyPuzzle: React.FC = () => {
         <div className="mb-2">
           <span className="text-xs">
             {t("digby.streakReward", {
-              name: SEASONAL_ARTEFACT[getCurrentSeason()],
+              name: CHAPTER_ARTEFACT[getCurrentChapter(now)],
             })}
           </span>
         </div>
@@ -285,7 +299,8 @@ export const DailyPuzzle: React.FC = () => {
 const Patterns: React.FC<{
   patterns: DiggingFormationName[];
   completedPatterns: DiggingFormationName[];
-}> = ({ patterns, completedPatterns }) => {
+  now: number;
+}> = ({ patterns, completedPatterns, now }) => {
   const completedPatternCount = completedPatterns.reduce(
     (acc, pattern) => {
       acc[pattern] = (acc[pattern] || 1) + 1;
@@ -313,6 +328,7 @@ const Patterns: React.FC<{
                 isDiscovered={
                   isDiscovered && completedPatternCount[pattern] !== 0
                 }
+                now={now}
               />
             </div>
           </div>
@@ -345,8 +361,10 @@ interface BoostDigItem {
 
 const BoostDigItems: (
   state: GameState,
+  now: number,
 ) => Partial<Record<BumpkinItem | CollectibleName, BoostDigItem>> = (
   state,
+  now,
 ) => ({
   "Pharaoh Chicken": {
     buff: COLLECTIBLE_BUFF_LABELS["Pharaoh Chicken"]?.({
@@ -366,7 +384,7 @@ const BoostDigItems: (
     buff: BUMPKIN_ITEM_BUFF_LABELS["Bionic Drill"] as BuffLabel[],
     location: "Artefact Shop",
   },
-  ...(getCurrentSeason() === "Pharaoh's Treasure"
+  ...(getCurrentChapter(now) === "Pharaoh's Treasure"
     ? {
         "Pharaoh's Treasure Banner": {
           buff: [
@@ -385,6 +403,7 @@ const BoostDigItems: (
 const Rewards: React.FC = () => {
   const [showRewards, setShowRewards] = useState(false);
   const { t } = useAppTranslation();
+  const now = useNow();
   return (
     <>
       {/* A button instead of a 4th tab to avoid
@@ -421,7 +440,7 @@ const Rewards: React.FC = () => {
                   },
                   {
                     text: t("chestRewardsList.desertReward.desc2"),
-                    icon: ITEM_DETAILS[getSeasonalArtefact()].image,
+                    icon: ITEM_DETAILS[getChapterArtefact(now)].image,
                   },
                 ]}
               />
@@ -443,11 +462,11 @@ const Rewards: React.FC = () => {
   );
 };
 
-const getDefaultTab = (game: GameState) => {
+const getDefaultTab = (game: GameState, now: number) => {
   if (!hasReadDigbyIntro()) return 1;
 
   const remainingDigs = getRemainingDigs(game);
-  const artefactsFound = getArtefactsFound({ game });
+  const artefactsFound = getArtefactsFound({ game, now });
   const percentage = Math.round((artefactsFound / 3) * 100);
   const hasClaimedStreakReward = hasClaimedReward({ game });
 
@@ -463,13 +482,17 @@ const getDefaultTab = (game: GameState) => {
 export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const [tab, setTab] = useState(getDefaultTab(gameState.context.state));
+  const now = useNow();
+  const [tab, setTab] = useState(getDefaultTab(gameState.context.state, now));
   const [showConfirm, setShowConfirm] = useState(false);
 
   const inventory = gameState.context.state.inventory;
   const digsLeft = getRemainingDigs(gameState.context.state);
 
-  const artefactsFound = getArtefactsFound({ game: gameState.context.state });
+  const artefactsFound = getArtefactsFound({
+    game: gameState.context.state,
+    now,
+  });
   const percentage = Math.round((artefactsFound / 3) * 100);
   const hasClaimedStreakReward = hasClaimedReward({
     game: gameState.context.state,
@@ -565,55 +588,55 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                     {t("digby.moreDigsIntro")}
                   </span>
                   <div className="flex flex-col my-2 space-y-1">
-                    {Object.entries(BoostDigItems(gameState.context.state)).map(
-                      ([item, itemData]) => (
-                        <div key={item} className="flex space-x-2">
-                          <div
-                            className="bg-brown-600 cursor-pointer relative"
-                            style={{
-                              ...pixelDarkBorderStyle,
-                            }}
-                          >
-                            <SquareIcon
-                              icon={getItemImage(
-                                item as BumpkinItem | CollectibleName,
-                              )}
-                              width={20}
-                            />
+                    {Object.entries(
+                      BoostDigItems(gameState.context.state, now),
+                    ).map(([item, itemData]) => (
+                      <div key={item} className="flex space-x-2">
+                        <div
+                          className="bg-brown-600 cursor-pointer relative"
+                          style={{
+                            ...pixelDarkBorderStyle,
+                          }}
+                        >
+                          <SquareIcon
+                            icon={getItemImage(
+                              item as BumpkinItem | CollectibleName,
+                            )}
+                            width={20}
+                          />
+                        </div>
+                        <div className="flex flex-col justify-center space-y-1">
+                          <div className="flex flex-col space-y-0.5">
+                            <span className="text-xs">{item}</span>
+                            <span className="text-xxs italic">
+                              {itemData.location}
+                            </span>
                           </div>
-                          <div className="flex flex-col justify-center space-y-1">
-                            <div className="flex flex-col space-y-0.5">
-                              <span className="text-xs">{item}</span>
-                              <span className="text-xxs italic">
-                                {itemData.location}
-                              </span>
-                            </div>
-                            <div className="flex flex-col gap-1">
-                              {itemData.buff.map(
-                                (
-                                  {
-                                    labelType,
-                                    boostTypeIcon,
-                                    boostedItemIcon,
-                                    shortDescription,
-                                  },
-                                  index,
-                                ) => (
-                                  <Label
-                                    key={index}
-                                    type={labelType}
-                                    icon={boostTypeIcon}
-                                    secondaryIcon={boostedItemIcon}
-                                  >
-                                    {shortDescription}
-                                  </Label>
-                                ),
-                              )}
-                            </div>
+                          <div className="flex flex-col gap-1">
+                            {itemData.buff.map(
+                              (
+                                {
+                                  labelType,
+                                  boostTypeIcon,
+                                  boostedItemIcon,
+                                  shortDescription,
+                                },
+                                index,
+                              ) => (
+                                <Label
+                                  key={index}
+                                  type={labelType}
+                                  icon={boostTypeIcon}
+                                  secondaryIcon={boostedItemIcon}
+                                >
+                                  {shortDescription}
+                                </Label>
+                              ),
+                            )}
                           </div>
                         </div>
-                      ),
-                    )}
+                      </div>
+                    ))}
                   </div>
                 </div>
                 <Button

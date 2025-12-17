@@ -250,7 +250,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Bull Run Banner": {
     name: "Bull Run Banner",
-    description: "A banner that celebrates the Bull Run season.",
+    description: "A banner that celebrates the Bull Run chapter.",
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/749.png",
@@ -5241,7 +5241,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Solar Flare Banner": {
     description:
-      "The temperature is rising in Sunflower Land. The mark of a participant in our inaugural season.",
+      "The temperature is rising in Sunflower Land. The mark of a participant in our inaugural chapterr.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/722.png",
@@ -5252,7 +5252,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Witches' Eve Banner": {
     description:
-      "The season of the witch has begun. The mark of a participant in the Witches' Eve Season.\n\nGrants 2 extra crow feathers per feather delivery during Witches' Eve Season",
+      "The chapter of the witch has begun. The mark of a participant in the Witches' Eve Season.\n\nGrants 2 extra crow feathers per feather delivery during Witches' Eve Season",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/724.png",
@@ -6027,7 +6027,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Mini Corn Maze": {
     description:
-      "A memento of the beloved maze from the 2023 Witches' Eve season.",
+      "A memento of the beloved maze from the 2023 Witches' Eve chapter.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1287.png",
@@ -6782,7 +6782,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Battle Fish": {
-    description: "The rare armored swimmer of faction season!",
+    description: "The rare armored swimmer of faction chapter!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1538.png",
@@ -6799,7 +6799,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Lemon Shark": {
     description:
-      "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure season.",
+      "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure chapter.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1539.png",
@@ -9583,7 +9583,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   "Desert Rose": {
     name: "Desert Rose",
     description:
-      "A mutant flower that can be found during the Pharaoh's Treasure season.",
+      "A mutant flower that can be found during the Pharaoh's Treasure chapter.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2100.png",
@@ -9605,7 +9605,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   Chicory: {
     name: "Chicory",
     description:
-      "A mutant flower that can be found during the Bull Run season.",
+      "A mutant flower that can be found during the Bull Run chapter.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2159.png",

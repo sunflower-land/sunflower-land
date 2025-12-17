@@ -15,9 +15,9 @@ import { capitalize } from "lib/utils/capitalize";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { DogContainer } from "../containers/DogContainer";
 import { PetContainer } from "../containers/PetContainer";
-import { getCurrentSeason, SeasonName } from "features/game/types/seasons";
+import { getCurrentChapter, ChapterName } from "features/game/types/chapters";
 
-const CHAPTER_BANNERS: Record<SeasonName, string | undefined> = {
+const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {
   "Solar Flare": undefined,
   "Dawn Breaker": undefined,
   "Witches' Eve": undefined,
@@ -33,7 +33,7 @@ const CHAPTER_BANNERS: Record<SeasonName, string | undefined> = {
 };
 
 // Tiled Layer names that get enabled during a chapter
-const CHAPTER_LAYERS: Record<SeasonName, string | undefined> = {
+const CHAPTER_LAYERS: Record<ChapterName, string | undefined> = {
   "Solar Flare": undefined,
   "Dawn Breaker": undefined,
   "Witches' Eve": undefined,
@@ -243,9 +243,9 @@ export class PlazaScene extends BaseScene {
 
     this.load.image("ronin_banner", "world/ronin_banner.webp");
 
-    const chapter = getCurrentSeason();
+    const chapter = getCurrentChapter(Date.now());
     // chapter = "Paw Prints"; // Testing only
-    this.load.image("chapter_banner", CHAPTER_BANNERS[chapter as SeasonName]);
+    this.load.image("chapter_banner", CHAPTER_BANNERS[chapter as ChapterName]);
 
     this.load.spritesheet("glint", "world/glint.png", {
       frameWidth: 7,
@@ -330,9 +330,9 @@ export class PlazaScene extends BaseScene {
     });
 
     let bumpkins = PLAZA_BUMPKINS;
-
-    const { holiday } = getBumpkinHoliday({});
-    const isHoliday = holiday === new Date().toISOString().split("T")[0];
+    const now = Date.now();
+    const { holiday } = getBumpkinHoliday({ now });
+    const isHoliday = holiday === new Date(now).toISOString().split("T")[0];
 
     if (!isHoliday) {
       bumpkins = [
@@ -613,7 +613,7 @@ export class PlazaScene extends BaseScene {
       });
 
     // Enable/disable chapter-specific layers
-    const chapter = getCurrentSeason();
+    const chapter = getCurrentChapter(Date.now());
 
     // Testing only
     // chapter = "Paw Prints";

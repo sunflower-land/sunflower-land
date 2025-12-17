@@ -23,7 +23,7 @@ import {
   ARTEFACT_SHOP_WEARABLES,
   ArtefactShopWearables,
 } from "features/game/types/artefactShop";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getChapterTicket } from "features/game/types/chapters";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
@@ -36,17 +36,19 @@ import { isMobile } from "mobile-device-detect";
 import { Restock } from "features/island/buildings/components/building/market/restock/Restock";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { useNow } from "lib/utils/hooks/useNow";
+import { MachineState } from "features/game/lib/gameMachine";
 
 interface ToolContentProps {
   selectedName: TreasureToolName;
 }
+const _state = (state: MachineState) => state.context.state;
 
 const ToolContent: React.FC<ToolContentProps> = ({ selectedName }) => {
   const { t } = useAppTranslation();
 
   const { gameService, shortcutItem } = useContext(Context);
 
-  const state = useSelector(gameService, (state) => state.context.state);
+  const state = useSelector(gameService, _state);
 
   const stock = state.stock[selectedName] || new Decimal(0);
   const selected = TREASURE_TOOLS[selectedName];
@@ -219,14 +221,12 @@ interface WearableContentProps {
 
 const WearableContent: React.FC<WearableContentProps> = ({ selectedName }) => {
   const { t } = useAppTranslation();
+  const now = useNow();
+  const ticket = getChapterTicket(now);
 
   const selected = ARTEFACT_SHOP_WEARABLES[selectedName];
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, _state);
   const inventory = state.inventory;
   const wardrobe = state.wardrobe;
 
@@ -253,10 +253,10 @@ const WearableContent: React.FC<WearableContentProps> = ({ selectedName }) => {
       });
     }
 
-    if (selected.ingredients[getSeasonalTicket()]) {
+    if (selected.ingredients[ticket]) {
       gameAnalytics.trackSink({
         currency: "Seasonal Ticket",
-        amount: selected.ingredients[getSeasonalTicket()]?.toNumber() ?? 1,
+        amount: selected.ingredients[ticket]?.toNumber() ?? 1,
         item: selectedName,
         type: "Wearable",
       });

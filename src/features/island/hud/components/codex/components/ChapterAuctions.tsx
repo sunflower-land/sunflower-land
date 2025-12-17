@@ -19,10 +19,10 @@ import { Loading } from "features/auth/components";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/decorations";
 import {
-  getCurrentSeason,
-  SeasonName,
-  SEASONS,
-} from "features/game/types/seasons";
+  getCurrentChapter,
+  ChapterName,
+  CHAPTERS,
+} from "features/game/types/chapters";
 import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 
@@ -54,16 +54,16 @@ type AuctionItems = Record<
 /**
  * Aggregates the seasonal auction items
  */
-function getSeasonalAuctions({
+function getChapterAuctions({
   auctions,
   totalSupply,
-  season,
+  chapter,
 }: {
   auctions: Auction[];
   totalSupply: Record<string, number>;
-  season: SeasonName;
+  chapter: ChapterName;
 }) {
-  const { startDate, endDate } = SEASONS[season];
+  const { startDate, endDate } = CHAPTERS[chapter];
 
   // Aggregate supplies
   let details: AuctionItems = auctions.reduce((acc, auction) => {
@@ -270,8 +270,8 @@ const Drops: React.FC<{
     skills: game.bumpkin.skills,
     collectibles: game.collectibles,
   });
-
-  const chapter = SEASONS[getCurrentSeason()];
+  const currentChapter = getCurrentChapter(now);
+  const chapter = CHAPTERS[currentChapter];
   const chapterSupply = detail.auctions.reduce((acc, drop) => {
     if (
       drop.startAt < chapter.startDate.getTime() ||
@@ -409,15 +409,15 @@ const Drops: React.FC<{
 interface Props {
   gameState: GameState;
   farmId: number;
-  season: SeasonName;
+  chapter: ChapterName;
 }
 
 const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
 
-export const SeasonalAuctions: React.FC<Props> = ({
+export const ChapterAuctions: React.FC<Props> = ({
   farmId,
   gameState,
-  season,
+  chapter,
 }) => {
   const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
@@ -460,10 +460,10 @@ export const SeasonalAuctions: React.FC<Props> = ({
   }
 
   const { details: auctionItems, filteredTotalSupply: totalItems } =
-    getSeasonalAuctions({
+    getChapterAuctions({
       auctions: auctioneerState.context.auctions,
       totalSupply: auctioneerState.context.totalSupply,
-      season,
+      chapter,
     });
 
   return (

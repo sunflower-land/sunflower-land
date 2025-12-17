@@ -18,7 +18,7 @@ import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getChapterTicket } from "features/game/types/chapters";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
@@ -34,6 +34,7 @@ import { GameState } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import helpIcon from "assets/icons/help.webp";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const PROJECTS: WorkbenchMonumentName[] = [
   "Basic Cooking Pot",
@@ -116,6 +117,8 @@ export const IslandBlacksmithItems: React.FC = () => {
   >("Basic Scarecrow");
   const { gameService, shortcutItem } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
+  const now = useNow();
+  const ticket = getChapterTicket(now);
   const inventory = useSelector(
     gameService,
     (state) => state.context.state.inventory,
@@ -184,12 +187,10 @@ export const IslandBlacksmithItems: React.FC = () => {
       event: `Crafting:Collectible:${selectedName}${count}`,
     });
 
-    if ((selectedItem?.ingredients ?? {})[getSeasonalTicket()]) {
+    if ((selectedItem?.ingredients ?? {})[ticket]) {
       gameAnalytics.trackSink({
         currency: "Seasonal Ticket",
-        amount:
-          (selectedItem?.ingredients ?? {})[getSeasonalTicket()]?.toNumber() ??
-          1,
+        amount: (selectedItem?.ingredients ?? {})[ticket]?.toNumber() ?? 1,
         item: selectedName,
         type: "Collectible",
       });

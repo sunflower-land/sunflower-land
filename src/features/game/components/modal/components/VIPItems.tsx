@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import {
-  getCurrentSeason,
-  getSeasonalTicket,
-} from "features/game/types/seasons";
+  getCurrentChapter,
+  getChapterTicket,
+} from "features/game/types/chapters";
 import { ButtonPanel, Panel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -96,6 +96,8 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
   };
 
   const vipExpiresAt = getExpiresAt();
+  const chapterTicket = getChapterTicket(now);
+  const currentChapter = getCurrentChapter(now);
 
   return (
     <>
@@ -266,7 +268,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
             { text: t("vip.benefit.stellaDiscounts"), icon: shopIcon },
             {
               text: t("vip.benefit.bonusDelivery"),
-              icon: ITEM_DETAILS[getSeasonalTicket()].image,
+              icon: ITEM_DETAILS[chapterTicket].image,
             },
             {
               text: t("vip.benefit.reputation", {
@@ -275,7 +277,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
               icon: increaseArrow,
             },
             { text: t("vip.benefit.competition"), icon: trophyIcon },
-            ...(getCurrentSeason() === "Paw Prints"
+            ...(currentChapter === "Paw Prints"
               ? [
                   {
                     text: t("vip.benefit.bonusPetEnergy"),

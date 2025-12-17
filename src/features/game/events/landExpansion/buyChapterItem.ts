@@ -2,41 +2,41 @@ import Decimal from "decimal.js-light";
 import { GameState, InventoryItemName, Keys } from "features/game/types/game";
 
 import { produce } from "immer";
-import { getCurrentSeason, SEASONS } from "features/game/types/seasons";
+import { getCurrentChapter, CHAPTERS } from "features/game/types/chapters";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import {
   MEGASTORE,
-  SeasonalStore,
-  SeasonalStoreCollectible,
-  SeasonalStoreItem,
-  SeasonalStoreTier,
-  SeasonalStoreWearable,
-  SeasonalTierItemName,
+  ChapterStore,
+  ChapterStoreCollectible,
+  ChapterStoreItem,
+  ChapterStoreTier,
+  ChapterStoreWearable,
+  ChapterTierItemName,
 } from "features/game/types/megastore";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 
 export function isCollectible(
-  item: SeasonalStoreItem,
-): item is SeasonalStoreCollectible {
+  item: ChapterStoreItem,
+): item is ChapterStoreCollectible {
   return "collectible" in item;
 }
 
 export function isWearable(
-  item: SeasonalStoreItem,
-): item is SeasonalStoreWearable {
+  item: ChapterStoreItem,
+): item is ChapterStoreWearable {
   return "wearable" in item;
 }
 
-export type BuySeasonalItemAction = {
-  type: "seasonalItem.bought";
+export type BuyChapterItemAction = {
+  type: "chapterItem.bought";
   name: BumpkinItem | InventoryItemName;
-  tier: SeasonalStoreTier;
+  tier: ChapterStoreTier;
 };
 
 type Options = {
   state: Readonly<GameState>;
-  action: BuySeasonalItemAction;
+  action: BuyChapterItemAction;
   createdAt?: number;
 };
 
@@ -51,7 +51,7 @@ export const FLOWER_BOXES: Record<FlowerBox, true> = {
   "Gold Flower Box": true,
 };
 
-export function buySeasonalItem({
+export function buyChapterItem({
   state,
   action,
   createdAt = Date.now(),
@@ -59,14 +59,14 @@ export function buySeasonalItem({
   return produce(state, (copy) => {
     const { name, tier } = action;
 
-    const currentSeason = getCurrentSeason(new Date(createdAt));
-    const seasonalStore = MEGASTORE[currentSeason];
+    const currentChapter = getCurrentChapter(createdAt);
+    const chapterStore = MEGASTORE[currentChapter];
 
-    if (!seasonalStore) {
-      throw new Error("Seasonal store not found");
+    if (!chapterStore) {
+      throw new Error("Chapter store not found");
     }
 
-    const tierItems = seasonalStore[tier].items;
+    const tierItems = chapterStore[tier].items;
     const item = tierItems.find((item) =>
       item
         ? isCollectible(item)
@@ -76,29 +76,38 @@ export function buySeasonalItem({
     );
 
     if (!item) {
-      throw new Error("Item not found in the seasonal store");
+      throw new Error("Item not found in the chapter store");
     }
 
-    const seasonalCollectiblesCrafted = getSeasonalItemsCrafted(
+    const chapterCollectiblesCrafted = getChapterItemsCrafted(
       state,
-      seasonalStore,
+      chapterStore,
       "collectible",
       tier,
       true,
     );
-    const seasonalWearablesCrafted = getSeasonalItemsCrafted(
+    const chapterWearablesCrafted = getChapterItemsCrafted(
       state,
-      seasonalStore,
+      chapterStore,
       "wearable",
       tier,
       true,
     );
-    const seasonalItemsCrafted =
-      seasonalCollectiblesCrafted + seasonalWearablesCrafted;
+    const chapterItemsCrafted =
+      chapterCollectiblesCrafted + chapterWearablesCrafted;
 
-    const keyReduction = isKeyBoughtWithinSeason(state, tier, true) ? 0 : 1;
-    const boxReduction = isBoxBoughtWithinSeason(state, tier, true) ? 0 : 1;
-    const petEggReduction = isPetEggBoughtWithinSeason(state, tier, true)
+    const keyReduction = isKeyBoughtWithinChapter(state, tier, createdAt, true)
+      ? 0
+      : 1;
+    const boxReduction = isBoxBoughtWithinChapter(state, tier, createdAt, true)
+      ? 0
+      : 1;
+    const petEggReduction = isPetEggBoughtWithinChapter(
+      state,
+      tier,
+      createdAt,
+      true,
+    )
       ? 0
       : 1;
     const reduction = keyReduction + boxReduction + petEggReduction;
@@ -107,7 +116,7 @@ export function buySeasonalItem({
     if (tier !== "basic") {
       if (
         tier === "rare" &&
-        seasonalItemsCrafted - reduction < seasonalStore.rare.requirement
+        chapterItemsCrafted - reduction < chapterStore.rare.requirement
       ) {
         throw new Error(
           "You need to buy more basic items to unlock rare items",
@@ -116,7 +125,7 @@ export function buySeasonalItem({
 
       if (
         tier === "epic" &&
-        seasonalItemsCrafted - reduction < seasonalStore.epic.requirement
+        chapterItemsCrafted - reduction < chapterStore.epic.requirement
       ) {
         throw new Error(
           "You need to buy more basic and rare items to unlock epic items",
@@ -125,7 +134,7 @@ export function buySeasonalItem({
 
       if (
         tier === "mega" &&
-        seasonalItemsCrafted - reduction < seasonalStore.mega.requirement
+        chapterItemsCrafted - reduction < chapterStore.mega.requirement
       ) {
         throw new Error("You need to buy more epic items to unlock mega items");
       }
@@ -134,7 +143,7 @@ export function buySeasonalItem({
     // Ensure items without a cooldown, can only be bought once
     if (!item.cooldownMs) {
       const itemCrafted =
-        copy.farmActivity[`${name as SeasonalTierItemName} Bought`];
+        copy.farmActivity[`${name as ChapterTierItemName} Bought`];
 
       if (itemCrafted) {
         throw new Error("This item has already been crafted");
@@ -178,7 +187,7 @@ export function buySeasonalItem({
 
     // This is where the key is bought
     if (item.cooldownMs) {
-      const boughtAt = copy.megastore?.boughtAt[name as SeasonalTierItemName];
+      const boughtAt = copy.megastore?.boughtAt[name as ChapterTierItemName];
       if (boughtAt) {
         if (boughtAt + item.cooldownMs > createdAt) {
           throw new Error("Item cannot be bought while in cooldown");
@@ -187,7 +196,7 @@ export function buySeasonalItem({
     }
 
     copy.farmActivity = trackFarmActivity(
-      `${name as SeasonalTierItemName} Bought`,
+      `${name as ChapterTierItemName} Bought`,
       copy.farmActivity,
     );
 
@@ -195,16 +204,17 @@ export function buySeasonalItem({
       copy.megastore = { boughtAt: {} };
     }
 
-    copy.megastore.boughtAt[name as SeasonalTierItemName] = createdAt;
+    copy.megastore.boughtAt[name as ChapterTierItemName] = createdAt;
 
     return copy;
   });
 }
 
-// Function to assess if key is bought within the current season
-export function isKeyBoughtWithinSeason(
+// Function to assess if key is bought within the current chapter
+export function isKeyBoughtWithinChapter(
   game: GameState,
-  tier: keyof SeasonalStore,
+  tier: keyof ChapterStore,
+  now: number,
   isLowerTier = false,
 ) {
   const tierKey =
@@ -220,7 +230,7 @@ export function isKeyBoughtWithinSeason(
               ? "Rare Key"
               : "Luxury Key";
 
-  let keyBoughtAt = game.megastore?.boughtAt[tierKey as SeasonalTierItemName];
+  let keyBoughtAt = game.megastore?.boughtAt[tierKey as ChapterTierItemName];
 
   // We changed to a new field. From May 1st can remove this code
   if (!keyBoughtAt) {
@@ -228,28 +238,29 @@ export function isKeyBoughtWithinSeason(
       game.pumpkinPlaza.keysBought?.megastore?.[tierKey as Keys]?.boughtAt;
   }
 
-  const seasonTime = SEASONS[getCurrentSeason()];
+  const chapterTime = CHAPTERS[getCurrentChapter(now)];
   const historyKey =
-    game.farmActivity[`${tierKey as SeasonalTierItemName} Bought`];
+    game.farmActivity[`${tierKey as ChapterTierItemName} Bought`];
   //If player has no history of buying keys at megastore
   if (!keyBoughtAt && isLowerTier && !historyKey) return true;
 
-  // Returns false if key is bought outside current season, otherwise, true
+  // Returns false if key is bought outside current chapter, otherwise, true
   if (keyBoughtAt) {
-    const isWithinSeason =
-      new Date(keyBoughtAt) >= seasonTime.startDate &&
-      new Date(keyBoughtAt) <= seasonTime.endDate;
-    return isWithinSeason;
+    const isWithinChapter =
+      new Date(keyBoughtAt) >= chapterTime.startDate &&
+      new Date(keyBoughtAt) <= chapterTime.endDate;
+    return isWithinChapter;
   }
 
   // This will only be triggered if isLowerTier is false
   return false;
 }
 
-// Function to assess if Flower Box is bought within the current season
-export function isBoxBoughtWithinSeason(
+// Function to assess if Flower Box is bought within the current chapter
+export function isBoxBoughtWithinChapter(
   game: GameState,
-  tier: keyof SeasonalStore,
+  tier: keyof ChapterStore,
+  now: number,
   isLowerTier = false,
 ) {
   const tierBox =
@@ -265,7 +276,7 @@ export function isBoxBoughtWithinSeason(
               ? "Silver Flower Box"
               : "Gold Flower Box";
 
-  let boxBoughtAt = game.megastore?.boughtAt[tierBox as SeasonalTierItemName];
+  let boxBoughtAt = game.megastore?.boughtAt[tierBox as ChapterTierItemName];
 
   // We changed to a new field. From May 1st can remove this code
   if (!boxBoughtAt) {
@@ -273,27 +284,28 @@ export function isBoxBoughtWithinSeason(
       game.pumpkinPlaza.keysBought?.megastore?.[tierBox as Keys]?.boughtAt;
   }
 
-  const seasonTime = SEASONS[getCurrentSeason()];
+  const chapterTime = CHAPTERS[getCurrentChapter(now)];
   const historyBox =
-    game.farmActivity[`${tierBox as SeasonalTierItemName} Bought`];
+    game.farmActivity[`${tierBox as ChapterTierItemName} Bought`];
 
   //If player has no history of buying keys at megastore
   if (!boxBoughtAt && isLowerTier && !historyBox) return true;
-  // Returns false if key is bought outside current season, otherwise, true
+  // Returns false if key is bought outside current chapter, otherwise, true
   if (boxBoughtAt) {
-    const isWithinSeason =
-      new Date(boxBoughtAt) >= seasonTime.startDate &&
-      new Date(boxBoughtAt) <= seasonTime.endDate;
-    return isWithinSeason;
+    const isWithinChapter =
+      new Date(boxBoughtAt) >= chapterTime.startDate &&
+      new Date(boxBoughtAt) <= chapterTime.endDate;
+    return isWithinChapter;
   }
 
   // This will only be triggered if isLowerTier is false
   return false;
 }
 
-export function isPetEggBoughtWithinSeason(
+export function isPetEggBoughtWithinChapter(
   game: GameState,
-  tier: keyof SeasonalStore,
+  tier: keyof ChapterStore,
+  now: number,
   isLowerTier = false,
 ) {
   const tierToEvaluate = isLowerTier ? tierMapping[tier] : tier;
@@ -310,19 +322,21 @@ export function isPetEggBoughtWithinSeason(
   }
 
   const petEggBoughtAt =
-    game.megastore?.boughtAt["Pet Egg" as SeasonalTierItemName];
+    game.megastore?.boughtAt["Pet Egg" as ChapterTierItemName];
 
   if (!petEggBoughtAt) {
     return false;
   }
 
-  const seasonTime = SEASONS[getCurrentSeason()];
+  const chapterTime = CHAPTERS[getCurrentChapter(now)];
   const boughtDate = new Date(petEggBoughtAt);
 
-  return boughtDate >= seasonTime.startDate && boughtDate <= seasonTime.endDate;
+  return (
+    boughtDate >= chapterTime.startDate && boughtDate <= chapterTime.endDate
+  );
 }
 
-const tierMapping: Record<keyof SeasonalStore, keyof SeasonalStore> = {
+const tierMapping: Record<keyof ChapterStore, keyof ChapterStore> = {
   basic: "basic",
   rare: "basic",
   epic: "rare",
@@ -330,52 +344,52 @@ const tierMapping: Record<keyof SeasonalStore, keyof SeasonalStore> = {
 };
 
 //Gets lower Tier
-export function getLowerTier(tiers: keyof SeasonalStore, isLowerTier = true) {
+export function getLowerTier(tiers: keyof ChapterStore, isLowerTier = true) {
   const selectedTier = isLowerTier ? tierMapping[tiers] : tiers;
   return selectedTier;
 }
 
 export function getStore(
-  seasonalStore: SeasonalStore,
-  tiers: keyof SeasonalStore,
+  chapterStore: ChapterStore,
+  tiers: keyof ChapterStore,
   isLowerTier = false,
 ) {
   // Select lower tier if isLowerTier is true, otherwise select the provided tier
   const selectedTier = isLowerTier ? tierMapping[tiers] : tiers;
-  return seasonalStore[selectedTier];
+  return chapterStore[selectedTier];
 }
 
 export function getTierItems(
-  seasonalStore: SeasonalStore,
-  tiers: keyof SeasonalStore,
+  chapterStore: ChapterStore,
+  tiers: keyof ChapterStore,
   isLowerTier = false,
-): SeasonalStoreItem[] {
+): ChapterStoreItem[] {
   // Select lower tier if isLowerTier is true, otherwise select the provided tier
   const selectedTier = isLowerTier ? tierMapping[tiers] : tiers;
-  return seasonalStore[selectedTier].items;
+  return chapterStore[selectedTier].items;
 }
 
-export function getSeasonalItemsCrafted(
+export function getChapterItemsCrafted(
   game: GameState,
-  seasonalStore: SeasonalStore,
+  chapterStore: ChapterStore,
   itemType: "collectible" | "wearable",
-  tier: keyof SeasonalStore,
+  tier: keyof ChapterStore,
   isLowerTier = false,
 ) {
-  const tierItems = getTierItems(seasonalStore, tier, isLowerTier);
+  const tierItems = getTierItems(chapterStore, tier, isLowerTier);
   if (!tierItems) return 0;
 
   const craftedItems = tierItems.filter(
-    (tierItem: SeasonalStoreItem) =>
+    (tierItem: ChapterStoreItem) =>
       (itemType === "collectible" &&
         "collectible" in tierItem &&
         game.farmActivity[
-          `${tierItem.collectible as SeasonalTierItemName} Bought`
+          `${tierItem.collectible as ChapterTierItemName} Bought`
         ]) ||
       (itemType === "wearable" &&
         "wearable" in tierItem &&
         game.farmActivity[
-          `${tierItem.wearable as SeasonalTierItemName} Bought`
+          `${tierItem.wearable as ChapterTierItemName} Bought`
         ]),
   );
 

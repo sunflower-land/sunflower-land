@@ -12,9 +12,9 @@ import {
 } from "features/game/types/game";
 import { BUMPKIN_GIFTS } from "features/game/types/gifts";
 import {
-  getCurrentSeason,
-  getSeasonalTicket,
-} from "features/game/types/seasons";
+  getCurrentChapter,
+  getChapterTicket,
+} from "features/game/types/chapters";
 import { NPCName } from "lib/npcs";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { isWearableActive } from "features/game/lib/wearables";
@@ -51,11 +51,11 @@ const isFruit = (name: PatchFruitName) => name in PATCH_FRUIT;
 export function generateDeliveryTickets({
   game,
   npc,
-  now = new Date(),
+  now,
 }: {
   game: GameState;
   npc: NPCName;
-  now?: Date;
+  now: number;
 }) {
   let amount = TICKET_REWARDS[npc as QuestNPCName];
 
@@ -63,11 +63,11 @@ export function generateDeliveryTickets({
     return 0;
   }
 
-  if (hasVipAccess({ game, now: now.getTime() })) {
+  if (hasVipAccess({ game, now })) {
     amount += 2;
   }
 
-  const chapter = getCurrentSeason(now);
+  const chapter = getCurrentChapter(now);
   const chapterBoost = CHAPTER_TICKET_BOOST_ITEMS[chapter];
 
   Object.values(chapterBoost).forEach((item) => {
@@ -385,7 +385,7 @@ export function deliverOrder({
     const tickets = generateDeliveryTickets({
       game,
       npc: order.from,
-      now: new Date(createdAt),
+      now: createdAt,
     });
     const isTicketOrder = tickets > 0;
 
@@ -478,12 +478,12 @@ export function deliverOrder({
     }
 
     if (tickets > 0) {
-      const seasonalTicket = getSeasonalTicket();
+      const chapterTicket = getChapterTicket(createdAt);
 
-      const count = game.inventory[seasonalTicket] || new Decimal(0);
+      const count = game.inventory[chapterTicket] || new Decimal(0);
       const amount = tickets || new Decimal(0);
 
-      game.inventory[seasonalTicket] = count.add(amount);
+      game.inventory[chapterTicket] = count.add(amount);
       game.farmActivity = trackFarmActivity(
         "Ticket Order Delivered",
         game.farmActivity,

@@ -34,8 +34,9 @@ import {
   NPC_DELIVERY_LEVELS,
   DeliveryNpcName,
 } from "features/island/delivery/lib/delivery";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getChapterTicket } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useNow } from "lib/utils/hooks/useNow";
 import {
   BUMPKIN_FLOWER_BONUSES,
   DEFAULT_FLOWER_POINTS,
@@ -65,6 +66,7 @@ export const OrderCard: React.FC<{
   hasRequirementsCheck: (order: Order) => boolean;
 }> = ({ order, game, hasRequirementsCheck }) => {
   const { balance, coins } = game;
+  const now = useNow();
 
   const makeRewardAmountForLabel = (order: Order) => {
     if (order.reward.sfl !== undefined) {
@@ -83,7 +85,7 @@ export const OrderCard: React.FC<{
   const canDeliver = hasRequirementsCheck(order);
   const { t } = useAppTranslation();
 
-  const tickets = generateDeliveryTickets({ game, npc: order.from });
+  const tickets = generateDeliveryTickets({ game, npc: order.from, now });
 
   return (
     <>
@@ -158,7 +160,7 @@ export const OrderCard: React.FC<{
                     <div className="flex items-center">
                       <span className="text-xs mx-1">{tickets}</span>
                       <img
-                        src={ITEM_DETAILS[getSeasonalTicket()].image}
+                        src={ITEM_DETAILS[getChapterTicket(now)].image}
                         className="h-4 w-auto"
                       />
                     </div>
@@ -640,15 +642,18 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const now = useNow({ live: true, intervalMs: 60_000 });
+
   const game = gameState.context.state;
   const [showFlowers, setShowFlowers] = useState(false);
   const [gift, setGift] = useState<Airdrop>();
 
   const delivery = game.delivery.orders.find((order) => order.from === npc);
 
-  const { holiday } = getBumpkinHoliday({});
+  const { holiday } = getBumpkinHoliday({ now });
 
-  const isHoliday = holiday === new Date().toISOString().split("T")[0];
+  const today = new Date(now).toISOString().split("T")[0];
+  const isHoliday = holiday === today;
 
   const deliver = () => {
     gameService.send("order.delivered", {
@@ -695,9 +700,9 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const positive = useRandomItem(dialogue.positiveDelivery);
   const noOrder = useRandomItem(dialogue.noOrder);
 
-  const tickets = generateDeliveryTickets({ game, npc });
+  const tickets = generateDeliveryTickets({ game, npc, now });
 
-  const dateKey = new Date().toISOString().substring(0, 10);
+  const dateKey = new Date(now).toISOString().substring(0, 10);
 
   let message = intro;
 

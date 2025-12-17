@@ -1,4 +1,4 @@
-import { FlowerBox } from "../events/landExpansion/buySeasonalItem";
+import { FlowerBox } from "../events/landExpansion/buyChapterItem";
 import { BumpkinItem } from "./bumpkin";
 import { InventoryItemName } from "./game";
 import {

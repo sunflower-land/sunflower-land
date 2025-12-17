@@ -1117,7 +1117,6 @@ import { LANDSCAPING_DECORATIONS } from "./decorations";
 import { SELLABLE_TREASURE } from "./treasure";
 import { TREASURE_COLLECTIBLE_ITEM } from "./collectibles";
 import { ANIMAL_FOODS } from "./animals";
-import { hasSeasonEnded } from "./seasons";
 
 export interface ItemDetails {
   description: string;
@@ -3640,17 +3639,13 @@ export const ITEM_DETAILS: Items = {
   },
   "Lemon Shark": {
     image: lemonShark,
-    howToGetItem: hasSeasonEnded("Pharaoh's Treasure")
-      ? [translate("howToGetThisItem.lemonShark")]
-      : [translate("ocean.fishing")],
+    howToGetItem: [translate("howToGetThisItem.lemonShark")],
     itemType: "collectible",
     description: translate("description.lemon.shark"),
   },
   "Longhorn Cowfish": {
     image: longhornCowfish,
-    howToGetItem: hasSeasonEnded("Bull Run")
-      ? [translate("howToGetThisItem.longhornCowfish")]
-      : [translate("ocean.fishing")],
+    howToGetItem: [translate("howToGetThisItem.longhornCowfish")],
     itemType: "collectible",
     description: translate("description.longhorn.cowfish"),
   },

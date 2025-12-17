@@ -1,7 +1,7 @@
 import {
   isCollectible,
   isWearable,
-} from "../events/landExpansion/buySeasonalItem";
+} from "../events/landExpansion/buyChapterItem";
 import {
   BASIC_REWARDS,
   RARE_REWARDS,
@@ -10,12 +10,12 @@ import {
   MEGASTORE_RESTRICTED_ITEMS,
   CHEST_MULTIPLIER,
 } from "./chests";
-import { MEGASTORE, SeasonalStore } from "./megastore";
+import { MEGASTORE, ChapterStore } from "./megastore";
 import { RewardBoxReward } from "./rewardBoxes";
-import { getCurrentSeason } from "./seasons";
+import { getCurrentChapter } from "./chapters";
 
-describe("SEASONAL_REWARDS", () => {
-  const currentSeason = getCurrentSeason(new Date()); // Test all reward types
+describe("CHAPTER_REWARDS", () => {
+  const currentChapter = getCurrentChapter(Date.now()); // Test all reward types
   const rewardTypes: {
     rewards: RewardBoxReward[];
     weight: number;
@@ -27,17 +27,17 @@ describe("SEASONAL_REWARDS", () => {
   ];
 
   it("includes seasonal megastore items in all reward types with correct tier-based weightings", () => {
-    const store = MEGASTORE[currentSeason];
+    const store = MEGASTORE[currentChapter];
 
     rewardTypes.forEach(({ rewards, weight, chestTier }) => {
       // Test tiers based on chest tier filtering
       Object.entries(MEGASTORE_TIER_WEIGHTS).forEach(([tier, tierWeight]) => {
-        // Apply the same filtering logic as SEASONAL_REWARDS
+        // Apply the same filtering logic as CHAPTER_REWARDS
         if (chestTier === "basic" && (tier === "mega" || tier === "epic"))
           return;
         if (chestTier === "rare" && tier === "mega") return;
 
-        const tierItems = store[tier as keyof SeasonalStore].items;
+        const tierItems = store[tier as keyof ChapterStore].items;
 
         // For each item in the tier, verify it exists in rewards with correct weighting
         tierItems.forEach((item) => {
@@ -79,11 +79,11 @@ describe("SEASONAL_REWARDS", () => {
     rewardTypes.forEach(({ rewards }) => {
       // Verify items from other seasons are not included
       Object.entries(MEGASTORE).forEach(([season, seasonStore]) => {
-        if (season === currentSeason) return; // Skip current season
+        if (season === currentChapter) return; // Skip current season
 
         // Check all tiers in other seasons
         Object.entries(MEGASTORE_TIER_WEIGHTS).forEach(([tier]) => {
-          const tierItems = seasonStore[tier as keyof SeasonalStore].items;
+          const tierItems = seasonStore[tier as keyof ChapterStore].items;
 
           tierItems.forEach((item) => {
             if (isCollectible(item)) {

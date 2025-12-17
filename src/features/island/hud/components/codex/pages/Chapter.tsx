@@ -3,10 +3,11 @@ import { TicketsLeaderboard } from "./TicketsLeaderboard";
 import { TicketLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { InnerPanel } from "components/ui/Panel";
 import {
-  SEASON_TICKET_NAME,
-  SeasonName,
-  secondsLeftInSeason,
-} from "features/game/types/seasons";
+  CHAPTER_TICKET_NAME,
+  ChapterName,
+  CHAPTERS,
+  secondsLeftInChapter,
+} from "features/game/types/chapters";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
@@ -14,16 +15,17 @@ import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 
 import chores from "assets/icons/chores.webp";
 
-import { SeasonalAuctions } from "../components/SeasonalAuctions";
+import { ChapterAuctions } from "../components/ChapterAuctions";
 import classNames from "classnames";
-import { SeasonalMutants } from "../components/SeasonalMutants";
+import { ChapterMutants } from "../components/ChapterMutants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { SeasonalStore } from "features/world/ui/megastore/SeasonalStore";
+import { ChapterStore } from "features/world/ui/megastore/ChapterStore";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState } from "features/game/types/game";
 import { MegaBountyBoardContent } from "features/world/ui/flowerShop/MegaBountyBoard";
+import { useNow } from "lib/utils/hooks/useNow";
 
-export const CHAPTER_GRAPHICS: Record<SeasonName, string> = {
+export const CHAPTER_GRAPHICS: Record<ChapterName, string> = {
   "Solar Flare": "?",
   "Dawn Breaker": "?",
   "Witches' Eve": "?",
@@ -38,7 +40,7 @@ export const CHAPTER_GRAPHICS: Record<SeasonName, string> = {
   "Paw Prints": SUNNYSIDE.announcement.pawPrintsSeason,
 };
 
-const CHORES_DELIVERIES_START_DATE: Record<SeasonName, string> = {
+const CHORES_DELIVERIES_START_DATE: Record<ChapterName, string> = {
   "Solar Flare": "?",
   "Dawn Breaker": "?",
   "Witches' Eve": "?",
@@ -54,23 +56,25 @@ const CHORES_DELIVERIES_START_DATE: Record<SeasonName, string> = {
 };
 
 interface Props {
-  id: string;
   isLoading: boolean;
   data: TicketLeaderboard | null;
-  season: SeasonName;
+  chapter: ChapterName;
   state: GameState;
   farmId: number;
 }
 
-export const Season: React.FC<Props> = ({
-  id,
+export const Chapter: React.FC<Props> = ({
   isLoading,
   data,
-  season,
+  chapter,
   state,
   farmId,
 }) => {
   const { t } = useAppTranslation();
+  const now = useNow({
+    live: true,
+    autoEndAt: CHAPTERS[chapter].endDate.getTime(),
+  });
 
   return (
     <div
@@ -82,25 +86,25 @@ export const Season: React.FC<Props> = ({
         <div className="p-1">
           <div className="flex justify-between mb-1 flex-wrap">
             <Label className="-ml-1 mb-1" type="default">
-              {season}
+              {chapter}
             </Label>
             <Label
               type="info"
               className="mb-1"
               icon={SUNNYSIDE.icons.stopwatch}
             >
-              {`${secondsToString(secondsLeftInSeason(), { length: "short" })} left`}
+              {`${secondsToString(secondsLeftInChapter(now), { length: "short" })} left`}
             </Label>
           </div>
           <p className="text-xs">
-            {t("season.codex.intro", { ticket: SEASON_TICKET_NAME[season] })}
+            {t("season.codex.intro", { ticket: CHAPTER_TICKET_NAME[chapter] })}
           </p>
         </div>
       </InnerPanel>
       <InnerPanel className="mb-1">
         <div
           style={{
-            backgroundImage: `url(${CHAPTER_GRAPHICS[season]})`,
+            backgroundImage: `url(${CHAPTER_GRAPHICS[chapter]})`,
             imageRendering: "pixelated",
             height: "125px",
             backgroundSize: "600px",
@@ -114,7 +118,7 @@ export const Season: React.FC<Props> = ({
           <div className="flex justify-between mb-2">
             <Label className="-ml-1" type="default">
               {t("season.codex.howToEarn", {
-                ticket: SEASON_TICKET_NAME[season],
+                ticket: CHAPTER_TICKET_NAME[chapter],
               })}
             </Label>
           </div>
@@ -127,13 +131,13 @@ export const Season: React.FC<Props> = ({
               },
               {
                 text: t("season.codex.howToEarn.two", {
-                  date: CHORES_DELIVERIES_START_DATE[season],
+                  date: CHORES_DELIVERIES_START_DATE[chapter],
                 }),
                 icon: chores,
               },
               {
                 text: t("season.codex.howToEarn.three", {
-                  date: CHORES_DELIVERIES_START_DATE[season],
+                  date: CHORES_DELIVERIES_START_DATE[chapter],
                 }),
                 icon: ITEM_DETAILS["White Pansy"].image,
               },
@@ -143,10 +147,10 @@ export const Season: React.FC<Props> = ({
       </InnerPanel>
       <MegaBountyBoardContent readonly />
       <InnerPanel className="mb-1">
-        <SeasonalStore readonly state={state} />
+        <ChapterStore readonly state={state} />
       </InnerPanel>
-      <SeasonalAuctions gameState={state} farmId={farmId} season={season} />
-      <SeasonalMutants season={season} />
+      <ChapterAuctions gameState={state} farmId={farmId} chapter={chapter} />
+      <ChapterMutants chapter={chapter} />
       <InnerPanel className="mb-1">
         <TicketsLeaderboard isLoading={isLoading} data={data} />
       </InnerPanel>

@@ -26,11 +26,11 @@ import chores from "assets/icons/chores.webp";
 import { Leaderboards } from "features/game/expansion/components/leaderboard/actions/cache";
 import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { FactionLeaderboard } from "./pages/FactionLeaderboard";
-import { Season } from "./pages/Season";
+import { Chapter } from "./pages/Chapter";
 import {
-  getCurrentSeason,
-  getSeasonalTicket,
-} from "features/game/types/seasons";
+  getCurrentChapter,
+  getChapterTicket,
+} from "features/game/types/chapters";
 import { ChoreBoard } from "./pages/ChoreBoard";
 import { CompetitionDetails } from "features/competition/CompetitionBoard";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -62,6 +62,8 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const state = useSelector(gameService, _state);
   const token = useSelector(authService, _token);
   const now = useNow();
+  const chapter = getCurrentChapter(now);
+  const chapterTicket = getChapterTicket(now);
 
   const bumpkinLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
 
@@ -114,8 +116,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     setMilestoneName(undefined);
   };
 
-  const id = username ?? String(farmId);
-
   const incompleteMegaBounties = bounties.requests.filter(
     (deal) => !Object.keys(ANIMALS).includes(deal.name),
   );
@@ -156,13 +156,13 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
 
     {
       name: "Leaderboard",
-      icon: ITEM_DETAILS[getSeasonalTicket()].image,
+      icon: ITEM_DETAILS[chapterTicket].image,
       count: incompleteMegaBountiesCount,
     },
     {
       name: "Checklist",
       icon: SUNNYSIDE.ui.board,
-      count: checklistCount(state, bumpkinLevel),
+      count: checklistCount(state, bumpkinLevel, now),
     },
     {
       name: "Fish",
@@ -266,11 +266,10 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             )}
             {currentTab === "Chore Board" && <ChoreBoard state={state} />}
             {currentTab === "Leaderboard" && (
-              <Season
-                id={id}
+              <Chapter
                 isLoading={data?.tickets === undefined}
                 data={data?.tickets ?? null}
-                season={getCurrentSeason()}
+                chapter={chapter}
                 state={state}
                 farmId={farmId}
               />

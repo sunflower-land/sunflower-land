@@ -3,10 +3,11 @@ import React from "react";
 import { Loading } from "features/auth/components";
 import { TicketTable } from "features/game/expansion/components/leaderboard/TicketTable";
 import { TicketLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getChapterTicket } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { LastUpdatedAt } from "components/LastUpdatedAt";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface LeaderboardProps {
   isLoading: boolean;
@@ -17,7 +18,8 @@ export const TicketsLeaderboard: React.FC<LeaderboardProps> = ({
   data,
 }) => {
   const { t } = useAppTranslation();
-  const seasonTicket = getSeasonalTicket();
+  const now = useNow();
+  const seasonTicket = getChapterTicket(now);
   if (isLoading && !data) return <Loading />;
 
   if (!data)
