@@ -150,8 +150,8 @@ export const ItemsList: React.FC<Props> = ({
 
     return currencyItem;
   };
-  const currentSeason = getCurrentChapter(now);
-  const seasonalStore = MEGASTORE[currentSeason];
+  const currentChapter = getCurrentChapter(now);
+  const seasonalStore = MEGASTORE[currentChapter];
   const tiers = tier;
 
   const seasonalCollectiblesCrafted = getChapterItemsCrafted(

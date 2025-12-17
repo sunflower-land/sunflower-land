@@ -33,22 +33,22 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
         message={[
           {
             text: translate("birdieplaza.earnTicketsVariety", {
-              seasonalTicket: chapterTicket,
+              chapterTicket: chapterTicket,
             }),
           },
           {
             text: translate("birdieplaza.commonMethod", {
-              seasonalTicket: chapterTicket,
+              chapterTicket: chapterTicket,
             }),
           },
           {
             text: translate("birdieplaza.choresAndRewards", {
-              seasonalTicket: chapterTicket,
+              chapterTicket: chapterTicket,
             }),
           },
           {
             text: translate("birdieplaza.gatherAndCraft", {
-              seasonalTicket: chapterTicket,
+              chapterTicket: chapterTicket,
             }),
           },
         ]}
@@ -73,12 +73,12 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
           },
           {
             text: translate("birdieplaza.craftItems", {
-              seasonalTicket: chapterTicket,
+              chapterTicket: chapterTicket,
             }),
             actions: [
               {
                 text: translate("birdieplaza.howToEarnTickets", {
-                  seasonalTicket: chapterTicket,
+                  chapterTicket: chapterTicket,
                 }),
                 cb: () => setShowTicketHelp(true),
               },
@@ -104,14 +104,14 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
           text: translate("birdieplaza.admiringOutfit"),
         },
         {
-          text: translate("birdieplaza.currentSeason", {
-            currentSeason: currentChapter,
-            seasonalTicket: chapterTicket,
+          text: translate("birdieplaza.currentChapter", {
+            currentChapter: currentChapter,
+            chapterTicket: chapterTicket,
           }),
         },
         {
           text: translate("birdieplaza.collectTickets", {
-            seasonalTicket: chapterTicket,
+            chapterTicket: chapterTicket,
           }),
           actions: [
             {
@@ -120,7 +120,7 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
             },
             {
               text: translate("birdieplaza.howToEarnTickets", {
-                seasonalTicket: chapterTicket,
+                chapterTicket: chapterTicket,
               }),
               cb: () => setShowTicketHelp(true),
             },

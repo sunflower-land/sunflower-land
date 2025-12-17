@@ -80,9 +80,9 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const [confirmBuy, setConfirmBuy] = useState<boolean>(false);
 
   const now = useNow();
-  const currentSeason = getCurrentChapter(now);
+  const currentChapter = getCurrentChapter(now);
   const chapterTicket = getChapterTicket(now);
-  const seasonalStore = MEGASTORE[currentSeason];
+  const seasonalStore = MEGASTORE[currentChapter];
   const tiers =
     tier === "basic"
       ? "basic"

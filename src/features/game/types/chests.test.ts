@@ -14,8 +14,8 @@ import { MEGASTORE, ChapterStore } from "./megastore";
 import { RewardBoxReward } from "./rewardBoxes";
 import { getCurrentChapter } from "./chapters";
 
-describe("SEASONAL_REWARDS", () => {
-  const currentSeason = getCurrentChapter(Date.now()); // Test all reward types
+describe("CHAPTER_REWARDS", () => {
+  const currentChapter = getCurrentChapter(Date.now()); // Test all reward types
   const rewardTypes: {
     rewards: RewardBoxReward[];
     weight: number;
@@ -27,12 +27,12 @@ describe("SEASONAL_REWARDS", () => {
   ];
 
   it("includes seasonal megastore items in all reward types with correct tier-based weightings", () => {
-    const store = MEGASTORE[currentSeason];
+    const store = MEGASTORE[currentChapter];
 
     rewardTypes.forEach(({ rewards, weight, chestTier }) => {
       // Test tiers based on chest tier filtering
       Object.entries(MEGASTORE_TIER_WEIGHTS).forEach(([tier, tierWeight]) => {
-        // Apply the same filtering logic as SEASONAL_REWARDS
+        // Apply the same filtering logic as CHAPTER_REWARDS
         if (chestTier === "basic" && (tier === "mega" || tier === "epic"))
           return;
         if (chestTier === "rare" && tier === "mega") return;
@@ -79,7 +79,7 @@ describe("SEASONAL_REWARDS", () => {
     rewardTypes.forEach(({ rewards }) => {
       // Verify items from other seasons are not included
       Object.entries(MEGASTORE).forEach(([season, seasonStore]) => {
-        if (season === currentSeason) return; // Skip current season
+        if (season === currentChapter) return; // Skip current season
 
         // Check all tiers in other seasons
         Object.entries(MEGASTORE_TIER_WEIGHTS).forEach(([tier]) => {

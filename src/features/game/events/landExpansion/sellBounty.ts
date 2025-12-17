@@ -183,8 +183,8 @@ export function sellBounty({
 
     getKeys(request.items ?? {}).forEach((name) => {
       const previous = draft.inventory[name] ?? new Decimal(0);
-      const seasonalTicket = getChapterTicket(createdAt);
-      if (tickets > 0 && seasonalTicket === name) {
+      const chapterTicket = getChapterTicket(createdAt);
+      if (tickets > 0 && chapterTicket === name) {
         draft.inventory[name] = previous.add(tickets ?? 0);
       } else draft.inventory[name] = previous.add(request.items?.[name] ?? 0);
     });

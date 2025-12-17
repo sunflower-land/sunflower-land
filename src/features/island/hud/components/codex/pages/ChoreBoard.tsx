@@ -81,6 +81,8 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
     (npc) => level >= NPC_CHORE_UNLOCKS[npc as NPCName],
   );
 
+  const chapterTicket = getChapterTicket(now);
+
   return (
     <div className="flex md:flex-row flex-col-reverse md:mr-1 items-start h-full">
       <InnerPanel
@@ -104,9 +106,7 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
         </div>
 
         <p className="text-xs mb-2 px-2">
-          {t("chores.completeChoresToEarn", {
-            seasonalTicket: getChapterTicket(now),
-          })}
+          {t("chores.completeChoresToEarn", { chapterTicket })}
         </p>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 w-full mt-1">

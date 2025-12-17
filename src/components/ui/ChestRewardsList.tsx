@@ -11,8 +11,8 @@ import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { InventoryItemName } from "features/game/types/game";
 import { Label } from "./Label";
 import {
-  BASIC_SEASONAL_REWARDS_WEIGHT,
-  SEASONAL_REWARDS,
+  BASIC_CHAPTER_REWARDS_WEIGHT,
+  CHAPTER_REWARDS,
 } from "features/game/types/chests";
 import {
   NoticeboardItems,
@@ -59,7 +59,7 @@ const RewardRow: React.FC<{
 };
 
 const isStoreChapterItem = (rewardName: string) => {
-  return SEASONAL_REWARDS(BASIC_SEASONAL_REWARDS_WEIGHT, "luxury").some(
+  return CHAPTER_REWARDS(BASIC_CHAPTER_REWARDS_WEIGHT, "luxury").some(
     (reward) =>
       (reward.items && Object.keys(reward.items).includes(rewardName)) ||
       (reward.wearables && Object.keys(reward.wearables).includes(rewardName)),

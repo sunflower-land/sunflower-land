@@ -118,7 +118,7 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
 
     // Otherwise handle item rewards
     const items = bounty.items ?? {};
-    const seasonalTicket = getChapterTicket(now);
+    const chapterTicket = getChapterTicket(now);
     const seasonalArtefact = getChapterArtefact(now);
 
     // Calculate bounty tickets if needed
@@ -130,8 +130,8 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
     // Determine which reward currency to show, prioritizing seasonal items
     // First check seasonal ticket, then seasonal artefact, then fallback to first item
     let currency: InventoryItemName;
-    if ((items[seasonalTicket] ?? 0) > 0) {
-      currency = seasonalTicket;
+    if ((items[chapterTicket] ?? 0) > 0) {
+      currency = chapterTicket;
     } else if ((items[seasonalArtefact] ?? 0) > 0) {
       currency = seasonalArtefact;
     } else {
@@ -141,7 +141,7 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
     // Return amount (using bountyTickets for seasonal tickets) and icon
     return {
       amount:
-        currency === seasonalTicket ? bountyTickets : (items[currency] ?? 0),
+        currency === chapterTicket ? bountyTickets : (items[currency] ?? 0),
       icon: ITEM_DETAILS[currency]?.image ?? "",
     };
   };
@@ -151,7 +151,7 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
   );
 
   const noBonusBountiesWeek = NO_BONUS_BOUNTIES_WEEK.includes(getWeekKey());
-  const seasonalTicket = getChapterTicket(now);
+  const chapterTicket = getChapterTicket(now);
 
   const handleBonusClaim = () => {
     gameService.send("claim.bountyBoardBonus");
@@ -289,7 +289,7 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
             <Label
               type="default"
               className="ml-1"
-              icon={ITEM_DETAILS[seasonalTicket].image}
+              icon={ITEM_DETAILS[chapterTicket].image}
             >
               {`Bounty Bonus`}
             </Label>
@@ -306,14 +306,14 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
             )}
           </div>
           <p className="text-xs ml-1">
-            {t("bounties.bonus.getBonus", { seasonalTicket })}
+            {t("bounties.bonus.getBonus", { chapterTicket })}
           </p>
           {!readonly && (
             <Button
               onClick={handleBonusClaim}
               disabled={bonusClaimed || !isAllBountiesCompleted || readonly}
             >
-              {t("bounties.bonus.clickToClaim", { seasonalTicket })}
+              {t("bounties.bonus.clickToClaim", { chapterTicket })}
             </Button>
           )}
         </InnerPanel>
