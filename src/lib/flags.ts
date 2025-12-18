@@ -111,7 +111,6 @@ const FEATURE_FLAGS = {
 
   PET_HOUSE: testnetFeatureFlag,
   MEMORY_BETA: defaultFeatureFlag,
-  DAILY_BOXES: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
