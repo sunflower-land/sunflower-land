@@ -14,7 +14,7 @@ import { PlaceableLocation } from "../types/collectibles";
 import { MachineState } from "../lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { PET_SHOP_ITEMS } from "../types/petShop";
-import { Bumpkin, GameState, Inventory } from "../types/game";
+import { Collectibles, Inventory, Skills } from "../types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { COLLECTIBLE_BUFF_LABELS } from "../types/collectibleItemBuffs";
 
@@ -76,8 +76,8 @@ const RenewPetShrineContent: React.FC<{
   name: PetShrineName | "Obsidian Shrine";
   inventory: Inventory;
   coinBalance: number;
-  skills: Bumpkin["skills"];
-  collectibles: GameState["collectibles"];
+  skills: Skills;
+  collectibles: Collectibles;
 }> = ({
   handleRemove,
   handleRenew,
