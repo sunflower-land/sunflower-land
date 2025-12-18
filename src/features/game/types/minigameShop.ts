@@ -164,9 +164,13 @@ export const isEventShopCollectible = (
   item: EventShopItem,
 ): item is EventShopCollectible => item.type === "collectible";
 
-type MinigameShop = Partial<Record<EventShopItemName, EventShopItem>>;
+type MinigameShop<T extends EventShopItemName> = Record<T, EventShopItem>;
 
-export const EASTER_SHOP_ITEMS: MinigameShop = {
+type AnyMinigameShop = Partial<Record<EventShopItemName, EventShopItem>>;
+
+export const EASTER_SHOP_ITEMS: MinigameShop<
+  EventShopCollectibleName | EventShopWearableName
+> = {
   "Easter Ticket 2025": {
     name: "Easter Ticket 2025",
     cost: {
@@ -304,127 +308,125 @@ export const EASTER_SHOP_ITEMS: MinigameShop = {
   },
 };
 
-export const FESTIVAL_OF_COLORS_STORE: Record<
-  FestivalOfColorsShopItemName,
-  EventShopItem
-> = {
-  "Floating Toy": {
-    cost: { sfl: 20, items: {} },
-    type: "collectible",
-    max: 1,
-    name: "Floating Toy",
-  },
-  "Paint Buckets": {
-    cost: { sfl: 0, items: { "Colors Token 2025": 250 } },
-    type: "collectible",
-    max: 1,
-    name: "Paint Buckets",
-  },
-  "Rainbow Well": {
-    cost: { sfl: 0, items: { "Colors Token 2025": 500 } },
-    type: "collectible",
-    max: 1,
-    name: "Rainbow Well",
-  },
-  "Rainbow Flower": {
-    cost: { sfl: 0, items: { "Colors Token 2025": 1000 } },
-    type: "collectible",
-    max: 1,
-    name: "Rainbow Flower",
-  },
-  "Pony Toy": {
-    cost: { sfl: 40, items: {} },
-    type: "collectible",
-    max: 1,
-    name: "Pony Toy",
-  },
-  "Slime Hat": {
-    cost: { sfl: 50, items: {} },
-    type: "wearable",
-    max: 1,
-    name: "Slime Hat",
-  },
-  "Slime Wings": {
-    cost: { sfl: 300, items: {} },
-    type: "wearable",
-    max: 1,
-    name: "Slime Wings",
-  },
-  "Slime Aura": {
-    cost: { sfl: 500, items: {} },
-    type: "wearable",
-    max: 1,
-    name: "Slime Aura",
-  },
-  "Treasure Key": {
-    cost: { sfl: 0, items: { "Colors Token 2025": 300 } },
-    max: 1,
-    name: "Treasure Key",
-    type: "collectible",
-  },
-  "Colors Ticket 2025": {
-    cost: { sfl: 0, items: { "Colors Token 2025": 150 } },
-    max: 100000,
-    type: "collectible",
-    name: "Colors Ticket 2025",
-  },
-  "Rare Key": {
-    cost: { sfl: 0, items: { "Colors Token 2025": 500 } },
-    max: 1,
-    type: "collectible",
-    name: "Rare Key",
-  },
-  "Luxury Key": {
-    cost: { sfl: 0, items: { "Colors Token 2025": 1000 } },
-    max: 1,
-    type: "collectible",
-    name: "Luxury Key",
-  },
-  "Super Totem": {
-    cost: { sfl: 0, items: { "Colors Token 2025": 2500 } },
-    max: 1,
-    type: "collectible",
-    name: "Super Totem",
-  },
-  "Paint Splattered Hair": {
-    cost: { sfl: 0, items: { "Colors Token 2025": 150 } },
-    max: 1,
-    type: "wearable",
-    name: "Paint Splattered Hair",
-  },
-  "Paint Splattered Shirt": {
-    cost: { sfl: 0, items: { "Colors Token 2025": 250 } },
-    max: 1,
-    type: "wearable",
-    name: "Paint Splattered Shirt",
-  },
-  "Paint Splattered Overalls": {
-    cost: { sfl: 0, items: { "Colors Token 2025": 350 } },
-    type: "wearable",
-    max: 1,
-    name: "Paint Splattered Overalls",
-  },
-  "Paint Spray Can": {
-    cost: { sfl: 0, items: { "Colors Token 2025": 450 } },
-    type: "wearable",
-    max: 1,
-    name: "Paint Spray Can",
-  },
-  "Red Slime Balloon": {
-    cost: { sfl: 60, items: {} },
-    type: "collectible",
-    max: 1,
-    name: "Red Slime Balloon",
-  },
-  "Blue Slime Balloon": {
-    cost: { sfl: 0, items: { "Colors Token 2025": 750 } },
-    type: "collectible",
-    max: 1,
-    name: "Blue Slime Balloon",
-  },
-};
+export const FESTIVAL_OF_COLORS_STORE: MinigameShop<FestivalOfColorsShopItemName> =
+  {
+    "Floating Toy": {
+      cost: { sfl: 20, items: {} },
+      type: "collectible",
+      max: 1,
+      name: "Floating Toy",
+    },
+    "Paint Buckets": {
+      cost: { sfl: 0, items: { "Colors Token 2025": 250 } },
+      type: "collectible",
+      max: 1,
+      name: "Paint Buckets",
+    },
+    "Rainbow Well": {
+      cost: { sfl: 0, items: { "Colors Token 2025": 500 } },
+      type: "collectible",
+      max: 1,
+      name: "Rainbow Well",
+    },
+    "Rainbow Flower": {
+      cost: { sfl: 0, items: { "Colors Token 2025": 1000 } },
+      type: "collectible",
+      max: 1,
+      name: "Rainbow Flower",
+    },
+    "Pony Toy": {
+      cost: { sfl: 40, items: {} },
+      type: "collectible",
+      max: 1,
+      name: "Pony Toy",
+    },
+    "Slime Hat": {
+      cost: { sfl: 50, items: {} },
+      type: "wearable",
+      max: 1,
+      name: "Slime Hat",
+    },
+    "Slime Wings": {
+      cost: { sfl: 300, items: {} },
+      type: "wearable",
+      max: 1,
+      name: "Slime Wings",
+    },
+    "Slime Aura": {
+      cost: { sfl: 500, items: {} },
+      type: "wearable",
+      max: 1,
+      name: "Slime Aura",
+    },
+    "Treasure Key": {
+      cost: { sfl: 0, items: { "Colors Token 2025": 300 } },
+      max: 1,
+      name: "Treasure Key",
+      type: "collectible",
+    },
+    "Colors Ticket 2025": {
+      cost: { sfl: 0, items: { "Colors Token 2025": 150 } },
+      max: 100000,
+      type: "collectible",
+      name: "Colors Ticket 2025",
+    },
+    "Rare Key": {
+      cost: { sfl: 0, items: { "Colors Token 2025": 500 } },
+      max: 1,
+      type: "collectible",
+      name: "Rare Key",
+    },
+    "Luxury Key": {
+      cost: { sfl: 0, items: { "Colors Token 2025": 1000 } },
+      max: 1,
+      type: "collectible",
+      name: "Luxury Key",
+    },
+    "Super Totem": {
+      cost: { sfl: 0, items: { "Colors Token 2025": 2500 } },
+      max: 1,
+      type: "collectible",
+      name: "Super Totem",
+    },
+    "Paint Splattered Hair": {
+      cost: { sfl: 0, items: { "Colors Token 2025": 150 } },
+      max: 1,
+      type: "wearable",
+      name: "Paint Splattered Hair",
+    },
+    "Paint Splattered Shirt": {
+      cost: { sfl: 0, items: { "Colors Token 2025": 250 } },
+      max: 1,
+      type: "wearable",
+      name: "Paint Splattered Shirt",
+    },
+    "Paint Splattered Overalls": {
+      cost: { sfl: 0, items: { "Colors Token 2025": 350 } },
+      type: "wearable",
+      max: 1,
+      name: "Paint Splattered Overalls",
+    },
+    "Paint Spray Can": {
+      cost: { sfl: 0, items: { "Colors Token 2025": 450 } },
+      type: "wearable",
+      max: 1,
+      name: "Paint Spray Can",
+    },
+    "Red Slime Balloon": {
+      cost: { sfl: 60, items: {} },
+      type: "collectible",
+      max: 1,
+      name: "Red Slime Balloon",
+    },
+    "Blue Slime Balloon": {
+      cost: { sfl: 0, items: { "Colors Token 2025": 750 } },
+      type: "collectible",
+      max: 1,
+      name: "Blue Slime Balloon",
+    },
+  };
 
-export const HALLOWEEN_STORE: Record<HalloweenShopItemName, EventShopItem> = {
+export const HALLOWEEN_STORE: MinigameShop<HalloweenShopItemName> = {
   "Treasure Key": {
     cost: { sfl: 0, items: { "Halloween Token 2025": 300 } },
     max: 1,
@@ -589,7 +591,7 @@ export const HALLOWEEN_STORE: Record<HalloweenShopItemName, EventShopItem> = {
   },
 };
 
-export const HOLIDAY_STORE: Record<HolidayShopItemName, EventShopItem> = {
+export const HOLIDAY_STORE: MinigameShop<HolidayShopItemName> = {
   "Treasure Key": {
     cost: { sfl: 0, items: { "Holiday Token 2025": 300 } },
     max: 1,
@@ -754,10 +756,11 @@ export const HOLIDAY_STORE: Record<HolidayShopItemName, EventShopItem> = {
   },
 };
 
-export const MINIGAME_SHOP_ITEMS: Partial<Record<MinigameName, MinigameShop>> =
-  {
-    "easter-eggstravaganza": EASTER_SHOP_ITEMS,
-    "festival-of-colors-2025": FESTIVAL_OF_COLORS_STORE,
-    halloween: HALLOWEEN_STORE,
-    "holiday-puzzle-2025": HOLIDAY_STORE,
-  };
+export const MINIGAME_SHOP_ITEMS: Partial<
+  Record<MinigameName, AnyMinigameShop>
+> = {
+  "easter-eggstravaganza": EASTER_SHOP_ITEMS,
+  "festival-of-colors-2025": FESTIVAL_OF_COLORS_STORE,
+  halloween: HALLOWEEN_STORE,
+  "holiday-puzzle-2025": HOLIDAY_STORE,
+};
