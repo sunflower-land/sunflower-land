@@ -505,10 +505,6 @@ import {
 } from "./landExpansion/removeBeehive";
 import { removeAll, RemoveAllAction } from "./landExpansion/removeAll";
 import { wakeAnimal, WakeUpAnimalAction } from "./landExpansion/wakeUpAnimal";
-import {
-  ClaimCheersAction,
-  claimDailyCheers,
-} from "./landExpansion/claimDailyCheers";
 
 import {
   flipCollectible,
@@ -699,7 +695,6 @@ export type PlayingEvent =
   | BuyBiomeAction
   | ApplyBiomeAction
   | WakeUpAnimalAction
-  | ClaimCheersAction
   | BurnClutterAction
   | InstantGrowProjectAction
   | InstaGrowFlowerAction
@@ -948,7 +943,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "biome.bought": buyBiome,
   "biome.applied": applyBiome,
   "animal.wakeUp": wakeAnimal,
-  "cheers.claimed": claimDailyCheers,
   "bumpkin.wave": bumpkinWave,
   "clutter.burned": burnClutter,
   "project.instantGrow": instantGrowProject,

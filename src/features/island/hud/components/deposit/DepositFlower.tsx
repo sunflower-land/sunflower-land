@@ -21,7 +21,7 @@ import {
   BASE_TESTNET_NETWORK,
   RONIN_MAINNET_NETWORK,
   RONIN_TESTNET_NETWORK,
-} from "features/game/expansion/components/dailyReward/DailyReward";
+} from "features/wallet/Wallet";
 import { useAccount, useSwitchChain } from "wagmi";
 import {
   getDepositPreference,

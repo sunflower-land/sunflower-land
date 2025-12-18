@@ -12,9 +12,7 @@ import { useNavigate } from "react-router";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { HomeBumpkins } from "../house/HomeBumpkins";
 import { MANOR_VARIANTS } from "features/island/lib/alternateArt";
-import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
 import { useVisiting } from "lib/utils/visitUtils";
-import { hasFeatureAccess } from "lib/flags";
 
 export const Manor: React.FC<BuildingProps> = ({ isBuilt, season }) => {
   const { gameService, showAnimations } = useContext(Context);
@@ -69,18 +67,6 @@ export const Manor: React.FC<BuildingProps> = ({ isBuilt, season }) => {
           }}
         />
       </BuildingImageWrapper>
-      {!hasFeatureAccess(gameState.context.state, "DAILY_BOXES") && (
-        <div
-          className="absolute"
-          style={{
-            left: `${PIXEL_SCALE * -5}px`,
-
-            top: `${PIXEL_SCALE * -13}px`,
-          }}
-        >
-          <DailyReward />
-        </div>
-      )}
 
       <div
         className="absolute w-full"
