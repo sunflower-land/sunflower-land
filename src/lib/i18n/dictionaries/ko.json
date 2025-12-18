@@ -7263,5 +7263,13 @@
   "birdieplaza.whatIsSeason": "챕터란 무엇인가?",
   "birdieplaza.newSeasonIntro": "3개월마다 새로운 챕터가 선플라워 랜드에 도입됩니다.",
   "birdieplaza.seasonQuests": "이 챕터에는 흥미로운 퀘스트, 희귀 수집품, 획득할 수 있는 독점 웨어러블이 있습니다.",
-  "reward.streak.twoYear": "730일 연속 보상"
+  "reward.streak.twoYear": "730일 연속 보상",
+  "burn": "굽기",
+  "confirm.burn": "레코딩 확인",
+  "confirm.burn.message": "정말 {{name}} 태우고 싶으세요?이 작업은 취소할 수 없습니다.",
+  "renew": "갱신",
+  "confirm.renew": "갱신 확인",
+  "confirm.renew.message": "정말로 {{name}} 을 (를) 갱신하시겠습니까?",
+  "renew.expired.message": "{{name}} 이 (가) 만료되었습니다.갱신하거나 소각할 수 있습니다.",
+  "shrine.expired": "{{name}} 만료됨"
 }

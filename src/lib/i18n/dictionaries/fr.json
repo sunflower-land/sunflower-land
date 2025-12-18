@@ -7263,5 +7263,13 @@
   "birdieplaza.whatIsSeason": "Qu'est-ce qu'un chapitre ?",
   "birdieplaza.newSeasonIntro": "Tous les 3 mois, un nouveau chapitre est introduit à Sunflower Land.",
   "birdieplaza.seasonQuests": "Ce chapitre propose des quêtes passionnantes, des objets de collection rares et des objets portables exclusifs que vous pouvez gagner.",
-  "reward.streak.twoYear": "Récompense d'une série de 730 jours"
+  "reward.streak.twoYear": "Récompense d'une série de 730 jours",
+  "burn": "Brûler",
+  "confirm.burn": "Confirmer Burn",
+  "confirm.burn.message": "Êtes-vous sûr de vouloir brûler {{name}} ? Cette action ne peut pas être annulée.",
+  "renew": "Renouvellement",
+  "confirm.renew": "Confirmer le renouvellement",
+  "confirm.renew.message": "Êtes-vous sûr de vouloir renouveler {{name}} ?",
+  "renew.expired.message": "{{name}} a expiré. Vous pouvez le renouveler ou le brûler.",
+  "shrine.expired": "{{name}} Expiré"
 }

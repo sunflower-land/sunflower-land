@@ -7263,5 +7263,13 @@
   "birdieplaza.whatIsSeason": "チャプターとは？",
   "birdieplaza.newSeasonIntro": "サンフラワーランドでは、3か月ごとに新しい章が紹介されます。",
   "birdieplaza.seasonQuests": "このチャプターには、エキサイティングなクエスト、珍しい収集品、獲得できる限定ウェアラブルがあります。",
-  "reward.streak.twoYear": "730日連続リワード"
+  "reward.streak.twoYear": "730日連続リワード",
+  "burn": "バーン",
+  "confirm.burn": "書き込みを確認",
+  "confirm.burn.message": "本当に {{name}} を燃やしてもよろしいですか？このアクションは元に戻せません。",
+  "renew": "更新",
+  "confirm.renew": "更新を確認",
+  "confirm.renew.message": "{{name}} を更新してもよろしいですか？",
+  "renew.expired.message": "{{name}} の有効期限が切れています。更新することも、焼却することもできます。",
+  "shrine.expired": "{{name}} 期限切れ"
 }

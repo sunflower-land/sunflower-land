@@ -7263,5 +7263,13 @@
   "birdieplaza.whatIsSeason": "什么是章节？",
   "birdieplaza.newSeasonIntro": "向日葵乐园每三个月就会推出一个新的篇章。",
   "birdieplaza.seasonQuests": "本章包含精彩的任务、稀有收藏品和您可以获得的专属可穿戴设备。",
-  "reward.streak.twoYear": "730 天连胜奖励"
+  "reward.streak.twoYear": "730 天连胜奖励",
+  "burn": "烧伤",
+  "confirm.burn": "确认烧录",
+  "confirm.burn.message": "你确定要烧掉 {{name}} 吗？此操作无法撤消。",
+  "renew": "续订",
+  "confirm.renew": "确认续订",
+  "confirm.renew.message": "你确定要续订 {{name}} 吗？",
+  "renew.expired.message": "{{name}} 已过期。你可以续订或烧毁它。",
+  "shrine.expired": "{{name}} 已过期"
 }
