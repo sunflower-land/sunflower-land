@@ -151,7 +151,7 @@ const RenewPetShrineContent: React.FC<{
         )}
         {!showConfirmation && (
           <>
-            <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+            <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
               {t("shrine.expired", { name })}
             </Label>
             <p className="text-xs">{t("renew.expired.message", { name })}</p>
