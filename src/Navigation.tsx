@@ -31,8 +31,6 @@ import { EconomyDashboard } from "features/economyDashboard/EconomyDashboard";
 import { ModalProvider } from "features/game/components/modal/ModalProvider";
 import { FeedProvider } from "features/social/FeedContext";
 
-import { FishingMinigame } from "features/fishing/FishingMinigame";
-
 // Lazy load routes
 const World = lazy(() =>
   import("features/world/World").then((m) => ({ default: m.World })),
@@ -138,7 +136,6 @@ export const Navigation: React.FC = () => {
                                       Close
                                     </Button>
                                   </div>
-                                  <FishingMinigame />
                                 </Panel>
                               </Modal>
                               <Routes>

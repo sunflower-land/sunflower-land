@@ -606,6 +606,7 @@ export const FISH_DIFFICULTY: Partial<
   "Phantom Barracuda": 4,
   "Starlight Tuna": 5,
   "Twilight Anglerfish": 5,
+  "Pink Dolphin": 5,
 };
 
 export function getDailyFishingCount(state: GameState): number {

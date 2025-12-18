@@ -29,6 +29,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import classNames from "classnames";
 import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
+import { hasFeatureAccess } from "lib/flags";
+import { FishingPuzzle } from "features/fishing/FishingPuzzle";
 
 type SpriteFrames = { startAt: number; endAt: number };
 
@@ -395,12 +397,20 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
 
       <Modal show={showChallenge}>
         <Panel>
-          <FishingChallenge
-            difficulty={challengeDifficulty}
-            onCatch={onChallengeWon}
-            onMiss={onChallengeLost}
-            fishName={fish as FishName}
-          />
+          {hasFeatureAccess(state, "FISHING_PUZZLE") ? (
+            <FishingPuzzle
+              onCatch={onChallengeWon}
+              onMiss={onChallengeLost}
+              fishName={fish as FishName}
+            />
+          ) : (
+            <FishingChallenge
+              difficulty={challengeDifficulty}
+              onCatch={onChallengeWon}
+              onMiss={onChallengeLost}
+              fishName={fish as FishName}
+            />
+          )}
         </Panel>
       </Modal>
     </>

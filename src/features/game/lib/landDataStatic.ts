@@ -614,7 +614,11 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   bumpkin: {
     equipped: INITIAL_EQUIPMENT as Equipped,
+<<<<<<< HEAD
     experience: 150000,
+=======
+    experience: 1000,
+>>>>>>> 4110408c8 (Progress)
 
     id: 1,
     skills: {
