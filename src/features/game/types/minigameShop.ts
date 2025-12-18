@@ -8,7 +8,9 @@ export type EventShopItemName =
   | FestivalOfColorsShopItemName
   | FestivalOfColorsShopWearableName
   | HalloweenShopItemName
-  | HalloweenShopWearableName;
+  | HalloweenShopWearableName
+  | HolidayShopCollectibleName
+  | HolidayShopWearableName;
 
 export type EventShopCollectibleName = Extract<
   InventoryItemName,
@@ -57,6 +59,26 @@ export type HalloweenShopCollectibleName = Extract<
   | "Vampire Coffin"
 >;
 
+export type HolidayShopCollectibleName = Extract<
+  InventoryItemName,
+  | "Super Totem"
+  | "Festive Tree"
+  | "Treasure Key"
+  | "Rare Key"
+  | "Luxury Key"
+  | "Holiday Ticket 2025"
+  | "Holiday Decorative Totem"
+  | "Red Holiday Ornament"
+  | "Green Holiday Ornament"
+  | "Gift Turtle"
+  | "Red Nose Reindeer"
+  | "Tuxedo Claus"
+  | "Winter Alpaca"
+  | "Penguin Surprise"
+  | "Frozen Meat"
+  | "Ho Ho oh oh..."
+>;
+
 export type EventShopWearableName = Extract<
   BumpkinItem,
   | "Bunny Pants"
@@ -95,6 +117,21 @@ export type HalloweenShopWearableName = Extract<
   | "Wisp Aura"
 >;
 
+export type HolidayShopWearableName = Extract<
+  BumpkinItem,
+  | "Comfy Xmas Sweater"
+  | "Comfy Xmas Pants"
+  | "Candy Halbred"
+  | "Xmas Top Hat"
+  | "Reindeer Mask"
+  | "Snowman Mask"
+  | "Cool Glasses"
+  | "Cookie Shield"
+  | "Holiday Feast Background"
+  | "Cozy Reindeer Onesie"
+  | "Diamond Snow Aura"
+>;
+
 export type FestivalOfColorsShopItemName =
   | FestivalOfColorsShopCollectibleName
   | FestivalOfColorsShopWearableName;
@@ -102,6 +139,10 @@ export type FestivalOfColorsShopItemName =
 export type HalloweenShopItemName =
   | HalloweenShopCollectibleName
   | HalloweenShopWearableName;
+
+export type HolidayShopItemName =
+  | HolidayShopCollectibleName
+  | HolidayShopWearableName;
 
 type EventShopBase = {
   cost: { sfl: number; items: Partial<Record<InventoryItemName, number>> };
@@ -548,9 +589,175 @@ export const HALLOWEEN_STORE: Record<HalloweenShopItemName, EventShopItem> = {
   },
 };
 
+export const HOLIDAY_STORE: Record<HolidayShopItemName, EventShopItem> = {
+  "Treasure Key": {
+    cost: { sfl: 0, items: { "Holiday Token 2025": 300 } },
+    max: 1,
+    name: "Treasure Key",
+    type: "collectible",
+  },
+  "Holiday Ticket 2025": {
+    cost: { sfl: 0, items: { "Holiday Token 2025": 100 } },
+    max: 100000,
+    type: "collectible",
+    name: "Holiday Ticket 2025",
+  },
+  "Rare Key": {
+    cost: { sfl: 0, items: { "Holiday Token 2025": 500 } },
+    max: 1,
+    type: "collectible",
+    name: "Rare Key",
+  },
+  "Luxury Key": {
+    cost: { sfl: 0, items: { "Holiday Token 2025": 700 } },
+    max: 1,
+    type: "collectible",
+    name: "Luxury Key",
+  },
+  "Super Totem": {
+    cost: { sfl: 0, items: { "Holiday Token 2025": 2000 } },
+    max: 1,
+    type: "collectible",
+    name: "Super Totem",
+  },
+  "Festive Tree": {
+    cost: { sfl: 0, items: { "Holiday Token 2025": 250 } },
+    max: 1,
+    type: "collectible",
+    name: "Festive Tree",
+  },
+  "Diamond Snow Aura": {
+    cost: { sfl: 700, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Diamond Snow Aura",
+  },
+  "Holiday Decorative Totem": {
+    cost: { sfl: 0, items: { "Holiday Token 2025": 350 } },
+    max: 1,
+    type: "collectible",
+    name: "Holiday Decorative Totem",
+  },
+  "Red Holiday Ornament": {
+    cost: { sfl: 0, items: { "Holiday Token 2025": 300 } },
+    max: 1,
+    type: "collectible",
+    name: "Red Holiday Ornament",
+  },
+  "Green Holiday Ornament": {
+    cost: { sfl: 0, items: { "Holiday Token 2025": 150 } },
+    max: 1,
+    type: "collectible",
+    name: "Green Holiday Ornament",
+  },
+  "Gift Turtle": {
+    cost: { sfl: 0, items: { "Holiday Token 2025": 300 } },
+    max: 1,
+    type: "collectible",
+    name: "Gift Turtle",
+  },
+  "Red Nose Reindeer": {
+    cost: { sfl: 70, items: {} },
+    max: 1,
+    type: "collectible",
+    name: "Red Nose Reindeer",
+  },
+  "Tuxedo Claus": {
+    cost: { sfl: 100, items: {} },
+    max: 1,
+    type: "collectible",
+    name: "Tuxedo Claus",
+  },
+  "Winter Alpaca": {
+    cost: { sfl: 50, items: {} },
+    max: 1,
+    type: "collectible",
+    name: "Winter Alpaca",
+  },
+  "Penguin Surprise": {
+    cost: { sfl: 0, items: { "Holiday Token 2025": 500 } },
+    max: 1,
+    type: "collectible",
+    name: "Penguin Surprise",
+  },
+  "Frozen Meat": {
+    cost: { sfl: 0, items: { "Holiday Token 2025": 100 } },
+    max: 1,
+    type: "collectible",
+    name: "Frozen Meat",
+  },
+  "Ho Ho oh oh...": {
+    cost: { sfl: 0, items: { "Holiday Token 2025": 500 } },
+    max: 1,
+    type: "collectible",
+    name: "Ho Ho oh oh...",
+  },
+  "Comfy Xmas Sweater": {
+    cost: { sfl: 0, items: { "Holiday Token 2025": 400 } },
+    max: 1,
+    type: "wearable",
+    name: "Comfy Xmas Sweater",
+  },
+  "Comfy Xmas Pants": {
+    cost: { sfl: 0, items: { "Holiday Token 2025": 350 } },
+    max: 1,
+    type: "wearable",
+    name: "Comfy Xmas Pants",
+  },
+  "Candy Halbred": {
+    cost: { sfl: 100, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Candy Halbred",
+  },
+  "Xmas Top Hat": {
+    cost: { sfl: 30, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Xmas Top Hat",
+  },
+  "Reindeer Mask": {
+    cost: { sfl: 0, items: { "Holiday Token 2025": 750 } },
+    max: 1,
+    type: "wearable",
+    name: "Reindeer Mask",
+  },
+  "Snowman Mask": {
+    cost: { sfl: 200, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Snowman Mask",
+  },
+  "Cool Glasses": {
+    cost: { sfl: 0, items: { "Holiday Token 2025": 150 } },
+    max: 1,
+    type: "wearable",
+    name: "Cool Glasses",
+  },
+  "Cookie Shield": {
+    cost: { sfl: 0, items: { "Holiday Token 2025": 500 } },
+    max: 1,
+    type: "wearable",
+    name: "Cookie Shield",
+  },
+  "Holiday Feast Background": {
+    cost: { sfl: 100, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Holiday Feast Background",
+  },
+  "Cozy Reindeer Onesie": {
+    cost: { sfl: 120, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Cozy Reindeer Onesie",
+  },
+};
+
 export const MINIGAME_SHOP_ITEMS: Partial<Record<MinigameName, MinigameShop>> =
   {
     "easter-eggstravaganza": EASTER_SHOP_ITEMS,
     "festival-of-colors-2025": FESTIVAL_OF_COLORS_STORE,
     halloween: HALLOWEEN_STORE,
+    "holiday-puzzle-2025": HOLIDAY_STORE,
   };

@@ -3,12 +3,12 @@ import { Label } from "components/ui/Label";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import React, { useState } from "react";
 import {
-  HALLOWEEN_EVENT_ITEMS,
+  HOLIDAY_EVENT_ITEMS,
   EventStoreCollectible,
   EventStoreItem,
   EventStoreTier,
   EventStoreWearable,
-} from "features/game/types/halloweenShop";
+} from "features/game/types/holidayEventShop";
 
 import { ItemsList } from "./eventmegastore_components/ItemsList";
 import { ItemDetail } from "./eventmegastore_components/ItemDetail";
@@ -82,7 +82,7 @@ export const EventStore: React.FC<Props> = ({ readonly, state }) => {
     setSelectedTier(tier);
   };
 
-  const EVENTMEGASTORE = HALLOWEEN_EVENT_ITEMS;
+  const EVENTMEGASTORE = HOLIDAY_EVENT_ITEMS;
 
   // Basic-Epic
   const basicAllItems = EVENTMEGASTORE.basic.items;

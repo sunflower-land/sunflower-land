@@ -23,12 +23,12 @@ import { BumpkinItem } from "features/game/types/bumpkin";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
-  HALLOWEEN_EVENT_ITEMS,
+  HOLIDAY_EVENT_ITEMS,
   EventStoreCollectible,
   EventStoreItem,
   EventStoreTier,
   EventStoreWearable,
-} from "features/game/types/halloweenShop";
+} from "features/game/types/holidayEventShop";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
@@ -65,13 +65,13 @@ export const ItemsList: React.FC<Props> = ({
     // Handling all types or specific ones if provided
     if (type === "wearables" || (!type && "wearable" in item)) {
       return (
-        state.minigames.games["halloween"]?.shop?.wearables?.[
+        state.minigames.games["holiday-puzzle-2025"]?.shop?.wearables?.[
           (item as EventStoreWearable).wearable as BumpkinItem
         ] ?? 0
       );
     } else {
       return (
-        state.minigames.games["halloween"]?.shop?.items?.[
+        state.minigames.games["holiday-puzzle-2025"]?.shop?.items?.[
           (item as EventStoreCollectible).collectible as InventoryItemName
         ] ?? 0
       );
@@ -140,23 +140,25 @@ export const ItemsList: React.FC<Props> = ({
     return "requirement" in tier;
   };
 
-  const tierData = HALLOWEEN_EVENT_ITEMS[tier];
+  const tierData = HOLIDAY_EVENT_ITEMS[tier];
   const requirements = hasRequirement(tierData) ? tierData.requirement : 0;
 
   const eventItemsCrafted =
-    Object.keys(state.minigames.games["halloween"]?.shop?.items ?? {}).length +
-    Object.keys(state.minigames.games["halloween"]?.shop?.wearables ?? {})
-      .length;
+    Object.keys(state.minigames.games["holiday-puzzle-2025"]?.shop?.items ?? {})
+      .length +
+    Object.keys(
+      state.minigames.games["holiday-puzzle-2025"]?.shop?.wearables ?? {},
+    ).length;
 
   const isRareUnlocked =
     tier === "rare" &&
-    eventItemsCrafted >= HALLOWEEN_EVENT_ITEMS.rare.requirement;
+    eventItemsCrafted >= HOLIDAY_EVENT_ITEMS.rare.requirement;
   const isEpicUnlocked =
     tier === "epic" &&
-    eventItemsCrafted >= HALLOWEEN_EVENT_ITEMS.epic.requirement;
+    eventItemsCrafted >= HOLIDAY_EVENT_ITEMS.epic.requirement;
   const isMegaUnlocked =
     tier === "mega" &&
-    eventItemsCrafted >= HALLOWEEN_EVENT_ITEMS.mega.requirement;
+    eventItemsCrafted >= HOLIDAY_EVENT_ITEMS.mega.requirement;
 
   const tierpercentage = eventItemsCrafted;
 

@@ -905,6 +905,19 @@ import hauntedTomb from "assets/sfts/haunted_tomb.webp";
 import guillotine from "assets/sfts/guillotine.webp";
 import vampireCoffin from "assets/sfts/vampire_coffin.webp";
 
+import holidayToken2025 from "assets/icons/holidays_token_2025.webp";
+import holidayTicket2025 from "assets/icons/holidays_ticket_2025.webp";
+import holidayDecorativeTotem from "assets/sfts/holiday_decorative_totem.webp";
+import redHolidayOrnament from "assets/sfts/red_holiday_ornament.webp";
+import greenHolidayOrnament from "assets/sfts/green_holiday_ornament.webp";
+import tuxedoClaus from "assets/sfts/tuxedo_claus.webp";
+import winterAlpaca from "assets/sfts/winter_alpaca.webp";
+import penguinSurprise from "assets/sfts/penguin_surprise.webp";
+import frozenMeat from "assets/sfts/frozen_meat.webp";
+import hoHoOhOh from "assets/sfts/ho_ho_oh_oh.webp";
+import giftTurtle from "assets/sfts/gift_turtle.webp";
+import redNoseReindeer from "assets/sfts/red_nose_reindeer.webp";
+
 import quarry from "assets/sfts/quarry.webp";
 import obsidianTurtle from "assets/sfts/obsidian_turtle.webp";
 import winterGuardian from "assets/sfts/winter_guardian.webp";
@@ -6235,5 +6248,53 @@ export const ITEM_DETAILS: Items = {
   "Basic Love Box": {
     image: basicLoveBox,
     description: translate("description.basicLoveBox"),
+  },
+  "Holiday Token 2025": {
+    image: holidayToken2025,
+    description: translate("description.holidayToken2025"),
+  },
+  "Holiday Ticket 2025": {
+    image: holidayTicket2025,
+    description: translate("description.holidayTicket2025"),
+  },
+  "Holiday Decorative Totem": {
+    image: holidayDecorativeTotem,
+    description: translate("description.holidayDecorativeTotem"),
+  },
+  "Red Holiday Ornament": {
+    image: redHolidayOrnament,
+    description: translate("description.redHolidayOrnament"),
+  },
+  "Green Holiday Ornament": {
+    image: greenHolidayOrnament,
+    description: translate("description.greenHolidayOrnament"),
+  },
+  "Tuxedo Claus": {
+    image: tuxedoClaus,
+    description: translate("description.tuxedoClaus"),
+  },
+  "Winter Alpaca": {
+    image: winterAlpaca,
+    description: translate("description.winterAlpaca"),
+  },
+  "Penguin Surprise": {
+    image: penguinSurprise,
+    description: translate("description.penguinSurprise"),
+  },
+  "Frozen Meat": {
+    image: frozenMeat,
+    description: translate("description.frozenMeat"),
+  },
+  "Ho Ho oh oh...": {
+    image: hoHoOhOh,
+    description: translate("description.hoHoOhOh"),
+  },
+  "Gift Turtle": {
+    image: giftTurtle,
+    description: translate("description.giftTurtle"),
+  },
+  "Red Nose Reindeer": {
+    image: redNoseReindeer,
+    description: translate("description.redNoseReindeer"),
   },
 };
