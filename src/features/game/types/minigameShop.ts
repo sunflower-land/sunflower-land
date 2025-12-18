@@ -3,8 +3,8 @@ import { InventoryItemName } from "./game";
 import { MinigameName } from "./minigames";
 
 export type EventShopItemName =
-  | EventShopCollectibleName
-  | EventShopWearableName
+  | EasterShopCollectibleName
+  | EasterShopWearableName
   | FestivalOfColorsShopItemName
   | FestivalOfColorsShopWearableName
   | HalloweenShopItemName
@@ -12,7 +12,7 @@ export type EventShopItemName =
   | HolidayShopCollectibleName
   | HolidayShopWearableName;
 
-export type EventShopCollectibleName = Extract<
+export type EasterShopCollectibleName = Extract<
   InventoryItemName,
   | "Super Totem"
   | "Treasure Key"
@@ -79,7 +79,7 @@ export type HolidayShopCollectibleName = Extract<
   | "Ho Ho oh oh..."
 >;
 
-export type EventShopWearableName = Extract<
+export type EasterShopWearableName = Extract<
   BumpkinItem,
   | "Bunny Pants"
   | "Handheld Bunny"
@@ -132,6 +132,10 @@ export type HolidayShopWearableName = Extract<
   | "Diamond Snow Aura"
 >;
 
+export type EasterShopItemName =
+  | EasterShopCollectibleName
+  | EasterShopWearableName;
+
 export type FestivalOfColorsShopItemName =
   | FestivalOfColorsShopCollectibleName
   | FestivalOfColorsShopWearableName;
@@ -168,9 +172,7 @@ type MinigameShop<T extends EventShopItemName> = Record<T, EventShopItem>;
 
 type AnyMinigameShop = Partial<Record<EventShopItemName, EventShopItem>>;
 
-export const EASTER_SHOP_ITEMS: MinigameShop<
-  EventShopCollectibleName | EventShopWearableName
-> = {
+export const EASTER_SHOP_ITEMS: MinigameShop<EasterShopItemName> = {
   "Easter Ticket 2025": {
     name: "Easter Ticket 2025",
     cost: {
