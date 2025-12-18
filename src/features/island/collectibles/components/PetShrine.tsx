@@ -19,6 +19,10 @@ import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { PetShrineName } from "features/game/types/pets";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { RenewPetShrine } from "features/game/components/RenewPetShrine";
+import { useVisiting } from "lib/utils/visitUtils";
+import { useSelector } from "@xstate/react";
+import { hasFeatureAccess } from "lib/flags";
 
 const PET_SHRINE_DIMENSIONS: Record<
   PetShrineName,
@@ -72,63 +76,79 @@ export const PetShrine: React.FC<
 > = ({ createdAt, id, location, name }) => {
   const { t } = useAppTranslation();
   const { gameService, showTimers } = useContext(Context);
+  const [showRenewalModal, setShowRenewalModal] = useState(false);
+  const { isVisiting } = useVisiting();
 
-  const [, setRender] = useState(0);
+  const hasAccess = useSelector(gameService, (state) =>
+    hasFeatureAccess(state.context.state, "RENEW_PET_SHRINES"),
+  );
+
   const expiresAt = createdAt + (EXPIRY_COOLDOWNS[name] ?? 0);
+
   const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
   const durationSeconds = EXPIRY_COOLDOWNS[name] ?? 0;
   const percentage = 100 - (secondsToExpire / durationSeconds) * 100;
   const hasExpired = secondsToExpire <= 0;
 
+  const handleRenewClick = () => {
+    setShowRenewalModal(true);
+  };
   const handleRemove = () => {
-    gameService.send("collectible.burned", {
-      name,
-      location,
-      id,
-    });
+    gameService.send("collectible.burned", { name, location, id });
   };
 
   if (hasExpired) {
     return (
-      <div
-        onClick={handleRemove}
-        className="absolute"
-        style={{ ...PET_SHRINE_DIMENSIONS_STYLES[name], bottom: 0 }}
-      >
-        {showTimers && (
-          <div
-            className="absolute left-1/2"
-            style={{
-              width: `${PIXEL_SCALE * 15}px`,
-              transform: "translateX(-50%)",
-            }}
-          >
-            <ProgressBar
-              seconds={secondsToExpire}
-              formatLength="medium"
-              type="error"
-              percentage={percentage}
-            />
-          </div>
-        )}
-
-        <img
-          className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
-          src={SUNNYSIDE.icons.dig_icon}
-          style={{
-            width: `${PIXEL_SCALE * 18}px`,
-            right: `${PIXEL_SCALE * -8}px`,
-            top: `${PIXEL_SCALE * -8}px`,
-          }}
-        />
-
-        <img
-          src={ITEM_DETAILS[name].image}
+      <>
+        <div
+          onClick={
+            isVisiting ? undefined : hasAccess ? handleRenewClick : handleRemove
+          }
+          className="absolute"
           style={{ ...PET_SHRINE_DIMENSIONS_STYLES[name], bottom: 0 }}
-          className="absolute cursor-pointer"
-          alt={name}
+        >
+          {showTimers && (
+            <div
+              className="absolute left-1/2"
+              style={{
+                width: `${PIXEL_SCALE * 15}px`,
+                transform: "translateX(-50%)",
+              }}
+            >
+              <ProgressBar
+                seconds={secondsToExpire}
+                formatLength="medium"
+                type="error"
+                percentage={percentage}
+              />
+            </div>
+          )}
+
+          <img
+            className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
+            src={SUNNYSIDE.icons.dig_icon}
+            style={{
+              width: `${PIXEL_SCALE * 18}px`,
+              right: `${PIXEL_SCALE * -8}px`,
+              top: `${PIXEL_SCALE * -8}px`,
+            }}
+          />
+
+          <img
+            src={ITEM_DETAILS[name].image}
+            style={{ ...PET_SHRINE_DIMENSIONS_STYLES[name], bottom: 0 }}
+            className="absolute cursor-pointer"
+            alt={name}
+          />
+        </div>
+        <RenewPetShrine
+          show={showRenewalModal}
+          onHide={() => setShowRenewalModal(false)}
+          name={name}
+          id={id}
+          location={location}
         />
-      </div>
+      </>
     );
   }
 
