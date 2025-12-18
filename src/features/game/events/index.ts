@@ -505,15 +505,8 @@ import {
 } from "./landExpansion/removeBeehive";
 import { removeAll, RemoveAllAction } from "./landExpansion/removeAll";
 import { wakeAnimal, WakeUpAnimalAction } from "./landExpansion/wakeUpAnimal";
-<<<<<<< HEAD
 
-=======
-import {
-  ClaimCheersAction,
-  claimDailyCheers,
-} from "./landExpansion/claimDailyCheers";
 import { retryFish, RetryFishAction } from "./landExpansion/retryFish";
->>>>>>> 6bc8466ec (New strings)
 import {
   flipCollectible,
   FlipCollectibleAction,
@@ -707,11 +700,7 @@ export type PlayingEvent =
   | BuyBiomeAction
   | ApplyBiomeAction
   | WakeUpAnimalAction
-<<<<<<< HEAD
-=======
-  | ClaimCheersAction
   | RetryFishAction
->>>>>>> 6bc8466ec (New strings)
   | BurnClutterAction
   | InstantGrowProjectAction
   | InstaGrowFlowerAction
