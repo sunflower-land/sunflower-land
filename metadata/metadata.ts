@@ -20268,7 +20268,8 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Candy Halbred",
   },
   "Cookie Shield": {
-    description: "A sturdy shield made from the finest cookie dough, just don't use it if your opponent is hungry!",
+    description:
+      "A sturdy shield made from the finest cookie dough, just don't use it if your opponent is hungry!",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "SecondaryTool" },
