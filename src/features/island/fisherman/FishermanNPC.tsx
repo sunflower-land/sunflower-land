@@ -29,6 +29,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import classNames from "classnames";
 import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
+import { hasFeatureAccess } from "lib/flags";
+import { FishingPuzzle } from "features/island/fisherman/FishingPuzzle";
 
 type SpriteFrames = { startAt: number; endAt: number };
 
@@ -179,6 +181,10 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     setShowChallenge(false);
     spriteRef.current?.setStartAt(FISHING_FRAMES.caught.startAt);
     spriteRef.current?.setEndAt(FISHING_FRAMES.caught.endAt);
+  };
+
+  const onChallengeRetry = () => {
+    gameService.send("fish.retried");
   };
 
   const onChallengeLost = () => {
@@ -395,12 +401,27 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
 
       <Modal show={showChallenge}>
         <Panel>
-          <FishingChallenge
-            difficulty={challengeDifficulty}
-            onCatch={onChallengeWon}
-            onMiss={onChallengeLost}
-            fishName={fish as FishName}
-          />
+          {hasFeatureAccess(state, "FISHING_PUZZLE") ? (
+            <FishingPuzzle
+              onCatch={onChallengeWon}
+              onMiss={onChallengeLost}
+              onRetry={onChallengeRetry}
+              fishName={fish as FishName}
+              // Each time the retry, we need a new puzzle
+              resetKey={
+                gameService.getSnapshot().context.state.farmActivity[
+                  "Fish Retried"
+                ] ?? 0
+              }
+            />
+          ) : (
+            <FishingChallenge
+              difficulty={challengeDifficulty}
+              onCatch={onChallengeWon}
+              onMiss={onChallengeLost}
+              fishName={fish as FishName}
+            />
+          )}
         </Panel>
       </Modal>
     </>
