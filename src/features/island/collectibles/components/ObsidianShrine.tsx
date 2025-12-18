@@ -30,6 +30,7 @@ import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
 import { useVisiting } from "lib/utils/visitUtils";
 import { RenewPetShrine } from "features/game/components/RenewPetShrine";
+import { hasFeatureAccess } from "lib/flags";
 
 export const ObsidianShrine: React.FC<CollectibleProps> = ({
   createdAt,
@@ -56,6 +57,14 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
 
   const state = useSelector(gameService, (state) => state.context.state);
 
+  const handleRemove = () => {
+    gameService.send("collectible.burned", {
+      name: "Obsidian Shrine",
+      location,
+      id,
+    });
+  };
+
   const availablePlots = getAvailablePlots(state);
   const { readyCrops } = getCropsToHarvest(state, now);
   const hasReadyCrops = Object.keys(readyCrops).length > 0;
@@ -74,7 +83,13 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
     return (
       <>
         <div
-          onClick={isVisiting ? undefined : handleRenewClick}
+          onClick={
+            isVisiting
+              ? undefined
+              : hasFeatureAccess(state, "RENEW_PET_SHRINES")
+                ? handleRenewClick
+                : handleRemove
+          }
           style={{
             bottom: `${PIXEL_SCALE * 0}px`,
             left: `${PIXEL_SCALE * -2.5}px`,

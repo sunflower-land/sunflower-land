@@ -21,6 +21,8 @@ import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { RenewPetShrine } from "features/game/components/RenewPetShrine";
 import { useVisiting } from "lib/utils/visitUtils";
+import { useSelector } from "@xstate/react";
+import { hasFeatureAccess } from "lib/flags";
 
 const PET_SHRINE_DIMENSIONS: Record<
   PetShrineName,
@@ -73,9 +75,13 @@ export const PetShrine: React.FC<
   CollectibleProps & { name: PetShrineName }
 > = ({ createdAt, id, location, name }) => {
   const { t } = useAppTranslation();
-  const { showTimers } = useContext(Context);
+  const { gameService, showTimers } = useContext(Context);
   const [showRenewalModal, setShowRenewalModal] = useState(false);
   const { isVisiting } = useVisiting();
+
+  const hasAccess = useSelector(gameService, (state) =>
+    hasFeatureAccess(state.context.state, "RENEW_PET_SHRINES"),
+  );
 
   const expiresAt = createdAt + (EXPIRY_COOLDOWNS[name] ?? 0);
 
@@ -87,12 +93,17 @@ export const PetShrine: React.FC<
   const handleRenewClick = () => {
     setShowRenewalModal(true);
   };
+  const handleRemove = () => {
+    gameService.send("collectible.burned", { name, location, id });
+  };
 
   if (hasExpired) {
     return (
       <>
         <div
-          onClick={isVisiting ? undefined : handleRenewClick}
+          onClick={
+            isVisiting ? undefined : hasAccess ? handleRenewClick : handleRemove
+          }
           className="absolute"
           style={{ ...PET_SHRINE_DIMENSIONS_STYLES[name], bottom: 0 }}
         >
