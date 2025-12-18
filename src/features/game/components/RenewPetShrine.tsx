@@ -184,6 +184,13 @@ const RenewPetShrineContent: React.FC<{
             ingredients={getKeys(requirements)}
             onClick={() => setShowIngredients(false)}
           />
+          {coinCost > 0 && (
+            <RequirementLabel
+              type="coins"
+              balance={coinBalance}
+              requirement={coinCost}
+            />
+          )}
           {getKeys(requirements).map((itemName) => {
             return (
               <RequirementLabel
