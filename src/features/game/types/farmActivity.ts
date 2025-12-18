@@ -149,6 +149,7 @@ export type FarmActivityName =
   | "FLOWER Exchanged"
   | ResourceNodeUpgradeEvent
   | `${PetResourceName} Fetched`
+<<<<<<< HEAD
   | PlantGreenHouseFruitEvent
   | PlantGreenHouseCropEvent
   | CookEvent
@@ -211,6 +212,10 @@ export type FarmActivityName =
   | "Farm Helped"
   | `${MonumentName} Completed`
   | "Daily Reward Collected";
+=======
+  | "Fish Missed"
+  | "Fish Retried";
+>>>>>>> 6bc8466ec (New strings)
 
 export function trackFarmActivity(
   activityName: FarmActivityName,

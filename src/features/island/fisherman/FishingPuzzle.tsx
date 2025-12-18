@@ -9,6 +9,9 @@ import rock from "assets/fish/minigame/rock.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { FishName } from "features/game/types/fishing";
+import { Label } from "components/ui/Label";
+import { FISH_RETRY_COST } from "features/game/events/landExpansion/retryFish";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const wrong = SUNNYSIDE.icons.cancel;
 
@@ -78,34 +81,31 @@ interface FishingMinigameProps {
   cols?: number;
   maxAttempts?: number;
   resetKey?: number;
-  onFinish?: (result: {
-    completed: boolean;
-    attemptsLeft: number;
-    attemptsUsed: number;
-  }) => void;
-  onCatch?: (result: {
+  onCatch: (result: {
     completed: true;
     attemptsLeft: number;
     attemptsUsed: number;
   }) => void;
-  onMiss?: (result: {
+  onMiss: (result: {
     completed: false;
     attemptsLeft: number;
     attemptsUsed: number;
   }) => void;
-  fishName?: FishName;
+  onRetry: () => void;
+  fishName: FishName;
 }
 
 export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
   rows = 5,
   cols = 4,
   maxAttempts = 4,
-  onFinish,
   onCatch,
   onMiss,
+  onRetry,
   fishName,
   resetKey = 0,
 }) => {
+  const { t } = useAppTranslation();
   const [dimensions, setDimensions] = useState({
     rows: clampValue(rows, MIN_ROWS, MAX_ROWS),
     cols: clampValue(cols, MIN_COLS, MAX_COLS),
@@ -133,6 +133,7 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
   const failureTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(
     undefined,
   );
+  const [showRetry, setShowRetry] = useState(false);
   const completionTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(
     undefined,
   );
@@ -179,6 +180,17 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
 
   React.useEffect(() => {
     applyConfig(rows, cols, maxAttempts);
+
+    // Reset attempts
+    setProgress(0);
+    setIsComplete(false);
+    setMistakeTile(null);
+    setIsResolvingMistake(false);
+    setRevealedTiles(new Set());
+    setTemporaryReveals(new Set());
+    setAttemptsLeft(initialAttemptLimit);
+    setAttemptLimit(initialAttemptLimit);
+    setShowRetry(false);
   }, [applyConfig, cols, maxAttempts, resetKey, rows]);
 
   const handleCorrectSelection = (row: number, col: number) => {
@@ -238,8 +250,6 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
     };
   }, []);
 
-  const currentStep = Math.min(progress + 1, path.length);
-
   const nextStep = path[progress];
 
   const reportFinish = useCallback(
@@ -253,14 +263,13 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
         attemptsUsed: attemptLimit - attemptsLeft,
       };
 
-      onFinish?.(result);
       if (completed) {
         onCatch?.({ ...result, completed: true });
       } else {
-        onMiss?.({ ...result, completed: false });
+        setShowRetry(true);
       }
     },
-    [attemptLimit, attemptsLeft, onCatch, onFinish, onMiss],
+    [attemptLimit, attemptsLeft, onCatch, onMiss],
   );
 
   React.useEffect(() => {
@@ -275,7 +284,10 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
         completionTimerRef.current = undefined;
       }, 2000);
     } else if (attemptsLeft === 0) {
-      reportFinish(false);
+      completionTimerRef.current = setTimeout(() => {
+        reportFinish(false);
+        completionTimerRef.current = undefined;
+      }, 2000);
     }
 
     return () => {
@@ -286,16 +298,55 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
     };
   }, [isComplete, attemptsLeft, reportFinish]);
 
-  return (
-    <div className="space-y-3 text-sm text-brown-500 flex flex-col items-center">
-      <div className="flex flex-wrap gap-3 text-xs">
-        <div className="flex-1 min-w-[120px]">
-          <div className="font-semibold text-brown-600">Attempts</div>
-          <div>
-            {attemptsLeft}/{attemptLimit}
-          </div>
+  if (showRetry) {
+    return (
+      <div className="space-y-3 text-sm text-brown-500 flex flex-col items-center">
+        <Label type="danger">{t("fishingPuzzle.missedFish")}</Label>
+        <p>{t("fishingPuzzle.retryPrompt", { coins: FISH_RETRY_COST })}</p>
+
+        <div className="flex">
+          <Button
+            onClick={() =>
+              onMiss({
+                completed: false,
+                attemptsLeft,
+                attemptsUsed: attemptLimit - attemptsLeft,
+              })
+            }
+            className="mr-1"
+          >
+            {t("no")}
+          </Button>
+          <Button onClick={onRetry}>{t("retry")}</Button>
         </div>
       </div>
+    );
+  }
+
+  return (
+    <div className="space-y-3 text-sm text-brown-500 flex flex-col items-center">
+      <Label type={attemptsLeft <= 1 ? "danger" : "default"}>
+        {t("fishingPuzzle.attemptsLeft", {
+          attemptsLeft,
+          attemptLimit,
+        })}
+      </Label>
+
+      <div className="flex  items-center">
+        <img src={blueCheck} className="w-10" />
+        <p className="text-xs opacity-80">{t("fishingPuzzle.findSafePath")}</p>
+      </div>
+
+      {isComplete && (
+        <div className="rounded bg-green-100 border border-green-400 px-2 py-1 text-xs text-green-700">
+          {t("fishingPuzzle.success")}
+        </div>
+      )}
+      {attemptsLeft === 0 && !isComplete && (
+        <div className="rounded bg-red-100 border border-red-400 px-2 py-1 text-xs text-red-700">
+          {t("fishingPuzzle.failedAttempts")}
+        </div>
+      )}
 
       <div
         className="grid gap-2 justify-items-center "
@@ -392,126 +443,25 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
       </div>
 
       <div className="flex flex-col items-center">
-        <p className="text-xs opacity-80">
-          Find the safe path from bottom to top.
-        </p>
-
         <div className="flex flex-col gap-2">
-          {isComplete && (
-            <div className="rounded bg-green-100 border border-green-400 px-2 py-1 text-xs text-green-700">
-              Great job! You reached the top.
-            </div>
-          )}
-          {attemptsLeft === 0 && !isComplete && (
-            <div className="rounded bg-red-100 border border-red-400 px-2 py-1 text-xs text-red-700">
-              You ran out of attempts. Reset to try a new path.
-            </div>
-          )}
           {fishName && (
-            <img
-              src={ITEM_DETAILS[fishName as FishName].image}
-              className="w-10"
-            />
+            <div className="w-10 relative">
+              <img
+                src={ITEM_DETAILS[fishName as FishName].image}
+                className="w-full"
+                // silhoutte black mystery effect
+                style={{
+                  filter: "brightness(0%)",
+                }}
+              />
+              <img
+                src={SUNNYSIDE.icons.expression_confused}
+                className="w-3 absolute bottom-7 right-4"
+              />
+            </div>
           )}
         </div>
       </div>
-    </div>
-  );
-};
-
-export const SandboxFishingMinigame: React.FC = () => {
-  const [draftRows, setDraftRows] = useState(5);
-  const [draftCols, setDraftCols] = useState(4);
-  const [draftAttempts, setDraftAttempts] = useState(4);
-  const [draftFishName, setDraftFishName] = useState("");
-
-  const [rows, setRows] = useState(5);
-  const [cols, setCols] = useState(4);
-  const [attempts, setAttempts] = useState(4);
-  const [resetKey, setResetKey] = useState(0);
-
-  const applySettings = () => {
-    const nextRows = clampValue(draftRows, MIN_ROWS, MAX_ROWS);
-    const nextCols = clampValue(draftCols, MIN_COLS, MAX_COLS);
-    const nextAttempts = clampValue(draftAttempts, MIN_ATTEMPTS, MAX_ATTEMPTS);
-
-    setRows(nextRows);
-    setCols(nextCols);
-    setAttempts(nextAttempts);
-    setResetKey((key) => key + 1);
-  };
-
-  const resetPuzzle = () => setResetKey((key) => key + 1);
-
-  return (
-    <div className="space-y-3 text-sm text-brown-500">
-      <div className="flex flex-wrap gap-2 text-xs">
-        <label className="flex flex-col gap-1 flex-1 min-w-[120px]">
-          <span className="font-semibold text-brown-600">Rows</span>
-          <input
-            type="number"
-            min={MIN_ROWS}
-            max={MAX_ROWS}
-            value={draftRows}
-            onChange={(event) =>
-              setDraftRows(Number(event.currentTarget.value))
-            }
-            className="rounded border border-brown-500/60 bg-[#ffefc4] px-2 py-1 text-brown-700"
-          />
-        </label>
-        <label className="flex flex-col gap-1 flex-1 min-w-[120px]">
-          <span className="font-semibold text-brown-600">Columns</span>
-          <input
-            type="number"
-            min={MIN_COLS}
-            max={MAX_COLS}
-            value={draftCols}
-            onChange={(event) =>
-              setDraftCols(Number(event.currentTarget.value))
-            }
-            className="rounded border border-brown-500/60 bg-[#ffefc4] px-2 py-1 text-brown-700"
-          />
-        </label>
-        <label className="flex flex-col gap-1 flex-1 min-w-[120px]">
-          <span className="font-semibold text-brown-600">Attempts</span>
-          <input
-            type="number"
-            min={MIN_ATTEMPTS}
-            max={MAX_ATTEMPTS}
-            value={draftAttempts}
-            onChange={(event) =>
-              setDraftAttempts(Number(event.currentTarget.value))
-            }
-            className="rounded border border-brown-500/60 bg-[#ffefc4] px-2 py-1 text-brown-700"
-          />
-        </label>
-        <label className="flex flex-col gap-1 flex-1 min-w-[120px]">
-          <span className="font-semibold text-brown-600">Fish Name</span>
-          <input
-            type="text"
-            value={draftFishName}
-            onChange={(event) => setDraftFishName(event.currentTarget.value)}
-            className="rounded border border-brown-500/60 bg-[#ffefc4] px-2 py-1 text-brown-700"
-          />
-        </label>
-      </div>
-
-      <div className="flex flex-wrap gap-2 text-xs">
-        <Button onClick={applySettings} className="text-xs">
-          Apply Settings
-        </Button>
-        <Button onClick={resetPuzzle} className="text-xs">
-          Reset Puzzle
-        </Button>
-      </div>
-
-      <FishingPuzzle
-        rows={rows}
-        cols={cols}
-        maxAttempts={attempts}
-        resetKey={resetKey}
-        fishName={draftFishName as FishName}
-      />
     </div>
   );
 };

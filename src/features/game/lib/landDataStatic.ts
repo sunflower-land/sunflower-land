@@ -907,7 +907,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   fishing: {
     dailyAttempts: {},
     wharf: {
-      castedAt: 0,
+      castedAt: 100,
       bait: "Fishing Lure",
       chum: "Carrot",
       caught: {

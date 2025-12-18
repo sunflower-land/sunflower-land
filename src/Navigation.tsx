@@ -53,7 +53,6 @@ export const Navigation: React.FC = () => {
     !navigator.onLine ? true : false,
   );
   const [landingImageLoaded, setLandingImageLoaded] = useState(false);
-  const [showFishingMinigame, setShowFishingMinigame] = useState(true);
 
   const state = useSelector(authService, selectState);
   const showGame = state.isAuthorised || state.isVisiting;
@@ -108,33 +107,6 @@ export const Navigation: React.FC = () => {
                                 <Panel>
                                   <div className="text-sm p-1 mb-1">
                                     {t("welcome.offline")}
-                                  </div>
-                                </Panel>
-                              </Modal>
-                              <Modal
-                                show={showFishingMinigame}
-                                size="lg"
-                                onHide={() => setShowFishingMinigame(false)}
-                              >
-                                <Panel>
-                                  <div className="flex items-center justify-between mb-3">
-                                    <div>
-                                      <div className="text-base font-semibold text-brown-700">
-                                        Fishing Minigame (Test)
-                                      </div>
-                                      <p className="text-xs text-brown-500">
-                                        Mounted at root level for quick
-                                        iteration.
-                                      </p>
-                                    </div>
-                                    <Button
-                                      className="w-auto text-xs px-2"
-                                      onClick={() =>
-                                        setShowFishingMinigame(false)
-                                      }
-                                    >
-                                      Close
-                                    </Button>
                                   </div>
                                 </Panel>
                               </Modal>
