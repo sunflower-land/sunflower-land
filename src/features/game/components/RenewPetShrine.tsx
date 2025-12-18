@@ -17,6 +17,8 @@ import { PET_SHOP_ITEMS } from "../types/petShop";
 import { Collectibles, Inventory, Skills } from "../types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { COLLECTIBLE_BUFF_LABELS } from "../types/collectibleItemBuffs";
+import { EXPIRY_COOLDOWNS } from "../lib/collectibleBuilt";
+import { secondsToString } from "lib/utils/time";
 
 type Props = {
   show: boolean;
@@ -93,6 +95,23 @@ const RenewPetShrineContent: React.FC<{
     "burn" | "renew" | undefined
   >(undefined);
 
+  if (showConfirmation === "burn") {
+    return (
+      <>
+        <div className="flex flex-col gap-2 p-1">
+          <Label type="warning">{t("confirm.burn")}</Label>
+          <p className="text-xs">{t("confirm.burn.message", { name })}</p>
+        </div>
+        <div className="flex justify-between gap-1">
+          <Button onClick={() => setShowConfirmation(undefined)}>
+            {t("cancel")}
+          </Button>
+          <Button onClick={handleRemove}>{t("burn")}</Button>
+        </div>
+      </>
+    );
+  }
+
   const petShrineCost = PET_SHOP_ITEMS[name];
 
   const requirements = petShrineCost.ingredients;
@@ -112,27 +131,14 @@ const RenewPetShrineContent: React.FC<{
     return hasIngredients;
   };
 
+  const isRenewable = canRenew();
+
   const shrineBoostLabel = COLLECTIBLE_BUFF_LABELS[name]?.({
     skills,
     collectibles,
   });
 
-  if (showConfirmation === "burn") {
-    return (
-      <>
-        <div className="flex flex-col gap-2 p-1">
-          <Label type="warning">{t("confirm.burn")}</Label>
-          <p className="text-xs">{t("confirm.burn.message", { name })}</p>
-        </div>
-        <div className="flex justify-between gap-1">
-          <Button onClick={() => setShowConfirmation(undefined)}>
-            {t("cancel")}
-          </Button>
-          <Button onClick={handleRemove}>{t("burn")}</Button>
-        </div>
-      </>
-    );
-  }
+  const shrineCooldown = EXPIRY_COOLDOWNS[name];
 
   return (
     <>
@@ -174,7 +180,11 @@ const RenewPetShrineContent: React.FC<{
             )}
           </div>
         )}
-
+        <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+          {t("shrine.expiryLabel", {
+            time: secondsToString(shrineCooldown / 1000, { length: "short" }),
+          })}
+        </Label>
         <div
           className="flex flex-wrap p-2 gap-2 cursor-pointer"
           onClick={() => setShowIngredients(!showIngredients)}
@@ -219,7 +229,7 @@ const RenewPetShrineContent: React.FC<{
           </Button>
           <Button
             onClick={() => setShowConfirmation("renew")}
-            disabled={!canRenew()}
+            disabled={!isRenewable}
           >
             {t("renew")}
           </Button>
