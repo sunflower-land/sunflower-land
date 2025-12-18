@@ -120,27 +120,20 @@ export const languageDetails: Record<LanguageCode, LanguageDetails> = {
   },
 };
 
-// function that defaults to english if the translation is not found
-const getTranslation = (
-  translation: TranslationResource,
-): TranslationResource => {
-  return { ...ENGLISH_TERMS, ...translation };
-};
-
 export const resources: Partial<
   Record<LanguageCode, { translation: TranslationResource }>
 > = {
   en: { translation: ENGLISH_TERMS },
-  de: { translation: getTranslation(GERMAN_TERMS) },
-  es: { translation: getTranslation(SPANISH_TERMS) },
-  fr: { translation: getTranslation(FRENCH_TERMS) },
-  id: { translation: getTranslation(INDONESIAN_TERMS) },
-  it: { translation: getTranslation(ITALIAN_TERMS) },
-  ja: { translation: getTranslation(JAPANESE_TERMS) },
-  ko: { translation: getTranslation(KOREAN_TERMS) },
-  ms: { translation: getTranslation(MALAY_TERMS) },
-  "pt-BR": { translation: getTranslation(PORTUGUESE_TERMS) },
-  ru: { translation: getTranslation(RUSSIAN_TERMS) },
-  tr: { translation: getTranslation(TURKISH_TERMS) },
-  "zh-CN": { translation: getTranslation(CHINESE_SIMPLIFIED_TERMS) },
+  de: { translation: GERMAN_TERMS },
+  es: { translation: SPANISH_TERMS },
+  fr: { translation: FRENCH_TERMS },
+  id: { translation: INDONESIAN_TERMS },
+  it: { translation: ITALIAN_TERMS },
+  ja: { translation: JAPANESE_TERMS },
+  ko: { translation: KOREAN_TERMS },
+  ms: { translation: MALAY_TERMS },
+  "pt-BR": { translation: PORTUGUESE_TERMS },
+  ru: { translation: RUSSIAN_TERMS },
+  tr: { translation: TURKISH_TERMS },
+  "zh-CN": { translation: CHINESE_SIMPLIFIED_TERMS },
 };
