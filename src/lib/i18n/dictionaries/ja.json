@@ -7271,5 +7271,11 @@
   "confirm.renew": "更新を確認",
   "confirm.renew.message": "{{name}} を更新してもよろしいですか？",
   "renew.expired.message": "{{name}} の有効期限が切れています。更新することも、焼却することもできます。",
-  "shrine.expired": "{{name}} 期限切れ"
+  "shrine.expired": "{{name}} 期限切れ",
+  "fishingPuzzle.missedFish": "魚が恋しい！",
+  "fishingPuzzle.retryPrompt": "{{coins}} コインでもう一度試してみませんか？",
+  "fishingPuzzle.attemptsLeft": "残りの試行回数:{{attemptsLeft}}/{{attemptLimit}}",
+  "fishingPuzzle.findSafePath": "魚を頂上に連れて行くための安全な道を見つけてください。",
+  "fishingPuzzle.success": "素晴らしい仕事です！頂上に到達したね。",
+  "fishingPuzzle.failedAttempts": "試行回数がなくなった。"
 }

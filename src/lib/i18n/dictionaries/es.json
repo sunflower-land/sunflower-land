@@ -7271,5 +7271,11 @@
   "confirm.renew": "Confirmar renovación",
   "confirm.renew.message": "¿Estás seguro de que quieres renovar {{name}}?",
   "renew.expired.message": "{{name}} ha caducado. Puedes renovarlo o quemarlo.",
-  "shrine.expired": "{{name}} Caducado"
+  "shrine.expired": "{{name}} Caducado",
+  "fishingPuzzle.missedFish": "¡Me perdí el pescado!",
+  "fishingPuzzle.retryPrompt": "¿Quieres volver a intentarlo con monedas de {{coins}}?",
+  "fishingPuzzle.attemptsLeft": "Intentos restantes: {{attemptsLeft}}/{{attemptLimit}}",
+  "fishingPuzzle.findSafePath": "Encuentra el camino seguro para llevar a los peces a la cima.",
+  "fishingPuzzle.success": "¡Buen trabajo! Llegaste a la cima.",
+  "fishingPuzzle.failedAttempts": "Se te acabaron los intentos."
 }

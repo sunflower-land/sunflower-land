@@ -7271,5 +7271,11 @@
   "confirm.renew": "갱신 확인",
   "confirm.renew.message": "정말로 {{name}} 을 (를) 갱신하시겠습니까?",
   "renew.expired.message": "{{name}} 이 (가) 만료되었습니다.갱신하거나 소각할 수 있습니다.",
-  "shrine.expired": "{{name}} 만료됨"
+  "shrine.expired": "{{name}} 만료됨",
+  "fishingPuzzle.missedFish": "물고기를 놓쳤어요!",
+  "fishingPuzzle.retryPrompt": "{{coins}} 코인으로 다시 시도하시겠습니까?",
+  "fishingPuzzle.attemptsLeft": "남은 시도 횟수: {{attemptsLeft}}/{{attemptLimit}}",
+  "fishingPuzzle.findSafePath": "안전한 길을 찾아 물고기를 정상으로 데려가세요.",
+  "fishingPuzzle.success": "잘했어!정상에 도착하셨군요.",
+  "fishingPuzzle.failedAttempts": "시도 횟수가 부족합니다."
 }

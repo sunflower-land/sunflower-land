@@ -7271,5 +7271,11 @@
   "confirm.renew": "Yenilemeyi Onayla",
   "confirm.renew.message": "{{name}} yenilemek istediğinizden emin misiniz?",
   "renew.expired.message": "{{name}} süresi doldu. Yenileyebilir veya yakabilirsiniz.",
-  "shrine.expired": "{{name}} Süresi doldu"
+  "shrine.expired": "{{name}} Süresi doldu",
+  "fishingPuzzle.missedFish": "Balığı özledim!",
+  "fishingPuzzle.retryPrompt": "{{coins}} jetonları için tekrar denemek ister misiniz?",
+  "fishingPuzzle.attemptsLeft": "Kalan Denemeler: {{attemptsLeft}}/{{attemptLimit}}",
+  "fishingPuzzle.findSafePath": "Balıkları zirveye çıkarmak için güvenli yolu bulun.",
+  "fishingPuzzle.success": "Harika iş! Zirveye ulaştın.",
+  "fishingPuzzle.failedAttempts": "Denemeleriniz bitti."
 }

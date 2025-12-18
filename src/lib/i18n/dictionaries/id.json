@@ -7271,5 +7271,11 @@
   "confirm.renew": "Konfirmasikan Perpanjangan",
   "confirm.renew.message": "Apakah Anda yakin ingin memperbarui {{name}}?",
   "renew.expired.message": "{{name}} telah kedaluwarsa. Anda dapat memperbaruinya atau membakarnya.",
-  "shrine.expired": "{{name}} Kedaluwarsa"
+  "shrine.expired": "{{name}} Kedaluwarsa",
+  "fishingPuzzle.missedFish": "Merindukan ikan!",
+  "fishingPuzzle.retryPrompt": "Apakah Anda ingin mencoba lagi untuk koin {{coins}}?",
+  "fishingPuzzle.attemptsLeft": "Upaya Tertinggal: {{attemptsLeft}}/{{attemptLimit}}",
+  "fishingPuzzle.findSafePath": "Temukan jalan yang aman untuk membawa ikan ke puncak.",
+  "fishingPuzzle.success": "Kerja bagus! Anda mencapai puncak.",
+  "fishingPuzzle.failedAttempts": "Anda kehabisan upaya."
 }

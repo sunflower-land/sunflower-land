@@ -7271,5 +7271,11 @@
   "confirm.renew": "确认续订",
   "confirm.renew.message": "你确定要续订 {{name}} 吗？",
   "renew.expired.message": "{{name}} 已过期。你可以续订或烧毁它。",
-  "shrine.expired": "{{name}} 已过期"
+  "shrine.expired": "{{name}} 已过期",
+  "fishingPuzzle.missedFish": "错过了鱼！",
+  "fishingPuzzle.retryPrompt": "你想再试一次 {{coins}} 硬币吗？",
+  "fishingPuzzle.attemptsLeft": "剩余尝试次数：{{attemptsLeft}}/{{attemptLimit}}",
+  "fishingPuzzle.findSafePath": "找到安全的路径将鱼带到山顶。",
+  "fishingPuzzle.success": "干得好！你到达了顶峰。",
+  "fishingPuzzle.failedAttempts": "你的尝试用完了。"
 }
