@@ -20177,7 +20177,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Pet Specialist Hat",
   },
   "Xmas Top Hat": {
-    description: "",
+    description: "A hat fit for holiday festivities and winter wonderlands.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },
@@ -20188,7 +20188,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Xmas Top Hat",
   },
   "Reindeer Mask": {
-    description: "",
+    description: "Just be sure Santa doesn't catch you wearing this!",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },
@@ -20199,7 +20199,8 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Reindeer Mask",
   },
   "Snowman Mask": {
-    description: "",
+    description:
+      "A festive mask shaped like a snowman, complete with a carrot nose and coal eyes.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },
@@ -20210,7 +20211,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Snowman Mask",
   },
   "Cool Glasses": {
-    description: "",
+    description: "So cool they might just freeze you!",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },
@@ -20221,7 +20222,8 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Cool Glasses",
   },
   "Comfy Xmas Pants": {
-    description: "",
+    description:
+      "A pair of cozy pants perfect for keeping you warm during the holidays.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Pants" },
@@ -20232,7 +20234,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Comfy Xmas Pants",
   },
   "Holiday Feast Background": {
-    description: "",
+    description: "Food galore!",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Background" },
@@ -20243,7 +20245,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Holiday Feast Background",
   },
   "Comfy Xmas Sweater": {
-    description: "",
+    description: "A cozy sweater to keep you warm during the holidays.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Shirt" },
@@ -20254,7 +20256,8 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Comfy Xmas Sweater",
   },
   "Candy Halbred": {
-    description: "",
+    description:
+      "A sweet and sticky halbred made from the finest candy, perfect for those who love a little sweetness in their battles.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Tool" },
@@ -20265,7 +20268,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Candy Halbred",
   },
   "Cookie Shield": {
-    description: "",
+    description: "A sturdy shield made from the finest cookie dough, just don't use it if your opponent is hungry!",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "SecondaryTool" },
@@ -20276,7 +20279,8 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Cookie Shield",
   },
   "Cozy Reindeer Onesie": {
-    description: "",
+    description:
+      "A warm and cozy onesie, perfect for keeping you snug during the holiday season.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Onesie" },
@@ -20287,7 +20291,8 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Cozy Reindeer Onesie",
   },
   "Diamond Snow Aura": {
-    description: "",
+    description:
+      "A sparkling aura of diamond-like snowflakes that glisten and shimmer with every movement, bringing a touch of winter magic wherever you go.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Aura" },
