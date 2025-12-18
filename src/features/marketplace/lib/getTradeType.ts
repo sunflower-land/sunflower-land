@@ -1739,8 +1739,8 @@ export const ITEM_TRADE_TYPES: {
     "Cool Glasses": "instant",
     "Cookie Shield": "instant",
     "Holiday Feast Background": "instant",
-    "Cozy Reindeer Onesie": "onchain",
-    "Diamond Snow Aura": "onchain",
+    "Cozy Reindeer Onesie": "instant",
+    "Diamond Snow Aura": "instant",
   },
 };
 
