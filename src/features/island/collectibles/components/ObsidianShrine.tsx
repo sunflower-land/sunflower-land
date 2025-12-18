@@ -10,7 +10,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
-import { PetShrineName } from "features/game/types/pets";
 import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -29,29 +28,28 @@ import { getAvailablePlots } from "features/game/events/landExpansion/bulkPlant"
 import { getCropsToHarvest } from "features/game/events/landExpansion/bulkHarvest";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
-import { MachineState } from "features/game/lib/gameMachine";
 import { useVisiting } from "lib/utils/visitUtils";
-
-const _visiting = (state: MachineState) => state.matches("visiting");
+import { RenewPetShrine } from "features/game/components/RenewPetShrine";
+import { hasFeatureAccess } from "lib/flags";
 
 export const ObsidianShrine: React.FC<CollectibleProps> = ({
   createdAt,
   id,
   location,
-  name,
 }) => {
   const { t } = useAppTranslation();
   const { gameService, showTimers } = useContext(Context);
   const { isVisiting } = useVisiting();
+  const [showRenewalModal, setShowRenewalModal] = useState(false);
 
   const [show, setShow] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [showPopover, setShowPopover] = useState(false);
 
-  const expiresAt = createdAt + (EXPIRY_COOLDOWNS[name as PetShrineName] ?? 0);
+  const expiresAt = createdAt + (EXPIRY_COOLDOWNS["Obsidian Shrine"] ?? 0);
 
   const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
-  const durationSeconds = EXPIRY_COOLDOWNS[name as PetShrineName] ?? 0;
+  const durationSeconds = EXPIRY_COOLDOWNS["Obsidian Shrine"] ?? 0;
   const percentage = 100 - (secondsToExpire / durationSeconds) * 100;
   const hasExpired = secondsToExpire <= 0;
 
@@ -61,7 +59,7 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
 
   const handleRemove = () => {
     gameService.send("collectible.burned", {
-      name,
+      name: "Obsidian Shrine",
       location,
       id,
     });
@@ -77,51 +75,70 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
     setActiveTab(1);
   };
 
+  const handleRenewClick = () => {
+    setShowRenewalModal(true);
+  };
+
   if (hasExpired) {
     return (
-      <div
-        onClick={isVisiting ? undefined : handleRemove}
-        style={{
-          bottom: `${PIXEL_SCALE * 0}px`,
-          left: `${PIXEL_SCALE * -2.5}px`,
-          width: `${PIXEL_SCALE * 19}px`,
-        }}
-      >
-        {showTimers && (
-          <div
-            className="absolute bottom-0 left-1/2 -translate-x-1/2"
-            style={{
-              width: `${PIXEL_SCALE * 14}px`,
-            }}
-          >
-            <ProgressBar
-              seconds={secondsToExpire}
-              formatLength="medium"
-              type="error"
-              percentage={percentage}
-            />
-          </div>
-        )}
-
-        <img
-          className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
-          src={SUNNYSIDE.icons.dig_icon}
+      <>
+        <div
+          onClick={
+            isVisiting
+              ? undefined
+              : hasFeatureAccess(state, "RENEW_PET_SHRINES")
+                ? handleRenewClick
+                : handleRemove
+          }
           style={{
-            width: `${PIXEL_SCALE * 18}px`,
-            right: `${PIXEL_SCALE * -8}px`,
-            top: `${PIXEL_SCALE * -8}px`,
-          }}
-        />
-
-        <img
-          src={ITEM_DETAILS[name].image}
-          style={{
+            bottom: `${PIXEL_SCALE * 0}px`,
+            left: `${PIXEL_SCALE * -2.5}px`,
             width: `${PIXEL_SCALE * 19}px`,
           }}
-          className="absolute cursor-pointer"
-          alt={name}
+        >
+          {showTimers && (
+            <div
+              className="absolute bottom-0 left-1/2 -translate-x-1/2"
+              style={{
+                width: `${PIXEL_SCALE * 14}px`,
+              }}
+            >
+              <ProgressBar
+                seconds={secondsToExpire}
+                formatLength="medium"
+                type="error"
+                percentage={percentage}
+              />
+            </div>
+          )}
+
+          <img
+            className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
+            src={SUNNYSIDE.icons.dig_icon}
+            style={{
+              width: `${PIXEL_SCALE * 18}px`,
+              right: `${PIXEL_SCALE * -8}px`,
+              top: `${PIXEL_SCALE * -8}px`,
+            }}
+          />
+
+          <img
+            src={ITEM_DETAILS["Obsidian Shrine"].image}
+            style={{
+              width: `${PIXEL_SCALE * 19}px`,
+            }}
+            className="absolute cursor-pointer"
+            alt={"Obsidian Shrine"}
+          />
+        </div>
+        <RenewPetShrine
+          show={showRenewalModal}
+          onHide={() => setShowRenewalModal(false)}
+          name={"Obsidian Shrine"}
+          id={id}
+          location={location}
         />
-      </div>
+      </>
     );
   }
 
@@ -156,11 +173,11 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
         }}
       >
         <img
-          src={ITEM_DETAILS[name].image}
+          src={ITEM_DETAILS["Obsidian Shrine"].image}
           style={{
             width: `${PIXEL_SCALE * 19}px`,
           }}
-          alt={name}
+          alt={"Obsidian Shrine"}
         />
         {showTimers && (
           <div

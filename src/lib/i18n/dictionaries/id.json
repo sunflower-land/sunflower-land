@@ -7263,5 +7263,13 @@
   "birdieplaza.whatIsSeason": "Apa itu chapter?",
   "birdieplaza.newSeasonIntro": "Setiap 3 bulan babak baru diperkenalkan di Sunflower Land.",
   "birdieplaza.seasonQuests": "Bab ini memiliki pencarian menarik, koleksi langka, dan pakaian eksklusif yang bisa Anda peroleh.",
-  "reward.streak.twoYear": "Hadiah 730 hari beruntun"
+  "reward.streak.twoYear": "Hadiah 730 hari beruntun",
+  "burn": "Membakar",
+  "confirm.burn": "Konfirmasikan Pembakaran",
+  "confirm.burn.message": "Apakah Anda yakin ingin membakar {{name}}? Tindakan ini tidak dapat dibatalkan.",
+  "renew": "Memperbarui",
+  "confirm.renew": "Konfirmasikan Perpanjangan",
+  "confirm.renew.message": "Apakah Anda yakin ingin memperbarui {{name}}?",
+  "renew.expired.message": "{{name}} telah kedaluwarsa. Anda dapat memperbaruinya atau membakarnya.",
+  "shrine.expired": "{{name}} Kedaluwarsa"
 }

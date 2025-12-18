@@ -7263,5 +7263,13 @@
   "birdieplaza.whatIsSeason": "What is a chapter?",
   "birdieplaza.newSeasonIntro": "Every 3 months a new chapter is introduced at Sunflower Land.",
   "birdieplaza.seasonQuests": "This chapter has exciting quests, rare collectibles and exclusive wearables you can earn.",
-  "reward.streak.twoYear": "730 day streak reward"
+  "reward.streak.twoYear": "730 day streak reward",
+  "burn": "Burn",
+  "confirm.burn": "Confirm Burn",
+  "confirm.burn.message": "Are you sure you want to burn {{name}}? This action cannot be undone.",
+  "renew": "Renew",
+  "confirm.renew": "Confirm Renew",
+  "confirm.renew.message": "Are you sure you want to renew {{name}}?",
+  "renew.expired.message": "{{name}} has expired. You can renew it or burn it.",
+  "shrine.expired": "{{name}} Expired"
 }
