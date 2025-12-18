@@ -5,7 +5,6 @@ import { Button } from "components/ui/Button";
 import deepBg from "assets/fish/minigame/deep_sea_bg.png";
 import crabRock from "assets/fish/minigame/crab_rock.webp";
 import blueCheck from "assets/fish/minigame/blue_up.png";
-import rock from "assets/fish/minigame/rock.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { FishName } from "features/game/types/fishing";
