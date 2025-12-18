@@ -15,7 +15,6 @@ import { ZoomProvider } from "components/ZoomProvider";
 import { LoadingFallback } from "./LoadingFallback";
 import { Panel } from "components/ui/Panel";
 import { Modal } from "components/ui/Modal";
-import { Button } from "components/ui/Button";
 import { PWAInstallProvider } from "features/pwa/PWAInstallProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 

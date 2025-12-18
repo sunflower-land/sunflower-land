@@ -20,6 +20,10 @@ export function retryFish({ state }: Options): GameState {
       throw new Error("Nothing has been casted");
     }
 
+    if (game.coins < FISH_RETRY_COST) {
+      throw new Error("Insufficient coins");
+    }
+
     // During testing, no extra state stored yet.
     game.coins = game.coins - FISH_RETRY_COST;
 
