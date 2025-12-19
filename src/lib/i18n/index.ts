@@ -7,6 +7,7 @@ if (process.env.NODE_ENV !== "metadata") {
     {
       resources,
       lng: localStorage.getItem("language") || "en",
+      fallbackLng: "en",
       keySeparator: false,
       interpolation: {
         escapeValue: false,
