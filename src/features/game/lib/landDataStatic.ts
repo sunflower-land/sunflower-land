@@ -910,6 +910,14 @@ export const STATIC_OFFLINE_FARM: GameState = {
         "Pink Dolphin": 1,
       },
     },
+    trapSpots: {
+      "test-water-trap": {
+        coordinates: {
+          x: -11,
+          y: -16,
+        },
+      },
+    },
   },
   mailbox: {
     read: [],

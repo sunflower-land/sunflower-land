@@ -13686,6 +13686,30 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Decoration" },
     ],
   },
+  "Mariner Pot": {
+    name: "Mariner Pot",
+    description:
+      "An advanced water trap to catch marine creatures. Place it near the wharf and wait 8 hours.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/317.webp",
+    attributes: [
+      { trait_type: "Purpose", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Crab Pot": {
+    name: "Crab Pot",
+    description:
+      "A water trap to catch marine creatures. Place it near the wharf and wait 4 hours.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/309.webp",
+    attributes: [
+      { trait_type: "Purpose", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {

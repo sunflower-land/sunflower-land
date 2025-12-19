@@ -7654,5 +7654,19 @@
   "description.penguinSurprise": "A playful penguin that brings a big surprise to your farm. (Hint: It loves fish!)",
   "description.frozenMeat": "A frozen piece of meat said to be used in special recipes in the ancient holiday times.",
   "description.hoHoOhOh": "With Santa stuck like this, maybe the holidays were the friends we made along the way?",
-  "eventHolidays.noticeboard.one": "Welcome to the Holidays 2025 Community Event!"
+  "eventHolidays.noticeboard.one": "Welcome to the Holidays 2025 Community Event!",
+  "description.crab.pot": "A water trap for catching marine creatures",
+  "description.mariner.pot": "An advanced water trap for catching marine creatures",
+  "waterTrap.ready": "Ready to Collect",
+  "waterTrap.pickup": "Pickup",
+  "waterTrap.collectMessage": "Your pot is ready to collect!",
+  "waterTrap.collect": "Collect",
+  "waterTrap.inProgress": "In Progress",
+  "waterTrap.timeRemaining": "Time remaining",
+  "waterTrap.selectTrap": "Select trap",
+  "waterTrap.selectChum": "Select chum",
+  "waterTrap.place": "Place trap",
+  "waterTrap.placeDescription": "Place a water trap to catch marine creatures",
+  "waterTrap.catch": "Catch",
+  "waterTrap.loreMessage": "This spot looks like a trap... something a marine creature would only fall into. Perhaps with more experience, you'll learn how to use it."
 }

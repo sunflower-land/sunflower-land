@@ -1228,6 +1228,8 @@ export const ITEM_TRADE_TYPES: {
     "Penguin Surprise": "instant",
     "Frozen Meat": "instant",
     "Ho Ho oh oh...": "instant",
+    "Crab Pot": "instant",
+    "Mariner Pot": "instant",
   },
   wearables: {
     "New Years Crown": "instant",

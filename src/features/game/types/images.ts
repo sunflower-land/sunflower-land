@@ -1768,6 +1768,14 @@ export const ITEM_DETAILS: Items = {
     description: TOOLS["Oil Drill"].description,
     translatedName: translate("tool.oilDrill"),
   },
+  "Crab Pot": {
+    image: SUNNYSIDE.tools.fishing_rod, // TODO: Replace with crab pot image
+    description: TOOLS["Crab Pot"].description,
+  },
+  "Mariner Pot": {
+    image: SUNNYSIDE.tools.fishing_rod, // TODO: Replace with mariner pot image
+    description: TOOLS["Mariner Pot"].description,
+  },
   "Petting Hand": {
     image: pettingHand,
     description: LOVE_ANIMAL_TOOLS["Petting Hand"].description,

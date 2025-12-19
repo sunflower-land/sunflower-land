@@ -44,6 +44,8 @@ import {
 } from "./lib/utils";
 import { Clutter } from "features/island/clutter/Clutter";
 import { PetNFT } from "features/island/pets/PetNFT";
+import { WaterTrapSpot } from "features/island/fisherman/WaterTrapSpot";
+import { hasFeatureAccess } from "lib/flags";
 
 export const LAND_WIDTH = 6;
 
@@ -227,6 +229,22 @@ const _airdropPositions = (state: MachineState) => {
   };
 };
 
+const _waterTrapPositions = (state: MachineState) => {
+  const waterTraps = state.context.state.fishing.trapSpots;
+
+  if (!waterTraps) return { positions: [] };
+
+  return {
+    waterTraps,
+    positions: getObjectEntries(waterTraps).flatMap(([, waterTrap]) => {
+      return {
+        x: waterTrap.coordinates.x,
+        y: waterTrap.coordinates.y,
+      };
+    }),
+  };
+};
+
 export const LandComponent: React.FC = () => {
   const { gameService } = useContext(Context);
   const { pathname } = useLocation();
@@ -312,6 +330,11 @@ export const LandComponent: React.FC = () => {
   const { airdrops } = useSelector(
     gameService,
     _airdropPositions,
+    comparePositions,
+  );
+  const { waterTraps } = useSelector(
+    gameService,
+    _waterTrapPositions,
     comparePositions,
   );
   const landscaping = useSelector(gameService, isLandscaping);
@@ -876,6 +899,28 @@ export const LandComponent: React.FC = () => {
     );
   }, [airdrops]);
 
+  const waterTrapElements = useMemo(() => {
+    if (
+      !waterTraps ||
+      !hasFeatureAccess(gameService.getSnapshot().context.state, "CRUSTACEANS")
+    )
+      return [];
+
+    return Object.entries(waterTraps).map(([id, waterTrap]) => {
+      return (
+        <MapPlacement
+          key={`water-trap-${id}`}
+          x={waterTrap.coordinates.x}
+          y={waterTrap.coordinates.y}
+          height={1}
+          width={1}
+        >
+          <WaterTrapSpot key={`water-trap-${id}`} id={id} />
+        </MapPlacement>
+      );
+    });
+  }, [waterTraps]);
+
   // Memoize island elements with enhanced performance tracking
   const islandElements = useMemo(() => {
     const elements = [
@@ -898,6 +943,7 @@ export const LandComponent: React.FC = () => {
       budElements,
       petNFTElements,
       airdropElements,
+      waterTrapElements,
     ].flat();
 
     const sortedIslandElements = elements.slice().sort((a, b) => {
@@ -941,6 +987,7 @@ export const LandComponent: React.FC = () => {
     petNFTElements,
     airdropElements,
     mushroomElements,
+    waterTrapElements,
   ]);
 
   return (

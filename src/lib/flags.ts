@@ -117,6 +117,9 @@ const FEATURE_FLAGS = {
 
   RENEW_PET_SHRINES: defaultFeatureFlag,
   FISHING_PUZZLE: defaultFeatureFlag,
+  MEMORY_BETA: defaultFeatureFlag,
+  DAILY_BOXES: defaultFeatureFlag,
+  CRUSTACEANS: testnetFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

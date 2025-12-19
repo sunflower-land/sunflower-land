@@ -111,6 +111,7 @@ import { RockName } from "./resources";
 import { PetShopItemName } from "./petShop";
 import { League } from "features/leagues/leagues";
 import { Buff, BuffName } from "./buffs";
+import { WaterTrapName } from "./crustaceans";
 
 export type Reward = {
   coins?: number;
@@ -1279,12 +1280,26 @@ type FishingSpot = {
   caught?: Partial<Record<InventoryItemName, number>>;
 };
 
+type WaterTrapSpot = {
+  coordinates: Coordinates;
+  waterTrap?: WaterTrap;
+};
+
+export type WaterTrap = {
+  type: WaterTrapName;
+  placedAt: number;
+  chum?: InventoryItemName;
+  readyAt: number;
+  caught?: Partial<Record<InventoryItemName, number>>;
+};
+
 export type Fishing = {
   wharf: FishingSpot;
   dailyAttempts?: {
     [date: string]: number;
   };
   extraReels?: ExtraReels;
+  trapSpots?: Record<string, WaterTrapSpot>;
 
   // TODO remove after 1st June
   beach?: FishingSpot;

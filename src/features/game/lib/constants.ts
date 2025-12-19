@@ -524,6 +524,7 @@ export const INITIAL_FARM: GameState = {
   fishing: {
     dailyAttempts: {},
     wharf: {},
+    trapSpots: {},
   },
   mailbox: {
     read: [],

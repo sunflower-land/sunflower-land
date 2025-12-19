@@ -14,7 +14,9 @@ export type WorkbenchToolName =
   | "Gold Pickaxe"
   | "Rod"
   | "Oil Drill"
-  | "Pest Net";
+  | "Pest Net"
+  | "Crab Pot"
+  | "Mariner Pot";
 
 export type TreasureToolName = "Sand Shovel" | "Sand Drill";
 
@@ -119,6 +121,26 @@ export const WORKBENCH_TOOLS: Record<
     }),
     stock: new Decimal(10),
     disabled: true,
+  },
+  "Crab Pot": {
+    name: "Crab Pot",
+    description: translate("description.crab.pot"),
+    price: 250,
+    ingredients: () => ({
+      Feather: new Decimal(5),
+      Wool: new Decimal(3),
+    }),
+    stock: new Decimal(15),
+  },
+  "Mariner Pot": {
+    name: "Mariner Pot",
+    description: translate("description.mariner.pot"),
+    price: 500,
+    ingredients: () => ({
+      Feather: new Decimal(10),
+      "Merino Wool": new Decimal(10),
+    }),
+    stock: new Decimal(10),
   },
 };
 

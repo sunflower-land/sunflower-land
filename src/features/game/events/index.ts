@@ -551,6 +551,15 @@ import {
   renewPetShrine,
   RenewPetShrineAction,
 } from "./landExpansion/renewPetShrine";
+import {
+  placeWaterTrap,
+  PlaceWaterTrapAction,
+} from "./landExpansion/placeWaterTrap";
+import {
+  collectWaterTrap,
+  CollectWaterTrapAction,
+} from "./landExpansion/collectWaterTrap";
+import { pickupTrap, PickupTrapAction } from "./landExpansion/pickupTrap";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -710,7 +719,10 @@ export type PlayingEvent =
   | BulkHarvestAction
   | BumpkinWaveAction
   | BulkFertilisePlotAction
-  | RenewPetShrineAction;
+  | RenewPetShrineAction
+  | CollectWaterTrapAction
+  | PickupTrapAction
+  | PlaceWaterTrapAction;
 
 export type LocalVisitingEvent =
   | CollectGarbageAction
@@ -959,6 +971,9 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "pet.pet": petPet,
   "trades.cleared": clearTrades,
   "petShrine.renewed": renewPetShrine,
+  "waterTrap.placed": placeWaterTrap,
+  "waterTrap.pickedUp": pickupTrap,
+  "waterTrap.collected": collectWaterTrap,
 };
 
 export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {
