@@ -114,7 +114,6 @@ const FEATURE_FLAGS = {
     !!((game.wardrobe.Halo ?? 0) > 0) && !!game.inventory["Beta Pass"]?.gt(0),
 
   PET_HOUSE: testnetFeatureFlag,
-  MEMORY_BETA: defaultFeatureFlag,
 
   RENEW_PET_SHRINES: defaultFeatureFlag,
   FISHING_PUZZLE: defaultFeatureFlag,
