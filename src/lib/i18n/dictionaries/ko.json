@@ -7638,5 +7638,21 @@
   "animalFood.nutriBarley": "뉴트리 보리",
   "animalFood.mixedGrain": "믹스드 그레인",
   "animalFood.omnifeed": "옴니피드",
-  "animalFood.barnDelight": "반 딜라이트"
+  "animalFood.barnDelight": "반 딜라이트",
+  "holiday.portal.description": "포털을 통해 퍼즐을 풀고 산타가 중요한 날을 준비하도록 도와주세요!",
+  "holiday.portal.title": "홀리데이 퍼즐 메이헴!",
+  "holiday.portal.missionObjective": "홀리데이 테마 퍼즐을 완성하고 홀리데이 토큰을 획득하세요!",
+  "description.holidayToken2025": "이벤트 종료 전에 홀리데이 이벤트 상점에서 사용하세요!",
+  "description.holidayTicket2025": "이 기회를 놓치지 않고 홀리데이 이벤트 종료 후 $FLOWER를 받을 수 있는 기회를 잡으세요!",
+  "description.holidayDecorativeTotem": "농장에 명절 분위기를 더해줄 축제 토템입니다.",
+  "description.redHolidayOrnament": "휴일에 농장을 장식할 반짝이는 거대한 빨간색 장식품입니다.",
+  "description.greenHolidayOrnament": "휴일에 농장을 장식할 반짝이는 거대한 녹색 장식품입니다.",
+  "description.giftTurtle": "이 거북이는 모든 훌륭한 농부들에게 줄 선물을 가지고 다닙니다.",
+  "description.redNoseReindeer": "산타의 썰매를 타고 밤하늘을 가로지르는 전설적인 붉은코 순록.",
+  "description.tuxedoClaus": "그냥 평범한 클로스... 펭귄이 한 마리도 보이지 않아요...",
+  "description.winterAlpaca": "이 푹신한 겨울 알파카가 크리스마스 장식을 먹어치울 테니 조심하세요!",
+  "description.penguinSurprise": "농장에 큰 놀라움을 선사하는 장난기 넘치는 펭귄.(힌트: 물고기를 좋아해요!)",
+  "description.frozenMeat": "얼린 고기 조각은 고대 명절에 특별한 조리법으로 사용되었다고 합니다.",
+  "description.hoHoOhOh": "산타가 이렇게 버티고 있는데, 그 과정에서 사귄 친구들이 명절이 아닐까요?",
+  "eventHolidays.noticeboard.one": "2025 홀리데이 커뮤니티 이벤트에 오신 것을 환영합니다!"
 }

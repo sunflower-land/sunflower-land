@@ -7638,5 +7638,21 @@
   "animalFood.nutriBarley": "NutriBarley",
   "animalFood.mixedGrain": "Mixed Grain",
   "animalFood.omnifeed": "Omnifeed",
-  "animalFood.barnDelight": "Barn Delight"
+  "animalFood.barnDelight": "Barn Delight",
+  "holiday.portal.description": "Step through the portal to solve puzzles and help Santa prepare for the big day!",
+  "holiday.portal.title": "Holidays Puzzle Mayhem!",
+  "holiday.portal.missionObjective": "Complete Holiday themed puzzles and earn Holiday Tokens!",
+  "description.holidayToken2025": "Use this in the Holiday event shop before the event ends!",
+  "description.holidayTicket2025": "Hold this for a chance to win $FLOWER after the Holiday event ends!",
+  "description.holidayDecorativeTotem": "A festive totem to bring holiday cheer to your farm.",
+  "description.redHolidayOrnament": "A shiny huge red ornament to decorate your farm for the holidays.",
+  "description.greenHolidayOrnament": "A shiny huge green ornament to decorate your farm for the holidays.",
+  "description.giftTurtle": "This turtle carries gifts for all the good farmers.",
+  "description.redNoseReindeer": "The legendary red-nosed reindeer that guides Santa's sleigh through the night sky.",
+  "description.tuxedoClaus": "Just a normal claus... not a single penguin in sight...",
+  "description.winterAlpaca": "Stay alert or this fluffy winter alpaca will eat your holiday decorations!",
+  "description.penguinSurprise": "A playful penguin that brings a big surprise to your farm. (Hint: It loves fish!)",
+  "description.frozenMeat": "A frozen piece of meat said to be used in special recipes in the ancient holiday times.",
+  "description.hoHoOhOh": "With Santa stuck like this, maybe the holidays were the friends we made along the way?",
+  "eventHolidays.noticeboard.one": "Welcome to the Holidays 2025 Community Event!"
 }

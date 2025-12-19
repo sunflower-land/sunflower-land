@@ -496,6 +496,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Pet Cookie": 767,
   "Moon Crystal": 768,
   "Halloween Token 2025": 769,
+  "Holiday Token 2025": 770,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -1122,6 +1123,19 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Giant Acorn": 2334,
   "Pet Bowls": 2335,
   VIP3: 2336,
+
+  //Holiday Event Items 2025
+  "Holiday Ticket 2025": 2337,
+  "Holiday Decorative Totem": 2338,
+  "Red Holiday Ornament": 2339,
+  "Green Holiday Ornament": 2340,
+  "Gift Turtle": 2341,
+  "Red Nose Reindeer": 2342,
+  "Tuxedo Claus": 2343,
+  "Winter Alpaca": 2344,
+  "Penguin Surprise": 2345,
+  "Frozen Meat": 2346,
+  "Ho Ho oh oh...": 2347,
 
   // Monument Items
   "Big Orange": 2281,

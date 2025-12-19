@@ -7638,5 +7638,21 @@
   "animalFood.nutriBarley": "Nutriorge",
   "animalFood.mixedGrain": "Grains mélangés",
   "animalFood.omnifeed": "Omnifeed",
-  "animalFood.barnDelight": "Barn Delight"
+  "animalFood.barnDelight": "Barn Delight",
+  "holiday.portal.description": "Parcourez le portail pour résoudre des énigmes et aider le Père Noël à se préparer pour le grand jour !",
+  "holiday.portal.title": "Holidays Puzzle Mayhem !",
+  "holiday.portal.missionObjective": "Complétez des puzzles sur le thème des fêtes et gagnez des jetons de Noël !",
+  "description.holidayToken2025": "Utilisez-le dans la boutique des fêtes de fin d'année avant la fin de l'événement !",
+  "description.holidayTicket2025": "Gardez-le pour courir la chance de gagner $FLOWER après la fin de l'événement des Fêtes !",
+  "description.holidayDecorativeTotem": "Un totem festif pour apporter la joie des Fêtes à votre ferme.",
+  "description.redHolidayOrnament": "Un énorme ornement rouge brillant pour décorer votre ferme pour les fêtes.",
+  "description.greenHolidayOrnament": "Un énorme ornement vert brillant pour décorer votre ferme pour les fêtes.",
+  "description.giftTurtle": "Cette tortue apporte des cadeaux à tous les bons fermiers.",
+  "description.redNoseReindeer": "Le légendaire renne au nez rouge qui guide le traîneau du Père Noël dans le ciel nocturne.",
+  "description.tuxedoClaus": "C'est juste un Noël normal... pas un seul pingouin en vue...",
+  "description.winterAlpaca": "Restez vigilants ou cet alpaga d'hiver moelleux mangera vos décorations de Noël !",
+  "description.penguinSurprise": "Un pingouin espiègle qui surprendra votre ferme. (Indice : il adore le poisson !)",
+  "description.frozenMeat": "Un morceau de viande congelé qui était censé être utilisé dans des recettes spéciales pendant les fêtes de fin d'année.",
+  "description.hoHoOhOh": "Avec le Père Noël coincé comme ça, peut-être que c'était pendant les fêtes que nous nous sommes fait des amis en cours de route ?",
+  "eventHolidays.noticeboard.one": "Bienvenue à l'événement communautaire des fêtes de fin d'année 2025 !"
 }

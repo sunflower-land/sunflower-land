@@ -7638,5 +7638,21 @@
   "animalFood.nutriBarley": "ニュートリ・バーリー",
   "animalFood.mixedGrain": "ミックスグレイン",
   "animalFood.omnifeed": "オムニフィード",
-  "animalFood.barnDelight": "バーン・ディライト"
+  "animalFood.barnDelight": "バーン・ディライト",
+  "holiday.portal.description": "ポータルを通り抜けてパズルを解き、サンタが大事な日に備えるのを手伝ってください！",
+  "holiday.portal.title": "ホリデーパズルメイヘム！",
+  "holiday.portal.missionObjective": "ホリデーをテーマにしたパズルを完成させ、ホリデートークンを獲得しましょう！",
+  "description.holidayToken2025": "イベント終了前にホリデーイベントショップで使おう！",
+  "description.holidayTicket2025": "これを持っていると、ホリデーイベント終了後に$FLOWERが当たるチャンスがあります！",
+  "description.holidayDecorativeTotem": "農場にホリデー気分を盛り上げてくれるお祝いトーテムです。",
+  "description.redHolidayOrnament": "ホリデーシーズンに農場を飾るピカピカの巨大な赤いオーナメント。",
+  "description.greenHolidayOrnament": "ホリデーシーズンに農場を飾るピカピカの巨大なグリーンのオーナメント。",
+  "description.giftTurtle": "このカメは善良な農家の人たちへの贈り物を運んでいます。",
+  "description.redNoseReindeer": "サンタのそりを夜空に導く伝説の赤い鼻のトナカイ。",
+  "description.tuxedoClaus": "ただの普通のクロース... ペンギンは一匹も見えない...",
+  "description.winterAlpaca": "警戒しないと、このふわふわの冬のアルパカがホリデーデコレーションを食べてしまいます！",
+  "description.penguinSurprise": "農場に大きな驚きをもたらす遊び心のあるペンギン。(ヒント:魚が大好き!)",
+  "description.frozenMeat": "古代の休日の時期に特別なレシピに使われたと言われる冷凍肉。",
+  "description.hoHoOhOh": "サンタがこんなふうに動けなくなったので、休日は途中でできた友達だったのでは？",
+  "eventHolidays.noticeboard.one": "ホリデー2025コミュニティイベントへようこそ！"
 }

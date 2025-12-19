@@ -7638,5 +7638,21 @@
   "animalFood.nutriBarley": "NutriBarley",
   "animalFood.mixedGrain": "Grano mixto",
   "animalFood.omnifeed": "Omnifeed",
-  "animalFood.barnDelight": "Barn Delight"
+  "animalFood.barnDelight": "Barn Delight",
+  "holiday.portal.description": "¡Atraviesa el portal para resolver acertijos y ayudar a Papá Noel a prepararse para el gran día!",
+  "holiday.portal.title": "¡Rompecabezas navideños y caos!",
+  "holiday.portal.missionObjective": "¡Completa puzles con temática navideña y gana fichas navideñas!",
+  "description.holidayToken2025": "¡Utilízala en la tienda de eventos navideños antes de que termine el evento!",
+  "description.holidayTicket2025": "¡Guarda esto para tener la oportunidad de ganar $FLOWER cuando termine el evento navideño!",
+  "description.holidayDecorativeTotem": "Un tótem festivo para llevar la alegría navideña a tu granja.",
+  "description.redHolidayOrnament": "Un enorme adorno rojo brillante para decorar tu granja durante las fiestas.",
+  "description.greenHolidayOrnament": "Un enorme adorno verde brillante para decorar tu granja durante las fiestas.",
+  "description.giftTurtle": "Esta tortuga lleva regalos para todos los buenos granjeros.",
+  "description.redNoseReindeer": "El legendario reno de nariz roja que guía el trineo de Papá Noel por el cielo nocturno.",
+  "description.tuxedoClaus": "Solo un Claus normal... ni un solo pingüino a la vista...",
+  "description.winterAlpaca": "¡Mantente alerta o esta esponjosa alpaca de invierno se comerá tus decoraciones navideñas!",
+  "description.penguinSurprise": "Un pingüino juguetón que trae una gran sorpresa a tu granja. (Sugerencia: ¡le encanta el pescado!)",
+  "description.frozenMeat": "Un trozo de carne congelada que se dice que se utilizaba en recetas especiales en las antiguas fiestas.",
+  "description.hoHoOhOh": "Con Papá Noel atrapado así, ¿quizás las fiestas fueron los amigos que hicimos en el camino?",
+  "eventHolidays.noticeboard.one": "¡Bienvenido al evento comunitario de Holidays 2025!"
 }

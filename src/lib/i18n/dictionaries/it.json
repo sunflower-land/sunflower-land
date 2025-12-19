@@ -7638,5 +7638,21 @@
   "animalFood.nutriBarley": "Nutri Orzo",
   "animalFood.mixedGrain": "Grano misto",
   "animalFood.omnifeed": "Omnifeed",
-  "animalFood.barnDelight": "Delizia del fienile"
+  "animalFood.barnDelight": "Delizia del fienile",
+  "holiday.portal.description": "Attraversa il portale per risolvere enigmi e aiutare Babbo Natale a prepararsi per il grande giorno!",
+  "holiday.portal.title": "Holidays Puzzle Mayhem!",
+  "holiday.portal.missionObjective": "Completa i puzzle a tema natalizio e guadagna gettoni vacanza!",
+  "description.holidayToken2025": "Usalo nel negozio degli eventi natalizi prima della fine dell'evento!",
+  "description.holidayTicket2025": "Tienilo in mano per avere la possibilità di vincere $FLOWER al termine dell'evento natalizio!",
+  "description.holidayDecorativeTotem": "Un totem festivo per portare l'allegria delle vacanze nella tua fattoria.",
+  "description.redHolidayOrnament": "Un enorme ornamento rosso brillante per decorare la tua fattoria per le vacanze.",
+  "description.greenHolidayOrnament": "Un enorme ornamento verde brillante per decorare la tua fattoria per le vacanze.",
+  "description.giftTurtle": "Questa tartaruga porta regali per tutti i bravi agricoltori.",
+  "description.redNoseReindeer": "La leggendaria renna dal naso rosso che guida la slitta di Babbo Natale nel cielo notturno.",
+  "description.tuxedoClaus": "Un claus normale... nessun pinguino in vista...",
+  "description.winterAlpaca": "Stai attento o questo soffice alpaca invernale mangerà le tue decorazioni natalizie!",
+  "description.penguinSurprise": "Un giocoso pinguino che porterà una grande sorpresa alla tua fattoria. (Suggerimento: ama il pesce!)",
+  "description.frozenMeat": "Un pezzo di carne congelato che si dice fosse usato in ricette speciali durante le antiche festività.",
+  "description.hoHoOhOh": "Con Babbo Natale bloccato così, forse le vacanze erano gli amici che ci siamo fatti strada facendo?",
+  "eventHolidays.noticeboard.one": "Benvenuto all'evento comunitario di Holidays 2025!"
 }

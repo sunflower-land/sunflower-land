@@ -7638,5 +7638,21 @@
   "animalFood.nutriBarley": "NutriBarley",
   "animalFood.mixedGrain": "Biji-bijian Campuran",
   "animalFood.omnifeed": "Omnifeed",
-  "animalFood.barnDelight": "Barn Delight"
+  "animalFood.barnDelight": "Barn Delight",
+  "holiday.portal.description": "Melangkah melalui portal untuk menyelesaikan teka-teki dan membantu Santa mempersiapkan hari besar!",
+  "holiday.portal.title": "Cuti Teka-teki Mayhem!",
+  "holiday.portal.missionObjective": "Lengkapkan teka-teki bertema Percutian dan dapatkan Token Percutian!",
+  "description.holidayToken2025": "Gunakan ini di kedai acara percutian sebelum acara berakhir!",
+  "description.holidayTicket2025": "Pegang ini untuk peluang memenangi $FLOWER selepas acara Percutian berakhir!",
+  "description.holidayDecorativeTotem": "Totem perayaan untuk membawa keceriaan percutian ke ladang anda.",
+  "description.redHolidayOrnament": "Hiasan merah besar berkilat untuk menghiasi ladang anda untuk cuti.",
+  "description.greenHolidayOrnament": "Hiasan hijau besar berkilat untuk menghiasi ladang anda untuk cuti.",
+  "description.giftTurtle": "Penyu ini membawa hadiah untuk semua petani yang baik.",
+  "description.redNoseReindeer": "Rusa hidung merah legenda yang membimbing kereta luncur Santa melalui langit malam.",
+  "description.tuxedoClaus": "Hanya Claus biasa... tidak ada penguin pun yang kelihatan...",
+  "description.winterAlpaca": "Tetap berjaga-jaga atau alpaca musim sejuk yang lembut ini akan memakan hiasan percutian anda!",
+  "description.penguinSurprise": "Penguin yang suka bermain yang membawa kejutan besar ke ladang anda. (Petunjuk: Ia suka ikan!)",
+  "description.frozenMeat": "Sekeping daging beku dikatakan digunakan dalam resipi khas pada zaman percutian kuno.",
+  "description.hoHoOhOh": "Dengan Santa terjebak seperti ini, mungkin cuti adalah kawan-kawan yang kami buat sepanjang perjalanan?",
+  "eventHolidays.noticeboard.one": "Selamat datang ke Acara Komuniti Holidays 2025!"
 }

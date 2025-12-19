@@ -7638,5 +7638,21 @@
   "animalFood.nutriBarley": "NutriBarley",
   "animalFood.mixedGrain": "Karışık Tahıl",
   "animalFood.omnifeed": "Omnifeed",
-  "animalFood.barnDelight": "Ahır Keyfi"
+  "animalFood.barnDelight": "Ahır Keyfi",
+  "holiday.portal.description": "Bulmacaları çözmek ve Noel Baba'nın büyük güne hazırlanmasına yardım etmek için portalda adım atın!",
+  "holiday.portal.title": "Tatil Bulmacası Kargaşası!",
+  "holiday.portal.missionObjective": "Tatil temalı bulmacaları tamamlayın ve Tatil Jetonları kazanın!",
+  "description.holidayToken2025": "Etkinlik sona ermeden önce bunu Tatil etkinlik mağazasında kullanın!",
+  "description.holidayTicket2025": "Tatil etkinliği sona erdikten sonra $FLOWER kazanma şansı için bunu tutun!",
+  "description.holidayDecorativeTotem": "Çiftliğinize tatil neşesi getirecek şenlikli bir totem.",
+  "description.redHolidayOrnament": "Çiftliğinizi tatil için süslemek için parlak, büyük kırmızı bir süs.",
+  "description.greenHolidayOrnament": "Tatil için çiftliğinizi dekore etmek için parlak, büyük yeşil bir süs.",
+  "description.giftTurtle": "Bu kaplumbağa tüm iyi çiftçiler için hediyeler taşır.",
+  "description.redNoseReindeer": "Noel Baba'nın kızağına gece gökyüzünde rehberlik eden efsanevi kırmızı burunlu ren geyiği.",
+  "description.tuxedoClaus": "Sadece normal bir Claus... Görünürde tek bir penguen bile yok...",
+  "description.winterAlpaca": "Dikkatli olun yoksa bu kabarık kış alpakası tatil dekorasyonlarınızı yiyecektir!",
+  "description.penguinSurprise": "Çiftliğinize büyük bir sürpriz getiren eğlenceli bir penguen. (İpucu: Balıkları sever!)",
+  "description.frozenMeat": "Antik tatil zamanlarında özel tariflerde kullanıldığı söylenen donmuş bir et parçası.",
+  "description.hoHoOhOh": "Noel Baba böyle sıkışmışken, belki tatiller yol boyunca edindiğimiz arkadaşlardı?",
+  "eventHolidays.noticeboard.one": "Holidays 2025 Topluluk Etkinliğine Hoş Geldiniz!"
 }
