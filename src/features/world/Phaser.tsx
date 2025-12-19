@@ -67,6 +67,7 @@ import { RewardModal } from "features/social/RewardModal";
 import { Discovery } from "features/social/Discovery";
 import { SPAWNS } from "./lib/spawn";
 import { PlayerInteractionMenu } from "./ui/player/PlayerInteractionMenu";
+import { HolidaysIslandScene } from "./scenes/HolidayIslandScene";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -153,6 +154,7 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
     InfernosScene,
     StreamScene,
     LoveIslandScene,
+    HolidaysIslandScene,
   ];
 
   useEffect(() => {
