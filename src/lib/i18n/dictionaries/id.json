@@ -7638,5 +7638,21 @@
   "animalFood.nutriBarley": "NutriBarley",
   "animalFood.mixedGrain": "Biji-bijian campuran",
   "animalFood.omnifeed": "Omnifeed",
-  "animalFood.barnDelight": "Kegembiraan Gudang"
+  "animalFood.barnDelight": "Kegembiraan Gudang",
+  "holiday.portal.description": "Melangkah melalui portal untuk memecahkan teka-teki dan membantu Santa mempersiapkan hari besar!",
+  "holiday.portal.title": "Liburan Puzzle Mayhem!",
+  "holiday.portal.missionObjective": "Selesaikan teka-teki bertema Liburan dan dapatkan Token Liburan!",
+  "description.holidayToken2025": "Gunakan ini di toko acara Liburan sebelum acara berakhir!",
+  "description.holidayTicket2025": "Tahan ini untuk kesempatan memenangkan $FLOWER setelah acara Liburan berakhir!",
+  "description.holidayDecorativeTotem": "Totem meriah untuk membawa keceriaan liburan ke pertanian Anda.",
+  "description.redHolidayOrnament": "Ornamen merah besar mengkilap untuk menghias pertanian Anda untuk liburan.",
+  "description.greenHolidayOrnament": "Ornamen hijau besar mengkilap untuk menghias pertanian Anda untuk liburan.",
+  "description.giftTurtle": "Kura-kura ini membawa hadiah untuk semua petani yang baik.",
+  "description.redNoseReindeer": "Rusa berhidung merah legendaris yang memandu kereta luncur Santa melalui langit malam.",
+  "description.tuxedoClaus": "Hanya Claus biasa... tidak ada seekor penguin pun yang terlihat...",
+  "description.winterAlpaca": "Tetap waspada atau alpaka musim dingin yang lembut ini akan memakan dekorasi liburan Anda!",
+  "description.penguinSurprise": "Penguin lucu yang membawa kejutan besar ke peternakan Anda. (Petunjuk: Ia suka ikan!)",
+  "description.frozenMeat": "Sepotong daging beku dikatakan digunakan dalam resep khusus di zaman liburan kuno.",
+  "description.hoHoOhOh": "Dengan Santa terjebak seperti ini, mungkin liburan adalah teman yang kita buat di sepanjang jalan?",
+  "eventHolidays.noticeboard.one": "Selamat datang di Acara Komunitas Liburan 2025!"
 }

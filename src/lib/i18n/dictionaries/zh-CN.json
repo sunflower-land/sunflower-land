@@ -7638,5 +7638,21 @@
   "animalFood.nutriBarley": "营养大麦",
   "animalFood.mixedGrain": "混合谷物",
   "animalFood.omnifeed": "omnifeed",
-  "animalFood.barnDelight": "谷仓乐趣"
+  "animalFood.barnDelight": "谷仓乐趣",
+  "holiday.portal.description": "穿过传送门，解开谜题，帮助圣诞老人为大日子做准备！",
+  "holiday.portal.title": "假日拼图大混乱！",
+  "holiday.portal.missionObjective": "完成假日主题拼图并获得节日代币！",
+  "description.holidayToken2025": "活动结束前在假日活动商店使用此商品！",
+  "description.holidayTicket2025": "持有此机会在假日活动结束后赢取 $FLOWER！",
+  "description.holidayDecorativeTotem": "一款节日图腾，为您的农场带来节日欢乐。",
+  "description.redHolidayOrnament": "一件闪亮的巨大红色装饰品，可为假日装饰您的农场。",
+  "description.greenHolidayOrnament": "一件闪亮的巨大绿色装饰品，可为假日装饰您的农场。",
+  "description.giftTurtle": "这只乌龟为所有好农民准备了礼物。",
+  "description.redNoseReindeer": "传奇的红鼻子驯鹿引导圣诞老人的雪橇穿越夜空。",
+  "description.tuxedoClaus": "只是一个普通的克劳斯... 看不见一只企鹅...",
+  "description.winterAlpaca": "保持警惕，否则这只毛茸茸的冬季羊驼会吃掉你的节日装饰品！",
+  "description.penguinSurprise": "一只顽皮的企鹅，给你的农场带来很大的惊喜。（提示：它喜欢鱼！）",
+  "description.frozenMeat": "据说一块冷冻的肉在古老的节日时期用于特殊食谱。",
+  "description.hoHoOhOh": "在圣诞老人被困这样的情况下，也许假期是我们一路上交到的朋友？",
+  "eventHolidays.noticeboard.one": "欢迎来到 2025 年假日社区活动！"
 }

@@ -7638,5 +7638,21 @@
   "animalFood.nutriBarley": "NutriGerste",
   "animalFood.mixedGrain": "Gemischtes Getreide",
   "animalFood.omnifeed": "Omnifeed",
-  "animalFood.barnDelight": "Barn Delight"
+  "animalFood.barnDelight": "Barn Delight",
+  "holiday.portal.description": "Gehe durch das Portal, um Rätsel zu lösen und dem Weihnachtsmann zu helfen, sich auf den großen Tag vorzubereiten!",
+  "holiday.portal.title": "Feiertags-Puzzle-Cayhem!",
+  "holiday.portal.missionObjective": "Löse Puzzles zum Thema Urlaub und verdiene Feiertagsmarken!",
+  "description.holidayToken2025": "Benutze dies im Feiertags-Event-Shop, bevor das Event endet!",
+  "description.holidayTicket2025": "Holt das, um nach Ende des Feiertags-Events $FLOWER zu gewinnen!",
+  "description.holidayDecorativeTotem": "Ein festliches Totem, das Ihrem Bauernhof Weihnachtsstimmung verleiht.",
+  "description.redHolidayOrnament": "Ein glänzendes riesiges rotes Ornament, um Ihren Bauernhof für die Feiertage zu schmücken.",
+  "description.greenHolidayOrnament": "Ein glänzendes riesiges grünes Ornament, um Ihren Bauernhof für die Feiertage zu schmücken.",
+  "description.giftTurtle": "Diese Schildkröte trägt Geschenke für alle guten Landwirte.",
+  "description.redNoseReindeer": "Das legendäre rotnasige Rentier, das den Schlitten des Weihnachtsmanns durch den Nachthimmel führt.",
+  "description.tuxedoClaus": "Nur ein normaler Claus... kein einziger Pinguin in Sicht...",
+  "description.winterAlpaca": "Seien Sie wachsam oder dieses flauschige Winteralpaka frisst Ihre Weihnachtsdekorationen!",
+  "description.penguinSurprise": "Ein verspielter Pinguin, der eine große Überraschung auf deine Farm bringt. (Hinweis: Er liebt Fische!)",
+  "description.frozenMeat": "Ein gefrorenes Stück Fleisch, das in den alten Feiertagen in speziellen Rezepten verwendet wurde.",
+  "description.hoHoOhOh": "Da der Weihnachtsmann so feststeckt, waren die Feiertage vielleicht die Freunde, die wir unterwegs gefunden haben?",
+  "eventHolidays.noticeboard.one": "Willkommen zum Holidays 2025 Community Event!"
 }
