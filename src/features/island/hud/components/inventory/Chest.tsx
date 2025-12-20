@@ -37,7 +37,6 @@ import { BANNERS } from "features/game/types/banners";
 import { InnerPanel } from "components/ui/Panel";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { HourglassType } from "features/island/collectibles/components/Hourglass";
-import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { BEDS } from "features/game/types/beds";
 import { WEATHER_SHOP_ITEM_COSTS } from "features/game/types/calendar";
@@ -59,6 +58,7 @@ import { getPetImage } from "features/island/pets/lib/petShared";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { MONUMENTS, REWARD_ITEMS } from "features/game/types/monuments";
 import { useNow } from "lib/utils/hooks/useNow";
+import { HOURGLASSES } from "features/game/events/landExpansion/burnCollectible";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -122,7 +122,9 @@ const PanelContent: React.FC<PanelContentProps> = ({
   const handlePlace = () => {
     if (
       selectedChestItem.name === "Gnome" ||
-      selectedChestItem.name in EXPIRY_COOLDOWNS
+      HOURGLASSES.includes(selectedChestItem.name as HourglassType) ||
+      selectedChestItem.name === "Time Warp Totem" ||
+      selectedChestItem.name === "Super Totem"
     ) {
       showConfirmationModal(true);
     } else {

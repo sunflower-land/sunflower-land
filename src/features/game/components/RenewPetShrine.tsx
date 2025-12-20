@@ -47,10 +47,6 @@ export const RenewPetShrine: React.FC<Props> = ({
   const skills = useSelector(gameService, _skills);
   const collectibles = useSelector(gameService, _collectibles);
 
-  const handleRemove = () => {
-    gameService.send("collectible.burned", { name, location, id });
-  };
-
   const handleRenew = () => {
     gameService.send("petShrine.renewed", { name, location, id });
   };
@@ -59,7 +55,7 @@ export const RenewPetShrine: React.FC<Props> = ({
     <Modal show={show} onHide={onHide}>
       <Panel>
         <RenewPetShrineContent
-          handleRemove={handleRemove}
+          onHide={onHide}
           handleRenew={handleRenew}
           name={name}
           inventory={inventory}
@@ -73,7 +69,7 @@ export const RenewPetShrine: React.FC<Props> = ({
 };
 
 const RenewPetShrineContent: React.FC<{
-  handleRemove: () => void;
+  onHide: () => void;
   handleRenew: () => void;
   name: PetShrineName | "Obsidian Shrine";
   inventory: Inventory;
@@ -81,7 +77,7 @@ const RenewPetShrineContent: React.FC<{
   skills: Skills;
   collectibles: Collectibles;
 }> = ({
-  handleRemove,
+  onHide,
   handleRenew,
   name,
   inventory,
@@ -91,26 +87,7 @@ const RenewPetShrineContent: React.FC<{
 }) => {
   const { t } = useAppTranslation();
   const [showIngredients, setShowIngredients] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState<
-    "burn" | "renew" | undefined
-  >(undefined);
-
-  if (showConfirmation === "burn") {
-    return (
-      <>
-        <div className="flex flex-col gap-2 p-1">
-          <Label type="warning">{t("confirm.burn")}</Label>
-          <p className="text-xs">{t("confirm.burn.message", { name })}</p>
-        </div>
-        <div className="flex justify-between gap-1">
-          <Button onClick={() => setShowConfirmation(undefined)}>
-            {t("cancel")}
-          </Button>
-          <Button onClick={handleRemove}>{t("burn")}</Button>
-        </div>
-      </>
-    );
-  }
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   const petShrineCost = PET_SHOP_ITEMS[name];
 
@@ -143,7 +120,7 @@ const RenewPetShrineContent: React.FC<{
   return (
     <>
       <div className="flex flex-col gap-2 p-1">
-        {showConfirmation === "renew" && (
+        {showConfirmation && (
           <>
             <Label type="warning">{t("confirm.renew")}</Label>
             <p className="text-xs">{t("confirm.renew.message", { name })}</p>
@@ -214,9 +191,9 @@ const RenewPetShrineContent: React.FC<{
           })}
         </div>
       </div>
-      {showConfirmation === "renew" && (
+      {showConfirmation && (
         <div className="flex justify-between gap-1">
-          <Button onClick={() => setShowConfirmation(undefined)}>
+          <Button onClick={() => setShowConfirmation(false)}>
             {t("cancel")}
           </Button>
           <Button onClick={handleRenew}>{t("renew")}</Button>
@@ -224,15 +201,13 @@ const RenewPetShrineContent: React.FC<{
       )}
       {!showConfirmation && (
         <div className="flex justify-between gap-1">
-          <Button onClick={() => setShowConfirmation("burn")}>
-            {t("burn")}
-          </Button>
           <Button
-            onClick={() => setShowConfirmation("renew")}
+            onClick={() => setShowConfirmation(true)}
             disabled={!isRenewable}
           >
             {t("renew")}
           </Button>
+          <Button onClick={onHide}>{t("close")}</Button>
         </div>
       )}
     </>
