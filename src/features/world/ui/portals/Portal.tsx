@@ -40,6 +40,7 @@ type PortalPurchase = {
  */
 const DOMAIN_MAP: Partial<Record<MinigameName, string>> = {
   "festival-of-colors-2025": "festival-of-colors",
+  "holiday-puzzle-2025": "halloween",
 };
 
 export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
