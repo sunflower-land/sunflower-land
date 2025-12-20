@@ -5,6 +5,11 @@ import { GameState, PlacedItem, PlacedLamp } from "features/game/types/game";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { produce } from "immer";
 import { LIMITED_ITEMS } from "./burnCollectible";
+import {
+  EXPIRY_COOLDOWNS,
+  TemporaryCollectibleName,
+} from "features/game/lib/collectibleBuilt";
+import { PET_SHRINES } from "features/game/types/pets";
 
 export enum REMOVE_COLLECTIBLE_ERRORS {
   INVALID_COLLECTIBLE = "This collectible does not exist",
@@ -55,28 +60,6 @@ export function removeCollectible({
       throw new Error(REMOVE_COLLECTIBLE_ERRORS.INVALID_COLLECTIBLE);
     }
 
-    delete collectibleToRemove.coordinates;
-    collectibleToRemove.removedAt = createdAt;
-
-    // Remove collectible key if there are none placed
-    if (collectibleGroup.length === 0) {
-      if (action.location === "home") {
-        delete stateCopy.home.collectibles[action.name];
-      }
-
-      if (action.location === "farm") {
-        delete stateCopy.collectibles[action.name];
-      }
-    } else {
-      if (action.location === "home") {
-        stateCopy.home.collectibles[action.name] = collectibleGroup;
-      }
-
-      if (action.location === "farm") {
-        stateCopy.collectibles[action.name] = collectibleGroup;
-      }
-    }
-
     if (action.name === "Genie Lamp") {
       const collectible: PlacedLamp = collectibleToRemove;
       const rubbedCount = collectible.rubbedCount ?? 0;
@@ -87,10 +70,22 @@ export function removeCollectible({
 
     if (LIMITED_ITEMS.includes(action.name)) {
       const collectible: PlacedItem = collectibleToRemove;
-      if (collectible) {
+      const cooldown =
+        EXPIRY_COOLDOWNS[action.name as TemporaryCollectibleName];
+      const isShrine =
+        action.name in PET_SHRINES || action.name === "Obsidian Shrine";
+      // Limited items can only be removed once expired
+      if (
+        !isShrine ||
+        !cooldown ||
+        (collectible.createdAt ?? 0) + cooldown > createdAt
+      ) {
         throw new Error(REMOVE_COLLECTIBLE_ERRORS.LIMITED_ITEM_IN_USE);
       }
     }
+
+    delete collectibleToRemove.coordinates;
+    collectibleToRemove.removedAt = createdAt;
 
     stateCopy.farmActivity = trackFarmActivity(
       "Collectible Removed",

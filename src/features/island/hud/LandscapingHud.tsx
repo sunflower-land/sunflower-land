@@ -28,6 +28,7 @@ import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getRemoveAction,
+  getSelectedCollectible,
   isCollectible,
 } from "../collectibles/MovableComponent";
 import { RemoveKuebikoModal } from "../collectibles/RemoveKuebikoModal";
@@ -40,6 +41,8 @@ import { RoundButton } from "components/ui/RoundButton";
 import { CraftDecorationsModal } from "./components/decorations/CraftDecorationsModal";
 import { RemoveAllConfirmation } from "../collectibles/RemoveAllConfirmation";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
+import { useNow } from "lib/utils/hooks/useNow";
+import { hasFeatureAccess } from "lib/flags";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -93,14 +96,31 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
 
   const selectedItem = useSelector(child, selectMovingItem);
   const idle = useSelector(child, isIdle);
+  const now = useNow({ live: true });
+  const selectedCollectible = useSelector(
+    gameService,
+    getSelectedCollectible(selectedItem?.name, selectedItem?.id, location),
+  );
+  const hasRenewAccess = useSelector(gameService, (state) =>
+    hasFeatureAccess(state.context.state, "RENEW_PET_SHRINES"),
+  );
 
-  const showRemove =
-    isMobile && selectedItem && getRemoveAction(selectedItem.name);
+  const removeAction =
+    selectedCollectible &&
+    getRemoveAction(
+      selectedItem?.name,
+      selectedCollectible,
+      now,
+      hasRenewAccess,
+    );
+
+  const showRemove = isMobile && selectedItem && removeAction;
 
   const showFlip = isMobile && selectedItem && isCollectible(selectedItem.name);
 
   const remove = () => {
-    const action = getRemoveAction(selectedItem?.name);
+    const action = selectedItem && removeAction;
+
     if (!action) {
       return;
     }
