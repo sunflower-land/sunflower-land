@@ -123,15 +123,14 @@ export const REWARD_BOXES: Record<RewardBoxName, RewardBoxDetails> = {
   },
   "Weekly Mega Box": {
     rewards: [
-      { coins: 5000, weighting: 100 },
+      { coins: 1000, weighting: 100 },
       { items: { "Fishing Lure": 5 }, weighting: 100 },
 
       // Good
-      { coins: 10000, weighting: 100 },
-      { coins: 50000, weighting: 100 },
+      { coins: 2500, weighting: 100 },
+      { coins: 5000, weighting: 100 },
       { items: { Gem: 100 }, weighting: 10 },
-      { items: { Gem: 500 }, weighting: 10 },
-      { items: { Gem: 1000 }, weighting: 5 },
+      { items: { Gem: 350 }, weighting: 5 },
     ],
   },
   "Fossil Shell": {
