@@ -95,8 +95,8 @@ interface FishingMinigameProps {
 }
 
 export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
-  rows = 5,
-  cols = 4,
+  rows = 6,
+  cols = 5,
   maxAttempts = 4,
   onCatch,
   onMiss,
