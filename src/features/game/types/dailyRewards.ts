@@ -181,7 +181,6 @@ const WEEKLY_REWARDS: (game: GameState) => DailyRewardDefinition[] = (
       },
     },
     {
-      
       id: "weekly-day-5-growth-feast",
       label: "Growth Feast",
       xp: day2Xp,
