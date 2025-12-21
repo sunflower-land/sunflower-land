@@ -35,7 +35,6 @@ import {
 import {
   RESOURCES_UPGRADES_TO,
   ADVANCED_RESOURCES,
-  RESOURCES,
   UpgradedResourceName,
   RESOURCE_STATE_ACCESSORS,
 } from "features/game/types/resources";
@@ -136,7 +135,7 @@ function getDetails(
   game: GameState,
   details: ItemDetailsProps,
 ): {
-  limit: Decimal;
+  limit: Decimal | undefined;
   count: Decimal;
   image: string;
   name: string;
@@ -156,7 +155,7 @@ function getDetails(
           details.item
         ] ?? ITEM_DETAILS[details.item].image,
       name: ITEM_DETAILS[details.item].translatedName ?? details.item,
-      limit: limit ?? new Decimal(0),
+      limit,
     };
   }
 
@@ -328,14 +327,12 @@ export const CraftingRequirements: React.FC<Props> = ({
               const isNode = (
                 ingredientName: InventoryItemName,
               ): ingredientName is UpgradedResourceName =>
-                ingredientName in RESOURCES;
+                ingredientName in ADVANCED_RESOURCES;
 
               if (isNode(ingredientName)) {
                 const stateAccessor =
                   RESOURCE_STATE_ACCESSORS[ingredientName](gameState);
-                const nodes: (Rock | Tree)[] = Object.values(
-                  stateAccessor ?? {},
-                );
+                const nodes: (Rock | Tree)[] = Object.values(stateAccessor);
 
                 const requiredTier = getResourceTier(ingredientName);
 
