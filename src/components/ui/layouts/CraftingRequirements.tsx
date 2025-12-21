@@ -142,21 +142,24 @@ function getDetails(
   description: string;
 } {
   if (details.item) {
-    const inventoryCount = game.inventory[details.item] ?? new Decimal(0);
+    const count = game.inventory[details.item] ?? new Decimal(0);
     const limit = isSeed(details.item)
       ? INVENTORY_LIMIT(game)[details.item]
       : undefined;
 
-    return {
-      count: inventoryCount,
-      description: ITEM_DETAILS[details.item].description,
-      image:
-        ITEM_ICONS(game.season.season, getCurrentBiome(game.island))[
-          details.item
-        ] ?? ITEM_DETAILS[details.item].image,
-      name: ITEM_DETAILS[details.item].translatedName ?? details.item,
-      limit,
-    };
+    const {
+      description,
+      image: defaultImage,
+      translatedName,
+    } = ITEM_DETAILS[details.item];
+
+    const image =
+      ITEM_ICONS(game.season.season, getCurrentBiome(game.island))[
+        details.item
+      ] ?? defaultImage;
+    const name = translatedName ?? details.item;
+
+    return { count, description, image, name, limit };
   }
 
   const wardrobeCount = game.wardrobe[details.wearable] ?? 0;
