@@ -28,10 +28,10 @@ export type DailyRewardName =
   | "onboarding-day-6-anchovy-kit"
   | "onboarding-day-7-first-week-finale"
   | "weekly-day-1-tool-cache"
-  | "weekly-day-2-growth-feast"
+  | "weekly-day-2-growth-boost"
   | "weekly-day-3-love-box"
   | "weekly-day-4-angler-pack"
-  | "weekly-day-5-growth-boost"
+  | "weekly-day-5-growth-feast"
   | "weekly-day-6-coin-stash"
   | "weekly-mega-box"
   | "streak-one-year"
@@ -103,7 +103,7 @@ const ONBOARDING_REWARDS: DailyRewardDefinition[] = [
   },
 ];
 
-const POTION_XP_END_GAME_FLOOR = 0.08;
+const POTION_XP_END_GAME_FLOOR = 0.04;
 const POTION_XP_CURVE_TUNING = 1.5;
 const LN_200 = Math.log(200);
 
@@ -154,15 +154,15 @@ const WEEKLY_REWARDS: (game: GameState) => DailyRewardDefinition[] = (
       id: "weekly-day-1-tool-cache",
       label: "Tool Cache",
       items: {
-        Axe: scaleAmount(5, level / 12),
-        Pickaxe: scaleAmount(2, level / 12),
-        "Iron Pickaxe": scaleAmount(1, level / 12),
+        Axe: scaleAmount(5, level / 25),
+        Pickaxe: scaleAmount(2, level / 25),
+        "Stone Pickaxe": scaleAmount(1, level / 25),
       },
     },
     {
-      id: "weekly-day-2-growth-feast",
-      label: "Growth Feast",
-      xp: day2Xp,
+      id: "weekly-day-2-growth-boost",
+      label: "Growth Boost",
+      buff: "Power hour",
     },
     {
       id: "weekly-day-3-love-box",
@@ -181,9 +181,9 @@ const WEEKLY_REWARDS: (game: GameState) => DailyRewardDefinition[] = (
       },
     },
     {
-      id: "weekly-day-5-growth-boost",
-      label: "Growth Boost",
-      buff: "Power hour",
+      id: "weekly-day-5-growth-feast",
+      label: "Growth Feast",
+      xp: day2Xp,
     },
     {
       id: "weekly-day-6-coin-stash",
