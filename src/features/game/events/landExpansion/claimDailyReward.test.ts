@@ -149,7 +149,7 @@ describe("claimDailyReward", () => {
     expect(state.dailyRewards?.streaks).toBe(1); // reset then increment
     expect(state.inventory["Axe"]).toEqual(new Decimal(5));
     expect(state.inventory["Pickaxe"]).toEqual(new Decimal(2));
-    expect(state.inventory["Iron Pickaxe"]).toEqual(new Decimal(1));
+    expect(state.inventory["Stone Pickaxe"]).toEqual(new Decimal(1));
     expect(state.inventory["Cheer"]).toEqual(new Decimal(3));
   });
 
@@ -163,7 +163,7 @@ describe("claimDailyReward", () => {
           experience: LEVEL_3_EXPERIENCE,
         },
         dailyRewards: {
-          streaks: 4, // claiming weekly day 5 (buff)
+          streaks: 1, // claiming weekly day 2 (Growth Boost - buff)
           chest: {
             collectedAt: now - 24 * 60 * 60 * 1000,
             code: 1,
@@ -175,7 +175,7 @@ describe("claimDailyReward", () => {
       createdAt: now,
     });
 
-    expect(state.dailyRewards?.streaks).toBe(5);
+    expect(state.dailyRewards?.streaks).toBe(2);
     expect(state.buffs?.["Power hour"]).toBeDefined();
     expect(state.inventory["Cheer"]).toEqual(new Decimal(3));
     expect(state.inventory[getChapterTicket(now)]).toEqual(new Decimal(1));
@@ -209,9 +209,9 @@ describe("claimDailyReward", () => {
     });
 
     expect(state.dailyRewards?.streaks).toBe(8);
-    expect(state.inventory["Axe"]).toEqual(new Decimal(25)); // 5 * ceil(60/12)
-    expect(state.inventory["Pickaxe"]).toEqual(new Decimal(10)); // 2 * 5
-    expect(state.inventory["Iron Pickaxe"]).toEqual(new Decimal(5)); // 1 * 5
+    expect(state.inventory["Axe"]).toEqual(new Decimal(15)); // 5 * ceil(60/25)
+    expect(state.inventory["Pickaxe"]).toEqual(new Decimal(6)); // 2 * ceil(60/25)
+    expect(state.inventory["Stone Pickaxe"]).toEqual(new Decimal(3)); // 1 * ceil(60/25)
   });
 
   it("awards different XP potion amounts by level", () => {
@@ -232,7 +232,7 @@ describe("claimDailyReward", () => {
           experience: xpAt10,
         },
         dailyRewards: {
-          streaks: 1, // weekly day 2
+          streaks: 4, // weekly day 5 (Growth Feast - XP reward)
           chest: {
             collectedAt: now - 24 * 60 * 60 * 1000,
             code: 1,
@@ -244,7 +244,7 @@ describe("claimDailyReward", () => {
       createdAt: now,
     });
 
-    expect(state10.dailyRewards?.streaks).toBe(2);
+    expect(state10.dailyRewards?.streaks).toBe(5);
     expect(state10.bumpkin?.experience).toBe(xpAt10 + expectedXp10);
 
     const level50 = 50 as const;
@@ -262,7 +262,7 @@ describe("claimDailyReward", () => {
           experience: xpAt50,
         },
         dailyRewards: {
-          streaks: 1, // weekly day 2
+          streaks: 4, // weekly day 5 (Growth Feast - XP reward)
           chest: {
             collectedAt: now - 24 * 60 * 60 * 1000,
             code: 1,
@@ -274,7 +274,7 @@ describe("claimDailyReward", () => {
       createdAt: now,
     });
 
-    expect(state50.dailyRewards?.streaks).toBe(2);
+    expect(state50.dailyRewards?.streaks).toBe(5);
     expect(state50.bumpkin?.experience).toBe(xpAt50 + expectedXp50);
 
     // Higher level should grant different XP than lower level
