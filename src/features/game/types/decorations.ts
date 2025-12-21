@@ -187,7 +187,17 @@ export type EventDecorationName =
   | "Mimic Egg"
   | "Haunted Tomb"
   | "Guillotine"
-  | "Vampire Coffin";
+  | "Vampire Coffin"
+  | "Holiday Decorative Totem"
+  | "Red Holiday Ornament"
+  | "Green Holiday Ornament"
+  | "Gift Turtle"
+  | "Red Nose Reindeer"
+  | "Tuxedo Claus"
+  | "Winter Alpaca"
+  | "Penguin Surprise"
+  | "Frozen Meat"
+  | "Ho Ho oh oh...";
 
 export type TileName =
   | "Black Tile"
@@ -1357,6 +1367,46 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     height: 2,
   },
   "Vampire Coffin": {
+    width: 2,
+    height: 2,
+  },
+  "Holiday Decorative Totem": {
+    width: 1,
+    height: 2,
+  },
+  "Red Holiday Ornament": {
+    width: 2,
+    height: 2,
+  },
+  "Green Holiday Ornament": {
+    width: 2,
+    height: 2,
+  },
+  "Gift Turtle": {
+    width: 2,
+    height: 2,
+  },
+  "Red Nose Reindeer": {
+    width: 2,
+    height: 2,
+  },
+  "Tuxedo Claus": {
+    width: 2,
+    height: 3,
+  },
+  "Winter Alpaca": {
+    width: 2,
+    height: 2,
+  },
+  "Penguin Surprise": {
+    width: 3,
+    height: 2,
+  },
+  "Frozen Meat": {
+    width: 1,
+    height: 1,
+  },
+  "Ho Ho oh oh...": {
     width: 2,
     height: 2,
   },

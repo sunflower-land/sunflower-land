@@ -19,7 +19,8 @@ export type BumpkinBackground =
   | "Pumpkin Plaza Background"
   | "Goblin Retreat Background"
   | "Kingdom Background"
-  | "Sky Island Background";
+  | "Sky Island Background"
+  | "Holiday Feast Background";
 
 export type BumpkinBody =
   | "Beige Farmer Potion"
@@ -143,7 +144,8 @@ export type BumpkinShirt =
   | "Diamond Patterned Vest"
   | "Recycle Shirt"
   | "Chef Shirt"
-  | "Pet Specialist Shirt";
+  | "Pet Specialist Shirt"
+  | "Comfy Xmas Sweater";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -216,7 +218,8 @@ export type BumpkinTool =
   | "Halloween Deathscythe"
   | "Moonseeker Hand Puppet"
   | "Master Chef's Cleaver"
-  | "Luna's Crescent";
+  | "Luna's Crescent"
+  | "Candy Halbred";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -362,7 +365,11 @@ export type BumpkinHat =
   | "Garbage Bin Hat"
   | "Turd Topper"
   | "Sweet Devil Horns"
-  | "Pet Specialist Hat";
+  | "Pet Specialist Hat"
+  | "Xmas Top Hat"
+  | "Reindeer Mask"
+  | "Snowman Mask"
+  | "Cool Glasses";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -403,7 +410,8 @@ export type BumpkinPant =
   | "Fossil Pants"
   | "Bunny Pants"
   | "Paint Splattered Overalls"
-  | "Pet Specialist Pants";
+  | "Pet Specialist Pants"
+  | "Comfy Xmas Pants";
 
 export type BumpkinDress =
   | "Royal Dress"
@@ -448,7 +456,8 @@ export type BumpkinSecondaryTool =
   | "Autumn's Embrace"
   | "Frozen Heart"
   | "Oil Gallon"
-  | "Jack O'Sweets";
+  | "Jack O'Sweets"
+  | "Cookie Shield";
 
 // Goes over clothes + head
 export type BumpkinOnesie =
@@ -476,7 +485,8 @@ export type BumpkinOnesie =
   | "Dino Onesie"
   | "Red Pepper Onesie"
   | "Raccoon Onesie"
-  | "Frank Onesie";
+  | "Frank Onesie"
+  | "Cozy Reindeer Onesie";
 
 // Goes over clothes
 export type BumpkinSuit =
@@ -532,7 +542,8 @@ export type BumpkinAura =
   | "Coin Aura"
   | "Love Puff Aura"
   | "Slime Aura"
-  | "Wisp Aura";
+  | "Wisp Aura"
+  | "Diamond Snow Aura";
 
 export type BumpkinItem =
   | BumpkinBody
@@ -1081,6 +1092,19 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Pet Specialist Shirt": 503,
   "Pet Specialist Pants": 504,
   "Pet Specialist Hat": 505,
+
+  // Holiday 2025 Event Wearables
+  "Xmas Top Hat": 506,
+  "Reindeer Mask": 507,
+  "Snowman Mask": 508,
+  "Cool Glasses": 509,
+  "Comfy Xmas Pants": 510,
+  "Holiday Feast Background": 511,
+  "Comfy Xmas Sweater": 512,
+  "Candy Halbred": 513,
+  "Cookie Shield": 514,
+  "Cozy Reindeer Onesie": 515,
+  "Diamond Snow Aura": 516,
 };
 
 // The reverse of above
@@ -1647,6 +1671,17 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Pet Specialist Shirt": "shirt",
   "Pet Specialist Pants": "pants",
   "Pet Specialist Hat": "hat",
+  "Comfy Xmas Sweater": "shirt",
+  "Comfy Xmas Pants": "pants",
+  "Candy Halbred": "tool",
+  "Xmas Top Hat": "hat",
+  "Reindeer Mask": "hat",
+  "Snowman Mask": "hat",
+  "Cool Glasses": "hat",
+  "Cookie Shield": "secondaryTool",
+  "Holiday Feast Background": "background",
+  "Cozy Reindeer Onesie": "onesie",
+  "Diamond Snow Aura": "aura",
 };
 
 /**Copied from BE just for hoarding checks */

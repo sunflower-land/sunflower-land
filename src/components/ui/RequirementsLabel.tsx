@@ -355,6 +355,20 @@ export const RequirementLabel: React.FC<Props> = (props) => {
     }
   };
 
+  const getTranslatedItemName = (item: InventoryItemName | BumpkinItem) => {
+    const isInventoryItemName = (
+      item: InventoryItemName | BumpkinItem,
+    ): item is InventoryItemName => {
+      return item in ITEM_DETAILS;
+    };
+
+    if (isInventoryItemName(item)) {
+      return ITEM_DETAILS[item].translatedName ?? item;
+    }
+
+    return item;
+  };
+
   return (
     <div
       className={classNames(
@@ -368,7 +382,9 @@ export const RequirementLabel: React.FC<Props> = (props) => {
           <span className="text-xs ml-1">{"FLOWER"}</span>
         )}
         {props.type === "item" && props.showLabel && (
-          <span className="text-xs ml-1">{props.item}</span>
+          <span className="text-xs ml-1">
+            {getTranslatedItemName(props.item)}
+          </span>
         )}
         {props.type === "wearable" && props.showLabel && (
           <span className="text-xs ml-1">{props.item}</span>

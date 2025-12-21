@@ -3460,6 +3460,156 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Cornucopia"
     />
   ),
+  "Holiday Decorative Totem": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+      }}
+      image={ITEM_DETAILS["Holiday Decorative Totem"].image}
+      alt="Holiday Decorative Totem"
+    />
+  ),
+  "Red Holiday Ornament": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 31}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 31}px`,
+      }}
+      image={ITEM_DETAILS["Red Holiday Ornament"].image}
+      alt="Red Holiday Ornament"
+    />
+  ),
+  "Green Holiday Ornament": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 30}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 30}px`,
+      }}
+      image={ITEM_DETAILS["Green Holiday Ornament"].image}
+      alt="Green Holiday Ornament"
+    />
+  ),
+  "Gift Turtle": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+      }}
+      image={ITEM_DETAILS["Gift Turtle"].image}
+      alt="Gift Turtle"
+    />
+  ),
+  "Red Nose Reindeer": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 29}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 29}px`,
+      }}
+      image={ITEM_DETAILS["Red Nose Reindeer"].image}
+      alt="Red Nose Reindeer"
+    />
+  ),
+  "Tuxedo Claus": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 37}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 37}px`,
+      }}
+      image={ITEM_DETAILS["Tuxedo Claus"].image}
+      alt="Tuxedo Claus"
+    />
+  ),
+  "Winter Alpaca": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * -2}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Winter Alpaca"].image}
+      alt="Winter Alpaca"
+    />
+  ),
+  "Penguin Surprise": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 51}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 51}px`,
+      }}
+      image={ITEM_DETAILS["Penguin Surprise"].image}
+      alt="Penguin Surprise"
+    />
+  ),
+  "Frozen Meat": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Frozen Meat"].image}
+      alt="Frozen Meat"
+    />
+  ),
+  "Ho Ho oh oh...": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Ho Ho oh oh..."].image}
+      alt="Ho Ho oh oh..."
+    />
+  ),
 };
 // Need readonly versions for some troublesome components while in design mode
 

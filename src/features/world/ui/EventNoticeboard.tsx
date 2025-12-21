@@ -5,7 +5,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import love from "assets/icons/love_charm_small.webp";
 import shop from "assets/icons/shop.png";
 import calendar from "assets/icons/calendar.webp";
-import eventToken from "assets/icons/halloween_token_2025.webp";
+import eventToken from "assets/icons/holidays_token_2025.webp";
 import flowerToken from "assets/icons/flower_token.webp";
 import { BuffLabel } from "features/game/types";
 import { Label } from "components/ui/Label";
@@ -19,17 +19,18 @@ interface NoticeboardItemProps {
 }
 
 const CONTRIBUTORS = [
-  "Poro",
   "Grith",
   "Maxam",
   "Telk",
+  "Poro",
   "kohirabbit",
   "Vergelsxtn",
   "shinon",
   "deefault",
   "Jc",
-  "PurpleDrvnk",
-  "RadishPies",
+  "Andando",
+  "NetherZapdos",
+  "LittleEins",
 ];
 
 export const NoticeboardItems: React.FC<NoticeboardItemProps> = ({
@@ -89,7 +90,7 @@ export const EventNoticeboard: React.FC<Props> = ({ onClose }) => {
         <NoticeboardItems
           items={[
             {
-              text: t("eventHalloween.noticeboard.one"),
+              text: t("eventHolidays.noticeboard.one"),
               icon: calendar,
             },
             {
