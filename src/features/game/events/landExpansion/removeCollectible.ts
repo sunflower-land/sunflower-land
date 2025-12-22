@@ -10,6 +10,7 @@ import {
   TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
 import { PET_SHRINES } from "features/game/types/pets";
+import { hasFeatureAccess } from "lib/flags";
 
 export enum REMOVE_COLLECTIBLE_ERRORS {
   INVALID_COLLECTIBLE = "This collectible does not exist",
@@ -77,6 +78,7 @@ export function removeCollectible({
       // Limited items can only be removed once expired
       if (
         !isShrine ||
+        !hasFeatureAccess(stateCopy, "RENEW_PET_SHRINES") ||
         !cooldown ||
         (collectible.createdAt ?? 0) + cooldown > createdAt
       ) {
