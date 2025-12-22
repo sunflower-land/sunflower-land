@@ -343,21 +343,16 @@ const BaitSelection: React.FC<{
               />
               <div className="flex gap-2">
                 {[1, 5, 10, 25].map((value) => {
-                  const disabled = value > reelsLeft;
                   const isSelected = effectiveMultiplier === value;
 
                   return (
                     <div
                       key={value}
                       className="flex items-center gap-1 cursor-pointer"
-                      onClick={() => !disabled && setMultiplier(value)}
+                      onClick={() => setMultiplier(value)}
                     >
-                      <Checkbox
-                        checked={isSelected}
-                        onChange={() => {}}
-                        disabled={disabled}
-                      />
-                      <span className="text-xs">{`${value}x`}</span>
+                      <span className="text-xs ml-1 -mr-0.5">{`${value}x`}</span>
+                      <Checkbox checked={isSelected} onChange={() => {}} />
                     </div>
                   );
                 })}
