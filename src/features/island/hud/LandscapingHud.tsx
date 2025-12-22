@@ -43,6 +43,7 @@ import { RemoveAllConfirmation } from "../collectibles/RemoveAllConfirmation";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { useNow } from "lib/utils/hooks/useNow";
 import { hasFeatureAccess } from "lib/flags";
+import { PET_SHRINES } from "features/game/types/pets";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -96,7 +97,12 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
 
   const selectedItem = useSelector(child, selectMovingItem);
   const idle = useSelector(child, isIdle);
-  const now = useNow({ live: true });
+  const isShrine =
+    selectedItem?.name &&
+    (selectedItem.name in PET_SHRINES ||
+      selectedItem.name === "Obsidian Shrine");
+
+  const now = useNow({ live: isShrine });
   const selectedCollectible = useSelector(
     gameService,
     getSelectedCollectible(selectedItem?.name, selectedItem?.id, location),
