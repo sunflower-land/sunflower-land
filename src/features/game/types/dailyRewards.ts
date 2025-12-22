@@ -273,7 +273,7 @@ export function getRewardsForStreak({
   currentDate: string;
 }): { rewards: DailyRewardDefinition[]; boosts: BoostName[] } {
   const boosts: BoostName[] = [];
-  const DEFAULT_REWARD: DailyRewardDefinition = {
+  const defaultReward: DailyRewardDefinition = {
     id: "default-reward",
     label: "Default Reward",
     items: {
@@ -290,15 +290,15 @@ export function getRewardsForStreak({
   }
 
   if (isCollectibleBuilt({ name: "Giant Gold Bone", game })) {
-    DEFAULT_REWARD.items = {
-      ...DEFAULT_REWARD.items,
-      Cheer: (DEFAULT_REWARD.items?.Cheer ?? 0) + 2,
+    defaultReward.items = {
+      ...defaultReward.items,
+      Cheer: (defaultReward.items?.Cheer ?? 0) + 2,
     };
     boosts.push("Giant Gold Bone");
   }
 
   return {
-    rewards: [baseReward, DEFAULT_REWARD, ...getMilestoneRewards({ streak })],
+    rewards: [baseReward, defaultReward, ...getMilestoneRewards({ streak })],
     boosts,
   };
 }
