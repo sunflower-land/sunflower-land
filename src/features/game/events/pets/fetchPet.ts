@@ -163,18 +163,21 @@ export function fetchPet({
 
     petData.energy -= energyRequired;
 
+    const initialFetchCount = stateCopy.farmActivity[`${fetch} Fetched`] ?? 0;
+    const counter = petData.fetches?.[fetch] ?? initialFetchCount;
+
     const { yieldAmount, boostUsed } = getFetchYield({
       petLevel,
       fetchResource: fetch,
       isPetNFT,
       farmId,
-      counter: petData.fetches?.[fetch] ?? 0,
+      counter,
       state: stateCopy,
     });
 
     petData.fetches = {
       ...petData.fetches,
-      [fetch]: (petData.fetches?.[fetch] ?? 0) + 1,
+      [fetch]: counter + 1,
     };
 
     stateCopy.inventory[fetch] = (
