@@ -1,5 +1,6 @@
 {
   "burn": "Burn",
+  "new": "New",
   "confirm.burn": "Confirm Burn",
   "confirm.burn.message": "Are you sure you want to burn {{name}}? This action cannot be undone.",
   "renew": "Renew",
@@ -7668,5 +7669,6 @@
   "description.frozenMeat": "A frozen piece of meat said to be used in special recipes in the ancient holiday times.",
   "description.hoHoOhOh": "With Santa stuck like this, maybe the holidays were the friends we made along the way?",
   "eventHolidays.noticeboard.one": "Welcome to the Holidays 2025 Community Event!",
-  "fishing.yourCatch": "Your Catch"
+  "fishing.yourCatch": "Your Catch",
+  "fishing.missedFish": "Fish that got away!"
 }

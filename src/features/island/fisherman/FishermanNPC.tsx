@@ -18,7 +18,16 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { CONFIG } from "lib/config";
 import { FishCaught } from "./FishCaught";
 import { getKeys } from "features/game/types/craftables";
+<<<<<<< HEAD
 import { FISH } from "features/game/types/fishing";
+=======
+import {
+  FISH,
+  FishName,
+  FISH_DIFFICULTY,
+  MarineMarvelName,
+} from "features/game/types/fishing";
+>>>>>>> 7cac0e878a ([FEAT] Incorporate fishing puzzle with multi catch)
 import { MachineState } from "features/game/lib/gameMachine";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getBumpkinLevel } from "features/game/lib/level";
@@ -85,6 +94,9 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const [showCaughtModal, setShowCaughtModal] = useState(false);
   const [showChallenge, setShowChallenge] = useState(false);
   const [challengeDifficulty, setChallengeDifficulty] = useState(1);
+  const [missedCatch, setMissedCatch] = useState<
+    Partial<Record<FishName | MarineMarvelName, number>>
+  >({});
 
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
@@ -103,6 +115,9 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
       (spriteRef.current?.getInfo("frame") ?? 0) <= FISHING_FRAMES.casting.endAt
     ) {
       onWaitFinish();
+    }
+    if (fishing.wharf.caught) {
+      setMissedCatch({});
     }
   }, [fishing.wharf.caught]);
 
@@ -148,15 +163,74 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     spriteRef.current?.setEndAt(FISHING_FRAMES.idle.endAt);
   };
 
+<<<<<<< HEAD
   const reelIn = () => {
     spriteRef.current?.setStartAt(FISHING_FRAMES.caught.startAt);
     spriteRef.current?.setEndAt(FISHING_FRAMES.caught.endAt);
+=======
+  const caught = fishing.wharf.caught ?? {};
+  const caughtFish = getKeys(caught).filter(
+    (fish): fish is FishName | MarineMarvelName => fish in FISH,
+  );
+  const difficultCatch = caughtFish
+    .map((name) => {
+      const difficulty = FISH_DIFFICULTY[name];
+      if (!difficulty) return undefined;
+      return { name, difficulty, amount: caught[name] ?? 0 };
+    })
+    .filter(Boolean) as {
+    name: FishName | MarineMarvelName;
+    difficulty: number;
+    amount: number;
+  }[];
+
+  /**
+   * With multi-catch, decide whether a challenge should happen by checking if
+   * any fish in the catch has a difficulty rating. If multiple are difficult,
+   * use the highest difficulty fish as the challenge target.
+   */
+  const challengeFish = caughtFish.reduce<
+    FishName | MarineMarvelName | undefined
+  >((best, name) => {
+    const difficulty = FISH_DIFFICULTY[name] ?? 0;
+
+    if (!difficulty) return best;
+
+    const bestDifficulty = best ? (FISH_DIFFICULTY[best] ?? 0) : 0;
+
+    return difficulty > bestDifficulty ? name : best;
+  }, undefined);
+
+  const reelIn = () => {
+    const fishDifficulty = challengeFish
+      ? FISH_DIFFICULTY[challengeFish]
+      : undefined;
+
+    // TEMP: The reelin state is sometimes not showing automatically and players need to refresh
+    // Right no they are losing resources, so comment this
+    // Remove comments in future so players don't refresh minigame
+    // if (fishDifficulty && didRefresh.current) {
+    //   // Player refreshed during challenge
+    //   // onChallengeLost();
+    // } else
+
+    if (fishDifficulty && challengeFish) {
+      // Show fishing challenge
+      setChallengeDifficulty(fishDifficulty);
+      setShowChallenge(true);
+    } else {
+      // Instantly reel in
+      spriteRef.current?.setStartAt(FISHING_FRAMES.caught.startAt);
+      spriteRef.current?.setEndAt(FISHING_FRAMES.caught.endAt);
+    }
+>>>>>>> 7cac0e878a ([FEAT] Incorporate fishing puzzle with multi catch)
 
     setShowReelLabel(false);
     didRefresh.current = false;
   };
 
   const onChallengeWon = () => {
+    setMissedCatch({});
     setShowChallenge(false);
     spriteRef.current?.setStartAt(FISHING_FRAMES.caught.startAt);
     spriteRef.current?.setEndAt(FISHING_FRAMES.caught.endAt);
@@ -167,6 +241,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   };
 
   const onChallengeLost = () => {
+    setMissedCatch(caught);
     setShowChallenge(false);
     spriteRef.current?.setStartAt(FISHING_FRAMES.caught.startAt);
     spriteRef.current?.setEndAt(FISHING_FRAMES.caught.endAt);
@@ -375,6 +450,8 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
             multiplier={fishing.wharf.multiplier}
             onClaim={close}
             farmActivity={farmActivity}
+            difficultCatch={difficultCatch}
+            missedCatch={missedCatch}
           />
         </CloseButtonPanel>
       </Modal>
@@ -387,7 +464,8 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
               onCatch={onChallengeWon}
               onMiss={onChallengeLost}
               onRetry={onChallengeRetry}
-              fishName={fish as FishName}
+              fishName={challengeFish as FishName}
+              difficultCatch={difficultCatch}
               // Each time the retry, we need a new puzzle
               resetKey={
                 gameService.getSnapshot().context.state.farmActivity[
@@ -400,7 +478,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
               difficulty={challengeDifficulty}
               onCatch={onChallengeWon}
               onMiss={onChallengeLost}
-              fishName={fish as FishName}
+              fishName={challengeFish as FishName | MarineMarvelName}
             />
           )}
         </Panel>
