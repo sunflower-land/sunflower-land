@@ -12,6 +12,7 @@ import { produce } from "immer";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { applyBuff } from "features/game/types/buffs";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type ClaimDailyRewardAction = {
   type: "dailyReward.claimed";
@@ -115,7 +116,7 @@ export function claimDailyReward({
       currentDate,
     });
 
-    const rewards = getRewardsForStreak({
+    const { rewards, boosts } = getRewardsForStreak({
       game,
       streak: currentStreak,
       currentDate,
@@ -135,6 +136,12 @@ export function claimDailyReward({
       "Daily Reward Collected",
       game.farmActivity,
     );
+
+    game.boostsUsedAt = updateBoostUsed({
+      game,
+      boostNames: boosts,
+      createdAt,
+    });
   });
 }
 

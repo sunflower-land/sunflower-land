@@ -164,7 +164,6 @@
   "beehive.hives.plural": "улья",
   "birdieplaza.birdieIntro": "Привет, я - Бёрди, самый красивый бампкин в округе!",
   "birdieplaza.admiringOutfit": "Я заметила, что ты восхищаешься моим нарядом. Ну разве он не великолепен?!",
-  "birdieplaza.currentSeason": "Сейчас мы в главе {{currentSeason}}, а Бампкинс сходит с ума по {{chapterTicket}}.",
   "birdieplaza.collectTickets": "Собери достаточно {{chapterTicket}} и ты сможешь купить редкие NFTs. Так у меня и появился этот редкий наряд!",
   "birdieplaza.howToEarnTickets": "{{chapterTicket}}’ы?",
   "birdieplaza.earnTicketsVariety": "Ты можешь заработать {{chapterTicket}} различными способами.",
@@ -7654,5 +7653,17 @@
   "description.penguinSurprise": "Игривый пингвин, который принесёт на твою ферму большой сюрприз. (Подсказка: он обожает рыбу!)",
   "description.frozenMeat": "Замороженный кусок мяса, который, как говорят, использовался в особых рецептах в древние праздничные времена",
   "description.hoHoOhOh": "Раз Санта застрял вот так, возможно, настоящий праздник - это друзья, которых мы нашли по пути?",
-  "eventHolidays.noticeboard.one": "Добро пожаловать на праздничное событие сообщества 2025!"
+  "eventHolidays.noticeboard.one": "Добро пожаловать на праздничное событие сообщества 2025!",
+  "birdieplaza.currentChapter": "We are currently in {{currentChapter}} Chapter and Bumpkins are going crazy for {{chapterTicket}}s.",
+  "retentionDashboard.title": "Retention Dashboard",
+  "retentionDashboard.latestReport": "Latest report: {{date}}",
+  "retentionDashboard.activeUsers": "Active Users",
+  "retentionDashboard.tableTitle": "Last 60 days",
+  "retentionDashboard.date": "Date",
+  "retentionDashboard.signups": "Signups",
+  "retentionDashboard.d1": "D1",
+  "retentionDashboard.d7": "D7",
+  "retentionDashboard.d30": "D30",
+  "retentionDashboard.noData": "No retention records for the last 60 days.",
+  "retentionDashboard.unknownDate": "Unknown date"
 }

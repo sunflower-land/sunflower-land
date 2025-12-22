@@ -7654,5 +7654,16 @@
   "description.penguinSurprise": "농장에 큰 놀라움을 선사하는 장난기 넘치는 펭귄.(힌트: 물고기를 좋아해요!)",
   "description.frozenMeat": "얼린 고기 조각은 고대 명절에 특별한 조리법으로 사용되었다고 합니다.",
   "description.hoHoOhOh": "산타가 이렇게 버티고 있는데, 그 과정에서 사귄 친구들이 명절이 아닐까요?",
-  "eventHolidays.noticeboard.one": "2025 홀리데이 커뮤니티 이벤트에 오신 것을 환영합니다!"
+  "eventHolidays.noticeboard.one": "2025 홀리데이 커뮤니티 이벤트에 오신 것을 환영합니다!",
+  "retentionDashboard.title": "보존 대시보드",
+  "retentionDashboard.latestReport": "최신 보고서: {{date}}",
+  "retentionDashboard.activeUsers": "액티브 유저",
+  "retentionDashboard.tableTitle": "지난 60일",
+  "retentionDashboard.date": "날짜",
+  "retentionDashboard.signups": "가입",
+  "retentionDashboard.d1": "D1",
+  "retentionDashboard.d7": "D7",
+  "retentionDashboard.d30": "D30",
+  "retentionDashboard.noData": "지난 60일 동안의 보존 기록이 없습니다.",
+  "retentionDashboard.unknownDate": "알 수 없는 날짜"
 }

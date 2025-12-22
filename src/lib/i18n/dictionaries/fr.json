@@ -7654,5 +7654,16 @@
   "description.penguinSurprise": "Un pingouin espiègle qui surprendra votre ferme. (Indice : il adore le poisson !)",
   "description.frozenMeat": "Un morceau de viande congelé qui était censé être utilisé dans des recettes spéciales pendant les fêtes de fin d'année.",
   "description.hoHoOhOh": "Avec le Père Noël coincé comme ça, peut-être que c'était pendant les fêtes que nous nous sommes fait des amis en cours de route ?",
-  "eventHolidays.noticeboard.one": "Bienvenue à l'événement communautaire des fêtes de fin d'année 2025 !"
+  "eventHolidays.noticeboard.one": "Bienvenue à l'événement communautaire des fêtes de fin d'année 2025 !",
+  "retentionDashboard.title": "Tableau de bord de rétention",
+  "retentionDashboard.latestReport": "Dernier rapport : {{date}}",
+  "retentionDashboard.activeUsers": "Utilisateurs actifs",
+  "retentionDashboard.tableTitle": "Les 60 derniers jours",
+  "retentionDashboard.date": "Date",
+  "retentionDashboard.signups": "Inscriptions",
+  "retentionDashboard.d1": "D1",
+  "retentionDashboard.d7": "D7",
+  "retentionDashboard.d30": "D30",
+  "retentionDashboard.noData": "Aucun enregistrement de conservation au cours des 60 derniers jours.",
+  "retentionDashboard.unknownDate": "Date inconnue"
 }
