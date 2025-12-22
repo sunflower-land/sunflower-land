@@ -2,6 +2,7 @@ import { BuffName } from "./buffs";
 import { GameState, InventoryItemName } from "./game";
 import { getBumpkinLevel, getExperienceToNextLevel } from "../lib/level";
 import { getChapterTicket } from "./chapters";
+import { isCollectibleBuilt } from "../lib/collectibleBuilt";
 
 export type DailyRewardDefinition = {
   id: DailyRewardName;
@@ -285,6 +286,13 @@ export function getRewardsForStreak({
   // If they are beginning out,
   if ((game.farmActivity["Daily Reward Collected"] ?? 0) <= 6 && streak <= 6) {
     baseReward = ONBOARDING_REWARDS[streak];
+  }
+
+  if (isCollectibleBuilt({ name: "Giant Gold Bone", game })) {
+    DEFAULT_REWARD.items = {
+      ...DEFAULT_REWARD.items,
+      Cheer: (DEFAULT_REWARD.items?.Cheer ?? 0) + 2,
+    };
   }
 
   return [baseReward, DEFAULT_REWARD, ...getMilestoneRewards({ streak })];
