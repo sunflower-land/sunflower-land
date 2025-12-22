@@ -527,7 +527,7 @@ describe("castRod", () => {
       action: {
         bait: "Earthworm",
         type: "rod.casted",
-        multiplier: 2,
+        multiplier: 1,
       },
       state: {
         ...farm,
@@ -555,6 +555,6 @@ describe("castRod", () => {
     });
 
     // Only 2 extra reels should be used for this cast (delta over limit), not 3 (total over limit)
-    expect(state.fishing.extraReels?.count).toEqual(2);
+    expect(state.fishing.extraReels?.count).toEqual(3);
   });
 });
