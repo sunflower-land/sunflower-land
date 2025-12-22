@@ -1,3 +1,5 @@
+import { CONFIG } from "lib/config";
+
 export type RetentionRecord = {
   signups?: number;
   d1?: number;
@@ -13,7 +15,7 @@ export type RetentionDataResponse = {
   entries: RetentionEntry[];
 };
 
-const RETENTION_API_URL = "https://api-hannigan.sunflower-land.com/data";
+const RETENTION_API_URL = `${CONFIG.API_URL}/data`;
 
 export const getRetentionData = async ({
   token,
