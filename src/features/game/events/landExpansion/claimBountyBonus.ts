@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { getWeekKey, weekResetsAt } from "features/game/lib/factions";
 import { ANIMALS } from "features/game/types/animals";
 import { GameState } from "features/game/types/game";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getChapterTicket } from "features/game/types/chapters";
 import { produce } from "immer";
 
 export type ClaimBountyBonusAction = {
@@ -78,9 +78,8 @@ export function claimBountyBonus({
     }
 
     // Claim bonus
-    inventory[getSeasonalTicket()] = (
-      inventory[getSeasonalTicket()] ?? new Decimal(0)
-    ).add(50);
+    const ticket = getChapterTicket(createdAt);
+    inventory[ticket] = (inventory[ticket] ?? new Decimal(0)).add(50);
     bounties.bonusClaimedAt = createdAt;
 
     return draft;

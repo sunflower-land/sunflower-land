@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { ButtonPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -13,8 +13,6 @@ import { MinigameName } from "features/game/types/minigames";
 import { translate } from "lib/i18n/translate";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { MineWhack } from "./MineWhack";
-import { Context as GameContext } from "features/game/GameProvider";
-import { hasFeatureAccess } from "lib/flags";
 import { Memory } from "./Memory";
 
 const host = window.location.host.replace(/^www\./, "");
@@ -75,6 +73,13 @@ export const PORTAL_OPTIONS: PortalOption[] = [
     description: translate("portal.mineWhack.description"),
     component: MineWhack,
   },
+  {
+    id: "memory",
+    npc: "memory",
+    title: translate("portal.memory.title"),
+    description: translate("portal.memory.description"),
+    component: Memory,
+  },
 ];
 
 export const PortalChooser: React.FC<{ onClose: () => void }> = ({
@@ -83,20 +88,6 @@ export const PortalChooser: React.FC<{ onClose: () => void }> = ({
   const { t } = useAppTranslation();
   const [selectedGame, setSelectedGame] = useState<MinigameName>();
   const [showIntro, setShowIntro] = useState(!hasReadIntro());
-  const { gameService } = useContext(GameContext);
-
-  if (
-    hasFeatureAccess(gameService.state?.context.state, "MEMORY_BETA") &&
-    PORTAL_OPTIONS.find((portal) => portal.id === "memory") == undefined
-  ) {
-    PORTAL_OPTIONS.push({
-      id: "memory",
-      npc: "memory",
-      title: translate("portal.memory.title"),
-      description: translate("portal.memory.description"),
-      component: Memory,
-    });
-  }
 
   if (showIntro) {
     return (

@@ -761,7 +761,6 @@ export type BlockchainState = {
     | "seasonChanged"
     | "randomising"
     | "competition"
-    | "cheers"
     | "news"
     | "jinAirdrop"
     | "leagueResults"
@@ -1304,29 +1303,7 @@ export function startGame(authContext: AuthContext) {
                 return !hasReadNews();
               },
             },
-            {
-              target: "cheers",
-              cond: (context) => {
-                // Players now receive cheers in daily rewards
-                if (hasFeatureAccess(context.state, "DAILY_BOXES"))
-                  return false;
 
-                // Do not show if they are under level 5
-                const level = getBumpkinLevel(
-                  context.state.bumpkin?.experience ?? 0,
-                );
-                if (level < 5) return false;
-
-                const now = Date.now();
-
-                const today = new Date(now).toISOString().split("T")[0];
-
-                return (
-                  context.state.socialFarming.cheers?.freeCheersClaimedAt <
-                  new Date(today).getTime()
-                );
-              },
-            },
             {
               target: "linkWallet",
               cond: (context) => {
@@ -1340,9 +1317,6 @@ export function startGame(authContext: AuthContext) {
             {
               target: "dailyReward",
               cond: (context) => {
-                if (!hasFeatureAccess(context.state, "DAILY_BOXES"))
-                  return false;
-
                 // If already acknowledged in last 24 hours, don't show
                 const lastAcknowledged = getDailyRewardLastAcknowledged();
                 if (
@@ -2438,14 +2412,6 @@ export function startGame(authContext: AuthContext) {
           },
         },
 
-        cheers: {
-          on: {
-            "cheers.claimed": (GAME_EVENT_HANDLERS as any)["cheers.claimed"],
-            ACKNOWLEDGE: {
-              target: "notifying",
-            },
-          },
-        },
         linkWallet: {
           on: {
             ACKNOWLEDGE: {

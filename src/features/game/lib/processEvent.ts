@@ -16,7 +16,7 @@ import { LANDSCAPING_DECORATIONS } from "../types/decorations";
 import { ANIMAL_FOODS } from "../types/animals";
 import { BumpkinItem } from "../types/bumpkin";
 import { MaxedItem } from "./gameMachine";
-import { SEASON_TICKET_NAME } from "../types/seasons";
+import { CHAPTER_TICKET_NAME } from "../types/chapters";
 import { OFFCHAIN_ITEMS } from "./offChainItems";
 import { PET_RESOURCES } from "../types/pets";
 import { COOKABLES } from "features/game/types/consumables";
@@ -111,7 +111,7 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   ),
 
   // Max of 1500 Chapter tickets
-  ...getValues(SEASON_TICKET_NAME).reduce(
+  ...getValues(CHAPTER_TICKET_NAME).reduce(
     (acc, name) => ({
       ...acc,
       [name]: new Decimal(1500),

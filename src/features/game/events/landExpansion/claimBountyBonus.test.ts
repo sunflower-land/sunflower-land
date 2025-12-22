@@ -2,11 +2,12 @@ import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 import { claimBountyBonus } from "./claimBountyBonus";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { getChapterTicket } from "features/game/types/chapters";
 import { getWeekKey } from "features/game/lib/factions";
 
 describe("claimBountyBonus", () => {
   const createdAt = new Date("2025-05-06").getTime();
+  const ticket = getChapterTicket(createdAt);
   const GAME_STATE: GameState = {
     ...TEST_FARM,
     bounties: {
@@ -98,7 +99,7 @@ describe("claimBountyBonus", () => {
       createdAt,
     });
 
-    expect(result.inventory[getSeasonalTicket()]).toEqual(new Decimal(50));
+    expect(result.inventory[ticket]).toEqual(new Decimal(50));
     expect(result.bounties.bonusClaimedAt).toBe(createdAt);
   });
 
@@ -108,7 +109,7 @@ describe("claimBountyBonus", () => {
         ...GAME_STATE,
         inventory: {
           ...GAME_STATE.inventory,
-          [getSeasonalTicket()]: new Decimal(10),
+          [ticket]: new Decimal(10),
         },
       },
       action: {
@@ -117,7 +118,7 @@ describe("claimBountyBonus", () => {
       createdAt,
     });
 
-    expect(result.inventory[getSeasonalTicket()]).toEqual(new Decimal(60));
+    expect(result.inventory[ticket]).toEqual(new Decimal(60));
     expect(result.bounties.bonusClaimedAt).toBe(createdAt);
   });
 });

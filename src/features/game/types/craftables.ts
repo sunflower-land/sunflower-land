@@ -23,12 +23,12 @@ import {
 } from "./collectibles";
 import { BoostTreasure } from "./treasure";
 import { MarineMarvelName, OldFishName } from "./fishing";
-import { SeasonalBanner } from "./seasons";
+import { ChapterBanner } from "./chapters";
 import { EpicFlowerName, MutantFlowerName } from "./flowers";
 import { translate } from "lib/i18n/translate";
 import { FactionShopCollectibleName } from "./factionShop";
 import { BEDS } from "./beds";
-import { SeasonalCollectibleName } from "./megastore";
+import { ChapterCollectibleName } from "./megastore";
 import { MonumentName } from "./monuments";
 import { PetName, PetShrineName } from "./pets";
 
@@ -198,7 +198,7 @@ export type CollectibleName =
   | GoblinBlacksmithItemName
   | SoldOutCollectibleName
   | GoblinPirateItemName
-  | SeasonalBanner
+  | ChapterBanner
   | BoostTreasure
   | WarBanner
   | LanternName
@@ -217,7 +217,7 @@ export type CollectibleName =
   | TreasureCollectibleItem
   | MutantFlowerName
   | BedName
-  | SeasonalCollectibleName
+  | ChapterCollectibleName
   | MonumentName
   | PetName
   | PetShrineName

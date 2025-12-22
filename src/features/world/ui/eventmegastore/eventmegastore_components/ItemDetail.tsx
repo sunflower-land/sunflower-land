@@ -5,7 +5,7 @@ import Decimal from "decimal.js-light";
 import { InventoryItemName } from "features/game/types/game";
 
 import { Context } from "features/game/GameProvider";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
@@ -15,20 +15,20 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { MachineState } from "features/game/lib/gameMachine";
 import {
-  getSeasonalArtefact,
-  getSeasonalTicket,
-  // getSeasonalTicket,
-} from "features/game/types/seasons";
+  getChapterArtefact,
+  getChapterTicket,
+} from "features/game/types/chapters";
+import { useNow } from "lib/utils/hooks/useNow";
 import confetti from "canvas-confetti";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
-  HALLOWEEN_EVENT_ITEMS,
+  HOLIDAY_EVENT_ITEMS,
   EventStoreCollectible,
   EventStoreItem,
   EventStoreWearable,
   EventTierItemName,
-} from "features/game/types/halloweenShop";
+} from "features/game/types/holidayEventShop";
 import { getItemDescription } from "../EventStore";
 import { getKeys } from "features/game/types/craftables";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
@@ -49,16 +49,7 @@ interface ItemOverlayProps {
 
 const _sflBalance = (state: MachineState) => state.context.state.balance;
 const _inventory = (state: MachineState) => state.context.state.inventory;
-
-const getCooldownLabel = (cooldownMs: number) => {
-  const days = cooldownMs / (24 * 60 * 60 * 1000);
-
-  if (days === 1) return "Limit: 1 every day";
-  if (days === 7) return "Limit: 1 every week";
-  if (days >= 30) return "Limit: 1 every 30 days";
-
-  return `Limit: 1 per ${days} days`;
-};
+const _state = (state: MachineState) => state.context.state;
 
 export const ItemDetail: React.FC<ItemOverlayProps> = ({
   item,
@@ -78,14 +69,12 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
   const [confirmBuy, setConfirmBuy] = useState<boolean>(false);
   //For Discount
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, _state);
 
-  const createdAt = Date.now();
-  const eventStore = HALLOWEEN_EVENT_ITEMS;
+  const now = useNow();
+  const chapterTicket = getChapterTicket(now);
+  const chapterArtefact = getChapterArtefact(now);
+  const eventStore = HOLIDAY_EVENT_ITEMS;
   const tiers =
     tier === "basic"
       ? "basic"
@@ -98,7 +87,9 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
             : "basic";
 
   const shop =
-    gameService.getSnapshot().context.state.minigames.games["halloween"]?.shop;
+    gameService.getSnapshot().context.state.minigames.games[
+      "holiday-puzzle-2025"
+    ]?.shop;
 
   const eventCollectiblesCrafted = Object.keys(shop?.items ?? {}).length;
   const eventWearablesCrafted = Object.keys(shop?.wearables ?? {}).length;
@@ -119,17 +110,17 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     tier === "mega" && eventItemsCrafted >= eventStore.mega.requirement;
 
   const itemsCrafted = isWearable
-    ? (state.minigames.games["halloween"]?.shop?.wearables?.[
+    ? (state.minigames.games["holiday-puzzle-2025"]?.shop?.wearables?.[
         itemName as BumpkinItem
       ] ?? 0)
-    : (state.minigames.games["halloween"]?.shop?.items?.[
+    : (state.minigames.games["holiday-puzzle-2025"]?.shop?.items?.[
         itemName as InventoryItemName
       ] ?? 0);
 
   const canCraftMore =
     itemsCrafted <
-    (MINIGAME_SHOP_ITEMS["halloween"]?.[itemName as EventTierItemName]?.max ??
-      1);
+    (MINIGAME_SHOP_ITEMS["holiday-puzzle-2025"]?.[itemName as EventTierItemName]
+      ?.max ?? 1);
 
   const description = getItemDescription(item);
   const { sfl = 0 } = item?.cost || {};
@@ -186,16 +177,14 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     const currency =
       item.cost.sfl !== 0
         ? "SFL"
-        : item.cost.sfl === 0 &&
-            (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
+        : item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0 > 0)
           ? "Seasonal Ticket"
           : "SFL";
     const price =
       item.cost.sfl !== 0
         ? sfl
-        : item.cost.sfl === 0 &&
-            (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-          ? (item.cost?.items[getSeasonalTicket()] ?? 0)
+        : item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0 > 0)
+          ? (item.cost?.items[chapterTicket] ?? 0)
           : sfl;
     const itemName = isWearable
       ? ((item as EventStoreWearable).wearable as BumpkinItem)
@@ -217,7 +206,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     if (!item) return;
 
     gameService.send("minigameItem.bought", {
-      id: "halloween",
+      id: "holiday-puzzle-2025",
       name: itemName,
     });
 
@@ -260,30 +249,28 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
   const getCurrencyName = (item: EventStoreItem) => {
     const currencyName =
-      item.cost.sfl === 0 && (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-        ? getSeasonalTicket()
-        : item.cost.sfl === 0 &&
-            (item.cost?.items[getSeasonalArtefact()] ?? 0 > 0)
-          ? getSeasonalArtefact()
+      item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0 > 0)
+        ? chapterTicket
+        : item.cost.sfl === 0 && (item.cost?.items[chapterArtefact] ?? 0 > 0)
+          ? chapterArtefact
           : Object.keys(item.cost.items)[0];
     return currencyName as InventoryItemName;
   };
   const getCurrencyBalance = (item: EventStoreItem) => {
     const currencyItem =
-      item.cost.sfl === 0 && (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-        ? getSeasonalTicket()
-        : item.cost.sfl === 0 &&
-            (item.cost?.items[getSeasonalArtefact()] ?? 0 > 0)
-          ? getSeasonalArtefact()
+      item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0 > 0)
+        ? chapterTicket
+        : item.cost.sfl === 0 && (item.cost?.items[chapterArtefact] ?? 0 > 0)
+          ? chapterArtefact
           : Object.keys(item.cost.items)[0];
 
     return inventory[currencyItem as InventoryItemName] ?? new Decimal(0);
   };
   const getCurrency = (item: EventStoreItem) => {
     const currency =
-      item.cost.sfl === 0 && (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-        ? getSeasonalTicket()
-        : getSeasonalArtefact();
+      item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0 > 0)
+        ? chapterTicket
+        : chapterArtefact;
     const currencyItem =
       item.cost.sfl === 0 && (item.cost?.items[currency] ?? 0 > 0)
         ? item.cost?.items[currency]
@@ -363,7 +350,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       {t("season.megastore.crafting.limit.max", {
                         limit: itemsCrafted,
                         max:
-                          MINIGAME_SHOP_ITEMS["festival-of-colors-2025"]?.[
+                          MINIGAME_SHOP_ITEMS["holiday-puzzle-2025"]?.[
                             itemName as EventTierItemName
                           ]?.max ?? 1,
                       })}

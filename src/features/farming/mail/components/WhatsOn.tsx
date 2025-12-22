@@ -10,11 +10,9 @@ import shopIcon from "assets/icons/shop.png";
 import trophyIcon from "assets/icons/trophy.png";
 import lockIcon from "assets/icons/lock.png";
 import promoteIcon from "assets/icons/promote.webp";
-import { getSeasonalTicket } from "features/game/types/seasons";
 
 export const WhatsOn = () => {
   const { t } = useAppTranslation();
-  const ticket = getSeasonalTicket();
 
   return (
     <div style={{ maxHeight: "300px" }}>

@@ -16,14 +16,15 @@ import {
 import shopIcon from "assets/icons/shop.png";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { MachineState } from "features/game/lib/gameMachine";
-import { SeasonalStore } from "./SeasonalStore";
+import { ChapterStore } from "./ChapterStore";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import {
-  getCurrentSeason,
-  getSeasonalTicket,
-} from "features/game/types/seasons";
+  getCurrentChapter,
+  getChapterTicket,
+} from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   onClose: () => void;
@@ -69,14 +70,15 @@ const _state = (state: MachineState) => state.context.state;
 export const MegaStore: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
+  const now = useNow();
 
-  const icon = ITEM_DETAILS[getSeasonalTicket()].image ?? shopIcon;
+  const icon = ITEM_DETAILS[getChapterTicket(now)].image ?? shopIcon;
   const { t } = useAppTranslation();
 
   // If no season is found, use "Chapter"
   let chapter: string;
   try {
-    chapter = getCurrentSeason();
+    chapter = getCurrentChapter(now);
   } catch {
     chapter = "Chapter";
   }
@@ -88,7 +90,7 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
       tabs={[{ icon, name: t("chapterStore.title", { chapter }) }]}
       onClose={onClose}
     >
-      <SeasonalStore state={state} />
+      <ChapterStore state={state} />
     </CloseButtonPanel>
   );
 };

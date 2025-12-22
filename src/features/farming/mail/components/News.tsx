@@ -14,9 +14,9 @@ import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import lightningIcon from "assets/icons/lightning.png";
 import flowerIcon from "assets/icons/flower_token.webp";
 import redPansyIcon from "assets/flowers/red_pansy.webp";
-import { SEASON_TICKET_NAME, SeasonName } from "features/game/types/seasons";
-import { SEASONAL_MUTANTS } from "features/island/hud/components/codex/components/SeasonalMutants";
-import { CHAPTER_GRAPHICS } from "features/island/hud/components/codex/pages/Season";
+import { CHAPTER_TICKET_NAME, ChapterName } from "features/game/types/chapters";
+import { CHAPTER_MUTANTS } from "features/island/hud/components/codex/components/ChapterMutants";
+import { CHAPTER_GRAPHICS } from "features/island/hud/components/codex/pages/Chapter";
 
 export function hasReadNews() {
   const readAt = localStorage.getItem("newsReadAt");
@@ -341,14 +341,14 @@ export const ObsidianUpdates: React.FC<NewsComponentProps> = ({ onClose }) => {
   );
 };
 
-const Chapter: React.FC<NewsComponentProps & { chapter: SeasonName }> = ({
+const Chapter: React.FC<NewsComponentProps & { chapter: ChapterName }> = ({
   onClose,
   chapter,
 }) => {
   const { t } = useAppTranslation();
 
-  const ticket = SEASON_TICKET_NAME[chapter];
-  const mutant = SEASONAL_MUTANTS[chapter]?.fish;
+  const ticket = CHAPTER_TICKET_NAME[chapter];
+  const mutant = CHAPTER_MUTANTS[chapter]?.fish;
   const banner = CHAPTER_GRAPHICS[chapter];
 
   return (

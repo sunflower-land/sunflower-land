@@ -1,6 +1,6 @@
 import { Button } from "components/ui/Button";
 import { Label, LabelType } from "components/ui/Label";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { useGame } from "../GameProvider";
 import { ButtonPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "../types/images";
@@ -38,10 +38,10 @@ export const DAILY_REWARD_IMAGES: Record<DailyRewardName, string> = {
   "onboarding-day-6-anchovy-kit": basicFishingBox,
   "onboarding-day-7-first-week-finale": ITEM_DETAILS["Weekly Mega Box"].image,
   "weekly-day-1-tool-cache": basicToolBox,
-  "weekly-day-2-growth-feast": basicXPBox,
+  "weekly-day-2-growth-boost": basicBuffBox,
   "weekly-day-3-love-box": ITEM_DETAILS["Basic Love Box"].image,
   "weekly-day-4-angler-pack": basicFishingBox,
-  "weekly-day-5-growth-boost": basicBuffBox,
+  "weekly-day-5-growth-feast": basicXPBox,
   "weekly-day-6-coin-stash": coinsIcon,
   "weekly-mega-box": ITEM_DETAILS["Weekly Mega Box"].image,
   "streak-one-year": streakBox,
@@ -84,28 +84,26 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
     now,
   });
 
-  const rewards = useMemo(() => {
-    let streak = getDailyRewardStreak({
-      game: gameState,
-      dailyRewards,
-      currentDate,
-    });
+  let streak = getDailyRewardStreak({
+    game: gameState,
+    dailyRewards,
+    currentDate,
+  });
 
-    if (hasClaimed) {
-      streak -= 1;
-    }
+  if (hasClaimed) {
+    streak -= 1;
+  }
 
-    return new Array(7).fill(null).map((_, index) => {
-      return {
-        day: streak + index + 1,
-        reward: getRewardsForStreak({
-          game: gameState,
-          streak: streak + index,
-          currentDate,
-        }),
-      };
-    });
-  }, [dailyRewards, hasClaimed, currentDate, gameState]);
+  const rewards = new Array(7).fill(null).map((_, index) => {
+    return {
+      day: streak + index + 1,
+      reward: getRewardsForStreak({
+        game: gameState,
+        streak: streak + index,
+        currentDate,
+      }).rewards,
+    };
+  });
 
   if (showClaim) {
     const items = rewards[0].reward.reduce(

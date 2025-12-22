@@ -7,9 +7,9 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { shortenCount } from "lib/utils/formatNumber";
 import {
-  getSeasonalArtefact,
-  getSeasonalTicket,
-} from "features/game/types/seasons";
+  getChapterArtefact,
+  getChapterTicket,
+} from "features/game/types/chapters";
 
 import token from "assets/icons/flower_token.webp";
 import lightning from "assets/icons/lightning.png";
@@ -23,15 +23,16 @@ import { BumpkinItem } from "features/game/types/bumpkin";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
-  HALLOWEEN_EVENT_ITEMS,
+  HOLIDAY_EVENT_ITEMS,
   EventStoreCollectible,
   EventStoreItem,
   EventStoreTier,
   EventStoreWearable,
-} from "features/game/types/halloweenShop";
+} from "features/game/types/holidayEventShop";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   itemsLabel?: string;
@@ -49,6 +50,9 @@ export const ItemsList: React.FC<Props> = ({
   onItemClick,
 }) => {
   const { gameService } = useContext(Context);
+  const now = useNow();
+  const chapterTicket = getChapterTicket(now);
+  const chapterArtefact = getChapterArtefact(now);
 
   //For Discount
   const [
@@ -61,13 +65,13 @@ export const ItemsList: React.FC<Props> = ({
     // Handling all types or specific ones if provided
     if (type === "wearables" || (!type && "wearable" in item)) {
       return (
-        state.minigames.games["halloween"]?.shop?.wearables?.[
+        state.minigames.games["holiday-puzzle-2025"]?.shop?.wearables?.[
           (item as EventStoreWearable).wearable as BumpkinItem
         ] ?? 0
       );
     } else {
       return (
-        state.minigames.games["halloween"]?.shop?.items?.[
+        state.minigames.games["holiday-puzzle-2025"]?.shop?.items?.[
           (item as EventStoreCollectible).collectible as InventoryItemName
         ] ?? 0
       );
@@ -102,11 +106,10 @@ export const ItemsList: React.FC<Props> = ({
     if (item.cost.sfl !== 0) return token;
 
     const currencyItem =
-      item.cost.sfl === 0 && (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-        ? getSeasonalTicket()
-        : item.cost.sfl === 0 &&
-            (item.cost?.items[getSeasonalArtefact()] ?? 0 > 0)
-          ? getSeasonalArtefact()
+      item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0 > 0)
+        ? chapterTicket
+        : item.cost.sfl === 0 && (item.cost?.items[chapterArtefact] ?? 0 > 0)
+          ? chapterArtefact
           : Object.keys(item.cost.items)[0];
 
     return ITEM_DETAILS[currencyItem as InventoryItemName].image;
@@ -117,9 +120,9 @@ export const ItemsList: React.FC<Props> = ({
       return shortenCount(SFLDiscount(state, new Decimal(item.cost.sfl)));
 
     const currency =
-      item.cost.sfl === 0 && (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-        ? getSeasonalTicket()
-        : getSeasonalArtefact();
+      item.cost.sfl === 0 && (item.cost?.items[chapterTicket] ?? 0 > 0)
+        ? chapterTicket
+        : chapterArtefact;
     const currencyItem =
       item.cost.sfl === 0 && (item.cost?.items[currency] ?? 0 > 0)
         ? item.cost?.items[currency]
@@ -137,23 +140,25 @@ export const ItemsList: React.FC<Props> = ({
     return "requirement" in tier;
   };
 
-  const tierData = HALLOWEEN_EVENT_ITEMS[tier];
+  const tierData = HOLIDAY_EVENT_ITEMS[tier];
   const requirements = hasRequirement(tierData) ? tierData.requirement : 0;
 
   const eventItemsCrafted =
-    Object.keys(state.minigames.games["halloween"]?.shop?.items ?? {}).length +
-    Object.keys(state.minigames.games["halloween"]?.shop?.wearables ?? {})
-      .length;
+    Object.keys(state.minigames.games["holiday-puzzle-2025"]?.shop?.items ?? {})
+      .length +
+    Object.keys(
+      state.minigames.games["holiday-puzzle-2025"]?.shop?.wearables ?? {},
+    ).length;
 
   const isRareUnlocked =
     tier === "rare" &&
-    eventItemsCrafted >= HALLOWEEN_EVENT_ITEMS.rare.requirement;
+    eventItemsCrafted >= HOLIDAY_EVENT_ITEMS.rare.requirement;
   const isEpicUnlocked =
     tier === "epic" &&
-    eventItemsCrafted >= HALLOWEEN_EVENT_ITEMS.epic.requirement;
+    eventItemsCrafted >= HOLIDAY_EVENT_ITEMS.epic.requirement;
   const isMegaUnlocked =
     tier === "mega" &&
-    eventItemsCrafted >= HALLOWEEN_EVENT_ITEMS.mega.requirement;
+    eventItemsCrafted >= HOLIDAY_EVENT_ITEMS.mega.requirement;
 
   const tierpercentage = eventItemsCrafted;
 

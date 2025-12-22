@@ -8,15 +8,15 @@ import {
 import { produce } from "immer";
 import { NPCName } from "lib/npcs";
 import {
-  getCurrentSeason,
-  getSeasonalTicket,
-  SeasonName,
-} from "features/game/types/seasons";
+  getCurrentChapter,
+  getChapterTicket,
+  ChapterName,
+} from "features/game/types/chapters";
 import { isWearableActive } from "features/game/lib/wearables";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import {
-  SeasonalTierItemName,
+  ChapterTierItemName,
   MegastoreKeys,
 } from "features/game/types/megastore";
 import { isCollectible } from "./garbageSold";
@@ -34,11 +34,11 @@ type Options = {
 };
 
 export const CHAPTER_TICKET_BOOST_ITEMS: Record<
-  SeasonName,
+  ChapterName,
   {
-    basic: Exclude<SeasonalTierItemName, MegastoreKeys>;
-    rare: Exclude<SeasonalTierItemName, MegastoreKeys>;
-    epic: Exclude<SeasonalTierItemName, MegastoreKeys>;
+    basic: Exclude<ChapterTierItemName, MegastoreKeys>;
+    rare: Exclude<ChapterTierItemName, MegastoreKeys>;
+    epic: Exclude<ChapterTierItemName, MegastoreKeys>;
   }
 > = {
   "Solar Flare": {
@@ -185,13 +185,14 @@ export function generateChoreRewards({
 }) {
   const items = Object.assign({}, chore.reward.items) ?? {};
 
-  if (!items[getSeasonalTicket(now)]) return items;
-  let amount = items[getSeasonalTicket(now)] ?? 0;
+  const ticket = getChapterTicket(now.getTime());
+  if (!items[ticket]) return items;
+  let amount = items[ticket] ?? 0;
 
   if (hasVipAccess({ game, now: now.getTime() })) {
     amount += 2;
   }
-  const chapter = getCurrentSeason(now);
+  const chapter = getCurrentChapter(now.getTime());
   const chapterBoost = CHAPTER_TICKET_BOOST_ITEMS[chapter];
 
   Object.values(chapterBoost).forEach((item) => {
@@ -206,7 +207,7 @@ export function generateChoreRewards({
     }
   });
 
-  items[getSeasonalTicket(now)] = amount;
+  items[ticket] = amount;
 
   return items;
 }

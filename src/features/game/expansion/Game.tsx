@@ -90,7 +90,6 @@ import { ClaimReferralRewards } from "./components/ClaimReferralRewards";
 import { SoftBan } from "features/retreat/components/personhood/SoftBan";
 import { RewardBox } from "features/rewardBoxes/RewardBox";
 import { ClaimBlessingReward } from "features/loveIsland/blessings/ClaimBlessing";
-import { Cheering } from "./components/Cheering";
 import { SystemMessageWidget } from "features/announcements/SystemMessageWidget";
 import { News } from "features/farming/mail/components/News";
 import { CloseButtonPanel } from "../components/CloseablePanel";
@@ -216,7 +215,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   jinAirdrop: true,
   investigating: true,
   blessing: true,
-  cheers: true,
   leagueResults: false,
   linkWallet: true,
   dailyReward: true,
@@ -299,7 +297,6 @@ const isSeasonChanged = (state: MachineState) => state.matches("seasonChanged");
 const isCalendarEvent = (state: MachineState) => state.matches("calendarEvent");
 
 const isJinAirdrop = (state: MachineState) => state.matches("jinAirdrop");
-const isCheers = (state: MachineState) => state.matches("cheers");
 const isLinkWallet = (state: MachineState) => state.matches("linkWallet");
 const isNews = (state: MachineState) => state.matches("news");
 const _isVisiting = (state: MachineState) =>
@@ -481,7 +478,6 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
   const investigating = useSelector(gameService, isInvestigating);
   const blessing = useSelector(gameService, isBlessing);
-  const cheers = useSelector(gameService, isCheers);
   const linkWallet = useSelector(gameService, isLinkWallet);
   const news = useSelector(gameService, isNews);
   const tradesCleared = useSelector(gameService, isTradesCleared);
@@ -694,7 +690,6 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
                 onClose={() => gameService.send("ACKNOWLEDGE")}
               />
             )}
-            {cheers && <Cheering />}
             {linkWallet && <MigrateToLinkedWallet />}
           </Panel>
         </Modal>

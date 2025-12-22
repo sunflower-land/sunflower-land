@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { InventoryItemName } from "./game";
 import { BumpkinItem } from "./bumpkin";
-import { SEASONS } from "./seasons";
+import { CHAPTERS } from "./chapters";
 
 export type ArtefactWearables = {
   coins: number;
@@ -21,8 +21,8 @@ export const ARTEFACT_SHOP_WEARABLES: ArtefactShopWearables = {
     ingredients: {
       Scarab: new Decimal(150),
     },
-    from: SEASONS["Pharaoh's Treasure"].startDate,
-    to: SEASONS["Pharaoh's Treasure"].endDate,
+    from: CHAPTERS["Pharaoh's Treasure"].startDate,
+    to: CHAPTERS["Pharaoh's Treasure"].endDate,
   },
   "Bionic Drill": {
     coins: 0,

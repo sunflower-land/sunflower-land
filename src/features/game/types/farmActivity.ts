@@ -42,9 +42,9 @@ import { CompostName, ComposterName } from "./composters";
 import { PurchaseableBait } from "./fishing";
 import { FlowerName, FlowerSeedName } from "./flowers";
 import { FactionShopItemName } from "./factionShop";
-import { ShopDecorationName, SeasonalDecorationName } from "./decorations";
+import { ShopDecorationName, ChapterDecorationName } from "./decorations";
 import { AnimalType } from "./animals";
-import { SeasonalTierItemName } from "./megastore";
+import { ChapterTierItemName } from "./megastore";
 import { WeatherShopItem } from "./calendar";
 import { PetShopItemName } from "./petShop";
 import { MonumentName } from "./monuments";
@@ -74,13 +74,13 @@ type BuyableName =
   | Animal
   | AnimalType
   | ShopDecorationName
-  | SeasonalDecorationName
+  | ChapterDecorationName
   | BeanName
   | MegaStoreItemName
   | GreenHouseFruitSeedName
   | GreenHouseCropSeedName
   | FactionShopItemName
-  | SeasonalTierItemName;
+  | ChapterTierItemName;
 
 type SellableName =
   | CropName
@@ -210,7 +210,9 @@ export type FarmActivityName =
   | "Farm Cheered"
   | "Farm Helped"
   | `${MonumentName} Completed`
-  | "Daily Reward Collected";
+  | "Daily Reward Collected"
+  | "Fish Missed"
+  | "Fish Retried";
 
 export function trackFarmActivity(
   activityName: FarmActivityName,

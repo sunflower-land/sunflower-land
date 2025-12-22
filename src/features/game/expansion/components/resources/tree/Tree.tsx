@@ -145,6 +145,8 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
   useEffect(() => {
     if (choppedAtRef.current !== resource.wood.choppedAt) {
+      // Important: update the ref so this change is only handled once.
+      choppedAtRef.current = resource.wood.choppedAt;
       setIsRecentlyChopped(true);
 
       const timeout = setTimeout(() => {

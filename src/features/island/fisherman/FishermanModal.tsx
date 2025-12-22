@@ -57,7 +57,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { SEASON_ICONS } from "../buildings/components/building/market/SeasonalSeeds";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
-import { hasSeasonEnded } from "features/game/types/seasons";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 
 const host = window.location.host.replace(/^www\./, "");
@@ -552,9 +551,7 @@ const BoostReelItems: (
       skills: state.bumpkin.skills,
       collectibles: state.collectibles,
     }) as BuffLabel[],
-    location: hasSeasonEnded("Better Together")
-      ? "Marketplace"
-      : "Stella's Megastore",
+    location: "Marketplace",
   },
   "Angler Waders": {
     buff: BUMPKIN_ITEM_BUFF_LABELS["Angler Waders"] as BuffLabel[],

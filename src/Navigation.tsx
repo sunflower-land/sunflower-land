@@ -27,6 +27,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { GameProvider } from "features/game/GameProvider";
 import { FlowerDashboard } from "features/flowerDashboard/FlowerDashboard";
 import { EconomyDashboard } from "features/economyDashboard/EconomyDashboard";
+import { RetentionDashboard } from "features/retentionDashboard/RetentionDashboard";
 import { ModalProvider } from "features/game/components/modal/ModalProvider";
 import { FeedProvider } from "features/social/FeedContext";
 
@@ -174,6 +175,10 @@ export const Navigation: React.FC = () => {
                                 <Route
                                   path="/game/economy-dashboard"
                                   element={<EconomyDashboard />}
+                                />
+                                <Route
+                                  path="/game/retention-dashboard"
+                                  element={<RetentionDashboard />}
                                 />
                                 <Route
                                   path="*"

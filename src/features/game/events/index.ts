@@ -212,10 +212,6 @@ import {
   UpgradeFarmAction,
 } from "./landExpansion/upgradeFarm";
 import {
-  purchaseBanner,
-  PurchaseBannerAction,
-} from "./landExpansion/bannerPurchased";
-import {
   placeSunstone,
   PlaceSunstoneAction,
 } from "./landExpansion/placeSunstone";
@@ -372,9 +368,9 @@ import {
 import { claimProduce, ClaimProduceAction } from "./landExpansion/claimProduce";
 import { sellBounty, SellBountyAction } from "./landExpansion/sellBounty";
 import {
-  buySeasonalItem,
-  BuySeasonalItemAction,
-} from "./landExpansion/buySeasonalItem";
+  buyChapterItem,
+  BuyChapterItemAction,
+} from "./landExpansion/buyChapterItem";
 
 import {
   unlockFarmhand,
@@ -509,11 +505,8 @@ import {
 } from "./landExpansion/removeBeehive";
 import { removeAll, RemoveAllAction } from "./landExpansion/removeAll";
 import { wakeAnimal, WakeUpAnimalAction } from "./landExpansion/wakeUpAnimal";
-import {
-  ClaimCheersAction,
-  claimDailyCheers,
-} from "./landExpansion/claimDailyCheers";
 
+import { retryFish, RetryFishAction } from "./landExpansion/retryFish";
 import {
   flipCollectible,
   FlipCollectibleAction,
@@ -554,6 +547,10 @@ import {
 import { clearTrades, ClearTradesAction } from "./clearTrades";
 import { placeNFT, PlaceNFTAction } from "./landExpansion/placeNFT";
 import { walkPet, WalkPetAction } from "./pets/walkPet";
+import {
+  renewPetShrine,
+  RenewPetShrineAction,
+} from "./landExpansion/renewPetShrine";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -639,7 +636,6 @@ export type PlayingEvent =
   | PlantFlowerAction
   | HarvestFlowerAction
   | UpgradeFarmAction
-  | PurchaseBannerAction
   | FlowerShopTradedAction
   | CompleteSpecialEventTaskAction
   | GiftFlowersAction
@@ -680,7 +676,7 @@ export type PlayingEvent =
   | CollectCraftingAction
   | CompleteNPCChoreAction
   | ClaimProduceAction
-  | BuySeasonalItemAction
+  | BuyChapterItemAction
   | UnlockFarmhandAction
   | ClaimPurchaseAction
   | RedeemTradeRewardsAction
@@ -704,7 +700,7 @@ export type PlayingEvent =
   | BuyBiomeAction
   | ApplyBiomeAction
   | WakeUpAnimalAction
-  | ClaimCheersAction
+  | RetryFishAction
   | BurnClutterAction
   | InstantGrowProjectAction
   | InstaGrowFlowerAction
@@ -713,7 +709,8 @@ export type PlayingEvent =
   | BulkPlantAction
   | BulkHarvestAction
   | BumpkinWaveAction
-  | BulkFertilisePlotAction;
+  | BulkFertilisePlotAction
+  | RenewPetShrineAction;
 
 export type LocalVisitingEvent =
   | CollectGarbageAction
@@ -893,7 +890,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "flower.harvested": harvestFlower,
   "flower.instaGrown": instaGrowFlower,
   "farm.upgraded": upgrade,
-  "banner.purchased": purchaseBanner,
   "flowerShop.traded": tradeFlowerShop,
   "specialEvent.taskCompleted": completeSpecialEventTask,
   "flowers.gifted": giftFlowers,
@@ -928,7 +924,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "crafting.collected": collectCrafting,
   "chore.fulfilled": completeNPCChore,
   "produce.claimed": claimProduce,
-  "seasonalItem.bought": buySeasonalItem,
+  "chapterItem.bought": buyChapterItem,
   "farmHand.unlocked": unlockFarmhand,
   "fishing.reelsBought": buyMoreReels,
   "purchase.claimed": claimPurchase,
@@ -954,14 +950,15 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "biome.bought": buyBiome,
   "biome.applied": applyBiome,
   "animal.wakeUp": wakeAnimal,
-  "cheers.claimed": claimDailyCheers,
   "bumpkin.wave": bumpkinWave,
   "clutter.burned": burnClutter,
   "project.instantGrow": instantGrowProject,
   "rock.upgraded": upgradeRock,
   "tree.upgraded": upgradeTree,
+  "fish.retried": retryFish,
   "pet.pet": petPet,
   "trades.cleared": clearTrades,
+  "petShrine.renewed": renewPetShrine,
 };
 
 export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {

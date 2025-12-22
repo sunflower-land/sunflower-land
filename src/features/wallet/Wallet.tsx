@@ -30,11 +30,70 @@ import { InnerPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getWalletIcon } from "./lib/getWalletIcon";
 import { Label } from "components/ui/Label";
-import { networkOptions } from "features/game/expansion/components/dailyReward/DailyReward";
 import { shortAddress } from "lib/utils/shortAddress";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NoNFT } from "./components/NoNFT";
 import classNames from "classnames";
+import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
+import baseIcon from "assets/icons/chains/base.png";
+
+export type NetworkOption = {
+  value: NetworkName;
+  icon: string;
+  chainId: number;
+};
+
+export const BASE_MAINNET_NETWORK: NetworkOption = {
+  value: "Base",
+  icon: baseIcon,
+  chainId: 8453,
+};
+
+export const POLYGON_MAINNET_NETWORK: NetworkOption = {
+  value: "Polygon",
+  icon: SUNNYSIDE.icons.polygonIcon,
+  chainId: 137,
+};
+
+export const RONIN_MAINNET_NETWORK: NetworkOption = {
+  value: "Ronin",
+  icon: SUNNYSIDE.icons.roninIcon,
+  chainId: 2020,
+};
+
+const MAINNET_NETWORKS: NetworkOption[] = [
+  BASE_MAINNET_NETWORK,
+  RONIN_MAINNET_NETWORK,
+  POLYGON_MAINNET_NETWORK,
+];
+
+export const BASE_TESTNET_NETWORK: NetworkOption = {
+  value: "Base Sepolia",
+  icon: baseIcon,
+  chainId: 84532,
+};
+
+export const POLYGON_TESTNET_NETWORK: NetworkOption = {
+  value: "Polygon Amoy",
+  icon: SUNNYSIDE.icons.polygonIcon,
+  chainId: 80002,
+};
+
+export const RONIN_TESTNET_NETWORK: NetworkOption = {
+  value: "Ronin Saigon",
+  icon: SUNNYSIDE.icons.roninIcon,
+  chainId: 2021,
+};
+
+const TESTNET_NETWORKS: NetworkOption[] = [
+  BASE_TESTNET_NETWORK,
+  RONIN_TESTNET_NETWORK,
+  POLYGON_TESTNET_NETWORK,
+];
+
+// Select appropriate network options based on config
+export const networkOptions =
+  CONFIG.NETWORK === "mainnet" ? MAINNET_NETWORKS : TESTNET_NETWORKS;
 
 export type WalletAction =
   | "specialEvent"

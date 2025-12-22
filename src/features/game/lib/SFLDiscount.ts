@@ -1,13 +1,13 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "../types/game";
 import { hasVipAccess } from "./vipAccess";
-import { SEASONS } from "../types/seasons";
+import { CHAPTERS } from "../types/chapters";
 
 export function SFLDiscount(state: GameState | undefined, sfl: Decimal) {
   if (!state) return sfl;
 
   if (hasVipAccess({ game: state })) {
-    if (Date.now() > SEASONS["Great Bloom"].startDate.getTime()) {
+    if (Date.now() > CHAPTERS["Great Bloom"].startDate.getTime()) {
       // 50% discount
       return sfl.times(0.5);
     } else {

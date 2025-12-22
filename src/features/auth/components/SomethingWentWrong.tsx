@@ -80,14 +80,6 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
     );
   }
 
-  const handleGetSupport = () => {
-    window.open(
-      "https://sunflower-land.help/",
-      "_blank",
-      "noopener,noreferrer",
-    );
-  };
-
   const handleAskOnDiscord = () => {
     window.open(
       "https://discord.gg/sunflowerland",
@@ -149,10 +141,7 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
           </p>
         </div>
       </div>
-      <div className="flex flex-col space-y-0.5 space-x-0 sm:flex-row sm:space-x-1 sm:space-y-0">
-        <Button onClick={handleGetSupport}>{t("error.contactSupport")}</Button>
-        <Button onClick={handleAskOnDiscord}>{t("error.askOnDiscord")}</Button>
-      </div>
+      <Button onClick={handleAskOnDiscord}>{t("error.askOnDiscord")}</Button>
     </div>
   ) : (
     <>

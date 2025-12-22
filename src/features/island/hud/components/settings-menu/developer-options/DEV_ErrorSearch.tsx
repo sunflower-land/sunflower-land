@@ -14,11 +14,8 @@ const LOG_GROUP_OPTIONS = [
   { value: "AUTOSAVE", label: "Autosave (AS-XXX)" },
   { value: "SYNC", label: "Sync (SY-XXX)" },
   { value: "SESSION", label: "Session (SE-XXX)" },
-  { value: "MINT", label: "Mint (MC-XXX)" },
-  { value: "WITHDRAW", label: "Withdraw (WD-XXX)" },
-  { value: "BANS", label: "Bans (BA-XXX)" },
-  { value: "OAUTH", label: "OAuth (OA-XXX)" },
-  { value: "RESET", label: "Refresh (RE-001)" },
+  { value: "WITHDRAW", label: "Withdraw (WF-XXX)" },
+  { value: "RESET", label: "Refresh (RE-XXX)" },
   { value: "EFFECT", label: "Effects (EF-XXX)" },
 ] as const;
 

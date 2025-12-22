@@ -286,7 +286,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Bull Run Banner": {
     name: "Bull Run Banner",
-    description: "A banner that celebrates the Bull Run season.",
+    description: "A banner that celebrates the Bull Run chapter.",
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/749.png",
@@ -5277,7 +5277,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Solar Flare Banner": {
     description:
-      "The temperature is rising in Sunflower Land. The mark of a participant in our inaugural season.",
+      "The temperature is rising in Sunflower Land. The mark of a participant in our inaugural chapterr.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/722.png",
@@ -5288,7 +5288,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Witches' Eve Banner": {
     description:
-      "The season of the witch has begun. The mark of a participant in the Witches' Eve Season.\n\nGrants 2 extra crow feathers per feather delivery during Witches' Eve Season",
+      "The chapter of the witch has begun. The mark of a participant in the Witches' Eve Season.\n\nGrants 2 extra crow feathers per feather delivery during Witches' Eve Season",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/724.png",
@@ -6063,7 +6063,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Mini Corn Maze": {
     description:
-      "A memento of the beloved maze from the 2023 Witches' Eve season.",
+      "A memento of the beloved maze from the 2023 Witches' Eve chapter.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1287.png",
@@ -6818,7 +6818,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Battle Fish": {
-    description: "The rare armored swimmer of faction season!",
+    description: "The rare armored swimmer of faction chapter!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1538.png",
@@ -6835,7 +6835,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Lemon Shark": {
     description:
-      "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure season.",
+      "A zesty, zippy swimmer of the Summer seas. Only available during Pharaoh's Treasure chapter.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1539.png",
@@ -9619,7 +9619,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   "Desert Rose": {
     name: "Desert Rose",
     description:
-      "A mutant flower that can be found during the Pharaoh's Treasure season.",
+      "A mutant flower that can be found during the Pharaoh's Treasure chapter.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2100.png",
@@ -9641,7 +9641,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   Chicory: {
     name: "Chicory",
     description:
-      "A mutant flower that can be found during the Bull Run season.",
+      "A mutant flower that can be found during the Bull Run chapter.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2159.png",
@@ -13581,6 +13581,146 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "",
     name: "Basic Love Box",
+  },
+  "Holiday Token 2025": {
+    name: "Holiday Token 2025",
+    description: "Use this in the Holiday event shop before the event ends!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/770.webp",
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Holiday Ticket 2025": {
+    name: "Holiday Ticket 2025",
+    description:
+      "Hold this for a chance to win $FLOWER after the Holiday event ends!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2337.webp",
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Holiday Decorative Totem": {
+    name: "Holiday Decorative Totem",
+    description: "A festive totem to bring holiday cheer to your farm.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2338.webp",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+  },
+  "Red Holiday Ornament": {
+    name: "Red Holiday Ornament",
+    description:
+      "A shiny huge red ornament to decorate your farm for the holidays.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2339.webp",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+  },
+  "Green Holiday Ornament": {
+    name: "Green Holiday Ornament",
+    description:
+      "A shiny huge green ornament to decorate your farm for the holidays.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2340.webp",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+  },
+  "Gift Turtle": {
+    name: "Gift Turtle",
+    description: "This turtle carries gifts for all the good farmers.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2341.webp",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+  },
+  "Red Nose Reindeer": {
+    name: "Red Nose Reindeer",
+    description:
+      "The legendary red-nosed reindeer that guides Santa's sleigh through the night sky.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2342.webp",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+  },
+  "Tuxedo Claus": {
+    name: "Tuxedo Claus",
+    description: "Just a normal claus... not a single penguin in sight...",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2343.webp",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+  },
+  "Winter Alpaca": {
+    name: "Winter Alpaca",
+    description:
+      "Stay alert or this fluffy winter alpaca will eat your holiday decorations!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2344.webp",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+  },
+  "Penguin Surprise": {
+    name: "Penguin Surprise",
+    description:
+      "A playful penguin that brings a big surprise to your farm. (Hint: It loves fish!)",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2345.webp",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+  },
+  "Frozen Meat": {
+    name: "Frozen Meat",
+    description:
+      "A frozen piece of meat said to be used in special recipes in the ancient holiday times.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2346.webp",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+  },
+  "Ho Ho oh oh...": {
+    name: "Ho Ho oh oh...",
+    description:
+      "With Santa stuck like this, maybe the holidays were the friends we made along the way?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2347.webp",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
   },
 };
 
@@ -20071,5 +20211,132 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/505.png",
     name: "Pet Specialist Hat",
+  },
+  "Xmas Top Hat": {
+    description: "A hat fit for holiday festivities and winter wonderlands.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/506.png",
+    name: "Xmas Top Hat",
+  },
+  "Reindeer Mask": {
+    description: "Just be sure Santa doesn't catch you wearing this!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/507.png",
+    name: "Reindeer Mask",
+  },
+  "Snowman Mask": {
+    description:
+      "A festive mask shaped like a snowman, complete with a carrot nose and coal eyes.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/508.png",
+    name: "Snowman Mask",
+  },
+  "Cool Glasses": {
+    description: "So cool they might just freeze you!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/509.png",
+    name: "Cool Glasses",
+  },
+  "Comfy Xmas Pants": {
+    description:
+      "A pair of cozy pants perfect for keeping you warm during the holidays.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Pants" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/510.png",
+    name: "Comfy Xmas Pants",
+  },
+  "Holiday Feast Background": {
+    description: "Food galore!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Background" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/511.png",
+    name: "Holiday Feast Background",
+  },
+  "Comfy Xmas Sweater": {
+    description: "A cozy sweater to keep you warm during the holidays.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shirt" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/512.png",
+    name: "Comfy Xmas Sweater",
+  },
+  "Candy Halbred": {
+    description:
+      "A sweet and sticky halbred made from the finest candy, perfect for those who love a little sweetness in their battles.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/513.png",
+    name: "Candy Halbred",
+  },
+  "Cookie Shield": {
+    description:
+      "A sturdy shield made from the finest cookie dough, just don't use it if your opponent is hungry!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "SecondaryTool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/514.png",
+    name: "Cookie Shield",
+  },
+  "Cozy Reindeer Onesie": {
+    description:
+      "A warm and cozy onesie, perfect for keeping you snug during the holiday season.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Onesie" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/515.png",
+    name: "Cozy Reindeer Onesie",
+  },
+  "Diamond Snow Aura": {
+    description:
+      "A sparkling aura of diamond-like snowflakes that glisten and shimmer with every movement, bringing a touch of winter magic wherever you go.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Aura" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/516.png",
+    name: "Diamond Snow Aura",
   },
 };
