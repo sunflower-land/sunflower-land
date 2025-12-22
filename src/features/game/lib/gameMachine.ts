@@ -718,7 +718,6 @@ export type BlockchainState = {
     | "visiting"
     | "gameRules"
     | "blessing"
-    | "FLOWERTeaser"
     | "portalling"
     | "introduction"
     | "investigating"
@@ -1476,13 +1475,6 @@ export function startGame(authContext: AuthContext) {
             "blessing.seeked": {
               target: STATE_MACHINE_EFFECTS["blessing.seeked"],
             },
-            ACKNOWLEDGE: {
-              target: "notifying",
-            },
-          },
-        },
-        FLOWERTeaser: {
-          on: {
             ACKNOWLEDGE: {
               target: "notifying",
             },
