@@ -377,5 +377,6 @@ describe("claimDailyReward", () => {
     });
 
     expect(state.inventory["Cheer"]).toEqual(new Decimal(5));
+    expect(state.boostsUsedAt?.["Giant Gold Bone"]).toBe(now);
   });
 });

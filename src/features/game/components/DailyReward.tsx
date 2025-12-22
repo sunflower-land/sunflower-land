@@ -1,6 +1,6 @@
 import { Button } from "components/ui/Button";
 import { Label, LabelType } from "components/ui/Label";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { useGame } from "../GameProvider";
 import { ButtonPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "../types/images";
@@ -84,28 +84,26 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
     now,
   });
 
-  const rewards = useMemo(() => {
-    let streak = getDailyRewardStreak({
-      game: gameState,
-      dailyRewards,
-      currentDate,
-    });
+  let streak = getDailyRewardStreak({
+    game: gameState,
+    dailyRewards,
+    currentDate,
+  });
 
-    if (hasClaimed) {
-      streak -= 1;
-    }
+  if (hasClaimed) {
+    streak -= 1;
+  }
 
-    return new Array(7).fill(null).map((_, index) => {
-      return {
-        day: streak + index + 1,
-        reward: getRewardsForStreak({
-          game: gameState,
-          streak: streak + index,
-          currentDate,
-        }),
-      };
-    });
-  }, [dailyRewards, hasClaimed, currentDate, gameState]);
+  const rewards = new Array(7).fill(null).map((_, index) => {
+    return {
+      day: streak + index + 1,
+      reward: getRewardsForStreak({
+        game: gameState,
+        streak: streak + index,
+        currentDate,
+      }).rewards,
+    };
+  });
 
   if (showClaim) {
     const items = rewards[0].reward.reduce(
