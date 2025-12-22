@@ -342,4 +342,41 @@ describe("claimDailyReward", () => {
     expect(state.inventory["Luxury Key"]).toEqual(new Decimal(1));
     expect(state.inventory[getChapterTicket(now)]).toEqual(new Decimal(1));
   });
+
+  it("should award 2 extra cheers for giant gold bone", () => {
+    const now = new Date("2025-01-01T05:00:00.000Z").getTime();
+    const state = claimDailyReward({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          experience: LEVEL_3_EXPERIENCE,
+        },
+        collectibles: {
+          "Giant Gold Bone": [
+            {
+              id: "1",
+              createdAt: now,
+              coordinates: {
+                x: 0,
+                y: 0,
+              },
+            },
+          ],
+        },
+        dailyRewards: {
+          streaks: 8, // beyond onboarding
+          chest: {
+            collectedAt: now - 48 * 60 * 60 * 1000, // missed a day
+            code: 1,
+          },
+        },
+      },
+      action: { type: "dailyReward.claimed" },
+      createdAt: now,
+    });
+
+    expect(state.inventory["Cheer"]).toEqual(new Decimal(5));
+    expect(state.boostsUsedAt?.["Giant Gold Bone"]).toBe(now);
+  });
 });

@@ -1,7 +1,8 @@
 import { BuffName } from "./buffs";
-import { GameState, InventoryItemName } from "./game";
+import { BoostName, GameState, InventoryItemName } from "./game";
 import { getBumpkinLevel, getExperienceToNextLevel } from "../lib/level";
 import { getChapterTicket } from "./chapters";
+import { isCollectibleBuilt } from "../lib/collectibleBuilt";
 
 export type DailyRewardDefinition = {
   id: DailyRewardName;
@@ -270,8 +271,9 @@ export function getRewardsForStreak({
   game: GameState;
   streak: number;
   currentDate: string;
-}): DailyRewardDefinition[] {
-  const DEFAULT_REWARD: DailyRewardDefinition = {
+}): { rewards: DailyRewardDefinition[]; boosts: BoostName[] } {
+  const boosts: BoostName[] = [];
+  const defaultReward: DailyRewardDefinition = {
     id: "default-reward",
     label: "Default Reward",
     items: {
@@ -287,5 +289,16 @@ export function getRewardsForStreak({
     baseReward = ONBOARDING_REWARDS[streak];
   }
 
-  return [baseReward, DEFAULT_REWARD, ...getMilestoneRewards({ streak })];
+  if (isCollectibleBuilt({ name: "Giant Gold Bone", game })) {
+    defaultReward.items = {
+      ...defaultReward.items,
+      Cheer: (defaultReward.items?.Cheer ?? 0) + 2,
+    };
+    boosts.push("Giant Gold Bone");
+  }
+
+  return {
+    rewards: [baseReward, defaultReward, ...getMilestoneRewards({ streak })],
+    boosts,
+  };
 }
