@@ -7654,5 +7654,16 @@
   "description.penguinSurprise": "Un giocoso pinguino che porterà una grande sorpresa alla tua fattoria. (Suggerimento: ama il pesce!)",
   "description.frozenMeat": "Un pezzo di carne congelato che si dice fosse usato in ricette speciali durante le antiche festività.",
   "description.hoHoOhOh": "Con Babbo Natale bloccato così, forse le vacanze erano gli amici che ci siamo fatti strada facendo?",
-  "eventHolidays.noticeboard.one": "Benvenuto all'evento comunitario di Holidays 2025!"
+  "eventHolidays.noticeboard.one": "Benvenuto all'evento comunitario di Holidays 2025!",
+  "retentionDashboard.title": "Dashboard di conservazione",
+  "retentionDashboard.latestReport": "Ultimo rapporto: {{date}}",
+  "retentionDashboard.activeUsers": "Utenti attivi",
+  "retentionDashboard.tableTitle": "Ultimi 60 giorni",
+  "retentionDashboard.date": "Data",
+  "retentionDashboard.signups": "Iscrizioni",
+  "retentionDashboard.d1": "D1",
+  "retentionDashboard.d7": "D7",
+  "retentionDashboard.d30": "D30",
+  "retentionDashboard.noData": "Nessun record di conservazione negli ultimi 60 giorni.",
+  "retentionDashboard.unknownDate": "Data sconosciuta"
 }

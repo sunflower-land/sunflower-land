@@ -6195,7 +6195,7 @@
   "economyDashboard.resourceUnset": "Select resource",
   "retentionDashboard.title": "Retention Dashboard",
   "retentionDashboard.latestReport": "Latest report: {{date}}",
-  "retentionDashboard.activeUsers": "Active Users (MAUs)",
+  "retentionDashboard.activeUsers": "Active Users",
   "retentionDashboard.tableTitle": "Last 60 days",
   "retentionDashboard.date": "Date",
   "retentionDashboard.signups": "Signups",

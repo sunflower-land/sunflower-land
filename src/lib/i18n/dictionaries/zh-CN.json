@@ -7654,5 +7654,16 @@
   "description.penguinSurprise": "一只顽皮的企鹅，会给你的农场带来大大的惊喜。（提示：它爱吃鱼！）",
   "description.frozenMeat": "一块冷冻肉，据说在古老的节日时期曾用于制作特殊食谱。",
   "description.hoHoOhOh": "看到圣诞老人卡成这样，也许真正的节日意义就是我们沿途结交的朋友？",
-  "eventHolidays.noticeboard.one": "欢迎参加 2025 节日社区活动！"
+  "eventHolidays.noticeboard.one": "欢迎参加 2025 节日社区活动！",
+  "retentionDashboard.title": "留存控制面板",
+  "retentionDashboard.latestReport": "最新报告：{{date}}",
+  "retentionDashboard.activeUsers": "活跃用户",
+  "retentionDashboard.tableTitle": "最近 60 天",
+  "retentionDashboard.date": "日期",
+  "retentionDashboard.signups": "注册人数",
+  "retentionDashboard.d1": "D1",
+  "retentionDashboard.d7": "D7",
+  "retentionDashboard.d30": "D30",
+  "retentionDashboard.noData": "过去 60 天内没有保留记录。",
+  "retentionDashboard.unknownDate": "未知日期"
 }

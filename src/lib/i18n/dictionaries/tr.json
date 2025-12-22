@@ -7654,5 +7654,16 @@
   "description.penguinSurprise": "Çiftliğinize büyük bir sürpriz getiren eğlenceli bir penguen. (İpucu: Balıkları sever!)",
   "description.frozenMeat": "Antik tatil zamanlarında özel tariflerde kullanıldığı söylenen donmuş bir et parçası.",
   "description.hoHoOhOh": "Noel Baba böyle sıkışmışken, belki tatiller yol boyunca edindiğimiz arkadaşlardı?",
-  "eventHolidays.noticeboard.one": "Holidays 2025 Topluluk Etkinliğine Hoş Geldiniz!"
+  "eventHolidays.noticeboard.one": "Holidays 2025 Topluluk Etkinliğine Hoş Geldiniz!",
+  "retentionDashboard.title": "Tutma Paneli",
+  "retentionDashboard.latestReport": "Son rapor: {{date}}",
+  "retentionDashboard.activeUsers": "Aktif Kullanıcılar",
+  "retentionDashboard.tableTitle": "Son 60 gün",
+  "retentionDashboard.date": "TARİH",
+  "retentionDashboard.signups": "Kayıtlar",
+  "retentionDashboard.d1": "D1",
+  "retentionDashboard.d7": "D7",
+  "retentionDashboard.d30": "D30",
+  "retentionDashboard.noData": "Son 60 gün boyunca saklama kaydı yok.",
+  "retentionDashboard.unknownDate": "Bilinmeyen tarih"
 }

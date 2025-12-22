@@ -7654,5 +7654,16 @@
   "description.penguinSurprise": "農場に大きな驚きをもたらす遊び心のあるペンギン。(ヒント:魚が大好き!)",
   "description.frozenMeat": "古代の休日の時期に特別なレシピに使われたと言われる冷凍肉。",
   "description.hoHoOhOh": "サンタがこんなふうに動けなくなったので、休日は途中でできた友達だったのでは？",
-  "eventHolidays.noticeboard.one": "ホリデー2025コミュニティイベントへようこそ！"
+  "eventHolidays.noticeboard.one": "ホリデー2025コミュニティイベントへようこそ！",
+  "retentionDashboard.title": "リテンションダッシュボード",
+  "retentionDashboard.latestReport": "最新レポート:{{date}}",
+  "retentionDashboard.activeUsers": "アクティブユーザ",
+  "retentionDashboard.tableTitle": "過去 60 日間",
+  "retentionDashboard.date": "日付",
+  "retentionDashboard.signups": "サインアップ",
+  "retentionDashboard.d1": "D1",
+  "retentionDashboard.d7": "D7",
+  "retentionDashboard.d30": "30",
+  "retentionDashboard.noData": "過去 60 日間の保存記録はありません。",
+  "retentionDashboard.unknownDate": "日付不明"
 }

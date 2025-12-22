@@ -7654,5 +7654,16 @@
   "description.penguinSurprise": "Um pinguim brincalhão que traz uma grande surpresa para sua fazenda. (Dica: adora peixe!)",
   "description.frozenMeat": "Diz-se que um pedaço de carne congelado era usado em receitas especiais nos antigos feriados.",
   "description.hoHoOhOh": "Com o Papai Noel preso assim, talvez as férias tenham sido os amigos que fizemos ao longo do caminho?",
-  "eventHolidays.noticeboard.one": "Bem-vindo ao evento comunitário Holidays 2025!"
+  "eventHolidays.noticeboard.one": "Bem-vindo ao evento comunitário Holidays 2025!",
+  "retentionDashboard.title": "Painel de retenção",
+  "retentionDashboard.latestReport": "Último relatório: {{date}}",
+  "retentionDashboard.activeUsers": "Usuários ativos",
+  "retentionDashboard.tableTitle": "Últimos 60 dias",
+  "retentionDashboard.date": "Data",
+  "retentionDashboard.signups": "Inscrições",
+  "retentionDashboard.d1": "D1",
+  "retentionDashboard.d7": "D7",
+  "retentionDashboard.d30": "D30",
+  "retentionDashboard.noData": "Sem registros de retenção nos últimos 60 dias.",
+  "retentionDashboard.unknownDate": "Data desconhecida"
 }

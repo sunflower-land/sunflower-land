@@ -7654,5 +7654,16 @@
   "description.penguinSurprise": "Penguin yang suka bermain yang membawa kejutan besar ke ladang anda. (Petunjuk: Ia suka ikan!)",
   "description.frozenMeat": "Sekeping daging beku dikatakan digunakan dalam resipi khas pada zaman percutian kuno.",
   "description.hoHoOhOh": "Dengan Santa terjebak seperti ini, mungkin cuti adalah kawan-kawan yang kami buat sepanjang perjalanan?",
-  "eventHolidays.noticeboard.one": "Selamat datang ke Acara Komuniti Holidays 2025!"
+  "eventHolidays.noticeboard.one": "Selamat datang ke Acara Komuniti Holidays 2025!",
+  "retentionDashboard.title": "Papan Pemuka Pengekalan",
+  "retentionDashboard.latestReport": "Laporan terkini: {{date}}",
+  "retentionDashboard.activeUsers": "Pengguna Aktif",
+  "retentionDashboard.tableTitle": "60 hari terakhir",
+  "retentionDashboard.date": "Tarikh",
+  "retentionDashboard.signups": "Pendaftaran",
+  "retentionDashboard.d1": "D1",
+  "retentionDashboard.d7": "D7",
+  "retentionDashboard.d30": "D30",
+  "retentionDashboard.noData": "Tiada rekod penyimpanan selama 60 hari terakhir.",
+  "retentionDashboard.unknownDate": "Tarikh tidak diketahui"
 }
