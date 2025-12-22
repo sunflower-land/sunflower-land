@@ -7671,9 +7671,14 @@
   "description.hoHoOhOh": "With Santa stuck like this, maybe the holidays were the friends we made along the way?",
   "eventHolidays.noticeboard.one": "Welcome to the Holidays 2025 Community Event!",
 <<<<<<< HEAD
+<<<<<<< HEAD
   "fishing.yourCatch": "Your Catch",
   "fishing.missedFish": "Fish that got away!"
 =======
   "fishing.yourCatch": "Your Catch"
 >>>>>>> 169cdcfc7d ([FEAT] Remove fishing challenge. Fix up caught modal.)
+=======
+  "fishing.yourCatch": "Your Catch",
+  "fishing.missedFish": "Fish that got away!"
+>>>>>>> 003d6fd957 ([FEAT] Incorporate fishing puzzle with multi catch)
 }
