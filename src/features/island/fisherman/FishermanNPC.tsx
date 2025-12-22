@@ -18,16 +18,12 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { CONFIG } from "lib/config";
 import { FishCaught } from "./FishCaught";
 import { getKeys } from "features/game/types/craftables";
-<<<<<<< HEAD
-import { FISH } from "features/game/types/fishing";
-=======
 import {
   FISH,
   FishName,
   FISH_DIFFICULTY,
   MarineMarvelName,
 } from "features/game/types/fishing";
->>>>>>> 7cac0e878a ([FEAT] Incorporate fishing puzzle with multi catch)
 import { MachineState } from "features/game/lib/gameMachine";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getBumpkinLevel } from "features/game/lib/level";
@@ -38,6 +34,8 @@ import classNames from "classnames";
 import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
 import { hasFeatureAccess } from "lib/flags";
 import { FishingPuzzle } from "features/island/fisherman/FishingPuzzle";
+import { Panel } from "components/ui/Panel";
+import { FishingChallenge } from "./FishingChallenge";
 
 type SpriteFrames = { startAt: number; endAt: number };
 
@@ -163,11 +161,6 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     spriteRef.current?.setEndAt(FISHING_FRAMES.idle.endAt);
   };
 
-<<<<<<< HEAD
-  const reelIn = () => {
-    spriteRef.current?.setStartAt(FISHING_FRAMES.caught.startAt);
-    spriteRef.current?.setEndAt(FISHING_FRAMES.caught.endAt);
-=======
   const caught = fishing.wharf.caught ?? {};
   const caughtFish = getKeys(caught).filter(
     (fish): fish is FishName | MarineMarvelName => fish in FISH,
@@ -223,7 +216,6 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
       spriteRef.current?.setStartAt(FISHING_FRAMES.caught.startAt);
       spriteRef.current?.setEndAt(FISHING_FRAMES.caught.endAt);
     }
->>>>>>> 7cac0e878a ([FEAT] Incorporate fishing puzzle with multi catch)
 
     setShowReelLabel(false);
     didRefresh.current = false;
@@ -455,7 +447,6 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
           />
         </CloseButtonPanel>
       </Modal>
-<<<<<<< HEAD
 
       <Modal show={showChallenge}>
         <Panel>
@@ -483,8 +474,6 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
           )}
         </Panel>
       </Modal>
-=======
->>>>>>> e921cd464a ([FEAT] Remove fishing challenge. Fix up caught modal.)
     </>
   );
 };
