@@ -30,6 +30,8 @@ type Options = {
   createdAt?: number;
 };
 
+const ALLOWED_MULTIPLIERS = new Set([1, 5, 10, 25]);
+
 export const getRemainingReels = (state: GameState, now = new Date()) => {
   const date = now.toISOString().split("T")[0];
   const { fishing } = state;
@@ -67,6 +69,10 @@ export function castRod({
     boostsUsed.push(...fishingBoostsUsed);
 
     const multiplier = Math.max(1, Math.floor(action.multiplier ?? 1));
+
+    if (!ALLOWED_MULTIPLIERS.has(multiplier)) {
+      throw new Error("Invalid multiplier");
+    }
 
     if (multiplier < 1) {
       throw new Error("Invalid multiplier");

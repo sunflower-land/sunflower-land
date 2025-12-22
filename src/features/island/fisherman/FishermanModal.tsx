@@ -342,22 +342,17 @@ const BaitSelection: React.FC<{
                 count={state.inventory["Rod"] ?? new Decimal(0)}
               />
               <div className="flex gap-2">
-                {[1, 5, 10].map((value) => {
-                  const disabled = value > reelsLeft;
+                {[1, 5, 10, 25].map((value) => {
                   const isSelected = effectiveMultiplier === value;
 
                   return (
                     <div
                       key={value}
                       className="flex items-center gap-1 cursor-pointer"
-                      onClick={() => !disabled && setMultiplier(value)}
+                      onClick={() => setMultiplier(value)}
                     >
                       <span className="text-xs ml-1 -mr-0.5">{`${value}x`}</span>
-                      <Checkbox
-                        checked={isSelected}
-                        onChange={() => {}}
-                        disabled={disabled}
-                      />
+                      <Checkbox checked={isSelected} onChange={() => {}} />
                     </div>
                   );
                 })}
@@ -400,7 +395,7 @@ const BaitSelection: React.FC<{
               <p className="text-xs mb-1">{t("fishermanModal.attractFish")}</p>
             </div>
             <Button
-              disabled={fishingLimitReached}
+              disabled={fishingLimitReached || multiplier > reelsLeft}
               className={`h-[30px] w-[40px]`}
               onClick={() => setShowChum(true)}
             >
@@ -412,9 +407,11 @@ const BaitSelection: React.FC<{
         )}
       </InnerPanel>
 
-      {fishingLimitReached && (
+      {(fishingLimitReached || multiplier > reelsLeft) && (
         <Label className="mb-1" type="danger">
-          {t("fishermanModal.fishingLimitReached")}
+          {fishingLimitReached
+            ? t("fishermanModal.fishingLimitReached")
+            : t("fishermanModal.notEnoughReels")}
         </Label>
       )}
 
@@ -425,7 +422,7 @@ const BaitSelection: React.FC<{
       )}
 
       {fishingLimitReached ? (
-        <Button disabled={!fishingLimitReached} onClick={onClickBuy}>
+        <Button onClick={onClickBuy}>
           <div className="flex items-center">
             {t("fishing.buyMoreReels")}
             <img src={ITEM_DETAILS.Gem.image} className="h-5" />
@@ -435,6 +432,7 @@ const BaitSelection: React.FC<{
         <Button
           onClick={() => onCast(bait, chum, effectiveMultiplier)}
           disabled={
+            multiplier > reelsLeft ||
             fishingLimitReached ||
             missingRod ||
             !items[bait as InventoryItemName]?.gte(effectiveMultiplier) ||
@@ -789,18 +787,9 @@ const FishermanExtras: React.FC<{
               </div>
             ))}
           </InnerPanel>
-          {reelsLeft > 0 && (
-            <Label type="danger" className="m-1">
-              {t("fishing.finishReels")}
-            </Label>
-          )}
           <Button
-            disabled={!canAfford || reelsLeft > 0}
-            onClick={
-              canAfford || reelsLeft <= 0
-                ? () => setShowConfirm(true)
-                : undefined
-            }
+            disabled={!canAfford}
+            onClick={canAfford ? () => setShowConfirm(true) : undefined}
           >
             <div className="flex items-center space-x-1">
               <p>{t("fishing.buyReels", { gemPrice })}</p>
