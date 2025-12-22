@@ -105,14 +105,12 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
     hasFeatureAccess(state.context.state, "RENEW_PET_SHRINES"),
   );
 
-  const removeAction =
-    selectedCollectible &&
-    getRemoveAction(
-      selectedItem?.name,
-      selectedCollectible,
-      now,
-      hasRenewAccess,
-    );
+  const removeAction = getRemoveAction(
+    selectedItem?.name,
+    now,
+    hasRenewAccess,
+    selectedCollectible,
+  );
 
   const showRemove = isMobile && selectedItem && removeAction;
 

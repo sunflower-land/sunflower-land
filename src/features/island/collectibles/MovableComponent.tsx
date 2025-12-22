@@ -169,9 +169,9 @@ function getOverlappingCollectibles({
 
 export function getRemoveAction(
   name: LandscapingPlaceable | undefined,
-  collectible: PlacedItem,
   now: number,
   hasRenewAccess: boolean,
+  collectible?: PlacedItem,
 ): GameEventName<PlacementEvent> | null {
   if (!name) {
     return null;
@@ -189,7 +189,7 @@ export function getRemoveAction(
 
   if (LIMITED_ITEMS.includes(name as CollectibleName)) {
     const isShrine = name in PET_SHRINES || name === "Obsidian Shrine";
-    if (isShrine && hasRenewAccess) {
+    if (isShrine && hasRenewAccess && collectible) {
       const cooldown = EXPIRY_COOLDOWNS[name as TemporaryCollectibleName];
       if (!cooldown || (collectible.createdAt ?? 0) + cooldown > now) {
         return null;
@@ -414,12 +414,13 @@ export const MoveableComponent: React.FC<
     hasFeatureAccess(state.context.state, "RENEW_PET_SHRINES"),
   );
 
-  const now = useNow({ live: true });
+  const isShrine = name in PET_SHRINES || name === "Obsidian Shrine";
+
+  const now = useNow({ live: isShrine });
 
   const removeAction =
     !isMobile &&
-    selectedCollectible &&
-    getRemoveAction(name, selectedCollectible, now, hasRenewAccess);
+    getRemoveAction(name, now, hasRenewAccess, selectedCollectible);
 
   const hasRemovalAction = !!removeAction;
 
