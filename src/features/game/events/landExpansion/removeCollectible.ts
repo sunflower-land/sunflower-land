@@ -75,12 +75,16 @@ export function removeCollectible({
         EXPIRY_COOLDOWNS[action.name as TemporaryCollectibleName];
       const isShrine =
         action.name in PET_SHRINES || action.name === "Obsidian Shrine";
-      // Limited items can only be removed once expired
+
+      // Only expired pet shrines can be removed. Other limited items must be handled
+      // via the burn flow (and should remain non-removable from the map).
+      if (!isShrine) {
+        throw new Error(REMOVE_COLLECTIBLE_ERRORS.LIMITED_ITEM_IN_USE);
+      }
+
       if (
-        !isShrine ||
-        !hasFeatureAccess(stateCopy, "RENEW_PET_SHRINES") ||
-        !cooldown ||
-        (collectible.createdAt ?? 0) + cooldown > createdAt
+        hasFeatureAccess(stateCopy, "RENEW_PET_SHRINES") &&
+        (!cooldown || (collectible.createdAt ?? 0) + cooldown > createdAt)
       ) {
         throw new Error(REMOVE_COLLECTIBLE_ERRORS.LIMITED_ITEM_IN_USE);
       }
