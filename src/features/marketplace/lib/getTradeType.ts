@@ -18,6 +18,7 @@ export const ITEM_TRADE_TYPES: {
     "Fish Flake": "instant",
     "Fish Stick": "instant",
     "Fish Oil": "instant",
+    "Crab Stick": "instant",
     "Basic Farming Pack": "instant",
     "Basic Food Box": "instant",
     "Weekly Mega Box": "instant",

@@ -19,8 +19,7 @@ type Metadata = {
 
 export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   "Fish Flake": {
-    description:
-      "A processed fish ingredient with many benefits but the most important is guaranteeing catches.",
+    description: "A processed fish ingredient - guaranteed catch.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/question_mark.png",
@@ -31,8 +30,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Fish Stick": {
-    description:
-      "A sturdy processed fish ingredient with many benefits but the most important is guaranteeing catches.",
+    description: "A sturdy processed fish ingredient - guaranteed catch.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/question_mark.png",
@@ -43,8 +41,18 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Fish Oil": {
-    description:
-      "A refined fish ingredient with many benefits but the most important is guaranteeing catches.",
+    description: "A refined fish ingredient - guaranteed catch.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Bait" },
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Crab Stick": {
+    description: "A crab-based processed ingredient - guaranteed catch.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/question_mark.png",
