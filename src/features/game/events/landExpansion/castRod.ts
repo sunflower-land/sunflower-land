@@ -2,8 +2,11 @@ import { BoostName, GameState } from "../../types/game";
 import {
   CHUM_AMOUNTS,
   Chum,
+  FishName,
   FishingBait,
   getDailyFishingLimit,
+  getSeasonalGuaranteedCatch,
+  isGuaranteedBait,
 } from "features/game/types/fishing";
 import Decimal from "decimal.js-light";
 import { isWearableActive } from "features/game/lib/wearables";
@@ -17,6 +20,7 @@ export type CastRodAction = {
   type: "rod.casted";
   bait: FishingBait;
   chum?: Chum;
+  guaranteedCatch?: FishName;
   location?: string;
   /**
    * Number of simultaneous casts. VIP only when > 1.
@@ -106,6 +110,21 @@ export function castRod({
       throw new Error(`Missing ${action.bait}`);
     }
 
+    if (isGuaranteedBait(action.bait)) {
+      if (!action.guaranteedCatch) {
+        throw new Error("Missing guaranteed catch");
+      }
+
+      const allowedFish = getSeasonalGuaranteedCatch(
+        action.bait,
+        game.season.season,
+      );
+
+      if (!allowedFish.includes(action.guaranteedCatch)) {
+        throw new Error("Invalid guaranteed catch");
+      }
+    }
+
     if (game.fishing.wharf.castedAt) {
       throw new Error(translate("error.alreadyCasted"));
     }
@@ -151,6 +170,7 @@ export function castRod({
         bait: action.bait,
         chum: action.chum,
         multiplier,
+        guaranteedCatch: action.guaranteedCatch,
       },
     };
 
