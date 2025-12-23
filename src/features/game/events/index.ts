@@ -559,7 +559,6 @@ import {
   collectWaterTrap,
   CollectWaterTrapAction,
 } from "./landExpansion/collectWaterTrap";
-import { pickupTrap, PickupTrapAction } from "./landExpansion/pickupTrap";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -721,7 +720,6 @@ export type PlayingEvent =
   | BulkFertilisePlotAction
   | RenewPetShrineAction
   | CollectWaterTrapAction
-  | PickupTrapAction
   | PlaceWaterTrapAction;
 
 export type LocalVisitingEvent =
@@ -972,7 +970,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "trades.cleared": clearTrades,
   "petShrine.renewed": renewPetShrine,
   "waterTrap.placed": placeWaterTrap,
-  "waterTrap.pickedUp": pickupTrap,
   "waterTrap.collected": collectWaterTrap,
 };
 

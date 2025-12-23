@@ -12,6 +12,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import { InventoryItemName } from "features/game/types/game";
 import { WaterTrapName } from "features/game/types/crustaceans";
+import { useAuth } from "features/auth/lib/Provider";
 
 const _fishing = (state: MachineState) => state.context.state.fishing;
 const _isVisiting = (state: MachineState) => state.matches("visiting");
@@ -22,6 +23,7 @@ interface Props {
 
 export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
   const { gameService, showTimers } = useContext(Context);
+  const { authState } = useAuth();
   const fishing = useSelector(gameService, _fishing);
   const isVisiting = useSelector(gameService, _isVisiting);
   const [showModal, setShowModal] = useState(false);
@@ -50,7 +52,7 @@ export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
     setShowModal(true);
   };
 
-  const handlePlace = (waterTrap: WaterTrapName, chum?: InventoryItemName) => {
+  const place = (waterTrap: WaterTrapName, chum?: InventoryItemName) => {
     gameService.send({
       trapId: id,
       type: "waterTrap.placed",
@@ -60,17 +62,17 @@ export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
     setShowModal(false);
   };
 
-  const handlePickup = () => {
-    if (waterTrap) {
-      gameService.send({
+  const pickup = () => {
+    gameService.send("waterTrap.pickedUp", {
+      effect: {
         type: "waterTrap.pickedUp",
         trapId: id,
-      });
-      gameService.send("SAVE");
-    }
+      },
+      authToken: authState.context.user.rawToken as string,
+    });
   };
 
-  const handleCollect = () => {
+  const collect = () => {
     if (waterTrap) {
       gameService.send({
         type: "waterTrap.collected",
@@ -138,9 +140,9 @@ export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <WaterTrapModal
           waterTrap={waterTrap}
-          onPlace={handlePlace}
-          onPickup={handlePickup}
-          onCollect={handleCollect}
+          onPlace={place}
+          onPickup={pickup}
+          onCollect={collect}
           onClose={() => setShowModal(false)}
         />
       </Modal>
