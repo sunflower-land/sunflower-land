@@ -96,6 +96,25 @@ describe("castRod", () => {
     expect(state.fishing.wharf.caught?.Anchovy).toEqual(1);
   });
 
+  it("rejects guaranteed catch when using regular bait", () => {
+    expect(() => {
+      castRod({
+        action: {
+          bait: "Earthworm",
+          guaranteedCatch: "Anchovy",
+          type: "rod.casted",
+        },
+        state: {
+          ...farm,
+          inventory: {
+            Rod: new Decimal(1),
+            Earthworm: new Decimal(1),
+          },
+        },
+      });
+    }).toThrow("Invalid guaranteed catch");
+  });
+
   it("requires player has not already casts", () => {
     expect(() => {
       castRod({
