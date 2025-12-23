@@ -161,7 +161,7 @@ export const BaitSelection: React.FC<{
               className="h-6 mr-1"
               onClick={() => {
                 setGuaranteedCatch(undefined);
-                setBait("Earthworm");
+                handleBaitChange("Earthworm");
               }}
             />
             <Label type="default" className="text-xs pl-2">
