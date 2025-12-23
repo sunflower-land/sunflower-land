@@ -168,15 +168,6 @@ export const BaitSelection: React.FC<{
               {t("fishing.guaranteedCatch.title")}
             </Label>
           </div>
-          {guaranteedCatch && isGuaranteedBait(bait) && (
-            <Label
-              type="info"
-              className="text-xs ml-1.5"
-              icon={ITEM_DETAILS[guaranteedCatch as InventoryItemName].image}
-            >
-              {guaranteedCatch}
-            </Label>
-          )}
           <div className="flex flex-wrap">
             {getGuaranteedOptions(bait).map((name: FishName) => (
               <div
