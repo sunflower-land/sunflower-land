@@ -6,6 +6,7 @@ import Decimal from "decimal.js-light";
 import { Inventory, IslandType, LoveAnimalItem, Skills } from "./game";
 import { translate } from "lib/i18n/translate";
 import { testnetFeatureFlag } from "lib/flags";
+import { WATER_TRAP } from "./crustaceans";
 
 export type WorkbenchToolName =
   | "Axe"
@@ -28,6 +29,7 @@ export interface Tool {
   price: number;
   disabled?: boolean;
   requiredIsland?: IslandType;
+  requiredLevel?: number;
 }
 
 export const WORKBENCH_TOOLS: Record<
@@ -133,6 +135,7 @@ export const WORKBENCH_TOOLS: Record<
     }),
     stock: new Decimal(15),
     disabled: !testnetFeatureFlag(),
+    requiredLevel: WATER_TRAP["Crab Pot"].requiredBumpkinLevel,
   },
   "Mariner Pot": {
     name: "Mariner Pot",
@@ -144,6 +147,7 @@ export const WORKBENCH_TOOLS: Record<
     }),
     stock: new Decimal(10),
     disabled: !testnetFeatureFlag(),
+    requiredLevel: WATER_TRAP["Mariner Pot"].requiredBumpkinLevel,
   },
 };
 
