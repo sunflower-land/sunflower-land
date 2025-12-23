@@ -94,6 +94,10 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
     streak -= 1;
   }
 
+  if (streak < 0) {
+    streak = 0;
+  }
+
   const rewards = new Array(7).fill(null).map((_, index) => {
     return {
       day: streak + index + 1,
@@ -176,14 +180,6 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
       </p>
       <div className="flex overflow-x-scroll  px-1 mb-1">
         {rewards.map(({ day, reward }, index) => {
-          const items = reward.reduce((acc, reward) => {
-            return [...acc, ...getKeys(reward.items ?? {})];
-          }, [] as InventoryItemName[]);
-
-          const coins = reward.reduce((acc, reward) => {
-            return acc + (reward.coins ?? 0);
-          }, 0);
-
           let labelType: LabelType = "default";
 
           if (index === 0) {
