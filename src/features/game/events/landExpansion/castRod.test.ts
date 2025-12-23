@@ -58,6 +58,44 @@ describe("castRod", () => {
     }).toThrow("Axe is not a supported chum");
   });
 
+  it("requires guaranteed catch when using guaranteed bait", () => {
+    expect(() => {
+      castRod({
+        action: {
+          bait: "Fish Flake",
+          type: "rod.casted",
+        },
+        state: {
+          ...farm,
+          inventory: {
+            Rod: new Decimal(1),
+            "Fish Flake": new Decimal(1),
+          },
+        },
+      });
+    }).toThrow("Missing guaranteed catch");
+  });
+
+  it("stores guaranteed catch selection on wharf", () => {
+    const state = castRod({
+      action: {
+        bait: "Fish Flake",
+        guaranteedCatch: "Anchovy",
+        type: "rod.casted",
+      },
+      state: {
+        ...farm,
+        inventory: {
+          Rod: new Decimal(1),
+          "Fish Flake": new Decimal(1),
+        },
+      },
+    });
+
+    expect(state.fishing.wharf.guaranteedCatch).toBe("Anchovy");
+    expect(state.fishing.wharf.caught?.Anchovy).toEqual(1);
+  });
+
   it("requires player has not already casts", () => {
     expect(() => {
       castRod({

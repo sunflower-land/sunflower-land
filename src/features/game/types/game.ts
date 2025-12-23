@@ -1279,6 +1279,7 @@ type FishingSpot = {
   bait?: FishingBait;
   chum?: InventoryItemName;
   caught?: Partial<Record<InventoryItemName, number>>;
+  guaranteedCatch?: FishName;
   /**
    * Number of reels used for this cast. When omitted, defaults to 1.
    */
