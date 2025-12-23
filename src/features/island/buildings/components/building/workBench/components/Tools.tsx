@@ -11,6 +11,7 @@ import {
   WorkbenchToolName,
   WORKBENCH_TOOLS,
   LOVE_ANIMAL_TOOLS,
+  Tool,
 } from "features/game/types/tools";
 import { getKeys } from "features/game/types/craftables";
 import { SplitScreenView } from "components/ui/SplitScreenView";
@@ -27,6 +28,7 @@ import { IslandType, LoveAnimalItem } from "features/game/types/game";
 import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { Restock } from "../../market/restock/Restock";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 const isLoveAnimalTool = (
   toolName: WorkbenchToolName | LoveAnimalItem,
@@ -97,6 +99,20 @@ export const Tools: React.FC = () => {
   const bulkToolCraftAmount = makeBulkBuyTools(stock);
   const { t } = useAppTranslation();
 
+  const hasRequiredLevel = (tool: Tool) => {
+    if (tool.requiredLevel === undefined) {
+      return true;
+    }
+
+    const bumpkinLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
+
+    if (tool.requiredLevel) {
+      return bumpkinLevel >= tool.requiredLevel;
+    }
+
+    return true;
+  };
+
   const getAction = () => {
     if (isLoveAnimalTool(selectedName)) {
       return (
@@ -124,6 +140,16 @@ export const Tools: React.FC = () => {
                 : t("islandupgrade.otherIsland", {
                     island: capitalize(selected.requiredIsland as IslandType),
                   }),
+          })}
+        </Label>
+      );
+    }
+
+    if (!hasRequiredLevel(selected)) {
+      return (
+        <Label type="danger" className="mx-auto">
+          {t("warning.level.required", {
+            lvl: selected.requiredLevel ?? 0,
           })}
         </Label>
       );
@@ -179,10 +205,11 @@ export const Tools: React.FC = () => {
             .filter(([, tool]) => !tool.disabled)
             .map(([toolName, tool]) => {
               const { requiredIsland } = tool;
-              const isLocked = !hasRequiredIslandExpansion(
-                state.island.type,
-                requiredIsland,
-              );
+              const isLocked =
+                !hasRequiredIslandExpansion(
+                  state.island.type,
+                  requiredIsland,
+                ) || !hasRequiredLevel(tool);
 
               return (
                 <Box

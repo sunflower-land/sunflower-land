@@ -31,7 +31,7 @@ export const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
 const defaultFeatureFlag = ({ inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" || !!inventory["Beta Pass"]?.gt(0);
 
-const testnetFeatureFlag = () => CONFIG.NETWORK === "amoy";
+export const testnetFeatureFlag = () => CONFIG.NETWORK === "amoy";
 
 const localStorageFeatureFlag = (key: string) =>
   !!localStorage.getItem(key) === true;
@@ -117,6 +117,9 @@ const FEATURE_FLAGS = {
 
   RENEW_PET_SHRINES: defaultFeatureFlag,
   FISHING_PUZZLE: defaultFeatureFlag,
+  MEMORY_BETA: defaultFeatureFlag,
+  DAILY_BOXES: defaultFeatureFlag,
+  CRUSTACEANS: testnetFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

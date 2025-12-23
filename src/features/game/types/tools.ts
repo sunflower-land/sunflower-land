@@ -5,6 +5,8 @@
 import Decimal from "decimal.js-light";
 import { Inventory, IslandType, LoveAnimalItem, Skills } from "./game";
 import { translate } from "lib/i18n/translate";
+import { testnetFeatureFlag } from "lib/flags";
+import { WATER_TRAP } from "./crustaceans";
 
 export type WorkbenchToolName =
   | "Axe"
@@ -14,7 +16,9 @@ export type WorkbenchToolName =
   | "Gold Pickaxe"
   | "Rod"
   | "Oil Drill"
-  | "Pest Net";
+  | "Pest Net"
+  | "Crab Pot"
+  | "Mariner Pot";
 
 export type TreasureToolName = "Sand Shovel" | "Sand Drill";
 
@@ -25,6 +29,7 @@ export interface Tool {
   price: number;
   disabled?: boolean;
   requiredIsland?: IslandType;
+  requiredLevel?: number;
 }
 
 export const WORKBENCH_TOOLS: Record<
@@ -119,6 +124,30 @@ export const WORKBENCH_TOOLS: Record<
     }),
     stock: new Decimal(10),
     disabled: true,
+  },
+  "Crab Pot": {
+    name: "Crab Pot",
+    description: translate("description.crab.pot"),
+    price: 250,
+    ingredients: () => ({
+      Feather: new Decimal(5),
+      Wool: new Decimal(3),
+    }),
+    stock: new Decimal(15),
+    disabled: !testnetFeatureFlag(),
+    requiredLevel: WATER_TRAP["Crab Pot"].requiredBumpkinLevel,
+  },
+  "Mariner Pot": {
+    name: "Mariner Pot",
+    description: translate("description.mariner.pot"),
+    price: 500,
+    ingredients: () => ({
+      Feather: new Decimal(10),
+      "Merino Wool": new Decimal(10),
+    }),
+    stock: new Decimal(10),
+    disabled: !testnetFeatureFlag(),
+    requiredLevel: WATER_TRAP["Mariner Pot"].requiredBumpkinLevel,
   },
 };
 

@@ -81,7 +81,7 @@ export const LABEL_STYLES: Record<
 
 interface Props {
   className?: string;
-  type: LabelType;
+  type?: LabelType;
   style?: React.CSSProperties;
   icon?: string;
   iconWidth?: number;
@@ -93,7 +93,7 @@ interface Props {
 export const Label: React.FC<React.PropsWithChildren<Props>> = ({
   children,
   className,
-  type,
+  type = "default",
   style,
   icon,
   iconWidth,

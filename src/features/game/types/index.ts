@@ -165,7 +165,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Rod: 306,
   "Rusty Shovel": 307,
   Shovel: 308,
-  //  Power Shovel was remove, 309 is available
+  "Crab Pot": 309,
   "Sand Shovel": 310,
   "Sand Drill": 311,
   "Gold Pickaxe": 312,
@@ -173,6 +173,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Petting Hand": 314,
   Brush: 315,
   "Music Box": 316,
+  "Mariner Pot": 317,
 
   "Sunflower Statue": 401,
   "Potato Statue": 402,
