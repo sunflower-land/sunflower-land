@@ -50,13 +50,19 @@ const BAIT: FishingBait[] = [
   "Crab Stick",
 ];
 
-// Stored selections
-const lastSelectedBait = localStorage.getItem("lastSelectedBait");
+const getStoredBait = (): FishingBait | undefined => {
+  if (typeof window === "undefined") return undefined;
+
+  const stored = localStorage.getItem("lastSelectedBait");
+  return stored ? (stored as FishingBait) : undefined;
+};
 
 const getDefaultChum = (items: Inventory): Chum | undefined => {
-  const lastSelectedChum = localStorage.getItem("lastSelectedChum") as
-    | Chum
-    | undefined;
+  if (typeof window === "undefined") return undefined;
+
+  const lastSelectedChum = localStorage.getItem(
+    "lastSelectedChum",
+  ) as Chum | null;
 
   const hasRequirements =
     lastSelectedChum &&
@@ -64,7 +70,7 @@ const getDefaultChum = (items: Inventory): Chum | undefined => {
       CHUM_AMOUNTS[lastSelectedChum as Chum] ?? 0,
     );
 
-  return hasRequirements ? lastSelectedChum : undefined;
+  return hasRequirements ? (lastSelectedChum as Chum) : undefined;
 };
 
 export const BaitSelection: React.FC<{
@@ -83,9 +89,11 @@ export const BaitSelection: React.FC<{
   };
 
   const [showChum, setShowChum] = useState(false);
-  const [chum, setChum] = useState<Chum | undefined>(getDefaultChum(items));
+  const [chum, setChum] = useState<Chum | undefined>(() =>
+    getDefaultChum(items),
+  );
   const [bait, setBait] = useState<FishingBait>(
-    (lastSelectedBait as FishingBait) || "Earthworm",
+    () => getStoredBait() ?? "Earthworm",
   );
   const [multiplier, setMultiplier] = useState<number>(1);
 
@@ -101,12 +109,14 @@ export const BaitSelection: React.FC<{
   };
 
   const [guaranteedCatch, setGuaranteedCatch] = useState<FishName | undefined>(
-    getGuaranteedOptions(bait)[0] ?? undefined,
+    () => getGuaranteedOptions(bait)[0] ?? undefined,
   );
 
   const handleBaitChange = (bait: FishingBait) => {
     setBait(bait);
-    localStorage.setItem("lastSelectedBait", bait);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("lastSelectedBait", bait);
+    }
 
     setGuaranteedCatch(undefined);
   };
@@ -131,7 +141,9 @@ export const BaitSelection: React.FC<{
           initialChum={chum}
           onList={(selected) => {
             setChum(selected);
-            localStorage.setItem("lastSelectedChum", selected);
+            if (typeof window !== "undefined") {
+              localStorage.setItem("lastSelectedChum", selected);
+            }
             setShowChum(false);
           }}
         />
@@ -261,14 +273,16 @@ export const BaitSelection: React.FC<{
             </p>
 
             <p className="text-xs">{ITEM_DETAILS[bait].description}</p>
-            {!items[bait] && bait !== "Fishing Lure" && (
-              <Label className="mt-2" type="default">
-                {t("statements.craft.fishHouse")}
-              </Label>
-            )}
             {!items[bait] && bait === "Fishing Lure" && (
               <Label className="mt-1" type="default">
                 {t("fishermanModal.craft.beach")}
+              </Label>
+            )}
+            {!items[bait] && bait !== "Fishing Lure" && (
+              <Label className="mt-2" type="default">
+                {isGuaranteedBait(bait)
+                  ? t("statements.craft.fishHouse")
+                  : t("statements.craft.composter")}
               </Label>
             )}
           </div>
