@@ -82,7 +82,7 @@ export const FishCaught: React.FC<Props> = ({
                   return (
                     <InnerPanel
                       key={name}
-                      className="flex items-center justify-between"
+                      className="flex items-center justify-between -mx-1"
                     >
                       <div className="flex items-center p-1 space-x-1 w-full">
                         <img
@@ -125,7 +125,7 @@ export const FishCaught: React.FC<Props> = ({
                   return (
                     <InnerPanel
                       key={`missed-${name}`}
-                      className="flex items-center justify-between opacity-80"
+                      className="flex items-center justify-between opacity-80 -mx-1"
                     >
                       <div className="flex items-center p-1 space-x-1 w-full">
                         <img

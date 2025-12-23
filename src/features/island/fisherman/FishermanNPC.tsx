@@ -346,7 +346,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
         )}
 
         {showReelLabel && (
-          <React.Fragment>
+          <>
             <img
               src={SUNNYSIDE.icons.expression_alerted}
               style={{
@@ -369,7 +369,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
               }}
               className="absolute z-10 cursor-pointer"
             />
-          </React.Fragment>
+          </>
         )}
 
         {canFish && (
