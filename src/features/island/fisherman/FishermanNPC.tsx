@@ -74,6 +74,12 @@ type FishingState =
   | "reeling"
   | "caught";
 
+type DifficultCatch = {
+  name: FishName | MarineMarvelName;
+  difficulty: number;
+  amount: number;
+};
+
 interface Props {
   onClick: () => void;
 }
@@ -92,13 +98,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const [showCaughtModal, setShowCaughtModal] = useState(false);
   const [showChallenge, setShowChallenge] = useState(false);
   const [challengeDifficulty, setChallengeDifficulty] = useState(1);
-  const [difficultCatch, setDifficultCatch] = useState<
-    {
-      name: FishName | MarineMarvelName;
-      amount: number;
-      difficulty: number;
-    }[]
-  >([]);
+  const [difficultCatch, setDifficultCatch] = useState<DifficultCatch[]>([]);
 
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
@@ -169,7 +169,13 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     (fish): fish is FishName | MarineMarvelName => fish in FISH,
   );
 
-  const getMostDifficultFish = () => {
+  const getMostDifficultFish = (
+    difficultCatch: {
+      name: FishName | MarineMarvelName;
+      difficulty: number;
+      amount: number;
+    }[],
+  ) => {
     return difficultCatch.sort((a, b) => b.difficulty - a.difficulty)[0];
   };
 
@@ -180,15 +186,11 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
         if (!difficulty) return undefined;
         return { name, difficulty, amount: caught[name] ?? 0 };
       })
-      .filter(Boolean) as {
-      name: FishName | MarineMarvelName;
-      difficulty: number;
-      amount: number;
-    }[];
+      .filter(Boolean) as DifficultCatch[];
 
     setDifficultCatch(difficultCatch);
 
-    const mostDifficultFish = getMostDifficultFish();
+    const mostDifficultFish = getMostDifficultFish(difficultCatch);
 
     if (mostDifficultFish) {
       // Show fishing challenge
@@ -451,7 +453,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
               difficulty={challengeDifficulty}
               onCatch={onChallengeWon}
               onMiss={onChallengeLost}
-              fishName={getMostDifficultFish().name}
+              fishName={getMostDifficultFish(difficultCatch).name}
             />
           )}
         </Panel>
