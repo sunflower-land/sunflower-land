@@ -169,13 +169,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     (fish): fish is FishName | MarineMarvelName => fish in FISH,
   );
 
-  const getMostDifficultFish = (
-    difficultCatch: {
-      name: FishName | MarineMarvelName;
-      difficulty: number;
-      amount: number;
-    }[],
-  ) => {
+  const getMostDifficultFish = (difficultCatch: DifficultCatch[]) => {
     return difficultCatch.sort((a, b) => b.difficulty - a.difficulty)[0];
   };
 

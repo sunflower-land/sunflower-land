@@ -97,12 +97,7 @@ interface FishingMinigameProps {
     attemptsUsed: number;
   }) => void;
   onRetry: () => void;
-  fishName: FishName | MarineMarvelName;
-  difficultCatch?: {
-    name: FishName | MarineMarvelName;
-    amount: number;
-    difficulty: number;
-  }[];
+  difficultCatch: (FishName | MarineMarvelName)[];
 }
 
 export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
@@ -112,9 +107,8 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
   onCatch,
   onMiss,
   onRetry,
-  fishName: _fishName,
   resetKey = 0,
-  difficultCatch = [],
+  difficultCatch,
 }) => {
   const { t } = useAppTranslation();
   const [dimensions, setDimensions] = useState({
@@ -257,9 +251,6 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
   }, []);
 
   const nextStep = path[progress];
-  const difficultEntries = difficultCatch.filter(
-    (entry) => entry.difficulty > 0,
-  );
 
   const reportFinish = useCallback(
     (completed: boolean) => {
@@ -281,7 +272,7 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
     [attemptLimit, attemptsLeft, onCatch],
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (completionTimerRef.current) {
       clearTimeout(completionTimerRef.current);
       completionTimerRef.current = undefined;
@@ -452,13 +443,10 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
       </div>
 
       <div className="flex gap-2 justify-center flex-wrap">
-        {difficultEntries.map((entry, idx) => (
-          <div
-            key={`${entry.name}-${entry.difficulty}-${idx}`}
-            className="w-10 relative"
-          >
+        {difficultCatch.map((name, idx) => (
+          <div key={`${name}-${idx}`} className="w-10 relative">
             <img
-              src={ITEM_DETAILS[entry.name].image}
+              src={ITEM_DETAILS[name].image}
               className="w-full"
               // silhouette black mystery effect
               style={{
