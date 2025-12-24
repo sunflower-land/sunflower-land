@@ -39,6 +39,7 @@ export function reelRod({ state }: Options): GameState {
     delete game.fishing.wharf.castedAt;
     delete game.fishing.wharf.caught;
     delete game.fishing.wharf.chum;
+    delete game.fishing.wharf.multiplier;
 
     return game;
   });

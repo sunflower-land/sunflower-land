@@ -1,4 +1,10 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import classNames from "classnames";
 import { Button } from "components/ui/Button";
 
@@ -7,7 +13,7 @@ import crabRock from "assets/fish/minigame/crab_rock.webp";
 import blueCheck from "assets/fish/minigame/blue_up.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { FishName } from "features/game/types/fishing";
+import { FishName, MarineMarvelName } from "features/game/types/fishing";
 import { Label } from "components/ui/Label";
 import { FISH_RETRY_COST } from "features/game/events/landExpansion/retryFish";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -91,7 +97,12 @@ interface FishingMinigameProps {
     attemptsUsed: number;
   }) => void;
   onRetry: () => void;
-  fishName: FishName;
+  fishName: FishName | MarineMarvelName;
+  difficultCatch?: {
+    name: FishName | MarineMarvelName;
+    amount: number;
+    difficulty: number;
+  }[];
 }
 
 export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
@@ -101,8 +112,9 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
   onCatch,
   onMiss,
   onRetry,
-  fishName,
+  fishName: _fishName,
   resetKey = 0,
+  difficultCatch = [],
 }) => {
   const { t } = useAppTranslation();
   const [dimensions, setDimensions] = useState({
@@ -172,24 +184,19 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
       setIsResolvingMistake(false);
       setIsComplete(false);
       setTemporaryReveals(new Set());
+      setShowRetry(false);
       hasReportedResultRef.current = false;
     },
     [],
   );
 
-  React.useEffect(() => {
-    applyConfig(rows, cols, maxAttempts);
-
-    // Reset attempts
-    setProgress(0);
-    setIsComplete(false);
-    setMistakeTile(null);
-    setIsResolvingMistake(false);
-    setRevealedTiles(new Set());
-    setTemporaryReveals(new Set());
-    setAttemptsLeft(initialAttemptLimit);
-    setAttemptLimit(initialAttemptLimit);
-    setShowRetry(false);
+  useEffect(() => {
+    // Defer the full reset to the next frame to avoid React's cascading render warning
+    // from multiple synchronous setState calls inside effects.
+    const raf = requestAnimationFrame(() =>
+      applyConfig(rows, cols, maxAttempts),
+    );
+    return () => cancelAnimationFrame(raf);
   }, [applyConfig, cols, maxAttempts, resetKey, rows]);
 
   const handleCorrectSelection = (row: number, col: number) => {
@@ -241,7 +248,7 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     return () => {
       if (failureTimerRef.current) {
         clearTimeout(failureTimerRef.current);
@@ -250,6 +257,9 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
   }, []);
 
   const nextStep = path[progress];
+  const difficultEntries = difficultCatch.filter(
+    (entry) => entry.difficulty > 0,
+  );
 
   const reportFinish = useCallback(
     (completed: boolean) => {
@@ -268,7 +278,7 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
         setShowRetry(true);
       }
     },
-    [attemptLimit, attemptsLeft, onCatch, onMiss],
+    [attemptLimit, attemptsLeft, onCatch],
   );
 
   React.useEffect(() => {
@@ -441,25 +451,26 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
         )}
       </div>
 
-      <div className="flex flex-col items-center">
-        <div className="flex flex-col gap-2">
-          {fishName && (
-            <div className="w-10 relative">
-              <img
-                src={ITEM_DETAILS[fishName as FishName].image}
-                className="w-full"
-                // silhoutte black mystery effect
-                style={{
-                  filter: "brightness(0%)",
-                }}
-              />
-              <img
-                src={SUNNYSIDE.icons.expression_confused}
-                className="w-3 absolute bottom-7 right-4"
-              />
-            </div>
-          )}
-        </div>
+      <div className="flex gap-2 justify-center flex-wrap">
+        {difficultEntries.map((entry, idx) => (
+          <div
+            key={`${entry.name}-${entry.difficulty}-${idx}`}
+            className="w-10 relative"
+          >
+            <img
+              src={ITEM_DETAILS[entry.name].image}
+              className="w-full"
+              // silhouette black mystery effect
+              style={{
+                filter: "brightness(0%)",
+              }}
+            />
+            <img
+              src={SUNNYSIDE.icons.expression_confused}
+              className="w-3 absolute bottom-7 right-4"
+            />
+          </div>
+        ))}
       </div>
     </div>
   );
