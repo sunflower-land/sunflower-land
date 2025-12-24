@@ -8,12 +8,40 @@ import {
   PetName,
   PetResourceName,
 } from "features/game/types/pets";
-import { GameState } from "features/game/types/game";
+import { BoostName, GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
 import { isWearableActive } from "features/game/lib/wearables";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+
+export const getFetchPercentage = ({
+  petLevel,
+  fetchResource,
+  isPetNFT,
+}: {
+  petLevel: number;
+  fetchResource: PetResourceName;
+  isPetNFT: boolean;
+}) => {
+  let fetchPercentage = 0;
+  // check not really needed but just in case
+  if (petLevel >= 15) {
+    fetchPercentage += 10;
+  }
+  if (petLevel >= 50) {
+    fetchPercentage += 5;
+  }
+  if (petLevel >= 100) {
+    fetchPercentage += 10;
+  }
+  if (petLevel >= 150 && isPetNFT && fetchResource === "Moonfur") {
+    fetchPercentage += 25; // total 50%
+  }
+
+  return fetchPercentage;
+};
 
 export function getFetchYield({
   petLevel,
@@ -31,30 +59,21 @@ export function getFetchYield({
   state: GameState;
 }) {
   let yieldAmount = 1;
-  let fetchPercentage = 0;
+  const boostUsed: BoostName[] = [];
 
   if (
     isWearableActive({ game: state, name: "Squirrel Onesie" }) &&
     fetchResource === "Acorn"
   ) {
     yieldAmount += 1;
+    boostUsed.push("Squirrel Onesie");
   }
 
-  if (petLevel < 15) return { yieldAmount }; // skips the rest of the logic if pet is less than level 15
-
-  // check not really needed but just in case
-  if (petLevel >= 15) {
-    fetchPercentage += 10;
-  }
-  if (petLevel >= 50) {
-    fetchPercentage += 5;
-  }
-  if (petLevel >= 100) {
-    fetchPercentage += 10;
-  }
-  if (petLevel >= 150 && isPetNFT && fetchResource === "Moonfur") {
-    fetchPercentage += 25; // total 50%
-  }
+  const fetchPercentage = getFetchPercentage({
+    petLevel,
+    fetchResource,
+    isPetNFT,
+  });
 
   if (
     prngChance({
@@ -79,7 +98,7 @@ export function getFetchYield({
     }
   }
 
-  return { yieldAmount };
+  return { yieldAmount, boostUsed };
 }
 
 export type FetchPetAction = {
@@ -144,14 +163,22 @@ export function fetchPet({
 
     petData.energy -= energyRequired;
 
-    const { yieldAmount } = getFetchYield({
+    const initialFetchCount = stateCopy.farmActivity[`${fetch} Fetched`] ?? 0;
+    const counter = petData.fetches?.[fetch] ?? initialFetchCount;
+
+    const { yieldAmount, boostUsed } = getFetchYield({
       petLevel,
       fetchResource: fetch,
       isPetNFT,
       farmId,
-      counter: stateCopy.farmActivity[`${fetch} Fetched`] ?? 0,
+      counter,
       state: stateCopy,
     });
+
+    petData.fetches = {
+      ...petData.fetches,
+      [fetch]: counter + 1,
+    };
 
     stateCopy.inventory[fetch] = (
       stateCopy.inventory[fetch] ?? new Decimal(0)
@@ -163,6 +190,12 @@ export function fetchPet({
       `${fetch} Fetched`,
       stateCopy.farmActivity,
     );
+
+    stateCopy.boostsUsedAt = updateBoostUsed({
+      game: stateCopy,
+      boostNames: boostUsed,
+      createdAt,
+    });
 
     return stateCopy;
   });
