@@ -14,12 +14,11 @@ interface Props {
   caught: Partial<Record<InventoryItemName, number>>;
   onClaim: () => void;
   multiplier?: number;
-  difficultCatch?: {
+  difficultCatch: {
     name: InventoryItemName | MarineMarvelName;
     amount: number;
     difficulty: number;
   }[];
-  missedCatch?: Partial<Record<InventoryItemName, number>>;
 }
 
 export const FishCaught: React.FC<Props> = ({
@@ -27,21 +26,19 @@ export const FishCaught: React.FC<Props> = ({
   caught,
   onClaim,
   multiplier = 1,
-  missedCatch = {},
+  difficultCatch,
 }) => {
   const { t } = useAppTranslation();
   const isMultiCast = (multiplier ?? 1) > 1;
   const caughtEntries = getKeys(caught).filter(
     (name) => (caught[name] ?? 0) > 0,
   );
-  const missedEntries = getKeys(missedCatch).filter(
-    (name) => (missedCatch?.[name] ?? 0) > 0,
-  );
+  const missedFish = difficultCatch.filter((fish) => !caught[fish.name]);
 
   const useListLayout =
-    isMultiCast || caughtEntries.length > 1 || missedEntries.length > 0;
+    isMultiCast || caughtEntries.length > 1 || missedFish.length > 0;
 
-  if (!caughtEntries.length && !missedEntries.length) {
+  if (!caughtEntries.length && !missedFish.length) {
     return (
       <>
         <div className="p-2">
@@ -82,7 +79,7 @@ export const FishCaught: React.FC<Props> = ({
                   return (
                     <InnerPanel
                       key={name}
-                      className="flex items-center justify-between"
+                      className="flex items-center justify-between -mx-1"
                     >
                       <div className="flex items-center p-1 space-x-1 w-full">
                         <img
@@ -113,31 +110,29 @@ export const FishCaught: React.FC<Props> = ({
             </>
           )}
 
-          {missedEntries.length > 0 && (
+          {missedFish.length > 0 && (
             <div className="mt-2 space-y-1">
-              <Label type="danger" className="mb-1">
+              <Label type="danger" className="mb-1" icon={SUNNYSIDE.icons.sad}>
                 {t("fishing.missedFish")}
               </Label>
               <div className="flex flex-col gap-1 -py-1">
-                {missedEntries.map((name) => {
-                  const amount = missedCatch[name] ?? 0;
-
+                {missedFish.map((fish) => {
                   return (
                     <InnerPanel
-                      key={`missed-${name}`}
-                      className="flex items-center justify-between opacity-80"
+                      key={`missed-${fish.name}`}
+                      className="flex items-center justify-between opacity-80 -mx-1"
                     >
                       <div className="flex items-center p-1 space-x-1 w-full">
                         <img
-                          src={ITEM_DETAILS[name]?.image}
+                          src={ITEM_DETAILS[fish.name]?.image}
                           className="h-6 grayscale"
-                          alt={name}
+                          alt={fish.name}
                         />
                         <div className="flex justify-between items-center w-full pr-2">
-                          <span className="text-xs">{name}</span>
+                          <span className="text-xs">{fish.name}</span>
                         </div>
                       </div>
-                      <span className="text-sm whitespace-nowrap">{`x ${amount}`}</span>
+                      <span className="text-sm whitespace-nowrap">{`x ${fish.amount}`}</span>
                     </InnerPanel>
                   );
                 })}
