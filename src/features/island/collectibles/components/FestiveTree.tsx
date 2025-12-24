@@ -1,5 +1,4 @@
-import { useActor } from "@xstate/react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import festiveTreeImage from "assets/sfts/festive_tree.png";
 
@@ -16,42 +15,79 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ChestRevealing } from "features/world/ui/chests/ChestRevealing";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { SFTDetailPopoverContent } from "components/ui/SFTDetailPopover";
+import { useNow } from "lib/utils/hooks/useNow";
+import { useSelector } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
 
-const FestiveTreeImage = ({
-  open,
-  id,
-  setShowGiftedModal,
-}: {
-  open: boolean;
+const _state = (state: MachineState) => state.context.state;
+const _revealing = (state: MachineState) => state.matches("revealing");
+const _revealed = (state: MachineState) => state.matches("revealed");
+
+const FestiveTreeImage: React.FC<{
   close: () => void;
-  setShowGiftedModal: () => void;
+  setShowGiftedModal: (show: boolean) => void;
   id: string;
-}) => {
+}> = ({ id, setShowGiftedModal }) => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const state = useSelector(gameService, _state);
+  const revealing = useSelector(gameService, _revealing);
+  const revealed = useSelector(gameService, _revealed);
 
   const trees = [
-    ...(gameState.context.state.collectibles["Festive Tree"] || []),
-    ...(gameState.context.state.home.collectibles["Festive Tree"] || []),
+    ...(state.collectibles["Festive Tree"] || []),
+    ...(state.home.collectibles["Festive Tree"] || []),
   ];
   const tree = trees.find((t) => t.id === id);
 
   const [isRevealing, setIsRevealing] = useState(false);
+  const nowTimestamp = useNow();
 
   const shake = () => {
     setIsRevealing(true);
 
-    if (
-      tree?.shakenAt &&
-      new Date(tree.shakenAt).getFullYear() === new Date().getFullYear()
-    ) {
-      // Close the popover because we have a modal to show instead
-      close();
-      setShowGiftedModal();
-      return;
+    const now = new Date(nowTimestamp);
+    const month = now.getMonth();
+    const day = now.getDate();
+    const currentYear = now.getFullYear();
+
+    // Check if tree was shaken in the same festive season
+    // Festive season spans Dec 20 - Jan 5, so we need to check if both dates
+    // fall within the same festive period (not just the same calendar year)
+    if (tree?.shakenAt) {
+      const shakenDate = new Date(tree.shakenAt);
+      const shakenMonth = shakenDate.getMonth();
+      const shakenDay = shakenDate.getDate();
+      const shakenYear = shakenDate.getFullYear();
+
+      let isSameFestiveSeason = false;
+
+      if (month === 11) {
+        // Currently in December - check if shaken in same December or following January
+        isSameFestiveSeason =
+          (shakenMonth === 11 && shakenYear === currentYear) ||
+          (shakenMonth === 0 &&
+            shakenDay <= 5 &&
+            shakenYear === currentYear + 1);
+      } else if (month === 0) {
+        // Currently in January - check if shaken in previous December or same January
+        isSameFestiveSeason =
+          (shakenMonth === 11 &&
+            shakenDay >= 20 &&
+            shakenYear === currentYear - 1) ||
+          (shakenMonth === 0 && shakenYear === currentYear);
+      }
+
+      if (isSameFestiveSeason) {
+        // Close the popover because we have a modal to show instead
+        close();
+        setShowGiftedModal(true);
+        return;
+      }
     }
 
-    if (new Date().getMonth() !== 11 || new Date().getDate() < 20) {
+    const isValidPeriod =
+      (month === 11 && day >= 20) || (month === 0 && day <= 5);
+    if (!isValidPeriod) {
       return;
     }
 
@@ -66,18 +102,12 @@ const FestiveTreeImage = ({
     });
   };
 
-  useEffect(() => {
-    if (open) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      shake();
-    }
-  }, [open]);
-
   return (
     <div
       className={classNames("absolute w-full h-full", {
         "cursor-pointer hover:img-highlight": true,
       })}
+      onClick={shake}
     >
       <img
         src={festiveTreeImage}
@@ -90,14 +120,14 @@ const FestiveTreeImage = ({
         alt="Festive Tree"
       />
 
-      {gameState.matches("revealing") && isRevealing && (
+      {revealing && isRevealing && (
         <Modal show>
           <Panel>
             <ChestRevealing type="Festive Tree Rewards" />
           </Panel>
         </Modal>
       )}
-      {gameState.matches("revealed") && isRevealing && (
+      {revealed && isRevealing && (
         <Modal show>
           <Panel bumpkinParts={NPC_WEARABLES.santa}>
             <Revealed onAcknowledged={() => setIsRevealing(false)} />
@@ -135,14 +165,13 @@ export const FestiveTree: React.FC<Props> = ({ id }) => {
         </CloseButtonPanel>
       </Modal>
       <Popover>
-        {({ open, close }) => (
+        {({ close }) => (
           <>
             <PopoverButton as="div" className="cursor-pointer">
               <FestiveTreeImage
-                open={open}
                 id={id}
                 close={close}
-                setShowGiftedModal={() => setShowGiftedModal(true)}
+                setShowGiftedModal={setShowGiftedModal}
               />
             </PopoverButton>
             <PopoverPanel
