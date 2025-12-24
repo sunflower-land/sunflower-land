@@ -13710,8 +13710,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Decoration" },
     ],
   },
-  "Ho Ho oh oh...": {
-    name: "Ho Ho oh oh...",
+  "Ho Ho oh oh…": {
+    name: "Ho Ho oh oh…",
     description:
       "With Santa stuck like this, maybe the holidays were the friends we made along the way?",
     decimals: 0,
