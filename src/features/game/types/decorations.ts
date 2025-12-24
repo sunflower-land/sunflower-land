@@ -197,7 +197,7 @@ export type EventDecorationName =
   | "Winter Alpaca"
   | "Penguin Surprise"
   | "Frozen Meat"
-  | "Ho Ho oh oh...";
+  | "Ho Ho oh oh…";
 
 export type TileName =
   | "Black Tile"
@@ -1406,7 +1406,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
     height: 1,
   },
-  "Ho Ho oh oh...": {
+  "Ho Ho oh oh…": {
     width: 2,
     height: 2,
   },

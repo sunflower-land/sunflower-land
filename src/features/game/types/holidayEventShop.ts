@@ -24,7 +24,7 @@ export type EventCollectibleName =
   | "Winter Alpaca"
   | "Penguin Surprise"
   | "Frozen Meat"
-  | "Ho Ho oh oh..."
+  | "Ho Ho oh oh…"
   | "Festive Tree";
 
 export type EventWearableName = Extract<
@@ -153,8 +153,8 @@ export const HOLIDAY_EVENT_ITEMS: EventStore = {
         cost: HOLIDAY_STORE["Cozy Reindeer Onesie"].cost,
       },
       {
-        collectible: "Ho Ho oh oh...",
-        cost: HOLIDAY_STORE["Ho Ho oh oh..."].cost,
+        collectible: "Ho Ho oh oh…",
+        cost: HOLIDAY_STORE["Ho Ho oh oh…"].cost,
       },
       {
         wearable: "Cookie Shield",

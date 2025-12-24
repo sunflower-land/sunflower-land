@@ -1230,7 +1230,7 @@ export const ITEM_TRADE_TYPES: {
     "Winter Alpaca": "instant",
     "Penguin Surprise": "instant",
     "Frozen Meat": "instant",
-    "Ho Ho oh oh...": "instant",
+    "Ho Ho oh oh…": "instant",
   },
   wearables: {
     "New Years Crown": "instant",

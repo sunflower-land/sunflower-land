@@ -6655,7 +6655,7 @@ export const ITEM_DETAILS: Items = {
     image: frozenMeat,
     description: translate("description.frozenMeat"),
   },
-  "Ho Ho oh oh...": {
+  "Ho Ho oh oh…": {
     image: hoHoOhOh,
     description: translate("description.hoHoOhOh"),
   },
