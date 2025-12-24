@@ -15,7 +15,7 @@ import { getDailyFishingCount } from "features/game/types/fishing";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getReelGemPrice } from "features/game/events/landExpansion/buyMoreReels";
 import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
-import { capitalize } from "lib/utils/capitalize";
+import { capitalizeFirstLetters } from "lib/utils/capitalize";
 import { FishermanExtras } from "./FishermanExtras";
 import { BaitSelection } from "./BaitSelection";
 import { gameAnalytics } from "lib/gameAnalytics";
@@ -84,7 +84,7 @@ export const FishermanModal: React.FC<Props> = ({
           message={[
             {
               text: t("fishermanmodal.greeting", {
-                name: capitalize(npc),
+                name: capitalizeFirstLetters(npc),
               }),
             },
             {
