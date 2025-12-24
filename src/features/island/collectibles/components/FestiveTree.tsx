@@ -40,7 +40,17 @@ const FestiveTreeImage: React.FC<{
   const tree = trees.find((t) => t.id === id);
 
   const [isRevealing, setIsRevealing] = useState(false);
-  const nowTimestamp = useNow({ live: true });
+
+  // Check if we're currently in the festive period (Dec 20 - Jan 5)
+  // Only enable live updates during the festive period to avoid unnecessary updates
+  const staticTimestamp = useNow({ live: false });
+  const now = new Date(staticTimestamp);
+  const month = now.getUTCMonth();
+  const day = now.getUTCDate();
+  const isFestivePeriod =
+    (month === 11 && day >= 20) || (month === 0 && day <= 5);
+
+  const nowTimestamp = useNow({ live: isFestivePeriod });
 
   const shake = () => {
     const now = new Date(nowTimestamp);
