@@ -27,6 +27,7 @@ import basicBuffBox from "assets/rewardBoxes/basic_buff_box.png";
 import basicXPBox from "assets/rewardBoxes/basic_xp_box.png";
 import { BuffName } from "../types/buffs";
 import coinsIcon from "assets/icons/coins_stack.webp";
+import { getBumpkinLevel } from "../lib/level";
 
 export const DAILY_REWARD_IMAGES: Record<DailyRewardName, string> = {
   "default-reward": SUNNYSIDE.icons.expression_confused,
@@ -77,12 +78,14 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
   const currentDate = new Date(now).toISOString().substring(0, 10);
 
   const [showClaim, setShowClaim] = useState(false);
+  const hasUnlocked = getBumpkinLevel(bumpkinExperience) >= 3;
 
-  const hasClaimed = !isDailyRewardReady({
-    dailyRewards,
-    bumpkinExperience,
-    now,
-  });
+  const hasClaimed =
+    !isDailyRewardReady({
+      dailyRewards,
+      bumpkinExperience,
+      now,
+    }) && hasUnlocked;
 
   let streak = getDailyRewardStreak({
     game: gameState,
@@ -92,6 +95,10 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
 
   if (hasClaimed) {
     streak -= 1;
+  }
+
+  if (streak < 0) {
+    streak = 0;
   }
 
   const rewards = new Array(7).fill(null).map((_, index) => {
@@ -168,27 +175,22 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
           }}
         />
       )}
-      <Label type="warning">{t("dailyReward.title")}</Label>
+      <div className="flex flex-row items-center gap-1">
+        <Label type="warning">{t("dailyReward.title")}</Label>
+        {!hasUnlocked && (
+          <Label type="formula" secondaryIcon={SUNNYSIDE.icons.lock}>
+            {`Unlock at level 3`}
+          </Label>
+        )}
+      </div>
       <p className="text-xs mx-1 my-2">
         {t("dailyReward.megaRewardCountdown", {
           days: daysTillWeeklyMega,
         })}
       </p>
-      <div className="flex overflow-x-scroll  px-1 mb-1">
+      <div className="flex overflow-x-scroll scrollable px-1 mb-1">
         {rewards.map(({ day, reward }, index) => {
-          const items = reward.reduce((acc, reward) => {
-            return [...acc, ...getKeys(reward.items ?? {})];
-          }, [] as InventoryItemName[]);
-
-          const coins = reward.reduce((acc, reward) => {
-            return acc + (reward.coins ?? 0);
-          }, 0);
-
           let labelType: LabelType = "default";
-
-          if (index === 0) {
-            labelType = "info";
-          }
 
           if (day % 7 === 0) {
             labelType = "vibrant";
@@ -196,7 +198,8 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
 
           let labelText = t("dailyReward.day", { day });
 
-          if (index === 0) {
+          if (index === 0 && hasUnlocked) {
+            labelType = "info";
             labelText = t("dailyReward.today");
           }
 
@@ -246,6 +249,7 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
           onClick={() => {
             setShowClaim(true);
           }}
+          disabled={!hasUnlocked}
         >
           {t("dailyReward.claim")}
         </Button>
