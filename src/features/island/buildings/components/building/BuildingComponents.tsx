@@ -7,6 +7,7 @@ import { WorkBench } from "./workBench/WorkBench";
 import { Tent } from "./tent/Tent";
 import { WaterWell } from "./waterWell/WaterWell";
 import { ChickenHouse } from "./henHouse/HenHouse";
+import { FishHouse } from "./fishHouse/FishHouse";
 import { Bakery } from "./bakery/Bakery";
 import { Kitchen } from "./kitchen/Kitchen";
 import { Deli } from "./deli/Deli";
@@ -110,6 +111,7 @@ export const BUILDING_COMPONENTS: Record<
   ),
   "Crafting Box": CraftingBox,
   "Pet House": PetHouse,
+  "Fish House": FishHouse,
 };
 
 type ReadonlyBuildingArgs = {
