@@ -19,7 +19,10 @@ import { useNow } from "lib/utils/hooks/useNow";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 
-const _state = (state: MachineState) => state.context.state;
+const _festiveTrees = (state: MachineState) =>
+  state.context.state.collectibles["Festive Tree"] ||
+  state.context.state.home.collectibles["Festive Tree"] ||
+  [];
 const _revealing = (state: MachineState) => state.matches("revealing");
 const _revealed = (state: MachineState) => state.matches("revealed");
 
@@ -36,15 +39,11 @@ const FestiveTreeImage: React.FC<{
   id: string;
 }> = ({ id, close, setShowGiftedModal }) => {
   const { gameService } = useContext(Context);
-  const state = useSelector(gameService, _state);
+  const festiveTrees = useSelector(gameService, _festiveTrees);
   const revealing = useSelector(gameService, _revealing);
   const revealed = useSelector(gameService, _revealed);
 
-  const trees = [
-    ...(state.collectibles["Festive Tree"] || []),
-    ...(state.home.collectibles["Festive Tree"] || []),
-  ];
-  const tree = trees.find((t) => t.id === id);
+  const tree = festiveTrees.find((tree) => tree.id === id);
 
   const [isRevealing, setIsRevealing] = useState(false);
 
