@@ -27,7 +27,7 @@ const FestiveTreeImage: React.FC<{
   close: () => void;
   setShowGiftedModal: (show: boolean) => void;
   id: string;
-}> = ({ id, setShowGiftedModal }) => {
+}> = ({ id, close, setShowGiftedModal }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const revealing = useSelector(gameService, _revealing);
@@ -40,24 +40,23 @@ const FestiveTreeImage: React.FC<{
   const tree = trees.find((t) => t.id === id);
 
   const [isRevealing, setIsRevealing] = useState(false);
-  const nowTimestamp = useNow();
+  const nowTimestamp = useNow({ live: true });
 
   const shake = () => {
-    setIsRevealing(true);
-
     const now = new Date(nowTimestamp);
-    const month = now.getMonth();
-    const day = now.getDate();
-    const currentYear = now.getFullYear();
+    // Use UTC methods since timestamps are UTC-based
+    const month = now.getUTCMonth();
+    const day = now.getUTCDate();
+    const currentYear = now.getUTCFullYear();
 
     // Check if tree was shaken in the same festive season
     // Festive season spans Dec 20 - Jan 5, so we need to check if both dates
     // fall within the same festive period (not just the same calendar year)
     if (tree?.shakenAt) {
       const shakenDate = new Date(tree.shakenAt);
-      const shakenMonth = shakenDate.getMonth();
-      const shakenDay = shakenDate.getDate();
-      const shakenYear = shakenDate.getFullYear();
+      const shakenMonth = shakenDate.getUTCMonth();
+      const shakenDay = shakenDate.getUTCDate();
+      const shakenYear = shakenDate.getUTCFullYear();
 
       let isSameFestiveSeason = false;
 
@@ -90,6 +89,9 @@ const FestiveTreeImage: React.FC<{
     if (!isValidPeriod) {
       return;
     }
+
+    // Set revealing state only after passing all validation checks
+    setIsRevealing(true);
 
     // Close the popover because we have a modal to show instead
     close();
