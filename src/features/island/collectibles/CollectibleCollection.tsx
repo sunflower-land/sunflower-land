@@ -3595,7 +3595,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Frozen Meat"
     />
   ),
-  "Ho Ho oh oh...": (props: CollectibleProps) => (
+  "Ho Ho oh oh…": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
       divStyle={{
@@ -3606,8 +3606,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
       imgStyle={{
         width: `${PIXEL_SCALE * 32}px`,
       }}
-      image={ITEM_DETAILS["Ho Ho oh oh..."].image}
-      alt="Ho Ho oh oh..."
+      image={ITEM_DETAILS["Ho Ho oh oh…"].image}
+      alt="Ho Ho oh oh…"
     />
   ),
 };

@@ -76,7 +76,7 @@ export type HolidayShopCollectibleName = Extract<
   | "Winter Alpaca"
   | "Penguin Surprise"
   | "Frozen Meat"
-  | "Ho Ho oh oh..."
+  | "Ho Ho oh oh…"
 >;
 
 export type EasterShopWearableName = Extract<
@@ -690,11 +690,11 @@ export const HOLIDAY_STORE: MinigameShop<HolidayShopItemName> = {
     type: "collectible",
     name: "Frozen Meat",
   },
-  "Ho Ho oh oh...": {
+  "Ho Ho oh oh…": {
     cost: { sfl: 0, items: { "Holiday Token 2025": 500 } },
     max: 1,
     type: "collectible",
-    name: "Ho Ho oh oh...",
+    name: "Ho Ho oh oh…",
   },
   "Comfy Xmas Sweater": {
     cost: { sfl: 0, items: { "Holiday Token 2025": 400 } },

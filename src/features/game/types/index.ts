@@ -1135,7 +1135,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Winter Alpaca": 2344,
   "Penguin Surprise": 2345,
   "Frozen Meat": 2346,
-  "Ho Ho oh oh...": 2347,
+  "Ho Ho oh oh…": 2347,
 
   // Monument Items
   "Big Orange": 2281,
