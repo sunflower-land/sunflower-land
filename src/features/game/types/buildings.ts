@@ -28,6 +28,7 @@ export type BuildingName =
   | Home
   | "Crop Machine"
   | "Barn"
+  | "Fish House"
   | "Crafting Box"
   | "Pet House";
 
@@ -201,6 +202,27 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint[]> = {
         {
           item: "Gold",
           amount: new Decimal(10),
+        },
+      ],
+    },
+  ],
+  "Fish House": [
+    {
+      unlocksAtLevel: 10,
+      coins: 0,
+      constructionSeconds: 60 * 60,
+      ingredients: [
+        {
+          item: "Wood",
+          amount: new Decimal(50),
+        },
+        {
+          item: "Iron",
+          amount: new Decimal(10),
+        },
+        {
+          item: "Gold",
+          amount: new Decimal(5),
         },
       ],
     },
@@ -478,6 +500,7 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   Greenhouse: { width: 4, height: 4 },
   "Crop Machine": { width: 5, height: 4 },
   Barn: { width: 4, height: 4 },
+  "Fish House": { width: 3, height: 2 },
   "Crafting Box": { width: 3, height: 2 },
   "Pet House": { width: 3, height: 2 },
 };

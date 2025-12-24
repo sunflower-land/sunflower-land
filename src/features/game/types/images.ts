@@ -2343,6 +2343,13 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.market"),
     translatedName: translate("building.market"),
   },
+  "Fish House": {
+    // Using the market images as a placeholder
+    // TODO: Replace with the fish house images
+    image: SUNNYSIDE.building.market,
+    description: translate("description.fish.house"),
+    translatedName: translate("building.fishHouse"),
+  },
   "Town Center": {
     image: SUNNYSIDE.building.townCenter,
     description: translate("description.town.center"),
