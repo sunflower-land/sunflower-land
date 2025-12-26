@@ -29,6 +29,8 @@ type MyTableRowProps = {
   onCancel: (id: string) => void;
   onClaim: (id: string) => void;
   onRowClick: () => void;
+  onDuplicate?: (id: string) => void;
+  canDuplicate?: boolean;
 };
 
 const _state = (state: MachineState) => state.context.state;
@@ -49,6 +51,8 @@ export const MyTableRow: React.FC<MyTableRowProps> = ({
   onCancel,
   onRowClick,
   onClaim,
+  onDuplicate,
+  canDuplicate,
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
@@ -110,10 +114,24 @@ export const MyTableRow: React.FC<MyTableRowProps> = ({
           </div>
         </div>
       </div>
-      <div className="p-1 text-center w-[65px] sm:min-w-[94px]">
+      <div className="p-1 flex items-center justify-end gap-1 w-[130px] sm:min-w-[150px]">
+        {onDuplicate && !isFulfilled && (
+            <Button
+              disabled={!canDuplicate}
+              className="h-8 rounded-none px-1"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDuplicate(id);
+              }}
+            >
+              <p className="text-xxs sm:text-sm whitespace-nowrap">
+                {t("copy")}
+              </p>
+            </Button>
+        )}
         <Button
           variant="secondary"
-          className="w-full h-8 rounded-none"
+          className="h-8 rounded-none px-1"
           onClick={(e) => {
             e.stopPropagation();
             if (isFulfilled) {
