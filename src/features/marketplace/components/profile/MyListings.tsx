@@ -12,6 +12,7 @@ import { getTradeableDisplay } from "../../lib/tradeables";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InventoryItemName } from "features/game/types/game";
+import { BumpkinItem } from "features/game/types/bumpkin";
 import { Modal } from "components/ui/Modal";
 import { ClaimPurchase } from "./ClaimPurchase";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -23,6 +24,13 @@ import { MyTableRow } from "./MyTableRow";
 import { MARKETPLACE_TAX } from "features/game/types/marketplace";
 import { Button } from "components/ui/Button";
 import { BulkRemoveTrades } from "../BulkRemoveListings";
+import {
+  getRemainingTrades,
+  hasReputation,
+  Reputation,
+} from "features/game/lib/reputation";
+import { getBasketItems } from "features/island/hud/components/inventory/utils/inventory";
+import Decimal from "decimal.js-light";
 
 const _isCancellingOffer = (state: MachineState) =>
   state.matches("marketplaceListingCancelling");
@@ -30,6 +38,11 @@ const _trades = (state: MachineState) => state.context.state.trades;
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 const _state = (state: MachineState) => state.context.state;
+const _hasTradeReputation = (state: MachineState) =>
+  hasReputation({
+    game: state.context.state,
+    reputation: Reputation.Cropkeeper,
+  });
 
 export const MyListings: React.FC = () => {
   const { t } = useAppTranslation();
@@ -49,6 +62,7 @@ export const MyListings: React.FC = () => {
   const isCancellingListing = useSelector(gameService, _isCancellingOffer);
   const trades = useSelector(gameService, _trades);
   const authToken = useSelector(authService, _authToken);
+  const hasTradeReputation = useSelector(gameService, _hasTradeReputation);
 
   const navigate = useNavigate();
 
@@ -92,11 +106,39 @@ export const MyListings: React.FC = () => {
     setClaimId(undefined);
   };
 
+  const handleDuplicate = (listingId: string) => {
+    const listing = listings[listingId];
+    if (!listing) return;
+
+    const itemName = getKeys(listing.items)[0];
+    const quantity = listing.items[itemName] ?? 0;
+
+    const itemId = tradeToId({
+      details: {
+        collection: listing.collection,
+        items: listing.items,
+      },
+    });
+
+    gameService.send("marketplace.listed", {
+      effect: {
+        type: "marketplace.listed",
+        itemId,
+        collection: listing.collection,
+        sfl: listing.sfl,
+        quantity: quantity,
+      },
+      authToken,
+    });
+  };
+
   const handleHide = () => {
     if (isCancellingListing) return;
 
     setRemoveListingId(undefined);
   };
+
+  const listingsLeft = getRemainingTrades({ game: state });
 
   return (
     <>
@@ -172,6 +214,24 @@ export const MyListings: React.FC = () => {
                   const price = listing.sfl;
                   const unitPrice = price / (quantity ?? 1);
 
+                  // Inventory Check
+                  let inventoryCount = new Decimal(0);
+                  if (listing.collection === "collectibles") {
+                    inventoryCount =
+                      getBasketItems(state.inventory)[itemName] ??
+                      new Decimal(0);
+                  } else if (listing.collection === "wearables") {
+                    inventoryCount = new Decimal(
+                      state.wardrobe[itemName as BumpkinItem] ?? 0,
+                    );
+                  }
+
+                  const hasInventory = inventoryCount.gte(quantity ?? 0);
+                  const canDuplicate =
+                    !listing.signature &&
+                    hasInventory &&
+                    (hasTradeReputation || listingsLeft > 0);
+
                   return (
                     <MyTableRow
                       key={id}
@@ -195,6 +255,8 @@ export const MyListings: React.FC = () => {
                         )
                       }
                       onClaim={() => setClaimId(id)}
+                      onDuplicate={() => handleDuplicate(id)}
+                      canDuplicate={canDuplicate}
                     />
                   );
                 })}
