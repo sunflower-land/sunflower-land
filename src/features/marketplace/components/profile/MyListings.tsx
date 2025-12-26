@@ -23,6 +23,10 @@ import { MyTableRow } from "./MyTableRow";
 import { MARKETPLACE_TAX } from "features/game/types/marketplace";
 import { Button } from "components/ui/Button";
 import { BulkRemoveTrades } from "../BulkRemoveListings";
+import { getRemainingTrades, hasReputation, Reputation } from "features/game/lib/reputation";
+import { DuplicateListing } from "../DuplicateListing";
+import { getBasketItems } from "features/island/hud/components/inventory/utils/inventory";
+import Decimal from "decimal.js-light";
 
 const _isCancellingOffer = (state: MachineState) =>
   state.matches("marketplaceListingCancelling");
@@ -30,6 +34,11 @@ const _trades = (state: MachineState) => state.context.state.trades;
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 const _state = (state: MachineState) => state.context.state;
+const _hasTradeReputation = (state: MachineState) =>
+  hasReputation({
+    game: state.context.state,
+    reputation: Reputation.Cropkeeper,
+  });
 
 export const MyListings: React.FC = () => {
   const { t } = useAppTranslation();
@@ -43,12 +52,14 @@ export const MyListings: React.FC = () => {
 
   const [claimId, setClaimId] = useState<string>();
   const [removeListingId, setRemoveListingId] = useState<string>();
+  const [duplicateListingId, setDuplicateListingId] = useState<string>();
   const [bulkCancel, setBulkCancel] = useState<boolean>(false);
 
   const state = useSelector(gameService, _state);
   const isCancellingListing = useSelector(gameService, _isCancellingOffer);
   const trades = useSelector(gameService, _trades);
   const authToken = useSelector(authService, _authToken);
+  const hasTradeReputation = useSelector(gameService, _hasTradeReputation);
 
   const navigate = useNavigate();
 
@@ -98,8 +109,19 @@ export const MyListings: React.FC = () => {
     setRemoveListingId(undefined);
   };
 
+  const listingsLeft = getRemainingTrades({ game: state });
+
   return (
     <>
+      <Modal show={!!duplicateListingId} onHide={() => setDuplicateListingId(undefined)}>
+        {!!duplicateListingId && (
+          <DuplicateListing
+            listing={listings[duplicateListingId]}
+            authToken={authToken}
+            onClose={() => setDuplicateListingId(undefined)}
+          />
+        )}
+      </Modal>
       <Modal show={!!removeListingId} onHide={handleHide}>
         {!!removeListingId && (
           <RemoveListing
@@ -172,6 +194,17 @@ export const MyListings: React.FC = () => {
                   const price = listing.sfl;
                   const unitPrice = price / (quantity ?? 1);
 
+                  // Inventory Check
+                  let inventoryCount = new Decimal(0);
+                  if (listing.collection === "collectibles") {
+                    inventoryCount = getBasketItems(state.inventory)[itemName] ?? new Decimal(0);
+                  } else if (listing.collection === "wearables") {
+                    inventoryCount = new Decimal(state.wardrobe[itemName as any] ?? 0);
+                  }
+                  
+                  const hasInventory = inventoryCount.gte(quantity ?? 0);
+                  const canDuplicate = !listing.signature && hasInventory && (hasTradeReputation || listingsLeft > 0);
+
                   return (
                     <MyTableRow
                       key={id}
@@ -195,6 +228,8 @@ export const MyListings: React.FC = () => {
                         )
                       }
                       onClaim={() => setClaimId(id)}
+                      onDuplicate={() => setDuplicateListingId(id)}
+                      canDuplicate={canDuplicate}
                     />
                   );
                 })}
