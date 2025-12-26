@@ -63,6 +63,12 @@ export const MyTableRow: React.FC<MyTableRowProps> = ({
     state,
   });
 
+  // Dynamically adjust width: Double width if showing two buttons, single width if showing one (Claim/Cancel only)
+  const showTwoButtons = onDuplicate && !isFulfilled;
+  const actionWidth = showTwoButtons
+    ? "w-[130px] sm:min-w-[150px]"
+    : "w-[65px] sm:min-w-[94px]";
+
   return (
     <div
       className={classNames(
@@ -114,24 +120,26 @@ export const MyTableRow: React.FC<MyTableRowProps> = ({
           </div>
         </div>
       </div>
-      <div className="p-1 flex items-center justify-end gap-1 w-[130px] sm:min-w-[150px]">
-        {onDuplicate && !isFulfilled && (
-            <Button
-              disabled={!canDuplicate}
-              className="h-8 rounded-none px-1"
-              onClick={(e) => {
-                e.stopPropagation();
-                onDuplicate(id);
-              }}
-            >
-              <p className="text-xxs sm:text-sm whitespace-nowrap">
-                {t("copy")}
-              </p>
-            </Button>
+      <div className={`p-1 flex items-center justify-end gap-1 ${actionWidth}`}>
+        {showTwoButtons && (
+          <Button
+            disabled={!canDuplicate}
+            variant="secondary"
+            className="h-8 rounded-none px-1 flex-1"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDuplicate(id);
+            }}
+          >
+            <p className="text-xxs sm:text-sm whitespace-nowrap">{"Copy"}</p>
+          </Button>
         )}
         <Button
           variant="secondary"
-          className="h-8 rounded-none px-1"
+          className={classNames("h-8 rounded-none px-1", {
+            "flex-1": showTwoButtons,
+            "w-full": !showTwoButtons,
+          })}
           onClick={(e) => {
             e.stopPropagation();
             if (isFulfilled) {
