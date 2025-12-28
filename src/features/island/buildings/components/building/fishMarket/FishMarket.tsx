@@ -6,14 +6,14 @@ import { BuildingProps } from "../Building";
 import { MARKET_VARIANTS } from "features/island/lib/alternateArt";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 
-export const FishHouse: React.FC<BuildingProps> = ({ island, season }) => {
+export const FishMarket: React.FC<BuildingProps> = ({ island, season }) => {
   const biome = getCurrentBiome(island);
 
   // Using the market images as a placeholder
-  // TODO: Replace with the fish house images
+  // TODO: Replace with the fish market images
 
   return (
-    <BuildingImageWrapper name="Fish House" nonInteractible>
+    <BuildingImageWrapper name="Fish Market" nonInteractible>
       <img
         src={MARKET_VARIANTS[biome][season]}
         className="absolute bottom-0 pointer-events-none"
