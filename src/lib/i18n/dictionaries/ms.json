@@ -7272,7 +7272,6 @@
   "confirm.renew.message": "Adakah anda pasti ingin memperbaharui {{name}}?",
   "renew.expired.message": "{{name}} telah tamat tempoh. Anda boleh memperbaharui atau membakarnya.",
   "shrine.expired": "{{name}} Tamat tempoh",
-  "fishingPuzzle.missedFish": "Terlepas ikan!",
   "fishingPuzzle.retryPrompt": "Adakah anda ingin mencuba lagi untuk duit syiling {{coins}}?",
   "fishingPuzzle.attemptsLeft": "Percubaan Kiri: {{attemptsLeft}}/{{attemptLimit}}",
   "fishingPuzzle.findSafePath": "Cari jalan yang selamat untuk membawa ikan ke atas.",
@@ -7665,5 +7664,12 @@
   "retentionDashboard.d7": "D7",
   "retentionDashboard.d30": "D30",
   "retentionDashboard.noData": "Tiada rekod penyimpanan selama 60 hari terakhir.",
-  "retentionDashboard.unknownDate": "Tarikh tidak diketahui"
+  "retentionDashboard.unknownDate": "Tarikh tidak diketahui",
+  "new": "Baru",
+  "fishermanModal.notEnoughReels": "Anda tidak mempunyai gulungan yang mencukupi!",
+  "fishingPuzzle.missedFish": "Mereka melarikan diri!",
+  "fishing.multiCast": "Pelakon berbilang",
+  "fishing.baitMultiplier": "{{count}} x {{bait}}",
+  "fishing.yourCatch": "Tangkapan Anda",
+  "fishing.missedFish": "Ikan yang melarikan diri!"
 }

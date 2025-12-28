@@ -1,5 +1,6 @@
 {
   "burn": "Burn",
+  "new": "New",
   "confirm.burn": "Confirm Burn",
   "confirm.burn.message": "Are you sure you want to burn {{name}}? This action cannot be undone.",
   "renew": "Renew",
@@ -1641,6 +1642,7 @@
   "fishermanModal.fullMoon": "Wow, look at that full moon! I've heard rumours that during this time you have a chance to catch rare Marine Marvels.",
   "fishermanModal.bonusFish": "Hurry, you will get a bonus fish for each catch!",
   "fishermanModal.fishingLimitReached": "You have exhausted all your reels!",
+  "fishermanModal.notEnoughReels": "You don't have enought reels!",
   "fishermanModal.needCraftRod": "You must first craft a rod.",
   "fishermanModal.craft.beach": "Craft at Beach",
   "fishermanModal.zero.available": "0 available",
@@ -1671,12 +1673,14 @@
   "fishing.extraReels": "Extra Reels",
   "fishing.cast": "Cast",
   "fishing.buyMoreReels": "Buy more reels",
-  "fishingPuzzle.missedFish": "Missed the fish!",
+  "fishingPuzzle.missedFish": "They got away!",
   "fishingPuzzle.retryPrompt": "Would you like to try again for {{coins}} coins?",
   "fishingPuzzle.attemptsLeft": "Attempts Left: {{attemptsLeft}}/{{attemptLimit}}",
   "fishingPuzzle.findSafePath": "Find the safe path to bring the fish to the top.",
   "fishingPuzzle.success": "Great job! You reached the top.",
   "fishingPuzzle.failedAttempts": "You ran out of attempts.",
+  "fishing.multiCast": "Multi cast",
+  "fishing.baitMultiplier": "{{count}} x {{bait}}",
   "quest.basic.fish": "Catch each basic fish",
   "quest.advanced.fish": "Catch each advanced fish",
   "quest.all.fish": "Discover each basic, advanced, and expert fish",
@@ -7665,5 +7669,7 @@
   "description.penguinSurprise": "A playful penguin that brings a big surprise to your farm. (Hint: It loves fish!)",
   "description.frozenMeat": "A frozen piece of meat said to be used in special recipes in the ancient holiday times.",
   "description.hoHoOhOh": "With Santa stuck like this, maybe the holidays were the friends we made along the way?",
-  "eventHolidays.noticeboard.one": "Welcome to the Holidays 2025 Community Event!"
+  "eventHolidays.noticeboard.one": "Welcome to the Holidays 2025 Community Event!",
+  "fishing.yourCatch": "Your Catch",
+  "fishing.missedFish": "Fish that got away!"
 }

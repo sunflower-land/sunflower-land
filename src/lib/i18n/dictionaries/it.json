@@ -7272,7 +7272,6 @@
   "confirm.renew.message": "Sei sicuro di voler rinnovare {{name}}?",
   "renew.expired.message": "{{name}} è scaduto. Puoi rinnovarlo o masterizzarlo.",
   "shrine.expired": "{{name}} Scaduto",
-  "fishingPuzzle.missedFish": "Mi è mancato il pesce!",
   "fishingPuzzle.retryPrompt": "Vuoi riprovare con {{coins}} monete?",
   "fishingPuzzle.attemptsLeft": "Tentativi rimasti: {{attemptsLeft}}/{{attemptLimit}}",
   "fishingPuzzle.findSafePath": "Trova il percorso sicuro per portare il pesce in cima.",
@@ -7665,5 +7664,12 @@
   "retentionDashboard.d7": "D7",
   "retentionDashboard.d30": "D30",
   "retentionDashboard.noData": "Nessun record di conservazione negli ultimi 60 giorni.",
-  "retentionDashboard.unknownDate": "Data sconosciuta"
+  "retentionDashboard.unknownDate": "Data sconosciuta",
+  "new": "Nuovo",
+  "fishermanModal.notEnoughReels": "Non hai abbastanza rulli!",
+  "fishingPuzzle.missedFish": "Sono scappati!",
+  "fishing.multiCast": "Cast multiplo",
+  "fishing.baitMultiplier": "{{count}} x {{bait}}",
+  "fishing.yourCatch": "La tua cattura",
+  "fishing.missedFish": "Pesce che è scappato!"
 }

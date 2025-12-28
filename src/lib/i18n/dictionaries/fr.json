@@ -7272,7 +7272,6 @@
   "confirm.renew.message": "Êtes-vous sûr de vouloir renouveler {{name}} ?",
   "renew.expired.message": "{{name}} a expiré. Vous pouvez le renouveler ou le brûler.",
   "shrine.expired": "{{name}} Expiré",
-  "fishingPuzzle.missedFish": "J'ai raté le poisson !",
   "fishingPuzzle.retryPrompt": "Souhaitez-vous réessayer pour les pièces {{coins}} ?",
   "fishingPuzzle.attemptsLeft": "Tentatives restantes : {{attemptsLeft}}/{{attemptLimit}}",
   "fishingPuzzle.findSafePath": "Trouvez le chemin sûr pour amener le poisson au sommet.",
@@ -7665,5 +7664,12 @@
   "retentionDashboard.d7": "D7",
   "retentionDashboard.d30": "D30",
   "retentionDashboard.noData": "Aucun enregistrement de conservation au cours des 60 derniers jours.",
-  "retentionDashboard.unknownDate": "Date inconnue"
+  "retentionDashboard.unknownDate": "Date inconnue",
+  "new": "Nouveau",
+  "fishermanModal.notEnoughReels": "Vous n'avez pas assez de bobines !",
+  "fishingPuzzle.missedFish": "Ils se sont enfuis !",
+  "fishing.multiCast": "Multi casting",
+  "fishing.baitMultiplier": "{{count}} x {{bait}}",
+  "fishing.yourCatch": "Votre prise",
+  "fishing.missedFish": "Du poisson qui s'est enfui !"
 }

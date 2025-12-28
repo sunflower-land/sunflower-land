@@ -7271,7 +7271,6 @@
   "confirm.renew.message": "Ты уверен, что хочешь продлить {{name}}?",
   "renew.expired.message": "Срок действия {{name}} истёк. Ты можешь продлить его или сжечь.",
   "shrine.expired": "{{name}} истёк",
-  "fishingPuzzle.missedFish": "Рыба сорвалась!",
   "fishingPuzzle.retryPrompt": "Хочешь попробовать ещё раз за {{coins}} монет?",
   "fishingPuzzle.attemptsLeft": "Осталось попыток: {{attemptsLeft}}/{{attemptLimit}}",
   "fishingPuzzle.findSafePath": "Найди безопасный путь, чтобы довести рыбу до верха",
@@ -7665,5 +7664,12 @@
   "retentionDashboard.d7": "D7",
   "retentionDashboard.d30": "D30",
   "retentionDashboard.noData": "No retention records for the last 60 days.",
-  "retentionDashboard.unknownDate": "Unknown date"
+  "retentionDashboard.unknownDate": "Unknown date",
+  "new": "New",
+  "fishermanModal.notEnoughReels": "You don't have enought reels!",
+  "fishingPuzzle.missedFish": "They got away!",
+  "fishing.multiCast": "Multi cast",
+  "fishing.baitMultiplier": "{{count}} x {{bait}}",
+  "fishing.yourCatch": "Your Catch",
+  "fishing.missedFish": "Fish that got away!"
 }

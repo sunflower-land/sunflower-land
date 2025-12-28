@@ -7272,7 +7272,6 @@
   "confirm.renew.message": "{{name}} を更新してもよろしいですか？",
   "renew.expired.message": "{{name}} の有効期限が切れています。更新することも、焼却することもできます。",
   "shrine.expired": "{{name}} 期限切れ",
-  "fishingPuzzle.missedFish": "魚が恋しい！",
   "fishingPuzzle.retryPrompt": "{{coins}} コインでもう一度試してみませんか？",
   "fishingPuzzle.attemptsLeft": "残りの試行回数:{{attemptsLeft}}/{{attemptLimit}}",
   "fishingPuzzle.findSafePath": "魚を頂上に連れて行くための安全な道を見つけてください。",
@@ -7665,5 +7664,12 @@
   "retentionDashboard.d7": "D7",
   "retentionDashboard.d30": "30",
   "retentionDashboard.noData": "過去 60 日間の保存記録はありません。",
-  "retentionDashboard.unknownDate": "日付不明"
+  "retentionDashboard.unknownDate": "日付不明",
+  "new": "新規",
+  "fishermanModal.notEnoughReels": "リールが足りません！",
+  "fishingPuzzle.missedFish": "彼らは逃げた！",
+  "fishing.multiCast": "マルチキャスト",
+  "fishing.baitMultiplier": "{{count}} x {{bait}}",
+  "fishing.yourCatch": "あなたのキャッチ",
+  "fishing.missedFish": "逃げた魚！"
 }

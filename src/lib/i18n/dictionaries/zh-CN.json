@@ -7272,7 +7272,6 @@
   "confirm.renew.message": "您确定要为 {{name}} 办理续期吗？",
   "renew.expired.message": "{{name}} 已过期。您可以选择将其续期或直接销毁。",
   "shrine.expired": "{{name}} 已失效",
-  "fishingPuzzle.missedFish": "鱼溜走了！",
   "fishingPuzzle.retryPrompt": "是否花费 {{coins}} 金币再试一次？",
   "fishingPuzzle.attemptsLeft": "剩余次数：{{attemptsLeft}}/{{attemptLimit}}",
   "fishingPuzzle.findSafePath": "寻找安全路径，将鱼带到顶部。",
@@ -7665,5 +7664,12 @@
   "retentionDashboard.d7": "D7",
   "retentionDashboard.d30": "D30",
   "retentionDashboard.noData": "过去 60 天内没有保留记录。",
-  "retentionDashboard.unknownDate": "未知日期"
+  "retentionDashboard.unknownDate": "未知日期",
+  "new": "全新",
+  "fishermanModal.notEnoughReels": "你没有足够的卷轴！",
+  "fishingPuzzle.missedFish": "他们逃脱了！",
+  "fishing.multiCast": "多人演员",
+  "fishing.baitMultiplier": "{{count}} x {{bait}}",
+  "fishing.yourCatch": "你的渔获物",
+  "fishing.missedFish": "逃走的鱼！"
 }
