@@ -7672,5 +7672,7 @@
   "fishing.baitMultiplier": "{{count}} x {{bait}}",
   "fishing.yourCatch": "あなたのキャッチ",
   "fishing.missedFish": "逃げた魚！",
-  "giveUp": "ギブアップ"
+  "giveUp": "ギブアップ",
+  "description.fish.house": "魚の加工工場。",
+  "building.fishMarket": "フィッシュマーケット"
 }

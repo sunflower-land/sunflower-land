@@ -7672,5 +7672,7 @@
   "fishing.baitMultiplier": "{{count}} x {{bait}}",
   "fishing.yourCatch": "Tangkapan Anda",
   "fishing.missedFish": "Ikan yang lolos!",
-  "giveUp": "Menyerah"
+  "giveUp": "Menyerah",
+  "description.fish.house": "Pabrik pengolahan untuk ikan Anda.",
+  "building.fishMarket": "Pasar Ikan"
 }

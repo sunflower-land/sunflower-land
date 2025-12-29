@@ -7672,5 +7672,7 @@
   "fishing.baitMultiplier": "{{count}} x {{bait}}",
   "fishing.yourCatch": "유어 캐치",
   "fishing.missedFish": "도망친 물고기!",
-  "giveUp": "포기해"
+  "giveUp": "포기해",
+  "description.fish.house": "생선을 위한 가공 공장.",
+  "building.fishMarket": "피시 마켓"
 }

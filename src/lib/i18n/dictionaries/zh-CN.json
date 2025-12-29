@@ -7672,5 +7672,7 @@
   "fishing.baitMultiplier": "{{count}} x {{bait}}",
   "fishing.yourCatch": "你的渔获物",
   "fishing.missedFish": "逃走的鱼！",
-  "giveUp": "放弃"
+  "giveUp": "放弃",
+  "description.fish.house": "鱼类的加工厂。",
+  "building.fishMarket": "鱼市场"
 }

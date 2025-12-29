@@ -7672,5 +7672,7 @@
   "fishing.baitMultiplier": "{{count}} x {{bait}}",
   "fishing.yourCatch": "Yakalamanız",
   "fishing.missedFish": "Kaçılan balık!",
-  "giveUp": "Vazgeçmek"
+  "giveUp": "Vazgeçmek",
+  "description.fish.house": "Balıklarınız için bir işleme tesisi.",
+  "building.fishMarket": "Balık Pazarı"
 }

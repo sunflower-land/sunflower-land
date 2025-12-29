@@ -7672,5 +7672,7 @@
   "fishing.baitMultiplier": "{{count}} x {{bait}}",
   "fishing.yourCatch": "Tu captura",
   "fishing.missedFish": "¡Pescado que se escapó!",
-  "giveUp": "Renunciar"
+  "giveUp": "Renunciar",
+  "description.fish.house": "Una planta de procesamiento para su pescado.",
+  "building.fishMarket": "Mercado de pescado"
 }

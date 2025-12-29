@@ -7672,5 +7672,7 @@
   "fishing.baitMultiplier": "{{count}} x {{bait}}",
   "fishing.yourCatch": "Tangkapan Anda",
   "fishing.missedFish": "Ikan yang melarikan diri!",
-  "giveUp": "Berputus asa"
+  "giveUp": "Berputus asa",
+  "description.fish.house": "Loji pemprosesan untuk ikan anda.",
+  "building.fishMarket": "Pasar Ikan"
 }
