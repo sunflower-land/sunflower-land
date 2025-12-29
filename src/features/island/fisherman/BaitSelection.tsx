@@ -35,9 +35,9 @@ import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
 import { SEASON_ICONS } from "../buildings/components/building/market/SeasonalSeeds";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { Checkbox } from "components/ui/Checkbox";
-import { hasFeatureAccess } from "lib/flags";
 import { SmallBox } from "components/ui/SmallBox";
 import { ChumSelection } from "./ChumSelection";
+import { DropdownPanel } from "components/ui/DropdownPanel";
 
 const BAIT: FishingBait[] = [
   "Earthworm",
@@ -73,6 +73,23 @@ const getDefaultChum = (items: Inventory): Chum | undefined => {
   return hasRequirements ? (lastSelectedChum as Chum) : undefined;
 };
 
+const getDefaultMultiplier = () => {
+  if (typeof window === "undefined") return 1;
+
+  const lastSelectedMultiplier = localStorage.getItem("lastSelectedMultiplier");
+  return lastSelectedMultiplier ? parseInt(lastSelectedMultiplier) : 1;
+};
+
+const getDefaultGuaranteedCatch = () => {
+  if (typeof window === "undefined") return undefined;
+
+  const lastSelectedGuaranteedCatch = localStorage.getItem(
+    "lastSelectedGuaranteedCatch",
+  ) as FishName | null;
+
+  return lastSelectedGuaranteedCatch ?? undefined;
+};
+
 export const BaitSelection: React.FC<{
   onCast: (
     bait: FishingBait,
@@ -92,10 +109,12 @@ export const BaitSelection: React.FC<{
   const [chum, setChum] = useState<Chum | undefined>(() =>
     getDefaultChum(items),
   );
-  const [bait, setBait] = useState<FishingBait>(
-    () => getStoredBait() ?? "Earthworm",
+  const [selectedBait, setSelectedBait] = useState<FishingBait | undefined>(
+    () => getStoredBait(),
   );
-  const [multiplier, setMultiplier] = useState<number>(1);
+  const [multiplier, setMultiplier] = useState<number>(() =>
+    getDefaultMultiplier(),
+  );
 
   const { t } = useAppTranslation();
 
@@ -109,16 +128,36 @@ export const BaitSelection: React.FC<{
   };
 
   const [guaranteedCatch, setGuaranteedCatch] = useState<FishName | undefined>(
-    () => getGuaranteedOptions(bait)[0] ?? undefined,
+    () => getDefaultGuaranteedCatch() ?? undefined,
   );
 
   const handleBaitChange = (bait: FishingBait) => {
-    setBait(bait);
+    setSelectedBait(bait);
     if (typeof window !== "undefined") {
       localStorage.setItem("lastSelectedBait", bait);
     }
 
-    setGuaranteedCatch(undefined);
+    handleGuaranteedCatchChange(undefined);
+  };
+
+  const handleMultiplierChange = (multiplier: number) => {
+    setMultiplier(multiplier);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("lastSelectedMultiplier", multiplier.toString());
+    }
+  };
+
+  const handleGuaranteedCatchChange = (
+    guaranteedCatch: FishName | undefined,
+  ) => {
+    setGuaranteedCatch(guaranteedCatch);
+    if (typeof window !== "undefined") {
+      if (guaranteedCatch) {
+        localStorage.setItem("lastSelectedGuaranteedCatch", guaranteedCatch);
+      } else {
+        localStorage.removeItem("lastSelectedGuaranteedCatch");
+      }
+    }
   };
 
   const reelsLeft = getRemainingReels(state);
@@ -131,11 +170,11 @@ export const BaitSelection: React.FC<{
     !hasAncientRod &&
     (!state.inventory["Rod"] || state.inventory.Rod.lt(rodsRequired));
 
-  if (showChum) {
+  if (showChum && selectedBait) {
     return (
       <InnerPanel>
         <ChumSelection
-          bait={bait}
+          bait={selectedBait}
           state={state}
           onCancel={() => setShowChum(false)}
           initialChum={chum}
@@ -151,7 +190,7 @@ export const BaitSelection: React.FC<{
     );
   }
 
-  if (isGuaranteedBait(bait) && !guaranteedCatch) {
+  if (selectedBait && isGuaranteedBait(selectedBait) && !guaranteedCatch) {
     return (
       <InnerPanel>
         <div className="space-y-2">
@@ -160,7 +199,7 @@ export const BaitSelection: React.FC<{
               src={SUNNYSIDE.icons.arrow_left}
               className="h-6 mr-1"
               onClick={() => {
-                setGuaranteedCatch(undefined);
+                handleGuaranteedCatchChange(undefined);
                 handleBaitChange("Earthworm");
               }}
             />
@@ -169,18 +208,17 @@ export const BaitSelection: React.FC<{
             </Label>
           </div>
           <div className="flex flex-wrap">
-            {getGuaranteedOptions(bait).map((name: FishName) => (
+            {getGuaranteedOptions(selectedBait).map((name: FishName) => (
               <div
                 key={name}
                 className="flex flex-col items-center cursor-pointer"
-                onClick={() => setGuaranteedCatch(name)}
               >
                 <Box
                   image={ITEM_DETAILS[name].image}
                   isSelected={guaranteedCatch === name}
                   count={items[name]}
                   onClick={() => {
-                    setGuaranteedCatch(name);
+                    handleGuaranteedCatchChange(name);
                   }}
                   key={name}
                 />
@@ -192,6 +230,10 @@ export const BaitSelection: React.FC<{
     );
   }
 
+  const notEnoughBait =
+    selectedBait &&
+    (items[selectedBait] ?? new Decimal(0)).lt(effectiveMultiplier);
+
   return (
     <div className="flex flex-col gap-1">
       <InnerPanel>
@@ -200,7 +242,7 @@ export const BaitSelection: React.FC<{
             <Label
               icon={SEASON_ICONS[currentSeason]}
               type="default"
-              className="capitalize ml-2"
+              className="capitalize ml-1"
             >
               {t(`season.${currentSeason}`)}
             </Label>
@@ -226,65 +268,22 @@ export const BaitSelection: React.FC<{
           </Label>
         </div>
       </InnerPanel>
-      <InnerPanel>
-        <Label
-          type="default"
-          className="text-xs ml-1.5 mb-2"
-          icon={ITEM_DETAILS["Fishing Lure"].image}
-        >
-          {`Bait`}
+      <DropdownPanel
+        options={BAIT.map((bait) => ({
+          value: bait,
+          label: `${effectiveMultiplier} x ${bait} (${items[bait]?.toString() ?? 0})`,
+          icon: ITEM_DETAILS[bait].image,
+        }))}
+        value={selectedBait}
+        placeholder={`Select your bait`}
+        onChange={(bait) => handleBaitChange(bait as FishingBait)}
+      />
+      {notEnoughBait && (
+        <Label className="ml-1" type="danger">
+          {`You don't have enough ${selectedBait}`}
         </Label>
-
-        <div className="flex flex-wrap">
-          {BAIT.map((name) => (
-            <Box
-              image={ITEM_DETAILS[name].image}
-              isSelected={bait === name}
-              count={items[name]}
-              onClick={() => {
-                handleBaitChange(name);
-              }}
-              key={name}
-            />
-          ))}
-        </div>
-        <div></div>
-      </InnerPanel>
-      <InnerPanel className="relative">
-        <div className="flex p-1 items-center">
-          <div className="flex h-10 w-10 mr-2 items-center justify-center mb-1">
-            <img src={ITEM_DETAILS[bait].image} className="h-8" />
-          </div>
-          <div>
-            <p className="text-xs mb-1">
-              {t("fishing.baitMultiplier", {
-                count: effectiveMultiplier,
-                bait,
-              })}
-            </p>
-
-            <p className="text-xs">{ITEM_DETAILS[bait].description}</p>
-            {!items[bait] && bait === "Fishing Lure" && (
-              <Label className="mt-1" type="default">
-                {t("fishermanModal.craft.beach")}
-              </Label>
-            )}
-            {!items[bait] && bait !== "Fishing Lure" && (
-              <Label className="mt-2" type="default">
-                {isGuaranteedBait(bait)
-                  ? t("statements.craft.fishHouse")
-                  : t("statements.craft.composter")}
-              </Label>
-            )}
-          </div>
-        </div>
-        {!items[bait] && (
-          <Label className="absolute -top-3 right-0" type={"danger"}>
-            {t("fishermanModal.zero.available")}
-          </Label>
-        )}
-      </InnerPanel>
-      {isGuaranteedBait(bait) && guaranteedCatch && (
+      )}
+      {selectedBait && isGuaranteedBait(selectedBait) && guaranteedCatch && (
         <InnerPanel>
           <Label
             type="default"
@@ -294,20 +293,20 @@ export const BaitSelection: React.FC<{
             {t("fishing.guaranteedCatch.title")}
           </Label>
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 p-2">
+            <div className="flex items-center gap-2 p-1 pt-2">
               <img src={ITEM_DETAILS[guaranteedCatch].image} className="h-7" />
               <p>{guaranteedCatch}</p>
             </div>
             <div
               className="mr-2 cursor-pointer"
-              onClick={() => setGuaranteedCatch(undefined)}
+              onClick={() => handleGuaranteedCatchChange(undefined)}
             >
               <img src={SUNNYSIDE.icons.cancel} className="h-5" />
             </div>
           </div>
         </InnerPanel>
       )}
-      {isVip && hasFeatureAccess(state, "MULTI_CAST") && (
+      {isVip && (
         <InnerPanel>
           <div className="flex flex-col justify-between space-y-2">
             <Label type="default" className="text-xs ml-1" icon={multiCast}>
@@ -326,10 +325,12 @@ export const BaitSelection: React.FC<{
                     <div
                       key={value}
                       className="flex items-center gap-1 cursor-pointer"
-                      onClick={() => setMultiplier(value)}
                     >
                       <span className="text-xs ml-1 -mr-0.5">{`${value}x`}</span>
-                      <Checkbox checked={isSelected} onChange={() => {}} />
+                      <Checkbox
+                        checked={isSelected}
+                        onChange={() => handleMultiplierChange(value)}
+                      />
                     </div>
                   );
                 })}
@@ -338,7 +339,7 @@ export const BaitSelection: React.FC<{
           </div>
         </InnerPanel>
       )}
-      {!isGuaranteedBait(bait) && (
+      {selectedBait && !isGuaranteedBait(selectedBait) && (
         <InnerPanel>
           {chum ? (
             <div className="flex items-center justify-between mb-1">
@@ -375,7 +376,9 @@ export const BaitSelection: React.FC<{
                 </p>
               </div>
               <Button
-                disabled={fishingLimitReached || multiplier > reelsLeft}
+                disabled={
+                  fishingLimitReached || multiplier > reelsLeft || !selectedBait
+                }
                 className={`h-[30px] w-[40px]`}
                 onClick={() => setShowChum(true)}
               >
@@ -409,13 +412,16 @@ export const BaitSelection: React.FC<{
       ) : (
         <Button
           onClick={() =>
-            onCast(bait, chum, effectiveMultiplier, guaranteedCatch)
+            onCast(selectedBait!, chum, effectiveMultiplier, guaranteedCatch)
           }
           disabled={
+            !selectedBait ||
             multiplier > reelsLeft ||
             fishingLimitReached ||
             missingRod ||
-            !items[bait as InventoryItemName]?.gte(effectiveMultiplier) ||
+            !items[selectedBait as InventoryItemName]?.gte(
+              effectiveMultiplier,
+            ) ||
             (chum
               ? !items[chum as InventoryItemName]?.gte(
                   new Decimal(CHUM_AMOUNTS[chum] * effectiveMultiplier),

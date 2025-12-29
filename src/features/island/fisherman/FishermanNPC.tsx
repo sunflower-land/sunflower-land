@@ -114,9 +114,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   useEffect(() => {
     if (
       fishing.wharf.caught &&
-      (spriteRef.current?.getInfo("frame") ?? 0) <=
-        FISHING_FRAMES.casting.endAt &&
-      !showCaughtModal
+      (spriteRef.current?.getInfo("frame") ?? 0) <= FISHING_FRAMES.casting.endAt
     ) {
       onWaitFinish();
     }
@@ -215,6 +213,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     // Keep easy fish, mark difficult fish as missed
     setShowChallenge(false);
     setShowCaughtModal(true);
+    setShowReelLabel(false);
     spriteRef.current?.setStartAt(FISHING_FRAMES.caught.startAt);
     spriteRef.current?.setEndAt(FISHING_FRAMES.caught.endAt);
 

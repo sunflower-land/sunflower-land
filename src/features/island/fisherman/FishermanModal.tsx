@@ -17,7 +17,9 @@ import { getReelGemPrice } from "features/game/events/landExpansion/buyMoreReels
 import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
 import { capitalizeFirstLetters } from "lib/utils/capitalize";
 import { FishermanExtras } from "./FishermanExtras";
+import { OldBaitSelection } from "./OldBaitSelection";
 import { BaitSelection } from "./BaitSelection";
+import { hasFeatureAccess } from "lib/flags";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { MachineState } from "features/game/lib/gameMachine";
 
@@ -77,6 +79,11 @@ export const FishermanModal: React.FC<Props> = ({
       type: "Fee",
     });
   };
+
+  const BaitSelectionComponent = hasFeatureAccess(state, "MULTI_CAST")
+    ? BaitSelection
+    : OldBaitSelection;
+
   if (showIntro) {
     return (
       <CloseButtonPanel onClose={onClose} bumpkinParts={NPC_WEARABLES[npc]}>
@@ -160,7 +167,7 @@ export const FishermanModal: React.FC<Props> = ({
       container={OuterPanel}
     >
       {tab === 0 && (
-        <BaitSelection
+        <BaitSelectionComponent
           onCast={onCast}
           onClickBuy={() => setTab(2)}
           state={state}
