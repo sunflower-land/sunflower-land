@@ -7671,5 +7671,6 @@
   "fishing.multiCast": "멀티 캐스트",
   "fishing.baitMultiplier": "{{count}} x {{bait}}",
   "fishing.yourCatch": "유어 캐치",
-  "fishing.missedFish": "도망친 물고기!"
+  "fishing.missedFish": "도망친 물고기!",
+  "giveUp": "포기해"
 }

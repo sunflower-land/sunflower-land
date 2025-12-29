@@ -7671,5 +7671,6 @@
   "fishing.multiCast": "Cast multiplo",
   "fishing.baitMultiplier": "{{count}} x {{bait}}",
   "fishing.yourCatch": "La tua cattura",
-  "fishing.missedFish": "Pesce che è scappato!"
+  "fishing.missedFish": "Pesce che è scappato!",
+  "giveUp": "Rinunciare"
 }

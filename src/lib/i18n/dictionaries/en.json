@@ -1,5 +1,6 @@
 {
   "burn": "Burn",
+  "giveUp": "Give up",
   "new": "New",
   "confirm.burn": "Confirm Burn",
   "confirm.burn.message": "Are you sure you want to burn {{name}}? This action cannot be undone.",

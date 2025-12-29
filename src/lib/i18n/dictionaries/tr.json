@@ -7671,5 +7671,6 @@
   "fishing.multiCast": "Çoklu oyuncu",
   "fishing.baitMultiplier": "{{count}} x {{bait}}",
   "fishing.yourCatch": "Yakalamanız",
-  "fishing.missedFish": "Kaçılan balık!"
+  "fishing.missedFish": "Kaçılan balık!",
+  "giveUp": "Vazgeçmek"
 }
