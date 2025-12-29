@@ -281,7 +281,7 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
     [attemptLimit, attemptsLeft, onCatch],
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (completionTimerRef.current) {
       clearTimeout(completionTimerRef.current);
       completionTimerRef.current = undefined;
@@ -309,11 +309,13 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
 
   if (showRetry) {
     return (
-      <div className="space-y-3 text-sm text-brown-500 flex flex-col items-center">
+      <div className="gap-1.5 text-sm text-brown-500 flex flex-col">
         <Label type="danger">{t("fishingPuzzle.missedFish")}</Label>
-        <p>{t("fishingPuzzle.retryPrompt", { coins: FISH_RETRY_COST })}</p>
+        <p className="p-1">
+          {t("fishingPuzzle.retryPrompt", { coins: FISH_RETRY_COST })}
+        </p>
 
-        <div className="flex">
+        <div className="flex w-full">
           <Button
             onClick={() =>
               onMiss({
@@ -322,9 +324,9 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
                 attemptsUsed: attemptLimit - attemptsLeft,
               })
             }
-            className="mr-1"
+            className="mr-1 w-full"
           >
-            {t("no")}
+            {t("giveUp")}
           </Button>
           <Button onClick={onRetry}>{t("retry")}</Button>
         </div>
@@ -358,7 +360,7 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
       )}
 
       <div
-        className="grid gap-2 justify-items-center "
+        className="grid gap-2 justify-items-center p-2 rounded-lg"
         style={{
           width: "max-content",
           backgroundImage: `url(${deepBg})`,
@@ -399,7 +401,7 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
                 disabled={isDisabled}
                 style={{ perspective: "800px" }}
                 className={classNames(
-                  "h-20 w-20 sm:h-24 sm:w-24 rounded transition-colors duration-200",
+                  "h-10 w-10 sm:h-12 sm:w-12 rounded transition-colors duration-200",
                   {
                     " cursor-not-allowed": isDisabled,
                     "ring-2 ring-white/70": isActiveRow,
@@ -417,8 +419,8 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
                     style={{
                       backgroundColor: "transparent",
                       border: isActiveRow
-                        ? "2px solid rgba(255,255,255,0.75)"
-                        : "2px solid rgba(255,255,255,0.35)",
+                        ? "1px solid rgba(255,255,255,0.75)"
+                        : "1px solid rgba(255,255,255,0.35)",
                       boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.08)",
                     }}
                   />
