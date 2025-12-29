@@ -1,4 +1,10 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import classNames from "classnames";
 import { Button } from "components/ui/Button";
 
@@ -7,7 +13,7 @@ import crabRock from "assets/fish/minigame/crab_rock.webp";
 import blueCheck from "assets/fish/minigame/blue_up.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { FishName } from "features/game/types/fishing";
+import { FishName, MarineMarvelName } from "features/game/types/fishing";
 import { Label } from "components/ui/Label";
 import { FISH_RETRY_COST } from "features/game/events/landExpansion/retryFish";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -91,18 +97,24 @@ interface FishingMinigameProps {
     attemptsUsed: number;
   }) => void;
   onRetry: () => void;
-  fishName: FishName;
+  fishName: FishName | MarineMarvelName;
+  difficultCatch?: {
+    name: FishName | MarineMarvelName;
+    amount: number;
+    difficulty: number;
+  }[];
 }
 
 export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
-  rows = 5,
-  cols = 4,
+  rows = 6,
+  cols = 5,
   maxAttempts = 4,
   onCatch,
   onMiss,
   onRetry,
-  fishName,
+  fishName: _fishName,
   resetKey = 0,
+  difficultCatch = [],
 }) => {
   const { t } = useAppTranslation();
   const [dimensions, setDimensions] = useState({
@@ -172,24 +184,19 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
       setIsResolvingMistake(false);
       setIsComplete(false);
       setTemporaryReveals(new Set());
+      setShowRetry(false);
       hasReportedResultRef.current = false;
     },
     [],
   );
 
-  React.useEffect(() => {
-    applyConfig(rows, cols, maxAttempts);
-
-    // Reset attempts
-    setProgress(0);
-    setIsComplete(false);
-    setMistakeTile(null);
-    setIsResolvingMistake(false);
-    setRevealedTiles(new Set());
-    setTemporaryReveals(new Set());
-    setAttemptsLeft(initialAttemptLimit);
-    setAttemptLimit(initialAttemptLimit);
-    setShowRetry(false);
+  useEffect(() => {
+    // Defer the full reset to the next frame to avoid React's cascading render warning
+    // from multiple synchronous setState calls inside effects.
+    const raf = requestAnimationFrame(() =>
+      applyConfig(rows, cols, maxAttempts),
+    );
+    return () => cancelAnimationFrame(raf);
   }, [applyConfig, cols, maxAttempts, resetKey, rows]);
 
   const handleCorrectSelection = (row: number, col: number) => {
@@ -241,7 +248,7 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     return () => {
       if (failureTimerRef.current) {
         clearTimeout(failureTimerRef.current);
@@ -250,6 +257,9 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
   }, []);
 
   const nextStep = path[progress];
+  const difficultEntries = difficultCatch.filter(
+    (entry) => entry.difficulty > 0,
+  );
 
   const reportFinish = useCallback(
     (completed: boolean) => {
@@ -268,10 +278,10 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
         setShowRetry(true);
       }
     },
-    [attemptLimit, attemptsLeft, onCatch, onMiss],
+    [attemptLimit, attemptsLeft, onCatch],
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (completionTimerRef.current) {
       clearTimeout(completionTimerRef.current);
       completionTimerRef.current = undefined;
@@ -299,11 +309,13 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
 
   if (showRetry) {
     return (
-      <div className="space-y-3 text-sm text-brown-500 flex flex-col items-center">
+      <div className="gap-1.5 text-sm text-brown-500 flex flex-col">
         <Label type="danger">{t("fishingPuzzle.missedFish")}</Label>
-        <p>{t("fishingPuzzle.retryPrompt", { coins: FISH_RETRY_COST })}</p>
+        <p className="p-1">
+          {t("fishingPuzzle.retryPrompt", { coins: FISH_RETRY_COST })}
+        </p>
 
-        <div className="flex">
+        <div className="flex w-full">
           <Button
             onClick={() =>
               onMiss({
@@ -312,9 +324,9 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
                 attemptsUsed: attemptLimit - attemptsLeft,
               })
             }
-            className="mr-1"
+            className="mr-1 w-full"
           >
-            {t("no")}
+            {t("giveUp")}
           </Button>
           <Button onClick={onRetry}>{t("retry")}</Button>
         </div>
@@ -348,7 +360,7 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
       )}
 
       <div
-        className="grid gap-2 justify-items-center "
+        className="grid gap-2 justify-items-center p-2 rounded-lg"
         style={{
           width: "max-content",
           backgroundImage: `url(${deepBg})`,
@@ -389,7 +401,7 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
                 disabled={isDisabled}
                 style={{ perspective: "800px" }}
                 className={classNames(
-                  "h-20 w-20 sm:h-24 sm:w-24 rounded transition-colors duration-200",
+                  "h-10 w-10 sm:h-12 sm:w-12 rounded transition-colors duration-200",
                   {
                     " cursor-not-allowed": isDisabled,
                     "ring-2 ring-white/70": isActiveRow,
@@ -407,8 +419,8 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
                     style={{
                       backgroundColor: "transparent",
                       border: isActiveRow
-                        ? "2px solid rgba(255,255,255,0.75)"
-                        : "2px solid rgba(255,255,255,0.35)",
+                        ? "1px solid rgba(255,255,255,0.75)"
+                        : "1px solid rgba(255,255,255,0.35)",
                       boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.08)",
                     }}
                   />
@@ -441,25 +453,26 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
         )}
       </div>
 
-      <div className="flex flex-col items-center">
-        <div className="flex flex-col gap-2">
-          {fishName && (
-            <div className="w-10 relative">
-              <img
-                src={ITEM_DETAILS[fishName as FishName].image}
-                className="w-full"
-                // silhoutte black mystery effect
-                style={{
-                  filter: "brightness(0%)",
-                }}
-              />
-              <img
-                src={SUNNYSIDE.icons.expression_confused}
-                className="w-3 absolute bottom-7 right-4"
-              />
-            </div>
-          )}
-        </div>
+      <div className="flex gap-2 justify-center flex-wrap">
+        {difficultEntries.map((entry, idx) => (
+          <div
+            key={`${entry.name}-${entry.difficulty}-${idx}`}
+            className="w-10 relative"
+          >
+            <img
+              src={ITEM_DETAILS[entry.name].image}
+              className="w-full"
+              // silhouette black mystery effect
+              style={{
+                filter: "brightness(0%)",
+              }}
+            />
+            <img
+              src={SUNNYSIDE.icons.expression_confused}
+              className="w-3 absolute bottom-7 right-4"
+            />
+          </div>
+        ))}
       </div>
     </div>
   );

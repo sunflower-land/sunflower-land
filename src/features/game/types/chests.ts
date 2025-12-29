@@ -266,4 +266,7 @@ export const FESTIVE_TREE_REWARDS: RewardBoxReward[] = [
   { items: { "Bronze Love Box": 1 }, wearables: {}, weighting: 10 },
   { items: { "Bronze Tool Box": 1 }, wearables: {}, weighting: 10 },
   { items: { "Rare Key": 1 }, wearables: {}, weighting: 5 },
+  { items: {}, wearables: { "Candy Halbred": 1 }, weighting: 1 },
+  { items: {}, wearables: { "Cookie Shield": 1 }, weighting: 1 },
+  { items: {}, wearables: { "Cozy Reindeer Onesie": 1 }, weighting: 1 },
 ];

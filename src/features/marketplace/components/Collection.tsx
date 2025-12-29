@@ -85,6 +85,11 @@ export const Collection: React.FC<{
   const gridRef = useRef<any>(null);
   const location = useLocation();
 
+  const backRoute =
+    typeof location.state?.route === "string"
+      ? location.state.route
+      : `${location.pathname}${location.search}`;
+
   if (search && !filters.includes("buds") && !filters.includes("pets")) {
     filters = "collectibles,wearables,resources";
   }
@@ -530,7 +535,7 @@ export const Collection: React.FC<{
                         {
                           state: {
                             scrollPosition,
-                            route: `${location.pathname}${location.search}`,
+                            route: backRoute,
                           },
                         },
                       );

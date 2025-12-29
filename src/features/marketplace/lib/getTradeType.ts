@@ -15,6 +15,10 @@ export const ITEM_TRADE_TYPES: {
   wearables: Record<BumpkinItem, TradeType>;
 } = {
   collectibles: {
+    "Fish Market": "instant",
+    "Fish Flake": "instant",
+    "Fish Stick": "instant",
+    "Fish Oil": "instant",
     "Basic Farming Pack": "instant",
     "Basic Food Box": "instant",
     "Weekly Mega Box": "instant",
@@ -1227,7 +1231,7 @@ export const ITEM_TRADE_TYPES: {
     "Winter Alpaca": "instant",
     "Penguin Surprise": "instant",
     "Frozen Meat": "instant",
-    "Ho Ho oh oh...": "instant",
+    "Ho Ho oh oh…": "instant",
     "Crab Pot": "instant",
     "Mariner Pot": "instant",
   },

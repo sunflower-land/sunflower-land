@@ -22,6 +22,7 @@ import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
 import { BumpkinItem, Equipped as BumpkinParts } from "./bumpkin";
 import { ConsumableName, CookableName } from "./consumables";
+import { ProcessedFood } from "./processedFood";
 import { BumpkinSkillName, BumpkinRevampSkillName } from "./bumpkinSkills";
 import { AchievementName } from "./achievements";
 import { DecorationName } from "./decorations";
@@ -583,6 +584,7 @@ export type InventoryItemName =
   | FertiliserName
   | WarBanner
   | ConsumableName
+  | ProcessedFood
   | DecorationName
   | GoldenCropEventItem
   | TreasureName
@@ -1278,6 +1280,10 @@ type FishingSpot = {
   bait?: FishingBait;
   chum?: InventoryItemName;
   caught?: Partial<Record<InventoryItemName, number>>;
+  /**
+   * Number of reels used for this cast. When omitted, defaults to 1.
+   */
+  multiplier?: number;
 };
 
 type WaterTrapSpot = {

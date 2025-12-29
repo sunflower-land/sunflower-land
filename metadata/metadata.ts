@@ -18,6 +18,52 @@ type Metadata = {
 };
 
 export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
+  "Fish Market": {
+    description: "A processed fish market for fish.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Building" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Fish Flake": {
+    description:
+      "A processed fish ingredient with many benefits but the most important is guaranteeing catches.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Bait" },
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Fish Stick": {
+    description:
+      "A sturdy processed fish ingredient with many benefits but the most important is guaranteeing catches.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Bait" },
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Fish Oil": {
+    description:
+      "A refined fish ingredient with many benefits but the most important is guaranteeing catches.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Bait" },
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   "Super Star": {
     description: "A super star that grants +1 fish during winter months!",
     decimals: 0,
@@ -13674,8 +13720,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Decoration" },
     ],
   },
-  "Ho Ho oh oh...": {
-    name: "Ho Ho oh oh...",
+  "Ho Ho oh oh…": {
+    name: "Ho Ho oh oh…",
     description:
       "With Santa stuck like this, maybe the holidays were the friends we made along the way?",
     decimals: 0,

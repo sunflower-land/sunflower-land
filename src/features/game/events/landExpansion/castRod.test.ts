@@ -177,6 +177,70 @@ describe("castRod", () => {
     expect(state.inventory.Sunflower).toEqual(new Decimal(450));
   });
 
+  it("multiplies rods, bait and chum when multi casting", () => {
+    const now = Date.now();
+    const state = castRod({
+      action: {
+        bait: "Earthworm",
+        type: "rod.casted",
+        chum: "Sunflower",
+        multiplier: 5,
+      },
+      state: {
+        ...farm,
+        vip: {
+          bundles: [{ name: "1_MONTH", boughtAt: now }],
+          expiresAt: now + 31 * 24 * 60 * 60 * 1000,
+        },
+        inventory: {
+          Rod: new Decimal(10),
+          Earthworm: new Decimal(10),
+          Sunflower: new Decimal(1000),
+        },
+        fishing: {
+          wharf: {},
+          dailyAttempts: {},
+          extraReels: {
+            count: 20,
+          },
+        },
+      },
+    });
+
+    expect(state.inventory.Rod).toEqual(new Decimal(5));
+    expect(state.inventory.Earthworm).toEqual(new Decimal(5));
+    // 50 sunflower per chum * 5 casts = 250
+    expect(state.inventory.Sunflower).toEqual(new Decimal(750));
+    expect(state.fishing.wharf.multiplier).toEqual(5);
+    expect(state.farmActivity["Rod Casted"]).toEqual(5);
+  });
+
+  it("requires VIP when multiplier is greater than 1", () => {
+    expect(() => {
+      castRod({
+        action: {
+          bait: "Earthworm",
+          type: "rod.casted",
+          multiplier: 5,
+        },
+        state: {
+          ...farm,
+          inventory: {
+            Rod: new Decimal(10),
+            Earthworm: new Decimal(10),
+          },
+          fishing: {
+            wharf: {},
+            dailyAttempts: {},
+            extraReels: {
+              count: 20,
+            },
+          },
+        },
+      });
+    }).toThrow("VIP is required");
+  });
+
   it("applies the Angler Waders boost which increases the daily fishing limit by 10", () => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date("2023-10-11T09:00:00Z"));
@@ -321,6 +385,7 @@ describe("castRod", () => {
       castedAt: expect.any(Number),
       bait: "Earthworm",
       chum: "Sunflower",
+      multiplier: 1,
     });
   });
 
@@ -342,6 +407,7 @@ describe("castRod", () => {
 
     expect(state.inventory.Rod).toEqual(new Decimal(3));
   });
+
   it("subtracts extra reels", () => {
     const now = Date.now();
     const date = new Date(now).toISOString().split("T")[0];
@@ -452,5 +518,44 @@ describe("castRod", () => {
       });
       expect(limit).toEqual(25);
     });
+  });
+
+  it("subtracts extra reels by the delta over the daily limit when already over the limit (multi-cast)", () => {
+    const now = Date.now();
+    const date = new Date(now).toISOString().split("T")[0];
+
+    const state = castRod({
+      action: {
+        bait: "Earthworm",
+        type: "rod.casted",
+        multiplier: 1,
+      },
+      state: {
+        ...farm,
+        // Provide VIP so multi-cast is allowed
+        vip: {
+          bundles: [{ name: "1_MONTH", boughtAt: now }],
+          expiresAt: now + 31 * 24 * 60 * 60 * 1000,
+        },
+        inventory: {
+          Rod: new Decimal(20),
+          Earthworm: new Decimal(20),
+        },
+        fishing: {
+          wharf: {},
+          dailyAttempts: {
+            // Limit is 20 by default, so we're already 1 over
+            [date]: 21,
+          },
+          extraReels: {
+            count: 4,
+          },
+        },
+      },
+      createdAt: now,
+    });
+
+    // Only 2 extra reels should be used for this cast (delta over limit), not 3 (total over limit)
+    expect(state.fishing.extraReels?.count).toEqual(3);
   });
 });

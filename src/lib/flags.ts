@@ -118,8 +118,12 @@ const FEATURE_FLAGS = {
   RENEW_PET_SHRINES: defaultFeatureFlag,
   FISHING_PUZZLE: defaultFeatureFlag,
   MEMORY_BETA: defaultFeatureFlag,
-  DAILY_BOXES: defaultFeatureFlag,
   CRUSTACEANS: testnetFeatureFlag,
+  VERSION_UPDATES: defaultFeatureFlag,
+  DAILY_BOXES: defaultFeatureFlag,
+  MICRO_INTERACTIONS: defaultFeatureFlag,
+  MULTI_CAST: defaultFeatureFlag,
+  FISH_MARKET: testnetFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
