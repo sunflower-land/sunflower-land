@@ -212,6 +212,7 @@ describe("castRod", () => {
     // 50 sunflower per chum * 5 casts = 250
     expect(state.inventory.Sunflower).toEqual(new Decimal(750));
     expect(state.fishing.wharf.multiplier).toEqual(5);
+    expect(state.farmActivity["Rod Casted"]).toEqual(5);
   });
 
   it("requires VIP when multiplier is greater than 1", () => {

@@ -173,7 +173,11 @@ export function castRod({
       };
     }
 
-    game.farmActivity = trackFarmActivity("Rod Casted", game.farmActivity);
+    game.farmActivity = trackFarmActivity(
+      "Rod Casted",
+      game.farmActivity,
+      new Decimal(multiplier),
+    );
 
     game.boostsUsedAt = updateBoostUsed({
       game,
