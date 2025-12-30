@@ -35,8 +35,6 @@ export async function signUp({
       "content-type": "application/json;charset=UTF-8",
       Authorization: `Bearer ${token}`,
       "X-Transaction-ID": transactionId,
-      ...(fbp ? { "X-Meta-Fbp": fbp } : {}),
-      ...(fbc ? { "X-Meta-Fbc": fbc } : {}),
     },
     body: JSON.stringify({
       referrerId: referrerId ?? undefined,
