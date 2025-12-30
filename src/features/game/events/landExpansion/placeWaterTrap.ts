@@ -1,6 +1,6 @@
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
-import { GameState, InventoryItemName } from "../../types/game";
+import { GameState } from "../../types/game";
 import { CHUM_AMOUNTS, Chum } from "../../types/fishing";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { WaterTrapName, WATER_TRAP } from "features/game/types/crustaceans";
@@ -9,7 +9,7 @@ export type PlaceWaterTrapAction = {
   trapId: string;
   type: "waterTrap.placed";
   waterTrap: WaterTrapName;
-  chum?: InventoryItemName;
+  chum?: Chum;
 };
 
 type Options = {
@@ -48,8 +48,7 @@ export function placeWaterTrap({
       throw new Error("Chum is required");
     }
 
-    // TODO: Build out crustaceans chum system
-    const chumAmount = CHUM_AMOUNTS[action.chum as Chum] ?? 0;
+    const chumAmount = CHUM_AMOUNTS[action.chum] ?? 0;
     if (!chumAmount) {
       throw new Error(`${action.chum} is not a supported chum`);
     }

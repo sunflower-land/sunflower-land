@@ -143,6 +143,22 @@ export type Chum = Extract<
   | "Zucchini"
   | "Weed"
   | "Acorn"
+  | "Heart leaf"
+  | "Ribbon"
+  | "Wild Grass"
+  | "Frost Pebble"
+  | "Grape"
+  | "Rice"
+  | "Crimstone"
+  | "Moonfur"
+  | "Fish Stick"
+  | "Fish Oil"
+  | "Crab Stick"
+  | "Chewed Bone"
+  | "Ruffroot"
+  | "Dewberry"
+  | "Duskberry"
+  | "Lunara"
 >;
 
 export const CHUM_AMOUNTS: Record<Chum, number> = {
@@ -194,6 +210,22 @@ export const CHUM_AMOUNTS: Record<Chum, number> = {
   Zucchini: 20,
   Weed: 3,
   Acorn: 3,
+  "Heart leaf": 3,
+  Ribbon: 3,
+  "Wild Grass": 3,
+  "Frost Pebble": 3,
+  Grape: 5,
+  Rice: 5,
+  Crimstone: 2,
+  Moonfur: 2,
+  "Fish Stick": 2,
+  "Fish Oil": 2,
+  "Crab Stick": 2,
+  "Chewed Bone": 2,
+  Ruffroot: 2,
+  Dewberry: 2,
+  Duskberry: 2,
+  Lunara: 2,
 };
 
 export const CHUM_DETAILS: Record<Chum, string> = {
@@ -242,9 +274,25 @@ export const CHUM_DETAILS: Record<Chum, string> = {
   Artichoke: translate("chumDetails.artichoke"),
   Onion: translate("chumDetails.onion"),
   Turnip: translate("chumDetails.turnip"),
-  Zucchini: "",
+  Zucchini: translate("chumDetails.zucchini"),
   Weed: translate("chumDetails.weed"),
   Acorn: translate("chumDetails.acorn"),
+  "Heart leaf": translate("chumDetails.heartLeaf"),
+  Ribbon: translate("chumDetails.ribbon"),
+  "Wild Grass": translate("chumDetails.wildGrass"),
+  "Frost Pebble": translate("chumDetails.frostPebble"),
+  Grape: translate("chumDetails.grape"),
+  Rice: translate("chumDetails.rice"),
+  Crimstone: translate("chumDetails.crimstone"),
+  Moonfur: translate("chumDetails.moonfur"),
+  "Fish Stick": translate("chumDetails.fishStick"),
+  "Fish Oil": translate("chumDetails.fishOil"),
+  "Crab Stick": translate("chumDetails.crabStick"),
+  "Chewed Bone": translate("chumDetails.chewedBone"),
+  Ruffroot: translate("chumDetails.ruffroot"),
+  Dewberry: translate("chumDetails.dewberry"),
+  Duskberry: translate("chumDetails.duskberry"),
+  Lunara: translate("chumDetails.lunara"),
 };
 
 type Fish = {

@@ -112,7 +112,7 @@ import { RockName } from "./resources";
 import { PetShopItemName } from "./petShop";
 import { League } from "features/leagues/leagues";
 import { Buff, BuffName } from "./buffs";
-import { WaterTrapName } from "./crustaceans";
+import { CrustaceanName, WaterTrapName } from "./crustaceans";
 
 export type Reward = {
   coins?: number;
@@ -626,7 +626,8 @@ export type InventoryItemName =
   | ClutterName
   | PetName
   | PetResourceName
-  | PetShopItemName;
+  | PetShopItemName
+  | CrustaceanName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 

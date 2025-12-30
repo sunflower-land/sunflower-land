@@ -28,7 +28,7 @@ const _state = (state: MachineState) => state.context.state;
 
 interface Props {
   waterTrap?: WaterTrap;
-  onPlace: (trapType: WaterTrapName, chum?: InventoryItemName) => void;
+  onPlace: (trapType: WaterTrapName, chum?: Chum) => void;
   onPickup: () => void;
   onCollect: () => void;
   onClose: () => void;
@@ -47,7 +47,6 @@ export const WaterTrapModal: React.FC<Props> = ({
   const [selectedTrap, setSelectedTrap] = useState<WaterTrapName | undefined>(
     undefined,
   );
-  // TODO: Build crustaceans chum system
   const [selectedChum, setSelectedChum] = useState<Chum | undefined>(
     waterTrap?.chum && waterTrap.chum in CHUM_AMOUNTS
       ? (waterTrap.chum as Chum)
@@ -107,7 +106,7 @@ export const WaterTrapModal: React.FC<Props> = ({
           <div className="mt-2 flex-1">
             <div className="flex flex-wrap my-1">
               {getObjectEntries(caught).map(([item, amount]) => {
-                const itemName = item as InventoryItemName;
+                const itemName = item;
                 const hasCaughtBefore =
                   !!state.farmActivity[`${itemName} Caught`];
                 const isUnknown = !hasCaughtBefore;
