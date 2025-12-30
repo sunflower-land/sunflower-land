@@ -45,6 +45,14 @@ import {
   collectRecipe,
   CollectRecipeAction,
 } from "./landExpansion/collectRecipe";
+import {
+  processProcessedFood,
+  ProcessProcessedFoodAction,
+} from "./landExpansion/processedFood";
+import {
+  collectProcessedFood,
+  CollectProcessedFoodAction,
+} from "./landExpansion/collectProcessedFood";
 import { feedBumpkin, FeedBumpkinAction } from "./landExpansion/feedBumpkin";
 import { detectBot, DetectBotAction } from "./detectBot";
 import { choseSkill, ChoseSkillAction } from "./landExpansion/choseSkill";
@@ -584,6 +592,8 @@ export type PlayingEvent =
   | ClaimAirdropAction
   | RecipeCookedAction
   | CollectRecipeAction
+  | ProcessProcessedFoodAction
+  | CollectProcessedFoodAction
   | FeedBumpkinAction
   | DetectBotAction
   | ChoseSkillAction
@@ -839,6 +849,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "timber.chopped": landExpansionChop,
   "recipe.cooked": cook,
   "recipes.collected": collectRecipe,
+  "processedFood.processed": processProcessedFood,
+  "processedFood.collected": collectProcessedFood,
   "bumpkin.feed": feedBumpkin,
   "skill.chosen": choseSkill,
   "skills.reset": resetSkills,

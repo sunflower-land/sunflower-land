@@ -46,21 +46,21 @@ function getQueueItemCookingSeconds({
 }) {
   const skills = game.bumpkin.skills;
   const itemOilConsumption = getOilConsumption(buildingName, name);
-  const itemCookingSeconds = COOKABLES[name].cookingSeconds;
+  const itemcookingSeconds = COOKABLES[name].cookingSeconds;
   const boostValue = BUILDING_OIL_BOOSTS(skills)[buildingName];
-  let boostedCookingSeconds = itemCookingSeconds;
+  let boostedcookingSeconds = itemcookingSeconds;
 
   if (appliedOilBoost >= itemOilConsumption) {
-    boostedCookingSeconds = itemCookingSeconds * (1 - boostValue);
+    boostedcookingSeconds = itemcookingSeconds * (1 - boostValue);
   } else {
     const effectiveBoostValue =
       (appliedOilBoost / itemOilConsumption) * boostValue;
-    boostedCookingSeconds = itemCookingSeconds * (1 - effectiveBoostValue);
+    boostedcookingSeconds = itemcookingSeconds * (1 - effectiveBoostValue);
   }
 
   // We don't need to pass in boostUsed as cancelling recipes shouldn't mark boost as being used
   const { reducedSecs: seconds } = getCookingTime({
-    seconds: boostedCookingSeconds,
+    seconds: boostedcookingSeconds,
     item: name,
     game,
     cookStartAt: createdAt,

@@ -49,6 +49,7 @@ import { WeatherShopItem } from "./calendar";
 import { PetShopItemName } from "./petShop";
 import { MonumentName } from "./monuments";
 import { BumpkinItem } from "./bumpkin";
+import { ProcessedFood } from "./processedFood";
 
 export type CaughtEvent = `${InventoryItemName} Caught`;
 export type HarvestedEvent = `${FlowerName} Harvested`;
@@ -92,6 +93,7 @@ type SellableName =
   | "Love Charm";
 
 type Recipes = Food | CookableName;
+type ProcessedEvent = `${ProcessedFood} Processed`;
 type Edibles = Food | ConsumableName;
 
 export type HarvestEvent = `${
@@ -153,6 +155,7 @@ export type FarmActivityName =
   | PlantGreenHouseFruitEvent
   | PlantGreenHouseCropEvent
   | CookEvent
+  | ProcessedEvent
   | FedEvent
   | BuyEvent
   | CraftedEvent

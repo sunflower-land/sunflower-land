@@ -771,6 +771,13 @@ export type BuildingProduct = {
   timeRemaining?: number;
 };
 
+export type ProcessedProduct = {
+  name: ProcessedFood;
+  readyAt: number;
+  startedAt: number;
+  requirements: Inventory;
+};
+
 export type BuildingProduce = {
   items: Partial<Record<InventoryItemName, number>>;
   startedAt: number;
@@ -791,6 +798,7 @@ export type PlacedItem = {
   removedAt?: number;
   cancelled?: Cancelled;
   crafting?: BuildingProduct[];
+  processing?: ProcessedProduct[];
   oil?: number;
   flipped?: boolean;
 };
