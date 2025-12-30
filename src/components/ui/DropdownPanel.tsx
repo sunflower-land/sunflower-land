@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { DropdownButtonPanel, DropdownOptionsPanel } from "./Panel";
+import classNames from "classnames";
 
-interface DropdownOption {
+export interface DropdownOption {
   value: string;
-  label?: string;
+  label?: React.ReactNode;
   icon?: string;
 }
 
@@ -34,13 +35,15 @@ export const DropdownPanel = <T extends string>({
         className="flex items-center justify-between gap-2"
         onClick={() => setShowDropdown(!showDropdown)}
       >
-        <div className="flex items-center gap-2 py-1 px-1">
+        <div
+          className={classNames("flex items-center gap-2 py-1 px-1", {
+            "pb-2": showDropdown,
+          })}
+        >
           {selectedOption?.icon && (
             <img src={selectedOption.icon} className="w-5" />
           )}
-          <p className="mb-1 ml-1">
-            {selectedOption ? selectedLabel : placeholder}
-          </p>
+          <p className="ml-1">{selectedOption ? selectedLabel : placeholder}</p>
         </div>
         <img
           src={SUNNYSIDE.icons.chevron_down}
@@ -49,14 +52,14 @@ export const DropdownPanel = <T extends string>({
       </DropdownButtonPanel>
 
       {showDropdown && (
-        <div className="absolute top-[78%] left-0 right-0 z-50">
+        <div className="absolute top-[80%] left-0 right-0 z-50">
           <DropdownOptionsPanel className="flex flex-col max-h-[200px] scrollable overflow-y-auto">
             {options
               .filter((option) => option.value !== value)
               .map((option) => (
                 <div
                   key={option.value}
-                  className="flex items-center gap-2 py-2 px-1 cursor-pointer hover:bg-[#ead4aa]/50"
+                  className="flex items-center gap-2 py-2 px-1 cursor-pointer hover:bg-[#ead4aa]/50 border-t border-white/40"
                   onClick={() => {
                     setShowDropdown(false);
                     onChange(option.value as T);
