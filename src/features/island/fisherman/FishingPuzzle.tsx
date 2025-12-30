@@ -17,6 +17,8 @@ import { FishName, MarineMarvelName } from "features/game/types/fishing";
 import { Label } from "components/ui/Label";
 import { FISH_RETRY_COST } from "features/game/events/landExpansion/retryFish";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Modal } from "components/ui/Modal";
+import { Panel } from "components/ui/Panel";
 
 const wrong = SUNNYSIDE.icons.cancel;
 
@@ -81,6 +83,80 @@ const generateSafePath = (rows: number, cols: number): Coordinate[] => {
   return path;
 };
 
+const DIFFICULTY: Record<number, { attempts: number; rows: number }> = {
+  1: { attempts: 4, rows: 5 },
+  2: { attempts: 4, rows: 6 },
+  3: { attempts: 4, rows: 7 },
+  4: { attempts: 4, rows: 7 },
+  5: { attempts: 4, rows: 8 },
+};
+
+export const FishermanPuzzle: React.FC<{
+  onCatch: (result: {
+    completed: true;
+    attemptsLeft: number;
+    attemptsUsed: number;
+  }) => void;
+  onMiss: (result: {
+    completed: false;
+    attemptsLeft: number;
+    attemptsUsed: number;
+  }) => void;
+  onRetry: () => void;
+  difficultCatch: (FishName | MarineMarvelName)[];
+  difficulty: number;
+}> = ({ onCatch, onMiss, onRetry, difficultCatch, difficulty }) => {
+  const [showRetry, setShowRetry] = useState(false);
+  const { t } = useAppTranslation();
+  const { attempts, rows } = DIFFICULTY[difficulty] ?? { attempts: 3, rows: 5 };
+  const [attemptLimit, setAttemptLimit] = useState(attempts);
+
+  const retry = () => {
+    onRetry();
+    console.log("BUMP IT UP!");
+    setAttemptLimit((prev) => prev + 3);
+    setShowRetry(false);
+  };
+
+  return (
+    <>
+      <FishingPuzzle
+        rows={rows}
+        cols={4}
+        maxAttempts={attemptLimit}
+        onCatch={onCatch}
+        onMiss={() => setShowRetry(true)}
+        difficultCatch={difficultCatch}
+      />
+
+      <Modal show={showRetry}>
+        <Panel>
+          <div className="space-y-3 text-sm text-brown-500 flex flex-col items-center">
+            <Label type="danger">{t("fishingPuzzle.missedFish")}</Label>
+            <p>{t("fishingPuzzle.retryPrompt", { coins: FISH_RETRY_COST })}</p>
+
+            <div className="flex">
+              <Button
+                onClick={() =>
+                  onMiss({
+                    completed: false,
+                    attemptsLeft: 0,
+                    attemptsUsed: attemptLimit,
+                  })
+                }
+                className="mr-1"
+              >
+                {t("no")}
+              </Button>
+              <Button onClick={retry}>{t("retry")}</Button>
+            </div>
+          </div>
+        </Panel>
+      </Modal>
+    </>
+  );
+};
+
 interface FishingMinigameProps {
   rows?: number;
   cols?: number;
@@ -96,21 +172,18 @@ interface FishingMinigameProps {
     attemptsLeft: number;
     attemptsUsed: number;
   }) => void;
-  onRetry: () => void;
   difficultCatch: (FishName | MarineMarvelName)[];
 }
 
-export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
+const FishingPuzzle: React.FC<FishingMinigameProps> = ({
   rows = 6,
-  cols = 5,
+  cols = 4,
   maxAttempts = 4,
   onCatch,
   onMiss,
-  onRetry,
   resetKey = 0,
   difficultCatch,
 }) => {
-  const { t } = useAppTranslation();
   const [dimensions, setDimensions] = useState({
     rows: clampValue(rows, MIN_ROWS, MAX_ROWS),
     cols: clampValue(cols, MIN_COLS, MAX_COLS),
@@ -118,12 +191,8 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
   const [path, setPath] = useState(() =>
     generateSafePath(dimensions.rows, dimensions.cols),
   );
-  const initialAttemptLimit = clampValue(
-    maxAttempts,
-    MIN_ATTEMPTS,
-    MAX_ATTEMPTS,
-  );
-  const [attemptLimit, setAttemptLimit] = useState(initialAttemptLimit);
+  const { t } = useAppTranslation();
+
   const [revealedTiles, setRevealedTiles] = useState<Set<string>>(
     () => new Set(),
   );
@@ -131,14 +200,13 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
     () => new Set(),
   );
   const [progress, setProgress] = useState(0);
-  const [attemptsLeft, setAttemptsLeft] = useState(initialAttemptLimit);
+  const [attempts, setAttempts] = useState(0);
   const [mistakeTile, setMistakeTile] = useState<MistakeTile | null>(null);
   const [isResolvingMistake, setIsResolvingMistake] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const failureTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(
     undefined,
   );
-  const [showRetry, setShowRetry] = useState(false);
   const completionTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(
     undefined,
   );
@@ -172,13 +240,11 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
       setPath(generateSafePath(nextRows, nextCols));
       setRevealedTiles(new Set());
       setProgress(0);
-      setAttemptsLeft(nextAttempts);
-      setAttemptLimit(nextAttempts);
+      setAttempts(0);
       setMistakeTile(null);
       setIsResolvingMistake(false);
       setIsComplete(false);
       setTemporaryReveals(new Set());
-      setShowRetry(false);
       hasReportedResultRef.current = false;
     },
     [],
@@ -191,7 +257,7 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
       applyConfig(rows, cols, maxAttempts),
     );
     return () => cancelAnimationFrame(raf);
-  }, [applyConfig, cols, maxAttempts, resetKey, rows]);
+  }, [applyConfig, cols, resetKey, rows]);
 
   const handleCorrectSelection = (row: number, col: number) => {
     const newRevealed = new Set(revealedTiles);
@@ -212,7 +278,7 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
 
     setMistakeTile({ row, col });
     setIsResolvingMistake(true);
-    setAttemptsLeft((prev) => Math.max(0, prev - 1));
+    setAttempts((prev) => prev + 1);
     setTemporaryReveals(
       new Set(getSurroundingTiles(row, col, dimensions.rows, dimensions.cols)),
     );
@@ -227,7 +293,7 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
   };
 
   const handleTileClick = (row: number, col: number) => {
-    if (isComplete || attemptsLeft === 0 || isResolvingMistake) return;
+    if (isComplete || attempts === maxAttempts || isResolvingMistake) return;
     const key = coordinateKey(row, col);
     if (revealedTiles.has(key)) return;
 
@@ -259,17 +325,17 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
 
       const result = {
         completed,
-        attemptsLeft,
-        attemptsUsed: attemptLimit - attemptsLeft,
+        attemptsLeft: maxAttempts - attempts,
+        attemptsUsed: attempts,
       };
 
       if (completed) {
         onCatch?.({ ...result, completed: true });
       } else {
-        setShowRetry(true);
+        onMiss?.({ ...result, completed: false });
       }
     },
-    [attemptLimit, attemptsLeft, onCatch],
+    [attempts, onCatch],
   );
 
   useEffect(() => {
@@ -283,7 +349,7 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
         reportFinish(true);
         completionTimerRef.current = undefined;
       }, 2000);
-    } else if (attemptsLeft === 0) {
+    } else if (attempts === maxAttempts) {
       completionTimerRef.current = setTimeout(() => {
         reportFinish(false);
         completionTimerRef.current = undefined;
@@ -296,41 +362,14 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
         completionTimerRef.current = undefined;
       }
     };
-  }, [isComplete, attemptsLeft, reportFinish]);
-
-  if (showRetry) {
-    return (
-      <div className="gap-1.5 text-sm text-brown-500 flex flex-col">
-        <Label type="danger">{t("fishingPuzzle.missedFish")}</Label>
-        <p className="p-1">
-          {t("fishingPuzzle.retryPrompt", { coins: FISH_RETRY_COST })}
-        </p>
-
-        <div className="flex w-full">
-          <Button
-            onClick={() =>
-              onMiss({
-                completed: false,
-                attemptsLeft,
-                attemptsUsed: attemptLimit - attemptsLeft,
-              })
-            }
-            className="mr-1 w-full"
-          >
-            {t("giveUp")}
-          </Button>
-          <Button onClick={onRetry}>{t("retry")}</Button>
-        </div>
-      </div>
-    );
-  }
+  }, [isComplete, attempts, reportFinish]);
 
   return (
     <div className="space-y-3 text-sm text-brown-500 flex flex-col items-center">
-      <Label type={attemptsLeft <= 1 ? "danger" : "default"}>
+      <Label type={maxAttempts - attempts <= 1 ? "danger" : "default"}>
         {t("fishingPuzzle.attemptsLeft", {
-          attemptsLeft,
-          attemptLimit,
+          attemptsLeft: maxAttempts - attempts,
+          attemptLimit: maxAttempts,
         })}
       </Label>
 
@@ -344,7 +383,7 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
           {t("fishingPuzzle.success")}
         </div>
       )}
-      {attemptsLeft === 0 && !isComplete && (
+      {attempts === maxAttempts && !isComplete && (
         <div className="rounded bg-red-100 border border-red-400 px-2 py-1 text-xs text-red-700">
           {t("fishingPuzzle.failedAttempts")}
         </div>
@@ -374,7 +413,7 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
             const isSelectable = !!nextStep && row === nextStep.row;
             const isDisabled =
               isComplete ||
-              attemptsLeft === 0 ||
+              attempts === maxAttempts ||
               isResolvingMistake ||
               !isSelectable;
             const showGreen =
@@ -392,7 +431,7 @@ export const FishingPuzzle: React.FC<FishingMinigameProps> = ({
                 disabled={isDisabled}
                 style={{ perspective: "800px" }}
                 className={classNames(
-                  "h-10 w-10 sm:h-12 sm:w-12 rounded transition-colors duration-200",
+                  "h-12 w-12 rounded transition-colors duration-200",
                   {
                     " cursor-not-allowed": isDisabled,
                     "ring-2 ring-white/70": isActiveRow,
