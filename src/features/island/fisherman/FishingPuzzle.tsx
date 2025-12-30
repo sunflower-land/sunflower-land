@@ -113,7 +113,6 @@ export const FishermanPuzzle: React.FC<{
 
   const retry = () => {
     onRetry();
-    console.log("BUMP IT UP!");
     setAttemptLimit((prev) => prev + 3);
     setShowRetry(false);
   };
@@ -335,7 +334,7 @@ const FishingPuzzle: React.FC<FishingMinigameProps> = ({
         onMiss?.({ ...result, completed: false });
       }
     },
-    [attempts, onCatch],
+    [attempts, onCatch, onMiss, maxAttempts],
   );
 
   useEffect(() => {
