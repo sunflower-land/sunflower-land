@@ -102,13 +102,13 @@ export const getChestBuds = (
   state: GameState,
 ): NonNullable<GameState["buds"]> => {
   return Object.fromEntries(
-    Object.entries(state.buds ?? {}).filter(([id, bud]) => !bud.coordinates),
+    Object.entries(state.buds ?? {}).filter(([, bud]) => !bud.coordinates),
   );
 };
 
 export const getChestPets = (pets: PetNFTs): PetNFTs => {
   return Object.fromEntries(
-    Object.entries(pets ?? {}).filter(([id, pet]) => !pet.coordinates),
+    Object.entries(pets ?? {}).filter(([, pet]) => !pet.coordinates),
   );
 };
 
@@ -190,6 +190,17 @@ export const getChestItems = (state: GameState): Inventory => {
   return validItems;
 };
 
+/**
+ * Items that require "chest" counting (i.e. available/unplaced amount).
+ *
+ * This MUST stay aligned with `getChestItems` logic: only items that can be
+ * placed on the map should subtract placed instances from inventory.
+ */
+const requiresChestCount = (name: InventoryItemName) =>
+  name in RESOURCE_STATE_ACCESSORS ||
+  name in COLLECTIBLES_DIMENSIONS ||
+  name in BUILDINGS_DIMENSIONS;
+
 export function getCountAndType(
   state: GameState,
   name: InventoryItemName | BumpkinItem,
@@ -197,10 +208,12 @@ export function getCountAndType(
   let count = new Decimal(0);
   let itemType: "wearable" | "inventory" = "inventory";
   if (isCollectible(name)) {
+    const inventoryCount = state.inventory[name] ?? new Decimal(0);
+
+    const needsChestCount = requiresChestCount(name);
+    const chestItems = needsChestCount ? getChestItems(state) : undefined;
     count =
-      getChestItems(state)[name as InventoryItemName] ??
-      state.inventory[name as InventoryItemName] ??
-      new Decimal(0);
+      (needsChestCount ? chestItems?.[name] : undefined) ?? inventoryCount;
   } else {
     count = new Decimal(
       availableWardrobe(state)[name as BumpkinItem] ??
