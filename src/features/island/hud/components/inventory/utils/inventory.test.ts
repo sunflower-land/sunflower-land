@@ -1,7 +1,15 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
-import { getBasketItems, getChestItems } from "./inventory";
+import {
+  getBasketItems,
+  getChestItemCount,
+  getChestItems,
+  requiresChestCount,
+} from "./inventory";
+import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
+import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
+import { RESOURCE_STATE_ACCESSORS } from "features/game/types/resources";
 
 describe("getBasketItems", () => {
   it("creates an empty basket", () => {
@@ -219,5 +227,46 @@ describe("getChestItems", () => {
     expect(chestWithZero).toEqual({
       Tree: new Decimal(0),
     });
+  });
+});
+
+describe("requiresChestCount", () => {
+  it("stays aligned with getChestItems placeable keys", () => {
+    const expected = new Set<string>([
+      ...Object.keys(RESOURCE_STATE_ACCESSORS),
+      ...Object.keys(COLLECTIBLES_DIMENSIONS),
+      ...Object.keys(BUILDINGS_DIMENSIONS),
+    ]);
+
+    for (const name of expected) {
+      expect(requiresChestCount(name as any)).toBe(true);
+    }
+
+    // sanity-check non-placeables
+    expect(requiresChestCount("Sunflower" as any)).toBe(false);
+    expect(requiresChestCount("Egg" as any)).toBe(false);
+  });
+});
+
+describe("getChestItemCount", () => {
+  it("matches getChestItems output for a placeable", () => {
+    const state: GameState = {
+      ...TEST_FARM,
+      inventory: { "Fire Pit": new Decimal(2) },
+      buildings: {
+        ...TEST_FARM.buildings,
+        "Fire Pit": [
+          {
+            id: "1",
+            createdAt: Date.now(),
+            readyAt: Date.now(),
+            coordinates: { x: 1, y: 1 },
+          },
+        ],
+      },
+    };
+
+    const chest = getChestItems(state);
+    expect(getChestItemCount(state, "Fire Pit")).toEqual(chest["Fire Pit"]);
   });
 });
