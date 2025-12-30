@@ -441,7 +441,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
               difficulty={challengeDifficulty}
               onCatch={onChallengeWon}
               onMiss={onChallengeLost}
-              fishName={getMostDifficultFish(difficultCatch).name}
+              fishName={getMostDifficultFish(difficultCatch)?.name}
             />
           )}
         </Panel>
