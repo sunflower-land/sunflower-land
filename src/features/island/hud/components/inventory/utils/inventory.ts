@@ -112,73 +112,90 @@ export const getChestPets = (pets: PetNFTs): PetNFTs => {
   );
 };
 
+/**
+ * Items that require "chest" counting (i.e. available/unplaced amount).
+ *
+ * This MUST stay aligned with `getChestItems` logic: only items that can be
+ * placed on the map should subtract placed instances from inventory.
+ */
+export const requiresChestCount = (name: InventoryItemName) =>
+  name in RESOURCE_STATE_ACCESSORS ||
+  name in COLLECTIBLES_DIMENSIONS ||
+  name in BUILDINGS_DIMENSIONS;
+
+/**
+ * Returns the available/unplaced amount for a single inventory item.
+ *
+ * This is the single source of truth used by BOTH `getChestItems` and
+ * `getCountAndType`, preventing drift if chest counting logic changes.
+ */
+export const getChestItemCount = (
+  state: GameState,
+  name: InventoryItemName,
+): Decimal => {
+  const inventoryCount = state.inventory[name] ?? new Decimal(0);
+
+  if (name in RESOURCE_STATE_ACCESSORS) {
+    const stateAccessor =
+      RESOURCE_STATE_ACCESSORS[name as Exclude<ResourceName, "Boulder">];
+    const placedNodes = Object.values(stateAccessor(state) ?? {}).filter(
+      (resource) => {
+        const placed = resource.x !== undefined && resource.y !== undefined;
+        if (name in RESOURCES_UPGRADES_TO || name in ADVANCED_RESOURCES) {
+          const hasName = "name" in resource;
+          const nameMatch = hasName && resource.name === name;
+          const isBaseResource =
+            !hasName && BASIC_RESOURCES.includes(name as BasicResourceName);
+
+          return (nameMatch || isBaseResource) && placed;
+        }
+
+        return placed;
+      },
+    );
+
+    const available = new Decimal(inventoryCount.minus(placedNodes.length));
+    return available.greaterThanOrEqualTo(0) ? available : new Decimal(0);
+  }
+
+  if (name in COLLECTIBLES_DIMENSIONS) {
+    const placed =
+      (state.collectibles[name as CollectibleName]?.filter(
+        (collectible) => collectible.coordinates,
+      ).length ?? 0) +
+      (state.home.collectibles[name as CollectibleName]?.filter(
+        (collectible) => collectible.coordinates,
+      ).length ?? 0);
+
+    const available = new Decimal(inventoryCount.minus(placed));
+    return available.greaterThanOrEqualTo(0) ? available : new Decimal(0);
+  }
+
+  if (name in BUILDINGS_DIMENSIONS) {
+    const placed =
+      state.buildings[name as BuildingName]?.filter(
+        (building) => building.coordinates,
+      ).length ?? 0;
+
+    const available = new Decimal(inventoryCount.minus(placed));
+    return available.greaterThanOrEqualTo(0) ? available : new Decimal(0);
+  }
+
+  // Non-placeables: chest counting doesn't apply, so it's just inventory.
+  return inventoryCount;
+};
+
 export const getChestItems = (state: GameState): Inventory => {
-  const availableItems = getKeys(state.inventory).reduce((acc, itemName) => {
-    if (itemName in RESOURCE_STATE_ACCESSORS) {
-      const stateAccessor =
-        RESOURCE_STATE_ACCESSORS[itemName as Exclude<ResourceName, "Boulder">];
-      const placedNodes = Object.values(stateAccessor(state) ?? {}).filter(
-        (resource) => {
-          const placed = resource.x !== undefined && resource.y !== undefined;
-          if (
-            itemName in RESOURCES_UPGRADES_TO ||
-            itemName in ADVANCED_RESOURCES
-          ) {
-            const hasName = "name" in resource;
-            const nameMatch = hasName && resource.name === itemName;
-            const isBaseResource =
-              !hasName &&
-              BASIC_RESOURCES.includes(itemName as BasicResourceName);
+  const availableItems = getKeys(state.inventory).reduce<Inventory>(
+    (acc, itemName) => {
+      if (!requiresChestCount(itemName)) return acc;
 
-            return (nameMatch || isBaseResource) && placed;
-          }
+      acc[itemName] = getChestItemCount(state, itemName);
 
-          return placed;
-        },
-      );
-
-      return {
-        ...acc,
-        [itemName]: new Decimal(
-          state.inventory[itemName]?.minus(placedNodes.length) ?? 0,
-        ),
-      };
-    }
-
-    if (itemName in COLLECTIBLES_DIMENSIONS) {
-      return {
-        ...acc,
-        [itemName]: new Decimal(
-          state.inventory[itemName]
-            ?.minus(
-              state.collectibles[itemName as CollectibleName]?.filter(
-                (collectible) => collectible.coordinates,
-              ).length ?? 0,
-            )
-            ?.minus(
-              state.home.collectibles[itemName as CollectibleName]?.filter(
-                (collectible) => collectible.coordinates,
-              ).length ?? 0,
-            ) ?? 0,
-        ),
-      };
-    }
-
-    if (itemName in BUILDINGS_DIMENSIONS) {
-      return {
-        ...acc,
-        [itemName]: new Decimal(
-          state.inventory[itemName]?.minus(
-            state.buildings[itemName as BuildingName]?.filter(
-              (building) => building.coordinates,
-            ).length ?? 0,
-          ) ?? 0,
-        ),
-      };
-    }
-
-    return acc;
-  }, {} as Inventory);
+      return acc;
+    },
+    {},
+  );
 
   const validItems = getKeys(availableItems).reduce((acc, name) => {
     if (availableItems[name]?.greaterThanOrEqualTo(0)) {
@@ -190,17 +207,6 @@ export const getChestItems = (state: GameState): Inventory => {
   return validItems;
 };
 
-/**
- * Items that require "chest" counting (i.e. available/unplaced amount).
- *
- * This MUST stay aligned with `getChestItems` logic: only items that can be
- * placed on the map should subtract placed instances from inventory.
- */
-const requiresChestCount = (name: InventoryItemName) =>
-  name in RESOURCE_STATE_ACCESSORS ||
-  name in COLLECTIBLES_DIMENSIONS ||
-  name in BUILDINGS_DIMENSIONS;
-
 export function getCountAndType(
   state: GameState,
   name: InventoryItemName | BumpkinItem,
@@ -208,12 +214,7 @@ export function getCountAndType(
   let count = new Decimal(0);
   let itemType: "wearable" | "inventory" = "inventory";
   if (isCollectible(name)) {
-    const inventoryCount = state.inventory[name] ?? new Decimal(0);
-
-    const needsChestCount = requiresChestCount(name);
-    const chestItems = needsChestCount ? getChestItems(state) : undefined;
-    count =
-      (needsChestCount ? chestItems?.[name] : undefined) ?? inventoryCount;
+    count = getChestItemCount(state, name);
   } else {
     count = new Decimal(
       availableWardrobe(state)[name as BumpkinItem] ??
