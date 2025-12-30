@@ -889,6 +889,16 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   farmActivity: {
     "Daily Reward Collected": 10,
+    "Anchovy Caught": 1,
+    "Butterflyfish Caught": 1,
+    "Blowfish Caught": 1,
+    "Clownfish Caught": 1,
+    "Sea Bass Caught": 1,
+    "Sea Horse Caught": 1,
+    "Horse Mackerel Caught": 1,
+    "Halibut Caught": 1,
+    "Squid Caught": 1,
+    "Porgy Caught": 1,
   },
   dailyRewards: {
     chest: {
@@ -902,14 +912,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
   fishing: {
     dailyAttempts: {},
-    wharf: {
-      castedAt: 100,
-      bait: "Fishing Lure",
-      chum: "Carrot",
-      caught: {
-        "Horse Mackerel": 1,
-      },
-    },
+    wharf: {},
   },
   mailbox: {
     read: [],
