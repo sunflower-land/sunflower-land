@@ -3,6 +3,8 @@ import Decimal from "decimal.js-light";
 import { sdk } from "@farcaster/miniapp-sdk";
 
 import { initialiseFont } from "./fonts";
+import { initMetaPixel } from "lib/analytics/meta";
+
 export async function initialise() {
   /**
    * Override the default stringify of Decimal.js for assist in debugging.
@@ -16,6 +18,7 @@ export async function initialise() {
   Decimal.set({ toExpNeg: -30 });
 
   initialiseFont();
+  initMetaPixel();
 
   await sdk.actions.ready();
 }

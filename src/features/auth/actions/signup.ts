@@ -8,6 +8,10 @@ export type UTM = {
   campaign?: string;
   term?: string;
   content?: string;
+
+  // Facebook Ad tracking
+  fbp?: string;
+  fbc?: string;
 };
 
 type Request = {
@@ -36,7 +40,11 @@ export async function signUp({
     },
     body: JSON.stringify({
       referrerId: referrerId ?? undefined,
-      utm: utm ?? undefined,
+      utm: {
+        ...utm,
+        fbp: fbp,
+        fbc: fbc,
+      },
     }),
   });
 

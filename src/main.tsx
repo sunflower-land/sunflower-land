@@ -4,7 +4,6 @@ import { App } from "./App";
 import { CONFIG } from "lib/config";
 import { PortalApp } from "features/portal/PortalApp";
 import "lib/firebase";
-import { initMetaPixel } from "lib/analytics/meta";
 
 // TODO - tree shaking to minimise bundle size
 if (CONFIG.PORTAL_APP) {
@@ -16,8 +15,6 @@ if (CONFIG.PORTAL_APP) {
     // </React.StrictMode>,
   );
 } else {
-  initMetaPixel();
-
   // Main Game
   const rootElement = document.getElementById("root")!;
   const root = createRoot(rootElement);

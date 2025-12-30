@@ -116,7 +116,7 @@ const FEATURE_FLAGS = {
   PET_HOUSE: testnetFeatureFlag,
 
   RENEW_PET_SHRINES: defaultFeatureFlag,
-  FISHING_PUZZLE: () => false,
+  FISHING_PUZZLE: defaultFeatureFlag,
   MEMORY_BETA: defaultFeatureFlag,
   VERSION_UPDATES: defaultFeatureFlag,
   DAILY_BOXES: defaultFeatureFlag,
