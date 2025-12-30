@@ -10,6 +10,10 @@ import { SeedBoughtAction } from "../events/landExpansion/seedBought";
 import { GameState } from "../types/game";
 import { getObjectEntries } from "../expansion/lib/utils";
 import { AUTO_SAVE_INTERVAL } from "../expansion/Game";
+import {
+  getMetaBrowserIdentifiers,
+  trackMetaCustomEvent,
+} from "lib/analytics/meta";
 
 // Browser-friendly SHA-256 → hex
 export async function hashString(str: string): Promise<string> {
@@ -55,6 +59,8 @@ type Request = {
 const API_URL = CONFIG.API_URL;
 
 const EXCLUDED_EVENTS: GameEventName<GameEvent>[] = ["bot.detected"];
+
+let hasTrackedPlayStarted = false;
 
 /**
  * Squashes similar events into a single event
@@ -104,6 +110,7 @@ export async function autosaveRequest(
   },
 ) {
   const ttl = (window as any)["x-amz-ttl"];
+  const { fbp, fbc } = getMetaBrowserIdentifiers();
 
   // Useful for using cached results
   const cachedKey = getSessionId();
@@ -123,6 +130,8 @@ export async function autosaveRequest(
           "X-Fingerprint": request.fingerprint,
           "X-Transaction-ID": request.transactionId,
         },
+        ...(fbp ? { "X-Meta-Fbp": fbp } : {}),
+        ...(fbc ? { "X-Meta-Fbc": fbc } : {}),
         ...(ttl ? { "X-Amz-TTL": (window as any)["x-amz-ttl"] } : {}),
       },
       body: JSON.stringify({
@@ -153,6 +162,14 @@ export async function autosave(request: Request, retries = 0) {
 
   if (actions.length === 0) {
     return { verified: true };
+  }
+
+  // "PlayStarted" = first meaningful interaction (first persisted action)
+  if (!hasTrackedPlayStarted) {
+    hasTrackedPlayStarted = true;
+    trackMetaCustomEvent("PlayStarted", {
+      farmId: request.farmId,
+    });
   }
 
   if (autosaveErrors) {

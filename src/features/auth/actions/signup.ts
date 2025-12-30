@@ -1,5 +1,6 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
+import { getMetaBrowserIdentifiers } from "lib/analytics/meta";
 
 export type UTM = {
   source?: string;
@@ -22,12 +23,16 @@ export async function signUp({
   referrerId,
   utm,
 }: Request) {
+  const { fbp, fbc } = getMetaBrowserIdentifiers();
+
   const response = await window.fetch(`${CONFIG.API_URL}/signup`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
       Authorization: `Bearer ${token}`,
       "X-Transaction-ID": transactionId,
+      ...(fbp ? { "X-Meta-Fbp": fbp } : {}),
+      ...(fbc ? { "X-Meta-Fbc": fbc } : {}),
     },
     body: JSON.stringify({
       referrerId: referrerId ?? undefined,
