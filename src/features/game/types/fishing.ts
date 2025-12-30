@@ -707,12 +707,28 @@ export const GUARANTEED_CATCH_BY_BAIT: Record<GuaranteedBait, FishName[]> = {
     "Sunfish",
     "Cobia",
   ],
-  "Fish Oil": ["Barred Knifejaw", "Trout", "Coelacanth", "Saw Shark"],
-  "Crab Stick": ["Barred Knifejaw", "Whale Shark", "White Shark", "Parrotfish"],
+  "Fish Oil": [
+    "Barred Knifejaw",
+    "Trout",
+    "Coelacanth",
+    "Saw Shark",
+    "Sunfish",
+  ],
+  "Crab Stick": [
+    "Barred Knifejaw",
+    "Whale Shark",
+    "White Shark",
+    "Parrotfish",
+    "Mahi Mahi",
+  ],
 };
 
-export const isGuaranteedBait = (bait: FishingBait): bait is GuaranteedBait =>
-  GUARANTEED_BAIT.includes(bait as GuaranteedBait);
+export const isGuaranteedBait = (
+  bait: FishingBait | undefined,
+): bait is GuaranteedBait => {
+  if (!bait) return false;
+  return GUARANTEED_BAIT.includes(bait as GuaranteedBait);
+};
 
 export const getSeasonalGuaranteedCatch = (
   bait: FishingBait,
