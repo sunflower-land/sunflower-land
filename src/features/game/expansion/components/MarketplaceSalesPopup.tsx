@@ -59,61 +59,63 @@ export const MarketplaceSalesPopup: React.FC = () => {
         <div className="mb-2 ml-1">
           <InlineDialogue message={t("marketplace.youHaveHadSales")} />
         </div>
-        {soldListingIds.map((listingId) => {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          const listing = trades.listings![listingId];
-          const itemName = getKeys(listing.items)[0];
-          const itemId = tradeToId({ details: listing });
-          const details = getTradeableDisplay({
-            id: itemId,
-            type: listing.collection,
-            state: state.context.state,
-          });
-          const amount = listing.items[itemName as InventoryItemName];
+        <div className="max-h-[450px] overflow-y-auto scrollable">
+          {soldListingIds.map((listingId) => {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const listing = trades.listings![listingId];
+            const itemName = getKeys(listing.items)[0];
+            const itemId = tradeToId({ details: listing });
+            const details = getTradeableDisplay({
+              id: itemId,
+              type: listing.collection,
+              state: state.context.state,
+            });
+            const amount = listing.items[itemName as InventoryItemName];
 
-          const tax = listing.tax ?? listing.sfl * MARKETPLACE_TAX;
-          const sfl = new Decimal(listing.sfl).sub(tax);
-          const estTradePoints = calculateTradePoints({
-            sfl: listing.sfl,
-            points: !listing.signature ? 1 : 3,
-          }).multipliedPoints;
+            const tax = listing.tax ?? listing.sfl * MARKETPLACE_TAX;
+            const sfl = new Decimal(listing.sfl).sub(tax);
+            const estTradePoints = calculateTradePoints({
+              sfl: listing.sfl,
+              points: !listing.signature ? 1 : 3,
+            }).multipliedPoints;
 
-          const isResource = isTradeResource(KNOWN_ITEMS[Number(itemId)]);
+            const isResource = isTradeResource(KNOWN_ITEMS[Number(itemId)]);
 
-          return (
-            <div className="flex flex-col space-y-1" key={listingId}>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center w-3/4 space-x-2">
-                  <Box image={details.image} />
-                  <div className="flex flex-col">
-                    <div>
-                      <p className="text-xs mt-0.5">{`${amount} x ${itemName}`}</p>
-                    </div>
-                    <div className="flex items-center space-x-1">
-                      <p className="text-xs mt-0.5">{`${formatNumber(sfl, {
-                        decimalPlaces: 4,
-                      })} FLOWER`}</p>
-                      <img src={token} className="w-4" />
-                    </div>
-                    {!isResource && (
-                      <div className="flex items-center">
-                        <span className="text-xs">
-                          {`${formatNumber(estTradePoints, {
-                            decimalPlaces: 2,
-                          })} Trade Points`}
-                        </span>
-                        <img
-                          src={ITEM_DETAILS["Trade Point"].image}
-                          className="h-6 ml-1"
-                        />
+            return (
+              <div className="flex flex-col space-y-1" key={listingId}>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center w-3/4 space-x-2">
+                    <Box image={details.image} />
+                    <div className="flex flex-col">
+                      <div>
+                        <p className="text-xs mt-0.5">{`${amount} x ${itemName}`}</p>
                       </div>
-                    )}
+                      <div className="flex items-center space-x-1">
+                        <p className="text-xs mt-0.5">{`${formatNumber(sfl, {
+                          decimalPlaces: 4,
+                        })} FLOWER`}</p>
+                        <img src={token} className="w-4" />
+                      </div>
+                      {!isResource && (
+                        <div className="flex items-center">
+                          <span className="text-xs">
+                            {`${formatNumber(estTradePoints, {
+                              decimalPlaces: 2,
+                            })} Trade Points`}
+                          </span>
+                          <img
+                            src={ITEM_DETAILS["Trade Point"].image}
+                            className="h-6 ml-1"
+                          />
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
       <div className="flex space-x-1">
         <Button className="w-full" onClick={() => gameService.send("CLOSE")}>

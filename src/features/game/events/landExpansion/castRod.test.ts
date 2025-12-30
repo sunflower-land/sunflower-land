@@ -58,6 +58,63 @@ describe("castRod", () => {
     }).toThrow("Axe is not a supported chum");
   });
 
+  it("requires guaranteed catch when using guaranteed bait", () => {
+    expect(() => {
+      castRod({
+        action: {
+          bait: "Fish Flake",
+          type: "rod.casted",
+        },
+        state: {
+          ...farm,
+          inventory: {
+            Rod: new Decimal(1),
+            "Fish Flake": new Decimal(1),
+          },
+        },
+      });
+    }).toThrow("Missing guaranteed catch");
+  });
+
+  it("stores guaranteed catch selection on wharf", () => {
+    const state = castRod({
+      action: {
+        bait: "Fish Flake",
+        guaranteedCatch: "Anchovy",
+        type: "rod.casted",
+      },
+      state: {
+        ...farm,
+        inventory: {
+          Rod: new Decimal(1),
+          "Fish Flake": new Decimal(1),
+        },
+      },
+    });
+
+    expect(state.fishing.wharf.guaranteedCatch).toBe("Anchovy");
+    expect(state.fishing.wharf.caught?.Anchovy).toEqual(1);
+  });
+
+  it("rejects guaranteed catch when using regular bait", () => {
+    expect(() => {
+      castRod({
+        action: {
+          bait: "Earthworm",
+          guaranteedCatch: "Anchovy",
+          type: "rod.casted",
+        },
+        state: {
+          ...farm,
+          inventory: {
+            Rod: new Decimal(1),
+            Earthworm: new Decimal(1),
+          },
+        },
+      });
+    }).toThrow("Invalid guaranteed catch");
+  });
+
   it("requires player has not already casts", () => {
     expect(() => {
       castRod({
@@ -196,6 +253,7 @@ describe("castRod", () => {
           Rod: new Decimal(10),
           Earthworm: new Decimal(10),
           Sunflower: new Decimal(1000),
+          "Beta Pass": new Decimal(1),
         },
         fishing: {
           wharf: {},
@@ -528,7 +586,7 @@ describe("castRod", () => {
       action: {
         bait: "Earthworm",
         type: "rod.casted",
-        multiplier: 1,
+        multiplier: 5,
       },
       state: {
         ...farm,
@@ -540,6 +598,7 @@ describe("castRod", () => {
         inventory: {
           Rod: new Decimal(20),
           Earthworm: new Decimal(20),
+          "Beta Pass": new Decimal(1),
         },
         fishing: {
           wharf: {},
@@ -548,14 +607,13 @@ describe("castRod", () => {
             [date]: 21,
           },
           extraReels: {
-            count: 4,
+            count: 6,
           },
         },
       },
       createdAt: now,
     });
 
-    // Only 2 extra reels should be used for this cast (delta over limit), not 3 (total over limit)
-    expect(state.fishing.extraReels?.count).toEqual(3);
+    expect(state.fishing.extraReels?.count).toEqual(1);
   });
 });

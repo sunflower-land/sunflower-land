@@ -7272,7 +7272,6 @@
   "confirm.renew.message": "{{name}} yenilemek istediğinizden emin misiniz?",
   "renew.expired.message": "{{name}} süresi doldu. Yenileyebilir veya yakabilirsiniz.",
   "shrine.expired": "{{name}} Süresi doldu",
-  "fishingPuzzle.retryPrompt": "{{coins}} jetonları için tekrar denemek ister misiniz?",
   "fishingPuzzle.attemptsLeft": "Kalan Denemeler: {{attemptsLeft}}/{{attemptLimit}}",
   "fishingPuzzle.findSafePath": "Balıkları zirveye çıkarmak için güvenli yolu bulun.",
   "fishingPuzzle.success": "Harika iş! Zirveye ulaştın.",
@@ -7674,5 +7673,15 @@
   "fishing.missedFish": "Kaçılan balık!",
   "giveUp": "Vazgeçmek",
   "description.fish.house": "Balıklarınız için bir işleme tesisi.",
-  "building.fishMarket": "Balık Pazarı"
+  "building.fishMarket": "Balık Pazarı",
+  "fishing.guaranteedCatch.title": "Garantili balık",
+  "fishing.guaranteedCatch.none": "Bu sezon bu yem için hiçbir balık ısırmıyor.",
+  "fishing.guaranteedCatch.helper": "Bu yemle garanti etmek için bir balık seçin.",
+  "fishing.guaranteedCatch.required": "Dökümden önce bir balık seçin.",
+  "fishing.select.your.bait": "Yeminizi seçin",
+  "fishing.dont.have.enough.bait": "Yeterince sahip değilsiniz {{bait}}",
+  "fishing.guaranteedCatch.select": "Garantili yakalamanızı seçin:",
+  "statements.craft.fishHouse": "Fish House'da El Sanatları",
+  "fishing.notEnoughBait": "Yeterince sahip değilsin {{bait}}!",
+  "fishingPuzzle.retryPrompt": "{{coins}} jetonları için daha fazla deneme ister misiniz?"
 }

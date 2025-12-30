@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { DropdownButtonPanel, DropdownOptionsPanel } from "./Panel";
+import classNames from "classnames";
 
-interface DropdownOption {
+export interface DropdownOption {
   value: string;
+  label?: React.ReactNode;
   icon?: string;
 }
 
@@ -25,6 +27,7 @@ export const DropdownPanel = <T extends string>({
   const [showDropdown, setShowDropdown] = useState(false);
 
   const selectedOption = options.find((option) => option.value === value);
+  const selectedLabel = selectedOption?.label ?? selectedOption?.value;
 
   return (
     <div className={`flex flex-col gap-2 relative ${className}`}>
@@ -32,13 +35,15 @@ export const DropdownPanel = <T extends string>({
         className="flex items-center justify-between gap-2"
         onClick={() => setShowDropdown(!showDropdown)}
       >
-        <div className="flex items-center gap-2">
+        <div
+          className={classNames("flex items-center gap-2 py-1 px-1", {
+            "pb-2": showDropdown,
+          })}
+        >
           {selectedOption?.icon && (
             <img src={selectedOption.icon} className="w-5" />
           )}
-          <p className="mb-1 ml-1">
-            {selectedOption ? selectedOption.value : placeholder}
-          </p>
+          <p className="ml-1">{selectedOption ? selectedLabel : placeholder}</p>
         </div>
         <img
           src={SUNNYSIDE.icons.chevron_down}
@@ -47,21 +52,25 @@ export const DropdownPanel = <T extends string>({
       </DropdownButtonPanel>
 
       {showDropdown && (
-        <div className="absolute top-[78%] left-0 right-0 z-50">
-          <DropdownOptionsPanel className="flex flex-col">
-            {options.map((option) => (
-              <div
-                key={option.value}
-                className="flex items-center gap-2 py-2 cursor-pointer hover:bg-[#ead4aa]/50"
-                onClick={() => {
-                  setShowDropdown(false);
-                  onChange(option.value as T);
-                }}
-              >
-                {option.icon && <img src={option.icon} className="w-5" />}
-                <span className="text-sm">{option.value}</span>
-              </div>
-            ))}
+        <div className="absolute top-[80%] left-0 right-0 z-50">
+          <DropdownOptionsPanel className="flex flex-col max-h-[200px] scrollable overflow-y-auto">
+            {options
+              .filter((option) => option.value !== value)
+              .map((option) => (
+                <div
+                  key={option.value}
+                  className="flex items-center gap-2 py-2 px-1 cursor-pointer hover:bg-[#ead4aa]/50 border-t border-white/40"
+                  onClick={() => {
+                    setShowDropdown(false);
+                    onChange(option.value as T);
+                  }}
+                >
+                  {option.icon && <img src={option.icon} className="w-5" />}
+                  <span className="text-sm">
+                    {option.label ?? option.value}
+                  </span>
+                </div>
+              ))}
           </DropdownOptionsPanel>
         </div>
       )}

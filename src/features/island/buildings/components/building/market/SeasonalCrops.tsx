@@ -49,7 +49,7 @@ export const SeasonalCrops: React.FC = () => {
 
   const state = useSelector(gameService, _state);
 
-  const { inventory, island, season } = state;
+  const { island, season } = state;
   const { type: islandType } = island;
 
   const divRef = useRef<HTMLDivElement>(null);
@@ -210,16 +210,20 @@ export const SeasonalCrops: React.FC = () => {
             <div className="flex flex-wrap mb-2">
               {seasonal
                 .filter((name) => !!crops[name].sellPrice)
-                .map((name) => (
-                  <Box
-                    isSelected={selected.name === name}
-                    key={name}
-                    onClick={() => setSelected(crops[name])}
-                    image={ITEM_DETAILS[name].image}
-                    count={getCountAndType(state, name).count}
-                    parentDivRef={divRef}
-                  />
-                ))}
+                .map((name) => {
+                  const { count } = getCountAndType(state, name);
+
+                  return (
+                    <Box
+                      isSelected={selected.name === name}
+                      key={name}
+                      onClick={() => setSelected(crops[name])}
+                      image={ITEM_DETAILS[name].image}
+                      count={count}
+                      parentDivRef={divRef}
+                    />
+                  );
+                })}
             </div>
             <div className="flex">
               <Label
@@ -234,16 +238,20 @@ export const SeasonalCrops: React.FC = () => {
               {getKeys(crops)
                 .filter((name) => !seasonal.includes(name))
                 .filter((name) => !!crops[name].sellPrice)
-                .map((name) => (
-                  <Box
-                    isSelected={selected.name === name}
-                    key={name}
-                    onClick={() => setSelected(crops[name])}
-                    image={ITEM_DETAILS[name].image}
-                    count={getCountAndType(state, name).count}
-                    parentDivRef={divRef}
-                  />
-                ))}
+                .map((name) => {
+                  const { count } = getCountAndType(state, name);
+
+                  return (
+                    <Box
+                      isSelected={selected.name === name}
+                      key={name}
+                      onClick={() => setSelected(crops[name])}
+                      image={ITEM_DETAILS[name].image}
+                      count={count}
+                      parentDivRef={divRef}
+                    />
+                  );
+                })}
             </div>
           </div>
         }

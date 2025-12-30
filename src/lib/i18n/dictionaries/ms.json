@@ -7272,7 +7272,6 @@
   "confirm.renew.message": "Adakah anda pasti ingin memperbaharui {{name}}?",
   "renew.expired.message": "{{name}} telah tamat tempoh. Anda boleh memperbaharui atau membakarnya.",
   "shrine.expired": "{{name}} Tamat tempoh",
-  "fishingPuzzle.retryPrompt": "Adakah anda ingin mencuba lagi untuk duit syiling {{coins}}?",
   "fishingPuzzle.attemptsLeft": "Percubaan Kiri: {{attemptsLeft}}/{{attemptLimit}}",
   "fishingPuzzle.findSafePath": "Cari jalan yang selamat untuk membawa ikan ke atas.",
   "fishingPuzzle.success": "Kerja yang hebat! Anda sampai ke puncak.",
@@ -7674,5 +7673,15 @@
   "fishing.missedFish": "Ikan yang melarikan diri!",
   "giveUp": "Berputus asa",
   "description.fish.house": "Loji pemprosesan untuk ikan anda.",
-  "building.fishMarket": "Pasar Ikan"
+  "building.fishMarket": "Pasar Ikan",
+  "fishing.guaranteedCatch.title": "Ikan yang dijamin",
+  "fishing.guaranteedCatch.none": "Tidak ada ikan yang menggigit musim ini untuk umpan ini.",
+  "fishing.guaranteedCatch.helper": "Pilih satu ikan untuk menjamin dengan umpan ini.",
+  "fishing.guaranteedCatch.required": "Pilih ikan sebelum mencurkan.",
+  "fishing.select.your.bait": "Pilih umpan anda",
+  "fishing.dont.have.enough.bait": "Anda tidak mempunyai cukup {{bait}}",
+  "fishing.guaranteedCatch.select": "Pilih tangkapan yang dijamin anda:",
+  "statements.craft.fishHouse": "Kraf di Rumah Ikan",
+  "fishing.notEnoughBait": "Anda tidak mempunyai cukup {{bait}}!",
+  "fishingPuzzle.retryPrompt": "Adakah anda ingin lebih banyak percubaan untuk duit syiling {{coins}}?"
 }

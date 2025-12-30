@@ -15,7 +15,7 @@ import { Modal } from "components/ui/Modal";
 import { FishermanModal } from "./FishermanModal";
 import { FishermanNPC } from "./FishermanNPC";
 import { InventoryItemName } from "features/game/types/game";
-import { FishingBait } from "features/game/types/fishing";
+import { FishName, FishingBait } from "features/game/types/fishing";
 import classNames from "classnames";
 
 const expansions = (state: MachineState) =>
@@ -48,8 +48,14 @@ export const Fisherman: React.FC = () => {
     bait: FishingBait,
     chum?: InventoryItemName,
     multiplier?: number,
+    guaranteedCatch?: FishName,
   ) => {
-    gameService.send("rod.casted", { bait, chum, multiplier });
+    gameService.send("rod.casted", {
+      bait,
+      chum,
+      multiplier,
+      guaranteedCatch,
+    });
     gameService.send("SAVE");
     setShowModal(false);
   };

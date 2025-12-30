@@ -3661,6 +3661,10 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.expression_confused,
     description: PROCESSED_FOODS["Fish Oil"].description,
   },
+  "Crab Stick": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: PROCESSED_FOODS["Crab Stick"].description,
+  },
   "Sprout Mix": {
     boostedDescriptions: [
       {

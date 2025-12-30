@@ -41,7 +41,7 @@ import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber } from "lib/utils/formatNumber";
-import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { useNow } from "lib/utils/hooks/useNow";
 
 type Stage = "seedling" | "growing" | "almost" | "ready";
 const PLANT_STAGES: Record<
@@ -73,6 +73,7 @@ interface Props {
 }
 
 const _state = (state: MachineState) => state.context.state;
+const clampPercentage = (value: number) => Math.min(Math.max(value, 0), 100);
 
 export const GreenhousePot: React.FC<Props> = ({ id }) => {
   const {
@@ -107,9 +108,14 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
         createdAt: plantedAt,
       })
     : 0;
-  const harvestSeconds = (readyAt - plantedAt) / 1000;
-  const { totalSeconds: secondsLeft } = useCountdown(readyAt);
-  const percentage = ((harvestSeconds - secondsLeft) / harvestSeconds) * 100;
+  const harvestSeconds = Math.max((readyAt - plantedAt) / 1000, 0);
+  const now = useNow({ live: !!growingPlant, autoEndAt: readyAt });
+  const secondsLeft =
+    readyAt > 0 ? Math.max(Math.ceil((readyAt - now) / 1000), 0) : 0;
+  const percentage =
+    harvestSeconds > 0
+      ? clampPercentage(((harvestSeconds - secondsLeft) / harvestSeconds) * 100)
+      : 100;
 
   const { usage: oilRequired } = getOilUsage({
     seed: selectedItem as GreenHouseCropSeedName,

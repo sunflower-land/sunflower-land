@@ -12,7 +12,12 @@ import { Decimal } from "decimal.js-light";
 import { isCollectibleBuilt } from "../lib/collectibleBuilt";
 
 export type PurchaseableBait = "Fishing Lure";
-export type FishingBait = Worm | PurchaseableBait;
+export type GuaranteedBait =
+  | "Fish Flake"
+  | "Fish Stick"
+  | "Fish Oil"
+  | "Crab Stick";
+export type FishingBait = Worm | PurchaseableBait | GuaranteedBait;
 export type FishType =
   | "basic"
   | "advanced"
@@ -660,9 +665,89 @@ export function getDailyFishingLimit(game: GameState): {
   return { limit, boostsUsed };
 }
 
+export const GUARANTEED_BAIT: GuaranteedBait[] = [
+  "Fish Flake",
+  "Fish Stick",
+  "Fish Oil",
+  "Crab Stick",
+];
+
+export const GUARANTEED_CATCH_BY_BAIT: Record<GuaranteedBait, FishName[]> = {
+  "Fish Flake": [
+    "Anchovy",
+    "Butterflyfish",
+    "Halibut",
+    "Blowfish",
+    "Porgy",
+    "Clownfish",
+    "Sea Bass",
+    "Sea Horse",
+    "Muskellunge",
+    "Horse Mackerel",
+    "Squid",
+    "Moray Eel",
+    "Olive Flounder",
+    "Tilapia",
+    "Napoleanfish",
+    "Surgeonfish",
+    "Zebra Turkeyfish",
+    "Walleye",
+    "Angelfish",
+    "Ray",
+  ],
+  "Fish Stick": [
+    "Rock Blackfish",
+    "Hammerhead shark",
+    "Tuna",
+    "Mahi Mahi",
+    "Blue Marlin",
+    "Weakfish",
+    "Oarfish",
+    "Football fish",
+    "Sunfish",
+    "Cobia",
+  ],
+  "Fish Oil": [
+    "Barred Knifejaw",
+    "Trout",
+    "Coelacanth",
+    "Saw Shark",
+    "Sunfish",
+  ],
+  "Crab Stick": [
+    "Barred Knifejaw",
+    "Whale Shark",
+    "White Shark",
+    "Parrotfish",
+    "Mahi Mahi",
+  ],
+};
+
+export const isGuaranteedBait = (
+  bait: FishingBait | undefined,
+): bait is GuaranteedBait => {
+  if (!bait) return false;
+  return GUARANTEED_BAIT.includes(bait as GuaranteedBait);
+};
+
+export const getSeasonalGuaranteedCatch = (
+  bait: FishingBait,
+  season: TemperateSeasonName,
+) => {
+  if (!isGuaranteedBait(bait)) return [];
+
+  return GUARANTEED_CATCH_BY_BAIT[bait].filter((fish) =>
+    FISH[fish].seasons.includes(season),
+  );
+};
+
 export const BAIT: Record<FishingBait, true> = {
   Earthworm: true,
   Grub: true,
   "Red Wiggler": true,
   "Fishing Lure": true,
+  "Fish Flake": true,
+  "Fish Stick": true,
+  "Fish Oil": true,
+  "Crab Stick": true,
 };

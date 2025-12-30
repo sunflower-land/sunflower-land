@@ -7272,7 +7272,6 @@
   "confirm.renew.message": "Tem certeza de que deseja renovar {{name}}?",
   "renew.expired.message": "{{name}} expirou. Você pode renová-lo ou queimá-lo.",
   "shrine.expired": "{{name}} Expirado",
-  "fishingPuzzle.retryPrompt": "Você gostaria de tentar novamente com moedas de {{coins}}?",
   "fishingPuzzle.attemptsLeft": "Tentativas restantes: {{attemptsLeft}}/{{attemptLimit}}",
   "fishingPuzzle.findSafePath": "Encontre o caminho seguro para levar o peixe até o topo.",
   "fishingPuzzle.success": "Ótimo trabalho! Você chegou ao topo.",
@@ -7674,5 +7673,15 @@
   "fishing.missedFish": "Peixe que escapou!",
   "giveUp": "Desista",
   "description.fish.house": "Uma planta de processamento para seus peixes.",
-  "building.fishMarket": "Mercado de peixe"
+  "building.fishMarket": "Mercado de peixe",
+  "fishing.guaranteedCatch.title": "Peixe garantido",
+  "fishing.guaranteedCatch.none": "Nenhum peixe está mordendo esta isca nesta temporada.",
+  "fishing.guaranteedCatch.helper": "Escolha um peixe para garantir com esta isca.",
+  "fishing.guaranteedCatch.required": "Selecione um peixe antes de lançá-lo.",
+  "fishing.select.your.bait": "Selecione sua isca",
+  "fishing.dont.have.enough.bait": "Você não tem o suficiente {{bait}}",
+  "fishing.guaranteedCatch.select": "Selecione sua captura garantida:",
+  "statements.craft.fishHouse": "Artesanato na Fish House",
+  "fishing.notEnoughBait": "Você não tem {{bait}} o suficiente!",
+  "fishingPuzzle.retryPrompt": "Você gostaria de mais tentativas de obter moedas {{coins}}?"
 }

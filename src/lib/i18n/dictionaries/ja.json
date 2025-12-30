@@ -7272,7 +7272,6 @@
   "confirm.renew.message": "{{name}} を更新してもよろしいですか？",
   "renew.expired.message": "{{name}} の有効期限が切れています。更新することも、焼却することもできます。",
   "shrine.expired": "{{name}} 期限切れ",
-  "fishingPuzzle.retryPrompt": "{{coins}} コインでもう一度試してみませんか？",
   "fishingPuzzle.attemptsLeft": "残りの試行回数:{{attemptsLeft}}/{{attemptLimit}}",
   "fishingPuzzle.findSafePath": "魚を頂上に連れて行くための安全な道を見つけてください。",
   "fishingPuzzle.success": "素晴らしい仕事です！頂上に到達したね。",
@@ -7674,5 +7673,15 @@
   "fishing.missedFish": "逃げた魚！",
   "giveUp": "ギブアップ",
   "description.fish.house": "魚の加工工場。",
-  "building.fishMarket": "フィッシュマーケット"
+  "building.fishMarket": "フィッシュマーケット",
+  "fishing.guaranteedCatch.title": "保証付き魚",
+  "fishing.guaranteedCatch.none": "今シーズン、この餌を狙う魚はいません。",
+  "fishing.guaranteedCatch.helper": "この餌で確実に釣れる魚を1匹選んでください。",
+  "fishing.guaranteedCatch.required": "キャストする前に魚を選択してください。",
+  "fishing.select.your.bait": "お好きな餌をお選びください",
+  "fishing.dont.have.enough.bait": "足りません {{bait}}",
+  "fishing.guaranteedCatch.select": "保証漁獲量を選択してください:",
+  "statements.craft.fishHouse": "クラフト・アット・フィッシュ・ハウス",
+  "fishing.notEnoughBait": "{{bait}} が足りません！",
+  "fishingPuzzle.retryPrompt": "{{coins}} コインをもっと試したいですか？"
 }
