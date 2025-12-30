@@ -524,6 +524,8 @@ export const INITIAL_FARM: GameState = {
   fishing: {
     dailyAttempts: {},
     wharf: {},
+  },
+  crabTraps: {
     trapSpots: {},
   },
   mailbox: {
@@ -760,6 +762,9 @@ export const TEST_FARM: GameState = {
   fishing: {
     wharf: {},
     dailyAttempts: {},
+  },
+  crabTraps: {
+    trapSpots: {},
   },
   greenhouse: {
     pots: {},
@@ -1129,6 +1134,9 @@ export const EMPTY: GameState = {
   fishing: {
     wharf: {},
     dailyAttempts: {},
+  },
+  crabTraps: {
+    trapSpots: {},
   },
   mushrooms: {
     spawnedAt: 0,

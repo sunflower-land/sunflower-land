@@ -1300,13 +1300,16 @@ export type WaterTrap = {
   caught?: Partial<Record<InventoryItemName, number>>;
 };
 
+export type CrabTrap = {
+  trapSpots?: Record<string, WaterTrapSpot>;
+};
+
 export type Fishing = {
   wharf: FishingSpot;
   dailyAttempts?: {
     [date: string]: number;
   };
   extraReels?: ExtraReels;
-  trapSpots?: Record<string, WaterTrapSpot>;
 
   // TODO remove after 1st June
   beach?: FishingSpot;
@@ -1758,6 +1761,7 @@ export interface GameState {
     flowerBeds: FlowerBeds;
   };
   fishing: Fishing;
+  crabTraps: CrabTrap;
   farmActivity: Partial<Record<FarmActivityName, number>>;
   milestones: Partial<Record<MilestoneName, number>>;
 

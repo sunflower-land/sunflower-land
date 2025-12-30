@@ -3,7 +3,6 @@ import Decimal from "decimal.js-light";
 import { GameState, InventoryItemName } from "../../types/game";
 import { CHUM_AMOUNTS, Chum } from "../../types/fishing";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { getBumpkinLevel } from "features/game/lib/level";
 import { WaterTrapName, WATER_TRAP } from "features/game/types/crustaceans";
 
 export type PlaceWaterTrapAction = {
@@ -36,13 +35,7 @@ export function placeWaterTrap({
       throw new Error(`Missing ${action.waterTrap}`);
     }
 
-    const requiredLevel = WATER_TRAP[action.waterTrap].requiredBumpkinLevel;
-    const bumpkinLevel = getBumpkinLevel(bumpkin?.experience ?? 0);
-    if (bumpkinLevel < requiredLevel) {
-      throw new Error(`Requires level ${requiredLevel}`);
-    }
-
-    const trapSpots = game.fishing.trapSpots || {};
+    const trapSpots = game.crabTraps.trapSpots || {};
     if (!trapSpots[action.trapId]) {
       throw new Error(`Water trap spot ${action.trapId} does not exist`);
     }
@@ -71,11 +64,11 @@ export function placeWaterTrap({
     const hours = WATER_TRAP[action.waterTrap].readyTimeHours;
     const readyAt = createdAt + hours * 60 * 60 * 1000;
 
-    if (!game.fishing.trapSpots) {
-      game.fishing.trapSpots = {};
+    if (!game.crabTraps.trapSpots) {
+      game.crabTraps.trapSpots = {};
     }
 
-    game.fishing.trapSpots[action.trapId].waterTrap = {
+    game.crabTraps.trapSpots[action.trapId].waterTrap = {
       type: action.waterTrap,
       placedAt: createdAt,
       chum: action.chum,

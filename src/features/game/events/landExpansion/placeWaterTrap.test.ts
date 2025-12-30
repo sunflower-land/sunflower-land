@@ -12,8 +12,7 @@ const GAME_STATE: GameState = {
     ...TEST_BUMPKIN,
     experience: 1000000,
   },
-  fishing: {
-    ...INITIAL_FARM.fishing,
+  crabTraps: {
     trapSpots: {
       [trapId]: {
         coordinates: {
@@ -100,8 +99,7 @@ describe("placeWaterTrap", () => {
             ...TEST_BUMPKIN,
             experience: 1000000,
           },
-          fishing: {
-            ...INITIAL_FARM.fishing,
+          crabTraps: {
             trapSpots: {
               [trapId]: {
                 coordinates: {
@@ -173,7 +171,7 @@ describe("placeWaterTrap", () => {
       createdAt,
     });
 
-    expect(state.fishing.trapSpots?.[trapId]?.waterTrap?.chum).toBe("Gold");
+    expect(state.crabTraps.trapSpots?.[trapId]?.waterTrap?.chum).toBe("Gold");
     expect(state.inventory.Gold).toEqual(new Decimal(4));
     expect(state.inventory["Crab Pot"]).toEqual(new Decimal(0));
   });

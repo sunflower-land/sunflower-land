@@ -28,10 +28,7 @@ const _state = (state: MachineState) => state.context.state;
 
 interface Props {
   waterTrap?: WaterTrap;
-  onPlace: (
-    trapType: "Crab Pot" | "Mariner Pot",
-    chum?: InventoryItemName,
-  ) => void;
+  onPlace: (trapType: WaterTrapName, chum?: InventoryItemName) => void;
   onPickup: () => void;
   onCollect: () => void;
   onClose: () => void;

@@ -14,7 +14,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { WaterTrapName } from "features/game/types/crustaceans";
 import { useAuth } from "features/auth/lib/Provider";
 
-const _fishing = (state: MachineState) => state.context.state.fishing;
+const _crabTraps = (state: MachineState) => state.context.state.crabTraps;
 const _isVisiting = (state: MachineState) => state.matches("visiting");
 
 interface Props {
@@ -24,11 +24,11 @@ interface Props {
 export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
   const { gameService, showTimers } = useContext(Context);
   const { authState } = useAuth();
-  const fishing = useSelector(gameService, _fishing);
+  const crabTraps = useSelector(gameService, _crabTraps);
   const isVisiting = useSelector(gameService, _isVisiting);
   const [showModal, setShowModal] = useState(false);
 
-  const waterTrap = fishing.trapSpots?.[id]?.waterTrap;
+  const waterTrap = crabTraps.trapSpots?.[id]?.waterTrap;
 
   const now = useNow({
     live: !!waterTrap,

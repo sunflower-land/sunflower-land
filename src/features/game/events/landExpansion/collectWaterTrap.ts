@@ -15,13 +15,9 @@ type Options = {
   createdAt?: number;
 };
 
-export function collectWaterTrap({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options): GameState {
+export function collectWaterTrap({ state, action }: Options): GameState {
   return produce(state, (game) => {
-    const trapSpots = game.fishing.trapSpots || {};
+    const trapSpots = game.crabTraps.trapSpots || {};
     const waterTrap = trapSpots[action.trapId]?.waterTrap;
 
     if (!waterTrap) {

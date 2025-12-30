@@ -7,8 +7,7 @@ import { InventoryItemName } from "features/game/types/game";
 const trapId = "1";
 const GAME_STATE: GameState = {
   ...INITIAL_FARM,
-  fishing: {
-    ...INITIAL_FARM.fishing,
+  crabTraps: {
     trapSpots: {
       [trapId]: {
         coordinates: {
@@ -41,8 +40,7 @@ describe("collectWaterTrap", () => {
       collectWaterTrap({
         state: {
           ...GAME_STATE,
-          fishing: {
-            ...GAME_STATE.fishing,
+          crabTraps: {
             trapSpots: {
               [trapId]: {
                 coordinates: {
@@ -76,8 +74,7 @@ describe("collectWaterTrap", () => {
       state: {
         ...GAME_STATE,
         inventory: {},
-        fishing: {
-          ...GAME_STATE.fishing,
+        crabTraps: {
           trapSpots: {
             [trapId]: {
               coordinates: {
@@ -102,7 +99,7 @@ describe("collectWaterTrap", () => {
     });
 
     expect(state.inventory.Crab).toEqual(new Decimal(8));
-    expect(state.fishing.trapSpots?.[trapId]?.waterTrap).toBeUndefined();
+    expect(state.crabTraps.trapSpots?.[trapId]?.waterTrap).toBeUndefined();
     expect(state.farmActivity["Crab Caught"]).toBe(8);
   });
 
@@ -117,8 +114,7 @@ describe("collectWaterTrap", () => {
       state: {
         ...GAME_STATE,
         inventory: {},
-        fishing: {
-          ...GAME_STATE.fishing,
+        crabTraps: {
           trapSpots: {
             [trapId]: {
               coordinates: {
@@ -156,8 +152,7 @@ describe("collectWaterTrap", () => {
       state: {
         ...GAME_STATE,
         inventory: {},
-        fishing: {
-          ...GAME_STATE.fishing,
+        crabTraps: {
           trapSpots: {
             [trapId]: {
               coordinates: {
@@ -193,7 +188,7 @@ describe("collectWaterTrap", () => {
       createdAt,
     });
 
-    expect(state.fishing.trapSpots?.[trapId]?.waterTrap).toBeUndefined();
-    expect(state.fishing.trapSpots?.["other-trap"]?.waterTrap).toBeDefined();
+    expect(state.crabTraps.trapSpots?.[trapId]?.waterTrap).toBeUndefined();
+    expect(state.crabTraps.trapSpots?.["other-trap"]?.waterTrap).toBeDefined();
   });
 });

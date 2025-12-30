@@ -230,7 +230,7 @@ const _airdropPositions = (state: MachineState) => {
 };
 
 const _waterTrapPositions = (state: MachineState) => {
-  const waterTraps = state.context.state.fishing.trapSpots;
+  const waterTraps = state.context.state.crabTraps.trapSpots;
 
   if (!waterTraps) return { positions: [] };
 

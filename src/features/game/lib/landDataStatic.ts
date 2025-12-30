@@ -910,6 +910,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
         "Horse Mackerel": 1,
       },
     },
+  },
+  crabTraps: {
     trapSpots: {
       "test-water-trap": {
         coordinates: {
