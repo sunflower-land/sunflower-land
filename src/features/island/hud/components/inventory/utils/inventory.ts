@@ -196,15 +196,9 @@ export const getChestItems = (state: GameState): Inventory => {
     },
     {},
   );
-
-  const validItems = getKeys(availableItems).reduce((acc, name) => {
-    if (availableItems[name]?.greaterThanOrEqualTo(0)) {
-      return { ...acc, [name]: availableItems[name] };
-    }
-    return { ...acc, [name]: new Decimal(0) };
-  }, {} as Inventory);
-
-  return validItems;
+  // `getChestItemCount` already clamps to >= 0 for placeables,
+  // so this is the final result.
+  return availableItems;
 };
 
 export function getCountAndType(
