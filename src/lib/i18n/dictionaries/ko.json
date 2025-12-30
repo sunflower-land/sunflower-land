@@ -7674,5 +7674,14 @@
   "fishing.missedFish": "도망친 물고기!",
   "giveUp": "포기해",
   "description.fish.house": "생선을 위한 가공 공장.",
-  "building.fishMarket": "피시 마켓"
+  "building.fishMarket": "피시 마켓",
+  "fishing.guaranteedCatch.title": "보장된 물고기",
+  "fishing.guaranteedCatch.none": "이번 시즌에는 이 미끼를 물어뜯는 물고기가 없습니다.",
+  "fishing.guaranteedCatch.helper": "이 미끼로 보장할 물고기 한 마리를 선택하세요.",
+  "fishing.guaranteedCatch.required": "캐스팅하기 전에 물고기를 선택하세요.",
+  "fishing.select.your.bait": "미끼를 선택하세요",
+  "fishing.dont.have.enough.bait": "모자라 {{bait}}",
+  "fishing.guaranteedCatch.select": "보장된 어획량을 선택하세요:",
+  "statements.craft.fishHouse": "크래프트 앳 피시 하우스",
+  "fishing.notEnoughBait": "{{bait}} 가 부족하잖아!"
 }

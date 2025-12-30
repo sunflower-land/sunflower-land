@@ -7674,5 +7674,14 @@
   "fishing.missedFish": "Fische, die entkommen sind!",
   "giveUp": "Gib auf",
   "description.fish.house": "Eine Verarbeitungsanlage für Ihre Fische.",
-  "building.fishMarket": "Fischmarkt"
+  "building.fishMarket": "Fischmarkt",
+  "fishing.guaranteedCatch.title": "Garantierter Fisch",
+  "fishing.guaranteedCatch.none": "In dieser Saison beißen keine Fische nach diesem Köder.",
+  "fishing.guaranteedCatch.helper": "Wählen Sie einen Fisch aus, den Sie mit diesem Köder garantieren können.",
+  "fishing.guaranteedCatch.required": "Wähle vor dem Werfen einen Fisch aus.",
+  "fishing.select.your.bait": "Wähle deinen Köder",
+  "fishing.dont.have.enough.bait": "Du hast nicht genug {{bait}}",
+  "fishing.guaranteedCatch.select": "Wählen Sie Ihren garantierten Fang aus:",
+  "statements.craft.fishHouse": "Basteln im Fish House",
+  "fishing.notEnoughBait": "Du hast nicht genug {{bait}}!"
 }

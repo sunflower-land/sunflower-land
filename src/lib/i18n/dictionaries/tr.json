@@ -7674,5 +7674,14 @@
   "fishing.missedFish": "Kaçılan balık!",
   "giveUp": "Vazgeçmek",
   "description.fish.house": "Balıklarınız için bir işleme tesisi.",
-  "building.fishMarket": "Balık Pazarı"
+  "building.fishMarket": "Balık Pazarı",
+  "fishing.guaranteedCatch.title": "Garantili balık",
+  "fishing.guaranteedCatch.none": "Bu sezon bu yem için hiçbir balık ısırmıyor.",
+  "fishing.guaranteedCatch.helper": "Bu yemle garanti etmek için bir balık seçin.",
+  "fishing.guaranteedCatch.required": "Dökümden önce bir balık seçin.",
+  "fishing.select.your.bait": "Yeminizi seçin",
+  "fishing.dont.have.enough.bait": "Yeterince sahip değilsiniz {{bait}}",
+  "fishing.guaranteedCatch.select": "Garantili yakalamanızı seçin:",
+  "statements.craft.fishHouse": "Fish House'da El Sanatları",
+  "fishing.notEnoughBait": "Yeterince sahip değilsin {{bait}}!"
 }

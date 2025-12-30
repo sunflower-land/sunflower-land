@@ -7674,5 +7674,14 @@
   "fishing.missedFish": "Du poisson qui s'est enfui !",
   "giveUp": "Abandonnez",
   "description.fish.house": "Une usine de transformation pour votre poisson.",
-  "building.fishMarket": "Marché aux poissons"
+  "building.fishMarket": "Marché aux poissons",
+  "fishing.guaranteedCatch.title": "Poisson garanti",
+  "fishing.guaranteedCatch.none": "Aucun poisson ne mord cet appât cette saison.",
+  "fishing.guaranteedCatch.helper": "Choisissez un poisson à garantir avec cet appât.",
+  "fishing.guaranteedCatch.required": "Sélectionnez un poisson avant de lancer.",
+  "fishing.select.your.bait": "Sélectionnez votre appât",
+  "fishing.dont.have.enough.bait": "Vous n'avez pas assez de {{bait}}",
+  "fishing.guaranteedCatch.select": "Sélectionnez votre capture garantie :",
+  "statements.craft.fishHouse": "Artisanat à Fish House",
+  "fishing.notEnoughBait": "Tu n'as pas assez de {{bait}} !"
 }

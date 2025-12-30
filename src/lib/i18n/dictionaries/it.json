@@ -7674,5 +7674,14 @@
   "fishing.missedFish": "Pesce che è scappato!",
   "giveUp": "Rinunciare",
   "description.fish.house": "Un impianto di lavorazione per il tuo pesce.",
-  "building.fishMarket": "Mercato del pesce"
+  "building.fishMarket": "Mercato del pesce",
+  "fishing.guaranteedCatch.title": "Pesce garantito",
+  "fishing.guaranteedCatch.none": "Nessun pesce abboccherà questa stagione per questa esca.",
+  "fishing.guaranteedCatch.helper": "Scegli un pesce da garantire con questa esca.",
+  "fishing.guaranteedCatch.required": "Seleziona un pesce prima del lancio.",
+  "fishing.select.your.bait": "Seleziona la tua esca",
+  "fishing.dont.have.enough.bait": "Non ne hai abbastanza {{bait}}",
+  "fishing.guaranteedCatch.select": "Seleziona il pescato garantito:",
+  "statements.craft.fishHouse": "Artigianato presso Fish House",
+  "fishing.notEnoughBait": "Non ne hai abbastanza {{bait}}!"
 }

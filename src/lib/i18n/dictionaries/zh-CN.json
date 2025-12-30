@@ -7674,5 +7674,14 @@
   "fishing.missedFish": "逃走的鱼！",
   "giveUp": "放弃",
   "description.fish.house": "鱼类的加工厂。",
-  "building.fishMarket": "鱼市场"
+  "building.fishMarket": "鱼市场",
+  "fishing.guaranteedCatch.title": "保证有鱼",
+  "fishing.guaranteedCatch.none": "这个季节没有鱼会为这个诱饵而咬人。",
+  "fishing.guaranteedCatch.helper": "选择一条鱼来保证用这个诱饵。",
+  "fishing.guaranteedCatch.required": "在投掷之前选择一条鱼。",
+  "fishing.select.your.bait": "选择你的诱饵",
+  "fishing.dont.have.enough.bait": "你还不够 {{bait}}",
+  "fishing.guaranteedCatch.select": "选择您的保证渔获量：",
+  "statements.craft.fishHouse": "在鱼屋手工艺",
+  "fishing.notEnoughBait": "你还不够 {{bait}}！"
 }

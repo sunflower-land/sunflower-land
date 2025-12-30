@@ -7674,5 +7674,14 @@
   "fishing.missedFish": "Ikan yang lolos!",
   "giveUp": "Menyerah",
   "description.fish.house": "Pabrik pengolahan untuk ikan Anda.",
-  "building.fishMarket": "Pasar Ikan"
+  "building.fishMarket": "Pasar Ikan",
+  "fishing.guaranteedCatch.title": "Ikan yang dijamin",
+  "fishing.guaranteedCatch.none": "Tidak ada ikan yang menggigit musim ini untuk umpan ini.",
+  "fishing.guaranteedCatch.helper": "Pilih satu ikan untuk menjamin dengan umpan ini.",
+  "fishing.guaranteedCatch.required": "Pilih ikan sebelum casting.",
+  "fishing.select.your.bait": "Pilih umpan Anda",
+  "fishing.dont.have.enough.bait": "Anda tidak memiliki cukup {{bait}}",
+  "fishing.guaranteedCatch.select": "Pilih hasil tangkapan Anda yang dijamin:",
+  "statements.craft.fishHouse": "Kerajinan di Fish House",
+  "fishing.notEnoughBait": "Anda tidak memiliki cukup {{bait}}!"
 }

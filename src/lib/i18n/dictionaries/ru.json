@@ -7674,5 +7674,14 @@
   "fishing.missedFish": "Fish that got away!",
   "giveUp": "Give up",
   "description.fish.house": "A processing plant for your fish.",
-  "building.fishMarket": "Fish Market"
+  "building.fishMarket": "Fish Market",
+  "fishing.guaranteedCatch.title": "Guaranteed fish",
+  "fishing.guaranteedCatch.none": "No fish are biting this season for this bait.",
+  "fishing.guaranteedCatch.helper": "Choose one fish to guarantee with this bait.",
+  "fishing.guaranteedCatch.required": "Select a fish before casting.",
+  "fishing.select.your.bait": "Select your bait",
+  "fishing.dont.have.enough.bait": "You don't have enough {{bait}}",
+  "fishing.guaranteedCatch.select": "Select your guaranteed catch:",
+  "statements.craft.fishHouse": "Craft at Fish House",
+  "fishing.notEnoughBait": "You don't have enough {{bait}}!"
 }

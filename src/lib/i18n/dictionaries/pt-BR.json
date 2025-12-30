@@ -7674,5 +7674,14 @@
   "fishing.missedFish": "Peixe que escapou!",
   "giveUp": "Desista",
   "description.fish.house": "Uma planta de processamento para seus peixes.",
-  "building.fishMarket": "Mercado de peixe"
+  "building.fishMarket": "Mercado de peixe",
+  "fishing.guaranteedCatch.title": "Peixe garantido",
+  "fishing.guaranteedCatch.none": "Nenhum peixe está mordendo esta isca nesta temporada.",
+  "fishing.guaranteedCatch.helper": "Escolha um peixe para garantir com esta isca.",
+  "fishing.guaranteedCatch.required": "Selecione um peixe antes de lançá-lo.",
+  "fishing.select.your.bait": "Selecione sua isca",
+  "fishing.dont.have.enough.bait": "Você não tem o suficiente {{bait}}",
+  "fishing.guaranteedCatch.select": "Selecione sua captura garantida:",
+  "statements.craft.fishHouse": "Artesanato na Fish House",
+  "fishing.notEnoughBait": "Você não tem {{bait}} o suficiente!"
 }
