@@ -1,6 +1,8 @@
 import { produce } from "immer";
 import { GameState } from "../../types/game";
 import { trackFarmActivity } from "features/game/types/farmActivity";
+import { FISH_DIFFICULTY } from "features/game/types/fishing";
+import { getKeys } from "features/game/lib/crafting";
 
 export type MissFishAction = {
   type: "fish.missed";
@@ -19,9 +21,23 @@ export function missFish({ state }: Options): GameState {
       throw new Error("Nothing has been casted");
     }
 
-    delete game.fishing.wharf.castedAt;
-    delete game.fishing.wharf.caught;
-    delete game.fishing.wharf.chum;
+    const currentCatch = game.fishing.wharf.caught;
+
+    if (currentCatch) {
+      getKeys(currentCatch).forEach((name) => {
+        if (name in FISH_DIFFICULTY) {
+          delete currentCatch[name];
+        }
+      });
+
+      if (Object.keys(currentCatch).length === 0) {
+        delete game.fishing.wharf.castedAt;
+        delete game.fishing.wharf.caught;
+        delete game.fishing.wharf.chum;
+        delete game.fishing.wharf.multiplier;
+        delete game.fishing.wharf.guaranteedCatch;
+      }
+    }
 
     // Add activity
     game.farmActivity = trackFarmActivity("Fish Missed", game.farmActivity);

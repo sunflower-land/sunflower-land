@@ -1317,6 +1317,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Fish Flake": 2722,
   "Fish Stick": 2723,
   "Fish Oil": 2724,
+  "Crab Stick": 2725,
 };
 
 // The reverse of above
