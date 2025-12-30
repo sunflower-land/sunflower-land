@@ -907,7 +907,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       bait: "Fishing Lure",
       chum: "Carrot",
       caught: {
-        "Pink Dolphin": 1,
+        "Horse Mackerel": 1,
       },
     },
   },

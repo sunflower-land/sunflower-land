@@ -33,7 +33,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import classNames from "classnames";
 import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
 import { hasFeatureAccess } from "lib/flags";
-import { FishingPuzzle } from "features/island/fisherman/FishingPuzzle";
+import { FishermanPuzzle } from "features/island/fisherman/FishingPuzzle";
 import { Panel } from "components/ui/Panel";
 import { FishingChallenge } from "./FishingChallenge";
 
@@ -429,17 +429,12 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
       <Modal show={showChallenge}>
         <Panel>
           {hasFeatureAccess(state, "FISHING_PUZZLE") ? (
-            <FishingPuzzle
+            <FishermanPuzzle
               onCatch={onChallengeWon}
               onMiss={onChallengeLost}
               onRetry={onChallengeRetry}
               difficultCatch={difficultCatch.map((fish) => fish.name)}
-              // Each time the retry, we need a new puzzle
-              resetKey={
-                gameService.getSnapshot().context.state.farmActivity[
-                  "Fish Retried"
-                ] ?? 0
-              }
+              difficulty={challengeDifficulty}
             />
           ) : (
             <FishingChallenge
