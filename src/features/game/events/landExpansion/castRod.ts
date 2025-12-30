@@ -110,6 +110,10 @@ export function castRod({
       throw new Error(`Missing ${action.bait}`);
     }
 
+    if (action.guaranteedCatch && !isGuaranteedBait(action.bait)) {
+      throw new Error("Invalid guaranteed catch");
+    }
+
     if (isGuaranteedBait(action.bait)) {
       if (!action.guaranteedCatch) {
         throw new Error("Missing guaranteed catch");
