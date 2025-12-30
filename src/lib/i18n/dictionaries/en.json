@@ -1683,7 +1683,7 @@
   "fishing.dont.have.enough.bait": "You don't have enough {{bait}}",
   "fishing.guaranteedCatch.select": "Select your guaranteed catch:",
   "fishingPuzzle.missedFish": "They got away!",
-  "fishingPuzzle.retryPrompt": "Would you like to try again for {{coins}} coins?",
+  "fishingPuzzle.retryPrompt": "Would you like more attempts for {{coins}} coins?",
   "fishingPuzzle.attemptsLeft": "Attempts Left: {{attemptsLeft}}/{{attemptLimit}}",
   "fishingPuzzle.findSafePath": "Find the safe path to bring the fish to the top.",
   "fishingPuzzle.success": "Great job! You reached the top.",

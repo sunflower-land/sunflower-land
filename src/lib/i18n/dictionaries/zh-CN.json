@@ -7272,7 +7272,6 @@
   "confirm.renew.message": "您确定要为 {{name}} 办理续期吗？",
   "renew.expired.message": "{{name}} 已过期。您可以选择将其续期或直接销毁。",
   "shrine.expired": "{{name}} 已失效",
-  "fishingPuzzle.retryPrompt": "是否花费 {{coins}} 金币再试一次？",
   "fishingPuzzle.attemptsLeft": "剩余次数：{{attemptsLeft}}/{{attemptLimit}}",
   "fishingPuzzle.findSafePath": "寻找安全路径，将鱼带到顶部。",
   "fishingPuzzle.success": "干得漂亮！成功到达顶部。",
@@ -7683,5 +7682,6 @@
   "fishing.dont.have.enough.bait": "你还不够 {{bait}}",
   "fishing.guaranteedCatch.select": "选择您的保证渔获量：",
   "statements.craft.fishHouse": "在鱼屋手工艺",
-  "fishing.notEnoughBait": "你还不够 {{bait}}！"
+  "fishing.notEnoughBait": "你还不够 {{bait}}！",
+  "fishingPuzzle.retryPrompt": "你想更多地尝试获得 {{coins}} 硬币吗？"
 }

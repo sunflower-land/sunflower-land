@@ -7272,7 +7272,6 @@
   "confirm.renew.message": "¿Estás seguro de que quieres renovar {{name}}?",
   "renew.expired.message": "{{name}} ha caducado. Puedes renovarlo o quemarlo.",
   "shrine.expired": "{{name}} Caducado",
-  "fishingPuzzle.retryPrompt": "¿Quieres volver a intentarlo con monedas de {{coins}}?",
   "fishingPuzzle.attemptsLeft": "Intentos restantes: {{attemptsLeft}}/{{attemptLimit}}",
   "fishingPuzzle.findSafePath": "Encuentra el camino seguro para llevar a los peces a la cima.",
   "fishingPuzzle.success": "¡Buen trabajo! Llegaste a la cima.",
@@ -7683,5 +7682,6 @@
   "fishing.dont.have.enough.bait": "No tienes suficiente {{bait}}",
   "fishing.guaranteedCatch.select": "Selecciona tu captura garantizada:",
   "statements.craft.fishHouse": "Artesanía en Fish House",
-  "fishing.notEnoughBait": "¡No tienes suficiente {{bait}}!"
+  "fishing.notEnoughBait": "¡No tienes suficiente {{bait}}!",
+  "fishingPuzzle.retryPrompt": "¿Quieres más intentos de conseguir monedas de {{coins}}?"
 }
