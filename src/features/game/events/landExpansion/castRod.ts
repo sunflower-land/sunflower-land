@@ -123,9 +123,10 @@ export function castRod({
       if (!allowedFish.includes(action.guaranteedCatch)) {
         throw new Error("Invalid guaranteed catch");
       }
-    } else if (action.guaranteedCatch) {
-      // Only guaranteed bait can specify a guaranteed catch
-      throw new Error("Invalid guaranteed catch");
+      // Chum has no effect with guaranteed bait—block it to prevent waste
+      if (action.chum) {
+        throw new Error("Chum cannot be used with guaranteed bait");
+      }
     }
 
     if (game.fishing.wharf.castedAt) {

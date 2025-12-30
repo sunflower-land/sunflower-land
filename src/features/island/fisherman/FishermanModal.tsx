@@ -149,6 +149,7 @@ export const FishermanModal: React.FC<Props> = ({
 
   return (
     <CloseButtonPanel
+      className="min-h-[360px]"
       onClose={onClose}
       bumpkinParts={NPC_WEARABLES[npc]}
       tabs={[

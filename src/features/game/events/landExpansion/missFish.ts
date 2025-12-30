@@ -35,6 +35,7 @@ export function missFish({ state }: Options): GameState {
         delete game.fishing.wharf.caught;
         delete game.fishing.wharf.chum;
         delete game.fishing.wharf.multiplier;
+        delete game.fishing.wharf.guaranteedCatch;
       }
     }
 

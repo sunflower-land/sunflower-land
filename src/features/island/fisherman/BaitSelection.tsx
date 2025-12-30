@@ -151,6 +151,7 @@ export const BaitSelection: React.FC<{
     guaranteedCatch: FishName | undefined,
   ) => {
     setGuaranteedCatch(guaranteedCatch);
+    setChum(undefined);
     if (typeof window !== "undefined") {
       if (guaranteedCatch) {
         localStorage.setItem("lastSelectedGuaranteedCatch", guaranteedCatch);
@@ -169,6 +170,9 @@ export const BaitSelection: React.FC<{
   const missingRod =
     !hasAncientRod &&
     (!state.inventory["Rod"] || state.inventory.Rod.lt(rodsRequired));
+  const guaranteedCatchOptions = selectedBait
+    ? getGuaranteedOptions(selectedBait)
+    : [];
 
   if (showChum && selectedBait) {
     return (
@@ -192,39 +196,58 @@ export const BaitSelection: React.FC<{
 
   if (selectedBait && isGuaranteedBait(selectedBait) && !guaranteedCatch) {
     return (
-      <InnerPanel>
-        <div className="space-y-2">
+      <InnerPanel className="flex flex-col min-h-[320px] justify-between">
+        <div className="flex flex-col space-y-2 flex-1">
           <div className="flex items-center">
-            <img
-              src={SUNNYSIDE.icons.arrow_left}
-              className="h-6 mr-1"
-              onClick={() => {
-                handleGuaranteedCatchChange(undefined);
-                handleBaitChange("Earthworm");
-              }}
-            />
-            <Label type="default" className="text-xs pl-2">
-              {t("fishing.guaranteedCatch.title")}
-            </Label>
+            <p className="p-1 text-xs">{t("fishing.guaranteedCatch.select")}</p>
           </div>
           <div className="flex flex-wrap">
-            {getGuaranteedOptions(selectedBait).map((name: FishName) => (
-              <div
-                key={name}
-                className="flex flex-col items-center cursor-pointer"
-              >
-                <Box
-                  image={ITEM_DETAILS[name].image}
-                  isSelected={guaranteedCatch === name}
-                  count={items[name]}
-                  onClick={() => {
-                    handleGuaranteedCatchChange(name);
-                  }}
+            {guaranteedCatchOptions.length > 0 ? (
+              guaranteedCatchOptions.map((name: FishName, index: number) => (
+                <div
                   key={name}
-                />
+                  className="flex flex-col items-center cursor-pointer"
+                >
+                  <Box
+                    image={ITEM_DETAILS[name].image}
+                    isSelected={
+                      guaranteedCatch ? guaranteedCatch === name : index === 0
+                    }
+                    count={items[name]}
+                    onClick={() => {
+                      handleGuaranteedCatchChange(name);
+                    }}
+                    key={name}
+                  />
+                </div>
+              ))
+            ) : (
+              <div className="text-xs ml-1">
+                <p className="text-xs mb-1">
+                  {t("fishing.guaranteedCatch.none")}
+                </p>
               </div>
-            ))}
+            )}
           </div>
+        </div>
+        <div className="flex gap-1">
+          <Button
+            onClick={() => {
+              handleGuaranteedCatchChange(undefined);
+              handleBaitChange("Earthworm");
+            }}
+          >
+            {t("cancel")}
+          </Button>
+          <Button
+            onClick={() => {
+              const selected = guaranteedCatch ?? guaranteedCatchOptions[0];
+
+              handleGuaranteedCatchChange(selected);
+            }}
+          >
+            {t("confirm")}
+          </Button>
         </div>
       </InnerPanel>
     );
@@ -271,16 +294,21 @@ export const BaitSelection: React.FC<{
       <DropdownPanel
         options={BAIT.map((bait) => ({
           value: bait,
-          label: `${effectiveMultiplier} x ${bait} (${items[bait]?.toString() ?? 0})`,
+          label: (
+            <div className="flex flex-col gap-1">
+              <p className="text-xs">{`${effectiveMultiplier} x ${bait} (${items[bait]?.toString() ?? 0})`}</p>
+              <p className="text-xxs">{ITEM_DETAILS[bait].description}</p>
+            </div>
+          ),
           icon: ITEM_DETAILS[bait].image,
         }))}
         value={selectedBait}
-        placeholder={`Select your bait`}
+        placeholder={t("fishing.select.your.bait")}
         onChange={(bait) => handleBaitChange(bait as FishingBait)}
       />
       {notEnoughBait && (
         <Label className="ml-1" type="danger">
-          {`You don't have enough ${selectedBait}`}
+          {t("fishing.dont.have.enough.bait", { bait: selectedBait })}
         </Label>
       )}
       {selectedBait && isGuaranteedBait(selectedBait) && guaranteedCatch && (
@@ -294,8 +322,8 @@ export const BaitSelection: React.FC<{
           </Label>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 p-1 pt-2">
-              <img src={ITEM_DETAILS[guaranteedCatch].image} className="h-7" />
-              <p>{guaranteedCatch}</p>
+              <img src={ITEM_DETAILS[guaranteedCatch].image} className="h-6" />
+              <p className="mb-1">{guaranteedCatch}</p>
             </div>
             <div
               className="mr-2 cursor-pointer"
@@ -339,7 +367,7 @@ export const BaitSelection: React.FC<{
           </div>
         </InnerPanel>
       )}
-      {selectedBait && !isGuaranteedBait(selectedBait) && (
+      {!isGuaranteedBait(selectedBait) && (
         <InnerPanel>
           {chum ? (
             <div className="flex items-center justify-between mb-1">
@@ -391,14 +419,14 @@ export const BaitSelection: React.FC<{
         </InnerPanel>
       )}
       {(fishingLimitReached || multiplier > reelsLeft) && (
-        <Label className="mb-1" type="danger">
+        <Label className="mb-0.5 ml-1" type="danger">
           {fishingLimitReached
             ? t("fishermanModal.fishingLimitReached")
             : t("fishermanModal.notEnoughReels")}
         </Label>
       )}
       {!fishingLimitReached && missingRod && (
-        <Label className="mb-1 ml-1" type="danger">
+        <Label className="mb-0.5 ml-1" type="danger">
           {t("fishermanModal.needCraftRod")}
         </Label>
       )}
