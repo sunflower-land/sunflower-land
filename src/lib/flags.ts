@@ -100,7 +100,7 @@ const FEATURE_FLAGS = {
   FACE_RECOGNITION_TEST: defaultFeatureFlag,
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
 
-  LEAGUES: () => false,
+  LEAGUES: defaultFeatureFlag,
 
   EASTER: () => false,
 

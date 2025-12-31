@@ -25,7 +25,7 @@ export async function signUp({
   token,
   transactionId,
   referrerId,
-  utm,
+  utm = {},
 }: Request) {
   const { fbp, fbc } = getMetaBrowserIdentifiers();
 
