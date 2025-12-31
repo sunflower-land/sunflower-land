@@ -48,9 +48,12 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
   const todayDate = new Date().toISOString().split("T")[0];
   const lastFedAtDate = new Date(lastFedAt ?? 0).toISOString().split("T")[0];
   const fedToday = lastFedAtDate === todayDate;
+
+  const isFoodRequested = (food: CookableName) => foodRequests.includes(food);
+
   const sortedFoodRequests = [...data.requests.food].sort((a, b) => {
-    const aIsRequested = foodRequests.includes(a);
-    const bIsRequested = foodRequests.includes(b);
+    const aIsRequested = isFoodRequested(a);
+    const bIsRequested = isFoodRequested(b);
 
     // If both are requested or both are not requested, maintain original order
     if (aIsRequested === bIsRequested) {
@@ -62,7 +65,7 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
   });
 
   const getRequestDetails = (food: CookableName) => {
-    const isRequested = foodRequests.includes(food);
+    const isRequested = isFoodRequested(food);
     const isComplete =
       isRequested && fedToday && data.requests.foodFed?.includes(food);
 

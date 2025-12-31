@@ -49,9 +49,39 @@ export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
   const state = useSelector(gameService, _state);
 
   const { level } = getPetLevel(data.experience);
-  const fetches = [...getPetFetches(data).fetches].sort(
-    (a, b) => a.level - b.level,
-  );
+  const fetches = [...getPetFetches(data).fetches].sort((a, b) => {
+    const aUnlocked = level >= a.level;
+    const bUnlocked = level >= b.level;
+
+    // Unlocked fetches first
+    if (aUnlocked !== bUnlocked) {
+      return aUnlocked ? -1 : 1;
+    }
+
+    // Among unlocked fetches, sort by energy required
+    if (aUnlocked && bUnlocked) {
+      const aEnergy = PET_RESOURCES[a.name].energy;
+      const bEnergy = PET_RESOURCES[b.name].energy;
+
+      if (aEnergy !== bEnergy) {
+        return aEnergy - bEnergy;
+      }
+
+      // Deterministic tie-breakers
+      if (a.level !== b.level) {
+        return a.level - b.level;
+      }
+
+      return a.name.localeCompare(b.name);
+    }
+
+    // Locked fetches at the back, sorted by required level
+    if (a.level !== b.level) {
+      return a.level - b.level;
+    }
+
+    return a.name.localeCompare(b.name);
+  });
   const isNapping = isPetNapping(data, now);
   const neglected = isPetNeglected(data, now);
 
