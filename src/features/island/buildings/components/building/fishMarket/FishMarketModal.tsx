@@ -176,12 +176,13 @@ export const FishMarketModal: React.FC<Props> = ({
                 <Label type="default" icon={process} className="ml-1">
                   {t("processedFoods")}
                 </Label>
-                <div className="flex flex-wrap justify-center sm:justify-start mt-1">
+                <div className="flex flex-wrap sm:justify-start mt-1">
                   {PROCESSED_ITEMS.map((item) => (
                     <Box
                       key={item}
                       image={ITEM_DETAILS[item].image}
                       isSelected={item === selected}
+                      disabled={item === "Crab Stick"}
                       onClick={() => setSelected(item)}
                       count={
                         new Decimal(
