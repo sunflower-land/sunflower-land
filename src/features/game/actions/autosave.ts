@@ -10,7 +10,6 @@ import { SeedBoughtAction } from "../events/landExpansion/seedBought";
 import { GameState } from "../types/game";
 import { getObjectEntries } from "../expansion/lib/utils";
 import { AUTO_SAVE_INTERVAL } from "../expansion/Game";
-import { getMetaBrowserIdentifiers } from "lib/analytics/meta";
 
 // Browser-friendly SHA-256 → hex
 export async function hashString(str: string): Promise<string> {
@@ -105,7 +104,6 @@ export async function autosaveRequest(
   },
 ) {
   const ttl = (window as any)["x-amz-ttl"];
-  const { fbp, fbc } = getMetaBrowserIdentifiers();
 
   // Useful for using cached results
   const cachedKey = getSessionId();
@@ -125,8 +123,6 @@ export async function autosaveRequest(
           "X-Fingerprint": request.fingerprint,
           "X-Transaction-ID": request.transactionId,
         },
-        ...(fbp ? { "X-Meta-Fbp": fbp } : {}),
-        ...(fbc ? { "X-Meta-Fbc": fbc } : {}),
         ...(ttl ? { "X-Amz-TTL": (window as any)["x-amz-ttl"] } : {}),
       },
       body: JSON.stringify({
