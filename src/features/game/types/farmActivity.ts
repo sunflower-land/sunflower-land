@@ -147,6 +147,7 @@ export type FarmActivityName =
   | BiomeBought
   | "Obsidian Exchanged"
   | "FLOWER Exchanged"
+  | "Gems Purchased"
   | ResourceNodeUpgradeEvent
   | `${PetResourceName} Fetched`
   | PlantGreenHouseFruitEvent
