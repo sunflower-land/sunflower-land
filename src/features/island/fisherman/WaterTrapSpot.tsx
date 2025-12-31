@@ -59,6 +59,7 @@ export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
       waterTrap,
       chum,
     });
+    gameService.send("SAVE");
     setShowModal(false);
   };
 

@@ -15,3 +15,21 @@ export const WATER_TRAP: Record<WaterTrapName, WaterTrap> = {
     requiredBumpkinLevel: 24,
   },
 };
+
+export type CrustaceanName =
+  | "Isopod"
+  | "Blue Crab"
+  | "Lobster"
+  | "Hermit Crab"
+  | "Shrimp"
+  | "Mussel"
+  | "Oyster"
+  | "Anemone"
+  | "Barnacle"
+  | "Sea Slug"
+  | "Sea Snail"
+  | "Garden Eel"
+  | "Sea Grapes"
+  | "Octopus"
+  | "Sea Urchin"
+  | "Horseshoe Crab";

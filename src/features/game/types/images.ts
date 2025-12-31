@@ -6686,4 +6686,68 @@ export const ITEM_DETAILS: Items = {
     image: redNoseReindeer,
     description: translate("description.redNoseReindeer"),
   },
+  Isopod: {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.isopod"),
+  },
+  "Blue Crab": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.blueCrab"),
+  },
+  Lobster: {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.lobster"),
+  },
+  "Hermit Crab": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.hermitCrab"),
+  },
+  Shrimp: {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.shrimp"),
+  },
+  Mussel: {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.mussel"),
+  },
+  Oyster: {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.oyster"),
+  },
+  Anemone: {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.anemone"),
+  },
+  Barnacle: {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.barnacle"),
+  },
+  "Sea Slug": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.seaSlug"),
+  },
+  "Sea Snail": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.seaSnail"),
+  },
+  "Garden Eel": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.gardenEel"),
+  },
+  "Sea Grapes": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.seaGrapes"),
+  },
+  Octopus: {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.octopus"),
+  },
+  "Sea Urchin": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.seaUrchin"),
+  },
+  "Horseshoe Crab": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.horseshoeCrab"),
+  },
 };

@@ -159,6 +159,7 @@ export type Chum = Extract<
   | "Dewberry"
   | "Duskberry"
   | "Lunara"
+  | "Fossil Shell"
 >;
 
 export const CHUM_AMOUNTS: Record<Chum, number> = {
@@ -226,6 +227,7 @@ export const CHUM_AMOUNTS: Record<Chum, number> = {
   Dewberry: 2,
   Duskberry: 2,
   Lunara: 2,
+  "Fossil Shell": 1,
 };
 
 export const CHUM_DETAILS: Record<Chum, string> = {
@@ -293,6 +295,7 @@ export const CHUM_DETAILS: Record<Chum, string> = {
   Dewberry: translate("chumDetails.dewberry"),
   Duskberry: translate("chumDetails.duskberry"),
   Lunara: translate("chumDetails.lunara"),
+  "Fossil Shell": translate("chumDetails.fossilShell"),
 };
 
 type Fish = {

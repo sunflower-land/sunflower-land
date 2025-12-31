@@ -18,7 +18,6 @@ import {
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { useNow } from "lib/utils/hooks/useNow";
 import { WaterTrap } from "features/game/types/game";
 import { WaterTrapName, WATER_TRAP } from "features/game/types/crustaceans";
 import { getBumpkinLevel } from "features/game/lib/level";
@@ -67,15 +66,8 @@ export const WaterTrapModal: React.FC<Props> = ({
   const canUseMarinerPot = bumpkinLevel >= marinerRequiredLevel;
   const hasAccessToWaterTraps = bumpkinLevel >= 18;
 
-  const now = useNow({
-    live: !!waterTrap,
-    autoEndAt: waterTrap?.readyAt,
-  });
-  const isReady = waterTrap && waterTrap.readyAt <= now && !waterTrap.caught;
-  const isPickedUp = waterTrap && waterTrap.caught;
-  const isPlaced = waterTrap && !isReady && !isPickedUp;
-
   const { totalSeconds: secondsLeft } = useCountdown(waterTrap?.readyAt ?? 0);
+  const isReady = secondsLeft <= 0;
 
   const handlePlace = () => {
     if (!selectedTrap) return;
@@ -92,9 +84,9 @@ export const WaterTrapModal: React.FC<Props> = ({
     onPlace(selectedTrap, selectedChum);
   };
 
-  if (isPickedUp) {
-    const trapType = waterTrap?.type;
-    const caught = waterTrap.caught ?? {};
+  // A water trap has been placed
+  if (waterTrap) {
+    const { type: trapType, caught } = waterTrap;
 
     return (
       <CloseButtonPanel onClose={onClose}>
@@ -104,111 +96,50 @@ export const WaterTrapModal: React.FC<Props> = ({
             className="w-14 object-contain mr-2"
           />
           <div className="mt-2 flex-1">
-            <div className="flex flex-wrap my-1">
-              {getObjectEntries(caught).map(([item, amount]) => {
-                const itemName = item;
-                const hasCaughtBefore =
-                  !!state.farmActivity[`${itemName} Caught`];
-                const isUnknown = !hasCaughtBefore;
-
-                return (
-                  <div
-                    key={item}
-                    className="flex space-x-2 justify-start mr-2 mb-1"
-                  >
-                    <img
-                      src={
-                        isUnknown
-                          ? SUNNYSIDE.icons.search
-                          : ITEM_DETAILS[itemName].image
-                      }
-                      className="h-5"
-                    />
-                    <Label type="default">
-                      {`${amount} ${isUnknown ? "Unknown" : itemName}`}
-                    </Label>
-                  </div>
-                );
-              })}
-            </div>
-            <div className="flex items-center">
-              <img src={SUNNYSIDE.icons.confirm} className="h-4 mr-1" />
-              <span className="text-xs">{t("waterTrap.ready")}</span>
-            </div>
-          </div>
-        </div>
-        <Button
-          className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
-          onClick={onCollect}
-        >
-          {t("collect")}
-        </Button>
-      </CloseButtonPanel>
-    );
-  }
-
-  if (isReady) {
-    const trapType = waterTrap?.type;
-
-    return (
-      <CloseButtonPanel onClose={onClose}>
-        <div className="flex p-2 -mt-2">
-          <img
-            src={ITEM_DETAILS[trapType].image}
-            className="w-14 object-contain mr-2"
-          />
-          <div className="mt-2 flex-1">
-            <div className="flex items-center">
-              <img src={SUNNYSIDE.icons.confirm} className="h-4 mr-1" />
-              <span className="text-xs">{t("waterTrap.ready")}</span>
-            </div>
-          </div>
-        </div>
-        <Button
-          className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
-          onClick={onPickup}
-        >
-          {t("waterTrap.pickup")}
-        </Button>
-      </CloseButtonPanel>
-    );
-  }
-
-  if (isPlaced) {
-    const trapType = waterTrap?.type;
-    // const catchCount = WATER_TRAP[trapType].catchCount;
-
-    return (
-      <CloseButtonPanel onClose={onClose}>
-        <div className="flex p-2 -mt-2">
-          <img
-            src={ITEM_DETAILS[trapType].image}
-            className="w-14 object-contain mr-2"
-          />
-          <div className="mt-2 flex-1">
-            <div className="flex items-center mb-2">
-              <img src={SUNNYSIDE.icons.timer} className="h-5 mr-1" />
-              <span className="text-xs mr-1">
-                {secondsToString(secondsLeft, {
-                  length: "full",
-                })}
-              </span>
-            </div>
-            <div className="flex flex-wrap my-1">
-              <div className="flex space-x-2 justify-start mr-2 mb-1">
-                <img src={ITEM_DETAILS["Crab"].image} className="h-5" />
-                {/* <Label type="default">{`${catchCount} Crab`}</Label> */}
+            {!isReady && (
+              <div className="flex items-center mb-2">
+                <img src={SUNNYSIDE.icons.timer} className="h-5 mr-1" />
+                <span className="text-xs mr-1">
+                  {secondsToString(secondsLeft, {
+                    length: "full",
+                  })}
+                </span>
               </div>
-            </div>
+            )}
+
+            {(isReady || (isReady && caught)) && (
+              <div className="flex items-center">
+                <img src={SUNNYSIDE.icons.confirm} className="h-4 mr-1" />
+                <span className="text-xs">{t("waterTrap.ready")}</span>
+              </div>
+            )}
+            {caught && getObjectEntries(caught).length > 0 && (
+              <div className="flex flex-wrap my-1">
+                {getObjectEntries(caught).map(([item, amount]) => {
+                  return (
+                    <div
+                      key={item}
+                      className="flex space-x-2 justify-start mr-2 mb-1"
+                    >
+                      <img src={ITEM_DETAILS[item].image} className="h-5" />
+                      <Label type="default">{`${amount} ${item}`}</Label>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
-        <Button
-          className="text-xxs sm:text-sm mb-2 whitespace-nowrap"
-          onClick={onCollect}
-          disabled={true}
-        >
-          {t("collect")}
-        </Button>
+        {isReady && (
+          <div className="flex justify-center">
+            <Button
+              className="text-xxs sm:text-sm whitespace-nowrap"
+              onClick={caught ? onCollect : onPickup}
+            >
+              {caught ? t("collect") : t("waterTrap.pickup")}
+            </Button>
+          </div>
+        )}
       </CloseButtonPanel>
     );
   }
