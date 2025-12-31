@@ -46,6 +46,10 @@ import {
   CollectRecipeAction,
 } from "./landExpansion/collectRecipe";
 import {
+  cancelProcessedFood,
+  CancelProcessedFoodAction,
+} from "./landExpansion/cancelProcessedFood";
+import {
   processProcessedFood,
   ProcessProcessedFoodAction,
 } from "./landExpansion/processFood";
@@ -592,6 +596,7 @@ export type PlayingEvent =
   | ClaimAirdropAction
   | RecipeCookedAction
   | CollectRecipeAction
+  | CancelProcessedFoodAction
   | ProcessProcessedFoodAction
   | CollectProcessedFoodAction
   | FeedBumpkinAction
@@ -849,6 +854,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "timber.chopped": landExpansionChop,
   "recipe.cooked": cook,
   "recipes.collected": collectRecipe,
+  "processedFood.cancelled": cancelProcessedFood,
   "processedFood.processed": processProcessedFood,
   "processedFood.collected": collectProcessedFood,
   "bumpkin.feed": feedBumpkin,

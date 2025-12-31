@@ -7,7 +7,10 @@ import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useTranslation } from "react-i18next";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
-import { BuildingName } from "features/game/types/buildings";
+import {
+  BuildingName,
+  isFoodProcessingBuilding,
+} from "features/game/types/buildings";
 import { Panel } from "components/ui/Panel";
 
 interface QueueSlotProps {
@@ -35,7 +38,11 @@ export const QueueSlot: React.FC<QueueSlotProps> = ({
   );
 
   const handleCancel = () => {
-    gameService.send("recipe.cancelled", {
+    const eventType = isFoodProcessingBuilding(buildingName)
+      ? "processedFood.cancelled"
+      : "recipe.cancelled";
+
+    gameService.send(eventType, {
       buildingName,
       buildingId,
       queueItem: item,

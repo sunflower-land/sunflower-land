@@ -510,7 +510,7 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
 const FOOD_PROCESSING_BUILDINGS: FoodProcessingBuildingName[] = ["Fish Market"];
 
 export const isFoodProcessingBuilding = (
-  buildingName: FoodProcessingBuildingName,
+  buildingName: BuildingName,
 ): buildingName is FoodProcessingBuildingName => {
   return FOOD_PROCESSING_BUILDINGS.includes(
     buildingName as FoodProcessingBuildingName,

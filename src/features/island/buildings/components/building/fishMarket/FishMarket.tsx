@@ -34,6 +34,7 @@ export const FishMarket: React.FC<BuildingProps> = ({
       type: "processedFood.processed",
       item,
       buildingId,
+      buildingName: "Fish Market",
     });
   };
 
