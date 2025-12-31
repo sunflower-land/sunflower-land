@@ -5377,7 +5377,7 @@
   "powerSkills.reason.noOilreservesRefilling": "No oil reserves are refilling",
   "powerSkills.reason.animalsNotAsleep": "All your animals are not asleep",
   "marketplace.withdrawComingSoon": "Withdraw date",
-  "instantCook.confirmationMessage": "Are you sure you want to finish this recipe now?",
+  "instantCook.confirmationMessage": "Are you sure you want to finish this item now?",
   "instantCook.costMessage": "This will cost you {{gems}} Gems",
   "instantCook.finish": "Finish now",
   "mayor": "Mayor",

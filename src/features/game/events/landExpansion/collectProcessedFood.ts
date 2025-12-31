@@ -1,12 +1,17 @@
 import Decimal from "decimal.js-light";
 import { ProcessedFood } from "features/game/types/processedFood";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { GameState } from "features/game/types/game";
+import { BuildingProduct, GameState } from "features/game/types/game";
 import { produce } from "immer";
+import {
+  FoodProcessingBuildingName,
+  isFoodProcessingBuilding,
+} from "features/game/types/buildings";
 
 export type CollectProcessedFoodAction = {
   type: "processedFood.collected";
   buildingId: string;
+  buildingName: FoodProcessingBuildingName;
 };
 
 type Options = {
@@ -21,19 +26,19 @@ export function collectProcessedFood({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    const fishMarket = game.buildings["Fish Market"]?.find(
+    if (!isFoodProcessingBuilding(action.buildingName)) {
+      throw new Error("Invalid food processing building");
+    }
+
+    const building = game.buildings[action.buildingName]?.find(
       (building) => building.id === action.buildingId,
     );
 
-    if (!fishMarket) {
+    if (!building) {
       throw new Error("Fish Market does not exist");
     }
 
-    if (!game.bumpkin) {
-      throw new Error("You do not have a Bumpkin!");
-    }
-
-    const processing = fishMarket.processing ?? [];
+    const processing: BuildingProduct[] = building.processing ?? [];
 
     if (!processing.length) {
       throw new Error("Fish Market is not processing");
@@ -44,10 +49,10 @@ export function collectProcessedFood({
     );
 
     if (!ready.length) {
-      throw new Error("No processed fish ready");
+      throw new Error("No processed food ready");
     }
 
-    fishMarket.processing = processing.filter(
+    building.processing = processing.filter(
       (processed) => processed.readyAt > createdAt,
     );
 

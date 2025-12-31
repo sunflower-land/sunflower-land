@@ -48,7 +48,7 @@ import {
 import {
   processProcessedFood,
   ProcessProcessedFoodAction,
-} from "./landExpansion/processedFood";
+} from "./landExpansion/processFood";
 import {
   collectProcessedFood,
   CollectProcessedFoodAction,

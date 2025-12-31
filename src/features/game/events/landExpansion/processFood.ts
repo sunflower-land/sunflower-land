@@ -1,10 +1,10 @@
 import Decimal from "decimal.js-light";
 import { ProcessedFood } from "features/game/types/processedFood";
 import {
+  BuildingProduct,
   GameState,
   Inventory,
   InventoryItemName,
-  ProcessedProduct,
 } from "features/game/types/game";
 import {
   FISH_PROCESSING_TIME_SECONDS,
@@ -103,7 +103,7 @@ export function processProcessedFood({
         readyAt,
         startedAt: startAt,
         requirements,
-      } as ProcessedProduct,
+      } as BuildingProduct,
     ];
   });
 }

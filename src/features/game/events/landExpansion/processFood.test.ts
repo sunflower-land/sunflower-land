@@ -12,7 +12,7 @@ import { GameState } from "features/game/types/game";
 import {
   processProcessedFood,
   ProcessProcessedFoodAction,
-} from "./processedFood";
+} from "./processFood";
 
 const createdAt = Date.now();
 
