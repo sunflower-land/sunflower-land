@@ -13,11 +13,13 @@ import {
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
 import { hasVipAccess } from "features/game/lib/vipAccess";
+import { FoodProcessingBuildingName } from "features/game/types/buildings";
 
 export type ProcessProcessedFoodAction = {
   type: "processedFood.processed";
   item: ProcessedFood;
   buildingId: string;
+  buildingName: FoodProcessingBuildingName;
 };
 
 type Options = {
@@ -35,7 +37,7 @@ export function processProcessedFood({
 }: Options): GameState {
   return produce(state, (game) => {
     const { item, buildingId } = action;
-    const fishMarket = game.buildings["Fish Market"]?.find(
+    const building = game.buildings[action.buildingName]?.find(
       (building) => building.id === buildingId,
     );
 
@@ -43,25 +45,21 @@ export function processProcessedFood({
       throw new Error("Crab Stick processing is not available yet");
     }
 
-    if (!fishMarket) {
+    if (!building) {
       throw new Error(translate("error.requiredBuildingNotExist"));
     }
 
-    if (!fishMarket.coordinates) {
+    if (!building.coordinates) {
       throw new Error("Building is not placed");
     }
 
-    if (!game.bumpkin) {
-      throw new Error("You do not have a Bumpkin!");
-    }
-
-    const processingQueue = fishMarket.processing ?? [];
+    const processingQueue = building.processing ?? [];
     const availableSlots = hasVipAccess({ game })
       ? MAX_FISH_PROCESSING_SLOTS
       : 1;
 
     if (processingQueue.length >= availableSlots) {
-      throw new Error(translate("error.noAvailableSlots"));
+      throw new Error("No available slots");
     }
 
     const season = game.season.season;
@@ -96,7 +94,7 @@ export function processProcessedFood({
 
     const readyAt = startAt + FISH_PROCESSING_TIME_SECONDS * 1000;
 
-    fishMarket.processing = [
+    building.processing = [
       ...processingQueue,
       {
         name: item,

@@ -13,6 +13,7 @@ import {
   processProcessedFood,
   ProcessProcessedFoodAction,
 } from "./processFood";
+import { FoodProcessingBuildingName } from "features/game/types/buildings";
 
 const createdAt = Date.now();
 
@@ -59,6 +60,7 @@ describe("processProcessedFood", () => {
         type: "processedFood.processed",
         item: "Fish Flake",
         buildingId: "123",
+        buildingName: "Fish Market",
       },
       createdAt,
     });
@@ -88,6 +90,19 @@ describe("processProcessedFood", () => {
     const readyAt = createdAt + FISH_PROCESSING_TIME_SECONDS * 1000;
     const state: GameState = {
       ...SPRING_STATE,
+      inventory: {
+        ...SPRING_STATE.inventory,
+        Anchovy: new Decimal(10),
+        "Red Snapper": new Decimal(10),
+        "Moray Eel": new Decimal(5),
+        Tilapia: new Decimal(3),
+        "Olive Flounder": new Decimal(10),
+        Ray: new Decimal(10),
+      },
+      vip: {
+        bundles: [{ name: "1_MONTH", boughtAt: Date.now() }],
+        expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
+      },
       buildings: {
         "Fish Market": [
           {
@@ -108,12 +123,6 @@ describe("processProcessedFood", () => {
           },
         ],
       },
-      inventory: {
-        Anchovy: new Decimal(10),
-        "Red Snapper": new Decimal(10),
-        "Moray Eel": new Decimal(5),
-        Tilapia: new Decimal(3),
-      },
     };
 
     const updated = processProcessedFood({
@@ -122,6 +131,7 @@ describe("processProcessedFood", () => {
         type: "processedFood.processed",
         item: "Fish Stick",
         buildingId: "123",
+        buildingName: "Fish Market",
       },
       createdAt,
     });
@@ -136,10 +146,28 @@ describe("processProcessedFood", () => {
 });
 
 describe("collectProcessedFish", () => {
+  it("throws when the building is not a food processing building", () => {
+    expect(() =>
+      collectProcessedFood({
+        state: SPRING_STATE,
+        action: {
+          type: "processedFood.collected",
+          buildingId: "123",
+          buildingName: "Fire Pit" as FoodProcessingBuildingName,
+        },
+        createdAt,
+      }),
+    ).toThrow("Invalid food processing building");
+  });
+
   it("collects all ready processed fish", () => {
     const readyAt = createdAt - 1000;
     const state: GameState = {
       ...SPRING_STATE,
+      vip: {
+        bundles: [{ name: "1_MONTH", boughtAt: Date.now() }],
+        expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
+      },
       buildings: {
         "Fish Market": [
           {
@@ -164,6 +192,7 @@ describe("collectProcessedFish", () => {
       action: {
         type: "processedFood.collected",
         buildingId: "123",
+        buildingName: "Fish Market",
       } as CollectProcessedFoodAction,
       createdAt,
     });
