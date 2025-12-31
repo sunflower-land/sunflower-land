@@ -14,6 +14,7 @@ import { GameState, IslandType } from "../../types/game";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { getWeatherShop, WeatherShopItem } from "features/game/types/calendar";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 type CraftableToolName = WorkbenchToolName | TreasureToolName | WeatherShopItem;
 
@@ -93,11 +94,13 @@ export function craftTool({ state, action }: Options) {
     throw new Error("Tool does not exist");
   }
 
-  if (tool.disabled) {
+  const { disabled, requiredIsland, requiredLevel, ingredients } = tool;
+
+  if (disabled) {
     throw new Error("Tool is disabled");
   }
 
-  if (!hasRequiredIslandExpansion(stateCopy.island.type, tool.requiredIsland)) {
+  if (!hasRequiredIslandExpansion(stateCopy.island.type, requiredIsland)) {
     throw new Error("You do not have the required island expansion");
   }
 
@@ -114,7 +117,11 @@ export function craftTool({ state, action }: Options) {
     throw new Error("Insufficient Coins");
   }
 
-  const toolIngredients = tool.ingredients(bumpkin.skills);
+  if (requiredLevel && getBumpkinLevel(bumpkin.experience) < requiredLevel) {
+    throw new Error("You do not have the required level");
+  }
+
+  const toolIngredients = ingredients(bumpkin.skills);
 
   const subtractedInventory = getObjectEntries(toolIngredients).reduce(
     (inventory, [ingredientName, ingredientAmount]) => {
