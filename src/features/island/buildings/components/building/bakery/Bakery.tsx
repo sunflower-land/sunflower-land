@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import shadow from "assets/npcs/shadow.png";
 
-import { CookableName } from "features/game/types/consumables";
+import { CookableName, COOKABLES } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { BakeryModal } from "./BakeryModal";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -42,6 +42,11 @@ export const Bakery: React.FC<Props> = ({
   const { cooking, queuedRecipes, readyRecipes } = useCookingState(
     bakery ?? {},
   );
+
+  const itemInProgress =
+    cooking?.name && cooking.name in COOKABLES
+      ? (cooking.name as CookableName)
+      : undefined;
 
   const { play: bakeryAudio } = useSound("bakery");
 
@@ -173,7 +178,7 @@ export const Bakery: React.FC<Props> = ({
         onClose={() => setShowModal(false)}
         onCook={handleCook}
         cooking={cooking}
-        itemInProgress={cooking?.name}
+        itemInProgress={itemInProgress}
         buildingId={buildingId}
         readyRecipes={readyRecipes}
       />

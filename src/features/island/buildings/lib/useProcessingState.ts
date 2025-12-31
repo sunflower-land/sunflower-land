@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 
-import { ProcessedProduct } from "features/game/types/game";
+import { BuildingProduct } from "features/game/types/game";
 import { useNow } from "lib/utils/hooks/useNow";
 
-function computeProcessingState(processing: ProcessedProduct[], now: number) {
+function computeProcessingState(processing: BuildingProduct[], now: number) {
   const active = processing.find((item) => item.readyAt > now);
 
   const queued = processing.filter(
@@ -28,7 +28,7 @@ function computeProcessingState(processing: ProcessedProduct[], now: number) {
 }
 
 export function useProcessingState(building: {
-  processing?: ProcessedProduct[];
+  processing?: BuildingProduct[];
 }) {
   const processing = useMemo(
     () => building.processing ?? [],

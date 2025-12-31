@@ -15,7 +15,11 @@ import {
 } from "./cook";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import { CookableName, COOKABLES } from "features/game/types/consumables";
+import {
+  assertCookableName,
+  CookableName,
+  COOKABLES,
+} from "features/game/types/consumables";
 import { getCookingTime } from "features/game/expansion/lib/boosts";
 
 export type CancelQueuedRecipeAction = {
@@ -46,21 +50,21 @@ function getQueueItemCookingSeconds({
 }) {
   const skills = game.bumpkin.skills;
   const itemOilConsumption = getOilConsumption(buildingName, name);
-  const itemcookingSeconds = COOKABLES[name].cookingSeconds;
+  const itemCookingSeconds = COOKABLES[name].cookingSeconds;
   const boostValue = BUILDING_OIL_BOOSTS(skills)[buildingName];
-  let boostedcookingSeconds = itemcookingSeconds;
+  let boostedCookingSeconds = itemCookingSeconds;
 
   if (appliedOilBoost >= itemOilConsumption) {
-    boostedcookingSeconds = itemcookingSeconds * (1 - boostValue);
+    boostedCookingSeconds = itemCookingSeconds * (1 - boostValue);
   } else {
     const effectiveBoostValue =
       (appliedOilBoost / itemOilConsumption) * boostValue;
-    boostedcookingSeconds = itemcookingSeconds * (1 - effectiveBoostValue);
+    boostedCookingSeconds = itemCookingSeconds * (1 - effectiveBoostValue);
   }
 
   // We don't need to pass in boostUsed as cancelling recipes shouldn't mark boost as being used
   const { reducedSecs: seconds } = getCookingTime({
-    seconds: boostedcookingSeconds,
+    seconds: boostedCookingSeconds,
     item: name,
     game,
     cookStartAt: createdAt,
@@ -123,7 +127,7 @@ export function recalculateQueue({
       const startAt = index === 0 ? createdAt : recipes[index - 1].readyAt;
 
       const readyAt = getUpdatedReadyAt({
-        name: recipe.name,
+        name: assertCookableName(recipe.name),
         startAt,
         appliedOilBoost: recipe.boost?.Oil ?? 0,
         buildingName,
@@ -148,7 +152,7 @@ export function recalculateQueue({
         index === 0 ? currentRecipe.readyAt : recipes[index - 1].readyAt;
 
       const readyAt = getUpdatedReadyAt({
-        name: recipe.name,
+        name: assertCookableName(recipe.name),
         startAt,
         appliedOilBoost: recipe.boost?.Oil ?? 0,
         buildingName,
@@ -225,9 +229,11 @@ export function cancelQueuedRecipe({
     }
 
     // return resources consumed by the recipe
+    const cookableName = assertCookableName(recipe.name);
+
     const ingredients = getCookingRequirements({
       state,
-      item: recipe.name,
+      item: cookableName,
       skipDoubleNomBoost: !recipe.skills?.["Double Nom"],
     });
 

@@ -1,12 +1,12 @@
 import React from "react";
 
-import { ProcessedProduct } from "features/game/types/game";
+import { BuildingProduct } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { setImageWidth } from "lib/images";
 
 interface Props {
-  ready: ProcessedProduct[];
+  ready: BuildingProduct[];
   leftOffset: number;
 }
 

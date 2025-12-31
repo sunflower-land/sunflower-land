@@ -15,14 +15,14 @@ interface QueueSlotProps {
   buildingId: string;
   item?: BuildingProduct;
   isLocked?: boolean;
-  readyRecipes: BuildingProduct[];
+  readyProducts: BuildingProduct[];
 }
 
 export const QueueSlot: React.FC<QueueSlotProps> = ({
   buildingName,
   buildingId,
   item,
-  readyRecipes,
+  readyProducts,
 }) => {
   const { gameService } = useContext(Context);
   const { t } = useTranslation();
@@ -30,8 +30,8 @@ export const QueueSlot: React.FC<QueueSlotProps> = ({
 
   if (!item) return <Box />;
 
-  const isReady = readyRecipes.some(
-    (recipe) => recipe.name === item.name && recipe.readyAt === item.readyAt,
+  const isReady = readyProducts.some(
+    (product) => product.name === item.name && product.readyAt === item.readyAt,
   );
 
   const handleCancel = () => {

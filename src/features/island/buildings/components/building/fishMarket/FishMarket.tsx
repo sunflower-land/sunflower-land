@@ -41,6 +41,7 @@ export const FishMarket: React.FC<BuildingProps> = ({
     gameService?.send({
       type: "processedFood.collected",
       buildingId,
+      buildingName: "Fish Market",
     });
   };
 
@@ -52,6 +53,14 @@ export const FishMarket: React.FC<BuildingProps> = ({
     } else {
       setShowModal(true);
     }
+  };
+
+  const handleInstantProcess = (gems: number) => {
+    // gameService?.send({
+    //   type: "processedFood.spedUp",
+    //   gems,
+    //   buildingId,
+    // });
   };
 
   return (
@@ -67,9 +76,11 @@ export const FishMarket: React.FC<BuildingProps> = ({
 
       <FishMarketModal
         isOpen={showModal}
+        buildingId={buildingId}
         onClose={() => setShowModal(false)}
         onProcess={handleProcess}
         onCollect={handleCollect}
+        onInstantProcess={handleInstantProcess}
         processing={processing}
         queue={queued ?? []}
         ready={ready}
