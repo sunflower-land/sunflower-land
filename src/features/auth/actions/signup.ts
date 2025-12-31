@@ -1,5 +1,6 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
+import { getMetaBrowserIdentifiers } from "lib/analytics/meta";
 
 export type UTM = {
   source?: string;
@@ -7,6 +8,10 @@ export type UTM = {
   campaign?: string;
   term?: string;
   content?: string;
+
+  // Facebook Ad tracking
+  fbp?: string;
+  fbc?: string;
 };
 
 type Request = {
@@ -20,8 +25,10 @@ export async function signUp({
   token,
   transactionId,
   referrerId,
-  utm,
+  utm = {},
 }: Request) {
+  const { fbp, fbc } = getMetaBrowserIdentifiers();
+
   const response = await window.fetch(`${CONFIG.API_URL}/signup`, {
     method: "POST",
     headers: {
@@ -31,7 +38,11 @@ export async function signUp({
     },
     body: JSON.stringify({
       referrerId: referrerId ?? undefined,
-      utm: utm ?? undefined,
+      utm: {
+        ...utm,
+        fbp: fbp,
+        fbc: fbc,
+      },
     }),
   });
 
