@@ -120,7 +120,7 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
           {t("pets.resetRequests")}
         </p>
       </div>
-      <div className="flex flex-col gap-1 max-h-[250px] overflow-y-auto scrollable">
+      <div className="flex flex-col gap-1 max-h-[300px] overflow-y-auto scrollable">
         {sortedFoodRequests.map((food) => {
           const foodAvailable = (
             game.inventory[food] ?? new Decimal(0)

@@ -96,7 +96,7 @@ export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
           {t("pets.fossilShellRewards")}
         </p>
       </div>
-      <div className="flex flex-col gap-1 max-h-[250px] overflow-y-auto scrollable">
+      <div className="flex flex-col gap-1 max-h-[300px] overflow-y-auto scrollable">
         {fetches.map(({ name, level: requiredLevel }) => {
           const hasRequiredLevel = level >= requiredLevel;
           const energyRequired = PET_RESOURCES[name].energy;
