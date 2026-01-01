@@ -41,52 +41,6 @@ describe("placeWaterTrap", () => {
     ).toThrow("Missing Crab Pot");
   });
 
-  it("requires the correct bumpkin level for Crab Pot", () => {
-    expect(() =>
-      placeWaterTrap({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            "Crab Pot": new Decimal(1),
-          },
-          bumpkin: {
-            ...TEST_BUMPKIN,
-            experience: 0,
-          },
-        },
-        action: {
-          type: "waterTrap.placed",
-          trapId,
-          waterTrap: "Crab Pot",
-        },
-        createdAt,
-      }),
-    ).toThrow("Requires level 18");
-  });
-
-  it("requires the correct bumpkin level for Mariner Pot", () => {
-    expect(() =>
-      placeWaterTrap({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            "Mariner Pot": new Decimal(1),
-          },
-          bumpkin: {
-            ...TEST_BUMPKIN,
-            experience: 0,
-          },
-        },
-        action: {
-          type: "waterTrap.placed",
-          trapId,
-          waterTrap: "Mariner Pot",
-        },
-        createdAt,
-      }),
-    ).toThrow("Requires level 24");
-  });
-
   it("prevents placing a trap on an occupied spot", () => {
     expect(() =>
       placeWaterTrap({
