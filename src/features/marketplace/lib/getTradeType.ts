@@ -1501,6 +1501,7 @@ export const ITEM_TRADE_TYPES: {
     "Santa Suit": "instant",
     "Butterfly Wings": "instant",
     "Cozy Hoodie": "onchain",
+    "2026 Tiara": "instant",
     "New Years Tiara": "instant",
     "Northern Lights Background": "onchain",
     "Short Shorts": "onchain",

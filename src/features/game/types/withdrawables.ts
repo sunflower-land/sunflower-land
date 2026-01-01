@@ -14,6 +14,7 @@ const CAN_WITHDRAW_AND_TRADE: Releases = {
 };
 
 export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
+  "2026 Tiara": CAN_WITHDRAW_AND_TRADE,
   "New Years Crown": CAN_WITHDRAW_AND_TRADE,
   "Painter's Cap": CAN_WITHDRAW_AND_TRADE,
   "Festival of Colors Background": CAN_WITHDRAW_AND_TRADE,
