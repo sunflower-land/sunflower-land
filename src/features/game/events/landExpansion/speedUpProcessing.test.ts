@@ -14,6 +14,7 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { speedUpProcessing } from "./speedUpProcessing";
 import Decimal from "decimal.js-light";
+import { FISH_PROCESSING_TIME_SECONDS } from "features/game/types/fishProcessing";
 
 describe("instantProcessing", () => {
   beforeEach(() => {
@@ -89,7 +90,7 @@ describe("instantProcessing", () => {
                 coordinates: { x: 0, y: 0 },
                 createdAt: 0,
                 readyAt: 0,
-                crafting: [
+                processing: [
                   {
                     name: "Fish Stick",
                     readyAt: Date.now() + 30000,
@@ -103,27 +104,27 @@ describe("instantProcessing", () => {
     ).toThrow("Insufficient gems");
   });
 
-  it("charges gems for a mashed potato", () => {
-    const state = speedUpRecipe({
+  it("charges gems for a fish stick", () => {
+    const state = speedUpProcessing({
       farmId,
       action: {
         buildingId: "123",
-        buildingName: "Fire Pit",
-        type: "recipe.spedUp",
+        buildingName: "Fish Market",
+        type: "processing.spedUp",
       },
       state: {
         ...INITIAL_FARM,
         inventory: { Gem: new Decimal(100) },
         buildings: {
-          "Fire Pit": [
+          "Fish Market": [
             {
               id: "123",
               coordinates: { x: 0, y: 0 },
               createdAt: 0,
               readyAt: 0,
-              crafting: [
+              processing: [
                 {
-                  name: "Mashed Potato",
+                  name: "Fish Stick",
                   readyAt: Date.now() + 30000,
                 },
               ],
@@ -136,99 +137,28 @@ describe("instantProcessing", () => {
     expect(state.inventory.Gem).toEqual(new Decimal(99));
   });
 
-  it("charges gems for a radish cake", () => {
+  it("instantly finishes the processing", () => {
     const now = Date.now();
-    const state = speedUpRecipe({
+    const state = speedUpProcessing({
       farmId,
       action: {
         buildingId: "123",
-        buildingName: "Fire Pit",
-        type: "recipe.spedUp",
+        buildingName: "Fish Market",
+        type: "processing.spedUp",
       },
       state: {
         ...INITIAL_FARM,
         inventory: { Gem: new Decimal(100) },
         buildings: {
-          "Fire Pit": [
+          "Fish Market": [
             {
               id: "123",
               coordinates: { x: 0, y: 0 },
               createdAt: 0,
               readyAt: 0,
-              crafting: [
+              processing: [
                 {
-                  name: "Radish Cake",
-                  readyAt:
-                    now + BAKERY_COOKABLES["Radish Cake"].cookingSeconds * 1000,
-                },
-              ],
-            },
-          ],
-        },
-      },
-    });
-
-    expect(state.inventory.Gem).toEqual(new Decimal(60));
-  });
-
-  it("charges half the gems for a half finished radish cake", () => {
-    const now = Date.now();
-    const state = speedUpRecipe({
-      farmId,
-      action: {
-        buildingId: "123",
-        buildingName: "Fire Pit",
-        type: "recipe.spedUp",
-      },
-      state: {
-        ...INITIAL_FARM,
-        inventory: { Gem: new Decimal(100) },
-        buildings: {
-          "Fire Pit": [
-            {
-              id: "123",
-              coordinates: { x: 0, y: 0 },
-              createdAt: 0,
-              readyAt: 0,
-              crafting: [
-                {
-                  name: "Radish Cake",
-                  readyAt:
-                    now +
-                    (BAKERY_COOKABLES["Radish Cake"].cookingSeconds / 2) * 1000,
-                },
-              ],
-            },
-          ],
-        },
-      },
-    });
-
-    expect(state.inventory.Gem).toEqual(new Decimal(75));
-  });
-
-  it("gives the player the food", () => {
-    const now = Date.now();
-    const state = speedUpRecipe({
-      farmId,
-      action: {
-        buildingId: "123",
-        buildingName: "Fire Pit",
-        type: "recipe.spedUp",
-      },
-      state: {
-        ...INITIAL_FARM,
-        inventory: { Gem: new Decimal(100) },
-        buildings: {
-          "Fire Pit": [
-            {
-              id: "123",
-              coordinates: { x: 0, y: 0 },
-              createdAt: 0,
-              readyAt: 0,
-              crafting: [
-                {
-                  name: "Mashed Potato",
+                  name: "Fish Stick",
                   readyAt: now + 30000,
                 },
               ],
@@ -239,36 +169,36 @@ describe("instantProcessing", () => {
       },
     });
 
-    expect(state.inventory["Mashed Potato"]).toEqual(new Decimal(1));
-    expect(state.buildings["Fire Pit"]?.[0].crafting).toEqual([]);
+    expect(state.inventory["Fish Stick"]).toEqual(new Decimal(1));
+    expect(state.buildings["Fish Market"]?.[0].processing).toEqual([]);
   });
 
-  it("only speeds up the recipe that is currently cooking", () => {
+  it("only speeds up the item that is currently processing", () => {
     const now = Date.now();
-    const state = speedUpRecipe({
+    const state = speedUpProcessing({
       farmId,
       action: {
         buildingId: "123",
-        buildingName: "Fire Pit",
-        type: "recipe.spedUp",
+        buildingName: "Fish Market",
+        type: "processing.spedUp",
       },
       state: {
         ...INITIAL_FARM,
         inventory: { Gem: new Decimal(100) },
         buildings: {
-          "Fire Pit": [
+          "Fish Market": [
             {
               id: "123",
               coordinates: { x: 0, y: 0 },
               createdAt: 0,
               readyAt: 0,
-              crafting: [
+              processing: [
                 {
-                  name: "Mashed Potato",
+                  name: "Fish Stick",
                   readyAt: now + 30000,
                 },
                 {
-                  name: "Radish Cake",
+                  name: "Fish Oil",
                   readyAt: now + 30000 + 2000,
                 },
               ],
@@ -279,51 +209,54 @@ describe("instantProcessing", () => {
       },
     });
 
-    const building = state.buildings["Fire Pit"]?.[0];
+    const building = state.buildings["Fish Market"]?.[0];
 
-    expect(building?.crafting).toMatchObject([
+    expect(building?.processing).toMatchObject([
       {
-        name: "Radish Cake",
+        name: "Fish Oil",
         readyAt: expect.any(Number),
       },
     ]);
   });
 
-  it("updates all the recipes readyAt times correctly", () => {
+  it("updates all the items readyAt times correctly", () => {
     const now = Date.now();
-    const TOFU_TIME = COOKABLES["Fried Tofu"].cookingSeconds * 1000;
-    const POTATO_TIME = COOKABLES["Mashed Potato"].cookingSeconds * 1000;
-    const RHUBARB_TIME = COOKABLES["Rhubarb Tart"].cookingSeconds * 1000;
+    const PROCESSING_TIME = FISH_PROCESSING_TIME_SECONDS * 1000;
 
-    const state = speedUpRecipe({
+    const state = speedUpProcessing({
       farmId,
       state: {
         ...INITIAL_FARM,
         inventory: { Gem: new Decimal(100) },
         buildings: {
-          "Fire Pit": [
+          "Fish Market": [
             {
               id: "123",
               coordinates: { x: 0, y: 0 },
               createdAt: 0,
               readyAt: 0,
-              crafting: [
+              processing: [
                 {
-                  name: "Fried Tofu",
-                  readyAt: now + TOFU_TIME,
+                  name: "Fish Stick",
+                  readyAt: now + PROCESSING_TIME,
                 },
                 {
-                  name: "Rhubarb Tart",
-                  readyAt: now + TOFU_TIME + RHUBARB_TIME,
+                  name: "Fish Oil",
+                  readyAt: now + PROCESSING_TIME + PROCESSING_TIME,
                 },
                 {
-                  name: "Fried Tofu",
-                  readyAt: now + TOFU_TIME + RHUBARB_TIME + TOFU_TIME,
-                },
-                {
-                  name: "Mashed Potato",
+                  name: "Fish Oil",
                   readyAt:
-                    now + TOFU_TIME + RHUBARB_TIME + TOFU_TIME + POTATO_TIME,
+                    now + PROCESSING_TIME + PROCESSING_TIME + PROCESSING_TIME,
+                },
+                {
+                  name: "Fish Oil",
+                  readyAt:
+                    now +
+                    PROCESSING_TIME +
+                    PROCESSING_TIME +
+                    PROCESSING_TIME +
+                    PROCESSING_TIME,
                 },
               ],
             },
@@ -332,118 +265,24 @@ describe("instantProcessing", () => {
       },
       action: {
         buildingId: "123",
-        buildingName: "Fire Pit",
-        type: "recipe.spedUp",
+        buildingName: "Fish Market",
+        type: "processing.spedUp",
       },
       createdAt: now,
     });
 
-    const building = state.buildings["Fire Pit"]?.[0];
-    const queue = building?.crafting;
+    const building = state.buildings["Fish Market"]?.[0];
+    const queue = building?.processing;
 
-    // The first fried tofu should be ready now and is removed from the queue
+    // The first fried stick should be ready now and is removed from the queue
     // Remaining recipes should have their readyAt times updated
-    expect(queue?.[0].readyAt).toBe(now + RHUBARB_TIME);
-    expect(queue?.[1].readyAt).toBe(now + RHUBARB_TIME + TOFU_TIME);
+    expect(queue?.[0].readyAt).toBe(now + PROCESSING_TIME);
+    expect(queue?.[1].readyAt).toBe(now + PROCESSING_TIME + PROCESSING_TIME);
     expect(queue?.[2].readyAt).toBe(
-      now + RHUBARB_TIME + TOFU_TIME + POTATO_TIME,
+      now + PROCESSING_TIME + PROCESSING_TIME + PROCESSING_TIME,
     );
-  });
-
-  it("does not change the queued items oil boosts", () => {
-    const now = Date.now();
-    const twentyMinutesMs = 20 * 60 * 1000;
-
-    // Have a milk already cooking
-    const state: GameState = {
-      ...INITIAL_FARM,
-      inventory: {
-        Oil: new Decimal(100),
-        Tuna: new Decimal(100),
-        "Lifetime Farmer Banner": new Decimal(1),
-        Gem: new Decimal(100),
-      },
-      buildings: {
-        Deli: [
-          {
-            id: "123",
-            coordinates: { x: 0, y: 0 },
-            createdAt: 0,
-            readyAt: 0,
-            crafting: [
-              {
-                name: "Cheese",
-                readyAt: now + twentyMinutesMs, // 20 minutes
-              },
-            ],
-          },
-        ],
-      },
-    };
-
-    // Add 10 oil to the deli
-    const afterOilAddedState = supplyCookingOil({
-      state,
-      action: {
-        type: "cookingOil.supplied",
-        building: "Deli",
-        buildingId: "123",
-        oilQuantity: 10,
-      },
-      createdAt: Date.now(),
-    });
-
-    expect(afterOilAddedState.buildings["Deli"]?.[0].oil).toBe(10);
-
-    const boostedCookingTime = getCookingOilBoost(
-      "Fermented Fish",
-      afterOilAddedState,
-      "123",
-    );
-
-    const afterFermentedFishCookedState = cook({
-      state: afterOilAddedState,
-      action: {
-        type: "recipe.cooked",
-        item: "Fermented Fish",
-        buildingId: "123",
-      },
-      createdAt: now,
-    });
-
-    const sixteenHours = 16 * 60 * 60;
-    const sixteenHoursInMs = sixteenHours * 1000;
-    const fishShouldBeReadyAt = now + twentyMinutesMs + sixteenHoursInMs;
-
-    // Fermented fish should be ready 16 hours after 10 oil consumption
-    expect(boostedCookingTime.timeToCook).toEqual(sixteenHours); // 16 hours;
-    expect(afterFermentedFishCookedState.buildings["Deli"]?.[0].oil).toBe(0);
-    expect(
-      afterFermentedFishCookedState.buildings["Deli"]?.[0].crafting?.[1]
-        .readyAt,
-    ).toBe(fishShouldBeReadyAt);
-
-    // Speed up the recipe
-    const afterSpeedUpCheeseState = speedUpRecipe({
-      farmId,
-      state: afterFermentedFishCookedState,
-      action: {
-        type: "recipe.spedUp",
-        buildingId: "123",
-        buildingName: "Deli",
-      },
-      createdAt: now,
-    });
-
-    const result =
-      afterSpeedUpCheeseState.buildings["Deli"]?.[0].crafting?.[0].readyAt;
-
-    // Ready at for the fish should now be minus the milk cooking time
-    expect(result).toBe(fishShouldBeReadyAt - twentyMinutesMs);
   });
 });
-
-// describe("getInstantGems", () => {
 //   const farmId = 1;
 //   it("returns the correct amount of gems for a 1 hour recipe", () => {
 //     expect(

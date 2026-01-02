@@ -3,8 +3,9 @@ import { FoodProcessingBuildingName } from "features/game/types/buildings";
 import { BuildingProduct, GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { getInstantGems } from "./speedUpRecipe";
+import { recalculateProcessingQueue } from "./cancelProcessedFood";
 
-export type SpeedUpProcessing = {
+export type SpeedUpProcessingAction = {
   type: "processing.spedUp";
   buildingId: string;
   buildingName: FoodProcessingBuildingName;
@@ -12,7 +13,7 @@ export type SpeedUpProcessing = {
 
 type Options = {
   state: Readonly<GameState>;
-  action: SpeedUpProcessing;
+  action: SpeedUpProcessingAction;
   createdAt?: number;
   farmId: number;
 };
@@ -41,8 +42,6 @@ export const speedUpProcessing = ({
       throw new Error("Building does not exist");
     }
 
-    const processing = building.processing ?? [];
-
     const currentProcessingItem = getCurrentProcessingItem({
       building,
       createdAt,
@@ -61,13 +60,29 @@ export const speedUpProcessing = ({
     const gemsInventory = game.inventory["Gem"] ?? new Decimal(0);
 
     if (!gemsInventory.gte(gemsRequired)) {
-      throw new Error("Insufficient Gems");
+      throw new Error("Insufficient gems");
     }
 
-    // const gems = getInstantGems({
-    //   readyAt: currentProcessingItem.readyAt,
-    //   now: createdAt,
-    //   game,
-    // });
+    const gems = getInstantGems({
+      readyAt: currentProcessingItem.readyAt,
+      now: createdAt,
+      game,
+    });
+
+    game.inventory["Gem"] = gemsInventory.sub(gems);
+    game.inventory[currentProcessingItem.name] = (
+      game.inventory[currentProcessingItem.name] ?? new Decimal(0)
+    ).add(1);
+
+    const queue = building.processing ?? [];
+    const queueWithoutSpedUpItem = queue.filter(
+      (item) => item.readyAt !== currentProcessingItem.readyAt,
+    );
+
+    building.processing = recalculateProcessingQueue({
+      queue: queueWithoutSpedUpItem,
+      isInstantReady: true,
+      createdAt,
+    });
   });
 };

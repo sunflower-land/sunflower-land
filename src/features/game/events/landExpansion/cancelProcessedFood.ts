@@ -59,17 +59,28 @@ export function assertProcessedFood(name: string): ProcessedFood {
   return name as ProcessedFood;
 }
 
-function recalculateProcessingQueue({
+export function recalculateProcessingQueue({
   queue,
+  isInstantReady,
   createdAt,
 }: {
   queue: BuildingProduct[];
+  isInstantReady: boolean;
   createdAt: number;
 }): BuildingProduct[] {
   const ready = queue.filter((item) => item.readyAt <= createdAt);
   const upcoming = queue.filter((item) => item.readyAt > createdAt);
 
-  if (!upcoming.length) return ready;
+  if (isInstantReady) {
+    const updatedProcessing = upcoming.reduce((items, item, index) => {
+      const startAt = index === 0 ? createdAt : items[index - 1].readyAt;
+      const readyAt = startAt + PROCESSING_DURATION_MS;
+
+      return [...items, { ...item, readyAt }];
+    }, [] as BuildingProduct[]);
+
+    return [...ready, ...updatedProcessing];
+  }
 
   // Keep the currently processing item as-is
   const current = upcoming[0];
@@ -164,6 +175,7 @@ export function cancelProcessedFood({
 
     building.processing = recalculateProcessingQueue({
       queue: remainingQueue,
+      isInstantReady: false,
       createdAt,
     });
 

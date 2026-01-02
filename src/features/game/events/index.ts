@@ -563,6 +563,10 @@ import {
   renewPetShrine,
   RenewPetShrineAction,
 } from "./landExpansion/renewPetShrine";
+import {
+  speedUpProcessing,
+  SpeedUpProcessingAction,
+} from "./landExpansion/speedUpProcessing";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -725,7 +729,8 @@ export type PlayingEvent =
   | BulkHarvestAction
   | BumpkinWaveAction
   | BulkFertilisePlotAction
-  | RenewPetShrineAction;
+  | RenewPetShrineAction
+  | SpeedUpProcessingAction;
 
 export type LocalVisitingEvent =
   | CollectGarbageAction
@@ -814,6 +819,7 @@ type Handlers<T> = {
 };
 
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
+  "processing.spedUp": speedUpProcessing,
   "onChainAirdrop.acknowledged": acknowledgeOnChainAirdrop,
   "recipe.cancelled": cancelQueuedRecipe,
   "obsidian.exchanged": exchangeObsidian,
