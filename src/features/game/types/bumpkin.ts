@@ -323,6 +323,7 @@ export type BumpkinHat =
   | "Radiant Dumbo"
   | "Maple Dumbo"
   | "Gloomy Dumbo"
+  | "2026 Tiara"
   | "New Years Tiara"
   | "New Years Crown"
   | "Beekeeper Hat"
@@ -1105,6 +1106,8 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Cookie Shield": 514,
   "Cozy Reindeer Onesie": 515,
   "Diamond Snow Aura": 516,
+  // New Year 2026
+  "2026 Tiara": 517,
 };
 
 // The reverse of above
@@ -1441,6 +1444,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Santa Suit": "suit",
   "Butterfly Wings": "wings",
   "Cozy Hoodie": "shirt",
+  "2026 Tiara": "hat",
   "New Years Tiara": "hat",
   "Northern Lights Background": "background",
   "Short Shorts": "pants",

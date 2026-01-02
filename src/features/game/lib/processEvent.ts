@@ -537,6 +537,7 @@ export const MAX_BUMPKIN_WEARABLES: BumpkinItem[] = [
   "Elf Suit",
   "Santa Beard",
   "Santa Suit",
+  "2026 Tiara",
   "New Years Tiara",
   "New Years Crown",
   "Deep Sea Helm",

@@ -17007,6 +17007,17 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/270.png",
     name: "New Years Tiara",
   },
+  "2026 Tiara": {
+    description: "A sparkling tiara to ring in 2026 with shine and style.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/517.png",
+    name: "2026 Tiara",
+  },
   "Northern Lights Background": {
     description:
       "Mesmerizing background capturing the beauty of the northern lights.",

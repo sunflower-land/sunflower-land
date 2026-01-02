@@ -27,6 +27,10 @@ export function claimBonus({
       throw new Error("No bonus exists");
     }
 
+    if (bonus.expiresAt && createdAt > bonus.expiresAt) {
+      throw new Error("Bonus has expired");
+    }
+
     if (bonus.isClaimed(game)) {
       throw new Error("Bonus already claimed");
     }

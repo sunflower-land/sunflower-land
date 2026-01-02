@@ -51,6 +51,8 @@ import {
   PlayerModalPlayer,
 } from "features/social/lib/playerModalManager";
 import { rewardModalManager } from "features/social/lib/rewardModalManager";
+import { waveModalManager } from "features/social/lib/waveModalManager";
+import { BONUSES } from "features/game/types/bonuses";
 
 export type NPCBumpkin = {
   x: number;
@@ -1096,6 +1098,55 @@ export abstract class BaseScene extends Phaser.Scene {
             }, 5000);
           }
 
+          // Show tiara claim prompt to the sender when waving at a tiara-wearing player
+          const senderIsCurrentPlayer = currentFarmId === senderId;
+          const receiverHasTiara = receiver.clothing?.hat === "2026 Tiara";
+          const wardrobe = this.getLatestWardrobe();
+          const previousWardrobe = this.getLatestPreviousWardrobe();
+          const alreadyHasTiara =
+            !!wardrobe?.["2026 Tiara"] || !!previousWardrobe?.["2026 Tiara"];
+          const isEventActive =
+            BONUSES["2026-tiara-wave"].expiresAt &&
+            BONUSES["2026-tiara-wave"].expiresAt > Date.now();
+
+          if (
+            isEventActive &&
+            senderIsCurrentPlayer &&
+            receiverHasTiara &&
+            !alreadyHasTiara &&
+            !waveModalManager.isOpen
+          ) {
+            const openTiaraModal = () => {
+              // Double-check ownership and modal state at open time
+              const latestWardrobe = this.getLatestWardrobe();
+              const latestPreviousWardrobe = this.getLatestPreviousWardrobe();
+              const ownsTiara =
+                !!latestWardrobe?.["2026 Tiara"] ||
+                !!latestPreviousWardrobe?.["2026 Tiara"];
+
+              if (!ownsTiara && !waveModalManager.isOpen) {
+                waveModalManager.open({
+                  wavedAtClothing: receiver.clothing,
+                });
+              }
+            };
+
+            const sprite = sender.sprite;
+
+            if (sprite) {
+              // Prefer to wait until the current wave animation completes
+              sprite.once(
+                Phaser.Animations.Events.ANIMATION_COMPLETE,
+                openTiaraModal,
+              );
+              // Safety net in case the event does not fire (e.g. missing animation)
+              this.time.delayedCall(1200, openTiaraModal);
+            } else {
+              // Fallback timing if no sprite is available
+              this.time.delayedCall(1200, openTiaraModal);
+            }
+          }
+
           break;
         }
         case "cheer_ack":
@@ -1534,6 +1585,19 @@ export abstract class BaseScene extends Phaser.Scene {
 
   public get authService() {
     return this.registry.get("authService") as AuthMachineInterpreter;
+  }
+
+  private getLatestWardrobe() {
+    const snapshot = this.gameService?.getSnapshot();
+    return snapshot?.context.state.wardrobe ?? this.gameState.wardrobe;
+  }
+
+  private getLatestPreviousWardrobe() {
+    const snapshot = this.gameService?.getSnapshot();
+    return (
+      snapshot?.context.state.previousWardrobe ??
+      this.gameState.previousWardrobe
+    );
   }
 
   public get username() {
