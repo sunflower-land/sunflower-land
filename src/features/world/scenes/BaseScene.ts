@@ -52,6 +52,7 @@ import {
 } from "features/social/lib/playerModalManager";
 import { rewardModalManager } from "features/social/lib/rewardModalManager";
 import { waveModalManager } from "features/social/lib/waveModalManager";
+import { BONUSES } from "features/game/types/bonuses";
 
 export type NPCBumpkin = {
   x: number;
@@ -1104,8 +1105,12 @@ export abstract class BaseScene extends Phaser.Scene {
           const previousWardrobe = this.getLatestPreviousWardrobe();
           const alreadyHasTiara =
             !!wardrobe?.["2026 Tiara"] || !!previousWardrobe?.["2026 Tiara"];
+          const isEventActive =
+            BONUSES["2026-tiara-wave"].expiresAt &&
+            BONUSES["2026-tiara-wave"].expiresAt > Date.now();
 
           if (
+            isEventActive &&
             senderIsCurrentPlayer &&
             receiverHasTiara &&
             !alreadyHasTiara &&
