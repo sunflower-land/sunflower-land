@@ -603,7 +603,7 @@ export const ITEM_TRADE_TYPES: {
     "Pharaoh's Treasure Banner": "instant",
     "Amber Fossil": "instant",
     Gem: "instant",
-    VIP3: "instant",
+    "Squeaky Chicken": "instant",
     "Bull Run Banner": "instant",
     "Cow Skull": "instant",
     Horseshoe: "instant",

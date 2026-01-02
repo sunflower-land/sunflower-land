@@ -4779,13 +4779,13 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
-  VIP3: {
-    description: "VIP3",
+  "Squeaky Chicken": {
+    description: "Squeaky Chicken",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2336.png",
     attributes: [
-      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Purpose", value: "Decoration" },
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
