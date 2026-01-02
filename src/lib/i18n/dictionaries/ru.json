@@ -4059,7 +4059,6 @@
   "competition.highscore": "Больше всего очков",
   "competition.accumulator": "Накопленные очки",
   "description.gem": "Настоящая драгоценность в мире Sunflower Land!",
-  "description.vip3": "VIP3.",
   "gems.update": "Обновление Gem",
   "gems.intro": "Чтобы подготовиться к привлечению новых игроков, мы заменили Block Bucks новой валютой - Gems!",
   "gems.intro.two": "Вы получите 20 Gems за каждый принадлежащий вам Block Buck.",
@@ -7687,5 +7686,6 @@
   "bonus.2026-tiara-wave.name": "2026 Tiara",
   "bonus.2026-tiara-wave.title": "Happy New Year!",
   "bonus.2026-tiara-wave.message": "Hey {{username}}, welcome to 2026! I would like to gift you this commemorative tiara to celebrate. I hope the new year brings you joy and success!",
-  "claim.bonusItemName": "Claim {{bonusItemName}}"
+  "claim.bonusItemName": "Claim {{bonusItemName}}",
+  "description.squeakyChicken": "A squeaky chicken"
 }

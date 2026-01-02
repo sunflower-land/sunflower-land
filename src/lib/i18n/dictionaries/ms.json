@@ -6733,7 +6733,6 @@
   "description.pawPrintsRug": "Permaidani yang selesa bercorak dengan cetakan kaki yang suka bermain.",
   "description.petBed": "Tempat rehat yang selesa untuk sahabat setia anda.",
   "description.moonFoxStatue": "Patung yang menghormati jam tangan lembut Moon Fox.",
-  "description.vip3": "VIP3.",
   "description.petBowls": "Pastikan setiap haiwan kesayangan gembira dengan mangkuk makanan dan air yang sepadan.",
   "description.petBowls.boost": "+10 Pet XP setiap permintaan makanan.",
   "villageProjects": "Projek Kampung",
@@ -7687,5 +7686,6 @@
   "bonus.2026-tiara-wave.name": "2026 Tiara",
   "bonus.2026-tiara-wave.title": "Selamat Tahun Baru!",
   "bonus.2026-tiara-wave.message": "Hei {{username}}, selamat datang ke 2026! Saya ingin menghadiahkan anda tiara peringatan ini untuk meraikannya. Saya harap tahun baru membawa anda kegembiraan dan kejayaan!",
-  "claim.bonusItemName": "Tuntutan {{bonusItemName}}"
+  "claim.bonusItemName": "Tuntutan {{bonusItemName}}",
+  "description.squeakyChicken": "Ayam yang berkerut"
 }

@@ -6733,7 +6733,6 @@
   "description.pawPrintsRug": "Un tapis douillet orné d'empreintes de pattes ludiques.",
   "description.petBed": "Un lieu de repos douillet pour vos fidèles compagnons.",
   "description.moonFoxStatue": "Une statue rendant hommage à la gentille montre du Moon Fox.",
-  "description.vip3": "VIP3.",
   "description.petBowls": "Faites plaisir à chaque animal de compagnie grâce à des bols de nourriture et d'eau assortis.",
   "description.petBowls.boost": "+10 points d'expérience pour animaux de compagnie par demande de nourriture.",
   "villageProjects": "Projets de village",
@@ -7687,5 +7686,6 @@
   "bonus.2026-tiara-wave.name": "Diadème 2026",
   "bonus.2026-tiara-wave.title": "Bonne année !",
   "bonus.2026-tiara-wave.message": "Salut {{username}}, bienvenue en 2026 ! J'aimerais vous offrir ce diadème commémoratif pour célébrer. J'espère que la nouvelle année vous apportera joie et succès !",
-  "claim.bonusItemName": "Réclamation {{bonusItemName}}"
+  "claim.bonusItemName": "Réclamation {{bonusItemName}}",
+  "description.squeakyChicken": "Un poulet qui couine"
 }

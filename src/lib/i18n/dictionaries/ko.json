@@ -6733,7 +6733,6 @@
   "description.pawPrintsRug": "장난기 넘치는 발 프린트가 있는 포근한 러그입니다.",
   "description.petBed": "충성스러운 동반자를 위한 아늑한 휴식처입니다.",
   "description.moonFoxStatue": "문 폭스의 부드러운 시계를 기리는 조각상.",
-  "description.vip3": "VIP3.",
   "description.petBowls": "어울리는 음식과 물그릇으로 모든 반려동물을 행복하게 해주세요.",
   "description.petBowls.boost": "음식 요청당 애완동물 경험치 +10",
   "villageProjects": "빌리지 프로젝트",
@@ -7687,5 +7686,6 @@
   "bonus.2026-tiara-wave.name": "2026 티아라",
   "bonus.2026-tiara-wave.title": "새해 복 많이 받으세요!",
   "bonus.2026-tiara-wave.message": "안녕하세요 {{username}} 님, 2026년에 오신 것을 환영합니다!축하의 의미로 이 기념 티아라를 선물하고 싶어요.새해가 여러분에게 기쁨과 성공을 가져다 주길 바랍니다!",
-  "claim.bonusItemName": "클레임 {{bonusItemName}}"
+  "claim.bonusItemName": "클레임 {{bonusItemName}}",
+  "description.squeakyChicken": "삐걱거리는 닭"
 }

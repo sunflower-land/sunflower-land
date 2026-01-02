@@ -6733,7 +6733,6 @@
   "description.pawPrintsRug": "Um tapete aconchegante estampado com estampas divertidas de patas.",
   "description.petBed": "Um local de descanso confortável para seus companheiros leais.",
   "description.moonFoxStatue": "Uma estátua em homenagem ao relógio gentil da Moon Fox.",
-  "description.vip3": "VIP3.",
   "description.petBowls": "Mantenha todos os animais de estimação felizes combinando tigelas de comida e água.",
   "description.petBowls.boost": "+10 XP para animais de estimação por pedido de comida.",
   "villageProjects": "Projetos de vilas",
@@ -7687,5 +7686,6 @@
   "bonus.2026-tiara-wave.name": "Tiara 2026",
   "bonus.2026-tiara-wave.title": "Feliz Ano Novo!",
   "bonus.2026-tiara-wave.message": "Olá {{username}}, bem-vindo a 2026! Eu gostaria de presentear você com esta tiara comemorativa para comemorar. Espero que o novo ano lhe traga alegria e sucesso!",
-  "claim.bonusItemName": "Reclamação {{bonusItemName}}"
+  "claim.bonusItemName": "Reclamação {{bonusItemName}}",
+  "description.squeakyChicken": "Uma galinha estridente"
 }

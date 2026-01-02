@@ -6733,7 +6733,6 @@
   "description.pawPrintsRug": "Eğlenceli pençe baskılarıyla desenli rahat bir halı.",
   "description.petBed": "Sadık arkadaşlarınız için rahat bir dinlenme yeri.",
   "description.moonFoxStatue": "Ay Tilkisinin nazik saatini onurlandıran bir heykel.",
-  "description.vip3": "VİP3.",
   "description.petBowls": "Eşleşen yiyecek ve su kaseleri ile her evcil hayvanı mutlu edin.",
   "description.petBowls.boost": "Yiyecek talebi başına +10 Pet XP.",
   "villageProjects": "Köy Projeleri",
@@ -7687,5 +7686,6 @@
   "bonus.2026-tiara-wave.name": "2026 Taç",
   "bonus.2026-tiara-wave.title": "Yeni Yılınız Kutlu Olsun!",
   "bonus.2026-tiara-wave.message": "Hey {{username}}, 2026'ya hoş geldiniz! Kutlamak için size bu hatıra tacını hediye etmek istiyorum. Umarım yeni yıl size neşe ve başarı getirir!",
-  "claim.bonusItemName": "Talep {{bonusItemName}}"
+  "claim.bonusItemName": "Talep {{bonusItemName}}",
+  "description.squeakyChicken": "Gıcırtılı bir tavuk"
 }
