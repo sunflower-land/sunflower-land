@@ -56,10 +56,9 @@ export const FishMarket: React.FC<BuildingProps> = ({
     }
   };
 
-  const handleInstantProcess = (gems: number) => {
+  const handleInstantProcess = () => {
     gameService?.send({
-      type: "processedFood.spedUp",
-      gems,
+      type: "processing.spedUp",
       buildingId,
       buildingName: "Fish Market",
     });
