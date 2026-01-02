@@ -113,7 +113,8 @@ export type NPCName =
   | "gunter"
   | "gorga"
   | "rocket man"
-  | "bailey"; // weatherman
+  | "bailey"
+  | "new year pete"; // weatherman
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   "rocket man": {
@@ -1271,6 +1272,16 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Infernal Bullwhip",
     background: "Pumpkin Plaza Background",
     shoes: "Cowboy Boots",
+  },
+  "new year pete": {
+    body: "Light Brown Farmer Potion",
+    background: "Pumpkin Plaza Background",
+    hair: "Buzz Cut",
+    hat: "2026 Tiara",
+    shirt: "Yellow Farmer Shirt",
+    pants: "Lumberjack Overalls",
+    shoes: "Black Farmer Boots",
+    tool: "Farmer Pitchfork",
   },
 };
 
