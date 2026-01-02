@@ -202,8 +202,8 @@ export type BumpkinLevel =
 
 export const LEVEL_EXPERIENCE: Record<BumpkinLevel, number> = {
   1: 0,
-  2: 5,
-  3: 55,
+  2: 2,
+  3: 22,
   4: 205,
   5: 555,
   6: 1_155,
