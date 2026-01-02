@@ -14,7 +14,6 @@ const CAN_WITHDRAW_AND_TRADE: Releases = {
 };
 
 export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
-  "2026 Tiara": CAN_WITHDRAW_AND_TRADE,
   "New Years Crown": CAN_WITHDRAW_AND_TRADE,
   "Painter's Cap": CAN_WITHDRAW_AND_TRADE,
   "Festival of Colors Background": CAN_WITHDRAW_AND_TRADE,
@@ -242,6 +241,10 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
   "Infernal Drill": CAN_WITHDRAW_AND_TRADE,
   "Grape Pants": CAN_WITHDRAW_AND_TRADE,
   "Carrot Amulet": CAN_WITHDRAW_AND_TRADE,
+  "2026 Tiara": {
+    tradeAt: new Date("2026-03-01T00:00:00Z"),
+    withdrawAt: new Date("2026-03-01T00:00:00Z"),
+  },
 
   // Bull Run Season Items
   "Cowboy Hat": {
