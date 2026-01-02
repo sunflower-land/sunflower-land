@@ -12,6 +12,7 @@ export type Bonus = {
     wearables: Wardrobe;
     inventory: Partial<Record<InventoryItemName, number>>;
   };
+  expiresAt?: number;
 };
 
 export const BONUSES: Record<BonusName, Bonus> = {
@@ -53,5 +54,6 @@ export const BONUSES: Record<BonusName, Bonus> = {
       },
       inventory: {},
     },
+    expiresAt: new Date("2026-01-19T00:00:00Z").getTime(),
   },
 };
