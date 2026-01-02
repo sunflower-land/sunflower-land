@@ -7683,5 +7683,9 @@
   "fishing.guaranteedCatch.select": "Garantili yakalamanızı seçin:",
   "statements.craft.fishHouse": "Fish House'da El Sanatları",
   "fishing.notEnoughBait": "Yeterince sahip değilsin {{bait}}!",
-  "fishingPuzzle.retryPrompt": "{{coins}} jetonları için daha fazla deneme ister misiniz?"
+  "fishingPuzzle.retryPrompt": "{{coins}} jetonları için daha fazla deneme ister misiniz?",
+  "bonus.2026-tiara-wave.name": "2026 Taç",
+  "bonus.2026-tiara-wave.title": "Yeni Yılınız Kutlu Olsun!",
+  "bonus.2026-tiara-wave.message": "Hey {{username}}, 2026'ya hoş geldiniz! Kutlamak için size bu hatıra tacını hediye etmek istiyorum. Umarım yeni yıl size neşe ve başarı getirir!",
+  "claim.bonusItemName": "Talep {{bonusItemName}}"
 }

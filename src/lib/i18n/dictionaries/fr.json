@@ -7683,5 +7683,9 @@
   "fishing.guaranteedCatch.select": "Sélectionnez votre capture garantie :",
   "statements.craft.fishHouse": "Artisanat à Fish House",
   "fishing.notEnoughBait": "Tu n'as pas assez de {{bait}} !",
-  "fishingPuzzle.retryPrompt": "Aimeriez-vous faire plus d'essais pour les pièces {{coins}} ?"
+  "fishingPuzzle.retryPrompt": "Aimeriez-vous faire plus d'essais pour les pièces {{coins}} ?",
+  "bonus.2026-tiara-wave.name": "Diadème 2026",
+  "bonus.2026-tiara-wave.title": "Bonne année !",
+  "bonus.2026-tiara-wave.message": "Salut {{username}}, bienvenue en 2026 ! J'aimerais vous offrir ce diadème commémoratif pour célébrer. J'espère que la nouvelle année vous apportera joie et succès !",
+  "claim.bonusItemName": "Réclamation {{bonusItemName}}"
 }

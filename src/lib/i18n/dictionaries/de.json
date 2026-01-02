@@ -7683,5 +7683,9 @@
   "fishing.guaranteedCatch.select": "Wählen Sie Ihren garantierten Fang aus:",
   "statements.craft.fishHouse": "Basteln im Fish House",
   "fishing.notEnoughBait": "Du hast nicht genug {{bait}}!",
-  "fishingPuzzle.retryPrompt": "Möchtest du mehr Versuche für {{coins}} -Münzen erhalten?"
+  "fishingPuzzle.retryPrompt": "Möchtest du mehr Versuche für {{coins}} -Münzen erhalten?",
+  "bonus.2026-tiara-wave.name": "2026 Diadem",
+  "bonus.2026-tiara-wave.title": "Frohes neues Jahr!",
+  "bonus.2026-tiara-wave.message": "Hey {{username}}, willkommen im Jahr 2026! Zum Feiern möchte ich dir dieses Diadem zum Gedenken schenken. Ich hoffe, das neue Jahr bringt Ihnen Freude und Erfolg!",
+  "claim.bonusItemName": "Anspruch {{bonusItemName}}"
 }

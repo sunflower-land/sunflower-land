@@ -7683,5 +7683,9 @@
   "fishing.guaranteedCatch.select": "Pilih tangkapan yang dijamin anda:",
   "statements.craft.fishHouse": "Kraf di Rumah Ikan",
   "fishing.notEnoughBait": "Anda tidak mempunyai cukup {{bait}}!",
-  "fishingPuzzle.retryPrompt": "Adakah anda ingin lebih banyak percubaan untuk duit syiling {{coins}}?"
+  "fishingPuzzle.retryPrompt": "Adakah anda ingin lebih banyak percubaan untuk duit syiling {{coins}}?",
+  "bonus.2026-tiara-wave.name": "2026 Tiara",
+  "bonus.2026-tiara-wave.title": "Selamat Tahun Baru!",
+  "bonus.2026-tiara-wave.message": "Hei {{username}}, selamat datang ke 2026! Saya ingin menghadiahkan anda tiara peringatan ini untuk meraikannya. Saya harap tahun baru membawa anda kegembiraan dan kejayaan!",
+  "claim.bonusItemName": "Tuntutan {{bonusItemName}}"
 }

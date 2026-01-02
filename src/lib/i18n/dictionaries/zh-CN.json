@@ -7683,5 +7683,9 @@
   "fishing.guaranteedCatch.select": "选择您的保证渔获量：",
   "statements.craft.fishHouse": "在鱼屋手工艺",
   "fishing.notEnoughBait": "你还不够 {{bait}}！",
-  "fishingPuzzle.retryPrompt": "你想更多地尝试获得 {{coins}} 硬币吗？"
+  "fishingPuzzle.retryPrompt": "你想更多地尝试获得 {{coins}} 硬币吗？",
+  "bonus.2026-tiara-wave.name": "2026 头饰",
+  "bonus.2026-tiara-wave.title": "新年快乐！",
+  "bonus.2026-tiara-wave.message": "嘿 {{username}}，欢迎来到 2026 年！我想给你这个纪念头饰来庆祝。我希望新的一年给你带来欢乐和成功！",
+  "claim.bonusItemName": "索赔 {{bonusItemName}}"
 }

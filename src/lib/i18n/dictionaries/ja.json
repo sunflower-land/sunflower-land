@@ -7683,5 +7683,9 @@
   "fishing.guaranteedCatch.select": "保証漁獲量を選択してください:",
   "statements.craft.fishHouse": "クラフト・アット・フィッシュ・ハウス",
   "fishing.notEnoughBait": "{{bait}} が足りません！",
-  "fishingPuzzle.retryPrompt": "{{coins}} コインをもっと試したいですか？"
+  "fishingPuzzle.retryPrompt": "{{coins}} コインをもっと試したいですか？",
+  "bonus.2026-tiara-wave.name": "2026 ティアラ",
+  "bonus.2026-tiara-wave.title": "新年あけましておめでとうございます",
+  "bonus.2026-tiara-wave.message": "ねえ {{username}}、2026へようこそ！お祝いに、この記念ティアラをプレゼントしたいです。新年があなたに喜びと成功をもたらすことを願っています！",
+  "claim.bonusItemName": "クレーム {{bonusItemName}}"
 }

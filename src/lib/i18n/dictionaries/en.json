@@ -1,4 +1,8 @@
 {
+  "bonus.2026-tiara-wave.name": "2026 Tiara",
+  "bonus.2026-tiara-wave.title": "Happy New Year!",
+  "bonus.2026-tiara-wave.message": "Hey {{username}}, welcome to 2026! I would like to gift you this commemorative tiara to celebrate. I hope the new year brings you joy and success!",
+  "claim.bonusItemName": "Claim {{bonusItemName}}",
   "burn": "Burn",
   "giveUp": "Give up",
   "new": "New",

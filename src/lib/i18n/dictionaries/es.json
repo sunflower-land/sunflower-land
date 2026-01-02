@@ -7683,5 +7683,9 @@
   "fishing.guaranteedCatch.select": "Selecciona tu captura garantizada:",
   "statements.craft.fishHouse": "Artesanía en Fish House",
   "fishing.notEnoughBait": "¡No tienes suficiente {{bait}}!",
-  "fishingPuzzle.retryPrompt": "¿Quieres más intentos de conseguir monedas de {{coins}}?"
+  "fishingPuzzle.retryPrompt": "¿Quieres más intentos de conseguir monedas de {{coins}}?",
+  "bonus.2026-tiara-wave.name": "Tiara 2026",
+  "bonus.2026-tiara-wave.title": "¡Feliz año nuevo!",
+  "bonus.2026-tiara-wave.message": "Hola {{username}}, ¡bienvenido al 2026! Me gustaría regalarte esta tiara conmemorativa para celebrarlo. ¡Espero que el nuevo año te traiga alegría y éxito!",
+  "claim.bonusItemName": "Reclamación {{bonusItemName}}"
 }

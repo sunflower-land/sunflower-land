@@ -7683,5 +7683,9 @@
   "fishing.guaranteedCatch.select": "보장된 어획량을 선택하세요:",
   "statements.craft.fishHouse": "크래프트 앳 피시 하우스",
   "fishing.notEnoughBait": "{{bait}} 가 부족하잖아!",
-  "fishingPuzzle.retryPrompt": "{{coins}} 코인에 대한 더 많은 시도를 원하십니까?"
+  "fishingPuzzle.retryPrompt": "{{coins}} 코인에 대한 더 많은 시도를 원하십니까?",
+  "bonus.2026-tiara-wave.name": "2026 티아라",
+  "bonus.2026-tiara-wave.title": "새해 복 많이 받으세요!",
+  "bonus.2026-tiara-wave.message": "안녕하세요 {{username}} 님, 2026년에 오신 것을 환영합니다!축하의 의미로 이 기념 티아라를 선물하고 싶어요.새해가 여러분에게 기쁨과 성공을 가져다 주길 바랍니다!",
+  "claim.bonusItemName": "클레임 {{bonusItemName}}"
 }
