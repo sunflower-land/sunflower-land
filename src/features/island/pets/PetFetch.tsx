@@ -34,8 +34,6 @@ type Props = {
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _farmId = (state: MachineState) => state.context.farmId;
-const _farmActivity = (state: MachineState) => (name: PetResourceName) =>
-  state.context.state.farmActivity[`${name} Fetched`] ?? 0;
 const _state = (state: MachineState) => state.context.state;
 
 export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
@@ -45,7 +43,6 @@ export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
 
   const inventory = useSelector(gameService, _inventory);
   const farmId = useSelector(gameService, _farmId);
-  const farmActivity = useSelector(gameService, _farmActivity);
   const state = useSelector(gameService, _state);
 
   const { level } = getPetLevel(data.experience);
@@ -97,26 +94,26 @@ export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
         </p>
       </div>
       <div className="flex flex-col gap-1 max-h-[300px] overflow-y-auto scrollable">
-        {fetches.map(({ name, level: requiredLevel }) => {
+        {fetches.map(({ name: fetchResource, level: requiredLevel }) => {
           const hasRequiredLevel = level >= requiredLevel;
-          const energyRequired = PET_RESOURCES[name].energy;
+          const energyRequired = PET_RESOURCES[fetchResource].energy;
           const hasEnoughEnergy = data.energy >= energyRequired;
           const { yieldAmount: fetchYield } = getFetchYield({
             petLevel: level,
-            fetchResource: name,
+            fetchResource,
             isPetNFT: isPetNFT(data),
             farmId,
-            counter: farmActivity(name),
+            counter: data.fetches?.[fetchResource] ?? 0,
             state,
           });
 
-          const inventoryCount = inventory[name] ?? new Decimal(0);
+          const inventoryCount = inventory[fetchResource] ?? new Decimal(0);
 
           return (
-            <div key={`fetch-${name}`} className="flex w-full gap-1">
+            <div key={`fetch-${fetchResource}`} className="flex w-full gap-1">
               <InnerPanel className="flex gap-2 items-center w-full">
                 <SmallBox
-                  image={ITEM_DETAILS[name].image}
+                  image={ITEM_DETAILS[fetchResource].image}
                   count={inventoryCount}
                 />
 
@@ -136,7 +133,7 @@ export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
                   </div>
                 </div>
                 {!hasRequiredLevel && (
-                  <Popover key={name}>
+                  <Popover key={fetchResource}>
                     <PopoverButton as="div" className="cursor-pointer">
                       <div className="flex flex-row gap-1 justify-center items-center mr-1">
                         <img src={SUNNYSIDE.icons.lock} className="w-5" />
@@ -161,7 +158,7 @@ export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
                   !hasRequiredLevel ||
                   !hasEnoughEnergy
                 }
-                onClick={() => onFetch(name)}
+                onClick={() => onFetch(fetchResource)}
               >
                 {t("fetch")}
               </Button>
