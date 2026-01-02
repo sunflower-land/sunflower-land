@@ -1123,7 +1123,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Moon Fox Statue": 2333,
   "Giant Acorn": 2334,
   "Pet Bowls": 2335,
-  VIP3: 2336,
+  "Squeaky Chicken": 2336,
 
   //Holiday Event Items 2025
   "Holiday Ticket 2025": 2337,

@@ -93,6 +93,7 @@ export type ChapterDecorationName =
   | "Paw Prints Rug"
   | "Pet Bed"
   | "Pet Bowls"
+  | "Squeaky Chicken"
   | "Moon Fox Statue"
   | "Giant Acorn";
 
@@ -1317,6 +1318,10 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   },
   "Pet Bowls": {
     width: 2,
+    height: 1,
+  },
+  "Squeaky Chicken": {
+    width: 1,
     height: 1,
   },
   "Pet Bed": {
