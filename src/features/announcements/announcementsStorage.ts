@@ -85,7 +85,7 @@ export function hasUnreadMail(
     // Ensure they haven't read it already
     .some((id) => {
       const announceAt = announcements[id].announceAt ?? 0;
-      const expiresAt = announcements[id].expiresAt ?? 0;
+      const expiresAt = announcements[id].expiresAt ?? Infinity;
 
       if (
         new Date(lastRead) > new Date(announceAt) &&
