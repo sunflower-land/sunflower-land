@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
-import { DiscordChannelName, getDiscordNewsData } from "../actions/discordNews";
+import {
+  DiscordChannelName,
+  getDiscordNewsDataCached,
+  storeDiscordNewsReadAt,
+} from "../actions/discordNews";
 import { useAuth } from "features/auth/lib/Provider";
 import useSWR from "swr";
 import { Loading } from "features/auth/components";
-import { ErrorMessage } from "features/auth/ErrorMessage";
 import { ButtonPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import speakerIcon from "assets/icons/speaker.webp";
@@ -12,11 +15,12 @@ import newsIcon from "assets/icons/chapter_icon_2.webp";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
 import { getRelativeTime } from "lib/utils/time";
-import { NPCFixed, NPCParts } from "features/island/bumpkin/components/NPC";
+import { NPCFixed } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { marked } from "marked";
 
 const DISCORD_CHANNEL_ICONS: Record<DiscordChannelName, string> = {
   news: newsIcon,
@@ -34,7 +38,72 @@ const TEAM_NPCS: Record<string, BumpkinParts> = {
   Jammy: NPC_WEARABLES.goldtooth,
 };
 
-const PUMPKIN_PETE_PARTS = NPC_WEARABLES["pumpkin' pete"] as Partial<NPCParts>;
+function isSafeHttpUrl(href: string) {
+  try {
+    const url = new URL(href);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+function escapeAttr(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function renderDiscordMarkdown(markdown: string) {
+  const renderer = new marked.Renderer();
+
+  // Discord content should not render raw HTML for safety
+  renderer.html = () => "";
+
+  // We render attachments separately from the API response
+  renderer.image = () => "";
+
+  renderer.link = (href, title, text) => {
+    if (!href || !isSafeHttpUrl(href)) return text;
+
+    const safeHref = escapeAttr(href);
+    const safeTitle = title ? ` title="${escapeAttr(title)}"` : "";
+
+    return `<a href="${safeHref}"${safeTitle} target="_blank" rel="noreferrer noopener" class="underline">${text}</a>`;
+  };
+
+  return marked.parse(markdown, {
+    gfm: true,
+    breaks: true,
+    renderer,
+  }) as string;
+}
+
+function renderDiscordMarkdownInline(markdown: string) {
+  const renderer = new marked.Renderer();
+
+  // Discord content should not render raw HTML for safety
+  renderer.html = () => "";
+
+  // We render attachments separately from the API response
+  renderer.image = () => "";
+
+  renderer.link = (href, title, text) => {
+    if (!href || !isSafeHttpUrl(href)) return text;
+
+    const safeHref = escapeAttr(href);
+    const safeTitle = title ? ` title="${escapeAttr(title)}"` : "";
+
+    return `<a href="${safeHref}"${safeTitle} target="_blank" rel="noreferrer noopener" class="underline">${text}</a>`;
+  };
+
+  return marked.parseInline(markdown, {
+    gfm: true,
+    breaks: true,
+    renderer,
+  }) as string;
+}
 
 export const DiscordNews: React.FC = () => {
   const { authState } = useAuth();
@@ -43,25 +112,44 @@ export const DiscordNews: React.FC = () => {
   const now = useNow({ live: true });
 
   const { data, isLoading, error } = useSWR(
-    ["/data?type=flowerDashboard"],
+    ["/data?type=discordAnnouncements", authState.context.user.rawToken],
     () =>
-      getDiscordNewsData({ token: authState.context.user.rawToken as string }),
+      getDiscordNewsDataCached({
+        token: authState.context.user.rawToken as string,
+      }),
+    {
+      dedupingInterval: 10 * 60 * 1000,
+    },
   );
+
+  const announcements = data ?? [];
+  const selectedAnnouncement = selectedId
+    ? (announcements.find((announcement) => announcement.id === selectedId) ??
+      null)
+    : null;
+  const bodyHtml = useMemo(
+    () => renderDiscordMarkdown(selectedAnnouncement?.content ?? ""),
+    [selectedAnnouncement?.content],
+  );
+
+  // Mark the latest announcement as "read" once they've opened the Discord news panel.
+  useEffect(() => {
+    if (!data) return;
+    storeDiscordNewsReadAt(Date.now());
+  }, [data]);
 
   if (isLoading) return <Loading />;
 
-  if (error || !data) return <p>Error</p>;
+  if (error || !data) return <p>{`Error`}</p>;
 
   if (selectedId) {
-    const announcement = data.find(
-      (announcement) => announcement.id === selectedId,
-    );
-    if (!announcement) return <p>{t("error")}</p>;
+    if (!selectedAnnouncement) return <p>{t("error")}</p>;
 
-    const createdAt = new Date(announcement.createdAt).getTime();
+    const createdAt = new Date(selectedAnnouncement.createdAt).getTime();
     const relativeTime = getRelativeTime(createdAt, now);
     const sender =
-      announcement.sender.displayName ?? announcement.sender.username;
+      selectedAnnouncement.sender.displayName ??
+      selectedAnnouncement.sender.username;
 
     return (
       <div className="max-h-[450px] overflow-y-auto scrollable">
@@ -82,21 +170,22 @@ export const DiscordNews: React.FC = () => {
             <div className="flex flex-col">
               <p className="text-xs">{sender}</p>
               <a
-                href={announcement.url}
+                href={selectedAnnouncement.url}
                 target="_blank"
                 rel="noreferrer"
                 className="text-xxs underline"
               >
-                {relativeTime} on Discord
+                {`${relativeTime} on Discord`}
               </a>
             </div>
           </div>
         </div>
 
-        <p className="text-sm discord-news-body break-words mb-2 px-1">
-          {announcement.content}
-        </p>
-        {announcement.images.map((image) => (
+        <div
+          className="text-sm discord-news-body break-words mb-2 px-1"
+          dangerouslySetInnerHTML={{ __html: bodyHtml }}
+        />
+        {selectedAnnouncement.images.map((image) => (
           <img key={image.url} src={image.url} className="w-full mb-2" />
         ))}
       </div>
@@ -105,12 +194,16 @@ export const DiscordNews: React.FC = () => {
 
   // TODO - put actual quests/announcements/actual news on top here (From Bumpkins)
 
-  const announcements = data;
   return (
     <div className="max-h-[450px] overflow-y-auto scrollable pr-0.5">
       {announcements.map((announcement) => {
         const createdAt = new Date(announcement.createdAt).getTime();
         const relativeTime = getRelativeTime(createdAt, now);
+        const previewText = announcement.content
+          .replace(/\r?\n/g, " ")
+          .replace(/\s{2,}/g, " ")
+          .trim();
+        const previewHtml = renderDiscordMarkdownInline(previewText);
 
         return (
           <ButtonPanel
@@ -123,13 +216,14 @@ export const DiscordNews: React.FC = () => {
                 className="w-6 object-contain mr-2"
               />
               <div className="flex-1 overflow-hidden pb-1">
-                <p className="text-xxs capitalize mb-1 flex items-center justify-between gap-2">
+                <p className="text-xxs capitalize mb-1.5 flex items-center justify-between gap-2">
                   <span className="underline">{announcement.channelName}</span>
                   <span>{relativeTime}</span>
                 </p>
-                <p className="text-sm discord-news-preview break-words">
-                  {announcement.content}
-                </p>
+                <div
+                  className="text-sm discord-news-preview break-words"
+                  dangerouslySetInnerHTML={{ __html: previewHtml }}
+                />
               </div>
             </div>
           </ButtonPanel>
