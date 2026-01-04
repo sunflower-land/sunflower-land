@@ -24,6 +24,8 @@ import { PWAInstallMessage } from "./components/PWAInstallMessage";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
 import { WhatsOn } from "./components/WhatsOn";
 import { News } from "./components/News";
+import { hasFeatureAccess } from "lib/flags";
+import { DiscordNews } from "./components/DiscordNews";
 
 const _announcements = (state: MachineState) => state.context.announcements;
 const _mailbox = (state: MachineState) => state.context.state.mailbox;
@@ -141,7 +143,14 @@ export const LetterBox: React.FC = () => {
           >
             {tab === 0 && (
               <InnerPanel>
-                <News />
+                {hasFeatureAccess(
+                  gameService.state.context.state,
+                  "DISCORD_NEWS",
+                ) ? (
+                  <DiscordNews />
+                ) : (
+                  <News />
+                )}
               </InnerPanel>
             )}
             {tab === 1 && (

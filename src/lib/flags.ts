@@ -123,6 +123,7 @@ const FEATURE_FLAGS = {
   MICRO_INTERACTIONS: defaultFeatureFlag,
   MULTI_CAST: defaultFeatureFlag,
   FISH_MARKET: testnetFeatureFlag,
+  DISCORD_NEWS: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
