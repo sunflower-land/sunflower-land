@@ -1,11 +1,9 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
-import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
-import codexIcon from "assets/icons/codex.webp";
 
 export type OtherTasks = {
   title: string;
@@ -42,24 +40,6 @@ export const IN_GAME_TASKS = {
     reward: { "Love Charm": 25 },
     requirement: (state) => !!state.telegram?.linkedAt,
     requirementTotal: 1,
-  },
-  "Upgrade to Petal Paradise": {
-    title: translate("socialTask.upgradeToPetalParadise"),
-    description: translate("socialTask.upgradeToPetalParadise.description"),
-    image: SUNNYSIDE.icons.hammer,
-    reward: { "Love Charm": 25 },
-    requirement: (state) =>
-      hasRequiredIslandExpansion(state.island.type, "spring"),
-    requirementTotal: 1,
-  },
-  "Complete 50 deliveries": {
-    title: translate("socialTask.complete50Deliveries"),
-    description: translate("socialTask.complete50Deliveries.description"),
-    image: codexIcon,
-    reward: { "Love Charm": 25 },
-    requirement: (state) => state.delivery.fulfilledCount >= 50,
-    requirementTotal: 50,
-    currentProgress: (state) => state.delivery.fulfilledCount,
   },
 } satisfies Record<string, Task>;
 
