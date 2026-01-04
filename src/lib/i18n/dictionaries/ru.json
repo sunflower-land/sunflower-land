@@ -5297,7 +5297,6 @@
   "powerSkills.reason.noOilreservesRefilling": "Запасы нефти не пополняются",
   "powerSkills.reason.animalsNotAsleep": "Все ваши животные не спят",
   "marketplace.withdrawComingSoon": "Дата вывода",
-  "instantCook.confirmationMessage": "Вы уверены, что хотите закончить приготовление сейчас?",
   "instantCook.costMessage": "Это будет стоить вам {{gems}} Gems",
   "instantCook.finish": "Приготовить",
   "mayor": "Мэр",
@@ -7687,5 +7686,7 @@
   "bonus.2026-tiara-wave.title": "Happy New Year!",
   "bonus.2026-tiara-wave.message": "Hey {{username}}, welcome to 2026! I would like to gift you this commemorative tiara to celebrate. I hope the new year brings you joy and success!",
   "claim.bonusItemName": "Claim {{bonusItemName}}",
-  "description.squeakyChicken": "A squeaky chicken"
+  "description.squeakyChicken": "A squeaky chicken",
+  "processedFoods": "Processed Foods",
+  "instantCook.confirmationMessage": "Are you sure you want to finish this item now?"
 }

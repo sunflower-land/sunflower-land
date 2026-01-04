@@ -4047,7 +4047,6 @@
   "minigame.discovered.one": "哈喽喂，乡包佬，你发现了一个由社区共建的传送门。",
   "marketplace.withdrawComingSoon": "提取日期",
   "competition.rules.four": "排行榜将在竞赛的最后 3 天隐藏。",
-  "instantCook.confirmationMessage": "你确定要立即完成这个食谱吗？",
   "instantCook.costMessage": "这将花费你 {{gems}} 钻石",
   "competition.rules.five": "如果您击败克雷格、斯宾塞或亚当，则赢取奖金。",
   "skill.fruitfulFumble": "水果产量 +0.1",
@@ -7687,5 +7686,7 @@
   "bonus.2026-tiara-wave.title": "新年快乐！",
   "bonus.2026-tiara-wave.message": "嘿 {{username}}，欢迎来到 2026 年！我想给你这个纪念头饰来庆祝。我希望新的一年给你带来欢乐和成功！",
   "claim.bonusItemName": "索赔 {{bonusItemName}}",
-  "description.squeakyChicken": "一只吱吱作响的鸡"
+  "description.squeakyChicken": "一只吱吱作响的鸡",
+  "processedFoods": "加工食品",
+  "instantCook.confirmationMessage": "你确定要立即完成这个项目吗？"
 }

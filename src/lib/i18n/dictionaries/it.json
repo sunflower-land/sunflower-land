@@ -4045,7 +4045,6 @@
   "minigame.discovered.one": "Salve Bumpkin, hai scoperto un portale creato dalla community.",
   "marketplace.withdrawComingSoon": "Data di prelievo",
   "competition.rules.four": "La classifica sarà nascosta negli ultimi 3 giorni della competizione.",
-  "instantCook.confirmationMessage": "Sei sicuro di voler finire questa ricetta adesso?",
   "instantCook.costMessage": "Questo ti costerà {{gems}} gemme",
   "competition.rules.five": "Vinci un premio bonus battendo Craig, Spencer o Adam.",
   "skill.fruitfulFumble": "+0,1 resa in frutta",
@@ -7687,5 +7686,7 @@
   "bonus.2026-tiara-wave.title": "Buon anno nuovo!",
   "bonus.2026-tiara-wave.message": "Ehi {{username}}, benvenuto nel 2026! Vorrei regalarvi questa tiara commemorativa per festeggiare. Spero che il nuovo anno vi porti gioia e successo!",
   "claim.bonusItemName": "Reclamo {{bonusItemName}}",
-  "description.squeakyChicken": "Un pollo che scricchiola"
+  "description.squeakyChicken": "Un pollo che scricchiola",
+  "processedFoods": "Alimenti trasformati",
+  "instantCook.confirmationMessage": "Sei sicuro di voler finire questo articolo adesso?"
 }

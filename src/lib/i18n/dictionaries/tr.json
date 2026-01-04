@@ -4045,7 +4045,6 @@
   "minigame.discovered.one": "Merhaba Bumpkin, topluluk tarafından inşa edilmiş bir portal keşfettin.",
   "marketplace.withdrawComingSoon": "Para çekme tarihi",
   "competition.rules.four": "Yarışmanın son 3 gününde liderlik tablosu gizlenecektir.",
-  "instantCook.confirmationMessage": "Bu tarifi şimdi bitirmek istediğinizden emin misiniz?",
   "instantCook.costMessage": "Bu size {{gems}} Mücevherlere mal olacak",
   "competition.rules.five": "Craig, Spencer veya Adam'ı yenerseniz bir bonus ödül kazanın.",
   "skill.fruitfulFumble": "+0.1 meyve verimi",
@@ -7687,5 +7686,7 @@
   "bonus.2026-tiara-wave.title": "Yeni Yılınız Kutlu Olsun!",
   "bonus.2026-tiara-wave.message": "Hey {{username}}, 2026'ya hoş geldiniz! Kutlamak için size bu hatıra tacını hediye etmek istiyorum. Umarım yeni yıl size neşe ve başarı getirir!",
   "claim.bonusItemName": "Talep {{bonusItemName}}",
-  "description.squeakyChicken": "Gıcırtılı bir tavuk"
+  "description.squeakyChicken": "Gıcırtılı bir tavuk",
+  "processedFoods": "İşlenmiş Gıdalar",
+  "instantCook.confirmationMessage": "Bu öğeyi şimdi bitirmek istediğinizden emin misiniz?"
 }

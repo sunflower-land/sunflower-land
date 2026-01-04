@@ -4045,7 +4045,6 @@
   "minigame.discovered.one": "Hallo Bumpkin, du hast ein Portal entdeckt, das von der Community gebaut wurde.",
   "marketplace.withdrawComingSoon": "Datum der Auszahlung",
   "competition.rules.four": "Die Bestenliste wird an den letzten 3 Tagen des Wettbewerbs ausgeblendet.",
-  "instantCook.confirmationMessage": "Bist du sicher, dass du dieses Rezept jetzt beenden möchtest?",
   "instantCook.costMessage": "Das kostet dich {{gems}} Edelsteine",
   "competition.rules.five": "Gewinne einen Bonuspreis, wenn du Craig, Spencer oder Adam besiegst.",
   "skill.fruitfulFumble": "+0,1 Fruchtertrag",
@@ -7687,5 +7686,7 @@
   "bonus.2026-tiara-wave.title": "Frohes neues Jahr!",
   "bonus.2026-tiara-wave.message": "Hey {{username}}, willkommen im Jahr 2026! Zum Feiern möchte ich dir dieses Diadem zum Gedenken schenken. Ich hoffe, das neue Jahr bringt Ihnen Freude und Erfolg!",
   "claim.bonusItemName": "Anspruch {{bonusItemName}}",
-  "description.squeakyChicken": "Ein quietschendes Huhn"
+  "description.squeakyChicken": "Ein quietschendes Huhn",
+  "processedFoods": "Verarbeitete Lebensmittel",
+  "instantCook.confirmationMessage": "Bist du sicher, dass du diesen Artikel jetzt fertigstellen möchtest?"
 }

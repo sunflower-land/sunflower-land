@@ -4045,7 +4045,6 @@
   "minigame.discovered.one": "こんにちは、バンプキン、コミュニティによって構築されたポータルを発見しました。",
   "marketplace.withdrawComingSoon": "出金日",
   "competition.rules.four": "リーダーボードは、コンテストの最後の3日間は非表示になります。",
-  "instantCook.confirmationMessage": "このレシピを今すぐ完成させてもよろしいですか？",
   "instantCook.costMessage": "これには {{gems}} ジェムがかかります",
   "competition.rules.five": "クレイグ、スペンサー、アダムを倒すとボーナス賞を獲得できます。",
   "skill.fruitfulFumble": "+0.1 フルーツ収量",
@@ -7687,5 +7686,7 @@
   "bonus.2026-tiara-wave.title": "新年あけましておめでとうございます",
   "bonus.2026-tiara-wave.message": "ねえ {{username}}、2026へようこそ！お祝いに、この記念ティアラをプレゼントしたいです。新年があなたに喜びと成功をもたらすことを願っています！",
   "claim.bonusItemName": "クレーム {{bonusItemName}}",
-  "description.squeakyChicken": "きしむチキン"
+  "description.squeakyChicken": "きしむチキン",
+  "processedFoods": "加工食品",
+  "instantCook.confirmationMessage": "この商品を今すぐ完成させてもよろしいですか？"
 }

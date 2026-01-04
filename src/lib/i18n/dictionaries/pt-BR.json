@@ -4045,7 +4045,6 @@
   "minigame.discovered.one": "Olá, Bumpkin, você descobriu um portal construído pela comunidade.",
   "marketplace.withdrawComingSoon": "Data de retirada",
   "competition.rules.four": "A tabela de classificação ficará oculta nos últimos 3 dias da competição.",
-  "instantCook.confirmationMessage": "Tem certeza de que deseja terminar esta receita agora?",
   "instantCook.costMessage": "Isso custará a você {{gems}} Gemas",
   "competition.rules.five": "Ganhe um prêmio de bônus se você vencer Craig, Spencer ou Adam.",
   "skill.fruitfulFumble": "+0,1 produção de frutos",
@@ -7687,5 +7686,7 @@
   "bonus.2026-tiara-wave.title": "Feliz Ano Novo!",
   "bonus.2026-tiara-wave.message": "Olá {{username}}, bem-vindo a 2026! Eu gostaria de presentear você com esta tiara comemorativa para comemorar. Espero que o novo ano lhe traga alegria e sucesso!",
   "claim.bonusItemName": "Reclamação {{bonusItemName}}",
-  "description.squeakyChicken": "Uma galinha estridente"
+  "description.squeakyChicken": "Uma galinha estridente",
+  "processedFoods": "Alimentos processados",
+  "instantCook.confirmationMessage": "Tem certeza de que deseja terminar este item agora?"
 }

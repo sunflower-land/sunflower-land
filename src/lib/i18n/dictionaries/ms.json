@@ -4045,7 +4045,6 @@
   "minigame.discovered.one": "Howdy Bumpkin, anda telah menemui portal yang dibina oleh komuniti.",
   "marketplace.withdrawComingSoon": "Tarikh pengeluaran",
   "competition.rules.four": "Papan pendahulu akan disembunyikan pada 3 hari terakhir pertandingan.",
-  "instantCook.confirmationMessage": "Adakah anda pasti ingin menyelesaikan resipi ini sekarang?",
   "instantCook.costMessage": "Ini akan menelan belanja {{gems}} Permata",
   "competition.rules.five": "Menangi hadiah bonus jika anda mengalahkan Craig, Spencer atau Adam.",
   "skill.fruitfulFumble": "+0.1 hasil buah",
@@ -7687,5 +7686,7 @@
   "bonus.2026-tiara-wave.title": "Selamat Tahun Baru!",
   "bonus.2026-tiara-wave.message": "Hei {{username}}, selamat datang ke 2026! Saya ingin menghadiahkan anda tiara peringatan ini untuk meraikannya. Saya harap tahun baru membawa anda kegembiraan dan kejayaan!",
   "claim.bonusItemName": "Tuntutan {{bonusItemName}}",
-  "description.squeakyChicken": "Ayam yang berkerut"
+  "description.squeakyChicken": "Ayam yang berkerut",
+  "processedFoods": "Makanan yang diproses",
+  "instantCook.confirmationMessage": "Adakah anda pasti ingin menyelesaikan item ini sekarang?"
 }

@@ -4045,7 +4045,6 @@
   "minigame.discovered.one": "Howdy Bumpkin, vous avez découvert un portail créé par la communauté.",
   "marketplace.withdrawComingSoon": "Date de retrait",
   "competition.rules.four": "Le classement sera masqué les 3 derniers jours de la compétition.",
-  "instantCook.confirmationMessage": "Êtes-vous sûr de vouloir terminer cette recette maintenant ?",
   "instantCook.costMessage": "Cela vous coûtera {{gems}} Gemmes",
   "competition.rules.five": "Gagnez un prix bonus si vous battez Craig, Spencer ou Adam.",
   "skill.fruitfulFumble": "+0,1 rendement en fruits",
@@ -7687,5 +7686,7 @@
   "bonus.2026-tiara-wave.title": "Bonne année !",
   "bonus.2026-tiara-wave.message": "Salut {{username}}, bienvenue en 2026 ! J'aimerais vous offrir ce diadème commémoratif pour célébrer. J'espère que la nouvelle année vous apportera joie et succès !",
   "claim.bonusItemName": "Réclamation {{bonusItemName}}",
-  "description.squeakyChicken": "Un poulet qui couine"
+  "description.squeakyChicken": "Un poulet qui couine",
+  "processedFoods": "Aliments transformés",
+  "instantCook.confirmationMessage": "Êtes-vous sûr de vouloir terminer cet article maintenant ?"
 }
