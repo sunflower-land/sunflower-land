@@ -304,6 +304,30 @@ img {
   -webkit-box-orient: vertical;
 }
 
+.discord-news-preview {
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.discord-news-body {
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  white-space: pre-wrap;
+  font-size: 14px;
+  line-height: 14px;
+}
+
 @keyframes blink {
   0%,
   20% {
