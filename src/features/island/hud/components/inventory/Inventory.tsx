@@ -55,12 +55,6 @@ export const Inventory: React.FC<Props> = ({
 
   const [selectedChestItem, setSelectedChestItem] =
     useState<LandscapingPlaceableType>();
-  // [
-  //   ...buds,
-  //   ...getKeys(getChestItems(state)).sort(
-  //     (a, b) => KNOWN_IDS[a] - KNOWN_IDS[b],
-  //   ),
-  // ][0],
 
   const handleBasketItemClick = (item: InventoryItemName) => {
     if (!shortcutItem) return;

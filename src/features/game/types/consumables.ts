@@ -2,11 +2,21 @@
 import Decimal from "decimal.js-light";
 import { BuildingName } from "./buildings";
 import { Cake } from "./craftables";
-import { Inventory } from "./game";
+import { BuildingProduct, Inventory } from "./game";
 import { FishName } from "./fishing";
 import { translate } from "lib/i18n/translate";
 import { FactionShopFoodName } from "./factionShop";
 import { TradeFood } from "../events/landExpansion/redeemTradeReward";
+
+export const assertCookableName = (
+  name: BuildingProduct["name"],
+): CookableName => {
+  if (!(name in COOKABLES)) {
+    throw new Error("Recipe is not cookable");
+  }
+
+  return name as CookableName;
+};
 
 type FirePitCookableName =
   | "Rapid Roast"

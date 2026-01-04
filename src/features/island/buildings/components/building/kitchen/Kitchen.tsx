@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { CookableName } from "features/game/types/consumables";
+import { CookableName, COOKABLES } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { KitchenModal } from "./KitchenModal";
@@ -41,6 +41,10 @@ export const Kitchen: React.FC<Props> = ({
   const { cooking, queuedRecipes, readyRecipes } = useCookingState(
     kitchen ?? {},
   );
+  const itemInProgress =
+    cooking?.name && cooking.name in COOKABLES
+      ? (cooking.name as CookableName)
+      : undefined;
 
   const { play: bakeryAudio } = useSound("bakery");
 
@@ -153,7 +157,7 @@ export const Kitchen: React.FC<Props> = ({
         onClose={() => setShowModal(false)}
         onCook={handleCook}
         cooking={cooking}
-        itemInProgress={cooking?.name}
+        itemInProgress={itemInProgress}
         buildingId={buildingId}
         readyRecipes={readyRecipes}
       />
