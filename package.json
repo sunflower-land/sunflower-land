@@ -67,6 +67,7 @@
     "lodash.memoize": "^4.1.2",
     "lodash.shuffle": "^4.2.0",
     "mitt": "^3.0.1",
+    "marked": "^12.0.2",
     "mobile-device-detect": "^0.4.3",
     "phaser": "^3.80.1",
     "phaser-navmesh": "^2.3.1",

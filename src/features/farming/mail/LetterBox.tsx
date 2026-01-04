@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -26,16 +26,26 @@ import { WhatsOn } from "./components/WhatsOn";
 import { News } from "./components/News";
 import { hasFeatureAccess } from "lib/flags";
 import { DiscordNews } from "./components/DiscordNews";
+import { useAuth } from "features/auth/lib/Provider";
+import {
+  getDiscordNewsLatestAt,
+  hasUnreadDiscordNews,
+  preloadDiscordNews,
+} from "./actions/discordNews";
 
 const _announcements = (state: MachineState) => state.context.announcements;
 const _mailbox = (state: MachineState) => state.context.state.mailbox;
 
 export const LetterBox: React.FC = () => {
   const { gameService, showAnimations } = useContext(Context);
+  const { authState } = useAuth();
   const [tab, setTab] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<string>();
   const isPWA = useIsPWA();
+  const [discordLatestAt, setDiscordLatestAt] = useState<number | null>(
+    () => getDiscordNewsLatestAt() ?? gameService.state.context.state.createdAt,
+  );
 
   const announcements = useSelector(gameService, _announcements);
   const mailbox = useSelector(gameService, _mailbox);
@@ -52,6 +62,35 @@ export const LetterBox: React.FC = () => {
       .some((id) => !mailbox.read.find((message) => message.id === id)) &&
     // And not visiting
     !gameService.state.matches("visiting");
+
+  const discordNewsEnabled = hasFeatureAccess(
+    gameService.state.context.state,
+    "DISCORD_NEWS",
+  );
+
+  useEffect(() => {
+    if (!discordNewsEnabled) return;
+    if (gameService.state.matches("visiting")) return;
+
+    const token = authState.context.user.rawToken as string | undefined;
+    if (!token) return;
+
+    let cancelled = false;
+    preloadDiscordNews({ token }).then((latestAt) => {
+      if (cancelled) return;
+      setDiscordLatestAt(latestAt);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [discordNewsEnabled, authState.context.user.rawToken, gameService]);
+
+  const hasUnreadNewsUpdate =
+    discordNewsEnabled && hasUnreadDiscordNews(discordLatestAt);
+
+  const shouldShowNewsAlert =
+    hasUnreadNewsUpdate && !gameService.state.matches("visiting");
   const details = selected ? announcements[selected] : undefined;
 
   return (
@@ -76,6 +115,21 @@ export const LetterBox: React.FC = () => {
               width: `${PIXEL_SCALE * 18}px`,
               top: `${PIXEL_SCALE * -14}px`,
               left: `${PIXEL_SCALE * 0}px`,
+            }}
+          />
+        )}
+
+        {shouldShowNewsAlert && !hasAnnouncement && (
+          <img
+            src={newsIcon}
+            className={
+              "absolute z-20 cursor-pointer group-hover:img-highlight" +
+              (showAnimations ? " animate-pulsate" : "")
+            }
+            style={{
+              width: `${PIXEL_SCALE * 13}px`,
+              top: `${PIXEL_SCALE * -13}px`,
+              left: `${PIXEL_SCALE * 1.8}px`,
             }}
           />
         )}
@@ -128,13 +182,19 @@ export const LetterBox: React.FC = () => {
           <CloseButtonPanel
             onClose={close}
             tabs={[
-              { icon: newsIcon, name: t("news.title") },
               {
                 icon: letter,
                 name: t("mailbox"),
                 alert: hasAnnouncement,
                 unread: hasAnnouncement,
               },
+              {
+                icon: newsIcon,
+                name: t("news.title"),
+                alert: shouldShowNewsAlert,
+                unread: shouldShowNewsAlert,
+              },
+
               { icon: SUNNYSIDE.icons.stopwatch, name: t("mailbox.whatsOn") },
             ]}
             currentTab={tab}
@@ -142,6 +202,9 @@ export const LetterBox: React.FC = () => {
             container={OuterPanel}
           >
             {tab === 0 && (
+              <Mail setSelected={setSelected} announcements={announcements} />
+            )}
+            {tab === 1 && (
               <InnerPanel>
                 {hasFeatureAccess(
                   gameService.state.context.state,
@@ -153,9 +216,7 @@ export const LetterBox: React.FC = () => {
                 )}
               </InnerPanel>
             )}
-            {tab === 1 && (
-              <Mail setSelected={setSelected} announcements={announcements} />
-            )}
+
             {tab === 2 && <WhatsOn />}
           </CloseButtonPanel>
         )}
