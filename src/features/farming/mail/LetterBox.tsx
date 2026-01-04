@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { Modal } from "components/ui/Modal";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -23,13 +29,14 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { PWAInstallMessage } from "./components/PWAInstallMessage";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
 import { WhatsOn } from "./components/WhatsOn";
-import { News } from "./components/News";
+import { hasReadNews, News } from "./components/News";
 import { hasFeatureAccess } from "lib/flags";
 import { DiscordNews } from "./components/DiscordNews";
 import { useAuth } from "features/auth/lib/Provider";
 import {
+  DISCORD_NEWS_STORAGE_EVENT,
   getDiscordNewsLatestAt,
-  hasUnreadDiscordNews,
+  getDiscordNewsReadAt,
   preloadDiscordNews,
 } from "./actions/discordNews";
 
@@ -43,12 +50,12 @@ export const LetterBox: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<string>();
   const isPWA = useIsPWA();
-  const [discordLatestAt, setDiscordLatestAt] = useState<number | null>(
-    () => getDiscordNewsLatestAt() ?? gameService.state.context.state.createdAt,
-  );
 
   const announcements = useSelector(gameService, _announcements);
   const mailbox = useSelector(gameService, _mailbox);
+  const isVisiting = useSelector(gameService, (state) =>
+    state.matches("visiting"),
+  );
 
   const { t } = useAppTranslation();
   const close = () => {
@@ -61,36 +68,83 @@ export const LetterBox: React.FC = () => {
       // Ensure they haven't read it already
       .some((id) => !mailbox.read.find((message) => message.id === id)) &&
     // And not visiting
-    !gameService.state.matches("visiting");
+    !isVisiting;
 
   const discordNewsEnabled = hasFeatureAccess(
     gameService.state.context.state,
     "DISCORD_NEWS",
   );
 
+  const setCurrentTab: React.Dispatch<React.SetStateAction<number>> = (
+    value,
+  ) => {
+    // We only expect the Tab component to pass a number, but support the full
+    // React SetStateAction signature to satisfy the prop type.
+    if (typeof value === "function") {
+      setTab(value);
+      return;
+    }
+
+    setTab(value);
+  };
+
+  const discordNewsTimestamps = useSyncExternalStore(
+    useMemo(
+      () => (onStoreChange: () => void) => {
+        if (typeof window === "undefined") return () => {};
+        if (!discordNewsEnabled) return () => {};
+
+        window.addEventListener("storage", onStoreChange);
+        window.addEventListener(DISCORD_NEWS_STORAGE_EVENT, onStoreChange);
+
+        return () => {
+          window.removeEventListener("storage", onStoreChange);
+          window.removeEventListener(DISCORD_NEWS_STORAGE_EVENT, onStoreChange);
+        };
+      },
+      [discordNewsEnabled],
+    ),
+    useMemo(
+      () => () => {
+        if (typeof window === "undefined" || !discordNewsEnabled) {
+          return {
+            latestAt: null as number | null,
+            readAt: null as number | null,
+          };
+        }
+
+        return {
+          latestAt: getDiscordNewsLatestAt(),
+          readAt: getDiscordNewsReadAt(),
+        };
+      },
+      [discordNewsEnabled],
+    ),
+    () => ({ latestAt: null, readAt: null }),
+  );
+
   useEffect(() => {
     if (!discordNewsEnabled) return;
-    if (gameService.state.matches("visiting")) return;
+    if (isVisiting) return;
 
     const token = authState.context.user.rawToken as string | undefined;
     if (!token) return;
 
-    let cancelled = false;
-    preloadDiscordNews({ token }).then((latestAt) => {
-      if (cancelled) return;
-      setDiscordLatestAt(latestAt);
-    });
+    // Cache + timestamps are written to localStorage; UI reacts via useSyncExternalStore.
+    preloadDiscordNews({ token });
+  }, [discordNewsEnabled, authState.context.user.rawToken, isVisiting]);
 
-    return () => {
-      cancelled = true;
-    };
-  }, [discordNewsEnabled, authState.context.user.rawToken, gameService]);
+  const hasUnreadDiscordUpdate = !!(
+    discordNewsEnabled &&
+    discordNewsTimestamps.latestAt &&
+    (!discordNewsTimestamps.readAt ||
+      discordNewsTimestamps.latestAt > discordNewsTimestamps.readAt)
+  );
+  const hasUnreadNewsUpdate = discordNewsEnabled
+    ? hasUnreadDiscordUpdate
+    : !hasReadNews();
 
-  const hasUnreadNewsUpdate =
-    discordNewsEnabled && hasUnreadDiscordNews(discordLatestAt);
-
-  const shouldShowNewsAlert =
-    hasUnreadNewsUpdate && !gameService.state.matches("visiting");
+  const shouldShowNewsAlert = hasUnreadNewsUpdate && !isVisiting;
   const details = selected ? announcements[selected] : undefined;
 
   return (
@@ -198,7 +252,7 @@ export const LetterBox: React.FC = () => {
               { icon: SUNNYSIDE.icons.stopwatch, name: t("mailbox.whatsOn") },
             ]}
             currentTab={tab}
-            setCurrentTab={setTab}
+            setCurrentTab={setCurrentTab}
             container={OuterPanel}
           >
             {tab === 0 && (

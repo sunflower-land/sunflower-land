@@ -47,62 +47,179 @@ function isSafeHttpUrl(href: string) {
   }
 }
 
-function escapeAttr(value: string) {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/"/g, "&quot;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+type AnyToken = any;
+
+function renderInlineToken(token: AnyToken, key: React.Key): React.ReactNode {
+  switch (token?.type) {
+    case "text":
+    case "escape":
+      return <React.Fragment key={key}>{token.text}</React.Fragment>;
+    case "strong":
+      return (
+        <strong key={key}>
+          {renderInlineTokens(token.tokens ?? [], `${String(key)}-s`)}
+        </strong>
+      );
+    case "em":
+      return (
+        <em key={key}>
+          {renderInlineTokens(token.tokens ?? [], `${String(key)}-e`)}
+        </em>
+      );
+    case "del":
+      return (
+        <del key={key}>
+          {renderInlineTokens(token.tokens ?? [], `${String(key)}-d`)}
+        </del>
+      );
+    case "codespan":
+      return (
+        <code key={key} className="px-1 rounded-sm bg-brown-200">
+          {token.text}
+        </code>
+      );
+    case "br":
+      return <br key={key} />;
+    case "link": {
+      const href = token.href as string | undefined;
+      const safe = href && isSafeHttpUrl(href);
+      const children =
+        token.tokens && token.tokens.length
+          ? renderInlineTokens(token.tokens, `${String(key)}-l`)
+          : token.text;
+
+      return safe ? (
+        <a
+          key={key}
+          href={href}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="underline"
+          title={token.title}
+        >
+          {children}
+        </a>
+      ) : (
+        <React.Fragment key={key}>{children}</React.Fragment>
+      );
+    }
+    case "image":
+    case "html":
+      // Never render raw HTML/images from markdown (attachments are rendered separately).
+      return null;
+    default:
+      // Fallback to safest plain text-ish output
+      return (
+        <React.Fragment key={key}>
+          {token?.text ?? token?.raw ?? ""}
+        </React.Fragment>
+      );
+  }
 }
 
-function renderDiscordMarkdown(markdown: string) {
-  const renderer = new marked.Renderer();
-
-  // Discord content should not render raw HTML for safety
-  renderer.html = () => "";
-
-  // We render attachments separately from the API response
-  renderer.image = () => "";
-
-  renderer.link = (href, title, text) => {
-    if (!href || !isSafeHttpUrl(href)) return text;
-
-    const safeHref = escapeAttr(href);
-    const safeTitle = title ? ` title="${escapeAttr(title)}"` : "";
-
-    return `<a href="${safeHref}"${safeTitle} target="_blank" rel="noreferrer noopener" class="underline">${text}</a>`;
-  };
-
-  return marked.parse(markdown, {
-    gfm: true,
-    breaks: true,
-    renderer,
-  }) as string;
+function renderInlineTokens(
+  tokens: AnyToken[],
+  keyPrefix: string,
+): React.ReactNode {
+  return (
+    <>{tokens.map((t, idx) => renderInlineToken(t, `${keyPrefix}-${idx}`))}</>
+  );
 }
 
-function renderDiscordMarkdownInline(markdown: string) {
-  const renderer = new marked.Renderer();
+function renderBlockTokens(
+  tokens: AnyToken[],
+  keyPrefix: string,
+): React.ReactNode {
+  return (
+    <>
+      {tokens.map((token, idx) => {
+        const key = `${keyPrefix}-${idx}`;
 
-  // Discord content should not render raw HTML for safety
-  renderer.html = () => "";
+        switch (token?.type) {
+          case "paragraph":
+            return (
+              <div key={key} className="mb-2 last:mb-0">
+                {renderInlineTokens(token.tokens ?? [], `${key}-p`)}
+              </div>
+            );
+          case "text":
+            // In some cases `lexer` yields top-level "text"
+            return (
+              <div key={key} className="mb-2 last:mb-0">
+                {renderInlineTokens(
+                  token.tokens ?? [{ type: "text", text: token.text }],
+                  `${key}-t`,
+                )}
+              </div>
+            );
+          case "code":
+            return (
+              <pre
+                key={key}
+                className="mb-2 last:mb-0 p-2 rounded-sm bg-brown-200 overflow-x-auto"
+              >
+                <code>{token.text}</code>
+              </pre>
+            );
+          case "blockquote":
+            return (
+              <blockquote
+                key={key}
+                className="mb-2 last:mb-0 border-l-2 border-brown-300 pl-2"
+              >
+                {renderBlockTokens(token.tokens ?? [], `${key}-bq`)}
+              </blockquote>
+            );
+          case "list": {
+            const ListTag = token.ordered ? "ol" : "ul";
+            return (
+              <ListTag key={key} className="mb-2 last:mb-0 pl-4 list-disc">
+                {(token.items ?? []).map((item: AnyToken, itemIdx: number) => (
+                  <li key={`${key}-li-${itemIdx}`}>
+                    {item.tokens
+                      ? renderBlockTokens(item.tokens, `${key}-li-${itemIdx}`)
+                      : item.text}
+                  </li>
+                ))}
+              </ListTag>
+            );
+          }
+          case "space":
+          case "hr":
+          case "heading":
+          case "html":
+          default:
+            return null;
+        }
+      })}
+    </>
+  );
+}
 
-  // We render attachments separately from the API response
-  renderer.image = () => "";
+function DiscordMarkdown({
+  markdown,
+  variant,
+}: {
+  markdown: string;
+  variant: "block" | "inline";
+}) {
+  const nodes = useMemo(() => {
+    const tokens = marked.lexer(markdown, {
+      gfm: true,
+      breaks: true,
+    }) as AnyToken[];
 
-  renderer.link = (href, title, text) => {
-    if (!href || !isSafeHttpUrl(href)) return text;
+    if (variant === "inline") {
+      const firstParagraph =
+        tokens.find((t) => t.type === "paragraph") ?? tokens[0];
+      const inlineTokens = firstParagraph?.tokens ?? [];
+      return renderInlineTokens(inlineTokens, "md-inline");
+    }
 
-    const safeHref = escapeAttr(href);
-    const safeTitle = title ? ` title="${escapeAttr(title)}"` : "";
+    return renderBlockTokens(tokens, "md-block");
+  }, [markdown, variant]);
 
-    return `<a href="${safeHref}"${safeTitle} target="_blank" rel="noreferrer noopener" class="underline">${text}</a>`;
-  };
-
-  return marked.parseInline(markdown, {
-    gfm: true,
-    breaks: true,
-    renderer,
-  }) as string;
+  return <>{nodes}</>;
 }
 
 export const DiscordNews: React.FC = () => {
@@ -127,10 +244,6 @@ export const DiscordNews: React.FC = () => {
     ? (announcements.find((announcement) => announcement.id === selectedId) ??
       null)
     : null;
-  const bodyHtml = useMemo(
-    () => renderDiscordMarkdown(selectedAnnouncement?.content ?? ""),
-    [selectedAnnouncement?.content],
-  );
 
   // Mark the latest announcement as "read" once they've opened the Discord news panel.
   useEffect(() => {
@@ -181,10 +294,12 @@ export const DiscordNews: React.FC = () => {
           </div>
         </div>
 
-        <div
-          className="text-sm discord-news-body break-words mb-2 px-1"
-          dangerouslySetInnerHTML={{ __html: bodyHtml }}
-        />
+        <div className="text-sm discord-news-body break-words mb-2 px-1">
+          <DiscordMarkdown
+            markdown={selectedAnnouncement.content}
+            variant="block"
+          />
+        </div>
         {selectedAnnouncement.images.map((image) => (
           <img key={image.url} src={image.url} className="w-full mb-2" />
         ))}
@@ -203,7 +318,6 @@ export const DiscordNews: React.FC = () => {
           .replace(/\r?\n/g, " ")
           .replace(/\s{2,}/g, " ")
           .trim();
-        const previewHtml = renderDiscordMarkdownInline(previewText);
 
         return (
           <ButtonPanel
@@ -220,10 +334,9 @@ export const DiscordNews: React.FC = () => {
                   <span className="underline">{announcement.channelName}</span>
                   <span>{relativeTime}</span>
                 </p>
-                <div
-                  className="text-sm discord-news-preview break-words"
-                  dangerouslySetInnerHTML={{ __html: previewHtml }}
-                />
+                <div className="text-sm discord-news-preview break-words">
+                  <DiscordMarkdown markdown={previewText} variant="inline" />
+                </div>
               </div>
             </div>
           </ButtonPanel>

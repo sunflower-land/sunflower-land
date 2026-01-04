@@ -33,6 +33,7 @@ const DISCORD_NEWS_READ_AT_KEY = "discordNewsReadAt";
 const DISCORD_NEWS_LATEST_AT_KEY = "discordNewsLatestAt";
 const DISCORD_NEWS_FETCHED_AT_KEY = "discordNewsFetchedAt";
 const DISCORD_NEWS_CACHE_KEY = "discordNewsCache";
+export const DISCORD_NEWS_STORAGE_EVENT = "discordNewsStorage";
 
 const TEN_MINUTES = 10 * 60 * 1000;
 
@@ -46,12 +47,19 @@ function safeGetNumber(key: string): number | null {
   return asNumber;
 }
 
+function emitDiscordNewsStorage() {
+  // storage event does not fire in the same tab that wrote the values.
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new Event(DISCORD_NEWS_STORAGE_EVENT));
+}
+
 export function getDiscordNewsReadAt(): number | null {
   return safeGetNumber(DISCORD_NEWS_READ_AT_KEY);
 }
 
 export function storeDiscordNewsReadAt(timestamp: number) {
   localStorage.setItem(DISCORD_NEWS_READ_AT_KEY, `${timestamp}`);
+  emitDiscordNewsStorage();
 }
 
 export function getDiscordNewsLatestAt(): number | null {
@@ -60,6 +68,7 @@ export function getDiscordNewsLatestAt(): number | null {
 
 function storeDiscordNewsLatestAt(timestamp: number) {
   localStorage.setItem(DISCORD_NEWS_LATEST_AT_KEY, `${timestamp}`);
+  emitDiscordNewsStorage();
 }
 
 function getDiscordNewsFetchedAt(): number | null {
@@ -68,6 +77,7 @@ function getDiscordNewsFetchedAt(): number | null {
 
 function storeDiscordNewsFetchedAt(timestamp: number) {
   localStorage.setItem(DISCORD_NEWS_FETCHED_AT_KEY, `${timestamp}`);
+  emitDiscordNewsStorage();
 }
 
 function getDiscordNewsCache(): DiscordNewsDataResponse | null {
@@ -90,6 +100,7 @@ function storeDiscordNewsCache(announcements: DiscordNewsDataResponse) {
   } catch {
     // ignore
   }
+  emitDiscordNewsStorage();
 }
 
 export function getLatestDiscordAnnouncementAt(
