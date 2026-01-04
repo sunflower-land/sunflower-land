@@ -2,6 +2,7 @@ import React, { type JSX } from "react";
 import { SquareIcon } from "../SquareIcon";
 import { getPetImage } from "features/island/pets/lib/petShared";
 import { PetNFTName } from "features/game/types/pets";
+import { useNow } from "lib/utils/hooks/useNow";
 
 /**
  * The props for the component.
@@ -24,7 +25,8 @@ export const PetNFTDetails: React.FC<Props> = ({
   petId,
   petName,
 }) => {
-  const icon = getPetImage("asleep", petId);
+  const now = useNow();
+  const icon = getPetImage("asleep", petId, now);
 
   return (
     <div className="flex flex-col justify-between h-full">

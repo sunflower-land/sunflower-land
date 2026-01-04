@@ -36,6 +36,7 @@ import {
 } from "../lib/traitOptions";
 import { useTranslation } from "react-i18next";
 import { Label } from "components/ui/Label";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const budTraitLabels = createTraitLabelLookup(BUD_TRAIT_GROUPS);
 const petTraitLabels = createTraitLabelLookup(PET_TRAIT_GROUPS);
@@ -64,6 +65,7 @@ export const Collection: React.FC<{
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
   const { t } = useTranslation();
+  const now = useNow();
   const isWorldRoute = useLocation().pathname.includes("/world");
   // Get query string params
   const [queryParams] = useSearchParams();
@@ -309,6 +311,7 @@ export const Collection: React.FC<{
         id: item.id,
         type: item.collection,
         state,
+        now,
       });
 
       if (filters.includes("utility") && display.buffs.length === 0) {
@@ -519,6 +522,7 @@ export const Collection: React.FC<{
                 state,
                 experience:
                   item.collection === "pets" ? item.experience : undefined,
+                now,
               });
 
               return (

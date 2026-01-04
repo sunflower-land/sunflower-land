@@ -23,6 +23,7 @@ import lock from "assets/icons/lock.png";
 import trade from "assets/icons/trade.png";
 import { BulkRemoveTrades } from "../BulkRemoveListings";
 import { Button } from "components/ui/Button";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
@@ -41,6 +42,7 @@ export const MyOffers: React.FC = () => {
   const [bulkCancel, setBulkCancel] = useState<boolean>(false);
 
   const authToken = useSelector(authService, _authToken);
+  const now = useNow();
 
   const { trades } = gameState.context.state;
   const offers = trades.offers ?? {};
@@ -175,6 +177,7 @@ export const MyOffers: React.FC = () => {
                     id: itemId,
                     type: offer.collection,
                     state: gameState.context.state,
+                    now,
                   });
 
                   const isResource =

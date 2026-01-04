@@ -22,10 +22,11 @@ import token from "assets/icons/flower_token.webp";
 import levelup from "assets/icons/level_up.png";
 import coins from "assets/icons/coins.webp";
 import { getPetImage } from "features/island/pets/lib/petShared";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const MAX_TOAST = 6;
 
-const getToastIcon = (item: ToastItem, faction?: FactionName) => {
+const getToastIcon = (item: ToastItem, now: number, faction?: FactionName) => {
   if (item === "SFL") return token;
 
   if (item === "XP") return levelup;
@@ -43,6 +44,7 @@ const getToastIcon = (item: ToastItem, faction?: FactionName) => {
       id: KNOWN_IDS[item as InventoryItemName],
       type: "collectibles",
       state: INITIAL_FARM,
+      now,
     }).image;
   }
 
@@ -51,6 +53,7 @@ const getToastIcon = (item: ToastItem, faction?: FactionName) => {
       id: ITEM_IDS[item as BumpkinItem],
       type: "wearables",
       state: INITIAL_FARM,
+      now,
     }).image;
   }
 
@@ -59,11 +62,12 @@ const getToastIcon = (item: ToastItem, faction?: FactionName) => {
       id: Number(item.split("#")[1]),
       type: "buds",
       state: INITIAL_FARM,
+      now,
     }).image;
   }
 
   if (item.startsWith("Pet #")) {
-    return getPetImage("happy", Number(item.split("#")[1]));
+    return getPetImage("happy", Number(item.split("#")[1]), now);
   }
 
   return "";
@@ -90,6 +94,7 @@ export const ToastPanel: React.FC = () => {
   const [visibleToasts, setVisibleToasts] = useState<Toast[]>([]);
   const [showToasts, setShowToasts] = useState<boolean>(false);
   const { isVisiting } = useVisiting();
+  const now = useNow();
 
   const faction = useSelector(gameService, _faction);
 
@@ -223,7 +228,7 @@ export const ToastPanel: React.FC = () => {
                   <div className="flex items-center justify-center" key={id}>
                     <img
                       className="h-6"
-                      src={getToastIcon(item, faction?.name)}
+                      src={getToastIcon(item, now, faction?.name)}
                     />
                     <span className="text-sm mx-1 mb-0.5 font-secondary">{`${difference.greaterThan(0) ? "+" : ""}${formatNumber(
                       difference,

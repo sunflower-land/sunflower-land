@@ -23,6 +23,7 @@ import { MyTableRow } from "./MyTableRow";
 import { MARKETPLACE_TAX } from "features/game/types/marketplace";
 import { Button } from "components/ui/Button";
 import { BulkRemoveTrades } from "../BulkRemoveListings";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const _isCancellingOffer = (state: MachineState) =>
   state.matches("marketplaceListingCancelling");
@@ -49,6 +50,7 @@ export const MyListings: React.FC = () => {
   const isCancellingListing = useSelector(gameService, _isCancellingOffer);
   const trades = useSelector(gameService, _trades);
   const authToken = useSelector(authService, _authToken);
+  const now = useNow();
 
   const navigate = useNavigate();
 
@@ -162,6 +164,7 @@ export const MyListings: React.FC = () => {
                     id: itemId,
                     type: listing.collection,
                     state,
+                    now,
                   });
 
                   const isResource =

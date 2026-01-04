@@ -58,6 +58,7 @@ export const RemoveOffer: React.FC<Props> = ({
     id: itemId,
     type: offer.collection,
     state,
+    now,
   });
   const quantity = offer.items[display.name as MarketplaceTradeableName];
 

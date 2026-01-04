@@ -60,7 +60,12 @@ export const RemoveListing: React.FC<Props> = ({
 
   const itemId = getListingItem({ listing });
   const collection = getListingCollection({ listing });
-  const display = getTradeableDisplay({ id: itemId, type: collection, state });
+  const display = getTradeableDisplay({
+    id: itemId,
+    type: collection,
+    state,
+    now,
+  });
 
   if (isBeingPurchased) {
     return (

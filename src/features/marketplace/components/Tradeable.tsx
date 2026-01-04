@@ -31,6 +31,7 @@ import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import useSWR from "swr";
 import { getWeekKey } from "features/game/lib/factions";
 import { MachineState } from "features/game/lib/gameMachine";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const _trades = (state: MachineState) => state.context.state.trades;
 export const MAX_LIMITED_SALES = 1;
@@ -53,6 +54,7 @@ export const Tradeable: React.FC = () => {
     id: string;
   }>();
   const navigate = useNavigate();
+  const now = useNow();
 
   const [showListItem, setShowListItem] = useState(false);
 
@@ -60,6 +62,7 @@ export const Tradeable: React.FC = () => {
     id: Number(id),
     type: collection as CollectionName,
     state: gameState.context.state,
+    now,
   });
 
   let count = 0;

@@ -26,6 +26,7 @@ export type TradeableDisplay = {
 
 export function getTradeableDisplay({
   id,
+  now,
   type,
   state,
   experience,
@@ -34,6 +35,7 @@ export function getTradeableDisplay({
   type: CollectionName;
   state: GameState;
   experience?: number;
+  now: number;
 }): TradeableDisplay {
   if (type === "wearables") {
     const name = ITEM_NAMES[id];
@@ -66,7 +68,7 @@ export function getTradeableDisplay({
     return {
       name,
       description: translate("description.pet.generic"),
-      image: getPetImageForMarketplace(id),
+      image: getPetImageForMarketplace(id, now),
       type,
       buffs: getItemBuffs({ state, item: name, collection: "pets" }),
       experience,

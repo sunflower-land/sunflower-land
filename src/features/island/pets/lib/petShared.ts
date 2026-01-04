@@ -214,9 +214,10 @@ export const petImageDomain =
 export const getPetImage = (
   state: "asleep" | "happy",
   id: number | PetName,
+  now: number,
 ) => {
   if (isPetNFT(id)) {
-    if (!isPetNFTRevealed(id, Date.now())) {
+    if (!isPetNFTRevealed(id, now)) {
       return petNFTEgg;
     }
     if (state === "asleep") {
@@ -229,8 +230,8 @@ export const getPetImage = (
   return PET_STATE_IMAGES[id][state];
 };
 
-export const getPetImageForMarketplace = (id: number) => {
-  if (!isPetNFTRevealed(id, Date.now())) {
+export const getPetImageForMarketplace = (id: number, now: number) => {
+  if (!isPetNFTRevealed(id, now)) {
     return petNFTEggMarketplace;
   }
 

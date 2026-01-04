@@ -64,6 +64,7 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
                 id: itemId,
                 type: collection,
                 state: INITIAL_FARM,
+                now,
               });
 
               const [seller, buyer] =

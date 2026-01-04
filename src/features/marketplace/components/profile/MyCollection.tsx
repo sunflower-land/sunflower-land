@@ -12,6 +12,7 @@ import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 import { InnerPanel } from "components/ui/Panel";
+import { useNow } from "lib/utils/hooks/useNow";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { TextInput } from "components/ui/TextInput";
@@ -36,6 +37,7 @@ export const MyCollection: React.FC = () => {
 
   const { gameService } = useContext(Context);
   const gameState = useSelector(gameService, _state);
+  const now = useNow();
 
   const [search, setSearch] = useState("");
   const { buds, pets: { nfts: petNFTs = {} } = {} } = gameState;
@@ -87,6 +89,7 @@ export const MyCollection: React.FC = () => {
       id: item.id,
       type: item.collection,
       state: gameState,
+      now,
     });
 
     return details.name.toLowerCase().includes(search.toLowerCase());
@@ -129,7 +132,7 @@ export const MyCollection: React.FC = () => {
                   <Label className="mb-2" type="default">
                     {`${t("buds")} (${budsItems.length})`}
                   </Label>
-                  <ItemGrid items={budsItems} gameState={gameState} />
+                  <ItemGrid items={budsItems} gameState={gameState} now={now} />
                 </div>
               )}
               {petsItems.length > 0 && (
@@ -137,7 +140,7 @@ export const MyCollection: React.FC = () => {
                   <Label className="mb-2" type="default">
                     {`${t("pets")} (${petsItems.length})`}
                   </Label>
-                  <ItemGrid items={petsItems} gameState={gameState} />
+                  <ItemGrid items={petsItems} gameState={gameState} now={now} />
                 </div>
               )}
               {collectibleItems.length > 0 && (
@@ -145,7 +148,11 @@ export const MyCollection: React.FC = () => {
                   <Label className="mb-2" type="default">
                     {`${t("collectibles")} (${collectibleItems.length})`}
                   </Label>
-                  <ItemGrid items={collectibleItems} gameState={gameState} />
+                  <ItemGrid
+                    items={collectibleItems}
+                    gameState={gameState}
+                    now={now}
+                  />
                 </div>
               )}
               {wearableItems.length > 0 && (
@@ -153,7 +160,11 @@ export const MyCollection: React.FC = () => {
                   <Label className="mb-2" type="default">
                     {`${t("wearables")} (${wearableItems.length})`}
                   </Label>
-                  <ItemGrid items={wearableItems} gameState={gameState} />
+                  <ItemGrid
+                    items={wearableItems}
+                    gameState={gameState}
+                    now={now}
+                  />
                 </div>
               )}
             </div>
@@ -167,7 +178,8 @@ export const MyCollection: React.FC = () => {
 const ItemGrid: React.FC<{
   items: CollectionItem[];
   gameState: GameState;
-}> = ({ items, gameState }) => {
+  now: number;
+}> = ({ items, gameState, now }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const isWorldRoute = location.pathname.includes("/world");
@@ -178,6 +190,7 @@ const ItemGrid: React.FC<{
           id: item.id,
           type: item.collection,
           state: gameState,
+          now,
         });
 
         return (

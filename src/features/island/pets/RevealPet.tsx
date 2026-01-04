@@ -79,7 +79,7 @@ export const RevealPet: React.FC = () => {
   const petToBeRevealed: PetNFT | undefined =
     revealingPetId !== undefined ? nftPets[revealingPetId] : undefined;
 
-  const petImageUrl = getPetImageForMarketplace(petToBeRevealed?.id ?? 0);
+  const petImageUrl = getPetImageForMarketplace(petToBeRevealed?.id ?? 0, now);
   const {
     isLoaded: petImageLoaded,
     hasError: petImageFailed,

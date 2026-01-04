@@ -20,6 +20,7 @@ import { calculateTradePoints } from "features/game/events/landExpansion/addTrad
 import { ITEM_DETAILS } from "features/game/types/images";
 import { isTradeResource } from "features/game/actions/tradeLimits";
 import { KNOWN_ITEMS } from "features/game/types";
+import { useNow } from "lib/utils/hooks/useNow";
 
 /**
  * Display listings that have been fulfilled
@@ -27,6 +28,7 @@ import { KNOWN_ITEMS } from "features/game/types";
 export const MarketplaceSalesPopup: React.FC = () => {
   const { gameService } = useContext(Context);
   const [state] = useActor(gameService);
+  const now = useNow();
 
   const { t } = useAppTranslation();
 
@@ -69,6 +71,7 @@ export const MarketplaceSalesPopup: React.FC = () => {
               id: itemId,
               type: listing.collection,
               state: state.context.state,
+              now,
             });
             const amount = listing.items[itemName as InventoryItemName];
 

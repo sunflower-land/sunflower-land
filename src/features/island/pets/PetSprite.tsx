@@ -4,6 +4,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PetName, PetNFTType } from "features/game/types/pets";
 import { getPetImage, PET_PIXEL_STYLES } from "./lib/petShared";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { useNow } from "lib/utils/hooks/useNow";
 
 type SharedProps = {
   isNeglected: boolean;
@@ -48,9 +49,11 @@ export const PetSprite: React.FC<Props> = ({
   onClick,
   clickable = false,
 }) => {
+  const now = useNow();
   const petImage = getPetImage(
     isNeglected || isNapping || isTypeFed ? "asleep" : "happy",
     id,
+    now,
   );
   const isPetNFT = typeof id === "number";
   const nftIconPositions =

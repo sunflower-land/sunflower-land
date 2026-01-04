@@ -11,6 +11,7 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { formatNumber } from "lib/utils/formatNumber";
+import { useNow } from "lib/utils/hooks/useNow";
 
 type MyTableRowProps = {
   index: number;
@@ -53,10 +54,12 @@ export const MyTableRow: React.FC<MyTableRowProps> = ({
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
+  const now = useNow();
   const details = getTradeableDisplay({
     id: itemId,
     type: collection,
     state,
+    now,
   });
 
   return (

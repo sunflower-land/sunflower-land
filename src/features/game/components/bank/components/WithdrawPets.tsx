@@ -237,7 +237,7 @@ export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
                   <Box
                     key={`pet-${petId}`}
                     onClick={() => onAdd(petId)}
-                    image={getPetImage("happy", petId)}
+                    image={getPetImage("happy", petId, now)}
                     disabled={isRestricted || !isRevealed}
                     secondaryImage={
                       isRestricted || !isRevealed
@@ -264,7 +264,7 @@ export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
               <Box
                 key={`pet-${petId}`}
                 onClick={() => onRemove(petId)}
-                image={getPetImage("happy", petId)}
+                image={getPetImage("happy", petId, now)}
                 iconClassName="w-5"
               />
             ))}

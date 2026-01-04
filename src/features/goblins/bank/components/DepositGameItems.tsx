@@ -39,6 +39,7 @@ import { Context as GameContext } from "features/game/GameProvider";
 import { GameWallet } from "features/wallet/Wallet";
 import { getPetsBalance } from "lib/blockchain/Pets";
 import { getPetImage } from "features/island/pets/lib/petShared";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -129,6 +130,7 @@ const DepositOptions: React.FC<Props> = ({
   const [wearablesToDeposit, setWearablesToDeposit] = useState<Wardrobe>({});
   const [budsToDeposit, setBudsToDeposit] = useState<number[]>([]);
   const [petsToDeposit, setPetsToDeposit] = useState<number[]>([]);
+  const now = useNow();
 
   useEffect(() => {
     if (status !== "loading") return;
@@ -400,8 +402,7 @@ const DepositOptions: React.FC<Props> = ({
                           <Box
                             key={`pet-${petId}`}
                             onClick={() => onAddPet(petId)}
-                            // TODO: Update with pet image
-                            image={getPetImage("happy", petId)}
+                            image={getPetImage("happy", petId, now)}
                           />
                         );
                       })}
@@ -491,8 +492,7 @@ const DepositOptions: React.FC<Props> = ({
                               <Box
                                 key={`pet-${petId}`}
                                 onClick={() => onRemovePet(petId)}
-                                // TODO: Update with pet image
-                                image={getPetImage("happy", petId)}
+                                image={getPetImage("happy", petId, now)}
                               />
                             );
                           })}

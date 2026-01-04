@@ -13,6 +13,7 @@ import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { formatNumber } from "lib/utils/formatNumber";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const _state = (state: MachineState) => state.context.state;
 export const TopTrades: React.FC<{
@@ -22,6 +23,7 @@ export const TopTrades: React.FC<{
   const navigate = useNavigate();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
+  const now = useNow();
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
   const isWorldRoute = useLocation().pathname.includes("/world");
 
@@ -39,6 +41,7 @@ export const TopTrades: React.FC<{
             type: item.collection,
             id: item.itemId,
             state,
+            now,
           });
 
           return (

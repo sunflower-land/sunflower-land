@@ -36,6 +36,7 @@ import classNames from "classnames";
 import levelUp from "assets/icons/level_up.png";
 import xpIcon from "assets/icons/xp.png";
 import { Checkbox } from "components/ui/Checkbox";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   show: boolean;
@@ -63,6 +64,7 @@ export const PetModal: React.FC<Props> = ({
   const game = useSelector(gameService, _game);
   const isNFTPet = isPetNFT(data);
   const petId = isNFTPet ? data.id : data?.name;
+  const now = useNow();
 
   const handleFeed = (food: CookableName) => {
     gameService.send("pet.fed", {
@@ -88,7 +90,7 @@ export const PetModal: React.FC<Props> = ({
     });
   };
 
-  const image = getPetImage("happy", petId);
+  const image = getPetImage("happy", petId, now);
   const type = getPetType(data) as PetType;
   const petCategory = PET_CATEGORIES[type];
   const { level, percentage, currentProgress, experienceBetweenLevels } =

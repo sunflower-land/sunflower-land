@@ -95,6 +95,7 @@ interface PanelContentProps {
   onPlace?: (name: LandscapingPlaceable) => void;
   onPlaceNFT?: (id: string, nft: NFTName) => void;
   isSaving?: boolean;
+  now: number;
 }
 
 export type TimeBasedConsumables =
@@ -103,6 +104,7 @@ export type TimeBasedConsumables =
   | "Super Totem";
 
 const PanelContent: React.FC<PanelContentProps> = ({
+  now,
   isSaving,
   onPlace,
   onPlaceNFT,
@@ -113,7 +115,6 @@ const PanelContent: React.FC<PanelContentProps> = ({
   pets,
 }) => {
   const { t } = useAppTranslation();
-  const now = useNow();
 
   const [confirmationModal, showConfirmationModal] = useState(false);
 
@@ -293,6 +294,7 @@ export const Chest: React.FC<Props> = ({
   onPlaceNFT,
   onDepositClick,
 }: Props) => {
+  const now = useNow();
   const divRef = useRef<HTMLDivElement>(null);
   const buds = getChestBuds(state);
   const petsNFTs = getChestPets(state.pets?.nfts ?? {});
@@ -507,6 +509,7 @@ export const Chest: React.FC<Props> = ({
       showPanel={!!selectedChestItem}
       panel={
         <PanelContent
+          now={now}
           state={state}
           selectedChestItem={selectedChestItem}
           closeModal={closeModal}
@@ -568,7 +571,7 @@ export const Chest: React.FC<Props> = ({
               </Label>
               <div className="flex mb-2 flex-wrap -ml-1.5">
                 {getKeys(petsNFTs).map((petId) => {
-                  const petImage = getPetImage("happy", Number(petId));
+                  const petImage = getPetImage("happy", Number(petId), now);
                   return (
                     <Box
                       isSelected={

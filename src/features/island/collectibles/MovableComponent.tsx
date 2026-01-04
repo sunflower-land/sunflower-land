@@ -59,6 +59,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { getPetImage } from "../pets/lib/petShared";
 import { budImageDomain } from "./components/Bud";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -342,6 +343,7 @@ export const MoveableComponent: React.FC<
   const [isColliding, setIsColliding] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [counts, setCounts] = useState(0);
+  const now = useNow();
   const [position, setPosition] = useState<Coordinates>({
     x: 0,
     y: 0,
@@ -900,7 +902,7 @@ export const MoveableComponent: React.FC<
               {overlapChoices.map((choice) => {
                 const image =
                   choice.name === "Pet"
-                    ? getPetImage("happy", Number(choice.id))
+                    ? getPetImage("happy", Number(choice.id), now)
                     : choice.name === "Bud"
                       ? `https://${budImageDomain}.sunflower-land.com/images/${choice.id}.webp`
                       : ITEM_DETAILS[choice.name].image;

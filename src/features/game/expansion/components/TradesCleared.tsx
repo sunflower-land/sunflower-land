@@ -13,6 +13,7 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { InventoryItemName } from "features/game/types/game";
 import { tradeToId } from "features/marketplace/lib/offers";
 import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
+import { useNow } from "lib/utils/hooks/useNow";
 
 /**
  * When a trade has become inactive/cleared from the marketplace
@@ -20,6 +21,7 @@ import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 export const TradesCleared: React.FC = () => {
   const { gameService } = useContext(Context);
   const [state] = useActor(gameService);
+  const now = useNow();
 
   const { t } = useAppTranslation();
 
@@ -58,6 +60,7 @@ export const TradesCleared: React.FC = () => {
                 id: itemId,
                 type: listing.collection,
                 state: state.context.state,
+                now,
               });
               const amount = listing.items[itemName as InventoryItemName];
 
@@ -99,6 +102,7 @@ export const TradesCleared: React.FC = () => {
                 id: itemId,
                 type: offer.collection,
                 state: state.context.state,
+                now,
               });
               const amount = offer.items[itemName as InventoryItemName];
 
