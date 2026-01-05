@@ -5,6 +5,7 @@ import { getRemainingReels } from "./castRod";
 
 export type BuyMoreReelsAction = {
   type: "fishing.reelsBought";
+  packs: number;
 };
 
 type Options = {
@@ -13,13 +14,21 @@ type Options = {
   createdAt?: number;
 };
 
-const EXTRA_REELS_AMOUNT = 5;
+export const EXTRA_REELS_AMOUNT = 5;
 
-export function buyMoreReels({ state, createdAt = Date.now() }: Options) {
+export function buyMoreReels({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options) {
   return produce(state, (game) => {
     const today = new Date(createdAt).toISOString().split("T")[0];
     const gems = game.inventory["Gem"] ?? new Decimal(0);
-    const gemPrice = getReelGemPrice({ state: game, createdAt });
+    const gemPrice = getReelsPackGemPrice({
+      state: game,
+      packs: action.packs,
+      createdAt,
+    });
 
     if (getRemainingReels(game) > 0) {
       throw new Error("Player has reels remaining");
@@ -47,22 +56,28 @@ export function buyMoreReels({ state, createdAt = Date.now() }: Options) {
   });
 }
 
-export function getReelGemPrice({
+export function getReelsPackGemPrice({
   state,
+  packs,
   createdAt = Date.now(),
 }: {
   state: GameState;
+  packs: number; // number of 5-reel packs
   createdAt?: number;
 }): number {
   const today = new Date(createdAt).toISOString().split("T")[0];
+
   const { extraReels = { count: 0 } } = state.fishing;
   const { timesBought = {} } = extraReels;
-  const basePrice = 10;
-  const gemMultiplier = 2; // can be changed depending on decided rate
 
-  if (!timesBought[today]) {
-    return basePrice;
-  } else {
-    return basePrice * gemMultiplier ** timesBought[today]; // multiples basePrice (10) with gemMultiplier to the power of timesBought[today], eg. 10, 20, 40, 80, 160
-  }
+  const basePrice = 10;
+  const gemMultiplier = 2;
+
+  const timesBoughtToday = timesBought[today] ?? 0;
+
+  // Price for ONE pack at the current scale
+  const singlePackPrice = basePrice * gemMultiplier ** timesBoughtToday;
+
+  // Total price for N packs
+  return singlePackPrice * packs;
 }

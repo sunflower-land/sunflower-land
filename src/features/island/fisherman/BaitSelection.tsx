@@ -38,6 +38,10 @@ import { Checkbox } from "components/ui/Checkbox";
 import { SmallBox } from "components/ui/SmallBox";
 import { ChumSelection } from "./ChumSelection";
 import { DropdownPanel } from "components/ui/DropdownPanel";
+import {
+  EXTRA_REELS_AMOUNT,
+  getReelGemPrice,
+} from "features/game/events/landExpansion/buyMoreReels";
 
 const BAIT: FishingBait[] = [
   "Earthworm",
@@ -161,8 +165,38 @@ export const BaitSelection: React.FC<{
     }
   };
 
+  const getExtraReelsRequired = () => {
+    const reelsLeft = getRemainingReels(state);
+
+    // Find the diff between the multiplier and reels left
+    const diff = multiplier - reelsLeft;
+
+    // then work out how many groups of 5 need to be purchased
+    const reelsRequired = Math.ceil(diff / EXTRA_REELS_AMOUNT);
+
+    // if the multiplier is just 1 then let them just buy the 5
+    return reelsRequired;
+  };
+
+  const getExtraReelsRequiredButton = () => {
+    const reelsRequired = getExtraReelsRequired();
+    const gemPrice = getReelGemPrice({
+      state,
+      packs: reelsRequired / EXTRA_REELS_AMOUNT,
+    });
+
+    return (
+      <Button onClick={onClickBuy}>
+        <div className="flex items-center">
+          {t("fishing.buyMoreReels")}
+          <img src={ITEM_DETAILS.Gem.image} className="h-5" />
+        </div>
+      </Button>
+    );
+  };
+
   const reelsLeft = getRemainingReels(state);
-  const fishingLimitReached = reelsLeft <= 0;
+  const fishingLimitReached = reelsLeft <= 0 || multiplier > reelsLeft;
   const hasAncientRod = isWearableActive({ name: "Ancient Rod", game: state });
   const effectiveMultiplier = isVip ? multiplier : 1;
   const rodsRequired = hasAncientRod ? 0 : effectiveMultiplier;
@@ -418,7 +452,7 @@ export const BaitSelection: React.FC<{
           )}
         </InnerPanel>
       )}
-      {(fishingLimitReached || multiplier > reelsLeft) && (
+      {fishingLimitReached && (
         <Label className="mb-0.5 ml-1" type="danger">
           {fishingLimitReached
             ? t("fishermanModal.fishingLimitReached")
@@ -430,13 +464,10 @@ export const BaitSelection: React.FC<{
           {t("fishermanModal.needCraftRod")}
         </Label>
       )}
+      {/* If reels left is 0 then just offer the standard by */}
+      {}
       {fishingLimitReached ? (
-        <Button onClick={onClickBuy}>
-          <div className="flex items-center">
-            {t("fishing.buyMoreReels")}
-            <img src={ITEM_DETAILS.Gem.image} className="h-5" />
-          </div>
-        </Button>
+        getExtraReelsRequiredButton()
       ) : (
         <Button
           onClick={() =>
