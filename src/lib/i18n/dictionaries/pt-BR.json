@@ -7685,5 +7685,13 @@
   "processedFoods": "Alimentos processados",
   "instantCook.confirmationMessage": "Tem certeza de que deseja terminar este item agora?",
   "renew.expired.message": "{{name}} expirou. Você pode renová-lo para prolongar sua duração.",
-  "referral.flower": "10% de $ FLOWER gastos em gemas pelo seu amigo"
+  "referral.flower": "10% de $ FLOWER gastos em gemas pelo seu amigo",
+  "welcome.action.grow": "Cresça",
+  "welcome.action.build": "Construir",
+  "welcome.action.fish": "Peixe",
+  "welcome.action.mine": "Meu",
+  "welcome.action.trade": "Comércio",
+  "welcome.playInstantly": "Jogue instantaneamente em seu navegador",
+  "game3WinnerWidget.title": "Vencedor do Prêmio Peoples Choice de 2025",
+  "game3WinnerWidget.subtitle": "Votado pela comunidade - mais de 2 milhões de votos!"
 }

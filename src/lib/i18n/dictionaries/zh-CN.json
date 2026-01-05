@@ -7685,5 +7685,13 @@
   "processedFoods": "加工食品",
   "instantCook.confirmationMessage": "你确定要立即完成这个项目吗？",
   "renew.expired.message": "{{name}} 已过期。您可以对其进行续订以延长其期限。",
-  "referral.flower": "朋友在宝石上花费 $FLOWER 可获得 10%"
+  "referral.flower": "朋友在宝石上花费 $FLOWER 可获得 10%",
+  "welcome.action.grow": "成长",
+  "welcome.action.build": "构建",
+  "welcome.action.fish": "鱼",
+  "welcome.action.mine": "我的",
+  "welcome.action.trade": "贸易",
+  "welcome.playInstantly": "在浏览器中即时播放",
+  "game3WinnerWidget.title": "2025 年 “人民选择奖” 得主",
+  "game3WinnerWidget.subtitle": "由社区投票——超过200万张选票！"
 }
