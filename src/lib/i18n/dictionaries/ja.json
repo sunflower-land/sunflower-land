@@ -7262,13 +7262,9 @@
   "birdieplaza.newSeasonIntro": "サンフラワーランドでは、3か月ごとに新しい章が紹介されます。",
   "birdieplaza.seasonQuests": "このチャプターには、エキサイティングなクエスト、珍しい収集品、獲得できる限定ウェアラブルがあります。",
   "reward.streak.twoYear": "730日連続リワード",
-  "burn": "バーン",
-  "confirm.burn": "書き込みを確認",
-  "confirm.burn.message": "本当に {{name}} を燃やしてもよろしいですか？このアクションは元に戻せません。",
   "renew": "更新",
   "confirm.renew": "更新を確認",
   "confirm.renew.message": "{{name}} を更新してもよろしいですか？",
-  "renew.expired.message": "{{name}} の有効期限が切れています。更新することも、焼却することもできます。",
   "shrine.expired": "{{name}} 期限切れ",
   "fishingPuzzle.attemptsLeft": "残りの試行回数:{{attemptsLeft}}/{{attemptLimit}}",
   "fishingPuzzle.findSafePath": "魚を頂上に連れて行くための安全な道を見つけてください。",
@@ -7688,5 +7684,6 @@
   "claim.bonusItemName": "クレーム {{bonusItemName}}",
   "description.squeakyChicken": "きしむチキン",
   "processedFoods": "加工食品",
-  "instantCook.confirmationMessage": "この商品を今すぐ完成させてもよろしいですか？"
+  "instantCook.confirmationMessage": "この商品を今すぐ完成させてもよろしいですか？",
+  "renew.expired.message": "{{name}} の有効期限が切れています。更新して有効期間を延長できます。"
 }

@@ -7262,13 +7262,9 @@
   "birdieplaza.newSeasonIntro": "Her 3 ayda bir Ayçiçeği Ülkesinde yeni bir bölüm tanıtılıyor.",
   "birdieplaza.seasonQuests": "Bu bölümde heyecan verici görevler, nadir koleksiyonlar ve kazanabileceğiniz özel giyilebilir ürünler var.",
   "reward.streak.twoYear": "730 günlük seri ödül",
-  "burn": "Yanmak",
-  "confirm.burn": "Yanmayı Onayla",
-  "confirm.burn.message": "{{name}} yakmak istediğinizden emin misiniz? Bu işlem geri alınamaz.",
   "renew": "Yenileme",
   "confirm.renew": "Yenilemeyi Onayla",
   "confirm.renew.message": "{{name}} yenilemek istediğinizden emin misiniz?",
-  "renew.expired.message": "{{name}} süresi doldu. Yenileyebilir veya yakabilirsiniz.",
   "shrine.expired": "{{name}} Süresi doldu",
   "fishingPuzzle.attemptsLeft": "Kalan Denemeler: {{attemptsLeft}}/{{attemptLimit}}",
   "fishingPuzzle.findSafePath": "Balıkları zirveye çıkarmak için güvenli yolu bulun.",
@@ -7688,5 +7684,6 @@
   "claim.bonusItemName": "Talep {{bonusItemName}}",
   "description.squeakyChicken": "Gıcırtılı bir tavuk",
   "processedFoods": "İşlenmiş Gıdalar",
-  "instantCook.confirmationMessage": "Bu öğeyi şimdi bitirmek istediğinizden emin misiniz?"
+  "instantCook.confirmationMessage": "Bu öğeyi şimdi bitirmek istediğinizden emin misiniz?",
+  "renew.expired.message": "{{name}} süresi doldu. Süresini uzatmak için yenileyebilirsiniz."
 }

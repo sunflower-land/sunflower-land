@@ -7262,13 +7262,9 @@
   "birdieplaza.newSeasonIntro": "Cada 3 meses se presenta un nuevo capítulo en Sunflower Land.",
   "birdieplaza.seasonQuests": "En este capítulo encontrarás emocionantes misiones, objetos coleccionables poco comunes y objetos portátiles exclusivos que podrás conseguir.",
   "reward.streak.twoYear": "Recompensa de racha de 730 días",
-  "burn": "Quemar",
-  "confirm.burn": "Confirmar grabación",
-  "confirm.burn.message": "¿Estás seguro de que quieres grabar {{name}}? Esta acción no se puede deshacer.",
   "renew": "Renovar",
   "confirm.renew": "Confirmar renovación",
   "confirm.renew.message": "¿Estás seguro de que quieres renovar {{name}}?",
-  "renew.expired.message": "{{name}} ha caducado. Puedes renovarlo o quemarlo.",
   "shrine.expired": "{{name}} Caducado",
   "fishingPuzzle.attemptsLeft": "Intentos restantes: {{attemptsLeft}}/{{attemptLimit}}",
   "fishingPuzzle.findSafePath": "Encuentra el camino seguro para llevar a los peces a la cima.",
@@ -7688,5 +7684,6 @@
   "claim.bonusItemName": "Reclamación {{bonusItemName}}",
   "description.squeakyChicken": "Un pollo chirriante",
   "processedFoods": "Alimentos procesados",
-  "instantCook.confirmationMessage": "¿Estás seguro de que quieres terminar este artículo ahora?"
+  "instantCook.confirmationMessage": "¿Estás seguro de que quieres terminar este artículo ahora?",
+  "renew.expired.message": "{{name}} ha caducado. Puedes renovarlo para extender su duración."
 }

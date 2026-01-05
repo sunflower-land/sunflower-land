@@ -7262,13 +7262,9 @@
   "birdieplaza.newSeasonIntro": "在 Sunflower Land，每 3 个月都会开启一个全新的章节。",
   "birdieplaza.seasonQuests": "每个章节都包含精彩的任务、稀有的收藏品以及专属的可穿戴装备供你获取。",
   "reward.streak.twoYear": "连续登录 730 天奖励",
-  "burn": "销毁",
-  "confirm.burn": "确认销毁",
-  "confirm.burn.message": "您确定要销毁 {{name}} 吗？此操作无法撤销。",
   "renew": "续期",
   "confirm.renew": "确认续期",
   "confirm.renew.message": "您确定要为 {{name}} 办理续期吗？",
-  "renew.expired.message": "{{name}} 已过期。您可以选择将其续期或直接销毁。",
   "shrine.expired": "{{name}} 已失效",
   "fishingPuzzle.attemptsLeft": "剩余次数：{{attemptsLeft}}/{{attemptLimit}}",
   "fishingPuzzle.findSafePath": "寻找安全路径，将鱼带到顶部。",
@@ -7688,5 +7684,6 @@
   "claim.bonusItemName": "索赔 {{bonusItemName}}",
   "description.squeakyChicken": "一只吱吱作响的鸡",
   "processedFoods": "加工食品",
-  "instantCook.confirmationMessage": "你确定要立即完成这个项目吗？"
+  "instantCook.confirmationMessage": "你确定要立即完成这个项目吗？",
+  "renew.expired.message": "{{name}} 已过期。您可以对其进行续订以延长其期限。"
 }

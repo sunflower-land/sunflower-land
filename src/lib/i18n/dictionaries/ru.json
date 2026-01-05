@@ -7261,13 +7261,9 @@
   "birdieplaza.newSeasonIntro": "Каждые 3 месяца в Sunflower Land начинается новая глава",
   "birdieplaza.seasonQuests": "В этой главе тебя ждут увлекательные задания, редкие коллекционные предметы и эксклюзивные носимые вещи",
   "reward.streak.twoYear": "Награда за серию из 730 дней",
-  "burn": "Сжечь",
-  "confirm.burn": "Подтвердить сжигание",
-  "confirm.burn.message": "Ты уверен, что хочешь сжечь {{name}}? Это действие нельзя отменить.",
   "renew": "Продлить",
   "confirm.renew": "Подтвердить продление",
   "confirm.renew.message": "Ты уверен, что хочешь продлить {{name}}?",
-  "renew.expired.message": "Срок действия {{name}} истёк. Ты можешь продлить его или сжечь.",
   "shrine.expired": "{{name}} истёк",
   "fishingPuzzle.attemptsLeft": "Осталось попыток: {{attemptsLeft}}/{{attemptLimit}}",
   "fishingPuzzle.findSafePath": "Найди безопасный путь, чтобы довести рыбу до верха",
@@ -7688,5 +7684,6 @@
   "claim.bonusItemName": "Claim {{bonusItemName}}",
   "description.squeakyChicken": "A squeaky chicken",
   "processedFoods": "Processed Foods",
-  "instantCook.confirmationMessage": "Are you sure you want to finish this item now?"
+  "instantCook.confirmationMessage": "Are you sure you want to finish this item now?",
+  "renew.expired.message": "{{name}} has expired. You can renew it to extend its duration."
 }

@@ -7262,13 +7262,9 @@
   "birdieplaza.newSeasonIntro": "Setiap 3 bulan bab baru diperkenalkan di Sunflower Land.",
   "birdieplaza.seasonQuests": "Bab ini mempunyai pencarian menarik, koleksi langka dan barang pakai eksklusif yang boleh anda perolehi.",
   "reward.streak.twoYear": "Ganjaran rentetan 730 hari",
-  "burn": "Membakar",
-  "confirm.burn": "Sahkan Burn",
-  "confirm.burn.message": "Adakah anda pasti mahu membakar {{name}}? Tindakan ini tidak boleh dibatalkan.",
   "renew": "Memperbaharui",
   "confirm.renew": "Sahkan Pembaharuan",
   "confirm.renew.message": "Adakah anda pasti ingin memperbaharui {{name}}?",
-  "renew.expired.message": "{{name}} telah tamat tempoh. Anda boleh memperbaharui atau membakarnya.",
   "shrine.expired": "{{name}} Tamat tempoh",
   "fishingPuzzle.attemptsLeft": "Percubaan Kiri: {{attemptsLeft}}/{{attemptLimit}}",
   "fishingPuzzle.findSafePath": "Cari jalan yang selamat untuk membawa ikan ke atas.",
@@ -7688,5 +7684,6 @@
   "claim.bonusItemName": "Tuntutan {{bonusItemName}}",
   "description.squeakyChicken": "Ayam yang berkerut",
   "processedFoods": "Makanan yang diproses",
-  "instantCook.confirmationMessage": "Adakah anda pasti ingin menyelesaikan item ini sekarang?"
+  "instantCook.confirmationMessage": "Adakah anda pasti ingin menyelesaikan item ini sekarang?",
+  "renew.expired.message": "{{name}} telah tamat tempoh. Anda boleh memperbaharuinya untuk melanjutkan tempohnya."
 }
