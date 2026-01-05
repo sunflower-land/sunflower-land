@@ -5526,7 +5526,6 @@
   "telegram.bot": "Citrouille Pete Bot",
   "posting.twitter.tweet.used": "Tweet déjà utilisé",
   "referral.friend": "25 Love Charms - Ne s'applique qu'à la première recommandation",
-  "referral.flower": "(Prochainement) 10 % des $ FLOWER dépensés par votre ami",
   "referral.description": "Vous recevrez les récompenses suivantes lorsque votre ami s'inscrira en utilisant votre lien de parrainage :",
   "noaccount.addReferralCode": "Vous avez un code de parrainage ?",
   "noaccount.referralCodeLabel": "Code de référence : {{referralId}}",
@@ -7685,5 +7684,6 @@
   "description.squeakyChicken": "Un poulet qui couine",
   "processedFoods": "Aliments transformés",
   "instantCook.confirmationMessage": "Êtes-vous sûr de vouloir terminer cet article maintenant ?",
-  "renew.expired.message": "{{name}} a expiré. Vous pouvez le renouveler pour en prolonger la durée."
+  "renew.expired.message": "{{name}} a expiré. Vous pouvez le renouveler pour en prolonger la durée.",
+  "referral.flower": "10 % de réduction sur les $ de FLOWER dépensés en gemmes par votre ami"
 }

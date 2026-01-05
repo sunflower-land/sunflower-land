@@ -5526,7 +5526,6 @@
   "telegram.bot": "펌킨 피트 봇",
   "posting.twitter.tweet.used": "트윗이 이미 사용됨",
   "referral.friend": "러브 참 25개 - 첫 번째 추천에만 적용",
-  "referral.flower": "(곧 출시 예정) 친구가 지출한 $FLOWER 금액의 10%",
   "referral.description": "친구가 추천 링크를 사용하여 가입하면 다음과 같은 보상을 받게 됩니다.",
   "noaccount.addReferralCode": "추천 코드가 있으세요?",
   "noaccount.referralCodeLabel": "추천 코드: {{referralId}}",
@@ -7685,5 +7684,6 @@
   "description.squeakyChicken": "삐걱거리는 닭",
   "processedFoods": "가공 식품",
   "instantCook.confirmationMessage": "이제 정말 이 아이템을 완성하시겠습니까?",
-  "renew.expired.message": "{{name}} 이 (가) 만료되었습니다.갱신하여 기간을 연장할 수 있습니다."
+  "renew.expired.message": "{{name}} 이 (가) 만료되었습니다.갱신하여 기간을 연장할 수 있습니다.",
+  "referral.flower": "친구가 보석에 지출한 $FLOWER 금액의 10%"
 }

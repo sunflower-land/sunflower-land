@@ -5526,7 +5526,6 @@
   "telegram.bot": "南瓜皮特机器人",
   "posting.twitter.tweet.used": "推文已被使用了",
   "referral.friend": "25 个爱心护符-仅适用于首次推荐",
-  "referral.flower": "（即将上线）朋友花费的 $FLOWER 的 10%",
   "referral.description": "当您的朋友使用您的推荐链接注册时，您将获得以下奖励：",
   "noaccount.addReferralCode": "有推荐码吗？",
   "noaccount.referralCodeLabel": "推荐码：{{referralId}}",
@@ -7685,5 +7684,6 @@
   "description.squeakyChicken": "一只吱吱作响的鸡",
   "processedFoods": "加工食品",
   "instantCook.confirmationMessage": "你确定要立即完成这个项目吗？",
-  "renew.expired.message": "{{name}} 已过期。您可以对其进行续订以延长其期限。"
+  "renew.expired.message": "{{name}} 已过期。您可以对其进行续订以延长其期限。",
+  "referral.flower": "朋友在宝石上花费 $FLOWER 可获得 10%"
 }

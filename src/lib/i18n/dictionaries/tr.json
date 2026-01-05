@@ -5526,7 +5526,6 @@
   "telegram.bot": "Balkabağı Pete Bot",
   "posting.twitter.tweet.used": "Tweet zaten kullanıldı",
   "referral.friend": "25 Aşk Tılsımı - Sadece ilk tavsiye için geçerlidir",
-  "referral.flower": "(Çok yakında) Arkadaşınız tarafından harcanan $FLOWER'ın %10'u",
   "referral.description": "Arkadaşınız tavsiye bağlantınızı kullanarak kaydolduğunda aşağıdaki ödülleri alacaksınız:",
   "noaccount.addReferralCode": "Referans kodunuz mu var?",
   "noaccount.referralCodeLabel": "Referans Kodu: {{referralId}}",
@@ -7685,5 +7684,6 @@
   "description.squeakyChicken": "Gıcırtılı bir tavuk",
   "processedFoods": "İşlenmiş Gıdalar",
   "instantCook.confirmationMessage": "Bu öğeyi şimdi bitirmek istediğinizden emin misiniz?",
-  "renew.expired.message": "{{name}} süresi doldu. Süresini uzatmak için yenileyebilirsiniz."
+  "renew.expired.message": "{{name}} süresi doldu. Süresini uzatmak için yenileyebilirsiniz.",
+  "referral.flower": "Arkadaşınız tarafından mücevherlere harcanan $FLOWER'ın %10'u"
 }

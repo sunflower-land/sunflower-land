@@ -5811,7 +5811,6 @@
   "claimReferralRewards.description": "Поздравляю! {{totalUnclaimedReferrals}} новых игроков присоединились и купили VIP по твоей реферальной ссылке. Вот твоя награда!",
   "referral.vip": "25 Love Charms, когда твой друг покупает VIP",
   "referral.friend": "25 Love Charms - распространяется только на первого реферала",
-  "referral.flower": "(Скоро) 10% от $FLOWER, потраченных вашим другом",
   "referral.description": "Когда твой друг зарегистрируется по твоей реферальной ссылке, ты получишь следующие награды:",
   "taskBoard.tasks": "Задачи",
   "taskBoard.loveCharmCount": "Инвентарь: {{loveCharmCount}} Love Charm",
@@ -7685,5 +7684,6 @@
   "description.squeakyChicken": "A squeaky chicken",
   "processedFoods": "Processed Foods",
   "instantCook.confirmationMessage": "Are you sure you want to finish this item now?",
-  "renew.expired.message": "{{name}} has expired. You can renew it to extend its duration."
+  "renew.expired.message": "{{name}} has expired. You can renew it to extend its duration.",
+  "referral.flower": "10% of $FLOWER spent on gems by your friend"
 }
