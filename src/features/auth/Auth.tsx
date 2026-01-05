@@ -24,6 +24,7 @@ import { WalletInUse } from "./components/WalletInUse";
 import { LoginSettings } from "./components/LoginSettings";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SystemMessageWidget } from "features/announcements/SystemMessageWidget";
+import { Game3WinnerWidget } from "features/announcements/Game3WinnerWidget";
 
 import plankLogo from "assets/brand/plank_logo.png";
 
@@ -110,6 +111,7 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
           </Panel>
         )}
         <SystemMessageWidget />
+        <Game3WinnerWidget />
       </Modal>
       {!authState.matches("connected") && !authState.matches("visiting") && (
         <LoginSettings />
