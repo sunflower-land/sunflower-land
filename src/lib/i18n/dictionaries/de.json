@@ -7685,5 +7685,13 @@
   "processedFoods": "Verarbeitete Lebensmittel",
   "instantCook.confirmationMessage": "Bist du sicher, dass du diesen Artikel jetzt fertigstellen möchtest?",
   "renew.expired.message": "{{name}} ist abgelaufen. Sie können es erneuern, um seine Laufzeit zu verlängern.",
-  "referral.flower": "10% der FLOWER-$, die dein Freund für Edelsteine ausgegeben hat"
+  "referral.flower": "10% der FLOWER-$, die dein Freund für Edelsteine ausgegeben hat",
+  "welcome.action.grow": "Wachsen",
+  "welcome.action.build": "Bauen",
+  "welcome.action.fish": "Fische",
+  "welcome.action.mine": "Meins",
+  "welcome.action.trade": "Handel",
+  "welcome.playInstantly": "Spielen Sie sofort in Ihrem Browser",
+  "game3WinnerWidget.title": "Gewinner des Peoples Choice Award 2025",
+  "game3WinnerWidget.subtitle": "Von der Community gewählt — über 2 Millionen Stimmen!"
 }

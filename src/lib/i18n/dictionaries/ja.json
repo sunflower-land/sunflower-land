@@ -7685,5 +7685,13 @@
   "processedFoods": "加工食品",
   "instantCook.confirmationMessage": "この商品を今すぐ完成させてもよろしいですか？",
   "renew.expired.message": "{{name}} の有効期限が切れています。更新して有効期間を延長できます。",
-  "referral.flower": "お友達がジェムを購入した$FLOWERの 10%"
+  "referral.flower": "お友達がジェムを購入した$FLOWERの 10%",
+  "welcome.action.grow": "成長",
+  "welcome.action.build": "ビルド",
+  "welcome.action.fish": "魚",
+  "welcome.action.mine": "私の",
+  "welcome.action.trade": "トレード",
+  "welcome.playInstantly": "ブラウザですぐに再生",
+  "game3WinnerWidget.title": "2025 ピープルズチョイスアワード受賞者",
+  "game3WinnerWidget.subtitle": "コミュニティによる投票-200万票以上！"
 }

@@ -7685,5 +7685,13 @@
   "processedFoods": "İşlenmiş Gıdalar",
   "instantCook.confirmationMessage": "Bu öğeyi şimdi bitirmek istediğinizden emin misiniz?",
   "renew.expired.message": "{{name}} süresi doldu. Süresini uzatmak için yenileyebilirsiniz.",
-  "referral.flower": "Arkadaşınız tarafından mücevherlere harcanan $FLOWER'ın %10'u"
+  "referral.flower": "Arkadaşınız tarafından mücevherlere harcanan $FLOWER'ın %10'u",
+  "welcome.action.grow": "Büyümek",
+  "welcome.action.build": "İnşa",
+  "welcome.action.fish": "Balık",
+  "welcome.action.mine": "Mayın",
+  "welcome.action.trade": "Ticaret",
+  "welcome.playInstantly": "Tarayıcınızda anında oynayın",
+  "game3WinnerWidget.title": "2025 Halkın Seçimi Ödülü Sahibi",
+  "game3WinnerWidget.subtitle": "Topluluk tarafından oy verildi - 2 milyondan fazla oy!"
 }

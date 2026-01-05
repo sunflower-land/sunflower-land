@@ -7685,5 +7685,13 @@
   "processedFoods": "가공 식품",
   "instantCook.confirmationMessage": "이제 정말 이 아이템을 완성하시겠습니까?",
   "renew.expired.message": "{{name}} 이 (가) 만료되었습니다.갱신하여 기간을 연장할 수 있습니다.",
-  "referral.flower": "친구가 보석에 지출한 $FLOWER 금액의 10%"
+  "referral.flower": "친구가 보석에 지출한 $FLOWER 금액의 10%",
+  "welcome.action.grow": "성장",
+  "welcome.action.build": "짓다",
+  "welcome.action.fish": "피쉬",
+  "welcome.action.mine": "광산",
+  "welcome.action.trade": "트레이드",
+  "welcome.playInstantly": "브라우저에서 즉시 플레이하세요",
+  "game3WinnerWidget.title": "2025 피플스 초이스 어워드 수상자",
+  "game3WinnerWidget.subtitle": "커뮤니티 투표 - 2백만 표 이상!"
 }

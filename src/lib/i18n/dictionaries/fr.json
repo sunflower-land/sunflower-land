@@ -7685,5 +7685,13 @@
   "processedFoods": "Aliments transformés",
   "instantCook.confirmationMessage": "Êtes-vous sûr de vouloir terminer cet article maintenant ?",
   "renew.expired.message": "{{name}} a expiré. Vous pouvez le renouveler pour en prolonger la durée.",
-  "referral.flower": "10 % de réduction sur les $ de FLOWER dépensés en gemmes par votre ami"
+  "referral.flower": "10 % de réduction sur les $ de FLOWER dépensés en gemmes par votre ami",
+  "welcome.action.grow": "Grandir",
+  "welcome.action.build": "Construisez",
+  "welcome.action.fish": "Poisson",
+  "welcome.action.mine": "Le mien",
+  "welcome.action.trade": "Commerce",
+  "welcome.playInstantly": "Jouez instantanément dans votre navigateur",
+  "game3WinnerWidget.title": "Lauréat du Peoples Choice Award 2025",
+  "game3WinnerWidget.subtitle": "Plus de 2 millions de votes ont été votés par la communauté !"
 }
