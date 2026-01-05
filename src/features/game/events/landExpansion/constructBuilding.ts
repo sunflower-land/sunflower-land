@@ -50,6 +50,13 @@ export function constructBuilding({
       throw new Error("You do not have the required feature access");
     }
 
+    if (
+      action.name === "Fish Market" &&
+      !hasFeatureAccess(stateCopy, "FISH_MARKET")
+    ) {
+      throw new Error("You do not have the required feature access");
+    }
+
     const allowedBuildings = building.filter(
       ({ unlocksAtLevel }) =>
         getBumpkinLevel(bumpkin.experience) >= unlocksAtLevel,
