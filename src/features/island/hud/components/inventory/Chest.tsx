@@ -297,8 +297,11 @@ export const Chest: React.FC<Props> = ({
   const divRef = useRef<HTMLDivElement>(null);
   const buds = getChestBuds(state);
   const petsNFTs = getChestPets(state.pets?.nfts ?? {});
+  const initialNow = useNow();
   const now = useNow({
-    live: Object.values(petsNFTs).some((pet) => !isPetNFTRevealed(pet.id, now)),
+    live: Object.values(petsNFTs).some(
+      (pet) => !isPetNFTRevealed(pet.id, initialNow),
+    ),
   });
   const chestMap = getChestItems(state);
   const { t } = useAppTranslation();

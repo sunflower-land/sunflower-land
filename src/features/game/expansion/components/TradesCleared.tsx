@@ -41,17 +41,18 @@ export const TradesCleared: React.FC = () => {
     (id) => !!trades.offers?.[id].clearedAt,
   );
 
+  const initialNow = useNow();
   const now = useNow({
     live:
       clearedListings.some(
         (id) =>
           trades.listings?.[id].collection === "pets" &&
-          !isPetNFTRevealed(Number(id), now),
+          !isPetNFTRevealed(Number(id), initialNow),
       ) ||
       clearedOffers.some(
         (id) =>
           trades.offers?.[id].collection === "pets" &&
-          !isPetNFTRevealed(Number(id), now),
+          !isPetNFTRevealed(Number(id), initialNow),
       ),
   });
 

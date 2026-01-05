@@ -37,11 +37,12 @@ export const MarketplaceSalesPopup: React.FC = () => {
     (id) => !!trades.listings?.[id].fulfilledAt,
   );
 
+  const initialNow = useNow();
   const now = useNow({
     live: soldListingIds.some(
       (id) =>
         trades.listings?.[id].collection === "pets" &&
-        !isPetNFTRevealed(Number(id), now),
+        !isPetNFTRevealed(Number(id), initialNow),
     ),
   });
 

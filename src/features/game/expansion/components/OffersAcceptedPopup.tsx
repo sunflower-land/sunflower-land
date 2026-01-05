@@ -36,11 +36,12 @@ export const OffersAcceptedPopup: React.FC = () => {
     (id) => !!trades.offers?.[id].fulfilledAt,
   );
 
+  const initialNow = useNow();
   const now = useNow({
     live: offersAcceptedIds.some(
       (id) =>
         trades.offers?.[id].collection === "pets" &&
-        !isPetNFTRevealed(Number(id), now),
+        !isPetNFTRevealed(Number(id), initialNow),
     ),
   });
 

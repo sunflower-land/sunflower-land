@@ -91,11 +91,12 @@ export const ToastPanel: React.FC = () => {
   const [visibleToasts, setVisibleToasts] = useState<Toast[]>([]);
   const [showToasts, setShowToasts] = useState<boolean>(false);
   const { isVisiting } = useVisiting();
+  const initialNow = useNow();
   const now = useNow({
     live: visibleToasts.some(
       (toast) =>
         toast.item.startsWith("Pet #") &&
-        isPetNFTRevealed(Number(toast.item.split("#")[1]), now),
+        !isPetNFTRevealed(Number(toast.item.split("#")[1]), initialNow),
     ),
   });
 

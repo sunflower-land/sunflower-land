@@ -131,10 +131,11 @@ const DepositOptions: React.FC<Props> = ({
   const [wearablesToDeposit, setWearablesToDeposit] = useState<Wardrobe>({});
   const [budsToDeposit, setBudsToDeposit] = useState<number[]>([]);
   const [petsToDeposit, setPetsToDeposit] = useState<number[]>([]);
+  const initialNow = useNow();
   const now = useNow({
     live:
-      petsToDeposit.some((petId) => !isPetNFTRevealed(petId, now)) ||
-      petsBalance.some((petId) => !isPetNFTRevealed(petId, now)),
+      petsToDeposit.some((petId) => !isPetNFTRevealed(petId, initialNow)) ||
+      petsBalance.some((petId) => !isPetNFTRevealed(petId, initialNow)),
   });
 
   useEffect(() => {

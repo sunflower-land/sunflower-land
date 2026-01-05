@@ -42,8 +42,11 @@ export const MyCollection: React.FC = () => {
   const [search, setSearch] = useState("");
   const { buds, pets: { nfts: petNFTs = {} } = {} } = gameState;
 
+  const initialNow = useNow();
   const now = useNow({
-    live: Object.values(petNFTs).some((pet) => !isPetNFTRevealed(pet.id, now)),
+    live: Object.values(petNFTs).some(
+      (pet) => !isPetNFTRevealed(pet.id, initialNow),
+    ),
   });
   let items: CollectionItem[] = [];
 

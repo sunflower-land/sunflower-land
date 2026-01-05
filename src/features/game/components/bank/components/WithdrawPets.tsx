@@ -55,8 +55,9 @@ export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
   const [showInfo, setShowInfo] = useState("");
   const [confirmationStep, setConfirmationStep] = useState<1 | 2 | null>(null);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const initialNow = useNow();
   const now = useNow({
-    live: getKeys(nfts).some((nftId) => !isPetNFTRevealed(nftId, now)),
+    live: getKeys(nfts).some((nftId) => !isPetNFTRevealed(nftId, initialNow)),
   });
 
   const onAdd = (petId: number) => {

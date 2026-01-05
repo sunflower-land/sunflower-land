@@ -66,6 +66,7 @@ export const MyOffers: React.FC = () => {
         )
       : offers;
 
+  const initialNow = useNow();
   const now = useNow({
     live: Object.values(filteredOffers).some((offer) => {
       const id = tradeToId({
@@ -75,7 +76,7 @@ export const MyOffers: React.FC = () => {
         },
       });
 
-      return offer.collection === "pets" && !isPetNFTRevealed(id, now);
+      return offer.collection === "pets" && !isPetNFTRevealed(id, initialNow);
     }),
   });
 

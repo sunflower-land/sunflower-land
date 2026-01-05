@@ -24,12 +24,14 @@ export const TopTrades: React.FC<{
   const navigate = useNavigate();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
+  const initialNow = useNow();
   const now = useNow({
     live: trends?.topTrades
       .slice(0, 5)
       .some(
         (item) =>
-          item.collection === "pets" && !isPetNFTRevealed(item.itemId, now),
+          item.collection === "pets" &&
+          !isPetNFTRevealed(item.itemId, initialNow),
       ),
   });
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;

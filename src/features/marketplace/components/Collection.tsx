@@ -175,9 +175,11 @@ export const Collection: React.FC<{
     ],
   };
 
+  const initialNow = useNow();
   const now = useNow({
     live: data.items.some(
-      (item) => item.collection === "pets" && !isPetNFTRevealed(item.id, now),
+      (item) =>
+        item.collection === "pets" && !isPetNFTRevealed(item.id, initialNow),
     ),
   });
 
