@@ -44,16 +44,26 @@ export const TradesCleared: React.FC = () => {
   const initialNow = useNow();
   const now = useNow({
     live:
-      clearedListings.some(
-        (id) =>
-          trades.listings?.[id].collection === "pets" &&
-          !isPetNFTRevealed(Number(id), initialNow),
-      ) ||
-      clearedOffers.some(
-        (id) =>
-          trades.offers?.[id].collection === "pets" &&
-          !isPetNFTRevealed(Number(id), initialNow),
-      ),
+      clearedListings.some((id) => {
+        const listing = trades.listings?.[id];
+        if (!listing) return false;
+        const itemId = tradeToId({ details: listing });
+
+        return (
+          listing.collection === "pets" &&
+          !isPetNFTRevealed(Number(itemId), initialNow)
+        );
+      }) ||
+      clearedOffers.some((id) => {
+        const offer = trades.offers?.[id];
+        if (!offer) return false;
+        const itemId = tradeToId({ details: offer });
+
+        return (
+          offer.collection === "pets" &&
+          !isPetNFTRevealed(Number(itemId), initialNow)
+        );
+      }),
   });
 
   return (
