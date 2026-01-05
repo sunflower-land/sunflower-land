@@ -538,6 +538,7 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
             effect,
             token: authToken ?? context.rawToken,
             transactionId: context.transactionId as string,
+            state: context.state,
           });
 
           if (context.visitorId) {
@@ -640,6 +641,7 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
             effect,
             token: authToken ?? context.rawToken,
             transactionId: context.transactionId as string,
+            state: context.state,
           });
 
           if (event.effect.type === "farm.followed") {
