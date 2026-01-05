@@ -76,18 +76,16 @@ export const MyListings: React.FC = () => {
       : listings;
 
   const initialNow = useNow();
-  const now = useNow({
-    live: Object.values(filteredListings).some((listing) => {
-      const id = tradeToId({
-        details: {
-          collection: listing.collection,
-          items: listing.items,
-        },
-      });
-
-      return listing.collection === "pets" && !isPetNFTRevealed(id, initialNow);
-    }),
+  const hasUnrevealedPets = Object.values(filteredListings).some((listing) => {
+    const id = tradeToId({
+      details: {
+        collection: listing.collection,
+        items: listing.items,
+      },
+    });
+    return listing.collection === "pets" && !isPetNFTRevealed(id, initialNow);
   });
+  const now = useNow({ live: hasUnrevealedPets });
 
   if (getKeys(filteredListings).length === 0) return null;
 

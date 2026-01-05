@@ -65,8 +65,9 @@ export const PetModal: React.FC<Props> = ({
   const game = useSelector(gameService, _game);
   const isNFTPet = isPetNFT(data);
   const petId = isNFTPet ? data.id : data?.name;
-  let now = useNow();
-  now = useNow({ live: isNFTPet && !isPetNFTRevealed(data.id, now) });
+  const initialNow = useNow();
+  const hasUnrevealedPets = isNFTPet && !isPetNFTRevealed(data.id, initialNow);
+  const now = useNow({ live: hasUnrevealedPets });
 
   const handleFeed = (food: CookableName) => {
     gameService.send("pet.fed", {

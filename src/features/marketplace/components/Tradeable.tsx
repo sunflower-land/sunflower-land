@@ -55,10 +55,10 @@ export const Tradeable: React.FC = () => {
     id: string;
   }>();
   const navigate = useNavigate();
-  let now = useNow();
-  now = useNow({
-    live: collection === "pets" && !isPetNFTRevealed(Number(id), now),
-  });
+  const initialNow = useNow();
+  const hasUnrevealedPets =
+    collection === "pets" && !isPetNFTRevealed(Number(id), initialNow);
+  const now = useNow({ live: hasUnrevealedPets });
 
   const [showListItem, setShowListItem] = useState(false);
 

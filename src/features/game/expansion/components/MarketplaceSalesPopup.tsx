@@ -38,18 +38,18 @@ export const MarketplaceSalesPopup: React.FC = () => {
   );
 
   const initialNow = useNow();
-  const now = useNow({
-    live: soldListingIds.some((id) => {
-      const listing = trades.listings?.[id];
-      if (!listing) return false;
-      const itemId = tradeToId({ details: listing });
+  const hasUnrevealedPets = soldListingIds.some((id) => {
+    const listing = trades.listings?.[id];
+    if (!listing) return false;
+    const itemId = tradeToId({ details: listing });
 
-      return (
-        listing.collection === "pets" &&
-        !isPetNFTRevealed(Number(itemId), initialNow)
-      );
-    }),
+    return (
+      listing.collection === "pets" &&
+      !isPetNFTRevealed(Number(itemId), initialNow)
+    );
   });
+
+  const now = useNow({ live: hasUnrevealedPets });
 
   if (soldListingIds.length === 0) return null;
 

@@ -56,10 +56,10 @@ export const MyTableRow: React.FC<MyTableRowProps> = ({
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
 
-  let now = useNow();
-  now = useNow({
-    live: collection === "pets" && !isPetNFTRevealed(itemId, now),
-  });
+  const initialNow = useNow();
+  const hasUnrevealedPets =
+    collection === "pets" && !isPetNFTRevealed(itemId, initialNow);
+  const now = useNow({ live: hasUnrevealedPets });
 
   const details = getTradeableDisplay({
     id: itemId,

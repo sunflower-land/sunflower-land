@@ -54,10 +54,11 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
   const previousWardrobe = useSelector(gameService, _previousWardrobe);
 
   const collection = tradeable.collection;
-  let now = useNow();
-  now = useNow({
-    live: collection === "pets" && !isPetNFTRevealed(tradeable.id, now),
-  });
+  const initialNow = useNow();
+  const hasUnrevealedPets =
+    collection === "pets" && !isPetNFTRevealed(tradeable.id, initialNow);
+  const now = useNow({ live: hasUnrevealedPets });
+
   const display = getTradeableDisplay({
     id: tradeable.id,
     type: collection,

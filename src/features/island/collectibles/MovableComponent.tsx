@@ -431,14 +431,12 @@ export const MoveableComponent: React.FC<
   }, [gameService, coordinatesX, coordinatesY, location, id, name]);
 
   const initialNow = useNow();
-  const now = useNow({
-    live:
-      isShrine ||
-      overlaps.some(
-        (item) =>
-          item.name === "Pet" && !isPetNFTRevealed(Number(item.id), initialNow),
-      ),
-  });
+  const hasUnrevealedPets = overlaps.some(
+    (item) =>
+      item.name === "Pet" && !isPetNFTRevealed(Number(item.id), initialNow),
+  );
+
+  const now = useNow({ live: isShrine || hasUnrevealedPets });
 
   const removeAction =
     !isMobile &&
@@ -754,8 +752,6 @@ export const MoveableComponent: React.FC<
     onStop,
     position,
   ]);
-
-  // Reuse the overlaps computed earlier for the useNow live condition
 
   // Disable dragging if there are overlaps and this item is not selected
   const shouldDisableDrag = overlaps.length > 1 && !isSelected;

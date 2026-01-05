@@ -37,18 +37,18 @@ export const OffersAcceptedPopup: React.FC = () => {
   );
 
   const initialNow = useNow();
-  const now = useNow({
-    live: offersAcceptedIds.some((id) => {
-      const offer = trades.offers?.[id];
-      if (!offer) return false;
-      const itemId = tradeToId({ details: offer });
+  const hasUnrevealedPets = offersAcceptedIds.some((id) => {
+    const offer = trades.offers?.[id];
+    if (!offer) return false;
+    const itemId = tradeToId({ details: offer });
 
-      return (
-        offer.collection === "pets" &&
-        !isPetNFTRevealed(Number(itemId), initialNow)
-      );
-    }),
+    return (
+      offer.collection === "pets" &&
+      !isPetNFTRevealed(Number(itemId), initialNow)
+    );
   });
+
+  const now = useNow({ live: hasUnrevealedPets });
 
   if (offersAcceptedIds.length === 0) return null;
 

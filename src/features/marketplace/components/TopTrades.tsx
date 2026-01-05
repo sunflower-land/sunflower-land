@@ -25,15 +25,14 @@ export const TopTrades: React.FC<{
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const initialNow = useNow();
-  const now = useNow({
-    live: trends?.topTrades
-      .slice(0, 5)
-      .some(
-        (item) =>
-          item.collection === "pets" &&
-          !isPetNFTRevealed(item.itemId, initialNow),
-      ),
-  });
+  const hasUnrevealedPets = trends?.topTrades
+    .slice(0, 5)
+    .some(
+      (item) =>
+        item.collection === "pets" &&
+        !isPetNFTRevealed(item.itemId, initialNow),
+    );
+  const now = useNow({ live: hasUnrevealedPets });
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
   const isWorldRoute = useLocation().pathname.includes("/world");
 

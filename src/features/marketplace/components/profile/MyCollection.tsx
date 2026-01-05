@@ -43,11 +43,10 @@ export const MyCollection: React.FC = () => {
   const { buds, pets: { nfts: petNFTs = {} } = {} } = gameState;
 
   const initialNow = useNow();
-  const now = useNow({
-    live: Object.values(petNFTs).some(
-      (pet) => !isPetNFTRevealed(pet.id, initialNow),
-    ),
-  });
+  const hasUnrevealedPets = Object.values(petNFTs).some(
+    (pet) => !isPetNFTRevealed(pet.id, initialNow),
+  );
+  const now = useNow({ live: hasUnrevealedPets });
   let items: CollectionItem[] = [];
 
   const inventory = getChestItems(gameState);

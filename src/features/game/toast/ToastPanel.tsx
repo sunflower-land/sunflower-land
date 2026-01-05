@@ -92,13 +92,12 @@ export const ToastPanel: React.FC = () => {
   const [showToasts, setShowToasts] = useState<boolean>(false);
   const { isVisiting } = useVisiting();
   const initialNow = useNow();
-  const now = useNow({
-    live: visibleToasts.some(
-      (toast) =>
-        toast.item.startsWith("Pet #") &&
-        !isPetNFTRevealed(Number(toast.item.split("#")[1]), initialNow),
-    ),
-  });
+  const hasUnrevealedPets = visibleToasts.some(
+    (toast) =>
+      toast.item.startsWith("Pet #") &&
+      !isPetNFTRevealed(Number(toast.item.split("#")[1]), initialNow),
+  );
+  const now = useNow({ live: hasUnrevealedPets });
 
   const faction = useSelector(gameService, _faction);
 

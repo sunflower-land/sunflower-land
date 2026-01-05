@@ -37,13 +37,11 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
 }) => {
   const { t } = useAppTranslation();
   const initialNow = useNow();
-  const now = useNow({
-    live: sales.some(
-      (sale) =>
-        sale.collection === "pets" &&
-        !isPetNFTRevealed(sale.itemId, initialNow),
-    ),
-  });
+  const hasUnrevealedPets = sales.some(
+    (sale) =>
+      sale.collection === "pets" && !isPetNFTRevealed(sale.itemId, initialNow),
+  );
+  const now = useNow({ live: hasUnrevealedPets });
   const navigate = useNavigate();
 
   if (sales.length === 0) {

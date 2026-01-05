@@ -67,18 +67,17 @@ export const MyOffers: React.FC = () => {
       : offers;
 
   const initialNow = useNow();
-  const now = useNow({
-    live: Object.values(filteredOffers).some((offer) => {
-      const id = tradeToId({
-        details: {
-          collection: offer.collection,
-          items: offer.items,
-        },
-      });
-
-      return offer.collection === "pets" && !isPetNFTRevealed(id, initialNow);
-    }),
+  const hasUnrevealedPets = Object.values(filteredOffers).some((offer) => {
+    const id = tradeToId({
+      details: {
+        collection: offer.collection,
+        items: offer.items,
+      },
+    });
+    return offer.collection === "pets" && !isPetNFTRevealed(id, initialNow);
   });
+
+  const now = useNow({ live: hasUnrevealedPets });
 
   const navigate = useNavigate();
 

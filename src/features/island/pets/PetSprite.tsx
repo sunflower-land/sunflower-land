@@ -53,9 +53,10 @@ export const PetSprite: React.FC<Props> = ({
   onClick,
   clickable = false,
 }) => {
-  let now = useNow();
   const petIsNFT = isPetNFT(id);
-  now = useNow({ live: petIsNFT && !isPetNFTRevealed(id, now) });
+  const initialNow = useNow();
+  const hasUnrevealedPets = petIsNFT && !isPetNFTRevealed(id, initialNow);
+  const now = useNow({ live: hasUnrevealedPets });
   const petImage = getPetImage({
     state: isNeglected || isNapping || isTypeFed ? "asleep" : "idle",
     id,

@@ -176,12 +176,11 @@ export const Collection: React.FC<{
   };
 
   const initialNow = useNow();
-  const now = useNow({
-    live: data.items.some(
-      (item) =>
-        item.collection === "pets" && !isPetNFTRevealed(item.id, initialNow),
-    ),
-  });
+  const hasUnrevealedPets = data.items.some(
+    (item) =>
+      item.collection === "pets" && !isPetNFTRevealed(item.id, initialNow),
+  );
+  const now = useNow({ live: hasUnrevealedPets });
 
   if (!filters.includes("resources")) {
     // Sort by floor, then lastSalePrice, then id
