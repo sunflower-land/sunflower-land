@@ -131,6 +131,7 @@ interface Props {
   actionView?: JSX.Element;
   hideDescription?: boolean;
   label?: JSX.Element;
+  showSeason?: boolean;
 }
 
 function getDetails(
@@ -189,6 +190,7 @@ export const CraftingRequirements: React.FC<Props> = ({
   requirements,
   actionView,
   hideDescription,
+  showSeason = false,
   label,
 }: Props) => {
   const { t } = useAppTranslation();
@@ -312,13 +314,15 @@ export const CraftingRequirements: React.FC<Props> = ({
 
     return (
       <div className="border-t border-white w-full mb-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap my-1">
-        <Label
-          type="default"
-          icon={SEASON_ICONS[gameState.season.season]}
-          className="-mb-3.5"
-        >
-          {capitalize(gameState.season.season)}
-        </Label>
+        {showSeason && (
+          <Label
+            type="default"
+            icon={SEASON_ICONS[gameState.season.season]}
+            className="-mb-3.5"
+          >
+            {capitalize(gameState.season.season)}
+          </Label>
+        )}
         <div className=" w-full mb-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap my-1">
           {/* Item ingredients requirements */}
           {!!requirements.resources && (
