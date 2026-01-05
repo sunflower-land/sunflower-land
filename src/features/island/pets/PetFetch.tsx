@@ -119,7 +119,7 @@ export const PetFetch: React.FC<Props> = ({ data, onShowRewards, onFetch }) => {
 
                 <div className="flex flex-col flex-1">
                   <div className="flex flex-col flex-1 justify-center -mt-0.5">
-                    <p className="  text-xs mb-0.5">{`${fetchYield} x ${name}`}</p>
+                    <p className="  text-xs mb-0.5">{`${fetchYield} x ${fetchResource}`}</p>
                   </div>
                   <div className="flex flex-row sm:flex-col justify-between w-full pt-1">
                     <div className="flex flex-row gap-1 items-center">
