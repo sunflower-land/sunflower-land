@@ -45,6 +45,18 @@ import {
   collectRecipe,
   CollectRecipeAction,
 } from "./landExpansion/collectRecipe";
+import {
+  cancelProcessedFood,
+  CancelProcessedFoodAction,
+} from "./landExpansion/cancelProcessedFood";
+import {
+  processProcessedFood,
+  ProcessProcessedFoodAction,
+} from "./landExpansion/processFood";
+import {
+  collectProcessedFood,
+  CollectProcessedFoodAction,
+} from "./landExpansion/collectProcessedFood";
 import { feedBumpkin, FeedBumpkinAction } from "./landExpansion/feedBumpkin";
 import { detectBot, DetectBotAction } from "./detectBot";
 import { choseSkill, ChoseSkillAction } from "./landExpansion/choseSkill";
@@ -559,6 +571,10 @@ import {
   collectWaterTrap,
   CollectWaterTrapAction,
 } from "./landExpansion/collectWaterTrap";
+import {
+  speedUpProcessing,
+  SpeedUpProcessingAction,
+} from "./landExpansion/speedUpProcessing";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -592,6 +608,9 @@ export type PlayingEvent =
   | ClaimAirdropAction
   | RecipeCookedAction
   | CollectRecipeAction
+  | CancelProcessedFoodAction
+  | ProcessProcessedFoodAction
+  | CollectProcessedFoodAction
   | FeedBumpkinAction
   | DetectBotAction
   | ChoseSkillAction
@@ -720,7 +739,8 @@ export type PlayingEvent =
   | BulkFertilisePlotAction
   | RenewPetShrineAction
   | CollectWaterTrapAction
-  | PlaceWaterTrapAction;
+  | PlaceWaterTrapAction
+  | SpeedUpProcessingAction;
 
 export type LocalVisitingEvent =
   | CollectGarbageAction
@@ -809,6 +829,7 @@ type Handlers<T> = {
 };
 
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
+  "processing.spedUp": speedUpProcessing,
   "onChainAirdrop.acknowledged": acknowledgeOnChainAirdrop,
   "recipe.cancelled": cancelQueuedRecipe,
   "obsidian.exchanged": exchangeObsidian,
@@ -849,6 +870,9 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "timber.chopped": landExpansionChop,
   "recipe.cooked": cook,
   "recipes.collected": collectRecipe,
+  "processedFood.cancelled": cancelProcessedFood,
+  "processedFood.processed": processProcessedFood,
+  "processedFood.collected": collectProcessedFood,
   "bumpkin.feed": feedBumpkin,
   "skill.chosen": choseSkill,
   "skills.reset": resetSkills,

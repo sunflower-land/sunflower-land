@@ -14,8 +14,8 @@ import { VIPAccess } from "features/game/components/VipAccess";
 import { BuildingName } from "features/game/types/buildings";
 
 type Props = {
-  cooking?: BuildingProduct;
-  readyRecipes: BuildingProduct[];
+  product?: BuildingProduct;
+  readyProducts: BuildingProduct[];
   queue: BuildingProduct[];
   buildingName: BuildingName;
   buildingId: string;
@@ -25,11 +25,11 @@ type Props = {
 const _state = (state: MachineState) => state.context.state;
 
 export const Queue: React.FC<Props> = ({
-  cooking,
+  product,
   queue,
   buildingName,
   buildingId,
-  readyRecipes,
+  readyProducts,
   onClose,
 }) => {
   const { gameService } = useContext(Context);
@@ -58,10 +58,10 @@ export const Queue: React.FC<Props> = ({
       </div>
 
       <div className="flex flex-wrap h-fit">
-        {Array(cooking ? 3 : 4)
+        {Array(product ? 3 : 4)
           .fill(null)
           .map((_, index) => {
-            const displayItems = [...sortedQueue, ...readyRecipes];
+            const displayItems = [...sortedQueue, ...readyProducts];
 
             return (
               <QueueSlot
@@ -69,7 +69,7 @@ export const Queue: React.FC<Props> = ({
                 buildingName={buildingName}
                 buildingId={buildingId}
                 item={displayItems[index]}
-                readyRecipes={readyRecipes}
+                readyProducts={readyProducts}
               />
             );
           })}

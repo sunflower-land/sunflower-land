@@ -1,6 +1,10 @@
 import { GameState, InventoryItemName, Wardrobe } from "./game";
 
-export type BonusName = "discord-signup" | "pixel-font-bonus" | "gam3s-cap";
+export type BonusName =
+  | "discord-signup"
+  | "pixel-font-bonus"
+  | "gam3s-cap"
+  | "2026-tiara-wave";
 
 export type Bonus = {
   isClaimed: (game: GameState) => boolean;
@@ -8,6 +12,7 @@ export type Bonus = {
     wearables: Wardrobe;
     inventory: Partial<Record<InventoryItemName, number>>;
   };
+  expiresAt?: number;
 };
 
 export const BONUSES: Record<BonusName, Bonus> = {
@@ -40,5 +45,15 @@ export const BONUSES: Record<BonusName, Bonus> = {
       },
       inventory: {},
     },
+  },
+  "2026-tiara-wave": {
+    isClaimed: (game) => !!game.wardrobe["2026 Tiara"],
+    reward: {
+      wearables: {
+        "2026 Tiara": 1,
+      },
+      inventory: {},
+    },
+    expiresAt: new Date("2026-01-19T00:00:00Z").getTime(),
   },
 };

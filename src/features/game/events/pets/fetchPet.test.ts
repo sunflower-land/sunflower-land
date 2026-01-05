@@ -1,9 +1,10 @@
 /* eslint-disable no-var */
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { fetchPet } from "./fetchPet";
+import { fetchPet, getFetchPercentage } from "./fetchPet";
 import Decimal from "decimal.js-light";
 import { KNOWN_IDS } from "features/game/types";
 import { prngChance } from "lib/prng";
+import { getPetLevel } from "features/game/types/pets";
 
 describe("fetchPet", () => {
   const now = Date.now();
@@ -237,6 +238,7 @@ describe("fetchPet", () => {
       createdAt: now,
     });
     expect(state.inventory["Acorn"]).toEqual(new Decimal(2));
+    expect(state.boostsUsedAt?.["Squirrel Onesie"]).toBe(now);
   });
 
   it("increments the counter for the fetch, regardless of the yield", () => {
@@ -268,5 +270,60 @@ describe("fetchPet", () => {
     });
 
     expect(state.farmActivity["Acorn Fetched"]).toBe(1);
+  });
+
+  it("gives +1 if pet level is >= 15 and fetch is Acorn", () => {
+    const itemId = KNOWN_IDS.Acorn;
+
+    function getCounter(petLevel: number) {
+      let counter = 0;
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
+        if (
+          prngChance({
+            farmId,
+            itemId,
+            counter,
+            chance: getFetchPercentage({
+              petLevel,
+              fetchResource: "Acorn",
+              isPetNFT: false,
+            }),
+            criticalHitName: "Native",
+          })
+        ) {
+          return counter;
+        }
+        counter++;
+      }
+    }
+
+    const counter = getCounter(getPetLevel(10_500).level);
+
+    const state = fetchPet({
+      farmId,
+      state: {
+        ...INITIAL_FARM,
+        pets: {
+          common: {
+            Barkley: {
+              name: "Barkley",
+              requests: { food: [], fedAt: now },
+              energy: 100,
+              experience: 10_500,
+              pettedAt: now,
+              fetches: {
+                Acorn: counter,
+              },
+            },
+          },
+        },
+      },
+      action: { type: "pet.fetched", petId: "Barkley", fetch: "Acorn" },
+      createdAt: now,
+    });
+
+    expect(state.inventory["Acorn"]).toEqual(new Decimal(2));
+    expect(state.pets?.common?.Barkley?.fetches?.Acorn).toBe(counter + 1);
   });
 });

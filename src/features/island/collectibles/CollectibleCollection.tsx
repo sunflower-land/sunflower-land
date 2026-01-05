@@ -3610,6 +3610,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Ho Ho oh oh…"
     />
   ),
+  "Squeaky Chicken": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 23}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 23}px`,
+      }}
+      image={ITEM_DETAILS["Squeaky Chicken"].image}
+      alt="Squeaky Chicken"
+    />
+  ),
 };
 // Need readonly versions for some troublesome components while in design mode
 

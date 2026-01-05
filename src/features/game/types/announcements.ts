@@ -6,6 +6,7 @@ export type ConversationName = string;
 export type Message = {
   headline: string;
   announceAt?: number;
+  expiresAt?: number;
   content: {
     text: string;
     image?: string;

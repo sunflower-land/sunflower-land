@@ -15,7 +15,11 @@ import {
 } from "./cook";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import { CookableName, COOKABLES } from "features/game/types/consumables";
+import {
+  assertCookableName,
+  CookableName,
+  COOKABLES,
+} from "features/game/types/consumables";
 import { getCookingTime } from "features/game/expansion/lib/boosts";
 
 export type CancelQueuedRecipeAction = {
@@ -123,7 +127,7 @@ export function recalculateQueue({
       const startAt = index === 0 ? createdAt : recipes[index - 1].readyAt;
 
       const readyAt = getUpdatedReadyAt({
-        name: recipe.name,
+        name: assertCookableName(recipe.name),
         startAt,
         appliedOilBoost: recipe.boost?.Oil ?? 0,
         buildingName,
@@ -148,7 +152,7 @@ export function recalculateQueue({
         index === 0 ? currentRecipe.readyAt : recipes[index - 1].readyAt;
 
       const readyAt = getUpdatedReadyAt({
-        name: recipe.name,
+        name: assertCookableName(recipe.name),
         startAt,
         appliedOilBoost: recipe.boost?.Oil ?? 0,
         buildingName,
@@ -225,9 +229,11 @@ export function cancelQueuedRecipe({
     }
 
     // return resources consumed by the recipe
+    const cookableName = assertCookableName(recipe.name);
+
     const ingredients = getCookingRequirements({
       state,
-      item: recipe.name,
+      item: cookableName,
       skipDoubleNomBoost: !recipe.skills?.["Double Nom"],
     });
 

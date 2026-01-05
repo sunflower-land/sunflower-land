@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
+import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { GameState } from "features/game/types/game";
 import {
   removeCollectible,
@@ -157,5 +158,72 @@ describe("removeCollectible", () => {
         },
       }),
     ).toThrow("Genie Lamp is in use");
+  });
+
+  it("prevents limited time items from being removed while active", () => {
+    const now = Date.now();
+
+    expect(() =>
+      removeCollectible({
+        state: {
+          ...GAME_STATE,
+          collectibles: {
+            "Fox Shrine": [
+              {
+                id: "1",
+                createdAt: now,
+                coordinates: { x: 1, y: 1 },
+                readyAt: now,
+              },
+            ],
+          },
+        },
+        action: {
+          location: "farm",
+          type: "collectible.removed",
+          name: "Fox Shrine",
+          id: "1",
+        },
+        createdAt: now,
+      }),
+    ).toThrow(REMOVE_COLLECTIBLE_ERRORS.LIMITED_ITEM_IN_USE);
+  });
+
+  it("allows limited time items to be removed once expired", () => {
+    const now = Date.now();
+    const cooldown = EXPIRY_COOLDOWNS["Fox Shrine"];
+    const expiredAt = now - cooldown;
+
+    const gameState = removeCollectible({
+      state: {
+        ...GAME_STATE,
+        collectibles: {
+          "Fox Shrine": [
+            {
+              id: "1",
+              createdAt: expiredAt,
+              coordinates: { x: 1, y: 1 },
+              readyAt: expiredAt,
+            },
+          ],
+        },
+      },
+      action: {
+        location: "farm",
+        type: "collectible.removed",
+        name: "Fox Shrine",
+        id: "1",
+      },
+      createdAt: now,
+    });
+
+    expect(gameState.collectibles["Fox Shrine"]).toEqual([
+      {
+        id: "1",
+        createdAt: expiredAt,
+        readyAt: expiredAt,
+        removedAt: now,
+      },
+    ]);
   });
 });

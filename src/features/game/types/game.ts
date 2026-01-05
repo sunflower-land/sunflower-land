@@ -256,7 +256,6 @@ export type Coupons =
   | "Arcade Token"
   | "Farmhand Coupon"
   | "Farmhand"
-  | "VIP3"
   | "Prize Ticket"
   | "Mark"
   | "Trade Point"
@@ -342,9 +341,6 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   Farmhand: {
     description: translate("description.farmhand"),
-  },
-  VIP3: {
-    description: translate("description.vip3"),
   },
   "Tulip Bulb": {
     description: translate("description.tulip.bulb"),
@@ -769,12 +765,14 @@ export type FruitPatch = {
 } & OptionalCoordinates;
 
 export type BuildingProduct = {
-  name: CookableName;
+  name: CookableName | ProcessedFood;
   readyAt: number;
   amount?: number;
   boost?: Partial<Record<InventoryItemName, number>>;
   skills?: Partial<Record<BumpkinRevampSkillName, boolean>>;
   timeRemaining?: number;
+  startedAt?: number;
+  requirements?: Inventory;
 };
 
 export type BuildingProduce = {
@@ -797,6 +795,7 @@ export type PlacedItem = {
   removedAt?: number;
   cancelled?: Cancelled;
   crafting?: BuildingProduct[];
+  processing?: BuildingProduct[];
   oil?: number;
   flipped?: boolean;
 };

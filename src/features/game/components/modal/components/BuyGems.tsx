@@ -43,9 +43,11 @@ const PRICES: Price[] = [
 ];
 
 const _starterOfferSecondsLeft = (state: MachineState) => {
-  const hasPurchased = state.context.purchases.length > 0;
+  const hasPurchasedXsolla = state.context.purchases.length > 0;
 
-  if (hasPurchased) return 0;
+  if (hasPurchasedXsolla) return 0;
+
+  if (state.context.state.farmActivity["Gems Purchased"]) return 0;
 
   return (
     (new Date(state.context.state.createdAt).getTime() +

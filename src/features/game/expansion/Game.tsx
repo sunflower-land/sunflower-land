@@ -79,7 +79,6 @@ import { CompetitionModal } from "features/competition/CompetitionBoard";
 import { SeasonChanged } from "./components/temperateSeason/SeasonChanged";
 import { CalendarEvent } from "./components/temperateSeason/CalendarEvent";
 import { DailyReset } from "../components/DailyReset";
-import { FLOWERTeaserContent } from "../components/FLOWERTeaser";
 import { RoninJinClaim } from "./components/RoninJinClaim";
 import {
   EFFECT_SUCCESS_COMPONENTS,
@@ -182,7 +181,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   swarming: true,
   coolingDown: true,
   gameRules: true,
-  FLOWERTeaser: true,
   randomising: false,
   visiting: false,
   loadLandToVisit: true,
@@ -252,7 +250,6 @@ const _showReferralRewards = (state: MachineState) =>
   state.matches("referralRewards");
 const isCoolingDown = (state: MachineState) => state.matches("coolingDown");
 const isGameRules = (state: MachineState) => state.matches("gameRules");
-const isFLOWERTeaser = (state: MachineState) => state.matches("FLOWERTeaser");
 const isDepositing = (state: MachineState) => state.matches("depositing");
 const isLoadingLandToVisit = (state: MachineState) =>
   state.matches("loadLandToVisit");
@@ -447,7 +444,6 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const swarming = useSelector(gameService, isSwarming);
   const coolingDown = useSelector(gameService, isCoolingDown);
   const gameRules = useSelector(gameService, isGameRules);
-  const FLOWERTeaser = useSelector(gameService, isFLOWERTeaser);
   const depositing = useSelector(gameService, isDepositing);
   const loadingLandToVisit = useSelector(gameService, isLoadingLandToVisit);
   const loadingSession = useSelector(gameService, isLoadingSession);
@@ -660,7 +656,6 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             {swarming && <Swarming />}
             {coolingDown && <Cooldown />}
             {gameRules && <Rules />}
-            {FLOWERTeaser && <FLOWERTeaserContent />}
             {dailyReward && <DailyRewardClaim showClose />}
             {transacting && <Transaction />}
             {depositing && <Loading text={t("depositing")} />}

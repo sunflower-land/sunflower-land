@@ -4779,13 +4779,13 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
-  VIP3: {
-    description: "VIP3",
+  "Squeaky Chicken": {
+    description: "Squeaky Chicken",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2336.png",
     attributes: [
-      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Purpose", value: "Decoration" },
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
@@ -17198,6 +17198,17 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/270.png",
     name: "New Years Tiara",
+  },
+  "2026 Tiara": {
+    description: "A sparkling tiara to ring in 2026 with shine and style.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/517.png",
+    name: "2026 Tiara",
   },
   "Northern Lights Background": {
     description:
