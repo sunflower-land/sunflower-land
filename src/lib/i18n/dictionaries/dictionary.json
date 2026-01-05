@@ -1678,7 +1678,7 @@
   "fishing.reelsLeft": "{{reelsLeft}} reels left",
   "fishing.oneReelLeft": "1 reel left",
   "fishing.extras": "Extras",
-  "fishing.lookingMoreReels": "Ahhh you're looking for more reels? No worries! Check out the options below!",
+  "fishing.lookingMoreReels": "Ahhh you're looking for more reels? No worries! You can select a multiplier on the fish tab and purchase more reels with gems just before you cast. Or you can check out the boost options below!",
   "fishing.finishReels": "Finish your reels before buying more",
   "fishing.buyReels": "Buy 5 reels with {{gemPrice}} gems",
   "fishing.buyReels.confirmation": "Are you sure you want to buy 5 reels for {{gemPrice}} gems?",

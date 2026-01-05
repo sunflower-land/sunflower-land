@@ -180,13 +180,7 @@ export const FishermanModal: React.FC<Props> = ({
           <FishingGuide onClose={() => setTab(0)} />
         </InnerPanel>
       )}
-      {tab === 2 && (
-        <FishermanExtras
-          state={state}
-          confirmBuyMoreReels={confirmBuyMoreReels}
-          gemPrice={gemPrice}
-        />
-      )}
+      {tab === 2 && <FishermanExtras state={state} />}
     </CloseButtonPanel>
   );
 };

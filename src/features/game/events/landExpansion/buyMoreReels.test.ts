@@ -23,36 +23,12 @@ describe("buyMoreReels", () => {
             },
           },
         },
-        action: { type: "fishing.reelsBought" },
+        action: { type: "fishing.reelsBought", packs: 1 },
       });
     }).toThrow("Player does not have enough Gems to buy more reels");
   });
 
-  it("throws an error if the player has reels remaining", () => {
-    expect(() => {
-      buyMoreReels({
-        state: {
-          ...INITIAL_FARM,
-          inventory: {
-            ...INITIAL_FARM.inventory,
-            Gem: new Decimal(20),
-          },
-          fishing: {
-            wharf: {},
-            dailyAttempts: {
-              [date]: 1,
-            },
-            extraReels: {
-              count: 0,
-            },
-          },
-        },
-        action: { type: "fishing.reelsBought" },
-      });
-    }).toThrow("Player has reels remaining");
-  });
-
-  it("adds 5 extra reels", () => {
+  it("adds 5 extra reels when packs is 1", () => {
     const result = buyMoreReels({
       state: {
         ...INITIAL_FARM,
@@ -70,7 +46,7 @@ describe("buyMoreReels", () => {
           },
         },
       },
-      action: { type: "fishing.reelsBought" },
+      action: { type: "fishing.reelsBought", packs: 1 },
     });
 
     expect(result.fishing.extraReels?.count).toEqual(5);
@@ -94,13 +70,13 @@ describe("buyMoreReels", () => {
           },
         },
       },
-      action: { type: "fishing.reelsBought" },
+      action: { type: "fishing.reelsBought", packs: 1 },
     });
 
     expect(result.inventory["Gem"]).toEqual(new Decimal(0));
   });
 
-  it("increases timesBought count by 1", () => {
+  it("increases timesBought count by packs amount", () => {
     const today = new Date().toISOString().split("T")[0];
     const result = buyMoreReels({
       state: {
@@ -122,7 +98,7 @@ describe("buyMoreReels", () => {
           },
         },
       },
-      action: { type: "fishing.reelsBought" },
+      action: { type: "fishing.reelsBought", packs: 1 },
     });
     expect(result.fishing.extraReels?.timesBought?.[today]).toEqual(1);
   });
