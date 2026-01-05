@@ -54,7 +54,7 @@ export const Tradeable: React.FC = () => {
     id: string;
   }>();
   const navigate = useNavigate();
-  const now = useNow();
+  const now = useNow({ live: true });
 
   const [showListItem, setShowListItem] = useState(false);
 

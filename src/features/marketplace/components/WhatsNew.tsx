@@ -88,7 +88,7 @@ const ItemsList: React.FC<{
   const navigate = useNavigate();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const now = useNow();
+  const now = useNow({ live: true });
 
   return (
     <div className="flex flex-wrap">

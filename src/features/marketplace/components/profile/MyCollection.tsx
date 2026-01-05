@@ -37,7 +37,7 @@ export const MyCollection: React.FC = () => {
 
   const { gameService } = useContext(Context);
   const gameState = useSelector(gameService, _state);
-  const now = useNow();
+  const now = useNow({ live: true });
 
   const [search, setSearch] = useState("");
   const { buds, pets: { nfts: petNFTs = {} } = {} } = gameState;

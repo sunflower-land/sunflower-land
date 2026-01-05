@@ -94,7 +94,7 @@ export const ToastPanel: React.FC = () => {
   const [visibleToasts, setVisibleToasts] = useState<Toast[]>([]);
   const [showToasts, setShowToasts] = useState<boolean>(false);
   const { isVisiting } = useVisiting();
-  const now = useNow();
+  const now = useNow({ live: true });
 
   const faction = useSelector(gameService, _faction);
 

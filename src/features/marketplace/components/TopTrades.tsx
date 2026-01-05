@@ -23,7 +23,7 @@ export const TopTrades: React.FC<{
   const navigate = useNavigate();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const now = useNow();
+  const now = useNow({ live: true });
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
   const isWorldRoute = useLocation().pathname.includes("/world");
 

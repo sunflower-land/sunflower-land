@@ -46,7 +46,7 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
   const { gameService } = useContext(Context);
   const { openModal } = useContext(ModalContext);
   const state = useSelector(gameService, _state);
-  const now = useNow();
+  const now = useNow({ live: true });
 
   const inventory = useSelector(gameService, _inventory);
   const previousInventory = useSelector(gameService, _previousInventory);

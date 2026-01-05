@@ -65,7 +65,7 @@ export const Collection: React.FC<{
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
   const { t } = useTranslation();
-  const now = useNow();
+  const now = useNow({ live: true });
   const isWorldRoute = useLocation().pathname.includes("/world");
   // Get query string params
   const [queryParams] = useSearchParams();

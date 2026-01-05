@@ -184,7 +184,7 @@ export const TradeableDescription: React.FC<{
   tradeable?: TradeableDetails;
 }> = ({ display, tradeable }) => {
   const { t } = useAppTranslation();
-  const now = useNow();
+  const now = useNow({ live: true });
 
   let tradeAt = undefined;
   let withdrawAt = undefined;

@@ -35,7 +35,7 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
   sales,
 }) => {
   const { t } = useAppTranslation();
-  const now = useNow();
+  const now = useNow({ live: true });
   const navigate = useNavigate();
 
   if (sales.length === 0) {

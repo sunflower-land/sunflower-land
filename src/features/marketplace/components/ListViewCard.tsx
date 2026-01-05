@@ -53,7 +53,7 @@ export const ListViewCard: React.FC<Props> = ({
 
   const { type, name, image, buffs, experience, translatedName } = details;
   const { t } = useAppTranslation();
-  const now = useNow();
+  const now = useNow({ live: true });
 
   const itemId = getItemId({ name, collection: type });
 

@@ -42,7 +42,7 @@ export const MyOffers: React.FC = () => {
   const [bulkCancel, setBulkCancel] = useState<boolean>(false);
 
   const authToken = useSelector(authService, _authToken);
-  const now = useNow();
+  const now = useNow({ live: true });
 
   const { trades } = gameState.context.state;
   const offers = trades.offers ?? {};

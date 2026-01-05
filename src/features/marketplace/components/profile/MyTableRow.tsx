@@ -54,7 +54,7 @@ export const MyTableRow: React.FC<MyTableRowProps> = ({
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const now = useNow();
+  const now = useNow({ live: true });
   const details = getTradeableDisplay({
     id: itemId,
     type: collection,

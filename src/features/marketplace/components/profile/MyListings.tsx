@@ -50,7 +50,7 @@ export const MyListings: React.FC = () => {
   const isCancellingListing = useSelector(gameService, _isCancellingOffer);
   const trades = useSelector(gameService, _trades);
   const authToken = useSelector(authService, _authToken);
-  const now = useNow();
+  const now = useNow({ live: true });
 
   const navigate = useNavigate();
 
