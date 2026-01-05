@@ -53,7 +53,6 @@ import {
   EXPIRY_COOLDOWNS,
   TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
-import { useNow } from "lib/utils/hooks/useNow";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { hasFeatureAccess } from "lib/flags";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
@@ -343,7 +342,6 @@ export const MoveableComponent: React.FC<
   const [isColliding, setIsColliding] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [counts, setCounts] = useState(0);
-  const now = useNow();
   const [position, setPosition] = useState<Coordinates>({
     x: 0,
     y: 0,
