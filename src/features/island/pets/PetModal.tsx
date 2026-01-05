@@ -8,6 +8,7 @@ import {
   PET_CATEGORIES,
   getPetLevel,
   PetResourceName,
+  isPetNFTRevealed,
 } from "features/game/types/pets";
 import { Modal } from "components/ui/Modal";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
@@ -64,7 +65,8 @@ export const PetModal: React.FC<Props> = ({
   const game = useSelector(gameService, _game);
   const isNFTPet = isPetNFT(data);
   const petId = isNFTPet ? data.id : data?.name;
-  const now = useNow();
+  let now = useNow();
+  now = useNow({ live: isNFTPet && !isPetNFTRevealed(data.id, now) });
 
   const handleFeed = (food: CookableName) => {
     gameService.send("pet.fed", {
@@ -90,7 +92,7 @@ export const PetModal: React.FC<Props> = ({
     });
   };
 
-  const image = getPetImage("happy", petId, now);
+  const image = getPetImage({ state: "idle", id: petId, now });
   const type = getPetType(data) as PetType;
   const petCategory = PET_CATEGORIES[type];
   const { level, percentage, currentProgress, experienceBetweenLevels } =

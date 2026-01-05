@@ -95,97 +95,95 @@ export const PET_PIXEL_STYLES = getObjectEntries(PETS_STYLES).reduce<
   },
   { ...PETS_STYLES },
 );
+type PetState = "asleep" | "idle";
 
-export const PET_STATE_IMAGES: Record<
-  PetName,
-  Record<"happy" | "asleep", string>
-> = {
+export const PET_STATE_IMAGES: Record<PetName, Record<PetState, string>> = {
   Barkley: {
-    happy: ITEM_DETAILS.Barkley.image,
+    idle: ITEM_DETAILS.Barkley.image,
     asleep: barkleyAsleep,
   },
   Biscuit: {
-    happy: ITEM_DETAILS.Biscuit.image,
+    idle: ITEM_DETAILS.Biscuit.image,
     asleep: biscuitAsleep,
   },
   Cloudy: {
-    happy: ITEM_DETAILS.Cloudy.image,
+    idle: ITEM_DETAILS.Cloudy.image,
     asleep: cloudyAsleep,
   },
   Meowchi: {
-    happy: ITEM_DETAILS.Meowchi.image,
+    idle: ITEM_DETAILS.Meowchi.image,
     asleep: meowchiAsleep,
   },
   Butters: {
-    happy: ITEM_DETAILS.Butters.image,
+    idle: ITEM_DETAILS.Butters.image,
     asleep: buttersAsleep,
   },
   Smokey: {
-    happy: ITEM_DETAILS.Smokey.image,
+    idle: ITEM_DETAILS.Smokey.image,
     asleep: smokeyAsleep,
   },
   Twizzle: {
-    happy: ITEM_DETAILS.Twizzle.image,
+    idle: ITEM_DETAILS.Twizzle.image,
     asleep: twizzleAsleep,
   },
   Flicker: {
-    happy: ITEM_DETAILS.Flicker.image,
+    idle: ITEM_DETAILS.Flicker.image,
     asleep: flickerAsleep,
   },
   Pippin: {
-    happy: ITEM_DETAILS.Pippin.image,
+    idle: ITEM_DETAILS.Pippin.image,
     asleep: pippinAsleep,
   },
   Burro: {
-    happy: ITEM_DETAILS.Burro.image,
+    idle: ITEM_DETAILS.Burro.image,
     asleep: burroAsleep,
   },
   Pinto: {
-    happy: ITEM_DETAILS.Pinto.image,
+    idle: ITEM_DETAILS.Pinto.image,
     asleep: pintoAsleep,
   },
   Roan: {
-    happy: ITEM_DETAILS.Roan.image,
+    idle: ITEM_DETAILS.Roan.image,
     asleep: roanAsleep,
   },
   Stallion: {
-    happy: ITEM_DETAILS.Stallion.image,
+    idle: ITEM_DETAILS.Stallion.image,
     asleep: stallionAsleep,
   },
   Mudhorn: {
-    happy: ITEM_DETAILS.Mudhorn.image,
+    idle: ITEM_DETAILS.Mudhorn.image,
     asleep: mudhornAsleep,
   },
   Bison: {
-    happy: ITEM_DETAILS.Bison.image,
+    idle: ITEM_DETAILS.Bison.image,
     asleep: bisonAsleep,
   },
   Oxen: {
-    happy: ITEM_DETAILS.Oxen.image,
+    idle: ITEM_DETAILS.Oxen.image,
     asleep: oxenAsleep,
   },
   Nibbles: {
-    happy: ITEM_DETAILS.Nibbles.image,
+    idle: ITEM_DETAILS.Nibbles.image,
     asleep: nibblesAsleep,
   },
   Peanuts: {
-    happy: ITEM_DETAILS.Peanuts.image,
+    idle: ITEM_DETAILS.Peanuts.image,
     asleep: peanutsAsleep,
   },
   Waddles: {
-    happy: ITEM_DETAILS.Waddles.image,
+    idle: ITEM_DETAILS.Waddles.image,
     asleep: waddlesAsleep,
   },
   Pip: {
-    happy: ITEM_DETAILS.Pip.image,
+    idle: ITEM_DETAILS.Pip.image,
     asleep: pipAsleep,
   },
   Skipper: {
-    happy: ITEM_DETAILS.Skipper.image,
+    idle: ITEM_DETAILS.Skipper.image,
     asleep: skipperAsleep,
   },
   Ramsey: {
-    happy: ITEM_DETAILS.Ramsey.image,
+    idle: ITEM_DETAILS.Ramsey.image,
     asleep: ITEM_DETAILS.Ramsey.image,
   },
 };
@@ -211,12 +209,21 @@ export const petImageDomain =
  OpenSea: https://${petImageDomain}.sunflower-land.com/opensea/${id}.webp
  */
 
-export const getPetImage = (
-  state: "asleep" | "happy",
-  id: number | PetName,
-  now: number,
-) => {
-  if (isPetNFT(id)) {
+type PetImageParams =
+  | {
+      state: PetState;
+      id: PetName;
+    }
+  | {
+      state: PetState;
+      id: number;
+      now: number;
+    };
+
+export const getPetImage = (params: PetImageParams) => {
+  const { state, id } = params;
+  if (typeof id === "number") {
+    const now = params.now;
     if (!isPetNFTRevealed(id, now)) {
       return petNFTEgg;
     }

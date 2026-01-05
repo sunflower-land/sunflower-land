@@ -19,7 +19,6 @@ import Decimal from "decimal.js-light";
 import { Tradeable } from "features/game/types/marketplace";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { useNow } from "lib/utils/hooks/useNow";
 
 const _state = (state: MachineState) => state.context.state;
 export const WhatsNew: React.FC = () => {
@@ -88,7 +87,6 @@ const ItemsList: React.FC<{
   const navigate = useNavigate();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const now = useNow({ live: true });
 
   return (
     <div className="flex flex-wrap">
@@ -97,7 +95,6 @@ const ItemsList: React.FC<{
           type,
           id,
           state,
-          now,
         });
 
         return (

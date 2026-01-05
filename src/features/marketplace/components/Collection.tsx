@@ -14,7 +14,11 @@ import { FixedSizeGrid as Grid } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
-import { PetCategory, getPetLevel } from "features/game/types/pets";
+import {
+  PetCategory,
+  getPetLevel,
+  isPetNFTRevealed,
+} from "features/game/types/pets";
 import { getNFTTraits } from "./TradeableInfo";
 import { PetTraits } from "features/pets/data/types";
 import { Bud } from "lib/buds/types";
@@ -65,7 +69,6 @@ export const Collection: React.FC<{
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
   const { t } = useTranslation();
-  const now = useNow({ live: true });
   const isWorldRoute = useLocation().pathname.includes("/world");
   // Get query string params
   const [queryParams] = useSearchParams();
@@ -171,6 +174,12 @@ export const Collection: React.FC<{
       ...(pets?.items || []),
     ],
   };
+
+  const now = useNow({
+    live: data.items.some(
+      (item) => item.collection === "pets" && !isPetNFTRevealed(item.id, now),
+    ),
+  });
 
   if (!filters.includes("resources")) {
     // Sort by floor, then lastSalePrice, then id

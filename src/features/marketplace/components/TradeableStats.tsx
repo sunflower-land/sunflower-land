@@ -20,7 +20,7 @@ interface Props {
 export const TradeableStats: React.FC<Props> = ({ history, marketPrice }) => {
   const { t } = useAppTranslation();
   const loading = !history;
-  const now = useNow({ live: true });
+  const now = useNow();
 
   const prices: PriceHistory = history
     ? getPriceHistory({

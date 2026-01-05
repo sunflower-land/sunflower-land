@@ -1,8 +1,12 @@
 import React from "react";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { PetName, PetNFTType } from "features/game/types/pets";
-import { getPetImage, PET_PIXEL_STYLES } from "./lib/petShared";
+import {
+  isPetNFTRevealed,
+  PetName,
+  PetNFTType,
+} from "features/game/types/pets";
+import { getPetImage, isPetNFT, PET_PIXEL_STYLES } from "./lib/petShared";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useNow } from "lib/utils/hooks/useNow";
 
@@ -49,21 +53,23 @@ export const PetSprite: React.FC<Props> = ({
   onClick,
   clickable = false,
 }) => {
-  const now = useNow();
-  const petImage = getPetImage(
-    isNeglected || isNapping || isTypeFed ? "asleep" : "happy",
+  let now = useNow();
+  const petIsNFT = isPetNFT(id);
+  now = useNow({ live: petIsNFT && !isPetNFTRevealed(id, now) });
+  const petImage = getPetImage({
+    state: isNeglected || isNapping || isTypeFed ? "asleep" : "idle",
     id,
     now,
-  );
-  const isPetNFT = typeof id === "number";
+  });
+
   const nftIconPositions =
-    isPetNFT && !!petType ? NFT_ICON_POSITIONS[petType] : undefined;
+    petIsNFT && !!petType ? NFT_ICON_POSITIONS[petType] : undefined;
 
   return (
     <div
       className="absolute"
       style={{
-        ...(!isPetNFT
+        ...(!petIsNFT
           ? PET_PIXEL_STYLES[id]
           : {
               width: `${PIXEL_SCALE * 44}px`,
@@ -88,8 +94,8 @@ export const PetSprite: React.FC<Props> = ({
           src={SUNNYSIDE.icons.expression_stress}
           alt="stress"
           className={classNames("absolute w-[18px]", {
-            "top-[-0.5rem] left-[-0.5rem]": !isPetNFT,
-            [nftIconPositions?.neglected ?? ""]: isPetNFT,
+            "top-[-0.5rem] left-[-0.5rem]": !petIsNFT,
+            [nftIconPositions?.neglected ?? ""]: petIsNFT,
           })}
         />
       ) : isNapping && !isTypeFed ? (
@@ -97,8 +103,8 @@ export const PetSprite: React.FC<Props> = ({
           src={SUNNYSIDE.icons.sleeping}
           alt="sleeping"
           className={classNames("absolute w-6", {
-            "top-[-0.5rem] left-[-0.5rem]": !isPetNFT,
-            [nftIconPositions?.napping ?? ""]: isPetNFT,
+            "top-[-0.5rem] left-[-0.5rem]": !petIsNFT,
+            [nftIconPositions?.napping ?? ""]: petIsNFT,
           })}
         />
       ) : null}

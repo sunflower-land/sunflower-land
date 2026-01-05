@@ -32,6 +32,7 @@ import useSWR from "swr";
 import { getWeekKey } from "features/game/lib/factions";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useNow } from "lib/utils/hooks/useNow";
+import { isPetNFTRevealed } from "features/game/types/pets";
 
 const _trades = (state: MachineState) => state.context.state.trades;
 export const MAX_LIMITED_SALES = 1;
@@ -54,7 +55,10 @@ export const Tradeable: React.FC = () => {
     id: string;
   }>();
   const navigate = useNavigate();
-  const now = useNow({ live: true });
+  let now = useNow();
+  now = useNow({
+    live: collection === "pets" && !isPetNFTRevealed(Number(id), now),
+  });
 
   const [showListItem, setShowListItem] = useState(false);
 

@@ -14,6 +14,7 @@ import { getTradeableDisplay } from "../lib/tradeables";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useNow } from "lib/utils/hooks/useNow";
+import { isPetNFTRevealed } from "features/game/types/pets";
 
 export const SaleHistory: React.FC<{ history?: ISaleHistory }> = ({
   history,
@@ -35,7 +36,12 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
   sales,
 }) => {
   const { t } = useAppTranslation();
-  const now = useNow({ live: true });
+  const now = useNow({
+    live: sales.some(
+      (sale) =>
+        sale.collection === "pets" && !isPetNFTRevealed(sale.itemId, now),
+    ),
+  });
   const navigate = useNavigate();
 
   if (sales.length === 0) {

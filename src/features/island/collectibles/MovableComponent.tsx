@@ -419,7 +419,7 @@ export const MoveableComponent: React.FC<
 
   const isShrine = name in PET_SHRINES || name === "Obsidian Shrine";
 
-  const now = useNow({ live: isShrine });
+  const now = useNow({ live: isShrine || name === "Pet" });
 
   const removeAction =
     !isMobile &&
@@ -900,7 +900,7 @@ export const MoveableComponent: React.FC<
               {overlapChoices.map((choice) => {
                 const image =
                   choice.name === "Pet"
-                    ? getPetImage("happy", Number(choice.id), now)
+                    ? getPetImage({ state: "idle", id: Number(choice.id), now })
                     : choice.name === "Bud"
                       ? `https://${budImageDomain}.sunflower-land.com/images/${choice.id}.webp`
                       : ITEM_DETAILS[choice.name].image;

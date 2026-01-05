@@ -7,7 +7,8 @@ import { InventoryItemName } from "../types/game";
 import { BumpkinItem, ITEM_IDS } from "../types/bumpkin";
 import { Bud } from "../types/buds";
 import { KNOWN_IDS } from "../types";
-import { PetNFT } from "../types/pets";
+import { PetNFT, PetNFTName } from "../types/pets";
+import { BudNFTName } from "../types/marketplace";
 
 /**
  * The type of the toast.
@@ -19,8 +20,8 @@ export type ToastItem =
   | "coins"
   | "faction_points"
   | BumpkinItem
-  | `Bud #${number}`
-  | `Pet #${number}`;
+  | BudNFTName
+  | PetNFTName;
 
 /**
  * The toast props.

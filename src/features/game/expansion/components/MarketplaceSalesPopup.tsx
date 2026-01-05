@@ -21,6 +21,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { isTradeResource } from "features/game/actions/tradeLimits";
 import { KNOWN_ITEMS } from "features/game/types";
 import { useNow } from "lib/utils/hooks/useNow";
+import { isPetNFTRevealed } from "features/game/types/pets";
 
 /**
  * Display listings that have been fulfilled
@@ -28,7 +29,6 @@ import { useNow } from "lib/utils/hooks/useNow";
 export const MarketplaceSalesPopup: React.FC = () => {
   const { gameService } = useContext(Context);
   const [state] = useActor(gameService);
-  const now = useNow();
 
   const { t } = useAppTranslation();
 
@@ -36,6 +36,14 @@ export const MarketplaceSalesPopup: React.FC = () => {
   const soldListingIds = getKeys(trades.listings ?? {}).filter(
     (id) => !!trades.listings?.[id].fulfilledAt,
   );
+
+  const now = useNow({
+    live: soldListingIds.some(
+      (id) =>
+        trades.listings?.[id].collection === "pets" &&
+        !isPetNFTRevealed(Number(id), now),
+    ),
+  });
 
   if (soldListingIds.length === 0) return null;
 

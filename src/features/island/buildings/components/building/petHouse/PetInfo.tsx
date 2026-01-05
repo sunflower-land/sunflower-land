@@ -32,11 +32,11 @@ export const PetInfo: React.FC<Props> = ({ children, petData, petId }) => {
   const isNeglected = isPetNeglected(petData, now);
   const isNapping = isPetNapping(petData, now);
 
-  const petImage = getPetImage(
-    isNeglected || isNapping ? "asleep" : "happy",
-    petId,
+  const petImage = getPetImage({
+    state: isNeglected || isNapping ? "asleep" : "idle",
+    id: petId,
     now,
-  );
+  });
 
   return (
     <OuterPanel className="flex flex-row sm:flex-col p-3 gap-2 relative overflow-hidden">

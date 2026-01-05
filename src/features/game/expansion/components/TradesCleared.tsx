@@ -13,6 +13,7 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { InventoryItemName } from "features/game/types/game";
 import { tradeToId } from "features/marketplace/lib/offers";
 import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
+import { isPetNFTRevealed } from "features/game/types/pets";
 import { useNow } from "lib/utils/hooks/useNow";
 
 /**
@@ -21,7 +22,6 @@ import { useNow } from "lib/utils/hooks/useNow";
 export const TradesCleared: React.FC = () => {
   const { gameService } = useContext(Context);
   const [state] = useActor(gameService);
-  const now = useNow();
 
   const { t } = useAppTranslation();
 
@@ -40,6 +40,20 @@ export const TradesCleared: React.FC = () => {
   const clearedOffers = getKeys(trades.offers ?? {}).filter(
     (id) => !!trades.offers?.[id].clearedAt,
   );
+
+  const now = useNow({
+    live:
+      clearedListings.some(
+        (id) =>
+          trades.listings?.[id].collection === "pets" &&
+          !isPetNFTRevealed(Number(id), now),
+      ) ||
+      clearedOffers.some(
+        (id) =>
+          trades.offers?.[id].collection === "pets" &&
+          !isPetNFTRevealed(Number(id), now),
+      ),
+  });
 
   return (
     <>

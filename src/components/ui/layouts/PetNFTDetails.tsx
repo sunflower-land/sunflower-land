@@ -1,7 +1,7 @@
 import React, { type JSX } from "react";
 import { SquareIcon } from "../SquareIcon";
 import { getPetImage } from "features/island/pets/lib/petShared";
-import { PetNFTName } from "features/game/types/pets";
+import { isPetNFTRevealed, PetNFTName } from "features/game/types/pets";
 import { useNow } from "lib/utils/hooks/useNow";
 
 /**
@@ -25,8 +25,10 @@ export const PetNFTDetails: React.FC<Props> = ({
   petId,
   petName,
 }) => {
-  const now = useNow();
-  const icon = getPetImage("asleep", petId, now);
+  let now = useNow();
+  const petRevealed = isPetNFTRevealed(petId, now);
+  now = useNow({ live: !petRevealed });
+  const icon = getPetImage({ state: "asleep", id: petId, now });
 
   return (
     <div className="flex flex-col justify-between h-full">

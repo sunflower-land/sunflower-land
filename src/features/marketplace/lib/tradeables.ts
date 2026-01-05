@@ -24,19 +24,29 @@ export type TradeableDisplay = {
   translatedName?: string;
 };
 
-export function getTradeableDisplay({
-  id,
-  now,
-  type,
-  state,
-  experience,
-}: {
+type BaseTradeableDisplayParams = {
   id: number;
-  type: CollectionName;
   state: GameState;
-  experience?: number;
+};
+
+type PetTradeableDisplayParams = BaseTradeableDisplayParams & {
+  type: "pets";
   now: number;
-}): TradeableDisplay {
+  experience?: number;
+};
+
+type OtherTradeableDisplayParams = BaseTradeableDisplayParams & {
+  type: Exclude<CollectionName, "pets">;
+};
+
+type TradeableDisplayParams =
+  | PetTradeableDisplayParams
+  | OtherTradeableDisplayParams;
+
+export function getTradeableDisplay(
+  params: TradeableDisplayParams,
+): TradeableDisplay {
+  const { id, type, state } = params;
   if (type === "wearables") {
     const name = ITEM_NAMES[id];
     const details = OPEN_SEA_WEARABLES[name];
@@ -68,10 +78,10 @@ export function getTradeableDisplay({
     return {
       name,
       description: translate("description.pet.generic"),
-      image: getPetImageForMarketplace(id, now),
+      image: getPetImageForMarketplace(id, params.now),
       type,
       buffs: getItemBuffs({ state, item: name, collection: "pets" }),
-      experience,
+      experience: params.experience,
     };
   }
 

@@ -55,8 +55,9 @@ export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
   const [showInfo, setShowInfo] = useState("");
   const [confirmationStep, setConfirmationStep] = useState<1 | 2 | null>(null);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-
-  const now = useNow();
+  const now = useNow({
+    live: getKeys(nfts).some((nftId) => !isPetNFTRevealed(nftId, now)),
+  });
 
   const onAdd = (petId: number) => {
     setUnselected((prev) => prev.filter((pet) => pet !== petId));
@@ -237,7 +238,7 @@ export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
                   <Box
                     key={`pet-${petId}`}
                     onClick={() => onAdd(petId)}
-                    image={getPetImage("happy", petId, now)}
+                    image={getPetImage({ state: "idle", id: petId, now })}
                     disabled={isRestricted || !isRevealed}
                     secondaryImage={
                       isRestricted || !isRevealed
@@ -264,7 +265,7 @@ export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
               <Box
                 key={`pet-${petId}`}
                 onClick={() => onRemove(petId)}
-                image={getPetImage("happy", petId, now)}
+                image={getPetImage({ state: "idle", id: petId, now })}
                 iconClassName="w-5"
               />
             ))}

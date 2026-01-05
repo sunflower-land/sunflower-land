@@ -24,6 +24,7 @@ import trade from "assets/icons/trade.png";
 import { BulkRemoveTrades } from "../BulkRemoveListings";
 import { Button } from "components/ui/Button";
 import { useNow } from "lib/utils/hooks/useNow";
+import { isPetNFTRevealed } from "features/game/types/pets";
 
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
@@ -42,7 +43,6 @@ export const MyOffers: React.FC = () => {
   const [bulkCancel, setBulkCancel] = useState<boolean>(false);
 
   const authToken = useSelector(authService, _authToken);
-  const now = useNow({ live: true });
 
   const { trades } = gameState.context.state;
   const offers = trades.offers ?? {};
@@ -65,6 +65,19 @@ export const MyOffers: React.FC = () => {
           }),
         )
       : offers;
+
+  const now = useNow({
+    live: Object.values(filteredOffers).some((offer) => {
+      const id = tradeToId({
+        details: {
+          collection: offer.collection,
+          items: offer.items,
+        },
+      });
+
+      return offer.collection === "pets" && !isPetNFTRevealed(id, now);
+    }),
+  });
 
   const navigate = useNavigate();
 

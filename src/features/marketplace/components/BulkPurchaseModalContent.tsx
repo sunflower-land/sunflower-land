@@ -15,6 +15,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
+import { isPetNFTRevealed } from "features/game/types/pets";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _previousInventory = (state: MachineState) =>
@@ -41,7 +42,6 @@ export const BulkPurchaseModalContent: React.FC<
   const { gameService } = useContext(Context);
   const { openModal } = useContext(ModalContext);
   const state = useSelector(gameService, _state);
-  const now = useNow({ live: true });
 
   const inventory = useSelector(gameService, _inventory);
   const previousInventory = useSelector(gameService, _previousInventory);
@@ -49,6 +49,12 @@ export const BulkPurchaseModalContent: React.FC<
   const previousWardrobe = useSelector(gameService, _previousWardrobe);
 
   const collection = tradeable.collection;
+
+  let now = useNow();
+  now = useNow({
+    live: collection === "pets" && !isPetNFTRevealed(tradeable.id, now),
+  });
+
   const display = getTradeableDisplay({
     id: tradeable.id,
     type: collection,

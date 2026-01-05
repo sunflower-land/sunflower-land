@@ -53,7 +53,7 @@ export const ListViewCard: React.FC<Props> = ({
 
   const { type, name, image, buffs, experience, translatedName } = details;
   const { t } = useAppTranslation();
-  const now = useNow({ live: true });
+  const now = useNow();
 
   const itemId = getItemId({ name, collection: type });
 
@@ -203,7 +203,6 @@ export const ListViewCard: React.FC<Props> = ({
             <div className="flex items-center">
               <img src={SUNNYSIDE.icons.stopwatch} className="h-4 mr-1" />
               <p className="text-xs truncate pb-0.5">
-                {" "}
                 {`${secondsToString((expiresAt - now) / 1000, {
                   length: "short",
                 })} left`}

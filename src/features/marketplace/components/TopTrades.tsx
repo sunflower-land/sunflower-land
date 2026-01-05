@@ -14,6 +14,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useNow } from "lib/utils/hooks/useNow";
+import { isPetNFTRevealed } from "features/game/types/pets";
 
 const _state = (state: MachineState) => state.context.state;
 export const TopTrades: React.FC<{
@@ -23,7 +24,14 @@ export const TopTrades: React.FC<{
   const navigate = useNavigate();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const now = useNow({ live: true });
+  const now = useNow({
+    live: trends?.topTrades
+      .slice(0, 5)
+      .some(
+        (item) =>
+          item.collection === "pets" && !isPetNFTRevealed(item.itemId, now),
+      ),
+  });
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
   const isWorldRoute = useLocation().pathname.includes("/world");
 

@@ -24,6 +24,7 @@ import { MARKETPLACE_TAX } from "features/game/types/marketplace";
 import { Button } from "components/ui/Button";
 import { BulkRemoveTrades } from "../BulkRemoveListings";
 import { useNow } from "lib/utils/hooks/useNow";
+import { isPetNFTRevealed } from "features/game/types/pets";
 
 const _isCancellingOffer = (state: MachineState) =>
   state.matches("marketplaceListingCancelling");
@@ -50,7 +51,6 @@ export const MyListings: React.FC = () => {
   const isCancellingListing = useSelector(gameService, _isCancellingOffer);
   const trades = useSelector(gameService, _trades);
   const authToken = useSelector(authService, _authToken);
-  const now = useNow({ live: true });
 
   const navigate = useNavigate();
 
@@ -74,6 +74,19 @@ export const MyListings: React.FC = () => {
           }),
         )
       : listings;
+
+  const now = useNow({
+    live: Object.values(filteredListings).some((listing) => {
+      const id = tradeToId({
+        details: {
+          collection: listing.collection,
+          items: listing.items,
+        },
+      });
+
+      return listing.collection === "pets" && !isPetNFTRevealed(id, now);
+    }),
+  });
 
   if (getKeys(filteredListings).length === 0) return null;
 

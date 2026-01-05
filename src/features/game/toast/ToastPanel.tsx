@@ -16,7 +16,7 @@ import { Bud } from "../types/buds";
 import { KNOWN_IDS } from "../types";
 import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 import { useVisiting } from "lib/utils/visitUtils";
-import { PetNFT } from "../types/pets";
+import { isPetNFTRevealed, PetNFT } from "../types/pets";
 
 import token from "assets/icons/flower_token.webp";
 import levelup from "assets/icons/level_up.png";
@@ -44,7 +44,6 @@ const getToastIcon = (item: ToastItem, now: number, faction?: FactionName) => {
       id: KNOWN_IDS[item as InventoryItemName],
       type: "collectibles",
       state: INITIAL_FARM,
-      now,
     }).image;
   }
 
@@ -53,7 +52,6 @@ const getToastIcon = (item: ToastItem, now: number, faction?: FactionName) => {
       id: ITEM_IDS[item as BumpkinItem],
       type: "wearables",
       state: INITIAL_FARM,
-      now,
     }).image;
   }
 
@@ -62,12 +60,11 @@ const getToastIcon = (item: ToastItem, now: number, faction?: FactionName) => {
       id: Number(item.split("#")[1]),
       type: "buds",
       state: INITIAL_FARM,
-      now,
     }).image;
   }
 
   if (item.startsWith("Pet #")) {
-    return getPetImage("happy", Number(item.split("#")[1]), now);
+    return getPetImage({ state: "idle", id: Number(item.split("#")[1]), now });
   }
 
   return "";
@@ -94,7 +91,13 @@ export const ToastPanel: React.FC = () => {
   const [visibleToasts, setVisibleToasts] = useState<Toast[]>([]);
   const [showToasts, setShowToasts] = useState<boolean>(false);
   const { isVisiting } = useVisiting();
-  const now = useNow({ live: true });
+  const now = useNow({
+    live: visibleToasts.some(
+      (toast) =>
+        toast.item.startsWith("Pet #") &&
+        isPetNFTRevealed(Number(toast.item.split("#")[1]), now),
+    ),
+  });
 
   const faction = useSelector(gameService, _faction);
 

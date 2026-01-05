@@ -7,7 +7,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { TradeableItemDetails } from "features/marketplace/components/TradeableSummary";
 import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
-import { useNow } from "lib/utils/hooks/useNow";
 
 const _purchasingData = (state: MachineState) =>
   state.context.data["marketplaceBuyingBulkResources"];
@@ -16,7 +15,6 @@ const _state = (state: MachineState) => state.context.state;
 export const BulkPurchaseSuccess: React.FC = () => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
-  const now = useNow();
 
   const {
     attemptedPurchases,
@@ -31,7 +29,6 @@ export const BulkPurchaseSuccess: React.FC = () => {
     id: itemId,
     type: "collectibles",
     state,
-    now,
   });
 
   const getContent = () => {

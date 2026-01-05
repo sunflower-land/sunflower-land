@@ -294,11 +294,12 @@ export const Chest: React.FC<Props> = ({
   onPlaceNFT,
   onDepositClick,
 }: Props) => {
-  const now = useNow();
   const divRef = useRef<HTMLDivElement>(null);
   const buds = getChestBuds(state);
   const petsNFTs = getChestPets(state.pets?.nfts ?? {});
-
+  const now = useNow({
+    live: Object.values(petsNFTs).some((pet) => !isPetNFTRevealed(pet.id, now)),
+  });
   const chestMap = getChestItems(state);
   const { t } = useAppTranslation();
   const collectibles = getKeys(chestMap)
@@ -571,7 +572,11 @@ export const Chest: React.FC<Props> = ({
               </Label>
               <div className="flex mb-2 flex-wrap -ml-1.5">
                 {getKeys(petsNFTs).map((petId) => {
-                  const petImage = getPetImage("happy", Number(petId), now);
+                  const petImage = getPetImage({
+                    state: "idle",
+                    id: Number(petId),
+                    now,
+                  });
                   return (
                     <Box
                       isSelected={

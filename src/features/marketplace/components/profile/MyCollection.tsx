@@ -23,6 +23,7 @@ import { isNode } from "features/game/expansion/lib/expansionNodes";
 import { BUMPKIN_RELEASES } from "features/game/types/withdrawables";
 import { MachineState } from "features/game/lib/gameMachine";
 import { GameState } from "features/game/types/game";
+import { isPetNFTRevealed } from "features/game/types/pets";
 
 type CollectionItem = {
   id: number;
@@ -37,11 +38,13 @@ export const MyCollection: React.FC = () => {
 
   const { gameService } = useContext(Context);
   const gameState = useSelector(gameService, _state);
-  const now = useNow({ live: true });
 
   const [search, setSearch] = useState("");
   const { buds, pets: { nfts: petNFTs = {} } = {} } = gameState;
 
+  const now = useNow({
+    live: Object.values(petNFTs).some((pet) => !isPetNFTRevealed(pet.id, now)),
+  });
   let items: CollectionItem[] = [];
 
   const inventory = getChestItems(gameState);

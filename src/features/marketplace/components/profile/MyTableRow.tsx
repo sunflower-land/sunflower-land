@@ -12,6 +12,7 @@ import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useNow } from "lib/utils/hooks/useNow";
+import { isPetNFTRevealed } from "features/game/types/pets";
 
 type MyTableRowProps = {
   index: number;
@@ -54,7 +55,12 @@ export const MyTableRow: React.FC<MyTableRowProps> = ({
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const now = useNow({ live: true });
+
+  let now = useNow();
+  now = useNow({
+    live: collection === "pets" && !isPetNFTRevealed(itemId, now),
+  });
+
   const details = getTradeableDisplay({
     id: itemId,
     type: collection,

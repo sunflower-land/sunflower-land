@@ -925,7 +925,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         id: KNOWN_IDS[reaction as InventoryItemName],
         type: "collectibles",
         state: INITIAL_FARM,
-        now: Date.now(),
       }).image;
 
       this.loadTexture(reaction, image, () => {
@@ -938,7 +937,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         id: ITEM_IDS[reaction as BumpkinItem],
         type: "wearables",
         state: INITIAL_FARM,
-        now: Date.now(),
       }).image;
 
       this.loadTexture(reaction, image, () => {
