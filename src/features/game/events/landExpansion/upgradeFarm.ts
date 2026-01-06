@@ -377,7 +377,10 @@ function placeInitialLand({
     });
   }
 
-  stateCopy.crabTraps = { trapSpots };
+  stateCopy = {
+    ...stateCopy,
+    crabTraps: { trapSpots },
+  };
 
   stateCopy = cloneDeep(stateCopy);
 
