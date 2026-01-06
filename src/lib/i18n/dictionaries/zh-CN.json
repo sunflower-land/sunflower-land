@@ -7737,9 +7737,9 @@
   "description.octopus": "顶级的逃脱大师，拥有八只触手和层出不穷的惊喜。",
   "description.seaUrchin": "藏身于水下岩缝中，是一个带刺的紫色谜团。",
   "description.horseshoeCrab": "远古的幸存者，身披头盔状甲壳，拖着长剑般的尾巴。",
-  "fishermanModal.fishingLimitReached": "你需要更多的卷轴！",
-  "fishing.lookingMoreReels": "啊你在找更多卷轴吗？不用担心！你可以在 “鱼” 选项卡上选择一个乘数，并在施法之前购买更多带有宝石的卷轴。或者你可以查看下面的增强选项！",
-  "fishing.buyReels": "使用 {{gemPrice}} 购买 5 个卷轴",
-  "fishing.buyReels.confirmation": "你确定要花 [0@/美元] 购买 5 个卷轴吗？",
-  "fishing.buyMoreReels": "以 [1@/美元] 的价格购买 {{reels}} 卷轴"
+  "fishermanModal.fishingLimitReached": "你需要更多钓鱼次数！",
+  "fishing.lookingMoreReels": "啊，你想找更多钓鱼次数？别担心！你可以在钓鱼界面选择倍率，并在抛竿前用钻石购买更多次数。或者也可以查看下方的增益选项！",
+  "fishing.buyReels": "花费 {{gemPrice}} 购买 5 次",
+  "fishing.buyReels.confirmation": "你确定要花费 {{gemPrice}} 购买 5 次钓鱼次数吗？",
+  "fishing.buyMoreReels": "花费 {{price}} 购买 {{reels}} 次"
 }
