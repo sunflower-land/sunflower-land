@@ -17,7 +17,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import powerup from "assets/icons/level_up.png";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { TypingMessage } from "../TypingMessage";
 import {
   calculatePoints,
@@ -151,9 +151,9 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
   );
   const [tab, setTab] = useState<"pet" | "guide" | "streaks">("pet");
 
-  const handleRefresh = async () => {
+  const handleRefresh = useCallback(async () => {
+    setRefreshing(true);
     try {
-      setRefreshing(true);
       const data = await getFactionPetUpdate({ farmId });
 
       if (!data) return;
@@ -167,12 +167,13 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
       }
 
       setPetState(getPetState(data));
-      setRefreshing(false);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error("Error fetching updated pet data: ", e);
+    } finally {
+      setRefreshing(false);
     }
-  };
+  }, [farmId, fedXP, streak]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -182,7 +183,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
     }, FACTION_PET_REFRESH_INTERVAL);
 
     return () => clearInterval(interval);
-  }, [petState]);
+  }, [autosaving, handleRefresh, petState, refreshing]);
 
   if (petState === "sleeping") {
     return (
