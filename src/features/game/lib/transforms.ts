@@ -60,6 +60,7 @@ export function makeGame(farm: any): GameState {
     bumpkin: farm.bumpkin,
     buildings: farm.buildings,
     fishing: farm.fishing ?? { wharf: {}, beach: {} },
+    crabTraps: farm.crabTraps ?? { trapSpots: {} },
     farmActivity: farm.farmActivity ?? {},
     milestones: farm.milestones ?? {},
     airdrops: farm.airdrops,
