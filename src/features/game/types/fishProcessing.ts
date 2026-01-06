@@ -39,8 +39,8 @@ const FISH_FLAKE_SEASONAL: Record<TemperateSeasonName, Inventory> = {
 
 const FISH_STICK_SEASONAL: Record<TemperateSeasonName, Inventory> = {
   spring: {
-    "Olive Flounder": new Decimal(1),
-    Ray: new Decimal(1),
+    "Olive Flounder": new Decimal(2),
+    "Zebra Turkeyfish": new Decimal(2),
   },
   summer: {
     "Moray Eel": new Decimal(3),
@@ -62,12 +62,12 @@ const FISH_OIL_SEASONAL: Record<TemperateSeasonName, Inventory> = {
     Oarfish: new Decimal(2),
   },
   summer: {
-    "Mahi Mahi": new Decimal(4),
+    Cobia: new Decimal(2),
     Sunfish: new Decimal(2),
   },
   autumn: {
     "Mahi Mahi": new Decimal(4),
-    Crab: new Decimal(1),
+    Crab: new Decimal(2),
   },
   winter: {
     "Blue Marlin": new Decimal(2),
