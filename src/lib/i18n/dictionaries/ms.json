@@ -5526,7 +5526,6 @@
   "telegram.bot": "Labu Pete Bot",
   "posting.twitter.tweet.used": "Tweet sudah digunakan",
   "referral.friend": "25 Love Charms - Hanya terpakai untuk rujukan pertama",
-  "referral.flower": "(Akan datang) 10% daripada $FLOWER yang dibelanjakan oleh rakan anda",
   "referral.description": "Anda akan menerima ganjaran berikut apabila rakan anda mendaftar menggunakan pautan rujukan anda:",
   "noaccount.addReferralCode": "Mempunyai kod rujukan?",
   "noaccount.referralCodeLabel": "Kod Rujukan: {{referralId}}",
@@ -7685,5 +7684,14 @@
   "description.squeakyChicken": "Ayam yang berkerut",
   "processedFoods": "Makanan yang diproses",
   "instantCook.confirmationMessage": "Adakah anda pasti ingin menyelesaikan item ini sekarang?",
-  "renew.expired.message": "{{name}} telah tamat tempoh. Anda boleh memperbaharuinya untuk melanjutkan tempohnya."
+  "renew.expired.message": "{{name}} telah tamat tempoh. Anda boleh memperbaharuinya untuk melanjutkan tempohnya.",
+  "referral.flower": "10% daripada $FLOWER yang dibelanjakan untuk permata oleh rakan anda",
+  "welcome.action.grow": "Tumbuh",
+  "welcome.action.build": "Membina",
+  "welcome.action.fish": "Ikan",
+  "welcome.action.mine": "milik saya",
+  "welcome.action.trade": "Perdagangan",
+  "welcome.playInstantly": "Main serta-merta dalam penyemak imbas anda",
+  "game3WinnerWidget.title": "Pemenang Anugerah Pilihan Rakyat 2025",
+  "game3WinnerWidget.subtitle": "Diundi oleh komuniti - lebih daripada 2 juta undi!"
 }

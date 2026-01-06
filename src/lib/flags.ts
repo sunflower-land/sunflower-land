@@ -100,7 +100,7 @@ const FEATURE_FLAGS = {
   FACE_RECOGNITION_TEST: defaultFeatureFlag,
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
 
-  LEAGUES: defaultFeatureFlag,
+  LEAGUES: () => false,
 
   EASTER: () => false,
 
@@ -122,7 +122,7 @@ const FEATURE_FLAGS = {
   DAILY_BOXES: defaultFeatureFlag,
   MICRO_INTERACTIONS: defaultFeatureFlag,
   MULTI_CAST: defaultFeatureFlag,
-  FISH_MARKET: testnetFeatureFlag,
+  FISH_MARKET: defaultFeatureFlag,
   DISCORD_NEWS: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 

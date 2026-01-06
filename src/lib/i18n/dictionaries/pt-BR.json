@@ -5526,7 +5526,6 @@
   "telegram.bot": "Abóbora Pete Bot",
   "posting.twitter.tweet.used": "Tweet já usado",
   "referral.friend": "25 Love Charms - Aplica-se apenas à primeira indicação",
-  "referral.flower": "(Em breve) 10% de $ FLOWER gastos por seu amigo",
   "referral.description": "Você receberá as seguintes recompensas quando seu amigo se inscrever usando seu link de indicação:",
   "noaccount.addReferralCode": "Tem um código de referência?",
   "noaccount.referralCodeLabel": "Código de referência: {{referralId}}",
@@ -7685,5 +7684,14 @@
   "description.squeakyChicken": "Uma galinha estridente",
   "processedFoods": "Alimentos processados",
   "instantCook.confirmationMessage": "Tem certeza de que deseja terminar este item agora?",
-  "renew.expired.message": "{{name}} expirou. Você pode renová-lo para prolongar sua duração."
+  "renew.expired.message": "{{name}} expirou. Você pode renová-lo para prolongar sua duração.",
+  "referral.flower": "10% de $ FLOWER gastos em gemas pelo seu amigo",
+  "welcome.action.grow": "Cresça",
+  "welcome.action.build": "Construir",
+  "welcome.action.fish": "Peixe",
+  "welcome.action.mine": "Meu",
+  "welcome.action.trade": "Comércio",
+  "welcome.playInstantly": "Jogue instantaneamente em seu navegador",
+  "game3WinnerWidget.title": "Vencedor do Prêmio Peoples Choice de 2025",
+  "game3WinnerWidget.subtitle": "Votado pela comunidade - mais de 2 milhões de votos!"
 }

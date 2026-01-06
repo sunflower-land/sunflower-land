@@ -5526,7 +5526,6 @@
   "telegram.bot": "Pumpkin Pete Bot",
   "posting.twitter.tweet.used": "El Tweet ya se usó",
   "referral.friend": "25 Love Charms: solo se aplica a la primera recomendación",
-  "referral.flower": "(Próximamente) 10% de los $ FLOWER gastados por tu amigo",
   "referral.description": "Recibirás las siguientes recompensas cuando tu amigo se registre con tu enlace de recomendación:",
   "noaccount.addReferralCode": "¿Tienes un código de recomendación?",
   "noaccount.referralCodeLabel": "Código de referencia: {{referralId}}",
@@ -7685,5 +7684,14 @@
   "description.squeakyChicken": "Un pollo chirriante",
   "processedFoods": "Alimentos procesados",
   "instantCook.confirmationMessage": "¿Estás seguro de que quieres terminar este artículo ahora?",
-  "renew.expired.message": "{{name}} ha caducado. Puedes renovarlo para extender su duración."
+  "renew.expired.message": "{{name}} ha caducado. Puedes renovarlo para extender su duración.",
+  "referral.flower": "10% de los $ FLOWER gastados en gemas por tu amigo",
+  "welcome.action.grow": "Crecer",
+  "welcome.action.build": "Construir",
+  "welcome.action.fish": "Pescado",
+  "welcome.action.mine": "Mía",
+  "welcome.action.trade": "Comercio",
+  "welcome.playInstantly": "Juega al instante en tu navegador",
+  "game3WinnerWidget.title": "Ganador del Peoples Choice Award 2025",
+  "game3WinnerWidget.subtitle": "Votado por la comunidad: ¡más de 2 millones de votos!"
 }

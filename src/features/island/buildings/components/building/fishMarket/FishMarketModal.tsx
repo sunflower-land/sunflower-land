@@ -120,6 +120,7 @@ export const FishMarketModal: React.FC<Props> = ({
               details={{
                 item: selected,
               }}
+              showSeason={true}
               hideDescription
               requirements={{
                 resources: requirements,
