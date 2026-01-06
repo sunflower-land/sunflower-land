@@ -9,6 +9,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
 import { FishName, FishingBait } from "features/game/types/fishing";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { PanelTabs } from "features/game/components/CloseablePanel";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { FishingGuide } from "./FishingGuide";
 import { getDailyFishingCount } from "features/game/types/fishing";
@@ -64,7 +65,8 @@ export const FishermanModal: React.FC<Props> = ({
     isFullMoon(state) && dailyFishingCount === 0,
   );
 
-  const [tab, setTab] = useState(0);
+  type Tab = "fish" | "guide" | "extras";
+  const [tab, setTab] = useState<Tab>("fish");
 
   const BaitSelectionComponent = hasFeatureAccess(state, "MULTI_CAST")
     ? BaitSelection
@@ -138,35 +140,39 @@ export const FishermanModal: React.FC<Props> = ({
       className="min-h-[360px]"
       onClose={onClose}
       bumpkinParts={NPC_WEARABLES[npc]}
-      tabs={[
-        { icon: SUNNYSIDE.tools.fishing_rod, name: t("fish") },
-        {
-          icon: SUNNYSIDE.icons.expression_confused,
-          name: t("guide"),
-        },
-        {
-          icon: powerup,
-          name: t("fishing.extras"),
-        },
-      ]}
+      tabs={
+        [
+          { id: "fish", icon: SUNNYSIDE.tools.fishing_rod, name: t("fish") },
+          {
+            id: "guide",
+            icon: SUNNYSIDE.icons.expression_confused,
+            name: t("guide"),
+          },
+          {
+            id: "extras",
+            icon: powerup,
+            name: t("fishing.extras"),
+          },
+        ] satisfies PanelTabs<Tab>[]
+      }
       currentTab={tab}
       setCurrentTab={setTab}
       container={OuterPanel}
     >
-      {tab === 0 && (
+      {tab === "fish" && (
         <BaitSelectionComponent
           onCast={onCast}
-          onClickBuy={() => setTab(2)}
+          onClickBuy={() => setTab("extras")}
           state={state}
         />
       )}
 
-      {tab === 1 && (
+      {tab === "guide" && (
         <InnerPanel>
-          <FishingGuide onClose={() => setTab(0)} />
+          <FishingGuide onClose={() => setTab("fish")} />
         </InnerPanel>
       )}
-      {tab === 2 && <FishermanExtras state={state} />}
+      {tab === "extras" && <FishermanExtras state={state} />}
     </CloseButtonPanel>
   );
 };

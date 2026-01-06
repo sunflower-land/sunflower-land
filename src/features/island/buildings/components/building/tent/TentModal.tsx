@@ -13,6 +13,7 @@ import { PlacedItem } from "features/game/types/game";
 import { MachineState } from "features/game/lib/gameMachine";
 import { OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { PanelTabs } from "features/game/components/CloseablePanel";
 
 interface Props {
   defaultSelectedIndex?: number;
@@ -123,8 +124,12 @@ export const TentModal: React.FC<Props> = ({
 
   return (
     <CloseButtonPanel
-      tabs={[{ name: "Bumpkins", icon: SUNNYSIDE.icons.player }]}
-      currentTab={0}
+      tabs={
+        [
+          { id: "bumpkins", name: "Bumpkins", icon: SUNNYSIDE.icons.player },
+        ] satisfies PanelTabs<"bumpkins">[]
+      }
+      currentTab={"bumpkins"}
       onClose={onClose}
     >
       <SplitScreenView content={MainContent()} panel={PanelContent()} />

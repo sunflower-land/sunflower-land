@@ -198,6 +198,7 @@ const HudComponent: React.FC<Props> = ({
               onClose={depositDataLoaded ? handleDepositModal : undefined}
               tabs={[
                 {
+                  id: "deposit",
                   icon: chest,
                   name: t("deposit"),
                 },

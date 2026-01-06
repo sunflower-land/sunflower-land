@@ -69,7 +69,8 @@ interface Props {
   onClose: () => void;
 }
 export const Blessings: React.FC<Props> = ({ onClose }) => {
-  const [tab, setTab] = useState(0);
+  type Tab = "tribute" | "results";
+  const [tab, setTab] = useState<Tab>("tribute");
   const { gameState } = useGame();
   const { t } = useAppTranslation();
 
@@ -84,10 +85,12 @@ export const Blessings: React.FC<Props> = ({ onClose }) => {
       <CloseButtonPanel
         tabs={[
           {
+            id: "tribute",
             name: t("blessing.tribute"),
             icon: SUNNYSIDE.icons.heart,
           },
           {
+            id: "results",
             name: "Results",
             icon: SUNNYSIDE.icons.search,
           },
@@ -96,8 +99,8 @@ export const Blessings: React.FC<Props> = ({ onClose }) => {
         setCurrentTab={setTab}
         onClose={onClose}
       >
-        {tab === 0 && <BlessingOffer onClose={onClose} />}
-        {tab === 1 && <BlessingResults onClose={onClose} />}
+        {tab === "tribute" && <BlessingOffer onClose={onClose} />}
+        {tab === "results" && <BlessingResults onClose={onClose} />}
         <Label type="info" className="absolute top-1 right-10">
           {t("beta")}
         </Label>

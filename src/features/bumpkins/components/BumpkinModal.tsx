@@ -36,6 +36,7 @@ import { isBuffActive } from "features/game/types/buffs";
 import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
 import { useNow } from "lib/utils/hooks/useNow";
+import { PanelTabs } from "features/game/components/CloseablePanel";
 
 export type ViewState =
   | "home"
@@ -112,7 +113,10 @@ export const BumpkinModal: React.FC<Props> = ({
   const level = getBumpkinLevel(experience);
   const maxLevel = isMaxLevel(experience);
   const [view, setView] = useState<ViewState>("home");
-  const [tab, setTab] = useState(initialTab);
+  type Tab = "info" | "equip" | "skills";
+  const initialTabId: Tab =
+    initialTab === 1 ? "equip" : initialTab === 2 ? "skills" : "info";
+  const [tab, setTab] = useState<Tab>(initialTabId);
   const { t } = useAppTranslation();
 
   if (view === "achievements") {
@@ -145,10 +149,11 @@ export const BumpkinModal: React.FC<Props> = ({
     );
   }
 
-  const renderTabs = () => {
+  const renderTabs = (): PanelTabs<Tab>[] => {
     if (readonly) {
       return [
         {
+          id: "info",
           icon: SUNNYSIDE.icons.player,
           name: t("info"),
         },
@@ -157,14 +162,17 @@ export const BumpkinModal: React.FC<Props> = ({
 
     return [
       {
+        id: "info",
         icon: SUNNYSIDE.icons.player,
         name: t("info"),
       },
       {
+        id: "equip",
         icon: SUNNYSIDE.icons.wardrobe,
         name: t("equip"),
       },
       {
+        id: "skills",
         icon: SUNNYSIDE.badges.seedSpecialist,
         name: t("skills"),
       },
@@ -177,7 +185,7 @@ export const BumpkinModal: React.FC<Props> = ({
       setCurrentTab={setTab}
       onClose={onClose}
       tabs={renderTabs()}
-      container={tab === 2 ? OuterPanel : undefined}
+      container={tab === "skills" ? OuterPanel : undefined}
     >
       <div
         style={{
@@ -186,7 +194,7 @@ export const BumpkinModal: React.FC<Props> = ({
         }}
         className="scrollable"
       >
-        {tab === 0 && (
+        {tab === "info" && (
           <BumpkinInfo
             level={level}
             maxLevel={maxLevel}
@@ -198,7 +206,7 @@ export const BumpkinModal: React.FC<Props> = ({
           />
         )}
 
-        {tab === 1 && (
+        {tab === "equip" && (
           <BumpkinEquip
             equipment={bumpkin.equipped}
             onEquip={(equipment) => {
@@ -209,7 +217,7 @@ export const BumpkinModal: React.FC<Props> = ({
             }}
           />
         )}
-        {tab === 2 && <Skills readonly={readonly} />}
+        {tab === "skills" && <Skills readonly={readonly} />}
       </div>
     </CloseButtonPanel>
   );

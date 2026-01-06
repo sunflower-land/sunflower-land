@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { PanelTabs } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Recipe } from "features/game/lib/crafting";
@@ -43,7 +44,8 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
 
   const [showIntro, setShowIntro] = React.useState(!hasReadIntro());
-  const [currentTab, setCurrentTab] = useState(0);
+  type Tab = "craft" | "recipes" | "guide";
+  const [currentTab, setCurrentTab] = useState<Tab>("craft");
 
   const { gameService } = useContext(Context);
 
@@ -69,7 +71,7 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
       ...Array(9).fill(null),
     ].slice(0, 9);
     selectItems(paddedIngredients);
-    setCurrentTab(0); // Switch to the craft tab
+    setCurrentTab("craft"); // Switch to the craft tab
   };
 
   const selectItems = (items: (RecipeIngredient | null)[]) => {
@@ -94,7 +96,7 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
                 {
                   text: t("craftingBox.startCrafting"),
                   cb: () => {
-                    setCurrentTab(0);
+                    setCurrentTab("craft");
                     acknowledgeIntroRead();
                     setShowIntro(false);
                   },
@@ -102,7 +104,7 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
                 {
                   text: t("craftingBox.viewRecipes"),
                   cb: () => {
-                    setCurrentTab(1);
+                    setCurrentTab("recipes");
                     acknowledgeIntroRead();
                     setShowIntro(false);
                   },
@@ -121,24 +123,32 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
   return (
     <CloseButtonPanel
       onClose={onClose}
-      tabs={[
-        { name: t("craft"), icon: SUNNYSIDE.icons.hammer },
-        { name: t("recipes"), icon: SUNNYSIDE.icons.basket },
-        { name: t("guide"), icon: SUNNYSIDE.icons.expression_confused },
-      ]}
+      tabs={
+        [
+          { id: "craft", name: t("craft"), icon: SUNNYSIDE.icons.hammer },
+          { id: "recipes", name: t("recipes"), icon: SUNNYSIDE.icons.basket },
+          {
+            id: "guide",
+            name: t("guide"),
+            icon: SUNNYSIDE.icons.expression_confused,
+          },
+        ] satisfies PanelTabs<Tab>[]
+      }
       currentTab={currentTab}
       setCurrentTab={setCurrentTab}
     >
-      {currentTab === 0 && (
+      {currentTab === "craft" && (
         <CraftTab
           gameService={gameService}
           selectedItems={selectedItems}
           setSelectedItems={selectItems}
         />
       )}
-      {currentTab === 1 && <RecipesTab handleSetupRecipe={handleSetupRecipe} />}
-      {currentTab === 2 && (
-        <CraftingBoxGuide onClose={() => setCurrentTab(0)} />
+      {currentTab === "recipes" && (
+        <RecipesTab handleSetupRecipe={handleSetupRecipe} />
+      )}
+      {currentTab === "guide" && (
+        <CraftingBoxGuide onClose={() => setCurrentTab("craft")} />
       )}
     </CloseButtonPanel>
   );

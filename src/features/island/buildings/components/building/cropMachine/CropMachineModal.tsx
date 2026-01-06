@@ -1,6 +1,7 @@
 import React, { useContext, useLayoutEffect, useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { PanelTabs } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
 import {
   Bumpkin,
@@ -118,7 +119,8 @@ export const CropMachineModalContent: React.FC<Props> = ({
   const [showOverlayScreen, setShowOverlayScreen] = useState<boolean>(false);
   const [totalSeeds, setTotalSeeds] = useState(0);
   const [totalOil, setTotalOil] = useState(0);
-  const [tab, setTab] = useState(0);
+  type Tab = "cropMachine";
+  const [tab, setTab] = useState<Tab>("cropMachine");
 
   const { t } = useAppTranslation();
 
@@ -249,7 +251,15 @@ export const CropMachineModalContent: React.FC<Props> = ({
 
   return (
     <CloseButtonPanel
-      tabs={[{ icon: SUNNYSIDE.icons.seedling, name: t("cropMachine.name") }]}
+      tabs={
+        [
+          {
+            id: "cropMachine",
+            icon: SUNNYSIDE.icons.seedling,
+            name: t("cropMachine.name"),
+          },
+        ] satisfies PanelTabs<Tab>[]
+      }
       currentTab={tab}
       setCurrentTab={setTab}
       onClose={onClose}

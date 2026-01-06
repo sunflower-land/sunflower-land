@@ -3,6 +3,7 @@ import { Equipped } from "features/game/types/bumpkin";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { PanelTabs } from "features/game/components/CloseablePanel";
 import { ConversationName } from "features/game/types/announcements";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SpeakingText } from "features/game/components/SpeakingModal";
@@ -41,7 +42,8 @@ export const ShopItems: React.FC<Props> = ({
   hasSoldBefore,
   showBuyHelper,
 }) => {
-  const [tab, setTab] = useState(0);
+  type Tab = "buy" | "sell" | "guide";
+  const [tab, setTab] = useState<Tab>("buy");
   const [showIntro, setShowIntro] = React.useState(!hasReadIntro());
   const { t } = useAppTranslation();
   const bumpkinParts: Partial<Equipped> = NPC_WEARABLES.betty;
@@ -57,7 +59,7 @@ export const ShopItems: React.FC<Props> = ({
                 {
                   text: t("betty.buySeeds"),
                   cb: () => {
-                    setTab(0);
+                    setTab("buy");
                     acknowledgeIntroRead();
                     setShowIntro(false);
                   },
@@ -65,7 +67,7 @@ export const ShopItems: React.FC<Props> = ({
                 {
                   text: t("betty.sellCrops"),
                   cb: () => {
-                    setTab(1);
+                    setTab("sell");
                     acknowledgeIntroRead();
                     setShowIntro(false);
                   },
@@ -84,30 +86,35 @@ export const ShopItems: React.FC<Props> = ({
   return (
     <CloseButtonPanel
       bumpkinParts={bumpkinParts}
-      tabs={[
-        {
-          icon: SUNNYSIDE.icons.seeds,
-          name: t("buy"),
-          unread: showBuyHelper,
-        },
-        {
-          icon: CROP_LIFECYCLE["Basic Biome"].Sunflower.crop,
-          name: t("sell"),
-          unread: !hasSoldBefore,
-        },
-        {
-          icon: book,
-          name: t("guide"),
-        },
-      ]}
+      tabs={
+        [
+          {
+            id: "buy",
+            icon: SUNNYSIDE.icons.seeds,
+            name: t("buy"),
+            unread: showBuyHelper,
+          },
+          {
+            id: "sell",
+            icon: CROP_LIFECYCLE["Basic Biome"].Sunflower.crop,
+            name: t("sell"),
+            unread: !hasSoldBefore,
+          },
+          {
+            id: "guide",
+            icon: book,
+            name: t("guide"),
+          },
+        ] satisfies PanelTabs<Tab>[]
+      }
       currentTab={tab}
       setCurrentTab={setTab}
       onClose={onClose}
       container={OuterPanel}
     >
-      {tab === 0 && <SeasonalSeeds />}
-      {tab === 1 && <SeasonalCrops />}
-      {tab === 2 && <CropGuide />}
+      {tab === "buy" && <SeasonalSeeds />}
+      {tab === "sell" && <SeasonalCrops />}
+      {tab === "guide" && <CropGuide />}
     </CloseButtonPanel>
   );
 };

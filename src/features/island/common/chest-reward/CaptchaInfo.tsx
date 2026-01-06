@@ -60,6 +60,7 @@ export const CaptchaInfo: React.FC<{ collectedItem?: InventoryItemName }> = ({
           <CloseButtonPanel
             tabs={[
               {
+                id: "captchaInfo",
                 icon: book,
                 name: t("captcha.info.title"),
               },

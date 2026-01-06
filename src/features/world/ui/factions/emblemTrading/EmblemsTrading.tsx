@@ -30,7 +30,6 @@ export const FACTION_TO_EMBLEM: Record<FactionName, FactionEmblem> = {
 
 export const EmblemsTrading: React.FC<Props> = ({ onClose, emblem }) => {
   const [showIntro, setShowIntro] = useState(true);
-  const [tab, setTab] = useState(0);
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
@@ -74,12 +73,14 @@ export const EmblemsTrading: React.FC<Props> = ({ onClose, emblem }) => {
       <CloseButtonPanel
         onClose={onClose}
         tabs={[
-          { icon: ITEM_DETAILS[emblem].image, name: t("faction.emblems") },
+          {
+            icon: ITEM_DETAILS[emblem].image,
+            name: t("faction.emblems"),
+            id: "emblems",
+          },
         ]}
-        setCurrentTab={setTab}
-        currentTab={tab}
       >
-        {tab === 0 && <Emblems emblem={emblem} factionName={faction} />}
+        <Emblems emblem={emblem} factionName={faction} />
       </CloseButtonPanel>
     </>
   );

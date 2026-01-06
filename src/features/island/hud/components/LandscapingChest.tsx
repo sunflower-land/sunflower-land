@@ -17,6 +17,7 @@ import {
   LandscapingPlaceableType,
 } from "features/game/expansion/placeable/landscapingMachine";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
+import { PanelTabs } from "features/game/components/CloseablePanel";
 
 interface Props {
   show: boolean;
@@ -40,21 +41,28 @@ export const LandscapingChest: React.FC<Props> = ({
   const hasBiomes = getKeys(LAND_BIOMES).some((item) =>
     (state.inventory[item] ?? new Decimal(0)).gt(0),
   );
+
+  const chestTab: PanelTabs<"Chest" | "Biomes"> = {
+    icon: chest,
+    name: t("chest"),
+    id: "Chest",
+  };
+
+  const biomesTab: PanelTabs<"Chest" | "Biomes"> = {
+    icon: ITEM_DETAILS["Basic Biome"].image,
+    name: t("biomes"),
+    id: "Biomes",
+  };
+
+  const tabs: PanelTabs<"Chest" | "Biomes">[] = [
+    chestTab,
+    ...(hasBiomes ? [biomesTab] : []),
+  ];
+
   return (
     <Modal size="lg" show={show} onHide={onHide}>
       <CloseButtonPanel
-        tabs={[
-          { icon: chest, name: t("chest"), id: "Chest" },
-          ...(hasBiomes
-            ? [
-                {
-                  icon: ITEM_DETAILS["Basic Biome"].image,
-                  name: t("biomes"),
-                  id: "Biomes",
-                },
-              ]
-            : []),
-        ]}
+        tabs={tabs}
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
         onClose={onHide}

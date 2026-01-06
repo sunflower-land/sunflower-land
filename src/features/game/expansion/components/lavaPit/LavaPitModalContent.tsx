@@ -79,6 +79,7 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
       onClose={onClose}
       tabs={[
         {
+          id: "lavaPit",
           name: "Lava Pit",
           icon: ITEM_DETAILS["Lava Pit"].image,
         },

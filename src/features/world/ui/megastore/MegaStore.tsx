@@ -87,7 +87,9 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
   return (
     <CloseButtonPanel
       bumpkinParts={NPC_WEARABLES.stella}
-      tabs={[{ icon, name: t("chapterStore.title", { chapter }) }]}
+      tabs={[
+        { icon, name: t("chapterStore.title", { chapter }), id: "chapter" },
+      ]}
       onClose={onClose}
     >
       <ChapterStore state={state} />

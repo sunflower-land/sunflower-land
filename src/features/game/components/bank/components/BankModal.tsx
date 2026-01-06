@@ -18,7 +18,7 @@ export const BankModal: React.FC<Props> = ({ onClose }) => {
     <>
       <CloseButtonPanel
         bumpkinParts={NPC_WEARABLES["greedclaw"]}
-        tabs={[{ icon: withdrawIcon, name: t("withdraw") }]}
+        tabs={[{ id: "withdraw", icon: withdrawIcon, name: t("withdraw") }]}
         onClose={onClose}
       >
         <Withdraw onClose={onClose} />

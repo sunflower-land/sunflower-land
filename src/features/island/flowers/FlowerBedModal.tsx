@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { PanelTabs } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { FlowerBedGuide } from "./FlowerBedGuide";
@@ -12,25 +13,29 @@ interface Props {
 }
 
 export const FlowerBedModal: React.FC<Props> = ({ onClose, id }) => {
-  const [tab, setTab] = useState(0);
+  type Tab = "plant" | "guide";
+  const [tab, setTab] = useState<Tab>("plant");
 
   return (
     <CloseButtonPanel
       onClose={onClose}
       bumpkinParts={NPC_WEARABLES["poppy"]}
-      tabs={[
-        { icon: SUNNYSIDE.icons.seedling, name: "Plant" },
-        {
-          icon: SUNNYSIDE.icons.expression_confused,
-          name: "Guide",
-        },
-      ]}
+      tabs={
+        [
+          { id: "plant", icon: SUNNYSIDE.icons.seedling, name: "Plant" },
+          {
+            id: "guide",
+            icon: SUNNYSIDE.icons.expression_confused,
+            name: "Guide",
+          },
+        ] satisfies PanelTabs<Tab>[]
+      }
       currentTab={tab}
       setCurrentTab={setTab}
     >
-      {tab === 0 && <FlowerBedContent id={id} onClose={onClose} />}
+      {tab === "plant" && <FlowerBedContent id={id} onClose={onClose} />}
 
-      {tab === 1 && <FlowerBedGuide onClose={() => setTab(0)} />}
+      {tab === "guide" && <FlowerBedGuide onClose={() => setTab("plant")} />}
     </CloseButtonPanel>
   );
 };

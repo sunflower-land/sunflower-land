@@ -555,6 +555,7 @@ export const DepositGameItemsModal: React.FC<DepositModalProps> = ({
         onClose={handleClose}
         tabs={[
           {
+            id: "deposit",
             icon: chest,
             name: t("deposit"),
           },

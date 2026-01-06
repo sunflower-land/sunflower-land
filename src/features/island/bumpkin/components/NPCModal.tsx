@@ -134,7 +134,7 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
       ) : (
         <CloseButtonPanel
           onClose={onClose}
-          tabs={[{ icon: foodIcon, name: t("feed.bumpkin") }]}
+          tabs={[{ id: "feed", icon: foodIcon, name: t("feed.bumpkin") }]}
           bumpkinParts={equipped}
           container={OuterPanel}
         >

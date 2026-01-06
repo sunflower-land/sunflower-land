@@ -14,6 +14,7 @@ export const PetShop: React.FC<Props> = ({ onClose }) => {
     <CloseButtonPanel
       tabs={[
         {
+          id: "petShop",
           icon: ITEM_DETAILS.Barkley.image,
           name: "Pet Shop",
         },

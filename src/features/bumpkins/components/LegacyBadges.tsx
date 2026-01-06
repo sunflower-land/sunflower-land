@@ -31,7 +31,13 @@ export const LegacyBadges: React.FC<Props> = ({
   const { buff } = legacySkillDetails;
   return (
     <CloseButtonPanel
-      tabs={[{ icon: SUNNYSIDE.badges.seedSpecialist, name: "Legacy Badges" }]}
+      tabs={[
+        {
+          id: "legacyBadges",
+          icon: SUNNYSIDE.badges.seedSpecialist,
+          name: "Legacy Badges",
+        },
+      ]}
       container={OuterPanel}
       onClose={onClose}
     >

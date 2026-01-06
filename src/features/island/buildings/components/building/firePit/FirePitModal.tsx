@@ -82,7 +82,7 @@ export const FirePitModal: React.FC<Props> = ({
 
       {!showIntro && (
         <CloseButtonPanel
-          tabs={[{ icon: chefHat, name: "Fire Pit" }]}
+          tabs={[{ id: "firePit", icon: chefHat, name: "Fire Pit" }]}
           onClose={onClose}
           bumpkinParts={NPC_WEARABLES.bruce}
           container={OuterPanel}

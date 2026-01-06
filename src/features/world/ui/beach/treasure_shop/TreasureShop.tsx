@@ -7,29 +7,39 @@ import { TreasureShopSell } from "./TreasureShopSell";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC_WEARABLES } from "lib/npcs";
+import { PanelTabs } from "features/game/components/CloseablePanel";
 
 interface Props {
   onClose: (e?: SyntheticEvent) => void;
 }
 
 export const TreasureShop: React.FC<Props> = ({ onClose }) => {
-  const [tab, setTab] = useState(0);
+  type Tab = "buy" | "sell";
+  const [tab, setTab] = useState<Tab>("buy");
   const { t } = useAppTranslation();
+
+  const buyTab: PanelTabs<Tab> = {
+    id: "buy",
+    icon: ITEM_DETAILS["Sand Shovel"].image,
+    name: t("buy"),
+  };
+  const sellTab: PanelTabs<Tab> = {
+    id: "sell",
+    icon: ITEM_DETAILS["Pirate Bounty"].image,
+    name: t("sell"),
+  };
 
   return (
     <CloseButtonPanel
       onClose={onClose}
       bumpkinParts={NPC_WEARABLES.jafar}
-      tabs={[
-        { icon: ITEM_DETAILS["Sand Shovel"].image, name: t("buy") },
-        { icon: ITEM_DETAILS["Pirate Bounty"].image, name: t("sell") },
-      ]}
+      tabs={[buyTab, sellTab]}
       currentTab={tab}
       setCurrentTab={setTab}
       container={OuterPanel}
     >
-      {tab === 0 && <TreasureShopBuy />}
-      {tab === 1 && <TreasureShopSell />}
+      {tab === "buy" && <TreasureShopBuy />}
+      {tab === "sell" && <TreasureShopSell />}
     </CloseButtonPanel>
   );
 };
