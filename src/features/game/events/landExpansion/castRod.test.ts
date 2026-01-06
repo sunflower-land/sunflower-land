@@ -3,7 +3,7 @@ import {
   INITIAL_FARM,
   TEST_FARM,
 } from "features/game/lib/constants";
-import { castRod } from "./castRod";
+import { castRod, getReelsPackGemPrice } from "./castRod";
 import Decimal from "decimal.js-light";
 import { Bumpkin } from "features/game/types/game";
 import { Chum, getDailyFishingLimit } from "features/game/types/fishing";
@@ -74,6 +74,159 @@ describe("castRod", () => {
         },
       });
     }).toThrow("Missing guaranteed catch");
+  });
+
+  it("requires player has enough gems to buy more reels if reelPacksToBuy is provided", () => {
+    expect(() => {
+      castRod({
+        action: {
+          bait: "Fish Flake",
+          type: "rod.casted",
+          reelPacksToBuy: 1,
+        },
+        state: {
+          ...farm,
+          inventory: {
+            Rod: new Decimal(1),
+            "Fish Flake": new Decimal(1),
+          },
+        },
+      });
+    }).toThrow("Player does not have enough Gems to buy more reels");
+  });
+
+  it("increases timesBought count by packs amount", () => {
+    const today = new Date().toISOString().split("T")[0];
+    const result = castRod({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          Gem: new Decimal(10),
+          Rod: new Decimal(1),
+          Earthworm: new Decimal(1),
+        },
+        fishing: {
+          wharf: {},
+          dailyAttempts: {
+            [today]: 20,
+          },
+          extraReels: {
+            timesBought: {
+              [today]: 0,
+            },
+            count: 0,
+          },
+        },
+      },
+      action: { bait: "Earthworm", type: "rod.casted", reelPacksToBuy: 1 },
+    });
+    expect(result.fishing.extraReels?.timesBought?.[today]).toEqual(1);
+  });
+
+  it("removes Gems from the player's inventory when buying more reels", () => {
+    const today = new Date().toISOString().split("T")[0];
+    const result = castRod({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          Gem: new Decimal(10),
+          Rod: new Decimal(1),
+          Earthworm: new Decimal(1),
+        },
+        fishing: {
+          wharf: {},
+          dailyAttempts: {
+            [today]: 20,
+          },
+          extraReels: {
+            count: 0,
+          },
+        },
+      },
+      action: { bait: "Earthworm", type: "rod.casted", reelPacksToBuy: 1 },
+    });
+
+    expect(result.inventory["Gem"]).toEqual(new Decimal(0));
+  });
+
+  it("when multiplier is 1 and 1 pack is required it adds 4 extra reels (uses 1)", () => {
+    const today = new Date().toISOString().split("T")[0];
+    const result = castRod({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          Gem: new Decimal(10),
+          Rod: new Decimal(1),
+          Earthworm: new Decimal(1),
+        },
+        fishing: {
+          wharf: {},
+          dailyAttempts: {
+            [today]: 20,
+          },
+          extraReels: {
+            count: 0,
+          },
+        },
+      },
+      action: { bait: "Earthworm", type: "rod.casted", reelPacksToBuy: 1 },
+    });
+
+    expect(result.fishing.extraReels?.count).toEqual(4);
+  });
+
+  it("when multiplier is 25 and 22 reels remaining and 1 pack is required it leaves 2 extra reels (uses 3)", () => {
+    const now = Date.now();
+    const today = new Date(now).toISOString().split("T")[0];
+
+    const bumpkinWithFiveFold: Bumpkin = {
+      ...INITIAL_BUMPKIN,
+      skills: {
+        "Fisherman's 5 Fold": 1,
+      },
+    };
+
+    const result = castRod({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: bumpkinWithFiveFold,
+        vip: {
+          bundles: [{ name: "1_MONTH", boughtAt: now }],
+          expiresAt: now + 31 * 24 * 60 * 60 * 1000,
+        },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          Gem: new Decimal(10),
+          Rod: new Decimal(30),
+          Earthworm: new Decimal(30),
+        },
+        fishing: {
+          wharf: {},
+          dailyAttempts: {
+            [today]: 3,
+          },
+          extraReels: {
+            count: 0,
+            timesBought: {
+              [today]: 0,
+            },
+          },
+        },
+      },
+      action: {
+        bait: "Earthworm",
+        type: "rod.casted",
+        multiplier: 25,
+        reelPacksToBuy: 1,
+      },
+    });
+
+    expect(result.fishing.extraReels?.count).toEqual(2);
+    expect(result.fishing.extraReels?.timesBought?.[today]).toEqual(1);
+    expect(result.fishing.dailyAttempts?.[today]).toEqual(28);
   });
 
   it("stores guaranteed catch selection on wharf", () => {
@@ -516,68 +669,6 @@ describe("castRod", () => {
     expect(state.fishing.extraReels?.count).toEqual(5);
   });
 
-  describe("getDailyFishingLimit", () => {
-    it("increases fishing limit by 10 when Angler Waders is equipped", () => {
-      const { limit } = getDailyFishingLimit({
-        ...INITIAL_FARM,
-        bumpkin: {
-          ...INITIAL_FARM.bumpkin,
-          equipped: {
-            ...INITIAL_FARM.bumpkin.equipped,
-            pants: "Angler Waders",
-          },
-        },
-      });
-      expect(limit).toEqual(30);
-    });
-
-    it("increases fishing limit by 10 with Fisherman's 10 Fold skill", () => {
-      const { limit } = getDailyFishingLimit({
-        ...INITIAL_FARM,
-        bumpkin: {
-          ...INITIAL_FARM.bumpkin,
-          skills: {
-            "Fisherman's 10 Fold": 1,
-          },
-        },
-      });
-      expect(limit).toEqual(30);
-    });
-
-    it("increases fishing limit by 5 with Fisherman's 5 Fold skill", () => {
-      const { limit } = getDailyFishingLimit({
-        ...INITIAL_FARM,
-        bumpkin: {
-          ...INITIAL_FARM.bumpkin,
-          skills: {
-            "Fisherman's 5 Fold": 1,
-          },
-        },
-      });
-      expect(limit).toEqual(25);
-    });
-
-    it("increases fishing limit by 5 with Reelmaster's Chair", () => {
-      const { limit } = getDailyFishingLimit({
-        ...INITIAL_FARM,
-        bumpkin: {
-          ...INITIAL_FARM.bumpkin,
-        },
-        collectibles: {
-          "Reelmaster's Chair": [
-            {
-              readyAt: 1,
-              coordinates: { x: 0, y: 0 },
-              createdAt: 1,
-              id: "1",
-            },
-          ],
-        },
-      });
-      expect(limit).toEqual(25);
-    });
-  });
-
   it("subtracts extra reels by the delta over the daily limit when already over the limit (multi-cast)", () => {
     const now = Date.now();
     const date = new Date(now).toISOString().split("T")[0];
@@ -615,5 +706,106 @@ describe("castRod", () => {
     });
 
     expect(state.fishing.extraReels?.count).toEqual(1);
+  });
+});
+
+describe("getDailyFishingLimit", () => {
+  it("increases fishing limit by 10 when Angler Waders is equipped", () => {
+    const { limit } = getDailyFishingLimit({
+      ...INITIAL_FARM,
+      bumpkin: {
+        ...INITIAL_FARM.bumpkin,
+        equipped: {
+          ...INITIAL_FARM.bumpkin.equipped,
+          pants: "Angler Waders",
+        },
+      },
+    });
+    expect(limit).toEqual(30);
+  });
+
+  it("increases fishing limit by 10 with Fisherman's 10 Fold skill", () => {
+    const { limit } = getDailyFishingLimit({
+      ...INITIAL_FARM,
+      bumpkin: {
+        ...INITIAL_FARM.bumpkin,
+        skills: {
+          "Fisherman's 10 Fold": 1,
+        },
+      },
+    });
+    expect(limit).toEqual(30);
+  });
+
+  it("increases fishing limit by 5 with Fisherman's 5 Fold skill", () => {
+    const { limit } = getDailyFishingLimit({
+      ...INITIAL_FARM,
+      bumpkin: {
+        ...INITIAL_FARM.bumpkin,
+        skills: {
+          "Fisherman's 5 Fold": 1,
+        },
+      },
+    });
+    expect(limit).toEqual(25);
+  });
+
+  it("increases fishing limit by 5 with Reelmaster's Chair", () => {
+    const { limit } = getDailyFishingLimit({
+      ...INITIAL_FARM,
+      bumpkin: {
+        ...INITIAL_FARM.bumpkin,
+      },
+      collectibles: {
+        "Reelmaster's Chair": [
+          {
+            readyAt: 1,
+            coordinates: { x: 0, y: 0 },
+            createdAt: 1,
+            id: "1",
+          },
+        ],
+      },
+    });
+    expect(limit).toEqual(25);
+  });
+});
+
+describe("getReelsPackGemPrice", () => {
+  it("returns the correct price for 1 pack", () => {
+    const price = getReelsPackGemPrice({
+      state: farm,
+      packs: 1,
+    });
+    expect(price).toEqual(10);
+  });
+
+  it("increases price of gems by 2x after buying once", () => {
+    const now = new Date();
+    const today = now.toISOString().split("T")[0];
+    const price = getReelsPackGemPrice({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          Gem: new Decimal(10),
+        },
+        fishing: {
+          wharf: {},
+          dailyAttempts: {
+            [today]: 20,
+          },
+          extraReels: {
+            timesBought: {
+              [today]: 1,
+            },
+            count: 0,
+          },
+        },
+      },
+      packs: 1,
+      createdAt: Date.now(),
+    });
+    expect(price).toEqual(20);
   });
 });

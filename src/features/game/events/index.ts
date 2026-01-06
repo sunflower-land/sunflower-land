@@ -392,7 +392,6 @@ import {
   sacrificeBear,
   SacrificeBearAction,
 } from "./landExpansion/sacrificeBear";
-import { buyMoreReels, BuyMoreReelsAction } from "./landExpansion/buyMoreReels";
 import { ClaimPurchaseAction, claimPurchase } from "./claimPurchase";
 import { npcRestock, NPCRestockAction } from "./landExpansion/npcRestock";
 import {
@@ -686,7 +685,6 @@ export type PlayingEvent =
   | PetPetAction
   | LeaveFactionAction
   | BuyMoreDigsAction
-  | BuyMoreReelsAction
   | BuyAnimalAction
   | FeedAnimalAction
   | LoveAnimalAction
@@ -950,7 +948,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "produce.claimed": claimProduce,
   "chapterItem.bought": buyChapterItem,
   "farmHand.unlocked": unlockFarmhand,
-  "fishing.reelsBought": buyMoreReels,
   "purchase.claimed": claimPurchase,
   "reward.redeemed": redeemTradeReward,
   "daily.reset": dailyReset,
