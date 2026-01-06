@@ -480,14 +480,16 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
               : t("fishermanModal.notEnoughReels")}
           </Label>
         )}
-        {!fishingLimitReached && missingRod && (
+        {missingRod && (
           <Label className="mb-0.5 ml-1" type="danger">
             {t("fishermanModal.needCraftRod")}
           </Label>
         )}
-
         {fishingLimitReached ? (
-          <Button onClick={() => setShowConfirmationModal(true)}>
+          <Button
+            disabled={missingRod}
+            onClick={() => setShowConfirmationModal(true)}
+          >
             <div className="flex items-center">
               {t("fishing.buyMoreReels", {
                 reels: packsRequired * EXTRA_REELS_AMOUNT, // total reels to buy
