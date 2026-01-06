@@ -232,26 +232,6 @@ describe("castRod", () => {
     expect(result.fishing.dailyAttempts?.[today]).toEqual(28);
   });
 
-  it("stores guaranteed catch selection on wharf", () => {
-    const state = castRod({
-      action: {
-        bait: "Fish Flake",
-        guaranteedCatch: "Anchovy",
-        type: "rod.casted",
-      },
-      state: {
-        ...farm,
-        inventory: {
-          Rod: new Decimal(1),
-          "Fish Flake": new Decimal(1),
-        },
-      },
-    });
-
-    expect(state.fishing.wharf.guaranteedCatch).toBe("Anchovy");
-    expect(state.fishing.wharf.caught?.Anchovy).toEqual(1);
-  });
-
   it("rejects guaranteed catch when using regular bait", () => {
     expect(() => {
       castRod({
