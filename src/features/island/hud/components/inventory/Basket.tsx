@@ -41,7 +41,7 @@ import { SEASONAL_SEEDS, SeedName, SEEDS } from "features/game/types/seeds";
 import { getFruitHarvests } from "features/game/events/landExpansion/utils";
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { SELLABLE_TREASURE } from "features/game/types/treasure";
+import { SELLABLE_TREASURES } from "features/game/types/treasure";
 import {
   TREASURE_TOOLS,
   WORKBENCH_TOOLS,
@@ -193,7 +193,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const fertilisers = getItems(FERTILISERS);
   const coupons = getItems(COUPONS).sort((a, b) => a.localeCompare(b));
   const easterEggs = getItems(EASTER_EGG);
-  const treasure = getItems(SELLABLE_TREASURE);
+  const treasure = getItems(SELLABLE_TREASURES);
   const exotics = getItems(EXOTIC_CROPS);
   const cropCompost = getItems(CROP_COMPOST);
   const fruitCompost = getItems(FRUIT_COMPOST);

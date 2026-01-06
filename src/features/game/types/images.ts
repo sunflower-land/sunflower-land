@@ -1132,7 +1132,7 @@ import {
 import { LOVE_ANIMAL_TOOLS, TREASURE_TOOLS } from "./tools";
 import { translate } from "lib/i18n/translate";
 import { LANDSCAPING_DECORATIONS } from "./decorations";
-import { SELLABLE_TREASURE } from "./treasure";
+import { SELLABLE_TREASURES } from "./treasure";
 import { TREASURE_COLLECTIBLE_ITEM } from "./collectibles";
 import { ANIMAL_FOODS } from "./animals";
 import { PROCESSED_FOODS } from "./processedFood";
@@ -2957,32 +2957,32 @@ export const ITEM_DETAILS: Items = {
   },
   "Clam Shell": {
     image: SUNNYSIDE.resource.clam_shell,
-    description: SELLABLE_TREASURE["Clam Shell"].description,
+    description: SELLABLE_TREASURES["Clam Shell"].description,
     translatedName: translate("treasure.clamShell"),
   },
   "Sea Cucumber": {
     image: SUNNYSIDE.resource.sea_cucumber,
-    description: SELLABLE_TREASURE["Sea Cucumber"].description,
+    description: SELLABLE_TREASURES["Sea Cucumber"].description,
     translatedName: translate("treasure.seaCucumber"),
   },
   Coral: {
     image: SUNNYSIDE.resource.coral,
-    description: SELLABLE_TREASURE.Coral.description,
+    description: SELLABLE_TREASURES.Coral.description,
     translatedName: translate("treasure.coral"),
   },
   Crab: {
     image: SUNNYSIDE.resource.crab,
-    description: SELLABLE_TREASURE.Crab.description,
+    description: SELLABLE_TREASURES.Crab.description,
     translatedName: translate("treasure.crab"),
   },
   Starfish: {
     image: SUNNYSIDE.resource.starfish,
-    description: SELLABLE_TREASURE.Starfish.description,
+    description: SELLABLE_TREASURES.Starfish.description,
     translatedName: translate("treasure.starfish"),
   },
   "Pirate Bounty": {
     image: SUNNYSIDE.resource.pirate_bounty,
-    description: SELLABLE_TREASURE["Pirate Bounty"].description,
+    description: SELLABLE_TREASURES["Pirate Bounty"].description,
     translatedName: translate("treasure.pirateBounty"),
   },
   "Pirate Cake": {
@@ -3052,22 +3052,22 @@ export const ITEM_DETAILS: Items = {
   },
   "Wooden Compass": {
     image: woodenCompass,
-    description: SELLABLE_TREASURE["Wooden Compass"].description,
+    description: SELLABLE_TREASURES["Wooden Compass"].description,
     translatedName: translate("treasure.woodenCompass"),
   },
   "Iron Compass": {
     image: ironCompass,
-    description: SELLABLE_TREASURE["Iron Compass"].description,
+    description: SELLABLE_TREASURES["Iron Compass"].description,
     translatedName: translate("treasure.ironCompass"),
   },
   "Emerald Compass": {
     image: emeraldCompass,
-    description: SELLABLE_TREASURE["Emerald Compass"].description,
+    description: SELLABLE_TREASURES["Emerald Compass"].description,
     translatedName: translate("treasure.emeraldCompass"),
   },
   "Old Bottle": {
     image: oldBottle,
-    description: SELLABLE_TREASURE["Old Bottle"].description,
+    description: SELLABLE_TREASURES["Old Bottle"].description,
     translatedName: translate("treasure.oldBottle"),
   },
   "Tiki Totem": {
@@ -3100,17 +3100,17 @@ export const ITEM_DETAILS: Items = {
   },
   Pearl: {
     image: pearl,
-    description: SELLABLE_TREASURE.Pearl.description,
+    description: SELLABLE_TREASURES.Pearl.description,
     translatedName: translate("treasure.pearl"),
   },
   Pipi: {
     image: pipi,
-    description: SELLABLE_TREASURE.Pipi.description,
+    description: SELLABLE_TREASURES.Pipi.description,
     translatedName: translate("treasure.pipi"),
   },
   Seaweed: {
     image: seaweed,
-    description: SELLABLE_TREASURE.Seaweed.description,
+    description: SELLABLE_TREASURES.Seaweed.description,
     translatedName: translate("treasure.seaweed"),
   },
   "Whale Bear": {
@@ -4974,32 +4974,32 @@ export const ITEM_DETAILS: Items = {
   },
   "Camel Bone": {
     image: camelBone,
-    description: SELLABLE_TREASURE["Camel Bone"].description,
+    description: SELLABLE_TREASURES["Camel Bone"].description,
     translatedName: translate("treasure.camelBone"),
   },
   "Cockle Shell": {
     image: cockleShell,
-    description: SELLABLE_TREASURE["Cockle Shell"].description,
+    description: SELLABLE_TREASURES["Cockle Shell"].description,
     translatedName: translate("treasure.cockleShell"),
   },
   Hieroglyph: {
     image: hieroglyph,
-    description: SELLABLE_TREASURE.Hieroglyph.description,
+    description: SELLABLE_TREASURES.Hieroglyph.description,
     translatedName: translate("treasure.hieroglyph"),
   },
   Sand: {
     image: sand,
-    description: SELLABLE_TREASURE.Sand.description,
+    description: SELLABLE_TREASURES.Sand.description,
     translatedName: translate("treasure.sand"),
   },
   Scarab: {
     image: scarab,
-    description: SELLABLE_TREASURE.Scarab.description,
+    description: SELLABLE_TREASURES.Scarab.description,
     translatedName: translate("treasure.scarab"),
   },
   Vase: {
     image: vase,
-    description: SELLABLE_TREASURE.Vase.description,
+    description: SELLABLE_TREASURES.Vase.description,
     translatedName: translate("treasure.vase"),
   },
   "Hapy Jar": {

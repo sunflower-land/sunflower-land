@@ -86,7 +86,7 @@ export type SellableTreasure = {
   to?: Date;
 };
 
-export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
+export const SELLABLE_TREASURES: Record<BeachBountyTreasure, SellableTreasure> =
   {
     Sand: {
       sellPrice: 10,
