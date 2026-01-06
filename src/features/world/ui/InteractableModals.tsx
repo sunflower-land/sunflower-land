@@ -15,7 +15,6 @@ import { Raffle } from "./chests/Raffle";
 import { FanArt } from "./FanArt";
 import { BankModal } from "features/game/components/bank/components/BankModal";
 import { GarbageCollectorModal } from "features/helios/components/garbageCollector/components/GarbageCollectorModal";
-import { WishingWellModal } from "features/game/components/bank/components/WishingWellModal";
 import { GoblinMarket } from "./market/GoblinMarket";
 import { VIPGift } from "./VIPGift";
 import { ChickenRescue } from "./portals/ChickenRescue";
@@ -478,9 +477,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           <GarbageCollectorModal />
         </CloseButtonPanel>
       </Modal>
-      {interactable === "wishingWell" && (
-        <WishingWellModal onClose={closeModal} />
-      )}
+
       <Modal show={interactable === "plaza_statue"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}

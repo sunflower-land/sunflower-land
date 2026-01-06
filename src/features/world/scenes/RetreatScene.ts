@@ -138,15 +138,6 @@ export class RetreatScene extends BaseScene {
 
     this.add.sprite(147, 200, "exchange_disc").setDepth(1000000000);
 
-    const wishingWell = this.add.sprite(532, 71, "wishing_well");
-    wishingWell.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      if (this.checkDistanceToSprite(wishingWell, 75)) {
-        interactableModalManager.open("wishingWell");
-      } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
-      }
-    });
-
     this.add.sprite(513, 404, "balloon");
 
     const blacksmith = this.add.sprite(193, 77, "blacksmith");

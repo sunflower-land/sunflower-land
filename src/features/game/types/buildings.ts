@@ -12,8 +12,11 @@ export type CookingBuildingName =
   | "Deli"
   | "Smoothie Shack";
 
+export type FoodProcessingBuildingName = "Fish Market";
+
 export type BuildingName =
   | CookingBuildingName
+  | FoodProcessingBuildingName
   | "Market"
   | "Town Center"
   | "Workbench"
@@ -28,7 +31,6 @@ export type BuildingName =
   | Home
   | "Crop Machine"
   | "Barn"
-  | "Fish Market"
   | "Crafting Box"
   | "Pet House";
 
@@ -503,4 +505,14 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   "Fish Market": { width: 3, height: 2 },
   "Crafting Box": { width: 3, height: 2 },
   "Pet House": { width: 3, height: 2 },
+};
+
+const FOOD_PROCESSING_BUILDINGS: FoodProcessingBuildingName[] = ["Fish Market"];
+
+export const isFoodProcessingBuilding = (
+  buildingName: BuildingName,
+): buildingName is FoodProcessingBuildingName => {
+  return FOOD_PROCESSING_BUILDINGS.includes(
+    buildingName as FoodProcessingBuildingName,
+  );
 };

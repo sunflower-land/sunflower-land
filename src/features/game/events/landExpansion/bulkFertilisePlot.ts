@@ -21,15 +21,24 @@ type Options = {
 };
 
 export const getPlotsToFertilise = (state: GameState, createdAt: number) => {
-  return Object.entries(state.crops).filter(([, plot]) => {
+  const eligible = Object.entries(state.crops).filter(([_, plot]) => {
+    const hasPlacedPosition = plot.x !== undefined && plot.y !== undefined;
+    const hasNoFertiliser = !plot.fertiliser;
+    const isEmpty = !plot.crop;
+    const isGrowing =
+      !!plot.crop &&
+      !isReadyToHarvest(createdAt, plot.crop, CROPS[plot.crop.name]);
+
     return (
-      plot.x !== undefined &&
-      plot.y !== undefined &&
-      !plot.fertiliser &&
-      plot.crop &&
-      !isReadyToHarvest(createdAt, plot.crop, CROPS[plot.crop.name])
+      hasPlacedPosition &&
+      hasNoFertiliser &&
+      // Allow fertilising empty plots (applies to next planted crop),
+      // or crops that are still growing (not ready to harvest).
+      (isEmpty || isGrowing)
     );
   });
+
+  return eligible;
 };
 
 export function bulkFertilisePlot({
@@ -81,6 +90,7 @@ export function bulkFertilisePlot({
     }
 
     game.inventory[action.fertiliser] = fertiliserCount.minus(applied);
+
     game.farmActivity = trackFarmActivity(
       `Crop Fertilised`,
       game.farmActivity,

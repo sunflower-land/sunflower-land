@@ -35,7 +35,7 @@ import {
 } from "features/game/types/buildings";
 import { GameEventName, PlacementEvent } from "features/game/events";
 import { RESOURCES, ResourceName } from "features/game/types/resources";
-import { GameState } from "features/game/types/game";
+import { GameState, PlacedItem } from "features/game/types/game";
 import { removePlaceable } from "./lib/placing";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -48,6 +48,14 @@ import flipped from "assets/icons/flipped.webp";
 import flipIcon from "assets/icons/flip.webp";
 import debounce from "lodash.debounce";
 import { LIMITED_ITEMS } from "features/game/events/landExpansion/burnCollectible";
+import { PET_SHRINES } from "features/game/types/pets";
+import {
+  EXPIRY_COOLDOWNS,
+  TemporaryCollectibleName,
+} from "features/game/lib/collectibleBuilt";
+import { useNow } from "lib/utils/hooks/useNow";
+import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
+import { hasFeatureAccess } from "lib/flags";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -161,6 +169,9 @@ function getOverlappingCollectibles({
 
 export function getRemoveAction(
   name: LandscapingPlaceable | undefined,
+  now: number,
+  hasRenewAccess: boolean,
+  collectible?: PlacedItem,
 ): GameEventName<PlacementEvent> | null {
   if (!name) {
     return null;
@@ -177,6 +188,14 @@ export function getRemoveAction(
   }
 
   if (LIMITED_ITEMS.includes(name as CollectibleName)) {
+    const isShrine = name in PET_SHRINES || name === "Obsidian Shrine";
+    if (isShrine && hasRenewAccess && collectible) {
+      const cooldown = EXPIRY_COOLDOWNS[name as TemporaryCollectibleName];
+      if (!cooldown || (collectible.createdAt ?? 0) + cooldown > now) {
+        return null;
+      }
+      return "collectible.removed";
+    }
     return null;
   }
 
@@ -287,6 +306,21 @@ const detect = (
 // Keep track of the only one overlap menu open across all MoveableComponent instances
 let closeCurrentOverlapMenu: (() => void) | null = null;
 
+export const getSelectedCollectible =
+  (
+    name: LandscapingPlaceable | undefined,
+    id: string | undefined,
+    location: PlaceableLocation,
+  ) =>
+  (state: GameMachineState) => {
+    if (!name || !isCollectible(name)) return undefined;
+    return (
+      location === "home"
+        ? state.context.state.home.collectibles
+        : state.context.state.collectibles
+    )[name]?.find((collectible) => collectible.id === id);
+  };
+
 export const MoveableComponent: React.FC<
   React.PropsWithChildren<MovableProps>
 > = ({
@@ -372,7 +406,22 @@ export const MoveableComponent: React.FC<
 
   const isSelected = movingItem?.id === id && movingItem?.name === name;
 
-  const removeAction = !isMobile && getRemoveAction(name);
+  const selectedCollectible = useSelector(
+    gameService,
+    getSelectedCollectible(name, id, location),
+  );
+  const hasRenewAccess = useSelector(gameService, (state) =>
+    hasFeatureAccess(state.context.state, "RENEW_PET_SHRINES"),
+  );
+
+  const isShrine = name in PET_SHRINES || name === "Obsidian Shrine";
+
+  const now = useNow({ live: isShrine });
+
+  const removeAction =
+    !isMobile &&
+    getRemoveAction(name, now, hasRenewAccess, selectedCollectible);
+
   const hasRemovalAction = !!removeAction;
 
   const hasFlipAction = !isMobile && isCollectible(name);

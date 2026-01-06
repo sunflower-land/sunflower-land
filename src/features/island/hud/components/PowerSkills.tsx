@@ -28,6 +28,7 @@ import {
   getSkillCooldown,
   powerSkillDisabledConditions,
 } from "features/game/events/landExpansion/skillUsed";
+import { getPlotsToFertilise } from "features/game/events/landExpansion/bulkFertilisePlot";
 import { getRelativeTime, millisecondsToString } from "lib/utils/time";
 import { ConfirmButton } from "components/ui/ConfirmButton";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -68,7 +69,7 @@ const PowerSkillsContent: React.FC<{
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const { bumpkin, crops, fruitPatches, inventory } = state;
+  const { bumpkin, fruitPatches, inventory } = state;
   const { skills, previousPowerUseAt } = bumpkin;
   const now = useNow();
 
@@ -109,6 +110,10 @@ const PowerSkillsContent: React.FC<{
     skillName === "Sprout Surge" || skillName === "Root Rocket";
 
   const isFruitFertiliserSkill = skillName === "Blend-tastic";
+
+  const cropFertiliseEligible = isCropFertiliserSkill
+    ? getPlotsToFertilise(state, now)
+    : [];
 
   const useSkill = () => {
     if (isCropFertiliserSkill) {
@@ -213,13 +218,7 @@ const PowerSkillsContent: React.FC<{
               <div className="flex flex-col items-center mb-2">
                 <RequirementLabel
                   type="item"
-                  requirement={
-                    new Decimal(
-                      Object.values(crops).filter(
-                        (plot) => !plot.fertiliser,
-                      ).length,
-                    )
-                  }
+                  requirement={new Decimal(cropFertiliseEligible.length)}
                   item={
                     skillName === "Sprout Surge" ? "Sprout Mix" : "Rapid Root"
                   }

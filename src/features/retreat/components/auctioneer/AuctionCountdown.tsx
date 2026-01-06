@@ -17,7 +17,6 @@ import {
 import { getAuctionItemType } from "./lib/getAuctionItemType";
 import { useNow } from "lib/utils/hooks/useNow";
 import { AuthMachineState } from "features/auth/lib/authMachine";
-import { MachineState } from "features/game/lib/gameMachine";
 
 const Countdown: React.FC<{ auction: Auction; onComplete: () => void }> = ({
   auction,
@@ -83,15 +82,12 @@ const Countdown: React.FC<{ auction: Auction; onComplete: () => void }> = ({
 
 const _token = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
-const _transactionId = (state: MachineState) =>
-  state.context.transactionId as string;
 
 export const AuctionCountdown: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
 
   const token = useSelector(authService, _token);
-  const transactionId = useSelector(gameService, _transactionId);
 
   const [auction, setAuction] = useState<Auction | undefined>();
 
@@ -99,7 +95,8 @@ export const AuctionCountdown: React.FC = () => {
     const load = async () => {
       const upcoming = await loadUpcomingAuction({
         token,
-        transactionId,
+        transactionId: gameService.getSnapshot().context
+          .transactionId as string,
       });
 
       if (upcoming && getAuctionCountdownLastRead() !== upcoming.auctionId) {
@@ -108,7 +105,7 @@ export const AuctionCountdown: React.FC = () => {
     };
 
     load();
-  }, [token, transactionId]);
+  }, [token]);
 
   const handleClick = () => {
     if (auction) {

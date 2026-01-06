@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { Context } from "../lib/Provider";
 
 import walletIcon from "assets/icons/wallet.png";
+import tradeIcon from "assets/icons/trade.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -12,6 +13,36 @@ export const Welcome: React.FC = () => {
 
   return (
     <div className="p-2">
+      <div
+        className="flex gap-2 overflow-x-hidden justify-center mb-1"
+        style={{
+          borderBottom: "1px solid #ead4aa",
+          paddingBottom: "8px",
+        }}
+      >
+        <div className="flex items-center">
+          <img src={SUNNYSIDE.icons.plant} className="h-4 mr-1" />
+          <p className="text-xs">{t("welcome.action.grow")}</p>
+        </div>
+        <div className="flex items-center">
+          <img src={SUNNYSIDE.tools.hammer} className="h-4 mr-1" />
+          <p className="text-xs">{t("welcome.action.build")}</p>
+        </div>
+        <div className="flex items-center">
+          <img src={SUNNYSIDE.icons.fish} className="h-4 mr-1" />
+          <p className="text-xs">{t("welcome.action.fish")}</p>
+        </div>
+        <div className="flex items-center">
+          <img src={SUNNYSIDE.tools.iron_pickaxe} className="h-4 mr-1" />
+          <p className="text-xs">{t("welcome.action.mine")}</p>
+        </div>
+
+        <div className="flex items-center">
+          <img src={tradeIcon} className="h-4 mr-1" />
+          <p className="text-xs">{t("welcome.action.trade")}</p>
+        </div>
+      </div>
+      <p className="text-xs text-center mb-2">{t("welcome.playInstantly")}</p>
       <Button
         className="mb-1 py-2 text-sm relative"
         onClick={() => authService.send("SIGN_IN")}
@@ -48,7 +79,7 @@ export const Welcome: React.FC = () => {
           href="https://docs.sunflower-land.com/getting-started/how-to-start"
           target="_blank"
           rel="noopener noreferrer"
-          className="underline text-base font-secondary"
+          className="underline font-secondary text-sm"
         >
           {t("welcome.needHelp")}
         </a>

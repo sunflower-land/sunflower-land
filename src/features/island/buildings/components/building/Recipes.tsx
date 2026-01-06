@@ -221,10 +221,10 @@ export const Recipes: React.FC<Props> = ({
           <>
             {cooking && (
               <InProgressInfo
-                cooking={cooking}
+                product={cooking}
                 onClose={onClose}
                 isOilBoosted={!!isOilBoosted}
-                onInstantCooked={handleInstantCook}
+                onInstantReady={handleInstantCook}
                 state={state}
               />
             )}
@@ -233,9 +233,9 @@ export const Recipes: React.FC<Props> = ({
               <Queue
                 buildingName={buildingName}
                 buildingId={buildingId as string}
-                cooking={cooking}
+                product={cooking}
                 queue={queue}
-                readyRecipes={readyRecipes}
+                readyProducts={readyRecipes}
                 onClose={onClose}
               />
             )}

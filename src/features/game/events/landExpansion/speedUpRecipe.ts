@@ -8,7 +8,10 @@ import { getKeys } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { getCurrentCookingItem, recalculateQueue } from "./cancelQueuedRecipe";
-import { CookableName } from "features/game/types/consumables";
+import {
+  assertCookableName,
+  CookableName,
+} from "features/game/types/consumables";
 import { getCookingAmount } from "./collectRecipe";
 
 export type InstantCookRecipe = {
@@ -142,15 +145,17 @@ export function speedUpRecipe({
     }
 
     game.inventory["Gem"] = (game.inventory["Gem"] ?? new Decimal(0)).sub(gems);
+    const cookableName = assertCookableName(recipe.name);
+
     const amount = getCookingAmount({
       building: action.buildingName,
       game,
       recipe,
       farmId,
-      counter: game.farmActivity[`${recipe.name} Cooked`] || 0,
+      counter: game.farmActivity[`${cookableName} Cooked`] || 0,
     });
-    game.inventory[recipe.name] = (
-      game.inventory[recipe.name] ?? new Decimal(0)
+    game.inventory[cookableName] = (
+      game.inventory[cookableName] ?? new Decimal(0)
     ).add(amount);
 
     const queueWithoutSpedUpRecipe = queue.filter(
@@ -168,7 +173,7 @@ export function speedUpRecipe({
     game = makeGemHistory({ game, amount: gems });
 
     game.farmActivity = trackFarmActivity(
-      `${recipe.name} Cooked`,
+      `${cookableName} Cooked`,
       game.farmActivity,
     );
 

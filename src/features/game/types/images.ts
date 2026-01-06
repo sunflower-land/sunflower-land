@@ -23,6 +23,11 @@ import gladiolusSeed from "assets/flowers/gladiolus_seed.webp";
 import lavenderSeed from "assets/flowers/lavender_seed.webp";
 import cloverSeed from "assets/flowers/clover_seed.webp";
 
+import fishFlake from "assets/processedFoods/fish_flake.webp";
+import fishStick from "assets/processedFoods/fish_stick.webp";
+import fishOil from "assets/processedFoods/fish_oil.webp";
+import crabStick from "assets/processedFoods/crab_stick.webp";
+
 import gem from "assets/icons/gem.webp";
 import tradePoint from "assets/icons/trade_points_coupon.webp";
 
@@ -3642,19 +3647,19 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("bait.fishingLure"),
   },
   "Fish Flake": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: fishFlake,
     description: PROCESSED_FOODS["Fish Flake"].description,
   },
   "Fish Stick": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: fishStick,
     description: PROCESSED_FOODS["Fish Stick"].description,
   },
   "Fish Oil": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: fishOil,
     description: PROCESSED_FOODS["Fish Oil"].description,
   },
   "Crab Stick": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: crabStick,
     description: PROCESSED_FOODS["Crab Stick"].description,
   },
   "Sprout Mix": {
