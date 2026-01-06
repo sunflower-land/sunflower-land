@@ -3,7 +3,7 @@ import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 import {
   BeachBountyTreasure,
-  SELLABLE_TREASURE,
+  SELLABLE_TREASURES,
 } from "features/game/types/treasure";
 import { sellTreasure } from "./treasureSold";
 
@@ -74,7 +74,7 @@ describe("treasureSold", () => {
 
     expect(state.inventory["Clam Shell"]).toEqual(new Decimal(4));
     expect(state.coins).toEqual(
-      GAME_STATE.coins + SELLABLE_TREASURE["Clam Shell"].sellPrice,
+      GAME_STATE.coins + SELLABLE_TREASURES["Clam Shell"].sellPrice,
     );
   });
 
@@ -95,7 +95,7 @@ describe("treasureSold", () => {
 
     expect(state.inventory["Wooden Compass"]).toEqual(new Decimal(4));
     expect(state.coins).toEqual(
-      GAME_STATE.coins + SELLABLE_TREASURE["Wooden Compass"].sellPrice,
+      GAME_STATE.coins + SELLABLE_TREASURES["Wooden Compass"].sellPrice,
     );
   });
 
@@ -126,7 +126,7 @@ describe("treasureSold", () => {
 
     expect(state.inventory["Clam Shell"]).toEqual(new Decimal(4));
     expect(state.coins).toEqual(
-      GAME_STATE.coins + SELLABLE_TREASURE["Clam Shell"].sellPrice * 1.2,
+      GAME_STATE.coins + SELLABLE_TREASURES["Clam Shell"].sellPrice * 1.2,
     );
   });
 
@@ -157,7 +157,7 @@ describe("treasureSold", () => {
 
     expect(state.inventory["Clam Shell"]).toEqual(new Decimal(4));
     expect(state.coins).toEqual(
-      GAME_STATE.coins + SELLABLE_TREASURE["Clam Shell"].sellPrice * 1.3,
+      GAME_STATE.coins + SELLABLE_TREASURES["Clam Shell"].sellPrice * 1.3,
     );
   });
 
@@ -178,7 +178,7 @@ describe("treasureSold", () => {
 
     expect(state.inventory["Clam Shell"]).toEqual(new Decimal(1));
     expect(state.coins).toEqual(
-      GAME_STATE.coins + SELLABLE_TREASURE["Clam Shell"].sellPrice * 4,
+      GAME_STATE.coins + SELLABLE_TREASURES["Clam Shell"].sellPrice * 4,
     );
   });
 
@@ -215,7 +215,7 @@ describe("treasureSold", () => {
       },
     });
     expect(state.farmActivity["Coins Earned"]).toEqual(
-      SELLABLE_TREASURE["Clam Shell"].sellPrice,
+      SELLABLE_TREASURES["Clam Shell"].sellPrice,
     );
   });
 

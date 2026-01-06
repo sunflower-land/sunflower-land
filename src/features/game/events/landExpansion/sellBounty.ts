@@ -25,7 +25,7 @@ import {
   getChapterTicket,
 } from "features/game/types/chapters";
 import {
-  SELLABLE_TREASURE,
+  SELLABLE_TREASURES,
   BeachBountyTreasure,
 } from "features/game/types/treasure";
 import { produce } from "immer";
@@ -47,7 +47,7 @@ export const BOUNTY_CATEGORIES = {
           crop !== "Giant Orange",
       )
       .includes(bounty.name) ||
-    getKeys(SELLABLE_TREASURE).includes(bounty.name as BeachBountyTreasure) ||
+    getKeys(SELLABLE_TREASURES).includes(bounty.name as BeachBountyTreasure) ||
     FULL_MOON_FRUITS.includes(bounty.name as FullMoonFruit) ||
     bounty.name in RECIPE_CRAFTABLES,
   "Giant Fruit Bounties": (bounty: BountyRequest): bounty is GiantFruitBounty =>
