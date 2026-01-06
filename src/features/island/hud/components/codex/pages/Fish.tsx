@@ -33,6 +33,7 @@ import { ModalOverlay } from "components/ui/ModalOverlay";
 import { getChapterMarvelFish } from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
 import { Box } from "components/ui/Box";
+import { hasFeatureAccess } from "lib/flags";
 
 const FISH_BY_TYPE = getFishByType();
 
@@ -252,6 +253,10 @@ export const MarineMarvelMaps: React.FC<{ state: GameState }> = ({ state }) => {
   const remainingMarvels = getKeys(MAP_PIECES).filter(
     (marvel) => !state.farmActivity[`${marvel} Caught`],
   );
+
+  if (!hasFeatureAccess(state, "MAP_PIECES")) {
+    return null;
+  }
 
   if (remainingMarvels.length === 0) {
     return null;
