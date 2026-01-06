@@ -49,12 +49,14 @@ export const Fisherman: React.FC = () => {
     chum?: InventoryItemName,
     multiplier?: number,
     guaranteedCatch?: FishName,
+    reelPacksToBuy?: number,
   ) => {
     gameService.send("rod.casted", {
       bait,
       chum,
       multiplier,
       guaranteedCatch,
+      reelPacksToBuy,
     });
     gameService.send("SAVE");
     setShowModal(false);

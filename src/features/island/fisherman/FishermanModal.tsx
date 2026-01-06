@@ -13,14 +13,12 @@ import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { FishingGuide } from "./FishingGuide";
 import { getDailyFishingCount } from "features/game/types/fishing";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getReelGemPrice } from "features/game/events/landExpansion/buyMoreReels";
 import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
 import { capitalizeFirstLetters } from "lib/utils/capitalize";
 import { FishermanExtras } from "./FishermanExtras";
 import { OldBaitSelection } from "./OldBaitSelection";
 import { BaitSelection } from "./BaitSelection";
 import { hasFeatureAccess } from "lib/flags";
-import { gameAnalytics } from "lib/gameAnalytics";
 import { MachineState } from "features/game/lib/gameMachine";
 
 const host = window.location.host.replace(/^www\./, "");
@@ -67,18 +65,6 @@ export const FishermanModal: React.FC<Props> = ({
   );
 
   const [tab, setTab] = useState(0);
-  const gemPrice = getReelGemPrice({ state });
-  const confirmBuyMoreReels = () => {
-    setTab(0);
-    gameService.send("fishing.reelsBought");
-
-    gameAnalytics.trackSink({
-      currency: "Gem",
-      amount: gemPrice,
-      item: "FishingReels",
-      type: "Fee",
-    });
-  };
 
   const BaitSelectionComponent = hasFeatureAccess(state, "MULTI_CAST")
     ? BaitSelection
