@@ -42,6 +42,7 @@ interface InitialLandCoordinates {
   iron: Record<string, Coordinates>;
   stones: Record<string, Coordinates>;
   oilReserves?: Record<string, Coordinates>;
+  trapSpots?: Record<string, Coordinates>;
 }
 
 const INITIAL_SPRING_LAND_COORDINATES: InitialLandCoordinates = {
@@ -90,6 +91,10 @@ const INITIAL_SPRING_LAND_COORDINATES: InitialLandCoordinates = {
     "1": { x: -3, y: 5 },
     "2": { x: -2, y: 3 },
   },
+  trapSpots: {
+    "1": { x: -3, y: -4 },
+    "2": { x: -2, y: -6 },
+  },
 };
 
 const INITIAL_DESERT_LAND_COORDINATES: InitialLandCoordinates = {
@@ -137,6 +142,11 @@ const INITIAL_DESERT_LAND_COORDINATES: InitialLandCoordinates = {
   stones: {
     "1": { x: -3, y: 5 },
     "2": { x: -2, y: 3 },
+  },
+  trapSpots: {
+    "1": { x: -3, y: -4 },
+    "2": { x: -2, y: -6 },
+    "3": { x: -0.5, y: -6 },
   },
 };
 
@@ -189,6 +199,12 @@ const INITIAL_VOLCANO_LAND_COORDINATES: InitialLandCoordinates = {
   oilReserves: {
     "1": { x: -8, y: 8 },
   },
+  trapSpots: {
+    "1": { x: -3, y: -4 },
+    "2": { x: -2, y: -6 },
+    "3": { x: -0.5, y: -6 },
+    "4": { x: 1, y: -6 },
+  },
 };
 
 /**
@@ -218,6 +234,7 @@ function placeInitialLand({
     iron,
     stones,
     oilReserves,
+    trapSpots,
   } = initialLandCoordinates;
 
   getObjectEntries(buildings).forEach(([building, coordinates]) => {
@@ -359,6 +376,9 @@ function placeInitialLand({
       }
     });
   }
+
+  stateCopy.crabTraps = { trapSpots };
+
   stateCopy = cloneDeep(stateCopy);
 
   return stateCopy;

@@ -1288,9 +1288,8 @@ type FishingSpot = {
 };
 
 type WaterTrapSpot = {
-  coordinates: Coordinates;
   waterTrap?: WaterTrap;
-};
+} & Coordinates;
 
 export type WaterTrap = {
   type: WaterTrapName;

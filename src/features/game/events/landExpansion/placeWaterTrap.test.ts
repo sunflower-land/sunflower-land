@@ -15,10 +15,8 @@ const GAME_STATE: GameState = {
   crabTraps: {
     trapSpots: {
       [trapId]: {
-        coordinates: {
-          x: 0,
-          y: 0,
-        },
+        x: 0,
+        y: 0,
       },
     },
   },
@@ -56,10 +54,8 @@ describe("placeWaterTrap", () => {
           crabTraps: {
             trapSpots: {
               [trapId]: {
-                coordinates: {
-                  x: 0,
-                  y: 0,
-                },
+                x: 0,
+                y: 0,
                 waterTrap: {
                   type: "Crab Pot",
                   placedAt: createdAt - 1000,

@@ -10,10 +10,8 @@ const GAME_STATE: GameState = {
   crabTraps: {
     trapSpots: {
       [trapId]: {
-        coordinates: {
-          x: 0,
-          y: 0,
-        },
+        x: 0,
+        y: 0,
       },
     },
   },
@@ -43,10 +41,8 @@ describe("collectWaterTrap", () => {
           crabTraps: {
             trapSpots: {
               [trapId]: {
-                coordinates: {
-                  x: 0,
-                  y: 0,
-                },
+                x: 0,
+                y: 0,
                 waterTrap: {
                   type: "Crab Pot",
                   placedAt: createdAt - 1000,
@@ -77,10 +73,8 @@ describe("collectWaterTrap", () => {
         crabTraps: {
           trapSpots: {
             [trapId]: {
-              coordinates: {
-                x: 0,
-                y: 0,
-              },
+              x: 0,
+              y: 0,
               waterTrap: {
                 type: "Crab Pot",
                 placedAt: createdAt - 1000,
@@ -117,10 +111,8 @@ describe("collectWaterTrap", () => {
         crabTraps: {
           trapSpots: {
             [trapId]: {
-              coordinates: {
-                x: 0,
-                y: 0,
-              },
+              x: 0,
+              y: 0,
               waterTrap: {
                 type: "Mariner Pot",
                 placedAt: createdAt - 1000,
@@ -155,10 +147,8 @@ describe("collectWaterTrap", () => {
         crabTraps: {
           trapSpots: {
             [trapId]: {
-              coordinates: {
-                x: 0,
-                y: 0,
-              },
+              x: 0,
+              y: 0,
               waterTrap: {
                 type: "Crab Pot",
                 placedAt: createdAt - 1000,
@@ -167,10 +157,8 @@ describe("collectWaterTrap", () => {
               },
             },
             "other-trap": {
-              coordinates: {
-                x: 0,
-                y: 0,
-              },
+              x: 0,
+              y: 0,
               waterTrap: {
                 type: "Crab Pot",
                 placedAt: createdAt - 1000,
