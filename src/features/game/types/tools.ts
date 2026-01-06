@@ -5,7 +5,6 @@
 import Decimal from "decimal.js-light";
 import { Inventory, IslandType, LoveAnimalItem, Skills } from "./game";
 import { translate } from "lib/i18n/translate";
-import { testnetFeatureFlag } from "lib/flags";
 import { WATER_TRAP } from "./crustaceans";
 
 export type WorkbenchToolName =
@@ -134,7 +133,6 @@ export const WORKBENCH_TOOLS: Record<
       Wool: new Decimal(3),
     }),
     stock: new Decimal(15),
-    disabled: !testnetFeatureFlag(),
     requiredLevel: WATER_TRAP["Crab Pot"].requiredBumpkinLevel,
   },
   "Mariner Pot": {
@@ -146,7 +144,6 @@ export const WORKBENCH_TOOLS: Record<
       "Merino Wool": new Decimal(10),
     }),
     stock: new Decimal(10),
-    disabled: !testnetFeatureFlag(),
     requiredLevel: WATER_TRAP["Mariner Pot"].requiredBumpkinLevel,
   },
 };
