@@ -74,11 +74,13 @@ export function getReelsPackGemPrice({
 
   const timesBoughtToday = timesBought[today] ?? 0;
 
-  // Price for ONE pack at the current scale
-  const singlePackPrice = basePrice * gemMultiplier ** timesBoughtToday;
+  // Sum the cost of each pack at the incremented price scale
+  let totalPrice = 0;
+  for (let i = 0; i < packs; i++) {
+    totalPrice += basePrice * gemMultiplier ** (timesBoughtToday + i);
+  }
 
-  // Total price for N packs
-  return singlePackPrice * packs;
+  return totalPrice;
 }
 
 export function castRod({

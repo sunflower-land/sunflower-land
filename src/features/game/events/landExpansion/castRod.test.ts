@@ -102,7 +102,7 @@ describe("castRod", () => {
         ...INITIAL_FARM,
         inventory: {
           ...INITIAL_FARM.inventory,
-          Gem: new Decimal(30),
+          Gem: new Decimal(70),
           Rod: new Decimal(1),
           Earthworm: new Decimal(1),
         },
@@ -810,5 +810,31 @@ describe("getReelsPackGemPrice", () => {
       createdAt: Date.now(),
     });
     expect(price).toEqual(20);
+  });
+
+  it("scales price exponentially across multiple packs in one purchase", () => {
+    const now = new Date();
+    const today = now.toISOString().split("T")[0];
+    const price = getReelsPackGemPrice({
+      state: {
+        ...INITIAL_FARM,
+        fishing: {
+          wharf: {},
+          dailyAttempts: {
+            [today]: 20,
+          },
+          extraReels: {
+            timesBought: {
+              [today]: 2,
+            },
+            count: 0,
+          },
+        },
+      },
+      packs: 3,
+      createdAt: Date.now(),
+    });
+    // Prices: 40, 80, 160 => total 280
+    expect(price).toEqual(280);
   });
 });
