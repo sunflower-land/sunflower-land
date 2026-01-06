@@ -564,6 +564,14 @@ import {
   RenewPetShrineAction,
 } from "./landExpansion/renewPetShrine";
 import {
+  placeWaterTrap,
+  PlaceWaterTrapAction,
+} from "./landExpansion/placeWaterTrap";
+import {
+  collectWaterTrap,
+  CollectWaterTrapAction,
+} from "./landExpansion/collectWaterTrap";
+import {
   speedUpProcessing,
   SpeedUpProcessingAction,
 } from "./landExpansion/speedUpProcessing";
@@ -730,6 +738,8 @@ export type PlayingEvent =
   | BumpkinWaveAction
   | BulkFertilisePlotAction
   | RenewPetShrineAction
+  | CollectWaterTrapAction
+  | PlaceWaterTrapAction
   | SpeedUpProcessingAction;
 
 export type LocalVisitingEvent =
@@ -983,6 +993,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "pet.pet": petPet,
   "trades.cleared": clearTrades,
   "petShrine.renewed": renewPetShrine,
+  "waterTrap.placed": placeWaterTrap,
+  "waterTrap.collected": collectWaterTrap,
 };
 
 export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {

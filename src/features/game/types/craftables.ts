@@ -231,7 +231,9 @@ export type ToolName =
   | "Gold Pickaxe"
   | "Hammer"
   | "Rod"
-  | "Oil Drill";
+  | "Oil Drill"
+  | "Crab Pot"
+  | "Mariner Pot";
 
 export type Shovel = "Rusty Shovel" | "Shovel";
 
@@ -609,6 +611,36 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
       },
     ],
     disabled: true,
+  },
+  "Crab Pot": {
+    name: "Crab Pot",
+    description: translate("description.crab.pot"),
+    price: 250,
+    ingredients: [
+      {
+        item: "Feather",
+        amount: new Decimal(5),
+      },
+      {
+        item: "Wool",
+        amount: new Decimal(3),
+      },
+    ],
+  },
+  "Mariner Pot": {
+    name: "Mariner Pot",
+    description: translate("description.mariner.pot"),
+    price: 500,
+    ingredients: [
+      {
+        item: "Feather",
+        amount: new Decimal(10),
+      },
+      {
+        item: "Merino Wool",
+        amount: new Decimal(10),
+      },
+    ],
   },
 };
 

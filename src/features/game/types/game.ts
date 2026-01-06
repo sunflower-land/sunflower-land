@@ -112,6 +112,7 @@ import { RockName } from "./resources";
 import { PetShopItemName } from "./petShop";
 import { League } from "features/leagues/leagues";
 import { Buff, BuffName } from "./buffs";
+import { CrustaceanName, WaterTrapName } from "./crustaceans";
 
 export type Reward = {
   coins?: number;
@@ -621,7 +622,8 @@ export type InventoryItemName =
   | ClutterName
   | PetName
   | PetResourceName
-  | PetShopItemName;
+  | PetShopItemName
+  | CrustaceanName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -1285,6 +1287,23 @@ type FishingSpot = {
   multiplier?: number;
 };
 
+type WaterTrapSpot = {
+  coordinates: Coordinates;
+  waterTrap?: WaterTrap;
+};
+
+export type WaterTrap = {
+  type: WaterTrapName;
+  placedAt: number;
+  chum?: InventoryItemName;
+  readyAt: number;
+  caught?: Partial<Record<InventoryItemName, number>>;
+};
+
+export type CrabTrap = {
+  trapSpots?: Record<string, WaterTrapSpot>;
+};
+
 export type Fishing = {
   wharf: FishingSpot;
   dailyAttempts?: {
@@ -1742,6 +1761,7 @@ export interface GameState {
     flowerBeds: FlowerBeds;
   };
   fishing: Fishing;
+  crabTraps: CrabTrap;
   farmActivity: Partial<Record<FarmActivityName, number>>;
   milestones: Partial<Record<MilestoneName, number>>;
 

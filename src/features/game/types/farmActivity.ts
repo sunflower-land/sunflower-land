@@ -49,6 +49,7 @@ import { WeatherShopItem } from "./calendar";
 import { PetShopItemName } from "./petShop";
 import { MonumentName } from "./monuments";
 import { BumpkinItem } from "./bumpkin";
+import { WaterTrapName } from "./crustaceans";
 import { ProcessedFood } from "./processedFood";
 
 export type CaughtEvent = `${InventoryItemName} Caught`;
@@ -216,7 +217,9 @@ export type FarmActivityName =
   | `${MonumentName} Completed`
   | "Daily Reward Collected"
   | "Fish Missed"
-  | "Fish Retried";
+  | "Fish Retried"
+  | `${WaterTrapName} Collected`
+  | `${WaterTrapName} Placed`;
 
 export function trackFarmActivity(
   activityName: FarmActivityName,
