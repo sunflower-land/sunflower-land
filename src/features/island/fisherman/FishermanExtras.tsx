@@ -1,15 +1,13 @@
-import React, { useState, type JSX } from "react";
+import React, { type JSX } from "react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import tradeOffs from "src/assets/icons/tradeOffs.png";
-import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import Decimal from "decimal.js-light";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
@@ -152,89 +150,55 @@ const getItemIcon = (
 
 export const FishermanExtras: React.FC<{
   state: GameState;
-  confirmBuyMoreReels: () => void;
-  gemPrice: number;
-}> = ({ state, confirmBuyMoreReels, gemPrice }) => {
+}> = ({ state }) => {
   const { t } = useAppTranslation();
-  const [showConfirm, setShowConfirm] = useState(false);
-  const { inventory } = state;
-  const canAfford = (inventory["Gem"] ?? new Decimal(0))?.gte(gemPrice);
 
   const reelsLeft = getRemainingReels(state);
   return (
     <>
-      {!showConfirm && (
-        <>
-          <InnerPanel className="mb-1">
-            <div className="flex items-center justify-between space-x-1 mb-1">
-              <Label type="default">{t("fishing.extraReels")}</Label>
-              <Label
-                type={reelsLeft <= 0 ? "danger" : "default"}
-                icon={SUNNYSIDE.tools.fishing_rod}
-              >
-                {reelsLeft === 1
-                  ? t("fishing.oneReelLeft")
-                  : t("fishing.reelsLeft", { reelsLeft })}
-              </Label>
-            </div>
-            <span className="flex text-xs ml-1 my-2">
-              {t("fishing.lookingMoreReels")}
-            </span>
-          </InnerPanel>
-          <InnerPanel className="flex flex-col mb-1 overflow-y-scroll overflow-x-hidden scrollable max-h-[330px]">
-            {Object.entries(BoostReelItems(state)).map(([name, item]) => (
-              <div key={name} className="flex -ml-1">
-                {getItemIcon(
-                  name as
-                    | BumpkinItem
-                    | CollectibleName
-                    | BumpkinRevampSkillName,
-                )}
-                <div className="flex flex-col justify-center space-y-1">
-                  <div className="flex flex-col space-y-0.5">
-                    <span className="text-xs">{name}</span>
-                    <span className="text-xxs italic">{item.location}</span>
-                  </div>
-                  <div className="flex flex-col gap-1 mr-2">
-                    {item.buff.map((buff, index) => (
-                      <Label
-                        key={index}
-                        type={buff.labelType}
-                        icon={buff.boostTypeIcon}
-                        secondaryIcon={buff.boostedItemIcon}
-                      >
-                        {buff.shortDescription}
-                      </Label>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </InnerPanel>
-          <Button
-            disabled={!canAfford}
-            onClick={canAfford ? () => setShowConfirm(true) : undefined}
+      <InnerPanel className="mb-1">
+        <div className="flex items-center justify-between space-x-1 mb-1">
+          <Label type="default">{t("fishing.extraReels")}</Label>
+          <Label
+            type={reelsLeft <= 0 ? "danger" : "default"}
+            icon={SUNNYSIDE.tools.fishing_rod}
           >
-            <div className="flex items-center space-x-1">
-              <p>{t("fishing.buyReels", { gemPrice })}</p>
-              <img src={ITEM_DETAILS.Gem.image} className="w-4" />
+            {reelsLeft === 1
+              ? t("fishing.oneReelLeft")
+              : t("fishing.reelsLeft", { reelsLeft })}
+          </Label>
+        </div>
+        <span className="flex text-xs ml-1 my-2">
+          {t("fishing.lookingMoreReels")}
+        </span>
+      </InnerPanel>
+      <InnerPanel className="flex flex-col mb-1 overflow-y-scroll overflow-x-hidden scrollable max-h-[330px]">
+        {Object.entries(BoostReelItems(state)).map(([name, item]) => (
+          <div key={name} className="flex -ml-1">
+            {getItemIcon(
+              name as BumpkinItem | CollectibleName | BumpkinRevampSkillName,
+            )}
+            <div className="flex flex-col justify-center space-y-1">
+              <div className="flex flex-col space-y-0.5">
+                <span className="text-xs">{name}</span>
+                <span className="text-xxs italic">{item.location}</span>
+              </div>
+              <div className="flex flex-col gap-1 mr-2">
+                {item.buff.map((buff, index) => (
+                  <Label
+                    key={index}
+                    type={buff.labelType}
+                    icon={buff.boostTypeIcon}
+                    secondaryIcon={buff.boostedItemIcon}
+                  >
+                    {buff.shortDescription}
+                  </Label>
+                ))}
+              </div>
             </div>
-          </Button>
-        </>
-      )}
-      {showConfirm && (
-        <InnerPanel>
-          <div className="flex flex-col p-2 pb-0 items-center">
-            <span className="text-sm text-start w-full mb-1">
-              {t("fishing.buyReels.confirmation", { gemPrice })}
-            </span>
           </div>
-          <div className="flex justify-content-around mt-2 space-x-1">
-            <Button onClick={() => setShowConfirm(false)}>{t("cancel")}</Button>
-            <Button onClick={confirmBuyMoreReels}>{t("confirm")}</Button>
-          </div>
-        </InnerPanel>
-      )}
+        ))}
+      </InnerPanel>
     </>
   );
 };

@@ -43,7 +43,9 @@ export const DropdownPanel = <T extends string>({
           {selectedOption?.icon && (
             <img src={selectedOption.icon} className="w-5" />
           )}
-          <p className="ml-1">{selectedOption ? selectedLabel : placeholder}</p>
+          <div className="ml-1">
+            {selectedOption ? selectedLabel : placeholder}
+          </div>
         </div>
         <img
           src={SUNNYSIDE.icons.chevron_down}
