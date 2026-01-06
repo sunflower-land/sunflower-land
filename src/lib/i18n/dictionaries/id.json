@@ -7741,5 +7741,16 @@
   "fishing.lookingMoreReels": "Ahhh Anda mencari lebih banyak gulungan? Jangan khawatir! Anda dapat memilih pengganda pada tab ikan dan membeli lebih banyak gulungan dengan permata tepat sebelum Anda melemparkan. Atau Anda dapat melihat opsi peningkatan di bawah ini!",
   "fishing.buyReels": "Beli 5 gulungan dengan {{gemPrice}}",
   "fishing.buyReels.confirmation": "Apakah Anda yakin ingin membeli 5 gulungan untuk {{gemPrice}}?",
-  "fishing.buyMoreReels": "Beli gulungan {{reels}} untuk {{price}}"
+  "fishing.buyMoreReels": "Beli gulungan {{reels}} untuk {{price}}",
+  "marvelHunt.mapComplete.title": "{{marvel}} Peta Selesai",
+  "marvelHunt.mapComplete.description": "Selamat, Anda telah menemukan semua 9 potongan peta & menemukan lokasi {{marvel}}!",
+  "marvelHunt.searching": "Mencari...",
+  "marvelHunt.reward.title": "Marine Marvel Ditemukan",
+  "marvelHunt.reward.message": "Anda menemukan {{marvel}}!",
+  "fishing.mapDiscovered.title": "Peta Ditemukan",
+  "fishing.mapDiscovered.message": "Selamat, Anda telah menemukan potongan peta baru. Temukan semua 9 buah untuk menemukan Marine Marvel!",
+  "fishing.mapDiscovered.mapName": "{{map}} Peta",
+  "fishing.mapDiscovered.progress": "{{collected}}/{{total}} dikumpulkan",
+  "fishing.marineMarvelMaps.title": "Peta Marvel Laut",
+  "fishing.marineMarvelMaps.description": "Temukan semua 9 potongan peta untuk membuka Marine Marvels yang tersisa!"
 }

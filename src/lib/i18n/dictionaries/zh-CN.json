@@ -7741,5 +7741,16 @@
   "fishing.lookingMoreReels": "啊你在找更多卷轴吗？不用担心！你可以在 “鱼” 选项卡上选择一个乘数，并在施法之前购买更多带有宝石的卷轴。或者你可以查看下面的增强选项！",
   "fishing.buyReels": "使用 {{gemPrice}} 购买 5 个卷轴",
   "fishing.buyReels.confirmation": "你确定要花 [0@/美元] 购买 5 个卷轴吗？",
-  "fishing.buyMoreReels": "以 [1@/美元] 的价格购买 {{reels}} 卷轴"
+  "fishing.buyMoreReels": "以 [1@/美元] 的价格购买 {{reels}} 卷轴",
+  "marvelHunt.mapComplete.title": "{{marvel}} 地图完成",
+  "marvelHunt.mapComplete.description": "恭喜，你找到了所有 9 张地图碎片并发现了 {{marvel}} 的位置！",
+  "marvelHunt.searching": "正在搜索...",
+  "marvelHunt.reward.title": "海洋奇迹被发现",
+  "marvelHunt.reward.message": "你发现了 {{marvel}}！",
+  "fishing.mapDiscovered.title": "地图已发现",
+  "fishing.mapDiscovered.message": "恭喜，你发现了一张新地图。找到全部 9 件作品，探索海洋奇迹！",
+  "fishing.mapDiscovered.mapName": "{{map}} 地图",
+  "fishing.mapDiscovered.progress": "{{collected}}/{{total}} 已收集",
+  "fishing.marineMarvelMaps.title": "海洋漫威地图",
+  "fishing.marineMarvelMaps.description": "发现所有 9 个地图碎片，解锁剩余的海洋奇迹！"
 }

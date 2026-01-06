@@ -7741,5 +7741,16 @@
   "fishing.lookingMoreReels": "Ahhh, tu cherches d'autres bobines ? Pas de soucis ! Vous pouvez sélectionner un multiplicateur sur l'onglet poissons et acheter d'autres rouleaux contenant des pierres précieuses juste avant de lancer. Ou vous pouvez consulter les options de boost ci-dessous !",
   "fishing.buyReels": "Achetez 5 rouleaux avec {{gemPrice}}",
   "fishing.buyReels.confirmation": "Êtes-vous sûr de vouloir acheter 5 bobines pour {{gemPrice}} ?",
-  "fishing.buyMoreReels": "Achetez des bobines {{reels}} pour {{price}}"
+  "fishing.buyMoreReels": "Achetez des bobines {{reels}} pour {{price}}",
+  "marvelHunt.mapComplete.title": "{{marvel}} Carte terminée",
+  "marvelHunt.mapComplete.description": "Félicitations, vous avez trouvé les 9 parties de la carte et découvert l'emplacement du {{marvel}} !",
+  "marvelHunt.searching": "À la recherche...",
+  "marvelHunt.reward.title": "Découverte de Marine Marvel",
+  "marvelHunt.reward.message": "Vous avez découvert le {{marvel}} !",
+  "fishing.mapDiscovered.title": "Carte découverte",
+  "fishing.mapDiscovered.message": "Félicitations, vous avez découvert un nouveau morceau de carte. Trouvez les 9 pièces pour découvrir le Marine Marvel !",
+  "fishing.mapDiscovered.mapName": "{{map}} Carte",
+  "fishing.mapDiscovered.progress": "{{collected}}/{{total}} collectés",
+  "fishing.marineMarvelMaps.title": "Cartes de Marine Marvel",
+  "fishing.marineMarvelMaps.description": "Découvrez les 9 pièces de la carte pour débloquer les Marvels marines restantes !"
 }

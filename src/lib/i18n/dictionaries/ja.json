@@ -7741,5 +7741,16 @@
   "fishing.lookingMoreReels": "ああ、もっとリールを探していますか？ご心配なく！フィッシュタブでマルチプライヤーを選択し、キャストする直前にジェム付きのリールをさらに購入できます。または、以下のブーストオプションを確認することもできます！",
   "fishing.buyReels": "{{gemPrice}} で5リールを購入",
   "fishing.buyReels.confirmation": "本当に {{gemPrice}} で5リールを購入しますか？",
-  "fishing.buyMoreReels": "{{price}} で {{reels}} リールを購入"
+  "fishing.buyMoreReels": "{{price}} で {{reels}} リールを購入",
+  "marvelHunt.mapComplete.title": "{{marvel}} マップが完了しました",
+  "marvelHunt.mapComplete.description": "おめでとうございます。9個のマップピースをすべて見つけて、{{marvel}} の場所を発見しました！",
+  "marvelHunt.searching": "検索中...",
+  "marvelHunt.reward.title": "マリン・マーベル発見",
+  "marvelHunt.reward.message": "あなたは {{marvel}} を発見しました！",
+  "fishing.mapDiscovered.title": "マップが見つかりました",
+  "fishing.mapDiscovered.message": "おめでとうございます。新しいマップピースを発見しました。9つのピースをすべて見つけて、マリン・マーベルを発見しよう！",
+  "fishing.mapDiscovered.mapName": "{{map}} マップ",
+  "fishing.mapDiscovered.progress": "{{collected}}/{{total}} を収集しました",
+  "fishing.marineMarvelMaps.title": "マリン・マーベル地図",
+  "fishing.marineMarvelMaps.description": "9つのマップピースをすべて発見して、残りのマリンマーベルのロックを解除してください！"
 }

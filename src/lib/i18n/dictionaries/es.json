@@ -7741,5 +7741,16 @@
   "fishing.lookingMoreReels": "Ahhh, ¿estás buscando más carretes? ¡No te preocupes! Puedes seleccionar un multiplicador en la pestaña de peces y comprar más carretes con gemas justo antes de lanzarlos. ¡O puedes echar un vistazo a las opciones de aumento que aparecen a continuación!",
   "fishing.buyReels": "Compra 5 carretes con {{gemPrice}}",
   "fishing.buyReels.confirmation": "¿Estás seguro de que quieres comprar 5 carretes por {{gemPrice}}?",
-  "fishing.buyMoreReels": "Compra bobinas de {{reels}} por {{price}}"
+  "fishing.buyMoreReels": "Compra bobinas de {{reels}} por {{price}}",
+  "marvelHunt.mapComplete.title": "{{marvel}} Mapa completo",
+  "marvelHunt.mapComplete.description": "¡Enhorabuena, has encontrado las 9 piezas del mapa y has descubierto la ubicación del {{marvel}}!",
+  "marvelHunt.searching": "Buscando...",
+  "marvelHunt.reward.title": "Marine Marvel descubierta",
+  "marvelHunt.reward.message": "¡Descubriste el {{marvel}}!",
+  "fishing.mapDiscovered.title": "Mapa descubierto",
+  "fishing.mapDiscovered.message": "Enhorabuena, has descubierto una nueva pieza del mapa. ¡Encuentra las 9 piezas para descubrir la maravilla marina!",
+  "fishing.mapDiscovered.mapName": "{{map}} Mapa",
+  "fishing.mapDiscovered.progress": "{{collected}}/{{total}} recolectado",
+  "fishing.marineMarvelMaps.title": "Mapas marinos de Marvel",
+  "fishing.marineMarvelMaps.description": "¡Descubre las 9 piezas del mapa para desbloquear las maravillas marinas restantes!"
 }

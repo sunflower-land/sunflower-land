@@ -7741,5 +7741,16 @@
   "fishing.lookingMoreReels": "Ahhh daha fazla makara mı arıyorsunuz? Endişelenme! Balık sekmesinde bir çarpan seçebilir ve atmadan hemen önce mücevherlerle daha fazla makara satın alabilirsiniz. Veya aşağıdaki destek seçeneklerine göz atabilirsiniz!",
   "fishing.buyReels": "{{gemPrice}} ile 5 makara satın alın",
   "fishing.buyReels.confirmation": "{{gemPrice}} için 5 makara satın almak istediğinizden emin misiniz?",
-  "fishing.buyMoreReels": "{{price}} için {{reels}} makaraları satın alın"
+  "fishing.buyMoreReels": "{{price}} için {{reels}} makaraları satın alın",
+  "marvelHunt.mapComplete.title": "{{marvel}} Harita Tamamlandı",
+  "marvelHunt.mapComplete.description": "Tebrikler, 9 harita parçasının tümünü buldunuz ve {{marvel}} 'nin konumunu keşfettiniz!",
+  "marvelHunt.searching": "Aranıyor...",
+  "marvelHunt.reward.title": "Deniz Harikası Keşfedildi",
+  "marvelHunt.reward.message": "{{marvel}} öğesini keşfettin!",
+  "fishing.mapDiscovered.title": "Harita Keşfedildi",
+  "fishing.mapDiscovered.message": "Tebrikler, yeni bir harita parçası keşfettin. Deniz Harikasını keşfetmek için 9 parçanın tümünü bulun!",
+  "fishing.mapDiscovered.mapName": "{{map}} Harita",
+  "fishing.mapDiscovered.progress": "{{collected}}/{{total}} toplandı",
+  "fishing.marineMarvelMaps.title": "Marine Marvel Haritaları",
+  "fishing.marineMarvelMaps.description": "Kalan Deniz Harikalarının kilidini açmak için 9 harita parçasının tümünü keşfedin!"
 }

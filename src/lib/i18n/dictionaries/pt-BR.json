@@ -7741,5 +7741,16 @@
   "fishing.lookingMoreReels": "Ahhh, você está procurando mais bobinas? Não se preocupe! Você pode selecionar um multiplicador na aba de peixes e comprar mais bobinas com gemas pouco antes de lançar. Ou você pode conferir as opções de aumento abaixo!",
   "fishing.buyReels": "Compre 5 bobinas com {{gemPrice}}",
   "fishing.buyReels.confirmation": "Tem certeza de que deseja comprar 5 cilindros por {{gemPrice}}?",
-  "fishing.buyMoreReels": "Compre bobinas {{reels}} por {{price}}"
+  "fishing.buyMoreReels": "Compre bobinas {{reels}} por {{price}}",
+  "marvelHunt.mapComplete.title": "{{marvel}} Mapa completo",
+  "marvelHunt.mapComplete.description": "Parabéns, você encontrou todas as 9 peças do mapa e descobriu a localização do {{marvel}}!",
+  "marvelHunt.searching": "Pesquisando...",
+  "marvelHunt.reward.title": "Maravilha marinha descoberta",
+  "marvelHunt.reward.message": "Você descobriu o {{marvel}}!",
+  "fishing.mapDiscovered.title": "Mapa descoberto",
+  "fishing.mapDiscovered.message": "Parabéns, você descobriu uma nova peça do mapa. Encontre todas as 9 peças para descobrir a Maravilha Marinha!",
+  "fishing.mapDiscovered.mapName": "{{map}} Mapa",
+  "fishing.mapDiscovered.progress": "{{collected}}/{{total}} coletado",
+  "fishing.marineMarvelMaps.title": "Mapas Marvel da Marvel",
+  "fishing.marineMarvelMaps.description": "Descubra todas as 9 peças do mapa para desbloquear as Maravilhas Marinhas restantes!"
 }

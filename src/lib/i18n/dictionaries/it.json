@@ -7741,5 +7741,16 @@
   "fishing.lookingMoreReels": "Ahhh stai cercando altri rulli? Nessun problema! Puoi selezionare un moltiplicatore nella scheda pesce e acquistare più rulli con gemme poco prima del lancio. Oppure puoi dare un'occhiata alle opzioni di potenziamento qui sotto!",
   "fishing.buyReels": "Acquista 5 rulli con {{gemPrice}}",
   "fishing.buyReels.confirmation": "Sei sicuro di voler acquistare 5 rulli per {{gemPrice}}?",
-  "fishing.buyMoreReels": "Acquista rulli {{reels}} per {{price}}"
+  "fishing.buyMoreReels": "Acquista rulli {{reels}} per {{price}}",
+  "marvelHunt.mapComplete.title": "{{marvel}} Mappa completa",
+  "marvelHunt.mapComplete.description": "Congratulazioni, hai trovato tutti e 9 i pezzi della mappa e scoperto la posizione del {{marvel}}!",
+  "marvelHunt.searching": "Ricerca in corso...",
+  "marvelHunt.reward.title": "Scoperta la meraviglia marina",
+  "marvelHunt.reward.message": "Hai scoperto il {{marvel}}!",
+  "fishing.mapDiscovered.title": "Mappa scoperta",
+  "fishing.mapDiscovered.message": "Congratulazioni, hai scoperto un nuovo pezzo di mappa. Trova tutti i 9 pezzi per scoprire la Marvel marina!",
+  "fishing.mapDiscovered.mapName": "{{map}} Mappa",
+  "fishing.mapDiscovered.progress": "{{collected}}/{{total}} raccolti",
+  "fishing.marineMarvelMaps.title": "Mappe Marvel Marine",
+  "fishing.marineMarvelMaps.description": "Scopri tutti i 9 pezzi della mappa per sbloccare le meraviglie marine rimanenti!"
 }

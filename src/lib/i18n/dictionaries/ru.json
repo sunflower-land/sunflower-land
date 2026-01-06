@@ -7741,5 +7741,16 @@
   "fishing.lookingMoreReels": "Ahhh you're looking for more reels? No worries! You can select a multiplier on the fish tab and purchase more reels with gems just before you cast. Or you can check out the boost options below!",
   "fishing.buyReels": "Buy 5 reels with {{gemPrice}}",
   "fishing.buyReels.confirmation": "Are you sure you want to buy 5 reels for {{gemPrice}}?",
-  "fishing.buyMoreReels": "Buy {{reels}} reels for {{price}}"
+  "fishing.buyMoreReels": "Buy {{reels}} reels for {{price}}",
+  "marvelHunt.mapComplete.title": "{{marvel}} Map Complete",
+  "marvelHunt.mapComplete.description": "Congratulations, you have found all 9 map pieces & discovered the location of the {{marvel}}!",
+  "marvelHunt.searching": "Searching...",
+  "marvelHunt.reward.title": "Marine Marvel Discovered",
+  "marvelHunt.reward.message": "You discovered the {{marvel}}!",
+  "fishing.mapDiscovered.title": "Map Discovered",
+  "fishing.mapDiscovered.message": "Congratulations, you've discovered a new map piece. Find all 9 pieces to discover the Marine Marvel!",
+  "fishing.mapDiscovered.mapName": "{{map}} Map",
+  "fishing.mapDiscovered.progress": "{{collected}}/{{total}} collected",
+  "fishing.marineMarvelMaps.title": "Marine Marvel Maps",
+  "fishing.marineMarvelMaps.description": "Discover all 9 map pieces to unlock the remaining Marine Marvels!"
 }
