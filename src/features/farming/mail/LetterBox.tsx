@@ -75,52 +75,38 @@ export const LetterBox: React.FC = () => {
     "DISCORD_NEWS",
   );
 
-  const setCurrentTab: React.Dispatch<React.SetStateAction<number>> = (
-    value,
-  ) => {
-    // We only expect the Tab component to pass a number, but support the full
-    // React SetStateAction signature to satisfy the prop type.
-    if (typeof value === "function") {
-      setTab(value);
-      return;
-    }
+  const discordNewsSubscribe = useMemo(
+    () => (onStoreChange: () => void) => {
+      if (typeof window === "undefined") return () => {};
+      if (!discordNewsEnabled) return () => {};
 
-    setTab(value);
-  };
+      window.addEventListener("storage", onStoreChange);
+      window.addEventListener(DISCORD_NEWS_STORAGE_EVENT, onStoreChange);
 
-  const discordNewsTimestamps = useSyncExternalStore(
-    useMemo(
-      () => (onStoreChange: () => void) => {
-        if (typeof window === "undefined") return () => {};
-        if (!discordNewsEnabled) return () => {};
+      return () => {
+        window.removeEventListener("storage", onStoreChange);
+        window.removeEventListener(DISCORD_NEWS_STORAGE_EVENT, onStoreChange);
+      };
+    },
+    [discordNewsEnabled],
+  );
 
-        window.addEventListener("storage", onStoreChange);
-        window.addEventListener(DISCORD_NEWS_STORAGE_EVENT, onStoreChange);
+  const discordNewsLatestAt = useSyncExternalStore(
+    discordNewsSubscribe,
+    () => {
+      if (typeof window === "undefined" || !discordNewsEnabled) return null;
+      return getDiscordNewsLatestAt();
+    },
+    () => null,
+  );
 
-        return () => {
-          window.removeEventListener("storage", onStoreChange);
-          window.removeEventListener(DISCORD_NEWS_STORAGE_EVENT, onStoreChange);
-        };
-      },
-      [discordNewsEnabled],
-    ),
-    useMemo(
-      () => () => {
-        if (typeof window === "undefined" || !discordNewsEnabled) {
-          return {
-            latestAt: null as number | null,
-            readAt: null as number | null,
-          };
-        }
-
-        return {
-          latestAt: getDiscordNewsLatestAt(),
-          readAt: getDiscordNewsReadAt(),
-        };
-      },
-      [discordNewsEnabled],
-    ),
-    () => ({ latestAt: null, readAt: null }),
+  const discordNewsReadAt = useSyncExternalStore(
+    discordNewsSubscribe,
+    () => {
+      if (typeof window === "undefined" || !discordNewsEnabled) return null;
+      return getDiscordNewsReadAt();
+    },
+    () => null,
   );
 
   useEffect(() => {
@@ -136,9 +122,8 @@ export const LetterBox: React.FC = () => {
 
   const hasUnreadDiscordUpdate = !!(
     discordNewsEnabled &&
-    discordNewsTimestamps.latestAt &&
-    (!discordNewsTimestamps.readAt ||
-      discordNewsTimestamps.latestAt > discordNewsTimestamps.readAt)
+    discordNewsLatestAt &&
+    (!discordNewsReadAt || discordNewsLatestAt > discordNewsReadAt)
   );
   const hasUnreadNewsUpdate = discordNewsEnabled
     ? hasUnreadDiscordUpdate
@@ -252,7 +237,7 @@ export const LetterBox: React.FC = () => {
               { icon: SUNNYSIDE.icons.stopwatch, name: t("mailbox.whatsOn") },
             ]}
             currentTab={tab}
-            setCurrentTab={setCurrentTab}
+            setCurrentTab={setTab}
             container={OuterPanel}
           >
             {tab === 0 && (
