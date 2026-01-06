@@ -304,6 +304,48 @@ img {
   -webkit-box-orient: vertical;
 }
 
+.discord-news-preview {
+  /* Lock announcement text to the "Sans Serif" style (avoids emoji clipping with the Default pixel font). */
+  font-family: sans-serif;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  font-size: 15px;
+  line-height: 17px;
+}
+
+.discord-news-body {
+  /* Lock announcement text to the "Sans Serif" style (avoids emoji clipping with the Default pixel font). */
+  font-family: sans-serif;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  font-size: 16px;
+  line-height: 17px;
+}
+
+.discord-news-body pre {
+  max-width: 100%;
+}
+
+.discord-news-body pre,
+.discord-news-body code,
+.discord-news-preview pre,
+.discord-news-preview code {
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  font-size: 14px;
+  line-height: 16px;
+}
+
 @keyframes blink {
   0%,
   20% {
