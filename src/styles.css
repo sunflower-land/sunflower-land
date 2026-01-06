@@ -305,6 +305,8 @@ img {
 }
 
 .discord-news-preview {
+  /* Lock announcement text to the "Sans Serif" style (avoids emoji clipping with the Default pixel font). */
+  font-family: sans-serif;
   text-overflow: ellipsis;
   overflow: hidden;
   width: 100%;
@@ -315,12 +317,18 @@ img {
   white-space: normal;
   overflow-wrap: anywhere;
   word-break: break-word;
+  font-size: 15px;
+  line-height: 17px;
 }
 
 .discord-news-body {
+  /* Lock announcement text to the "Sans Serif" style (avoids emoji clipping with the Default pixel font). */
+  font-family: sans-serif;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   word-break: break-word;
+  font-size: 16px;
+  line-height: 17px;
 }
 
 .discord-news-body pre {

@@ -1,7 +1,7 @@
 import React, {
+  useCallback,
   useContext,
   useEffect,
-  useMemo,
   useState,
   useSyncExternalStore,
 } from "react";
@@ -74,8 +74,8 @@ export const LetterBox: React.FC = () => {
 
   const discordNewsEnabled = useSelector(gameService, _discordNewsEnabled);
 
-  const discordNewsSubscribe = useMemo(
-    () => (onStoreChange: () => void) => {
+  const discordNewsSubscribe = useCallback(
+    (onStoreChange: () => void) => {
       if (typeof window === "undefined") return () => {};
       if (!discordNewsEnabled) return () => {};
 

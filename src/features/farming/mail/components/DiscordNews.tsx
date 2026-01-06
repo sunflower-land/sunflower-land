@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   DiscordChannelName,
@@ -296,27 +296,23 @@ const DiscordMarkdown: React.FC<{
   markdown: string;
   variant: "block" | "inline";
 }> = ({ markdown, variant }) => {
-  const nodes = useMemo(() => {
-    const tokens: unknown[] = marked.lexer(markdown, {
-      gfm: true,
-      breaks: true,
-    });
+  const tokens: unknown[] = marked.lexer(markdown, {
+    gfm: true,
+    breaks: true,
+  });
 
-    if (variant === "inline") {
-      const firstParagraph =
-        tokens.find(
-          (t) => isRecord(t) && getStringProp(t, "type") === "paragraph",
-        ) ?? tokens[0];
-      const inlineTokens = isRecord(firstParagraph)
-        ? getArrayProp(firstParagraph, "tokens")
-        : [];
-      return renderInlineTokens(inlineTokens, "md-inline");
-    }
+  if (variant === "inline") {
+    const firstParagraph =
+      tokens.find(
+        (t) => isRecord(t) && getStringProp(t, "type") === "paragraph",
+      ) ?? tokens[0];
+    const inlineTokens = isRecord(firstParagraph)
+      ? getArrayProp(firstParagraph, "tokens")
+      : [];
+    return renderInlineTokens(inlineTokens, "md-inline");
+  }
 
-    return renderBlockTokens(tokens, "md-block");
-  }, [markdown, variant]);
-
-  return <>{nodes}</>;
+  return renderBlockTokens(tokens, "md-block");
 };
 
 export const DiscordNews: React.FC = () => {
@@ -391,7 +387,7 @@ export const DiscordNews: React.FC = () => {
           </div>
         </div>
 
-        <div className="text-xs discord-news-body break-words mb-2 px-1">
+        <div className="discord-news-body break-words mb-2 px-1">
           <DiscordMarkdown
             markdown={selectedAnnouncement.content}
             variant="block"
