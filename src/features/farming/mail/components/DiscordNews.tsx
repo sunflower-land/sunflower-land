@@ -15,7 +15,7 @@ import newsIcon from "assets/icons/chapter_icon_2.webp";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
 import { getRelativeTime } from "lib/utils/time";
-import { NPCFixed } from "features/island/bumpkin/components/NPC";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
@@ -30,7 +30,18 @@ const DISCORD_CHANNEL_ICONS: Record<DiscordChannelName, string> = {
 
 const TEAM_NPCS: Record<string, BumpkinParts> = {
   Adam: NPC_WEARABLES.adam,
-  Elias: NPC_WEARABLES["pumpkin' pete"],
+  Elias: {
+    onesie: "Black Sheep Onesie",
+    wings: "Crow Wings",
+    body: "Beige Farmer Potion",
+    shirt: "Red Farmer Shirt",
+    pants: "Farmer Pants",
+    shoes: "Black Farmer Boots",
+    tool: "Farmer Pitchfork",
+    hat: "Farmer Hat",
+    background: "Farm Background",
+    hair: "Basic Hair",
+  },
   Aeon: NPC_WEARABLES.dreadhorn,
   Dcol: NPC_WEARABLES.grubnuk,
   Spencer: NPC_WEARABLES["farmer flesh"],
@@ -362,7 +373,7 @@ export const DiscordNews: React.FC = () => {
 
         <div className="flex items-center justify-between mb-3 w-full">
           <div className="flex items-center gap-2">
-            <NPCFixed
+            <NPCIcon
               width={PIXEL_SCALE * 12}
               parts={TEAM_NPCS[sender] ?? NPC_WEARABLES["pumpkin' pete"]}
             />
