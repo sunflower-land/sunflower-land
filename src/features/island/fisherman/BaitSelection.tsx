@@ -492,7 +492,13 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
         )}
         {fishingLimitReached ? (
           <Button
-            disabled={missingRod}
+            disabled={
+              missingRod ||
+              !selectedBait ||
+              !items[selectedBait as InventoryItemName]?.gte(
+                effectiveMultiplier,
+              )
+            }
             onClick={() => setShowConfirmationModal(true)}
           >
             <div className="flex items-center">
