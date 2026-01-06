@@ -44,6 +44,7 @@ import { DropdownPanel } from "components/ui/DropdownPanel";
 import { EXTRA_REELS_AMOUNT } from "features/game/events/landExpansion/castRod";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { ModalOverlay } from "components/ui/ModalOverlay";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const BAIT: FishingBait[] = [
   "Earthworm",
@@ -116,6 +117,7 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
 
   const isVip = hasVipAccess({ game: state });
   const currentSeason = state.season.season;
+  const now = useNow();
 
   const getGuaranteedOptions = (bait: FishingBait) => {
     return isGuaranteedBait(bait)
@@ -171,31 +173,34 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
     }
   };
 
+  const reelsLeft = getRemainingReels(state);
+  const effectiveMultiplier = isVip ? multiplier : 1;
+
   const getExtraReelPacksRequired = () => {
-    const reelsLeft = getRemainingReels(state);
+    // Find the diff between the effective multiplier and reels left
+    const diff = effectiveMultiplier - reelsLeft;
 
-    // Find the diff between the multiplier and reels left
-    const diff = multiplier - reelsLeft;
-
-    // then work out how many groups of 5 need to be purchased
-    const reelPacksRequired = Math.ceil(diff / EXTRA_REELS_AMOUNT);
+    // then work out how many groups of 5 need to be purchased (never negative)
+    const reelPacksRequired = Math.max(0, Math.ceil(diff / EXTRA_REELS_AMOUNT));
 
     // if the multiplier is just 1 then let them just buy the 5
     return reelPacksRequired;
   };
 
-  const reelsLeft = getRemainingReels(state);
-  const fishingLimitReached = reelsLeft <= 0 || multiplier > reelsLeft;
+  const fishingLimitReached = reelsLeft <= 0 || effectiveMultiplier > reelsLeft;
   const hasAncientRod = isWearableActive({ name: "Ancient Rod", game: state });
-  const effectiveMultiplier = isVip ? multiplier : 1;
   const rodsRequired = hasAncientRod ? 0 : effectiveMultiplier;
   // Get reels required to make the cast
-  const packsRequired = getExtraReelPacksRequired();
+  const packsRequired = fishingLimitReached ? getExtraReelPacksRequired() : 0;
   // Get the gems cost for the reels
-  const gemPrice = getReelsPackGemPrice({
-    state,
-    packs: packsRequired,
-  });
+  const gemPrice =
+    packsRequired > 0
+      ? getReelsPackGemPrice({
+          state,
+          packs: packsRequired,
+          createdAt: now,
+        })
+      : 0;
 
   const handleBuyMoreReelsAndCast = () => {
     onCast(
@@ -459,7 +464,7 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
                 <Button
                   disabled={
                     fishingLimitReached ||
-                    multiplier > reelsLeft ||
+                    effectiveMultiplier > reelsLeft ||
                     !selectedBait
                   }
                   className={`h-[30px] w-[40px]`}
@@ -505,7 +510,7 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
             }
             disabled={
               !selectedBait ||
-              multiplier > reelsLeft ||
+              effectiveMultiplier > reelsLeft ||
               fishingLimitReached ||
               missingRod ||
               !items[selectedBait as InventoryItemName]?.gte(
