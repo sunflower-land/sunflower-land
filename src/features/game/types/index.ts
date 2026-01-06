@@ -165,7 +165,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Rod: 306,
   "Rusty Shovel": 307,
   Shovel: 308,
-  //  Power Shovel was remove, 309 is available
+  "Crab Pot": 309,
   "Sand Shovel": 310,
   "Sand Drill": 311,
   "Gold Pickaxe": 312,
@@ -173,6 +173,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Petting Hand": 314,
   Brush: 315,
   "Music Box": 316,
+  "Mariner Pot": 317,
 
   "Sunflower Statue": 401,
   "Potato Statue": 402,
@@ -1318,6 +1319,24 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Fish Stick": 2723,
   "Fish Oil": 2724,
   "Crab Stick": 2725,
+
+  // Crustaceans
+  Isopod: 2800,
+  "Blue Crab": 2801,
+  Lobster: 2802,
+  "Hermit Crab": 2803,
+  Shrimp: 2804,
+  Mussel: 2805,
+  Oyster: 2806,
+  Anemone: 2807,
+  Barnacle: 2808,
+  "Sea Slug": 2809,
+  "Sea Snail": 2810,
+  "Garden Eel": 2811,
+  "Sea Grapes": 2812,
+  Octopus: 2813,
+  "Sea Urchin": 2814,
+  "Horseshoe Crab": 2815,
 };
 
 // The reverse of above

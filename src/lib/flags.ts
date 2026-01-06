@@ -31,7 +31,7 @@ export const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
 const defaultFeatureFlag = ({ inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" || !!inventory["Beta Pass"]?.gt(0);
 
-const testnetFeatureFlag = () => CONFIG.NETWORK === "amoy";
+export const testnetFeatureFlag = () => CONFIG.NETWORK === "amoy";
 
 const localStorageFeatureFlag = (key: string) =>
   !!localStorage.getItem(key) === true;
@@ -100,7 +100,7 @@ const FEATURE_FLAGS = {
   FACE_RECOGNITION_TEST: defaultFeatureFlag,
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
 
-  LEAGUES: defaultFeatureFlag,
+  LEAGUES: () => false,
 
   EASTER: () => false,
 
@@ -118,6 +118,7 @@ const FEATURE_FLAGS = {
   RENEW_PET_SHRINES: defaultFeatureFlag,
   FISHING_PUZZLE: defaultFeatureFlag,
   MEMORY_BETA: defaultFeatureFlag,
+  CRUSTACEANS: defaultFeatureFlag,
   VERSION_UPDATES: defaultFeatureFlag,
   DAILY_BOXES: defaultFeatureFlag,
   MICRO_INTERACTIONS: defaultFeatureFlag,

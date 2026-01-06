@@ -18,7 +18,15 @@ const getTimeRemaining = (targetDate?: number | null) => {
   return Math.max(targetDate - Date.now(), 0);
 };
 
-export const useCountdown = (targetDate?: number | null) => {
+export const useCountdown = (
+  targetDate?: number | null,
+): {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+  totalSeconds: number;
+} => {
   const [timeLeft, setTimeLeft] = useState(() => getTimeRemaining(targetDate));
 
   useEffect(() => {

@@ -299,4 +299,73 @@ describe("craftTool", () => {
     expect(state.inventory["Leather"]).toEqual(new Decimal(10));
     expect(state.inventory["Oil Drill"]).toEqual(new Decimal(1));
   });
+
+  it("does not craft a tool if the bumpkin level is below the required level", () => {
+    expect(() =>
+      craftTool({
+        state: {
+          ...GAME_STATE,
+          coins: 1000,
+          inventory: {
+            Feather: new Decimal(5),
+            Wool: new Decimal(3),
+          },
+          bumpkin: {
+            ...GAME_STATE.bumpkin,
+            experience: 40154, // Level 17, below required level 18
+          },
+        },
+        action: {
+          type: "tool.crafted",
+          tool: "Crab Pot",
+        },
+      }),
+    ).toThrow("You do not have the required level");
+  });
+
+  it("crafts a tool when the bumpkin level meets the required level", () => {
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins: 1000,
+        inventory: {
+          Feather: new Decimal(5),
+          Wool: new Decimal(3),
+        },
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          experience: 47405, // Level 18, meets required level 18
+        },
+      },
+      action: {
+        type: "tool.crafted",
+        tool: "Crab Pot",
+      },
+    });
+
+    expect(state.inventory["Crab Pot"]).toEqual(new Decimal(1));
+  });
+
+  it("crafts a tool when the bumpkin level exceeds the required level", () => {
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins: 1000,
+        inventory: {
+          Feather: new Decimal(10),
+          "Merino Wool": new Decimal(10),
+        },
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          experience: 109155, // Level 24, meets required level 24
+        },
+      },
+      action: {
+        type: "tool.crafted",
+        tool: "Mariner Pot",
+      },
+    });
+
+    expect(state.inventory["Mariner Pot"]).toEqual(new Decimal(1));
+  });
 });

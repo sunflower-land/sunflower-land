@@ -6462,6 +6462,174 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
   },
 
+  Isopod: {
+    description:
+      "A hardy crustacean that curls up for protection and eats detritus.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2800.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Crustacean" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Blue Crab": {
+    description:
+      "A feisty blue-clawed crab prized for its speed and tasty meat.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2801.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Crustacean" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  Lobster: {
+    description: "Claws like armored legends, watch your fingers!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2802.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Crustacean" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Hermit Crab": {
+    description: "Borrows abandoned shells to create its mobile fortress.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2803.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Crustacean" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  Shrimp: {
+    description:
+      "Zips through the water with see-through speed, never stays still.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2804.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Crustacean" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  Mussel: {
+    description: "Clings tight to rocks and filters flavors from the current.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2805.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Crustacean" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  Oyster: {
+    description: "Mysterious shell—open it for pearls or just salty attitude.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2806.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Crustacean" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  Anemone: {
+    description:
+      "Tentacles sway hypnotically, turning curious fish into guests.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2807.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Crustacean" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  Barnacle: {
+    description:
+      "Attaches to anything and doesn't let go, standing guard on the tide.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2808.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Crustacean" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Sea Slug": {
+    description:
+      "A sea slug that lives in the ocean and is known for its unique appearance.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2809.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Crustacean" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Sea Snail": {
+    description: "Glides patiently, wearing its spiral home on its back.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2810.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Crustacean" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Garden Eel": {
+    description: "Peeks from sandy burrows, swaying in underwater gardens.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2811.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Crustacean" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Sea Grapes": {
+    description: "Tiny green pearls; sea creatures munch them like candy.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2812.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Crustacean" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  Octopus: {
+    description:
+      "Vanishing act extraordinaire, with eight arms and endless surprises.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2813.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Crustacean" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Sea Urchin": {
+    description: "A spiky purple mystery nestled in underwater crevices.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2814.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Crustacean" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Horseshoe Crab": {
+    description: "Ancient survivor with a helmet shell and tail like a sword.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2815.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Crustacean" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+
   Anchovy: {
     description: "The ocean's pocket-sized darting acrobat, always in a hurry!",
     decimals: 0,
@@ -13738,6 +13906,30 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     attributes: [
       { trait_type: "Tradable", value: "Yes" },
       { trait_type: "Purpose", value: "Decoration" },
+    ],
+  },
+  "Mariner Pot": {
+    name: "Mariner Pot",
+    description:
+      "An advanced water trap to catch marine creatures. Place it near the wharf and wait 8 hours.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/317.webp",
+    attributes: [
+      { trait_type: "Purpose", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Crab Pot": {
+    name: "Crab Pot",
+    description:
+      "A water trap to catch marine creatures. Place it near the wharf and wait 4 hours.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/309.webp",
+    attributes: [
+      { trait_type: "Purpose", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
 };
