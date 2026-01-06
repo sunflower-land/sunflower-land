@@ -1597,7 +1597,6 @@
   "fishermanModal.crazyHappening": "Ух ты, происходит что-то безумное......это рыбное безумие!",
   "fishermanModal.fullMoon": "Огого, вот это полнолуние! Старые рыбаки рассказывают, что только с такой луной у тебя есть шанс поймать самых невероятных морских чудищ.",
   "fishermanModal.bonusFish": "Поторопись, за каждый улов ты получишь дополнительную рыбу!",
-  "fishermanModal.fishingLimitReached": "Ты исчерпал все свои попытки!",
   "fishermanModal.needCraftRod": "Сперва ты должен изготовить удочку.",
   "fishermanModal.craft.beach": "Сделай на пляже",
   "fishermanModal.zero.available": "0 в наличии",
@@ -1620,13 +1619,9 @@
   "fishing.reelsLeft": "{{reelsLeft}} осталось попыток",
   "fishing.oneReelLeft": "Осталась 1 попытка",
   "fishing.extras": "Дополнения",
-  "fishing.lookingMoreReels": "О, тебе нужно больше попыток? Не беспокойся! Ознакомься с вариантами ниже!",
   "fishing.finishReels": "Закончите попытки, прежде чем покупать больше",
-  "fishing.buyReels": "Купить 5 попыток за {{gemPrice}} Gems",
-  "fishing.buyReels.confirmation": "Ты действительно хочешь купить 5 попыток за {{gemPrice}} Gems?",
   "fishing.extraReels": "Дополнительные попытки",
   "fishing.cast": "Забросить",
-  "fishing.buyMoreReels": "Купить больше попыток",
   "quest.basic.fish": "Выловить каждую базовую рыбу",
   "quest.advanced.fish": "Выловить каждую продвинутую рыбу",
   "quest.all.fish": "Выловить каждую базовую, продвинутую и экспертную рыбу",
@@ -7741,5 +7736,10 @@
   "description.seaGrapes": "Tiny green pearls; sea creatures munch them like candy.",
   "description.octopus": "Vanishing act extraordinaire, with eight arms and endless surprises.",
   "description.seaUrchin": "A spiky purple mystery nestled in underwater crevices.",
-  "description.horseshoeCrab": "Ancient survivor with a helmet shell and tail like a sword."
+  "description.horseshoeCrab": "Ancient survivor with a helmet shell and tail like a sword.",
+  "fishermanModal.fishingLimitReached": "You're gonna need more reels!",
+  "fishing.lookingMoreReels": "Ahhh you're looking for more reels? No worries! You can select a multiplier on the fish tab and purchase more reels with gems just before you cast. Or you can check out the boost options below!",
+  "fishing.buyReels": "Buy 5 reels with {{gemPrice}}",
+  "fishing.buyReels.confirmation": "Are you sure you want to buy 5 reels for {{gemPrice}}?",
+  "fishing.buyMoreReels": "Buy {{reels}} reels for {{price}}"
 }

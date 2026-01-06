@@ -22,6 +22,7 @@ export type CastRodAction = {
   chum?: Chum;
   guaranteedCatch?: FishName;
   location?: string;
+  reelPacksToBuy?: number;
   /**
    * Number of simultaneous casts. VIP only when > 1.
    */
@@ -35,6 +36,7 @@ type Options = {
 };
 
 const ALLOWED_MULTIPLIERS = new Set([1, 5, 10, 25]);
+export const EXTRA_REELS_AMOUNT = 5;
 
 export const getRemainingReels = (state: GameState, now = new Date()) => {
   const date = now.toISOString().split("T")[0];
@@ -53,19 +55,43 @@ export const getRemainingReels = (state: GameState, now = new Date()) => {
   return reelsLeft;
 };
 
+export function getReelsPackGemPrice({
+  state,
+  packs,
+  createdAt = Date.now(),
+}: {
+  state: GameState;
+  packs: number; // number of 5-reel packs
+  createdAt?: number;
+}): number {
+  const today = new Date(createdAt).toISOString().split("T")[0];
+
+  const { extraReels = { count: 0 } } = state.fishing;
+  const { timesBought = {} } = extraReels;
+
+  const basePrice = 10;
+  const gemMultiplier = 2;
+
+  const timesBoughtToday = timesBought[today] ?? 0;
+
+  // Sum the cost of each pack at the incremented price scale
+  let totalPrice = 0;
+  for (let i = 0; i < packs; i++) {
+    totalPrice += basePrice * gemMultiplier ** (timesBoughtToday + i);
+  }
+
+  return totalPrice;
+}
+
 export function castRod({
   state,
   action,
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    const { bumpkin } = game;
     const now = new Date(createdAt);
     const today = new Date(now).toISOString().split("T")[0];
 
-    if (!bumpkin) {
-      throw new Error("You do not have a Bumpkin!");
-    }
     const { extraReels = { count: 0 } } = game.fishing;
     const { limit: fishingLimit, boostsUsed: fishingBoostsUsed } =
       getDailyFishingLimit(game);
@@ -85,6 +111,35 @@ export function castRod({
     // VIP gated feature
     if (multiplier > 1 && !hasVipAccess({ game, now: createdAt })) {
       throw new Error("VIP is required");
+    }
+
+    if (action.reelPacksToBuy) {
+      const gemPrice = getReelsPackGemPrice({
+        state,
+        packs: action.reelPacksToBuy,
+      });
+      const gemsInventory = game.inventory.Gem ?? new Decimal(0);
+
+      if (gemsInventory.lt(gemPrice)) {
+        throw new Error("Player does not have enough Gems to buy more reels");
+      }
+
+      game.inventory.Gem = gemsInventory.sub(gemPrice);
+
+      const { extraReels = { count: 0 } } = game.fishing;
+
+      const packsBought = action.reelPacksToBuy ?? 0;
+
+      if (extraReels.timesBought) {
+        extraReels.timesBought[today] =
+          (extraReels.timesBought[today] ?? 0) + packsBought;
+      } else {
+        extraReels.timesBought = {
+          [today]: packsBought,
+        };
+      }
+
+      extraReels.count += EXTRA_REELS_AMOUNT * packsBought;
     }
 
     const todayAttempts = game.fishing.dailyAttempts?.[today] ?? 0;
@@ -215,7 +270,5 @@ export function castRod({
       boostNames: [...boostsUsed],
       createdAt,
     });
-
-    return game;
   });
 }
