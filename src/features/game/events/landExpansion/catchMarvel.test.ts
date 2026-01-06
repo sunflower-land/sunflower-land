@@ -1,4 +1,4 @@
-import { INITIAL_FARM } from "domain/game/lib/constants";
+import { INITIAL_FARM } from "features/game/lib/constants";
 
 import Decimal from "decimal.js-light";
 import { catchMarvel } from "./catchMarvel";
