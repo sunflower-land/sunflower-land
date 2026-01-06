@@ -6,7 +6,7 @@ import {
   TreeName,
   UpgradedResourceName,
 } from "./resources";
-import { FishName } from "./fishing";
+import { FishName, MarineMarvelName } from "./fishing";
 import { FullMoonFruit } from "./fruits";
 import { LandBiomeName } from "features/island/biomes/biomes";
 import { PetResourceName } from "./pets";
@@ -219,7 +219,8 @@ export type FarmActivityName =
   | "Fish Missed"
   | "Fish Retried"
   | `${WaterTrapName} Collected`
-  | `${WaterTrapName} Placed`;
+  | `${WaterTrapName} Placed`
+  | `${MarineMarvelName} Map Piece Found`;
 
 export function trackFarmActivity(
   activityName: FarmActivityName,

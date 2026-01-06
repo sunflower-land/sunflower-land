@@ -802,3 +802,28 @@ export const BAIT: Record<FishingBait, true> = {
   "Fish Oil": true,
   "Crab Stick": true,
 };
+
+export const MAP_PIECES: Partial<
+  Record<MarineMarvelName, Partial<Record<FishName, { odds: number }>>>
+> = {
+  "Starlight Tuna": {
+    Halibut: { odds: 0.025 },
+    "Horse Mackerel": { odds: 0.18 },
+  },
+  "Twilight Anglerfish": {
+    Clownfish: { odds: 0.015 },
+    Squid: { odds: 0.225 },
+  },
+  "Gilded Swordfish": {
+    "Rock Blackfish": { odds: 0.037 },
+    Parrotfish: { odds: 0.11 },
+  },
+  "Radiant Ray": {
+    Trout: { odds: 0.021 },
+    "Whale Shark": { odds: 0.045 },
+  },
+  "Phantom Barracuda": {
+    "Mahi Mahi": { odds: 0.0018 },
+    "White Shark": { odds: 0.025 },
+  },
+};

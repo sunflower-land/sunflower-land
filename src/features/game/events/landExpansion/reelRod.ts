@@ -3,6 +3,7 @@ import { GameState } from "../../types/game";
 import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { produce } from "immer";
+import { getKeys } from "features/game/lib/crafting";
 
 export type ReelRodAction = {
   type: "rod.reeled";
@@ -36,11 +37,24 @@ export function reelRod({ state }: Options): GameState {
       );
     });
 
+    const maps = game.fishing.wharf.maps;
+
+    if (maps) {
+      getKeys(maps).forEach((map) => {
+        game.farmActivity = trackFarmActivity(
+          `${map} Map Piece Found`,
+          game.farmActivity,
+          new Decimal(maps[map] ?? 0),
+        );
+      });
+    }
+
     delete game.fishing.wharf.castedAt;
     delete game.fishing.wharf.caught;
     delete game.fishing.wharf.chum;
     delete game.fishing.wharf.multiplier;
     delete game.fishing.wharf.guaranteedCatch;
+    delete game.fishing.wharf.maps;
 
     return game;
   });

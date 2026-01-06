@@ -164,6 +164,7 @@ import {
 } from "./landExpansion/fertiliseFruitPatch";
 import { castRod, CastRodAction } from "./landExpansion/castRod";
 import { reelRod, ReelRodAction } from "./landExpansion/reelRod";
+import { catchMarvel, CatchMarvelAction } from "./landExpansion/catchMarvel";
 import {
   claimMilestone,
   ClaimMilestoneAction,
@@ -648,6 +649,7 @@ export type PlayingEvent =
   | FertiliseFruitAction
   | CastRodAction
   | ReelRodAction
+  | CatchMarvelAction
   | ClaimMilestoneAction
   | MissFishAction
   | RevealLandAction
@@ -908,6 +910,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "fruitPatch.fertilised": fertiliseFruitPatch,
   "rod.casted": castRod,
   "rod.reeled": reelRod,
+  "marvel.caught": catchMarvel,
   "milestone.claimed": claimMilestone,
   "fish.missed": missFish,
   "land.revealed": revealLand,

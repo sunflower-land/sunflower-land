@@ -7,7 +7,7 @@ import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { InventoryItemName } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
-import { FishName, FishingBait } from "features/game/types/fishing";
+import { FishName, FishingBait, MAP_PIECES } from "features/game/types/fishing";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { FishingGuide } from "./FishingGuide";
@@ -20,6 +20,8 @@ import { OldBaitSelection } from "./OldBaitSelection";
 import { BaitSelection } from "./BaitSelection";
 import { hasFeatureAccess } from "lib/flags";
 import { MachineState } from "features/game/lib/gameMachine";
+import { getKeys } from "features/game/lib/crafting";
+import { MarvelHunt } from "./MarvelHunt";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -43,6 +45,18 @@ interface Props {
   npc?: NPCName;
 }
 const _state = (state: MachineState) => state.context.state;
+
+const _marvel = (state: MachineState) => {
+  const game = state.context.state;
+  // If there is a ready marvel to be caught;
+  const ready = getKeys(MAP_PIECES).find(
+    (marvel) =>
+      !game.farmActivity[`${marvel} Caught`] &&
+      (game.farmActivity[`${marvel} Map Piece Found`] ?? 0) >= 9,
+  );
+
+  return ready;
+};
 
 export const FishermanModal: React.FC<Props> = ({
   onCast,
@@ -69,6 +83,12 @@ export const FishermanModal: React.FC<Props> = ({
   const BaitSelectionComponent = hasFeatureAccess(state, "MULTI_CAST")
     ? BaitSelection
     : OldBaitSelection;
+
+  const readyMarvel = useSelector(gameService, _marvel);
+
+  if (readyMarvel) {
+    return <MarvelHunt onClose={onClose} marvel={readyMarvel} />;
+  }
 
   if (showIntro) {
     return (

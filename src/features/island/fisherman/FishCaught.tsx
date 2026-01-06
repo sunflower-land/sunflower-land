@@ -5,11 +5,15 @@ import { getKeys } from "features/game/types/craftables";
 import { FISH, MarineMarvelName } from "features/game/types/fishing";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React from "react";
+import React, { useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InnerPanel } from "components/ui/Panel";
+import { Box } from "components/ui/Box";
+import Decimal from "decimal.js-light";
+import mapIcon from "assets/icons/map.webp";
 
 interface Props {
+  maps: Partial<Record<MarineMarvelName, number>>;
   farmActivity: GameState["farmActivity"];
   caught: Partial<Record<InventoryItemName, number>>;
   onClaim: () => void;
@@ -24,11 +28,14 @@ interface Props {
 export const FishCaught: React.FC<Props> = ({
   farmActivity,
   caught,
+  maps,
   onClaim,
   multiplier = 1,
   difficultCatch,
 }) => {
   const { t } = useAppTranslation();
+
+  const [showMapPieces, setShowMapPieces] = useState(false);
   const isMultiCast = (multiplier ?? 1) > 1;
   const caughtEntries = getKeys(caught).filter(
     (name) => (caught[name] ?? 0) > 0,
@@ -37,6 +44,55 @@ export const FishCaught: React.FC<Props> = ({
 
   const useListLayout =
     isMultiCast || caughtEntries.length > 1 || missedFish.length > 0;
+
+  const mapPieces = getKeys(maps);
+
+  const claim = () => {
+    // If there are map pieces, show the map pieces modal
+    if (mapPieces.length > 0) {
+      setShowMapPieces(true);
+    } else {
+      onClaim();
+    }
+  };
+
+  if (showMapPieces) {
+    return (
+      <>
+        <div className="p-1">
+          <div className="flex flex-col ">
+            <Label type="vibrant" className="mb-2">
+              {t("fishing.mapDiscovered.title")}
+            </Label>
+            <p className="text-xs mb-2">{t("fishing.mapDiscovered.message")}</p>
+            {mapPieces.map((map) => {
+              const collected =
+                (farmActivity[`${map} Map Piece Found`] ?? 0) +
+                (maps[map] ?? 0);
+
+              return (
+                <div className="flex items-center" key={map}>
+                  <Box image={mapIcon} count={new Decimal(maps[map] ?? 0)} />
+                  <div className="ml-1">
+                    <p className="text-sm">
+                      {t("fishing.mapDiscovered.mapName", { map })}
+                    </p>
+                    <p className="text-xs">
+                      {t("fishing.mapDiscovered.progress", {
+                        collected,
+                        total: 9,
+                      })}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <Button onClick={onClaim}>{t("ok")}</Button>
+      </>
+    );
+  }
 
   if (!caughtEntries.length && !missedFish.length) {
     return (
@@ -140,7 +196,7 @@ export const FishCaught: React.FC<Props> = ({
             </div>
           )}
         </div>
-        <Button onClick={onClaim}>{t("ok")}</Button>
+        <Button onClick={claim}>{t("ok")}</Button>
       </>
     );
   }
@@ -174,7 +230,7 @@ export const FishCaught: React.FC<Props> = ({
           );
         })}
       </div>
-      <Button onClick={onClaim}>{t("ok")}</Button>
+      <Button onClick={claim}>{t("ok")}</Button>
     </>
   );
 };
