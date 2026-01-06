@@ -177,6 +177,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
     dailyAttempts: {},
     wharf: {},
   },
+  crabTraps: {
+    trapSpots: {},
+  },
   mailbox: {
     read: [],
   },
