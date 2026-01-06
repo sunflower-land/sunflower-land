@@ -126,15 +126,18 @@ export function castRod({
 
       const { extraReels = { count: 0 } } = game.fishing;
 
-      if (extraReels.timesBought && extraReels.timesBought[today]) {
-        extraReels.timesBought[today] += 1;
+      const packsBought = action.reelPacksToBuy ?? 0;
+
+      if (extraReels.timesBought) {
+        extraReels.timesBought[today] =
+          (extraReels.timesBought[today] ?? 0) + packsBought;
       } else {
         extraReels.timesBought = {
-          [today]: 1,
+          [today]: packsBought,
         };
       }
 
-      extraReels.count += EXTRA_REELS_AMOUNT;
+      extraReels.count += EXTRA_REELS_AMOUNT * packsBought;
     }
 
     const todayAttempts = game.fishing.dailyAttempts?.[today] ?? 0;

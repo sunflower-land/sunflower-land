@@ -95,14 +95,14 @@ describe("castRod", () => {
     }).toThrow("Player does not have enough Gems to buy more reels");
   });
 
-  it("increases timesBought count by packs amount", () => {
+  it("increases timesBought count by packs amount and scales extra reels", () => {
     const today = new Date().toISOString().split("T")[0];
     const result = castRod({
       state: {
         ...INITIAL_FARM,
         inventory: {
           ...INITIAL_FARM.inventory,
-          Gem: new Decimal(10),
+          Gem: new Decimal(30),
           Rod: new Decimal(1),
           Earthworm: new Decimal(1),
         },
@@ -119,9 +119,12 @@ describe("castRod", () => {
           },
         },
       },
-      action: { bait: "Earthworm", type: "rod.casted", reelPacksToBuy: 1 },
+      action: { bait: "Earthworm", type: "rod.casted", reelPacksToBuy: 3 },
     });
-    expect(result.fishing.extraReels?.timesBought?.[today]).toEqual(1);
+    expect(result.fishing.extraReels?.timesBought?.[today]).toEqual(3);
+    // Bought 3 packs (15 reels) and used 1 for the cast, leaving 14
+    expect(result.fishing.extraReels?.count).toEqual(14);
+    expect(result.inventory["Gem"]).toEqual(new Decimal(0));
   });
 
   it("removes Gems from the player's inventory when buying more reels", () => {
