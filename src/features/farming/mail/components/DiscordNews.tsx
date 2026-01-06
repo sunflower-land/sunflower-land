@@ -225,10 +225,10 @@ function renderBlockTokens(
             return (
               <pre
                 key={key}
-                className={`mb-2 last:mb-0 p-2 rounded-sm bg-brown-200 max-w-full ${
+                className={`mb-2 last:mb-0 p-2 rounded-sm bg-brown-300 border border-brown-400 max-w-full ${
                   shouldWrapCodeBlock(getStringProp(token, "text") ?? "")
                     ? "overflow-x-hidden whitespace-pre-wrap break-words"
-                    : "overflow-x-auto whitespace-pre"
+                    : "overflow-x-auto scrollable whitespace-pre"
                 }`}
               >
                 <code>
@@ -380,7 +380,7 @@ export const DiscordNews: React.FC = () => {
           </div>
         </div>
 
-        <div className="text-sm discord-news-body break-words mb-2 px-1">
+        <div className="text-xs discord-news-body break-words mb-2 px-1">
           <DiscordMarkdown
             markdown={selectedAnnouncement.content}
             variant="block"
@@ -416,11 +416,11 @@ export const DiscordNews: React.FC = () => {
                 className="w-6 object-contain mr-2"
               />
               <div className="flex-1 overflow-hidden pb-1">
-                <p className="text-xxs capitalize mb-1.5 flex items-center justify-between gap-2">
+                <p className="text-xs capitalize mb-1.5 flex items-center justify-between gap-2">
                   <span className="underline">{announcement.channelName}</span>
                   <span>{relativeTime}</span>
                 </p>
-                <div className="text-sm discord-news-preview break-words">
+                <div className="text-xxs discord-news-preview break-words">
                   <DiscordMarkdown markdown={previewText} variant="inline" />
                 </div>
               </div>

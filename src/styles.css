@@ -312,16 +312,12 @@ img {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   white-space: normal;
-  font-size: 13px;
-  line-height: 16px;
   white-space: normal;
   overflow-wrap: anywhere;
   word-break: break-word;
 }
 
 .discord-news-body {
-  font-size: 24px;
-  line-height: 14px;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   word-break: break-word;
