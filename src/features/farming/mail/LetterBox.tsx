@@ -41,12 +41,14 @@ import {
 } from "./actions/discordNews";
 
 const _announcements = (state: MachineState) => state.context.announcements;
+const _discordNewsEnabled = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "DISCORD_NEWS");
 const _mailbox = (state: MachineState) => state.context.state.mailbox;
 
 export const LetterBox: React.FC = () => {
   const { gameService, showAnimations } = useContext(Context);
   const { authState } = useAuth();
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState<"mail" | "news" | "whatsOn">("mail");
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<string>();
   const isPWA = useIsPWA();
@@ -70,10 +72,7 @@ export const LetterBox: React.FC = () => {
     // And not visiting
     !isVisiting;
 
-  const discordNewsEnabled = hasFeatureAccess(
-    gameService.state.context.state,
-    "DISCORD_NEWS",
-  );
+  const discordNewsEnabled = useSelector(gameService, _discordNewsEnabled);
 
   const discordNewsSubscribe = useMemo(
     () => (onStoreChange: () => void) => {
@@ -183,7 +182,7 @@ export const LetterBox: React.FC = () => {
           }}
         />
       </div>
-      <Modal show={isOpen} onHide={close}>
+      <Modal show={isOpen} onHide={close} size="lg">
         {selected && details && (
           <Panel bumpkinParts={NPC_WEARABLES[details.from]}>
             <div className="flex items-center mb-1 p-1">
@@ -226,37 +225,36 @@ export const LetterBox: React.FC = () => {
                 name: t("mailbox"),
                 alert: hasAnnouncement,
                 unread: hasAnnouncement,
+                id: "mail",
               },
               {
                 icon: newsIcon,
                 name: t("news.title"),
                 alert: shouldShowNewsAlert,
                 unread: shouldShowNewsAlert,
+                id: "news",
               },
 
-              { icon: SUNNYSIDE.icons.stopwatch, name: t("mailbox.whatsOn") },
+              {
+                icon: SUNNYSIDE.icons.stopwatch,
+                name: t("mailbox.whatsOn"),
+                id: "whatsOn",
+              },
             ]}
             currentTab={tab}
             setCurrentTab={setTab}
             container={OuterPanel}
           >
-            {tab === 0 && (
+            {tab === "mail" && (
               <Mail setSelected={setSelected} announcements={announcements} />
             )}
-            {tab === 1 && (
+            {tab === "news" && (
               <InnerPanel>
-                {hasFeatureAccess(
-                  gameService.state.context.state,
-                  "DISCORD_NEWS",
-                ) ? (
-                  <DiscordNews />
-                ) : (
-                  <News />
-                )}
+                {discordNewsEnabled ? <DiscordNews /> : <News />}
               </InnerPanel>
             )}
 
-            {tab === 2 && <WhatsOn />}
+            {tab === "whatsOn" && <WhatsOn />}
           </CloseButtonPanel>
         )}
       </Modal>

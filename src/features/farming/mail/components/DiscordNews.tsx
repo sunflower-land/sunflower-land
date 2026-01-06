@@ -47,46 +47,108 @@ function isSafeHttpUrl(href: string) {
   }
 }
 
-type AnyToken = any;
+function decodeDiscordHtmlEntities(text: string) {
+  // Discord content sometimes arrives HTML-entity encoded (e.g. `year&#39;s`).
+  // Decode only apostrophe variants to avoid accidentally introducing HTML tags.
+  return text.replace(/&#39;|&apos;/g, "'");
+}
 
-function renderInlineToken(token: AnyToken, key: React.Key): React.ReactNode {
-  switch (token?.type) {
+type UnknownRecord = Record<string, unknown>;
+
+function isRecord(value: unknown): value is UnknownRecord {
+  return typeof value === "object" && value !== null;
+}
+
+function getStringProp(obj: UnknownRecord, key: string): string | undefined {
+  const value = obj[key];
+  return typeof value === "string" ? value : undefined;
+}
+
+function getBooleanProp(obj: UnknownRecord, key: string): boolean | undefined {
+  const value = obj[key];
+  return typeof value === "boolean" ? value : undefined;
+}
+
+function getArrayProp(obj: UnknownRecord, key: string): unknown[] {
+  const value = obj[key];
+  return Array.isArray(value) ? value : [];
+}
+
+function shouldWrapCodeBlock(text: string) {
+  /**
+   * Discord announcements sometimes fence "code" blocks for both:
+   * - plain-text lists (should wrap nicely in the panel)
+   * - JSON/JS-ish objects/arrays (should overflow horizontally to preserve structure)
+   *
+   * Heuristic: if it looks like JSON/JS data structures, keep it non-wrapping.
+   */
+  const trimmed = text.trim();
+  if (!trimmed) return true;
+
+  // JSON/JS-ish: starts with { or [ OR contains multiple object/array punctuation.
+  const looksLikeData =
+    trimmed.startsWith("{") ||
+    trimmed.startsWith("[") ||
+    /[{[\]}]:/.test(trimmed) ||
+    /{\s*\w+/.test(trimmed);
+
+  return !looksLikeData;
+}
+
+function renderInlineToken(token: unknown, key: React.Key): React.ReactNode {
+  if (!isRecord(token)) return null;
+
+  const type = getStringProp(token, "type");
+  switch (type) {
     case "text":
     case "escape":
-      return <React.Fragment key={key}>{token.text}</React.Fragment>;
+      return (
+        <React.Fragment key={key}>
+          {decodeDiscordHtmlEntities(getStringProp(token, "text") ?? "")}
+        </React.Fragment>
+      );
     case "strong":
       return (
         <strong key={key}>
-          {renderInlineTokens(token.tokens ?? [], `${String(key)}-s`)}
+          {renderInlineTokens(
+            getArrayProp(token, "tokens"),
+            `${String(key)}-s`,
+          )}
         </strong>
       );
     case "em":
       return (
         <em key={key}>
-          {renderInlineTokens(token.tokens ?? [], `${String(key)}-e`)}
+          {renderInlineTokens(
+            getArrayProp(token, "tokens"),
+            `${String(key)}-e`,
+          )}
         </em>
       );
     case "del":
       return (
         <del key={key}>
-          {renderInlineTokens(token.tokens ?? [], `${String(key)}-d`)}
+          {renderInlineTokens(
+            getArrayProp(token, "tokens"),
+            `${String(key)}-d`,
+          )}
         </del>
       );
     case "codespan":
       return (
         <code key={key} className="px-1 rounded-sm bg-brown-200">
-          {token.text}
+          {decodeDiscordHtmlEntities(getStringProp(token, "text") ?? "")}
         </code>
       );
     case "br":
       return <br key={key} />;
     case "link": {
-      const href = token.href as string | undefined;
+      const href = getStringProp(token, "href");
       const safe = href && isSafeHttpUrl(href);
-      const children =
-        token.tokens && token.tokens.length
-          ? renderInlineTokens(token.tokens, `${String(key)}-l`)
-          : token.text;
+      const linkTokens = getArrayProp(token, "tokens");
+      const children = linkTokens.length
+        ? renderInlineTokens(linkTokens, `${String(key)}-l`)
+        : decodeDiscordHtmlEntities(getStringProp(token, "text") ?? "");
 
       return safe ? (
         <a
@@ -95,7 +157,7 @@ function renderInlineToken(token: AnyToken, key: React.Key): React.ReactNode {
           target="_blank"
           rel="noreferrer noopener"
           className="underline"
-          title={token.title}
+          title={getStringProp(token, "title")}
         >
           {children}
         </a>
@@ -111,14 +173,16 @@ function renderInlineToken(token: AnyToken, key: React.Key): React.ReactNode {
       // Fallback to safest plain text-ish output
       return (
         <React.Fragment key={key}>
-          {token?.text ?? token?.raw ?? ""}
+          {decodeDiscordHtmlEntities(
+            getStringProp(token, "text") ?? getStringProp(token, "raw") ?? "",
+          )}
         </React.Fragment>
       );
   }
 }
 
 function renderInlineTokens(
-  tokens: AnyToken[],
+  tokens: unknown[],
   keyPrefix: string,
 ): React.ReactNode {
   return (
@@ -127,7 +191,7 @@ function renderInlineTokens(
 }
 
 function renderBlockTokens(
-  tokens: AnyToken[],
+  tokens: unknown[],
   keyPrefix: string,
 ): React.ReactNode {
   return (
@@ -135,11 +199,14 @@ function renderBlockTokens(
       {tokens.map((token, idx) => {
         const key = `${keyPrefix}-${idx}`;
 
-        switch (token?.type) {
+        if (!isRecord(token)) return null;
+
+        const type = getStringProp(token, "type");
+        switch (type) {
           case "paragraph":
             return (
               <div key={key} className="mb-2 last:mb-0">
-                {renderInlineTokens(token.tokens ?? [], `${key}-p`)}
+                {renderInlineTokens(getArrayProp(token, "tokens"), `${key}-p`)}
               </div>
             );
           case "text":
@@ -147,7 +214,9 @@ function renderBlockTokens(
             return (
               <div key={key} className="mb-2 last:mb-0">
                 {renderInlineTokens(
-                  token.tokens ?? [{ type: "text", text: token.text }],
+                  getArrayProp(token, "tokens").length
+                    ? getArrayProp(token, "tokens")
+                    : [{ type: "text", text: getStringProp(token, "text") }],
                   `${key}-t`,
                 )}
               </div>
@@ -156,9 +225,17 @@ function renderBlockTokens(
             return (
               <pre
                 key={key}
-                className="mb-2 last:mb-0 p-2 rounded-sm bg-brown-200 overflow-x-auto"
+                className={`mb-2 last:mb-0 p-2 rounded-sm bg-brown-200 max-w-full ${
+                  shouldWrapCodeBlock(getStringProp(token, "text") ?? "")
+                    ? "overflow-x-hidden whitespace-pre-wrap break-words"
+                    : "overflow-x-auto whitespace-pre"
+                }`}
               >
-                <code>{token.text}</code>
+                <code>
+                  {decodeDiscordHtmlEntities(
+                    getStringProp(token, "text") ?? "",
+                  )}
+                </code>
               </pre>
             );
           case "blockquote":
@@ -167,20 +244,28 @@ function renderBlockTokens(
                 key={key}
                 className="mb-2 last:mb-0 border-l-2 border-brown-300 pl-2"
               >
-                {renderBlockTokens(token.tokens ?? [], `${key}-bq`)}
+                {renderBlockTokens(getArrayProp(token, "tokens"), `${key}-bq`)}
               </blockquote>
             );
           case "list": {
-            const ListTag = token.ordered ? "ol" : "ul";
+            const ListTag = getBooleanProp(token, "ordered") ? "ol" : "ul";
+            const items = getArrayProp(token, "items");
             return (
               <ListTag key={key} className="mb-2 last:mb-0 pl-4 list-disc">
-                {(token.items ?? []).map((item: AnyToken, itemIdx: number) => (
-                  <li key={`${key}-li-${itemIdx}`}>
-                    {item.tokens
-                      ? renderBlockTokens(item.tokens, `${key}-li-${itemIdx}`)
-                      : item.text}
-                  </li>
-                ))}
+                {items.map((item, itemIdx) => {
+                  if (!isRecord(item)) return null;
+
+                  const itemTokens = getArrayProp(item, "tokens");
+                  return (
+                    <li key={`${key}-li-${itemIdx}`}>
+                      {itemTokens.length
+                        ? renderBlockTokens(itemTokens, `${key}-li-${itemIdx}`)
+                        : decodeDiscordHtmlEntities(
+                            getStringProp(item, "text") ?? "",
+                          )}
+                    </li>
+                  );
+                })}
               </ListTag>
             );
           }
@@ -196,23 +281,24 @@ function renderBlockTokens(
   );
 }
 
-function DiscordMarkdown({
-  markdown,
-  variant,
-}: {
+const DiscordMarkdown: React.FC<{
   markdown: string;
   variant: "block" | "inline";
-}) {
+}> = ({ markdown, variant }) => {
   const nodes = useMemo(() => {
-    const tokens = marked.lexer(markdown, {
+    const tokens: unknown[] = marked.lexer(markdown, {
       gfm: true,
       breaks: true,
-    }) as AnyToken[];
+    });
 
     if (variant === "inline") {
       const firstParagraph =
-        tokens.find((t) => t.type === "paragraph") ?? tokens[0];
-      const inlineTokens = firstParagraph?.tokens ?? [];
+        tokens.find(
+          (t) => isRecord(t) && getStringProp(t, "type") === "paragraph",
+        ) ?? tokens[0];
+      const inlineTokens = isRecord(firstParagraph)
+        ? getArrayProp(firstParagraph, "tokens")
+        : [];
       return renderInlineTokens(inlineTokens, "md-inline");
     }
 
@@ -220,7 +306,7 @@ function DiscordMarkdown({
   }, [markdown, variant]);
 
   return <>{nodes}</>;
-}
+};
 
 export const DiscordNews: React.FC = () => {
   const { authState } = useAuth();
