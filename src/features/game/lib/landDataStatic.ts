@@ -175,7 +175,19 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
   fishing: {
     dailyAttempts: {},
-    wharf: {},
+    wharf: {
+      // maps: {
+      //   "Starlight Tuna": 1,
+      //   "Twilight Anglerfish": 2,
+      // },
+      // castedAt: 100011000,
+      // caught: {
+      //   Anchovy: 1,
+      // },
+      // chum: "Earthworm",
+      // multiplier: 1,
+      // guaranteedCatch: "Anchovy",
+    },
   },
   crabTraps: {
     trapSpots: {},
@@ -277,7 +289,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
       total: 10,
     },
   },
-  farmActivity: {},
+  farmActivity: {
+    "Starlight Tuna Map Piece Found": 9,
+  },
   milestones: {},
   specialEvents: {
     history: {},

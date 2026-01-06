@@ -5,6 +5,8 @@ import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import lightning from "assets/icons/lightning.png";
 import fullMoon from "assets/icons/full_moon.png";
+import sparkle from "assets/decorations/sparkle.gif";
+import mapIcon from "assets/icons/map.webp";
 
 import { ZoomContext } from "components/ZoomProvider";
 import Spritesheet, {
@@ -23,6 +25,7 @@ import {
   FishName,
   FISH_DIFFICULTY,
   MarineMarvelName,
+  MAP_PIECES,
 } from "features/game/types/fishing";
 import { MachineState } from "features/game/lib/gameMachine";
 import { gameAnalytics } from "lib/gameAnalytics";
@@ -88,6 +91,18 @@ const _canFish = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 5;
 const _state = (state: MachineState) => state.context.state;
 
+const _marvel = (state: MachineState) => {
+  const game = state.context.state;
+  // If there is a ready marvel to be caught;
+  const ready = getKeys(MAP_PIECES).find(
+    (marvel) =>
+      !game.farmActivity[`${marvel} Caught`] &&
+      (game.farmActivity[`${marvel} Map Piece Found`] ?? 0) >= 9,
+  );
+
+  return ready;
+};
+
 export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const { t } = useAppTranslation();
   const spriteRef = useRef<SpriteSheetInstance>(undefined);
@@ -103,7 +118,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const canFish = useSelector(gameService, _canFish);
-
+  const readyMarvel = useSelector(gameService, _marvel);
   const { fishing, farmActivity } = state;
 
   // Catches cases where players try reset their fishing challenge
@@ -321,7 +336,34 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
                 className="absolute pointer-events-none"
               />
             )}
+            {readyMarvel && (
+              <img
+                src={mapIcon}
+                style={{
+                  width: `${PIXEL_SCALE * 12}px`,
+                  left: `${PIXEL_SCALE * 3}px`,
+                  top: `${PIXEL_SCALE * -19}px`,
+
+                  imageRendering: "pixelated",
+                }}
+                className="absolute animate-float pointer-events-none"
+              />
+            )}
           </>
+        )}
+
+        {fishing.wharf.maps && (
+          <img
+            src={sparkle}
+            style={{
+              width: `${PIXEL_SCALE * 20}px`,
+              left: `${PIXEL_SCALE * 26}px`,
+              top: `${PIXEL_SCALE * 16}px`,
+
+              imageRendering: "pixelated",
+            }}
+            className="absolute pointer-events-none"
+          />
         )}
 
         {showReelLabel && (
@@ -422,6 +464,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
             onClaim={close}
             farmActivity={farmActivity}
             difficultCatch={difficultCatch}
+            maps={fishing.wharf.maps ?? {}}
           />
         </CloseButtonPanel>
       </Modal>

@@ -802,3 +802,32 @@ export const BAIT: Record<FishingBait, true> = {
   "Fish Oil": true,
   "Crab Stick": true,
 };
+
+export const MAP_PIECES: Partial<
+  Record<MarineMarvelName, Partial<Record<FishName, { odds: number }>>>
+> = {
+  "Starlight Tuna": {
+    Halibut: { odds: 5 / 100 },
+    "Horse Mackerel": { odds: 36 / 100 },
+  },
+  "Twilight Anglerfish": {
+    Clownfish: { odds: 3 / 100 },
+    Squid: { odds: 45 / 100 },
+  },
+  "Gilded Swordfish": {
+    "Rock Blackfish": { odds: 7.47 / 100 },
+    Parrotfish: { odds: 22 / 100 },
+  },
+  "Radiant Ray": {
+    Trout: { odds: 4.23 / 100 },
+    // NOTE: "Crustacean G" does not exist as a FishName in the API yet; this cast is intentional so
+    // the table can be merged now and wired up once the real item name is confirmed/added.
+    ["Crustacean G" as FishName]: { odds: 9 / 100 },
+  },
+  "Phantom Barracuda": {
+    "Mahi Mahi": { odds: 0.36 / 100 },
+    // NOTE: "Crustacean P" does not exist as a FishName in the API yet; this cast is intentional so
+    // the table can be merged now and wired up once the real item name is confirmed/added.
+    ["Crustacean P" as FishName]: { odds: 18 / 100 },
+  },
+};

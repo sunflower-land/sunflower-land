@@ -1,3 +1,2 @@
-import en from "./dictionary.json";
-
-export type TranslationKeys = keyof typeof en;
+export type EnDictionary = (typeof import("./dictionary.json"))["default"];
+export type TranslationKeys = keyof EnDictionary;
