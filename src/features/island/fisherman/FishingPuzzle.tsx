@@ -223,6 +223,7 @@ const FishingPuzzle: React.FC<FishingMinigameProps> = ({
     undefined,
   );
   const hasReportedResultRef = useRef(false);
+  const lastMaxAttemptsRef = useRef(maxAttempts);
 
   const rowsArray = useMemo(
     () => Array.from({ length: dimensions.rows }, (_, index) => index),
@@ -270,6 +271,15 @@ const FishingPuzzle: React.FC<FishingMinigameProps> = ({
     );
     return () => cancelAnimationFrame(raf);
   }, [applyConfig, cols, resetKey, rows]);
+
+  // When the allowed attempts increase (paid retry), clear the reported flag
+  // so a subsequent success/fail can fire callbacks again without regenerating the path.
+  useEffect(() => {
+    if (maxAttempts !== lastMaxAttemptsRef.current) {
+      lastMaxAttemptsRef.current = maxAttempts;
+      hasReportedResultRef.current = false;
+    }
+  }, [maxAttempts]);
 
   const handleCorrectSelection = (row: number, col: number) => {
     const newRevealed = new Set(revealedTiles);
@@ -374,7 +384,7 @@ const FishingPuzzle: React.FC<FishingMinigameProps> = ({
         completionTimerRef.current = undefined;
       }
     };
-  }, [isComplete, attempts, reportFinish]);
+  }, [isComplete, attempts, reportFinish, maxAttempts]);
 
   return (
     <div className=" text-sm text-brown-500 flex flex-col items-center">
