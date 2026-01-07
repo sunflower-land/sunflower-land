@@ -75,6 +75,29 @@ const FISH_OIL_SEASONAL: Record<TemperateSeasonName, Inventory> = {
   },
 };
 
+const CRAB_STICK_SEASONAL: Record<TemperateSeasonName, Inventory> = {
+  spring: {
+    "Blue Crab": new Decimal(1),
+    "Hermit Crab": new Decimal(1),
+    "Sea Slug": new Decimal(1),
+  },
+  summer: {
+    Mussel: new Decimal(1),
+    Isopod: new Decimal(1),
+    "Sea Snail": new Decimal(1),
+  },
+  autumn: {
+    Shrimp: new Decimal(1),
+    Lobster: new Decimal(1),
+    Barnacle: new Decimal(1),
+  },
+  winter: {
+    Oyster: new Decimal(1),
+    Isopod: new Decimal(1),
+    "Garden Eel": new Decimal(1),
+  },
+};
+
 const SEASONAL_PROCESSING_REQUIREMENTS: Record<
   ProcessedFood,
   Record<TemperateSeasonName, Inventory>
@@ -82,12 +105,7 @@ const SEASONAL_PROCESSING_REQUIREMENTS: Record<
   "Fish Flake": FISH_FLAKE_SEASONAL,
   "Fish Stick": FISH_STICK_SEASONAL,
   "Fish Oil": FISH_OIL_SEASONAL,
-  "Crab Stick": {
-    spring: {},
-    summer: {},
-    autumn: {},
-    winter: {},
-  },
+  "Crab Stick": CRAB_STICK_SEASONAL,
 };
 
 export const getFishProcessingRequirements = ({
