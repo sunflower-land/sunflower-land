@@ -251,14 +251,20 @@ function formatPostedDate(createdAtMs: number) {
   return `${ordinal(day)} ${month} ${year}`;
 }
 
-function getDiscordPostedLabel(createdAtMs: number, nowMs: number) {
+function getDiscordPostedLabel(
+  createdAtMs: number,
+  nowMs: number,
+  t: ReturnType<typeof useAppTranslation>["t"],
+) {
   const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
 
   if (nowMs - createdAtMs > SEVEN_DAYS_MS) {
-    return `Posted on ${formatPostedDate(createdAtMs)} on Discord`;
+    return t("discordNews.postedOn", { date: formatPostedDate(createdAtMs) });
   }
 
-  return `Posted ${getRelativeTime(createdAtMs, nowMs)} on Discord`;
+  return t("discordNews.postedAgo", {
+    time: getRelativeTime(createdAtMs, nowMs),
+  });
 }
 
 function getStringProp(obj: UnknownRecord, key: string): string | undefined {
@@ -486,9 +492,9 @@ function renderBlockTokens(
 const DiscordMarkdown: React.FC<{
   markdown: string;
   variant: "block" | "inline";
-  nowMs?: number;
+  nowMs: number;
 }> = ({ markdown, variant, nowMs }) => {
-  const safeMarkdown = replaceDiscordTimestamps(markdown, nowMs ?? Date.now());
+  const safeMarkdown = replaceDiscordTimestamps(markdown, nowMs);
 
   const tokens: unknown[] = marked.lexer(safeMarkdown, {
     gfm: true,
@@ -535,7 +541,7 @@ export const DiscordNews: React.FC = () => {
   // Mark the latest announcement as "read" once they've opened the Discord news panel.
   useEffect(() => {
     if (!data) return;
-    storeDiscordNewsReadAt(Date.now());
+    storeDiscordNewsReadAt(now);
   }, [data]);
 
   if (isLoading) return <Loading />;
@@ -550,7 +556,7 @@ export const DiscordNews: React.FC = () => {
       selectedAnnouncement.sender.displayName ??
       selectedAnnouncement.sender.username;
 
-    const postedLabel = getDiscordPostedLabel(createdAt, now);
+    const postedLabel = getDiscordPostedLabel(createdAt, now, t);
 
     return (
       <div className="max-h-[450px] overflow-y-auto scrollable">
