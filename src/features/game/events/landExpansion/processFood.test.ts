@@ -23,7 +23,7 @@ const SPRING_STATE: GameState = {
   inventory: {
     Anchovy: new Decimal(10),
     Porgy: new Decimal(2),
-    "Sea Horse": new Decimal(2),
+    "Sea Bass": new Decimal(2),
   },
   buildings: {
     "Fish Market": [
@@ -97,7 +97,7 @@ describe("processProcessedFood", () => {
         "Moray Eel": new Decimal(5),
         Tilapia: new Decimal(3),
         "Olive Flounder": new Decimal(10),
-        Ray: new Decimal(10),
+        "Zebra Turkeyfish": new Decimal(10),
       },
       vip: {
         bundles: [{ name: "1_MONTH", boughtAt: Date.now() }],

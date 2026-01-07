@@ -465,6 +465,7 @@ export const SUNNYSIDE = {
   },
   //Building
   building: {
+    fishMarket: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/fish_market.webp`,
     smoke: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/smoke.gif`,
     wishingwell: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/wishing_well.png`,
     bountyBoard: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/bounty_board.png`,

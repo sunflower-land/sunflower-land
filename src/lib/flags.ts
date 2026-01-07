@@ -123,8 +123,7 @@ const FEATURE_FLAGS = {
   DAILY_BOXES: defaultFeatureFlag,
   MICRO_INTERACTIONS: defaultFeatureFlag,
   MULTI_CAST: defaultFeatureFlag,
-  FISH_MARKET: testnetFeatureFlag,
-  DISCORD_NEWS: defaultFeatureFlag,
+  FISH_MARKET: defaultFeatureFlag,
   MAP_PIECES: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 

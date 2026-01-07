@@ -7653,7 +7653,6 @@
   "fishing.select.your.bait": "Sélectionnez votre appât",
   "fishing.dont.have.enough.bait": "Vous n'avez pas assez de {{bait}}",
   "fishing.guaranteedCatch.select": "Sélectionnez votre capture garantie :",
-  "statements.craft.fishHouse": "Artisanat à Fish House",
   "fishing.notEnoughBait": "Tu n'as pas assez de {{bait}} !",
   "fishingPuzzle.retryPrompt": "Aimeriez-vous faire plus d'essais pour les pièces {{coins}} ?",
   "bonus.2026-tiara-wave.name": "Diadème 2026",
@@ -7756,5 +7755,8 @@
   "description.giant.isopod": "Un monstre océanique géant !",
   "description.nautilus": "Escargot marin à carapace dure qui nage dans les profondeurs.",
   "description.dollocaris": "Poisson d'eau profonde doté d'une longue nageoire dorsale pointue.",
-  "description.nautilus.boost": "? ? ?"
+  "description.nautilus.boost": "? ? ?",
+  "fishing.buyMoreReels.old": "Achetez 5 rouleaux avec {{gemPrice}}",
+  "discordNews.postedOn": "Publié le {{date}} sur Discord",
+  "discordNews.postedAgo": "Publié {{time}} sur Discord"
 }

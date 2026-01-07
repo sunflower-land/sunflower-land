@@ -7653,7 +7653,6 @@
   "fishing.select.your.bait": "Select your bait",
   "fishing.dont.have.enough.bait": "You don't have enough {{bait}}",
   "fishing.guaranteedCatch.select": "Select your guaranteed catch:",
-  "statements.craft.fishHouse": "Craft at Fish House",
   "fishing.notEnoughBait": "You don't have enough {{bait}}!",
   "fishingPuzzle.retryPrompt": "Would you like more attempts for {{coins}} coins?",
   "bonus.2026-tiara-wave.name": "2026 Tiara",
@@ -7756,5 +7755,8 @@
   "description.giant.isopod": "A giant ocean creep!",
   "description.nautilus": "A sea-dwelling snail with a hard shell, swimming through the depths.",
   "description.dollocaris": "A deep-sea fish with a long, sharp dorsal fin.",
-  "description.nautilus.boost": "???"
+  "description.nautilus.boost": "???",
+  "fishing.buyMoreReels.old": "Buy 5 reels with {{gemPrice}}",
+  "discordNews.postedOn": "Posted on {{date}} on Discord",
+  "discordNews.postedAgo": "Posted {{time}} on Discord"
 }

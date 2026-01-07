@@ -7653,7 +7653,6 @@
   "fishing.select.your.bait": "Yeminizi seçin",
   "fishing.dont.have.enough.bait": "Yeterince sahip değilsiniz {{bait}}",
   "fishing.guaranteedCatch.select": "Garantili yakalamanızı seçin:",
-  "statements.craft.fishHouse": "Fish House'da El Sanatları",
   "fishing.notEnoughBait": "Yeterince sahip değilsin {{bait}}!",
   "fishingPuzzle.retryPrompt": "{{coins}} jetonları için daha fazla deneme ister misiniz?",
   "bonus.2026-tiara-wave.name": "2026 Taç",
@@ -7756,5 +7755,8 @@
   "description.giant.isopod": "Dev bir okyanus sürüngenliği!",
   "description.nautilus": "Derinliklerde yüzen, sert kabuklu, denizde yaşayan bir salyangoz.",
   "description.dollocaris": "Uzun, keskin sırt yüzgecine sahip derin deniz balığı.",
-  "description.nautilus.boost": "???"
+  "description.nautilus.boost": "???",
+  "fishing.buyMoreReels.old": "{{gemPrice}} ile 5 makara satın alın",
+  "discordNews.postedOn": "Discord'da {{date}} tarihinde yayınlandı",
+  "discordNews.postedAgo": "Discord'da yayınlandı {{time}}"
 }

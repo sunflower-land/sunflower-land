@@ -7653,7 +7653,6 @@
   "fishing.select.your.bait": "Wähle deinen Köder",
   "fishing.dont.have.enough.bait": "Du hast nicht genug {{bait}}",
   "fishing.guaranteedCatch.select": "Wählen Sie Ihren garantierten Fang aus:",
-  "statements.craft.fishHouse": "Basteln im Fish House",
   "fishing.notEnoughBait": "Du hast nicht genug {{bait}}!",
   "fishingPuzzle.retryPrompt": "Möchtest du mehr Versuche für {{coins}} -Münzen erhalten?",
   "bonus.2026-tiara-wave.name": "2026 Diadem",
@@ -7756,5 +7755,8 @@
   "description.giant.isopod": "Ein riesiger Meeresschleicher!",
   "description.nautilus": "Eine Meeresschnecke mit harter Schale, die durch die Tiefen schwimmt.",
   "description.dollocaris": "Ein Tiefseefisch mit einer langen, scharfen Rückenflosse.",
-  "description.nautilus.boost": "???"
+  "description.nautilus.boost": "???",
+  "fishing.buyMoreReels.old": "Kaufe 5 Rollen mit {{gemPrice}}",
+  "discordNews.postedOn": "Gepostet am {{date}} auf Discord",
+  "discordNews.postedAgo": "Gepostet von {{time}} auf Discord"
 }

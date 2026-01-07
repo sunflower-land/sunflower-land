@@ -7653,7 +7653,6 @@
   "fishing.select.your.bait": "Seleziona la tua esca",
   "fishing.dont.have.enough.bait": "Non ne hai abbastanza {{bait}}",
   "fishing.guaranteedCatch.select": "Seleziona il pescato garantito:",
-  "statements.craft.fishHouse": "Artigianato presso Fish House",
   "fishing.notEnoughBait": "Non ne hai abbastanza {{bait}}!",
   "fishingPuzzle.retryPrompt": "Desideri altri tentativi per ottenere {{coins}} monete?",
   "bonus.2026-tiara-wave.name": "Diadema 2026",
@@ -7756,5 +7755,8 @@
   "description.giant.isopod": "Un gigantesco mostro oceanico!",
   "description.nautilus": "Una lumaca marina dal guscio duro, che nuota nelle profondità.",
   "description.dollocaris": "Un pesce di acque profonde con una pinna dorsale lunga e affilata.",
-  "description.nautilus.boost": "???"
+  "description.nautilus.boost": "???",
+  "fishing.buyMoreReels.old": "Acquista 5 rulli con {{gemPrice}}",
+  "discordNews.postedOn": "Pubblicato il {{date}} su Discord",
+  "discordNews.postedAgo": "Pubblicato {{time}} su Discord"
 }

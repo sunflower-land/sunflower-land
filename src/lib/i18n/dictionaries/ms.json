@@ -7653,7 +7653,6 @@
   "fishing.select.your.bait": "Pilih umpan anda",
   "fishing.dont.have.enough.bait": "Anda tidak mempunyai cukup {{bait}}",
   "fishing.guaranteedCatch.select": "Pilih tangkapan yang dijamin anda:",
-  "statements.craft.fishHouse": "Kraf di Rumah Ikan",
   "fishing.notEnoughBait": "Anda tidak mempunyai cukup {{bait}}!",
   "fishingPuzzle.retryPrompt": "Adakah anda ingin lebih banyak percubaan untuk duit syiling {{coins}}?",
   "bonus.2026-tiara-wave.name": "2026 Tiara",
@@ -7756,5 +7755,8 @@
   "description.giant.isopod": "Melayap laut gergasi!",
   "description.nautilus": "Siput yang tinggal di laut dengan cangkang keras, berenang melalui kedalaman.",
   "description.dollocaris": "Ikan laut dalam dengan sirip punggung yang panjang dan tajam.",
-  "description.nautilus.boost": "???"
+  "description.nautilus.boost": "???",
+  "fishing.buyMoreReels.old": "Beli 5 gulungan dengan {{gemPrice}}",
+  "discordNews.postedOn": "Dihantar pada {{date}} pada Discord",
+  "discordNews.postedAgo": "Dihantar {{time}} pada Discord"
 }

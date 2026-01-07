@@ -462,11 +462,7 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
                   </p>
                 </div>
                 <Button
-                  disabled={
-                    fishingLimitReached ||
-                    effectiveMultiplier > reelsLeft ||
-                    !selectedBait
-                  }
+                  disabled={!selectedBait}
                   className={`h-[30px] w-[40px]`}
                   onClick={() => setShowChum(true)}
                 >

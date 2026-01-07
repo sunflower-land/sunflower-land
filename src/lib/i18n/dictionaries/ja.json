@@ -7653,7 +7653,6 @@
   "fishing.select.your.bait": "お好きな餌をお選びください",
   "fishing.dont.have.enough.bait": "足りません {{bait}}",
   "fishing.guaranteedCatch.select": "保証漁獲量を選択してください:",
-  "statements.craft.fishHouse": "クラフト・アット・フィッシュ・ハウス",
   "fishing.notEnoughBait": "{{bait}} が足りません！",
   "fishingPuzzle.retryPrompt": "{{coins}} コインをもっと試したいですか？",
   "bonus.2026-tiara-wave.name": "2026 ティアラ",
@@ -7756,5 +7755,8 @@
   "description.giant.isopod": "巨大なオーシャンクリープ！",
   "description.nautilus": "殻が固く、深海を泳ぐ海に生息するカタツムリ。",
   "description.dollocaris": "長くて鋭い背びれを持つ深海魚。",
-  "description.nautilus.boost": "???"
+  "description.nautilus.boost": "???",
+  "fishing.buyMoreReels.old": "{{gemPrice}} で5リールを購入",
+  "discordNews.postedOn": "ディスコードの {{date}} に投稿されました",
+  "discordNews.postedAgo": "ディスコードに {{time}} を投稿"
 }

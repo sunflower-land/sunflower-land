@@ -105,9 +105,7 @@ import { config } from "features/wallet/WalletProvider";
 import { depositFlower } from "lib/blockchain/DepositFlower";
 import { NetworkOption } from "features/island/hud/components/deposit/DepositFlower";
 import { blessingIsReady } from "./blessings";
-import { hasReadNews } from "features/farming/mail/components/News";
 import { depositSFL } from "lib/blockchain/DepositSFL";
-import { getBumpkinLevel } from "./level";
 import { hasFeatureAccess } from "lib/flags";
 import { isDailyRewardReady } from "../events/landExpansion/claimDailyReward";
 import { getDailyRewardLastAcknowledged } from "../components/DailyReward";
@@ -760,7 +758,6 @@ export type BlockchainState = {
     | "seasonChanged"
     | "randomising"
     | "competition"
-    | "news"
     | "jinAirdrop"
     | "leagueResults"
     | "linkWallet"
@@ -1290,17 +1287,6 @@ export function startGame(authContext: AuthContext) {
             {
               target: "competition",
               cond: () => false,
-            },
-            {
-              target: "news",
-              cond: (context) => {
-                // Do not show if they are under level 5
-                const level = getBumpkinLevel(
-                  context.state.bumpkin?.experience ?? 0,
-                );
-                if (level < 5) return false;
-                return !hasReadNews();
-              },
             },
 
             {
@@ -2405,13 +2391,6 @@ export function startGame(authContext: AuthContext) {
         },
 
         linkWallet: {
-          on: {
-            ACKNOWLEDGE: {
-              target: "notifying",
-            },
-          },
-        },
-        news: {
           on: {
             ACKNOWLEDGE: {
               target: "notifying",

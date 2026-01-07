@@ -49,6 +49,20 @@ const TEAM_NPCS: Record<string, BumpkinParts> = {
   Jammy: NPC_WEARABLES.goldtooth,
 };
 
+const DISCORD_TIMESTAMP_STYLES = [
+  "t",
+  "T",
+  "d",
+  "D",
+  "f",
+  "F",
+  "R",
+  "s",
+  "S",
+] as const;
+
+type DiscordTimestampStyle = (typeof DISCORD_TIMESTAMP_STYLES)[number];
+
 function isSafeHttpUrl(href: string) {
   try {
     const url = new URL(href);
@@ -81,10 +95,169 @@ function decodeDiscordHtmlEntities(text: string) {
   );
 }
 
+function normalizeDiscordTimestampStyle(
+  styleRaw: string | undefined,
+): DiscordTimestampStyle | undefined {
+  if (!styleRaw) return undefined;
+
+  const style = styleRaw as DiscordTimestampStyle;
+  if (DISCORD_TIMESTAMP_STYLES.includes(style)) {
+    return style;
+  }
+
+  return undefined;
+}
+
+function formatRelativeTime(targetMs: number, nowMs: number) {
+  const diffSeconds = Math.round((targetMs - nowMs) / 1000);
+  const abs = Math.abs(diffSeconds);
+
+  const rtf =
+    typeof Intl !== "undefined" && "RelativeTimeFormat" in Intl
+      ? new Intl.RelativeTimeFormat(undefined, { numeric: "auto" })
+      : null;
+
+  const format = (value: number, unit: Intl.RelativeTimeFormatUnit) =>
+    rtf
+      ? rtf.format(value, unit)
+      : `${value} ${unit}${Math.abs(value) === 1 ? "" : "s"}`;
+
+  if (abs < 60) return format(diffSeconds, "second");
+  if (abs < 60 * 60) return format(Math.round(diffSeconds / 60), "minute");
+  if (abs < 60 * 60 * 24) return format(Math.round(diffSeconds / 3600), "hour");
+  if (abs < 60 * 60 * 24 * 30)
+    return format(Math.round(diffSeconds / 86400), "day");
+  if (abs < 60 * 60 * 24 * 365)
+    return format(Math.round(diffSeconds / (86400 * 30)), "month");
+
+  return format(Math.round(diffSeconds / (86400 * 365)), "year");
+}
+
+function formatDiscordTimestamp(
+  epochSeconds: number,
+  style: DiscordTimestampStyle | undefined,
+  nowMs: number,
+) {
+  const date = new Date(epochSeconds * 1000);
+
+  // IMPORTANT: Use the player's locale + timezone by leaving locale undefined.
+  switch (style) {
+    case "t":
+      return date.toLocaleTimeString(undefined, {
+        hour: "numeric",
+        minute: "2-digit",
+      });
+    case "T":
+      return date.toLocaleTimeString(undefined, {
+        hour: "numeric",
+        minute: "2-digit",
+        second: "2-digit",
+      });
+    case "d":
+      return date.toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      });
+    case "D":
+      return date.toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    case "f":
+      return date.toLocaleString(undefined, {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+      });
+    case "F":
+      return date.toLocaleString(undefined, {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+      });
+    case "R":
+      return formatRelativeTime(date.getTime(), nowMs);
+    case "s":
+      // Custom/legacy: compact local date+time (numeric)
+      return date.toLocaleString(undefined, {
+        dateStyle: "short",
+        timeStyle: "short",
+      });
+    case "S":
+      // Custom/legacy: more readable local date+time
+      return date.toLocaleString(undefined, {
+        dateStyle: "long",
+        timeStyle: "short",
+      });
+    default:
+      return date.toLocaleString();
+  }
+}
+
+function replaceDiscordTimestamps(text: string, nowMs: number) {
+  // Replace timestamps *before* markdown parsing so `<t:...>` can't be treated as raw HTML.
+  const replacer = (
+    match: string,
+    epochSecondsRaw: string,
+    styleRaw?: string,
+  ) => {
+    const epochSeconds = Number(epochSecondsRaw);
+    if (!Number.isFinite(epochSeconds)) return match;
+
+    const style = normalizeDiscordTimestampStyle(styleRaw);
+    return formatDiscordTimestamp(epochSeconds, style, nowMs);
+  };
+
+  return text
+    .replace(/<t:(\d+)(?::([a-zA-Z]))?>/g, replacer)
+    .replace(/&lt;t:(\d+)(?::([a-zA-Z]))?&gt;/g, replacer);
+}
+
 type UnknownRecord = Record<string, unknown>;
 
 function isRecord(value: unknown): value is UnknownRecord {
   return typeof value === "object" && value !== null;
+}
+
+function ordinal(n: number) {
+  const mod10 = n % 10;
+  const mod100 = n % 100;
+  if (mod10 === 1 && mod100 !== 11) return `${n}st`;
+  if (mod10 === 2 && mod100 !== 12) return `${n}nd`;
+  if (mod10 === 3 && mod100 !== 13) return `${n}rd`;
+  return `${n}th`;
+}
+
+function formatPostedDate(createdAtMs: number) {
+  const date = new Date(createdAtMs);
+  const day = date.getDate();
+  const month = date.toLocaleString(undefined, { month: "long" });
+  const year = date.getFullYear();
+
+  return `${ordinal(day)} ${month} ${year}`;
+}
+
+function getDiscordPostedLabel(
+  createdAtMs: number,
+  nowMs: number,
+  t: ReturnType<typeof useAppTranslation>["t"],
+) {
+  const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
+
+  if (nowMs - createdAtMs > SEVEN_DAYS_MS) {
+    return t("discordNews.postedOn", { date: formatPostedDate(createdAtMs) });
+  }
+
+  return t("discordNews.postedAgo", {
+    time: getRelativeTime(createdAtMs, nowMs),
+  });
 }
 
 function getStringProp(obj: UnknownRecord, key: string): string | undefined {
@@ -312,8 +485,11 @@ function renderBlockTokens(
 const DiscordMarkdown: React.FC<{
   markdown: string;
   variant: "block" | "inline";
-}> = ({ markdown, variant }) => {
-  const tokens: unknown[] = marked.lexer(markdown, {
+  nowMs: number;
+}> = ({ markdown, variant, nowMs }) => {
+  const safeMarkdown = replaceDiscordTimestamps(markdown, nowMs);
+
+  const tokens: unknown[] = marked.lexer(safeMarkdown, {
     gfm: true,
     breaks: true,
   });
@@ -358,7 +534,7 @@ export const DiscordNews: React.FC = () => {
   // Mark the latest announcement as "read" once they've opened the Discord news panel.
   useEffect(() => {
     if (!data) return;
-    storeDiscordNewsReadAt(Date.now());
+    storeDiscordNewsReadAt(now);
   }, [data]);
 
   if (isLoading) return <Loading />;
@@ -369,10 +545,11 @@ export const DiscordNews: React.FC = () => {
     if (!selectedAnnouncement) return <p>{t("error")}</p>;
 
     const createdAt = new Date(selectedAnnouncement.createdAt).getTime();
-    const relativeTime = getRelativeTime(createdAt, now);
     const sender =
       selectedAnnouncement.sender.displayName ??
       selectedAnnouncement.sender.username;
+
+    const postedLabel = getDiscordPostedLabel(createdAt, now, t);
 
     return (
       <div className="max-h-[450px] overflow-y-auto scrollable">
@@ -398,7 +575,7 @@ export const DiscordNews: React.FC = () => {
                 rel="noreferrer"
                 className="text-xxs underline"
               >
-                {`${relativeTime} on Discord`}
+                {postedLabel}
               </a>
             </div>
           </div>
@@ -408,6 +585,7 @@ export const DiscordNews: React.FC = () => {
           <DiscordMarkdown
             markdown={selectedAnnouncement.content}
             variant="block"
+            nowMs={now}
           />
         </div>
         {selectedAnnouncement.images.map((image) => (
@@ -423,7 +601,11 @@ export const DiscordNews: React.FC = () => {
     <div className="max-h-[450px] overflow-y-auto scrollable pr-0.5">
       {announcements.map((announcement) => {
         const createdAt = new Date(announcement.createdAt).getTime();
-        const relativeTime = getRelativeTime(createdAt, now);
+        const relativeTime =
+          now - createdAt > 7 * 24 * 60 * 60 * 1000
+            ? formatPostedDate(createdAt)
+            : getRelativeTime(createdAt, now);
+
         const previewText = announcement.content
           .replace(/\r?\n/g, " ")
           .replace(/\s{2,}/g, " ")
@@ -445,7 +627,11 @@ export const DiscordNews: React.FC = () => {
                   <span>{relativeTime}</span>
                 </p>
                 <div className="text-xxs discord-news-preview break-words">
-                  <DiscordMarkdown markdown={previewText} variant="inline" />
+                  <DiscordMarkdown
+                    markdown={previewText}
+                    variant="inline"
+                    nowMs={now}
+                  />
                 </div>
               </div>
             </div>
