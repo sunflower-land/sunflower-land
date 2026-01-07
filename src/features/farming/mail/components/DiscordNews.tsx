@@ -49,16 +49,19 @@ const TEAM_NPCS: Record<string, BumpkinParts> = {
   Jammy: NPC_WEARABLES.goldtooth,
 };
 
-type DiscordTimestampStyle =
-  | "t"
-  | "T"
-  | "d"
-  | "D"
-  | "f"
-  | "F"
-  | "R"
-  | "s"
-  | "S";
+const DISCORD_TIMESTAMP_STYLES = [
+  "t",
+  "T",
+  "d",
+  "D",
+  "f",
+  "F",
+  "R",
+  "s",
+  "S",
+] as const;
+
+type DiscordTimestampStyle = (typeof DISCORD_TIMESTAMP_STYLES)[number];
 
 function isSafeHttpUrl(href: string) {
   try {
@@ -98,17 +101,7 @@ function normalizeDiscordTimestampStyle(
   if (!styleRaw) return undefined;
 
   const style = styleRaw as DiscordTimestampStyle;
-  if (
-    style === "t" ||
-    style === "T" ||
-    style === "d" ||
-    style === "D" ||
-    style === "f" ||
-    style === "F" ||
-    style === "R" ||
-    style === "s" ||
-    style === "S"
-  ) {
+  if (DISCORD_TIMESTAMP_STYLES.includes(style)) {
     return style;
   }
 
