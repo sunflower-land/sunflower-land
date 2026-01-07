@@ -125,7 +125,7 @@ export const WaterTrapModal: React.FC<Props> = ({
                   className="text-xs"
                   icon={ITEM_DETAILS[chum].image}
                 >
-                  {`${CHUM_AMOUNTS[chum]} ${chum} ${t("chum")}`}
+                  {`${CRUSTACEAN_CHUM_AMOUNTS[chum]} ${chum} ${t("chum")}`}
                 </Label>
               </div>
             )}
