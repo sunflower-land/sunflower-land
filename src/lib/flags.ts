@@ -124,7 +124,6 @@ const FEATURE_FLAGS = {
   MICRO_INTERACTIONS: defaultFeatureFlag,
   MULTI_CAST: defaultFeatureFlag,
   FISH_MARKET: defaultFeatureFlag,
-  DISCORD_NEWS: defaultFeatureFlag,
   MAP_PIECES: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 

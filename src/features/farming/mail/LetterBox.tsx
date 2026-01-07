@@ -1,5 +1,4 @@
 import React, {
-  useCallback,
   useContext,
   useEffect,
   useState,
@@ -28,9 +27,6 @@ import letter from "assets/icons/letter.png";
 import { MachineState } from "features/game/lib/gameMachine";
 import { PWAInstallMessage } from "./components/PWAInstallMessage";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
-import { WhatsOn } from "./components/WhatsOn";
-import { hasReadNews, News } from "./components/News";
-import { hasFeatureAccess } from "lib/flags";
 import { DiscordNews } from "./components/DiscordNews";
 import { useAuth } from "features/auth/lib/Provider";
 import {
@@ -41,14 +37,12 @@ import {
 } from "./actions/discordNews";
 
 const _announcements = (state: MachineState) => state.context.announcements;
-const _discordNewsEnabled = (state: MachineState) =>
-  hasFeatureAccess(state.context.state, "DISCORD_NEWS");
 const _mailbox = (state: MachineState) => state.context.state.mailbox;
 
 export const LetterBox: React.FC = () => {
   const { gameService, showAnimations } = useContext(Context);
   const { authState } = useAuth();
-  const [tab, setTab] = useState<"mail" | "news" | "whatsOn">("mail");
+  const [tab, setTab] = useState<"mail" | "news">("mail");
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<string>();
   const isPWA = useIsPWA();
@@ -72,28 +66,22 @@ export const LetterBox: React.FC = () => {
     // And not visiting
     !isVisiting;
 
-  const discordNewsEnabled = useSelector(gameService, _discordNewsEnabled);
+  const discordNewsSubscribe = (onStoreChange: () => void) => {
+    if (typeof window === "undefined") return () => {};
 
-  const discordNewsSubscribe = useCallback(
-    (onStoreChange: () => void) => {
-      if (typeof window === "undefined") return () => {};
-      if (!discordNewsEnabled) return () => {};
+    window.addEventListener("storage", onStoreChange);
+    window.addEventListener(DISCORD_NEWS_STORAGE_EVENT, onStoreChange);
 
-      window.addEventListener("storage", onStoreChange);
-      window.addEventListener(DISCORD_NEWS_STORAGE_EVENT, onStoreChange);
-
-      return () => {
-        window.removeEventListener("storage", onStoreChange);
-        window.removeEventListener(DISCORD_NEWS_STORAGE_EVENT, onStoreChange);
-      };
-    },
-    [discordNewsEnabled],
-  );
+    return () => {
+      window.removeEventListener("storage", onStoreChange);
+      window.removeEventListener(DISCORD_NEWS_STORAGE_EVENT, onStoreChange);
+    };
+  };
 
   const discordNewsLatestAt = useSyncExternalStore(
     discordNewsSubscribe,
     () => {
-      if (typeof window === "undefined" || !discordNewsEnabled) return null;
+      if (typeof window === "undefined") return null;
       return getDiscordNewsLatestAt();
     },
     () => null,
@@ -102,14 +90,13 @@ export const LetterBox: React.FC = () => {
   const discordNewsReadAt = useSyncExternalStore(
     discordNewsSubscribe,
     () => {
-      if (typeof window === "undefined" || !discordNewsEnabled) return null;
+      if (typeof window === "undefined") return null;
       return getDiscordNewsReadAt();
     },
     () => null,
   );
 
   useEffect(() => {
-    if (!discordNewsEnabled) return;
     if (isVisiting) return;
 
     const token = authState.context.user.rawToken as string | undefined;
@@ -117,18 +104,14 @@ export const LetterBox: React.FC = () => {
 
     // Cache + timestamps are written to localStorage; UI reacts via useSyncExternalStore.
     preloadDiscordNews({ token });
-  }, [discordNewsEnabled, authState.context.user.rawToken, isVisiting]);
+  }, [authState.context.user.rawToken, isVisiting]);
 
   const hasUnreadDiscordUpdate = !!(
-    discordNewsEnabled &&
     discordNewsLatestAt &&
     (!discordNewsReadAt || discordNewsLatestAt > discordNewsReadAt)
   );
-  const hasUnreadNewsUpdate = discordNewsEnabled
-    ? hasUnreadDiscordUpdate
-    : !hasReadNews();
 
-  const shouldShowNewsAlert = hasUnreadNewsUpdate && !isVisiting;
+  const shouldShowNewsAlert = hasUnreadDiscordUpdate && !isVisiting;
   const details = selected ? announcements[selected] : undefined;
 
   return (
@@ -234,12 +217,6 @@ export const LetterBox: React.FC = () => {
                 unread: shouldShowNewsAlert,
                 id: "news",
               },
-
-              {
-                icon: SUNNYSIDE.icons.stopwatch,
-                name: t("mailbox.whatsOn"),
-                id: "whatsOn",
-              },
             ]}
             currentTab={tab}
             setCurrentTab={setTab}
@@ -250,11 +227,9 @@ export const LetterBox: React.FC = () => {
             )}
             {tab === "news" && (
               <InnerPanel>
-                {discordNewsEnabled ? <DiscordNews /> : <News />}
+                <DiscordNews />
               </InnerPanel>
             )}
-
-            {tab === "whatsOn" && <WhatsOn />}
           </CloseButtonPanel>
         )}
       </Modal>
