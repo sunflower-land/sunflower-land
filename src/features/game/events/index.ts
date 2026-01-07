@@ -170,6 +170,7 @@ import {
   ClaimMilestoneAction,
 } from "./landExpansion/claimMilestone";
 import { missFish, MissFishAction } from "./landExpansion/missFish";
+import { missMap, MissMapAction } from "./landExpansion/missMap";
 import { revealLand, RevealLandAction } from "./landExpansion/revealLand";
 import {
   burnCollectible,
@@ -652,6 +653,7 @@ export type PlayingEvent =
   | CatchMarvelAction
   | ClaimMilestoneAction
   | MissFishAction
+  | MissMapAction
   | RevealLandAction
   | BurnCollectibleAction
   | ClaimReferralRewardsAction
@@ -913,6 +915,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "marvel.caught": catchMarvel,
   "milestone.claimed": claimMilestone,
   "fish.missed": missFish,
+  "map.missed": missMap,
   "land.revealed": revealLand,
   "collectible.burned": burnCollectible,
   "bonus.claimed": claimBonus,

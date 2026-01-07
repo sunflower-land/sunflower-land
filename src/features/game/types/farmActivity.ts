@@ -220,7 +220,8 @@ export type FarmActivityName =
   | "Fish Retried"
   | `${WaterTrapName} Collected`
   | `${WaterTrapName} Placed`
-  | `${MarineMarvelName} Map Piece Found`;
+  | `${MarineMarvelName} Map Piece Found`
+  | "Map Missed";
 
 export function trackFarmActivity(
   activityName: FarmActivityName,

@@ -7245,7 +7245,6 @@
   "confirm.renew.message": "Êtes-vous sûr de vouloir renouveler {{name}} ?",
   "shrine.expired": "{{name}} Expiré",
   "fishingPuzzle.attemptsLeft": "Tentatives restantes : {{attemptsLeft}}/{{attemptLimit}}",
-  "fishingPuzzle.findSafePath": "Trouvez le chemin sûr pour amener le poisson au sommet.",
   "fishingPuzzle.success": "Excellent travail ! Tu as atteint le sommet.",
   "fishingPuzzle.failedAttempts": "Tu n'as plus eu de tentatives.",
   "node.beehive": "Ruche",
@@ -7758,5 +7757,8 @@
   "description.nautilus.boost": "? ? ?",
   "fishing.buyMoreReels.old": "Achetez 5 rouleaux avec {{gemPrice}}",
   "discordNews.postedOn": "Publié le {{date}} sur Discord",
-  "discordNews.postedAgo": "Publié {{time}} sur Discord"
+  "discordNews.postedAgo": "Publié {{time}} sur Discord",
+  "fishingPuzzle.findSafePath": "Trouvez le chemin sûr pour accéder à la carte",
+  "fishingPuzzle.timeoutTitle": "Oh non, tu n'as pas été assez rapide !",
+  "fishingPuzzle.timeoutMessage": "Oh non, tu n'as pas été assez rapide, tu as raté un bout de carte."
 }

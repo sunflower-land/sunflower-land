@@ -7245,7 +7245,6 @@
   "confirm.renew.message": "¿Estás seguro de que quieres renovar {{name}}?",
   "shrine.expired": "{{name}} Caducado",
   "fishingPuzzle.attemptsLeft": "Intentos restantes: {{attemptsLeft}}/{{attemptLimit}}",
-  "fishingPuzzle.findSafePath": "Encuentra el camino seguro para llevar a los peces a la cima.",
   "fishingPuzzle.success": "¡Buen trabajo! Llegaste a la cima.",
   "fishingPuzzle.failedAttempts": "Se te acabaron los intentos.",
   "node.beehive": "Colmena",
@@ -7758,5 +7757,8 @@
   "description.nautilus.boost": "???",
   "fishing.buyMoreReels.old": "Compra 5 carretes con {{gemPrice}}",
   "discordNews.postedOn": "Publicado el {{date}} en Discord",
-  "discordNews.postedAgo": "Publicado {{time}} en Discord"
+  "discordNews.postedAgo": "Publicado {{time}} en Discord",
+  "fishingPuzzle.findSafePath": "Encuentra la ruta segura para el mapa",
+  "fishingPuzzle.timeoutTitle": "¡Oh, no, no fuiste lo suficientemente rápido!",
+  "fishingPuzzle.timeoutMessage": "Oh, no, no fuiste lo suficientemente rápido, te perdiste una parte del mapa."
 }

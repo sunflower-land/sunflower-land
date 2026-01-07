@@ -7245,7 +7245,6 @@
   "confirm.renew.message": "您确定要为 {{name}} 办理续期吗？",
   "shrine.expired": "{{name}} 已失效",
   "fishingPuzzle.attemptsLeft": "剩余次数：{{attemptsLeft}}/{{attemptLimit}}",
-  "fishingPuzzle.findSafePath": "寻找安全路径，将鱼带到顶部。",
   "fishingPuzzle.success": "干得漂亮！成功到达顶部。",
   "fishingPuzzle.failedAttempts": "尝试次数已耗尽。",
   "node.beehive": "蜂巢",
@@ -7758,5 +7757,8 @@
   "description.nautilus.boost": "？？",
   "fishing.buyMoreReels.old": "使用 {{gemPrice}} 购买 5 个卷轴",
   "discordNews.postedOn": "在 Discord 上发布于 {{date}}",
-  "discordNews.postedAgo": "在 Discord 上发布 {{time}}"
+  "discordNews.postedAgo": "在 Discord 上发布 {{time}}",
+  "fishingPuzzle.findSafePath": "找到地图的安全路径",
+  "fishingPuzzle.timeoutTitle": "哦不，你还不够快！",
+  "fishingPuzzle.timeoutMessage": "哦不，你还不够快，你错过了一张地图。"
 }

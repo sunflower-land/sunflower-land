@@ -1296,7 +1296,7 @@ type WaterTrapSpot = {
 export type WaterTrap = {
   type: WaterTrapName;
   placedAt: number;
-  chum?: CrustaceanChum;
+  chum?: Crustacean;
   readyAt: number;
   caught?: Partial<Record<InventoryItemName, number>>;
 };

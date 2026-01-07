@@ -657,6 +657,26 @@ export const FISH_DIFFICULTY: Partial<
   "Pink Dolphin": 5,
 };
 
+// How difficulty the puzzle is to solve for the map
+export const MAP_PUZZLE_DIFFICULTY: Record<MarineMarvelName, number> = {
+  "Starlight Tuna": 2,
+  "Twilight Anglerfish": 3,
+  "Radiant Ray": 3,
+  "Phantom Barracuda": 4,
+  "Gilded Swordfish": 4,
+  "Crimson Carp": 3,
+  "Battle Fish": 3,
+  "Lemon Shark": 3,
+  "Longhorn Cowfish": 3,
+  Jellyfish: 3,
+  "Pink Dolphin": 3,
+  Poseidon: 3,
+  "Super Star": 4,
+  "Giant Isopod": 2,
+  Nautilus: 4,
+  Dollocaris: 5,
+};
+
 export function getDailyFishingCount(state: GameState): number {
   const today = new Date().toISOString().split("T")[0];
   return state.fishing.dailyAttempts?.[today] ?? 0;

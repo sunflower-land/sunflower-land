@@ -7245,7 +7245,6 @@
   "confirm.renew.message": "정말로 {{name}} 을 (를) 갱신하시겠습니까?",
   "shrine.expired": "{{name}} 만료됨",
   "fishingPuzzle.attemptsLeft": "남은 시도 횟수: {{attemptsLeft}}/{{attemptLimit}}",
-  "fishingPuzzle.findSafePath": "안전한 길을 찾아 물고기를 정상으로 데려가세요.",
   "fishingPuzzle.success": "잘했어!정상에 도착하셨군요.",
   "fishingPuzzle.failedAttempts": "시도 횟수가 부족합니다.",
   "node.beehive": "벌집",
@@ -7758,5 +7757,8 @@
   "description.nautilus.boost": "???",
   "fishing.buyMoreReels.old": "{{gemPrice}} 로 릴 5개를 구매하세요",
   "discordNews.postedOn": "디스코드 {{date}} 에 게시됨",
-  "discordNews.postedAgo": "디스코드에 게시됨 {{time}}"
+  "discordNews.postedAgo": "디스코드에 게시됨 {{time}}",
+  "fishingPuzzle.findSafePath": "지도의 안전한 경로 찾기",
+  "fishingPuzzle.timeoutTitle": "오, 아니, 당신은 충분히 빠르지 않았어요!",
+  "fishingPuzzle.timeoutMessage": "오, 아니, 당신은 충분히 빠르지 않았어요. 맵 피스를 놓치셨군요."
 }
