@@ -27,13 +27,13 @@ interface Props {
 }
 
 export const Finn: React.FC<Props> = ({ onClose }) => {
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState<"delivery" | "buy">("delivery");
   const [showIntro, setShowIntro] = useState(!hasReadIntro());
   const dialogue = npcDialogues.finn || defaultDialogue;
   const intro = useRandomItem(dialogue.intro);
   const { t } = useAppTranslation();
 
-  const handleIntro = (tab: number) => {
+  const handleIntro = (tab: "delivery" | "buy") => {
     setShowIntro(false);
     acknowledgeIntroRead();
     setTab(tab);
@@ -50,11 +50,11 @@ export const Finn: React.FC<Props> = ({ onClose }) => {
             actions: [
               {
                 text: t("buy"),
-                cb: () => handleIntro(1),
+                cb: () => handleIntro("buy"),
               },
               {
                 text: t("delivery"),
-                cb: () => handleIntro(0),
+                cb: () => handleIntro("delivery"),
               },
             ],
           },
@@ -69,14 +69,20 @@ export const Finn: React.FC<Props> = ({ onClose }) => {
       bumpkinParts={NPC_WEARABLES.finn}
       container={OuterPanel}
       tabs={[
-        { icon: SUNNYSIDE.icons.expression_chat, name: t("delivery") },
-        { icon: fishingLure, name: t("buy") },
+        {
+          icon: SUNNYSIDE.icons.expression_chat,
+          name: t("delivery"),
+          id: "delivery",
+        },
+        { icon: fishingLure, name: t("buy"), id: "buy" },
       ]}
       setCurrentTab={setTab}
       currentTab={tab}
     >
-      {tab === 0 && <DeliveryPanelContent onClose={onClose} npc="finn" />}
-      {tab === 1 && <BeachBaitShop />}
+      {tab === "delivery" && (
+        <DeliveryPanelContent onClose={onClose} npc="finn" />
+      )}
+      {tab === "buy" && <BeachBaitShop />}
     </CloseButtonPanel>
   );
 };

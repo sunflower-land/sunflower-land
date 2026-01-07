@@ -118,7 +118,8 @@ export const CropMachineModalContent: React.FC<Props> = ({
   const [showOverlayScreen, setShowOverlayScreen] = useState<boolean>(false);
   const [totalSeeds, setTotalSeeds] = useState(0);
   const [totalOil, setTotalOil] = useState(0);
-  const [tab, setTab] = useState(0);
+  type Tab = "cropMachine";
+  const [tab, setTab] = useState<Tab>("cropMachine");
 
   const { t } = useAppTranslation();
 
@@ -249,7 +250,13 @@ export const CropMachineModalContent: React.FC<Props> = ({
 
   return (
     <CloseButtonPanel
-      tabs={[{ icon: SUNNYSIDE.icons.seedling, name: t("cropMachine.name") }]}
+      tabs={[
+        {
+          id: "cropMachine",
+          icon: SUNNYSIDE.icons.seedling,
+          name: t("cropMachine.name"),
+        },
+      ]}
       currentTab={tab}
       setCurrentTab={setTab}
       onClose={onClose}

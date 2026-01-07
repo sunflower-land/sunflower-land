@@ -123,8 +123,10 @@ export const TentModal: React.FC<Props> = ({
 
   return (
     <CloseButtonPanel
-      tabs={[{ name: "Bumpkins", icon: SUNNYSIDE.icons.player }]}
-      currentTab={0}
+      tabs={[
+        { id: "bumpkins", name: "Bumpkins", icon: SUNNYSIDE.icons.player },
+      ]}
+      currentTab={"bumpkins"}
       onClose={onClose}
     >
       <SplitScreenView content={MainContent()} panel={PanelContent()} />

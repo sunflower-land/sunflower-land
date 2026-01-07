@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import {
+  CloseButtonPanel,
+  PanelTabs,
+} from "features/game/components/CloseablePanel";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import cheer from "assets/icons/cheer.webp";
@@ -117,6 +120,44 @@ export const PlayerModal: React.FC<Props> = ({
 
   const isSelf = loggedInFarmId === currentPlayerId;
 
+  const playerTab: PanelTabs<Tab> = {
+    icon: SUNNYSIDE.icons.player,
+    name: t("player"),
+    id: "Player",
+  };
+
+  const activityTab: PanelTabs<Tab> = {
+    icon: SUNNYSIDE.icons.expression_chat,
+    name: t("activity"),
+    id: "Activity",
+  };
+
+  const followersTab: PanelTabs<Tab> = {
+    icon: followersIcon,
+    name: t("followers"),
+    id: "Followers",
+  };
+
+  const followingTab: PanelTabs<Tab> = {
+    icon: followingIcon,
+    name: t("following"),
+    id: "Following",
+  };
+
+  const guideTab: PanelTabs<Tab> = {
+    icon: cheer,
+    name: t("guide"),
+    id: "Guide",
+  };
+
+  const tabs: PanelTabs<Tab>[] = [
+    playerTab,
+    ...(isMobile && !isSelf ? [activityTab] : []),
+    followersTab,
+    followingTab,
+    guideTab,
+  ];
+
   const handleFollow = async () => {
     setFollowLoading(true);
     try {
@@ -170,37 +211,7 @@ export const PlayerModal: React.FC<Props> = ({
           bumpkinParts={playerValidating ? undefined : player?.clothing}
           currentTab={tab}
           setCurrentTab={setTab}
-          tabs={[
-            {
-              icon: SUNNYSIDE.icons.player,
-              name: t("player"),
-              id: "Player",
-            },
-            ...(isMobile && !isSelf
-              ? [
-                  {
-                    icon: SUNNYSIDE.icons.expression_chat,
-                    name: t("activity"),
-                    id: "Activity",
-                  },
-                ]
-              : []),
-            {
-              icon: followersIcon,
-              name: t("followers"),
-              id: "Followers",
-            },
-            {
-              icon: followingIcon,
-              name: t("following"),
-              id: "Following",
-            },
-            {
-              icon: cheer,
-              name: t("guide"),
-              id: "Guide",
-            },
-          ]}
+          tabs={tabs}
           container={OuterPanel}
         >
           <div className="max-h-[500px]">

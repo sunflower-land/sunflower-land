@@ -842,7 +842,7 @@ const RowContent: React.FC<{
       >
         <CloseButtonPanel
           onClose={() => setShowOverlay(false)}
-          tabs={[{ name: title, icon: titleIcon }]}
+          tabs={[{ id: "overlay", name: title, icon: titleIcon }]}
         >
           {overlayContent}
         </CloseButtonPanel>

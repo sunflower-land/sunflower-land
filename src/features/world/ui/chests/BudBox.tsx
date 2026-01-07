@@ -23,6 +23,7 @@ import {
 } from "lib/utils/time";
 import { ChestRewardsList } from "components/ui/ChestRewardsList";
 import { useNow } from "lib/utils/hooks/useNow";
+import { PanelTabs } from "features/game/components/CloseablePanel";
 
 interface Props {
   onClose: () => void;
@@ -55,11 +56,20 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { t } = useAppTranslation();
-  const [tab, setTab] = useState(0);
-  const tabs = [
-    { icon: chestIcon, name: t("budBox.title") },
-    { icon: rewardsIcon, name: t("chestRewardsList.rewardsTitle") },
-  ];
+  type Tab = "box" | "rewards";
+  const [tab, setTab] = useState<Tab>("box");
+
+  const boxTab: PanelTabs<Tab> = {
+    id: "box",
+    icon: chestIcon,
+    name: t("budBox.title"),
+  };
+  const rewardsTab: PanelTabs<Tab> = {
+    id: "rewards",
+    icon: rewardsIcon,
+    name: t("chestRewardsList.rewardsTitle"),
+  };
+  const tabs: PanelTabs<Tab>[] = [boxTab, rewardsTab];
   const now = useNow();
 
   // Just a prolonged UI state to show the shuffle of items animation
@@ -127,7 +137,7 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
       setCurrentTab={setTab}
       onClose={onClose}
     >
-      {tab === 0 && (
+      {tab === "box" && (
         <div className="p-2">
           <p className="text-xs mb-3">{t("budBox.description")}</p>
           {BUD_ORDER.map((_, index) => {
@@ -200,7 +210,7 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
           })}
         </div>
       )}
-      {tab === 1 && <ChestRewardsList type={"Bud Box"} />}
+      {tab === "rewards" && <ChestRewardsList type={"Bud Box"} />}
     </CloseButtonPanel>
   );
 };

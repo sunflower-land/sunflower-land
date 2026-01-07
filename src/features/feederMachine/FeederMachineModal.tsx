@@ -84,7 +84,11 @@ export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
         onClose={onClose}
         container={OuterPanel}
         tabs={[
-          { icon: ITEM_DETAILS.Hay.image, name: t("feederMachine.title") },
+          {
+            id: "feederMachine",
+            icon: ITEM_DETAILS.Hay.image,
+            name: t("feederMachine.title"),
+          },
         ]}
       >
         <SplitScreenView

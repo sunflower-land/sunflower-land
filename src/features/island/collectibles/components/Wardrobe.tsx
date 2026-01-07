@@ -54,6 +54,7 @@ export const Wardrobe: React.FC = () => {
           container={OuterPanel}
           tabs={[
             {
+              id: "wardrobe",
               icon: SUNNYSIDE.decorations.wardrobe,
               name: "Wardrobe",
             },

@@ -73,6 +73,7 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
           onClose={() => setSelectedFarmHandId(undefined)}
           tabs={[
             {
+              id: "equip",
               icon: SUNNYSIDE.icons.wardrobe,
               name: t("equip"),
             },

@@ -4,6 +4,7 @@ import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { PanelTabs } from "features/game/components/CloseablePanel";
 import { useGame } from "features/game/GameProvider";
 import { getWeatherShop, WeatherShopItem } from "features/game/types/calendar";
 import { getKeys } from "features/game/types/decorations";
@@ -35,7 +36,8 @@ interface Props {
 export const WeatherShop: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useGame();
   const { t } = useAppTranslation();
-  const [tab, setTab] = useState(0);
+  type Tab = "sale" | "guide";
+  const [tab, setTab] = useState<Tab>("sale");
 
   const [showIntro, setShowIntro] = useState(!hasReadIntro());
 
@@ -81,17 +83,19 @@ export const WeatherShop: React.FC<Props> = ({ onClose }) => {
 
   return (
     <CloseButtonPanel
-      tabs={[
-        { icon: weatherIcon, name: t("sale") },
-        { icon: calendarIcon, name: t("guide") },
-      ]}
+      tabs={
+        [
+          { id: "sale", icon: weatherIcon, name: t("sale") },
+          { id: "guide", icon: calendarIcon, name: t("guide") },
+        ] satisfies PanelTabs<Tab>[]
+      }
       currentTab={tab}
       setCurrentTab={setTab}
       onClose={onClose}
       container={OuterPanel}
       bumpkinParts={NPC_WEARABLES["bailey"]}
     >
-      {tab === 0 && (
+      {tab === "sale" && (
         <SplitScreenView
           panel={
             <CraftingRequirements
@@ -133,7 +137,7 @@ export const WeatherShop: React.FC<Props> = ({ onClose }) => {
           }
         />
       )}
-      {tab === 1 && (
+      {tab === "guide" && (
         <InnerPanel>
           <WeatherGuide />
         </InnerPanel>

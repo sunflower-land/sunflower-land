@@ -201,13 +201,16 @@ export const AchievementsModal: React.FC<Props> = ({
   onClose,
   readonly,
 }) => {
-  const [tab, setTab] = useState(0);
   const { t } = useAppTranslation();
   return (
     <CloseButtonPanel
-      currentTab={tab}
-      setCurrentTab={setTab}
-      tabs={[{ icon: SUNNYSIDE.icons.player, name: t("achievements") }]}
+      tabs={[
+        {
+          id: "achievements",
+          icon: SUNNYSIDE.icons.player,
+          name: t("achievements"),
+        },
+      ]}
       onClose={onClose}
     >
       {/* @note: There is only one tab, no extra judgment is needed. */}

@@ -42,7 +42,7 @@ interface Props {
 }
 
 export const Champions: React.FC<Props> = ({ onClose }) => {
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState<"leaderboard" | "prizes">("leaderboard");
 
   const { t } = useAppTranslation();
 
@@ -53,17 +53,19 @@ export const Champions: React.FC<Props> = ({ onClose }) => {
         {
           name: t("leaderboard.champions"),
           icon: trophy,
+          id: "leaderboard",
         },
         {
           name: t("leaderboard.prizes"),
           icon: gift,
+          id: "prizes",
         },
       ]}
       currentTab={tab}
       setCurrentTab={setTab}
     >
-      {tab === 0 && <ChampionsLeaderboard onClose={onClose} />}
-      {tab === 1 && (
+      {tab === "leaderboard" && <ChampionsLeaderboard />}
+      {tab === "prizes" && (
         <div
           className="p-1 overflow-y-scroll scrollable pr-1"
           style={{ maxHeight: "350px" }}
@@ -75,7 +77,7 @@ export const Champions: React.FC<Props> = ({ onClose }) => {
   );
 };
 
-export const ChampionsLeaderboard: React.FC<Props> = ({ onClose }) => {
+export const ChampionsLeaderboard: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -97,6 +99,7 @@ export const ChampionsLeaderboard: React.FC<Props> = ({ onClose }) => {
     };
 
     load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (isLoading || !leaderboard) {
@@ -229,7 +232,7 @@ export const ChampionsPrizes: React.FC = () => {
 
     let isSameAsPrevious = false;
     if (previous) {
-      const { from, to, ...old } = previous;
+      const { from: _, to: __, ...old } = previous;
       isSameAsPrevious = JSON.stringify(prize) === JSON.stringify(old);
     }
 

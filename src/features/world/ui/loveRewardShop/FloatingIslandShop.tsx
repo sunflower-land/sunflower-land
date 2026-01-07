@@ -64,9 +64,7 @@ export const getItemDescription = (item: FloatingShopItem | null): string => {
   return ITEM_DETAILS[item.name].description;
 };
 
-export const Shop: React.FC<{
-  onClose: () => void;
-}> = ({ onClose }) => {
+export const Shop: React.FC = () => {
   const { gameState } = useGame();
   const state = gameState.context.state;
   const [selectedItem, setSelectedItem] = useState<FloatingShopItem | null>(
@@ -151,7 +149,7 @@ const Guide: React.FC = () => {
 export const FloatingIslandShop: React.FC<{
   onClose: () => void;
 }> = ({ onClose }) => {
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState<"shop" | "catalog">("shop");
 
   return (
     <>
@@ -164,14 +162,17 @@ export const FloatingIslandShop: React.FC<{
           {
             name: "Shop",
             icon: shopIcon,
+            id: "shop",
           },
           {
             name: "Catalog",
             icon: guideIcon,
+            id: "catalog",
           },
         ]}
       >
-        {tab === 0 ? <Shop onClose={onClose} /> : <Guide />}
+        {tab === "shop" && <Shop />}
+        {tab === "catalog" && <Guide />}
       </CloseButtonPanel>
     </>
   );

@@ -43,7 +43,8 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
   const [showRenewalModal, setShowRenewalModal] = useState(false);
 
   const [show, setShow] = useState(false);
-  const [activeTab, setActiveTab] = useState(0);
+  type Tab = "harvest" | "plant";
+  const [activeTab, setActiveTab] = useState<Tab>("harvest");
   const [showPopover, setShowPopover] = useState(false);
 
   const expiresAt = createdAt + (EXPIRY_COOLDOWNS["Obsidian Shrine"] ?? 0);
@@ -72,7 +73,7 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
 
   const harvestAll = () => {
     gameService.send("crops.bulkHarvested", {});
-    setActiveTab(1);
+    setActiveTab("plant");
   };
 
   const handleRenewClick = () => {
@@ -149,7 +150,7 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
   const handleShrineClick = () => {
     if (hasReadyCrops || hasAvailablePlots) {
       setShow(true);
-      setActiveTab(hasReadyCrops ? 0 : 1);
+      setActiveTab(hasReadyCrops ? "harvest" : "plant");
     }
   };
 
@@ -198,10 +199,12 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
         <CloseButtonPanel
           tabs={[
             {
+              id: "harvest",
               icon: SUNNYSIDE.icons.seeds,
               name: "Harvest",
             },
             {
+              id: "plant",
               icon: SUNNYSIDE.icons.plant,
               name: "Plant",
             },
@@ -211,10 +214,10 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
           onClose={close}
           container={OuterPanel}
         >
-          {activeTab === 0 && (
+          {activeTab === "harvest" && (
             <HarvestAll readyCrops={readyCrops} harvestAll={harvestAll} />
           )}
-          {activeTab === 1 && (
+          {activeTab === "plant" && (
             <PlantAll
               availablePlots={availablePlots}
               state={state}

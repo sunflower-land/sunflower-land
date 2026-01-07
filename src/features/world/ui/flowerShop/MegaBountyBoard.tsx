@@ -47,7 +47,13 @@ export const MegaBountyBoard: React.FC<{ onClose: () => void }> = ({
     bumpkinParts={NPC_WEARABLES.poppy}
     onClose={onClose}
     container={OuterPanel}
-    tabs={[{ icon: SUNNYSIDE.icons.stopwatch, name: "Mega Bounty Board" }]}
+    tabs={[
+      {
+        icon: SUNNYSIDE.icons.stopwatch,
+        name: "Mega Bounty Board",
+        id: "board",
+      },
+    ]}
   >
     <MegaBountyBoardContent />
   </CloseButtonPanel>

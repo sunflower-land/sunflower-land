@@ -78,7 +78,8 @@ export const FishermanModal: React.FC<Props> = ({
     isFullMoon(state) && dailyFishingCount === 0,
   );
 
-  const [tab, setTab] = useState(0);
+  type Tab = "fish" | "guide" | "extras";
+  const [tab, setTab] = useState<Tab>("fish");
 
   const BaitSelectionComponent = hasFeatureAccess(state, "MULTI_CAST")
     ? BaitSelection
@@ -159,12 +160,14 @@ export const FishermanModal: React.FC<Props> = ({
       onClose={onClose}
       bumpkinParts={NPC_WEARABLES[npc]}
       tabs={[
-        { icon: SUNNYSIDE.tools.fishing_rod, name: t("fish") },
+        { id: "fish", icon: SUNNYSIDE.tools.fishing_rod, name: t("fish") },
         {
+          id: "guide",
           icon: SUNNYSIDE.icons.expression_confused,
           name: t("guide"),
         },
         {
+          id: "extras",
           icon: powerup,
           name: t("fishing.extras"),
         },
@@ -173,20 +176,20 @@ export const FishermanModal: React.FC<Props> = ({
       setCurrentTab={setTab}
       container={OuterPanel}
     >
-      {tab === 0 && (
+      {tab === "fish" && (
         <BaitSelectionComponent
           onCast={onCast}
-          onClickBuy={() => setTab(2)}
+          onClickBuy={() => setTab("extras")}
           state={state}
         />
       )}
 
-      {tab === 1 && (
+      {tab === "guide" && (
         <InnerPanel>
-          <FishingGuide onClose={() => setTab(0)} />
+          <FishingGuide onClose={() => setTab("fish")} />
         </InnerPanel>
       )}
-      {tab === 2 && <FishermanExtras state={state} />}
+      {tab === "extras" && <FishermanExtras state={state} />}
     </CloseButtonPanel>
   );
 };
