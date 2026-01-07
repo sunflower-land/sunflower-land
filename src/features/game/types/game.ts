@@ -1793,7 +1793,7 @@ export interface GameState {
       tier: "bronze" | "silver" | "gold" | "platinum" | "diamond";
     };
     giftGiver?: { openedAt: number };
-    streamerHat?: { openedAt: number };
+    streamerHat?: { openedAt: number; dailyCount?: number };
     pirateChest?: { openedAt: number };
     keysBought?: KeysBought;
   };
