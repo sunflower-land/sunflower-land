@@ -20,8 +20,8 @@ const BASE_PROCESSING_REQUIREMENTS: Record<ProcessedFood, Inventory> = {
 
 const FISH_FLAKE_SEASONAL: Record<TemperateSeasonName, Inventory> = {
   spring: {
-    Porgy: new Decimal(1),
-    "Sea Horse": new Decimal(1),
+    Porgy: new Decimal(2),
+    "Sea Bass": new Decimal(2),
   },
   summer: {
     Butterflyfish: new Decimal(3),
@@ -29,11 +29,11 @@ const FISH_FLAKE_SEASONAL: Record<TemperateSeasonName, Inventory> = {
   },
   autumn: {
     Halibut: new Decimal(1),
-    "Sea Bass": new Decimal(2),
+    Muskellunge: new Decimal(2),
   },
   winter: {
     Blowfish: new Decimal(3),
-    Clownfish: new Decimal(1),
+    Clownfish: new Decimal(2),
   },
 };
 
@@ -43,16 +43,16 @@ const FISH_STICK_SEASONAL: Record<TemperateSeasonName, Inventory> = {
     "Zebra Turkeyfish": new Decimal(2),
   },
   summer: {
-    "Moray Eel": new Decimal(3),
+    Surgeonfish: new Decimal(2),
     Tilapia: new Decimal(2),
   },
   autumn: {
-    "Moray Eel": new Decimal(3),
+    "Moray Eel": new Decimal(2),
     Napoleanfish: new Decimal(2),
   },
   winter: {
     Walleye: new Decimal(1),
-    Angelfish: new Decimal(1),
+    Angelfish: new Decimal(2),
   },
 };
 
