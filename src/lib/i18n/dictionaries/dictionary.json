@@ -7758,5 +7758,7 @@
   "description.seaUrchin": "A spiky purple mystery nestled in underwater crevices.",
   "description.horseshoeCrab": "Ancient survivor with a helmet shell and tail like a sword.",
   "discordNews.postedOn": "Posted on {{date}} on Discord",
-  "discordNews.postedAgo": "Posted {{time}} on Discord"
+  "discordNews.postedAgo": "Posted {{time}} on Discord",
+  "fishingPuzzle.timeoutTitle": "Oh no, you weren't quick enough!",
+  "fishingPuzzle.timeoutMessage": "Oh no, you weren't quick enough, you missed a map piece."
 }

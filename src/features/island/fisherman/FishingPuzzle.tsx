@@ -27,6 +27,7 @@ import { getKeys } from "features/game/lib/crafting";
 import { useGame } from "features/game/GameProvider";
 
 const wrong = SUNNYSIDE.icons.cancel;
+const PUZZLE_STARTED_KEY = "fishing-puzzle-started";
 
 const FAILURE_REVEAL_MS = 1800;
 const MIN_ROWS = 3;
@@ -113,6 +114,7 @@ export const FishermanPuzzle: React.FC<{
 }> = ({ maps, onCatch, onMiss, onRetry }) => {
   const { gameState } = useGame();
   const [showRetry, setShowRetry] = useState(false);
+  const [showTimeoutMiss, setShowTimeoutMiss] = useState(false);
   const { t } = useAppTranslation();
 
   const mapPieces = getKeys(maps);
@@ -121,11 +123,49 @@ export const FishermanPuzzle: React.FC<{
 
   const { attempts, rows } = DIFFICULTY[difficulty] ?? { attempts: 3, rows: 5 };
   const [attemptLimit, setAttemptLimit] = useState(attempts);
+  const wharfCastedAt = gameState.context.state.fishing.wharf.castedAt;
+  const hasAutoMissedRef = useRef(false);
 
   const retry = () => {
     onRetry();
     setAttemptLimit((prev) => prev + 3);
     setShowRetry(false);
+  };
+
+  // If the player refreshed after starting the puzzle, treat it as a miss
+  useEffect(() => {
+    if (!wharfCastedAt) return;
+    if (hasAutoMissedRef.current) return;
+
+    const startedAt = localStorage.getItem(PUZZLE_STARTED_KEY);
+    if (startedAt && Number(startedAt) === wharfCastedAt) {
+      hasAutoMissedRef.current = true;
+      const raf = requestAnimationFrame(() => setShowTimeoutMiss(true));
+      return () => cancelAnimationFrame(raf);
+    }
+  }, [wharfCastedAt]);
+
+  const handlePuzzleStarted = () => {
+    if (!wharfCastedAt) return;
+    localStorage.setItem(PUZZLE_STARTED_KEY, String(wharfCastedAt));
+  };
+
+  const handleCatch = (result: {
+    completed: true;
+    attemptsLeft: number;
+    attemptsUsed: number;
+  }) => {
+    localStorage.removeItem(PUZZLE_STARTED_KEY);
+    onCatch(result);
+  };
+
+  const handleMiss = (result: {
+    completed: false;
+    attemptsLeft: number;
+    attemptsUsed: number;
+  }) => {
+    localStorage.removeItem(PUZZLE_STARTED_KEY);
+    onMiss(result);
   };
 
   return (
@@ -134,9 +174,10 @@ export const FishermanPuzzle: React.FC<{
         rows={rows}
         cols={4}
         maxAttempts={attemptLimit}
-        onCatch={onCatch}
+        onCatch={handleCatch}
         onMiss={() => setShowRetry(true)}
         difficultCatch={mapPieces}
+        onPuzzleStarted={handlePuzzleStarted}
       />
 
       <Modal show={showRetry}>
@@ -165,6 +206,27 @@ export const FishermanPuzzle: React.FC<{
           </div>
         </Panel>
       </Modal>
+
+      <Modal show={showTimeoutMiss} onHide={() => setShowTimeoutMiss(false)}>
+        <Panel>
+          <div className="space-y-3 text-sm text-brown-500 flex flex-col items-center">
+            <Label type="danger">{t("fishingPuzzle.timeoutTitle")}</Label>
+            <p className="text-center">{t("fishingPuzzle.timeoutMessage")}</p>
+            <Button
+              onClick={() => {
+                setShowTimeoutMiss(false);
+                handleMiss({
+                  completed: false,
+                  attemptsLeft: 0,
+                  attemptsUsed: attemptLimit,
+                });
+              }}
+            >
+              {t("ok")}
+            </Button>
+          </div>
+        </Panel>
+      </Modal>
     </>
   );
 };
@@ -174,6 +236,7 @@ interface FishingMinigameProps {
   cols?: number;
   maxAttempts?: number;
   resetKey?: number;
+  onPuzzleStarted?: () => void;
   onCatch: (result: {
     completed: true;
     attemptsLeft: number;
@@ -195,6 +258,7 @@ const FishingPuzzle: React.FC<FishingMinigameProps> = ({
   onMiss,
   resetKey = 0,
   difficultCatch,
+  onPuzzleStarted,
 }) => {
   const [dimensions, setDimensions] = useState({
     rows: clampValue(rows, MIN_ROWS, MAX_ROWS),
@@ -224,6 +288,7 @@ const FishingPuzzle: React.FC<FishingMinigameProps> = ({
   );
   const hasReportedResultRef = useRef(false);
   const lastMaxAttemptsRef = useRef(maxAttempts);
+  const hasMarkedStartRef = useRef(false);
 
   const rowsArray = useMemo(
     () => Array.from({ length: dimensions.rows }, (_, index) => index),
@@ -315,6 +380,11 @@ const FishingPuzzle: React.FC<FishingMinigameProps> = ({
   };
 
   const handleTileClick = (row: number, col: number) => {
+    if (!hasMarkedStartRef.current) {
+      onPuzzleStarted?.();
+      hasMarkedStartRef.current = true;
+    }
+
     if (isComplete || attempts === maxAttempts || isResolvingMistake) return;
     const key = coordinateKey(row, col);
     if (revealedTiles.has(key)) return;
