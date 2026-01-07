@@ -15,13 +15,19 @@ import { InnerPanel } from "components/ui/Panel";
 
 export const STREAM_REWARD_COOLDOWN = 1000 * 60 * 5;
 
-const RewardHeader: React.FC<{
+interface RewardHeaderProps {
   timeToNextClaim: number;
-  dailyCount?: number;
-}> = ({ timeToNextClaim, dailyCount = 0 }) => {
+  dailyCount: number | undefined;
+  hasReachedLimit: boolean;
+}
+
+const RewardHeader: React.FC<RewardHeaderProps> = ({
+  timeToNextClaim,
+  dailyCount = 0,
+  hasReachedLimit,
+}) => {
   const { t } = useAppTranslation();
   const time = millisecondsToString(timeToNextClaim, { length: "short" });
-  const hasReachedLimit = dailyCount >= 10;
 
   return (
     <div className="gap-1">
@@ -96,14 +102,17 @@ export const StreamReward: React.FC<{ streamerId: number }> = ({
 
   const acknowledge = () => gameService.send("CONTINUE");
 
+  const rewardHeaderProps: RewardHeaderProps = {
+    timeToNextClaim,
+    dailyCount,
+    hasReachedLimit,
+  };
+
   if (isClaiming) {
     return (
       <InnerPanel>
         <div className="ml-1 mb-2">
-          <RewardHeader
-            timeToNextClaim={timeToNextClaim}
-            dailyCount={dailyCount}
-          />
+          <RewardHeader {...rewardHeaderProps} />
           <Loading text={t("claiming")} />
         </div>
       </InnerPanel>
@@ -114,7 +123,7 @@ export const StreamReward: React.FC<{ streamerId: number }> = ({
     return (
       <InnerPanel>
         <div className="ml-1 mb-2">
-          <RewardHeader timeToNextClaim={timeToNextClaim} />
+          <RewardHeader {...rewardHeaderProps} />
           <p className="text-sm">{t("streams.message.streamer.claimed")}</p>
         </div>
         <Button onClick={acknowledge}>{t("continue")}</Button>
@@ -135,10 +144,7 @@ export const StreamReward: React.FC<{ streamerId: number }> = ({
   return (
     <InnerPanel>
       <div className="ml-1 mb-2">
-        <RewardHeader
-          timeToNextClaim={timeToNextClaim}
-          dailyCount={dailyCount}
-        />
+        <RewardHeader {...rewardHeaderProps} />
         <p className="text-sm">{t("streams.message.streamer")}</p>
       </div>
       <Button
