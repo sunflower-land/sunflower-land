@@ -595,6 +595,9 @@ import rockBlackfish from "assets/fish/rock_blackfish.png";
 import cobia from "assets/fish/copia.png";
 import tilapia from "assets/fish/tilapia.png";
 import superStar from "assets/sfts/starfish_marvel.webp";
+import giantIsopod from "assets/fish/isopod.webp";
+import nautilus from "assets/fish/nautilus.webp";
+import dollocaris from "assets/fish/dollocaris.webp";
 
 import festiveTree from "assets/sfts/festive_tree.png";
 import nutcracker from "assets/sfts/bumpkin_nutcracker.png";
@@ -2611,6 +2614,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.achievement.sunflowerSuperstar,
     description: ACHIEVEMENTS()["Sunflower Superstar"].description,
   },
+
   "My life is potato": {
     image: SUNNYSIDE.achievement.myLifeIsPotato,
     description: ACHIEVEMENTS()["My life is potato"].description,
@@ -3899,6 +3903,24 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
     description: translate("description.super.star"),
+  },
+  "Giant Isopod": {
+    image: giantIsopod,
+    howToGetItem: [translate("ocean.fishing")],
+    itemType: "collectible",
+    description: translate("description.giant.isopod"),
+  },
+  Nautilus: {
+    image: nautilus,
+    howToGetItem: [translate("ocean.fishing")],
+    itemType: "collectible",
+    description: translate("description.nautilus"),
+  },
+  Dollocaris: {
+    image: dollocaris,
+    howToGetItem: [translate("ocean.fishing")],
+    itemType: "collectible",
+    description: translate("description.dollocaris"),
   },
   "Crimson Carp": {
     image: crimsonCarp,
@@ -6539,13 +6561,28 @@ export const ITEM_DETAILS: Items = {
     image: pawPrintsBanner,
     description: translate("description.pawPrintsBanner"),
   },
+  "Crab Chapter Banner": {
+    // TODO: replace with real Crab Chapter banner art once added
+    image: pawPrintsBanner,
+    description: "A banner for the Crab Chapter.",
+  },
   "Pet Cookie": {
     image: petCookie,
     description: translate("description.petCookie"),
   },
+  "Crab Chapter Ticket": {
+    // TODO: replace with real Crab Chapter ticket art once added
+    image: petCookie,
+    description: "Collected during the Crab Chapter.",
+  },
   "Moon Crystal": {
     image: moonCrystal,
     description: translate("description.moonCrystal"),
+  },
+  "Crab Chapter Artefact": {
+    // TODO: replace with real Crab Chapter artefact art once added
+    image: moonCrystal,
+    description: "A chapter artefact from the Crab Chapter.",
   },
   Cerberus: {
     image: cerberus,

@@ -7752,5 +7752,9 @@
   "description.summer.chicken.boost": "Chickens cannot get sick during summer",
   "description.nurseSheep.boost": "Sheep cannot get sick during summer",
   "description.reelmastersChair.boost": "+5 daily fishing reels",
-  "description.sawFish.boost.one": "+5 daily fishing reels"
+  "description.sawFish.boost.one": "+5 daily fishing reels",
+  "description.giant.isopod": "A giant ocean creep!",
+  "description.nautilus": "A sea-dwelling snail with a hard shell, swimming through the depths.",
+  "description.dollocaris": "A deep-sea fish with a long, sharp dorsal fin.",
+  "description.nautilus.boost": "???"
 }

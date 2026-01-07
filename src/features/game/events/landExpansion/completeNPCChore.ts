@@ -104,6 +104,12 @@ export const CHAPTER_TICKET_BOOST_ITEMS: Record<
     rare: "Pet Specialist Pants",
     epic: "Pet Specialist Shirt",
   },
+
+  "Crab Chapter": {
+    basic: "Cow Scratcher",
+    rare: "Cow Scratcher",
+    epic: "Cow Scratcher",
+  },
 };
 
 export function completeNPCChore({

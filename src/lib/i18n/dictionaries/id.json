@@ -7752,5 +7752,9 @@
   "description.summer.chicken.boost": "Ayam tidak bisa sakit selama musim panas",
   "description.nurseSheep.boost": "Domba tidak bisa sakit selama musim panas",
   "description.reelmastersChair.boost": "+5 gulungan memancing harian",
-  "description.sawFish.boost.one": "+5 gulungan memancing harian"
+  "description.sawFish.boost.one": "+5 gulungan memancing harian",
+  "description.giant.isopod": "Merayap laut raksasa!",
+  "description.nautilus": "Siput yang tinggal di laut dengan cangkang keras, berenang melalui kedalaman.",
+  "description.dollocaris": "Ikan laut dalam dengan sirip punggung yang panjang dan tajam.",
+  "description.nautilus.boost": "???"
 }

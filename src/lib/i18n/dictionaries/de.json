@@ -7752,5 +7752,9 @@
   "description.summer.chicken.boost": "Hühner können im Sommer nicht krank werden",
   "description.nurseSheep.boost": "Schafe können im Sommer nicht krank werden",
   "description.reelmastersChair.boost": "+5 tägliche Angelrollen",
-  "description.sawFish.boost.one": "+5 tägliche Angelrollen"
+  "description.sawFish.boost.one": "+5 tägliche Angelrollen",
+  "description.giant.isopod": "Ein riesiger Meeresschleicher!",
+  "description.nautilus": "Eine Meeresschnecke mit harter Schale, die durch die Tiefen schwimmt.",
+  "description.dollocaris": "Ein Tiefseefisch mit einer langen, scharfen Rückenflosse.",
+  "description.nautilus.boost": "???"
 }

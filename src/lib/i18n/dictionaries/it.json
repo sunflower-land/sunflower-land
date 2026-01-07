@@ -7752,5 +7752,9 @@
   "description.summer.chicken.boost": "I polli non possono ammalarsi durante l'estate",
   "description.nurseSheep.boost": "Le pecore non possono ammalarsi durante l'estate",
   "description.reelmastersChair.boost": "+5 mulinelli da pesca giornalieri",
-  "description.sawFish.boost.one": "+5 mulinelli da pesca giornalieri"
+  "description.sawFish.boost.one": "+5 mulinelli da pesca giornalieri",
+  "description.giant.isopod": "Un gigantesco mostro oceanico!",
+  "description.nautilus": "Una lumaca marina dal guscio duro, che nuota nelle profondità.",
+  "description.dollocaris": "Un pesce di acque profonde con una pinna dorsale lunga e affilata.",
+  "description.nautilus.boost": "???"
 }

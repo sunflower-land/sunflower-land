@@ -72,7 +72,11 @@ export const FishCaught: React.FC<Props> = ({
 
               return (
                 <div className="flex items-center" key={map}>
-                  <Box image={mapIcon} count={new Decimal(maps[map] ?? 0)} />
+                  <Box
+                    image={mapIcon}
+                    count={new Decimal(maps[map] ?? 0)}
+                    secondaryImage={ITEM_DETAILS[map].image}
+                  />
                   <div className="ml-1">
                     <p className="text-sm">
                       {t("fishing.mapDiscovered.mapName", { map })}
