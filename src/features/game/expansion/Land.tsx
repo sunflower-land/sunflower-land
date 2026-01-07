@@ -238,8 +238,8 @@ const _waterTrapPositions = (state: MachineState) => {
     waterTraps,
     positions: getObjectEntries(waterTraps).flatMap(([, waterTrap]) => {
       return {
-        x: waterTrap.coordinates.x,
-        y: waterTrap.coordinates.y,
+        x: waterTrap.x,
+        y: waterTrap.y,
       };
     }),
   };
@@ -911,8 +911,8 @@ export const LandComponent: React.FC = () => {
       return (
         <MapPlacement
           key={`water-trap-${id}`}
-          x={waterTrap.coordinates.x}
-          y={waterTrap.coordinates.y}
+          x={waterTrap.x}
+          y={waterTrap.y}
           height={1}
           width={1}
         >
