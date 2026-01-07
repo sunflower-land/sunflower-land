@@ -78,4 +78,35 @@ describe("reelRod", () => {
 
     expect(state.farmActivity[`Anchovy Caught`]).toEqual(1);
   });
+
+  it("tracks map pieces found", () => {
+    const state = reelRod({
+      action: { type: "rod.reeled" },
+      state: {
+        ...farm,
+        fishing: {
+          wharf: {
+            caught: {
+              Anchovy: 1,
+            },
+            castedAt: 100011000,
+            maps: {
+              "Starlight Tuna": 1,
+              "Twilight Anglerfish": 2,
+            },
+          },
+        },
+        inventory: {
+          Rod: new Decimal(3),
+          Earthworm: new Decimal(1),
+          Sunflower: new Decimal(500),
+        },
+      },
+    });
+
+    expect(state.farmActivity[`Starlight Tuna Map Piece Found`]).toEqual(1);
+    expect(state.farmActivity[`Twilight Anglerfish Map Piece Found`]).toEqual(
+      2,
+    );
+  });
 });

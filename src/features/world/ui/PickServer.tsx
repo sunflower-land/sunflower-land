@@ -19,6 +19,7 @@ import { useNavigate } from "react-router";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { PanelTabs } from "features/game/components/CloseablePanel";
 
 interface Props {
   mmoService: MachineInterpreter;
@@ -36,7 +37,8 @@ const ICONS = [
 ];
 
 export const PickServer: React.FC<Props> = ({ mmoService }) => {
-  const [tab, setTab] = useState(0);
+  type Tab = "town";
+  const [tab, setTab] = useState<Tab>("town");
   const { t } = useAppTranslation();
   const navigate = useNavigate();
   const { gameService } = useContext(Context);
@@ -76,9 +78,13 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
       onClose={() => {
         navigate(`/`);
       }}
-      tabs={[{ icon: SUNNYSIDE.icons.player, name: "Town" }]}
+      tabs={
+        [
+          { id: "town", icon: SUNNYSIDE.icons.player, name: "Town" },
+        ] satisfies PanelTabs<Tab>[]
+      }
     >
-      {tab === 0 && (
+      {tab === "town" && (
         <div className="p-2">
           <p className="text-xs mb-2">{t("share.chooseServer")}</p>
           <>

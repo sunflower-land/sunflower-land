@@ -73,7 +73,10 @@ export const AnimalBuildingModal: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
   const [showIntro, setShowIntro] = useState(!hasReadIntro());
-  const [currentTab, setCurrentTab] = useState(!hasReadGuide() ? 2 : 0);
+  type Tab = "buy" | "sell" | "guide";
+  const [currentTab, setCurrentTab] = useState<Tab>(
+    !hasReadGuide() ? "guide" : "buy",
+  );
 
   const state = useSelector(gameService, _state);
   const bumpkin = useSelector(gameService, _bumpkin);
@@ -167,16 +170,20 @@ export const AnimalBuildingModal: React.FC<Props> = ({
     <CloseButtonPanel
       onClose={onClose}
       tabs={[
-        { name: t("buy"), icon: coinsIcon },
-        { name: t("sell"), icon: SUNNYSIDE.icons.death },
-        { name: t("guide"), icon: SUNNYSIDE.icons.expression_confused },
+        { id: "buy", name: t("buy"), icon: coinsIcon },
+        { id: "sell", name: t("sell"), icon: SUNNYSIDE.icons.death },
+        {
+          id: "guide",
+          name: t("guide"),
+          icon: SUNNYSIDE.icons.expression_confused,
+        },
       ]}
       currentTab={currentTab}
       setCurrentTab={setCurrentTab}
       className="relative"
       container={OuterPanel}
     >
-      {currentTab === 0 && (
+      {currentTab === "buy" && (
         <SplitScreenView
           panel={
             <CraftingRequirements
@@ -241,14 +248,14 @@ export const AnimalBuildingModal: React.FC<Props> = ({
         />
       )}
 
-      {currentTab === 1 && (
+      {currentTab === "sell" && (
         <AnimalBounties
           type={buildingName === "Barn" ? ["Cow", "Sheep"] : ["Chicken"]}
           onExchanging={onExchanging}
         />
       )}
 
-      {currentTab === 2 && (
+      {currentTab === "guide" && (
         <>
           <InnerPanel className="p-1">
             <div className="flex flex-col p-1 space-y-1 mb-2">

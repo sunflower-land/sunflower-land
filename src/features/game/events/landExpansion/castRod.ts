@@ -234,9 +234,6 @@ export function castRod({
         chum: action.chum,
         multiplier,
         guaranteedCatch: action.guaranteedCatch,
-        caught: action.guaranteedCatch
-          ? { [action.guaranteedCatch]: multiplier }
-          : undefined,
       },
     };
 

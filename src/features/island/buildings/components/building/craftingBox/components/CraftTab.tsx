@@ -44,7 +44,7 @@ import { CROPS } from "features/game/types/crops";
 import { ANIMAL_RESOURCES, COMMODITIES } from "features/game/types/resources";
 import { BEDS } from "features/game/types/beds";
 import { FLOWERS } from "features/game/types/flowers";
-import { SELLABLE_TREASURE } from "features/game/types/treasure";
+import { SELLABLE_TREASURES } from "features/game/types/treasure";
 import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
 import fastForward from "assets/icons/fast_forward.png";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
@@ -132,7 +132,7 @@ const validCraftingResourcesSorted = (): InventoryItemName[] => {
       resources.push(item);
     else if (item in BEDS) beds.push(item);
     else if (item in FLOWERS) flowers.push(item);
-    else if (item in SELLABLE_TREASURE) treasures.push(item);
+    else if (item in SELLABLE_TREASURES) treasures.push(item);
     else if (item in RECIPE_CRAFTABLES) craftingBox.push(item);
     else others.push(item);
   });

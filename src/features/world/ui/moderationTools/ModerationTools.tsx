@@ -54,7 +54,7 @@ export const ModerationTools: React.FC<Props> = ({
   const [authState] = useActor(authService);
 
   const [showModerationTool, setShowModerationTool] = useState(false);
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState<"players" | "chat" | "actions">("players");
   const moderatorFarmId = gameService.getSnapshot().context.farmId;
 
   const toggleModerationTool = () => {
@@ -82,12 +82,12 @@ export const ModerationTools: React.FC<Props> = ({
           currentTab={tab}
           setCurrentTab={setTab}
           tabs={[
-            { icon: SUNNYSIDE.icons.player, name: "Players" },
-            { icon: SUNNYSIDE.icons.expression_chat, name: "Chat" },
-            { icon: SUNNYSIDE.icons.hammer, name: "Actions" },
+            { icon: SUNNYSIDE.icons.player, name: "Players", id: "players" },
+            { icon: SUNNYSIDE.icons.expression_chat, name: "Chat", id: "chat" },
+            { icon: SUNNYSIDE.icons.hammer, name: "Actions", id: "actions" },
           ]}
         >
-          {tab === 0 && (
+          {tab === "players" && (
             <PlayerList
               scene={scene}
               players={players}
@@ -96,7 +96,7 @@ export const ModerationTools: React.FC<Props> = ({
               moderatorFarmId={moderatorFarmId}
             />
           )}
-          {tab === 1 && (
+          {tab === "chat" && (
             <ChatHistory
               messages={messages}
               authState={authState.context.user}
@@ -104,7 +104,7 @@ export const ModerationTools: React.FC<Props> = ({
               scene={scene}
             />
           )}
-          {tab === 2 && (
+          {tab === "actions" && (
             <Actions
               scene={scene}
               authState={authState.context.user}

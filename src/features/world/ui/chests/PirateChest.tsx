@@ -17,6 +17,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { Modal } from "components/ui/Modal";
 import { ChestRewardsList } from "components/ui/ChestRewardsList";
 import rewardsIcon from "assets/icons/stock.webp";
+import { PanelTabs } from "features/game/components/CloseablePanel";
 
 interface PirateChestContentProps {
   setIsLoading?: (isLoading: boolean) => void;
@@ -183,20 +184,23 @@ export const PirateChestModal: React.FC<Props> = ({
     (isRevealing &&
       (gameState.matches("revealing") || gameState.matches("revealed")));
 
-  const [tab, setTab] = useState(0);
-  const tabs = [
-    {
-      icon: ITEM_DETAILS["Pirate Bounty"].image,
-      name: t("pirate.chest"),
-    },
-    ...(isClaimRewardFlowActive
-      ? []
-      : [
-          {
-            icon: rewardsIcon,
-            name: t("chestRewardsList.rewardsTitle"),
-          },
-        ]),
+  type Tab = "chest" | "rewards";
+  const [tab, setTab] = useState<Tab>("chest");
+
+  const chestTab: PanelTabs<Tab> = {
+    id: "chest",
+    icon: ITEM_DETAILS["Pirate Bounty"].image,
+    name: t("pirate.chest"),
+  };
+  const rewardsTab: PanelTabs<Tab> = {
+    id: "rewards",
+    icon: rewardsIcon,
+    name: t("chestRewardsList.rewardsTitle"),
+  };
+
+  const tabs: PanelTabs<Tab>[] = [
+    chestTab,
+    ...(isClaimRewardFlowActive ? [] : [rewardsTab]),
   ];
 
   return (
@@ -209,7 +213,7 @@ export const PirateChestModal: React.FC<Props> = ({
         bumpkinParts={NPC_WEARABLES["old salty"]}
         className="pt-1"
       >
-        {tab === 0 && (
+        {tab === "chest" && (
           <PirateChestContent
             setIsLoading={setIsLoading}
             isPicking={isPicking}
@@ -218,7 +222,7 @@ export const PirateChestModal: React.FC<Props> = ({
             setIsRevealing={setIsRevealing}
           />
         )}
-        {tab === 1 && <ChestRewardsList type="Pirate Chest" />}
+        {tab === "rewards" && <ChestRewardsList type="Pirate Chest" />}
       </CloseButtonPanel>
     </Modal>
   );

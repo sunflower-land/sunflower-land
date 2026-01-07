@@ -129,7 +129,7 @@ export const FactionShop: React.FC<Props> = ({ onClose }) => {
   return (
     <CloseButtonPanel
       bumpkinParts={NPC_WEARABLES["eldric"]}
-      tabs={[{ icon: shopIcon, name: t("faction.shop.title") }]}
+      tabs={[{ icon: shopIcon, name: t("faction.shop.title"), id: "shop" }]}
       onClose={onClose}
     >
       <div className="relative h-[450px] w-full">

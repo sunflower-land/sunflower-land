@@ -100,7 +100,8 @@ export const TravelTeaser: React.FC = () => {
 
   const [peteState, setPeteState] = useState<"idle" | "typing">("idle");
 
-  const [tab, setTab] = useState(0);
+  type Tab = "explore" | "guide";
+  const [tab, setTab] = useState<Tab>("explore");
   const [showModal, setShowModal] = useState(false);
   const [guide, setGuide] = useState<GuidePath>();
 
@@ -135,10 +136,12 @@ export const TravelTeaser: React.FC = () => {
           onClose={() => setShowModal(false)}
           tabs={[
             {
+              id: "explore",
               icon: SUNNYSIDE.icons.expression_chat,
               name: t("explore"),
             },
             {
+              id: "guide",
               icon: SUNNYSIDE.icons.expression_confused,
               name: t("guide"),
             },
@@ -150,8 +153,8 @@ export const TravelTeaser: React.FC = () => {
             style={{ maxHeight: "300px" }}
             className="scrollable overflow-y-auto"
           >
-            {tab === 0 && <PeteHelp />}
-            {tab === 1 && <Guide selected={guide} onSelect={setGuide} />}
+            {tab === "explore" && <PeteHelp />}
+            {tab === "guide" && <Guide selected={guide} onSelect={setGuide} />}
           </div>
         </CloseButtonPanel>
       </Modal>

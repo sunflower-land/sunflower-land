@@ -2,7 +2,6 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
@@ -10,7 +9,6 @@ import classNames from "classnames";
 import { InnerPanel } from "components/ui/Panel";
 
 import {
-  ANIMAL_DIMENSIONS,
   COLLECTIBLES_DIMENSIONS,
   CollectibleName,
 } from "features/game/types/craftables";
@@ -53,9 +51,12 @@ import {
   EXPIRY_COOLDOWNS,
   TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
-import { useNow } from "lib/utils/hooks/useNow";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { hasFeatureAccess } from "lib/flags";
+import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { getPetImage } from "../pets/lib/petShared";
+import { budImageDomain } from "./components/Bud";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -143,17 +144,17 @@ function getOverlappingCollectibles({
   x: number;
   y: number;
   location: PlaceableLocation;
-  current: { id: string; name: CollectibleName };
-}): { id: string; name: CollectibleName }[] {
+  current: { id: string; name: LandscapingPlaceable };
+}): { id: string; name: LandscapingPlaceable }[] {
   const source =
     location === "home" ? state.home.collectibles : state.collectibles;
-  const results: { id: string; name: CollectibleName }[] = [];
+  const results: { id: string; name: LandscapingPlaceable }[] = [];
 
-  Object.entries(source).forEach(([name, placed]) => {
+  getObjectEntries(source).forEach(([name, placed]) => {
     (placed ?? []).forEach((p) => {
       if (!p.coordinates) return;
       if (p.coordinates.x === x && p.coordinates.y === y) {
-        results.push({ id: p.id, name: name as CollectibleName });
+        results.push({ id: p.id, name });
       }
     });
   });
@@ -348,7 +349,7 @@ export const MoveableComponent: React.FC<
   const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
   const [showOverlapMenu, setShowOverlapMenu] = useState(false);
   const [overlapChoices, setOverlapChoices] = useState<
-    { id: string; name: CollectibleName }[]
+    { id: string; name: LandscapingPlaceable }[]
   >([]);
   const overlapRef = useRef<HTMLDivElement>(null);
   const skipNextOutsideClick = useRef(false);
@@ -472,20 +473,15 @@ export const MoveableComponent: React.FC<
     }
   }, [isSelected, movingItem]);
 
-  const DIMENSIONS_MAP = {
+  const DIMENSIONS_MAP: Record<LandscapingPlaceable, Dimensions> = {
     ...BUILDINGS_DIMENSIONS,
     ...COLLECTIBLES_DIMENSIONS,
-    ...ANIMAL_DIMENSIONS,
     ...RESOURCE_DIMENSIONS,
+    Bud: { width: 1, height: 1 },
+    Pet: { width: 2, height: 2 },
   };
 
-  const dimensions = useMemo(() => {
-    return name === "Bud"
-      ? { width: 1, height: 1 }
-      : name === "Pet"
-        ? { width: 2, height: 2 }
-        : DIMENSIONS_MAP[name];
-  }, [name]);
+  const dimensions = DIMENSIONS_MAP[name];
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onStop = useCallback(
@@ -733,15 +729,14 @@ export const MoveableComponent: React.FC<
     position,
   ]);
 
-  const overlaps = useMemo(() => {
-    return getOverlappingCollectibles({
-      state: gameService.getSnapshot().context.state,
-      x: coordinatesX,
-      y: coordinatesY,
-      location,
-      current: { id, name: name as CollectibleName },
-    });
-  }, [gameService, coordinatesX, coordinatesY, location, id, name]);
+  // Compute overlaps early for determining if we need live time updates
+  const overlaps = getOverlappingCollectibles({
+    state: gameService.getSnapshot().context.state,
+    x: coordinatesX,
+    y: coordinatesY,
+    location,
+    current: { id, name },
+  });
 
   // Disable dragging if there are overlaps and this item is not selected
   const shouldDisableDrag = overlaps.length > 1 && !isSelected;
@@ -894,33 +889,39 @@ export const MoveableComponent: React.FC<
             }}
           >
             <InnerPanel>
-              {overlapChoices.map((choice) => (
-                <div
-                  key={choice.id}
-                  className="flex items-center gap-1 px-2 py-1 hover:brightness-90 cursor-pointer"
-                  onMouseDown={(e) => {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    setShowOverlapMenu(false);
-                    dragStartChecked.current = false;
-                    // Prevent the menu from reopening on the next mousedown
-                    suppressNextMenuOpen.current = true;
-                    if (closeCurrentOverlapMenu === localCloserRef.current) {
-                      closeCurrentOverlapMenu = null;
-                    }
-                    landscapingMachine.send("MOVE", {
-                      name: choice.name,
-                      id: choice.id,
-                    });
-                  }}
-                >
-                  <img
-                    src={ITEM_DETAILS[choice.name].image}
-                    className="h-4 w-4"
-                  />
-                  <span className="text-xxs">{choice.name}</span>
-                </div>
-              ))}
+              {overlapChoices.map((choice) => {
+                const image =
+                  choice.name === "Pet"
+                    ? getPetImage("happy", Number(choice.id))
+                    : choice.name === "Bud"
+                      ? `https://${budImageDomain}.sunflower-land.com/images/${choice.id}.webp`
+                      : ITEM_DETAILS[choice.name].image;
+
+                return (
+                  <div
+                    key={choice.id}
+                    className="flex items-center gap-1 px-2 py-1 hover:brightness-90 cursor-pointer"
+                    onMouseDown={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      setShowOverlapMenu(false);
+                      dragStartChecked.current = false;
+                      // Prevent the menu from reopening on the next mousedown
+                      suppressNextMenuOpen.current = true;
+                      if (closeCurrentOverlapMenu === localCloserRef.current) {
+                        closeCurrentOverlapMenu = null;
+                      }
+                      landscapingMachine.send("MOVE", {
+                        name: choice.name,
+                        id: choice.id,
+                      });
+                    }}
+                  >
+                    <img src={image} className="h-4 w-4" />
+                    <span className="text-xxs">{choice.name}</span>
+                  </div>
+                );
+              })}
             </InnerPanel>
           </div>
         )}

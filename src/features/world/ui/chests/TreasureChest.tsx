@@ -4,7 +4,10 @@ import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import {
+  CloseButtonPanel,
+  PanelTabs,
+} from "features/game/components/CloseablePanel";
 import { Revealed } from "features/game/components/Revealed";
 import { ITEM_DETAILS } from "features/game/types/images";
 
@@ -36,34 +39,32 @@ export const TreasureChest: React.FC<Props> = ({
   const [gameState] = useActor(gameService);
   const { t } = useAppTranslation();
 
-  const [tab, setTab] = useState(0);
+  type Tab = "chest" | "rewards";
+  const [tab, setTab] = useState<Tab>("chest");
 
-  const tabs = [
-    ...(type === "Treasure Key"
-      ? [
-          {
-            icon: basicChest,
-            name: t("chestRewardsList.treasureChest.tabTitle1"),
-          },
-        ]
-      : type === "Rare Key"
-        ? [
-            {
-              icon: rareChest,
-              name: t("chestRewardsList.treasureChest.tabTitle2"),
-            },
-          ]
-        : [
-            {
-              icon: luxuryChest,
-              name: t("chestRewardsList.treasureChest.tabTitle3"),
-            },
-          ]),
-    {
-      icon: rewardsIcon,
-      name: t("chestRewardsList.rewardsTitle"),
-    },
-  ];
+  const chestTab: PanelTabs<Tab> = {
+    id: "chest",
+    icon:
+      type === "Treasure Key"
+        ? basicChest
+        : type === "Rare Key"
+          ? rareChest
+          : luxuryChest,
+    name:
+      type === "Treasure Key"
+        ? t("chestRewardsList.treasureChest.tabTitle1")
+        : type === "Rare Key"
+          ? t("chestRewardsList.treasureChest.tabTitle2")
+          : t("chestRewardsList.treasureChest.tabTitle3"),
+  };
+
+  const rewardsTab: PanelTabs<Tab> = {
+    id: "rewards",
+    icon: rewardsIcon,
+    name: t("chestRewardsList.rewardsTitle"),
+  };
+
+  const tabs: PanelTabs<Tab>[] = [chestTab, rewardsTab];
 
   // Just a prolonged UI state to show the shuffle of items animation
   const [isPicking, setIsPicking] = useState(false);
@@ -120,7 +121,7 @@ export const TreasureChest: React.FC<Props> = ({
         setCurrentTab={setTab}
         onClose={onClose}
       >
-        {tab === 0 && (
+        {tab === "chest" && (
           <div className="p-2">
             <Label
               type="danger"
@@ -142,13 +143,10 @@ export const TreasureChest: React.FC<Props> = ({
           </div>
         )}
 
-        {tab === 1 && <ChestRewardsList type={type} />}
+        {tab === "rewards" && <ChestRewardsList type={type} />}
       </CloseButtonPanel>
     );
   }
-
-  // const isValentinesDayUTC =
-  //   new Date().getUTCMonth() === 1 && new Date().getUTCDate() <= 17;
 
   return (
     <CloseButtonPanel
@@ -157,7 +155,7 @@ export const TreasureChest: React.FC<Props> = ({
       setCurrentTab={setTab}
       onClose={onClose}
     >
-      {tab === 0 && (
+      {tab === "chest" && (
         <>
           <div className="p-2">
             <div className="flex flex-wrap mr-12">
@@ -169,15 +167,6 @@ export const TreasureChest: React.FC<Props> = ({
               >
                 {type}
               </Label>
-              {/* {isValentinesDayUTC && (
-            <Label
-              className="mb-2"
-              type="vibrant"
-              icon={SUNNYSIDE.icons.stopwatch}
-            >
-              {t("event.valentines.rewards")}
-            </Label>
-          )} */}
             </div>
             <p className="text-xs mb-2">{t("basic.treasure.congratsKey")}</p>
             <p className="text-xs mb-2">{t("basic.treasure.openChest")}</p>
@@ -186,7 +175,7 @@ export const TreasureChest: React.FC<Props> = ({
         </>
       )}
 
-      {tab === 1 && <ChestRewardsList type={type} />}
+      {tab === "rewards" && <ChestRewardsList type={type} />}
     </CloseButtonPanel>
   );
 };

@@ -3,7 +3,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getKeys } from "features/game/types/craftables";
 import {
   BeachBountyTreasure,
-  SELLABLE_TREASURE,
+  SELLABLE_TREASURES,
 } from "features/game/types/treasure";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
@@ -26,8 +26,8 @@ export const TreasureShopSell: React.FC = () => {
   const now = useNow();
   const currentChapter = getCurrentChapter(now);
   const currentSeasonalArtefact = CHAPTER_ARTEFACT[currentChapter];
-  const beachBountyTreasure = getKeys(SELLABLE_TREASURE).sort(
-    (a, b) => SELLABLE_TREASURE[a].sellPrice - SELLABLE_TREASURE[b].sellPrice,
+  const beachBountyTreasure = getKeys(SELLABLE_TREASURES).sort(
+    (a, b) => SELLABLE_TREASURES[a].sellPrice - SELLABLE_TREASURES[b].sellPrice,
   );
 
   const [selectedName, setSelectedName] = useState<BeachBountyTreasure>(
@@ -37,7 +37,7 @@ export const TreasureShopSell: React.FC = () => {
   const [bulkSellModal, showBulkSellModal] = useState(false);
   const [customAmount, setCustomAmount] = useState(new Decimal(0));
 
-  const selected = SELLABLE_TREASURE[selectedName];
+  const selected = SELLABLE_TREASURES[selectedName];
   const { gameService } = useContext(Context);
   const [
     {

@@ -424,7 +424,11 @@ const Rewards: React.FC = () => {
         {showRewards && (
           <CloseButtonPanel
             tabs={[
-              { icon: rewardIcon, name: t("chestRewardsList.rewardsTitle") },
+              {
+                id: "rewards",
+                icon: rewardIcon,
+                name: t("chestRewardsList.rewardsTitle"),
+              },
             ]}
             onClose={() => setShowRewards(false)}
           >
@@ -462,8 +466,10 @@ const Rewards: React.FC = () => {
   );
 };
 
-const getDefaultTab = (game: GameState, now: number) => {
-  if (!hasReadDigbyIntro()) return 1;
+type DigbyTab = "patterns" | "guide" | "extras";
+
+const getDefaultTab = (game: GameState, now: number): DigbyTab => {
+  if (!hasReadDigbyIntro()) return "guide";
 
   const remainingDigs = getRemainingDigs(game);
   const artefactsFound = getArtefactsFound({ game, now });
@@ -471,19 +477,21 @@ const getDefaultTab = (game: GameState, now: number) => {
   const hasClaimedStreakReward = hasClaimedReward({ game });
 
   if (remainingDigs <= 0) {
-    return 2;
+    return "extras";
   } else if (percentage >= 100 && !hasClaimedStreakReward) {
-    return 0;
+    return "patterns";
   }
 
-  return 0;
+  return "patterns";
 };
 
 export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const now = useNow();
-  const [tab, setTab] = useState(getDefaultTab(gameState.context.state, now));
+  const [tab, setTab] = useState<DigbyTab>(
+    getDefaultTab(gameState.context.state, now),
+  );
   const [showConfirm, setShowConfirm] = useState(false);
 
   const inventory = gameState.context.state.inventory;
@@ -525,15 +533,18 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         currentTab={tab}
         tabs={[
           {
+            id: "patterns",
             icon: ITEM_DETAILS["Sand Shovel"].image,
             name: t("digby.patterns"),
             alert: percentage >= 100 && !hasClaimedStreakReward,
           },
           {
+            id: "guide",
             icon: SUNNYSIDE.icons.expression_confused,
             name: t("guide"),
           },
           {
+            id: "extras",
             icon: powerup,
             name: t("digby.extras"),
           },
@@ -541,12 +552,12 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         onClose={onClose}
         bumpkinParts={NPC_WEARABLES.digby}
       >
-        {tab === 0 && (
+        {tab === "patterns" && (
           <>
             <DailyPuzzle />
           </>
         )}
-        {tab === 1 && (
+        {tab === "guide" && (
           <div className="pt-2">
             <NoticeboardItems
               items={[
@@ -568,10 +579,10 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 },
               ]}
             />
-            <Button onClick={() => setTab(0)}>{t("ok")}</Button>
+            <Button onClick={() => setTab("patterns")}>{t("ok")}</Button>
           </div>
         )}
-        {tab === 2 && (
+        {tab === "extras" && (
           <>
             {!showConfirm && (
               <>

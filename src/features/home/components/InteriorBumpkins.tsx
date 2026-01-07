@@ -195,6 +195,7 @@ export const InteriorBumpkins: React.FC = () => {
           onClose={() => setShowBumpkinModal(false)}
           tabs={[
             {
+              id: "equip",
               icon: SUNNYSIDE.icons.wardrobe,
               name: t("equip"),
             },
@@ -221,6 +222,7 @@ export const InteriorBumpkins: React.FC = () => {
           onClose={() => setSelectedFarmHandId(undefined)}
           tabs={[
             {
+              id: "equip",
               icon: SUNNYSIDE.icons.wardrobe,
               name: t("equip"),
             },

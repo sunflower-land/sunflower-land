@@ -54,7 +54,7 @@ export const BakeryModal: React.FC<Props> = ({
           hat: "Chef Hat",
           shoes: "Black Farmer Boots",
         }}
-        tabs={[{ icon: chefHat, name: "Bakery" }]}
+        tabs={[{ id: "bakery", icon: chefHat, name: "Bakery" }]}
         onClose={onClose}
         container={OuterPanel}
       >

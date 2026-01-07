@@ -41,7 +41,8 @@ export const ShopItems: React.FC<Props> = ({
   hasSoldBefore,
   showBuyHelper,
 }) => {
-  const [tab, setTab] = useState(0);
+  type Tab = "buy" | "sell" | "guide";
+  const [tab, setTab] = useState<Tab>("buy");
   const [showIntro, setShowIntro] = React.useState(!hasReadIntro());
   const { t } = useAppTranslation();
   const bumpkinParts: Partial<Equipped> = NPC_WEARABLES.betty;
@@ -57,7 +58,7 @@ export const ShopItems: React.FC<Props> = ({
                 {
                   text: t("betty.buySeeds"),
                   cb: () => {
-                    setTab(0);
+                    setTab("buy");
                     acknowledgeIntroRead();
                     setShowIntro(false);
                   },
@@ -65,7 +66,7 @@ export const ShopItems: React.FC<Props> = ({
                 {
                   text: t("betty.sellCrops"),
                   cb: () => {
-                    setTab(1);
+                    setTab("sell");
                     acknowledgeIntroRead();
                     setShowIntro(false);
                   },
@@ -86,16 +87,19 @@ export const ShopItems: React.FC<Props> = ({
       bumpkinParts={bumpkinParts}
       tabs={[
         {
+          id: "buy",
           icon: SUNNYSIDE.icons.seeds,
           name: t("buy"),
           unread: showBuyHelper,
         },
         {
+          id: "sell",
           icon: CROP_LIFECYCLE["Basic Biome"].Sunflower.crop,
           name: t("sell"),
           unread: !hasSoldBefore,
         },
         {
+          id: "guide",
           icon: book,
           name: t("guide"),
         },
@@ -105,9 +109,9 @@ export const ShopItems: React.FC<Props> = ({
       onClose={onClose}
       container={OuterPanel}
     >
-      {tab === 0 && <SeasonalSeeds />}
-      {tab === 1 && <SeasonalCrops />}
-      {tab === 2 && <CropGuide />}
+      {tab === "buy" && <SeasonalSeeds />}
+      {tab === "sell" && <SeasonalCrops />}
+      {tab === "guide" && <CropGuide />}
     </CloseButtonPanel>
   );
 };

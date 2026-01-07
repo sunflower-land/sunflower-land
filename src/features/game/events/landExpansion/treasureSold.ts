@@ -6,7 +6,7 @@ import { BoostName, GameState } from "features/game/types/game";
 import {
   SellableTreasure,
   BeachBountyTreasure,
-  SELLABLE_TREASURE,
+  SELLABLE_TREASURES,
 } from "features/game/types/treasure";
 import { isExoticCrop } from "features/game/types/crops";
 import { produce } from "immer";
@@ -56,7 +56,7 @@ export function sellTreasure({ state, action }: Options) {
       throw new Error("You do not have a Bumpkin");
     }
 
-    const SELLABLES = { ...SELLABLE_TREASURE, ...EXOTIC_CROPS };
+    const SELLABLES = { ...SELLABLE_TREASURES, ...EXOTIC_CROPS };
     if (!(item in SELLABLES)) {
       throw new Error("Not for sale");
     }

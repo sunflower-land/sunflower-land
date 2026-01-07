@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
@@ -62,18 +62,15 @@ const _state = (state: MachineState) => state.context.state;
 
 export const EventMegaStore: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
-  const [tab, setTab] = useState(0);
   const state = useSelector(gameService, _state);
 
   // Update logic after release
   return (
     <CloseButtonPanel
-      tabs={[{ icon: shopIcon, name: "Event Store" }]}
+      tabs={[{ icon: shopIcon, name: "Event Store", id: "store" }]}
       onClose={onClose}
-      currentTab={tab}
-      setCurrentTab={setTab}
     >
-      {tab === 0 && <EventStore state={state} />}
+      <EventStore state={state} />
     </CloseButtonPanel>
   );
 };

@@ -53,6 +53,7 @@ export const PetHouseModal: React.FC<Props> = ({ show, onClose }) => {
         onClose={onClose}
         tabs={[
           {
+            id: "pets",
             icon: ITEM_DETAILS.Barkley.image,
             name: t("pets.manage"),
           },

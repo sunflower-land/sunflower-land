@@ -291,7 +291,7 @@ export const BumpkinProfile: React.FC = () => {
       {/* Bumpkin modal */}
       <Modal show={showModal} onHide={handleHideModal} size="lg">
         <BumpkinModal
-          initialTab={viewSkillsTab ? 2 : 0}
+          initialTab={viewSkillsTab ? "skills" : "info"}
           onClose={handleHideModal}
           readonly={gameState.matches("visiting")}
           bumpkin={gameState.context.state.bumpkin as Bumpkin}

@@ -12,13 +12,19 @@ import {
 } from "features/game/types/milestones";
 import { getFishByType } from "../lib/utils";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { FISH, FishName, MarineMarvelName } from "features/game/types/fishing";
+import {
+  FISH,
+  FishName,
+  MAP_PIECES,
+  MarineMarvelName,
+} from "features/game/types/fishing";
 import { Detail } from "../components/Detail";
 import { GameState } from "features/game/types/game";
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 
 import giftIcon from "assets/icons/gift.png";
+import mapIcon from "assets/icons/map.webp";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { Context } from "features/game/GameProvider";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
@@ -26,6 +32,8 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { getChapterMarvelFish } from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
+import { Box } from "components/ui/Box";
+import { hasFeatureAccess } from "lib/flags";
 
 const FISH_BY_TYPE = getFishByType();
 
@@ -219,6 +227,8 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
             })}
           </div>
         </InnerPanel>
+
+        <MarineMarvelMaps state={state} />
       </div>
       <ModalOverlay
         show={!!selectedMilestone}
@@ -234,5 +244,54 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
         />
       </ModalOverlay>
     </>
+  );
+};
+
+export const MarineMarvelMaps: React.FC<{ state: GameState }> = ({ state }) => {
+  const { t } = useAppTranslation();
+  // If caught them all already, show nothing here.
+  const remainingMarvels = getKeys(MAP_PIECES).filter(
+    (marvel) => !state.farmActivity[`${marvel} Caught`],
+  );
+
+  if (!hasFeatureAccess(state, "MAP_PIECES")) {
+    return null;
+  }
+
+  if (remainingMarvels.length === 0) {
+    return null;
+  }
+
+  return (
+    <InnerPanel>
+      <div className="p-1">
+        <Label type="default" className="mb-2">
+          {t("fishing.marineMarvelMaps.title")}
+        </Label>
+        <p className="text-xs mx-2 mb-1">
+          {t("fishing.marineMarvelMaps.description")}
+        </p>
+        {remainingMarvels.map((map) => (
+          <div className="flex items-center -mb-2" key={map}>
+            <Box
+              hideCount
+              image={mapIcon}
+              secondaryImage={ITEM_DETAILS[map].image}
+            />
+            <div className="ml-1">
+              <p className="text-sm">
+                {t("fishing.mapDiscovered.mapName", { map })}
+              </p>
+              <p className="text-xs">
+                {t("fishing.mapDiscovered.progress", {
+                  collected: state.farmActivity[`${map} Map Piece Found`] ?? 0,
+                  total: 9,
+                })}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </InnerPanel>
   );
 };

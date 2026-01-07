@@ -60,8 +60,25 @@ function isSafeHttpUrl(href: string) {
 
 function decodeDiscordHtmlEntities(text: string) {
   // Discord content sometimes arrives HTML-entity encoded (e.g. `year&#39;s`).
-  // Decode only apostrophe variants to avoid accidentally introducing HTML tags.
-  return text.replace(/&#39;|&apos;/g, "'");
+  // Decode a small, safe subset of entities without ever rendering HTML.
+  // This keeps the output as plain text while fixing common Discord encodings.
+  return (
+    text
+      // Apostrophes / quotes
+      .replace(/&#39;|&#x27;|&apos;/gi, "'")
+      .replace(/&#8217;|&#x2019;/gi, "’")
+      .replace(/&amp;?/g, "&")
+      .replace(/&quot;|&#34;/g, '"')
+      .replace(/&#8220;|&#x201C;/gi, "“")
+      .replace(/&#8221;|&#x201D;/gi, "”")
+      .replace(/&lt;|&#60;/g, "<")
+      .replace(/&gt;|&#62;/g, ">")
+      // Spaces / punctuation
+      .replace(/&nbsp;|&#160;|&#xA0;/gi, " ")
+      .replace(/&#8230;|&#x2026;/gi, "…")
+      .replace(/&#8211;|&#x2013;/gi, "–")
+      .replace(/&#8212;|&#x2014;/gi, "—")
+  );
 }
 
 type UnknownRecord = Record<string, unknown>;

@@ -584,7 +584,10 @@ export const ComposterModal: React.FC<Props> = ({
   onCollect,
   onBoost,
 }) => {
-  const [tab, setTab] = useState(showModal && !hasRead() ? 1 : 0);
+  type Tab = "composter" | "guide";
+  const [tab, setTab] = useState<Tab>(
+    showModal && !hasRead() ? "guide" : "composter",
+  );
   const { t } = useAppTranslation();
 
   return (
@@ -594,8 +597,9 @@ export const ComposterModal: React.FC<Props> = ({
           setShowModal(false);
         }}
         tabs={[
-          { icon: compost, name: "Composter" },
+          { id: "composter", icon: compost, name: "Composter" },
           {
+            id: "guide",
             icon: SUNNYSIDE.icons.expression_confused,
             name: t("guide"),
           },
@@ -603,7 +607,7 @@ export const ComposterModal: React.FC<Props> = ({
         currentTab={tab}
         setCurrentTab={setTab}
       >
-        {tab === 0 && (
+        {tab === "composter" && (
           <ComposterModalContent
             composterName={composterName}
             startComposter={startComposter}
@@ -612,7 +616,7 @@ export const ComposterModal: React.FC<Props> = ({
             onBoost={onBoost}
           />
         )}
-        {tab === 1 && (
+        {tab === "guide" && (
           <>
             <div className="p-2">
               <img
@@ -680,7 +684,7 @@ export const ComposterModal: React.FC<Props> = ({
             <Button
               className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
               onClick={() => {
-                setTab(0);
+                setTab("composter");
                 acknowledgeRead();
               }}
             >

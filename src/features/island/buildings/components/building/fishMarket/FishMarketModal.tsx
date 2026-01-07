@@ -108,7 +108,9 @@ export const FishMarketModal: React.FC<Props> = ({
   return (
     <Modal show={isOpen} onHide={onClose}>
       <CloseButtonPanel
-        tabs={[{ icon: SUNNYSIDE.icons.fish, name: "Fish Market" }]}
+        tabs={[
+          { id: "fishMarket", icon: SUNNYSIDE.icons.fish, name: "Fish Market" },
+        ]}
         bumpkinParts={NPC_WEARABLES.neville}
         onClose={onClose}
         container={OuterPanel}

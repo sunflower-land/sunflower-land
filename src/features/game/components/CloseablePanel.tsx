@@ -16,19 +16,16 @@ import { useSound } from "lib/utils/hooks/useSound";
  * @unread Whether the tab has unread content.
  * @alert Whether the tab has an alert.
  */
-export interface PanelTabs {
+export interface PanelTabs<T extends string> {
   icon: string;
   name: string;
   unread?: boolean;
   alert?: boolean;
+  id: T;
 }
 
-interface StringPanelTabs extends PanelTabs {
-  id: string;
-}
-
-interface Props<T extends number | string = number> {
-  tabs?: (T extends string ? StringPanelTabs : PanelTabs)[];
+interface Props<T extends string> {
+  tabs?: PanelTabs<T>[];
   currentTab?: T;
   setCurrentTab?: React.Dispatch<React.SetStateAction<T>>;
   title?: string | JSX.Element;
@@ -45,8 +42,8 @@ interface Props<T extends number | string = number> {
  * A custom panel built for the game.
  * @tabs The tabs of the panel. When using string-based tabs (T extends string),
  *       each tab must have an 'id' field for reliable identification.
- * @currentTab The current selected tab index or name of the panel. Default is 0.
- * @setCurrentTab Dispatch method to set the current selected tab index or name.
+ * @currentTab The current selected tab id. Defaults to the first tab id when not provided.
+ * @setCurrentTab Dispatch method to set the current selected tab id.
  * @title The panel title.
  * @onClose The close panel method.  Close button will show if this is set.
  * @onBack The back button method.  Back button will show if this is set.
@@ -54,9 +51,9 @@ interface Props<T extends number | string = number> {
  * @className Additional class name for the parent panel.
  * @children The panel children content.
  */
-export const CloseButtonPanel = <T extends number | string = number>({
+export const CloseButtonPanel = <T extends string>({
   tabs,
-  currentTab = 0 as T,
+  currentTab,
   setCurrentTab,
   title,
   onClose,
@@ -69,6 +66,8 @@ export const CloseButtonPanel = <T extends number | string = number>({
 }: Props<T>) => {
   const tabSound = useSound("tab");
   const button = useSound("button");
+
+  const activeTab = currentTab ?? tabs?.[0]?.id;
 
   const handleTabClick = (index: T) => {
     setCurrentTab && setCurrentTab(index);
@@ -102,19 +101,10 @@ export const CloseButtonPanel = <T extends number | string = number>({
                 key={`tab-${index}`}
                 isFirstTab={index === 0}
                 className="flex items-center relative mr-1"
-                isActive={
-                  currentTab ===
-                  (typeof currentTab === "number"
-                    ? index
-                    : (tab as StringPanelTabs).id)
-                }
+                isActive={activeTab === tab.id}
                 onClick={() => {
                   tabSound.play();
-                  handleTabClick(
-                    (typeof currentTab === "number"
-                      ? index
-                      : (tab as StringPanelTabs).id) as T,
-                  );
+                  handleTabClick(tab.id);
                 }}
               >
                 <SquareIcon icon={tab.icon} width={7} />
@@ -122,11 +112,7 @@ export const CloseButtonPanel = <T extends number | string = number>({
                   className={classNames(
                     "text-xs sm:text-sm text-ellipsis ml-1 whitespace-nowrap",
                     {
-                      pulse:
-                        (typeof currentTab === "number"
-                          ? currentTab !== index
-                          : currentTab !== (tab as StringPanelTabs).id) &&
-                        tab.unread,
+                      pulse: activeTab !== tab.id && tab.unread,
                     },
                   )}
                 >

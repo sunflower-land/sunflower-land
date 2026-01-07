@@ -76,7 +76,8 @@ export const RequiredReputation: React.FC<{
 export const ReputationSystem: React.FC<{
   onClose: () => void;
 }> = ({ onClose }) => {
-  const [tab, setTab] = useState(0);
+  type Tab = "tiers" | "earn" | "guide";
+  const [tab, setTab] = useState<Tab>("tiers");
   const { t } = useAppTranslation();
 
   return (
@@ -86,22 +87,25 @@ export const ReputationSystem: React.FC<{
       setCurrentTab={setTab}
       tabs={[
         {
+          id: "tiers",
           icon: SUNNYSIDE.icons.heart,
           name: t("reputation.tiers"),
         },
         {
+          id: "earn",
           icon: salesIcon,
           name: t("reputation.earnPoints"),
         },
         {
+          id: "guide",
           icon: SUNNYSIDE.icons.expression_confused,
           name: t("guide"),
         },
       ]}
     >
-      {tab === 0 && <ReputationTiers />}
-      {tab === 1 && <ReputationPoints />}
-      {tab === 2 && <ReputationGuide onClose={() => setTab(1)} />}
+      {tab === "tiers" && <ReputationTiers />}
+      {tab === "earn" && <ReputationPoints />}
+      {tab === "guide" && <ReputationGuide onClose={() => setTab("earn")} />}
     </CloseButtonPanel>
   );
 };

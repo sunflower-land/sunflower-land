@@ -14,28 +14,56 @@ export function useFeedInteractions(
   isGlobal: boolean,
 ) {
   const getKey = (
-    _: number,
+    pageIndex: number,
     previousPageData: { feed: Interaction[]; following: number[] },
   ) => {
-    if (previousPageData && previousPageData.feed.length === 0) return null;
+    if (pageIndex === 0) {
+      return ["feed-interactions", farmId, isGlobal, filter, 0] as const;
+    }
+
+    if (!previousPageData) {
+      return null;
+    }
+    if (previousPageData.feed.length === 0) {
+      return null;
+    }
 
     const cursor =
-      previousPageData?.feed[previousPageData.feed.length - 1]?.createdAt ?? 0;
-    return `feed-interactions-${farmId}-${isGlobal}-${filter}-${cursor}`;
+      previousPageData.feed[previousPageData.feed.length - 1]?.createdAt ?? 0;
+    return ["feed-interactions", farmId, isGlobal, filter, cursor] as const;
   };
 
   const { data, size, setSize, isValidating, mutate } = useSWRInfinite(
     getKey,
-    (key) => {
-      const cursor = key.split("-")[5];
+    (
+      key: readonly [string, number, boolean, FeedFilter, number],
+      _pageIndex: number,
+      _prevData: { feed: Interaction[]; following: number[] },
+    ) => {
+      const [, farmIdKey, isGlobalKey, filterKey, cursor] = key as [
+        string,
+        number,
+        boolean,
+        FeedFilter,
+        number,
+      ];
 
       return getFeedInteractions({
         token,
-        farmId,
-        filter,
-        isGlobal,
+        farmId: farmIdKey,
+        filter: filterKey,
+        isGlobal: isGlobalKey,
         cursor: Number(cursor),
       });
+    },
+    {
+      // Avoid refetching page 0 when loading more pages
+      revalidateFirstPage: false,
+      // Avoid refetching on focus/reconnect; cursor-based pagination should stay stable
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      revalidateIfStale: false,
+      dedupingInterval: 30_000,
     },
   );
 

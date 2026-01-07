@@ -53,6 +53,7 @@ export const LoveIslandNoticeboard: React.FC<{
       tabs={[
         {
           name: t("guide"),
+          id: "guide",
           icon: tier3_book,
         },
       ]}

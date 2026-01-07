@@ -50,6 +50,7 @@ export const PowerSkills: React.FC<PowerSkillsProps> = ({
       container={OuterPanel}
       tabs={[
         {
+          id: "powerSkills",
           icon: SUNNYSIDE.icons.lightning,
           name: t("powerSkills.title"),
         },

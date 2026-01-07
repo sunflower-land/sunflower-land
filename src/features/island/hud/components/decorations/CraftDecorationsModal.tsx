@@ -7,7 +7,6 @@ import React, { useState } from "react";
 import { LandscapingDecorations } from "./LandscapingDecorations";
 import { BuyBiomes } from "./BuyBiomes";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { useGame } from "features/game/GameProvider";
 
 interface Props {
   show: boolean;
@@ -15,9 +14,8 @@ interface Props {
 }
 
 export const CraftDecorationsModal: React.FC<Props> = ({ show, onHide }) => {
-  const [tab, setTab] = useState<number>(0);
-
-  const { gameState } = useGame();
+  type Tab = "landscaping" | "biomes";
+  const [tab, setTab] = useState<Tab>("landscaping");
 
   return (
     <Modal show={show} onHide={onHide}>
@@ -25,15 +23,23 @@ export const CraftDecorationsModal: React.FC<Props> = ({ show, onHide }) => {
         currentTab={tab}
         setCurrentTab={setTab}
         tabs={[
-          { icon: SUNNYSIDE.decorations.bush, name: "Landscaping" },
-          { icon: ITEM_DETAILS["Basic Biome"].image, name: "Biomes" },
+          {
+            id: "landscaping",
+            icon: SUNNYSIDE.decorations.bush,
+            name: "Landscaping",
+          },
+          {
+            id: "biomes",
+            icon: ITEM_DETAILS["Basic Biome"].image,
+            name: "Biomes",
+          },
         ]}
         onClose={onHide}
         bumpkinParts={NPC_WEARABLES.grimtooth}
         container={OuterPanel}
       >
-        {tab === 0 && <LandscapingDecorations onClose={onHide} />}
-        {tab === 1 && <BuyBiomes onClose={onHide} />}
+        {tab === "landscaping" && <LandscapingDecorations onClose={onHide} />}
+        {tab === "biomes" && <BuyBiomes onClose={onHide} />}
       </CloseButtonPanel>
     </Modal>
   );
