@@ -7752,5 +7752,9 @@
   "description.summer.chicken.boost": "Los pollos no pueden enfermarse durante el verano",
   "description.nurseSheep.boost": "Las ovejas no pueden enfermarse durante el verano",
   "description.reelmastersChair.boost": "+5 carretes de pesca diarios",
-  "description.sawFish.boost.one": "+5 carretes de pesca diarios"
+  "description.sawFish.boost.one": "+5 carretes de pesca diarios",
+  "description.giant.isopod": "¡Un monstruo oceánico gigante!",
+  "description.nautilus": "Un caracol marino con un caparazón duro que nada en las profundidades.",
+  "description.dollocaris": "Un pez de aguas profundas con una aleta dorsal larga y afilada.",
+  "description.nautilus.boost": "???"
 }

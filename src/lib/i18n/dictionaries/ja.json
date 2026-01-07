@@ -7752,5 +7752,9 @@
   "description.summer.chicken.boost": "鶏は夏の間病気になりません",
   "description.nurseSheep.boost": "羊は夏の間病気にならない",
   "description.reelmastersChair.boost": "+5 デイリーフィッシングリール",
-  "description.sawFish.boost.one": "+5 デイリーフィッシングリール"
+  "description.sawFish.boost.one": "+5 デイリーフィッシングリール",
+  "description.giant.isopod": "巨大なオーシャンクリープ！",
+  "description.nautilus": "殻が固く、深海を泳ぐ海に生息するカタツムリ。",
+  "description.dollocaris": "長くて鋭い背びれを持つ深海魚。",
+  "description.nautilus.boost": "???"
 }

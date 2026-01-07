@@ -7752,5 +7752,9 @@
   "description.summer.chicken.boost": "Les poulets ne peuvent pas tomber malades en été",
   "description.nurseSheep.boost": "Les moutons ne peuvent pas tomber malades pendant l'été",
   "description.reelmastersChair.boost": "+5 moulinets de pêche quotidiens",
-  "description.sawFish.boost.one": "+5 moulinets de pêche quotidiens"
+  "description.sawFish.boost.one": "+5 moulinets de pêche quotidiens",
+  "description.giant.isopod": "Un monstre océanique géant !",
+  "description.nautilus": "Escargot marin à carapace dure qui nage dans les profondeurs.",
+  "description.dollocaris": "Poisson d'eau profonde doté d'une longue nageoire dorsale pointue.",
+  "description.nautilus.boost": "? ? ?"
 }

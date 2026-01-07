@@ -7752,5 +7752,9 @@
   "description.summer.chicken.boost": "Tavuklar yaz aylarında hastalanamaz",
   "description.nurseSheep.boost": "Yaz aylarında koyunlar hastalanamaz",
   "description.reelmastersChair.boost": "+5 günlük balıkçılık makarası",
-  "description.sawFish.boost.one": "+5 günlük balıkçılık makarası"
+  "description.sawFish.boost.one": "+5 günlük balıkçılık makarası",
+  "description.giant.isopod": "Dev bir okyanus sürüngenliği!",
+  "description.nautilus": "Derinliklerde yüzen, sert kabuklu, denizde yaşayan bir salyangoz.",
+  "description.dollocaris": "Uzun, keskin sırt yüzgecine sahip derin deniz balığı.",
+  "description.nautilus.boost": "???"
 }
