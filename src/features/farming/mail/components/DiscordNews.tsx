@@ -233,6 +233,34 @@ function isRecord(value: unknown): value is UnknownRecord {
   return typeof value === "object" && value !== null;
 }
 
+function ordinal(n: number) {
+  const mod10 = n % 10;
+  const mod100 = n % 100;
+  if (mod10 === 1 && mod100 !== 11) return `${n}st`;
+  if (mod10 === 2 && mod100 !== 12) return `${n}nd`;
+  if (mod10 === 3 && mod100 !== 13) return `${n}rd`;
+  return `${n}th`;
+}
+
+function formatPostedDate(createdAtMs: number) {
+  const date = new Date(createdAtMs);
+  const day = date.getDate();
+  const month = date.toLocaleString(undefined, { month: "long" });
+  const year = date.getFullYear();
+
+  return `${ordinal(day)} ${month} ${year}`;
+}
+
+function getDiscordPostedLabel(createdAtMs: number, nowMs: number) {
+  const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
+
+  if (nowMs - createdAtMs > SEVEN_DAYS_MS) {
+    return `Posted on ${formatPostedDate(createdAtMs)} on Discord`;
+  }
+
+  return `Posted ${getRelativeTime(createdAtMs, nowMs)} on Discord`;
+}
+
 function getStringProp(obj: UnknownRecord, key: string): string | undefined {
   const value = obj[key];
   return typeof value === "string" ? value : undefined;
@@ -518,10 +546,11 @@ export const DiscordNews: React.FC = () => {
     if (!selectedAnnouncement) return <p>{t("error")}</p>;
 
     const createdAt = new Date(selectedAnnouncement.createdAt).getTime();
-    const relativeTime = getRelativeTime(createdAt, now);
     const sender =
       selectedAnnouncement.sender.displayName ??
       selectedAnnouncement.sender.username;
+
+    const postedLabel = getDiscordPostedLabel(createdAt, now);
 
     return (
       <div className="max-h-[450px] overflow-y-auto scrollable">
@@ -547,7 +576,7 @@ export const DiscordNews: React.FC = () => {
                 rel="noreferrer"
                 className="text-xxs underline"
               >
-                {`${relativeTime} on Discord`}
+                {postedLabel}
               </a>
             </div>
           </div>
@@ -573,7 +602,11 @@ export const DiscordNews: React.FC = () => {
     <div className="max-h-[450px] overflow-y-auto scrollable pr-0.5">
       {announcements.map((announcement) => {
         const createdAt = new Date(announcement.createdAt).getTime();
-        const relativeTime = getRelativeTime(createdAt, now);
+        const relativeTime =
+          now - createdAt > 7 * 24 * 60 * 60 * 1000
+            ? formatPostedDate(createdAt)
+            : getRelativeTime(createdAt, now);
+
         const previewText = announcement.content
           .replace(/\r?\n/g, " ")
           .replace(/\s{2,}/g, " ")
