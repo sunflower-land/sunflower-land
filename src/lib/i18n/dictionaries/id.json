@@ -7245,7 +7245,6 @@
   "confirm.renew.message": "Apakah Anda yakin ingin memperbarui {{name}}?",
   "shrine.expired": "{{name}} Kedaluwarsa",
   "fishingPuzzle.attemptsLeft": "Upaya Tertinggal: {{attemptsLeft}}/{{attemptLimit}}",
-  "fishingPuzzle.findSafePath": "Temukan jalan yang aman untuk membawa ikan ke puncak.",
   "fishingPuzzle.success": "Kerja bagus! Anda mencapai puncak.",
   "fishingPuzzle.failedAttempts": "Anda kehabisan upaya.",
   "node.beehive": "Sarang lebah",
@@ -7758,5 +7757,8 @@
   "description.nautilus.boost": "???",
   "fishing.buyMoreReels.old": "Beli 5 gulungan dengan {{gemPrice}}",
   "discordNews.postedOn": "Diposting di {{date}} di Discord",
-  "discordNews.postedAgo": "Diposting {{time}} di Discord"
+  "discordNews.postedAgo": "Diposting {{time}} di Discord",
+  "fishingPuzzle.findSafePath": "Temukan jalur aman untuk peta",
+  "fishingPuzzle.timeoutTitle": "Oh tidak, kamu tidak cukup cepat!",
+  "fishingPuzzle.timeoutMessage": "Oh tidak, Anda tidak cukup cepat, Anda melewatkan potongan peta."
 }

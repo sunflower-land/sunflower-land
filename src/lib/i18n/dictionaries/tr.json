@@ -7245,7 +7245,6 @@
   "confirm.renew.message": "{{name}} yenilemek istediğinizden emin misiniz?",
   "shrine.expired": "{{name}} Süresi doldu",
   "fishingPuzzle.attemptsLeft": "Kalan Denemeler: {{attemptsLeft}}/{{attemptLimit}}",
-  "fishingPuzzle.findSafePath": "Balıkları zirveye çıkarmak için güvenli yolu bulun.",
   "fishingPuzzle.success": "Harika iş! Zirveye ulaştın.",
   "fishingPuzzle.failedAttempts": "Denemeleriniz bitti.",
   "node.beehive": "Arı kovanı",
@@ -7758,5 +7757,8 @@
   "description.nautilus.boost": "???",
   "fishing.buyMoreReels.old": "{{gemPrice}} ile 5 makara satın alın",
   "discordNews.postedOn": "Discord'da {{date}} tarihinde yayınlandı",
-  "discordNews.postedAgo": "Discord'da yayınlandı {{time}}"
+  "discordNews.postedAgo": "Discord'da yayınlandı {{time}}",
+  "fishingPuzzle.findSafePath": "Harita için güvenli yolu bulun",
+  "fishingPuzzle.timeoutTitle": "Oh hayır, yeterince hızlı değildin!",
+  "fishingPuzzle.timeoutMessage": "Oh hayır, yeterince hızlı değildin, bir harita parçasını kaçırdın."
 }

@@ -1729,7 +1729,7 @@
   "fishingPuzzle.missedFish": "They got away!",
   "fishingPuzzle.retryPrompt": "Would you like more attempts for {{coins}} coins?",
   "fishingPuzzle.attemptsLeft": "Attempts Left: {{attemptsLeft}}/{{attemptLimit}}",
-  "fishingPuzzle.findSafePath": "Find the safe path to bring the fish to the top.",
+  "fishingPuzzle.findSafePath": "Find the safe path for the map",
   "fishingPuzzle.success": "Great job! You reached the top.",
   "fishingPuzzle.failedAttempts": "You ran out of attempts.",
   "fishing.multiCast": "Multi cast",
@@ -7758,5 +7758,7 @@
   "description.seaUrchin": "A spiky purple mystery nestled in underwater crevices.",
   "description.horseshoeCrab": "Ancient survivor with a helmet shell and tail like a sword.",
   "discordNews.postedOn": "Posted on {{date}} on Discord",
-  "discordNews.postedAgo": "Posted {{time}} on Discord"
+  "discordNews.postedAgo": "Posted {{time}} on Discord",
+  "fishingPuzzle.timeoutTitle": "Oh no, you weren't quick enough!",
+  "fishingPuzzle.timeoutMessage": "Oh no, you weren't quick enough, you missed a map piece."
 }

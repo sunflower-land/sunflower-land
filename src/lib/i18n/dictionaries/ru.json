@@ -7268,7 +7268,6 @@
   "renew.expired.message": "Срок действия {{name}} истёк. Ты можешь продлить его, чтобы увеличить время действия.",
   "shrine.expired": "{{name}} истёк",
   "fishingPuzzle.attemptsLeft": "Осталось попыток: {{attemptsLeft}}/{{attemptLimit}}",
-  "fishingPuzzle.findSafePath": "Найди безопасный путь, чтобы довести рыбу до верха",
   "fishingPuzzle.success": "Отлично! Ты добрался до верха",
   "fishingPuzzle.failedAttempts": "У тебя закончились попытки",
   "node.beehive": "Улей",
@@ -7758,5 +7757,8 @@
   "description.nautilus.boost": "???",
   "fishing.buyMoreReels.old": "Купить 5 попыток за {{gemPrice}}",
   "discordNews.postedOn": "Опубликовано {{date}} в Discord",
-  "discordNews.postedAgo": "Опубликовано {{time}} в Discord"
+  "discordNews.postedAgo": "Опубликовано {{time}} в Discord",
+  "fishingPuzzle.findSafePath": "Find the safe path for the map",
+  "fishingPuzzle.timeoutTitle": "Oh no, you weren't quick enough!",
+  "fishingPuzzle.timeoutMessage": "Oh no, you weren't quick enough, you missed a map piece."
 }

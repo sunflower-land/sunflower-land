@@ -7245,7 +7245,6 @@
   "confirm.renew.message": "Sei sicuro di voler rinnovare {{name}}?",
   "shrine.expired": "{{name}} Scaduto",
   "fishingPuzzle.attemptsLeft": "Tentativi rimasti: {{attemptsLeft}}/{{attemptLimit}}",
-  "fishingPuzzle.findSafePath": "Trova il percorso sicuro per portare il pesce in cima.",
   "fishingPuzzle.success": "Ottimo lavoro! Hai raggiunto la cima.",
   "fishingPuzzle.failedAttempts": "Hai esaurito i tentativi.",
   "node.beehive": "alveare",
@@ -7758,5 +7757,8 @@
   "description.nautilus.boost": "???",
   "fishing.buyMoreReels.old": "Acquista 5 rulli con {{gemPrice}}",
   "discordNews.postedOn": "Pubblicato il {{date}} su Discord",
-  "discordNews.postedAgo": "Pubblicato {{time}} su Discord"
+  "discordNews.postedAgo": "Pubblicato {{time}} su Discord",
+  "fishingPuzzle.findSafePath": "Trova il percorso sicuro per la mappa",
+  "fishingPuzzle.timeoutTitle": "Oh no, non sei stato abbastanza veloce!",
+  "fishingPuzzle.timeoutMessage": "Oh no, non sei stato abbastanza veloce, hai perso un pezzo di mappa."
 }

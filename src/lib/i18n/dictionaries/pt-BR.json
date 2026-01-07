@@ -7245,7 +7245,6 @@
   "confirm.renew.message": "Tem certeza de que deseja renovar {{name}}?",
   "shrine.expired": "{{name}} Expirado",
   "fishingPuzzle.attemptsLeft": "Tentativas restantes: {{attemptsLeft}}/{{attemptLimit}}",
-  "fishingPuzzle.findSafePath": "Encontre o caminho seguro para levar o peixe até o topo.",
   "fishingPuzzle.success": "Ótimo trabalho! Você chegou ao topo.",
   "fishingPuzzle.failedAttempts": "Você ficou sem tentativas.",
   "node.beehive": "Colmeia",
@@ -7758,5 +7757,8 @@
   "description.nautilus.boost": "???",
   "fishing.buyMoreReels.old": "Compre 5 bobinas com {{gemPrice}}",
   "discordNews.postedOn": "Postado em {{date}} no Discord",
-  "discordNews.postedAgo": "Postado em {{time}} no Discord"
+  "discordNews.postedAgo": "Postado em {{time}} no Discord",
+  "fishingPuzzle.findSafePath": "Encontre o caminho seguro para o mapa",
+  "fishingPuzzle.timeoutTitle": "Oh não, você não foi rápido o suficiente!",
+  "fishingPuzzle.timeoutMessage": "Ah não, você não foi rápido o suficiente, você perdeu uma peça do mapa."
 }

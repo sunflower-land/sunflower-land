@@ -7245,7 +7245,6 @@
   "confirm.renew.message": "{{name}} を更新してもよろしいですか？",
   "shrine.expired": "{{name}} 期限切れ",
   "fishingPuzzle.attemptsLeft": "残りの試行回数:{{attemptsLeft}}/{{attemptLimit}}",
-  "fishingPuzzle.findSafePath": "魚を頂上に連れて行くための安全な道を見つけてください。",
   "fishingPuzzle.success": "素晴らしい仕事です！頂上に到達したね。",
   "fishingPuzzle.failedAttempts": "試行回数がなくなった。",
   "node.beehive": "ビーハイブ",
@@ -7758,5 +7757,8 @@
   "description.nautilus.boost": "???",
   "fishing.buyMoreReels.old": "{{gemPrice}} で5リールを購入",
   "discordNews.postedOn": "ディスコードの {{date}} に投稿されました",
-  "discordNews.postedAgo": "ディスコードに {{time}} を投稿"
+  "discordNews.postedAgo": "ディスコードに {{time}} を投稿",
+  "fishingPuzzle.findSafePath": "マップの安全なパスを見つけてください",
+  "fishingPuzzle.timeoutTitle": "ああ、いや、あなたは十分な速さではなかった！",
+  "fishingPuzzle.timeoutMessage": "ああ、いや、あなたは十分な速さではなかった、あなたは地図のかけらを見逃した。"
 }
