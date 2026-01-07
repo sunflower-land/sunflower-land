@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
-import Decimal from "decimal.js-light";
 
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -184,13 +183,7 @@ export const FishMarketModal: React.FC<Props> = ({
                       image={ITEM_DETAILS[item].image}
                       isSelected={item === selected}
                       onClick={() => setSelected(item)}
-                      count={
-                        new Decimal(
-                          ready.filter(
-                            (readyItem) => readyItem.name === item,
-                          ).length,
-                        )
-                      }
+                      count={inventory[item]}
                     />
                   ))}
                 </div>
