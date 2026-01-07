@@ -1,15 +1,19 @@
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
 import { GameState } from "../../types/game";
-import { CHUM_AMOUNTS, Chum } from "../../types/fishing";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { WaterTrapName, WATER_TRAP } from "features/game/types/crustaceans";
+import {
+  WaterTrapName,
+  WATER_TRAP,
+  CrustaceanChum,
+  CRUSTACEAN_CHUM_AMOUNTS,
+} from "features/game/types/crustaceans";
 
 export type PlaceWaterTrapAction = {
   trapId: string;
   type: "waterTrap.placed";
   waterTrap: WaterTrapName;
-  chum?: Chum;
+  chum?: CrustaceanChum;
 };
 
 type Options = {
@@ -44,21 +48,19 @@ export function placeWaterTrap({
       throw new Error("Water trap spot already occupied");
     }
 
-    if (!action.chum) {
-      throw new Error("Chum is required");
-    }
+    if (action.chum) {
+      const chumAmount = CRUSTACEAN_CHUM_AMOUNTS[action.chum] ?? 0;
+      if (!chumAmount) {
+        throw new Error(`${action.chum} is not a supported chum`);
+      }
 
-    const chumAmount = CHUM_AMOUNTS[action.chum] ?? 0;
-    if (!chumAmount) {
-      throw new Error(`${action.chum} is not a supported chum`);
-    }
+      const inventoryChum = game.inventory[action.chum] ?? new Decimal(0);
+      if (inventoryChum.lt(chumAmount)) {
+        throw new Error(`Insufficient Chum: ${action.chum}`);
+      }
 
-    const inventoryChum = game.inventory[action.chum] ?? new Decimal(0);
-    if (inventoryChum.lt(chumAmount)) {
-      throw new Error(`Insufficient Chum: ${action.chum}`);
+      game.inventory[action.chum] = inventoryChum.sub(chumAmount);
     }
-
-    game.inventory[action.chum] = inventoryChum.sub(chumAmount);
 
     const hours = WATER_TRAP[action.waterTrap].readyTimeHours;
     const readyAt = createdAt + hours * 60 * 60 * 1000;

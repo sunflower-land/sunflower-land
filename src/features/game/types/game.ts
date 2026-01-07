@@ -112,7 +112,7 @@ import { RockName } from "./resources";
 import { PetShopItemName } from "./petShop";
 import { League } from "features/leagues/leagues";
 import { Buff, BuffName } from "./buffs";
-import { CrustaceanName, WaterTrapName } from "./crustaceans";
+import { CrustaceanChum, CrustaceanName, WaterTrapName } from "./crustaceans";
 
 export type Reward = {
   coins?: number;
@@ -1296,7 +1296,7 @@ type WaterTrapSpot = {
 export type WaterTrap = {
   type: WaterTrapName;
   placedAt: number;
-  chum?: InventoryItemName;
+  chum?: CrustaceanChum;
   readyAt: number;
   caught?: Partial<Record<InventoryItemName, number>>;
 };

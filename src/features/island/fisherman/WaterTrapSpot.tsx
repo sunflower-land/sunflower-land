@@ -10,8 +10,7 @@ import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
-import { Chum } from "features/game/types/fishing";
-import { WaterTrapName } from "features/game/types/crustaceans";
+import { CrustaceanChum, WaterTrapName } from "features/game/types/crustaceans";
 import { useAuth } from "features/auth/lib/Provider";
 
 const _crabTraps = (state: MachineState) => state.context.state.crabTraps;
@@ -52,7 +51,7 @@ export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
     setShowModal(true);
   };
 
-  const place = (waterTrap: WaterTrapName, chum?: Chum) => {
+  const place = (waterTrap: WaterTrapName, chum?: CrustaceanChum) => {
     gameService.send({
       trapId: id,
       type: "waterTrap.placed",

@@ -75,54 +75,28 @@ describe("placeWaterTrap", () => {
     ).toThrow("Water trap spot already occupied");
   });
 
-  it("requires sufficient chum", () => {
-    // TODO: Build out crustaceans chum system
-  });
-
-  it("rejects unsupported chum types", () => {
-    // TODO: Build out crustaceans chum system
-  });
-
-  it("requires chum to be provided", () => {
-    expect(() =>
-      placeWaterTrap({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            "Crab Pot": new Decimal(1),
-          },
-        },
-        action: {
-          type: "waterTrap.placed",
-          trapId,
-          waterTrap: "Crab Pot",
-          // No chum provided
-        },
-        createdAt,
-      }),
-    ).toThrow("Chum is required");
-  });
-
   it("places a Crab Pot with chum and deducts chum from inventory", () => {
     const state = placeWaterTrap({
       state: {
         ...GAME_STATE,
         inventory: {
           "Crab Pot": new Decimal(1),
-          Gold: new Decimal(5),
+          Moonfur: new Decimal(5),
         },
       },
       action: {
         type: "waterTrap.placed",
         trapId,
         waterTrap: "Crab Pot",
-        chum: "Gold",
+        chum: "Moonfur",
       },
       createdAt,
     });
 
-    expect(state.crabTraps.trapSpots?.[trapId]?.waterTrap?.chum).toBe("Gold");
-    expect(state.inventory.Gold).toEqual(new Decimal(4));
+    expect(state.crabTraps.trapSpots?.[trapId]?.waterTrap?.chum).toBe(
+      "Moonfur",
+    );
+    expect(state.inventory.Moonfur).toEqual(new Decimal(3));
     expect(state.inventory["Crab Pot"]).toEqual(new Decimal(0));
   });
 
@@ -132,14 +106,14 @@ describe("placeWaterTrap", () => {
         ...GAME_STATE,
         inventory: {
           "Crab Pot": new Decimal(3),
-          Gold: new Decimal(1),
+          Moonfur: new Decimal(2),
         },
       },
       action: {
         type: "waterTrap.placed",
         trapId,
         waterTrap: "Crab Pot",
-        chum: "Gold",
+        chum: "Moonfur",
       },
       createdAt,
     });
