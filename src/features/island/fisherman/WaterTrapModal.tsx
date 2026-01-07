@@ -86,44 +86,52 @@ export const WaterTrapModal: React.FC<Props> = ({
 
   // A water trap has been placed
   if (waterTrap) {
-    const { type: trapType, caught } = waterTrap;
+    const { type: trapType, caught, chum } = waterTrap;
 
     return (
       <CloseButtonPanel onClose={onClose}>
         <div className="flex p-2 -mt-2">
           <img
             src={ITEM_DETAILS[trapType].image}
-            className="w-14 object-contain mr-2"
+            className="w-14 object-contain mr-4"
           />
-          <div className="mt-2 flex-1">
+          <div className="flex flex-col mt-2">
             {!isReady && (
-              <div className="flex items-center mb-2">
-                <img src={SUNNYSIDE.icons.timer} className="h-5 mr-1" />
-                <span className="text-xs mr-1">
-                  {secondsToString(secondsLeft, {
-                    length: "full",
-                  })}
-                </span>
-              </div>
+              <>
+                <div className="flex items-center mb-2">
+                  <img src={SUNNYSIDE.icons.timer} className="h-5 mr-1" />
+                  <span className="text-xs mr-1">
+                    {secondsToString(secondsLeft, {
+                      length: "full",
+                    })}
+                  </span>
+                </div>
+              </>
             )}
 
-            {(isReady || (isReady && caught)) && (
-              <div className="flex items-center">
-                <img src={SUNNYSIDE.icons.confirm} className="h-4 mr-1" />
-                <span className="text-xs">{t("waterTrap.ready")}</span>
+            {chum && (
+              <div className="flex items-center mb-2">
+                <Label
+                  type="default"
+                  className="text-xs"
+                  icon={ITEM_DETAILS[chum].image}
+                >
+                  {`${CHUM_AMOUNTS[chum]} ${chum} ${t("chum")}`}
+                </Label>
               </div>
             )}
             {caught && getObjectEntries(caught).length > 0 && (
               <div className="flex flex-wrap my-1">
                 {getObjectEntries(caught).map(([item, amount]) => {
                   return (
-                    <div
+                    <Label
                       key={item}
-                      className="flex space-x-2 justify-start mr-2 mb-1"
+                      type="default"
+                      className="text-xs"
+                      icon={ITEM_DETAILS[item].image}
                     >
-                      <img src={ITEM_DETAILS[item].image} className="h-5" />
-                      <Label type="default">{`${amount} ${item}`}</Label>
-                    </div>
+                      {`${amount} ${item} ${t("caught")}`}
+                    </Label>
                   );
                 })}
               </div>
