@@ -845,44 +845,60 @@ export const MAP_PIECES: Partial<Record<MarineMarvelName, MapPieceDropTable>> =
     "Starlight Tuna": {
       fish: {
         Halibut: { odds: 0.025 },
-        "Horse Mackerel": { odds: 0.18 },
+        "Horse Mackerel": { odds: 0.36 },
       },
     },
     "Twilight Anglerfish": {
       fish: {
-        Clownfish: { odds: 0.015 },
-        Squid: { odds: 0.225 },
+        Clownfish: { odds: 0.025 },
+        Parrotfish: { odds: 0.21 },
       },
     },
     "Gilded Swordfish": {
       fish: {
-        "Rock Blackfish": { odds: 0.037 },
-        Parrotfish: { odds: 0.11 },
+        "Rock Blackfish": { odds: 0.05 },
+        "White Shark": { odds: 0.3 },
       },
     },
     "Radiant Ray": {
       fish: {
-        Trout: { odds: 0.021 },
-        "Whale Shark": { odds: 0.045 },
+        Trout: { odds: 0.02 },
+        "Hammerhead shark": { odds: 0.05 },
       },
     },
     "Phantom Barracuda": {
       fish: {
         "Mahi Mahi": { odds: 0.0018 },
-        "White Shark": { odds: 0.025 },
+        Squid: { odds: 0.05 },
       },
     },
     "Super Star": {
+      fish: {
+        "Red Snapper": { odds: 0.01 },
+        "Whale Shark": { odds: 0.1 },
+      },
       chapter: "Paw Prints",
     },
 
     "Giant Isopod": {
+      fish: {
+        Anchovy: { odds: 0.008 },
+        Oarfish: { odds: 0.03 },
+      },
       chapter: "Crab Chapter",
     },
     Nautilus: {
+      fish: {
+        "Sea Horse": { odds: 0.01 },
+        Tuna: { odds: 0.002 },
+      },
       chapter: "Crab Chapter",
     },
     Dollocaris: {
+      fish: {
+        Sunfish: { odds: 0.005 },
+        Oarfish: { odds: 0.005 },
+      },
       chapter: "Crab Chapter",
     },
   };
