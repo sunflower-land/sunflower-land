@@ -13,6 +13,8 @@ import {
 import { getFishByType } from "../lib/utils";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
+  CHAPTER_FISH,
+  ChapterFish,
   FISH,
   FishName,
   MAP_PIECES,
@@ -30,7 +32,11 @@ import { Context } from "features/game/GameProvider";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ModalOverlay } from "components/ui/ModalOverlay";
-import { getChapterMarvelFish } from "features/game/types/chapters";
+import {
+  getChapterMarvelFish,
+  getCurrentChapter,
+  secondsLeftInChapter,
+} from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
 import { Box } from "components/ui/Box";
 import { hasFeatureAccess } from "lib/flags";
@@ -249,10 +255,32 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
 
 export const MarineMarvelMaps: React.FC<{ state: GameState }> = ({ state }) => {
   const { t } = useAppTranslation();
+  const now = useNow();
+
+  // Chapter-gating (if chapter can't be determined, hide chapter-gated marvels)
+  let currentChapter: ReturnType<typeof getCurrentChapter> | undefined;
+  let secondsLeft: number | undefined;
+  try {
+    currentChapter = getCurrentChapter(now);
+    secondsLeft = secondsLeftInChapter(now);
+  } catch {
+    currentChapter = undefined;
+    secondsLeft = undefined;
+  }
+
+  const daysLeft =
+    secondsLeft !== undefined ? Math.max(0, Math.ceil(secondsLeft / 86400)) : 0;
+
   // If caught them all already, show nothing here.
-  const remainingMarvels = getKeys(MAP_PIECES).filter(
-    (marvel) => !state.farmActivity[`${marvel} Caught`],
-  );
+  const remainingMarvels = getKeys(MAP_PIECES).filter((marvel) => {
+    if (state.farmActivity[`${marvel} Caught`]) return false;
+
+    const chapter = MAP_PIECES[marvel]?.chapter;
+    if (!CHAPTER_FISH[marvel as ChapterFish]) return true;
+
+    // Do not show Marine Marvels for non-current Chapters
+    return !!currentChapter && chapter === currentChapter;
+  });
 
   if (!hasFeatureAccess(state, "MAP_PIECES")) {
     return null;
@@ -280,14 +308,24 @@ export const MarineMarvelMaps: React.FC<{ state: GameState }> = ({ state }) => {
             />
             <div className="ml-1">
               <p className="text-sm">
-                {t("fishing.mapDiscovered.mapName", { map })}
+                {t("fishing.mapDiscovered.mapName", { map })}{" "}
               </p>
-              <p className="text-xs">
-                {t("fishing.mapDiscovered.progress", {
-                  collected: state.farmActivity[`${map} Map Piece Found`] ?? 0,
-                  total: 9,
-                })}
-              </p>
+              <div className="flex items-center">
+                <p className="text-xs mr-2">
+                  {t("fishing.mapDiscovered.progress", {
+                    collected:
+                      state.farmActivity[`${map} Map Piece Found`] ?? 0,
+                    total: 9,
+                  })}
+                </p>
+                {MAP_PIECES[map]?.chapter && secondsLeft !== undefined && (
+                  <>
+                    <Label type={daysLeft < 5 ? "danger" : "vibrant"}>
+                      {`${daysLeft} days left`}
+                    </Label>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         ))}

@@ -18,6 +18,36 @@ type Metadata = {
 };
 
 export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
+  "Crab Chapter Ticket": {
+    description: "A ticket to the Crab Chapter.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Ticket" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Crab Chapter Artefact": {
+    description: "An artefact from the Crab Chapter.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Artefact" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Crab Chapter Banner": {
+    description: "A banner for the Crab Chapter.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Banner" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   "Fish Market": {
     description: "A processed fish market for fish.",
     decimals: 0,
@@ -6985,6 +7015,39 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
         trait_type: "Increase Gold Yield",
         value: 0.1,
       },
+    ],
+  },
+  "Giant Isopod": {
+    description:
+      "A hardy crustacean that curls up for protection and eats detritus.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1550.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  Nautilus: {
+    description:
+      "A sea-dwelling snail with a hard shell, swimming through the depths.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1551.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  Dollocaris: {
+    description:
+      "A deep-sea fish with a long, sharp dorsal fin, swimming through the depths.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1552.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
   "Crimson Carp": {

@@ -10,6 +10,7 @@ import { translate } from "lib/i18n/translate";
 import { PurchaseOptions } from "./buyOptionPurchaseItem";
 import { Decimal } from "decimal.js-light";
 import { isCollectibleBuilt } from "../lib/collectibleBuilt";
+import type { ChapterName } from "./chapters";
 
 export type PurchaseableBait = "Fishing Lure";
 export type GuaranteedBait =
@@ -78,7 +79,10 @@ export type MarineMarvelName =
   | "Jellyfish"
   | "Pink Dolphin"
   | "Poseidon"
-  | "Super Star";
+  | "Super Star"
+  | "Giant Isopod"
+  | "Nautilus"
+  | "Dollocaris";
 
 export type OldFishName = "Kraken Tentacle";
 
@@ -315,6 +319,9 @@ export type ChapterFish = Extract<
   | "Pink Dolphin"
   | "Poseidon"
   | "Super Star"
+  | "Giant Isopod"
+  | "Nautilus"
+  | "Dollocaris"
 >;
 
 export const CHAPTER_FISH: Record<ChapterFish, Fish> = {
@@ -362,6 +369,24 @@ export const CHAPTER_FISH: Record<ChapterFish, Fish> = {
   },
   "Super Star": {
     baits: ["Red Wiggler", "Fishing Lure"],
+    type: "chapter",
+    likes: [],
+    seasons: [],
+  },
+  "Giant Isopod": {
+    baits: ["Grub", "Red Wiggler", "Fishing Lure"],
+    type: "chapter",
+    likes: [],
+    seasons: [],
+  },
+  Nautilus: {
+    baits: ["Grub", "Red Wiggler", "Fishing Lure"],
+    type: "chapter",
+    likes: [],
+    seasons: [],
+  },
+  Dollocaris: {
+    baits: ["Grub", "Red Wiggler", "Fishing Lure"],
     type: "chapter",
     likes: [],
     seasons: [],
@@ -803,27 +828,63 @@ export const BAIT: Record<FishingBait, true> = {
   "Crab Stick": true,
 };
 
-export const MAP_PIECES: Partial<
-  Record<MarineMarvelName, Partial<Record<FishName, { odds: number }>>>
-> = {
-  "Starlight Tuna": {
-    Halibut: { odds: 0.025 },
-    "Horse Mackerel": { odds: 0.18 },
-  },
-  "Twilight Anglerfish": {
-    Clownfish: { odds: 0.015 },
-    Squid: { odds: 0.225 },
-  },
-  "Gilded Swordfish": {
-    "Rock Blackfish": { odds: 0.037 },
-    Parrotfish: { odds: 0.11 },
-  },
-  "Radiant Ray": {
-    Trout: { odds: 0.021 },
-    "Whale Shark": { odds: 0.045 },
-  },
-  "Phantom Barracuda": {
-    "Mahi Mahi": { odds: 0.0018 },
-    "White Shark": { odds: 0.025 },
-  },
+export type MapPieceDropTable = {
+  /**
+   * Fish that can drop map pieces for the marine marvel map.
+   * `odds` is the per-catch probability (0..1) of a map piece dropping
+   * when that fish is caught.
+   */
+  fish?: Partial<Record<FishName, { odds: number }>>;
+  /**
+   * Optional chapter gating for the marine marvel map.
+   * If set, this marine marvel map should only be shown during that chapter.
+   */
+  chapter?: ChapterName;
 };
+
+export const MAP_PIECES: Partial<Record<MarineMarvelName, MapPieceDropTable>> =
+  {
+    "Starlight Tuna": {
+      fish: {
+        Halibut: { odds: 0.025 },
+        "Horse Mackerel": { odds: 0.18 },
+      },
+    },
+    "Twilight Anglerfish": {
+      fish: {
+        Clownfish: { odds: 0.015 },
+        Squid: { odds: 0.225 },
+      },
+    },
+    "Gilded Swordfish": {
+      fish: {
+        "Rock Blackfish": { odds: 0.037 },
+        Parrotfish: { odds: 0.11 },
+      },
+    },
+    "Radiant Ray": {
+      fish: {
+        Trout: { odds: 0.021 },
+        "Whale Shark": { odds: 0.045 },
+      },
+    },
+    "Phantom Barracuda": {
+      fish: {
+        "Mahi Mahi": { odds: 0.0018 },
+        "White Shark": { odds: 0.025 },
+      },
+    },
+    "Super Star": {
+      chapter: "Paw Prints",
+    },
+
+    "Giant Isopod": {
+      chapter: "Crab Chapter",
+    },
+    Nautilus: {
+      chapter: "Crab Chapter",
+    },
+    Dollocaris: {
+      chapter: "Crab Chapter",
+    },
+  };
