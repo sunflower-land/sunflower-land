@@ -9,7 +9,6 @@ import { InventoryItemName } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
 import { FishName, FishingBait } from "features/game/types/fishing";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { PanelTabs } from "features/game/components/CloseablePanel";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { FishingGuide } from "./FishingGuide";
 import { getDailyFishingCount } from "features/game/types/fishing";
@@ -140,21 +139,19 @@ export const FishermanModal: React.FC<Props> = ({
       className="min-h-[360px]"
       onClose={onClose}
       bumpkinParts={NPC_WEARABLES[npc]}
-      tabs={
-        [
-          { id: "fish", icon: SUNNYSIDE.tools.fishing_rod, name: t("fish") },
-          {
-            id: "guide",
-            icon: SUNNYSIDE.icons.expression_confused,
-            name: t("guide"),
-          },
-          {
-            id: "extras",
-            icon: powerup,
-            name: t("fishing.extras"),
-          },
-        ] satisfies PanelTabs<Tab>[]
-      }
+      tabs={[
+        { id: "fish", icon: SUNNYSIDE.tools.fishing_rod, name: t("fish") },
+        {
+          id: "guide",
+          icon: SUNNYSIDE.icons.expression_confused,
+          name: t("guide"),
+        },
+        {
+          id: "extras",
+          icon: powerup,
+          name: t("fishing.extras"),
+        },
+      ]}
       currentTab={tab}
       setCurrentTab={setTab}
       container={OuterPanel}

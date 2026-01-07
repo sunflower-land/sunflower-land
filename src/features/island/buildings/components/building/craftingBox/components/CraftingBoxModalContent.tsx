@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { PanelTabs } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Recipe } from "features/game/lib/crafting";
@@ -123,17 +122,15 @@ export const CraftingBoxModalContent: React.FC<Props> = ({ onClose }) => {
   return (
     <CloseButtonPanel
       onClose={onClose}
-      tabs={
-        [
-          { id: "craft", name: t("craft"), icon: SUNNYSIDE.icons.hammer },
-          { id: "recipes", name: t("recipes"), icon: SUNNYSIDE.icons.basket },
-          {
-            id: "guide",
-            name: t("guide"),
-            icon: SUNNYSIDE.icons.expression_confused,
-          },
-        ] satisfies PanelTabs<Tab>[]
-      }
+      tabs={[
+        { id: "craft", name: t("craft"), icon: SUNNYSIDE.icons.hammer },
+        { id: "recipes", name: t("recipes"), icon: SUNNYSIDE.icons.basket },
+        {
+          id: "guide",
+          name: t("guide"),
+          icon: SUNNYSIDE.icons.expression_confused,
+        },
+      ]}
       currentTab={currentTab}
       setCurrentTab={setCurrentTab}
     >

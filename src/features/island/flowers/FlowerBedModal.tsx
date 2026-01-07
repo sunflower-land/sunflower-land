@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { PanelTabs } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { FlowerBedGuide } from "./FlowerBedGuide";
@@ -20,16 +19,14 @@ export const FlowerBedModal: React.FC<Props> = ({ onClose, id }) => {
     <CloseButtonPanel
       onClose={onClose}
       bumpkinParts={NPC_WEARABLES["poppy"]}
-      tabs={
-        [
-          { id: "plant", icon: SUNNYSIDE.icons.seedling, name: "Plant" },
-          {
-            id: "guide",
-            icon: SUNNYSIDE.icons.expression_confused,
-            name: "Guide",
-          },
-        ] satisfies PanelTabs<Tab>[]
-      }
+      tabs={[
+        { id: "plant", icon: SUNNYSIDE.icons.seedling, name: "Plant" },
+        {
+          id: "guide",
+          icon: SUNNYSIDE.icons.expression_confused,
+          name: "Guide",
+        },
+      ]}
       currentTab={tab}
       setCurrentTab={setTab}
     >

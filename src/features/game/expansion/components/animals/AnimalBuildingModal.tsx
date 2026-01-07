@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { PanelTabs } from "features/game/components/CloseablePanel";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
@@ -170,17 +169,15 @@ export const AnimalBuildingModal: React.FC<Props> = ({
   return (
     <CloseButtonPanel
       onClose={onClose}
-      tabs={
-        [
-          { id: "buy", name: t("buy"), icon: coinsIcon },
-          { id: "sell", name: t("sell"), icon: SUNNYSIDE.icons.death },
-          {
-            id: "guide",
-            name: t("guide"),
-            icon: SUNNYSIDE.icons.expression_confused,
-          },
-        ] satisfies PanelTabs<Tab>[]
-      }
+      tabs={[
+        { id: "buy", name: t("buy"), icon: coinsIcon },
+        { id: "sell", name: t("sell"), icon: SUNNYSIDE.icons.death },
+        {
+          id: "guide",
+          name: t("guide"),
+          icon: SUNNYSIDE.icons.expression_confused,
+        },
+      ]}
       currentTab={currentTab}
       setCurrentTab={setCurrentTab}
       className="relative"

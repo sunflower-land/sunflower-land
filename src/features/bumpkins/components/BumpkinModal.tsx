@@ -86,9 +86,10 @@ export const BumpkinLevel: React.FC<{ experience?: number }> = ({
     </div>
   );
 };
+type Tab = "info" | "equip" | "skills";
 
 interface Props {
-  initialTab: number;
+  initialTab: Tab;
   onClose: () => void;
   bumpkin: Bumpkin;
   inventory: Inventory;
@@ -113,10 +114,7 @@ export const BumpkinModal: React.FC<Props> = ({
   const level = getBumpkinLevel(experience);
   const maxLevel = isMaxLevel(experience);
   const [view, setView] = useState<ViewState>("home");
-  type Tab = "info" | "equip" | "skills";
-  const initialTabId: Tab =
-    initialTab === 1 ? "equip" : initialTab === 2 ? "skills" : "info";
-  const [tab, setTab] = useState<Tab>(initialTabId);
+  const [tab, setTab] = useState(initialTab);
   const { t } = useAppTranslation();
 
   if (view === "achievements") {

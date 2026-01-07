@@ -167,15 +167,6 @@ export const TreasureChest: React.FC<Props> = ({
               >
                 {type}
               </Label>
-              {/* {isValentinesDayUTC && (
-            <Label
-              className="mb-2"
-              type="vibrant"
-              icon={SUNNYSIDE.icons.stopwatch}
-            >
-              {t("event.valentines.rewards")}
-            </Label>
-          )} */}
             </div>
             <p className="text-xs mb-2">{t("basic.treasure.congratsKey")}</p>
             <p className="text-xs mb-2">{t("basic.treasure.openChest")}</p>

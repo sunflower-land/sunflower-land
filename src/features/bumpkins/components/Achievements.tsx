@@ -201,13 +201,9 @@ export const AchievementsModal: React.FC<Props> = ({
   onClose,
   readonly,
 }) => {
-  type Tab = "achievements";
-  const [tab, setTab] = useState<Tab>("achievements");
   const { t } = useAppTranslation();
   return (
     <CloseButtonPanel
-      currentTab={tab}
-      setCurrentTab={setTab}
       tabs={[
         {
           id: "achievements",

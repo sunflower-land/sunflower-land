@@ -13,7 +13,6 @@ import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { PanelTabs } from "features/game/components/CloseablePanel";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { useSelector } from "@xstate/react";
 import { SeedName } from "features/game/types/seeds";
@@ -198,20 +197,18 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
 
       <Modal show={show} onHide={close}>
         <CloseButtonPanel
-          tabs={
-            [
-              {
-                id: "harvest",
-                icon: SUNNYSIDE.icons.seeds,
-                name: "Harvest",
-              },
-              {
-                id: "plant",
-                icon: SUNNYSIDE.icons.plant,
-                name: "Plant",
-              },
-            ] satisfies PanelTabs<Tab>[]
-          }
+          tabs={[
+            {
+              id: "harvest",
+              icon: SUNNYSIDE.icons.seeds,
+              name: "Harvest",
+            },
+            {
+              id: "plant",
+              icon: SUNNYSIDE.icons.plant,
+              name: "Plant",
+            },
+          ]}
           currentTab={activeTab}
           setCurrentTab={setActiveTab}
           onClose={close}

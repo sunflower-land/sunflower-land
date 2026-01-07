@@ -3,7 +3,6 @@ import { Equipped } from "features/game/types/bumpkin";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { PanelTabs } from "features/game/components/CloseablePanel";
 import { ConversationName } from "features/game/types/announcements";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SpeakingText } from "features/game/components/SpeakingModal";
@@ -86,27 +85,25 @@ export const ShopItems: React.FC<Props> = ({
   return (
     <CloseButtonPanel
       bumpkinParts={bumpkinParts}
-      tabs={
-        [
-          {
-            id: "buy",
-            icon: SUNNYSIDE.icons.seeds,
-            name: t("buy"),
-            unread: showBuyHelper,
-          },
-          {
-            id: "sell",
-            icon: CROP_LIFECYCLE["Basic Biome"].Sunflower.crop,
-            name: t("sell"),
-            unread: !hasSoldBefore,
-          },
-          {
-            id: "guide",
-            icon: book,
-            name: t("guide"),
-          },
-        ] satisfies PanelTabs<Tab>[]
-      }
+      tabs={[
+        {
+          id: "buy",
+          icon: SUNNYSIDE.icons.seeds,
+          name: t("buy"),
+          unread: showBuyHelper,
+        },
+        {
+          id: "sell",
+          icon: CROP_LIFECYCLE["Basic Biome"].Sunflower.crop,
+          name: t("sell"),
+          unread: !hasSoldBefore,
+        },
+        {
+          id: "guide",
+          icon: book,
+          name: t("guide"),
+        },
+      ]}
       currentTab={tab}
       setCurrentTab={setTab}
       onClose={onClose}

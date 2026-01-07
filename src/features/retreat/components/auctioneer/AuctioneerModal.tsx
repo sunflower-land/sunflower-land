@@ -21,7 +21,6 @@ import { hasReputation } from "features/game/lib/reputation";
 import { Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import choreIcon from "assets/icons/chores.webp";
-import { PanelTabs } from "features/game/components/CloseablePanel";
 
 interface Props {
   gameState: GameState;
@@ -95,20 +94,18 @@ export const AuctioneerModal: React.FC<Props> = ({
         onClose={onClose}
         currentTab={tab}
         setCurrentTab={setTab}
-        tabs={
-          [
-            {
-              id: "auction",
-              icon: SUNNYSIDE.icons.stopwatch,
-              name: t("auction.title"),
-            },
-            {
-              id: "results",
-              icon: choreIcon,
-              name: t("auction.results"),
-            },
-          ] satisfies PanelTabs<Tab>[]
-        }
+        tabs={[
+          {
+            id: "auction",
+            icon: SUNNYSIDE.icons.stopwatch,
+            name: t("auction.title"),
+          },
+          {
+            id: "results",
+            icon: choreIcon,
+            name: t("auction.results"),
+          },
+        ]}
         bumpkinParts={NPC_WEARABLES["hammerin harry"]}
         secondaryAction={
           <a
