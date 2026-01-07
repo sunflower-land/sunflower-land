@@ -7756,5 +7756,7 @@
   "description.nautilus": "딱딱한 껍질을 가진 바다에 사는 달팽이가 깊은 곳을 헤엄칩니다.",
   "description.dollocaris": "길고 날카로운 등지느러미를 가진 심해 어류입니다.",
   "description.nautilus.boost": "???",
-  "fishing.buyMoreReels.old": "{{gemPrice}} 로 릴 5개를 구매하세요"
+  "fishing.buyMoreReels.old": "{{gemPrice}} 로 릴 5개를 구매하세요",
+  "discordNews.postedOn": "디스코드 {{date}} 에 게시됨",
+  "discordNews.postedAgo": "디스코드에 게시됨 {{time}}"
 }

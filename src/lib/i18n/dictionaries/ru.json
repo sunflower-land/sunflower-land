@@ -7756,5 +7756,7 @@
   "description.nautilus": "A sea-dwelling snail with a hard shell, swimming through the depths.",
   "description.dollocaris": "A deep-sea fish with a long, sharp dorsal fin.",
   "description.nautilus.boost": "???",
-  "fishing.buyMoreReels.old": "Buy 5 reels with {{gemPrice}}"
+  "fishing.buyMoreReels.old": "Buy 5 reels with {{gemPrice}}",
+  "discordNews.postedOn": "Posted on {{date}} on Discord",
+  "discordNews.postedAgo": "Posted {{time}} on Discord"
 }

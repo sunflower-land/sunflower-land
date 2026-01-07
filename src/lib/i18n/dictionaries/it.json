@@ -7756,5 +7756,7 @@
   "description.nautilus": "Una lumaca marina dal guscio duro, che nuota nelle profondità.",
   "description.dollocaris": "Un pesce di acque profonde con una pinna dorsale lunga e affilata.",
   "description.nautilus.boost": "???",
-  "fishing.buyMoreReels.old": "Acquista 5 rulli con {{gemPrice}}"
+  "fishing.buyMoreReels.old": "Acquista 5 rulli con {{gemPrice}}",
+  "discordNews.postedOn": "Pubblicato il {{date}} su Discord",
+  "discordNews.postedAgo": "Pubblicato {{time}} su Discord"
 }

@@ -7756,5 +7756,7 @@
   "description.nautilus": "Un caracol marino con un caparazón duro que nada en las profundidades.",
   "description.dollocaris": "Un pez de aguas profundas con una aleta dorsal larga y afilada.",
   "description.nautilus.boost": "???",
-  "fishing.buyMoreReels.old": "Compra 5 carretes con {{gemPrice}}"
+  "fishing.buyMoreReels.old": "Compra 5 carretes con {{gemPrice}}",
+  "discordNews.postedOn": "Publicado el {{date}} en Discord",
+  "discordNews.postedAgo": "Publicado {{time}} en Discord"
 }

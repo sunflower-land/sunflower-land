@@ -7756,5 +7756,7 @@
   "description.nautilus": "Derinliklerde yüzen, sert kabuklu, denizde yaşayan bir salyangoz.",
   "description.dollocaris": "Uzun, keskin sırt yüzgecine sahip derin deniz balığı.",
   "description.nautilus.boost": "???",
-  "fishing.buyMoreReels.old": "{{gemPrice}} ile 5 makara satın alın"
+  "fishing.buyMoreReels.old": "{{gemPrice}} ile 5 makara satın alın",
+  "discordNews.postedOn": "Discord'da {{date}} tarihinde yayınlandı",
+  "discordNews.postedAgo": "Discord'da yayınlandı {{time}}"
 }

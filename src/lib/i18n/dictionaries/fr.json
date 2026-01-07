@@ -7756,5 +7756,7 @@
   "description.nautilus": "Escargot marin à carapace dure qui nage dans les profondeurs.",
   "description.dollocaris": "Poisson d'eau profonde doté d'une longue nageoire dorsale pointue.",
   "description.nautilus.boost": "? ? ?",
-  "fishing.buyMoreReels.old": "Achetez 5 rouleaux avec {{gemPrice}}"
+  "fishing.buyMoreReels.old": "Achetez 5 rouleaux avec {{gemPrice}}",
+  "discordNews.postedOn": "Publié le {{date}} sur Discord",
+  "discordNews.postedAgo": "Publié {{time}} sur Discord"
 }

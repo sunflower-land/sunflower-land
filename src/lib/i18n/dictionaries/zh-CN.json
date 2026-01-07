@@ -7755,5 +7755,8 @@
   "description.giant.isopod": "一个巨大的海洋小兵！",
   "description.nautilus": "一只生活在海中的蜗牛，有着坚硬的外壳，在深处游泳。",
   "description.dollocaris": "一种具有长而锋利的背鳍的深海鱼。",
-  "description.nautilus.boost": "？？"
+  "description.nautilus.boost": "？？",
+  "fishing.buyMoreReels.old": "使用 {{gemPrice}} 购买 5 个卷轴",
+  "discordNews.postedOn": "在 Discord 上发布于 {{date}}",
+  "discordNews.postedAgo": "在 Discord 上发布 {{time}}"
 }

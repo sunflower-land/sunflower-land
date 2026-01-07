@@ -7756,5 +7756,7 @@
   "description.nautilus": "殻が固く、深海を泳ぐ海に生息するカタツムリ。",
   "description.dollocaris": "長くて鋭い背びれを持つ深海魚。",
   "description.nautilus.boost": "???",
-  "fishing.buyMoreReels.old": "{{gemPrice}} で5リールを購入"
+  "fishing.buyMoreReels.old": "{{gemPrice}} で5リールを購入",
+  "discordNews.postedOn": "ディスコードの {{date}} に投稿されました",
+  "discordNews.postedAgo": "ディスコードに {{time}} を投稿"
 }
