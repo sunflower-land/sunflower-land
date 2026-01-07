@@ -2,7 +2,6 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
@@ -10,7 +9,6 @@ import classNames from "classnames";
 import { InnerPanel } from "components/ui/Panel";
 
 import {
-  ANIMAL_DIMENSIONS,
   COLLECTIBLES_DIMENSIONS,
   CollectibleName,
 } from "features/game/types/craftables";
@@ -420,15 +418,13 @@ export const MoveableComponent: React.FC<
   const isShrine = name in PET_SHRINES || name === "Obsidian Shrine";
 
   // Compute overlaps early for determining if we need live time updates
-  const overlaps = useMemo(() => {
-    return getOverlappingCollectibles({
-      state: gameService.getSnapshot().context.state,
-      x: coordinatesX,
-      y: coordinatesY,
-      location,
-      current: { id, name },
-    });
-  }, [gameService, coordinatesX, coordinatesY, location, id, name]);
+  const overlaps = getOverlappingCollectibles({
+    state: gameService.getSnapshot().context.state,
+    x: coordinatesX,
+    y: coordinatesY,
+    location,
+    current: { id, name },
+  });
 
   const initialNow = useNow();
   const hasUnrevealedPets = overlaps.some(
@@ -492,20 +488,15 @@ export const MoveableComponent: React.FC<
     }
   }, [isSelected, movingItem]);
 
-  const DIMENSIONS_MAP = {
+  const DIMENSIONS_MAP: Record<LandscapingPlaceable, Dimensions> = {
     ...BUILDINGS_DIMENSIONS,
     ...COLLECTIBLES_DIMENSIONS,
-    ...ANIMAL_DIMENSIONS,
     ...RESOURCE_DIMENSIONS,
+    Bud: { width: 1, height: 1 },
+    Pet: { width: 2, height: 2 },
   };
 
-  const dimensions = useMemo(() => {
-    return name === "Bud"
-      ? { width: 1, height: 1 }
-      : name === "Pet"
-        ? { width: 2, height: 2 }
-        : DIMENSIONS_MAP[name];
-  }, [name]);
+  const dimensions = DIMENSIONS_MAP[name];
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onStop = useCallback(
