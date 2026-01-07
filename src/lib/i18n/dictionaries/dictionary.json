@@ -1714,6 +1714,7 @@
   "fishing.extraReels": "Extra Reels",
   "fishing.cast": "Cast",
   "fishing.buyMoreReels": "Buy {{reels}} reels for {{price}}",
+  "fishing.buyMoreReels.old": "Buy 5 reels with {{gemPrice}}",
   "fishing.guaranteedCatch.title": "Guaranteed fish",
   "fishing.guaranteedCatch.none": "No fish are biting this season for this bait.",
   "fishing.guaranteedCatch.helper": "Choose one fish to guarantee with this bait.",
