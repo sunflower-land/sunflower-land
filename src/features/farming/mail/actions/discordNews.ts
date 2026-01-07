@@ -197,6 +197,12 @@ export const getDiscordNewsData = async ({
   const url = new URL(DISCORD_NEWS_API_URL);
   url.searchParams.set("type", "discordAnnouncements");
 
+  // Get language from localStorage and pass it to the API
+  const language = localStorage.getItem("language") || "en";
+  if (language && language !== "en") {
+    url.searchParams.set("language", language);
+  }
+
   const res = await window.fetch(url.toString(), {
     method: "GET",
     headers: {
