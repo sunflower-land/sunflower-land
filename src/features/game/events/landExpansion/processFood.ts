@@ -41,10 +41,6 @@ export function processProcessedFood({
       (building) => building.id === buildingId,
     );
 
-    if (item === "Crab Stick") {
-      throw new Error("Crab Stick processing is not available yet");
-    }
-
     if (!building) {
       throw new Error(translate("error.requiredBuildingNotExist"));
     }
