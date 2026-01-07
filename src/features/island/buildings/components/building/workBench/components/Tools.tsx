@@ -29,6 +29,8 @@ import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { Restock } from "../../market/restock/Restock";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { hasFeatureAccess } from "lib/flags";
+import { WATER_TRAP } from "features/game/types/crustaceans";
 
 const isLoveAnimalTool = (
   toolName: WorkbenchToolName | LoveAnimalItem,
@@ -210,6 +212,13 @@ export const Tools: React.FC = () => {
                   state.island.type,
                   requiredIsland,
                 ) || !hasRequiredLevel(tool);
+
+              if (
+                toolName in WATER_TRAP &&
+                !hasFeatureAccess(state, "CRUSTACEANS")
+              ) {
+                return null;
+              }
 
               return (
                 <Box
