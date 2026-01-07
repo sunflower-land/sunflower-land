@@ -183,7 +183,6 @@ export const FishMarketModal: React.FC<Props> = ({
                       key={item}
                       image={ITEM_DETAILS[item].image}
                       isSelected={item === selected}
-                      disabled={item === "Crab Stick"}
                       onClick={() => setSelected(item)}
                       count={
                         new Decimal(
