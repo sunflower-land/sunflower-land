@@ -24,7 +24,10 @@ import {
   getChestItems,
 } from "../hud/components/inventory/utils/inventory";
 import Decimal from "decimal.js-light";
-import { getRemainingReels } from "features/game/events/landExpansion/castRod";
+import {
+  getReelsPackGemPrice,
+  getRemainingReels,
+} from "features/game/events/landExpansion/castRod";
 import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
 import { SEASON_ICONS } from "../buildings/components/building/market/SeasonalSeeds";
 import { hasVipAccess } from "features/game/lib/vipAccess";
@@ -32,6 +35,7 @@ import { Checkbox } from "components/ui/Checkbox";
 import { hasFeatureAccess } from "lib/flags";
 import { SmallBox } from "components/ui/SmallBox";
 import { ChumSelection } from "./ChumSelection";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const BAIT: FishingBait[] = [
   "Earthworm",
@@ -54,6 +58,8 @@ export const OldBaitSelection: React.FC<{
     ...getBasketItems(state.inventory),
     ...getChestItems(state),
   };
+
+  const now = useNow();
 
   useEffect(() => {
     const lastSelectedBait = localStorage.getItem("lastSelectedBait");
@@ -295,7 +301,13 @@ export const OldBaitSelection: React.FC<{
       {fishingLimitReached ? (
         <Button onClick={onClickBuy}>
           <div className="flex items-center">
-            {t("fishing.buyMoreReels")}
+            {t("fishing.buyMoreReels.old", {
+              gemPrice: getReelsPackGemPrice({
+                state,
+                packs: 1,
+                createdAt: now,
+              }),
+            })}
             <img src={ITEM_DETAILS.Gem.image} className="h-5" />
           </div>
         </Button>
