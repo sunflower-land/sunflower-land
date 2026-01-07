@@ -812,9 +812,7 @@ export const getSeasonalGuaranteedCatch = (
 ) => {
   if (!isGuaranteedBait(bait)) return [];
 
-  return GUARANTEED_CATCH_BY_BAIT[bait].filter((fish) =>
-    FISH[fish].seasons.includes(season),
-  );
+  return GUARANTEED_CATCH_BY_BAIT[bait];
 };
 
 export const BAIT: Record<FishingBait, true> = {
