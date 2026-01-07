@@ -28,6 +28,7 @@ export const CHAPTER_ARTEFACT: Record<ChapterName, BeachBountyChapterArtefact> =
     "Great Bloom": "Broken Pillar",
     "Better Together": "Coprolite",
     "Paw Prints": "Moon Crystal",
+    "Crab Chapter": "Crab Chapter Artefact",
   };
 
 export const DIGGING_FORMATIONS = {

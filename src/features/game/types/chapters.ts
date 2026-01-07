@@ -28,7 +28,8 @@ export type ChapterName =
   | "Winds of Change"
   | "Great Bloom"
   | "Better Together"
-  | "Paw Prints";
+  | "Paw Prints"
+  | "Crab Chapter";
 
 type ChapterDates = { startDate: Date; endDate: Date };
 
@@ -81,6 +82,10 @@ export const CHAPTERS: Record<ChapterName, ChapterDates> = {
     startDate: new Date("2025-11-03T00:00:00.000Z"),
     endDate: new Date("2026-02-02T00:00:00.000Z"),
   },
+  "Crab Chapter": {
+    startDate: new Date("2026-02-02T00:00:00.000Z"),
+    endDate: new Date("2026-05-04T00:00:00.000Z"),
+  },
 };
 
 export type ChapterTicket =
@@ -95,7 +100,8 @@ export type ChapterTicket =
   | "Timeshard"
   | "Geniseed"
   | "Bracelet"
-  | "Pet Cookie";
+  | "Pet Cookie"
+  | "Crab Chapter Ticket";
 
 export type ChapterBanner = `${ChapterName} Banner`;
 
@@ -112,6 +118,7 @@ export const CHAPTER_BANNERS: Record<ChapterBanner, ChapterName> = {
   "Great Bloom Banner": "Great Bloom",
   "Better Together Banner": "Better Together",
   "Paw Prints Banner": "Paw Prints",
+  "Crab Chapter Banner": "Crab Chapter",
 };
 
 export const CHAPTER_TICKET_NAME: Record<ChapterName, ChapterTicket> = {
@@ -127,6 +134,7 @@ export const CHAPTER_TICKET_NAME: Record<ChapterName, ChapterTicket> = {
   "Great Bloom": "Geniseed",
   "Better Together": "Bracelet",
   "Paw Prints": "Pet Cookie",
+  "Crab Chapter": "Crab Chapter Ticket",
 };
 
 export const CHAPTER_ARTEFACT_NAME: Record<
@@ -145,6 +153,7 @@ export const CHAPTER_ARTEFACT_NAME: Record<
   "Great Bloom": "Broken Pillar",
   "Better Together": "Coprolite",
   "Paw Prints": "Moon Crystal",
+  "Crab Chapter": "Crab Chapter Artefact",
 };
 
 export const CHAPTER_MARVEL_FISH: Record<ChapterName, ChapterFish> = {
@@ -160,6 +169,7 @@ export const CHAPTER_MARVEL_FISH: Record<ChapterName, ChapterFish> = {
   "Great Bloom": "Pink Dolphin",
   "Better Together": "Poseidon",
   "Paw Prints": "Super Star",
+  "Crab Chapter": "Giant Isopod",
 };
 
 export function getChapterMarvelFish(now: number): ChapterFish {
@@ -239,6 +249,8 @@ export function getChapterBannerImage(now: number) {
     "Great Bloom Banner": greatBloomBanner,
     "Better Together Banner": betterTogetherBanner,
     "Paw Prints Banner": pawPrintsBanner,
+    // TODO: replace with real Crab Chapter banner art once added
+    "Crab Chapter Banner": pawPrintsBanner,
   };
   return banners[getChapterBanner(now)];
 }

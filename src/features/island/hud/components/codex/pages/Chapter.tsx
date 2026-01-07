@@ -38,6 +38,7 @@ export const CHAPTER_GRAPHICS: Record<ChapterName, string> = {
   "Great Bloom": "",
   "Better Together": SUNNYSIDE.announcement.betterTogetherSeason,
   "Paw Prints": SUNNYSIDE.announcement.pawPrintsSeason,
+  "Crab Chapter": "?",
 };
 
 const CHORES_DELIVERIES_START_DATE: Record<ChapterName, string> = {
@@ -53,6 +54,7 @@ const CHORES_DELIVERIES_START_DATE: Record<ChapterName, string> = {
   "Great Bloom": "May 5th",
   "Better Together": "Aug 4th",
   "Paw Prints": "Nov 10th",
+  "Crab Chapter": "Feb 2nd",
 };
 
 interface Props {

@@ -377,6 +377,9 @@ import { ObsidianShrine } from "./components/ObsidianShrine";
 import { Pet } from "../pets/Pet";
 import { PetName, PET_TYPES } from "features/game/types/pets";
 import { PetNFT } from "./components/petNFT/PetNFT";
+import { Isopod } from "./components/Isopod";
+import { Nautilus } from "./components/Nautilus";
+import { Dollocaris } from "./components/Dollocaris";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud" | "PetNFT",
@@ -719,6 +722,9 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Phantom Barracuda": PhantomBarracuda,
   "Gilded Swordfish": GildedSwordfish,
   "Super Star": SuperStar,
+  "Giant Isopod": Isopod,
+  Nautilus: Nautilus,
+  Dollocaris: Dollocaris,
   "Crimson Carp": CrimsonCarp,
   "Battle Fish": BattleFish,
   "Lemon Shark": LemonShark,
@@ -2738,6 +2744,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
       }}
       image={ITEM_DETAILS["Paw Prints Banner"].image}
       alt="Paw Prints Banner"
+    />
+  ),
+  "Crab Chapter Banner": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Crab Chapter Banner"].image}
+      alt="Crab Chapter Banner"
     />
   ),
   "Paw Prints Rug": (props: CollectibleProps) => (
