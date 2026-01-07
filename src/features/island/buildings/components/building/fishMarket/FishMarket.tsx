@@ -4,14 +4,15 @@ import { useSelector } from "@xstate/react";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingProps } from "../Building";
-import { MARKET_VARIANTS } from "features/island/lib/alternateArt";
-import { getCurrentBiome } from "features/island/biomes/biomes";
+import { FISH_MARKET_VARIANTS } from "features/island/lib/alternateArt";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ProcessedFood } from "features/game/types/processedFood";
 import { FishMarketModal } from "./FishMarketModal";
 import { useProcessingState } from "features/island/buildings/lib/useProcessingState";
 import { ReadyProcessed } from "../ReadyProcessed";
+import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
+import { NPC_WEARABLES } from "lib/npcs";
 
 const _fishMarket = (id: string) => (state: MachineState) =>
   state.context.state.buildings["Fish Market"]?.find((b) => b.id === id);
@@ -19,10 +20,8 @@ const _fishMarket = (id: string) => (state: MachineState) =>
 export const FishMarket: React.FC<BuildingProps> = ({
   buildingId,
   isBuilt,
-  island,
   season,
 }) => {
-  const biome = getCurrentBiome(island);
   const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
 
@@ -68,10 +67,19 @@ export const FishMarket: React.FC<BuildingProps> = ({
     <>
       <BuildingImageWrapper name="Fish Market" onClick={handleClick}>
         <img
-          src={MARKET_VARIANTS[biome][season]}
+          src={FISH_MARKET_VARIANTS[season]}
           className="absolute bottom-0 pointer-events-none"
           style={{ width: `${PIXEL_SCALE * 48}px` }}
         />
+        <div
+          className="absolute"
+          style={{
+            top: `${PIXEL_SCALE * 11}px`,
+            left: `${PIXEL_SCALE * -4}px`,
+          }}
+        >
+          <NPCPlaceable parts={NPC_WEARABLES.neville} />
+        </div>
         <ReadyProcessed ready={ready} leftOffset={90} />
       </BuildingImageWrapper>
 

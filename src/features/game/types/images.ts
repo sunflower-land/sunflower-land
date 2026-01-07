@@ -2360,9 +2360,7 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("building.market"),
   },
   "Fish Market": {
-    // Using the market images as a placeholder
-    // TODO: Replace with the fish market images
-    image: SUNNYSIDE.building.market,
+    image: SUNNYSIDE.building.fishMarket,
     description: translate("description.fish.house"),
     translatedName: translate("building.fishMarket"),
   },
