@@ -385,9 +385,9 @@ const FishingPuzzle: React.FC<FishingMinigameProps> = ({
         })}
       </Label>
 
-      <div className="flex  items-center">
+      <div className="flex  items-center justify-center my-2">
         <img src={blueCheck} className="w-8" />
-        <p className="text-xs opacity-80">{t("fishingPuzzle.findSafePath")}</p>
+        <p className="text-xs text-center">{t("fishingPuzzle.findSafePath")}</p>
         <img src={blueCheck} className="w-8" />
       </div>
 

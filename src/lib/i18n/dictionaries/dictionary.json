@@ -1729,7 +1729,7 @@
   "fishingPuzzle.missedFish": "They got away!",
   "fishingPuzzle.retryPrompt": "Would you like more attempts for {{coins}} coins?",
   "fishingPuzzle.attemptsLeft": "Attempts Left: {{attemptsLeft}}/{{attemptLimit}}",
-  "fishingPuzzle.findSafePath": "Find the safe path to bring the map to the top.",
+  "fishingPuzzle.findSafePath": "Find the safe path for the map",
   "fishingPuzzle.success": "Great job! You reached the top.",
   "fishingPuzzle.failedAttempts": "You ran out of attempts.",
   "fishing.multiCast": "Multi cast",
