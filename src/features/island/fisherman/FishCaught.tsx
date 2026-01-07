@@ -31,6 +31,7 @@ export const FishCaught: React.FC<Props> = ({
   maps,
   onClaim,
   multiplier = 1,
+  difficultCatch,
 }) => {
   const { t } = useAppTranslation();
 
@@ -39,8 +40,10 @@ export const FishCaught: React.FC<Props> = ({
   const caughtEntries = getKeys(caught).filter(
     (name) => (caught[name] ?? 0) > 0,
   );
+  const missedFish = difficultCatch.filter((fish) => !caught[fish.name]);
 
-  const useListLayout = isMultiCast || caughtEntries.length > 1;
+  const useListLayout =
+    isMultiCast || caughtEntries.length > 1 || missedFish.length > 0;
 
   const mapPieces = getKeys(maps);
 
@@ -89,6 +92,23 @@ export const FishCaught: React.FC<Props> = ({
               );
             })}
           </div>
+        </div>
+        <Button onClick={onClaim}>{t("ok")}</Button>
+      </>
+    );
+  }
+
+  if (!caughtEntries.length && !missedFish.length) {
+    return (
+      <>
+        <div className="p-2">
+          <div className="relative h-14">
+            <img
+              src={SUNNYSIDE.icons.sad}
+              className="w-10 my-2 absolute -top-[12%] left-1/2 -translate-x-1/2"
+            />
+          </div>
+          <p className="text-sm mb-2 text-center">{t("fishermanQuest.Ohno")}</p>
         </div>
         <Button onClick={onClaim}>{t("ok")}</Button>
       </>
@@ -148,6 +168,36 @@ export const FishCaught: React.FC<Props> = ({
                 })}
               </div>
             </>
+          )}
+
+          {missedFish.length > 0 && (
+            <div className="mt-2 space-y-1">
+              <Label type="danger" className="mb-1" icon={SUNNYSIDE.icons.sad}>
+                {t("fishing.missedFish")}
+              </Label>
+              <div className="flex flex-col gap-1 -py-1">
+                {missedFish.map((fish) => {
+                  return (
+                    <InnerPanel
+                      key={`missed-${fish.name}`}
+                      className="flex items-center justify-between opacity-80 -mx-1"
+                    >
+                      <div className="flex items-center p-1 space-x-1 w-full">
+                        <img
+                          src={ITEM_DETAILS[fish.name]?.image}
+                          className="h-6 grayscale"
+                          alt={fish.name}
+                        />
+                        <div className="flex justify-between items-center w-full pr-2">
+                          <span className="text-xs">{fish.name}</span>
+                        </div>
+                      </div>
+                      <span className="text-sm whitespace-nowrap">{`x ${fish.amount}`}</span>
+                    </InnerPanel>
+                  );
+                })}
+              </div>
+            </div>
           )}
         </div>
         <Button onClick={claim}>{t("ok")}</Button>

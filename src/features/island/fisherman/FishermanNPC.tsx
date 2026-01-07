@@ -237,7 +237,11 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     spriteRef.current?.setStartAt(FISHING_FRAMES.caught.startAt);
     spriteRef.current?.setEndAt(FISHING_FRAMES.caught.endAt);
 
-    gameService.send("map.missed");
+    if (hasFeatureAccess(state, "MAP_PIECES")) {
+      gameService.send("map.missed");
+    } else {
+      gameService.send("fish.missed");
+    }
     gameService.send("SAVE");
   };
 
