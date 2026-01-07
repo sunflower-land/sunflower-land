@@ -199,7 +199,12 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
 
     const mostDifficultFish = getMostDifficultFish(difficultCatch);
 
-    if (mostDifficultFish) {
+    const hasMapAccess = hasFeatureAccess(state, "MAP_PIECES");
+
+    const maps = getKeys(fishing.wharf.maps ?? {});
+    if (maps.length > 0 && hasMapAccess) {
+      setShowChallenge(true);
+    } else if (mostDifficultFish && !hasMapAccess) {
       // Show fishing challenge
       setChallengeDifficulty(mostDifficultFish.difficulty);
       setShowChallenge(true);
@@ -232,7 +237,11 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     spriteRef.current?.setStartAt(FISHING_FRAMES.caught.startAt);
     spriteRef.current?.setEndAt(FISHING_FRAMES.caught.endAt);
 
-    gameService.send("fish.missed");
+    if (hasFeatureAccess(state, "MAP_PIECES")) {
+      gameService.send("map.missed");
+    } else {
+      gameService.send("fish.missed");
+    }
     gameService.send("SAVE");
   };
 
@@ -476,8 +485,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
               onCatch={onChallengeWon}
               onMiss={onChallengeLost}
               onRetry={onChallengeRetry}
-              difficultCatch={difficultCatch.map((fish) => fish.name)}
-              difficulty={challengeDifficulty}
+              maps={fishing.wharf.maps ?? {}}
             />
           ) : (
             <FishingChallenge

@@ -14,8 +14,8 @@ import { makeAnimalBuilding } from "./animals";
 
 export const STATIC_OFFLINE_FARM: GameState = {
   settings: {},
-  coins: 0,
-  balance: new Decimal(0),
+  coins: 100000,
+  balance: new Decimal(1000),
   previousBalance: new Decimal(0),
   inventory: {
     "Easter Token 2025": new Decimal(500),
