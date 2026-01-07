@@ -46,7 +46,7 @@ import flipped from "assets/icons/flipped.webp";
 import flipIcon from "assets/icons/flip.webp";
 import debounce from "lodash.debounce";
 import { LIMITED_ITEMS } from "features/game/events/landExpansion/burnCollectible";
-import { isPetNFTRevealed, PET_SHRINES } from "features/game/types/pets";
+import { PET_SHRINES } from "features/game/types/pets";
 import {
   EXPIRY_COOLDOWNS,
   TemporaryCollectibleName,
@@ -417,22 +417,7 @@ export const MoveableComponent: React.FC<
 
   const isShrine = name in PET_SHRINES || name === "Obsidian Shrine";
 
-  // Compute overlaps early for determining if we need live time updates
-  const overlaps = getOverlappingCollectibles({
-    state: gameService.getSnapshot().context.state,
-    x: coordinatesX,
-    y: coordinatesY,
-    location,
-    current: { id, name },
-  });
-
-  const initialNow = useNow();
-  const hasUnrevealedPets = overlaps.some(
-    (item) =>
-      item.name === "Pet" && !isPetNFTRevealed(Number(item.id), initialNow),
-  );
-
-  const now = useNow({ live: isShrine || hasUnrevealedPets });
+  const now = useNow({ live: isShrine });
 
   const removeAction =
     !isMobile &&
@@ -743,6 +728,15 @@ export const MoveableComponent: React.FC<
     onStop,
     position,
   ]);
+
+  // Compute overlaps early for determining if we need live time updates
+  const overlaps = getOverlappingCollectibles({
+    state: gameService.getSnapshot().context.state,
+    x: coordinatesX,
+    y: coordinatesY,
+    location,
+    current: { id, name },
+  });
 
   // Disable dragging if there are overlaps and this item is not selected
   const shouldDisableDrag = overlaps.length > 1 && !isSelected;
