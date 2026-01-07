@@ -12,6 +12,7 @@ import { Button } from "components/ui/Button";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 import { Loading } from "features/auth/components";
 import { InnerPanel } from "components/ui/Panel";
+import { GameState } from "features/game/types/game";
 
 export const STREAM_REWARD_COOLDOWN = 1000 * 60 * 5;
 
@@ -51,6 +52,11 @@ const RewardHeader: React.FC<RewardHeaderProps> = ({
   );
 };
 
+const DEFAULT_STREAMER_HAT: GameState["pumpkinPlaza"]["streamerHat"] = {
+  openedAt: 0,
+  dailyCount: 0,
+};
+
 export const StreamReward: React.FC<{ streamerId: number }> = ({
   streamerId,
 }) => {
@@ -61,10 +67,7 @@ export const StreamReward: React.FC<{ streamerId: number }> = ({
   const { openedAt: streamHatLastClaimed, dailyCount } = useSelector(
     gameService,
     (state) =>
-      state.context.state.pumpkinPlaza.streamerHat ?? {
-        openedAt: 0,
-        dailyCount: 0,
-      },
+      state.context.state.pumpkinPlaza.streamerHat ?? DEFAULT_STREAMER_HAT,
   );
 
   const { isClaiming, isSuccess, isFailed, errorCode } = useSelector(
