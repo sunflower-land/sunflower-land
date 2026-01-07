@@ -7653,7 +7653,6 @@
   "fishing.select.your.bait": "选择你的诱饵",
   "fishing.dont.have.enough.bait": "你还不够 {{bait}}",
   "fishing.guaranteedCatch.select": "选择您的保证渔获量：",
-  "statements.craft.fishHouse": "在鱼屋手工艺",
   "fishing.notEnoughBait": "你还不够 {{bait}}！",
   "fishingPuzzle.retryPrompt": "你想更多地尝试获得 {{coins}} 硬币吗？",
   "bonus.2026-tiara-wave.name": "2026 头饰",
@@ -7756,5 +7755,6 @@
   "description.giant.isopod": "一个巨大的海洋小兵！",
   "description.nautilus": "一只生活在海中的蜗牛，有着坚硬的外壳，在深处游泳。",
   "description.dollocaris": "一种具有长而锋利的背鳍的深海鱼。",
-  "description.nautilus.boost": "？？"
+  "description.nautilus.boost": "？？",
+  "fishing.buyMoreReels.old": "使用 {{gemPrice}} 购买 5 个卷轴"
 }

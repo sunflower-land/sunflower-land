@@ -7653,7 +7653,6 @@
   "fishing.select.your.bait": "Selecciona tu cebo",
   "fishing.dont.have.enough.bait": "No tienes suficiente {{bait}}",
   "fishing.guaranteedCatch.select": "Selecciona tu captura garantizada:",
-  "statements.craft.fishHouse": "Artesanía en Fish House",
   "fishing.notEnoughBait": "¡No tienes suficiente {{bait}}!",
   "fishingPuzzle.retryPrompt": "¿Quieres más intentos de conseguir monedas de {{coins}}?",
   "bonus.2026-tiara-wave.name": "Tiara 2026",
@@ -7756,5 +7755,6 @@
   "description.giant.isopod": "¡Un monstruo oceánico gigante!",
   "description.nautilus": "Un caracol marino con un caparazón duro que nada en las profundidades.",
   "description.dollocaris": "Un pez de aguas profundas con una aleta dorsal larga y afilada.",
-  "description.nautilus.boost": "???"
+  "description.nautilus.boost": "???",
+  "fishing.buyMoreReels.old": "Compra 5 carretes con {{gemPrice}}"
 }
