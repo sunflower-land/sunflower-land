@@ -7760,5 +7760,7 @@
   "discordNews.postedAgo": "Publié {{time}} sur Discord",
   "fishingPuzzle.findSafePath": "Trouvez le chemin sûr pour accéder à la carte",
   "fishingPuzzle.timeoutTitle": "Oh non, tu n'as pas été assez rapide !",
-  "fishingPuzzle.timeoutMessage": "Oh non, tu n'as pas été assez rapide, tu as raté un bout de carte."
+  "fishingPuzzle.timeoutMessage": "Oh non, tu n'as pas été assez rapide, tu as raté un bout de carte.",
+  "caught": "Pris",
+  "chum": "copain"
 }

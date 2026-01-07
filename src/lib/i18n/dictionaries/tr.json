@@ -7760,5 +7760,7 @@
   "discordNews.postedAgo": "Discord'da yayınlandı {{time}}",
   "fishingPuzzle.findSafePath": "Harita için güvenli yolu bulun",
   "fishingPuzzle.timeoutTitle": "Oh hayır, yeterince hızlı değildin!",
-  "fishingPuzzle.timeoutMessage": "Oh hayır, yeterince hızlı değildin, bir harita parçasını kaçırdın."
+  "fishingPuzzle.timeoutMessage": "Oh hayır, yeterince hızlı değildin, bir harita parçasını kaçırdın.",
+  "caught": "Yakalandı",
+  "chum": "Arkadaş"
 }

@@ -7760,5 +7760,7 @@
   "discordNews.postedAgo": "Diposting {{time}} di Discord",
   "fishingPuzzle.findSafePath": "Temukan jalur aman untuk peta",
   "fishingPuzzle.timeoutTitle": "Oh tidak, kamu tidak cukup cepat!",
-  "fishingPuzzle.timeoutMessage": "Oh tidak, Anda tidak cukup cepat, Anda melewatkan potongan peta."
+  "fishingPuzzle.timeoutMessage": "Oh tidak, Anda tidak cukup cepat, Anda melewatkan potongan peta.",
+  "caught": "Tertangkap",
+  "chum": "Chum"
 }

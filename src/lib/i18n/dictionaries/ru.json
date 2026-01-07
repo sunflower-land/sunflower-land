@@ -7760,5 +7760,7 @@
   "discordNews.postedAgo": "Опубликовано {{time}} в Discord",
   "fishingPuzzle.findSafePath": "Find the safe path for the map",
   "fishingPuzzle.timeoutTitle": "Oh no, you weren't quick enough!",
-  "fishingPuzzle.timeoutMessage": "Oh no, you weren't quick enough, you missed a map piece."
+  "fishingPuzzle.timeoutMessage": "Oh no, you weren't quick enough, you missed a map piece.",
+  "caught": "Caught",
+  "chum": "Chum"
 }

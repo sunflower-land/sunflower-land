@@ -7760,5 +7760,7 @@
   "discordNews.postedAgo": "Postado em {{time}} no Discord",
   "fishingPuzzle.findSafePath": "Encontre o caminho seguro para o mapa",
   "fishingPuzzle.timeoutTitle": "Oh não, você não foi rápido o suficiente!",
-  "fishingPuzzle.timeoutMessage": "Ah não, você não foi rápido o suficiente, você perdeu uma peça do mapa."
+  "fishingPuzzle.timeoutMessage": "Ah não, você não foi rápido o suficiente, você perdeu uma peça do mapa.",
+  "caught": "Capturado",
+  "chum": "Chumbo"
 }

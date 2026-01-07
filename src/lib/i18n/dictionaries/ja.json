@@ -7760,5 +7760,7 @@
   "discordNews.postedAgo": "ディスコードに {{time}} を投稿",
   "fishingPuzzle.findSafePath": "マップの安全なパスを見つけてください",
   "fishingPuzzle.timeoutTitle": "ああ、いや、あなたは十分な速さではなかった！",
-  "fishingPuzzle.timeoutMessage": "ああ、いや、あなたは十分な速さではなかった、あなたは地図のかけらを見逃した。"
+  "fishingPuzzle.timeoutMessage": "ああ、いや、あなたは十分な速さではなかった、あなたは地図のかけらを見逃した。",
+  "caught": "捕まった",
+  "chum": "仲間"
 }

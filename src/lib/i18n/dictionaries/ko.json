@@ -7760,5 +7760,7 @@
   "discordNews.postedAgo": "디스코드에 게시됨 {{time}}",
   "fishingPuzzle.findSafePath": "지도의 안전한 경로 찾기",
   "fishingPuzzle.timeoutTitle": "오, 아니, 당신은 충분히 빠르지 않았어요!",
-  "fishingPuzzle.timeoutMessage": "오, 아니, 당신은 충분히 빠르지 않았어요. 맵 피스를 놓치셨군요."
+  "fishingPuzzle.timeoutMessage": "오, 아니, 당신은 충분히 빠르지 않았어요. 맵 피스를 놓치셨군요.",
+  "caught": "잡혔어",
+  "chum": "친구"
 }
