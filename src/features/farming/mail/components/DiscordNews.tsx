@@ -49,6 +49,17 @@ const TEAM_NPCS: Record<string, BumpkinParts> = {
   Jammy: NPC_WEARABLES.goldtooth,
 };
 
+type DiscordTimestampStyle =
+  | "t"
+  | "T"
+  | "d"
+  | "D"
+  | "f"
+  | "F"
+  | "R"
+  | "s"
+  | "S";
+
 function isSafeHttpUrl(href: string) {
   try {
     const url = new URL(href);
@@ -79,6 +90,141 @@ function decodeDiscordHtmlEntities(text: string) {
       .replace(/&#8211;|&#x2013;/gi, "–")
       .replace(/&#8212;|&#x2014;/gi, "—")
   );
+}
+
+function normalizeDiscordTimestampStyle(
+  styleRaw: string | undefined,
+): DiscordTimestampStyle | undefined {
+  if (!styleRaw) return undefined;
+
+  const style = styleRaw as DiscordTimestampStyle;
+  if (
+    style === "t" ||
+    style === "T" ||
+    style === "d" ||
+    style === "D" ||
+    style === "f" ||
+    style === "F" ||
+    style === "R" ||
+    style === "s" ||
+    style === "S"
+  ) {
+    return style;
+  }
+
+  return undefined;
+}
+
+function formatRelativeTime(targetMs: number, nowMs: number) {
+  const diffSeconds = Math.round((targetMs - nowMs) / 1000);
+  const abs = Math.abs(diffSeconds);
+
+  const rtf =
+    typeof Intl !== "undefined" && "RelativeTimeFormat" in Intl
+      ? new Intl.RelativeTimeFormat(undefined, { numeric: "auto" })
+      : null;
+
+  const format = (value: number, unit: Intl.RelativeTimeFormatUnit) =>
+    rtf
+      ? rtf.format(value, unit)
+      : `${value} ${unit}${Math.abs(value) === 1 ? "" : "s"}`;
+
+  if (abs < 60) return format(diffSeconds, "second");
+  if (abs < 60 * 60) return format(Math.round(diffSeconds / 60), "minute");
+  if (abs < 60 * 60 * 24) return format(Math.round(diffSeconds / 3600), "hour");
+  if (abs < 60 * 60 * 24 * 30)
+    return format(Math.round(diffSeconds / 86400), "day");
+  if (abs < 60 * 60 * 24 * 365)
+    return format(Math.round(diffSeconds / (86400 * 30)), "month");
+
+  return format(Math.round(diffSeconds / (86400 * 365)), "year");
+}
+
+function formatDiscordTimestamp(
+  epochSeconds: number,
+  style: DiscordTimestampStyle | undefined,
+  nowMs: number,
+) {
+  const date = new Date(epochSeconds * 1000);
+
+  // IMPORTANT: Use the player's locale + timezone by leaving locale undefined.
+  switch (style) {
+    case "t":
+      return date.toLocaleTimeString(undefined, {
+        hour: "numeric",
+        minute: "2-digit",
+      });
+    case "T":
+      return date.toLocaleTimeString(undefined, {
+        hour: "numeric",
+        minute: "2-digit",
+        second: "2-digit",
+      });
+    case "d":
+      return date.toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      });
+    case "D":
+      return date.toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    case "f":
+      return date.toLocaleString(undefined, {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+      });
+    case "F":
+      return date.toLocaleString(undefined, {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+      });
+    case "R":
+      return formatRelativeTime(date.getTime(), nowMs);
+    case "s":
+      // Custom/legacy: compact local date+time (numeric)
+      return date.toLocaleString(undefined, {
+        dateStyle: "short",
+        timeStyle: "short",
+      });
+    case "S":
+      // Custom/legacy: more readable local date+time
+      return date.toLocaleString(undefined, {
+        dateStyle: "long",
+        timeStyle: "short",
+      });
+    default:
+      return date.toLocaleString();
+  }
+}
+
+function replaceDiscordTimestamps(text: string, nowMs: number) {
+  // Replace timestamps *before* markdown parsing so `<t:...>` can't be treated as raw HTML.
+  const replacer = (
+    match: string,
+    epochSecondsRaw: string,
+    styleRaw?: string,
+  ) => {
+    const epochSeconds = Number(epochSecondsRaw);
+    if (!Number.isFinite(epochSeconds)) return match;
+
+    const style = normalizeDiscordTimestampStyle(styleRaw);
+    return formatDiscordTimestamp(epochSeconds, style, nowMs);
+  };
+
+  return text
+    .replace(/<t:(\d+)(?::([a-zA-Z]))?>/g, replacer)
+    .replace(/&lt;t:(\d+)(?::([a-zA-Z]))?&gt;/g, replacer);
 }
 
 type UnknownRecord = Record<string, unknown>;
@@ -312,8 +458,11 @@ function renderBlockTokens(
 const DiscordMarkdown: React.FC<{
   markdown: string;
   variant: "block" | "inline";
-}> = ({ markdown, variant }) => {
-  const tokens: unknown[] = marked.lexer(markdown, {
+  nowMs?: number;
+}> = ({ markdown, variant, nowMs }) => {
+  const safeMarkdown = replaceDiscordTimestamps(markdown, nowMs ?? Date.now());
+
+  const tokens: unknown[] = marked.lexer(safeMarkdown, {
     gfm: true,
     breaks: true,
   });
@@ -408,6 +557,7 @@ export const DiscordNews: React.FC = () => {
           <DiscordMarkdown
             markdown={selectedAnnouncement.content}
             variant="block"
+            nowMs={now}
           />
         </div>
         {selectedAnnouncement.images.map((image) => (
@@ -445,7 +595,11 @@ export const DiscordNews: React.FC = () => {
                   <span>{relativeTime}</span>
                 </p>
                 <div className="text-xxs discord-news-preview break-words">
-                  <DiscordMarkdown markdown={previewText} variant="inline" />
+                  <DiscordMarkdown
+                    markdown={previewText}
+                    variant="inline"
+                    nowMs={now}
+                  />
                 </div>
               </div>
             </div>
