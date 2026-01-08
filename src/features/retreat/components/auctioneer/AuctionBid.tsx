@@ -79,9 +79,9 @@ export const AuctionBid: React.FC<Props> = ({
           onClick={() => {onClose();}}
         >
           {t("Wait results")} 
-        </Button>
+        </Button>;
 
- <Button
+        <Button
           className="mt-2"
           disabled={!canCancel}
           onClick={() => auctionService.send("CANCEL")}
