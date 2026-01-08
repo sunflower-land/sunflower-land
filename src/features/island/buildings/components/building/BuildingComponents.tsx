@@ -27,6 +27,7 @@ import {
   BAKERY_VARIANTS,
   DELI_VARIANTS,
   FIRE_PIT_VARIANTS,
+  FISH_MARKET_VARIANTS,
   HEN_HOUSE_VARIANTS,
   KITCHEN_VARIANTS,
   MARKET_VARIANTS,
@@ -163,6 +164,13 @@ export const READONLY_BUILDINGS: ({
     Market: () => (
       <img
         src={MARKET_VARIANTS[biome][season]}
+        className="absolute bottom-0"
+        style={{ width: `${PIXEL_SCALE * 48}px` }}
+      />
+    ),
+    "Fish Market": () => (
+      <img
+        src={FISH_MARKET_VARIANTS[season]}
         className="absolute bottom-0"
         style={{ width: `${PIXEL_SCALE * 48}px` }}
       />
