@@ -34,7 +34,7 @@ export const AuctionBid: React.FC<Props> = ({
   const canCancel = now < auction.endAt;
   const canReveal = now >= readyAt;
   const onClose = () => {
-    gameService.send("CLOSE");
+    auctionService.send("CLOSE");
   };
 
   const { t } = useAppTranslation();
