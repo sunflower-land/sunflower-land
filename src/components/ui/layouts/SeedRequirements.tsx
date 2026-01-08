@@ -27,6 +27,7 @@ import {
 } from "features/game/types/crops";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { BoostsDisplay } from "./BoostsDisplay";
+import { hasFeatureAccess } from "lib/flags";
 
 /**
  * The props for the details for items.
@@ -246,12 +247,18 @@ export const SeedRequirements: React.FC<Props> = ({
 
     const isTimeBoosted = time?.seconds !== baseTimeSeconds;
 
+    const showBoostsAccess = hasFeatureAccess(gameState, "SHOW_BOOSTS");
+
     return (
       <div className="w-full mb-2 flex justify-center gap-x-3 gap-y-0 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap my-1">
         {/* Time requirement display */}
         <div
           className="flex flex-col items-center cursor-pointer"
-          onClick={isTimeBoosted ? () => setShowBoosts(!showBoosts) : undefined}
+          onClick={
+            isTimeBoosted && showBoostsAccess
+              ? () => setShowBoosts(!showBoosts)
+              : undefined
+          }
         >
           {!!time && isTimeBoosted && (
             <RequirementLabel type="time" waitSeconds={time.seconds} boosted />
