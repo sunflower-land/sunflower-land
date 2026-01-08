@@ -79,7 +79,7 @@ export const AuctionBid: React.FC<Props> = ({
         >
           {t("Wait for results")}
         </Button>
-    
+  
         <Button
           className="mt-2"
           onClick={() => auctionService.send("CANCEL")}
