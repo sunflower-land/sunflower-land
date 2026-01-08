@@ -1115,7 +1115,11 @@ import {
   PATCH_FRUIT_SEEDS,
 } from "./fruits";
 import { FLOWER_SEEDS, FLOWERS } from "./flowers";
-import { CONSUMABLES, COOKABLES } from "./consumables";
+import {
+  CONSUMABLES,
+  COOKABLES,
+  INSTANT_PROCESSED_RECIPES,
+} from "./consumables";
 import { COMMODITIES } from "./resources";
 import { BEANS } from "./beans";
 import {
@@ -3671,6 +3675,23 @@ export const ITEM_DETAILS: Items = {
   "Crab Stick": {
     image: crabStick,
     description: PROCESSED_FOODS["Crab Stick"].description,
+  },
+  "Furikake Sprinkle": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: INSTANT_PROCESSED_RECIPES["Furikake Sprinkle"].description,
+  },
+  "Surimi Rice Ball": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: INSTANT_PROCESSED_RECIPES["Surimi Rice Ball"].description,
+  },
+  "Creamy Crab Bite": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: INSTANT_PROCESSED_RECIPES["Creamy Crab Bite"].description,
+  },
+  "Crimstone Infused Fish Oil": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description:
+      INSTANT_PROCESSED_RECIPES["Crimstone Infused Fish Oil"].description,
   },
   "Sprout Mix": {
     boostedDescriptions: [

@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 
 import { Inventory, TemperateSeasonName } from "./game";
 import { ProcessedFood } from "./processedFood";
+import { InstantProcessedRecipeName } from "./consumables";
 
 export const FISH_PROCESSING_TIME_SECONDS = 2 * 60 * 60;
 
@@ -106,6 +107,12 @@ const SEASONAL_PROCESSING_REQUIREMENTS: Record<
   "Fish Stick": FISH_STICK_SEASONAL,
   "Fish Oil": FISH_OIL_SEASONAL,
   "Crab Stick": CRAB_STICK_SEASONAL,
+};
+
+export const isProcessedFood = (
+  item: ProcessedFood | InstantProcessedRecipeName,
+): item is ProcessedFood => {
+  return Object.keys(BASE_PROCESSING_REQUIREMENTS).includes(item);
 };
 
 export const getFishProcessingRequirements = ({

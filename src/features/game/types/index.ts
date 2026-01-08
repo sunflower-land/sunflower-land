@@ -1326,6 +1326,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Fish Stick": 2723,
   "Fish Oil": 2724,
   "Crab Stick": 2725,
+  "Furikake Sprinkle": 2726,
+  "Surimi Rice Ball": 2727,
+  "Creamy Crab Bite": 2728,
+  "Crimstone Infused Fish Oil": 2729,
 
   // Crustaceans
   Isopod: 2800,
