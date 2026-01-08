@@ -107,6 +107,6 @@ describe("makeInstantRecipe", () => {
     expect(updated.inventory.Seaweed).toEqual(
       BASE_STATE.inventory.Seaweed?.sub(ingredients.Seaweed ?? 0),
     );
-    expect(updated.farmActivity["Furikake Sprinkle Collected"]).toEqual(1);
+    expect(updated.farmActivity["Furikake Sprinkle Made"]).toEqual(1);
   });
 });
