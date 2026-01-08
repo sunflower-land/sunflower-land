@@ -84,7 +84,7 @@ export const MARINER_POT_CHUMS: Record<MarinerPotChum, number> = {
   Dewberry: 3,
   Duskberry: 3,
   Lunara: 3,
-  Moonfur: 3,
+  Moonfur: 1,
   "Fish Stick": 2,
   "Crab Stick": 2,
 };
@@ -97,7 +97,7 @@ export const CRAB_POT_CHUMS: Record<CrabPotChum, number> = {
   Grape: 5,
   Rice: 5,
   Crimstone: 2,
-  Moonfur: 3,
+  Moonfur: 1,
   "Fish Stick": 2,
   "Fish Oil": 2,
   "Crab Stick": 2,

@@ -96,7 +96,7 @@ describe("placeWaterTrap", () => {
     expect(state.crabTraps.trapSpots?.[trapId]?.waterTrap?.chum).toBe(
       "Moonfur",
     );
-    expect(state.inventory.Moonfur).toEqual(new Decimal(2));
+    expect(state.inventory.Moonfur).toEqual(new Decimal(4));
     expect(state.inventory["Crab Pot"]).toEqual(new Decimal(0));
   });
 
