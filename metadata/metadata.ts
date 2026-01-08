@@ -22,7 +22,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "A lightning-fast umami sprinkle for quick snacks.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/2726.png",
     attributes: [
       { trait_type: "Purpose", value: "Consumable" },
       { trait_type: "Tradable", value: "No" },
@@ -32,7 +32,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "Rice and surimi shaped for instant energy.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/2727.png",
     attributes: [
       { trait_type: "Purpose", value: "Consumable" },
       { trait_type: "Tradable", value: "No" },
