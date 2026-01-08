@@ -1135,7 +1135,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Tunnel Mole": { width: 1, height: 1 },
   "Rocky the Mole": { width: 1, height: 1 },
   Nugget: { width: 1, height: 1 },
-  "Immortal Pear": { width: 2, height: 2 },
+  "Immortal Pear": { width: 2, height: 1 },
 
   // Market Items
   Scarecrow: { width: 2, height: 1 },
@@ -1187,11 +1187,11 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Black Bearry": { width: 1, height: 1 },
   "Iron Idol": { height: 2, width: 2 },
   "Parasaur Skull": {
-    height: 2,
+    height: 1,
     width: 2,
   },
   "Golden Bear Head": {
-    height: 2,
+    height: 1,
     width: 2,
   },
 
