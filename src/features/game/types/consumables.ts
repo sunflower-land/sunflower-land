@@ -1301,7 +1301,7 @@ export const FISH: Record<FishName, Consumable> = {
 
 export type InstantProcessedRecipeName =
   | "Furikake Sprinkle"
-  | "Surimi Rice Ball"
+  | "Surimi Rice Bowl"
   | "Creamy Crab Bite"
   | "Crimstone Infused Fish Oil";
 
@@ -1325,8 +1325,8 @@ export const INSTANT_PROCESSED_RECIPES: Record<
     },
     experience: 500,
   },
-  "Surimi Rice Ball": {
-    name: "Surimi Rice Ball",
+  "Surimi Rice Bowl": {
+    name: "Surimi Rice Bowl",
     description: translate("description.instantFood.surimiRiceBall"),
     ingredients: {
       "Fish Stick": new Decimal(1),

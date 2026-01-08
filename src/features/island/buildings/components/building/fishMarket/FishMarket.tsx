@@ -14,6 +14,9 @@ import { useProcessingState } from "features/island/buildings/lib/useProcessingS
 import { ReadyProcessed } from "../ReadyProcessed";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
+import { ITEM_DETAILS } from "features/game/types/images";
+import classNames from "classnames";
+import { setImageWidth } from "lib/images";
 
 const _fishMarket = (id: string) => (state: MachineState) =>
   state.context.state.buildings["Fish Market"]?.find((b) => b.id === id);
@@ -81,6 +84,32 @@ export const FishMarket: React.FC<BuildingProps> = ({
           className="absolute bottom-0 pointer-events-none"
           style={{ width: `${PIXEL_SCALE * 48}px` }}
         />
+        {processing && (
+          <div className="absolute flex items-center justify-bottom w-[36px] h-5 left-0 bottom-2">
+            <img
+              src={ITEM_DETAILS[processing.name].image}
+              className={classNames("absolute z-30 pointer-events-none")}
+              onLoad={(e) => {
+                const img = e.currentTarget;
+                if (
+                  !img ||
+                  !img.complete ||
+                  !img.naturalWidth ||
+                  !img.naturalHeight
+                ) {
+                  return;
+                }
+
+                setImageWidth(img);
+              }}
+              style={{
+                scale: 0.8,
+                opacity: 0,
+                bottom: 0,
+              }}
+            />
+          </div>
+        )}
         <div
           className="absolute"
           style={{

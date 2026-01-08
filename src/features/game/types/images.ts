@@ -27,6 +27,10 @@ import fishFlake from "assets/processedFoods/fish_flake.webp";
 import fishStick from "assets/processedFoods/fish_stick.webp";
 import fishOil from "assets/processedFoods/fish_oil.webp";
 import crabStick from "assets/processedFoods/crab_stick.webp";
+import crimstoneInfusedFishOil from "assets/processedFoods/crimstone_infused_fish_oil.webp";
+import creamyCrabBite from "assets/processedFoods/creamy_crab_bite.webp";
+import furikakeSprinkle from "assets/processedFoods/furikake_sprinkle.webp";
+import surimiRiceBowl from "assets/processedFoods/surimi_rice_bowl.webp";
 
 import gem from "assets/icons/gem.webp";
 import tradePoint from "assets/icons/trade_points_coupon.webp";
@@ -3677,19 +3681,19 @@ export const ITEM_DETAILS: Items = {
     description: PROCESSED_FOODS["Crab Stick"].description,
   },
   "Furikake Sprinkle": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: furikakeSprinkle,
     description: INSTANT_PROCESSED_RECIPES["Furikake Sprinkle"].description,
   },
-  "Surimi Rice Ball": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: INSTANT_PROCESSED_RECIPES["Surimi Rice Ball"].description,
+  "Surimi Rice Bowl": {
+    image: surimiRiceBowl,
+    description: INSTANT_PROCESSED_RECIPES["Surimi Rice Bowl"].description,
   },
   "Creamy Crab Bite": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: creamyCrabBite,
     description: INSTANT_PROCESSED_RECIPES["Creamy Crab Bite"].description,
   },
   "Crimstone Infused Fish Oil": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: crimstoneInfusedFishOil,
     description:
       INSTANT_PROCESSED_RECIPES["Crimstone Infused Fish Oil"].description,
   },
