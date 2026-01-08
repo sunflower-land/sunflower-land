@@ -1389,11 +1389,14 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   ...INSTANT_PROCESSED_RECIPES,
 };
 
-export const FISH_CONSUMABLES: Record<FishName | FishCookableName, Consumable> =
-  {
-    ...FISH_COOKABLES,
-    ...FISH,
-  };
+export const FISH_CONSUMABLES: Record<
+  FishName | FishCookableName | InstantProcessedRecipeName,
+  Consumable
+> = {
+  ...FISH_COOKABLES,
+  ...FISH,
+  ...INSTANT_PROCESSED_RECIPES,
+};
 
 const Juices = Object.keys(JUICE_COOKABLES);
 

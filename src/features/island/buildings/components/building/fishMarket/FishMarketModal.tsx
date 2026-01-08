@@ -9,6 +9,7 @@ import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import vipIcon from "assets/icons/vip.webp";
+import lightning from "assets/icons/lightning.png";
 
 import { Context } from "features/game/GameProvider";
 import { BuildingProduct, InventoryItemName } from "features/game/types/game";
@@ -36,6 +37,7 @@ import {
   InstantProcessedRecipeName,
 } from "features/game/types/consumables";
 import { getKeys } from "features/game/lib/crafting";
+import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 
 interface Props {
   isOpen: boolean;
@@ -151,6 +153,12 @@ export const FishMarketModal: React.FC<Props> = ({
               requirements={{
                 resources: requirements,
                 timeSeconds: isProcessedFood(selected) ? totalSeconds : 0,
+                xp: !isProcessedFood(selected)
+                  ? getFoodExpBoost({
+                      food: INSTANT_PROCESSED_RECIPES[selected],
+                      game: state,
+                    }).boostedExp
+                  : undefined,
               }}
               actionView={
                 <div className="flex flex-col gap-1">
@@ -229,8 +237,8 @@ export const FishMarketModal: React.FC<Props> = ({
                     ))}
                   </div>
                 </div>
-                <div>
-                  <Label type="default" icon={process} className="ml-1">
+                <div className="mb-2">
+                  <Label type="default" icon={lightning} className="ml-1">
                     {t("instantProcessedFoods.recipes")}
                   </Label>
                   <div className="flex flex-wrap sm:justify-start mt-1">
