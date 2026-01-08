@@ -33,9 +33,6 @@ export const AuctionBid: React.FC<Props> = ({
   const now = useNow({ live: true, autoEndAt: readyAt });
   const canCancel = now < auction.endAt;
   const canReveal = now >= readyAt;
-  const onClose = () => {
-    auctionService.send("CLOSE");
-  };
 
   const { t } = useAppTranslation();
 
@@ -76,10 +73,9 @@ export const AuctionBid: React.FC<Props> = ({
       <TimerDisplay time={ready} />
 
       {canCancel && (
-  <>
     <Button
       className="mt-2"
-      onClick={onClose}
+      onClick={() => {auctionService.send("CLOSE")}
     >
       {t("Wait for results")}
     </Button>
@@ -90,8 +86,6 @@ export const AuctionBid: React.FC<Props> = ({
     >
       {t("Cancel bid")}
     </Button>
-    
-  </>
       )}
 
       {canReveal && (
