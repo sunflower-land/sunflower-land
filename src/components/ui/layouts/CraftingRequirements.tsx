@@ -40,6 +40,7 @@ import {
 } from "features/game/types/resources";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 import { capitalize } from "lib/utils/capitalize";
+import classNames from "classnames";
 
 function getResourceTier(name: UpgradedResourceName): number | undefined {
   if (name in ADVANCED_RESOURCES) {
@@ -323,7 +324,14 @@ export const CraftingRequirements: React.FC<Props> = ({
             {capitalize(gameState.season.season)}
           </Label>
         )}
-        <div className=" w-full mb-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap my-1">
+        <div
+          className={classNames(
+            "w-full mb-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap my-1",
+            {
+              "pt-2": showSeason,
+            },
+          )}
+        >
           {/* Item ingredients requirements */}
           {!!requirements.resources && (
             <div

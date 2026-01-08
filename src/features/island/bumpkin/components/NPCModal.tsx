@@ -7,6 +7,7 @@ import {
   Consumable,
   FACTION_FOOD,
   TRADE_FOOD,
+  INSTANT_PROCESSED_RECIPES,
 } from "features/game/types/consumables";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
@@ -83,6 +84,7 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
     ...Object.values(FACTION_FOOD),
     ...Object.values(TRADE_FOOD),
     ...Object.values(FISH).sort((a, b) => a.name.localeCompare(b.name)),
+    ...Object.values(INSTANT_PROCESSED_RECIPES),
   ];
 
   const availableFood: Consumable[] = allFoods

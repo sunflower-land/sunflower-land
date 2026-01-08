@@ -8,6 +8,7 @@ import { FISH_MARKET_VARIANTS } from "features/island/lib/alternateArt";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ProcessedFood } from "features/game/types/processedFood";
+import { InstantProcessedRecipeName } from "features/game/types/consumables";
 import { FishMarketModal } from "./FishMarketModal";
 import { useProcessingState } from "features/island/buildings/lib/useProcessingState";
 import { ReadyProcessed } from "../ReadyProcessed";
@@ -63,6 +64,15 @@ export const FishMarket: React.FC<BuildingProps> = ({
     });
   };
 
+  const handleMakeInstantRecipe = (recipe: InstantProcessedRecipeName) => {
+    gameService?.send({
+      type: "instantRecipe.made",
+      recipe,
+      buildingId,
+      buildingName: "Fish Market",
+    });
+  };
+
   return (
     <>
       <BuildingImageWrapper name="Fish Market" onClick={handleClick}>
@@ -90,6 +100,7 @@ export const FishMarket: React.FC<BuildingProps> = ({
         onProcess={handleProcess}
         onCollect={handleCollect}
         onInstantProcess={handleInstantProcess}
+        onMakeInstantRecipe={handleMakeInstantRecipe}
         processing={processing}
         queue={queued ?? []}
         ready={ready}
