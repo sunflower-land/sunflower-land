@@ -83,14 +83,10 @@ export const WaterTrapModal: React.FC<Props> = ({
     const hasTrap = selectedTrap === "Crab Pot" ? hasCrabPot : hasMarinerPot;
     if (!hasTrap) return;
 
-    if (!selectedChum) return;
-
-    if (!chums.includes(selectedChum)) {
-      return;
-    }
-
-    const chumAmount = CRUSTACEAN_CHUM_AMOUNTS[selectedChum];
-    const hasChum = items[selectedChum]?.gte(chumAmount) ?? false;
+   const chumAmount = selectedChum ? CRUSTACEAN_CHUM_AMOUNTS[selectedChum] : 0;
+   const hasChum = selectedChum
+     ? (items[selectedChum]?.gte(chumAmount) ?? false)
+     : true;
 
     if (!hasChum) return;
 
@@ -272,7 +268,11 @@ export const WaterTrapModal: React.FC<Props> = ({
                     key={chum}
                     image={ITEM_DETAILS[chum].image}
                     count={items[chum]}
-                    onClick={() => setSelectedChum(chum)}
+                    onClick={() =>
+                        setSelectedChum(
+                          selectedChum === chum ? undefined : chum,
+                        )
+                      }
                     isSelected={selectedChum === chum}
                     disabled={!hasEnough}
                   />
