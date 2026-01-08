@@ -37,6 +37,7 @@ import levelUp from "assets/icons/level_up.png";
 import xpIcon from "assets/icons/xp.png";
 import { Checkbox } from "components/ui/Checkbox";
 import { PetGuideButton } from "features/pets/petGuide/PetGuide";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   show: boolean;
@@ -47,7 +48,9 @@ interface Props {
   petType?: PetType;
 }
 
-const _game = (state: MachineState) => state.context.state;
+const _inventory = (state: MachineState) => state.context.state.inventory;
+const _hasPetGuideAccess = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "PET_GUIDE");
 
 export const PetModal: React.FC<Props> = ({
   show,
@@ -61,7 +64,8 @@ export const PetModal: React.FC<Props> = ({
     "feeding" | "fetching" | "resetting" | "typeFed"
   >(isTypeFed ? "typeFed" : "feeding");
   const [showRewards, setShowRewards] = useState(false);
-  const game = useSelector(gameService, _game);
+  const inventory = useSelector(gameService, _inventory);
+  const hasPetGuideAccess = useSelector(gameService, _hasPetGuideAccess);
   const isNFTPet = isPetNFT(data);
   const petId = isNFTPet ? data.id : data?.name;
 
@@ -114,17 +118,19 @@ export const PetModal: React.FC<Props> = ({
               </div>
             )}
           </div>
-          <div className="flex flex-row gap-2 items-center justify-end">
-            <PetGuideButton />
-            <img
-              onClick={onClose}
-              src={SUNNYSIDE.icons.close}
-              alt={data.name}
-              style={{
-                width: `${PIXEL_SCALE * 11}px`,
-              }}
-            />
-          </div>
+          {hasPetGuideAccess && (
+            <div className="flex flex-row gap-2 items-center justify-end">
+              <PetGuideButton isNFTPet={isNFTPet} />
+              <img
+                onClick={onClose}
+                src={SUNNYSIDE.icons.close}
+                alt={data.name}
+                style={{
+                  width: `${PIXEL_SCALE * 11}px`,
+                }}
+              />
+            </div>
+          )}
         </div>
         {/* Pet Information Panel */}
         <InnerPanel>
@@ -231,7 +237,7 @@ export const PetModal: React.FC<Props> = ({
         {display === "resetting" && (
           <ResetFoodRequests
             petData={data}
-            inventory={game.inventory}
+            inventory={inventory}
             todayDate={todayDate}
             handleResetRequests={handleResetRequests}
             onAcknowledged={() => {

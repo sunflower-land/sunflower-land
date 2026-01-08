@@ -17,15 +17,15 @@ export const PetMaintenance: React.FC<{ onBack: () => void }> = ({
       <NoticeboardItems
         items={[
           {
-            text: "Keep every companion fed: common pets become neglected after 3 days, while NFT pets give you a 7-day grace period before they refuse to work.",
+            text: "Common pets become neglected after 3 days without feeding, NFT pets after 7 days. Cheering up a neglected pet costs 500 XP and resets the timer.",
             icon: SUNNYSIDE.icons.sleeping,
           },
           {
-            text: "Pets nap roughly two hours after their last pat. Tap them while they snooze to earn 10 bonus XP and wake them for the next fetch window.",
+            text: "Pets nap 2 hours after their last pat. Tap them while they snooze to earn +10 XP and wake them for the next fetch window.",
             icon: SUNNYSIDE.icons.happy,
           },
           {
-            text: "NFT Pets management has a limit—only one of each NFT pet type can be active at a time. Extras will not be available until you swap them in. Take note that they can still get neglected if you don't feed them.",
+            text: "NFT Pets: Only one of each NFT pet type can be active at a time. Extras must be swapped in. Inactive NFT pets can still become neglected.",
             icon: SUNNYSIDE.icons.lock,
           },
         ]}

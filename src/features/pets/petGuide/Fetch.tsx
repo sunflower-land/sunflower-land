@@ -19,19 +19,19 @@ export const Fetch: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       <NoticeboardItems
         items={[
           {
-            text: "Level 1 fetches always return 1x Acorn (100 energy). Bank a stash before chasing shrine recipes.",
+            text: "See Levels & Perks for the full fetch unlock timeline by level.",
+            icon: SUNNYSIDE.icons.expression_confused,
+          },
+          {
+            text: "Acorns (100 energy) are used for shrine recipes. Category resources (200 energy) match your pet's category spread.",
             icon: ITEM_DETAILS.Acorn.image,
           },
           {
-            text: "Level 3 unlocks your pet's primary category resource (Chewed Bone, Ribbon, Ruffroot, etc). At level 7, the secondary category resource is added too. Both cost 200 energy per run.",
-            icon: SUNNYSIDE.icons.treasure,
-          },
-          {
-            text: "All pets unlock Fossil Shell. These rare drops feed high-tier shrine recipes and late-game crafting.",
+            text: "Fossil Shells (300 energy) open to reveal random resources: 1-3 Acorns (common), 1-2 category resources, or Moonfur (rare).",
             icon: ITEM_DETAILS["Fossil Shell"].image,
           },
           {
-            text: "NFT companions gain exclusive tiers: Moonfur and a tertiary category resource",
+            text: "NFT exclusive: Moonfur costs 1,000 energy. Tertiary category resource costs 200 energy.",
             icon: ITEM_DETAILS.Moonfur.image,
           },
         ]}

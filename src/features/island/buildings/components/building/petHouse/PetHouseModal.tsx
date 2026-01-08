@@ -18,12 +18,12 @@ interface Props {
   onClose: () => void;
 }
 
-type PetHouseTab = "Manage" | "Guide";
+type PetHouseTab = "pets" | "guide";
 
 export const PetHouseModal: React.FC<Props> = ({ show, onClose }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [tab, setTab] = useState<PetHouseTab>("Manage");
+  const [tab, setTab] = useState<PetHouseTab>("pets");
   const pets = useSelector(gameService, (state) => state.context.state.pets);
   const PlacedCollectibles = (petName: PetName) => {
     const collectibles = useSelector(gameService, (state) =>
@@ -61,20 +61,19 @@ export const PetHouseModal: React.FC<Props> = ({ show, onClose }) => {
             id: "pets",
             icon: ITEM_DETAILS.Barkley.image,
             name: t("pets.manage"),
-            id: "Manage",
           },
           {
             icon: SUNNYSIDE.icons.expression_confused,
             name: t("guide"),
-            id: "Guide",
+            id: "guide",
           },
         ]}
         currentTab={tab}
         setCurrentTab={setTab}
         container={OuterPanel}
       >
-        {tab === "Manage" && <ManagePets activePets={activePets} />}
-        {tab === "Guide" && <PetGuide />}
+        {tab === "pets" && <ManagePets activePets={activePets} />}
+        {tab === "guide" && <PetGuide isNFTPet={false} />}
       </CloseButtonPanel>
     </Modal>
   );

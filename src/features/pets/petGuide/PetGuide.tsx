@@ -9,6 +9,8 @@ import { PetMaintenance } from "./PetMaintenance";
 import { PetLevelsAndPerks } from "./PetLevelsAndPerks";
 import { PetCategories } from "./PetCategories";
 import { Shrines } from "./Shrines";
+import { NFTTraits } from "./NFTTraits";
+import { Social } from "./Social";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "components/ui/Modal";
@@ -22,9 +24,10 @@ type PetGuideView =
   | "Pet Categories"
   | "Levels & Perks"
   | "Shrines"
+  | "NFT Traits"
   | "Social";
 
-export const PetGuide: React.FC = () => {
+export const PetGuide: React.FC<{ isNFTPet: boolean }> = ({ isNFTPet }) => {
   const [view, setView] = useState<PetGuideView>();
 
   const setToDefault = () => setView(undefined);
@@ -50,6 +53,12 @@ export const PetGuide: React.FC = () => {
   if (view === "Shrines") {
     return <Shrines onBack={setToDefault} />;
   }
+  if (view === "NFT Traits") {
+    return <NFTTraits onBack={setToDefault} />;
+  }
+  if (view === "Social") {
+    return <Social onBack={setToDefault} />;
+  }
 
   return (
     <InnerPanel>
@@ -68,16 +77,19 @@ export const PetGuide: React.FC = () => {
         <Button onClick={() => setView("Levels & Perks")}>
           {`Levels & Perks`}
         </Button>
-        <Button
-          className="col-span-2"
-          onClick={() => setView("Shrines")}
-        >{`Shrines`}</Button>
+        <Button onClick={() => setView("Shrines")}>{`Shrines`}</Button>
+        <Button onClick={() => setView("Social")}>{`Social`}</Button>
+        {isNFTPet && (
+          <Button onClick={() => setView("NFT Traits")}>{`NFT Traits`}</Button>
+        )}
       </div>
     </InnerPanel>
   );
 };
 
-export const PetGuideButton: React.FC = () => {
+export const PetGuideButton: React.FC<{ isNFTPet: boolean }> = ({
+  isNFTPet,
+}) => {
   const [showPetGuide, setShowPetGuide] = useState(false);
   const { t } = useAppTranslation();
   return (
@@ -96,7 +108,7 @@ export const PetGuideButton: React.FC = () => {
           onClose={() => setShowPetGuide(false)}
           container={OuterPanel}
         >
-          <PetGuide />
+          <PetGuide isNFTPet={isNFTPet} />
         </CloseButtonPanel>
       </Modal>
     </>

@@ -17,15 +17,19 @@ export const Shrines: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       <NoticeboardItems
         items={[
           {
-            text: "Every shrine blueprint utilises pet resources tied to its theme—double-check your fetch stockpile before crafting.",
+            text: "Every shrine blueprint uses pet resources—double-check your fetch stockpile before crafting. Shrines can be renewed once expired.",
             icon: ITEM_DETAILS.Acorn.image,
           },
           {
-            text: "Shrines are temporary boosts between 7 and 14 days, depending on the shrine.",
+            text: "Durations vary: Most shrines last 7 days. Legendary Shrine lasts 1 day. Obsidian Shrine lasts 14 days. Trading Shrine lasts 30 days.",
             icon: SUNNYSIDE.icons.stopwatch,
           },
           {
-            text: "Each shrine targets a production pillar (Fox = crafting, Boar = cooking, Sparrow = crops, etc.). Hover the item in the Pet Shop for precise buff details before you purchase it.",
+            text: "Hound Shrine grants +100 XP per feed (7 days). Pet Bowls (from Blacksmith) give +10 XP per feed permanently.",
+            icon: SUNNYSIDE.icons.heart,
+          },
+          {
+            text: "Each shrine targets a production pillar (Fox = crafting, Boar = cooking, Sparrow = crops, Collie = barn animals, etc.). Check the Pet Shop for buff details.",
             icon: powerup,
           },
           {

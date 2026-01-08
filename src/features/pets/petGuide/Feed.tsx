@@ -15,11 +15,11 @@ export const Feed: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       <NoticeboardItems
         items={[
           {
-            text: "Common pets start with 2 daily meal requests while NFT pets roll 3. Unlock more requests by leveling up.",
+            text: "Common pets start with 2 requests (easy + medium) and unlock a 3rd (hard) at level 10. NFT pets start with 3 requests, unlock a 4th at level 30, and a 5th at level 200.",
             icon: SUNNYSIDE.icons.expression_confused,
           },
           {
-            text: "Base rewards are 20/100/300 XP/Energy for easy/medium/hard meals. Energy and XP earned scales with level, so serve tougher dishes before big fetch runs.",
+            text: "Base rewards are 20/100/300 XP and Energy for easy/medium/hard meals. Serve tougher dishes before big fetch runs to maximize energy gain.",
             icon: SUNNYSIDE.icons.lightning,
           },
           {
@@ -27,7 +27,7 @@ export const Feed: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             icon: SUNNYSIDE.icons.stopwatch,
           },
           {
-            text: "Daily requests auto-refresh at the same UTC rollover, so line up your cooking queues before midnight to avoid wasting partially completed lists.",
+            text: "Daily requests auto-refresh at 00:00 UTC, so line up your cooking queues before midnight to avoid wasting partially completed lists.",
             icon: SUNNYSIDE.icons.timer,
           },
         ]}
