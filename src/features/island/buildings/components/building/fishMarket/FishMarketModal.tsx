@@ -177,7 +177,7 @@ export const FishMarketModal: React.FC<Props> = ({
                   )}
                   {!isProcessedFood(selected) && (
                     <Button
-                      disabled={lessIngredients() || isQueueFull}
+                      disabled={lessIngredients()}
                       className="text-xxs sm:text-sm whitespace-nowrap"
                       onClick={handleInstantRecipe}
                     >
