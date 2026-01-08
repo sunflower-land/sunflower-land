@@ -11,7 +11,11 @@ import { FullMoonFruit } from "./fruits";
 import { LandBiomeName } from "features/island/biomes/biomes";
 import { PetResourceName } from "./pets";
 import Decimal from "decimal.js-light";
-import { ConsumableName, CookableName } from "./consumables";
+import {
+  ConsumableName,
+  CookableName,
+  InstantProcessedRecipeName,
+} from "./consumables";
 import { Animal, Food, ToolName } from "./craftables";
 import { CropName, GreenHouseCropName, GreenHouseCropSeedName } from "./crops";
 import {
@@ -221,7 +225,8 @@ export type FarmActivityName =
   | `${WaterTrapName} Collected`
   | `${WaterTrapName} Placed`
   | `${MarineMarvelName} Map Piece Found`
-  | "Map Missed";
+  | "Map Missed"
+  | `${InstantProcessedRecipeName} Made`;
 
 export function trackFarmActivity(
   activityName: FarmActivityName,

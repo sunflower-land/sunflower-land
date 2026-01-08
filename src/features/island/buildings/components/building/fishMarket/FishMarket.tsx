@@ -8,11 +8,15 @@ import { FISH_MARKET_VARIANTS } from "features/island/lib/alternateArt";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ProcessedFood } from "features/game/types/processedFood";
+import { InstantProcessedRecipeName } from "features/game/types/consumables";
 import { FishMarketModal } from "./FishMarketModal";
 import { useProcessingState } from "features/island/buildings/lib/useProcessingState";
 import { ReadyProcessed } from "../ReadyProcessed";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
+import { ITEM_DETAILS } from "features/game/types/images";
+import classNames from "classnames";
+import { setImageWidth } from "lib/images";
 
 const _fishMarket = (id: string) => (state: MachineState) =>
   state.context.state.buildings["Fish Market"]?.find((b) => b.id === id);
@@ -63,6 +67,15 @@ export const FishMarket: React.FC<BuildingProps> = ({
     });
   };
 
+  const handleMakeInstantRecipe = (recipe: InstantProcessedRecipeName) => {
+    gameService?.send({
+      type: "instantRecipe.made",
+      recipe,
+      buildingId,
+      buildingName: "Fish Market",
+    });
+  };
+
   return (
     <>
       <BuildingImageWrapper name="Fish Market" onClick={handleClick}>
@@ -71,6 +84,32 @@ export const FishMarket: React.FC<BuildingProps> = ({
           className="absolute bottom-0 pointer-events-none"
           style={{ width: `${PIXEL_SCALE * 48}px` }}
         />
+        {processing && (
+          <div className="absolute flex items-center justify-bottom w-[36px] h-5 left-0 bottom-2">
+            <img
+              src={ITEM_DETAILS[processing.name].image}
+              className={classNames("absolute z-30 pointer-events-none")}
+              onLoad={(e) => {
+                const img = e.currentTarget;
+                if (
+                  !img ||
+                  !img.complete ||
+                  !img.naturalWidth ||
+                  !img.naturalHeight
+                ) {
+                  return;
+                }
+
+                setImageWidth(img);
+              }}
+              style={{
+                scale: 0.8,
+                opacity: 0,
+                bottom: 0,
+              }}
+            />
+          </div>
+        )}
         <div
           className="absolute"
           style={{
@@ -90,6 +129,7 @@ export const FishMarket: React.FC<BuildingProps> = ({
         onProcess={handleProcess}
         onCollect={handleCollect}
         onInstantProcess={handleInstantProcess}
+        onMakeInstantRecipe={handleMakeInstantRecipe}
         processing={processing}
         queue={queued ?? []}
         ready={ready}

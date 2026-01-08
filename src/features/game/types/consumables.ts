@@ -2,7 +2,7 @@
 import Decimal from "decimal.js-light";
 import { BuildingName } from "./buildings";
 import { Cake } from "./craftables";
-import { BuildingProduct, Inventory } from "./game";
+import { BuildingProduct, Inventory, InventoryItemName } from "./game";
 import { FishName } from "./fishing";
 import { translate } from "lib/i18n/translate";
 import { FactionShopFoodName } from "./factionShop";
@@ -126,7 +126,8 @@ export type ConsumableName =
   | "Pirate Cake"
   | FishName
   | FactionShopFoodName
-  | TradeFood;
+  | TradeFood
+  | InstantProcessedRecipeName;
 
 export type Cookable = {
   experience: number;
@@ -1298,6 +1299,62 @@ export const FISH: Record<FishName, Consumable> = {
   },
 };
 
+export type InstantProcessedRecipeName =
+  | "Furikake Sprinkle"
+  | "Surimi Rice Bowl"
+  | "Creamy Crab Bite"
+  | "Crimstone Infused Fish Oil";
+
+type InstantProcessedRecipe = {
+  name: InstantProcessedRecipeName;
+  description: string;
+  ingredients: Partial<Record<InventoryItemName, Decimal>>;
+  experience: number;
+};
+
+export const INSTANT_PROCESSED_RECIPES: Record<
+  InstantProcessedRecipeName,
+  InstantProcessedRecipe
+> = {
+  "Furikake Sprinkle": {
+    name: "Furikake Sprinkle",
+    description: translate("description.instantFood.furikakeSprinkle"),
+    ingredients: {
+      "Fish Flake": new Decimal(1),
+      Seaweed: new Decimal(1),
+    },
+    experience: 500,
+  },
+  "Surimi Rice Bowl": {
+    name: "Surimi Rice Bowl",
+    description: translate("description.instantFood.surimiRiceBall"),
+    ingredients: {
+      "Fish Stick": new Decimal(1),
+      Rice: new Decimal(1),
+      Onion: new Decimal(1),
+    },
+    experience: 2000,
+  },
+  "Creamy Crab Bite": {
+    name: "Creamy Crab Bite",
+    description: translate("description.instantFood.creamyCrabBite"),
+    ingredients: {
+      "Crab Stick": new Decimal(1),
+      Cheese: new Decimal(3),
+    },
+    experience: 5000,
+  },
+  "Crimstone Infused Fish Oil": {
+    name: "Crimstone Infused Fish Oil",
+    description: translate("description.instantFood.crimstoneInfusedFishOil"),
+    ingredients: {
+      "Fish Oil": new Decimal(1),
+      Crimstone: new Decimal(1),
+    },
+    experience: 25000,
+  },
+};
+
 export const FACTION_FOOD: Record<FactionShopFoodName, Consumable> = {
   Caponata: {
     name: "Caponata",
@@ -1329,13 +1386,17 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   ...FISH,
   ...FACTION_FOOD,
   ...TRADE_FOOD,
+  ...INSTANT_PROCESSED_RECIPES,
 };
 
-export const FISH_CONSUMABLES: Record<FishName | FishCookableName, Consumable> =
-  {
-    ...FISH_COOKABLES,
-    ...FISH,
-  };
+export const FISH_CONSUMABLES: Record<
+  FishName | FishCookableName | InstantProcessedRecipeName,
+  Consumable
+> = {
+  ...FISH_COOKABLES,
+  ...FISH,
+  ...INSTANT_PROCESSED_RECIPES,
+};
 
 const Juices = Object.keys(JUICE_COOKABLES);
 

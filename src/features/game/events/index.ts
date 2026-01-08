@@ -57,6 +57,10 @@ import {
   collectProcessedFood,
   CollectProcessedFoodAction,
 } from "./landExpansion/collectProcessedFood";
+import {
+  makeInstantRecipe,
+  MakeInstantRecipeAction,
+} from "./landExpansion/makeInstantRecipe";
 import { feedBumpkin, FeedBumpkinAction } from "./landExpansion/feedBumpkin";
 import { detectBot, DetectBotAction } from "./detectBot";
 import { choseSkill, ChoseSkillAction } from "./landExpansion/choseSkill";
@@ -612,6 +616,7 @@ export type PlayingEvent =
   | CancelProcessedFoodAction
   | ProcessProcessedFoodAction
   | CollectProcessedFoodAction
+  | MakeInstantRecipeAction
   | FeedBumpkinAction
   | DetectBotAction
   | ChoseSkillAction
@@ -875,6 +880,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "processedFood.cancelled": cancelProcessedFood,
   "processedFood.processed": processProcessedFood,
   "processedFood.collected": collectProcessedFood,
+  "instantRecipe.made": makeInstantRecipe,
   "bumpkin.feed": feedBumpkin,
   "skill.chosen": choseSkill,
   "skills.reset": resetSkills,
