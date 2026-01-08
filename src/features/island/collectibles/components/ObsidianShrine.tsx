@@ -16,7 +16,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { useSelector } from "@xstate/react";
 import { SeedName } from "features/game/types/seeds";
-import { CropSeedName } from "features/game/types/crops";
+import { CROP_SEEDS, CropSeedName } from "features/game/types/crops";
 import { SEASONAL_SEEDS, SEEDS } from "features/game/types/seeds";
 import { CropName } from "features/game/types/crops";
 import { Box } from "components/ui/Box";
@@ -310,14 +310,19 @@ const HarvestAll: React.FC<{
   );
 };
 
-const getPlantSeconds = (selectedSeed: CropSeedName, state: GameState) => {
-  const yields = SEEDS[selectedSeed as SeedName].yield;
+const getPlantSeconds = (
+  selectedSeed: CropSeedName,
+  state: GameState,
+  now: number,
+) => {
+  const yields = CROP_SEEDS[selectedSeed].yield as CropName;
 
   const { time } = getCropPlotTime({
-    crop: yields as CropName,
+    crop: yields,
     game: state,
-    createdAt: Date.now(),
+    createdAt: now,
   });
+
   return time;
 };
 
@@ -337,15 +342,23 @@ const PlantAll: React.FC<{
     (seed) => SEEDS[seed].plantingSpot === "Crop Plot",
   ) as CropSeedName[];
 
-  const availableSeeds = seasonalSeeds.reduce(
-    (acc, seed: CropSeedName) => {
-      if (state.inventory[seed]) {
-        acc[seed] = state.inventory[seed].toNumber();
-      }
-      return acc;
-    },
-    {} as Record<CropSeedName, number>,
-  );
+  const now = useNow();
+
+  const availableSeeds = seasonalSeeds
+    .sort((a, b) => {
+      const aTime = getPlantSeconds(a, state, now);
+      const bTime = getPlantSeconds(b, state, now);
+      return aTime - bTime;
+    })
+    .reduce(
+      (acc, seed: CropSeedName) => {
+        if (state.inventory[seed]) {
+          acc[seed] = state.inventory[seed].toNumber();
+        }
+        return acc;
+      },
+      {} as Record<CropSeedName, number>,
+    );
 
   // If the saved seed is out of season - default to the first available seed
   if (selectedSeed && !(selectedSeed in availableSeeds)) {
@@ -405,7 +418,7 @@ const PlantAll: React.FC<{
                   {selectedSeed}
                 </Label>
                 <Label type="info" secondaryIcon={SUNNYSIDE.icons.stopwatch}>
-                  {secondsToString(getPlantSeconds(selectedSeed, state), {
+                  {secondsToString(getPlantSeconds(selectedSeed, state, now), {
                     length: "medium",
                     removeTrailingZeros: true,
                   })}
