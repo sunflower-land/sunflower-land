@@ -31,26 +31,6 @@ export function makeInstantRecipe({
   createdAt: _createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/0921abae-0d89-4e79-9a7b-5f20de6d53ab", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "run1",
-        hypothesisId: "H1",
-        location: "makeInstantRecipe.ts:entry",
-        message: "instantRecipe.made entry",
-        data: {
-          recipe: action.recipe,
-          buildingId: action.buildingId,
-          buildingName: action.buildingName,
-        },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-    // #endregion
-
     if (!isFoodProcessingBuilding(action.buildingName)) {
       throw new Error("Invalid food processing building");
     }
@@ -75,27 +55,6 @@ export function makeInstantRecipe({
 
     const ingredients = recipe.ingredients;
 
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/0921abae-0d89-4e79-9a7b-5f20de6d53ab", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "run1",
-        hypothesisId: "H2",
-        location: "makeInstantRecipe.ts:before-deduct",
-        message: "ingredients & inventory before deduction",
-        data: {
-          ingredients,
-          inventorySnapshot: {
-            recipeCount: game.inventory[action.recipe] ?? null,
-          },
-        },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-    // #endregion
-
     game.inventory = Object.entries(ingredients).reduce(
       (inventory, [ingredient, amount]) => {
         const count =
@@ -115,26 +74,6 @@ export function makeInstantRecipe({
 
     const previous = game.inventory[action.recipe] ?? new Decimal(0);
     game.inventory[action.recipe] = previous.add(1);
-
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/0921abae-0d89-4e79-9a7b-5f20de6d53ab", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "run1",
-        hypothesisId: "H3",
-        location: "makeInstantRecipe.ts:after-add",
-        message: "inventory after recipe creation",
-        data: {
-          recipe: action.recipe,
-          newCount: game.inventory[action.recipe],
-          farmActivity: game.farmActivity?.[`${action.recipe} Made`],
-        },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-    // #endregion
 
     game.farmActivity = trackFarmActivity(
       `${action.recipe} Made`,
