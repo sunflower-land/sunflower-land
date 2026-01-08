@@ -7762,5 +7762,11 @@
   "fishingPuzzle.timeoutTitle": "哦不，你还不够快！",
   "fishingPuzzle.timeoutMessage": "哦不，你还不够快，你错过了一张地图。",
   "caught": "抓到了",
-  "chum": "Chum"
+  "chum": "Chum",
+  "instantProcessedFoods.recipes": "即时食谱",
+  "instantProcessedFoods.makeRecipe": "做食谱",
+  "description.instantFood.furikakeSprinkle": "一种经过加工的鱼类原料，保证捕捞量。",
+  "description.instantFood.surimiRiceBall": "一种经过加工的鱼类原料，保证捕捞量。",
+  "description.instantFood.creamyCrabBite": "一种经过加工的鱼类原料，保证捕捞量。",
+  "description.instantFood.crimstoneInfusedFishOil": "一种经过加工的鱼类原料，保证捕捞量。"
 }

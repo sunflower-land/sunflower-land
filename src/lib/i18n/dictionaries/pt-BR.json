@@ -7762,5 +7762,11 @@
   "fishingPuzzle.timeoutTitle": "Oh não, você não foi rápido o suficiente!",
   "fishingPuzzle.timeoutMessage": "Ah não, você não foi rápido o suficiente, você perdeu uma peça do mapa.",
   "caught": "Capturado",
-  "chum": "Chumbo"
+  "chum": "Chumbo",
+  "instantProcessedFoods.recipes": "Receitas instantâneas",
+  "instantProcessedFoods.makeRecipe": "Faça a receita",
+  "description.instantFood.furikakeSprinkle": "Um ingrediente de peixe processado - captura garantida.",
+  "description.instantFood.surimiRiceBall": "Um ingrediente de peixe processado - captura garantida.",
+  "description.instantFood.creamyCrabBite": "Um ingrediente de peixe processado - captura garantida.",
+  "description.instantFood.crimstoneInfusedFishOil": "Um ingrediente de peixe processado - captura garantida."
 }

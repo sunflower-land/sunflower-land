@@ -7762,5 +7762,11 @@
   "fishingPuzzle.timeoutTitle": "Oh nein, du warst nicht schnell genug!",
   "fishingPuzzle.timeoutMessage": "Oh nein, du warst nicht schnell genug, du hast ein Kartenstück verpasst.",
   "caught": "Erwischt",
-  "chum": "Kumpel"
+  "chum": "Kumpel",
+  "instantProcessedFoods.recipes": "Sofortige Rezepte",
+  "instantProcessedFoods.makeRecipe": "Rezept machen",
+  "description.instantFood.furikakeSprinkle": "Eine verarbeitete Fischzutat — garantierter Fang.",
+  "description.instantFood.surimiRiceBall": "Eine verarbeitete Fischzutat — garantierter Fang.",
+  "description.instantFood.creamyCrabBite": "Eine verarbeitete Fischzutat — garantierter Fang.",
+  "description.instantFood.crimstoneInfusedFishOil": "Eine verarbeitete Fischzutat — garantierter Fang."
 }

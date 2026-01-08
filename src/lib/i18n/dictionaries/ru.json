@@ -7762,5 +7762,11 @@
   "fishingPuzzle.timeoutTitle": "Oh no, you weren't quick enough!",
   "fishingPuzzle.timeoutMessage": "Oh no, you weren't quick enough, you missed a map piece.",
   "caught": "Caught",
-  "chum": "Chum"
+  "chum": "Chum",
+  "instantProcessedFoods.recipes": "Instant Recipes",
+  "instantProcessedFoods.makeRecipe": "Make recipe",
+  "description.instantFood.furikakeSprinkle": "A processed fish ingredient - guaranteed catch.",
+  "description.instantFood.surimiRiceBall": "A processed fish ingredient - guaranteed catch.",
+  "description.instantFood.creamyCrabBite": "A processed fish ingredient - guaranteed catch.",
+  "description.instantFood.crimstoneInfusedFishOil": "A processed fish ingredient - guaranteed catch."
 }

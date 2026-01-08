@@ -7762,5 +7762,11 @@
   "fishingPuzzle.timeoutTitle": "Oh hayır, yeterince hızlı değildin!",
   "fishingPuzzle.timeoutMessage": "Oh hayır, yeterince hızlı değildin, bir harita parçasını kaçırdın.",
   "caught": "Yakalandı",
-  "chum": "Arkadaş"
+  "chum": "Arkadaş",
+  "instantProcessedFoods.recipes": "Anında Tarifler",
+  "instantProcessedFoods.makeRecipe": "Tarif yap",
+  "description.instantFood.furikakeSprinkle": "İşlenmiş bir balık bileşeni - garantili avlanma.",
+  "description.instantFood.surimiRiceBall": "İşlenmiş bir balık bileşeni - garantili avlanma.",
+  "description.instantFood.creamyCrabBite": "İşlenmiş bir balık bileşeni - garantili avlanma.",
+  "description.instantFood.crimstoneInfusedFishOil": "İşlenmiş bir balık bileşeni - garantili avlanma."
 }

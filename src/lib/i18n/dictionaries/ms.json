@@ -7762,5 +7762,11 @@
   "fishingPuzzle.timeoutTitle": "Oh tidak, anda tidak cukup cepat!",
   "fishingPuzzle.timeoutMessage": "Oh tidak, anda tidak cukup cepat, anda terlepas sekeping peta.",
   "caught": "Ditangkap",
-  "chum": "Chum"
+  "chum": "Chum",
+  "instantProcessedFoods.recipes": "Resipi Segera",
+  "instantProcessedFoods.makeRecipe": "Buat resipi",
+  "description.instantFood.furikakeSprinkle": "Bahan ikan yang diproses - tangkapan yang dijamin.",
+  "description.instantFood.surimiRiceBall": "Bahan ikan yang diproses - tangkapan yang dijamin.",
+  "description.instantFood.creamyCrabBite": "Bahan ikan yang diproses - tangkapan yang dijamin.",
+  "description.instantFood.crimstoneInfusedFishOil": "Bahan ikan yang diproses - tangkapan yang dijamin."
 }

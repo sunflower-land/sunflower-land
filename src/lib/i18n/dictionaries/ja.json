@@ -7762,5 +7762,11 @@
   "fishingPuzzle.timeoutTitle": "ああ、いや、あなたは十分な速さではなかった！",
   "fishingPuzzle.timeoutMessage": "ああ、いや、あなたは十分な速さではなかった、あなたは地図のかけらを見逃した。",
   "caught": "捕まった",
-  "chum": "仲間"
+  "chum": "仲間",
+  "instantProcessedFoods.recipes": "インスタントレシピ",
+  "instantProcessedFoods.makeRecipe": "レシピを作る",
+  "description.instantFood.furikakeSprinkle": "魚を加工した原料-確実に獲れます。",
+  "description.instantFood.surimiRiceBall": "魚を加工した原料-確実に獲れます。",
+  "description.instantFood.creamyCrabBite": "魚を加工した原料-確実に獲れます。",
+  "description.instantFood.crimstoneInfusedFishOil": "魚を加工した原料-確実に獲れます。"
 }

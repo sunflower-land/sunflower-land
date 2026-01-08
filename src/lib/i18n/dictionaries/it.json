@@ -7762,5 +7762,11 @@
   "fishingPuzzle.timeoutTitle": "Oh no, non sei stato abbastanza veloce!",
   "fishingPuzzle.timeoutMessage": "Oh no, non sei stato abbastanza veloce, hai perso un pezzo di mappa.",
   "caught": "Catturato",
-  "chum": "amico"
+  "chum": "amico",
+  "instantProcessedFoods.recipes": "Ricette istantanee",
+  "instantProcessedFoods.makeRecipe": "Prepara una ricetta",
+  "description.instantFood.furikakeSprinkle": "Ingrediente a base di pesce lavorato: cattura garantita.",
+  "description.instantFood.surimiRiceBall": "Ingrediente a base di pesce lavorato: cattura garantita.",
+  "description.instantFood.creamyCrabBite": "Ingrediente a base di pesce lavorato: cattura garantita.",
+  "description.instantFood.crimstoneInfusedFishOil": "Ingrediente a base di pesce lavorato: cattura garantita."
 }

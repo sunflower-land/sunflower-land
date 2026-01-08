@@ -7762,5 +7762,11 @@
   "fishingPuzzle.timeoutTitle": "Oh non, tu n'as pas été assez rapide !",
   "fishingPuzzle.timeoutMessage": "Oh non, tu n'as pas été assez rapide, tu as raté un bout de carte.",
   "caught": "Pris",
-  "chum": "copain"
+  "chum": "copain",
+  "instantProcessedFoods.recipes": "Recettes instantanées",
+  "instantProcessedFoods.makeRecipe": "Faire une recette",
+  "description.instantFood.furikakeSprinkle": "Un ingrédient de poisson transformé : capture garantie.",
+  "description.instantFood.surimiRiceBall": "Un ingrédient de poisson transformé : capture garantie.",
+  "description.instantFood.creamyCrabBite": "Un ingrédient de poisson transformé : capture garantie.",
+  "description.instantFood.crimstoneInfusedFishOil": "Un ingrédient de poisson transformé : capture garantie."
 }

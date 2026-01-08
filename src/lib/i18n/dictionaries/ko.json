@@ -7762,5 +7762,11 @@
   "fishingPuzzle.timeoutTitle": "오, 아니, 당신은 충분히 빠르지 않았어요!",
   "fishingPuzzle.timeoutMessage": "오, 아니, 당신은 충분히 빠르지 않았어요. 맵 피스를 놓치셨군요.",
   "caught": "잡혔어",
-  "chum": "친구"
+  "chum": "친구",
+  "instantProcessedFoods.recipes": "인스턴트 레시피",
+  "instantProcessedFoods.makeRecipe": "레시피 만들기",
+  "description.instantFood.furikakeSprinkle": "가공된 생선 재료 - 어획량 보장.",
+  "description.instantFood.surimiRiceBall": "가공된 생선 재료 - 어획량 보장.",
+  "description.instantFood.creamyCrabBite": "가공된 생선 재료 - 어획량 보장.",
+  "description.instantFood.crimstoneInfusedFishOil": "가공된 생선 재료 - 어획량 보장."
 }

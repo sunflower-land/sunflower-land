@@ -7762,5 +7762,11 @@
   "discordNews.postedOn": "Posted on {{date}} on Discord",
   "discordNews.postedAgo": "Posted {{time}} on Discord",
   "fishingPuzzle.timeoutTitle": "Oh no, you weren't quick enough!",
-  "fishingPuzzle.timeoutMessage": "Oh no, you weren't quick enough, you missed a map piece."
+  "fishingPuzzle.timeoutMessage": "Oh no, you weren't quick enough, you missed a map piece.",
+  "instantProcessedFoods.recipes": "Instant Recipes",
+  "instantProcessedFoods.makeRecipe": "Make recipe",
+  "description.instantFood.furikakeSprinkle": "A processed fish ingredient - guaranteed catch.",
+  "description.instantFood.surimiRiceBall": "A processed fish ingredient - guaranteed catch.",
+  "description.instantFood.creamyCrabBite": "A processed fish ingredient - guaranteed catch.",
+  "description.instantFood.crimstoneInfusedFishOil": "A processed fish ingredient - guaranteed catch."
 }
