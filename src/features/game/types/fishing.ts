@@ -266,7 +266,6 @@ export const CHUM_DETAILS: Record<Chum | CrustaceanChum, string> = {
   Dewberry: translate("chumDetails.dewberry"),
   Duskberry: translate("chumDetails.duskberry"),
   Lunara: translate("chumDetails.lunara"),
-  "Fossil Shell": translate("chumDetails.fossilShell"),
 };
 
 type Fish = {

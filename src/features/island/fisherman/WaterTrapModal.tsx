@@ -8,7 +8,6 @@ import { InnerPanel } from "components/ui/Panel";
 import { Box } from "components/ui/Box";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { InventoryItemName } from "features/game/types/game";
 import { CHUM_DETAILS } from "features/game/types/fishing";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
@@ -92,6 +91,8 @@ export const WaterTrapModal: React.FC<Props> = ({
   const hasEnoughChum = selectedChum
     ? items[selectedChum]?.gte(CRUSTACEAN_CHUM_AMOUNTS[selectedChum])
     : true;
+
+  const chums = selectedTrap ? WATER_TRAP[selectedTrap].chums : [];
 
   // A water trap has been placed
   if (waterTrap) {
@@ -181,12 +182,6 @@ export const WaterTrapModal: React.FC<Props> = ({
     );
   }
 
-  const selectedTrapDescription = selectedTrap
-    ? selectedTrap === "Crab Pot"
-      ? t("description.crab.pot")
-      : t("description.mariner.pot")
-    : "";
-
   return (
     <CloseButtonPanel onClose={onClose}>
       <div className="p-2">
@@ -216,7 +211,9 @@ export const WaterTrapModal: React.FC<Props> = ({
             </div>
             <div>
               <p className="text-sm mb-1">{selectedTrap}</p>
-              <p className="text-xs">{selectedTrapDescription}</p>
+              <p className="text-xs">
+                {selectedTrap ? ITEM_DETAILS[selectedTrap].description : ""}
+              </p>
               {!state.inventory[selectedTrap] && (
                 <Label className="mt-2" type="default">
                   {t("statements.craft.composter")}
@@ -237,23 +234,25 @@ export const WaterTrapModal: React.FC<Props> = ({
           <div className="p-2">
             <p className="mb-1 p-1 text-xs">{t("waterTrap.selectChum")}</p>
             <div className="flex flex-wrap gap-1">
-              {Object.keys(CRUSTACEAN_CHUM_AMOUNTS)
-                .filter((name) => items[name as InventoryItemName]?.gte(1))
-                .map((name) => {
-                  const chum = name as CrustaceanChum;
-                  const amount = CRUSTACEAN_CHUM_AMOUNTS[chum];
-                  const hasEnough = items[chum]?.gte(amount) ?? false;
-                  return (
-                    <Box
-                      key={chum}
-                      image={ITEM_DETAILS[chum].image}
-                      count={items[chum]}
-                      onClick={() => setSelectedChum(chum)}
-                      isSelected={selectedChum === chum}
-                      disabled={!hasEnough}
-                    />
-                  );
-                })}
+              {chums.map((name) => {
+                if (!items[name]?.gte(1)) {
+                  return null;
+                }
+
+                const chum = name as CrustaceanChum;
+                const amount = CRUSTACEAN_CHUM_AMOUNTS[chum];
+                const hasEnough = items[chum]?.gte(amount) ?? false;
+                return (
+                  <Box
+                    key={chum}
+                    image={ITEM_DETAILS[chum].image}
+                    count={items[chum]}
+                    onClick={() => setSelectedChum(chum)}
+                    isSelected={selectedChum === chum}
+                    disabled={!hasEnough}
+                  />
+                );
+              })}
             </div>
             {selectedChum && (
               <div className="p-2 mt-2">
