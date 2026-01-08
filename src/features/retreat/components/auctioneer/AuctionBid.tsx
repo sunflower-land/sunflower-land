@@ -88,7 +88,6 @@ export const AuctionBid: React.FC<Props> = ({
       </Button>
     </>
   )}
-      )}
 
       {canReveal && (
         <Button
