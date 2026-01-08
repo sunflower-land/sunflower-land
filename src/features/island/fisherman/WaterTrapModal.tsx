@@ -73,12 +73,21 @@ export const WaterTrapModal: React.FC<Props> = ({
   const { totalSeconds: secondsLeft } = useCountdown(waterTrap?.readyAt ?? 0);
   const isReady = secondsLeft <= 0;
 
+  const chums = selectedTrap ? WATER_TRAP[selectedTrap].chums : [];
+
+  const isValidChumForTrap =
+    selectedTrap && selectedChum ? chums.includes(selectedChum) : false;
+
   const handlePlace = () => {
     if (!selectedTrap) return;
     const hasTrap = selectedTrap === "Crab Pot" ? hasCrabPot : hasMarinerPot;
     if (!hasTrap) return;
 
     if (!selectedChum) return;
+
+    if (!chums.includes(selectedChum)) {
+      return;
+    }
 
     const chumAmount = CRUSTACEAN_CHUM_AMOUNTS[selectedChum];
     const hasChum = items[selectedChum]?.gte(chumAmount) ?? false;
@@ -91,8 +100,6 @@ export const WaterTrapModal: React.FC<Props> = ({
   const hasEnoughChum = selectedChum
     ? items[selectedChum]?.gte(CRUSTACEAN_CHUM_AMOUNTS[selectedChum])
     : true;
-
-  const chums = selectedTrap ? WATER_TRAP[selectedTrap].chums : [];
 
   // A water trap has been placed
   if (waterTrap) {
@@ -189,14 +196,32 @@ export const WaterTrapModal: React.FC<Props> = ({
           <Box
             image={ITEM_DETAILS["Crab Pot"].image}
             count={state.inventory["Crab Pot"]}
-            onClick={() => setSelectedTrap("Crab Pot")}
+            onClick={() => {
+              setSelectedTrap("Crab Pot");
+              // Clear chum if it's not valid for Crab Pot
+              if (
+                selectedChum &&
+                !WATER_TRAP["Crab Pot"].chums.includes(selectedChum)
+              ) {
+                setSelectedChum(undefined);
+              }
+            }}
             isSelected={selectedTrap === "Crab Pot"}
             disabled={!hasCrabPot}
           />
           <Box
             image={ITEM_DETAILS["Mariner Pot"].image}
             count={state.inventory["Mariner Pot"]}
-            onClick={() => setSelectedTrap("Mariner Pot")}
+            onClick={() => {
+              setSelectedTrap("Mariner Pot");
+              // Clear chum if it's not valid for Mariner Pot
+              if (
+                selectedChum &&
+                !WATER_TRAP["Mariner Pot"].chums.includes(selectedChum)
+              ) {
+                setSelectedChum(undefined);
+              }
+            }}
             isSelected={selectedTrap === "Mariner Pot"}
             disabled={!hasMarinerPot || !canUseMarinerPot}
           />
@@ -272,7 +297,12 @@ export const WaterTrapModal: React.FC<Props> = ({
 
       <Button
         onClick={handlePlace}
-        disabled={!selectedTrap || !hasEnoughChum}
+        disabled={
+          !selectedTrap ||
+          !selectedChum ||
+          !isValidChumForTrap ||
+          !hasEnoughChum
+        }
         className="w-full"
       >
         {t("waterTrap.place")}
