@@ -73,21 +73,21 @@ export const AuctionBid: React.FC<Props> = ({
       <TimerDisplay time={ready} />
 
       {canCancel && (
-       <Button
-          className="mt-2"
-          disabled={!canCancel}
-          onClick={() => {onClose();}}
-        >
-          {t("Wait for results")} 
-        </Button>;
-
-        <Button
-          className="mt-2"
-          disabled={!canCancel}
-          onClick={() => auctionService.send("CANCEL")}
-        >
-          {t("Cancel bid")}
-        </Button>
+    <>
+      <Button
+        className="mt-2"
+        onClick={onClose}
+      >
+        {t("Wait for results")}
+      </Button>
+      <Button
+        className="mt-2"
+        onClick={() => auctionService.send("CANCEL")}
+      >
+        {t("Cancel bid")}
+      </Button>
+    </>
+  )}
       )}
 
       {canReveal && (
