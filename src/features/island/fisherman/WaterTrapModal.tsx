@@ -9,7 +9,7 @@ import { Box } from "components/ui/Box";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InventoryItemName } from "features/game/types/game";
-import { Chum, CHUM_AMOUNTS, CHUM_DETAILS } from "features/game/types/fishing";
+import { CHUM_DETAILS } from "features/game/types/fishing";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getBasketItems,
@@ -19,7 +19,12 @@ import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { WaterTrap } from "features/game/types/game";
-import { WaterTrapName, WATER_TRAP } from "features/game/types/crustaceans";
+import {
+  WaterTrapName,
+  WATER_TRAP,
+  CRUSTACEAN_CHUM_AMOUNTS,
+  CrustaceanChum,
+} from "features/game/types/crustaceans";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 
@@ -27,7 +32,7 @@ const _state = (state: MachineState) => state.context.state;
 
 interface Props {
   waterTrap?: WaterTrap;
-  onPlace: (trapType: WaterTrapName, chum?: Chum) => void;
+  onPlace: (trapType: WaterTrapName, chum?: CrustaceanChum) => void;
   onPickup: () => void;
   onCollect: () => void;
   onClose: () => void;
@@ -46,9 +51,9 @@ export const WaterTrapModal: React.FC<Props> = ({
   const [selectedTrap, setSelectedTrap] = useState<WaterTrapName | undefined>(
     undefined,
   );
-  const [selectedChum, setSelectedChum] = useState<Chum | undefined>(
-    waterTrap?.chum && waterTrap.chum in CHUM_AMOUNTS
-      ? (waterTrap.chum as Chum)
+  const [selectedChum, setSelectedChum] = useState<CrustaceanChum | undefined>(
+    waterTrap?.chum && waterTrap.chum in CRUSTACEAN_CHUM_AMOUNTS
+      ? (waterTrap.chum as CrustaceanChum)
       : undefined,
   );
 
@@ -76,13 +81,17 @@ export const WaterTrapModal: React.FC<Props> = ({
 
     if (!selectedChum) return;
 
-    const chumAmount = CHUM_AMOUNTS[selectedChum];
+    const chumAmount = CRUSTACEAN_CHUM_AMOUNTS[selectedChum];
     const hasChum = items[selectedChum]?.gte(chumAmount) ?? false;
 
     if (!hasChum) return;
 
     onPlace(selectedTrap, selectedChum);
   };
+
+  const hasEnoughChum = selectedChum
+    ? items[selectedChum]?.gte(CRUSTACEAN_CHUM_AMOUNTS[selectedChum])
+    : true;
 
   // A water trap has been placed
   if (waterTrap) {
@@ -116,7 +125,7 @@ export const WaterTrapModal: React.FC<Props> = ({
                   className="text-xs"
                   icon={ITEM_DETAILS[chum].image}
                 >
-                  {`${CHUM_AMOUNTS[chum]} ${chum} ${t("chum")}`}
+                  {`${CRUSTACEAN_CHUM_AMOUNTS[chum]} ${chum} ${t("chum")}`}
                 </Label>
               </div>
             )}
@@ -228,11 +237,11 @@ export const WaterTrapModal: React.FC<Props> = ({
           <div className="p-2">
             <p className="mb-1 p-1 text-xs">{t("waterTrap.selectChum")}</p>
             <div className="flex flex-wrap gap-1">
-              {Object.keys(CHUM_AMOUNTS)
+              {Object.keys(CRUSTACEAN_CHUM_AMOUNTS)
                 .filter((name) => items[name as InventoryItemName]?.gte(1))
                 .map((name) => {
-                  const chum = name as Chum;
-                  const amount = CHUM_AMOUNTS[chum];
+                  const chum = name as CrustaceanChum;
+                  const amount = CRUSTACEAN_CHUM_AMOUNTS[chum];
                   const hasEnough = items[chum]?.gte(amount) ?? false;
                   return (
                     <Box
@@ -248,25 +257,13 @@ export const WaterTrapModal: React.FC<Props> = ({
             </div>
             {selectedChum && (
               <div className="p-2 mt-2">
-                <div className="flex justify-between">
-                  <Label
-                    type="default"
-                    className="mb-1"
-                    icon={ITEM_DETAILS[selectedChum].image}
-                  >
-                    {selectedChum}
-                  </Label>
-                  <Label
-                    type={
-                      items[selectedChum]?.gte(CHUM_AMOUNTS[selectedChum])
-                        ? "default"
-                        : "danger"
-                    }
-                    className="mb-1"
-                  >
-                    {`${CHUM_AMOUNTS[selectedChum]} ${selectedChum}`}
-                  </Label>
-                </div>
+                <Label
+                  type="default"
+                  className="mb-1"
+                  icon={ITEM_DETAILS[selectedChum].image}
+                >
+                  {`${CRUSTACEAN_CHUM_AMOUNTS[selectedChum]} ${selectedChum}`}
+                </Label>
                 <p className="text-xs">{CHUM_DETAILS[selectedChum]}</p>
               </div>
             )}
@@ -276,11 +273,7 @@ export const WaterTrapModal: React.FC<Props> = ({
 
       <Button
         onClick={handlePlace}
-        disabled={
-          !selectedTrap ||
-          !selectedChum ||
-          !items[selectedChum]?.gte(CHUM_AMOUNTS[selectedChum])
-        }
+        disabled={!selectedTrap || !hasEnoughChum}
         className="w-full"
       >
         {t("waterTrap.place")}
