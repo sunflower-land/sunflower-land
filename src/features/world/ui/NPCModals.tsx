@@ -38,7 +38,7 @@ import { Rocketman } from "./npcs/Rocketman";
 import { MegaBountyBoard } from "./flowerShop/MegaBountyBoard";
 import { IncineratorModal } from "features/goblins/incinerator";
 import { Context } from "features/game/GameProvider";
-import { PetShop } from "features/pets/PetShop";
+import { PetShop } from "features/pets/petShop/PetShop";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
