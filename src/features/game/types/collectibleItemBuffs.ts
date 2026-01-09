@@ -955,7 +955,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       shortDescription: translate(
         "description.time.warp.totem.boost.effectTime",
       ),
-      labelType: "info",
+      labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
@@ -1007,7 +1007,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       shortDescription: translate(
         "description.gourmet.hourglass.boost.effectTime",
       ),
-      labelType: "info",
+      labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
@@ -1021,7 +1021,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       shortDescription: translate(
         "description.harvest.hourglass.boost.effectTime",
       ),
-      labelType: "info",
+      labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
@@ -1035,7 +1035,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       shortDescription: translate(
         "description.timber.hourglass.boost.effectTime",
       ),
-      labelType: "info",
+      labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
@@ -1047,7 +1047,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     },
     {
       shortDescription: translate("description.ore.hourglass.boost.effectTime"),
-      labelType: "info",
+      labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
@@ -1061,7 +1061,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       shortDescription: translate(
         "description.orchard.hourglass.boost.effectTime",
       ),
-      labelType: "info",
+      labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
@@ -1075,7 +1075,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       shortDescription: translate(
         "description.fishers.hourglass.boost.effectTime",
       ),
-      labelType: "info",
+      labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
@@ -1089,7 +1089,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       shortDescription: translate(
         "description.blossom.hourglass.boost.effectTime",
       ),
-      labelType: "info",
+      labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
@@ -1315,7 +1315,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     },
     {
       shortDescription: translate("description.superTotem.boost.effectTime"),
-      labelType: "info",
+      labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
@@ -1411,7 +1411,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   "Giant Zucchini": () => [
     {
       shortDescription: translate("description.giantZucchini.boost"),
-      labelType: "success",
+      labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS.Zucchini.image,
     },
@@ -1643,8 +1643,8 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     },
     {
       shortDescription: translate("description.foxShrine.buff.2"),
-      labelType: "info",
-      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
       boostedItemIcon: ITEM_DETAILS["Crafting Box"].image,
     },
   ],

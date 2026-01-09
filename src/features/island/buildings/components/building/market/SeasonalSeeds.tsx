@@ -24,7 +24,9 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { SEASONAL_SEEDS, SEEDS, SeedName } from "features/game/types/seeds";
 import {
   GREENHOUSE_FRUIT_SEEDS,
+  GreenHouseFruitSeedName,
   PATCH_FRUIT,
+  PATCH_FRUIT_SEEDS,
   PatchFruitSeedName,
 } from "features/game/types/fruits";
 import { getFruitHarvests } from "features/game/events/landExpansion/utils";
@@ -45,7 +47,7 @@ import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 
 import { Restock } from "./restock/Restock";
-import { TemperateSeasonName } from "features/game/types/game";
+import { BoostName, TemperateSeasonName } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
 import { secondsTillWeekReset } from "features/game/lib/factions";
 
@@ -91,6 +93,8 @@ export const SeasonalSeeds: React.FC = () => {
     currentSeasonSeeds[0],
   );
   const [confirmBuyModal, showConfirmBuyModal] = useState(false);
+
+  const [showBoosts, setShowBoosts] = useState(false);
 
   const selected = SEEDS[selectedName];
   const { t } = useAppTranslation();
@@ -236,34 +240,56 @@ export const SeasonalSeeds: React.FC = () => {
 
   const yields = SEEDS[selectedName].yield;
 
-  const getPlantSeconds = () => {
+  const getBasePlantSeconds = () => {
     if (selectedName in FLOWER_SEEDS) {
-      return getFlowerTime(selectedName as FlowerSeedName, state).seconds;
+      return FLOWER_SEEDS[selectedName as FlowerSeedName].plantSeconds;
+    }
+
+    if (yields && yields in PATCH_FRUIT) {
+      return PATCH_FRUIT_SEEDS[selectedName as PatchFruitSeedName].plantSeconds;
+    }
+
+    if (selectedName in GREENHOUSE_SEEDS) {
+      return GREENHOUSE_SEEDS[selectedName as GreenHouseCropSeedName]
+        .plantSeconds;
+    }
+    if (selectedName in GREENHOUSE_FRUIT_SEEDS) {
+      return GREENHOUSE_FRUIT_SEEDS[selectedName as GreenHouseFruitSeedName]
+        .plantSeconds;
+    }
+
+    return CROP_SEEDS[selectedName as CropSeedName].plantSeconds;
+  };
+
+  const getPlantSeconds = (): { seconds: number; boostsUsed: BoostName[] } => {
+    if (selectedName in FLOWER_SEEDS) {
+      return getFlowerTime(selectedName as FlowerSeedName, state);
     }
 
     if (yields && yields in PATCH_FRUIT)
-      return getFruitPatchTime(selectedName as PatchFruitSeedName, state)
-        .seconds;
+      return getFruitPatchTime(selectedName as PatchFruitSeedName, state);
 
     if (
       selectedName in GREENHOUSE_SEEDS ||
       selectedName in GREENHOUSE_FRUIT_SEEDS
     ) {
       const plant = SEED_TO_PLANT[selectedName as GreenHouseCropSeedName];
-      const { seconds } = getGreenhouseCropTime({
+      return getGreenhouseCropTime({
         crop: plant,
         game: state,
       });
-      return seconds;
     }
 
-    const { time } = getCropPlotTime({
+    const { time: seconds, boostsUsed } = getCropPlotTime({
       crop: yields as CropName,
       game: state,
       createdAt: now,
     });
-    return time;
+
+    return { seconds, boostsUsed };
   };
+
+  const baseTime = getBasePlantSeconds();
 
   const getHarvestCount = () => {
     if (!yields) return undefined;
@@ -355,7 +381,8 @@ export const SeasonalSeeds: React.FC = () => {
                   maxHarvest: harvestCount[1],
                 }
               : undefined,
-            timeSeconds: getPlantSeconds(),
+            time: getPlantSeconds(),
+            baseTimeSeconds: baseTime,
             restriction: {
               icon: SEASON_ICONS[currentSeason],
               text: plantingSpot,
@@ -363,6 +390,8 @@ export const SeasonalSeeds: React.FC = () => {
           }}
           actionView={getAction()}
           validSeeds={validSeeds}
+          setShowBoosts={setShowBoosts}
+          showBoosts={showBoosts}
         />
       }
       content={
@@ -393,7 +422,10 @@ export const SeasonalSeeds: React.FC = () => {
                 <Box
                   isSelected={selectedName === name}
                   key={name}
-                  onClick={() => onSeedClick(name)}
+                  onClick={() => {
+                    onSeedClick(name);
+                    setShowBoosts(false);
+                  }}
                   image={ITEM_DETAILS[SEEDS[name].yield ?? name].image}
                   showOverlay={isSeedLocked(name)}
                   // secondaryImage={SUNNYSIDE.icons.seedling}
