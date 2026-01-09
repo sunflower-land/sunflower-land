@@ -134,7 +134,7 @@ export const Iron: React.FC<Props> = ({ id }) => {
         getIronDropAmount({
           game: state,
           rock: resource,
-          createdAt: Date.now(),
+          createdAt: now,
           farmId,
           counter,
           itemId,

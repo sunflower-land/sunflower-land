@@ -150,7 +150,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
         getStoneDropAmount({
           game,
           rock: resource,
-          createdAt: Date.now(),
+          createdAt: now,
           id,
           farmId,
           counter,
