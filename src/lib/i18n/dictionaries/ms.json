@@ -7773,5 +7773,7 @@
   "streams.message.streamer": "Anda telah menemui streamer! Tuntut Kotak Cinta Asas setiap 5 minit (sehingga 10 kali).",
   "streams.message.streamer.claimed": "Anda telah berjaya menuntut Kotak Cinta Asas!",
   "streams.timeToNextClaim": "Masa untuk tuntutan seterusnya - {{time}}",
-  "streams.boxesClaimed": "Kotak dituntut: {{count}}/10"
+  "streams.boxesClaimed": "Kotak dituntut: {{count}}/10",
+  "auction.cancelBid": "Batalkan tawaran",
+  "auction.doNotCancel": "Jangan membatalkan"
 }

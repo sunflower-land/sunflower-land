@@ -7773,5 +7773,7 @@
   "streams.message.streamer": "ストリーマーが見つかりました！5分おきに (最大10回) ベーシックラブボックスを受け取ってください。",
   "streams.message.streamer.claimed": "ベーシックラブボックスの獲得に成功しました！",
   "streams.timeToNextClaim": "次の請求までの時間-{{time}}",
-  "streams.boxesClaimed": "請求されたボックス:{{count}} /10"
+  "streams.boxesClaimed": "請求されたボックス:{{count}} /10",
+  "auction.cancelBid": "入札をキャンセル",
+  "auction.doNotCancel": "キャンセルしないでください"
 }

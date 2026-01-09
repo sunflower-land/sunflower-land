@@ -5523,6 +5523,8 @@
   "auction.bidding.failed": "Bid failed",
   "auction.cancelling.success": "Bid cancelled",
   "auction.cancelling.failed": "Bid cancellation failed",
+  "auction.cancelBid": "Cancel bid",
+  "auction.doNotCancel": "Do not cancel",
   "claiming.auction.success": "Congratulations! Your item has been minted!",
   "sunflowerClock": "Sunflower Clock",
   "days.mon": "Mon.",

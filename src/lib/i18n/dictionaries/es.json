@@ -7773,5 +7773,7 @@
   "streams.message.streamer": "¡Has encontrado un streamer! Consigue una Love Box básica cada 5 minutos (hasta 10 veces).",
   "streams.message.streamer.claimed": "¡Has conseguido una Love Box básica!",
   "streams.timeToNextClaim": "Tiempo hasta la próxima reclamación: {{time}}",
-  "streams.boxesClaimed": "Cajas reclamadas: {{count}}/10"
+  "streams.boxesClaimed": "Cajas reclamadas: {{count}}/10",
+  "auction.cancelBid": "Cancelar oferta",
+  "auction.doNotCancel": "No cancele"
 }

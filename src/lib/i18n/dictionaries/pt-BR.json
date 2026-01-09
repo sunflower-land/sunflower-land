@@ -7773,5 +7773,7 @@
   "streams.message.streamer": "Você encontrou um streamer! Reivindique uma Caixa de Amor Básica a cada 5 minutos (até 10 vezes).",
   "streams.message.streamer.claimed": "Você reivindicou com sucesso uma Caixa de Amor Básica!",
   "streams.timeToNextClaim": "Tempo até a próxima reclamação - {{time}}",
-  "streams.boxesClaimed": "Caixas reivindicadas: {{count}}/10"
+  "streams.boxesClaimed": "Caixas reivindicadas: {{count}}/10",
+  "auction.cancelBid": "Cancelar oferta",
+  "auction.doNotCancel": "Não cancele"
 }

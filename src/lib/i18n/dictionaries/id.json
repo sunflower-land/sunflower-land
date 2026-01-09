@@ -7773,5 +7773,7 @@
   "streams.message.streamer": "Anda telah menemukan streamer! Klaim Kotak Cinta Dasar setiap 5 menit (hingga 10 kali).",
   "streams.message.streamer.claimed": "Anda telah berhasil mengklaim Kotak Cinta Dasar!",
   "streams.timeToNextClaim": "Waktu untuk klaim berikutnya - {{time}}",
-  "streams.boxesClaimed": "Kotak diklaim: {{count}}/10"
+  "streams.boxesClaimed": "Kotak diklaim: {{count}}/10",
+  "auction.cancelBid": "Batalkan tawaran",
+  "auction.doNotCancel": "Jangan membatalkan"
 }

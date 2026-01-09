@@ -7773,5 +7773,7 @@
   "streams.message.streamer": "스트리머를 찾았습니다!5분마다 (최대 10회) 기본 러브 박스를 수령하세요.",
   "streams.message.streamer.claimed": "베이직 러브 박스를 성공적으로 획득했습니다!",
   "streams.timeToNextClaim": "다음 청구까지 남은 시간 - {{time}}",
-  "streams.boxesClaimed": "적발된 박스 수: {{count}}/10"
+  "streams.boxesClaimed": "적발된 박스 수: {{count}}/10",
+  "auction.cancelBid": "입찰 취소",
+  "auction.doNotCancel": "취소하지 마세요"
 }

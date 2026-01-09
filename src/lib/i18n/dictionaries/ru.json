@@ -7773,5 +7773,7 @@
   "streams.message.streamer": "You have found a streamer! Claim a Basic Love Box every 5 minutes (up to 10 times).",
   "streams.message.streamer.claimed": "You have successfully claimed a Basic Love Box!",
   "streams.timeToNextClaim": "Time to next claim - {{time}}",
-  "streams.boxesClaimed": "Boxes claimed: {{count}} / 10"
+  "streams.boxesClaimed": "Boxes claimed: {{count}} / 10",
+  "auction.cancelBid": "Cancel bid",
+  "auction.doNotCancel": "Do not cancel"
 }
