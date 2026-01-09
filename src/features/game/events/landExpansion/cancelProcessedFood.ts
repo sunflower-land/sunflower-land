@@ -32,8 +32,6 @@ type Options = {
   createdAt?: number;
 };
 
-const PROCESSING_DURATION_MS = FISH_PROCESSING_TIME_SECONDS * 1000;
-
 function getCurrentProcessingItem({
   building,
   createdAt,
@@ -74,7 +72,9 @@ export function recalculateProcessingQueue({
   if (isInstantReady) {
     const updatedProcessing = upcoming.reduce((items, item, index) => {
       const startAt = index === 0 ? createdAt : items[index - 1].readyAt;
-      const readyAt = startAt + PROCESSING_DURATION_MS;
+      const readyAt =
+        startAt +
+        FISH_PROCESSING_TIME_SECONDS[item.name as ProcessedFood] * 1000;
 
       return [...items, { ...item, readyAt }];
     }, [] as BuildingProduct[]);
@@ -88,7 +88,8 @@ export function recalculateProcessingQueue({
 
   const updatedRemaining = remaining.reduce((items, item, index) => {
     const startAt = index === 0 ? current.readyAt : items[index - 1].readyAt;
-    const readyAt = startAt + PROCESSING_DURATION_MS;
+    const readyAt =
+      startAt + FISH_PROCESSING_TIME_SECONDS[item.name as ProcessedFood] * 1000;
 
     return [
       ...items,

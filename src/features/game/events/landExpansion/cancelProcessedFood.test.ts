@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 
-import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
+import { INITIAL_BUMPKIN, INITIAL_FARM } from "features/game/lib/constants";
 import { GameState, PlacedItem } from "features/game/types/game";
 import { FISH_PROCESSING_TIME_SECONDS } from "features/game/types/fishProcessing";
 import { FoodProcessingBuildingName } from "features/game/types/buildings";
@@ -8,12 +8,14 @@ import {
   cancelProcessedFood,
   CancelProcessedFoodAction,
 } from "./cancelProcessedFood";
+import { ProcessedFood } from "features/game/types/processedFood";
 
 const createdAt = Date.now();
-const DURATION = FISH_PROCESSING_TIME_SECONDS * 1000;
+const DURATION = (name: ProcessedFood) =>
+  FISH_PROCESSING_TIME_SECONDS[name] * 1000;
 
 const BASE_STATE: GameState = {
-  ...TEST_FARM,
+  ...INITIAL_FARM,
   bumpkin: INITIAL_BUMPKIN,
   buildings: {
     "Fish Market": [
@@ -42,7 +44,7 @@ describe("cancelProcessedFood", () => {
           buildingName: "Fire Pit" as FoodProcessingBuildingName,
           queueItem: {
             name: "Fish Flake",
-            readyAt: createdAt + DURATION,
+            readyAt: createdAt + DURATION("Fish Flake"),
           },
         } as CancelProcessedFoodAction,
         createdAt,
@@ -60,7 +62,7 @@ describe("cancelProcessedFood", () => {
           buildingName: "Fish Market",
           queueItem: {
             name: "Fish Flake",
-            readyAt: createdAt + DURATION,
+            readyAt: createdAt + DURATION("Fish Flake"),
           },
         } as CancelProcessedFoodAction,
         createdAt,
@@ -78,7 +80,7 @@ describe("cancelProcessedFood", () => {
           buildingName: "Fish Market",
           queueItem: {
             name: "Fish Flake",
-            readyAt: createdAt + DURATION,
+            readyAt: createdAt + DURATION("Fish Flake"),
           },
         } as CancelProcessedFoodAction,
         createdAt,
@@ -96,7 +98,7 @@ describe("cancelProcessedFood", () => {
             processing: [
               {
                 name: "Fish Flake",
-                readyAt: createdAt + DURATION,
+                readyAt: createdAt + DURATION("Fish Flake"),
                 startedAt: createdAt,
                 requirements: { Anchovy: new Decimal(2) },
               },
@@ -115,7 +117,7 @@ describe("cancelProcessedFood", () => {
           buildingName: "Fish Market",
           queueItem: {
             name: "Fish Stick",
-            readyAt: createdAt + 2 * DURATION,
+            readyAt: createdAt + 2 * DURATION("Fish Flake"),
           },
         } as CancelProcessedFoodAction,
         createdAt,
@@ -124,7 +126,7 @@ describe("cancelProcessedFood", () => {
   });
 
   it("throws when attempting to cancel the active processed item", () => {
-    const readyAt = createdAt + DURATION;
+    const readyAt = createdAt + DURATION("Fish Flake");
     const state: GameState = {
       ...BASE_STATE,
       buildings: {
@@ -170,9 +172,9 @@ describe("cancelProcessedFood", () => {
   });
 
   it("refunds requirements and recalculates ready times for remaining items", () => {
-    const firstReady = createdAt + DURATION;
-    const secondReady = firstReady + DURATION;
-    const thirdReady = secondReady + DURATION;
+    const firstReady = createdAt + DURATION("Fish Flake");
+    const secondReady = firstReady + DURATION("Fish Stick");
+    const thirdReady = secondReady + DURATION("Fish Oil");
 
     const state: GameState = {
       ...BASE_STATE,
@@ -245,7 +247,7 @@ describe("cancelProcessedFood", () => {
     expect(processing[1]).toMatchObject({
       name: "Fish Oil",
       startedAt: firstReady,
-      readyAt: firstReady + DURATION,
+      readyAt: firstReady + DURATION("Fish Oil"),
     });
   });
 });

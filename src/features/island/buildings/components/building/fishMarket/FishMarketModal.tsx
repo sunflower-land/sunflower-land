@@ -129,7 +129,9 @@ export const FishMarketModal: React.FC<Props> = ({
   const totalQueued = ready.length + queue.length + (processing ? 1 : 0);
   const isQueueFull = totalQueued >= availableSlots;
 
-  const totalSeconds = FISH_PROCESSING_TIME_SECONDS;
+  const totalSeconds = isProcessedFood(selected)
+    ? FISH_PROCESSING_TIME_SECONDS[selected]
+    : 0;
 
   return (
     <Modal show={isOpen} onHide={onClose}>
@@ -152,7 +154,7 @@ export const FishMarketModal: React.FC<Props> = ({
               hideDescription
               requirements={{
                 resources: requirements,
-                timeSeconds: isProcessedFood(selected) ? totalSeconds : 0,
+                timeSeconds: totalSeconds,
                 xp: !isProcessedFood(selected)
                   ? getFoodExpBoost({
                       food: INSTANT_PROCESSED_RECIPES[selected],
