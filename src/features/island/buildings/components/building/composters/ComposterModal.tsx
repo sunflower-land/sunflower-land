@@ -91,6 +91,11 @@ function getWormOutput({
     max -= 3;
   }
 
+  if (isWearableActive({ name: "Saw Fish", game: state })) {
+    min += 1;
+    max += 1;
+  }
+
   // If min/max somehow goes negative, show as 0
   if (min < 0) {
     min = 0;
