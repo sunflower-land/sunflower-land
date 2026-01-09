@@ -176,6 +176,19 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
   conversations: ["hank-intro"],
 
+  dailyRewards: {
+    streaks: 1,
+    chest: {
+      collectedAt: new Date("2026-01-08").getTime(),
+      code: 1,
+    },
+  },
+
+  farmActivity: {
+    "Starlight Tuna Map Piece Found": 8,
+    "Daily Reward Collected": 1,
+  },
+
   fishing: {
     dailyAttempts: {},
     wharf: {
@@ -291,9 +304,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       total: 10,
     },
   },
-  farmActivity: {
-    "Starlight Tuna Map Piece Found": 8,
-  },
+
   milestones: {},
   specialEvents: {
     history: {},

@@ -18,6 +18,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "../lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { useNow } from "lib/utils/hooks/useNow";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 import basicToolBox from "assets/rewardBoxes/basic_tool_box.png";
 import streakBox from "assets/rewardBoxes/streak_box.png";
@@ -79,6 +80,32 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
 
   const [showClaim, setShowClaim] = useState(false);
   const hasUnlocked = getBumpkinLevel(bumpkinExperience) >= 3;
+
+  const claim = () => {
+    const lastCollectedAt =
+      dailyRewards?.chest?.collectedAt ?? gameState.createdAt ?? now;
+
+    gameService.send("dailyReward.claimed");
+    gameService.send("CONTINUE");
+
+    if (gameState.createdAt > new Date("2026-01-09").getTime()) {
+      const daysSinceLastClaim = Math.max(
+        0,
+        Math.floor((now - lastCollectedAt) / (1000 * 60 * 60 * 24)),
+      );
+      const totalClaimed =
+        gameService.getSnapshot().context.state.farmActivity[
+          "Daily Reward Collected"
+        ] ?? 0;
+
+      gameAnalytics.trackDailyRewardReturn({
+        totalClaimed,
+        daysSinceLastClaim,
+      });
+    }
+
+    setShowClaim(false);
+  };
 
   const hasClaimed =
     !isDailyRewardReady({
@@ -152,9 +179,7 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
           buff: buffs[0],
         }}
         onClaim={() => {
-          gameService.send("dailyReward.claimed");
-          gameService.send("CONTINUE");
-          setShowClaim(false);
+          claim();
         }}
       />
     );
