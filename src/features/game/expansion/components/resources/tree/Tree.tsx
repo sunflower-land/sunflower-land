@@ -15,6 +15,8 @@ import {
   getRequiredAxeAmount,
   getWoodDropAmount,
 } from "features/game/events/landExpansion/chop";
+import { KNOWN_IDS } from "features/game/types";
+import { TreeName } from "features/game/types/resources";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 import { useSelector } from "@xstate/react";
@@ -57,6 +59,7 @@ const selectInventory = (state: MachineState) => state.context.state.inventory;
 const selectTreesChopped = (state: MachineState) =>
   state.context.state.farmActivity["Tree Chopped"] ?? 0;
 const selectGame = (state: MachineState) => state.context.state;
+const selectFarmId = (state: MachineState) => state.context.farmId;
 
 const compareResource = (prev: TreeType, next: TreeType) => {
   return JSON.stringify(prev) === JSON.stringify(next);
@@ -129,6 +132,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
   const treesChopped = useSelector(gameService, selectTreesChopped);
   const island = useSelector(gameService, selectIsland);
   const season = useSelector(gameService, selectSeason);
+  const farmId = useSelector(gameService, selectFarmId);
   const hasTool = HasTool(inventory, game, id);
   const readyAt = resource.wood.choppedAt + TREE_RECOVERY_TIME * 1000;
   const now = useNow({ live: true, autoEndAt: readyAt });
@@ -218,13 +222,20 @@ export const Tree: React.FC<Props> = ({ id }) => {
   };
 
   const chop = async () => {
+    const treeName: TreeName = resource.name ?? "Tree";
+    const counter =
+      game.farmActivity[
+        `${treeName === "Tree" ? "Basic Tree" : treeName} Chopped`
+      ] ?? 0;
+
     const woodDropAmount =
       resource.wood.amount ??
       getWoodDropAmount({
         game,
-        criticalDropGenerator: (name) =>
-          !!(resource.wood.criticalHit?.[name] ?? 0),
         id,
+        farmId,
+        itemId: KNOWN_IDS[treeName],
+        counter,
       }).amount;
 
     const newState = gameService.send("timber.chopped", {
