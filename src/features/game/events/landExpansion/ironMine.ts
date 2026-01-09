@@ -1,6 +1,4 @@
 import Decimal from "decimal.js-light";
-import { canMine } from "features/game/lib/resourceNodes";
-import { IRON_RECOVERY_TIME } from "../../lib/constants";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import {
   AOE,
@@ -22,7 +20,7 @@ import { FACTION_ITEMS } from "features/game/lib/factions";
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { isWearableActive } from "features/game/lib/wearables";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
-import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
+import { RESOURCE_DIMENSIONS, RockName } from "features/game/types/resources";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import cloneDeep from "lodash.clonedeep";
 import {
@@ -30,6 +28,8 @@ import {
   isCollectibleOnFarm,
   setAOELastUsed,
 } from "features/game/lib/aoe";
+import { prngChance } from "lib/prng";
+import { KNOWN_IDS } from "features/game/types";
 
 export type LandExpansionIronMineAction = {
   type: "ironRock.mined";
@@ -39,16 +39,16 @@ export type LandExpansionIronMineAction = {
 type Options = {
   state: Readonly<GameState>;
   action: LandExpansionIronMineAction;
-  createdAt?: number;
+  createdAt: number;
+  farmId: number;
 };
 
-export enum MINE_ERRORS {
-  NO_PICKAXES = "No pickaxes left",
-  NO_IRON = "No iron",
-  STILL_RECOVERING = "Iron is still recovering",
-  EXPANSION_HAS_NO_IRON = "Expansion has no iron",
-  NO_EXPANSION = "Expansion does not exist",
-  NO_BUMPKIN = "You do not have a Bumpkin",
+// 8 hours
+export const IRON_RECOVERY_TIME = 8 * 60 * 60;
+
+export function canMine(rock: Rock, now: number = Date.now()) {
+  const recoveryTime = IRON_RECOVERY_TIME;
+  return now - rock.stone.minedAt >= recoveryTime * 1000;
 }
 
 type GetMinedAtArgs = {
@@ -120,15 +120,28 @@ export function getIronDropAmount({
   game,
   rock,
   createdAt,
-  criticalDropGenerator = () => false,
+  farmId,
+  counter,
+  itemId,
 }: {
   game: GameState;
   rock: Rock;
   createdAt: number;
-  criticalDropGenerator?: (name: CriticalHitName) => boolean;
+  farmId: number;
+  counter: number;
+  itemId: number;
 }): { amount: Decimal; aoe: AOE; boostsUsed: BoostName[] } {
   const { aoe } = game;
   const updatedAoe = cloneDeep(aoe);
+
+  const getPrngChance = (chance: number, criticalHitName: CriticalHitName) =>
+    prngChance({
+      farmId,
+      itemId,
+      counter,
+      chance,
+      criticalHitName,
+    });
 
   let amount = 1;
   const boostsUsed: BoostName[] = [];
@@ -168,11 +181,10 @@ export function getIronDropAmount({
     boostsUsed.push("Ferrous Favor");
   }
 
-  if (criticalDropGenerator("Native")) {
+  if (getPrngChance(20, "Native")) {
     amount += 1;
   }
 
-  // If within Emerald Turtle AOE: +0.5
   if (
     isCollectibleOnFarm({ name: "Emerald Turtle", game }) &&
     rock &&
@@ -260,35 +272,40 @@ export function getIronDropAmount({
 export function mineIron({
   state,
   action,
-  createdAt = Date.now(),
+  createdAt,
+  farmId,
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const { iron, bumpkin } = stateCopy;
 
     if (!bumpkin) {
-      throw new Error(MINE_ERRORS.NO_BUMPKIN);
+      throw new Error("You do not have a Bumpkin");
     }
 
     const ironRock = iron[action.index];
 
     if (!ironRock) {
-      throw new Error(MINE_ERRORS.NO_IRON);
+      throw new Error("No iron");
     }
 
     if (ironRock.x === undefined && ironRock.y === undefined) {
       throw new Error("Iron rock is not placed");
     }
 
-    if (!canMine(ironRock, ironRock.name ?? "Iron Rock", createdAt)) {
-      throw new Error(MINE_ERRORS.STILL_RECOVERING);
+    if (!canMine(ironRock, createdAt)) {
+      throw new Error("Iron is still recovering");
     }
 
     const toolAmount = stateCopy.inventory["Stone Pickaxe"] || new Decimal(0);
     const requiredToolAmount = ironRock.multiplier ?? 1;
 
     if (toolAmount.lessThan(requiredToolAmount)) {
-      throw new Error(MINE_ERRORS.NO_PICKAXES);
+      throw new Error("No pickaxes left");
     }
+
+    const ironName: RockName = ironRock.name ?? "Iron Rock";
+    const counter = stateCopy.farmActivity[`${ironName} Mined`] ?? 0;
+    const itemId = KNOWN_IDS[ironName];
 
     const {
       amount: ironMined,
@@ -304,8 +321,9 @@ export function mineIron({
           game: stateCopy,
           rock: ironRock,
           createdAt,
-          criticalDropGenerator: (name) =>
-            !!(ironRock.stone.criticalHit?.[name] ?? 0),
+          farmId,
+          counter,
+          itemId,
         });
 
     stateCopy.aoe = aoe;
@@ -316,13 +334,14 @@ export function mineIron({
       createdAt,
       game: stateCopy,
     });
+
     const { boostedTime, boostsUsed: boostedTimeBoostsUsed } = getBoostedTime({
       game: stateCopy,
     });
 
     ironRock.stone = {
       minedAt: time,
-      boostedTime: boostedTime,
+      boostedTime,
     };
 
     stateCopy.farmActivity = trackFarmActivity(
@@ -332,7 +351,7 @@ export function mineIron({
     );
 
     stateCopy.farmActivity = trackFarmActivity(
-      `${ironRock.name ?? "Iron Rock"} Mined`,
+      `${ironName} Mined`,
       stateCopy.farmActivity,
     );
 
@@ -349,6 +368,7 @@ export function mineIron({
       createdAt,
     });
     delete ironRock.stone.amount;
+    delete ironRock.stone.criticalHit;
 
     return stateCopy;
   });
