@@ -1221,4 +1221,314 @@ describe("mineGold", () => {
 
     expect(time).toEqual(now);
   });
+
+  describe("PRNG counter security", () => {
+    it("always increments the counter after each mine", () => {
+      const initialCounter = 100;
+
+      let state: GameState = {
+        ...INITIAL_FARM,
+        bumpkin: TEST_BUMPKIN,
+        inventory: { "Iron Pickaxe": new Decimal(10) },
+        gold: {
+          0: { createdAt: now, stone: { minedAt: 0 }, x: 1, y: 1 },
+          1: { createdAt: now, stone: { minedAt: 0 }, x: 2, y: 1 },
+          2: { createdAt: now, stone: { minedAt: 0 }, x: 3, y: 1 },
+        },
+        farmActivity: { "Gold Rock Mined": initialCounter },
+      };
+
+      // Mine gold 0
+      state = mineGold({
+        farmId,
+        state,
+        createdAt: now,
+        action: { type: "goldRock.mined", index: "0" },
+      });
+      expect(state.farmActivity["Gold Rock Mined"]).toEqual(initialCounter + 1);
+
+      // Mine gold 1
+      state = mineGold({
+        farmId,
+        state,
+        createdAt: now,
+        action: { type: "goldRock.mined", index: "1" },
+      });
+      expect(state.farmActivity["Gold Rock Mined"]).toEqual(initialCounter + 2);
+
+      // Mine gold 2
+      state = mineGold({
+        farmId,
+        state,
+        createdAt: now,
+        action: { type: "goldRock.mined", index: "2" },
+      });
+      expect(state.farmActivity["Gold Rock Mined"]).toEqual(initialCounter + 3);
+    });
+
+    it("counter increments even when Native triggers", () => {
+      // Find a counter that triggers Native
+      function findNativeTriggerCounter() {
+        let counter = 0;
+        while (counter < 1000) {
+          if (
+            prngChance({
+              farmId,
+              itemId,
+              counter,
+              chance: 10,
+              criticalHitName: "Native",
+            })
+          ) {
+            return counter;
+          }
+          counter++;
+        }
+        throw new Error("Could not find trigger counter");
+      }
+
+      const triggerCounter = findNativeTriggerCounter();
+
+      const state: GameState = {
+        ...INITIAL_FARM,
+        bumpkin: TEST_BUMPKIN,
+        inventory: { "Iron Pickaxe": new Decimal(10) },
+        gold: {
+          0: { createdAt: now, stone: { minedAt: 0 }, x: 1, y: 1 },
+        },
+        farmActivity: { "Gold Rock Mined": triggerCounter },
+      };
+
+      const result = mineGold({
+        farmId,
+        state,
+        createdAt: now,
+        action: { type: "goldRock.mined", index: "0" },
+      });
+
+      // Native should have triggered (extra gold)
+      expect(result.inventory.Gold?.toNumber()).toBeGreaterThan(1);
+
+      // Counter should STILL increment
+      expect(result.farmActivity["Gold Rock Mined"]).toEqual(
+        triggerCounter + 1,
+      );
+    });
+
+    it("counter increments even when Pickaxe Shark instant regrow triggers", () => {
+      // Find a counter that triggers Pickaxe Shark
+      function findPickaxeSharkTriggerCounter() {
+        let counter = 0;
+        while (counter < 1000) {
+          if (
+            prngChance({
+              farmId,
+              itemId,
+              counter,
+              chance: 10,
+              criticalHitName: "Pickaxe Shark",
+            })
+          ) {
+            return counter;
+          }
+          counter++;
+        }
+        throw new Error("Could not find trigger counter");
+      }
+
+      const triggerCounter = findPickaxeSharkTriggerCounter();
+
+      const state: GameState = {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          equipped: {
+            ...TEST_BUMPKIN.equipped,
+            tool: "Pickaxe Shark",
+          },
+        },
+        inventory: { "Iron Pickaxe": new Decimal(10) },
+        gold: {
+          0: { createdAt: now, stone: { minedAt: 0 }, x: 1, y: 1 },
+        },
+        farmActivity: { "Gold Rock Mined": triggerCounter },
+      };
+
+      const result = mineGold({
+        farmId,
+        state,
+        createdAt: now,
+        action: { type: "goldRock.mined", index: "0" },
+      });
+
+      // Pickaxe Shark should have triggered (instant regrowth)
+      expect(result.gold[0].stone.minedAt).toEqual(
+        now - GOLD_RECOVERY_TIME * 1000,
+      );
+
+      // Counter should STILL increment
+      expect(result.farmActivity["Gold Rock Mined"]).toEqual(
+        triggerCounter + 1,
+      );
+    });
+
+    it("PRNG outcome is deterministic for the same counter", () => {
+      const testCounter = 42;
+
+      // Same inputs should always produce the same result
+      const result1 = prngChance({
+        farmId,
+        itemId,
+        counter: testCounter,
+        chance: 10,
+        criticalHitName: "Native",
+      });
+
+      const result2 = prngChance({
+        farmId,
+        itemId,
+        counter: testCounter,
+        chance: 10,
+        criticalHitName: "Native",
+      });
+
+      expect(result1).toEqual(result2);
+    });
+
+    it("different counters produce different PRNG outcomes", () => {
+      // Test that incrementing counter changes the outcome
+      const results: boolean[] = [];
+
+      for (let counter = 0; counter < 100; counter++) {
+        results.push(
+          prngChance({
+            farmId,
+            itemId,
+            counter,
+            chance: 10,
+            criticalHitName: "Native",
+          }),
+        );
+      }
+
+      // With 10% chance over 100 tries, we should see both true and false
+      const trueCount = results.filter((r) => r).length;
+      const falseCount = results.filter((r) => !r).length;
+
+      expect(trueCount).toBeGreaterThan(0);
+      expect(falseCount).toBeGreaterThan(0);
+
+      // Roughly 10% should be true (with some tolerance)
+      expect(trueCount).toBeGreaterThan(2);
+      expect(trueCount).toBeLessThan(25);
+    });
+
+    it("mining multiple gold uses sequential counters", () => {
+      const initialCounter = 50;
+
+      // Find which counters trigger Native
+      const triggeringCounters: number[] = [];
+      for (let c = initialCounter; c < initialCounter + 5; c++) {
+        if (
+          prngChance({
+            farmId,
+            itemId,
+            counter: c,
+            chance: 10,
+            criticalHitName: "Native",
+          })
+        ) {
+          triggeringCounters.push(c);
+        }
+      }
+
+      let state: GameState = {
+        ...INITIAL_FARM,
+        bumpkin: TEST_BUMPKIN,
+        inventory: { "Iron Pickaxe": new Decimal(10) },
+        gold: {
+          0: { createdAt: now, stone: { minedAt: 0 }, x: 1, y: 1 },
+          1: { createdAt: now, stone: { minedAt: 0 }, x: 2, y: 1 },
+          2: { createdAt: now, stone: { minedAt: 0 }, x: 3, y: 1 },
+          3: { createdAt: now, stone: { minedAt: 0 }, x: 4, y: 1 },
+          4: { createdAt: now, stone: { minedAt: 0 }, x: 5, y: 1 },
+        },
+        farmActivity: { "Gold Rock Mined": initialCounter },
+      };
+
+      // Mine all 5 gold
+      for (let i = 0; i < 5; i++) {
+        state = mineGold({
+          farmId,
+          state,
+          createdAt: now,
+          action: { type: "goldRock.mined", index: String(i) },
+        });
+      }
+
+      // Verify counter incremented correctly
+      expect(state.farmActivity["Gold Rock Mined"]).toEqual(initialCounter + 5);
+    });
+
+    it("cannot reuse the same counter by mining same gold twice", () => {
+      const initialCounter = 0;
+
+      const state: GameState = {
+        ...INITIAL_FARM,
+        bumpkin: TEST_BUMPKIN,
+        inventory: { "Iron Pickaxe": new Decimal(10) },
+        gold: {
+          0: { createdAt: now, stone: { minedAt: 0 }, x: 1, y: 1 },
+        },
+        farmActivity: { "Gold Rock Mined": initialCounter },
+      };
+
+      // First mine
+      const afterFirstMine = mineGold({
+        farmId,
+        state,
+        createdAt: now,
+        action: { type: "goldRock.mined", index: "0" },
+      });
+
+      expect(afterFirstMine.farmActivity["Gold Rock Mined"]).toEqual(1);
+
+      // Trying to mine the same gold again should fail (gold still recovering)
+      expect(() =>
+        mineGold({
+          farmId,
+          state: afterFirstMine,
+          createdAt: now,
+          action: { type: "goldRock.mined", index: "0" },
+        }),
+      ).toThrow("Gold is still recovering");
+
+      // Counter should still be 1 (not incremented by failed attempt)
+      expect(afterFirstMine.farmActivity["Gold Rock Mined"]).toEqual(1);
+    });
+
+    it("counter persists across game state - no way to reset", () => {
+      const highCounter = 9999;
+
+      const state: GameState = {
+        ...INITIAL_FARM,
+        bumpkin: TEST_BUMPKIN,
+        inventory: { "Iron Pickaxe": new Decimal(10) },
+        gold: {
+          0: { createdAt: now, stone: { minedAt: 0 }, x: 1, y: 1 },
+        },
+        farmActivity: { "Gold Rock Mined": highCounter },
+      };
+
+      const result = mineGold({
+        farmId,
+        state,
+        createdAt: now,
+        action: { type: "goldRock.mined", index: "0" },
+      });
+
+      // Counter should increment from the high value, not reset
+      expect(result.farmActivity["Gold Rock Mined"]).toEqual(highCounter + 1);
+    });
+  });
 });
