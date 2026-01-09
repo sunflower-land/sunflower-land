@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import { STONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import {
   BoostName,
@@ -13,7 +12,6 @@ import {
   isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
-import { produce } from "immer";
 import {
   Position,
   isWithinAOE,
@@ -22,7 +20,7 @@ import { FACTION_ITEMS } from "features/game/lib/factions";
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { isWearableActive } from "features/game/lib/wearables";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
-import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
+import { RESOURCE_DIMENSIONS, RockName } from "features/game/types/resources";
 import cloneDeep from "lodash.clonedeep";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import {
@@ -30,7 +28,9 @@ import {
   isCollectibleOnFarm,
   setAOELastUsed,
 } from "features/game/lib/aoe";
-import { canMine } from "features/game/lib/resourceNodes";
+import { KNOWN_IDS } from "features/game/types";
+import { prngChance } from "lib/prng";
+import { produce } from "immer";
 
 export type LandExpansionStoneMineAction = {
   type: "stoneRock.mined";
@@ -41,7 +41,16 @@ type Options = {
   state: Readonly<GameState>;
   action: LandExpansionStoneMineAction;
   createdAt?: number;
+  farmId: number;
 };
+
+// 4 hours
+export const STONE_RECOVERY_TIME = 4 * 60 * 60;
+
+export function canMine(rock: Rock, now: number = Date.now()) {
+  const recoveryTime = STONE_RECOVERY_TIME;
+  return now - rock.stone.minedAt >= recoveryTime * 1000;
+}
 
 type GetMinedAtArgs = {
   skills: Skills;
@@ -49,7 +58,10 @@ type GetMinedAtArgs = {
   game: GameState;
 };
 
-function getBoostedTime({ skills, game }: GetMinedAtArgs): {
+function getBoostedTime({
+  skills,
+  game,
+}: Pick<GetMinedAtArgs, "skills" | "game">): {
   boostedTime: number;
   boostsUsed: BoostName[];
 } {
@@ -101,29 +113,24 @@ export function getMinedAt({ skills, createdAt, game }: GetMinedAtArgs): {
   const { boostedTime, boostsUsed } = getBoostedTime({
     skills,
     game,
-    createdAt,
   });
 
   return { time: createdAt - boostedTime, boostsUsed };
 }
 
-export function getRequiredPickaxeAmount(gameState: GameState, id: string) {
-  const boostsUsed: BoostName[] = [];
-
-  if (isCollectibleBuilt({ name: "Quarry", game: gameState })) {
-    boostsUsed.push("Quarry");
-    return { amount: new Decimal(0), boostsUsed };
-  }
-
-  const multiplier = gameState.stones[id]?.multiplier ?? 1;
-  return { amount: new Decimal(1).mul(multiplier), boostsUsed };
-}
+/**
+ * Sets the drop amount for the NEXT mine event on the rock
+ */
 type GetStoneDropAmountArgs = {
   game: GameState;
   rock: Rock;
   createdAt: number;
-  criticalDropGenerator?: (name: CriticalHitName) => boolean;
+  id: string;
+  farmId: number;
+  counter: number;
+  itemId: number;
 };
+
 /**
  * Sets the drop amount for the NEXT mine event on the rock
  */
@@ -131,11 +138,14 @@ export function getStoneDropAmount({
   game,
   rock,
   createdAt,
-  criticalDropGenerator = () => false,
+  id,
+  farmId,
+  counter,
+  itemId,
 }: GetStoneDropAmountArgs): {
   amount: Decimal;
-  boostsUsed: BoostName[];
   aoe: AOE;
+  boostsUsed: BoostName[];
 } {
   const {
     inventory,
@@ -144,13 +154,22 @@ export function getStoneDropAmount({
     aoe,
   } = game;
   const updatedAoe = cloneDeep(aoe);
-  const multiplier = rock.multiplier ?? 1;
-
+  const multiplier = game.stones[id]?.multiplier ?? 1;
   let amount = 1;
   const boostsUsed: BoostName[] = [];
+
+  const getPrngChance = (chance: number, criticalHitName: CriticalHitName) =>
+    prngChance({
+      farmId,
+      itemId,
+      counter,
+      chance,
+      criticalHitName,
+    });
+
   if (
     isCollectibleBuilt({ name: "Rock Golem", game }) &&
-    criticalDropGenerator("Rock Golem")
+    getPrngChance(10, "Rock Golem")
   ) {
     amount += 2; // 200%
     boostsUsed.push("Rock Golem");
@@ -187,9 +206,10 @@ export function getStoneDropAmount({
   }
 
   // Add native critical hit before the AoE boosts
-  if (criticalDropGenerator("Native")) {
+  if (getPrngChance(20, "Native")) {
     amount += 1;
   }
+
   // If within Emerald Turtle AOE: +0.5
   if (
     isCollectibleOnFarm({ name: "Emerald Turtle", game }) &&
@@ -317,38 +337,55 @@ export function getStoneDropAmount({
   };
 }
 
+export function getRequiredPickaxeAmount(gameState: GameState, id: string) {
+  const boostsUsed: BoostName[] = [];
+  if (isCollectibleBuilt({ name: "Quarry", game: gameState })) {
+    boostsUsed.push("Quarry");
+    return { amount: new Decimal(0), boostsUsed };
+  }
+
+  const multiplier = gameState.stones[id]?.multiplier ?? 1;
+  return { amount: new Decimal(1).mul(multiplier), boostsUsed };
+}
+
 export function mineStone({
   state,
   action,
   createdAt = Date.now(),
+  farmId,
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const { stones, bumpkin } = stateCopy;
-    const rock = stones?.[action.index];
+    const { stones, bumpkin, inventory } = stateCopy;
 
-    if (!rock) {
-      throw new Error("Stone does not exist");
+    if (!bumpkin) {
+      throw new Error("You do not have a Bumpkin");
     }
 
-    if (bumpkin === undefined) {
-      throw new Error("You do not have a Bumpkin!");
+    const rock = stones[action.index];
+
+    if (!rock) {
+      throw new Error("No rock");
     }
 
     if (rock.x === undefined && rock.y === undefined) {
       throw new Error("Rock is not placed");
     }
 
-    if (!canMine(rock, rock.name ?? "Stone Rock", createdAt)) {
+    if (!canMine(rock, createdAt)) {
       throw new Error("Rock is still recovering");
     }
 
-    const toolAmount = stateCopy.inventory["Pickaxe"] || new Decimal(0);
+    const toolAmount = inventory.Pickaxe || new Decimal(0);
     const { amount: requiredToolAmount, boostsUsed: pickaxeBoostsUsed } =
       getRequiredPickaxeAmount(stateCopy, action.index);
 
     if (toolAmount.lessThan(requiredToolAmount)) {
       throw new Error("Not enough pickaxes");
     }
+
+    const stoneName: RockName = rock.name ?? "Stone Rock";
+    const counter = stateCopy.farmActivity[`${stoneName} Mined`] ?? 0;
+    const itemId = KNOWN_IDS[stoneName];
 
     const {
       amount: stoneMined,
@@ -364,13 +401,15 @@ export function mineStone({
           game: stateCopy,
           rock,
           createdAt,
-          criticalDropGenerator: (name) =>
-            !!(rock.stone.criticalHit?.[name] ?? 0),
+          id: action.index,
+          farmId,
+          counter,
+          itemId,
         });
     stateCopy.aoe = aoe;
 
-    const amountInInventory = stateCopy.inventory.Stone || new Decimal(0);
-    const { time: minedAt, boostsUsed: minedAtBoostsUsed } = getMinedAt({
+    const amountInInventory = inventory.Stone || new Decimal(0);
+    const { time, boostsUsed: minedAtBoostsUsed } = getMinedAt({
       skills: bumpkin.skills,
       createdAt,
       game: stateCopy,
@@ -378,16 +417,12 @@ export function mineStone({
     const { boostedTime, boostsUsed: boostedTimeBoostsUsed } = getBoostedTime({
       skills: bumpkin.skills,
       game: stateCopy,
-      createdAt,
     });
+
     rock.stone = {
-      minedAt,
+      minedAt: time,
       boostedTime,
     };
-
-    stateCopy.inventory.Pickaxe = toolAmount.sub(requiredToolAmount);
-    stateCopy.inventory.Stone = amountInInventory.add(stoneMined);
-    delete rock.stone.amount;
 
     stateCopy.farmActivity = trackFarmActivity(
       "Stone Mined",
@@ -396,9 +431,12 @@ export function mineStone({
     );
 
     stateCopy.farmActivity = trackFarmActivity(
-      `${rock.name ?? "Stone Rock"} Mined`,
+      `${stoneName} Mined`,
       stateCopy.farmActivity,
     );
+
+    inventory.Pickaxe = toolAmount.sub(requiredToolAmount);
+    inventory.Stone = amountInInventory.add(stoneMined);
 
     stateCopy.boostsUsedAt = updateBoostUsed({
       game: stateCopy,
@@ -410,6 +448,8 @@ export function mineStone({
       ],
       createdAt,
     });
+    delete rock.stone.amount;
+    delete rock.stone.criticalHit;
 
     return stateCopy;
   });

@@ -413,6 +413,7 @@ export function chop({
 
     delete tree.wood.amount;
     delete tree.wood.seed;
+    delete tree.wood.criticalHit;
 
     stateCopy.boostsUsedAt = updateBoostUsed({
       game: stateCopy,
