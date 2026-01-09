@@ -12,7 +12,11 @@ export const MultipleDevices: React.FC = () => {
 
   const onAcknowledge = () => {
     window.history.pushState({}, "", window.location.pathname);
-    gameService.send("REFRESH");
+    if (gameService) {
+      gameService.send("REFRESH");
+    } else {
+      window.location.reload();
+    }
   };
 
   return (
