@@ -202,6 +202,10 @@ export async function autosave(request: Request, retries = 0) {
     throw new Error(ERRORS.AUTOSAVE_CLIENT_ERROR);
   }
 
+  if (response.status === 409) {
+    throw new Error(ERRORS.MULTIPLE_DEVICES_OPEN);
+  }
+
   if (response.status === 429) {
     throw new Error(ERRORS.TOO_MANY_REQUESTS);
   }
