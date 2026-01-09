@@ -7769,5 +7769,9 @@
   "description.instantFood.surimiRiceBall": "一种经过加工的鱼类原料，保证捕捞量。",
   "description.instantFood.creamyCrabBite": "一种经过加工的鱼类原料，保证捕捞量。",
   "description.instantFood.crimstoneInfusedFishOil": "一种经过加工的鱼类原料，保证捕捞量。",
-  "crustaceans": "甲壳类动物"
+  "crustaceans": "甲壳类动物",
+  "streams.message.streamer": "你找到了主播！每 5 分钟领取一次基本爱心礼盒（最多 10 次）。",
+  "streams.message.streamer.claimed": "你已成功领取基本爱心礼盒！",
+  "streams.timeToNextClaim": "是时候下次索赔了-{{time}}",
+  "streams.boxesClaimed": "领取的箱子：{{count}}/10"
 }
