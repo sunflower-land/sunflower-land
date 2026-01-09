@@ -12,10 +12,12 @@ import { trackFarmActivity } from "features/game/types/farmActivity";
 
 import {
   BoostName,
+  Bumpkin,
   CriticalHitName,
   GameState,
   Inventory,
   InventoryItemName,
+  Reward,
   Tree,
 } from "features/game/types/game";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
@@ -58,20 +60,32 @@ export function canChop(tree: Tree, now: number = Date.now()) {
  * Sets the drop amount for the current chop event on the tree
  */
 export function getWoodDropAmount({
-  criticalDropGenerator = () => false,
   game,
   id,
+  farmId,
+  itemId,
+  counter,
 }: {
   game: GameState;
   id: string;
-  criticalDropGenerator?: (name: CriticalHitName) => boolean;
+  farmId: number;
+  itemId: number;
+  counter: number;
 }): { amount: Decimal; boostsUsed: BoostName[] } {
   const { bumpkin, inventory } = game;
   const multiplier = game.trees[id]?.multiplier ?? 1;
   const tree = game.trees[id];
-
   let amount = new Decimal(1);
   const boostsUsed: BoostName[] = [];
+
+  const getPrngChange = (chance: number, criticalHitName: CriticalHitName) =>
+    prngChance({
+      farmId,
+      itemId,
+      counter,
+      chance,
+      criticalHitName,
+    });
 
   const hasWoodyTheBeaver = isCollectibleBuilt({
     name: "Woody the Beaver",
@@ -106,7 +120,7 @@ export function getWoodDropAmount({
     boostsUsed.push("Lumberjack");
   }
 
-  if (bumpkin.skills["Tough Tree"] && criticalDropGenerator("Tough Tree")) {
+  if (bumpkin.skills["Tough Tree"] && getPrngChange(10, "Tough Tree")) {
     amount = amount.mul(3);
     boostsUsed.push("Tough Tree");
   }
@@ -146,7 +160,7 @@ export function getWoodDropAmount({
   }
 
   // Native 1 in 5 chance of getting 1 extra wood
-  if (criticalDropGenerator("Native")) {
+  if (getPrngChange(20, "Native")) {
     amount = amount.add(1);
   }
 
@@ -161,11 +175,11 @@ export function getWoodDropAmount({
 
   amount = amount.mul(multiplier);
 
-  if (tree.tier === 2) {
+  if (tree?.tier === 2) {
     amount = amount.add(0.5);
   }
 
-  if (tree.tier === 3) {
+  if (tree?.tier === 3) {
     amount = amount.add(2.5);
   }
 
@@ -284,6 +298,38 @@ export function getRequiredAxeAmount(
   return { amount: new Decimal(1).mul(multiplier), boostsUsed };
 }
 
+export function getReward({
+  skills,
+  farmId,
+  itemId,
+  counter,
+}: {
+  skills: Bumpkin["skills"];
+  farmId: number;
+  itemId: number;
+  counter: number;
+}): { reward: Reward | undefined; boostsUsed: BoostName[] } {
+  if (
+    skills["Money Tree"] &&
+    prngChance({
+      farmId,
+      itemId,
+      counter,
+      chance: 1,
+      criticalHitName: "Money Tree",
+    })
+  ) {
+    return {
+      reward: {
+        coins: 200,
+      },
+      boostsUsed: ["Money Tree"],
+    };
+  }
+
+  return { reward: undefined, boostsUsed: [] };
+}
+
 export function chop({
   state,
   action,
@@ -319,31 +365,37 @@ export function chop({
       throw new Error(CHOP_ERRORS.STILL_GROWING);
     }
 
-    const { amount: woodHarvested, boostsUsed: woodHarvestedBoostsUsed } =
-      tree.wood.amount !== undefined
-        ? { amount: tree.wood.amount, boostsUsed: [] }
-        : getWoodDropAmount({
-            game: stateCopy,
-            id: action.index,
-            criticalDropGenerator: (name) =>
-              !!(tree.wood.criticalHit?.[name] ?? 0),
-          });
-    const woodAmount = inventory.Wood || new Decimal(0);
-
     const treeName = tree.name ?? "Tree";
-
-    const { time, boostsUsed: choppedAtBoostsUsed } = getChoppedAt({
-      createdAt,
-      game: stateCopy,
+    const prngObject = {
       farmId,
       itemId: KNOWN_IDS[treeName],
       counter:
         stateCopy.farmActivity[
           `${treeName === "Tree" ? "Basic Tree" : treeName} Chopped`
         ] ?? 0,
+    };
+
+    const { amount: woodHarvested, boostsUsed: woodHarvestedBoostsUsed } =
+      tree.wood.amount !== undefined
+        ? { amount: tree.wood.amount, boostsUsed: [] }
+        : getWoodDropAmount({
+            game: stateCopy,
+            id: action.index,
+            ...prngObject,
+          });
+    const woodAmount = inventory.Wood || new Decimal(0);
+
+    const { time, boostsUsed: choppedAtBoostsUsed } = getChoppedAt({
+      createdAt,
+      game: stateCopy,
+      ...prngObject,
+    });
+    const { reward, boostsUsed: rewardBoostsUsed } = getReward({
+      skills: bumpkin.skills,
+      ...prngObject,
     });
 
-    tree.wood = { choppedAt: time };
+    tree.wood = { choppedAt: time, reward };
 
     inventory.Axe = axeAmount.sub(requiredAxes);
     inventory.Wood = woodAmount.add(woodHarvested);
@@ -368,6 +420,7 @@ export function chop({
         ...choppedAtBoostsUsed,
         ...woodHarvestedBoostsUsed,
         ...axeBoostsUsed,
+        ...rewardBoostsUsed,
       ],
       createdAt,
     });
