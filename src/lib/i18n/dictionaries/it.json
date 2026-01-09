@@ -7769,5 +7769,9 @@
   "description.instantFood.surimiRiceBall": "Ingrediente a base di pesce lavorato: cattura garantita.",
   "description.instantFood.creamyCrabBite": "Ingrediente a base di pesce lavorato: cattura garantita.",
   "description.instantFood.crimstoneInfusedFishOil": "Ingrediente a base di pesce lavorato: cattura garantita.",
-  "crustaceans": "Crostacei"
+  "crustaceans": "Crostacei",
+  "streams.message.streamer": "Hai trovato uno streamer! Richiedi una Basic Love Box ogni 5 minuti (fino a 10 volte).",
+  "streams.message.streamer.claimed": "Hai richiesto con successo una Basic Love Box!",
+  "streams.timeToNextClaim": "È ora del prossimo reclamo - {{time}}",
+  "streams.boxesClaimed": "Scatole reclamate: {{count}}/10"
 }

@@ -115,6 +115,8 @@ interface WearableProps {
 interface TimeProps {
   type: "time";
   waitSeconds: number;
+  strikethrough?: boolean;
+  boosted?: boolean;
 }
 
 /**
@@ -243,6 +245,9 @@ export const RequirementLabel: React.FC<Props> = (props) => {
           );
         }
       case "time":
+        if (props.boosted) {
+          return SUNNYSIDE.icons.lightning;
+        }
         return SUNNYSIDE.icons.stopwatch;
       case "xp":
       case "level":
@@ -397,6 +402,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       <Label
         className={classNames("whitespace-nowrap font-secondary relative", {
           "ml-1": !requirementMet,
+          "line-through": props.type === "time" && props.strikethrough,
         })}
         type={labelType()}
         secondaryIcon={

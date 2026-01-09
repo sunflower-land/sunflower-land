@@ -7769,5 +7769,9 @@
   "description.instantFood.surimiRiceBall": "Um ingrediente de peixe processado - captura garantida.",
   "description.instantFood.creamyCrabBite": "Um ingrediente de peixe processado - captura garantida.",
   "description.instantFood.crimstoneInfusedFishOil": "Um ingrediente de peixe processado - captura garantida.",
-  "crustaceans": "Crustáceos"
+  "crustaceans": "Crustáceos",
+  "streams.message.streamer": "Você encontrou um streamer! Reivindique uma Caixa de Amor Básica a cada 5 minutos (até 10 vezes).",
+  "streams.message.streamer.claimed": "Você reivindicou com sucesso uma Caixa de Amor Básica!",
+  "streams.timeToNextClaim": "Tempo até a próxima reclamação - {{time}}",
+  "streams.boxesClaimed": "Caixas reivindicadas: {{count}}/10"
 }

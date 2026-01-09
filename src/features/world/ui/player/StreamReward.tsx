@@ -5,32 +5,57 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { millisecondsToString } from "lib/utils/time";
+import { useNow } from "lib/utils/hooks/useNow";
 import * as Auth from "features/auth/lib/Provider";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
-import { ErrorCode } from "lib/errors";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 import { Loading } from "features/auth/components";
 import { InnerPanel } from "components/ui/Panel";
+import { GameState } from "features/game/types/game";
 
 export const STREAM_REWARD_COOLDOWN = 1000 * 60 * 5;
 
-const RewardHeader: React.FC<{ timeToNextClaim: number }> = ({
+interface RewardHeaderProps {
+  timeToNextClaim: number;
+  dailyCount: number | undefined;
+  hasReachedLimit: boolean;
+}
+
+const RewardHeader: React.FC<RewardHeaderProps> = ({
   timeToNextClaim,
-}) => (
-  <div className="flex justify-between items-center px-1 mb-2">
-    <Label type="success" icon={ITEM_DETAILS["Love Charm"].image}>
-      {`Stream Reward`}
-    </Label>
-    {timeToNextClaim > 0 && (
-      <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-        {`Time to next claim - ${millisecondsToString(timeToNextClaim, {
-          length: "short",
-        })}`}
-      </Label>
-    )}
-  </div>
-);
+  dailyCount = 0,
+  hasReachedLimit,
+}) => {
+  const { t } = useAppTranslation();
+  const time = millisecondsToString(timeToNextClaim, { length: "short" });
+
+  return (
+    <div className="gap-1">
+      <div className="flex justify-between items-center px-1 mb-1">
+        <Label type="success" icon={ITEM_DETAILS["Love Charm"].image}>
+          {t("streams.title")}
+        </Label>
+        <Label
+          type={hasReachedLimit ? "danger" : "info"}
+          icon={ITEM_DETAILS["Basic Love Box"].image}
+        >
+          {t("streams.boxesClaimed", { count: dailyCount })}
+        </Label>
+      </div>
+      {timeToNextClaim > 0 && (
+        <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+          {t("streams.timeToNextClaim", { time })}
+        </Label>
+      )}
+    </div>
+  );
+};
+
+const DEFAULT_STREAMER_HAT: GameState["pumpkinPlaza"]["streamerHat"] = {
+  openedAt: 0,
+  dailyCount: 0,
+};
 
 export const StreamReward: React.FC<{ streamerId: number }> = ({
   streamerId,
@@ -39,31 +64,37 @@ export const StreamReward: React.FC<{ streamerId: number }> = ({
   const { gameService } = useContext(Context);
   const { authService } = useContext(Auth.Context);
 
-  const streamHatLastClaimed = useSelector(
+  const { openedAt: streamHatLastClaimed, dailyCount } = useSelector(
     gameService,
-    (state) => state.context.state.pumpkinPlaza.streamerHat?.openedAt ?? 0,
+    (state) =>
+      state.context.state.pumpkinPlaza.streamerHat ?? DEFAULT_STREAMER_HAT,
   );
-  const gameState = useSelector(gameService, (state) => ({
-    isClaiming: state.matches("claimingStreamReward"),
-    isSuccess: state.matches("claimingStreamRewardSuccess"),
-    isFailed: state.matches("claimingStreamRewardFailed"),
-    errorCode: state.context.errorCode,
-  }));
 
-  const [timeToNextClaim, setTimeToNextClaim] = useState(0);
+  const { isClaiming, isSuccess, isFailed, errorCode } = useSelector(
+    gameService,
+    (state) => ({
+      isClaiming: state.matches("claimingStreamReward"),
+      isSuccess: state.matches("claimingStreamRewardSuccess"),
+      isFailed: state.matches("claimingStreamRewardFailed"),
+      errorCode: state.context.errorCode,
+    }),
+  );
 
-  useEffect(() => {
-    const updateTime = () => {
-      const timeSinceLastClaim = Date.now() - streamHatLastClaimed;
-      setTimeToNextClaim(
-        Math.max(0, STREAM_REWARD_COOLDOWN - timeSinceLastClaim),
-      );
-    };
+  const cooldownEndsAt =
+    streamHatLastClaimed > 0
+      ? streamHatLastClaimed + STREAM_REWARD_COOLDOWN
+      : undefined;
+  const now = useNow({
+    live: cooldownEndsAt !== undefined,
+    autoEndAt: cooldownEndsAt,
+    intervalMs: 1000,
+  });
 
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, [streamHatLastClaimed]);
+  const timeToNextClaim =
+    streamHatLastClaimed === 0
+      ? 0
+      : Math.max(0, STREAM_REWARD_COOLDOWN - (now - streamHatLastClaimed));
+  const hasReachedLimit = (dailyCount ?? 0) >= 10;
 
   const claimReward = () => {
     gameService.send("streamReward.claimed", {
@@ -74,31 +105,41 @@ export const StreamReward: React.FC<{ streamerId: number }> = ({
 
   const acknowledge = () => gameService.send("CONTINUE");
 
-  if (gameState.isClaiming) {
+  const rewardHeaderProps: RewardHeaderProps = {
+    timeToNextClaim,
+    dailyCount,
+    hasReachedLimit,
+  };
+
+  if (isClaiming) {
     return (
-      <InnerPanel className="ml-1 mb-2">
-        <RewardHeader timeToNextClaim={timeToNextClaim} />
-        <Loading text={t("claiming")} />
+      <InnerPanel>
+        <div className="ml-1 mb-2">
+          <RewardHeader {...rewardHeaderProps} />
+          <Loading text={t("claiming")} />
+        </div>
       </InnerPanel>
     );
   }
 
-  if (gameState.isSuccess) {
+  if (isSuccess) {
     return (
       <InnerPanel>
         <div className="ml-1 mb-2">
-          <RewardHeader timeToNextClaim={timeToNextClaim} />
-          <p className="text-sm">{`You have successfully claimed 5 Love Charms!`}</p>
+          <RewardHeader {...rewardHeaderProps} />
+          <p className="text-sm">{t("streams.message.streamer.claimed")}</p>
         </div>
         <Button onClick={acknowledge}>{t("continue")}</Button>
       </InnerPanel>
     );
   }
 
-  if (gameState.isFailed) {
+  if (isFailed && errorCode) {
     return (
       <InnerPanel>
-        <ErrorMessage errorCode={gameState.errorCode as ErrorCode} />
+        <div className="ml-1 mb-2">
+          <ErrorMessage errorCode={errorCode} />
+        </div>
       </InnerPanel>
     );
   }
@@ -106,10 +147,13 @@ export const StreamReward: React.FC<{ streamerId: number }> = ({
   return (
     <InnerPanel>
       <div className="ml-1 mb-2">
-        <RewardHeader timeToNextClaim={timeToNextClaim} />
-        <p className="text-sm">{`You have found a streamer! Claim 5 Love Charms every 5 minutes.`}</p>
+        <RewardHeader {...rewardHeaderProps} />
+        <p className="text-sm">{t("streams.message.streamer")}</p>
       </div>
-      <Button onClick={claimReward} disabled={timeToNextClaim > 0}>
+      <Button
+        onClick={claimReward}
+        disabled={timeToNextClaim > 0 || hasReachedLimit}
+      >
         {timeToNextClaim > 0 ? t("claimed") : t("claim")}
       </Button>
     </InnerPanel>
