@@ -389,6 +389,7 @@ export const getCropPlotTime = ({
 
   if (isCollectibleBuilt({ name: "Giant Turnip", game }) && crop === "Turnip") {
     seconds = seconds * 0.5;
+    boostsUsed.push("Giant Turnip");
   }
 
   const isSunshower =

@@ -15,6 +15,13 @@ import { AnimatedPanel } from "features/world/ui/AnimatedPanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 import { Label, LabelType } from "../Label";
+import { translate } from "lib/i18n/translate";
+import {
+  CALENDAR_EVENT_ICONS,
+  getActiveGuardian,
+} from "features/game/types/calendar";
+import { budImageDomain } from "features/island/collectibles/components/Bud";
+import { getSkillImage } from "features/bumpkins/components/revamp/SkillPathDetails";
 
 export const BoostsDisplay: React.FC<{
   boosts: BoostName[];
@@ -39,6 +46,47 @@ export const BoostsDisplay: React.FC<{
 
   const buffs: (BuffLabel & { boost: BoostName })[] = boosts.flatMap(
     (boost): (BuffLabel & { boost: BoostName })[] => {
+      if (boost === "Power hour") {
+        return [
+          {
+            shortDescription: translate("description.powerHour.boost"),
+            labelType: "success",
+            boostTypeIcon: SUNNYSIDE.icons.lightning,
+            boost,
+          },
+        ];
+      }
+
+      if (boost === "Sunshower") {
+        const { activeGuardian } = getActiveGuardian({
+          game: state,
+        });
+
+        if (activeGuardian && boosts.includes(activeGuardian)) {
+          return [
+            {
+              shortDescription: translate(
+                "description.sunshower.guardianBoost",
+                {
+                  guardian: activeGuardian,
+                },
+              ),
+              labelType: "success",
+              boostTypeIcon: SUNNYSIDE.icons.lightning,
+              boost,
+            },
+          ];
+        }
+
+        return [
+          {
+            shortDescription: translate("description.sunshower.boost"),
+            labelType: "success",
+            boostTypeIcon: SUNNYSIDE.icons.lightning,
+            boost,
+          },
+        ];
+      }
       if (isBumpkinSkill(boost)) {
         return [
           {
@@ -76,8 +124,24 @@ export const BoostsDisplay: React.FC<{
   );
 
   const getBoostIcon = (boost: BoostName) => {
+    if (boost === "Power hour") {
+      return SUNNYSIDE.icons.lightning;
+    }
+
+    if (boost === "Sunshower") {
+      return CALENDAR_EVENT_ICONS.sunshower;
+    }
+
     if (isBumpkinSkill(boost)) {
-      return (BUMPKIN_REVAMP_SKILL_TREE[boost] as BumpkinSkillRevamp).image;
+      const {
+        image,
+        tree,
+        boosts: {
+          buff: { boostedItemIcon },
+        },
+      } = BUMPKIN_REVAMP_SKILL_TREE[boost] as BumpkinSkillRevamp;
+
+      return getSkillImage(image, boostedItemIcon, tree);
     }
 
     if (isCollectible(boost)) {
@@ -96,11 +160,10 @@ export const BoostsDisplay: React.FC<{
       }).image;
     }
 
-    return getTradeableDisplay({
-      id: Number(boost.split("#")[1]),
-      type: "buds",
-      state,
-    }).image;
+    const budId = Number(boost.split("#")[1]);
+    if (isNaN(budId)) return undefined;
+
+    return `https://${budImageDomain}.sunflower-land.com/images/${budId}.webp`;
   };
 
   return (
