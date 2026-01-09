@@ -13,12 +13,14 @@ import {
   getReward,
 } from "./chop";
 
+const now = Date.now();
+
 const GAME_STATE: GameState = {
   ...INITIAL_FARM,
   inventory: {},
   trees: {
     0: {
-      createdAt: Date.now(),
+      createdAt: now,
       wood: {
         choppedAt: 0,
       },
@@ -26,7 +28,7 @@ const GAME_STATE: GameState = {
       y: 1,
     },
     1: {
-      createdAt: Date.now(),
+      createdAt: now,
       wood: {
         choppedAt: 0,
       },
@@ -37,7 +39,7 @@ const GAME_STATE: GameState = {
 };
 
 describe("chop", () => {
-  const dateNow = Date.now();
+  const dateNow = now;
   const farmId = 1;
 
   it("throws an error if no axes are left", () => {
@@ -45,7 +47,7 @@ describe("chop", () => {
       chop({
         farmId,
         state: { ...GAME_STATE, bumpkin: TEST_BUMPKIN },
-        createdAt: Date.now(),
+        createdAt: now,
         action: {
           type: "timber.chopped",
           item: "Axe",
@@ -67,7 +69,7 @@ describe("chop", () => {
           },
           trees: {
             0: {
-              createdAt: Date.now(),
+              createdAt: now,
               x: undefined,
               y: undefined,
               wood: { choppedAt: 0 },
@@ -79,7 +81,7 @@ describe("chop", () => {
           item: "Axe",
           index: "0",
         },
-        createdAt: Date.now(),
+        createdAt: now,
       }),
     ).toThrow("Tree is not placed");
   });
@@ -93,7 +95,7 @@ describe("chop", () => {
           Axe: new Decimal(2),
         },
       },
-      createdAt: Date.now(),
+      createdAt: now,
       action: {
         type: "timber.chopped",
         item: "Axe",
@@ -110,7 +112,7 @@ describe("chop", () => {
         farmId,
         state: game,
         action: payload.action,
-        createdAt: Date.now(),
+        createdAt: now,
       }),
     ).toThrow("Tree is still growing");
   });
@@ -124,7 +126,7 @@ describe("chop", () => {
           Axe: new Decimal(1),
         },
       },
-      createdAt: Date.now(),
+      createdAt: now,
       action: {
         type: "timber.chopped",
         item: "Axe",
@@ -149,7 +151,7 @@ describe("chop", () => {
             multiplier: 4,
             tier: 2,
             wood: { choppedAt: 0 },
-            createdAt: Date.now(),
+            createdAt: now,
             x: 1,
             y: 1,
           },
@@ -158,7 +160,7 @@ describe("chop", () => {
           Axe: new Decimal(5),
         },
       },
-      createdAt: Date.now(),
+      createdAt: now,
       action: {
         type: "timber.chopped",
         item: "Axe",
@@ -209,7 +211,7 @@ describe("chop", () => {
         },
         farmActivity: { "Basic Tree Chopped": startCounter },
       },
-      createdAt: Date.now(),
+      createdAt: now,
       action: {
         type: "timber.chopped",
         item: "Axe",
@@ -221,7 +223,7 @@ describe("chop", () => {
     game = chop({
       farmId,
       state: game,
-      createdAt: Date.now(),
+      createdAt: now,
       action: {
         type: "timber.chopped",
         item: "Axe",
@@ -235,7 +237,7 @@ describe("chop", () => {
   });
 
   it("tree replenishes normally", () => {
-    const dateNow = Date.now();
+    const dateNow = now;
     const game = chop({
       farmId,
       state: {
@@ -464,7 +466,7 @@ describe("chop", () => {
           ],
         },
       },
-      createdAt: Date.now(),
+      createdAt: now,
       action: {
         type: "timber.chopped",
         item: "Axe",
@@ -478,7 +480,7 @@ describe("chop", () => {
 
     // Should be set to now - add 5 ms to account for any CPU clock speed
     const ONE_HOUR = 60 * 60 * 1000;
-    expect(tree.wood.choppedAt).toBeLessThan(Date.now() - ONE_HOUR + 5);
+    expect(tree.wood.choppedAt).toBeLessThan(now - ONE_HOUR + 5);
   });
 
   it("chops trees without axes when Foreman Beaver is placed and ready", () => {
@@ -499,7 +501,7 @@ describe("chop", () => {
           ],
         },
       },
-      createdAt: Date.now(),
+      createdAt: now,
       action: {
         type: "timber.chopped",
         item: "Axe",
@@ -533,7 +535,7 @@ describe("chop", () => {
     };
     const payload = {
       state,
-      createdAt: Date.now(),
+      createdAt: now,
       action: {
         type: "timber.chopped",
         item: "Axe",
@@ -862,7 +864,6 @@ describe("chop", () => {
 
   it("ensures that outcome of tree turnaround is the same regardless of order of chop", () => {
     const itemId = KNOWN_IDS["Tree"];
-    const now = Date.now();
 
     function getCounter() {
       let counter = 0;
@@ -969,8 +970,6 @@ describe("chop", () => {
 
   describe("getChoppedAt", () => {
     it("applies a Timber Hourglass boost of -25% recovery time for 4 hours", () => {
-      const now = Date.now();
-
       const { time: createdAt } = getChoppedAt({
         game: {
           ...INITIAL_FARM,
@@ -998,7 +997,6 @@ describe("chop", () => {
     });
 
     it("does not apply a Timber Hourglass boost if it has expired", () => {
-      const now = Date.now();
       const fiveHoursAgo = now - 5 * 60 * 60 * 1000;
 
       const { time: createdAt } = getChoppedAt({
@@ -1025,8 +1023,6 @@ describe("chop", () => {
     });
 
     it("applies a 10% speed boost with Tree Charge skill", () => {
-      const now = Date.now();
-
       const { time } = getChoppedAt({
         game: {
           ...INITIAL_FARM,
@@ -1046,7 +1042,6 @@ describe("chop", () => {
     });
 
     it("applies an instant growth with Tree Turnaround skill", () => {
-      const now = Date.now();
       const itemId = KNOWN_IDS["Tree"];
 
       function getCounter() {
@@ -1088,7 +1083,6 @@ describe("chop", () => {
     });
 
     it("applies the Badger Shrine boost", () => {
-      const now = Date.now();
       const { time } = getChoppedAt({
         game: {
           ...INITIAL_FARM,
@@ -1113,7 +1107,6 @@ describe("chop", () => {
     });
 
     it("does not apply the Badger Shrine boost if expired", () => {
-      const now = Date.now();
       const { time } = getChoppedAt({
         game: {
           ...INITIAL_FARM,
@@ -1140,7 +1133,7 @@ describe("chop", () => {
 
   describe("BumpkinActivity", () => {
     it("increments Trees Chopped activity by 1 when 1 tree is chopped", () => {
-      const createdAt = Date.now();
+      const createdAt = now;
       const bumpkin = {
         ...TEST_BUMPKIN,
       };
@@ -1165,7 +1158,7 @@ describe("chop", () => {
       expect(game.farmActivity["Tree Chopped"]).toBe(1);
     });
     it("increments Trees Chopped activity by 2 when 2 trees are chopped", () => {
-      const createdAt = Date.now();
+      const createdAt = now;
       const bumpkin = {
         ...TEST_BUMPKIN,
       };
@@ -1302,8 +1295,6 @@ describe("chop", () => {
   });
 
   it("tree replenishes faster with time warp", () => {
-    const now = Date.now();
-
     const { time } = getChoppedAt({
       game: {
         ...INITIAL_FARM,
@@ -1328,8 +1319,6 @@ describe("chop", () => {
   });
 
   it("tree replenishes faster with Super Totem", () => {
-    const now = Date.now();
-
     const { time } = getChoppedAt({
       game: {
         ...INITIAL_FARM,
@@ -1354,8 +1343,6 @@ describe("chop", () => {
   });
 
   it("doesn't stack Super Totem and Time warp totem", () => {
-    const now = Date.now();
-
     const { time } = getChoppedAt({
       game: {
         ...INITIAL_FARM,
@@ -1390,8 +1377,6 @@ describe("chop", () => {
   });
 
   it("does not go negative with all buffs", () => {
-    const now = Date.now();
-
     const { time } = getChoppedAt({
       game: {
         ...INITIAL_FARM,
@@ -1429,7 +1414,6 @@ describe("chop", () => {
     const itemId = KNOWN_IDS["Tree"];
 
     it("always increments the counter after each chop", () => {
-      const now = Date.now();
       const initialCounter = 100;
 
       let state: GameState = {
@@ -1479,8 +1463,6 @@ describe("chop", () => {
     });
 
     it("counter increments even when Tree Turnaround triggers", () => {
-      const now = Date.now();
-
       // Find a counter that triggers Tree Turnaround
       function findTriggerCounter() {
         let counter = 0;
@@ -1586,7 +1568,6 @@ describe("chop", () => {
     });
 
     it("chopping multiple trees uses sequential counters", () => {
-      const now = Date.now();
       const initialCounter = 50;
 
       // Find which counters trigger Tree Turnaround
@@ -1649,8 +1630,6 @@ describe("chop", () => {
     });
 
     it("different tree types use different counters", () => {
-      const now = Date.now();
-
       // State with a named tree (not "Tree")
       const stateWithNamedTree: GameState = {
         ...INITIAL_FARM,
@@ -1684,7 +1663,6 @@ describe("chop", () => {
     });
 
     it("cannot reuse the same counter by chopping same tree twice", () => {
-      const now = Date.now();
       const initialCounter = 0;
 
       const state: GameState = {
@@ -1722,7 +1700,6 @@ describe("chop", () => {
     });
 
     it("counter persists across game state - no way to reset", () => {
-      const now = Date.now();
       const highCounter = 9999;
 
       const state: GameState = {
