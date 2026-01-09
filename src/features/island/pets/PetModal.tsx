@@ -118,19 +118,17 @@ export const PetModal: React.FC<Props> = ({
               </div>
             )}
           </div>
-          {hasPetGuideAccess && (
-            <div className="flex flex-row gap-2 items-center justify-end">
-              <PetGuideButton isNFTPet={isNFTPet} />
-              <img
-                onClick={onClose}
-                src={SUNNYSIDE.icons.close}
-                alt={data.name}
-                style={{
-                  width: `${PIXEL_SCALE * 11}px`,
-                }}
-              />
-            </div>
-          )}
+          <div className="flex flex-row gap-2 items-center justify-end">
+            {hasPetGuideAccess && <PetGuideButton isNFTPet={isNFTPet} />}
+            <img
+              onClick={onClose}
+              src={SUNNYSIDE.icons.close}
+              alt={data.name}
+              style={{
+                width: `${PIXEL_SCALE * 11}px`,
+              }}
+            />
+          </div>
         </div>
         {/* Pet Information Panel */}
         <InnerPanel>
