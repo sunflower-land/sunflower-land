@@ -16,7 +16,7 @@ import {
 } from "./landExpansion/stoneMine";
 import {
   mineGold as landExpansionMineGold,
-  LandExpansionMineGoldAction,
+  LandExpansionGoldMineAction,
 } from "./landExpansion/mineGold";
 
 import {
@@ -607,7 +607,7 @@ export type PlayingEvent =
   | LandExpansionChopAction
   | LandExpansionStoneMineAction
   | LandExpansionIronMineAction
-  | LandExpansionMineGoldAction
+  | LandExpansionGoldMineAction
   | MineCrimstoneAction
   | MineSunstoneAction
   | ClaimAirdropAction
