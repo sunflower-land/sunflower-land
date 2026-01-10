@@ -1,14 +1,13 @@
 import Decimal from "decimal.js-light";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
-import { INITIAL_FARM } from "features/game/lib/constants";
+import { INITIAL_FARM, STONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { KNOWN_IDS } from "features/game/types";
 import { GameState } from "features/game/types/game";
 import { prngChance } from "lib/prng";
 import {
   mineStone,
   LandExpansionStoneMineAction,
-  STONE_RECOVERY_TIME,
   getStoneDropAmount,
   getMinedAt,
 } from "./stoneMine";

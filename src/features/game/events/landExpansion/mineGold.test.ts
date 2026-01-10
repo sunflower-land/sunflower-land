@@ -1,15 +1,10 @@
 import Decimal from "decimal.js-light";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
-import { INITIAL_FARM } from "features/game/lib/constants";
+import { GOLD_RECOVERY_TIME, INITIAL_FARM } from "features/game/lib/constants";
 import { KNOWN_IDS } from "features/game/types";
 import { GameState } from "features/game/types/game";
 import { prngChance } from "lib/prng";
-import {
-  mineGold,
-  LandExpansionGoldMineAction,
-  GOLD_RECOVERY_TIME,
-  getMinedAt,
-} from "./mineGold";
+import { mineGold, LandExpansionGoldMineAction, getMinedAt } from "./mineGold";
 
 const now = Date.now();
 const farmId = 1;
