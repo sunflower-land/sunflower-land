@@ -336,11 +336,11 @@ export function chop({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const { trees, bumpkin, inventory } = stateCopy;
-
-    if (bumpkin === undefined) {
-      throw new Error("You do not have a Bumpkin!");
-    }
+    const {
+      trees,
+      bumpkin: { skills },
+      inventory,
+    } = stateCopy;
 
     const { amount: requiredAxes, boostsUsed: axeBoostsUsed } =
       getRequiredAxeAmount(state.inventory, state, action.index);
@@ -400,7 +400,7 @@ export function chop({
       .reward
       ? { reward: tree.wood.reward, boostsUsed: [] }
       : getReward({
-          skills: bumpkin.skills,
+          skills,
           farmId,
           itemId: prngObject.itemId,
           counter: prngObject.counter,
