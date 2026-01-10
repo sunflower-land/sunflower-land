@@ -410,6 +410,14 @@ export function chop({
         stateCopy.coins + moneyTreeReward.coins * (tree.multiplier ?? 1);
     }
 
+    if (moneyTreeReward?.items) {
+      moneyTreeReward.items.forEach((item) => {
+        stateCopy.inventory[item.name] = (
+          stateCopy.inventory[item.name] || new Decimal(0)
+        ).add(item.amount);
+      });
+    }
+
     stateCopy.farmActivity = trackFarmActivity(
       "Tree Chopped",
       stateCopy.farmActivity,

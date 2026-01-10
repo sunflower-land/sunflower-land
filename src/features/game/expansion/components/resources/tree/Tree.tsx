@@ -197,17 +197,13 @@ export const Tree: React.FC<Props> = ({ id }) => {
       shortcutItem(tool);
     }
 
-    if (game.bumpkin.skills["Insta-Chop"]) {
-      // insta-chop the tree - chop handles everything including rewards
-      chop();
-      setTouchCount(0);
-      return;
-    }
+    const hasInstaChop = game.bumpkin.skills["Insta-Chop"];
 
-    // need to hit enough times to collect resource
-    if (touchCount < HITS - 1) return;
+    // Need to hit enough times to collect resource (unless Insta-Chop)
+    if (!hasInstaChop && touchCount < HITS - 1) return;
 
     // For non-seasoned players with a reward, show captcha first
+    // This applies even with Insta-Chop - captcha is a security gate
     if (expectedReward && !isSeasoned) {
       setReward(expectedReward);
       return;
