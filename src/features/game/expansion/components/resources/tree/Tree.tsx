@@ -175,18 +175,19 @@ export const Tree: React.FC<Props> = ({ id }) => {
   useUiRefresher({ active: chopped });
 
   // Calculate expected reward for UI preview (captcha gate for non-seasoned players)
-  // Note: The actual reward is applied in chop() - this is just for UI decision
   const treeName: TreeName = resource.name ?? "Tree";
+  const currentCounter =
+    game.farmActivity[
+      `${treeName === "Tree" ? "Basic Tree" : treeName} Chopped`
+    ] ?? 0;
+
   const { reward: expectedReward } = resource.wood.reward
     ? { reward: resource.wood.reward }
     : getReward({
         skills: game.bumpkin?.skills ?? {},
         farmId,
         itemId: KNOWN_IDS[treeName],
-        counter:
-          game.farmActivity[
-            `${treeName === "Tree" ? "Basic Tree" : treeName} Chopped`
-          ] ?? 0,
+        counter: currentCounter,
       });
 
   const shake = () => {
@@ -217,27 +218,20 @@ export const Tree: React.FC<Props> = ({ id }) => {
   const onCollectChest = (success: boolean) => {
     setReward(undefined);
     if (success) {
-      // After captcha success, chop the tree (reward is applied in chop)
       chop();
       setTouchCount(0);
     }
   };
 
   const chop = async () => {
-    const treeName: TreeName = resource.name ?? "Tree";
-    const counter =
-      game.farmActivity[
-        `${treeName === "Tree" ? "Basic Tree" : treeName} Chopped`
-      ] ?? 0;
-
     const woodDropAmount =
       resource.wood.amount ??
       getWoodDropAmount({
         game,
-        id,
+        tree: resource,
         farmId,
         itemId: KNOWN_IDS[treeName],
-        counter,
+        counter: currentCounter,
       }).amount;
 
     const newState = gameService.send("timber.chopped", {

@@ -581,7 +581,7 @@ describe("chop", () => {
         farmId,
         itemId,
         counter,
-        id: "0",
+        tree: undefined,
       });
 
       expect(amount.toNumber()).toStrictEqual(1.35);
@@ -608,7 +608,7 @@ describe("chop", () => {
         farmId,
         itemId,
         counter,
-        id: "0",
+        tree: undefined,
       });
 
       expect(amount.toNumber()).toStrictEqual(1.2);
@@ -635,7 +635,7 @@ describe("chop", () => {
         farmId,
         itemId,
         counter,
-        id: "0",
+        tree: undefined,
       });
 
       expect(amount.toNumber()).toStrictEqual(1.1);
@@ -665,7 +665,7 @@ describe("chop", () => {
         farmId,
         itemId,
         counter,
-        id: "0",
+        tree: undefined,
       });
 
       expect(amount.toNumber()).toStrictEqual(1.25);
@@ -692,7 +692,7 @@ describe("chop", () => {
         farmId,
         itemId,
         counter,
-        id: "0",
+        tree: undefined,
       });
 
       expect(amount.toNumber()).toStrictEqual(1.1);
@@ -721,7 +721,7 @@ describe("chop", () => {
         farmId,
         itemId,
         counter,
-        id: "0",
+        tree: undefined,
       });
 
       expect(amount.toNumber()).toStrictEqual(1);
@@ -744,7 +744,7 @@ describe("chop", () => {
         farmId,
         itemId,
         counter,
-        id: "0",
+        tree: undefined,
       });
 
       expect(amount.toNumber()).toStrictEqual(1);
@@ -775,7 +775,7 @@ describe("chop", () => {
         farmId,
         itemId,
         counter: nativeCounter,
-        id: "0",
+        tree: undefined,
       });
 
       expect(amount.toNumber()).toStrictEqual(2);
@@ -792,7 +792,7 @@ describe("chop", () => {
         farmId,
         itemId,
         counter,
-        id: "0",
+        tree: undefined,
       });
 
       expect(amount.toNumber()).toStrictEqual(1.1);
@@ -835,7 +835,7 @@ describe("chop", () => {
         farmId,
         itemId,
         counter: toughTreeCounter,
-        id: "0",
+        tree: undefined,
       });
 
       expect(amount.toNumber()).toStrictEqual(3);
@@ -854,7 +854,7 @@ describe("chop", () => {
         farmId,
         itemId,
         counter,
-        id: "0",
+        tree: undefined,
       });
 
       expect(amount.toNumber()).toEqual(1.1);

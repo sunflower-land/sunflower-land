@@ -61,20 +61,20 @@ export function canChop(tree: Tree, now: number = Date.now()) {
  */
 export function getWoodDropAmount({
   game,
-  id,
   farmId,
   itemId,
   counter,
+  tree,
 }: {
   game: GameState;
-  id: string;
   farmId: number;
   itemId: number;
   counter: number;
+  tree: Tree | undefined;
 }): { amount: Decimal; boostsUsed: BoostName[] } {
   const { bumpkin, inventory } = game;
-  const multiplier = game.trees[id]?.multiplier ?? 1;
-  const tree = game.trees[id];
+
+  const multiplier = tree?.multiplier ?? 1;
   let amount = new Decimal(1);
   const boostsUsed: BoostName[] = [];
 
@@ -379,7 +379,7 @@ export function chop({
         ? { amount: tree.wood.amount, boostsUsed: [] }
         : getWoodDropAmount({
             game: stateCopy,
-            id: action.index,
+            tree,
             ...prngObject,
           });
     const woodAmount = inventory.Wood || new Decimal(0);
@@ -395,23 +395,24 @@ export function chop({
     inventory.Axe = axeAmount.sub(requiredAxes);
     inventory.Wood = woodAmount.add(woodHarvested);
 
-    // Calculate and apply Money Tree reward
-    const { reward: moneyTreeReward, boostsUsed: rewardBoostsUsed } = getReward(
-      {
-        skills: bumpkin.skills,
-        farmId,
-        itemId: prngObject.itemId,
-        counter: prngObject.counter,
-      },
-    );
+    // Apply reward: honor legacy stored reward OR calculate new one via PRNG
+    const { reward: treeReward, boostsUsed: rewardBoostsUsed } = tree.wood
+      .reward
+      ? { reward: tree.wood.reward, boostsUsed: [] }
+      : getReward({
+          skills: bumpkin.skills,
+          farmId,
+          itemId: prngObject.itemId,
+          counter: prngObject.counter,
+        });
 
-    if (moneyTreeReward?.coins) {
+    if (treeReward?.coins) {
       stateCopy.coins =
-        stateCopy.coins + moneyTreeReward.coins * (tree.multiplier ?? 1);
+        stateCopy.coins + treeReward.coins * (tree.multiplier ?? 1);
     }
 
-    if (moneyTreeReward?.items) {
-      moneyTreeReward.items.forEach((item) => {
+    if (treeReward?.items) {
+      treeReward.items.forEach((item) => {
         stateCopy.inventory[item.name] = (
           stateCopy.inventory[item.name] || new Decimal(0)
         ).add(item.amount);
