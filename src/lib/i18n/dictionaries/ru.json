@@ -3801,7 +3801,7 @@
   "world.home": "Дом",
   "world.kingdom": "Королевство",
   "world.faction": "Фракция",
-  "world.travelTo": "Отправиться в/на {{location}}",
+  "world.travelTo": "Отправиться {{preposition}} {{location}}",
   "worm.earthworm": "Извивающийся червяк, привлекающий мелкую рыбу.",
   "worm.grub": "Сочная личинка - идеальный вариант для продвинутых рыболовов.",
   "worm.redWiggler": "Экзотический червь, для самых элитных рыб.",
