@@ -16,8 +16,7 @@
     "metadata": "NODE_PATH=./src NODE_ENV=metadata vite-node --project metadata/node.tsconfig.json metadata/generateMetadata.ts",
     "images": "NODE_PATH=./src NODE_ENV=metadata vite-node --project metadata/node.tsconfig.json metadata/generateImages.ts",
     "translate": "NODE_PATH=./src NODE_ENV=metadata vite-node --project metadata/node.tsconfig.json _scripts/translate.ts",
-    "prepare": "husky install",
-    "build:preview": "tsc && vite build && vite preview --port 3000"
+    "prepare": "husky install"
   },
   "browserslist": [
     ">0.2%",
