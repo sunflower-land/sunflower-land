@@ -191,7 +191,7 @@ export function getGoldDropAmount({
       farmId,
       itemId,
       counter,
-      chance: 10,
+      chance: 20,
       criticalHitName: "Native",
     })
   ) {
