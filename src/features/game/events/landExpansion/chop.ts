@@ -12,12 +12,10 @@ import { trackFarmActivity } from "features/game/types/farmActivity";
 
 import {
   BoostName,
-  Bumpkin,
   CriticalHitName,
   GameState,
   Inventory,
   InventoryItemName,
-  Reward,
   Tree,
 } from "features/game/types/game";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
@@ -298,38 +296,6 @@ export function getRequiredAxeAmount(
   return { amount: new Decimal(1).mul(multiplier), boostsUsed };
 }
 
-export function getReward({
-  skills,
-  farmId,
-  itemId,
-  counter,
-}: {
-  skills: Bumpkin["skills"];
-  farmId: number;
-  itemId: number;
-  counter: number;
-}): { reward: Reward | undefined; boostsUsed: BoostName[] } {
-  if (
-    skills["Money Tree"] &&
-    prngChance({
-      farmId,
-      itemId,
-      counter,
-      chance: 1,
-      criticalHitName: "Money Tree",
-    })
-  ) {
-    return {
-      reward: {
-        coins: 200,
-      },
-      boostsUsed: ["Money Tree"],
-    };
-  }
-
-  return { reward: undefined, boostsUsed: [] };
-}
-
 export function chop({
   state,
   action,
@@ -390,12 +356,8 @@ export function chop({
       game: stateCopy,
       ...prngObject,
     });
-    const { reward, boostsUsed: rewardBoostsUsed } = getReward({
-      skills: bumpkin.skills,
-      ...prngObject,
-    });
 
-    tree.wood = { choppedAt: time, reward };
+    tree.wood.choppedAt = time;
 
     inventory.Axe = axeAmount.sub(requiredAxes);
     inventory.Wood = woodAmount.add(woodHarvested);
@@ -421,7 +383,6 @@ export function chop({
         ...choppedAtBoostsUsed,
         ...woodHarvestedBoostsUsed,
         ...axeBoostsUsed,
-        ...rewardBoostsUsed,
       ],
       createdAt,
     });

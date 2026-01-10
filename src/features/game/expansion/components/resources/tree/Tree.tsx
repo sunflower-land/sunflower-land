@@ -35,6 +35,7 @@ import { setPrecision } from "lib/utils/formatNumber";
 import { Transition } from "@headlessui/react";
 import lightning from "assets/icons/lightning.png";
 import { useNow } from "lib/utils/hooks/useNow";
+import { getReward } from "features/game/events/landExpansion/collectTreeReward";
 
 const HITS = 3;
 const tool = "Axe";
@@ -173,8 +174,17 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
   useUiRefresher({ active: chopped });
 
+  const { reward: treeReward } = resource.wood.reward
+    ? { reward: resource.wood.reward }
+    : getReward({
+        skills: game.bumpkin?.skills ?? {},
+        farmId,
+        itemId: KNOWN_IDS[resource.name ?? "Tree"],
+        counter: game.farmActivity[`${resource.name ?? "Tree"} Chopped`] ?? 0,
+      });
+
   const claimAnyReward = () => {
-    if (resource.wood.reward) {
+    if (treeReward) {
       gameService.send("treeReward.collected", {
         treeIndex: id,
       });
@@ -199,12 +209,12 @@ export const Tree: React.FC<Props> = ({ id }) => {
     // need to hit enough times to collect resource
     if (touchCount < HITS - 1) return;
 
-    if (resource.wood.reward) {
+    if (treeReward) {
       // they have touched enough!
       if (isSeasoned) {
         claimAnyReward();
       } else {
-        setReward(resource.wood.reward);
+        setReward(treeReward);
         return;
       }
     }

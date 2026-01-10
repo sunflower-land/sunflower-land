@@ -10,7 +10,6 @@ import {
   LandExpansionChopAction,
   getWoodDropAmount,
   getChoppedAt,
-  getReward,
 } from "./chop";
 
 const now = Date.now();
@@ -1194,103 +1193,6 @@ describe("chop", () => {
       });
 
       expect(game.farmActivity["Tree Chopped"]).toBe(2);
-    });
-  });
-
-  describe("getReward", () => {
-    const itemId = KNOWN_IDS["Tree"];
-
-    it("rewards 200 coins with Money Tree skill when PRNG triggers", () => {
-      // Find a counter that triggers Money Tree (1% chance)
-      function findMoneyTreeCounter() {
-        for (let counter = 0; counter < 500; counter++) {
-          if (
-            prngChance({
-              farmId,
-              itemId,
-              counter,
-              chance: 1,
-              criticalHitName: "Money Tree",
-            })
-          ) {
-            return counter;
-          }
-        }
-        throw new Error("Could not find Money Tree trigger counter");
-      }
-
-      const moneyTreeCounter = findMoneyTreeCounter();
-
-      const { reward: result } = getReward({
-        skills: { "Money Tree": 1 },
-        farmId,
-        itemId,
-        counter: moneyTreeCounter,
-      });
-
-      expect(result?.coins).toEqual(200);
-    });
-
-    it("does not reward coins when PRNG does not trigger", () => {
-      // Find a counter that does NOT trigger Money Tree
-      function findNonMoneyTreeCounter() {
-        for (let counter = 0; counter < 500; counter++) {
-          if (
-            !prngChance({
-              farmId,
-              itemId,
-              counter,
-              chance: 1,
-              criticalHitName: "Money Tree",
-            })
-          ) {
-            return counter;
-          }
-        }
-        throw new Error("Could not find non-Money Tree counter");
-      }
-
-      const nonMoneyTreeCounter = findNonMoneyTreeCounter();
-
-      const { reward: result } = getReward({
-        skills: { "Money Tree": 1 },
-        farmId,
-        itemId,
-        counter: nonMoneyTreeCounter,
-      });
-
-      expect(result).toBe(undefined);
-    });
-
-    it("does not reward coins without Money Tree skill", () => {
-      // Even with a triggering counter, no reward without the skill
-      function findMoneyTreeCounter() {
-        for (let counter = 0; counter < 500; counter++) {
-          if (
-            prngChance({
-              farmId,
-              itemId,
-              counter,
-              chance: 1,
-              criticalHitName: "Money Tree",
-            })
-          ) {
-            return counter;
-          }
-        }
-        throw new Error("Could not find Money Tree trigger counter");
-      }
-
-      const moneyTreeCounter = findMoneyTreeCounter();
-
-      const { reward: result } = getReward({
-        skills: {},
-        farmId,
-        itemId,
-        counter: moneyTreeCounter,
-      });
-
-      expect(result).toBe(undefined);
     });
   });
 
