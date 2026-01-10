@@ -3921,7 +3921,7 @@
   "world.home": "Home",
   "world.kingdom": "Kingdom",
   "world.faction": "Faction",
-  "world.travelTo": "Travel to {{location}}",
+  "world.travelTo": "Travel {{preposition}} {{location}}",
   "worm.earthworm": "A wriggly worm that attracts small fish.",
   "worm.grub": "A juicy grub - perfect for advanced fish.",
   "worm.redWiggler": "An exotic worm that entices rare fish.",
