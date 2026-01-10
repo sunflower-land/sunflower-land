@@ -31,6 +31,7 @@ import {
 import { KNOWN_IDS } from "features/game/types";
 import { prngChance } from "lib/prng";
 import { produce } from "immer";
+import { STONE_RECOVERY_TIME } from "features/game/lib/constants";
 
 export type LandExpansionStoneMineAction = {
   type: "stoneRock.mined";
@@ -45,7 +46,6 @@ type Options = {
 };
 
 // 4 hours
-export const STONE_RECOVERY_TIME = 4 * 60 * 60;
 
 export function canMine(rock: Rock, now: number = Date.now()) {
   const recoveryTime = STONE_RECOVERY_TIME;

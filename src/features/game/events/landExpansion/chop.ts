@@ -78,7 +78,7 @@ export function getWoodDropAmount({
   let amount = new Decimal(1);
   const boostsUsed: BoostName[] = [];
 
-  const getPrngChange = (chance: number, criticalHitName: CriticalHitName) =>
+  const getPrngChance = (chance: number, criticalHitName: CriticalHitName) =>
     prngChance({
       farmId,
       itemId,
@@ -120,7 +120,7 @@ export function getWoodDropAmount({
     boostsUsed.push("Lumberjack");
   }
 
-  if (bumpkin.skills["Tough Tree"] && getPrngChange(10, "Tough Tree")) {
+  if (bumpkin.skills["Tough Tree"] && getPrngChance(10, "Tough Tree")) {
     amount = amount.mul(3);
     boostsUsed.push("Tough Tree");
   }
@@ -160,7 +160,7 @@ export function getWoodDropAmount({
   }
 
   // Native 1 in 5 chance of getting 1 extra wood
-  if (getPrngChange(20, "Native")) {
+  if (getPrngChance(20, "Native")) {
     amount = amount.add(1);
   }
 

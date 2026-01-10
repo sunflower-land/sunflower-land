@@ -30,6 +30,7 @@ import {
 } from "features/game/lib/aoe";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
+import { IRON_RECOVERY_TIME } from "features/game/lib/constants";
 
 export type LandExpansionIronMineAction = {
   type: "ironRock.mined";
@@ -44,8 +45,6 @@ type Options = {
 };
 
 // 8 hours
-export const IRON_RECOVERY_TIME = 8 * 60 * 60;
-
 export function canMine(rock: Rock, now: number = Date.now()) {
   const recoveryTime = IRON_RECOVERY_TIME;
   return now - rock.stone.minedAt >= recoveryTime * 1000;

@@ -13,6 +13,7 @@ import {
   isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
+import { GOLD_RECOVERY_TIME } from "features/game/lib/constants";
 import { FACTION_ITEMS } from "features/game/lib/factions";
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { isWearableActive } from "features/game/lib/wearables";
@@ -146,8 +147,6 @@ type Options = {
   createdAt: number;
   farmId: number;
 };
-
-export const GOLD_RECOVERY_TIME = 24 * 60 * 60;
 
 /**
  * Sets the drop amount for the NEXT mine event on the rock
