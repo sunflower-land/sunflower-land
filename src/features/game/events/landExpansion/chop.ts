@@ -16,6 +16,8 @@ import {
   GameState,
   Inventory,
   InventoryItemName,
+  Reward,
+  Skills,
   Tree,
 } from "features/game/types/game";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
@@ -272,6 +274,37 @@ export function getChoppedAt({
 
   return { time: createdAt - buff * 1000, boostsUsed };
 }
+
+/**
+ * Calculate Money Tree reward using PRNG
+ */
+export function getReward({
+  skills,
+  farmId,
+  itemId,
+  counter,
+}: {
+  skills: Skills;
+  farmId: number;
+  itemId: number;
+  counter: number;
+}): { reward: Reward | undefined; boostsUsed: BoostName[] } {
+  if (
+    skills["Money Tree"] &&
+    prngChance({
+      farmId,
+      itemId,
+      counter,
+      chance: 1,
+      criticalHitName: "Money Tree",
+    })
+  ) {
+    return { reward: { coins: 200 }, boostsUsed: ["Money Tree"] };
+  }
+
+  return { reward: undefined, boostsUsed: [] };
+}
+
 /**
  * Returns the amount of axe required to chop down a tree
  */
@@ -362,6 +395,21 @@ export function chop({
     inventory.Axe = axeAmount.sub(requiredAxes);
     inventory.Wood = woodAmount.add(woodHarvested);
 
+    // Calculate and apply Money Tree reward
+    const { reward: moneyTreeReward, boostsUsed: rewardBoostsUsed } = getReward(
+      {
+        skills: bumpkin.skills,
+        farmId,
+        itemId: prngObject.itemId,
+        counter: prngObject.counter,
+      },
+    );
+
+    if (moneyTreeReward?.coins) {
+      stateCopy.coins =
+        stateCopy.coins + moneyTreeReward.coins * (tree.multiplier ?? 1);
+    }
+
     stateCopy.farmActivity = trackFarmActivity(
       "Tree Chopped",
       stateCopy.farmActivity,
@@ -376,6 +424,7 @@ export function chop({
     delete tree.wood.amount;
     delete tree.wood.seed;
     delete tree.wood.criticalHit;
+    delete tree.wood.reward;
 
     stateCopy.boostsUsedAt = updateBoostUsed({
       game: stateCopy,
@@ -383,6 +432,7 @@ export function chop({
         ...choppedAtBoostsUsed,
         ...woodHarvestedBoostsUsed,
         ...axeBoostsUsed,
+        ...rewardBoostsUsed,
       ],
       createdAt,
     });

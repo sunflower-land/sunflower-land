@@ -13,6 +13,7 @@ import {
 import {
   canChop,
   getRequiredAxeAmount,
+  getReward,
   getWoodDropAmount,
 } from "features/game/events/landExpansion/chop";
 import { KNOWN_IDS } from "features/game/types";
@@ -35,7 +36,6 @@ import { setPrecision } from "lib/utils/formatNumber";
 import { Transition } from "@headlessui/react";
 import lightning from "assets/icons/lightning.png";
 import { useNow } from "lib/utils/hooks/useNow";
-import { getReward } from "features/game/events/landExpansion/collectTreeReward";
 
 const HITS = 3;
 const tool = "Axe";
@@ -174,22 +174,20 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
   useUiRefresher({ active: chopped });
 
-  const { reward: treeReward } = resource.wood.reward
+  // Calculate expected reward for UI preview (captcha gate for non-seasoned players)
+  // Note: The actual reward is applied in chop() - this is just for UI decision
+  const treeName: TreeName = resource.name ?? "Tree";
+  const { reward: expectedReward } = resource.wood.reward
     ? { reward: resource.wood.reward }
     : getReward({
         skills: game.bumpkin?.skills ?? {},
         farmId,
-        itemId: KNOWN_IDS[resource.name ?? "Tree"],
-        counter: game.farmActivity[`${resource.name ?? "Tree"} Chopped`] ?? 0,
+        itemId: KNOWN_IDS[treeName],
+        counter:
+          game.farmActivity[
+            `${treeName === "Tree" ? "Basic Tree" : treeName} Chopped`
+          ] ?? 0,
       });
-
-  const claimAnyReward = () => {
-    if (treeReward) {
-      gameService.send("treeReward.collected", {
-        treeIndex: id,
-      });
-    }
-  };
 
   const shake = () => {
     if (!hasTool) return;
@@ -200,26 +198,22 @@ export const Tree: React.FC<Props> = ({ id }) => {
     }
 
     if (game.bumpkin.skills["Insta-Chop"]) {
-      // insta-chop the tree
-      claimAnyReward();
+      // insta-chop the tree - chop handles everything including rewards
       chop();
       setTouchCount(0);
+      return;
     }
 
     // need to hit enough times to collect resource
     if (touchCount < HITS - 1) return;
 
-    if (treeReward) {
-      // they have touched enough!
-      if (isSeasoned) {
-        claimAnyReward();
-      } else {
-        setReward(treeReward);
-        return;
-      }
+    // For non-seasoned players with a reward, show captcha first
+    if (expectedReward && !isSeasoned) {
+      setReward(expectedReward);
+      return;
     }
 
-    // can collect resources otherwise
+    // Seasoned players or no reward - just chop (reward applied in chop)
     chop();
     setTouchCount(0);
   };
@@ -227,7 +221,9 @@ export const Tree: React.FC<Props> = ({ id }) => {
   const onCollectChest = (success: boolean) => {
     setReward(undefined);
     if (success) {
+      // After captcha success, chop the tree (reward is applied in chop)
       chop();
+      setTouchCount(0);
     }
   };
 
@@ -312,13 +308,15 @@ export const Tree: React.FC<Props> = ({ id }) => {
         <DepletedTree timeLeft={timeLeft} island={island} season={season} />
       )}
 
-      {/* Chest reward */}
+      {/* Chest reward - captcha gate for non-seasoned players */}
       {reward && (
         <ChestReward
           collectedItem={"Wood"}
           reward={reward}
           onCollected={onCollectChest}
-          onOpen={claimAnyReward}
+          onOpen={() => {
+            // No-op - reward is applied in chop(), this is just for the chest animation
+          }}
         />
       )}
     </div>
