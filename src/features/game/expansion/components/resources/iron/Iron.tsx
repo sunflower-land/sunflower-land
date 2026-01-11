@@ -15,8 +15,9 @@ import { canMine } from "features/game/lib/resourceNodes";
 import { RecoveredIron } from "./components/RecoveredIron";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getIronDropAmount } from "features/game/events/landExpansion/ironMine";
-import { IronRockName } from "features/game/types/resources";
+import { IronRockName, RockName } from "features/game/types/resources";
 import { useNow } from "lib/utils/hooks/useNow";
+import { KNOWN_IDS } from "features/game/types";
 
 const HITS = 3;
 const tool = "Stone Pickaxe";
@@ -46,7 +47,7 @@ const compareSkills = (prev: Skills, next: Skills) =>
 const _selectSeason = (state: MachineState) =>
   state.context.state.season.season;
 const _selectIsland = (state: MachineState) => state.context.state.island;
-
+const selectFarmId = (state: MachineState) => state.context.farmId;
 interface Props {
   id: string;
 }
@@ -80,6 +81,7 @@ export const Iron: React.FC<Props> = ({ id }) => {
   const state = useSelector(gameService, selectGame);
   const season = useSelector(gameService, _selectSeason);
   const island = useSelector(gameService, _selectIsland);
+  const farmId = useSelector(gameService, selectFarmId);
   const resource = useSelector(
     gameService,
     (state) => state.context.state.iron[id],
@@ -124,14 +126,18 @@ export const Iron: React.FC<Props> = ({ id }) => {
   };
 
   const mine = async () => {
+    const ironName: RockName = resource.name ?? "Iron Rock";
+    const counter = state.farmActivity[`${ironName} Mined`] ?? 0;
+    const itemId = KNOWN_IDS[ironName];
     const ironMined = new Decimal(
       resource.stone.amount ??
         getIronDropAmount({
           game: state,
           rock: resource,
-          createdAt: Date.now(),
-          criticalDropGenerator: (name) =>
-            !!(resource.stone.criticalHit?.[name] ?? 0),
+          createdAt: now,
+          farmId,
+          counter,
+          itemId,
         }).amount,
     );
     const newState = gameService.send("ironRock.mined", {
