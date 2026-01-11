@@ -68,11 +68,11 @@ export const BoostsDisplay: React.FC<{
           return [
             {
               shortDescription: translate("description.powerHour.boost"),
-              labelType: "success",
-              boostTypeIcon: SUNNYSIDE.icons.lightning,
+              labelType: "info",
+              boostTypeIcon: SUNNYSIDE.icons.stopwatch,
               boost,
               boostType: "time",
-              boostValue: "-10%",
+              boostValue: "-50%",
               boostOn: "crops",
             },
           ];
