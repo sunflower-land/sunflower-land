@@ -188,15 +188,15 @@ export const DeliveryOrders: React.FC<Props> = ({
 
   const getPreposition = (location: string) => {
     if (i18n.language === "ru") {
-      const prepositions: Record<string, string> = {
+      const customPreposition: Record<string, string> = {
         [t("world.retreat")]: "в",
         [t("world.beach")]: "на",
         [t("world.kingdom")]: "в",
         [t("world.plaza")]: "на",
       };
-      return prepositions[location] || "в";
+      return customPreposition[location] || "в";
     }
-    return "to";
+    return "";
   };
 
   if (gameService.getSnapshot().matches("revealing") && isRevealing) {
@@ -609,7 +609,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                       }}
                     >
                       {t("world.travelTo", {
-                        preposition: getPreposition(
+                        customPreposition: getPreposition(
                           getLocationName(previewOrder.from),
                         ),
                         location: getLocationName(previewOrder.from),
