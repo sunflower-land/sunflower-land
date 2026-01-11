@@ -1183,7 +1183,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS.Lemon.image,
       boostType: "time",
       boostValue: "-50%",
-      boostOn: "greenhouse",
+      boostOn: "fruits",
     },
   ],
   "Tomato Clown": () => [
@@ -1194,7 +1194,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS.Tomato.image,
       boostType: "time",
       boostValue: "-50%",
-      boostOn: "greenhouse",
+      boostOn: "fruits",
     },
   ],
   Cannonball: () => [
@@ -1205,7 +1205,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS.Tomato.image,
       boostType: "time",
       boostValue: "-25%",
-      boostOn: "greenhouse",
+      boostOn: "fruits",
     },
   ],
   "Tomato Bombard": () => [
@@ -1246,7 +1246,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS.Lemon.image,
       boostType: "time",
       boostValue: "-25%",
-      boostOn: "greenhouse",
+      boostOn: "fruits",
     },
   ],
   "Stone Beetle": () => [
@@ -1490,7 +1490,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS.Zucchini.image,
       boostType: "time",
       boostValue: "-50%",
-      boostOn: "greenhouse",
+      boostOn: "crops",
     },
   ],
   "Giant Kale": () => [
@@ -1639,7 +1639,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS["Turnip"].image,
       boostType: "time",
       boostValue: "-50%",
-      boostOn: "greenhouse",
+      boostOn: "crops",
     },
   ],
   "Baby Cow": () => [
