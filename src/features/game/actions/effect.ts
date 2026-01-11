@@ -2,6 +2,7 @@ import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { GameState } from "../types/game";
 import { makeGame } from "../lib/transforms";
+import { getRecordHash } from "lib/stateHash";
 
 const API_URL = CONFIG.API_URL;
 
@@ -195,11 +196,16 @@ type Request = {
   token: string;
   transactionId: string;
   effect: Effect;
+  state?: GameState;
 };
 
 export async function postEffect(
   request: Request,
 ): Promise<{ gameState: GameState; data: any }> {
+  const stateHash = request.state
+    ? await getRecordHash(request.state as unknown as Record<string, unknown>)
+    : undefined;
+
   const response = await window.fetch(`${API_URL}/event/${request.farmId}`, {
     method: "POST",
     headers: {
@@ -214,6 +220,7 @@ export async function postEffect(
     body: JSON.stringify({
       event: request.effect,
       createdAt: new Date().toISOString(),
+      ...(stateHash ? { stateHash } : {}),
     }),
   });
 
@@ -233,8 +240,16 @@ export async function postEffect(
 
   const { gameState, data } = await response.json();
 
+  const mergedGameState = request.state
+    ? // Response may be pruned (diff); merge over the current client state
+      ({
+        ...request.state,
+        ...gameState,
+      } as GameState)
+    : (gameState as GameState);
+
   return {
-    gameState: makeGame(gameState),
+    gameState: makeGame(mergedGameState),
     data,
   };
 }
