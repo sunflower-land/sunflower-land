@@ -92,7 +92,12 @@ export function castRod({
     const now = new Date(createdAt);
     const today = new Date(now).toISOString().split("T")[0];
 
-    const { extraReels = { count: 0 } } = game.fishing;
+    // Initialize extraReels on game.fishing if it doesn't exist
+    if (!game.fishing.extraReels) {
+      game.fishing.extraReels = { count: 0 };
+    }
+    const extraReels = game.fishing.extraReels;
+
     const { limit: fishingLimit, boostsUsed: fishingBoostsUsed } =
       getDailyFishingLimit(game);
     const boostsUsed: BoostName[] = [];
@@ -125,8 +130,6 @@ export function castRod({
       }
 
       game.inventory.Gem = gemsInventory.sub(gemPrice);
-
-      const { extraReels = { count: 0 } } = game.fishing;
 
       const packsBought = action.reelPacksToBuy ?? 0;
 
