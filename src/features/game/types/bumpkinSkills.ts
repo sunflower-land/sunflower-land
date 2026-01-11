@@ -3,7 +3,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { translate } from "lib/i18n/translate";
 import { Inventory, IslandType } from "./game";
-import { BuffLabel } from ".";
 import { ITEM_DETAILS } from "./images";
 import powerup from "assets/icons/level_up.png";
 import redArrowDown from "assets/icons/decrease_arrow.png";
@@ -83,6 +82,7 @@ import seededBounty from "assets/icons/skill_icons/seedybounty.png";
 import strongRoots from "assets/icons/skill_icons/strong_roots.png";
 import xpIcon from "assets/icons/xp.png";
 import { NPCName } from "lib/npcs";
+import { AdditionalBoostInfoBuffLabel } from "./collectibleItemBuffs";
 
 export type BumpkinSkillName =
   | "Green Thumb"
@@ -153,8 +153,8 @@ export type BumpkinSkillRevamp = {
     items?: Inventory;
   };
   boosts: {
-    buff: BuffLabel;
-    debuff?: BuffLabel;
+    buff: AdditionalBoostInfoBuffLabel;
+    debuff?: AdditionalBoostInfoBuffLabel;
   };
   image?: string;
   npc?: NPCName;
@@ -397,6 +397,9 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.greenThumb"),
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostType: "time",
+        boostValue: "-5%",
+        boostOn: "crops",
       },
     },
     image: SUNNYSIDE?.skills?.green_thumb_LE,
@@ -509,6 +512,9 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.strongRoots"),
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostType: "time",
+        boostValue: "-10%",
+        boostOn: "crops",
       },
     },
     image: strongRoots,
@@ -768,6 +774,9 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.catchup"),
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostType: "time",
+        boostValue: "-10%",
+        boostOn: "fruits",
       },
     },
     image: catchup,
@@ -862,6 +871,9 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "success",
         boostTypeIcon: powerup,
         boostedItemIcon: SUNNYSIDE.icons.stopwatch,
+        boostType: "time",
+        boostValue: "-50%",
+        boostOn: "fruits",
       },
       debuff: {
         shortDescription: translate("skill.longPickings.debuff"),
@@ -887,6 +899,9 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "success",
         boostTypeIcon: powerup,
         boostedItemIcon: SUNNYSIDE.icons.stopwatch,
+        boostType: "time",
+        boostValue: "-50%",
+        boostOn: "fruits",
       },
       debuff: {
         shortDescription: translate("skill.shortPickings.debuff"),
@@ -1752,6 +1767,9 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.riceAndShine"),
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostType: "time",
+        boostValue: "-5%",
+        boostOn: "greenhouse",
       },
     },
     image: riceAndShine,
@@ -1790,6 +1808,9 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS.Olive.image,
+        boostType: "time",
+        boostValue: "-10%",
+        boostOn: "greenhouse",
       },
     },
     disabled: false,
@@ -1808,6 +1829,9 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS.Rice.image,
+        boostType: "time",
+        boostValue: "-10%",
+        boostOn: "greenhouse",
       },
     },
     disabled: false,
@@ -1826,6 +1850,9 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS.Grape.image,
+        boostType: "time",
+        boostValue: "-10%",
+        boostOn: "greenhouse",
       },
     },
     disabled: false,
@@ -2510,6 +2537,9 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
+        boostType: "time",
+        boostValue: "-10%",
+        boostOn: "flowers",
       },
     },
     disabled: false,
@@ -2640,6 +2670,9 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
+        boostType: "time",
+        boostValue: "-20%",
+        boostOn: "flowers",
       },
     },
     disabled: false,
@@ -2665,6 +2698,9 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "danger",
         boostTypeIcon: redArrowDown,
         boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
+        boostType: "time",
+        boostValue: "+50%",
+        boostOn: "flowers",
       },
     },
     disabled: false,
@@ -2721,9 +2757,11 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     boosts: {
       buff: {
         shortDescription: translate("skill.cropProcessorUnit.buff"),
-        labelType: "success",
-        boostTypeIcon: powerup,
-        boostedItemIcon: SUNNYSIDE.icons.stopwatch,
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostType: "time",
+        boostValue: "-5%",
+        boostOn: "crop machine",
       },
       debuff: {
         shortDescription: translate("skill.cropProcessorUnit.debuff"),
@@ -2846,6 +2884,9 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         labelType: "success",
         boostTypeIcon: powerup,
         boostedItemIcon: SUNNYSIDE.icons.stopwatch,
+        boostType: "time",
+        boostValue: "-20%",
+        boostOn: "crop machine",
       },
       debuff: {
         shortDescription: translate("skill.rapidRig.debuff"),

@@ -71,6 +71,17 @@ export const isCropSeed = (seed: SeedName): seed is CropSeedName => {
 export const isSeed = (name: InventoryItemName): name is SeedName =>
   name in SEEDS;
 
+export const isGreenhouseSeed = (
+  seed: SeedName,
+): seed is GreenHouseCropSeedName | GreenHouseFruitSeedName =>
+  seed in { ...GREENHOUSE_SEEDS, ...GREENHOUSE_FRUIT_SEEDS };
+
+export const isFlowerSeed = (seed: SeedName): seed is FlowerSeedName =>
+  seed in FLOWER_SEEDS;
+
+export const isPatchFruitSeed = (seed: SeedName): seed is PatchFruitSeedName =>
+  seed in PATCH_FRUIT_SEEDS;
+
 export const SEASONAL_SEEDS: Record<TemperateSeasonName, SeedName[]> = {
   spring: [
     // Crops

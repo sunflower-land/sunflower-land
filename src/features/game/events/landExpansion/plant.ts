@@ -326,6 +326,7 @@ export const getCropPlotTime = ({
 
   if (isBuffActive({ buff: "Power hour", game })) {
     seconds = seconds * 0.5;
+    boostsUsed.push("Power hour");
   }
 
   if (
@@ -404,6 +405,7 @@ export const getCropPlotTime = ({
       seconds = seconds * 0.5;
       boostsUsed.push(activeGuardian);
     }
+    boostsUsed.push("Sunshower");
   }
 
   // If within Basic Scarecrow AOE: 20% reduction

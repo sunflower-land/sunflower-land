@@ -1,8 +1,8 @@
 import Decimal from "decimal.js-light";
-import { BuffLabel } from ".";
 import { SUNNYSIDE } from "assets/sunnyside";
 import powerup from "assets/icons/level_up.png";
 import { ITEM_DETAILS } from "./images";
+import { AdditionalBoostInfoBuffLabel } from "./collectibleItemBuffs";
 
 export type LegacyBadgeName =
   | "Green Thumb"
@@ -42,7 +42,7 @@ export const LEGACY_BADGE_TREE: Record<
     conflicts?: LegacyBadgeName;
     requires?: LegacyBadgeName;
     perks: string[];
-    buff?: BuffLabel[];
+    buff?: AdditionalBoostInfoBuffLabel[];
   }
 > = {
   "Green Thumb": {
@@ -92,6 +92,9 @@ export const LEGACY_BADGE_TREE: Record<
         labelType: "info",
         shortDescription: "-10% Crop growth time",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostType: "time",
+        boostValue: "-10%",
+        boostOn: "crops",
       },
       {
         labelType: "vibrant",

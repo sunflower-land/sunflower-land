@@ -19,15 +19,29 @@ import flowerBed from "assets/flowers/empty_flowerbed.webp";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
-import { Seed, SeedName, SEEDS } from "features/game/types/seeds";
+import {
+  isCropSeed,
+  isFlowerSeed,
+  isGreenhouseSeed,
+  isPatchFruitSeed,
+  Seed,
+  SeedName,
+  SEEDS,
+} from "features/game/types/seeds";
 import {
   CropName,
+  CropSeedName,
   getCropCategory,
   ProduceName,
 } from "features/game/types/crops";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { BoostsDisplay } from "./BoostsDisplay";
 import { hasFeatureAccess } from "lib/flags";
+import {
+  calculateCropTime,
+  CROP_MACHINE_PLOTS,
+} from "features/game/events/landExpansion/supplyCropMachine";
+import { AdditionalBoostInfo } from "features/game/types/collectibleItemBuffs";
 
 /**
  * The props for the details for items.
@@ -189,7 +203,15 @@ export const SeedRequirements: React.FC<Props> = ({
   };
 
   const inSeasonSeeds = validSeeds.includes(details.item);
-  const isCropMachineSeed = details.cropMachineSeeds?.includes(details.item);
+  const isSeedCropMachine = (seed: SeedName): seed is CropSeedName =>
+    !!details.cropMachineSeeds?.includes(seed);
+
+  const isSeedGreenhouse = isGreenhouseSeed(details.item);
+  const isSeedFlower = isFlowerSeed(details.item);
+  const isSeedPatchFruit = isPatchFruitSeed(details.item);
+  const isSeedCrop = isCropSeed(details.item);
+
+  const isCropMachineSeed = isSeedCropMachine(details.item);
 
   const getItemDetail = () => {
     const { image: icon, name } = getDetails(gameState, details);
@@ -249,9 +271,64 @@ export const SeedRequirements: React.FC<Props> = ({
 
     const showBoostsAccess = hasFeatureAccess(gameState, "SHOW_BOOSTS");
 
-    return (
-      <div className="w-full mb-2 flex justify-center gap-x-3 gap-y-0 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap my-1">
-        {/* Time requirement display */}
+    const RequirementLabels: React.FC = () => {
+      if (isSeedCropMachine(details.item)) {
+        const cropMachinePackSize = CROP_MACHINE_PLOTS(gameState);
+        const cropMachineBoostedTime = calculateCropTime(
+          { type: details.item, amount: cropMachinePackSize },
+          gameState,
+        );
+        const cropMachineBaseTime = baseTimeSeconds;
+        const isCropMachineTimeBoosted =
+          cropMachineBoostedTime.milliSeconds / 1000 !== cropMachineBaseTime;
+
+        return (
+          <div
+            className="flex flex-col items-center cursor-pointer"
+            onClick={
+              isCropMachineTimeBoosted && showBoostsAccess
+                ? () => setShowBoosts(!showBoosts)
+                : undefined
+            }
+          >
+            <p className="text-xxs">{`Time to grow ${cropMachinePackSize}x: `}</p>
+            {!!cropMachineBoostedTime && isCropMachineTimeBoosted && (
+              <RequirementLabel
+                type="time"
+                waitSeconds={cropMachineBoostedTime.milliSeconds / 1000}
+                boosted
+              />
+            )}
+            {!!cropMachineBaseTime && (
+              <RequirementLabel
+                type="time"
+                waitSeconds={cropMachineBaseTime}
+                strikethrough={isCropMachineTimeBoosted}
+              />
+            )}
+            <BoostsDisplay
+              boosts={cropMachineBoostedTime.boostUsed ?? []}
+              show={showBoosts}
+              state={gameState}
+              onClick={() => setShowBoosts(!showBoosts)}
+              searchBoostInfo={{ boostType: "time", boostOn: ["crop machine"] }}
+            />
+          </div>
+        );
+      }
+      const getBoostOn = (): AdditionalBoostInfo["boostOn"][] => {
+        if (isSeedCrop) return ["crops"];
+        if (isSeedFlower) return ["flowers"];
+        if (isSeedPatchFruit) return ["fruits"];
+        if (isSeedGreenhouse) return ["crops", "greenhouse"];
+        return [];
+      };
+      const boostOn = getBoostOn();
+      // Temporary allow this console log for testing
+      // eslint-disable-next-line no-console
+      console.log({ time });
+
+      return (
         <div
           className="flex flex-col items-center cursor-pointer"
           onClick={
@@ -275,10 +352,16 @@ export const SeedRequirements: React.FC<Props> = ({
             show={showBoosts}
             state={gameState}
             onClick={() => setShowBoosts(!showBoosts)}
-            labelType="info"
+            searchBoostInfo={{ boostType: "time", boostOn }}
           />
         </div>
+      );
+    };
 
+    return (
+      <div className="w-full mb-2 flex justify-center gap-x-3 gap-y-0 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap my-1">
+        {/* Time requirement display */}
+        <RequirementLabels />
         {/* Level requirement */}
         {!!level && (
           <RequirementLabel
