@@ -690,6 +690,93 @@ describe("castRod", () => {
 
     expect(state.fishing.extraReels?.count).toEqual(1);
   });
+
+  it("initializes and persists extraReels when buying reels with undefined extraReels on state", () => {
+    const today = new Date().toISOString().split("T")[0];
+    const result = castRod({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          Gem: new Decimal(10),
+          Rod: new Decimal(1),
+          Earthworm: new Decimal(1),
+        },
+        fishing: {
+          wharf: {},
+          dailyAttempts: {
+            [today]: 20,
+          },
+          // extraReels is intentionally undefined to test initialization
+        },
+      },
+      action: { bait: "Earthworm", type: "rod.casted", reelPacksToBuy: 1 },
+    });
+
+    // Should have initialized extraReels and added 5 reels, then used 1
+    expect(result.fishing.extraReels).toBeDefined();
+    expect(result.fishing.extraReels?.count).toEqual(4);
+    expect(result.fishing.extraReels?.timesBought?.[today]).toEqual(1);
+  });
+
+  it("correctly counts purchased reels towards totalReelsAvailable when extraReels was undefined", () => {
+    const today = new Date().toISOString().split("T")[0];
+
+    // This test ensures the purchased reels are available for the cast
+    // Previously, this would fail because the purchased reels were stored
+    // in a temporary object that wasn't persisted to game.fishing.extraReels
+    const result = castRod({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          Gem: new Decimal(10),
+          Rod: new Decimal(1),
+          Earthworm: new Decimal(1),
+        },
+        fishing: {
+          wharf: {},
+          dailyAttempts: {
+            [today]: 20, // At daily limit
+          },
+          // extraReels undefined - this is the key part of the test
+        },
+      },
+      action: { bait: "Earthworm", type: "rod.casted", reelPacksToBuy: 1 },
+    });
+
+    // Cast should succeed (not throw "Daily attempts exhausted")
+    expect(result.fishing.wharf.castedAt).toBeDefined();
+    expect(result.fishing.dailyAttempts?.[today]).toEqual(21);
+  });
+
+  it("handles buying multiple packs when extraReels was undefined", () => {
+    const today = new Date().toISOString().split("T")[0];
+    const result = castRod({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          Gem: new Decimal(70), // 10 + 20 + 40 = 70 for 3 packs
+          Rod: new Decimal(1),
+          Earthworm: new Decimal(1),
+        },
+        fishing: {
+          wharf: {},
+          dailyAttempts: {
+            [today]: 20,
+          },
+          // extraReels undefined
+        },
+      },
+      action: { bait: "Earthworm", type: "rod.casted", reelPacksToBuy: 3 },
+    });
+
+    // Should have 3 packs * 5 reels = 15 reels, minus 1 used = 14
+    expect(result.fishing.extraReels?.count).toEqual(14);
+    expect(result.fishing.extraReels?.timesBought?.[today]).toEqual(3);
+    expect(result.inventory.Gem).toEqual(new Decimal(0));
+  });
 });
 
 describe("getDailyFishingLimit", () => {
