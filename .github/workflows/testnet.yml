@@ -9,7 +9,7 @@ jobs:
   deploy:
     concurrency: testnet-deploy
     environment: develop
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm64
     steps:
       - name: Get current date
         id: date
@@ -25,7 +25,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
 
       - name: Install Dependencies
         run: yarn install
