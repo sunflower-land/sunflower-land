@@ -14,15 +14,39 @@ import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 import { AnimatedPanel } from "features/world/ui/AnimatedPanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
-import { Label, LabelType } from "../Label";
+import { Label } from "../Label";
+import { translate } from "lib/i18n/translate";
+import {
+  CALENDAR_EVENT_ICONS,
+  getActiveGuardian,
+} from "features/game/types/calendar";
+import { budImageDomain } from "features/island/collectibles/components/Bud";
+import { getSkillImage } from "features/bumpkins/components/revamp/SkillPathDetails";
+import { AdditionalBoostInfoBuffLabel } from "features/game/types/collectibleItemBuffs";
 
 export const BoostsDisplay: React.FC<{
   boosts: BoostName[];
   show: boolean;
   state: GameState;
   onClick: () => void;
-  labelType: LabelType;
-}> = ({ boosts, show, state, onClick, labelType }) => {
+  searchBoostInfo: {
+    boostType: "time" | "yield" | "other";
+    boostOn?: (
+      | "crops"
+      | "flowers"
+      | "fruits"
+      | "greenhouse"
+      | "crop machine"
+      | undefined
+    )[];
+  };
+}> = ({
+  boosts,
+  show,
+  state,
+  onClick,
+  searchBoostInfo: { boostType, boostOn },
+}) => {
   const { t } = useAppTranslation();
   const isBumpkinSkill = (
     boost: BoostName,
@@ -37,47 +61,114 @@ export const BoostsDisplay: React.FC<{
     return boost in ITEM_IDS;
   };
 
-  const buffs: (BuffLabel & { boost: BoostName })[] = boosts.flatMap(
-    (boost): (BuffLabel & { boost: BoostName })[] => {
-      if (isBumpkinSkill(boost)) {
-        return [
-          {
-            ...BUMPKIN_REVAMP_SKILL_TREE[boost].boosts.buff,
-            boost,
-          },
-        ];
-      }
+  const buffs: (AdditionalBoostInfoBuffLabel & { boost: BoostName })[] =
+    boosts.flatMap(
+      (boost): (AdditionalBoostInfoBuffLabel & { boost: BoostName })[] => {
+        if (boost === "Power hour") {
+          return [
+            {
+              shortDescription: translate("description.powerHour.boost"),
+              labelType: "info",
+              boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+              boost,
+              boostType: "time",
+              boostValue: "-50%",
+              boostOn: "crops",
+            },
+          ];
+        }
 
-      if (boost in LEGACY_BADGE_TREE) {
-        return (
-          (LEGACY_BADGE_TREE[boost as LegacyBadgeName].buff ??
-            []) as BuffLabel[]
-        ).map((buff) => ({
+        if (boost === "Sunshower") {
+          const { activeGuardian } = getActiveGuardian({
+            game: state,
+          });
+
+          if (activeGuardian && boosts.includes(activeGuardian)) {
+            return [
+              {
+                shortDescription: translate(
+                  "description.sunshower.guardianBoost",
+                  {
+                    guardian: activeGuardian,
+                  },
+                ),
+                labelType: "success",
+                boostTypeIcon: SUNNYSIDE.icons.lightning,
+                boost,
+                boostType: "time",
+                boostValue: "-75%",
+                boostOn: "crops",
+              },
+            ];
+          }
+
+          return [
+            {
+              shortDescription: translate("description.sunshower.boost"),
+              labelType: "success",
+              boostTypeIcon: SUNNYSIDE.icons.lightning,
+              boost,
+              boostType: "time",
+              boostValue: "-50%",
+              boostOn: "crops",
+            },
+          ];
+        }
+        if (isBumpkinSkill(boost)) {
+          return [
+            {
+              ...BUMPKIN_REVAMP_SKILL_TREE[boost].boosts.buff,
+              boost,
+            },
+          ];
+        }
+
+        if (boost in LEGACY_BADGE_TREE) {
+          return (
+            (LEGACY_BADGE_TREE[boost as LegacyBadgeName].buff ??
+              []) as BuffLabel[]
+          ).map((buff) => ({
+            ...buff,
+            boost,
+          }));
+        }
+
+        const collection = isCollectible(boost)
+          ? "collectibles"
+          : isWearable(boost)
+            ? "wearables"
+            : "buds";
+
+        return getItemBuffs({
+          state,
+          item: boost,
+          collection,
+        }).map((buff) => ({
           ...buff,
           boost,
         }));
-      }
-
-      const collection = isCollectible(boost)
-        ? "collectibles"
-        : isWearable(boost)
-          ? "wearables"
-          : "buds";
-
-      return getItemBuffs({
-        state,
-        item: boost,
-        collection,
-      }).map((buff) => ({
-        ...buff,
-        boost,
-      }));
-    },
-  );
+      },
+    );
 
   const getBoostIcon = (boost: BoostName) => {
+    if (boost === "Power hour") {
+      return SUNNYSIDE.icons.lightning;
+    }
+
+    if (boost === "Sunshower") {
+      return CALENDAR_EVENT_ICONS.sunshower;
+    }
+
     if (isBumpkinSkill(boost)) {
-      return (BUMPKIN_REVAMP_SKILL_TREE[boost] as BumpkinSkillRevamp).image;
+      const {
+        image,
+        tree,
+        boosts: {
+          buff: { boostedItemIcon },
+        },
+      } = BUMPKIN_REVAMP_SKILL_TREE[boost] as BumpkinSkillRevamp;
+
+      return getSkillImage(image, boostedItemIcon, tree);
     }
 
     if (isCollectible(boost)) {
@@ -96,16 +187,19 @@ export const BoostsDisplay: React.FC<{
       }).image;
     }
 
-    return getTradeableDisplay({
-      id: Number(boost.split("#")[1]),
-      type: "buds",
-      state,
-    }).image;
+    const budId = Number(boost.split("#")[1]);
+    if (isNaN(budId)) return undefined;
+
+    return `https://${budImageDomain}.sunflower-land.com/images/${budId}.webp`;
   };
 
   return (
-    <AnimatedPanel show={show} onClick={onClick}>
-      <div className="flex flex-col gap-1 max-h-32 overflow-y-auto scrollable">
+    <AnimatedPanel
+      show={show}
+      onClick={onClick}
+      className="flex flex-col gap-1 max-h-5"
+    >
+      <div className="overflow-y-auto scrollable">
         <div className="flex space-x-1 mb-1">
           <img src={SUNNYSIDE.icons.lightning} alt="Boost" className="w-3" />
           <span className="text-xs whitespace-nowrap">
@@ -114,15 +208,19 @@ export const BoostsDisplay: React.FC<{
         </div>
         <div className="flex flex-col gap-3">
           {buffs
-            .filter((buff) => buff.labelType === labelType)
+            .filter(
+              (buff) =>
+                buff.boostType === boostType &&
+                (boostOn ? boostOn.includes(buff.boostOn) : true),
+            )
             .map((buff) => (
               <Label
                 key={buff.shortDescription}
-                type={"transparent"}
+                type="transparent"
                 icon={getBoostIcon(buff.boost)}
                 className="ml-3"
               >
-                {buff.shortDescription}
+                {`${buff.boostValue} ${buff.boost}`}
               </Label>
             ))}
         </div>

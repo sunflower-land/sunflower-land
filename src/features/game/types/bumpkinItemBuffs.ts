@@ -2,6 +2,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { BuffLabel } from ".";
 import { BumpkinItem } from "./bumpkin";
+import { AdditionalBoostInfoBuffLabel } from "./collectibleItemBuffs";
 
 import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
@@ -42,7 +43,7 @@ export const SPECIAL_ITEM_LABELS: Partial<Record<BumpkinItem, BuffLabel[]>> = {
 };
 
 export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
-  Record<BumpkinItem, BuffLabel[]>
+  Record<BumpkinItem, AdditionalBoostInfoBuffLabel[]>
 > = {
   "Deep Sea Helm": [
     {
@@ -57,6 +58,9 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS.Banana.image,
+      boostType: "time",
+      boostValue: "-20%",
+      boostOn: "fruits",
     },
   ],
   "Chef Apron": [
@@ -140,6 +144,9 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Carrot.crop,
+      boostType: "time",
+      boostValue: "-20%",
+      boostOn: "crops",
     },
   ],
   "Beetroot Amulet": [
@@ -298,6 +305,9 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
+      boostType: "time",
+      boostValue: "-50%",
+      boostOn: "flowers",
     },
   ],
   "Beekeeper Hat": [
@@ -860,9 +870,12 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
   "Solflare Aegis": [
     {
       shortDescription: translate("description.solflareAegis.boost"),
-      labelType: "success",
-      boostTypeIcon: powerup,
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: SEASON_ICONS["summer"],
+      boostType: "time",
+      boostValue: "-50%",
+      boostOn: "crops",
     },
   ],
   "Autumn's Embrace": [
@@ -871,13 +884,16 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: SEASON_ICONS["autumn"],
+      boostType: "time",
+      boostValue: "-50%",
+      boostOn: "crops",
     },
   ],
   "Frozen Heart": [
     {
       shortDescription: translate("description.frozenHeart.boost"),
-      labelType: "info",
-      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      labelType: "success",
+      boostTypeIcon: powerup,
       boostedItemIcon: SEASON_ICONS["winter"],
     },
   ],
@@ -907,6 +923,9 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("description.broccoliHat.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostType: "time",
+      boostValue: "-50%",
+      boostOn: "crops",
     },
   ],
   "Red Pepper Onesie": [
@@ -914,6 +933,9 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("description.redPepperOnesie.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostType: "time",
+      boostValue: "-25%",
+      boostOn: "crops",
     },
   ],
   "Turd Topper": [
