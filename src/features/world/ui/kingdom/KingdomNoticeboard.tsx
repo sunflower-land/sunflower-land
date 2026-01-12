@@ -13,7 +13,7 @@ import { Label } from "components/ui/Label";
 
 export type NoticeboardItemsElements = {
   text: string | React.ReactNode;
-  icon: string;
+  icon?: string;
   label?: BuffLabel;
 };
 
@@ -27,14 +27,16 @@ export const NoticeboardItems: React.FC<NoticeboardItemProps> = ({
   iconWidth = 12,
 }) => {
   return (
-    <>
+    <div className="flex flex-col gap-1">
       {items.map((item, index) => (
         <div className="flex mb-1 items-center" key={index}>
           <div className={`w-${iconWidth} flex justify-center`}>
-            <img src={item.icon} className="h-6 mr-2 object-contain" />
+            {item.icon && (
+              <img src={item.icon} className="h-6 mr-2 object-contain" />
+            )}
           </div>
           <div className="w-full">
-            <p className="text-xs  flex-1">{item.text}</p>
+            <p className="text-xs flex-1">{item.text}</p>
             {item.label && (
               <Label
                 type={item.label.labelType}
@@ -47,7 +49,7 @@ export const NoticeboardItems: React.FC<NoticeboardItemProps> = ({
           </div>
         </div>
       ))}
-    </>
+    </div>
   );
 };
 

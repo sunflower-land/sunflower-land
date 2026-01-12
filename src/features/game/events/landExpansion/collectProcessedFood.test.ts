@@ -106,7 +106,8 @@ describe("collectProcessedFood", () => {
             processing: [
               {
                 name: "Fish Flake",
-                startedAt: readyAt - FISH_PROCESSING_TIME_SECONDS * 1000,
+                startedAt:
+                  readyAt - FISH_PROCESSING_TIME_SECONDS["Fish Flake"] * 1000,
                 readyAt,
                 requirements: {},
               },

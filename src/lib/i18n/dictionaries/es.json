@@ -7769,5 +7769,11 @@
   "description.instantFood.surimiRiceBall": "Un ingrediente de pescado procesado: captura garantizada.",
   "description.instantFood.creamyCrabBite": "Un ingrediente de pescado procesado: captura garantizada.",
   "description.instantFood.crimstoneInfusedFishOil": "Un ingrediente de pescado procesado: captura garantizada.",
-  "crustaceans": "Crustáceos"
+  "crustaceans": "Crustáceos",
+  "streams.message.streamer": "¡Has encontrado un streamer! Consigue una Love Box básica cada 5 minutos (hasta 10 veces).",
+  "streams.message.streamer.claimed": "¡Has conseguido una Love Box básica!",
+  "streams.timeToNextClaim": "Tiempo hasta la próxima reclamación: {{time}}",
+  "streams.boxesClaimed": "Cajas reclamadas: {{count}}/10",
+  "auction.cancelBid": "Cancelar oferta",
+  "auction.doNotCancel": "No cancele"
 }

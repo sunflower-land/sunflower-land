@@ -15,6 +15,7 @@ import { INITIAL_FARM } from "features/game/lib/constants";
 import { speedUpProcessing } from "./speedUpProcessing";
 import Decimal from "decimal.js-light";
 import { FISH_PROCESSING_TIME_SECONDS } from "features/game/types/fishProcessing";
+import { ProcessedFood } from "features/game/types/processedFood";
 
 describe("instantProcessing", () => {
   beforeEach(() => {
@@ -221,7 +222,8 @@ describe("instantProcessing", () => {
 
   it("updates all the items readyAt times correctly", () => {
     const now = Date.now();
-    const PROCESSING_TIME = FISH_PROCESSING_TIME_SECONDS * 1000;
+    const PROCESSING_TIME = (name: ProcessedFood) =>
+      FISH_PROCESSING_TIME_SECONDS[name] * 1000;
 
     const state = speedUpProcessing({
       farmId,
@@ -238,25 +240,31 @@ describe("instantProcessing", () => {
               processing: [
                 {
                   name: "Fish Stick",
-                  readyAt: now + PROCESSING_TIME,
-                },
-                {
-                  name: "Fish Oil",
-                  readyAt: now + PROCESSING_TIME + PROCESSING_TIME,
-                },
-                {
-                  name: "Fish Oil",
-                  readyAt:
-                    now + PROCESSING_TIME + PROCESSING_TIME + PROCESSING_TIME,
+                  readyAt: now + PROCESSING_TIME("Fish Stick"),
                 },
                 {
                   name: "Fish Oil",
                   readyAt:
                     now +
-                    PROCESSING_TIME +
-                    PROCESSING_TIME +
-                    PROCESSING_TIME +
-                    PROCESSING_TIME,
+                    PROCESSING_TIME("Fish Stick") +
+                    PROCESSING_TIME("Fish Oil"),
+                },
+                {
+                  name: "Fish Oil",
+                  readyAt:
+                    now +
+                    PROCESSING_TIME("Fish Stick") +
+                    PROCESSING_TIME("Fish Oil") +
+                    PROCESSING_TIME("Fish Oil"),
+                },
+                {
+                  name: "Fish Oil",
+                  readyAt:
+                    now +
+                    PROCESSING_TIME("Fish Stick") +
+                    PROCESSING_TIME("Fish Oil") +
+                    PROCESSING_TIME("Fish Oil") +
+                    PROCESSING_TIME("Fish Oil"),
                 },
               ],
             },
@@ -276,10 +284,15 @@ describe("instantProcessing", () => {
 
     // The first fried stick should be ready now and is removed from the queue
     // Remaining recipes should have their readyAt times updated
-    expect(queue?.[0].readyAt).toBe(now + PROCESSING_TIME);
-    expect(queue?.[1].readyAt).toBe(now + PROCESSING_TIME + PROCESSING_TIME);
+    expect(queue?.[0].readyAt).toBe(now + PROCESSING_TIME("Fish Oil"));
+    expect(queue?.[1].readyAt).toBe(
+      now + PROCESSING_TIME("Fish Oil") + PROCESSING_TIME("Fish Oil"),
+    );
     expect(queue?.[2].readyAt).toBe(
-      now + PROCESSING_TIME + PROCESSING_TIME + PROCESSING_TIME,
+      now +
+        PROCESSING_TIME("Fish Oil") +
+        PROCESSING_TIME("Fish Oil") +
+        PROCESSING_TIME("Fish Oil"),
     );
   });
 });

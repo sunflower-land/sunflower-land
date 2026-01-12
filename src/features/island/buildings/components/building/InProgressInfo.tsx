@@ -43,7 +43,7 @@ export const InProgressInfo: React.FC<Props> = ({
       return COOKABLES[product.name].cookingSeconds;
     }
 
-    return FISH_PROCESSING_TIME_SECONDS;
+    return FISH_PROCESSING_TIME_SECONDS[product.name];
   };
 
   const totalSeconds = getProductTotalSeconds();

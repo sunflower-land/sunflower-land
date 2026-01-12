@@ -7769,5 +7769,11 @@
   "description.instantFood.surimiRiceBall": "İşlenmiş bir balık bileşeni - garantili avlanma.",
   "description.instantFood.creamyCrabBite": "İşlenmiş bir balık bileşeni - garantili avlanma.",
   "description.instantFood.crimstoneInfusedFishOil": "İşlenmiş bir balık bileşeni - garantili avlanma.",
-  "crustaceans": "Kabuklular"
+  "crustaceans": "Kabuklular",
+  "streams.message.streamer": "Bir yayıncı buldunuz! Her 5 dakikada bir Temel Aşk Kutusu talep edin (10 defaya kadar).",
+  "streams.message.streamer.claimed": "Temel Aşk Kutusunu başarıyla talep ettiniz!",
+  "streams.timeToNextClaim": "Bir sonraki talep süresi - {{time}}",
+  "streams.boxesClaimed": "Talep edilen kutular: {{count}}/10",
+  "auction.cancelBid": "Teklifi iptal et",
+  "auction.doNotCancel": "İptal etmeyin"
 }

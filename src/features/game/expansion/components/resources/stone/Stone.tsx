@@ -23,8 +23,9 @@ import {
   getRequiredPickaxeAmount,
   getStoneDropAmount,
 } from "features/game/events/landExpansion/stoneMine";
-import { StoneRockName } from "features/game/types/resources";
+import { RockName, StoneRockName } from "features/game/types/resources";
 import { useNow } from "lib/utils/hooks/useNow";
+import { KNOWN_IDS } from "features/game/types";
 
 const HITS = 3;
 const tool = "Pickaxe";
@@ -61,6 +62,7 @@ const compareSkills = (prev: Skills, next: Skills) =>
 const _selectSeason = (state: MachineState) =>
   state.context.state.season.season;
 const _selectIsland = (state: MachineState) => state.context.state.island;
+const selectFarmId = (state: MachineState) => state.context.farmId;
 
 interface Props {
   id: string;
@@ -92,6 +94,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
   }, []);
 
   const game = useSelector(gameService, _state, _compareQuarryExistence);
+  const farmId = useSelector(gameService, selectFarmId);
   const resource = useSelector(
     gameService,
     (state) => state.context.state.stones[id],
@@ -140,14 +143,18 @@ export const Stone: React.FC<Props> = ({ id }) => {
   };
 
   const mine = async () => {
+    const stoneName: RockName = resource.name ?? "Stone Rock";
+    const counter = game.farmActivity[`${stoneName} Mined`] ?? 0;
     const stoneMined = new Decimal(
       resource.stone.amount ??
         getStoneDropAmount({
           game,
           rock: resource,
-          createdAt: Date.now(),
-          criticalDropGenerator: (name) =>
-            !!(resource.stone.criticalHit?.[name] ?? 0),
+          createdAt: now,
+          id,
+          farmId,
+          counter,
+          itemId: KNOWN_IDS[stoneName],
         }).amount,
     );
 

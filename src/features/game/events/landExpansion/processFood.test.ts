@@ -82,12 +82,13 @@ describe("processProcessedFood", () => {
     expect(processing[0]).toMatchObject({
       name: "Fish Flake",
       startedAt: createdAt,
-      readyAt: createdAt + FISH_PROCESSING_TIME_SECONDS * 1000,
+      readyAt: createdAt + FISH_PROCESSING_TIME_SECONDS["Fish Flake"] * 1000,
     });
   });
 
   it("queues behind an in-progress request", () => {
-    const readyAt = createdAt + FISH_PROCESSING_TIME_SECONDS * 1000;
+    const readyAt =
+      createdAt + FISH_PROCESSING_TIME_SECONDS["Fish Stick"] * 1000;
     const state: GameState = {
       ...SPRING_STATE,
       inventory: {
@@ -140,7 +141,7 @@ describe("processProcessedFood", () => {
     expect(processing).toHaveLength(2);
     expect(processing[1].startedAt).toEqual(readyAt);
     expect(processing[1].readyAt).toEqual(
-      readyAt + FISH_PROCESSING_TIME_SECONDS * 1000,
+      readyAt + FISH_PROCESSING_TIME_SECONDS["Fish Stick"] * 1000,
     );
   });
 });
@@ -177,7 +178,8 @@ describe("collectProcessedFish", () => {
             processing: [
               {
                 name: "Fish Flake",
-                startedAt: readyAt - FISH_PROCESSING_TIME_SECONDS * 1000,
+                startedAt:
+                  readyAt - FISH_PROCESSING_TIME_SECONDS["Fish Flake"] * 1000,
                 readyAt,
                 requirements: {},
               },

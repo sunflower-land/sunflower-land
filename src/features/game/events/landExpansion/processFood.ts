@@ -88,7 +88,7 @@ export function processProcessedFood({
       startAt = lastReadyAt;
     }
 
-    const readyAt = startAt + FISH_PROCESSING_TIME_SECONDS * 1000;
+    const readyAt = startAt + FISH_PROCESSING_TIME_SECONDS[item] * 1000;
 
     building.processing = [
       ...processingQueue,
