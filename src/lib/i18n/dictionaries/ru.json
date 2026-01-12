@@ -7778,5 +7778,13 @@
   "description.sunshower.boost": "-50% plot crop growth time",
   "description.sunshower.guardianBoost": "-75% plot crop growth time, boosted by {{guardian}}",
   "caught": "caught",
-  "chum": "chum"
+  "chum": "chum",
+  "withdraw.duplicate.title": "Shared Network Detected",
+  "withdraw.duplicate.description": "We have noticed another withdrawal happening from the same internet connection. To keep the game fair and protect the economy, we allow only one withdrawal at a time.",
+  "withdraw.duplicate.howToWithdraw": "How to withdraw?",
+  "withdraw.duplicate.tip1": "1. Use a mobile Hotspot",
+  "withdraw.duplicate.tip2": "2. Use an alternate IP address that others in your household are not using.",
+  "withdraw.duplicate.tip3": "3. Avoid VPNs",
+  "withdraw.duplicate.tip4": "4. Public or shared networks may require a short wait due to overuse (1 week).",
+  "withdraw.duplicate.note": "This safeguard applies automatically and isn't a strike or warning."
 }

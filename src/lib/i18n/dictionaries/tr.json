@@ -7778,5 +7778,13 @@
   "description.sunshower.boost": "-50% arsa mahsulü büyüme süresi",
   "description.sunshower.guardianBoost": "%-75 arsa mahsulü büyüme süresi, {{guardian}} ile artırıldı",
   "caught": "yakalandı",
-  "chum": "ahbap"
+  "chum": "ahbap",
+  "withdraw.duplicate.title": "Paylaşılan Ağ Algılandı",
+  "withdraw.duplicate.description": "Aynı internet bağlantısından başka bir geri çekilme olduğunu fark ettik. Oyunu adil tutmak ve ekonomiyi korumak için, bir seferde yalnızca bir para çekmeye izin veriyoruz.",
+  "withdraw.duplicate.howToWithdraw": "Nasıl geri çekilir?",
+  "withdraw.duplicate.tip1": "1. Mobil Erişim Noktası kullanın",
+  "withdraw.duplicate.tip2": "2. Evinizdeki diğer kişilerin kullanmadığı alternatif bir IP adresi kullanın.",
+  "withdraw.duplicate.tip3": "3. VPN'lerden Kaçının",
+  "withdraw.duplicate.tip4": "4. Genel veya paylaşılan ağlar aşırı kullanım nedeniyle kısa bir bekleme gerektirebilir (1 hafta).",
+  "withdraw.duplicate.note": "Bu koruma otomatik olarak uygulanır ve bir grev veya uyarı değildir."
 }

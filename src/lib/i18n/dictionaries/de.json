@@ -7778,5 +7778,13 @@
   "description.sunshower.boost": "-50% Wachstumszeit der Parzellenfrüchte",
   "description.sunshower.guardianBoost": "-75% Wachstumszeit der Parzellenfrüchte, erhöht um {{guardian}}",
   "caught": "erwischt",
-  "chum": "Kumpel"
+  "chum": "Kumpel",
+  "withdraw.duplicate.title": "Gemeinsames Netzwerk erkannt",
+  "withdraw.duplicate.description": "Wir haben festgestellt, dass eine weitere Auszahlung über dieselbe Internetverbindung erfolgt. Um das Spiel fair zu halten und die Wirtschaft zu schützen, erlauben wir jeweils nur eine Auszahlung.",
+  "withdraw.duplicate.howToWithdraw": "Wie kann ich abheben?",
+  "withdraw.duplicate.tip1": "1. Verwenden Sie einen mobilen Hotspot",
+  "withdraw.duplicate.tip2": "2. Verwenden Sie eine alternative IP-Adresse, die andere in Ihrem Haushalt nicht verwenden.",
+  "withdraw.duplicate.tip3": "3. Vermeiden Sie VPNs",
+  "withdraw.duplicate.tip4": "4. Öffentliche oder gemeinsam genutzte Netzwerke können aufgrund von Überbeanspruchung eine kurze Wartezeit erfordern (1 Woche).",
+  "withdraw.duplicate.note": "Diese Schutzmaßnahme gilt automatisch und ist kein Streik oder eine Warnung."
 }

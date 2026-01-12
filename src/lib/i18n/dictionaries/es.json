@@ -7778,5 +7778,13 @@
   "description.sunshower.boost": "-50% de tiempo de crecimiento del cultivo de la parcela",
   "description.sunshower.guardianBoost": "-75% del tiempo de crecimiento del cultivo de la parcela, impulsado por {{guardian}}",
   "caught": "atrapado",
-  "chum": "amigo"
+  "chum": "amigo",
+  "withdraw.duplicate.title": "Red compartida detectada",
+  "withdraw.duplicate.description": "Hemos observado que se está produciendo otra interrupción desde la misma conexión a Internet. Para mantener un juego justo y proteger la economía, solo permitimos una retirada a la vez.",
+  "withdraw.duplicate.howToWithdraw": "¿Cómo retirar dinero?",
+  "withdraw.duplicate.tip1": "1. Usa un punto de acceso móvil",
+  "withdraw.duplicate.tip2": "2. Utilice una dirección IP alternativa que no estén utilizando otras personas de su hogar.",
+  "withdraw.duplicate.tip3": "3. Evite las VPN",
+  "withdraw.duplicate.tip4": "4. Las redes públicas o compartidas pueden requerir una breve espera debido al uso excesivo (1 semana).",
+  "withdraw.duplicate.note": "Esta protección se aplica automáticamente y no es una huelga ni una advertencia."
 }

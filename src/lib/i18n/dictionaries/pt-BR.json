@@ -7778,5 +7778,13 @@
   "description.sunshower.boost": "-50% do tempo de crescimento da safra",
   "description.sunshower.guardianBoost": "-75% do tempo de crescimento da safra, impulsionado por {{guardian}}",
   "caught": "apanhado",
-  "chum": "amigo"
+  "chum": "amigo",
+  "withdraw.duplicate.title": "Rede compartilhada detectada",
+  "withdraw.duplicate.description": "Percebemos outra retirada acontecendo na mesma conexão com a Internet. Para manter o jogo justo e proteger a economia, permitimos apenas uma retirada por vez.",
+  "withdraw.duplicate.howToWithdraw": "Como se retirar?",
+  "withdraw.duplicate.tip1": "1. Use um ponto de acesso móvel",
+  "withdraw.duplicate.tip2": "2. Use um endereço IP alternativo que outras pessoas em sua casa não estejam usando.",
+  "withdraw.duplicate.tip3": "3. Evite VPNs",
+  "withdraw.duplicate.tip4": "4. Redes públicas ou compartilhadas podem exigir uma pequena espera devido ao uso excessivo (1 semana).",
+  "withdraw.duplicate.note": "Essa proteção se aplica automaticamente e não é um aviso ou aviso."
 }

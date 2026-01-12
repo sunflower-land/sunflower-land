@@ -7778,5 +7778,13 @@
   "description.sunshower.boost": "-50% masa pertumbuhan tanaman plot",
   "description.sunshower.guardianBoost": "-75% masa pertumbuhan tanaman plot, dirangsang oleh {{guardian}}",
   "caught": "ditangkap",
-  "chum": "kawan"
+  "chum": "kawan",
+  "withdraw.duplicate.title": "Rangkaian Kongsi Dikesan",
+  "withdraw.duplicate.description": "Kami telah melihat pengeluaran lain berlaku dari sambungan internet yang sama. Untuk memastikan permainan adil dan melindungi ekonomi, kami hanya membenarkan satu pengeluaran pada satu masa.",
+  "withdraw.duplicate.howToWithdraw": "Bagaimana untuk menarik diri?",
+  "withdraw.duplicate.tip1": "1. Gunakan Hotspot mudah alih",
+  "withdraw.duplicate.tip2": "2. Gunakan alamat IP alternatif yang tidak digunakan oleh orang lain dalam isi rumah anda.",
+  "withdraw.duplicate.tip3": "3. Elakkan VPN",
+  "withdraw.duplicate.tip4": "4. Rangkaian awam atau dikongsi mungkin memerlukan penantian yang singkat kerana penggunaan berlebihan (1 minggu).",
+  "withdraw.duplicate.note": "Perlindungan ini berlaku secara automatik dan bukan mogok atau amaran."
 }

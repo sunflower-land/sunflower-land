@@ -7778,5 +7778,13 @@
   "description.sunshower.boost": "-50% 地块作物生长时间",
   "description.sunshower.guardianBoost": "-75% 的地块作物生长时间，受 {{guardian}} 的推动",
   "caught": "抓住了",
-  "chum": "密友"
+  "chum": "密友",
+  "withdraw.duplicate.title": "检测到共享网络",
+  "withdraw.duplicate.description": "我们注意到同一个互联网连接又发生了一次撤回事件。为了保持游戏公平和保护经济，我们一次只允许一次提款。",
+  "withdraw.duplicate.howToWithdraw": "如何提款？",
+  "withdraw.duplicate.tip1": "1。使用移动热点",
+  "withdraw.duplicate.tip2": "2。使用家庭中其他人未使用的备用 IP 地址。",
+  "withdraw.duplicate.tip3": "3.避开 VPN",
+  "withdraw.duplicate.tip4": "4。由于过度使用，公共或共享网络可能需要短暂的等待（1 周）。",
+  "withdraw.duplicate.note": "该保障措施自动适用，不是罢工或警告。"
 }

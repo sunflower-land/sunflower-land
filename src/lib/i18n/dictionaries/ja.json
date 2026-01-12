@@ -7778,5 +7778,13 @@
   "description.sunshower.boost": "-50% プロットの作物の成長時間",
   "description.sunshower.guardianBoost": "作物の生育時間 -75%（{{guardian}} による後押し）",
   "caught": "捕まった",
-  "chum": "仲間"
+  "chum": "仲間",
+  "withdraw.duplicate.title": "共有ネットワークが検出されました",
+  "withdraw.duplicate.description": "同じインターネット接続から別の出金が発生していることに気付きました。ゲームの公平性を保ち、経済を守るため、一度に出金できるのは1回のみです。",
+  "withdraw.duplicate.howToWithdraw": "出金方法は？",
+  "withdraw.duplicate.tip1": "1。モバイルホットスポットを使う",
+  "withdraw.duplicate.tip2": "2。家族の他の人が使用していない代替IPアドレスを使用してください。",
+  "withdraw.duplicate.tip3": "3。VPN は避けてください",
+  "withdraw.duplicate.tip4": "4。パブリックネットワークまたは共有ネットワークは、使いすぎにより短時間 (1 週間) 待つ必要がある場合があります。",
+  "withdraw.duplicate.note": "この保護措置は自動的に適用され、ストライキや警告ではありません。"
 }

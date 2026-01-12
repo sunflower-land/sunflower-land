@@ -7778,5 +7778,13 @@
   "description.sunshower.boost": "-50% tempo di crescita delle colture su terreno",
   "description.sunshower.guardianBoost": "-75% del tempo di crescita del raccolto per parcella, aumentato di {{guardian}}",
   "caught": "catturate",
-  "chum": "amico"
+  "chum": "amico",
+  "withdraw.duplicate.title": "Rete condivisa rilevata",
+  "withdraw.duplicate.description": "Abbiamo notato un altro prelievo avvenuto dalla stessa connessione Internet. Per mantenere il gioco equo e proteggere l'economia, consentiamo un solo prelievo alla volta.",
+  "withdraw.duplicate.howToWithdraw": "Come effettuare un prelievo?",
+  "withdraw.duplicate.tip1": "1. Usa un hotspot mobile",
+  "withdraw.duplicate.tip2": "2. Usa un indirizzo IP alternativo che altri membri della tua famiglia non utilizzano.",
+  "withdraw.duplicate.tip3": "3. Evita le VPN",
+  "withdraw.duplicate.tip4": "4. Le reti pubbliche o condivise possono richiedere una breve attesa a causa di un uso eccessivo (1 settimana).",
+  "withdraw.duplicate.note": "Questa protezione si applica automaticamente e non è uno sciopero o un avvertimento."
 }

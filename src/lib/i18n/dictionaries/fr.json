@@ -7778,5 +7778,13 @@
   "description.sunshower.boost": "-50 % de temps de croissance des cultures sur parcelle",
   "description.sunshower.guardianBoost": "-75 % de temps de croissance des cultures en parcelle, augmenté de {{guardian}}",
   "caught": "pris",
-  "chum": "ami"
+  "chum": "ami",
+  "withdraw.duplicate.title": "Réseau partagé détecté",
+  "withdraw.duplicate.description": "Nous avons remarqué qu'un autre retrait se produisait depuis la même connexion Internet. Pour garantir l'équité et protéger l'économie, nous n'autorisons qu'un seul retrait à la fois.",
+  "withdraw.duplicate.howToWithdraw": "Comment se rétracter ?",
+  "withdraw.duplicate.tip1": "1. Utiliser un point d'accès mobile",
+  "withdraw.duplicate.tip2": "2. Utilisez une autre adresse IP que les autres membres de votre foyer n'utilisent pas.",
+  "withdraw.duplicate.tip3": "3. Évitez les VPN",
+  "withdraw.duplicate.tip4": "4. Les réseaux publics ou partagés peuvent nécessiter une courte attente en raison d'une utilisation excessive (1 semaine).",
+  "withdraw.duplicate.note": "Cette mesure de protection s'applique automatiquement et ne constitue ni une grève ni un avertissement."
 }

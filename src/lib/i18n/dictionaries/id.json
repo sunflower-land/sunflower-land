@@ -7778,5 +7778,13 @@
   "description.sunshower.boost": "-50% waktu pertumbuhan tanaman plot",
   "description.sunshower.guardianBoost": "-75% waktu pertumbuhan tanaman plot, didorong oleh {{guardian}}",
   "caught": "tertangkap",
-  "chum": "kawan"
+  "chum": "kawan",
+  "withdraw.duplicate.title": "Jaringan Bersama Terdeteksi",
+  "withdraw.duplicate.description": "Kami telah melihat penarikan lain terjadi dari koneksi internet yang sama. Untuk menjaga permainan tetap adil dan melindungi ekonomi, kami hanya mengizinkan satu penarikan pada satu waktu.",
+  "withdraw.duplicate.howToWithdraw": "Bagaimana cara menarik?",
+  "withdraw.duplicate.tip1": "1. Gunakan Hotspot seluler",
+  "withdraw.duplicate.tip2": "2. Gunakan alamat IP alternatif yang tidak digunakan orang lain di rumah Anda.",
+  "withdraw.duplicate.tip3": "3. Hindari VPN",
+  "withdraw.duplicate.tip4": "4. Jaringan publik atau bersama mungkin memerlukan penantian singkat karena terlalu sering digunakan (1 minggu).",
+  "withdraw.duplicate.note": "Perlindungan ini berlaku secara otomatis dan bukan merupakan pemogokan atau peringatan."
 }
