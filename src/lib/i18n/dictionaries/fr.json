@@ -7761,8 +7761,6 @@
   "fishingPuzzle.findSafePath": "Trouvez le chemin sûr pour accéder à la carte",
   "fishingPuzzle.timeoutTitle": "Oh non, tu n'as pas été assez rapide !",
   "fishingPuzzle.timeoutMessage": "Oh non, tu n'as pas été assez rapide, tu as raté un bout de carte.",
-  "caught": "Pris",
-  "chum": "copain",
   "instantProcessedFoods.recipes": "Recettes instantanées",
   "instantProcessedFoods.makeRecipe": "Faire une recette",
   "description.instantFood.furikakeSprinkle": "Un ingrédient de poisson transformé : capture garantie.",
@@ -7778,5 +7776,7 @@
   "auction.doNotCancel": "N'annulez pas",
   "description.powerHour.boost": "-50 % de temps de croissance des cultures sur parcelle",
   "description.sunshower.boost": "-50 % de temps de croissance des cultures sur parcelle",
-  "description.sunshower.guardianBoost": "-75 % de temps de croissance des cultures en parcelle, augmenté de {{guardian}}"
+  "description.sunshower.guardianBoost": "-75 % de temps de croissance des cultures en parcelle, augmenté de {{guardian}}",
+  "caught": "pris",
+  "chum": "ami"
 }

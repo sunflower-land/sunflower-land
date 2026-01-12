@@ -7761,8 +7761,6 @@
   "fishingPuzzle.findSafePath": "マップの安全なパスを見つけてください",
   "fishingPuzzle.timeoutTitle": "ああ、いや、あなたは十分な速さではなかった！",
   "fishingPuzzle.timeoutMessage": "ああ、いや、あなたは十分な速さではなかった、あなたは地図のかけらを見逃した。",
-  "caught": "捕まった",
-  "chum": "仲間",
   "instantProcessedFoods.recipes": "インスタントレシピ",
   "instantProcessedFoods.makeRecipe": "レシピを作る",
   "description.instantFood.furikakeSprinkle": "魚を加工した原料-確実に獲れます。",
@@ -7778,5 +7776,7 @@
   "auction.doNotCancel": "キャンセルしないでください",
   "description.powerHour.boost": "-50% プロットの作物の成長時間",
   "description.sunshower.boost": "-50% プロットの作物の成長時間",
-  "description.sunshower.guardianBoost": "作物の生育時間 -75%（{{guardian}} による後押し）"
+  "description.sunshower.guardianBoost": "作物の生育時間 -75%（{{guardian}} による後押し）",
+  "caught": "捕まった",
+  "chum": "仲間"
 }

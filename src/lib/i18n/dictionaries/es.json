@@ -7761,8 +7761,6 @@
   "fishingPuzzle.findSafePath": "Encuentra la ruta segura para el mapa",
   "fishingPuzzle.timeoutTitle": "¡Oh, no, no fuiste lo suficientemente rápido!",
   "fishingPuzzle.timeoutMessage": "Oh, no, no fuiste lo suficientemente rápido, te perdiste una parte del mapa.",
-  "caught": "Atrapado",
-  "chum": "Alumno",
   "instantProcessedFoods.recipes": "Recetas instantáneas",
   "instantProcessedFoods.makeRecipe": "Hacer receta",
   "description.instantFood.furikakeSprinkle": "Un ingrediente de pescado procesado: captura garantizada.",
@@ -7778,5 +7776,7 @@
   "auction.doNotCancel": "No cancele",
   "description.powerHour.boost": "-50% de tiempo de crecimiento del cultivo de la parcela",
   "description.sunshower.boost": "-50% de tiempo de crecimiento del cultivo de la parcela",
-  "description.sunshower.guardianBoost": "-75% del tiempo de crecimiento del cultivo de la parcela, impulsado por {{guardian}}"
+  "description.sunshower.guardianBoost": "-75% del tiempo de crecimiento del cultivo de la parcela, impulsado por {{guardian}}",
+  "caught": "atrapado",
+  "chum": "amigo"
 }

@@ -7761,8 +7761,6 @@
   "fishingPuzzle.findSafePath": "Encontre o caminho seguro para o mapa",
   "fishingPuzzle.timeoutTitle": "Oh não, você não foi rápido o suficiente!",
   "fishingPuzzle.timeoutMessage": "Ah não, você não foi rápido o suficiente, você perdeu uma peça do mapa.",
-  "caught": "Capturado",
-  "chum": "Chumbo",
   "instantProcessedFoods.recipes": "Receitas instantâneas",
   "instantProcessedFoods.makeRecipe": "Faça a receita",
   "description.instantFood.furikakeSprinkle": "Um ingrediente de peixe processado - captura garantida.",
@@ -7778,5 +7776,7 @@
   "auction.doNotCancel": "Não cancele",
   "description.powerHour.boost": "-50% do tempo de crescimento da safra",
   "description.sunshower.boost": "-50% do tempo de crescimento da safra",
-  "description.sunshower.guardianBoost": "-75% do tempo de crescimento da safra, impulsionado por {{guardian}}"
+  "description.sunshower.guardianBoost": "-75% do tempo de crescimento da safra, impulsionado por {{guardian}}",
+  "caught": "apanhado",
+  "chum": "amigo"
 }

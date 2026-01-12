@@ -7761,8 +7761,6 @@
   "fishingPuzzle.findSafePath": "Trova il percorso sicuro per la mappa",
   "fishingPuzzle.timeoutTitle": "Oh no, non sei stato abbastanza veloce!",
   "fishingPuzzle.timeoutMessage": "Oh no, non sei stato abbastanza veloce, hai perso un pezzo di mappa.",
-  "caught": "Catturato",
-  "chum": "amico",
   "instantProcessedFoods.recipes": "Ricette istantanee",
   "instantProcessedFoods.makeRecipe": "Prepara una ricetta",
   "description.instantFood.furikakeSprinkle": "Ingrediente a base di pesce lavorato: cattura garantita.",
@@ -7778,5 +7776,7 @@
   "auction.doNotCancel": "Non annullare",
   "description.powerHour.boost": "-50% tempo di crescita delle colture su terreno",
   "description.sunshower.boost": "-50% tempo di crescita delle colture su terreno",
-  "description.sunshower.guardianBoost": "-75% del tempo di crescita del raccolto per parcella, aumentato di {{guardian}}"
+  "description.sunshower.guardianBoost": "-75% del tempo di crescita del raccolto per parcella, aumentato di {{guardian}}",
+  "caught": "catturate",
+  "chum": "amico"
 }

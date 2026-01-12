@@ -7761,8 +7761,6 @@
   "fishingPuzzle.findSafePath": "Harita için güvenli yolu bulun",
   "fishingPuzzle.timeoutTitle": "Oh hayır, yeterince hızlı değildin!",
   "fishingPuzzle.timeoutMessage": "Oh hayır, yeterince hızlı değildin, bir harita parçasını kaçırdın.",
-  "caught": "Yakalandı",
-  "chum": "Arkadaş",
   "instantProcessedFoods.recipes": "Anında Tarifler",
   "instantProcessedFoods.makeRecipe": "Tarif yap",
   "description.instantFood.furikakeSprinkle": "İşlenmiş bir balık bileşeni - garantili avlanma.",
@@ -7778,5 +7776,7 @@
   "auction.doNotCancel": "İptal etmeyin",
   "description.powerHour.boost": "-50% arsa mahsulü büyüme süresi",
   "description.sunshower.boost": "-50% arsa mahsulü büyüme süresi",
-  "description.sunshower.guardianBoost": "%-75 arsa mahsulü büyüme süresi, {{guardian}} ile artırıldı"
+  "description.sunshower.guardianBoost": "%-75 arsa mahsulü büyüme süresi, {{guardian}} ile artırıldı",
+  "caught": "yakalandı",
+  "chum": "ahbap"
 }

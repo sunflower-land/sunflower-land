@@ -7761,8 +7761,6 @@
   "fishingPuzzle.findSafePath": "找到地图的安全路径",
   "fishingPuzzle.timeoutTitle": "哦不，你还不够快！",
   "fishingPuzzle.timeoutMessage": "哦不，你还不够快，你错过了一张地图。",
-  "caught": "抓到了",
-  "chum": "Chum",
   "instantProcessedFoods.recipes": "即时食谱",
   "instantProcessedFoods.makeRecipe": "做食谱",
   "description.instantFood.furikakeSprinkle": "一种经过加工的鱼类原料，保证捕捞量。",
@@ -7778,5 +7776,7 @@
   "auction.doNotCancel": "不要取消",
   "description.powerHour.boost": "-50% 地块作物生长时间",
   "description.sunshower.boost": "-50% 地块作物生长时间",
-  "description.sunshower.guardianBoost": "-75% 的地块作物生长时间，受 {{guardian}} 的推动"
+  "description.sunshower.guardianBoost": "-75% 的地块作物生长时间，受 {{guardian}} 的推动",
+  "caught": "抓住了",
+  "chum": "密友"
 }

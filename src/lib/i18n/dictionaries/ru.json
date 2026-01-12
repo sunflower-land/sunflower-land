@@ -7761,8 +7761,6 @@
   "fishingPuzzle.findSafePath": "Find the safe path for the map",
   "fishingPuzzle.timeoutTitle": "Oh no, you weren't quick enough!",
   "fishingPuzzle.timeoutMessage": "Oh no, you weren't quick enough, you missed a map piece.",
-  "caught": "Caught",
-  "chum": "Chum",
   "instantProcessedFoods.recipes": "Instant Recipes",
   "instantProcessedFoods.makeRecipe": "Make recipe",
   "description.instantFood.furikakeSprinkle": "A processed fish ingredient - guaranteed catch.",
@@ -7778,5 +7776,7 @@
   "auction.doNotCancel": "Do not cancel",
   "description.powerHour.boost": "-50% plot crop growth time",
   "description.sunshower.boost": "-50% plot crop growth time",
-  "description.sunshower.guardianBoost": "-75% plot crop growth time, boosted by {{guardian}}"
+  "description.sunshower.guardianBoost": "-75% plot crop growth time, boosted by {{guardian}}",
+  "caught": "caught",
+  "chum": "chum"
 }

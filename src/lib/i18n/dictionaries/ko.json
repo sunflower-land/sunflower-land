@@ -7761,8 +7761,6 @@
   "fishingPuzzle.findSafePath": "지도의 안전한 경로 찾기",
   "fishingPuzzle.timeoutTitle": "오, 아니, 당신은 충분히 빠르지 않았어요!",
   "fishingPuzzle.timeoutMessage": "오, 아니, 당신은 충분히 빠르지 않았어요. 맵 피스를 놓치셨군요.",
-  "caught": "잡혔어",
-  "chum": "친구",
   "instantProcessedFoods.recipes": "인스턴트 레시피",
   "instantProcessedFoods.makeRecipe": "레시피 만들기",
   "description.instantFood.furikakeSprinkle": "가공된 생선 재료 - 어획량 보장.",
@@ -7778,5 +7776,7 @@
   "auction.doNotCancel": "취소하지 마세요",
   "description.powerHour.boost": "-50% 플롯 작물 성장 시간",
   "description.sunshower.boost": "-50% 플롯 작물 성장 시간",
-  "description.sunshower.guardianBoost": "작물 성장 시간 -75%, {{guardian}} 증가"
+  "description.sunshower.guardianBoost": "작물 성장 시간 -75%, {{guardian}} 증가",
+  "caught": "잡힌",
+  "chum": "친구"
 }

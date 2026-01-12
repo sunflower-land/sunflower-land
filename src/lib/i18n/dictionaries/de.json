@@ -7761,8 +7761,6 @@
   "fishingPuzzle.findSafePath": "Finde den sicheren Pfad für die Karte",
   "fishingPuzzle.timeoutTitle": "Oh nein, du warst nicht schnell genug!",
   "fishingPuzzle.timeoutMessage": "Oh nein, du warst nicht schnell genug, du hast ein Kartenstück verpasst.",
-  "caught": "Erwischt",
-  "chum": "Kumpel",
   "instantProcessedFoods.recipes": "Sofortige Rezepte",
   "instantProcessedFoods.makeRecipe": "Rezept machen",
   "description.instantFood.furikakeSprinkle": "Eine verarbeitete Fischzutat — garantierter Fang.",
@@ -7778,5 +7776,7 @@
   "auction.doNotCancel": "Nicht stornieren",
   "description.powerHour.boost": "-50% Wachstumszeit der Parzellenfrüchte",
   "description.sunshower.boost": "-50% Wachstumszeit der Parzellenfrüchte",
-  "description.sunshower.guardianBoost": "-75% Wachstumszeit der Parzellenfrüchte, erhöht um {{guardian}}"
+  "description.sunshower.guardianBoost": "-75% Wachstumszeit der Parzellenfrüchte, erhöht um {{guardian}}",
+  "caught": "erwischt",
+  "chum": "Kumpel"
 }

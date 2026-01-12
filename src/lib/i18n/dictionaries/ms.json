@@ -7761,8 +7761,6 @@
   "fishingPuzzle.findSafePath": "Cari jalan selamat untuk peta",
   "fishingPuzzle.timeoutTitle": "Oh tidak, anda tidak cukup cepat!",
   "fishingPuzzle.timeoutMessage": "Oh tidak, anda tidak cukup cepat, anda terlepas sekeping peta.",
-  "caught": "Ditangkap",
-  "chum": "Chum",
   "instantProcessedFoods.recipes": "Resipi Segera",
   "instantProcessedFoods.makeRecipe": "Buat resipi",
   "description.instantFood.furikakeSprinkle": "Bahan ikan yang diproses - tangkapan yang dijamin.",
@@ -7778,5 +7776,7 @@
   "auction.doNotCancel": "Jangan membatalkan",
   "description.powerHour.boost": "-50% masa pertumbuhan tanaman plot",
   "description.sunshower.boost": "-50% masa pertumbuhan tanaman plot",
-  "description.sunshower.guardianBoost": "-75% masa pertumbuhan tanaman plot, dirangsang oleh {{guardian}}"
+  "description.sunshower.guardianBoost": "-75% masa pertumbuhan tanaman plot, dirangsang oleh {{guardian}}",
+  "caught": "ditangkap",
+  "chum": "kawan"
 }
