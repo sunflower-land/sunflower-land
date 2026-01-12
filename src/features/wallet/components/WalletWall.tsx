@@ -13,6 +13,7 @@ import {
   useConnection,
   useConnections,
   useDisconnect,
+  useConnectors,
 } from "wagmi";
 import { ConnectErrorType } from "wagmi/actions";
 import { RoninButtons } from "./buttons/RoninButtons";
@@ -150,20 +151,22 @@ export const WalletWall: React.FC<{
   const { mutate: connect, reset, error, isError } = useConnect();
   const { mutate: disconnect } = useDisconnect();
   const connections = useConnections();
-  const connectors = connections.map((connection) => connection.connector);
+  const connectors = useConnectors();
 
   /** Custom code for the WalletConnect deep link used by the Ronin wallet */
   const walletConnectConnector = connectors.filter(
     ({ id }) => id === "walletConnect",
   )[0];
 
-  const [provider, setProvider] = useState<any>(null);
+  const [provider, setProvider] = useState<unknown>(null);
   useEffect(() => {
     (async () => {
-      const provider = await walletConnectConnector.getProvider();
-      setProvider(provider);
+      if (!walletConnectConnector) return;
+      await walletConnectConnector
+        .getProvider()
+        .then((provider) => setProvider(provider));
     })();
-  }, []);
+  }, [walletConnectConnector]);
 
   const setRoninDeepLink = (isOn: boolean) => {
     if (isOn && isMobile) {
