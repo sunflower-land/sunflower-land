@@ -59,6 +59,18 @@ function acknowledgeDailyReward() {
   localStorage.setItem("dailyRewardAcknowledged", new Date().toISOString());
 }
 
+const getUtcDay = (value: number) => {
+  const date = new Date(value);
+
+  return Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+};
+
+const getUtcDayDifference = (later: number, earlier: number) => {
+  const difference = getUtcDay(later) - getUtcDay(earlier);
+
+  return Math.max(0, Math.floor(difference / (1000 * 60 * 60 * 24)));
+};
+
 export function getDailyRewardLastAcknowledged(): Date | null {
   const value = localStorage.getItem("dailyRewardAcknowledged");
   if (!value) return null;
@@ -89,10 +101,7 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
     gameService.send("CONTINUE");
 
     if (gameState.createdAt > new Date("2026-01-09").getTime()) {
-      const daysSinceLastClaim = Math.max(
-        0,
-        Math.floor((now - lastCollectedAt) / (1000 * 60 * 60 * 24)),
-      );
+      const daysSinceLastClaim = getUtcDayDifference(now, lastCollectedAt);
       const totalClaimed =
         gameService.getSnapshot().context.state.farmActivity[
           "Daily Reward Collected"
