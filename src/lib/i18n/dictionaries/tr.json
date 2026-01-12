@@ -7775,5 +7775,8 @@
   "streams.timeToNextClaim": "Bir sonraki talep süresi - {{time}}",
   "streams.boxesClaimed": "Talep edilen kutular: {{count}}/10",
   "auction.cancelBid": "Teklifi iptal et",
-  "auction.doNotCancel": "İptal etmeyin"
+  "auction.doNotCancel": "İptal etmeyin",
+  "description.powerHour.boost": "-50% arsa mahsulü büyüme süresi",
+  "description.sunshower.boost": "-50% arsa mahsulü büyüme süresi",
+  "description.sunshower.guardianBoost": "%-75 arsa mahsulü büyüme süresi, {{guardian}} ile artırıldı"
 }

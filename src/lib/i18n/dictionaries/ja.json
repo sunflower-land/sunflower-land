@@ -7775,5 +7775,8 @@
   "streams.timeToNextClaim": "次の請求までの時間-{{time}}",
   "streams.boxesClaimed": "請求されたボックス:{{count}} /10",
   "auction.cancelBid": "入札をキャンセル",
-  "auction.doNotCancel": "キャンセルしないでください"
+  "auction.doNotCancel": "キャンセルしないでください",
+  "description.powerHour.boost": "-50% プロットの作物の成長時間",
+  "description.sunshower.boost": "-50% プロットの作物の成長時間",
+  "description.sunshower.guardianBoost": "作物の生育時間 -75%（{{guardian}} による後押し）"
 }

@@ -7775,5 +7775,8 @@
   "streams.timeToNextClaim": "Zeit bis zur nächsten Reklamation - {{time}}",
   "streams.boxesClaimed": "Beanspruchte Kartons: {{count}}/10",
   "auction.cancelBid": "Gebot stornieren",
-  "auction.doNotCancel": "Nicht stornieren"
+  "auction.doNotCancel": "Nicht stornieren",
+  "description.powerHour.boost": "-50% Wachstumszeit der Parzellenfrüchte",
+  "description.sunshower.boost": "-50% Wachstumszeit der Parzellenfrüchte",
+  "description.sunshower.guardianBoost": "-75% Wachstumszeit der Parzellenfrüchte, erhöht um {{guardian}}"
 }

@@ -7775,5 +7775,8 @@
   "streams.timeToNextClaim": "是时候下次索赔了-{{time}}",
   "streams.boxesClaimed": "领取的箱子：{{count}}/10",
   "auction.cancelBid": "取消出价",
-  "auction.doNotCancel": "不要取消"
+  "auction.doNotCancel": "不要取消",
+  "description.powerHour.boost": "-50% 地块作物生长时间",
+  "description.sunshower.boost": "-50% 地块作物生长时间",
+  "description.sunshower.guardianBoost": "-75% 的地块作物生长时间，受 {{guardian}} 的推动"
 }

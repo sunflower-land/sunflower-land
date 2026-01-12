@@ -7775,5 +7775,8 @@
   "streams.timeToNextClaim": "Time to next claim - {{time}}",
   "streams.boxesClaimed": "Boxes claimed: {{count}} / 10",
   "auction.cancelBid": "Cancel bid",
-  "auction.doNotCancel": "Do not cancel"
+  "auction.doNotCancel": "Do not cancel",
+  "description.powerHour.boost": "-50% plot crop growth time",
+  "description.sunshower.boost": "-50% plot crop growth time",
+  "description.sunshower.guardianBoost": "-75% plot crop growth time, boosted by {{guardian}}"
 }

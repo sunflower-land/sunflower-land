@@ -7775,5 +7775,8 @@
   "streams.timeToNextClaim": "다음 청구까지 남은 시간 - {{time}}",
   "streams.boxesClaimed": "적발된 박스 수: {{count}}/10",
   "auction.cancelBid": "입찰 취소",
-  "auction.doNotCancel": "취소하지 마세요"
+  "auction.doNotCancel": "취소하지 마세요",
+  "description.powerHour.boost": "-50% 플롯 작물 성장 시간",
+  "description.sunshower.boost": "-50% 플롯 작물 성장 시간",
+  "description.sunshower.guardianBoost": "작물 성장 시간 -75%, {{guardian}} 증가"
 }

@@ -7775,5 +7775,8 @@
   "streams.timeToNextClaim": "È ora del prossimo reclamo - {{time}}",
   "streams.boxesClaimed": "Scatole reclamate: {{count}}/10",
   "auction.cancelBid": "Annulla l'offerta",
-  "auction.doNotCancel": "Non annullare"
+  "auction.doNotCancel": "Non annullare",
+  "description.powerHour.boost": "-50% tempo di crescita delle colture su terreno",
+  "description.sunshower.boost": "-50% tempo di crescita delle colture su terreno",
+  "description.sunshower.guardianBoost": "-75% del tempo di crescita del raccolto per parcella, aumentato di {{guardian}}"
 }

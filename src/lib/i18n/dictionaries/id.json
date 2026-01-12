@@ -7775,5 +7775,8 @@
   "streams.timeToNextClaim": "Waktu untuk klaim berikutnya - {{time}}",
   "streams.boxesClaimed": "Kotak diklaim: {{count}}/10",
   "auction.cancelBid": "Batalkan tawaran",
-  "auction.doNotCancel": "Jangan membatalkan"
+  "auction.doNotCancel": "Jangan membatalkan",
+  "description.powerHour.boost": "-50% waktu pertumbuhan tanaman plot",
+  "description.sunshower.boost": "-50% waktu pertumbuhan tanaman plot",
+  "description.sunshower.guardianBoost": "-75% waktu pertumbuhan tanaman plot, didorong oleh {{guardian}}"
 }
