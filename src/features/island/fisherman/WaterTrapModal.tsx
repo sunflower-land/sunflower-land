@@ -76,17 +76,17 @@ export const WaterTrapModal: React.FC<Props> = ({
   const chums = selectedTrap ? WATER_TRAP[selectedTrap].chums : [];
 
   const isValidChumForTrap =
-    selectedTrap && selectedChum ? chums.includes(selectedChum) : false;
+    selectedTrap && selectedChum ? chums.includes(selectedChum) : true;
 
   const handlePlace = () => {
     if (!selectedTrap) return;
     const hasTrap = selectedTrap === "Crab Pot" ? hasCrabPot : hasMarinerPot;
     if (!hasTrap) return;
 
-   const chumAmount = selectedChum ? CRUSTACEAN_CHUM_AMOUNTS[selectedChum] : 0;
-   const hasChum = selectedChum
-     ? (items[selectedChum]?.gte(chumAmount) ?? false)
-     : true;
+    const chumAmount = selectedChum ? CRUSTACEAN_CHUM_AMOUNTS[selectedChum] : 0;
+    const hasChum = selectedChum
+      ? (items[selectedChum]?.gte(chumAmount) ?? false)
+      : true;
 
     if (!hasChum) return;
 
@@ -269,10 +269,8 @@ export const WaterTrapModal: React.FC<Props> = ({
                     image={ITEM_DETAILS[chum].image}
                     count={items[chum]}
                     onClick={() =>
-                        setSelectedChum(
-                          selectedChum === chum ? undefined : chum,
-                        )
-                      }
+                      setSelectedChum(selectedChum === chum ? undefined : chum)
+                    }
                     isSelected={selectedChum === chum}
                     disabled={!hasEnough}
                   />
@@ -297,12 +295,7 @@ export const WaterTrapModal: React.FC<Props> = ({
 
       <Button
         onClick={handlePlace}
-        disabled={
-          !selectedTrap ||
-          !selectedChum ||
-          !isValidChumForTrap ||
-          !hasEnoughChum
-        }
+        disabled={!selectedTrap || !isValidChumForTrap || !hasEnoughChum}
         className="w-full"
       >
         {t("waterTrap.place")}
