@@ -5,7 +5,7 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { Context } from "features/game/GameProvider";
 
 import {
-  useAccount,
+  useConnection,
   useConnections,
   useDisconnect,
   useSwitchChain,
@@ -342,9 +342,9 @@ export const SelectChainDropdown: React.FC<SelectChainDropdownProps> = ({
 const WalletConnectedHeader: React.FC<{ availableChains: number[] }> = ({
   availableChains,
 }) => {
-  const { chainId, address, connector, chain } = useAccount();
-  const { disconnect } = useDisconnect();
-  const { switchChain, isPending } = useSwitchChain();
+  const { chainId, address, connector, chain } = useConnection();
+  const { mutate: disconnect } = useDisconnect();
+  const { mutate: switchChain, isPending } = useSwitchChain();
   const connections = useConnections();
   const { t } = useAppTranslation();
 
@@ -470,7 +470,7 @@ export const Wallet: React.FC<PropsWithChildren<Props>> = ({
   farmAddress,
   enforceChainId,
 }) => {
-  const { address, isConnected, chainId } = useAccount();
+  const { address, isConnected, chainId } = useConnection();
 
   const { requiresLinkedWallet, requiresNFT, chains } = WALLET_ACTIONS[action];
   const requiresChain = Object.values(chains).some(Boolean);

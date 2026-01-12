@@ -4,9 +4,9 @@ import { CONFIG } from "lib/config";
 import { parseMetamaskError } from "./utils";
 import Decimal from "decimal.js-light";
 import {
-  getAccount,
   getBalance,
   getChainId,
+  getConnection,
   readContract,
   sendTransaction,
   switchChain,
@@ -40,14 +40,14 @@ const SFL_TOKEN_ADDRESS = CONFIG.TOKEN_CONTRACT;
  * A wrapper of Viem which handles retries and other common errors.
  */
 export class Wallet {
-  public getAccount() {
-    const { address } = getAccount(config);
+  public getConnection(): `0x${string}` | undefined {
+    const { address } = getConnection(config);
 
     return address;
   }
 
-  public async getMaticBalance() {
-    const account = this.getAccount();
+  public async getMaticBalance(): Promise<number> {
+    const account = this.getConnection();
     if (!account) {
       throw new Error(ERRORS.NO_WEB3);
     }
@@ -58,7 +58,7 @@ export class Wallet {
     return Number(response.value);
   }
 
-  public async isPolygon() {
+  public async isPolygon(): Promise<boolean> {
     const chainId = getChainId(config);
     return chainId === CONFIG.POLYGON_CHAIN_ID;
   }
@@ -98,7 +98,7 @@ export class Wallet {
     }
   }
 
-  public async getSFLForMatic(matic: string) {
+  public async getSFLForMatic(matic: string): Promise<Decimal> {
     const maticMinusFee = (BigInt(matic) * BigInt(950)) / BigInt(1000);
 
     const result = await readContract(config, {
@@ -125,7 +125,7 @@ export class Wallet {
     return new Decimal(formatEther(result[1]));
   }
 
-  public async getMaticForSFL(sfl: string) {
+  public async getMaticForSFL(sfl: string): Promise<Decimal> {
     const result = await readContract(config, {
       chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
       abi: [

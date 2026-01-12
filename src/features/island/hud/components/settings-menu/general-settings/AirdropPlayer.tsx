@@ -28,7 +28,7 @@ import { config } from "features/wallet/WalletProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
-import { useAccount } from "wagmi";
+import { useConnection } from "wagmi";
 import { ErrorCode } from "lib/errors";
 
 // Types
@@ -378,7 +378,7 @@ export const AirdropPlayer: React.FC<
     (state) => state.context.transactionId,
   );
 
-  const { chainId } = useAccount();
+  const { chainId } = useConnection();
 
   // Basic state
   const [farmIds, setFarmIds] = useState<string>(id?.toString() ?? "");

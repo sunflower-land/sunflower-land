@@ -9,8 +9,8 @@ import { useContext, useEffect, useState } from "react";
 import {
   Connector,
   CreateConnectorFn,
-  useAccount,
   useConnect,
+  useConnection,
   useConnections,
   useDisconnect,
 } from "wagmi";
@@ -146,10 +146,11 @@ export const WalletWall: React.FC<{
     "wechat" | "fsl" | null
   >(null);
 
-  const { isConnecting, isConnected } = useAccount();
-  const { connect, reset, error, isError, connectors } = useConnect();
-  const { disconnect } = useDisconnect();
+  const { isConnecting, isConnected } = useConnection();
+  const { mutate: connect, reset, error, isError } = useConnect();
+  const { mutate: disconnect } = useDisconnect();
   const connections = useConnections();
+  const connectors = connections.map((connection) => connection.connector);
 
   /** Custom code for the WalletConnect deep link used by the Ronin wallet */
   const walletConnectConnector = connectors.filter(

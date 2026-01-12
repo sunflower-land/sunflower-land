@@ -28,11 +28,11 @@ export const DequipBumpkin: React.FC = () => {
 
   const [showSuccess, setShowSuccess] = useState(false);
 
+  const account = wallet.getConnection() as `0x${string}`;
+
   useEffect(() => {
     const load = async () => {
-      const walletBumpkins = await loadBumpkins(
-        wallet.getAccount() as `0x${string}`,
-      );
+      const walletBumpkins = await loadBumpkins(account);
 
       setWalletBumpkins(walletBumpkins);
 
@@ -59,7 +59,7 @@ export const DequipBumpkin: React.FC = () => {
     );
 
     await dequipBumpkin({
-      account: wallet.getAccount() as `0x${string}`,
+      account,
       bumpkinId: selectedBumpkinId as number,
       ids: Object.keys(wearables).map(Number),
       amounts: Object.values(wearables),
@@ -113,7 +113,7 @@ export const DequipBumpkin: React.FC = () => {
     <>
       <div className="p-2">
         <Label className="my-2 font-secondary" type="default" icon={walletIcon}>
-          {shortAddress(wallet.getAccount() as `0x${string}`)}
+          {shortAddress(account)}
         </Label>
         <p className="mb-3 text-sm">{t("dequipper.intro")}</p>
         <div className="flex flex-wrap max-h-48 overflow-y-scroll">

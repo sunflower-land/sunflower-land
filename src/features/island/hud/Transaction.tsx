@@ -8,7 +8,7 @@ import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDeta
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
-import { useAccount, useWaitForTransactionReceipt } from "wagmi";
+import { useConnection, useWaitForTransactionReceipt } from "wagmi";
 import {
   DEADLINE_BUFFER_MS,
   DEADLINE_MS,
@@ -83,7 +83,7 @@ const TransactionWidget: React.FC<{
   onOpen: () => void;
 }> = ({ transaction, onOpen }) => {
   const { gameService } = useContext(Context);
-  const { isConnected } = useAccount();
+  const { isConnected } = useConnection();
   const { t } = useAppTranslation();
   const now = useNow({ live: true });
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Connector, CreateConnectorFn, useConnect } from "wagmi";
+import { Connector, CreateConnectorFn, useConnections } from "wagmi";
 import { InjectedProviderButton } from "./InjectedProviderButton";
 import { fallbackConnector } from "features/wallet/WalletProvider";
 import { EIP6963Button } from "./EIP6963Button";
@@ -10,7 +10,8 @@ export const InjectedProviderButtons = ({
 }: {
   onConnect: (connector: Connector | CreateConnectorFn) => void;
 }) => {
-  const { connectors } = useConnect();
+  const connections = useConnections();
+  const connectors = connections.map((connection) => connection.connector);
 
   const eip6963Connectors = connectors.filter(
     (connector) => connector.type === "injected" && !!connector.icon,

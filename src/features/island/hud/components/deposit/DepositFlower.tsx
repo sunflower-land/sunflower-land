@@ -22,7 +22,7 @@ import {
   RONIN_MAINNET_NETWORK,
   RONIN_TESTNET_NETWORK,
 } from "features/wallet/Wallet";
-import { useAccount, useSwitchChain } from "wagmi";
+import { useConnection, useSwitchChain } from "wagmi";
 import {
   getDepositPreference,
   setDepositPreference,
@@ -96,8 +96,8 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
   const linkedWallet = useSelector(gameService, _linkedWallet);
   const authToken = useSelector(authService, _authToken);
 
-  const { chainId } = useAccount();
-  const { switchChain, isPending } = useSwitchChain();
+  const { chainId } = useConnection();
+  const { mutate: switchChain, isPending } = useSwitchChain();
 
   const selectedNetwork =
     networkOptions.find((network) => network.chainId === chainId) ??

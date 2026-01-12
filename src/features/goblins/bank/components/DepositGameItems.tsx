@@ -134,7 +134,8 @@ const DepositOptions: React.FC<Props> = ({
     if (status !== "loading") return;
     // Load balances from the user's personal wallet
     const loadBalances = async () => {
-      if (!wallet.getAccount()) {
+      const account = wallet.getConnection();
+      if (!account) {
         setStatus("error");
         // Notify parent that we're done loading
         onLoaded && onLoaded(false);
@@ -142,21 +143,13 @@ const DepositOptions: React.FC<Props> = ({
       }
 
       try {
-        const inventoryBalanceFn = getInventoryBalances(
-          wallet.getAccount() as `0x${string}`,
-        );
+        const inventoryBalanceFn = getInventoryBalances(account);
 
-        const wearableBalanceFn = loadWardrobe(
-          wallet.getAccount() as `0x${string}`,
-        );
+        const wearableBalanceFn = loadWardrobe(account);
 
-        const budBalanceFn = getBudsBalance(
-          wallet.getAccount() as `0x${string}`,
-        );
+        const budBalanceFn = getBudsBalance(account);
 
-        const petsBalanceFn = getPetsBalance(
-          wallet.getAccount() as `0x${string}`,
-        );
+        const petsBalanceFn = getPetsBalance(account);
 
         const [inventoryBalance, wearableBalance, budBalance, petsBalance] =
           await Promise.all([
