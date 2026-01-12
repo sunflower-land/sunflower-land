@@ -19,6 +19,7 @@ import { CONFIG } from "lib/config";
 import { MarketplaceTransferInProgress } from "./components/MarketplaceTransferInProgress";
 import { MarketplaceListingNotClaimed } from "./components/MarketplaceListingNotClaimed";
 import { ClientOutdated } from "./components/ClientOutdated";
+import { DuplicateWithdraw } from "./components/DuplicateWithdraw";
 
 interface Props {
   errorCode: ErrorCode;
@@ -37,6 +38,10 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
       }
     };
   }, []);
+
+  if (errorCode === ERRORS.WITHDRAW_DUPLICATE) {
+    return <DuplicateWithdraw />;
+  }
 
   if (errorCode === ERRORS.NO_FARM) {
     return <Beta />;
