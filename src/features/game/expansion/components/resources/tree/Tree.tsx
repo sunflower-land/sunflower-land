@@ -13,8 +13,11 @@ import {
 import {
   canChop,
   getRequiredAxeAmount,
+  getReward,
   getWoodDropAmount,
 } from "features/game/events/landExpansion/chop";
+import { KNOWN_IDS } from "features/game/types";
+import { TreeName } from "features/game/types/resources";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 import { useSelector } from "@xstate/react";
@@ -57,6 +60,7 @@ const selectInventory = (state: MachineState) => state.context.state.inventory;
 const selectTreesChopped = (state: MachineState) =>
   state.context.state.farmActivity["Tree Chopped"] ?? 0;
 const selectGame = (state: MachineState) => state.context.state;
+const selectFarmId = (state: MachineState) => state.context.farmId;
 
 const compareResource = (prev: TreeType, next: TreeType) => {
   return JSON.stringify(prev) === JSON.stringify(next);
@@ -129,6 +133,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
   const treesChopped = useSelector(gameService, selectTreesChopped);
   const island = useSelector(gameService, selectIsland);
   const season = useSelector(gameService, selectSeason);
+  const farmId = useSelector(gameService, selectFarmId);
   const hasTool = HasTool(inventory, game, id);
   const readyAt = resource.wood.choppedAt + TREE_RECOVERY_TIME * 1000;
   const now = useNow({ live: true, autoEndAt: readyAt });
@@ -169,13 +174,21 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
   useUiRefresher({ active: chopped });
 
-  const claimAnyReward = () => {
-    if (resource.wood.reward) {
-      gameService.send("treeReward.collected", {
-        treeIndex: id,
+  // Calculate expected reward for UI preview (captcha gate for non-seasoned players)
+  const treeName: TreeName = resource.name ?? "Tree";
+  const currentCounter =
+    game.farmActivity[
+      `${treeName === "Tree" ? "Basic Tree" : treeName} Chopped`
+    ] ?? 0;
+
+  const { reward: expectedReward } = resource.wood.reward
+    ? { reward: resource.wood.reward }
+    : getReward({
+        skills: game.bumpkin?.skills ?? {},
+        farmId,
+        itemId: KNOWN_IDS[treeName],
+        counter: currentCounter,
       });
-    }
-  };
 
   const shake = () => {
     if (!hasTool) return;
@@ -185,27 +198,19 @@ export const Tree: React.FC<Props> = ({ id }) => {
       shortcutItem(tool);
     }
 
-    if (game.bumpkin.skills["Insta-Chop"]) {
-      // insta-chop the tree
-      claimAnyReward();
-      chop();
-      setTouchCount(0);
+    const hasInstaChop = game.bumpkin.skills["Insta-Chop"];
+
+    // Need to hit enough times to collect resource (unless Insta-Chop)
+    if (!hasInstaChop && touchCount < HITS - 1) return;
+
+    // For non-seasoned players with a reward, show captcha first
+    // This applies even with Insta-Chop - captcha is a security gate
+    if (expectedReward && !isSeasoned) {
+      setReward(expectedReward);
+      return;
     }
 
-    // need to hit enough times to collect resource
-    if (touchCount < HITS - 1) return;
-
-    if (resource.wood.reward) {
-      // they have touched enough!
-      if (isSeasoned) {
-        claimAnyReward();
-      } else {
-        setReward(resource.wood.reward);
-        return;
-      }
-    }
-
-    // can collect resources otherwise
+    // Seasoned players or no reward - just chop (reward applied in chop)
     chop();
     setTouchCount(0);
   };
@@ -214,6 +219,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
     setReward(undefined);
     if (success) {
       chop();
+      setTouchCount(0);
     }
   };
 
@@ -222,9 +228,10 @@ export const Tree: React.FC<Props> = ({ id }) => {
       resource.wood.amount ??
       getWoodDropAmount({
         game,
-        criticalDropGenerator: (name) =>
-          !!(resource.wood.criticalHit?.[name] ?? 0),
-        id,
+        tree: resource,
+        farmId,
+        itemId: KNOWN_IDS[treeName],
+        counter: currentCounter,
       }).amount;
 
     const newState = gameService.send("timber.chopped", {
@@ -291,13 +298,15 @@ export const Tree: React.FC<Props> = ({ id }) => {
         <DepletedTree timeLeft={timeLeft} island={island} season={season} />
       )}
 
-      {/* Chest reward */}
+      {/* Chest reward - captcha gate for non-seasoned players */}
       {reward && (
         <ChestReward
           collectedItem={"Wood"}
           reward={reward}
           onCollected={onCollectChest}
-          onOpen={claimAnyReward}
+          onOpen={() => {
+            // No-op - reward is applied in chop(), this is just for the chest animation
+          }}
         />
       )}
     </div>
