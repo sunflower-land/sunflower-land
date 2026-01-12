@@ -52,12 +52,7 @@ interface Props {
   ready: BuildingProduct[];
 }
 
-const PROCESSED_ITEMS: ProcessedFood[] = [
-  "Fish Flake",
-  "Fish Stick",
-  "Fish Oil",
-  "Crab Stick",
-];
+const PROCESSED_ITEMS: ProcessedFood[] = getKeys(FISH_PROCESSING_TIME_SECONDS);
 
 const _isVIP = (state: MachineState) =>
   hasVipAccess({ game: state.context.state });
