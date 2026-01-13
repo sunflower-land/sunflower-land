@@ -113,7 +113,7 @@ export function cancelProcessedResource({
     const { buildingId, buildingName, queueItem } = action;
 
     if (!isProcessingBuilding(buildingName)) {
-      throw new Error("Invalid food processing building");
+      throw new Error("Invalid resource processing building");
     }
 
     const building = game.buildings[buildingName]?.find(

@@ -49,7 +49,7 @@ describe("cancelProcessedResource", () => {
         } as CancelProcessedResourceAction,
         createdAt,
       }),
-    ).toThrow("Invalid food processing building");
+    ).toThrow("Invalid resource processing building");
   });
 
   it("throws when building is missing", () => {

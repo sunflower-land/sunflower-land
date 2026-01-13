@@ -1321,7 +1321,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Weekly Mega Box": 2720,
   "Basic Love Box": 2721,
 
-  // Processed Food
+  // Processed Resources
   "Fish Flake": 2722,
   "Fish Stick": 2723,
   "Fish Oil": 2724,
