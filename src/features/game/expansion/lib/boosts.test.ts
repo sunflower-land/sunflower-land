@@ -16,7 +16,7 @@ describe("boosts", () => {
         },
         now: new Date(),
       }),
-    ).toEqual(CROPS.Sunflower.sellPrice * 2);
+    ).toEqual({ price: CROPS.Sunflower.sellPrice * 2, boostsUsed: [] });
   });
 
   it("removes crop shortage price after 2 hours", () => {
@@ -32,7 +32,7 @@ describe("boosts", () => {
         },
         now,
       }),
-    ).toEqual(CROPS.Sunflower.sellPrice);
+    ).toEqual({ price: CROPS.Sunflower.sellPrice, boostsUsed: [] });
   });
 
   it("applies special event pricing", () => {
@@ -59,7 +59,7 @@ describe("boosts", () => {
           },
         },
       }),
-    ).toEqual(PATCH_FRUIT.Tomato.sellPrice * 1.05);
+    ).toEqual({ price: PATCH_FRUIT.Tomato.sellPrice * 1.05, boostsUsed: [] });
   });
 
   it("does not apply special event pricing if ineligible", () => {
@@ -86,7 +86,7 @@ describe("boosts", () => {
           },
         },
       }),
-    ).toEqual(PATCH_FRUIT.Tomato.sellPrice);
+    ).toEqual({ price: PATCH_FRUIT.Tomato.sellPrice, boostsUsed: [] });
   });
 
   it("applies Green Thumb boost to crop", () => {
@@ -105,7 +105,10 @@ describe("boosts", () => {
         },
         now,
       }),
-    ).toEqual(CROPS.Sunflower.sellPrice * 1.05);
+    ).toEqual({
+      price: CROPS.Sunflower.sellPrice * 1.05,
+      boostsUsed: ["Green Thumb"],
+    });
   });
 
   it("does not apply Green Thumb boost to non crops", () => {
@@ -124,7 +127,7 @@ describe("boosts", () => {
         },
         now,
       }),
-    ).toEqual(PATCH_FRUIT.Tomato.sellPrice);
+    ).toEqual({ price: PATCH_FRUIT.Tomato.sellPrice, boostsUsed: [] });
   });
 
   it("applies Coin Swindler boost to crop", () => {
@@ -148,10 +151,13 @@ describe("boosts", () => {
         },
         now,
       }),
-    ).toEqual(CROPS.Sunflower.sellPrice * 1.1);
+    ).toEqual({
+      price: CROPS.Sunflower.sellPrice * 1.1,
+      boostsUsed: ["Coin Swindler"],
+    });
   });
 
-  it("applies Coin Swindler boost to crop", () => {
+  it("does not apply Coin Swindler boost to non crops", () => {
     const now = new Date();
     expect(
       getSellPrice({
@@ -172,7 +178,10 @@ describe("boosts", () => {
         },
         now,
       }),
-    ).toEqual(PATCH_FRUIT.Tomato.sellPrice);
+    ).toEqual({
+      price: PATCH_FRUIT.Tomato.sellPrice,
+      boostsUsed: [],
+    });
   });
 
   it("boosts are additive", () => {
@@ -197,6 +206,9 @@ describe("boosts", () => {
         },
         now,
       }),
-    ).toEqual(CROPS.Sunflower.sellPrice * 2.15);
+    ).toEqual({
+      price: CROPS.Sunflower.sellPrice * 2.15,
+      boostsUsed: ["Green Thumb", "Coin Swindler"],
+    });
   });
 });

@@ -79,7 +79,7 @@ export const SeasonalCrops: React.FC = () => {
   ) =>
     isExoticCrop(crop.name)
       ? crop.sellPrice
-      : getSellPrice({ item: crop, game: state });
+      : getSellPrice({ item: crop, game: state }).price;
 
   const cropAmount = setPrecision(
     getCountAndType(state, selected.name).count,

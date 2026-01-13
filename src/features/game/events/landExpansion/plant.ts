@@ -32,11 +32,9 @@ import {
   isWithinAOE,
   Position,
 } from "features/game/expansion/placeable/lib/collisionDetection";
-import { isSummerCrop, isAutumnCrop } from "./harvest";
 import { getBudSpeedBoosts } from "features/game/lib/getBudSpeedBoosts";
 
 import { isWearableActive } from "features/game/lib/wearables";
-import { isGreenhouseCrop } from "./plantGreenhouse";
 import { produce } from "immer";
 import {
   CalendarEventName,
@@ -57,6 +55,7 @@ import {
   trackFarmActivity,
 } from "features/game/types/farmActivity";
 import { isBuffActive } from "features/game/types/buffs";
+import { isAutumnCrop, isSummerCrop } from "./harvest";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -246,32 +245,9 @@ export function getCropTime({
     boostsUsed.push("Harvest Hourglass");
   }
 
-  if (skills["Green Thumb"] && !isGreenhouseCrop(crop)) {
-    multiplier = multiplier * 0.95;
-    boostsUsed.push("Green Thumb");
-  }
-
   if (skills["Strong Roots"] && isAdvancedCrop(crop)) {
     multiplier = multiplier * 0.9;
     boostsUsed.push("Strong Roots");
-  }
-
-  if (
-    isSummerCrop(crop, game.season.season, SEASONAL_SEEDS) &&
-    !isGreenhouseCrop(crop) &&
-    isWearableActive({ name: "Solflare Aegis", game })
-  ) {
-    multiplier = multiplier * 0.5;
-    boostsUsed.push("Solflare Aegis");
-  }
-
-  if (
-    isAutumnCrop(crop, game.season.season, SEASONAL_SEEDS) &&
-    !isGreenhouseCrop(crop) &&
-    isWearableActive({ name: "Autumn's Embrace", game })
-  ) {
-    multiplier = multiplier * 0.5;
-    boostsUsed.push("Autumn's Embrace");
   }
 
   // Apply bud speed boosts
@@ -301,7 +277,10 @@ export const getCropPlotTime = ({
   aoe: AOE;
   boostsUsed: BoostName[];
 } => {
-  const { aoe } = game;
+  const {
+    aoe,
+    bumpkin: { skills },
+  } = game;
   const updatedAoe = cloneDeep(aoe);
 
   let seconds = CROPS[crop].harvestSeconds;
@@ -317,6 +296,27 @@ export const getCropPlotTime = ({
 
   if (seconds === 0) {
     return { time: 0, aoe: updatedAoe, boostsUsed };
+  }
+
+  if (
+    isSummerCrop(crop, game.season.season, SEASONAL_SEEDS) &&
+    isWearableActive({ name: "Solflare Aegis", game })
+  ) {
+    seconds = seconds * 0.5;
+    boostsUsed.push("Solflare Aegis");
+  }
+
+  if (
+    isAutumnCrop(crop, game.season.season, SEASONAL_SEEDS) &&
+    isWearableActive({ name: "Autumn's Embrace", game })
+  ) {
+    seconds = seconds * 0.5;
+    boostsUsed.push("Autumn's Embrace");
+  }
+
+  if (skills["Green Thumb"]) {
+    seconds = seconds * 0.95;
+    boostsUsed.push("Green Thumb");
   }
 
   if (isTemporaryCollectibleActive({ name: "Sparrow Shrine", game })) {

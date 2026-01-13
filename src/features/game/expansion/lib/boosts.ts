@@ -70,22 +70,20 @@ export const getSellPrice = ({
   item: SellableItem;
   game: GameState;
   now?: Date;
-}) => {
+}): { price: number; boostsUsed: BoostName[] } => {
+  const boostUsed: BoostName[] = [];
   const price = item.sellPrice;
 
   const { inventory, bumpkin } = game;
 
-  if (!bumpkin) {
-    throw new Error("You do not have a Bumpkin");
-  }
-
-  if (!price) return 0;
+  if (!price) return { price: 0, boostsUsed: [] };
 
   let multiplier = 1;
 
   // apply Green Thumb boost to crop LEGACY SKILL!
   if (item.name in crops && inventory["Green Thumb"]?.greaterThanOrEqualTo(1)) {
     multiplier += 0.05;
+    boostUsed.push("Green Thumb");
   }
 
   // Crop Shortage during initial gameplay
@@ -111,9 +109,10 @@ export const getSellPrice = ({
 
   if (bumpkin.skills["Coin Swindler"] && item.name in CROPS) {
     multiplier += 0.1;
+    boostUsed.push("Coin Swindler");
   }
 
-  return price * multiplier;
+  return { price: price * multiplier, boostsUsed: boostUsed };
 };
 
 /**

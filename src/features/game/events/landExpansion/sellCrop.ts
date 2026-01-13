@@ -20,6 +20,7 @@ import {
 import { produce } from "immer";
 import { ExoticCrop } from "features/game/types/beans";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type SellableName = CropName | PatchFruitName;
 export type SellableItem =
@@ -77,7 +78,7 @@ export function sellCrop({
       throw new Error("Insufficient quantity to sell");
     }
 
-    const price = getSellPrice({
+    const { price, boostsUsed } = getSellPrice({
       item: sellables,
       game,
       now: new Date(createdAt),
@@ -99,6 +100,12 @@ export function sellCrop({
     game.inventory[action.crop] = setPrecision(
       (game.inventory[action.crop] ?? new Decimal(0)).sub(amount),
     );
+
+    game.boostsUsedAt = updateBoostUsed({
+      game,
+      boostNames: boostsUsed,
+      createdAt,
+    });
 
     return game;
   });
