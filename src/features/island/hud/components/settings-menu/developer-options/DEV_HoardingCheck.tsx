@@ -207,11 +207,11 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
       </div>
 
       <div className="flex-1">
-        {error && <div className="text-sm text-red-500 mb-2">{error}</div>}
         {loading ? (
           <Loading />
-        ) : error ? null : inventoryLimits.length === 0 &&
-          wardrobeLimits.length === 0 ? (
+        ) : error ? (
+          <div className="text-sm text-red-500 mb-2">{error}</div>
+        ) : inventoryLimits.length === 0 && wardrobeLimits.length === 0 ? (
           <div className="text-sm">{t("no.limits.exceeded")}</div>
         ) : (
           <div className="space-y-1">
