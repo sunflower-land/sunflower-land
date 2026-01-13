@@ -72,6 +72,7 @@ export const getFlowerTime = (
 
   if (bumpkin.skills["Flower Power"]) {
     seconds *= 0.8;
+    boostsUsed.push("Flower Power");
   }
 
   if (bumpkin.skills["Flowery Abode"]) {

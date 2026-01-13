@@ -1613,8 +1613,9 @@ export type BoostName =
   | BumpkinItem
   | BumpkinRevampSkillName
   | BudNFTName
-  | "Power hour"
-  | "Sunshower";
+  | SpecialBoostName;
+
+export type SpecialBoostName = "Sunshower" | "Power hour";
 
 export type BoostUsedAt = Partial<Record<BoostName, number>>;
 
