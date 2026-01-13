@@ -34,7 +34,7 @@ const BASE_STATE: GameState = {
 };
 
 describe("cancelProcessedResource", () => {
-  it("throws when the building is not a food processing building", () => {
+  it("throws when the building is not a resource processing building", () => {
     expect(() =>
       cancelProcessedResource({
         state: BASE_STATE,
