@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "components/ui/Button";
 import { KNOWN_IDS } from "features/game/types";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useContext, useState } from "react";
 import GameABI from "lib/blockchain/abis/SunflowerLandGame";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -14,18 +14,27 @@ import { Loading } from "features/auth/components";
 import { OFFCHAIN_ITEMS } from "features/game/lib/offChainItems";
 import { InventoryItemName } from "features/game/types/game";
 import { getKeys } from "features/game/lib/crafting";
+import { Context as GameContext } from "features/game/GameProvider";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
+
+const _x_api_key = (state: MachineState) => state.context.apiKey;
 
 export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
   const { t } = useAppTranslation();
+  const { gameService } = useContext(GameContext);
+  const apiKey = useSelector(gameService, _x_api_key);
   const [loading, setLoading] = useState(false);
   const [farmId, setFarmId] = useState("");
   const [inventoryLimits, setInventoryLimits] = useState<string[]>([]);
   const [wardrobeLimits, setWardrobeLimits] = useState<string[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   async function search() {
     setLoading(true);
     setInventoryLimits([]);
     setWardrobeLimits([]);
+    setError(null);
 
     const API_URL = CONFIG.API_URL;
 
@@ -34,13 +43,27 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
         method: "POST",
         headers: {
           "content-type": "application/json;charset=UTF-8",
+          "x-api-key": apiKey || "",
         },
         body: JSON.stringify({
           ids: [Number(farmId)],
         }),
       });
 
+      if (!result.ok) {
+        const errorText = await result.text();
+        throw new Error(
+          `API Error (${result.status}): ${errorText || result.statusText}`,
+        );
+      }
+
       const json = await result.json();
+
+      if (!json.farms || !json.farms[farmId]) {
+        throw new Error(
+          `Farm ${farmId} not found. Make sure the farm ID is correct and you have access to it.`,
+        );
+      }
 
       // INVENTORY LIMITS
       const current = json.farms[farmId].inventory as Record<
@@ -150,6 +173,10 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
       }
 
       setWardrobeLimits(wardrobeLimits);
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : "An unknown error occurred";
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -176,9 +203,11 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
       </div>
 
       <div className="flex-1">
+        {error && <div className="text-sm text-red-500 mb-2">{error}</div>}
         {loading ? (
           <Loading />
-        ) : inventoryLimits.length === 0 && wardrobeLimits.length === 0 ? (
+        ) : error ? null : inventoryLimits.length === 0 &&
+          wardrobeLimits.length === 0 ? (
           <div className="text-sm">{t("no.limits.exceeded")}</div>
         ) : (
           <div className="space-y-1">
