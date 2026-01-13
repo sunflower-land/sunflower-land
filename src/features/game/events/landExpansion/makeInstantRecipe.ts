@@ -32,7 +32,7 @@ export function makeInstantRecipe({
 }: Options): GameState {
   return produce(state, (game) => {
     if (!isProcessingBuilding(action.buildingName)) {
-      throw new Error("Invalid processing building");
+      throw new Error("Invalid resource processing building");
     }
 
     const building = game.buildings[action.buildingName]?.find(
