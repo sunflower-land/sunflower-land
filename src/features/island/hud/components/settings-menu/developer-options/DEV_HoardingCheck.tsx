@@ -52,17 +52,21 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
 
       if (!result.ok) {
         const errorText = await result.text();
-        throw new Error(
+        setError(
           `API Error (${result.status}): ${errorText || result.statusText}`,
         );
+        setLoading(false);
+        return;
       }
 
       const json = await result.json();
 
       if (!json.farms || !json.farms[farmId]) {
-        throw new Error(
+        setError(
           `Farm ${farmId} not found. Make sure the farm ID is correct and you have access to it.`,
         );
+        setLoading(false);
+        return;
       }
 
       // INVENTORY LIMITS
@@ -173,11 +177,11 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
       }
 
       setWardrobeLimits(wardrobeLimits);
+      setLoading(false);
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "An unknown error occurred";
       setError(errorMessage);
-    } finally {
       setLoading(false);
     }
   }
