@@ -4,10 +4,10 @@ import { INITIAL_FARM } from "features/game/lib/constants";
 import { FISH_PROCESSING_TIME_SECONDS } from "features/game/types/fishProcessing";
 import { GameState } from "features/game/types/game";
 import {
-  collectProcessedFood,
-  CollectProcessedFoodAction,
-} from "./collectProcessedFood";
-import { FoodProcessingBuildingName } from "features/game/types/buildings";
+  collectProcessedResource,
+  CollectProcessedResourceAction,
+} from "./collectProcessedResource";
+import { ProcessingBuildingName } from "features/game/types/buildings";
 
 const createdAt = Date.now();
 
@@ -34,15 +34,15 @@ const SPRING_STATE: GameState = {
 describe("collectProcessedFood", () => {
   it("throws if the building is not a food processing building", () => {
     expect(() => {
-      collectProcessedFood({
+      collectProcessedResource({
         state: SPRING_STATE,
         action: {
-          type: "processedFood.collected",
+          type: "processedResource.collected",
           buildingId: "123",
-          buildingName: "Fire Pit" as FoodProcessingBuildingName,
+          buildingName: "Fire Pit" as ProcessingBuildingName,
         },
       });
-    }).toThrow("Invalid food processing building");
+    }).toThrow("Invalid resource processing building");
   });
 
   it("throws if the product is not ready", () => {
@@ -68,10 +68,10 @@ describe("collectProcessedFood", () => {
       },
     };
     expect(() => {
-      collectProcessedFood({
+      collectProcessedResource({
         state,
         action: {
-          type: "processedFood.collected",
+          type: "processedResource.collected",
           buildingId: "123",
           buildingName: "Fish Market",
         },
@@ -81,10 +81,10 @@ describe("collectProcessedFood", () => {
 
   it("throws if the fish market does not exist", () => {
     expect(() => {
-      collectProcessedFood({
+      collectProcessedResource({
         state: SPRING_STATE,
         action: {
-          type: "processedFood.collected",
+          type: "processedResource.collected",
           buildingId: "missing",
           buildingName: "Fish Market",
         },
@@ -117,13 +117,13 @@ describe("collectProcessedFood", () => {
       },
     };
 
-    const updated = collectProcessedFood({
+    const updated = collectProcessedResource({
       state,
       action: {
-        type: "processedFood.collected",
+        type: "processedResource.collected",
         buildingId: "123",
         buildingName: "Fish Market",
-      } as CollectProcessedFoodAction,
+      } as CollectProcessedResourceAction,
       createdAt,
     });
 

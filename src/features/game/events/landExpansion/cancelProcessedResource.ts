@@ -11,24 +11,24 @@ import {
   InventoryItemName,
 } from "features/game/types/game";
 import {
-  FoodProcessingBuildingName,
-  isFoodProcessingBuilding,
+  ProcessingBuildingName,
+  isProcessingBuilding,
 } from "features/game/types/buildings";
 import {
   PROCESSED_FOODS,
   ProcessedFood,
 } from "features/game/types/processedFood";
 
-export type CancelProcessedFoodAction = {
-  type: "processedFood.cancelled";
-  buildingName: FoodProcessingBuildingName;
+export type CancelProcessedResourceAction = {
+  type: "processedResource.cancelled";
+  buildingName: ProcessingBuildingName;
   buildingId: string;
   queueItem: BuildingProduct;
 };
 
 type Options = {
   state: Readonly<GameState>;
-  action: CancelProcessedFoodAction;
+  action: CancelProcessedResourceAction;
   createdAt?: number;
 };
 
@@ -104,7 +104,7 @@ export function recalculateProcessingQueue({
   return [...ready, current, ...updatedRemaining];
 }
 
-export function cancelProcessedFood({
+export function cancelProcessedResource({
   state,
   action,
   createdAt = Date.now(),
@@ -112,8 +112,8 @@ export function cancelProcessedFood({
   return produce(state, (game) => {
     const { buildingId, buildingName, queueItem } = action;
 
-    if (!isFoodProcessingBuilding(buildingName)) {
-      throw new Error("Invalid food processing building");
+    if (!isProcessingBuilding(buildingName)) {
+      throw new Error("Invalid resource processing building");
     }
 
     const building = game.buildings[buildingName]?.find(

@@ -21,7 +21,7 @@ import {
 import { ProcessedFood } from "features/game/types/processedFood";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasVipAccess } from "features/game/lib/vipAccess";
-import { MAX_FISH_PROCESSING_SLOTS } from "features/game/events/landExpansion/processFood";
+import { MAX_FISH_PROCESSING_SLOTS } from "features/game/events/landExpansion/processResource";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { InProgressInfo } from "../InProgressInfo";
@@ -178,7 +178,7 @@ export const FishMarketModal: React.FC<Props> = ({
                       className="text-xxs sm:text-sm whitespace-nowrap"
                       onClick={handleInstantRecipe}
                     >
-                      {t("instantProcessedFoods.makeRecipe")}
+                      {t("instantProcessedResources.makeRecipe")}
                     </Button>
                   )}
                   <Button
@@ -220,7 +220,7 @@ export const FishMarketModal: React.FC<Props> = ({
               <div className="flex flex-col gap-2">
                 <div>
                   <Label type="default" icon={process} className="ml-1">
-                    {t("processedFoods")}
+                    {t("processedResources")}
                   </Label>
                   <div className="flex flex-wrap sm:justify-start mt-1">
                     {PROCESSED_ITEMS.map((item) => (
@@ -236,7 +236,7 @@ export const FishMarketModal: React.FC<Props> = ({
                 </div>
                 <div className="mb-2">
                   <Label type="default" icon={lightning} className="ml-1">
-                    {t("instantProcessedFoods.recipes")}
+                    {t("instantProcessedResources.recipes")}
                   </Label>
                   <div className="flex flex-wrap sm:justify-start mt-1">
                     {getKeys(INSTANT_PROCESSED_RECIPES).map((item) => (

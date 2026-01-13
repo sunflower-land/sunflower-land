@@ -2,8 +2,8 @@ import Decimal from "decimal.js-light";
 import { produce } from "immer";
 
 import {
-  FoodProcessingBuildingName,
-  isFoodProcessingBuilding,
+  ProcessingBuildingName,
+  isProcessingBuilding,
 } from "features/game/types/buildings";
 import {
   INSTANT_PROCESSED_RECIPES,
@@ -16,7 +16,7 @@ export type MakeInstantRecipeAction = {
   type: "instantRecipe.made";
   recipe: InstantProcessedRecipeName;
   buildingId: string;
-  buildingName: FoodProcessingBuildingName;
+  buildingName: ProcessingBuildingName;
 };
 
 type Options = {
@@ -31,8 +31,8 @@ export function makeInstantRecipe({
   createdAt: _createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    if (!isFoodProcessingBuilding(action.buildingName)) {
-      throw new Error("Invalid food processing building");
+    if (!isProcessingBuilding(action.buildingName)) {
+      throw new Error("Invalid resource processing building");
     }
 
     const building = game.buildings[action.buildingName]?.find(

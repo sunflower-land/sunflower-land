@@ -7,7 +7,7 @@ import {
   MakeInstantRecipeAction,
   makeInstantRecipe,
 } from "./makeInstantRecipe";
-import { FoodProcessingBuildingName } from "features/game/types/buildings";
+import { ProcessingBuildingName } from "features/game/types/buildings";
 
 const createdAt = Date.now();
 
@@ -31,7 +31,7 @@ const BASE_STATE: GameState = {
 };
 
 describe("makeInstantRecipe", () => {
-  it("throws when the building is not a food processing building", () => {
+  it("throws when the building is not a resource processing building", () => {
     expect(() =>
       makeInstantRecipe({
         state: BASE_STATE,
@@ -39,11 +39,11 @@ describe("makeInstantRecipe", () => {
           type: "instantRecipe.made",
           recipe: "Furikake Sprinkle",
           buildingId: "123",
-          buildingName: "Fire Pit" as FoodProcessingBuildingName,
+          buildingName: "Fire Pit" as ProcessingBuildingName,
         },
         createdAt,
       }),
-    ).toThrow("Invalid food processing building");
+    ).toThrow("Invalid resource processing building");
   });
 
   it("throws when Fish Market is missing", () => {

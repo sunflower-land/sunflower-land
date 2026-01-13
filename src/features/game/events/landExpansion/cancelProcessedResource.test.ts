@@ -3,11 +3,11 @@ import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, INITIAL_FARM } from "features/game/lib/constants";
 import { GameState, PlacedItem } from "features/game/types/game";
 import { FISH_PROCESSING_TIME_SECONDS } from "features/game/types/fishProcessing";
-import { FoodProcessingBuildingName } from "features/game/types/buildings";
+import { ProcessingBuildingName } from "features/game/types/buildings";
 import {
-  cancelProcessedFood,
-  CancelProcessedFoodAction,
-} from "./cancelProcessedFood";
+  cancelProcessedResource,
+  CancelProcessedResourceAction,
+} from "./cancelProcessedResource";
 import { ProcessedFood } from "features/game/types/processedFood";
 
 const createdAt = Date.now();
@@ -33,38 +33,38 @@ const BASE_STATE: GameState = {
   },
 };
 
-describe("cancelProcessedFood", () => {
-  it("throws when the building is not a food processing building", () => {
+describe("cancelProcessedResource", () => {
+  it("throws when the building is not a resource processing building", () => {
     expect(() =>
-      cancelProcessedFood({
+      cancelProcessedResource({
         state: BASE_STATE,
         action: {
-          type: "processedFood.cancelled",
+          type: "processedResource.cancelled",
           buildingId: "123",
-          buildingName: "Fire Pit" as FoodProcessingBuildingName,
+          buildingName: "Fire Pit" as ProcessingBuildingName,
           queueItem: {
             name: "Fish Flake",
             readyAt: createdAt + DURATION("Fish Flake"),
           },
-        } as CancelProcessedFoodAction,
+        } as CancelProcessedResourceAction,
         createdAt,
       }),
-    ).toThrow("Invalid food processing building");
+    ).toThrow("Invalid resource processing building");
   });
 
   it("throws when building is missing", () => {
     expect(() =>
-      cancelProcessedFood({
+      cancelProcessedResource({
         state: { ...BASE_STATE, buildings: {} },
         action: {
-          type: "processedFood.cancelled",
+          type: "processedResource.cancelled",
           buildingId: "missing",
           buildingName: "Fish Market",
           queueItem: {
             name: "Fish Flake",
             readyAt: createdAt + DURATION("Fish Flake"),
           },
-        } as CancelProcessedFoodAction,
+        } as CancelProcessedResourceAction,
         createdAt,
       }),
     ).toThrow("Required building does not exist");
@@ -72,17 +72,17 @@ describe("cancelProcessedFood", () => {
 
   it("throws when queue is empty", () => {
     expect(() =>
-      cancelProcessedFood({
+      cancelProcessedResource({
         state: BASE_STATE,
         action: {
-          type: "processedFood.cancelled",
+          type: "processedResource.cancelled",
           buildingId: "123",
           buildingName: "Fish Market",
           queueItem: {
             name: "Fish Flake",
             readyAt: createdAt + DURATION("Fish Flake"),
           },
-        } as CancelProcessedFoodAction,
+        } as CancelProcessedResourceAction,
         createdAt,
       }),
     ).toThrow("No queue exists");
@@ -109,17 +109,17 @@ describe("cancelProcessedFood", () => {
     };
 
     expect(() =>
-      cancelProcessedFood({
+      cancelProcessedResource({
         state,
         action: {
-          type: "processedFood.cancelled",
+          type: "processedResource.cancelled",
           buildingId: "123",
           buildingName: "Fish Market",
           queueItem: {
             name: "Fish Stick",
             readyAt: createdAt + 2 * DURATION("Fish Flake"),
           },
-        } as CancelProcessedFoodAction,
+        } as CancelProcessedResourceAction,
         createdAt,
       }),
     ).toThrow("Product does not exist");
@@ -153,17 +153,17 @@ describe("cancelProcessedFood", () => {
     };
 
     expect(() =>
-      cancelProcessedFood({
+      cancelProcessedResource({
         state,
         action: {
-          type: "processedFood.cancelled",
+          type: "processedResource.cancelled",
           buildingId: "123",
           buildingName: "Fish Market",
           queueItem: {
             name: "Fish Flake",
             readyAt,
           },
-        } as CancelProcessedFoodAction,
+        } as CancelProcessedResourceAction,
         createdAt,
       }),
     ).toThrow(
@@ -210,10 +210,10 @@ describe("cancelProcessedFood", () => {
       },
     };
 
-    const updated = cancelProcessedFood({
+    const updated = cancelProcessedResource({
       state,
       action: {
-        type: "processedFood.cancelled",
+        type: "processedResource.cancelled",
         buildingId: "123",
         buildingName: "Fish Market",
         queueItem: {

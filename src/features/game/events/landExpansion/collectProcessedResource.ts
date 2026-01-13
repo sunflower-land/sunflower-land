@@ -4,30 +4,30 @@ import { trackFarmActivity } from "features/game/types/farmActivity";
 import { BuildingProduct, GameState } from "features/game/types/game";
 import { produce } from "immer";
 import {
-  FoodProcessingBuildingName,
-  isFoodProcessingBuilding,
+  ProcessingBuildingName,
+  isProcessingBuilding,
 } from "features/game/types/buildings";
 
-export type CollectProcessedFoodAction = {
-  type: "processedFood.collected";
+export type CollectProcessedResourceAction = {
+  type: "processedResource.collected";
   buildingId: string;
-  buildingName: FoodProcessingBuildingName;
+  buildingName: ProcessingBuildingName;
 };
 
 type Options = {
   state: Readonly<GameState>;
-  action: CollectProcessedFoodAction;
+  action: CollectProcessedResourceAction;
   createdAt?: number;
 };
 
-export function collectProcessedFood({
+export function collectProcessedResource({
   state,
   action,
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    if (!isFoodProcessingBuilding(action.buildingName)) {
-      throw new Error("Invalid food processing building");
+    if (!isProcessingBuilding(action.buildingName)) {
+      throw new Error("Invalid resource processing building");
     }
 
     const building = game.buildings[action.buildingName]?.find(

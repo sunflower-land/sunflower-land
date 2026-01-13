@@ -46,17 +46,17 @@ import {
   CollectRecipeAction,
 } from "./landExpansion/collectRecipe";
 import {
-  cancelProcessedFood,
-  CancelProcessedFoodAction,
-} from "./landExpansion/cancelProcessedFood";
+  cancelProcessedResource,
+  CancelProcessedResourceAction,
+} from "./landExpansion/cancelProcessedResource";
 import {
-  processProcessedFood,
-  ProcessProcessedFoodAction,
-} from "./landExpansion/processFood";
+  processProcessedResource,
+  ProcessProcessedResourceAction,
+} from "./landExpansion/processResource";
 import {
-  collectProcessedFood,
-  CollectProcessedFoodAction,
-} from "./landExpansion/collectProcessedFood";
+  collectProcessedResource,
+  CollectProcessedResourceAction,
+} from "./landExpansion/collectProcessedResource";
 import {
   makeInstantRecipe,
   MakeInstantRecipeAction,
@@ -609,9 +609,9 @@ export type PlayingEvent =
   | ClaimAirdropAction
   | RecipeCookedAction
   | CollectRecipeAction
-  | CancelProcessedFoodAction
-  | ProcessProcessedFoodAction
-  | CollectProcessedFoodAction
+  | CancelProcessedResourceAction
+  | ProcessProcessedResourceAction
+  | CollectProcessedResourceAction
   | MakeInstantRecipeAction
   | FeedBumpkinAction
   | DetectBotAction
@@ -872,9 +872,9 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "timber.chopped": landExpansionChop,
   "recipe.cooked": cook,
   "recipes.collected": collectRecipe,
-  "processedFood.cancelled": cancelProcessedFood,
-  "processedFood.processed": processProcessedFood,
-  "processedFood.collected": collectProcessedFood,
+  "processedResource.cancelled": cancelProcessedResource,
+  "processedResource.processed": processProcessedResource,
+  "processedResource.collected": collectProcessedResource,
   "instantRecipe.made": makeInstantRecipe,
   "bumpkin.feed": feedBumpkin,
   "skill.chosen": choseSkill,

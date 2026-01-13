@@ -13,24 +13,24 @@ import {
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
 import { hasVipAccess } from "features/game/lib/vipAccess";
-import { FoodProcessingBuildingName } from "features/game/types/buildings";
+import { ProcessingBuildingName } from "features/game/types/buildings";
 
-export type ProcessProcessedFoodAction = {
-  type: "processedFood.processed";
+export type ProcessProcessedResourceAction = {
+  type: "processedResource.processed";
   item: ProcessedFood;
   buildingId: string;
-  buildingName: FoodProcessingBuildingName;
+  buildingName: ProcessingBuildingName;
 };
 
 type Options = {
   state: Readonly<GameState>;
-  action: ProcessProcessedFoodAction;
+  action: ProcessProcessedResourceAction;
   createdAt?: number;
 };
 
 export const MAX_FISH_PROCESSING_SLOTS = 4;
 
-export function processProcessedFood({
+export function processProcessedResource({
   state,
   action,
   createdAt = Date.now(),
