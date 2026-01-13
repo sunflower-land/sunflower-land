@@ -158,7 +158,7 @@ describe("collectProcessedFish", () => {
         },
         createdAt,
       }),
-    ).toThrow("Invalid food processing building");
+    ).toThrow("Invalid resource processing building");
   });
 
   it("collects all ready processed fish", () => {
