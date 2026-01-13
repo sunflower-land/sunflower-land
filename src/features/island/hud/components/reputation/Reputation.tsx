@@ -159,6 +159,7 @@ export const ReputationTiers: React.FC = () => {
                       show={showInfo === "seedling"}
                       className="top-0 left-8 w-20"
                       onClick={() => setShowInfo(null)}
+                      onBackdropClick={() => setShowInfo(null)}
                     >
                       <div className="text-xxs p-0.5">
                         {t("proof.of.humanity.required")}
@@ -211,6 +212,7 @@ export const ReputationTiers: React.FC = () => {
                       show={showInfo === "grower"}
                       className="top-0 left-8 w-20"
                       onClick={() => setShowInfo(null)}
+                      onBackdropClick={() => setShowInfo(null)}
                     >
                       <div className="text-xxs p-0.5">
                         {t("proof.of.humanity.required")}
@@ -371,6 +373,7 @@ export const ReputationPoints: React.FC = () => {
                       <AnimatedPanel
                         show={showInfo}
                         onClick={() => setShowInfo(!showInfo)}
+                        onBackdropClick={() => setShowInfo(!showInfo)}
                         className="top-5 right-2 whitespace-nowrap"
                       >
                         <div className="flex flex-col text-xxs p-0.5">

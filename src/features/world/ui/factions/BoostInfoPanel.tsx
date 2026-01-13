@@ -52,7 +52,12 @@ export const BoostInfoPanel: React.FC<Props> = ({
   const hasBoosts = getKeys(boosts).length > 0;
 
   return (
-    <AnimatedPanel show={show} className="top-8 -left-[80%]" onClick={onClick}>
+    <AnimatedPanel
+      show={show}
+      className="top-2 right-0 sm:right-auto sm:-left-[60%]"
+      onClick={onClick}
+      onBackdropClick={onClick}
+    >
       <div className="flex flex-col mb-1">
         <span className="text-xs mb-2 ml-0.5 font-bold whitespace-nowrap">{`${baseAmount} ${baseAmount === 1 ? "Mark" : "Marks"}`}</span>
         {hasBoosts ? (

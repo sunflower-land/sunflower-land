@@ -448,7 +448,10 @@ export const SeasonalSeeds: React.FC = () => {
                   <Box
                     isSelected={selectedName === name}
                     key={name}
-                    onClick={() => onSeedClick(name)}
+                    onClick={() => {
+                      onSeedClick(name);
+                      setShowBoosts(false);
+                    }}
                     image={ITEM_DETAILS[SEEDS[name].yield ?? name].image}
                     showOverlay={isSeedLocked(name)}
                     // secondaryImage={SUNNYSIDE.icons.seedling}
