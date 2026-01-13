@@ -11,6 +11,8 @@ import { WORM } from "../types/composters";
 import { REWARD_BOXES } from "../types/rewardBoxes";
 import { PROCESSED_FOODS } from "../types/processedFood";
 import { SELLABLE_TREASURES } from "../types/treasure";
+import { FISH } from "../types/fishing";
+import { CRUSTACEANS } from "../types/crustaceans";
 
 export const OFFCHAIN_ITEMS: InventoryItemName[] = [
   "Mark",
@@ -36,6 +38,9 @@ export const OFFCHAIN_ITEMS: InventoryItemName[] = [
   "Bronze Friends Trophy",
   "Basic Land",
   ...getKeys(REWARD_BOXES),
+  // Fishing + water traps (no hoarding limits)
+  ...getKeys(FISH),
+  ...getKeys(CRUSTACEANS),
   "Holiday Token 2025",
   "Holiday Ticket 2025",
 ];
