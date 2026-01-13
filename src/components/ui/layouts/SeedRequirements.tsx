@@ -36,7 +36,6 @@ import {
 } from "features/game/types/crops";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { BoostsDisplay } from "./BoostsDisplay";
-import { hasFeatureAccess } from "lib/flags";
 import {
   calculateCropTime,
   CROP_MACHINE_PLOTS,
@@ -269,8 +268,6 @@ export const SeedRequirements: React.FC<Props> = ({
 
     const isTimeBoosted = time?.seconds !== baseTimeSeconds;
 
-    const showBoostsAccess = hasFeatureAccess(gameState, "SHOW_BOOSTS");
-
     const RequirementLabels: React.FC = () => {
       if (isSeedCropMachine(details.item)) {
         const cropMachinePackSize = CROP_MACHINE_PLOTS(gameState);
@@ -286,7 +283,7 @@ export const SeedRequirements: React.FC<Props> = ({
           <div
             className="flex flex-col items-center cursor-pointer"
             onClick={
-              isCropMachineTimeBoosted && showBoostsAccess
+              isCropMachineTimeBoosted
                 ? () => setShowBoosts(!showBoosts)
                 : undefined
             }
@@ -331,11 +328,7 @@ export const SeedRequirements: React.FC<Props> = ({
       return (
         <div
           className="flex flex-col items-center cursor-pointer"
-          onClick={
-            isTimeBoosted && showBoostsAccess
-              ? () => setShowBoosts(!showBoosts)
-              : undefined
-          }
+          onClick={isTimeBoosted ? () => setShowBoosts(!showBoosts) : undefined}
         >
           {!!time && isTimeBoosted && (
             <RequirementLabel type="time" waitSeconds={time.seconds} boosted />

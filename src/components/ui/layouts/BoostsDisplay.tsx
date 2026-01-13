@@ -197,6 +197,7 @@ export const BoostsDisplay: React.FC<{
     <AnimatedPanel
       show={show}
       onClick={onClick}
+      onBackdropClick={onClick}
       className="flex flex-col gap-1 max-h-5"
     >
       <div className="overflow-y-auto scrollable">
