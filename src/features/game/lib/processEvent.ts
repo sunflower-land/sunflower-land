@@ -11,7 +11,6 @@ import { LEGACY_BADGE_TREE } from "../types/skills";
 import { Announcements } from "../types/announcements";
 import { EXOTIC_CROPS } from "../types/beans";
 import { getValues } from "../types/decorations";
-import { FISH } from "../types/fishing";
 import { LANDSCAPING_DECORATIONS } from "../types/decorations";
 import { ANIMAL_FOODS } from "../types/animals";
 import { BumpkinItem } from "../types/bumpkin";
@@ -64,19 +63,6 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   ),
 
   "Basic Bear": new Decimal(1000),
-
-  // Max of 100 fish
-  ...getKeys(FISH).reduce(
-    (acc, name) => ({
-      ...acc,
-      [name]: new Decimal(100),
-    }),
-    {},
-  ),
-
-  Anchovy: new Decimal(300),
-  Tuna: new Decimal(250),
-  "Red Snapper": new Decimal(200),
 
   // Max of 1000 landscaping decoration, but only 100 for mushrooms
   ...getKeys(LANDSCAPING_DECORATIONS)
