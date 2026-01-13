@@ -42,7 +42,7 @@ describe("collectProcessedFood", () => {
           buildingName: "Fire Pit" as ProcessingBuildingName,
         },
       });
-    }).toThrow("Invalid food processing building");
+    }).toThrow("Invalid resource processing building");
   });
 
   it("throws if the product is not ready", () => {
