@@ -76,7 +76,7 @@ export const WaterTrapModal: React.FC<Props> = ({
   const chums = selectedTrap ? WATER_TRAP[selectedTrap].chums : [];
 
   const isValidChumForTrap =
-    selectedTrap && selectedChum ? chums.includes(selectedChum) : false;
+    selectedTrap && selectedChum ? chums.includes(selectedChum) : true;
 
   const handlePlace = () => {
     if (!selectedTrap) return;
@@ -295,12 +295,7 @@ export const WaterTrapModal: React.FC<Props> = ({
 
       <Button
         onClick={handlePlace}
-        disabled={
-          !selectedTrap ||
-          !selectedChum ||
-          !isValidChumForTrap ||
-          !hasEnoughChum
-        }
+        disabled={!selectedTrap || !isValidChumForTrap || !hasEnoughChum}
         className="w-full"
       >
         {t("waterTrap.place")}

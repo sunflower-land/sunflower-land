@@ -6752,67 +6752,67 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.redNoseReindeer"),
   },
   Isopod: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.crustaceans.isopod,
     description: translate("description.isopod"),
   },
   "Blue Crab": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.crustaceans.blueCrab,
     description: translate("description.blueCrab"),
   },
   Lobster: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.crustaceans.lobster,
     description: translate("description.lobster"),
   },
   "Hermit Crab": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.crustaceans.hermitCrab,
     description: translate("description.hermitCrab"),
   },
   Shrimp: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.crustaceans.shrimp,
     description: translate("description.shrimp"),
   },
   Mussel: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.crustaceans.mussel,
     description: translate("description.mussel"),
   },
   Oyster: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.crustaceans.oyster,
     description: translate("description.oyster"),
   },
   Anemone: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.crustaceans.anemone,
     description: translate("description.anemone"),
   },
   Barnacle: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.crustaceans.barnacle,
     description: translate("description.barnacle"),
   },
   "Sea Slug": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.crustaceans.seaSlug,
     description: translate("description.seaSlug"),
   },
   "Sea Snail": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.crustaceans.seaSnail,
     description: translate("description.seaSnail"),
   },
   "Garden Eel": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.crustaceans.gardenEel,
     description: translate("description.gardenEel"),
   },
   "Sea Grapes": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.crustaceans.seaGrapes,
     description: translate("description.seaGrapes"),
   },
   Octopus: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.crustaceans.octopus,
     description: translate("description.octopus"),
   },
   "Sea Urchin": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.crustaceans.seaUrchin,
     description: translate("description.seaUrchin"),
   },
   "Horseshoe Crab": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.crustaceans.horseshoeCrab,
     description: translate("description.horseshoeCrab"),
   },
 };
