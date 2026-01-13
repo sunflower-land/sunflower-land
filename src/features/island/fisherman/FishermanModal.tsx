@@ -177,11 +177,7 @@ export const FishermanModal: React.FC<Props> = ({
       container={OuterPanel}
     >
       {tab === "fish" && (
-        <BaitSelectionComponent
-          onCast={onCast}
-          onClickBuy={() => setTab("extras")}
-          state={state}
-        />
+        <BaitSelectionComponent onCast={onCast} state={state} />
       )}
 
       {tab === "guide" && (

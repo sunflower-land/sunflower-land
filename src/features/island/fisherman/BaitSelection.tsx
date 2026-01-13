@@ -105,7 +105,6 @@ type Props = {
     guaranteedCatch?: FishName,
     reelPacksToBuy?: number,
   ) => void;
-  onClickBuy?: () => void;
   state: GameState;
 };
 
