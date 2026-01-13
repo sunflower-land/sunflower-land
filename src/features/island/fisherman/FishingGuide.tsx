@@ -66,11 +66,10 @@ const FishingRow: React.FC<{
   const seasonSet = new Set(details.seasons);
 
   const baits = BAIT_ORDER.filter((bait) => details.baits.includes(bait));
-  const primaryBait = baits[0];
 
   return (
     <div
-      className={`grid grid-cols-[minmax(0,1fr)_108px_28px] items-center gap-x-2 p-1 ${
+      className={`grid grid-cols-[5fr_3fr_2fr] min-h-[42px] items-center gap-x-2 px-2 py-1.5 ${
         alternateBg ? "bg-[#ead4aa] rounded-md" : ""
       }`}
     >
@@ -80,7 +79,7 @@ const FishingRow: React.FC<{
           className="w-6 h-auto mr-2 flex-shrink-0"
         />
         <div className="min-w-0">
-          <p className="text-xs truncate">{fish}</p>
+          <p className="text-xs pb-0.5 truncate">{fish}</p>
           {hasCaught && details.likes.length > 0 && (
             <div className="flex items-center gap-x-0.5 mt-0.5">
               {details.likes.map((like) => (
@@ -96,28 +95,32 @@ const FishingRow: React.FC<{
         </div>
       </div>
 
-      <div className="grid grid-cols-4 gap-x-1 justify-items-center">
+      <div className="grid grid-cols-4 w-full place-items-center">
         {SEASON_ORDER.map((season) =>
           seasonSet.has(season) ? (
             <img
               key={`${fish}-${season}`}
               src={SEASON_ICONS[season]}
-              className="w-6"
+              className="w-4"
             />
           ) : (
-            <div key={`${fish}-${season}`} className="w-6 h-6" />
+            <div key={`${fish}-${season}`} className="w-4 h-4" />
           ),
         )}
       </div>
 
-      <div className="flex items-center justify-end">
-        {!!primaryBait && (
+      <div
+        className="flex flex-wrap items-center justify-end gap-x-0.5 gap-y-0.5 w-full min-w-0"
+        title={baits.join(", ")}
+      >
+        {baits.map((bait) => (
           <img
-            src={ITEM_DETAILS[primaryBait].image}
-            className="w-4"
-            title={primaryBait}
+            key={`${fish}-${bait}`}
+            src={ITEM_DETAILS[bait].image}
+            className="w-4 h-4 object-contain"
+            title={bait}
           />
-        )}
+        ))}
       </div>
     </div>
   );
@@ -185,7 +188,7 @@ export const FishingGuide: React.FC<Props> = ({ onClose }) => {
   return (
     <div
       style={{ maxHeight: "320px" }}
-      className="overflow-y-auto scrollable flex flex-wrap pt-1.5 pr-0.5"
+      className="overflow-y-auto scrollable pr-0.5"
     >
       <div className="flex flex-col gap-y-3 p-2">
         <img
@@ -208,22 +211,23 @@ export const FishingGuide: React.FC<Props> = ({ onClose }) => {
 
         <div className="mt-1">
           <Label type="default">{t("fish")}</Label>
-          <div className="mt-1 space-y-1">
-            {fishList.map((fish, index) => (
-              <FishingRow
-                key={fish}
-                fish={fish}
-                hasCaught={(farmActivity[`${fish} Caught`] ?? 0) > 0}
-                alternateBg={index % 2 === 1}
-              />
-            ))}
+          <div className="mt-1">
+            <div className="space-y-1">
+              {fishList.map((fish, index) => (
+                <FishingRow
+                  key={fish}
+                  fish={fish}
+                  hasCaught={(farmActivity[`${fish} Caught`] ?? 0) > 0}
+                  alternateBg={index % 2 === 1}
+                />
+              ))}
+            </div>
           </div>
         </div>
-
-        <Button onClick={onClose} className="mt-2">
-          {t("gotIt")}
-        </Button>
       </div>
+      <Button onClick={onClose} className="mt-2">
+        {t("gotIt")}
+      </Button>
     </div>
   );
 };

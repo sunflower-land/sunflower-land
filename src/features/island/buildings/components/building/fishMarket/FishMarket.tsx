@@ -119,7 +119,7 @@ export const FishMarket: React.FC<BuildingProps> = ({
         >
           <NPCPlaceable parts={NPC_WEARABLES.neville} />
         </div>
-        <ReadyProcessed ready={ready} leftOffset={90} />
+        <ReadyProcessed ready={ready} leftOffset={40} />
       </BuildingImageWrapper>
 
       <FishMarketModal
