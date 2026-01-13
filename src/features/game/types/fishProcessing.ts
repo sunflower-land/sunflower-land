@@ -6,9 +6,9 @@ import { InstantProcessedRecipeName } from "./consumables";
 
 export const FISH_PROCESSING_TIME_SECONDS: Record<ProcessedFood, number> = {
   "Fish Flake": 1 * 60 * 60,
-  "Fish Stick": 4 * 60 * 60,
-  "Crab Stick": 12 * 60 * 60,
-  "Fish Oil": 24 * 60 * 60,
+  "Fish Stick": 2 * 60 * 60,
+  "Crab Stick": 4 * 60 * 60,
+  "Fish Oil": 8 * 60 * 60,
 };
 
 const BASE_PROCESSING_REQUIREMENTS: Record<ProcessedFood, Inventory> = {
