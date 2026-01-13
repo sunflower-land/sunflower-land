@@ -13,6 +13,7 @@ import { CONFIG } from "lib/config";
 import { Loading } from "features/auth/components";
 import { OFFCHAIN_ITEMS } from "features/game/lib/offChainItems";
 import { InventoryItemName } from "features/game/types/game";
+import { getKeys } from "features/game/lib/crafting";
 
 export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
   const { t } = useAppTranslation();
@@ -42,15 +43,28 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
       const json = await result.json();
 
       // INVENTORY LIMITS
-      const current = json.farms[farmId].inventory;
-      const previous = json.farms[farmId].previousInventory;
+      const current = json.farms[farmId].inventory as Record<
+        InventoryItemName,
+        string
+      >;
+      const previous = json.farms[farmId].previousInventory as Record<
+        InventoryItemName,
+        string
+      >;
 
-      const maxIds = Object.keys(current)
-        .filter(
-          (k) => ((current as any)[k] ?? 0) - ((previous as any)[k] ?? 0) > 0,
-        )
-        .map(String)
-        .map((key) => (KNOWN_IDS as any)[key]);
+      // Get all items with positive diff and their IDs
+      const itemsWithDiff: Array<{ key: InventoryItemName; id: number }> =
+        getKeys(current)
+          .filter(
+            (k) => (Number(current[k]) ?? 0) - (Number(previous[k]) ?? 0) > 0,
+          )
+          .map((key) => ({
+            key,
+            id: KNOWN_IDS[key],
+          }))
+          .filter((item) => item.id !== undefined);
+
+      const maxIds = itemsWithDiff.map((item) => BigInt(item.id));
 
       const publicClient = createPublicClient({
         transport: http(),
@@ -69,19 +83,30 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
         })
       ).map(Number);
 
+      // Create a map from item ID to limit for efficient lookup
+      const limitMap = new Map<number, number>();
+      itemsWithDiff.forEach((item, index) => {
+        let limit = maxAmount[index];
+        if (limit > 100000) {
+          limit = limit / 10 ** 18;
+        }
+        limitMap.set(item.id, limit);
+      });
+
       const inventoryLimits: string[] = [];
 
-      Object.keys(current).forEach((key) => {
-        const diff =
-          Number((current as any)[key]) - Number((previous as any)[key] ?? 0);
+      getKeys(current).forEach((key) => {
+        const diff = Number(current[key]) - Number(previous[key] ?? 0);
         if (diff > 0) {
-          let limit = maxAmount[maxIds.indexOf((KNOWN_IDS as any)[key])];
+          const itemId = KNOWN_IDS[key];
+          const limit = limitMap.get(itemId);
 
-          if (limit > 100000) {
-            limit = limit / 10 ** 18;
+          // Skip if item ID not found or item is offchain
+          if (itemId === undefined || limit === undefined) {
+            return;
           }
 
-          if (OFFCHAIN_ITEMS.includes(key as InventoryItemName)) return;
+          if (OFFCHAIN_ITEMS.includes(key)) return;
 
           if (diff > limit) {
             inventoryLimits.push(`${key} (Diff ${diff} > Limit ${limit})`);
