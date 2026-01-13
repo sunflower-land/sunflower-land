@@ -7659,7 +7659,6 @@
   "bonus.2026-tiara-wave.message": "ねえ {{username}}、2026へようこそ！お祝いに、この記念ティアラをプレゼントしたいです。新年があなたに喜びと成功をもたらすことを願っています！",
   "claim.bonusItemName": "クレーム {{bonusItemName}}",
   "description.squeakyChicken": "きしむチキン",
-  "processedFoods": "加工食品",
   "instantCook.confirmationMessage": "この商品を今すぐ完成させてもよろしいですか？",
   "renew.expired.message": "{{name}} の有効期限が切れています。更新して有効期間を延長できます。",
   "referral.flower": "お友達がジェムを購入した$FLOWERの 10%",
@@ -7761,8 +7760,6 @@
   "fishingPuzzle.findSafePath": "マップの安全なパスを見つけてください",
   "fishingPuzzle.timeoutTitle": "ああ、いや、あなたは十分な速さではなかった！",
   "fishingPuzzle.timeoutMessage": "ああ、いや、あなたは十分な速さではなかった、あなたは地図のかけらを見逃した。",
-  "instantProcessedFoods.recipes": "インスタントレシピ",
-  "instantProcessedFoods.makeRecipe": "レシピを作る",
   "description.instantFood.furikakeSprinkle": "魚を加工した原料-確実に獲れます。",
   "description.instantFood.surimiRiceBall": "魚を加工した原料-確実に獲れます。",
   "description.instantFood.creamyCrabBite": "魚を加工した原料-確実に獲れます。",
@@ -7786,5 +7783,8 @@
   "withdraw.duplicate.tip2": "2。家族の他の人が使用していない代替IPアドレスを使用してください。",
   "withdraw.duplicate.tip3": "3。VPN は避けてください",
   "withdraw.duplicate.tip4": "4。パブリックネットワークまたは共有ネットワークは、使いすぎにより短時間 (1 週間) 待つ必要がある場合があります。",
-  "withdraw.duplicate.note": "この保護措置は自動的に適用され、ストライキや警告ではありません。"
+  "withdraw.duplicate.note": "この保護措置は自動的に適用され、ストライキや警告ではありません。",
+  "processedResources": "処理済みリソース",
+  "instantProcessedResources.recipes": "インスタントレシピ",
+  "instantProcessedResources.makeRecipe": "レシピを作る"
 }

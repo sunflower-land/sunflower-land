@@ -7659,7 +7659,6 @@
   "bonus.2026-tiara-wave.message": "Hey {{username}}, 2026'ya hoş geldiniz! Kutlamak için size bu hatıra tacını hediye etmek istiyorum. Umarım yeni yıl size neşe ve başarı getirir!",
   "claim.bonusItemName": "Talep {{bonusItemName}}",
   "description.squeakyChicken": "Gıcırtılı bir tavuk",
-  "processedFoods": "İşlenmiş Gıdalar",
   "instantCook.confirmationMessage": "Bu öğeyi şimdi bitirmek istediğinizden emin misiniz?",
   "renew.expired.message": "{{name}} süresi doldu. Süresini uzatmak için yenileyebilirsiniz.",
   "referral.flower": "Arkadaşınız tarafından mücevherlere harcanan $FLOWER'ın %10'u",
@@ -7761,8 +7760,6 @@
   "fishingPuzzle.findSafePath": "Harita için güvenli yolu bulun",
   "fishingPuzzle.timeoutTitle": "Oh hayır, yeterince hızlı değildin!",
   "fishingPuzzle.timeoutMessage": "Oh hayır, yeterince hızlı değildin, bir harita parçasını kaçırdın.",
-  "instantProcessedFoods.recipes": "Anında Tarifler",
-  "instantProcessedFoods.makeRecipe": "Tarif yap",
   "description.instantFood.furikakeSprinkle": "İşlenmiş bir balık bileşeni - garantili avlanma.",
   "description.instantFood.surimiRiceBall": "İşlenmiş bir balık bileşeni - garantili avlanma.",
   "description.instantFood.creamyCrabBite": "İşlenmiş bir balık bileşeni - garantili avlanma.",
@@ -7786,5 +7783,8 @@
   "withdraw.duplicate.tip2": "2. Evinizdeki diğer kişilerin kullanmadığı alternatif bir IP adresi kullanın.",
   "withdraw.duplicate.tip3": "3. VPN'lerden Kaçının",
   "withdraw.duplicate.tip4": "4. Genel veya paylaşılan ağlar aşırı kullanım nedeniyle kısa bir bekleme gerektirebilir (1 hafta).",
-  "withdraw.duplicate.note": "Bu koruma otomatik olarak uygulanır ve bir grev veya uyarı değildir."
+  "withdraw.duplicate.note": "Bu koruma otomatik olarak uygulanır ve bir grev veya uyarı değildir.",
+  "processedResources": "İşlenmiş Kaynaklar",
+  "instantProcessedResources.recipes": "Anında Tarifler",
+  "instantProcessedResources.makeRecipe": "Tarif yap"
 }

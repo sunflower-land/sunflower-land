@@ -7659,7 +7659,6 @@
   "bonus.2026-tiara-wave.message": "안녕하세요 {{username}} 님, 2026년에 오신 것을 환영합니다!축하의 의미로 이 기념 티아라를 선물하고 싶어요.새해가 여러분에게 기쁨과 성공을 가져다 주길 바랍니다!",
   "claim.bonusItemName": "클레임 {{bonusItemName}}",
   "description.squeakyChicken": "삐걱거리는 닭",
-  "processedFoods": "가공 식품",
   "instantCook.confirmationMessage": "이제 정말 이 아이템을 완성하시겠습니까?",
   "renew.expired.message": "{{name}} 이 (가) 만료되었습니다.갱신하여 기간을 연장할 수 있습니다.",
   "referral.flower": "친구가 보석에 지출한 $FLOWER 금액의 10%",
@@ -7761,8 +7760,6 @@
   "fishingPuzzle.findSafePath": "지도의 안전한 경로 찾기",
   "fishingPuzzle.timeoutTitle": "오, 아니, 당신은 충분히 빠르지 않았어요!",
   "fishingPuzzle.timeoutMessage": "오, 아니, 당신은 충분히 빠르지 않았어요. 맵 피스를 놓치셨군요.",
-  "instantProcessedFoods.recipes": "인스턴트 레시피",
-  "instantProcessedFoods.makeRecipe": "레시피 만들기",
   "description.instantFood.furikakeSprinkle": "가공된 생선 재료 - 어획량 보장.",
   "description.instantFood.surimiRiceBall": "가공된 생선 재료 - 어획량 보장.",
   "description.instantFood.creamyCrabBite": "가공된 생선 재료 - 어획량 보장.",
@@ -7786,5 +7783,8 @@
   "withdraw.duplicate.tip2": "2.가족 구성원이 사용하지 않는 대체 IP 주소를 사용하세요.",
   "withdraw.duplicate.tip3": "3.VPN을 피하세요",
   "withdraw.duplicate.tip4": "4.공용 또는 공유 네트워크는 과도한 사용으로 인해 잠시 기다려야 할 수 있습니다 (1주).",
-  "withdraw.duplicate.note": "이 보호 조치는 자동으로 적용되며 파업이나 경고가 아닙니다."
+  "withdraw.duplicate.note": "이 보호 조치는 자동으로 적용되며 파업이나 경고가 아닙니다.",
+  "processedResources": "처리된 리소스",
+  "instantProcessedResources.recipes": "인스턴트 레시피",
+  "instantProcessedResources.makeRecipe": "레시피 만들기"
 }

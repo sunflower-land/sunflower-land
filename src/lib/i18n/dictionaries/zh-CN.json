@@ -7659,7 +7659,6 @@
   "bonus.2026-tiara-wave.message": "嘿 {{username}}，欢迎来到 2026 年！为了庆祝这一刻，我想送你这顶纪念头饰。愿你在新的一年里收获快乐与成功！",
   "claim.bonusItemName": "领取 {{bonusItemName}}",
   "description.squeakyChicken": "一只尖叫鸡",
-  "processedFoods": "加工食品",
   "instantCook.confirmationMessage": "你确定要立即完成该物品的制作吗？",
   "renew.expired.message": "{{name}} 已过期。你可以续期以延长其持续时间。",
   "referral.flower": "你的好友购买钻石所消耗 $FLOWER 的 10%",
@@ -7761,8 +7760,6 @@
   "fishingPuzzle.findSafePath": "找到地图的安全路径",
   "fishingPuzzle.timeoutTitle": "哦不，你还不够快！",
   "fishingPuzzle.timeoutMessage": "哦不，你还不够快，你错过了一张地图。",
-  "instantProcessedFoods.recipes": "即时食谱",
-  "instantProcessedFoods.makeRecipe": "做食谱",
   "description.instantFood.furikakeSprinkle": "一种经过加工的鱼类原料，保证捕捞量。",
   "description.instantFood.surimiRiceBall": "一种经过加工的鱼类原料，保证捕捞量。",
   "description.instantFood.creamyCrabBite": "一种经过加工的鱼类原料，保证捕捞量。",
@@ -7786,5 +7783,8 @@
   "withdraw.duplicate.tip2": "2。使用家庭中其他人未使用的备用 IP 地址。",
   "withdraw.duplicate.tip3": "3.避开 VPN",
   "withdraw.duplicate.tip4": "4。由于过度使用，公共或共享网络可能需要短暂的等待（1 周）。",
-  "withdraw.duplicate.note": "该保障措施自动适用，不是罢工或警告。"
+  "withdraw.duplicate.note": "该保障措施自动适用，不是罢工或警告。",
+  "processedResources": "已处理的资源",
+  "instantProcessedResources.recipes": "即时食谱",
+  "instantProcessedResources.makeRecipe": "做食谱"
 }

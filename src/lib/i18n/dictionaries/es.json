@@ -7659,7 +7659,6 @@
   "bonus.2026-tiara-wave.message": "Hola {{username}}, ¡bienvenido al 2026! Me gustaría regalarte esta tiara conmemorativa para celebrarlo. ¡Espero que el nuevo año te traiga alegría y éxito!",
   "claim.bonusItemName": "Reclamación {{bonusItemName}}",
   "description.squeakyChicken": "Un pollo chirriante",
-  "processedFoods": "Alimentos procesados",
   "instantCook.confirmationMessage": "¿Estás seguro de que quieres terminar este artículo ahora?",
   "renew.expired.message": "{{name}} ha caducado. Puedes renovarlo para extender su duración.",
   "referral.flower": "10% de los $ FLOWER gastados en gemas por tu amigo",
@@ -7761,8 +7760,6 @@
   "fishingPuzzle.findSafePath": "Encuentra la ruta segura para el mapa",
   "fishingPuzzle.timeoutTitle": "¡Oh, no, no fuiste lo suficientemente rápido!",
   "fishingPuzzle.timeoutMessage": "Oh, no, no fuiste lo suficientemente rápido, te perdiste una parte del mapa.",
-  "instantProcessedFoods.recipes": "Recetas instantáneas",
-  "instantProcessedFoods.makeRecipe": "Hacer receta",
   "description.instantFood.furikakeSprinkle": "Un ingrediente de pescado procesado: captura garantizada.",
   "description.instantFood.surimiRiceBall": "Un ingrediente de pescado procesado: captura garantizada.",
   "description.instantFood.creamyCrabBite": "Un ingrediente de pescado procesado: captura garantizada.",
@@ -7786,5 +7783,8 @@
   "withdraw.duplicate.tip2": "2. Utilice una dirección IP alternativa que no estén utilizando otras personas de su hogar.",
   "withdraw.duplicate.tip3": "3. Evite las VPN",
   "withdraw.duplicate.tip4": "4. Las redes públicas o compartidas pueden requerir una breve espera debido al uso excesivo (1 semana).",
-  "withdraw.duplicate.note": "Esta protección se aplica automáticamente y no es una huelga ni una advertencia."
+  "withdraw.duplicate.note": "Esta protección se aplica automáticamente y no es una huelga ni una advertencia.",
+  "processedResources": "Recursos procesados",
+  "instantProcessedResources.recipes": "Recetas instantáneas",
+  "instantProcessedResources.makeRecipe": "Hacer receta"
 }

@@ -7683,7 +7683,6 @@
   "bonus.2026-tiara-wave.message": "Привет, {{username}}! Добро пожаловать в 2026 год! В честь этого события я хочу подарить тебе памятную тиару. Пусть новый год принесёт тебе радость и успех!",
   "claim.bonusItemName": "Получить {{bonusItemName}}",
   "description.squeakyChicken": "Кричащая курица",
-  "processedFoods": "Переработанные продукты",
   "welcome.action.grow": "Выращивай",
   "welcome.action.build": "Строй",
   "welcome.action.fish": "Лови рыбу",
@@ -7761,8 +7760,6 @@
   "fishingPuzzle.findSafePath": "Find the safe path for the map",
   "fishingPuzzle.timeoutTitle": "Oh no, you weren't quick enough!",
   "fishingPuzzle.timeoutMessage": "Oh no, you weren't quick enough, you missed a map piece.",
-  "instantProcessedFoods.recipes": "Instant Recipes",
-  "instantProcessedFoods.makeRecipe": "Make recipe",
   "description.instantFood.furikakeSprinkle": "A processed fish ingredient - guaranteed catch.",
   "description.instantFood.surimiRiceBall": "A processed fish ingredient - guaranteed catch.",
   "description.instantFood.creamyCrabBite": "A processed fish ingredient - guaranteed catch.",
@@ -7786,5 +7783,8 @@
   "withdraw.duplicate.tip2": "2. Use an alternate IP address that others in your household are not using.",
   "withdraw.duplicate.tip3": "3. Avoid VPNs",
   "withdraw.duplicate.tip4": "4. Public or shared networks may require a short wait due to overuse (1 week).",
-  "withdraw.duplicate.note": "This safeguard applies automatically and isn't a strike or warning."
+  "withdraw.duplicate.note": "This safeguard applies automatically and isn't a strike or warning.",
+  "processedResources": "Processed Resources",
+  "instantProcessedResources.recipes": "Instant Recipes",
+  "instantProcessedResources.makeRecipe": "Make recipe"
 }

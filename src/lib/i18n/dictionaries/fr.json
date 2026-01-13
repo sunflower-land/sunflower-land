@@ -7659,7 +7659,6 @@
   "bonus.2026-tiara-wave.message": "Salut {{username}}, bienvenue en 2026 ! J'aimerais vous offrir ce diadème commémoratif pour célébrer. J'espère que la nouvelle année vous apportera joie et succès !",
   "claim.bonusItemName": "Réclamation {{bonusItemName}}",
   "description.squeakyChicken": "Un poulet qui couine",
-  "processedFoods": "Aliments transformés",
   "instantCook.confirmationMessage": "Êtes-vous sûr de vouloir terminer cet article maintenant ?",
   "renew.expired.message": "{{name}} a expiré. Vous pouvez le renouveler pour en prolonger la durée.",
   "referral.flower": "10 % de réduction sur les $ de FLOWER dépensés en gemmes par votre ami",
@@ -7761,8 +7760,6 @@
   "fishingPuzzle.findSafePath": "Trouvez le chemin sûr pour accéder à la carte",
   "fishingPuzzle.timeoutTitle": "Oh non, tu n'as pas été assez rapide !",
   "fishingPuzzle.timeoutMessage": "Oh non, tu n'as pas été assez rapide, tu as raté un bout de carte.",
-  "instantProcessedFoods.recipes": "Recettes instantanées",
-  "instantProcessedFoods.makeRecipe": "Faire une recette",
   "description.instantFood.furikakeSprinkle": "Un ingrédient de poisson transformé : capture garantie.",
   "description.instantFood.surimiRiceBall": "Un ingrédient de poisson transformé : capture garantie.",
   "description.instantFood.creamyCrabBite": "Un ingrédient de poisson transformé : capture garantie.",
@@ -7786,5 +7783,8 @@
   "withdraw.duplicate.tip2": "2. Utilisez une autre adresse IP que les autres membres de votre foyer n'utilisent pas.",
   "withdraw.duplicate.tip3": "3. Évitez les VPN",
   "withdraw.duplicate.tip4": "4. Les réseaux publics ou partagés peuvent nécessiter une courte attente en raison d'une utilisation excessive (1 semaine).",
-  "withdraw.duplicate.note": "Cette mesure de protection s'applique automatiquement et ne constitue ni une grève ni un avertissement."
+  "withdraw.duplicate.note": "Cette mesure de protection s'applique automatiquement et ne constitue ni une grève ni un avertissement.",
+  "processedResources": "Ressources traitées",
+  "instantProcessedResources.recipes": "Recettes instantanées",
+  "instantProcessedResources.makeRecipe": "Faire une recette"
 }

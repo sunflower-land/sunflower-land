@@ -7659,7 +7659,6 @@
   "bonus.2026-tiara-wave.message": "Olá {{username}}, bem-vindo a 2026! Eu gostaria de presentear você com esta tiara comemorativa para comemorar. Espero que o novo ano lhe traga alegria e sucesso!",
   "claim.bonusItemName": "Reclamação {{bonusItemName}}",
   "description.squeakyChicken": "Uma galinha estridente",
-  "processedFoods": "Alimentos processados",
   "instantCook.confirmationMessage": "Tem certeza de que deseja terminar este item agora?",
   "renew.expired.message": "{{name}} expirou. Você pode renová-lo para prolongar sua duração.",
   "referral.flower": "10% de $ FLOWER gastos em gemas pelo seu amigo",
@@ -7761,8 +7760,6 @@
   "fishingPuzzle.findSafePath": "Encontre o caminho seguro para o mapa",
   "fishingPuzzle.timeoutTitle": "Oh não, você não foi rápido o suficiente!",
   "fishingPuzzle.timeoutMessage": "Ah não, você não foi rápido o suficiente, você perdeu uma peça do mapa.",
-  "instantProcessedFoods.recipes": "Receitas instantâneas",
-  "instantProcessedFoods.makeRecipe": "Faça a receita",
   "description.instantFood.furikakeSprinkle": "Um ingrediente de peixe processado - captura garantida.",
   "description.instantFood.surimiRiceBall": "Um ingrediente de peixe processado - captura garantida.",
   "description.instantFood.creamyCrabBite": "Um ingrediente de peixe processado - captura garantida.",
@@ -7786,5 +7783,8 @@
   "withdraw.duplicate.tip2": "2. Use um endereço IP alternativo que outras pessoas em sua casa não estejam usando.",
   "withdraw.duplicate.tip3": "3. Evite VPNs",
   "withdraw.duplicate.tip4": "4. Redes públicas ou compartilhadas podem exigir uma pequena espera devido ao uso excessivo (1 semana).",
-  "withdraw.duplicate.note": "Essa proteção se aplica automaticamente e não é um aviso ou aviso."
+  "withdraw.duplicate.note": "Essa proteção se aplica automaticamente e não é um aviso ou aviso.",
+  "processedResources": "Recursos processados",
+  "instantProcessedResources.recipes": "Receitas instantâneas",
+  "instantProcessedResources.makeRecipe": "Faça a receita"
 }

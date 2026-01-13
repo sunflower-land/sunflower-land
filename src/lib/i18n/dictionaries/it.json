@@ -7659,7 +7659,6 @@
   "bonus.2026-tiara-wave.message": "Ehi {{username}}, benvenuto nel 2026! Vorrei regalarvi questa tiara commemorativa per festeggiare. Spero che il nuovo anno vi porti gioia e successo!",
   "claim.bonusItemName": "Reclamo {{bonusItemName}}",
   "description.squeakyChicken": "Un pollo che scricchiola",
-  "processedFoods": "Alimenti trasformati",
   "instantCook.confirmationMessage": "Sei sicuro di voler finire questo articolo adesso?",
   "renew.expired.message": "{{name}} è scaduto. Puoi rinnovarlo per prolungarne la durata.",
   "referral.flower": "10% dei $FLOWER spesi in gemme dal tuo amico",
@@ -7761,8 +7760,6 @@
   "fishingPuzzle.findSafePath": "Trova il percorso sicuro per la mappa",
   "fishingPuzzle.timeoutTitle": "Oh no, non sei stato abbastanza veloce!",
   "fishingPuzzle.timeoutMessage": "Oh no, non sei stato abbastanza veloce, hai perso un pezzo di mappa.",
-  "instantProcessedFoods.recipes": "Ricette istantanee",
-  "instantProcessedFoods.makeRecipe": "Prepara una ricetta",
   "description.instantFood.furikakeSprinkle": "Ingrediente a base di pesce lavorato: cattura garantita.",
   "description.instantFood.surimiRiceBall": "Ingrediente a base di pesce lavorato: cattura garantita.",
   "description.instantFood.creamyCrabBite": "Ingrediente a base di pesce lavorato: cattura garantita.",
@@ -7786,5 +7783,8 @@
   "withdraw.duplicate.tip2": "2. Usa un indirizzo IP alternativo che altri membri della tua famiglia non utilizzano.",
   "withdraw.duplicate.tip3": "3. Evita le VPN",
   "withdraw.duplicate.tip4": "4. Le reti pubbliche o condivise possono richiedere una breve attesa a causa di un uso eccessivo (1 settimana).",
-  "withdraw.duplicate.note": "Questa protezione si applica automaticamente e non è uno sciopero o un avvertimento."
+  "withdraw.duplicate.note": "Questa protezione si applica automaticamente e non è uno sciopero o un avvertimento.",
+  "processedResources": "Risorse elaborate",
+  "instantProcessedResources.recipes": "Ricette istantanee",
+  "instantProcessedResources.makeRecipe": "Prepara una ricetta"
 }

@@ -7659,7 +7659,6 @@
   "bonus.2026-tiara-wave.message": "Hai {{username}}, selamat datang di 2026! Saya ingin memberi Anda tiara peringatan ini untuk dirayakan. Saya harap tahun baru membawa Anda sukacita dan kesuksesan!",
   "claim.bonusItemName": "Klaim {{bonusItemName}}",
   "description.squeakyChicken": "Ayam berderit",
-  "processedFoods": "Makanan olahan",
   "instantCook.confirmationMessage": "Apakah Anda yakin ingin menyelesaikan item ini sekarang?",
   "renew.expired.message": "{{name}} telah kedaluwarsa. Anda dapat memperbaruinya untuk memperpanjang durasinya.",
   "referral.flower": "10% dari $FLOWER dihabiskan untuk permata oleh teman Anda",
@@ -7761,8 +7760,6 @@
   "fishingPuzzle.findSafePath": "Temukan jalur aman untuk peta",
   "fishingPuzzle.timeoutTitle": "Oh tidak, kamu tidak cukup cepat!",
   "fishingPuzzle.timeoutMessage": "Oh tidak, Anda tidak cukup cepat, Anda melewatkan potongan peta.",
-  "instantProcessedFoods.recipes": "Resep Instan",
-  "instantProcessedFoods.makeRecipe": "Buat resep",
   "description.instantFood.furikakeSprinkle": "Bahan ikan olahan - jaminan tangkapan.",
   "description.instantFood.surimiRiceBall": "Bahan ikan olahan - jaminan tangkapan.",
   "description.instantFood.creamyCrabBite": "Bahan ikan olahan - jaminan tangkapan.",
@@ -7786,5 +7783,8 @@
   "withdraw.duplicate.tip2": "2. Gunakan alamat IP alternatif yang tidak digunakan orang lain di rumah Anda.",
   "withdraw.duplicate.tip3": "3. Hindari VPN",
   "withdraw.duplicate.tip4": "4. Jaringan publik atau bersama mungkin memerlukan penantian singkat karena terlalu sering digunakan (1 minggu).",
-  "withdraw.duplicate.note": "Perlindungan ini berlaku secara otomatis dan bukan merupakan pemogokan atau peringatan."
+  "withdraw.duplicate.note": "Perlindungan ini berlaku secara otomatis dan bukan merupakan pemogokan atau peringatan.",
+  "processedResources": "Sumber Daya yang Diproses",
+  "instantProcessedResources.recipes": "Resep Instan",
+  "instantProcessedResources.makeRecipe": "Buat resep"
 }

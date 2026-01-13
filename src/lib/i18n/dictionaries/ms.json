@@ -7659,7 +7659,6 @@
   "bonus.2026-tiara-wave.message": "Hei {{username}}, selamat datang ke 2026! Saya ingin menghadiahkan anda tiara peringatan ini untuk meraikannya. Saya harap tahun baru membawa anda kegembiraan dan kejayaan!",
   "claim.bonusItemName": "Tuntutan {{bonusItemName}}",
   "description.squeakyChicken": "Ayam yang berkerut",
-  "processedFoods": "Makanan yang diproses",
   "instantCook.confirmationMessage": "Adakah anda pasti ingin menyelesaikan item ini sekarang?",
   "renew.expired.message": "{{name}} telah tamat tempoh. Anda boleh memperbaharuinya untuk melanjutkan tempohnya.",
   "referral.flower": "10% daripada $FLOWER yang dibelanjakan untuk permata oleh rakan anda",
@@ -7761,8 +7760,6 @@
   "fishingPuzzle.findSafePath": "Cari jalan selamat untuk peta",
   "fishingPuzzle.timeoutTitle": "Oh tidak, anda tidak cukup cepat!",
   "fishingPuzzle.timeoutMessage": "Oh tidak, anda tidak cukup cepat, anda terlepas sekeping peta.",
-  "instantProcessedFoods.recipes": "Resipi Segera",
-  "instantProcessedFoods.makeRecipe": "Buat resipi",
   "description.instantFood.furikakeSprinkle": "Bahan ikan yang diproses - tangkapan yang dijamin.",
   "description.instantFood.surimiRiceBall": "Bahan ikan yang diproses - tangkapan yang dijamin.",
   "description.instantFood.creamyCrabBite": "Bahan ikan yang diproses - tangkapan yang dijamin.",
@@ -7786,5 +7783,8 @@
   "withdraw.duplicate.tip2": "2. Gunakan alamat IP alternatif yang tidak digunakan oleh orang lain dalam isi rumah anda.",
   "withdraw.duplicate.tip3": "3. Elakkan VPN",
   "withdraw.duplicate.tip4": "4. Rangkaian awam atau dikongsi mungkin memerlukan penantian yang singkat kerana penggunaan berlebihan (1 minggu).",
-  "withdraw.duplicate.note": "Perlindungan ini berlaku secara automatik dan bukan mogok atau amaran."
+  "withdraw.duplicate.note": "Perlindungan ini berlaku secara automatik dan bukan mogok atau amaran.",
+  "processedResources": "Sumber yang diproses",
+  "instantProcessedResources.recipes": "Resipi Segera",
+  "instantProcessedResources.makeRecipe": "Buat resipi"
 }
