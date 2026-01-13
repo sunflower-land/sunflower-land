@@ -1,14 +1,14 @@
 import Decimal from "decimal.js-light";
-import { FoodProcessingBuildingName } from "features/game/types/buildings";
+import { ProcessingBuildingName } from "features/game/types/buildings";
 import { BuildingProduct, GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { getInstantGems } from "./speedUpRecipe";
-import { recalculateProcessingQueue } from "./cancelProcessedFood";
+import { recalculateProcessingQueue } from "./cancelProcessedResource";
 
 export type SpeedUpProcessingAction = {
   type: "processing.spedUp";
   buildingId: string;
-  buildingName: FoodProcessingBuildingName;
+  buildingName: ProcessingBuildingName;
 };
 
 type Options = {

@@ -9,7 +9,7 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import {
   BuildingName,
-  isFoodProcessingBuilding,
+  isProcessingBuilding,
 } from "features/game/types/buildings";
 import { Panel } from "components/ui/Panel";
 
@@ -38,8 +38,8 @@ export const QueueSlot: React.FC<QueueSlotProps> = ({
   );
 
   const handleCancel = () => {
-    const eventType = isFoodProcessingBuilding(buildingName)
-      ? "processedFood.cancelled"
+    const eventType = isProcessingBuilding(buildingName)
+      ? "processedResource.cancelled"
       : "recipe.cancelled";
 
     gameService.send(eventType, {

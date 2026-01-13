@@ -34,7 +34,7 @@ export const FishMarket: React.FC<BuildingProps> = ({
 
   const handleProcess = (item: ProcessedFood) => {
     gameService?.send({
-      type: "processedFood.processed",
+      type: "processedResource.processed",
       item,
       buildingId,
       buildingName: "Fish Market",
@@ -43,7 +43,7 @@ export const FishMarket: React.FC<BuildingProps> = ({
 
   const handleCollect = () => {
     gameService?.send({
-      type: "processedFood.collected",
+      type: "processedResource.collected",
       buildingId,
       buildingName: "Fish Market",
     });

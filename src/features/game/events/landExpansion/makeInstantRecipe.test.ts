@@ -7,7 +7,7 @@ import {
   MakeInstantRecipeAction,
   makeInstantRecipe,
 } from "./makeInstantRecipe";
-import { FoodProcessingBuildingName } from "features/game/types/buildings";
+import { ProcessingBuildingName } from "features/game/types/buildings";
 
 const createdAt = Date.now();
 
@@ -39,7 +39,7 @@ describe("makeInstantRecipe", () => {
           type: "instantRecipe.made",
           recipe: "Furikake Sprinkle",
           buildingId: "123",
-          buildingName: "Fire Pit" as FoodProcessingBuildingName,
+          buildingName: "Fire Pit" as ProcessingBuildingName,
         },
         createdAt,
       }),

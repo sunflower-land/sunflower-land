@@ -12,11 +12,11 @@ export type CookingBuildingName =
   | "Deli"
   | "Smoothie Shack";
 
-export type FoodProcessingBuildingName = "Fish Market";
+export type ProcessingBuildingName = "Fish Market";
 
 export type BuildingName =
   | CookingBuildingName
-  | FoodProcessingBuildingName
+  | ProcessingBuildingName
   | "Market"
   | "Town Center"
   | "Workbench"
@@ -507,12 +507,10 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   "Pet House": { width: 3, height: 2 },
 };
 
-const FOOD_PROCESSING_BUILDINGS: FoodProcessingBuildingName[] = ["Fish Market"];
+const PROCESSING_BUILDINGS: ProcessingBuildingName[] = ["Fish Market"];
 
-export const isFoodProcessingBuilding = (
+export const isProcessingBuilding = (
   buildingName: BuildingName,
-): buildingName is FoodProcessingBuildingName => {
-  return FOOD_PROCESSING_BUILDINGS.includes(
-    buildingName as FoodProcessingBuildingName,
-  );
+): buildingName is ProcessingBuildingName => {
+  return PROCESSING_BUILDINGS.includes(buildingName as ProcessingBuildingName);
 };

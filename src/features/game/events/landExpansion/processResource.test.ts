@@ -1,19 +1,19 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import {
-  collectProcessedFood,
-  CollectProcessedFoodAction,
-} from "./collectProcessedFood";
+  collectProcessedResource,
+  CollectProcessedResourceAction,
+} from "./collectProcessedResource";
 import {
   FISH_PROCESSING_TIME_SECONDS,
   getFishProcessingRequirements,
 } from "features/game/types/fishProcessing";
 import { GameState } from "features/game/types/game";
 import {
-  processProcessedFood,
-  ProcessProcessedFoodAction,
-} from "./processFood";
-import { FoodProcessingBuildingName } from "features/game/types/buildings";
+  processProcessedResource,
+  ProcessProcessedResourceAction,
+} from "./processResource";
+import { ProcessingBuildingName } from "features/game/types/buildings";
 
 const createdAt = Date.now();
 
@@ -39,25 +39,25 @@ const SPRING_STATE: GameState = {
 describe("processProcessedFood", () => {
   it("throws when Fish Market is missing", () => {
     expect(() =>
-      processProcessedFood({
+      processProcessedResource({
         state: {
           ...SPRING_STATE,
           buildings: {},
         },
         action: {
-          type: "processedFood.processed",
+          type: "processedResource.processed",
           item: "Fish Flake",
           buildingId: "missing",
-        } as ProcessProcessedFoodAction,
+        } as ProcessProcessedResourceAction,
       }),
     ).toThrow("Required building does not exist");
   });
 
   it("deducts seasonal requirements and queues processing", () => {
-    const state = processProcessedFood({
+    const state = processProcessedResource({
       state: SPRING_STATE,
       action: {
-        type: "processedFood.processed",
+        type: "processedResource.processed",
         item: "Fish Flake",
         buildingId: "123",
         buildingName: "Fish Market",
@@ -126,10 +126,10 @@ describe("processProcessedFood", () => {
       },
     };
 
-    const updated = processProcessedFood({
+    const updated = processProcessedResource({
       state,
       action: {
-        type: "processedFood.processed",
+        type: "processedResource.processed",
         item: "Fish Stick",
         buildingId: "123",
         buildingName: "Fish Market",
@@ -149,12 +149,12 @@ describe("processProcessedFood", () => {
 describe("collectProcessedFish", () => {
   it("throws when the building is not a food processing building", () => {
     expect(() =>
-      collectProcessedFood({
+      collectProcessedResource({
         state: SPRING_STATE,
         action: {
-          type: "processedFood.collected",
+          type: "processedResource.collected",
           buildingId: "123",
-          buildingName: "Fire Pit" as FoodProcessingBuildingName,
+          buildingName: "Fire Pit" as ProcessingBuildingName,
         },
         createdAt,
       }),
@@ -189,13 +189,13 @@ describe("collectProcessedFish", () => {
       },
     };
 
-    const updated = collectProcessedFood({
+    const updated = collectProcessedResource({
       state,
       action: {
-        type: "processedFood.collected",
+        type: "processedResource.collected",
         buildingId: "123",
         buildingName: "Fish Market",
-      } as CollectProcessedFoodAction,
+      } as CollectProcessedResourceAction,
       createdAt,
     });
 
