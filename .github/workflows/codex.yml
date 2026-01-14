@@ -108,7 +108,7 @@ jobs:
             ${{ github.event.pull_request.body }}
 
   post_feedback:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-latest
     needs: codex
     if: needs.codex.outputs.final_message != ''
     # permissions:
