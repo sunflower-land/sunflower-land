@@ -28,8 +28,6 @@ export const DequipBumpkin: React.FC = () => {
 
   const [showSuccess, setShowSuccess] = useState(false);
 
-  const account = wallet.getConnection() as `0x${string}`;
-
   useEffect(() => {
     const load = async () => {
       const walletBumpkins = await loadBumpkins(
