@@ -66,14 +66,11 @@ const selectFarmId = (state: MachineState) => state.context.farmId;
 const compareResource = (prev: TreeType, next: TreeType) => {
   return JSON.stringify(prev) === JSON.stringify(next);
 };
-const compareGame = (prev: GameState, next: GameState) => {
-  return (
-    isCollectibleBuilt({ name: "Foreman Beaver", game: prev }) ===
-      isCollectibleBuilt({ name: "Foreman Beaver", game: next }) &&
-    (prev.bumpkin?.skills["Insta-Chop"] ?? false) ===
-      (next.bumpkin?.skills["Insta-Chop"] ?? false)
-  );
-};
+const compareGame = (prev: GameState, next: GameState) =>
+  isCollectibleBuilt({ name: "Foreman Beaver", game: prev }) ===
+    isCollectibleBuilt({ name: "Foreman Beaver", game: next }) &&
+  (prev.bumpkin?.skills["Insta-Chop"] ?? false) ===
+    (next.bumpkin?.skills["Insta-Chop"] ?? false);
 
 // A player that has been vetted and is engaged in the season.
 const isSeasonedPlayer = (state: MachineState) =>
@@ -186,7 +183,6 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
   // Calculate expected reward for UI preview (captcha gate for non-seasoned players)
   const treeName: TreeName = resource.name ?? "Tree";
-  const currentCounter = activityCount;
 
   const { reward: expectedReward } = resource.wood.reward
     ? { reward: resource.wood.reward }
@@ -194,7 +190,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
         skills: game.bumpkin?.skills ?? {},
         farmId,
         itemId: KNOWN_IDS[treeName],
-        counter: currentCounter,
+        counter: activityCount,
       });
 
   const shake = () => {
@@ -238,7 +234,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
         tree: resource,
         farmId,
         itemId: KNOWN_IDS[treeName],
-        counter: currentCounter,
+        counter: activityCount,
       }).amount;
 
     const newState = gameService.send("timber.chopped", {

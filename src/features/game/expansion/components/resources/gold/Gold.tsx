@@ -96,7 +96,7 @@ export const Gold: React.FC<Props> = ({ id }) => {
   );
   const skills = useSelector(gameService, selectSkills, compareSkills);
   const state = useSelector(gameService, selectGame);
-  const activityCount = useSelector(gameService, (state) => {
+  const currentCounter = useSelector(gameService, (state) => {
     const rockName = state.context.state.gold[id]?.name ?? "Gold Rock";
     return state.context.state.farmActivity[`${rockName} Mined`] ?? 0;
   });
@@ -162,7 +162,6 @@ export const Gold: React.FC<Props> = ({ id }) => {
 
   const mine = async () => {
     const goldRockName = resource.name ?? "Gold Rock";
-    const counter = activityCount;
     const itemId = KNOWN_IDS[goldRockName];
     const goldMined = new Decimal(
       resource.stone.amount ??
@@ -172,7 +171,7 @@ export const Gold: React.FC<Props> = ({ id }) => {
           createdAt: now,
           farmId,
           itemId,
-          counter,
+          counter: currentCounter,
         }).amount,
     );
     const newState = gameService.send("goldRock.mined", {

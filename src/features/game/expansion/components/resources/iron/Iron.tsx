@@ -131,7 +131,6 @@ export const Iron: React.FC<Props> = ({ id }) => {
 
   const mine = async () => {
     const ironName: RockName = resource.name ?? "Iron Rock";
-    const counter = activityCount;
     const itemId = KNOWN_IDS[ironName];
     const ironMined = new Decimal(
       resource.stone.amount ??
@@ -140,7 +139,7 @@ export const Iron: React.FC<Props> = ({ id }) => {
           rock: resource,
           createdAt: now,
           farmId,
-          counter,
+          counter: activityCount,
           itemId,
         }).amount,
     );
