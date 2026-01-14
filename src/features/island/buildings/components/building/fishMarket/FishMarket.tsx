@@ -17,6 +17,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { ITEM_DETAILS } from "features/game/types/images";
 import classNames from "classnames";
 import { setImageWidth } from "lib/images";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const _fishMarket = (id: string) => (state: MachineState) =>
   state.context.state.buildings["Fish Market"]?.find((b) => b.id === id);
@@ -110,15 +111,29 @@ export const FishMarket: React.FC<BuildingProps> = ({
             />
           </div>
         )}
-        <div
-          className="absolute"
-          style={{
-            top: `${PIXEL_SCALE * 11}px`,
-            left: `${PIXEL_SCALE * -4}px`,
-          }}
-        >
-          <NPCPlaceable parts={NPC_WEARABLES.neville} />
-        </div>
+
+        {processing ? (
+          <img
+            src={SUNNYSIDE.npcs.fishMarket_npc_doing}
+            className="absolute"
+            style={{
+              width: `${PIXEL_SCALE * 16 * 1.25}px`,
+              top: `${PIXEL_SCALE * 17}px`,
+              left: `${PIXEL_SCALE * -4}px`,
+            }}
+          />
+        ) : (
+          <div
+            className="absolute border border-red-500"
+            style={{
+              top: `${PIXEL_SCALE * 11}px`,
+              left: `${PIXEL_SCALE * -4}px`,
+            }}
+          >
+            <NPCPlaceable parts={NPC_WEARABLES.neville} />
+          </div>
+        )}
+
         <ReadyProcessed ready={ready} leftOffset={40} />
       </BuildingImageWrapper>
 
