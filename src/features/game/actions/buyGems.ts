@@ -57,7 +57,7 @@ export async function buyBlockBucks(request: Request): Promise<Response> {
 export async function buyBlockBucksMATIC(transaction: any) {
   await buyGemsMATIC({
     ...transaction,
-    account: wallet.getAccount(),
+    account: wallet.getConnection(),
   });
 
   return { success: true, verified: true };

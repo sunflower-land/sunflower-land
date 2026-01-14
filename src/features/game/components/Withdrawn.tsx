@@ -15,6 +15,8 @@ export const Withdrawn: React.FC = () => {
     await wallet.addTokenToMetamask();
   };
 
+  const address = wallet.getConnection() as `0x${string}`;
+
   return (
     <div className="flex flex-col items-center">
       <div className="p-2 flex flex-col items-center">
@@ -23,7 +25,7 @@ export const Withdrawn: React.FC = () => {
         <p className="mb-4">
           {t("transaction.withdraw.sent")}{" "}
           <span className="text-center mb-2 ml-2 text-sm font-secondary">
-            {shortAddress(wallet.getAccount() as string)}
+            {shortAddress(address)}
           </span>
         </p>
 
@@ -47,7 +49,7 @@ export const Withdrawn: React.FC = () => {
           {t("transaction.displayItems")}{" "}
           <a
             className="underline hover:text-white"
-            href={`https://polygonscan.com/address/${wallet.getAccount()}#tokentxnsErc1155`}
+            href={`https://polygonscan.com/address/${address}#tokentxnsErc1155`}
             target="_blank"
             rel="noopener noreferrer"
           >

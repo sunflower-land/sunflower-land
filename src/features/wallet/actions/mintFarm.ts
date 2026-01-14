@@ -61,7 +61,7 @@ export async function mintNFTFarm(request: Request) {
   } = await response.json();
 
   await createNewAccount({
-    account: wallet.getAccount() as `0x${string}`,
+    account: wallet.getConnection() as `0x${string}`,
     deadline: payload.deadline,
     fee: payload.fee,
     signature: payload.signature,

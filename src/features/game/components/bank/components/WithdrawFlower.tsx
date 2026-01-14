@@ -19,7 +19,7 @@ import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
-import { useAccount } from "wagmi";
+import { useConnection } from "wagmi";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { InnerPanel } from "components/ui/Panel";
 import { shortAddress } from "lib/utils/shortAddress";
@@ -39,7 +39,8 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const autosaving = useSelector(gameService, _autosaving);
-  const { chain } = useAccount();
+  const { chain } = useConnection();
+  const address = wallet.getConnection() || "XXXX";
 
   const [amount, setAmount] = useState<Decimal>(new Decimal(0));
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -97,7 +98,7 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
               </Label>
               <Label type="transparent" className="text-nowrap">
                 {t("withdraw.flower.recipient", {
-                  address: shortAddress(wallet.getAccount() || "XXXX"),
+                  address: shortAddress(address),
                 })}
               </Label>
             </div>
@@ -198,7 +199,7 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
           />
           <div className="flex flex-col gap-1">
             <p>{t("withdraw.send.wallet")}</p>
-            <WalletAddressLabel walletAddress={wallet.getAccount() || "XXXX"} />
+            <WalletAddressLabel walletAddress={address} />
           </div>
         </div>
       </div>

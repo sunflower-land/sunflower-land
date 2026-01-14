@@ -287,7 +287,9 @@ export const WithdrawPets: React.FC<Props> = ({ onWithdraw }) => {
           />
           <div className="flex flex-col gap-1">
             <p>{t("withdraw.send.wallet")}</p>
-            <WalletAddressLabel walletAddress={wallet.getAccount() || "XXXX"} />
+            <WalletAddressLabel
+              walletAddress={wallet.getConnection() || "XXXX"}
+            />
           </div>
         </div>
 

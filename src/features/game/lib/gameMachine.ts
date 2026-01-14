@@ -100,7 +100,7 @@ import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow
 import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
 import { hasVipAccess } from "./vipAccess";
 import { getActiveCalendarEvent, SeasonalEventName } from "../types/calendar";
-import { getAccount, getChainId } from "@wagmi/core";
+import { getConnection, getChainId } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { depositFlower } from "lib/blockchain/DepositFlower";
 import { NetworkOption } from "features/island/hud/components/deposit/DepositFlower";
@@ -934,7 +934,7 @@ export function startGame(authContext: AuthContext) {
             src: async (context) => {
               const fingerprint = "X";
 
-              const { connector } = getAccount(config);
+              const { connector } = getConnection(config);
 
               const response = await loadSession({
                 token: authContext.user.rawToken as string,
@@ -2202,13 +2202,13 @@ export function startGame(authContext: AuthContext) {
         depositingFlowerFromLinkedWallet: {
           invoke: {
             src: async (context, event) => {
-              if (!wallet.getAccount()) throw new Error("No account");
+              if (!wallet.getConnection()) throw new Error("No account");
 
               const { amount, depositAddress, selectedNetwork } =
                 event as DepositFlowerFromLinkedWalletEvent;
 
               await depositFlower({
-                account: wallet.getAccount() as `0x${string}`,
+                account: wallet.getConnection() as `0x${string}`,
                 depositAddress,
                 amount,
                 selectedNetwork,
@@ -2234,13 +2234,14 @@ export function startGame(authContext: AuthContext) {
         depositingSFLFromLinkedWallet: {
           invoke: {
             src: async (context, event) => {
-              if (!wallet.getAccount()) throw new Error("No account");
+              const address = wallet.getConnection();
+              if (!address) throw new Error("No account");
 
               const { amount, depositAddress, selectedNetwork } =
                 event as DepositSFLFromLinkedWalletEvent;
 
               await depositSFL({
-                account: wallet.getAccount() as `0x${string}`,
+                account: address,
                 depositAddress,
                 amount,
                 selectedNetwork,
@@ -2266,7 +2267,8 @@ export function startGame(authContext: AuthContext) {
         depositing: {
           invoke: {
             src: async (context, event) => {
-              if (!wallet.getAccount()) throw new Error("No account");
+              const account = wallet.getConnection();
+              if (!account) throw new Error("No account");
 
               const {
                 itemAmounts,
@@ -2278,7 +2280,7 @@ export function startGame(authContext: AuthContext) {
               } = event as DepositEvent;
 
               await depositToFarm({
-                account: wallet.getAccount() as `0x${string}`,
+                account,
                 farmId: context.nftId as number,
                 itemIds: itemIds,
                 itemAmounts: itemAmounts,

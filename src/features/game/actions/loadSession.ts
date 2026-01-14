@@ -216,7 +216,7 @@ export function saveSession(farmId: number) {
   const farmSession = {
     farmId,
     loggedInAt: Date.now(),
-    account: wallet.getAccount(),
+    account: wallet.getConnection(),
   };
 
   const cacheKey = Buffer.from(JSON.stringify(farmSession)).toString("base64");
