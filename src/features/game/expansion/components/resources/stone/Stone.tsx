@@ -101,6 +101,10 @@ export const Stone: React.FC<Props> = ({ id }) => {
     compareResource,
   );
   const name = (resource.name ?? "Stone Rock") as StoneRockName;
+  const activityCount = useSelector(gameService, (state) => {
+    const rockName = state.context.state.stones[id]?.name ?? "Stone Rock";
+    return state.context.state.farmActivity[`${rockName} Mined`] ?? 0;
+  });
   const inventory = useSelector(
     gameService,
     selectInventory,
@@ -144,7 +148,6 @@ export const Stone: React.FC<Props> = ({ id }) => {
 
   const mine = async () => {
     const stoneName: RockName = resource.name ?? "Stone Rock";
-    const counter = game.farmActivity[`${stoneName} Mined`] ?? 0;
     const stoneMined = new Decimal(
       resource.stone.amount ??
         getStoneDropAmount({
@@ -153,7 +156,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
           createdAt: now,
           id,
           farmId,
-          counter,
+          counter: activityCount,
           itemId: KNOWN_IDS[stoneName],
         }).amount,
     );
