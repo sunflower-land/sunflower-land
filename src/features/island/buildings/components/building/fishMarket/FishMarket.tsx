@@ -124,7 +124,7 @@ export const FishMarket: React.FC<BuildingProps> = ({
           />
         ) : (
           <div
-            className="absolute border border-red-500"
+            className="absolute"
             style={{
               top: `${PIXEL_SCALE * 11}px`,
               left: `${PIXEL_SCALE * -4}px`,
