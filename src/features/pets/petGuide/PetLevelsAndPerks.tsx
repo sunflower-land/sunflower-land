@@ -5,6 +5,7 @@ import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { FETCHES_BY_CATEGORY, PetResourceName } from "features/game/types/pets";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const PetLevelsAndPerks: React.FC<{ onBack: () => void }> = ({
   onBack,
@@ -28,15 +29,18 @@ export const PetLevelsAndPerks: React.FC<{ onBack: () => void }> = ({
   }, [secondaryResources]);
 
   return (
-    <InnerPanel className="relative">
-      <img
-        src={arrow_left}
-        onClick={onBack}
-        className="cursor-pointer w-6 h-6 absolute top-3 left-1"
-      />
-      <h2 className="text-center text-lg mb-1">{`Levels & Perks`}</h2>
-
-      <Label type="default" className="ml-1 mt-2">{`All Perks by Level`}</Label>
+    <InnerPanel className="relative overflow-y-auto max-h-[350px] scrollable">
+      <div className="flex items-center gap-2">
+        <img
+          src={arrow_left}
+          onClick={onBack}
+          style={{
+            width: `${PIXEL_SCALE * 11}px`,
+            cursor: "pointer",
+          }}
+        />
+        <Label type="default">{`Levels & Perks`}</Label>
+      </div>
       <p className="text-xs p-1 mb-1">{`As you level up your pet, you will unlock new perks that will help you in your journey.`}</p>
       <NoticeboardItems
         items={[

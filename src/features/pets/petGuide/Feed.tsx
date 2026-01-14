@@ -1,17 +1,24 @@
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import React from "react";
 
 export const Feed: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   return (
-    <InnerPanel className="relative">
-      <img
-        src={SUNNYSIDE.icons.arrow_left}
-        onClick={onBack}
-        className="cursor-pointer w-6 h-6 absolute top-3 left-1"
-      />
-      <h2 className="text-center text-lg mb-1">{`Feed`}</h2>
+    <InnerPanel className="relative overflow-y-auto max-h-[350px] scrollable">
+      <div className="flex items-center gap-2">
+        <img
+          src={SUNNYSIDE.icons.arrow_left}
+          onClick={onBack}
+          style={{
+            width: `${PIXEL_SCALE * 11}px`,
+            cursor: "pointer",
+          }}
+        />
+        <Label type="default">{`Feed`}</Label>
+      </div>
       <NoticeboardItems
         items={[
           {

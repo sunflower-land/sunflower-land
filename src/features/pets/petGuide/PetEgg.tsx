@@ -3,18 +3,24 @@ import { InnerPanel } from "components/ui/Panel";
 import React from "react";
 import { ChestRewardsList } from "components/ui/ChestRewardsList";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { Label } from "components/ui/Label";
 
 export const PetEgg: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const { t } = useAppTranslation();
   return (
     <InnerPanel className="relative">
-      <img
-        src={SUNNYSIDE.icons.arrow_left}
-        onClick={onBack}
-        className="cursor-pointer w-6 h-6 absolute top-3 left-1"
-      />
-      <h2 className="text-center text-lg">{t("petGuide.petEgg.title")}</h2>
-
+      <div className="flex items-center gap-2">
+        <img
+          src={SUNNYSIDE.icons.arrow_left}
+          onClick={onBack}
+          style={{
+            width: `${PIXEL_SCALE * 11}px`,
+            cursor: "pointer",
+          }}
+        />
+        <Label type="default">{`Pet Egg`}</Label>
+      </div>
       <ChestRewardsList
         type="Pet Egg"
         chestDescription={[

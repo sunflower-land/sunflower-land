@@ -1,5 +1,5 @@
 import { Button } from "components/ui/Button";
-import { InnerPanel, OuterPanel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import React, { useState } from "react";
 import { PetEgg } from "./PetEgg";
 import { Label } from "components/ui/Label";
@@ -13,9 +13,8 @@ import { NFTTraits } from "./NFTTraits";
 import { Social } from "./Social";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Modal } from "components/ui/Modal";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 type PetGuideView =
   | "Pet Egg"
@@ -28,7 +27,7 @@ type PetGuideView =
   | "NFT Traits"
   | "Social";
 
-export const PetGuide: React.FC = () => {
+export const PetGuide: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
   const [view, setView] = useState<PetGuideView>();
 
   const setToDefault = () => setView(undefined);
@@ -63,8 +62,21 @@ export const PetGuide: React.FC = () => {
   }
 
   return (
-    <InnerPanel>
-      <Label type="default">{`Pet Guide`}</Label>
+    <InnerPanel className="relative overflow-y-auto max-h-[350px] scrollable">
+      <div className="flex items-center gap-2">
+        {onClose && (
+          <img
+            src={SUNNYSIDE.icons.arrow_left}
+            style={{
+              width: `${PIXEL_SCALE * 11}px`,
+              cursor: "pointer",
+            }}
+            onClick={onClose}
+          />
+        )}
+        <Label type="default">{`Pet Guide`}</Label>
+      </div>
+
       <p className="text-xs p-1">{`Learn about pets and how to care for them.`}</p>
       <div id="Buttons" className="grid grid-cols-2 gap-1">
         {getObjectEntries(GUIDE_CONTENT).map(([key, value]) => {
@@ -79,28 +91,18 @@ export const PetGuide: React.FC = () => {
   );
 };
 
-export const PetGuideButton: React.FC = () => {
-  const [showPetGuide, setShowPetGuide] = useState(false);
+export const PetGuideButton: React.FC<{ onShow: () => void }> = ({
+  onShow,
+}) => {
   const { t } = useAppTranslation();
   return (
-    <>
-      <div>
-        <Button onClick={() => setShowPetGuide(true)}>
-          <div className="flex justify-between items-center text-xs -m-1 space-x-1">
-            <img src={SUNNYSIDE.icons.expression_confused} className="w-3" />
-            <p>{t("guide")}</p>
-          </div>
-        </Button>
-      </div>
-
-      <Modal show={showPetGuide} onHide={() => setShowPetGuide(false)}>
-        <CloseButtonPanel
-          onClose={() => setShowPetGuide(false)}
-          container={OuterPanel}
-        >
-          <PetGuide />
-        </CloseButtonPanel>
-      </Modal>
-    </>
+    <div>
+      <Button onClick={onShow}>
+        <div className="flex justify-between items-center text-xs -m-1 space-x-1">
+          <img src={SUNNYSIDE.icons.expression_confused} className="w-3" />
+          <p>{t("guide")}</p>
+        </div>
+      </Button>
+    </div>
   );
 };

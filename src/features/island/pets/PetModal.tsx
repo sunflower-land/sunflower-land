@@ -36,7 +36,7 @@ import classNames from "classnames";
 import levelUp from "assets/icons/level_up.png";
 import xpIcon from "assets/icons/xp.png";
 import { Checkbox } from "components/ui/Checkbox";
-import { PetGuideButton } from "features/pets/petGuide/PetGuide";
+import { PetGuide, PetGuideButton } from "features/pets/petGuide/PetGuide";
 import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
@@ -61,7 +61,7 @@ export const PetModal: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
   const [display, setDisplay] = useState<
-    "feeding" | "fetching" | "resetting" | "typeFed"
+    "feeding" | "fetching" | "resetting" | "typeFed" | "guide"
   >(isTypeFed ? "typeFed" : "feeding");
   const [showRewards, setShowRewards] = useState(false);
   const inventory = useSelector(gameService, _inventory);
@@ -119,7 +119,9 @@ export const PetModal: React.FC<Props> = ({
             )}
           </div>
           <div className="flex flex-row gap-2 items-center justify-end">
-            {hasPetGuideAccess && <PetGuideButton />}
+            {hasPetGuideAccess && display !== "guide" && (
+              <PetGuideButton onShow={() => setDisplay("guide")} />
+            )}
             <img
               onClick={onClose}
               src={SUNNYSIDE.icons.close}
@@ -246,6 +248,9 @@ export const PetModal: React.FC<Props> = ({
         )}
         {/* Type Fed UI */}
         {display === "typeFed" && <PetTypeFed type={type} onClose={onClose} />}
+        {display === "guide" && (
+          <PetGuide onClose={() => setDisplay("feeding")} />
+        )}
       </OuterPanel>
       <ModalOverlay
         show={showRewards}
