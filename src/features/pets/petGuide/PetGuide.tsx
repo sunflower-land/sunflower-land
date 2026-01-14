@@ -15,6 +15,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { getObjectEntries } from "features/game/expansion/lib/utils";
 
 type PetGuideView =
   | "Pet Egg"
@@ -27,37 +28,38 @@ type PetGuideView =
   | "NFT Traits"
   | "Social";
 
-export const PetGuide: React.FC<{ isNFTPet: boolean }> = ({ isNFTPet }) => {
+export const PetGuide: React.FC = () => {
   const [view, setView] = useState<PetGuideView>();
 
   const setToDefault = () => setView(undefined);
 
-  if (view === "Pet Egg") {
-    return <PetEgg onBack={setToDefault} />;
-  }
-  if (view === "Feed") {
-    return <Feed onBack={setToDefault} />;
-  }
-  if (view === "Fetch") {
-    return <Fetch onBack={setToDefault} />;
-  }
-  if (view === "Pet Maintenance") {
-    return <PetMaintenance onBack={setToDefault} />;
-  }
-  if (view === "Pet Categories") {
-    return <PetCategories onBack={setToDefault} />;
-  }
-  if (view === "Levels & Perks") {
-    return <PetLevelsAndPerks onBack={setToDefault} />;
-  }
-  if (view === "Shrines") {
-    return <Shrines onBack={setToDefault} />;
-  }
-  if (view === "NFT Traits") {
-    return <NFTTraits onBack={setToDefault} />;
-  }
-  if (view === "Social") {
-    return <Social onBack={setToDefault} />;
+  const GUIDE_CONTENT: Record<
+    PetGuideView,
+    { translatedTitle: string; content: React.FC<{ onBack: () => void }> }
+  > = {
+    "Pet Egg": { translatedTitle: "Pet Egg", content: PetEgg },
+    Feed: { translatedTitle: "Feed", content: Feed },
+    Fetch: { translatedTitle: "Fetch", content: Fetch },
+    "Pet Maintenance": {
+      translatedTitle: "Pet Maintenance",
+      content: PetMaintenance,
+    },
+    "Pet Categories": {
+      translatedTitle: "Pet Categories",
+      content: PetCategories,
+    },
+    "Levels & Perks": {
+      translatedTitle: "Levels & Perks",
+      content: PetLevelsAndPerks,
+    },
+    Shrines: { translatedTitle: "Shrines", content: Shrines },
+    "NFT Traits": { translatedTitle: "NFT Traits", content: NFTTraits },
+    Social: { translatedTitle: "Social", content: Social },
+  };
+
+  if (view) {
+    const ContentComponent = GUIDE_CONTENT[view].content;
+    return <ContentComponent onBack={setToDefault} />;
   }
 
   return (
@@ -65,31 +67,19 @@ export const PetGuide: React.FC<{ isNFTPet: boolean }> = ({ isNFTPet }) => {
       <Label type="default">{`Pet Guide`}</Label>
       <p className="text-xs p-1">{`Learn about pets and how to care for them.`}</p>
       <div id="Buttons" className="grid grid-cols-2 gap-1">
-        <Button onClick={() => setView("Pet Egg")}>{`Pet Egg`}</Button>
-        <Button onClick={() => setView("Feed")}>{`Feed`}</Button>
-        <Button onClick={() => setView("Fetch")}>{`Fetch`}</Button>
-        <Button onClick={() => setView("Pet Maintenance")}>
-          {`Pet Maintenance`}
-        </Button>
-        <Button onClick={() => setView("Pet Categories")}>
-          {`Pet Categories`}
-        </Button>
-        <Button onClick={() => setView("Levels & Perks")}>
-          {`Levels & Perks`}
-        </Button>
-        <Button onClick={() => setView("Shrines")}>{`Shrines`}</Button>
-        <Button onClick={() => setView("Social")}>{`Social`}</Button>
-        {isNFTPet && (
-          <Button onClick={() => setView("NFT Traits")}>{`NFT Traits`}</Button>
-        )}
+        {getObjectEntries(GUIDE_CONTENT).map(([key, value]) => {
+          return (
+            <Button key={key} onClick={() => setView(key)}>
+              {value.translatedTitle}
+            </Button>
+          );
+        })}
       </div>
     </InnerPanel>
   );
 };
 
-export const PetGuideButton: React.FC<{ isNFTPet: boolean }> = ({
-  isNFTPet,
-}) => {
+export const PetGuideButton: React.FC = () => {
   const [showPetGuide, setShowPetGuide] = useState(false);
   const { t } = useAppTranslation();
   return (
@@ -108,7 +98,7 @@ export const PetGuideButton: React.FC<{ isNFTPet: boolean }> = ({
           onClose={() => setShowPetGuide(false)}
           container={OuterPanel}
         >
-          <PetGuide isNFTPet={isNFTPet} />
+          <PetGuide />
         </CloseButtonPanel>
       </Modal>
     </>

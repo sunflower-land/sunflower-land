@@ -119,7 +119,7 @@ export const PetModal: React.FC<Props> = ({
             )}
           </div>
           <div className="flex flex-row gap-2 items-center justify-end">
-            {hasPetGuideAccess && <PetGuideButton isNFTPet={isNFTPet} />}
+            {hasPetGuideAccess && <PetGuideButton />}
             <img
               onClick={onClose}
               src={SUNNYSIDE.icons.close}

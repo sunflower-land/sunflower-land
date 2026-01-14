@@ -36,7 +36,7 @@ export const PetShop: React.FC<Props> = ({ onClose }) => {
       setCurrentTab={setTab}
     >
       {tab === "petShop" && <PetShopModal />}
-      {tab === "petGuide" && <PetGuide isNFTPet />}
+      {tab === "petGuide" && <PetGuide />}
     </CloseButtonPanel>
   );
 };
