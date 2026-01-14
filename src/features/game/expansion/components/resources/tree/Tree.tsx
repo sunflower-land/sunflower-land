@@ -75,15 +75,6 @@ const compareGame = (prev: GameState, next: GameState) => {
   );
 };
 
-const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
-
-const compareFarmActivity = (
-  prev: Partial<Record<FarmActivityName, number>>,
-  next: Partial<Record<FarmActivityName, number>>,
-) => {
-  return JSON.stringify(prev) === JSON.stringify(next);
-};
-
 // A player that has been vetted and is engaged in the season.
 const isSeasonedPlayer = (state: MachineState) =>
   // - level 60+
@@ -144,11 +135,12 @@ export const Tree: React.FC<Props> = ({ id }) => {
   );
 
   const treesChopped = useSelector(gameService, selectTreesChopped);
-  const farmActivity = useSelector(
-    gameService,
-    _farmActivity,
-    compareFarmActivity,
-  );
+  const activityCount = useSelector(gameService, (state) => {
+    const treeName = state.context.state.trees[id]?.name ?? "Tree";
+    const activityKey =
+      `${treeName === "Tree" ? "Basic Tree" : treeName} Chopped` as FarmActivityName;
+    return state.context.state.farmActivity[activityKey] ?? 0;
+  });
   const island = useSelector(gameService, selectIsland);
   const season = useSelector(gameService, selectSeason);
   const farmId = useSelector(gameService, selectFarmId);
@@ -194,9 +186,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
   // Calculate expected reward for UI preview (captcha gate for non-seasoned players)
   const treeName: TreeName = resource.name ?? "Tree";
-  const currentCounter =
-    farmActivity[`${treeName === "Tree" ? "Basic Tree" : treeName} Chopped`] ??
-    0;
+  const currentCounter = activityCount;
 
   const { reward: expectedReward } = resource.wood.reward
     ? { reward: resource.wood.reward }

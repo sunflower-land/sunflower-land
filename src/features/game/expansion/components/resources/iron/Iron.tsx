@@ -18,7 +18,6 @@ import { getIronDropAmount } from "features/game/events/landExpansion/ironMine";
 import { IronRockName, RockName } from "features/game/types/resources";
 import { useNow } from "lib/utils/hooks/useNow";
 import { KNOWN_IDS } from "features/game/types";
-import { FarmActivityName } from "features/game/types/farmActivity";
 
 const HITS = 3;
 const tool = "Stone Pickaxe";
@@ -49,13 +48,6 @@ const _selectSeason = (state: MachineState) =>
   state.context.state.season.season;
 const _selectIsland = (state: MachineState) => state.context.state.island;
 const selectFarmId = (state: MachineState) => state.context.farmId;
-const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
-const compareFarmActivity = (
-  prev: Partial<Record<FarmActivityName, number>>,
-  next: Partial<Record<FarmActivityName, number>>,
-) => {
-  return JSON.stringify(prev) === JSON.stringify(next);
-};
 interface Props {
   id: string;
 }
@@ -90,17 +82,16 @@ export const Iron: React.FC<Props> = ({ id }) => {
   const season = useSelector(gameService, _selectSeason);
   const island = useSelector(gameService, _selectIsland);
   const farmId = useSelector(gameService, selectFarmId);
-  const farmActivity = useSelector(
-    gameService,
-    _farmActivity,
-    compareFarmActivity,
-  );
   const resource = useSelector(
     gameService,
     (state) => state.context.state.iron[id],
     compareResource,
   );
   const ironRockName = (resource.name ?? "Iron Rock") as IronRockName;
+  const activityCount = useSelector(gameService, (state) => {
+    const rockName = state.context.state.iron[id]?.name ?? "Iron Rock";
+    return state.context.state.farmActivity[`${rockName} Mined`] ?? 0;
+  });
   const inventory = useSelector(
     gameService,
     selectInventory,
@@ -140,7 +131,7 @@ export const Iron: React.FC<Props> = ({ id }) => {
 
   const mine = async () => {
     const ironName: RockName = resource.name ?? "Iron Rock";
-    const counter = farmActivity[`${ironName} Mined`] ?? 0;
+    const counter = activityCount;
     const itemId = KNOWN_IDS[ironName];
     const ironMined = new Decimal(
       resource.stone.amount ??

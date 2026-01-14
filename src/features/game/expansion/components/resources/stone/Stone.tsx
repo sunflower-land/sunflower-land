@@ -26,7 +26,6 @@ import {
 import { RockName, StoneRockName } from "features/game/types/resources";
 import { useNow } from "lib/utils/hooks/useNow";
 import { KNOWN_IDS } from "features/game/types";
-import { FarmActivityName } from "features/game/types/farmActivity";
 
 const HITS = 3;
 const tool = "Pickaxe";
@@ -64,14 +63,6 @@ const _selectSeason = (state: MachineState) =>
   state.context.state.season.season;
 const _selectIsland = (state: MachineState) => state.context.state.island;
 const selectFarmId = (state: MachineState) => state.context.farmId;
-const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
-
-const compareFarmActivity = (
-  prev: Partial<Record<FarmActivityName, number>>,
-  next: Partial<Record<FarmActivityName, number>>,
-) => {
-  return JSON.stringify(prev) === JSON.stringify(next);
-};
 
 interface Props {
   id: string;
@@ -103,11 +94,6 @@ export const Stone: React.FC<Props> = ({ id }) => {
   }, []);
 
   const game = useSelector(gameService, _state, _compareQuarryExistence);
-  const farmActivity = useSelector(
-    gameService,
-    _farmActivity,
-    compareFarmActivity,
-  );
   const farmId = useSelector(gameService, selectFarmId);
   const resource = useSelector(
     gameService,
@@ -115,6 +101,10 @@ export const Stone: React.FC<Props> = ({ id }) => {
     compareResource,
   );
   const name = (resource.name ?? "Stone Rock") as StoneRockName;
+  const activityCount = useSelector(gameService, (state) => {
+    const rockName = state.context.state.stones[id]?.name ?? "Stone Rock";
+    return state.context.state.farmActivity[`${rockName} Mined`] ?? 0;
+  });
   const inventory = useSelector(
     gameService,
     selectInventory,
@@ -158,7 +148,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
 
   const mine = async () => {
     const stoneName: RockName = resource.name ?? "Stone Rock";
-    const counter = farmActivity[`${stoneName} Mined`] ?? 0;
+    const counter = activityCount;
     const stoneMined = new Decimal(
       resource.stone.amount ??
         getStoneDropAmount({
