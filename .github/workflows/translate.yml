@@ -9,7 +9,7 @@ on:
 
 jobs:
   translate:
-    runs-on: ubuntu-24.04-arm64
+    runs-on: ubuntu-24.04-arm
     environment: develop
     concurrency: testnet-translate
 
