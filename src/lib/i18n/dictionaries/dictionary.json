@@ -7788,10 +7788,10 @@
   "description.sunshower.boost": "-50% plot crop growth time",
   "description.sunshower.guardianBoost": "-75% plot crop growth time, boosted by {{guardian}}",
   "petGuide.petEgg.title": "Pet Egg",
-  "petGuide.petEgg.description": "Pick up your first Pet Egg from the Pet Shop counter for 150,000 coins. It’s a one-time purchase per farm.",
-  "petGuide.petEgg.description2": "Love Island offers a single additional Pet Egg for 10,000 Love Charms. One-and-done for romantics!",
-  "petGuide.petEgg.description3": "The Megastore refreshes one Pet Egg every Chapter using chapter tickets; plan your burns around the reset.",
-  "petGuide.petEgg.description4": "Crack an egg to reveal a pet category you don’t already manage. You’ll cycle through all seven categories before any duplicates appear.",
-  "petGuide.petEgg.description5": "There are 21 common pets spread across the seven categories; collecting every companion is a multi-year chase aligned with Chapter cadence (~4.5 years).",
-  "petGuide.petEgg.description6": "Common pets stay bound to your farm—they cannot be traded or transferred."
+  "petGuide.petEgg.description": "Pet Shop: 150,000 coins (one-time purchase).",
+  "petGuide.petEgg.description2": "Love Island: 10,000 Love Charms (one-time purchase).",
+  "petGuide.petEgg.description3": "Megastore: One per Chapter with chapter tickets.",
+  "petGuide.petEgg.description4": "Crack an egg to reveal a pet category you don’t already manage. You’ll cycle through all seven categories before any duplicate breeds appear.",
+  "petGuide.petEgg.description5": "21 common pets across 7 categories. Long-term collection goal.",
+  "petGuide.petEgg.description6": "Common pets cannot be traded or transferred."
 }
