@@ -20,6 +20,7 @@ import { useNow } from "lib/utils/hooks/useNow";
 import { Transition } from "@headlessui/react";
 import lightning from "assets/icons/lightning.png";
 import { KNOWN_IDS } from "features/game/types";
+import { FarmActivityName } from "features/game/types/farmActivity";
 
 const HITS = 3;
 const tool = "Iron Pickaxe";
@@ -50,6 +51,15 @@ const _selectSeason = (state: MachineState) =>
   state.context.state.season.season;
 const _selectIsland = (state: MachineState) => state.context.state.island;
 const selectFarmId = (state: MachineState) => state.context.farmId;
+
+const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
+const compareFarmActivity = (
+  prev: Partial<Record<FarmActivityName, number>>,
+  next: Partial<Record<FarmActivityName, number>>,
+) => {
+  return JSON.stringify(prev) === JSON.stringify(next);
+};
+
 interface Props {
   id: string;
 }
@@ -95,6 +105,11 @@ export const Gold: React.FC<Props> = ({ id }) => {
   );
   const skills = useSelector(gameService, selectSkills, compareSkills);
   const state = useSelector(gameService, selectGame);
+  const farmActivity = useSelector(
+    gameService,
+    _farmActivity,
+    compareFarmActivity,
+  );
   const season = useSelector(gameService, _selectSeason);
   const island = useSelector(gameService, _selectIsland);
   const farmId = useSelector(gameService, selectFarmId);
@@ -157,7 +172,7 @@ export const Gold: React.FC<Props> = ({ id }) => {
 
   const mine = async () => {
     const goldRockName = resource.name ?? "Gold Rock";
-    const counter = state.farmActivity[`${goldRockName} Mined`] ?? 0;
+    const counter = farmActivity[`${goldRockName} Mined`] ?? 0;
     const itemId = KNOWN_IDS[goldRockName];
     const goldMined = new Decimal(
       resource.stone.amount ??

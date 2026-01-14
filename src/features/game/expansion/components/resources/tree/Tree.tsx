@@ -36,6 +36,7 @@ import { setPrecision } from "lib/utils/formatNumber";
 import { Transition } from "@headlessui/react";
 import lightning from "assets/icons/lightning.png";
 import { useNow } from "lib/utils/hooks/useNow";
+import { FarmActivityName } from "features/game/types/farmActivity";
 
 const HITS = 3;
 const tool = "Axe";
@@ -65,11 +66,23 @@ const selectFarmId = (state: MachineState) => state.context.farmId;
 const compareResource = (prev: TreeType, next: TreeType) => {
   return JSON.stringify(prev) === JSON.stringify(next);
 };
-const compareGame = (prev: GameState, next: GameState) =>
-  isCollectibleBuilt({ name: "Foreman Beaver", game: prev }) ===
-    isCollectibleBuilt({ name: "Foreman Beaver", game: next }) &&
-  (prev.bumpkin?.skills["Insta-Chop"] ?? false) ===
-    (next.bumpkin?.skills["Insta-Chop"] ?? false);
+const compareGame = (prev: GameState, next: GameState) => {
+  return (
+    isCollectibleBuilt({ name: "Foreman Beaver", game: prev }) ===
+      isCollectibleBuilt({ name: "Foreman Beaver", game: next }) &&
+    (prev.bumpkin?.skills["Insta-Chop"] ?? false) ===
+      (next.bumpkin?.skills["Insta-Chop"] ?? false)
+  );
+};
+
+const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
+
+const compareFarmActivity = (
+  prev: Partial<Record<FarmActivityName, number>>,
+  next: Partial<Record<FarmActivityName, number>>,
+) => {
+  return JSON.stringify(prev) === JSON.stringify(next);
+};
 
 // A player that has been vetted and is engaged in the season.
 const isSeasonedPlayer = (state: MachineState) =>
@@ -131,6 +144,11 @@ export const Tree: React.FC<Props> = ({ id }) => {
   );
 
   const treesChopped = useSelector(gameService, selectTreesChopped);
+  const farmActivity = useSelector(
+    gameService,
+    _farmActivity,
+    compareFarmActivity,
+  );
   const island = useSelector(gameService, selectIsland);
   const season = useSelector(gameService, selectSeason);
   const farmId = useSelector(gameService, selectFarmId);
@@ -177,9 +195,8 @@ export const Tree: React.FC<Props> = ({ id }) => {
   // Calculate expected reward for UI preview (captcha gate for non-seasoned players)
   const treeName: TreeName = resource.name ?? "Tree";
   const currentCounter =
-    game.farmActivity[
-      `${treeName === "Tree" ? "Basic Tree" : treeName} Chopped`
-    ] ?? 0;
+    farmActivity[`${treeName === "Tree" ? "Basic Tree" : treeName} Chopped`] ??
+    0;
 
   const { reward: expectedReward } = resource.wood.reward
     ? { reward: resource.wood.reward }
