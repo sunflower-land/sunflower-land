@@ -9,7 +9,7 @@ on:
 
 jobs:
   metadata:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm64
     environment: develop
     concurrency: testnet-metadata
 
