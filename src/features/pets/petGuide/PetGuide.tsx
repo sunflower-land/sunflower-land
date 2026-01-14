@@ -7,7 +7,6 @@ import { Feed } from "./Feed";
 import { Fetch } from "./Fetch";
 import { PetMaintenance } from "./PetMaintenance";
 import { PetLevelsAndPerks } from "./PetLevelsAndPerks";
-import { PetCategories } from "./PetCategories";
 import { Shrines } from "./Shrines";
 import { NFTTraits } from "./NFTTraits";
 import { Social } from "./Social";
@@ -24,7 +23,6 @@ type PetGuideView =
   | "Feed"
   | "Fetch"
   | "Care"
-  | "Categories"
   | "Level Perks"
   | "Shrines"
   | "NFT Traits"
@@ -53,11 +51,6 @@ const GUIDE_CONTENT: Record<
     translatedTitle: "Care",
     content: PetMaintenance,
     image: ITEM_DETAILS.Brush.image,
-  },
-  Categories: {
-    translatedTitle: "Categories",
-    content: PetCategories,
-    image: SUNNYSIDE.icons.lightning,
   },
   "Level Perks": {
     translatedTitle: "Level Perks",
