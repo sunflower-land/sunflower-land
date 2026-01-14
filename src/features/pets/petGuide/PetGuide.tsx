@@ -15,51 +15,89 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { ITEM_DETAILS } from "features/game/types/images";
+import foodIcon from "assets/food/chicken_drumstick.png";
+import petNFTEgg from "assets/icons/pet_nft_egg.png";
 
 type PetGuideView =
   | "Pet Egg"
   | "Feed"
   | "Fetch"
-  | "Pet Maintenance"
-  | "Pet Categories"
-  | "Levels & Perks"
+  | "Care"
+  | "Categories"
+  | "Level Perks"
   | "Shrines"
   | "NFT Traits"
   | "Social";
 
+const GUIDE_CONTENT: Record<
+  PetGuideView,
+  {
+    translatedTitle: string;
+    content: React.FC<{ onBack: () => void }>;
+    image?: string;
+  }
+> = {
+  "Pet Egg": {
+    translatedTitle: "Pet Egg",
+    content: PetEgg,
+    image: ITEM_DETAILS["Pet Egg"].image,
+  },
+  Feed: { translatedTitle: "Feed", content: Feed, image: foodIcon },
+  Fetch: {
+    translatedTitle: "Fetch",
+    content: Fetch,
+    image: ITEM_DETAILS.Acorn.image,
+  },
+  Care: {
+    translatedTitle: "Care",
+    content: PetMaintenance,
+    image: ITEM_DETAILS.Brush.image,
+  },
+  Categories: {
+    translatedTitle: "Categories",
+    content: PetCategories,
+    image: SUNNYSIDE.icons.lightning,
+  },
+  "Level Perks": {
+    translatedTitle: "Level Perks",
+    content: PetLevelsAndPerks,
+    image: SUNNYSIDE.icons.xpIcon,
+  },
+  Shrines: {
+    translatedTitle: "Shrines",
+    content: Shrines,
+    image: ITEM_DETAILS["Obsidian Shrine"].image,
+  },
+  Social: {
+    translatedTitle: "Social",
+    content: Social,
+    image: ITEM_DETAILS.Cheer.image,
+  },
+  "NFT Traits": {
+    translatedTitle: "NFT Traits",
+    content: NFTTraits,
+    image: petNFTEgg,
+  },
+};
 export const PetGuide: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
   const [view, setView] = useState<PetGuideView>();
 
   const setToDefault = () => setView(undefined);
 
-  const GUIDE_CONTENT: Record<
-    PetGuideView,
-    { translatedTitle: string; content: React.FC<{ onBack: () => void }> }
-  > = {
-    "Pet Egg": { translatedTitle: "Pet Egg", content: PetEgg },
-    Feed: { translatedTitle: "Feed", content: Feed },
-    Fetch: { translatedTitle: "Fetch", content: Fetch },
-    "Pet Maintenance": {
-      translatedTitle: "Pet Maintenance",
-      content: PetMaintenance,
-    },
-    "Pet Categories": {
-      translatedTitle: "Pet Categories",
-      content: PetCategories,
-    },
-    "Levels & Perks": {
-      translatedTitle: "Levels & Perks",
-      content: PetLevelsAndPerks,
-    },
-    Shrines: { translatedTitle: "Shrines", content: Shrines },
-    "NFT Traits": { translatedTitle: "NFT Traits", content: NFTTraits },
-    Social: { translatedTitle: "Social", content: Social },
-  };
-
   if (view) {
     const ContentComponent = GUIDE_CONTENT[view].content;
     return <ContentComponent onBack={setToDefault} />;
   }
+
+  return <PetGuideMenu onClose={onClose} setView={setView} />;
+};
+
+const PetGuideMenu: React.FC<{
+  onClose?: () => void;
+  setView: React.Dispatch<React.SetStateAction<PetGuideView | undefined>>;
+}> = ({ onClose, setView }) => {
+  const items = getObjectEntries(GUIDE_CONTENT);
 
   return (
     <InnerPanel className="relative overflow-y-auto max-h-[350px] scrollable">
@@ -79,10 +117,21 @@ export const PetGuide: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
 
       <p className="text-xs p-1">{`Learn about pets and how to care for them.`}</p>
       <div id="Buttons" className="grid grid-cols-2 gap-1">
-        {getObjectEntries(GUIDE_CONTENT).map(([key, value]) => {
+        {items.map(([key, value], idx) => {
+          // If this is the last item and the number of items is odd, span two columns
+          const isLast = idx === items.length - 1;
+          const isOdd = items.length % 2 !== 0;
+
           return (
-            <Button key={key} onClick={() => setView(key)}>
-              {value.translatedTitle}
+            <Button
+              key={key}
+              onClick={() => setView(key)}
+              className={isOdd && isLast ? "col-span-2" : ""}
+            >
+              <div className="flex items-center gap-2">
+                {value.image && <img src={value.image} className="h-4" />}
+                {value.translatedTitle}
+              </div>
             </Button>
           );
         })}

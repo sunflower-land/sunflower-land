@@ -2,17 +2,24 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { InnerPanel } from "components/ui/Panel";
 import React from "react";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { Label } from "components/ui/Label";
 
 export const Social: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   return (
     <InnerPanel className="relative">
-      <img
-        src={SUNNYSIDE.icons.arrow_left}
-        onClick={onBack}
-        className="cursor-pointer w-6 h-6 absolute top-3 left-1"
-      />
-      <h2 className="text-center text-lg mb-1">{`Social`}</h2>
-      <p className="text-xs text-center px-2 mb-2">
+      <div className="flex items-center gap-2">
+        <img
+          src={SUNNYSIDE.icons.arrow_left}
+          onClick={onBack}
+          style={{
+            width: `${PIXEL_SCALE * 11}px`,
+            cursor: "pointer",
+          }}
+        />
+        <Label type="default">{`Social`}</Label>
+      </div>
+      <p className="text-xs px-2 my-1">
         {`Interact with friends and boost your pets through social features.`}
       </p>
       <NoticeboardItems

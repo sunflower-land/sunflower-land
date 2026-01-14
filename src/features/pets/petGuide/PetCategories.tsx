@@ -1,21 +1,26 @@
-import { SUNNYSIDE } from "assets/sunnyside";
 import { InnerPanel } from "components/ui/Panel";
 import React from "react";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { Label } from "components/ui/Label";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const PetCategories: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   return (
     <InnerPanel className="relative">
-      <img
-        src={SUNNYSIDE.icons.arrow_left}
-        onClick={onBack}
-        className="cursor-pointer w-6 h-6 absolute top-3 left-1"
-      />
-      <h2 className="text-center text-lg mb-1">{`Pet Categories`}</h2>
-      <p className="text-xs text-center px-2 mb-2">
-        {`Pets are split across seven categories. Each category maps to a specific fetch resource. Common pets have 2 categories, NFT pets have 3.`}
-      </p>
+      <div className="flex items-center gap-2">
+        <img
+          src={SUNNYSIDE.icons.arrow_left}
+          onClick={onBack}
+          style={{
+            width: `${PIXEL_SCALE * 11}px`,
+            cursor: "pointer",
+          }}
+        />
+        <Label type="default">{`Pet Categories`}</Label>
+      </div>
+      <p className="text-xs p-1">{`Pets are split across seven categories. Each category maps to a specific fetch resource. Common pets have 2 categories, NFT pets have 3.`}</p>
       <NoticeboardItems
         items={[
           {

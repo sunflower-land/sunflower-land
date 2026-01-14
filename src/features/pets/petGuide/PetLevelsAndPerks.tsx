@@ -39,7 +39,7 @@ export const PetLevelsAndPerks: React.FC<{ onBack: () => void }> = ({
             cursor: "pointer",
           }}
         />
-        <Label type="default">{`Levels & Perks`}</Label>
+        <Label type="default">{`Level Perks`}</Label>
       </div>
       <p className="text-xs p-1 mb-1">{`As you level up your pet, you will unlock new perks that will help you in your journey.`}</p>
       <NoticeboardItems

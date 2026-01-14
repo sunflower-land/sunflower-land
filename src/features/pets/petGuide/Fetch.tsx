@@ -3,23 +3,30 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import React from "react";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { Label } from "components/ui/Label";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Fetch: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   return (
     <InnerPanel className="relative">
-      <img
-        src={SUNNYSIDE.icons.arrow_left}
-        onClick={onBack}
-        className="cursor-pointer w-6 h-6 absolute top-3 left-1"
-      />
-      <h2 className="text-center text-lg mb-1">{`Fetch`}</h2>
+      <div className="flex items-center gap-2">
+        <img
+          src={SUNNYSIDE.icons.arrow_left}
+          onClick={onBack}
+          style={{
+            width: `${PIXEL_SCALE * 11}px`,
+            cursor: "pointer",
+          }}
+        />
+        <Label type="default">{`Fetch`}</Label>
+      </div>
       <p className="text-xs text-center px-2 mb-2">
         {`Spend stored energy to send pets on resource runs. Each unlock tier lines up with your pet's category spread and level milestones.`}
       </p>
       <NoticeboardItems
         items={[
           {
-            text: "See Levels & Perks for the full fetch unlock timeline by level.",
+            text: "See Level Perks for the full fetch unlock timeline by level.",
             icon: SUNNYSIDE.icons.expression_confused,
           },
           {
