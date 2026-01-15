@@ -19,7 +19,7 @@ export const PetEgg: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             cursor: "pointer",
           }}
         />
-        <Label type="default">{`Pet Egg`}</Label>
+        <Label type="default">{t("petGuide.petEgg.title")}</Label>
       </div>
       <ChestRewardsList
         type="Pet Egg"

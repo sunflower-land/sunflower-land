@@ -17,6 +17,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import foodIcon from "assets/food/chicken_drumstick.png";
 import petNFTEgg from "assets/icons/pet_nft_egg.png";
+import { translate } from "lib/i18n/translate";
 
 type PetGuideView =
   | "Pet Egg"
@@ -37,13 +38,17 @@ const GUIDE_CONTENT: Record<
   }
 > = {
   "Pet Egg": {
-    translatedTitle: "Pet Egg",
+    translatedTitle: translate("petGuide.petEgg.title"),
     content: PetEgg,
     image: ITEM_DETAILS["Pet Egg"].image,
   },
-  Feed: { translatedTitle: "Feed", content: Feed, image: foodIcon },
+  Feed: {
+    translatedTitle: translate("petGuide.feed.title"),
+    content: Feed,
+    image: foodIcon,
+  },
   Fetch: {
-    translatedTitle: "Fetch",
+    translatedTitle: translate("petGuide.fetch.title"),
     content: Fetch,
     image: ITEM_DETAILS.Acorn.image,
   },
@@ -68,7 +73,7 @@ const GUIDE_CONTENT: Record<
     image: ITEM_DETAILS.Cheer.image,
   },
   "NFT Traits": {
-    translatedTitle: "NFT Traits",
+    translatedTitle: translate("petGuide.nftTraits.title"),
     content: NFTTraits,
     image: petNFTEgg,
   },

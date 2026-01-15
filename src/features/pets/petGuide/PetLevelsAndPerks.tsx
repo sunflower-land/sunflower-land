@@ -6,10 +6,13 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { FETCHES_BY_CATEGORY, PetResourceName } from "features/game/types/pets";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import foodIcon from "assets/food/chicken_drumstick.png";
 
 export const PetLevelsAndPerks: React.FC<{ onBack: () => void }> = ({
   onBack,
 }) => {
+  const { t } = useAppTranslation();
   const { arrow_left, xpIcon, lightning } = SUNNYSIDE.icons;
   const secondaryResources = Object.values(FETCHES_BY_CATEGORY);
   const [secondaryResource, setSecondaryResource] = useState<PetResourceName>(
@@ -36,76 +39,91 @@ export const PetLevelsAndPerks: React.FC<{ onBack: () => void }> = ({
     {
       level: 1,
       icon: ITEM_DETAILS.Acorn.image,
-      text: "Acorn (100 energy)",
+      text: t("petGuide.levelPerks.lvl1"),
     },
     {
       level: 3,
       icon: ITEM_DETAILS[secondaryResource].image,
-      text: "Primary category resource (200 energy)",
+      text: t("petGuide.levelPerks.lvl3"),
     },
-    { level: 5, icon: lightning, text: "+5 fetch energy" },
+    { level: 5, icon: lightning, text: t("petGuide.levelPerks.lvl5") },
     {
       level: 7,
       icon: ITEM_DETAILS[secondaryResource].image,
-      text: "Secondary category resource (200 energy)",
+      text: t("petGuide.levelPerks.lvl7"),
+    },
+    {
+      level: 10,
+      icon: foodIcon,
+      text: t("petGuide.levelPerks.lvl10"),
     },
     {
       level: 12,
       icon: ITEM_DETAILS.Moonfur.image,
-      text: "Moonfur (1,000 energy) (NFT only)",
+      text: t("petGuide.levelPerks.lvl12"),
     },
     {
       level: 15,
       icon: ITEM_DETAILS.Acorn.image,
-      text: "+10% chance for extra fetch resource",
+      text: t("petGuide.levelPerks.lvl15"),
     },
     {
       level: 18,
       icon: ITEM_DETAILS.Acorn.image,
-      text: "+1 Acorn",
+      text: t("petGuide.levelPerks.lvl18"),
     },
     {
       level: 20,
       icon: ITEM_DETAILS["Fossil Shell"].image,
-      text: "Fossil Shell (300 energy)",
+      text: t("petGuide.levelPerks.lvl20"),
     },
     {
       level: 25,
       icon: ITEM_DETAILS[secondaryResource].image,
-      text: "Tertiary category resource (200 energy) (NFT only)",
+      text: t("petGuide.levelPerks.lvl25"),
     },
-    { level: 27, icon: xpIcon, text: "+10% XP per feed" },
-    { level: 35, icon: lightning, text: "+5 fetch energy" },
+    { level: 27, icon: xpIcon, text: t("petGuide.levelPerks.lvl27") },
+    {
+      level: 30,
+      icon: foodIcon,
+      text: t("petGuide.levelPerks.lvl30"),
+    },
+    { level: 35, icon: lightning, text: t("petGuide.levelPerks.lvl35") },
     {
       level: 40,
       icon: xpIcon,
-      text: "+15% XP per feed (25% total) (NFT only)",
+      text: t("petGuide.levelPerks.lvl40"),
     },
     {
       level: 50,
       icon: ITEM_DETAILS.Acorn.image,
-      text: "+5% chance for extra fetch resource (15% total)",
+      text: t("petGuide.levelPerks.lvl50"),
     },
     {
       level: 60,
       icon: ITEM_DETAILS[secondaryResource].image,
-      text: "+1 non-Acorn/Moonfur guaranteed (NFT only)",
+      text: t("petGuide.levelPerks.lvl60"),
     },
-    { level: 75, icon: lightning, text: "+5 fetch energy" },
+    { level: 75, icon: lightning, text: t("petGuide.levelPerks.lvl75") },
     {
       level: 85,
       icon: xpIcon,
-      text: "+25% XP per feed (50% total) (NFT only)",
+      text: t("petGuide.levelPerks.lvl85"),
     },
     {
       level: 100,
       icon: ITEM_DETAILS.Acorn.image,
-      text: "+10% chance for extra fetch resource (25% total)",
+      text: t("petGuide.levelPerks.lvl100"),
     },
     {
       level: 150,
       icon: ITEM_DETAILS.Moonfur.image,
-      text: "+25% chance for extra fetch resource (50% total) (NFT only)",
+      text: t("petGuide.levelPerks.lvl150"),
+    },
+    {
+      level: 200,
+      icon: foodIcon,
+      text: t("petGuide.levelPerks.lvl200"),
     },
   ];
 
@@ -120,9 +138,9 @@ export const PetLevelsAndPerks: React.FC<{ onBack: () => void }> = ({
             cursor: "pointer",
           }}
         />
-        <Label type="default">{`Level Perks`}</Label>
+        <Label type="default">{t("petGuide.levelPerks.title")}</Label>
       </div>
-      <p className="text-xs p-1 mb-1">{`As you level up your pet, you will unlock new perks that will help you in your journey.`}</p>
+      <p className="text-xs p-1 mb-1">{t("petGuide.levelPerks.description")}</p>
       <div className="overflow-x-auto">
         <table className="w-full text-xs table-fixed border-collapse">
           <tbody>

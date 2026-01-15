@@ -6,6 +6,7 @@ import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PetGuide } from "../petGuide/PetGuide";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
@@ -15,18 +16,19 @@ type Tab = "petShop" | "petGuide";
 
 export const PetShop: React.FC<Props> = ({ onClose }) => {
   const [tab, setTab] = useState<Tab>("petShop");
+  const { t } = useAppTranslation();
   return (
     <CloseButtonPanel
       tabs={[
         {
           id: "petShop",
           icon: ITEM_DETAILS.Barkley.image,
-          name: "Pet Shop",
+          name: t("petShop.title"),
         },
         {
           id: "petGuide",
           icon: SUNNYSIDE.icons.expression_confused,
-          name: "Pet Guide",
+          name: t("petGuide.title"),
         },
       ]}
       onClose={onClose}

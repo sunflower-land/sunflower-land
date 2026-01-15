@@ -4,8 +4,10 @@ import React from "react";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const NFTTraits: React.FC<{ onBack: () => void }> = ({ onBack }) => {
+  const { t } = useAppTranslation();
   return (
     <InnerPanel className="relative">
       <div className="flex items-center gap-2">
@@ -17,31 +19,29 @@ export const NFTTraits: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             cursor: "pointer",
           }}
         />
-        <Label type="default">{`NFT Pet Traits`}</Label>
+        <Label type="default">{t("petGuide.nftTraits.title")}</Label>
       </div>
-      <p className="text-xs px-2 my-1">
-        {`NFT pets have unique traits that provide gameplay bonuses. Check your pet's traits in the pet management screen.`}
-      </p>
+      <p className="text-xs px-2 my-1">{t("petGuide.nftTraits.description")}</p>
       <NoticeboardItems
         items={[
           {
-            text: "Aura (Energy Multiplier): No Aura 1×, Common 1.5×, Rare 2×, Mythic 3× energy gained per feed.",
+            text: t("petGuide.nftTraits.description2"),
             icon: SUNNYSIDE.icons.lightning,
           },
           {
-            text: "Bib (XP Bonus): Baby Bib +0, Collar +5, Gold Necklace +10 XP per feed.",
+            text: t("petGuide.nftTraits.description3"),
             icon: SUNNYSIDE.icons.xpIcon,
           },
           {
-            text: "Cosmetic Traits: Fur (various colors) and Accessories (Crown, Halo, Glasses, Bows, etc.) are purely cosmetic.",
+            text: t("petGuide.nftTraits.description4"),
             icon: SUNNYSIDE.icons.wardrobe,
           },
           {
-            text: "NFT Pet Types: Dragon, Ram, Phoenix, Griffin, Warthog, Wolf, Bear. Each has 3 categories (primary, secondary, tertiary).",
+            text: t("petGuide.nftTraits.description5"),
             icon: SUNNYSIDE.icons.happy,
           },
           {
-            text: "NFT pets unlock Moonfur at Lv 12 and tertiary category resource at Lv 25.",
+            text: t("petGuide.nftTraits.description6"),
             icon: SUNNYSIDE.icons.treasure,
           },
         ]}

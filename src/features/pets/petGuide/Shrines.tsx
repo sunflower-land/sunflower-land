@@ -10,8 +10,10 @@ import { PET_SHRINES, PetShrineName } from "features/game/types/pets";
 import { InventoryItemName } from "features/game/types/game";
 import classNames from "classnames";
 import { getKeys } from "features/game/lib/crafting";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Shrines: React.FC<{ onBack: () => void }> = ({ onBack }) => {
+  const { t } = useAppTranslation();
   const shrineNames: (PetShrineName | "Obsidian Shrine")[] = [
     ...getKeys(PET_SHRINES),
     "Obsidian Shrine",
@@ -53,11 +55,9 @@ export const Shrines: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             cursor: "pointer",
           }}
         />
-        <Label type="default">{`Shrines`}</Label>
+        <Label type="default">{t("petGuide.shrines.title")}</Label>
       </div>
-      <p className="text-xs p-1 mb-1">
-        {`Every shrine blueprint uses pet resources—double-check your fetch stockpile before crafting. Shrines can be renewed once expired.`}
-      </p>
+      <p className="text-xs p-1 mb-1">{t("petGuide.shrines.description")}</p>
       <div className="overflow-x-auto">
         <table className="w-full text-xs table-fixed border-collapse">
           <thead>
