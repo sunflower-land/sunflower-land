@@ -605,6 +605,7 @@ describe("cancelQueuedRecipe", () => {
 
     const stateAfterCapreseSaladQueued = cook({
       state,
+      farmId: 1,
       action: {
         type: "recipe.cooked",
         buildingId: "1",

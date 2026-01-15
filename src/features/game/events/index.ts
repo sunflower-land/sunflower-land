@@ -57,10 +57,6 @@ import {
   collectProcessedResource,
   CollectProcessedResourceAction,
 } from "./landExpansion/collectProcessedResource";
-import {
-  makeInstantRecipe,
-  MakeInstantRecipeAction,
-} from "./landExpansion/makeInstantRecipe";
 import { feedBumpkin, FeedBumpkinAction } from "./landExpansion/feedBumpkin";
 import { detectBot, DetectBotAction } from "./detectBot";
 import { choseSkill, ChoseSkillAction } from "./landExpansion/choseSkill";
@@ -612,7 +608,6 @@ export type PlayingEvent =
   | CancelProcessedResourceAction
   | ProcessProcessedResourceAction
   | CollectProcessedResourceAction
-  | MakeInstantRecipeAction
   | FeedBumpkinAction
   | DetectBotAction
   | ChoseSkillAction
@@ -875,7 +870,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "processedResource.cancelled": cancelProcessedResource,
   "processedResource.processed": processProcessedResource,
   "processedResource.collected": collectProcessedResource,
-  "instantRecipe.made": makeInstantRecipe,
   "bumpkin.feed": feedBumpkin,
   "skill.chosen": choseSkill,
   "skills.reset": resetSkills,

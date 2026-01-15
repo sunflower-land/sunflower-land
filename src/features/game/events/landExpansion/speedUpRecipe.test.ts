@@ -390,6 +390,7 @@ describe("instantCook", () => {
 
     const afterFermentedFishCookedState = cook({
       state: afterOilAddedState,
+      farmId: 1,
       action: {
         type: "recipe.cooked",
         item: "Fermented Fish",

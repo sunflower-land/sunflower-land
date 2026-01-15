@@ -177,6 +177,9 @@ interface SellCheerProps {
   clutterItem: ClutterName;
 }
 
+interface InstantReadyProps {
+  type: "instantReady";
+}
 /**
  * The default props.
  * @param className The class name for the label.
@@ -204,6 +207,7 @@ type Props = (
   | SkillPointsProps
   | OtherProps
   | SellCheerProps
+  | InstantReadyProps
 ) &
   defaultProps;
 
@@ -235,6 +239,8 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       case "sfl":
       case "sellForSfl":
         return flowerIcon;
+      case "instantReady":
+        return SUNNYSIDE.icons.lightning;
       case "item":
         if (props.item in KNOWN_IDS) {
           return ITEM_DETAILS[props.item as InventoryItemName]?.image;
@@ -277,6 +283,9 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       }
       case "wearable": {
         return `${props.requirement}`;
+      }
+      case "instantReady": {
+        return t("instantReady");
       }
       case "time": {
         return secondsToString(props.waitSeconds, {
@@ -342,6 +351,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       case "sellForItem":
       case "time":
       case "xp":
+      case "instantReady":
       case "harvests":
         return true;
     }

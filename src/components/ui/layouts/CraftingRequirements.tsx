@@ -436,6 +436,11 @@ export const CraftingRequirements: React.FC<Props> = ({
             <RequirementLabel type="xp" xp={requirements.xp} />
           )}
 
+          {/* Instant ready display */}
+          {requirements.timeSeconds === 0 && (
+            <RequirementLabel type="instantReady" />
+          )}
+
           {/* Time requirement display */}
           {!!requirements.timeSeconds && (
             <RequirementLabel

@@ -2,7 +2,7 @@
 import Decimal from "decimal.js-light";
 import { BuildingName } from "./buildings";
 import { Cake } from "./craftables";
-import { BuildingProduct, Inventory, InventoryItemName } from "./game";
+import { BuildingProduct, Inventory } from "./game";
 import { FishName } from "./fishing";
 import { translate } from "lib/i18n/translate";
 import { FactionShopFoodName } from "./factionShop";
@@ -35,9 +35,11 @@ type FirePitCookableName =
   | "Rice Bun"
   | "Fried Tofu"
   | "Pizza Margherita"
-  | "Rhubarb Tart";
+  | "Rhubarb Tart"
+  | "Furikake Sprinkle";
 
 type KitchenCookableName =
+  | "Surimi Rice Bowl"
   | "Beetroot Blaze"
   | "Roast Veggies"
   | "Bumpkin Salad"
@@ -79,7 +81,9 @@ type DeliCookableName =
   | "Fermented Fish"
   | "Cheese"
   | "Blue Cheese"
-  | "Honey Cheddar";
+  | "Honey Cheddar"
+  | "Crimstone Infused Fish Oil"
+  | "Creamy Crab Bite";
 
 type JuiceName =
   | "Apple Juice"
@@ -114,6 +118,19 @@ type CakeName =
   | "Honey Cake"
   | "Lemon Cheesecake";
 
+export type InstantProcessedRecipeName =
+  | "Furikake Sprinkle"
+  | "Surimi Rice Bowl"
+  | "Creamy Crab Bite"
+  | "Crimstone Infused Fish Oil";
+
+export const INSTANT_PROCESSED_RECIPE_NAMES: InstantProcessedRecipeName[] = [
+  "Furikake Sprinkle",
+  "Surimi Rice Bowl",
+  "Creamy Crab Bite",
+  "Crimstone Infused Fish Oil",
+];
+
 export type CookableName =
   | FirePitCookableName
   | KitchenCookableName
@@ -145,6 +162,17 @@ export type Consumable = Omit<
 > & { name: ConsumableName };
 
 export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
+  "Furikake Sprinkle": {
+    name: "Furikake Sprinkle",
+    description: translate("description.instantFood.furikakeSprinkle"),
+    ingredients: {
+      "Fish Flake": new Decimal(1),
+      Seaweed: new Decimal(1),
+    },
+    cookingSeconds: 0,
+    building: "Fire Pit",
+    experience: 1000,
+  },
   "Mashed Potato": {
     name: "Mashed Potato",
     description: translate("description.mashed.potato"),
@@ -331,6 +359,18 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
 };
 
 export const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
+  "Surimi Rice Bowl": {
+    name: "Surimi Rice Bowl",
+    description: translate("description.instantFood.surimiRiceBall"),
+    ingredients: {
+      "Fish Stick": new Decimal(1),
+      Rice: new Decimal(1),
+      Onion: new Decimal(1),
+    },
+    cookingSeconds: 0,
+    building: "Kitchen",
+    experience: 3000,
+  },
   "Sunflower Crunch": {
     name: "Sunflower Crunch",
     description: translate("description.sunflower.crunch"),
@@ -923,6 +963,28 @@ export const DELI_COOKABLES: Record<DeliCookableName, Cookable> = {
       Honey: new Decimal(5),
     },
   },
+  "Creamy Crab Bite": {
+    name: "Creamy Crab Bite",
+    description: translate("description.instantFood.creamyCrabBite"),
+    ingredients: {
+      "Crab Stick": new Decimal(1),
+      Cheese: new Decimal(3),
+    },
+    cookingSeconds: 0,
+    building: "Deli",
+    experience: 8000,
+  },
+  "Crimstone Infused Fish Oil": {
+    name: "Crimstone Infused Fish Oil",
+    description: translate("description.instantFood.crimstoneInfusedFishOil"),
+    ingredients: {
+      "Fish Oil": new Decimal(1),
+      Crimstone: new Decimal(1),
+    },
+    cookingSeconds: 0,
+    building: "Deli",
+    experience: 18000,
+  },
 };
 
 export const JUICE_COOKABLES: Record<JuiceName, Cookable> = {
@@ -1079,6 +1141,16 @@ export const FISH_COOKABLES: Record<FishCookableName, Cookable> = {
   "Seafood Basket": KITCHEN_COOKABLES["Seafood Basket"],
   "Fish n Chips": KITCHEN_COOKABLES["Fish n Chips"],
   "Sushi Roll": KITCHEN_COOKABLES["Sushi Roll"],
+};
+
+export const INSTANT_FISH_RECIPES: Record<
+  InstantProcessedRecipeName,
+  Cookable
+> = {
+  "Furikake Sprinkle": FIRE_PIT_COOKABLES["Furikake Sprinkle"],
+  "Surimi Rice Bowl": KITCHEN_COOKABLES["Surimi Rice Bowl"],
+  "Creamy Crab Bite": DELI_COOKABLES["Creamy Crab Bite"],
+  "Crimstone Infused Fish Oil": DELI_COOKABLES["Crimstone Infused Fish Oil"],
 };
 
 export const COOKABLE_CAKES: Record<CakeName, Cookable> = {
@@ -1299,62 +1371,6 @@ export const FISH: Record<FishName, Consumable> = {
   },
 };
 
-export type InstantProcessedRecipeName =
-  | "Furikake Sprinkle"
-  | "Surimi Rice Bowl"
-  | "Creamy Crab Bite"
-  | "Crimstone Infused Fish Oil";
-
-type InstantProcessedRecipe = {
-  name: InstantProcessedRecipeName;
-  description: string;
-  ingredients: Partial<Record<InventoryItemName, Decimal>>;
-  experience: number;
-};
-
-export const INSTANT_PROCESSED_RECIPES: Record<
-  InstantProcessedRecipeName,
-  InstantProcessedRecipe
-> = {
-  "Furikake Sprinkle": {
-    name: "Furikake Sprinkle",
-    description: translate("description.instantFood.furikakeSprinkle"),
-    ingredients: {
-      "Fish Flake": new Decimal(1),
-      Seaweed: new Decimal(1),
-    },
-    experience: 500,
-  },
-  "Surimi Rice Bowl": {
-    name: "Surimi Rice Bowl",
-    description: translate("description.instantFood.surimiRiceBall"),
-    ingredients: {
-      "Fish Stick": new Decimal(1),
-      Rice: new Decimal(1),
-      Onion: new Decimal(1),
-    },
-    experience: 2000,
-  },
-  "Creamy Crab Bite": {
-    name: "Creamy Crab Bite",
-    description: translate("description.instantFood.creamyCrabBite"),
-    ingredients: {
-      "Crab Stick": new Decimal(1),
-      Cheese: new Decimal(3),
-    },
-    experience: 5000,
-  },
-  "Crimstone Infused Fish Oil": {
-    name: "Crimstone Infused Fish Oil",
-    description: translate("description.instantFood.crimstoneInfusedFishOil"),
-    ingredients: {
-      "Fish Oil": new Decimal(1),
-      Crimstone: new Decimal(1),
-    },
-    experience: 25000,
-  },
-};
-
 export const FACTION_FOOD: Record<FactionShopFoodName, Consumable> = {
   Caponata: {
     name: "Caponata",
@@ -1386,16 +1402,15 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   ...FISH,
   ...FACTION_FOOD,
   ...TRADE_FOOD,
-  ...INSTANT_PROCESSED_RECIPES,
 };
 
 export const FISH_CONSUMABLES: Record<
   FishName | FishCookableName | InstantProcessedRecipeName,
   Consumable
 > = {
+  ...INSTANT_FISH_RECIPES,
   ...FISH_COOKABLES,
   ...FISH,
-  ...INSTANT_PROCESSED_RECIPES,
 };
 
 const Juices = Object.keys(JUICE_COOKABLES);
@@ -1406,4 +1421,12 @@ export function isJuice(item: any) {
 
 export function isCookable(consumeable: Consumable): consumeable is Cookable {
   return consumeable.name in COOKABLES;
+}
+
+export function isFishCookable(name: ConsumableName): boolean {
+  return name in FISH_COOKABLES;
+}
+
+export function isInstantFishRecipe(name: ConsumableName): boolean {
+  return name in INSTANT_FISH_RECIPES;
 }
