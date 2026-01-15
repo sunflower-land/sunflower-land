@@ -592,6 +592,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Polygon Banner": 943,
   "Ronin Banner": 944,
   "Base Banner": 945,
+  "Paw Prints Raffle Ticket": 946,
+  "Crab Chapter Raffle Ticket": 947,
 
   // Buildings
   Market: 1001,

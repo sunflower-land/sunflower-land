@@ -18,9 +18,11 @@ export async function loadRaffles(
         id: "1",
         startAt: Date.now(),
         endAt: Date.now() + 1000 * 60 * 60 * 24 * 7,
-        firstPlace: {
-          wearables: {
-            "Master Chef's Cleaver": 1,
+        prizes: {
+          1: {
+            wearables: {
+              "Master Chef's Cleaver": 1,
+            },
           },
         },
       },
@@ -40,7 +42,7 @@ export async function loadRaffles(
   }
 
   if (response.status !== 200 || !response.ok) {
-    throw new Error(ERRORS.UNEXPECTED_SERVER_RESPONSE);
+    throw new Error(ERRORS.EFFECT_SERVER_ERROR);
   }
 
   const { data } = await response.json();
