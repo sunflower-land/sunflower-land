@@ -7849,5 +7849,6 @@
   "petGuide.social.description": "Boost your pets by interacting with friends.",
   "petGuide.social.description2": "Friends can pet your companions for +5 XP each, up to 50 XP per pet per day.",
   "petGuide.social.description3": "NFT pets can walk with you in multiplayer areas. Enable this in the pet management screen. Only one pet can walk at a time.",
-  "petGuide.social.description4": "Visit friends' farms to pet their pets and build community!"
+  "petGuide.social.description4": "Visit friends' farms to pet their pets and build community!",
+  "instantReady": "Instant Ready"
 }
