@@ -25,9 +25,10 @@ jobs:
 
       - name: Run Codex
         id: run_codex
-        uses: openai/codex-action@v1
+        uses: openai/codex-action@v1.4
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          sandbox: danger-full-access
           prompt: |
             You are an experienced senior engineer reviewing a React, PhaserJS, and TypeScript codebase that uses **React Compiler** in production.
 
