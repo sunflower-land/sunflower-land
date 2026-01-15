@@ -11,6 +11,8 @@ import { InventoryItemName } from "features/game/types/game";
 import classNames from "classnames";
 import { getKeys } from "features/game/lib/crafting";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { getObjectEntries } from "features/game/expansion/lib/utils";
+import Decimal from "decimal.js-light";
 
 export const Shrines: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const { t } = useAppTranslation();
@@ -19,29 +21,41 @@ export const Shrines: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     "Obsidian Shrine",
   ];
 
-  const shrines = shrineNames.map((name) => {
+  type Shrine = {
+    name: PetShrineName | "Obsidian Shrine";
+    image: string;
+    ingredients: {
+      item: InventoryItemName;
+      amount: number;
+      icon: string;
+    }[];
+    effect: string[];
+  };
+
+  const shrines = shrineNames.map<Shrine>((name) => {
     const shopItem = PET_SHOP_ITEMS[name];
     const buffLabels =
       COLLECTIBLE_BUFF_LABELS[name]?.({ skills: {}, collectibles: {} }) || [];
-    const effect = buffLabels.map((buff) => buff.shortDescription).join(", ");
+    const effect = buffLabels.map((buff) => buff.shortDescription);
 
     const ingredients = shopItem.ingredients
-      ? Object.entries(shopItem.ingredients).map(([item, amount]) => {
-          const itemName = item as InventoryItemName;
-          return {
-            item: itemName,
-            amount: amount.toString(),
-            icon: ITEM_DETAILS[itemName]?.image,
-          };
-        })
+      ? getObjectEntries(shopItem.ingredients).map<
+          Shrine["ingredients"][number]
+        >(([item, amount = new Decimal(0)]) => ({
+          item,
+          amount: Number(amount),
+          icon: ITEM_DETAILS[item].image,
+        }))
       : [];
 
-    return {
+    const shrine: Shrine = {
       name,
-      image: ITEM_DETAILS[name as InventoryItemName]?.image,
+      image: ITEM_DETAILS[name].image,
       ingredients,
-      effect: effect || "No effect listed",
+      effect: effect || ["No effect listed"],
     };
+
+    return shrine;
   });
 
   return (
@@ -64,13 +78,13 @@ export const Shrines: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             <tr>
               <th
                 style={{ border: "1px solid #b96f50" }}
-                className="p-1.5 w-1/4"
+                className="p-1.5 w-1/3 sm:w-[27%]"
               >
                 {`Shrine`}
               </th>
               <th
                 style={{ border: "1px solid #b96f50" }}
-                className="p-1.5 w-2/5"
+                className="p-1.5 w-1/3 sm:w-2/5"
               >
                 {`Ingredients`}
               </th>
@@ -120,7 +134,11 @@ export const Shrines: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                   )}
                 </td>
                 <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
-                  {shrine.effect}
+                  <div className="flex flex-col gap-1">
+                    {shrine.effect.map((effect) => (
+                      <span key={effect}>{effect}</span>
+                    ))}
+                  </div>
                 </td>
               </tr>
             ))}
