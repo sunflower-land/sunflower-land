@@ -14,24 +14,24 @@ import {
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
+const SECONDARY_RESOURCES = Object.values(FETCHES_BY_CATEGORY);
+
 export const Fetch: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const { t } = useAppTranslation();
-  const secondaryResources = Object.values(FETCHES_BY_CATEGORY);
   const [secondaryResource, setSecondaryResource] = useState<PetResourceName>(
-    secondaryResources[0],
+    SECONDARY_RESOURCES[0],
   );
 
   useEffect(() => {
     const interval = setInterval(() => {
       setSecondaryResource((current) => {
-        const index = secondaryResources.indexOf(current);
-        const nextIndex = (index + 1) % secondaryResources.length;
-        return secondaryResources[nextIndex];
+        const index = SECONDARY_RESOURCES.indexOf(current);
+        return SECONDARY_RESOURCES[(index + 1) % SECONDARY_RESOURCES.length];
       });
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [secondaryResources]);
+  }, []);
 
   const categories: Record<
     PetCategoryName,

@@ -9,27 +9,28 @@ import classNames from "classnames";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import foodIcon from "assets/food/chicken_drumstick.png";
 
+const SECONDARY_RESOURCES = Object.values(FETCHES_BY_CATEGORY);
+
 export const PetLevelsAndPerks: React.FC<{ onBack: () => void }> = ({
   onBack,
 }) => {
   const { t } = useAppTranslation();
   const { arrow_left, xpIcon, lightning } = SUNNYSIDE.icons;
-  const secondaryResources = Object.values(FETCHES_BY_CATEGORY);
   const [secondaryResource, setSecondaryResource] = useState<PetResourceName>(
-    secondaryResources[0],
+    SECONDARY_RESOURCES[0],
   );
 
   useEffect(() => {
     const interval = setInterval(() => {
       setSecondaryResource((current) => {
-        const index = secondaryResources.indexOf(current);
-        const nextIndex = (index + 1) % secondaryResources.length;
-        return secondaryResources[nextIndex];
+        const index = SECONDARY_RESOURCES.indexOf(current);
+        const nextIndex = (index + 1) % SECONDARY_RESOURCES.length;
+        return SECONDARY_RESOURCES[nextIndex];
       });
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [secondaryResources]);
+  }, []);
 
   const perks: {
     level: number;

@@ -63,6 +63,9 @@ export const PetModal: React.FC<Props> = ({
   const [display, setDisplay] = useState<
     "feeding" | "fetching" | "resetting" | "typeFed" | "guide"
   >(isTypeFed ? "typeFed" : "feeding");
+  const [previousDisplay, setPreviousDisplay] = useState<
+    "feeding" | "fetching" | "resetting"
+  >("feeding");
   const [showRewards, setShowRewards] = useState(false);
   const inventory = useSelector(gameService, _inventory);
   const hasPetGuideAccess = useSelector(gameService, _hasPetGuideAccess);
@@ -120,7 +123,18 @@ export const PetModal: React.FC<Props> = ({
           </div>
           <div className="flex flex-row gap-2 items-center justify-end">
             {hasPetGuideAccess && display !== "guide" && (
-              <PetGuideButton onShow={() => setDisplay("guide")} />
+              <PetGuideButton
+                onShow={() => {
+                  if (
+                    display === "feeding" ||
+                    display === "fetching" ||
+                    display === "resetting"
+                  ) {
+                    setPreviousDisplay(display);
+                  }
+                  setDisplay("guide");
+                }}
+              />
             )}
             <img
               onClick={onClose}
@@ -249,7 +263,7 @@ export const PetModal: React.FC<Props> = ({
         {/* Type Fed UI */}
         {display === "typeFed" && <PetTypeFed type={type} onClose={onClose} />}
         {display === "guide" && (
-          <PetGuide onClose={() => setDisplay("feeding")} />
+          <PetGuide onClose={() => setDisplay(previousDisplay)} />
         )}
       </OuterPanel>
       <ModalOverlay

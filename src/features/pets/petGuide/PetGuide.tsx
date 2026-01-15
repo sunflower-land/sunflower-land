@@ -1,6 +1,6 @@
 import { Button } from "components/ui/Button";
 import { InnerPanel } from "components/ui/Panel";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { PetEgg } from "./PetEgg";
 import { Label } from "components/ui/Label";
 import { Feed } from "./Feed";
@@ -17,7 +17,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import foodIcon from "assets/food/chicken_drumstick.png";
 import petNFTEgg from "assets/icons/pet_nft_egg.png";
-import { translate } from "lib/i18n/translate";
 
 type PetGuideView =
   | "Pet Egg"
@@ -29,73 +28,86 @@ type PetGuideView =
   | "NFT Traits"
   | "Social";
 
-const GUIDE_CONTENT: Record<
-  PetGuideView,
-  {
-    translatedTitle: string;
-    content: React.FC<{ onBack: () => void }>;
-    image?: string;
-  }
-> = {
-  "Pet Egg": {
-    translatedTitle: translate("petGuide.petEgg.title"),
-    content: PetEgg,
-    image: ITEM_DETAILS["Pet Egg"].image,
-  },
-  Feed: {
-    translatedTitle: translate("petGuide.feed.title"),
-    content: Feed,
-    image: foodIcon,
-  },
-  Fetch: {
-    translatedTitle: translate("petGuide.fetch.title"),
-    content: Fetch,
-    image: ITEM_DETAILS.Acorn.image,
-  },
-  Care: {
-    translatedTitle: "Care",
-    content: PetMaintenance,
-    image: ITEM_DETAILS.Brush.image,
-  },
-  "Level Perks": {
-    translatedTitle: "Level Perks",
-    content: PetLevelsAndPerks,
-    image: SUNNYSIDE.icons.xpIcon,
-  },
-  Shrines: {
-    translatedTitle: "Shrines",
-    content: Shrines,
-    image: ITEM_DETAILS["Obsidian Shrine"].image,
-  },
-  Social: {
-    translatedTitle: "Social",
-    content: Social,
-    image: ITEM_DETAILS.Cheer.image,
-  },
-  "NFT Traits": {
-    translatedTitle: translate("petGuide.nftTraits.title"),
-    content: NFTTraits,
-    image: petNFTEgg,
-  },
-};
 export const PetGuide: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
+  const { t } = useAppTranslation();
   const [view, setView] = useState<PetGuideView>();
+
+  const guideContent = useMemo(
+    () => ({
+      "Pet Egg": {
+        translatedTitle: t("petGuide.petEgg.title"),
+        content: PetEgg,
+        image: ITEM_DETAILS["Pet Egg"].image,
+      },
+      Feed: {
+        translatedTitle: t("petGuide.feed.title"),
+        content: Feed,
+        image: foodIcon,
+      },
+      Fetch: {
+        translatedTitle: t("petGuide.fetch.title"),
+        content: Fetch,
+        image: ITEM_DETAILS.Acorn.image,
+      },
+      Care: {
+        translatedTitle: "Care",
+        content: PetMaintenance,
+        image: ITEM_DETAILS.Brush.image,
+      },
+      "Level Perks": {
+        translatedTitle: "Level Perks",
+        content: PetLevelsAndPerks,
+        image: SUNNYSIDE.icons.xpIcon,
+      },
+      Shrines: {
+        translatedTitle: "Shrines",
+        content: Shrines,
+        image: ITEM_DETAILS["Obsidian Shrine"].image,
+      },
+      Social: {
+        translatedTitle: "Social",
+        content: Social,
+        image: ITEM_DETAILS.Cheer.image,
+      },
+      "NFT Traits": {
+        translatedTitle: t("petGuide.nftTraits.title"),
+        content: NFTTraits,
+        image: petNFTEgg,
+      },
+    }),
+    [t],
+  );
 
   const setToDefault = () => setView(undefined);
 
   if (view) {
-    const ContentComponent = GUIDE_CONTENT[view].content;
+    const ContentComponent = guideContent[view].content;
     return <ContentComponent onBack={setToDefault} />;
   }
 
-  return <PetGuideMenu onClose={onClose} setView={setView} />;
+  return (
+    <PetGuideMenu
+      onClose={onClose}
+      setView={setView}
+      guideContent={guideContent}
+    />
+  );
 };
 
 const PetGuideMenu: React.FC<{
   onClose?: () => void;
   setView: React.Dispatch<React.SetStateAction<PetGuideView | undefined>>;
-}> = ({ onClose, setView }) => {
-  const items = getObjectEntries(GUIDE_CONTENT);
+  guideContent: Record<
+    PetGuideView,
+    {
+      translatedTitle: string;
+      content: React.FC<{ onBack: () => void }>;
+      image?: string;
+    }
+  >;
+}> = ({ onClose, setView, guideContent }) => {
+  const { t } = useAppTranslation();
+  const items = getObjectEntries(guideContent);
 
   return (
     <InnerPanel className="relative overflow-y-auto max-h-[350px] scrollable">
@@ -110,10 +122,10 @@ const PetGuideMenu: React.FC<{
             onClick={onClose}
           />
         )}
-        <Label type="default">{`Pet Guide`}</Label>
+        <Label type="default">{t("petGuide.title")}</Label>
       </div>
 
-      <p className="text-xs p-1">{`Learn about pets and how to care for them.`}</p>
+      <p className="text-xs p-1">{t("petGuide.description")}</p>
       <div id="Buttons" className="grid grid-cols-2 gap-1">
         {items.map(([key, value], idx) => {
           // If this is the last item and the number of items is odd, span two columns
