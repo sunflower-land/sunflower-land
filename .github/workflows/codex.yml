@@ -1,7 +1,7 @@
 name: Perform a code review when a pull request is created.
 on:
   pull_request:
-    types: [opened]
+    types: [opened, synchronize]
 
 jobs:
   codex:
@@ -25,7 +25,7 @@ jobs:
 
       - name: Run Codex
         id: run_codex
-        uses: openai/codex-action@v1
+        uses: openai/codex-action@v1.4
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           prompt: |
