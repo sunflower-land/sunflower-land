@@ -37,7 +37,6 @@ import levelUp from "assets/icons/level_up.png";
 import xpIcon from "assets/icons/xp.png";
 import { Checkbox } from "components/ui/Checkbox";
 import { PetGuide, PetGuideButton } from "features/pets/petGuide/PetGuide";
-import { hasFeatureAccess } from "lib/flags";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { capitalize } from "lib/utils/capitalize";
 
@@ -51,8 +50,6 @@ interface Props {
 }
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
-const _hasPetGuideAccess = (state: MachineState) =>
-  hasFeatureAccess(state.context.state, "PET_GUIDE");
 
 export const PetModal: React.FC<Props> = ({
   show,
@@ -70,7 +67,6 @@ export const PetModal: React.FC<Props> = ({
   >("feeding");
   const [showRewards, setShowRewards] = useState(false);
   const inventory = useSelector(gameService, _inventory);
-  const hasPetGuideAccess = useSelector(gameService, _hasPetGuideAccess);
   const isNFTPet = isPetNFT(data);
   const petId = isNFTPet ? data.id : data?.name;
 
@@ -124,7 +120,7 @@ export const PetModal: React.FC<Props> = ({
             )}
           </div>
           <div className="flex flex-row gap-2 items-center justify-end">
-            {hasPetGuideAccess && display !== "guide" && (
+            {display !== "guide" && (
               <PetGuideButton
                 onShow={() => {
                   if (
