@@ -207,7 +207,7 @@ export function cook({
 
     const crafting = (building.crafting ?? []) as BuildingProduct[];
 
-    if (crafting.length >= availableSlots) {
+    if (!isInstantFishRecipe(item) && crafting.length >= availableSlots) {
       throw new Error(translate("error.noAvailableSlots"));
     }
 

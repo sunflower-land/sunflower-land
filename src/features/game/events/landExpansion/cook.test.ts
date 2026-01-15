@@ -577,6 +577,57 @@ describe("cook", () => {
     expect(state.inventory["Fish Flake"]).toEqual(new Decimal(0));
     expect(state.inventory["Seaweed"]).toEqual(new Decimal(0));
   });
+
+  it("cooks an instant recipe even if the slots are full", () => {
+    const state = cook({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Fish Flake": new Decimal(1),
+          Seaweed: new Decimal(1),
+        },
+        buildings: {
+          "Fire Pit": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: Date.now(),
+              id: "1",
+              readyAt: 0,
+              crafting: [
+                {
+                  name: "Boiled Eggs",
+                  readyAt: Date.now() + 60 * 1000,
+                },
+                {
+                  name: "Boiled Eggs",
+                  readyAt: Date.now() + 60 * 1000 * 2,
+                },
+                {
+                  name: "Boiled Eggs",
+                  readyAt: Date.now() + 60 * 1000 * 3,
+                },
+                {
+                  name: "Boiled Eggs",
+                  readyAt: Date.now() + 60 * 1000 * 4,
+                },
+              ],
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipe.cooked",
+        item: "Furikake Sprinkle",
+        buildingId: "1",
+      },
+      farmId: 1,
+      createdAt: Date.now(),
+    });
+
+    expect(state.inventory["Furikake Sprinkle"]).toEqual(new Decimal(1));
+    expect(state.inventory["Fish Flake"]).toEqual(new Decimal(0));
+    expect(state.inventory["Seaweed"]).toEqual(new Decimal(0));
+  });
 });
 
 describe("getReadyAt", () => {
