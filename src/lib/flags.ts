@@ -126,6 +126,7 @@ const FEATURE_FLAGS = {
   FISH_MARKET: defaultFeatureFlag,
   MAP_PIECES: defaultFeatureFlag,
   PET_GUIDE: defaultFeatureFlag,
+  INSTANT_RECIPES: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

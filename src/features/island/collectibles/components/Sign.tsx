@@ -18,6 +18,12 @@ export const Sign: React.FC = () => {
   const nftId = useSelector(gameService, _nftId);
   const farmId = useSelector(gameService, _farmId);
 
+  const displayName = () => {
+    if (username) return username;
+    if (nftId) return `#${nftId}`;
+    return `#${farmId}`;
+  };
+
   return (
     <SFTDetailPopover name="Town Sign">
       <div
@@ -39,9 +45,7 @@ export const Sign: React.FC = () => {
             textShadow: "1px 1px #723e39",
           }}
         >
-          <p className="text-xxs mt-2 font-pixel">
-            {username ?? `#${nftId}` ?? `#${farmId}`}
-          </p>
+          <p className="text-xxs mt-2 font-pixel">{displayName()}</p>
         </div>
       </div>
     </SFTDetailPopover>
