@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { Modal } from "components/ui/Modal";
 
@@ -9,6 +9,8 @@ import {
   Cookable,
   CookableName,
   FIRE_PIT_COOKABLES,
+  isFishCookable,
+  isInstantFishRecipe,
 } from "features/game/types/consumables";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel, Panel } from "components/ui/Panel";
@@ -16,6 +18,10 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BuildingProduct } from "features/game/types/game";
+import { CHAPTERS, getCurrentChapter } from "features/game/types/chapters";
+import { useNow } from "lib/utils/hooks/useNow";
+import { hasFeatureAccess } from "lib/flags";
+import { Context } from "features/game/GameProvider";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `bruce-read.${host}-${window.location.pathname}`;
@@ -50,9 +56,29 @@ export const FirePitModal: React.FC<Props> = ({
 }) => {
   const [showIntro, setShowIntro] = React.useState(!hasRead());
   const { t } = useAppTranslation();
-  const firePitRecipes = Object.values(FIRE_PIT_COOKABLES).sort(
-    (a, b) => a.experience - b.experience, // Sorts Foods based on their cooking time
-  );
+  const { gameService } = useContext(Context);
+  const now = useNow({
+    live: true,
+    autoEndAt: CHAPTERS["Paw Prints"].endDate.getTime(),
+  });
+  const firePitRecipes = Object.values(FIRE_PIT_COOKABLES)
+    .filter((recipe) => {
+      if (getCurrentChapter(now) === "Paw Prints") return true;
+
+      return !isFishCookable(recipe.name);
+    })
+    .filter((recipe) => {
+      if (isInstantFishRecipe(recipe.name)) {
+        return hasFeatureAccess(
+          gameService?.getSnapshot().context.state ?? {},
+          "INSTANT_RECIPES",
+        );
+      }
+      return true;
+    })
+    .sort(
+      (a, b) => a.experience - b.experience, // Sorts Foods based on their cooking time
+    );
 
   const [selected, setSelected] = useState<Cookable>(
     firePitRecipes.find((recipe) => recipe.name === itemInProgress) ||

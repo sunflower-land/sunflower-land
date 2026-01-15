@@ -1119,11 +1119,7 @@ import {
   PATCH_FRUIT_SEEDS,
 } from "./fruits";
 import { FLOWER_SEEDS, FLOWERS } from "./flowers";
-import {
-  CONSUMABLES,
-  COOKABLES,
-  INSTANT_PROCESSED_RECIPES,
-} from "./consumables";
+import { CONSUMABLES, COOKABLES } from "./consumables";
 import { COMMODITIES } from "./resources";
 import { BEANS } from "./beans";
 import {
@@ -3682,20 +3678,19 @@ export const ITEM_DETAILS: Items = {
   },
   "Furikake Sprinkle": {
     image: furikakeSprinkle,
-    description: INSTANT_PROCESSED_RECIPES["Furikake Sprinkle"].description,
+    description: COOKABLES["Furikake Sprinkle"].description,
   },
   "Surimi Rice Bowl": {
     image: surimiRiceBowl,
-    description: INSTANT_PROCESSED_RECIPES["Surimi Rice Bowl"].description,
+    description: COOKABLES["Surimi Rice Bowl"].description,
   },
   "Creamy Crab Bite": {
     image: creamyCrabBite,
-    description: INSTANT_PROCESSED_RECIPES["Creamy Crab Bite"].description,
+    description: COOKABLES["Creamy Crab Bite"].description,
   },
   "Crimstone Infused Fish Oil": {
     image: crimstoneInfusedFishOil,
-    description:
-      INSTANT_PROCESSED_RECIPES["Crimstone Infused Fish Oil"].description,
+    description: COOKABLES["Crimstone Infused Fish Oil"].description,
   },
   "Sprout Mix": {
     boostedDescriptions: [

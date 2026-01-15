@@ -9,7 +9,6 @@ import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import vipIcon from "assets/icons/vip.webp";
-import lightning from "assets/icons/lightning.png";
 
 import { Context } from "features/game/GameProvider";
 import { BuildingProduct, InventoryItemName } from "features/game/types/game";
@@ -32,12 +31,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import {
-  INSTANT_PROCESSED_RECIPES,
-  InstantProcessedRecipeName,
-} from "features/game/types/consumables";
 import { getKeys } from "features/game/lib/crafting";
-import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 
 interface Props {
   isOpen: boolean;
@@ -46,7 +40,6 @@ interface Props {
   onProcess: (item: ProcessedFood) => void;
   onCollect: () => void;
   onInstantProcess: (gems: number) => void;
-  onMakeInstantRecipe: (recipe: InstantProcessedRecipeName) => void;
   processing?: BuildingProduct;
   queue: BuildingProduct[];
   ready: BuildingProduct[];
@@ -65,7 +58,6 @@ export const FishMarketModal: React.FC<Props> = ({
   onProcess,
   onCollect,
   onInstantProcess,
-  onMakeInstantRecipe,
   processing,
   queue,
   ready,
@@ -79,22 +71,13 @@ export const FishMarketModal: React.FC<Props> = ({
   const season = state.season.season;
   const inventory = state.inventory;
 
-  const [selected, setSelected] = useState<
-    ProcessedFood | InstantProcessedRecipeName
-  >(PROCESSED_ITEMS[0]);
+  const [selected, setSelected] = useState<ProcessedFood>(PROCESSED_ITEMS[0]);
   const [showQueueInformation, setShowQueueInformation] = useState(false);
 
-  const getRequirements = () => {
-    if (isProcessedFood(selected)) {
-      return getFishProcessingRequirements({
-        item: selected,
-        season,
-      });
-    }
-    return INSTANT_PROCESSED_RECIPES[selected].ingredients;
-  };
-
-  const requirements = getRequirements();
+  const requirements = getFishProcessingRequirements({
+    item: selected,
+    season,
+  });
 
   const lessIngredients = () => {
     return Object.entries(requirements).some(([name, amount]) =>
@@ -111,12 +94,6 @@ export const FishMarketModal: React.FC<Props> = ({
     if (!isProcessedFood(selected)) return;
 
     onProcess(selected);
-  };
-
-  const handleInstantRecipe = () => {
-    if (isProcessedFood(selected)) return;
-
-    onMakeInstantRecipe(selected);
   };
 
   const availableSlots = isVIP ? MAX_FISH_PROCESSING_SLOTS : 1;
@@ -150,12 +127,6 @@ export const FishMarketModal: React.FC<Props> = ({
               requirements={{
                 resources: requirements,
                 timeSeconds: totalSeconds,
-                xp: !isProcessedFood(selected)
-                  ? getFoodExpBoost({
-                      food: INSTANT_PROCESSED_RECIPES[selected],
-                      game: state,
-                    }).boostedExp
-                  : undefined,
               }}
               actionView={
                 <div className="flex flex-col gap-1">
@@ -170,15 +141,6 @@ export const FishMarketModal: React.FC<Props> = ({
                       }
                     >
                       {processing ? t("recipes.addToQueue") : "Process"}
-                    </Button>
-                  )}
-                  {!isProcessedFood(selected) && (
-                    <Button
-                      disabled={lessIngredients()}
-                      className="text-xxs sm:text-sm whitespace-nowrap"
-                      onClick={handleInstantRecipe}
-                    >
-                      {t("instantProcessedResources.makeRecipe")}
                     </Button>
                   )}
                   <Button
@@ -230,22 +192,6 @@ export const FishMarketModal: React.FC<Props> = ({
                         isSelected={item === selected}
                         onClick={() => setSelected(item)}
                         count={inventory[item]}
-                      />
-                    ))}
-                  </div>
-                </div>
-                <div className="mb-2">
-                  <Label type="default" icon={lightning} className="ml-1">
-                    {t("instantProcessedResources.recipes")}
-                  </Label>
-                  <div className="flex flex-wrap sm:justify-start mt-1">
-                    {getKeys(INSTANT_PROCESSED_RECIPES).map((item) => (
-                      <Box
-                        key={item}
-                        image={ITEM_DETAILS[item as InventoryItemName].image}
-                        isSelected={item === selected}
-                        onClick={() => setSelected(item)}
-                        count={inventory[item as InventoryItemName]}
                       />
                     ))}
                   </div>

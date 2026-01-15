@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { Modal } from "components/ui/Modal";
 import chefHat from "assets/icons/chef_hat.png";
@@ -7,11 +7,17 @@ import { Recipes } from "../Recipes";
 import {
   Cookable,
   CookableName,
+  isFishCookable,
+  isInstantFishRecipe,
   KITCHEN_COOKABLES,
 } from "features/game/types/consumables";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
 import { BuildingProduct } from "features/game/types/game";
+import { useNow } from "lib/utils/hooks/useNow";
+import { CHAPTERS, getCurrentChapter } from "features/game/types/chapters";
+import { hasFeatureAccess } from "lib/flags";
+import { Context } from "features/game/GameProvider";
 
 interface Props {
   isOpen: boolean;
@@ -34,9 +40,30 @@ export const KitchenModal: React.FC<Props> = ({
   queue,
   readyRecipes,
 }) => {
-  const kitchenRecipes = Object.values(KITCHEN_COOKABLES).sort(
-    (a, b) => a.experience - b.experience, // Sorts Foods based on their cooking time
-  );
+  const { gameService } = useContext(Context);
+
+  const now = useNow({
+    live: true,
+    autoEndAt: CHAPTERS["Paw Prints"].endDate.getTime(),
+  });
+  const kitchenRecipes = Object.values(KITCHEN_COOKABLES)
+    .filter((recipe) => {
+      if (getCurrentChapter(now) === "Paw Prints") return true;
+
+      return !isFishCookable(recipe.name);
+    })
+    .filter((recipe) => {
+      if (isInstantFishRecipe(recipe.name)) {
+        return hasFeatureAccess(
+          gameService?.getSnapshot().context.state ?? {},
+          "INSTANT_RECIPES",
+        );
+      }
+      return true;
+    })
+    .sort(
+      (a, b) => a.experience - b.experience, // Sorts Foods based on their cooking time
+    );
   const [selected, setSelected] = useState<Cookable>(
     kitchenRecipes.find((recipe) => recipe.name === itemInProgress) ||
       kitchenRecipes[0],

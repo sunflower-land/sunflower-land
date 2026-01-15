@@ -36,6 +36,7 @@ describe("cook", () => {
           item: "Boiled Eggs",
           buildingId: "123",
         },
+        farmId: 1,
         createdAt,
       }),
     ).toThrow(`Required building does not exist`);
@@ -62,6 +63,7 @@ describe("cook", () => {
           item: "Boiled Eggs",
           buildingId: "123",
         },
+        farmId: 1,
         createdAt,
       }),
     ).toThrow(`Required building does not exist`);
@@ -109,6 +111,7 @@ describe("cook", () => {
           item: "Boiled Eggs",
           buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
         },
+        farmId: 1,
         createdAt,
       }),
     ).toThrow("No available slots");
@@ -139,6 +142,7 @@ describe("cook", () => {
           item: "Boiled Eggs",
           buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
         },
+        farmId: 1,
         createdAt,
       }),
     ).toThrow("Insufficient ingredient: Egg");
@@ -168,6 +172,7 @@ describe("cook", () => {
         item: "Boiled Eggs",
         buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
       },
+      farmId: 1,
       createdAt,
     });
 
@@ -202,6 +207,7 @@ describe("cook", () => {
         item: "Boiled Eggs",
         buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
       },
+      farmId: 1,
       createdAt,
     });
 
@@ -235,6 +241,7 @@ describe("cook", () => {
         item: "Boiled Eggs",
         buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
       },
+      farmId: 1,
       createdAt,
     });
 
@@ -273,6 +280,7 @@ describe("cook", () => {
         item: "Boiled Eggs",
         buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
       },
+      farmId: 1,
       createdAt,
     });
 
@@ -309,6 +317,7 @@ describe("cook", () => {
         item: "Fancy Fries",
         buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
       },
+      farmId: 1,
       createdAt,
     });
 
@@ -353,6 +362,7 @@ describe("cook", () => {
         item: "Boiled Eggs",
         buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
       },
+      farmId: 1,
       createdAt,
     });
 
@@ -393,6 +403,7 @@ describe("cook", () => {
         item: "Mashed Potato",
         buildingId: "blah",
       },
+      farmId: 1,
       createdAt,
     });
 
@@ -441,6 +452,7 @@ describe("cook", () => {
         item: "Mashed Potato",
         buildingId: "blah",
       },
+      farmId: 1,
       createdAt,
     });
 
@@ -485,12 +497,85 @@ describe("cook", () => {
         item: "Mashed Potato",
         buildingId: "blah",
       },
+      farmId: 1,
       createdAt,
     });
 
     expect(state.buildings["Fire Pit"]?.[0].crafting?.[1].readyAt).toBeCloseTo(
       createdAt + COOKABLES["Mashed Potato"].cookingSeconds * 1000,
     );
+  });
+
+  it("cooks instant fish recipes instantly", () => {
+    const state = cook({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Fish Flake": new Decimal(1),
+          Seaweed: new Decimal(1),
+        },
+        buildings: {
+          "Fire Pit": [
+            {
+              coordinates: { x: 2, y: 3 },
+              readyAt: 1000,
+              createdAt: 1000,
+              id: "blah",
+              oil: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipe.cooked",
+        item: "Furikake Sprinkle",
+        buildingId: "blah",
+      },
+      farmId: 1,
+      createdAt,
+    });
+
+    expect(state.inventory["Furikake Sprinkle"]).toEqual(new Decimal(1));
+    expect(state.inventory["Fish Flake"]).toEqual(new Decimal(0));
+    expect(state.inventory["Seaweed"]).toEqual(new Decimal(0));
+  });
+
+  it("gives you double the produce with Double Nom skill", () => {
+    const state = cook({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Fish Flake": new Decimal(2),
+          Seaweed: new Decimal(2),
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Double Nom": 1 },
+        },
+        buildings: {
+          "Fire Pit": [
+            {
+              coordinates: { x: 2, y: 3 },
+              readyAt: 1000,
+              createdAt: 1000,
+              id: "blah",
+              oil: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipe.cooked",
+        item: "Furikake Sprinkle",
+        buildingId: "blah",
+      },
+      farmId: 1,
+      createdAt,
+    });
+
+    expect(state.inventory["Furikake Sprinkle"]).toEqual(new Decimal(2));
+    expect(state.inventory["Fish Flake"]).toEqual(new Decimal(0));
+    expect(state.inventory["Seaweed"]).toEqual(new Decimal(0));
   });
 });
 
@@ -1105,6 +1190,7 @@ describe("getReadyAt", () => {
       COOKABLES["Mashed Potato"].cookingSeconds * 1000;
 
     const state = cook({
+      farmId: 1,
       state: {
         ...TEST_FARM,
         vip: {
@@ -1170,6 +1256,7 @@ describe("getReadyAt", () => {
     const cookTimeMs = COOKABLES["Boiled Eggs"].cookingSeconds * 1000;
 
     const state = cook({
+      farmId: 1,
       state: {
         ...TEST_FARM,
         inventory: {
