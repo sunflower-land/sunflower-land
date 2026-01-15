@@ -15,6 +15,8 @@ export const ITEM_TRADE_TYPES: {
   wearables: Record<BumpkinItem, TradeType>;
 } = {
   collectibles: {
+    "Paw Prints Raffle Ticket": "instant",
+    "Crab Chapter Raffle Ticket": "instant",
     "Furikake Sprinkle": "instant",
     "Surimi Rice Bowl": "instant",
     "Creamy Crab Bite": "instant",

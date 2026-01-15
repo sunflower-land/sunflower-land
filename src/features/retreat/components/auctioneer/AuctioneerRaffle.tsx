@@ -5,6 +5,7 @@ import { useActor } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import flowerToken from "assets/icons/flower_token.webp";
+import petEggNFT from "assets/icons/pet_nft_egg.png";
 import { Button } from "components/ui/Button";
 import { ButtonPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
@@ -29,8 +30,13 @@ import { getImageUrl } from "lib/utils/getImageURLS";
 import { getKeys } from "features/game/types/craftables";
 import { toOrdinalSuffix } from "./AuctionLeaderboardTable";
 import { Box } from "components/ui/Box";
-import { RaffleLeaderboardTable } from "./RaffleLeaderboardTable";
-import { RaffleHistory } from "./AuctionHistory";
+import { RaffleHistory } from "./AuctionRaffleHistory";
+import {
+  Inventory,
+  InventoryItemName,
+  Wardrobe,
+} from "features/game/types/game";
+import { PetNFTName } from "features/game/types/pets";
 
 export const AuctioneerRaffle: React.FC = () => {
   const { t } = useAppTranslation();
@@ -127,8 +133,8 @@ export const AuctioneerRaffle: React.FC = () => {
     `${formatRaffleDate(raffle.startAt)} - ${formatRaffleDate(raffle.endAt)}`;
 
   const getFirstPrizeDisplay = (raffle: RaffleDefinition) => {
-    const items = getKeys(raffle.firstPlace.items ?? {});
-    const wearables = getKeys(raffle.firstPlace.wearables ?? {});
+    const items = getKeys(raffle.prizes[1].items ?? {});
+    const wearables = getKeys(raffle.prizes[1].wearables ?? {});
 
     const collectible = items.find((item) => isCollectible(item));
 
@@ -161,31 +167,6 @@ export const AuctioneerRaffle: React.FC = () => {
       image: SUNNYSIDE.icons.expression_confused,
       type: "item" as const,
     };
-  };
-
-  const renderPrizeItems = (prize: RafflePrize) => {
-    return (
-      <div className="flex items-center gap-1 flex-wrap">
-        {prize.sfl ? (
-          <div className="flex items-center">
-            <img src={flowerToken} className="h-4 mr-1" />
-            <span className="text-xs">{prize.sfl}</span>
-          </div>
-        ) : null}
-        {getKeys(prize.items ?? {}).map((item) => (
-          <div key={item} className="flex items-center">
-            <img src={ITEM_DETAILS[item].image} className="h-4 mr-1" />
-            <span className="text-xs">{prize.items?.[item]}</span>
-          </div>
-        ))}
-        {getKeys(prize.wearables ?? {}).map((wearable) => (
-          <div key={wearable} className="flex items-center">
-            <img src={getImageUrl(ITEM_IDS[wearable])} className="h-4 mr-1" />
-            <span className="text-xs">{prize.wearables?.[wearable]}</span>
-          </div>
-        ))}
-      </div>
-    );
   };
 
   const CountdownLabel: React.FC<{ raffle: RaffleDefinition }> = ({
@@ -371,6 +352,26 @@ export const AuctioneerRaffle: React.FC = () => {
 
     const hasAnotherRaffle = game.raffle?.id !== selectedRaffle.id;
 
+    let items: Partial<Record<InventoryItemName, number>> = {};
+    let wearables: Wardrobe = {};
+    let nfts: PetNFTName[] = [];
+    getKeys(selectedRaffle.prizes).forEach((position) => {
+      const prize = selectedRaffle.prizes[position];
+
+      getKeys(prize.items ?? {}).forEach((item) => {
+        items[item] = (items[item] ?? 0) + (prize.items?.[item] ?? 0);
+      });
+
+      getKeys(prize.wearables ?? {}).forEach((wearable) => {
+        wearables[wearable] =
+          (wearables[wearable] ?? 0) + (prize.wearables?.[wearable] ?? 0);
+      });
+
+      if (prize.nft) {
+        nfts.push(prize.nft);
+      }
+    });
+
     return (
       <div className="p-2">
         <div className="flex items-center gap-2 mb-2">
@@ -405,35 +406,28 @@ export const AuctioneerRaffle: React.FC = () => {
           <Label type="default" className="mb-1">
             Prizes
           </Label>
-          <div className="flex flex-col gap-1 text-xs">
-            <div className="flex items-center justify-between">
-              <span>1st</span>
-              {renderPrizeItems(selectedRaffle.firstPlace)}
-            </div>
-            <div className="flex items-center justify-between">
-              <span>2nd</span>
-              {renderPrizeItems({ items: { "Pet Egg": 1 }, onChain: true })}
-            </div>
-            <div className="flex items-center justify-between">
-              <span>3rd - 10th</span>
-              {renderPrizeItems({ sfl: 500 })}
-            </div>
-            <div className="flex items-center justify-between">
-              <span>11th - 25th</span>
-              {renderPrizeItems({ items: { Gem: 500 } })}
-            </div>
-            <div className="flex items-center justify-between">
-              <span>26th - 50th</span>
-              {renderPrizeItems({ sfl: 50 })}
-            </div>
-            <div className="flex items-center justify-between">
-              <span>51st - 75th</span>
-              {renderPrizeItems({ items: { "Gold Food Box": 1 } })}
-            </div>
-            <div className="flex items-center justify-between">
-              <span>76th - 100th</span>
-              {renderPrizeItems({ items: { "Silver Food Box": 1 } })}
-            </div>
+          <div className="flex flex-wrap gap-1 text-xs">
+            {nfts.map((nft) => (
+              <div key={nft} className="flex items-center">
+                <img src={petEggNFT} className="h-4 mr-1" />
+                <span className="text-xs">{nft}</span>
+              </div>
+            ))}
+            {getKeys(items).map((item) => (
+              <div key={item} className="flex items-center">
+                <img src={ITEM_DETAILS[item].image} className="h-4 mr-1" />
+                <span className="text-xs">{items[item]}</span>
+              </div>
+            ))}
+            {getKeys(wearables).map((wearable) => (
+              <div key={wearable} className="flex items-center">
+                <img
+                  src={getImageUrl(ITEM_IDS[wearable])}
+                  className="h-4 mr-1"
+                />
+                <span className="text-xs">{wearables[wearable]}</span>
+              </div>
+            ))}
           </div>
         </div>
 

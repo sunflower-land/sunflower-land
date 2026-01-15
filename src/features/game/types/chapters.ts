@@ -224,7 +224,9 @@ export function getChapterTicket(now: number): ChapterTicket {
   return CHAPTER_TICKET_NAME[currentChapter];
 }
 
-export function getChapterRaffleTicket(now: number): ChapterRaffleTicket {
+export function getChapterRaffleTicket(
+  now: number = Date.now(),
+): ChapterRaffleTicket {
   const currentChapter = getCurrentChapter(now);
 
   return CHAPTER_RAFFLE_TICKET_NAME[currentChapter];

@@ -54,7 +54,7 @@ export async function loadRaffleResults(
   }
 
   if (response.status !== 200 || !response.ok) {
-    throw new Error(ERRORS.UNEXPECTED_SERVER_RESPONSE);
+    throw new Error(ERRORS.RAFFLE_RESULTS_SERVER_ERROR);
   }
 
   const { data } = await response.json();

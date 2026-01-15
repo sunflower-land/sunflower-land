@@ -237,6 +237,8 @@ import blockBuck from "assets/icons/block_buck.png";
 import goldPass from "assets/icons/gold-pass.png";
 import warBond from "assets/icons/warBond.png";
 import betaPass from "assets/icons/beta_pass.png";
+import pawPrintsRaffleTicket from "assets/icons/pet_chapter_raffle_ticket.png";
+import crabChapterRaffleTicket from "assets/icons/crab_chapter_raffle_ticket.png";
 import solarFlareTicket from "assets/icons/solar_flare_ticket.png";
 import dawnBreakerTicket from "assets/icons/dawn_breaker_ticket.png";
 import potionPoint from "assets/icons/potion_point.png";
@@ -6811,11 +6813,11 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.horseshoeCrab"),
   },
   "Paw Prints Raffle Ticket": {
-    image: prizeTicket,
+    image: pawPrintsRaffleTicket,
     description: "?",
   },
   "Crab Chapter Raffle Ticket": {
-    image: prizeTicket,
+    image: crabChapterRaffleTicket,
     description: "?",
   },
 };
