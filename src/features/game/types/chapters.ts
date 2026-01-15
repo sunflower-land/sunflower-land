@@ -103,6 +103,10 @@ export type ChapterTicket =
   | "Pet Cookie"
   | "Crab Chapter Ticket";
 
+export type ChapterRaffleTicket =
+  | "Paw Prints Raffle Ticket"
+  | "Crab Chapter Raffle Ticket";
+
 export type ChapterBanner = `${ChapterName} Banner`;
 
 export const CHAPTER_BANNERS: Record<ChapterBanner, ChapterName> = {
@@ -135,6 +139,25 @@ export const CHAPTER_TICKET_NAME: Record<ChapterName, ChapterTicket> = {
   "Better Together": "Bracelet",
   "Paw Prints": "Pet Cookie",
   "Crab Chapter": "Crab Chapter Ticket",
+};
+
+export const CHAPTER_RAFFLE_TICKET_NAME: Record<
+  ChapterName,
+  ChapterRaffleTicket
+> = {
+  "Solar Flare": "Paw Prints Raffle Ticket",
+  "Dawn Breaker": "Paw Prints Raffle Ticket",
+  "Witches' Eve": "Paw Prints Raffle Ticket",
+  "Catch the Kraken": "Paw Prints Raffle Ticket",
+  "Spring Blossom": "Paw Prints Raffle Ticket",
+  "Clash of Factions": "Paw Prints Raffle Ticket",
+  "Pharaoh's Treasure": "Paw Prints Raffle Ticket",
+  "Bull Run": "Paw Prints Raffle Ticket",
+  "Winds of Change": "Paw Prints Raffle Ticket",
+  "Great Bloom": "Paw Prints Raffle Ticket",
+  "Better Together": "Paw Prints Raffle Ticket",
+  "Paw Prints": "Paw Prints Raffle Ticket",
+  "Crab Chapter": "Crab Chapter Raffle Ticket",
 };
 
 export const CHAPTER_ARTEFACT_NAME: Record<
@@ -199,6 +222,12 @@ export function getChapterTicket(now: number): ChapterTicket {
   const currentChapter = getCurrentChapter(now);
 
   return CHAPTER_TICKET_NAME[currentChapter];
+}
+
+export function getChapterRaffleTicket(now: number): ChapterRaffleTicket {
+  const currentChapter = getCurrentChapter(now);
+
+  return CHAPTER_RAFFLE_TICKET_NAME[currentChapter];
 }
 
 export function getChapterArtefact(now: number) {

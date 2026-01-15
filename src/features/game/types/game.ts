@@ -48,7 +48,12 @@ import {
 import { TreasureToolName, WorkbenchToolName } from "./tools";
 import { ConversationName } from "./announcements";
 import { NPCName } from "lib/npcs";
-import { ChapterBanner, ChapterTicket, ChapterName } from "./chapters";
+import {
+  ChapterBanner,
+  ChapterTicket,
+  ChapterName,
+  ChapterRaffleTicket,
+} from "./chapters";
 import { Bud } from "./buds";
 import {
   CompostName,
@@ -624,7 +629,8 @@ export type InventoryItemName =
   | PetName
   | PetResourceName
   | PetShopItemName
-  | CrustaceanName;
+  | CrustaceanName
+  | ChapterRaffleTicket;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -1818,6 +1824,10 @@ export interface GameState {
       id: string;
       createdAt: number;
     }[];
+  };
+  raffle?: {
+    id: string;
+    entries: number;
   };
   dailyRewards?: DailyRewards;
   auctioneer: Auctioneer;

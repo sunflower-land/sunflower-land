@@ -240,6 +240,10 @@ import { claimGift, ClaimGiftAction } from "./landExpansion/claimBumpkinGift";
 import { giftFlowers, GiftFlowersAction } from "./landExpansion/giftFlowers";
 import { enterRaffle, EnterRaffleAction } from "./landExpansion/enterRaffle";
 import {
+  auctionRaffleLost,
+  AuctionRaffleLostAction,
+} from "./landExpansion/auctionRaffleLost";
+import {
   exchangeSFLtoCoins,
   ExchangeSFLtoCoinsAction,
 } from "./landExpansion/exchangeSFLtoCoins";
@@ -737,6 +741,7 @@ export type PlayingEvent =
   | RenewPetShrineAction
   | CollectWaterTrapAction
   | PlaceWaterTrapAction
+  | AuctionRaffleLostAction
   | SpeedUpProcessingAction;
 
 export type LocalVisitingEvent =
@@ -927,6 +932,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "flowers.gifted": giftFlowers,
   "gift.claimed": claimGift,
   "raffle.entered": enterRaffle,
+  "auctionRaffle.lost": auctionRaffleLost,
   "sfl.exchanged": exchangeSFLtoCoins,
   "faction.joined": joinFaction,
   "oilReserve.drilled": drillOilReserve,
