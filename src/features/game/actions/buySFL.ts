@@ -42,7 +42,7 @@ export async function buySFL({
   // Do contract call
   const receipt = await buySFLOnChain({
     ...transaction,
-    account: wallet.getAccount(),
+    account: wallet.getConnection(),
     matic,
     amountOutMin,
   });

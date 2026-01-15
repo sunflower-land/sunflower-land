@@ -1,7 +1,7 @@
 import React from "react";
 import { generateSignatureMessage } from "lib/blockchain/wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { useAccount, useSignMessage } from "wagmi";
+import { useConnection, useSignMessage } from "wagmi";
 import walletIcon from "assets/icons/wallet.png";
 import { Label } from "components/ui/Label";
 import { getWalletIcon } from "features/wallet/lib/getWalletIcon";
@@ -33,8 +33,13 @@ export const SignMessage: React.FC<{
   }) => void;
   onDisconnect: () => void;
 }> = ({ onSignMessage, onDisconnect }) => {
-  const { address, connector, isConnected } = useAccount();
-  const { signMessageAsync, error, isError, isPending } = useSignMessage();
+  const { address, connector, isConnected } = useConnection();
+  const {
+    mutateAsync: signMessageAsync,
+    error,
+    isError,
+    isPending,
+  } = useSignMessage();
   const { t } = useAppTranslation();
 
   const signIn = async (address: string) => {

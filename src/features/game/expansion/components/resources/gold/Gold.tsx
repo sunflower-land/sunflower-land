@@ -50,6 +50,7 @@ const _selectSeason = (state: MachineState) =>
   state.context.state.season.season;
 const _selectIsland = (state: MachineState) => state.context.state.island;
 const selectFarmId = (state: MachineState) => state.context.farmId;
+
 interface Props {
   id: string;
 }
@@ -95,6 +96,10 @@ export const Gold: React.FC<Props> = ({ id }) => {
   );
   const skills = useSelector(gameService, selectSkills, compareSkills);
   const state = useSelector(gameService, selectGame);
+  const currentCounter = useSelector(gameService, (state) => {
+    const rockName = state.context.state.gold[id]?.name ?? "Gold Rock";
+    return state.context.state.farmActivity[`${rockName} Mined`] ?? 0;
+  });
   const season = useSelector(gameService, _selectSeason);
   const island = useSelector(gameService, _selectIsland);
   const farmId = useSelector(gameService, selectFarmId);
@@ -157,7 +162,6 @@ export const Gold: React.FC<Props> = ({ id }) => {
 
   const mine = async () => {
     const goldRockName = resource.name ?? "Gold Rock";
-    const counter = state.farmActivity[`${goldRockName} Mined`] ?? 0;
     const itemId = KNOWN_IDS[goldRockName];
     const goldMined = new Decimal(
       resource.stone.amount ??
@@ -167,7 +171,7 @@ export const Gold: React.FC<Props> = ({ id }) => {
           createdAt: now,
           farmId,
           itemId,
-          counter,
+          counter: currentCounter,
         }).amount,
     );
     const newState = gameService.send("goldRock.mined", {

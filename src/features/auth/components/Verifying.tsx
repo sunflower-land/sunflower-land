@@ -39,7 +39,7 @@ export const Verifying: React.FC = () => {
           if (e.origin === apiOrigin && e.source === frame?.contentWindow) {
             authService.send("VERIFIED", {
               data: {
-                account: wallet.getAccount(),
+                account: wallet.getConnection(),
                 token: e.data,
               },
             });

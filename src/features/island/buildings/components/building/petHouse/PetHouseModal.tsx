@@ -73,7 +73,7 @@ export const PetHouseModal: React.FC<Props> = ({ show, onClose }) => {
         container={OuterPanel}
       >
         {tab === "pets" && <ManagePets activePets={activePets} />}
-        {tab === "guide" && <PetGuide isNFTPet={false} />}
+        {tab === "guide" && <PetGuide />}
       </CloseButtonPanel>
     </Modal>
   );

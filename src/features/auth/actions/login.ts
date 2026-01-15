@@ -91,7 +91,7 @@ export function decodeToken(token: string): Token {
 const TOKEN_BUFFER_MS = 1000 * 60 * 60 * 4;
 
 export function hasValidSession(): boolean {
-  const address = wallet.getAccount();
+  const address = wallet.getConnection();
   const session = getSession(address as string);
 
   if (session) {

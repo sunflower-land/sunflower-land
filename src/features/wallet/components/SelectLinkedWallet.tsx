@@ -1,5 +1,5 @@
 import React from "react";
-import { useAccount } from "wagmi";
+import { useConnection } from "wagmi";
 import { WalletWall } from "./WalletWall";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
@@ -39,7 +39,7 @@ const SelectLinkedWalletHeader: React.FC<{
 export const SelectLinkedWallet: React.FC<{
   linkedWallet: `0x${string}`;
 }> = ({ linkedWallet }) => {
-  const { address, connector } = useAccount();
+  const { address, connector } = useConnection();
 
   return (
     <WalletWall

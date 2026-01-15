@@ -589,7 +589,11 @@ export const DiscordNews: React.FC = () => {
           />
         </div>
         {selectedAnnouncement.images.map((image) => (
-          <img key={image.url} src={image.url} className="w-full mb-2" />
+          <img
+            key={image.url}
+            src={image.url}
+            className="mb-2 max-h-96 object-contain"
+          />
         ))}
       </div>
     );

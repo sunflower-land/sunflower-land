@@ -41,13 +41,6 @@ export async function sync({
     throw new Error(ERRORS.SYNC_SERVER_ERROR);
   }
 
-  // const newSessionId = await syncProgress({
-  //   ...transaction,
-  //   sender: wallet.getAccount(),
-  // });
-
-  // return { verified: true, sessionId: newSessionId };
-
   return {
     gameState: makeGame(transaction.farm),
   };

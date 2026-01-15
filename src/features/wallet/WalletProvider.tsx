@@ -80,7 +80,7 @@ type SupportedChain =
   | "ronin"
   | "saigon";
 
-const getAlchemyRpc = (chain: SupportedChain) => {
+const getAlchemyRpc = (chain: SupportedChain): string => {
   switch (chain) {
     case "polygon":
       return `https://polygon-mainnet.g.alchemy.com/v2/${CONFIG.ALCHEMY_KEY}`;
