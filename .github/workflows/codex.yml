@@ -1,7 +1,7 @@
 name: Perform a code review when a pull request is created.
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened]
 
 jobs:
   codex:
@@ -25,10 +25,9 @@ jobs:
 
       - name: Run Codex
         id: run_codex
-        uses: openai/codex-action@v1.4
+        uses: openai/codex-action@v1
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
-          model: gpt-5.1-codex-max
           prompt: |
             You are an experienced senior engineer reviewing a React, PhaserJS, and TypeScript codebase that uses **React Compiler** in production.
 
