@@ -173,7 +173,7 @@ export const ChestRewardsList: React.FC<{
 
   return (
     <div
-      className={`flex flex-col py-0.5 pr-1 text-xs ${isFirstInMultiList || isSubsequentInMultiList ? "" : "overflow-y-auto max-h-[400px] scrollable"}`}
+      className={`flex flex-col py-0.5 pr-1 text-xs ${isFirstInMultiList || isSubsequentInMultiList ? "" : "overflow-y-auto max-h-[350px] scrollable"}`}
     >
       {/* The condition hides the descriptions in subsequent lists */}
       {!isSubsequentInMultiList && (

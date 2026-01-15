@@ -2,30 +2,39 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { InnerPanel } from "components/ui/Panel";
 import React from "react";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
+import { Label } from "components/ui/Label";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const PetMaintenance: React.FC<{ onBack: () => void }> = ({
   onBack,
 }) => {
+  const { t } = useAppTranslation();
   return (
     <InnerPanel className="relative">
-      <img
-        src={SUNNYSIDE.icons.arrow_left}
-        onClick={onBack}
-        className="cursor-pointer w-6 h-6 absolute top-3 left-1"
-      />
-      <h2 className="text-center text-lg mb-1">{`Care & Maintenance`}</h2>
+      <div className="flex items-center gap-2">
+        <img
+          src={SUNNYSIDE.icons.arrow_left}
+          onClick={onBack}
+          style={{
+            width: `${PIXEL_SCALE * 11}px`,
+            cursor: "pointer",
+          }}
+        />
+        <Label type="default">{t("petGuide.care.title")}</Label>
+      </div>
       <NoticeboardItems
         items={[
           {
-            text: "Common pets become neglected after 3 days without feeding, NFT pets after 7 days. Cheering up a neglected pet costs 500 XP and resets the timer.",
+            text: t("petGuide.care.description"),
             icon: SUNNYSIDE.icons.sleeping,
           },
           {
-            text: "Pets nap 2 hours after their last pat. Tap them while they snooze to earn +10 XP and wake them for the next fetch window.",
+            text: t("petGuide.care.description2"),
             icon: SUNNYSIDE.icons.happy,
           },
           {
-            text: "NFT Pets: Only one of each NFT pet type can be active at a time. Extras must be swapped in. Inactive NFT pets can still become neglected.",
+            text: t("petGuide.care.description3"),
             icon: SUNNYSIDE.icons.lock,
           },
         ]}
