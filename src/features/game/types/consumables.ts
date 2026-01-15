@@ -171,7 +171,7 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
     },
     cookingSeconds: 0,
     building: "Fire Pit",
-    experience: 500,
+    experience: 1000,
   },
   "Mashed Potato": {
     name: "Mashed Potato",
@@ -369,7 +369,7 @@ export const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
     },
     cookingSeconds: 0,
     building: "Kitchen",
-    experience: 2000,
+    experience: 3000,
   },
   "Sunflower Crunch": {
     name: "Sunflower Crunch",
@@ -972,7 +972,7 @@ export const DELI_COOKABLES: Record<DeliCookableName, Cookable> = {
     },
     cookingSeconds: 0,
     building: "Deli",
-    experience: 5000,
+    experience: 8000,
   },
   "Crimstone Infused Fish Oil": {
     name: "Crimstone Infused Fish Oil",
@@ -983,7 +983,7 @@ export const DELI_COOKABLES: Record<DeliCookableName, Cookable> = {
     },
     cookingSeconds: 0,
     building: "Deli",
-    experience: 25000,
+    experience: 18000,
   },
 };
 
