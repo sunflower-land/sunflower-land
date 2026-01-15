@@ -69,7 +69,7 @@ export const NPCModals: React.FC<Props> = ({ id }) => {
     },
   ] = useActor(gameService);
 
-  const [npc, setNpc] = useState<NPCName>();
+  const [npc, setNpc] = useState<NPCName>("hammerin harry");
 
   useEffect(() => {
     npcModalManager.listen((npc) => {

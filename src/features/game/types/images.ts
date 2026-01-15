@@ -6810,4 +6810,12 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.crustaceans.horseshoeCrab,
     description: translate("description.horseshoeCrab"),
   },
+  "Paw Prints Raffle Ticket": {
+    image: prizeTicket,
+    description: "?",
+  },
+  "Crab Chapter Raffle Ticket": {
+    image: prizeTicket,
+    description: "?",
+  },
 };

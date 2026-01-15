@@ -64,6 +64,7 @@ export function makeGame(farm: any): GameState {
     farmActivity: farm.farmActivity ?? {},
     milestones: farm.milestones ?? {},
     airdrops: farm.airdrops,
+    raffle: farm.raffle,
     collectibles: farm.collectibles,
     warCollectionOffer: farm.warCollectionOffer,
     mysteryPrizes: farm.mysteryPrizes,
