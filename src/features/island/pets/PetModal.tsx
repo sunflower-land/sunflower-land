@@ -38,6 +38,8 @@ import xpIcon from "assets/icons/xp.png";
 import { Checkbox } from "components/ui/Checkbox";
 import { PetGuide, PetGuideButton } from "features/pets/petGuide/PetGuide";
 import { hasFeatureAccess } from "lib/flags";
+import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { capitalize } from "lib/utils/capitalize";
 
 interface Props {
   show: boolean;
@@ -159,7 +161,7 @@ export const PetModal: React.FC<Props> = ({
                 })}
               />
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col w-2/3">
               {/* Pet Type and Categories */}
               <div className="flex flex-wrap gap-1 mb-2">
                 <Label type="info" className="text-xs">
@@ -178,6 +180,15 @@ export const PetModal: React.FC<Props> = ({
                     {petCategory.tertiary}
                   </Label>
                 )}
+                {isNFTPet &&
+                  data.traits &&
+                  getObjectEntries(data.traits)
+                    .filter(([key]) => key !== "type")
+                    .map(([key, value]) => (
+                      <Label type="default" className="text-xs" key={key}>
+                        {`${value} ${key !== "aura" ? capitalize(key) : ""}`}
+                      </Label>
+                    ))}
               </div>
 
               {/* Level and Experience */}
