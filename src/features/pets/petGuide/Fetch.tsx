@@ -6,69 +6,30 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Label } from "components/ui/Label";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
-import {
-  FETCHES_BY_CATEGORY,
-  PetCategoryName,
-  PetResourceName,
-} from "features/game/types/pets";
+import { FETCHES_BY_CATEGORY, PetResourceName } from "features/game/types/pets";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-const SECONDARY_RESOURCES = Object.values(FETCHES_BY_CATEGORY);
+const SECONDARY_RESOURCES = getObjectEntries(FETCHES_BY_CATEGORY);
 
 export const Fetch: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const { t } = useAppTranslation();
   const [secondaryResource, setSecondaryResource] = useState<PetResourceName>(
-    SECONDARY_RESOURCES[0],
+    SECONDARY_RESOURCES[0][1],
   );
 
   useEffect(() => {
     const interval = setInterval(() => {
       setSecondaryResource((current) => {
-        const index = SECONDARY_RESOURCES.indexOf(current);
-        return SECONDARY_RESOURCES[(index + 1) % SECONDARY_RESOURCES.length];
+        const index = SECONDARY_RESOURCES.findIndex(
+          ([_key, value]) => value === current,
+        );
+        return SECONDARY_RESOURCES[(index + 1) % SECONDARY_RESOURCES.length][1];
       });
     }, 1000);
 
     return () => clearInterval(interval);
   }, []);
-
-  const categories: Record<
-    PetCategoryName,
-    {
-      fetchResource: PetResourceName;
-      icon: string;
-    }
-  > = {
-    Guardian: {
-      fetchResource: "Chewed Bone",
-      icon: ITEM_DETAILS["Chewed Bone"].image,
-    },
-    Hunter: {
-      fetchResource: "Ribbon",
-      icon: ITEM_DETAILS.Ribbon.image,
-    },
-    Voyager: {
-      fetchResource: "Ruffroot",
-      icon: ITEM_DETAILS.Ruffroot.image,
-    },
-    Beast: {
-      fetchResource: "Wild Grass",
-      icon: ITEM_DETAILS["Wild Grass"].image,
-    },
-    Moonkin: {
-      fetchResource: "Heart leaf",
-      icon: ITEM_DETAILS["Heart leaf"].image,
-    },
-    Snowkin: {
-      fetchResource: "Frost Pebble",
-      icon: ITEM_DETAILS["Frost Pebble"].image,
-    },
-    Forager: {
-      fetchResource: "Dewberry",
-      icon: ITEM_DETAILS.Dewberry.image,
-    },
-  };
 
   return (
     <InnerPanel className="relative overflow-y-auto max-h-[400px] scrollable gap-2">
@@ -113,8 +74,9 @@ export const Fetch: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       <div className="overflow-x-auto mt-2">
         <table className="w-full text-xs table-fixed border-collapse">
           <tbody>
-            {getObjectEntries(categories).map(
-              ([categoryName, category], index) => (
+            {SECONDARY_RESOURCES.map(([categoryName, fetchResource], index) => {
+              const image = ITEM_DETAILS[fetchResource].image;
+              return (
                 <tr
                   key={categoryName}
                   className={classNames("relative", {
@@ -129,16 +91,13 @@ export const Fetch: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                   </td>
                   <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
                     <div className="flex items-center gap-1">
-                      <img
-                        src={category.icon}
-                        className="w-6 h-6 object-contain"
-                      />
-                      <span>{category.fetchResource}</span>
+                      <img src={image} className="w-6 h-6 object-contain" />
+                      <span>{fetchResource}</span>
                     </div>
                   </td>
                 </tr>
-              ),
-            )}
+              );
+            })}
           </tbody>
         </table>
       </div>
