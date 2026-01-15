@@ -1,6 +1,6 @@
 import { Button } from "components/ui/Button";
 import { InnerPanel } from "components/ui/Panel";
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import { PetEgg } from "./PetEgg";
 import { Label } from "components/ui/Label";
 import { Feed } from "./Feed";
@@ -32,51 +32,48 @@ export const PetGuide: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
   const { t } = useAppTranslation();
   const [view, setView] = useState<PetGuideView>();
 
-  const guideContent = useMemo(
-    () => ({
-      "Pet Egg": {
-        translatedTitle: t("petGuide.petEgg.title"),
-        content: PetEgg,
-        image: ITEM_DETAILS["Pet Egg"].image,
-      },
-      Feed: {
-        translatedTitle: t("petGuide.feed.title"),
-        content: Feed,
-        image: foodIcon,
-      },
-      Fetch: {
-        translatedTitle: t("petGuide.fetch.title"),
-        content: Fetch,
-        image: ITEM_DETAILS.Acorn.image,
-      },
-      Care: {
-        translatedTitle: "Care",
-        content: PetMaintenance,
-        image: ITEM_DETAILS.Brush.image,
-      },
-      "Level Perks": {
-        translatedTitle: "Level Perks",
-        content: PetLevelsAndPerks,
-        image: SUNNYSIDE.icons.xpIcon,
-      },
-      Shrines: {
-        translatedTitle: "Shrines",
-        content: Shrines,
-        image: ITEM_DETAILS["Obsidian Shrine"].image,
-      },
-      Social: {
-        translatedTitle: "Social",
-        content: Social,
-        image: ITEM_DETAILS.Cheer.image,
-      },
-      "NFT Traits": {
-        translatedTitle: t("petGuide.nftTraits.title"),
-        content: NFTTraits,
-        image: petNFTEgg,
-      },
-    }),
-    [t],
-  );
+  const guideContent = {
+    "Pet Egg": {
+      translatedTitle: t("petGuide.petEgg.title"),
+      content: PetEgg,
+      image: ITEM_DETAILS["Pet Egg"].image,
+    },
+    Feed: {
+      translatedTitle: t("petGuide.feed.title"),
+      content: Feed,
+      image: foodIcon,
+    },
+    Fetch: {
+      translatedTitle: t("petGuide.fetch.title"),
+      content: Fetch,
+      image: ITEM_DETAILS.Acorn.image,
+    },
+    Care: {
+      translatedTitle: "Care",
+      content: PetMaintenance,
+      image: ITEM_DETAILS.Brush.image,
+    },
+    "Level Perks": {
+      translatedTitle: "Level Perks",
+      content: PetLevelsAndPerks,
+      image: SUNNYSIDE.icons.xpIcon,
+    },
+    Shrines: {
+      translatedTitle: "Shrines",
+      content: Shrines,
+      image: ITEM_DETAILS["Obsidian Shrine"].image,
+    },
+    Social: {
+      translatedTitle: "Social",
+      content: Social,
+      image: ITEM_DETAILS.Cheer.image,
+    },
+    "NFT Traits": {
+      translatedTitle: t("petGuide.nftTraits.title"),
+      content: NFTTraits,
+      image: petNFTEgg,
+    },
+  };
 
   const setToDefault = () => setView(undefined);
 
