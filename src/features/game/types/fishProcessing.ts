@@ -8,20 +8,22 @@ export const FISH_PROCESSING_TIME_SECONDS: Record<ProcessedFood, number> = {
   "Fish Flake": 1 * 60 * 60,
   "Fish Stick": 2 * 60 * 60,
   "Crab Stick": 4 * 60 * 60,
-  "Fish Oil": 8 * 60 * 60,
+  "Fish Oil": 16 * 60 * 60,
 };
 
 const BASE_PROCESSING_REQUIREMENTS: Record<ProcessedFood, Inventory> = {
   "Fish Flake": {
-    Anchovy: new Decimal(6),
+    Anchovy: new Decimal(4),
   },
   "Fish Stick": {
     "Red Snapper": new Decimal(6),
   },
   "Fish Oil": {
-    Tuna: new Decimal(6),
+    Tuna: new Decimal(8),
   },
-  "Crab Stick": {},
+  "Crab Stick": {
+    Crab: new Decimal(1),
+  },
 };
 
 const FISH_FLAKE_SEASONAL: Record<TemperateSeasonName, Inventory> = {
@@ -83,24 +85,24 @@ const FISH_OIL_SEASONAL: Record<TemperateSeasonName, Inventory> = {
 
 const CRAB_STICK_SEASONAL: Record<TemperateSeasonName, Inventory> = {
   spring: {
-    "Blue Crab": new Decimal(1),
-    "Hermit Crab": new Decimal(1),
-    "Sea Slug": new Decimal(1),
+    "Blue Crab": new Decimal(2),
+    "Hermit Crab": new Decimal(2),
+    "Sea Slug": new Decimal(2),
   },
   summer: {
-    Mussel: new Decimal(1),
-    Isopod: new Decimal(1),
-    "Sea Snail": new Decimal(1),
+    Mussel: new Decimal(2),
+    Isopod: new Decimal(2),
+    "Sea Snail": new Decimal(2),
   },
   autumn: {
-    Shrimp: new Decimal(1),
-    Lobster: new Decimal(1),
-    Barnacle: new Decimal(1),
+    Shrimp: new Decimal(2),
+    Lobster: new Decimal(2),
+    Barnacle: new Decimal(2),
   },
   winter: {
-    Oyster: new Decimal(1),
-    Isopod: new Decimal(1),
-    "Garden Eel": new Decimal(1),
+    Oyster: new Decimal(2),
+    Isopod: new Decimal(2),
+    "Garden Eel": new Decimal(2),
   },
 };
 
