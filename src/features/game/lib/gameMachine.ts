@@ -532,7 +532,7 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
           }
 
           const { gameState, data } = await postEffect({
-            farmId: Number(context.visitorId ?? context.farmId),
+            farmId: Number(context.farmId),
             effect,
             token: authToken ?? context.rawToken,
             transactionId: context.transactionId as string,
@@ -621,6 +621,10 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
         src: async (context: Context, event: PostEffectEvent) => {
           const { effect, authToken } = event;
 
+          if (!context.visitorState || !context.visitorId) {
+            throw new Error("Visitor state and/or visitor id are required");
+          }
+
           if (context.actions.length > 0) {
             await autosave({
               farmId: Number(context.visitorId),
@@ -630,7 +634,7 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
               fingerprint: context.fingerprint as string,
               deviceTrackerId: context.deviceTrackerId as string,
               transactionId: context.transactionId as string,
-              state: context.state,
+              state: context.visitorState,
             });
           }
 
@@ -639,7 +643,7 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
             effect,
             token: authToken ?? context.rawToken,
             transactionId: context.transactionId as string,
-            state: context.state,
+            state: context.visitorState,
           });
 
           if (event.effect.type === "farm.followed") {
