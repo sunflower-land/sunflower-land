@@ -1135,7 +1135,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Tunnel Mole": { width: 1, height: 1 },
   "Rocky the Mole": { width: 1, height: 1 },
   Nugget: { width: 1, height: 1 },
-  "Immortal Pear": { width: 2, height: 2 },
+  "Immortal Pear": { width: 2, height: 1 },
 
   // Market Items
   Scarecrow: { width: 2, height: 1 },
@@ -1185,15 +1185,9 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Lady Bug": { width: 1, height: 1 },
   "Squirrel Monkey": { width: 2, height: 2 },
   "Black Bearry": { width: 1, height: 1 },
-  "Iron Idol": { height: 2, width: 2 },
-  "Parasaur Skull": {
-    height: 2,
-    width: 2,
-  },
-  "Golden Bear Head": {
-    height: 2,
-    width: 2,
-  },
+  "Iron Idol": { height: 1, width: 2 },
+  "Parasaur Skull": { height: 1, width: 2 },
+  "Golden Bear Head": { height: 1, width: 2 },
 
   "Maneki Neko": { width: 1, height: 1 },
   "Collectible Bear": { width: 2, height: 2 },
@@ -1292,7 +1286,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Battle Fish": { width: 2, height: 1 },
   "Lemon Shark": { width: 2, height: 1 },
   "Longhorn Cowfish": { width: 2, height: 1 },
-  Poseidon: { width: 2, height: 2 },
+  Poseidon: { width: 2, height: 1 },
   "Kraken Tentacle": { width: 1, height: 1 },
 
   // Catch the Kraken SFTs
