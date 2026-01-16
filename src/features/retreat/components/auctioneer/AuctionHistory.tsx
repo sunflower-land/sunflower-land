@@ -7,7 +7,7 @@ import { Label } from "components/ui/Label";
 
 import { Loading } from "features/auth/components";
 import * as AuthProvider from "features/auth/lib/Provider";
-import { Context as GameContext, useGame } from "features/game/GameProvider";
+import { Context as GameContext } from "features/game/GameProvider";
 import { Auction, AuctionResults } from "features/game/lib/auctionMachine";
 import { getAuctionResults } from "features/game/actions/getAuctionResults";
 import { loadAuctions } from "./actions/loadAuctions";
@@ -360,7 +360,9 @@ export const AuctionHistory: React.FC = () => {
                   />
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm truncate">Raffle Results</p>
+                  <p className="text-sm truncate">
+                    {t("auction.raffle.results")}
+                  </p>
                   <p className="text-xxs">
                     {new Date(item.endAt).toLocaleString("en-AU", {
                       timeZoneName: "shortOffset",
@@ -373,7 +375,7 @@ export const AuctionHistory: React.FC = () => {
                     })}
                   </p>
                 </div>
-                <Label type="vibrant">Raffle</Label>
+                <Label type="vibrant">{t("auction.raffle")}</Label>
               </ButtonPanel>
             );
           })}

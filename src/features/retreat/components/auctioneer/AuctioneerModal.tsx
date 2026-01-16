@@ -23,7 +23,6 @@ import { RequiredReputation } from "features/island/hud/components/reputation/Re
 import choreIcon from "assets/icons/chores.webp";
 import { AuctioneerRaffle } from "./AuctioneerRaffle";
 import { hasFeatureAccess } from "lib/flags";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { getChapterRaffleTicket } from "features/game/types/chapters";
 
 interface Props {
