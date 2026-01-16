@@ -72,21 +72,20 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
     setShowRenewalModal(true);
   };
 
+  const shrineDimensions = PET_SHRINE_DIMENSIONS_STYLES["Obsidian Shrine"];
+
   if (hasExpired) {
     return (
       <>
         <div
           onClick={isVisiting ? undefined : handleRenewClick}
           className="absolute"
-          style={{
-            ...PET_SHRINE_DIMENSIONS_STYLES["Obsidian Shrine"],
-            bottom: 0,
-          }}
+          style={{ ...shrineDimensions, bottom: 0 }}
         >
           <img
             src={ITEM_DETAILS["Obsidian Shrine"].image}
             style={{
-              ...PET_SHRINE_DIMENSIONS_STYLES["Obsidian Shrine"],
+              ...shrineDimensions,
               bottom: 0,
               filter: "grayscale(100%)",
             }}
@@ -160,17 +159,11 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
           !hasReadyCrops && !hasAvailablePlots && setShowPopover(true)
         }
         onMouseLeave={() => setShowPopover(false)}
-        style={{
-          ...PET_SHRINE_DIMENSIONS_STYLES["Obsidian Shrine"],
-          bottom: 0,
-        }}
+        style={{ ...shrineDimensions, bottom: 0 }}
       >
         <img
           src={ITEM_DETAILS["Obsidian Shrine"].image}
-          style={{
-            ...PET_SHRINE_DIMENSIONS_STYLES["Obsidian Shrine"],
-            bottom: 0,
-          }}
+          style={{ ...shrineDimensions, bottom: 0 }}
           className="absolute cursor-pointer"
           alt={"Obsidian Shrine"}
         />
