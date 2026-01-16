@@ -30,6 +30,7 @@ import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
 import { useVisiting } from "lib/utils/visitUtils";
 import { RenewPetShrine } from "features/game/components/RenewPetShrine";
+import { PET_SHRINE_DIMENSIONS_STYLES } from "./PetShrine";
 
 export const ObsidianShrine: React.FC<CollectibleProps> = ({
   createdAt,
@@ -76,50 +77,53 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
       <>
         <div
           onClick={isVisiting ? undefined : handleRenewClick}
+          className="absolute"
           style={{
-            bottom: `${PIXEL_SCALE * 0}px`,
-            left: `${PIXEL_SCALE * -2.5}px`,
-            width: `${PIXEL_SCALE * 19}px`,
+            ...PET_SHRINE_DIMENSIONS_STYLES["Obsidian Shrine"],
+            bottom: 0,
           }}
         >
-          {showTimers && (
-            <div
-              className="absolute bottom-0 left-1/2 -translate-x-1/2"
-              style={{
-                width: `${PIXEL_SCALE * 14}px`,
-              }}
-            >
-              <ProgressBar
-                seconds={secondsToExpire}
-                formatLength="medium"
-                type="error"
-                percentage={percentage}
-              />
-            </div>
-          )}
           <img
             src={ITEM_DETAILS["Obsidian Shrine"].image}
             style={{
-              width: `${PIXEL_SCALE * 19}px`,
+              ...PET_SHRINE_DIMENSIONS_STYLES["Obsidian Shrine"],
+              bottom: 0,
               filter: "grayscale(100%)",
             }}
             className="absolute cursor-pointer"
             alt={"Obsidian Shrine"}
           />
+        </div>
+        {showTimers && (
           <div
-            className="flex justify-center absolute w-full pointer-events-none z-30"
+            className="absolute left-1/2"
             style={{
-              top: `${PIXEL_SCALE * -12}px`,
+              width: `${PIXEL_SCALE * 15}px`,
+              transform: "translateX(-50%)",
+              bottom: `${PIXEL_SCALE * -3}px`,
             }}
           >
-            <img
-              src={SUNNYSIDE.icons.expression_alerted}
-              className={showAnimations ? "ready" : ""}
-              style={{
-                width: `${PIXEL_SCALE * 4}px`,
-              }}
+            <ProgressBar
+              seconds={secondsToExpire}
+              formatLength="medium"
+              type="error"
+              percentage={percentage}
             />
           </div>
+        )}
+        <div
+          className="flex justify-center absolute w-full pointer-events-none z-30"
+          style={{
+            top: `${PIXEL_SCALE * -20}px`,
+          }}
+        >
+          <img
+            src={SUNNYSIDE.icons.expression_alerted}
+            className={showAnimations ? "ready" : ""}
+            style={{
+              width: `${PIXEL_SCALE * 4}px`,
+            }}
+          />
         </div>
         <RenewPetShrine
           show={showRenewalModal}
@@ -157,22 +161,27 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
         }
         onMouseLeave={() => setShowPopover(false)}
         style={{
-          bottom: `${PIXEL_SCALE * 0}px`,
-          left: `${PIXEL_SCALE * -2.5}px`,
-          width: `${PIXEL_SCALE * 19}px`,
+          ...PET_SHRINE_DIMENSIONS_STYLES["Obsidian Shrine"],
+          bottom: 0,
         }}
       >
         <img
           src={ITEM_DETAILS["Obsidian Shrine"].image}
           style={{
-            width: `${PIXEL_SCALE * 19}px`,
+            ...PET_SHRINE_DIMENSIONS_STYLES["Obsidian Shrine"],
+            bottom: 0,
           }}
+          className="absolute cursor-pointer"
           alt={"Obsidian Shrine"}
         />
         {showTimers && (
           <div
-            className="absolute bottom-0 left-1/2 -translate-x-1/2"
-            style={{ width: `${PIXEL_SCALE * 14}px` }}
+            className="absolute left-1/2"
+            style={{
+              width: `${PIXEL_SCALE * 15}px`,
+              transform: "translateX(-50%)",
+              bottom: `${PIXEL_SCALE * -3}px`,
+            }}
           >
             <ProgressBar
               seconds={secondsToExpire}
