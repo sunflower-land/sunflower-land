@@ -115,7 +115,6 @@ const FEATURE_FLAGS = {
 
   PET_HOUSE: testnetFeatureFlag,
 
-  RENEW_PET_SHRINES: defaultFeatureFlag,
   FISHING_PUZZLE: defaultFeatureFlag,
   MEMORY_BETA: defaultFeatureFlag,
   CRUSTACEANS: defaultFeatureFlag,
