@@ -22,39 +22,11 @@ export const RaffleLeaderboardTable: React.FC<Props> = ({
   const { t } = useAppTranslation();
 
   if (!winners?.length) {
-    return <p className="text-xxs">Results are being calculated.</p>;
+    return <p className="text-xxs">{t("auction.raffle.resultsPending")}</p>;
   }
 
   return (
     <table className="w-full text-xs table-fixed border-collapse">
-      <thead>
-        <tr>
-          <th
-            style={{ border: "1px solid #b96f50", textAlign: "left" }}
-            className="p-1.5 w-1/6"
-          >
-            <p>{t("rank")}</p>
-          </th>
-          <th
-            style={{ border: "1px solid #b96f50", textAlign: "left" }}
-            className="p-1.5"
-          >
-            <p>{t("player")}</p>
-          </th>
-          <th
-            style={{ border: "1px solid #b96f50", textAlign: "left" }}
-            className="p-1.5 w-1/6"
-          >
-            <p>Level</p>
-          </th>
-          <th
-            style={{ border: "1px solid #b96f50", textAlign: "left" }}
-            className="p-1.5 w-2/5"
-          >
-            <p>{t("reward")}</p>
-          </th>
-        </tr>
-      </thead>
       <tbody>
         {winners.map((winner) => {
           const name = winner.profile?.username ?? `#${winner.farmId}`;
@@ -67,7 +39,10 @@ export const RaffleLeaderboardTable: React.FC<Props> = ({
                 "bg-green-500": winner.farmId === farmId,
               })}
             >
-              <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
+              <td
+                style={{ border: "1px solid #b96f50" }}
+                className="p-1.5 pb-2 w-10"
+              >
                 {toOrdinalSuffix(winner.position)}
               </td>
               <td
@@ -75,15 +50,28 @@ export const RaffleLeaderboardTable: React.FC<Props> = ({
                 className="p-1.5 text-left pl-8 relative truncate"
               >
                 {winner.profile?.equipped && (
-                  <div className="absolute" style={{ left: "4px", top: "1px" }}>
+                  <div
+                    className="absolute"
+                    style={{ left: "4px", top: "-1px" }}
+                  >
                     <NPCIcon width={24} parts={winner.profile.equipped} />
                   </div>
                 )}
-                {name}
+                <div className="relative">
+                  <div>{name}</div>
+                  <div
+                    className="text-xxs absolute "
+                    style={{
+                      fontSize: "14px",
+                      bottom: "-10px",
+                      left: "-26px",
+                    }}
+                  >
+                    {t("auction.raffle.levelShort", { level })}
+                  </div>
+                </div>
               </td>
-              <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
-                {level}
-              </td>
+
               <td
                 style={{ border: "1px solid #b96f50" }}
                 className="p-1.5 w-2/5"

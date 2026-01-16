@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import useSWR from "swr";
 import Decimal from "decimal.js-light";
 import { useActor } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import flowerToken from "assets/icons/flower_token.webp";
 import petEggNFT from "assets/icons/pet_nft_egg.png";
 import { Button } from "components/ui/Button";
 import { ButtonPanel } from "components/ui/Panel";
@@ -23,7 +22,7 @@ import { randomID } from "lib/utils/random";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
 import { loadRaffles } from "./actions/loadRaffles";
-import { RaffleDefinition, RafflePrize } from "./types";
+import { RaffleDefinition } from "./types";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "lib/utils/getImageURLS";
@@ -31,11 +30,7 @@ import { getKeys } from "features/game/types/craftables";
 import { toOrdinalSuffix } from "./AuctionLeaderboardTable";
 import { Box } from "components/ui/Box";
 import { RaffleHistory } from "./AuctionRaffleHistory";
-import {
-  Inventory,
-  InventoryItemName,
-  Wardrobe,
-} from "features/game/types/game";
+import { InventoryItemName, Wardrobe } from "features/game/types/game";
 import { PetNFTName } from "features/game/types/pets";
 
 export const AuctioneerRaffle: React.FC = () => {
@@ -105,7 +100,7 @@ export const AuctioneerRaffle: React.FC = () => {
   if (!upcomingRaffles.length) {
     return (
       <div className="p-2">
-        <p className="text-sm">More raffles coming on Chapter launch</p>
+        <p className="text-xs">{t("auction.raffle.moreComing")}</p>
       </div>
     );
   }
@@ -163,7 +158,7 @@ export const AuctioneerRaffle: React.FC = () => {
     }
 
     return {
-      name: "Raffle Prize",
+      name: t("auction.raffle.prizeFallback"),
       image: SUNNYSIDE.icons.expression_confused,
       type: "item" as const,
     };
@@ -183,10 +178,10 @@ export const AuctioneerRaffle: React.FC = () => {
   if (selectedRaffle && showConfirmation) {
     return (
       <>
-        <Label type="danger">Are you sure?</Label>
+        <Label type="danger">{t("auction.raffle.confirmation.title")}</Label>
         <div className="p-1">
           <p className="text-xs m-1">
-            Winner are chosen at random and tickets are non-refundable.
+            {t("auction.raffle.confirmation.description")}
           </p>
           {ticketAmount.gte(1) && (
             <div className="flex items-center mb-1 px-2">
@@ -195,7 +190,7 @@ export const AuctioneerRaffle: React.FC = () => {
                 className="h-4 mr-1"
               />
               <p className="text-xs ml-1">
-                {ticketAmount.toNumber()} x {getChapterTicket(now)}
+                {`${ticketAmount.toNumber()} x ${getChapterTicket(now)}`}
               </p>
             </div>
           )}
@@ -207,13 +202,13 @@ export const AuctioneerRaffle: React.FC = () => {
                 className="h-4 mr-1"
               />
               <p className="text-xs ml-1">
-                {raffleTicketAmount.toNumber()} x {getChapterRaffleTicket(now)}
+                {`${raffleTicketAmount.toNumber()} x ${getChapterRaffleTicket(now)}`}
               </p>
             </div>
           )}
         </div>
         <div className="flex items-center">
-          <Button onClick={() => setShowConfirmation(false)}>No</Button>
+          <Button onClick={() => setShowConfirmation(false)}>{t("no")}</Button>
           <Button
             className="ml-1"
             onClick={() => {
@@ -232,7 +227,7 @@ export const AuctioneerRaffle: React.FC = () => {
               setRaffleTicketAmount(new Decimal(0));
             }}
           >
-            Yes
+            {t("yes")}
           </Button>
         </div>
       </>
@@ -253,12 +248,10 @@ export const AuctioneerRaffle: React.FC = () => {
     return (
       <>
         <Label className="mb-2" type="info">
-          Raffle - ${selectedRaffle.id}
+          {t("auction.raffle.labelWithId", { id: selectedRaffle.id })}
         </Label>
 
-        <p className="text-xs mx-1 mb-2">
-          You can use Chapter Tickets and Raffle Tickets.
-        </p>
+        <p className="text-xs mx-1 mb-2">{t("auction.raffle.entryInfo")}</p>
 
         <div className="flex items-center mb-2">
           <Box
@@ -282,12 +275,19 @@ export const AuctioneerRaffle: React.FC = () => {
             </div>
 
             {isMissingChapterTickets ? (
-              <Label type="danger">You don't have enough {chapterTicket}</Label>
+              <Label type="danger">
+                {t("auction.raffle.missingChapterTicket", {
+                  ticket: chapterTicket,
+                })}
+              </Label>
             ) : (
               <div className="flex">
                 <p className="text-xs ml-1">
-                  {Math.max(ticketAmount.toNumber(), 1)} {chapterTicket} ={" "}
-                  {Math.max(ticketAmount.mul(10).toNumber(), 10)} entries
+                  {t("auction.raffle.chapterEntryInfo", {
+                    count: Math.max(ticketAmount.toNumber(), 1),
+                    ticket: chapterTicket,
+                    entries: Math.max(ticketAmount.mul(10).toNumber(), 10),
+                  })}
                 </p>
               </div>
             )}
@@ -316,12 +316,16 @@ export const AuctioneerRaffle: React.FC = () => {
             </div>
 
             {isMissingRaffleTickets ? (
-              <Label type="danger">You don't have enough Raffle Tickets</Label>
+              <Label type="danger">
+                {t("auction.raffle.missingRaffleTickets")}
+              </Label>
             ) : (
               <div className="flex">
                 <p className="text-xs ml-1">
-                  {Math.max(raffleTicketAmount.toNumber(), 1)} Raffle Ticket ={" "}
-                  {Math.max(raffleTicketAmount.mul(1).toNumber(), 1)} entries
+                  {t("auction.raffle.raffleEntryInfo", {
+                    count: Math.max(raffleTicketAmount.toNumber(), 1),
+                    entries: Math.max(raffleTicketAmount.mul(1).toNumber(), 1),
+                  })}
                 </p>
               </div>
             )}
@@ -336,7 +340,7 @@ export const AuctioneerRaffle: React.FC = () => {
             setShowConfirmation(true);
           }}
         >
-          Enter Raffle
+          {t("auction.raffle.enterAction")}
         </Button>
       </>
     );
@@ -350,11 +354,12 @@ export const AuctioneerRaffle: React.FC = () => {
     const isActiveRaffle =
       selectedRaffle.endAt > now && selectedRaffle.startAt < now;
 
-    const hasAnotherRaffle = game.raffle?.id !== selectedRaffle.id;
+    const hasAnotherRaffle =
+      game.raffle && game.raffle?.id !== selectedRaffle.id;
 
-    let items: Partial<Record<InventoryItemName, number>> = {};
-    let wearables: Wardrobe = {};
-    let nfts: PetNFTName[] = [];
+    const items: Partial<Record<InventoryItemName, number>> = {};
+    const wearables: Wardrobe = {};
+    const nfts: PetNFTName[] = [];
     getKeys(selectedRaffle.prizes).forEach((position) => {
       const prize = selectedRaffle.prizes[position];
 
@@ -380,7 +385,7 @@ export const AuctioneerRaffle: React.FC = () => {
             className="h-6 cursor-pointer"
             onClick={() => setSelectedRaffleId(undefined)}
           />
-          <Label type="default">Raffle Details</Label>
+          <Label type="default">{t("auction.raffle.details")}</Label>
         </div>
 
         <div className="flex items-center justify-between mb-3">
@@ -404,44 +409,62 @@ export const AuctioneerRaffle: React.FC = () => {
 
         <div className="mb-2">
           <Label type="default" className="mb-1">
-            Prizes
+            {t("auction.raffle.prizes")}
           </Label>
-          <div className="flex flex-wrap gap-1 text-xs">
+          <p className="text-xs mb-2">
+            {t("auction.raffle.prizePool", {
+              count: Object.keys(selectedRaffle.prizes).length,
+            })}
+          </p>
+          <div className="flex flex-col flex-wrap gap-x-3 text-xs">
             {nfts.map((nft) => (
               <div key={nft} className="flex items-center">
-                <img src={petEggNFT} className="h-4 mr-1" />
+                <img src={petEggNFT} className="w-4 mr-1" />
                 <span className="text-xs">{nft}</span>
               </div>
             ))}
             {getKeys(items).map((item) => (
               <div key={item} className="flex items-center">
-                <img src={ITEM_DETAILS[item].image} className="h-4 mr-1" />
-                <span className="text-xs">{items[item]}</span>
+                <img src={ITEM_DETAILS[item].image} className="w-4 mr-1" />
+                <span className="text-xs">{`${items[item]} x ${item}`}</span>
               </div>
             ))}
             {getKeys(wearables).map((wearable) => (
               <div key={wearable} className="flex items-center">
                 <img
                   src={getImageUrl(ITEM_IDS[wearable])}
-                  className="h-4 mr-1"
+                  className="w-4 mr-1"
                 />
-                <span className="text-xs">{wearables[wearable]}</span>
+                <span className="text-xs">
+                  {`${wearables[wearable]} x ${wearable}`}
+                </span>
               </div>
             ))}
           </div>
         </div>
 
-        {isActiveRaffle && !hasAnotherRaffle && (
+        {isActiveRaffle && (
           <>
             <div className="flex items-center justify-between mt-4 my-2">
               <Label type={raffleEntries > 0 ? "success" : "formula"}>
-                Your Entries
+                {t("auction.raffle.entriesLabel")}
               </Label>
               <span className="text-sm">{raffleEntries}</span>
             </div>
 
-            <Button onClick={() => setShowEntry(true)}>
-              {raffleEntries ? "Add more" : "Enter"}
+            {hasAnotherRaffle && (
+              <p className="text-xxs italic">
+                {t("auction.raffle.alreadyEntered", {
+                  id: game.raffle!.id,
+                })}
+              </p>
+            )}
+
+            <Button
+              disabled={hasAnotherRaffle}
+              onClick={() => setShowEntry(true)}
+            >
+              {raffleEntries ? t("auction.raffle.addMore") : t("raffle.enter")}
             </Button>
           </>
         )}
