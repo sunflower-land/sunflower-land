@@ -11,6 +11,7 @@ import { randomID } from "lib/utils/random";
 import { loadRaffleResults, RaffleResults } from "./actions/loadRaffleResults";
 import { RaffleLeaderboardTable } from "./RaffleLeaderboardTable";
 import { Button } from "components/ui/Button";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const raffleResultsFetcher = async ([, raffleId, token]: [
   string,
@@ -28,6 +29,7 @@ export const RaffleHistory: React.FC<{ id: string; onClose?: () => void }> = ({
   id,
   onClose,
 }) => {
+  const { t } = useAppTranslation();
   const { authState } = AuthProvider.useAuth();
   const { gameState, gameService } = useGame();
   const token = authState.context.user.rawToken as string | undefined;
@@ -65,7 +67,7 @@ export const RaffleHistory: React.FC<{ id: string; onClose?: () => void }> = ({
   if (selectedRaffleResults?.status === "pending") {
     return (
       <div>
-        <p className="text-xxs">Results are being calculated</p>
+        <p className="text-xxs">{t("auction.raffle.resultsPending")}</p>
       </div>
     );
   }
@@ -82,8 +84,16 @@ export const RaffleHistory: React.FC<{ id: string; onClose?: () => void }> = ({
             />
           )}
 
-          <Label type="default">Raffle Results</Label>
+          <Label
+            type={canClaim ? "success" : canDismiss ? "danger" : "default"}
+          >
+            {t("auction.raffle.resultsTitle")}
+          </Label>
         </div>
+
+        {canClaim && <p className="text-xxs">{t("auction.raffle.win")}</p>}
+
+        {canDismiss && <p className="text-xxs">{t("auction.raffle.lose")}</p>}
 
         <div className="flex flex-col gap-1">
           <RaffleLeaderboardTable
@@ -100,7 +110,7 @@ export const RaffleHistory: React.FC<{ id: string; onClose?: () => void }> = ({
             }}
             className="cursor-pointer"
           >
-            Claim
+            {t("auction.raffle.claim")}
           </Button>
         )}
 
@@ -112,7 +122,7 @@ export const RaffleHistory: React.FC<{ id: string; onClose?: () => void }> = ({
             }}
             className="cursor-pointer"
           >
-            Continue
+            {t("auction.raffle.continue")}
           </Button>
         )}
       </div>
