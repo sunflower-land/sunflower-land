@@ -11,6 +11,7 @@ export const ERRORS = {
   BLOCKED: "BLOCKED",
   NETWORK_CONGESTED: "NETWORK_CONGESTED",
   WITHDRAW_DUPLICATE: "WITHDRAW_DUPLICATE",
+  RAFFLE_RESULTS_SERVER_ERROR: "RAFFLE_RESULTS_SERVER_ERROR",
 
   // Blockchain session has changed - they are doing something sneaky refreshing the browser
   SESSION_EXPIRED: "SESSION_EXPIRED",

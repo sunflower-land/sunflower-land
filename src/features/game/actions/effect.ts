@@ -52,6 +52,8 @@ type EffectName =
   | "auction.claimed"
   | "auction.bidPlaced"
   | "auction.bidCancelled"
+  | "auctionRaffle.entered"
+  | "auctionRaffle.claimed"
   | "marketplace.buyBulkResources"
   | "leagues.updated"
   | "liquidity.registered"
@@ -114,6 +116,8 @@ export type StateMachineStateName =
   | "wakingPet"
   | "auctionBidding"
   | "auctionCancelling"
+  | "enteringAuctionRaffle"
+  | "claimingAuctionRaffle"
   | "marketplaceBuyingBulkResources"
   | "updatingLeagues"
   | "generatingAppInstall"
@@ -171,6 +175,8 @@ export const STATE_MACHINE_EFFECTS: Record<
   "pet.wakeUp": "wakingPet",
   "auction.bidPlaced": "auctionBidding",
   "auction.bidCancelled": "auctionCancelling",
+  "auctionRaffle.entered": "enteringAuctionRaffle",
+  "auctionRaffle.claimed": "claimingAuctionRaffle",
   "marketplace.buyBulkResources": "marketplaceBuyingBulkResources",
   "leagues.updated": "updatingLeagues",
   "appInstall.generate": "generatingAppInstall",
