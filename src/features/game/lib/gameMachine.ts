@@ -109,6 +109,7 @@ import { depositSFL } from "lib/blockchain/DepositSFL";
 import { hasFeatureAccess } from "lib/flags";
 import { isDailyRewardReady } from "../events/landExpansion/claimDailyReward";
 import { getDailyRewardLastAcknowledged } from "../components/DailyReward";
+import { LanguageCode } from "lib/i18n/dictionaries/language";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -941,11 +942,14 @@ export function startGame(authContext: AuthContext) {
               const fingerprint = "X";
 
               const { connector } = getConnection(config);
+              const language: LanguageCode =
+                (localStorage.getItem("language") as LanguageCode) || "en";
 
               const response = await loadSession({
                 token: authContext.user.rawToken as string,
                 transactionId: context.transactionId as string,
                 wallet: connector?.name,
+                language,
               });
 
               // If no farm go no farms route
