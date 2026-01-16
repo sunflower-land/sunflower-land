@@ -80,14 +80,9 @@ export const StreamReward: React.FC<{ streamerId: number }> = ({
     }),
   );
 
-  const cooldownEndsAt =
-    streamHatLastClaimed > 0
-      ? streamHatLastClaimed + STREAM_REWARD_COOLDOWN
-      : undefined;
   const now = useNow({
-    live: cooldownEndsAt !== undefined,
-    autoEndAt: cooldownEndsAt,
-    intervalMs: 1000,
+    live: true,
+    intervalMs: 60000,
   });
 
   const timeToNextClaim =
