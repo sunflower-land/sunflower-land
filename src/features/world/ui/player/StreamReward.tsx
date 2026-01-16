@@ -94,7 +94,20 @@ export const StreamReward: React.FC<{ streamerId: number }> = ({
     streamHatLastClaimed === 0
       ? 0
       : Math.max(0, STREAM_REWARD_COOLDOWN - (now - streamHatLastClaimed));
-  const hasReachedLimit = (dailyCount ?? 0) >= 10;
+
+  // Check if it's a new day compared to when the last claim was made
+  const startOfCurrentDay = new Date(now);
+  startOfCurrentDay.setUTCHours(0, 0, 0, 0);
+  const currentDayStart = startOfCurrentDay.getTime();
+
+  const startOfLastClaimDay = new Date(streamHatLastClaimed);
+  startOfLastClaimDay.setUTCHours(0, 0, 0, 0);
+  const lastClaimDayStart = startOfLastClaimDay.getTime();
+
+  const isNewDay = currentDayStart !== lastClaimDayStart;
+
+  // Only check the limit if it's not a new day (count resets on new day)
+  const hasReachedLimit = !isNewDay && (dailyCount ?? 0) >= 10;
 
   const claimReward = () => {
     gameService.send("streamReward.claimed", {
@@ -107,7 +120,7 @@ export const StreamReward: React.FC<{ streamerId: number }> = ({
 
   const rewardHeaderProps: RewardHeaderProps = {
     timeToNextClaim,
-    dailyCount,
+    dailyCount: isNewDay ? 0 : dailyCount,
     hasReachedLimit,
   };
 
