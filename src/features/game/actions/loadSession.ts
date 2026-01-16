@@ -7,11 +7,13 @@ import { GameState, Purchase } from "../types/game";
 import { Announcements } from "../types/announcements";
 import { getSignupMethod } from "features/auth/actions/createAccount";
 import { Moderation } from "../lib/gameMachine";
+import { LanguageCode } from "lib/i18n/dictionaries/language";
 
 type Request = {
   token: string;
   transactionId: string;
   wallet?: string;
+  language?: LanguageCode;
 };
 
 type Response = {
@@ -71,6 +73,7 @@ export async function loadSession(
       signUpMethod,
       timezone,
       wallet: request.wallet,
+      language: request.language ?? "en",
     }),
   });
 
