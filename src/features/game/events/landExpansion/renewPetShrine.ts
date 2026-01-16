@@ -6,7 +6,6 @@ import { GameState } from "features/game/types/game";
 import { PetShrineName } from "features/game/types/pets";
 import { PET_SHOP_ITEMS } from "features/game/types/petShop";
 import { produce } from "immer";
-import { hasFeatureAccess } from "lib/flags";
 
 export type RenewPetShrineAction = {
   type: "petShrine.renewed";
@@ -26,10 +25,6 @@ export function renewPetShrine({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  if (!hasFeatureAccess(state, "RENEW_PET_SHRINES")) {
-    throw new Error("You do not have access to renew pet shrines");
-  }
-
   return produce(state, (stateCopy) => {
     const collectibleGroup =
       action.location === "home"

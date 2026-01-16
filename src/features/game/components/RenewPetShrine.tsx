@@ -1,7 +1,6 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { IngredientsPopover } from "components/ui/IngredientsPopover";
 import { Modal } from "components/ui/Modal";
-import { Panel } from "components/ui/Panel";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
 import React, { useContext, useState } from "react";
@@ -19,6 +18,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { COLLECTIBLE_BUFF_LABELS } from "../types/collectibleItemBuffs";
 import { EXPIRY_COOLDOWNS } from "../lib/collectibleBuilt";
 import { secondsToString } from "lib/utils/time";
+import { CloseButtonPanel } from "./CloseablePanel";
 
 type Props = {
   show: boolean;
@@ -53,9 +53,8 @@ export const RenewPetShrine: React.FC<Props> = ({
 
   return (
     <Modal show={show} onHide={onHide}>
-      <Panel>
+      <CloseButtonPanel onClose={onHide}>
         <RenewPetShrineContent
-          onHide={onHide}
           handleRenew={handleRenew}
           name={name}
           inventory={inventory}
@@ -63,28 +62,19 @@ export const RenewPetShrine: React.FC<Props> = ({
           skills={skills}
           collectibles={collectibles}
         />
-      </Panel>
+      </CloseButtonPanel>
     </Modal>
   );
 };
 
 const RenewPetShrineContent: React.FC<{
-  onHide: () => void;
   handleRenew: () => void;
   name: PetShrineName | "Obsidian Shrine";
   inventory: Inventory;
   coinBalance: number;
   skills: Skills;
   collectibles: Collectibles;
-}> = ({
-  onHide,
-  handleRenew,
-  name,
-  inventory,
-  coinBalance,
-  skills,
-  collectibles,
-}) => {
+}> = ({ handleRenew, name, inventory, coinBalance, skills, collectibles }) => {
   const { t } = useAppTranslation();
   const [showIngredients, setShowIngredients] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -207,7 +197,6 @@ const RenewPetShrineContent: React.FC<{
           >
             {t("renew")}
           </Button>
-          <Button onClick={onHide}>{t("close")}</Button>
         </div>
       )}
     </>

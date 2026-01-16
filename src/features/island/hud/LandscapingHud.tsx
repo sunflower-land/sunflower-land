@@ -42,7 +42,6 @@ import { CraftDecorationsModal } from "./components/decorations/CraftDecorations
 import { RemoveAllConfirmation } from "../collectibles/RemoveAllConfirmation";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { useNow } from "lib/utils/hooks/useNow";
-import { hasFeatureAccess } from "lib/flags";
 import { PET_SHRINES } from "features/game/types/pets";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
@@ -107,14 +106,10 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
     gameService,
     getSelectedCollectible(selectedItem?.name, selectedItem?.id, location),
   );
-  const hasRenewAccess = useSelector(gameService, (state) =>
-    hasFeatureAccess(state.context.state, "RENEW_PET_SHRINES"),
-  );
 
   const removeAction = getRemoveAction(
     selectedItem?.name,
     now,
-    hasRenewAccess,
     selectedCollectible,
   );
 

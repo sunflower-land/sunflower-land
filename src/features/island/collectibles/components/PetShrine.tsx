@@ -21,11 +21,9 @@ import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { RenewPetShrine } from "features/game/components/RenewPetShrine";
 import { useVisiting } from "lib/utils/visitUtils";
-import { useSelector } from "@xstate/react";
-import { hasFeatureAccess } from "lib/flags";
 
 const PET_SHRINE_DIMENSIONS: Record<
-  PetShrineName,
+  PetShrineName | "Obsidian Shrine",
   {
     left?: number;
     right?: number;
@@ -52,11 +50,12 @@ const PET_SHRINE_DIMENSIONS: Record<
   // Sprites not out yet
   "Trading Shrine": { width: 22, left: -1.5 },
   "Legendary Shrine": { width: 32, left: 0 },
+  "Obsidian Shrine": { width: 19, left: -1.25 },
 };
 
-const PET_SHRINE_DIMENSIONS_STYLES = getObjectEntries(
+export const PET_SHRINE_DIMENSIONS_STYLES = getObjectEntries(
   PET_SHRINE_DIMENSIONS,
-).reduce<Record<PetShrineName, React.CSSProperties>>(
+).reduce<Record<PetShrineName | "Obsidian Shrine", React.CSSProperties>>(
   (acc, [pet, styles]) => {
     acc[pet] = {
       left: styles.left ? `${PIXEL_SCALE * styles.left}px` : undefined,
@@ -72,16 +71,12 @@ const PET_SHRINE_DIMENSIONS_STYLES = getObjectEntries(
 );
 
 export const PetShrine: React.FC<
-  CollectibleProps & { name: PetShrineName }
+  CollectibleProps & { name: PetShrineName | "Obsidian Shrine" }
 > = ({ createdAt, id, location, name }) => {
   const { t } = useAppTranslation();
-  const { gameService, showTimers } = useContext(Context);
+  const { showTimers, showAnimations } = useContext(Context);
   const [showRenewalModal, setShowRenewalModal] = useState(false);
   const { isVisiting } = useVisiting();
-
-  const hasAccess = useSelector(gameService, (state) =>
-    hasFeatureAccess(state.context.state, "RENEW_PET_SHRINES"),
-  );
 
   const expiresAt = createdAt + (EXPIRY_COOLDOWNS[name] ?? 0);
 
@@ -93,52 +88,55 @@ export const PetShrine: React.FC<
   const handleRenewClick = () => {
     setShowRenewalModal(true);
   };
-  const handleRemove = () => {
-    gameService.send("collectible.burned", { name, location, id });
-  };
 
   if (hasExpired) {
     return (
       <>
         <div
-          onClick={
-            isVisiting ? undefined : hasAccess ? handleRenewClick : handleRemove
-          }
+          onClick={isVisiting ? undefined : handleRenewClick}
           className="absolute"
           style={{ ...PET_SHRINE_DIMENSIONS_STYLES[name], bottom: 0 }}
         >
-          {showTimers && (
-            <div
-              className="absolute left-1/2"
-              style={{
-                width: `${PIXEL_SCALE * 15}px`,
-                transform: "translateX(-50%)",
-              }}
-            >
-              <ProgressBar
-                seconds={secondsToExpire}
-                formatLength="medium"
-                type="error"
-                percentage={percentage}
-              />
-            </div>
-          )}
-
-          <img
-            className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
-            src={SUNNYSIDE.icons.dig_icon}
-            style={{
-              width: `${PIXEL_SCALE * 18}px`,
-              right: `${PIXEL_SCALE * -8}px`,
-              top: `${PIXEL_SCALE * -8}px`,
-            }}
-          />
-
           <img
             src={ITEM_DETAILS[name].image}
-            style={{ ...PET_SHRINE_DIMENSIONS_STYLES[name], bottom: 0 }}
+            style={{
+              ...PET_SHRINE_DIMENSIONS_STYLES[name],
+              bottom: 0,
+              filter: "grayscale(100%)",
+            }}
             className="absolute cursor-pointer"
             alt={name}
+          />
+        </div>
+        {showTimers && (
+          <div
+            className="absolute left-1/2"
+            style={{
+              width: `${PIXEL_SCALE * 15}px`,
+              transform: "translateX(-50%)",
+              bottom: `${PIXEL_SCALE * -3}px`,
+            }}
+          >
+            <ProgressBar
+              seconds={secondsToExpire}
+              formatLength="medium"
+              type="error"
+              percentage={percentage}
+            />
+          </div>
+        )}
+        <div
+          className="flex justify-center absolute w-full pointer-events-none z-30"
+          style={{
+            top: `${PIXEL_SCALE * -20}px`,
+          }}
+        >
+          <img
+            src={SUNNYSIDE.icons.expression_alerted}
+            className={showAnimations ? "ready" : ""}
+            style={{
+              width: `${PIXEL_SCALE * 4}px`,
+            }}
           />
         </div>
         <RenewPetShrine
@@ -159,23 +157,6 @@ export const PetShrine: React.FC<
           className="absolute"
           style={{ ...PET_SHRINE_DIMENSIONS_STYLES[name], bottom: 0 }}
         >
-          {showTimers && (
-            <div
-              className="absolute left-1/2"
-              style={{
-                width: `${PIXEL_SCALE * 15}px`,
-                transform: "translateX(-50%)",
-              }}
-            >
-              <ProgressBar
-                seconds={secondsToExpire}
-                formatLength="medium"
-                type={"buff"}
-                percentage={percentage}
-              />
-            </div>
-          )}
-
           <img
             src={ITEM_DETAILS[name].image}
             style={{ ...PET_SHRINE_DIMENSIONS_STYLES[name], bottom: 0 }}
@@ -183,6 +164,23 @@ export const PetShrine: React.FC<
             alt={name}
           />
         </div>
+        {showTimers && (
+          <div
+            className="absolute left-1/2"
+            style={{
+              width: `${PIXEL_SCALE * 15}px`,
+              transform: "translateX(-50%)",
+              bottom: `${PIXEL_SCALE * -3}px`,
+            }}
+          >
+            <ProgressBar
+              seconds={secondsToExpire}
+              formatLength="medium"
+              type={"progress"}
+              percentage={percentage}
+            />
+          </div>
+        )}
       </PopoverButton>
 
       <PopoverPanel anchor={{ to: "left start" }} className="flex">

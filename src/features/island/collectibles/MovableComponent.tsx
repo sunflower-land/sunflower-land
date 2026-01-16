@@ -52,7 +52,6 @@ import {
   TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
-import { hasFeatureAccess } from "lib/flags";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { getPetImage } from "../pets/lib/petShared";
 import { budImageDomain } from "./components/Bud";
@@ -171,7 +170,6 @@ function getOverlappingCollectibles({
 export function getRemoveAction(
   name: LandscapingPlaceable | undefined,
   now: number,
-  hasRenewAccess: boolean,
   collectible?: PlacedItem,
 ): GameEventName<PlacementEvent> | null {
   if (!name) {
@@ -190,7 +188,7 @@ export function getRemoveAction(
 
   if (LIMITED_ITEMS.includes(name as CollectibleName)) {
     const isShrine = name in PET_SHRINES || name === "Obsidian Shrine";
-    if (isShrine && hasRenewAccess && collectible) {
+    if (isShrine && collectible) {
       const cooldown = EXPIRY_COOLDOWNS[name as TemporaryCollectibleName];
       if (!cooldown || (collectible.createdAt ?? 0) + cooldown > now) {
         return null;
@@ -411,17 +409,13 @@ export const MoveableComponent: React.FC<
     gameService,
     getSelectedCollectible(name, id, location),
   );
-  const hasRenewAccess = useSelector(gameService, (state) =>
-    hasFeatureAccess(state.context.state, "RENEW_PET_SHRINES"),
-  );
 
   const isShrine = name in PET_SHRINES || name === "Obsidian Shrine";
 
   const now = useNow({ live: isShrine });
 
   const removeAction =
-    !isMobile &&
-    getRemoveAction(name, now, hasRenewAccess, selectedCollectible);
+    !isMobile && getRemoveAction(name, now, selectedCollectible);
 
   const hasRemovalAction = !!removeAction;
 
