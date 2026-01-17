@@ -203,7 +203,7 @@ export const ItemsList: React.FC<Props> = ({
     state.megastore?.boughtAt["Pet Egg" as ChapterTierItemName];
   const isPetEggBoughtInCurrentChapter = petEggBoughtAt
     ? (() => {
-        const chapterTime = CHAPTERS[getCurrentChapter(now)];
+        const chapterTime = CHAPTERS[currentChapter];
         const boughtDate = new Date(petEggBoughtAt);
         return (
           boughtDate >= chapterTime.startDate &&
