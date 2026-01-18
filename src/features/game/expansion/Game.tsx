@@ -640,7 +640,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             bumpkinParts={error ? NPC_WEARABLES["worried pete"] : undefined}
           >
             {/* Effects */}
-            {effectPending && <Loading text={t(effectTranslationKey)} />}
+            {effectPending && <Loading text={effectText} />}
             {effectSuccess &&
               (EFFECT_SUCCESS_COMPONENTS[stateValue as StateValues] ?? (
                 <EffectSuccess state={stateValue} />

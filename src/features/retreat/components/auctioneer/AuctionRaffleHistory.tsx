@@ -81,7 +81,15 @@ export const RaffleHistory: React.FC<{ id: string; onClose?: () => void }> = ({
             <img
               src={SUNNYSIDE.icons.arrow_left}
               className="h-6 cursor-pointer"
-              onClick={() => onClose()}
+              onClick={() => {
+                onClose();
+
+                if (isActiveEntry) {
+                  gameService.send("auctionRaffle.claimed", {
+                    effect: { type: "auctionRaffle.claimed", raffleId: id },
+                  });
+                }
+              }}
             />
           )}
 
@@ -96,7 +104,7 @@ export const RaffleHistory: React.FC<{ id: string; onClose?: () => void }> = ({
 
         {canDismiss && <p className="text-xxs">{t("auction.raffle.lose")}</p>}
 
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 max-h-[200px] overflow-y-auto scrollable pr-1">
           <RaffleLeaderboardTable
             winners={sortedWinners}
             farmId={gameState.context.farmId}
@@ -109,6 +117,7 @@ export const RaffleHistory: React.FC<{ id: string; onClose?: () => void }> = ({
             gameService.send("auctionRaffle.claimed", {
               effect: { type: "auctionRaffle.claimed", raffleId: id },
             });
+            onClose?.();
           }}
           className="cursor-pointer"
         >
@@ -126,7 +135,7 @@ export const RaffleHistory: React.FC<{ id: string; onClose?: () => void }> = ({
           }}
           className="cursor-pointer"
         >
-          {t("auction.raffle.continue")}
+          {t("ok")}
         </Button>
       )}
     </div>

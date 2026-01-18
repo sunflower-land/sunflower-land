@@ -29,7 +29,6 @@ import { getImageUrl } from "lib/utils/getImageURLS";
 import { getKeys } from "features/game/types/craftables";
 import { toOrdinalSuffix } from "./AuctionLeaderboardTable";
 import { Box } from "components/ui/Box";
-import { RaffleHistory } from "./AuctionRaffleHistory";
 import { InventoryItemName, Wardrobe } from "features/game/types/game";
 import { PetNFTName } from "features/game/types/pets";
 
@@ -90,14 +89,6 @@ export const AuctioneerRaffle: React.FC = () => {
         <Loading />
       </div>
     );
-  }
-
-  // If player has a completed raffle, show the results.
-  const completedRaffleId = Object.keys(game.raffle?.active ?? {}).find(
-    (raffleId) => !upcomingRaffles.find((raffle) => raffle.id === raffleId),
-  );
-  if (completedRaffleId) {
-    return <RaffleHistory id={completedRaffleId} />;
   }
 
   if (!upcomingRaffles.length) {
@@ -171,7 +162,7 @@ export const AuctioneerRaffle: React.FC = () => {
     raffle,
   }) => {
     const countdown = useCountdown(raffle.endAt);
-    return <Label type="info">{formatCountdown(countdown)}</Label>;
+    return <Label type="info">{`${formatCountdown(countdown)} left`}</Label>;
   };
 
   const selectedRaffle = upcomingRaffles.find(
@@ -378,85 +369,86 @@ export const AuctioneerRaffle: React.FC = () => {
     });
 
     return (
-      <div className="p-2">
-        <div className="flex items-center gap-2 mb-2">
-          <img
-            src={SUNNYSIDE.icons.arrow_left}
-            className="h-6 cursor-pointer"
-            onClick={() => setSelectedRaffleId(undefined)}
-          />
-          <Label type="default">{t("auction.raffle.details")}</Label>
-        </div>
-
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2">
-            <div className="relative w-12 h-12 flex items-center justify-center">
-              <img
-                src={SUNNYSIDE.ui.grey_background}
-                className="absolute inset-0 w-full h-full rounded-md"
-              />
-              <img
-                src={display.image}
-                className="w-2/3 h-2/3 object-contain z-10"
-              />
-            </div>
-            <div>
-              <p className="text-sm">{display.name}</p>
-              <p className="text-xxs">{formatRaffleWindow(selectedRaffle)}</p>
-            </div>
+      <>
+        <div className="p-2">
+          <div className="flex items-center gap-2 mb-2">
+            <img
+              src={SUNNYSIDE.icons.arrow_left}
+              className="h-6 cursor-pointer"
+              onClick={() => setSelectedRaffleId(undefined)}
+            />
+            <Label type="default">{t("auction.raffle.details")}</Label>
           </div>
-        </div>
 
-        <div className="mb-2">
-          <Label type="default" className="mb-1">
-            {t("auction.raffle.prizes")}
-          </Label>
-          <p className="text-xs mb-2">
-            {t("auction.raffle.prizePool", {
-              count: Object.keys(selectedRaffle.prizes).length,
-            })}
-          </p>
-          <div className="flex flex-col flex-wrap gap-x-3 text-xs">
-            {nfts.map((nft) => (
-              <div key={nft} className="flex items-center">
-                <img src={petEggNFT} className="w-4 mr-1" />
-                <span className="text-xs">{nft}</span>
-              </div>
-            ))}
-            {getKeys(items).map((item) => (
-              <div key={item} className="flex items-center">
-                <img src={ITEM_DETAILS[item].image} className="w-4 mr-1" />
-                <span className="text-xs">{`${items[item]} x ${item}`}</span>
-              </div>
-            ))}
-            {getKeys(wearables).map((wearable) => (
-              <div key={wearable} className="flex items-center">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <div className="relative w-12 h-12 flex items-center justify-center">
                 <img
-                  src={getImageUrl(ITEM_IDS[wearable])}
-                  className="w-4 mr-1"
+                  src={SUNNYSIDE.ui.grey_background}
+                  className="absolute inset-0 w-full h-full rounded-md"
                 />
-                <span className="text-xs">
-                  {`${wearables[wearable]} x ${wearable}`}
-                </span>
+                <img
+                  src={display.image}
+                  className="w-2/3 h-2/3 object-contain z-10"
+                />
               </div>
-            ))}
-          </div>
-        </div>
-
-        {isActiveRaffle && (
-          <>
-            <div className="flex items-center justify-between mt-4 my-2">
-              <Label type={raffleEntries > 0 ? "success" : "formula"}>
-                {t("auction.raffle.entriesLabel", { count: raffleEntries })}
-              </Label>
+              <div>
+                <p className="text-sm">{display.name}</p>
+                <p className="text-xxs">{formatRaffleWindow(selectedRaffle)}</p>
+              </div>
             </div>
+          </div>
 
-            <Button onClick={() => setShowEntry(true)}>
-              {raffleEntries ? t("auction.raffle.addMore") : t("raffle.enter")}
-            </Button>
-          </>
-        )}
-      </div>
+          <div className="mb-2">
+            <Label type="default" className="mb-1">
+              {t("auction.raffle.prizes")}
+            </Label>
+            <p className="text-xs mb-2">
+              {t("auction.raffle.prizePool", {
+                count: Object.keys(selectedRaffle.prizes).length,
+              })}
+            </p>
+            <div className="flex flex-col flex-wrap gap-x-3 text-xs">
+              {nfts.map((nft) => (
+                <div key={nft} className="flex items-center">
+                  <img src={petEggNFT} className="w-4 mr-1" />
+                  <span className="text-xs">{nft}</span>
+                </div>
+              ))}
+              {getKeys(items).map((item) => (
+                <div key={item} className="flex items-center">
+                  <img src={ITEM_DETAILS[item].image} className="w-4 mr-1" />
+                  <span className="text-xs">{`${items[item]} x ${item}`}</span>
+                </div>
+              ))}
+              {getKeys(wearables).map((wearable) => (
+                <div key={wearable} className="flex items-center">
+                  <img
+                    src={getImageUrl(ITEM_IDS[wearable])}
+                    className="w-4 mr-1"
+                  />
+                  <span className="text-xs">
+                    {`${wearables[wearable]} x ${wearable}`}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {isActiveRaffle && (
+            <>
+              <div className="flex items-center justify-between mt-4 ">
+                <Label type={raffleEntries > 0 ? "success" : "formula"}>
+                  {t("auction.raffle.entriesLabel", { count: raffleEntries })}
+                </Label>
+              </div>
+            </>
+          )}
+        </div>
+        <Button onClick={() => setShowEntry(true)}>
+          {raffleEntries ? t("auction.raffle.addMore") : t("raffle.enter")}
+        </Button>
+      </>
     );
   }
 
@@ -467,6 +459,8 @@ export const AuctioneerRaffle: React.FC = () => {
           {upcomingRaffles.map((raffle) => {
             const display = getFirstPrizeDisplay(raffle);
             const isCurrent = raffle.startAt <= now && raffle.endAt > now;
+
+            const entries = game.raffle?.active?.[raffle.id]?.entries ?? 0;
 
             return (
               <ButtonPanel
@@ -485,11 +479,13 @@ export const AuctioneerRaffle: React.FC = () => {
                   />
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm truncate mb-0.5">
-                    {t(`auction.raffle.items`, {
-                      item: display.name,
-                      extra: Object.keys(raffle.prizes ?? {}).length - 1,
-                    })}
+                  <p className="text-sm truncate mb-1">
+                    {Object.keys(raffle.prizes ?? {}).length > 1
+                      ? t(`auction.raffle.items`, {
+                          item: display.name,
+                          extra: Object.keys(raffle.prizes ?? {}).length - 1,
+                        })
+                      : display.name}
                   </p>
                   {isCurrent ? (
                     <CountdownLabel raffle={raffle} />

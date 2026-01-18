@@ -343,6 +343,8 @@ export const AuctionHistory: React.FC = () => {
               );
             }
 
+            const isActiveRaffle = !!game.raffle?.active?.[item.id];
+
             return (
               <ButtonPanel
                 key={`raffle-${item.id}`}
@@ -376,6 +378,13 @@ export const AuctionHistory: React.FC = () => {
                   </p>
                 </div>
                 <Label type="vibrant">{t("auction.raffle")}</Label>
+
+                {isActiveRaffle && (
+                  <img
+                    src={SUNNYSIDE.icons.search}
+                    className="h-6 absolute top-1 -right-0"
+                  />
+                )}
               </ButtonPanel>
             );
           })}
