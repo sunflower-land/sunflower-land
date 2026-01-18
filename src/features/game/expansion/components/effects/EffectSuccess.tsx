@@ -62,6 +62,12 @@ export const EffectSuccess: React.FC<{ state: string }> = ({ state }) => {
     state as string,
   ) as TranslationKeys;
 
+  let text = t(effectTranslationKey);
+
+  if (text === effectTranslationKey) {
+    text = t("effect.success.default");
+  }
+
   return (
     <>
       <div className="p-1.5">

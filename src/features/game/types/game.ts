@@ -1826,8 +1826,7 @@ export interface GameState {
     }[];
   };
   raffle?: {
-    id: string;
-    entries: number;
+    active: Record<string, { entries: number }>;
   };
   dailyRewards?: DailyRewards;
   auctioneer: Auctioneer;

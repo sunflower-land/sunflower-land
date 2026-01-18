@@ -239,10 +239,7 @@ import {
 import { claimGift, ClaimGiftAction } from "./landExpansion/claimBumpkinGift";
 import { giftFlowers, GiftFlowersAction } from "./landExpansion/giftFlowers";
 import { enterRaffle, EnterRaffleAction } from "./landExpansion/enterRaffle";
-import {
-  auctionRaffleLost,
-  AuctionRaffleLostAction,
-} from "./landExpansion/auctionRaffleLost";
+
 import {
   exchangeSFLtoCoins,
   ExchangeSFLtoCoinsAction,
@@ -932,7 +929,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "flowers.gifted": giftFlowers,
   "gift.claimed": claimGift,
   "raffle.entered": enterRaffle,
-  "auctionRaffle.lost": auctionRaffleLost,
   "sfl.exchanged": exchangeSFLtoCoins,
   "faction.joined": joinFaction,
   "oilReserve.drilled": drillOilReserve,

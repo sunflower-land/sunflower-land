@@ -624,6 +624,12 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
     stateValue as string,
   ) as TranslationKeys;
 
+  let effectText = t(effectTranslationKey);
+
+  if (effectText === effectTranslationKey) {
+    effectText = t("loading");
+  }
+
   return (
     <>
       <ToastProvider>

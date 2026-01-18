@@ -54,8 +54,9 @@ export const RaffleHistory: React.FC<{ id: string; onClose?: () => void }> = ({
   const raffleWinner = selectedRaffleResults?.winners?.find(
     (winner) => winner.farmId === gameState.context.farmId,
   );
-  const canClaim = !!raffleWinner && game.raffle?.id === id;
-  const canDismiss = !raffleWinner && game.raffle?.id === id;
+  const isActiveEntry = !!game.raffle?.active?.[id];
+  const canClaim = !!raffleWinner && isActiveEntry;
+  const canDismiss = !raffleWinner && isActiveEntry;
   const sortedWinners = (selectedRaffleResults?.winners ?? [])
     .slice()
     .sort((a, b) => a.position - b.position);
@@ -101,31 +102,33 @@ export const RaffleHistory: React.FC<{ id: string; onClose?: () => void }> = ({
             farmId={gameState.context.farmId}
           />
         </div>
-        {canClaim && (
-          <Button
-            onClick={() => {
-              gameService.send("auctionRaffle.claimed", {
-                effect: { type: "auctionRaffle.claimed" },
-              });
-            }}
-            className="cursor-pointer"
-          >
-            {t("auction.raffle.claim")}
-          </Button>
-        )}
-
-        {canDismiss && (
-          <Button
-            onClick={() => {
-              gameService.send("auctionRaffle.lost");
-              onClose?.();
-            }}
-            className="cursor-pointer"
-          >
-            {t("auction.raffle.continue")}
-          </Button>
-        )}
       </div>
+      {canClaim && (
+        <Button
+          onClick={() => {
+            gameService.send("auctionRaffle.claimed", {
+              effect: { type: "auctionRaffle.claimed", raffleId: id },
+            });
+          }}
+          className="cursor-pointer"
+        >
+          {t("auction.raffle.claim")}
+        </Button>
+      )}
+
+      {canDismiss && (
+        <Button
+          onClick={() => {
+            gameService.send("auctionRaffle.claimed", {
+              effect: { type: "auctionRaffle.claimed", raffleId: id },
+            });
+            onClose?.();
+          }}
+          className="cursor-pointer"
+        >
+          {t("auction.raffle.continue")}
+        </Button>
+      )}
     </div>
   );
 };

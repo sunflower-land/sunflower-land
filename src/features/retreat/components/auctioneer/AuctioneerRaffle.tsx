@@ -93,8 +93,11 @@ export const AuctioneerRaffle: React.FC = () => {
   }
 
   // If player has a completed raffle, show the results.
-  if (game.raffle && !upcomingRaffles.find((r) => r.id === game.raffle?.id)) {
-    return <RaffleHistory id={game.raffle.id} />;
+  const completedRaffleId = Object.keys(game.raffle?.active ?? {}).find(
+    (raffleId) => !upcomingRaffles.find((raffle) => raffle.id === raffleId),
+  );
+  if (completedRaffleId) {
+    return <RaffleHistory id={completedRaffleId} />;
   }
 
   if (!upcomingRaffles.length) {
@@ -296,7 +299,7 @@ export const AuctioneerRaffle: React.FC = () => {
 
         <div className="flex items-center">
           <Box
-            image={ITEM_DETAILS["Prize Ticket"].image}
+            image={ITEM_DETAILS[raffleTicket].image}
             count={raffleTicketCount}
           />
           <div className="flex-1">
@@ -349,13 +352,10 @@ export const AuctioneerRaffle: React.FC = () => {
   if (selectedRaffle) {
     const display = getFirstPrizeDisplay(selectedRaffle);
     const raffleEntries =
-      game.raffle?.id === selectedRaffle.id ? game.raffle.entries : 0;
+      game.raffle?.active?.[selectedRaffle.id]?.entries ?? 0;
 
     const isActiveRaffle =
       selectedRaffle.endAt > now && selectedRaffle.startAt < now;
-
-    const hasAnotherRaffle =
-      game.raffle && game.raffle?.id !== selectedRaffle.id;
 
     const items: Partial<Record<InventoryItemName, number>> = {};
     const wearables: Wardrobe = {};
@@ -447,23 +447,11 @@ export const AuctioneerRaffle: React.FC = () => {
           <>
             <div className="flex items-center justify-between mt-4 my-2">
               <Label type={raffleEntries > 0 ? "success" : "formula"}>
-                {t("auction.raffle.entriesLabel")}
+                {t("auction.raffle.entriesLabel", { count: raffleEntries })}
               </Label>
-              <span className="text-sm">{raffleEntries}</span>
             </div>
 
-            {hasAnotherRaffle && (
-              <p className="text-xxs italic">
-                {t("auction.raffle.alreadyEntered", {
-                  id: game.raffle!.id,
-                })}
-              </p>
-            )}
-
-            <Button
-              disabled={hasAnotherRaffle}
-              onClick={() => setShowEntry(true)}
-            >
+            <Button onClick={() => setShowEntry(true)}>
               {raffleEntries ? t("auction.raffle.addMore") : t("raffle.enter")}
             </Button>
           </>
@@ -497,7 +485,12 @@ export const AuctioneerRaffle: React.FC = () => {
                   />
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm truncate">{display.name}</p>
+                  <p className="text-sm truncate mb-0.5">
+                    {t(`auction.raffle.items`, {
+                      item: display.name,
+                      extra: Object.keys(raffle.prizes ?? {}).length - 1,
+                    })}
+                  </p>
                   {isCurrent ? (
                     <CountdownLabel raffle={raffle} />
                   ) : (
