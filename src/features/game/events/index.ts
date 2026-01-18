@@ -738,7 +738,6 @@ export type PlayingEvent =
   | RenewPetShrineAction
   | CollectWaterTrapAction
   | PlaceWaterTrapAction
-  | AuctionRaffleLostAction
   | SpeedUpProcessingAction;
 
 export type LocalVisitingEvent =
