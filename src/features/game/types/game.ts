@@ -413,7 +413,7 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   Bracelet: { description: "" },
   Cheer: { description: translate("description.cheer") },
   "Pet Cookie": { description: translate("description.petCookie") },
-  "Crab Chapter Ticket": { description: "Collected during the Crab Chapter." },
+  Floater: { description: "Collected during the Crabs and Traps." },
   "Halloween Token 2025": {
     description: translate("description.halloweenToken2025"),
   },

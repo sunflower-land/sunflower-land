@@ -58,8 +58,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
-  "Crab Chapter Ticket": {
-    description: "A ticket to the Crab Chapter.",
+  Floater: {
+    description: "A ticket to the Crabs and Traps.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/question_mark.png",
@@ -68,8 +68,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
-  "Crab Chapter Artefact": {
-    description: "An artefact from the Crab Chapter.",
+  "Ammonite Shell": {
+    description: "An artefact from the Crabs and Traps.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/question_mark.png",
@@ -78,8 +78,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
-  "Crab Chapter Banner": {
-    description: "A banner for the Crab Chapter.",
+  "Crabs and Traps Banner": {
+    description: "A banner for the Crabs and Traps.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/question_mark.png",
@@ -14043,9 +14043,9 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/310.webp",
   },
-  "Crab Chapter Raffle Ticket": {
-    name: "Crab Chapter Raffle Ticket",
-    description: "A ticket for the Crab Chapter raffle.",
+  "Crabs and Traps Raffle Ticket": {
+    name: "Crabs and Traps Raffle Ticket",
+    description: "A ticket for the Crabs and Traps raffle.",
     decimals: 0,
     attributes: [{ trait_type: "Tradable", value: "Yes" }],
     external_url: "https://docs.sunflower-land.com/getting-started/about",

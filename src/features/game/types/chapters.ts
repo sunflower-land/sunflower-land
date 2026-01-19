@@ -11,6 +11,7 @@ import windsOfChangeBanner from "assets/decorations/banners/winds-of-change_bann
 import greatBloomBanner from "assets/decorations/banners/great_bloom_banner.png";
 import betterTogetherBanner from "assets/decorations/banners/better_together_banner.webp";
 import pawPrintsBanner from "assets/decorations/banners/paw_prints_banner.webp";
+import crabChapterBanner from "assets/decorations/banners/crap_chapter_banner.webp";
 import { BeachBountyChapterArtefact } from "./treasure";
 import { getKeys } from "./decorations";
 import { ChapterFish } from "./fishing";
@@ -29,7 +30,7 @@ export type ChapterName =
   | "Great Bloom"
   | "Better Together"
   | "Paw Prints"
-  | "Crab Chapter";
+  | "Crabs and Traps";
 
 type ChapterDates = { startDate: Date; endDate: Date };
 
@@ -82,7 +83,7 @@ export const CHAPTERS: Record<ChapterName, ChapterDates> = {
     startDate: new Date("2025-11-03T00:00:00.000Z"),
     endDate: new Date("2026-02-02T00:00:00.000Z"),
   },
-  "Crab Chapter": {
+  "Crabs and Traps": {
     startDate: new Date("2026-02-02T00:00:00.000Z"),
     endDate: new Date("2026-05-04T00:00:00.000Z"),
   },
@@ -101,11 +102,11 @@ export type ChapterTicket =
   | "Geniseed"
   | "Bracelet"
   | "Pet Cookie"
-  | "Crab Chapter Ticket";
+  | "Floater";
 
 export type ChapterRaffleTicket =
   | "Paw Prints Raffle Ticket"
-  | "Crab Chapter Raffle Ticket";
+  | "Crabs and Traps Raffle Ticket";
 
 export type ChapterBanner = `${ChapterName} Banner`;
 
@@ -122,7 +123,7 @@ export const CHAPTER_BANNERS: Record<ChapterBanner, ChapterName> = {
   "Great Bloom Banner": "Great Bloom",
   "Better Together Banner": "Better Together",
   "Paw Prints Banner": "Paw Prints",
-  "Crab Chapter Banner": "Crab Chapter",
+  "Crabs and Traps Banner": "Crabs and Traps",
 };
 
 export const CHAPTER_TICKET_NAME: Record<ChapterName, ChapterTicket> = {
@@ -138,7 +139,7 @@ export const CHAPTER_TICKET_NAME: Record<ChapterName, ChapterTicket> = {
   "Great Bloom": "Geniseed",
   "Better Together": "Bracelet",
   "Paw Prints": "Pet Cookie",
-  "Crab Chapter": "Crab Chapter Ticket",
+  "Crabs and Traps": "Floater",
 };
 
 export const CHAPTER_RAFFLE_TICKET_NAME: Record<
@@ -157,7 +158,7 @@ export const CHAPTER_RAFFLE_TICKET_NAME: Record<
   "Great Bloom": "Paw Prints Raffle Ticket",
   "Better Together": "Paw Prints Raffle Ticket",
   "Paw Prints": "Paw Prints Raffle Ticket",
-  "Crab Chapter": "Crab Chapter Raffle Ticket",
+  "Crabs and Traps": "Crabs and Traps Raffle Ticket",
 };
 
 export const CHAPTER_ARTEFACT_NAME: Record<
@@ -176,7 +177,7 @@ export const CHAPTER_ARTEFACT_NAME: Record<
   "Great Bloom": "Broken Pillar",
   "Better Together": "Coprolite",
   "Paw Prints": "Moon Crystal",
-  "Crab Chapter": "Crab Chapter Artefact",
+  "Crabs and Traps": "Ammonite Shell",
 };
 
 export const CHAPTER_MARVEL_FISH: Record<ChapterName, ChapterFish> = {
@@ -192,7 +193,7 @@ export const CHAPTER_MARVEL_FISH: Record<ChapterName, ChapterFish> = {
   "Great Bloom": "Pink Dolphin",
   "Better Together": "Poseidon",
   "Paw Prints": "Super Star",
-  "Crab Chapter": "Giant Isopod",
+  "Crabs and Traps": "Giant Isopod",
 };
 
 export function getChapterMarvelFish(now: number): ChapterFish {
@@ -280,8 +281,7 @@ export function getChapterBannerImage(now: number) {
     "Great Bloom Banner": greatBloomBanner,
     "Better Together Banner": betterTogetherBanner,
     "Paw Prints Banner": pawPrintsBanner,
-    // TODO: replace with real Crab Chapter banner art once added
-    "Crab Chapter Banner": pawPrintsBanner,
+    "Crabs and Traps Banner": crabChapterBanner,
   };
   return banners[getChapterBanner(now)];
 }

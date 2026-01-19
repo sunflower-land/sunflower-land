@@ -98,14 +98,13 @@ export const CHAPTER_TICKET_BOOST_ITEMS: Record<
     epic: "Recycle Shirt",
   },
 
-  // TODO: Add Paw Prings items
   "Paw Prints": {
     basic: "Pet Specialist Hat",
     rare: "Pet Specialist Pants",
     epic: "Pet Specialist Shirt",
   },
-
-  "Crab Chapter": {
+  // TODO: Add Crabs and Traps items
+  "Crabs and Traps": {
     basic: "Cow Scratcher",
     rare: "Cow Scratcher",
     epic: "Cow Scratcher",

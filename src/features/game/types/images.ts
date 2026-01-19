@@ -859,6 +859,7 @@ import ancientClock from "assets/icons/ancient_clock.png";
 import windsOfChangeBanner from "assets/decorations/banners/winds-of-change_banner_loop.gif";
 import betterTogetherBanner from "assets/decorations/banners/better_together_banner.webp";
 import pawPrintsBanner from "assets/decorations/banners/paw_prints_banner.webp";
+import crabChapterBanner from "assets/decorations/banners/crap_chapter_banner.webp";
 
 import pesticide from "assets/sfts/pesticide.webp";
 import jin from "assets/sfts/jin_ronin.webp";
@@ -869,6 +870,8 @@ import bracelet from "assets/icons/bracelet.webp";
 import coprolite from "assets/icons/coprolite.webp";
 import petCookie from "assets/icons/pet_cookie.webp";
 import moonCrystal from "assets/icons/moon_crystal.webp";
+import floater from "assets/icons/floater.webp";
+import ammoniteShell from "assets/icons/ammonite_shell.webp";
 
 import floralArch from "assets/sfts/floral_arch.webp";
 import flowerCoin from "assets/sfts/flower_coin.webp";
@@ -6581,28 +6584,25 @@ export const ITEM_DETAILS: Items = {
     image: pawPrintsBanner,
     description: translate("description.pawPrintsBanner"),
   },
-  "Crab Chapter Banner": {
-    // TODO: replace with real Crab Chapter banner art once added
-    image: pawPrintsBanner,
-    description: "A banner for the Crab Chapter.",
+  "Crabs and Traps Banner": {
+    image: crabChapterBanner,
+    description: translate("description.crabChapterBanner"),
   },
   "Pet Cookie": {
     image: petCookie,
     description: translate("description.petCookie"),
   },
-  "Crab Chapter Ticket": {
-    // TODO: replace with real Crab Chapter ticket art once added
-    image: petCookie,
-    description: "Collected during the Crab Chapter.",
+  Floater: {
+    image: floater,
+    description: translate("description.floater"),
   },
   "Moon Crystal": {
     image: moonCrystal,
     description: translate("description.moonCrystal"),
   },
-  "Crab Chapter Artefact": {
-    // TODO: replace with real Crab Chapter artefact art once added
-    image: moonCrystal,
-    description: "A chapter artefact from the Crab Chapter.",
+  "Ammonite Shell": {
+    image: ammoniteShell,
+    description: translate("description.ammoniteShell"),
   },
   Cerberus: {
     image: cerberus,
@@ -6816,7 +6816,7 @@ export const ITEM_DETAILS: Items = {
     image: pawPrintsRaffleTicket,
     description: "?",
   },
-  "Crab Chapter Raffle Ticket": {
+  "Crabs and Traps Raffle Ticket": {
     image: crabChapterRaffleTicket,
     description: "?",
   },
