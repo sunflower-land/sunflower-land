@@ -155,6 +155,7 @@
   "addSFL.swapTitle": "Swap Details",
   "addSFL.minimumReceived": "Minimum Received: {{sflReceived}} FLOWER",
   "auction.raffle": "Raffle",
+  "auction.raffle.noWinners": "No winners.",
   "auction.raffle.title": "Raffles",
   "auction.raffle.moreComing": "More raffles coming next Chapter.",
   "auction.raffle.prizeFallback": "Raffle Prize",

@@ -31,6 +31,7 @@ import { toOrdinalSuffix } from "./AuctionLeaderboardTable";
 import { Box } from "components/ui/Box";
 import { InventoryItemName, Wardrobe } from "features/game/types/game";
 import { PetNFTName } from "features/game/types/pets";
+import { RaffleHistory } from "./AuctionRaffleHistory";
 
 export const AuctioneerRaffle: React.FC = () => {
   const { t } = useAppTranslation();
@@ -115,7 +116,12 @@ export const AuctioneerRaffle: React.FC = () => {
     const date = new Date(timestamp);
     const day = toOrdinalSuffix(date.getDate());
     const month = date.toLocaleString("en-AU", { month: "short" });
-    return `${day} ${month}`;
+    const hour = date.toLocaleString("en-AU", {
+      hour: "2-digit",
+      hour12: false,
+    });
+    const minute = date.toLocaleString("en-AU", { minute: "2-digit" });
+    return `${hour.substring(0, 2)}:${minute.substring(0, 2).padStart(2, "0")} ${day} ${month}`;
   };
 
   const formatRaffleWindow = (raffle: RaffleDefinition) =>
@@ -168,6 +174,15 @@ export const AuctioneerRaffle: React.FC = () => {
   const selectedRaffle = upcomingRaffles.find(
     (raffle) => raffle.id === selectedRaffleId,
   );
+
+  if (selectedRaffle && selectedRaffle.endAt < now) {
+    return (
+      <RaffleHistory
+        id={selectedRaffle.id}
+        onClose={() => setSelectedRaffleId(undefined)}
+      />
+    );
+  }
 
   if (selectedRaffle && showConfirmation) {
     return (
@@ -377,7 +392,12 @@ export const AuctioneerRaffle: React.FC = () => {
               className="h-6 cursor-pointer"
               onClick={() => setSelectedRaffleId(undefined)}
             />
-            <Label type="default">{t("auction.raffle.details")}</Label>
+            <div className="flex justify-between">
+              <Label type="default" className="mr-1">
+                {t("auction.raffle.details")}
+              </Label>
+              {isActiveRaffle && <CountdownLabel raffle={selectedRaffle} />}
+            </div>
           </div>
 
           <div className="flex items-center justify-between mb-3">

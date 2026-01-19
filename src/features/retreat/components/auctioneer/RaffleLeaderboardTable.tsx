@@ -22,7 +22,7 @@ export const RaffleLeaderboardTable: React.FC<Props> = ({
   const { t } = useAppTranslation();
 
   if (!winners?.length) {
-    return <p className="text-xxs">{t("auction.raffle.resultsPending")}</p>;
+    return <p className="text-xxs">{t("auction.raffle.noWinners")}</p>;
   }
 
   return (

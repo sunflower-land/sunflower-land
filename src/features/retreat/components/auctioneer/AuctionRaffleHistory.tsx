@@ -1,5 +1,5 @@
-import React from "react";
-import useSWR from "swr";
+import React, { useEffect } from "react";
+import useSWR, { mutate } from "swr";
 
 import { Label } from "components/ui/Label";
 
@@ -46,6 +46,16 @@ export const RaffleHistory: React.FC<{ id: string; onClose?: () => void }> = ({
     },
   );
 
+  useEffect(() => {
+    if (selectedRaffleResults?.status === "pending") {
+      const interval = setInterval(() => {
+        mutate(["raffle-results", id, token]);
+      }, 30 * 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [selectedRaffleResults?.status]);
+
   if (raffleResultsError) {
     throw raffleResultsError;
   }
@@ -66,11 +76,7 @@ export const RaffleHistory: React.FC<{ id: string; onClose?: () => void }> = ({
   }
 
   if (selectedRaffleResults?.status === "pending") {
-    return (
-      <div>
-        <p className="text-xxs">{t("auction.raffle.resultsPending")}</p>
-      </div>
-    );
+    return <Loading text={t("auction.raffle.resultsPending")} />;
   }
 
   return (
