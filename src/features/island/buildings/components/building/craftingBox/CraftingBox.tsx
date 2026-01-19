@@ -9,6 +9,8 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { CraftingBoxModalContent } from "./components/CraftingBoxModalContent";
+import { ProgressBar } from "components/ui/ProgressBar";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 import craftingBoxAnimation from "assets/buildings/crafting_box_animation.webp";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -17,18 +19,32 @@ const _craftingStatus = (state: MachineState) =>
   state.context.state.craftingBox.status;
 const _craftingReadyAt = (state: MachineState) =>
   state.context.state.craftingBox.readyAt;
+const _craftingStartedAt = (state: MachineState) =>
+  state.context.state.craftingBox.startedAt;
 
 export const CraftingBox: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
   const { t } = useTranslation();
 
-  const { gameService } = useContext(Context);
+  const { gameService, showTimers } = useContext(Context);
 
   const craftingStatus = useSelector(gameService, _craftingStatus);
   const craftingReadyAt = useSelector(gameService, _craftingReadyAt);
+  const craftingStartedAt = useSelector(gameService, _craftingStartedAt);
   const now = useNow({ live: true, autoEndAt: craftingReadyAt });
 
+  const { totalSeconds: secondsLeft } = useCountdown(craftingReadyAt ?? 0);
+
+  const startedAt = craftingStartedAt ?? 0;
+  const readyAt = craftingReadyAt ?? 0;
+  const totalRunningSeconds = Math.max((readyAt - startedAt) / 1000, 1);
+  const elapsedSeconds = Math.max(totalRunningSeconds - secondsLeft, 0);
+  const percentage = Math.min(
+    (elapsedSeconds / totalRunningSeconds) * 100,
+    100,
+  );
+  const isCrafting = craftingStatus === "crafting" && secondsLeft > 0;
   const isReady = craftingStatus === "crafting" && craftingReadyAt <= now;
 
   const handleOpen = () => {
@@ -40,20 +56,49 @@ export const CraftingBox: React.FC = () => {
   return (
     <>
       <BuildingImageWrapper name="Crafting Box" onClick={handleOpen}>
-        <img
-          src={
-            craftingStatus === "crafting" && !isReady
-              ? craftingBoxAnimation
-              : ITEM_DETAILS["Crafting Box"].image
-          }
-          alt={t("crafting.craftingBox")}
-          className={`cursor-pointer hover:img-highlight absolute`}
+        <div
+          className="absolute pointer-events-none"
           style={{
-            left: `${PIXEL_SCALE * -1}px`,
             width: `${PIXEL_SCALE * 46}px`,
             bottom: `${PIXEL_SCALE * 0}px`,
+            left: `${PIXEL_SCALE * 0}px`,
           }}
-        />
+        >
+          <img
+            src={
+              craftingStatus === "crafting" && !isReady
+                ? craftingBoxAnimation
+                : ITEM_DETAILS["Crafting Box"].image
+            }
+            alt={t("crafting.craftingBox")}
+            className={`cursor-pointer hover:img-highlight absolute`}
+            style={{
+              left: `${PIXEL_SCALE * -1}px`,
+              width: `${PIXEL_SCALE * 46}px`,
+              bottom: `${PIXEL_SCALE * 0}px`,
+            }}
+          />
+          {showTimers && isCrafting && craftingReadyAt && (
+            <div
+              className="flex justify-center absolute"
+              style={{
+                bottom: 0,
+                width: `${PIXEL_SCALE * 46}px`,
+                left: `${PIXEL_SCALE * 0.5}px`,
+              }}
+            >
+              <ProgressBar
+                percentage={percentage}
+                type="progress"
+                formatLength="short"
+                seconds={secondsLeft}
+                style={{
+                  width: `${PIXEL_SCALE * 14}px`,
+                }}
+              />
+            </div>
+          )}
+        </div>
         {isReady && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
