@@ -18,7 +18,7 @@ type Options = {
   state: Readonly<GameState>;
   action: HarvestCropMachineAction;
   createdAt?: number;
-  farmId?: number;
+  farmId: number;
 };
 
 /**
@@ -57,7 +57,7 @@ export function harvestCropMachine({
   state,
   action,
   createdAt = Date.now(),
-  farmId = 0,
+  farmId,
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const machine = stateCopy.buildings["Crop Machine"]?.[0];

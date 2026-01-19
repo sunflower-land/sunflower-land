@@ -18,6 +18,7 @@ type Options = {
   state: Readonly<GameState>;
   action: BulkPlantAction;
   createdAt?: number;
+  farmId: number;
 };
 
 export const getAvailablePlots = (state: GameState) => {
@@ -33,6 +34,7 @@ export function bulkPlant({
   state,
   action,
   createdAt = Date.now(),
+  farmId,
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const { crops: plots, bumpkin } = stateCopy;
@@ -79,6 +81,7 @@ export function bulkPlant({
           game: stateCopy,
           createdAt,
           seedItem: action.seed,
+          farmId,
         });
 
         allBoostsUsed.push(...boostsUsed);

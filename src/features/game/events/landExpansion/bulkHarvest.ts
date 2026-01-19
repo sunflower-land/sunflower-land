@@ -16,7 +16,7 @@ type Options = {
   state: Readonly<GameState>;
   action: BulkHarvestAction;
   createdAt?: number;
-  farmId?: number;
+  farmId: number;
 };
 
 export const getCropsToHarvest = (state: GameState, now = Date.now()) => {
@@ -41,7 +41,7 @@ export const getCropsToHarvest = (state: GameState, now = Date.now()) => {
 export function bulkHarvest({
   state,
   createdAt = Date.now(),
-  farmId = 0,
+  farmId,
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const { crops: plots, bumpkin } = stateCopy;

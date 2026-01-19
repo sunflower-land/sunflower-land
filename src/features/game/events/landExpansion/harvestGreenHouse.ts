@@ -76,14 +76,14 @@ type Options = {
   state: Readonly<GameState>;
   action: HarvestGreenhouseAction;
   createdAt?: number;
-  farmId?: number;
+  farmId: number;
 };
 
 export function harvestGreenHouse({
   state,
   action,
   createdAt = Date.now(),
-  farmId = 0,
+  farmId,
 }: Options): GameState {
   return produce(state, (game) => {
     // Requires Greenhouse exists

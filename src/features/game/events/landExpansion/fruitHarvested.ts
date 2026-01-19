@@ -48,7 +48,7 @@ type Options = {
   state: Readonly<GameState>;
   action: HarvestFruitAction;
   createdAt?: number;
-  farmId?: number;
+  farmId: number;
 };
 
 export const isFruitReadyToHarvest = (
@@ -314,7 +314,7 @@ export function harvestFruit({
   state,
   action,
   createdAt = Date.now(),
-  farmId = 0,
+  farmId,
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const { fruitPatches, bumpkin } = stateCopy;
