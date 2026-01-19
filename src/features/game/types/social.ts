@@ -1,4 +1,5 @@
-import { InventoryItemName } from "./game";
+import { hasVipAccess } from "../lib/vipAccess";
+import { GameState, InventoryItemName } from "./game";
 
 export type TwitterPostName = `WEEKLY` | `FARM`;
 
@@ -10,15 +11,27 @@ export const TWITTER_HASHTAGS: Record<TwitterPostName, string> = {
 };
 
 export type TwitterReward = {
-  items: Partial<Record<InventoryItemName, number>>;
+  items: (game: GameState) => Partial<Record<InventoryItemName, number>>;
 };
 
 export const TWITTER_REWARDS: Record<TwitterPostName, TwitterReward> = {
   WEEKLY: {
-    items: { "Love Charm": 50 },
+    items: (game: GameState) => {
+      if (!hasVipAccess({ game })) {
+        return { "Bronze Food Box": 1 };
+      }
+
+      return { "Love Charm": 50, "Bronze Food Box": 1 };
+    },
   },
   FARM: {
-    items: { "Love Charm": 10 },
+    items: (game: GameState) => {
+      if (!hasVipAccess({ game })) {
+        return { "Bronze Tool Box": 1 };
+      }
+
+      return { "Love Charm": 10, "Bronze Tool Box": 1 };
+    },
   },
 };
 

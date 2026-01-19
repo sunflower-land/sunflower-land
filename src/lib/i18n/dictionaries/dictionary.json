@@ -5891,6 +5891,7 @@
   "joining.telegram.success": "Telegram joined!",
   "following.twitter.success": "Twitter followed!",
   "following.twitter.failed": "Twitter not followed",
+  "twitter.rewards.vip": "Psssst...VIP members earn Love Charms!",
   "following.twitter.failed.description": "Please follow the official Sunflower Land Twitter account to continue.",
   "twitter.title": "X (Twitter)",
   "twitter.description": "Connect your X account to earn rewards!",
