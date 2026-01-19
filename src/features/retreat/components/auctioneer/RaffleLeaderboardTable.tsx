@@ -1,0 +1,114 @@
+import React from "react";
+import classNames from "classnames";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { getKeys } from "features/game/types/craftables";
+import { ITEM_IDS } from "features/game/types/bumpkin";
+import { getImageUrl } from "lib/utils/getImageURLS";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import sflIcon from "assets/icons/flower_token.webp";
+import { toOrdinalSuffix } from "./AuctionLeaderboardTable";
+import { RaffleWinner } from "./actions/loadRaffleResults";
+
+type Props = {
+  winners: RaffleWinner[];
+  farmId: number;
+};
+
+export const RaffleLeaderboardTable: React.FC<Props> = ({
+  winners,
+  farmId,
+}) => {
+  const { t } = useAppTranslation();
+
+  if (!winners?.length) {
+    return <p className="text-xxs">{t("auction.raffle.noWinners")}</p>;
+  }
+
+  return (
+    <table className="w-full text-xs table-fixed border-collapse">
+      <tbody>
+        {winners.map((winner) => {
+          const name = winner.profile?.username ?? `#${winner.farmId}`;
+          const level = winner.profile?.level ?? "-";
+
+          return (
+            <tr
+              key={`${winner.farmId}-${winner.position}`}
+              className={classNames({
+                "bg-green-500": winner.farmId === farmId,
+              })}
+            >
+              <td
+                style={{ border: "1px solid #b96f50" }}
+                className="p-1.5 pb-2 w-10"
+              >
+                {toOrdinalSuffix(winner.position)}
+              </td>
+              <td
+                style={{ border: "1px solid #b96f50" }}
+                className="p-1.5 text-left pl-8 relative truncate"
+              >
+                {winner.profile?.equipped && (
+                  <div
+                    className="absolute"
+                    style={{ left: "4px", top: "-1px" }}
+                  >
+                    <NPCIcon width={24} parts={winner.profile.equipped} />
+                  </div>
+                )}
+                <div className="relative">
+                  <div>{name}</div>
+                  <div
+                    className="text-xxs absolute "
+                    style={{
+                      fontSize: "14px",
+                      bottom: "-10px",
+                      left: "-26px",
+                    }}
+                  >
+                    {t("auction.raffle.levelShort", { level })}
+                  </div>
+                </div>
+              </td>
+
+              <td
+                style={{ border: "1px solid #b96f50" }}
+                className="p-1.5 w-2/5"
+              >
+                <div className="flex space-x-1 flex-wrap space-y-1">
+                  {winner.sfl && winner.sfl > 0 && (
+                    <div className="flex w-16 items-center">
+                      <img src={sflIcon} className="h-4 mr-0.5" />
+                      <span className="text-xs">{winner.sfl}</span>
+                    </div>
+                  )}
+                  {getKeys(winner.items ?? {}).map((name) => (
+                    <div className="flex w-16 items-center" key={name}>
+                      <img
+                        src={ITEM_DETAILS[name].image}
+                        className="h-4 mr-0.5"
+                      />
+                      <span className="text-xs">{winner.items?.[name]}</span>
+                    </div>
+                  ))}
+                  {getKeys(winner.wearables ?? {}).map((wearable) => (
+                    <div className="flex w-16 items-center" key={wearable}>
+                      <img
+                        src={getImageUrl(ITEM_IDS[wearable])}
+                        className="h-4 mr-0.5"
+                      />
+                      <span className="text-xs">
+                        {winner.wearables?.[wearable]}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
+};

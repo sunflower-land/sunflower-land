@@ -14035,6 +14035,22 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Paw Prints Raffle Ticket": {
+    name: "Paw Prints Raffle Ticket",
+    description: "A ticket for the Paw Prints raffle.",
+    decimals: 0,
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/310.webp",
+  },
+  "Crab Chapter Raffle Ticket": {
+    name: "Crab Chapter Raffle Ticket",
+    description: "A ticket for the Crab Chapter raffle.",
+    decimals: 0,
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/310.webp",
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {

@@ -624,6 +624,12 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
     stateValue as string,
   ) as TranslationKeys;
 
+  let effectText = t(effectTranslationKey);
+
+  if (effectText === effectTranslationKey) {
+    effectText = t("loading");
+  }
+
   return (
     <>
       <ToastProvider>
@@ -634,7 +640,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             bumpkinParts={error ? NPC_WEARABLES["worried pete"] : undefined}
           >
             {/* Effects */}
-            {effectPending && <Loading text={t(effectTranslationKey)} />}
+            {effectPending && <Loading text={effectText} />}
             {effectSuccess &&
               (EFFECT_SUCCESS_COMPONENTS[stateValue as StateValues] ?? (
                 <EffectSuccess state={stateValue} />

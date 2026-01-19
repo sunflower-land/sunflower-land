@@ -20,6 +20,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
   inventory: {
     "Easter Token 2025": new Decimal(500),
     Marty: new Decimal(2),
+    "Paw Prints Raffle Ticket": new Decimal(100),
+    "Pet Cookie": new Decimal(100),
+    "Lifetime Farmer Banner": new Decimal(2),
     Miffy: new Decimal(2),
     Morty: new Decimal(2),
     Mog: new Decimal(2),
