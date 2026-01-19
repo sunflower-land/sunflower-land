@@ -7837,7 +7837,6 @@
   "petGuide.levelPerks.lvl75": "+5 フェッチエネルギー",
   "petGuide.levelPerks.lvl85": "フィードあたり +25% 経験値 (合計 50%) (NFT のみ)",
   "petGuide.levelPerks.lvl100": "+10% の確率で追加のフェッチリソース (合計 25%)",
-  "petGuide.levelPerks.lvl150": "+25% の確率で追加のフェッチリソース (合計 50%) (NFT のみ)",
   "petGuide.levelPerks.lvl200": "2 番目のハードリクエストのロック解除 (NFT のみ)",
   "petGuide.care.title": "お手入れ",
   "petGuide.care.description": "一般的なペットは3日ごと、NFTペットは7日ごとに給餌する必要があります。放置されたペットを復活させるには500 XPが必要です。",
@@ -7850,5 +7849,7 @@
   "petGuide.social.description2": "友だちは、ペット1匹につき+5 XPでペットとふれあうことができます。ペット1匹につき1日あたり最大50XPです。",
   "petGuide.social.description3": "NFTペットはマルチプレイヤーエリアで一緒に歩くことができます。ペット管理画面で有効にしてください。一度に 1 匹のペットしか歩けません。",
   "petGuide.social.description4": "友達の農場を訪れてペットを撫でたり、コミュニティを作ったりしましょう！",
-  "instantReady": "インスタントレディ"
+  "instantReady": "インスタントレディ",
+  "twitter.rewards.vip": "Psssst... VIPメンバーはラブチャームを獲得できます！",
+  "petGuide.levelPerks.lvl150": "+25% の確率でムーンファーのフェッチリソースが追加される (合計 50%) (NFTのみ)"
 }

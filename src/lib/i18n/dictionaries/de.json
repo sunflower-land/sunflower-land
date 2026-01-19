@@ -7837,7 +7837,6 @@
   "petGuide.levelPerks.lvl75": "+5 Energie holen",
   "petGuide.levelPerks.lvl85": "+25% XP pro Feed (insgesamt 50%) (nur NFT)",
   "petGuide.levelPerks.lvl100": "+10% Chance auf zusätzliche Abholressource (insgesamt 25%)",
-  "petGuide.levelPerks.lvl150": "+25% Chance auf zusätzliche Abrufressourcen (insgesamt 50%) (nur NFT)",
   "petGuide.levelPerks.lvl200": "2. Hard-Request freischalten (nur NFT)",
   "petGuide.care.title": "Pflege",
   "petGuide.care.description": "Gewöhnliche Haustiere müssen alle 3 Tage gefüttert werden, NFT-Haustiere alle 7 Tage. Die Wiederbelebung eines vernachlässigten Haustiers kostet 500 XP.",
@@ -7850,5 +7849,7 @@
   "petGuide.social.description2": "Freunde können deine Gefährten für jeweils +5 XP streicheln, bis zu 50 XP pro Tier und Tag.",
   "petGuide.social.description3": "NFT-Haustiere können in Mehrspielerbereichen mit dir spazieren gehen. Aktiviere dies auf dem Bildschirm zur Verwaltung von Haustieren. Es kann immer nur ein Haustier laufen.",
   "petGuide.social.description4": "Besuche die Farmen deiner Freunde, um ihre Haustiere zu streicheln und eine Gemeinschaft aufzubauen!",
-  "instantReady": "Sofort einsatzbereit"
+  "instantReady": "Sofort einsatzbereit",
+  "twitter.rewards.vip": "Psssst... VIP-Mitglieder verdienen Liebeszauber!",
+  "petGuide.levelPerks.lvl150": "+25% Chance, zusätzliche Moonfur-Ressourcen zu erhalten (insgesamt 50%) (nur NFT)"
 }

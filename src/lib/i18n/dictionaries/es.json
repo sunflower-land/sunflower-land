@@ -7837,7 +7837,6 @@
   "petGuide.levelPerks.lvl75": "+5 obtienen energía",
   "petGuide.levelPerks.lvl85": "+25% de XP por feed (50% en total) (solo NFT)",
   "petGuide.levelPerks.lvl100": "+10% de probabilidad de obtener un recurso de búsqueda adicional (25% en total)",
-  "petGuide.levelPerks.lvl150": "+25% de probabilidad de obtener un recurso de búsqueda adicional (50% en total) (solo NFT)",
   "petGuide.levelPerks.lvl200": "Desbloquea la segunda solicitud física (solo NFT)",
   "petGuide.care.title": "Cuidar",
   "petGuide.care.description": "Las mascotas comunes necesitan alimentarse cada 3 días, las mascotas NFT cada 7 días. Revivir a una mascota abandonada cuesta 500 XP.",
@@ -7850,5 +7849,7 @@
   "petGuide.social.description2": "Los amigos pueden acariciar a tus compañeros por +5 puntos de EXP cada uno, hasta 50 puntos de EXP por mascota y día.",
   "petGuide.social.description3": "Las mascotas de NFT pueden caminar contigo en las áreas multijugador. Actívala en la pantalla de gestión de mascotas. Solo puede caminar una mascota a la vez.",
   "petGuide.social.description4": "¡Visita las granjas de tus amigos para acariciar a sus mascotas y construir una comunidad!",
-  "instantReady": "Listo al instante"
+  "instantReady": "Listo al instante",
+  "twitter.rewards.vip": "Psssst... ¡Los miembros VIP ganan Love Charms!",
+  "petGuide.levelPerks.lvl150": "+25% de probabilidad de obtener un recurso adicional para obtener Moonfur (50% en total) (solo en NFT)"
 }

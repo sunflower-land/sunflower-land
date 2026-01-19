@@ -7837,7 +7837,6 @@
   "petGuide.levelPerks.lvl75": "+5 pour récupérer de l'énergie",
   "petGuide.levelPerks.lvl85": "+25 % d'XP par alimentation (50 % au total) (NFT uniquement)",
   "petGuide.levelPerks.lvl100": "+10 % de chances d'obtenir des ressources supplémentaires (25 % au total)",
-  "petGuide.levelPerks.lvl150": "+25 % de chances d'obtenir des ressources supplémentaires (50 % au total) (NFT uniquement)",
   "petGuide.levelPerks.lvl200": "Débloquez la deuxième requête physique (NFT uniquement)",
   "petGuide.care.title": "Soin",
   "petGuide.care.description": "Les animaux domestiques ordinaires ont besoin d'être nourris tous les 3 jours, les animaux NFT tous les 7 jours. Faire revivre un animal de compagnie négligé coûte 500 XP.",
@@ -7850,5 +7849,7 @@
   "petGuide.social.description2": "Les amis peuvent caresser vos compagnons pour +5 points d'expérience chacun, jusqu'à 50 points d'expérience par animal et par jour.",
   "petGuide.social.description3": "Les animaux de compagnie NFT peuvent marcher avec vous dans les zones multijoueurs. Activez cette option dans l'écran de gestion des animaux de compagnie. Un seul animal de compagnie peut marcher à la fois.",
   "petGuide.social.description4": "Visitez les fermes de vos amis pour caresser leurs animaux de compagnie et créer une communauté !",
-  "instantReady": "Prêt pour l'instant"
+  "instantReady": "Prêt pour l'instant",
+  "twitter.rewards.vip": "Psssst... Les membres VIP gagnent des Love Charms !",
+  "petGuide.levelPerks.lvl150": "+25 % de chances de récupérer des ressources supplémentaires en fourrure de lune (50 % au total) (NFT uniquement)"
 }

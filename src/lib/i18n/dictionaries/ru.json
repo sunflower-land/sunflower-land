@@ -7837,7 +7837,6 @@
   "petGuide.levelPerks.lvl75": "+5 fetch energy",
   "petGuide.levelPerks.lvl85": "+25% XP per feed (50% total) (NFT only)",
   "petGuide.levelPerks.lvl100": "+10% chance for extra fetch resource (25% total)",
-  "petGuide.levelPerks.lvl150": "+25% chance for extra fetch resource (50% total) (NFT only)",
   "petGuide.levelPerks.lvl200": "Unlock 2nd hard request (NFT only)",
   "petGuide.care.title": "Care",
   "petGuide.care.description": "Common pets need feeding every 3 days, NFT pets every 7 days. Reviving a neglected pet costs 500 XP.",
@@ -7850,5 +7849,7 @@
   "petGuide.social.description2": "Friends can pet your companions for +5 XP each, up to 50 XP per pet per day.",
   "petGuide.social.description3": "NFT pets can walk with you in multiplayer areas. Enable this in the pet management screen. Only one pet can walk at a time.",
   "petGuide.social.description4": "Visit friends' farms to pet their pets and build community!",
-  "instantReady": "Instant Ready"
+  "instantReady": "Instant Ready",
+  "twitter.rewards.vip": "Psssst...VIP members earn Love Charms!",
+  "petGuide.levelPerks.lvl150": "+25% chance for extra Moonfur fetch resource (50% total) (NFT only)"
 }

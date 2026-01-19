@@ -7837,7 +7837,6 @@
   "petGuide.levelPerks.lvl75": "+5 dapatkan tenaga",
   "petGuide.levelPerks.lvl85": "+25% XP setiap suapan (jumlah 50%) (NFT sahaja)",
   "petGuide.levelPerks.lvl100": "+10% peluang untuk mendapatkan sumber tambahan (jumlah 25%)",
-  "petGuide.levelPerks.lvl150": "+25% peluang untuk sumber pengambilan tambahan (jumlah 50%) (NFT sahaja)",
   "petGuide.levelPerks.lvl200": "Buka kunci permintaan keras ke-2 (NFT sahaja)",
   "petGuide.care.title": "Penjagaan",
   "petGuide.care.description": "Haiwan peliharaan biasa memerlukan makanan setiap 3 hari, haiwan peliharaan NFT setiap 7 hari. Menghidupkan semula haiwan peliharaan yang diabaikan berharga 500 XP.",
@@ -7850,5 +7849,7 @@
   "petGuide.social.description2": "Rakan boleh membelai sahabat anda dengan harga +5 XP setiap satu, sehingga 50 XP setiap haiwan peliharaan setiap hari.",
   "petGuide.social.description3": "Haiwan peliharaan NFT boleh berjalan bersama anda di kawasan berbilang pemain. Dayakan ini dalam skrin pengurusan haiwan kesayangan. Hanya satu haiwan peliharaan boleh berjalan pada satu masa.",
   "petGuide.social.description4": "Lawati ladang rakan untuk memelihara haiwan peliharaan mereka dan membina komuniti!",
-  "instantReady": "Sedia Segera"
+  "instantReady": "Sedia Segera",
+  "twitter.rewards.vip": "Psssst... Ahli VIP mendapat Cinta Cinta!",
+  "petGuide.levelPerks.lvl150": "+25% peluang untuk sumber pengambilan Moonfur tambahan (jumlah 50%) (NFT sahaja)"
 }

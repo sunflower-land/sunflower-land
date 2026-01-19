@@ -7837,7 +7837,6 @@
   "petGuide.levelPerks.lvl75": "+5 buscam energia",
   "petGuide.levelPerks.lvl85": "+25% de XP por feed (50% no total) (somente NFT)",
   "petGuide.levelPerks.lvl100": "+10% de chance de obter mais recursos de busca (25% no total)",
-  "petGuide.levelPerks.lvl150": "+25% de chance de obter um recurso extra de busca (50% no total) (somente NFT)",
   "petGuide.levelPerks.lvl200": "Desbloqueie a segunda solicitação rígida (somente NFT)",
   "petGuide.care.title": "Cuidado",
   "petGuide.care.description": "Animais de estimação comuns precisam ser alimentados a cada 3 dias, animais de estimação NFT a cada 7 dias. Reviver um animal de estimação negligenciado custa 500 XP.",
@@ -7850,5 +7849,7 @@
   "petGuide.social.description2": "Amigos podem acariciar seus companheiros por +5 XP cada, até 50 XP por animal de estimação por dia.",
   "petGuide.social.description3": "Animais de estimação NFT podem caminhar com você em áreas multijogador. Ative isso na tela de gerenciamento de animais de estimação. Apenas um animal de estimação pode andar por vez.",
   "petGuide.social.description4": "Visite as fazendas de amigos para acariciar seus animais de estimação e construir uma comunidade!",
-  "instantReady": "Pronto para uso imediato"
+  "instantReady": "Pronto para uso imediato",
+  "twitter.rewards.vip": "Psssst... membros VIP ganham Love Charms!",
+  "petGuide.levelPerks.lvl150": "+25% de chance de um recurso extra de buscar Moonfur (50% no total) (somente NFT)"
 }

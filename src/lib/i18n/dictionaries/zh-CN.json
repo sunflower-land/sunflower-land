@@ -7837,7 +7837,6 @@
   "petGuide.levelPerks.lvl75": "+5 拾取能量",
   "petGuide.levelPerks.lvl85": "每次喂食 +25% 宠物 XP（合计 50%）（仅限 NFT）",
   "petGuide.levelPerks.lvl100": "+10% 几率额外拾取 1 个资源（合计 25%）",
-  "petGuide.levelPerks.lvl150": "+25% 几率额外拾取 1 个月光绒（合计 50%）（仅限 NFT）",
   "petGuide.levelPerks.lvl200": "解锁第 2 个困难需求（仅限 NFT）",
   "petGuide.care.title": "照顾",
   "petGuide.care.description": "普通宠物需每 3 天喂食一次，NFT 宠物为每 7 天。安慰疏于照顾的宠物需消耗 500 宠物 XP。",
@@ -7850,5 +7849,7 @@
   "petGuide.social.description2": "好友抚摸你的宠物每次可 +5 宠物 XP，每只宠物每日上限 50 宠物 XP。",
   "petGuide.social.description3": "NFT 宠物可在多人区域跟随你。请在宠物管理界面开启此功能。同一时间仅限一只宠物跟随。",
   "petGuide.social.description4": "拜访好友农场抚摸他们的宠物，共建活跃社区！",
-  "instantReady": "立即完成"
+  "instantReady": "立即完成",
+  "twitter.rewards.vip": "Psssst... VIP 会员可获得爱情护身符！",
+  "petGuide.levelPerks.lvl150": "获得额外月毛资源的几率 +25%（总计 50%）（仅限 NFT）"
 }

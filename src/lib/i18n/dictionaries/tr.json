@@ -7837,7 +7837,6 @@
   "petGuide.levelPerks.lvl75": "+5 enerji getir",
   "petGuide.levelPerks.lvl85": "Besleme başına %+25 DP (toplam %50) (yalnızca NFT)",
   "petGuide.levelPerks.lvl100": "Ekstra kaynak alma şansı %+10 (toplam %25)",
-  "petGuide.levelPerks.lvl150": "Ekstra kaynak alma için %+25 şans (toplamda %50) (yalnızca NFT)",
   "petGuide.levelPerks.lvl200": "2. sabit isteğin kilidini açın (yalnızca NFT)",
   "petGuide.care.title": "Bakım",
   "petGuide.care.description": "Yaygın evcil hayvanların her 3 günde bir, NFT evcil hayvanlarının 7 günde bir beslenmeye ihtiyacı vardır. İhmal edilmiş bir evcil hayvanı canlandırmak 500 XP'ye mal olur.",
@@ -7850,5 +7849,7 @@
   "petGuide.social.description2": "Arkadaşlarınız arkadaşlarınızı her biri +5 DP karşılığında evcil hayvan başına günlük 50 DP'ye kadar okşayabilir.",
   "petGuide.social.description3": "NFT evcil hayvanları çok oyunculu alanlarda sizinle birlikte yürüyebilir. Bunu evcil hayvan yönetimi ekranında etkinleştirin. Bir seferde sadece bir evcil hayvan yürüyebilir.",
   "petGuide.social.description4": "Evcil hayvanlarını evcilleştirmek ve topluluk oluşturmak için arkadaşların çiftliklerini ziyaret edin!",
-  "instantReady": "Anında Hazır"
+  "instantReady": "Anında Hazır",
+  "twitter.rewards.vip": "Psssst... VIP üyeler Aşk Tılsımları kazanır!",
+  "petGuide.levelPerks.lvl150": "Ekstra Moonfur alma kaynağı için %+25 şans (toplam %50) (yalnızca NFT)"
 }

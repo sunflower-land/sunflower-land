@@ -7837,7 +7837,6 @@
   "petGuide.levelPerks.lvl75": "+5 recupera energia",
   "petGuide.levelPerks.lvl85": "+25% di XP per feed (50% in totale) (solo NFT)",
   "petGuide.levelPerks.lvl100": "+10% di possibilità di recuperare risorse extra (25% in totale)",
-  "petGuide.levelPerks.lvl150": "+25% di possibilità di recuperare risorse extra (50% in totale) (solo NFT)",
   "petGuide.levelPerks.lvl200": "Sblocca la seconda richiesta rigida (solo NFT)",
   "petGuide.care.title": "Attenzione",
   "petGuide.care.description": "Gli animali domestici comuni devono essere nutriti ogni 3 giorni, gli animali NFT ogni 7 giorni. Rianimare un animale trascurato costa 500 XP.",
@@ -7850,5 +7849,7 @@
   "petGuide.social.description2": "Gli amici possono accarezzare i tuoi compagni per +5 XP ciascuno, fino a 50 XP per animale al giorno.",
   "petGuide.social.description3": "Gli animali NFT possono camminare con te nelle aree multigiocatore. Abilita questa opzione nella schermata di gestione degli animali domestici. Può camminare solo un animale alla volta.",
   "petGuide.social.description4": "Visita le fattorie degli amici per accarezzare i loro animali domestici e creare una comunità!",
-  "instantReady": "Pronto all'istante"
+  "instantReady": "Pronto all'istante",
+  "twitter.rewards.vip": "Psssst... i membri VIP guadagnano Love Charms!",
+  "petGuide.levelPerks.lvl150": "+25% di possibilità di recuperare risorse extra da Moonfur (50% in totale) (solo NFT)"
 }
