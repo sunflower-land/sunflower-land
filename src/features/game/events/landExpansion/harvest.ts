@@ -55,6 +55,8 @@ import {
   FarmActivityName,
 } from "features/game/types/farmActivity";
 import { isBuffActive } from "features/game/types/buffs";
+import { prngChance } from "lib/prng";
+import { KNOWN_IDS } from "features/game/types";
 export type LandExpansionHarvestAction = {
   type: "crop.harvested";
   index: string;
@@ -64,6 +66,7 @@ type Options = {
   state: GameState;
   action: LandExpansionHarvestAction;
   createdAt?: number;
+  farmId?: number;
 };
 
 export const isSummerCrop = (
@@ -123,13 +126,15 @@ export function getCropYieldAmount({
   game,
   plot,
   createdAt,
-  criticalDrop = () => false,
+  farmId,
+  counter,
 }: {
   crop: CropName | GreenHouseCropName;
   plot?: CropPlot;
   game: GameState;
   createdAt: number;
-  criticalDrop?: (name: CriticalHitName) => boolean;
+  farmId: number;
+  counter: number;
 }): { amount: number; aoe: AOE; boostsUsed: BoostName[] } {
   let amount = 1;
   const boostsUsed: BoostName[] = [];
@@ -137,6 +142,10 @@ export function getCropYieldAmount({
   const { inventory, bumpkin, buds, aoe } = game;
   const updatedAoe = cloneDeep(aoe);
   const skills = bumpkin?.skills ?? {};
+
+  const itemId = KNOWN_IDS[crop];
+  const criticalDrop = (criticalHitName: CriticalHitName, chance: number) =>
+    prngChance({ farmId, itemId, counter, chance, criticalHitName });
 
   if (isBuffActive({ buff: "Power hour", game })) {
     amount += 0.2;
@@ -201,7 +210,7 @@ export function getCropYieldAmount({
 
   if (
     isWearableActive({ name: "Green Amulet", game }) &&
-    criticalDrop("Green Amulet")
+    criticalDrop("Green Amulet", 10)
   ) {
     amount *= 10;
     boostsUsed.push("Green Amulet");
@@ -211,7 +220,7 @@ export function getCropYieldAmount({
   if (
     crop === "Potato" &&
     isCollectibleBuilt({ name: "Peeled Potato", game }) &&
-    criticalDrop("Peeled Potato")
+    criticalDrop("Peeled Potato", 20)
   ) {
     amount += 1;
     boostsUsed.push("Peeled Potato");
@@ -342,7 +351,7 @@ export function getCropYieldAmount({
   if (
     isGreenhouseCrop(crop) &&
     skills["Greenhouse Gamble"] &&
-    criticalDrop("Greenhouse Gamble")
+    criticalDrop("Greenhouse Gamble", 25)
   ) {
     amount += 1;
     boostsUsed.push("Greenhouse Gamble");
@@ -713,7 +722,7 @@ export function getCropYieldAmount({
   if (
     crop === "Potato" &&
     isCollectibleBuilt({ name: "Potent Potato", game }) &&
-    criticalDrop("Potent Potato")
+    criticalDrop("Potent Potato", 10 / 3)
   ) {
     amount += 10;
     boostsUsed.push("Potent Potato");
@@ -722,7 +731,7 @@ export function getCropYieldAmount({
   if (
     crop === "Sunflower" &&
     isCollectibleBuilt({ name: "Stellar Sunflower", game }) &&
-    criticalDrop("Stellar Sunflower")
+    criticalDrop("Stellar Sunflower", 10 / 3)
   ) {
     amount += 10;
     boostsUsed.push("Stellar Sunflower");
@@ -731,7 +740,7 @@ export function getCropYieldAmount({
   if (
     crop === "Radish" &&
     isCollectibleBuilt({ name: "Radical Radish", game }) &&
-    criticalDrop("Radical Radish")
+    criticalDrop("Radical Radish", 10 / 3)
   ) {
     amount += 10;
     boostsUsed.push("Radical Radish");
@@ -841,10 +850,12 @@ export function harvestCropFromPlot({
   plotId,
   game,
   createdAt,
+  farmId,
 }: {
   plotId: string;
   game: GameState;
   createdAt: number;
+  farmId: number;
 }): {
   updatedPlot: CropPlot;
   amount: number;
@@ -877,7 +888,9 @@ export function harvestCropFromPlot({
     throw new Error("Nothing was planted");
   }
 
-  const { name: cropName, plantedAt, reward, criticalHit = {} } = plot.crop;
+  const { name: cropName, plantedAt, reward } = plot.crop;
+
+  const counter = game.farmActivity[`${cropName} Harvested`] ?? 0;
 
   const { amount, aoe, boostsUsed } = plot.crop.amount
     ? { amount: plot.crop.amount, aoe: game.aoe, boostsUsed: [] }
@@ -886,7 +899,8 @@ export function harvestCropFromPlot({
         game,
         plot,
         createdAt,
-        criticalDrop: (name) => !!(criticalHit[name] ?? 0),
+        farmId,
+        counter,
       });
 
   const { harvestSeconds } = CROPS[cropName];
@@ -936,6 +950,7 @@ export function harvest({
   state,
   action,
   createdAt = Date.now(),
+  farmId = 0,
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const { crops: plots } = stateCopy;
@@ -945,6 +960,7 @@ export function harvest({
         plotId: action.index,
         game: stateCopy,
         createdAt,
+        farmId,
       });
 
     stateCopy.aoe = aoe;

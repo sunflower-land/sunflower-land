@@ -110,8 +110,12 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const isSeasoned = useSelector(gameService, isSeasonedPlayer);
   const [showHarvested, setShowHarvested] = useState(false);
   const [cropAmount, setCropAmount] = useState(0);
-
-  const now = useNow();
+  const activityCount = useSelector(gameService, (state) => {
+    const cropName = state.context.state.crops[id]?.crop?.name;
+    if (!cropName) return 0;
+    return state.context.state.farmActivity[`${cropName} Harvested`] ?? 0;
+  });
+  const farmId = useSelector(gameService, (state) => state.context.farmId);
 
   const { openModal } = useContext(ModalContext);
 
@@ -124,6 +128,18 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const fertiliser = crops?.[id]?.fertiliser;
 
   const plot = crops[id];
+
+  // Auto-end timer when crop has finished growing
+  const cropPlantedAt = crop?.plantedAt;
+  const cropHarvestSeconds = crop?.name
+    ? CROPS[crop.name]?.harvestSeconds
+    : undefined;
+  const cropAutoEndAt =
+    cropPlantedAt && cropHarvestSeconds
+      ? cropPlantedAt + cropHarvestSeconds * 1000
+      : undefined;
+
+  const now = useNow({ live: true, autoEndAt: cropAutoEndAt });
 
   const isFertile = isPlotFertile({
     plotIndex: id,
@@ -156,8 +172,9 @@ export const Plot: React.FC<Props> = ({ id }) => {
         crop: plot.crop.name,
         game: state,
         plot,
-        createdAt: Date.now(),
-        criticalDrop: (name) => !!plot.crop?.criticalHit?.[name],
+        createdAt: now,
+        counter: activityCount,
+        farmId,
       }).amount;
 
     // firework animation

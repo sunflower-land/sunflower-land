@@ -36,6 +36,8 @@ import {
 } from "features/game/types/calendar";
 import { getFruitfulBlendBuff } from "./fertiliseFruitPatch";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { prngChance } from "lib/prng";
+import { KNOWN_IDS } from "features/game/types";
 
 export type HarvestFruitAction = {
   type: "fruit.harvested";
@@ -46,6 +48,7 @@ type Options = {
   state: Readonly<GameState>;
   action: HarvestFruitAction;
   createdAt?: number;
+  farmId?: number;
 };
 
 export const isFruitReadyToHarvest = (
@@ -69,7 +72,8 @@ type FruitYield = {
   name: GreenHouseFruitName | PatchFruitName;
   game: GameState;
   fertiliser?: FruitCompostName;
-  criticalDrop?: (name: CriticalHitName) => boolean;
+  farmId: number;
+  counter: number;
 };
 
 const isFruit = (resource: Resource): resource is PatchFruitName => {
@@ -94,11 +98,19 @@ export function getFruitYield({
   game,
   name,
   fertiliser,
-  criticalDrop = () => false,
-}: FruitYield): { amount: number; boostsUsed: BoostName[] } {
+  farmId,
+  counter,
+}: FruitYield): {
+  amount: number;
+  boostsUsed: BoostName[];
+} {
   const { bumpkin } = game;
   let amount = 1;
   const boostsUsed: BoostName[] = [];
+
+  const itemId = KNOWN_IDS[name];
+  const criticalDrop = (criticalHitName: CriticalHitName, chance: number) =>
+    prngChance({ farmId, itemId, counter, chance, criticalHitName });
 
   if (name === "Apple" && isCollectibleBuilt({ name: "Lady Bug", game })) {
     amount += 0.25;
@@ -261,16 +273,16 @@ export function getFruitYield({
   if (
     isGreenhouseFruit(name) &&
     bumpkin.skills["Greenhouse Gamble"] &&
-    criticalDrop("Greenhouse Gamble")
+    criticalDrop("Greenhouse Gamble", 25)
   ) {
     amount += 1;
     boostsUsed.push("Greenhouse Gamble");
   }
 
-  // Generous Orchard: 10% chance of +1 patch fruit
+  // Generous Orchard: 20% chance of +1 patch fruit
   if (
     bumpkin.skills["Generous Orchard"] &&
-    criticalDrop("Generous Orchard") &&
+    criticalDrop("Generous Orchard", 20) &&
     isFruit(name)
   ) {
     amount += 1;
@@ -302,6 +314,7 @@ export function harvestFruit({
   state,
   action,
   createdAt = Date.now(),
+  farmId = 0,
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const { fruitPatches, bumpkin } = stateCopy;
@@ -324,13 +337,7 @@ export function harvestFruit({
       throw new Error("Nothing was planted");
     }
 
-    const {
-      name,
-      plantedAt,
-      harvestsLeft,
-      harvestedAt,
-      criticalHit = {},
-    } = patch.fruit;
+    const { name, plantedAt, harvestsLeft, harvestedAt } = patch.fruit;
 
     const { seed } = PATCH_FRUIT[name];
     const { plantSeconds } = PATCH_FRUIT_SEEDS[seed];
@@ -347,6 +354,7 @@ export function harvestFruit({
       throw new Error("No harvest left");
     }
 
+    const counter = stateCopy.farmActivity[`${name} Harvested`] ?? 0;
     const { amount, boostsUsed } =
       patch.fruit.amount !== undefined
         ? { amount: patch.fruit.amount, boostsUsed: [] }
@@ -354,7 +362,8 @@ export function harvestFruit({
             game: stateCopy,
             name,
             fertiliser: patch.fertiliser?.name,
-            criticalDrop: (name) => !!(criticalHit[name] ?? 0),
+            farmId,
+            counter,
           });
 
     stateCopy.inventory[name] =

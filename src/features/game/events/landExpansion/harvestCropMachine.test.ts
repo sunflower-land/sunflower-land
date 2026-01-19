@@ -1,8 +1,9 @@
-import Decimal from "decimal.js-light";
-import { harvestCropMachine } from "./harvestCropMachine";
+import { harvestCropMachine, getPackYieldAmount } from "./harvestCropMachine";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 import { CROP_MACHINE_PLOTS } from "./supplyCropMachine";
+import { KNOWN_IDS } from "features/game/types";
+import { prngChance } from "lib/prng";
 
 const GAME_STATE: GameState = { ...TEST_FARM, bumpkin: INITIAL_BUMPKIN };
 
@@ -140,6 +141,7 @@ describe("harvestCropMachine", () => {
           ],
         },
         inventory: {},
+        farmActivity: {},
       },
       action: {
         type: "cropMachine.harvested",
@@ -147,9 +149,9 @@ describe("harvestCropMachine", () => {
       },
     });
 
-    expect(result.inventory).toEqual({
-      Sunflower: new Decimal(10),
-    });
+    // With 10 seeds and no boosts, we expect at least 10 (base yield)
+    // PRNG may add more, so we check it's at least 10
+    expect(result.inventory.Sunflower?.gte(10)).toBe(true);
   });
 
   it("removes the harvested seed pack from the queue", () => {
@@ -180,6 +182,7 @@ describe("harvestCropMachine", () => {
           ],
         },
         inventory: {},
+        farmActivity: {},
       },
       action: {
         type: "cropMachine.harvested",
@@ -227,6 +230,7 @@ describe("harvestCropMachine", () => {
           ],
         },
         inventory: {},
+        farmActivity: {},
       },
       action: {
         type: "cropMachine.harvested",
@@ -235,5 +239,265 @@ describe("harvestCropMachine", () => {
     });
 
     expect(state.farmActivity["Sunflower Harvested"]).toEqual(10);
+  });
+
+  describe("getPackYieldAmount", () => {
+    it("adds critical hit to the harvested crops", () => {
+      const dateNow = Date.now();
+      const farmId = 1; // Frontend may not use farmId, but needed for PRNG
+      const itemId = KNOWN_IDS["Sunflower"];
+
+      // Find a starting counter where we get 2 Green Amulet hits and 1 Stellar Sunflower hit
+      // within the next 10 counters (for 10 seeds)
+      function findStartCounter() {
+        for (let startCounter = 0; startCounter < 1000; startCounter++) {
+          let greenAmuletHits = 0;
+          let stellarSunflowerHits = 0;
+
+          for (let i = 0; i < 10; i++) {
+            const counter = startCounter + i;
+            if (
+              prngChance({
+                farmId,
+                itemId,
+                counter,
+                chance: 10,
+                criticalHitName: "Green Amulet",
+              })
+            ) {
+              greenAmuletHits++;
+            }
+            if (
+              prngChance({
+                farmId,
+                itemId,
+                counter,
+                chance: 10 / 3,
+                criticalHitName: "Stellar Sunflower",
+              })
+            ) {
+              stellarSunflowerHits++;
+            }
+          }
+
+          if (greenAmuletHits >= 2 && stellarSunflowerHits >= 1) {
+            return startCounter;
+          }
+        }
+        return 0; // Fallback
+      }
+
+      const startCounter = findStartCounter();
+      const { amount } = getPackYieldAmount(
+        {
+          ...GAME_STATE,
+          buildings: {
+            "Crop Machine": [
+              {
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                id: "1",
+                readyAt: 123,
+                unallocatedOilTime: 0,
+                queue: [
+                  {
+                    crop: "Sunflower",
+                    growTimeRemaining: 0,
+                    readyAt: dateNow - 1000,
+                    totalGrowTime:
+                      (60 * 10 * 1000) / CROP_MACHINE_PLOTS(GAME_STATE),
+                    seeds: 10,
+                  },
+                ],
+              },
+            ],
+          },
+          bumpkin: {
+            ...GAME_STATE.bumpkin,
+            equipped: {
+              ...GAME_STATE.bumpkin.equipped,
+              necklace: "Green Amulet",
+            },
+          },
+          collectibles: {
+            "Stellar Sunflower": [
+              {
+                id: "1",
+                coordinates: { x: 0, y: 0 },
+                readyAt: 123,
+                createdAt: 0,
+              },
+            ],
+          },
+          farmActivity: {
+            "Sunflower Harvested": startCounter,
+          },
+        },
+        {
+          crop: "Sunflower",
+          growTimeRemaining: 0,
+          readyAt: dateNow - 1000,
+          totalGrowTime: (60 * 10 * 1000) / CROP_MACHINE_PLOTS(GAME_STATE),
+          seeds: 10,
+        },
+        farmId,
+        dateNow,
+      );
+
+      // Calculate expected amount based on PRNG outcomes
+      let expectedAmount = 0;
+      let greenAmuletHits = 0;
+      let stellarSunflowerHits = 0;
+
+      for (let i = 0; i < 10; i++) {
+        const counter = startCounter + i;
+        let seedAmount = 1;
+
+        const greenAmuletHit = prngChance({
+          farmId,
+          itemId,
+          counter,
+          chance: 10,
+          criticalHitName: "Green Amulet",
+        });
+
+        const stellarSunflowerHit = prngChance({
+          farmId,
+          itemId,
+          counter,
+          chance: 10 / 3,
+          criticalHitName: "Stellar Sunflower",
+        });
+
+        if (greenAmuletHit) {
+          seedAmount *= 10;
+          greenAmuletHits++;
+        }
+
+        if (stellarSunflowerHit) {
+          seedAmount += 10;
+          stellarSunflowerHits++;
+        }
+
+        expectedAmount += seedAmount;
+      }
+
+      // Verify we got the expected critical hits
+      expect(greenAmuletHits).toBeGreaterThanOrEqual(2);
+      expect(stellarSunflowerHits).toBeGreaterThanOrEqual(1);
+      expect(amount).toEqual(expectedAmount);
+    });
+
+    it("doesn't add critical hit to the harvested crops if green amulet is not equipped", () => {
+      const dateNow = Date.now();
+      const farmId = 1;
+      const itemId = KNOWN_IDS["Sunflower"];
+
+      // Find a starting counter where we get 1 Stellar Sunflower hit within the next 10 counters
+      function findStartCounter() {
+        for (let startCounter = 0; startCounter < 1000; startCounter++) {
+          let stellarSunflowerHits = 0;
+
+          for (let i = 0; i < 10; i++) {
+            const counter = startCounter + i;
+            if (
+              prngChance({
+                farmId,
+                itemId,
+                counter,
+                chance: 10 / 3,
+                criticalHitName: "Stellar Sunflower",
+              })
+            ) {
+              stellarSunflowerHits++;
+            }
+          }
+
+          if (stellarSunflowerHits >= 1) {
+            return startCounter;
+          }
+        }
+        return 0; // Fallback
+      }
+
+      const startCounter = findStartCounter();
+      const { amount } = getPackYieldAmount(
+        {
+          ...GAME_STATE,
+          buildings: {
+            "Crop Machine": [
+              {
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                id: "1",
+                readyAt: 123,
+                unallocatedOilTime: 0,
+                queue: [
+                  {
+                    crop: "Sunflower",
+                    growTimeRemaining: 0,
+                    readyAt: dateNow - 1000,
+                    totalGrowTime:
+                      (60 * 10 * 1000) / CROP_MACHINE_PLOTS(GAME_STATE),
+                    seeds: 10,
+                  },
+                ],
+              },
+            ],
+          },
+          collectibles: {
+            "Stellar Sunflower": [
+              {
+                id: "1",
+                coordinates: { x: 0, y: 0 },
+                readyAt: 123,
+                createdAt: 0,
+              },
+            ],
+          },
+          farmActivity: {
+            "Sunflower Harvested": startCounter,
+          },
+        },
+        {
+          crop: "Sunflower",
+          growTimeRemaining: 0,
+          readyAt: dateNow - 1000,
+          totalGrowTime: (60 * 10 * 1000) / CROP_MACHINE_PLOTS(GAME_STATE),
+          seeds: 10,
+        },
+        farmId,
+        dateNow,
+      );
+
+      // Calculate expected amount based on PRNG outcomes
+      // Green Amulet should not trigger (not equipped), but Stellar Sunflower can
+      let expectedAmount = 0;
+      let stellarSunflowerHits = 0;
+
+      for (let i = 0; i < 10; i++) {
+        const counter = startCounter + i;
+        let seedAmount = 1;
+
+        const stellarSunflowerHit = prngChance({
+          farmId,
+          itemId,
+          counter,
+          chance: 10 / 3,
+          criticalHitName: "Stellar Sunflower",
+        });
+
+        if (stellarSunflowerHit) {
+          seedAmount += 10;
+          stellarSunflowerHits++;
+        }
+
+        expectedAmount += seedAmount;
+      }
+
+      // Verify we got at least 1 Stellar Sunflower hit
+      expect(stellarSunflowerHits).toBeGreaterThanOrEqual(1);
+      expect(amount).toEqual(expectedAmount);
+    });
   });
 });

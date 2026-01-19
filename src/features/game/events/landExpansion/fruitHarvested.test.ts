@@ -833,8 +833,11 @@ describe("fruitHarvested", () => {
   });
 
   describe("getFruitYield", () => {
+    const farmId = 1;
     it("provides no bonuses", () => {
       const { amount } = getFruitYield({
+        counter: 0,
+        farmId,
         game: TEST_FARM,
         name: "Apple",
       });
@@ -844,6 +847,8 @@ describe("fruitHarvested", () => {
 
     it("gives +.1 basic fruit yield with Fruitful Fumble skill", () => {
       const { amount } = getFruitYield({
+        counter: 0,
+        farmId,
         game: {
           ...TEST_FARM,
           bumpkin: {
@@ -860,6 +865,8 @@ describe("fruitHarvested", () => {
     });
     it("give +0.1 fruit yield when macaw is placed", () => {
       const { amount } = getFruitYield({
+        counter: 0,
+        farmId,
         game: {
           ...INITIAL_FARM,
           collectibles: {
@@ -880,6 +887,8 @@ describe("fruitHarvested", () => {
     });
     it("gives +0.2 fruit yield when macaw is placed AND has Loyal Macaw Skill", () => {
       const { amount } = getFruitYield({
+        counter: 0,
+        farmId,
         game: {
           ...INITIAL_FARM,
           bumpkin: {
@@ -904,6 +913,8 @@ describe("fruitHarvested", () => {
     });
     it("gives +0.2 fruit yield when Fruitful Bounty is claimed and Fruitful Blend is applied", () => {
       const { amount } = getFruitYield({
+        counter: 0,
+        farmId,
         game: {
           ...INITIAL_FARM,
           bumpkin: {

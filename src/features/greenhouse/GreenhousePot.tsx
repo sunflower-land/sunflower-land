@@ -73,6 +73,7 @@ interface Props {
 }
 
 const _state = (state: MachineState) => state.context.state;
+const _farmId = (state: MachineState) => state.context.farmId;
 const clampPercentage = (value: number) => Math.min(Math.max(value, 0), 100);
 
 export const GreenhousePot: React.FC<Props> = ({ id }) => {
@@ -95,6 +96,13 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
   const [harvestedAmount, setHarvestedAmount] = useState<number>(0);
 
   const state = useSelector(gameService, _state);
+  const farmId = useSelector(gameService, _farmId);
+  const activityCount = useSelector(gameService, (state) => {
+    const cropName = state.context.state.greenhouse.pots[id]?.plant?.name;
+    if (!cropName) return 0;
+    return state.context.state.farmActivity[`${cropName} Harvested`] ?? 0;
+  });
+
   const { inventory, greenhouse } = state;
   const { pots } = greenhouse;
 
@@ -232,7 +240,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
 
   const harvest = async () => {
     if (!pot.plant) return;
-    if (Date.now() < readyAt) {
+    if (now < readyAt) {
       setShowTimeRemaining(true);
       await new Promise((res) => setTimeout(res, 2000));
       setShowTimeRemaining(false);
@@ -244,10 +252,11 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
     setHarvestedAmount(
       pot.plant.amount ??
         getGreenhouseCropYieldAmount({
+          farmId,
+          counter: activityCount,
           crop: pot.plant.name,
           game: state,
-          createdAt: Date.now(),
-          criticalDrop: (name) => !!(pot.plant?.criticalHit?.[name] ?? 0),
+          createdAt: now,
         }).amount,
     );
 
