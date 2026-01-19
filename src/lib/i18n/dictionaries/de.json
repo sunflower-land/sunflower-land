@@ -7860,8 +7860,6 @@
   "auction.raffle.confirmation.title": "Bist du sicher?",
   "auction.raffle.confirmation.description": "Die Gewinner werden nach dem Zufallsprinzip ausgewählt und die Tickets sind nicht erstattungsfähig.",
   "auction.raffle.labelWithId": "Verlosung {{id}}",
-  "auction.raffle.entryInfo": "Sie können Kapiteltickets und Tombola-Tickets verwenden.",
-  "auction.raffle.missingChapterTicket": "Du hast nicht genug {{ticket}}",
   "auction.raffle.missingRaffleTickets": "Sie haben nicht genug Gewinnspielkarten",
   "auction.raffle.chapterEntryInfo": "{{count}} {{ticket}} = {{entries}} Einträge",
   "auction.raffle.raffleEntryInfo": "{{count}} Gewinnspielticket = {{entries}} Einträge",
@@ -7882,5 +7880,7 @@
   "auction.raffle.continue": "Weiter",
   "auction.raffle.levelShort": "Stufe {{level}}",
   "auction.title": "Versteigerungen",
-  "effect.success.default": "Erfolg!"
+  "effect.success.default": "Erfolg!",
+  "auction.raffle.entryInfo": "Sie können Kapiteltickets und Tombola-Tickets verwenden. Beiträge sind nicht erstattungsfähig.",
+  "auction.raffle.missingChapterTicket": "Sie haben nicht genug {{ticket}} s"
 }

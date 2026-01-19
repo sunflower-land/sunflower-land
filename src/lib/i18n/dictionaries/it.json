@@ -7860,8 +7860,6 @@
   "auction.raffle.confirmation.title": "Ne sei sicuro?",
   "auction.raffle.confirmation.description": "I vincitori vengono scelti a caso e i biglietti non sono rimborsabili.",
   "auction.raffle.labelWithId": "Lotteria # {{id}}",
-  "auction.raffle.entryInfo": "Puoi utilizzare Chapter Tickets e Raffle Tickets.",
-  "auction.raffle.missingChapterTicket": "Non ne hai abbastanza {{ticket}}",
   "auction.raffle.missingRaffleTickets": "Non hai abbastanza biglietti della lotteria",
   "auction.raffle.chapterEntryInfo": "{{count}} {{ticket}} = {{entries}} iscrizioni",
   "auction.raffle.raffleEntryInfo": "{{count}} Biglietto della lotteria = {{entries}} iscrizioni",
@@ -7882,5 +7880,7 @@
   "auction.raffle.continue": "Continua",
   "auction.raffle.levelShort": "Livello {{level}}",
   "auction.title": "Aste",
-  "effect.success.default": "Successo!"
+  "effect.success.default": "Successo!",
+  "auction.raffle.entryInfo": "Puoi utilizzare Chapter Tickets e Raffle Tickets. Le iscrizioni non sono rimborsabili.",
+  "auction.raffle.missingChapterTicket": "Non hai abbastanza {{ticket}} s"
 }

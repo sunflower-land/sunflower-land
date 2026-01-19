@@ -7860,8 +7860,6 @@
   "auction.raffle.confirmation.title": "Kau yakin?",
   "auction.raffle.confirmation.description": "Pemenang dipilih secara acak dan tiket tidak dapat dikembalikan.",
   "auction.raffle.labelWithId": "Undian # {{id}}",
-  "auction.raffle.entryInfo": "Anda dapat menggunakan Tiket Bab dan Tiket Undian.",
-  "auction.raffle.missingChapterTicket": "Anda tidak memiliki cukup {{ticket}}",
   "auction.raffle.missingRaffleTickets": "Anda tidak memiliki cukup tiket undian",
   "auction.raffle.chapterEntryInfo": "{{count}} {{ticket}} = {{entries}} entri",
   "auction.raffle.raffleEntryInfo": "{{count}} Tiket Undian = entri {{entries}}",
@@ -7882,5 +7880,7 @@
   "auction.raffle.continue": "Lanjutkan",
   "auction.raffle.levelShort": "Tingkat {{level}}",
   "auction.title": "Lelang",
-  "effect.success.default": "Sukses!"
+  "effect.success.default": "Sukses!",
+  "auction.raffle.entryInfo": "Anda dapat menggunakan Tiket Bab dan Tiket Undian. Entri tidak dapat dikembalikan.",
+  "auction.raffle.missingChapterTicket": "Anda tidak memiliki cukup {{ticket}} s"
 }

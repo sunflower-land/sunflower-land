@@ -7860,8 +7860,6 @@
   "auction.raffle.confirmation.title": "Tu es sûr ?",
   "auction.raffle.confirmation.description": "Les gagnants sont choisis au hasard et les billets ne sont pas remboursables.",
   "auction.raffle.labelWithId": "Tirage au sort {{id}}",
-  "auction.raffle.entryInfo": "Vous pouvez utiliser les tickets de chapitre et les billets de tombola.",
-  "auction.raffle.missingChapterTicket": "Vous n'avez pas assez de {{ticket}}",
   "auction.raffle.missingRaffleTickets": "Vous n'avez pas assez de billets de tombola",
   "auction.raffle.chapterEntryInfo": "{{count}} {{ticket}} = {{entries}} entrées",
   "auction.raffle.raffleEntryInfo": "{{count}} Billet de tombola = {{entries}} entrées",
@@ -7882,5 +7880,7 @@
   "auction.raffle.continue": "Continuer",
   "auction.raffle.levelShort": "Niveau {{level}}",
   "auction.title": "Enchères",
-  "effect.success.default": "Succès !"
+  "effect.success.default": "Succès !",
+  "auction.raffle.entryInfo": "Vous pouvez utiliser les tickets de chapitre et les billets de tombola. Les inscriptions ne sont pas remboursables.",
+  "auction.raffle.missingChapterTicket": "Vous n'avez pas assez de {{ticket}} s"
 }
