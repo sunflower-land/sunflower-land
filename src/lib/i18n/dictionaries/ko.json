@@ -7860,8 +7860,6 @@
   "auction.raffle.confirmation.title": "확실해요?",
   "auction.raffle.confirmation.description": "수상자는 무작위로 선정되며 티켓은 환불되지 않습니다.",
   "auction.raffle.labelWithId": "추첨 # {{id}}",
-  "auction.raffle.entryInfo": "챕터 티켓과 추첨 티켓을 사용할 수 있습니다.",
-  "auction.raffle.missingChapterTicket": "모자라 {{ticket}}",
   "auction.raffle.missingRaffleTickets": "추첨 티켓이 충분하지 않습니다",
   "auction.raffle.chapterEntryInfo": "{{count}} {{ticket}} = {{entries}} 항목",
   "auction.raffle.raffleEntryInfo": "{{count}} 추첨 티켓 = {{entries}} 응모작",
@@ -7882,5 +7880,7 @@
   "auction.raffle.continue": "계속",
   "auction.raffle.levelShort": "레벨 {{level}}",
   "auction.title": "경매",
-  "effect.success.default": "성공!"
+  "effect.success.default": "성공!",
+  "auction.raffle.entryInfo": "챕터 티켓과 추첨 티켓을 사용할 수 있습니다.참가비는 환불되지 않습니다.",
+  "auction.raffle.missingChapterTicket": "{{ticket}} s가 부족합니다"
 }

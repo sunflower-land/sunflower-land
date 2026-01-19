@@ -94,6 +94,9 @@ export const Modal: React.FC<React.PropsWithChildren<ModalProps>> = ({
                     "w-screen h-full": !!fullscreen,
                   },
                 )}
+                // Prevent click through to Phaser
+                onMouseDown={(e) => e.stopPropagation()}
+                onMouseUp={(e) => e.stopPropagation()}
               >
                 <div ref={ref}>{children}</div>
               </DialogPanel>

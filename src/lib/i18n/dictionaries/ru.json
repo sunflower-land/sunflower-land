@@ -7860,8 +7860,6 @@
   "auction.raffle.confirmation.title": "Are you sure?",
   "auction.raffle.confirmation.description": "Winners are chosen at random and tickets are non-refundable.",
   "auction.raffle.labelWithId": "Raffle #{{id}}",
-  "auction.raffle.entryInfo": "You can use Chapter Tickets and Raffle Tickets.",
-  "auction.raffle.missingChapterTicket": "You don't have enough {{ticket}}",
   "auction.raffle.missingRaffleTickets": "You don't have enough Raffle Tickets",
   "auction.raffle.chapterEntryInfo": "{{count}} {{ticket}} = {{entries}} entries",
   "auction.raffle.raffleEntryInfo": "{{count}} Raffle Ticket = {{entries}} entries",
@@ -7882,5 +7880,7 @@
   "auction.raffle.continue": "Continue",
   "auction.raffle.levelShort": "Lvl{{level}}",
   "auction.title": "Auctions",
-  "effect.success.default": "Success!"
+  "effect.success.default": "Success!",
+  "auction.raffle.entryInfo": "You can use Chapter Tickets and Raffle Tickets. Entries are non-refundable.",
+  "auction.raffle.missingChapterTicket": "You don't have enough {{ticket}}s"
 }

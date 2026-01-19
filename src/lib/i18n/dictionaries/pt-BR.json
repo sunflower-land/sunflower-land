@@ -7860,8 +7860,6 @@
   "auction.raffle.confirmation.title": "Você tem certeza?",
   "auction.raffle.confirmation.description": "Os vencedores são escolhidos aleatoriamente e os ingressos não são reembolsáveis.",
   "auction.raffle.labelWithId": "Sorteio # {{id}}",
-  "auction.raffle.entryInfo": "Você pode usar ingressos para capítulos e ingressos de rifa.",
-  "auction.raffle.missingChapterTicket": "Você não tem o suficiente {{ticket}}",
   "auction.raffle.missingRaffleTickets": "Você não tem bilhetes de rifa suficientes",
   "auction.raffle.chapterEntryInfo": "{{count}} {{ticket}} = {{entries}} entradas",
   "auction.raffle.raffleEntryInfo": "{{count}} Bilhete de rifa = {{entries}} entradas",
@@ -7882,5 +7880,7 @@
   "auction.raffle.continue": "Continuar",
   "auction.raffle.levelShort": "Nvel {{level}}",
   "auction.title": "Leilões",
-  "effect.success.default": "Sucesso!"
+  "effect.success.default": "Sucesso!",
+  "auction.raffle.entryInfo": "Você pode usar ingressos para capítulos e ingressos de rifa. As inscrições não são reembolsáveis.",
+  "auction.raffle.missingChapterTicket": "Você não tem {{ticket}} s suficientes"
 }

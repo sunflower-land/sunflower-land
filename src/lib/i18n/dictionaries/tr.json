@@ -7860,8 +7860,6 @@
   "auction.raffle.confirmation.title": "Emin misin?",
   "auction.raffle.confirmation.description": "Kazananlar rastgele seçilir ve biletler iade edilmez.",
   "auction.raffle.labelWithId": "Çekiliş # {{id}}",
-  "auction.raffle.entryInfo": "Bölüm Biletleri ve Çekiliş Biletleri kullanabilirsiniz.",
-  "auction.raffle.missingChapterTicket": "Yeterince sahip değilsiniz {{ticket}}",
   "auction.raffle.missingRaffleTickets": "Yeterli Çekiliş Biletiniz Yok",
   "auction.raffle.chapterEntryInfo": "{{count}} {{ticket}} = {{entries}} girişleri",
   "auction.raffle.raffleEntryInfo": "{{count}} Çekiliş Bileti = {{entries}} girişleri",
@@ -7882,5 +7880,7 @@
   "auction.raffle.continue": "Devamı",
   "auction.raffle.levelShort": "Lvl {{level}}",
   "auction.title": "Müzayedeler",
-  "effect.success.default": "Başarı!"
+  "effect.success.default": "Başarı!",
+  "auction.raffle.entryInfo": "Bölüm Biletleri ve Çekiliş Biletleri kullanabilirsiniz. Girişler iade edilmez.",
+  "auction.raffle.missingChapterTicket": "Yeterli {{ticket}} s yok"
 }

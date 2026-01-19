@@ -7860,8 +7860,6 @@
   "auction.raffle.confirmation.title": "你确定吗？",
   "auction.raffle.confirmation.description": "获胜者是随机选出的，门票不可退款。",
   "auction.raffle.labelWithId": "抽奖 # {{id}}",
-  "auction.raffle.entryInfo": "您可以使用分会门票和抽奖券。",
-  "auction.raffle.missingChapterTicket": "你还不够 {{ticket}}",
   "auction.raffle.missingRaffleTickets": "你没有足够的抽奖券",
   "auction.raffle.chapterEntryInfo": "{{count}} {{ticket}} = {{entries}} 条目",
   "auction.raffle.raffleEntryInfo": "{{count}} 抽奖券 = {{entries}} 参赛作品",
@@ -7882,5 +7880,7 @@
   "auction.raffle.continue": "继续",
   "auction.raffle.levelShort": "等级 {{level}}",
   "auction.title": "拍卖会",
-  "effect.success.default": "成功！"
+  "effect.success.default": "成功！",
+  "auction.raffle.entryInfo": "您可以使用分会门票和抽奖券。参赛作品不可退款。",
+  "auction.raffle.missingChapterTicket": "你没有足够的 {{ticket}} s"
 }
