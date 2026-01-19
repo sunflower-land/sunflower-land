@@ -15,6 +15,45 @@ import { useCountdown } from "lib/utils/hooks/useCountdown";
 import craftingBoxAnimation from "assets/buildings/crafting_box_animation.webp";
 import { useNow } from "lib/utils/hooks/useNow";
 
+interface CraftingTimerProps {
+  readyAt: number;
+  startedAt: number;
+}
+
+const CraftingTimer: React.FC<CraftingTimerProps> = ({
+  readyAt,
+  startedAt,
+}) => {
+  const { totalSeconds: secondsLeft } = useCountdown(readyAt);
+  const totalRunningSeconds = Math.max((readyAt - startedAt) / 1000, 1);
+  const elapsedSeconds = Math.max(totalRunningSeconds - secondsLeft, 0);
+  const percentage = Math.min(
+    (elapsedSeconds / totalRunningSeconds) * 100,
+    100,
+  );
+
+  return (
+    <div
+      className="flex justify-center absolute"
+      style={{
+        bottom: 0,
+        width: `${PIXEL_SCALE * 46}px`,
+        left: `${PIXEL_SCALE * 0.5}px`,
+      }}
+    >
+      <ProgressBar
+        percentage={percentage}
+        type="progress"
+        formatLength="short"
+        seconds={secondsLeft}
+        style={{
+          width: `${PIXEL_SCALE * 14}px`,
+        }}
+      />
+    </div>
+  );
+};
+
 const _craftingStatus = (state: MachineState) =>
   state.context.state.craftingBox.status;
 const _craftingReadyAt = (state: MachineState) =>
@@ -34,18 +73,10 @@ export const CraftingBox: React.FC = () => {
   const craftingStartedAt = useSelector(gameService, _craftingStartedAt);
   const now = useNow({ live: true, autoEndAt: craftingReadyAt });
 
-  const { totalSeconds: secondsLeft } = useCountdown(craftingReadyAt ?? 0);
-
-  const startedAt = craftingStartedAt ?? 0;
-  const readyAt = craftingReadyAt ?? 0;
-  const totalRunningSeconds = Math.max((readyAt - startedAt) / 1000, 1);
-  const elapsedSeconds = Math.max(totalRunningSeconds - secondsLeft, 0);
-  const percentage = Math.min(
-    (elapsedSeconds / totalRunningSeconds) * 100,
-    100,
-  );
-  const isCrafting = craftingStatus === "crafting" && secondsLeft > 0;
-  const isReady = craftingStatus === "crafting" && craftingReadyAt <= now;
+  const isCrafting =
+    craftingStatus === "crafting" && craftingReadyAt && craftingReadyAt > now;
+  const isReady =
+    craftingStatus === "crafting" && craftingReadyAt && craftingReadyAt <= now;
 
   const handleOpen = () => {
     gameService.send("SAVE");
@@ -78,25 +109,11 @@ export const CraftingBox: React.FC = () => {
               bottom: `${PIXEL_SCALE * 0}px`,
             }}
           />
-          {showTimers && isCrafting && craftingReadyAt && (
-            <div
-              className="flex justify-center absolute"
-              style={{
-                bottom: 0,
-                width: `${PIXEL_SCALE * 46}px`,
-                left: `${PIXEL_SCALE * 0.5}px`,
-              }}
-            >
-              <ProgressBar
-                percentage={percentage}
-                type="progress"
-                formatLength="short"
-                seconds={secondsLeft}
-                style={{
-                  width: `${PIXEL_SCALE * 14}px`,
-                }}
-              />
-            </div>
+          {showTimers && isCrafting && craftingReadyAt && craftingStartedAt && (
+            <CraftingTimer
+              readyAt={craftingReadyAt}
+              startedAt={craftingStartedAt}
+            />
           )}
         </div>
         {isReady && (
