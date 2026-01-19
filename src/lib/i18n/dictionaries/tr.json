@@ -7878,10 +7878,10 @@
   "auction.title": "Müzayedeler",
   "effect.success.default": "Başarı!",
   "auction.raffle.missingChapterTicket": "Yeterli {{ticket}} s yok",
-  "auction.raffle.confirmation.description": "Kazananlar rastgele seçilir ve girişler iptal edilemez veya iade edilemez.",
   "auction.raffle.entryInfo": "Bölüm Biletleri ve Çekiliş Biletleri kullanabilirsiniz. Girişler iptal edilemez ve iade edilemez.",
   "auction.raffle.prizes": "Ödül havuzu",
   "auction.raffle.prizePool": "{{count}} kazananlar seçilecektir. Bu çekiliş için toplam ödül havuzu şunları içerir:",
   "auction.raffle.items": "{{item}} + daha fazlası...",
-  "auction.raffle.confirmation.noRefund": "Para iadesi yok"
+  "auction.raffle.confirmation.description": "Kazananlar rastgele seçilir ve girişler iptal edilemez veya iade edilemez.",
+  "auction.raffle.confirmation.noRefund": "Para iadesi yok (kazanmasanız bile)"
 }

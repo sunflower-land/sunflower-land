@@ -7878,10 +7878,10 @@
   "auction.title": "オークション",
   "effect.success.default": "成功!",
   "auction.raffle.missingChapterTicket": "{{ticket}} s が足りません",
-  "auction.raffle.confirmation.description": "受賞者はランダムに選ばれ、エントリーのキャンセルや返金はできません。",
   "auction.raffle.entryInfo": "チャプターチケットとラッフルチケットが使えます。エントリーはキャンセルや払い戻しはできません。",
   "auction.raffle.prizes": "賞金プール",
   "auction.raffle.prizePool": "{{count}} の当選者が選ばれます。このラッフルの合計報酬プールには以下が含まれます。",
   "auction.raffle.items": "{{item}} + もっと...",
-  "auction.raffle.confirmation.noRefund": "返金なし"
+  "auction.raffle.confirmation.description": "受賞者はランダムに選ばれ、エントリーのキャンセルや返金はできません。",
+  "auction.raffle.confirmation.noRefund": "払い戻しなし (当選しなかった場合でも)"
 }

@@ -7878,10 +7878,10 @@
   "auction.title": "Auctions",
   "effect.success.default": "Success!",
   "auction.raffle.missingChapterTicket": "You don't have enough {{ticket}}s",
-  "auction.raffle.confirmation.description": "Winners are chosen at random and entries cannot be cancelled or refunded .",
   "auction.raffle.entryInfo": "You can use Chapter Tickets and Raffle Tickets. Entries are non-cancellable and non-refundable.",
   "auction.raffle.prizes": "Prize pool",
   "auction.raffle.prizePool": "{{count}} winners will be picked. The total reward pool for this raffle includes:",
   "auction.raffle.items": "{{item}} + more...",
-  "auction.raffle.confirmation.noRefund": "No refunds"
+  "auction.raffle.confirmation.description": "Winners are chosen at random and entries cannot be cancelled or refunded.",
+  "auction.raffle.confirmation.noRefund": "No refunds (even if you don't win)"
 }

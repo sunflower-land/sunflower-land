@@ -7878,10 +7878,10 @@
   "auction.title": "Aste",
   "effect.success.default": "Successo!",
   "auction.raffle.missingChapterTicket": "Non hai abbastanza {{ticket}} s",
-  "auction.raffle.confirmation.description": "I vincitori vengono scelti a caso e le iscrizioni non possono essere annullate o rimborsate.",
   "auction.raffle.entryInfo": "Puoi utilizzare Chapter Tickets e Raffle Tickets. Le iscrizioni non sono cancellabili né rimborsabili.",
   "auction.raffle.prizes": "Montepremi",
   "auction.raffle.prizePool": "Verranno scelti i vincitori di {{count}}. Il montepremi totale di questa lotteria include:",
   "auction.raffle.items": "{{item}} + altro...",
-  "auction.raffle.confirmation.noRefund": "Nessun rimborso"
+  "auction.raffle.confirmation.description": "I vincitori vengono scelti a caso e le iscrizioni non possono essere annullate o rimborsate.",
+  "auction.raffle.confirmation.noRefund": "Nessun rimborso (anche se non vinci)"
 }

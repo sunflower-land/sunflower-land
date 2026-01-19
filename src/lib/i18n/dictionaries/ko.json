@@ -7878,10 +7878,10 @@
   "auction.title": "경매",
   "effect.success.default": "성공!",
   "auction.raffle.missingChapterTicket": "{{ticket}} s가 부족합니다",
-  "auction.raffle.confirmation.description": "수상자는 무작위로 선정되며 응모작은 취소하거나 환불할 수 없습니다.",
   "auction.raffle.entryInfo": "챕터 티켓과 추첨 티켓을 사용할 수 있습니다.응모작은 취소 및 환불이 불가합니다.",
   "auction.raffle.prizes": "상금 풀",
   "auction.raffle.prizePool": "{{count}} 수상자가 선정됩니다.이 추첨의 총 보상 풀에는 다음이 포함됩니다.",
   "auction.raffle.items": "{{item}} + 더 보기...",
-  "auction.raffle.confirmation.noRefund": "환불 불가"
+  "auction.raffle.confirmation.description": "수상자는 무작위로 선정되며 응모작은 취소하거나 환불할 수 없습니다.",
+  "auction.raffle.confirmation.noRefund": "환불 불가 (당첨되지 않은 경우에도)"
 }

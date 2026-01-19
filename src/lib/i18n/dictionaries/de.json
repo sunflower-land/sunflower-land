@@ -7878,10 +7878,10 @@
   "auction.title": "Versteigerungen",
   "effect.success.default": "Erfolg!",
   "auction.raffle.missingChapterTicket": "Sie haben nicht genug {{ticket}} s",
-  "auction.raffle.confirmation.description": "Die Gewinner werden nach dem Zufallsprinzip ausgewählt und Beiträge können nicht storniert oder erstattet werden.",
   "auction.raffle.entryInfo": "Sie können Kapiteltickets und Tombola-Tickets verwenden. Beiträge sind nicht stornierbar und nicht erstattungsfähig.",
   "auction.raffle.prizes": "Preispool",
   "auction.raffle.prizePool": "Die {{count}} Gewinner werden ausgewählt. Der gesamte Prämienpool für diese Verlosung beinhaltet:",
   "auction.raffle.items": "{{item}} + mehr...",
-  "auction.raffle.confirmation.noRefund": "Keine Rückerstattungen"
+  "auction.raffle.confirmation.description": "Die Gewinner werden nach dem Zufallsprinzip ausgewählt und Beiträge können nicht storniert oder erstattet werden.",
+  "auction.raffle.confirmation.noRefund": "Keine Rückerstattungen (auch wenn Sie nicht gewinnen)"
 }
