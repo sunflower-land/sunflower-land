@@ -465,9 +465,11 @@ export const AuctioneerRaffle: React.FC = () => {
             </>
           )}
         </div>
-        <Button onClick={() => setShowEntry(true)}>
-          {raffleEntries ? t("auction.raffle.addMore") : t("raffle.enter")}
-        </Button>
+        {isActiveRaffle && (
+          <Button onClick={() => setShowEntry(true)}>
+            {raffleEntries ? t("auction.raffle.addMore") : t("raffle.enter")}
+          </Button>
+        )}
       </>
     );
   }
