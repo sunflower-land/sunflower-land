@@ -24,6 +24,8 @@ export type RaffleResults = {
   raffleId: string;
   endAt: number;
   winners: RaffleWinner[];
+  participants: number;
+  entries: number;
 };
 
 type Request = {

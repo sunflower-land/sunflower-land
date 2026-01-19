@@ -218,7 +218,7 @@ export const AuctioneerRaffle: React.FC = () => {
           )}
         </div>
 
-        <Label type="default" className="my-2">
+        <Label type="danger" className="my-2">
           {t("auction.raffle.confirmation.noRefund")}
         </Label>
 
