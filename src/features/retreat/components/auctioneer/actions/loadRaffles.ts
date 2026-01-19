@@ -21,8 +21,11 @@ export async function loadRaffles(
         prizes: {
           1: {
             wearables: {
-              "Master Chef's Cleaver": 1,
+              "Acorn Hat": 1,
             },
+          },
+          2: {
+            items: { Gold: 5 },
           },
         },
       },

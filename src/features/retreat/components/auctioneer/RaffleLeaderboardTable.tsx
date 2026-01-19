@@ -58,18 +58,9 @@ export const RaffleLeaderboardTable: React.FC<Props> = ({
                   </div>
                 )}
                 <div className="relative">
-                  <div>{name}</div>
-                  <div
-                    className="text-xxs absolute "
-                    style={{
-                      fontSize: "14px",
-                      bottom: "-10px",
-                      left: "-26px",
-                    }}
-                  >
-                    {t("auction.raffle.levelShort", { level })}
-                  </div>
+                  <div>{`${name} - ${t("auction.raffle.levelShort", { level })}`}</div>
                 </div>
+                <div></div>
               </td>
 
               <td

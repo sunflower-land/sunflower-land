@@ -5,6 +5,7 @@ import { useActor } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import petEggNFT from "assets/icons/pet_nft_egg.png";
+import chest from "assets/icons/chest.png";
 import { Button } from "components/ui/Button";
 import { ButtonPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
@@ -187,7 +188,7 @@ export const AuctioneerRaffle: React.FC = () => {
   if (selectedRaffle && showConfirmation) {
     return (
       <>
-        <Label type="danger">{t("auction.raffle.confirmation.title")}</Label>
+        <Label type="default">{t("auction.raffle.confirmation.title")}</Label>
         <div className="p-1">
           <p className="text-xs m-1">
             {t("auction.raffle.confirmation.description")}
@@ -216,6 +217,11 @@ export const AuctioneerRaffle: React.FC = () => {
             </div>
           )}
         </div>
+
+        <Label type="default" className="my-2">
+          {t("auction.raffle.confirmation.noRefund")}
+        </Label>
+
         <div className="flex items-center">
           <Button onClick={() => setShowConfirmation(false)}>{t("no")}</Button>
           <Button
@@ -501,14 +507,22 @@ export const AuctioneerRaffle: React.FC = () => {
                   />
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm truncate mb-1">
-                    {Object.keys(raffle.prizes ?? {}).length > 1
-                      ? t(`auction.raffle.items`, {
-                          item: display.name,
-                          extra: Object.keys(raffle.prizes ?? {}).length - 1,
-                        })
-                      : display.name}
-                  </p>
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm truncate mb-1">
+                      {Object.keys(raffle.prizes ?? {}).length > 1
+                        ? t(`auction.raffle.items`, {
+                            item: display.name,
+                            extra: Object.keys(raffle.prizes ?? {}).length - 1,
+                          })
+                        : display.name}
+                    </p>
+                    <div className="flex items-center">
+                      <img src={chest} className="h-4 mr-1" />
+                      <p className="text-xs">
+                        {Object.keys(raffle.prizes ?? {}).length}
+                      </p>
+                    </div>
+                  </div>
                   {isCurrent ? (
                     <CountdownLabel raffle={raffle} />
                   ) : (
