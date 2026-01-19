@@ -268,7 +268,7 @@ export const AuctioneerRaffle: React.FC = () => {
             count={chapterTicketCount}
           />
           <div className="flex-1">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center ">
               <NumberInput
                 value={ticketAmount}
                 maxDecimalPlaces={0}
@@ -277,7 +277,7 @@ export const AuctioneerRaffle: React.FC = () => {
               {ticketAmount.gt(0) && (
                 <img
                   src={SUNNYSIDE.icons.cancel}
-                  className="h-6 cursor-pointer"
+                  className="h-6 cursor-pointer ml-2"
                   onClick={() => setTicketAmount(new Decimal(0))}
                 />
               )}
@@ -309,7 +309,7 @@ export const AuctioneerRaffle: React.FC = () => {
             count={raffleTicketCount}
           />
           <div className="flex-1">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center ">
               <NumberInput
                 value={raffleTicketAmount}
                 maxDecimalPlaces={0}
@@ -318,7 +318,7 @@ export const AuctioneerRaffle: React.FC = () => {
               {raffleTicketAmount.gt(0) && (
                 <img
                   src={SUNNYSIDE.icons.cancel}
-                  className="h-6 cursor-pointer"
+                  className="h-6 cursor-pointer ml-2"
                   onClick={() => setRaffleTicketAmount(new Decimal(0))}
                 />
               )}
