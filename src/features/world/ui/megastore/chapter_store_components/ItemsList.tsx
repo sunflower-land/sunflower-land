@@ -10,6 +10,7 @@ import {
   getCurrentChapter,
   getChapterArtefact,
   getChapterTicket,
+  CHAPTERS,
 } from "features/game/types/chapters";
 
 import token from "assets/icons/flower_token.webp";
@@ -82,11 +83,13 @@ export const ItemsList: React.FC<Props> = ({
         ] ?? 0
       );
     } else if (type === "collectibles" || (!type && "collectible" in item)) {
-      return (
-        state.farmActivity[
-          `${(item as ChapterStoreCollectible).collectible as ChapterTierItemName} Bought`
-        ] ?? 0
-      );
+      const collectibleName = (item as ChapterStoreCollectible).collectible;
+      const activityName = `${collectibleName} Bought` as const;
+      const result =
+        (state.farmActivity[activityName as keyof typeof state.farmActivity] as
+          | number
+          | undefined) ?? 0;
+      return result;
     } else if (type === "keys" || (!type && "key" in item)) {
       return (
         state.farmActivity[
@@ -173,7 +176,9 @@ export const ItemsList: React.FC<Props> = ({
 
   // Type guard if the requirement exists
   const hasRequirement = (
-    tier: any,
+    tier:
+      | { items: ChapterStoreItem[] }
+      | { items: ChapterStoreItem[]; requirement: number },
   ): tier is { items: ChapterStoreItem[]; requirement: number } => {
     return "requirement" in tier;
   };
@@ -186,10 +191,27 @@ export const ItemsList: React.FC<Props> = ({
   const isFlowerBox = (name: InventoryItemName): name is FlowerBox =>
     name in FLOWER_BOXES;
 
+  const isPetEgg = (name: InventoryItemName | string): name is "Pet Egg" =>
+    name === "Pet Egg";
+
   // For Current Tier Key - Unlocked(0) / Locked(1)
   const isKeyCounted = isKeyBoughtWithinChapter(state, tiers, now) ? 0 : 1;
   // For Current Tier Box - Unlocked(0) / Locked(1)
   const isBoxCounted = isBoxBoughtWithinChapter(state, tiers, now) ? 0 : 1;
+  // For Pet Egg - Unlocked(0) / Locked(1) - only show checkmark if bought from megastore in current chapter
+  const petEggBoughtAt =
+    state.megastore?.boughtAt["Pet Egg" as ChapterTierItemName];
+  const isPetEggBoughtInCurrentChapter = petEggBoughtAt
+    ? (() => {
+        const chapterTime = CHAPTERS[currentChapter];
+        const boughtDate = new Date(petEggBoughtAt);
+        return (
+          boughtDate >= chapterTime.startDate &&
+          boughtDate <= chapterTime.endDate
+        );
+      })()
+    : false;
+  const isPetEggCounted = isPetEggBoughtInCurrentChapter ? 0 : 1;
 
   // Reduction is by getting the lower tier of current tier
   const keyReduction = isKeyBoughtWithinChapter(state, tiers, now, true)
@@ -310,6 +332,7 @@ export const ItemsList: React.FC<Props> = ({
             const isItemFlowerBox = isFlowerBox(
               getItemName(item) as unknown as InventoryItemName,
             );
+            const isItemPetEgg = isPetEgg(getItemName(item));
 
             const balanceOfItem = getBalanceOfItem(item);
 
@@ -342,6 +365,7 @@ export const ItemsList: React.FC<Props> = ({
                     {balanceOfItem > 0 &&
                       !isItemKey &&
                       !isItemFlowerBox &&
+                      !isItemPetEgg &&
                       (tier === "basic" ||
                         (tier === "rare" && isRareUnlocked) ||
                         (tier === "epic" && isEpicUnlocked) ||
@@ -378,6 +402,25 @@ export const ItemsList: React.FC<Props> = ({
                     {isItemFlowerBox &&
                       !isItemKey &&
                       isBoxCounted === 0 &&
+                      (tier === "basic" ||
+                        (tier === "rare" && isRareUnlocked) ||
+                        (tier === "epic" && isEpicUnlocked) ||
+                        (tier === "mega" && isMegaUnlocked)) && (
+                        <img
+                          src={SUNNYSIDE.icons.confirm}
+                          className="absolute -right-2 -top-3"
+                          style={{
+                            width: `${PIXEL_SCALE * 9}px`,
+                          }}
+                          alt="crop"
+                        />
+                      )}
+
+                    {/* Confirm Icon for Pet Egg items */}
+                    {isItemPetEgg &&
+                      !isItemKey &&
+                      !isItemFlowerBox &&
+                      isPetEggCounted === 0 &&
                       (tier === "basic" ||
                         (tier === "rare" && isRareUnlocked) ||
                         (tier === "epic" && isEpicUnlocked) ||
