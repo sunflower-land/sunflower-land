@@ -30,7 +30,7 @@ import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
 import { useVisiting } from "lib/utils/visitUtils";
 import { RenewPetShrine } from "features/game/components/RenewPetShrine";
-import { hasFeatureAccess } from "lib/flags";
+import { PET_SHRINE_DIMENSIONS_STYLES } from "./PetShrine";
 
 export const ObsidianShrine: React.FC<CollectibleProps> = ({
   createdAt,
@@ -38,7 +38,7 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
   location,
 }) => {
   const { t } = useAppTranslation();
-  const { gameService, showTimers } = useContext(Context);
+  const { gameService, showTimers, showAnimations } = useContext(Context);
   const { isVisiting } = useVisiting();
   const [showRenewalModal, setShowRenewalModal] = useState(false);
 
@@ -58,14 +58,6 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
 
   const state = useSelector(gameService, (state) => state.context.state);
 
-  const handleRemove = () => {
-    gameService.send("collectible.burned", {
-      name: "Obsidian Shrine",
-      location,
-      id,
-    });
-  };
-
   const availablePlots = getAvailablePlots(state);
   const { readyCrops } = getCropsToHarvest(state, now);
   const hasReadyCrops = Object.keys(readyCrops).length > 0;
@@ -80,56 +72,56 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
     setShowRenewalModal(true);
   };
 
+  const shrineDimensions = PET_SHRINE_DIMENSIONS_STYLES["Obsidian Shrine"];
+
   if (hasExpired) {
     return (
       <>
         <div
-          onClick={
-            isVisiting
-              ? undefined
-              : hasFeatureAccess(state, "RENEW_PET_SHRINES")
-                ? handleRenewClick
-                : handleRemove
-          }
-          style={{
-            bottom: `${PIXEL_SCALE * 0}px`,
-            left: `${PIXEL_SCALE * -2.5}px`,
-            width: `${PIXEL_SCALE * 19}px`,
-          }}
+          onClick={isVisiting ? undefined : handleRenewClick}
+          className="absolute"
+          style={{ ...shrineDimensions, bottom: 0 }}
         >
-          {showTimers && (
-            <div
-              className="absolute bottom-0 left-1/2 -translate-x-1/2"
-              style={{
-                width: `${PIXEL_SCALE * 14}px`,
-              }}
-            >
-              <ProgressBar
-                seconds={secondsToExpire}
-                formatLength="medium"
-                type="error"
-                percentage={percentage}
-              />
-            </div>
-          )}
-
-          <img
-            className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
-            src={SUNNYSIDE.icons.dig_icon}
-            style={{
-              width: `${PIXEL_SCALE * 18}px`,
-              right: `${PIXEL_SCALE * -8}px`,
-              top: `${PIXEL_SCALE * -8}px`,
-            }}
-          />
-
           <img
             src={ITEM_DETAILS["Obsidian Shrine"].image}
             style={{
-              width: `${PIXEL_SCALE * 19}px`,
+              ...shrineDimensions,
+              bottom: 0,
+              filter: "grayscale(100%)",
             }}
             className="absolute cursor-pointer"
             alt={"Obsidian Shrine"}
+          />
+        </div>
+        {showTimers && (
+          <div
+            className="absolute left-1/2"
+            style={{
+              width: `${PIXEL_SCALE * 15}px`,
+              transform: "translateX(-50%)",
+              bottom: `${PIXEL_SCALE * -3}px`,
+            }}
+          >
+            <ProgressBar
+              seconds={secondsToExpire}
+              formatLength="medium"
+              type="error"
+              percentage={percentage}
+            />
+          </div>
+        )}
+        <div
+          className="flex justify-center absolute w-full pointer-events-none z-30"
+          style={{
+            top: `${PIXEL_SCALE * -20}px`,
+          }}
+        >
+          <img
+            src={SUNNYSIDE.icons.expression_alerted}
+            className={showAnimations ? "ready" : ""}
+            style={{
+              width: `${PIXEL_SCALE * 4}px`,
+            }}
           />
         </div>
         <RenewPetShrine
@@ -167,28 +159,27 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
           !hasReadyCrops && !hasAvailablePlots && setShowPopover(true)
         }
         onMouseLeave={() => setShowPopover(false)}
-        style={{
-          bottom: `${PIXEL_SCALE * 0}px`,
-          left: `${PIXEL_SCALE * -2.5}px`,
-          width: `${PIXEL_SCALE * 19}px`,
-        }}
+        style={{ ...shrineDimensions, bottom: 0 }}
       >
         <img
           src={ITEM_DETAILS["Obsidian Shrine"].image}
-          style={{
-            width: `${PIXEL_SCALE * 19}px`,
-          }}
+          style={{ ...shrineDimensions, bottom: 0 }}
+          className="absolute cursor-pointer"
           alt={"Obsidian Shrine"}
         />
         {showTimers && (
           <div
-            className="absolute bottom-0 left-1/2 -translate-x-1/2"
-            style={{ width: `${PIXEL_SCALE * 14}px` }}
+            className="absolute left-1/2"
+            style={{
+              width: `${PIXEL_SCALE * 15}px`,
+              transform: "translateX(-50%)",
+              bottom: `${PIXEL_SCALE * -3}px`,
+            }}
           >
             <ProgressBar
               seconds={secondsToExpire}
               formatLength="medium"
-              type={"buff"}
+              type={"progress"}
               percentage={percentage}
             />
           </div>
