@@ -40,6 +40,8 @@ type FirePitCookableName =
 
 type KitchenCookableName =
   | "Surimi Rice Bowl"
+  | "Crimstone Infused Fish Oil"
+  | "Creamy Crab Bite"
   | "Beetroot Blaze"
   | "Roast Veggies"
   | "Bumpkin Salad"
@@ -81,9 +83,7 @@ type DeliCookableName =
   | "Fermented Fish"
   | "Cheese"
   | "Blue Cheese"
-  | "Honey Cheddar"
-  | "Crimstone Infused Fish Oil"
-  | "Creamy Crab Bite";
+  | "Honey Cheddar";
 
 type JuiceName =
   | "Apple Juice"
@@ -370,6 +370,28 @@ export const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
     cookingSeconds: 0,
     building: "Kitchen",
     experience: 3000,
+  },
+  "Creamy Crab Bite": {
+    name: "Creamy Crab Bite",
+    description: translate("description.instantFood.creamyCrabBite"),
+    ingredients: {
+      "Crab Stick": new Decimal(1),
+      Cheese: new Decimal(3),
+    },
+    cookingSeconds: 0,
+    building: "Kitchen",
+    experience: 8000,
+  },
+  "Crimstone Infused Fish Oil": {
+    name: "Crimstone Infused Fish Oil",
+    description: translate("description.instantFood.crimstoneInfusedFishOil"),
+    ingredients: {
+      "Fish Oil": new Decimal(1),
+      Crimstone: new Decimal(1),
+    },
+    cookingSeconds: 0,
+    building: "Kitchen",
+    experience: 18000,
   },
   "Sunflower Crunch": {
     name: "Sunflower Crunch",
@@ -963,28 +985,6 @@ export const DELI_COOKABLES: Record<DeliCookableName, Cookable> = {
       Honey: new Decimal(5),
     },
   },
-  "Creamy Crab Bite": {
-    name: "Creamy Crab Bite",
-    description: translate("description.instantFood.creamyCrabBite"),
-    ingredients: {
-      "Crab Stick": new Decimal(1),
-      Cheese: new Decimal(3),
-    },
-    cookingSeconds: 0,
-    building: "Deli",
-    experience: 8000,
-  },
-  "Crimstone Infused Fish Oil": {
-    name: "Crimstone Infused Fish Oil",
-    description: translate("description.instantFood.crimstoneInfusedFishOil"),
-    ingredients: {
-      "Fish Oil": new Decimal(1),
-      Crimstone: new Decimal(1),
-    },
-    cookingSeconds: 0,
-    building: "Deli",
-    experience: 18000,
-  },
 };
 
 export const JUICE_COOKABLES: Record<JuiceName, Cookable> = {
@@ -1149,8 +1149,8 @@ export const INSTANT_FISH_RECIPES: Record<
 > = {
   "Furikake Sprinkle": FIRE_PIT_COOKABLES["Furikake Sprinkle"],
   "Surimi Rice Bowl": KITCHEN_COOKABLES["Surimi Rice Bowl"],
-  "Creamy Crab Bite": DELI_COOKABLES["Creamy Crab Bite"],
-  "Crimstone Infused Fish Oil": DELI_COOKABLES["Crimstone Infused Fish Oil"],
+  "Creamy Crab Bite": KITCHEN_COOKABLES["Creamy Crab Bite"],
+  "Crimstone Infused Fish Oil": KITCHEN_COOKABLES["Crimstone Infused Fish Oil"],
 };
 
 export const COOKABLE_CAKES: Record<CakeName, Cookable> = {
