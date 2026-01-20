@@ -1241,6 +1241,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Bronze Friends Trophy": 2533,
   "Silver Friends Trophy": 2534,
   "Gold Friends Trophy": 2535,
+  "Mermaid Cow": 2536,
+  "Mermaid Sheep": 2537,
+  "Squid Chicken": 2538,
+  "Anemone Flower": 2539,
 
   // Pets
   "Pet Egg": 2600,

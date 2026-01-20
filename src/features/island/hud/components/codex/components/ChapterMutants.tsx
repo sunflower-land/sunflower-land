@@ -58,6 +58,14 @@ export const CHAPTER_MUTANTS: Partial<Record<ChapterName, ChapterMutants>> = {
     sheep: "Astronaut Sheep",
     banner: SUNNYSIDE.announcement.pawPrintsSeasonRares,
   },
+  "Crab Chapter": {
+    chicken: "Squid Chicken",
+    flower: "Anemone Flower",
+    fish: "Giant Isopod",
+    cow: "Mermaid Cow",
+    sheep: "Mermaid Sheep",
+    banner: "?",
+  },
 };
 
 interface Props {
