@@ -44,27 +44,24 @@ export function getGreenhouseCropYieldAmount({
   crop,
   game,
   createdAt,
-  farmId,
-  counter,
+  prngArgs,
 }: {
   crop: GreenHouseCropName | GreenHouseFruitName;
   game: GameState;
   createdAt: number;
-  farmId: number;
-  counter: number;
+  prngArgs?: { farmId: number; counter: number };
 }): { amount: number; boostsUsed: BoostName[] } {
   if (isGreenhouseCrop(crop)) {
     const { amount, boostsUsed } = getCropYieldAmount({
       crop,
       game,
       createdAt,
-      farmId,
-      counter,
+      prngArgs,
     });
     return { amount, boostsUsed };
   }
 
-  return getFruitYield({ name: crop, game, farmId, counter });
+  return getFruitYield({ name: crop, game, prngArgs });
 }
 
 export type HarvestGreenhouseAction = {
@@ -121,8 +118,7 @@ export function harvestGreenHouse({
           crop: pot.plant.name,
           game,
           createdAt,
-          farmId,
-          counter,
+          prngArgs: { farmId, counter },
         });
 
     const previousAmount = game.inventory[pot.plant.name] ?? new Decimal(0);

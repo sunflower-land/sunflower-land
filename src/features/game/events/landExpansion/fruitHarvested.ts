@@ -72,8 +72,7 @@ type FruitYield = {
   name: GreenHouseFruitName | PatchFruitName;
   game: GameState;
   fertiliser?: FruitCompostName;
-  farmId: number;
-  counter: number;
+  prngArgs?: { farmId: number; counter: number };
 };
 
 const isFruit = (resource: Resource): resource is PatchFruitName => {
@@ -98,8 +97,7 @@ export function getFruitYield({
   game,
   name,
   fertiliser,
-  farmId,
-  counter,
+  prngArgs,
 }: FruitYield): {
   amount: number;
   boostsUsed: BoostName[];
@@ -108,9 +106,31 @@ export function getFruitYield({
   let amount = 1;
   const boostsUsed: BoostName[] = [];
 
-  const itemId = KNOWN_IDS[name];
-  const criticalDrop = (criticalHitName: CriticalHitName, chance: number) =>
-    prngChance({ farmId, itemId, counter, chance, criticalHitName });
+  if (prngArgs) {
+    const itemId = KNOWN_IDS[name];
+    const criticalDrop = (criticalHitName: CriticalHitName, chance: number) =>
+      prngChance({ ...prngArgs, itemId, chance, criticalHitName });
+
+    // Greenhouse Gamble 25% chance of +1 yield
+    if (
+      isGreenhouseFruit(name) &&
+      bumpkin.skills["Greenhouse Gamble"] &&
+      criticalDrop("Greenhouse Gamble", 25)
+    ) {
+      amount += 1;
+      boostsUsed.push("Greenhouse Gamble");
+    }
+
+    // Generous Orchard: 20% chance of +1 patch fruit
+    if (
+      bumpkin.skills["Generous Orchard"] &&
+      criticalDrop("Generous Orchard", 20) &&
+      isFruit(name)
+    ) {
+      amount += 1;
+      boostsUsed.push("Generous Orchard");
+    }
+  }
 
   if (name === "Apple" && isCollectibleBuilt({ name: "Lady Bug", game })) {
     amount += 0.25;
@@ -269,26 +289,6 @@ export function getFruitYield({
     boostsUsed.push("Zesty Vibes");
   }
 
-  // Greenhouse Gamble 25% chance of +1 yield
-  if (
-    isGreenhouseFruit(name) &&
-    bumpkin.skills["Greenhouse Gamble"] &&
-    criticalDrop("Greenhouse Gamble", 25)
-  ) {
-    amount += 1;
-    boostsUsed.push("Greenhouse Gamble");
-  }
-
-  // Generous Orchard: 20% chance of +1 patch fruit
-  if (
-    bumpkin.skills["Generous Orchard"] &&
-    criticalDrop("Generous Orchard", 20) &&
-    isFruit(name)
-  ) {
-    amount += 1;
-    boostsUsed.push("Generous Orchard");
-  }
-
   if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game })) {
     amount += 1;
     boostsUsed.push("Legendary Shrine");
@@ -362,8 +362,7 @@ export function harvestFruit({
             game: stateCopy,
             name,
             fertiliser: patch.fertiliser?.name,
-            farmId,
-            counter,
+            prngArgs: { farmId, counter },
           });
 
     stateCopy.inventory[name] =

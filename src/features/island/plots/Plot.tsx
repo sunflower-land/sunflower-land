@@ -173,8 +173,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
         game: state,
         plot,
         createdAt: now,
-        counter: activityCount,
-        farmId,
+        prngArgs: { counter: activityCount, farmId },
       }).amount;
 
     // firework animation

@@ -43,8 +43,7 @@ export function getPackYieldAmount(
       game: state,
       crop,
       createdAt,
-      farmId,
-      counter,
+      prngArgs: { farmId, counter },
     });
 
     totalYield += amount;

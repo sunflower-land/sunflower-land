@@ -169,8 +169,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
         game,
         name: fruit?.name as PatchFruitName,
         fertiliser: fertiliser?.name,
-        farmId,
-        counter: activityCount,
+        prngArgs: { farmId, counter: activityCount },
       }).amount;
 
     const newState = gameService.send("fruit.harvested", {

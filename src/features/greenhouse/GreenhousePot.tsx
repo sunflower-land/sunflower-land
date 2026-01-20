@@ -252,8 +252,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
     setHarvestedAmount(
       pot.plant.amount ??
         getGreenhouseCropYieldAmount({
-          farmId,
-          counter: activityCount,
+          prngArgs: { farmId, counter: activityCount },
           crop: pot.plant.name,
           game: state,
           createdAt: now,

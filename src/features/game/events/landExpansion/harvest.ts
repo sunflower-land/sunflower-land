@@ -126,15 +126,13 @@ export function getCropYieldAmount({
   game,
   plot,
   createdAt,
-  farmId,
-  counter,
+  prngArgs,
 }: {
   crop: CropName | GreenHouseCropName;
   plot?: CropPlot;
   game: GameState;
   createdAt: number;
-  farmId: number;
-  counter: number;
+  prngArgs?: { farmId: number; counter: number };
 }): { amount: number; aoe: AOE; boostsUsed: BoostName[] } {
   let amount = 1;
   const boostsUsed: BoostName[] = [];
@@ -142,10 +140,65 @@ export function getCropYieldAmount({
   const { inventory, bumpkin, buds, aoe } = game;
   const updatedAoe = cloneDeep(aoe);
   const skills = bumpkin?.skills ?? {};
+  if (prngArgs) {
+    const itemId = KNOWN_IDS[crop];
+    const criticalDrop = (criticalHitName: CriticalHitName, chance: number) =>
+      prngChance({ ...prngArgs, itemId, chance, criticalHitName });
 
-  const itemId = KNOWN_IDS[crop];
-  const criticalDrop = (criticalHitName: CriticalHitName, chance: number) =>
-    prngChance({ farmId, itemId, counter, chance, criticalHitName });
+    if (
+      isWearableActive({ name: "Green Amulet", game }) &&
+      criticalDrop("Green Amulet", 10)
+    ) {
+      amount *= 10;
+      boostsUsed.push("Green Amulet");
+    }
+
+    if (
+      crop === "Potato" &&
+      isCollectibleBuilt({ name: "Peeled Potato", game }) &&
+      criticalDrop("Peeled Potato", 20)
+    ) {
+      amount += 1;
+      boostsUsed.push("Peeled Potato");
+    }
+
+    // Greenhouse Gamble 25% chance of +1 yield
+    if (
+      isGreenhouseCrop(crop) &&
+      skills["Greenhouse Gamble"] &&
+      criticalDrop("Greenhouse Gamble", 25)
+    ) {
+      amount += 1;
+      boostsUsed.push("Greenhouse Gamble");
+    }
+
+    if (
+      crop === "Potato" &&
+      isCollectibleBuilt({ name: "Potent Potato", game }) &&
+      criticalDrop("Potent Potato", 10 / 3)
+    ) {
+      amount += 10;
+      boostsUsed.push("Potent Potato");
+    }
+
+    if (
+      crop === "Sunflower" &&
+      isCollectibleBuilt({ name: "Stellar Sunflower", game }) &&
+      criticalDrop("Stellar Sunflower", 10 / 3)
+    ) {
+      amount += 10;
+      boostsUsed.push("Stellar Sunflower");
+    }
+
+    if (
+      crop === "Radish" &&
+      isCollectibleBuilt({ name: "Radical Radish", game }) &&
+      criticalDrop("Radical Radish", 10 / 3)
+    ) {
+      amount += 10;
+      boostsUsed.push("Radical Radish");
+    }
+  }
 
   if (isBuffActive({ buff: "Power hour", game })) {
     amount += 0.2;
@@ -206,24 +259,6 @@ export function getCropYieldAmount({
   if (inventory.Coder?.gte(1)) {
     amount *= 1.2;
     boostsUsed.push("Coder");
-  }
-
-  if (
-    isWearableActive({ name: "Green Amulet", game }) &&
-    criticalDrop("Green Amulet", 10)
-  ) {
-    amount *= 10;
-    boostsUsed.push("Green Amulet");
-  }
-
-  // Specific crop additions
-  if (
-    crop === "Potato" &&
-    isCollectibleBuilt({ name: "Peeled Potato", game }) &&
-    criticalDrop("Peeled Potato", 20)
-  ) {
-    amount += 1;
-    boostsUsed.push("Peeled Potato");
   }
 
   if (crop === "Cabbage") {
@@ -345,16 +380,6 @@ export function getCropYieldAmount({
   if (crop === "Olive" && isWearableActive({ name: "Olive Shield", game })) {
     amount += 1;
     boostsUsed.push("Olive Shield");
-  }
-
-  // Greenhouse Gamble 25% chance of +1 yield
-  if (
-    isGreenhouseCrop(crop) &&
-    skills["Greenhouse Gamble"] &&
-    criticalDrop("Greenhouse Gamble", 25)
-  ) {
-    amount += 1;
-    boostsUsed.push("Greenhouse Gamble");
   }
 
   if (plot?.fertiliser?.name === "Sprout Mix") {
@@ -719,33 +744,6 @@ export function getCropYieldAmount({
     boostsUsed.push("Lab Grown Radish");
   }
 
-  if (
-    crop === "Potato" &&
-    isCollectibleBuilt({ name: "Potent Potato", game }) &&
-    criticalDrop("Potent Potato", 10 / 3)
-  ) {
-    amount += 10;
-    boostsUsed.push("Potent Potato");
-  }
-
-  if (
-    crop === "Sunflower" &&
-    isCollectibleBuilt({ name: "Stellar Sunflower", game }) &&
-    criticalDrop("Stellar Sunflower", 10 / 3)
-  ) {
-    amount += 10;
-    boostsUsed.push("Stellar Sunflower");
-  }
-
-  if (
-    crop === "Radish" &&
-    isCollectibleBuilt({ name: "Radical Radish", game }) &&
-    criticalDrop("Radical Radish", 10 / 3)
-  ) {
-    amount += 10;
-    boostsUsed.push("Radical Radish");
-  }
-
   if (plot?.beeSwarm) {
     let beeSwarmBonus = 0.2;
     if (skills["Pollen Power Up"]) {
@@ -899,8 +897,7 @@ export function harvestCropFromPlot({
         game,
         plot,
         createdAt,
-        farmId,
-        counter,
+        prngArgs: { farmId, counter },
       });
 
   const { harvestSeconds } = CROPS[cropName];
