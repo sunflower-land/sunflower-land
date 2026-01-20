@@ -7883,5 +7883,6 @@
   "auction.raffle.prizePool": "Se elegirán los ganadores de {{count}}. El total de recompensas de este sorteo incluye:",
   "auction.raffle.items": "{{item}} + más...",
   "auction.raffle.confirmation.description": "Los ganadores se eligen al azar y las participaciones no se pueden cancelar ni reembolsar.",
-  "auction.raffle.confirmation.noRefund": "Sin reembolsos (incluso si no ganas)"
+  "auction.raffle.confirmation.noRefund": "Sin reembolsos (incluso si no ganas)",
+  "auction.raffle.description": "Gana boletos completando tareas y compite por premios."
 }

@@ -7883,5 +7883,6 @@
   "auction.raffle.prizePool": "{{count}} 获胜者将被选中。此次抽奖的总奖励池包括：",
   "auction.raffle.items": "{{item}} + 更多...",
   "auction.raffle.confirmation.description": "获奖者是随机选出的，参赛作品不能取消或退款。",
-  "auction.raffle.confirmation.noRefund": "不退款（即使你没有中奖）"
+  "auction.raffle.confirmation.noRefund": "不退款（即使你没有中奖）",
+  "auction.raffle.description": "通过完成任务赚取门票并争夺奖品。"
 }

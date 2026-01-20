@@ -7883,5 +7883,6 @@
   "auction.raffle.prizePool": "Verranno scelti i vincitori di {{count}}. Il montepremi totale di questa lotteria include:",
   "auction.raffle.items": "{{item}} + altro...",
   "auction.raffle.confirmation.description": "I vincitori vengono scelti a caso e le iscrizioni non possono essere annullate o rimborsate.",
-  "auction.raffle.confirmation.noRefund": "Nessun rimborso (anche se non vinci)"
+  "auction.raffle.confirmation.noRefund": "Nessun rimborso (anche se non vinci)",
+  "auction.raffle.description": "Guadagna biglietti completando le attività e competi per i premi."
 }

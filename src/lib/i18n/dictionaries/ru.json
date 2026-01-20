@@ -7883,5 +7883,6 @@
   "auction.raffle.prizePool": "{{count}} winners will be picked. The total reward pool for this raffle includes:",
   "auction.raffle.items": "{{item}} + more...",
   "auction.raffle.confirmation.description": "Winners are chosen at random and entries cannot be cancelled or refunded.",
-  "auction.raffle.confirmation.noRefund": "No refunds (even if you don't win)"
+  "auction.raffle.confirmation.noRefund": "No refunds (even if you don't win)",
+  "auction.raffle.description": "Earn tickets by completing tasks & compete for prizes."
 }

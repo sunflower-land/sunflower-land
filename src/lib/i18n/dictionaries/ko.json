@@ -7883,5 +7883,6 @@
   "auction.raffle.prizePool": "{{count}} 수상자가 선정됩니다.이 추첨의 총 보상 풀에는 다음이 포함됩니다.",
   "auction.raffle.items": "{{item}} + 더 보기...",
   "auction.raffle.confirmation.description": "수상자는 무작위로 선정되며 응모작은 취소하거나 환불할 수 없습니다.",
-  "auction.raffle.confirmation.noRefund": "환불 불가 (당첨되지 않은 경우에도)"
+  "auction.raffle.confirmation.noRefund": "환불 불가 (당첨되지 않은 경우에도)",
+  "auction.raffle.description": "작업을 완료하여 티켓을 획득하고 상품을 놓고 경쟁하세요."
 }

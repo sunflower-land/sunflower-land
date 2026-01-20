@@ -7883,5 +7883,6 @@
   "auction.raffle.prizePool": "{{count}} kazananlar seçilecektir. Bu çekiliş için toplam ödül havuzu şunları içerir:",
   "auction.raffle.items": "{{item}} + daha fazlası...",
   "auction.raffle.confirmation.description": "Kazananlar rastgele seçilir ve girişler iptal edilemez veya iade edilemez.",
-  "auction.raffle.confirmation.noRefund": "Para iadesi yok (kazanmasanız bile)"
+  "auction.raffle.confirmation.noRefund": "Para iadesi yok (kazanmasanız bile)",
+  "auction.raffle.description": "Görevleri tamamlayarak bilet kazanın ve ödüller için yarışın."
 }

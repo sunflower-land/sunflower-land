@@ -7883,5 +7883,6 @@
   "auction.raffle.prizePool": "{{count}} pemenang akan dipilih. Total kumpulan hadiah untuk undian ini meliputi:",
   "auction.raffle.items": "{{item}} + lebih...",
   "auction.raffle.confirmation.description": "Pemenang dipilih secara acak dan entri tidak dapat dibatalkan atau dikembalikan.",
-  "auction.raffle.confirmation.noRefund": "Tidak ada pengembalian uang (bahkan jika Anda tidak menang)"
+  "auction.raffle.confirmation.noRefund": "Tidak ada pengembalian uang (bahkan jika Anda tidak menang)",
+  "auction.raffle.description": "Dapatkan tiket dengan menyelesaikan tugas & bersaing untuk mendapatkan hadiah."
 }
