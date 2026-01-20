@@ -16,6 +16,7 @@ describe("harvestCropMachine", () => {
           type: "cropMachine.harvested",
           packIndex: 0,
         },
+        farmId: 1,
       }),
     ).toThrow("Crop Machine does not exist");
   });
@@ -42,6 +43,7 @@ describe("harvestCropMachine", () => {
           type: "cropMachine.harvested",
           packIndex: 0,
         },
+        farmId: 1,
       }),
     ).toThrow("Nothing in the queue");
   });
@@ -76,6 +78,7 @@ describe("harvestCropMachine", () => {
           type: "cropMachine.harvested",
           packIndex: 1,
         },
+        farmId: 1,
       }),
     ).toThrow("Pack does not exist");
   });
@@ -110,6 +113,7 @@ describe("harvestCropMachine", () => {
           type: "cropMachine.harvested",
           packIndex: 0,
         },
+        farmId: 1,
       }),
     ).toThrow("The pack is not ready yet");
   });
@@ -147,6 +151,7 @@ describe("harvestCropMachine", () => {
         type: "cropMachine.harvested",
         packIndex: 0,
       },
+      farmId: 1,
     });
 
     // With 10 seeds and no boosts, we expect at least 10 (base yield)
@@ -188,6 +193,7 @@ describe("harvestCropMachine", () => {
         type: "cropMachine.harvested",
         packIndex,
       },
+      farmId: 1,
     });
 
     expect(
@@ -236,6 +242,7 @@ describe("harvestCropMachine", () => {
         type: "cropMachine.harvested",
         packIndex: 0,
       },
+      farmId: 1,
     });
 
     expect(state.farmActivity["Sunflower Harvested"]).toEqual(10);
@@ -342,6 +349,7 @@ describe("harvestCropMachine", () => {
         },
         farmId,
         dateNow,
+        startCounter,
       );
 
       // Calculate expected amount based on PRNG outcomes
@@ -468,6 +476,7 @@ describe("harvestCropMachine", () => {
         },
         farmId,
         dateNow,
+        startCounter,
       );
 
       // Calculate expected amount based on PRNG outcomes

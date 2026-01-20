@@ -113,6 +113,7 @@ describe("fruitHarvested", () => {
           index: "-1",
         },
         createdAt: dateNow,
+        farmId: 1,
       }),
     ).toThrow("Fruit patch does not exist");
   });
@@ -126,6 +127,7 @@ describe("fruitHarvested", () => {
           index: "1",
         },
         createdAt: dateNow,
+        farmId: 1,
       }),
     ).toThrow("Nothing was planted");
   });
@@ -155,6 +157,7 @@ describe("fruitHarvested", () => {
           index: "0",
         },
         createdAt: dateNow,
+        farmId: 1,
       }),
     ).toThrow("Not ready");
   });
@@ -181,6 +184,7 @@ describe("fruitHarvested", () => {
           index: "0",
         },
         createdAt: dateNow,
+        farmId: 1,
       }),
     ).toThrow("Fruit patch is not placed");
   });
@@ -210,6 +214,7 @@ describe("fruitHarvested", () => {
           index: "0",
         },
         createdAt: dateNow,
+        farmId: 1,
       }),
     ).toThrow("Fruit is still replenishing");
   });
@@ -239,6 +244,7 @@ describe("fruitHarvested", () => {
           index: "0",
         },
         createdAt: dateNow,
+        farmId: 1,
       }),
     ).toThrow("No harvest left");
   });
@@ -271,6 +277,7 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     expect(state.inventory).toEqual({
@@ -322,6 +329,7 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     expect(state.inventory.Apple).toEqual(new Decimal(1.25));
@@ -365,6 +373,7 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     expect(state.inventory.Blueberry).toEqual(new Decimal(2));
@@ -408,6 +417,7 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
@@ -456,6 +466,7 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
@@ -504,6 +515,7 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
@@ -561,6 +573,7 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
@@ -609,6 +622,7 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
@@ -657,6 +671,7 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
@@ -714,6 +729,7 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
@@ -750,6 +766,7 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     expect(state.inventory).toEqual({
@@ -787,6 +804,7 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     expect(state.farmActivity["Apple Harvested"]).toEqual(1);
@@ -827,6 +845,7 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     expect(state.inventory.Blueberry).toEqual(new Decimal(1.2));

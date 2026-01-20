@@ -88,6 +88,7 @@ describe("bulkHarvest", () => {
       action: {
         type: "crops.bulkHarvested",
       },
+      farmId: 1,
     });
 
     expect(newState.inventory.Sunflower?.toNumber()).toBe(7);
@@ -139,6 +140,7 @@ describe("bulkHarvest", () => {
         action: {
           type: "crops.bulkHarvested",
         },
+        farmId: 1,
       }),
     ).toThrow(dictionary["obsidianShrine.noCrops"]);
   });
@@ -167,6 +169,7 @@ describe("bulkHarvest", () => {
         action: {
           type: "crops.bulkHarvested",
         },
+        farmId: 1,
       }),
     ).toThrow(dictionary["obsidianShrine.noCrops"]);
   });
@@ -196,6 +199,7 @@ describe("bulkHarvest", () => {
       action: {
         type: "crops.bulkHarvested",
       },
+      farmId: 1,
     });
 
     expect(newState.aoe).toBeDefined();
@@ -209,6 +213,7 @@ describe("bulkHarvest", () => {
       action: {
         type: "crops.bulkHarvested",
       },
+      farmId: 1,
     });
 
     expect(newState.farmActivity["Sunflower Harvested"]).toBe(2);
@@ -231,6 +236,7 @@ describe("bulkHarvest", () => {
       action: {
         type: "crops.bulkHarvested",
       },
+      farmId: 1,
     });
 
     expect(newState.inventory.Sunflower?.toNumber()).toBeGreaterThan(5);
@@ -274,6 +280,7 @@ describe("bulkHarvest", () => {
       action: {
         type: "crops.bulkHarvested",
       },
+      farmId: 1,
     });
 
     expect(newState.inventory.Sunflower?.toNumber()).toBeGreaterThan(5);

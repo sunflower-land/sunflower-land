@@ -35,10 +35,12 @@ const firstId = Object.keys(GAME_STATE.crops)[0];
 
 describe("plant", () => {
   const dateNow = Date.now();
+  const farmId = 1;
 
   it("does not plant on non-existent plot", () => {
     expect(() =>
       plant({
+        farmId,
         state: { ...GAME_STATE, bumpkin: TEST_BUMPKIN },
         createdAt: dateNow,
         action: {
@@ -54,6 +56,7 @@ describe("plant", () => {
   it("does not plant on non-existent plot", () => {
     expect(() =>
       plant({
+        farmId,
         state: { ...GAME_STATE, bumpkin: TEST_BUMPKIN },
         createdAt: dateNow,
         action: {
@@ -70,6 +73,7 @@ describe("plant", () => {
   it("does not plant if plot is not placed", () => {
     expect(() =>
       plant({
+        farmId,
         state: {
           ...GAME_STATE,
           bumpkin: TEST_BUMPKIN,
@@ -93,6 +97,7 @@ describe("plant", () => {
 
     expect(() =>
       plant({
+        farmId,
         state: {
           ...GAME_STATE,
           bumpkin: TEST_BUMPKIN,
@@ -122,6 +127,7 @@ describe("plant", () => {
   it("does not plant an invalid item", () => {
     expect(() =>
       plant({
+        farmId,
         state: { ...GAME_STATE, bumpkin: TEST_BUMPKIN },
         createdAt: dateNow,
         action: {
@@ -138,6 +144,7 @@ describe("plant", () => {
   it("does not plant if user does not have seeds", () => {
     expect(() =>
       plant({
+        farmId,
         state: { ...GAME_STATE, bumpkin: TEST_BUMPKIN },
         createdAt: dateNow,
         action: {
@@ -156,6 +163,7 @@ describe("plant", () => {
 
     expect(() =>
       plant({
+        farmId,
         state: {
           ...GAME_STATE,
           bumpkin: TEST_BUMPKIN,
@@ -183,6 +191,7 @@ describe("plant", () => {
     const seedsAmount = new Decimal(5);
 
     const state = plant({
+      farmId,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -218,6 +227,7 @@ describe("plant", () => {
     const seedsAmount = new Decimal(5);
 
     const state = plant({
+      farmId,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -251,6 +261,7 @@ describe("plant", () => {
 
   it("plants a normal cauliflower", () => {
     const state = plant({
+      farmId,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -287,6 +298,7 @@ describe("plant", () => {
     const seedsAmount = new Decimal(5);
 
     const state = plant({
+      farmId,
       state: {
         ...GAME_STATE,
         bumpkin: { ...TEST_BUMPKIN, experience: 700 },
@@ -323,6 +335,7 @@ describe("plant", () => {
 
   it("plants a normal parsnip", () => {
     const state = plant({
+      farmId,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -356,6 +369,7 @@ describe("plant", () => {
 
   it("plants a normal soybean", () => {
     const state = plant({
+      farmId,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -388,6 +402,7 @@ describe("plant", () => {
 
   it("reduces parsnip harvest time in half if Mysterious Parsnip is placed and ready", () => {
     const state = plant({
+      farmId,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -434,6 +449,7 @@ describe("plant", () => {
 
   it("reduces harvest time by 10% if Seed Specialist (legacy) is on inventory", () => {
     const state = plant({
+      farmId,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -464,6 +480,7 @@ describe("plant", () => {
 
   it("grows faster with a Nancy placed and ready", () => {
     const state = plant({
+      farmId,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -507,6 +524,7 @@ describe("plant", () => {
 
   it("grows faster if Lunar calendar is placed", () => {
     const state = plant({
+      farmId,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -547,6 +565,7 @@ describe("plant", () => {
 
   it("grows stores the boostedTime on the crop", () => {
     const state = plant({
+      farmId,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -587,6 +606,7 @@ describe("plant", () => {
 
   it("grows cabbage twice as fast with Cabbage Girl placed.", () => {
     const state = plant({
+      farmId,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -630,6 +650,7 @@ describe("plant", () => {
 
   it("applies a bud speed boost", () => {
     const state: GameState = plant({
+      farmId,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -681,6 +702,7 @@ describe("plant", () => {
   });
   it("grows turnip twice as fast with Giant Turnip placed.", () => {
     const state = plant({
+      farmId,
       state: {
         ...GAME_STATE,
         bumpkin: TEST_BUMPKIN,
@@ -724,12 +746,15 @@ describe("plant", () => {
 
   describe("getCropTime", () => {
     const plot = GAME_STATE.crops[firstId];
-
+    const farmId = 1;
+    const counter = 0;
     describe("getPlantedAt", () => {
       it("returns normal planted at if time wrap is expired", () => {
         const now = Date.now();
 
         const { time } = getCropPlotTime({
+          counter,
+          farmId,
           crop: "Sunflower",
           game: {
             ...FARM_WITH_PLOTS,
@@ -755,6 +780,8 @@ describe("plant", () => {
         const now = Date.now();
 
         const { time } = getCropPlotTime({
+          counter,
+          farmId,
           crop: "Sunflower",
           game: {
             ...FARM_WITH_PLOTS,
@@ -780,6 +807,8 @@ describe("plant", () => {
         const now = Date.now();
 
         const { time } = getCropPlotTime({
+          counter,
+          farmId,
           crop: "Sunflower",
           game: {
             ...FARM_WITH_PLOTS,
@@ -806,6 +835,8 @@ describe("plant", () => {
         const now = Date.now();
 
         const { time } = getCropPlotTime({
+          counter,
+          farmId,
           crop: "Sunflower",
           game: {
             ...FARM_WITH_PLOTS,
@@ -839,6 +870,8 @@ describe("plant", () => {
 
     it("plants a normal carrot", () => {
       const { time } = getCropPlotTime({
+        counter,
+        farmId,
         crop: "Carrot",
         game: FARM_WITH_PLOTS,
 
@@ -851,6 +884,8 @@ describe("plant", () => {
 
     it("plants a fertilised carrot", () => {
       const { time } = getCropPlotTime({
+        counter,
+        farmId,
         crop: "Carrot",
         game: FARM_WITH_PLOTS,
 
@@ -866,6 +901,8 @@ describe("plant", () => {
 
     it("when Bumpkin has Carrot Amulet equipped it reduces 20% the harvest time", () => {
       const { time } = getCropPlotTime({
+        counter,
+        farmId,
         crop: "Carrot",
         game: {
           ...FARM_WITH_PLOTS,
@@ -884,6 +921,8 @@ describe("plant", () => {
     it("applies a 10% speed boost with Lunar Calendar placed", () => {
       const carrotHarvestSeconds = CROPS["Carrot"].harvestSeconds;
       const { time } = getCropPlotTime({
+        counter,
+        farmId,
         crop: "Carrot",
         game: {
           ...FARM_WITH_PLOTS,
@@ -908,6 +947,8 @@ describe("plant", () => {
     it("applies a 25% speed boost with Obie placed", () => {
       const eggplantHarvestSeconds = CROPS["Eggplant"].harvestSeconds;
       const { time } = getCropPlotTime({
+        counter,
+        farmId,
         crop: "Eggplant",
         game: {
           ...FARM_WITH_PLOTS,
@@ -933,6 +974,8 @@ describe("plant", () => {
       const sunflowerHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
 
       const { time } = getCropPlotTime({
+        counter,
+        farmId,
         crop: "Sunflower",
         game: {
           ...FARM_WITH_PLOTS,
@@ -958,6 +1001,8 @@ describe("plant", () => {
       const potatoHarvestSeconds = CROPS["Potato"].harvestSeconds;
 
       const { time } = getCropPlotTime({
+        counter,
+        farmId,
         crop: "Potato",
         game: {
           ...FARM_WITH_PLOTS,
@@ -982,6 +1027,8 @@ describe("plant", () => {
       const pumpkinHarvestSeconds = CROPS["Pumpkin"].harvestSeconds;
 
       const { time } = getCropPlotTime({
+        counter,
+        farmId,
         crop: "Pumpkin",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1007,6 +1054,8 @@ describe("plant", () => {
       const pumpkinHarvestSeconds = CROPS["Pumpkin"].harvestSeconds;
 
       const { time, aoe } = getCropPlotTime({
+        counter,
+        farmId,
         crop: "Pumpkin",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1034,6 +1083,8 @@ describe("plant", () => {
       const pumpkinHarvestSeconds = CROPS["Pumpkin"].harvestSeconds;
 
       const { time, aoe } = getCropPlotTime({
+        counter,
+        farmId,
         crop: "Pumpkin",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1066,6 +1117,8 @@ describe("plant", () => {
       const pumpkinHarvestSeconds = CROPS["Pumpkin"].harvestSeconds;
 
       const { time, aoe } = getCropPlotTime({
+        counter,
+        farmId,
         crop: "Pumpkin",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1098,6 +1151,8 @@ describe("plant", () => {
       const beetrootHarvestSeconds = CROPS["Beetroot"].harvestSeconds;
 
       const { time } = getCropPlotTime({
+        counter,
+        farmId,
         crop: "Beetroot",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1123,6 +1178,8 @@ describe("plant", () => {
       const sunflowerHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
 
       const { time } = getCropPlotTime({
+        counter,
+        farmId,
         crop: "Sunflower",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1148,6 +1205,8 @@ describe("plant", () => {
       const sunflowerHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
 
       const { time } = getCropPlotTime({
+        counter,
+        farmId,
         crop: "Sunflower",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1172,6 +1231,8 @@ describe("plant", () => {
     it("applies a 25% speed boost with Kernaldo placed", () => {
       const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
       const { time } = getCropPlotTime({
+        counter,
+        farmId,
         crop: "Corn",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1196,6 +1257,8 @@ describe("plant", () => {
     it("applies a 2x speed boost with Giant Zucchini placed", () => {
       const baseHarvestSeconds = CROPS["Zucchini"].harvestSeconds;
       const { time } = getCropPlotTime({
+        counter,
+        farmId,
         crop: "Zucchini",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1222,6 +1285,8 @@ describe("plant", () => {
       const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
 
       const { time } = getCropPlotTime({
+        counter,
+        farmId,
         crop: "Corn",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1250,6 +1315,8 @@ describe("plant", () => {
       const sevenHoursAgo = dateNow - 7 * 60 * 60 * 1000;
 
       const { time } = getCropPlotTime({
+        counter,
+        farmId,
         crop: "Corn",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1274,6 +1341,8 @@ describe("plant", () => {
     it("applies a +5% speed boost with Green Thumb skill", () => {
       const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
       const { time } = getCropPlotTime({
+        counter,
+        farmId,
         crop: "Corn",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1295,6 +1364,8 @@ describe("plant", () => {
     it("applies a +10% speed boost on advanced crops with Strong Roots skill", () => {
       const baseHarvestSeconds = CROPS["Radish"].harvestSeconds;
       const { time } = getCropPlotTime({
+        counter,
+        farmId,
         crop: "Radish",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1316,6 +1387,8 @@ describe("plant", () => {
     it("does not apply a +10% speed boost on Sunflower with Strong Roots skill", () => {
       const baseHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
       const { time } = getCropPlotTime({
+        counter,
+        farmId,
         crop: "Sunflower",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1337,6 +1410,8 @@ describe("plant", () => {
     it("applies a 2x speed boost with Sunshower", () => {
       const baseHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
       const { time } = getCropPlotTime({
+        counter,
+        farmId,
         crop: "Sunflower",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1358,6 +1433,8 @@ describe("plant", () => {
     it("applies the Sparrow Shrine boost", () => {
       const baseHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
       const { time } = getCropPlotTime({
+        counter,
+        farmId,
         crop: "Sunflower",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1382,6 +1459,8 @@ describe("plant", () => {
     it("does not apply the Sparrow Shrine boost if expired", () => {
       const baseHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
       const { time } = getCropPlotTime({
+        counter,
+        farmId,
         crop: "Sunflower",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1407,6 +1486,7 @@ describe("plant", () => {
   it("should throw an error if trying to harvest a crop if its plot is frozen", () => {
     expect(() =>
       plant({
+        farmId,
         state: {
           ...GAME_STATE,
           calendar: {
@@ -1433,6 +1513,7 @@ describe("plant", () => {
 
   it("reduces wheat harvest time in half if Solflare Aegis is worn", () => {
     const state = plant({
+      farmId,
       state: {
         ...GAME_STATE,
         bumpkin: {
@@ -1474,6 +1555,7 @@ describe("plant", () => {
 
   it("reduces Barley harvest time in half if Autumn's Embrace is worn", () => {
     const state = plant({
+      farmId,
       state: {
         ...GAME_STATE,
         bumpkin: {
