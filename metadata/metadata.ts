@@ -62,7 +62,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "A ticket to the Crabs and Traps.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/772.webp",
     attributes: [
       { trait_type: "Purpose", value: "Ticket" },
       { trait_type: "Tradable", value: "No" },
@@ -72,7 +72,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "An artefact from the Crabs and Traps.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/773.webp",
     attributes: [
       { trait_type: "Purpose", value: "Artefact" },
       { trait_type: "Tradable", value: "No" },
@@ -82,7 +82,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "A banner for the Crabs and Traps.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/771.png",
     attributes: [
       { trait_type: "Purpose", value: "Banner" },
       { trait_type: "Tradable", value: "No" },
@@ -92,7 +92,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "A processed fish market for fish.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/2721.webp",
     attributes: [
       { trait_type: "Purpose", value: "Building" },
       { trait_type: "Tradable", value: "No" },
@@ -102,7 +102,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "A processed fish ingredient - guaranteed catch.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/2722.webp",
     attributes: [
       { trait_type: "Purpose", value: "Bait" },
       { trait_type: "Purpose", value: "Consumable" },
@@ -113,7 +113,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "A sturdy processed fish ingredient - guaranteed catch.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/775.webp",
     attributes: [
       { trait_type: "Purpose", value: "Bait" },
       { trait_type: "Purpose", value: "Consumable" },
@@ -124,7 +124,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "A refined fish ingredient - guaranteed catch.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/775.webp",
     attributes: [
       { trait_type: "Purpose", value: "Bait" },
       { trait_type: "Purpose", value: "Consumable" },
@@ -135,7 +135,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "A crab-based processed ingredient - guaranteed catch.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/776.webp",
     attributes: [
       { trait_type: "Purpose", value: "Bait" },
       { trait_type: "Purpose", value: "Consumable" },

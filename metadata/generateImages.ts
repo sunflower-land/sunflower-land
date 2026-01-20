@@ -1,42 +1,81 @@
 import fs from "fs";
+import https from "https";
 import sharp from "sharp";
 
 import { InventoryItemName } from "features/game/types/game";
 import { KNOWN_IDS } from "features/game/types";
 import { ITEM_DETAILS } from "features/game/types/images";
 
-const IMAGES: InventoryItemName[] = [
-  "Silver Friends Trophy",
-  "Gold Friends Trophy",
-  "Bronze Friends Trophy",
+type Image = {
+  name: InventoryItemName;
+  bg: "green" | "brown";
+  tradeable: boolean;
+  boosted: boolean;
+};
+
+const IMAGES: Image[] = [
+  { name: "Fish Market", bg: "green", tradeable: false, boosted: false },
 ];
 
+const BACKGROUNDS: Record<Image["bg"], string> = {
+  green: "public/erc1155/images/6x6_bg.png",
+  brown: "public/erc1155/images/brown_background_100x100.png",
+};
+
+const NOT_FOR_SALE_LABEL = "public/erc1155/images/not_for_sale_label.png";
+const BOOSTED_LABEL = "public/erc1155/images/boost_100x100.png";
 const WIDTH = 1920;
 
-async function generateImage({
-  name,
-  image,
-}: {
-  name: InventoryItemName;
-  image: string;
-}) {
-  const ID = KNOWN_IDS[name];
+const fetchBuffer = (url: string): Promise<Buffer> =>
+  new Promise((resolve, reject) => {
+    https
+      .get(url, (res) => {
+        if (res.statusCode !== 200) {
+          res.resume();
+          reject(new Error(`Failed to fetch ${url}: ${res.statusCode}`));
+          return;
+        }
+        const chunks: Buffer[] = [];
+        res.on("data", (chunk: Buffer) => chunks.push(chunk));
+        res.on("end", () => resolve(Buffer.concat(chunks)));
+      })
+      .on("error", reject);
+  });
 
-  const background = await sharp("public/erc1155/images/6x6_bg.png")
+async function generateImage(image: Image) {
+  const ID = KNOWN_IDS[image.name];
+
+  const background = await sharp(BACKGROUNDS[image.bg])
     .webp({ quality: 100, lossless: true })
     .toBuffer();
-  const imgFile = ITEM_DETAILS[name].image.slice(1);
-  const itemImage = await sharp(imgFile)
+  const imgFile = ITEM_DETAILS[image.name].image.slice(1);
+  const notForSaleLabel = await sharp(NOT_FOR_SALE_LABEL)
+    .webp({ quality: 100, lossless: true })
+    .toBuffer();
+  const boostedLabel = await sharp(BOOSTED_LABEL)
+    .webp({ quality: 100, lossless: true })
+    .toBuffer();
+  // Fetches the buffer if the image is referencing from our SUNNYSIDE images
+  const itemSource = imgFile.startsWith("http")
+    ? await fetchBuffer(imgFile)
+    : fs.readFileSync(imgFile);
+  const itemImage = await sharp(itemSource)
     .webp({ quality: 100, lossless: true })
     .toBuffer();
 
   // Composite item image onto background
+  const overlays = [
+    { input: itemImage },
+    ...(image.boosted
+      ? [{ input: boostedLabel, top: 0, left: 0, blend: "over" as const }]
+      : []),
+  ];
   const mergedImage = await sharp(background)
     .webp({ quality: 100, lossless: true })
-    .composite([{ input: itemImage }])
+    .composite(overlays)
     .toBuffer();
 
-  const resized = await sharp(mergedImage)
+  let resized = await sharp(mergedImage)
     .webp({ quality: 100, lossless: true })
     .resize({
       width: WIDTH,
@@ -44,12 +83,26 @@ async function generateImage({
     })
     .toBuffer();
 
+  if (!image.tradeable) {
+    resized = await sharp(resized)
+      .webp({ quality: 100, lossless: true })
+      .composite([
+        {
+          input: notForSaleLabel,
+          top: 0,
+          left: 0,
+          blend: "over" as const,
+        },
+      ])
+      .toBuffer();
+  }
+
   fs.writeFileSync(`public/erc1155/images/${ID}.png`, resized as any);
 }
 
 export const generateImages = () => {
   IMAGES.forEach((item) => {
-    generateImage({ name: item, image: ITEM_DETAILS[item].image });
+    generateImage(item);
   });
 };
 
