@@ -118,7 +118,7 @@ export const RaffleHistory: React.FC = () => {
 
   return (
     <div>
-      <div className="p-2">
+      <div className="">
         <div
           className="max-h-52 overflow-y-auto scrollable pr-1"
           data-testid="auction-history-list"

@@ -482,6 +482,7 @@ export const UpcomingRaffles: React.FC = () => {
 
   return (
     <div>
+      <p className="text-xs m-1 mb-2">{t("auction.raffle.description")}</p>
       <div className="p-0">
         <div className="max-h-52 overflow-y-auto scrollable pr-1">
           {upcomingRaffles.map((raffle) => {
