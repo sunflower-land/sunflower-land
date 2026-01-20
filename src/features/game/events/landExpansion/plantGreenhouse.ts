@@ -81,17 +81,10 @@ type GetPlantedAtArgs = {
   crop: GreenHouseCropName | GreenHouseFruitName;
   game: GameState;
   createdAt: number;
-  farmId: number;
-  counter: number;
+  prngArgs?: { farmId: number; counter: number };
 };
 
-function getPlantedAt({
-  crop,
-  game,
-  createdAt,
-  farmId,
-  counter,
-}: GetPlantedAtArgs): {
+function getPlantedAt({ crop, game, createdAt, prngArgs }: GetPlantedAtArgs): {
   plantedAt: number;
   boostsUsed: BoostName[];
 } {
@@ -102,8 +95,7 @@ function getPlantedAt({
   const { seconds: boostedTime, boostsUsed } = getGreenhouseCropTime({
     crop,
     game,
-    farmId,
-    counter,
+    prngArgs,
   });
 
   const offset = cropTime - boostedTime;
@@ -114,13 +106,11 @@ function getPlantedAt({
 export const getGreenhouseCropTime = ({
   crop,
   game,
-  farmId,
-  counter,
+  prngArgs,
 }: {
   crop: GreenHouseCropName | GreenHouseFruitName;
   game: GameState;
-  farmId: number;
-  counter: number;
+  prngArgs?: { farmId: number; counter: number };
 }): { seconds: number; boostsUsed: BoostName[] } => {
   let seconds = GREENHOUSE_CROP_TIME_SECONDS[crop];
   const boostsUsed: BoostName[] = [];
@@ -129,8 +119,7 @@ export const getGreenhouseCropTime = ({
       getCropTime({
         game,
         crop,
-        farmId,
-        counter,
+        prngArgs,
       });
     seconds *= baseMultiplier;
     boostsUsed.push(...cropBoostsUsed);
@@ -270,8 +259,7 @@ export function plantGreenhouse({
       createdAt,
       crop: plantName,
       game,
-      farmId,
-      counter,
+      prngArgs: { farmId, counter },
     });
     // Plants
     game.greenhouse.pots[potId] = {

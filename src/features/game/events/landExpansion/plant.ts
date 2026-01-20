@@ -198,39 +198,39 @@ export function getAffectedWeather({
 export function getCropTime({
   game,
   crop,
-  farmId,
-  counter,
+  prngArgs,
 }: {
   game: GameState;
   crop: CropName | GreenHouseCropName;
-  farmId: number;
-  counter: number;
+  prngArgs?: { farmId: number; counter: number };
 }): { multiplier: number; boostsUsed: BoostName[] } {
   let multiplier = 1;
   const boostsUsed: BoostName[] = [];
-  const itemId = KNOWN_IDS[crop];
-  const prngFn = (criticalHitName: CriticalHitName, chance: number) =>
-    prngChance({
-      farmId,
-      itemId,
-      counter,
-      chance,
-      criticalHitName,
-    });
-
   const { inventory, buds = {}, bumpkin } = game;
   const skills = bumpkin?.skills ?? {};
 
-  // Insta crops on wings
-  const hasAngelWing = isWearableActive({ name: "Angel Wings", game });
-  const hasDevilWing = isWearableActive({ name: "Devil Wings", game });
+  // Only check PRNG-based boosts if prngArgs are provided
+  if (prngArgs) {
+    const itemId = KNOWN_IDS[crop];
+    const prngFn = (criticalHitName: CriticalHitName, chance: number) =>
+      prngChance({
+        ...prngArgs,
+        itemId,
+        chance,
+        criticalHitName,
+      });
 
-  if (hasAngelWing && prngFn("Angel Wings", 30)) {
-    return { multiplier: 0, boostsUsed: ["Angel Wings"] };
-  }
+    // Insta crops on wings
+    const hasAngelWing = isWearableActive({ name: "Angel Wings", game });
+    const hasDevilWing = isWearableActive({ name: "Devil Wings", game });
 
-  if (hasDevilWing && prngFn("Devil Wings", 30)) {
-    return { multiplier: 0, boostsUsed: ["Devil Wings"] };
+    if (hasAngelWing && prngFn("Angel Wings", 30)) {
+      return { multiplier: 0, boostsUsed: ["Angel Wings"] };
+    }
+
+    if (hasDevilWing && prngFn("Devil Wings", 30)) {
+      return { multiplier: 0, boostsUsed: ["Devil Wings"] };
+    }
   }
 
   if (inventory["Seed Specialist"]?.gte(1)) {
@@ -292,8 +292,7 @@ interface GetCropPlotTimeArgs {
   game: GameState;
   plot?: CropPlot;
   createdAt: number;
-  farmId: number;
-  counter: number;
+  prngArgs?: { farmId: number; counter: number };
 }
 /**
  * Based on boosts, how long a crop will take
@@ -303,8 +302,7 @@ export const getCropPlotTime = ({
   game,
   plot,
   createdAt,
-  farmId,
-  counter,
+  prngArgs,
 }: GetCropPlotTimeArgs): {
   time: number;
   aoe: AOE;
@@ -323,8 +321,7 @@ export const getCropPlotTime = ({
     getCropTime({
       game,
       crop,
-      farmId,
-      counter,
+      prngArgs,
     });
   seconds *= baseMultiplier;
   boostsUsed.push(...baseBoostsUsed);
@@ -621,8 +618,10 @@ export function plantCropOnPlot({
     game,
     plot,
     createdAt,
-    farmId,
-    counter: game.farmActivity[`${cropName} Planted`] ?? 0,
+    prngArgs: {
+      farmId,
+      counter: game.farmActivity[`${cropName} Planted`] ?? 0,
+    },
   });
 
   const activityName: FarmActivityName = `${cropName} Planted`;

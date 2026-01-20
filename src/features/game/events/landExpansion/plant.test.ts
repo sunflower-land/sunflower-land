@@ -753,8 +753,7 @@ describe("plant", () => {
         const now = Date.now();
 
         const { time } = getCropPlotTime({
-          counter,
-          farmId,
+          prngArgs: { farmId, counter },
           crop: "Sunflower",
           game: {
             ...FARM_WITH_PLOTS,
@@ -780,8 +779,7 @@ describe("plant", () => {
         const now = Date.now();
 
         const { time } = getCropPlotTime({
-          counter,
-          farmId,
+          prngArgs: { farmId, counter },
           crop: "Sunflower",
           game: {
             ...FARM_WITH_PLOTS,
@@ -807,8 +805,7 @@ describe("plant", () => {
         const now = Date.now();
 
         const { time } = getCropPlotTime({
-          counter,
-          farmId,
+          prngArgs: { farmId, counter },
           crop: "Sunflower",
           game: {
             ...FARM_WITH_PLOTS,
@@ -835,8 +832,7 @@ describe("plant", () => {
         const now = Date.now();
 
         const { time } = getCropPlotTime({
-          counter,
-          farmId,
+          prngArgs: { farmId, counter },
           crop: "Sunflower",
           game: {
             ...FARM_WITH_PLOTS,
@@ -870,8 +866,7 @@ describe("plant", () => {
 
     it("plants a normal carrot", () => {
       const { time } = getCropPlotTime({
-        counter,
-        farmId,
+        prngArgs: { farmId, counter },
         crop: "Carrot",
         game: FARM_WITH_PLOTS,
 
@@ -884,8 +879,7 @@ describe("plant", () => {
 
     it("plants a fertilised carrot", () => {
       const { time } = getCropPlotTime({
-        counter,
-        farmId,
+        prngArgs: { farmId, counter },
         crop: "Carrot",
         game: FARM_WITH_PLOTS,
 
@@ -901,8 +895,7 @@ describe("plant", () => {
 
     it("when Bumpkin has Carrot Amulet equipped it reduces 20% the harvest time", () => {
       const { time } = getCropPlotTime({
-        counter,
-        farmId,
+        prngArgs: { farmId, counter },
         crop: "Carrot",
         game: {
           ...FARM_WITH_PLOTS,
@@ -921,8 +914,7 @@ describe("plant", () => {
     it("applies a 10% speed boost with Lunar Calendar placed", () => {
       const carrotHarvestSeconds = CROPS["Carrot"].harvestSeconds;
       const { time } = getCropPlotTime({
-        counter,
-        farmId,
+        prngArgs: { farmId, counter },
         crop: "Carrot",
         game: {
           ...FARM_WITH_PLOTS,
@@ -947,8 +939,7 @@ describe("plant", () => {
     it("applies a 25% speed boost with Obie placed", () => {
       const eggplantHarvestSeconds = CROPS["Eggplant"].harvestSeconds;
       const { time } = getCropPlotTime({
-        counter,
-        farmId,
+        prngArgs: { farmId, counter },
         crop: "Eggplant",
         game: {
           ...FARM_WITH_PLOTS,
@@ -974,8 +965,7 @@ describe("plant", () => {
       const sunflowerHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
 
       const { time } = getCropPlotTime({
-        counter,
-        farmId,
+        prngArgs: { farmId, counter },
         crop: "Sunflower",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1001,8 +991,7 @@ describe("plant", () => {
       const potatoHarvestSeconds = CROPS["Potato"].harvestSeconds;
 
       const { time } = getCropPlotTime({
-        counter,
-        farmId,
+        prngArgs: { farmId, counter },
         crop: "Potato",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1027,8 +1016,7 @@ describe("plant", () => {
       const pumpkinHarvestSeconds = CROPS["Pumpkin"].harvestSeconds;
 
       const { time } = getCropPlotTime({
-        counter,
-        farmId,
+        prngArgs: { farmId, counter },
         crop: "Pumpkin",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1053,9 +1041,8 @@ describe("plant", () => {
     it("sets the AOE next available time to the next harvest time", () => {
       const pumpkinHarvestSeconds = CROPS["Pumpkin"].harvestSeconds;
 
-      const { time, aoe } = getCropPlotTime({
-        counter,
-        farmId,
+      const { aoe } = getCropPlotTime({
+        prngArgs: { farmId, counter },
         crop: "Pumpkin",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1082,9 +1069,8 @@ describe("plant", () => {
     it("does not apply 20% speed boost if the AOE has already been used", () => {
       const pumpkinHarvestSeconds = CROPS["Pumpkin"].harvestSeconds;
 
-      const { time, aoe } = getCropPlotTime({
-        counter,
-        farmId,
+      const { time } = getCropPlotTime({
+        prngArgs: { farmId, counter },
         crop: "Pumpkin",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1116,9 +1102,8 @@ describe("plant", () => {
     it("does apply 20% speed boost if the AOE is available", () => {
       const pumpkinHarvestSeconds = CROPS["Pumpkin"].harvestSeconds;
 
-      const { time, aoe } = getCropPlotTime({
-        counter,
-        farmId,
+      const { time } = getCropPlotTime({
+        prngArgs: { farmId, counter },
         crop: "Pumpkin",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1151,8 +1136,7 @@ describe("plant", () => {
       const beetrootHarvestSeconds = CROPS["Beetroot"].harvestSeconds;
 
       const { time } = getCropPlotTime({
-        counter,
-        farmId,
+        prngArgs: { farmId, counter },
         crop: "Beetroot",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1178,8 +1162,7 @@ describe("plant", () => {
       const sunflowerHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
 
       const { time } = getCropPlotTime({
-        counter,
-        farmId,
+        prngArgs: { farmId, counter },
         crop: "Sunflower",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1205,8 +1188,7 @@ describe("plant", () => {
       const sunflowerHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
 
       const { time } = getCropPlotTime({
-        counter,
-        farmId,
+        prngArgs: { farmId, counter },
         crop: "Sunflower",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1231,8 +1213,7 @@ describe("plant", () => {
     it("applies a 25% speed boost with Kernaldo placed", () => {
       const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
       const { time } = getCropPlotTime({
-        counter,
-        farmId,
+        prngArgs: { farmId, counter },
         crop: "Corn",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1257,8 +1238,7 @@ describe("plant", () => {
     it("applies a 2x speed boost with Giant Zucchini placed", () => {
       const baseHarvestSeconds = CROPS["Zucchini"].harvestSeconds;
       const { time } = getCropPlotTime({
-        counter,
-        farmId,
+        prngArgs: { farmId, counter },
         crop: "Zucchini",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1285,8 +1265,7 @@ describe("plant", () => {
       const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
 
       const { time } = getCropPlotTime({
-        counter,
-        farmId,
+        prngArgs: { farmId, counter },
         crop: "Corn",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1315,8 +1294,7 @@ describe("plant", () => {
       const sevenHoursAgo = dateNow - 7 * 60 * 60 * 1000;
 
       const { time } = getCropPlotTime({
-        counter,
-        farmId,
+        prngArgs: { farmId, counter },
         crop: "Corn",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1341,8 +1319,7 @@ describe("plant", () => {
     it("applies a +5% speed boost with Green Thumb skill", () => {
       const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
       const { time } = getCropPlotTime({
-        counter,
-        farmId,
+        prngArgs: { farmId, counter },
         crop: "Corn",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1364,8 +1341,7 @@ describe("plant", () => {
     it("applies a +10% speed boost on advanced crops with Strong Roots skill", () => {
       const baseHarvestSeconds = CROPS["Radish"].harvestSeconds;
       const { time } = getCropPlotTime({
-        counter,
-        farmId,
+        prngArgs: { farmId, counter },
         crop: "Radish",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1387,8 +1363,7 @@ describe("plant", () => {
     it("does not apply a +10% speed boost on Sunflower with Strong Roots skill", () => {
       const baseHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
       const { time } = getCropPlotTime({
-        counter,
-        farmId,
+        prngArgs: { farmId, counter },
         crop: "Sunflower",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1410,8 +1385,7 @@ describe("plant", () => {
     it("applies a 2x speed boost with Sunshower", () => {
       const baseHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
       const { time } = getCropPlotTime({
-        counter,
-        farmId,
+        prngArgs: { farmId, counter },
         crop: "Sunflower",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1433,8 +1407,7 @@ describe("plant", () => {
     it("applies the Sparrow Shrine boost", () => {
       const baseHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
       const { time } = getCropPlotTime({
-        counter,
-        farmId,
+        prngArgs: { farmId, counter },
         crop: "Sunflower",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1459,8 +1432,7 @@ describe("plant", () => {
     it("does not apply the Sparrow Shrine boost if expired", () => {
       const baseHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
       const { time } = getCropPlotTime({
-        counter,
-        farmId,
+        prngArgs: { farmId, counter },
         crop: "Sunflower",
         game: {
           ...FARM_WITH_PLOTS,

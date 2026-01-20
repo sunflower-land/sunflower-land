@@ -301,13 +301,17 @@ const HarvestAll: React.FC<{
   );
 };
 
-const getPlantSeconds = (selectedSeed: CropSeedName, state: GameState) => {
+const getPlantSeconds = (
+  selectedSeed: CropSeedName,
+  state: GameState,
+  createdAt: number,
+) => {
   const yields = SEEDS[selectedSeed as SeedName].yield;
 
   const { time } = getCropPlotTime({
     crop: yields as CropName,
     game: state,
-    createdAt: Date.now(),
+    createdAt,
   });
   return time;
 };
@@ -322,6 +326,8 @@ const PlantAll: React.FC<{
   const [selectedSeed, setSelectedSeed] = useState<CropSeedName | null>(
     localStorage.getItem("obsidianShrineSeed") as CropSeedName | null,
   );
+
+  const now = useNow({ live: true });
 
   const currentSeason = state.season.season;
   const seasonalSeeds = SEASONAL_SEEDS[currentSeason].filter(
@@ -396,7 +402,7 @@ const PlantAll: React.FC<{
                   {selectedSeed}
                 </Label>
                 <Label type="info" secondaryIcon={SUNNYSIDE.icons.stopwatch}>
-                  {secondsToString(getPlantSeconds(selectedSeed, state), {
+                  {secondsToString(getPlantSeconds(selectedSeed, state, now), {
                     length: "medium",
                     removeTrailingZeros: true,
                   })}
