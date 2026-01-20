@@ -12,7 +12,7 @@ export const MermaidSheep: React.FC<CollectibleProps> = () => {
         name="Mermaid Sheep"
         divStyle={{
           width: `${PIXEL_SCALE * 25}px`,
-          bottom: `${PIXEL_SCALE * -2}px`,
+          bottom: `0px`,
           left: `${PIXEL_SCALE * -4.5}px`,
         }}
         imgStyle={{

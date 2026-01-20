@@ -16,7 +16,7 @@ export const SquidChicken: React.FC<CollectibleProps> = () => {
           left: `${PIXEL_SCALE * -1.75}px`,
         }}
         imgStyle={{
-          width: `${PIXEL_SCALE * 26}px`,
+          width: `${PIXEL_SCALE * 19}px`,
         }}
         image={ITEM_DETAILS["Squid Chicken"].image}
         alt="Squid Chicken"

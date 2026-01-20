@@ -13,7 +13,8 @@ export const MermaidCow: React.FC<CollectibleProps> = () => {
         divStyle={{
           width: `${PIXEL_SCALE * 25}px`,
           bottom: `${PIXEL_SCALE * -2}px`,
-          left: `${PIXEL_SCALE * -4.5}px`,
+          left: "50%",
+          transform: "translateX(-50%)",
         }}
         imgStyle={{
           width: `${PIXEL_SCALE * 25}px`,
