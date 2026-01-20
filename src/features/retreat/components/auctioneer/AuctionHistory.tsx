@@ -164,14 +164,23 @@ export const AuctionHistory: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="relative w-12 h-12 flex items-center justify-center">
-                <img
-                  src={SUNNYSIDE.ui.grey_background}
-                  className="absolute inset-0 w-full h-full rounded-md"
-                />
-                <img
-                  src={selectedDisplay.image}
-                  className="w-2/3 h-2/3 object-contain z-10"
-                />
+                {selectedAuction.type === "wearable" ? (
+                  <img
+                    src={selectedDisplay.image}
+                    className="w-full object-contain z-10 rounded-md"
+                  />
+                ) : (
+                  <>
+                    <img
+                      src={SUNNYSIDE.ui.grey_background}
+                      className="absolute inset-0 w-full h-full rounded-md"
+                    />
+                    <img
+                      src={selectedDisplay.image}
+                      className="w-2/3 h-2/3 object-contain z-10"
+                    />
+                  </>
+                )}
               </div>
               <div>
                 <p className="text-sm">{selectedDisplay.item}</p>
@@ -249,6 +258,23 @@ export const AuctionHistory: React.FC = () => {
                   className="w-full mb-1 cursor-pointer !p-2 flex items-center"
                 >
                   <div className="relative w-12 h-12 flex items-center justify-center mr-2">
+                    {item.auction.type === "wearable" ? (
+                      <img
+                        src={image}
+                        className="w-full object-contain z-10 rounded-md"
+                      />
+                    ) : (
+                      <>
+                        <img
+                          src={SUNNYSIDE.ui.grey_background}
+                          className="absolute inset-0 w-full h-full rounded-md"
+                        />
+                        <img
+                          src={image}
+                          className="w-2/3 h-2/3 object-contain z-10"
+                        />
+                      </>
+                    )}
                     <img
                       src={SUNNYSIDE.ui.grey_background}
                       className="absolute inset-0 w-full h-full rounded-md"

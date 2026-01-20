@@ -30,6 +30,19 @@ export async function loadRaffles(
         },
       },
       {
+        id: "3",
+        startAt: Date.now(),
+        endAt: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        prizes: {
+          1: {
+            items: { Crimstone: 1 },
+          },
+          2: {
+            items: { Iron: 5, Stone: 5, Wood: 2 },
+          },
+        },
+      },
+      {
         id: "2",
         startAt: Date.now() - 1000 * 60 * 60 * 24 * 7,
         endAt: Date.now() - 1000 * 60 * 60 * 24 * 7,
