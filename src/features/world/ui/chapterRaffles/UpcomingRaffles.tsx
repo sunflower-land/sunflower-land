@@ -5,14 +5,14 @@ import { useActor } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import petEggNFT from "assets/icons/pet_nft_egg.png";
-import chest from "assets/icons/chest.png";
+import raffleIcon from "assets/icons/raffle_icon.png";
 import { Button } from "components/ui/Button";
 import { ButtonPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { NumberInput } from "components/ui/NumberInput";
 import { Loading } from "features/auth/components";
 import * as AuthProvider from "features/auth/lib/Provider";
-import { Context as GameContext } from "features/game/GameProvider";
+import { Context as GameContext, useGame } from "features/game/GameProvider";
 import {
   getChapterRaffleTicket,
   getChapterTicket,
@@ -33,6 +33,7 @@ import { Box } from "components/ui/Box";
 import { InventoryItemName, Wardrobe } from "features/game/types/game";
 import { PetNFTName } from "features/game/types/pets";
 import { ChapterRaffleResult } from "./ChapterRaffleResult";
+import { translate } from "lib/i18n/translate";
 
 export const UpcomingRaffles: React.FC = () => {
   const { t } = useAppTranslation();
@@ -100,77 +101,6 @@ export const UpcomingRaffles: React.FC = () => {
       </div>
     );
   }
-
-  const formatCountdown = (countdown: ReturnType<typeof useCountdown>) => {
-    if (countdown.days > 0) {
-      return `${countdown.days}d ${countdown.hours}h`;
-    }
-
-    if (countdown.hours > 0) {
-      return `${countdown.hours}h ${countdown.minutes}m`;
-    }
-
-    return `${countdown.minutes}m ${countdown.seconds}s`;
-  };
-
-  const formatRaffleDate = (timestamp: number) => {
-    const date = new Date(timestamp);
-    const day = toOrdinalSuffix(date.getDate());
-    const month = date.toLocaleString("en-AU", { month: "short" });
-    const hour = date.toLocaleString("en-AU", {
-      hour: "2-digit",
-      hour12: false,
-    });
-    const minute = date.toLocaleString("en-AU", { minute: "2-digit" });
-    return `${hour.substring(0, 2)}:${minute.substring(0, 2).padStart(2, "0")} ${day} ${month}`;
-  };
-
-  const formatRaffleWindow = (raffle: RaffleDefinition) =>
-    `${formatRaffleDate(raffle.startAt)} - ${formatRaffleDate(raffle.endAt)}`;
-
-  const getFirstPrizeDisplay = (raffle: RaffleDefinition) => {
-    const items = getKeys(raffle.prizes[1].items ?? {});
-    const wearables = getKeys(raffle.prizes[1].wearables ?? {});
-
-    const collectible = items.find((item) => isCollectible(item));
-
-    if (collectible) {
-      return {
-        name: collectible,
-        image: ITEM_DETAILS[collectible].image,
-        type: "collectible" as const,
-      };
-    }
-
-    if (wearables[0]) {
-      return {
-        name: wearables[0],
-        image: getImageUrl(ITEM_IDS[wearables[0]]),
-        type: "wearable" as const,
-      };
-    }
-
-    if (items[0]) {
-      return {
-        name: items[0],
-        image: ITEM_DETAILS[items[0]].image,
-        type: "item" as const,
-      };
-    }
-
-    return {
-      name: t("auction.raffle.prizeFallback"),
-      image: SUNNYSIDE.icons.expression_confused,
-      type: "item" as const,
-    };
-  };
-
-  const CountdownLabel: React.FC<{ raffle: RaffleDefinition }> = ({
-    raffle,
-  }) => {
-    const countdown = useCountdown(raffle.endAt);
-    return <Label type="info">{`${formatCountdown(countdown)} left`}</Label>;
-  };
 
   const selectedRaffle = upcomingRaffles.find(
     (raffle) => raffle.id === selectedRaffleId,
@@ -362,7 +292,7 @@ export const UpcomingRaffles: React.FC = () => {
   }
 
   if (selectedRaffle) {
-    const display = getFirstPrizeDisplay(selectedRaffle);
+    const display = getPrizeDisplay({ prize: 1, raffle: selectedRaffle });
     const raffleEntries =
       game.raffle?.active?.[selectedRaffle.id]?.entries ?? 0;
 
@@ -486,55 +416,144 @@ export const UpcomingRaffles: React.FC = () => {
       <div className="p-0">
         <div className="max-h-52 overflow-y-auto scrollable pr-1">
           {upcomingRaffles.map((raffle) => {
-            const display = getFirstPrizeDisplay(raffle);
-            const isCurrent = raffle.startAt <= now && raffle.endAt > now;
-
-            const entries = game.raffle?.active?.[raffle.id]?.entries ?? 0;
-
             return (
-              <ButtonPanel
+              <RaffleCard
                 key={raffle.id}
+                raffle={raffle}
                 onClick={() => setSelectedRaffleId(raffle.id)}
-                className="w-full mb-1 cursor-pointer !p-2 flex items-center"
-              >
-                <div className="relative w-12 h-12 flex items-center justify-center mr-2">
-                  <img
-                    src={SUNNYSIDE.ui.grey_background}
-                    className="absolute inset-0 w-full h-full rounded-md"
-                  />
-                  <img
-                    src={display.image}
-                    className="w-2/3 h-2/3 object-contain z-10"
-                  />
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm truncate mb-1">
-                      {Object.keys(raffle.prizes ?? {}).length > 1
-                        ? t(`auction.raffle.items`, {
-                            item: display.name,
-                            extra: Object.keys(raffle.prizes ?? {}).length - 1,
-                          })
-                        : display.name}
-                    </p>
-                    <div className="flex items-center">
-                      <img src={chest} className="h-4 mr-1" />
-                      <p className="text-xs">
-                        {Object.keys(raffle.prizes ?? {}).length}
-                      </p>
-                    </div>
-                  </div>
-                  {isCurrent ? (
-                    <CountdownLabel raffle={raffle} />
-                  ) : (
-                    <p className="text-xxs">{formatRaffleWindow(raffle)}</p>
-                  )}
-                </div>
-              </ButtonPanel>
+              />
             );
           })}
         </div>
       </div>
     </div>
+  );
+};
+
+const formatCountdown = (countdown: ReturnType<typeof useCountdown>) => {
+  if (countdown.days > 0) {
+    return `${countdown.days}d ${countdown.hours}h`;
+  }
+
+  if (countdown.hours > 0) {
+    return `${countdown.hours}h ${countdown.minutes}m`;
+  }
+
+  return `${countdown.minutes}m ${countdown.seconds}s`;
+};
+
+const formatRaffleDate = (timestamp: number) => {
+  const date = new Date(timestamp);
+  const day = toOrdinalSuffix(date.getDate());
+  const month = date.toLocaleString("en-AU", { month: "short" });
+  const hour = date.toLocaleString("en-AU", {
+    hour: "2-digit",
+    hour12: false,
+  });
+  const minute = date.toLocaleString("en-AU", { minute: "2-digit" });
+  return `${hour.substring(0, 2)}:${minute.substring(0, 2).padStart(2, "0")} ${day} ${month}`;
+};
+
+const formatRaffleWindow = (raffle: RaffleDefinition) =>
+  `${formatRaffleDate(raffle.startAt)} - ${formatRaffleDate(raffle.endAt)}`;
+
+const getPrizeDisplay = ({
+  prize,
+  raffle,
+}: {
+  prize: number;
+  raffle: RaffleDefinition;
+}) => {
+  const items = getKeys(raffle.prizes[prize].items ?? {});
+  const wearables = getKeys(raffle.prizes[prize].wearables ?? {});
+
+  const collectible = items.find((item) => isCollectible(item));
+
+  if (collectible) {
+    return {
+      name: collectible,
+      image: ITEM_DETAILS[collectible].image,
+      type: "collectible" as const,
+    };
+  }
+
+  if (wearables[0]) {
+    return {
+      name: wearables[0],
+      image: getImageUrl(ITEM_IDS[wearables[0]]),
+      type: "wearable" as const,
+    };
+  }
+
+  if (items[0]) {
+    return {
+      name: items[0],
+      image: ITEM_DETAILS[items[0]].image,
+      type: "item" as const,
+    };
+  }
+
+  return {
+    name: translate("auction.raffle.prizeFallback"),
+    image: SUNNYSIDE.icons.expression_confused,
+    type: "item" as const,
+  };
+};
+
+const CountdownLabel: React.FC<{ raffle: RaffleDefinition }> = ({ raffle }) => {
+  const countdown = useCountdown(raffle.endAt);
+  return <Label type="info">{`${formatCountdown(countdown)} left`}</Label>;
+};
+
+export const RaffleCard: React.FC<{
+  raffle: RaffleDefinition;
+  onClick: () => void;
+}> = ({ raffle, onClick }) => {
+  const { gameState } = useGame();
+  const now = useNow({ live: true });
+  const { t } = useAppTranslation();
+
+  const game = gameState.context.state;
+  const display = getPrizeDisplay({ prize: 1, raffle });
+  const isCurrent = raffle.startAt <= now && raffle.endAt > now;
+
+  const entries = game.raffle?.active?.[raffle.id]?.entries ?? 0;
+  return (
+    <ButtonPanel
+      key={raffle.id}
+      onClick={onClick}
+      className="w-full mb-1 cursor-pointer !p-2 flex items-center"
+    >
+      <div className="relative w-12 h-12 flex items-center justify-center mr-2">
+        <img
+          src={SUNNYSIDE.ui.grey_background}
+          className="absolute inset-0 w-full h-full rounded-md"
+        />
+        <img src={display.image} className="w-2/3 h-2/3 object-contain z-10" />
+      </div>
+      <div className="flex-1">
+        <div className="flex items-center justify-between">
+          <p className="text-sm truncate mb-1">
+            {Object.keys(raffle.prizes ?? {})
+              .map(
+                (prize) =>
+                  getPrizeDisplay({ prize: Number(prize), raffle }).name,
+              )
+              .join(", ")}
+          </p>
+          {entries > 0 && (
+            <div className="flex -mr-2">
+              <img src={raffleIcon} className="h-5 " />
+              <img src={SUNNYSIDE.icons.confirm} className="h-5 ml-1" />
+            </div>
+          )}
+        </div>
+        {isCurrent ? (
+          <CountdownLabel raffle={raffle} />
+        ) : (
+          <p className="text-xxs">{formatRaffleWindow(raffle)}</p>
+        )}
+      </div>
+    </ButtonPanel>
   );
 };

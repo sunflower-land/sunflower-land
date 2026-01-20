@@ -29,6 +29,21 @@ export async function loadRaffles(
           },
         },
       },
+      {
+        id: "2",
+        startAt: Date.now() - 1000 * 60 * 60 * 24 * 7,
+        endAt: Date.now() - 1000 * 60 * 60 * 24 * 7,
+        prizes: {
+          1: {
+            wearables: {
+              "Acorn Hat": 1,
+            },
+          },
+          2: {
+            items: { Gold: 5 },
+          },
+        },
+      },
     ];
   }
   const response = await window.fetch(`${API_URL}/data?type=raffles`, {

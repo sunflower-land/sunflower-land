@@ -74,7 +74,14 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
     prizes: {},
   },
-
+  raffle: {
+    active: {
+      "1": {
+        entries: 100,
+        endAt: Date.now() + 1000 * 60 * 60 * 24 * 7,
+      },
+    },
+  },
   bounties: {
     completed: [
       {
