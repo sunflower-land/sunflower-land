@@ -7887,5 +7887,7 @@
   "auction.raffle.description": "Gagnez des billets en accomplissant des tâches et en concourant pour des prix.",
   "description.crabChapterBanner": "Une bannière pour les crabes et les pièges.",
   "description.floater": "Récolté pendant les crabes et les pièges.",
-  "description.ammoniteShell": "Un artefact de chapitre de The Crabs and Traps."
+  "description.ammoniteShell": "Un artefact de chapitre de The Crabs and Traps.",
+  "auction.raffle.finished": "Tirage au sort terminé",
+  "auction.raffle.viewResults": "Afficher les résultats"
 }

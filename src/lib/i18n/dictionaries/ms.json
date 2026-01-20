@@ -7887,5 +7887,7 @@
   "auction.raffle.description": "Dapatkan tiket dengan menyelesaikan tugas & bersaing untuk hadiah.",
   "description.crabChapterBanner": "Sepanduk untuk Ketam dan Perangkap.",
   "description.floater": "Dikumpulkan semasa Ketam dan Perangkap.",
-  "description.ammoniteShell": "Artefak bab dari Ketam dan Perangkap."
+  "description.ammoniteShell": "Artefak bab dari Ketam dan Perangkap.",
+  "auction.raffle.finished": "Undian selesai",
+  "auction.raffle.viewResults": "Lihat hasilnya"
 }

@@ -7887,5 +7887,7 @@
   "auction.raffle.description": "Guadagna biglietti completando le attività e competi per i premi.",
   "description.crabChapterBanner": "Uno stendardo per i granchi e le trappole.",
   "description.floater": "Raccolto durante i granchi e le trappole.",
-  "description.ammoniteShell": "Un artefatto del capitolo di Crabs and Traps."
+  "description.ammoniteShell": "Un artefatto del capitolo di Crabs and Traps.",
+  "auction.raffle.finished": "Lotteria terminata",
+  "auction.raffle.viewResults": "Visualizza i risultati"
 }

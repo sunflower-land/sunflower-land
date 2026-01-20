@@ -7887,5 +7887,7 @@
   "auction.raffle.description": "通过完成任务赚取门票并争夺奖品。",
   "description.crabChapterBanner": "Crabs and Traps 的旗帜。",
   "description.floater": "在 “螃蟹与陷阱” 期间收集。",
-  "description.ammoniteShell": "来自《螃蟹与陷阱》的章节神器。"
+  "description.ammoniteShell": "来自《螃蟹与陷阱》的章节神器。",
+  "auction.raffle.finished": "抽奖活动结束了",
+  "auction.raffle.viewResults": "查看结果"
 }

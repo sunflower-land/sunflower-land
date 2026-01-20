@@ -7887,5 +7887,7 @@
   "auction.raffle.description": "Verdiene Tickets, indem du Aufgaben erledigst und um Preise konkurrierst.",
   "description.crabChapterBanner": "Ein Banner für die Krabben und Fallen.",
   "description.floater": "Wird während der Krabben und Fallen gesammelt.",
-  "description.ammoniteShell": "Ein Kapitelartefakt aus The Crabs and Traps."
+  "description.ammoniteShell": "Ein Kapitelartefakt aus The Crabs and Traps.",
+  "auction.raffle.finished": "Verlosung beendet",
+  "auction.raffle.viewResults": "Sehen Sie sich die Ergebnisse an"
 }

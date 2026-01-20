@@ -7887,5 +7887,7 @@
   "auction.raffle.description": "タスクを完了してチケットを獲得し、賞品を競いましょう。",
   "description.crabChapterBanner": "カニとトラップのバナーだ。",
   "description.floater": "カニとトラップ中に集められます。",
-  "description.ammoniteShell": "カニとトラップのチャプターアーティファクトだ。"
+  "description.ammoniteShell": "カニとトラップのチャプターアーティファクトだ。",
+  "auction.raffle.finished": "ラッフル終了しました",
+  "auction.raffle.viewResults": "結果を見る"
 }

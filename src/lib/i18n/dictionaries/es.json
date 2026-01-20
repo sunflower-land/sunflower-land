@@ -7887,5 +7887,7 @@
   "auction.raffle.description": "Gana boletos completando tareas y compite por premios.",
   "description.crabChapterBanner": "Un estandarte para los cangrejos y las trampas.",
   "description.floater": "Recogido durante los Cangrejos y las trampas.",
-  "description.ammoniteShell": "Un artefacto capitulo de Crabs and Traps."
+  "description.ammoniteShell": "Un artefacto capitulo de Crabs and Traps.",
+  "auction.raffle.finished": "Sorteo finalizado",
+  "auction.raffle.viewResults": "Ver los resultados"
 }

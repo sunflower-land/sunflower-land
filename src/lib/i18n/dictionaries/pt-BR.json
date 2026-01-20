@@ -7887,5 +7887,7 @@
   "auction.raffle.description": "Ganhe ingressos completando tarefas e concorra a prêmios.",
   "description.crabChapterBanner": "Um banner para os Crabs and Traps.",
   "description.floater": "Coletado durante os Caranguejos e Armadilhas.",
-  "description.ammoniteShell": "Um artefato capitular de Crabs and Traps."
+  "description.ammoniteShell": "Um artefato capitular de Crabs and Traps.",
+  "auction.raffle.finished": "Sorteio concluído",
+  "auction.raffle.viewResults": "Veja os resultados"
 }

@@ -7887,5 +7887,7 @@
   "auction.raffle.description": "Earn tickets by completing tasks & compete for prizes.",
   "description.crabChapterBanner": "A banner for the Crabs and Traps.",
   "description.floater": "Collected during the Crabs and Traps.",
-  "description.ammoniteShell": "A chapter artefact from the Crabs and Traps."
+  "description.ammoniteShell": "A chapter artefact from the Crabs and Traps.",
+  "auction.raffle.finished": "Raffle finished",
+  "auction.raffle.viewResults": "View the results"
 }

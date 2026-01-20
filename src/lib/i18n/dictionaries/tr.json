@@ -7887,5 +7887,7 @@
   "auction.raffle.description": "Görevleri tamamlayarak bilet kazanın ve ödüller için yarışın.",
   "description.crabChapterBanner": "Yengeçler ve Tuzaklar için bir afiş.",
   "description.floater": "Yengeçler ve Tuzaklar sırasında toplanır.",
-  "description.ammoniteShell": "Yengeçler ve Tuzaklardan bir bölüm eseri."
+  "description.ammoniteShell": "Yengeçler ve Tuzaklardan bir bölüm eseri.",
+  "auction.raffle.finished": "Çekiliş bitti",
+  "auction.raffle.viewResults": "Sonuçları görüntüleyin"
 }

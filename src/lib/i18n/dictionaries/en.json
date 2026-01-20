@@ -157,6 +157,8 @@
   "auction.raffle": "Raffle",
   "auction.raffle.description": "Earn tickets by completing tasks & compete for prizes.",
   "auction.raffle.noWinners": "No winners.",
+  "auction.raffle.finished": "Raffle finished",
+  "auction.raffle.viewResults": "View the results",
   "auction.raffle.title": "Raffles",
   "auction.raffle.moreComing": "More raffles coming next Chapter.",
   "auction.raffle.prizeFallback": "Raffle Prize",
