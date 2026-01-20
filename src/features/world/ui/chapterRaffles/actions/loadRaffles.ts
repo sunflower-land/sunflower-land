@@ -1,6 +1,6 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { RaffleDefinition } from "../types";
+import { RaffleDefinition } from "../../../../retreat/components/auctioneer/types";
 
 type Request = {
   token: string;

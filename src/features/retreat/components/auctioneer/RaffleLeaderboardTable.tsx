@@ -7,7 +7,7 @@ import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import sflIcon from "assets/icons/flower_token.webp";
-import { RaffleWinner } from "./actions/loadRaffleResults";
+import { RaffleWinner } from "../../../world/ui/chapterRaffles/actions/loadRaffleResults";
 import raffleTicketIcon from "assets/icons/raffle_icon.png";
 import { shortenCount } from "lib/utils/formatNumber";
 

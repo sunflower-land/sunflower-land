@@ -23,18 +23,18 @@ import { randomID } from "lib/utils/random";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
 import { loadRaffles } from "./actions/loadRaffles";
-import { RaffleDefinition } from "./types";
+import { RaffleDefinition } from "../../../retreat/components/auctioneer/types";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { getKeys } from "features/game/types/craftables";
-import { toOrdinalSuffix } from "./AuctionLeaderboardTable";
+import { toOrdinalSuffix } from "../../../retreat/components/auctioneer/AuctionLeaderboardTable";
 import { Box } from "components/ui/Box";
 import { InventoryItemName, Wardrobe } from "features/game/types/game";
 import { PetNFTName } from "features/game/types/pets";
-import { RaffleHistory } from "./AuctionRaffleHistory";
+import { ChapterRaffleResult } from "./ChapterRaffleResult";
 
-export const AuctioneerRaffle: React.FC = () => {
+export const UpcomingRaffles: React.FC = () => {
   const { t } = useAppTranslation();
   const now = useNow({ live: true });
   const { authService } = useContext(AuthProvider.Context);
@@ -178,7 +178,7 @@ export const AuctioneerRaffle: React.FC = () => {
 
   if (selectedRaffle && selectedRaffle.endAt < now) {
     return (
-      <RaffleHistory
+      <ChapterRaffleResult
         id={selectedRaffle.id}
         onClose={() => setSelectedRaffleId(undefined)}
       />
@@ -391,7 +391,7 @@ export const AuctioneerRaffle: React.FC = () => {
 
     return (
       <>
-        <div className="p-2">
+        <div className="p-1">
           <div className="flex items-center gap-2 mb-2">
             <img
               src={SUNNYSIDE.icons.arrow_left}
@@ -482,7 +482,7 @@ export const AuctioneerRaffle: React.FC = () => {
 
   return (
     <div>
-      <div className="p-2">
+      <div className="p-0">
         <div className="max-h-52 overflow-y-auto scrollable pr-1">
           {upcomingRaffles.map((raffle) => {
             const display = getFirstPrizeDisplay(raffle);
