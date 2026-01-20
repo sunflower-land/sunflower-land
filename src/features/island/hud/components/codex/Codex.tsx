@@ -8,6 +8,7 @@ import { SquareIcon } from "components/ui/SquareIcon";
 
 // Section Icons
 import { Fish } from "./pages/Fish";
+import { Crustaceans } from "./pages/Crustaceans";
 import { CodexCategory, CodexCategoryName } from "features/game/types/codex";
 import { MilestoneReached } from "./components/MilestoneReached";
 import { MilestoneName } from "features/game/types/milestones";
@@ -170,6 +171,11 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       count: 0,
     },
     {
+      name: "Crustaceans",
+      icon: ITEM_DETAILS["Crab Pot"].image,
+      count: 0,
+    },
+    {
       name: "Flowers",
       icon: ITEM_DETAILS["Red Pansy"].image,
       count: 0,
@@ -278,6 +284,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             {currentTab === "Fish" && (
               <Fish onMilestoneReached={handleMilestoneReached} state={state} />
             )}
+            {currentTab === "Crustaceans" && <Crustaceans state={state} />}
             {currentTab === "Flowers" && (
               <Flowers
                 onMilestoneReached={handleMilestoneReached}
