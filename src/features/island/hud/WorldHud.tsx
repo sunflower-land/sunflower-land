@@ -36,6 +36,7 @@ import {
   Player,
 } from "features/world/ui/moderationTools/ModerationTools";
 import { DesertDiggingDisplay } from "./components/DesertDiggingDisplay";
+import { RaffleWidget } from "features/retreat/components/auctioneer/RaffleWidget";
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
  * Balances, Inventory, actions etc.
@@ -151,6 +152,7 @@ const HudComponent: React.FC<Props> = ({
         >
           <TransactionCountdown />
           <StreamCountdown />
+          <RaffleWidget />
           <FloatingIslandCountdown />
           <AuctionCountdown />
           <VersionUpdateWidget />
