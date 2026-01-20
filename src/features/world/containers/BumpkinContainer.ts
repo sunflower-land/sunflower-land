@@ -21,7 +21,7 @@ import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 
 const NAME_ALIASES: Partial<Record<NPCName, string>> = {
   "pumpkin' pete": "pete",
-  "hammerin harry": "auctioneer",
+  "hammerin harry": "auctions",
 };
 export const NPCS_WITH_ALERTS: Partial<Record<NPCName, boolean>> = {
   "pumpkin' pete": true,
@@ -151,7 +151,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
     if (name) {
       const text = NAME_ALIASES[name as NPCName] ?? name;
-      const label = new Label(this.scene, text.toUpperCase());
+      const labelType = name === "hammerin harry" ? "gold" : "grey";
+      const label = new Label(this.scene, text.toUpperCase(), labelType);
       this.add(label);
       label.setPosition(label.width / 2, -16);
       if (

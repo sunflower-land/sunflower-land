@@ -7878,10 +7878,11 @@
   "auction.title": "Lelongan",
   "effect.success.default": "Kejayaan!",
   "auction.raffle.missingChapterTicket": "Anda tidak mempunyai cukup {{ticket}} s",
-  "auction.raffle.confirmation.description": "Pemenang dipilih secara rawak dan penyertaan tidak boleh dibatalkan atau dikembalikan.",
   "auction.raffle.entryInfo": "Anda boleh menggunakan Tiket Bab dan Tiket Undian. Penyertaan tidak boleh dibatalkan dan tidak boleh dikembalikan.",
   "auction.raffle.prizes": "Kumpulan hadiah",
   "auction.raffle.prizePool": "{{count}} pemenang akan dipilih. Jumlah kumpulan ganjaran untuk undian ini termasuk:",
   "auction.raffle.items": "{{item}} + lagi...",
-  "auction.raffle.confirmation.noRefund": "Tiada bayaran balik"
+  "auction.raffle.confirmation.description": "Pemenang dipilih secara rawak dan penyertaan tidak boleh dibatalkan atau dikembalikan.",
+  "auction.raffle.confirmation.noRefund": "Tiada bayaran balik (walaupun anda tidak menang)",
+  "auction.raffle.description": "Dapatkan tiket dengan menyelesaikan tugas & bersaing untuk hadiah."
 }

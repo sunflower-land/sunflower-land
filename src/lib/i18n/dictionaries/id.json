@@ -7878,10 +7878,11 @@
   "auction.title": "Lelang",
   "effect.success.default": "Sukses!",
   "auction.raffle.missingChapterTicket": "Anda tidak memiliki cukup {{ticket}} s",
-  "auction.raffle.confirmation.description": "Pemenang dipilih secara acak dan entri tidak dapat dibatalkan atau dikembalikan.",
   "auction.raffle.entryInfo": "Anda dapat menggunakan Tiket Bab dan Tiket Undian. Entri tidak dapat dibatalkan dan tidak dapat dikembalikan.",
   "auction.raffle.prizes": "Kumpulan hadiah",
   "auction.raffle.prizePool": "{{count}} pemenang akan dipilih. Total kumpulan hadiah untuk undian ini meliputi:",
   "auction.raffle.items": "{{item}} + lebih...",
-  "auction.raffle.confirmation.noRefund": "Tidak ada pengembalian uang"
+  "auction.raffle.confirmation.description": "Pemenang dipilih secara acak dan entri tidak dapat dibatalkan atau dikembalikan.",
+  "auction.raffle.confirmation.noRefund": "Tidak ada pengembalian uang (bahkan jika Anda tidak menang)",
+  "auction.raffle.description": "Dapatkan tiket dengan menyelesaikan tugas & bersaing untuk mendapatkan hadiah."
 }

@@ -7878,10 +7878,11 @@
   "auction.title": "Subastas",
   "effect.success.default": "¡Éxito!",
   "auction.raffle.missingChapterTicket": "No tienes suficientes {{ticket}} s",
-  "auction.raffle.confirmation.description": "Los ganadores se eligen al azar y las participaciones no se pueden cancelar ni reembolsar.",
   "auction.raffle.entryInfo": "Puedes usar boletos para capítulos y boletos para sorteos. Las entradas no se pueden cancelar ni reembolsar.",
   "auction.raffle.prizes": "Bolsa de premios",
   "auction.raffle.prizePool": "Se elegirán los ganadores de {{count}}. El total de recompensas de este sorteo incluye:",
   "auction.raffle.items": "{{item}} + más...",
-  "auction.raffle.confirmation.noRefund": "Sin reembolsos"
+  "auction.raffle.confirmation.description": "Los ganadores se eligen al azar y las participaciones no se pueden cancelar ni reembolsar.",
+  "auction.raffle.confirmation.noRefund": "Sin reembolsos (incluso si no ganas)",
+  "auction.raffle.description": "Gana boletos completando tareas y compite por premios."
 }

@@ -7,8 +7,9 @@ import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import sflIcon from "assets/icons/flower_token.webp";
-import { toOrdinalSuffix } from "./AuctionLeaderboardTable";
-import { RaffleWinner } from "./actions/loadRaffleResults";
+import { RaffleWinner } from "../../../world/ui/chapterRaffles/actions/loadRaffleResults";
+import raffleTicketIcon from "assets/icons/raffle_icon.png";
+import { shortenCount } from "lib/utils/formatNumber";
 
 type Props = {
   winners: RaffleWinner[];
@@ -41,9 +42,9 @@ export const RaffleLeaderboardTable: React.FC<Props> = ({
             >
               <td
                 style={{ border: "1px solid #b96f50" }}
-                className="p-1.5 pb-2 w-10"
+                className="p-1.5 pb-2 w-8"
               >
-                {toOrdinalSuffix(winner.position)}
+                {`${winner.position}`}
               </td>
               <td
                 style={{ border: "1px solid #b96f50" }}
@@ -52,20 +53,31 @@ export const RaffleLeaderboardTable: React.FC<Props> = ({
                 {winner.profile?.equipped && (
                   <div
                     className="absolute"
-                    style={{ left: "4px", top: "-1px" }}
+                    style={{ left: "4px", top: "-0px" }}
                   >
                     <NPCIcon width={24} parts={winner.profile.equipped} />
                   </div>
                 )}
-                <div className="relative">
-                  <div>{`${name} - ${t("auction.raffle.levelShort", { level })}`}</div>
-                </div>
-                <div></div>
+                <p className="relative truncate">
+                  {`${name} - ${t("auction.raffle.levelShort", { level })}`}
+                </p>
               </td>
 
               <td
                 style={{ border: "1px solid #b96f50" }}
-                className="p-1.5 w-2/5"
+                className="p-1.5 w-16"
+              >
+                <div className="flex space-x-1 ">
+                  <img src={raffleTicketIcon} className="h-4 mr-0.5" />
+                  <span className="text-xs">
+                    {shortenCount(winner.ticketsUsed)}
+                  </span>
+                </div>
+              </td>
+
+              <td
+                style={{ border: "1px solid #b96f50" }}
+                className="p-1.5 w-16"
               >
                 <div className="flex space-x-1 flex-wrap space-y-1">
                   {winner.sfl && winner.sfl > 0 && (

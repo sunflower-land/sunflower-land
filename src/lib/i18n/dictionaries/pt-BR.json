@@ -7878,10 +7878,11 @@
   "auction.title": "Leilões",
   "effect.success.default": "Sucesso!",
   "auction.raffle.missingChapterTicket": "Você não tem {{ticket}} s suficientes",
-  "auction.raffle.confirmation.description": "Os vencedores são escolhidos aleatoriamente e as inscrições não podem ser canceladas ou reembolsadas.",
   "auction.raffle.entryInfo": "Você pode usar ingressos para capítulos e ingressos de rifa. As inscrições não são canceláveis nem reembolsáveis.",
   "auction.raffle.prizes": "Total de prêmios",
   "auction.raffle.prizePool": "Os vencedores de {{count}} serão escolhidos. O total de recompensas deste sorteio inclui:",
   "auction.raffle.items": "{{item}} + mais...",
-  "auction.raffle.confirmation.noRefund": "Sem reembolsos"
+  "auction.raffle.confirmation.description": "Os vencedores são escolhidos aleatoriamente e as inscrições não podem ser canceladas ou reembolsadas.",
+  "auction.raffle.confirmation.noRefund": "Sem reembolso (mesmo que você não ganhe)",
+  "auction.raffle.description": "Ganhe ingressos completando tarefas e concorra a prêmios."
 }
