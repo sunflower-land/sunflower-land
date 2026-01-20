@@ -58,7 +58,7 @@ export const CHAPTER_MUTANTS: Partial<Record<ChapterName, ChapterMutants>> = {
     sheep: "Astronaut Sheep",
     banner: SUNNYSIDE.announcement.pawPrintsSeasonRares,
   },
-  "Crab Chapter": {
+  "Crabs and Traps": {
     chicken: "Squid Chicken",
     flower: "Anemone Flower",
     fish: "Giant Isopod",
