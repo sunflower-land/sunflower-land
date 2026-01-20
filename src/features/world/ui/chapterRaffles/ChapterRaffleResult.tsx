@@ -9,7 +9,7 @@ import { useGame } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { randomID } from "lib/utils/random";
 import { loadRaffleResults, RaffleResults } from "./actions/loadRaffleResults";
-import { RaffleLeaderboardTable } from "./RaffleLeaderboardTable";
+import { RaffleLeaderboardTable } from "../../../retreat/components/auctioneer/RaffleLeaderboardTable";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { shortenCount } from "lib/utils/formatNumber";
@@ -27,10 +27,10 @@ const raffleResultsFetcher = async ([, raffleId, token]: [
   });
 };
 
-export const RaffleHistory: React.FC<{ id: string; onClose?: () => void }> = ({
-  id,
-  onClose,
-}) => {
+export const ChapterRaffleResult: React.FC<{
+  id: string;
+  onClose?: () => void;
+}> = ({ id, onClose }) => {
   const { t } = useAppTranslation();
   const { authState } = AuthProvider.useAuth();
   const { gameState, gameService } = useGame();
