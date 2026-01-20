@@ -496,10 +496,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Paw Prints Banner": 766,
   "Pet Cookie": 767,
   "Moon Crystal": 768,
-  // Crab Chapter (placeholder IDs - confirm before release)
-  "Crab Chapter Banner": 771,
-  "Crab Chapter Ticket": 772,
-  "Crab Chapter Artefact": 773,
+  "Crabs and Traps Banner": 771,
+  Floater: 772,
+  "Ammonite Shell": 773,
   "Halloween Token 2025": 769,
   "Holiday Token 2025": 770,
 
@@ -593,7 +592,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Ronin Banner": 944,
   "Base Banner": 945,
   "Paw Prints Raffle Ticket": 946,
-  "Crab Chapter Raffle Ticket": 947,
+  "Crabs and Traps Raffle Ticket": 947,
 
   // Buildings
   Market: 1001,

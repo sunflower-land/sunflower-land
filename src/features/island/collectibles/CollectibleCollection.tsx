@@ -2746,7 +2746,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Paw Prints Banner"
     />
   ),
-  "Crab Chapter Banner": (props: CollectibleProps) => (
+  "Crabs and Traps Banner": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
       divStyle={{
@@ -2757,8 +2757,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
       imgStyle={{
         width: `${PIXEL_SCALE * 16}px`,
       }}
-      image={ITEM_DETAILS["Crab Chapter Banner"].image}
-      alt="Crab Chapter Banner"
+      image={ITEM_DETAILS["Crabs and Traps Banner"].image}
+      alt="Crabs and Traps Banner"
     />
   ),
   "Paw Prints Rug": (props: CollectibleProps) => (
