@@ -100,7 +100,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const now = useNow({ live: true });
+  const now = useNow();
   const farmId = useSelector(gameService, _farmId);
   const growingCropPackIndex = useSelector(service, _growingCropPackIndex);
   const idle = useSelector(service, _idle);
@@ -241,9 +241,15 @@ export const CropMachineModalContent: React.FC<Props> = ({
   ];
 
   const allowedSeeds = ALLOWED_SEEDS(state.bumpkin, inventory);
+  const initialCounter = useSelector(gameService, (state) => {
+    const cropName = selectedPack?.crop;
+    if (!cropName) return 0;
+    return state.context.state.farmActivity[`${cropName} Harvested`] ?? 0;
+  });
   const cropYield = selectedPack
     ? (selectedPack.amount ??
-      getPackYieldAmount(state, selectedPack, farmId, now).amount)
+      getPackYieldAmount(state, selectedPack, farmId, now, initialCounter)
+        .amount)
     : 0;
 
   return (
