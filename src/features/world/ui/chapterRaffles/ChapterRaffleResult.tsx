@@ -56,7 +56,7 @@ export const ChapterRaffleResult: React.FC<{
 
       return () => clearInterval(interval);
     }
-  }, [selectedRaffleResults?.status]);
+  }, [selectedRaffleResults?.status, id]);
 
   if (raffleResultsError) {
     throw raffleResultsError;
