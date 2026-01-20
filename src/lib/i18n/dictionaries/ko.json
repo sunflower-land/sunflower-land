@@ -7884,5 +7884,8 @@
   "auction.raffle.items": "{{item}} + 더 보기...",
   "auction.raffle.confirmation.description": "수상자는 무작위로 선정되며 응모작은 취소하거나 환불할 수 없습니다.",
   "auction.raffle.confirmation.noRefund": "환불 불가 (당첨되지 않은 경우에도)",
-  "auction.raffle.description": "작업을 완료하여 티켓을 획득하고 상품을 놓고 경쟁하세요."
+  "auction.raffle.description": "작업을 완료하여 티켓을 획득하고 상품을 놓고 경쟁하세요.",
+  "description.crabChapterBanner": "크랩과 트랩을 위한 깃발입니다.",
+  "description.floater": "크랩과 트랩 중에 수집할 수 있습니다.",
+  "description.ammoniteShell": "크랩과 트랩의 챕터 아티팩트."
 }

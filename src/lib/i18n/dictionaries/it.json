@@ -7884,5 +7884,8 @@
   "auction.raffle.items": "{{item}} + altro...",
   "auction.raffle.confirmation.description": "I vincitori vengono scelti a caso e le iscrizioni non possono essere annullate o rimborsate.",
   "auction.raffle.confirmation.noRefund": "Nessun rimborso (anche se non vinci)",
-  "auction.raffle.description": "Guadagna biglietti completando le attività e competi per i premi."
+  "auction.raffle.description": "Guadagna biglietti completando le attività e competi per i premi.",
+  "description.crabChapterBanner": "Uno stendardo per i granchi e le trappole.",
+  "description.floater": "Raccolto durante i granchi e le trappole.",
+  "description.ammoniteShell": "Un artefatto del capitolo di Crabs and Traps."
 }

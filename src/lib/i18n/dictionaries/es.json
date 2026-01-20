@@ -7884,5 +7884,8 @@
   "auction.raffle.items": "{{item}} + más...",
   "auction.raffle.confirmation.description": "Los ganadores se eligen al azar y las participaciones no se pueden cancelar ni reembolsar.",
   "auction.raffle.confirmation.noRefund": "Sin reembolsos (incluso si no ganas)",
-  "auction.raffle.description": "Gana boletos completando tareas y compite por premios."
+  "auction.raffle.description": "Gana boletos completando tareas y compite por premios.",
+  "description.crabChapterBanner": "Un estandarte para los cangrejos y las trampas.",
+  "description.floater": "Recogido durante los Cangrejos y las trampas.",
+  "description.ammoniteShell": "Un artefacto capitulo de Crabs and Traps."
 }

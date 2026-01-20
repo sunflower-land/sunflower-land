@@ -7884,5 +7884,8 @@
   "auction.raffle.items": "{{item}} + もっと...",
   "auction.raffle.confirmation.description": "受賞者はランダムに選ばれ、エントリーのキャンセルや返金はできません。",
   "auction.raffle.confirmation.noRefund": "払い戻しなし (当選しなかった場合でも)",
-  "auction.raffle.description": "タスクを完了してチケットを獲得し、賞品を競いましょう。"
+  "auction.raffle.description": "タスクを完了してチケットを獲得し、賞品を競いましょう。",
+  "description.crabChapterBanner": "カニとトラップのバナーだ。",
+  "description.floater": "カニとトラップ中に集められます。",
+  "description.ammoniteShell": "カニとトラップのチャプターアーティファクトだ。"
 }

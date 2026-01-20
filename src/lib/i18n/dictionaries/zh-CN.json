@@ -7884,5 +7884,8 @@
   "auction.raffle.items": "{{item}} + 更多...",
   "auction.raffle.confirmation.description": "获奖者是随机选出的，参赛作品不能取消或退款。",
   "auction.raffle.confirmation.noRefund": "不退款（即使你没有中奖）",
-  "auction.raffle.description": "通过完成任务赚取门票并争夺奖品。"
+  "auction.raffle.description": "通过完成任务赚取门票并争夺奖品。",
+  "description.crabChapterBanner": "Crabs and Traps 的旗帜。",
+  "description.floater": "在 “螃蟹与陷阱” 期间收集。",
+  "description.ammoniteShell": "来自《螃蟹与陷阱》的章节神器。"
 }

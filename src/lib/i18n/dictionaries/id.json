@@ -7884,5 +7884,8 @@
   "auction.raffle.items": "{{item}} + lebih...",
   "auction.raffle.confirmation.description": "Pemenang dipilih secara acak dan entri tidak dapat dibatalkan atau dikembalikan.",
   "auction.raffle.confirmation.noRefund": "Tidak ada pengembalian uang (bahkan jika Anda tidak menang)",
-  "auction.raffle.description": "Dapatkan tiket dengan menyelesaikan tugas & bersaing untuk mendapatkan hadiah."
+  "auction.raffle.description": "Dapatkan tiket dengan menyelesaikan tugas & bersaing untuk mendapatkan hadiah.",
+  "description.crabChapterBanner": "Spanduk untuk Kepiting dan Perangkap.",
+  "description.floater": "Dikumpulkan selama Kepiting dan Perangkap.",
+  "description.ammoniteShell": "Artefak chapter dari Kepiting dan Perangkap."
 }

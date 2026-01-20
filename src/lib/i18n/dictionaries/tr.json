@@ -7884,5 +7884,8 @@
   "auction.raffle.items": "{{item}} + daha fazlası...",
   "auction.raffle.confirmation.description": "Kazananlar rastgele seçilir ve girişler iptal edilemez veya iade edilemez.",
   "auction.raffle.confirmation.noRefund": "Para iadesi yok (kazanmasanız bile)",
-  "auction.raffle.description": "Görevleri tamamlayarak bilet kazanın ve ödüller için yarışın."
+  "auction.raffle.description": "Görevleri tamamlayarak bilet kazanın ve ödüller için yarışın.",
+  "description.crabChapterBanner": "Yengeçler ve Tuzaklar için bir afiş.",
+  "description.floater": "Yengeçler ve Tuzaklar sırasında toplanır.",
+  "description.ammoniteShell": "Yengeçler ve Tuzaklardan bir bölüm eseri."
 }

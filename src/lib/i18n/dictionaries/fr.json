@@ -7884,5 +7884,8 @@
   "auction.raffle.items": "{{item}} + plus...",
   "auction.raffle.confirmation.description": "Les gagnants sont choisis au hasard et les inscriptions ne peuvent être ni annulées ni remboursées.",
   "auction.raffle.confirmation.noRefund": "Aucun remboursement (même si vous ne gagnez pas)",
-  "auction.raffle.description": "Gagnez des billets en accomplissant des tâches et en concourant pour des prix."
+  "auction.raffle.description": "Gagnez des billets en accomplissant des tâches et en concourant pour des prix.",
+  "description.crabChapterBanner": "Une bannière pour les crabes et les pièges.",
+  "description.floater": "Récolté pendant les crabes et les pièges.",
+  "description.ammoniteShell": "Un artefact de chapitre de The Crabs and Traps."
 }

@@ -7884,5 +7884,8 @@
   "auction.raffle.items": "{{item}} + mehr...",
   "auction.raffle.confirmation.description": "Die Gewinner werden nach dem Zufallsprinzip ausgewählt und Beiträge können nicht storniert oder erstattet werden.",
   "auction.raffle.confirmation.noRefund": "Keine Rückerstattungen (auch wenn Sie nicht gewinnen)",
-  "auction.raffle.description": "Verdiene Tickets, indem du Aufgaben erledigst und um Preise konkurrierst."
+  "auction.raffle.description": "Verdiene Tickets, indem du Aufgaben erledigst und um Preise konkurrierst.",
+  "description.crabChapterBanner": "Ein Banner für die Krabben und Fallen.",
+  "description.floater": "Wird während der Krabben und Fallen gesammelt.",
+  "description.ammoniteShell": "Ein Kapitelartefakt aus The Crabs and Traps."
 }

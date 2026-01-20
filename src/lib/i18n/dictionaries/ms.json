@@ -7884,5 +7884,8 @@
   "auction.raffle.items": "{{item}} + lagi...",
   "auction.raffle.confirmation.description": "Pemenang dipilih secara rawak dan penyertaan tidak boleh dibatalkan atau dikembalikan.",
   "auction.raffle.confirmation.noRefund": "Tiada bayaran balik (walaupun anda tidak menang)",
-  "auction.raffle.description": "Dapatkan tiket dengan menyelesaikan tugas & bersaing untuk hadiah."
+  "auction.raffle.description": "Dapatkan tiket dengan menyelesaikan tugas & bersaing untuk hadiah.",
+  "description.crabChapterBanner": "Sepanduk untuk Ketam dan Perangkap.",
+  "description.floater": "Dikumpulkan semasa Ketam dan Perangkap.",
+  "description.ammoniteShell": "Artefak bab dari Ketam dan Perangkap."
 }
