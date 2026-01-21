@@ -7847,7 +7847,6 @@
   "petGuide.social.description": "친구들과 교류하여 애완동물을 키우세요.",
   "petGuide.social.description2": "친구들은 각각 +5 XP (애완동물 한 마리당 하루 최대 50 XP) 에 동반자를 쓰다듬을 수 있습니다.",
   "petGuide.social.description3": "NFT 펫은 멀티플레이어 영역에서 함께 걸을 수 있습니다.펫 관리 화면에서 활성화하세요.한 번에 한 마리의 애완동물만 걸을 수 있습니다.",
-  "petGuide.social.description4": "친구의 농장을 방문하여 애완동물을 쓰다듬고 커뮤니티를 구축하세요!",
   "instantReady": "인스턴트 레디",
   "twitter.rewards.vip": "Passst... VIP 회원은 러브 부적을 획득할 수 있습니다!",
   "petGuide.levelPerks.lvl150": "추가 문퍼 가져오기 자원 획득 확률 25% 증가 (총 50%) (NFT 전용)",
@@ -7889,5 +7888,11 @@
   "description.ammoniteShell": "크랩과 트랩의 챕터 아티팩트.",
   "auction.raffle.finished": "추첨 완료",
   "auction.raffle.viewResults": "결과 보기",
-  "auction.raffle.missingChapterTicket": "모자라 {{ticket}}"
+  "auction.raffle.missingChapterTicket": "모자라 {{ticket}}",
+  "petGuide.social.description4": "친구의 농장을 방문하여 애완동물을 쓰다듬고 커뮤니티를 구축하세요!",
+  "guide.crustacean.placeTrap": "물 속에 워터 트랩을 설치하여 해양 생물을 잡으세요",
+  "guide.crustacean.waitTime": "시간이 지남에 따라 함정이 갑각류를 잡을 때까지 기다리십시오.",
+  "guide.crustacean.useChum": "특정 유형의 갑각류를 유인하려면 미끼를 사용하십시오.",
+  "guide.crustacean.catchCrustaceans": "각 트랩 사이클마다 수집할 수 있는 다양한 갑각류가 생산됩니다.",
+  "guide.crustacean.differentTraps": "다른 함정은 다양한 종류의 갑각류를 잡습니다."
 }

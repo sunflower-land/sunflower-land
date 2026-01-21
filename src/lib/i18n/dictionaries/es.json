@@ -7847,7 +7847,6 @@
   "petGuide.social.description": "Mejora a tus mascotas interactuando con amigos.",
   "petGuide.social.description2": "Los amigos pueden acariciar a tus compañeros por +5 puntos de EXP cada uno, hasta 50 puntos de EXP por mascota y día.",
   "petGuide.social.description3": "Las mascotas de NFT pueden caminar contigo en las áreas multijugador. Actívala en la pantalla de gestión de mascotas. Solo puede caminar una mascota a la vez.",
-  "petGuide.social.description4": "¡Visita las granjas de tus amigos para acariciar a sus mascotas y construir una comunidad!",
   "instantReady": "Listo al instante",
   "twitter.rewards.vip": "Psssst... ¡Los miembros VIP ganan Love Charms!",
   "petGuide.levelPerks.lvl150": "+25% de probabilidad de obtener un recurso adicional para obtener Moonfur (50% en total) (solo en NFT)",
@@ -7889,5 +7888,11 @@
   "description.ammoniteShell": "Un artefacto capitulo de Crabs and Traps.",
   "auction.raffle.finished": "Sorteo finalizado",
   "auction.raffle.viewResults": "Ver los resultados",
-  "auction.raffle.missingChapterTicket": "No tienes suficiente {{ticket}}"
+  "auction.raffle.missingChapterTicket": "No tienes suficiente {{ticket}}",
+  "petGuide.social.description4": "¡Visita las granjas de tus amigos para acariciar a sus mascotas y construir una comunidad!",
+  "guide.crustacean.placeTrap": "Coloca una trampa de agua en el agua para atrapar criaturas marinas",
+  "guide.crustacean.waitTime": "Espera a que la trampa atrape crustáceos con el tiempo",
+  "guide.crustacean.useChum": "Usa chum para atraer tipos específicos de crustáceos",
+  "guide.crustacean.catchCrustaceans": "Cada ciclo de trampa produce varios crustáceos que se pueden recolectar",
+  "guide.crustacean.differentTraps": "Diferentes trampas capturan diferentes tipos de crustáceos"
 }

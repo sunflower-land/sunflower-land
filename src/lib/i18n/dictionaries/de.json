@@ -7847,7 +7847,6 @@
   "petGuide.social.description": "Verbessere deine Haustiere, indem du mit Freunden interagierst.",
   "petGuide.social.description2": "Freunde können deine Gefährten für jeweils +5 XP streicheln, bis zu 50 XP pro Tier und Tag.",
   "petGuide.social.description3": "NFT-Haustiere können in Mehrspielerbereichen mit dir spazieren gehen. Aktiviere dies auf dem Bildschirm zur Verwaltung von Haustieren. Es kann immer nur ein Haustier laufen.",
-  "petGuide.social.description4": "Besuche die Farmen deiner Freunde, um ihre Haustiere zu streicheln und eine Gemeinschaft aufzubauen!",
   "instantReady": "Sofort einsatzbereit",
   "twitter.rewards.vip": "Psssst... VIP-Mitglieder verdienen Liebeszauber!",
   "petGuide.levelPerks.lvl150": "+25% Chance, zusätzliche Moonfur-Ressourcen zu erhalten (insgesamt 50%) (nur NFT)",
@@ -7889,5 +7888,11 @@
   "description.ammoniteShell": "Ein Kapitelartefakt aus The Crabs and Traps.",
   "auction.raffle.finished": "Verlosung beendet",
   "auction.raffle.viewResults": "Sehen Sie sich die Ergebnisse an",
-  "auction.raffle.missingChapterTicket": "Du hast nicht genug {{ticket}}"
+  "auction.raffle.missingChapterTicket": "Du hast nicht genug {{ticket}}",
+  "petGuide.social.description4": "Besuche die Farmen deiner Freunde, um ihre Haustiere zu streicheln und eine Gemeinschaft aufzubauen!",
+  "guide.crustacean.placeTrap": "Platziere eine Wasserfalle ins Wasser, um Meerestiere zu fangen",
+  "guide.crustacean.waitTime": "Warten Sie, bis die Falle mit der Zeit Krebstiere gefangen hat.",
+  "guide.crustacean.useChum": "Benutze Kumpel, um bestimmte Arten von Krebstieren anzulocken",
+  "guide.crustacean.catchCrustaceans": "Jeder Fallenzyklus bringt verschiedene Krebstiere hervor, die gesammelt werden können",
+  "guide.crustacean.differentTraps": "Verschiedene Fallen fangen verschiedene Arten von Krebstieren"
 }

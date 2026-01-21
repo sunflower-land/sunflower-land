@@ -7847,7 +7847,6 @@
   "petGuide.social.description": "Boostez vos animaux de compagnie en interagissant avec vos amis.",
   "petGuide.social.description2": "Les amis peuvent caresser vos compagnons pour +5 points d'expérience chacun, jusqu'à 50 points d'expérience par animal et par jour.",
   "petGuide.social.description3": "Les animaux de compagnie NFT peuvent marcher avec vous dans les zones multijoueurs. Activez cette option dans l'écran de gestion des animaux de compagnie. Un seul animal de compagnie peut marcher à la fois.",
-  "petGuide.social.description4": "Visitez les fermes de vos amis pour caresser leurs animaux de compagnie et créer une communauté !",
   "instantReady": "Prêt pour l'instant",
   "twitter.rewards.vip": "Psssst... Les membres VIP gagnent des Love Charms !",
   "petGuide.levelPerks.lvl150": "+25 % de chances de récupérer des ressources supplémentaires en fourrure de lune (50 % au total) (NFT uniquement)",
@@ -7889,5 +7888,11 @@
   "description.ammoniteShell": "Un artefact de chapitre de The Crabs and Traps.",
   "auction.raffle.finished": "Tirage au sort terminé",
   "auction.raffle.viewResults": "Afficher les résultats",
-  "auction.raffle.missingChapterTicket": "Vous n'avez pas assez de {{ticket}}"
+  "auction.raffle.missingChapterTicket": "Vous n'avez pas assez de {{ticket}}",
+  "petGuide.social.description4": "Visitez les fermes de vos amis pour caresser leurs animaux de compagnie et créer une communauté !",
+  "guide.crustacean.placeTrap": "Placez un piège à eau dans l'eau pour attraper des créatures marines",
+  "guide.crustacean.waitTime": "Attendez que le piège attrape les crustacés au fil du temps",
+  "guide.crustacean.useChum": "Utilisez le kéta pour attirer des types spécifiques de crustacés",
+  "guide.crustacean.catchCrustaceans": "Chaque cycle de piège produit divers crustacés qui peuvent être collectés",
+  "guide.crustacean.differentTraps": "Différents pièges capturent différents types de crustacés"
 }

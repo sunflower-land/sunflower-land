@@ -7847,7 +7847,6 @@
   "petGuide.social.description": "Tingkatkan haiwan kesayangan anda dengan berinteraksi dengan rakan-rakan.",
   "petGuide.social.description2": "Rakan boleh membelai sahabat anda dengan harga +5 XP setiap satu, sehingga 50 XP setiap haiwan peliharaan setiap hari.",
   "petGuide.social.description3": "Haiwan peliharaan NFT boleh berjalan bersama anda di kawasan berbilang pemain. Dayakan ini dalam skrin pengurusan haiwan kesayangan. Hanya satu haiwan peliharaan boleh berjalan pada satu masa.",
-  "petGuide.social.description4": "Lawati ladang rakan untuk memelihara haiwan peliharaan mereka dan membina komuniti!",
   "instantReady": "Sedia Segera",
   "twitter.rewards.vip": "Psssst... Ahli VIP mendapat Cinta Cinta!",
   "petGuide.levelPerks.lvl150": "+25% peluang untuk sumber pengambilan Moonfur tambahan (jumlah 50%) (NFT sahaja)",
@@ -7889,5 +7888,11 @@
   "description.ammoniteShell": "Artefak bab dari Ketam dan Perangkap.",
   "auction.raffle.finished": "Undian selesai",
   "auction.raffle.viewResults": "Lihat hasilnya",
-  "auction.raffle.missingChapterTicket": "Anda tidak mempunyai cukup {{ticket}}"
+  "auction.raffle.missingChapterTicket": "Anda tidak mempunyai cukup {{ticket}}",
+  "petGuide.social.description4": "Lawati ladang rakan anda untuk memelihara haiwan peliharaan mereka dan membina komuniti!",
+  "guide.crustacean.placeTrap": "Letakkan perangkap air di dalam air untuk menangkap makhluk laut",
+  "guide.crustacean.waitTime": "Tunggu perangkap untuk menangkap krustasea dari masa ke masa",
+  "guide.crustacean.useChum": "Gunakan chum untuk menarik jenis krustasea tertentu",
+  "guide.crustacean.catchCrustaceans": "Setiap kitaran perangkap menghasilkan pelbagai krustasea yang boleh dikumpulkan",
+  "guide.crustacean.differentTraps": "Perangkap yang berbeza menangkap pelbagai jenis krustasea"
 }
