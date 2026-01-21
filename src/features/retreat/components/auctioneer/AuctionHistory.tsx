@@ -275,14 +275,6 @@ export const AuctionHistory: React.FC = () => {
                         />
                       </>
                     )}
-                    <img
-                      src={SUNNYSIDE.ui.grey_background}
-                      className="absolute inset-0 w-full h-full rounded-md"
-                    />
-                    <img
-                      src={image}
-                      className="w-2/3 h-2/3 object-contain z-10"
-                    />
                   </div>
                   <div className="flex-1">
                     <p className="text-sm truncate">{itemName}</p>
