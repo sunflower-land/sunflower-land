@@ -439,6 +439,15 @@ const getPrizeDisplay = ({
   const wearables = getKeys(raffle.prizes[prize].wearables ?? {});
 
   const collectible = items.find((item) => isCollectible(item));
+  const nft = raffle.prizes[prize].nft;
+
+  if (nft) {
+    return {
+      name: `${nft}`,
+      image: petEggNFT,
+      type: "nft" as const,
+    };
+  }
 
   if (collectible) {
     return {
@@ -496,7 +505,7 @@ export const RaffleCard: React.FC<{
       className="w-full mb-1 cursor-pointer !p-2 flex items-center overflow-hidden"
     >
       <div className="relative w-12 h-12 flex items-center justify-center mr-2">
-        {display.type === "collectible" ? (
+        {display.type !== "wearable" ? (
           <>
             <img
               src={SUNNYSIDE.ui.grey_background}
@@ -522,6 +531,8 @@ export const RaffleCard: React.FC<{
                 (prize) =>
                   getPrizeDisplay({ prize: Number(prize), raffle }).name,
               )
+              // Remove duplicates
+              .filter((prize, index, self) => self.indexOf(prize) === index)
               .join(", ")}
           </p>
           {entries > 0 ? (
