@@ -14,4 +14,5 @@ export type RaffleDefinition = {
   startAt: number;
   endAt: number;
   prizes: Record<number, RafflePrize>;
+  entryRequirements: Partial<Record<InventoryItemName, number>>;
 };
