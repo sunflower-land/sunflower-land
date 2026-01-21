@@ -46,7 +46,7 @@ export const MarketplaceNavigation: React.FC = () => {
   const [search, setSearch] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [showQuickswap, setShowQuickswap] = useState(false);
-  const [showLimited, setShowLimited] = useState<undefined | boolean>(() => {
+  const [showLimited, setShowLimited] = useState<boolean>(() => {
     const now = Date.now();
 
     return now < crabChapterStartMs;
@@ -66,14 +66,14 @@ export const MarketplaceNavigation: React.FC = () => {
       return;
     }
 
-    window.setTimeout(() => {
+    const id = window.setTimeout(() => {
       setShowLimited(false);
     }, msToChapterStart);
+
+    return () => window.clearTimeout(id);
   }, [showLimited, crabChapterStartMs]);
 
   useEffect(() => {
-    if (showLimited === undefined) return;
-
     const token = authState.context.user.rawToken as string;
     if (CONFIG.API_URL) preloadCollections(token, showLimited);
   }, [showLimited, authState.context.user.rawToken]);
