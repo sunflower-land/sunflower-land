@@ -1,13 +1,15 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import {
+  CHAPTER_TICKET_NAME,
+  ChapterName,
   getCurrentChapter,
   secondsLeftInChapter,
 } from "features/game/types/chapters";
 import { NPC_WEARABLES } from "lib/npcs";
 import { useNow } from "lib/utils/hooks/useNow";
 import { secondsToString } from "lib/utils/time";
-import React from "react";
+import React, { useState } from "react";
 import { Label } from "components/ui/Label";
 import { useGame } from "features/game/GameProvider";
 import { hasVipAccess } from "features/game/lib/vipAccess";
@@ -15,18 +17,85 @@ import { Button } from "components/ui/Button";
 import vipIcon from "assets/icons/vip.webp";
 import premiumTrackIcon from "assets/icons/premium_track.webp";
 import ticketIcon from "assets/icons/free_track.png";
-import milestoneBG from "assets/icons/milestone_blue.webp";
 import medalMilestone from "assets/icons/medal_side_grey.webp";
-import medalMilestoneBlue from "assets/icons/milestone_medal.webp";
 import medalMilestoneRed from "assets/icons/red_medal.webp";
-import { CHAPTER_TRACKS, TrackMilestone } from "features/game/types/tracks";
-import { ButtonPanel } from "components/ui/Panel";
+import giftIcon from "assets/icons/gift.png";
+import {
+  CHAPTER_TRACKS,
+  MilestoneRewards,
+  TrackMilestone,
+} from "features/game/types/tracks";
+import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/lib/crafting";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_IDS } from "features/game/types/bumpkin";
-import { ResizableBar } from "components/ui/ProgressBar";
+import { ProgressBar, ResizableBar } from "components/ui/ProgressBar";
 import lockIcon from "assets/icons/lock.png";
+import { shortenCount } from "lib/utils/formatNumber";
+import { Modal } from "components/ui/Modal";
+import { Rewards } from "features/game/expansion/components/ClaimReward";
+import { StateAssignmentConflictError } from "viem";
+import { GameState } from "features/game/types/game";
+import confetti from "canvas-confetti";
+
+type TrackProgress = {
+  points: number;
+  premium: number;
+  free: number;
+  milestone: {
+    number: number;
+    points: number;
+    requirement: number;
+    progress: number;
+  };
+};
+export function getTrackProgress({
+  state,
+  chapter,
+}: {
+  state: GameState;
+  chapter: ChapterName;
+}): TrackProgress {
+  const points =
+    state.farmActivity[`${CHAPTER_TICKET_NAME[chapter]} Collected`] ?? 0;
+
+  const premium =
+    state.farmActivity[`${chapter} premium Milestone Claimed`] ?? 0;
+  const free = state.farmActivity[`${chapter} free Milestone Claimed`] ?? 0;
+
+  let milestoneIndex =
+    CHAPTER_TRACKS[chapter]?.milestones.findIndex(
+      (milestone) => milestone.points > points,
+    ) ?? -1;
+
+  if (milestoneIndex === -1) {
+    milestoneIndex = CHAPTER_TRACKS[chapter]?.milestones.length ?? 0;
+  }
+
+  const milestoneNumber = milestoneIndex + 1;
+  console.log({ milestoneIndex });
+  const milestonePoints =
+    CHAPTER_TRACKS[chapter]?.milestones[milestoneIndex]?.points ?? 0;
+  const previousMilestonePoints =
+    CHAPTER_TRACKS[chapter]?.milestones[milestoneIndex - 1]?.points ?? 0;
+  const milestoneRequirement = milestonePoints - previousMilestonePoints;
+  const milestoneProgress = points - previousMilestonePoints;
+
+  const progress = {
+    points,
+    premium,
+    free,
+    milestone: {
+      number: milestoneNumber,
+      points: milestonePoints,
+      requirement: milestoneRequirement,
+      progress: milestoneProgress,
+    },
+  };
+
+  return progress;
+}
 
 export const ChapterTracks: React.FC<{ onClose: () => void }> = ({
   onClose,
@@ -35,111 +104,198 @@ export const ChapterTracks: React.FC<{ onClose: () => void }> = ({
   const state = gameState.context.state;
   const now = useNow();
 
+  const [selected, setSelected] = useState<
+    | {
+        milestone: number;
+        reward: MilestoneRewards;
+        points: number;
+        track: "free" | "premium";
+      }
+    | undefined
+  >();
+
+  const points = 500; // TODO
+
   const hasVip = hasVipAccess({ game: state });
 
   const chapter = getCurrentChapter(now);
 
   const track = CHAPTER_TRACKS[chapter];
 
+  const progress = getTrackProgress({ state, chapter });
+
+  console.log({ progress });
+
   return (
-    <CloseButtonPanel onClose={onClose} bumpkinParts={NPC_WEARABLES["stella"]}>
-      <div className="flex justify-between pr-9 mb-2">
-        <div className="flex items-center">
-          <img src={SUNNYSIDE.icons.stopwatch} className="h-8 mr-1" />
-          <div>
-            <Label type="info" className="text-xs">
-              Chapter ends in
-            </Label>
-            <p className="text-xxs ml-1">
-              {secondsToString(secondsLeftInChapter(now), { length: "medium" })}
-            </p>
+    <>
+      <CloseButtonPanel
+        onClose={onClose}
+        bumpkinParts={NPC_WEARABLES["stella"]}
+        className="overflow-y-hidden"
+        container={OuterPanel}
+        tabs={[
+          {
+            id: "tracks",
+            icon: SUNNYSIDE.icons.stopwatch,
+            name: "Tracks",
+          },
+        ]}
+      >
+        <InnerPanel className="flex flex-wrap justify-between mb-1">
+          <div className="flex items-center">
+            <img src={SUNNYSIDE.icons.stopwatch} className="h-8 mr-1" />
+            <div>
+              <Label type="info" className="text-xs">
+                Chapter ends:
+              </Label>
+              <p className="text-xxs ml-1">
+                {secondsToString(secondsLeftInChapter(now), {
+                  length: "medium",
+                })}
+              </p>
+            </div>
           </div>
-        </div>
-        <div className="flex  items-end relative">
-          <div className="flex flex-col items-end">
-            <ResizableBar
-              percentage={0}
-              outerDimensions={{ width: 30, height: 8 }}
-              type="progress"
-            />
-            <p className="text-xs pr-4">250/300</p>
-          </div>
-
-          <img
-            src={medalMilestone}
-            style={{
-              height: "40px",
-              zIndex: "10",
-              marginLeft: "-13px",
-            }}
-          />
-          <p
-            className="yield-text absolute"
-            style={{
-              right: "27px",
-              zIndex: "10",
-              top: "12px",
-            }}
-          >
-            4
-          </p>
-        </div>
-      </div>
-
-      <div className="overflow-x-scroll scrollable w-full ">
-        <div className="flex items-center gap-x-2 w-fit  pt-3 pb-2">
-          <div className="min-w-20 w-20 flex flex-col items-center justify-center">
-            <img src={premiumTrackIcon} className="h-12 mb-1" />
-            <Label type="warning" className="text-xs">
-              VIP
-            </Label>
-          </div>
-          {track?.premium.milestones.map((milestone) => {
-            return (
-              <TrackItem
-                key={milestone.points}
-                milestone={milestone}
-                isLocked={!hasVip}
+          <div className="flex  items-end relative">
+            <div className="flex flex-col items-end">
+              <ResizableBar
+                percentage={0}
+                outerDimensions={{ width: 30, height: 8 }}
+                type="progress"
               />
-            );
-          })}
-        </div>
+              <p className="text-xs pr-4">
+                {progress.milestone.progress}/{progress.milestone.requirement}
+              </p>
+            </div>
 
-        <div className="flex items-center gap-x-2 my-1 w-fit bg-brown-300 rounded-sm">
-          <div className="min-w-20 w-20 flex flex-col items-center justify-center"></div>
-
-          {track?.premium.milestones.map((_, index) => {
-            return (
-              <div className="w-24 min-w-24 h-8  text-center flex flex-col items-center justify-center">
-                <Label icon={medalMilestoneRed} type="formula">
-                  {index + 1}
-                </Label>
-              </div>
-            );
-          })}
-        </div>
-
-        <div className="flex items-center gap-x-2 w-fit  pt-3 pb-2">
-          <div className="min-w-20 w-20 flex flex-col items-center justify-center">
-            <img src={ticketIcon} className="h-12 mb-1" />
-            <Label type="chill" className="text-xs">
-              Free
-            </Label>
+            <img
+              src={medalMilestone}
+              style={{
+                height: "40px",
+                zIndex: "10",
+                marginLeft: "-13px",
+              }}
+            />
+            <div
+              className="absolute text-center"
+              style={{
+                right: "16px",
+                zIndex: "10",
+                top: "11px",
+                width: "32px",
+              }}
+            >
+              <p className="yield-text">{progress.milestone.number}</p>
+            </div>
           </div>
-          {track?.premium.milestones.map((milestone) => {
-            return <TrackItem key={milestone.points} milestone={milestone} />;
-          })}
+        </InnerPanel>
+
+        <div className="justify-center h-[330px] sm:h-auto gap-x-2  sm:overflow-y-visible overflow-y-scroll overflow-x-visible sm:overflow-x-scroll scrollable w-full flex sm:flex-col flex-row">
+          <InnerPanel className="flex sm:flex-row flex-col items-center gap-x-2 gap-y-2 w-fit  pt-3 pb-2 bg-brown-300 flex-1 min-h-fit">
+            <div className="sm:-20 sm:min-w-20 h-20 min-h-20 flex flex-col items-center justify-center">
+              <img src={premiumTrackIcon} className="h-12 mb-1" />
+              <Label type="warning" className="text-xs">
+                VIP
+              </Label>
+            </div>
+            {track?.milestones.map((milestone, index) => {
+              return (
+                <TrackItem
+                  key={milestone.points}
+                  milestone={milestone}
+                  number={index + 1}
+                  isLocked={!hasVip}
+                  track="premium"
+                  progress={progress}
+                  onClick={() =>
+                    setSelected({
+                      reward: milestone.premium,
+                      points: milestone.points,
+                      milestone: index + 1,
+                      track: "premium",
+                    })
+                  }
+                />
+              );
+            })}
+          </InnerPanel>
+
+          <div className="flex sm:flex-row flex-col items-center gap-x-2 gap-y-2 my-1 sm:w-fit rounded-sm sm:h-6 h-fit w-6 mx-2">
+            <div className="sm:min-w-20 sm:w-20 h-20 min-h-24 flex flex-col items-center justify-center"></div>
+
+            {track?.milestones.map((_, index) => {
+              let total = track.milestones[index].points;
+
+              return (
+                <div className="sm:w-24 sm:min-w-24 sm:h-10 h-24 min-h-24  text-center flex flex-col sm:flex-row items-center justify-center relative ">
+                  <Label
+                    icon={medalMilestoneRed}
+                    type={
+                      index + 1 < progress.milestone.number
+                        ? "success"
+                        : "formula"
+                    }
+                  >
+                    {index + 1}
+                  </Label>
+                  <p className="text-xxs -mt-0.5 sm:pl-1">
+                    {shortenCount(total)}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+
+          <InnerPanel className="flex sm:flex-row flex-col items-center gap-x-2 gap-y-2 w-fit  pt-3 pb-2 mb-1 flex-1 min-h-fit">
+            <div className="min-w-20 w-20 flex flex-col items-center justify-center">
+              <img src={ticketIcon} className="h-12 mb-1" />
+              <Label type="chill" className="text-xs">
+                Free
+              </Label>
+            </div>
+            {track?.milestones.map((milestone, index) => {
+              return (
+                <TrackItem
+                  key={milestone.points}
+                  milestone={milestone}
+                  number={index + 1}
+                  track="free"
+                  progress={progress}
+                  onClick={() =>
+                    setSelected({
+                      reward: milestone.free,
+                      points: milestone.points,
+                      milestone: index + 1,
+                      track: "free",
+                    })
+                  }
+                />
+              );
+            })}
+          </InnerPanel>
         </div>
-      </div>
-    </CloseButtonPanel>
+      </CloseButtonPanel>
+
+      <Modal show={!!selected} onHide={() => setSelected(undefined)}>
+        <MilestoneDetails
+          details={selected}
+          onClose={() => setSelected(undefined)}
+          points={points}
+          chapter={chapter}
+        />
+      </Modal>
+    </>
   );
 };
 
 export const TrackItem: React.FC<{
   milestone: TrackMilestone;
+  number: number;
   isLocked?: boolean;
-}> = ({ milestone, isLocked = false }) => {
-  const { items, wearables } = milestone;
+  track: "free" | "premium";
+  onClick: () => void;
+  progress: TrackProgress;
+}> = ({ milestone, number, isLocked = false, track, onClick, progress }) => {
+  const { items, wearables } = milestone[track];
   const images: string[] = [];
 
   let amount = 0;
@@ -159,14 +315,38 @@ export const TrackItem: React.FC<{
     text = Object.keys(wearables).join(", ");
   }
 
+  const totalClaimed = track === "premium" ? progress.premium : progress.free;
+  const isClaimed = totalClaimed >= number;
+  const canClaim =
+    progress.milestone.number > number &&
+    !isClaimed &&
+    totalClaimed === number - 1;
+
   return (
-    <div className="relative h-24 min-w-24 w-24 overflow-visible">
+    <div
+      className="relative h-24 min-h-24 min-w-24 w-24 overflow-visible cursor-pointer"
+      onClick={onClick}
+    >
       {isLocked && (
-        <img src={lockIcon} className="absolute -top-2 -right-1 h-8 z-10" />
+        <img src={lockIcon} className="absolute -bottom-1 -right-1 h-8 z-10" />
+      )}
+
+      {!isLocked && canClaim && (
+        <img
+          src={giftIcon}
+          className="absolute -bottom-1 -right-1 h-8 z-10 animate-bounce"
+        />
+      )}
+
+      {isClaimed && (
+        <img
+          src={SUNNYSIDE.icons.confirm}
+          className="absolute -bottom-0 -right-1 h-6 z-10"
+        />
       )}
 
       <ButtonPanel
-        //   variant="secondary"
+        variant={isClaimed ? "secondary" : "primary"}
         key={milestone.points}
         className="h-24 min-w-24 w-24 flex flex-col items-center justify-center relative"
       >
@@ -178,5 +358,82 @@ export const TrackItem: React.FC<{
         <p className="text-center text-sm">x{amount}</p>
       </ButtonPanel>
     </div>
+  );
+};
+
+export const MilestoneDetails: React.FC<{
+  details?: {
+    milestone: number;
+    reward: MilestoneRewards;
+    points: number;
+    track: "free" | "premium";
+  };
+  onClose: () => void;
+  points: number;
+  chapter: ChapterName;
+}> = ({ details, onClose, points, chapter }) => {
+  const { gameState, gameService } = useGame();
+  const state = gameState.context.state;
+  const progress = getTrackProgress({ state, chapter });
+  if (!details) return null;
+
+  const pointsProgress = Math.min(progress.points, details.points);
+
+  const claimed =
+    details.track === "premium" ? progress.premium : progress.free;
+
+  const needsVip =
+    details.track === "premium" && !hasVipAccess({ game: state });
+  const canClaim =
+    !needsVip &&
+    progress.milestone.number > details.milestone &&
+    claimed < details.milestone &&
+    claimed === details.milestone - 1;
+
+  return (
+    <CloseButtonPanel onClose={onClose}>
+      <div className="p-1">
+        <div className="flex items-center flex-wrap mb-2">
+          <Label type="formula" className=" mr-2" icon={medalMilestoneRed}>
+            {details.milestone}
+          </Label>
+
+          <div className="flex items-center">
+            <ResizableBar
+              percentage={(pointsProgress / details.points) * 100}
+              type="progress"
+            />
+            <p className="text-xs ml-1">{`${shortenCount(pointsProgress)}/${shortenCount(details.points)}`}</p>
+          </div>
+        </div>
+
+        <Rewards
+          reward={{
+            items: details.reward.items ?? {},
+            wearables: details.reward.wearables ?? {},
+            sfl: 0,
+            coins: 0,
+          }}
+        />
+      </div>
+      {needsVip && (
+        <Label type="danger" className="text-xs">
+          VIP is required
+        </Label>
+      )}
+      {canClaim && (
+        <Button
+          onClick={() => {
+            gameService.send("trackMilestone.claimed", {
+              track: details.track,
+            });
+            confetti();
+            onClose();
+          }}
+        >
+          Claim
+        </Button>
+      )}
+    </CloseButtonPanel>
   );
 };

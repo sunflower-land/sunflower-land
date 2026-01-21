@@ -112,6 +112,12 @@ export function sellAnimal({
           bounty: request,
           now: createdAt,
         });
+
+        game.farmActivity = trackFarmActivity(
+          `${getChapterTicket(createdAt)} Collected`,
+          game.farmActivity,
+          new Decimal(amount ?? 0),
+        );
       }
 
       game.inventory[name] = previous.add(

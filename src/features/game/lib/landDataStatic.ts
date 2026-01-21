@@ -40,6 +40,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Giant Isopod": new Decimal(1),
     Nautilus: new Decimal(1),
     Dollocaris: new Decimal(1),
+    "Lifetime Farmer Banner": new Decimal(1),
   },
   previousInventory: {},
   wardrobe: {},
@@ -197,6 +198,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   farmActivity: {
     "Starlight Tuna Map Piece Found": 8,
     "Daily Reward Collected": 1,
+    "Pet Cookie Collected": 1000,
   },
 
   fishing: {

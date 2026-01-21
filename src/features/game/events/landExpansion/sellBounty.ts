@@ -205,6 +205,14 @@ export function sellBounty({
       draft.farmActivity,
     );
 
+    if (tickets > 0) {
+      draft.farmActivity = trackFarmActivity(
+        `${getChapterTicket(createdAt)} Collected`,
+        draft.farmActivity,
+        new Decimal(tickets ?? 0),
+      );
+    }
+
     return draft;
   });
 }
