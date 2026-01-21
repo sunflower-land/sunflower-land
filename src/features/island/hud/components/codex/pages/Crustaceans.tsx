@@ -14,6 +14,7 @@ import {
   loadCrustaceanChums,
   CrustaceanChumMapping,
 } from "../actions/loadCrustaceanChums";
+import { useAuth } from "features/auth/lib/Provider";
 
 type Props = {
   state: GameState;
@@ -23,6 +24,7 @@ const ALL_CRUSTACEANS = getKeys(CRUSTACEANS);
 
 export const Crustaceans: React.FC<Props> = ({ state }) => {
   const { t } = useAppTranslation();
+  const { authState } = useAuth();
   const [selectedCrustacean, setSelectedCrustacean] = useState<
     CrustaceanName | undefined
   >();
@@ -37,8 +39,10 @@ export const Crustaceans: React.FC<Props> = ({ state }) => {
       (name) => (farmActivity[`${name} Caught`] ?? 0) > 0,
     );
 
-    loadCrustaceanChums(caught).then(setChumMapping);
-  }, [farmActivity]);
+    loadCrustaceanChums(authState.context.user.rawToken!, caught).then(
+      setChumMapping,
+    );
+  }, [farmActivity, authState.context.user.rawToken]);
 
   if (selectedCrustacean) {
     const hasCaught = (farmActivity[`${selectedCrustacean} Caught`] ?? 0) > 0;
