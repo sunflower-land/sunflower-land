@@ -160,7 +160,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
       ? cropPlantedAt + cropHarvestSeconds * 1000
       : undefined;
 
-  const now = useNow({ live: true, autoEndAt: cropAutoEndAt });
+  const now = useNow({ live: !!crop, autoEndAt: cropAutoEndAt });
 
   // Check if crop is ready to harvest
   const readyToHarvest =
