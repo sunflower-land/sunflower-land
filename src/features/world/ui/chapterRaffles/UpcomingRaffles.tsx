@@ -5,7 +5,6 @@ import { useActor } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import petEggNFT from "assets/icons/pet_nft_egg.png";
-import raffleIcon from "assets/icons/raffle_icon.png";
 import { Button } from "components/ui/Button";
 import { ButtonPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
@@ -13,10 +12,7 @@ import { NumberInput } from "components/ui/NumberInput";
 import { Loading } from "features/auth/components";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { Context as GameContext, useGame } from "features/game/GameProvider";
-import {
-  getChapterRaffleTicket,
-  getChapterTicket,
-} from "features/game/types/chapters";
+
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { randomID } from "lib/utils/random";
@@ -49,13 +45,9 @@ export const UpcomingRaffles: React.FC = () => {
   const token = authState.context.user.rawToken as string | undefined;
 
   const [selectedRaffleId, setSelectedRaffleId] = useState<string>();
-  const [entryType, setEntryType] = useState<"chapterTicket" | "raffleTicket">(
-    "chapterTicket",
-  );
-  const [ticketAmount, setTicketAmount] = useState<Decimal>(new Decimal(0));
-  const [raffleTicketAmount, setRaffleTicketAmount] = useState<Decimal>(
-    new Decimal(0),
-  );
+  const [entryAmounts, setEntryAmounts] = useState<
+    Partial<Record<InventoryItemName, Decimal>>
+  >({});
 
   const rafflesFetcher = async ([, authToken]: [string, string]) => {
     return loadRaffles({
@@ -123,29 +115,22 @@ export const UpcomingRaffles: React.FC = () => {
           <p className="text-xs m-1">
             {t("auction.raffle.confirmation.description")}
           </p>
-          {ticketAmount.gte(1) && (
-            <div className="flex items-center mb-1 px-2">
-              <img
-                src={ITEM_DETAILS[getChapterTicket(now)].image}
-                className="h-4 mr-1"
-              />
-              <p className="text-xs ml-1">
-                {`${ticketAmount.toNumber()} x ${getChapterTicket(now)}`}
-              </p>
-            </div>
-          )}
+          {getKeys(selectedRaffle.entryRequirements ?? {}).map((item) => {
+            const amount = entryAmounts[item] ?? new Decimal(0);
 
-          {raffleTicketAmount.gte(1) && (
-            <div className="flex items-center mb-2 px-2">
-              <img
-                src={ITEM_DETAILS[getChapterRaffleTicket(now)].image}
-                className="h-4 mr-1"
-              />
-              <p className="text-xs ml-1">
-                {`${raffleTicketAmount.toNumber()} x ${getChapterRaffleTicket(now)}`}
-              </p>
-            </div>
-          )}
+            if (!amount.gte(1)) {
+              return null;
+            }
+
+            return (
+              <div key={item} className="flex items-center mb-1 px-2">
+                <img src={ITEM_DETAILS[item].image} className="h-4 mr-1" />
+                <p className="text-xs ml-1">
+                  {`${amount.toNumber()} x ${item}`}
+                </p>
+              </div>
+            );
+          })}
         </div>
 
         <Label type="danger" className="my-2">
@@ -161,15 +146,24 @@ export const UpcomingRaffles: React.FC = () => {
                 effect: {
                   type: "auctionRaffle.entered",
                   raffleId: selectedRaffle.id,
-                  tickets: ticketAmount.toNumber(),
-                  raffleTickets: raffleTicketAmount.toNumber(),
+                  items: getKeys(selectedRaffle.entryRequirements ?? {}).reduce(
+                    (acc, item) => {
+                      const amount = entryAmounts[item] ?? new Decimal(0);
+
+                      if (amount.gte(1)) {
+                        acc[item] = amount.toNumber();
+                      }
+
+                      return acc;
+                    },
+                    {} as Partial<Record<InventoryItemName, number>>,
+                  ),
                 },
               });
 
               setShowConfirmation(false);
               setShowEntry(false);
-              setTicketAmount(new Decimal(0));
-              setRaffleTicketAmount(new Decimal(0));
+              setEntryAmounts({});
             }}
           >
             {t("yes")}
@@ -180,15 +174,18 @@ export const UpcomingRaffles: React.FC = () => {
   }
 
   if (selectedRaffle && showEntry) {
-    const chapterTicket = getChapterTicket(now);
-    const chapterTicketCount = game.inventory[chapterTicket] ?? new Decimal(0);
-    const raffleTicket = getChapterRaffleTicket(now);
-    const raffleTicketCount = game.inventory[raffleTicket] ?? new Decimal(0);
+    const entryRequirements = selectedRaffle.entryRequirements ?? {};
+    const entryItems = getKeys(entryRequirements);
+    const totalEntryAmount = entryItems.reduce(
+      (sum, item) => sum.add(entryAmounts[item] ?? new Decimal(0)),
+      new Decimal(0),
+    );
+    const isEntryDisabled = entryItems.some((item) => {
+      const amount = entryAmounts[item] ?? new Decimal(0);
+      const inventoryCount = game.inventory[item] ?? new Decimal(0);
 
-    const isMissingChapterTickets =
-      entryType === "chapterTicket" && ticketAmount.gt(chapterTicketCount);
-    const isMissingRaffleTickets = raffleTicketAmount.gt(raffleTicketCount);
-    const isEntryDisabled = isMissingRaffleTickets || isMissingChapterTickets;
+      return amount.gt(inventoryCount);
+    });
 
     return (
       <>
@@ -196,91 +193,65 @@ export const UpcomingRaffles: React.FC = () => {
           {t("auction.raffle.labelWithId", { id: selectedRaffle.id })}
         </Label>
 
-        <p className="text-xs mx-1 mb-2">{t("auction.raffle.entryInfo")}</p>
+        {entryItems.map((item) => {
+          const amount = entryAmounts[item] ?? new Decimal(0);
+          const inventoryCount = game.inventory[item] ?? new Decimal(0);
+          const isMissing = amount.gt(inventoryCount);
+          const entryValue = entryRequirements[item] ?? 0;
 
-        <div className="flex items-center mb-2">
-          <Box
-            image={ITEM_DETAILS[chapterTicket].image}
-            count={chapterTicketCount}
-          />
-          <div className="flex-1">
-            <div className="flex items-center ">
-              <NumberInput
-                value={ticketAmount}
-                maxDecimalPlaces={0}
-                onValueChange={setTicketAmount}
-              />
-              {ticketAmount.gt(0) && (
-                <img
-                  src={SUNNYSIDE.icons.cancel}
-                  className="h-6 cursor-pointer ml-2"
-                  onClick={() => setTicketAmount(new Decimal(0))}
-                />
-              )}
-            </div>
+          return (
+            <div key={item} className="flex items-center mb-2">
+              <Box image={ITEM_DETAILS[item].image} count={inventoryCount} />
+              <div className="flex-1">
+                <div className="flex items-center ">
+                  <NumberInput
+                    value={amount}
+                    maxDecimalPlaces={0}
+                    onValueChange={(value) =>
+                      setEntryAmounts((prev) => ({ ...prev, [item]: value }))
+                    }
+                  />
+                  {amount.gt(0) && (
+                    <img
+                      src={SUNNYSIDE.icons.cancel}
+                      className="h-6 cursor-pointer ml-2"
+                      onClick={() =>
+                        setEntryAmounts((prev) => ({
+                          ...prev,
+                          [item]: new Decimal(0),
+                        }))
+                      }
+                    />
+                  )}
+                </div>
 
-            {isMissingChapterTickets ? (
-              <Label type="danger">
-                {t("auction.raffle.missingChapterTicket", {
-                  ticket: chapterTicket,
-                })}
-              </Label>
-            ) : (
-              <div className="flex">
-                <p className="text-xs ml-1">
-                  {t("auction.raffle.chapterEntryInfo", {
-                    count: Math.max(ticketAmount.toNumber(), 1),
-                    ticket: chapterTicket,
-                    entries: Math.max(ticketAmount.mul(10).toNumber(), 10),
-                  })}
-                </p>
+                {isMissing ? (
+                  <Label type="danger">
+                    {t("auction.raffle.missingChapterTicket", {
+                      ticket: item,
+                    })}
+                  </Label>
+                ) : (
+                  <div className="flex">
+                    <p className="text-xs ml-1">
+                      {t("auction.raffle.chapterEntryInfo", {
+                        count: Math.max(amount.toNumber(), 1),
+                        ticket: item,
+                        entries: Math.max(
+                          amount.mul(entryValue).toNumber(),
+                          entryValue,
+                        ),
+                      })}
+                    </p>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        </div>
-
-        <div className="flex items-center">
-          <Box
-            image={ITEM_DETAILS[raffleTicket].image}
-            count={raffleTicketCount}
-          />
-          <div className="flex-1">
-            <div className="flex items-center ">
-              <NumberInput
-                value={raffleTicketAmount}
-                maxDecimalPlaces={0}
-                onValueChange={setRaffleTicketAmount}
-              />
-              {raffleTicketAmount.gt(0) && (
-                <img
-                  src={SUNNYSIDE.icons.cancel}
-                  className="h-6 cursor-pointer ml-2"
-                  onClick={() => setRaffleTicketAmount(new Decimal(0))}
-                />
-              )}
             </div>
-
-            {isMissingRaffleTickets ? (
-              <Label type="danger">
-                {t("auction.raffle.missingRaffleTickets")}
-              </Label>
-            ) : (
-              <div className="flex">
-                <p className="text-xs ml-1">
-                  {t("auction.raffle.raffleEntryInfo", {
-                    count: Math.max(raffleTicketAmount.toNumber(), 1),
-                    entries: Math.max(raffleTicketAmount.mul(1).toNumber(), 1),
-                  })}
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
+          );
+        })}
         <Button
           className="mt-2"
-          disabled={
-            isEntryDisabled || (ticketAmount.eq(0) && raffleTicketAmount.eq(0))
-          }
+          disabled={isEntryDisabled || totalEntryAmount.eq(0)}
           onClick={() => {
             setShowConfirmation(true);
           }}
@@ -522,7 +493,7 @@ export const RaffleCard: React.FC<{
     <ButtonPanel
       key={raffle.id}
       onClick={onClick}
-      className="w-full mb-1 cursor-pointer !p-2 flex items-center"
+      className="w-full mb-1 cursor-pointer !p-2 flex items-center overflow-hidden"
     >
       <div className="relative w-12 h-12 flex items-center justify-center mr-2">
         {display.type === "collectible" ? (
@@ -543,9 +514,9 @@ export const RaffleCard: React.FC<{
           />
         )}
       </div>
-      <div className="flex-1">
+      <div className="flex-1 overflow-hidden">
         <div className="flex items-center justify-between">
-          <p className="text-sm truncate mb-1">
+          <p className="text-sm truncate mb-1 flex-1">
             {Object.keys(raffle.prizes ?? {})
               .map(
                 (prize) =>
@@ -553,10 +524,19 @@ export const RaffleCard: React.FC<{
               )
               .join(", ")}
           </p>
-          {entries > 0 && (
-            <div className="flex -mr-2">
-              <img src={raffleIcon} className="h-5 " />
-              <img src={SUNNYSIDE.icons.confirm} className="h-5 ml-1" />
+          {entries > 0 ? (
+            <img src={SUNNYSIDE.icons.confirm} className="h-5" />
+          ) : (
+            <div className="flex">
+              {getKeys(raffle.entryRequirements).map((item) => {
+                return (
+                  <img
+                    key={item}
+                    src={ITEM_DETAILS[item].image}
+                    className="h-4 mr-1"
+                  />
+                );
+              })}
             </div>
           )}
         </div>

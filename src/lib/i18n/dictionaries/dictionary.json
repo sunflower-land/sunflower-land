@@ -167,7 +167,7 @@
   "auction.raffle.confirmation.description": "Winners are chosen at random and entries cannot be cancelled or refunded.",
   "auction.raffle.labelWithId": "Raffle #{{id}}",
   "auction.raffle.entryInfo": "You can use Chapter Tickets and Raffle Tickets. Entries are non-cancellable and non-refundable.",
-  "auction.raffle.missingChapterTicket": "You don't have enough {{ticket}}s",
+  "auction.raffle.missingChapterTicket": "You don't have enough {{ticket}}",
   "auction.raffle.missingRaffleTickets": "You don't have enough Raffle Tickets",
   "auction.raffle.chapterEntryInfo": "{{count}} {{ticket}} = {{entries}} entries",
   "auction.raffle.raffleEntryInfo": "{{count}} Raffle Ticket = {{entries}} entries",

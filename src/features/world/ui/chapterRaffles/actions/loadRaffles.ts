@@ -1,6 +1,10 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { RaffleDefinition } from "../../../../retreat/components/auctioneer/types";
+import {
+  getChapterRaffleTicket,
+  getChapterTicket,
+} from "features/game/types/chapters";
 
 type Request = {
   token: string;
@@ -13,6 +17,9 @@ export async function loadRaffles(
   request: Request,
 ): Promise<RaffleDefinition[]> {
   if (!CONFIG.API_URL) {
+    const now = Date.now();
+    const chapterTicket = getChapterTicket(now);
+    const raffleTicket = getChapterRaffleTicket(now);
     return [
       {
         id: "1",
@@ -28,6 +35,11 @@ export async function loadRaffles(
             items: { Gold: 5 },
           },
         },
+        entryRequirements: {
+          [chapterTicket]: 10,
+          [raffleTicket]: 1,
+          Gold: 1,
+        },
       },
       {
         id: "3",
@@ -40,6 +52,10 @@ export async function loadRaffles(
           2: {
             items: { Iron: 5, Stone: 5, Wood: 2 },
           },
+        },
+        entryRequirements: {
+          [chapterTicket]: 10,
+          [raffleTicket]: 1,
         },
       },
       {
@@ -55,6 +71,10 @@ export async function loadRaffles(
           2: {
             items: { Gold: 5 },
           },
+        },
+        entryRequirements: {
+          [chapterTicket]: 10,
+          [raffleTicket]: 1,
         },
       },
     ];
