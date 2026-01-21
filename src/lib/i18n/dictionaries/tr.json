@@ -7877,7 +7877,6 @@
   "auction.raffle.levelShort": "Lvl {{level}}",
   "auction.title": "Müzayedeler",
   "effect.success.default": "Başarı!",
-  "auction.raffle.missingChapterTicket": "Yeterli {{ticket}} s yok",
   "auction.raffle.entryInfo": "Bölüm Biletleri ve Çekiliş Biletleri kullanabilirsiniz. Girişler iptal edilemez ve iade edilemez.",
   "auction.raffle.prizes": "Ödül havuzu",
   "auction.raffle.prizePool": "{{count}} kazananlar seçilecektir. Bu çekiliş için toplam ödül havuzu şunları içerir:",
@@ -7889,5 +7888,6 @@
   "description.floater": "Yengeçler ve Tuzaklar sırasında toplanır.",
   "description.ammoniteShell": "Yengeçler ve Tuzaklardan bir bölüm eseri.",
   "auction.raffle.finished": "Çekiliş bitti",
-  "auction.raffle.viewResults": "Sonuçları görüntüleyin"
+  "auction.raffle.viewResults": "Sonuçları görüntüleyin",
+  "auction.raffle.missingChapterTicket": "Yeterince sahip değilsiniz {{ticket}}"
 }

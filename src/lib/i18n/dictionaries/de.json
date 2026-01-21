@@ -7877,7 +7877,6 @@
   "auction.raffle.levelShort": "Stufe {{level}}",
   "auction.title": "Versteigerungen",
   "effect.success.default": "Erfolg!",
-  "auction.raffle.missingChapterTicket": "Sie haben nicht genug {{ticket}} s",
   "auction.raffle.entryInfo": "Sie können Kapiteltickets und Tombola-Tickets verwenden. Beiträge sind nicht stornierbar und nicht erstattungsfähig.",
   "auction.raffle.prizes": "Preispool",
   "auction.raffle.prizePool": "Die {{count}} Gewinner werden ausgewählt. Der gesamte Prämienpool für diese Verlosung beinhaltet:",
@@ -7889,5 +7888,6 @@
   "description.floater": "Wird während der Krabben und Fallen gesammelt.",
   "description.ammoniteShell": "Ein Kapitelartefakt aus The Crabs and Traps.",
   "auction.raffle.finished": "Verlosung beendet",
-  "auction.raffle.viewResults": "Sehen Sie sich die Ergebnisse an"
+  "auction.raffle.viewResults": "Sehen Sie sich die Ergebnisse an",
+  "auction.raffle.missingChapterTicket": "Du hast nicht genug {{ticket}}"
 }

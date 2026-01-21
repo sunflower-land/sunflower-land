@@ -7877,7 +7877,6 @@
   "auction.raffle.levelShort": "Nvel {{level}}",
   "auction.title": "Leilões",
   "effect.success.default": "Sucesso!",
-  "auction.raffle.missingChapterTicket": "Você não tem {{ticket}} s suficientes",
   "auction.raffle.entryInfo": "Você pode usar ingressos para capítulos e ingressos de rifa. As inscrições não são canceláveis nem reembolsáveis.",
   "auction.raffle.prizes": "Total de prêmios",
   "auction.raffle.prizePool": "Os vencedores de {{count}} serão escolhidos. O total de recompensas deste sorteio inclui:",
@@ -7889,5 +7888,6 @@
   "description.floater": "Coletado durante os Caranguejos e Armadilhas.",
   "description.ammoniteShell": "Um artefato capitular de Crabs and Traps.",
   "auction.raffle.finished": "Sorteio concluído",
-  "auction.raffle.viewResults": "Veja os resultados"
+  "auction.raffle.viewResults": "Veja os resultados",
+  "auction.raffle.missingChapterTicket": "Você não tem o suficiente {{ticket}}"
 }

@@ -7877,7 +7877,6 @@
   "auction.raffle.levelShort": "Tingkat {{level}}",
   "auction.title": "Lelang",
   "effect.success.default": "Sukses!",
-  "auction.raffle.missingChapterTicket": "Anda tidak memiliki cukup {{ticket}} s",
   "auction.raffle.entryInfo": "Anda dapat menggunakan Tiket Bab dan Tiket Undian. Entri tidak dapat dibatalkan dan tidak dapat dikembalikan.",
   "auction.raffle.prizes": "Kumpulan hadiah",
   "auction.raffle.prizePool": "{{count}} pemenang akan dipilih. Total kumpulan hadiah untuk undian ini meliputi:",
@@ -7889,5 +7888,6 @@
   "description.floater": "Dikumpulkan selama Kepiting dan Perangkap.",
   "description.ammoniteShell": "Artefak chapter dari Kepiting dan Perangkap.",
   "auction.raffle.finished": "Undian selesai",
-  "auction.raffle.viewResults": "Lihat hasil"
+  "auction.raffle.viewResults": "Lihat hasil",
+  "auction.raffle.missingChapterTicket": "Anda tidak memiliki cukup {{ticket}}"
 }

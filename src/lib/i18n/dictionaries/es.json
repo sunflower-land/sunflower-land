@@ -7877,7 +7877,6 @@
   "auction.raffle.levelShort": "Nivel {{level}}",
   "auction.title": "Subastas",
   "effect.success.default": "¡Éxito!",
-  "auction.raffle.missingChapterTicket": "No tienes suficientes {{ticket}} s",
   "auction.raffle.entryInfo": "Puedes usar boletos para capítulos y boletos para sorteos. Las entradas no se pueden cancelar ni reembolsar.",
   "auction.raffle.prizes": "Bolsa de premios",
   "auction.raffle.prizePool": "Se elegirán los ganadores de {{count}}. El total de recompensas de este sorteo incluye:",
@@ -7889,5 +7888,6 @@
   "description.floater": "Recogido durante los Cangrejos y las trampas.",
   "description.ammoniteShell": "Un artefacto capitulo de Crabs and Traps.",
   "auction.raffle.finished": "Sorteo finalizado",
-  "auction.raffle.viewResults": "Ver los resultados"
+  "auction.raffle.viewResults": "Ver los resultados",
+  "auction.raffle.missingChapterTicket": "No tienes suficiente {{ticket}}"
 }

@@ -7877,7 +7877,6 @@
   "auction.raffle.levelShort": "Niveau {{level}}",
   "auction.title": "Enchères",
   "effect.success.default": "Succès !",
-  "auction.raffle.missingChapterTicket": "Vous n'avez pas assez de {{ticket}} s",
   "auction.raffle.entryInfo": "Vous pouvez utiliser les tickets de chapitre et les billets de tombola. Les inscriptions ne sont ni annulables ni remboursables.",
   "auction.raffle.prizes": "Cagnotte",
   "auction.raffle.prizePool": "{{count}} les gagnants seront sélectionnés. Le pool de récompenses total de cette tombola comprend :",
@@ -7889,5 +7888,6 @@
   "description.floater": "Récolté pendant les crabes et les pièges.",
   "description.ammoniteShell": "Un artefact de chapitre de The Crabs and Traps.",
   "auction.raffle.finished": "Tirage au sort terminé",
-  "auction.raffle.viewResults": "Afficher les résultats"
+  "auction.raffle.viewResults": "Afficher les résultats",
+  "auction.raffle.missingChapterTicket": "Vous n'avez pas assez de {{ticket}}"
 }

@@ -7877,7 +7877,6 @@
   "auction.raffle.levelShort": "Livello {{level}}",
   "auction.title": "Aste",
   "effect.success.default": "Successo!",
-  "auction.raffle.missingChapterTicket": "Non hai abbastanza {{ticket}} s",
   "auction.raffle.entryInfo": "Puoi utilizzare Chapter Tickets e Raffle Tickets. Le iscrizioni non sono cancellabili né rimborsabili.",
   "auction.raffle.prizes": "Montepremi",
   "auction.raffle.prizePool": "Verranno scelti i vincitori di {{count}}. Il montepremi totale di questa lotteria include:",
@@ -7889,5 +7888,6 @@
   "description.floater": "Raccolto durante i granchi e le trappole.",
   "description.ammoniteShell": "Un artefatto del capitolo di Crabs and Traps.",
   "auction.raffle.finished": "Lotteria terminata",
-  "auction.raffle.viewResults": "Visualizza i risultati"
+  "auction.raffle.viewResults": "Visualizza i risultati",
+  "auction.raffle.missingChapterTicket": "Non ne hai abbastanza {{ticket}}"
 }

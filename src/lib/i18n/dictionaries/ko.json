@@ -7877,7 +7877,6 @@
   "auction.raffle.levelShort": "레벨 {{level}}",
   "auction.title": "경매",
   "effect.success.default": "성공!",
-  "auction.raffle.missingChapterTicket": "{{ticket}} s가 부족합니다",
   "auction.raffle.entryInfo": "챕터 티켓과 추첨 티켓을 사용할 수 있습니다.응모작은 취소 및 환불이 불가합니다.",
   "auction.raffle.prizes": "상금 풀",
   "auction.raffle.prizePool": "{{count}} 수상자가 선정됩니다.이 추첨의 총 보상 풀에는 다음이 포함됩니다.",
@@ -7889,5 +7888,6 @@
   "description.floater": "크랩과 트랩 중에 수집할 수 있습니다.",
   "description.ammoniteShell": "크랩과 트랩의 챕터 아티팩트.",
   "auction.raffle.finished": "추첨 완료",
-  "auction.raffle.viewResults": "결과 보기"
+  "auction.raffle.viewResults": "결과 보기",
+  "auction.raffle.missingChapterTicket": "모자라 {{ticket}}"
 }

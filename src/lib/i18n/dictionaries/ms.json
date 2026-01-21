@@ -7877,7 +7877,6 @@
   "auction.raffle.levelShort": "Lvl {{level}}",
   "auction.title": "Lelongan",
   "effect.success.default": "Kejayaan!",
-  "auction.raffle.missingChapterTicket": "Anda tidak mempunyai cukup {{ticket}} s",
   "auction.raffle.entryInfo": "Anda boleh menggunakan Tiket Bab dan Tiket Undian. Penyertaan tidak boleh dibatalkan dan tidak boleh dikembalikan.",
   "auction.raffle.prizes": "Kumpulan hadiah",
   "auction.raffle.prizePool": "{{count}} pemenang akan dipilih. Jumlah kumpulan ganjaran untuk undian ini termasuk:",
@@ -7889,5 +7888,6 @@
   "description.floater": "Dikumpulkan semasa Ketam dan Perangkap.",
   "description.ammoniteShell": "Artefak bab dari Ketam dan Perangkap.",
   "auction.raffle.finished": "Undian selesai",
-  "auction.raffle.viewResults": "Lihat hasilnya"
+  "auction.raffle.viewResults": "Lihat hasilnya",
+  "auction.raffle.missingChapterTicket": "Anda tidak mempunyai cukup {{ticket}}"
 }

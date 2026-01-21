@@ -7877,7 +7877,6 @@
   "auction.raffle.levelShort": "レベル {{level}}",
   "auction.title": "オークション",
   "effect.success.default": "成功!",
-  "auction.raffle.missingChapterTicket": "{{ticket}} s が足りません",
   "auction.raffle.entryInfo": "チャプターチケットとラッフルチケットが使えます。エントリーはキャンセルや払い戻しはできません。",
   "auction.raffle.prizes": "賞金プール",
   "auction.raffle.prizePool": "{{count}} の当選者が選ばれます。このラッフルの合計報酬プールには以下が含まれます。",
@@ -7889,5 +7888,6 @@
   "description.floater": "カニとトラップ中に集められます。",
   "description.ammoniteShell": "カニとトラップのチャプターアーティファクトだ。",
   "auction.raffle.finished": "ラッフル終了しました",
-  "auction.raffle.viewResults": "結果を見る"
+  "auction.raffle.viewResults": "結果を見る",
+  "auction.raffle.missingChapterTicket": "足りません {{ticket}}"
 }

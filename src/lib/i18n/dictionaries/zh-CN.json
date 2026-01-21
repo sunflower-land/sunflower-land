@@ -7877,7 +7877,6 @@
   "auction.raffle.levelShort": "等级 {{level}}",
   "auction.title": "拍卖会",
   "effect.success.default": "成功！",
-  "auction.raffle.missingChapterTicket": "你没有足够的 {{ticket}} s",
   "auction.raffle.entryInfo": "您可以使用分会门票和抽奖券。参赛作品不可取消且不可退款。",
   "auction.raffle.prizes": "奖池",
   "auction.raffle.prizePool": "{{count}} 获胜者将被选中。此次抽奖的总奖励池包括：",
@@ -7889,5 +7888,6 @@
   "description.floater": "在 “螃蟹与陷阱” 期间收集。",
   "description.ammoniteShell": "来自《螃蟹与陷阱》的章节神器。",
   "auction.raffle.finished": "抽奖活动结束了",
-  "auction.raffle.viewResults": "查看结果"
+  "auction.raffle.viewResults": "查看结果",
+  "auction.raffle.missingChapterTicket": "你还不够 {{ticket}}"
 }
