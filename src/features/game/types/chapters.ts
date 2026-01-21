@@ -16,6 +16,8 @@ import { BeachBountyChapterArtefact } from "./treasure";
 import { getKeys } from "./decorations";
 import { ChapterFish } from "./fishing";
 import { getObjectEntries } from "../expansion/lib/utils";
+import { BumpkinItem } from "./bumpkin";
+import { InventoryItemName } from "./game";
 
 export type ChapterName =
   | "Solar Flare"
@@ -267,23 +269,24 @@ export function getChapterByBanner(banner: ChapterBanner): ChapterName {
   return CHAPTER_BANNERS[banner];
 }
 
+export const CHAPTER_BANNER_IMAGES: Record<ChapterBanner, string> = {
+  "Solar Flare Banner": solarFlareBanner,
+  "Dawn Breaker Banner": dawnBreakerBanner,
+  "Witches' Eve Banner": witchesEveBanner,
+  "Catch the Kraken Banner": catchTheKrakenBanner,
+  "Spring Blossom Banner": springBlossomBanner,
+  "Clash of Factions Banner": clashOfFactionsBanner,
+  "Pharaoh's Treasure Banner": pharaohsTreasureBanner,
+  "Bull Run Banner": bullsRunBanner,
+  "Winds of Change Banner": windsOfChangeBanner,
+  "Great Bloom Banner": greatBloomBanner,
+  "Better Together Banner": betterTogetherBanner,
+  "Paw Prints Banner": pawPrintsBanner,
+  "Crabs and Traps Banner": crabChapterBanner,
+};
+
 export function getChapterBannerImage(now: number) {
-  const banners: Record<ChapterBanner, string> = {
-    "Solar Flare Banner": solarFlareBanner,
-    "Dawn Breaker Banner": dawnBreakerBanner,
-    "Witches' Eve Banner": witchesEveBanner,
-    "Catch the Kraken Banner": catchTheKrakenBanner,
-    "Spring Blossom Banner": springBlossomBanner,
-    "Clash of Factions Banner": clashOfFactionsBanner,
-    "Pharaoh's Treasure Banner": pharaohsTreasureBanner,
-    "Bull Run Banner": bullsRunBanner,
-    "Winds of Change Banner": windsOfChangeBanner,
-    "Great Bloom Banner": greatBloomBanner,
-    "Better Together Banner": betterTogetherBanner,
-    "Paw Prints Banner": pawPrintsBanner,
-    "Crabs and Traps Banner": crabChapterBanner,
-  };
-  return banners[getChapterBanner(now)];
+  return CHAPTER_BANNER_IMAGES[getChapterBanner(now)];
 }
 
 function getPreviousChapter(now: number): ChapterName {
@@ -308,3 +311,107 @@ export function getPreviousChapterBanner(now: number): ChapterBanner {
 
   return `${previousChapter} Banner`;
 }
+export const CHAPTER_COLLECTIONS: Partial<
+  Record<
+    ChapterName,
+    {
+      collectibles: InventoryItemName[];
+      wearables: BumpkinItem[];
+    }
+  >
+> = {
+  // Better Together - Aug 2025 - Nov 2025
+  "Better Together": {
+    collectibles: [
+      // Megastore
+      "Floor Mirror",
+      "Long Rug",
+      "Garbage Bin",
+      "Wheelbarrow",
+      "Snail King",
+      "Rat King",
+      "Double Bed",
+      "Teamwork Monument",
+      "Reelmaster's Chair",
+      "Fruit Tune Box",
+      "Giant Artichoke",
+
+      // Auctioneer
+      "Rocket Statue",
+      "Ant Queen",
+      "Jurassic Droplet",
+      "Giant Onion",
+      "Giant Turnip",
+      "Groovy Gramophone",
+
+      // VIP Chest
+      "Wheat Whiskers",
+
+      // Mutants
+      "Baby Sheep",
+      "Venus Bumpkin Trap",
+      "Poseidon",
+      "Baby Cow",
+      "Janitor Chicken",
+    ],
+    wearables: [
+      // Megastore
+      "Pickaxe Shark",
+      "Recycle Shirt",
+      "Garbage Bin Hat",
+      "Raccoon Onesie",
+      "Architect Ruler",
+
+      // Auctioneer
+      "Oil Gallon",
+      "Lava Swimwear",
+
+      // VIP Chest
+      "Turd Topper",
+    ],
+  },
+  // Paw Prints - Nov 2025 - Feb 2026
+  "Paw Prints": {
+    collectibles: [
+      // Megastore
+      "Petnip Plant",
+      "Pet Kennel",
+      "Pet Toys",
+      "Pet Playground",
+      "Fish Bowl",
+      "Giant Acorn",
+      "Giant Gold Bone",
+      "Lunar Temple",
+      "Magma Stone",
+      "Cornucopia",
+      "Messy Bed",
+      // Auctioneer
+      "Paw Prints Rug",
+      "Pet Bed",
+      "Moon Fox Statue",
+      // Mutants
+      "Sleepy Chicken",
+      "Astronaut Cow",
+      "Astronaut Sheep",
+      "Black Hole Flower",
+      "Super Star",
+      // VIP gift
+      "Squeaky Chicken",
+      "Pet Bowls",
+    ],
+    wearables: [
+      // Megastore
+      "Pet Specialist Hat",
+      "Pet Specialist Pants",
+      "Pet Specialist Shirt",
+      "Saw Fish",
+
+      // Auctioneer
+      "Luna's Crescent",
+      "Master Chef's Cleaver",
+      "Training Whistle",
+      "Chef Shirt",
+      "Squirrel Onesie",
+    ],
+  },
+};
