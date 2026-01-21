@@ -190,6 +190,7 @@ export const MarketplaceNavigation: React.FC = () => {
           {search ? (
             <Collection
               search={search}
+              showLimited={showLimited}
               onNavigated={() => {
                 setSearch("");
               }}
