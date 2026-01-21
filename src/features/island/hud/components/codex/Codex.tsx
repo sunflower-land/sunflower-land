@@ -170,11 +170,15 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       icon: SUNNYSIDE.icons.fish,
       count: 0,
     },
-    {
-      name: "Crustaceans",
-      icon: ITEM_DETAILS["Crab Pot"].image,
-      count: 0,
-    },
+    ...(hasFeatureAccess(state, "CRUSTACEANS")
+      ? [
+          {
+            name: "Crustaceans" as const,
+            icon: ITEM_DETAILS["Crab Pot"].image,
+            count: 0,
+          },
+        ]
+      : []),
     {
       name: "Flowers",
       icon: ITEM_DETAILS["Red Pansy"].image,
