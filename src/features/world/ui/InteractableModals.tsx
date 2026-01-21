@@ -49,9 +49,11 @@ import { PetShop } from "features/pets/petShop/PetShop";
 import { LoveIslandNoticeboard } from "./loveRewardShop/LoveIslandNoticeboard";
 import { Rarecrows } from "./Rarecrows";
 import { ChapterRaffles } from "./chapterRaffles/ChapterRaffles";
+import { ChapterTracks } from "./tracks/ChapterTracks";
 
 type InteractableName =
   | "guardian"
+  | "chapter_tracks"
   | "desert_noticeboard"
   | "faction_noticeboard"
   | "kingdom_noticeboard"
@@ -181,7 +183,7 @@ function getInitialModal(scene: SceneId): InteractableName | undefined {
   )
     return "faction_intro";
 
-  return undefined;
+  return "chapter_tracks";
 }
 
 interface Props {
@@ -241,6 +243,10 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       </Modal>
       <Modal show={interactable === "pet_shop"} onHide={closeModal}>
         <PetShop onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "chapter_tracks"} onHide={closeModal}>
+        {" "}
+        <ChapterTracks onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "chapter_raffles"} onHide={closeModal}>
         {" "}
