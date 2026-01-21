@@ -49,7 +49,7 @@ export const MarketplaceNavigation: React.FC = () => {
   const [hideLimited, setHideLimited] = useState<boolean>(() => {
     const now = Date.now();
 
-    return now > crabChapterStartMs;
+    return now >= crabChapterStartMs;
   });
 
   const { openModal } = useContext(ModalContext);

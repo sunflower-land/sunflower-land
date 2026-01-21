@@ -120,11 +120,16 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
     : Infinity;
 
   // Weekly purchases count
-  const weeklyPurchasesCount =
-    trades.weeklyPurchases?.[currentWeek]?.[display.name] ?? 0;
-  const offersCount = Object.values(trades.offers ?? {}).filter(
-    (offer) => offer.items[display.name],
-  ).length;
+  const weeklyPurchasesCount = Math.max(
+    0,
+    trades.weeklyPurchases?.[currentWeek]?.[display.name] ?? 0,
+  );
+  const offersCount = Math.max(
+    0,
+    Object.values(trades.offers ?? {}).filter(
+      (offer) => offer.items[display.name],
+    ).length,
+  );
   const limitedPurchasesLeft = isLimited
     ? getMaxPurchases(display.name, hideLimited) -
       weeklyPurchasesCount -
