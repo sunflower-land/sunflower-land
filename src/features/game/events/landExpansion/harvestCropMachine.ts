@@ -24,19 +24,24 @@ type Options = {
 /**
  * run getCropYieldAmount for each amount times to get the yield amount per each seed
  */
-export function getPackYieldAmount(
-  state: GameState,
-  pack: CropMachineQueueItem,
-  farmId: number,
-  createdAt: number,
-  initialCounter: number,
-): { amount: number; boostsUsed: BoostName[] } {
+export function getPackYieldAmount({
+  state,
+  pack,
+  createdAt,
+  prngArgs,
+}: {
+  state: GameState;
+  pack: CropMachineQueueItem;
+  createdAt: number;
+  prngArgs: { farmId: number; initialCounter: number };
+}): { amount: number; boostsUsed: BoostName[] } {
   let totalYield = 0;
   const boostsUsed: BoostName[] = [];
 
   const { seeds, crop } = pack;
 
-  let counter = initialCounter;
+  let counter = prngArgs.initialCounter;
+  const farmId = prngArgs.farmId;
 
   for (let i = 0; i < seeds; i++) {
     const { amount, boostsUsed: cropBoostsUsed } = getCropYieldAmount({
@@ -92,13 +97,12 @@ export function harvestCropMachine({
     const { amount, boostsUsed } =
       pack.amount !== undefined
         ? { amount: pack.amount, boostsUsed: [] }
-        : getPackYieldAmount(
-            stateCopy,
+        : getPackYieldAmount({
+            state: stateCopy,
             pack,
-            farmId,
             createdAt,
-            initialCounter,
-          );
+            prngArgs: { farmId, initialCounter },
+          });
 
     stateCopy.inventory[pack.crop] = cropsInInventory.add(amount);
     stateCopy.farmActivity = trackFarmActivity(

@@ -295,8 +295,8 @@ describe("harvestCropMachine", () => {
       }
 
       const startCounter = findStartCounter();
-      const { amount } = getPackYieldAmount(
-        {
+      const { amount } = getPackYieldAmount({
+        state: {
           ...GAME_STATE,
           buildings: {
             "Crop Machine": [
@@ -340,17 +340,16 @@ describe("harvestCropMachine", () => {
             "Sunflower Harvested": startCounter,
           },
         },
-        {
+        pack: {
           crop: "Sunflower",
           growTimeRemaining: 0,
           readyAt: dateNow - 1000,
           totalGrowTime: (60 * 10 * 1000) / CROP_MACHINE_PLOTS(GAME_STATE),
           seeds: 10,
         },
-        farmId,
-        dateNow,
-        startCounter,
-      );
+        createdAt: dateNow,
+        prngArgs: { farmId, initialCounter: startCounter },
+      });
 
       // Calculate expected amount based on PRNG outcomes
       let expectedAmount = 0;
@@ -429,8 +428,8 @@ describe("harvestCropMachine", () => {
       }
 
       const startCounter = findStartCounter();
-      const { amount } = getPackYieldAmount(
-        {
+      const { amount } = getPackYieldAmount({
+        state: {
           ...GAME_STATE,
           buildings: {
             "Crop Machine": [
@@ -467,17 +466,16 @@ describe("harvestCropMachine", () => {
             "Sunflower Harvested": startCounter,
           },
         },
-        {
+        pack: {
           crop: "Sunflower",
           growTimeRemaining: 0,
           readyAt: dateNow - 1000,
           totalGrowTime: (60 * 10 * 1000) / CROP_MACHINE_PLOTS(GAME_STATE),
           seeds: 10,
         },
-        farmId,
-        dateNow,
-        startCounter,
-      );
+        createdAt: dateNow,
+        prngArgs: { farmId, initialCounter: startCounter },
+      });
 
       // Calculate expected amount based on PRNG outcomes
       // Green Amulet should not trigger (not equipped), but Stellar Sunflower can

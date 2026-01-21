@@ -248,8 +248,12 @@ export const CropMachineModalContent: React.FC<Props> = ({
   });
   const cropYield = selectedPack
     ? (selectedPack.amount ??
-      getPackYieldAmount(state, selectedPack, farmId, now, initialCounter)
-        .amount)
+      getPackYieldAmount({
+        state,
+        pack: selectedPack,
+        createdAt: now,
+        prngArgs: { farmId, initialCounter },
+      }).amount)
     : 0;
 
   return (
