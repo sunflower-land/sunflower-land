@@ -544,7 +544,7 @@ export const RaffleCard: React.FC<{
                   <img
                     key={item}
                     src={ITEM_DETAILS[item].image}
-                    className="h-4 mr-1"
+                    className="h-4 img-highlight -ml-1"
                   />
                 );
               })}
