@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { SimpleBox } from "../SimpleBox";
 import { Label } from "components/ui/Label";
 import { getKeys } from "features/game/types/craftables";
@@ -19,6 +19,8 @@ type Props = {
   state: GameState;
 };
 
+const ALL_CRUSTACEANS = getKeys(CRUSTACEANS);
+
 export const Crustaceans: React.FC<Props> = ({ state }) => {
   const { t } = useAppTranslation();
   const [selectedCrustacean, setSelectedCrustacean] = useState<
@@ -30,19 +32,13 @@ export const Crustaceans: React.FC<Props> = ({ state }) => {
 
   const { farmActivity } = state;
 
-  const allCrustaceans = getKeys(CRUSTACEANS);
-
-  const caughtCrustaceans = useMemo(
-    () =>
-      allCrustaceans.filter(
-        (name) => (farmActivity[`${name} Caught`] ?? 0) > 0,
-      ),
-    [allCrustaceans, farmActivity],
-  );
-
   useEffect(() => {
-    loadCrustaceanChums(caughtCrustaceans).then(setChumMapping);
-  }, [caughtCrustaceans]);
+    const caught = ALL_CRUSTACEANS.filter(
+      (name) => (farmActivity[`${name} Caught`] ?? 0) > 0,
+    );
+
+    loadCrustaceanChums(caught).then(setChumMapping);
+  }, [farmActivity]);
 
   if (selectedCrustacean) {
     const hasCaught = (farmActivity[`${selectedCrustacean} Caught`] ?? 0) > 0;
@@ -120,7 +116,7 @@ export const Crustaceans: React.FC<Props> = ({ state }) => {
               {t("crustaceans")}
             </Label>
             <div className="flex flex-wrap">
-              {allCrustaceans.map((name) => (
+              {ALL_CRUSTACEANS.map((name) => (
                 <SimpleBox
                   silhouette={!farmActivity[`${name} Caught`]}
                   onClick={() => setSelectedCrustacean(name)}
