@@ -44,21 +44,22 @@ export const collectionFetcher = ([filters, token]: [string, string]) => {
   if (CONFIG.API_URL) return loadMarketplace({ filters, token });
 };
 
-export const preloadCollections = (token: string) => {
+export const preloadCollections = (token: string, showLimited: boolean) => {
   preload(["collectibles", token], collectionFetcher);
   preload(["wearables", token], collectionFetcher);
   preload(["resources", token], collectionFetcher);
   preload(["buds", token], collectionFetcher);
   preload(["pets", token], collectionFetcher);
-  preload(["temporary", token], collectionFetcher);
+  if (showLimited === true) preload(["temporary", token], collectionFetcher);
 };
 
 const _state = (state: MachineState) => state.context.state;
 
 export const Collection: React.FC<{
   search?: string;
+  showLimited?: boolean;
   onNavigated?: () => void;
-}> = ({ search, onNavigated }) => {
+}> = ({ search, showLimited, onNavigated }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const { authService } = useContext(Auth.Context);
@@ -165,7 +166,7 @@ export const Collection: React.FC<{
       ...(collectibles?.items || []),
       ...(wearables?.items || []),
       ...(buds?.items || []),
-      ...(limited?.items || []),
+      ...(showLimited === true ? limited?.items || [] : []),
       ...(pets?.items || []),
     ],
   };
