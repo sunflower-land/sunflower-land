@@ -34,10 +34,14 @@ import { MachineState } from "features/game/lib/gameMachine";
 
 const _trades = (state: MachineState) => state.context.state.trades;
 export const MAX_LIMITED_SALES = 1;
-export const MAX_LIMITED_PURCHASES = (item: MarketplaceTradeableName) =>
-  item === "Obsidian" ? 9 : 3;
+export const getMaxPurchases = (
+  item: MarketplaceTradeableName,
+  hideLimited?: boolean,
+) => (item === "Obsidian" ? (hideLimited ? 5 : 9) : 3);
 
-export const Tradeable: React.FC = () => {
+export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
+  hideLimited,
+}) => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
   const { gameService } = useContext(Context);
@@ -122,7 +126,9 @@ export const Tradeable: React.FC = () => {
     (offer) => offer.items[display.name],
   ).length;
   const limitedPurchasesLeft = isLimited
-    ? MAX_LIMITED_PURCHASES(display.name) - weeklyPurchasesCount - offersCount
+    ? getMaxPurchases(display.name, hideLimited) -
+      weeklyPurchasesCount -
+      offersCount
     : Infinity;
 
   if (error) throw error;
@@ -219,6 +225,7 @@ export const Tradeable: React.FC = () => {
         />
 
         <TradeableOffers
+          hideLimited={hideLimited}
           itemId={Number(id)}
           limitedTradesLeft={limitedTradesLeft}
           limitedPurchasesLeft={limitedPurchasesLeft}

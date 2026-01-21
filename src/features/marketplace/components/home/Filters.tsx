@@ -26,8 +26,8 @@ import { Button } from "components/ui/Button";
 export const Filters: React.FC<{
   onClose?: () => void;
   farmId: number;
-  showLimited?: boolean;
-}> = ({ onClose, farmId, showLimited }) => {
+  hideLimited?: boolean;
+}> = ({ onClose, farmId, hideLimited }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [queryParams] = useSearchParams();
@@ -292,7 +292,7 @@ export const Filters: React.FC<{
       isActive: filters === "resources",
     },
     // Limited
-    ...(showLimited === true
+    ...(!hideLimited
       ? [
           {
             icon: SUNNYSIDE.icons.stopwatch,

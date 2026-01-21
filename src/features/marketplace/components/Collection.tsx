@@ -57,9 +57,9 @@ const _state = (state: MachineState) => state.context.state;
 
 export const Collection: React.FC<{
   search?: string;
-  showLimited?: boolean;
+  hideLimited?: boolean;
   onNavigated?: () => void;
-}> = ({ search, showLimited, onNavigated }) => {
+}> = ({ search, hideLimited, onNavigated }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const { authService } = useContext(Auth.Context);
@@ -156,7 +156,7 @@ export const Collection: React.FC<{
     isLoading: isLimitedLoading,
     error: limitedError,
   } = useSWR(
-    filters.includes("temporary") ? ["temporary", token] : null,
+    filters.includes("temporary") && !hideLimited ? ["temporary", token] : null,
     collectionFetcher,
   );
 
@@ -166,7 +166,7 @@ export const Collection: React.FC<{
       ...(collectibles?.items || []),
       ...(wearables?.items || []),
       ...(buds?.items || []),
-      ...(showLimited === true ? limited?.items || [] : []),
+      ...(!hideLimited ? limited?.items || [] : []),
       ...(pets?.items || []),
     ],
   };

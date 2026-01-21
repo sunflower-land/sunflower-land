@@ -46,10 +46,10 @@ export const MarketplaceNavigation: React.FC = () => {
   const [search, setSearch] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [showQuickswap, setShowQuickswap] = useState(false);
-  const [showLimited, setShowLimited] = useState<boolean>(() => {
+  const [hideLimited, setHideLimited] = useState<boolean>(() => {
     const now = Date.now();
 
-    return now < crabChapterStartMs;
+    return now > crabChapterStartMs;
   });
 
   const { openModal } = useContext(ModalContext);
@@ -58,25 +58,25 @@ export const MarketplaceNavigation: React.FC = () => {
   const [authState] = useActor(authService);
 
   useEffect(() => {
-    if (!showLimited) return;
+    if (hideLimited) return;
     const msToChapterStart = crabChapterStartMs - Date.now();
 
     if (msToChapterStart <= 0) {
-      queueMicrotask(() => setShowLimited(false));
+      queueMicrotask(() => setHideLimited(true));
       return;
     }
 
     const id = window.setTimeout(() => {
-      setShowLimited(false);
+      setHideLimited(true);
     }, msToChapterStart);
 
     return () => window.clearTimeout(id);
-  }, [showLimited, crabChapterStartMs]);
+  }, [hideLimited, crabChapterStartMs]);
 
   useEffect(() => {
     const token = authState.context.user.rawToken as string;
-    if (CONFIG.API_URL) preloadCollections(token, showLimited);
-  }, [showLimited, authState.context.user.rawToken]);
+    if (CONFIG.API_URL) preloadCollections(token, !hideLimited);
+  }, [hideLimited, authState.context.user.rawToken]);
 
   const { t } = useTranslation();
 
@@ -101,7 +101,7 @@ export const MarketplaceNavigation: React.FC = () => {
           <Filters
             onClose={() => setShowFilters(false)}
             farmId={farmId}
-            showLimited={showLimited}
+            hideLimited={hideLimited}
           />
           <EstimatedPrice price={price} />
           {/* Flower Dashboard Button */}
@@ -155,7 +155,7 @@ export const MarketplaceNavigation: React.FC = () => {
           <InnerPanel className="w-full flex-col mb-1">
             <MarketplaceSearch search={search} setSearch={setSearch} />
             <div className="flex-1">
-              <Filters farmId={farmId} />
+              <Filters farmId={farmId} hideLimited={hideLimited} />
             </div>
           </InnerPanel>
 
@@ -190,7 +190,7 @@ export const MarketplaceNavigation: React.FC = () => {
           {search ? (
             <Collection
               search={search}
-              showLimited={showLimited}
+              hideLimited={hideLimited}
               onNavigated={() => {
                 setSearch("");
               }}
@@ -201,9 +201,12 @@ export const MarketplaceNavigation: React.FC = () => {
               <Route path="/hot" element={<MarketplaceHotNow />} />
               <Route
                 path="/collection/*"
-                element={<Collection showLimited={showLimited} />}
+                element={<Collection hideLimited={hideLimited} />}
               />
-              <Route path="/:collection/:id" element={<Tradeable />} />
+              <Route
+                path="/:collection/:id"
+                element={<Tradeable hideLimited={hideLimited} />}
+              />
               <Route path="/profile/:id" element={<MarketplaceUser />} />
               <Route path="/profile/:id/trades" element={<MyTrades />} />
               <Route path="/profile/rewards" element={<MarketplaceRewards />} />
