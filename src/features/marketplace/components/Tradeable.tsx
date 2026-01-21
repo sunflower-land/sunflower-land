@@ -176,9 +176,17 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
           </div>
         </InnerPanel>
         {isMobile ? (
-          <TradeableMobileInfo display={display} tradeable={tradeable} />
+          <TradeableMobileInfo
+            hideLimited={hideLimited}
+            display={display}
+            tradeable={tradeable}
+          />
         ) : (
-          <TradeableInfo display={display} tradeable={tradeable} />
+          <TradeableInfo
+            display={display}
+            tradeable={tradeable}
+            hideLimited={hideLimited}
+          />
         )}
       </div>
       <div className="w-full">
