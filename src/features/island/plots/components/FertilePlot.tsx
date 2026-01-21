@@ -29,6 +29,7 @@ interface Props {
   procAnimation?: JSX.Element;
   touchCount: number;
   showTimers: boolean;
+  overrideStage?: GrowthStage;
 }
 
 const _island = (state: MachineState) => state.context.state.island;
@@ -80,6 +81,7 @@ export const FertilePlot: React.FC<Props> = ({
   procAnimation,
   touchCount,
   showTimers,
+  overrideStage,
 }) => {
   const { gameService } = useContext(Context);
 
@@ -106,7 +108,8 @@ export const FertilePlot: React.FC<Props> = ({
     harvestSeconds > 0
       ? clampPercentage(100 - (timeLeft / harvestSeconds) * 100)
       : 100;
-  const stage = getGrowthStage(cropName, growPercentage);
+  const calculatedStage = getGrowthStage(cropName, growPercentage);
+  const stage = overrideStage ?? calculatedStage;
 
   const isSunshower = getActiveCalendarEvent({ calendar }) === "sunshower";
 
