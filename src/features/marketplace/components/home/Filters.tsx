@@ -23,11 +23,11 @@ import {
 import { getKeys, getValues } from "features/game/types/decorations";
 import { Button } from "components/ui/Button";
 import {
-  CHAPTER_COLLECTIONS,
   CHAPTER_BANNER_IMAGES,
   ChapterBanner,
   hasChapterEnded,
 } from "features/game/types/chapters";
+import { CHAPTER_COLLECTIONS } from "features/game/types/collections";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
 

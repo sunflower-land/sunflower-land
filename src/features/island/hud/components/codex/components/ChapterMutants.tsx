@@ -1,69 +1,94 @@
-import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
-import { InventoryItemName } from "features/game/types/game";
+import {
+  MutantChicken,
+  MutantCow,
+  MutantSheep,
+} from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ChapterName } from "features/game/types/chapters";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
+import { ChapterFish } from "features/game/types/fishing";
+import { MutantFlowerName } from "features/game/types/flowers";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 type ChapterMutants = {
   banner: string;
-  chicken: InventoryItemName;
-  flower: InventoryItemName;
-  fish: InventoryItemName;
-  cow: InventoryItemName;
-  sheep: InventoryItemName;
+  Chicken: MutantChicken;
+  Flower: MutantFlowerName;
+  Fish: ChapterFish;
+  Cow: MutantCow | undefined;
+  Sheep: MutantSheep | undefined;
 };
 
-export const CHAPTER_MUTANTS: Partial<Record<ChapterName, ChapterMutants>> = {
+export type MutantsChapterName = Exclude<
+  ChapterName,
+  | "Solar Flare"
+  | "Dawn Breaker"
+  | "Witches' Eve"
+  | "Catch the Kraken"
+  | "Spring Blossom"
+  | "Clash of Factions"
+>;
+
+export const CHAPTER_MUTANTS: Record<MutantsChapterName, ChapterMutants> = {
   "Pharaoh's Treasure": {
-    chicken: "Pharaoh Chicken",
-    flower: "Desert Rose",
-    fish: "Lemon Shark",
-    cow: "Cow",
-    sheep: "Sheep",
+    Chicken: "Pharaoh Chicken",
+    Flower: "Desert Rose",
+    Fish: "Lemon Shark",
+    // Animals haven't been added yet
+    Cow: undefined,
+    Sheep: undefined,
     banner: SUNNYSIDE.announcement.pharaohSeasonRares,
   },
   "Bull Run": {
-    chicken: "Alien Chicken",
-    flower: "Chicory",
-    fish: "Longhorn Cowfish",
-    cow: "Mootant",
-    sheep: "Toxic Tuft",
+    Chicken: "Alien Chicken",
+    Flower: "Chicory",
+    Fish: "Longhorn Cowfish",
+    Cow: "Mootant",
+    Sheep: "Toxic Tuft",
     banner: SUNNYSIDE.announcement.bullRunSeasonRares,
   },
   "Winds of Change": {
-    chicken: "Summer Chicken",
-    flower: "Chamomile",
-    fish: "Jellyfish",
-    cow: "Frozen Cow",
-    sheep: "Frozen Sheep",
+    Chicken: "Summer Chicken",
+    Flower: "Chamomile",
+    Fish: "Jellyfish",
+    Cow: "Frozen Cow",
+    Sheep: "Frozen Sheep",
     banner: SUNNYSIDE.announcement.windsOfChangeSeasonRares,
   },
   "Better Together": {
-    chicken: "Janitor Chicken",
-    flower: "Venus Bumpkin Trap",
-    fish: "Poseidon",
-    cow: "Baby Cow",
-    sheep: "Baby Sheep",
+    Chicken: "Janitor Chicken",
+    Flower: "Venus Bumpkin Trap",
+    Fish: "Poseidon",
+    Cow: "Baby Cow",
+    Sheep: "Baby Sheep",
     banner: SUNNYSIDE.announcement.betterTogetherSeasonRares,
   },
   "Paw Prints": {
-    chicken: "Sleepy Chicken",
-    flower: "Black Hole Flower",
-    fish: "Super Star",
-    cow: "Astronaut Cow",
-    sheep: "Astronaut Sheep",
+    Chicken: "Sleepy Chicken",
+    Flower: "Black Hole Flower",
+    Fish: "Super Star",
+    Cow: "Astronaut Cow",
+    Sheep: "Astronaut Sheep",
     banner: SUNNYSIDE.announcement.pawPrintsSeasonRares,
   },
   "Crabs and Traps": {
-    chicken: "Squid Chicken",
-    flower: "Anemone Flower",
-    fish: "Giant Isopod",
-    cow: "Mermaid Cow",
-    sheep: "Mermaid Sheep",
+    Chicken: "Squid Chicken",
+    Flower: "Anemone Flower",
+    Fish: "Giant Isopod",
+    Cow: "Mermaid Cow",
+    Sheep: "Mermaid Sheep",
+    banner: "?",
+  },
+  "Great Bloom": {
+    Chicken: "Love Chicken",
+    Cow: "Dr Cow",
+    Sheep: "Nurse Sheep",
+    Flower: "Lunalist",
+    Fish: "Pink Dolphin",
     banner: "?",
   },
 };
@@ -72,13 +97,14 @@ interface Props {
   chapter: ChapterName;
 }
 export const ChapterMutants: React.FC<Props> = ({ chapter }) => {
-  const mutants = CHAPTER_MUTANTS[chapter];
+  const mutants = CHAPTER_MUTANTS[chapter as MutantsChapterName];
 
   const { t } = useAppTranslation();
 
   if (!mutants) {
     return null;
   }
+
   return (
     <InnerPanel className="mb-1">
       <div className="p-1">
@@ -95,35 +121,53 @@ export const ChapterMutants: React.FC<Props> = ({ chapter }) => {
           items={[
             {
               text: t("season.codex.mutants.one", {
-                item: mutants.chicken,
+                item: mutants.Chicken,
               }),
               icon: ITEM_DETAILS.Chicken.image,
             },
             {
               text: t("season.codex.mutants.two", {
-                item: mutants.fish,
+                item: mutants.Fish,
               }),
 
               icon: ITEM_DETAILS.Rod.image,
             },
             {
               text: t("season.codex.mutants.three", {
-                item: mutants.flower,
+                item: mutants.Flower,
               }),
               icon: ITEM_DETAILS["Red Pansy"].image,
             },
-            {
-              text: t("season.codex.mutants.four", {
-                item: mutants.cow,
-              }),
-              icon: ITEM_DETAILS["Cow"].image,
-            },
-            {
-              text: t("season.codex.mutants.five", {
-                item: mutants.sheep,
-              }),
-              icon: ITEM_DETAILS["Sheep"].image,
-            },
+            ...(mutants.Cow
+              ? [
+                  {
+                    text: t("season.codex.mutants.four", {
+                      item: mutants.Cow,
+                    }),
+                    icon: ITEM_DETAILS["Cow"].image,
+                  },
+                ]
+              : []),
+            ...(mutants.Sheep
+              ? [
+                  {
+                    text: t("season.codex.mutants.five", {
+                      item: mutants.Sheep,
+                    }),
+                    icon: ITEM_DETAILS["Sheep"].image,
+                  },
+                ]
+              : []),
+            ...(mutants.Flower
+              ? [
+                  {
+                    text: t("season.codex.mutants.five", {
+                      item: mutants.Flower,
+                    }),
+                    icon: ITEM_DETAILS[mutants.Flower].image,
+                  },
+                ]
+              : []),
           ]}
         />
       </div>

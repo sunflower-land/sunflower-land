@@ -5,16 +5,13 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { InnerPanel } from "components/ui/Panel";
-import {
-  CHAPTER_COLLECTIONS,
-  ChapterBanner,
-  CHAPTERS,
-} from "features/game/types/chapters";
+import { ChapterBanner, CHAPTERS } from "features/game/types/chapters";
 import { getKeys } from "features/game/types/craftables";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { CHAPTER_BANNER_IMAGES } from "features/game/types/chapters";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import { getWearableImage } from "features/game/lib/getWearableImage";
+import { CHAPTER_COLLECTIONS } from "features/game/types/collections";
 
 type Props = {
   state: GameState;

@@ -30,7 +30,7 @@ import {
   toTraitValueId,
   useTraitFilters,
 } from "../lib/marketplaceFilters";
-import { CHAPTER_COLLECTIONS } from "features/game/types/chapters";
+import { CHAPTER_COLLECTIONS } from "features/game/types/collections";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { KNOWN_IDS } from "features/game/types";
 import {
