@@ -128,6 +128,7 @@ const FEATURE_FLAGS = {
   SHOW_BOOSTS: defaultFeatureFlag,
   PET_GUIDE: defaultFeatureFlag,
   AUCTION_RAFFLES: defaultFeatureFlag,
+  CHAPTER_TRACKS: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
