@@ -180,8 +180,6 @@ function getInitialModal(scene: SceneId): InteractableName | undefined {
       scene === "sunflorian_house")
   )
     return "faction_intro";
-
-  return undefined;
 }
 
 interface Props {

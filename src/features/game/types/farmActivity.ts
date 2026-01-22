@@ -51,6 +51,8 @@ import { MonumentName } from "./monuments";
 import { BumpkinItem } from "./bumpkin";
 import { WaterTrapName } from "./crustaceans";
 import { ProcessedFood } from "./processedFood";
+import { ChapterName, ChapterTicket } from "./chapters";
+import { TrackName } from "./tracks";
 
 export type CaughtEvent = `${InventoryItemName} Caught`;
 export type HarvestedEvent = `${FlowerName} Harvested`;
@@ -221,7 +223,9 @@ export type FarmActivityName =
   | `${WaterTrapName} Collected`
   | `${WaterTrapName} Placed`
   | `${MarineMarvelName} Map Piece Found`
-  | "Map Missed";
+  | "Map Missed"
+  | `${ChapterTicket} Collected`
+  | `${ChapterName} ${TrackName} Milestone Claimed`;
 
 export function trackFarmActivity(
   activityName: FarmActivityName,

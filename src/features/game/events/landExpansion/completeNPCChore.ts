@@ -214,5 +214,11 @@ export function generateChoreRewards({
 
   items[ticket] = amount;
 
+  game.farmActivity = trackFarmActivity(
+    `${ticket} Collected`,
+    game.farmActivity,
+    new Decimal(amount),
+  );
+
   return items;
 }

@@ -13,6 +13,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { applyBuff } from "features/game/types/buffs";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { getChapterTicket } from "features/game/types/chapters";
 
 export type ClaimDailyRewardAction = {
   type: "dailyReward.claimed";
@@ -122,7 +123,7 @@ export function claimDailyReward({
       currentDate,
     });
 
-    rewards.forEach((reward) => applyReward(game, reward));
+    rewards.forEach((reward) => applyReward(game, reward, createdAt));
     const newStreak = currentStreak + 1;
 
     game.dailyRewards!.streaks = newStreak;
@@ -145,7 +146,12 @@ export function claimDailyReward({
   });
 }
 
-function applyReward(game: GameState, reward: DailyRewardDefinition) {
+function applyReward(
+  game: GameState,
+  reward: DailyRewardDefinition,
+  now: number,
+) {
+  const ticket = getChapterTicket(now);
   if (reward.items) {
     Object.entries(reward.items).forEach(([itemName, amount]) => {
       if (!amount) return;
@@ -153,6 +159,14 @@ function applyReward(game: GameState, reward: DailyRewardDefinition) {
       const name = itemName as InventoryItemName;
       const previous = game.inventory[name] ?? new Decimal(0);
       game.inventory[name] = previous.add(new Decimal(amount));
+
+      if (name === ticket) {
+        game.farmActivity = trackFarmActivity(
+          `${ticket} Collected`,
+          game.farmActivity,
+          new Decimal(amount),
+        );
+      }
     });
   }
 
