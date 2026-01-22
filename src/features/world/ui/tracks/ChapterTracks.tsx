@@ -8,7 +8,7 @@ import {
 } from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
 import { secondsToString } from "lib/utils/time";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Label } from "components/ui/Label";
 import { useGame } from "features/game/GameProvider";
 import { hasVipAccess } from "features/game/lib/vipAccess";
@@ -39,6 +39,7 @@ import { Rewards } from "features/game/expansion/components/ClaimReward";
 import { GameState } from "features/game/types/game";
 import confetti from "canvas-confetti";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 type TrackProgress = {
   points: number;
@@ -106,6 +107,7 @@ export const ChapterTracks: React.FC<{ onClose: () => void }> = ({
   const { gameState } = useGame();
   const state = gameState.context.state;
   const now = useNow();
+  const { openModal } = useContext(ModalContext);
 
   const [selected, setSelected] = useState<
     | {
@@ -190,10 +192,28 @@ export const ChapterTracks: React.FC<{ onClose: () => void }> = ({
 
       <div className="justify-center h-[330px] sm:h-auto gap-x-2  sm:overflow-y-visible overflow-y-scroll overflow-x-visible sm:overflow-x-scroll scrollable w-full flex sm:flex-col flex-row">
         <InnerPanel className="flex sm:flex-row flex-col items-center gap-x-2 gap-y-2 w-fit  pt-3 pb-2 bg-brown-300 flex-1 min-h-fit">
-          <div className="sm:-20 sm:min-w-20 h-20 min-h-20 flex flex-col items-center justify-center">
+          <div
+            className="sm:-20 sm:min-w-20 h-20 min-h-20 flex flex-col items-center justify-center cursor-pointer"
+            onClick={() => {
+              if (!hasVip) {
+                openModal("VIP_ITEMS");
+              }
+            }}
+          >
             <img src={premiumTrackIcon} className="h-12 mb-1" />
-            <Label type="warning" className="text-xs">
+            <Label type="warning" className="text-xs ">
               {t("vip")}
+              {!hasVip && (
+                <img
+                  src={SUNNYSIDE.ui.add_button}
+                  className="absolute"
+                  style={{
+                    width: 20,
+                    right: -14,
+                    top: -10,
+                  }}
+                />
+              )}
             </Label>
           </div>
           {track?.milestones.map((milestone, index) => {
@@ -249,9 +269,9 @@ export const ChapterTracks: React.FC<{ onClose: () => void }> = ({
                 >
                   {index + 1}
                 </Label>
-                <p className="text-xxs -mt-0.5 sm:pl-1">
+                {/* <p className="text-xxs -mt-0.5 sm:pl-1">
                   {shortenCount(total)}
-                </p>
+                </p> */}
               </div>
             );
           })}
@@ -420,7 +440,7 @@ export const MilestoneDetails: React.FC<{
               percentage={(pointsProgress / details.points) * 100}
               type="progress"
             />
-            <p className="text-xs ml-1">{`${shortenCount(pointsProgress)}/${shortenCount(details.points)}`}</p>
+            <p className="text-xs ml-1">{`${shortenCount(pointsProgress)}/${shortenCount(details.points)} points`}</p>
           </div>
         </div>
 
