@@ -175,6 +175,17 @@ export function completeNPCChore({
       draft.farmActivity,
     );
 
+    const ticket = getChapterTicket(createdAt);
+    const amount = items[ticket] ?? 0;
+
+    if (amount > 0) {
+      draft.farmActivity = trackFarmActivity(
+        `${ticket} Collected`,
+        draft.farmActivity,
+        new Decimal(amount),
+      );
+    }
+
     return draft;
   });
 }
@@ -213,12 +224,6 @@ export function generateChoreRewards({
   });
 
   items[ticket] = amount;
-
-  game.farmActivity = trackFarmActivity(
-    `${ticket} Collected`,
-    game.farmActivity,
-    new Decimal(amount),
-  );
 
   return items;
 }
