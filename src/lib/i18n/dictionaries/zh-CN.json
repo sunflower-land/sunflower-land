@@ -7895,5 +7895,9 @@
   "guide.crustacean.useChum": "使用 chum 吸引特定类型的甲壳类动物",
   "guide.crustacean.catchCrustaceans": "每个陷阱周期都会产生各种可以收集的甲壳类动物",
   "guide.crustacean.differentTraps": "不同的陷阱可以捕获不同类型的甲壳类动物",
-  "limitsResetIn": "在 {{time}} 中重置限额"
+  "limitsResetIn": "在 {{time}} 中重置限额",
+  "description.mermaidCow": "一头被海吻的奶牛，有着闪闪发光的鳍和海洋的魅力。",
+  "description.mermaidSheep": "一只毛茸茸的美人鱼，带有潮汐般的火花。",
+  "description.squidChicken": "一只带有触手天赋的漆黑小鸡。",
+  "description.anemoneFlower": "一种随潮汐摇摆的充满活力的海葵。"
 }

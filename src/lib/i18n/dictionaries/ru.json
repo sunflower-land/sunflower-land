@@ -7895,5 +7895,9 @@
   "guide.crustacean.useChum": "Use chum to attract specific types of crustaceans",
   "guide.crustacean.catchCrustaceans": "Each trap cycle yields various crustaceans that can be collected",
   "guide.crustacean.differentTraps": "Different traps catch different types of crustaceans",
-  "limitsResetIn": "Limits reset in {{time}}"
+  "limitsResetIn": "Limits reset in {{time}}",
+  "description.mermaidCow": "A sea-kissed cow with shimmering fins and ocean charm.",
+  "description.mermaidSheep": "A woolly mermaid with a tide-touched sparkle.",
+  "description.squidChicken": "An inky chicken with tentacled flair from the deep.",
+  "description.anemoneFlower": "A vibrant anemone that sways with the tides."
 }

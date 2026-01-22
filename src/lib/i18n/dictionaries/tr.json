@@ -7895,5 +7895,9 @@
   "guide.crustacean.useChum": "Belirli kabuklu türlerini çekmek için chum kullanın",
   "guide.crustacean.catchCrustaceans": "Her tuzak döngüsü, toplanabilen çeşitli kabuklular verir",
   "guide.crustacean.differentTraps": "Farklı tuzaklar farklı kabukluları yakalar",
-  "limitsResetIn": "{{time}} 'de limitler sıfırlandı"
+  "limitsResetIn": "{{time}} 'de limitler sıfırlandı",
+  "description.mermaidCow": "Parıldayan yüzgeçleri ve okyanus cazibesi olan deniz öpücüğü bir inek.",
+  "description.mermaidSheep": "Gelgitle dokunmuş bir ışıltıya sahip yünlü bir deniz kızı.",
+  "description.squidChicken": "Derinlerden dokunaçlı havaya sahip mürekkepli bir tavuk.",
+  "description.anemoneFlower": "Gelgitlerle sallanan canlı bir anemon."
 }

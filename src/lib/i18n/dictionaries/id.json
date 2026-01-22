@@ -7895,5 +7895,9 @@
   "guide.crustacean.useChum": "Gunakan chum untuk menarik jenis krustasea tertentu",
   "guide.crustacean.catchCrustaceans": "Setiap siklus perangkap menghasilkan berbagai krustasea yang dapat dikumpulkan",
   "guide.crustacean.differentTraps": "Perangkap yang berbeda menangkap berbagai jenis krustasea",
-  "limitsResetIn": "Batasan diatur ulang di {{time}}"
+  "limitsResetIn": "Batasan diatur ulang di {{time}}",
+  "description.mermaidCow": "Seekor sapi berciuman laut dengan sirip berkilauan dan pesona laut.",
+  "description.mermaidSheep": "Putri duyung berbulu dengan kilau yang tersentuh pasang surut.",
+  "description.squidChicken": "Ayam bertinta dengan bakat tentakel dari dalam.",
+  "description.anemoneFlower": "Anemon semarak yang bergoyang seiring pasang surut."
 }

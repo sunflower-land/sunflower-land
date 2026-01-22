@@ -7895,5 +7895,9 @@
   "guide.crustacean.useChum": "Benutze Kumpel, um bestimmte Arten von Krebstieren anzulocken",
   "guide.crustacean.catchCrustaceans": "Jeder Fallenzyklus bringt verschiedene Krebstiere hervor, die gesammelt werden können",
   "guide.crustacean.differentTraps": "Verschiedene Fallen fangen verschiedene Arten von Krebstieren",
-  "limitsResetIn": "Limits wurden in {{time}} zurückgesetzt"
+  "limitsResetIn": "Limits wurden in {{time}} zurückgesetzt",
+  "description.mermaidCow": "Eine vom Meer geküßte Kuh mit schimmernden Flossen und Meerescharme.",
+  "description.mermaidSheep": "Eine wollige Meerjungfrau mit einem von der Flut berührten Funkeln.",
+  "description.squidChicken": "Ein Tintenhuhn mit tentakelartigem Flair aus der Tiefe.",
+  "description.anemoneFlower": "Eine lebendige Anemone, die mit den Gezeiten schwankt."
 }

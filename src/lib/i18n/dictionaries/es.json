@@ -7895,5 +7895,9 @@
   "guide.crustacean.useChum": "Usa chum para atraer tipos específicos de crustáceos",
   "guide.crustacean.catchCrustaceans": "Cada ciclo de trampa produce varios crustáceos que se pueden recolectar",
   "guide.crustacean.differentTraps": "Diferentes trampas capturan diferentes tipos de crustáceos",
-  "limitsResetIn": "Límites restablecidos en {{time}}"
+  "limitsResetIn": "Límites restablecidos en {{time}}",
+  "description.mermaidCow": "Una vaca bañada por el mar con aletas relucientes y el encanto del océano.",
+  "description.mermaidSheep": "Una sirena lanuda con un brillo marcado por las mareas.",
+  "description.squidChicken": "Un pollo entintado con tentáculos provenientes de las profundidades.",
+  "description.anemoneFlower": "Una anémona vibrante que se balancea con las mareas."
 }

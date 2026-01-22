@@ -7895,5 +7895,9 @@
   "guide.crustacean.useChum": "Usa chum per attirare tipi specifici di crostacei",
   "guide.crustacean.catchCrustaceans": "Ogni ciclo di trappole produce vari crostacei che possono essere raccolti",
   "guide.crustacean.differentTraps": "Trappole diverse catturano diversi tipi di crostacei",
-  "limitsResetIn": "Limiti azzerati in {{time}}"
+  "limitsResetIn": "Limiti azzerati in {{time}}",
+  "description.mermaidCow": "Una mucca baciata dal mare con pinne scintillanti e fascino oceanico.",
+  "description.mermaidSheep": "Una sirena lanosa con uno scintillio toccato dalla marea.",
+  "description.squidChicken": "Un pollo color inchiostro con un tocco tentacolare proveniente dal profondo.",
+  "description.anemoneFlower": "Un anemone vivace che oscilla con le maree."
 }
