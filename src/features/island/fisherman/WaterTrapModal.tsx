@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { Decimal } from "decimal.js-light";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -302,18 +303,15 @@ export const WaterTrapModal: React.FC<Props> = ({
                 <p className="mb-1 p-1 text-xs">{t("waterTrap.selectChum")}</p>
                 <div className="flex flex-wrap gap-1">
                   {chums.map((name) => {
-                    if (!items[name]?.gte(1)) {
-                      return null;
-                    }
-
                     const chum = name as CrustaceanChum;
-                    const amount = CRUSTACEAN_CHUM_AMOUNTS[chum];
-                    const hasEnough = items[chum]?.gte(amount) ?? false;
+                    const currentAmount = items[chum] ?? new Decimal(0);
+                    const requiredAmount = CRUSTACEAN_CHUM_AMOUNTS[chum];
+                    const hasEnough = currentAmount.gte(requiredAmount);
                     return (
                       <Box
                         key={chum}
                         image={ITEM_DETAILS[chum].image}
-                        count={items[chum]}
+                        count={currentAmount.gt(0) ? currentAmount : undefined}
                         onClick={() =>
                           setSelectedChum(
                             selectedChum === chum ? undefined : chum,
@@ -328,11 +326,17 @@ export const WaterTrapModal: React.FC<Props> = ({
                 {selectedChum && (
                   <div className="p-2 mt-2">
                     <Label
-                      type="default"
+                      type={hasEnoughChum ? "default" : "warning"}
                       className="mb-1"
                       icon={ITEM_DETAILS[selectedChum].image}
                     >
-                      {`${CRUSTACEAN_CHUM_AMOUNTS[selectedChum]} ${selectedChum}`}
+                      {hasEnoughChum
+                        ? `${CRUSTACEAN_CHUM_AMOUNTS[selectedChum]} ${selectedChum}`
+                        : `${t("required")}: ${CRUSTACEAN_CHUM_AMOUNTS[selectedChum]} ${selectedChum}${
+                            items[selectedChum]?.gt(0)
+                              ? ` (${t("count.available", { count: items[selectedChum]?.toString() ?? "0" })})`
+                              : ""
+                          }`}
                     </Label>
                     <p className="text-xs">{CHUM_DETAILS[selectedChum]}</p>
                   </div>

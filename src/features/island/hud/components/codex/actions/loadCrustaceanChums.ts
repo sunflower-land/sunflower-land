@@ -13,6 +13,7 @@ export type CrustaceanChumMapping = Record<
 >;
 
 export async function loadCrustaceanChums(
+  token: string,
   caughtCrustaceans: CrustaceanName[],
 ): Promise<CrustaceanChumMapping> {
   if (!API_URL) {
@@ -20,7 +21,7 @@ export async function loadCrustaceanChums(
   }
 
   try {
-    const url = new URL(`${API_URL}/crustaceans/chums`);
+    const url = new URL(`${API_URL}/data?type=crustaceanChums`);
     if (caughtCrustaceans.length > 0) {
       url.searchParams.append("caught", JSON.stringify(caughtCrustaceans));
     }
@@ -28,7 +29,7 @@ export async function loadCrustaceanChums(
     const response = await window.fetch(url.toString(), {
       method: "GET",
       headers: {
-        "content-type": "application/json;charset=UTF-8",
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -36,8 +37,8 @@ export async function loadCrustaceanChums(
       return {} as CrustaceanChumMapping;
     }
 
-    const mapping = await response.json();
-    return mapping;
+    const { data } = await response.json();
+    return data;
   } catch (error) {
     return {} as CrustaceanChumMapping;
   }
