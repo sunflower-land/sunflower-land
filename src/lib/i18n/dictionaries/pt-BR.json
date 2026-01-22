@@ -7847,7 +7847,6 @@
   "petGuide.social.description": "Impulsione seus animais de estimação interagindo com amigos.",
   "petGuide.social.description2": "Amigos podem acariciar seus companheiros por +5 XP cada, até 50 XP por animal de estimação por dia.",
   "petGuide.social.description3": "Animais de estimação NFT podem caminhar com você em áreas multijogador. Ative isso na tela de gerenciamento de animais de estimação. Apenas um animal de estimação pode andar por vez.",
-  "petGuide.social.description4": "Visite as fazendas de amigos para acariciar seus animais de estimação e construir uma comunidade!",
   "instantReady": "Pronto para uso imediato",
   "twitter.rewards.vip": "Psssst... membros VIP ganham Love Charms!",
   "petGuide.levelPerks.lvl150": "+25% de chance de um recurso extra de buscar Moonfur (50% no total) (somente NFT)",
@@ -7877,7 +7876,6 @@
   "auction.raffle.levelShort": "Nvel {{level}}",
   "auction.title": "Leilões",
   "effect.success.default": "Sucesso!",
-  "auction.raffle.missingChapterTicket": "Você não tem {{ticket}} s suficientes",
   "auction.raffle.entryInfo": "Você pode usar ingressos para capítulos e ingressos de rifa. As inscrições não são canceláveis nem reembolsáveis.",
   "auction.raffle.prizes": "Total de prêmios",
   "auction.raffle.prizePool": "Os vencedores de {{count}} serão escolhidos. O total de recompensas deste sorteio inclui:",
@@ -7889,5 +7887,12 @@
   "description.floater": "Coletado durante os Caranguejos e Armadilhas.",
   "description.ammoniteShell": "Um artefato capitular de Crabs and Traps.",
   "auction.raffle.finished": "Sorteio concluído",
-  "auction.raffle.viewResults": "Veja os resultados"
+  "auction.raffle.viewResults": "Veja os resultados",
+  "auction.raffle.missingChapterTicket": "Você não tem o suficiente {{ticket}}",
+  "petGuide.social.description4": "Visite as fazendas de seus amigos para acariciar seus animais de estimação e construir uma comunidade!",
+  "guide.crustacean.placeTrap": "Coloque uma armadilha de água na água para capturar criaturas marinhas",
+  "guide.crustacean.waitTime": "Espere que a armadilha pegue crustáceos com o tempo",
+  "guide.crustacean.useChum": "Use chum para atrair tipos específicos de crustáceos",
+  "guide.crustacean.catchCrustaceans": "Cada ciclo de armadilha produz vários crustáceos que podem ser coletados",
+  "guide.crustacean.differentTraps": "Diferentes armadilhas capturam diferentes tipos de crustáceos"
 }

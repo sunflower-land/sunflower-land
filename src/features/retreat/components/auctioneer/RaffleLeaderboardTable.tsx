@@ -10,6 +10,7 @@ import sflIcon from "assets/icons/flower_token.webp";
 import { RaffleWinner } from "../../../world/ui/chapterRaffles/actions/loadRaffleResults";
 import raffleTicketIcon from "assets/icons/raffle_icon.png";
 import { shortenCount } from "lib/utils/formatNumber";
+import petEggNFT from "assets/icons/pet_nft_egg.png";
 
 type Props = {
   winners: RaffleWinner[];
@@ -106,6 +107,12 @@ export const RaffleLeaderboardTable: React.FC<Props> = ({
                       </span>
                     </div>
                   ))}
+                  {winner.nft && (
+                    <div className="flex w-16 items-center">
+                      <img src={petEggNFT} className="h-4 mr-0.5" />
+                      <span className="text-xs truncate">{winner.nft}</span>
+                    </div>
+                  )}
                 </div>
               </td>
             </tr>

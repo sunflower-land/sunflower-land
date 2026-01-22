@@ -1826,7 +1826,14 @@ export interface GameState {
     }[];
   };
   raffle?: {
-    active: Record<string, { entries: number; endAt: number }>;
+    active: Record<
+      string,
+      {
+        entries: number;
+        endAt: number;
+        items: Partial<Record<InventoryItemName, number>>;
+      }
+    >;
   };
   dailyRewards?: DailyRewards;
   auctioneer: Auctioneer;

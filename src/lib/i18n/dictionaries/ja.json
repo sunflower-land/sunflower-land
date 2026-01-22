@@ -7847,7 +7847,6 @@
   "petGuide.social.description": "友達と交流してペットをブーストしましょう。",
   "petGuide.social.description2": "友だちは、ペット1匹につき+5 XPでペットとふれあうことができます。ペット1匹につき1日あたり最大50XPです。",
   "petGuide.social.description3": "NFTペットはマルチプレイヤーエリアで一緒に歩くことができます。ペット管理画面で有効にしてください。一度に 1 匹のペットしか歩けません。",
-  "petGuide.social.description4": "友達の農場を訪れてペットを撫でたり、コミュニティを作ったりしましょう！",
   "instantReady": "インスタントレディ",
   "twitter.rewards.vip": "Psssst... VIPメンバーはラブチャームを獲得できます！",
   "petGuide.levelPerks.lvl150": "+25% の確率でムーンファーのフェッチリソースが追加される (合計 50%) (NFTのみ)",
@@ -7877,7 +7876,6 @@
   "auction.raffle.levelShort": "レベル {{level}}",
   "auction.title": "オークション",
   "effect.success.default": "成功!",
-  "auction.raffle.missingChapterTicket": "{{ticket}} s が足りません",
   "auction.raffle.entryInfo": "チャプターチケットとラッフルチケットが使えます。エントリーはキャンセルや払い戻しはできません。",
   "auction.raffle.prizes": "賞金プール",
   "auction.raffle.prizePool": "{{count}} の当選者が選ばれます。このラッフルの合計報酬プールには以下が含まれます。",
@@ -7889,5 +7887,12 @@
   "description.floater": "カニとトラップ中に集められます。",
   "description.ammoniteShell": "カニとトラップのチャプターアーティファクトだ。",
   "auction.raffle.finished": "ラッフル終了しました",
-  "auction.raffle.viewResults": "結果を見る"
+  "auction.raffle.viewResults": "結果を見る",
+  "auction.raffle.missingChapterTicket": "足りません {{ticket}}",
+  "petGuide.social.description4": "友達の農場を訪れてペットを撫でたり、コミュニティを作ったりしましょう！",
+  "guide.crustacean.placeTrap": "ウォータートラップを水中に設置して海洋生物を捕まえましょう",
+  "guide.crustacean.waitTime": "時間が経つとトラップが甲殻類を捕まえるのを待つ",
+  "guide.crustacean.useChum": "チャムを使って特定の種類の甲殻類を引き寄せる",
+  "guide.crustacean.catchCrustaceans": "トラップサイクルごとに、収集できるさまざまな甲殻類が生成されます",
+  "guide.crustacean.differentTraps": "さまざまなトラップがさまざまな種類の甲殻類を捕まえます"
 }

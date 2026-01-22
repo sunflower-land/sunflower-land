@@ -7847,7 +7847,6 @@
   "petGuide.social.description": "通过与好友互动来提升你的宠物。",
   "petGuide.social.description2": "好友抚摸你的宠物每次可 +5 宠物 XP，每只宠物每日上限 50 宠物 XP。",
   "petGuide.social.description3": "NFT 宠物可在多人区域跟随你。请在宠物管理界面开启此功能。同一时间仅限一只宠物跟随。",
-  "petGuide.social.description4": "拜访好友农场抚摸他们的宠物，共建活跃社区！",
   "instantReady": "立即完成",
   "twitter.rewards.vip": "Psssst... VIP 会员可获得爱情护身符！",
   "petGuide.levelPerks.lvl150": "获得额外月毛资源的几率 +25%（总计 50%）（仅限 NFT）",
@@ -7877,7 +7876,6 @@
   "auction.raffle.levelShort": "等级 {{level}}",
   "auction.title": "拍卖会",
   "effect.success.default": "成功！",
-  "auction.raffle.missingChapterTicket": "你没有足够的 {{ticket}} s",
   "auction.raffle.entryInfo": "您可以使用分会门票和抽奖券。参赛作品不可取消且不可退款。",
   "auction.raffle.prizes": "奖池",
   "auction.raffle.prizePool": "{{count}} 获胜者将被选中。此次抽奖的总奖励池包括：",
@@ -7889,5 +7887,12 @@
   "description.floater": "在 “螃蟹与陷阱” 期间收集。",
   "description.ammoniteShell": "来自《螃蟹与陷阱》的章节神器。",
   "auction.raffle.finished": "抽奖活动结束了",
-  "auction.raffle.viewResults": "查看结果"
+  "auction.raffle.viewResults": "查看结果",
+  "auction.raffle.missingChapterTicket": "你还不够 {{ticket}}",
+  "petGuide.social.description4": "访问朋友的农场，抚摸他们的宠物并建立社区！",
+  "guide.crustacean.placeTrap": "在水中放置一个水陷阱来捕捉海洋生物",
+  "guide.crustacean.waitTime": "等待陷阱随着时间的推移捕获甲壳类动物",
+  "guide.crustacean.useChum": "使用 chum 吸引特定类型的甲壳类动物",
+  "guide.crustacean.catchCrustaceans": "每个陷阱周期都会产生各种可以收集的甲壳类动物",
+  "guide.crustacean.differentTraps": "不同的陷阱可以捕获不同类型的甲壳类动物"
 }
