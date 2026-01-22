@@ -7899,5 +7899,10 @@
   "description.mermaidCow": "Una vaca bañada por el mar con aletas relucientes y el encanto del océano.",
   "description.mermaidSheep": "Una sirena lanuda con un brillo marcado por las mareas.",
   "description.squidChicken": "Un pollo entintado con tentáculos provenientes de las profundidades.",
-  "description.anemoneFlower": "Una anémona vibrante que se balancea con las mareas."
+  "description.anemoneFlower": "Una anémona vibrante que se balancea con las mareas.",
+  "tracks": "Pistas",
+  "tracks.chapterEnds": "El capítulo termina:",
+  "vip": "VIP",
+  "vip.required": "Se requiere VIP",
+  "chapterStore.tracks": "Recompensas"
 }

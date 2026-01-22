@@ -7899,5 +7899,10 @@
   "description.mermaidCow": "Eine vom Meer geküßte Kuh mit schimmernden Flossen und Meerescharme.",
   "description.mermaidSheep": "Eine wollige Meerjungfrau mit einem von der Flut berührten Funkeln.",
   "description.squidChicken": "Ein Tintenhuhn mit tentakelartigem Flair aus der Tiefe.",
-  "description.anemoneFlower": "Eine lebendige Anemone, die mit den Gezeiten schwankt."
+  "description.anemoneFlower": "Eine lebendige Anemone, die mit den Gezeiten schwankt.",
+  "tracks": "Spuren",
+  "tracks.chapterEnds": "Das Kapitel endet:",
+  "vip": "VIP",
+  "vip.required": "VIP ist erforderlich",
+  "chapterStore.tracks": "Prämien"
 }

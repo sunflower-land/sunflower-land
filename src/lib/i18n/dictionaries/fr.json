@@ -7899,5 +7899,10 @@
   "description.mermaidCow": "Une vache embrassée par la mer, aux nageoires scintillantes et au charme de l'océan.",
   "description.mermaidSheep": "Une sirène laineuse dont l'éclat est touché par la marée.",
   "description.squidChicken": "Un poulet à l'encre au flair tentaculaire venu des profondeurs.",
-  "description.anemoneFlower": "Une anémone vibrante qui se balance au gré des marées."
+  "description.anemoneFlower": "Une anémone vibrante qui se balance au gré des marées.",
+  "tracks": "Pistes",
+  "tracks.chapterEnds": "Fin du chapitre :",
+  "vip": "VIP",
+  "vip.required": "Un VIP est requis",
+  "chapterStore.tracks": "Récompenses"
 }

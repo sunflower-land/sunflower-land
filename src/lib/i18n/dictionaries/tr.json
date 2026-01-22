@@ -7899,5 +7899,10 @@
   "description.mermaidCow": "Parıldayan yüzgeçleri ve okyanus cazibesi olan deniz öpücüğü bir inek.",
   "description.mermaidSheep": "Gelgitle dokunmuş bir ışıltıya sahip yünlü bir deniz kızı.",
   "description.squidChicken": "Derinlerden dokunaçlı havaya sahip mürekkepli bir tavuk.",
-  "description.anemoneFlower": "Gelgitlerle sallanan canlı bir anemon."
+  "description.anemoneFlower": "Gelgitlerle sallanan canlı bir anemon.",
+  "tracks": "Parçalar",
+  "tracks.chapterEnds": "Bölüm bitiyor:",
+  "vip": "VİP",
+  "vip.required": "VIP gereklidir",
+  "chapterStore.tracks": "Ödüller"
 }

@@ -7899,5 +7899,10 @@
   "description.mermaidCow": "Una mucca baciata dal mare con pinne scintillanti e fascino oceanico.",
   "description.mermaidSheep": "Una sirena lanosa con uno scintillio toccato dalla marea.",
   "description.squidChicken": "Un pollo color inchiostro con un tocco tentacolare proveniente dal profondo.",
-  "description.anemoneFlower": "Un anemone vivace che oscilla con le maree."
+  "description.anemoneFlower": "Un anemone vivace che oscilla con le maree.",
+  "tracks": "Brani",
+  "tracks.chapterEnds": "Fine del capitolo:",
+  "vip": "VIP",
+  "vip.required": "È richiesto il servizio VIP",
+  "chapterStore.tracks": "Premi"
 }

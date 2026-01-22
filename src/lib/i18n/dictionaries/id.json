@@ -7899,5 +7899,10 @@
   "description.mermaidCow": "Seekor sapi berciuman laut dengan sirip berkilauan dan pesona laut.",
   "description.mermaidSheep": "Putri duyung berbulu dengan kilau yang tersentuh pasang surut.",
   "description.squidChicken": "Ayam bertinta dengan bakat tentakel dari dalam.",
-  "description.anemoneFlower": "Anemon semarak yang bergoyang seiring pasang surut."
+  "description.anemoneFlower": "Anemon semarak yang bergoyang seiring pasang surut.",
+  "tracks": "Trek",
+  "tracks.chapterEnds": "Bab berakhir:",
+  "vip": "VIP",
+  "vip.required": "VIP diperlukan",
+  "chapterStore.tracks": "Imbalan"
 }

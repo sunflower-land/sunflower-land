@@ -7899,5 +7899,10 @@
   "description.mermaidCow": "Lembu yang dicium laut dengan sirip berkilauan dan daya tarikan laut.",
   "description.mermaidSheep": "Duyung berbulu dengan kilauan yang disentuh dengan jerawat.",
   "description.squidChicken": "Ayam berwarna hitam dengan bakat tentacel dari kedalaman.",
-  "description.anemoneFlower": "Anemon yang bertenaga yang bergoyang dengan pasang surut."
+  "description.anemoneFlower": "Anemon yang bertenaga yang bergoyang dengan pasang surut.",
+  "tracks": "Trek",
+  "tracks.chapterEnds": "Bab berakhir:",
+  "vip": "VIP",
+  "vip.required": "VIP diperlukan",
+  "chapterStore.tracks": "Ganjaran"
 }

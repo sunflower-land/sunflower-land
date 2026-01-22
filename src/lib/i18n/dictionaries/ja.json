@@ -7899,5 +7899,10 @@
   "description.mermaidCow": "きらめくヒレと海の魅力が詰まった海にキスをした牛。",
   "description.mermaidSheep": "潮のような輝きを放つウールのマーメイド。",
   "description.squidChicken": "深いところから触手のようなセンスが光る真っ黒なチキン。",
-  "description.anemoneFlower": "潮の流れに揺れる鮮やかなアネモネ。"
+  "description.anemoneFlower": "潮の流れに揺れる鮮やかなアネモネ。",
+  "tracks": "トラック",
+  "tracks.chapterEnds": "チャプター終了:",
+  "vip": "VIP",
+  "vip.required": "VIP アドレスが必要です",
+  "chapterStore.tracks": "報酬"
 }

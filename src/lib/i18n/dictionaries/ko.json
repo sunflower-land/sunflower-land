@@ -7899,5 +7899,10 @@
   "description.mermaidCow": "반짝이는 지느러미와 바다의 매력을 지닌 바다에 키스된 소.",
   "description.mermaidSheep": "파도에 닿아 반짝거리는 털이 많은 인어.",
   "description.squidChicken": "깊은 곳에서 느껴지는 촉수 감각이 돋보이는 잉크형 닭입니다.",
-  "description.anemoneFlower": "파도와 함께 흔들리는 활기찬 말미잘."
+  "description.anemoneFlower": "파도와 함께 흔들리는 활기찬 말미잘.",
+  "tracks": "트랙",
+  "tracks.chapterEnds": "챕터 종료:",
+  "vip": "VIP",
+  "vip.required": "VIP가 필요합니다",
+  "chapterStore.tracks": "리워드"
 }

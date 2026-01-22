@@ -7899,5 +7899,10 @@
   "description.mermaidCow": "A sea-kissed cow with shimmering fins and ocean charm.",
   "description.mermaidSheep": "A woolly mermaid with a tide-touched sparkle.",
   "description.squidChicken": "An inky chicken with tentacled flair from the deep.",
-  "description.anemoneFlower": "A vibrant anemone that sways with the tides."
+  "description.anemoneFlower": "A vibrant anemone that sways with the tides.",
+  "tracks": "Tracks",
+  "tracks.chapterEnds": "Chapter ends:",
+  "vip": "VIP",
+  "vip.required": "VIP is required",
+  "chapterStore.tracks": "Rewards"
 }
