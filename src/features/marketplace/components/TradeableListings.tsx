@@ -366,7 +366,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
                     className="w-fit h-8 rounded-none"
                     onClick={() => setShowBulkBuy(true)}
                   >
-                    <p className="text-xxs sm:text-sm">
+                    <p className="text-xxs sm:text-sm whitespace-nowrap">
                       {t("marketplace.bulkBuy")}
                     </p>
                   </Button>
