@@ -6,8 +6,16 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { getKeys } from "features/game/types/decorations";
 import { Physics } from "phaser";
 import { hasFeatureAccess } from "lib/flags";
+import { npcModalManager } from "../ui/NPCModals";
 
-const BUMPKINS: NPCBumpkin[] = [];
+const BUMPKINS: NPCBumpkin[] = [
+  {
+    npc: "streamer",
+    x: 210,
+    y: 117,
+    hideLabel: true,
+  },
+];
 
 export class StreamScene extends BaseScene {
   sceneId: SceneId = "stream";
@@ -18,6 +26,11 @@ export class StreamScene extends BaseScene {
   };
   constructor() {
     super({ name: "stream", map: { json: streamJSON } });
+  }
+
+  async preload() {
+    super.preload();
+    this.load.image("speaker", "world/speaker.webp");
   }
 
   async create() {
@@ -38,6 +51,11 @@ export class StreamScene extends BaseScene {
         (collider.body as Physics.Arcade.Body).setImmovable(false);
       });
     }
+
+    const image = this.add.image(215, 102, "speaker");
+    image.on("pointerdown", () => {
+      npcModalManager.open("streamer");
+    });
   }
 
   update() {

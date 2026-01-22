@@ -39,6 +39,7 @@ import { MegaBountyBoard } from "./flowerShop/MegaBountyBoard";
 import { IncineratorModal } from "features/goblins/incinerator";
 import { Context } from "features/game/GameProvider";
 import { PetShop } from "features/pets/petShop/PetShop";
+import { Streams } from "features/game/components/modal/components/Streams";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -149,6 +150,8 @@ export const NPCModals: React.FC<Props> = ({ id }) => {
             ]}
           />
         )}
+
+        {npc === "streamer" && <Streams onClose={closeModal} />}
 
         {npc === "marcus" && (
           <SpeakingModal
