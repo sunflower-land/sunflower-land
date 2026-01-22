@@ -18,6 +18,16 @@ import { ChapterFish } from "./fishing";
 import { getObjectEntries } from "../expansion/lib/utils";
 import { BumpkinItem } from "./bumpkin";
 import { InventoryItemName } from "./game";
+import {
+  ChapterCollectibleName,
+  ChapterStoreCollectible,
+  ChapterWearableName,
+  MEGASTORE,
+} from "./megastore";
+import {
+  isCollectible,
+  isWearable,
+} from "../events/landExpansion/buyChapterItem";
 
 export type ChapterName =
   | "Solar Flare"
@@ -311,6 +321,51 @@ export function getPreviousChapterBanner(now: number): ChapterBanner {
 
   return `${previousChapter} Banner`;
 }
+
+export function getChapterMegastoreCollectibles(
+  chapter: ChapterName,
+): ChapterCollectibleName[] {
+  const excludedItems: ChapterStoreCollectible["collectible"][] = [
+    "Treasure Key",
+    "Rare Key",
+    "Luxury Key",
+    "Pet Egg",
+    "Bronze Flower Box",
+    "Silver Flower Box",
+    "Gold Flower Box",
+  ];
+  // Runtime type guard to ensure result is ChapterCollectibleName
+  function isChapterCollectible(
+    collectible: ChapterStoreCollectible["collectible"],
+  ): collectible is ChapterCollectibleName {
+    return !excludedItems.includes(collectible);
+  }
+
+  return Object.values(MEGASTORE[chapter])
+    .flatMap((tier) =>
+      tier.items.map((item) =>
+        isCollectible(item) && isChapterCollectible(item.collectible)
+          ? item.collectible
+          : undefined,
+      ),
+    )
+    .filter((item): item is ChapterCollectibleName => item !== undefined);
+}
+
+export function getChapterMegastoreWearables(
+  chapter: ChapterName,
+): ChapterWearableName[] {
+  return Object.values(MEGASTORE[chapter])
+    .flatMap((tier) =>
+      tier.items.map((item) => {
+        if (isWearable(item)) {
+          return item.wearable;
+        }
+      }),
+    )
+    .filter((item): item is ChapterWearableName => item !== undefined);
+}
+
 export const CHAPTER_COLLECTIONS: Partial<
   Record<
     ChapterName,
@@ -324,17 +379,7 @@ export const CHAPTER_COLLECTIONS: Partial<
   "Better Together": {
     collectibles: [
       // Megastore
-      "Floor Mirror",
-      "Long Rug",
-      "Garbage Bin",
-      "Wheelbarrow",
-      "Snail King",
-      "Rat King",
-      "Double Bed",
-      "Teamwork Monument",
-      "Reelmaster's Chair",
-      "Fruit Tune Box",
-      "Giant Artichoke",
+      ...getChapterMegastoreCollectibles("Better Together"),
 
       // Auctioneer
       "Rocket Statue",
@@ -356,11 +401,7 @@ export const CHAPTER_COLLECTIONS: Partial<
     ],
     wearables: [
       // Megastore
-      "Pickaxe Shark",
-      "Recycle Shirt",
-      "Garbage Bin Hat",
-      "Raccoon Onesie",
-      "Architect Ruler",
+      ...getChapterMegastoreWearables("Better Together"),
 
       // Auctioneer
       "Oil Gallon",
@@ -374,17 +415,8 @@ export const CHAPTER_COLLECTIONS: Partial<
   "Paw Prints": {
     collectibles: [
       // Megastore
-      "Petnip Plant",
-      "Pet Kennel",
-      "Pet Toys",
-      "Pet Playground",
-      "Fish Bowl",
-      "Giant Acorn",
-      "Giant Gold Bone",
-      "Lunar Temple",
-      "Magma Stone",
-      "Cornucopia",
-      "Messy Bed",
+      ...getChapterMegastoreCollectibles("Paw Prints"),
+
       // Auctioneer
       "Paw Prints Rug",
       "Pet Bed",
@@ -401,10 +433,7 @@ export const CHAPTER_COLLECTIONS: Partial<
     ],
     wearables: [
       // Megastore
-      "Pet Specialist Hat",
-      "Pet Specialist Pants",
-      "Pet Specialist Shirt",
-      "Saw Fish",
+      ...getChapterMegastoreWearables("Paw Prints"),
 
       // Auctioneer
       "Luna's Crescent",
