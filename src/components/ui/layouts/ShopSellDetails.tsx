@@ -11,7 +11,7 @@ import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { formatDateRange } from "lib/utils/time";
 import { Label } from "../Label";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { BumpkinItem } from "features/game/types/bumpkin";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
@@ -19,6 +19,7 @@ import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
 import { SeedName } from "features/game/types/seeds";
 import fullMoon from "assets/icons/full_moon.png";
 import { ClutterName } from "features/game/types/clutter";
+import { getWearableImage } from "features/game/lib/getWearableImage";
 
 /**
  * The props for the details for items.
@@ -90,8 +91,7 @@ const ItemDetails: React.FC<ItemDetailsProps> = (details) => {
   const { item, seasons } = details;
   const image = isCollectible(item)
     ? ITEM_DETAILS[item].image
-    : new URL(`/src/assets/wearables/${ITEM_IDS[item]}.webp`, import.meta.url)
-        .href;
+    : getWearableImage(item);
   const description = isCollectible(item)
     ? ITEM_DETAILS[item].description
     : BUMPKIN_ITEM_BUFF_LABELS[item]?.map((b) => b.shortDescription).join(", ");
