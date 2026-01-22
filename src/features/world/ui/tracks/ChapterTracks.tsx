@@ -117,8 +117,6 @@ export const ChapterTracks: React.FC<{ onClose: () => void }> = ({
     | undefined
   >();
 
-  const points = 500; // TODO
-
   const hasVip = hasVipAccess({ game: state });
 
   const chapter = getCurrentChapter(now);
@@ -153,7 +151,11 @@ export const ChapterTracks: React.FC<{ onClose: () => void }> = ({
             <div className="flex  items-end relative">
               <div className="flex flex-col items-end">
                 <ResizableBar
-                  percentage={0}
+                  percentage={
+                    (progress.milestone.progress /
+                      progress.milestone.requirement) *
+                    100
+                  }
                   outerDimensions={{ width: 30, height: 8 }}
                   type="progress"
                 />
