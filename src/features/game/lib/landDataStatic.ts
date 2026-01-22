@@ -198,7 +198,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
   farmActivity: {
     "Starlight Tuna Map Piece Found": 8,
     "Daily Reward Collected": 1,
-    "Pet Cookie Collected": 225,
+    "Pet Cookie Collected": 2250,
+    "Paw Prints free Milestone Claimed": 4,
   },
 
   fishing: {

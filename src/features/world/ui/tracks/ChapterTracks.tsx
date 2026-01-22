@@ -8,7 +8,7 @@ import {
 } from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
 import { secondsToString } from "lib/utils/time";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Label } from "components/ui/Label";
 import { useGame } from "features/game/GameProvider";
 import { hasVipAccess } from "features/game/lib/vipAccess";
@@ -118,6 +118,16 @@ export const ChapterTracks: React.FC<{ onClose: () => void }> = ({
       }
     | undefined
   >();
+
+  useEffect(() => {
+    setTimeout(() => {
+      // Autoscroll to the gift icon
+      const giftIcon = document.getElementById("claim-track-icon");
+      if (giftIcon) {
+        giftIcon.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }, 100);
+  }, []);
 
   const hasVip = hasVipAccess({ game: state });
 
@@ -372,6 +382,7 @@ export const TrackItem: React.FC<{
         <img
           src={giftIcon}
           className="absolute -bottom-1 -right-1 h-8 z-10 animate-bounce"
+          id="claim-track-icon"
         />
       )}
 
