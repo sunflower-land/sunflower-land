@@ -4,6 +4,8 @@ import { InventoryItemName, Wardrobe } from "./game";
 export type MilestoneRewards = {
   items?: Partial<Record<InventoryItemName, number>>;
   wearables?: Wardrobe;
+  coins?: number;
+  flower?: number;
 };
 
 export type TrackName = "free" | "premium";
@@ -17,26 +19,61 @@ export type ChapterTrack = {
 };
 
 const PAW_PRINTS_CHAPTER_TRACKS: ChapterTrack = {
-  milestones: new Array(32)
-    .fill({
-      points: 0,
+  milestones: [
+    /*
+	Free Track	Val	VIP Track
+170	Ticket Totem	10	Fish Hook Hat
+350	Casual Raffle 10	1	Treasure Key
+530	Treasure Key	5	Tickets 10
+720	Coins 500	1.5	Flower 5
+920	Crabs & Fish Rug	10	Rare Key
+*/
+    {
+      points: 170,
       free: {
-        items: {
-          "Bronze Tool Box": 1,
-        },
-        wearables: {},
+        items: { "Bronze Food Box": 1 },
       },
       premium: {
-        items: {
-          "Bronze Food Box": 1,
-        },
-        wearables: {},
+        items: { "Bronze Tool Box": 1 },
       },
-    })
-    .map((milestone, index) => ({
-      ...milestone,
-      points: 100 + index * 100,
-    })),
+    },
+    {
+      points: 350,
+      free: {
+        items: { "Paw Prints Raffle Ticket": 10 },
+      },
+      premium: {
+        items: { "Treasure Key": 1 },
+      },
+    },
+    {
+      points: 530,
+      free: {
+        items: { "Treasure Key": 1 },
+      },
+      premium: {
+        items: { "Paw Prints Raffle Ticket": 100 },
+      },
+    },
+    {
+      points: 720,
+      free: {
+        coins: 500,
+      },
+      premium: {
+        flower: 5,
+      },
+    },
+    {
+      points: 920,
+      free: {
+        items: { "Paw Prints Rug": 1 },
+      },
+      premium: {
+        items: { "Rare Key": 1 },
+      },
+    },
+  ],
 };
 
 const TEST_CHAPTER_TRACK: ChapterTrack = {

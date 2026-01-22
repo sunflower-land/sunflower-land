@@ -78,6 +78,14 @@ export function claimTrackMilestone({
       });
     }
 
+    if (rewards.coins) {
+      game.coins += rewards.coins;
+    }
+
+    if (rewards.flower) {
+      game.balance = game.balance.add(new Decimal(rewards.flower));
+    }
+
     game.farmActivity = trackFarmActivity(
       `${chapter} ${action.track} Milestone Claimed`,
       game.farmActivity,

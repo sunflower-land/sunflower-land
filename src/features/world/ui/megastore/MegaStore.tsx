@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
@@ -25,6 +25,8 @@ import {
 } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
+import { ChapterTracks } from "../tracks/ChapterTracks";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 
 interface Props {
   onClose: () => void;
@@ -71,7 +73,7 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const now = useNow();
-
+  const [tab, setTab] = useState<"chapter" | "tracks">("chapter");
   const icon = ITEM_DETAILS[getChapterTicket(now)].image ?? shopIcon;
   const { t } = useAppTranslation();
 
@@ -87,12 +89,25 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
   return (
     <CloseButtonPanel
       bumpkinParts={NPC_WEARABLES.stella}
+      currentTab={tab}
+      setCurrentTab={setTab}
       tabs={[
         { icon, name: t("chapterStore.title", { chapter }), id: "chapter" },
+        {
+          icon: shopIcon,
+          name: t("chapterStore.tracks", { chapter }),
+          id: "tracks",
+        },
       ]}
       onClose={onClose}
+      container={OuterPanel}
     >
-      <ChapterStore state={state} />
+      {tab === "chapter" && (
+        <InnerPanel>
+          <ChapterStore state={state} />
+        </InnerPanel>
+      )}
+      {tab === "tracks" && <ChapterTracks onClose={onClose} />}
     </CloseButtonPanel>
   );
 };
