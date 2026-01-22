@@ -7894,5 +7894,6 @@
   "guide.crustacean.waitTime": "Tuzağın zamanla kabukluları yakalamasını bekleyin",
   "guide.crustacean.useChum": "Belirli kabuklu türlerini çekmek için chum kullanın",
   "guide.crustacean.catchCrustaceans": "Her tuzak döngüsü, toplanabilen çeşitli kabuklular verir",
-  "guide.crustacean.differentTraps": "Farklı tuzaklar farklı kabukluları yakalar"
+  "guide.crustacean.differentTraps": "Farklı tuzaklar farklı kabukluları yakalar",
+  "limitsResetIn": "{{time}} 'de limitler sıfırlandı"
 }

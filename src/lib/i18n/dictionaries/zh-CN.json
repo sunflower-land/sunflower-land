@@ -7894,5 +7894,6 @@
   "guide.crustacean.waitTime": "等待陷阱随着时间的推移捕获甲壳类动物",
   "guide.crustacean.useChum": "使用 chum 吸引特定类型的甲壳类动物",
   "guide.crustacean.catchCrustaceans": "每个陷阱周期都会产生各种可以收集的甲壳类动物",
-  "guide.crustacean.differentTraps": "不同的陷阱可以捕获不同类型的甲壳类动物"
+  "guide.crustacean.differentTraps": "不同的陷阱可以捕获不同类型的甲壳类动物",
+  "limitsResetIn": "在 {{time}} 中重置限额"
 }

@@ -7894,5 +7894,6 @@
   "guide.crustacean.waitTime": "시간이 지남에 따라 함정이 갑각류를 잡을 때까지 기다리십시오.",
   "guide.crustacean.useChum": "특정 유형의 갑각류를 유인하려면 미끼를 사용하십시오.",
   "guide.crustacean.catchCrustaceans": "각 트랩 사이클마다 수집할 수 있는 다양한 갑각류가 생산됩니다.",
-  "guide.crustacean.differentTraps": "다른 함정은 다양한 종류의 갑각류를 잡습니다."
+  "guide.crustacean.differentTraps": "다른 함정은 다양한 종류의 갑각류를 잡습니다.",
+  "limitsResetIn": "{{time}} 에서 제한 재설정"
 }

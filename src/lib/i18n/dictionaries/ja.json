@@ -7894,5 +7894,6 @@
   "guide.crustacean.waitTime": "時間が経つとトラップが甲殻類を捕まえるのを待つ",
   "guide.crustacean.useChum": "チャムを使って特定の種類の甲殻類を引き寄せる",
   "guide.crustacean.catchCrustaceans": "トラップサイクルごとに、収集できるさまざまな甲殻類が生成されます",
-  "guide.crustacean.differentTraps": "さまざまなトラップがさまざまな種類の甲殻類を捕まえます"
+  "guide.crustacean.differentTraps": "さまざまなトラップがさまざまな種類の甲殻類を捕まえます",
+  "limitsResetIn": "{{time}} の制限がリセットされました"
 }

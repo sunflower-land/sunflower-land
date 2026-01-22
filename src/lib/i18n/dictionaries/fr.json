@@ -7894,5 +7894,6 @@
   "guide.crustacean.waitTime": "Attendez que le piège attrape les crustacés au fil du temps",
   "guide.crustacean.useChum": "Utilisez le kéta pour attirer des types spécifiques de crustacés",
   "guide.crustacean.catchCrustaceans": "Chaque cycle de piège produit divers crustacés qui peuvent être collectés",
-  "guide.crustacean.differentTraps": "Différents pièges capturent différents types de crustacés"
+  "guide.crustacean.differentTraps": "Différents pièges capturent différents types de crustacés",
+  "limitsResetIn": "Limites réinitialisées en {{time}}"
 }

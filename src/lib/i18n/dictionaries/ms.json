@@ -7894,5 +7894,6 @@
   "guide.crustacean.waitTime": "Tunggu perangkap untuk menangkap krustasea dari masa ke masa",
   "guide.crustacean.useChum": "Gunakan chum untuk menarik jenis krustasea tertentu",
   "guide.crustacean.catchCrustaceans": "Setiap kitaran perangkap menghasilkan pelbagai krustasea yang boleh dikumpulkan",
-  "guide.crustacean.differentTraps": "Perangkap yang berbeza menangkap pelbagai jenis krustasea"
+  "guide.crustacean.differentTraps": "Perangkap yang berbeza menangkap pelbagai jenis krustasea",
+  "limitsResetIn": "Tetapkan semula had dalam {{time}}"
 }

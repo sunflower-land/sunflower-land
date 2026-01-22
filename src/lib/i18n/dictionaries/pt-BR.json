@@ -7894,5 +7894,6 @@
   "guide.crustacean.waitTime": "Espere que a armadilha pegue crustáceos com o tempo",
   "guide.crustacean.useChum": "Use chum para atrair tipos específicos de crustáceos",
   "guide.crustacean.catchCrustaceans": "Cada ciclo de armadilha produz vários crustáceos que podem ser coletados",
-  "guide.crustacean.differentTraps": "Diferentes armadilhas capturam diferentes tipos de crustáceos"
+  "guide.crustacean.differentTraps": "Diferentes armadilhas capturam diferentes tipos de crustáceos",
+  "limitsResetIn": "Limites redefinidos em {{time}}"
 }
