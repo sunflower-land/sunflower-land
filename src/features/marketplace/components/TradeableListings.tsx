@@ -313,12 +313,15 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
       <InnerPanel className="mb-1">
         <div className="p-2">
           <div className="flex justify-between">
-            <div className="flex flex-col justify-center sm:flex-row gap-1 sm:justify-normal sm:items-center">
+            <div className="flex flex-col w-full justify-center sm:flex-row gap-1 sm:justify-between sm:items-center">
               <Label icon={tradeIcon} type="default" className="">
                 {t("marketplace.listings")}
               </Label>
               {tradeable?.expiresAt && (
-                <Label type={limitedTradesLeft <= 0 ? "danger" : "warning"}>
+                <Label
+                  type={limitedTradesLeft <= 0 ? "danger" : "warning"}
+                  className="mr-0.5"
+                >
                   {t("marketplace.listingsLeft", {
                     amount: 1,
                     limit: MAX_LIMITED_SALES,

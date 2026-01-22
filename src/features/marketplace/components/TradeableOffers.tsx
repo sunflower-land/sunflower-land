@@ -203,7 +203,10 @@ export const TradeableOffers: React.FC<{
                 {t("marketplace.offers")}
               </Label>
               {tradeable?.expiresAt && (
-                <Label type={limitedPurchasesLeft <= 0 ? "danger" : "warning"}>
+                <Label
+                  type={limitedPurchasesLeft <= 0 ? "danger" : "warning"}
+                  className="mr-1"
+                >
                   {`${limitedPurchasesLeft}/${getMaxPurchases(display.name, hideLimited)} Offers left`}
                 </Label>
               )}
