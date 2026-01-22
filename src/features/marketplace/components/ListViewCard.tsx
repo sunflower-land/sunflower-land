@@ -22,6 +22,7 @@ import petNFTEggMarketplace from "assets/pets/pet-nft-egg-marketplace.webp";
 import { getPetLevel } from "features/game/types/pets";
 import { Label } from "components/ui/Label";
 import { useNow } from "lib/utils/hooks/useNow";
+import { getCurrentChapter } from "features/game/types/chapters";
 
 type Props = {
   details: TradeableDisplay;
@@ -199,7 +200,7 @@ export const ListViewCard: React.FC<Props> = ({
             </div>
           ))}
 
-          {expiresAt && (
+          {expiresAt && getCurrentChapter(now) === "Paw Prints" && (
             <div className="flex items-center">
               <img src={SUNNYSIDE.icons.stopwatch} className="h-4 mr-1" />
               <p className="text-xs truncate pb-0.5">
