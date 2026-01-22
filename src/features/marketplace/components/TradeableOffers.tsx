@@ -35,7 +35,7 @@ import { isTradeResource } from "features/game/actions/tradeLimits";
 import Decimal from "decimal.js-light";
 import { useParams } from "react-router";
 import { KeyedMutator } from "swr";
-import { MAX_LIMITED_PURCHASES } from "./Tradeable";
+import { getMaxPurchases } from "./Tradeable";
 import { ResourceTaxes } from "./TradeableInfo";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 
@@ -49,6 +49,7 @@ const _myOffersCount = (state: MachineState) =>
   Object.keys(state.context.state.trades.offers ?? {}).length;
 
 export const TradeableOffers: React.FC<{
+  hideLimited?: boolean;
   tradeable?: TradeableDetails;
   limitedTradesLeft: number;
   limitedPurchasesLeft: number;
@@ -57,6 +58,7 @@ export const TradeableOffers: React.FC<{
   itemId: number;
   reload: KeyedMutator<TradeableDetails>;
 }> = ({
+  hideLimited,
   tradeable,
   limitedTradesLeft,
   farmId,
@@ -201,8 +203,11 @@ export const TradeableOffers: React.FC<{
                 {t("marketplace.offers")}
               </Label>
               {tradeable?.expiresAt && (
-                <Label type={limitedPurchasesLeft <= 0 ? "danger" : "warning"}>
-                  {`${limitedPurchasesLeft}/${MAX_LIMITED_PURCHASES(display.name)} Offers left`}
+                <Label
+                  type={limitedPurchasesLeft <= 0 ? "danger" : "warning"}
+                  className="mr-1"
+                >
+                  {`${limitedPurchasesLeft}/${getMaxPurchases(display.name, hideLimited)} Offers left`}
                 </Label>
               )}
             </div>

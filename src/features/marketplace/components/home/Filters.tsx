@@ -26,7 +26,8 @@ import { Button } from "components/ui/Button";
 export const Filters: React.FC<{
   onClose?: () => void;
   farmId: number;
-}> = ({ onClose, farmId }) => {
+  hideLimited?: boolean;
+}> = ({ onClose, farmId, hideLimited }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [queryParams] = useSearchParams();
@@ -40,7 +41,7 @@ export const Filters: React.FC<{
   } else if (filters?.includes("buds")) {
     activeCollection = "buds";
   }
-  const { addFilter, removeFilter, hasFilter, traitFilters } =
+  const { addFilter, removeFilter, hasFilter } =
     useTraitFilters(activeCollection);
   const [expandedTraitGroups, setExpandedTraitGroups] = React.useState<
     Record<string, boolean>
@@ -291,18 +292,22 @@ export const Filters: React.FC<{
       isActive: filters === "resources",
     },
     // Limited
-    {
-      icon: SUNNYSIDE.icons.stopwatch,
-      label: t("marketplace.limited"),
-      onClick: () => {
-        setExpandedTraitGroups({});
-        navigateTo({
-          path: "collection",
-          filterParams: "temporary",
-        });
-      },
-      isActive: filters === "temporary",
-    },
+    ...(!hideLimited
+      ? [
+          {
+            icon: SUNNYSIDE.icons.stopwatch,
+            label: t("marketplace.limited"),
+            onClick: () => {
+              setExpandedTraitGroups({});
+              navigateTo({
+                path: "collection",
+                filterParams: "temporary",
+              });
+            },
+            isActive: filters === "temporary",
+          },
+        ]
+      : []),
     // Cosmetics
     {
       icon: SUNNYSIDE.icons.heart,
