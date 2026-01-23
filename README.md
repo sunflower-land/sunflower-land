@@ -15,7 +15,7 @@ The goal of this project is to create a decentralized and community-driven MetaV
 
 This repo includes the front-end game in which users can play and interact with the game on the Polygon Network and offchain data.
 
-Looking to help out? Read our [contributing docs](https://github.com/sunflower-land/sunflower-land/blob/main/docs/CODE_CONTRIBUTING.md)
+Looking to help out? Read our [contributing docs](docs/CODE_CONTRIBUTING.md).
 
 By contributing you agree to our [terms and services](https://docs.sunflower-land.com/support/terms-of-service)
 
@@ -57,19 +57,27 @@ These raw assets/tiles are not in this repo. You must purchase the asset pack if
 
 # 👶 Getting Started
 
-You can take a look at the instructions in [CODE_CONTRIBUTING.md](https://github.com/sunflower-land/sunflower-land/blob/main/docs/CODE_CONTRIBUTING.md) to get started on open-source contribution for Sunflower Land
+**Prerequisites:** Node.js v22, [Yarn](https://yarnpkg.com/), and Git.
+
+```bash
+yarn
+cp .env.sample .env
+yarn dev
+```
+
+The app runs at http://localhost:3000. For full setup (Windows, macOS, Linux, WSL, GitHub CLI) and contribution workflow, see [CODE_CONTRIBUTING.md](docs/CODE_CONTRIBUTING.md).
 
 # 🧪 Testing
 
-`yarn test`
+- `yarn test` — business logic unit tests
+- `yarn tsc` — TypeScript check
+- `yarn lint` — ESLint
 
-This runs a range of business logic unit tests in the repo.
-
-The plan is to use react testing library to test some of the core user interactions as well.
+The plan is to use React Testing Library for core user interactions as well.
 
 # ⚙️ Architecture
 
-We use `xstate` to control the manage the user and session using a State Machine approach. This prevents our application from getting into invalid states and handles the use cases of switching accounts, networks, etc.
+We use `xstate` to control and manage the user and session using a State Machine approach. This prevents our application from getting into invalid states and handles the use cases of switching accounts, networks, etc.
 
 The primary states include:
 
@@ -102,8 +110,8 @@ Prerequisites:
 
 To add new item:
 
-1. Create `{SFT id}.md` file in `metadata\markdown` folder
-2. Add `{SFT id}.png(gif)` file to `public\erc1155\images` folder
+1. Create `{SFT id}.md` in `metadata/markdown`
+2. Add `{SFT id}.png` (or `.gif`) to `public/erc1155/images`
 3. Run `yarn metadata`
 
 # 🗃️ Directory Organization
@@ -116,9 +124,9 @@ To add new item:
 
 # 🤝 Contributing Guidelines
 
-👨‍💻 Developers - https://github.com/sunflower-land/sunflower-land/blob/main/docs/CODE_CONTRIBUTING.md
+👨‍💻 **Developers** — [CODE_CONTRIBUTING.md](docs/CODE_CONTRIBUTING.md) — setup for Windows, macOS, Linux, WSL, and [GitHub CLI (gh)](https://cli.github.com/).
 
-🧑‍🎨 Artists - https://github.com/sunflower-land/sunflower-land/blob/main/docs/ART_CONTRIBUTING.md
+🧑‍🎨 **Artists** — [ART_CONTRIBUTING.md](docs/ART_CONTRIBUTING.md)
 
 # ⚖️ No Licence
 
