@@ -129,17 +129,8 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const fertiliser = crops?.[id]?.fertiliser;
 
   const plot = crops[id];
-  // Auto-end timer when crop has finished growing
-  const cropPlantedAt = crop?.plantedAt;
-  const cropHarvestSeconds = crop?.name
-    ? CROPS[crop.name]?.harvestSeconds
-    : undefined;
-  const cropAutoEndAt =
-    cropPlantedAt && cropHarvestSeconds
-      ? cropPlantedAt + cropHarvestSeconds * 1000
-      : undefined;
 
-  const now = useNow({ live: !!crop, autoEndAt: cropAutoEndAt });
+  const now = useNow({ live: !!crop });
 
   const isFertile = isPlotFertile({
     plotIndex: id,
