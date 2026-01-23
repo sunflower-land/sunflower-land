@@ -857,8 +857,9 @@ export function getReward({
   crop: CropName | GreenHouseCropName;
   skills: Skills;
   prngArgs: { farmId: number; counter: number };
-}): Reward | undefined {
+}): { reward: Reward | undefined; boostUsed: BoostName[] } {
   const items: Reward["items"] = [];
+  const boostUsed: BoostName[] = [];
   const itemId = KNOWN_IDS[crop];
 
   const getPrngChance = (criticalHitName: CriticalHitName, chance: number) =>
@@ -878,6 +879,7 @@ export function getReward({
       amount: 0.35,
       name: "Gold",
     });
+    boostUsed.push("Golden Sunflower");
   }
 
   // 1 out of 20 chance
@@ -891,7 +893,9 @@ export function getReward({
     });
   }
 
-  return items.length > 0 ? { items } : undefined;
+  return items.length > 0
+    ? { reward: { items }, boostUsed }
+    : { reward: undefined, boostUsed };
 }
 
 export function harvestCropFromPlot({
@@ -940,7 +944,11 @@ export function harvestCropFromPlot({
 
   const counter = game.farmActivity[`${cropName} Harvested`] ?? 0;
 
-  const { amount, aoe, boostsUsed } = plot.crop.amount
+  const {
+    amount,
+    aoe,
+    boostsUsed: cropYieldBoostsUsed,
+  } = plot.crop.amount
     ? { amount: plot.crop.amount, aoe: game.aoe, boostsUsed: [] }
     : getCropYieldAmount({
         crop: cropName,
@@ -956,13 +964,13 @@ export function harvestCropFromPlot({
     throw new Error("Not ready");
   }
 
-  const reward =
-    plot.crop.reward ??
-    getReward({
-      crop: cropName,
-      skills: bumpkin.skills ?? {},
-      prngArgs: { farmId, counter },
-    });
+  const { reward, boostUsed: rewardBoostsUsed } = plot.crop.reward
+    ? { reward: plot.crop.reward, boostUsed: [] }
+    : getReward({
+        crop: cropName,
+        skills: bumpkin.skills ?? {},
+        prngArgs: { farmId, counter },
+      });
 
   if (reward) {
     if (reward.coins) {
@@ -996,7 +1004,7 @@ export function harvestCropFromPlot({
     updatedPlot,
     amount,
     aoe,
-    boostsUsed,
+    boostsUsed: [...cropYieldBoostsUsed, ...rewardBoostsUsed],
     cropName,
   };
 }
