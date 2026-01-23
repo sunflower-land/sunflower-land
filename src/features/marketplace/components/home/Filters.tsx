@@ -257,42 +257,6 @@ export const Filters: React.FC<{
     setCosmeticSelection(nextSelection);
   };
 
-  const setOwnershipSelection = (selection: {
-    owned: boolean;
-    unowned: boolean;
-  }) => {
-    const nextFilters =
-      filterTokens.length > 0
-        ? filterTokens.join(",")
-        : "collectibles,wearables";
-    const nextOwnership = [
-      selection.owned && "owned",
-      selection.unowned && "unowned",
-    ]
-      .filter(Boolean)
-      .join(",");
-
-    navigateTo({
-      path: "collection",
-      filterParams: nextFilters,
-      closeFilters: false,
-      extraParams: {
-        chapter: chapterParam || undefined,
-        ownership: nextOwnership || undefined,
-      },
-    });
-  };
-
-  const handleOwnershipToggle = (
-    option: "owned" | "unowned",
-    checked: boolean,
-  ) => {
-    setOwnershipSelection({
-      ...ownershipSelection,
-      [option]: checked,
-    });
-  };
-
   const chapterOptions = getKeys(CHAPTER_COLLECTIONS)
     .filter((chapter) => hasChapterEnded(chapter, now))
     .map((chapter) => {
@@ -455,23 +419,6 @@ export const Filters: React.FC<{
               handleChapterToggle(option.value, chapterParam !== option.value),
             isActive: chapterParam === option.value,
             hasOptions: chapterParam === option.value,
-            options:
-              chapterParam === option.value
-                ? [
-                    {
-                      label: t("marketplace.owned"),
-                      onToggle: (checked: boolean) =>
-                        handleOwnershipToggle("owned", checked),
-                      checked: ownershipSelection.owned,
-                    },
-                    {
-                      label: t("marketplace.unowned"),
-                      onToggle: (checked: boolean) =>
-                        handleOwnershipToggle("unowned", checked),
-                      checked: ownershipSelection.unowned,
-                    },
-                  ]
-                : undefined,
           }))
         : undefined,
     },

@@ -17,7 +17,7 @@ type Props = {
   state: GameState;
 };
 
-export const Collections: React.FC<Props> = ({ state }) => {
+export const ChapterCollections: React.FC<Props> = ({ state }) => {
   const { inventory, wardrobe } = state;
 
   return (
