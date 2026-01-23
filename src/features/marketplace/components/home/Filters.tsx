@@ -57,7 +57,8 @@ export const Filters: React.FC<{
   const [expandedTraitGroups, setExpandedTraitGroups] = useState<
     Record<string, boolean>
   >({});
-  const [isChapterExpanded, setIsChapterExpanded] = useState(!!chapterParam);
+  const [userChapterExpanded, setUserChapterExpanded] = useState(false);
+  const isChapterExpanded = !!chapterParam || userChapterExpanded;
 
   const baseUrl = `${isWorldRoute ? "/world" : ""}/marketplace`;
   const filterTokens = (filters ?? "")
@@ -307,7 +308,7 @@ export const Filters: React.FC<{
   const handleChapterToggle = (value: string, checked: boolean) => {
     if (checked) {
       setExpandedTraitGroups({});
-      setIsChapterExpanded(true);
+      setUserChapterExpanded(true);
       navigateTo({
         path: "collection",
         filterParams: "collectibles,wearables",
@@ -443,7 +444,7 @@ export const Filters: React.FC<{
     {
       icon: SUNNYSIDE.icons.treasure,
       label: t("marketplace.collections"),
-      onClick: () => setIsChapterExpanded((prev) => !prev),
+      onClick: () => setUserChapterExpanded((prev) => !prev),
       isActive: isChapterExpanded && !chapterParam,
       hasOptions: true,
       options: isChapterExpanded

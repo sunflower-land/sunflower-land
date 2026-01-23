@@ -13,7 +13,7 @@ export interface BoxProps {
   silhouette: boolean;
   className?: string;
   inventoryCount?: number;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export const SimpleBox: React.FC<React.PropsWithChildren<BoxProps>> = ({

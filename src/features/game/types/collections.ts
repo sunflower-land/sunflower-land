@@ -11,10 +11,7 @@ import {
   isCollectible,
   isWearable,
 } from "../events/landExpansion/buyChapterItem";
-import {
-  CHAPTER_MUTANTS,
-  MutantsChapterName,
-} from "features/island/hud/components/codex/components/ChapterMutants";
+import { CHAPTER_MUTANTS, MutantsChapterName } from "./chapterMutants";
 import { ChapterFish } from "./fishing";
 import { MutantFlowerName } from "./flowers";
 

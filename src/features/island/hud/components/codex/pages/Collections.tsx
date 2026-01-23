@@ -95,7 +95,6 @@ export const Collections: React.FC<Props> = ({ state }) => {
                           <SimpleBox
                             key={item}
                             silhouette={!hasItem}
-                            onClick={() => {}}
                             inventoryCount={hasItem ? count : undefined}
                             image={ITEM_DETAILS[itemName]?.image}
                           />
@@ -123,20 +122,14 @@ export const Collections: React.FC<Props> = ({ state }) => {
                         const itemName = item as BumpkinItem;
                         const count = wardrobe[itemName] ?? 0;
                         const hasItem = count > 0;
-                        const getImage = () => {
-                          if (isCollectible(itemName)) {
-                            return ITEM_DETAILS[itemName]?.image;
-                          }
-
-                          return getWearableImage(itemName);
-                        };
-                        const image = getImage();
+                        const image = isCollectible(itemName)
+                          ? ITEM_DETAILS[itemName]?.image
+                          : getWearableImage(itemName);
 
                         return (
                           <SimpleBox
                             key={item}
                             silhouette={!hasItem}
-                            onClick={() => {}}
                             inventoryCount={hasItem ? count : undefined}
                             image={image}
                           />
