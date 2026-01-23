@@ -1871,6 +1871,46 @@ describe("feedAnimal", () => {
     expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(0.25));
   });
 
+  it("takes 5% less food to feed a sheep if Mermaid Sheep is placed", () => {
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Kernel Blend": new Decimal(3),
+        },
+        collectibles: {
+          "Mermaid Sheep": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        barn: {
+          ...GAME_STATE.barn,
+          animals: {
+            "0": {
+              ...GAME_STATE.barn.animals["0"],
+              type: "Sheep",
+              experience: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Sheep",
+        id: "0",
+        item: "Kernel Blend",
+      },
+    });
+
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(0.15));
+  });
+
   it("takes 5% less food to feed a cow or sheep if Collie Shrine is active", () => {
     const state = feedAnimal({
       createdAt: now,

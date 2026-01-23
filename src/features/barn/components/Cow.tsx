@@ -159,6 +159,9 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     foodQuantity: REQUIRED_FOOD_QTY.Cow,
     game,
   });
+  const displayRequiredFoodQty = new Decimal(requiredFoodQty)
+    .toDecimalPlaces(2, Decimal.ROUND_HALF_UP)
+    .toNumber();
 
   const hasGoldenCow = isCollectibleBuilt({
     name: "Golden Cow",
@@ -359,7 +362,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     if (showNoFoodSelected) return t("animal.noFoodMessage");
     if (showNoMedicine) return t("animal.noMedicine");
     if (showNotEnoughFood)
-      return t("animal.notEnoughFood", { amount: requiredFoodQty });
+      return t("animal.notEnoughFood", { amount: displayRequiredFoodQty });
   };
 
   const getAnimalXPEarned = () => {
@@ -498,7 +501,9 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
               top={PIXEL_SCALE * 1}
               left={PIXEL_SCALE * 23}
               request={requestBubbleRequest()}
-              quantity={idle && !hasGoldenCow ? requiredFoodQty : undefined}
+              quantity={
+                idle && !hasGoldenCow ? displayRequiredFoodQty : undefined
+              }
             />
           )}
           <Modal

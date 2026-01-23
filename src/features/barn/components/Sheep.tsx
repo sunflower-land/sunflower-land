@@ -103,6 +103,9 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     foodQuantity: REQUIRED_FOOD_QTY.Sheep,
     game,
   });
+  const displayRequiredFoodQty = new Decimal(requiredFoodQty)
+    .toDecimalPlaces(2, Decimal.ROUND_HALF_UP)
+    .toNumber();
 
   const hasGoldenSheep = isCollectibleBuilt({
     name: "Golden Sheep",
@@ -323,7 +326,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     if (showNoFoodSelected) return t("animal.noFoodMessage");
     if (showNoMedicine) return t("animal.noMedicine");
     if (showNotEnoughFood)
-      return t("animal.notEnoughFood", { amount: requiredFoodQty });
+      return t("animal.notEnoughFood", { amount: displayRequiredFoodQty });
   };
 
   const getAnimalXPEarned = () => {
@@ -472,7 +475,9 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
               top={PIXEL_SCALE * 1}
               left={PIXEL_SCALE * 23}
               request={requestBubbleRequest()}
-              quantity={idle && !hasGoldenSheep ? requiredFoodQty : undefined}
+              quantity={
+                idle && !hasGoldenSheep ? displayRequiredFoodQty : undefined
+              }
             />
           )}
           <Modal
