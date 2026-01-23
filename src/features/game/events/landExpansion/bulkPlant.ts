@@ -7,7 +7,7 @@ import { GameState, InventoryItemName } from "../../types/game";
 import { SEASONAL_SEEDS, SeedName, SEEDS } from "../../types/seeds";
 import { updateBoostUsed } from "../../types/updateBoostUsed";
 import { BoostName } from "../../types/game";
-import { plantCropOnPlot } from "./plant";
+import { getAffectedWeather, plantCropOnPlot } from "./plant";
 
 export type BulkPlantAction = {
   type: "seeds.bulkPlanted";
@@ -18,18 +18,23 @@ type Options = {
   state: Readonly<GameState>;
   action: BulkPlantAction;
   createdAt?: number;
+  farmId: number;
 };
 
 export const getAvailablePlots = (state: GameState) => {
-  return Object.entries(state.crops).filter(
-    ([, plot]) => plot.x !== undefined && plot.y !== undefined && !plot.crop,
-  );
+  return Object.entries(state.crops).filter(([plotId, plot]) => {
+    if (plot.x === undefined || plot.y === undefined || plot.crop) return false;
+    // Exclude plots destroyed or blocked by tornado, tsunami, greatFreeze
+    if (getAffectedWeather({ id: plotId, game: state })) return false;
+    return true;
+  });
 };
 
 export function bulkPlant({
   state,
   action,
   createdAt = Date.now(),
+  farmId,
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const { crops: plots, bumpkin } = stateCopy;
@@ -76,6 +81,7 @@ export function bulkPlant({
           game: stateCopy,
           createdAt,
           seedItem: action.seed,
+          farmId,
         });
 
         allBoostsUsed.push(...boostsUsed);

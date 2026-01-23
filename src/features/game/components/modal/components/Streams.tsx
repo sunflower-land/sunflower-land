@@ -181,7 +181,7 @@ export const Streams: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   };
   const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
   return (
-    <CloseButtonPanel bumpkinParts={NPC_WEARABLES.birdie} onClose={onClose}>
+    <CloseButtonPanel bumpkinParts={NPC_WEARABLES.streamer} onClose={onClose}>
       <div className="p-2">
         <Label className="mb-2" type="default">
           {t("streams.title")}

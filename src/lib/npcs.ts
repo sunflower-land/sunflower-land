@@ -2,6 +2,7 @@ import { Equipped } from "features/game/types/bumpkin";
 
 export type NPCName =
   | "richie"
+  | "streamer"
   | "cluck e cheese"
   | "felga" // Fruit dash
   | "minewhack" // Mine Whack
@@ -118,6 +119,17 @@ export type NPCName =
   | "neville"; // fish market
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
+  streamer: {
+    body: "Beige Farmer Potion",
+    background: "Farm Background",
+    hair: "Basic Hair",
+    shirt: "Hawaiian Shirt",
+    pants: "Farmer Pants",
+    onesie: "Rocket Onesie",
+    shoes: "Black Farmer Boots",
+    tool: "Auction Megaphone",
+    aura: "Coin Aura",
+  },
   "rocket man": {
     body: "Beige Farmer Potion",
     background: "Farm Background",

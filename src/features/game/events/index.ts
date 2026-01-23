@@ -321,6 +321,10 @@ import {
 } from "./landExpansion/skipKingdomChore";
 import { leaveFaction, LeaveFactionAction } from "./landExpansion/leaveFaction";
 import { BuyMoreDigsAction, buyMoreDigs } from "./landExpansion/buyMoreDigs";
+import {
+  claimTrackMilestone,
+  ClaimTrackMilestoneAction,
+} from "./landExpansion/claimTrackMilestone";
 
 import {
   startMinigameAttempt,
@@ -738,7 +742,8 @@ export type PlayingEvent =
   | RenewPetShrineAction
   | CollectWaterTrapAction
   | PlaceWaterTrapAction
-  | SpeedUpProcessingAction;
+  | SpeedUpProcessingAction
+  | ClaimTrackMilestoneAction;
 
 export type LocalVisitingEvent =
   | CollectGarbageAction
@@ -872,6 +877,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "processedResource.processed": processProcessedResource,
   "processedResource.collected": collectProcessedResource,
   "bumpkin.feed": feedBumpkin,
+  "trackMilestone.claimed": claimTrackMilestone,
   "skill.chosen": choseSkill,
   "skills.reset": resetSkills,
   "seed.bought": seedBought,

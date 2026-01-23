@@ -88,6 +88,7 @@ describe("bulkHarvest", () => {
       action: {
         type: "crops.bulkHarvested",
       },
+      farmId: 1,
     });
 
     expect(newState.inventory.Sunflower?.toNumber()).toBe(7);
@@ -139,6 +140,7 @@ describe("bulkHarvest", () => {
         action: {
           type: "crops.bulkHarvested",
         },
+        farmId: 1,
       }),
     ).toThrow(dictionary["obsidianShrine.noCrops"]);
   });
@@ -167,6 +169,7 @@ describe("bulkHarvest", () => {
         action: {
           type: "crops.bulkHarvested",
         },
+        farmId: 1,
       }),
     ).toThrow(dictionary["obsidianShrine.noCrops"]);
   });
@@ -196,6 +199,7 @@ describe("bulkHarvest", () => {
       action: {
         type: "crops.bulkHarvested",
       },
+      farmId: 1,
     });
 
     expect(newState.aoe).toBeDefined();
@@ -209,6 +213,7 @@ describe("bulkHarvest", () => {
       action: {
         type: "crops.bulkHarvested",
       },
+      farmId: 1,
     });
 
     expect(newState.farmActivity["Sunflower Harvested"]).toBe(2);
@@ -231,6 +236,7 @@ describe("bulkHarvest", () => {
       action: {
         type: "crops.bulkHarvested",
       },
+      farmId: 1,
     });
 
     expect(newState.inventory.Sunflower?.toNumber()).toBeGreaterThan(5);
@@ -274,6 +280,7 @@ describe("bulkHarvest", () => {
       action: {
         type: "crops.bulkHarvested",
       },
+      farmId: 1,
     });
 
     expect(newState.inventory.Sunflower?.toNumber()).toBeGreaterThan(5);
@@ -382,5 +389,236 @@ describe("getPlotsToHarvest", () => {
     const { readyPlots } = getCropsToHarvest(state, dateNow);
 
     expect(readyPlots).toEqual({});
+  });
+
+  it("excludes ready crops on plots affected by tornado", () => {
+    const dateNow = Date.now();
+    const state = {
+      ...GAME_STATE,
+      crops: {
+        "1": {
+          x: 0,
+          y: 0,
+          createdAt: 0,
+          crop: {
+            name: "Sunflower" as CropName,
+            plantedAt: 0,
+            boostedTime: 0,
+          },
+        },
+        "2": {
+          x: 1,
+          y: 0,
+          createdAt: 1,
+          crop: {
+            name: "Sunflower" as CropName,
+            plantedAt: 0,
+            boostedTime: 0,
+          },
+        },
+        "3": {
+          x: 2,
+          y: 0,
+          createdAt: 2,
+          crop: {
+            name: "Sunflower" as CropName,
+            plantedAt: 0,
+            boostedTime: 0,
+          },
+        },
+        "4": {
+          x: 3,
+          y: 0,
+          createdAt: 3,
+          crop: {
+            name: "Sunflower" as CropName,
+            plantedAt: 0,
+            boostedTime: 0,
+          },
+        },
+      },
+      calendar: {
+        dates: [],
+        tornado: { startedAt: dateNow - 1000, triggeredAt: dateNow - 500 },
+      },
+    };
+
+    const { readyPlots, readyCrops } = getCropsToHarvest(state, dateNow);
+
+    // Only "3" and "4" should be in readyPlots; "1" and "2" are destroyed by tornado
+    expect(readyPlots).toHaveProperty("3");
+    expect(readyPlots).toHaveProperty("4");
+    expect(readyPlots).not.toHaveProperty("1");
+    expect(readyPlots).not.toHaveProperty("2");
+    expect(readyCrops["Sunflower"]).toBe(2);
+  });
+
+  it("excludes ready crops on plots affected by tsunami", () => {
+    const dateNow = Date.now();
+    const state = {
+      ...GAME_STATE,
+      crops: {
+        "1": {
+          x: 0,
+          y: 0,
+          createdAt: 0,
+          crop: {
+            name: "Sunflower" as CropName,
+            plantedAt: 0,
+            boostedTime: 0,
+          },
+        },
+        "2": {
+          x: 1,
+          y: 0,
+          createdAt: 1,
+          crop: {
+            name: "Sunflower" as CropName,
+            plantedAt: 0,
+            boostedTime: 0,
+          },
+        },
+        "3": {
+          x: 2,
+          y: 0,
+          createdAt: 2,
+          crop: {
+            name: "Sunflower" as CropName,
+            plantedAt: 0,
+            boostedTime: 0,
+          },
+        },
+        "4": {
+          x: 3,
+          y: 0,
+          createdAt: 3,
+          crop: {
+            name: "Sunflower" as CropName,
+            plantedAt: 0,
+            boostedTime: 0,
+          },
+        },
+      },
+      calendar: {
+        dates: [],
+        tsunami: {
+          startedAt: dateNow - 1000,
+          triggeredAt: dateNow - 500,
+        },
+      },
+    };
+
+    const { readyPlots } = getCropsToHarvest(state, dateNow);
+
+    expect(readyPlots).toHaveProperty("3");
+    expect(readyPlots).toHaveProperty("4");
+    expect(readyPlots).not.toHaveProperty("1");
+    expect(readyPlots).not.toHaveProperty("2");
+  });
+
+  it("excludes ready crops on plots affected by greatFreeze", () => {
+    const dateNow = Date.now();
+    const state = {
+      ...GAME_STATE,
+      crops: {
+        "1": {
+          x: 0,
+          y: 0,
+          createdAt: 0,
+          crop: {
+            name: "Sunflower" as CropName,
+            plantedAt: 0,
+            boostedTime: 0,
+          },
+        },
+        "2": {
+          x: 1,
+          y: 0,
+          createdAt: 1,
+          crop: {
+            name: "Sunflower" as CropName,
+            plantedAt: 0,
+            boostedTime: 0,
+          },
+        },
+        "3": {
+          x: 2,
+          y: 0,
+          createdAt: 2,
+          crop: {
+            name: "Sunflower" as CropName,
+            plantedAt: 0,
+            boostedTime: 0,
+          },
+        },
+        "4": {
+          x: 3,
+          y: 0,
+          createdAt: 3,
+          crop: {
+            name: "Sunflower" as CropName,
+            plantedAt: 0,
+            boostedTime: 0,
+          },
+        },
+      },
+      calendar: {
+        dates: [],
+        greatFreeze: {
+          startedAt: dateNow - 1000,
+          triggeredAt: dateNow - 500,
+        },
+      },
+    };
+
+    const { readyPlots } = getCropsToHarvest(state, dateNow);
+
+    expect(readyPlots).toHaveProperty("3");
+    expect(readyPlots).toHaveProperty("4");
+    expect(readyPlots).not.toHaveProperty("1");
+    expect(readyPlots).not.toHaveProperty("2");
+  });
+
+  it("includes weather-affected plots in getCropsToHarvest when protected", () => {
+    const dateNow = Date.now();
+    const state = {
+      ...GAME_STATE,
+      crops: {
+        "1": {
+          x: 0,
+          y: 0,
+          createdAt: 0,
+          crop: {
+            name: "Sunflower" as CropName,
+            plantedAt: 0,
+            boostedTime: 0,
+          },
+        },
+        "2": {
+          x: 1,
+          y: 0,
+          createdAt: 1,
+          crop: {
+            name: "Sunflower" as CropName,
+            plantedAt: 0,
+            boostedTime: 0,
+          },
+        },
+      },
+      calendar: {
+        dates: [],
+        tornado: {
+          startedAt: dateNow - 1000,
+          triggeredAt: dateNow - 500,
+          protected: true,
+        },
+      },
+    };
+
+    const { readyPlots } = getCropsToHarvest(state, dateNow);
+
+    // When protected, getAffectedWeather returns undefined, so both plots are included
+    expect(readyPlots).toHaveProperty("1");
+    expect(readyPlots).toHaveProperty("2");
   });
 });

@@ -1053,6 +1053,10 @@ import blackHoleFlower from "assets/sfts/black_hole_flower.webp";
 import sleepyChicken from "assets/sfts/sleepy_chicken.webp";
 import astronautCow from "assets/sfts/cow_astronaut.webp";
 import astronautSheep from "assets/sfts/sheep_astronaut.webp";
+import mermaidCow from "assets/sfts/mermaid_cow.webp";
+import mermaidSheep from "assets/sfts/mermaid_sheep.webp";
+import squidChicken from "assets/sfts/squid_chicken.webp";
+import anemoneFlower from "assets/sfts/anemone_flower.webp";
 
 import petnipPlant from "assets/sfts/petnip_plant.webp";
 import petKennel from "assets/sfts/pet_kennel.webp";
@@ -5408,6 +5412,10 @@ export const ITEM_DETAILS: Items = {
     image: blackHoleFlower,
     description: translate("description.blackHoleFlower"),
   },
+  "Anemone Flower": {
+    image: anemoneFlower,
+    description: translate("description.anemoneFlower"),
+  },
   Wagon: {
     image: Wagon,
     description: "A perfect wagon for your bears to rest and relax.",
@@ -5424,6 +5432,10 @@ export const ITEM_DETAILS: Items = {
     image: sleepyChicken,
     description: translate("description.sleepyChicken"),
   },
+  "Squid Chicken": {
+    image: squidChicken,
+    description: translate("description.squidChicken"),
+  },
   "Toxic Tuft": {
     image: toxicTuft,
     description: translate("description.toxic.tuft"),
@@ -5435,6 +5447,10 @@ export const ITEM_DETAILS: Items = {
   "Astronaut Cow": {
     image: astronautCow,
     description: translate("description.astronautCow"),
+  },
+  "Mermaid Cow": {
+    image: mermaidCow,
+    description: translate("description.mermaidCow"),
   },
   "Crop Circle": {
     image: cropCircle,
@@ -5647,6 +5663,10 @@ export const ITEM_DETAILS: Items = {
   "Astronaut Sheep": {
     image: astronautSheep,
     description: translate("description.astronautSheep"),
+  },
+  "Mermaid Sheep": {
+    image: mermaidSheep,
+    description: translate("description.mermaidSheep"),
   },
   "Summer Chicken": {
     image: summerChicken,

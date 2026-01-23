@@ -40,13 +40,9 @@ export const ChapterRaffleResult: React.FC<{
     data: selectedRaffleResults,
     isLoading: raffleResultsLoading,
     error: raffleResultsError,
-  } = useSWR(
-    token && id ? ["raffle-results", id, token] : null,
-    raffleResultsFetcher,
-    {
-      revalidateOnFocus: false,
-    },
-  );
+  } = useSWR(["raffle-results", id, token], raffleResultsFetcher, {
+    revalidateOnFocus: false,
+  });
 
   useEffect(() => {
     if (selectedRaffleResults?.status === "pending") {

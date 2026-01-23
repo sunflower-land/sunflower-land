@@ -22,7 +22,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Marty: new Decimal(2),
     "Paw Prints Raffle Ticket": new Decimal(100),
     "Pet Cookie": new Decimal(100),
-    "Lifetime Farmer Banner": new Decimal(2),
     Miffy: new Decimal(2),
     Morty: new Decimal(2),
     Mog: new Decimal(2),
@@ -41,6 +40,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Giant Isopod": new Decimal(1),
     Nautilus: new Decimal(1),
     Dollocaris: new Decimal(1),
+    // "Lifetime Farmer Banner": new Decimal(1),
   },
   previousInventory: {},
   wardrobe: {},
@@ -198,6 +198,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
   farmActivity: {
     "Starlight Tuna Map Piece Found": 8,
     "Daily Reward Collected": 1,
+    "Pet Cookie Collected": 2250,
+    "Paw Prints free Milestone Claimed": 4,
   },
 
   fishing: {

@@ -182,7 +182,8 @@ export const TradeableImage: React.FC<{
 export const TradeableDescription: React.FC<{
   display: TradeableDisplay;
   tradeable?: TradeableDetails;
-}> = ({ display, tradeable }) => {
+  hideLimited?: boolean;
+}> = ({ display, tradeable, hideLimited }) => {
   const { t } = useAppTranslation();
   const now = useNow();
 
@@ -288,7 +289,18 @@ export const TradeableDescription: React.FC<{
             )}
           </div>
         </div>
-        {tradeable?.expiresAt && (
+        {tradeable?.expiresAt && hideLimited && (
+          <div className="p-2 pl-0 pb-0">
+            <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+              {t("limitsResetIn", {
+                time: secondsToString((tradeable.expiresAt - now) / 1000, {
+                  length: "short",
+                }),
+              })}
+            </Label>
+          </div>
+        )}
+        {tradeable?.expiresAt && !hideLimited && (
           <div className="p-2 pl-0 pb-0">
             <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
               {`${secondsToString((tradeable.expiresAt - now) / 1000, {
@@ -335,11 +347,16 @@ export const TradeableDescription: React.FC<{
 export const TradeableInfo: React.FC<{
   display: TradeableDisplay;
   tradeable?: TradeableDetails;
-}> = ({ display, tradeable }) => {
+  hideLimited?: boolean;
+}> = ({ display, tradeable, hideLimited }) => {
   return (
     <>
       <TradeableImage display={display} supply={tradeable?.supply} />
-      <TradeableDescription display={display} tradeable={tradeable} />
+      <TradeableDescription
+        display={display}
+        tradeable={tradeable}
+        hideLimited={hideLimited}
+      />
       {display.type === "collectibles" &&
         isTradeResource(display.name as InventoryItemName) && <ResourceTaxes />}
     </>
@@ -349,7 +366,8 @@ export const TradeableInfo: React.FC<{
 export const TradeableMobileInfo: React.FC<{
   display: TradeableDisplay;
   tradeable?: TradeableDetails;
-}> = ({ display, tradeable }) => {
+  hideLimited?: boolean;
+}> = ({ display, tradeable, hideLimited }) => {
   const marketPrice = getMarketPrice({ tradeable });
   return (
     <>
@@ -360,7 +378,11 @@ export const TradeableMobileInfo: React.FC<{
           marketPrice={marketPrice}
         />
       </div>
-      <TradeableDescription display={display} tradeable={tradeable} />
+      <TradeableDescription
+        display={display}
+        tradeable={tradeable}
+        hideLimited={hideLimited}
+      />
     </>
   );
 };

@@ -17,6 +17,7 @@ describe("plantGreenhouse", () => {
           id: 1,
         },
         state: farm,
+        farmId: 1,
       }),
     ).toThrow("Greenhouse does not exist");
   });
@@ -41,6 +42,7 @@ describe("plantGreenhouse", () => {
             ],
           },
         },
+        farmId: 1,
       }),
     ).toThrow("Pot does not exist");
   });
@@ -70,6 +72,7 @@ describe("plantGreenhouse", () => {
             ],
           },
         },
+        farmId: 1,
       }),
     ).toThrow("Plant does not exist");
   });
@@ -104,6 +107,7 @@ describe("plantGreenhouse", () => {
             ],
           },
         },
+        farmId: 1,
       }),
     ).toThrow("Plant is not ready");
   });
@@ -137,6 +141,7 @@ describe("plantGreenhouse", () => {
           ],
         },
       },
+      farmId: 1,
     });
 
     expect(state.inventory.Rice).toEqual(new Decimal(1));
@@ -144,6 +149,7 @@ describe("plantGreenhouse", () => {
 
   it("clears plant", () => {
     const state = harvestGreenHouse({
+      farmId: 1,
       action: {
         type: "greenhouse.harvested",
         id: 1,
@@ -206,6 +212,7 @@ describe("plantGreenhouse", () => {
           ],
         },
       },
+      farmId: 1,
     });
 
     expect(state.farmActivity["Rice Harvested"]).toEqual(1);

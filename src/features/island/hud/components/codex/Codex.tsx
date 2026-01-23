@@ -8,6 +8,7 @@ import { SquareIcon } from "components/ui/SquareIcon";
 
 // Section Icons
 import { Fish } from "./pages/Fish";
+import { Crustaceans } from "./pages/Crustaceans";
 import { CodexCategory, CodexCategoryName } from "features/game/types/codex";
 import { MilestoneReached } from "./components/MilestoneReached";
 import { MilestoneName } from "features/game/types/milestones";
@@ -169,6 +170,15 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       icon: SUNNYSIDE.icons.fish,
       count: 0,
     },
+    ...(hasFeatureAccess(state, "CRUSTACEANS")
+      ? [
+          {
+            name: "Crustaceans" as const,
+            icon: ITEM_DETAILS["Crab Pot"].image,
+            count: 0,
+          },
+        ]
+      : []),
     {
       name: "Flowers",
       icon: ITEM_DETAILS["Red Pansy"].image,
@@ -278,6 +288,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             {currentTab === "Fish" && (
               <Fish onMilestoneReached={handleMilestoneReached} state={state} />
             )}
+            {currentTab === "Crustaceans" && <Crustaceans state={state} />}
             {currentTab === "Flowers" && (
               <Flowers
                 onMilestoneReached={handleMilestoneReached}
