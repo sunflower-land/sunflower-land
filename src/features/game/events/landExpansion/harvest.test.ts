@@ -349,8 +349,8 @@ describe("harvest", () => {
             farmId,
             itemId,
             counter,
-            chance: 1 / 20,
-            criticalHitName: "Native",
+            chance: 5,
+            criticalHitName: "Sunflower",
           })
         ) {
           return counter;
@@ -404,7 +404,7 @@ describe("harvest", () => {
       itemId,
       counter,
       chance: 50,
-      criticalHitName: "Native",
+      criticalHitName: "Sunflower Seed",
     })
       ? 2
       : 3;
