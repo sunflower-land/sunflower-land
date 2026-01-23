@@ -1,10 +1,4 @@
-import React, {
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-  type JSX,
-} from "react";
+import React, { useContext, useRef, useState, type JSX } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { Reward, CropPlot } from "features/game/types/game";
@@ -22,7 +16,6 @@ import {
 } from "features/game/events/landExpansion/harvest";
 import { NonFertilePlot } from "./components/NonFertilePlot";
 import { FertilePlot } from "./components/FertilePlot";
-import { GrowthStage } from "./components/Soil";
 import { ChestReward } from "../common/chest-reward/ChestReward";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
@@ -50,7 +43,6 @@ import { Modal } from "components/ui/Modal";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { useNow } from "lib/utils/hooks/useNow";
-import lightning from "assets/icons/lightning.png";
 
 export function getYieldColour(yieldAmount: number) {
   if (yieldAmount < 2) {
@@ -118,19 +110,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const isSeasoned = useSelector(gameService, isSeasonedPlayer);
   const [showHarvested, setShowHarvested] = useState(false);
   const [cropAmount, setCropAmount] = useState(0);
-  const [isAnimationRunning, setIsAnimationRunning] = useState(false);
-  const [isRecentlyPlanted, setIsRecentlyPlanted] = useState(false);
-  const [displayPlantedAt, setDisplayPlantedAt] = useState<number | undefined>(
-    undefined,
-  );
-  const [overrideStage, setOverrideStage] = useState<GrowthStage | undefined>(
-    undefined,
-  );
-  const plantedAtRef = useRef<number | undefined>(undefined);
-  const cropIdRef = useRef<string | undefined>(undefined);
-  const wasReadyRef = useRef<boolean>(false);
-  const cropFirstSeenAtRef = useRef<number | undefined>(undefined);
-  const wasReadyWhenFirstSeenRef = useRef<boolean | undefined>(undefined);
+
   const activityCount = useSelector(gameService, (state) => {
     const cropName = state.context.state.crops[id]?.crop?.name;
     if (!cropName) return 0;
@@ -149,7 +129,6 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const fertiliser = crops?.[id]?.fertiliser;
 
   const plot = crops[id];
-
   // Auto-end timer when crop has finished growing
   const cropPlantedAt = crop?.plantedAt;
   const cropHarvestSeconds = crop?.name
@@ -161,176 +140,6 @@ export const Plot: React.FC<Props> = ({ id }) => {
       : undefined;
 
   const now = useNow({ live: !!crop, autoEndAt: cropAutoEndAt });
-
-  // Check if crop is ready to harvest
-  const readyToHarvest =
-    !!crop && isReadyToHarvest(now, crop, CROPS[crop.name]);
-
-  // Detect when crop transitions from not ready to ready
-  useEffect(() => {
-    const currentPlantedAt = crop?.plantedAt;
-    const wasReady = wasReadyRef.current;
-    const isReady = readyToHarvest;
-
-    // Reset state when crop is removed
-    if (!crop) {
-      plantedAtRef.current = undefined;
-      cropIdRef.current = undefined;
-      cropFirstSeenAtRef.current = undefined;
-      wasReadyRef.current = false;
-      wasReadyWhenFirstSeenRef.current = undefined;
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setIsRecentlyPlanted(false);
-      setIsAnimationRunning(false);
-      setDisplayPlantedAt(undefined);
-      setOverrideStage(undefined);
-      return;
-    }
-
-    const currentCropId = crop.id;
-    const isNewCrop =
-      cropIdRef.current !== undefined && cropIdRef.current !== currentCropId;
-    const isInitialMount = plantedAtRef.current === undefined;
-    const plantedAtChanged = plantedAtRef.current !== currentPlantedAt;
-
-    // Track when we first see this crop ID
-    const isFirstTimeSeeingThisCrop =
-      cropFirstSeenAtRef.current === undefined ||
-      (cropIdRef.current !== undefined && cropIdRef.current !== currentCropId);
-    if (isFirstTimeSeeingThisCrop && currentCropId) {
-      cropFirstSeenAtRef.current = now;
-      wasReadyWhenFirstSeenRef.current = isReady;
-    }
-    const cropJustAppeared =
-      cropFirstSeenAtRef.current !== undefined &&
-      now - cropFirstSeenAtRef.current < 2000;
-
-    // Track when crop is newly planted (plantedAt or crop ID changes)
-    if ((plantedAtChanged || isNewCrop) && currentPlantedAt) {
-      // Only trigger animations if this is a new planting (not initial mount with existing ready crop)
-      // A new planting is detected by:
-      // 1. Crop ID changed (we've seen a crop before and it's different) OR
-      // 2. First time seeing this crop AND it appeared very recently (within 2 seconds) - indicates just planted
-      // 3. plantedAt changed AND not initial mount
-      // For initial mount with old ready crop, skip animation
-      const isNewPlanting =
-        isNewCrop ||
-        (isInitialMount && cropJustAppeared) ||
-        (!isInitialMount && plantedAtChanged);
-
-      // Update refs
-      plantedAtRef.current = currentPlantedAt;
-      if (cropIdRef.current !== currentCropId) {
-        cropIdRef.current = currentCropId;
-        // Reset first seen time when crop ID changes
-        cropFirstSeenAtRef.current = now;
-      }
-      wasReadyRef.current = isReady;
-
-      // If crop is instantly ready and newly planted, show seed first then transition to ready
-      // Skip if crop was already ready when first seen (prevents animation on load)
-      if (
-        isNewPlanting &&
-        isReady &&
-        crop?.name &&
-        wasReadyWhenFirstSeenRef.current !== true
-      ) {
-        // Set override stage to seedling to show seed sprite immediately
-        setOverrideStage("seedling");
-        // Keep displayPlantedAt as actual plantedAt for timer calculation
-        setDisplayPlantedAt(currentPlantedAt);
-        setIsRecentlyPlanted(true);
-
-        // After showing seed for ~800ms, transition to ready state
-        const transitionTimeout = setTimeout(() => {
-          // Clear override stage so it shows the actual ready stage
-          setOverrideStage(undefined);
-        }, 800);
-
-        // Then show lightning after additional delay (total ~1900ms from planting)
-        const lightningTimeout = setTimeout(() => {
-          setIsRecentlyPlanted(false);
-          setIsAnimationRunning(true);
-        }, 1900);
-
-        return () => {
-          clearTimeout(transitionTimeout);
-          clearTimeout(lightningTimeout);
-        };
-      } else {
-        // Normal crop or initial mount - use actual plantedAt
-        setDisplayPlantedAt(currentPlantedAt);
-        setOverrideStage(undefined);
-      }
-      return;
-    }
-
-    // Detect transition from not ready to ready
-    // This handles both normal crops finishing AND instant crops becoming ready after initial detection
-    if (!wasReady && isReady && plantedAtRef.current !== undefined) {
-      // Skip animation if crop was already ready when first seen (on initial mount)
-      if (wasReadyWhenFirstSeenRef.current === true) {
-        wasReadyRef.current = true;
-        return;
-      }
-
-      wasReadyRef.current = true;
-
-      // Check if this is an instant crop (newly planted and just became ready)
-      const isInstantCrop = cropJustAppeared && crop?.name;
-
-      if (isInstantCrop) {
-        // Set override stage to seedling to show seed sprite immediately
-        setOverrideStage("seedling");
-        setDisplayPlantedAt(currentPlantedAt);
-        setIsRecentlyPlanted(true);
-
-        // After showing seed for ~800ms, transition to ready state
-        const transitionTimeout = setTimeout(() => {
-          // Clear override stage so it shows the actual ready stage
-          setOverrideStage(undefined);
-        }, 800);
-
-        // Then show lightning after additional delay (total ~1900ms from becoming ready)
-        const lightningTimeout = setTimeout(() => {
-          setIsRecentlyPlanted(false);
-          setIsAnimationRunning(true);
-        }, 1900);
-
-        return () => {
-          clearTimeout(transitionTimeout);
-          clearTimeout(lightningTimeout);
-        };
-      } else {
-        // Normal crop finishing - just show lightning
-        setIsRecentlyPlanted(true);
-
-        const timeout = setTimeout(() => {
-          setIsRecentlyPlanted(false);
-          setIsAnimationRunning(true);
-        }, 1900);
-
-        return () => clearTimeout(timeout);
-      }
-    }
-
-    // Update wasReadyRef if crop becomes ready
-    if (isReady) {
-      wasReadyRef.current = true;
-    } else {
-      wasReadyRef.current = false;
-    }
-  }, [now, readyToHarvest, crop]);
-
-  // Handle animation duration
-  useEffect(() => {
-    if (isAnimationRunning) {
-      const timeout = setTimeout(() => {
-        setIsAnimationRunning(false);
-      }, 500);
-      return () => clearTimeout(timeout);
-    }
-  }, [isAnimationRunning]);
 
   const isFertile = isPlotFertile({
     plotIndex: id,
@@ -364,7 +173,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
         game: state,
         plot,
         createdAt: now,
-        prngArgs: { counter: activityCount, farmId },
+        prngArgs: { farmId, counter: activityCount },
       }).amount;
 
     // firework animation
@@ -407,8 +216,6 @@ export const Plot: React.FC<Props> = ({ id }) => {
   };
 
   const onClick = (seed: SeedName = selectedItem as SeedName) => {
-    const now = Date.now();
-
     // small buffer to prevent accidental double clicks
     if (now - clickedAt.current < 100) {
       return;
@@ -420,6 +227,10 @@ export const Plot: React.FC<Props> = ({ id }) => {
     if (reward) {
       return;
     }
+
+    // increase touch count if there is a reward
+    const readyToHarvest =
+      !!crop && isReadyToHarvest(now, crop, CROPS[crop.name]);
 
     if (crop?.reward && readyToHarvest) {
       if (!isSeasoned && touchCount < 1) {
@@ -512,20 +323,6 @@ export const Plot: React.FC<Props> = ({ id }) => {
       </Modal>
 
       <div onClick={() => onClick()} className="w-full h-full relative">
-        <Transition
-          show={readyToHarvest && isAnimationRunning && !isRecentlyPlanted}
-          enter="transition-opacity transition-transform duration-200"
-          enterFrom="opacity-0 translate-y-4"
-          enterTo="opacity-100 -translate-y-0"
-          leave="transition-opacity duration-100"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-          className="flex -top-2 right-0 absolute z-40 pointer-events-none"
-          as="div"
-        >
-          <img src={lightning} className="h-6 img-highlight-heavy" />
-        </Transition>
-
         {harvestCount < 3 &&
           harvestCount + 1 === Number(id) &&
           !!inventory.Shovel && (
@@ -557,12 +354,11 @@ export const Plot: React.FC<Props> = ({ id }) => {
         <FertilePlot
           cropName={crop?.name}
           plot={plot}
-          plantedAt={displayPlantedAt ?? crop?.plantedAt}
+          plantedAt={crop?.plantedAt}
           fertiliser={fertiliser}
           procAnimation={procAnimation}
           touchCount={touchCount}
           showTimers={showTimers}
-          overrideStage={overrideStage}
         />
       </div>
       {reward && (
