@@ -144,7 +144,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
           crop: crop.name,
           skills: state.bumpkin?.skills ?? {},
           prngArgs: { farmId, counter: activityCount },
-        })
+        }).reward
       : undefined);
 
   const isFertile = isPlotFertile({
