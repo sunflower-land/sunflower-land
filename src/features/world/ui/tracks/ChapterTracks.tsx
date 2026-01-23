@@ -40,6 +40,7 @@ import { GameState } from "features/game/types/game";
 import confetti from "canvas-confetti";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { NaturalImage } from "components/ui/NaturalImage";
 
 type TrackProgress = {
   points: number;
@@ -396,14 +397,19 @@ export const TrackItem: React.FC<{
       <ButtonPanel
         variant={isClaimed ? "secondary" : "primary"}
         key={milestone.points}
-        className="h-24 min-w-24 w-24 flex flex-col items-center justify-center relative"
+        className="h-24 min-w-24 w-24 flex flex-col relative"
       >
-        <div className="flex items-center justify-center mb-2">
+        <div className="flex justify-center h-[75%] items-center">
           {images.map((image) => (
-            <img key={image} src={image} className="h-12  rounded-md" />
+            <NaturalImage
+              key={image}
+              src={image}
+              className="rounded-md"
+              maxWidth={20}
+            />
           ))}
         </div>
-        <p className="text-center text-sm">{`x${amount}`}</p>
+        <p className="absolute bottom-0 left-1/2 -translate-x-1/2 text-center text-sm">{`x${amount}`}</p>
       </ButtonPanel>
     </div>
   );
