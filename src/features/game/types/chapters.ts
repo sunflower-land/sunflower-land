@@ -267,23 +267,24 @@ export function getChapterByBanner(banner: ChapterBanner): ChapterName {
   return CHAPTER_BANNERS[banner];
 }
 
+export const CHAPTER_BANNER_IMAGES: Record<ChapterBanner, string> = {
+  "Solar Flare Banner": solarFlareBanner,
+  "Dawn Breaker Banner": dawnBreakerBanner,
+  "Witches' Eve Banner": witchesEveBanner,
+  "Catch the Kraken Banner": catchTheKrakenBanner,
+  "Spring Blossom Banner": springBlossomBanner,
+  "Clash of Factions Banner": clashOfFactionsBanner,
+  "Pharaoh's Treasure Banner": pharaohsTreasureBanner,
+  "Bull Run Banner": bullsRunBanner,
+  "Winds of Change Banner": windsOfChangeBanner,
+  "Great Bloom Banner": greatBloomBanner,
+  "Better Together Banner": betterTogetherBanner,
+  "Paw Prints Banner": pawPrintsBanner,
+  "Crabs and Traps Banner": crabChapterBanner,
+};
+
 export function getChapterBannerImage(now: number) {
-  const banners: Record<ChapterBanner, string> = {
-    "Solar Flare Banner": solarFlareBanner,
-    "Dawn Breaker Banner": dawnBreakerBanner,
-    "Witches' Eve Banner": witchesEveBanner,
-    "Catch the Kraken Banner": catchTheKrakenBanner,
-    "Spring Blossom Banner": springBlossomBanner,
-    "Clash of Factions Banner": clashOfFactionsBanner,
-    "Pharaoh's Treasure Banner": pharaohsTreasureBanner,
-    "Bull Run Banner": bullsRunBanner,
-    "Winds of Change Banner": windsOfChangeBanner,
-    "Great Bloom Banner": greatBloomBanner,
-    "Better Together Banner": betterTogetherBanner,
-    "Paw Prints Banner": pawPrintsBanner,
-    "Crabs and Traps Banner": crabChapterBanner,
-  };
-  return banners[getChapterBanner(now)];
+  return CHAPTER_BANNER_IMAGES[getChapterBanner(now)];
 }
 
 function getPreviousChapter(now: number): ChapterName {

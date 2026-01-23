@@ -11,11 +11,12 @@ import { Decimal } from "decimal.js-light";
 
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { BumpkinItem } from "features/game/types/bumpkin";
 import { InventoryItemName } from "features/game/types/game";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import { CLUTTER, ClutterName } from "features/game/types/clutter";
 import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
+import { getWearableImage } from "features/game/lib/getWearableImage";
 
 const BULK_BURN_AMOUNT = 10;
 
@@ -62,22 +63,20 @@ export const Incinerator: React.FC = () => {
       }
       content={
         <>
-          {clutter.map((name: ClutterName) => (
-            <Box
-              isSelected={selectedName === name}
-              key={name}
-              onClick={() => setSelectedName(name)}
-              image={
-                !isCollectible(name)
-                  ? new URL(
-                      `/src/assets/wearables/${ITEM_IDS[name as BumpkinItem]}.webp`,
-                      import.meta.url,
-                    ).href
-                  : ITEM_DETAILS[name as InventoryItemName].image
-              }
-              count={state.inventory[name] ?? new Decimal(0)}
-            />
-          ))}
+          {clutter.map((name: ClutterName) => {
+            const image = !isCollectible(name)
+              ? getWearableImage(name as BumpkinItem)
+              : ITEM_DETAILS[name as InventoryItemName].image;
+            return (
+              <Box
+                isSelected={selectedName === name}
+                key={name}
+                onClick={() => setSelectedName(name)}
+                image={image}
+                count={state.inventory[name] ?? new Decimal(0)}
+              />
+            );
+          })}
         </>
       }
     />

@@ -11,7 +11,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "features/game/lib/crafting";
-import { ITEM_IDS } from "features/game/types/bumpkin";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getChapterTicket } from "features/game/types/chapters";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
@@ -23,6 +22,7 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { useNow } from "lib/utils/hooks/useNow";
 
 import token from "assets/icons/flower_token.webp";
+import { getWearableImage } from "features/game/lib/getWearableImage";
 
 const makeRewardAmountForLabel = ({
   order,
@@ -92,10 +92,8 @@ export const OrderCard: React.FC<OrderCardProps> = ({
                     img = ITEM_DETAILS[name].image;
                   } else {
                     img =
-                      new URL(
-                        `/src/assets/wearables/${ITEM_IDS[name]}.webp`,
-                        import.meta.url,
-                      ).href ?? SUNNYSIDE.icons.expression_confused;
+                      getWearableImage(name) ??
+                      SUNNYSIDE.icons.expression_confused;
                   }
                 }
 

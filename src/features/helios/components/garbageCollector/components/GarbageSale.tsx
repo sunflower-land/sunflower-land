@@ -13,12 +13,13 @@ import { GARBAGE, GarbageName } from "features/game/types/garbage";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { BumpkinItem } from "features/game/types/bumpkin";
 import { InventoryItemName } from "features/game/types/game";
 import {
   isCollectible,
   getItemCount,
 } from "features/game/events/landExpansion/garbageSold";
+import { getWearableImage } from "features/game/lib/getWearableImage";
 
 export const GarbageSale: React.FC = () => {
   const garbage = getKeys(GARBAGE).sort(
@@ -66,22 +67,21 @@ export const GarbageSale: React.FC = () => {
       }
       content={
         <>
-          {garbage.map((name: GarbageName) => (
-            <Box
-              isSelected={selectedName === name}
-              key={name}
-              onClick={() => setSelectedName(name)}
-              image={
-                !isCollectible(name)
-                  ? new URL(
-                      `/src/assets/wearables/${ITEM_IDS[name as BumpkinItem]}.webp`,
-                      import.meta.url,
-                    ).href
-                  : ITEM_DETAILS[name as InventoryItemName].image
-              }
-              count={getItemCount(name, state)}
-            />
-          ))}
+          {garbage.map((name: GarbageName) => {
+            const image = !isCollectible(name)
+              ? getWearableImage(name as BumpkinItem)
+              : ITEM_DETAILS[name as InventoryItemName].image;
+
+            return (
+              <Box
+                isSelected={selectedName === name}
+                key={name}
+                onClick={() => setSelectedName(name)}
+                image={image}
+                count={getItemCount(name, state)}
+              />
+            );
+          })}
         </>
       }
     />
