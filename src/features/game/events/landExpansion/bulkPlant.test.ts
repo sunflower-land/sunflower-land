@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "../../lib/constants";
 import { GameState } from "../../types/game";
-import { bulkPlant } from "./bulkPlant";
+import { bulkPlant, getAvailablePlots } from "./bulkPlant";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 
 describe("bulkPlant", () => {
@@ -296,5 +296,107 @@ describe("bulkPlant", () => {
 
     expect(plantedCrops).toHaveLength(3);
     expect(newState.farmActivity["Potato Planted"]).toBe(3);
+  });
+});
+
+describe("getAvailablePlots", () => {
+  const dateNow = Date.now();
+
+  it("excludes empty plots affected by tornado", () => {
+    // 4 plots: "1","2" are in oldest 50% (isCropDestroyed), "3","4" are not.
+    // All empty. Tornado active and not protected.
+    const state: GameState = {
+      ...INITIAL_FARM,
+      bumpkin: TEST_BUMPKIN,
+      crops: {
+        "1": { x: 0, y: 0, createdAt: 0 },
+        "2": { x: 1, y: 0, createdAt: 1 },
+        "3": { x: 2, y: 0, createdAt: 2 },
+        "4": { x: 3, y: 0, createdAt: 3 },
+      },
+      calendar: {
+        dates: [],
+        tornado: { startedAt: dateNow - 1000, triggeredAt: dateNow - 500 },
+      },
+    };
+
+    const plots = getAvailablePlots(state);
+    const plotIds = plots.map(([id]) => id);
+
+    // Only "3" and "4" should be available; "1" and "2" are destroyed by tornado
+    expect(plotIds).toEqual(["3", "4"]);
+  });
+
+  it("excludes empty plots affected by tsunami", () => {
+    const state: GameState = {
+      ...INITIAL_FARM,
+      bumpkin: TEST_BUMPKIN,
+      crops: {
+        "1": { x: 0, y: 0, createdAt: 0 },
+        "2": { x: 1, y: 0, createdAt: 1 },
+        "3": { x: 2, y: 0, createdAt: 2 },
+        "4": { x: 3, y: 0, createdAt: 3 },
+      },
+      calendar: {
+        dates: [],
+        tsunami: {
+          startedAt: dateNow - 1000,
+          triggeredAt: dateNow - 500,
+        },
+      },
+    };
+
+    const plots = getAvailablePlots(state);
+    const plotIds = plots.map(([id]) => id);
+
+    expect(plotIds).toEqual(["3", "4"]);
+  });
+
+  it("excludes empty plots affected by greatFreeze", () => {
+    const state: GameState = {
+      ...INITIAL_FARM,
+      bumpkin: TEST_BUMPKIN,
+      crops: {
+        "1": { x: 0, y: 0, createdAt: 0 },
+        "2": { x: 1, y: 0, createdAt: 1 },
+        "3": { x: 2, y: 0, createdAt: 2 },
+        "4": { x: 3, y: 0, createdAt: 3 },
+      },
+      calendar: {
+        dates: [],
+        greatFreeze: {
+          startedAt: dateNow - 1000,
+          triggeredAt: dateNow - 500,
+        },
+      },
+    };
+
+    const plots = getAvailablePlots(state);
+    const plotIds = plots.map(([id]) => id);
+
+    expect(plotIds).toEqual(["3", "4"]);
+  });
+
+  it("includes weather-affected plots when protected", () => {
+    const state: GameState = {
+      ...INITIAL_FARM,
+      bumpkin: TEST_BUMPKIN,
+      crops: {
+        "1": { x: 0, y: 0, createdAt: 0 },
+        "2": { x: 1, y: 0, createdAt: 1 },
+      },
+      calendar: {
+        dates: [],
+        tornado: {
+          startedAt: dateNow - 1000,
+          triggeredAt: dateNow - 500,
+          protected: true,
+        },
+      },
+    };
+
+    const plots = getAvailablePlots(state);
+    // When protected, getAffectedWeather returns undefined, so all empty plots are available
+    expect(plots).toHaveLength(2);
   });
 });

@@ -3,6 +3,7 @@ import { produce } from "immer";
 
 import { CropName, CROPS } from "../../types/crops";
 import { CropPlot, GameState } from "../../types/game";
+import { getAffectedWeather } from "./plant";
 import { harvestCropFromPlot, isReadyToHarvest } from "./harvest";
 import { updateBoostUsed } from "../../types/updateBoostUsed";
 import { BoostName } from "../../types/game";
@@ -24,6 +25,8 @@ export const getCropsToHarvest = (state: GameState, now = Date.now()) => {
 
   Object.entries(state.crops).forEach(([plotId, plot]) => {
     if (!plot.crop) return;
+    // Exclude plots destroyed by tornado, tsunami, greatFreeze
+    if (getAffectedWeather({ id: plotId, game: state })) return;
 
     if (isReadyToHarvest(now, plot.crop, CROPS[plot.crop.name])) {
       readyPlots[plotId] = plot;
