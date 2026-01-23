@@ -27,7 +27,10 @@ export const SimpleBox: React.FC<React.PropsWithChildren<BoxProps>> = ({
   return (
     <div onClick={onClick}>
       <div
-        className={`bg-brown-600 cursor-pointer relative ${className}`}
+        className={classNames("bg-brown-600 relative", {
+          className,
+          "cursor-pointer": !!onClick,
+        })}
         style={{
           width: `${PIXEL_SCALE * (INNER_CANVAS_WIDTH + 4)}px`,
           height: `${PIXEL_SCALE * (INNER_CANVAS_WIDTH + 4)}px`,

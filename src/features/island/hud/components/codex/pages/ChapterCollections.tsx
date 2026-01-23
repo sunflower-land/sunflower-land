@@ -2,7 +2,6 @@ import React from "react";
 import { SimpleBox } from "../SimpleBox";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { InnerPanel } from "components/ui/Panel";
 import { ChapterBanner, CHAPTERS } from "features/game/types/chapters";
@@ -12,9 +11,40 @@ import { CHAPTER_BANNER_IMAGES } from "features/game/types/chapters";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 import { CHAPTER_COLLECTIONS } from "features/game/types/collections";
+import { ResizableBar } from "components/ui/ProgressBar";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 type Props = {
   state: GameState;
+};
+
+/** Section block for Collectibles or Wearables: plain header, progress bar + counter, aligned grid. */
+const CollectionSection: React.FC<{
+  title: string;
+  owned: number;
+  total: number;
+  children: React.ReactNode;
+}> = ({ title, owned, total, children }) => {
+  const pct = total > 0 ? (owned / total) * 100 : 0;
+  return (
+    <div className="flex flex-col mb-2 rounded-sm p-1 border border-brown-600">
+      <div
+        className="flex items-center justify-between mb-2"
+        style={{ paddingLeft: `${PIXEL_SCALE * 2}px` }}
+      >
+        <span className="text-xs capitalize">{title}</span>
+        <div className="flex items-center gap-1">
+          <span className="text-xxs">{`${owned}/${total}`}</span>
+          <ResizableBar
+            percentage={pct}
+            type="progress"
+            outerDimensions={{ width: 20, height: 6 }}
+          />
+        </div>
+      </div>
+      <div className="grid grid-cols-5 sm:grid-cols-10">{children}</div>
+    </div>
+  );
 };
 
 export const ChapterCollections: React.FC<Props> = ({ state }) => {
@@ -22,7 +52,7 @@ export const ChapterCollections: React.FC<Props> = ({ state }) => {
 
   return (
     <InnerPanel className="flex flex-col h-full overflow-y-auto scrollable">
-      <div className="space-y-2 mt-1">
+      <div className="space-y-2 mt-1 px-1">
         {getKeys(CHAPTER_COLLECTIONS)
           .sort((chapterA, chapterB) => {
             const chapterBStartDate = CHAPTERS[chapterB].startDate;
@@ -37,7 +67,6 @@ export const ChapterCollections: React.FC<Props> = ({ state }) => {
             const banner: ChapterBanner = `${chapter} Banner`;
             const bannerImage = CHAPTER_BANNER_IMAGES[banner];
 
-            // Calculate owned counts
             const ownedCollectibles = collectibles.filter(
               (item) => (inventory[item]?.toNumber() ?? 0) > 0,
             ).length;
@@ -47,11 +76,9 @@ export const ChapterCollections: React.FC<Props> = ({ state }) => {
 
             const totalCollectibles = collectibles.length;
             const totalWearables = wearables.length;
-            const totalItems = totalCollectibles + totalWearables;
-            const totalOwned = ownedCollectibles + ownedWearables;
 
             return (
-              <div key={chapter} className="flex flex-col mb-3 px-1">
+              <div key={chapter} className="flex flex-col mb-3">
                 <div className="flex items-center gap-2 mb-2">
                   {bannerImage && (
                     <img
@@ -64,79 +91,55 @@ export const ChapterCollections: React.FC<Props> = ({ state }) => {
                   <Label type="default" className="capitalize">
                     {chapter}
                   </Label>
-                  <Label
-                    type={totalOwned === totalItems ? "success" : "default"}
-                    className="ml-auto"
-                  >
-                    {`${totalOwned}/${totalItems}`}
-                  </Label>
                 </div>
 
                 {totalCollectibles > 0 && (
-                  <div className="flex flex-col mb-2">
-                    <Label
-                      type={
-                        ownedCollectibles === totalCollectibles
-                          ? "success"
-                          : "default"
-                      }
-                      className="capitalize ml-1 mb-1"
-                      icon={ITEM_DETAILS["Teamwork Monument"]?.image}
-                    >
-                      {`Collectibles ${ownedCollectibles}/${totalCollectibles}`}
-                    </Label>
-                    <div className="flex flex-wrap">
-                      {collectibles.map((item) => {
-                        const itemName = item as InventoryItemName;
-                        const count = inventory[itemName]?.toNumber() ?? 0;
-                        const hasItem = count > 0;
+                  <CollectionSection
+                    title="Collectibles"
+                    owned={ownedCollectibles}
+                    total={totalCollectibles}
+                  >
+                    {collectibles.map((item) => {
+                      const itemName = item as InventoryItemName;
+                      const count = inventory[itemName]?.toNumber() ?? 0;
+                      const hasItem = count > 0;
 
-                        return (
-                          <SimpleBox
-                            key={item}
-                            silhouette={!hasItem}
-                            inventoryCount={hasItem ? count : undefined}
-                            image={ITEM_DETAILS[itemName]?.image}
-                          />
-                        );
-                      })}
-                    </div>
-                  </div>
+                      return (
+                        <SimpleBox
+                          key={item}
+                          silhouette={!hasItem}
+                          inventoryCount={hasItem ? count : undefined}
+                          image={ITEM_DETAILS[itemName]?.image}
+                        />
+                      );
+                    })}
+                  </CollectionSection>
                 )}
 
                 {totalWearables > 0 && (
-                  <div className="flex flex-col mb-2">
-                    <Label
-                      type={
-                        ownedWearables === totalWearables
-                          ? "success"
-                          : "default"
-                      }
-                      className="capitalize ml-1 mb-1"
-                      icon={SUNNYSIDE.icons.player}
-                    >
-                      {`Wearables ${ownedWearables}/${totalWearables}`}
-                    </Label>
-                    <div className="flex flex-wrap">
-                      {wearables.map((item) => {
-                        const itemName = item as BumpkinItem;
-                        const count = wardrobe[itemName] ?? 0;
-                        const hasItem = count > 0;
-                        const image = isCollectible(itemName)
-                          ? ITEM_DETAILS[itemName]?.image
-                          : getWearableImage(itemName);
+                  <CollectionSection
+                    title="Wearables"
+                    owned={ownedWearables}
+                    total={totalWearables}
+                  >
+                    {wearables.map((item) => {
+                      const itemName = item as BumpkinItem;
+                      const count = wardrobe[itemName] ?? 0;
+                      const hasItem = count > 0;
+                      const image = isCollectible(itemName)
+                        ? ITEM_DETAILS[itemName]?.image
+                        : getWearableImage(itemName);
 
-                        return (
-                          <SimpleBox
-                            key={item}
-                            silhouette={!hasItem}
-                            inventoryCount={hasItem ? count : undefined}
-                            image={image}
-                          />
-                        );
-                      })}
-                    </div>
-                  </div>
+                      return (
+                        <SimpleBox
+                          key={item}
+                          silhouette={!hasItem}
+                          inventoryCount={hasItem ? count : undefined}
+                          image={image}
+                        />
+                      );
+                    })}
+                  </CollectionSection>
                 )}
               </div>
             );
