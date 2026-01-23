@@ -2,13 +2,11 @@ import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import {
   BoostName,
-  CriticalHitName,
   CropMachineQueueItem,
   GameState,
 } from "features/game/types/game";
 import { produce } from "immer";
 import { getCropYieldAmount } from "./harvest";
-import cloneDeep from "lodash.clonedeep";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type HarvestCropMachineAction = {
@@ -20,39 +18,42 @@ type Options = {
   state: Readonly<GameState>;
   action: HarvestCropMachineAction;
   createdAt?: number;
+  farmId: number;
 };
 
 /**
  * run getCropYieldAmount for each amount times to get the yield amount per each seed
  */
-export function getPackYieldAmount(
-  state: GameState,
-  pack: CropMachineQueueItem,
-): { amount: number; boostsUsed: BoostName[] } {
+export function getPackYieldAmount({
+  state,
+  pack,
+  createdAt,
+  prngArgs,
+}: {
+  state: GameState;
+  pack: CropMachineQueueItem;
+  createdAt: number;
+  prngArgs: { farmId: number; initialCounter: number };
+}): { amount: number; boostsUsed: BoostName[] } {
   let totalYield = 0;
   const boostsUsed: BoostName[] = [];
 
-  const { criticalHit = {}, seeds, crop } = pack;
-  const criticalHitObj = cloneDeep(criticalHit);
+  const { seeds, crop } = pack;
 
-  const criticalDrop = (name: CriticalHitName) => {
-    if (criticalHitObj[name]) {
-      criticalHitObj[name]--;
-      return true;
-    }
-    return false;
-  };
+  let counter = prngArgs.initialCounter;
+  const farmId = prngArgs.farmId;
 
   for (let i = 0; i < seeds; i++) {
     const { amount, boostsUsed: cropBoostsUsed } = getCropYieldAmount({
       game: state,
       crop,
-      criticalDrop,
-      createdAt: Date.now(),
+      createdAt,
+      prngArgs: { farmId, counter },
     });
 
     totalYield += amount;
     boostsUsed.push(...cropBoostsUsed);
+    counter++;
   }
   return { amount: totalYield, boostsUsed };
 }
@@ -61,6 +62,7 @@ export function harvestCropMachine({
   state,
   action,
   createdAt = Date.now(),
+  farmId,
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const machine = stateCopy.buildings["Crop Machine"]?.[0];
@@ -90,10 +92,17 @@ export function harvestCropMachine({
 
     // Harvest the crops from pack
     const cropsInInventory = stateCopy.inventory[pack.crop] ?? new Decimal(0);
+    const initialCounter =
+      stateCopy.farmActivity[`${pack.crop} Harvested`] ?? 0;
     const { amount, boostsUsed } =
       pack.amount !== undefined
         ? { amount: pack.amount, boostsUsed: [] }
-        : getPackYieldAmount(stateCopy, pack);
+        : getPackYieldAmount({
+            state: stateCopy,
+            pack,
+            createdAt,
+            prngArgs: { farmId, initialCounter },
+          });
 
     stateCopy.inventory[pack.crop] = cropsInInventory.add(amount);
     stateCopy.farmActivity = trackFarmActivity(

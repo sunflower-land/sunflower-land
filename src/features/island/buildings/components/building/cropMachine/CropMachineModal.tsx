@@ -38,7 +38,7 @@ import oilBarrel from "assets/icons/oil_barrel.webp";
 import { Button } from "components/ui/Button";
 import Decimal from "decimal.js-light";
 import { CROP_SEEDS, CropSeedName } from "features/game/types/crops";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { _paused, _running, _idle } from "./CropMachine";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -86,7 +86,8 @@ export const ALLOWED_SEEDS = (
 const _growingCropPackIndex = (state: CropMachineState) =>
   state.context.growingCropPackIndex;
 const _inventory = (state: MachineState) => state.context.state.inventory;
-
+const _state = (state: MachineState) => state.context.state;
+const _farmId = (state: MachineState) => state.context.farmId;
 export const CropMachineModalContent: React.FC<Props> = ({
   show,
   queue,
@@ -98,13 +99,9 @@ export const CropMachineModalContent: React.FC<Props> = ({
   onAddOil,
 }) => {
   const { gameService } = useContext(Context);
-
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
-
+  const state = useSelector(gameService, _state);
+  const now = useNow();
+  const farmId = useSelector(gameService, _farmId);
   const growingCropPackIndex = useSelector(service, _growingCropPackIndex);
   const idle = useSelector(service, _idle);
   const running = useSelector(service, _running);
@@ -244,8 +241,19 @@ export const CropMachineModalContent: React.FC<Props> = ({
   ];
 
   const allowedSeeds = ALLOWED_SEEDS(state.bumpkin, inventory);
+  const initialCounter = useSelector(gameService, (state) => {
+    const cropName = selectedPack?.crop;
+    if (!cropName) return 0;
+    return state.context.state.farmActivity[`${cropName} Harvested`] ?? 0;
+  });
   const cropYield = selectedPack
-    ? (selectedPack.amount ?? getPackYieldAmount(state, selectedPack).amount)
+    ? (selectedPack.amount ??
+      getPackYieldAmount({
+        state,
+        pack: selectedPack,
+        createdAt: now,
+        prngArgs: { farmId, initialCounter },
+      }).amount)
     : 0;
 
   return (

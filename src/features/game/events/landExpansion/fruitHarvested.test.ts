@@ -113,6 +113,7 @@ describe("fruitHarvested", () => {
           index: "-1",
         },
         createdAt: dateNow,
+        farmId: 1,
       }),
     ).toThrow("Fruit patch does not exist");
   });
@@ -126,6 +127,7 @@ describe("fruitHarvested", () => {
           index: "1",
         },
         createdAt: dateNow,
+        farmId: 1,
       }),
     ).toThrow("Nothing was planted");
   });
@@ -155,6 +157,7 @@ describe("fruitHarvested", () => {
           index: "0",
         },
         createdAt: dateNow,
+        farmId: 1,
       }),
     ).toThrow("Not ready");
   });
@@ -181,6 +184,7 @@ describe("fruitHarvested", () => {
           index: "0",
         },
         createdAt: dateNow,
+        farmId: 1,
       }),
     ).toThrow("Fruit patch is not placed");
   });
@@ -210,6 +214,7 @@ describe("fruitHarvested", () => {
           index: "0",
         },
         createdAt: dateNow,
+        farmId: 1,
       }),
     ).toThrow("Fruit is still replenishing");
   });
@@ -239,6 +244,7 @@ describe("fruitHarvested", () => {
           index: "0",
         },
         createdAt: dateNow,
+        farmId: 1,
       }),
     ).toThrow("No harvest left");
   });
@@ -271,6 +277,7 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     expect(state.inventory).toEqual({
@@ -322,6 +329,7 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     expect(state.inventory.Apple).toEqual(new Decimal(1.25));
@@ -365,6 +373,7 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     expect(state.inventory.Blueberry).toEqual(new Decimal(2));
@@ -408,6 +417,7 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
@@ -456,6 +466,7 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
@@ -504,6 +515,7 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
@@ -561,6 +573,7 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
@@ -609,6 +622,7 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
@@ -657,6 +671,7 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
@@ -714,6 +729,7 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
@@ -750,6 +766,7 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     expect(state.inventory).toEqual({
@@ -787,6 +804,7 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     expect(state.farmActivity["Apple Harvested"]).toEqual(1);
@@ -827,14 +845,17 @@ describe("fruitHarvested", () => {
         index: "0",
       },
       createdAt: dateNow,
+      farmId: 1,
     });
 
     expect(state.inventory.Blueberry).toEqual(new Decimal(1.2));
   });
 
   describe("getFruitYield", () => {
+    const farmId = 1;
     it("provides no bonuses", () => {
       const { amount } = getFruitYield({
+        prngArgs: { counter: 0, farmId },
         game: TEST_FARM,
         name: "Apple",
       });
@@ -844,6 +865,7 @@ describe("fruitHarvested", () => {
 
     it("gives +.1 basic fruit yield with Fruitful Fumble skill", () => {
       const { amount } = getFruitYield({
+        prngArgs: { counter: 0, farmId },
         game: {
           ...TEST_FARM,
           bumpkin: {
@@ -860,6 +882,7 @@ describe("fruitHarvested", () => {
     });
     it("give +0.1 fruit yield when macaw is placed", () => {
       const { amount } = getFruitYield({
+        prngArgs: { counter: 0, farmId },
         game: {
           ...INITIAL_FARM,
           collectibles: {
@@ -880,6 +903,7 @@ describe("fruitHarvested", () => {
     });
     it("gives +0.2 fruit yield when macaw is placed AND has Loyal Macaw Skill", () => {
       const { amount } = getFruitYield({
+        prngArgs: { counter: 0, farmId },
         game: {
           ...INITIAL_FARM,
           bumpkin: {
@@ -904,6 +928,7 @@ describe("fruitHarvested", () => {
     });
     it("gives +0.2 fruit yield when Fruitful Bounty is claimed and Fruitful Blend is applied", () => {
       const { amount } = getFruitYield({
+        prngArgs: { counter: 0, farmId },
         game: {
           ...INITIAL_FARM,
           bumpkin: {
