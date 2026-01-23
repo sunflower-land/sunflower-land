@@ -12,6 +12,7 @@ import Spritesheet from "components/animation/SpriteAnimator";
 import { HARVEST_PROC_ANIMATION } from "features/island/plots/lib/plant";
 import {
   getCropYieldAmount,
+  getReward,
   isReadyToHarvest,
 } from "features/game/events/landExpansion/harvest";
 import { NonFertilePlot } from "./components/NonFertilePlot";
@@ -29,7 +30,7 @@ import {
   SEASONAL_SEEDS,
   SeedName,
 } from "features/game/types/seeds";
-import { getBumpkinLevel } from "features/game/lib/level";
+// import { getBumpkinLevel } from "features/game/lib/level";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getKeys } from "features/game/types/craftables";
 import { Transition } from "@headlessui/react";
@@ -40,8 +41,8 @@ import { TsunamiPlot } from "./components/TsunamiPlot";
 import { GreatFreezePlot } from "./components/GreatFreezePlot";
 import { SeasonalSeed } from "./components/SeasonalSeed";
 import { Modal } from "components/ui/Modal";
-import { hasReputation, Reputation } from "features/game/lib/reputation";
-import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
+// import { hasReputation, Reputation } from "features/game/lib/reputation";
+// import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { useNow } from "lib/utils/hooks/useNow";
 
 export function getYieldColour(yieldAmount: number) {
@@ -78,13 +79,17 @@ const selectCropsSold = (state: MachineState) =>
   state.context.state.farmActivity?.["Sunflower Sold"] ?? 0;
 
 // A player that has been vetted and is engaged in the season.
-const isSeasonedPlayer = (state: MachineState): boolean =>
+const isSeasonedPlayer = (_state: MachineState): boolean => {
+  return false;
   // - level 60+
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 60 &&
-  // - verified (personhood verification)
-  (state.context.verified || isFaceVerified({ game: state.context.state })) &&
-  // - has grower reputation
-  hasReputation({ game: state.context.state, reputation: Reputation.Grower });
+  // return (
+  //   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 60 &&
+  //   // - verified (personhood verification)
+  //   (state.context.verified || isFaceVerified({ game: state.context.state })) &&
+  //   // - has grower reputation
+  //   hasReputation({ game: state.context.state, reputation: Reputation.Grower })
+  // );
+};
 
 interface Props {
   id: string;
@@ -97,7 +102,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const [procAnimation, setProcAnimation] = useState<JSX.Element>();
   const [touchCount, setTouchCount] = useState(0);
   const [showSeasonalSeed, setShowSeasonalSeed] = useState(false);
-  const [reward, setReward] = useState<Omit<Reward, "sfl">>();
+  const [reward, setReward] = useState<Reward>();
   const clickedAt = useRef<number>(0);
 
   const crops = useSelector(gameService, _crops, (prev, next) => {
@@ -130,7 +135,18 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
   const plot = crops[id];
 
-  const now = useNow({ live: !!crop });
+  const now = useNow({ live: true });
+
+  // Calculate expected reward for UI preview (captcha gate for non-seasoned players)
+  const expectedReward =
+    crop?.reward ??
+    (crop && isReadyToHarvest(now, crop, CROPS[crop.name])
+      ? getReward({
+          crop: crop.name,
+          skills: state.bumpkin?.skills ?? {},
+          prngArgs: { farmId, counter: activityCount },
+        })
+      : undefined);
 
   const isFertile = isPlotFertile({
     plotIndex: id,
@@ -207,8 +223,21 @@ export const Plot: React.FC<Props> = ({ id }) => {
   };
 
   const onClick = (seed: SeedName = selectedItem as SeedName) => {
+    const readyToHarvest =
+      !!crop && isReadyToHarvest(now, crop, CROPS[crop.name]);
+    const wantsToPlant = !crop && seed && isCropSeed(seed);
+
     // small buffer to prevent accidental double clicks
-    if (now - clickedAt.current < 100) {
+    // Allow clicks when clickedAt.current is 0 (initial state) or when >= 100ms have passed
+    // Exception: Allow immediate planting when plot is empty (enables quick harvest -> plant flow)
+    const timeSinceLastClick = now - clickedAt.current;
+    const allowImmediatePlant = !crop && wantsToPlant;
+
+    if (
+      clickedAt.current > 0 &&
+      timeSinceLastClick < 100 &&
+      !allowImmediatePlant
+    ) {
       return;
     }
 
@@ -219,25 +248,16 @@ export const Plot: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    // increase touch count if there is a reward
-    const readyToHarvest =
-      !!crop && isReadyToHarvest(now, crop, CROPS[crop.name]);
-
-    if (crop?.reward && readyToHarvest) {
-      if (!isSeasoned && touchCount < 1) {
-        // Add to touch count for reward pickup
-        setTouchCount((count) => count + 1);
+    // Handle reward flow (mirrors Tree.tsx pattern)
+    if (expectedReward && readyToHarvest) {
+      // For non-seasoned players with a reward, show captcha first
+      if (!isSeasoned) {
+        setReward(expectedReward);
         return;
       }
 
-      // They have touched enough!
-      if (isSeasoned) {
-        gameService.send("cropReward.collected", { plotIndex: id });
-        harvestCrop(plot);
-      } else {
-        setReward(crop.reward);
-      }
-
+      // Seasoned players - just harvest (reward applied in harvest)
+      harvestCrop(plot);
       return;
     }
 
@@ -296,9 +316,8 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
   const onCollectReward = (success: boolean) => {
     setReward(undefined);
-    setTouchCount(0);
 
-    if (success && crop) {
+    if (success) {
       harvestCrop(plot);
     }
   };
@@ -357,9 +376,9 @@ export const Plot: React.FC<Props> = ({ id }) => {
           collectedItem={crop?.name}
           reward={reward}
           onCollected={onCollectReward}
-          onOpen={() =>
-            gameService.send("cropReward.collected", { plotIndex: id })
-          }
+          onOpen={() => {
+            // No-op - reward is applied in harvestCrop(), this is just for the chest animation
+          }}
         />
       )}
 

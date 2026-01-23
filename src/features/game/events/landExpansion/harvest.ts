@@ -4,6 +4,8 @@ import {
   CriticalHitName,
   GameState,
   PlantedCrop,
+  Reward,
+  Skills,
   TemperateSeasonName,
 } from "../../types/game";
 import {
@@ -844,6 +846,54 @@ export function getCropYieldAmount({
   };
 }
 
+/**
+ * A random reward of items. Opened on harvest.
+ */
+export function getReward({
+  crop,
+  skills,
+  prngArgs,
+}: {
+  crop: CropName | GreenHouseCropName;
+  skills: Skills;
+  prngArgs: { farmId: number; counter: number };
+}): Reward | undefined {
+  const items: Reward["items"] = [];
+  const itemId = KNOWN_IDS[crop];
+
+  const getPrngChance = (criticalHitName: CriticalHitName, chance: number) =>
+    prngChance({
+      ...prngArgs,
+      itemId,
+      chance,
+      criticalHitName,
+    });
+
+  if (
+    skills["Golden Sunflower"] &&
+    crop === "Sunflower" &&
+    getPrngChance("Golden Sunflower", 1 / 7)
+  ) {
+    items.push({
+      amount: 0.35,
+      name: "Gold",
+    });
+  }
+
+  // 1 out of 20 chance
+  if (getPrngChance(crop, 5)) {
+    const seedName: SeedName = `${crop} Seed`;
+    const amount = getPrngChance(seedName, 50) ? 2 : 3;
+    // Return the same seed for them as a reward
+    items.push({
+      amount,
+      name: seedName,
+    });
+  }
+
+  return items.length > 0 ? { items } : undefined;
+}
+
 export function harvestCropFromPlot({
   plotId,
   game,
@@ -886,7 +936,7 @@ export function harvestCropFromPlot({
     throw new Error("Nothing was planted");
   }
 
-  const { name: cropName, plantedAt, reward } = plot.crop;
+  const { name: cropName, plantedAt } = plot.crop;
 
   const counter = game.farmActivity[`${cropName} Harvested`] ?? 0;
 
@@ -905,6 +955,14 @@ export function harvestCropFromPlot({
   if (createdAt - plantedAt < harvestSeconds * 1000) {
     throw new Error("Not ready");
   }
+
+  const reward =
+    plot.crop.reward ??
+    getReward({
+      crop: cropName,
+      skills: bumpkin.skills ?? {},
+      prngArgs: { farmId, counter },
+    });
 
   if (reward) {
     if (reward.coins) {

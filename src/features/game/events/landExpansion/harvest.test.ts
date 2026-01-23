@@ -1,9 +1,11 @@
 import Decimal from "decimal.js-light";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { CropPlot, GameState } from "features/game/types/game";
+import { CropPlot, GameState, Skills } from "features/game/types/game";
 import { harvest } from "./harvest";
 import { CROPS } from "features/game/types/crops";
+import { prngChance } from "lib/prng";
+import { KNOWN_IDS } from "features/game/types";
 
 const dateNow = Date.now();
 const GAME_STATE: GameState = {
@@ -331,85 +333,87 @@ describe("harvest", () => {
     expect(state.inventory.Sunflower).toEqual(new Decimal(1.4));
   });
 
-  it("collects a coins reward", () => {
-    const { crops } = GAME_STATE;
-    const plot = (crops as Record<number, CropPlot>)[0];
-
-    const state = harvest({
-      state: {
-        ...GAME_STATE,
-        coins: 0,
-        crops: {
-          0: {
-            ...plot,
-            crop: {
-              name: "Sunflower",
-              plantedAt: dateNow - 2 * 60 * 1000,
-              reward: {
-                coins: 1,
-                items: [],
-              },
-            },
-          },
-        },
-      },
-      action: {
-        type: "crop.harvested",
-
-        index: "0",
-      },
-      createdAt: dateNow,
-    });
-
-    expect(state.coins).toEqual(1);
-  });
-
   it("collects item rewards", () => {
     const { crops } = GAME_STATE;
     const plot = (crops as Record<number, CropPlot>)[0];
+    const farmId = 1;
+    const itemId = KNOWN_IDS["Sunflower"];
+
+    // Find a counter where Native skill (1/20) grants seed reward for Sunflower harvest.
+    // Search range must be large enough for 1/20 chance.
+    const SEARCH_RANGE = 100_000;
+    function findNativeRewardCounter(): number {
+      for (let counter = 0; counter < SEARCH_RANGE; counter++) {
+        if (
+          prngChance({
+            farmId,
+            itemId,
+            counter,
+            chance: 1 / 20,
+            criticalHitName: "Native",
+          })
+        ) {
+          return counter;
+        }
+      }
+      return -1;
+    }
+
+    const counter = findNativeRewardCounter();
+    if (counter < 0) {
+      throw new Error(
+        `Could not find counter where Native skill grants seed reward in ${SEARCH_RANGE} attempts`,
+      );
+    }
 
     const state = harvest({
+      farmId,
       state: {
         ...GAME_STATE,
         inventory: {
           Potato: new Decimal(2),
           "Pumpkin Seed": new Decimal(5),
         },
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: { Native: 1 } as Skills,
+        },
+        farmActivity: {
+          "Sunflower Harvested": counter,
+        },
         crops: {
           0: {
             ...plot,
             crop: {
               name: "Sunflower",
               plantedAt: dateNow - 2 * 60 * 1000,
-              reward: {
-                items: [
-                  {
-                    amount: 1,
-                    name: "Pumpkin Seed",
-                  },
-                  {
-                    amount: 3,
-                    name: "Carrot Seed",
-                  },
-                ],
-              },
             },
           },
         },
       },
       action: {
         type: "crop.harvested",
-
         index: "0",
       },
       createdAt: dateNow,
     });
 
+    // Native reward: 2 or 3 Sunflower Seed (same prng; when 1/20 hits, 50 check also hits → 2)
+    const nativeSeedAmount = prngChance({
+      farmId,
+      itemId,
+      counter,
+      chance: 50,
+      criticalHitName: "Native",
+    })
+      ? 2
+      : 3;
+
     expect(state.inventory).toEqual({
       Potato: new Decimal(2),
-      "Pumpkin Seed": new Decimal(6),
-      "Carrot Seed": new Decimal(3),
+      "Pumpkin Seed": new Decimal(5),
       Sunflower: new Decimal(1),
+      "Sunflower Seed": new Decimal(nativeSeedAmount),
     });
   });
 
