@@ -27,7 +27,7 @@ export function retryFish({
 
     const hasFreeAttempt =
       isCollectibleBuilt({ name: "Anemone Flower", game }) &&
-      !game.fishing.wharf.freeAttemptUsed;
+      !game.fishing.wharf.freePuzzleAttemptUsed;
 
     if (!hasFreeAttempt) {
       if (game.coins < FISH_RETRY_COST) {
@@ -35,7 +35,7 @@ export function retryFish({
       }
       game.coins = game.coins - FISH_RETRY_COST;
     } else {
-      game.fishing.wharf.freeAttemptUsed = true;
+      game.fishing.wharf.freePuzzleAttemptUsed = true;
       game.boostsUsedAt = updateBoostUsed({
         game,
         boostNames: ["Anemone Flower"],

@@ -39,6 +39,6 @@ describe("retryFish", () => {
     });
 
     expect(state.coins).toEqual(0);
-    expect(state.fishing.wharf.freeAttemptUsed).toEqual(true);
+    expect(state.fishing.wharf.freePuzzleAttemptUsed).toEqual(true);
   });
 });

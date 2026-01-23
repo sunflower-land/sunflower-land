@@ -1292,7 +1292,7 @@ type FishingSpot = {
   caught?: Partial<Record<InventoryItemName, number>>;
   guaranteedCatch?: FishName;
   maps?: Partial<Record<MarineMarvelName, number>>;
-  freeAttemptUsed?: boolean;
+  freePuzzleAttemptUsed?: boolean;
   /**
    * Number of reels used for this cast. When omitted, defaults to 1.
    */
