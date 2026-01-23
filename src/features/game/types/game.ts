@@ -118,6 +118,7 @@ import { PetShopItemName } from "./petShop";
 import { League } from "features/leagues/leagues";
 import { Buff, BuffName } from "./buffs";
 import { CrustaceanChum, CrustaceanName, WaterTrapName } from "./crustaceans";
+import { ChapterBuffCurrency } from "../events/landExpansion/buyChapterBuff";
 
 export type Reward = {
   coins?: number;
@@ -1970,6 +1971,16 @@ export interface GameState {
   };
   megastore?: {
     boughtAt: Partial<Record<ChapterTierItemName, number>>;
+    buffs?: Partial<
+      Record<
+        ChapterName,
+        {
+          count: number;
+          power: number;
+          bought: Partial<Record<ChapterBuffCurrency, number>>;
+        }
+      >
+    >;
   };
   withdrawals?: {
     amount: number;

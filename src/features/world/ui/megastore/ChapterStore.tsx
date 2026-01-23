@@ -26,6 +26,8 @@ import { FACTION_SHOP_KEYS } from "features/game/types/factionShop";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
 import { GameState } from "features/game/types/game";
 import { useNow } from "lib/utils/hooks/useNow";
+import { hasFeatureAccess } from "lib/flags";
+import { ChapterBuffs } from "../tracks/ChapterBuffs";
 
 // type guard for WearablesItem | CollectiblesItem
 export const isWearablesItem = (
@@ -140,11 +142,7 @@ export const ChapterStore: React.FC<{
           })}
         </Label>
       </div>
-      <div
-        className={classNames("flex flex-col p-2 pt-1", {
-          ["max-h-[400px] overflow-y-auto scrollable"]: !readonly,
-        })}
-      >
+      <div className={classNames("flex flex-col p-2 pt-1")}>
         <span className="text-xs pb-1">
           {readonly ? t("megaStore.visit") : t("megaStore.msg1")}
         </span>

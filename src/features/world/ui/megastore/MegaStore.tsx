@@ -28,6 +28,7 @@ import { useNow } from "lib/utils/hooks/useNow";
 import { ChapterTracks } from "../tracks/ChapterTracks";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { hasFeatureAccess } from "lib/flags";
+import { ChapterBuffs } from "../tracks/ChapterBuffs";
 
 interface Props {
   onClose: () => void;
@@ -108,9 +109,14 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
       container={OuterPanel}
     >
       {tab === "chapter" && (
-        <InnerPanel>
-          <ChapterStore state={state} />
-        </InnerPanel>
+        <>
+          <div className="max-h-[400px] overflow-y-auto scrollable">
+            <InnerPanel>
+              <ChapterStore state={state} />
+            </InnerPanel>
+            {hasFeatureAccess(state, "CHAPTER_TRACKS") && <ChapterBuffs />}
+          </div>
+        </>
       )}
       {tab === "tracks" && <ChapterTracks onClose={onClose} />}
     </CloseButtonPanel>
