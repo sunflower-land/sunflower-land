@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router";
-import { useTranslation } from "react-i18next";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { FilterOption, FilterOptionProps } from "./FilterOption";
@@ -14,25 +13,49 @@ import {
   TraitCollection,
   TraitKey,
   getTraitParamKeys,
+  toTraitValueId,
 } from "features/marketplace/lib/marketplaceFilters";
 import {
   BUD_TRAIT_GROUPS,
   PET_TRAIT_GROUPS,
   TraitGroupDefinition,
 } from "features/marketplace/lib/traitOptions";
-import { getValues } from "features/game/types/decorations";
+import { getKeys, getValues } from "features/game/types/decorations";
 import { Button } from "components/ui/Button";
+import {
+  CHAPTER_BANNER_IMAGES,
+  ChapterBanner,
+  hasChapterEnded,
+} from "features/game/types/chapters";
+import { CHAPTER_COLLECTIONS } from "features/game/types/collections";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useNow } from "lib/utils/hooks/useNow";
+import { hasFeatureAccess } from "lib/flags";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+
+const _hasChapterCollectionsAccess = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "CHAPTER_COLLECTIONS");
 
 export const Filters: React.FC<{
   onClose?: () => void;
   farmId: number;
   hideLimited?: boolean;
 }> = ({ onClose, farmId, hideLimited }) => {
+  const { gameService } = useContext(Context);
+  const hasChapterCollectionsAccess = useSelector(
+    gameService,
+    _hasChapterCollectionsAccess,
+  );
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [queryParams] = useSearchParams();
   const filters = queryParams.get("filters");
-  const { t } = useTranslation();
+  const chapterParam = queryParams.get("chapter") ?? "";
+  const ownershipParam = queryParams.get("ownership") ?? "";
+  const { t } = useAppTranslation();
+  const now = useNow();
   const isWorldRoute = pathname.includes("/world");
   // Determine which collection is currently active based on the filters parameter
   let activeCollection: TraitCollection | undefined = undefined;
@@ -43,38 +66,43 @@ export const Filters: React.FC<{
   }
   const { addFilter, removeFilter, hasFilter } =
     useTraitFilters(activeCollection);
-  const [expandedTraitGroups, setExpandedTraitGroups] = React.useState<
+  const [expandedTraitGroups, setExpandedTraitGroups] = useState<
     Record<string, boolean>
   >({});
+  const [userChapterExpanded, setUserChapterExpanded] = useState(false);
+  const isChapterExpanded = !!chapterParam || userChapterExpanded;
 
   const baseUrl = `${isWorldRoute ? "/world" : ""}/marketplace`;
-  const filterTokens = React.useMemo(
-    () =>
-      (filters ?? "")
-        .split(",")
-        .map((token) => token.trim())
-        .filter(Boolean),
-    [filters],
-  );
+  const filterTokens = (filters ?? "")
+    .split(",")
+    .map((token) => token.trim())
+    .filter(Boolean);
+  const ownershipTokens = ownershipParam
+    .split(",")
+    .map((token) => token.trim())
+    .filter(Boolean);
+  const ownershipSelection = {
+    owned: ownershipTokens.includes("owned"),
+    unowned: ownershipTokens.includes("unowned"),
+  };
   const isCosmeticsActive = filters?.includes("cosmetic");
-  const cosmeticSelection = React.useMemo(
-    () => ({
-      collectibles: isCosmeticsActive
-        ? filterTokens.includes("collectibles")
-        : true,
-      wearables: isCosmeticsActive ? filterTokens.includes("wearables") : true,
-    }),
-    [filterTokens, isCosmeticsActive],
-  );
+  const cosmeticSelection = {
+    collectibles: isCosmeticsActive
+      ? filterTokens.includes("collectibles")
+      : true,
+    wearables: isCosmeticsActive ? filterTokens.includes("wearables") : true,
+  };
 
   const navigateTo = ({
     path,
     filterParams,
     closeFilters = true,
+    extraParams,
   }: {
     path: string;
     filterParams?: string;
     closeFilters?: boolean;
+    extraParams?: Record<string, string | undefined>;
   }) => {
     let url = `${baseUrl}/${path}`;
 
@@ -96,6 +124,16 @@ export const Filters: React.FC<{
           const value = queryParams.get(trait);
           if (value) {
             params.set(trait, value);
+          }
+        });
+      }
+
+      if (extraParams) {
+        Object.entries(extraParams).forEach(([key, value]) => {
+          if (value) {
+            params.set(key, value);
+          } else {
+            params.delete(key);
           }
         });
       }
@@ -231,6 +269,43 @@ export const Filters: React.FC<{
     setCosmeticSelection(nextSelection);
   };
 
+  const chapterOptions = getKeys(CHAPTER_COLLECTIONS)
+    .filter((chapter) => hasChapterEnded(chapter, now))
+    .map((chapter) => {
+      const banner: ChapterBanner = `${chapter} Banner`;
+
+      return {
+        label: chapter,
+        value: toTraitValueId(chapter),
+        icon: CHAPTER_BANNER_IMAGES[banner],
+      };
+    });
+
+  const handleChapterToggle = (value: string, checked: boolean) => {
+    if (checked) {
+      setExpandedTraitGroups({});
+      setUserChapterExpanded(true);
+      navigateTo({
+        path: "collection",
+        filterParams: "collectibles,wearables",
+        closeFilters: false,
+        extraParams: { chapter: value },
+      });
+      return;
+    }
+
+    const fallbackFilters =
+      filterTokens.length > 0
+        ? filterTokens.join(",")
+        : "collectibles,wearables";
+    navigateTo({
+      path: "collection",
+      filterParams: fallbackFilters,
+      closeFilters: false,
+      extraParams: { chapter: undefined },
+    });
+  };
+
   const filterOptions: FilterOptionProps[] = [
     // Trending
     {
@@ -341,6 +416,31 @@ export const Filters: React.FC<{
           ]
         : undefined,
     },
+    // Collections
+    ...(hasChapterCollectionsAccess
+      ? [
+          {
+            icon: SUNNYSIDE.icons.treasure,
+            label: t("marketplace.collections"),
+            onClick: () => setUserChapterExpanded((prev) => !prev),
+            isActive: isChapterExpanded && !chapterParam,
+            hasOptions: true,
+            options: isChapterExpanded
+              ? chapterOptions.map((option) => ({
+                  icon: option.icon,
+                  label: option.label,
+                  onClick: () =>
+                    handleChapterToggle(
+                      option.value,
+                      chapterParam !== option.value,
+                    ),
+                  isActive: chapterParam === option.value,
+                  hasOptions: chapterParam === option.value,
+                }))
+              : undefined,
+          },
+        ]
+      : []),
     // Buds
     {
       icon: budIcon,
@@ -427,7 +527,10 @@ export const Filters: React.FC<{
   const showApplyFiltersButton =
     activeCollection === "buds" ||
     activeCollection === "pets" ||
-    isCosmeticsActive;
+    isCosmeticsActive ||
+    !!chapterParam ||
+    ownershipSelection.owned ||
+    ownershipSelection.unowned;
 
   return (
     <>
@@ -438,7 +541,7 @@ export const Filters: React.FC<{
       </div>
       {showApplyFiltersButton && (
         <Button className="mb-1 sm:hidden" onClick={onClose}>
-          {t("Apply Filters")}
+          {t("marketplace.applyFilters")}
         </Button>
       )}
     </>

@@ -199,11 +199,10 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
         <InnerPanel>
           <div className="flex flex-col">
             {getKeys(FISH_BY_TYPE).map((type) => {
+              const chapterMarvelFish = getChapterMarvelFish(now);
               const { image: typeIcon } =
                 ITEM_DETAILS[
-                  type === "chapter"
-                    ? getChapterMarvelFish(now)
-                    : FISH_BY_TYPE[type][0]
+                  type === "chapter" ? chapterMarvelFish : FISH_BY_TYPE[type][0]
                 ];
 
               return (

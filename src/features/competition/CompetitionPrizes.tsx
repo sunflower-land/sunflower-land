@@ -8,7 +8,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CompetitionPrize, PRIZES } from "features/game/types/competitions";
-import { ITEM_IDS } from "features/game/types/bumpkin";
+import { getWearableImage } from "features/game/lib/getWearableImage";
 
 type PrizeRow = CompetitionPrize & { from: number; to?: number };
 
@@ -83,19 +83,11 @@ export const CompetitionPrizes: React.FC = () => {
                     {getKeys(prize.wearables)
                       .filter((item) => (prize.wearables[item] ?? 0) > 0)
                       .map((item, index) => {
-                        const count = prize.wearables[item];
+                        const image = getWearableImage(item);
                         return (
                           <div key={index} className="flex items-center mr-1">
                             <span className="text-xs">{`${item} `}</span>
-                            <img
-                              src={
-                                new URL(
-                                  `/src/assets/wearables/${ITEM_IDS[item]}.webp`,
-                                  import.meta.url,
-                                ).href
-                              }
-                              className="h-4 ml-0.5"
-                            />
+                            <img src={image} className="h-4 ml-0.5" />
                           </div>
                         );
                       })}
