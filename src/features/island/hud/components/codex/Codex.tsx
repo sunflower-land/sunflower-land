@@ -187,11 +187,15 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       icon: ITEM_DETAILS["Red Pansy"].image,
       count: 0,
     },
-    {
-      name: "Collections",
-      icon: SUNNYSIDE.icons.treasure,
-      count: 0,
-    },
+    ...(hasFeatureAccess(state, "CHAPTER_COLLECTIONS")
+      ? [
+          {
+            name: "Collections" as const,
+            icon: SUNNYSIDE.icons.treasure,
+            count: 0,
+          },
+        ]
+      : []),
     ...(faction
       ? [
           {
