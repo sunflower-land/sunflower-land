@@ -4311,6 +4311,7 @@
   "upgrade.unlockAllPlots": "Unlocks all plot fertility",
   "upgrade.plusPlotFertility": "+{{amount}} plot fertility",
   "upgrade.capacityIncrease": "+{{amount}} capacity",
+  "upgrade.petHouseCapacity": "+7 common pet capacity, +3 NFT pet capacity",
   "upgrade": "Upgrade",
   "animals.buy": "Buy {{animal}}",
   "capacity": "Capacity",

@@ -1541,7 +1541,10 @@ type Stores = "factionShop" | "treasureShop" | "megastore";
 export type KeysBought = Record<Stores, KeysBoughtAt>;
 
 export type AnimalBuildingKey = "henHouse" | "barn";
-export type UpgradableBuildingKey = AnimalBuildingKey | "waterWell";
+export type UpgradableBuildingKey =
+  | AnimalBuildingKey
+  | "waterWell"
+  | "petHouse";
 
 export type AnimalResource =
   | "Egg"
@@ -1912,6 +1915,7 @@ export interface GameState {
   henHouse: AnimalBuilding;
   barn: AnimalBuilding;
   waterWell: UpgradableBuilding;
+  petHouse: UpgradableBuilding;
 
   craftingBox: {
     status: "pending" | "idle" | "crafting";

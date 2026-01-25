@@ -17,7 +17,7 @@ export type UpgradeBuildingAction = {
 };
 export type UpgradableBuildingType = Extract<
   BuildingName,
-  AnimalBuildingType | "Water Well"
+  AnimalBuildingType | "Water Well" | "Pet House"
 >;
 
 type Options = {
@@ -117,10 +117,27 @@ export const BUILDING_UPGRADES: Record<
       upgradeTime: 60 * 60 * 4 * 1000,
     },
   },
+  "Pet House": {
+    1: {
+      coins: 0,
+      items: {},
+    },
+    2: {
+      coins: 0,
+      items: {},
+    },
+    3: {
+      coins: 0,
+      items: {},
+    },
+  },
 };
 
 export const makeUpgradableBuildingKey = (
-  buildingName: Extract<BuildingName, "Hen House" | "Barn" | "Water Well">,
+  buildingName: Extract<
+    BuildingName,
+    "Hen House" | "Barn" | "Water Well" | "Pet House"
+  >,
 ): UpgradableBuildingKey => {
   return buildingName
     .replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) => {

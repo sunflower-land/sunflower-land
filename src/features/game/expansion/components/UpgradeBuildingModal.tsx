@@ -129,6 +129,10 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
       return WATER_WELL_VARIANTS[state.season.season][nextLevel];
     }
 
+    if (buildingName === "Pet House") {
+      return SUNNYSIDE.building.petHouse;
+    }
+
     const biome: LandBiomeName = getCurrentBiome(state.island);
 
     return BARN_IMAGES[biome][state.season.season][nextLevel];
@@ -152,6 +156,9 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
         return t("upgrade.unlockAllPlots");
       }
       return t("upgrade.plusPlotFertility", { amount: nextLevelFertility });
+    }
+    if (buildingName === "Pet House") {
+      return t("upgrade.petHouseCapacity");
     }
     return t("upgrade.capacityIncrease", { amount: capacityIncrease });
   };
