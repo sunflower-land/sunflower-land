@@ -504,7 +504,7 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   Barn: { width: 4, height: 4 },
   "Fish Market": { width: 3, height: 3 },
   "Crafting Box": { width: 3, height: 2 },
-  "Pet House": { width: 3, height: 2 },
+  "Pet House": { width: 3, height: 3 },
 };
 
 const PROCESSING_BUILDINGS: ProcessingBuildingName[] = ["Fish Market"];
