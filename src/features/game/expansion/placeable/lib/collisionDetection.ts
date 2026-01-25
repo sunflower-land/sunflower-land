@@ -277,13 +277,13 @@ export const PET_HOUSE_BOUNDS: Record<number, BoundingBox> = {
     y: -3,
   },
   2: {
-    height: 9,
+    height: 8,
     width: 9,
     x: -4,
     y: -4,
   },
   3: {
-    height: 11,
+    height: 10,
     width: 11,
     x: -5,
     y: -5,
