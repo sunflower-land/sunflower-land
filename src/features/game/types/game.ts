@@ -1567,6 +1567,10 @@ export type UpgradableBuilding = {
   upgradedAt?: number;
 };
 
+export type PetHouseBuilding = UpgradableBuilding & {
+  pets: Partial<PlacedTypes<PetName>>;
+};
+
 export type Bank = {
   taxFreeSFL: number;
   withdrawnAmount: number;
@@ -1902,7 +1906,7 @@ export interface GameState {
   henHouse: AnimalBuilding;
   barn: AnimalBuilding;
   waterWell: UpgradableBuilding;
-  petHouse: UpgradableBuilding;
+  petHouse: PetHouseBuilding;
 
   craftingBox: {
     status: "pending" | "idle" | "crafting";

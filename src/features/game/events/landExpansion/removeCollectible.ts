@@ -10,6 +10,7 @@ import {
   TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
 import { PET_SHRINES } from "features/game/types/pets";
+import { isPetCollectible } from "./placeCollectible";
 
 export enum REMOVE_COLLECTIBLE_ERRORS {
   INVALID_COLLECTIBLE = "This collectible does not exist",
@@ -42,7 +43,9 @@ export function removeCollectible({
     const collectibleGroup =
       action.location === "home"
         ? stateCopy.home.collectibles[action.name]
-        : stateCopy.collectibles[action.name];
+        : action.location === "petHouse" && isPetCollectible(action.name)
+          ? stateCopy.petHouse.pets[action.name]
+          : stateCopy.collectibles[action.name];
 
     if (bumpkin === undefined) {
       throw new Error(REMOVE_COLLECTIBLE_ERRORS.NO_BUMPKIN);

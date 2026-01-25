@@ -1,4 +1,11 @@
-import React, { useContext, useLayoutEffect, useState } from "react";
+import React, {
+  useContext,
+  useLayoutEffect,
+  useMemo,
+  useState,
+  type JSX,
+} from "react";
+import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -11,6 +18,18 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
+import { Hud } from "features/island/hud/Hud";
+import { LandscapingHud } from "features/island/hud/LandscapingHud";
+import { Placeable } from "features/game/expansion/placeable/Placeable";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+import { Collectible } from "features/island/collectibles/Collectible";
+import {
+  COLLECTIBLES_DIMENSIONS,
+  getKeys,
+} from "features/game/types/craftables";
+import { getGameGrid } from "features/game/expansion/placeable/lib/makeGrid";
+import { PET_HOUSE_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";
+import { getObjectEntries } from "features/game/expansion/lib/utils";
 
 export const PET_HOUSE_IMAGES: Record<
   number,
@@ -22,6 +41,26 @@ export const PET_HOUSE_IMAGES: Record<
 };
 
 const _petHouse = (state: MachineState) => state.context.state.petHouse;
+const _landscaping = (state: MachineState) => state.matches("landscaping");
+const _petHousePetsPositions = (state: MachineState) => {
+  const pets = state.context.state.petHouse?.pets ?? {};
+  return {
+    pets,
+    positions: getObjectEntries(pets)
+      .flatMap(([name, value]) => value?.map((item) => ({ name, item })))
+      .filter(
+        (pet): pet is NonNullable<typeof pet> =>
+          !!(pet && pet.item.coordinates !== undefined),
+      )
+      .map(({ name, item }) => ({
+        id: item.id,
+        x: item.coordinates!.x,
+        y: item.coordinates!.y,
+        flipped: item.flipped,
+        name,
+      })),
+  };
+};
 
 export const PetHouseInside: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -32,6 +71,12 @@ export const PetHouseInside: React.FC = () => {
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
 
   const petHouse = useSelector(gameService, _petHouse);
+  const landscaping = useSelector(gameService, _landscaping);
+  const { pets, positions: petPositions } = useSelector(
+    gameService,
+    _petHousePetsPositions,
+  );
+
   const level = petHouse.level;
   const nextLevel = Math.min(level + 1, 3);
 
@@ -39,7 +84,64 @@ export const PetHouseInside: React.FC = () => {
     scrollIntoView(Section.GenesisBlock, "auto");
   }, []);
 
+  const gameGridValue = getGameGrid({
+    cropPositions: [],
+    collectiblePositions: [],
+  });
+  const gameGrid = useMemo(() => {
+    return gameGridValue;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [petPositions]);
+
   const { src: image, height, width } = PET_HOUSE_IMAGES[level];
+  const bounds = PET_HOUSE_BOUNDS[level];
+  const halfTile = 0.5 * GRID_WIDTH_PX;
+
+  const gameboardDimensions = {
+    x: 84,
+    y: 56,
+  };
+
+  // Build map placements for pets
+  const mapPlacements: Array<JSX.Element> = [];
+
+  mapPlacements.push(
+    ...getKeys(pets)
+      .filter((name) => pets[name])
+      .flatMap((name, nameIndex) => {
+        const items = pets[name]!;
+        return items
+          .filter((pet) => pet.coordinates)
+          .map((pet, itemIndex) => {
+            const { readyAt, createdAt, coordinates, id } = pet;
+            const { x, y } = coordinates!;
+            const dimensions = COLLECTIBLES_DIMENSIONS[name];
+
+            return (
+              <MapPlacement
+                key={`pet-${nameIndex}-${itemIndex}`}
+                x={x}
+                y={y}
+                height={dimensions?.height ?? 1}
+                width={dimensions?.width ?? 1}
+                z={1}
+              >
+                <Collectible
+                  location="petHouse"
+                  name={name}
+                  id={id}
+                  readyAt={readyAt ?? 0}
+                  createdAt={createdAt ?? 0}
+                  x={coordinates!.x}
+                  y={coordinates!.y}
+                  grid={gameGrid}
+                  flipped={pet.flipped}
+                />
+              </MapPlacement>
+            );
+          });
+      }),
+  );
 
   return (
     <>
@@ -54,8 +156,8 @@ export const PetHouseInside: React.FC = () => {
       <div
         className="absolute bg-[#181425]"
         style={{
-          width: `${84 * GRID_WIDTH_PX}px`,
-          height: `${56 * GRID_WIDTH_PX}px`,
+          width: `${gameboardDimensions.x * GRID_WIDTH_PX}px`,
+          height: `${gameboardDimensions.y * GRID_WIDTH_PX}px`,
           imageRendering: "pixelated",
           backgroundImage: `url(${
             EXTERIOR_ISLAND_BG[
@@ -68,23 +170,34 @@ export const PetHouseInside: React.FC = () => {
         }}
       >
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className="relative w-full h-full">
-            <Button
-              className="absolute -bottom-16"
-              onClick={() => navigate("/")}
-            >
-              {t("exit")}
-            </Button>
-
-            <img
-              src={SUNNYSIDE.icons.upgrade_disc}
-              alt="Upgrade Building"
-              className="absolute top-[18px] left-[18px] cursor-pointer z-10"
+          <div className={classNames("relative w-full h-full")}>
+            {/* Grid overlay for landscaping mode — aligned with bounds coordinate system, offset down 2 tiles */}
+            <div
+              className={classNames(
+                `absolute transition-opacity pointer-events-none z-10`,
+                {
+                  "opacity-0": !landscaping,
+                  "opacity-100": landscaping,
+                },
+              )}
               style={{
-                width: `${PIXEL_SCALE * 18}px`,
+                // Position grid relative to center, aligned with bounds coordinate system
+                // MapPlacement uses: left: calc(50% + ${GRID_WIDTH_PX * x}px), top: calc(50% - ${GRID_WIDTH_PX * y}px)
+                // Top of bounds is bounds.y + bounds.height (since y increases upward)
+                top: `calc(50% - ${GRID_WIDTH_PX * (bounds.y + bounds.height)}px)`,
+                left: `calc(50% + ${GRID_WIDTH_PX * bounds.x}px)`,
+
+                height: `${bounds.height * GRID_WIDTH_PX}px`,
+                width: `${bounds.width * GRID_WIDTH_PX}px`,
+
+                backgroundSize: `${GRID_WIDTH_PX}px ${GRID_WIDTH_PX}px`,
+                backgroundImage: `
+            linear-gradient(to right, rgb(255 255 255 / 17%) 1px, transparent 1px),
+            linear-gradient(to bottom, rgb(255 255 255 / 17%) 1px, transparent 1px)`,
               }}
-              onClick={() => setShowUpgradeModal(true)}
             />
+
+            {landscaping && <Placeable location="petHouse" />}
 
             <img
               src={image}
@@ -93,11 +206,40 @@ export const PetHouseInside: React.FC = () => {
               style={{
                 width: `${width * PIXEL_SCALE}px`,
                 height: `${height * PIXEL_SCALE}px`,
+                left: `${halfTile}px`,
               }}
             />
+
+            {/* Render placed pets */}
+            {mapPlacements.sort((a, b) => b.props.y - a.props.y)}
           </div>
+          {!landscaping && (
+            <>
+              <Button
+                className={`absolute -bottom-16 left-[18px]`}
+                onClick={() => navigate("/")}
+              >
+                {t("exit")}
+              </Button>
+
+              <img
+                src={SUNNYSIDE.icons.upgrade_disc}
+                alt="Upgrade Building"
+                className="absolute cursor-pointer z-10"
+                style={{
+                  width: `${PIXEL_SCALE * 18}px`,
+                  left: `${9 * PIXEL_SCALE}px`,
+                  top: `${-20 * PIXEL_SCALE}px`,
+                }}
+                onClick={() => setShowUpgradeModal(true)}
+              />
+            </>
+          )}
         </div>
       </div>
+
+      {!landscaping && <Hud isFarming location="petHouse" />}
+      {landscaping && <LandscapingHud location="petHouse" />}
     </>
   );
 };
