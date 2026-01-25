@@ -40,7 +40,9 @@ export function removeAll({
     const collectibles =
       action.location === "home"
         ? stateCopy.home.collectibles
-        : stateCopy.collectibles;
+        : action.location === "petHouse"
+          ? stateCopy.petHouse.pets
+          : stateCopy.collectibles;
 
     getObjectEntries(collectibles).forEach(([name, collectibleGroup]) => {
       if (collectibleGroup) {

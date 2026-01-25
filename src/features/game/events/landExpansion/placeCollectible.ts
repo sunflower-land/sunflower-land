@@ -8,7 +8,7 @@ import { PlaceableLocation } from "features/game/types/collectibles";
 import { produce } from "immer";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { MonumentName, REQUIRED_CHEERS } from "features/game/types/monuments";
-import { isPet } from "features/game/types/pets";
+import { isPet, PetName, PET_TYPES } from "features/game/types/pets";
 import {
   EXPIRY_COOLDOWNS,
   TemporaryCollectibleName,
@@ -41,6 +41,9 @@ export function isCollectibleWithTimestamps(name: CollectibleName) {
     name === "Magic Bean"
   );
 }
+
+export const isPetCollectible = (name: CollectibleName): name is PetName =>
+  name in PET_TYPES;
 
 export function placeCollectible({
   state,
@@ -111,7 +114,9 @@ export function placeCollectible({
     const collectibleItems =
       action.location === "home"
         ? (stateCopy.home.collectibles[action.name] ?? [])
-        : (stateCopy.collectibles[action.name] ?? []);
+        : action.location === "petHouse" && isPetCollectible(action.name)
+          ? (stateCopy.petHouse.pets[action.name] ?? [])
+          : (stateCopy.collectibles[action.name] ?? []);
 
     let existingCollectible = collectibleItems.find(
       (collectible) => !collectible.coordinates,
@@ -178,6 +183,11 @@ export function placeCollectible({
     // Update stateCopy with the new collectibleItems
     if (action.location === "home") {
       stateCopy.home.collectibles[action.name] = collectibleItems;
+    } else if (
+      action.location === "petHouse" &&
+      isPetCollectible(action.name)
+    ) {
+      stateCopy.petHouse.pets[action.name] = collectibleItems;
     } else {
       stateCopy.collectibles[action.name] = collectibleItems;
     }

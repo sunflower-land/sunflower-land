@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useActor, useSelector } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
@@ -49,6 +43,7 @@ import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { COMPETITION_POINTS } from "features/game/types/competitions";
 import { useNow } from "lib/utils/hooks/useNow";
+import { PET_TYPES } from "features/game/types/pets";
 
 interface Props {
   location: PlaceableLocation;
@@ -118,21 +113,14 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
   const now = useNow();
 
-  const dimensions = useMemo(() => {
-    if (placeable?.name === "Bud") {
-      return { width: 1, height: 1 };
-    } else if (placeable?.name === "Pet") {
-      return { width: 2, height: 2 };
-    } else if (placeable?.name) {
-      return {
-        ...BUILDINGS_DIMENSIONS,
-        ...COLLECTIBLES_DIMENSIONS,
-        ...ANIMAL_DIMENSIONS,
-        ...RESOURCE_DIMENSIONS,
-      }[placeable.name];
-    }
-    return { width: 0, height: 0 };
-  }, [placeable]);
+  const dimensions: Record<LandscapingPlaceable, Dimensions> = {
+    ...BUILDINGS_DIMENSIONS,
+    ...COLLECTIBLES_DIMENSIONS,
+    ...ANIMAL_DIMENSIONS,
+    ...RESOURCE_DIMENSIONS,
+    Bud: { width: 1, height: 1 },
+    Pet: { width: 2, height: 2 },
+  };
 
   const handleConfirmPlacement = useCallback(() => {
     // prevents multiple toasts while spam clicking place button
@@ -186,18 +174,19 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     }
 
     if (placeMore) {
+      const dimension = dimensions[placeable.name];
       const nextPosition = calculateNextPlacement({
         previousPosition,
         currentPosition: coordinates,
-        dimensions,
+        dimensions: dimension,
       });
       const collisionDetected = detectCollision({
         name: placeable.name,
         state,
         position: {
           ...nextPosition,
-          width: dimensions.width,
-          height: dimensions.height,
+          width: dimension.width,
+          height: dimension.height,
         },
         location,
       });
@@ -215,14 +204,13 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     }
   }, [
     child.state,
-    gameService,
-    placeable,
-    requirements,
-    maximum,
-    previousPosition,
     coordinates,
-    dimensions,
+    gameService,
     location,
+    maximum,
+    placeable,
+    previousPosition,
+    requirements,
     send,
   ]);
 
@@ -334,12 +322,15 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     );
   };
 
+  const isPetCollectible = placeable.name in PET_TYPES;
+
   const isWrongLocation =
-    location === "home" &&
-    ((!COLLECTIBLES_DIMENSIONS[placeable.name as CollectibleName] &&
-      placeable.name !== "Bud") ||
-      placeable.name in LANDSCAPING_DECORATIONS ||
-      placeable.name === "Magic Bean");
+    (location === "home" &&
+      ((!COLLECTIBLES_DIMENSIONS[placeable.name as CollectibleName] &&
+        placeable.name !== "Bud") ||
+        placeable.name in LANDSCAPING_DECORATIONS ||
+        placeable.name === "Magic Bean")) ||
+    (location === "petHouse" && !isPetCollectible);
 
   const isFoxShrineDisabled =
     placeable.name === "Fox Shrine" &&

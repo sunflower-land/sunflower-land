@@ -267,6 +267,29 @@ export const HOME_BOUNDS: Record<IslandType, BoundingBox> = {
   },
 };
 
+// Pet House bounds based on interior floor area (centered at origin)
+// Level 1: 7x6 grid, Level 2: 9x9 grid, Level 3: 11x11 grid
+export const PET_HOUSE_BOUNDS: Record<number, BoundingBox> = {
+  1: {
+    height: 6,
+    width: 7,
+    x: -3,
+    y: -3,
+  },
+  2: {
+    height: 9,
+    width: 9,
+    x: -4,
+    y: -4,
+  },
+  3: {
+    height: 11,
+    width: 11,
+    x: -5,
+    y: -5,
+  },
+};
+
 export const ANIMAL_HOUSE_BOUNDS: Record<
   AnimalBuildingKey,
   Record<number, BoundingBox>
@@ -423,6 +446,58 @@ function detectHomeCollision({
   ];
 
   return boundingBoxes.some((resourceBoundingBox) =>
+    isOverlapping(position, resourceBoundingBox),
+  );
+}
+
+function detectPetHouseCollision({
+  state,
+  position,
+  name,
+}: {
+  state: GameState;
+  position: BoundingBox;
+  name: LandscapingPlaceable;
+}) {
+  const petHouseLevel = state.petHouse?.level ?? 1;
+  const bounds = PET_HOUSE_BOUNDS[petHouseLevel];
+
+  const isOutside =
+    position.x < bounds.x ||
+    position.x + position.width > bounds.x + bounds.width ||
+    position.y > bounds.y + bounds.height ||
+    position.y - position.height < bounds.y;
+
+  if (isOutside) {
+    return true;
+  }
+
+  if (NON_COLLIDING_OBJECTS.includes(name as InventoryItemName)) {
+    return false;
+  }
+
+  const { petHouse } = state;
+  const placed = petHouse?.pets ?? {};
+
+  const collidingItems = getKeys(placed).filter(
+    (other) => !NON_COLLIDING_OBJECTS.includes(other) && other !== name,
+  );
+
+  const placeableBounds = collidingItems.flatMap((petName) => {
+    const items = placed[petName] ?? [];
+    const dimensions = PLACEABLE_DIMENSIONS[petName];
+
+    return items
+      .filter((item) => item.coordinates)
+      .map((item) => ({
+        x: item.coordinates!.x,
+        y: item.coordinates!.y,
+        height: dimensions?.height ?? 1,
+        width: dimensions?.width ?? 1,
+      }));
+  });
+
+  return placeableBounds.some((resourceBoundingBox) =>
     isOverlapping(position, resourceBoundingBox),
   );
 }
@@ -615,6 +690,10 @@ export function detectCollision({
 }) {
   if (location === "home") {
     return detectHomeCollision({ state, position, name });
+  }
+
+  if (location === "petHouse") {
+    return detectPetHouseCollision({ state, position, name });
   }
 
   const expansions = state.inventory["Basic Land"]?.toNumber() ?? 3;

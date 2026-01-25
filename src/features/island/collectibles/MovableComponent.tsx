@@ -56,6 +56,7 @@ import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { getPetImage } from "../pets/lib/petShared";
 import { budImageDomain } from "./components/Bud";
 import { useNow } from "lib/utils/hooks/useNow";
+import { isPetCollectible } from "features/game/events/landExpansion/placeCollectible";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -146,7 +147,11 @@ function getOverlappingCollectibles({
   current: { id: string; name: LandscapingPlaceable };
 }): { id: string; name: LandscapingPlaceable }[] {
   const source =
-    location === "home" ? state.home.collectibles : state.collectibles;
+    location === "home"
+      ? state.home.collectibles
+      : location === "petHouse"
+        ? state.petHouse.pets
+        : state.collectibles;
   const results: { id: string; name: LandscapingPlaceable }[] = [];
 
   getObjectEntries(source).forEach(([name, placed]) => {
@@ -315,9 +320,11 @@ export const getSelectedCollectible =
     if (!name || !isCollectible(name)) return undefined;
     return (
       location === "home"
-        ? state.context.state.home.collectibles
-        : state.context.state.collectibles
-    )[name]?.find((collectible) => collectible.id === id);
+        ? state.context.state.home.collectibles[name]
+        : location === "petHouse" && isPetCollectible(name)
+          ? state.context.state.petHouse.pets[name]
+          : state.context.state.collectibles[name]
+    )?.find((collectible) => collectible.id === id);
   };
 
 export const MoveableComponent: React.FC<
@@ -431,11 +438,13 @@ export const MoveableComponent: React.FC<
     if (!isCollectible(name)) return false;
     const collectibles =
       location === "home"
-        ? state.context.state.home.collectibles
-        : state.context.state.collectibles;
+        ? state.context.state.home.collectibles[name]
+        : location === "petHouse" && isPetCollectible(name)
+          ? state.context.state.petHouse.pets[name]
+          : state.context.state.collectibles[name];
     return (
-      collectibles[name]?.find((collectible) => collectible.id === id)
-        ?.flipped ?? false
+      collectibles?.find((collectible) => collectible.id === id)?.flipped ??
+      false
     );
   });
 
