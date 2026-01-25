@@ -4306,6 +4306,7 @@
   "upgrade.building.nextLevel": "Next Level:",
   "upgrade.intro": "Hey there bumpkin, looking to upgrade your {{building}} so you can get yourself some more {{animals}}?",
   "upgrade.intro.water.well": "Hey there Bumpkin! Looking to upgrade your {{building}} to increase fertility of your plots?",
+  "upgrade.intro.pet.house": "Hey there Bumpkin! Looking to upgrade your {{building}} to increase your pet capacity?",
   "upgrade.sheep.cows": "sheep and cows",
   "upgrade.chickens": "chickens",
   "upgrade.unlockAllPlots": "Unlocks all plot fertility",

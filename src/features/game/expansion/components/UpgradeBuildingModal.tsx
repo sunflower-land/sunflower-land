@@ -215,7 +215,9 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
                 message={t(
                   buildingName === "Water Well"
                     ? "upgrade.intro.water.well"
-                    : "upgrade.intro",
+                    : buildingName === "Pet House"
+                      ? "upgrade.intro.pet.house"
+                      : "upgrade.intro",
                   {
                     building: buildingName,
                     animals:
