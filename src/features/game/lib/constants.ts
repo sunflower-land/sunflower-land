@@ -666,6 +666,7 @@ export const INITIAL_FARM: GameState = {
   },
   petHouse: {
     level: 1,
+    pets: {},
   },
   craftingBox: {
     status: "idle",
@@ -1000,6 +1001,7 @@ export const TEST_FARM: GameState = {
   },
   petHouse: {
     level: 1,
+    pets: {},
   },
   craftingBox: {
     status: "idle",
@@ -1183,6 +1185,7 @@ export const EMPTY: GameState = {
   },
   petHouse: {
     level: 1,
+    pets: {},
   },
   craftingBox: {
     status: "idle",

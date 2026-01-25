@@ -349,6 +349,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   petHouse: {
     level: 1,
+    pets: {},
   },
   craftingBox: {
     status: "idle",
