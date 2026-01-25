@@ -3,6 +3,7 @@ import { PlaceableLocation } from "features/game/types/collectibles";
 import { CollectibleName } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
+import { isPetCollectible } from "./placeCollectible";
 
 export enum MOVE_COLLECTIBLE_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -21,19 +22,16 @@ export type MoveCollectibleAction = {
 type Options = {
   state: Readonly<GameState>;
   action: MoveCollectibleAction;
-  createdAt?: number;
 };
 
-export function moveCollectible({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options): GameState {
+export function moveCollectible({ state, action }: Options): GameState {
   return produce(state, (stateCopy) => {
     const collectibleGroup =
       action.location === "home"
         ? stateCopy.home.collectibles[action.name]
-        : stateCopy.collectibles[action.name];
+        : action.location === "petHouse" && isPetCollectible(action.name)
+          ? stateCopy.petHouse.pets[action.name]
+          : stateCopy.collectibles[action.name];
 
     if (stateCopy.bumpkin === undefined) {
       throw new Error(MOVE_COLLECTIBLE_ERRORS.NO_BUMPKIN);
