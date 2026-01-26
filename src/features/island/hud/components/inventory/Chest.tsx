@@ -348,7 +348,9 @@ export const Chest: React.FC<Props> = ({
   };
 
   const chestIsEmpty =
-    getKeys(collectibles).length === 0 && Object.values(buds).length === 0;
+    getKeys(collectibles).length === 0 &&
+    Object.values(buds).length === 0 &&
+    Object.values(petsNFTs).length === 0;
 
   if (chestIsEmpty) {
     return (
