@@ -342,6 +342,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
   };
 
   const isPetCollectible = placeable.name in PET_TYPES;
+  const isPetNFT = placeable.name === "Pet";
 
   const isWrongLocation =
     (location === "home" &&
@@ -349,7 +350,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
         placeable.name !== "Bud") ||
         placeable.name in LANDSCAPING_DECORATIONS ||
         placeable.name === "Magic Bean")) ||
-    (location === "petHouse" && !isPetCollectible);
+    (location === "petHouse" && !isPetCollectible && !isPetNFT);
 
   const isFoxShrineDisabled =
     placeable.name === "Fox Shrine" &&
