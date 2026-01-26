@@ -1417,8 +1417,6 @@
   "error.file": "Error File",
   "error.betaTestersOnly": "Beta testers only!",
   "error.cannotPlaceFoxShrine": "Fox Shrine Disabled",
-  "error.petHouseFullCommon": "Pet house is full (common pets)",
-  "error.petHouseFullNFT": "Pet house is full (NFT pets)",
   "error.congestion.one": "We are trying our best but looks like Polygon is getting a lot of traffic or you have lost your connection.",
   "error.congestion.two": "If this error continues please try changing your Metamask RPC",
   "error.connection.one": "It looks like we encountered a problem. Quite often this is just a simple connection issue. You can try again or reach out for help if the issue persists.",

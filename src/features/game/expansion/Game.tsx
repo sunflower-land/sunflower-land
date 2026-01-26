@@ -321,7 +321,8 @@ const GameContent: React.FC = () => {
       isBuildingReady(game.buildings["Hen House"]),
     PetHouse: (game) =>
       !!game.buildings["Pet House"] &&
-      isBuildingReady(game.buildings["Pet House"]),
+      isBuildingReady(game.buildings["Pet House"]) &&
+      hasFeatureAccess(game, "PET_HOUSE"),
   };
 
   const hasAccess = (pathName: string) => {
