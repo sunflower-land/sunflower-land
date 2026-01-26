@@ -130,41 +130,73 @@ export function placeCollectible({
       return stateCopy;
     }
 
-    // If no existing collectible is found, search for it in the other location, and move it to the new location
-
-    const otherCollectibleItems =
+    // If no existing collectible is found, search for it in other locations, and move it to the new location
+    // Define which locations to search based on target location
+    const otherLocations: PlaceableLocation[] =
       action.location === "home"
-        ? (stateCopy.collectibles[action.name] ?? [])
-        : (stateCopy.home.collectibles[action.name] ?? []);
+        ? ["farm", "petHouse"]
+        : action.location === "petHouse"
+          ? ["farm", "home"]
+          : ["home", "petHouse"]; // farm
 
-    const existingCollectibleIndex = otherCollectibleItems.findIndex(
-      (collectible) => !collectible.coordinates,
-    );
-    existingCollectible = otherCollectibleItems[existingCollectibleIndex];
-
-    // Move it to new location
-    if (existingCollectible) {
-      existingCollectible.coordinates = action.coordinates;
-      delete existingCollectible.removedAt;
-      if (action.location === "home") {
-        // Add to home
-        collectibleItems.push(existingCollectible);
-        stateCopy.home.collectibles[action.name] = collectibleItems;
-
-        // Remove from farm
-        otherCollectibleItems.splice(existingCollectibleIndex, 1);
-        stateCopy.collectibles[action.name] = otherCollectibleItems;
-      } else {
-        // Add to farm
-        collectibleItems.push(existingCollectible);
-        stateCopy.collectibles[action.name] = collectibleItems;
-
-        // Remove from home
-        otherCollectibleItems.splice(existingCollectibleIndex, 1);
-        stateCopy.home.collectibles[action.name] = otherCollectibleItems;
+    const getCollectiblesForLocation = (
+      loc: "farm" | "home" | "petHouse",
+    ): PlacedItem[] => {
+      switch (loc) {
+        case "home":
+          return stateCopy.home.collectibles[action.name] ?? [];
+        case "petHouse":
+          return isPetCollectible(action.name)
+            ? (stateCopy.petHouse.pets[action.name] ?? [])
+            : [];
+        case "farm":
+        default:
+          return stateCopy.collectibles[action.name] ?? [];
       }
+    };
 
-      return stateCopy;
+    const setCollectiblesForLocation = (
+      loc: "farm" | "home" | "petHouse",
+      items: PlacedItem[],
+    ) => {
+      switch (loc) {
+        case "home":
+          stateCopy.home.collectibles[action.name] = items;
+          break;
+        case "petHouse":
+          if (isPetCollectible(action.name)) {
+            stateCopy.petHouse.pets[action.name] = items;
+          }
+          break;
+        case "farm":
+        default:
+          stateCopy.collectibles[action.name] = items;
+          break;
+      }
+    };
+
+    // Search other locations for collectible without coordinates
+    for (const otherLocation of otherLocations) {
+      const otherCollectibleItems = getCollectiblesForLocation(otherLocation);
+      const existingCollectibleIndex = otherCollectibleItems.findIndex(
+        (collectible) => !collectible.coordinates,
+      );
+
+      if (existingCollectibleIndex !== -1) {
+        existingCollectible = otherCollectibleItems[existingCollectibleIndex];
+        existingCollectible.coordinates = action.coordinates;
+        delete existingCollectible.removedAt;
+
+        // Add to target location
+        collectibleItems.push(existingCollectible);
+        setCollectiblesForLocation(action.location, collectibleItems);
+
+        // Remove from source location
+        otherCollectibleItems.splice(existingCollectibleIndex, 1);
+        setCollectiblesForLocation(otherLocation, otherCollectibleItems);
+
+        return stateCopy;
+      }
     }
 
     // If no existing collectible is found, create a new one
