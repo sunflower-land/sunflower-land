@@ -33,6 +33,9 @@ import { PET_HOUSE_BOUNDS } from "features/game/expansion/placeable/lib/collisio
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { PetNFT } from "features/island/pets/PetNFT";
 import { VisitingHud } from "features/island/hud/VisitingHud";
+import { PetHouseModal } from "features/island/buildings/components/building/petHouse/PetHouseModal";
+
+import followIcon from "assets/icons/follow.webp";
 
 export const PET_HOUSE_IMAGES: Record<
   number,
@@ -74,6 +77,7 @@ export const PetHouseInside: React.FC = () => {
   const navigate = useNavigate();
 
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [showPetModal, setShowPetModal] = useState(false);
 
   const petHouse = useSelector(gameService, _petHouse);
   const landscaping = useSelector(gameService, _landscaping);
@@ -183,6 +187,11 @@ export const PetHouseInside: React.FC = () => {
         onClose={() => setShowUpgradeModal(false)}
       />
 
+      <PetHouseModal
+        show={showPetModal}
+        onClose={() => setShowPetModal(false)}
+      />
+
       <div
         className="absolute bg-[#181425]"
         style={{
@@ -243,7 +252,7 @@ export const PetHouseInside: React.FC = () => {
             {/* Render placed pets */}
             {mapPlacements.sort((a, b) => b.props.y - a.props.y)}
           </div>
-          {!landscaping && (
+          {!landscaping && !isVisiting && (
             <>
               <Button
                 className={`absolute -bottom-16 left-[18px]`}
@@ -251,6 +260,28 @@ export const PetHouseInside: React.FC = () => {
               >
                 {t("exit")}
               </Button>
+
+              <div
+                className="absolute cursor-pointer z-10 hover:img-highlight"
+                style={{
+                  width: `${PIXEL_SCALE * 18}px`,
+                  height: `${PIXEL_SCALE * 19}px`,
+                  right: `${-5 * PIXEL_SCALE}px`,
+                  top: `${-20 * PIXEL_SCALE}px`,
+                }}
+                onClick={() => setShowPetModal(true)}
+              >
+                <img className="w-full" src={SUNNYSIDE.icons.disc} />
+                <img
+                  className="absolute"
+                  src={followIcon}
+                  style={{
+                    width: `${PIXEL_SCALE * 10}px`,
+                    right: `${PIXEL_SCALE * 4}px`,
+                    top: `${PIXEL_SCALE * 4}px`,
+                  }}
+                />
+              </div>
 
               <img
                 src={SUNNYSIDE.icons.upgrade_disc}
@@ -264,6 +295,16 @@ export const PetHouseInside: React.FC = () => {
                 onClick={() => setShowUpgradeModal(true)}
               />
             </>
+          )}
+          {!landscaping && isVisiting && (
+            <Button
+              className={`absolute -bottom-16 left-[18px]`}
+              onClick={() =>
+                navigate(`/visit/${gameService.state.context.farmId}`)
+              }
+            >
+              {t("exit")}
+            </Button>
           )}
         </div>
       </div>

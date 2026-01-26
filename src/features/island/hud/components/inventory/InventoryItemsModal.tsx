@@ -60,7 +60,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
   const [currentTab, setCurrentTab] = useState<"Basket" | "Chest" | "Biomes">(
-    "Basket",
+    location === "petHouse" ? "Chest" : "Basket",
   );
   const hasBiomes = getKeys(LAND_BIOMES).some((item) =>
     (state.inventory[item] ?? new Decimal(0)).gt(0),
@@ -93,7 +93,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
   return (
     <Modal size="lg" show={show} onHide={onHide}>
       <CloseButtonPanel
-        tabs={tabs}
+        tabs={location === "petHouse" ? [chestTab] : tabs}
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
         onClose={onHide}
