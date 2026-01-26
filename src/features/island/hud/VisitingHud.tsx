@@ -54,6 +54,7 @@ export const VisitingHud: React.FC = () => {
   const [helpRequiredOnLoad] = useState({
     farm: helpRequired.tasks.farm.count,
     home: helpRequired.tasks.home.count,
+    petHouse: helpRequired.tasks.petHouse.count,
   });
 
   const [showVisitorGuide, setShowVisitorGuide] = useState(() => {
@@ -86,7 +87,8 @@ export const VisitingHud: React.FC = () => {
       !fromRoute.includes("home") &&
       !fromRoute.includes("barn") &&
       !fromRoute.includes("hen-house") &&
-      !fromRoute.includes("greenhouse")
+      !fromRoute.includes("greenhouse") &&
+      !fromRoute.includes("pet-house")
         ? fromRoute
         : "/";
 
@@ -126,6 +128,7 @@ export const VisitingHud: React.FC = () => {
             onClose={handleCloseVisitorGuide}
             farmHelpRequired={helpRequiredOnLoad.farm}
             homeHelpRequired={helpRequiredOnLoad.home}
+            petHouseHelpRequired={helpRequiredOnLoad.petHouse}
           />
         </CloseButtonPanel>
       </Modal>

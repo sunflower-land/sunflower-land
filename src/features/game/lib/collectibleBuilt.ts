@@ -2,6 +2,7 @@ import { HourglassType } from "features/island/collectibles/components/Hourglass
 import { CollectibleName, getKeys } from "../types/craftables";
 import { GameState } from "../types/game";
 import { PET_SHRINES, PetShrineName } from "../types/pets";
+import { isPetCollectible } from "../events/landExpansion/placeCollectible";
 
 export function isCollectibleBuilt({
   name,
@@ -22,7 +23,14 @@ export function isCollectibleBuilt({
       (placed) => (placed.readyAt ?? 0) <= Date.now() && placed.coordinates,
     );
 
-  return !!placedOnFarm || !!placedInHome;
+  const placedInPetHouse =
+    isPetCollectible(name) &&
+    game.petHouse.pets[name] &&
+    game.petHouse.pets[name]?.some(
+      (placed) => (placed.readyAt ?? 0) <= Date.now() && placed.coordinates,
+    );
+
+  return !!placedOnFarm || !!placedInHome || !!placedInPetHouse;
 }
 
 export type TemporaryCollectibleName = Extract<

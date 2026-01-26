@@ -20,6 +20,7 @@ import { useSelector } from "@xstate/react";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
 import { Hud } from "features/island/hud/Hud";
 import { LandscapingHud } from "features/island/hud/LandscapingHud";
+import { useVisiting } from "lib/utils/visitUtils";
 import { Placeable } from "features/game/expansion/placeable/Placeable";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Collectible } from "features/island/collectibles/Collectible";
@@ -31,6 +32,7 @@ import { getGameGrid } from "features/game/expansion/placeable/lib/makeGrid";
 import { PET_HOUSE_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { PetNFT } from "features/island/pets/PetNFT";
+import { VisitingHud } from "features/island/hud/VisitingHud";
 
 export const PET_HOUSE_IMAGES: Record<
   number,
@@ -65,6 +67,7 @@ const _petHousePetsPositions = (state: MachineState) => {
 };
 
 export const PetHouseInside: React.FC = () => {
+  const { isVisiting } = useVisiting();
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
   const [scrollIntoView] = useScrollIntoView();
@@ -265,8 +268,9 @@ export const PetHouseInside: React.FC = () => {
         </div>
       </div>
 
-      {!landscaping && <Hud isFarming location="petHouse" />}
+      {!landscaping && !isVisiting && <Hud isFarming location="petHouse" />}
       {landscaping && <LandscapingHud location="petHouse" />}
+      {isVisiting && <VisitingHud />}
     </>
   );
 };
