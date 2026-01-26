@@ -40,12 +40,26 @@ export function removeCollectible({
 }: Options) {
   return produce(state, (stateCopy) => {
     const { bumpkin } = stateCopy;
-    const collectibleGroup =
-      action.location === "home"
-        ? stateCopy.home.collectibles[action.name]
-        : action.location === "petHouse" && isPetCollectible(action.name)
-          ? stateCopy.petHouse.pets[action.name]
-          : stateCopy.collectibles[action.name];
+
+    const getCollectibleGroup = (
+      location: PlaceableLocation,
+      name: CollectibleName,
+    ) => {
+      if (location === "home") {
+        return stateCopy.home.collectibles[name];
+      } else if (location === "petHouse") {
+        if (!isPetCollectible(name)) {
+          throw new Error(
+            "Only pet collectibles can be removed from the pet house",
+          );
+        }
+        return stateCopy.petHouse.pets[name];
+      } else {
+        return stateCopy.collectibles[name];
+      }
+    };
+
+    const collectibleGroup = getCollectibleGroup(action.location, action.name);
 
     if (bumpkin === undefined) {
       throw new Error(REMOVE_COLLECTIBLE_ERRORS.NO_BUMPKIN);

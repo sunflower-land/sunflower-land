@@ -26,12 +26,25 @@ type Options = {
 
 export function moveCollectible({ state, action }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const collectibleGroup =
-      action.location === "home"
-        ? stateCopy.home.collectibles[action.name]
-        : action.location === "petHouse" && isPetCollectible(action.name)
-          ? stateCopy.petHouse.pets[action.name]
-          : stateCopy.collectibles[action.name];
+    const getCollectibleGroup = (
+      location: PlaceableLocation,
+      name: CollectibleName,
+    ) => {
+      if (location === "home") {
+        return stateCopy.home.collectibles[name];
+      } else if (location === "petHouse") {
+        if (!isPetCollectible(name)) {
+          throw new Error(
+            "Only pet collectibles can be placed in the pet house",
+          );
+        }
+        return stateCopy.petHouse.pets[name];
+      } else {
+        return stateCopy.collectibles[name];
+      }
+    };
+
+    const collectibleGroup = getCollectibleGroup(action.location, action.name);
 
     if (stateCopy.bumpkin === undefined) {
       throw new Error(MOVE_COLLECTIBLE_ERRORS.NO_BUMPKIN);
