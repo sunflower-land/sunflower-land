@@ -373,7 +373,7 @@ describe("Place Collectible", () => {
       const dateNow = Date.now();
 
       // Create 7 placed common pets (level 1 capacity)
-      const placedPets: Record<PetName, PlacedItem[]> = {
+      const placedPets: Partial<Record<PetName, PlacedItem[]>> = {
         Barkley: [{ id: "1", coordinates: { x: 0, y: 0 } }],
         Biscuit: [{ id: "2", coordinates: { x: 2, y: 0 } }],
         Cloudy: [{ id: "3", coordinates: { x: 4, y: 0 } }],
@@ -411,7 +411,7 @@ describe("Place Collectible", () => {
       const dateNow = Date.now();
 
       // Create 6 placed common pets (under level 1 capacity of 7)
-      const placedPets: Record<PetName, PlacedItem[]> = {
+      const placedPets: Partial<Record<PetName, PlacedItem[]>> = {
         Barkley: [{ id: "1", coordinates: { x: 0, y: 0 } }],
         Biscuit: [{ id: "2", coordinates: { x: 2, y: 0 } }],
         Cloudy: [{ id: "3", coordinates: { x: 4, y: 0 } }],
@@ -448,7 +448,7 @@ describe("Place Collectible", () => {
       const dateNow = Date.now();
 
       // Create 7 placed common pets (level 1 capacity, but level 2 allows 14)
-      const placedPets: Record<PetName, PlacedItem[]> = {
+      const placedPets: Partial<Record<PetName, PlacedItem[]>> = {
         Barkley: [{ id: "1", coordinates: { x: 0, y: 0 } }],
         Biscuit: [{ id: "2", coordinates: { x: 2, y: 0 } }],
         Cloudy: [{ id: "3", coordinates: { x: 4, y: 0 } }],
@@ -486,7 +486,7 @@ describe("Place Collectible", () => {
       const dateNow = Date.now();
 
       // Even with full pet house, placing on farm should work
-      const placedPets: Record<PetName, PlacedItem[]> = {
+      const placedPets: Partial<Record<PetName, PlacedItem[]>> = {
         Barkley: [{ id: "1", coordinates: { x: 0, y: 0 } }],
         Biscuit: [{ id: "2", coordinates: { x: 2, y: 0 } }],
         Cloudy: [{ id: "3", coordinates: { x: 4, y: 0 } }],
