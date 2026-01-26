@@ -68,6 +68,8 @@ const _petHousePetsPositions = (state: MachineState) => {
       })),
   };
 };
+const _biome = (state: MachineState) =>
+  getCurrentBiome(state.context.state.island);
 
 export const PetHouseInside: React.FC = () => {
   const { isVisiting } = useVisiting();
@@ -86,6 +88,7 @@ export const PetHouseInside: React.FC = () => {
     gameService,
     _petHousePetsPositions,
   );
+  const biome = useSelector(gameService, _biome);
 
   const level = petHouse.level;
   const nextLevel = Math.min(level + 1, 3);
@@ -118,18 +121,18 @@ export const PetHouseInside: React.FC = () => {
   mapPlacements.push(
     ...getKeys(pets)
       .filter((name) => pets[name])
-      .flatMap((name, nameIndex) => {
+      .flatMap((name) => {
         const items = pets[name]!;
         return items
           .filter((pet) => pet.coordinates)
-          .map((pet, itemIndex) => {
+          .map((pet) => {
             const { readyAt, createdAt, coordinates, id } = pet;
             const { x, y } = coordinates!;
             const dimensions = COLLECTIBLES_DIMENSIONS[name];
 
             return (
               <MapPlacement
-                key={`pet-${nameIndex}-${itemIndex}`}
+                key={`pet-${name}-${id}`}
                 x={x}
                 y={y}
                 height={dimensions?.height ?? 1}
@@ -198,11 +201,7 @@ export const PetHouseInside: React.FC = () => {
           width: `${gameboardDimensions.x * GRID_WIDTH_PX}px`,
           height: `${gameboardDimensions.y * GRID_WIDTH_PX}px`,
           imageRendering: "pixelated",
-          backgroundImage: `url(${
-            EXTERIOR_ISLAND_BG[
-              getCurrentBiome(gameService.getSnapshot().context.state.island)
-            ]
-          })`,
+          backgroundImage: `url(${EXTERIOR_ISLAND_BG[biome]})`,
           backgroundRepeat: "repeat",
           backgroundPosition: "center",
           backgroundSize: `${96 * PIXEL_SCALE}px ${96 * PIXEL_SCALE}px`,
