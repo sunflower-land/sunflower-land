@@ -504,7 +504,7 @@ export const PetCardContent: React.FC<{
     <div className="flex flex-col gap-2 w-2/3 sm:w-auto">
       <div className="flex flex-col gap-4">
         <Label type={"default"}>{`Food Requests`}</Label>
-        <div className="flex flex-wrap gap-1 ml-2">
+        <div className="flex flex-wrap gap-1 gap-y-4 ml-2">
           {petData.requests.food.length === 0 && <p>{`No food requests`}</p>}
           {foodItems.map(
             ({
