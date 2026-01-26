@@ -4,6 +4,7 @@ import {
   CHAPTER_TICKET_NAME,
   ChapterName,
   getCurrentChapter,
+  getChapterTicket,
   secondsLeftInChapter,
 } from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -33,6 +34,7 @@ import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { ResizableBar } from "components/ui/ProgressBar";
 import lockIcon from "assets/icons/lock.png";
+import codexIcon from "assets/icons/codex.webp";
 import { shortenCount } from "lib/utils/formatNumber";
 import { Modal } from "components/ui/Modal";
 import { Rewards } from "features/game/expansion/components/ClaimReward";
@@ -61,7 +63,8 @@ export function getTrackProgress({
   chapter: ChapterName;
 }): TrackProgress {
   const points =
-    state.farmActivity[`${CHAPTER_TICKET_NAME[chapter]} Collected`] ?? 0;
+    state.farmActivity[`${CHAPTER_TICKET_NAME[chapter]} Delivery Rewarded`] ??
+    0;
 
   const premium =
     state.farmActivity[`${chapter} premium Milestone Claimed`] ?? 0;
@@ -133,6 +136,7 @@ export const ChapterTracks: React.FC<{ onClose: () => void }> = ({
   const hasVip = hasVipAccess({ game: state });
 
   const chapter = getCurrentChapter(now);
+  const chapterTicket = getChapterTicket(now);
 
   const track = CHAPTER_TRACKS[chapter];
 
@@ -143,62 +147,77 @@ export const ChapterTracks: React.FC<{ onClose: () => void }> = ({
 
   return (
     <>
-      <InnerPanel className="flex flex-wrap justify-between mb-1">
-        <div className="flex items-center">
-          <img src={SUNNYSIDE.icons.stopwatch} className="h-8 mr-1" />
-          <div>
-            <Label type="info" className="text-xs">
-              {t("tracks.chapterEnds")}
-            </Label>
-            <p className="text-xxs ml-1">
-              {secondsToString(secondsLeftInChapter(now), {
-                length: "medium",
-              })}
+      <InnerPanel className="mb-1">
+        <div className="flex flex-wrap justify-between ">
+          <div className="flex items-start">
+            <img src={SUNNYSIDE.icons.stopwatch} className="w-6 mr-1" />
+            <div>
+              <Label type="info" className="text-xs">
+                {t("tracks.chapterEnds")}
+              </Label>
+              <p className="text-xxs ml-1">
+                {secondsToString(secondsLeftInChapter(now), {
+                  length: "medium",
+                })}
+              </p>
+            </div>
+          </div>
+          {isComplete ? (
+            <img src={medalMilestoneComplete} className="h-8" />
+          ) : (
+            <>
+              <div className="flex  items-end relative">
+                <div className="flex flex-col items-end">
+                  <ResizableBar
+                    percentage={
+                      (progress.milestone.progress /
+                        progress.milestone.requirement) *
+                      100
+                    }
+                    outerDimensions={{ width: 30, height: 8 }}
+                    type="progress"
+                  />
+                  <p className="text-xs pr-4">
+                    {`${progress.milestone.progress}/${progress.milestone.requirement}`}
+                  </p>
+                </div>
+
+                <img
+                  src={medalMilestone}
+                  style={{
+                    height: "40px",
+                    zIndex: "10",
+                    marginLeft: "-13px",
+                  }}
+                />
+                <div
+                  className="absolute text-center"
+                  style={{
+                    right: "16px",
+                    zIndex: "10",
+                    top: "11px",
+                    width: "32px",
+                  }}
+                >
+                  <p className="yield-text">{progress.milestone.number}</p>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+        <div
+          className="flex items-center pt-1 mt-1"
+          style={{
+            borderTop: "1px solid #c28569",
+          }}
+        >
+          <img src={codexIcon} className="w-6 mr-[8px]" />
+          <div className="flex-1">
+            <p className="text-xxs">
+              Complete {chapterTicket} deliveries to earn points.
             </p>
           </div>
         </div>
-        {isComplete ? (
-          <img src={medalMilestoneComplete} className="h-8" />
-        ) : (
-          <>
-            <div className="flex  items-end relative">
-              <div className="flex flex-col items-end">
-                <ResizableBar
-                  percentage={
-                    (progress.milestone.progress /
-                      progress.milestone.requirement) *
-                    100
-                  }
-                  outerDimensions={{ width: 30, height: 8 }}
-                  type="progress"
-                />
-                <p className="text-xs pr-4">
-                  {`${progress.milestone.progress}/${progress.milestone.requirement}`}
-                </p>
-              </div>
-
-              <img
-                src={medalMilestone}
-                style={{
-                  height: "40px",
-                  zIndex: "10",
-                  marginLeft: "-13px",
-                }}
-              />
-              <div
-                className="absolute text-center"
-                style={{
-                  right: "16px",
-                  zIndex: "10",
-                  top: "11px",
-                  width: "32px",
-                }}
-              >
-                <p className="yield-text">{progress.milestone.number}</p>
-              </div>
-            </div>
-          </>
-        )}
       </InnerPanel>
 
       <div className="justify-center h-[330px] sm:h-auto gap-x-2  sm:overflow-y-visible overflow-y-scroll overflow-x-visible sm:overflow-x-scroll scrollable w-full flex sm:flex-col flex-row">

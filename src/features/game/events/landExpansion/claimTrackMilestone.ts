@@ -33,7 +33,7 @@ export function claimTrackMilestone({
     const nextMilestone =
       game.farmActivity[`${chapter} ${action.track} Milestone Claimed`] ?? 0;
 
-    const points = game.farmActivity[`${ticket} Collected`] ?? 0;
+    const points = game.farmActivity[`${ticket} Delivery Rewarded`] ?? 0;
 
     const chapterTrack = CHAPTER_TRACKS[chapter];
 

@@ -493,6 +493,11 @@ export function deliverOrder({
         game.farmActivity,
         new Decimal(amount),
       );
+      game.farmActivity = trackFarmActivity(
+        `${chapterTicket} Delivery Rewarded`,
+        game.farmActivity,
+        new Decimal(amount),
+      );
     }
 
     const rewardItems = order.reward.items ?? {};
