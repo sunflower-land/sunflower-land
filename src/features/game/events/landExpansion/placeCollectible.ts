@@ -79,6 +79,11 @@ export function placeCollectible({
       throw new Error("You cannot place this item");
     }
 
+    // Only pet collectibles can be placed in the pet house
+    if (action.location === "petHouse" && !isPetCollectible(action.name)) {
+      throw new Error("Only pet collectibles can be placed in the pet house");
+    }
+
     const isMonument = action.name in REQUIRED_CHEERS;
     const isInCompletedProjects =
       stateCopy.socialFarming.completedProjects?.includes(
