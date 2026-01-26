@@ -247,6 +247,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
               )}
 
               <Chest
+                location={location}
                 onPlaceChestItem={(selected) => {
                   child.send("SELECT", {
                     action: placeEvent(selected),
@@ -386,9 +387,10 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
 };
 
 const Chest: React.FC<{
+  location: PlaceableLocation;
   onPlaceChestItem: (item: LandscapingPlaceable) => void;
   onPlaceNFT: (id: string, nft: NFTName) => void;
-}> = ({ onPlaceChestItem, onPlaceNFT }) => {
+}> = ({ location, onPlaceChestItem, onPlaceNFT }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [showChest, setShowChest] = useState(false);
@@ -424,6 +426,7 @@ const Chest: React.FC<{
         show={showChest}
         onPlace={onPlaceChestItem}
         onPlaceNFT={onPlaceNFT}
+        location={location}
       />
     </>
   );
