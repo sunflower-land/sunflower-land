@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useActor, useSelector } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
@@ -105,6 +111,9 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     },
     send,
   ] = useActor(child);
+  const placingState = useSelector(child, (state) =>
+    state.matches({ editing: "placing" }),
+  );
 
   const state = useSelector(gameService, (state) => state.context.state);
   const [previousPosition, setPreviousPosition] = useState<
@@ -113,18 +122,23 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
   const now = useNow();
 
-  const dimensions: Record<LandscapingPlaceable, Dimensions> = {
-    ...BUILDINGS_DIMENSIONS,
-    ...COLLECTIBLES_DIMENSIONS,
-    ...ANIMAL_DIMENSIONS,
-    ...RESOURCE_DIMENSIONS,
-    Bud: { width: 1, height: 1 },
-    Pet: { width: 2, height: 2 },
-  };
+  const dimensions = useMemo(() => {
+    if (placeable?.name) {
+      return {
+        ...BUILDINGS_DIMENSIONS,
+        ...COLLECTIBLES_DIMENSIONS,
+        ...ANIMAL_DIMENSIONS,
+        ...RESOURCE_DIMENSIONS,
+        Bud: { width: 1, height: 1 },
+        Pet: { width: 2, height: 2 },
+      }[placeable.name];
+    }
+    return { width: 0, height: 0 };
+  }, [placeable]);
 
   const handleConfirmPlacement = useCallback(() => {
     // prevents multiple toasts while spam clicking place button
-    if (!child.state.matches({ editing: "placing" })) {
+    if (!placingState) {
       return;
     }
 
@@ -174,19 +188,18 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     }
 
     if (placeMore) {
-      const dimension = dimensions[placeable.name];
       const nextPosition = calculateNextPlacement({
         previousPosition,
         currentPosition: coordinates,
-        dimensions: dimension,
+        dimensions,
       });
       const collisionDetected = detectCollision({
         name: placeable.name,
         state,
         position: {
           ...nextPosition,
-          width: dimension.width,
-          height: dimension.height,
+          width: dimensions.width,
+          height: dimensions.height,
         },
         location,
       });
@@ -203,12 +216,13 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
       setPreviousPosition(coordinates);
     }
   }, [
-    child.state,
     coordinates,
+    dimensions,
     gameService,
     location,
     maximum,
     placeable,
+    placingState,
     previousPosition,
     requirements,
     send,
@@ -222,7 +236,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
   // Confirm placement on Enter/NumpadEnter; cancel on Escape
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (!child.state.matches({ editing: "placing" })) return;
+      if (!placingState) return;
 
       if (e.key === "Escape") {
         e.preventDefault();
@@ -242,7 +256,12 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [child, collisionDetected, handleCancelPlacement, handleConfirmPlacement]);
+  }, [
+    collisionDetected,
+    handleCancelPlacement,
+    handleConfirmPlacement,
+    placingState,
+  ]);
 
   const island = useSelector(
     gameService,
