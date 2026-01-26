@@ -20,12 +20,25 @@ export function flipCollectible({ state, action }: Options) {
   return produce(state, (game) => {
     const { name, id, location } = action;
 
-    const collectibleItems =
-      location === "home"
-        ? game.home.collectibles[name]
-        : location === "petHouse" && isPetCollectible(name)
-          ? game.petHouse.pets[name]
-          : game.collectibles[name];
+    const getCollectibleGroup = (
+      location: PlaceableLocation,
+      name: CollectibleName,
+    ) => {
+      if (location === "home") {
+        return game.home.collectibles[name];
+      } else if (location === "petHouse") {
+        if (!isPetCollectible(name)) {
+          throw new Error(
+            "Only pet collectibles can be placed in the pet house",
+          );
+        }
+        return game.petHouse.pets[name];
+      } else {
+        return game.collectibles[name];
+      }
+    };
+
+    const collectibleItems = getCollectibleGroup(location, name);
 
     if (!collectibleItems) {
       throw new Error(`Collectible ${name} not found`);
