@@ -43,5 +43,6 @@ cache
 #ide Settings
 /.idea
 /.vscode
+/.cursor
 
 /*.json
