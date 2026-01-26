@@ -4488,7 +4488,7 @@
   "skillReset.nextFreeReset": "Next free reset on {{date}} at {{time}}",
   "skillReset.noSkills": "No skills to reset",
   "skillReset.resetSkills": "Reset Skills",
-  "skillReset.removeCrops": "Remove crops from additional slots before resetting",
+  "skillReset.removeCrops": "Remove crops packs from additional slots in the Crop Machine before resetting",
   "skillReset.reduceOilInTank": "Reduce oil in tank before resetting",
   "skillCategory.islands": "{{island}} Skills",
   "skillCategory.reachIsland": "Reach {{island}} to unlock",
