@@ -497,7 +497,19 @@ function detectPetHouseCollision({
       }));
   });
 
-  return placeableBounds.some((resourceBoundingBox) =>
+  // Check for Pet NFTs placed in pet house
+  const petNFTBoundingBox = Object.values(state.pets?.nfts ?? {})
+    .filter((petNFT) => !!petNFT.coordinates && petNFT.location === "petHouse")
+    .map((item) => ({
+      x: item.coordinates!.x,
+      y: item.coordinates!.y,
+      height: 2,
+      width: 2,
+    }));
+
+  const allBoundingBoxes = [...placeableBounds, ...petNFTBoundingBox];
+
+  return allBoundingBoxes.some((resourceBoundingBox) =>
     isOverlapping(position, resourceBoundingBox),
   );
 }
