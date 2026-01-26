@@ -29,7 +29,7 @@ export type BeachBountyChapterArtefact =
   | "Broken Pillar"
   | "Coprolite"
   | "Moon Crystal"
-  | "Crab Chapter Artefact";
+  | "Ammonite Shell";
 
 export type ConsumableTreasure =
   | "Pirate Cake"
@@ -191,14 +191,14 @@ export const SELLABLE_TREASURES: Record<BeachBountyTreasure, SellableTreasure> =
             to: CHAPTERS["Paw Prints"].endDate,
           }),
     },
-    "Crab Chapter Artefact": {
+    "Ammonite Shell": {
       sellPrice: 200,
       description: "",
-      ...(hasChapterEnded("Crab Chapter", Date.now())
+      ...(hasChapterEnded("Crabs and Traps", Date.now())
         ? {}
         : {
-            from: CHAPTERS["Crab Chapter"].startDate,
-            to: CHAPTERS["Crab Chapter"].endDate,
+            from: CHAPTERS["Crabs and Traps"].startDate,
+            to: CHAPTERS["Crabs and Traps"].endDate,
           }),
     },
   };

@@ -2,7 +2,6 @@ import {
   BUMPKIN_ITEM_PART,
   BumpkinItem,
   BumpkinPart,
-  ITEM_IDS,
 } from "features/game/types/bumpkin";
 import React, { useContext, useState } from "react";
 import { DynamicNFT } from "./DynamicNFT";
@@ -34,6 +33,7 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
+import { getWearableImage } from "features/game/lib/getWearableImage";
 
 const REQUIRED: BumpkinPart[] = ["background", "body", "hair", "shoes", "tool"];
 
@@ -294,12 +294,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip }) => {
                               </div>
                             )}
                             <img
-                              src={
-                                new URL(
-                                  `/src/assets/wearables/${ITEM_IDS[name]}.webp`,
-                                  import.meta.url,
-                                ).href
-                              }
+                              src={getWearableImage(name)}
                               className="h-10"
                             />
                           </OuterPanel>

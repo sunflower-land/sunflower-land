@@ -1374,6 +1374,22 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       tradeAt: CHAPTERS["Paw Prints"].endDate,
       withdrawAt: new Date("2026-03-04T00:00:00Z"),
     },
+    "Mermaid Cow": {
+      tradeAt: CHAPTERS["Crabs and Traps"].endDate,
+      withdrawAt: new Date("2026-06-04T00:00:00Z"),
+    },
+    "Mermaid Sheep": {
+      tradeAt: CHAPTERS["Crabs and Traps"].endDate,
+      withdrawAt: new Date("2026-06-04T00:00:00Z"),
+    },
+    "Squid Chicken": {
+      tradeAt: CHAPTERS["Crabs and Traps"].endDate,
+      withdrawAt: new Date("2026-06-04T00:00:00Z"),
+    },
+    "Anemone Flower": {
+      tradeAt: CHAPTERS["Crabs and Traps"].endDate,
+      withdrawAt: new Date("2026-06-04T00:00:00Z"),
+    },
     "Paw Prints Rug": {
       tradeAt: CHAPTERS["Paw Prints"].endDate,
       withdrawAt: new Date("2026-03-04T00:00:00Z"),

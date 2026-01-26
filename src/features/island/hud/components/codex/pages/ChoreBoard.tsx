@@ -53,6 +53,7 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
   const { chores } = choreBoard;
 
   const end = useCountdown(weekResetsAt());
+  const level = getBumpkinLevel(bumpkin.experience ?? 0);
 
   const previewNpc = selectedId ?? getKeys(chores)[0];
   const previewChore = chores[previewNpc];
@@ -62,8 +63,6 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
   // Pick random message based on day of week
   const dayOfWeek = new Date().getDate();
   const dialogue = messages?.[dayOfWeek % messages.length];
-
-  const level = getBumpkinLevel(bumpkin.experience ?? 0);
 
   const nextUnlock = getKeys(NPC_CHORE_UNLOCKS)
     .filter((name) => name in chores)
@@ -80,7 +79,6 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
   const unlockedChores = getKeys(chores).filter(
     (npc) => level >= NPC_CHORE_UNLOCKS[npc as NPCName],
   );
-
   const chapterTicket = getChapterTicket(now);
 
   return (

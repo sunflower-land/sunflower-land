@@ -370,6 +370,10 @@ import { BlackHoleFlower } from "./components/BlackHoleFlower";
 import { SleepyChicken } from "./components/SleepyChicken";
 import { AstronautCow } from "./components/AstronautCow";
 import { AstronautSheep } from "./components/AstronautSheep";
+import { MermaidCow } from "./components/MermaidCow";
+import { MermaidSheep } from "./components/MermaidSheep";
+import { SquidChicken } from "./components/SquidChicken";
+import { AnemoneFlower } from "./components/AnemoneFlower";
 import { Poseidon } from "./components/Poseidon";
 import { Project } from "./components/Project";
 import { PetShrine } from "./components/PetShrine";
@@ -409,6 +413,10 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Sleepy Chicken": SleepyChicken,
   "Astronaut Cow": AstronautCow,
   "Astronaut Sheep": AstronautSheep,
+  "Mermaid Cow": MermaidCow,
+  "Mermaid Sheep": MermaidSheep,
+  "Squid Chicken": SquidChicken,
+  "Anemone Flower": AnemoneFlower,
   "Love Chicken": LoveChicken,
   "Dr Cow": DrCow,
   "Nurse Sheep": NurseSheep,
@@ -2746,7 +2754,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Paw Prints Banner"
     />
   ),
-  "Crab Chapter Banner": (props: CollectibleProps) => (
+  "Crabs and Traps Banner": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
       divStyle={{
@@ -2757,8 +2765,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
       imgStyle={{
         width: `${PIXEL_SCALE * 16}px`,
       }}
-      image={ITEM_DETAILS["Crab Chapter Banner"].image}
-      alt="Crab Chapter Banner"
+      image={ITEM_DETAILS["Crabs and Traps Banner"].image}
+      alt="Crabs and Traps Banner"
     />
   ),
   "Paw Prints Rug": (props: CollectibleProps) => (

@@ -14,6 +14,7 @@ import { FixedSizeGrid as Grid } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
+import { InventoryItemName } from "features/game/types/game";
 import { PetCategory, getPetLevel } from "features/game/types/pets";
 import { getNFTTraits } from "./TradeableInfo";
 import { PetTraits } from "features/pets/data/types";
@@ -29,6 +30,9 @@ import {
   toTraitValueId,
   useTraitFilters,
 } from "../lib/marketplaceFilters";
+import { CHAPTER_COLLECTIONS } from "features/game/types/collections";
+import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { KNOWN_IDS } from "features/game/types";
 import {
   BUD_TRAIT_GROUPS,
   createTraitLabelLookup,
@@ -39,26 +43,63 @@ import { Label } from "components/ui/Label";
 
 const budTraitLabels = createTraitLabelLookup(BUD_TRAIT_GROUPS);
 const petTraitLabels = createTraitLabelLookup(PET_TRAIT_GROUPS);
+const chapterCollectionLookup = Object.entries(CHAPTER_COLLECTIONS).reduce<
+  Record<
+    string,
+    {
+      collectibleIds: Set<number>;
+      wearableIds: Set<number>;
+      collectibleNames: Set<string>;
+      wearableNames: Set<string>;
+    }
+  >
+>((acc, [chapter, collections]) => {
+  if (!collections) {
+    return acc;
+  }
+
+  const collectibleNames = (collections.collectibles ?? []).map((item) =>
+    toTraitValueId(item),
+  );
+  const wearableNames = (collections.wearables ?? []).map((item) =>
+    toTraitValueId(item),
+  );
+  const collectibleIds = (collections.collectibles ?? [])
+    .map((item) => KNOWN_IDS[item])
+    .filter((id): id is number => typeof id === "number");
+  const wearableIds = (collections.wearables ?? [])
+    .map((item) => ITEM_IDS[item])
+    .filter((id): id is number => typeof id === "number");
+
+  acc[toTraitValueId(chapter)] = {
+    collectibleIds: new Set(collectibleIds),
+    wearableIds: new Set(wearableIds),
+    collectibleNames: new Set(collectibleNames),
+    wearableNames: new Set(wearableNames),
+  };
+  return acc;
+}, {});
 
 export const collectionFetcher = ([filters, token]: [string, string]) => {
   if (CONFIG.API_URL) return loadMarketplace({ filters, token });
 };
 
-export const preloadCollections = (token: string) => {
+export const preloadCollections = (token: string, showLimited: boolean) => {
   preload(["collectibles", token], collectionFetcher);
   preload(["wearables", token], collectionFetcher);
   preload(["resources", token], collectionFetcher);
   preload(["buds", token], collectionFetcher);
   preload(["pets", token], collectionFetcher);
-  preload(["temporary", token], collectionFetcher);
+  if (showLimited === true) preload(["temporary", token], collectionFetcher);
 };
 
 const _state = (state: MachineState) => state.context.state;
 
 export const Collection: React.FC<{
   search?: string;
+  hideLimited?: boolean;
   onNavigated?: () => void;
-}> = ({ search, onNavigated }) => {
+}> = ({ search, hideLimited, onNavigated }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const { authService } = useContext(Auth.Context);
@@ -68,6 +109,15 @@ export const Collection: React.FC<{
   // Get query string params
   const [queryParams] = useSearchParams();
   let filters = queryParams.get("filters") ?? "";
+  const chapterFilter = queryParams.get("chapter") ?? "";
+  const chapterKey = toTraitValueId(chapterFilter);
+  const ownershipParam = queryParams.get("ownership") ?? "";
+  const ownershipTokens = ownershipParam
+    .split(",")
+    .map((token) => token.trim())
+    .filter(Boolean);
+  const wantsOwned = ownershipTokens.includes("owned");
+  const wantsUnowned = ownershipTokens.includes("unowned");
   const activeCollection: TraitCollection | undefined = filters.includes("pets")
     ? "pets"
     : filters.includes("buds")
@@ -155,7 +205,7 @@ export const Collection: React.FC<{
     isLoading: isLimitedLoading,
     error: limitedError,
   } = useSWR(
-    filters.includes("temporary") ? ["temporary", token] : null,
+    filters.includes("temporary") && !hideLimited ? ["temporary", token] : null,
     collectionFetcher,
   );
 
@@ -165,7 +215,7 @@ export const Collection: React.FC<{
       ...(collectibles?.items || []),
       ...(wearables?.items || []),
       ...(buds?.items || []),
-      ...(limited?.items || []),
+      ...(!hideLimited ? limited?.items || [] : []),
       ...(pets?.items || []),
     ],
   };
@@ -317,6 +367,55 @@ export const Collection: React.FC<{
 
       if (filters.includes("cosmetic") && display.buffs.length > 0) {
         return false;
+      }
+
+      if (chapterFilter) {
+        const chapterItems = chapterCollectionLookup[chapterKey];
+        if (!chapterItems) {
+          return false;
+        }
+
+        const displayNameId = toTraitValueId(display.name);
+        if (item.collection === "collectibles") {
+          if (
+            !chapterItems.collectibleIds.has(item.id) &&
+            !chapterItems.collectibleNames.has(displayNameId)
+          ) {
+            return false;
+          }
+        } else if (item.collection === "wearables") {
+          if (
+            !chapterItems.wearableIds.has(item.id) &&
+            !chapterItems.wearableNames.has(displayNameId)
+          ) {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      }
+
+      if ((wantsOwned || wantsUnowned) && !(wantsOwned && wantsUnowned)) {
+        let ownedCount = 0;
+
+        if (display.type === "collectibles") {
+          ownedCount =
+            state.inventory[display.name as InventoryItemName]?.toNumber() ?? 0;
+        } else if (display.type === "wearables") {
+          ownedCount = state.wardrobe[display.name as BumpkinItem] ?? 0;
+        } else if (display.type === "buds") {
+          ownedCount = state.buds?.[item.id] ? 1 : 0;
+        } else if (display.type === "pets") {
+          ownedCount = state.pets?.nfts?.[item.id] ? 1 : 0;
+        }
+
+        if (wantsOwned && ownedCount <= 0) {
+          return false;
+        }
+
+        if (wantsUnowned && ownedCount > 0) {
+          return false;
+        }
       }
 
       const nftTraits = getNFTTraits(display);

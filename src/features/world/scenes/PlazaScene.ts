@@ -16,6 +16,7 @@ import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { DogContainer } from "../containers/DogContainer";
 import { PetContainer } from "../containers/PetContainer";
 import { getCurrentChapter, ChapterName } from "features/game/types/chapters";
+import { hasFeatureAccess } from "lib/flags";
 
 const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {
   "Solar Flare": undefined,
@@ -30,7 +31,7 @@ const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {
   "Great Bloom": undefined,
   "Better Together": "world/better_together_banner.webp",
   "Paw Prints": "world/paw_prints_banner.webp",
-  "Crab Chapter": undefined,
+  "Crabs and Traps": "world/crap_chapter_banner.webp",
 };
 
 // Tiled Layer names that get enabled during a chapter
@@ -48,7 +49,7 @@ const CHAPTER_LAYERS: Record<ChapterName, string | undefined> = {
   "Great Bloom": undefined,
   "Better Together": "Better Together Decoration Base",
   "Paw Prints": "Paw Prints",
-  "Crab Chapter": undefined,
+  "Crabs and Traps": undefined,
 };
 
 export type FactionNPC = {
@@ -237,6 +238,7 @@ export class PlazaScene extends BaseScene {
     this.load.image("pet_specialist_hat", "world/pet_specialist_hat.webp");
 
     // Auction Items
+    this.load.image("prizes_chest", "world/prizes_chest.png");
     this.load.image("pet_nft_egg", "world/pet_nft_egg.png");
     this.load.image("pet_bed", "world/pet_bed.webp");
     this.load.image("paw_prints_rug", "world/paw_prints_rug.webp");
@@ -330,6 +332,24 @@ export class PlazaScene extends BaseScene {
         this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
+
+    if (hasFeatureAccess(this.gameState, "AUCTION_RAFFLES")) {
+      const prizesChest = this.add.sprite(560, 245, "prizes_chest");
+      prizesChest
+        .setInteractive({ cursor: "pointer" })
+        .on("pointerdown", () => {
+          // if (this.checkDistanceToSprite(prizesChest, 75)) {
+          interactableModalManager.open("chapter_raffles");
+          // } else {
+          //   this.currentPlayer?.speak(translate("base.iam.far.away"));
+          // }
+        });
+
+      const balloonLabel = new Label(this, "PRIZES", "gold");
+      balloonLabel.setPosition(560, 230);
+      balloonLabel.setDepth(10000000);
+      this.add.existing(balloonLabel);
+    }
 
     let bumpkins = PLAZA_BUMPKINS;
     const now = Date.now();

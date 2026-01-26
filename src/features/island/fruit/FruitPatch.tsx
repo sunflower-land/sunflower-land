@@ -70,7 +70,7 @@ const compareGame = (prev: GameState, next: GameState) =>
   isCollectibleBuilt({ name: "Foreman Beaver", game: next });
 
 const _island = (state: MachineState) => state.context.state.island;
-
+const _farmId = (state: MachineState) => state.context.farmId;
 interface Props {
   id: string;
 }
@@ -78,6 +78,7 @@ interface Props {
 export const FruitPatch: React.FC<Props> = ({ id }) => {
   const { gameService, selectedItem, shortcutItem, enableQuickSelect } =
     useContext(Context);
+  const farmId = useSelector(gameService, _farmId);
   const { t } = useAppTranslation();
 
   const [playShakingAnimation, setPlayShakingAnimation] = useState(false);
@@ -96,6 +97,11 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
   );
   const { fruit, fertiliser } = fruitPatch;
   const game = useSelector(gameService, selectGame, compareGame);
+  const activityCount = useSelector(gameService, (state) => {
+    const fruitName = state.context.state.fruitPatches[id]?.fruit?.name;
+    if (!fruitName) return 0;
+    return state.context.state.farmActivity[`${fruitName} Harvested`] ?? 0;
+  });
   const inventory = useSelector(
     gameService,
     selectInventory,
@@ -163,7 +169,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
         game,
         name: fruit?.name as PatchFruitName,
         fertiliser: fertiliser?.name,
-        criticalDrop: (name) => !!(fruit?.criticalHit?.[name] ?? 0),
+        prngArgs: { farmId, counter: activityCount },
       }).amount;
 
     const newState = gameService.send("fruit.harvested", {

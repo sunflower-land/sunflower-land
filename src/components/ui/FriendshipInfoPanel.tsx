@@ -8,7 +8,8 @@ import recipeIcon from "assets/decorations/page.png";
 import { getEntries } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { BumpkinGift } from "features/game/types/gifts";
-import { ITEM_IDS } from "features/game/types/bumpkin";
+import { getWearableImage } from "features/game/lib/getWearableImage";
+import { getObjectEntries } from "features/game/expansion/lib/utils";
 
 interface Props {
   show: boolean;
@@ -54,28 +55,27 @@ export const FriendshipInfoPanel: React.FC<Props> = ({
           </div>
           <div className="space-y-1">
             {!!nextGift.wearables &&
-              getEntries(nextGift.wearables).map((wearable) => (
-                <div
-                  key={String(wearable)}
-                  className="capitalize space-x-1 flex items-center"
-                >
-                  {!!wearable && (
-                    <>
-                      <img
-                        src={
-                          new URL(
-                            `/src/assets/wearables/${ITEM_IDS[wearable[0]]}.webp`,
-                            import.meta.url,
-                          ).href
-                        }
-                        alt={wearable[0]}
-                        className="w-4 mr-0.5"
-                      />
-                      <span className="text-xs">{`${wearable[1]} ${wearable[0]}`}</span>
-                    </>
-                  )}
-                </div>
-              ))}
+              getObjectEntries(nextGift.wearables).map(([wearable, count]) => {
+                const image = getWearableImage(wearable);
+
+                return (
+                  <div
+                    key={wearable}
+                    className="capitalize space-x-1 flex items-center"
+                  >
+                    {!!wearable && (
+                      <>
+                        <img
+                          src={image}
+                          alt={wearable}
+                          className="w-4 mr-0.5"
+                        />
+                        <span className="text-xs">{`${count} ${wearable}`}</span>
+                      </>
+                    )}
+                  </div>
+                );
+              })}
 
             {!!nextGift.items &&
               getEntries(nextGift.items).map((item) => (

@@ -98,14 +98,13 @@ export const CHAPTER_TICKET_BOOST_ITEMS: Record<
     epic: "Recycle Shirt",
   },
 
-  // TODO: Add Paw Prings items
   "Paw Prints": {
     basic: "Pet Specialist Hat",
     rare: "Pet Specialist Pants",
     epic: "Pet Specialist Shirt",
   },
-
-  "Crab Chapter": {
+  // TODO: Add Crabs and Traps items
+  "Crabs and Traps": {
     basic: "Cow Scratcher",
     rare: "Cow Scratcher",
     epic: "Cow Scratcher",
@@ -175,6 +174,17 @@ export function completeNPCChore({
       "Chore Completed",
       draft.farmActivity,
     );
+
+    const ticket = getChapterTicket(createdAt);
+    const amount = items[ticket] ?? 0;
+
+    if (amount > 0) {
+      draft.farmActivity = trackFarmActivity(
+        `${ticket} Collected`,
+        draft.farmActivity,
+        new Decimal(amount),
+      );
+    }
 
     return draft;
   });

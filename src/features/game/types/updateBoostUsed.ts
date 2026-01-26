@@ -13,10 +13,11 @@ export function updateBoostUsed({
 
   if (boostNames.length <= 0) return boostsUsedAt;
 
-  return boostNames.reduce<BoostUsedAt>((acc, boostName) => {
-    return {
-      ...acc,
-      [boostName]: createdAt,
-    };
-  }, boostsUsedAt);
+  return boostNames.reduce<BoostUsedAt>(
+    (acc, boostName) => {
+      acc[boostName] = createdAt;
+      return acc;
+    },
+    { ...boostsUsedAt },
+  );
 }

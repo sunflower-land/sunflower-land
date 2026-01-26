@@ -871,20 +871,20 @@ export const MAP_PIECES: Partial<Record<MarineMarvelName, MapPieceDropTable>> =
         Anchovy: { odds: 0.008 },
         Oarfish: { odds: 0.03 },
       },
-      chapter: "Crab Chapter",
+      chapter: "Crabs and Traps",
     },
     Nautilus: {
       fish: {
         "Sea Horse": { odds: 0.01 },
         Tuna: { odds: 0.002 },
       },
-      chapter: "Crab Chapter",
+      chapter: "Crabs and Traps",
     },
     Dollocaris: {
       fish: {
         Sunfish: { odds: 0.005 },
         Oarfish: { odds: 0.005 },
       },
-      chapter: "Crab Chapter",
+      chapter: "Crabs and Traps",
     },
   };

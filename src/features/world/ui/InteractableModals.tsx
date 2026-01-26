@@ -48,6 +48,7 @@ import { PotionMaster } from "features/helios/components/potions/component/Potio
 import { PetShop } from "features/pets/petShop/PetShop";
 import { LoveIslandNoticeboard } from "./loveRewardShop/LoveIslandNoticeboard";
 import { Rarecrows } from "./Rarecrows";
+import { ChapterRaffles } from "./chapterRaffles/ChapterRaffles";
 
 type InteractableName =
   | "guardian"
@@ -151,7 +152,8 @@ type InteractableName =
   | "flower_exchange"
   | "event_store"
   | "event_noticeboard"
-  | "holiday_puzzle";
+  | "holiday_puzzle"
+  | "chapter_raffles";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -178,8 +180,6 @@ function getInitialModal(scene: SceneId): InteractableName | undefined {
       scene === "sunflorian_house")
   )
     return "faction_intro";
-
-  return undefined;
 }
 
 interface Props {
@@ -239,6 +239,10 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       </Modal>
       <Modal show={interactable === "pet_shop"} onHide={closeModal}>
         <PetShop onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "chapter_raffles"} onHide={closeModal}>
+        {" "}
+        <ChapterRaffles onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "rarecrows"} onHide={closeModal}>
         <Rarecrows onClose={closeModal} />

@@ -17,10 +17,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { randomID } from "lib/utils/random";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
-import { loadRaffles } from "./actions/loadRaffles";
-import { loadRaffleResults, RaffleResults } from "./actions/loadRaffleResults";
-import { RaffleDefinition } from "./types";
-import { RaffleHistory } from "./AuctionRaffleHistory";
 
 const historyFetcher = async ([, token]: [string, string]): Promise<
   Auction[]
@@ -52,27 +48,6 @@ const resultsFetcher = async ([, auctionId, token, farmId]: [
   } as AuctionResults;
 };
 
-const rafflesFetcher = async ([, token]: [string, string]): Promise<
-  RaffleDefinition[]
-> => {
-  return loadRaffles({
-    token,
-    transactionId: randomID(),
-  });
-};
-
-const raffleResultsFetcher = async ([, raffleId, token]: [
-  string,
-  string,
-  string,
-]): Promise<RaffleResults> => {
-  return loadRaffleResults({
-    id: raffleId,
-    token,
-    transactionId: randomID(),
-  });
-};
-
 export const AuctionHistory: React.FC = () => {
   const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
@@ -84,9 +59,10 @@ export const AuctionHistory: React.FC = () => {
   const farmId = gameState.context.farmId ?? 0;
   const game = gameState.context.state;
 
-  const [selectedItem, setSelectedItem] = useState<
-    { type: "auction"; id: string } | { type: "raffle"; id: string }
-  >();
+  const [selectedItem, setSelectedItem] = useState<{
+    type: "auction";
+    id: string;
+  }>();
 
   const now = useNow();
 
@@ -98,20 +74,8 @@ export const AuctionHistory: React.FC = () => {
     revalidateOnFocus: false,
   });
 
-  const {
-    data: raffles,
-    isLoading: rafflesLoading,
-    error: rafflesError,
-  } = useSWR(token ? ["raffles", token] : null, rafflesFetcher, {
-    revalidateOnFocus: false,
-  });
-
   if (auctionsError) {
     throw auctionsError;
-  }
-
-  if (rafflesError) {
-    throw rafflesError;
   }
 
   const completedAuctions = useMemo(() => {
@@ -125,16 +89,6 @@ export const AuctionHistory: React.FC = () => {
       .slice(0, 20);
   }, [auctions, now]);
 
-  const completedRaffles = useMemo(() => {
-    if (!raffles) {
-      return [];
-    }
-
-    return raffles
-      .filter((raffle) => raffle.endAt < now)
-      .sort((a, b) => b.endAt - a.endAt);
-  }, [raffles, now]);
-
   const historyItems = useMemo(() => {
     const items = [
       ...completedAuctions.map((auction) => ({
@@ -143,26 +97,15 @@ export const AuctionHistory: React.FC = () => {
         endAt: auction.endAt,
         auction,
       })),
-      ...completedRaffles.map((raffle) => ({
-        type: "raffle" as const,
-        id: raffle.id,
-        endAt: raffle.endAt,
-        raffle,
-      })),
     ];
     return items.sort((a, b) => b.endAt - a.endAt).slice(0, 50);
-  }, [completedAuctions, completedRaffles]);
+  }, [completedAuctions]);
 
   const selectedAuction =
     selectedItem?.type === "auction"
       ? completedAuctions.find(
           (auction) => auction.auctionId === selectedItem.id,
         )
-      : undefined;
-
-  const selectedRaffle =
-    selectedItem?.type === "raffle"
-      ? completedRaffles.find((raffle) => raffle.id === selectedItem.id)
       : undefined;
 
   const {
@@ -183,7 +126,7 @@ export const AuctionHistory: React.FC = () => {
     throw resultsError;
   }
 
-  if (auctionsLoading || rafflesLoading || !game) {
+  if (auctionsLoading || !game) {
     return (
       <div className="p-2">
         <Loading />
@@ -221,14 +164,23 @@ export const AuctionHistory: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="relative w-12 h-12 flex items-center justify-center">
-                <img
-                  src={SUNNYSIDE.ui.grey_background}
-                  className="absolute inset-0 w-full h-full rounded-md"
-                />
-                <img
-                  src={selectedDisplay.image}
-                  className="w-2/3 h-2/3 object-contain z-10"
-                />
+                {selectedAuction.type === "wearable" ? (
+                  <img
+                    src={selectedDisplay.image}
+                    className="w-full object-contain z-10 rounded-md"
+                  />
+                ) : (
+                  <>
+                    <img
+                      src={SUNNYSIDE.ui.grey_background}
+                      className="absolute inset-0 w-full h-full rounded-md"
+                    />
+                    <img
+                      src={selectedDisplay.image}
+                      className="w-2/3 h-2/3 object-contain z-10"
+                    />
+                  </>
+                )}
               </div>
               <div>
                 <p className="text-sm">{selectedDisplay.item}</p>
@@ -278,15 +230,6 @@ export const AuctionHistory: React.FC = () => {
     );
   }
 
-  if (selectedRaffle) {
-    return (
-      <RaffleHistory
-        id={selectedRaffle.id}
-        onClose={() => setSelectedItem(undefined)}
-      />
-    );
-  }
-
   return (
     <div>
       <div className="p-2">
@@ -315,14 +258,23 @@ export const AuctionHistory: React.FC = () => {
                   className="w-full mb-1 cursor-pointer !p-2 flex items-center"
                 >
                   <div className="relative w-12 h-12 flex items-center justify-center mr-2">
-                    <img
-                      src={SUNNYSIDE.ui.grey_background}
-                      className="absolute inset-0 w-full h-full rounded-md"
-                    />
-                    <img
-                      src={image}
-                      className="w-2/3 h-2/3 object-contain z-10"
-                    />
+                    {item.auction.type === "wearable" ? (
+                      <img
+                        src={image}
+                        className="w-full object-contain z-10 rounded-md"
+                      />
+                    ) : (
+                      <>
+                        <img
+                          src={SUNNYSIDE.ui.grey_background}
+                          className="absolute inset-0 w-full h-full rounded-md"
+                        />
+                        <img
+                          src={image}
+                          className="w-2/3 h-2/3 object-contain z-10"
+                        />
+                      </>
+                    )}
                   </div>
                   <div className="flex-1">
                     <p className="text-sm truncate">{itemName}</p>
@@ -343,50 +295,7 @@ export const AuctionHistory: React.FC = () => {
               );
             }
 
-            const isActiveRaffle = !!game.raffle?.active?.[item.id];
-
-            return (
-              <ButtonPanel
-                key={`raffle-${item.id}`}
-                onClick={() => setSelectedItem({ type: "raffle", id: item.id })}
-                className="w-full mb-1 cursor-pointer !p-2 flex items-center"
-              >
-                <div className="relative w-12 h-12 flex items-center justify-center mr-2">
-                  <img
-                    src={SUNNYSIDE.ui.grey_background}
-                    className="absolute inset-0 w-full h-full rounded-md"
-                  />
-                  <img
-                    src={SUNNYSIDE.icons.treasure}
-                    className="w-2/3 h-2/3 object-contain z-10"
-                  />
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm truncate">
-                    {t("auction.raffle.results")}
-                  </p>
-                  <p className="text-xxs">
-                    {new Date(item.endAt).toLocaleString("en-AU", {
-                      timeZoneName: "shortOffset",
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "2-digit",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      hour12: false,
-                    })}
-                  </p>
-                </div>
-                <Label type="vibrant">{t("auction.raffle")}</Label>
-
-                {isActiveRaffle && (
-                  <img
-                    src={SUNNYSIDE.icons.search}
-                    className="h-6 absolute top-1 -right-0"
-                  />
-                )}
-              </ButtonPanel>
-            );
+            return null;
           })}
         </div>
       </div>

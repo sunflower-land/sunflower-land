@@ -2,7 +2,7 @@ export class Label extends Phaser.GameObjects.Container {
   constructor(
     scene: Phaser.Scene,
     text: string,
-    type: "brown" | "grey" = "grey",
+    type: "brown" | "grey" | "gold" | "vibrant" = "grey",
   ) {
     super(scene, 0, 0);
     this.scene = scene;
@@ -17,12 +17,21 @@ export class Label extends Phaser.GameObjects.Container {
       5,
     );
 
+    let key = "label";
+    if (type === "brown") {
+      key = "brown_label";
+    } else if (type === "gold") {
+      key = "gold_label";
+    } else if (type === "vibrant") {
+      key = "vibrant_label";
+    }
+
     const label = (this.scene.add as any).rexNinePatch2({
       x: 0,
       y: 3.5,
       width: width + 6,
       height: 11,
-      key: type === "brown" ? "brown_label" : "label",
+      key: key,
       columns: [3, 3, 3],
       rows: [3, 3, 3],
       baseFrame: undefined,

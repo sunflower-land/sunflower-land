@@ -67,6 +67,8 @@ export abstract class Preloader extends Phaser.Scene {
       this.load.image("alert", SUNNYSIDE.icons.expression_alerted);
       this.load.image("label", "world/label.png");
       this.load.image("brown_label", "world/brown_label.png");
+      this.load.image("gold_label", "world/gold_label.png");
+      this.load.image("vibrant_label", "world/vibrant_label.png");
       this.load.image("hammer", SUNNYSIDE.icons.hammer);
       this.load.image("disc", SUNNYSIDE.icons.disc);
       this.load.image("gift_icon", "world/gift.png");

@@ -1233,7 +1233,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Lifetime Farmer Banner": { width: 1, height: 2 },
   "Better Together Banner": { width: 1, height: 2 },
   "Paw Prints Banner": { width: 1, height: 2 },
-  "Crab Chapter Banner": { width: 1, height: 2 },
+  "Crabs and Traps Banner": { width: 1, height: 2 },
 
   // Dawn Breaker SFTs
   "Mushroom House": { height: 3, width: 2 },
@@ -1549,6 +1549,10 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Sleepy Chicken": { width: 1, height: 2 },
   "Astronaut Cow": { width: 1, height: 1 },
   "Astronaut Sheep": { width: 1, height: 1 },
+  "Mermaid Cow": { width: 2, height: 1 },
+  "Mermaid Sheep": { width: 1, height: 1 },
+  "Squid Chicken": { width: 1, height: 2 },
+  "Anemone Flower": { width: 1, height: 1 },
   "Petnip Plant": { width: 2, height: 1 },
   "Pet Kennel": { width: 2, height: 2 },
   "Pet Toys": { width: 1, height: 1 },

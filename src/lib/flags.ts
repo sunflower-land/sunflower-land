@@ -76,7 +76,6 @@ export const ADMIN_IDS = [1, 3, 39488, 128727];
 export const MANAGER_IDS = [...ADMIN_IDS, 29, 130170, 7841];
 
 export type FeatureFlag = (game: GameState) => boolean;
-
 export type ExperimentName = "ONBOARDING_CHALLENGES" | "GEM_BOOSTS";
 
 /*
@@ -128,6 +127,8 @@ const FEATURE_FLAGS = {
   SHOW_BOOSTS: defaultFeatureFlag,
   PET_GUIDE: defaultFeatureFlag,
   AUCTION_RAFFLES: defaultFeatureFlag,
+  CHAPTER_TRACKS: defaultFeatureFlag,
+  CHAPTER_COLLECTIONS: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

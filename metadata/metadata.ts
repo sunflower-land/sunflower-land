@@ -58,31 +58,31 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
-  "Crab Chapter Ticket": {
-    description: "A ticket to the Crab Chapter.",
+  Floater: {
+    description: "A ticket to the Crabs and Traps.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/772.webp",
     attributes: [
       { trait_type: "Purpose", value: "Ticket" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
-  "Crab Chapter Artefact": {
-    description: "An artefact from the Crab Chapter.",
+  "Ammonite Shell": {
+    description: "An artefact from the Crabs and Traps.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/773.webp",
     attributes: [
       { trait_type: "Purpose", value: "Artefact" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
-  "Crab Chapter Banner": {
-    description: "A banner for the Crab Chapter.",
+  "Crabs and Traps Banner": {
+    description: "A banner for the Crabs and Traps.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/771.png",
     attributes: [
       { trait_type: "Purpose", value: "Banner" },
       { trait_type: "Tradable", value: "No" },
@@ -92,7 +92,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "A processed fish market for fish.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/2721.webp",
     attributes: [
       { trait_type: "Purpose", value: "Building" },
       { trait_type: "Tradable", value: "No" },
@@ -102,7 +102,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "A processed fish ingredient - guaranteed catch.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/2722.webp",
     attributes: [
       { trait_type: "Purpose", value: "Bait" },
       { trait_type: "Purpose", value: "Consumable" },
@@ -113,7 +113,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "A sturdy processed fish ingredient - guaranteed catch.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/775.webp",
     attributes: [
       { trait_type: "Purpose", value: "Bait" },
       { trait_type: "Purpose", value: "Consumable" },
@@ -124,7 +124,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "A refined fish ingredient - guaranteed catch.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/775.webp",
     attributes: [
       { trait_type: "Purpose", value: "Bait" },
       { trait_type: "Purpose", value: "Consumable" },
@@ -135,7 +135,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "A crab-based processed ingredient - guaranteed catch.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/776.webp",
     attributes: [
       { trait_type: "Purpose", value: "Bait" },
       { trait_type: "Purpose", value: "Consumable" },
@@ -250,6 +250,34 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
         value: 0.1,
       },
     ],
+  },
+  "Mermaid Cow": {
+    description: "A sea-kissed cow with shimmering fins and ocean charm.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2536.png",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
+  "Mermaid Sheep": {
+    description: "A woolly mermaid with a tide-touched sparkle.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2537.png",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
+  "Squid Chicken": {
+    description: "An inky chicken with tentacled flair from the deep.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2538.png",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
+  "Anemone Flower": {
+    description: "A vibrant anemone that sways with the tides.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2539.png",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
   },
   "Love Chicken": {
     description: "A mutant chicken filled with love and affection",
@@ -14043,9 +14071,9 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/310.webp",
   },
-  "Crab Chapter Raffle Ticket": {
-    name: "Crab Chapter Raffle Ticket",
-    description: "A ticket for the Crab Chapter raffle.",
+  "Crabs and Traps Raffle Ticket": {
+    name: "Crabs and Traps Raffle Ticket",
+    description: "A ticket for the Crabs and Traps raffle.",
     decimals: 0,
     attributes: [{ trait_type: "Tradable", value: "Yes" }],
     external_url: "https://docs.sunflower-land.com/getting-started/about",

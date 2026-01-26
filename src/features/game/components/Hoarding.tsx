@@ -10,8 +10,9 @@ import { PIXEL_SCALE } from "../lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ModalContext } from "./modal/ModalProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { BumpkinItem, ITEM_IDS } from "../types/bumpkin";
+import { BumpkinItem } from "../types/bumpkin";
 import { isCollectible } from "../events/landExpansion/garbageSold";
+import { getWearableImage } from "features/game/lib/getWearableImage";
 
 export const Hoarding: React.FC = () => {
   const { t } = useAppTranslation();
@@ -30,10 +31,7 @@ export const Hoarding: React.FC = () => {
   } else if (isCollectible(maxedItem)) {
     maxedItemImage = ITEM_DETAILS[maxedItem].image;
   } else {
-    maxedItemImage = new URL(
-      `/src/assets/wearables/${ITEM_IDS[maxedItem]}.webp`,
-      import.meta.url,
-    ).href;
+    maxedItemImage = getWearableImage(maxedItem);
   }
 
   const itemName = maxedItem === "SFL" ? maxedItem : maxedItem.toLowerCase();

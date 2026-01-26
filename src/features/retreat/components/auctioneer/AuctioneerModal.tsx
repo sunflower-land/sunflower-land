@@ -21,9 +21,6 @@ import { hasReputation } from "features/game/lib/reputation";
 import { Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import choreIcon from "assets/icons/chores.webp";
-import { AuctioneerRaffle } from "./AuctioneerRaffle";
-import { hasFeatureAccess } from "lib/flags";
-import { getChapterRaffleTicket } from "features/game/types/chapters";
 
 interface Props {
   gameState: GameState;
@@ -50,7 +47,7 @@ export const AuctioneerModal: React.FC<Props> = ({
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
-  type Tab = "auction" | "raffle" | "results";
+  type Tab = "auction" | "results";
   const [tab, setTab] = useState<Tab>("auction");
 
   const auctionService = useInterpret(createAuctioneerMachine({ onUpdate }), {
@@ -91,8 +88,6 @@ export const AuctioneerModal: React.FC<Props> = ({
     );
   }
 
-  const chapterRaffleTicket = getChapterRaffleTicket();
-
   return (
     <Modal show={isOpen} onHide={onClose}>
       <CloseButtonPanel
@@ -105,15 +100,7 @@ export const AuctioneerModal: React.FC<Props> = ({
             icon: SUNNYSIDE.icons.stopwatch,
             name: t("auction.title"),
           },
-          ...(hasFeatureAccess(gameState, "AUCTION_RAFFLES")
-            ? [
-                {
-                  id: "raffle" as const,
-                  icon: SUNNYSIDE.decorations.treasure_chest,
-                  name: t("auction.raffle.title"),
-                },
-              ]
-            : []),
+
           {
             id: "results",
             icon: choreIcon,
@@ -160,7 +147,6 @@ export const AuctioneerModal: React.FC<Props> = ({
             </div>
           </div>
         )}
-        {tab === "raffle" && <AuctioneerRaffle />}
         {tab === "results" && <AuctionHistory />}
       </CloseButtonPanel>
     </Modal>

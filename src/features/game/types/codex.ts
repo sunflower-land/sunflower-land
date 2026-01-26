@@ -3,6 +3,7 @@ import { BuffLabel } from ".";
 
 export type CodexCategoryName =
   | "Fish"
+  | "Crustaceans"
   | "Flowers"
   | "Season"
   | "Bull Run"
@@ -19,7 +20,8 @@ export type CodexCategoryName =
   | "Marks"
   | "Chore Board"
   | "Social Points"
-  | "Leagues";
+  | "Leagues"
+  | "Collections";
 
 export type CollectionGroup = "fish";
 

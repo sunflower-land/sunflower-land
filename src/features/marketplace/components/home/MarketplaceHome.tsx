@@ -31,6 +31,7 @@ import { MarketplaceSearch } from "../MarketplaceSearch";
 
 import { EstimatedPrice } from "./EstimatedPrice";
 import { Filters } from "./Filters";
+import { CHAPTERS } from "features/game/types/chapters";
 
 const _hasTradeReputation = (state: MachineState) =>
   hasReputation({
@@ -40,10 +41,16 @@ const _hasTradeReputation = (state: MachineState) =>
 
 export const MarketplaceNavigation: React.FC = () => {
   const navigate = useNavigate();
+  const crabChapterStartMs = CHAPTERS["Crabs and Traps"].startDate.getTime();
 
   const [search, setSearch] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [showQuickswap, setShowQuickswap] = useState(false);
+  const [hideLimited, setHideLimited] = useState<boolean>(() => {
+    const now = Date.now();
+
+    return now >= crabChapterStartMs;
+  });
 
   const { openModal } = useContext(ModalContext);
 
@@ -51,9 +58,26 @@ export const MarketplaceNavigation: React.FC = () => {
   const [authState] = useActor(authService);
 
   useEffect(() => {
+    if (hideLimited) return;
+    const msToChapterStart = crabChapterStartMs - Date.now();
+
+    if (msToChapterStart <= 0) {
+      queueMicrotask(() => setHideLimited(true));
+      return;
+    }
+
+    const id = window.setTimeout(() => {
+      setHideLimited(true);
+    }, msToChapterStart);
+
+    return () => window.clearTimeout(id);
+  }, [hideLimited, crabChapterStartMs]);
+
+  useEffect(() => {
     const token = authState.context.user.rawToken as string;
-    if (CONFIG.API_URL) preloadCollections(token);
-  }, []);
+    if (CONFIG.API_URL) preloadCollections(token, !hideLimited);
+  }, [hideLimited, authState.context.user.rawToken]);
+
   const { t } = useTranslation();
 
   const { gameService } = useContext(Context);
@@ -74,7 +98,11 @@ export const MarketplaceNavigation: React.FC = () => {
     <>
       <Modal show={showFilters} onHide={() => setShowFilters(false)}>
         <CloseButtonPanel>
-          <Filters onClose={() => setShowFilters(false)} farmId={farmId} />
+          <Filters
+            onClose={() => setShowFilters(false)}
+            farmId={farmId}
+            hideLimited={hideLimited}
+          />
           <EstimatedPrice price={price} />
           {/* Flower Dashboard Button */}
           <Button contentAlign="start" onClick={goToFlowerDashboard}>
@@ -127,7 +155,7 @@ export const MarketplaceNavigation: React.FC = () => {
           <InnerPanel className="w-full flex-col mb-1">
             <MarketplaceSearch search={search} setSearch={setSearch} />
             <div className="flex-1">
-              <Filters farmId={farmId} />
+              <Filters farmId={farmId} hideLimited={hideLimited} />
             </div>
           </InnerPanel>
 
@@ -162,6 +190,7 @@ export const MarketplaceNavigation: React.FC = () => {
           {search ? (
             <Collection
               search={search}
+              hideLimited={hideLimited}
               onNavigated={() => {
                 setSearch("");
               }}
@@ -170,8 +199,14 @@ export const MarketplaceNavigation: React.FC = () => {
             <Routes>
               <Route path="/profile" element={<MarketplaceProfile />} />
               <Route path="/hot" element={<MarketplaceHotNow />} />
-              <Route path="/collection/*" element={<Collection />} />
-              <Route path="/:collection/:id" element={<Tradeable />} />
+              <Route
+                path="/collection/*"
+                element={<Collection hideLimited={hideLimited} />}
+              />
+              <Route
+                path="/:collection/:id"
+                element={<Tradeable hideLimited={hideLimited} />}
+              />
               <Route path="/profile/:id" element={<MarketplaceUser />} />
               <Route path="/profile/:id/trades" element={<MyTrades />} />
               <Route path="/profile/rewards" element={<MarketplaceRewards />} />

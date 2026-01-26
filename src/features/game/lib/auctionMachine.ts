@@ -229,8 +229,8 @@ export const createAuctioneerMachine = ({
           },
           {
             auctionId: "test-auction-2",
-            type: "collectible",
-            collectible: "Ancient Human Warhammer",
+            type: "wearable",
+            wearable: "Acorn Hat",
             startAt: Date.now() + 1000000,
             endAt: Date.now() + 1200000,
             ingredients: {
