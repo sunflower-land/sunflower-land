@@ -268,7 +268,7 @@ export const HOME_BOUNDS: Record<IslandType, BoundingBox> = {
 };
 
 // Pet House bounds based on interior floor area (centered at origin)
-// Level 1: 7x6 grid, Level 2: 9x9 grid, Level 3: 11x11 grid
+// Level 1: 7x6 grid, Level 2: 9x8 grid, Level 3: 11x10 grid
 export const PET_HOUSE_BOUNDS: Record<number, BoundingBox> = {
   1: {
     height: 6,
