@@ -49,25 +49,8 @@ export const PET_HOUSE_IMAGES: Record<
 const _petHouse = (state: MachineState) => state.context.state.petHouse;
 const _landscaping = (state: MachineState) => state.matches("landscaping");
 const _petNFTs = (state: MachineState) => state.context.state.pets?.nfts ?? {};
-const _petHousePetsPositions = (state: MachineState) => {
-  const pets = state.context.state.petHouse?.pets ?? {};
-  return {
-    pets,
-    positions: getObjectEntries(pets)
-      .flatMap(([name, value]) => value?.map((item) => ({ name, item })))
-      .filter(
-        (pet): pet is NonNullable<typeof pet> =>
-          !!(pet && pet.item.coordinates !== undefined),
-      )
-      .map(({ name, item }) => ({
-        id: item.id,
-        x: item.coordinates!.x,
-        y: item.coordinates!.y,
-        flipped: item.flipped,
-        name,
-      })),
-  };
-};
+const _petHousePets = (state: MachineState) =>
+  state.context.state.petHouse?.pets ?? {};
 const _biome = (state: MachineState) =>
   getCurrentBiome(state.context.state.island);
 
@@ -84,11 +67,27 @@ export const PetHouseInside: React.FC = () => {
   const petHouse = useSelector(gameService, _petHouse);
   const landscaping = useSelector(gameService, _landscaping);
   const petNFTs = useSelector(gameService, _petNFTs);
-  const { pets, positions: petPositions } = useSelector(
-    gameService,
-    _petHousePetsPositions,
-  );
+  const pets = useSelector(gameService, _petHousePets);
   const biome = useSelector(gameService, _biome);
+
+  // Compute pet positions with useMemo to avoid unnecessary re-renders
+  const petPositions = useMemo(
+    () =>
+      getObjectEntries(pets)
+        .flatMap(([name, value]) => value?.map((item) => ({ name, item })))
+        .filter(
+          (pet): pet is NonNullable<typeof pet> =>
+            !!(pet && pet.item.coordinates !== undefined),
+        )
+        .map(({ name, item }) => ({
+          id: item.id,
+          x: item.coordinates!.x,
+          y: item.coordinates!.y,
+          flipped: item.flipped,
+          name,
+        })),
+    [pets],
+  );
 
   const level = petHouse.level;
   const nextLevel = Math.min(level + 1, 3);

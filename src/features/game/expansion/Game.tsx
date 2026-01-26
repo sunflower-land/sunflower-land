@@ -371,6 +371,9 @@ const GameContent: React.FC = () => {
           <Routes>
             <Route path="/:id" element={<Land />} />
             <Route path="/:id/home" element={<Home />} />
+            {hasAccess("PetHouse") && (
+              <Route path="/:id/pet-house" element={<PetHouseInside />} />
+            )}
           </Routes>
         </div>
       </>

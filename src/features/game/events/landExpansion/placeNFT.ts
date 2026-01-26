@@ -46,6 +46,11 @@ export function placeNFT({
 
     if (nft.coordinates) throw new Error("This NFT is already placed");
 
+    // Only Pet NFTs can be placed in the pet house, not Buds
+    if (action.nft === "Bud" && action.location === "petHouse") {
+      throw new Error("Buds cannot be placed in the pet house");
+    }
+
     // Check pet house capacity for NFT pets
     if (action.nft === "Pet" && action.location === "petHouse") {
       const level = copy.petHouse?.level ?? 1;
