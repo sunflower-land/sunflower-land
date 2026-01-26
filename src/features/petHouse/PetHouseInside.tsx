@@ -30,6 +30,7 @@ import {
 import { getGameGrid } from "features/game/expansion/placeable/lib/makeGrid";
 import { PET_HOUSE_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { PetNFT } from "features/island/pets/PetNFT";
 
 export const PET_HOUSE_IMAGES: Record<
   number,
@@ -42,6 +43,7 @@ export const PET_HOUSE_IMAGES: Record<
 
 const _petHouse = (state: MachineState) => state.context.state.petHouse;
 const _landscaping = (state: MachineState) => state.matches("landscaping");
+const _petNFTs = (state: MachineState) => state.context.state.pets?.nfts ?? {};
 const _petHousePetsPositions = (state: MachineState) => {
   const pets = state.context.state.petHouse?.pets ?? {};
   return {
@@ -72,6 +74,7 @@ export const PetHouseInside: React.FC = () => {
 
   const petHouse = useSelector(gameService, _petHouse);
   const landscaping = useSelector(gameService, _landscaping);
+  const petNFTs = useSelector(gameService, _petNFTs);
   const { pets, positions: petPositions } = useSelector(
     gameService,
     _petHousePetsPositions,
@@ -140,6 +143,30 @@ export const PetHouseInside: React.FC = () => {
               </MapPlacement>
             );
           });
+      }),
+  );
+
+  // Build map placements for pet NFTs
+  mapPlacements.push(
+    ...Object.entries(petNFTs)
+      .filter(
+        ([, petNFT]) => !!petNFT.coordinates && petNFT.location === "petHouse",
+      )
+      .flatMap(([id, petNFT]) => {
+        const { x, y } = petNFT.coordinates!;
+
+        return (
+          <MapPlacement
+            key={`petNFT-${id}`}
+            x={x}
+            y={y}
+            height={2}
+            width={2}
+            z={1}
+          >
+            <PetNFT id={id} x={x} y={y} />
+          </MapPlacement>
+        );
       }),
   );
 
