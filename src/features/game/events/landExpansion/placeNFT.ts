@@ -1,7 +1,11 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { GameState } from "features/game/types/game";
-import { isPetNFTRevealed } from "features/game/types/pets";
+import {
+  getPlacedNFTPetsCount,
+  isPetNFTRevealed,
+  PET_HOUSE_CAPACITY,
+} from "features/game/types/pets";
 import { produce } from "immer";
 
 export type NFTName = "Bud" | "Pet";
@@ -41,6 +45,17 @@ export function placeNFT({
     if (!nft) throw new Error("This NFT does not exist");
 
     if (nft.coordinates) throw new Error("This NFT is already placed");
+
+    // Check pet house capacity for NFT pets
+    if (action.nft === "Pet" && action.location === "petHouse") {
+      const level = copy.petHouse?.level ?? 1;
+      const capacity = PET_HOUSE_CAPACITY[level]?.nftPets ?? 0;
+      const currentCount = getPlacedNFTPetsCount(copy.pets);
+
+      if (currentCount >= capacity) {
+        throw new Error("Pet house is at capacity for NFT pets");
+      }
+    }
 
     nft.coordinates = action.coordinates;
     nft.location = action.location;

@@ -3,13 +3,23 @@ import { Decoration } from "./decorations";
 import { CraftableCollectible, PlaceableLocation } from "./collectibles";
 import { CookableName } from "./consumables";
 import { getObjectEntries } from "../expansion/lib/utils";
-import { InventoryItemName } from "./game";
+import { GameState, InventoryItemName } from "./game";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { PetTraits } from "features/pets/data/types";
 import { CONFIG } from "lib/config";
 
 export const SOCIAL_PET_XP_PER_HELP = 5;
 export const SOCIAL_PET_DAILY_XP_LIMIT = 50;
+
+// Pet House capacity limits based on level
+export const PET_HOUSE_CAPACITY: Record<
+  number,
+  { commonPets: number; nftPets: number }
+> = {
+  1: { commonPets: 7, nftPets: 1 },
+  2: { commonPets: 14, nftPets: 4 },
+  3: { commonPets: 21, nftPets: 7 },
+};
 
 export type PetName =
   // Dogs
@@ -792,3 +802,21 @@ export function getPetNFTReleaseDate(petId: number, createdAt: number) {
 
   return revealAt;
 }
+
+// Count common pets with coordinates in petHouse.pets
+export const getPlacedCommonPetsCount = (
+  petHouse: GameState["petHouse"],
+): number => {
+  const pets = petHouse?.pets ?? {};
+  return Object.values(pets)
+    .flat()
+    .filter((pet) => pet.coordinates).length;
+};
+
+// Count NFT pets with coordinates and location === "petHouse"
+export const getPlacedNFTPetsCount = (pets: GameState["pets"]): number => {
+  const nfts = pets?.nfts ?? {};
+  return Object.values(nfts).filter(
+    (nft) => nft.coordinates && nft.location === "petHouse",
+  ).length;
+};
