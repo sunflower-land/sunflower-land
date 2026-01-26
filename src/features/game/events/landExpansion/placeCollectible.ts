@@ -8,7 +8,13 @@ import { PlaceableLocation } from "features/game/types/collectibles";
 import { produce } from "immer";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { MonumentName, REQUIRED_CHEERS } from "features/game/types/monuments";
-import { isPet, PetName, PET_TYPES } from "features/game/types/pets";
+import {
+  getPlacedCommonPetsCount,
+  isPet,
+  PetName,
+  PET_HOUSE_CAPACITY,
+  PET_TYPES,
+} from "features/game/types/pets";
 import {
   EXPIRY_COOLDOWNS,
   TemporaryCollectibleName,
@@ -107,6 +113,17 @@ export function placeCollectible({
           },
           pettedAt: createdAt,
         };
+      }
+    }
+
+    // Check pet house capacity for common pets
+    if (action.location === "petHouse" && isPetCollectible(action.name)) {
+      const level = stateCopy.petHouse?.level ?? 1;
+      const capacity = PET_HOUSE_CAPACITY[level]?.commonPets ?? 0;
+      const currentCount = getPlacedCommonPetsCount(stateCopy.petHouse);
+
+      if (currentCount >= capacity) {
+        throw new Error("Pet house is at capacity for common pets");
       }
     }
 
