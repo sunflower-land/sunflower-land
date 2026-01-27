@@ -73,7 +73,7 @@ import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
 import { CLUTTER } from "features/game/types/clutter";
 import { PET_RESOURCES } from "features/game/types/pets";
 import { useNow } from "lib/utils/hooks/useNow";
-import { PROCESSED_FOODS } from "features/game/types/processedFood";
+import { PROCESSED_RESOURCES } from "features/game/types/processedFood";
 import { CRUSTACEANS } from "features/game/types/crustaceans";
 
 interface Prop {
@@ -179,7 +179,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const craftingResources = getItems(RECIPE_CRAFTABLES);
   const animalResources = getItems(ANIMAL_RESOURCES);
   const animalFeeds = getItems(ANIMAL_FOODS);
-  const processedFood = getItems(PROCESSED_FOODS);
+  const processedFood = getItems(PROCESSED_RESOURCES);
   const crustaceans = getItems(CRUSTACEANS);
 
   // Sort all foods by Cooking Time and Building

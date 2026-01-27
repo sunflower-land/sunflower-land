@@ -13,13 +13,13 @@ import { HOURGLASSES } from "../events/landExpansion/burnCollectible";
 import { RESOURCES } from "../types/resources";
 import { WORM } from "../types/composters";
 import { REWARD_BOXES } from "../types/rewardBoxes";
-import { PROCESSED_FOODS } from "../types/processedFood";
+import { PROCESSED_RESOURCES } from "../types/processedFood";
 import { SELLABLE_TREASURES } from "../types/treasure";
 import { FISH } from "../types/fishing";
 import { CRUSTACEANS } from "../types/crustaceans";
 import { CONSUMABLES } from "../types/consumables";
 
-export const OFFCHAIN_ITEMS: InventoryItemName[] = [
+export const OFFCHAIN_ITEMS_SET = new Set<InventoryItemName>([
   "Mark",
   "Trade Point",
   "Love Charm",
@@ -36,7 +36,7 @@ export const OFFCHAIN_ITEMS: InventoryItemName[] = [
   "Time Warp Totem",
   "Super Totem",
   ...getKeys(RESOURCES),
-  ...getKeys(PROCESSED_FOODS),
+  ...getKeys(PROCESSED_RESOURCES),
   ...getKeys(WORM),
   "Gold Friends Trophy",
   "Silver Friends Trophy",
@@ -52,4 +52,7 @@ export const OFFCHAIN_ITEMS: InventoryItemName[] = [
     (ticket): ticket is ChapterRaffleTicket => ticket !== undefined,
   ),
   ...getKeys(CONSUMABLES),
-];
+]);
+
+export const OFFCHAIN_ITEMS: InventoryItemName[] =
+  Array.from(OFFCHAIN_ITEMS_SET);
