@@ -88,11 +88,6 @@ import {
   removeCollectible,
   RemoveCollectibleAction,
 } from "./landExpansion/removeCollectible";
-import {
-  collectCropReward,
-  CollectCropRewardAction,
-} from "./landExpansion/collectCropReward";
-
 import { plantFruit, PlantFruitAction } from "./landExpansion/fruitPlanted";
 import {
   harvestFruit,
@@ -623,7 +618,6 @@ export type PlayingEvent =
   | BuyDecorationAction
   | BuyMonumentAction
   | SellCropAction
-  | CollectCropRewardAction
   | PlantFruitAction
   | HarvestFruitAction
   | RemoveFruitTreeAction
@@ -887,7 +881,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "monument.bought": buyMonument,
   "crop.sold": sellCrop,
 
-  "cropReward.collected": collectCropReward,
   "fruit.planted": plantFruit,
   "fruit.harvested": harvestFruit,
   "fruitTree.removed": removeFruitTree,
