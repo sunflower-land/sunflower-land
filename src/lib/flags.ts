@@ -112,7 +112,7 @@ const FEATURE_FLAGS = {
   MODERATOR: (game) =>
     !!((game.wardrobe.Halo ?? 0) > 0) && !!game.inventory["Beta Pass"]?.gt(0),
 
-  PET_HOUSE: testnetFeatureFlag,
+  PET_HOUSE: defaultFeatureFlag,
 
   FISHING_PUZZLE: defaultFeatureFlag,
   MEMORY_BETA: defaultFeatureFlag,
@@ -125,7 +125,6 @@ const FEATURE_FLAGS = {
   MAP_PIECES: defaultFeatureFlag,
   INSTANT_RECIPES: defaultFeatureFlag,
   SHOW_BOOSTS: defaultFeatureFlag,
-  PET_GUIDE: defaultFeatureFlag,
   AUCTION_RAFFLES: defaultFeatureFlag,
   CHAPTER_TRACKS: defaultFeatureFlag,
   CHAPTER_COLLECTIONS: defaultFeatureFlag,

@@ -49,6 +49,12 @@ import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { COMPETITION_POINTS } from "features/game/types/competitions";
 import { useNow } from "lib/utils/hooks/useNow";
+import {
+  getPlacedCommonPetsCount,
+  getPlacedNFTPetsCount,
+  PET_HOUSE_CAPACITY,
+  PET_TYPES,
+} from "features/game/types/pets";
 
 interface Props {
   location: PlaceableLocation;
@@ -110,6 +116,9 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     },
     send,
   ] = useActor(child);
+  const placingState = useSelector(child, (state) =>
+    state.matches({ editing: "placing" }),
+  );
 
   const state = useSelector(gameService, (state) => state.context.state);
   const [previousPosition, setPreviousPosition] = useState<
@@ -118,17 +127,61 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
   const now = useNow();
 
+  // Calculate blocking conditions early so they can be used in keyboard handler
+  const isPetCollectible = placeable?.name
+    ? placeable.name in PET_TYPES
+    : false;
+  const isPetNFT = placeable?.name === "Pet";
+
+  // Check pet house capacity
+  const petHouseLevel = state.petHouse?.level ?? 1;
+  const petHouseCapacity = PET_HOUSE_CAPACITY[petHouseLevel] ?? {
+    commonPets: 0,
+    nftPets: 0,
+  };
+  const placedCommonPetsCount = getPlacedCommonPetsCount(state.petHouse);
+  const placedNFTPetsCount = getPlacedNFTPetsCount(state.pets);
+
+  const isPetHouseFullCommon =
+    location === "petHouse" &&
+    isPetCollectible &&
+    placedCommonPetsCount >= petHouseCapacity.commonPets;
+
+  const isPetHouseFullNFT =
+    location === "petHouse" &&
+    isPetNFT &&
+    placedNFTPetsCount >= petHouseCapacity.nftPets;
+
+  const isWrongLocation = placeable?.name
+    ? (location === "home" &&
+        ((!COLLECTIBLES_DIMENSIONS[placeable.name as CollectibleName] &&
+          placeable.name !== "Bud") ||
+          placeable.name in LANDSCAPING_DECORATIONS ||
+          placeable.name === "Magic Bean")) ||
+      (location === "petHouse" && !isPetCollectible && !isPetNFT)
+    : false;
+
+  const isFoxShrineDisabled =
+    placeable?.name === "Fox Shrine" &&
+    now < COMPETITION_POINTS.BUILDING_FRIENDSHIPS.endAt;
+
+  // Combined check for whether placement is blocked
+  const isPlacementBlocked =
+    collisionDetected ||
+    isWrongLocation ||
+    isFoxShrineDisabled ||
+    isPetHouseFullCommon ||
+    isPetHouseFullNFT;
+
   const dimensions = useMemo(() => {
-    if (placeable?.name === "Bud") {
-      return { width: 1, height: 1 };
-    } else if (placeable?.name === "Pet") {
-      return { width: 2, height: 2 };
-    } else if (placeable?.name) {
+    if (placeable?.name) {
       return {
         ...BUILDINGS_DIMENSIONS,
         ...COLLECTIBLES_DIMENSIONS,
         ...ANIMAL_DIMENSIONS,
         ...RESOURCE_DIMENSIONS,
+        Bud: { width: 1, height: 1 },
+        Pet: { width: 2, height: 2 },
       }[placeable.name];
     }
     return { width: 0, height: 0 };
@@ -136,7 +189,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
   const handleConfirmPlacement = useCallback(() => {
     // prevents multiple toasts while spam clicking place button
-    if (!child.state.matches({ editing: "placing" })) {
+    if (!placingState) {
       return;
     }
 
@@ -214,15 +267,15 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
       setPreviousPosition(coordinates);
     }
   }, [
-    child.state,
-    gameService,
-    placeable,
-    requirements,
-    maximum,
-    previousPosition,
     coordinates,
     dimensions,
+    gameService,
     location,
+    maximum,
+    placeable,
+    placingState,
+    previousPosition,
+    requirements,
     send,
   ]);
 
@@ -234,7 +287,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
   // Confirm placement on Enter/NumpadEnter; cancel on Escape
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (!child.state.matches({ editing: "placing" })) return;
+      if (!placingState) return;
 
       if (e.key === "Escape") {
         e.preventDefault();
@@ -244,7 +297,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
       if (
         (e.key === "Enter" || e.key === "NumpadEnter") &&
-        !collisionDetected
+        !isPlacementBlocked
       ) {
         // Prevent default submit behavior
         e.preventDefault();
@@ -254,7 +307,12 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [child, collisionDetected, handleCancelPlacement, handleConfirmPlacement]);
+  }, [
+    isPlacementBlocked,
+    handleCancelPlacement,
+    handleConfirmPlacement,
+    placingState,
+  ]);
 
   const island = useSelector(
     gameService,
@@ -334,17 +392,6 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     );
   };
 
-  const isWrongLocation =
-    location === "home" &&
-    ((!COLLECTIBLES_DIMENSIONS[placeable.name as CollectibleName] &&
-      placeable.name !== "Bud") ||
-      placeable.name in LANDSCAPING_DECORATIONS ||
-      placeable.name === "Magic Bean");
-
-  const isFoxShrineDisabled =
-    placeable.name === "Fox Shrine" &&
-    now < COMPETITION_POINTS.BUILDING_FRIENDSHIPS.endAt;
-
   return (
     <div className="absolute bottom-2 left-1/2 -translate-x-1/2">
       <OuterPanel>
@@ -368,6 +415,26 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
           </Label>
         )}
 
+        {isPetHouseFullCommon && (
+          <Label
+            icon={SUNNYSIDE.icons.cancel}
+            className="mx-auto my-1"
+            type="danger"
+          >
+            {t("error.petHouseFullCommon")}
+          </Label>
+        )}
+
+        {isPetHouseFullNFT && (
+          <Label
+            icon={SUNNYSIDE.icons.cancel}
+            className="mx-auto my-1"
+            type="danger"
+          >
+            {t("error.petHouseFullNFT")}
+          </Label>
+        )}
+
         {getHint()}
 
         <div
@@ -383,9 +450,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
           </Button>
 
           <Button
-            disabled={
-              collisionDetected || isWrongLocation || isFoxShrineDisabled
-            }
+            disabled={isPlacementBlocked}
             onClick={handleConfirmPlacement}
           >
             <img

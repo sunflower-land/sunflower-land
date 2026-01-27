@@ -255,6 +255,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
           </div>
         )}
       </InnerPanel>
+
       <ModalOverlay
         show={showOverview}
         onBackdropClick={() => {

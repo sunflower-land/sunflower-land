@@ -19,6 +19,7 @@ import {
 } from "features/game/expansion/placeable/landscapingMachine";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { PanelTabs } from "features/game/components/CloseablePanel";
+import { PlaceableLocation } from "features/game/types/collectibles";
 
 interface Props {
   show: boolean;
@@ -34,6 +35,7 @@ interface Props {
   isSaving?: boolean;
   isFarming: boolean;
   isFullUser: boolean;
+  location?: PlaceableLocation;
 }
 
 export type TabItems = Record<string, { items: object }>;
@@ -54,10 +56,11 @@ export const InventoryItemsModal: React.FC<Props> = ({
   isSaving,
   isFarming,
   isFullUser,
+  location,
 }) => {
   const { t } = useAppTranslation();
   const [currentTab, setCurrentTab] = useState<"Basket" | "Chest" | "Biomes">(
-    "Basket",
+    location === "petHouse" ? "Chest" : "Basket",
   );
   const hasBiomes = getKeys(LAND_BIOMES).some((item) =>
     (state.inventory[item] ?? new Decimal(0)).gt(0),
@@ -81,11 +84,14 @@ export const InventoryItemsModal: React.FC<Props> = ({
     id: "Biomes",
   };
 
-  const tabs: PanelTabs<"Basket" | "Chest" | "Biomes">[] = [
-    basketTab,
-    chestTab,
-    ...(hasBiomes ? [biomesTab] : []),
-  ];
+  const tabs: PanelTabs<"Basket" | "Chest" | "Biomes">[] = [];
+  if (location !== "petHouse") {
+    tabs.push(basketTab);
+  }
+  tabs.push(chestTab);
+  if (hasBiomes && location === "farm") {
+    tabs.push(biomesTab);
+  }
 
   return (
     <Modal size="lg" show={show} onHide={onHide}>
@@ -113,6 +119,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
             onPlaceNFT={isFarming ? onPlaceNFT : undefined}
             onDepositClick={isFullUser ? onDepositClick : undefined}
             isSaving={isSaving}
+            location={location}
           />
         )}
         {currentTab === "Biomes" && <Biomes state={state} />}

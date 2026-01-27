@@ -142,6 +142,7 @@ const HudComponent: React.FC<{
           isSaving={autosaving}
           isFarming={isFarming}
           hideActions={false}
+          location={location}
         />
       </div>
 
