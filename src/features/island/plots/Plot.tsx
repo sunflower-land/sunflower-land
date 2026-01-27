@@ -270,6 +270,16 @@ export const Plot: React.FC<Props> = ({ id }) => {
       return;
     }
 
+    // Remove crop with Rusty Shovel
+    if (crop && selectedItem === "Rusty Shovel" && !readyToHarvest) {
+      gameService.send("crop.removed", {
+        index: id,
+        item: "Rusty Shovel",
+      });
+
+      return;
+    }
+
     // plant
     if (!crop) {
       if (isCropSeed(seed) && !SEASONAL_SEEDS[season.season].includes(seed)) {
