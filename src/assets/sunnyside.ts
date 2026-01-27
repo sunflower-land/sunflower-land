@@ -1042,6 +1042,7 @@ export const SUNNYSIDE = {
       mansion: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/mansion.webp`,
       toolshed: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/toolshed.webp`,
       warehouse: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/warehouse.webp`,
+      fishMarket: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/fish_market.webp`,
       //Desert
       desertFirePit: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/spring/fire_pit.webp`,
       desertKitchen: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/spring/kitchen.webp`,
@@ -1176,6 +1177,7 @@ export const SUNNYSIDE = {
       mansion: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/mansion.webp`,
       toolshed: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/toolshed.webp`,
       warehouse: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/warehouse.webp`,
+      fishMarket: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/fish_market.webp`,
       //Desert
       desertFirePit: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/autumn/fire_pit.webp`,
       desertKitchen: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/autumn/kitchen.webp`,
@@ -1310,6 +1312,7 @@ export const SUNNYSIDE = {
       mansion: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/mansion.webp`,
       toolshed: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/toolshed.webp`,
       warehouse: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/warehouse.webp`,
+      fishMarket: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/fish_market.webp`,
       //Desert
       desertFirePit: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/winter/fire_pit.webp`,
       desertKitchen: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/winter/kitchen.webp`,
