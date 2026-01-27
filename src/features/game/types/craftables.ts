@@ -649,7 +649,6 @@ export const SHOVELS: Record<Shovel, CraftableItem> = {
     name: "Rusty Shovel",
     description: translate("description.rusty.shovel"),
     ingredients: [],
-    hidden: true,
   },
   Shovel: {
     name: "Shovel",

@@ -4,6 +4,7 @@ import { CROPS } from "../../types/crops";
 import { GameState, InventoryItemName } from "../../types/game";
 import { isReadyToHarvest } from "./harvest";
 import { produce } from "immer";
+import { trackFarmActivity, PlantEvent } from "../../types/farmActivity";
 
 export enum REMOVE_CROP_ERRORS {
   EMPTY_EXPANSION = "Expansion does not exist!",
@@ -51,11 +52,11 @@ export function removeCrop({ state, action, createdAt = Date.now() }: Options) {
       throw new Error(REMOVE_CROP_ERRORS.EMPTY_CROP);
     }
 
-    if (action.item !== "Shovel") {
+    if (action.item !== "Rusty Shovel") {
       throw new Error(REMOVE_CROP_ERRORS.NO_VALID_SHOVEL_SELECTED);
     }
 
-    const shovelAmount = stateCopy.inventory.Shovel || new Decimal(0);
+    const shovelAmount = stateCopy.inventory["Rusty Shovel"] || new Decimal(0);
     if (shovelAmount.lessThan(1)) {
       throw new Error(REMOVE_CROP_ERRORS.NO_SHOVEL_AVAILABLE);
     }
@@ -69,7 +70,27 @@ export function removeCrop({ state, action, createdAt = Date.now() }: Options) {
       throw new Error(REMOVE_CROP_ERRORS.INVALID_PLANT);
     }
 
+    // Store crop name before deleting
+    const cropName = crop.name;
+
     delete plot.crop;
+
+    // Consume Rusty Shovel
+    stateCopy.inventory["Rusty Shovel"] = shovelAmount.minus(1);
+
+    // Decrement planted activity
+    const plantedActivity = `${cropName} Planted` as PlantEvent;
+    stateCopy.farmActivity = trackFarmActivity(
+      plantedActivity,
+      stateCopy.farmActivity,
+      new Decimal(-1),
+    );
+
+    // Track crop removal
+    stateCopy.farmActivity = trackFarmActivity(
+      "Crop Removed",
+      stateCopy.farmActivity,
+    );
 
     stateCopy.crops = plots;
     return stateCopy;

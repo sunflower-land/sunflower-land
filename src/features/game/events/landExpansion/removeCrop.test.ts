@@ -8,7 +8,7 @@ const GAME_STATE: GameState = {
   ...TEST_FARM,
   balance: new Decimal(0),
   inventory: {
-    Shovel: new Decimal(1),
+    "Rusty Shovel": new Decimal(1),
   },
 };
 
@@ -25,7 +25,7 @@ describe("removeCrop", () => {
         },
         action: {
           type: "crop.removed",
-          item: "Shovel",
+          item: "Rusty Shovel",
           index: -1,
         },
       }),
@@ -39,7 +39,7 @@ describe("removeCrop", () => {
         },
         action: {
           type: "crop.removed",
-          item: "Shovel",
+          item: "Rusty Shovel",
           index: 1.2,
         },
       }),
@@ -53,7 +53,7 @@ describe("removeCrop", () => {
         },
         action: {
           type: "crop.removed",
-          item: "Shovel",
+          item: "Rusty Shovel",
           index: 200000,
         },
       }),
@@ -74,20 +74,20 @@ describe("removeCrop", () => {
         },
         action: {
           type: "crop.removed",
-          item: "Shovel",
+          item: "Rusty Shovel",
           index: 0,
         },
       }),
     ).toThrow(REMOVE_CROP_ERRORS.EMPTY_CROP);
   });
-  it("does not remove if the shovel is rusty", () => {
+  it("does not remove if regular Shovel is used instead of Rusty Shovel", () => {
     expect(() =>
       removeCrop({
         state: {
           ...GAME_STATE,
           inventory: {
             ...inventory,
-            "Rusty Shovel": new Decimal(1),
+            Shovel: new Decimal(1),
           },
           crops: {
             0: {
@@ -101,7 +101,7 @@ describe("removeCrop", () => {
         },
         action: {
           type: "crop.removed",
-          item: "Rusty Shovel",
+          item: "Shovel",
           index: 0,
         },
       }),
@@ -129,14 +129,14 @@ describe("removeCrop", () => {
       }),
     ).toThrow(REMOVE_CROP_ERRORS.NO_VALID_SHOVEL_SELECTED);
   });
-  it("does not remove if no shovel exists in inventory", () => {
+  it("does not remove if no Rusty Shovel exists in inventory", () => {
     expect(() =>
       removeCrop({
         state: {
           ...GAME_STATE,
           inventory: {
             ...inventory,
-            Shovel: new Decimal(0),
+            "Rusty Shovel": new Decimal(0),
           },
           crops: {
             0: {
@@ -150,13 +150,13 @@ describe("removeCrop", () => {
         },
         action: {
           type: "crop.removed",
-          item: "Shovel",
+          item: "Rusty Shovel",
           index: 0,
         },
       }),
     ).toThrow(REMOVE_CROP_ERRORS.NO_SHOVEL_AVAILABLE);
   });
-  it("does not fertilise if crop is ready to harvest", () => {
+  it("does not remove if crop is ready to harvest", () => {
     expect(() =>
       removeCrop({
         state: {
@@ -173,7 +173,7 @@ describe("removeCrop", () => {
         },
         action: {
           type: "crop.removed",
-          item: "Shovel",
+          item: "Rusty Shovel",
           index: 0,
         },
       }),
@@ -195,7 +195,7 @@ describe("removeCrop", () => {
       },
       action: {
         type: "crop.removed",
-        item: "Shovel",
+        item: "Rusty Shovel",
         index: 0,
       },
     });
@@ -204,5 +204,84 @@ describe("removeCrop", () => {
     expect(gameState.inventory["Sunflower Seed"]).toBeFalsy();
     const newPlots = gameState.crops;
     expect((newPlots as Record<number, CropPlot>)[0].crop).toBeFalsy();
+  });
+
+  it("consumes Rusty Shovel from inventory", () => {
+    const gameState = removeCrop({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Rusty Shovel": new Decimal(2),
+        },
+        crops: {
+          0: {
+            ...plot,
+            crop: {
+              name: "Sunflower",
+              plantedAt: dateNow - 40 * 1000,
+            },
+          },
+        },
+      },
+      action: {
+        type: "crop.removed",
+        item: "Rusty Shovel",
+        index: 0,
+      },
+    });
+
+    expect(gameState.inventory["Rusty Shovel"]?.toNumber()).toBe(1);
+  });
+
+  it("decrements the planted activity for the crop", () => {
+    const gameState = removeCrop({
+      state: {
+        ...GAME_STATE,
+        farmActivity: {
+          "Sunflower Planted": 5,
+        },
+        crops: {
+          0: {
+            ...plot,
+            crop: {
+              name: "Sunflower",
+              plantedAt: dateNow - 40 * 1000,
+            },
+          },
+        },
+      },
+      action: {
+        type: "crop.removed",
+        item: "Rusty Shovel",
+        index: 0,
+      },
+    });
+
+    expect(gameState.farmActivity["Sunflower Planted"]).toBe(4);
+  });
+
+  it("tracks Crop Removed activity", () => {
+    const gameState = removeCrop({
+      state: {
+        ...GAME_STATE,
+        farmActivity: {},
+        crops: {
+          0: {
+            ...plot,
+            crop: {
+              name: "Sunflower",
+              plantedAt: dateNow - 40 * 1000,
+            },
+          },
+        },
+      },
+      action: {
+        type: "crop.removed",
+        item: "Rusty Shovel",
+        index: 0,
+      },
+    });
+
+    expect(gameState.farmActivity["Crop Removed"]).toBe(1);
   });
 });

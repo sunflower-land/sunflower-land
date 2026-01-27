@@ -368,4 +368,82 @@ describe("craftTool", () => {
 
     expect(state.inventory["Mariner Pot"]).toEqual(new Decimal(1));
   });
+
+  it("crafts Rusty Shovel with Gem and Wood", () => {
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins: 100,
+        inventory: {
+          Gem: new Decimal(5),
+          Wood: new Decimal(10),
+        },
+      },
+      action: {
+        type: "tool.crafted",
+        tool: "Rusty Shovel",
+      },
+    });
+
+    expect(state.inventory["Rusty Shovel"]).toEqual(new Decimal(1));
+    expect(state.inventory["Gem"]).toEqual(new Decimal(4));
+    expect(state.inventory["Wood"]).toEqual(new Decimal(5));
+    expect(state.coins).toEqual(100); // No coin cost
+  });
+
+  it("does not craft Rusty Shovel without enough Gems", () => {
+    expect(() =>
+      craftTool({
+        state: {
+          ...GAME_STATE,
+          coins: 100,
+          inventory: {
+            Wood: new Decimal(10),
+          },
+        },
+        action: {
+          type: "tool.crafted",
+          tool: "Rusty Shovel",
+        },
+      }),
+    ).toThrow("Insufficient ingredient: Gem");
+  });
+
+  it("does not craft Rusty Shovel without enough Wood", () => {
+    expect(() =>
+      craftTool({
+        state: {
+          ...GAME_STATE,
+          coins: 100,
+          inventory: {
+            Gem: new Decimal(5),
+            Wood: new Decimal(2),
+          },
+        },
+        action: {
+          type: "tool.crafted",
+          tool: "Rusty Shovel",
+        },
+      }),
+    ).toThrow("Insufficient ingredient: Wood");
+  });
+
+  it("tracks Rusty Shovel Crafted activity", () => {
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins: 100,
+        inventory: {
+          Gem: new Decimal(5),
+          Wood: new Decimal(10),
+        },
+      },
+      action: {
+        type: "tool.crafted",
+        tool: "Rusty Shovel",
+      },
+    });
+
+    expect(state.farmActivity["Rusty Shovel Crafted"]).toBe(1);
+  });
 });
