@@ -13,28 +13,26 @@ import { CONFIG } from "lib/config";
 import { Loading } from "features/auth/components";
 import { OFFCHAIN_ITEMS } from "features/game/lib/offChainItems";
 import { InventoryItemName } from "features/game/types/game";
-import { getKeys } from "features/game/lib/crafting";
-import { Context as GameContext } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
+import { MachineState } from "features/game/lib/gameMachine";
+import { getKeys } from "features/game/lib/crafting";
 
-const _x_api_key = (state: MachineState) => state.context.apiKey;
+const _apiKey = (state: MachineState) => state.context.apiKey;
 
 export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(GameContext);
-  const apiKey = useSelector(gameService, _x_api_key);
+  const { gameService } = useContext(Context);
+  const apiKey = useSelector(gameService, _apiKey);
   const [loading, setLoading] = useState(false);
   const [farmId, setFarmId] = useState("");
   const [inventoryLimits, setInventoryLimits] = useState<string[]>([]);
   const [wardrobeLimits, setWardrobeLimits] = useState<string[]>([]);
-  const [error, setError] = useState<string | null>(null);
 
   async function search() {
     setLoading(true);
     setInventoryLimits([]);
     setWardrobeLimits([]);
-    setError(null);
 
     const API_URL = CONFIG.API_URL;
 
@@ -50,48 +48,21 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
         }),
       });
 
-      if (!result.ok) {
-        const errorText = await result.text();
-        setError(
-          `API Error (${result.status}): ${errorText || result.statusText}`,
-        );
-        setLoading(false);
-        return;
-      }
-
       const json = await result.json();
 
-      if (!json.farms || !json.farms[farmId]) {
-        setError(
-          `Farm ${farmId} not found. Make sure the farm ID is correct and you have access to it.`,
-        );
-        setLoading(false);
-        return;
-      }
-
       // INVENTORY LIMITS
-      const current = json.farms[farmId].inventory as Record<
-        InventoryItemName,
-        string
+      const current = json.farms[farmId].inventory as Partial<
+        Record<InventoryItemName, string>
       >;
-      const previous = json.farms[farmId].previousInventory as Record<
-        InventoryItemName,
-        string
+      const previous = json.farms[farmId].previousInventory as Partial<
+        Record<InventoryItemName, string>
       >;
 
-      // Get all items with positive diff and their IDs
-      const itemsWithDiff: Array<{ key: InventoryItemName; id: number }> =
-        getKeys(current)
-          .filter(
-            (k) => (Number(current[k]) ?? 0) - (Number(previous[k]) ?? 0) > 0,
-          )
-          .map((key) => ({
-            key,
-            id: KNOWN_IDS[key],
-          }))
-          .filter((item) => item.id !== undefined);
-
-      const maxIds = itemsWithDiff.map((item) => BigInt(item.id));
+      const maxIds = getKeys(current)
+        .filter(
+          (k) => Number(current[k] ?? "0") - Number(previous[k] ?? "0") > 0,
+        )
+        .map((key) => BigInt(KNOWN_IDS[key]));
 
       const publicClient = createPublicClient({
         transport: http(),
@@ -110,27 +81,15 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
         })
       ).map(Number);
 
-      // Create a map from item ID to limit for efficient lookup
-      const limitMap = new Map<number, number>();
-      itemsWithDiff.forEach((item, index) => {
-        let limit = maxAmount[index];
-        if (limit > 100000) {
-          limit = limit / 10 ** 18;
-        }
-        limitMap.set(item.id, limit);
-      });
-
       const inventoryLimits: string[] = [];
 
       getKeys(current).forEach((key) => {
-        const diff = Number(current[key]) - Number(previous[key] ?? 0);
+        const diff = Number(current[key] ?? "0") - Number(previous[key] ?? "0");
         if (diff > 0) {
-          const itemId = KNOWN_IDS[key];
-          const limit = limitMap.get(itemId);
+          let limit = maxAmount[maxIds.indexOf(BigInt(KNOWN_IDS[key]))];
 
-          // Skip if item ID not found or item is offchain
-          if (itemId === undefined || limit === undefined) {
-            return;
+          if (limit > 100000) {
+            limit = limit / 10 ** 18;
           }
 
           if (OFFCHAIN_ITEMS.includes(key)) return;
@@ -177,11 +136,7 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
       }
 
       setWardrobeLimits(wardrobeLimits);
-      setLoading(false);
-    } catch (err) {
-      const errorMessage =
-        err instanceof Error ? err.message : "An unknown error occurred";
-      setError(errorMessage);
+    } finally {
       setLoading(false);
     }
   }
@@ -209,8 +164,6 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
       <div className="flex-1">
         {loading ? (
           <Loading />
-        ) : error ? (
-          <div className="text-sm text-red-500 mb-2">{error}</div>
         ) : inventoryLimits.length === 0 && wardrobeLimits.length === 0 ? (
           <div className="text-sm">{t("no.limits.exceeded")}</div>
         ) : (
