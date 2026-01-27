@@ -7904,5 +7904,15 @@
   "tracks.chapterEnds": "Bab berakhir:",
   "vip": "VIP",
   "vip.required": "VIP diperlukan",
-  "chapterStore.tracks": "Ganjaran"
+  "chapterStore.tracks": "Ganjaran",
+  "marketplace.collections": "Koleksi",
+  "marketplace.applyFilters": "Gunakan Penapis",
+  "marketplace.ownership": "Pemilikan",
+  "marketplace.owned": "Memiliki",
+  "marketplace.unowned": "Tidak dimiliki",
+  "tracks.completeTasksToEarnPoints": "Lengkapkan tugas {{chapter}} untuk mendapatkan mata.",
+  "fishingPuzzle.freeAttemptAvailable": "Anda mempunyai 1 percubaan percuma yang tersedia. Adakah anda ingin menggunakannya?",
+  "description.squidChicken.boost": "+0.1 Telur",
+  "description.anemoneFlower.boost": "1 Percubaan Semula Memancing Percuma",
+  "description.mermaidSheep.boost": "-5% Makanan Domba"
 }

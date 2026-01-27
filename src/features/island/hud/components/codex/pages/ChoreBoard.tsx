@@ -14,8 +14,12 @@ import { NPC_WEARABLES, NPCName } from "lib/npcs";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import React, { useContext, useState } from "react";
+import chapterPoints from "assets/icons/red_medal_short.webp";
 
-import { getChapterTicket } from "features/game/types/chapters";
+import {
+  getChapterTicket,
+  getCurrentChapter,
+} from "features/game/types/chapters";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getChoreProgress,
@@ -37,6 +41,9 @@ import { isMobile } from "mobile-device-detect";
 import { Context } from "features/game/GameProvider";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useNow } from "lib/utils/hooks/useNow";
+import { hasFeatureAccess } from "lib/flags";
+import { pixelVibrantBorderStyle } from "features/game/lib/style";
+import { getChapterTaskPoints } from "features/game/types/tracks";
 
 interface Props {
   state: GameState;
@@ -80,6 +87,15 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
     (npc) => level >= NPC_CHORE_UNLOCKS[npc as NPCName],
   );
   const chapterTicket = getChapterTicket(now);
+  const chapter = getCurrentChapter(now);
+  const hasTrackAccess = hasFeatureAccess(state, "CHAPTER_TRACKS");
+
+  const rewards = generateChoreRewards({
+    game: state,
+    chore: previewChore as NpcChore,
+    now: new Date(),
+  });
+  const tickets = rewards[chapterTicket] ?? 0;
 
   return (
     <div className="flex md:flex-row flex-col-reverse md:mr-1 items-start h-full">
@@ -122,120 +138,141 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
         </div>
       </InnerPanel>
       {previewChore && (
-        <InnerPanel
-          className={classNames(
-            "md:ml-1 md:flex md:flex-col items-center flex-1 relative h-auto w-full",
-            {
-              hidden: !selectedId,
-            },
-          )}
+        <div
+          className={classNames("md:ml-1  flex-1 relative h-auto w-full", {
+            hidden: !selectedId,
+          })}
         >
-          <img
-            src={SUNNYSIDE.icons.arrow_left}
+          <InnerPanel
             className={classNames(
-              "absolute top-2 left-2 cursor-pointer md:hidden z-10",
-              {
-                hidden: !selectedId,
-                block: !!selectedId,
-              },
+              " md:flex md:flex-col items-center  relative",
             )}
-            style={{ width: `${PIXEL_SCALE * 11}px` }}
-            onClick={() => setSelectedId(undefined)}
-          />
-          <div
-            className="mb-1 mx-auto w-full col-start-1 row-start-1 overflow-hidden z-0 rounded-lg relative"
-            style={{
-              height: `${PIXEL_SCALE * 50}px`,
-              background:
-                "linear-gradient(0deg, rgba(4,159,224,1) 0%, rgba(31,109,213,1) 100%)",
-            }}
           >
-            <p
-              className="z-10 absolute bottom-1 right-1.5 capitalize text-xs"
-              style={{
-                background: "#ffffffaf",
-                padding: "2px",
-                borderRadius: "3px",
-              }}
-            >
-              {selectedId}
-            </p>
-
+            <img
+              src={SUNNYSIDE.icons.arrow_left}
+              className={classNames(
+                "absolute top-2 left-2 cursor-pointer md:hidden z-10",
+                {
+                  hidden: !selectedId,
+                  block: !!selectedId,
+                },
+              )}
+              style={{ width: `${PIXEL_SCALE * 11}px` }}
+              onClick={() => setSelectedId(undefined)}
+            />
             <div
-              className="absolute -inset-2 bg-repeat"
+              className="mb-1 mx-auto w-full col-start-1 row-start-1 overflow-hidden z-0 rounded-lg relative"
               style={{
                 height: `${PIXEL_SCALE * 50}px`,
-                backgroundImage: `url(${SUNNYSIDE.ui.heartBg})`,
-                backgroundSize: `${32 * PIXEL_SCALE}px`,
+                background:
+                  "linear-gradient(0deg, rgba(4,159,224,1) 0%, rgba(31,109,213,1) 100%)",
               }}
-            />
-
-            <div
-              className="absolute -inset-2 bg-repeat"
-              style={{
-                height: `${PIXEL_SCALE * 80}px`,
-                backgroundImage: `url(${getImageUrl(ITEM_IDS[NPC_WEARABLES[previewNpc].background!])})`,
-                backgroundSize: "100%",
-              }}
-            />
-            <div key={selectedId} className="w-9/12 md:w-full md:-ml-8">
-              <DynamicNFT
-                key={selectedId}
-                bumpkinParts={NPC_WEARABLES[previewNpc]}
-              />
-            </div>
-          </div>
-
-          <div className="flex-1 space-y-2 p-1 w-full">
-            {dialogue && <p className="text-xs">{dialogue}</p>}
-
-            <div className="text-xs flex justify-between flex-wrap items-center mb-2">
-              <Label type="default">
-                {CHORE_DETAILS[previewChore.name].description}
-              </Label>
-              <p>{`${formatNumber(
-                Math.min(
-                  getChoreProgress({
-                    chore: previewChore,
-                    game: state,
-                  }),
-                  NPC_CHORES[previewChore.name].requirement,
-                ),
-              )}/${NPC_CHORES[previewChore.name].requirement}`}</p>
-            </div>
-
-            {!previewChore.completedAt && (
-              <Button
-                className="h-12 relative !mt-4"
-                disabled={
-                  !!previewChore.completedAt ||
-                  getChoreProgress({
-                    chore: previewChore,
-                    game: state,
-                  }) < NPC_CHORES[previewChore.name].requirement
-                }
-                onClick={() => {
-                  handleCompleteChore(previewNpc);
-                  if (isMobile) {
-                    setSelectedId(undefined);
-                  }
+            >
+              <p
+                className="z-10 absolute bottom-1 right-1.5 capitalize text-xs"
+                style={{
+                  background: "#ffffffaf",
+                  padding: "2px",
+                  borderRadius: "3px",
                 }}
               >
-                {t("chores.complete")}
-                <div className="flex absolute right-0 -top-5">
-                  <ChoreRewardLabel chore={previewChore} state={state} />
-                </div>
-              </Button>
-            )}
+                {selectedId}
+              </p>
 
-            {previewChore.completedAt && (
-              <div className="flex items-center">
-                <img src={SUNNYSIDE.icons.confirm} className="mr-2 h-6" />
-                <p className="text-sm">{t("chores.completed")}</p>
+              <div
+                className="absolute -inset-2 bg-repeat"
+                style={{
+                  height: `${PIXEL_SCALE * 50}px`,
+                  backgroundImage: `url(${SUNNYSIDE.ui.heartBg})`,
+                  backgroundSize: `${32 * PIXEL_SCALE}px`,
+                }}
+              />
+
+              <div
+                className="absolute -inset-2 bg-repeat"
+                style={{
+                  height: `${PIXEL_SCALE * 80}px`,
+                  backgroundImage: `url(${getImageUrl(ITEM_IDS[NPC_WEARABLES[previewNpc].background!])})`,
+                  backgroundSize: "100%",
+                }}
+              />
+              <div key={selectedId} className="w-9/12 md:w-full md:-ml-8">
+                <DynamicNFT
+                  key={selectedId}
+                  bumpkinParts={NPC_WEARABLES[previewNpc]}
+                />
               </div>
-            )}
-          </div>
-        </InnerPanel>
+            </div>
+
+            <div className="flex-1 space-y-2 p-1 w-full">
+              {dialogue && <p className="text-xs">{dialogue}</p>}
+
+              <div className="text-xs flex justify-between flex-wrap items-center mb-2">
+                <Label type="default">
+                  {CHORE_DETAILS[previewChore.name].description}
+                </Label>
+                <p>{`${formatNumber(
+                  Math.min(
+                    getChoreProgress({
+                      chore: previewChore,
+                      game: state,
+                    }),
+                    NPC_CHORES[previewChore.name].requirement,
+                  ),
+                )}/${NPC_CHORES[previewChore.name].requirement}`}</p>
+              </div>
+
+              {!previewChore.completedAt && (
+                <Button
+                  className="h-12 relative !mt-4"
+                  disabled={
+                    !!previewChore.completedAt ||
+                    getChoreProgress({
+                      chore: previewChore,
+                      game: state,
+                    }) < NPC_CHORES[previewChore.name].requirement
+                  }
+                  onClick={() => {
+                    handleCompleteChore(previewNpc);
+                    if (isMobile) {
+                      setSelectedId(undefined);
+                    }
+                  }}
+                >
+                  {t("chores.complete")}
+                  <div className="flex absolute right-0 -top-5">
+                    <ChoreRewardLabel chore={previewChore} state={state} />
+                  </div>
+                </Button>
+              )}
+
+              {previewChore.completedAt && (
+                <div className="flex items-center">
+                  <img src={SUNNYSIDE.icons.confirm} className="mr-2 h-6" />
+                  <p className="text-sm">{t("chores.completed")}</p>
+                </div>
+              )}
+            </div>
+          </InnerPanel>
+
+          {hasTrackAccess && !!tickets && (
+            <div
+              className={classNames(
+                `w-full items-center flex  text-xs p-1 pr-4 mt-1 relative`,
+              )}
+              style={{
+                background: "#b65389",
+                color: "#ffffff",
+                ...pixelVibrantBorderStyle,
+              }}
+            >
+              <img src={chapterPoints} className="h-4 mr-2" />
+              <p className="text-xs">
+                {`+${getChapterTaskPoints({ task: "chore", points: tickets })} ${chapter} points`}
+              </p>
+            </div>
+          )}
+        </div>
       )}
     </div>
   );

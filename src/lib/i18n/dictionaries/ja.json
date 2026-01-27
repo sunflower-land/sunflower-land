@@ -7904,5 +7904,15 @@
   "tracks.chapterEnds": "チャプター終了:",
   "vip": "VIP",
   "vip.required": "VIP アドレスが必要です",
-  "chapterStore.tracks": "報酬"
+  "chapterStore.tracks": "報酬",
+  "marketplace.collections": "コレクション",
+  "marketplace.applyFilters": "フィルターを適用",
+  "marketplace.ownership": "所有権",
+  "marketplace.owned": "所有",
+  "marketplace.unowned": "所有されていない",
+  "tracks.completeTasksToEarnPoints": "{{chapter}} タスクを完了してポイントを獲得してください。",
+  "fishingPuzzle.freeAttemptAvailable": "無料で試用できるのは 1 回です。使ってみませんか？",
+  "description.squidChicken.boost": "+0.1 エッグ",
+  "description.anemoneFlower.boost": "1 回の無料フィッシングリトライ",
+  "description.mermaidSheep.boost": "-5% 羊飼料"
 }

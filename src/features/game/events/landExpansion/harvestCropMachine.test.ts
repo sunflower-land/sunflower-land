@@ -255,9 +255,15 @@ describe("harvestCropMachine", () => {
       const itemId = KNOWN_IDS["Sunflower"];
 
       // Find a starting counter where we get 2 Green Amulet hits and 1 Stellar Sunflower hit
-      // within the next 10 counters (for 10 seeds)
-      function findStartCounter() {
-        for (let startCounter = 0; startCounter < 1000; startCounter++) {
+      // within the next 10 counters (for 10 seeds). Search range must be large enough for
+      // 1/30 Stellar Sunflower chance.
+      const SEARCH_RANGE = 500_000;
+      function findStartCounter(): number {
+        for (
+          let startCounter = 0;
+          startCounter < SEARCH_RANGE;
+          startCounter++
+        ) {
           let greenAmuletHits = 0;
           let stellarSunflowerHits = 0;
 
@@ -279,7 +285,7 @@ describe("harvestCropMachine", () => {
                 farmId,
                 itemId,
                 counter,
-                chance: 10 / 3,
+                chance: 1 / 30,
                 criticalHitName: "Stellar Sunflower",
               })
             ) {
@@ -291,10 +297,15 @@ describe("harvestCropMachine", () => {
             return startCounter;
           }
         }
-        return 0; // Fallback
+        return -1;
       }
 
       const startCounter = findStartCounter();
+      if (startCounter < 0) {
+        throw new Error(
+          `Could not find start counter with >=2 Green Amulet and >=1 Stellar Sunflower hits in ${SEARCH_RANGE} blocks`,
+        );
+      }
       const { amount } = getPackYieldAmount({
         state: {
           ...GAME_STATE,
@@ -372,7 +383,7 @@ describe("harvestCropMachine", () => {
           farmId,
           itemId,
           counter,
-          chance: 10 / 3,
+          chance: 1 / 30,
           criticalHitName: "Stellar Sunflower",
         });
 
@@ -400,9 +411,15 @@ describe("harvestCropMachine", () => {
       const farmId = 1;
       const itemId = KNOWN_IDS["Sunflower"];
 
-      // Find a starting counter where we get 1 Stellar Sunflower hit within the next 10 counters
-      function findStartCounter() {
-        for (let startCounter = 0; startCounter < 1000; startCounter++) {
+      // Find a starting counter where we get 1 Stellar Sunflower hit within the next 10 counters.
+      // Search range must be large enough for 1/30 Stellar Sunflower chance.
+      const SEARCH_RANGE = 500_000;
+      function findStartCounter(): number {
+        for (
+          let startCounter = 0;
+          startCounter < SEARCH_RANGE;
+          startCounter++
+        ) {
           let stellarSunflowerHits = 0;
 
           for (let i = 0; i < 10; i++) {
@@ -412,7 +429,7 @@ describe("harvestCropMachine", () => {
                 farmId,
                 itemId,
                 counter,
-                chance: 10 / 3,
+                chance: 1 / 30,
                 criticalHitName: "Stellar Sunflower",
               })
             ) {
@@ -424,10 +441,15 @@ describe("harvestCropMachine", () => {
             return startCounter;
           }
         }
-        return 0; // Fallback
+        return -1;
       }
 
       const startCounter = findStartCounter();
+      if (startCounter < 0) {
+        throw new Error(
+          `Could not find start counter with >=1 Stellar Sunflower hit in ${SEARCH_RANGE} blocks`,
+        );
+      }
       const { amount } = getPackYieldAmount({
         state: {
           ...GAME_STATE,
@@ -490,7 +512,7 @@ describe("harvestCropMachine", () => {
           farmId,
           itemId,
           counter,
-          chance: 10 / 3,
+          chance: 1 / 30,
           criticalHitName: "Stellar Sunflower",
         });
 

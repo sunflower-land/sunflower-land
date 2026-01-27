@@ -3,9 +3,13 @@ import { getAnimalLevel } from "features/game/lib/animals";
 import { getKeys } from "features/game/types/decorations";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { Animal, BountyRequest, GameState } from "features/game/types/game";
-import { getChapterTicket } from "features/game/types/chapters";
+import {
+  getChapterTicket,
+  getCurrentChapter,
+} from "features/game/types/chapters";
 import { produce } from "immer";
 import { generateBountyTicket, generateBountyCoins } from "./sellBounty";
+import { getChapterTaskPoints } from "features/game/types/tracks";
 
 export function isValidDeal({
   animal,
@@ -117,6 +121,13 @@ export function sellAnimal({
           `${getChapterTicket(createdAt)} Collected`,
           game.farmActivity,
           new Decimal(amount ?? 0),
+        );
+        game.farmActivity = trackFarmActivity(
+          `${getCurrentChapter(createdAt)} Points Earned`,
+          game.farmActivity,
+          new Decimal(
+            getChapterTaskPoints({ task: "bounty", points: amount ?? 0 }),
+          ),
         );
       }
 

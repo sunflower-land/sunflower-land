@@ -55,6 +55,7 @@ export function reelRod({ state }: Options): GameState {
     delete game.fishing.wharf.multiplier;
     delete game.fishing.wharf.guaranteedCatch;
     delete game.fishing.wharf.maps;
+    delete game.fishing.wharf.freePuzzleAttemptUsed;
 
     return game;
   });

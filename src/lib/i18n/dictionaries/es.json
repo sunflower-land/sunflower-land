@@ -7904,5 +7904,15 @@
   "tracks.chapterEnds": "El capítulo termina:",
   "vip": "VIP",
   "vip.required": "Se requiere VIP",
-  "chapterStore.tracks": "Recompensas"
+  "chapterStore.tracks": "Recompensas",
+  "marketplace.collections": "Colecciones",
+  "marketplace.applyFilters": "Aplicar filtros",
+  "marketplace.ownership": "Titularidad",
+  "marketplace.owned": "Poseído",
+  "marketplace.unowned": "Sin dueño",
+  "tracks.completeTasksToEarnPoints": "Completa las tareas de {{chapter}} para ganar puntos.",
+  "fishingPuzzle.freeAttemptAvailable": "Tienes 1 intento gratuito disponible. ¿Te gustaría usarlo?",
+  "description.squidChicken.boost": "+0.1 Huevo",
+  "description.anemoneFlower.boost": "1 reintento de pesca gratis",
+  "description.mermaidSheep.boost": "-5% pienso para ovejas"
 }
