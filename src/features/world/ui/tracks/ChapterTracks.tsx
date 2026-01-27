@@ -1,7 +1,6 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import {
-  CHAPTER_TICKET_NAME,
   ChapterName,
   getCurrentChapter,
   getChapterTicket,
@@ -212,7 +211,9 @@ export const ChapterTracks: React.FC<{ onClose: () => void }> = ({
           <img src={chapterPointsIcon} className="w-6 mr-[8px]" />
           <div className="flex-1">
             <p className="text-xxs">
-              Complete {chapterTicket} tasks to earn points.
+              {t("tracks.completeTasksToEarnPoints", {
+                chapter: chapterTicket,
+              })}
             </p>
           </div>
         </div>
