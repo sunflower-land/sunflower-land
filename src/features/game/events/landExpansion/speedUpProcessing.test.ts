@@ -15,7 +15,7 @@ import { INITIAL_FARM } from "features/game/lib/constants";
 import { speedUpProcessing } from "./speedUpProcessing";
 import Decimal from "decimal.js-light";
 import { FISH_PROCESSING_TIME_SECONDS } from "features/game/types/fishProcessing";
-import { ProcessedFood } from "features/game/types/processedFood";
+import { ProcessedResource } from "features/game/types/processedFood";
 
 describe("instantProcessing", () => {
   beforeEach(() => {
@@ -222,7 +222,7 @@ describe("instantProcessing", () => {
 
   it("updates all the items readyAt times correctly", () => {
     const now = Date.now();
-    const PROCESSING_TIME = (name: ProcessedFood) =>
+    const PROCESSING_TIME = (name: ProcessedResource) =>
       FISH_PROCESSING_TIME_SECONDS[name] * 1000;
 
     const state = speedUpProcessing({

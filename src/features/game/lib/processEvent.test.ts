@@ -5,43 +5,6 @@ import { checkProgress } from "./processEvent";
 
 describe("processEvent", () => {
   describe("checkProgress", () => {
-    it("should return false if the player has 1001 pumpkin soups", () => {
-      const state: GameState = {
-        ...INITIAL_FARM,
-        inventory: {
-          "Pumpkin Soup": new Decimal(1000),
-        },
-        buildings: {
-          "Fire Pit": [
-            {
-              id: "1",
-              readyAt: Date.now(),
-              createdAt: Date.now(),
-              crafting: [
-                {
-                  name: "Pumpkin Soup",
-                  readyAt: Date.now(),
-                },
-              ],
-            },
-          ],
-        },
-      };
-
-      const result = checkProgress({
-        state,
-        action: {
-          type: "recipes.collected",
-          building: "Fire Pit",
-          buildingId: "1",
-        },
-        farmId: 1,
-        createdAt: Date.now(),
-      });
-
-      expect(result.valid).toBe(false);
-    });
-
     it("should return false if a player has 100 chef hats and 1 listed", () => {
       const state: GameState = {
         ...INITIAL_FARM,

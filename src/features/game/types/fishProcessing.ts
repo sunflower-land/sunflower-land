@@ -1,17 +1,17 @@
 import Decimal from "decimal.js-light";
 
 import { Inventory, TemperateSeasonName } from "./game";
-import { ProcessedFood } from "./processedFood";
+import { ProcessedResource } from "./processedFood";
 import { InstantProcessedRecipeName } from "./consumables";
 
-export const FISH_PROCESSING_TIME_SECONDS: Record<ProcessedFood, number> = {
+export const FISH_PROCESSING_TIME_SECONDS: Record<ProcessedResource, number> = {
   "Fish Flake": 1 * 60 * 60,
   "Fish Stick": 2 * 60 * 60,
   "Crab Stick": 4 * 60 * 60,
   "Fish Oil": 16 * 60 * 60,
 };
 
-const BASE_PROCESSING_REQUIREMENTS: Record<ProcessedFood, Inventory> = {
+const BASE_PROCESSING_REQUIREMENTS: Record<ProcessedResource, Inventory> = {
   "Fish Flake": {
     Anchovy: new Decimal(4),
   },
@@ -107,7 +107,7 @@ const CRAB_STICK_SEASONAL: Record<TemperateSeasonName, Inventory> = {
 };
 
 const SEASONAL_PROCESSING_REQUIREMENTS: Record<
-  ProcessedFood,
+  ProcessedResource,
   Record<TemperateSeasonName, Inventory>
 > = {
   "Fish Flake": FISH_FLAKE_SEASONAL,
@@ -117,8 +117,8 @@ const SEASONAL_PROCESSING_REQUIREMENTS: Record<
 };
 
 export const isProcessedFood = (
-  item: ProcessedFood | InstantProcessedRecipeName,
-): item is ProcessedFood => {
+  item: ProcessedResource | InstantProcessedRecipeName,
+): item is ProcessedResource => {
   return Object.keys(BASE_PROCESSING_REQUIREMENTS).includes(item);
 };
 
@@ -126,7 +126,7 @@ export const getFishProcessingRequirements = ({
   item,
   season,
 }: {
-  item: ProcessedFood;
+  item: ProcessedResource;
   season: TemperateSeasonName;
 }): Inventory => {
   const baseRequirements = BASE_PROCESSING_REQUIREMENTS[item];

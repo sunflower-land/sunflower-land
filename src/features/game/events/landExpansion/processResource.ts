@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { ProcessedFood } from "features/game/types/processedFood";
+import { ProcessedResource } from "features/game/types/processedFood";
 import {
   BuildingProduct,
   GameState,
@@ -17,7 +17,7 @@ import { ProcessingBuildingName } from "features/game/types/buildings";
 
 export type ProcessProcessedResourceAction = {
   type: "processedResource.processed";
-  item: ProcessedFood;
+  item: ProcessedResource;
   buildingId: string;
   buildingName: ProcessingBuildingName;
 };

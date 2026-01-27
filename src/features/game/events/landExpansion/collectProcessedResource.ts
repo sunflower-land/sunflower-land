@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { ProcessedFood } from "features/game/types/processedFood";
+import { ProcessedResource } from "features/game/types/processedFood";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { BuildingProduct, GameState } from "features/game/types/game";
 import { produce } from "immer";
@@ -61,7 +61,7 @@ export function collectProcessedResource({
       game.inventory[processed.name] = previous.add(1);
 
       game.farmActivity = trackFarmActivity(
-        `${processed.name} Processed` as `${ProcessedFood} Processed`,
+        `${processed.name} Processed` as `${ProcessedResource} Processed`,
         game.farmActivity,
       );
     });

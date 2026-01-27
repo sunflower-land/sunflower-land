@@ -8,10 +8,10 @@ import {
   cancelProcessedResource,
   CancelProcessedResourceAction,
 } from "./cancelProcessedResource";
-import { ProcessedFood } from "features/game/types/processedFood";
+import { ProcessedResource } from "features/game/types/processedFood";
 
 const createdAt = Date.now();
-const DURATION = (name: ProcessedFood) =>
+const DURATION = (name: ProcessedResource) =>
   FISH_PROCESSING_TIME_SECONDS[name] * 1000;
 
 const BASE_STATE: GameState = {
