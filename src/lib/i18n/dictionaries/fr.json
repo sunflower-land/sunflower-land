@@ -7904,5 +7904,11 @@
   "tracks.chapterEnds": "Fin du chapitre :",
   "vip": "VIP",
   "vip.required": "Un VIP est requis",
-  "chapterStore.tracks": "Récompenses"
+  "chapterStore.tracks": "Récompenses",
+  "marketplace.collections": "Collections",
+  "marketplace.applyFilters": "Appliquer des filtres",
+  "marketplace.ownership": "Propriété",
+  "marketplace.owned": "Possédé",
+  "marketplace.unowned": "Sans propriétaire",
+  "tracks.completeTasksToEarnPoints": "Effectuez des tâches {{chapter}} pour gagner des points."
 }

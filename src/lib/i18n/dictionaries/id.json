@@ -7904,5 +7904,11 @@
   "tracks.chapterEnds": "Bab berakhir:",
   "vip": "VIP",
   "vip.required": "VIP diperlukan",
-  "chapterStore.tracks": "Imbalan"
+  "chapterStore.tracks": "Imbalan",
+  "marketplace.collections": "Koleksi",
+  "marketplace.applyFilters": "Terapkan Filter",
+  "marketplace.ownership": "Kepemilikan",
+  "marketplace.owned": "Dimiliki",
+  "marketplace.unowned": "Tidak dimiliki",
+  "tracks.completeTasksToEarnPoints": "Selesaikan tugas {{chapter}} untuk mendapatkan poin."
 }

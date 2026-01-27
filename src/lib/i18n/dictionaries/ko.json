@@ -7904,5 +7904,11 @@
   "tracks.chapterEnds": "챕터 종료:",
   "vip": "VIP",
   "vip.required": "VIP가 필요합니다",
-  "chapterStore.tracks": "리워드"
+  "chapterStore.tracks": "리워드",
+  "marketplace.collections": "컬렉션",
+  "marketplace.applyFilters": "필터 적용",
+  "marketplace.ownership": "소유권",
+  "marketplace.owned": "소유",
+  "marketplace.unowned": "미소유",
+  "tracks.completeTasksToEarnPoints": "{{chapter}} 작업을 완료하여 포인트를 획득하세요."
 }

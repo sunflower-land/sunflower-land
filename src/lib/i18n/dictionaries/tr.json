@@ -7904,5 +7904,11 @@
   "tracks.chapterEnds": "Bölüm bitiyor:",
   "vip": "VİP",
   "vip.required": "VIP gereklidir",
-  "chapterStore.tracks": "Ödüller"
+  "chapterStore.tracks": "Ödüller",
+  "marketplace.collections": "Koleksiyonlar",
+  "marketplace.applyFilters": "Filtreleri Uygula",
+  "marketplace.ownership": "Mülkiyet",
+  "marketplace.owned": "Sahip olunan",
+  "marketplace.unowned": "Sahipsiz",
+  "tracks.completeTasksToEarnPoints": "Puan kazanmak için {{chapter}} görevlerini tamamlayın."
 }

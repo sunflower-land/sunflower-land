@@ -7904,5 +7904,11 @@
   "tracks.chapterEnds": "章节剩余：",
   "vip": "VIP 会员",
   "vip.required": "需要 VIP 会员",
-  "chapterStore.tracks": "奖励"
+  "chapterStore.tracks": "奖励",
+  "marketplace.collections": "馆藏",
+  "marketplace.applyFilters": "应用过滤器",
+  "marketplace.ownership": "所有权",
+  "marketplace.owned": "拥有",
+  "marketplace.unowned": "无主",
+  "tracks.completeTasksToEarnPoints": "完成 {{chapter}} 任务以获得积分。"
 }
