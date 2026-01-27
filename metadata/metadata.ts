@@ -18,6 +18,18 @@ type Metadata = {
 };
 
 export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
+  "Diving Helmet": {
+    description:
+      "A relic from the depths of the ocean, worn by the bravest of fishermen.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Decoration" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2816.png",
+    name: "Diving Helmet",
+  },
   "Furikake Sprinkle": {
     description: "A lightning-fast umami sprinkle for quick snacks.",
     decimals: 0,
@@ -19674,6 +19686,24 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/427.png",
     name: "Squirrel Onesie",
+  },
+  "Walrus Onesie": {
+    description:
+      "A cozy, full-body outfit that transforms you into an adorable, walrus.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Boost", value: "Pet XP" },
+      {
+        display_type: "boost_number",
+        trait_type: "+5 pet XP per food request",
+        value: 5,
+      },
+      { trait_type: "Part", value: "Onesie" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/518.png",
+    name: "Walrus Onesie",
   },
   "Locust Onesie": {
     description:

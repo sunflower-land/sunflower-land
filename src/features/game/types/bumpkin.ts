@@ -462,6 +462,7 @@ export type BumpkinSecondaryTool =
 
 // Goes over clothes + head
 export type BumpkinOnesie =
+  | "Walrus Onesie"
   | "Snowman Onesie"
   | "Shark Onesie"
   | "Bear Onesie"
@@ -1108,6 +1109,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Diamond Snow Aura": 516,
   // New Year 2026
   "2026 Tiara": 517,
+  "Walrus Onesie": 518,
 };
 
 // The reverse of above
@@ -1174,6 +1176,7 @@ export const BUMPKIN_ITEMS: Record<string, number> = Object.assign(
 export const BUMPKIN_ITEMS_IDS = Object.values(ITEM_IDS);
 
 export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
+  "Walrus Onesie": "onesie",
   "Festival of Colors Background": "background",
   "Golden Seedling": "hat",
   "Painter's Cap": "hat",

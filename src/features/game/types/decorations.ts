@@ -95,7 +95,8 @@ export type ChapterDecorationName =
   | "Pet Bowls"
   | "Squeaky Chicken"
   | "Moon Fox Statue"
-  | "Giant Acorn";
+  | "Giant Acorn"
+  | "Diving Helmet";
 
 export type EventDecorationName =
   | "Jelly Lamp"
