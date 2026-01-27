@@ -59,7 +59,7 @@ export const LandscapingChest: React.FC<Props> = ({
 
   const tabs: PanelTabs<"Chest" | "Biomes">[] = [
     chestTab,
-    ...(hasBiomes ? [biomesTab] : []),
+    ...(hasBiomes && location === "farm" ? [biomesTab] : []),
   ];
 
   return (
