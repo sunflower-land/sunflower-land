@@ -1,7 +1,11 @@
 import { CLUTTER } from "../types/clutter";
 import { getKeys, TOOLS } from "../types/craftables";
 import { InventoryItemName } from "../types/game";
-import { CHAPTER_TICKET_NAME } from "../types/chapters";
+import {
+  CHAPTER_RAFFLE_TICKET_NAME,
+  CHAPTER_TICKET_NAME,
+  ChapterRaffleTicket,
+} from "../types/chapters";
 import { SEEDS } from "../types/seeds";
 import { TREASURE_TOOLS } from "../types/tools";
 import { PET_SHRINES } from "../types/pets";
@@ -13,6 +17,7 @@ import { PROCESSED_FOODS } from "../types/processedFood";
 import { SELLABLE_TREASURES } from "../types/treasure";
 import { FISH } from "../types/fishing";
 import { CRUSTACEANS } from "../types/crustaceans";
+import { CONSUMABLES } from "../types/consumables";
 
 export const OFFCHAIN_ITEMS: InventoryItemName[] = [
   "Mark",
@@ -43,4 +48,8 @@ export const OFFCHAIN_ITEMS: InventoryItemName[] = [
   ...getKeys(CRUSTACEANS),
   "Holiday Token 2025",
   "Holiday Ticket 2025",
+  ...Object.values(CHAPTER_RAFFLE_TICKET_NAME).filter(
+    (ticket): ticket is ChapterRaffleTicket => ticket !== undefined,
+  ),
+  ...getKeys(CONSUMABLES),
 ];
