@@ -7914,5 +7914,7 @@
   "fishingPuzzle.freeAttemptAvailable": "無料で試用できるのは 1 回です。使ってみませんか？",
   "description.squidChicken.boost": "+0.1 エッグ",
   "description.anemoneFlower.boost": "1 回の無料フィッシングリトライ",
-  "description.mermaidSheep.boost": "-5% 羊飼料"
+  "description.mermaidSheep.boost": "-5% 羊飼料",
+  "guaranteedCatch.guide.info": "以下のいずれかの餌をご購入いただくと、そのカテゴリーの魚に合う餌を1つ選択して、確実に釣れるようになります。",
+  "guaranteedCatch.guide.title": "保証付き釣りガイド"
 }

@@ -7914,5 +7914,7 @@
   "fishingPuzzle.freeAttemptAvailable": "Hai a disposizione 1 tentativo gratuito. Vuoi utilizzarlo?",
   "description.squidChicken.boost": "+0,1 uovo",
   "description.anemoneFlower.boost": "1 riprova di pesca gratuita",
-  "description.mermaidSheep.boost": "-5% Mangime per pecore"
+  "description.mermaidSheep.boost": "-5% Mangime per pecore",
+  "guaranteedCatch.guide.info": "Utilizzando una delle seguenti esche, puoi selezionarne una per il pesce della categoria come cattura garantita.",
+  "guaranteedCatch.guide.title": "Guida alla pesca garantita"
 }

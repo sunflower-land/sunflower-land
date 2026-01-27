@@ -7914,5 +7914,7 @@
   "fishingPuzzle.freeAttemptAvailable": "Kullanılabilir 1 ücretsiz denemeniz var. Kullanmak ister misin?",
   "description.squidChicken.boost": "+0.1 Yumurta",
   "description.anemoneFlower.boost": "1 Ücretsiz Balıkçılık Tekrar Deneme",
-  "description.mermaidSheep.boost": "-5% Koyun Yemi"
+  "description.mermaidSheep.boost": "-5% Koyun Yemi",
+  "guaranteedCatch.guide.info": "Aşağıdaki yemlerden birini kullanarak satın alın, garantili avınız olarak kategoriden balık için bir tane seçebilirsiniz..",
+  "guaranteedCatch.guide.title": "Garantili Balıkçılık Rehberi"
 }

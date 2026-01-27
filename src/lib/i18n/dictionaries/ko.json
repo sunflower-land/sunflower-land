@@ -7914,5 +7914,7 @@
   "fishingPuzzle.freeAttemptAvailable": "1회 무료 체험이 가능합니다.사용해 보시겠어요?",
   "description.squidChicken.boost": "+0.1 에그",
   "description.anemoneFlower.boost": "무료 낚시 재시도 1회",
-  "description.mermaidSheep.boost": "-5% 양 사료"
+  "description.mermaidSheep.boost": "-5% 양 사료",
+  "guaranteedCatch.guide.info": "다음 미끼 중 하나를 사용하여 구매하면 해당 카테고리의 물고기를 보장 어획량으로 선택할 수 있습니다.",
+  "guaranteedCatch.guide.title": "보장 낚시 가이드"
 }

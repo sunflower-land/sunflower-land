@@ -7914,5 +7914,7 @@
   "fishingPuzzle.freeAttemptAvailable": "Anda memiliki 1 percobaan gratis yang tersedia. Apakah Anda ingin menggunakannya?",
   "description.squidChicken.boost": "+0.1 Telur",
   "description.anemoneFlower.boost": "1 Gratis Coba Kembali Memancing",
-  "description.mermaidSheep.boost": "-5% Pakan Domba"
+  "description.mermaidSheep.boost": "-5% Pakan Domba",
+  "guaranteedCatch.guide.info": "Beli menggunakan salah satu umpan berikut, Anda dapat memilih satu untuk ikan dari kategori sebagai tangkapan terjamin Anda.",
+  "guaranteedCatch.guide.title": "Panduan Memancing Bergaransi"
 }
