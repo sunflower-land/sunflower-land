@@ -17,7 +17,8 @@ export type WorkbenchToolName =
   | "Oil Drill"
   | "Pest Net"
   | "Crab Pot"
-  | "Mariner Pot";
+  | "Mariner Pot"
+  | "Rusty Shovel";
 
 export type TreasureToolName = "Sand Shovel" | "Sand Drill";
 
@@ -156,6 +157,16 @@ export const WORKBENCH_TOOLS: Record<
     stock: new Decimal(10),
     requiredLevel: WATER_TRAP["Mariner Pot"].requiredBumpkinLevel,
     type: "water",
+  },
+  "Rusty Shovel": {
+    name: "Rusty Shovel",
+    description: translate("description.rusty.shovel"),
+    price: 0,
+    ingredients: () => ({
+      Gem: new Decimal(1),
+      Wood: new Decimal(5),
+    }),
+    stock: new Decimal(50),
   },
 };
 
