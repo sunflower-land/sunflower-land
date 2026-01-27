@@ -30,6 +30,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   BUSH_VARIANTS,
   DIRT_PATH_VARIANTS,
+  PET_HOUSE_VARIANTS,
   TREE_VARIANTS,
   WATER_WELL_VARIANTS,
 } from "features/island/lib/alternateArt";
@@ -85,6 +86,7 @@ export const ITEM_ICONS: (
   Greenhouse: SUNNYSIDE.icons.greenhouseIcon,
   Bush: BUSH_VARIANTS[biome][season],
   "Water Well": WATER_WELL_VARIANTS[season][level ?? 1],
+  "Pet House": PET_HOUSE_VARIANTS[level ?? 1],
 });
 
 interface PanelContentProps {

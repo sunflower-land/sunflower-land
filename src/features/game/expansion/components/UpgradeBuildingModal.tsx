@@ -25,6 +25,7 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { BARN_IMAGES } from "features/island/buildings/components/building/barn/Barn";
 import {
   HEN_HOUSE_VARIANTS,
+  PET_HOUSE_VARIANTS,
   WATER_WELL_VARIANTS,
 } from "features/island/lib/alternateArt";
 import { getSupportedPlots } from "features/game/events/landExpansion/plant";
@@ -130,7 +131,7 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
     }
 
     if (buildingName === "Pet House") {
-      return SUNNYSIDE.building.petHouse;
+      return PET_HOUSE_VARIANTS[nextLevel];
     }
 
     const biome: LandBiomeName = getCurrentBiome(state.island);
