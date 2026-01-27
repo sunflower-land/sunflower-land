@@ -84,16 +84,19 @@ export const InventoryItemsModal: React.FC<Props> = ({
     id: "Biomes",
   };
 
-  const tabs: PanelTabs<"Basket" | "Chest" | "Biomes">[] = [
-    basketTab,
-    chestTab,
-    ...(hasBiomes ? [biomesTab] : []),
-  ];
+  const tabs: PanelTabs<"Basket" | "Chest" | "Biomes">[] = [];
+  if (location !== "petHouse") {
+    tabs.push(basketTab);
+  }
+  tabs.push(chestTab);
+  if (hasBiomes && location === "farm") {
+    tabs.push(biomesTab);
+  }
 
   return (
     <Modal size="lg" show={show} onHide={onHide}>
       <CloseButtonPanel
-        tabs={location === "petHouse" ? [chestTab] : tabs}
+        tabs={tabs}
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
         onClose={onHide}
