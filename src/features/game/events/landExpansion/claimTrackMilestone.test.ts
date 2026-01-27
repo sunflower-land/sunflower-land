@@ -40,7 +40,7 @@ describe("claimTrackMilestone", () => {
         state: {
           ...TEST_FARM,
           farmActivity: {
-            [`${ticket} Collected`]: 100,
+            [`Better Together Points Earned`]: 100,
             "Better Together free Milestone Claimed": 1,
           },
         },
@@ -56,7 +56,7 @@ describe("claimTrackMilestone", () => {
         state: {
           ...TEST_FARM,
           farmActivity: {
-            [`${ticket} Collected`]: 50,
+            [`Better Together Points Earned`]: 50,
           },
         },
         action: { type: "trackMilestone.claimed", track: "premium" },
@@ -71,7 +71,7 @@ describe("claimTrackMilestone", () => {
         state: {
           ...TEST_FARM,
           farmActivity: {
-            [`${ticket} Collected`]: 200,
+            [`Better Together Points Earned`]: 200,
             "Better Together free Milestone Claimed": 2,
           },
         },
@@ -86,7 +86,7 @@ describe("claimTrackMilestone", () => {
       state: {
         ...TEST_FARM,
         farmActivity: {
-          [`${ticket} Collected`]: 50,
+          [`Better Together Points Earned`]: 50,
         },
       },
       action: { type: "trackMilestone.claimed", track: "free" },
@@ -104,7 +104,7 @@ describe("claimTrackMilestone", () => {
       state: {
         ...TEST_FARM,
         farmActivity: {
-          [`${ticket} Collected`]: 150,
+          [`Better Together Points Earned`]: 150,
           "Better Together free Milestone Claimed": 1,
         },
       },
@@ -127,7 +127,7 @@ describe("claimTrackMilestone", () => {
           bundles: [],
         },
         farmActivity: {
-          [`${ticket} Collected`]: 50,
+          [`Better Together Points Earned`]: 50,
         },
       },
       action: { type: "trackMilestone.claimed", track: "premium" },

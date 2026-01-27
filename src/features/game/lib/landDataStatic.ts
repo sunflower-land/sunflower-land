@@ -92,6 +92,11 @@ export const STATIC_OFFLINE_FARM: GameState = {
     ],
     requests: [
       {
+        id: "21",
+        name: "Red Balloon Flower",
+        items: { "Pet Cookie": 15 },
+      },
+      {
         id: "1",
         name: "Cow",
         level: 1,
@@ -301,15 +306,15 @@ export const STATIC_OFFLINE_FARM: GameState = {
       {
         createdAt: Date.now(),
         readyAt: Date.now(),
-        from: "grimbly",
+        from: "tywin",
         reward: {
-          items: {},
-          coins: 48,
+          items: {
+            "Pet Cookie": 1,
+          },
+          coins: 0,
         },
         id: "3",
-        items: {
-          "Mashed Potato": 2,
-        },
+        items: {},
       },
     ],
     milestone: {

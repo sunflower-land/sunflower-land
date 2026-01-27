@@ -21,6 +21,7 @@ import {
 } from "features/game/types/megastore";
 import { isCollectible } from "./garbageSold";
 import { trackFarmActivity } from "features/game/types/farmActivity";
+import { getChapterTaskPoints } from "features/game/types/tracks";
 
 export type CompleteNPCChoreAction = {
   type: "chore.fulfilled";
@@ -184,6 +185,17 @@ export function completeNPCChore({
         draft.farmActivity,
         new Decimal(amount),
       );
+
+      draft.farmActivity = trackFarmActivity(
+        `${getCurrentChapter(createdAt)} Points Earned`,
+        draft.farmActivity,
+        new Decimal(
+          getChapterTaskPoints({
+            task: "chore",
+            points: amount,
+          }),
+        ),
+      );
     }
 
     return draft;
@@ -199,6 +211,8 @@ export function generateChoreRewards({
   chore: NpcChore;
   now: Date;
 }) {
+  if (!chore) return {};
+
   const items = Object.assign({}, chore.reward.items) ?? {};
 
   const ticket = getChapterTicket(now.getTime());

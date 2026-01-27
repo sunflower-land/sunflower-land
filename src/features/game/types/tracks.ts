@@ -8,6 +8,24 @@ export type MilestoneRewards = {
   flower?: number;
 };
 
+export type ChapterTask = "delivery" | "chore" | "bounty";
+
+const CHAPTER_TASK_POINTS: Record<ChapterTask, number> = {
+  delivery: 5,
+  bounty: 3,
+  chore: 1,
+};
+
+export function getChapterTaskPoints({
+  task,
+  points,
+}: {
+  task: ChapterTask;
+  points: number;
+}) {
+  return CHAPTER_TASK_POINTS[task] * points;
+}
+
 export type TrackName = "free" | "premium";
 
 export type TrackMilestone = {
