@@ -7910,5 +7910,9 @@
   "marketplace.ownership": "Kepemilikan",
   "marketplace.owned": "Dimiliki",
   "marketplace.unowned": "Tidak dimiliki",
-  "tracks.completeTasksToEarnPoints": "Selesaikan tugas {{chapter}} untuk mendapatkan poin."
+  "tracks.completeTasksToEarnPoints": "Selesaikan tugas {{chapter}} untuk mendapatkan poin.",
+  "fishingPuzzle.freeAttemptAvailable": "Anda memiliki 1 percobaan gratis yang tersedia. Apakah Anda ingin menggunakannya?",
+  "description.squidChicken.boost": "+0.1 Telur",
+  "description.anemoneFlower.boost": "1 Gratis Coba Kembali Memancing",
+  "description.mermaidSheep.boost": "-5% Pakan Domba"
 }

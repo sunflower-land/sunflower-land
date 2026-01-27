@@ -7910,5 +7910,9 @@
   "marketplace.ownership": "소유권",
   "marketplace.owned": "소유",
   "marketplace.unowned": "미소유",
-  "tracks.completeTasksToEarnPoints": "{{chapter}} 작업을 완료하여 포인트를 획득하세요."
+  "tracks.completeTasksToEarnPoints": "{{chapter}} 작업을 완료하여 포인트를 획득하세요.",
+  "fishingPuzzle.freeAttemptAvailable": "1회 무료 체험이 가능합니다.사용해 보시겠어요?",
+  "description.squidChicken.boost": "+0.1 에그",
+  "description.anemoneFlower.boost": "무료 낚시 재시도 1회",
+  "description.mermaidSheep.boost": "-5% 양 사료"
 }

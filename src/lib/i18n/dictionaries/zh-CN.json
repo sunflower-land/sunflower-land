@@ -7910,5 +7910,9 @@
   "marketplace.ownership": "所有权",
   "marketplace.owned": "拥有",
   "marketplace.unowned": "无主",
-  "tracks.completeTasksToEarnPoints": "完成 {{chapter}} 任务以获得积分。"
+  "tracks.completeTasksToEarnPoints": "完成 {{chapter}} 任务以获得积分。",
+  "fishingPuzzle.freeAttemptAvailable": "您有 1 次免费试用。你想用它吗？",
+  "description.squidChicken.boost": "+0.1 蛋",
+  "description.anemoneFlower.boost": "1 次免费重试钓鱼",
+  "description.mermaidSheep.boost": "-5% 绵羊饲料"
 }

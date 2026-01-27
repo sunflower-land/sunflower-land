@@ -7910,5 +7910,9 @@
   "marketplace.ownership": "Mülkiyet",
   "marketplace.owned": "Sahip olunan",
   "marketplace.unowned": "Sahipsiz",
-  "tracks.completeTasksToEarnPoints": "Puan kazanmak için {{chapter}} görevlerini tamamlayın."
+  "tracks.completeTasksToEarnPoints": "Puan kazanmak için {{chapter}} görevlerini tamamlayın.",
+  "fishingPuzzle.freeAttemptAvailable": "Kullanılabilir 1 ücretsiz denemeniz var. Kullanmak ister misin?",
+  "description.squidChicken.boost": "+0.1 Yumurta",
+  "description.anemoneFlower.boost": "1 Ücretsiz Balıkçılık Tekrar Deneme",
+  "description.mermaidSheep.boost": "-5% Koyun Yemi"
 }
