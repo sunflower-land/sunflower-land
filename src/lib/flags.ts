@@ -126,7 +126,6 @@ const FEATURE_FLAGS = {
   INSTANT_RECIPES: defaultFeatureFlag,
   SHOW_BOOSTS: defaultFeatureFlag,
   PET_GUIDE: defaultFeatureFlag,
-  AUCTION_RAFFLES: defaultFeatureFlag,
   CHAPTER_TRACKS: defaultFeatureFlag,
   CHAPTER_COLLECTIONS: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;

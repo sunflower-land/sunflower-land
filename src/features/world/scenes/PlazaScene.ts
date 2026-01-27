@@ -16,7 +16,6 @@ import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { DogContainer } from "../containers/DogContainer";
 import { PetContainer } from "../containers/PetContainer";
 import { getCurrentChapter, ChapterName } from "features/game/types/chapters";
-import { hasFeatureAccess } from "lib/flags";
 
 const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {
   "Solar Flare": undefined,
@@ -333,23 +332,19 @@ export class PlazaScene extends BaseScene {
       }
     });
 
-    if (hasFeatureAccess(this.gameState, "AUCTION_RAFFLES")) {
-      const prizesChest = this.add.sprite(560, 245, "prizes_chest");
-      prizesChest
-        .setInteractive({ cursor: "pointer" })
-        .on("pointerdown", () => {
-          // if (this.checkDistanceToSprite(prizesChest, 75)) {
-          interactableModalManager.open("chapter_raffles");
-          // } else {
-          //   this.currentPlayer?.speak(translate("base.iam.far.away"));
-          // }
-        });
+    const prizesChest = this.add.sprite(560, 245, "prizes_chest");
+    prizesChest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      // if (this.checkDistanceToSprite(prizesChest, 75)) {
+      interactableModalManager.open("chapter_raffles");
+      // } else {
+      //   this.currentPlayer?.speak(translate("base.iam.far.away"));
+      // }
+    });
 
-      const balloonLabel = new Label(this, "PRIZES", "gold");
-      balloonLabel.setPosition(560, 230);
-      balloonLabel.setDepth(10000000);
-      this.add.existing(balloonLabel);
-    }
+    const balloonLabel = new Label(this, "PRIZES", "gold");
+    balloonLabel.setPosition(560, 230);
+    balloonLabel.setDepth(10000000);
+    this.add.existing(balloonLabel);
 
     let bumpkins = PLAZA_BUMPKINS;
     const now = Date.now();
