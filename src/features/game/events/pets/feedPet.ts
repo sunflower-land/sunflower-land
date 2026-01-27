@@ -3,6 +3,7 @@ import {
   isCollectibleBuilt,
   isTemporaryCollectibleActive,
 } from "features/game/lib/collectibleBuilt";
+import { isWearableActive } from "features/game/lib/wearables";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { CookableName } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
@@ -81,6 +82,10 @@ export function getPetEnergy({
     hasVipAccess({ game, now: createdAt }) &&
     getCurrentChapter(createdAt) === "Paw Prints"
   ) {
+    energy += 5;
+  }
+
+  if (isWearableActive({ game, name: "Walrus Onesie" })) {
     energy += 5;
   }
 

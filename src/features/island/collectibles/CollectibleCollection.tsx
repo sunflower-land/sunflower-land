@@ -2769,6 +2769,22 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Crabs and Traps Banner"
     />
   ),
+  "Diving Helmet": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `50%`,
+        transform: "translatex(-50%)",
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+      }}
+      image={ITEM_DETAILS["Diving Helmet"].image}
+      alt="Diving Helmet"
+    />
+  ),
   "Paw Prints Rug": (props: CollectibleProps) => (
     <ImageStyle
       {...props}

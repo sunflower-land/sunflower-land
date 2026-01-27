@@ -348,6 +348,7 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
  * If the Hoard limit needs to be set more than 100, please set it in MAX_WEARABLES
  */
 export const MAX_BUMPKIN_WEARABLES: BumpkinItem[] = [
+  "Walrus Onesie",
   "Knight Gambit",
   "Royal Braids",
   "Bumpkin Armor",
