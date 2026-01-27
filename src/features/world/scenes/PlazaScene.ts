@@ -334,17 +334,17 @@ export class PlazaScene extends BaseScene {
 
     const prizesChest = this.add.sprite(560, 245, "prizes_chest");
     prizesChest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      // if (this.checkDistanceToSprite(prizesChest, 75)) {
-      interactableModalManager.open("chapter_raffles");
-      // } else {
-      //   this.currentPlayer?.speak(translate("base.iam.far.away"));
-      // }
+      if (this.checkDistanceToSprite(prizesChest, 100)) {
+        interactableModalManager.open("chapter_raffles");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
     });
 
-    const balloonLabel = new Label(this, "PRIZES", "gold");
-    balloonLabel.setPosition(560, 230);
-    balloonLabel.setDepth(10000000);
-    this.add.existing(balloonLabel);
+    const prizesLabel = new Label(this, "PRIZES", "gold");
+    prizesLabel.setPosition(560, 230);
+    prizesLabel.setDepth(10000000);
+    this.add.existing(prizesLabel);
 
     let bumpkins = PLAZA_BUMPKINS;
     const now = Date.now();
