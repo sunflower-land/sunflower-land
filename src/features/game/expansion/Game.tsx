@@ -95,6 +95,7 @@ import { RevealPet } from "features/island/pets/RevealPet";
 import { LeagueResults } from "./components/LeagueResults";
 import { MigrateToLinkedWallet } from "./components/MigrateToLinkedWallet";
 import { DailyRewardClaim } from "../components/DailyReward";
+import { ChapterStart } from "features/world/ui/tracks/ChapterStart";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -214,6 +215,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   leagueResults: false,
   linkWallet: true,
   dailyReward: true,
+  chapter: true,
 };
 
 // State change selectors
@@ -242,6 +244,7 @@ const isPurchasing = (state: MachineState) =>
   state.matches("purchasing") || state.matches("buyingBlockBucks");
 
 const showGems = (state: MachineState) => state.matches("gems");
+const showChapter = (state: MachineState) => state.matches("chapter");
 const showCommunityCoin = (state: MachineState) =>
   state.matches("communityCoin");
 const _showReferralRewards = (state: MachineState) =>
@@ -437,6 +440,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const buyingSFL = useSelector(gameService, isBuyingSFL);
   const error = useSelector(gameService, isError);
   const purchasing = useSelector(gameService, isPurchasing);
+  const showChapterStart = useSelector(gameService, showChapter);
   const hoarding = useSelector(gameService, isHoarding);
   const swarming = useSelector(gameService, isSwarming);
   const coolingDown = useSelector(gameService, isCoolingDown);
@@ -665,6 +669,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             {traded && <Traded />}
             {listing && <Loading text={t("listing")} />}
             {listed && <Listed />}
+            {showChapterStart && <ChapterStart />}
             {deletingListing && <Loading text={t("deleting.listing")} />}
             {listingDeleted && <ListingDeleted />}
             {sniped && <Sniped />}

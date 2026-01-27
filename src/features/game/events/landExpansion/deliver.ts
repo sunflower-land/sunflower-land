@@ -41,8 +41,8 @@ export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   finn: 3,
   timmy: 4,
   cornwell: 4,
-  tywin: 5,
   jester: 4,
+  tywin: 5,
   pharaoh: 5,
 };
 
@@ -96,6 +96,10 @@ export function generateDeliveryTickets({
     !hasClaimedBonus
   ) {
     amount *= 2;
+  }
+
+  if (game.chapter?.surge?.power && game.chapter.surge.power > 0) {
+    amount += 1;
   }
 
   return amount;
@@ -391,6 +395,10 @@ export function deliverOrder({
 
     if (isTicketOrder && ticketTasksAreFrozen) {
       throw new Error("Ticket tasks are frozen");
+    }
+
+    if (isTicketOrder && !!game.chapter?.surge?.power) {
+      game.chapter.surge.power -= 1;
     }
 
     getKeys(order.items).forEach((name) => {

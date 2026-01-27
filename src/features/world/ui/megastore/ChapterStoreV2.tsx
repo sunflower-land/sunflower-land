@@ -9,8 +9,11 @@ import {
   CHAPTERS,
   CHAPTER_STORES,
   ChapterName,
+  getChapterArtefact,
+  getChapterTicket,
   getCurrentChapter,
   isChapterWearable,
+  secondsLeftInChapter,
 } from "features/game/types/chapters";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { BumpkinItem } from "features/game/types/bumpkin";
@@ -123,6 +126,10 @@ export const ChapterStoreV2: React.FC<{
   const hasSurges =
     !!state.inventory["Chapter Surge"] || !!state.chapter?.surge;
 
+  const ticketCount = state.inventory[getChapterTicket(now)]?.toNumber() ?? 0;
+  const artefactCount =
+    state.inventory[getChapterArtefact(now)]?.toNumber() ?? 0;
+
   return (
     <>
       <ModalOverlay
@@ -143,27 +150,49 @@ export const ChapterStoreV2: React.FC<{
         />
       </ModalOverlay>
 
+      {!readonly && (
+        <InnerPanel className="flex flex-wrap justify-between mb-1">
+          <div className="flex items-center">
+            <img src={SUNNYSIDE.icons.stopwatch} className="h-8 mr-1" />
+            <div>
+              <Label type="info" className="text-xs">
+                {t("tracks.chapterEnds")}
+              </Label>
+              <p className="text-xxs ml-1">
+                {secondsToString(secondsLeftInChapter(now), {
+                  length: "medium",
+                })}
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-col items-end">
+            <div className="flex items-center">
+              <p className="text-xs">{ticketCount}</p>
+              <div className="w-7 h-4 flex items-center justify-center">
+                <img
+                  src={ITEM_DETAILS[getChapterTicket(now)].image}
+                  className="h-full object-contain"
+                />
+              </div>
+            </div>
+            <div className="flex items-center">
+              <p className="text-xs">{artefactCount}</p>
+
+              <div className="w-7 h-4 flex items-center justify-center">
+                <img
+                  src={ITEM_DETAILS[getChapterArtefact(now)].image}
+                  className="h-full object-contain"
+                />
+              </div>
+            </div>
+          </div>
+        </InnerPanel>
+      )}
+
       <InnerPanel className="mb-1">
-        <div className="flex justify-between px-2 flex-wrap pb-1">
-          <Label type="default" className="mb-1">
-            {t("chapterStore.store")}
-          </Label>
-          <Label
-            icon={SUNNYSIDE.icons.stopwatch}
-            type="danger"
-            className="mb-1"
-          >
-            {t("megaStore.timeRemaining", {
-              timeRemaining: secondsToString(timeRemaining, {
-                length: "medium",
-                removeTrailingZeros: true,
-              }),
-            })}
-          </Label>
-        </div>
         <div className={classNames("flex flex-col p-2 pt-1")}>
-          <span className="text-xs pb-1">
-            {readonly ? t("megaStore.visit") : t("megaStore.msg1")}
+          <span className="text-xs pb-2">
+            {!readonly && t("chapterStore.msg1")}
           </span>
           {storeItems.length > 0 ? (
             <ItemListV2
@@ -183,8 +212,8 @@ export const ChapterStoreV2: React.FC<{
         <>
           <InnerPanel>
             <div className="flex justify-between px-2 flex-wrap pb-1">
-              <Label type="default" className="mb-1">
-                {t("chapterStore.buffs")}
+              <Label type="vibrant" className="mt-1">
+                {t("chapterStore.buffs", { ticket: getChapterTicket(now) })}
               </Label>
             </div>
             <div className={classNames("flex flex-col p-2 pt-1")}>

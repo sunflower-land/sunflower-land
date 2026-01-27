@@ -225,7 +225,8 @@ export type FarmActivityName =
   | `${MarineMarvelName} Map Piece Found`
   | "Map Missed"
   | `${ChapterTicket} Collected`
-  | `${ChapterName} ${TrackName} Milestone Claimed`;
+  | `${ChapterName} ${TrackName} Milestone Claimed`
+  | "Surge Activated";
 
 export function trackFarmActivity(
   activityName: FarmActivityName,

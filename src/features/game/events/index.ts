@@ -581,6 +581,11 @@ import {
   buyChapterStore,
   BuyChapterStoreAction,
 } from "./landExpansion/buyChapterStore";
+import { startChapter, StartChapterAction } from "./landExpansion/startChapter";
+import {
+  activateSurge,
+  ActivateSurgeAction,
+} from "./landExpansion/activateSurge";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -748,7 +753,9 @@ export type PlayingEvent =
   | PlaceWaterTrapAction
   | SpeedUpProcessingAction
   | ClaimTrackMilestoneAction
-  | BuyChapterStoreAction;
+  | BuyChapterStoreAction
+  | StartChapterAction
+  | ActivateSurgeAction;
 
 export type LocalVisitingEvent =
   | CollectGarbageAction
@@ -845,6 +852,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "animal.sold": sellAnimal,
   "building.spedUp": speedUpBuilding,
   "bear.sacrificed": sacrificeBear,
+  "chapter.started": startChapter,
+  "surge.activated": activateSurge,
   "collectible.spedUp": speedUpCollectible,
   "expansion.spedUp": speedUpExpansion,
   "recipe.spedUp": speedUpRecipe,

@@ -343,27 +343,27 @@ export function isChapterWearable(
 }
 
 const PAW_PRINTS_STORE = {
-  "surge-1": {
-    collectible: "Chapter Surge",
-    cost: {
-      items: { Floater: 1 },
-    },
-    type: "buff",
-  },
-  "surge-2": {
-    collectible: "Chapter Surge",
-    cost: {
-      sfl: 10,
-    },
-    type: "buff",
-  },
-  "surge-3": {
-    collectible: "Chapter Surge",
-    cost: {
-      items: { "Moon Crystal": 30 },
-    },
-    type: "buff",
-  },
+  // "surge-1": {
+  //   collectible: "Chapter Surge",
+  //   cost: {
+  //     items: { Floater: 1 },
+  //   },
+  //   type: "buff",
+  // },
+  // "surge-2": {
+  //   collectible: "Chapter Surge",
+  //   cost: {
+  //     sfl: 10,
+  //   },
+  //   type: "buff",
+  // },
+  // "surge-3": {
+  //   collectible: "Chapter Surge",
+  //   cost: {
+  //     items: { "Moon Crystal": 30 },
+  //   },
+  //   type: "buff",
+  // },
 
   "pet-hat": {
     wearable: "Pet Specialist Hat",

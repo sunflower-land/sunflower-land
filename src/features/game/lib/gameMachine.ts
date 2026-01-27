@@ -110,6 +110,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { isDailyRewardReady } from "../events/landExpansion/claimDailyReward";
 import { getDailyRewardLastAcknowledged } from "../components/DailyReward";
 import { LanguageCode } from "lib/i18n/dictionaries/language";
+import { getCurrentChapter } from "../types/chapters";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -756,6 +757,7 @@ export type BlockchainState = {
     | "marketplaceSale"
     | "tradesCleared"
     | "coolingDown"
+    | "chapter"
     | "buyingBlockBucks"
     | "auctionResults"
     | "claimAuction"
@@ -1206,6 +1208,22 @@ export function startGame(authContext: AuthContext) {
               },
             },
             {
+              target: "chapter",
+              cond: (context) => {
+                if (!hasFeatureAccess(context.state, "CHAPTER_TRACKS"))
+                  return false;
+                const chapterName = context.state.chapter?.name;
+
+                console.log("chapterName", chapterName);
+
+                if (!chapterName) return true;
+
+                console.log("getCurrentChapter", getCurrentChapter(Date.now()));
+
+                return chapterName !== getCurrentChapter(Date.now());
+              },
+            },
+            {
               target: "vip",
               cond: (context) => {
                 const isNew = context.state.bumpkin.experience < 100;
@@ -1489,6 +1507,14 @@ export function startGame(authContext: AuthContext) {
             "airdrop.claimed": (GAME_EVENT_HANDLERS as any)["airdrop.claimed"],
             CLOSE: {
               target: "playing",
+            },
+          },
+        },
+        chapter: {
+          on: {
+            "chapter.started": (GAME_EVENT_HANDLERS as any)["chapter.started"],
+            CONTINUE: {
+              target: "notifying",
             },
           },
         },

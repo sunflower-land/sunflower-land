@@ -924,6 +924,54 @@ describe("deliver", () => {
     );
   });
 
+  it("provides +1 ticket is a surge is active", () => {
+    const createdAt = new Date("2024-05-10T16:00:00Z").getTime();
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          Sunflower: new Decimal(60),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 3,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: new Date("2023-10-31T15:00:00Z").getTime(),
+              from: "pumpkin' pete",
+              items: {
+                Sunflower: 50,
+              },
+              reward: {},
+            },
+          ],
+        },
+        chapter: {
+          name: "Paw Prints",
+          boughtAt: {},
+          surge: {
+            power: 10,
+          },
+        },
+        bumpkin: INITIAL_BUMPKIN,
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt,
+    });
+
+    expect(state.inventory[getChapterTicket(createdAt)]).toEqual(
+      new Decimal(2),
+    );
+
+    // Uses the surge
+    expect(state.chapter?.surge?.power).toEqual(9);
+  });
+
   it("provides +1 tickets when Cowboy Hat is worn at Bull Run Season", () => {
     const mockDate = new Date(2024, 11, 11);
     jest.useFakeTimers();

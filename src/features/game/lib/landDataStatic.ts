@@ -148,7 +148,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
 
   chapter: {
-    name: "Paw Prints",
+    name: "Better Together",
     boughtAt: {},
   },
 
@@ -280,14 +280,15 @@ export const STATIC_OFFLINE_FARM: GameState = {
       {
         createdAt: Date.now(),
         readyAt: Date.now(),
-        from: "betty",
+        from: "tywin",
         reward: {
-          items: {},
-          coins: 64,
+          items: {
+            "Pet Cookie": 30,
+          },
         },
         id: "1",
         items: {
-          Sunflower: 30,
+          Gold: 1,
         },
       },
       {

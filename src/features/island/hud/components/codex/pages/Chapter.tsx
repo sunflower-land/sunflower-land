@@ -24,6 +24,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState } from "features/game/types/game";
 import { MegaBountyBoardContent } from "features/world/ui/flowerShop/MegaBountyBoard";
 import { useNow } from "lib/utils/hooks/useNow";
+import { hasFeatureAccess } from "lib/flags";
+import { ChapterStoreV2 } from "features/world/ui/megastore/ChapterStoreV2";
 
 export const CHAPTER_GRAPHICS: Record<ChapterName, string> = {
   "Solar Flare": "?",
@@ -148,9 +150,13 @@ export const Chapter: React.FC<Props> = ({
         </div>
       </InnerPanel>
       <MegaBountyBoardContent readonly />
-      <InnerPanel className="mb-1">
-        <ChapterStore readonly state={state} />
-      </InnerPanel>
+      {hasFeatureAccess(state, "CHAPTER_TRACKS") ? (
+        <ChapterStoreV2 readonly />
+      ) : (
+        <InnerPanel className="mb-1">
+          <ChapterStore readonly state={state} />
+        </InnerPanel>
+      )}
       <ChapterAuctions gameState={state} farmId={farmId} chapter={chapter} />
       <ChapterMutants chapter={chapter} />
       <InnerPanel className="mb-1">
