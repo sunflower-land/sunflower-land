@@ -166,6 +166,11 @@ function getEggYieldBoosts(game: GameState): {
     boostsUsed.push("Ayam Cemani");
   }
 
+  if (isCollectibleBuilt({ name: "Squid Chicken", game })) {
+    boost += 0.1;
+    boostsUsed.push("Squid Chicken");
+  }
+
   if (game.bumpkin.skills["Abundant Harvest"]) {
     boost += 0.2;
     boostsUsed.push("Abundant Harvest");
@@ -499,6 +504,14 @@ export function getBoostedFoodQuantity({
   if (animalType === "Cow" && isCollectibleBuilt({ name: "Dr Cow", game })) {
     baseFoodQuantity *= 0.95;
     boostsUsed.push("Dr Cow");
+  }
+
+  if (
+    animalType === "Sheep" &&
+    isCollectibleBuilt({ name: "Mermaid Sheep", game })
+  ) {
+    baseFoodQuantity *= 0.95;
+    boostsUsed.push("Mermaid Sheep");
   }
 
   if (

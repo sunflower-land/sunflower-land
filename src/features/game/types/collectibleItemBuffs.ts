@@ -553,6 +553,14 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: SUNNYSIDE.resource.egg,
     },
   ],
+  "Squid Chicken": () => [
+    {
+      shortDescription: translate("description.squidChicken.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.resource.egg,
+    },
+  ],
   "El Pollo Veloz": () => [
     {
       shortDescription: translate("description.el.pollo.veloz.boost"),
@@ -1362,6 +1370,14 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: SUNNYSIDE.resource.wool,
     },
   ],
+  "Mermaid Sheep": () => [
+    {
+      shortDescription: translate("description.mermaidSheep.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.animalFoods.kernel_blend,
+    },
+  ],
   Mootant: () => [
     {
       shortDescription: translate("description.mootant.boost"),
@@ -1428,6 +1444,14 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   Jellyfish: () => [
     {
       shortDescription: translate("description.jellyfish.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
+  ],
+  "Anemone Flower": () => [
+    {
+      shortDescription: translate("description.anemoneFlower.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: SUNNYSIDE.icons.fish,

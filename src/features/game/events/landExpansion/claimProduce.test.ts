@@ -309,6 +309,49 @@ describe("claimProduce", () => {
     expect(newState.inventory.Egg).toEqual(new Decimal(1.2));
   });
 
+  it("gives +0.1 eggs for chickens when a Squid Chicken is placed", () => {
+    const chickenId = "123";
+
+    const newState = claimProduce({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Squid Chicken": new Decimal(1),
+        },
+        collectibles: {
+          "Squid Chicken": [
+            {
+              id: "squid",
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+              readyAt: now,
+            },
+          ],
+        },
+        henHouse: {
+          ...GAME_STATE.henHouse,
+          animals: {
+            [chickenId]: {
+              id: chickenId,
+              type: "Chicken",
+              createdAt: 0,
+              state: "ready",
+              experience: 60,
+              asleepAt: 0,
+              awakeAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Chicken", id: chickenId },
+      createdAt: now,
+    });
+
+    expect(newState.inventory.Egg).toEqual(new Decimal(1.1));
+  });
+
   it("gives +0.25 yield for all produce for chickens when a Cattlegrim is being worn", () => {
     const chickenId = "123";
 
