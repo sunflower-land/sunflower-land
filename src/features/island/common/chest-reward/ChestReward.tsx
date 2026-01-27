@@ -21,6 +21,7 @@ interface Props {
   reward?: Reward;
   onCollected: (success: boolean) => void;
   onOpen: () => void;
+  inline?: boolean;
 }
 
 type Challenge = "goblins" | "chest";
@@ -30,6 +31,7 @@ export const ChestReward: React.FC<Props> = ({
   reward,
   onCollected,
   onOpen,
+  inline = false,
 }) => {
   const { gameService } = useContext(Context);
   const [opened, setOpened] = useState(false);
@@ -68,53 +70,59 @@ export const ChestReward: React.FC<Props> = ({
 
   const { items, sfl, coins } = reward;
 
+  const content = (
+    <Panel>
+      {loading && <Loading />}
+      {opened ? (
+        <ClaimReward
+          reward={{
+            id: "chest-reward",
+            items:
+              items?.reduce(
+                (acc, { name, amount }) => {
+                  return { ...acc, [name]: amount };
+                },
+                {} as Record<InventoryItemName, number>,
+              ) ?? {},
+            wearables: {},
+            sfl: sfl ? new Decimal(sfl).toNumber() : 0,
+            coins: coins ?? 0,
+            message: translate("reward.woohoo"),
+          }}
+          onClose={claimAndClose}
+        />
+      ) : (
+        <>
+          <div
+            // render and hide captchas so images have time to load
+            className={classNames(
+              "flex flex-col items-center justify-between",
+              { hidden: loading },
+            )}
+          >
+            {challenge === "goblins" && (
+              <StopTheGoblins
+                onFail={fail}
+                onOpen={open}
+                collectedItem={collectedItem}
+              />
+            )}
+            {challenge === "chest" && (
+              <ChestCaptcha onFail={fail} onOpen={open} />
+            )}
+          </div>
+
+          <CaptchaInfo collectedItem={collectedItem} />
+        </>
+      )}
+    </Panel>
+  );
+
+  if (inline) return content;
+
   return (
     <Modal show={true} onHide={opened ? () => claimAndClose() : undefined}>
-      <Panel>
-        {loading && <Loading />}
-        {opened ? (
-          <ClaimReward
-            reward={{
-              id: "chest-reward",
-              items:
-                items?.reduce(
-                  (acc, { name, amount }) => {
-                    return { ...acc, [name]: amount };
-                  },
-                  {} as Record<InventoryItemName, number>,
-                ) ?? {},
-              wearables: {},
-              sfl: sfl ? new Decimal(sfl).toNumber() : 0,
-              coins: coins ?? 0,
-              message: translate("reward.woohoo"),
-            }}
-            onClose={claimAndClose}
-          />
-        ) : (
-          <>
-            <div
-              // render and hide captchas so images have time to load
-              className={classNames(
-                "flex flex-col items-center justify-between",
-                { hidden: loading },
-              )}
-            >
-              {challenge === "goblins" && (
-                <StopTheGoblins
-                  onFail={fail}
-                  onOpen={open}
-                  collectedItem={collectedItem}
-                />
-              )}
-              {challenge === "chest" && (
-                <ChestCaptcha onFail={fail} onOpen={open} />
-              )}
-            </div>
-
-            <CaptchaInfo collectedItem={collectedItem} />
-          </>
-        )}
-      </Panel>
+      {content}
     </Modal>
   );
 };

@@ -79,7 +79,7 @@ const selectCropsSold = (state: MachineState) =>
   state.context.state.farmActivity?.["Sunflower Sold"] ?? 0;
 
 // A player that has been vetted and is engaged in the season.
-const isSeasonedPlayer = (state: MachineState): boolean => {
+export const isSeasonedPlayer = (state: MachineState): boolean => {
   // - level 60+
   return (
     getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 60 &&
