@@ -28,7 +28,8 @@ import { useNow } from "lib/utils/hooks/useNow";
 import { ChapterTracks } from "../tracks/ChapterTracks";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { hasFeatureAccess } from "lib/flags";
-import { ChapterBuffs } from "../tracks/ChapterBuffs";
+import giftIcon from "assets/icons/gift.png";
+import { ChapterStoreV2 } from "./ChapterStoreV2";
 
 interface Props {
   onClose: () => void;
@@ -75,7 +76,7 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const now = useNow();
-  const [tab, setTab] = useState<"chapter" | "tracks">("chapter");
+  const [tab, setTab] = useState<"chapter" | "tracks" | "store">("chapter");
   const icon = ITEM_DETAILS[getChapterTicket(now)].image ?? shopIcon;
   const { t } = useAppTranslation();
 
@@ -99,6 +100,11 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
           ? [
               {
                 icon: shopIcon,
+                name: t("chapterStore.store", { chapter }),
+                id: "store" as const,
+              },
+              {
+                icon: giftIcon,
                 name: t("chapterStore.tracks", { chapter }),
                 id: "tracks" as const,
               },
@@ -114,10 +120,11 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
             <InnerPanel>
               <ChapterStore state={state} />
             </InnerPanel>
-            {hasFeatureAccess(state, "CHAPTER_TRACKS") && <ChapterBuffs />}
           </div>
         </>
       )}
+
+      {tab === "store" && <ChapterStoreV2 />}
       {tab === "tracks" && <ChapterTracks onClose={onClose} />}
     </CloseButtonPanel>
   );

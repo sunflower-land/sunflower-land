@@ -147,6 +147,11 @@ export const STATIC_OFFLINE_FARM: GameState = {
     type: "basic",
   },
 
+  chapter: {
+    name: "Paw Prints",
+    boughtAt: {},
+  },
+
   home: {
     collectibles: {
       Wardrobe: [

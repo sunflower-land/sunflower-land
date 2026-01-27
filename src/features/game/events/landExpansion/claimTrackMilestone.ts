@@ -3,6 +3,7 @@ import { produce } from "immer";
 import { GameState, InventoryItemName } from "../../types/game";
 import { CHAPTER_TRACKS, TrackName } from "features/game/types/tracks";
 import {
+  ChapterName,
   getChapterTicket,
   getCurrentChapter,
 } from "features/game/types/chapters";
@@ -10,7 +11,7 @@ import { trackFarmActivity } from "features/game/types/farmActivity";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
-import { addChapterBuff } from "./buyChapterBuff";
+import cloneDeep from "lodash.clonedeep";
 
 export type ClaimTrackMilestoneAction = {
   type: "trackMilestone.claimed";
@@ -85,10 +86,6 @@ export function claimTrackMilestone({
 
     if (rewards.flower) {
       game.balance = game.balance.add(new Decimal(rewards.flower));
-    }
-
-    if (rewards.chapterBuff) {
-      game = addChapterBuff({ game, chapter });
     }
 
     game.farmActivity = trackFarmActivity(

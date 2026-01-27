@@ -27,7 +27,6 @@ import { OPEN_SEA_WEARABLES } from "metadata/metadata";
 import { GameState } from "features/game/types/game";
 import { useNow } from "lib/utils/hooks/useNow";
 import { hasFeatureAccess } from "lib/flags";
-import { ChapterBuffs } from "../tracks/ChapterBuffs";
 
 // type guard for WearablesItem | CollectiblesItem
 export const isWearablesItem = (

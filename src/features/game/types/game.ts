@@ -118,7 +118,7 @@ import { PetShopItemName } from "./petShop";
 import { League } from "features/leagues/leagues";
 import { Buff, BuffName } from "./buffs";
 import { CrustaceanChum, CrustaceanName, WaterTrapName } from "./crustaceans";
-import { ChapterBuffCurrency } from "../events/landExpansion/buyChapterBuff";
+import { ChapterBuffCurrency } from "../events/landExpansion/buyChapterStore";
 
 export type Reward = {
   coins?: number;
@@ -634,7 +634,8 @@ export type InventoryItemName =
   | PetResourceName
   | PetShopItemName
   | CrustaceanName
-  | ChapterRaffleTicket;
+  | ChapterRaffleTicket
+  | "Chapter Surge";
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -1969,18 +1970,15 @@ export interface GameState {
     boughtAt?: Partial<Record<FloatingShopItemName, number>>;
     petalPuzzleSolvedAt?: number;
   };
+  chapter?: {
+    name: ChapterName;
+    boughtAt: Partial<Record<string, number>>;
+    surge?: {
+      power: number;
+    };
+  };
   megastore?: {
     boughtAt: Partial<Record<ChapterTierItemName, number>>;
-    buffs?: Partial<
-      Record<
-        ChapterName,
-        {
-          count: number;
-          power: number;
-          bought: Partial<Record<ChapterBuffCurrency, number>>;
-        }
-      >
-    >;
   };
   withdrawals?: {
     amount: number;

@@ -274,6 +274,8 @@ import goblinBanner from "assets/decorations/banners/goblin_banner.png";
 import humanBanner from "assets/decorations/banners/human_banner.png";
 import greatBloomBanner from "assets/decorations/banners/great_bloom_banner.png";
 
+import surge from "assets/icons/surge.webp";
+
 // Egg
 import redEgg from "assets/sfts/easter/red_egg.png";
 import yellowEgg from "assets/sfts/easter/yellow_egg.png";
@@ -6839,5 +6841,9 @@ export const ITEM_DETAILS: Items = {
   "Crabs and Traps Raffle Ticket": {
     image: crabChapterRaffleTicket,
     description: "?",
+  },
+  "Chapter Surge": {
+    image: surge,
+    description: translate("description.chapterSurge"),
   },
 };

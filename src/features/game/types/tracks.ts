@@ -6,7 +6,6 @@ export type MilestoneRewards = {
   wearables?: Wardrobe;
   coins?: number;
   flower?: number;
-  chapterBuff?: number;
 };
 
 export type TrackName = "free" | "premium";

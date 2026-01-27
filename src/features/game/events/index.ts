@@ -577,6 +577,10 @@ import {
   speedUpProcessing,
   SpeedUpProcessingAction,
 } from "./landExpansion/speedUpProcessing";
+import {
+  buyChapterStore,
+  BuyChapterStoreAction,
+} from "./landExpansion/buyChapterStore";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -743,7 +747,8 @@ export type PlayingEvent =
   | CollectWaterTrapAction
   | PlaceWaterTrapAction
   | SpeedUpProcessingAction
-  | ClaimTrackMilestoneAction;
+  | ClaimTrackMilestoneAction
+  | BuyChapterStoreAction;
 
 export type LocalVisitingEvent =
   | CollectGarbageAction
@@ -879,6 +884,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "bumpkin.feed": feedBumpkin,
   "trackMilestone.claimed": claimTrackMilestone,
   "skill.chosen": choseSkill,
+  "chapterStore.bought": buyChapterStore,
   "skills.reset": resetSkills,
   "seed.bought": seedBought,
   "achievement.claimed": claimAchievement,

@@ -16,6 +16,8 @@ import { BeachBountyChapterArtefact } from "./treasure";
 import { getKeys } from "./decorations";
 import { ChapterFish } from "./fishing";
 import { getObjectEntries } from "../expansion/lib/utils";
+import { BumpkinItem } from "./bumpkin";
+import { InventoryItemName } from "./game";
 
 export type ChapterName =
   | "Solar Flare"
@@ -308,3 +310,115 @@ export function getPreviousChapterBanner(now: number): ChapterBanner {
 
   return `${previousChapter} Banner`;
 }
+
+type ChapterShopBase = {
+  type: "buff" | "shop";
+  cost: {
+    items?: Partial<Record<InventoryItemName, number>>;
+    sfl?: number;
+  };
+};
+
+type ChapterShopCollectible = ChapterShopBase & {
+  collectible: InventoryItemName;
+};
+type ChapterShopWearable = ChapterShopBase & {
+  wearable: BumpkinItem;
+};
+
+type ChapterShopItem = ChapterShopCollectible | ChapterShopWearable;
+
+type ChapterStore = Record<string, ChapterShopItem>;
+
+export function isChapterCollectible(
+  item: ChapterShopItem,
+): item is ChapterShopCollectible {
+  return "collectible" in item;
+}
+
+export function isChapterWearable(
+  item: ChapterShopItem,
+): item is ChapterShopWearable {
+  return "wearable" in item;
+}
+
+const PAW_PRINTS_STORE = {
+  "surge-1": {
+    collectible: "Chapter Surge",
+    cost: {
+      items: { Floater: 1 },
+    },
+    type: "buff",
+  },
+  "surge-2": {
+    collectible: "Chapter Surge",
+    cost: {
+      sfl: 10,
+    },
+    type: "buff",
+  },
+  "surge-3": {
+    collectible: "Chapter Surge",
+    cost: {
+      items: { "Moon Crystal": 30 },
+    },
+    type: "buff",
+  },
+
+  "pet-hat": {
+    wearable: "Pet Specialist Hat",
+    cost: {
+      sfl: 100,
+    },
+    type: "buff",
+  },
+
+  "pet-pants": {
+    wearable: "Pet Specialist Pants",
+    cost: {
+      sfl: 100,
+    },
+    type: "buff",
+  },
+
+  "magma-stone": {
+    collectible: "Magma Stone",
+    cost: { items: { "Pet Cookie": 8500 } },
+    type: "shop",
+  },
+  cornucopia: {
+    collectible: "Cornucopia",
+    cost: { items: { "Pet Cookie": 1000 } },
+    type: "shop",
+  },
+
+  "saw-fish": {
+    wearable: "Saw Fish",
+    cost: { items: { "Moon Crystal": 160 } },
+    type: "shop",
+  },
+  "lunar-temple": {
+    collectible: "Lunar Temple",
+    cost: { items: { "Pet Cookie": 3500 } },
+    type: "shop",
+  },
+} satisfies ChapterStore;
+
+const EMPTY_STORE: ChapterStore = {};
+
+export const CHAPTER_STORES: Record<ChapterName, ChapterStore> = {
+  "Solar Flare": EMPTY_STORE,
+  "Dawn Breaker": EMPTY_STORE,
+  "Witches' Eve": EMPTY_STORE,
+  "Catch the Kraken": EMPTY_STORE,
+  "Spring Blossom": EMPTY_STORE,
+  "Clash of Factions": EMPTY_STORE,
+  "Pharaoh's Treasure": EMPTY_STORE,
+  "Bull Run": EMPTY_STORE,
+  "Winds of Change": EMPTY_STORE,
+  "Great Bloom": EMPTY_STORE,
+  "Better Together": EMPTY_STORE,
+
+  "Paw Prints": PAW_PRINTS_STORE,
+  "Crabs and Traps": EMPTY_STORE, // TODO!
+};
