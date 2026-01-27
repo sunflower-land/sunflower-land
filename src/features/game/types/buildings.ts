@@ -470,8 +470,17 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint[]> = {
   "Pet House": [
     {
       unlocksAtLevel: 0,
-      ingredients: [],
-      coins: 0,
+      ingredients: [
+        {
+          item: "Wood",
+          amount: new Decimal(200),
+        },
+        {
+          item: "Stone",
+          amount: new Decimal(100),
+        },
+      ],
+      coins: 5000,
       constructionSeconds: 2 * 60 * 60,
     },
   ],
