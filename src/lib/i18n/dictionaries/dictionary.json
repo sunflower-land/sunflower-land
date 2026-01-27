@@ -6738,7 +6738,7 @@
   "description.giantBanana": "That will stop the traffic!",
   "craft.with.friends": "Build with friends",
   "instaGrow": "Insta Grow",
-  "instaGrow.description": "Tired of waiting? Use the power of Obsidian to insta-grow the {{project}}",
+  "instaGrow.description": "Tired of waiting? Use the power of Obsidian to insta-grow the {{project}}.",
   "instaGrow.confirmation": "Are you sure you want to insta-grow the {{project}} for {{amount}} Obsidian",
   "instaGrow.timeRemaining": "Time remaining: {{time}}",
   "flip.mobile.label": "Flip",

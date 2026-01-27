@@ -16,7 +16,7 @@ import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { DogContainer } from "../containers/DogContainer";
 import { PetContainer } from "../containers/PetContainer";
 import { getCurrentChapter, ChapterName } from "features/game/types/chapters";
-import { hasFeatureAccess } from "lib/flags";
+import { hasFeatureAccess, hasTimeBasedFeatureAccess } from "lib/flags";
 
 const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {
   "Solar Flare": undefined,
@@ -450,10 +450,12 @@ export class PlazaScene extends BaseScene {
         .setDepth(1000000000000);
     }
 
-    const vipGift = this.add.sprite(379, 240, "vip_gift");
-    vipGift.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      interactableModalManager.open("vip_chest");
-    });
+    if (!hasTimeBasedFeatureAccess("PET_CHAPTER_COMPLETE", now)) {
+      const vipGift = this.add.sprite(379, 240, "vip_gift");
+      vipGift.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+        interactableModalManager.open("vip_chest");
+      });
+    }
 
     if (this.gameState.inventory["Treasure Key"]) {
       this.add.sprite(106, 140, "key_disc").setDepth(1000000000);

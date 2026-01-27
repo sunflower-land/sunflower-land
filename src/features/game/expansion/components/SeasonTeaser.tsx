@@ -13,6 +13,8 @@ import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { LandBiomeName } from "features/island/biomes/biomes";
 import { getCurrentBiome } from "features/island/biomes/biomes";
+import { useNow } from "lib/utils/hooks/useNow";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
 
 interface Props {
   offset: number;
@@ -21,10 +23,16 @@ interface Props {
 const _island = (state: MachineState) => state.context.state.island;
 
 export const SeasonTeaser: React.FC<Props> = ({ offset }) => {
+  const now = useNow({ live: true, intervalMs: 1000 * 60 });
   const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
   const island = useSelector(gameService, _island);
   const biome: LandBiomeName = getCurrentBiome(island);
+
+  if (hasTimeBasedFeatureAccess("PET_CHAPTER_COMPLETE", now)) {
+    return null;
+  }
+
   return (
     <>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
