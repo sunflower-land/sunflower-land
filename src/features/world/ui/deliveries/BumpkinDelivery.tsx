@@ -34,7 +34,10 @@ import {
   NPC_DELIVERY_LEVELS,
   DeliveryNpcName,
 } from "features/island/delivery/lib/delivery";
-import { getChapterTicket } from "features/game/types/chapters";
+import {
+  getChapterTicket,
+  getCurrentChapter,
+} from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
 import {
@@ -58,6 +61,9 @@ import { RequiredReputation } from "features/island/hud/components/reputation/Re
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
+import { hasFeatureAccess } from "lib/flags";
+import { getChapterTaskPoints } from "features/game/types/tracks";
+import chapterPoints from "assets/icons/red_medal_short.webp";
 
 export const OrderCard: React.FC<{
   order: Order;
@@ -86,6 +92,7 @@ export const OrderCard: React.FC<{
   const { t } = useAppTranslation();
 
   const tickets = generateDeliveryTickets({ game, npc: order.from, now });
+  const hasTrackAccess = hasFeatureAccess(game, "CHAPTER_TRACKS");
 
   return (
     <>
@@ -138,44 +145,51 @@ export const OrderCard: React.FC<{
                 <SquareIcon icon={chest} width={7} />
                 <span className="text-xs ml-1">{t("reward")}</span>
               </div>
-              <Label type="warning" style={{ height: "25px" }}>
-                {order.reward.sfl !== undefined && (
-                  <div className="flex items-center mr-1">
-                    <span className="text-xs">
-                      {makeRewardAmountForLabel(order)}
-                    </span>
-                    <img src={token} className="h-4 w-auto ml-1" />
-                  </div>
-                )}
-                {order.reward.coins !== undefined && (
-                  <div className="flex items-center mr-1">
-                    <span className="text-xs">
-                      {makeRewardAmountForLabel(order)}
-                    </span>
-                    <img src={coinsImg} className="h-4 w-auto ml-1" />
-                  </div>
-                )}
-                {!!tickets && (
-                  <div className="flex items-center space-x-3 mr-1">
-                    <div className="flex items-center">
-                      <span className="text-xs mx-1">{tickets}</span>
+              <div className="flex items-center flex-wrap">
+                <Label type="warning" style={{ height: "25px" }}>
+                  {order.reward.sfl !== undefined && (
+                    <div className="flex items-center mr-1">
+                      <span className="text-xs">
+                        {makeRewardAmountForLabel(order)}
+                      </span>
+                      <img src={token} className="h-4 w-auto ml-1" />
+                    </div>
+                  )}
+                  {order.reward.coins !== undefined && (
+                    <div className="flex items-center mr-1">
+                      <span className="text-xs">
+                        {makeRewardAmountForLabel(order)}
+                      </span>
+                      <img src={coinsImg} className="h-4 w-auto ml-1" />
+                    </div>
+                  )}
+                  {!!tickets && (
+                    <div className="flex items-center space-x-3 mr-1">
+                      <div className="flex items-center">
+                        <span className="text-xs mx-1">{tickets}</span>
+                        <img
+                          src={ITEM_DETAILS[getChapterTicket(now)].image}
+                          className="h-4 w-auto"
+                        />
+                      </div>
+                    </div>
+                  )}
+                  {getKeys(order.reward.items ?? {}).map((item) => (
+                    <div className="flex items-center" key={item}>
+                      <span className="text-xs">{item}</span>
                       <img
-                        src={ITEM_DETAILS[getChapterTicket(now)].image}
-                        className="h-4 w-auto"
+                        src={ITEM_DETAILS[item].image}
+                        className="h-4 w-auto ml-1"
                       />
                     </div>
-                  </div>
+                  ))}
+                </Label>
+                {hasTrackAccess && !!tickets && (
+                  <Label type={"vibrant"} icon={chapterPoints} className="ml-2">
+                    {`${getChapterTaskPoints({ task: "delivery", points: tickets })}`}
+                  </Label>
                 )}
-                {getKeys(order.reward.items ?? {}).map((item) => (
-                  <div className="flex items-center" key={item}>
-                    <span className="text-xs">{item}</span>
-                    <img
-                      src={ITEM_DETAILS[item].image}
-                      className="h-4 w-auto ml-1"
-                    />
-                  </div>
-                ))}
-              </Label>
+              </div>
             </div>
           </div>
         </div>

@@ -34,7 +34,7 @@ import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { ResizableBar } from "components/ui/ProgressBar";
 import lockIcon from "assets/icons/lock.png";
-import codexIcon from "assets/icons/codex.webp";
+import chapterPointsIcon from "assets/icons/chapter_points.webp";
 import { shortenCount } from "lib/utils/formatNumber";
 import { Modal } from "components/ui/Modal";
 import { Rewards } from "features/game/expansion/components/ClaimReward";
@@ -62,9 +62,7 @@ export function getTrackProgress({
   state: GameState;
   chapter: ChapterName;
 }): TrackProgress {
-  const points =
-    state.farmActivity[`${CHAPTER_TICKET_NAME[chapter]} Delivery Rewarded`] ??
-    0;
+  const points = state.farmActivity[`${chapter} Points Earned`] ?? 0;
 
   const premium =
     state.farmActivity[`${chapter} premium Milestone Claimed`] ?? 0;
@@ -211,10 +209,10 @@ export const ChapterTracks: React.FC<{ onClose: () => void }> = ({
             borderTop: "1px solid #c28569",
           }}
         >
-          <img src={codexIcon} className="w-6 mr-[8px]" />
+          <img src={chapterPointsIcon} className="w-6 mr-[8px]" />
           <div className="flex-1">
             <p className="text-xxs">
-              Complete {chapterTicket} deliveries to earn points.
+              Complete {chapterTicket} tasks to earn points.
             </p>
           </div>
         </div>
