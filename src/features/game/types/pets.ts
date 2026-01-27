@@ -21,6 +21,9 @@ export const PET_HOUSE_CAPACITY: Record<
   3: { commonPets: 21, nftPets: 7 },
 };
 
+// Pet NFT dimensions for collision detection and placement
+export const PET_NFT_DIMENSIONS = { width: 2, height: 2 };
+
 export type PetName =
   // Dogs
   | "Barkley"

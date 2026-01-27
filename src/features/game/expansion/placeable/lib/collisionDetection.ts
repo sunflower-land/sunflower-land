@@ -31,6 +31,7 @@ import {
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { getObjectEntries } from "../../lib/utils";
 import { LandscapingPlaceable } from "../landscapingMachine";
+import { PET_NFT_DIMENSIONS } from "features/game/types/pets";
 
 export type Position = {
   width: number;
@@ -224,8 +225,8 @@ function detectPlaceableCollision(
     .map((item) => ({
       x: item.coordinates!.x,
       y: item.coordinates!.y,
-      height: 2,
-      width: 2,
+      height: PET_NFT_DIMENSIONS.height,
+      width: PET_NFT_DIMENSIONS.width,
     }));
 
   const boundingBoxes = [
@@ -403,13 +404,14 @@ function detectHomeCollision({
 
   const placed = home.collectibles;
 
+  // Don't filter by name - all items should collide with each other
   const collidingItems = getKeys(placed).filter(
-    (other) => !NON_COLLIDING_OBJECTS.includes(other) && other !== name,
+    (itemName) => !NON_COLLIDING_OBJECTS.includes(itemName),
   );
 
-  const placeableBounds = collidingItems.flatMap((name) => {
-    const items = placed[name] as PlacedItem[];
-    const dimensions = PLACEABLE_DIMENSIONS[name];
+  const placeableBounds = collidingItems.flatMap((itemName) => {
+    const items = placed[itemName] as PlacedItem[];
+    const dimensions = PLACEABLE_DIMENSIONS[itemName];
 
     return items
       .filter((item) => item.coordinates)
@@ -435,8 +437,8 @@ function detectHomeCollision({
     .map((item) => ({
       x: item.coordinates!.x,
       y: item.coordinates!.y,
-      height: 2,
-      width: 2,
+      height: PET_NFT_DIMENSIONS.height,
+      width: PET_NFT_DIMENSIONS.width,
     }));
 
   const boundingBoxes = [
@@ -479,8 +481,9 @@ function detectPetHouseCollision({
   const { petHouse } = state;
   const placed = petHouse?.pets ?? {};
 
+  // Don't filter by name - all same-name pets should collide with each other
   const collidingItems = getKeys(placed).filter(
-    (other) => !NON_COLLIDING_OBJECTS.includes(other) && other !== name,
+    (petName) => !NON_COLLIDING_OBJECTS.includes(petName),
   );
 
   const placeableBounds = collidingItems.flatMap((petName) => {
@@ -503,8 +506,8 @@ function detectPetHouseCollision({
     .map((item) => ({
       x: item.coordinates!.x,
       y: item.coordinates!.y,
-      height: 2,
-      width: 2,
+      height: PET_NFT_DIMENSIONS.height,
+      width: PET_NFT_DIMENSIONS.width,
     }));
 
   const allBoundingBoxes = [...placeableBounds, ...petNFTBoundingBox];

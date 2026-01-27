@@ -15,6 +15,7 @@ import {
 } from "features/island/hud/components/inventory/utils/inventory";
 import { PLACEABLE_LOCATIONS } from "../types/collectibles";
 import { ResourceItem } from "../expansion/placeable/lib/collisionDetection";
+import { isPetCollectible } from "./landExpansion/placeCollectible";
 import {
   RESOURCE_STATE_ACCESSORS,
   RESOURCE_MULTIPLIER,
@@ -111,16 +112,27 @@ export function claimAirdrop({
       const amountToRemove = -amount; // Remove unnecessary cloneDeep
       let remainingToRemove = amountToRemove; // Track remaining across all locations
 
-      // Remove placed collectibles from farm and home
+      // Remove placed collectibles from farm, home, and petHouse
       if (isPlaceableCollectible(itemName)) {
         PLACEABLE_LOCATIONS.forEach((location) => {
           if (remainingToRemove <= 0) return; // Skip if we've removed enough
 
-          const placedCollectibles = (
-            (location === "home"
-              ? game.home.collectibles[itemName]
-              : game.collectibles[itemName]) ?? []
-          ).filter((collectible) => !!collectible.coordinates);
+          // Get placed collectibles from the correct location
+          const getPlacedCollectibles = () => {
+            if (location === "home") {
+              return game.home.collectibles[itemName] ?? [];
+            } else if (location === "petHouse") {
+              // Only pet collectibles can be in petHouse
+              if (!isPetCollectible(itemName)) return [];
+              return game.petHouse?.pets?.[itemName] ?? [];
+            } else {
+              return game.collectibles[itemName] ?? [];
+            }
+          };
+
+          const placedCollectibles = getPlacedCollectibles().filter(
+            (collectible) => !!collectible.coordinates,
+          );
 
           // Calculate how many to remove from this location
           const toRemoveFromLocation = Math.min(
