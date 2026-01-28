@@ -591,5 +591,33 @@ describe("buyChapterItem", () => {
         "You need to buy more basic and rare items to unlock epic items",
       );
     });
+
+    it("throws an error if farmActivity shows Pet Egg purchase but boughtAt is missing (legacy data fallback)", () => {
+      const mockedDate = new Date("2025-12-01");
+      jest.useFakeTimers();
+      jest.setSystemTime(mockedDate);
+
+      // Legacy data scenario: farmActivity has a purchase but megastore.boughtAt is missing
+      const stateWithLegacyPurchase: GameState = {
+        ...pawPrintsStateWithEpicUnlocked,
+        farmActivity: {
+          ...pawPrintsStateWithEpicUnlocked.farmActivity,
+          "Pet Egg Bought": 1, // Purchase recorded in farmActivity
+        },
+        // Note: megastore.boughtAt["Pet Egg"] is NOT set (legacy data issue)
+      };
+
+      expect(() =>
+        buyChapterItem({
+          state: stateWithLegacyPurchase,
+          action: {
+            type: "chapterItem.bought",
+            name: "Pet Egg",
+            tier: "epic",
+          },
+          createdAt: pawPrintsDate,
+        }),
+      ).toThrow("Pet Egg already bought this chapter");
+    });
   });
 });

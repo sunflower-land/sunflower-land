@@ -63,6 +63,23 @@ function toBoughtActivityName(
   return `${itemName} Bought`;
 }
 
+// Shared helper to check if an item was bought within the current chapter
+// Used by both the event handler and UI to maintain consistency
+export function isBoughtWithinCurrentChapter(
+  boughtAt: number | undefined,
+  now: number,
+): boolean {
+  if (!boughtAt) return false;
+
+  const currentChapter = getCurrentChapter(now);
+  const chapterTime = CHAPTERS[currentChapter];
+  const boughtDate = new Date(boughtAt);
+
+  return (
+    boughtDate >= chapterTime.startDate && boughtDate <= chapterTime.endDate
+  );
+}
+
 export function buyChapterItem({
   state,
   action,
@@ -159,13 +176,24 @@ export function buyChapterItem({
     // Check if Pet Egg was already bought within the current chapter (one per chapter limit)
     if (itemName === "Pet Egg") {
       const petEggBoughtAt = copy.megastore?.boughtAt["Pet Egg"];
-      if (petEggBoughtAt) {
-        const chapterTime = CHAPTERS[currentChapter];
-        const boughtDate = new Date(petEggBoughtAt);
-        const wasBoughtThisChapter =
-          boughtDate >= chapterTime.startDate &&
-          boughtDate <= chapterTime.endDate;
-        if (wasBoughtThisChapter) {
+      const petEggPurchaseCount = copy.farmActivity["Pet Egg Bought"] ?? 0;
+
+      // Primary check: boughtAt timestamp is within current chapter
+      if (isBoughtWithinCurrentChapter(petEggBoughtAt, createdAt)) {
+        throw new Error("Pet Egg already bought this chapter");
+      }
+
+      // Fallback for legacy data: if farmActivity shows a purchase but boughtAt is missing,
+      // and we're in the chapter where Pet Egg was introduced, treat conservatively
+      if (!petEggBoughtAt && petEggPurchaseCount > 0) {
+        const petEggChapter = CHAPTERS["Paw Prints"];
+        const nowDate = new Date(createdAt);
+        const isInPetEggChapter =
+          nowDate >= petEggChapter.startDate &&
+          nowDate <= petEggChapter.endDate;
+
+        if (isInPetEggChapter) {
+          // Pet Egg was only introduced in Paw Prints, so any prior purchase must be from this chapter
           throw new Error("Pet Egg already bought this chapter");
         }
       }

@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState } from "react";
+import React, { useContext, useLayoutEffect, useMemo, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import Decimal from "decimal.js-light";
@@ -34,6 +34,7 @@ import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import {
   getChapterItemsCrafted,
+  isBoughtWithinCurrentChapter,
   isKeyBoughtWithinChapter,
 } from "features/game/events/landExpansion/buyChapterItem";
 import { REWARD_BOXES } from "features/game/types/rewardBoxes";
@@ -134,16 +135,32 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const itemCrafted = state.farmActivity[`${itemName} Bought`];
 
   // Check if Pet Egg was already bought this chapter
-  const isPetEggBoughtThisChapter = (() => {
+  const petEggBoughtAt = state.megastore?.boughtAt["Pet Egg"];
+  const petEggPurchaseCount = state.farmActivity["Pet Egg Bought"] ?? 0;
+
+  const isPetEggBoughtThisChapter = useMemo(() => {
     if (itemName !== "Pet Egg") return false;
-    const petEggBoughtAt = state.megastore?.boughtAt["Pet Egg"];
-    if (!petEggBoughtAt) return false;
-    const chapterTime = CHAPTERS[currentChapter];
-    const boughtDate = new Date(petEggBoughtAt);
-    return (
-      boughtDate >= chapterTime.startDate && boughtDate <= chapterTime.endDate
-    );
-  })();
+
+    // Primary check: boughtAt timestamp is within current chapter
+    if (isBoughtWithinCurrentChapter(petEggBoughtAt, now)) {
+      return true;
+    }
+
+    // Fallback for legacy data: if farmActivity shows a purchase but boughtAt is missing,
+    // and we're in the chapter where Pet Egg was introduced, treat conservatively
+    if (!petEggBoughtAt && petEggPurchaseCount > 0) {
+      const petEggChapter = CHAPTERS["Paw Prints"];
+      const nowDate = new Date(now);
+      const isInPetEggChapter =
+        nowDate >= petEggChapter.startDate && nowDate <= petEggChapter.endDate;
+
+      if (isInPetEggChapter) {
+        return true;
+      }
+    }
+
+    return false;
+  }, [itemName, petEggBoughtAt, petEggPurchaseCount, now]);
 
   const description = getItemDescription(item);
   const { sfl = 0 } = item?.cost || {};
