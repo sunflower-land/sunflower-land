@@ -1267,8 +1267,10 @@ export const ITEM_TRADE_TYPES: {
     Octopus: "instant",
     "Sea Urchin": "instant",
     "Horseshoe Crab": "instant",
+    "Diving Helmet": "instant",
   },
   wearables: {
+    "Walrus Onesie": "instant",
     "New Years Crown": "instant",
     "Beige Farmer Potion": "instant",
     "Dark Brown Farmer Potion": "instant",

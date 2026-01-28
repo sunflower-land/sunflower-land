@@ -6258,7 +6258,6 @@
   "description.giantBanana": "¡Eso detendrá el tráfico!",
   "craft.with.friends": "Construye con amigos",
   "instaGrow": "Insta-crecimiento",
-  "instaGrow.description": "¿Cansado de esperar? Usa el poder de Obsidian para hacer crecer instantáneamente el {{project}}",
   "instaGrow.confirmation": "¿Estás seguro de que quieres hacer crecer al instante el {{project}} por {{amount}} Obsidian",
   "description.farmerMonument": "Un monumento a los agricultores de Sunflower Land.",
   "description.woodcutterMonument": "Un monumento a los leñadores de Sunflower Land.",
@@ -7917,5 +7916,7 @@
   "description.mermaidSheep.boost": "-5% pienso para ovejas",
   "guaranteedCatch.guide.info": "Si compra con uno de los siguientes cebos, puede seleccionar uno para los peces de la categoría como captura garantizada.",
   "guaranteedCatch.guide.title": "Guía de pesca garantizada",
-  "auction.raffle.noPrizes": "Sin premios."
+  "auction.raffle.noPrizes": "Sin premios.",
+  "instaGrow.description": "¿Cansado de esperar? Usa el poder de Obsidian para hacer crecer instantáneamente el {{project}}.",
+  "description.divingHelmet": "Una reliquia de las profundidades del océano que llevan los pescadores más valientes."
 }

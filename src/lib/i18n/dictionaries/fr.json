@@ -6258,7 +6258,6 @@
   "description.giantBanana": "Cela arrêtera la circulation !",
   "craft.with.friends": "Construisez avec des amis",
   "instaGrow": "Insta Grow",
-  "instaGrow.description": "Fatigué d'attendre ? Utilisez la puissance de l'obsidienne pour augmenter instantanément le {{project}}",
   "instaGrow.confirmation": "Êtes-vous sûr de vouloir augmenter instantanément le {{project}} pour {{amount}} Obsidian",
   "description.farmerMonument": "Un monument dédié aux agriculteurs de Sunflower Land.",
   "description.woodcutterMonument": "Un monument dédié aux bûcherons de Sunflower Land.",
@@ -7917,5 +7916,7 @@
   "description.mermaidSheep.boost": "-5% d'aliments pour moutons",
   "guaranteedCatch.guide.info": "Achetez en utilisant l'un des appâts suivants, vous pouvez en sélectionner un pour le poisson de la catégorie comme capture garantie.",
   "guaranteedCatch.guide.title": "Guide de pêche garanti",
-  "auction.raffle.noPrizes": "Aucun prix."
+  "auction.raffle.noPrizes": "Aucun prix.",
+  "instaGrow.description": "Fatigué d'attendre ? Utilisez la puissance de l'obsidienne pour augmenter instantanément le {{project}}.",
+  "description.divingHelmet": "Une relique des profondeurs de l'océan, portée par les pêcheurs les plus courageux."
 }

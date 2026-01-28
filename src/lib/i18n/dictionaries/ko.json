@@ -6258,7 +6258,6 @@
   "description.giantBanana": "그러면 교통이 멈출 것입니다!",
   "craft.with.friends": "친구들과 함께 건설하세요",
   "instaGrow": "인스타 그로우",
-  "instaGrow.description": "기다리느라 지치셨나요?옵시디언의 힘을 이용해 {{project}} 를 직접 키워보세요.",
   "instaGrow.confirmation": "{{amount}} 옵시디언의 {{project}} 를 인스타그램에서 키우고 싶으신가요?",
   "description.farmerMonument": "선플라워 랜드의 농부들을 기리는 기념비입니다.",
   "description.woodcutterMonument": "선플라워 랜드의 나무꾼을 기리는 기념비입니다.",
@@ -7917,5 +7916,7 @@
   "description.mermaidSheep.boost": "-5% 양 사료",
   "guaranteedCatch.guide.info": "다음 미끼 중 하나를 사용하여 구매하면 해당 카테고리의 물고기를 보장 어획량으로 선택할 수 있습니다.",
   "guaranteedCatch.guide.title": "보장 낚시 가이드",
-  "auction.raffle.noPrizes": "경품 없음."
+  "auction.raffle.noPrizes": "경품 없음.",
+  "instaGrow.description": "기다리느라 지치셨나요?옵시디언의 힘을 사용해 {{project}} 를 직접 키워보세요.",
+  "description.divingHelmet": "가장 용감한 어부들이 착용하는 바다 깊은 곳에서 나온 유물입니다."
 }

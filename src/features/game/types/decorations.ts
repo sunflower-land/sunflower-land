@@ -95,7 +95,8 @@ export type ChapterDecorationName =
   | "Pet Bowls"
   | "Squeaky Chicken"
   | "Moon Fox Statue"
-  | "Giant Acorn";
+  | "Giant Acorn"
+  | "Diving Helmet";
 
 export type EventDecorationName =
   | "Jelly Lamp"
@@ -623,6 +624,10 @@ export type DecorationName =
   | GiantFruit;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
+  "Diving Helmet": {
+    width: 1,
+    height: 2,
+  },
   "Jelly Lamp": {
     width: 2,
     height: 2,

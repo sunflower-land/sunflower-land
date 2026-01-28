@@ -6258,7 +6258,6 @@
   "description.giantBanana": "Isso vai parar o trânsito!",
   "craft.with.friends": "Construa com amigos",
   "instaGrow": "Insta Grow",
-  "instaGrow.description": "Cansado de esperar? Use o poder da Obsidiana para aumentar instantaneamente o {{project}}",
   "instaGrow.confirmation": "Tem certeza de que deseja aumentar instantaneamente o {{project}} para {{amount}} Obsidian",
   "description.farmerMonument": "Um monumento aos fazendeiros da Terra dos Girassóis.",
   "description.woodcutterMonument": "Um monumento aos lenhadores de Sunflower Land.",
@@ -7917,5 +7916,7 @@
   "description.mermaidSheep.boost": "-5% de ração para ovelhas",
   "guaranteedCatch.guide.info": "Compre usando uma das seguintes iscas, você pode selecionar uma para os peixes da categoria como sua captura garantida.",
   "guaranteedCatch.guide.title": "Guia de pesca garantida",
-  "auction.raffle.noPrizes": "Sem prêmios."
+  "auction.raffle.noPrizes": "Sem prêmios.",
+  "instaGrow.description": "Cansado de esperar? Use o poder da Obsidiana para aumentar instantaneamente o {{project}}.",
+  "description.divingHelmet": "Uma relíquia das profundezas do oceano, usada pelos pescadores mais corajosos."
 }

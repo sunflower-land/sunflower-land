@@ -1058,6 +1058,62 @@ describe("feedPet", () => {
     expect(BarkleyData?.energy).toEqual(105);
   });
 
+  it("gives +5 energy boost for Walrus Onesie", () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date("2025-10-16T00:00:00.000Z"));
+    const now = Date.now();
+
+    const state = feedPet({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin.equipped,
+            onesie: "Walrus Onesie",
+          },
+        },
+        pets: {
+          common: {
+            Barkley: {
+              name: "Barkley",
+              requests: {
+                fedAt: now,
+                food: ["Pumpkin Soup", "Bumpkin Salad", "Antipasto"],
+                foodFed: [],
+              },
+              energy: 0,
+              experience: 0,
+              pettedAt: now,
+            },
+          },
+        },
+        collectibles: {
+          Barkley: [
+            {
+              createdAt: now,
+              id: "1",
+              readyAt: now,
+              coordinates: { x: 1, y: 1 },
+            },
+          ],
+        },
+        inventory: {
+          "Bumpkin Salad": new Decimal(10),
+        },
+      },
+      action: {
+        type: "pet.fed",
+        petId: "Barkley",
+        food: "Bumpkin Salad",
+      },
+      createdAt: now,
+    });
+    const BarkleyData = state.pets?.common?.Barkley;
+
+    expect(BarkleyData?.energy).toEqual(105);
+  });
+
   describe("getPetFoodRequests", () => {
     it("omits the hard request if the pet is less than level 10", () => {
       const pet: Pet = {

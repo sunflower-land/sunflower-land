@@ -361,7 +361,7 @@ const ProjectModal: React.FC<{
         </div>
       </InnerPanel>
       {!!instaGrowPrice && (
-        <InnerPanel className="mb-1">
+        <InnerPanel>
           <div className="p-1">
             <Label type="vibrant">{t("instaGrow")}</Label>
             <p className="text-sm my-1">
