@@ -7918,5 +7918,13 @@
   "guaranteedCatch.guide.title": "保証付き釣りガイド",
   "auction.raffle.noPrizes": "賞品はありません。",
   "instaGrow.description": "待つのはうんざり？オブシディアンの力を使って {{project}} をインスタント成長させましょう。",
-  "description.divingHelmet": "勇敢な漁師が身に着けていた、深海で採れた遺物。"
+  "description.divingHelmet": "勇敢な漁師が身に着けていた、深海で採れた遺物。",
+  "welcome.anniversary": "5 周年記念",
+  "welcome.claimGift": "ギフトを受け取りましょう",
+  "welcome.label": "ようこそ",
+  "welcome.messageFromTeam": "チームからのメッセージ",
+  "welcome.noticeboard.openSource": "これはAAAゲームではありません。私たちは300人以上のオープンソース開発者、アーティスト、コントリビューターによって構築されたプロジェクトです。",
+  "welcome.noticeboard.trade": "何を集めるかが重要です。ゲーム内でトレードでき、多くのアイテムを引き出してマーケットプレイスでトレードできます。",
+  "welcome.supportMessage": "真剣に。すべての新しい農家が、ひまわりランドを存続させ、進化させ、昨日より少し良く保つのを手伝ってくれます。",
+  "welcome.thanksForBeingHere": "ねえ、ここにいてくれてありがとう。"
 }

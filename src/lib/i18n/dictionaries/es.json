@@ -7918,5 +7918,13 @@
   "guaranteedCatch.guide.title": "Guía de pesca garantizada",
   "auction.raffle.noPrizes": "Sin premios.",
   "instaGrow.description": "¿Cansado de esperar? Usa el poder de Obsidian para hacer crecer instantáneamente el {{project}}.",
-  "description.divingHelmet": "Una reliquia de las profundidades del océano que llevan los pescadores más valientes."
+  "description.divingHelmet": "Una reliquia de las profundidades del océano que llevan los pescadores más valientes.",
+  "welcome.anniversary": "Quinto aniversario",
+  "welcome.claimGift": "Reclama tu regalo",
+  "welcome.label": "Bienvenido",
+  "welcome.messageFromTeam": "Un mensaje del equipo",
+  "welcome.noticeboard.openSource": "Este no es un juego AAA: somos un proyecto creado por más de 300 desarrolladores, artistas y colaboradores de código abierto.",
+  "welcome.noticeboard.trade": "Lo que recojas es importante: puedes comerciar en el juego y muchos objetos se pueden retirar e intercambiar en los mercados.",
+  "welcome.supportMessage": "En serio. Cada nuevo granjero ayuda a mantener Sunflower Land viva, en evolución y un poco mejor que ayer.",
+  "welcome.thanksForBeingHere": "Hola, gracias por estar aquí."
 }

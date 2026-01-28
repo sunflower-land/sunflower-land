@@ -7918,5 +7918,13 @@
   "guaranteedCatch.guide.title": "Panduan Memancing Bergaransi",
   "auction.raffle.noPrizes": "Tidak ada hadiah.",
   "instaGrow.description": "Bosan menunggu? Gunakan kekuatan Obsidian untuk menumbuhkan {{project}}.",
-  "description.divingHelmet": "Sebuah peninggalan dari kedalaman laut, dikenakan oleh nelayan yang paling berani."
+  "description.divingHelmet": "Sebuah peninggalan dari kedalaman laut, dikenakan oleh nelayan yang paling berani.",
+  "welcome.anniversary": "Ulang tahun 5",
+  "welcome.claimGift": "Klaim hadiah Anda",
+  "welcome.label": "Selamat Datang",
+  "welcome.messageFromTeam": "Pesan dari tim",
+  "welcome.noticeboard.openSource": "Ini bukan game AAA - kami adalah proyek yang dibangun oleh 300+ pengembang open source, artis, dan kontributor.",
+  "welcome.noticeboard.trade": "Apa yang Anda kumpulkan penting - Anda dapat berdagang dalam game, dan banyak item dapat ditarik dan diperdagangkan di pasar.",
+  "welcome.supportMessage": "Serius. Setiap petani baru membantu menjaga Sunflower Land tetap hidup, berkembang, dan sedikit lebih baik daripada kemarin.",
+  "welcome.thanksForBeingHere": "Hei - terima kasih telah berada di sini."
 }

@@ -7918,5 +7918,13 @@
   "guaranteedCatch.guide.title": "Guide de pêche garanti",
   "auction.raffle.noPrizes": "Aucun prix.",
   "instaGrow.description": "Fatigué d'attendre ? Utilisez la puissance de l'obsidienne pour augmenter instantanément le {{project}}.",
-  "description.divingHelmet": "Une relique des profondeurs de l'océan, portée par les pêcheurs les plus courageux."
+  "description.divingHelmet": "Une relique des profondeurs de l'océan, portée par les pêcheurs les plus courageux.",
+  "welcome.anniversary": "5e anniversaire",
+  "welcome.claimGift": "Réclamez votre cadeau",
+  "welcome.label": "Bienvenue",
+  "welcome.messageFromTeam": "Un message de l'équipe",
+  "welcome.noticeboard.openSource": "Ce n'est pas un jeu AAA, nous sommes un projet créé par plus de 300 développeurs, artistes et contributeurs open source.",
+  "welcome.noticeboard.trade": "Ce que vous collectez est important : vous pouvez échanger dans le jeu, et de nombreux objets peuvent être retirés et échangés sur les places de marché.",
+  "welcome.supportMessage": "Sérieusement. Chaque nouvel agriculteur contribue à maintenir Sunflower Land en vie, en évolution et un peu mieux qu'il ne l'était hier.",
+  "welcome.thanksForBeingHere": "Salut, merci d'être là."
 }

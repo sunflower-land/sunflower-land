@@ -7918,5 +7918,13 @@
   "guaranteedCatch.guide.title": "保证钓鱼指南",
   "auction.raffle.noPrizes": "没有奖品。",
   "instaGrow.description": "厌倦了等待？使用黑曜石的力量即时增长 {{project}}。",
-  "description.divingHelmet": "这是一件来自海洋深处的遗物，是最勇敢的渔民佩戴的。"
+  "description.divingHelmet": "这是一件来自海洋深处的遗物，是最勇敢的渔民佩戴的。",
+  "welcome.anniversary": "5 周年纪念",
+  "welcome.claimGift": "领取您的礼物",
+  "welcome.label": "欢迎",
+  "welcome.messageFromTeam": "来自团队的消息",
+  "welcome.noticeboard.openSource": "这不是 AAA 游戏——我们是一个由 300 多位开源开发者、艺术家和贡献者开发的项目。",
+  "welcome.noticeboard.trade": "你收集的东西很重要——你可以在游戏中交易，许多物品可以在市场上提取和交易。",
+  "welcome.supportMessage": "说真的。每位新农民都有助于保持向日葵之地的活力，不断发展，并比昨天好一点。",
+  "welcome.thanksForBeingHere": "嘿—感谢您来到这里。"
 }

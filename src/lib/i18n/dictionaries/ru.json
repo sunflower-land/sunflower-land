@@ -7918,5 +7918,13 @@
   "guaranteedCatch.guide.title": "Guaranteed Fishing Guide",
   "auction.raffle.noPrizes": "No prizes.",
   "instaGrow.description": "Tired of waiting? Use the power of Obsidian to insta-grow the {{project}}.",
-  "description.divingHelmet": "A relic from the depths of the ocean, worn by the bravest of fishermen."
+  "description.divingHelmet": "A relic from the depths of the ocean, worn by the bravest of fishermen.",
+  "welcome.anniversary": "5 year anniversary",
+  "welcome.claimGift": "Claim your gift",
+  "welcome.label": "Welcome",
+  "welcome.messageFromTeam": "A message from the team",
+  "welcome.noticeboard.openSource": "This isn't a AAA game - we are a project that is built by 300+ open source developers, artists and contributors.",
+  "welcome.noticeboard.trade": "What you collect matters - you can trade in-game, and many items can be withdrawn and traded on marketplaces.",
+  "welcome.supportMessage": "Seriously. Every new farmer helps keep Sunflower Land alive, evolving, and a little better than it was yesterday.",
+  "welcome.thanksForBeingHere": "Hey — thanks for being here."
 }

@@ -7918,5 +7918,13 @@
   "guaranteedCatch.guide.title": "Panduan Memancing Dijamin",
   "auction.raffle.noPrizes": "Tiada hadiah.",
   "instaGrow.description": "Bosan menunggu? Gunakan kuasa Obsidian untuk mengembangkan {{project}}.",
-  "description.divingHelmet": "Peninggalan dari kedalaman lautan, dipakai oleh nelayan yang paling berani."
+  "description.divingHelmet": "Peninggalan dari kedalaman lautan, dipakai oleh nelayan yang paling berani.",
+  "welcome.anniversary": "5 tahun ulang tahun",
+  "welcome.claimGift": "Tuntut hadiah anda",
+  "welcome.label": "Selamat Datang",
+  "welcome.messageFromTeam": "Mesej daripada pasukan",
+  "welcome.noticeboard.openSource": "Ini bukan permainan AAA - kami adalah projek yang dibina oleh 300+ pemaju sumber terbuka, artis dan penyumbang.",
+  "welcome.noticeboard.trade": "Apa yang anda kumpulkan penting - anda boleh berdagang dalam permainan, dan banyak item boleh ditarik balik dan didagangkan di pasar.",
+  "welcome.supportMessage": "Serius. Setiap petani baru membantu memastikan Tanah Bunga Matahari hidup, berkembang, dan sedikit lebih baik daripada semalam.",
+  "welcome.thanksForBeingHere": "Hei - terima kasih kerana berada di sini."
 }

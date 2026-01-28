@@ -7918,5 +7918,13 @@
   "guaranteedCatch.guide.title": "보장 낚시 가이드",
   "auction.raffle.noPrizes": "경품 없음.",
   "instaGrow.description": "기다리느라 지치셨나요?옵시디언의 힘을 사용해 {{project}} 를 직접 키워보세요.",
-  "description.divingHelmet": "가장 용감한 어부들이 착용하는 바다 깊은 곳에서 나온 유물입니다."
+  "description.divingHelmet": "가장 용감한 어부들이 착용하는 바다 깊은 곳에서 나온 유물입니다.",
+  "welcome.anniversary": "5주년 기념일",
+  "welcome.claimGift": "선물 신청하기",
+  "welcome.label": "어서 오세요",
+  "welcome.messageFromTeam": "팀에서 전하는 메시지",
+  "welcome.noticeboard.openSource": "이것은 AAA 게임이 아닙니다. 우리는 300명 이상의 오픈 소스 개발자, 아티스트 및 기여자가 만든 프로젝트입니다.",
+  "welcome.noticeboard.trade": "무엇을 수집하느냐가 중요합니다. 게임 내에서 거래할 수 있고 많은 아이템을 인출하여 마켓플레이스에서 거래할 수 있습니다.",
+  "welcome.supportMessage": "진지하게.새로운 농부가 될 때마다 Sunflower Land가 살아있고 발전하며 어제보다 조금 더 나아질 수 있도록 도와줍니다.",
+  "welcome.thanksForBeingHere": "안녕하세요. 와줘서 고마워요."
 }

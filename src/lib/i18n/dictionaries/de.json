@@ -7918,5 +7918,13 @@
   "guaranteedCatch.guide.title": "Garantierter Angelführer",
   "auction.raffle.noPrizes": "Keine Preise.",
   "instaGrow.description": "Sind Sie es leid zu warten? Nutze die Kraft von Obsidian, um das {{project}} auf Instagram wachsen zu lassen.",
-  "description.divingHelmet": "Ein Relikt aus den Tiefen des Ozeans, das von den mutigsten Fischern getragen wird."
+  "description.divingHelmet": "Ein Relikt aus den Tiefen des Ozeans, das von den mutigsten Fischern getragen wird.",
+  "welcome.anniversary": "5-jähriges Jubiläum",
+  "welcome.claimGift": "Hol dir dein Geschenk",
+  "welcome.label": "Willkommen",
+  "welcome.messageFromTeam": "Eine Nachricht vom Team",
+  "welcome.noticeboard.openSource": "Dies ist kein AAA-Spiel — wir sind ein Projekt, das von über 300 Open-Source-Entwicklern, Künstlern und Mitwirkenden entwickelt wurde.",
+  "welcome.noticeboard.trade": "Was du sammelst, ist wichtig — du kannst es im Spiel handeln, und viele Gegenstände können abgeholt und auf Marktplätzen gehandelt werden.",
+  "welcome.supportMessage": "Ernsthaft. Jeder neue Landwirt trägt dazu bei, dass Sunflower Land am Leben bleibt, sich weiterentwickelt und ein bisschen besser ist als gestern.",
+  "welcome.thanksForBeingHere": "Hey — danke, dass du hier bist."
 }
