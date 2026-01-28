@@ -1111,6 +1111,7 @@ import toucanShrine from "assets/sfts/shrines/toucan_shrine.webp";
 import legendaryShrine from "assets/sfts/shrines/legendary_shrine.webp";
 import obsidianShrine from "assets/sfts/shrines/obsidian_shrine.webp";
 import tradingShrine from "assets/sfts/shrines/trading_shrine.webp";
+import divingHelmet from "assets/sfts/diving_helmet.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
@@ -6839,5 +6840,9 @@ export const ITEM_DETAILS: Items = {
   "Crabs and Traps Raffle Ticket": {
     image: crabChapterRaffleTicket,
     description: "?",
+  },
+  "Diving Helmet": {
+    image: divingHelmet,
+    description: translate("description.divingHelmet"),
   },
 };

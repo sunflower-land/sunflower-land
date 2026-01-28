@@ -22,27 +22,28 @@ export const PeteHelp: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="p-2">
-      <p className="text-sm mb-2">{t("pete.pumpkinPlaza.one")}</p>
-      <p className="text-sm">{t("pete.pumpkinPlaza.two")}</p>
+    <>
+      <div className="p-2">
+        <p className="text-sm mb-2">{t("pete.pumpkinPlaza.one")}</p>
+        <p className="text-sm">{t("pete.pumpkinPlaza.two")}</p>
 
-      <img
-        src={SUNNYSIDE.tutorial.plazaScreenshot}
-        className="w-full mx-auto rounded-lg my-2"
-      />
-      {locked && (
-        <>
-          <p className="text-xs mb-2">{t("pete.help.zero")}</p>
-          <Label
-            type="danger"
-            className="mb-2 ml-1"
-            icon={SUNNYSIDE.icons.lock}
-          >
-            {t("warning.level.required", { lvl: 2 })}
-          </Label>
-        </>
-      )}
-
+        <img
+          src={SUNNYSIDE.tutorial.plazaScreenshot}
+          className="w-full mx-auto rounded-lg my-2"
+        />
+        {locked && (
+          <>
+            <p className="text-xs mb-2">{t("pete.help.zero")}</p>
+            <Label
+              type="danger"
+              className="mb-2 ml-1"
+              icon={SUNNYSIDE.icons.lock}
+            >
+              {t("warning.level.required", { lvl: 2 })}
+            </Label>
+          </>
+        )}
+      </div>
       <Button
         disabled={locked}
         onClick={() => {
@@ -51,6 +52,6 @@ export const PeteHelp: React.FC = () => {
       >
         {t("lets.go")}
       </Button>
-    </div>
+    </>
   );
 };

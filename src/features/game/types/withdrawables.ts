@@ -537,6 +537,12 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     withdrawAt: new Date("2026-03-04T00:00:00Z"),
   },
 
+  // Crabs and Traps
+  "Walrus Onesie": {
+    tradeAt: CHAPTERS["Crabs and Traps"].endDate,
+    withdrawAt: new Date("2026-06-04T00:00:00Z"),
+  },
+
   "Moonseeker Potion": {
     tradeAt: new Date("2025-11-06"),
     withdrawAt: new Date("2025-11-06"),
@@ -1387,6 +1393,10 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       withdrawAt: new Date("2026-06-04T00:00:00Z"),
     },
     "Anemone Flower": {
+      tradeAt: CHAPTERS["Crabs and Traps"].endDate,
+      withdrawAt: new Date("2026-06-04T00:00:00Z"),
+    },
+    "Diving Helmet": {
       tradeAt: CHAPTERS["Crabs and Traps"].endDate,
       withdrawAt: new Date("2026-06-04T00:00:00Z"),
     },
