@@ -69,7 +69,11 @@ export const FishMarket: React.FC<BuildingProps> = ({
 
   return (
     <>
-      <BuildingImageWrapper name="Fish Market" onClick={handleClick}>
+      <BuildingImageWrapper
+        name="Fish Market"
+        onClick={handleClick}
+        ready={ready.length > 0}
+      >
         <img
           src={FISH_MARKET_VARIANTS[season]}
           className="absolute bottom-0 pointer-events-none"
