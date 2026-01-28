@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { BONUSES, BonusName } from "features/game/types/bonuses";
 import { getKeys } from "features/game/types/craftables";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 
@@ -63,6 +64,10 @@ export function claimBonus({
       ...game,
       inventory,
       wardrobe,
+      farmActivity: trackFarmActivity(
+        `${action.name} Bonus Claimed`,
+        game.farmActivity,
+      ),
     };
   });
 }

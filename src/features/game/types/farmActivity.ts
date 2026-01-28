@@ -53,6 +53,7 @@ import { WaterTrapName } from "./crustaceans";
 import { ProcessedResource } from "./processedFood";
 import { ChapterName, ChapterTicket } from "./chapters";
 import { TrackName } from "./tracks";
+import { BonusName } from "./bonuses";
 
 export type CaughtEvent = `${InventoryItemName} Caught`;
 export type HarvestedEvent = `${FlowerName} Harvested`;
@@ -226,7 +227,8 @@ export type FarmActivityName =
   | "Map Missed"
   | `${ChapterTicket} Collected`
   | `${ChapterName} Points Earned`
-  | `${ChapterName} ${TrackName} Milestone Claimed`;
+  | `${ChapterName} ${TrackName} Milestone Claimed`
+  | `${BonusName} Bonus Claimed`;
 
 export function trackFarmActivity(
   activityName: FarmActivityName,

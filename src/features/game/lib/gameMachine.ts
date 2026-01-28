@@ -38,7 +38,6 @@ import { autosave } from "../actions/autosave";
 import { ErrorCode, ERRORS } from "lib/errors";
 import { makeGame } from "./transforms";
 import { reset } from "features/farming/hud/actions/reset";
-// import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
 import { checkProgress, processEvent } from "./processEvent";
 import {
   landscapingMachine,
@@ -54,7 +53,6 @@ import { randomID } from "lib/utils/random";
 import { buySFL } from "../actions/buySFL";
 import { PlaceableLocation } from "../types/collectibles";
 import {
-  getGameRulesLastRead,
   getIntroductionRead,
   getVipRead,
 } from "features/announcements/announcementsStorage";
@@ -725,6 +723,7 @@ export type BlockchainState = {
     | "blessing"
     | "portalling"
     | "introduction"
+    | "welcome"
     | "investigating"
     | "gems"
     | "communityCoin"
@@ -1139,19 +1138,15 @@ export function startGame(authContext: AuthContext) {
         notifying: {
           always: [
             {
-              target: "gameRules",
-              cond: () => {
-                const lastRead = getGameRulesLastRead();
-
-                // Don't show game rules if they have been read in the last 7 days
-                // or if the user has come from a pwa install magic link
+              target: "welcome",
+              cond: (context) => {
+                const isNew =
+                  context.state.createdAt > new Date("2026-01-28").getTime();
                 return (
-                  !lastRead ||
-                  Date.now() - lastRead.getTime() > 7 * 24 * 60 * 60 * 1000
+                  isNew && !context.state.farmActivity["welcome Bonus Claimed"]
                 );
               },
             },
-
             {
               target: "introduction",
               cond: (context) => {
@@ -1456,13 +1451,6 @@ export function startGame(authContext: AuthContext) {
           },
         },
 
-        gameRules: {
-          on: {
-            ACKNOWLEDGE: {
-              target: "notifying",
-            },
-          },
-        },
         blessing: {
           on: {
             "blessing.claimed": (GAME_EVENT_HANDLERS as any)[
@@ -2371,6 +2359,15 @@ export function startGame(authContext: AuthContext) {
         },
         introduction: {
           on: {
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+          },
+        },
+
+        welcome: {
+          on: {
+            "bonus.claimed": (GAME_EVENT_HANDLERS as any)["bonus.claimed"],
             ACKNOWLEDGE: {
               target: "notifying",
             },
