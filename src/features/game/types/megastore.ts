@@ -6,7 +6,9 @@ import { ChapterName } from "./chapters";
 export type ChapterTierItemName =
   | ChapterCollectibleName
   | ChapterWearableName
-  | MegastoreKeys;
+  | MegastoreKeys
+  | FlowerBox
+  | "Pet Egg";
 
 export type ChapterCollectibleName =
   // Bull Run

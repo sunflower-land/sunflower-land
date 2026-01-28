@@ -20,7 +20,6 @@ import {
   CHAPTERS,
 } from "features/game/types/chapters";
 import confetti from "canvas-confetti";
-import { BumpkinItem } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
 import {
@@ -28,7 +27,6 @@ import {
   ChapterStoreCollectible,
   ChapterStoreItem,
   ChapterStoreWearable,
-  ChapterTierItemName,
 } from "features/game/types/megastore";
 import { getItemDescription } from "../ChapterStore";
 import { getKeys } from "features/game/types/craftables";
@@ -48,7 +46,7 @@ import {
 import lockIcon from "assets/icons/lock.png";
 
 interface ItemOverlayProps {
-  item: ChapterStoreItem | null;
+  item: ChapterStoreItem;
   image: string;
   isWearable: boolean;
   buff?: BuffLabel[];
@@ -112,11 +110,9 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const seasonalItemsCrafted =
     seasonalCollectiblesCrafted + seasonalWearablesCrafted;
 
-  const itemName = item
-    ? isWearable
-      ? (item as ChapterStoreWearable).wearable
-      : (item as ChapterStoreCollectible).collectible
-    : undefined;
+  const itemName = isWearable
+    ? (item as ChapterStoreWearable).wearable
+    : (item as ChapterStoreCollectible).collectible;
 
   const isKey = (name: InventoryItemName): name is Keys =>
     name in ARTEFACT_SHOP_KEYS;
@@ -132,17 +128,15 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     tier === "mega" &&
     seasonalItemsCrafted - reduction >= seasonalStore.mega.requirement;
 
-  const boughtAt = state.megastore?.boughtAt[itemName as Keys] ?? 0;
+  const boughtAt = state.megastore?.boughtAt[itemName] ?? 0;
   const itemInCooldown = !!boughtAt && boughtAt + (item?.cooldownMs ?? 0) > now;
 
-  const itemCrafted =
-    state.farmActivity[`${itemName as ChapterTierItemName} Bought`];
+  const itemCrafted = state.farmActivity[`${itemName} Bought`];
 
   // Check if Pet Egg was already bought this chapter
   const isPetEggBoughtThisChapter = (() => {
     if (itemName !== "Pet Egg") return false;
-    const petEggBoughtAt =
-      state.megastore?.boughtAt["Pet Egg" as ChapterTierItemName];
+    const petEggBoughtAt = state.megastore?.boughtAt["Pet Egg"];
     if (!petEggBoughtAt) return false;
     const chapterTime = CHAPTERS[currentChapter];
     const boughtDate = new Date(petEggBoughtAt);
@@ -232,8 +226,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
           ? (item.cost?.items[chapterTicket] ?? 0)
           : sfl;
     const itemName = isWearable
-      ? ((item as ChapterStoreWearable).wearable as BumpkinItem)
-      : ((item as ChapterStoreCollectible).collectible as InventoryItemName);
+      ? (item as ChapterStoreWearable).wearable
+      : (item as ChapterStoreCollectible).collectible;
 
     gameAnalytics.trackSink({
       currency,
@@ -243,8 +237,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     });
 
     if (!isWearable) {
-      const itemName = (item as ChapterStoreCollectible)
-        .collectible as InventoryItemName;
+      const itemName = (item as ChapterStoreCollectible).collectible;
       const count = inventory[itemName]?.toNumber() ?? 1;
       gameAnalytics.trackMilestone({
         event: `Crafting:Collectible:${itemName}${count}`,
@@ -253,7 +246,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   };
   const { t } = useAppTranslation();
   const handleBuy = () => {
-    if (!item) return;
+    if (!item || !itemName) return;
 
     gameService.send("chapterItem.bought", {
       name: itemName,
