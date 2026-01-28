@@ -390,4 +390,234 @@ describe("buyChapterItem", () => {
       }),
     ).toThrow("This item has already been crafted");
   });
+
+  // Pet Egg tests - one per chapter limit
+  describe("Pet Egg", () => {
+    // Paw Prints chapter: 2025-11-03 to 2026-02-02
+    const pawPrintsDate = new Date("2025-12-01T00:00:00Z").getTime();
+
+    const pawPrintsStateWithEpicUnlocked: GameState = {
+      ...mockState,
+      balance: new Decimal(1000),
+      inventory: {
+        "Pet Cookie": new Decimal(5000),
+      },
+      farmActivity: {
+        // Need 4 items from rare tier to unlock epic (getChapterItemsCrafted checks lower tier)
+        "Pet Playground Bought": 1,
+        "Fish Bowl Bought": 1,
+        "Giant Gold Bone Bought": 1,
+        "Pet Specialist Pants Bought": 1,
+      },
+    };
+
+    it("successfully buys Pet Egg for the first time in a chapter", () => {
+      const mockedDate = new Date("2025-12-01");
+      jest.useFakeTimers();
+      jest.setSystemTime(mockedDate);
+
+      const state = buyChapterItem({
+        state: pawPrintsStateWithEpicUnlocked,
+        action: {
+          type: "chapterItem.bought",
+          name: "Pet Egg",
+          tier: "epic",
+        },
+        createdAt: pawPrintsDate,
+      });
+
+      expect(state.inventory["Pet Egg"]).toStrictEqual(new Decimal(1));
+      expect(state.farmActivity["Pet Egg Bought"]).toEqual(1);
+      expect(state.megastore?.boughtAt["Pet Egg"]).toEqual(pawPrintsDate);
+    });
+
+    it("throws an error if Pet Egg already bought within the same chapter", () => {
+      const mockedDate = new Date("2025-12-01");
+      jest.useFakeTimers();
+      jest.setSystemTime(mockedDate);
+
+      // Pet Egg was bought earlier in the same chapter (Paw Prints)
+      const stateWithPetEggBoughtThisChapter: GameState = {
+        ...pawPrintsStateWithEpicUnlocked,
+        megastore: {
+          boughtAt: {
+            "Pet Egg": new Date("2025-11-15T00:00:00Z").getTime(), // Within Paw Prints chapter
+          },
+        },
+        farmActivity: {
+          ...pawPrintsStateWithEpicUnlocked.farmActivity,
+          "Pet Egg Bought": 1,
+        },
+      };
+
+      expect(() =>
+        buyChapterItem({
+          state: stateWithPetEggBoughtThisChapter,
+          action: {
+            type: "chapterItem.bought",
+            name: "Pet Egg",
+            tier: "epic",
+          },
+          createdAt: pawPrintsDate,
+        }),
+      ).toThrow("Pet Egg already bought this chapter");
+    });
+
+    it("allows buying Pet Egg even with high farmActivity count if not bought this chapter", () => {
+      const mockedDate = new Date("2025-12-01");
+      jest.useFakeTimers();
+      jest.setSystemTime(mockedDate);
+
+      // Pet Egg was bought in a previous chapter (before Paw Prints started)
+      const stateWithPetEggBoughtPreviousChapter: GameState = {
+        ...pawPrintsStateWithEpicUnlocked,
+        megastore: {
+          boughtAt: {
+            "Pet Egg": new Date("2025-10-01T00:00:00Z").getTime(), // Before Paw Prints chapter
+          },
+        },
+        farmActivity: {
+          ...pawPrintsStateWithEpicUnlocked.farmActivity,
+          "Pet Egg Bought": 5, // Bought 5 times in previous chapters
+        },
+      };
+
+      const state = buyChapterItem({
+        state: stateWithPetEggBoughtPreviousChapter,
+        action: {
+          type: "chapterItem.bought",
+          name: "Pet Egg",
+          tier: "epic",
+        },
+        createdAt: pawPrintsDate,
+      });
+
+      expect(state.inventory["Pet Egg"]).toStrictEqual(new Decimal(1));
+      expect(state.farmActivity["Pet Egg Bought"]).toEqual(6);
+    });
+
+    it("correctly updates megastore.boughtAt when Pet Egg is purchased", () => {
+      const mockedDate = new Date("2025-12-01");
+      jest.useFakeTimers();
+      jest.setSystemTime(mockedDate);
+
+      const purchaseTime = new Date("2025-12-15T12:00:00Z").getTime();
+
+      const state = buyChapterItem({
+        state: pawPrintsStateWithEpicUnlocked,
+        action: {
+          type: "chapterItem.bought",
+          name: "Pet Egg",
+          tier: "epic",
+        },
+        createdAt: purchaseTime,
+      });
+
+      expect(state.megastore?.boughtAt["Pet Egg"]).toEqual(purchaseTime);
+    });
+
+    it("deducts Pet Cookie cost when buying Pet Egg", () => {
+      const mockedDate = new Date("2025-12-01");
+      jest.useFakeTimers();
+      jest.setSystemTime(mockedDate);
+
+      const state = buyChapterItem({
+        state: pawPrintsStateWithEpicUnlocked,
+        action: {
+          type: "chapterItem.bought",
+          name: "Pet Egg",
+          tier: "epic",
+        },
+        createdAt: pawPrintsDate,
+      });
+
+      // Pet Egg costs 2000 Pet Cookies
+      expect(state.inventory["Pet Cookie"]).toStrictEqual(new Decimal(3000));
+    });
+
+    it("throws an error if player doesn't have enough Pet Cookies", () => {
+      const mockedDate = new Date("2025-12-01");
+      jest.useFakeTimers();
+      jest.setSystemTime(mockedDate);
+
+      const stateWithInsufficientCookies: GameState = {
+        ...pawPrintsStateWithEpicUnlocked,
+        inventory: {
+          "Pet Cookie": new Decimal(1000), // Not enough (need 2000)
+        },
+      };
+
+      expect(() =>
+        buyChapterItem({
+          state: stateWithInsufficientCookies,
+          action: {
+            type: "chapterItem.bought",
+            name: "Pet Egg",
+            tier: "epic",
+          },
+          createdAt: pawPrintsDate,
+        }),
+      ).toThrow("Insufficient Pet Cookie");
+    });
+
+    it("throws an error if epic tier is not unlocked", () => {
+      const mockedDate = new Date("2025-12-01");
+      jest.useFakeTimers();
+      jest.setSystemTime(mockedDate);
+
+      const stateWithoutEpicUnlocked: GameState = {
+        ...mockState,
+        inventory: {
+          "Pet Cookie": new Decimal(5000),
+        },
+        farmActivity: {
+          // Only 2 rare items - not enough for epic tier (need 4)
+          "Pet Playground Bought": 1,
+          "Fish Bowl Bought": 1,
+        },
+      };
+
+      expect(() =>
+        buyChapterItem({
+          state: stateWithoutEpicUnlocked,
+          action: {
+            type: "chapterItem.bought",
+            name: "Pet Egg",
+            tier: "epic",
+          },
+          createdAt: pawPrintsDate,
+        }),
+      ).toThrow(
+        "You need to buy more basic and rare items to unlock epic items",
+      );
+    });
+
+    it("throws an error if farmActivity shows Pet Egg purchase but boughtAt is missing (legacy data fallback)", () => {
+      const mockedDate = new Date("2025-12-01");
+      jest.useFakeTimers();
+      jest.setSystemTime(mockedDate);
+
+      // Legacy data scenario: farmActivity has a purchase but megastore.boughtAt is missing
+      const stateWithLegacyPurchase: GameState = {
+        ...pawPrintsStateWithEpicUnlocked,
+        farmActivity: {
+          ...pawPrintsStateWithEpicUnlocked.farmActivity,
+          "Pet Egg Bought": 1, // Purchase recorded in farmActivity
+        },
+        // Note: megastore.boughtAt["Pet Egg"] is NOT set (legacy data issue)
+      };
+
+      expect(() =>
+        buyChapterItem({
+          state: stateWithLegacyPurchase,
+          action: {
+            type: "chapterItem.bought",
+            name: "Pet Egg",
+            tier: "epic",
+          },
+          createdAt: pawPrintsDate,
+        }),
+      ).toThrow("Pet Egg already bought this chapter");
+    });
+  });
 });

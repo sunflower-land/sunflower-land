@@ -114,7 +114,7 @@ export const ChapterStore: React.FC<{
       >
         <ItemDetail
           isVisible={!!selectedItem}
-          item={selectedItem}
+          item={selectedItem!}
           tier={selectedTier}
           image={getItemImage(selectedItem)}
           buff={getItemBuffLabel(selectedItem, state)}

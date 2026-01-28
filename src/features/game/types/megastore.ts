@@ -1,12 +1,14 @@
 import { FlowerBox } from "../events/landExpansion/buyChapterItem";
 import { BumpkinItem } from "./bumpkin";
 import { InventoryItemName } from "./game";
-import { ChapterName, CHAPTERS } from "./chapters";
+import { ChapterName } from "./chapters";
 
 export type ChapterTierItemName =
   | ChapterCollectibleName
   | ChapterWearableName
-  | MegastoreKeys;
+  | MegastoreKeys
+  | FlowerBox
+  | "Pet Egg";
 
 export type ChapterCollectibleName =
   // Bull Run
@@ -928,7 +930,6 @@ const PAW_PRINTS_ITEMS: ChapterStore = {
       {
         collectible: "Pet Egg",
         cost: { sfl: 0, items: { "Pet Cookie": 2000 } },
-        cooldownMs: CHAPTERS["Paw Prints"].endDate.getTime() - Date.now(),
       },
     ],
     requirement: 4,

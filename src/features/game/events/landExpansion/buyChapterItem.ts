@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { GameState, InventoryItemName, Keys } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 
 import { produce } from "immer";
 import { getCurrentChapter, CHAPTERS } from "features/game/types/chapters";
@@ -51,6 +51,35 @@ export const FLOWER_BOXES: Record<FlowerBox, true> = {
   "Gold Flower Box": true,
 };
 
+// Helper to get item name from a validated ChapterStoreItem
+function getItemName(item: ChapterStoreItem): ChapterTierItemName {
+  return isCollectible(item) ? item.collectible : item.wearable;
+}
+
+// Helper to create farm activity name from chapter item
+function toBoughtActivityName(
+  itemName: ChapterTierItemName,
+): `${ChapterTierItemName} Bought` {
+  return `${itemName} Bought`;
+}
+
+// Shared helper to check if an item was bought within the current chapter
+// Used by both the event handler and UI to maintain consistency
+export function isBoughtWithinCurrentChapter(
+  boughtAt: number | undefined,
+  now: number,
+): boolean {
+  if (!boughtAt) return false;
+
+  const currentChapter = getCurrentChapter(now);
+  const chapterTime = CHAPTERS[currentChapter];
+  const boughtDate = new Date(boughtAt);
+
+  return (
+    boughtDate >= chapterTime.startDate && boughtDate <= chapterTime.endDate
+  );
+}
+
 export function buyChapterItem({
   state,
   action,
@@ -67,17 +96,21 @@ export function buyChapterItem({
     }
 
     const tierItems = chapterStore[tier].items;
-    const item = tierItems.find((item) =>
-      item
-        ? isCollectible(item)
-          ? item.collectible === name
-          : item.wearable === name
+    const item = tierItems.find((storeItem) =>
+      storeItem
+        ? isCollectible(storeItem)
+          ? storeItem.collectible === name
+          : storeItem.wearable === name
         : undefined,
     );
 
     if (!item) {
       throw new Error("Item not found in the chapter store");
     }
+
+    // Get the validated item name from the store item
+    const itemName = getItemName(item);
+    const activityName = toBoughtActivityName(itemName);
 
     const chapterCollectiblesCrafted = getChapterItemsCrafted(
       state,
@@ -140,10 +173,35 @@ export function buyChapterItem({
       }
     }
 
-    // Ensure items without a cooldown, can only be bought once
-    if (!item.cooldownMs) {
-      const itemCrafted =
-        copy.farmActivity[`${name as ChapterTierItemName} Bought`];
+    // Check if Pet Egg was already bought within the current chapter (one per chapter limit)
+    if (itemName === "Pet Egg") {
+      const petEggBoughtAt = copy.megastore?.boughtAt["Pet Egg"];
+      const petEggPurchaseCount = copy.farmActivity["Pet Egg Bought"] ?? 0;
+
+      // Primary check: boughtAt timestamp is within current chapter
+      if (isBoughtWithinCurrentChapter(petEggBoughtAt, createdAt)) {
+        throw new Error("Pet Egg already bought this chapter");
+      }
+
+      // Fallback for legacy data: if farmActivity shows a purchase but boughtAt is missing,
+      // and we're in the chapter where Pet Egg was introduced, treat conservatively
+      if (!petEggBoughtAt && petEggPurchaseCount > 0) {
+        const petEggChapter = CHAPTERS["Paw Prints"];
+        const nowDate = new Date(createdAt);
+        const isInPetEggChapter =
+          nowDate >= petEggChapter.startDate &&
+          nowDate <= petEggChapter.endDate;
+
+        if (isInPetEggChapter) {
+          // Pet Egg was only introduced in Paw Prints, so any prior purchase must be from this chapter
+          throw new Error("Pet Egg already bought this chapter");
+        }
+      }
+    }
+
+    // Ensure items without a cooldown, can only be bought once (except Pet Egg which uses chapter-based validation)
+    if (!item.cooldownMs && itemName !== "Pet Egg") {
+      const itemCrafted = copy.farmActivity[activityName];
 
       if (itemCrafted) {
         throw new Error("This item has already been crafted");
@@ -159,19 +217,23 @@ export function buyChapterItem({
       throw new Error("Insufficient SFL");
     }
 
-    for (const [itemName, amount] of Object.entries(items)) {
-      const inventoryAmount =
-        copy.inventory[itemName as InventoryItemName] || new Decimal(0);
+    let costItemName: keyof typeof items;
+    for (costItemName in items) {
+      const amount = items[costItemName];
+      if (amount === undefined) continue;
+      const inventoryAmount = copy.inventory[costItemName] || new Decimal(0);
       if (inventoryAmount.lessThan(amount)) {
-        throw new Error(`Insufficient ${itemName}`);
+        throw new Error(`Insufficient ${costItemName}`);
       }
     }
 
     // Deduct resources
     copy.balance = copy.balance.minus(_sfl);
-    for (const [itemName, amount] of Object.entries(items)) {
-      copy.inventory[itemName as InventoryItemName] = (
-        copy.inventory[itemName as InventoryItemName] || new Decimal(0)
+    for (costItemName in items) {
+      const amount = items[costItemName];
+      if (amount === undefined) continue;
+      copy.inventory[costItemName] = (
+        copy.inventory[costItemName] || new Decimal(0)
       ).minus(amount);
     }
 
@@ -187,7 +249,7 @@ export function buyChapterItem({
 
     // This is where the key is bought
     if (item.cooldownMs) {
-      const boughtAt = copy.megastore?.boughtAt[name as ChapterTierItemName];
+      const boughtAt = copy.megastore?.boughtAt[itemName];
       if (boughtAt) {
         if (boughtAt + item.cooldownMs > createdAt) {
           throw new Error("Item cannot be bought while in cooldown");
@@ -195,19 +257,29 @@ export function buyChapterItem({
       }
     }
 
-    copy.farmActivity = trackFarmActivity(
-      `${name as ChapterTierItemName} Bought`,
-      copy.farmActivity,
-    );
+    copy.farmActivity = trackFarmActivity(activityName, copy.farmActivity);
 
     if (!copy.megastore) {
       copy.megastore = { boughtAt: {} };
     }
 
-    copy.megastore.boughtAt[name as ChapterTierItemName] = createdAt;
+    copy.megastore.boughtAt[itemName] = createdAt;
 
     return copy;
   });
+}
+
+type TierKey = "Treasure Key" | "Rare Key" | "Luxury Key";
+
+function getTierKey(tier: keyof ChapterStore, isLowerTier: boolean): TierKey {
+  if (isLowerTier) {
+    if (tier === "rare") return "Treasure Key";
+    if (tier === "epic") return "Rare Key";
+    if (tier === "mega") return "Luxury Key";
+  }
+  if (tier === "basic") return "Treasure Key";
+  if (tier === "rare") return "Rare Key";
+  return "Luxury Key";
 }
 
 // Function to assess if key is bought within the current chapter
@@ -217,30 +289,12 @@ export function isKeyBoughtWithinChapter(
   now: number,
   isLowerTier = false,
 ) {
-  const tierKey =
-    isLowerTier && tier === "rare"
-      ? "Treasure Key"
-      : isLowerTier && tier === "epic"
-        ? "Rare Key"
-        : isLowerTier && tier === "mega"
-          ? "Luxury Key"
-          : tier === "basic"
-            ? "Treasure Key"
-            : tier === "rare"
-              ? "Rare Key"
-              : "Luxury Key";
+  const tierKey = getTierKey(tier, isLowerTier);
 
-  let keyBoughtAt = game.megastore?.boughtAt[tierKey as ChapterTierItemName];
-
-  // We changed to a new field. From May 1st can remove this code
-  if (!keyBoughtAt) {
-    keyBoughtAt =
-      game.pumpkinPlaza.keysBought?.megastore?.[tierKey as Keys]?.boughtAt;
-  }
+  const keyBoughtAt = game.megastore?.boughtAt[tierKey];
 
   const chapterTime = CHAPTERS[getCurrentChapter(now)];
-  const historyKey =
-    game.farmActivity[`${tierKey as ChapterTierItemName} Bought`];
+  const historyKey = game.farmActivity[toBoughtActivityName(tierKey)];
   //If player has no history of buying keys at megastore
   if (!keyBoughtAt && isLowerTier && !historyKey) return true;
 
@@ -256,6 +310,17 @@ export function isKeyBoughtWithinChapter(
   return false;
 }
 
+function getTierBox(tier: keyof ChapterStore, isLowerTier: boolean): FlowerBox {
+  if (isLowerTier) {
+    if (tier === "rare") return "Bronze Flower Box";
+    if (tier === "epic") return "Silver Flower Box";
+    if (tier === "mega") return "Gold Flower Box";
+  }
+  if (tier === "basic") return "Bronze Flower Box";
+  if (tier === "rare") return "Silver Flower Box";
+  return "Gold Flower Box";
+}
+
 // Function to assess if Flower Box is bought within the current chapter
 export function isBoxBoughtWithinChapter(
   game: GameState,
@@ -263,30 +328,12 @@ export function isBoxBoughtWithinChapter(
   now: number,
   isLowerTier = false,
 ) {
-  const tierBox =
-    isLowerTier && tier === "rare"
-      ? "Bronze Flower Box"
-      : isLowerTier && tier === "epic"
-        ? "Silver Flower Box"
-        : isLowerTier && tier === "mega"
-          ? "Gold Flower Box"
-          : tier === "basic"
-            ? "Bronze Flower Box"
-            : tier === "rare"
-              ? "Silver Flower Box"
-              : "Gold Flower Box";
+  const tierBox = getTierBox(tier, isLowerTier);
 
-  let boxBoughtAt = game.megastore?.boughtAt[tierBox as ChapterTierItemName];
-
-  // We changed to a new field. From May 1st can remove this code
-  if (!boxBoughtAt) {
-    boxBoughtAt =
-      game.pumpkinPlaza.keysBought?.megastore?.[tierBox as Keys]?.boughtAt;
-  }
+  const boxBoughtAt = game.megastore?.boughtAt[tierBox];
 
   const chapterTime = CHAPTERS[getCurrentChapter(now)];
-  const historyBox =
-    game.farmActivity[`${tierBox as ChapterTierItemName} Bought`];
+  const historyBox = game.farmActivity[toBoughtActivityName(tierBox)];
 
   //If player has no history of buying keys at megastore
   if (!boxBoughtAt && isLowerTier && !historyBox) return true;
@@ -314,15 +361,14 @@ export function isPetEggBoughtWithinChapter(
     return true;
   }
 
-  const petEggActivityName = "Pet Egg Bought";
+  const petEggActivityName = toBoughtActivityName("Pet Egg");
   const petEggHistory = game.farmActivity[petEggActivityName];
 
   if (!petEggHistory) {
     return true;
   }
 
-  const petEggBoughtAt =
-    game.megastore?.boughtAt["Pet Egg" as ChapterTierItemName];
+  const petEggBoughtAt = game.megastore?.boughtAt["Pet Egg"];
 
   if (!petEggBoughtAt) {
     return false;
@@ -379,19 +425,17 @@ export function getChapterItemsCrafted(
   const tierItems = getTierItems(chapterStore, tier, isLowerTier);
   if (!tierItems) return 0;
 
-  const craftedItems = tierItems.filter(
-    (tierItem: ChapterStoreItem) =>
-      (itemType === "collectible" &&
-        "collectible" in tierItem &&
-        game.farmActivity[
-          `${tierItem.collectible as ChapterTierItemName} Bought`
-        ]) ||
-      (itemType === "wearable" &&
-        "wearable" in tierItem &&
-        game.farmActivity[
-          `${tierItem.wearable as ChapterTierItemName} Bought`
-        ]),
-  );
+  const craftedItems = tierItems.filter((tierItem: ChapterStoreItem) => {
+    if (itemType === "collectible" && isCollectible(tierItem)) {
+      const activityName = toBoughtActivityName(tierItem.collectible);
+      return game.farmActivity[activityName];
+    }
+    if (itemType === "wearable" && isWearable(tierItem)) {
+      const activityName = toBoughtActivityName(tierItem.wearable);
+      return game.farmActivity[activityName];
+    }
+    return false;
+  });
 
   if (!craftedItems) return 0;
 

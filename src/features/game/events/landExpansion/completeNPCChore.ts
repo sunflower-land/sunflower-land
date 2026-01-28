@@ -22,6 +22,7 @@ import {
 import { isCollectible } from "./garbageSold";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { getChapterTaskPoints } from "features/game/types/tracks";
+import { FlowerBox } from "../landExpansion/buyChapterItem";
 
 export type CompleteNPCChoreAction = {
   type: "chore.fulfilled";
@@ -37,9 +38,9 @@ type Options = {
 export const CHAPTER_TICKET_BOOST_ITEMS: Record<
   ChapterName,
   {
-    basic: Exclude<ChapterTierItemName, MegastoreKeys>;
-    rare: Exclude<ChapterTierItemName, MegastoreKeys>;
-    epic: Exclude<ChapterTierItemName, MegastoreKeys>;
+    basic: Exclude<ChapterTierItemName, MegastoreKeys | FlowerBox | "Pet Egg">;
+    rare: Exclude<ChapterTierItemName, MegastoreKeys | FlowerBox | "Pet Egg">;
+    epic: Exclude<ChapterTierItemName, MegastoreKeys | FlowerBox | "Pet Egg">;
   }
 > = {
   "Solar Flare": {
