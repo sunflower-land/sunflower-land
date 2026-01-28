@@ -39,6 +39,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { FishermanPuzzle } from "features/island/fisherman/FishingPuzzle";
 import { Panel } from "components/ui/Panel";
 import { FishingChallenge } from "./FishingChallenge";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 type SpriteFrames = { startAt: number; endAt: number };
 
@@ -119,7 +120,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const state = useSelector(gameService, _state);
   const canFish = useSelector(gameService, _canFish);
   const readyMarvel = useSelector(gameService, _marvel);
-  const { fishing, farmActivity } = state;
+  const { fishing, farmActivity, island } = state;
 
   // Catches cases where players try reset their fishing challenge
   useEffect(() => {
@@ -285,13 +286,47 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     onClick();
   };
 
+  const fishermanPosition = (): Coordinates => {
+    if (island.type === "volcano") {
+      return {
+        x: 53,
+        y: 44,
+      };
+    }
+
+    if (island.type === "desert") {
+      return {
+        x: 34,
+        y: 30,
+      };
+    }
+
+    if (island.type === "spring") {
+      return {
+        x: 20,
+        y: 29,
+      };
+    }
+
+    return {
+      x: 0,
+      y: 0,
+    };
+  };
+
+  const { x, y } = fishermanPosition();
+
   return (
     <>
       <div
-        className={classNames("absolute w-full h-full", {
+        className={classNames("absolute z-50 w-full h-full", {
           "cursor-pointer hover:img-highlight": !fishing.wharf.castedAt,
         })}
         onClick={handleClick}
+        style={{
+          left: `${PIXEL_SCALE * x}px`,
+          top: `${PIXEL_SCALE * y}px`,
+        }}
       >
         {!canFish && (
           <>

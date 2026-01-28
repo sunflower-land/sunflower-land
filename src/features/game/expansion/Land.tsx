@@ -944,7 +944,6 @@ export const LandComponent: React.FC = () => {
       budElements,
       petNFTElements,
       airdropElements,
-      waterTrapElements,
     ].flat();
 
     const sortedIslandElements = elements.slice().sort((a, b) => {
@@ -988,7 +987,6 @@ export const LandComponent: React.FC = () => {
     petNFTElements,
     airdropElements,
     mushroomElements,
-    waterTrapElements,
   ]);
 
   return (
@@ -1055,6 +1053,9 @@ export const LandComponent: React.FC = () => {
         </div>
 
         {!landscaping && <Fisherman />}
+
+        {/* Water trap spots - rendered after Fisherman to ensure they appear on top */}
+        {!landscaping && waterTrapElements}
 
         {/* Background darkens in landscaping */}
         <div
