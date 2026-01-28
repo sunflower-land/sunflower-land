@@ -928,7 +928,6 @@ const PAW_PRINTS_ITEMS: ChapterStore = {
       {
         collectible: "Pet Egg",
         cost: { sfl: 0, items: { "Pet Cookie": 2000 } },
-        // Removed dynamic cooldownMs - validation handled by isPetEggBoughtWithinChapter check
       },
     ],
     requirement: 4,
