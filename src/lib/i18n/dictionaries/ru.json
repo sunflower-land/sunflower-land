@@ -7910,5 +7910,12 @@
   "marketplace.ownership": "Ownership",
   "marketplace.owned": "Owned",
   "marketplace.unowned": "Unowned",
-  "tracks.completeTasksToEarnPoints": "Complete {{chapter}} tasks to earn points."
+  "tracks.completeTasksToEarnPoints": "Complete {{chapter}} tasks to earn points.",
+  "fishingPuzzle.freeAttemptAvailable": "You have 1 free attempt available. Would you like to use it?",
+  "description.squidChicken.boost": "+0.1 Egg",
+  "description.anemoneFlower.boost": "1 Free Fishing Retry",
+  "description.mermaidSheep.boost": "-5% Sheep Feed",
+  "guaranteedCatch.guide.info": "Buy using one of the following baits you are able to select one for the fish from the category as your guaranteed catch.",
+  "guaranteedCatch.guide.title": "Guaranteed Fishing Guide",
+  "auction.raffle.noPrizes": "No prizes."
 }

@@ -7,7 +7,7 @@ import { BuildingProps } from "../Building";
 import { FISH_MARKET_VARIANTS } from "features/island/lib/alternateArt";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
-import { ProcessedFood } from "features/game/types/processedFood";
+import { ProcessedResource } from "features/game/types/processedFood";
 import { FishMarketModal } from "./FishMarketModal";
 import { useProcessingState } from "features/island/buildings/lib/useProcessingState";
 import { ReadyProcessed } from "../ReadyProcessed";
@@ -32,7 +32,7 @@ export const FishMarket: React.FC<BuildingProps> = ({
   const fishMarket = useSelector(gameService, _fishMarket(buildingId));
   const { processing, queued, ready } = useProcessingState(fishMarket ?? {});
 
-  const handleProcess = (item: ProcessedFood) => {
+  const handleProcess = (item: ProcessedResource) => {
     gameService?.send({
       type: "processedResource.processed",
       item,

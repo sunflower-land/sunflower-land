@@ -7910,5 +7910,12 @@
   "marketplace.ownership": "Propriété",
   "marketplace.owned": "Possédé",
   "marketplace.unowned": "Sans propriétaire",
-  "tracks.completeTasksToEarnPoints": "Effectuez des tâches {{chapter}} pour gagner des points."
+  "tracks.completeTasksToEarnPoints": "Effectuez des tâches {{chapter}} pour gagner des points.",
+  "fishingPuzzle.freeAttemptAvailable": "Vous avez 1 essai gratuit disponible. Vous souhaitez l'utiliser ?",
+  "description.squidChicken.boost": "+0,1 œuf",
+  "description.anemoneFlower.boost": "1 nouvelle tentative de pêche gratuite",
+  "description.mermaidSheep.boost": "-5% d'aliments pour moutons",
+  "guaranteedCatch.guide.info": "Achetez en utilisant l'un des appâts suivants, vous pouvez en sélectionner un pour le poisson de la catégorie comme capture garantie.",
+  "guaranteedCatch.guide.title": "Guide de pêche garanti",
+  "auction.raffle.noPrizes": "Aucun prix."
 }

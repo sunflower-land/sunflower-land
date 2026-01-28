@@ -50,7 +50,7 @@ import { PetShopItemName } from "./petShop";
 import { MonumentName } from "./monuments";
 import { BumpkinItem } from "./bumpkin";
 import { WaterTrapName } from "./crustaceans";
-import { ProcessedFood } from "./processedFood";
+import { ProcessedResource } from "./processedFood";
 import { ChapterName, ChapterTicket } from "./chapters";
 import { TrackName } from "./tracks";
 
@@ -96,7 +96,7 @@ type SellableName =
   | "Love Charm";
 
 type Recipes = Food | CookableName;
-type ProcessedEvent = `${ProcessedFood} Processed`;
+type ProcessedEvent = `${ProcessedResource} Processed`;
 type Edibles = Food | ConsumableName;
 
 export type HarvestEvent = `${

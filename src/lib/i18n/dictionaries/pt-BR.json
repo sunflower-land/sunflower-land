@@ -7910,5 +7910,12 @@
   "marketplace.ownership": "Propriedade",
   "marketplace.owned": "Possuído",
   "marketplace.unowned": "Sem dono",
-  "tracks.completeTasksToEarnPoints": "Complete tarefas de {{chapter}} para ganhar pontos."
+  "tracks.completeTasksToEarnPoints": "Complete tarefas de {{chapter}} para ganhar pontos.",
+  "fishingPuzzle.freeAttemptAvailable": "Você tem 1 tentativa gratuita disponível. Você gostaria de usá-lo?",
+  "description.squidChicken.boost": "+0.1 Ovo",
+  "description.anemoneFlower.boost": "1 nova tentativa de pesca gratuita",
+  "description.mermaidSheep.boost": "-5% de ração para ovelhas",
+  "guaranteedCatch.guide.info": "Compre usando uma das seguintes iscas, você pode selecionar uma para os peixes da categoria como sua captura garantida.",
+  "guaranteedCatch.guide.title": "Guia de pesca garantida",
+  "auction.raffle.noPrizes": "Sem prêmios."
 }

@@ -22,7 +22,7 @@ import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
 import { BumpkinItem, Equipped as BumpkinParts } from "./bumpkin";
 import { ConsumableName, CookableName } from "./consumables";
-import { ProcessedFood } from "./processedFood";
+import { ProcessedResource } from "./processedFood";
 import { BumpkinSkillName, BumpkinRevampSkillName } from "./bumpkinSkills";
 import { AchievementName } from "./achievements";
 import { DecorationName } from "./decorations";
@@ -589,7 +589,7 @@ export type InventoryItemName =
   | FertiliserName
   | WarBanner
   | ConsumableName
-  | ProcessedFood
+  | ProcessedResource
   | DecorationName
   | GoldenCropEventItem
   | TreasureName
@@ -775,7 +775,7 @@ export type FruitPatch = {
 } & OptionalCoordinates;
 
 export type BuildingProduct = {
-  name: CookableName | ProcessedFood;
+  name: CookableName | ProcessedResource;
   readyAt: number;
   amount?: number;
   boost?: Partial<Record<InventoryItemName, number>>;
@@ -1292,6 +1292,7 @@ type FishingSpot = {
   caught?: Partial<Record<InventoryItemName, number>>;
   guaranteedCatch?: FishName;
   maps?: Partial<Record<MarineMarvelName, number>>;
+  freePuzzleAttemptUsed?: boolean;
   /**
    * Number of reels used for this cast. When omitted, defaults to 1.
    */

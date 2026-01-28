@@ -7910,5 +7910,12 @@
   "marketplace.ownership": "Titularidad",
   "marketplace.owned": "Poseído",
   "marketplace.unowned": "Sin dueño",
-  "tracks.completeTasksToEarnPoints": "Completa las tareas de {{chapter}} para ganar puntos."
+  "tracks.completeTasksToEarnPoints": "Completa las tareas de {{chapter}} para ganar puntos.",
+  "fishingPuzzle.freeAttemptAvailable": "Tienes 1 intento gratuito disponible. ¿Te gustaría usarlo?",
+  "description.squidChicken.boost": "+0.1 Huevo",
+  "description.anemoneFlower.boost": "1 reintento de pesca gratis",
+  "description.mermaidSheep.boost": "-5% pienso para ovejas",
+  "guaranteedCatch.guide.info": "Si compra con uno de los siguientes cebos, puede seleccionar uno para los peces de la categoría como captura garantizada.",
+  "guaranteedCatch.guide.title": "Guía de pesca garantizada",
+  "auction.raffle.noPrizes": "Sin premios."
 }

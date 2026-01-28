@@ -7910,5 +7910,12 @@
   "marketplace.ownership": "Pemilikan",
   "marketplace.owned": "Memiliki",
   "marketplace.unowned": "Tidak dimiliki",
-  "tracks.completeTasksToEarnPoints": "Lengkapkan tugas {{chapter}} untuk mendapatkan mata."
+  "tracks.completeTasksToEarnPoints": "Lengkapkan tugas {{chapter}} untuk mendapatkan mata.",
+  "fishingPuzzle.freeAttemptAvailable": "Anda mempunyai 1 percubaan percuma yang tersedia. Adakah anda ingin menggunakannya?",
+  "description.squidChicken.boost": "+0.1 Telur",
+  "description.anemoneFlower.boost": "1 Percubaan Semula Memancing Percuma",
+  "description.mermaidSheep.boost": "-5% Makanan Domba",
+  "guaranteedCatch.guide.info": "Beli menggunakan salah satu umpan berikut, anda boleh memilih satu untuk ikan dari kategori sebagai tangkapan anda yang dijamin.",
+  "guaranteedCatch.guide.title": "Panduan Memancing Dijamin",
+  "auction.raffle.noPrizes": "Tiada hadiah."
 }

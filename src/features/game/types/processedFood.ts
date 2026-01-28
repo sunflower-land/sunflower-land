@@ -1,14 +1,17 @@
-export type ProcessedFood =
+export type ProcessedResource =
   | "Fish Flake"
   | "Fish Stick"
   | "Fish Oil"
   | "Crab Stick";
 
-export type ProcessedFoodDetails = {
+export type ProcessedResourceDetails = {
   description: string;
 };
 
-export const PROCESSED_FOODS: Record<ProcessedFood, ProcessedFoodDetails> = {
+export const PROCESSED_RESOURCES: Record<
+  ProcessedResource,
+  ProcessedResourceDetails
+> = {
   "Fish Flake": {
     description: "A processed fish ingredient - guaranteed catch.",
   },

@@ -7910,5 +7910,12 @@
   "marketplace.ownership": "Eigentum",
   "marketplace.owned": "Im Besitz",
   "marketplace.unowned": "Unbesessen",
-  "tracks.completeTasksToEarnPoints": "Erledige {{chapter}} Aufgaben, um Punkte zu sammeln."
+  "tracks.completeTasksToEarnPoints": "Erledige {{chapter}} Aufgaben, um Punkte zu sammeln.",
+  "fishingPuzzle.freeAttemptAvailable": "Sie haben 1 kostenlosen Versuch zur Verfügung. Möchtest du es benutzen?",
+  "description.squidChicken.boost": "+0.1 Ei",
+  "description.anemoneFlower.boost": "1 kostenloser Angelversuch",
+  "description.mermaidSheep.boost": "-5% Schaffutter",
+  "guaranteedCatch.guide.info": "Wenn Sie mit einem der folgenden Köder kaufen, können Sie einen für den Fisch aus der Kategorie als garantierten Fang auswählen.",
+  "guaranteedCatch.guide.title": "Garantierter Angelführer",
+  "auction.raffle.noPrizes": "Keine Preise."
 }

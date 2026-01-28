@@ -30,6 +30,7 @@ import { InventoryItemName, Wardrobe } from "features/game/types/game";
 import { PetNFTName } from "features/game/types/pets";
 import { ChapterRaffleResult } from "./ChapterRaffleResult";
 import { translate } from "lib/i18n/translate";
+import { RafflePrizeTable } from "features/retreat/components/auctioneer/RaffleLeaderboardTable";
 
 export const UpcomingRaffles: React.FC = () => {
   const { t } = useAppTranslation();
@@ -326,45 +327,15 @@ export const UpcomingRaffles: React.FC = () => {
             </div>
           </div>
 
-          <div className="mb-2">
-            <Label type="default" className="mb-1">
-              {t("auction.raffle.prizes")}
-            </Label>
-            <p className="text-xs mb-2">
-              {t("auction.raffle.prizePool", {
-                count: Object.keys(selectedRaffle.prizes).length,
-              })}
-            </p>
-            <div className="flex flex-col flex-wrap gap-x-3 text-xs">
-              {nfts.map((nft) => (
-                <div key={nft} className="flex items-center">
-                  <img src={petEggNFT} className="w-4 mr-1" />
-                  <span className="text-xs">{nft}</span>
-                </div>
-              ))}
-              {getKeys(items).map((item) => (
-                <div key={item} className="flex items-center">
-                  <img src={ITEM_DETAILS[item].image} className="w-4 mr-1" />
-                  <span className="text-xs">{`${items[item]} x ${item}`}</span>
-                </div>
-              ))}
-              {getKeys(wearables).map((wearable) => (
-                <div key={wearable} className="flex items-center">
-                  <img
-                    src={getImageUrl(ITEM_IDS[wearable])}
-                    className="w-4 mr-1"
-                  />
-                  <span className="text-xs">
-                    {`${wearables[wearable]} x ${wearable}`}
-                  </span>
-                </div>
-              ))}
+          <div>
+            <div className="max-h-48 overflow-y-auto scrollable pr-1">
+              <RafflePrizeTable prizes={selectedRaffle.prizes} />
             </div>
           </div>
 
           {isActiveRaffle && (
             <>
-              <div className="flex items-center justify-between mt-4 ">
+              <div className="flex items-center justify-between mt-2 ">
                 <Label type={raffleEntries > 0 ? "success" : "formula"}>
                   {t("auction.raffle.entriesLabel", { count: raffleEntries })}
                 </Label>

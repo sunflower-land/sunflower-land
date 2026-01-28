@@ -15,8 +15,8 @@ import {
   isProcessingBuilding,
 } from "features/game/types/buildings";
 import {
-  PROCESSED_FOODS,
-  ProcessedFood,
+  PROCESSED_RESOURCES,
+  ProcessedResource,
 } from "features/game/types/processedFood";
 
 export type CancelProcessedResourceAction = {
@@ -49,12 +49,12 @@ function getCurrentProcessingItem({
   return sortedByReadyAt?.find((item) => item.readyAt > createdAt);
 }
 
-export function assertProcessedFood(name: string): ProcessedFood {
-  if (!(name in PROCESSED_FOODS)) {
+export function assertProcessedFood(name: string): ProcessedResource {
+  if (!(name in PROCESSED_RESOURCES)) {
     throw new Error(`Invalid processed food: ${name}`);
   }
 
-  return name as ProcessedFood;
+  return name as ProcessedResource;
 }
 
 export function recalculateProcessingQueue({
@@ -74,7 +74,7 @@ export function recalculateProcessingQueue({
       const startAt = index === 0 ? createdAt : items[index - 1].readyAt;
       const readyAt =
         startAt +
-        FISH_PROCESSING_TIME_SECONDS[item.name as ProcessedFood] * 1000;
+        FISH_PROCESSING_TIME_SECONDS[item.name as ProcessedResource] * 1000;
 
       return [...items, { ...item, readyAt }];
     }, [] as BuildingProduct[]);
@@ -89,7 +89,8 @@ export function recalculateProcessingQueue({
   const updatedRemaining = remaining.reduce((items, item, index) => {
     const startAt = index === 0 ? current.readyAt : items[index - 1].readyAt;
     const readyAt =
-      startAt + FISH_PROCESSING_TIME_SECONDS[item.name as ProcessedFood] * 1000;
+      startAt +
+      FISH_PROCESSING_TIME_SECONDS[item.name as ProcessedResource] * 1000;
 
     return [
       ...items,

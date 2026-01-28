@@ -25,6 +25,7 @@ import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { getKeys } from "features/game/lib/crafting";
 import { useGame } from "features/game/GameProvider";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 const wrong = SUNNYSIDE.icons.cancel;
 const PUZZLE_STARTED_KEY = "fishing-puzzle-started";
@@ -120,6 +121,11 @@ export const FishermanPuzzle: React.FC<{
   const mapPieces = getKeys(maps);
   const difficulty = MAP_PUZZLE_DIFFICULTY[mapPieces[0]] ?? 3;
   const coins = gameState.context.state.coins;
+  const freeAttemptAvailable =
+    isCollectibleBuilt({
+      name: "Anemone Flower",
+      game: gameState.context.state,
+    }) && !gameState.context.state.fishing.wharf.freePuzzleAttemptUsed;
 
   const { attempts, rows } = DIFFICULTY[difficulty] ?? { attempts: 3, rows: 5 };
   const [attemptLimit, setAttemptLimit] = useState(attempts);
@@ -182,49 +188,55 @@ export const FishermanPuzzle: React.FC<{
 
       <Modal show={showRetry}>
         <Panel>
-          <div className="space-y-3 text-sm text-brown-500 flex flex-col items-center">
+          <div className="text-sm text-brown-500 flex flex-col p-1">
             <Label type="danger">{t("fishingPuzzle.missedFish")}</Label>
-            <p>{t("fishingPuzzle.retryPrompt", { coins: FISH_RETRY_COST })}</p>
-
-            <div className="flex">
-              <Button
-                onClick={() =>
-                  onMiss({
-                    completed: false,
-                    attemptsLeft: 0,
-                    attemptsUsed: attemptLimit,
-                  })
-                }
-                className="mr-1"
-              >
-                {t("no")}
-              </Button>
-              <Button disabled={coins < FISH_RETRY_COST} onClick={retry}>
-                {t("retry")}
-              </Button>
-            </div>
+            <p className="p-1 mb-1.5">
+              {freeAttemptAvailable
+                ? t("fishingPuzzle.freeAttemptAvailable")
+                : t("fishingPuzzle.retryPrompt", { coins: FISH_RETRY_COST })}
+            </p>
+          </div>
+          <div className="flex w-full">
+            <Button
+              onClick={() =>
+                onMiss({
+                  completed: false,
+                  attemptsLeft: 0,
+                  attemptsUsed: attemptLimit,
+                })
+              }
+              className="mr-1"
+            >
+              {t("no")}
+            </Button>
+            <Button
+              disabled={!freeAttemptAvailable && coins < FISH_RETRY_COST}
+              onClick={retry}
+            >
+              {t("retry")}
+            </Button>
           </div>
         </Panel>
       </Modal>
 
       <Modal show={showTimeoutMiss} onHide={() => setShowTimeoutMiss(false)}>
         <Panel>
-          <div className="space-y-3 text-sm text-brown-500 flex flex-col items-center">
+          <div className="text-sm text-brown-500 flex flex-col p-1">
             <Label type="danger">{t("fishingPuzzle.timeoutTitle")}</Label>
-            <p className="text-center">{t("fishingPuzzle.timeoutMessage")}</p>
-            <Button
-              onClick={() => {
-                setShowTimeoutMiss(false);
-                handleMiss({
-                  completed: false,
-                  attemptsLeft: 0,
-                  attemptsUsed: attemptLimit,
-                });
-              }}
-            >
-              {t("ok")}
-            </Button>
+            <p className="p-1 mb-1.5">{t("fishingPuzzle.timeoutMessage")}</p>
           </div>
+          <Button
+            onClick={() => {
+              setShowTimeoutMiss(false);
+              handleMiss({
+                completed: false,
+                attemptsLeft: 0,
+                attemptsUsed: attemptLimit,
+              });
+            }}
+          >
+            {t("ok")}
+          </Button>
         </Panel>
       </Modal>
     </>
@@ -458,7 +470,15 @@ const FishingPuzzle: React.FC<FishingMinigameProps> = ({
 
   return (
     <div className=" text-sm text-brown-500 flex flex-col items-center">
-      <Label type={maxAttempts - attempts <= 1 ? "danger" : "default"}>
+      <Label
+        type={
+          maxAttempts - attempts === 1
+            ? "warning"
+            : maxAttempts - attempts === 0
+              ? "danger"
+              : "default"
+        }
+      >
         {t("fishingPuzzle.attemptsLeft", {
           attemptsLeft: maxAttempts - attempts,
           attemptLimit: maxAttempts,

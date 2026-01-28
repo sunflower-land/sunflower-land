@@ -19,7 +19,7 @@ import premiumTrackIcon from "assets/icons/premium_track.webp";
 import ticketIcon from "assets/icons/free_track.png";
 import medalMilestone from "assets/icons/medal_side_grey.webp";
 import medalMilestoneRed from "assets/icons/red_medal.webp";
-import medalMilestoneComplete from "assets/icons/track_complete.webp";
+import medalMilestoneComplete from "assets/icons/medals_completed.webp";
 import giftIcon from "assets/icons/gift.png";
 import {
   CHAPTER_TRACKS,

@@ -1152,7 +1152,7 @@ import { LANDSCAPING_DECORATIONS } from "./decorations";
 import { SELLABLE_TREASURES } from "./treasure";
 import { TREASURE_COLLECTIBLE_ITEM } from "./collectibles";
 import { ANIMAL_FOODS } from "./animals";
-import { PROCESSED_FOODS } from "./processedFood";
+import { PROCESSED_RESOURCES } from "./processedFood";
 
 export interface ItemDetails {
   description: string;
@@ -3672,19 +3672,19 @@ export const ITEM_DETAILS: Items = {
   },
   "Fish Flake": {
     image: fishFlake,
-    description: PROCESSED_FOODS["Fish Flake"].description,
+    description: PROCESSED_RESOURCES["Fish Flake"].description,
   },
   "Fish Stick": {
     image: fishStick,
-    description: PROCESSED_FOODS["Fish Stick"].description,
+    description: PROCESSED_RESOURCES["Fish Stick"].description,
   },
   "Fish Oil": {
     image: fishOil,
-    description: PROCESSED_FOODS["Fish Oil"].description,
+    description: PROCESSED_RESOURCES["Fish Oil"].description,
   },
   "Crab Stick": {
     image: crabStick,
-    description: PROCESSED_FOODS["Crab Stick"].description,
+    description: PROCESSED_RESOURCES["Crab Stick"].description,
   },
   "Furikake Sprinkle": {
     image: furikakeSprinkle,
