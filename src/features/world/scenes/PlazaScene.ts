@@ -49,7 +49,7 @@ const CHAPTER_LAYERS: Record<ChapterName, string | undefined> = {
   "Great Bloom": undefined,
   "Better Together": "Better Together Decoration Base",
   "Paw Prints": "Paw Prints",
-  "Crabs and Traps": undefined,
+  "Crabs and Traps": "Crabs and Traps",
 };
 
 export type FactionNPC = {
@@ -738,10 +738,6 @@ export class PlazaScene extends BaseScene {
         }
       });
 
-    this.add.image(248, 244, "magma_stone");
-
-    this.add.image(288.5, 247, "pet_specialist_hat");
-
     if (this.textures.exists("sparkle")) {
       const sparkle = this.add.sprite(567, 191, "sparkle");
       sparkle.setDepth(1000000);
@@ -780,21 +776,28 @@ export class PlazaScene extends BaseScene {
       rarecrowsSparkle.play(`sparkel_anim`, true);
     }
 
-    // Change image every chapter change
-    const nft1 = this.add.image(567, 181, "moon_fox_statue");
-    nft1.setDepth(191);
+    // After Paw Prints, items are added on the tiled map itself
+    // TODO - delete this code once Crabs and Traps is released
+    if (chapter === "Paw Prints") {
+      const nft1 = this.add.image(567, 181, "moon_fox_statue");
+      nft1.setDepth(191);
 
-    const nft2 = this.add.image(589, 200, "pet_nft_egg");
-    nft2.setDepth(205);
+      const nft2 = this.add.image(589, 200, "pet_nft_egg");
+      nft2.setDepth(205);
 
-    const nft3 = this.add.image(601, 196, "paw_prints_rug");
-    nft3.setDepth(181);
+      const nft3 = this.add.image(601, 196, "paw_prints_rug");
+      nft3.setDepth(181);
 
-    const nft4 = this.add.image(612, 200, "squirrel_onesie_npc");
-    nft4.setDepth(205);
+      const nft4 = this.add.image(612, 200, "squirrel_onesie_npc");
+      nft4.setDepth(205);
 
-    const nft5 = this.add.image(635, 193, "pet_bed");
-    nft5.setDepth(181);
+      const nft5 = this.add.image(635, 193, "pet_bed");
+      nft5.setDepth(181);
+
+      this.add.image(248, 244, "magma_stone");
+
+      this.add.image(288.5, 247, "pet_specialist_hat");
+    }
 
     const door = this.colliders
       ?.getChildren()
