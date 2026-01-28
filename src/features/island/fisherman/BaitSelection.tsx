@@ -127,7 +127,7 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
 
   const [showChum, setShowChum] = useState(false);
   const [chum, setChum] = useState<Chum | undefined>(() =>
-    !defaultGuaranteedCatch ? getDefaultChum(items) : undefined,
+    getDefaultChum(items),
   );
   const [selectedBait, setSelectedBait] = useState<FishingBait | undefined>(
     () => getStoredBait(),
@@ -162,7 +162,6 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
     guaranteedCatch: FishName | undefined,
   ) => {
     setGuaranteedCatch(guaranteedCatch);
-    setChum(undefined);
     if (typeof window !== "undefined") {
       if (guaranteedCatch) {
         localStorage.setItem("lastSelectedGuaranteedCatch", guaranteedCatch);
@@ -174,6 +173,7 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
 
   const reelsLeft = getRemainingReels(state);
   const effectiveMultiplier = isVip ? multiplier : 1;
+  const effectiveChum = isGuaranteedBait(selectedBait) ? undefined : chum;
 
   const getExtraReelPacksRequired = () => {
     // Find the diff between the effective multiplier and reels left
@@ -204,7 +204,7 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
   const handleBuyMoreReelsAndCast = () => {
     onCast(
       selectedBait!,
-      chum,
+      effectiveChum,
       effectiveMultiplier,
       guaranteedCatch,
       packsRequired,
@@ -507,7 +507,12 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
         ) : (
           <Button
             onClick={() =>
-              onCast(selectedBait!, chum, effectiveMultiplier, guaranteedCatch)
+              onCast(
+                selectedBait!,
+                effectiveChum,
+                effectiveMultiplier,
+                guaranteedCatch,
+              )
             }
             disabled={
               !selectedBait ||
@@ -517,9 +522,11 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
               !items[selectedBait as InventoryItemName]?.gte(
                 effectiveMultiplier,
               ) ||
-              (chum
-                ? !items[chum as InventoryItemName]?.gte(
-                    new Decimal(CHUM_AMOUNTS[chum] * effectiveMultiplier),
+              (effectiveChum
+                ? !items[effectiveChum as InventoryItemName]?.gte(
+                    new Decimal(
+                      CHUM_AMOUNTS[effectiveChum] * effectiveMultiplier,
+                    ),
                   )
                 : false)
             }
