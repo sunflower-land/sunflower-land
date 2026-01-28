@@ -67,7 +67,9 @@ export type BumpkinHair =
   | "Paint Splattered Hair"
   | "Brush Back Hair"
   | "Frizzy Bob Cut"
-  | "Two-toned Layered";
+  | "Two-toned Layered"
+  | "Crimstone Spikes Hair"
+  | "Corn Silk Hair";
 
 export type BumpkinShirt =
   | "Pixel Perfect Hoodie"
@@ -145,7 +147,8 @@ export type BumpkinShirt =
   | "Recycle Shirt"
   | "Chef Shirt"
   | "Pet Specialist Shirt"
-  | "Comfy Xmas Sweater";
+  | "Comfy Xmas Sweater"
+  | "Fish Hook Vest";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -156,7 +159,8 @@ export type BumpkinCoat =
   | "Tomato Apron"
   | "Easter Apron"
   | "Medic Apron"
-  | "Alchemist Apron";
+  | "Alchemist Apron"
+  | "Victoria's Apron";
 
 export type BumpkinTool =
   | "Farmer Pitchfork"
@@ -242,7 +246,8 @@ export type BumpkinShoe =
   | "Bumpkin Sabatons"
   | "Desert Merchant Shoes"
   | "Cowboy Boots"
-  | "Speed Boots";
+  | "Speed Boots"
+  | "Beast Shoes";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -370,7 +375,8 @@ export type BumpkinHat =
   | "Xmas Top Hat"
   | "Reindeer Mask"
   | "Snowman Mask"
-  | "Cool Glasses";
+  | "Cool Glasses"
+  | "Fish Hook Hat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -412,7 +418,8 @@ export type BumpkinPant =
   | "Bunny Pants"
   | "Paint Splattered Overalls"
   | "Pet Specialist Pants"
-  | "Comfy Xmas Pants";
+  | "Comfy Xmas Pants"
+  | "Fish Hook Waders";
 
 export type BumpkinDress =
   | "Royal Dress"
@@ -545,7 +552,8 @@ export type BumpkinAura =
   | "Love Puff Aura"
   | "Slime Aura"
   | "Wisp Aura"
-  | "Diamond Snow Aura";
+  | "Diamond Snow Aura"
+  | "Paw Aura";
 
 export type BumpkinItem =
   | BumpkinBody
@@ -1110,6 +1118,14 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   // New Year 2026
   "2026 Tiara": 517,
   "Walrus Onesie": 518,
+  "Crimstone Spikes Hair": 519,
+  "Paw Aura": 520,
+  "Victoria's Apron": 521,
+  "Beast Shoes": 522,
+  "Fish Hook Hat": 523,
+  "Fish Hook Vest": 524,
+  "Fish Hook Waders": 525,
+  "Corn Silk Hair": 526,
 };
 
 // The reverse of above
@@ -1177,6 +1193,14 @@ export const BUMPKIN_ITEMS_IDS = Object.values(ITEM_IDS);
 
 export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Walrus Onesie": "onesie",
+  "Crimstone Spikes Hair": "hair",
+  "Corn Silk Hair": "hair",
+  "Paw Aura": "aura",
+  "Victoria's Apron": "coat",
+  "Beast Shoes": "shoes",
+  "Fish Hook Hat": "hat",
+  "Fish Hook Vest": "shirt",
+  "Fish Hook Waders": "pants",
   "Festival of Colors Background": "background",
   "Golden Seedling": "hat",
   "Painter's Cap": "hat",
