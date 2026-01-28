@@ -7916,5 +7916,6 @@
   "description.anemoneFlower.boost": "1 kostenloser Angelversuch",
   "description.mermaidSheep.boost": "-5% Schaffutter",
   "guaranteedCatch.guide.info": "Wenn Sie mit einem der folgenden Köder kaufen, können Sie einen für den Fisch aus der Kategorie als garantierten Fang auswählen.",
-  "guaranteedCatch.guide.title": "Garantierter Angelführer"
+  "guaranteedCatch.guide.title": "Garantierter Angelführer",
+  "auction.raffle.noPrizes": "Keine Preise."
 }

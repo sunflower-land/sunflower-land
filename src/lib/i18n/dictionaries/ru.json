@@ -7916,5 +7916,6 @@
   "description.anemoneFlower.boost": "1 Free Fishing Retry",
   "description.mermaidSheep.boost": "-5% Sheep Feed",
   "guaranteedCatch.guide.info": "Buy using one of the following baits you are able to select one for the fish from the category as your guaranteed catch.",
-  "guaranteedCatch.guide.title": "Guaranteed Fishing Guide"
+  "guaranteedCatch.guide.title": "Guaranteed Fishing Guide",
+  "auction.raffle.noPrizes": "No prizes."
 }

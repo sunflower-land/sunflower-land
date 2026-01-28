@@ -7916,5 +7916,6 @@
   "description.anemoneFlower.boost": "1 reintento de pesca gratis",
   "description.mermaidSheep.boost": "-5% pienso para ovejas",
   "guaranteedCatch.guide.info": "Si compra con uno de los siguientes cebos, puede seleccionar uno para los peces de la categoría como captura garantizada.",
-  "guaranteedCatch.guide.title": "Guía de pesca garantizada"
+  "guaranteedCatch.guide.title": "Guía de pesca garantizada",
+  "auction.raffle.noPrizes": "Sin premios."
 }

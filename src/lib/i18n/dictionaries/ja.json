@@ -7916,5 +7916,6 @@
   "description.anemoneFlower.boost": "1 回の無料フィッシングリトライ",
   "description.mermaidSheep.boost": "-5% 羊飼料",
   "guaranteedCatch.guide.info": "以下のいずれかの餌をご購入いただくと、そのカテゴリーの魚に合う餌を1つ選択して、確実に釣れるようになります。",
-  "guaranteedCatch.guide.title": "保証付き釣りガイド"
+  "guaranteedCatch.guide.title": "保証付き釣りガイド",
+  "auction.raffle.noPrizes": "賞品はありません。"
 }

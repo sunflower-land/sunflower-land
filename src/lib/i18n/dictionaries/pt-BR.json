@@ -7916,5 +7916,6 @@
   "description.anemoneFlower.boost": "1 nova tentativa de pesca gratuita",
   "description.mermaidSheep.boost": "-5% de ração para ovelhas",
   "guaranteedCatch.guide.info": "Compre usando uma das seguintes iscas, você pode selecionar uma para os peixes da categoria como sua captura garantida.",
-  "guaranteedCatch.guide.title": "Guia de pesca garantida"
+  "guaranteedCatch.guide.title": "Guia de pesca garantida",
+  "auction.raffle.noPrizes": "Sem prêmios."
 }

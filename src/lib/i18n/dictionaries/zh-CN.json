@@ -7916,5 +7916,6 @@
   "description.anemoneFlower.boost": "1 次免费重试钓鱼",
   "description.mermaidSheep.boost": "-5% 绵羊饲料",
   "guaranteedCatch.guide.info": "使用以下诱饵之一购买，您可以从该类别中选择一种作为保证捕获量的鱼饵。",
-  "guaranteedCatch.guide.title": "保证钓鱼指南"
+  "guaranteedCatch.guide.title": "保证钓鱼指南",
+  "auction.raffle.noPrizes": "没有奖品。"
 }
