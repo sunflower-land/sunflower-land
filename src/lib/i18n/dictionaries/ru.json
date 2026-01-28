@@ -6468,7 +6468,6 @@
   "description.giantBanana": "Останавливает даже машины!",
   "craft.with.friends": "Создавай вместе с друзьями",
   "instaGrow": "Вырастить мгновенно",
-  "instaGrow.description": "Устал ждать? Используй силу обсидиана, чтобы мгновенно вырастить {{project}}",
   "instaGrow.confirmation": "Ты действительно хочешь мгновенно вырастить {{project}} за {{amount}} обсидиан",
   "instaGrow.timeRemaining": "Оставшееся время: {{time}}",
   "flip.mobile.label": "Развернуть",
@@ -7917,5 +7916,7 @@
   "description.mermaidSheep.boost": "-5% Sheep Feed",
   "guaranteedCatch.guide.info": "Buy using one of the following baits you are able to select one for the fish from the category as your guaranteed catch.",
   "guaranteedCatch.guide.title": "Guaranteed Fishing Guide",
-  "auction.raffle.noPrizes": "No prizes."
+  "auction.raffle.noPrizes": "No prizes.",
+  "instaGrow.description": "Tired of waiting? Use the power of Obsidian to insta-grow the {{project}}.",
+  "description.divingHelmet": "A relic from the depths of the ocean, worn by the bravest of fishermen."
 }

@@ -6258,7 +6258,6 @@
   "description.giantBanana": "これで交通が止まります！",
   "craft.with.friends": "友達と一緒にビルド",
   "instaGrow": "インスタグロー",
-  "instaGrow.description": "待つのはうんざり？オブシディアンの力を使って {{project}} をインスタで育てよう",
   "instaGrow.confirmation": "{{amount}} オブシディアンの {{project}} をインスタで育ててもよろしいですか",
   "description.farmerMonument": "ひまわりランドの農家の記念碑。",
   "description.woodcutterMonument": "サンフラワーランドのウッドカッターのモニュメント。",
@@ -7917,5 +7916,7 @@
   "description.mermaidSheep.boost": "-5% 羊飼料",
   "guaranteedCatch.guide.info": "以下のいずれかの餌をご購入いただくと、そのカテゴリーの魚に合う餌を1つ選択して、確実に釣れるようになります。",
   "guaranteedCatch.guide.title": "保証付き釣りガイド",
-  "auction.raffle.noPrizes": "賞品はありません。"
+  "auction.raffle.noPrizes": "賞品はありません。",
+  "instaGrow.description": "待つのはうんざり？オブシディアンの力を使って {{project}} をインスタント成長させましょう。",
+  "description.divingHelmet": "勇敢な漁師が身に着けていた、深海で採れた遺物。"
 }

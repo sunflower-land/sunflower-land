@@ -6258,7 +6258,6 @@
   "description.giantBanana": "Itu akan menghentikan lalu lintas!",
   "craft.with.friends": "Bangun dengan teman",
   "instaGrow": "Insta Tumbuh",
-  "instaGrow.description": "Bosan menunggu? Gunakan kekuatan Obsidian untuk menumbuhkan {{project}}",
   "instaGrow.confirmation": "Apakah Anda yakin ingin menumbuhkan {{project}} untuk {{amount}} Obsidian",
   "description.farmerMonument": "Sebuah monumen untuk para petani Tanah Bunga Matahari.",
   "description.woodcutterMonument": "Sebuah monumen untuk para penebang kayu Sunflower Land.",
@@ -7917,5 +7916,7 @@
   "description.mermaidSheep.boost": "-5% Pakan Domba",
   "guaranteedCatch.guide.info": "Beli menggunakan salah satu umpan berikut, Anda dapat memilih satu untuk ikan dari kategori sebagai tangkapan terjamin Anda.",
   "guaranteedCatch.guide.title": "Panduan Memancing Bergaransi",
-  "auction.raffle.noPrizes": "Tidak ada hadiah."
+  "auction.raffle.noPrizes": "Tidak ada hadiah.",
+  "instaGrow.description": "Bosan menunggu? Gunakan kekuatan Obsidian untuk menumbuhkan {{project}}.",
+  "description.divingHelmet": "Sebuah peninggalan dari kedalaman laut, dikenakan oleh nelayan yang paling berani."
 }

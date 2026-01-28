@@ -6258,7 +6258,6 @@
   "description.giantBanana": "Bu trafiği durduracak!",
   "craft.with.friends": "Arkadaşlarınızla inşa edin",
   "instaGrow": "Insta Büyümek",
-  "instaGrow.description": "Beklemekten bıktınız mı? {{project}} 'yi büyütmek için Obsidiyen'in gücünü kullanın",
   "instaGrow.confirmation": "{{amount}} Obsidiyen'i {{project}} için büyütmek istediğinizden emin misiniz?",
   "description.farmerMonument": "Ayçiçeği Toprakları çiftçilerine bir anıt.",
   "description.woodcutterMonument": "Ayçiçeği Ülkesinin oduncuları için bir anıt.",
@@ -7917,5 +7916,7 @@
   "description.mermaidSheep.boost": "-5% Koyun Yemi",
   "guaranteedCatch.guide.info": "Aşağıdaki yemlerden birini kullanarak satın alın, garantili avınız olarak kategoriden balık için bir tane seçebilirsiniz..",
   "guaranteedCatch.guide.title": "Garantili Balıkçılık Rehberi",
-  "auction.raffle.noPrizes": "Ödül yok."
+  "auction.raffle.noPrizes": "Ödül yok.",
+  "instaGrow.description": "Beklemekten bıktınız mı? {{project}} 'yi büyütmek için Obsidiyen'in gücünü kullanın.",
+  "description.divingHelmet": "En cesur balıkçıların giydiği okyanusun derinliklerinden bir kalıntı."
 }

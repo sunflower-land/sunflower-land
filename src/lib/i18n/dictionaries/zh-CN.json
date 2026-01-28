@@ -6258,7 +6258,6 @@
   "description.giantBanana": "那会阻止交通！",
   "craft.with.friends": "和朋友一起建造",
   "instaGrow": "速长",
-  "instaGrow.description": "等不及了吗？使用黑曜石的力量让 {{project}} 立即成长！",
   "instaGrow.confirmation": "你确定要花费 {{amount}} 黑曜石让 {{project}} 立即成长吗？",
   "description.farmerMonument": "献给 Sunflower Land 农民的纪念碑。",
   "description.woodcutterMonument": "献给 Sunflower Land 伐木工的纪念碑。",
@@ -7917,5 +7916,7 @@
   "description.mermaidSheep.boost": "-5% 绵羊饲料",
   "guaranteedCatch.guide.info": "使用以下诱饵之一购买，您可以从该类别中选择一种作为保证捕获量的鱼饵。",
   "guaranteedCatch.guide.title": "保证钓鱼指南",
-  "auction.raffle.noPrizes": "没有奖品。"
+  "auction.raffle.noPrizes": "没有奖品。",
+  "instaGrow.description": "厌倦了等待？使用黑曜石的力量即时增长 {{project}}。",
+  "description.divingHelmet": "这是一件来自海洋深处的遗物，是最勇敢的渔民佩戴的。"
 }

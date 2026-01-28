@@ -6258,7 +6258,6 @@
   "description.giantBanana": "Questo fermerà il traffico!",
   "craft.with.friends": "Costruisci con gli amici",
   "instaGrow": "Insta Grow",
-  "instaGrow.description": "Stanco di aspettare? Usa il potere di Obsidian per far crescere istantaneamente il {{project}}",
   "instaGrow.confirmation": "Sei sicuro di voler far crescere istantaneamente {{project}} per {{amount}} Obsidian",
   "description.farmerMonument": "Un monumento ai contadini di Sunflower Land.",
   "description.woodcutterMonument": "Un monumento ai taglialegna di Sunflower Land.",
@@ -7917,5 +7916,7 @@
   "description.mermaidSheep.boost": "-5% Mangime per pecore",
   "guaranteedCatch.guide.info": "Utilizzando una delle seguenti esche, puoi selezionarne una per il pesce della categoria come cattura garantita.",
   "guaranteedCatch.guide.title": "Guida alla pesca garantita",
-  "auction.raffle.noPrizes": "Nessun premio."
+  "auction.raffle.noPrizes": "Nessun premio.",
+  "instaGrow.description": "Stanco di aspettare? Usa il potere di Obsidian per far crescere istantaneamente il {{project}}.",
+  "description.divingHelmet": "Una reliquia proveniente dalle profondità dell'oceano, indossata dai pescatori più coraggiosi."
 }
