@@ -145,6 +145,7 @@ export const CHAPTER_COLLECTIONS: Partial<
   },
   "Crabs and Traps": {
     collectibles: [
+      ...getChapterMutants("Crabs and Traps"),
       // Auctioneer
       "Speckled Kissing Fish",
       "Fisherman's Boat",
