@@ -5,6 +5,7 @@ import plus from "assets/icons/plus.png";
 import lightning from "assets/icons/lightning.png";
 import fullMoon from "assets/icons/full_moon.png";
 import multiCast from "src/assets/icons/multi-cast.webp";
+import ancientRod from "src/assets/wearables/224.webp";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -127,7 +128,7 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
 
   const [showChum, setShowChum] = useState(false);
   const [chum, setChum] = useState<Chum | undefined>(() =>
-    !defaultGuaranteedCatch ? getDefaultChum(items) : undefined,
+    getDefaultChum(items),
   );
   const [selectedBait, setSelectedBait] = useState<FishingBait | undefined>(
     () => getStoredBait(),
@@ -162,7 +163,6 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
     guaranteedCatch: FishName | undefined,
   ) => {
     setGuaranteedCatch(guaranteedCatch);
-    setChum(undefined);
     if (typeof window !== "undefined") {
       if (guaranteedCatch) {
         localStorage.setItem("lastSelectedGuaranteedCatch", guaranteedCatch);
@@ -174,6 +174,7 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
 
   const reelsLeft = getRemainingReels(state);
   const effectiveMultiplier = isVip ? multiplier : 1;
+  const effectiveChum = isGuaranteedBait(selectedBait) ? undefined : chum;
 
   const getExtraReelPacksRequired = () => {
     // Find the diff between the effective multiplier and reels left
@@ -204,7 +205,7 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
   const handleBuyMoreReelsAndCast = () => {
     onCast(
       selectedBait!,
-      chum,
+      effectiveChum,
       effectiveMultiplier,
       guaranteedCatch,
       packsRequired,
@@ -398,10 +399,14 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
                 {t("fishing.multiCast")}
               </Label>
               <div className="flex items-center space-x-2 p-1">
-                <SmallBox
-                  image={SUNNYSIDE.tools.fishing_rod}
-                  count={state.inventory["Rod"] ?? new Decimal(0)}
-                />
+                {hasAncientRod ? (
+                  <SmallBox image={ancientRod} />
+                ) : (
+                  <SmallBox
+                    image={SUNNYSIDE.tools.fishing_rod}
+                    count={state.inventory["Rod"] ?? new Decimal(0)}
+                  />
+                )}
                 <div className="flex gap-2">
                   {[1, 5, 10, 25].map((value) => {
                     const isSelected = effectiveMultiplier === value;
@@ -507,7 +512,12 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
         ) : (
           <Button
             onClick={() =>
-              onCast(selectedBait!, chum, effectiveMultiplier, guaranteedCatch)
+              onCast(
+                selectedBait!,
+                effectiveChum,
+                effectiveMultiplier,
+                guaranteedCatch,
+              )
             }
             disabled={
               !selectedBait ||
@@ -517,9 +527,11 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
               !items[selectedBait as InventoryItemName]?.gte(
                 effectiveMultiplier,
               ) ||
-              (chum
-                ? !items[chum as InventoryItemName]?.gte(
-                    new Decimal(CHUM_AMOUNTS[chum] * effectiveMultiplier),
+              (effectiveChum
+                ? !items[effectiveChum as InventoryItemName]?.gte(
+                    new Decimal(
+                      CHUM_AMOUNTS[effectiveChum] * effectiveMultiplier,
+                    ),
                   )
                 : false)
             }
