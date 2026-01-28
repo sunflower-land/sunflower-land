@@ -2,17 +2,6 @@ import { Announcements } from "features/game/types/announcements";
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 
-export function getGameRulesLastRead(): Date | null {
-  const value = localStorage.getItem("gameRulesLastRead");
-  if (!value) return null;
-
-  return new Date(value);
-}
-
-export function acknowledgeGameRules() {
-  return localStorage.setItem("gameRulesLastRead", new Date().toISOString());
-}
-
 export function getFLOWERTeaserLastRead(): Date | null {
   const value = localStorage.getItem("FLOWERTeaserLastRead");
   if (!value) return null;

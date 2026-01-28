@@ -243,7 +243,6 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Pumpkin Plaza Background",
     shoes: "Black Farmer Boots",
     tool: "Parsnip",
-    hat: "Flower Mask",
   },
   "chef tuck": {
     body: "Goblin Potion",
@@ -548,7 +547,6 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Pumpkin Plaza Background",
     shoes: "Black Farmer Boots",
     shirt: "Yellow Farmer Shirt",
-    hat: "Flower Mask",
   },
   grimtooth: {
     body: "Goblin Potion",
@@ -699,7 +697,6 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     hair: "Brown Long Hair",
     shirt: "Merino Jumper",
     pants: "Cowgirl Skirt",
-    hat: "Flower Mask",
     tool: "Shepherd Staff",
     necklace: "Dream Scarf",
     coat: "Milk Apron",
@@ -807,7 +804,6 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Wise Slacks",
     shirt: "Wise Robes",
     tool: "Wise Staff",
-    hat: "Weather Hat",
     secondaryTool: "Wise Book",
     background: "Pumpkin Plaza Background",
     shoes: "Brown Boots",
@@ -979,7 +975,6 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   mayor: {
     body: "Light Brown Farmer Potion",
     shirt: "Pirate Leather Polo",
-    hat: "Flower Mask",
     hair: "Sun Spots",
     tool: "Merch Coffee Mug",
     pants: "Farmer Pants",

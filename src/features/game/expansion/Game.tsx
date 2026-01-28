@@ -30,8 +30,8 @@ import { VisitingHud } from "features/island/hud/VisitingHud";
 import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
 
 import { IslandNotFound } from "./components/IslandNotFound";
-import { Rules } from "../components/Rules";
 import { Introduction } from "./components/Introduction";
+import { Welcome } from "./components/Welcome";
 import { Purchasing } from "../components/Purchasing";
 import { ClaimAuction } from "../components/auctionResults/ClaimAuction";
 import { RefundAuction } from "../components/auctionResults/RefundAuction";
@@ -178,7 +178,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   landscaping: false,
   swarming: true,
   coolingDown: true,
-  gameRules: true,
   randomising: false,
   visiting: false,
   loadLandToVisit: true,
@@ -190,6 +189,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   buyingSFL: true,
   depositing: true,
   introduction: false,
+  welcome: true,
   vip: true,
   transacting: true,
   auctionResults: false,
@@ -217,6 +217,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
 };
 
 // State change selectors
+const isWelcome = (state: MachineState) => state.matches("welcome");
 const isLoading = (state: MachineState) =>
   state.matches("loading") || state.matches("portalling");
 const isPortalling = (state: MachineState) => state.matches("portalling");
@@ -247,7 +248,6 @@ const showCommunityCoin = (state: MachineState) =>
 const _showReferralRewards = (state: MachineState) =>
   state.matches("referralRewards");
 const isCoolingDown = (state: MachineState) => state.matches("coolingDown");
-const isGameRules = (state: MachineState) => state.matches("gameRules");
 const isDepositing = (state: MachineState) => state.matches("depositing");
 const isLoadingLandToVisit = (state: MachineState) =>
   state.matches("loadLandToVisit");
@@ -420,6 +420,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const pwaInstallRef = usePWAInstall();
 
   const loading = useSelector(gameService, isLoading);
+  const welcome = useSelector(gameService, isWelcome);
   const portalling = useSelector(gameService, isPortalling);
   const trading = useSelector(gameService, isTrading);
   const traded = useSelector(gameService, isTraded);
@@ -440,7 +441,6 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const hoarding = useSelector(gameService, isHoarding);
   const swarming = useSelector(gameService, isSwarming);
   const coolingDown = useSelector(gameService, isCoolingDown);
-  const gameRules = useSelector(gameService, isGameRules);
   const depositing = useSelector(gameService, isDepositing);
   const loadingLandToVisit = useSelector(gameService, isLoadingLandToVisit);
   const loadingSession = useSelector(gameService, isLoadingSession);
@@ -657,9 +657,9 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             {hoarding && <Hoarding />}
             {swarming && <Swarming />}
             {coolingDown && <Cooldown />}
-            {gameRules && <Rules />}
             {dailyReward && <DailyRewardClaim showClose />}
             {transacting && <Transaction />}
+            {welcome && <Welcome />}
             {depositing && <Loading text={t("depositing")} />}
             {trading && <Loading text={t("trading")} />}
             {traded && <Traded />}

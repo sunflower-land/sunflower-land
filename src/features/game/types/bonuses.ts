@@ -4,7 +4,8 @@ export type BonusName =
   | "discord-signup"
   | "pixel-font-bonus"
   | "gam3s-cap"
-  | "2026-tiara-wave";
+  | "2026-tiara-wave"
+  | "welcome";
 
 export type Bonus = {
   isClaimed: (game: GameState) => boolean;
@@ -16,6 +17,15 @@ export type Bonus = {
 };
 
 export const BONUSES: Record<BonusName, Bonus> = {
+  welcome: {
+    isClaimed: (game) => !!game.farmActivity["welcome Bonus Claimed"],
+    reward: {
+      wearables: {},
+      inventory: {
+        Gem: 50,
+      },
+    },
+  },
   "discord-signup": {
     isClaimed: (game) => !!game.wardrobe["Companion Cap"],
     reward: {
@@ -24,7 +34,6 @@ export const BONUSES: Record<BonusName, Bonus> = {
       },
       inventory: {
         Axe: 5,
-        "Community Coin": 1,
       },
     },
   },
