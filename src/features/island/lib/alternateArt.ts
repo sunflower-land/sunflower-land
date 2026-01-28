@@ -77,10 +77,10 @@ export const WAREHOUSE_VARIANTS: Record<TemperateSeasonName, string> = {
 };
 
 export const FISH_MARKET_VARIANTS: Record<TemperateSeasonName, string> = {
-  spring: SUNNYSIDE.building.fishMarket,
+  spring: SUNNYSIDE.seasons.spring.fishMarket,
   summer: SUNNYSIDE.building.fishMarket,
-  autumn: SUNNYSIDE.building.fishMarket,
-  winter: SUNNYSIDE.building.fishMarket,
+  autumn: SUNNYSIDE.seasons.autumn.fishMarket,
+  winter: SUNNYSIDE.seasons.winter.fishMarket,
 };
 
 export const HEN_HOUSE_VARIANTS: Record<
