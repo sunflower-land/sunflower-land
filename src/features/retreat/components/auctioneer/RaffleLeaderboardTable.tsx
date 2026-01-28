@@ -11,6 +11,8 @@ import { RaffleWinner } from "../../../world/ui/chapterRaffles/actions/loadRaffl
 import raffleTicketIcon from "assets/icons/raffle_icon.png";
 import { shortenCount } from "lib/utils/formatNumber";
 import petEggNFT from "assets/icons/pet_nft_egg.png";
+import { RafflePrize } from "./types";
+import { toOrdinalSuffix } from "./AuctionLeaderboardTable";
 
 type Props = {
   winners: RaffleWinner[];
@@ -111,6 +113,65 @@ export const RaffleLeaderboardTable: React.FC<Props> = ({
                     <div className="flex w-16 items-center">
                       <img src={petEggNFT} className="h-4 mr-0.5" />
                       <span className="text-xs truncate">{winner.nft}</span>
+                    </div>
+                  )}
+                </div>
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
+};
+
+export const RafflePrizeTable: React.FC<{
+  prizes: Record<number, RafflePrize>;
+}> = ({ prizes }) => {
+  const { t } = useAppTranslation();
+  const prizeValues = Object.values(prizes);
+
+  if (!prizeValues?.length) {
+    return <p className="text-xxs">{t("auction.raffle.noPrizes")}</p>;
+  }
+
+  return (
+    <table className="w-full text-xs table-fixed border-collapse">
+      <tbody>
+        {prizeValues.map((prize, index) => {
+          return (
+            <tr key={index}>
+              <td
+                style={{ border: "1px solid #b96f50" }}
+                className="p-1.5 pb-2 w-12"
+              >
+                {toOrdinalSuffix(index + 1)}
+              </td>
+
+              <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
+                <div className="flex space-x-1 flex-wrap space-y-1">
+                  {getKeys(prize.items ?? {}).map((name) => (
+                    <div className="flex items-center" key={name}>
+                      <img
+                        src={ITEM_DETAILS[name].image}
+                        className="h-4 mr-1"
+                      />
+                      <span className="text-xs">{`${prize.items?.[name]} x ${name}`}</span>
+                    </div>
+                  ))}
+                  {getKeys(prize.wearables ?? {}).map((wearable) => (
+                    <div className="flex items-center" key={wearable}>
+                      <img
+                        src={getImageUrl(ITEM_IDS[wearable])}
+                        className="h-4 mr-1"
+                      />
+                      <span className="text-xs">{`${prize.wearables?.[wearable]} x ${wearable}`}</span>
+                    </div>
+                  ))}
+                  {prize.nft && (
+                    <div className="flex items-center">
+                      <img src={petEggNFT} className="h-4 mr-1" />
+                      <span className="text-xs truncate">{`${prize.nft}`}</span>
                     </div>
                   )}
                 </div>

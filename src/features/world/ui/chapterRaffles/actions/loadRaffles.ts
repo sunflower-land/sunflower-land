@@ -34,6 +34,42 @@ export async function loadRaffles(
           2: {
             items: { Gold: 5 },
           },
+          3: {
+            nft: "Pet #4",
+          },
+          4: {
+            items: { Iron: 5, Stone: 5, Wood: 2 },
+          },
+          5: {
+            nft: "Pet #4",
+          },
+          6: {
+            items: { Iron: 5, Stone: 5, Wood: 2 },
+          },
+          7: {
+            nft: "Pet #4",
+          },
+          8: {
+            items: { Iron: 5, Stone: 5, Wood: 2 },
+          },
+          9: {
+            nft: "Pet #4",
+          },
+          10: {
+            items: { Iron: 5, Stone: 5, Wood: 2 },
+          },
+          11: {
+            nft: "Pet #4",
+          },
+          12: {
+            items: { Iron: 5, Stone: 5, Wood: 2 },
+          },
+          13: {
+            nft: "Pet #4",
+          },
+          14: {
+            items: { Iron: 5, Stone: 5, Wood: 2 },
+          },
         },
         entryRequirements: {
           [chapterTicket]: 10,
@@ -51,6 +87,9 @@ export async function loadRaffles(
           },
           2: {
             items: { Iron: 5, Stone: 5, Wood: 2 },
+          },
+          3: {
+            nft: "Pet #4",
           },
         },
         entryRequirements: {
@@ -70,6 +109,42 @@ export async function loadRaffles(
           },
           2: {
             items: { Gold: 5 },
+          },
+          3: {
+            nft: "Pet #4",
+          },
+          4: {
+            items: { Iron: 5, Stone: 5, Wood: 2 },
+          },
+          5: {
+            nft: "Pet #4",
+          },
+          6: {
+            items: { Iron: 5, Stone: 5, Wood: 2 },
+          },
+          7: {
+            nft: "Pet #4",
+          },
+          8: {
+            items: { Iron: 5, Stone: 5, Wood: 2 },
+          },
+          9: {
+            nft: "Pet #4",
+          },
+          10: {
+            items: { Iron: 5, Stone: 5, Wood: 2 },
+          },
+          11: {
+            nft: "Pet #4",
+          },
+          12: {
+            items: { Iron: 5, Stone: 5, Wood: 2 },
+          },
+          13: {
+            nft: "Pet #4",
+          },
+          14: {
+            items: { Iron: 5, Stone: 5, Wood: 2 },
           },
         },
         entryRequirements: {
