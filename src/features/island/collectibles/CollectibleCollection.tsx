@@ -758,6 +758,26 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Skill Shrimpy": SkillShrimpy,
   "Soil Krabby": SoilKrabby,
   Nana: Nana,
+  "Speckled Kissing Fish": () => (
+    <TemplateCollectible name="Speckled Kissing Fish" />
+  ),
+  "Dark Eyed Kissing Fish": () => (
+    <TemplateCollectible name="Dark Eyed Kissing Fish" />
+  ),
+  "Fisherman's Boat": () => <TemplateCollectible name="Fisherman's Boat" />,
+  "Sea Arch": () => <TemplateCollectible name="Sea Arch" />,
+  "Crabs and Fish Rug": () => <TemplateCollectible name="Crabs and Fish Rug" />,
+  "Fish Flags": () => <TemplateCollectible name="Fish Flags" />,
+  "Fish Drying Rack": () => <TemplateCollectible name="Fish Drying Rack" />,
+  "Yellow Submarine Trophy": () => (
+    <TemplateCollectible name="Yellow Submarine Trophy" />
+  ),
+  Oaken: () => <TemplateCollectible name="Oaken" />,
+  Meerkat: () => <TemplateCollectible name="Meerkat" />,
+  "Pearl Bed": () => <TemplateCollectible name="Pearl Bed" />,
+  "Crimstone Clam": () => <TemplateCollectible name="Crimstone Clam" />,
+  "Poseidon's Throne": () => <TemplateCollectible name="Poseidon's Throne" />,
+  "Fish Kite": () => <TemplateCollectible name="Fish Kite" />,
   "Crim Peckster": CrimPeckster,
   "Knight Chicken": KnightChicken,
   "Pharaoh Chicken": PharaohChicken,
