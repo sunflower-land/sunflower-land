@@ -112,8 +112,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     seasonalCollectiblesCrafted + seasonalWearablesCrafted;
 
   const itemName = isWearable
-    ? (item as ChapterStoreWearable).wearable
-    : (item as ChapterStoreCollectible).collectible;
+    ? (item as ChapterStoreWearable)?.wearable
+    : (item as ChapterStoreCollectible)?.collectible;
 
   const isKey = (name: InventoryItemName): name is Keys =>
     name in ARTEFACT_SHOP_KEYS;
