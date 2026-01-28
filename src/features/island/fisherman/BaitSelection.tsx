@@ -5,6 +5,7 @@ import plus from "assets/icons/plus.png";
 import lightning from "assets/icons/lightning.png";
 import fullMoon from "assets/icons/full_moon.png";
 import multiCast from "src/assets/icons/multi-cast.webp";
+import ancientRod from "src/assets/wearables/224.webp";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -398,10 +399,14 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
                 {t("fishing.multiCast")}
               </Label>
               <div className="flex items-center space-x-2 p-1">
-                <SmallBox
-                  image={SUNNYSIDE.tools.fishing_rod}
-                  count={state.inventory["Rod"] ?? new Decimal(0)}
-                />
+                {hasAncientRod ? (
+                  <SmallBox image={ancientRod} />
+                ) : (
+                  <SmallBox
+                    image={SUNNYSIDE.tools.fishing_rod}
+                    count={state.inventory["Rod"] ?? new Decimal(0)}
+                  />
+                )}
                 <div className="flex gap-2">
                   {[1, 5, 10, 25].map((value) => {
                     const isSelected = effectiveMultiplier === value;
