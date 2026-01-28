@@ -17,6 +17,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import {
   getCurrentChapter,
   getChapterTicket,
+  CHAPTERS,
 } from "features/game/types/chapters";
 import confetti from "canvas-confetti";
 import { BumpkinItem } from "features/game/types/bumpkin";
@@ -137,6 +138,19 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const itemCrafted =
     state.farmActivity[`${itemName as ChapterTierItemName} Bought`];
 
+  // Check if Pet Egg was already bought this chapter
+  const isPetEggBoughtThisChapter = (() => {
+    if (itemName !== "Pet Egg") return false;
+    const petEggBoughtAt =
+      state.megastore?.boughtAt["Pet Egg" as ChapterTierItemName];
+    if (!petEggBoughtAt) return false;
+    const chapterTime = CHAPTERS[currentChapter];
+    const boughtDate = new Date(petEggBoughtAt);
+    return (
+      boughtDate >= chapterTime.startDate && boughtDate <= chapterTime.endDate
+    );
+  })();
+
   const description = getItemDescription(item);
   const { sfl = 0 } = item?.cost || {};
   const itemReq = item?.cost?.items;
@@ -162,6 +176,11 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const canBuy = () => {
     if (!item) return false;
 
+    // Pet Egg: one per chapter limit
+    if (isPetEggBoughtThisChapter) {
+      return false;
+    }
+
     if (item.cooldownMs) {
       if (itemInCooldown) return false;
     }
@@ -172,7 +191,12 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
       if (tier === "mega" && !isMegaUnlocked) return false;
     }
 
-    if (!item.cooldownMs && !isKey(itemName as InventoryItemName)) {
+    // For non-cooldown items (except keys and Pet Egg), check if already crafted
+    if (
+      !item.cooldownMs &&
+      !isKey(itemName as InventoryItemName) &&
+      itemName !== "Pet Egg"
+    ) {
       if (itemCrafted) {
         return false;
       }
@@ -345,7 +369,16 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                     )}
                     <span className="text-xs leading-none">{description}</span>
 
-                    {itemName && item?.cooldownMs ? (
+                    {itemName === "Pet Egg" ? (
+                      <Label
+                        type={isPetEggBoughtThisChapter ? "danger" : "default"}
+                        className="text-xxs"
+                      >
+                        {isPetEggBoughtThisChapter
+                          ? t("season.megastore.crafting.limit", { limit: 1 })
+                          : t("season.megastore.crafting.limit", { limit: 0 })}
+                      </Label>
+                    ) : itemName && item?.cooldownMs ? (
                       <Label
                         type={itemInCooldown ? "danger" : "default"}
                         className="text-xxs"

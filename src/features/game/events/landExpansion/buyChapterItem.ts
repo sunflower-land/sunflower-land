@@ -140,8 +140,24 @@ export function buyChapterItem({
       }
     }
 
-    // Ensure items without a cooldown, can only be bought once
-    if (!item.cooldownMs) {
+    // Check if Pet Egg was already bought within the current chapter (one per chapter limit)
+    if (name === "Pet Egg") {
+      const petEggBoughtAt =
+        copy.megastore?.boughtAt["Pet Egg" as ChapterTierItemName];
+      if (petEggBoughtAt) {
+        const chapterTime = CHAPTERS[currentChapter];
+        const boughtDate = new Date(petEggBoughtAt);
+        const wasBoughtThisChapter =
+          boughtDate >= chapterTime.startDate &&
+          boughtDate <= chapterTime.endDate;
+        if (wasBoughtThisChapter) {
+          throw new Error("Pet Egg already bought this chapter");
+        }
+      }
+    }
+
+    // Ensure items without a cooldown, can only be bought once (except Pet Egg which uses chapter-based validation)
+    if (!item.cooldownMs && name !== "Pet Egg") {
       const itemCrafted =
         copy.farmActivity[`${name as ChapterTierItemName} Bought`];
 
