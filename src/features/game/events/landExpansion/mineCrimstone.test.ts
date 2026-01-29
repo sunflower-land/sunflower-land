@@ -115,6 +115,7 @@ describe("mineCrimstone", () => {
       mineCrimstone({
         state: game,
         action: payload.action,
+        farmId: FARM_ID,
       }),
     ).toThrow("Rock is still recovering");
   });
