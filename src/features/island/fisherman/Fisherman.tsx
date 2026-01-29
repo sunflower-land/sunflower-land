@@ -117,24 +117,22 @@ export const Fisherman: React.FC = () => {
   };
 
   const bubblePosition = (): React.CSSProperties => {
-    let right = 7;
-    let bottom = -53;
+    let right = 32;
+    let bottom = -48;
+
+    if (island === "spring") {
+      right = 10;
+      bottom = -77;
+    }
 
     if (island === "desert") {
-      right = -7;
-      if (season === "winter") {
-        right = -4;
-        bottom = -73;
-      }
+      right = -4;
+      bottom = -78;
     }
 
     if (island === "volcano") {
-      right = -27;
-      bottom = -60;
-      if (season === "winter") {
-        right = -22;
-        bottom = -78;
-      }
+      right = -23;
+      bottom = -93;
     }
 
     return {
