@@ -14,11 +14,14 @@ import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameWallet } from "features/wallet/Wallet";
 import { Panel } from "components/ui/Panel";
+import { useNow } from "lib/utils/hooks/useNow";
 
-export const Raffle: React.FC = () => {
+export const Raffle: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { t } = useAppTranslation();
+
+  const now = useNow({ live: true });
 
   const enterRaffle = async () => {
     gameService.send("raffle.entered");
@@ -38,6 +41,20 @@ export const Raffle: React.FC = () => {
     gameState.context.state.inventory["Prize Ticket"] ?? new Decimal(0);
 
   const monthName = new Date().toLocaleString("default", { month: "long" });
+
+  if (now > new Date("2026-02-01T00:00:00Z").getTime()) {
+    return (
+      <Panel>
+        <div className="p-1">
+          <Label type="info" className="mb-2">
+            {t("raffle.newLocation")}
+          </Label>
+          <p className="text-sm">{t("raffle.newLocationDescription")}</p>
+        </div>
+        <Button onClick={onClose}>{t("close")}</Button>
+      </Panel>
+    );
+  }
 
   return (
     <Panel>
