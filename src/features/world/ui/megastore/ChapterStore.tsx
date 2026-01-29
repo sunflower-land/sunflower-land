@@ -127,9 +127,9 @@ export const ChapterStore: React.FC<{
         />
       </ModalOverlay>
 
-      <div className="flex justify-between px-2 flex-wrap pb-1">
+      <div className="flex justify-between flex-wrap pb-1">
         <Label type="default" className="mb-1">
-          {"Stella"}
+          {t("megaStore.title")}
         </Label>
         <Label icon={SUNNYSIDE.icons.stopwatch} type="danger" className="mb-1">
           {t("megaStore.timeRemaining", {
@@ -141,11 +141,11 @@ export const ChapterStore: React.FC<{
         </Label>
       </div>
       <div
-        className={classNames("flex flex-col p-2 pt-1", {
+        className={classNames("flex flex-col p-1 pt-1", {
           ["max-h-[400px] overflow-y-auto scrollable"]: !readonly,
         })}
       >
-        <span className="text-xs pb-1">
+        <span className="text-xs px-1 pb-3">
           {readonly ? t("megaStore.visit") : t("megaStore.msg1")}
         </span>
         <ItemsList
@@ -153,24 +153,30 @@ export const ChapterStore: React.FC<{
           items={basicAllItems}
           onItemClick={handleClickItem}
         />
-        <ItemsList
-          itemsLabel={"Rare Items"}
-          tier="rare"
-          items={rareAllItems}
-          onItemClick={handleClickItem}
-        />
-        <ItemsList
-          itemsLabel={"Epic Items"}
-          tier="epic"
-          items={epicAllItems}
-          onItemClick={handleClickItem}
-        />
-        <ItemsList
-          itemsLabel={"Mega Items"}
-          tier="mega"
-          items={megaItems}
-          onItemClick={handleClickItem}
-        />
+        {rareAllItems.length > 0 && (
+          <ItemsList
+            itemsLabel={"Rare Items"}
+            tier="rare"
+            items={rareAllItems}
+            onItemClick={handleClickItem}
+          />
+        )}
+        {epicAllItems.length > 0 && (
+          <ItemsList
+            itemsLabel={"Epic Items"}
+            tier="epic"
+            items={epicAllItems}
+            onItemClick={handleClickItem}
+          />
+        )}
+        {megaItems.length > 0 && (
+          <ItemsList
+            itemsLabel={"Mega Items"}
+            tier="mega"
+            items={megaItems}
+            onItemClick={handleClickItem}
+          />
+        )}
       </div>
     </>
   );

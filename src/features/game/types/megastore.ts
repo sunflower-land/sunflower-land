@@ -61,7 +61,13 @@ export type ChapterCollectibleName =
   | "Lunar Temple"
   | "Magma Stone"
   | "Cornucopia"
-  | "Messy Bed";
+  | "Messy Bed"
+
+  // Crabs and Traps
+  | "Meerkat"
+  | "Crimstone Clam"
+  | "Poseidon's Throne"
+  | "Oaken";
 
 export type ChapterWearableName = Extract<
   BumpkinItem,
@@ -100,6 +106,12 @@ export type ChapterWearableName = Extract<
   | "Pet Specialist Pants"
   | "Pet Specialist Shirt"
   | "Saw Fish"
+
+  // Crabs and Traps
+  | "Fish Hook Hat"
+  | "Fish Hook Vest"
+  | "Fish Hook Waders"
+  | "Corn Silk Hair"
 >;
 
 export type MegastoreKeys = "Treasure Key" | "Rare Key" | "Luxury Key";
@@ -949,6 +961,53 @@ const PAW_PRINTS_ITEMS: ChapterStore = {
   },
 };
 
+const CRABS_AND_TRAPS_ITEMS: ChapterStore = {
+  basic: {
+    items: [
+      {
+        wearable: "Fish Hook Waders",
+        cost: { sfl: 100, items: {} },
+      },
+      {
+        wearable: "Fish Hook Vest",
+        cost: { sfl: 200, items: {} },
+      },
+      {
+        collectible: "Meerkat",
+        cost: { sfl: 0, items: { "Ammonite Shell": 250 } },
+      },
+      {
+        collectible: "Crimstone Clam",
+        cost: { sfl: 0, items: { Floater: 5000 } },
+      },
+      {
+        collectible: "Poseidon's Throne",
+        cost: { sfl: 0, items: { Floater: 5000 } },
+      },
+      {
+        collectible: "Oaken",
+        cost: { sfl: 0, items: { Floater: 5000 } },
+      },
+      {
+        wearable: "Corn Silk Hair",
+        cost: { sfl: 0, items: { Floater: 5000 } },
+      },
+    ],
+  },
+  rare: {
+    items: [],
+    requirement: 0,
+  },
+  epic: {
+    items: [],
+    requirement: 0,
+  },
+  mega: {
+    items: [],
+    requirement: 0,
+  },
+};
+
 export const MEGASTORE: Record<ChapterName, ChapterStore> = {
   "Catch the Kraken": EMPTY_SEASONAL_STORE,
   "Clash of Factions": EMPTY_SEASONAL_STORE,
@@ -956,7 +1015,7 @@ export const MEGASTORE: Record<ChapterName, ChapterStore> = {
   "Solar Flare": EMPTY_SEASONAL_STORE,
   "Spring Blossom": EMPTY_SEASONAL_STORE,
   "Witches' Eve": EMPTY_SEASONAL_STORE,
-  "Crabs and Traps": EMPTY_SEASONAL_STORE,
+  "Crabs and Traps": CRABS_AND_TRAPS_ITEMS,
   "Pharaoh's Treasure": {
     basic: {
       items: PHARAOH_ITEMS,

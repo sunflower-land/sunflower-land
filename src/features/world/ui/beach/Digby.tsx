@@ -384,6 +384,13 @@ const BoostDigItems: (
     buff: BUMPKIN_ITEM_BUFF_LABELS["Bionic Drill"] as BuffLabel[],
     location: "Artefact Shop",
   },
+  Meerkat: {
+    buff: COLLECTIBLE_BUFF_LABELS.Meerkat?.({
+      skills: state.bumpkin.skills,
+      collectibles: state.collectibles,
+    }) as BuffLabel[],
+    location: "Megastore",
+  },
   ...(getCurrentChapter(now) === "Pharaoh's Treasure"
     ? {
         "Pharaoh's Treasure Banner": {
