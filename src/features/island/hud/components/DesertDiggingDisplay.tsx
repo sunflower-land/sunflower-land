@@ -30,6 +30,10 @@ export const getRegularMaxDigs = (game: GameState) => {
     maxDigs += 5;
   }
 
+  if (isCollectibleBuilt({ name: "Meerkat", game })) {
+    maxDigs += 5;
+  }
+
   return maxDigs;
 };
 

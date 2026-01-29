@@ -341,6 +341,11 @@ export function getCropYieldAmount({
     boostsUsed.push("Corn Onesie");
   }
 
+  if (crop === "Corn" && isWearableActive({ name: "Corn Silk Hair", game })) {
+    amount += 2;
+    boostsUsed.push("Corn Silk Hair");
+  }
+
   if (crop === "Wheat" && isWearableActive({ name: "Sickle", game })) {
     amount += 2;
     boostsUsed.push("Sickle");

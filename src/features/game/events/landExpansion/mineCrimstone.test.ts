@@ -10,6 +10,8 @@ import {
   getMinedAt,
   mineCrimstone,
 } from "./mineCrimstone";
+import { KNOWN_IDS } from "features/game/types";
+import { prngChance } from "lib/prng";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -32,6 +34,7 @@ const GAME_STATE: GameState = {
     },
   },
 };
+const FARM_ID = 1;
 
 describe("mineCrimstone", () => {
   beforeAll(() => {
@@ -51,6 +54,7 @@ describe("mineCrimstone", () => {
           type: "crimstoneRock.mined",
           index: 0,
         },
+        farmId: FARM_ID,
       }),
     ).toThrow("No gold pickaxes left");
   });
@@ -68,6 +72,7 @@ describe("mineCrimstone", () => {
           type: "crimstoneRock.mined",
           index: 3,
         },
+        farmId: FARM_ID,
       }),
     ).toThrow("Crimstone does not exist");
   });
@@ -83,6 +88,7 @@ describe("mineCrimstone", () => {
           },
         },
         action: { type: "crimstoneRock.mined", index: 0 },
+        farmId: FARM_ID,
       }),
     ).toThrow("Crimstone rock is not placed");
   });
@@ -100,6 +106,7 @@ describe("mineCrimstone", () => {
         expansionIndex: 0,
         index: 0,
       } as MineCrimstoneAction,
+      farmId: FARM_ID,
     };
     const game = mineCrimstone(payload);
 
@@ -125,6 +132,7 @@ describe("mineCrimstone", () => {
         expansionIndex: 0,
         index: 0,
       } as MineCrimstoneAction,
+      farmId: FARM_ID,
     };
 
     const game = mineCrimstone(payload);
@@ -146,6 +154,7 @@ describe("mineCrimstone", () => {
         expansionIndex: 0,
         index: 0,
       } as MineCrimstoneAction,
+      farmId: FARM_ID,
     });
 
     game = mineCrimstone({
@@ -155,6 +164,7 @@ describe("mineCrimstone", () => {
         expansionIndex: 0,
         index: 1,
       } as MineCrimstoneAction,
+      farmId: FARM_ID,
     });
 
     expect(game.inventory["Gold Pickaxe"]).toEqual(new Decimal(1));
@@ -174,6 +184,7 @@ describe("mineCrimstone", () => {
         expansionIndex: 0,
         index: 0,
       } as MineCrimstoneAction,
+      farmId: FARM_ID,
     };
 
     let game = mineCrimstone(payload);
@@ -202,6 +213,7 @@ describe("mineCrimstone", () => {
         expansionIndex: 0,
         index: 1,
       } as MineCrimstoneAction,
+      farmId: FARM_ID,
     };
 
     let game = mineCrimstone(payload);
@@ -232,6 +244,9 @@ describe("mineCrimstone", () => {
           },
         },
         createdAt: now,
+        farmId: FARM_ID,
+        itemId: KNOWN_IDS["Crimstone Rock"],
+        counter: 0,
       });
 
       expect(time).toEqual(now - CRIMSTONE_RECOVERY_TIME * 0.2 * 1000);
@@ -250,6 +265,9 @@ describe("mineCrimstone", () => {
           },
         },
         createdAt: now,
+        farmId: FARM_ID,
+        itemId: KNOWN_IDS["Crimstone Rock"],
+        counter: 0,
       });
 
       expect(time).toEqual(now - CRIMSTONE_RECOVERY_TIME * 0.15 * 1000);
@@ -283,12 +301,88 @@ describe("mineCrimstone", () => {
           },
         },
         createdAt: now,
+        farmId: FARM_ID,
+        itemId: KNOWN_IDS["Crimstone Rock"],
+        counter: 0,
       });
 
       const expectedCooldownTime =
         CRIMSTONE_RECOVERY_TIME - CRIMSTONE_RECOVERY_TIME * 0.8 * 0.85 * 0.75;
 
       expect(time).toEqual(now - expectedCooldownTime * 1000);
+    });
+
+    it("crimstone replenishes faster with Crimstone Clam", () => {
+      const now = Date.now();
+
+      const { time } = getMinedAt({
+        game: {
+          ...TEST_FARM,
+          collectibles: {
+            "Crimstone Clam": [
+              {
+                coordinates: { x: 1, y: 1 },
+                createdAt: now,
+                id: "clam",
+                readyAt: now,
+              },
+            ],
+          },
+        },
+        createdAt: now,
+        farmId: FARM_ID,
+        itemId: KNOWN_IDS["Crimstone Rock"],
+        counter: 0,
+      });
+
+      expect(time).toEqual(now - CRIMSTONE_RECOVERY_TIME * 0.1 * 1000);
+    });
+
+    it("instantly respawns with Crimstone Clam", () => {
+      const now = Date.now();
+
+      function getCounter() {
+        let counter = 0;
+        // eslint-disable-next-line no-constant-condition
+        while (true) {
+          if (
+            prngChance({
+              farmId: FARM_ID,
+              itemId: KNOWN_IDS["Crimstone Rock"],
+              counter,
+              chance: 10,
+              criticalHitName: "Crimstone Clam",
+            })
+          ) {
+            return counter;
+          }
+          counter++;
+        }
+      }
+
+      const counter = getCounter();
+
+      const { time } = getMinedAt({
+        game: {
+          ...TEST_FARM,
+          collectibles: {
+            "Crimstone Clam": [
+              {
+                coordinates: { x: 1, y: 1 },
+                createdAt: now,
+                id: "clam",
+                readyAt: now,
+              },
+            ],
+          },
+        },
+        createdAt: now,
+        farmId: FARM_ID,
+        itemId: KNOWN_IDS["Crimstone Rock"],
+        counter,
+      });
+
+      expect(time).toEqual(now - CRIMSTONE_RECOVERY_TIME * 1000);
     });
   });
 });

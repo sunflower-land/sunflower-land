@@ -10,6 +10,8 @@ import {
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { prngChance } from "lib/prng";
+import { KNOWN_IDS } from "features/game/types";
 
 export type MineCrimstoneAction = {
   type: "crimstoneRock.mined";
@@ -20,19 +22,44 @@ type Options = {
   state: Readonly<GameState>;
   action: MineCrimstoneAction;
   createdAt?: number;
+  farmId: number;
 };
 
 type GetMinedAtArgs = {
   createdAt: number;
   game: GameState;
+  farmId: number;
+  itemId: number;
+  counter: number;
 };
 
-function getBoostedTime({ game }: GetMinedAtArgs): {
+function getBoostedTime({ game, farmId, itemId, counter }: GetMinedAtArgs): {
   boostedTime: number;
   boostsUsed: BoostName[];
 } {
   let totalSeconds = CRIMSTONE_RECOVERY_TIME;
   const boostsUsed: BoostName[] = [];
+
+  if (
+    isCollectibleBuilt({ name: "Crimstone Clam", game }) &&
+    prngChance({
+      farmId,
+      itemId,
+      counter,
+      chance: 10,
+      criticalHitName: "Crimstone Clam",
+    })
+  ) {
+    return {
+      boostedTime: CRIMSTONE_RECOVERY_TIME * 1000,
+      boostsUsed: ["Crimstone Clam"],
+    };
+  }
+
+  if (isCollectibleBuilt({ name: "Crimstone Clam", game })) {
+    totalSeconds = totalSeconds * 0.9;
+    boostsUsed.push("Crimstone Clam");
+  }
 
   if (isWearableActive({ name: "Crimstone Amulet", game })) {
     totalSeconds = totalSeconds * 0.8;
@@ -54,11 +81,23 @@ function getBoostedTime({ game }: GetMinedAtArgs): {
   return { boostedTime: buff * 1000, boostsUsed };
 }
 
-export function getMinedAt({ createdAt, game }: GetMinedAtArgs): {
+export function getMinedAt({
+  createdAt,
+  game,
+  farmId,
+  itemId,
+  counter,
+}: GetMinedAtArgs): {
   time: number;
   boostsUsed: BoostName[];
 } {
-  const { boostedTime, boostsUsed } = getBoostedTime({ game, createdAt });
+  const { boostedTime, boostsUsed } = getBoostedTime({
+    game,
+    createdAt,
+    farmId,
+    itemId,
+    counter,
+  });
 
   const time = createdAt - boostedTime;
 
@@ -109,6 +148,7 @@ export function mineCrimstone({
   state,
   action,
   createdAt = Date.now(),
+  farmId,
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const { crimstones, bumpkin } = stateCopy;
@@ -146,6 +186,12 @@ export function mineCrimstone({
       rock.minesLeft = 5;
     }
 
+    const counter = stateCopy.farmActivity["Crimstone Mined"] ?? 0;
+    const prngObject = {
+      farmId,
+      itemId: KNOWN_IDS["Crimstone Rock"],
+      counter,
+    };
     const { amount: stoneMined, boostsUsed } = getCrimstoneDropAmount({
       game: stateCopy,
       rock,
@@ -155,6 +201,7 @@ export function mineCrimstone({
     const { time, boostsUsed: minedAtBoostsUsed } = getMinedAt({
       createdAt,
       game: stateCopy,
+      ...prngObject,
     });
     rock.stone = { minedAt: time };
 
