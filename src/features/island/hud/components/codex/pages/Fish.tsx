@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { SimpleBox } from "../SimpleBox";
 import { Label } from "components/ui/Label";
 import { getKeys } from "features/game/types/craftables";
@@ -20,6 +20,7 @@ import {
   MAP_PIECES,
   MarineMarvelName,
 } from "features/game/types/fishing";
+import { CRUSTACEANS, CrustaceanName } from "features/game/types/crustaceans";
 import { Detail } from "../components/Detail";
 import { GameState } from "features/game/types/game";
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
@@ -40,6 +41,11 @@ import {
 import { useNow } from "lib/utils/hooks/useNow";
 import { Box } from "components/ui/Box";
 import { hasFeatureAccess } from "lib/flags";
+import { useAuth } from "features/auth/lib/Provider";
+import {
+  loadCrustaceanChums,
+  CrustaceanChumMapping,
+} from "../actions/loadCrustaceanChums";
 
 const FISH_BY_TYPE = getFishByType();
 
@@ -48,17 +54,35 @@ type Props = {
   state: GameState;
 };
 
+const ALL_CRUSTACEANS = getKeys(CRUSTACEANS);
+
 export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
   const { gameService } = useContext(Context);
+  const { authState } = useAuth();
   const [selectedFish, setSelectedFish] = useState<
     FishName | MarineMarvelName
   >();
+  const [selectedCrustacean, setSelectedCrustacean] =
+    useState<CrustaceanName>();
+  const [chumMapping, setChumMapping] = useState<CrustaceanChumMapping | null>(
+    null,
+  );
   const now = useNow();
 
   const { t } = useAppTranslation();
   const [selectedMilestone, setSelectedMilestone] = useState<MilestoneName>();
 
   const { farmActivity, milestones } = state;
+
+  useEffect(() => {
+    const caught = ALL_CRUSTACEANS.filter(
+      (name) => (farmActivity[`${name} Caught`] ?? 0) > 0,
+    );
+
+    loadCrustaceanChums(authState.context.user.rawToken!, caught).then(
+      setChumMapping,
+    );
+  }, [farmActivity, authState.context.user.rawToken]);
 
   const handleClaimReward = (milestone: MilestoneName) => {
     gameService.send("milestone.claimed", { milestone });
@@ -67,6 +91,64 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
   };
 
   const milestoneNames = getKeys(FISH_MILESTONES);
+
+  if (selectedCrustacean) {
+    const hasCaught = (farmActivity[`${selectedCrustacean} Caught`] ?? 0) > 0;
+    const crustaceanInfo = chumMapping?.[selectedCrustacean];
+    const chums = crustaceanInfo?.chums ?? [];
+
+    return (
+      <Detail
+        name={selectedCrustacean}
+        caught={hasCaught}
+        onBack={() => setSelectedCrustacean(undefined)}
+        additionalLabels={
+          <div className="flex gap-2">
+            <div className="flex flex-wrap items-center">
+              <Label
+                type="default"
+                className="px-0.5 text-xxs mb-1"
+                icon={
+                  crustaceanInfo
+                    ? ITEM_DETAILS[crustaceanInfo.waterTrap].image
+                    : ITEM_DETAILS["Crab Pot"].image
+                }
+              >
+                {`${farmActivity[`${selectedCrustacean} Caught`] ?? 0} ${t("caught")}`}
+              </Label>
+            </div>
+            {crustaceanInfo && (
+              <div className="flex flex-wrap items-center">
+                <Label
+                  type="chill"
+                  className="px-0.5 text-xxs whitespace-nowrap"
+                  icon={ITEM_DETAILS[crustaceanInfo.waterTrap].image}
+                >
+                  {crustaceanInfo.waterTrap}
+                </Label>
+              </div>
+            )}
+            {hasCaught && chums.length > 0 && (
+              <div className="flex flex-wrap items-center">
+                {chums.map((chum) => (
+                  <Label
+                    key={chum}
+                    type="chill"
+                    className="px-0.5 text-xxs whitespace-nowrap"
+                    icon={ITEM_DETAILS[chum].image}
+                    secondaryIcon={SUNNYSIDE.icons.heart}
+                  >
+                    {chum}
+                  </Label>
+                ))}
+              </div>
+            )}
+          </div>
+        }
+        state={state}
+      />
+    );
+  }
 
   if (selectedFish) {
     const hasCaught = (farmActivity[`${selectedFish} Caught`] ?? 0) > 0;
@@ -138,10 +220,10 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
     <>
       <div
         className={classNames(
-          "flex flex-col h-full overflow-y-auto scrollable pr-1",
+          "flex flex-col h-full overflow-y-auto scrollable pr-1 gap-2",
         )}
       >
-        <InnerPanel className="space-y-2 mt-1 mb-1">
+        <InnerPanel className="space-y-2">
           <div className="flex flex-col space-y-2">
             {/* Claimed Milestones */}
             <div className="flex justify-between px-1.5">
@@ -233,6 +315,10 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
           </div>
         </InnerPanel>
 
+        {hasFeatureAccess(state, "CRUSTACEANS") && (
+          <Crustaceans state={state} onSelect={setSelectedCrustacean} />
+        )}
+
         <MarineMarvelMaps state={state} />
       </div>
       <ModalOverlay
@@ -249,6 +335,41 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
         />
       </ModalOverlay>
     </>
+  );
+};
+
+export const Crustaceans: React.FC<{
+  state: GameState;
+  onSelect: (name: CrustaceanName) => void;
+}> = ({ state, onSelect }) => {
+  const { t } = useAppTranslation();
+  const { farmActivity } = state;
+
+  const crustaceanNames = getKeys(CRUSTACEANS);
+
+  return (
+    <InnerPanel>
+      <div className="flex flex-col">
+        <Label
+          type="default"
+          className="capitalize ml-3"
+          icon={ITEM_DETAILS["Blue Crab"].image}
+        >
+          {t("crustaceans")}
+        </Label>
+        <div className="flex flex-wrap">
+          {crustaceanNames.map((name) => (
+            <SimpleBox
+              silhouette={!farmActivity[`${name} Caught`]}
+              onClick={() => onSelect(name)}
+              key={name}
+              inventoryCount={state.inventory[name]?.toNumber()}
+              image={ITEM_DETAILS[name].image}
+            />
+          ))}
+        </div>
+      </div>
+    </InnerPanel>
   );
 };
 

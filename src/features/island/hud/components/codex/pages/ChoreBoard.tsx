@@ -54,10 +54,12 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
   const { t } = useAppTranslation();
   const now = useNow();
 
-  const [selectedId, setSelectedId] = useState<NPCName>();
-
   const { choreBoard, bumpkin } = state;
   const { chores } = choreBoard;
+
+  const [selectedId, setSelectedId] = useState<NPCName | undefined>(
+    getKeys(chores)[0],
+  );
 
   const end = useCountdown(weekResetsAt());
   const level = getBumpkinLevel(bumpkin.experience ?? 0);
