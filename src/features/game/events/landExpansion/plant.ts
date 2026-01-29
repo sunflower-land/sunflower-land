@@ -51,10 +51,7 @@ import {
 import cloneDeep from "lodash.clonedeep";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
-import {
-  FarmActivityName,
-  trackFarmActivity,
-} from "features/game/types/farmActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { isBuffActive } from "features/game/types/buffs";
 import { isAutumnCrop, isSummerCrop } from "./harvest";
 import { prngChance } from "lib/prng";
@@ -212,6 +209,7 @@ export function getCropTime({
   // Only check PRNG-based boosts if prngArgs are provided
   if (prngArgs) {
     const itemId = KNOWN_IDS[crop];
+    const removedCounter = game.farmActivity[`${crop} Removed`] ?? 0;
     const prngFn = (criticalHitName: CriticalHitName, chance: number) =>
       prngChance({
         ...prngArgs,
@@ -224,11 +222,11 @@ export function getCropTime({
     const hasAngelWing = isWearableActive({ name: "Angel Wings", game });
     const hasDevilWing = isWearableActive({ name: "Devil Wings", game });
 
-    if (hasAngelWing && prngFn("Angel Wings", 30)) {
+    if (hasAngelWing && prngFn("Angel Wings", 30) && !removedCounter) {
       return { multiplier: 0, boostsUsed: ["Angel Wings"] };
     }
 
-    if (hasDevilWing && prngFn("Devil Wings", 30)) {
+    if (hasDevilWing && prngFn("Devil Wings", 30) && !removedCounter) {
       return { multiplier: 0, boostsUsed: ["Devil Wings"] };
     }
   }
@@ -624,9 +622,17 @@ export function plantCropOnPlot({
     },
   });
 
-  const activityName: FarmActivityName = `${cropName} Planted`;
+  game.farmActivity = trackFarmActivity(
+    `${cropName} Planted`,
+    game.farmActivity,
+    new Decimal(1),
+  );
 
-  game.farmActivity = trackFarmActivity(activityName, game.farmActivity);
+  game.farmActivity = trackFarmActivity(
+    `${cropName} Removed`,
+    game.farmActivity,
+    new Decimal(-1),
+  );
 
   const updatedPlot: CropPlot = {
     ...plot,
