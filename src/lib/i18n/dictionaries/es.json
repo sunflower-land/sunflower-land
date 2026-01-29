@@ -7926,5 +7926,7 @@
   "welcome.noticeboard.openSource": "Este no es un juego AAA: somos un proyecto creado por más de 300 desarrolladores, artistas y colaboradores de código abierto.",
   "welcome.noticeboard.trade": "Lo que recojas es importante: puedes comerciar en el juego y muchos objetos se pueden retirar e intercambiar en los mercados.",
   "welcome.supportMessage": "En serio. Cada nuevo granjero ayuda a mantener Sunflower Land viva, en evolución y un poco mejor que ayer.",
-  "welcome.thanksForBeingHere": "Hola, gracias por estar aquí."
+  "welcome.thanksForBeingHere": "Hola, gracias por estar aquí.",
+  "chapter.tracks": "¡Las recompensas del nuevo capítulo ya están disponibles!",
+  "chapter.open": "Ver recompensas"
 }

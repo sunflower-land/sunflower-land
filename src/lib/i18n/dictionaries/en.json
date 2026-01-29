@@ -6182,6 +6182,8 @@
   "megastore.limit": "Cooldown: {{time}}",
   "chapterStore.title": "{{chapter}} Store",
   "chapterStore.tracks": "Rewards",
+  "chapter.tracks": "New Chapter Rewards are live!",
+  "chapter.open": "View rewards",
   "tracks.completeTasksToEarnPoints": "Complete {{chapter}} tasks to earn points.",
   "petalPuzzle.alreadyClaimed": "Already claimed",
   "petalPuzzle.comeBackTomorrow": "You have already claimed the prize today. Come back tomorrow.",
