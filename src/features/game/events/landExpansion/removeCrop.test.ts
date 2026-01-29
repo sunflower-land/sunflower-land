@@ -17,34 +17,6 @@ describe("removeCrop", () => {
   const { inventory, crops: plots } = GAME_STATE;
   const plot = (plots as Record<number, CropPlot>)[0];
 
-  it("does not remove on plot with negative plot index", () => {
-    expect(() =>
-      removeCrop({
-        state: {
-          ...GAME_STATE,
-        },
-        action: {
-          type: "crop.removed",
-          item: "Rusty Shovel",
-          index: -1,
-        },
-      }),
-    ).toThrow(REMOVE_CROP_ERRORS.EMPTY_PLOT);
-  });
-  it("does not remove on non-integer plot", () => {
-    expect(() =>
-      removeCrop({
-        state: {
-          ...GAME_STATE,
-        },
-        action: {
-          type: "crop.removed",
-          item: "Rusty Shovel",
-          index: 1.2,
-        },
-      }),
-    ).toThrow(REMOVE_CROP_ERRORS.EMPTY_PLOT);
-  });
   it("does not remove on non-existent plot", () => {
     expect(() =>
       removeCrop({
@@ -54,7 +26,7 @@ describe("removeCrop", () => {
         action: {
           type: "crop.removed",
           item: "Rusty Shovel",
-          index: 200000,
+          index: "200000",
         },
       }),
     ).toThrow(REMOVE_CROP_ERRORS.EMPTY_PLOT);
@@ -75,7 +47,7 @@ describe("removeCrop", () => {
         action: {
           type: "crop.removed",
           item: "Rusty Shovel",
-          index: 0,
+          index: "0",
         },
       }),
     ).toThrow(REMOVE_CROP_ERRORS.EMPTY_CROP);
@@ -102,7 +74,7 @@ describe("removeCrop", () => {
         action: {
           type: "crop.removed",
           item: "Shovel",
-          index: 0,
+          index: "0",
         },
         createdAt: dateNow,
       }),
@@ -125,7 +97,7 @@ describe("removeCrop", () => {
         },
         action: {
           type: "crop.removed",
-          index: 0,
+          index: "0",
         },
         createdAt: dateNow,
       }),
@@ -153,7 +125,7 @@ describe("removeCrop", () => {
         action: {
           type: "crop.removed",
           item: "Rusty Shovel",
-          index: 0,
+          index: "0",
         },
         createdAt: dateNow,
       }),
@@ -177,7 +149,7 @@ describe("removeCrop", () => {
         action: {
           type: "crop.removed",
           item: "Rusty Shovel",
-          index: 0,
+          index: "0",
         },
         createdAt: dateNow,
       }),
@@ -200,7 +172,7 @@ describe("removeCrop", () => {
       action: {
         type: "crop.removed",
         item: "Rusty Shovel",
-        index: 0,
+        index: "0",
       },
       createdAt: dateNow,
     });
@@ -231,7 +203,7 @@ describe("removeCrop", () => {
       action: {
         type: "crop.removed",
         item: "Rusty Shovel",
-        index: 0,
+        index: "0",
       },
       createdAt: dateNow,
     });
@@ -259,7 +231,7 @@ describe("removeCrop", () => {
       action: {
         type: "crop.removed",
         item: "Rusty Shovel",
-        index: 0,
+        index: "0",
       },
       createdAt: dateNow,
     });
@@ -287,7 +259,7 @@ describe("removeCrop", () => {
       action: {
         type: "crop.removed",
         item: "Rusty Shovel",
-        index: 0,
+        index: "0",
       },
       createdAt: dateNow,
     });
@@ -313,7 +285,7 @@ describe("removeCrop", () => {
       action: {
         type: "crop.removed",
         item: "Rusty Shovel",
-        index: 0,
+        index: "0",
       },
       createdAt: dateNow,
     });
