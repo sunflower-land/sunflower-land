@@ -104,6 +104,7 @@ describe("removeCrop", () => {
           item: "Shovel",
           index: 0,
         },
+        createdAt: dateNow,
       }),
     ).toThrow(REMOVE_CROP_ERRORS.NO_VALID_SHOVEL_SELECTED);
   });
@@ -126,6 +127,7 @@ describe("removeCrop", () => {
           type: "crop.removed",
           index: 0,
         },
+        createdAt: dateNow,
       }),
     ).toThrow(REMOVE_CROP_ERRORS.NO_VALID_SHOVEL_SELECTED);
   });
@@ -153,6 +155,7 @@ describe("removeCrop", () => {
           item: "Rusty Shovel",
           index: 0,
         },
+        createdAt: dateNow,
       }),
     ).toThrow(REMOVE_CROP_ERRORS.NO_SHOVEL_AVAILABLE);
   });
@@ -176,6 +179,7 @@ describe("removeCrop", () => {
           item: "Rusty Shovel",
           index: 0,
         },
+        createdAt: dateNow,
       }),
     ).toThrow(REMOVE_CROP_ERRORS.READY_TO_HARVEST);
   });
@@ -198,6 +202,7 @@ describe("removeCrop", () => {
         item: "Rusty Shovel",
         index: 0,
       },
+      createdAt: dateNow,
     });
 
     expect(gameState.inventory.Sunflower).toBeFalsy();
@@ -228,6 +233,7 @@ describe("removeCrop", () => {
         item: "Rusty Shovel",
         index: 0,
       },
+      createdAt: dateNow,
     });
 
     expect(gameState.inventory["Rusty Shovel"]?.toNumber()).toBe(1);
@@ -255,9 +261,38 @@ describe("removeCrop", () => {
         item: "Rusty Shovel",
         index: 0,
       },
+      createdAt: dateNow,
     });
 
     expect(gameState.farmActivity["Sunflower Planted"]).toBe(4);
+  });
+
+  it("increments the removed activity for the crop", () => {
+    const gameState = removeCrop({
+      state: {
+        ...GAME_STATE,
+        farmActivity: {
+          "Sunflower Planted": 5,
+        },
+        crops: {
+          0: {
+            ...plot,
+            crop: {
+              name: "Sunflower",
+              plantedAt: dateNow - 40 * 1000,
+            },
+          },
+        },
+      },
+      action: {
+        type: "crop.removed",
+        item: "Rusty Shovel",
+        index: 0,
+      },
+      createdAt: dateNow,
+    });
+
+    expect(gameState.farmActivity["Sunflower Removed"]).toBe(1);
   });
 
   it("tracks Crop Removed activity", () => {
@@ -280,6 +315,7 @@ describe("removeCrop", () => {
         item: "Rusty Shovel",
         index: 0,
       },
+      createdAt: dateNow,
     });
 
     expect(gameState.farmActivity["Crop Removed"]).toBe(1);
