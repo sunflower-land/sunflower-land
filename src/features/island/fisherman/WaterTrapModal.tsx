@@ -273,7 +273,7 @@ export const WaterTrapModal: React.FC<Props> = ({
                 : []),
             ]}
             value={selectedTrap}
-            onChange={(trap) => handleTrapChange(trap as WaterTrapName)}
+            onChange={(trap) => handleTrapChange(trap)}
           />
 
           {!state.inventory[selectedTrap]?.gte(1) && (
@@ -285,28 +285,23 @@ export const WaterTrapModal: React.FC<Props> = ({
           <InnerPanel>
             <p className="mb-1 p-1 text-xs">{t("waterTrap.selectChum")}</p>
             <div className="flex flex-wrap">
-              {chums
-                .filter((name) => {
-                  const chum = name as CrustaceanChum;
-                  return items[chum]?.gte(1);
-                })
-                .map((name) => {
-                  const chum = name as CrustaceanChum;
-                  const currentAmount = items[chum] ?? new Decimal(0);
-                  return (
-                    <Box
-                      key={chum}
-                      image={ITEM_DETAILS[chum].image}
-                      count={currentAmount}
-                      onClick={() =>
-                        setSelectedChum(
-                          selectedChum === chum ? undefined : chum,
-                        )
-                      }
-                      isSelected={selectedChum === chum}
-                    />
-                  );
-                })}
+              {chums.map((name) => {
+                if (!items[name]?.gte(1)) return null;
+
+                const chum = name as CrustaceanChum;
+                const currentAmount = items[chum] ?? new Decimal(0);
+                return (
+                  <Box
+                    key={chum}
+                    image={ITEM_DETAILS[chum].image}
+                    count={currentAmount}
+                    onClick={() =>
+                      setSelectedChum(selectedChum === chum ? undefined : chum)
+                    }
+                    isSelected={selectedChum === chum}
+                  />
+                );
+              })}
             </div>
           </InnerPanel>
           {selectedChum && (
