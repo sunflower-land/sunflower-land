@@ -37,7 +37,7 @@ export const Tab: React.FC<React.PropsWithChildren<Props>> = ({
     return (
       <div
         className={classNames(
-          "flex items-center cursor-pointer px-2",
+          "flex items-center cursor-pointer px-2 z-50",
           className,
           { "opacity-50 cursor-not-allowed": disabled },
         )}
@@ -68,7 +68,7 @@ export const Tab: React.FC<React.PropsWithChildren<Props>> = ({
 
   return (
     <div
-      className={classNames("flex items-center px-2", className, {
+      className={classNames("flex items-center px-2 z-50", className, {
         "opacity-50 cursor-not-allowed": disabled,
       })}
       style={{

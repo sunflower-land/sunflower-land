@@ -100,7 +100,7 @@ export const CloseButtonPanel = <T extends string>({
               <Tab
                 key={`tab-${index}`}
                 isFirstTab={index === 0}
-                className="flex items-center relative mr-1"
+                className="relative mr-1"
                 isActive={activeTab === tab.id}
                 onClick={() => {
                   tabSound.play();

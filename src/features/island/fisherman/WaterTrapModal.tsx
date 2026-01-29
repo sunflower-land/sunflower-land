@@ -5,7 +5,7 @@ import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
-import { InnerPanel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { Box } from "components/ui/Box";
 import { Label } from "components/ui/Label";
 import { DropdownPanel } from "components/ui/DropdownPanel";
@@ -191,7 +191,11 @@ export const WaterTrapModal: React.FC<Props> = ({
             )}
           </>
         )}
-        {tab === "guide" && <CrustaceanGuide />}
+        {tab === "guide" && (
+          <InnerPanel>
+            <CrustaceanGuide />
+          </InnerPanel>
+        )}
       </CloseButtonPanel>
     );
   }
@@ -233,6 +237,7 @@ export const WaterTrapModal: React.FC<Props> = ({
       ]}
       currentTab={tab}
       setCurrentTab={setTab}
+      container={OuterPanel}
     >
       {tab === "crustaceans" && (
         <div className="flex flex-col gap-1">
@@ -278,7 +283,7 @@ export const WaterTrapModal: React.FC<Props> = ({
           )}
 
           <InnerPanel>
-            <p className="mb-1 p-1 text-xs">{t("select.resource")}</p>
+            <p className="mb-1 p-1 text-xs">{t("waterTrap.selectChum")}</p>
             <div className="flex flex-wrap">
               {chums
                 .filter((name) => {
@@ -303,25 +308,33 @@ export const WaterTrapModal: React.FC<Props> = ({
                   );
                 })}
             </div>
-            {selectedChum && (
-              <div className="p-2 mt-2">
+          </InnerPanel>
+          {selectedChum && (
+            <InnerPanel className="p-2">
+              {hasEnoughChum ? (
                 <Label
-                  type={hasEnoughChum ? "default" : "warning"}
-                  className="mb-1"
+                  type="default"
+                  className="mb-1 ml-1"
                   icon={ITEM_DETAILS[selectedChum].image}
                 >
-                  {hasEnoughChum
-                    ? `${CRUSTACEAN_CHUM_AMOUNTS[selectedChum]} ${selectedChum}`
-                    : `${t("required")}: ${CRUSTACEAN_CHUM_AMOUNTS[selectedChum]} ${selectedChum}${
-                        items[selectedChum]?.gt(0)
-                          ? ` (${t("count.available", { count: items[selectedChum]?.toString() ?? "0" })})`
-                          : ""
-                      }`}
+                  {`${CRUSTACEAN_CHUM_AMOUNTS[selectedChum]} ${selectedChum}`}
                 </Label>
-                <p className="text-xs">{CHUM_DETAILS[selectedChum]}</p>
-              </div>
-            )}
-          </InnerPanel>
+              ) : (
+                <Label
+                  type="warning"
+                  className="mb-1 ml-1"
+                  icon={ITEM_DETAILS[selectedChum].image}
+                >
+                  {`${t("required")}: ${CRUSTACEAN_CHUM_AMOUNTS[selectedChum]} ${selectedChum}${
+                    items[selectedChum]?.gt(0)
+                      ? ` (${t("count.available", { count: items[selectedChum]?.toString() ?? "0" })})`
+                      : ""
+                  }`}
+                </Label>
+              )}
+              <p className="text-xs ml-1">{CHUM_DETAILS[selectedChum]}</p>
+            </InnerPanel>
+          )}
 
           <Button
             onClick={handlePlace}
@@ -332,7 +345,11 @@ export const WaterTrapModal: React.FC<Props> = ({
           </Button>
         </div>
       )}
-      {tab === "guide" && <CrustaceanGuide />}
+      {tab === "guide" && (
+        <InnerPanel>
+          <CrustaceanGuide />
+        </InnerPanel>
+      )}
     </CloseButtonPanel>
   );
 };
