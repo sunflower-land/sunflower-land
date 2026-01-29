@@ -28,7 +28,7 @@ import { OIL_RESERVE_RECOVERY_TIME } from "./drillOilReserve";
 // Preloaded crops that will appear on plots when they reveal
 const EXPANSION_CROPS: Record<number, CropName> = {
   4: "Sunflower",
-  5: "Potato", // We need Potatos at expansion 5 for cooking
+  5: "Rhubarb", // Spring-available crop for early cooking tutorial
   6: "Pumpkin",
   7: "Carrot",
   8: "Cabbage",
