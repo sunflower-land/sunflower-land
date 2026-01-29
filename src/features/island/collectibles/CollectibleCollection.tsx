@@ -788,8 +788,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
       imgStyle={{
         width: `${PIXEL_SCALE * 24}px`,
       }}
-      image={ITEM_DETAILS["Kite"].image}
-      alt="Kite"
+      image={ITEM_DETAILS["Fish Kite"].image}
+      alt="Fish Kite"
     />
   ),
   "Crim Peckster": CrimPeckster,
