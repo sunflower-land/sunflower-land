@@ -5,6 +5,7 @@ import { BumpkinItem } from "features/game/types/bumpkin";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { PetNFTName } from "features/game/types/pets";
 import { NPC_WEARABLES } from "lib/npcs";
+import { BudNFTName } from "features/game/types/marketplace";
 
 export type RaffleWinner = {
   farmId: number;
@@ -14,7 +15,7 @@ export type RaffleWinner = {
   items?: Partial<Record<InventoryItemName, number>>;
   wearables?: Partial<Record<BumpkinItem, number>>;
   sfl?: number;
-  nft?: PetNFTName;
+  nft?: BudNFTName | PetNFTName;
   onChain?: boolean;
   profile?: {
     username: string;
