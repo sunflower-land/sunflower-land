@@ -137,8 +137,10 @@ export const ChapterTracks: React.FC = () => {
 
   const progress = getTrackProgress({ state, chapter });
 
-  const isComplete =
-    progress.milestone.number >= (track?.milestones.length ?? 0);
+  const finalMilestonePoints =
+    track?.milestones[track?.milestones.length - 1]?.points ?? 0;
+
+  const isComplete = progress.points >= finalMilestonePoints;
 
   return (
     <>
