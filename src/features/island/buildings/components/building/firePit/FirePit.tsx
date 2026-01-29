@@ -93,7 +93,8 @@ export const FirePit: React.FC<Props> = ({ buildingId, isBuilt, island }) => {
     }
   };
 
-  const showHelper = rhubarbCount.gte(3) && experience === 0 && !rhubarbTartCooked && !cooking;
+  const showHelper =
+    rhubarbCount.gte(3) && experience === 0 && !rhubarbTartCooked && !cooking;
 
   return (
     <>
