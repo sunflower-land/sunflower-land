@@ -11,6 +11,7 @@ import { RaffleWinner } from "../../../world/ui/chapterRaffles/actions/loadRaffl
 import raffleTicketIcon from "assets/icons/raffle_icon.png";
 import { shortenCount } from "lib/utils/formatNumber";
 import petEggNFT from "assets/icons/pet_nft_egg.png";
+import budSeedling from "assets/icons/bud_seedling.png";
 import { RafflePrize } from "./types";
 import { toOrdinalSuffix } from "./AuctionLeaderboardTable";
 
@@ -111,8 +112,15 @@ export const RaffleLeaderboardTable: React.FC<Props> = ({
                   ))}
                   {winner.nft && (
                     <div className="flex w-16 items-center">
-                      <img src={petEggNFT} className="h-4 mr-0.5" />
-                      <span className="text-xs truncate">{winner.nft}</span>
+                      <img
+                        src={
+                          winner.nft.includes("Bud") ? budSeedling : petEggNFT
+                        }
+                        className="h-4 mr-0.5"
+                      />
+                      <span className="text-xs truncate">
+                        {winner.nft.includes("Bud") ? "Bud ?" : "Pet ?"}
+                      </span>
                     </div>
                   )}
                 </div>
