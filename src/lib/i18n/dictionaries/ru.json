@@ -2637,7 +2637,6 @@
   "marketplace.offering.failure": "Ой, что-то пошло не так. Пожалуйста, попробуй еще раз.",
   "marketplace.offering.success": "Поздравляем, ты успешно сделал предложение! Теперь наберись терпения и дождись, пока кто-нибудь его примет.",
   "marketplace.listing.success": "Поздравляем, ты успешно выставил свой товар на продажу! Теперь наберись терпения и дождись, пока кто-нибудь его купит.",
-  "": "",
   "marketplace.listing.failure": "Ой, что-то пошло не так. Пожалуйста, попробуй еще раз.",
   "marketplace.listing.failure.tradeNotFound": "Сделка не найдена",
   "marketplace.listing.cancelling": "Отмена объявления",
@@ -7927,5 +7926,7 @@
   "welcome.noticeboard.openSource": "Это не AAA-игра - это проект, созданный более чем 300 разработчиками, художниками и контрибьюторами с открытым исходным кодом.",
   "welcome.noticeboard.trade": "То, что ты собираешь, имеет значение - предметами можно торговать в игре, а многие из них выводятся и продаются на маркетплейсах.",
   "welcome.supportMessage": "Без шуток. Каждый новый фермер помогает Sunflower Land жить, развиваться и становиться немного лучше с каждым новым днем.",
-  "welcome.thanksForBeingHere": "Эй - спасибо, что ты с нами."
+  "welcome.thanksForBeingHere": "Эй - спасибо, что ты с нами.",
+  "chapter.tracks": "New Chapter Rewards are live!",
+  "chapter.open": "View rewards"
 }
