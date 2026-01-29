@@ -5,6 +5,7 @@ import { useActor } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import petEggNFT from "assets/icons/pet_nft_egg.png";
+import budSeedling from "assets/icons/bud_seedling.png";
 import { Button } from "components/ui/Button";
 import { ButtonPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
@@ -413,9 +414,10 @@ const getPrizeDisplay = ({
   const nft = raffle.prizes[prize].nft;
 
   if (nft) {
+    const isBud = nft.includes("Bud");
     return {
-      name: `${nft}`,
-      image: petEggNFT,
+      name: isBud ? "Bud ?" : "Pet ?",
+      image: isBud ? budSeedling : petEggNFT,
       type: "nft" as const,
     };
   }
