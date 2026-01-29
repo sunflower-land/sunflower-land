@@ -2838,6 +2838,7 @@
   "marketplace.reward.fishingPack.description": "A pack of fishing utilities",
   "marketplace.reward.animalPack.description": "A pack of animal feeds",
   "megaStore.visit": "Visit the Megastore in the plaza before time runs out!",
+  "megaStore.title": "Stella's Megastore",
   "megaStore.message": "Welcome to the Mega Store! Check out this month's limited items. If you like something, be sure to grab it before it vanishes into the realms of time.",
   "megaStore.month.sale": "This month's sales",
   "megaStore.wearable": "Nice buy! Your new wearable is safely stored in your wardrobe. You can equip it to a bumpkin from there.",
@@ -5083,6 +5084,15 @@
   "description.bonusTimeshard.boost": "+1 Timeshard",
   "description.bonusGeniseed.boost": "+1 Geniseed",
   "description.bonusPetCookie.boost": "+1 Pet Cookie",
+  "description.bonusFloater.boost": "+1 Floater",
+  "description.oaken.boost": "25% chance of +1 Acorn",
+  "description.meerkat.boost": "+5 Digs",
+  "description.meerkat.boost.two": "+1 Sand",
+  "description.poseidonsThrone.boost": "+1 Weed & Dung",
+  "description.crimstoneClam.boost": "10% faster Crimstone",
+  "description.crimstoneClam.boost.two": "10% instant respawn",
+  "description.pearlBed.boost": "+1 Farmhand",
+  "description.cornSilkHair.boost": "+2 Corn",
   "description.ladybugSuit.boost": "-25% Onion Seed Coin cost",
   "description.crabHat.boost": "+1 treasure when fishing",
   "description.mammoth.boost": "-25% Cow Production Time",
@@ -7927,5 +7937,7 @@
   "guide.crustacean.waitTime": "Wait for the trap to catch crustaceans over time",
   "guide.crustacean.useChum": "Use chum to attract specific types of crustaceans",
   "guide.crustacean.catchCrustaceans": "Each trap cycle yields various crustaceans that can be collected",
-  "guide.crustacean.differentTraps": "Different traps catch different types of crustaceans"
+  "guide.crustacean.differentTraps": "Different traps catch different types of crustaceans",
+  "raffle.newLocation": "New location",
+  "raffle.newLocationDescription": "The monthly raffles can now be found in the Auction area. You can continue to use Prize tickets to enter the monthly bud raffle."
 }

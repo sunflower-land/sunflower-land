@@ -7927,5 +7927,17 @@
   "welcome.thanksForBeingHere": "嘿 —— 感谢你的到来。",
   "chapter.tracks": "新章节奖励已上线！",
   "chapter.open": "查看奖励",
-  "waterTrap.selectChum": "选择密友："
+  "waterTrap.selectChum": "选择密友：",
+  "megaStore.title": "斯特拉的超级商店",
+  "description.bonusFloater.boost": "+1 Floater",
+  "description.oaken.boost": "25% 几率获得 +1 个橡果",
+  "description.meerkat.boost": "+5 挖掘",
+  "description.meerkat.boost.two": "+1 沙子",
+  "description.poseidonsThrone.boost": "+1 大麻和粪便",
+  "description.crimstoneClam.boost": "Crimstone 速度加快 10%",
+  "description.crimstoneClam.boost.two": "10% 即时重生",
+  "description.pearlBed.boost": "+1 Farmhand",
+  "description.cornSilkHair.boost": "+2 玉米",
+  "raffle.newLocation": "新地点",
+  "raffle.newLocationDescription": "现在可以在拍卖区找到每月抽奖活动。您可以继续使用奖券参加每月的BUD抽奖活动。"
 }

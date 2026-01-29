@@ -7927,5 +7927,17 @@
   "welcome.thanksForBeingHere": "Salut, merci d'être là.",
   "chapter.tracks": "Les récompenses des nouveaux chapitres sont disponibles !",
   "chapter.open": "Afficher les récompenses",
-  "waterTrap.selectChum": "Sélectionnez un ami :"
+  "waterTrap.selectChum": "Sélectionnez un ami :",
+  "megaStore.title": "Le mégastore de Stella",
+  "description.bonusFloater.boost": "+1 Flotteur",
+  "description.oaken.boost": "25 % de chances d'obtenir +1 gland",
+  "description.meerkat.boost": "+5 fouilles",
+  "description.meerkat.boost.two": "+1 Sand",
+  "description.poseidonsThrone.boost": "+1 Weed & Dung",
+  "description.crimstoneClam.boost": "Crimstone 10 % plus rapide",
+  "description.crimstoneClam.boost.two": "10 % de réapparition instantanée",
+  "description.pearlBed.boost": "+1 Fermier",
+  "description.cornSilkHair.boost": "+2 Maïs",
+  "raffle.newLocation": "Nouvel emplacement",
+  "raffle.newLocationDescription": "Les tirages au sort mensuels se trouvent désormais dans la zone des ventes aux enchères. Vous pouvez continuer à utiliser les tickets pour participer à la tombola mensuelle."
 }

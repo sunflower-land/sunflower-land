@@ -7927,5 +7927,17 @@
   "welcome.thanksForBeingHere": "Hola, gracias por estar aquí.",
   "chapter.tracks": "¡Las recompensas del nuevo capítulo ya están disponibles!",
   "chapter.open": "Ver recompensas",
-  "waterTrap.selectChum": "Selecciona un amigo:"
+  "waterTrap.selectChum": "Selecciona un amigo:",
+  "megaStore.title": "Megastore de Stella",
+  "description.bonusFloater.boost": "+1 Flotador",
+  "description.oaken.boost": "25% de probabilidad de obtener +1 bellota",
+  "description.meerkat.boost": "+5 excavaciones",
+  "description.meerkat.boost.two": "+1 Arena",
+  "description.poseidonsThrone.boost": "+1 Hierba y estiércol",
+  "description.crimstoneClam.boost": "Crimstone un 10% más rápido",
+  "description.crimstoneClam.boost.two": "10% de reaparición instantánea",
+  "description.pearlBed.boost": "+1 peón",
+  "description.cornSilkHair.boost": "+2 Maíz",
+  "raffle.newLocation": "Nueva ubicación",
+  "raffle.newLocationDescription": "Los sorteos mensuales ya se pueden encontrar en el área de subastas. Puedes seguir usando los boletos premiados para participar en el sorteo mensual de cogollos."
 }

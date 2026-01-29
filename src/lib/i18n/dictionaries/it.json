@@ -7927,5 +7927,17 @@
   "welcome.thanksForBeingHere": "Ehi, grazie per essere qui.",
   "chapter.tracks": "Le ricompense del nuovo capitolo sono disponibili!",
   "chapter.open": "Visualizza i premi",
-  "waterTrap.selectChum": "Seleziona amico:"
+  "waterTrap.selectChum": "Seleziona amico:",
+  "megaStore.title": "Il megastore di Stella",
+  "description.bonusFloater.boost": "+1 Galleggiante",
+  "description.oaken.boost": "25% di probabilità di +1 Acorn",
+  "description.meerkat.boost": "+5 scavi",
+  "description.meerkat.boost.two": "+1 Sabbia",
+  "description.poseidonsThrone.boost": "+1 Erba e sterco",
+  "description.crimstoneClam.boost": "Crimstone più veloce del 10%",
+  "description.crimstoneClam.boost.two": "10% di rigenerazione istantanea",
+  "description.pearlBed.boost": "+1 Farmhand",
+  "description.cornSilkHair.boost": "+2 Mais",
+  "raffle.newLocation": "Nuova sede",
+  "raffle.newLocationDescription": "Le lotterie mensili si trovano ora nell'area Aste. Puoi continuare a utilizzare i biglietti premio per partecipare alla lotteria mensile con offerte."
 }

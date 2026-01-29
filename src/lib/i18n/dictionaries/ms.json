@@ -7927,5 +7927,17 @@
   "welcome.thanksForBeingHere": "Hei - terima kasih kerana berada di sini.",
   "chapter.tracks": "Ganjaran Bab Baru disiarkan secara langsung!",
   "chapter.open": "Lihat ganjaran",
-  "waterTrap.selectChum": "Pilih kawan:"
+  "waterTrap.selectChum": "Pilih kawan:",
+  "megaStore.title": "Megastore Stella",
+  "description.bonusFloater.boost": "+1 Pelayung",
+  "description.oaken.boost": "25% peluang +1 Acorn",
+  "description.meerkat.boost": "+5 Penggalian",
+  "description.meerkat.boost.two": "+1 Pasir",
+  "description.poseidonsThrone.boost": "+1 Rumpai & Dauni",
+  "description.crimstoneClam.boost": "10% lebih cepat Crimstone",
+  "description.crimstoneClam.boost.two": "10% pemulihan segera",
+  "description.pearlBed.boost": "+1 Farmhand",
+  "description.cornSilkHair.boost": "+2 Jagung",
+  "raffle.newLocation": "Lokasi baru",
+  "raffle.newLocationDescription": "Undian bulanan kini boleh didapati di kawasan Lelongan. Anda boleh terus menggunakan tiket Hadiah untuk memasuki undian tunas bulanan."
 }

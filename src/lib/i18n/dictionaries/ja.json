@@ -7927,5 +7927,17 @@
   "welcome.thanksForBeingHere": "ねえ、ここにいてくれてありがとう。",
   "chapter.tracks": "新チャプター報酬が公開されました！",
   "chapter.open": "リワードを見る",
-  "waterTrap.selectChum": "チャムを選択:"
+  "waterTrap.selectChum": "チャムを選択:",
+  "megaStore.title": "ステラズメガストア",
+  "description.bonusFloater.boost": "+1 フローター",
+  "description.oaken.boost": "25% の確率でどんぐり1個を獲得する",
+  "description.meerkat.boost": "+5 ディグ",
+  "description.meerkat.boost.two": "+1 サンド",
+  "description.poseidonsThrone.boost": "+1 ウィード&フン",
+  "description.crimstoneClam.boost": "クリムストーンが 10% 速くなる",
+  "description.crimstoneClam.boost.two": "10% インスタントリスポーン",
+  "description.pearlBed.boost": "+1 ファームハンド",
+  "description.cornSilkHair.boost": "+2 コーン",
+  "raffle.newLocation": "新しい場所",
+  "raffle.newLocationDescription": "毎月のラッフルがオークションエリアに表示されるようになりました。引き続き賞品チケットを使用して、毎月のバドラッフルに参加できます。"
 }

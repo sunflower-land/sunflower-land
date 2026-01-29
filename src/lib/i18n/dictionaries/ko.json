@@ -7927,5 +7927,17 @@
   "welcome.thanksForBeingHere": "안녕하세요. 와줘서 고마워요.",
   "chapter.tracks": "신규 챕터 보상이 출시되었습니다!",
   "chapter.open": "리워드 보기",
-  "waterTrap.selectChum": "친구 선택:"
+  "waterTrap.selectChum": "친구 선택:",
+  "megaStore.title": "스텔라 메가스토어",
+  "description.bonusFloater.boost": "+1 플로터",
+  "description.oaken.boost": "25% 확률로 도토리 1개를 획득할 수 있습니다.",
+  "description.meerkat.boost": "+5 딕스",
+  "description.meerkat.boost.two": "+1 샌드",
+  "description.poseidonsThrone.boost": "+1 위드 앤 둥",
+  "description.crimstoneClam.boost": "10% 더 빠른 크림스톤",
+  "description.crimstoneClam.boost.two": "10% 즉시 리스폰",
+  "description.pearlBed.boost": "+1 팜핸드",
+  "description.cornSilkHair.boost": "+2 옥수수",
+  "raffle.newLocation": "새 위치",
+  "raffle.newLocationDescription": "이제 경매 영역에서 월간 추첨을 확인할 수 있습니다.계속해서 경품 티켓을 사용하여 월간 입찰 추첨에 참가할 수 있습니다."
 }

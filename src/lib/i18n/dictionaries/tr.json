@@ -7927,5 +7927,17 @@
   "welcome.thanksForBeingHere": "Hey - burada olduğun için teşekkürler.",
   "chapter.tracks": "Yeni Bölüm Ödülleri yayında!",
   "chapter.open": "Ödülleri görüntüleyin",
-  "waterTrap.selectChum": "Arkadaş seç:"
+  "waterTrap.selectChum": "Arkadaş seç:",
+  "megaStore.title": "Stella'nın Megastore'u",
+  "description.bonusFloater.boost": "+1 Floater",
+  "description.oaken.boost": "%25 +1 meşe palamudu şansı",
+  "description.meerkat.boost": "+5 Kazılar",
+  "description.meerkat.boost.two": "+1 Sand",
+  "description.poseidonsThrone.boost": "+1 Ot ve Gübre",
+  "description.crimstoneClam.boost": "%10 daha hızlı Crimstone",
+  "description.crimstoneClam.boost.two": "%10 anında yeniden doğma",
+  "description.pearlBed.boost": "+1 Farmhand",
+  "description.cornSilkHair.boost": "+2 Corn",
+  "raffle.newLocation": "Yeni konum",
+  "raffle.newLocationDescription": "Aylık çekilişler artık Müzayede alanında bulunabilir. Aylık tomurcuk çekilişine girmek için Ödül biletlerini kullanmaya devam edebilirsiniz."
 }

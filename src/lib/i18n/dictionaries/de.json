@@ -7927,5 +7927,17 @@
   "welcome.thanksForBeingHere": "Hey — danke, dass du hier bist.",
   "chapter.tracks": "Neue Kapitelbelohnungen sind da!",
   "chapter.open": "Prämien ansehen",
-  "waterTrap.selectChum": "Wähle Kumpel:"
+  "waterTrap.selectChum": "Wähle Kumpel:",
+  "megaStore.title": "Stellas Megastore",
+  "description.bonusFloater.boost": "+1 Schwebekörper",
+  "description.oaken.boost": "25% Chance auf +1 Eichel",
+  "description.meerkat.boost": "+5 Ausgrabungen",
+  "description.meerkat.boost.two": "+1 Sand",
+  "description.poseidonsThrone.boost": "+1 Gras und Mist",
+  "description.crimstoneClam.boost": "10% schnelleres Crimstone",
+  "description.crimstoneClam.boost.two": "10% sofortiger Respawn",
+  "description.pearlBed.boost": "+1 Farmarbeiter",
+  "description.cornSilkHair.boost": "+2 Mais",
+  "raffle.newLocation": "Neuer Standort",
+  "raffle.newLocationDescription": "Die monatlichen Verlosungen sind jetzt im Auktionsbereich zu finden. Sie können weiterhin Preiskarten verwenden, um an der monatlichen Knospenverlosung teilzunehmen."
 }

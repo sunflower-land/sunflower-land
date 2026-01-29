@@ -7927,5 +7927,17 @@
   "welcome.thanksForBeingHere": "Ei, obrigado por estar aqui.",
   "chapter.tracks": "As novas recompensas do capítulo estão disponíveis!",
   "chapter.open": "Exibir recompensas",
-  "waterTrap.selectChum": "Selecione um amigo:"
+  "waterTrap.selectChum": "Selecione um amigo:",
+  "megaStore.title": "Megastore de Stella",
+  "description.bonusFloater.boost": "+1 flutuador",
+  "description.oaken.boost": "25% de chance de +1 bolota",
+  "description.meerkat.boost": "+5 Escavações",
+  "description.meerkat.boost.two": "+1 Areia",
+  "description.poseidonsThrone.boost": "+1 Erva daninha e esterco",
+  "description.crimstoneClam.boost": "Crimstone 10% mais rápido",
+  "description.crimstoneClam.boost.two": "10% de reaparecimento instantâneo",
+  "description.pearlBed.boost": "+1 Fazendeiro",
+  "description.cornSilkHair.boost": "+2 Milho",
+  "raffle.newLocation": "Nova localização",
+  "raffle.newLocationDescription": "Os sorteios mensais agora podem ser encontrados na área de Leilões. Você pode continuar usando os bilhetes-prêmio para participar do sorteio mensal de prêmios."
 }

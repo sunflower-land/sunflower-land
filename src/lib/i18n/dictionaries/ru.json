@@ -7927,5 +7927,17 @@
   "welcome.thanksForBeingHere": "Эй - спасибо, что ты с нами.",
   "chapter.tracks": "New Chapter Rewards are live!",
   "chapter.open": "View rewards",
-  "waterTrap.selectChum": "Select chum:"
+  "waterTrap.selectChum": "Select chum:",
+  "megaStore.title": "Stella's Megastore",
+  "description.bonusFloater.boost": "+1 Floater",
+  "description.oaken.boost": "25% chance of +1 Acorn",
+  "description.meerkat.boost": "+5 Digs",
+  "description.meerkat.boost.two": "+1 Sand",
+  "description.poseidonsThrone.boost": "+1 Weed & Dung",
+  "description.crimstoneClam.boost": "10% faster Crimstone",
+  "description.crimstoneClam.boost.two": "10% instant respawn",
+  "description.pearlBed.boost": "+1 Farmhand",
+  "description.cornSilkHair.boost": "+2 Corn",
+  "raffle.newLocation": "New location",
+  "raffle.newLocationDescription": "The monthly raffles can now be found in the Auction area. You can continue to use Prize tickets to enter the monthly bud raffle."
 }

@@ -7927,5 +7927,17 @@
   "welcome.thanksForBeingHere": "Hei - terima kasih telah berada di sini.",
   "chapter.tracks": "Hadiah Bab Baru sudah tayang!",
   "chapter.open": "Lihat hadiah",
-  "waterTrap.selectChum": "Pilih teman:"
+  "waterTrap.selectChum": "Pilih teman:",
+  "megaStore.title": "Megastore Stella",
+  "description.bonusFloater.boost": "+1 Floater",
+  "description.oaken.boost": "Peluang 25% +1 Acorn",
+  "description.meerkat.boost": "+5 Penggalian",
+  "description.meerkat.boost.two": "+1 Sand",
+  "description.poseidonsThrone.boost": "+1 Gulma & Kotoran",
+  "description.crimstoneClam.boost": "10% lebih cepat Crimstone",
+  "description.crimstoneClam.boost.two": "10% respawn instan",
+  "description.pearlBed.boost": "+1 Farmhand",
+  "description.cornSilkHair.boost": "+2 Jagung",
+  "raffle.newLocation": "Lokasi baru",
+  "raffle.newLocationDescription": "Undian bulanan sekarang dapat ditemukan di area Lelang. Anda dapat terus menggunakan tiket Hadiah untuk mengikuti undian bud bulanan."
 }
