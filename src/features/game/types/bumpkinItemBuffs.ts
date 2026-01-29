@@ -194,6 +194,14 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Corn.crop,
     },
   ],
+  "Corn Silk Hair": [
+    {
+      shortDescription: translate("description.cornSilkHair.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Corn.crop,
+    },
+  ],
   "Sunflower Rod": [
     {
       shortDescription: translate("bumpkinItemBuff.sunflower.rod.boost"),
