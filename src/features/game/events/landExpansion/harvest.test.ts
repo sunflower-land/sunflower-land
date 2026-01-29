@@ -186,6 +186,40 @@ describe("harvest", () => {
     expect(state.inventory.Sunflower).toEqual(new Decimal(10));
   });
 
+  it("adds corn yield with Corn Silk Hair", () => {
+    const { crops } = GAME_STATE;
+    const plot = (crops as Record<number, CropPlot>)[0];
+
+    const state = harvest({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          equipped: {
+            ...TEST_BUMPKIN.equipped,
+            hair: "Corn Silk Hair",
+          },
+        },
+        crops: {
+          0: {
+            ...plot,
+            crop: {
+              name: "Corn",
+              plantedAt: dateNow - CROPS.Corn.harvestSeconds * 1000,
+            },
+          },
+        },
+      },
+      action: {
+        type: "crop.harvested",
+        index: "0",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.inventory.Corn).toEqual(new Decimal(3));
+  });
+
   it("harvests a unbuffed crop amount if green amulet is not equipped", () => {
     const { crops } = GAME_STATE;
     const plot = (crops as Record<number, CropPlot>)[0];

@@ -1022,6 +1022,7 @@ export type BedName =
   | "Cow Bed"
   | "Pirate Bed"
   | "Royal Bed"
+  | "Pearl Bed"
   | "Double Bed"
   | "Messy Bed";
 

@@ -107,9 +107,9 @@ export const CHAPTER_TICKET_BOOST_ITEMS: Record<
   },
   // TODO: Add Crabs and Traps items
   "Crabs and Traps": {
-    basic: "Cow Scratcher",
-    rare: "Cow Scratcher",
-    epic: "Cow Scratcher",
+    basic: "Fish Hook Hat",
+    rare: "Fish Hook Vest",
+    epic: "Fish Hook Waders",
   },
 };
 

@@ -235,7 +235,8 @@ export const ItemsList: React.FC<Props> = ({
     tier === "mega" && seasonalItemsCrafted - reduction >= requirements;
   const tierpercentage = seasonalItemsCrafted - reduction;
 
-  const percentage = Math.round((tierpercentage / requirements) * 100);
+  const percentage =
+    requirements > 0 ? Math.round((tierpercentage / requirements) * 100) : 0;
 
   const sortedItems = filteredItems
     .slice()

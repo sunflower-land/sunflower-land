@@ -210,6 +210,62 @@ describe("fetchPet", () => {
     expect(state.inventory["Acorn"]).toEqual(new Decimal(2));
   });
 
+  it("applies the Oaken fetch bonus", () => {
+    function getCounter() {
+      let counter = 0;
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
+        if (
+          prngChance({
+            farmId,
+            itemId: KNOWN_IDS.Oaken,
+            counter,
+            chance: 25,
+            criticalHitName: "Oaken",
+          })
+        ) {
+          return counter;
+        }
+        counter++;
+      }
+    }
+
+    const counter = getCounter();
+
+    const state = fetchPet({
+      farmId,
+      state: {
+        ...INITIAL_FARM,
+        collectibles: {
+          Oaken: [
+            {
+              id: "oaken",
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+              readyAt: now,
+            },
+          ],
+        },
+        pets: {
+          common: {
+            Barkley: {
+              name: "Barkley",
+              requests: { food: [], fedAt: now },
+              energy: 100,
+              experience: 0,
+              pettedAt: now,
+              fetches: { Acorn: counter },
+            },
+          },
+        },
+      },
+      action: { type: "pet.fetched", petId: "Barkley", fetch: "Acorn" },
+      createdAt: now,
+    });
+
+    expect(state.inventory["Acorn"]).toEqual(new Decimal(2));
+  });
+
   it("fetches +1 Acron if Squirrel Onesie is equipped", () => {
     const state = fetchPet({
       state: {

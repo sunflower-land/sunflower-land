@@ -15,6 +15,7 @@ import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
 import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 export const getFetchPercentage = ({
   petLevel,
@@ -67,6 +68,21 @@ export function getFetchYield({
   ) {
     yieldAmount += 1;
     boostUsed.push("Squirrel Onesie");
+  }
+
+  if (
+    fetchResource === "Acorn" &&
+    isCollectibleBuilt({ name: "Oaken", game: state }) &&
+    prngChance({
+      farmId,
+      itemId: KNOWN_IDS.Oaken,
+      counter,
+      chance: 25,
+      criticalHitName: "Oaken",
+    })
+  ) {
+    yieldAmount += 1;
+    boostUsed.push("Oaken");
   }
 
   const fetchPercentage = getFetchPercentage({

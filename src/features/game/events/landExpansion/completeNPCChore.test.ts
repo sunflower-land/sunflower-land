@@ -230,6 +230,36 @@ describe("completeNPCChore", () => {
     expect(newState.inventory["Horseshoe"]).toEqual(new Decimal(2));
   });
 
+  it("provides +1 ticket rewards for Fish Hook Hat at Crabs and Traps", () => {
+    const state: GameState = {
+      ...TEST_FARM,
+      farmActivity: { "Tree Chopped": 1 },
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        equipped: {
+          ...INITIAL_BUMPKIN.equipped,
+          hat: "Fish Hook Hat",
+        },
+      },
+      choreBoard: {
+        chores: {
+          "pumpkin' pete": {
+            ...CHORE,
+            reward: { items: { Floater: 1 } },
+          },
+        },
+      },
+    };
+
+    const newState = completeNPCChore({
+      state,
+      action: { type: "chore.fulfilled", npcName: "pumpkin' pete" },
+      createdAt: new Date("2026-02-10").getTime(),
+    });
+
+    expect(newState.inventory.Floater).toEqual(new Decimal(2));
+  });
+
   it("provides +1 ticket rewards for Cowboy Shirt at Bull Run Season", () => {
     const mockDate = new Date(2024, 11, 11);
     jest.useFakeTimers();

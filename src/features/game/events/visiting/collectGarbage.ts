@@ -2,6 +2,7 @@ import { produce } from "immer";
 import { GameState } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { hasHitHelpLimit } from "features/game/types/monuments";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 export type CollectGarbageAction = {
   type: "garbage.collected";
@@ -44,9 +45,15 @@ export function collectGarbage({
 
     const type = clutters[action.id].type;
 
+    const extraYield =
+      (type === "Weed" || type === "Dung") &&
+      isCollectibleBuilt({ name: "Poseidon's Throne", game: visitorGame })
+        ? 1
+        : 0;
+
     visitorGame.inventory[type] = (
       visitorState?.inventory[type] ?? new Decimal(0)
-    ).plus(1);
+    ).plus(1 + extraYield);
 
     delete clutters[action.id];
   });
