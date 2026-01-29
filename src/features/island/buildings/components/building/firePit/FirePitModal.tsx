@@ -121,6 +121,20 @@ export const FirePitModal: React.FC<Props> = ({
 
   const [selected, setSelected] = useState<Cookable | undefined>(undefined);
 
+  const setSelectedCookable = useCallback<
+    React.Dispatch<React.SetStateAction<Cookable>>
+  >(
+    (next) => {
+      setSelected((prev) => {
+        const fallback = getDefaultSelection() ?? firePitRecipes[0];
+        const current = prev ?? fallback;
+
+        return typeof next === "function" ? next(current) : next;
+      });
+    },
+    [firePitRecipes, getDefaultSelection],
+  );
+
   useEffect(() => {
     if (!isOpen) return;
     if (selected) return;
@@ -168,7 +182,7 @@ export const FirePitModal: React.FC<Props> = ({
           {!!selected && (
             <Recipes
               selected={selected}
-              setSelected={setSelected}
+              setSelected={setSelectedCookable}
               recipes={firePitRecipes}
               onCook={onCook}
               onClose={onClose}
