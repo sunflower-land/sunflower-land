@@ -1299,8 +1299,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Skill Shrimpy": { width: 1, height: 1 },
   Nana: { width: 1, height: 1 },
   "Soil Krabby": { width: 1, height: 1 },
-  "Speckled Kissing Fish": { width: 1, height: 1 },
-  "Dark Eyed Kissing Fish": { width: 1, height: 1 },
+  "Speckled Kissing Fish": { width: 2, height: 1 },
+  "Dark Eyed Kissing Fish": { width: 2, height: 1 },
   "Fisherman's Boat": { width: 2, height: 1 },
   "Sea Arch": { width: 3, height: 2 },
   "Crabs and Fish Rug": { width: 3, height: 2 },
@@ -1309,10 +1309,10 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Yellow Submarine Trophy": { width: 2, height: 2 },
   Oaken: { width: 1, height: 1 },
   Meerkat: { width: 1, height: 1 },
-  "Pearl Bed": { width: 1, height: 1 },
+  "Pearl Bed": { width: 2, height: 1 },
   "Crimstone Clam": { width: 2, height: 2 },
   "Poseidon's Throne": { width: 3, height: 3 },
-  "Fish Kite": { width: 1, height: 2 },
+  "Fish Kite": { width: 1, height: 1 },
 
   // Spring Blossom SFTs
   "Flower Cart": { width: 2, height: 2 },

@@ -777,7 +777,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Pearl Bed": () => <TemplateCollectible name="Pearl Bed" />,
   "Crimstone Clam": () => <TemplateCollectible name="Crimstone Clam" />,
   "Poseidon's Throne": () => <TemplateCollectible name="Poseidon's Throne" />,
-  "Fish Kite": () => <TemplateCollectible name="Fish Kite" />,
+  "Fish Kite": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 4}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+      }}
+      image={ITEM_DETAILS["Kite"].image}
+      alt="Kite"
+    />
+  ),
   "Crim Peckster": CrimPeckster,
   "Knight Chicken": KnightChicken,
   "Pharaoh Chicken": PharaohChicken,
