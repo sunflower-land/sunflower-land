@@ -118,7 +118,22 @@ export type SoldOutCollectibleName =
   | "Grain Grinder"
   | "Skill Shrimpy"
   | "Soil Krabby"
-  | "Nana";
+  | "Nana"
+  // Crabs and Traps
+  | "Speckled Kissing Fish"
+  | "Dark Eyed Kissing Fish"
+  | "Fisherman's Boat"
+  | "Sea Arch"
+  | "Crabs and Fish Rug"
+  | "Fish Flags"
+  | "Fish Drying Rack"
+  | "Yellow Submarine Trophy"
+  | "Oaken"
+  | "Meerkat"
+  | "Pearl Bed"
+  | "Crimstone Clam"
+  | "Poseidon's Throne"
+  | "Fish Kite";
 
 export type MegaStoreCollectibleName =
   | "Flower Cart"

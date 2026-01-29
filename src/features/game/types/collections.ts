@@ -143,4 +143,45 @@ export const CHAPTER_COLLECTIONS: Partial<
       "Squirrel Onesie",
     ],
   },
+  "Crabs and Traps": {
+    collectibles: [
+      ...getChapterMutants("Crabs and Traps"),
+      // Auctioneer
+      "Speckled Kissing Fish",
+      "Fisherman's Boat",
+      "Sea Arch",
+
+      // Other chapter collectibles
+      "Dark Eyed Kissing Fish",
+      "Crabs and Fish Rug",
+      "Fish Flags",
+      "Fish Drying Rack",
+      "Yellow Submarine Trophy",
+      "Oaken",
+      "Meerkat",
+      "Pearl Bed",
+      "Crimstone Clam",
+      "Poseidon's Throne",
+      "Fish Kite",
+
+      // VIP Gift
+      "Diving Helmet",
+    ],
+    wearables: [
+      // Auctioneer
+      "Crimstone Spikes Hair",
+      "Paw Aura",
+      "Victoria's Apron",
+      "Beast Shoes",
+
+      // Other chapter wearables
+      "Fish Hook Hat",
+      "Fish Hook Vest",
+      "Fish Hook Waders",
+      "Corn Silk Hair",
+
+      // VIP Gift
+      "Walrus Onesie",
+    ],
+  },
 };

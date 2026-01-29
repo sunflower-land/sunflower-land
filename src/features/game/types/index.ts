@@ -1355,6 +1355,20 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Horseshoe Crab": 2815,
 
   "Diving Helmet": 2816,
+  "Speckled Kissing Fish": 2817,
+  "Dark Eyed Kissing Fish": 2818,
+  "Fisherman's Boat": 2819,
+  "Sea Arch": 2820,
+  "Crabs and Fish Rug": 2821,
+  "Fish Flags": 2822,
+  "Fish Drying Rack": 2823,
+  "Yellow Submarine Trophy": 2824,
+  Oaken: 2825,
+  Meerkat: 2826,
+  "Pearl Bed": 2827,
+  "Crimstone Clam": 2828,
+  "Poseidon's Throne": 2829,
+  "Fish Kite": 2830,
 };
 
 // The reverse of above

@@ -32,7 +32,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getKeys } from "features/game/lib/crafting";
-import { FishMarketGuide } from "./FishMarketGuide";
 
 interface Props {
   isOpen: boolean;
@@ -53,6 +52,7 @@ const PROCESSED_ITEMS: ProcessedResource[] = getKeys(
 const _isVIP = (state: MachineState) =>
   hasVipAccess({ game: state.context.state });
 const _state = (state: MachineState) => state.context.state;
+const _season = (state: MachineState) => state.context.state.season.season;
 
 export const FishMarketModal: React.FC<Props> = ({
   buildingId,
@@ -70,15 +70,13 @@ export const FishMarketModal: React.FC<Props> = ({
   const { openModal } = useContext(ModalContext);
   const isVIP = useSelector(gameService, _isVIP);
   const state = useSelector(gameService, _state);
-
-  const season = state.season.season;
+  const season = useSelector(gameService, _season);
   const inventory = state.inventory;
 
   const [selected, setSelected] = useState<ProcessedResource>(
     PROCESSED_ITEMS[0],
   );
   const [showQueueInformation, setShowQueueInformation] = useState(false);
-  const [tab, setTab] = useState<"fishMarket" | "guide">("fishMarket");
 
   const requirements = getFishProcessingRequirements({
     item: selected,
@@ -116,107 +114,96 @@ export const FishMarketModal: React.FC<Props> = ({
       <CloseButtonPanel
         tabs={[
           { id: "fishMarket", icon: SUNNYSIDE.icons.fish, name: "Fish Market" },
-          {
-            id: "guide",
-            icon: SUNNYSIDE.icons.expression_confused,
-            name: t("guide"),
-          },
         ]}
-        currentTab={tab}
-        setCurrentTab={setTab}
         bumpkinParts={NPC_WEARABLES.neville}
         onClose={onClose}
         container={OuterPanel}
       >
-        {tab === "fishMarket" ? (
-          <SplitScreenView
-            panel={
-              <CraftingRequirements
-                gameState={state}
-                details={{
-                  item: selected,
-                }}
-                showSeason={isProcessedFood(selected)}
-                hideDescription
-                requirements={{
-                  resources: requirements,
-                  timeSeconds: totalSeconds,
-                }}
-                actionView={
-                  <div className="flex flex-col gap-1">
-                    {isProcessedFood(selected) && (
-                      <Button
-                        disabled={lessIngredients() || isQueueFull}
-                        className="text-xxs sm:text-sm whitespace-nowrap"
-                        onClick={
-                          processing
-                            ? handleAddToQueue
-                            : () => onProcess(selected)
-                        }
-                      >
-                        {processing ? t("recipes.addToQueue") : "Process"}
-                      </Button>
-                    )}
+        <SplitScreenView
+          panel={
+            <CraftingRequirements
+              gameState={state}
+              details={{
+                item: selected,
+              }}
+              showSeason={isProcessedFood(selected)}
+              hideDescription
+              requirements={{
+                resources: requirements,
+                timeSeconds: totalSeconds,
+              }}
+              actionView={
+                <div className="flex flex-col gap-1">
+                  {isProcessedFood(selected) && (
                     <Button
-                      disabled={ready.length === 0}
+                      disabled={lessIngredients() || isQueueFull}
                       className="text-xxs sm:text-sm whitespace-nowrap"
-                      onClick={onCollect}
+                      onClick={
+                        processing
+                          ? handleAddToQueue
+                          : () => onProcess(selected)
+                      }
                     >
-                      {t("collect")}
+                      {processing ? t("recipes.addToQueue") : "Process"}
                     </Button>
-                    {isQueueFull && (
-                      <p className="text-xxs text-center">
-                        {t("error.noAvailableSlots")}
-                      </p>
-                    )}
-                  </div>
-                }
-              />
-            }
-            content={
-              <div className="flex flex-col w-full">
-                {processing && (
-                  <InProgressInfo
-                    product={processing}
-                    onClose={onClose}
-                    onInstantReady={onInstantProcess}
-                    state={state}
-                  />
-                )}
-                {processing && isVIP && (
-                  <Queue
-                    buildingName="Fish Market"
-                    buildingId={buildingId as string}
-                    product={processing}
-                    queue={queue}
-                    readyProducts={ready}
-                    onClose={onClose}
-                  />
-                )}
-                <div className="flex flex-col gap-2">
-                  <div>
-                    <Label type="default" icon={process} className="ml-1">
-                      {t("processedResources")}
-                    </Label>
-                    <div className="flex flex-wrap sm:justify-start mt-1">
-                      {PROCESSED_ITEMS.map((item) => (
-                        <Box
-                          key={item}
-                          image={ITEM_DETAILS[item].image}
-                          isSelected={item === selected}
-                          onClick={() => setSelected(item)}
-                          count={inventory[item]}
-                        />
-                      ))}
-                    </div>
+                  )}
+                  <Button
+                    disabled={ready.length === 0}
+                    className="text-xxs sm:text-sm whitespace-nowrap"
+                    onClick={onCollect}
+                  >
+                    {t("collect")}
+                  </Button>
+                  {isQueueFull && (
+                    <p className="text-xxs text-center">
+                      {t("error.noAvailableSlots")}
+                    </p>
+                  )}
+                </div>
+              }
+            />
+          }
+          content={
+            <div className="flex flex-col w-full">
+              {processing && (
+                <InProgressInfo
+                  product={processing}
+                  onClose={onClose}
+                  onInstantReady={onInstantProcess}
+                  state={state}
+                />
+              )}
+              {processing && isVIP && (
+                <Queue
+                  buildingName="Fish Market"
+                  buildingId={buildingId as string}
+                  product={processing}
+                  queue={queue}
+                  readyProducts={ready}
+                  onClose={onClose}
+                />
+              )}
+              <div className="flex flex-col gap-2">
+                <div>
+                  <Label type="default" icon={process} className="ml-1">
+                    {t("processedResources")}
+                  </Label>
+                  <div className="flex flex-wrap sm:justify-start mt-1">
+                    {PROCESSED_ITEMS.map((item) => (
+                      <Box
+                        key={item}
+                        image={ITEM_DETAILS[item].image}
+                        isSelected={item === selected}
+                        onClick={() => setSelected(item)}
+                        count={inventory[item]}
+                      />
+                    ))}
                   </div>
                 </div>
               </div>
-            }
-          />
-        ) : (
-          <FishMarketGuide />
-        )}
+            </div>
+          }
+        />
       </CloseButtonPanel>
       <ModalOverlay
         show={showQueueInformation}
