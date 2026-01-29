@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useContext, useMemo, useState } from "react";
 
 import { Modal } from "components/ui/Modal";
 
@@ -88,10 +88,6 @@ export const FirePitModal: React.FC<Props> = ({
       );
   }, [getGame, now]);
 
-  const recipesKey = useMemo(() => {
-    return firePitRecipes.map((r) => r.name).join("|");
-  }, [firePitRecipes]);
-
   /**
    * Stored selection is intentionally session-only (component state).
    * If no selection exists yet (first open this session), choose the first recipe
@@ -135,21 +131,17 @@ export const FirePitModal: React.FC<Props> = ({
     [firePitRecipes, getDefaultSelection],
   );
 
-  useEffect(() => {
-    if (!isOpen) return;
-    if (selected) return;
-    if (!firePitRecipes.length) return;
+  const effectiveSelected = useMemo(() => {
+    if (!firePitRecipes.length) return undefined;
 
-    setSelected(getDefaultSelection());
-  }, [firePitRecipes.length, getDefaultSelection, isOpen, selected]);
+    const isValidSelection =
+      !!selected && firePitRecipes.some((r) => r.name === selected.name);
 
-  useEffect(() => {
-    // If recipes list changes (feature flags/chapter), ensure selection is still valid
-    if (!selected) return;
-    if (firePitRecipes.some((r) => r.name === selected.name)) return;
+    if (isValidSelection) return selected;
+    if (!isOpen) return selected; // don't "select" while closed
 
-    setSelected(getDefaultSelection());
-  }, [firePitRecipes, getDefaultSelection, recipesKey, selected]);
+    return getDefaultSelection();
+  }, [firePitRecipes, getDefaultSelection, isOpen, selected]);
 
   return (
     <Modal show={isOpen} onHide={onClose}>
@@ -179,9 +171,9 @@ export const FirePitModal: React.FC<Props> = ({
           bumpkinParts={NPC_WEARABLES.bruce}
           container={OuterPanel}
         >
-          {!!selected && (
+          {!!effectiveSelected && (
             <Recipes
-              selected={selected}
+              selected={effectiveSelected}
               setSelected={setSelectedCookable}
               recipes={firePitRecipes}
               onCook={onCook}
