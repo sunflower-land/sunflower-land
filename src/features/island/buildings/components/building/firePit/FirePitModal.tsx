@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
-import { useActor } from "@xstate/react";
+import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 
 import { Modal } from "components/ui/Modal";
 
@@ -60,16 +59,18 @@ export const FirePitModal: React.FC<Props> = ({
   const [showIntro, setShowIntro] = React.useState(!hasRead());
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
   const now = useNow({
     live: true,
     autoEndAt: CHAPTERS["Paw Prints"].endDate.getTime(),
   });
+
+  const getGame = useCallback(() => {
+    return gameService.getSnapshot().context.state;
+  }, [gameService]);
+
   const firePitRecipes = useMemo(() => {
+    const game = getGame();
+
     return Object.values(FIRE_PIT_COOKABLES)
       .filter((recipe) => {
         if (getCurrentChapter(now) === "Paw Prints") return true;
@@ -78,21 +79,27 @@ export const FirePitModal: React.FC<Props> = ({
       })
       .filter((recipe) => {
         if (isInstantFishRecipe(recipe.name)) {
-          return hasFeatureAccess(state ?? {}, "INSTANT_RECIPES");
+          return hasFeatureAccess(game ?? {}, "INSTANT_RECIPES");
         }
         return true;
       })
       .sort(
         (a, b) => a.experience - b.experience, // "Lowest entry" == first in this order
       );
-  }, [now, state]);
+  }, [getGame, now]);
+
+  const recipesKey = useMemo(() => {
+    return firePitRecipes.map((r) => r.name).join("|");
+  }, [firePitRecipes]);
 
   /**
    * Stored selection is intentionally session-only (component state).
    * If no selection exists yet (first open this session), choose the first recipe
    * the player can currently cook; otherwise default to the first entry.
    */
-  const getDefaultSelection = () => {
+  const getDefaultSelection = useCallback((): Cookable | undefined => {
+    const game = getGame();
+
     const inProgress = firePitRecipes.find(
       (recipe) => recipe.name === itemInProgress,
     );
@@ -100,17 +107,17 @@ export const FirePitModal: React.FC<Props> = ({
 
     const canCook = (recipe: Cookable) => {
       const requirements = getCookingRequirements({
-        state,
+        state: game,
         item: recipe.name,
       });
 
       return !Object.entries(requirements).some(([name, amount]) =>
-        amount.greaterThan(state.inventory[name as InventoryItemName] ?? 0),
+        amount.greaterThan(game.inventory[name as InventoryItemName] ?? 0),
       );
     };
 
     return firePitRecipes.find(canCook) ?? firePitRecipes[0];
-  };
+  }, [firePitRecipes, getGame, itemInProgress]);
 
   const [selected, setSelected] = useState<Cookable | undefined>(undefined);
 
@@ -120,8 +127,7 @@ export const FirePitModal: React.FC<Props> = ({
     if (!firePitRecipes.length) return;
 
     setSelected(getDefaultSelection());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen, firePitRecipes.length, itemInProgress]);
+  }, [firePitRecipes.length, getDefaultSelection, isOpen, selected]);
 
   useEffect(() => {
     // If recipes list changes (feature flags/chapter), ensure selection is still valid
@@ -129,8 +135,7 @@ export const FirePitModal: React.FC<Props> = ({
     if (firePitRecipes.some((r) => r.name === selected.name)) return;
 
     setSelected(getDefaultSelection());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [firePitRecipes]);
+  }, [firePitRecipes, getDefaultSelection, recipesKey, selected]);
 
   return (
     <Modal show={isOpen} onHide={onClose}>
