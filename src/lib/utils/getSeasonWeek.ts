@@ -98,6 +98,15 @@ export const HOLIDAYS: string[] = [
   "2025-11-07",
   "2025-11-08",
   "2025-11-09",
+
+  // Start of Crabs and Traps
+  "2026-02-02",
+  "2026-02-03",
+  "2026-02-04",
+  "2026-02-05",
+  "2026-02-06",
+  "2026-02-07",
+  "2026-02-08",
 ];
 
 export function getBumpkinHoliday({ now }: { now: number }) {
