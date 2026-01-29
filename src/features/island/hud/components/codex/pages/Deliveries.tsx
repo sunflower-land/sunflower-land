@@ -7,12 +7,12 @@ export const Deliveries: React.FC<{
   onClose: () => void;
   state: GameState;
 }> = ({ onClose, state }) => {
-  const [selected, setSelected] = useState<string>();
+  const [selected, setSelected] = useState<string>(state.delivery.orders[0].id);
 
   return (
     <div className="flex flex-col h-full">
       <DeliveryOrders
-        onSelect={(id) => setSelected(id)}
+        onSelect={(id) => setSelected(id ?? state.delivery.orders[0].id)}
         selectedId={selected}
         onClose={() => onClose()}
         state={state}
