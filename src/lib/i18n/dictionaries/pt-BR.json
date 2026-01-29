@@ -7694,8 +7694,6 @@
   "waterTrap.collect": "Colete",
   "waterTrap.inProgress": "Em andamento",
   "waterTrap.timeRemaining": "Tempo restante",
-  "waterTrap.selectTrap": "Selecione a armadilha",
-  "waterTrap.selectChum": "Selecione um amigo",
   "waterTrap.place": "Coloque a armadilha",
   "waterTrap.placeDescription": "Coloque uma armadilha de água para capturar criaturas marinhas",
   "waterTrap.catch": "Capturar",
@@ -7928,5 +7926,6 @@
   "welcome.supportMessage": "Sério. Cada novo fazendeiro ajuda a manter a Sunflower Land viva, evoluindo e um pouco melhor do que era ontem.",
   "welcome.thanksForBeingHere": "Ei, obrigado por estar aqui.",
   "chapter.tracks": "As novas recompensas do capítulo estão disponíveis!",
-  "chapter.open": "Exibir recompensas"
+  "chapter.open": "Exibir recompensas",
+  "waterTrap.selectChum": "Selecione um amigo:"
 }

@@ -7694,8 +7694,6 @@
   "waterTrap.collect": "Collecter",
   "waterTrap.inProgress": "En cours",
   "waterTrap.timeRemaining": "Temps restant",
-  "waterTrap.selectTrap": "Sélectionnez un piège",
-  "waterTrap.selectChum": "Sélectionnez un ami",
   "waterTrap.place": "Placer le piège",
   "waterTrap.placeDescription": "Placez un piège à eau pour attraper des créatures marines",
   "waterTrap.catch": "Attraper",
@@ -7928,5 +7926,6 @@
   "welcome.supportMessage": "Sérieusement. Chaque nouvel agriculteur contribue à maintenir Sunflower Land en vie, en évolution et un peu mieux qu'il ne l'était hier.",
   "welcome.thanksForBeingHere": "Salut, merci d'être là.",
   "chapter.tracks": "Les récompenses des nouveaux chapitres sont disponibles !",
-  "chapter.open": "Afficher les récompenses"
+  "chapter.open": "Afficher les récompenses",
+  "waterTrap.selectChum": "Sélectionnez un ami :"
 }

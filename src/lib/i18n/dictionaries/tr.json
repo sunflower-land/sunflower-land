@@ -7694,8 +7694,6 @@
   "waterTrap.collect": "Toplayın",
   "waterTrap.inProgress": "Devamında",
   "waterTrap.timeRemaining": "Kalan süre",
-  "waterTrap.selectTrap": "Tuzak seç",
-  "waterTrap.selectChum": "Arkadaş seç",
   "waterTrap.place": "Yer tuzağı",
   "waterTrap.placeDescription": "Deniz canlılarını yakalamak için bir su tuzağı yerleştirin",
   "waterTrap.catch": "Yakalamak",
@@ -7928,5 +7926,6 @@
   "welcome.supportMessage": "Ciddi anlamda. Her yeni çiftçi, Ayçiçeği Toprakları'nın canlı kalmasına, gelişmesine ve dünden biraz daha iyi olmasına yardımcı olur.",
   "welcome.thanksForBeingHere": "Hey - burada olduğun için teşekkürler.",
   "chapter.tracks": "Yeni Bölüm Ödülleri yayında!",
-  "chapter.open": "Ödülleri görüntüleyin"
+  "chapter.open": "Ödülleri görüntüleyin",
+  "waterTrap.selectChum": "Arkadaş seç:"
 }

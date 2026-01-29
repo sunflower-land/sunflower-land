@@ -7694,8 +7694,6 @@
   "waterTrap.collect": "收获",
   "waterTrap.inProgress": "进行中",
   "waterTrap.timeRemaining": "剩余时间",
-  "waterTrap.selectTrap": "选择陷阱",
-  "waterTrap.selectChum": "选择诱饵",
   "waterTrap.place": "放置陷阱",
   "waterTrap.placeDescription": "放置水下陷阱以捕捉海洋生物",
   "waterTrap.catch": "捕获",
@@ -7928,5 +7926,6 @@
   "welcome.supportMessage": "说真的，每一位新农场主的加入，都在为 Sunflower Land 注入活力，助它不断进化，让它比昨天更美好。",
   "welcome.thanksForBeingHere": "嘿 —— 感谢你的到来。",
   "chapter.tracks": "新章节奖励已上线！",
-  "chapter.open": "查看奖励"
+  "chapter.open": "查看奖励",
+  "waterTrap.selectChum": "选择密友："
 }

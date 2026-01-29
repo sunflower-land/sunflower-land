@@ -7717,8 +7717,6 @@
   "waterTrap.collect": "Собрать",
   "waterTrap.inProgress": "В процессе",
   "waterTrap.timeRemaining": "Осталось времени",
-  "waterTrap.selectTrap": "Выбери ловушку",
-  "waterTrap.selectChum": "Выбери приманку",
   "waterTrap.place": "Установить ловушку",
   "waterTrap.placeDescription": "Установи водяную ловушку, чтобы ловить морских существ.",
   "waterTrap.catch": "Поймать",
@@ -7928,5 +7926,6 @@
   "welcome.supportMessage": "Без шуток. Каждый новый фермер помогает Sunflower Land жить, развиваться и становиться немного лучше с каждым новым днем.",
   "welcome.thanksForBeingHere": "Эй - спасибо, что ты с нами.",
   "chapter.tracks": "New Chapter Rewards are live!",
-  "chapter.open": "View rewards"
+  "chapter.open": "View rewards",
+  "waterTrap.selectChum": "Select chum:"
 }

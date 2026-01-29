@@ -7694,8 +7694,6 @@
   "waterTrap.collect": "Kumpulkan",
   "waterTrap.inProgress": "Sedang Berlangsung",
   "waterTrap.timeRemaining": "Masa yang tersisa",
-  "waterTrap.selectTrap": "Pilih perangkap",
-  "waterTrap.selectChum": "Pilih kawan",
   "waterTrap.place": "Letakkan perangkap",
   "waterTrap.placeDescription": "Letakkan perangkap air untuk menangkap makhluk laut",
   "waterTrap.catch": "Tangkap",
@@ -7928,5 +7926,6 @@
   "welcome.supportMessage": "Serius. Setiap petani baru membantu memastikan Tanah Bunga Matahari hidup, berkembang, dan sedikit lebih baik daripada semalam.",
   "welcome.thanksForBeingHere": "Hei - terima kasih kerana berada di sini.",
   "chapter.tracks": "Ganjaran Bab Baru disiarkan secara langsung!",
-  "chapter.open": "Lihat ganjaran"
+  "chapter.open": "Lihat ganjaran",
+  "waterTrap.selectChum": "Pilih kawan:"
 }

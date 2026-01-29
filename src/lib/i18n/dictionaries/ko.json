@@ -7694,8 +7694,6 @@
   "waterTrap.collect": "수집",
   "waterTrap.inProgress": "진행 중",
   "waterTrap.timeRemaining": "남은 시간",
-  "waterTrap.selectTrap": "트랩 선택",
-  "waterTrap.selectChum": "친구 선택",
   "waterTrap.place": "플레이스 트랩",
   "waterTrap.placeDescription": "워터 트랩을 설치하여 해양 생물을 잡으세요",
   "waterTrap.catch": "캐치",
@@ -7928,5 +7926,6 @@
   "welcome.supportMessage": "진지하게.새로운 농부가 될 때마다 Sunflower Land가 살아있고 발전하며 어제보다 조금 더 나아질 수 있도록 도와줍니다.",
   "welcome.thanksForBeingHere": "안녕하세요. 와줘서 고마워요.",
   "chapter.tracks": "신규 챕터 보상이 출시되었습니다!",
-  "chapter.open": "리워드 보기"
+  "chapter.open": "리워드 보기",
+  "waterTrap.selectChum": "친구 선택:"
 }

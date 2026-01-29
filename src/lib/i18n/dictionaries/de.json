@@ -7694,8 +7694,6 @@
   "waterTrap.collect": "Sammle",
   "waterTrap.inProgress": "Im Gange",
   "waterTrap.timeRemaining": "Verbleibende Zeit",
-  "waterTrap.selectTrap": "Falle wählen",
-  "waterTrap.selectChum": "Wähle Kumpel",
   "waterTrap.place": "Falle platzieren",
   "waterTrap.placeDescription": "Platziere eine Wasserfalle, um Meerestiere zu fangen",
   "waterTrap.catch": "Fangen",
@@ -7928,5 +7926,6 @@
   "welcome.supportMessage": "Ernsthaft. Jeder neue Landwirt trägt dazu bei, dass Sunflower Land am Leben bleibt, sich weiterentwickelt und ein bisschen besser ist als gestern.",
   "welcome.thanksForBeingHere": "Hey — danke, dass du hier bist.",
   "chapter.tracks": "Neue Kapitelbelohnungen sind da!",
-  "chapter.open": "Prämien ansehen"
+  "chapter.open": "Prämien ansehen",
+  "waterTrap.selectChum": "Wähle Kumpel:"
 }

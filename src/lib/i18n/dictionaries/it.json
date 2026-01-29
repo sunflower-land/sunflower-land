@@ -7694,8 +7694,6 @@
   "waterTrap.collect": "Raccogli",
   "waterTrap.inProgress": "In corso",
   "waterTrap.timeRemaining": "Tempo rimanente",
-  "waterTrap.selectTrap": "Seleziona trappola",
-  "waterTrap.selectChum": "Seleziona amico",
   "waterTrap.place": "Posiziona la trappola",
   "waterTrap.placeDescription": "Posiziona una trappola d'acqua per catturare creature marine",
   "waterTrap.catch": "Cattura",
@@ -7928,5 +7926,6 @@
   "welcome.supportMessage": "Seriamente. Ogni nuovo agricoltore aiuta a mantenere Sunflower Land viva, in evoluzione e un po' migliore rispetto a ieri.",
   "welcome.thanksForBeingHere": "Ehi, grazie per essere qui.",
   "chapter.tracks": "Le ricompense del nuovo capitolo sono disponibili!",
-  "chapter.open": "Visualizza i premi"
+  "chapter.open": "Visualizza i premi",
+  "waterTrap.selectChum": "Seleziona amico:"
 }

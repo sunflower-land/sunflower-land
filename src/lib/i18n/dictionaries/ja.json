@@ -7694,8 +7694,6 @@
   "waterTrap.collect": "収集",
   "waterTrap.inProgress": "進行中",
   "waterTrap.timeRemaining": "残り時間",
-  "waterTrap.selectTrap": "トラップを選択",
-  "waterTrap.selectChum": "チャムを選択",
   "waterTrap.place": "トラップを配置",
   "waterTrap.placeDescription": "ウォータートラップを設置して海洋生物を捕まえましょう",
   "waterTrap.catch": "キャッチ",
@@ -7928,5 +7926,6 @@
   "welcome.supportMessage": "真剣に。すべての新しい農家が、ひまわりランドを存続させ、進化させ、昨日より少し良く保つのを手伝ってくれます。",
   "welcome.thanksForBeingHere": "ねえ、ここにいてくれてありがとう。",
   "chapter.tracks": "新チャプター報酬が公開されました！",
-  "chapter.open": "リワードを見る"
+  "chapter.open": "リワードを見る",
+  "waterTrap.selectChum": "チャムを選択:"
 }
