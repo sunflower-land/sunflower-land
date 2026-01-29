@@ -1,10 +1,10 @@
 import Decimal from "decimal.js-light";
-import { screenTracker } from "lib/utils/screen";
 import { CROPS } from "../../types/crops";
 import { GameState, InventoryItemName } from "../../types/game";
 import { isReadyToHarvest } from "./harvest";
 import { produce } from "immer";
 import { trackFarmActivity } from "../../types/farmActivity";
+import { hasFeatureAccess } from "lib/flags";
 
 export enum REMOVE_CROP_ERRORS {
   EMPTY_EXPANSION = "Expansion does not exist!",
@@ -14,13 +14,12 @@ export enum REMOVE_CROP_ERRORS {
   NO_VALID_SHOVEL_SELECTED = "No valid shovel selected!",
   NO_SHOVEL_AVAILABLE = "No shovel available!",
   READY_TO_HARVEST = "Plant is ready to harvest!",
-  INVALID_PLANT = "Invalid Plant!",
 }
 
 export type LandExpansionRemoveCropAction = {
   type: "crop.removed";
   item?: InventoryItemName;
-  index: number;
+  index: string;
 };
 
 type Options = {
@@ -30,22 +29,17 @@ type Options = {
 };
 
 export function removeCrop({ state, action, createdAt = Date.now() }: Options) {
+  if (!hasFeatureAccess(state, "REMOVE_CROPS")) {
+    throw new Error("You do not have access to remove crops");
+  }
   return produce(state, (stateCopy) => {
-    const { crops: plots, inventory } = stateCopy;
-
-    if (action.index < 0) {
-      throw new Error(REMOVE_CROP_ERRORS.EMPTY_PLOT);
-    }
-
-    if (!Number.isInteger(action.index)) {
-      throw new Error(REMOVE_CROP_ERRORS.EMPTY_PLOT);
-    }
-
-    if (action.index >= Object.keys(plots).length) {
-      throw new Error(REMOVE_CROP_ERRORS.EMPTY_PLOT);
-    }
+    const { crops: plots } = stateCopy;
 
     const plot = plots[action.index];
+    if (!plot) {
+      throw new Error(REMOVE_CROP_ERRORS.EMPTY_PLOT);
+    }
+
     const crop = plot && plot.crop;
 
     if (!crop) {
@@ -64,10 +58,6 @@ export function removeCrop({ state, action, createdAt = Date.now() }: Options) {
     const cropDetails = CROPS[crop.name];
     if (isReadyToHarvest(createdAt, crop, cropDetails)) {
       throw new Error(REMOVE_CROP_ERRORS.READY_TO_HARVEST);
-    }
-
-    if (!screenTracker.calculate()) {
-      throw new Error(REMOVE_CROP_ERRORS.INVALID_PLANT);
     }
 
     // Store crop name before deleting

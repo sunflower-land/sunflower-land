@@ -167,6 +167,7 @@ export const WORKBENCH_TOOLS: Record<
       Wood: new Decimal(5),
     }),
     stock: new Decimal(50),
+    type: "land",
   },
 };
 
