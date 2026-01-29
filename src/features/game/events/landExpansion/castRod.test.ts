@@ -503,6 +503,42 @@ describe("castRod", () => {
     ).not.toThrow();
   });
 
+  it("applies Nautilus boost which increases the daily fishing limit by 5", () => {
+    const now = Date.now();
+    const today = new Date(now).toISOString().split("T")[0];
+
+    expect(() =>
+      castRod({
+        action: { bait: "Earthworm", type: "rod.casted" },
+        state: {
+          ...farm,
+          collectibles: {
+            Nautilus: [
+              {
+                id: "1",
+                createdAt: now,
+                coordinates: {
+                  x: 0,
+                  y: 0,
+                },
+              },
+            ],
+          },
+          fishing: {
+            dailyAttempts: {
+              [today]: 24,
+            },
+            wharf: {},
+          },
+          inventory: {
+            Rod: new Decimal(3),
+            Earthworm: new Decimal(1),
+          },
+        },
+      }),
+    ).not.toThrow();
+  });
+
   it("requires a player with Angler Waders boost hasn't maxed out their daily attempts", () => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date("2023-10-11T09:00:00Z"));
