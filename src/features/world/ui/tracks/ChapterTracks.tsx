@@ -101,9 +101,7 @@ export function getTrackProgress({
   return progress;
 }
 
-export const ChapterTracks: React.FC<{ onClose: () => void }> = ({
-  onClose,
-}) => {
+export const ChapterTracks: React.FC = () => {
   const { t } = useAppTranslation();
   const { gameState } = useGame();
   const state = gameState.context.state;

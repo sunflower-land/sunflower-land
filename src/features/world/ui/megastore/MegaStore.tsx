@@ -112,7 +112,7 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
           <ChapterStore state={state} />
         </InnerPanel>
       )}
-      {tab === "tracks" && <ChapterTracks onClose={onClose} />}
+      {tab === "tracks" && <ChapterTracks />}
     </CloseButtonPanel>
   );
 };
