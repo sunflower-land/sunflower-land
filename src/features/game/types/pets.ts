@@ -823,3 +823,14 @@ export const getPlacedNFTPetsCount = (pets: GameState["pets"]): number => {
     (nft) => nft.coordinates && nft.location === "petHouse",
   ).length;
 };
+
+// Types of NFT pets currently placed in the pet house (for one-per-type rule)
+export const getPlacedNFTPetTypesInPetHouse = (
+  pets: GameState["pets"],
+): PetType[] => {
+  const nfts = pets?.nfts ?? {};
+  return Object.values(nfts)
+    .filter((nft) => nft.coordinates && nft.location === "petHouse")
+    .map((nft) => getPetType(nft))
+    .filter((type): type is PetType => type != null);
+};
