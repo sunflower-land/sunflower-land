@@ -218,7 +218,7 @@ describe("fetchPet", () => {
         if (
           prngChance({
             farmId,
-            itemId: KNOWN_IDS.Oaken,
+            itemId: KNOWN_IDS["Acorn"],
             counter,
             chance: 25,
             criticalHitName: "Oaken",

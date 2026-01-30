@@ -75,7 +75,7 @@ export function getFetchYield({
     isCollectibleBuilt({ name: "Oaken", game: state }) &&
     prngChance({
       farmId,
-      itemId: KNOWN_IDS.Oaken,
+      itemId: KNOWN_IDS[fetchResource],
       counter,
       chance: 25,
       criticalHitName: "Oaken",
