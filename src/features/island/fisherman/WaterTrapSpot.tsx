@@ -12,6 +12,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import { CrustaceanChum, WaterTrapName } from "features/game/types/crustaceans";
 import { useAuth } from "features/auth/lib/Provider";
+import crabSpot1 from "assets/wharf/crab_spot_1.webp";
+import crabSpot2 from "assets/wharf/crab_spot_2.webp";
 
 const _crabTraps = (state: MachineState) => state.context.state.crabTraps;
 const _isVisiting = (state: MachineState) => state.matches("visiting");
@@ -82,60 +84,62 @@ export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
     }
   };
 
+  const crabSpotImage = Number(id) > 2 ? crabSpot2 : crabSpot1;
+
   return (
     <>
       <div
-        className={classNames("relative w-full h-full cursor-pointer", {
-          "pointer-events-none": isVisiting,
-        })}
+        className={classNames(
+          "relative w-full h-full cursor-pointer hover:img-highlight",
+          {
+            "pointer-events-none": isVisiting,
+          },
+        )}
         onClick={handleClick}
       >
-        <>
-          <div
-            className="absolute inset-0 bg-brown-600 border-2 border-brown-800"
+        {isReady && (
+          <img
+            src={SUNNYSIDE.fx.sparkle}
+            className="absolute w-4 h-4 z-[100]"
+          />
+        )}
+        {isReady && (
+          <img
+            src={SUNNYSIDE.icons.expression_alerted}
+            className="absolute -top-8 right-2"
             style={{
-              borderRadius: `${2 * PIXEL_SCALE}px`,
+              width: `${PIXEL_SCALE * 4}px`,
+            }}
+          />
+        )}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <img
+            src={crabSpotImage}
+            alt={`Crab Spot ${id}`}
+            width={PIXEL_SCALE * 15}
+            height={PIXEL_SCALE * 20}
+          />
+        </div>
+        {showTimers && isPlaced && readyAt && (
+          <div
+            className="flex justify-center absolute pointer-events-none"
+            style={{
+              bottom: `${PIXEL_SCALE * 4}px`,
+              left: "50%",
+              transform: "translateX(-50%)",
             }}
           >
-            {isReady ? (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <img
-                  src={SUNNYSIDE.icons.happy}
-                  className="w-4 h-4"
-                  alt="Ready"
-                />
-              </div>
-            ) : (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <img
-                  src={SUNNYSIDE.resource.crab}
-                  className="w-4 h-4"
-                  alt="In Progress"
-                />
-              </div>
-            )}
-            {showTimers && isPlaced && readyAt && (
-              <div
-                className="flex justify-center absolute pointer-events-none"
-                style={{
-                  bottom: `${PIXEL_SCALE * 4}px`,
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                }}
-              >
-                <ProgressBar
-                  percentage={percentage}
-                  type="progress"
-                  formatLength="short"
-                  seconds={secondsLeft}
-                  style={{
-                    width: `${PIXEL_SCALE * 14}px`,
-                  }}
-                />
-              </div>
-            )}
+            <ProgressBar
+              percentage={percentage}
+              type="progress"
+              formatLength="short"
+              seconds={secondsLeft}
+              style={{
+                width: `${PIXEL_SCALE * 14}px`,
+              }}
+            />
           </div>
-        </>
+        )}
       </div>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <WaterTrapModal
