@@ -2,9 +2,12 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { GameState } from "features/game/types/game";
 import {
+  getPetType,
+  getPlacedNFTPetTypesInPetHouse,
   getPlacedNFTPetsCount,
   isPetNFTRevealed,
   PET_HOUSE_CAPACITY,
+  PetNFT,
 } from "features/game/types/pets";
 import { produce } from "immer";
 
@@ -59,6 +62,15 @@ export function placeNFT({
 
       if (currentCount >= capacity) {
         throw new Error("Pet house is at capacity for NFT pets");
+      }
+
+      // One NFT per type in pet house: block if this pet's type is already placed
+      const placedTypes = getPlacedNFTPetTypesInPetHouse(copy.pets);
+      const petType = getPetType(nft as PetNFT);
+      if (petType && placedTypes.includes(petType)) {
+        throw new Error(
+          "A pet of this type is already placed in the pet house",
+        );
       }
     }
 

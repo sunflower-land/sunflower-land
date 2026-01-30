@@ -50,7 +50,9 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { COMPETITION_POINTS } from "features/game/types/competitions";
 import { useNow } from "lib/utils/hooks/useNow";
 import {
+  getPetType,
   getPlacedCommonPetsCount,
+  getPlacedNFTPetTypesInPetHouse,
   getPlacedNFTPetsCount,
   PET_HOUSE_CAPACITY,
   PET_TYPES,
@@ -152,6 +154,21 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     isPetNFT &&
     placedNFTPetsCount >= petHouseCapacity.nftPets;
 
+  // One NFT per type in pet house: block if this pet's type is already placed
+  const selectedNFTPet =
+    location === "petHouse" && isPetNFT && placeable?.id
+      ? state.pets?.nfts?.[Number(placeable.id)]
+      : undefined;
+  const selectedPetType = selectedNFTPet
+    ? getPetType(selectedNFTPet)
+    : undefined;
+  const placedNFTPetTypes = getPlacedNFTPetTypesInPetHouse(state.pets);
+  const isPetHouseTypeAlreadyPlaced =
+    location === "petHouse" &&
+    isPetNFT &&
+    !!selectedPetType &&
+    placedNFTPetTypes.includes(selectedPetType);
+
   const isWrongLocation = placeable?.name
     ? (location === "home" &&
         ((!COLLECTIBLES_DIMENSIONS[placeable.name as CollectibleName] &&
@@ -171,7 +188,8 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     isWrongLocation ||
     isFoxShrineDisabled ||
     isPetHouseFullCommon ||
-    isPetHouseFullNFT;
+    isPetHouseFullNFT ||
+    isPetHouseTypeAlreadyPlaced;
 
   const dimensions = useMemo(() => {
     if (placeable?.name) {

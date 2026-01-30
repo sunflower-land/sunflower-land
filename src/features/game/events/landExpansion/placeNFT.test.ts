@@ -294,6 +294,115 @@ describe("Place NFT", () => {
       jest.useRealTimers();
     });
 
+    it("throws error when placing second NFT pet of same type in pet house", () => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date("2025-11-15T00:00:00.000Z"));
+      const date = Date.now();
+
+      expect(() =>
+        placeNFT({
+          state: {
+            ...GAME_STATE,
+            petHouse: {
+              level: 3, // Level 3 allows 7 NFT pets
+              pets: {},
+            },
+            pets: {
+              nfts: {
+                // Dragon already placed in pet house
+                1: {
+                  id: 1,
+                  name: "Pet #1",
+                  requests: { food: [], fedAt: date },
+                  energy: 100,
+                  experience: 0,
+                  pettedAt: date,
+                  traits: { type: "Dragon" },
+                  coordinates: { x: 0, y: 0 },
+                  location: "petHouse",
+                },
+                // Second Dragon (same type) - trying to place
+                2: {
+                  id: 2,
+                  name: "Pet #2",
+                  requests: { food: [], fedAt: date },
+                  energy: 100,
+                  experience: 0,
+                  pettedAt: date,
+                  traits: { type: "Dragon" },
+                },
+              },
+            },
+          },
+          action: {
+            id: "2",
+            type: "nft.placed",
+            nft: "Pet",
+            coordinates: { x: 2, y: 0 },
+            location: "petHouse",
+          },
+          createdAt: date,
+        }),
+      ).toThrow("A pet of this type is already placed in the pet house");
+
+      jest.useRealTimers();
+    });
+
+    it("allows placing NFT pets of different types in pet house", () => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date("2025-11-15T00:00:00.000Z"));
+      const date = Date.now();
+
+      const state = placeNFT({
+        state: {
+          ...GAME_STATE,
+          petHouse: {
+            level: 3,
+            pets: {},
+          },
+          pets: {
+            nfts: {
+              // Dragon already placed in pet house
+              1: {
+                id: 1,
+                name: "Pet #1",
+                requests: { food: [], fedAt: date },
+                energy: 100,
+                experience: 0,
+                pettedAt: date,
+                traits: { type: "Dragon" },
+                coordinates: { x: 0, y: 0 },
+                location: "petHouse",
+              },
+              // Ram (different type) - placing
+              2: {
+                id: 2,
+                name: "Pet #2",
+                requests: { food: [], fedAt: date },
+                energy: 100,
+                experience: 0,
+                pettedAt: date,
+                traits: { type: "Ram" },
+              },
+            },
+          },
+        },
+        action: {
+          id: "2",
+          type: "nft.placed",
+          nft: "Pet",
+          coordinates: { x: 2, y: 0 },
+          location: "petHouse",
+        },
+        createdAt: date,
+      });
+
+      expect(state.pets?.nfts?.[2].coordinates).toStrictEqual({ x: 2, y: 0 });
+      expect(state.pets?.nfts?.[2].location).toBe("petHouse");
+
+      jest.useRealTimers();
+    });
+
     it("does not check capacity when placing NFT pet on farm", () => {
       jest.useFakeTimers();
       jest.setSystemTime(new Date("2025-11-15T00:00:00.000Z"));
