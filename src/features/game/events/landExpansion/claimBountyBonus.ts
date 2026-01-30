@@ -29,6 +29,7 @@ export const NO_BONUS_BOUNTIES_WEEK = [
   "2025-10-06", // Better Together Auction Week
   "2025-11-03", // Paw Prints Rest Week
   "2026-01-05", // Paw Prints Auction Week
+  "2026-02-02", // Crabs and Traps Rest Week
 ];
 
 const TICKET_BONUS_AMOUNT = 50;
