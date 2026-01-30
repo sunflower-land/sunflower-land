@@ -7939,5 +7939,9 @@
   "description.cornSilkHair.boost": "+2 Mais",
   "raffle.newLocation": "Neuer Standort",
   "raffle.newLocationDescription": "Die monatlichen Verlosungen sind jetzt im Auktionsbereich zu finden. Sie können weiterhin Preiskarten verwenden, um an der monatlichen Knospenverlosung teilzunehmen.",
-  "description.nautilus.boost": "+5 tägliche Angelrollen"
+  "description.nautilus.boost": "+5 tägliche Angelrollen",
+  "description.crimstoneSpikesHair.boost": "Minen Sie Crimstone kostenlos",
+  "description.pawAura.boost": "Füttern Sie Haustiere kostenlos",
+  "description.victoriasApron.boost": "33% Chance, Anfragen für Haustiere zu aktualisieren",
+  "description.beastShoes.boost": "Tier-EP +100/+250 (mittel/schwer)"
 }

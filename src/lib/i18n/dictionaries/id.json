@@ -7939,5 +7939,9 @@
   "description.cornSilkHair.boost": "+2 Jagung",
   "raffle.newLocation": "Lokasi baru",
   "raffle.newLocationDescription": "Undian bulanan sekarang dapat ditemukan di area Lelang. Anda dapat terus menggunakan tiket Hadiah untuk mengikuti undian bud bulanan.",
-  "description.nautilus.boost": "+5 gulungan memancing harian"
+  "description.nautilus.boost": "+5 gulungan memancing harian",
+  "description.crimstoneSpikesHair.boost": "Mine crimstone gratis",
+  "description.pawAura.boost": "Beri makan hewan peliharaan secara gratis",
+  "description.victoriasApron.boost": "33% kesempatan untuk menyegarkan permintaan hewan peliharaan",
+  "description.beastShoes.boost": "Hewan Peliharaan XP +100/+250 (Sedang/Keras)"
 }

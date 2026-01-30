@@ -7939,5 +7939,9 @@
   "description.cornSilkHair.boost": "+2 Milho",
   "raffle.newLocation": "Nova localização",
   "raffle.newLocationDescription": "Os sorteios mensais agora podem ser encontrados na área de Leilões. Você pode continuar usando os bilhetes-prêmio para participar do sorteio mensal de prêmios.",
-  "description.nautilus.boost": "+5 bobinas de pesca diárias"
+  "description.nautilus.boost": "+5 bobinas de pesca diárias",
+  "description.crimstoneSpikesHair.boost": "Minere crimstone gratuitamente",
+  "description.pawAura.boost": "Alimente animais de estimação gratuitamente",
+  "description.victoriasApron.boost": "33% de chance de atualizar solicitações de animais de estimação",
+  "description.beastShoes.boost": "XP para animais de estimação +100/+250 (Médio/Difícil)"
 }

@@ -7939,5 +7939,9 @@
   "description.cornSilkHair.boost": "+2 Jagung",
   "raffle.newLocation": "Lokasi baru",
   "raffle.newLocationDescription": "Undian bulanan kini boleh didapati di kawasan Lelongan. Anda boleh terus menggunakan tiket Hadiah untuk memasuki undian tunas bulanan.",
-  "description.nautilus.boost": "+5 gulungan memancing harian"
+  "description.nautilus.boost": "+5 gulungan memancing harian",
+  "description.crimstoneSpikesHair.boost": "Mine crimstone secara percuma",
+  "description.pawAura.boost": "Makan haiwan peliharaan secara percuma",
+  "description.victoriasApron.boost": "Peluang 33% untuk menyegarkan permintaan haiwan kesayangan",
+  "description.beastShoes.boost": "Haiwan Pet XP +100/+250 (Med/Keras)"
 }

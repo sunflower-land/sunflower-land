@@ -7939,5 +7939,9 @@
   "description.cornSilkHair.boost": "+2 Maïs",
   "raffle.newLocation": "Nouvel emplacement",
   "raffle.newLocationDescription": "Les tirages au sort mensuels se trouvent désormais dans la zone des ventes aux enchères. Vous pouvez continuer à utiliser les tickets pour participer à la tombola mensuelle.",
-  "description.nautilus.boost": "+5 moulinets de pêche quotidiens"
+  "description.nautilus.boost": "+5 moulinets de pêche quotidiens",
+  "description.crimstoneSpikesHair.boost": "Mine Crimstone gratuitement",
+  "description.pawAura.boost": "Nourrissez les animaux gratuitement",
+  "description.victoriasApron.boost": "33 % de chances d'actualiser les demandes relatives aux animaux",
+  "description.beastShoes.boost": "XP pour animaux de compagnie +100/+250 (moyen/difficile)"
 }

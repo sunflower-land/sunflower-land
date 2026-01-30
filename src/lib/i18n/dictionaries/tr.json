@@ -7939,5 +7939,9 @@
   "description.cornSilkHair.boost": "+2 Corn",
   "raffle.newLocation": "Yeni konum",
   "raffle.newLocationDescription": "Aylık çekilişler artık Müzayede alanında bulunabilir. Aylık tomurcuk çekilişine girmek için Ödül biletlerini kullanmaya devam edebilirsiniz.",
-  "description.nautilus.boost": "+5 günlük balıkçılık makarası"
+  "description.nautilus.boost": "+5 günlük balıkçılık makarası",
+  "description.crimstoneSpikesHair.boost": "Bedava kızıl taşı madeni",
+  "description.pawAura.boost": "Evcil hayvanları ücretsiz besleyin",
+  "description.victoriasApron.boost": "%33 evcil hayvan isteklerini yenileme şansı",
+  "description.beastShoes.boost": "Evcil Hayvan XP +100/+250 (Orta/Zor)"
 }
