@@ -228,7 +228,7 @@ describe("plantGreenhouse", () => {
           ...INITIAL_BUMPKIN,
           equipped: {
             ...INITIAL_BUMPKIN.equipped,
-            body: "Olive Royalty Shirt",
+            shirt: "Olive Royalty Shirt",
           },
         },
         greenhouse: {

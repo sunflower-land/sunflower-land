@@ -1780,7 +1780,7 @@ describe("harvest", () => {
             ...TEST_BUMPKIN,
             equipped: {
               ...TEST_BUMPKIN.equipped,
-              body: "Eggplant Onesie",
+              onesie: "Eggplant Onesie",
             },
           },
           inventory: { "Eggplant Seed": new Decimal(1) },
@@ -1874,7 +1874,7 @@ describe("harvest", () => {
           ...GAME_STATE,
           bumpkin: {
             ...TEST_BUMPKIN,
-            equipped: { ...TEST_BUMPKIN.equipped, body: "Corn Onesie" },
+            equipped: { ...TEST_BUMPKIN.equipped, onesie: "Corn Onesie" },
           },
           inventory: { "Corn Seed": new Decimal(1) },
           season: { season: "spring", startedAt: 0 },
@@ -2000,7 +2000,7 @@ describe("harvest", () => {
             ...TEST_BUMPKIN,
             equipped: {
               ...TEST_BUMPKIN.equipped,
-              hat: "Blossom Ward",
+              secondaryTool: "Blossom Ward",
             },
           },
           inventory: { "Carrot Seed": new Decimal(1) },
@@ -2031,7 +2031,7 @@ describe("harvest", () => {
             ...TEST_BUMPKIN,
             equipped: {
               ...TEST_BUMPKIN.equipped,
-              necklace: "Frozen Heart",
+              secondaryTool: "Frozen Heart",
             },
           },
           inventory: { "Cauliflower Seed": new Decimal(1) },
@@ -2815,7 +2815,7 @@ describe("harvest", () => {
                 plantedAt:
                   dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
               },
-              beeSwarm: { count: 1 },
+              beeSwarm: { count: 1, swarmActivatedAt: dateNow - 1000 },
             },
           },
         },
