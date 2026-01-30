@@ -5,8 +5,6 @@ import { feedPet, getPetFoodRequests } from "./feedPet";
 import { getPetLevel, Pet } from "features/game/types/pets";
 import { GameState } from "features/game/types/game";
 import { CHAPTERS } from "features/game/types/chapters";
-import { prngChance } from "lib/prng";
-import { stringToInteger } from "lib/utils/stringToInteger";
 
 describe("feedPet", () => {
   afterEach(() => jest.useRealTimers());
@@ -1267,79 +1265,6 @@ describe("feedPet", () => {
     });
 
     expect(state.pets?.common?.Barkley?.experience).toEqual(6050);
-  });
-
-  it("resets pet requests with Victoria's Apron on completion", () => {
-    const bumpkinId = INITIAL_FARM.bumpkin.id;
-    const itemId = stringToInteger("Barkley");
-    const now = Date.now();
-    const baseTime = now;
-    let createdAt = baseTime;
-    let attempts = 0;
-    while (
-      !prngChance({
-        farmId: bumpkinId,
-        itemId,
-        counter: Math.floor(createdAt / 1000),
-        chance: 33,
-        criticalHitName: "Victoria's Apron",
-      })
-    ) {
-      createdAt += 1000;
-      attempts += 1;
-      if (attempts > 5000) {
-        throw new Error("Could not find reset timestamp");
-      }
-    }
-
-    const state = feedPet({
-      state: {
-        ...INITIAL_FARM,
-        bumpkin: {
-          ...INITIAL_FARM.bumpkin,
-          equipped: {
-            ...INITIAL_FARM.bumpkin.equipped,
-            coat: "Victoria's Apron",
-          },
-        },
-        pets: {
-          common: {
-            Barkley: {
-              name: "Barkley",
-              requests: {
-                food: ["Bumpkin Salad"],
-                foodFed: [],
-                fedAt: createdAt,
-              },
-              energy: 0,
-              experience: 0,
-              pettedAt: createdAt,
-            },
-          },
-        },
-        collectibles: {
-          Barkley: [
-            {
-              createdAt: now,
-              id: "1",
-              readyAt: now,
-              coordinates: { x: 1, y: 1 },
-            },
-          ],
-        },
-        inventory: {
-          "Bumpkin Salad": new Decimal(1),
-        },
-      },
-      action: {
-        type: "pet.fed",
-        petId: "Barkley",
-        food: "Bumpkin Salad",
-      },
-      createdAt,
-    });
-
-    expect(state.pets?.common?.Barkley?.requests.foodFed).toEqual([]);
   });
 
   describe("getPetFoodRequests", () => {

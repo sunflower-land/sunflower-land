@@ -284,6 +284,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
                       game: state,
                       petLevel,
                       petData,
+                      food: foodItem,
                     }),
                   0,
                 );
