@@ -700,6 +700,12 @@ export function getDailyFishingLimit(game: GameState): {
     boostsUsed.push("Reelmaster's Chair");
   }
 
+  // +5 daily limit if player has Nautilus
+  if (isCollectibleBuilt({ name: "Nautilus", game })) {
+    limit += 5;
+    boostsUsed.push("Nautilus");
+  }
+
   // +5 daily limit if player had Fisherman's 5 Fold skill
   if (game.bumpkin?.skills["Fisherman's 5 Fold"]) {
     limit += 5;
