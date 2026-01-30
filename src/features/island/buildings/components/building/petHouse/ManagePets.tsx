@@ -11,6 +11,7 @@ import {
   getPetEnergy,
   getPetExperience,
   getPetFoodRequests,
+  getRequiredFeedAmount,
 } from "features/game/events/pets/feedPet";
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/lib/crafting";
@@ -106,14 +107,20 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
       });
 
       // Second pass: select food items based on available inventory
+      const requiredFeedAmount = getRequiredFeedAmount(state);
       foodRequests.forEach(({ petId, food }) => {
         const availableFood = inventory[food] ?? new Decimal(0);
         const currentAllocation = foodAllocation[food] || 0;
 
-        // Only select if we have enough food available
-        if (availableFood.greaterThan(currentAllocation)) {
+        // Skip inventory check if PawAura is active (free feeding)
+        if (
+          requiredFeedAmount === 0 ||
+          availableFood.greaterThan(currentAllocation)
+        ) {
           newSelectedFeed.push({ petId, food });
-          foodAllocation[food] = currentAllocation + 1;
+          if (requiredFeedAmount > 0) {
+            foodAllocation[food] = currentAllocation + 1;
+          }
         }
       });
 
@@ -284,6 +291,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
                       game: state,
                       petLevel,
                       petData,
+                      food: foodItem,
                     }),
                   0,
                 );

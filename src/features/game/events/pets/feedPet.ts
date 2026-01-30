@@ -24,6 +24,7 @@ import { getCurrentChapter } from "features/game/types/chapters";
 import { AuraTrait, BibTrait } from "features/pets/data/types";
 import { produce } from "immer";
 import { setPrecision } from "lib/utils/formatNumber";
+import Decimal from "decimal.js-light";
 
 // Build a constant-time lookup from food -> difficulty
 export const FOOD_TO_DIFFICULTY: Map<CookableName, PetRequestDifficulty> =
@@ -103,11 +104,13 @@ export function getPetExperience({
   basePetXP,
   petLevel,
   petData,
+  food,
 }: {
   game: GameState;
   basePetXP: number;
   petLevel: number;
   petData: Pet | PetNFT;
+  food: CookableName;
 }) {
   let experience = basePetXP;
   let experienceBoost = 1;
@@ -134,6 +137,16 @@ export function getPetExperience({
 
   if (isCollectibleBuilt({ name: "Pet Bowls", game })) {
     experience += 10;
+  }
+
+  if (isWearableActive({ game, name: "Beast Shoes" })) {
+    const foodDifficulty = FOOD_TO_DIFFICULTY.get(food);
+    if (foodDifficulty === "medium") {
+      experience += 100;
+    }
+    if (foodDifficulty === "hard") {
+      experience += 250;
+    }
   }
 
   if (isPetNFT && petData.traits?.bib) {
@@ -232,6 +245,14 @@ export function getPetFoodRequests(
   }
 }
 
+export function getRequiredFeedAmount(game: GameState): number {
+  // Free feeding with Paw Aura
+  if (isWearableActive({ game, name: "Paw Aura" })) {
+    return 0;
+  }
+  return 1;
+}
+
 export type FeedPetAction = {
   type: "pet.fed";
   petId: PetName | number;
@@ -312,8 +333,9 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
 
     const { inventory } = stateCopy;
 
-    const foodInInventory = inventory[food];
-    if (!foodInInventory || foodInInventory.lessThan(1)) {
+    const foodInInventory = inventory[food] ?? new Decimal(0);
+    const requiredAmount = getRequiredFeedAmount(stateCopy);
+    if (foodInInventory.lessThan(requiredAmount)) {
       throw new Error("Not enough food in inventory");
     }
 
@@ -323,7 +345,9 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
     }
     petData.requests.foodFed.push(food);
     petData.requests.fedAt = createdAt;
-    inventory[food] = foodInInventory.minus(1);
+    if (requiredAmount > 0) {
+      inventory[food] = foodInInventory.minus(requiredAmount);
+    }
 
     // Get base pet XP/Energy
     const basePetXP = getPetRequestXP(food);
@@ -333,6 +357,7 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
       game: stateCopy,
       petLevel,
       petData,
+      food,
     });
     const energy = getPetEnergy({
       game: stateCopy,

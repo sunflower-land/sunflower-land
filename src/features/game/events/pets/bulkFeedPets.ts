@@ -3,7 +3,7 @@ import { CookableName } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
 import { PetName } from "features/game/types/pets";
 import { produce } from "immer";
-import { feedPet } from "./feedPet";
+import { feedPet, getRequiredFeedAmount } from "./feedPet";
 
 export type BulkFeedPetsAction = {
   type: "pets.bulkFeed";
@@ -34,12 +34,15 @@ export function bulkFeedPets({
     {},
   );
 
-  getObjectEntries(foodRequired).forEach(([food, amount]) => {
-    const foodInInventory = state.inventory[food];
-    if (!foodInInventory || foodInInventory.lt(amount ?? 0)) {
-      throw new Error("Not enough food in inventory");
-    }
-  });
+  const requiredAmount = getRequiredFeedAmount(state);
+  if (requiredAmount > 0) {
+    getObjectEntries(foodRequired).forEach(([food, amount]) => {
+      const foodInInventory = state.inventory[food];
+      if (!foodInInventory || foodInInventory.lt(amount ?? 0)) {
+        throw new Error("Not enough food in inventory");
+      }
+    });
+  }
 
   return produce(state, (stateCopy) => {
     pets.forEach((pet) => {

@@ -4,7 +4,7 @@ import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
 import { getTimeLeft } from "lib/utils/time";
-import { InventoryItemName, Rock } from "features/game/types/game";
+import { GameState, InventoryItemName, Rock } from "features/game/types/game";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
@@ -15,11 +15,19 @@ import { DepletedCrimstone } from "./components/DepletedCrimstone";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getCrimstoneDropAmount } from "features/game/events/landExpansion/mineCrimstone";
 import { useNow } from "lib/utils/hooks/useNow";
+import { isWearableActive } from "features/game/lib/wearables";
 
 const HITS = 3;
 const tool = "Gold Pickaxe";
 
-const HasTool = (inventory: Partial<Record<InventoryItemName, Decimal>>) => {
+const HasTool = (
+  inventory: Partial<Record<InventoryItemName, Decimal>>,
+  game: GameState,
+) => {
+  // Free mining with Crimstone Spikes Hair
+  if (isWearableActive({ name: "Crimstone Spikes Hair", game })) {
+    return true;
+  }
   return (inventory[tool] ?? new Decimal(0)).gte(1);
 };
 
@@ -91,11 +99,11 @@ export const Crimstone: React.FC<Props> = ({ id, index }) => {
     gameService,
     selectInventory,
     (prev, next) =>
-      HasTool(prev) === HasTool(next) &&
+      HasTool(prev, state) === HasTool(next, state) &&
       (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0)),
   );
 
-  const hasTool = HasTool(inventory);
+  const hasTool = HasTool(inventory, state);
   const readyAt = resource.stone.minedAt + CRIMSTONE_RECOVERY_TIME * 1000;
   const now = useNow({ live: true, autoEndAt: readyAt });
   const timeLeft = getTimeLeft(
@@ -108,8 +116,17 @@ export const Crimstone: React.FC<Props> = ({ id, index }) => {
   const strike = () => {
     if (!hasTool) return;
 
+    // Only show tool shortcut if not using Crimstone Spikes Hair (free mining)
+    const hasCrimstoneSpikes = isWearableActive({
+      name: "Crimstone Spikes Hair",
+      game: state,
+    });
+
+    if (!hasCrimstoneSpikes) {
+      shortcutItem(tool);
+    }
+
     setTouchCount((count) => count + 1);
-    shortcutItem(tool);
 
     // need to hit enough times to collect resource
     if (touchCount < HITS - 1) return;

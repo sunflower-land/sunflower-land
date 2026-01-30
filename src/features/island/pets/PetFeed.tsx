@@ -9,6 +9,7 @@ import {
   getPetEnergy,
   getPetExperience,
   getPetFoodRequests,
+  getRequiredFeedAmount,
 } from "features/game/events/pets/feedPet";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -41,6 +42,8 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
   const { t } = useAppTranslation();
 
   const game = useSelector(gameService, _game);
+
+  const requiredFeedAmount = getRequiredFeedAmount(game);
 
   const { level } = getPetLevel(data.experience);
   const foodRequests = getPetFoodRequests(data, level);
@@ -75,6 +78,7 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
       game,
       petLevel: level,
       petData: data,
+      food,
     });
     const petEnergy = getPetEnergy({
       game,
@@ -147,15 +151,18 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
                         })
                       : food}
                   </p>
-                  {isRequested && (
-                    <p
-                      className={classNames("text-xxs", {
-                        "text-red-600": foodAvailable === 0,
-                      })}
-                    >
-                      {t("count.available", { count: foodAvailable })}
-                    </p>
-                  )}
+                  {isRequested &&
+                    (requiredFeedAmount === 0 ? (
+                      <p className="text-xxs">{t("free")}</p>
+                    ) : (
+                      <p
+                        className={classNames("text-xxs", {
+                          "text-red-600": foodAvailable === 0,
+                        })}
+                      >
+                        {t("count.available", { count: foodAvailable })}
+                      </p>
+                    ))}
                 </div>
                 <div>
                   <div className="flex flex-row gap-1">
@@ -177,7 +184,11 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
               </InnerPanel>
               <Button
                 className="flex-shrink-0 px-2 mr-0.5 w-[77px]"
-                disabled={isComplete || foodAvailable === 0 || !isRequested}
+                disabled={
+                  isComplete ||
+                  foodAvailable < requiredFeedAmount ||
+                  !isRequested
+                }
                 onClick={() => isRequested && onFeed(food)}
               >
                 {isComplete ? (

@@ -59,6 +59,32 @@ describe("mineCrimstone", () => {
     ).toThrow("No gold pickaxes left");
   });
 
+  it("mines crimstone for free with Crimstone Spikes Hair", () => {
+    const game = mineCrimstone({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            hair: "Crimstone Spikes Hair",
+          },
+        },
+        inventory: {
+          "Gold Pickaxe": new Decimal(0),
+        },
+      },
+      action: {
+        type: "crimstoneRock.mined",
+        index: 0,
+      },
+      farmId: FARM_ID,
+    });
+
+    expect(game.inventory["Gold Pickaxe"]).toEqual(new Decimal(0));
+    expect(game.inventory.Crimstone).toEqual(new Decimal(1));
+  });
+
   it("throws an error if crimstone does not exist", () => {
     expect(() =>
       mineCrimstone({

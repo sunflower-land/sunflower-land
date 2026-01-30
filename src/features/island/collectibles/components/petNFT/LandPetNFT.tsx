@@ -20,7 +20,7 @@ const _petNFTData = (id: string) => (state: MachineState) => {
   return state.context.state.pets?.nfts?.[Number(id)];
 };
 
-const _isTypeFed = (id: string) => (state: MachineState) => {
+const _isTypeFed = (id: string, now: number) => (state: MachineState) => {
   const petData = state.context.state.pets?.nfts?.[Number(id)];
   if (!petData) return false;
   if (!petData.traits) return false;
@@ -29,7 +29,7 @@ const _isTypeFed = (id: string) => (state: MachineState) => {
     nftPets: state.context.state.pets?.nfts ?? {},
     petType: petData.traits.type,
     id: Number(id),
-    now: Date.now(),
+    now,
   });
 
   return isTypeFed;
@@ -45,7 +45,7 @@ export const LandPetNFT: React.FC<{ id: string }> = ({ id }) => {
 
   const isNeglected = isPetNeglected(petNFTData, now);
   const isNapping = isPetNapping(petNFTData, now);
-  const isTypeFed = useSelector(gameService, _isTypeFed(id));
+  const isTypeFed = useSelector(gameService, _isTypeFed(id, now));
 
   const isRevealed = isPetNFTRevealed(Number(id), now);
 
