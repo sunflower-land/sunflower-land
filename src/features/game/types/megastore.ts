@@ -985,10 +985,6 @@ const CRABS_AND_TRAPS_ITEMS: ChapterStore = {
         cost: { sfl: 0, items: { Floater: 5000 } },
       },
       {
-        collectible: "Oaken",
-        cost: { sfl: 0, items: { Floater: 5000 } },
-      },
-      {
         wearable: "Corn Silk Hair",
         cost: { sfl: 0, items: { Floater: 5000 } },
       },
