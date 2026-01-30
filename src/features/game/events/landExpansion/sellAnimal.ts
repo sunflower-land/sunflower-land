@@ -6,10 +6,16 @@ import { Animal, BountyRequest, GameState } from "features/game/types/game";
 import {
   getChapterTicket,
   getCurrentChapter,
+  CHAPTERS,
 } from "features/game/types/chapters";
 import { produce } from "immer";
 import { generateBountyTicket, generateBountyCoins } from "./sellBounty";
-import { getChapterTaskPoints } from "features/game/types/tracks";
+import {
+  CHAPTER_TRACKS,
+  getChapterTaskPoints,
+  getTrackMilestonesCrossed,
+} from "features/game/types/tracks";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 export function isValidDeal({
   animal,
@@ -116,6 +122,60 @@ export function sellAnimal({
           bounty: request,
           now: createdAt,
         });
+        const chapter = getCurrentChapter(createdAt);
+        const pointsAwarded = getChapterTaskPoints({
+          task: "bounty",
+          points: amount ?? 0,
+        });
+        const previousPoints =
+          game.farmActivity[`${chapter} Points Earned`] ?? 0;
+        const nextPoints = previousPoints + pointsAwarded;
+        const chapterTrack = CHAPTER_TRACKS[chapter];
+
+        if (chapterTrack) {
+          const daysSinceStart =
+            (createdAt - CHAPTERS[chapter].startDate.getTime()) /
+            (24 * 60 * 60 * 1000);
+
+          gameAnalytics.trackTracksPoints({
+            chapter,
+            source: "bounty",
+            points: pointsAwarded,
+          });
+
+          if (previousPoints === 0 && nextPoints > 0) {
+            gameAnalytics.trackTracksActivated({
+              chapter,
+              source: "bounty",
+            });
+          }
+
+          const crossed = getTrackMilestonesCrossed({
+            chapterTrack,
+            previousPoints,
+            nextPoints,
+          });
+
+          crossed.forEach((milestone) => {
+            gameAnalytics.trackTracksMilestoneReached({
+              chapter,
+              milestone,
+              daysSinceStart,
+            });
+          });
+
+          const finalPoints =
+            chapterTrack.milestones[
+              chapterTrack.milestones.length - 1
+            ]?.points ?? 0;
+
+          if (previousPoints < finalPoints && nextPoints >= finalPoints) {
+            gameAnalytics.trackTracksComplete({
+              chapter,
+              daysSinceStart,
+            });
+          }
+        }
 
         game.farmActivity = trackFarmActivity(
           `${getChapterTicket(createdAt)} Collected`,
@@ -123,11 +183,9 @@ export function sellAnimal({
           new Decimal(amount ?? 0),
         );
         game.farmActivity = trackFarmActivity(
-          `${getCurrentChapter(createdAt)} Points Earned`,
+          `${chapter} Points Earned`,
           game.farmActivity,
-          new Decimal(
-            getChapterTaskPoints({ task: "bounty", points: amount ?? 0 }),
-          ),
+          new Decimal(pointsAwarded),
         );
       }
 
