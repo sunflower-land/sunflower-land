@@ -138,6 +138,14 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
     });
   };
 
+  const handleBulkNeglect = () => {
+    neglectedPets.forEach(([petName, pet]) => {
+      if (pet) {
+        gameService.send("pet.neglected", { petId: petName });
+      }
+    });
+  };
+
   const mappedPets = selectedFeed.reduce<
     {
       petId: PetName | number;
@@ -191,8 +199,12 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
   });
 
   const nappingPets = activePets.filter(([, pet]) => isPetNapping(pet, now));
+  const neglectedPets = activePets.filter(([, pet]) =>
+    isPetNeglected(pet, now),
+  );
 
   const areSomePetsNapping = nappingPets.length > 0;
+  const areSomePetsNeglected = neglectedPets.length > 0;
 
   const areAllPetsNapping = nappingPets.length === activePets.length;
 
@@ -212,7 +224,12 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
           )}
         </div>
         <div className="flex flex-col sm:flex-row gap-1 w-1/2 sm:w-auto items-end">
-          {areSomePetsNapping && !isBulkFeed && (
+          {areSomePetsNeglected && !isBulkFeed && (
+            <Button className="w-40" onClick={handleBulkNeglect}>
+              {`Cheer All`}
+            </Button>
+          )}
+          {areSomePetsNapping && !areSomePetsNeglected && !isBulkFeed && (
             <Button className="w-40" onClick={handleBulkPet}>
               {`Pet All`}
             </Button>
