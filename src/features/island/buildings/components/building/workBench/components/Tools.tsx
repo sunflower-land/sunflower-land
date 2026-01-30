@@ -202,48 +202,86 @@ export const Tools: React.FC = () => {
         />
       }
       content={
-        <>
-          {getObjectEntries(WORKBENCH_TOOLS)
-            .filter(([, tool]) => !tool.disabled)
-            .map(([toolName, tool]) => {
-              const { requiredIsland } = tool;
-              const isLocked =
-                !hasRequiredIslandExpansion(
-                  state.island.type,
-                  requiredIsland,
-                ) || !hasRequiredLevel(tool);
+        <div className="flex flex-col">
+          <Label type="default" className="mb-1.5">
+            {t("landTools")}
+          </Label>
+          <div className="flex flex-wrap mb-2">
+            {getObjectEntries(WORKBENCH_TOOLS)
+              .filter(([, tool]) => !tool.disabled && tool.type === "land")
+              .map(([toolName, tool]) => {
+                const { requiredIsland } = tool;
+                const isLocked =
+                  !hasRequiredIslandExpansion(
+                    state.island.type,
+                    requiredIsland,
+                  ) || !hasRequiredLevel(tool);
 
-              if (
-                toolName in WATER_TRAP &&
-                !hasFeatureAccess(state, "CRUSTACEANS")
-              ) {
-                return null;
-              }
+                return (
+                  <Box
+                    isSelected={selectedName === toolName}
+                    key={toolName}
+                    onClick={() => onToolClick(toolName)}
+                    image={ITEM_DETAILS[toolName].image}
+                    count={inventory[toolName]}
+                    secondaryImage={isLocked ? SUNNYSIDE.icons.lock : undefined}
+                    showOverlay={isLocked}
+                  />
+                );
+              })}
+          </div>
+          <Label type="default" className="mb-1.5">
+            {t("waterTools")}
+          </Label>
+          <div className="flex flex-wrap mb-2">
+            {getObjectEntries(WORKBENCH_TOOLS)
+              .filter(([, tool]) => !tool.disabled && tool.type === "water")
+              .map(([toolName, tool]) => {
+                const { requiredIsland } = tool;
+                const isLocked =
+                  !hasRequiredIslandExpansion(
+                    state.island.type,
+                    requiredIsland,
+                  ) || !hasRequiredLevel(tool);
 
+                if (
+                  toolName in WATER_TRAP &&
+                  !hasFeatureAccess(state, "CRUSTACEANS")
+                ) {
+                  return null;
+                }
+
+                return (
+                  <Box
+                    isSelected={selectedName === toolName}
+                    key={toolName}
+                    onClick={() => onToolClick(toolName)}
+                    image={ITEM_DETAILS[toolName].image}
+                    count={inventory[toolName]}
+                    secondaryImage={isLocked ? SUNNYSIDE.icons.lock : undefined}
+                    showOverlay={isLocked}
+                  />
+                );
+              })}
+          </div>
+
+          <Label type="default" className="mb-1.5">
+            {t("animalTools")}
+          </Label>
+          <div className="flex flex-wrap mb-2">
+            {getKeys(LOVE_ANIMAL_TOOLS).map((toolName) => {
               return (
                 <Box
                   isSelected={selectedName === toolName}
                   key={toolName}
-                  onClick={() => onToolClick(toolName)}
                   image={ITEM_DETAILS[toolName].image}
+                  onClick={() => onToolClick(toolName)}
                   count={inventory[toolName]}
-                  secondaryImage={isLocked ? SUNNYSIDE.icons.lock : undefined}
-                  showOverlay={isLocked}
                 />
               );
             })}
-          {getKeys(LOVE_ANIMAL_TOOLS).map((toolName) => {
-            return (
-              <Box
-                isSelected={selectedName === toolName}
-                key={toolName}
-                image={ITEM_DETAILS[toolName].image}
-                onClick={() => onToolClick(toolName)}
-                count={inventory[toolName]}
-              />
-            );
-          })}
-        </>
+          </div>
+        </div>
       }
     />
   );

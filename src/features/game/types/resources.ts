@@ -158,7 +158,7 @@ export type RockName =
   | "Sunstone Rock"
   | "Crimstone Rock";
 
-type ResourceUpgradeRequirements = Tool & {
+type ResourceUpgradeRequirements = Omit<Tool, "type"> & {
   tier: ResourceTier;
   preRequires: {
     tier: ResourceTier;

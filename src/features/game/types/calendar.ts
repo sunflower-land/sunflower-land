@@ -244,6 +244,7 @@ export const getWeatherShop = (
           WEATHER_SHOP_ITEM_COSTS["Tornado Pinwheel"].ingredients,
         ),
       price: WEATHER_SHOP_ITEM_COSTS["Tornado Pinwheel"].coins * multiplier,
+      type: "weather",
     },
     Mangrove: {
       name: translate("calendar.events.tsunami.prevention"),
@@ -251,6 +252,7 @@ export const getWeatherShop = (
       ingredients: () =>
         convertIngredients(WEATHER_SHOP_ITEM_COSTS["Mangrove"].ingredients),
       price: WEATHER_SHOP_ITEM_COSTS["Mangrove"].coins * multiplier,
+      type: "weather",
     },
     "Thermal Stone": {
       name: translate("calendar.events.greatFreeze.prevention"),
@@ -260,6 +262,7 @@ export const getWeatherShop = (
           WEATHER_SHOP_ITEM_COSTS["Thermal Stone"].ingredients,
         ),
       price: WEATHER_SHOP_ITEM_COSTS["Thermal Stone"].coins * multiplier,
+      type: "weather",
     },
     "Protective Pesticide": {
       name: translate("calendar.events.insectPlague.prevention"),
@@ -269,6 +272,7 @@ export const getWeatherShop = (
           WEATHER_SHOP_ITEM_COSTS["Protective Pesticide"].ingredients,
         ),
       price: WEATHER_SHOP_ITEM_COSTS["Protective Pesticide"].coins * multiplier,
+      type: "weather",
     },
   };
 };
