@@ -5,6 +5,8 @@ import { feedPet, getPetFoodRequests } from "./feedPet";
 import { getPetLevel, Pet } from "features/game/types/pets";
 import { GameState } from "features/game/types/game";
 import { CHAPTERS } from "features/game/types/chapters";
+import { prngChance } from "lib/prng";
+import { stringToInteger } from "lib/utils/stringToInteger";
 
 describe("feedPet", () => {
   afterEach(() => jest.useRealTimers());
@@ -1112,6 +1114,231 @@ describe("feedPet", () => {
     const BarkleyData = state.pets?.common?.Barkley;
 
     expect(BarkleyData?.energy).toEqual(105);
+  });
+
+  it("feeds pets for free with Paw Aura", () => {
+    const state = feedPet({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin.equipped,
+            aura: "Paw Aura",
+          },
+        },
+        pets: {
+          common: {
+            Barkley: {
+              name: "Barkley",
+              requests: {
+                food: ["Bumpkin Salad"],
+                foodFed: [],
+                fedAt: now,
+              },
+              energy: 0,
+              experience: 0,
+              pettedAt: now,
+            },
+          },
+        },
+        collectibles: {
+          Barkley: [
+            {
+              createdAt: now,
+              id: "1",
+              readyAt: now,
+              coordinates: { x: 1, y: 1 },
+            },
+          ],
+        },
+        inventory: {
+          "Bumpkin Salad": new Decimal(0),
+        },
+      },
+      action: {
+        type: "pet.fed",
+        petId: "Barkley",
+        food: "Bumpkin Salad",
+      },
+      createdAt: now,
+    });
+
+    expect(state.inventory["Bumpkin Salad"]).toEqual(new Decimal(0));
+  });
+
+  it("adds Beast Shoes XP to medium food requests", () => {
+    const state = feedPet({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin.equipped,
+            shoes: "Beast Shoes",
+          },
+        },
+        pets: {
+          common: {
+            Barkley: {
+              name: "Barkley",
+              requests: {
+                food: ["Bumpkin Salad"],
+                foodFed: [],
+                fedAt: now,
+              },
+              energy: 0,
+              experience: 0,
+              pettedAt: now,
+            },
+          },
+        },
+        collectibles: {
+          Barkley: [
+            {
+              createdAt: now,
+              id: "1",
+              readyAt: now,
+              coordinates: { x: 1, y: 1 },
+            },
+          ],
+        },
+        inventory: {
+          "Bumpkin Salad": new Decimal(1),
+        },
+      },
+      action: {
+        type: "pet.fed",
+        petId: "Barkley",
+        food: "Bumpkin Salad",
+      },
+      createdAt: now,
+    });
+
+    expect(state.pets?.common?.Barkley?.experience).toEqual(200);
+  });
+
+  it("adds Beast Shoes XP to hard food requests", () => {
+    const state = feedPet({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin.equipped,
+            shoes: "Beast Shoes",
+          },
+        },
+        pets: {
+          common: {
+            Barkley: {
+              name: "Barkley",
+              requests: {
+                food: ["Antipasto"],
+                foodFed: [],
+                fedAt: now,
+              },
+              energy: 0,
+              experience: 0,
+              pettedAt: now,
+            },
+          },
+        },
+        collectibles: {
+          Barkley: [
+            {
+              createdAt: now,
+              id: "1",
+              readyAt: now,
+              coordinates: { x: 1, y: 1 },
+            },
+          ],
+        },
+        inventory: {
+          Antipasto: new Decimal(1),
+        },
+      },
+      action: {
+        type: "pet.fed",
+        petId: "Barkley",
+        food: "Antipasto",
+      },
+      createdAt: now,
+    });
+
+    expect(state.pets?.common?.Barkley?.experience).toEqual(550);
+  });
+
+  it("resets pet requests with Victoria's Apron on completion", () => {
+    const bumpkinId = INITIAL_FARM.bumpkin.id;
+    const itemId = stringToInteger("Barkley");
+    const baseTime = Date.now();
+    let createdAt = baseTime;
+    let attempts = 0;
+    while (
+      !prngChance({
+        farmId: bumpkinId,
+        itemId,
+        counter: Math.floor(createdAt / 1000),
+        chance: 33,
+        criticalHitName: "Victoria's Apron",
+      })
+    ) {
+      createdAt += 1000;
+      attempts += 1;
+      if (attempts > 5000) {
+        throw new Error("Could not find reset timestamp");
+      }
+    }
+
+    const state = feedPet({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin.equipped,
+            coat: "Victoria's Apron",
+          },
+        },
+        pets: {
+          common: {
+            Barkley: {
+              name: "Barkley",
+              requests: {
+                food: ["Bumpkin Salad"],
+                foodFed: [],
+                fedAt: createdAt,
+              },
+              energy: 0,
+              experience: 0,
+              pettedAt: createdAt,
+            },
+          },
+        },
+        collectibles: {
+          Barkley: [
+            {
+              createdAt,
+              id: "1",
+              readyAt: createdAt,
+              coordinates: { x: 1, y: 1 },
+            },
+          ],
+        },
+        inventory: {
+          "Bumpkin Salad": new Decimal(1),
+        },
+      },
+      action: {
+        type: "pet.fed",
+        petId: "Barkley",
+        food: "Bumpkin Salad",
+      },
+      createdAt,
+    });
+
+    expect(state.pets?.common?.Barkley?.requests.foodFed).toEqual([]);
   });
 
   describe("getPetFoodRequests", () => {

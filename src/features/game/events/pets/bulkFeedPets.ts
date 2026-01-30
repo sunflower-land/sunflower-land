@@ -2,6 +2,7 @@ import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { CookableName } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
 import { PetName } from "features/game/types/pets";
+import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
 import { feedPet } from "./feedPet";
 
@@ -34,12 +35,15 @@ export function bulkFeedPets({
     {},
   );
 
-  getObjectEntries(foodRequired).forEach(([food, amount]) => {
-    const foodInInventory = state.inventory[food];
-    if (!foodInInventory || foodInInventory.lt(amount ?? 0)) {
-      throw new Error("Not enough food in inventory");
-    }
-  });
+  const hasPawAura = isWearableActive({ game: state, name: "Paw Aura" });
+  if (!hasPawAura) {
+    getObjectEntries(foodRequired).forEach(([food, amount]) => {
+      const foodInInventory = state.inventory[food];
+      if (!foodInInventory || foodInInventory.lt(amount ?? 0)) {
+        throw new Error("Not enough food in inventory");
+      }
+    });
+  }
 
   return produce(state, (stateCopy) => {
     pets.forEach((pet) => {

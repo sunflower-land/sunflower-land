@@ -10,6 +10,7 @@ import { GameState } from "features/game/types/game";
 import {
   getPetLevel,
   getPetRequestXP,
+  getPetRequests,
   isPetNapping,
   isPetNeglected,
   isPetNFT as isPetNFTData,
@@ -24,6 +25,8 @@ import { getCurrentChapter } from "features/game/types/chapters";
 import { AuraTrait, BibTrait } from "features/pets/data/types";
 import { produce } from "immer";
 import { setPrecision } from "lib/utils/formatNumber";
+import { prngChance } from "lib/prng";
+import { stringToInteger } from "lib/utils/stringToInteger";
 
 // Build a constant-time lookup from food -> difficulty
 export const FOOD_TO_DIFFICULTY: Map<CookableName, PetRequestDifficulty> =
@@ -313,7 +316,8 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
     const { inventory } = stateCopy;
 
     const foodInInventory = inventory[food];
-    if (!foodInInventory || foodInInventory.lessThan(1)) {
+    const hasPawAura = isWearableActive({ game: stateCopy, name: "Paw Aura" });
+    if (!hasPawAura && (!foodInInventory || foodInInventory.lessThan(1))) {
       throw new Error("Not enough food in inventory");
     }
 
@@ -323,10 +327,45 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
     }
     petData.requests.foodFed.push(food);
     petData.requests.fedAt = createdAt;
-    inventory[food] = foodInInventory.minus(1);
+    if (!hasPawAura) {
+      inventory[food] = foodInInventory!.minus(1);
+    }
+
+    const requestsCompleted =
+      petData.requests.foodFed.length >= requests.length;
+    const hasVictoriasApron = isWearableActive({
+      game: stateCopy,
+      name: "Victoria's Apron",
+    });
+    const shouldResetRequests =
+      hasVictoriasApron &&
+      requestsCompleted &&
+      prngChance({
+        farmId: stateCopy.bumpkin?.id ?? 0,
+        itemId: stringToInteger(String(petId)),
+        counter: Math.floor(createdAt / 1000),
+        chance: 33,
+        criticalHitName: "Victoria's Apron",
+      });
+
+    if (shouldResetRequests) {
+      petData.requests.food = [...getPetRequests()];
+      petData.requests.foodFed = [];
+    }
 
     // Get base pet XP/Energy
-    const basePetXP = getPetRequestXP(food);
+    let basePetXP = getPetRequestXP(food);
+    const hasBeastShoes = isWearableActive({
+      game: stateCopy,
+      name: "Beast Shoes",
+    });
+    const foodDifficulty = FOOD_TO_DIFFICULTY.get(food);
+    if (hasBeastShoes && foodDifficulty === "medium") {
+      basePetXP += 100;
+    }
+    if (hasBeastShoes && foodDifficulty === "hard") {
+      basePetXP += 250;
+    }
 
     const experience = getPetExperience({
       basePetXP,

@@ -121,4 +121,78 @@ describe("bulkFeedPets", () => {
     expect(resultState.pets?.common?.Barkley?.experience).toEqual(100);
     expect(resultState.pets?.common?.Meowchi?.experience).toEqual(100);
   });
+
+  it("allows bulk feed for free with Paw Aura", () => {
+    const state: GameState = {
+      ...INITIAL_FARM,
+      bumpkin: {
+        ...INITIAL_FARM.bumpkin,
+        equipped: {
+          ...INITIAL_FARM.bumpkin.equipped,
+          aura: "Paw Aura",
+        },
+      },
+      pets: {
+        common: {
+          Barkley: {
+            name: "Barkley",
+            requests: {
+              food: ["Bumpkin Salad"],
+              fedAt: now,
+            },
+            energy: 0,
+            experience: 0,
+            pettedAt: now,
+          },
+          Meowchi: {
+            name: "Meowchi",
+            requests: {
+              food: ["Bumpkin Salad"],
+              fedAt: now,
+            },
+            energy: 0,
+            experience: 0,
+            pettedAt: now,
+          },
+        },
+      },
+      collectibles: {
+        Barkley: [
+          {
+            createdAt: now,
+            id: "1",
+            readyAt: now,
+            coordinates: { x: 1, y: 1 },
+          },
+        ],
+        Meowchi: [
+          {
+            createdAt: now,
+            id: "1",
+            readyAt: now,
+            coordinates: { x: 1, y: 1 },
+          },
+        ],
+      },
+      inventory: {
+        "Bumpkin Salad": new Decimal(0),
+      },
+    };
+    const action: BulkFeedPetsAction = {
+      type: "pets.bulkFeed",
+      pets: [
+        { petId: "Barkley", food: "Bumpkin Salad" },
+        { petId: "Meowchi", food: "Bumpkin Salad" },
+      ],
+    };
+
+    const resultState = bulkFeedPets({ state, action, createdAt: now });
+
+    expect(resultState.pets?.common?.Barkley?.requests.foodFed).toEqual([
+      "Bumpkin Salad",
+    ]);
+    expect(resultState.pets?.common?.Meowchi?.requests.foodFed).toEqual([
+      "Bumpkin Salad",
+    ]);
+  });
 });

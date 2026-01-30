@@ -1042,6 +1042,35 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       boostedItemIcon: SUNNYSIDE.resource.acorn,
     },
   ],
+  "Crimstone Spikes Hair": [
+    {
+      shortDescription: translate("description.crimstoneSpikesHair.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Crimstone.image,
+    },
+  ],
+  "Paw Aura": [
+    {
+      shortDescription: translate("description.pawAura.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+  ],
+  "Victoria's Apron": [
+    {
+      shortDescription: translate("description.victoriasApron.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+    },
+  ],
+  "Beast Shoes": [
+    {
+      shortDescription: translate("description.beastShoes.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+  ],
   ...SPECIAL_ITEM_LABELS,
   ...Object.fromEntries(
     getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)

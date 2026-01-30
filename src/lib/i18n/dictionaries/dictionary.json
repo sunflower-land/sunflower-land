@@ -7939,5 +7939,9 @@
   "guide.crustacean.catchCrustaceans": "Each trap cycle yields various crustaceans that can be collected",
   "guide.crustacean.differentTraps": "Different traps catch different types of crustaceans",
   "raffle.newLocation": "New location",
-  "raffle.newLocationDescription": "The monthly raffles can now be found in the Auction area. You can continue to use Prize tickets to enter the monthly bud raffle."
+  "raffle.newLocationDescription": "The monthly raffles can now be found in the Auction area. You can continue to use Prize tickets to enter the monthly bud raffle.",
+  "description.crimstoneSpikesHair.boost": "Mine crimstone for free",
+  "description.pawAura.boost": "Feed pets for free",
+  "description.victoriasApron.boost": "33% chance to refresh pet requests",
+  "description.beastShoes.boost": "Pet XP +100/+250 (Med/Hard)"
 }

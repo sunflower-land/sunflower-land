@@ -171,8 +171,13 @@ export function mineCrimstone({
     }
 
     const toolAmount = stateCopy.inventory["Gold Pickaxe"] || new Decimal(0);
+    const pickaxeBoosts: BoostName[] = [];
+    const hasCrimstoneSpikes = isWearableActive({
+      name: "Crimstone Spikes Hair",
+      game: stateCopy,
+    });
 
-    if (toolAmount.lessThan(1)) {
+    if (!hasCrimstoneSpikes && toolAmount.lessThan(1)) {
       throw new Error("No gold pickaxes left");
     }
 
@@ -211,7 +216,11 @@ export function mineCrimstone({
       rock.minesLeft = 5;
     }
 
-    stateCopy.inventory["Gold Pickaxe"] = toolAmount.sub(1);
+    if (hasCrimstoneSpikes) {
+      pickaxeBoosts.push("Crimstone Spikes Hair");
+    } else {
+      stateCopy.inventory["Gold Pickaxe"] = toolAmount.sub(1);
+    }
     stateCopy.inventory.Crimstone = amountInInventory.add(stoneMined);
 
     stateCopy.farmActivity = trackFarmActivity(
@@ -221,7 +230,7 @@ export function mineCrimstone({
 
     stateCopy.boostsUsedAt = updateBoostUsed({
       game: stateCopy,
-      boostNames: [...boostsUsed, ...minedAtBoostsUsed],
+      boostNames: [...boostsUsed, ...minedAtBoostsUsed, ...pickaxeBoosts],
       createdAt,
     });
 
