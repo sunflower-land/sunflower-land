@@ -7749,7 +7749,6 @@
   "description.giant.isopod": "¡Un monstruo oceánico gigante!",
   "description.nautilus": "Un caracol marino con un caparazón duro que nada en las profundidades.",
   "description.dollocaris": "Un pez de aguas profundas con una aleta dorsal larga y afilada.",
-  "description.nautilus.boost": "???",
   "fishing.buyMoreReels.old": "Compra 5 carretes con {{gemPrice}}",
   "discordNews.postedOn": "Publicado el {{date}} en Discord",
   "discordNews.postedAgo": "Publicado {{time}} en Discord",
@@ -7939,5 +7938,6 @@
   "description.pearlBed.boost": "+1 peón",
   "description.cornSilkHair.boost": "+2 Maíz",
   "raffle.newLocation": "Nueva ubicación",
-  "raffle.newLocationDescription": "Los sorteos mensuales ya se pueden encontrar en el área de subastas. Puedes seguir usando los boletos premiados para participar en el sorteo mensual de cogollos."
+  "raffle.newLocationDescription": "Los sorteos mensuales ya se pueden encontrar en el área de subastas. Puedes seguir usando los boletos premiados para participar en el sorteo mensual de cogollos.",
+  "description.nautilus.boost": "+5 carretes de pesca diarios"
 }

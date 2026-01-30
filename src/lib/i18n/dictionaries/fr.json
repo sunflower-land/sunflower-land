@@ -7749,7 +7749,6 @@
   "description.giant.isopod": "Un monstre océanique géant !",
   "description.nautilus": "Escargot marin à carapace dure qui nage dans les profondeurs.",
   "description.dollocaris": "Poisson d'eau profonde doté d'une longue nageoire dorsale pointue.",
-  "description.nautilus.boost": "? ? ?",
   "fishing.buyMoreReels.old": "Achetez 5 rouleaux avec {{gemPrice}}",
   "discordNews.postedOn": "Publié le {{date}} sur Discord",
   "discordNews.postedAgo": "Publié {{time}} sur Discord",
@@ -7939,5 +7938,6 @@
   "description.pearlBed.boost": "+1 Fermier",
   "description.cornSilkHair.boost": "+2 Maïs",
   "raffle.newLocation": "Nouvel emplacement",
-  "raffle.newLocationDescription": "Les tirages au sort mensuels se trouvent désormais dans la zone des ventes aux enchères. Vous pouvez continuer à utiliser les tickets pour participer à la tombola mensuelle."
+  "raffle.newLocationDescription": "Les tirages au sort mensuels se trouvent désormais dans la zone des ventes aux enchères. Vous pouvez continuer à utiliser les tickets pour participer à la tombola mensuelle.",
+  "description.nautilus.boost": "+5 moulinets de pêche quotidiens"
 }

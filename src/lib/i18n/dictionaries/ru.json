@@ -7751,7 +7751,6 @@
   "description.giant.isopod": "Гигантское жуткое морское существо!",
   "description.nautilus": "Морской моллюск с твёрдой раковиной, бороздящий океанские глубины.",
   "description.dollocaris": "Глубоководная рыба с длинным и острым спинным плавником.",
-  "description.nautilus.boost": "???",
   "fishing.buyMoreReels.old": "Купить 5 попыток за {{gemPrice}}",
   "discordNews.postedOn": "Опубликовано {{date}} в Discord",
   "discordNews.postedAgo": "Опубликовано {{time}} в Discord",
@@ -7939,5 +7938,6 @@
   "description.pearlBed.boost": "+1 Farmhand",
   "description.cornSilkHair.boost": "+2 Corn",
   "raffle.newLocation": "New location",
-  "raffle.newLocationDescription": "The monthly raffles can now be found in the Auction area. You can continue to use Prize tickets to enter the monthly bud raffle."
+  "raffle.newLocationDescription": "The monthly raffles can now be found in the Auction area. You can continue to use Prize tickets to enter the monthly bud raffle.",
+  "description.nautilus.boost": "+5 daily fishing reels"
 }

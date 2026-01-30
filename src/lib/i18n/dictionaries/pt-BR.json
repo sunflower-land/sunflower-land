@@ -7749,7 +7749,6 @@
   "description.giant.isopod": "Um monstro oceânico gigante!",
   "description.nautilus": "Um caracol marinho com uma concha dura, nadando nas profundezas.",
   "description.dollocaris": "Um peixe do fundo do mar com uma barbatana dorsal longa e afiada.",
-  "description.nautilus.boost": "???",
   "fishing.buyMoreReels.old": "Compre 5 bobinas com {{gemPrice}}",
   "discordNews.postedOn": "Postado em {{date}} no Discord",
   "discordNews.postedAgo": "Postado em {{time}} no Discord",
@@ -7939,5 +7938,6 @@
   "description.pearlBed.boost": "+1 Fazendeiro",
   "description.cornSilkHair.boost": "+2 Milho",
   "raffle.newLocation": "Nova localização",
-  "raffle.newLocationDescription": "Os sorteios mensais agora podem ser encontrados na área de Leilões. Você pode continuar usando os bilhetes-prêmio para participar do sorteio mensal de prêmios."
+  "raffle.newLocationDescription": "Os sorteios mensais agora podem ser encontrados na área de Leilões. Você pode continuar usando os bilhetes-prêmio para participar do sorteio mensal de prêmios.",
+  "description.nautilus.boost": "+5 bobinas de pesca diárias"
 }

@@ -7749,7 +7749,6 @@
   "description.giant.isopod": "Dev bir okyanus sürüngenliği!",
   "description.nautilus": "Derinliklerde yüzen, sert kabuklu, denizde yaşayan bir salyangoz.",
   "description.dollocaris": "Uzun, keskin sırt yüzgecine sahip derin deniz balığı.",
-  "description.nautilus.boost": "???",
   "fishing.buyMoreReels.old": "{{gemPrice}} ile 5 makara satın alın",
   "discordNews.postedOn": "Discord'da {{date}} tarihinde yayınlandı",
   "discordNews.postedAgo": "Discord'da yayınlandı {{time}}",
@@ -7939,5 +7938,6 @@
   "description.pearlBed.boost": "+1 Farmhand",
   "description.cornSilkHair.boost": "+2 Corn",
   "raffle.newLocation": "Yeni konum",
-  "raffle.newLocationDescription": "Aylık çekilişler artık Müzayede alanında bulunabilir. Aylık tomurcuk çekilişine girmek için Ödül biletlerini kullanmaya devam edebilirsiniz."
+  "raffle.newLocationDescription": "Aylık çekilişler artık Müzayede alanında bulunabilir. Aylık tomurcuk çekilişine girmek için Ödül biletlerini kullanmaya devam edebilirsiniz.",
+  "description.nautilus.boost": "+5 günlük balıkçılık makarası"
 }

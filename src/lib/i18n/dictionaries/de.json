@@ -7749,7 +7749,6 @@
   "description.giant.isopod": "Ein riesiger Meeresschleicher!",
   "description.nautilus": "Eine Meeresschnecke mit harter Schale, die durch die Tiefen schwimmt.",
   "description.dollocaris": "Ein Tiefseefisch mit einer langen, scharfen Rückenflosse.",
-  "description.nautilus.boost": "???",
   "fishing.buyMoreReels.old": "Kaufe 5 Rollen mit {{gemPrice}}",
   "discordNews.postedOn": "Gepostet am {{date}} auf Discord",
   "discordNews.postedAgo": "Gepostet von {{time}} auf Discord",
@@ -7939,5 +7938,6 @@
   "description.pearlBed.boost": "+1 Farmarbeiter",
   "description.cornSilkHair.boost": "+2 Mais",
   "raffle.newLocation": "Neuer Standort",
-  "raffle.newLocationDescription": "Die monatlichen Verlosungen sind jetzt im Auktionsbereich zu finden. Sie können weiterhin Preiskarten verwenden, um an der monatlichen Knospenverlosung teilzunehmen."
+  "raffle.newLocationDescription": "Die monatlichen Verlosungen sind jetzt im Auktionsbereich zu finden. Sie können weiterhin Preiskarten verwenden, um an der monatlichen Knospenverlosung teilzunehmen.",
+  "description.nautilus.boost": "+5 tägliche Angelrollen"
 }

@@ -7749,7 +7749,6 @@
   "description.giant.isopod": "一个巨大的海洋小兵！",
   "description.nautilus": "一只生活在海中的蜗牛，有着坚硬的外壳，在深处游泳。",
   "description.dollocaris": "一种具有长而锋利的背鳍的深海鱼。",
-  "description.nautilus.boost": "？？",
   "fishing.buyMoreReels.old": "花费 {{gemPrice}} 钻石购买 5 次钓鱼次数",
   "discordNews.postedOn": "{{date}} 发布于 Discord",
   "discordNews.postedAgo": "{{time}} 发布于 Discord",
@@ -7939,5 +7938,6 @@
   "description.pearlBed.boost": "+1 Farmhand",
   "description.cornSilkHair.boost": "+2 玉米",
   "raffle.newLocation": "新地点",
-  "raffle.newLocationDescription": "现在可以在拍卖区找到每月抽奖活动。您可以继续使用奖券参加每月的BUD抽奖活动。"
+  "raffle.newLocationDescription": "现在可以在拍卖区找到每月抽奖活动。您可以继续使用奖券参加每月的BUD抽奖活动。",
+  "description.nautilus.boost": "每日 +5 个钓鱼卷轴"
 }

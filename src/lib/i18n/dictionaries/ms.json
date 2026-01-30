@@ -7749,7 +7749,6 @@
   "description.giant.isopod": "Melayap laut gergasi!",
   "description.nautilus": "Siput yang tinggal di laut dengan cangkang keras, berenang melalui kedalaman.",
   "description.dollocaris": "Ikan laut dalam dengan sirip punggung yang panjang dan tajam.",
-  "description.nautilus.boost": "???",
   "fishing.buyMoreReels.old": "Beli 5 gulungan dengan {{gemPrice}}",
   "discordNews.postedOn": "Dihantar pada {{date}} pada Discord",
   "discordNews.postedAgo": "Dihantar {{time}} pada Discord",
@@ -7939,5 +7938,6 @@
   "description.pearlBed.boost": "+1 Farmhand",
   "description.cornSilkHair.boost": "+2 Jagung",
   "raffle.newLocation": "Lokasi baru",
-  "raffle.newLocationDescription": "Undian bulanan kini boleh didapati di kawasan Lelongan. Anda boleh terus menggunakan tiket Hadiah untuk memasuki undian tunas bulanan."
+  "raffle.newLocationDescription": "Undian bulanan kini boleh didapati di kawasan Lelongan. Anda boleh terus menggunakan tiket Hadiah untuk memasuki undian tunas bulanan.",
+  "description.nautilus.boost": "+5 gulungan memancing harian"
 }

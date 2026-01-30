@@ -7749,7 +7749,6 @@
   "description.giant.isopod": "Un gigantesco mostro oceanico!",
   "description.nautilus": "Una lumaca marina dal guscio duro, che nuota nelle profondità.",
   "description.dollocaris": "Un pesce di acque profonde con una pinna dorsale lunga e affilata.",
-  "description.nautilus.boost": "???",
   "fishing.buyMoreReels.old": "Acquista 5 rulli con {{gemPrice}}",
   "discordNews.postedOn": "Pubblicato il {{date}} su Discord",
   "discordNews.postedAgo": "Pubblicato {{time}} su Discord",
@@ -7939,5 +7938,6 @@
   "description.pearlBed.boost": "+1 Farmhand",
   "description.cornSilkHair.boost": "+2 Mais",
   "raffle.newLocation": "Nuova sede",
-  "raffle.newLocationDescription": "Le lotterie mensili si trovano ora nell'area Aste. Puoi continuare a utilizzare i biglietti premio per partecipare alla lotteria mensile con offerte."
+  "raffle.newLocationDescription": "Le lotterie mensili si trovano ora nell'area Aste. Puoi continuare a utilizzare i biglietti premio per partecipare alla lotteria mensile con offerte.",
+  "description.nautilus.boost": "+5 mulinelli da pesca giornalieri"
 }
