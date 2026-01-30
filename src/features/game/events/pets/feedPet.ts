@@ -245,6 +245,14 @@ export function getPetFoodRequests(
   }
 }
 
+export function getRequiredFeedAmount(game: GameState): number {
+  // Free feeding with Paw Aura
+  if (isWearableActive({ game, name: "Paw Aura" })) {
+    return 0;
+  }
+  return 1;
+}
+
 export type FeedPetAction = {
   type: "pet.fed";
   petId: PetName | number;
@@ -326,8 +334,8 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
     const { inventory } = stateCopy;
 
     const foodInInventory = inventory[food] ?? new Decimal(0);
-    const hasPawAura = isWearableActive({ game: stateCopy, name: "Paw Aura" });
-    if (!hasPawAura && foodInInventory.lessThan(1)) {
+    const requiredAmount = getRequiredFeedAmount(stateCopy);
+    if (foodInInventory.lessThan(requiredAmount)) {
       throw new Error("Not enough food in inventory");
     }
 
@@ -337,8 +345,8 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
     }
     petData.requests.foodFed.push(food);
     petData.requests.fedAt = createdAt;
-    if (!hasPawAura) {
-      inventory[food] = foodInInventory.minus(1);
+    if (requiredAmount > 0) {
+      inventory[food] = foodInInventory.minus(requiredAmount);
     }
 
     // Get base pet XP/Energy

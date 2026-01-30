@@ -41,9 +41,14 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Nautilus: new Decimal(1),
     Dollocaris: new Decimal(1),
     // "Lifetime Farmer Banner": new Decimal(1),
+    Barkley: new Decimal(1),
+    Meowchi: new Decimal(1),
+    "Pet House": new Decimal(1),
   },
   previousInventory: {},
-  wardrobe: {},
+  wardrobe: {
+    "Paw Aura": 1,
+  },
   previousWardrobe: {},
   bank: { taxFreeSFL: 0, withdrawnAmount: 0 },
 
@@ -63,6 +68,10 @@ export const STATIC_OFFLINE_FARM: GameState = {
   bumpkin: {
     ...INITIAL_BUMPKIN,
     experience: 1000000,
+    equipped: {
+      ...INITIAL_BUMPKIN.equipped,
+      aura: "Paw Aura",
+    },
   },
 
   minigames: {

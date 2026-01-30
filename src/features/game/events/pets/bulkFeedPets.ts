@@ -2,9 +2,8 @@ import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { CookableName } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
 import { PetName } from "features/game/types/pets";
-import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
-import { feedPet } from "./feedPet";
+import { feedPet, getRequiredFeedAmount } from "./feedPet";
 
 export type BulkFeedPetsAction = {
   type: "pets.bulkFeed";
@@ -35,8 +34,8 @@ export function bulkFeedPets({
     {},
   );
 
-  const hasPawAura = isWearableActive({ game: state, name: "Paw Aura" });
-  if (!hasPawAura) {
+  const requiredAmount = getRequiredFeedAmount(state);
+  if (requiredAmount > 0) {
     getObjectEntries(foodRequired).forEach(([food, amount]) => {
       const foodInInventory = state.inventory[food];
       if (!foodInInventory || foodInInventory.lt(amount ?? 0)) {
