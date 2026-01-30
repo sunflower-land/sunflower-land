@@ -128,6 +128,7 @@ const FEATURE_FLAGS = {
   PET_GUIDE: defaultFeatureFlag,
   CHAPTER_TRACKS: defaultFeatureFlag,
   CHAPTER_COLLECTIONS: defaultFeatureFlag,
+  REMOVE_CROPS: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 const TIME_BASED_FEATURE_FLAGS = {

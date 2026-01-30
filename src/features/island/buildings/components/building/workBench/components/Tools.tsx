@@ -205,6 +205,17 @@ export const Tools: React.FC = () => {
         <>
           {getObjectEntries(WORKBENCH_TOOLS)
             .filter(([, tool]) => !tool.disabled)
+            // if player does not have remove crops feature, filter out rusty shovels
+            .filter(
+              ([, tool]) =>
+                tool.name !== "Rusty Shovel" ||
+                hasFeatureAccess(state, "REMOVE_CROPS"),
+            )
+            .filter(
+              ([, tool]) =>
+                !(tool.name in WATER_TRAP) ||
+                hasFeatureAccess(state, "CRUSTACEANS"),
+            )
             .map(([toolName, tool]) => {
               const { requiredIsland } = tool;
               const isLocked =
@@ -212,13 +223,6 @@ export const Tools: React.FC = () => {
                   state.island.type,
                   requiredIsland,
                 ) || !hasRequiredLevel(tool);
-
-              if (
-                toolName in WATER_TRAP &&
-                !hasFeatureAccess(state, "CRUSTACEANS")
-              ) {
-                return null;
-              }
 
               return (
                 <Box

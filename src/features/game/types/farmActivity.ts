@@ -204,6 +204,8 @@ export type FarmActivityName =
   | "Building Upgraded"
   | "Crop Fertilised"
   | "Crop Removed"
+  | `${CropName} Removed`
+  | `${GreenHouseCropName} Removed`
   | "Treasure Dug"
   | "Treasure Searched"
   | "Treasure Drilled"
@@ -235,11 +237,15 @@ export function trackFarmActivity(
   farmAnalytics: GameState["farmActivity"],
   amount = new Decimal(1),
 ) {
-  const previous = farmAnalytics || {};
+  const previous = { ...farmAnalytics };
   const activityAmount = previous[activityName] || 0;
 
-  return {
-    ...previous,
-    [activityName]: amount.add(activityAmount).toNumber(),
-  };
+  const newAmount = amount.add(activityAmount);
+
+  if (newAmount.lte(0)) {
+    delete previous[activityName];
+    return { ...previous };
+  }
+
+  return { ...previous, [activityName]: newAmount.toNumber() };
 }
