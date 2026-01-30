@@ -7943,5 +7943,8 @@
   "description.crimstoneSpikesHair.boost": "Il mio crimstone è gratuito",
   "description.pawAura.boost": "Dai da mangiare agli animali domestici gratis",
   "description.victoriasApron.boost": "33% di possibilità di aggiornare le richieste di animali domestici",
-  "description.beastShoes.boost": "XP per animali domestici +100/+250 (medio/duro)"
+  "description.beastShoes.boost": "XP per animali domestici +100/+250 (medio/duro)",
+  "landTools": "Attrezzi terrestri",
+  "waterTools": "Utensili per acqua",
+  "animalTools": "Utensili per animali"
 }

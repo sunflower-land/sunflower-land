@@ -7943,5 +7943,8 @@
   "description.crimstoneSpikesHair.boost": "크림스톤을 무료로 채굴하세요",
   "description.pawAura.boost": "반려동물에게 무료로 먹이주기",
   "description.victoriasApron.boost": "33% 의 확률로 애완동물 요청을 새로 고칠 수 있습니다.",
-  "description.beastShoes.boost": "펫 경험치 +100/+250 (메드/하드)"
+  "description.beastShoes.boost": "펫 경험치 +100/+250 (메드/하드)",
+  "landTools": "랜드 툴",
+  "waterTools": "워터 툴",
+  "animalTools": "동물 도구"
 }

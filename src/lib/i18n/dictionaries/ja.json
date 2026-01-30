@@ -7943,5 +7943,8 @@
   "description.crimstoneSpikesHair.boost": "クリムストーンを無料で採掘",
   "description.pawAura.boost": "ペットに無料で餌をやる",
   "description.victoriasApron.boost": "33% の確率でペットリクエストを更新できる",
-  "description.beastShoes.boost": "ペット経験値 +100/+250 (中型/ハード)"
+  "description.beastShoes.boost": "ペット経験値 +100/+250 (中型/ハード)",
+  "landTools": "ランドツール",
+  "waterTools": "ウォーターツール",
+  "animalTools": "動物用ツール"
 }

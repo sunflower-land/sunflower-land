@@ -1,4 +1,7 @@
 {
+  "landTools": "Land Tools",
+  "waterTools": "Water Tools",
+  "animalTools": "Animal Tools",
   "fishingPuzzle.freeAttemptAvailable": "You have 1 free attempt available. Would you like to use it?",
   "guaranteedCatch.guide.info": "Buy using one of the following baits you are able to select one for the fish from the category as your guaranteed catch.",
   "guaranteedCatch.guide.title": "Guaranteed Fishing Guide",

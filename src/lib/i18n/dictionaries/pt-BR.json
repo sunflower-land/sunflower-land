@@ -7943,5 +7943,8 @@
   "description.crimstoneSpikesHair.boost": "Minere crimstone gratuitamente",
   "description.pawAura.boost": "Alimente animais de estimação gratuitamente",
   "description.victoriasApron.boost": "33% de chance de atualizar solicitações de animais de estimação",
-  "description.beastShoes.boost": "XP para animais de estimação +100/+250 (Médio/Difícil)"
+  "description.beastShoes.boost": "XP para animais de estimação +100/+250 (Médio/Difícil)",
+  "landTools": "Ferramentas terrestres",
+  "waterTools": "Ferramentas de água",
+  "animalTools": "Ferramentas para animais"
 }

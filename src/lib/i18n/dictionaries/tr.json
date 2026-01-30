@@ -7943,5 +7943,8 @@
   "description.crimstoneSpikesHair.boost": "Bedava kızıl taşı madeni",
   "description.pawAura.boost": "Evcil hayvanları ücretsiz besleyin",
   "description.victoriasApron.boost": "%33 evcil hayvan isteklerini yenileme şansı",
-  "description.beastShoes.boost": "Evcil Hayvan XP +100/+250 (Orta/Zor)"
+  "description.beastShoes.boost": "Evcil Hayvan XP +100/+250 (Orta/Zor)",
+  "landTools": "Arazi Araçları",
+  "waterTools": "Su Araçları",
+  "animalTools": "Hayvan Araçları"
 }

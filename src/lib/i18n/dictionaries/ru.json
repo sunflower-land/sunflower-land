@@ -7943,5 +7943,8 @@
   "description.crimstoneSpikesHair.boost": "Mine crimstone for free",
   "description.pawAura.boost": "Feed pets for free",
   "description.victoriasApron.boost": "33% chance to refresh pet requests",
-  "description.beastShoes.boost": "Pet XP +100/+250 (Med/Hard)"
+  "description.beastShoes.boost": "Pet XP +100/+250 (Med/Hard)",
+  "landTools": "Land Tools",
+  "waterTools": "Water Tools",
+  "animalTools": "Animal Tools"
 }

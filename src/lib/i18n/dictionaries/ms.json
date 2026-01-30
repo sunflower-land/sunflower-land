@@ -7943,5 +7943,8 @@
   "description.crimstoneSpikesHair.boost": "Mine crimstone secara percuma",
   "description.pawAura.boost": "Makan haiwan peliharaan secara percuma",
   "description.victoriasApron.boost": "Peluang 33% untuk menyegarkan permintaan haiwan kesayangan",
-  "description.beastShoes.boost": "Haiwan Pet XP +100/+250 (Med/Keras)"
+  "description.beastShoes.boost": "Haiwan Pet XP +100/+250 (Med/Keras)",
+  "landTools": "Alat Tanah",
+  "waterTools": "Alat Air",
+  "animalTools": "Alat Haiwan"
 }

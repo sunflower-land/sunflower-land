@@ -7943,5 +7943,8 @@
   "description.crimstoneSpikesHair.boost": "免费开采猩红石",
   "description.pawAura.boost": "免费喂宠物",
   "description.victoriasApron.boost": "33% 的几率刷新宠物请求",
-  "description.beastShoes.boost": "宠物经验值 +100/+250（中/硬）"
+  "description.beastShoes.boost": "宠物经验值 +100/+250（中/硬）",
+  "landTools": "陆地工具",
+  "waterTools": "水上工具",
+  "animalTools": "动物工具"
 }

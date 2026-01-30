@@ -7943,5 +7943,8 @@
   "description.crimstoneSpikesHair.boost": "Minen Sie Crimstone kostenlos",
   "description.pawAura.boost": "Füttern Sie Haustiere kostenlos",
   "description.victoriasApron.boost": "33% Chance, Anfragen für Haustiere zu aktualisieren",
-  "description.beastShoes.boost": "Tier-EP +100/+250 (mittel/schwer)"
+  "description.beastShoes.boost": "Tier-EP +100/+250 (mittel/schwer)",
+  "landTools": "Landwerkzeuge",
+  "waterTools": "Wasserwerkzeuge",
+  "animalTools": "Werkzeuge für Tiere"
 }

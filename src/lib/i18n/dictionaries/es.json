@@ -7943,5 +7943,8 @@
   "description.crimstoneSpikesHair.boost": "Extrae crimstone gratis",
   "description.pawAura.boost": "Alimenta a tus mascotas gratis",
   "description.victoriasApron.boost": "33% de probabilidad de actualizar las solicitudes de mascotas",
-  "description.beastShoes.boost": "XP de mascota +100/+250 (media/dura)"
+  "description.beastShoes.boost": "XP de mascota +100/+250 (media/dura)",
+  "landTools": "Herramientas terrestres",
+  "waterTools": "Herramientas acuáticas",
+  "animalTools": "Herramientas para animales"
 }
