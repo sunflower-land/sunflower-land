@@ -120,93 +120,35 @@ export function isCropGrowing(plot: CropPlot) {
   return !isReadyToHarvest(Date.now(), crop, cropDetails);
 }
 
-/**
- * Based on items, the output will be different
- */
-export function getCropYieldAmount({
-  crop,
-  game,
-  plot,
-  createdAt,
-  prngArgs,
-}: {
+type CropYieldAmountArgs = {
   crop: CropName | GreenHouseCropName;
   plot?: CropPlot;
   game: GameState;
   createdAt: number;
-  prngArgs?: { farmId: number; counter: number };
-}): { amount: number; aoe: AOE; boostsUsed: BoostName[] } {
+  prngArgs: { farmId: number; counter: number };
+};
+
+const getMultiplicativeCropYield = ({
+  crop,
+  game,
+  prngArgs,
+}: CropYieldAmountArgs) => {
   let amount = 1;
   const boostsUsed: BoostName[] = [];
 
-  const { inventory, bumpkin, buds, aoe } = game;
-  const updatedAoe = cloneDeep(aoe);
-  const skills = bumpkin?.skills ?? {};
-  if (prngArgs) {
-    const itemId = KNOWN_IDS[crop];
-    const criticalDrop = (criticalHitName: CriticalHitName, chance: number) =>
-      prngChance({ ...prngArgs, itemId, chance, criticalHitName });
+  const { inventory } = game;
 
-    if (
-      isWearableActive({ name: "Green Amulet", game }) &&
-      criticalDrop("Green Amulet", 10)
-    ) {
-      amount *= 10;
-      boostsUsed.push("Green Amulet");
-    }
+  const itemId = KNOWN_IDS[crop];
+  const criticalDrop = (criticalHitName: CriticalHitName, chance: number) =>
+    prngChance({ ...prngArgs, itemId, chance, criticalHitName });
 
-    if (
-      crop === "Potato" &&
-      isCollectibleBuilt({ name: "Peeled Potato", game }) &&
-      criticalDrop("Peeled Potato", 20)
-    ) {
-      amount += 1;
-      boostsUsed.push("Peeled Potato");
-    }
-
-    // Greenhouse Gamble 25% chance of +1 yield
-    if (
-      isGreenhouseCrop(crop) &&
-      skills["Greenhouse Gamble"] &&
-      criticalDrop("Greenhouse Gamble", 25)
-    ) {
-      amount += 1;
-      boostsUsed.push("Greenhouse Gamble");
-    }
-
-    if (
-      crop === "Potato" &&
-      isCollectibleBuilt({ name: "Potent Potato", game }) &&
-      criticalDrop("Potent Potato", 10 / 3)
-    ) {
-      amount += 10;
-      boostsUsed.push("Potent Potato");
-    }
-
-    if (
-      crop === "Sunflower" &&
-      isCollectibleBuilt({ name: "Stellar Sunflower", game }) &&
-      criticalDrop("Stellar Sunflower", 10 / 3)
-    ) {
-      amount += 10;
-      boostsUsed.push("Stellar Sunflower");
-    }
-
-    if (
-      crop === "Radish" &&
-      isCollectibleBuilt({ name: "Radical Radish", game }) &&
-      criticalDrop("Radical Radish", 10 / 3)
-    ) {
-      amount += 10;
-      boostsUsed.push("Radical Radish");
-    }
+  if (
+    isWearableActive({ name: "Green Amulet", game }) &&
+    criticalDrop("Green Amulet", 10)
+  ) {
+    amount *= 10;
+    boostsUsed.push("Green Amulet");
   }
-
-  if (isBuffActive({ buff: "Power hour", game })) {
-    amount += 0.2;
-  }
-
-  // Specific crop multipliers
   if (
     crop === "Cauliflower" &&
     isCollectibleBuilt({ name: "Golden Cauliflower", game })
@@ -263,6 +205,76 @@ export function getCropYieldAmount({
     boostsUsed.push("Coder");
   }
 
+  return { amount, boostsUsed };
+};
+
+/**
+ * Based on items, the output will be different
+ */
+export function getCropYieldAmount({
+  crop,
+  game,
+  plot,
+  createdAt,
+  prngArgs,
+}: CropYieldAmountArgs): { amount: number; aoe: AOE; boostsUsed: BoostName[] } {
+  const { amount: multiplicativeAmount, boostsUsed } =
+    getMultiplicativeCropYield({
+      crop,
+      game,
+      plot,
+      createdAt,
+      prngArgs,
+    });
+  let amount = multiplicativeAmount;
+
+  const { bumpkin, buds, aoe } = game;
+  const updatedAoe = cloneDeep(aoe);
+  const skills = bumpkin?.skills ?? {};
+  const itemId = KNOWN_IDS[crop];
+  const criticalDrop = (criticalHitName: CriticalHitName, chance: number) =>
+    prngChance({ ...prngArgs, itemId, chance, criticalHitName });
+
+  if (isBuffActive({ buff: "Power hour", game })) {
+    amount += 0.2;
+  }
+
+  if (
+    crop === "Potato" &&
+    isCollectibleBuilt({ name: "Peeled Potato", game }) &&
+    criticalDrop("Peeled Potato", 20)
+  ) {
+    amount += 1;
+    boostsUsed.push("Peeled Potato");
+  }
+
+  if (
+    crop === "Potato" &&
+    isCollectibleBuilt({ name: "Potent Potato", game }) &&
+    criticalDrop("Potent Potato", 10 / 3)
+  ) {
+    amount += 10;
+    boostsUsed.push("Potent Potato");
+  }
+
+  if (
+    crop === "Sunflower" &&
+    isCollectibleBuilt({ name: "Stellar Sunflower", game }) &&
+    criticalDrop("Stellar Sunflower", 10 / 3)
+  ) {
+    amount += 10;
+    boostsUsed.push("Stellar Sunflower");
+  }
+
+  if (
+    crop === "Radish" &&
+    isCollectibleBuilt({ name: "Radical Radish", game }) &&
+    criticalDrop("Radical Radish", 10 / 3)
+  ) {
+    amount += 10;
+    boostsUsed.push("Radical Radish");
+  }
+
   if (crop === "Cabbage") {
     // Yields + 0.25 Cabagge with Cabbage boy and +0.5 if Cabbage Boy and Girl are built
     if (isCollectibleBuilt({ name: "Cabbage Boy", game })) {
@@ -273,14 +285,10 @@ export function getCropYieldAmount({
         boostsUsed.push("Cabbage Girl");
       }
       boostsUsed.push("Cabbage Boy");
-    }
-
-    if (!isCollectibleBuilt({ name: "Cabbage Boy", game })) {
+    } else if (isCollectibleBuilt({ name: "Karkinos", game })) {
       // Yields +0.1 Cabbage with Karkinos
-      if (isCollectibleBuilt({ name: "Karkinos", game })) {
-        amount += 0.1;
-        boostsUsed.push("Karkinos");
-      }
+      amount += 0.1;
+      boostsUsed.push("Karkinos");
     }
   }
 
@@ -364,30 +372,6 @@ export function getCropYieldAmount({
     amount += 2;
     boostsUsed.push("Giant Kale");
   }
-  // Rice
-  if (crop === "Rice" && isWearableActive({ name: "Non La Hat", game })) {
-    amount += 1;
-    boostsUsed.push("Non La Hat");
-  }
-
-  if (crop === "Rice" && isCollectibleBuilt({ name: "Rice Panda", game })) {
-    amount += 0.25;
-    boostsUsed.push("Rice Panda");
-  }
-
-  if (
-    isGreenhouseCrop(crop) &&
-    isCollectibleBuilt({ name: "Pharaoh Gnome", game })
-  ) {
-    amount += 2;
-    boostsUsed.push("Pharaoh Gnome");
-  }
-
-  // Olive
-  if (crop === "Olive" && isWearableActive({ name: "Olive Shield", game })) {
-    amount += 1;
-    boostsUsed.push("Olive Shield");
-  }
 
   if (plot?.fertiliser?.name === "Sprout Mix") {
     amount += 0.2;
@@ -395,29 +379,6 @@ export function getCropYieldAmount({
       amount += 0.2;
       boostsUsed.push("Knowledge Crab");
     }
-  }
-
-  if (isGreenhouseCrop(crop) && skills["Glass Room"]) {
-    amount += 0.1;
-    boostsUsed.push("Glass Room");
-  }
-
-  if (isGreenhouseCrop(crop) && skills["Seeded Bounty"]) {
-    amount += 0.5;
-    boostsUsed.push("Seeded Bounty");
-  }
-
-  if (isGreenhouseCrop(crop) && skills["Greasy Plants"]) {
-    amount += 1;
-    boostsUsed.push("Greasy Plants");
-  }
-
-  if (
-    crop === "Olive" &&
-    isWearableActive({ game, name: "Olive Royalty Shirt" })
-  ) {
-    amount += 0.25;
-    boostsUsed.push("Olive Royalty Shirt");
   }
 
   //Seasonal Additions
