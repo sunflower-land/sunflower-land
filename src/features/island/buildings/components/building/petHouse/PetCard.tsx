@@ -9,6 +9,7 @@ import {
   getPetEnergy,
   getPetExperience,
   getPetFoodRequests,
+  getRequiredFeedAmount,
 } from "features/game/events/pets/feedPet";
 import { Context } from "features/game/GameProvider";
 import { CookableName } from "features/game/types/consumables";
@@ -50,10 +51,16 @@ export const getAdjustedFoodCount = (
   inventory: Inventory,
   isBulkFeed?: boolean,
   selectedFeed?: { petId: PetName | number; food: CookableName }[],
+  requiredFeedAmount?: number,
 ) => {
   const baseFoodCount = inventory[foodName] ?? new Decimal(0);
 
   if (!isBulkFeed || !selectedFeed) {
+    return baseFoodCount;
+  }
+
+  // Paw Aura: free feeding — don't decrement displayed count when selecting food
+  if (requiredFeedAmount === 0) {
     return baseFoodCount;
   }
 
@@ -71,12 +78,14 @@ export const hasFoodInInventory = (
   inventory: Inventory,
   isBulkFeed?: boolean,
   selectedFeed?: { petId: PetName | number; food: CookableName }[],
+  requiredFeedAmount?: number,
 ) => {
   const adjustedCount = getAdjustedFoodCount(
     foodName,
     inventory,
     isBulkFeed,
     selectedFeed,
+    requiredFeedAmount,
   );
   return adjustedCount.greaterThan(0);
 };
@@ -156,19 +165,25 @@ export const PetCard: React.FC<Props> = ({
 
   // Memoize the food items to avoid recreating them on every render
   const foodItems = useMemo(() => {
+    const requiredFeedAmount = getRequiredFeedAmount(state);
     return petData.requests.food.map((food) => {
       const foodImage = ITEM_DETAILS[food].image;
-      const canFeed = hasFoodInInventory(
-        food,
-        inventory,
-        isBulkFeed,
-        selectedFeed,
-      );
+      // If PawAura is active (free feeding), always allow feeding
+      const canFeed =
+        requiredFeedAmount === 0 ||
+        hasFoodInInventory(
+          food,
+          inventory,
+          isBulkFeed,
+          selectedFeed,
+          requiredFeedAmount,
+        );
       const foodCount = getAdjustedFoodCount(
         food,
         inventory,
         isBulkFeed,
         selectedFeed,
+        requiredFeedAmount,
       );
 
       const alreadyFed = isFoodAlreadyFed(petData, food);
@@ -211,10 +226,41 @@ export const PetCard: React.FC<Props> = ({
       };
     });
   }, [petData, inventory, isBulkFeed, selectedFeed, state, petId]);
-  const fetches = [...getPetFetches(petData).fetches].sort(
-    (a, b) => a.level - b.level,
-  );
+
   const { level } = getPetLevel(petData.experience);
+  const fetches = [...getPetFetches(petData).fetches].sort((a, b) => {
+    const aUnlocked = level >= a.level;
+    const bUnlocked = level >= b.level;
+
+    // Unlocked fetches first
+    if (aUnlocked !== bUnlocked) {
+      return aUnlocked ? -1 : 1;
+    }
+
+    // Among unlocked fetches, sort by energy required
+    if (aUnlocked && bUnlocked) {
+      const aEnergy = PET_RESOURCES[a.name].energy;
+      const bEnergy = PET_RESOURCES[b.name].energy;
+
+      if (aEnergy !== bEnergy) {
+        return aEnergy - bEnergy;
+      }
+
+      // Deterministic tie-breakers
+      if (a.level !== b.level) {
+        return a.level - b.level;
+      }
+
+      return a.name.localeCompare(b.name);
+    }
+
+    // Locked fetches at the back, sorted by required level
+    if (a.level !== b.level) {
+      return a.level - b.level;
+    }
+
+    return a.name.localeCompare(b.name);
+  });
 
   const fetchItems = useMemo(() => {
     return fetches.map((fetch) => {
@@ -223,6 +269,7 @@ export const PetCard: React.FC<Props> = ({
       const energyRequired = PET_RESOURCES[fetch.name].energy;
       const hasEnoughEnergy = petData.energy >= energyRequired;
       const isDisabled = !hasRequiredLevel || !hasEnoughEnergy;
+      const inventoryCount = inventory[fetch.name] ?? new Decimal(0);
       return {
         fetch,
         isDisabled,
@@ -230,9 +277,10 @@ export const PetCard: React.FC<Props> = ({
         energyRequired,
         hasRequiredLevel,
         hasEnoughEnergy,
+        inventoryCount,
       };
     });
-  }, [fetches, level, petData.energy]);
+  }, [fetches, level, petData.energy, inventory]);
 
   return (
     <PetInfo petId={petId} petData={petData}>
@@ -435,6 +483,7 @@ export const PetCardContent: React.FC<{
     energyRequired: number;
     hasRequiredLevel: boolean;
     hasEnoughEnergy: boolean;
+    inventoryCount: Decimal;
   }[];
   handleFoodHover: (food: CookableName, event: React.MouseEvent) => void;
   handleFetchHover: (fetch: PetResourceName, event: React.MouseEvent) => void;
@@ -470,21 +519,8 @@ export const PetCardContent: React.FC<{
 }) => {
   const { t } = useAppTranslation();
   const now = useNow({ live: true });
-  if (isPetNapping(petData, now)) {
-    return (
-      <div className="flex flex-col gap-1 w-3/4 sm:w-auto">
-        <Label type={"warning"}>{t("pets.napping")}</Label>
-        <p className="text-xs p-1">
-          {t("pets.nappingDescription", { pet: petData.name })}
-        </p>
-        <Label type="success" secondaryIcon={xpIcon}>{`+10`}</Label>
-        <Button onClick={() => handlePetPet(petId)}>
-          {t("pets.petPet", { pet: petData.name })}
-        </Button>
-      </div>
-    );
-  }
 
+  // Neglected takes precedence: cheer first, then pet
   if (isPetNeglected(petData, now)) {
     return (
       <div className="flex flex-col gap-1 w-3/4 sm:w-auto">
@@ -495,6 +531,21 @@ export const PetCardContent: React.FC<{
         <Label type="danger" secondaryIcon={xpIcon}>{`-500`}</Label>
         <Button onClick={() => handleNeglectPet(petId)}>
           {t("pets.cheerPet", { pet: petData.name })}
+        </Button>
+      </div>
+    );
+  }
+
+  if (isPetNapping(petData, now)) {
+    return (
+      <div className="flex flex-col gap-1 w-3/4 sm:w-auto">
+        <Label type={"warning"}>{t("pets.napping")}</Label>
+        <p className="text-xs p-1">
+          {t("pets.nappingDescription", { pet: petData.name })}
+        </p>
+        <Label type="success" secondaryIcon={xpIcon}>{`+10`}</Label>
+        <Button onClick={() => handlePetPet(petId)}>
+          {t("pets.petPet", { pet: petData.name })}
         </Button>
       </div>
     );
@@ -576,7 +627,7 @@ export const PetCardContent: React.FC<{
 
       <div className="flex flex-col gap-4">
         <Label type={"default"}>{`Fetches`}</Label>
-        <div className="flex flex-wrap gap-1 ml-2">
+        <div className="flex flex-wrap gap-1 gap-y-4 ml-2">
           {fetchItems.map(
             ({
               fetch,
@@ -585,6 +636,7 @@ export const PetCardContent: React.FC<{
               energyRequired,
               hasRequiredLevel,
               hasEnoughEnergy,
+              inventoryCount,
             }) => (
               <GridItem
                 key={fetch.name}
@@ -594,6 +646,7 @@ export const PetCardContent: React.FC<{
                 onClick={() => handleFetchPet(petId, fetch.name)}
                 onMouseEnter={(e) => handleFetchHover(fetch.name, e)}
                 onMouseLeave={() => setHoveredFetch(null)}
+                count={inventoryCount}
                 showConfirm={false}
                 bottomLabels={[
                   {
