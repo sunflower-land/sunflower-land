@@ -119,7 +119,7 @@ export const RaffleLeaderboardTable: React.FC<Props> = ({
                         className="h-4 mr-0.5"
                       />
                       <span className="text-xs truncate">
-                        {winner.nft.includes("Bud") ? "Bud ?" : "Pet ?"}
+                        {winner.nft.includes("Bud") ? "Bud NFT ?" : "Pet NFT ?"}
                       </span>
                     </div>
                   )}
@@ -178,8 +178,13 @@ export const RafflePrizeTable: React.FC<{
                   ))}
                   {prize.nft && (
                     <div className="flex items-center">
-                      <img src={petEggNFT} className="h-4 mr-1" />
-                      <span className="text-xs truncate">{`${prize.nft}`}</span>
+                      <img
+                        src={
+                          prize.nft.includes("Bud") ? budSeedling : petEggNFT
+                        }
+                        className="h-4 mr-1"
+                      />
+                      <span className="text-xs truncate">{`${prize.nft.includes("Bud") ? "Bud NFT ?" : "Pet NFT ?"}`}</span>
                     </div>
                   )}
                 </div>

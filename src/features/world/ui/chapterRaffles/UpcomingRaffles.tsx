@@ -416,7 +416,7 @@ const getPrizeDisplay = ({
   if (nft) {
     const isBud = nft.includes("Bud");
     return {
-      name: isBud ? "Bud ?" : "Pet ?",
+      name: isBud ? "Bud NFT ?" : "Pet NFT ?",
       image: isBud ? budSeedling : petEggNFT,
       type: "nft" as const,
     };
