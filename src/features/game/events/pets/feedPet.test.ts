@@ -1239,7 +1239,7 @@ describe("feedPet", () => {
                 fedAt: now,
               },
               energy: 0,
-              experience: 0,
+              experience: 5500,
               pettedAt: now,
             },
           },
@@ -1266,13 +1266,14 @@ describe("feedPet", () => {
       createdAt: now,
     });
 
-    expect(state.pets?.common?.Barkley?.experience).toEqual(550);
+    expect(state.pets?.common?.Barkley?.experience).toEqual(6050);
   });
 
   it("resets pet requests with Victoria's Apron on completion", () => {
     const bumpkinId = INITIAL_FARM.bumpkin.id;
     const itemId = stringToInteger("Barkley");
-    const baseTime = Date.now();
+    const now = Date.now();
+    const baseTime = now;
     let createdAt = baseTime;
     let attempts = 0;
     while (
@@ -1319,9 +1320,9 @@ describe("feedPet", () => {
         collectibles: {
           Barkley: [
             {
-              createdAt,
+              createdAt: now,
               id: "1",
-              readyAt: createdAt,
+              readyAt: now,
               coordinates: { x: 1, y: 1 },
             },
           ],
