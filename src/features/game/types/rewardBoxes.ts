@@ -127,10 +127,10 @@ export const REWARD_BOXES: Record<RewardBoxName, RewardBoxDetails> = {
       { items: { "Fishing Lure": 5 }, weighting: 100 },
 
       // Good
-      { coins: 2500, weighting: 100 },
-      { coins: 5000, weighting: 100 },
-      { items: { Gem: 100 }, weighting: 10 },
-      { items: { Gem: 350 }, weighting: 5 },
+      { items: { Gem: 30 }, weighting: 100 },
+      { items: { Gem: 50 }, weighting: 100 },
+      { items: { Gem: 75 }, weighting: 10 },
+      { items: { Gem: 250 }, weighting: 5 },
     ],
   },
   "Fossil Shell": {
