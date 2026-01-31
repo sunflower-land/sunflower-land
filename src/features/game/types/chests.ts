@@ -38,17 +38,11 @@ export const MEGASTORE_RESTRICTED_ITEMS: (InventoryItemName | BumpkinItem)[] = [
   "Pet Egg",
 ];
 
-export const CHAPTER_REWARDS: (
-  weight: number,
-  chestTier: "basic" | "rare" | "luxury",
-) => RewardBoxReward[] = (weight, chestTier) => {
+export const CHAPTER_REWARDS = (weight: number): RewardBoxReward[] => {
   const store = MEGASTORE[currentChapter];
   const rewards: RewardBoxReward[] = [];
 
   getObjectEntries(MEGASTORE_TIER_WEIGHTS).forEach(([tier, tierWeight]) => {
-    if (chestTier === "basic" && (tier === "mega" || tier === "epic")) return;
-    if (chestTier === "rare" && tier === "mega") return;
-
     const items = store[tier].items;
 
     items.forEach((item) => {
@@ -60,8 +54,7 @@ export const CHAPTER_REWARDS: (
           items: { [item.collectible]: 1 },
           weighting: weight * tierWeight,
         });
-      }
-      if (
+      } else if (
         isWearable(item) &&
         !MEGASTORE_RESTRICTED_ITEMS.includes(item.wearable)
       ) {
@@ -104,7 +97,7 @@ export const BASIC_REWARDS: () => RewardBoxReward[] = () => [
   { items: { "Blueberry Jam": 3 }, weighting: 100 * CHEST_MULTIPLIER },
   { items: { Rug: 1 }, weighting: 25 * CHEST_MULTIPLIER },
   { items: { "Prize Ticket": 1 }, weighting: 5 * CHEST_MULTIPLIER },
-  ...CHAPTER_REWARDS(20 * CHEST_MULTIPLIER, "basic"),
+  ...CHAPTER_REWARDS(20 * CHEST_MULTIPLIER),
 ];
 
 export const RARE_REWARDS: () => RewardBoxReward[] = () => [
@@ -134,7 +127,7 @@ export const RARE_REWARDS: () => RewardBoxReward[] = () => [
   { items: { "Goblin Brunch": 3 }, weighting: 50 * CHEST_MULTIPLIER },
   { items: { "Bumpkin Roast": 3 }, weighting: 40 * CHEST_MULTIPLIER },
   { items: { "Prize Ticket": 1 }, weighting: 20 * CHEST_MULTIPLIER },
-  ...CHAPTER_REWARDS(50 * CHEST_MULTIPLIER, "rare"),
+  ...CHAPTER_REWARDS(50 * CHEST_MULTIPLIER),
 ];
 
 export const LUXURY_REWARDS: () => RewardBoxReward[] = () => [
@@ -156,7 +149,7 @@ export const LUXURY_REWARDS: () => RewardBoxReward[] = () => [
   { items: { "Goblin Brunch": 10 }, weighting: 25 * CHEST_MULTIPLIER },
   { items: { "Bumpkin Roast": 10 }, weighting: 25 * CHEST_MULTIPLIER },
   { items: { "Prize Ticket": 1 }, weighting: 50 * CHEST_MULTIPLIER },
-  ...CHAPTER_REWARDS(50 * CHEST_MULTIPLIER, "luxury"),
+  ...CHAPTER_REWARDS(50 * CHEST_MULTIPLIER),
 ];
 
 export const BUD_BOX_REWARDS: RewardBoxReward[] = [
