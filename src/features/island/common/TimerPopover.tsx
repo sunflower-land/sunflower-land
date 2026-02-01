@@ -9,6 +9,8 @@ interface Props {
   image: string;
   description: string;
   timeLeft: number;
+  secondaryImage?: string | undefined;
+  secondaryDescription?: string;
 }
 
 export const TimerPopover: React.FC<Props> = ({
@@ -16,7 +18,11 @@ export const TimerPopover: React.FC<Props> = ({
   image,
   description,
   timeLeft,
+  secondaryImage,
+  secondaryDescription,
 }) => {
+  const hasSecondRow = secondaryImage != null || secondaryDescription != null;
+
   return (
     <InnerPanel
       className={classNames(
@@ -27,11 +33,19 @@ export const TimerPopover: React.FC<Props> = ({
         },
       )}
     >
-      <div className="flex flex-col text-xs mx-2">
+      <div className="flex flex-col text-xs mx-2 gap-0.5">
         <div className="flex flex-1 items-center justify-center">
           <img src={image} className="w-4 mr-1" />
           <span>{description}</span>
         </div>
+        {hasSecondRow && (
+          <div className="flex flex-1 items-center justify-center">
+            {secondaryImage && (
+              <img src={secondaryImage} className="w-4 mr-1" />
+            )}
+            {secondaryDescription && <span>{secondaryDescription}</span>}
+          </div>
+        )}
         <span className="flex-1 text-center font-secondary">
           {secondsToString(timeLeft, { length: "medium" })}
         </span>

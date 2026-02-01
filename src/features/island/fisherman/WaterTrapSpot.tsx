@@ -10,10 +10,17 @@ import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
-import { CrustaceanChum, WaterTrapName } from "features/game/types/crustaceans";
+import {
+  CRUSTACEAN_CHUM_AMOUNTS,
+  CrustaceanChum,
+  WaterTrapName,
+} from "features/game/types/crustaceans";
 import { useAuth } from "features/auth/lib/Provider";
+import { TimerPopover } from "features/island/common/TimerPopover";
+import { ITEM_DETAILS } from "features/game/types/images";
 import crabSpot1 from "assets/wharf/crab_spot_1.webp";
 import crabSpot2 from "assets/wharf/crab_spot_2.webp";
+import { getKeys } from "features/game/types/decorations";
 
 const _crabTraps = (state: MachineState) => state.context.state.crabTraps;
 const _isVisiting = (state: MachineState) => state.matches("visiting");
@@ -28,6 +35,7 @@ export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
   const crabTraps = useSelector(gameService, _crabTraps);
   const isVisiting = useSelector(gameService, _isVisiting);
   const [showModal, setShowModal] = useState(false);
+  const [showTimerPopover, setShowTimerPopover] = useState(false);
 
   const waterTrap = crabTraps.trapSpots?.[id]?.waterTrap;
 
@@ -50,6 +58,8 @@ export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
 
   const handleClick = () => {
     if (isVisiting) return;
+    // In progress: only hover popover, no modal
+    if (isPlaced) return;
     setShowModal(true);
   };
 
@@ -86,6 +96,10 @@ export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
 
   const crabSpotImage = Number(id) > 2 ? crabSpot2 : crabSpot1;
 
+  const caughtItem = waterTrap?.caught
+    ? getKeys(waterTrap.caught)[0]
+    : undefined;
+
   return (
     <>
       <div
@@ -96,7 +110,38 @@ export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
           },
         )}
         onClick={handleClick}
+        onMouseEnter={() => {
+          if (isPlaced) setShowTimerPopover(true);
+        }}
+        onMouseLeave={() => setShowTimerPopover(false)}
       >
+        {isPlaced && waterTrap && (
+          <div
+            className="flex justify-center absolute w-full pointer-events-none"
+            style={{ top: `${PIXEL_SCALE * -18}px` }}
+          >
+            <TimerPopover
+              image={
+                caughtItem
+                  ? ITEM_DETAILS[caughtItem].image
+                  : SUNNYSIDE.icons.expression_confused
+              }
+              description={caughtItem ? caughtItem : ""}
+              showPopover={showTimerPopover}
+              timeLeft={secondsLeft}
+              secondaryImage={
+                waterTrap.chum != null
+                  ? ITEM_DETAILS[waterTrap.chum].image
+                  : undefined
+              }
+              secondaryDescription={
+                waterTrap.chum != null
+                  ? `${CRUSTACEAN_CHUM_AMOUNTS[waterTrap.chum]} ${waterTrap.chum}`
+                  : undefined
+              }
+            />
+          </div>
+        )}
         {isReady && (
           <img
             src={SUNNYSIDE.fx.sparkle}

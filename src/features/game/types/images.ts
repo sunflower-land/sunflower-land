@@ -1806,11 +1806,11 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("tool.oilDrill"),
   },
   "Crab Pot": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.tools.crab_pot,
     description: TOOLS["Crab Pot"].description,
   },
   "Mariner Pot": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.tools.mariner_pot,
     description: TOOLS["Mariner Pot"].description,
   },
   "Petting Hand": {
