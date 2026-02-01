@@ -748,6 +748,11 @@ const MAINNET_PET_NFT_REVEAL_CONFIG: PetNFTRevealConfig[] = [
     endId: 1250,
   },
   {
+    revealAt: new Date("2026-04-12T00:00:00.000Z"),
+    startId: 1251,
+    endId: 1500,
+  },
+  {
     revealAt: new Date("2025-11-12T00:00:00.000Z"),
     startId: 2501,
     endId: 3000,
