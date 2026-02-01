@@ -664,6 +664,10 @@ export const INITIAL_FARM: GameState = {
   waterWell: {
     level: 1,
   },
+  petHouse: {
+    level: 1,
+    pets: {},
+  },
   craftingBox: {
     status: "idle",
     startedAt: 0,
@@ -995,6 +999,10 @@ export const TEST_FARM: GameState = {
   waterWell: {
     level: 1,
   },
+  petHouse: {
+    level: 1,
+    pets: {},
+  },
   craftingBox: {
     status: "idle",
     startedAt: 0,
@@ -1174,6 +1182,10 @@ export const EMPTY: GameState = {
   barn: makeAnimalBuilding("Barn"),
   waterWell: {
     level: 1,
+  },
+  petHouse: {
+    level: 1,
+    pets: {},
   },
   craftingBox: {
     status: "idle",

@@ -18,6 +18,7 @@ import {
 } from "features/game/expansion/placeable/landscapingMachine";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { PanelTabs } from "features/game/components/CloseablePanel";
+import { PlaceableLocation } from "features/game/types/collectibles";
 
 interface Props {
   show: boolean;
@@ -25,6 +26,7 @@ interface Props {
   state: GameState;
   onPlace: (item: LandscapingPlaceable) => void;
   onPlaceNFT: (id: string, nft: NFTName) => void;
+  location: PlaceableLocation;
 }
 
 export const LandscapingChest: React.FC<Props> = ({
@@ -33,6 +35,7 @@ export const LandscapingChest: React.FC<Props> = ({
   state,
   onPlace,
   onPlaceNFT,
+  location,
 }) => {
   const { t } = useAppTranslation();
 
@@ -56,7 +59,7 @@ export const LandscapingChest: React.FC<Props> = ({
 
   const tabs: PanelTabs<"Chest" | "Biomes">[] = [
     chestTab,
-    ...(hasBiomes ? [biomesTab] : []),
+    ...(hasBiomes && location === "farm" ? [biomesTab] : []),
   ];
 
   return (
@@ -77,6 +80,7 @@ export const LandscapingChest: React.FC<Props> = ({
             closeModal={onHide}
             onPlace={onPlace}
             onPlaceNFT={onPlaceNFT}
+            location={location}
           />
         )}
         {currentTab === "Biomes" && <Biomes state={state} />}
