@@ -4453,7 +4453,6 @@
   "flower.breed.whiteClover": "Um trevo branco",
   "flower.breed.blueClover": "Um trevo azul",
   "calendar.events.tornado.description": "Um tornado poderoso.",
-  "calendar.events.fullMoon.description": "Um evento raro em que criaturas e plantações exóticas aparecem.",
   "calendar.events.tsunami.description": "Uma onda destrutiva.",
   "calendar.events.bountifulHarvest.description": "Uma aura mágica varreu sua fazenda.",
   "calendar.events.insectPlague.description": "Uma praga de insetos que mastiga suas plantações.",
@@ -7946,5 +7945,6 @@
   "description.beastShoes.boost": "XP para animais de estimação +100/+250 (Médio/Difícil)",
   "landTools": "Ferramentas terrestres",
   "waterTools": "Ferramentas de água",
-  "animalTools": "Ferramentas para animais"
+  "animalTools": "Ferramentas para animais",
+  "calendar.events.fullMoon.description": "Um evento raro em que peças de mapas e plantações exóticas aparecem."
 }

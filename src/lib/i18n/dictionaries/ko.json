@@ -4453,7 +4453,6 @@
   "flower.breed.whiteClover": "화이트 클로버",
   "flower.breed.blueClover": "블루 클로버",
   "calendar.events.tornado.description": "강력한 토네이도.",
-  "calendar.events.fullMoon.description": "이국적인 생물과 작물이 나타나는 드문 이벤트입니다.",
   "calendar.events.tsunami.description": "파괴적인 파도.",
   "calendar.events.bountifulHarvest.description": "마법의 기운이 농장을 휩쓸었습니다.",
   "calendar.events.insectPlague.description": "농작물을 갉아먹는 곤충의 역병.",
@@ -7946,5 +7945,6 @@
   "description.beastShoes.boost": "펫 경험치 +100/+250 (메드/하드)",
   "landTools": "랜드 툴",
   "waterTools": "워터 툴",
-  "animalTools": "동물 도구"
+  "animalTools": "동물 도구",
+  "calendar.events.fullMoon.description": "지도 조각과 이국적인 작물이 등장하는 드문 이벤트입니다."
 }

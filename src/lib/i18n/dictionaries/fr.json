@@ -4453,7 +4453,6 @@
   "flower.breed.whiteClover": "Un trèfle blanc",
   "flower.breed.blueClover": "Un trèfle bleu",
   "calendar.events.tornado.description": "Une puissante tornade.",
-  "calendar.events.fullMoon.description": "Un événement rare où apparaissent des créatures et des cultures exotiques.",
   "calendar.events.tsunami.description": "Une vague destructrice.",
   "calendar.events.bountifulHarvest.description": "Une aura magique s'est emparée de votre ferme.",
   "calendar.events.insectPlague.description": "Une invasion d'insectes qui grignote vos récoltes.",
@@ -7946,5 +7945,6 @@
   "description.beastShoes.boost": "XP pour animaux de compagnie +100/+250 (moyen/difficile)",
   "landTools": "Outils terrestres",
   "waterTools": "Outils pour l'eau",
-  "animalTools": "Outils pour animaux"
+  "animalTools": "Outils pour animaux",
+  "calendar.events.fullMoon.description": "Un événement rare où apparaissent des morceaux de carte et des cultures exotiques."
 }

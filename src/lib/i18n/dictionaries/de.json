@@ -4453,7 +4453,6 @@
   "flower.breed.whiteClover": "Ein Weißklee",
   "flower.breed.blueClover": "Ein blauer Klee",
   "calendar.events.tornado.description": "Ein mächtiger Tornado.",
-  "calendar.events.fullMoon.description": "Ein seltenes Ereignis, bei dem exotische Kreaturen und Pflanzen auftauchen.",
   "calendar.events.tsunami.description": "Eine zerstörerische Welle.",
   "calendar.events.bountifulHarvest.description": "Eine magische Aura hat deine Farm durchzogen.",
   "calendar.events.insectPlague.description": "Eine Insektenplage, die an Ihren Ernten knabbert.",
@@ -7946,5 +7945,6 @@
   "description.beastShoes.boost": "Tier-EP +100/+250 (mittel/schwer)",
   "landTools": "Landwerkzeuge",
   "waterTools": "Wasserwerkzeuge",
-  "animalTools": "Werkzeuge für Tiere"
+  "animalTools": "Werkzeuge für Tiere",
+  "calendar.events.fullMoon.description": "Ein seltenes Ereignis, bei dem Kartenstücke und exotische Pflanzen auftauchen."
 }

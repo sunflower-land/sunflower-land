@@ -4453,7 +4453,6 @@
   "flower.breed.whiteClover": "ホワイトクローバー",
   "flower.breed.blueClover": "ブルークローバー",
   "calendar.events.tornado.description": "強力な竜巻。",
-  "calendar.events.fullMoon.description": "エキゾチックな生き物や農作物が登場する珍しいイベント。",
   "calendar.events.tsunami.description": "破壊的な波。",
   "calendar.events.bountifulHarvest.description": "魔法のオーラがあなたの農場を席巻しました。",
   "calendar.events.insectPlague.description": "作物をむしゃむしゃ食べる虫の疫病。",
@@ -7946,5 +7945,6 @@
   "description.beastShoes.boost": "ペット経験値 +100/+250 (中型/ハード)",
   "landTools": "ランドツール",
   "waterTools": "ウォーターツール",
-  "animalTools": "動物用ツール"
+  "animalTools": "動物用ツール",
+  "calendar.events.fullMoon.description": "マップピースやエキゾチックな農作物が出現する珍しいイベント。"
 }

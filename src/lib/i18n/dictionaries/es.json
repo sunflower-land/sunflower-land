@@ -4453,7 +4453,6 @@
   "flower.breed.whiteClover": "Un trébol blanco",
   "flower.breed.blueClover": "Un trébol azul",
   "calendar.events.tornado.description": "Un poderoso tornado.",
-  "calendar.events.fullMoon.description": "Un evento poco común en el que aparecen criaturas y cultivos exóticos.",
   "calendar.events.tsunami.description": "Una ola destructiva.",
   "calendar.events.bountifulHarvest.description": "Un aura mágica se ha apoderado de tu granja.",
   "calendar.events.insectPlague.description": "Una plaga de insectos que devora tus cultivos.",
@@ -7946,5 +7945,6 @@
   "description.beastShoes.boost": "XP de mascota +100/+250 (media/dura)",
   "landTools": "Herramientas terrestres",
   "waterTools": "Herramientas acuáticas",
-  "animalTools": "Herramientas para animales"
+  "animalTools": "Herramientas para animales",
+  "calendar.events.fullMoon.description": "Un evento poco común en el que aparecen piezas de mapas y cultivos exóticos."
 }

@@ -4453,7 +4453,6 @@
   "flower.breed.whiteClover": "一朵白色的三叶草",
   "flower.breed.blueClover": "一朵蓝色的三叶草",
   "calendar.events.tornado.description": "一场强大的龙卷风。",
-  "calendar.events.fullMoon.description": "奇异生物和庄稼出现的罕见事件。",
   "calendar.events.tsunami.description": "破坏性浪潮。",
   "calendar.events.bountifulHarvest.description": "神奇的光环席卷了你的农场。",
   "calendar.events.insectPlague.description": "一场虫害，会吞噬你的庄稼。",
@@ -7946,5 +7945,6 @@
   "description.beastShoes.boost": "宠物经验值 +100/+250（中/硬）",
   "landTools": "陆地工具",
   "waterTools": "水上工具",
-  "animalTools": "动物工具"
+  "animalTools": "动物工具",
+  "calendar.events.fullMoon.description": "地图碎片和外来作物出现的罕见事件。"
 }

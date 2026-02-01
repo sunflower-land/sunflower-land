@@ -4453,7 +4453,6 @@
   "flower.breed.whiteClover": "Un trifoglio bianco",
   "flower.breed.blueClover": "Un trifoglio blu",
   "calendar.events.tornado.description": "Un potente tornado.",
-  "calendar.events.fullMoon.description": "Un evento raro in cui compaiono creature e colture esotiche.",
   "calendar.events.tsunami.description": "Un'onda distruttiva.",
   "calendar.events.bountifulHarvest.description": "Un'aura magica ha invaso la tua fattoria.",
   "calendar.events.insectPlague.description": "Una piaga di insetti che sgranocchiano i tuoi raccolti.",
@@ -7946,5 +7945,6 @@
   "description.beastShoes.boost": "XP per animali domestici +100/+250 (medio/duro)",
   "landTools": "Attrezzi terrestri",
   "waterTools": "Utensili per acqua",
-  "animalTools": "Utensili per animali"
+  "animalTools": "Utensili per animali",
+  "calendar.events.fullMoon.description": "Un raro evento in cui compaiono pezzi di mappa e colture esotiche."
 }

@@ -4453,7 +4453,6 @@
   "flower.breed.whiteClover": "Semanggi putih",
   "flower.breed.blueClover": "Semanggi biru",
   "calendar.events.tornado.description": "Tornado yang kuat.",
-  "calendar.events.fullMoon.description": "Peristiwa langka di mana makhluk dan tanaman eksotis muncul.",
   "calendar.events.tsunami.description": "Gelombang destruktif.",
   "calendar.events.bountifulHarvest.description": "Aura magis telah menyapu pertanian Anda.",
   "calendar.events.insectPlague.description": "Wabah serangga yang mengunyah tanaman Anda.",
@@ -7946,5 +7945,6 @@
   "description.beastShoes.boost": "Hewan Peliharaan XP +100/+250 (Sedang/Keras)",
   "landTools": "Alat Tanah",
   "waterTools": "Alat Air",
-  "animalTools": "Alat Hewan"
+  "animalTools": "Alat Hewan",
+  "calendar.events.fullMoon.description": "Peristiwa langka di mana potongan peta dan tanaman eksotis muncul."
 }

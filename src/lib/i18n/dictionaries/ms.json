@@ -4453,7 +4453,6 @@
   "flower.breed.whiteClover": "Semanggi putih",
   "flower.breed.blueClover": "Semanggi biru",
   "calendar.events.tornado.description": "Tornado yang kuat.",
-  "calendar.events.fullMoon.description": "Satu peristiwa yang jarang berlaku di mana makhluk dan tanaman eksotik muncul.",
   "calendar.events.tsunami.description": "Gelombang yang merosakkan.",
   "calendar.events.bountifulHarvest.description": "Aura ajaib telah melanda ladang anda.",
   "calendar.events.insectPlague.description": "Wabak serangga yang mengunyah tanaman anda.",
@@ -7946,5 +7945,6 @@
   "description.beastShoes.boost": "Haiwan Pet XP +100/+250 (Med/Keras)",
   "landTools": "Alat Tanah",
   "waterTools": "Alat Air",
-  "animalTools": "Alat Haiwan"
+  "animalTools": "Alat Haiwan",
+  "calendar.events.fullMoon.description": "Acara yang jarang berlaku di mana potongan peta dan tanaman eksotik muncul."
 }

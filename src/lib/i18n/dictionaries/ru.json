@@ -5409,7 +5409,6 @@
   "calendar.events.tornado.title": "Торнадо",
   "calendar.events.tornado.description": "Мощный торнадо.",
   "calendar.events.fullMoon.title": "Полнолуние",
-  "calendar.events.fullMoon.description": "Редкое событие, во время которого появляются необычные существа и растения.",
   "calendar.events.tsunami.title": "Цунами",
   "calendar.events.tsunami.description": "Разрушительная волна.",
   "calendar.events.greatFreeze.title": "Великие морозы",
@@ -7946,5 +7945,6 @@
   "description.beastShoes.boost": "Pet XP +100/+250 (Med/Hard)",
   "landTools": "Land Tools",
   "waterTools": "Water Tools",
-  "animalTools": "Animal Tools"
+  "animalTools": "Animal Tools",
+  "calendar.events.fullMoon.description": "A rare event where map pieces and exotic crops appear."
 }

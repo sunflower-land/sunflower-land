@@ -4453,7 +4453,6 @@
   "flower.breed.whiteClover": "Beyaz yonca",
   "flower.breed.blueClover": "Mavi yonca",
   "calendar.events.tornado.description": "Güçlü bir kasırga.",
-  "calendar.events.fullMoon.description": "Egzotik yaratıkların ve mahsullerin ortaya çıktığı nadir bir olay.",
   "calendar.events.tsunami.description": "Yıkıcı bir dalga.",
   "calendar.events.bountifulHarvest.description": "Büyülü bir aura çiftliğinizi süpürdü.",
   "calendar.events.insectPlague.description": "Ekinlerinizi yiyen bir böcek vebası.",
@@ -7946,5 +7945,6 @@
   "description.beastShoes.boost": "Evcil Hayvan XP +100/+250 (Orta/Zor)",
   "landTools": "Arazi Araçları",
   "waterTools": "Su Araçları",
-  "animalTools": "Hayvan Araçları"
+  "animalTools": "Hayvan Araçları",
+  "calendar.events.fullMoon.description": "Harita parçalarının ve egzotik mahsullerin göründüğü nadir bir olay."
 }
