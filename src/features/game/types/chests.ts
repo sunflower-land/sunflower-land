@@ -1,80 +1,7 @@
-import {
-  FLOWER_BOXES,
-  isCollectible,
-  isWearable,
-} from "../events/landExpansion/buyChapterItem";
-import { CHAPTER_TICKET_BOOST_ITEMS } from "../events/landExpansion/completeNPCChore";
-import { getObjectEntries } from "../expansion/lib/utils";
-import { BumpkinItem } from "./bumpkin";
-import { ARTEFACT_SHOP_KEYS } from "./collectibles";
-import { getKeys } from "./decorations";
-import { BB_TO_GEM_RATIO, InventoryItemName } from "./game";
-import { MEGASTORE, ChapterStore } from "./megastore";
+import { BB_TO_GEM_RATIO } from "./game";
 import { RewardBoxReward } from "./rewardBoxes";
-import { getCurrentChapter } from "./chapters";
-import { BUMPKIN_RELEASES, INVENTORY_RELEASES } from "./withdrawables";
 
 export const CHEST_MULTIPLIER = 900;
-
-export const MEGASTORE_TIER_WEIGHTS: Record<keyof ChapterStore, number> = {
-  basic: 0.5,
-  rare: 0.2,
-  epic: 0.1,
-  mega: 0.05,
-};
-
-const currentChapter = getCurrentChapter(Date.now());
-
-export const MEGASTORE_RESTRICTED_ITEMS: (InventoryItemName | BumpkinItem)[] = [
-  ...Object.values(CHAPTER_TICKET_BOOST_ITEMS[currentChapter]),
-  ...getKeys(FLOWER_BOXES),
-  ...getKeys(ARTEFACT_SHOP_KEYS),
-  ...getObjectEntries(BUMPKIN_RELEASES)
-    .filter(([_, tradeDetail]) => !tradeDetail)
-    .map(([wearable]) => wearable),
-  ...getObjectEntries(INVENTORY_RELEASES)
-    .filter(([_, tradeDetail]) => !tradeDetail)
-    .map(([item]) => item),
-  "Pet Egg",
-];
-
-export const CHAPTER_REWARDS: (
-  weight: number,
-  chestTier: "basic" | "rare" | "luxury",
-) => RewardBoxReward[] = (weight, chestTier) => {
-  const store = MEGASTORE[currentChapter];
-  const rewards: RewardBoxReward[] = [];
-
-  getObjectEntries(MEGASTORE_TIER_WEIGHTS).forEach(([tier, tierWeight]) => {
-    if (chestTier === "basic" && (tier === "mega" || tier === "epic")) return;
-    if (chestTier === "rare" && tier === "mega") return;
-
-    const items = store[tier].items;
-
-    items.forEach((item) => {
-      if (
-        isCollectible(item) &&
-        !MEGASTORE_RESTRICTED_ITEMS.includes(item.collectible)
-      ) {
-        rewards.push({
-          items: { [item.collectible]: 1 },
-          weighting: weight * tierWeight,
-        });
-      }
-      if (
-        isWearable(item) &&
-        !MEGASTORE_RESTRICTED_ITEMS.includes(item.wearable)
-      ) {
-        rewards.push({
-          wearables: { [item.wearable]: 1 },
-          weighting: weight * tierWeight,
-        });
-      }
-    });
-  });
-
-  return rewards;
-};
 
 export const BASIC_CHAPTER_REWARDS_WEIGHT = 5 * CHEST_MULTIPLIER;
 export const BASIC_REWARDS: () => RewardBoxReward[] = () => [
@@ -104,7 +31,6 @@ export const BASIC_REWARDS: () => RewardBoxReward[] = () => [
   { items: { "Blueberry Jam": 3 }, weighting: 100 * CHEST_MULTIPLIER },
   { items: { Rug: 1 }, weighting: 25 * CHEST_MULTIPLIER },
   { items: { "Prize Ticket": 1 }, weighting: 5 * CHEST_MULTIPLIER },
-  ...CHAPTER_REWARDS(20 * CHEST_MULTIPLIER, "basic"),
 ];
 
 export const RARE_REWARDS: () => RewardBoxReward[] = () => [
@@ -134,7 +60,6 @@ export const RARE_REWARDS: () => RewardBoxReward[] = () => [
   { items: { "Goblin Brunch": 3 }, weighting: 50 * CHEST_MULTIPLIER },
   { items: { "Bumpkin Roast": 3 }, weighting: 40 * CHEST_MULTIPLIER },
   { items: { "Prize Ticket": 1 }, weighting: 20 * CHEST_MULTIPLIER },
-  ...CHAPTER_REWARDS(50 * CHEST_MULTIPLIER, "rare"),
 ];
 
 export const LUXURY_REWARDS: () => RewardBoxReward[] = () => [
@@ -156,7 +81,6 @@ export const LUXURY_REWARDS: () => RewardBoxReward[] = () => [
   { items: { "Goblin Brunch": 10 }, weighting: 25 * CHEST_MULTIPLIER },
   { items: { "Bumpkin Roast": 10 }, weighting: 25 * CHEST_MULTIPLIER },
   { items: { "Prize Ticket": 1 }, weighting: 50 * CHEST_MULTIPLIER },
-  ...CHAPTER_REWARDS(50 * CHEST_MULTIPLIER, "luxury"),
 ];
 
 export const BUD_BOX_REWARDS: RewardBoxReward[] = [

@@ -10,15 +10,11 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { InventoryItemName } from "features/game/types/game";
 import { Label } from "./Label";
-import {
-  BASIC_CHAPTER_REWARDS_WEIGHT,
-  CHAPTER_REWARDS,
-} from "features/game/types/chests";
+
 import {
   NoticeboardItems,
   NoticeboardItemsElements,
 } from "features/world/ui/kingdom/KingdomNoticeboard";
-import { getCurrentChapter } from "features/game/types/chapters";
 import chestIcon from "assets/icons/chest.png";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 
@@ -32,7 +28,6 @@ import {
   RewardBoxName,
   RewardBoxReward,
 } from "features/game/types/rewardBoxes";
-import { useNow } from "lib/utils/hooks/useNow";
 
 const RewardRow: React.FC<{
   rewardName: string;
@@ -58,22 +53,12 @@ const RewardRow: React.FC<{
   );
 };
 
-const isStoreChapterItem = (rewardName: string) => {
-  return CHAPTER_REWARDS(BASIC_CHAPTER_REWARDS_WEIGHT, "luxury").some(
-    (reward) =>
-      (reward.items && Object.keys(reward.items).includes(rewardName)) ||
-      (reward.wearables && Object.keys(reward.wearables).includes(rewardName)),
-  );
-};
-
 const MultipleRewardsRow: React.FC<{
   reward: RewardBoxReward;
   chance?: string;
   secondBG?: boolean;
 }> = ({ reward, chance, secondBG }) => {
   const { t } = useAppTranslation();
-  const now = useNow();
-  const currentChapter = getCurrentChapter(now);
   const rewards = reward.wearables
     ? Object.entries(reward.wearables)
     : reward.items
@@ -116,14 +101,6 @@ const MultipleRewardsRow: React.FC<{
                   </p>
                 </div>
               </div>
-
-              {/* States whether it is chapter-limited */}
-              {isStoreChapterItem(rewardName) && (
-                <div className="flex items-center w-20 sm:w-40 space-x-1 pl-[15%]">
-                  <img src={SUNNYSIDE.icons.stopwatch} />
-                  <p className="text-xxs">{`${currentChapter}`}</p>
-                </div>
-              )}
             </div>
           );
         })}
