@@ -10,18 +10,42 @@ import { CONFIG } from "lib/config";
 import Decimal from "decimal.js-light";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { addVipDays } from "../claimAirdrop";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
 
 function getReward({
   name,
   game,
+  now,
 }: {
   name: RewardBoxName;
   game: GameState;
+  now: number;
 }): RewardBoxReward | undefined {
   let rewards = REWARD_BOXES[name].rewards;
 
   if (name === "Pet Egg") {
     rewards = getPetRewardPool({ inventory: game.inventory });
+  }
+
+  if (
+    hasTimeBasedFeatureAccess("PET_CHAPTER_COMPLETE", now) &&
+    (name === "Bronze Food Box" || name === "Silver Food Box")
+  ) {
+    rewards = rewards.map((reward) => {
+      if (!reward.items || !("Fermented Fish" in reward.items)) {
+        return reward;
+      }
+
+      const { ["Fermented Fish"]: fermentedFish, ...rest } = reward.items;
+
+      return {
+        ...reward,
+        items: {
+          ...rest,
+          "Surimi Rice Bowl": fermentedFish,
+        },
+      };
+    });
   }
 
   // TODO: If a player already has the reward, half the weight
@@ -104,6 +128,7 @@ export function openRewardBox({
     const selectedReward = getReward({
       name,
       game: stateCopy,
+      now: createdAt,
     });
 
     if (!selectedReward) {
