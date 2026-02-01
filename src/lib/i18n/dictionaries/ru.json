@@ -7946,5 +7946,7 @@
   "landTools": "Land Tools",
   "waterTools": "Water Tools",
   "animalTools": "Animal Tools",
-  "calendar.events.fullMoon.description": "A rare event where map pieces and exotic crops appear."
+  "calendar.events.fullMoon.description": "A rare event where map pieces and exotic crops appear.",
+  "picking.up.water.trap": "Picking up your trap...",
+  "waterTrap.newCrustacean": "You discovered a new crustacean!"
 }

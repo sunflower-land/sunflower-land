@@ -7946,5 +7946,7 @@
   "landTools": "Alat Tanah",
   "waterTools": "Alat Air",
   "animalTools": "Alat Haiwan",
-  "calendar.events.fullMoon.description": "Acara yang jarang berlaku di mana potongan peta dan tanaman eksotik muncul."
+  "calendar.events.fullMoon.description": "Acara yang jarang berlaku di mana potongan peta dan tanaman eksotik muncul.",
+  "picking.up.water.trap": "Mengambil perangkap anda...",
+  "waterTrap.newCrustacean": "Anda menemui krustasea baru!"
 }

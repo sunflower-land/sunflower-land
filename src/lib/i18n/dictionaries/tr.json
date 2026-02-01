@@ -7946,5 +7946,7 @@
   "landTools": "Arazi Araçları",
   "waterTools": "Su Araçları",
   "animalTools": "Hayvan Araçları",
-  "calendar.events.fullMoon.description": "Harita parçalarının ve egzotik mahsullerin göründüğü nadir bir olay."
+  "calendar.events.fullMoon.description": "Harita parçalarının ve egzotik mahsullerin göründüğü nadir bir olay.",
+  "picking.up.water.trap": "Tuzağını topluyorsun...",
+  "waterTrap.newCrustacean": "Yeni bir kabuklular keşfettin!"
 }

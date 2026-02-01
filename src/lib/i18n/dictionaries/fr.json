@@ -7946,5 +7946,7 @@
   "landTools": "Outils terrestres",
   "waterTools": "Outils pour l'eau",
   "animalTools": "Outils pour animaux",
-  "calendar.events.fullMoon.description": "Un événement rare où apparaissent des morceaux de carte et des cultures exotiques."
+  "calendar.events.fullMoon.description": "Un événement rare où apparaissent des morceaux de carte et des cultures exotiques.",
+  "picking.up.water.trap": "Je prends ton piège...",
+  "waterTrap.newCrustacean": "Vous avez découvert un nouveau crustacé !"
 }

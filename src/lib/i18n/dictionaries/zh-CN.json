@@ -7946,5 +7946,7 @@
   "landTools": "陆地工具",
   "waterTools": "水上工具",
   "animalTools": "动物工具",
-  "calendar.events.fullMoon.description": "地图碎片和外来作物出现的罕见事件。"
+  "calendar.events.fullMoon.description": "地图碎片和外来作物出现的罕见事件。",
+  "picking.up.water.trap": "捡起你的陷阱...",
+  "waterTrap.newCrustacean": "你发现了一种新的甲壳类动物！"
 }

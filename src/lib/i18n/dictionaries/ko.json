@@ -7946,5 +7946,7 @@
   "landTools": "랜드 툴",
   "waterTools": "워터 툴",
   "animalTools": "동물 도구",
-  "calendar.events.fullMoon.description": "지도 조각과 이국적인 작물이 등장하는 드문 이벤트입니다."
+  "calendar.events.fullMoon.description": "지도 조각과 이국적인 작물이 등장하는 드문 이벤트입니다.",
+  "picking.up.water.trap": "함정을 줍는 중...",
+  "waterTrap.newCrustacean": "새로운 갑각류를 발견했습니다!"
 }

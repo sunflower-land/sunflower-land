@@ -7946,5 +7946,7 @@
   "landTools": "ランドツール",
   "waterTools": "ウォーターツール",
   "animalTools": "動物用ツール",
-  "calendar.events.fullMoon.description": "マップピースやエキゾチックな農作物が出現する珍しいイベント。"
+  "calendar.events.fullMoon.description": "マップピースやエキゾチックな農作物が出現する珍しいイベント。",
+  "picking.up.water.trap": "罠を仕掛けて...",
+  "waterTrap.newCrustacean": "新しい甲殻類を発見したね！"
 }

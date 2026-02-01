@@ -7946,5 +7946,7 @@
   "landTools": "Alat Tanah",
   "waterTools": "Alat Air",
   "animalTools": "Alat Hewan",
-  "calendar.events.fullMoon.description": "Peristiwa langka di mana potongan peta dan tanaman eksotis muncul."
+  "calendar.events.fullMoon.description": "Peristiwa langka di mana potongan peta dan tanaman eksotis muncul.",
+  "picking.up.water.trap": "Mengambil jebakanmu...",
+  "waterTrap.newCrustacean": "Anda menemukan krustasea baru!"
 }
