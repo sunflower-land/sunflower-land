@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Decimal } from "decimal.js-light";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
@@ -17,20 +17,24 @@ import {
   getChestItems,
 } from "../hud/components/inventory/utils/inventory";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
-import { secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { WaterTrap } from "features/game/types/game";
 import {
+  CRUSTACEANS,
   WaterTrapName,
   WATER_TRAP,
   CRUSTACEAN_CHUM_AMOUNTS,
   CrustaceanChum,
 } from "features/game/types/crustaceans";
+import confetti from "canvas-confetti";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { CrustaceanGuide } from "./CrustaceanGuide";
 
 const _state = (state: MachineState) => state.context.state;
+
+const getCaughtCrustacean = (waterTrap: WaterTrap | undefined) =>
+  waterTrap ? getObjectEntries(waterTrap.caught ?? {})[0]?.[0] : undefined;
 
 interface Props {
   waterTrap?: WaterTrap;
@@ -49,10 +53,27 @@ export const WaterTrapModal: React.FC<Props> = ({
   onCollect,
   onClose,
 }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const state = useSelector(gameService, _state);
   const { t } = useAppTranslation();
   const [tab, setTab] = useState<Tab>("crustaceans");
+
+  const caughtCrustacean = getCaughtCrustacean(waterTrap);
+  const isNewlyDiscovered =
+    !!caughtCrustacean &&
+    caughtCrustacean in CRUSTACEANS &&
+    (state.farmActivity[`${caughtCrustacean} Caught`] ?? 0) === 0;
+
+  useEffect(() => {
+    if (
+      isNewlyDiscovered &&
+      waterTrap &&
+      getObjectEntries(waterTrap.caught ?? {}).length > 0 &&
+      showAnimations
+    ) {
+      confetti();
+    }
+  }, [isNewlyDiscovered, waterTrap, showAnimations]);
 
   const experience = state.bumpkin?.experience ?? 0;
   const bumpkinLevel = getBumpkinLevel(experience);
@@ -110,92 +131,70 @@ export const WaterTrapModal: React.FC<Props> = ({
   // A water trap has been placed
   if (waterTrap) {
     const { type: trapType, caught, chum } = waterTrap;
+    const caughtEntries = getObjectEntries(caught ?? {});
+    const firstCaught = caughtEntries[0];
+    const caughtItem = firstCaught?.[0];
+    const caughtAmount = firstCaught?.[1];
+
+    const caughtContent = firstCaught ? (
+      <div className="flex flex-col justify-center items-center">
+        {isNewlyDiscovered && (
+          <Label type="warning" className="mb-2" icon={SUNNYSIDE.icons.search}>
+            {t("waterTrap.newCrustacean")}
+          </Label>
+        )}
+        <span className="text-sm mb-2">{`${caughtAmount ?? 0} ${caughtItem}`}</span>
+        <img
+          src={ITEM_DETAILS[caughtItem!].image}
+          className="h-12 mb-2"
+          alt=""
+        />
+        <span className="text-xs text-center mb-2">
+          {ITEM_DETAILS[caughtItem!].description}
+        </span>
+      </div>
+    ) : null;
+
+    const caughtModalContent = (
+      <>
+        <div className="p-2">{caughtContent}</div>
+        <Button onClick={onCollect} className="w-full">
+          {t("ok")}
+        </Button>
+      </>
+    );
+
+    const pickupContent = (
+      <>
+        <div className="p-2">
+          <div className="flex flex-col justify-center items-center">
+            <span className="text-sm mb-2">{trapType}</span>
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <img src={ITEM_DETAILS[trapType].image} className="h-12" alt="" />
+              {chum && (
+                <>
+                  <img src={SUNNYSIDE.icons.plus} className="h-4 w-4" alt="" />
+                  <img src={ITEM_DETAILS[chum].image} className="h-12" alt="" />
+                </>
+              )}
+            </div>
+            <span className="text-xs text-center mb-2">
+              {ITEM_DETAILS[trapType].description}
+            </span>
+          </div>
+        </div>
+        <Button onClick={onPickup} className="w-full">
+          {t("waterTrap.pickup")}
+        </Button>
+      </>
+    );
+
+    const readyContent =
+      caughtItem && caughtAmount ? caughtModalContent : pickupContent;
 
     return (
-      <CloseButtonPanel
-        onClose={onClose}
-        tabs={[
-          {
-            id: "crustaceans",
-            icon: ITEM_DETAILS["Blue Crab"].image,
-            name: t("crustaceans"),
-          },
-          {
-            id: "guide",
-            icon: SUNNYSIDE.icons.expression_confused,
-            name: t("guide"),
-          },
-        ]}
-        currentTab={tab}
-        setCurrentTab={setTab}
-      >
-        {tab === "crustaceans" && (
-          <>
-            <div className="flex p-2 -mt-2">
-              <img
-                src={ITEM_DETAILS[trapType].image}
-                className="w-14 object-contain mr-4"
-              />
-              <div className="flex flex-col mt-2">
-                {!isReady && (
-                  <>
-                    <div className="flex items-center mb-2">
-                      <img src={SUNNYSIDE.icons.timer} className="h-5 mr-1" />
-                      <span className="text-xs mr-1">
-                        {secondsToString(secondsLeft, {
-                          length: "full",
-                        })}
-                      </span>
-                    </div>
-                  </>
-                )}
-
-                {chum && (
-                  <div className="flex items-center mb-2">
-                    <Label
-                      type="default"
-                      className="text-xs"
-                      icon={ITEM_DETAILS[chum].image}
-                    >
-                      {`${CRUSTACEAN_CHUM_AMOUNTS[chum]} ${chum} ${t("chum")}`}
-                    </Label>
-                  </div>
-                )}
-                {caught && getObjectEntries(caught).length > 0 && (
-                  <div className="flex flex-wrap my-1">
-                    {getObjectEntries(caught).map(([item, amount]) => {
-                      return (
-                        <Label
-                          key={item}
-                          type="default"
-                          className="text-xs"
-                          icon={ITEM_DETAILS[item].image}
-                        >
-                          {`${amount} ${item} ${t("caught")}`}
-                        </Label>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            </div>
-            {isReady && (
-              <div className="flex justify-center">
-                <Button
-                  className="text-xxs sm:text-sm whitespace-nowrap"
-                  onClick={caught ? onCollect : onPickup}
-                >
-                  {caught ? t("collect") : t("waterTrap.pickup")}
-                </Button>
-              </div>
-            )}
-          </>
-        )}
-        {tab === "guide" && (
-          <InnerPanel>
-            <CrustaceanGuide />
-          </InnerPanel>
-        )}
+      <CloseButtonPanel onClose={onClose}>
+        <div className="flex flex-col gap-2 p-1">{readyContent}</div>
       </CloseButtonPanel>
     );
   }

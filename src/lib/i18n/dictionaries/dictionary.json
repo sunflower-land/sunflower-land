@@ -2216,6 +2216,7 @@
   "list": "List",
   "list.trade": "List trade",
   "loading": "Loading",
+  "picking.up.water.trap": "Picking up your trap...",
   "locked": "Locked",
   "loser.refund": "Refund resources",
   "lvl": "Level",
@@ -7946,5 +7947,6 @@
   "description.crimstoneSpikesHair.boost": "Mine crimstone for free",
   "description.pawAura.boost": "Feed pets for free",
   "description.victoriasApron.boost": "33% chance to refresh pet requests",
-  "description.beastShoes.boost": "Pet XP +100/+250 (Med/Hard)"
+  "description.beastShoes.boost": "Pet XP +100/+250 (Med/Hard)",
+  "waterTrap.newCrustacean": "You discovered a new crustacean!"
 }

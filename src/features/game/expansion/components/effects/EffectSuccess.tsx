@@ -48,6 +48,7 @@ export const EFFECT_SUCCESS_COMPONENTS: Partial<
   marketplaceBuyingBulkResourcesSuccess: <BulkPurchaseSuccess />,
   seekingBlessingSuccess: <SuccessSkip />,
   claimingAuctionRaffleSuccess: <SuccessSkip />,
+  pickingUpWaterTrapSuccess: <SuccessSkip />,
 };
 
 function camelToDotCase(str: string): string {

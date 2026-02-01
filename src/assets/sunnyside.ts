@@ -1448,6 +1448,8 @@ export const SUNNYSIDE = {
     shovel: `${CONFIG.PROTECTED_IMAGE_URL}/tools/shovel.png`,
     stone_pickaxe: `${CONFIG.PROTECTED_IMAGE_URL}/tools/stone_pickaxe.png`,
     wood_pickaxe: `${CONFIG.PROTECTED_IMAGE_URL}/tools/wood_pickaxe.png`,
+    crab_pot: `${CONFIG.PROTECTED_IMAGE_URL}/tools/crab_pot.webp`,
+    mariner_pot: `${CONFIG.PROTECTED_IMAGE_URL}/tools/mariner_pot.webp`,
   },
   //UIs
   ui: {
