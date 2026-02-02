@@ -786,10 +786,7 @@ export const isGuaranteedBait = (
   return GUARANTEED_BAIT.includes(bait as GuaranteedBait);
 };
 
-export const getSeasonalGuaranteedCatch = (
-  bait: FishingBait,
-  season: TemperateSeasonName,
-) => {
+export const getSeasonalGuaranteedCatch = (bait: FishingBait) => {
   if (!isGuaranteedBait(bait)) return [];
 
   return GUARANTEED_CATCH_BY_BAIT[bait];
