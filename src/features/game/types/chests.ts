@@ -23,33 +23,26 @@ export const MEGASTORE_TIER_WEIGHTS: Record<keyof ChapterStore, number> = {
   mega: 0.05,
 };
 
-export const MEGASTORE_RESTRICTED_ITEMS = (
-  now = Date.now(),
-): (InventoryItemName | BumpkinItem)[] => {
-  const currentChapter = getCurrentChapter(now);
+const currentChapter = getCurrentChapter(Date.now());
 
-  return [
-    ...Object.values(CHAPTER_TICKET_BOOST_ITEMS[currentChapter]),
-    ...getKeys(FLOWER_BOXES),
-    ...getKeys(ARTEFACT_SHOP_KEYS),
-    ...getObjectEntries(BUMPKIN_RELEASES)
-      .filter(([_, tradeDetail]) => !tradeDetail)
-      .map(([wearable]) => wearable),
-    ...getObjectEntries(INVENTORY_RELEASES)
-      .filter(([_, tradeDetail]) => !tradeDetail)
-      .map(([item]) => item),
-    "Pet Egg",
-  ];
-};
+export const MEGASTORE_RESTRICTED_ITEMS: (InventoryItemName | BumpkinItem)[] = [
+  ...Object.values(CHAPTER_TICKET_BOOST_ITEMS[currentChapter]),
+  ...getKeys(FLOWER_BOXES),
+  ...getKeys(ARTEFACT_SHOP_KEYS),
+  ...getObjectEntries(BUMPKIN_RELEASES)
+    .filter(([_, tradeDetail]) => !tradeDetail)
+    .map(([wearable]) => wearable),
+  ...getObjectEntries(INVENTORY_RELEASES)
+    .filter(([_, tradeDetail]) => !tradeDetail)
+    .map(([item]) => item),
+  "Pet Egg",
+];
 
 export const CHAPTER_REWARDS: (
   weight: number,
   chestTier: "basic" | "rare" | "luxury",
-  now?: number,
-) => RewardBoxReward[] = (weight, chestTier, now = Date.now()) => {
-  const currentChapter = getCurrentChapter(now);
+) => RewardBoxReward[] = (weight, chestTier) => {
   const store = MEGASTORE[currentChapter];
-  const restrictedItems = MEGASTORE_RESTRICTED_ITEMS(now);
   const rewards: RewardBoxReward[] = [];
 
   getObjectEntries(MEGASTORE_TIER_WEIGHTS).forEach(([tier, tierWeight]) => {
@@ -59,13 +52,19 @@ export const CHAPTER_REWARDS: (
     const items = store[tier].items;
 
     items.forEach((item) => {
-      if (isCollectible(item) && !restrictedItems.includes(item.collectible)) {
+      if (
+        isCollectible(item) &&
+        !MEGASTORE_RESTRICTED_ITEMS.includes(item.collectible)
+      ) {
         rewards.push({
           items: { [item.collectible]: 1 },
           weighting: weight * tierWeight,
         });
       }
-      if (isWearable(item) && !restrictedItems.includes(item.wearable)) {
+      if (
+        isWearable(item) &&
+        !MEGASTORE_RESTRICTED_ITEMS.includes(item.wearable)
+      ) {
         rewards.push({
           wearables: { [item.wearable]: 1 },
           weighting: weight * tierWeight,
@@ -78,9 +77,7 @@ export const CHAPTER_REWARDS: (
 };
 
 export const BASIC_CHAPTER_REWARDS_WEIGHT = 5 * CHEST_MULTIPLIER;
-export const BASIC_REWARDS: (now?: number) => RewardBoxReward[] = (
-  now = Date.now(),
-) => [
+export const BASIC_REWARDS: () => RewardBoxReward[] = () => [
   { coins: 1600, weighting: 100 * CHEST_MULTIPLIER },
   { coins: 3200, weighting: 50 * CHEST_MULTIPLIER },
   { coins: 8000, weighting: 20 * CHEST_MULTIPLIER },
@@ -107,12 +104,10 @@ export const BASIC_REWARDS: (now?: number) => RewardBoxReward[] = (
   { items: { "Blueberry Jam": 3 }, weighting: 100 * CHEST_MULTIPLIER },
   { items: { Rug: 1 }, weighting: 25 * CHEST_MULTIPLIER },
   { items: { "Prize Ticket": 1 }, weighting: 5 * CHEST_MULTIPLIER },
-  ...CHAPTER_REWARDS(20 * CHEST_MULTIPLIER, "basic", now),
+  ...CHAPTER_REWARDS(20 * CHEST_MULTIPLIER, "basic"),
 ];
 
-export const RARE_REWARDS: (now?: number) => RewardBoxReward[] = (
-  now = Date.now(),
-) => [
+export const RARE_REWARDS: () => RewardBoxReward[] = () => [
   { coins: 1600, weighting: 50 * CHEST_MULTIPLIER },
   { coins: 3200, weighting: 100 * CHEST_MULTIPLIER },
   { coins: 8000, weighting: 50 * CHEST_MULTIPLIER },
@@ -139,12 +134,10 @@ export const RARE_REWARDS: (now?: number) => RewardBoxReward[] = (
   { items: { "Goblin Brunch": 3 }, weighting: 50 * CHEST_MULTIPLIER },
   { items: { "Bumpkin Roast": 3 }, weighting: 40 * CHEST_MULTIPLIER },
   { items: { "Prize Ticket": 1 }, weighting: 20 * CHEST_MULTIPLIER },
-  ...CHAPTER_REWARDS(50 * CHEST_MULTIPLIER, "rare", now),
+  ...CHAPTER_REWARDS(50 * CHEST_MULTIPLIER, "rare"),
 ];
 
-export const LUXURY_REWARDS: (now?: number) => RewardBoxReward[] = (
-  now = Date.now(),
-) => [
+export const LUXURY_REWARDS: () => RewardBoxReward[] = () => [
   { coins: 3200, weighting: 50 * CHEST_MULTIPLIER },
   { coins: 8000, weighting: 100 * CHEST_MULTIPLIER },
   { coins: 16000, weighting: 50 * CHEST_MULTIPLIER },
@@ -163,7 +156,7 @@ export const LUXURY_REWARDS: (now?: number) => RewardBoxReward[] = (
   { items: { "Goblin Brunch": 10 }, weighting: 25 * CHEST_MULTIPLIER },
   { items: { "Bumpkin Roast": 10 }, weighting: 25 * CHEST_MULTIPLIER },
   { items: { "Prize Ticket": 1 }, weighting: 50 * CHEST_MULTIPLIER },
-  ...CHAPTER_REWARDS(50 * CHEST_MULTIPLIER, "luxury", now),
+  ...CHAPTER_REWARDS(50 * CHEST_MULTIPLIER, "luxury"),
 ];
 
 export const BUD_BOX_REWARDS: RewardBoxReward[] = [

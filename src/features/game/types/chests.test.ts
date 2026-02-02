@@ -15,17 +15,15 @@ import { RewardBoxReward } from "./rewardBoxes";
 import { getCurrentChapter } from "./chapters";
 
 describe("CHAPTER_REWARDS", () => {
-  const now = Date.now();
-  const currentChapter = getCurrentChapter(now); // Test all reward types
-  const restrictedItems = MEGASTORE_RESTRICTED_ITEMS(now);
+  const currentChapter = getCurrentChapter(Date.now()); // Test all reward types
   const rewardTypes: {
     rewards: RewardBoxReward[];
     weight: number;
     chestTier: "basic" | "rare" | "luxury";
   }[] = [
-    { rewards: BASIC_REWARDS(now), weight: 20, chestTier: "basic" },
-    { rewards: RARE_REWARDS(now), weight: 50, chestTier: "rare" },
-    { rewards: LUXURY_REWARDS(now), weight: 50, chestTier: "luxury" },
+    { rewards: BASIC_REWARDS(), weight: 20, chestTier: "basic" },
+    { rewards: RARE_REWARDS(), weight: 50, chestTier: "rare" },
+    { rewards: LUXURY_REWARDS(), weight: 50, chestTier: "luxury" },
   ];
 
   it("includes seasonal megastore items in all reward types with correct tier-based weightings", () => {
@@ -45,14 +43,17 @@ describe("CHAPTER_REWARDS", () => {
         tierItems.forEach((item) => {
           if (
             isCollectible(item) &&
-            !restrictedItems.includes(item.collectible)
+            !MEGASTORE_RESTRICTED_ITEMS.includes(item.collectible)
           ) {
             expect(rewards).toContainEqual({
               items: { [item.collectible]: 1 },
               weighting: weight * CHEST_MULTIPLIER * tierWeight,
             });
           }
-          if (isWearable(item) && !restrictedItems.includes(item.wearable)) {
+          if (
+            isWearable(item) &&
+            !MEGASTORE_RESTRICTED_ITEMS.includes(item.wearable)
+          ) {
             expect(rewards).toContainEqual({
               wearables: { [item.wearable]: 1 },
               weighting: weight * CHEST_MULTIPLIER * tierWeight,
@@ -65,7 +66,7 @@ describe("CHAPTER_REWARDS", () => {
 
   it("does not include restricted items", () => {
     rewardTypes.forEach(({ rewards }) => {
-      restrictedItems.forEach((item) => {
+      MEGASTORE_RESTRICTED_ITEMS.forEach((item) => {
         expect(rewards).not.toContainEqual({
           items: { [item]: 1 },
           weighting: expect.any(Number),
