@@ -16,12 +16,10 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
 import { capitalizeFirstLetters } from "lib/utils/capitalize";
 import { FishermanExtras } from "./FishermanExtras";
-import { OldBaitSelection } from "./OldBaitSelection";
-import { BaitSelection } from "./BaitSelection";
-import { hasFeatureAccess } from "lib/flags";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getKeys } from "features/game/lib/crafting";
 import { MarvelHunt } from "./MarvelHunt";
+import { BaitSelection } from "./BaitSelection";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -80,10 +78,6 @@ export const FishermanModal: React.FC<Props> = ({
 
   type Tab = "fish" | "guide" | "extras";
   const [tab, setTab] = useState<Tab>("fish");
-
-  const BaitSelectionComponent = hasFeatureAccess(state, "MULTI_CAST")
-    ? BaitSelection
-    : OldBaitSelection;
 
   const readyMarvel = useSelector(gameService, _marvel);
 
@@ -176,9 +170,7 @@ export const FishermanModal: React.FC<Props> = ({
       setCurrentTab={setTab}
       container={OuterPanel}
     >
-      {tab === "fish" && (
-        <BaitSelectionComponent onCast={onCast} state={state} />
-      )}
+      {tab === "fish" && <BaitSelection onCast={onCast} state={state} />}
 
       {tab === "guide" && (
         <InnerPanel>

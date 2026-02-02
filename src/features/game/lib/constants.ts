@@ -27,8 +27,6 @@ import {
 } from "../events/landExpansion/fruitPlanted";
 import { PatchFruitSeedName } from "../types/fruits";
 import { WORKBENCH_TOOLS, WorkbenchToolName } from "../types/tools";
-import { WATER_TRAP } from "../types/crustaceans";
-import { hasFeatureAccess } from "lib/flags";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;
@@ -69,14 +67,6 @@ export const INITIAL_STOCK = (
   const tools = Object.entries(WORKBENCH_TOOLS).reduce(
     (acc, [toolName, tool]) => {
       if (tool.disabled) return acc;
-
-      if (
-        state &&
-        toolName in WATER_TRAP &&
-        !hasFeatureAccess(state, "CRUSTACEANS")
-      ) {
-        return acc;
-      }
 
       return {
         ...acc,

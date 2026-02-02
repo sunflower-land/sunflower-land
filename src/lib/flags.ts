@@ -113,21 +113,6 @@ const FEATURE_FLAGS = {
     !!((game.wardrobe.Halo ?? 0) > 0) && !!game.inventory["Beta Pass"]?.gt(0),
 
   PET_HOUSE: testnetFeatureFlag,
-
-  FISHING_PUZZLE: defaultFeatureFlag,
-  MEMORY_BETA: defaultFeatureFlag,
-  CRUSTACEANS: defaultFeatureFlag,
-  VERSION_UPDATES: defaultFeatureFlag,
-  DAILY_BOXES: defaultFeatureFlag,
-  MICRO_INTERACTIONS: defaultFeatureFlag,
-  MULTI_CAST: defaultFeatureFlag,
-  FISH_MARKET: defaultFeatureFlag,
-  MAP_PIECES: defaultFeatureFlag,
-  INSTANT_RECIPES: defaultFeatureFlag,
-  SHOW_BOOSTS: defaultFeatureFlag,
-  PET_GUIDE: defaultFeatureFlag,
-  CHAPTER_TRACKS: defaultFeatureFlag,
-  CHAPTER_COLLECTIONS: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 const TIME_BASED_FEATURE_FLAGS = {

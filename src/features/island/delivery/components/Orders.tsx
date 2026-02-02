@@ -63,7 +63,6 @@ import { useNow } from "lib/utils/hooks/useNow";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { OrderCard } from "./OrderCard";
 import { LockedOrderCard } from "./LockedOrderCard";
-import { hasFeatureAccess } from "lib/flags";
 import { pixelVibrantBorderStyle } from "features/game/lib/style";
 import { getChapterTaskPoints } from "features/game/types/tracks";
 
@@ -251,7 +250,6 @@ export const DeliveryOrders: React.FC<Props> = ({
   });
 
   const chapter = getCurrentChapter(now);
-  const hasTrackAccess = hasFeatureAccess(state, "CHAPTER_TRACKS");
 
   return (
     <div className="flex md:flex-row flex-col-reverse md:mr-1 items-start h-full">
@@ -306,9 +304,7 @@ export const DeliveryOrders: React.FC<Props> = ({
               >
                 {chapterTicket}
               </Label>
-              {hasTrackAccess && (
-                <img src={chapterPoints} className="h-5 mb-2 ml-0.5" />
-              )}
+              <img src={chapterPoints} className="h-5 mb-2 ml-0.5" />
             </div>
             {isHoliday && (
               <Label type="formula" icon={lock} className="mt-1">
@@ -671,7 +667,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                 </Label>
               )}
           </InnerPanel>
-          {hasTrackAccess && !!tickets && (
+          {!!tickets && (
             <div
               className={classNames(
                 `w-full items-center flex  text-xs p-1 pr-4 mt-1 relative`,

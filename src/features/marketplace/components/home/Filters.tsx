@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -30,24 +30,12 @@ import {
 import { CHAPTER_COLLECTIONS } from "features/game/types/collections";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
-import { hasFeatureAccess } from "lib/flags";
-import { MachineState } from "features/game/lib/gameMachine";
-import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
-
-const _hasChapterCollectionsAccess = (state: MachineState) =>
-  hasFeatureAccess(state.context.state, "CHAPTER_COLLECTIONS");
 
 export const Filters: React.FC<{
   onClose?: () => void;
   farmId: number;
   hideLimited?: boolean;
 }> = ({ onClose, farmId, hideLimited }) => {
-  const { gameService } = useContext(Context);
-  const hasChapterCollectionsAccess = useSelector(
-    gameService,
-    _hasChapterCollectionsAccess,
-  );
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [queryParams] = useSearchParams();
@@ -417,30 +405,23 @@ export const Filters: React.FC<{
         : undefined,
     },
     // Collections
-    ...(hasChapterCollectionsAccess
-      ? [
-          {
-            icon: SUNNYSIDE.icons.treasure,
-            label: t("marketplace.collections"),
-            onClick: () => setUserChapterExpanded((prev) => !prev),
-            isActive: isChapterExpanded && !chapterParam,
-            hasOptions: true,
-            options: isChapterExpanded
-              ? chapterOptions.map((option) => ({
-                  icon: option.icon,
-                  label: option.label,
-                  onClick: () =>
-                    handleChapterToggle(
-                      option.value,
-                      chapterParam !== option.value,
-                    ),
-                  isActive: chapterParam === option.value,
-                  hasOptions: chapterParam === option.value,
-                }))
-              : undefined,
-          },
-        ]
-      : []),
+    {
+      icon: SUNNYSIDE.icons.treasure,
+      label: t("marketplace.collections"),
+      onClick: () => setUserChapterExpanded((prev) => !prev),
+      isActive: isChapterExpanded && !chapterParam,
+      hasOptions: true,
+      options: isChapterExpanded
+        ? chapterOptions.map((option) => ({
+            icon: option.icon,
+            label: option.label,
+            onClick: () =>
+              handleChapterToggle(option.value, chapterParam !== option.value),
+            isActive: chapterParam === option.value,
+            hasOptions: chapterParam === option.value,
+          }))
+        : undefined,
+    },
     // Buds
     {
       icon: budIcon,

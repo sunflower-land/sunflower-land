@@ -40,7 +40,6 @@ import {
 } from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
 import { Box } from "components/ui/Box";
-import { hasFeatureAccess } from "lib/flags";
 import { useAuth } from "features/auth/lib/Provider";
 import {
   loadCrustaceanChums,
@@ -315,9 +314,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
           </div>
         </InnerPanel>
 
-        {hasFeatureAccess(state, "CRUSTACEANS") && (
-          <Crustaceans state={state} onSelect={setSelectedCrustacean} />
-        )}
+        <Crustaceans state={state} onSelect={setSelectedCrustacean} />
 
         <MarineMarvelMaps state={state} />
       </div>
@@ -401,10 +398,6 @@ export const MarineMarvelMaps: React.FC<{ state: GameState }> = ({ state }) => {
     // Do not show Marine Marvels for non-current Chapters
     return !!currentChapter && chapter === currentChapter;
   });
-
-  if (!hasFeatureAccess(state, "MAP_PIECES")) {
-    return null;
-  }
 
   if (remainingMarvels.length === 0) {
     return null;

@@ -41,7 +41,6 @@ import { isMobile } from "mobile-device-detect";
 import { Context } from "features/game/GameProvider";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useNow } from "lib/utils/hooks/useNow";
-import { hasFeatureAccess } from "lib/flags";
 import { pixelVibrantBorderStyle } from "features/game/lib/style";
 import { getChapterTaskPoints } from "features/game/types/tracks";
 
@@ -90,7 +89,6 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
   );
   const chapterTicket = getChapterTicket(now);
   const chapter = getCurrentChapter(now);
-  const hasTrackAccess = hasFeatureAccess(state, "CHAPTER_TRACKS");
 
   const rewards = generateChoreRewards({
     game: state,
@@ -257,7 +255,7 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
             </div>
           </InnerPanel>
 
-          {hasTrackAccess && !!tickets && (
+          {!!tickets && (
             <div
               className={classNames(
                 `w-full items-center flex  text-xs p-1 pr-4 mt-1 relative`,

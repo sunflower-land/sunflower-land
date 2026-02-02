@@ -58,7 +58,6 @@ import { RequiredReputation } from "features/island/hud/components/reputation/Re
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
-import { hasFeatureAccess } from "lib/flags";
 import { getChapterTaskPoints } from "features/game/types/tracks";
 import chapterPoints from "assets/icons/red_medal_short.webp";
 
@@ -89,7 +88,6 @@ export const OrderCard: React.FC<{
   const { t } = useAppTranslation();
 
   const tickets = generateDeliveryTickets({ game, npc: order.from, now });
-  const hasTrackAccess = hasFeatureAccess(game, "CHAPTER_TRACKS");
 
   return (
     <>
@@ -181,7 +179,7 @@ export const OrderCard: React.FC<{
                     </div>
                   ))}
                 </Label>
-                {hasTrackAccess && !!tickets && (
+                {!!tickets && (
                   <Label type={"vibrant"} icon={chapterPoints} className="ml-2">
                     {`${getChapterTaskPoints({ task: "delivery", points: tickets })}`}
                   </Label>
