@@ -7832,7 +7832,7 @@
   "description.crab.pot": "A water trap for catching marine creatures",
   "description.mariner.pot": "An advanced water trap for catching marine creatures",
   "waterTrap.ready": "Ready to Collect",
-  "waterTrap.pickup": "Pickup",
+  "waterTrap.pickup": "Pick up",
   "waterTrap.collectMessage": "Your pot is ready to collect!",
   "waterTrap.collect": "Collect",
   "waterTrap.inProgress": "In Progress",

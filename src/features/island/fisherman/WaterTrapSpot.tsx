@@ -13,6 +13,7 @@ import classNames from "classnames";
 import {
   CRUSTACEAN_CHUM_AMOUNTS,
   CrustaceanChum,
+  WATER_TRAP_ANIMATIONS,
   WaterTrapName,
 } from "features/game/types/crustaceans";
 import { useAuth } from "features/auth/lib/Provider";
@@ -21,6 +22,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import crabSpot1 from "assets/wharf/crab_spot_1.webp";
 import crabSpot2 from "assets/wharf/crab_spot_2.webp";
 import { getKeys } from "features/game/types/decorations";
+import Spritesheet from "components/animation/SpriteAnimator";
+import { ZoomContext } from "components/ZoomProvider";
 
 const _crabTraps = (state: MachineState) => state.context.state.crabTraps;
 const _isVisiting = (state: MachineState) => state.matches("visiting");
@@ -32,6 +35,7 @@ interface Props {
 export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
   const { gameService, showTimers } = useContext(Context);
   const { authState } = useAuth();
+  const { scale } = useContext(ZoomContext);
   const crabTraps = useSelector(gameService, _crabTraps);
   const isVisiting = useSelector(gameService, _isVisiting);
   const [showModal, setShowModal] = useState(false);
@@ -99,6 +103,10 @@ export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
   const caughtItem = waterTrap?.caught
     ? getKeys(waterTrap.caught)[0]
     : undefined;
+  const placedPotDimensions =
+    waterTrap?.type === "Crab Pot"
+      ? { width: 13, height: 15 }
+      : { width: 15, height: 17 };
 
   return (
     <>
@@ -143,27 +151,47 @@ export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
           </div>
         )}
         {isReady && (
-          <img
-            src={SUNNYSIDE.fx.sparkle}
-            className="absolute w-4 h-4 z-[100]"
-          />
-        )}
-        {isReady && (
-          <img
-            src={SUNNYSIDE.icons.expression_alerted}
-            className="absolute -top-8 right-2"
-            style={{
-              width: `${PIXEL_SCALE * 4}px`,
-            }}
-          />
+          <>
+            <img
+              src={SUNNYSIDE.fx.sparkle}
+              className="absolute w-4 h-4 z-[100]"
+            />
+            <img
+              src={SUNNYSIDE.icons.expression_alerted}
+              className="absolute -top-8 right-3.5"
+              style={{
+                width: `${PIXEL_SCALE * 4}px`,
+              }}
+            />
+          </>
         )}
         <div className="absolute inset-0 flex items-center justify-center">
-          <img
-            src={crabSpotImage}
-            alt={`Crab Spot ${id}`}
-            width={PIXEL_SCALE * 15}
-            height={PIXEL_SCALE * 20}
-          />
+          {waterTrap ? (
+            <Spritesheet
+              className="absolute pointer-events-none"
+              style={{
+                width: `${PIXEL_SCALE * placedPotDimensions.width}px`,
+                height: `${PIXEL_SCALE * placedPotDimensions.height}px`,
+                imageRendering: "pixelated",
+              }}
+              image={WATER_TRAP_ANIMATIONS[waterTrap.type]}
+              widthFrame={placedPotDimensions.width}
+              heightFrame={placedPotDimensions.height}
+              zoomScale={scale}
+              fps={3}
+              steps={2}
+              direction="forward"
+              autoplay
+              loop
+            />
+          ) : (
+            <img
+              src={crabSpotImage}
+              alt={`Crab Spot ${id}`}
+              width={PIXEL_SCALE * 15}
+              height={PIXEL_SCALE * 20}
+            />
+          )}
         </div>
         {showTimers && isPlaced && readyAt && (
           <div

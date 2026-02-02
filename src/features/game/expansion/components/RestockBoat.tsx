@@ -80,9 +80,9 @@ export const RestockBoat: React.FC = () => {
       return { x: -1, y: -7 };
     }
     if (expansionCount >= 7 && expansionCount < 21) {
-      return { x: -8, y: -13 };
+      return { x: 0, y: -10 };
     } else {
-      return { x: -14, y: -19 };
+      return { x: 0, y: -17 };
     }
   };
 

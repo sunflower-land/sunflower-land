@@ -1,6 +1,7 @@
 import { translate } from "lib/i18n/translate";
 import { InventoryItemName } from "./game";
 import { getKeys } from "../lib/crafting";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export type WaterTrapName = "Crab Pot" | "Mariner Pot";
 
@@ -119,4 +120,9 @@ export const WATER_TRAP: Record<WaterTrapName, WaterTrap> = {
     requiredBumpkinLevel: 24,
     chums: getKeys(MARINER_POT_CHUMS),
   },
+};
+
+export const WATER_TRAP_ANIMATIONS: Record<WaterTrapName, string> = {
+  "Crab Pot": SUNNYSIDE.tools.crab_pot_placed,
+  "Mariner Pot": SUNNYSIDE.tools.mariner_pot_placed,
 };
