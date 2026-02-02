@@ -122,13 +122,10 @@ export function sellAnimal({
           task: "bounty",
           points: amount ?? 0,
         });
-        const previousPoints =
-          game.farmActivity[`${chapter} Points Earned`] ?? 0;
         handleChapterAnalytics({
-          chapter,
           task: "bounty",
-          points: pointsAwarded,
-          previousPoints,
+          points: amount ?? 0,
+          farmActivity: game.farmActivity,
           createdAt,
         });
 

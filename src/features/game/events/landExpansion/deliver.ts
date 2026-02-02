@@ -486,12 +486,10 @@ export function deliverOrder({
         task: "delivery",
         points: tickets,
       });
-      const previousPoints = game.farmActivity[`${chapter} Points Earned`] ?? 0;
       handleChapterAnalytics({
-        chapter,
         task: "delivery",
-        points: pointsAwarded,
-        previousPoints,
+        points: tickets,
+        farmActivity: game.farmActivity,
         createdAt,
       });
 

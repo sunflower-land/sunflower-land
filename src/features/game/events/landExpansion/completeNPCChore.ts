@@ -187,13 +187,10 @@ export function completeNPCChore({
         task: "chore",
         points: amount,
       });
-      const previousPoints =
-        draft.farmActivity[`${chapter} Points Earned`] ?? 0;
       handleChapterAnalytics({
-        chapter,
         task: "chore",
-        points: pointsAwarded,
-        previousPoints,
+        points: amount,
+        farmActivity: draft.farmActivity,
         createdAt,
       });
 

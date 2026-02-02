@@ -213,13 +213,10 @@ export function sellBounty({
         task: "bounty",
         points: tickets,
       });
-      const previousPoints =
-        draft.farmActivity[`${chapter} Points Earned`] ?? 0;
       handleChapterAnalytics({
-        chapter,
         task: "bounty",
-        points: pointsAwarded,
-        previousPoints,
+        points: tickets,
+        farmActivity: draft.farmActivity,
         createdAt,
       });
 

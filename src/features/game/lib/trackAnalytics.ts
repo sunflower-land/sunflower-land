@@ -1,25 +1,27 @@
-import { CHAPTERS, ChapterName } from "features/game/types/chapters";
+import { CHAPTERS, getCurrentChapter } from "features/game/types/chapters";
 import {
   CHAPTER_TRACKS,
   ChapterTask,
+  getChapterTaskPoints,
   getTrackMilestonesCrossed,
 } from "features/game/types/tracks";
 import { gameAnalytics } from "lib/gameAnalytics";
 
 export function handleChapterAnalytics({
-  chapter,
   task,
   points,
-  previousPoints,
+  farmActivity,
   createdAt,
 }: {
-  chapter: ChapterName;
   task: ChapterTask;
   points: number;
-  previousPoints: number;
+  farmActivity: Record<string, number>;
   createdAt: number;
 }) {
-  if (points <= 0) {
+  const chapter = getCurrentChapter(createdAt);
+  const pointsAwarded = getChapterTaskPoints({ task, points });
+
+  if (pointsAwarded <= 0) {
     return;
   }
 
@@ -28,15 +30,15 @@ export function handleChapterAnalytics({
     return;
   }
 
-  const nextPoints = previousPoints + points;
+  const previousPoints = farmActivity[`${chapter} Points Earned`] ?? 0;
+  const nextPoints = previousPoints + pointsAwarded;
   const daysSinceStart =
-    (createdAt - CHAPTERS[chapter].startDate.getTime()) /
-    (24 * 60 * 60 * 1000);
+    (createdAt - CHAPTERS[chapter].startDate.getTime()) / (24 * 60 * 60 * 1000);
 
   gameAnalytics.trackTracksPoints({
     chapter,
     source: task,
-    points,
+    points: pointsAwarded,
   });
 
   if (previousPoints === 0 && nextPoints > 0) {
