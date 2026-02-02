@@ -49,10 +49,15 @@ export class RetreatScene extends BaseScene {
       frameHeight: 21,
     });
 
+    this.load.spritesheet("raffle", "world/raffle.webp", {
+      frameWidth: 33,
+      frameHeight: 28,
+    });
     this.load.spritesheet("big_goblin", "world/big_goblin.png", {
       frameWidth: 27,
       frameHeight: 35,
     });
+    this.load.image("raffle_disc", "world/raffle_disc.png");
     this.load.image("exchange_disc", "world/exchange_disc.png");
     this.load.image("withdraw_disc", "world/withdraw_disc.png");
     this.load.spritesheet("garbage_collector", "world/garbage_collector.png", {

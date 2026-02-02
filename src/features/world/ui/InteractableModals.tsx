@@ -11,6 +11,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { TreasureChest } from "./chests/TreasureChest";
 import { SceneId } from "../mmoMachine";
 import { BudBox } from "./chests/BudBox";
+import { Raffle } from "./chests/Raffle";
 import { FanArt } from "./FanArt";
 import { BankModal } from "features/game/components/bank/components/BankModal";
 import { GarbageCollectorModal } from "features/helios/components/garbageCollector/components/GarbageCollectorModal";
@@ -464,6 +465,9 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       </Modal>
       <Modal show={interactable === "clubhouse_reward"} onHide={closeModal}>
         <BudBox onClose={closeModal} setIsLoading={setIsLoading} />
+      </Modal>
+      <Modal show={interactable === "raffle"} onHide={closeModal}>
+        <Raffle onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "bank"} onHide={closeModal}>
         <BankModal onClose={closeModal} farmAddress="?" />
