@@ -139,7 +139,9 @@ const SOURCE_DISPLAY_ORDER = [
   "vipGift",
 ] as const;
 
-type ChapterItemSourceKey = (typeof SOURCE_DISPLAY_ORDER)[number] | "unknown";
+export type ChapterItemSourceKey =
+  | (typeof SOURCE_DISPLAY_ORDER)[number]
+  | "unknown";
 
 /** Per-source lists of items. Each chapter uses the sources that apply (e.g. megastore, auctioneer). */
 export type ChapterCollectionBySource = Partial<
@@ -166,7 +168,7 @@ export const CHAPTER_COLLECTIONS: Partial<
       wearables: getChapterMegastoreWearables("Better Together"),
     },
     mutants: {
-      collectibles: getChapterMutants("Better Together") as InventoryItemName[],
+      collectibles: getChapterMutants("Better Together"),
     },
     auctioneer: {
       collectibles: [
