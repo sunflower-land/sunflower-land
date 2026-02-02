@@ -279,6 +279,7 @@ export type Coupons =
   | "Cheer"
   | Keys
   | ChapterTicket
+  | ChapterRaffleTicket
   | FactionEmblem;
 
 export type Keys = "Treasure Key" | "Rare Key" | "Luxury Key";
@@ -417,6 +418,12 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   Cheer: { description: translate("description.cheer") },
   "Pet Cookie": { description: translate("description.petCookie") },
   Floater: { description: "Collected during the Crabs and Traps." },
+  "Paw Prints Raffle Ticket": {
+    description: translate("description.pawPrintsRaffleTicket"),
+  },
+  "Crabs and Traps Raffle Ticket": {
+    description: translate("description.crabsAndTrapsRaffleTicket"),
+  },
   "Halloween Token 2025": {
     description: translate("description.halloweenToken2025"),
   },
