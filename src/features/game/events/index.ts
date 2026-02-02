@@ -233,7 +233,6 @@ import {
 } from "./landExpansion/completeSpecialEventTask";
 import { claimGift, ClaimGiftAction } from "./landExpansion/claimBumpkinGift";
 import { giftFlowers, GiftFlowersAction } from "./landExpansion/giftFlowers";
-import { enterRaffle, EnterRaffleAction } from "./landExpansion/enterRaffle";
 
 import {
   exchangeSFLtoCoins,
@@ -664,7 +663,6 @@ export type PlayingEvent =
   | CompleteSpecialEventTaskAction
   | GiftFlowersAction
   | ClaimGiftAction
-  | EnterRaffleAction
   | ExchangeSFLtoCoinsAction
   | DrillOilReserveAction
   | ClaimMinigamePrizeAction
@@ -926,7 +924,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "specialEvent.taskCompleted": completeSpecialEventTask,
   "flowers.gifted": giftFlowers,
   "gift.claimed": claimGift,
-  "raffle.entered": enterRaffle,
   "sfl.exchanged": exchangeSFLtoCoins,
   "faction.joined": joinFaction,
   "oilReserve.drilled": drillOilReserve,
