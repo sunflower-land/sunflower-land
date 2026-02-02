@@ -14,7 +14,6 @@ import { BUMPKIN_GIFTS } from "features/game/types/gifts";
 import {
   getCurrentChapter,
   getChapterTicket,
-  CHAPTERS,
 } from "features/game/types/chapters";
 import { NPCName } from "lib/npcs";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
@@ -32,12 +31,8 @@ import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "./completeNPCChore";
 import { isCollectible } from "./garbageSold";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
-import {
-  CHAPTER_TRACKS,
-  getChapterTaskPoints,
-  getTrackMilestonesCrossed,
-} from "features/game/types/tracks";
-import { gameAnalytics } from "lib/gameAnalytics";
+import { getChapterTaskPoints } from "features/game/types/tracks";
+import { handleChapterAnalytics } from "features/game/lib/trackAnalytics";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   "pumpkin' pete": 1,
@@ -492,52 +487,13 @@ export function deliverOrder({
         points: tickets,
       });
       const previousPoints = game.farmActivity[`${chapter} Points Earned`] ?? 0;
-      const nextPoints = previousPoints + pointsAwarded;
-      const chapterTrack = CHAPTER_TRACKS[chapter];
-
-      if (chapterTrack) {
-        const daysSinceStart =
-          (createdAt - CHAPTERS[chapter].startDate.getTime()) /
-          (24 * 60 * 60 * 1000);
-
-        gameAnalytics.trackTracksPoints({
-          chapter,
-          source: "delivery",
-          points: pointsAwarded,
-        });
-
-        if (previousPoints === 0 && nextPoints > 0) {
-          gameAnalytics.trackTracksActivated({
-            chapter,
-            source: "delivery",
-          });
-        }
-
-        const crossed = getTrackMilestonesCrossed({
-          chapterTrack,
-          previousPoints,
-          nextPoints,
-        });
-
-        crossed.forEach((milestone) => {
-          gameAnalytics.trackTracksMilestoneReached({
-            chapter,
-            milestone,
-            daysSinceStart,
-          });
-        });
-
-        const finalPoints =
-          chapterTrack.milestones[chapterTrack.milestones.length - 1]?.points ??
-          0;
-
-        if (previousPoints < finalPoints && nextPoints >= finalPoints) {
-          gameAnalytics.trackTracksComplete({
-            chapter,
-            daysSinceStart,
-          });
-        }
-      }
+      handleChapterAnalytics({
+        chapter,
+        task: "delivery",
+        points: pointsAwarded,
+        previousPoints,
+        createdAt,
+      });
 
       const count = game.inventory[chapterTicket] || new Decimal(0);
       const amount = tickets || new Decimal(0);

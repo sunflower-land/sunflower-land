@@ -11,7 +11,6 @@ import {
   getCurrentChapter,
   getChapterTicket,
   ChapterName,
-  CHAPTERS,
 } from "features/game/types/chapters";
 import { isWearableActive } from "features/game/lib/wearables";
 import { hasVipAccess } from "features/game/lib/vipAccess";
@@ -22,13 +21,9 @@ import {
 } from "features/game/types/megastore";
 import { isCollectible } from "./garbageSold";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import {
-  CHAPTER_TRACKS,
-  getChapterTaskPoints,
-  getTrackMilestonesCrossed,
-} from "features/game/types/tracks";
+import { getChapterTaskPoints } from "features/game/types/tracks";
 import { FlowerBox } from "../landExpansion/buyChapterItem";
-import { gameAnalytics } from "lib/gameAnalytics";
+import { handleChapterAnalytics } from "features/game/lib/trackAnalytics";
 
 export type CompleteNPCChoreAction = {
   type: "chore.fulfilled";
@@ -194,52 +189,13 @@ export function completeNPCChore({
       });
       const previousPoints =
         draft.farmActivity[`${chapter} Points Earned`] ?? 0;
-      const nextPoints = previousPoints + pointsAwarded;
-      const chapterTrack = CHAPTER_TRACKS[chapter];
-
-      if (chapterTrack) {
-        const daysSinceStart =
-          (createdAt - CHAPTERS[chapter].startDate.getTime()) /
-          (24 * 60 * 60 * 1000);
-
-        gameAnalytics.trackTracksPoints({
-          chapter,
-          source: "chore",
-          points: pointsAwarded,
-        });
-
-        if (previousPoints === 0 && nextPoints > 0) {
-          gameAnalytics.trackTracksActivated({
-            chapter,
-            source: "chore",
-          });
-        }
-
-        const crossed = getTrackMilestonesCrossed({
-          chapterTrack,
-          previousPoints,
-          nextPoints,
-        });
-
-        crossed.forEach((milestone) => {
-          gameAnalytics.trackTracksMilestoneReached({
-            chapter,
-            milestone,
-            daysSinceStart,
-          });
-        });
-
-        const finalPoints =
-          chapterTrack.milestones[chapterTrack.milestones.length - 1]?.points ??
-          0;
-
-        if (previousPoints < finalPoints && nextPoints >= finalPoints) {
-          gameAnalytics.trackTracksComplete({
-            chapter,
-            daysSinceStart,
-          });
-        }
-      }
+      handleChapterAnalytics({
+        chapter,
+        task: "chore",
+        points: pointsAwarded,
+        previousPoints,
+        createdAt,
+      });
 
       draft.farmActivity = trackFarmActivity(
         `${ticket} Collected`,

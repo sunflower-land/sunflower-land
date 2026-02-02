@@ -23,7 +23,6 @@ import {
 import {
   getCurrentChapter,
   getChapterTicket,
-  CHAPTERS,
 } from "features/game/types/chapters";
 import {
   SELLABLE_TREASURES,
@@ -33,12 +32,8 @@ import { produce } from "immer";
 import { isCollectible } from "./garbageSold";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "./completeNPCChore";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
-import {
-  CHAPTER_TRACKS,
-  getChapterTaskPoints,
-  getTrackMilestonesCrossed,
-} from "features/game/types/tracks";
-import { gameAnalytics } from "lib/gameAnalytics";
+import { getChapterTaskPoints } from "features/game/types/tracks";
+import { handleChapterAnalytics } from "features/game/lib/trackAnalytics";
 
 export const BOUNTY_CATEGORIES = {
   "Flower Bounties": (bounty: BountyRequest): bounty is FlowerBounty =>
@@ -220,52 +215,13 @@ export function sellBounty({
       });
       const previousPoints =
         draft.farmActivity[`${chapter} Points Earned`] ?? 0;
-      const nextPoints = previousPoints + pointsAwarded;
-      const chapterTrack = CHAPTER_TRACKS[chapter];
-
-      if (chapterTrack) {
-        const daysSinceStart =
-          (createdAt - CHAPTERS[chapter].startDate.getTime()) /
-          (24 * 60 * 60 * 1000);
-
-        gameAnalytics.trackTracksPoints({
-          chapter,
-          source: "bounty",
-          points: pointsAwarded,
-        });
-
-        if (previousPoints === 0 && nextPoints > 0) {
-          gameAnalytics.trackTracksActivated({
-            chapter,
-            source: "bounty",
-          });
-        }
-
-        const crossed = getTrackMilestonesCrossed({
-          chapterTrack,
-          previousPoints,
-          nextPoints,
-        });
-
-        crossed.forEach((milestone) => {
-          gameAnalytics.trackTracksMilestoneReached({
-            chapter,
-            milestone,
-            daysSinceStart,
-          });
-        });
-
-        const finalPoints =
-          chapterTrack.milestones[chapterTrack.milestones.length - 1]?.points ??
-          0;
-
-        if (previousPoints < finalPoints && nextPoints >= finalPoints) {
-          gameAnalytics.trackTracksComplete({
-            chapter,
-            daysSinceStart,
-          });
-        }
-      }
+      handleChapterAnalytics({
+        chapter,
+        task: "bounty",
+        points: pointsAwarded,
+        previousPoints,
+        createdAt,
+      });
 
       draft.farmActivity = trackFarmActivity(
         `${getChapterTicket(createdAt)} Collected`,
