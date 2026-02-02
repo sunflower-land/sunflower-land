@@ -913,6 +913,44 @@ describe("getDailyFishingLimit", () => {
     expect(limit).toEqual(25);
     jest.useRealTimers();
   });
+
+  it("does not increase fishing limit for VIP outside Crabs and Traps", () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date("2026-01-15T00:00:00.000Z"));
+
+    const { limit } = getDailyFishingLimit(
+      {
+        ...INITIAL_FARM,
+        vip: {
+          expiresAt: Date.now() + 1000 * 60 * 60 * 24,
+          bundles: [],
+        },
+      },
+      Date.now(),
+    );
+
+    expect(limit).toEqual(20);
+    jest.useRealTimers();
+  });
+
+  it("does not increase fishing limit when VIP expired at cast time", () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(CHAPTERS["Crabs and Traps"].startDate);
+
+    const { limit } = getDailyFishingLimit(
+      {
+        ...INITIAL_FARM,
+        vip: {
+          expiresAt: Date.now() - 1000,
+          bundles: [],
+        },
+      },
+      Date.now(),
+    );
+
+    expect(limit).toEqual(20);
+    jest.useRealTimers();
+  });
 });
 
 describe("getReelsPackGemPrice", () => {

@@ -736,7 +736,7 @@ export function getDailyFishingLimit(
   }
 
   if (
-    hasVipAccess({ game }) &&
+    hasVipAccess({ game, now: createdAt }) &&
     getCurrentChapter(createdAt) === "Crabs and Traps"
   ) {
     limit += 5;
