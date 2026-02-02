@@ -32,15 +32,15 @@ const FISH_FLAKE_SEASONAL: Record<TemperateSeasonName, Inventory> = {
     "Sea Bass": new Decimal(2),
   },
   summer: {
-    Butterflyfish: new Decimal(3),
-    "Sea Horse": new Decimal(1),
+    Butterflyfish: new Decimal(2),
+    "Sea Horse": new Decimal(2),
   },
   autumn: {
-    Halibut: new Decimal(1),
+    Halibut: new Decimal(2),
     Muskellunge: new Decimal(2),
   },
   winter: {
-    Blowfish: new Decimal(3),
+    Blowfish: new Decimal(2),
     Clownfish: new Decimal(2),
   },
 };
@@ -59,7 +59,7 @@ const FISH_STICK_SEASONAL: Record<TemperateSeasonName, Inventory> = {
     Napoleanfish: new Decimal(2),
   },
   winter: {
-    Walleye: new Decimal(1),
+    Walleye: new Decimal(2),
     Angelfish: new Decimal(2),
   },
 };
