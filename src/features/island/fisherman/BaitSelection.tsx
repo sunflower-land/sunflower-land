@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import plus from "assets/icons/plus.png";
@@ -6,10 +6,11 @@ import lightning from "assets/icons/lightning.png";
 import fullMoon from "assets/icons/full_moon.png";
 import multiCast from "src/assets/icons/multi-cast.webp";
 import ancientRod from "src/assets/wearables/224.webp";
+import vipIcon from "assets/icons/vip.webp";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import { InnerPanel } from "components/ui/Panel";
+import { InnerPanel, Panel } from "components/ui/Panel";
 import {
   GameState,
   Inventory,
@@ -46,6 +47,7 @@ import { EXTRA_REELS_AMOUNT } from "features/game/events/landExpansion/castRod";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useNow } from "lib/utils/hooks/useNow";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 const BAIT: FishingBait[] = [
   "Earthworm",
@@ -110,6 +112,7 @@ type Props = {
 };
 
 export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
+  const { openModal } = useContext(ModalContext);
   const items = {
     ...getBasketItems(state.inventory),
     ...getChestItems(state),
@@ -130,6 +133,7 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
   const [chum, setChum] = useState<Chum | undefined>(() =>
     getDefaultChum(items),
   );
+  const [showVipModal, setShowVipModal] = useState(false);
   const [selectedBait, setSelectedBait] = useState<FishingBait | undefined>(
     () => getStoredBait(),
   );
@@ -392,43 +396,50 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
             </div>
           </InnerPanel>
         )}
-        {isVip && (
-          <InnerPanel>
-            <div className="flex flex-col justify-between space-y-2">
+
+        <InnerPanel>
+          <div className="flex flex-col justify-between space-y-2">
+            <div className="flex items-center gap-2">
               <Label type="default" className="text-xs ml-1" icon={multiCast}>
                 {t("fishing.multiCast")}
               </Label>
-              <div className="flex items-center space-x-2 p-1">
-                {hasAncientRod ? (
-                  <SmallBox image={ancientRod} />
-                ) : (
-                  <SmallBox
-                    image={SUNNYSIDE.tools.fishing_rod}
-                    count={state.inventory["Rod"] ?? new Decimal(0)}
-                  />
-                )}
-                <div className="flex gap-2">
-                  {[1, 5, 10, 25].map((value) => {
-                    const isSelected = effectiveMultiplier === value;
+              <img src={vipIcon} alt="VIP" className="w-6 cursor-pointer" />
+            </div>
+            <div className="flex items-center space-x-2 p-1">
+              {hasAncientRod ? (
+                <SmallBox image={ancientRod} />
+              ) : (
+                <SmallBox
+                  image={SUNNYSIDE.tools.fishing_rod}
+                  count={state.inventory["Rod"] ?? new Decimal(0)}
+                />
+              )}
+              <div className="flex gap-2">
+                {[1, 5, 10, 25].map((value) => {
+                  const isSelected = effectiveMultiplier === value;
 
-                    return (
-                      <div
-                        key={value}
-                        className="flex items-center gap-1 cursor-pointer"
-                      >
-                        <span className="text-xs ml-1 -mr-0.5">{`${value}x`}</span>
-                        <Checkbox
-                          checked={isSelected}
-                          onChange={() => handleMultiplierChange(value)}
-                        />
-                      </div>
-                    );
-                  })}
-                </div>
+                  return (
+                    <div
+                      key={value}
+                      className="flex items-center gap-1 cursor-pointer"
+                    >
+                      <span className="text-xs ml-1 -mr-0.5">{`${value}x`}</span>
+                      <Checkbox
+                        checked={isSelected}
+                        onChange={
+                          !isVip
+                            ? () => setShowVipModal(true)
+                            : () => handleMultiplierChange(value)
+                        }
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </div>
-          </InnerPanel>
-        )}
+          </div>
+        </InnerPanel>
+
         {!isGuaranteedBait(selectedBait) && (
           <InnerPanel>
             {chum ? (
@@ -563,6 +574,33 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
             <Button onClick={handleBuyMoreReelsAndCast}>{t("confirm")}</Button>
           </div>
         </InnerPanel>
+      </ModalOverlay>
+      <ModalOverlay
+        show={showVipModal}
+        onBackdropClick={() => setShowVipModal(false)}
+      >
+        <Panel>
+          <div className="p-2 text-sm">
+            <p className="mb-1.5">{t("fishing.multiCastVip")}</p>
+          </div>
+          <div className="flex space-x-1 justify-end">
+            <Button onClick={() => setShowVipModal(false)}>{t("close")}</Button>
+            <Button
+              className="relative"
+              onClick={() => {
+                setShowVipModal(false);
+                openModal("BUY_BANNER");
+              }}
+            >
+              <img
+                src={vipIcon}
+                alt="VIP"
+                className="absolute w-6 sm:w-4 -top-[1px] -right-[2px]"
+              />
+              <span>{t("upgrade")}</span>
+            </Button>
+          </div>
+        </Panel>
       </ModalOverlay>
     </>
   );
