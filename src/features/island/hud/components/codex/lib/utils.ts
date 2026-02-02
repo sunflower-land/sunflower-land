@@ -50,6 +50,16 @@ export const getFishByType = () => {
   return fishByType;
 };
 
+export function getFishSection(fishName: FishName | MarineMarvelName): string {
+  const fishByType = getFishByType();
+  for (const [type, fishList] of Object.entries(fishByType)) {
+    if (fishList.includes(fishName)) {
+      return `fish-${type}`;
+    }
+  }
+  return "fish-common";
+}
+
 export const getFlowerBySeed = () => {
   const flowersBySeed: Record<FlowerSeedName, FlowerName[]> = {
     "Sunpetal Seed": [],

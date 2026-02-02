@@ -1452,6 +1452,8 @@ export const SUNNYSIDE = {
     wood_pickaxe: `${CONFIG.PROTECTED_IMAGE_URL}/tools/wood_pickaxe.png`,
     crab_pot: `${CONFIG.PROTECTED_IMAGE_URL}/tools/crab_pot.webp`,
     mariner_pot: `${CONFIG.PROTECTED_IMAGE_URL}/tools/mariner_pot.webp`,
+    crab_pot_placed: `${CONFIG.PROTECTED_IMAGE_URL}/tools/crab_pot_placed_sheet.webp`,
+    mariner_pot_placed: `${CONFIG.PROTECTED_IMAGE_URL}/tools/marine_pot_placed_sheet.webp`,
   },
   //UIs
   ui: {
