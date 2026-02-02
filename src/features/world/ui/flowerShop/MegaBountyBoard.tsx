@@ -41,7 +41,6 @@ import { NO_BONUS_BOUNTIES_WEEK } from "features/game/events/landExpansion/claim
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
-import { hasFeatureAccess } from "lib/flags";
 import { getChapterTaskPoints } from "features/game/types/tracks";
 
 export const MegaBountyBoard: React.FC<{ onClose: () => void }> = ({
@@ -392,7 +391,6 @@ const Deal: React.FC<{
   }, []);
 
   const chapter = getCurrentChapter(now);
-  const hasTrackAccess = hasFeatureAccess(state, "CHAPTER_TRACKS");
   const tickets = generateBountyTicket({
     game: state,
     bounty,
@@ -471,7 +469,7 @@ const Deal: React.FC<{
                     </Label>
                   );
                 })}
-                {hasTrackAccess && !!tickets && (
+                {!!tickets && (
                   <Label type={"vibrant"} icon={chapterPoints}>
                     {`+${getChapterTaskPoints({ task: "bounty", points: tickets })} ${chapter} points.`}
                   </Label>

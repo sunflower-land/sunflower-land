@@ -10,7 +10,6 @@ import {
   CookableName,
   FIRE_PIT_COOKABLES,
   isFishCookable,
-  isInstantFishRecipe,
 } from "features/game/types/consumables";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel, Panel } from "components/ui/Panel";
@@ -20,7 +19,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BuildingProduct } from "features/game/types/game";
 import { CHAPTERS, getCurrentChapter } from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
-import { hasFeatureAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
 import { getCookingRequirements } from "features/game/events/landExpansion/cook";
 import { InventoryItemName } from "features/game/types/game";
@@ -69,24 +67,16 @@ export const FirePitModal: React.FC<Props> = ({
   }, [gameService]);
 
   const firePitRecipes = useMemo(() => {
-    const game = getGame();
-
     return Object.values(FIRE_PIT_COOKABLES)
       .filter((recipe) => {
         if (getCurrentChapter(now) === "Paw Prints") return true;
 
         return !isFishCookable(recipe.name);
       })
-      .filter((recipe) => {
-        if (isInstantFishRecipe(recipe.name)) {
-          return hasFeatureAccess(game ?? {}, "INSTANT_RECIPES");
-        }
-        return true;
-      })
       .sort(
         (a, b) => a.experience - b.experience, // "Lowest entry" == first in this order
       );
-  }, [getGame, now]);
+  }, [now]);
 
   /**
    * Stored selection is intentionally session-only (component state).

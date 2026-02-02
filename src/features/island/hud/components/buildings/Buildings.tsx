@@ -46,6 +46,7 @@ const getValidBuildings = (): BuildingName[] => {
     "Crop Machine",
     "Crafting Box",
     "Barn",
+    "Fish Market",
   ];
 
   const VALID_BUILDINGS = [...UNSORTED_BUILDINGS].sort(
@@ -202,9 +203,6 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
         <>
           {[
             ...getValidBuildings(),
-            ...((hasFeatureAccess(state, "FISH_MARKET")
-              ? ["Fish Market"]
-              : []) as BuildingName[]),
             ...((hasFeatureAccess(state, "PET_HOUSE")
               ? ["Pet House"]
               : []) as BuildingName[]),
