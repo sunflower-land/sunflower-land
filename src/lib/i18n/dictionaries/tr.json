@@ -3447,7 +3447,6 @@
   "crafting.inProgress": "Devamında",
   "bounties.flower.intro.one": "Merhaba Bumpkin! Bu hafta çiçeklerden ödül aldık.",
   "bounties.flower.intro.two": "Bana en güzel çiçeklerini getir, ben de buna değerim.",
-  "megaStore.msg1": "Sezonluk mağazama hoş geldiniz. Zaman dolmadan kaynakları toplayın ve nadir eşyalarla değiştirin!",
   "description.barn.delight": "Hayvan hastalıklarını iyileştiren büyülü bir iksir.",
   "animal.notEnoughFood": "Yeterli yiyecek yok",
   "feeder.foodTypes.food": "Gıda",
@@ -7948,5 +7947,6 @@
   "calendar.events.fullMoon.description": "Harita parçalarının ve egzotik mahsullerin göründüğü nadir bir olay.",
   "picking.up.water.trap": "Tuzağını topluyorsun...",
   "waterTrap.newCrustacean": "Yeni bir kabuklular keşfettin!",
-  "fishing.buyReels.confirmation": "{{gemPrice}} için {{reels}} makaraları satın almak istediğinizden emin misiniz?"
+  "fishing.buyReels.confirmation": "{{gemPrice}} için {{reels}} makaraları satın almak istediğinizden emin misiniz?",
+  "megaStore.msg1": "Bölüm mağazama hoş geldiniz. Zaman dolmadan kaynakları toplayın ve nadir eşyalarla değiştirin!"
 }

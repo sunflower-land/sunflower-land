@@ -3447,7 +3447,6 @@
   "crafting.inProgress": "In Bearbeitung",
   "bounties.flower.intro.one": "Hallo Bumpkin! Wir haben diese Woche ein Kopfgeld auf Blumen.",
   "bounties.flower.intro.two": "Bring mir deine schönsten Blumen und ich werde dafür sorgen, dass es sich für dich lohnt.",
-  "megaStore.msg1": "Willkommen in meinem saisonalen Geschäft. Sammle Ressourcen und tausche sie gegen seltene Gegenstände ein, bevor die Zeit abläuft!",
   "description.barn.delight": "Ein magisches Elixier, das Tierkrankheiten heilt.",
   "animal.notEnoughFood": "Nicht genug Essen verfügbar",
   "feeder.foodTypes.food": "Essen",
@@ -7948,5 +7947,6 @@
   "calendar.events.fullMoon.description": "Ein seltenes Ereignis, bei dem Kartenstücke und exotische Pflanzen auftauchen.",
   "picking.up.water.trap": "Ich hebe deine Falle auf...",
   "waterTrap.newCrustacean": "Du hast ein neues Krebstier entdeckt!",
-  "fishing.buyReels.confirmation": "Bist du sicher, dass du {{reels}} Rollen für {{gemPrice}} kaufen willst?"
+  "fishing.buyReels.confirmation": "Bist du sicher, dass du {{reels}} Rollen für {{gemPrice}} kaufen willst?",
+  "megaStore.msg1": "Willkommen in meinem Chapter Store. Sammle Ressourcen und tausche sie gegen seltene Gegenstände ein, bevor die Zeit abläuft!"
 }

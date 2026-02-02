@@ -3447,7 +3447,6 @@
   "crafting.inProgress": "En cours",
   "bounties.flower.intro.one": "Bonjour Bumpkin ! Nous avons une prime sur les fleurs cette semaine.",
   "bounties.flower.intro.two": "Apportez-moi vos plus belles fleurs, et je ferai en sorte que cela en vaille la peine.",
-  "megaStore.msg1": "Bienvenue dans ma boutique saisonnière. Rassemblez des ressources et échangez-les contre des objets rares avant la fin du temps imparti !",
   "description.barn.delight": "Un élixir magique qui guérit les maladies des animaux.",
   "animal.notEnoughFood": "Pas assez de nourriture disponible",
   "feeder.foodTypes.food": "Nourriture",
@@ -7948,5 +7947,6 @@
   "calendar.events.fullMoon.description": "Un événement rare où apparaissent des morceaux de carte et des cultures exotiques.",
   "picking.up.water.trap": "Je prends ton piège...",
   "waterTrap.newCrustacean": "Vous avez découvert un nouveau crustacé !",
-  "fishing.buyReels.confirmation": "Êtes-vous sûr de vouloir acheter des bobines {{reels}} pour {{gemPrice}} ?"
+  "fishing.buyReels.confirmation": "Êtes-vous sûr de vouloir acheter des bobines {{reels}} pour {{gemPrice}} ?",
+  "megaStore.msg1": "Bienvenue dans ma boutique de chapitres. Rassemblez des ressources et échangez-les contre des objets rares avant la fin du temps imparti !"
 }

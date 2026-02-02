@@ -3447,7 +3447,6 @@
   "crafting.inProgress": "진행 중",
   "bounties.flower.intro.one": "안녕 범프킨!이번 주에는 풍성한 꽃들이 있어요.",
   "bounties.flower.intro.two": "가장 아름다운 꽃을 가져오면 시간을 할애할 수 있게 해줄게.",
-  "megaStore.msg1": "제 시즌 스토어에 오신 것을 환영합니다.시간이 다 가기 전에 자원을 모아 희귀 아이템으로 교환하세요!",
   "description.barn.delight": "동물의 질병을 치료하는 마법의 비약입니다.",
   "animal.notEnoughFood": "식량이 충분하지 않음",
   "feeder.foodTypes.food": "음식",
@@ -7948,5 +7947,6 @@
   "calendar.events.fullMoon.description": "지도 조각과 이국적인 작물이 등장하는 드문 이벤트입니다.",
   "picking.up.water.trap": "함정을 줍는 중...",
   "waterTrap.newCrustacean": "새로운 갑각류를 발견했습니다!",
-  "fishing.buyReels.confirmation": "정말로 {{reels}} 릴을 {{gemPrice}} 에 구매하시겠습니까?"
+  "fishing.buyReels.confirmation": "정말로 {{reels}} 릴을 {{gemPrice}} 에 구매하시겠습니까?",
+  "megaStore.msg1": "제 챕터 스토어에 오신 것을 환영합니다.시간이 다 가기 전에 자원을 모아 희귀 아이템으로 교환하세요!"
 }

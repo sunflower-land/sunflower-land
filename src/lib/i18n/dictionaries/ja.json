@@ -3447,7 +3447,6 @@
   "crafting.inProgress": "進行中",
   "bounties.flower.intro.one": "やあ、バンプキン！今週は花に恵まれるんだ。",
   "bounties.flower.intro.two": "最高級の花を持ってきてくれれば、それだけの価値があるものにしてあげよう。",
-  "megaStore.msg1": "私の季節限定ストアへようこそ。時間がなくなる前に資源を集めてレアアイテムと交換しよう！",
   "description.barn.delight": "動物の病気を治す魔法のエリクサー。",
   "animal.notEnoughFood": "食べ物が足りない",
   "feeder.foodTypes.food": "食べ物",
@@ -7948,5 +7947,6 @@
   "calendar.events.fullMoon.description": "マップピースやエキゾチックな農作物が出現する珍しいイベント。",
   "picking.up.water.trap": "罠を仕掛けて...",
   "waterTrap.newCrustacean": "新しい甲殻類を発見したね！",
-  "fishing.buyReels.confirmation": "本当に {{reels}} リールを {{gemPrice}} で購入しますか？"
+  "fishing.buyReels.confirmation": "本当に {{reels}} リールを {{gemPrice}} で購入しますか？",
+  "megaStore.msg1": "私のチャプターストアへようこそ。時間がなくなる前に資源を集めてレアアイテムと交換しよう！"
 }

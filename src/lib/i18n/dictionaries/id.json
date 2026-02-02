@@ -3447,7 +3447,6 @@
   "crafting.inProgress": "Dalam proses",
   "bounties.flower.intro.one": "Halo Bumpkin! Kami mendapat hadiah bunga minggu ini.",
   "bounties.flower.intro.two": "Bawakan aku bunga terbaikmu, dan aku akan membuatnya sepadan dengan waktumu.",
-  "megaStore.msg1": "Selamat datang di toko musiman saya. Kumpulkan sumber daya & tukarkan dengan barang-barang langka sebelum waktu habis!",
   "description.barn.delight": "Obat mujarab ajaib yang menyembuhkan penyakit hewan.",
   "animal.notEnoughFood": "Tidak cukup makanan yang tersedia",
   "feeder.foodTypes.food": "Makanan",
@@ -7948,5 +7947,6 @@
   "calendar.events.fullMoon.description": "Peristiwa langka di mana potongan peta dan tanaman eksotis muncul.",
   "picking.up.water.trap": "Mengambil jebakanmu...",
   "waterTrap.newCrustacean": "Anda menemukan krustasea baru!",
-  "fishing.buyReels.confirmation": "Apakah Anda yakin ingin membeli gulungan {{reels}} untuk {{gemPrice}}?"
+  "fishing.buyReels.confirmation": "Apakah Anda yakin ingin membeli gulungan {{reels}} untuk {{gemPrice}}?",
+  "megaStore.msg1": "Selamat datang di toko chapter saya. Kumpulkan sumber daya & tukarkan dengan barang-barang langka sebelum waktu habis!"
 }

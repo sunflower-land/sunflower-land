@@ -3447,7 +3447,6 @@
   "crafting.inProgress": "In corso",
   "bounties.flower.intro.one": "Salve Bumpkin! Abbiamo ricevuto una ricompensa in fiori questa settimana.",
   "bounties.flower.intro.two": "Portami i tuoi fiori più belli e farò in modo che ne valga la pena.",
-  "megaStore.msg1": "Benvenuto nel mio negozio stagionale. Raccogli risorse e scambiale con oggetti rari prima che scada il tempo!",
   "description.barn.delight": "Un elisir magico che cura le malattie degli animali.",
   "animal.notEnoughFood": "Non c'è abbastanza cibo disponibile",
   "feeder.foodTypes.food": "Cibo",
@@ -7948,5 +7947,6 @@
   "calendar.events.fullMoon.description": "Un raro evento in cui compaiono pezzi di mappa e colture esotiche.",
   "picking.up.water.trap": "Raccogliendo la tua trappola...",
   "waterTrap.newCrustacean": "Hai scoperto un nuovo crostaceo!",
-  "fishing.buyReels.confirmation": "Sei sicuro di voler acquistare bobine {{reels}} per {{gemPrice}}?"
+  "fishing.buyReels.confirmation": "Sei sicuro di voler acquistare bobine {{reels}} per {{gemPrice}}?",
+  "megaStore.msg1": "Benvenuto nel mio Chapter Store. Raccogli risorse e scambiale con oggetti rari prima che scada il tempo!"
 }

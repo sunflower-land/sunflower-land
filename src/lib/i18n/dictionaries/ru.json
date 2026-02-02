@@ -4790,7 +4790,6 @@
   "chore.prepare.bumpkinDetox.15": "Приготовить бампкинский детокс 15 раз",
   "chore.grow.whitePansy.3": "Вырастить White Pansy 3 раза",
   "chore.cook.fermentedFish.5": "Приготовить Fermented Fish 5 раз",
-  "megaStore.msg1": "Добро пожаловать в мой сезонный магазин. Собирай ресурсы и обменивай их на редкие предметы до истечения времени!",
   "megaBountyBoard.msg1": "Добро пожаловать на мега-доску заказов! Собирай ресурсы и обменивай их на награды до истечения времени!",
   "megaStore.tier.rare.requirements": "Купи 4 разных базовых предмета, чтобы разблокировать редкие предметы.",
   "megaStore.tier.epic.requirements": "Купи 4 разных редких предмета, чтобы разблокировать эпические предметы.",
@@ -7948,5 +7947,6 @@
   "calendar.events.fullMoon.description": "A rare event where map pieces and exotic crops appear.",
   "picking.up.water.trap": "Picking up your trap...",
   "waterTrap.newCrustacean": "You discovered a new crustacean!",
-  "fishing.buyReels.confirmation": "Are you sure you want to buy {{reels}} reels for {{gemPrice}}?"
+  "fishing.buyReels.confirmation": "Are you sure you want to buy {{reels}} reels for {{gemPrice}}?",
+  "megaStore.msg1": "Welcome to my chapter store. Gather resources & exchange them for rare items before time runs out!"
 }
