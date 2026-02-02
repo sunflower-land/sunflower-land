@@ -96,6 +96,8 @@ export const SUNNYSIDE = {
     cleaning: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/cleanup.png`,
     pawPrintsSeason: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/paw_prints_banner.png`,
     pawPrintsSeasonRares: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/paw_prints_rares.png`,
+    crabsAndTrapsChapter: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/crap_chapter_banner.png`,
+    crabsAndTrapsChapterRares: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/crap_chapter_rares.webp`,
   },
   //Badges(Pre-LandExpansion Skills)
   badges: {

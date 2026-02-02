@@ -41,7 +41,7 @@ export const CHAPTER_GRAPHICS: Record<ChapterName, string> = {
   "Great Bloom": "",
   "Better Together": SUNNYSIDE.announcement.betterTogetherSeason,
   "Paw Prints": SUNNYSIDE.announcement.pawPrintsSeason,
-  "Crabs and Traps": "?",
+  "Crabs and Traps": SUNNYSIDE.announcement.crabsAndTrapsChapter,
 };
 
 const CHORES_DELIVERIES_START_DATE: Record<ChapterName, string> = {

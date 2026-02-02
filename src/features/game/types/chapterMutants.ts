@@ -74,7 +74,7 @@ export const CHAPTER_MUTANTS: Record<MutantsChapterName, ChapterMutantsData> = {
     Fish: "Giant Isopod",
     Cow: "Mermaid Cow",
     Sheep: "Mermaid Sheep",
-    banner: "?",
+    banner: SUNNYSIDE.announcement.crabsAndTrapsChapterRares,
   },
   "Great Bloom": {
     Chicken: "Love Chicken",
