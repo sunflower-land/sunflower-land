@@ -550,7 +550,10 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
         <InnerPanel>
           <div className="flex flex-col p-2 pb-0 items-center">
             <span className="text-sm text-start w-full mb-1">
-              {t("fishing.buyReels.confirmation", { gemPrice })}
+              {t("fishing.buyReels.confirmation", {
+                reels: packsRequired * EXTRA_REELS_AMOUNT,
+                gemPrice,
+              })}
             </span>
           </div>
           <div className="flex justify-content-around mt-2 space-x-1">

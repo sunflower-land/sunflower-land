@@ -1770,7 +1770,7 @@
   "fishing.lookingMoreReels": "Ahhh you're looking for more reels? No worries! You can select a multiplier on the fish tab and purchase more reels with gems just before you cast. Or you can check out the boost options below!",
   "fishing.finishReels": "Finish your reels before buying more",
   "fishing.buyReels": "Buy 5 reels with {{gemPrice}}",
-  "fishing.buyReels.confirmation": "Are you sure you want to buy 5 reels for {{gemPrice}}?",
+  "fishing.buyReels.confirmation": "Are you sure you want to buy {{reels}} reels for {{gemPrice}}?",
   "fishing.extraReels": "Extra Reels",
   "fishing.cast": "Cast",
   "fishing.buyMoreReels": "Buy {{reels}} reels for {{price}}",
