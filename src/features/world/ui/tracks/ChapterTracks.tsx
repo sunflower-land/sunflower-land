@@ -8,7 +8,7 @@ import {
 } from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
 import { secondsToString } from "lib/utils/time";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Label } from "components/ui/Label";
 import { useGame } from "features/game/GameProvider";
 import { hasVipAccess } from "features/game/lib/vipAccess";
@@ -108,7 +108,6 @@ export const ChapterTracks: React.FC = () => {
   const state = gameState.context.state;
   const now = useNow();
   const { openModal } = useContext(ModalContext);
-  const hasTrackedRef = useRef<ChapterName | null>(null);
 
   const [selected, setSelected] = useState<
     | {
@@ -149,11 +148,6 @@ export const ChapterTracks: React.FC = () => {
     const lastInteractionKey = `chapterTracks:lastInteractionAt:${chapter}`;
     const premiumActivatedKey = `chapterTracks:premiumActivated:${chapter}`;
 
-    if (hasTrackedRef.current === chapter) {
-      return;
-    }
-    hasTrackedRef.current = chapter;
-
     gameAnalytics.trackTracksViewed({ chapter, hasVip });
 
     try {
@@ -182,7 +176,7 @@ export const ChapterTracks: React.FC = () => {
     } catch {
       // no-op
     }
-  }, [chapter, hasVip]);
+  }, [chapter, hasVip, progress.milestone.number]);
 
   return (
     <>

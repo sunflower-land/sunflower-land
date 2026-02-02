@@ -250,7 +250,9 @@ export function completeNPCChore({
       draft.farmActivity = trackFarmActivity(
         `${chapter} Points Earned`,
         draft.farmActivity,
-        new Decimal(pointsAwarded),
+        new Decimal(
+          pointsAwarded,
+        ),
       );
     }
 

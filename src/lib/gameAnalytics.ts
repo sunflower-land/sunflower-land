@@ -286,10 +286,7 @@ class GameAnalyticTracker {
     points: number;
   }) {
     try {
-      GameAnalytics.addDesignEvent(
-        `Tracks:Points:${chapter}:${source}`,
-        points,
-      );
+      GameAnalytics.addDesignEvent(`Tracks:Points:${chapter}:${source}`, points);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.log(`Game analytics error: `, e);

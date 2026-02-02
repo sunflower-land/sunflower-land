@@ -491,7 +491,8 @@ export function deliverOrder({
         task: "delivery",
         points: tickets,
       });
-      const previousPoints = game.farmActivity[`${chapter} Points Earned`] ?? 0;
+      const previousPoints =
+        game.farmActivity[`${chapter} Points Earned`] ?? 0;
       const nextPoints = previousPoints + pointsAwarded;
       const chapterTrack = CHAPTER_TRACKS[chapter];
 
@@ -555,7 +556,9 @@ export function deliverOrder({
       game.farmActivity = trackFarmActivity(
         `${chapter} Points Earned`,
         game.farmActivity,
-        new Decimal(pointsAwarded),
+        new Decimal(
+          pointsAwarded,
+        ),
       );
     }
 
