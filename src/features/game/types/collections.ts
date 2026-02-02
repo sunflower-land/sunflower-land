@@ -129,15 +129,17 @@ export function getChapterTrackWearables(chapter: ChapterName) {
   });
 }
 
-/** Source where a chapter collection item can be obtained. Add new sources here when adding chapters. */
-export type ChapterItemSourceKey =
-  | "megastore"
-  | "mutants"
-  | "track"
-  | "auctioneer"
-  | "vipChest"
-  | "vipGift"
-  | "unknown";
+/** Order used when flattening sources for the grid. Add new source keys here when introducing them. */
+const SOURCE_DISPLAY_ORDER = [
+  "megastore",
+  "mutants",
+  "track",
+  "auctioneer",
+  "vipChest",
+  "vipGift",
+] as const;
+
+type ChapterItemSourceKey = (typeof SOURCE_DISPLAY_ORDER)[number] | "unknown";
 
 /** Per-source lists of items. Each chapter uses the sources that apply (e.g. megastore, auctioneer). */
 export type ChapterCollectionBySource = Partial<
@@ -149,17 +151,6 @@ export type ChapterCollectionBySource = Partial<
     }
   >
 >;
-
-/** Order used when flattening sources for the grid. Add new source keys here when introducing them. */
-const SOURCE_DISPLAY_ORDER: Exclude<ChapterItemSourceKey, "unknown">[] = [
-  "megastore",
-  "mutants",
-  "track",
-  "auctioneer",
-  "vipChest",
-  "vipGift",
-];
-
 /**
  * Chapter collections keyed by source. When adding a new chapter:
  * 1. Add a key for your chapter (e.g. "My Chapter").
