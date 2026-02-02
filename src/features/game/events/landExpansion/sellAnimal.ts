@@ -165,9 +165,8 @@ export function sellAnimal({
           });
 
           const finalPoints =
-            chapterTrack.milestones[
-              chapterTrack.milestones.length - 1
-            ]?.points ?? 0;
+            chapterTrack.milestones[chapterTrack.milestones.length - 1]
+              ?.points ?? 0;
 
           if (previousPoints < finalPoints && nextPoints >= finalPoints) {
             gameAnalytics.trackTracksComplete({
