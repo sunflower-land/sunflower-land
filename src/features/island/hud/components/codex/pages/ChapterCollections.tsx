@@ -50,7 +50,6 @@ export const ChapterCollections: React.FC<Props> = ({ state }) => {
             chapter={selectedItem.chapter}
             state={state}
             onClose={() => setSelectedItem(null)}
-            isVisible={true}
           />
         )}
       </ModalOverlay>

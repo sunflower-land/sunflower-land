@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import Decimal from "decimal.js-light";
@@ -31,7 +31,6 @@ type Props = {
   chapter: ChapterName;
   state: GameState;
   onClose: () => void;
-  isVisible: boolean;
 };
 
 const SOURCE_I18N_KEY: Record<
@@ -63,7 +62,6 @@ export const ChapterCollectionItemDetail: React.FC<Props> = ({
   chapter,
   state,
   onClose,
-  isVisible,
 }) => {
   const { t } = useAppTranslation();
   const now = useNow({ live: true });
@@ -111,16 +109,18 @@ export const ChapterCollectionItemDetail: React.FC<Props> = ({
   const itemReq = storeItem?.cost?.items;
   const sflCost = storeItem?.cost?.sfl ?? 0;
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (type === "wearable") return;
-    const imgElement = new Image();
-    imgElement.onload = function () {
-      setImageWidth(imgElement.width * PIXEL_SCALE);
+    let cancelled = false;
+    const img = new Image();
+    img.onload = () => {
+      if (!cancelled) setImageWidth(img.width * PIXEL_SCALE);
     };
-    imgElement.src = image;
+    img.src = image;
+    return () => {
+      cancelled = true;
+    };
   }, [image, type]);
-
-  if (!isVisible) return null;
 
   return (
     <InnerPanel className="shadow">
@@ -161,17 +161,14 @@ export const ChapterCollectionItemDetail: React.FC<Props> = ({
               {!!buff && buff.length > 0 && (
                 <div className="flex content-start flex-col sm:flex-row sm:flex-wrap gap-2">
                   {buff.map(
-                    (
-                      {
-                        labelType,
-                        boostTypeIcon,
-                        boostedItemIcon,
-                        shortDescription,
-                      },
-                      index,
-                    ) => (
+                    ({
+                      labelType,
+                      boostTypeIcon,
+                      boostedItemIcon,
+                      shortDescription,
+                    }) => (
                       <Label
-                        key={index}
+                        key={shortDescription}
                         type={labelType}
                         icon={boostTypeIcon}
                         secondaryIcon={boostedItemIcon}
