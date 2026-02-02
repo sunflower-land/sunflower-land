@@ -775,20 +775,8 @@ export const GUARANTEED_CATCH_BY_BAIT: Record<GuaranteedBait, FishName[]> = {
     "Sunfish",
     "Cobia",
   ],
-  "Fish Oil": [
-    "Barred Knifejaw",
-    "Trout",
-    "Coelacanth",
-    "Saw Shark",
-    "Sunfish",
-  ],
-  "Crab Stick": [
-    "Barred Knifejaw",
-    "Whale Shark",
-    "White Shark",
-    "Parrotfish",
-    "Mahi Mahi",
-  ],
+  "Fish Oil": ["Barred Knifejaw", "Trout", "Coelacanth", "Saw Shark"],
+  "Crab Stick": ["Barred Knifejaw", "Whale Shark", "White Shark", "Parrotfish"],
 };
 
 export const isGuaranteedBait = (
