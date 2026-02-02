@@ -311,7 +311,6 @@
   "bumpkinItemBuff.ancient.rod.boost": "Ohne Stab gegossen",
   "bumpkinItemBuff.banana.amulet.boost": "+0.5 Bananen",
   "bumpkinItemBuff.banana.boost": "-20% Wachstumszeit der Banane",
-  "bumpkinItemBuff.deep.sea.helm": "3-fache Chance: Marine Marvels",
   "bumpkinItemBuff.bee.suit": "+0.1 Honig pro vollem Bienenstock",
   "bumpkinItemBuff.crimstone.hammer": "+2 Purpursteine bei der 5. Mine",
   "bumpkinItemBuff.crimstone.amulet": "-20% Abklingzeit für Crimstone",
@@ -1183,7 +1182,6 @@
   "fishermanModal.fishBenefits": "Fische eignen sich hervorragend zum Essen, Verteilen und Einfordern von Prämien!",
   "fishermanModal.baitAndResources": "Bringt mir Köder und Ressourcen und wir holen uns die seltensten Preise, die der Ozean zu bieten hat!",
   "fishermanModal.crazyHappening": "Wow, etwas Verrücktes passiert... Es ist ein Fischrausch!",
-  "fishermanModal.fullMoon": "Wow, sieh dir den Vollmond an! Ich habe Gerüchte gehört, dass Sie in dieser Zeit die Chance haben, seltene Meereswunder zu fangen.",
   "fishermanModal.bonusFish": "Beeilen Sie sich, Sie erhalten für jeden Fang einen Bonusfisch!",
   "fishermanModal.needCraftRod": "Du musst zuerst eine Rute herstellen.",
   "fishermanModal.craft.beach": "Basteln am Strand",
@@ -2032,7 +2030,6 @@
   "milestone.fishEncyclopedia": "Herzlichen Glückwunsch, Sie haben gerade den Meilenstein der Fischenzyklopädie erreicht! Du bist ein echter Fischkenner geworden! Es ist eine bemerkenswerte Leistung, jeden Fisch für Anfänger, Fortgeschrittene und Experten zu entdecken.",
   "milestone.masterAngler": "Wow, du hast gerade den Master Angler-Meilenstein erreicht! 1500 Fische zu fangen ist ein Beweis für deine Angelkünste.",
   "milestone.marineMarvelMaster": "Herzlichen Glückwunsch, du hast gerade den Marine Marvel Master-Meilenstein erreicht! Du bist der unangefochtene Champion der Meere! Wenn Sie jedes Wunder fangen, beweisen Sie Ihre Angelkünste wie kein anderes.",
-  "milestone.deepSeaDiver": "Herzlichen Glückwunsch, du hast gerade den Tiefseetauch-Meilenstein erreicht! Du hast dir den Tiefseehelm verdient — eine geheimnisvolle Krone, die Meereswunder an deinen Haken lockt.",
   "milestone.sunpetalSavant": "Herzlichen Glückwunsch, Sie haben gerade den Sunpetal Savant-Meilenstein erreicht! Sie haben jede Sunpetal-Variante entdeckt. Du bist ein echter Sunpetal-Experte!",
   "milestone.bloomBigShot": "Herzlichen Glückwunsch, du hast gerade den Bloom Big Shot-Meilenstein erreicht! Du hast jede Bloom-Variante entdeckt. Du bist ein echter Bloom-Experte!",
   "milestone.lilyLuminary": "Herzlichen Glückwunsch, du hast gerade den Meilenstein von Lily Luminary erreicht! Du hast jede Lily-Variante entdeckt. Du bist ein echter Lily-Experte!",
@@ -7948,5 +7945,8 @@
   "picking.up.water.trap": "Ich hebe deine Falle auf...",
   "waterTrap.newCrustacean": "Du hast ein neues Krebstier entdeckt!",
   "fishing.buyReels.confirmation": "Bist du sicher, dass du {{reels}} Rollen für {{gemPrice}} kaufen willst?",
-  "megaStore.msg1": "Willkommen in meinem Chapter Store. Sammle Ressourcen und tausche sie gegen seltene Gegenstände ein, bevor die Zeit abläuft!"
+  "megaStore.msg1": "Willkommen in meinem Chapter Store. Sammle Ressourcen und tausche sie gegen seltene Gegenstände ein, bevor die Zeit abläuft!",
+  "bumpkinItemBuff.deep.sea.helm": "+1-Chance: Teile der Marvel-Karte",
+  "fishermanModal.fullMoon": "Wow, sieh dir den Vollmond an! Ich habe Gerüchte gehört, dass ihr in dieser Zeit die Chance habt, Marvel Map Pieces zu fangen.",
+  "milestone.deepSeaDiver": "Herzlichen Glückwunsch, du hast gerade den Tiefseetauch-Meilenstein erreicht! Du hast dir den Tiefseehelm verdient — eine geheimnisvolle Krone, die Teile der Marine Marvel-Karte an deinen Haken zieht."
 }

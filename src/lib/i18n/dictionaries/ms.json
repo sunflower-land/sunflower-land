@@ -311,7 +311,6 @@
   "bumpkinItemBuff.ancient.rod.boost": "Tuangkan tanpa batang",
   "bumpkinItemBuff.banana.amulet.boost": "+0.5 Pisang",
   "bumpkinItemBuff.banana.boost": "-20% Masa Pertumbuhan Pisang",
-  "bumpkinItemBuff.deep.sea.helm": "3x peluang Marine Marvels",
   "bumpkinItemBuff.bee.suit": "+0.1 Madu setiap Sarang Lebah Penuh",
   "bumpkinItemBuff.crimstone.hammer": "+2 Crimstones di lombong ke-5",
   "bumpkinItemBuff.crimstone.amulet": "-20% Masa Penyejukan Crimstone",
@@ -1183,7 +1182,6 @@
   "fishermanModal.fishBenefits": "Ikan sangat bagus untuk makan, menghantar dan menuntut ganjaran!",
   "fishermanModal.baitAndResources": "Bawa saya umpan dan sumber dan kami akan memperoleh hadiah paling jarang yang ditawarkan oleh lautan!",
   "fishermanModal.crazyHappening": "Wow, sesuatu yang gila sedang berlaku... Ia adalah kegilaan ikan!",
-  "fishermanModal.fullMoon": "Wow, lihat bulan purnama itu! Saya pernah mendengar khabar angin bahawa pada masa ini anda mempunyai peluang untuk menangkap Marine Marvels yang jarang berlaku.",
   "fishermanModal.bonusFish": "Cepat, anda akan mendapat ikan bonus untuk setiap tangkapan!",
   "fishermanModal.needCraftRod": "Anda mesti membuat batang terlebih dahulu.",
   "fishermanModal.craft.beach": "Kraf di Pantai",
@@ -2037,7 +2035,6 @@
   "milestone.fishEncyclopedia": "Tahniah, anda baru sahaja mencapai tonggak Ensiklopedia Ikan! Anda telah menjadi ahli ikan sejati! Menemui setiap ikan asas, maju, dan pakar adalah pencapaian yang luar biasa.",
   "milestone.masterAngler": "Wow, anda baru sahaja mencapai tonggak Master Angler! Menangkap 1500 ikan adalah bukti kemahiran memancing anda.",
   "milestone.marineMarvelMaster": "Tahniah, anda baru sahaja mencapai tonggak Marine Marvel Master! Anda juara laut yang tidak dipertikaikan! Menangkap setiap Marvel membuktikan kehebatan memancing anda seperti yang lain.",
-  "milestone.deepSeaDiver": "Tahniah, anda baru sahaja mencapai tonggak Deep Sea Diver! Anda telah memperoleh Deep Sea Helm - Mahkota misteri yang menarik Marine Marvels ke cangkuk anda.",
   "milestone.sunpetalSavant": "Tahniah, anda baru sahaja mencapai tonggak Sunpetal Savant! Anda telah menemui setiap varian Sunpetal. Anda pakar Sunpetal sejati!",
   "milestone.bloomBigShot": "Tahniah, anda baru sahaja mencapai tonggak Bloom Big Shot! Anda telah menemui setiap varian Bloom. Anda pakar Bloom sejati!",
   "milestone.lilyLuminary": "Tahniah, anda baru sahaja mencapai tonggak Lily Luminary! Anda telah menemui setiap varian Lily. Anda seorang pakar Lily sejati!",
@@ -7948,5 +7945,8 @@
   "picking.up.water.trap": "Mengambil perangkap anda...",
   "waterTrap.newCrustacean": "Anda menemui krustasea baru!",
   "fishing.buyReels.confirmation": "Adakah anda pasti ingin membeli gulungan {{reels}} untuk {{gemPrice}}?",
-  "megaStore.msg1": "Selamat datang ke kedai bab saya. Kumpulkan sumber & tukarkannya dengan barang langka sebelum masa habis!"
+  "megaStore.msg1": "Selamat datang ke kedai bab saya. Kumpulkan sumber & tukarkannya dengan barang langka sebelum masa habis!",
+  "bumpkinItemBuff.deep.sea.helm": "+1 peluang Kepingan Peta Marvel",
+  "fishermanModal.fullMoon": "Wow, lihat bulan purnama itu! Saya pernah mendengar khabar angin bahawa pada masa ini anda mempunyai peluang untuk menangkap Pieces Peta Marvel.",
+  "milestone.deepSeaDiver": "Tahniah, anda baru sahaja mencapai tonggak Deep Sea Diver! Anda telah memperoleh Deep Sea Helm - Mahkota misteri yang menarik kepingan peta Marine Marvel ke cangkuk anda."
 }

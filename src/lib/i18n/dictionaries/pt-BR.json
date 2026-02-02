@@ -237,7 +237,6 @@
   "bumpkinItemBuff.bucket.o.worms.boost": "+1 Minhoca",
   "bumpkinItemBuff.ancient.rod.boost": "Pescar sem vara",
   "bumpkinItemBuff.banana.boost": "-20% Tempo de Crescimento de Banana",
-  "bumpkinItemBuff.deep.sea.helm": "Chance 3x de Maravilhas Marinhas",
   "bumpkinItemBuff.crimstone.hammer": "+2 Crimstones na 5ª coleta seguida",
   "bumpkinItemBuff.crimstone.amulet": "-20% Tempo de Recarga de Crimstones",
   "bumpkinItemBuff.flower.crown": "-50% Tempo de Crescimento de Flores",
@@ -1366,7 +1365,6 @@
   "milestone.fishEncyclopedia": "Parabéns, você acaba de alcançar o marco da Enciclopédia de Peixes! Você se tornou um verdadeiro conhecedor de peixes! Descobrir cada peixe básico, avançado e especial é uma conquista notável.",
   "milestone.masterAngler": "Uau, você acaba de alcançar o marco de Mestre Pescador! Capturar 1500 peixes é um testemunho de suas habilidades de pesca.",
   "milestone.marineMarvelMaster": "Parabéns, você acaba de alcançar o marco de Mestre da Maravilha Marinha! Você é o campeão indiscutível dos mares! Capturar cada Marvel prova suas habilidades de pesca como nenhuma outra.",
-  "milestone.deepSeaDiver": "Parabéns, você acaba de alcançar o marco de Mergulhador do Mar Profundo! Você ganhou o Deep Sea Helm - uma coroa misteriosa que atrai Maravilhas Marinhas para o seu anzol.",
   "milestone.sunpetalSavant": "Parabéns, você acaba de alcançar o marco de Sunpetal Savant! Você descobriu cada variante de Sunpetal. Você é um verdadeiro especialista em Sunpetal!",
   "milestone.bloomBigShot": "Parabéns, você acaba de alcançar o marco de Bloom Big Shot! Você descobriu cada variante de Bloom. Você é um verdadeiro especialista em Bloom!",
   "milestone.lilyLuminary": "Parabéns, você acaba de alcançar o marco de Lily Luminary! Você descobriu cada variante de Lily. Você é um verdadeiro especialista em Lily!",
@@ -2571,7 +2569,6 @@
   "description.factionShop.motley": "Uma profusão de cores combinadas em um alegre desafio às normas da moda.",
   "description.factionShop.royalBraids": "Um penteado digno de uma realeza.",
   "description.battle.fish": "O raro nadador blindado da temporada de facções!",
-  "fishermanModal.fullMoon": "Nossa, olha aquela lua cheia! Ouvi rumores de que durante esse período você terá a chance de capturar raras maravilhas marinhas.",
   "flowerBed.newSpecies.superLucky": "Nossa! É seu dia de sorte, você fez duas descobertas de uma só vez! Você descobriu uma nova espécie de flor e uma flor mutante extra apareceu!",
   "flowerBed.newSpecies.mutant": "Uma flor mutante apareceu!",
   "flower.breed.redDaffodil": "Um narciso vermelho",
@@ -7948,5 +7945,8 @@
   "picking.up.water.trap": "Pegando sua armadilha...",
   "waterTrap.newCrustacean": "Você descobriu um novo crustáceo!",
   "fishing.buyReels.confirmation": "Tem certeza de que deseja comprar bobinas {{reels}} por {{gemPrice}}?",
-  "megaStore.msg1": "Bem-vindo à minha loja de capítulos. Reúna recursos e troque-os por itens raros antes que o tempo acabe!"
+  "megaStore.msg1": "Bem-vindo à minha loja de capítulos. Reúna recursos e troque-os por itens raros antes que o tempo acabe!",
+  "bumpkinItemBuff.deep.sea.helm": "+1 chance de peças do mapa da Marvel",
+  "fishermanModal.fullMoon": "Nossa, olha aquela lua cheia! Ouvi rumores de que durante esse período você terá a chance de pegar peças do mapa da Marvel.",
+  "milestone.deepSeaDiver": "Parabéns, você acabou de atingir o marco do Deep Sea Diver! Você ganhou o Deep Sea Helm - uma coroa misteriosa que atrai peças do mapa Marine Marvel para você."
 }

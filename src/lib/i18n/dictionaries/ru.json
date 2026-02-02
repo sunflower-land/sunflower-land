@@ -485,7 +485,6 @@
   "bumpkinItemBuff.ancient.rod.boost": "Ловля без удочки",
   "bumpkinItemBuff.banana.amulet.boost": "+0.5 банан",
   "bumpkinItemBuff.banana.boost": "-20% времени роста банана",
-  "bumpkinItemBuff.deep.sea.helm": "3x шанс получить Морских чудовищ",
   "bumpkinItemBuff.bee.suit": "+0.1 мёд за полный улей",
   "bumpkinItemBuff.crimstone.hammer": "+2 к кримстоуну на 5-ой добыче",
   "bumpkinItemBuff.crimstone.amulet": "-20% времени восстановления кримстоуна",
@@ -1594,7 +1593,6 @@
   "fishermanModal.fishBenefits": "Рыба отлично подходит для еды, доставки и получения наград!",
   "fishermanModal.baitAndResources": "Принеси мне наживку и ресурсы, и мы вытащим редчайшие призы, которые только может предложить океан!",
   "fishermanModal.crazyHappening": "Ух ты, происходит что-то безумное......это рыбное безумие!",
-  "fishermanModal.fullMoon": "Огого, вот это полнолуние! Старые рыбаки рассказывают, что только с такой луной у тебя есть шанс поймать самых невероятных морских чудищ.",
   "fishermanModal.bonusFish": "Поторопись, за каждый улов ты получишь дополнительную рыбу!",
   "fishermanModal.fishingLimitReached": "Тебе понадобится больше попыток!",
   "fishermanModal.needCraftRod": "Сперва ты должен изготовить удочку.",
@@ -2677,7 +2675,6 @@
   "milestone.fishEncyclopedia": "Поздравляем, ты только что достиг отметки Fish Encyclopedia! Ты стал настоящим знатоком рыб! Знакомство с каждой рыбой, относящейся к базовому, продвинутому и экспертному уровню, - это выдающееся достижение.",
   "milestone.masterAngler": "Вау, ты только что достиг отметки Master Angler! Поймать 1500 рыб - это свидетельство твоего мастерства рыболова.",
   "milestone.marineMarvelMaster": "Поздравляем, ты только что достиг отметки Marine Marvel Master! Ты - бесспорный чемпион морей! Поимка каждого Marvel доказывает твое рыболовное мастерство, как ничто другое.",
-  "milestone.deepSeaDiver": "Поздравляем, ты только что достиг отметки Deep Sea Diver! Ты заслужил Deep Sea Helm - таинственную корону, которая привлекает Marvel'ов на твой крючок.",
   "milestone.sunpetalSavant": "Поздравляем, ты только что достиг отметки \"Всезнайка санпетала\"! Ты открыл для себя все возможные варианты из семян санпетала.",
   "milestone.bloomBigShot": "Поздравляем, ты только что достиг отметки \"Глава блум\"! Ты открыл для себя каждый вариант из семян блум.",
   "milestone.lilyLuminary": "Поздравляем, ты только что достиг отметки \"Звезда лили\"! Ты открыл для себя все варианты цветов из семян лили.",
@@ -7948,5 +7945,8 @@
   "picking.up.water.trap": "Picking up your trap...",
   "waterTrap.newCrustacean": "You discovered a new crustacean!",
   "fishing.buyReels.confirmation": "Are you sure you want to buy {{reels}} reels for {{gemPrice}}?",
-  "megaStore.msg1": "Welcome to my chapter store. Gather resources & exchange them for rare items before time runs out!"
+  "megaStore.msg1": "Welcome to my chapter store. Gather resources & exchange them for rare items before time runs out!",
+  "bumpkinItemBuff.deep.sea.helm": "+1 chance Marvel Map Pieces",
+  "fishermanModal.fullMoon": "Wow, look at that full moon! I've heard rumours that during this time you have a chance to catch Marvel Map Pieces.",
+  "milestone.deepSeaDiver": "Congratulations, you've just reached the Deep Sea Diver milestone! You have earnt the Deep Sea Helm - a mysterious Crown that attracts Marine Marvel map pieces to your hook."
 }

@@ -308,7 +308,6 @@
   "bumpkinItemBuff.ancient.rod.boost": "钓鱼无需鱼竿",
   "bumpkinItemBuff.banana.amulet.boost": "+0.5 香蕉",
   "bumpkinItemBuff.banana.boost": "-20% 香蕉生长时间",
-  "bumpkinItemBuff.deep.sea.helm": "3 倍 Marine Marvel 几率",
   "bumpkinItemBuff.bee.suit": "+0.1 蜂蜜（限满载蜂箱）",
   "bumpkinItemBuff.crimstone.hammer": "第 5 次开采 +2 猩红宝石",
   "bumpkinItemBuff.crimstone.amulet": "-20% 猩红宝石冷却时间",
@@ -1042,7 +1041,6 @@
   "fishermanModal.craft.beach": "在沙滩上锻造",
   "fishermanModal.zero.available": "无剩余可用",
   "fishermanmodal.greeting": "嚯，岛上的朋友们！我是 {{name}}，你们可靠的岛上渔夫，我已经准备好迎击一项伟大的挑战——收集日光之下的每一种鱼！",
-  "fishermanModal.fullMoon": "哇，看看那满月！我听闻这会儿你有机会抓到稀有的海洋奇珍。",
   "fishermanQuest.Ohno": "不好！它跑掉了",
   "fishermanQuest.Newfish": "新鱼种",
   "fishingChallengeIntro.powerfulCatch": "一条强大的鱼等着你！",
@@ -2217,7 +2215,6 @@
   "milestone.fishEncyclopedia": "恭喜，您刚刚达成了鱼类百科全书的里程碑！您已经成为了真正的鱼类鉴赏家！发现每种基础、进阶和专业级鱼类可是一项了不起的成就。",
   "milestone.masterAngler": "哇，您刚刚达成了垂钓大师的里程碑！钓到 1500 条鱼是您钓鱼技巧的力证。",
   "milestone.marineMarvelMaster": "恭喜，您刚刚达成了海洋奇珍大师的里程碑！您是毋庸置疑的海洋冠军！捕捉来的每一条海洋奇珍都能证明您非凡绝伦的钓鱼能力。",
-  "milestone.deepSeaDiver": "恭喜，您刚刚达成了深海潜水员的里程碑！您已获得深海头盔——一顶神秘的皇冠，可以吸引海洋奇珍上钩。",
   "milestone.sunpetalSavant": "恭喜，您刚刚达成了日光瓣哲人的里程碑！您已经发现了每个日光瓣变体。您是真正的日光瓣专家！",
   "milestone.bloomBigShot": "恭喜，您刚刚达成了绽放花大腕的里程碑！你已经发现了每个绽放花变体。你是真正的绽放花专家！",
   "milestone.lilyLuminary": "恭喜，您刚刚达成了百合明星里程碑！您已经发现了每个百合变体。您是真正的百合专家！",
@@ -7948,5 +7945,8 @@
   "picking.up.water.trap": "捡起你的陷阱...",
   "waterTrap.newCrustacean": "你发现了一种新的甲壳类动物！",
   "fishing.buyReels.confirmation": "你确定要花 [1@/美元] 购买 {{reels}} 卷轴吗？",
-  "megaStore.msg1": "欢迎来到我的分会商店。在时间耗尽之前，收集资源并用它们兑换稀有物品！"
+  "megaStore.msg1": "欢迎来到我的分会商店。在时间耗尽之前，收集资源并用它们兑换稀有物品！",
+  "bumpkinItemBuff.deep.sea.helm": "+1 几率漫威地图碎片",
+  "fishermanModal.fullMoon": "哇，看看那个满月！我听说有传言说在这段时间内你有机会看到 Marvel 地图碎片。",
+  "milestone.deepSeaDiver": "恭喜，你刚刚达到了深海潜水员的里程碑！你已获得深海头盔，这是一款神秘的皇冠，可以吸引海洋漫威地图碎片上钩。"
 }

@@ -311,7 +311,6 @@
   "bumpkinItemBuff.ancient.rod.boost": "막대없는 캐스트",
   "bumpkinItemBuff.banana.amulet.boost": "+0.5 바나나",
   "bumpkinItemBuff.banana.boost": "-20% 바나나 성장 시간",
-  "bumpkinItemBuff.deep.sea.helm": "3배 찬스 마린 마블",
   "bumpkinItemBuff.bee.suit": "풀 벌집당 꿀 +0.1",
   "bumpkinItemBuff.crimstone.hammer": "5번째 광산 시 크림스톤 +2",
   "bumpkinItemBuff.crimstone.amulet": "크림스톤 쿨타임 -20%",
@@ -1183,7 +1182,6 @@
   "fishermanModal.fishBenefits": "생선은 먹고, 배달하고, 보상을 받는 데 아주 좋습니다!",
   "fishermanModal.baitAndResources": "미끼와 자원을 가져오면 바다에서 제공하는 가장 희귀한 상품을 받을 수 있습니다!",
   "fishermanModal.crazyHappening": "와우, 뭔가 이상한 일이 벌어지고 있어요... 물고기 광란이에요!",
-  "fishermanModal.fullMoon": "와, 저 보름달 좀 봐!이 시기에 희귀한 마린 마블을 잡을 기회가 있다는 소문을 들었어요.",
   "fishermanModal.bonusFish": "서두르세요. 잡을 때마다 보너스 물고기를 얻을 수 있습니다!",
   "fishermanModal.needCraftRod": "먼저 막대를 제작해야 합니다.",
   "fishermanModal.craft.beach": "크래프트 앳 비치",
@@ -2034,7 +2032,6 @@
   "milestone.fishEncyclopedia": "축하합니다. 어류 백과사전의 이정표에 도달하셨습니다!진정한 물고기 애호가가 되셨군요!기본 물고기, 고급 물고기, 전문 물고기를 모두 발견한 것은 놀라운 성과입니다.",
   "milestone.masterAngler": "와우, 당신은 방금 마스터 앵글러 이정표에 도달했습니다!1,500마리의 물고기를 잡았다는 것은 낚시 실력의 증거입니다.",
   "milestone.marineMarvelMaster": "축하합니다. 이제 막 마린 마블 마스터 마일스톤에 도달하셨습니다!당신은 명실상부한 바다의 챔피언이에요!마블을 하나하나 잡으면 다른 어떤 것과도 비교할 수 없는 낚시 실력을 증명할 수 있습니다.",
-  "milestone.deepSeaDiver": "축하합니다. 딥 씨 다이버 마일스톤에 방금 도달하셨습니다!마린 마블의 마음을 사로잡을 수 있는 신비한 왕관인 딥 씨 헬름을 획득하셨습니다.",
   "milestone.sunpetalSavant": "축하합니다. 방금 선페탈 서번트 마일스톤에 도달하셨습니다!각각의 선페탈 변종을 발견하셨군요.당신은 진정한 선페탈 전문가예요!",
   "milestone.bloomBigShot": "축하합니다. 블룸 빅샷 마일스톤에 도달하셨습니다!각 블룸 변종을 발견하셨군요.당신은 진정한 블룸 전문가예요!",
   "milestone.lilyLuminary": "축하합니다. 릴리 루미나리 마일스톤에 도달하셨습니다!릴리의 모든 변종을 발견하셨군요.당신은 진정한 릴리 전문가예요!",
@@ -7948,5 +7945,8 @@
   "picking.up.water.trap": "함정을 줍는 중...",
   "waterTrap.newCrustacean": "새로운 갑각류를 발견했습니다!",
   "fishing.buyReels.confirmation": "정말로 {{reels}} 릴을 {{gemPrice}} 에 구매하시겠습니까?",
-  "megaStore.msg1": "제 챕터 스토어에 오신 것을 환영합니다.시간이 다 가기 전에 자원을 모아 희귀 아이템으로 교환하세요!"
+  "megaStore.msg1": "제 챕터 스토어에 오신 것을 환영합니다.시간이 다 가기 전에 자원을 모아 희귀 아이템으로 교환하세요!",
+  "bumpkinItemBuff.deep.sea.helm": "마블 맵 피스 확률 +1",
+  "fishermanModal.fullMoon": "와, 저 보름달 좀 봐!이 기간 동안 마블 맵 피스를 얻을 기회가 있다는 소문을 들었어요.",
+  "milestone.deepSeaDiver": "축하합니다. 딥 씨 다이버 마일스톤에 방금 도달하셨습니다!마린 마블 맵 조각을 낚아채는 신비한 왕관인 딥 씨 헬름을 획득하셨습니다."
 }

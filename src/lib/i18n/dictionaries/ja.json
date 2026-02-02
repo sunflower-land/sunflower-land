@@ -311,7 +311,6 @@
   "bumpkinItemBuff.ancient.rod.boost": "ロッドなしキャスト",
   "bumpkinItemBuff.banana.amulet.boost": "+0.5 バナナ",
   "bumpkinItemBuff.banana.boost": "-20% バナナの成長時間",
-  "bumpkinItemBuff.deep.sea.helm": "3x チャンス・マリン・マーベルズ",
   "bumpkinItemBuff.bee.suit": "蜂の巣一杯につき +0.1 はちみつ",
   "bumpkinItemBuff.crimstone.hammer": "5番目のマインに+2クリムストーン",
   "bumpkinItemBuff.crimstone.amulet": "-20% クリムストーンのクールダウン時間",
@@ -1183,7 +1182,6 @@
   "fishermanModal.fishBenefits": "魚は食べたり、配達したり、報酬を受け取ったりするのに最適です！",
   "fishermanModal.baitAndResources": "餌と資源を持ってきてくれれば、海が提供してくれる最も希少な賞品を手に入れよう！",
   "fishermanModal.crazyHappening": "うわー、何かおかしなことが起こっている... 魚の狂乱だ！",
-  "fishermanModal.fullMoon": "うわー、あの満月を見てください！この時期には珍しいマリンマーベルを捕まえるチャンスがあるという噂を聞いたことがあります。",
   "fishermanModal.bonusFish": "急いで、釣るたびにボーナス魚がもらえます！",
   "fishermanModal.needCraftRod": "最初にロッドを作成する必要があります。",
   "fishermanModal.craft.beach": "クラフト・アット・ビーチ",
@@ -2037,7 +2035,6 @@
   "milestone.fishEncyclopedia": "おめでとうございます。これで、魚百科事典のマイルストーンに到達しました。あなたは真の魚愛好家になりました！基本的な魚、上級の魚、専門魚をそれぞれ発見することは、驚くべき成果です。",
   "milestone.masterAngler": "うわー、マスターアングラーのマイルストーンに到達しました！1500匹の魚を釣ったことは、あなたの釣りスキルの証です。",
   "milestone.marineMarvelMaster": "おめでとうございます。マリン・マーベル・マスターのマイルストーンに到達しました！あなたは誰もが認める海のチャンピオンです！それぞれのマーベルを釣ることで、他に類を見ないほどあなたの釣りの腕前が証明されます。",
-  "milestone.deepSeaDiver": "おめでとうございます。ディープシーダイバーのマイルストーンに到達しました！マリン・マーベルをフックに引き寄せる謎の王冠、ディープ・シー・ヘルムを獲得した。",
   "milestone.sunpetalSavant": "おめでとうございます。サンペタルサヴァントのマイルストーンに到達しました！サンペタルの各バリアントを発見しました。あなたは真のサンペタルのエキスパートです！",
   "milestone.bloomBigShot": "おめでとうございます。ブルームビッグショットのマイルストーンに到達しました！ブルームの各バリアントを発見しました。あなたはブルームの真のエキスパートです！",
   "milestone.lilyLuminary": "おめでとうございます。リリー・ルミナリーのマイルストーンに到達しました！リリーの各変種を発見しました。あなたは真のユリの専門家です！",
@@ -7948,5 +7945,8 @@
   "picking.up.water.trap": "罠を仕掛けて...",
   "waterTrap.newCrustacean": "新しい甲殻類を発見したね！",
   "fishing.buyReels.confirmation": "本当に {{reels}} リールを {{gemPrice}} で購入しますか？",
-  "megaStore.msg1": "私のチャプターストアへようこそ。時間がなくなる前に資源を集めてレアアイテムと交換しよう！"
+  "megaStore.msg1": "私のチャプターストアへようこそ。時間がなくなる前に資源を集めてレアアイテムと交換しよう！",
+  "bumpkinItemBuff.deep.sea.helm": "+1チャンスマーベルマップピース",
+  "fishermanModal.fullMoon": "うわー、あの満月を見てください！この時期にマーベル・マップ・ピースが手に入るという噂を聞いたことがあります。",
+  "milestone.deepSeaDiver": "おめでとうございます。ディープシーダイバーのマイルストーンに到達しました！マリン・マーベルのマップピースをフックに引き寄せる謎の王冠、ディープ・シー・ヘルムを獲得した。"
 }

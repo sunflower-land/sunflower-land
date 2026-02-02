@@ -241,7 +241,6 @@
   "bumpkinItemBuff.ancient.rod.boost": "Lancer sans canne à pêche",
   "bumpkinItemBuff.banana.amulet.boost": "+0,5 Bananes",
   "bumpkinItemBuff.banana.boost": "+20 % de Vitesse de Banane",
-  "bumpkinItemBuff.deep.sea.helm": "Chances x3 d'obtenir des Merveilles Marines",
   "bumpkinItemBuff.crimstone.hammer": "+2 Crimstones à la 5e mine",
   "bumpkinItemBuff.crimstone.amulet": "20 % de vitesse de Crimstone",
   "bumpkinItemBuff.crimstone.armor": "+0,1 Crimstones",
@@ -1401,7 +1400,6 @@
   "milestone.fishEncyclopedia": "Félicitations, vous venez d'atteindre le jalon de l'Encyclopédie des Poissons ! Vous êtes devenu un vrai connaisseur de poissons ! Découvrir chaque poisson de base, avancé et expert est une réalisation remarquable.",
   "milestone.masterAngler": "Wow, vous venez d'atteindre le jalon du Maître Pêcheur ! Attraper 1500 poissons est un témoignage de vos compétences en matière de pêche.",
   "milestone.marineMarvelMaster": "Félicitations, vous venez d'atteindre le jalon du Maître de la Merveille Marine ! Vous êtes le champion incontesté des mers ! Attraper chaque Marvel prouve vos compétences en matière de pêche comme aucun autre.",
-  "milestone.deepSeaDiver": "Félicitations, vous venez d'atteindre le jalon du Plongeur en Eaux Profondes ! Vous avez obtenu le Casque des Profondeurs - une Couronne mystérieuse qui attire les Merveilles Marines à votre hameçon.",
   "milestone.sunpetalSavant": "Félicitations, vous venez d'atteindre le jalon du Savant des Sunpétales ! Vous avez découvert chaque variante de Sunpétale. Vous êtes un vrai expert en Sunpétale!",
   "milestone.bloomBigShot": "Félicitations, vous venez d'atteindre le jalon du Grand Tireur de Bloom ! Vous avez découvert chaque variante de Bloom. Vous êtes un vrai expert en Bloom!",
   "milestone.lilyLuminary": "Félicitations, vous venez d'atteindre le jalon du Luminaire du Lys ! Vous avez découvert chaque variante de Lys. Vous êtes un vrai expert en Lys!",
@@ -2606,7 +2604,6 @@
   "description.factionShop.motley": "Une débauche de couleurs cousues ensemble au joyeux mépris des normes de la mode.",
   "description.factionShop.royalBraids": "Une coiffure digne d'un roi.",
   "description.battle.fish": "Le rare nageur blindé de la saison des factions !",
-  "fishermanModal.fullMoon": "Waouh, regarde cette pleine lune ! J'ai entendu des rumeurs selon lesquelles vous auriez la chance d'attraper de rares Marvels Marvels pendant cette période.",
   "flowerBed.newSpecies.superLucky": "Waouh ! C'est ton jour de chance, tu as fait deux découvertes en une seule fois ! Vous avez découvert une nouvelle espèce de fleur et une fleur mutante supplémentaire est apparue !",
   "flowerBed.newSpecies.mutant": "Une fleur mutante est apparue !",
   "description.rapidRoast": "Pour Bumpkins qui est pressé...",
@@ -7948,5 +7945,8 @@
   "picking.up.water.trap": "Je prends ton piège...",
   "waterTrap.newCrustacean": "Vous avez découvert un nouveau crustacé !",
   "fishing.buyReels.confirmation": "Êtes-vous sûr de vouloir acheter des bobines {{reels}} pour {{gemPrice}} ?",
-  "megaStore.msg1": "Bienvenue dans ma boutique de chapitres. Rassemblez des ressources et échangez-les contre des objets rares avant la fin du temps imparti !"
+  "megaStore.msg1": "Bienvenue dans ma boutique de chapitres. Rassemblez des ressources et échangez-les contre des objets rares avant la fin du temps imparti !",
+  "bumpkinItemBuff.deep.sea.helm": "Pièces de la carte Marvel +1 chance",
+  "fishermanModal.fullMoon": "Waouh, regarde cette pleine lune ! J'ai entendu des rumeurs selon lesquelles vous auriez une chance de découvrir Marvel Map Pieces pendant cette période.",
+  "milestone.deepSeaDiver": "Félicitations, vous venez de franchir le cap Deep Sea Diver ! Vous avez remporté le Deep Sea Helm, une mystérieuse couronne qui attire des pièces de la carte de Marine Marvel à votre hameçon."
 }

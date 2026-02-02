@@ -251,7 +251,6 @@
   "bumpkinItemBuff.ancient.rod.boost": "Olta Olmadan Balık Tut",
   "bumpkinItemBuff.banana.amulet.boost": "+0.5 Muz",
   "bumpkinItemBuff.banana.boost": "-20% Muz Büyüme Süresi",
-  "bumpkinItemBuff.deep.sea.helm": "Marine Seviyesi 3x Şans",
   "bumpkinItemBuff.crimstone.hammer": "5. Gün +2 Crimstone",
   "bumpkinItemBuff.crimstone.amulet": "-20% Crimstone Bekleme Süresi",
   "bumpkinItemBuff.crimstone.armor": "+0.1 Crimstone",
@@ -1400,7 +1399,6 @@
   "milestone.fishEncyclopedia": "Tebrikler, Balık Ansiklopedisi dönüm noktasına ulaştınız! Gerçek bir balık uzmanı oldunuz! Temel, gelişmiş ve uzman balıkların her birini keşfetmek olağanüstü bir başarıdır.",
   "milestone.masterAngler": "Vay be, Usta Balıkçı dönüm noktasına ulaştınız! 1500 balık yakalamak balık tutma becerilerinizin bir kanıtıdır.",
   "milestone.marineMarvelMaster": "Tebrikler, Marine Marvel Master dönüm noktasına ulaştınız! Sen denizlerin tartışmasız şampiyonusun! Her bir Marvel'ı yakalamak, balıkçılık yeteneğinizi eşi benzeri olmayan bir şekilde kanıtlar.",
-  "milestone.deepSeaDiver": "Tebrikler, Deep Sea Diver dönüm noktasına ulaştınız! Deniz Harikalarını kancanıza çeken gizemli bir Taç olan Derin Deniz Miğferini kazandınız.",
   "milestone.sunpetalSavant": "Tebrikler, Sunpetal Savant dönüm noktasına ulaştınız! Her Sunpetal çeşidini keşfettiniz. Sen gerçek bir Sunpetal uzmanısın!",
   "milestone.bloomBigShot": "Tebrikler, Bloom Big Shot dönüm noktasına ulaştınız! Bloom'un her çeşidini keşfettiniz. Sen gerçek bir Bloom uzmanısın!",
   "milestone.lilyLuminary": "Tebrikler, Lily Luminary dönüm noktasına ulaştınız! Her Lily çeşidini keşfettiniz. Sen gerçek bir Lily uzmanısın!",
@@ -2608,7 +2606,6 @@
   "description.factionShop.motley": "Moda normlarına neşeli meydan okuyarak birbirine dikilmiş bir renk isyanı.",
   "description.factionShop.royalBraids": "Kraliyet için uygun bir saç modeli.",
   "description.battle.fish": "Ulus sezonunun nadir zırhlı yüzücüsü!",
-  "fishermanModal.fullMoon": "Vay canına, şu dolunaya bak! Bu süre zarfında nadir Deniz Marvelerini yakalama şansınız olduğuna dair söylentiler duydum.",
   "flowerBed.newSpecies.superLucky": "Vay canına! Bu senin şanslı günün, tek seferde iki keşif yaptın! Yeni bir çiçek türü keşfettin ve fazladan bir mutant çiçek ortaya çıktı!",
   "flowerBed.newSpecies.mutant": "Mutant bir çiçek ortaya çıktı!",
   "flower.breed.redDaffodil": "Kırmızı bir daffoldil",
@@ -7948,5 +7945,8 @@
   "picking.up.water.trap": "Tuzağını topluyorsun...",
   "waterTrap.newCrustacean": "Yeni bir kabuklular keşfettin!",
   "fishing.buyReels.confirmation": "{{gemPrice}} için {{reels}} makaraları satın almak istediğinizden emin misiniz?",
-  "megaStore.msg1": "Bölüm mağazama hoş geldiniz. Zaman dolmadan kaynakları toplayın ve nadir eşyalarla değiştirin!"
+  "megaStore.msg1": "Bölüm mağazama hoş geldiniz. Zaman dolmadan kaynakları toplayın ve nadir eşyalarla değiştirin!",
+  "bumpkinItemBuff.deep.sea.helm": "+1 şans Marvel Harita Parçaları",
+  "fishermanModal.fullMoon": "Vay canına, şu dolunaya bak! Bu süre zarfında Marvel Harita Parçalarını yakalama şansınız olduğuna dair söylentiler duydum.",
+  "milestone.deepSeaDiver": "Tebrikler, Deep Sea Diver dönüm noktasına yeni ulaştınız! Deniz Marvel harita parçalarını kancanıza çeken gizemli bir Taç olan Deep Sea Miğferi kazandınız."
 }

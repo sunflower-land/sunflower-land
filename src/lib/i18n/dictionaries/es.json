@@ -310,7 +310,6 @@
   "bumpkinItemBuff.ancient.rod.boost": "Permite pescar sin necesidad de una caña.",
   "bumpkinItemBuff.banana.amulet.boost": "Aumenta la recolección de plátanos en +0.5.",
   "bumpkinItemBuff.banana.boost": "-Reduce el tiempo de crecimiento de los bananos en un +20%.",
-  "bumpkinItemBuff.deep.sea.helm": "Incrementa la probabilidad de encontrar Marine Marvels en 3 veces.",
   "bumpkinItemBuff.bee.suit": "Aumenta la recolección de miel en +0.1 con la colmena llena.",
   "bumpkinItemBuff.crimstone.hammer": "Aumenta la recolección de Crimstones en +2 en la quinta mina.",
   "bumpkinItemBuff.crimstone.amulet": "Reduce el tiempo de recarga de Crimstone en un 20%.",
@@ -1168,7 +1167,6 @@
   "fishermanModal.fishBenefits": "El pescado es fantástico para comer, entregar y conseguir recompensas!",
   "fishermanModal.baitAndResources": "Tráeme cebo y recursos y nos llevaremos los premios más raros que el océano tiene para ofrecer!",
   "fishermanModal.crazyHappening": "Vaya, está pasando algo loco... Es un frenesí de peces!",
-  "fishermanModal.fullMoon": "Vaya, mira esa luna llena! He oído rumores de que durante este tiempo hay oportunidad de capturar maravillas marinas poco comunes.",
   "fishermanModal.bonusFish": "Date prisa, recibirás un pez extra por cada captura!",
   "fishermanModal.needCraftRod": "Primero debes fabricar una caña para pescar",
   "fishermanModal.craft.beach": "Fabricar en la playa",
@@ -2003,7 +2001,6 @@
   "milestone.fishEncyclopedia": "Enhorabuena, acabas de alcanzar el hito de la Enciclopedia de los Peces! Te has convertido en un verdadero conocedor de peces! Descubrir cada pez básico, avanzado y experto es un logro notable.",
   "milestone.masterAngler": "Vaya, acabas de alcanzar el hito de Pescador Maestro! La captura de 1500 peces es un testimonio de tus habilidades de pesca.",
   "milestone.marineMarvelMaster": "Enhorabuena, acabas de alcanzar el hito de Maestro de Maravillas Marinas! Eres el campeón indiscutible de los mares! Capturar cada Maravilla Marina demuestra tu destreza en la pesca como ninguna otra.",
-  "milestone.deepSeaDiver": "Felicidades, acabas de alcanzar el hito de Buzo de Aguas Profundas! Te has ganado el yelmo de las profundidades marinas, una misteriosa corona que atrae a las maravillas marinas hasta tu anzuelo.",
   "milestone.sunpetalSavant": "Enhorabuena, acabas de alcanzar el hito de Sabio Sunpetal! Has descubierto todas las variantes de Sunpetal. Eres un verdadero experto en Sunpetal!",
   "milestone.bloomBigShot": "Enhorabuena, acabas de alcanzar el hito de Gran Bloom! Has descubierto todas las variantes de Bloom. Eres un verdadero experto en Bloom!",
   "milestone.lilyLuminary": "Felicidades, acabas de alcanzar el hito de Luminar del Lirio! Has descubierto todas las variantes de Lirio. Eres un verdadero experto en Lirios!",
@@ -7948,5 +7945,8 @@
   "picking.up.water.trap": "Recogiendo tu trampa...",
   "waterTrap.newCrustacean": "¡Has descubierto un nuevo crustáceo!",
   "fishing.buyReels.confirmation": "¿Estás seguro de que quieres comprar carretes de {{reels}} por {{gemPrice}}?",
-  "megaStore.msg1": "Bienvenido a mi tienda de capítulos. ¡Reúne recursos y cámbialos por objetos raros antes de que acabe el tiempo!"
+  "megaStore.msg1": "Bienvenido a mi tienda de capítulos. ¡Reúne recursos y cámbialos por objetos raros antes de que acabe el tiempo!",
+  "bumpkinItemBuff.deep.sea.helm": "+1 oportunidad de piezas del mapa de Marvel",
+  "fishermanModal.fullMoon": "¡Vaya, mira esa luna llena! He oído rumores de que durante este tiempo tendréis la oportunidad de conseguir piezas del mapa de Marvel.",
+  "milestone.deepSeaDiver": "¡Enhorabuena, acabas de alcanzar el hito de Deep Sea Diver! Te has ganado el yelmo de las profundidades marinas, una misteriosa corona que atrae piezas del mapa de Marine Marvel hasta tu anzuelo."
 }

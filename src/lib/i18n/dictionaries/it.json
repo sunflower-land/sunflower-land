@@ -309,7 +309,6 @@
   "bumpkinItemBuff.ancient.rod.boost": "Cast senza asta",
   "bumpkinItemBuff.banana.amulet.boost": "+0,5 banane",
   "bumpkinItemBuff.banana.boost": "-20% Tempo di crescita delle banane",
-  "bumpkinItemBuff.deep.sea.helm": "3 volte Marine Marvels",
   "bumpkinItemBuff.bee.suit": "+0,1 miele per alveare completo",
   "bumpkinItemBuff.crimstone.hammer": "+2 Crimstones sulla quinta mina",
   "bumpkinItemBuff.crimstone.amulet": "-20% Tempo di recupero di Crimstone",
@@ -1167,7 +1166,6 @@
   "fishermanModal.fishBenefits": "I pesci sono ottimi da mangiare, consegnare e richiedere ricompense!",
   "fishermanModal.baitAndResources": "Portami esche e risorse e otterremo i premi più rari che l'oceano ha da offrire!",
   "fishermanModal.crazyHappening": "Wow, sta succedendo qualcosa di pazzesco... È una frenesia di pesci!",
-  "fishermanModal.fullMoon": "Wow, guarda quella luna piena! Ho sentito dire che durante questo periodo avrai la possibilità di vedere rare meraviglie marine.",
   "fishermanModal.bonusFish": "Affrettatevi, riceverete un pesce bonus per ogni pesca!",
   "fishermanModal.needCraftRod": "Devi prima creare una canna.",
   "fishermanModal.craft.beach": "Artigianato in spiaggia",
@@ -2001,7 +1999,6 @@
   "milestone.fishEncyclopedia": "Congratulazioni, hai appena raggiunto il traguardo dell'Enciclopedia dei pesci! Sei diventato un vero intenditore di pesce! Scoprire ogni pesce di base, avanzato ed esperto è un risultato straordinario.",
   "milestone.masterAngler": "Wow, hai appena raggiunto il traguardo di Master Angler! Catturare 1500 pesci è una testimonianza delle tue abilità di pesca.",
   "milestone.marineMarvelMaster": "Congratulazioni, hai appena raggiunto il traguardo del Marine Marvel Master! Sei il campione indiscusso dei mari! Catturare ogni Marvel dimostra la tua abilità di pesca come nessun altro.",
-  "milestone.deepSeaDiver": "Congratulazioni, hai appena raggiunto il traguardo di Deep Sea Diver! Ti sei guadagnato il Deep Sea Helm, una misteriosa corona che attira a te le meraviglie marine.",
   "milestone.sunpetalSavant": "Congratulazioni, hai appena raggiunto il traguardo di Sunpetal Savant! Hai scoperto tutte le varianti di Sunpetal. Sei un vero esperto di Sunpetal!",
   "milestone.bloomBigShot": "Congratulazioni, hai appena raggiunto il traguardo di Bloom Big Shot! Hai scoperto tutte le varianti di Bloom. Sei un vero esperto di Bloom!",
   "milestone.lilyLuminary": "Congratulazioni, hai appena raggiunto il traguardo di Lily Luminary! Hai scoperto tutte le varianti di Lily. Sei un vero esperto di Lily!",
@@ -7948,5 +7945,8 @@
   "picking.up.water.trap": "Raccogliendo la tua trappola...",
   "waterTrap.newCrustacean": "Hai scoperto un nuovo crostaceo!",
   "fishing.buyReels.confirmation": "Sei sicuro di voler acquistare bobine {{reels}} per {{gemPrice}}?",
-  "megaStore.msg1": "Benvenuto nel mio Chapter Store. Raccogli risorse e scambiale con oggetti rari prima che scada il tempo!"
+  "megaStore.msg1": "Benvenuto nel mio Chapter Store. Raccogli risorse e scambiale con oggetti rari prima che scada il tempo!",
+  "bumpkinItemBuff.deep.sea.helm": "+1 possibilità di pezzi della mappa Marvel",
+  "fishermanModal.fullMoon": "Wow, guarda che luna piena! Ho sentito dire che durante questo periodo avrete la possibilità di vedere Marvel Map Pieces.",
+  "milestone.deepSeaDiver": "Congratulazioni, hai appena raggiunto il traguardo di Deep Sea Diver! Ti sei guadagnato il Deep Sea Helm, una misteriosa corona che attira a sé i pezzi delle mappe Marine Marvel."
 }
