@@ -22,6 +22,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/craftables";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
+import { NaturalImage } from "components/ui/NaturalImage";
 
 export type ChapterCollectionItemType = "collectible" | "wearable";
 
@@ -124,42 +125,54 @@ export const ChapterCollectionItemDetail: React.FC<Props> = ({
 
   return (
     <InnerPanel className="shadow">
-      <div className="flex flex-col items-center space-y-2">
-        <div className="flex items-center w-full">
-          <div style={{ width: `${PIXEL_SCALE * 9}px` }} />
-          <span className="flex-1 text-center">{itemName}</span>
-          <img
-            src={SUNNYSIDE.icons.close}
-            className="cursor-pointer"
-            onClick={onClose}
-            style={{ width: `${PIXEL_SCALE * 9}px` }}
-            alt="Close"
+      <div className="flex items-stretch">
+        {/* Image on left */}
+        <div
+          className="w-[60%] sm:w-1/2 relative rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center self-stretch"
+          style={
+            type === "collectible"
+              ? {
+                  backgroundImage: `url(${SUNNYSIDE.ui.grey_background})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }
+              : {}
+          }
+        >
+          <NaturalImage
+            maxWidth={displayWidth}
+            src={image}
+            alt={String(itemName)}
           />
-        </div>
-        <div className="w-full p-2 px-1">
-          <div className="flex">
-            <div
-              className="w-[40%] relative min-w-[40%] rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-32"
-              style={
-                type === "collectible"
-                  ? {
-                      backgroundImage: `url(${SUNNYSIDE.ui.grey_background})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                    }
-                  : {}
-              }
+          {source !== "megastore" && (
+            <Label
+              type="default"
+              className="text-xxs absolute bottom-1 right-1"
             >
-              <img
-                src={image}
-                alt={String(itemName)}
-                className="w-full"
-                style={{ width: `${displayWidth}px` }}
-              />
-            </div>
+              {t("season.megastore.crafting.limit.max", {
+                limit: ownedCount,
+                max: 1,
+              })}
+            </Label>
+          )}
+        </div>
+
+        {/* Content on right */}
+        <div className="w-full p-1 px-1 relative">
+          <div className="flex">
             <div className="flex flex-col space-y-2">
+              <div className="flex items-center w-full">
+                <span className="flex-1">{itemName}</span>
+                <img
+                  src={SUNNYSIDE.icons.close}
+                  className="cursor-pointer absolute top-1 right-0"
+                  onClick={onClose}
+                  style={{ width: `${PIXEL_SCALE * 9}px` }}
+                  alt="Close"
+                />
+              </div>
               {!!buff && buff.length > 0 && (
-                <div className="flex content-start flex-col sm:flex-row sm:flex-wrap gap-2">
+                <div className="flex content-start flex-col sm:flex-row sm:flex-wrap">
                   {buff.map(
                     ({
                       labelType,
@@ -172,6 +185,7 @@ export const ChapterCollectionItemDetail: React.FC<Props> = ({
                         type={labelType}
                         icon={boostTypeIcon}
                         secondaryIcon={boostedItemIcon}
+                        className="mr-1"
                       >
                         {shortDescription}
                       </Label>
@@ -179,19 +193,21 @@ export const ChapterCollectionItemDetail: React.FC<Props> = ({
                   )}
                 </div>
               )}
-              <span className="text-xs leading-none">{description}</span>
+              {description && (
+                <span className="text-xs leading-none">{description}</span>
+              )}
 
               {chapterEnded ? (
-                <span className="text-xxs">
+                <span className="text-xxs pb-1">
                   {t("season.codex.howToObtain.chapterEnded")}
                 </span>
               ) : (
                 <>
-                  <Label type="default" className="text-xxs">
-                    {t("season.codex.whereToObtain")}
-                    {": "}
-                    {sourceLabel}
-                  </Label>
+                  <p className="text-xs pb-1">
+                    {`This is one of our seasonal mutants. You can find these by
+                    feeding animals, growing flowers, fishing in the depths, and
+                    more.`}
+                  </p>
 
                   {source === "megastore" && storeItem?.cost && (
                     <>
@@ -238,15 +254,6 @@ export const ChapterCollectionItemDetail: React.FC<Props> = ({
                         {t(howToObtainKey as TranslationKeys)}
                       </span>
                     )}
-
-                  {source !== "megastore" && (
-                    <Label type="default" className="text-xxs">
-                      {t("season.megastore.crafting.limit.max", {
-                        limit: ownedCount,
-                        max: 1,
-                      })}
-                    </Label>
-                  )}
 
                   {source === "unknown" && (
                     <span className="text-xxs">
