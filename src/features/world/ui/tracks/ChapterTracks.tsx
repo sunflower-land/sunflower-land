@@ -8,7 +8,7 @@ import {
 } from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
 import { secondsToString } from "lib/utils/time";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Label } from "components/ui/Label";
 import { useGame } from "features/game/GameProvider";
 import { hasVipAccess } from "features/game/lib/vipAccess";
@@ -42,6 +42,7 @@ import confetti from "canvas-confetti";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { NaturalImage } from "components/ui/NaturalImage";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 type TrackProgress = {
   points: number;
@@ -107,6 +108,7 @@ export const ChapterTracks: React.FC = () => {
   const state = gameState.context.state;
   const now = useNow();
   const { openModal } = useContext(ModalContext);
+  const hasTrackedRef = useRef<ChapterName | null>(null);
 
   const [selected, setSelected] = useState<
     | {
@@ -141,6 +143,46 @@ export const ChapterTracks: React.FC = () => {
     track?.milestones[track?.milestones.length - 1]?.points ?? 0;
 
   const isComplete = progress.points >= finalMilestonePoints;
+
+  useEffect(() => {
+    const nowMs = Date.now();
+    const lastInteractionKey = `chapterTracks:lastInteractionAt:${chapter}`;
+    const premiumActivatedKey = `chapterTracks:premiumActivated:${chapter}`;
+
+    if (hasTrackedRef.current === chapter) {
+      return;
+    }
+    hasTrackedRef.current = chapter;
+
+    gameAnalytics.trackTracksViewed({ chapter, hasVip });
+
+    try {
+      const lastInteractionAt = localStorage.getItem(lastInteractionKey);
+
+      if (lastInteractionAt) {
+        const inactiveDays = Math.floor(
+          (nowMs - Number(lastInteractionAt)) / (24 * 60 * 60 * 1000),
+        );
+
+        if (inactiveDays > 0) {
+          gameAnalytics.trackTracksReturn({
+            chapter,
+            lastTier: progress.milestone.number,
+            inactiveDays,
+          });
+        }
+      }
+
+      localStorage.setItem(lastInteractionKey, String(nowMs));
+
+      if (hasVip && !localStorage.getItem(premiumActivatedKey)) {
+        gameAnalytics.trackTracksPremiumActivated({ chapter });
+        localStorage.setItem(premiumActivatedKey, "true");
+      }
+    } catch {
+      // no-op
+    }
+  }, [chapter, hasVip]);
 
   return (
     <>
@@ -225,6 +267,7 @@ export const ChapterTracks: React.FC = () => {
             className="sm:-20 sm:min-w-20 h-20 min-h-20 flex flex-col items-center justify-center cursor-pointer"
             onClick={() => {
               if (!hasVip) {
+                gameAnalytics.trackTracksPremiumUpsellOpened({ chapter });
                 openModal("VIP_ITEMS");
               }
             }}

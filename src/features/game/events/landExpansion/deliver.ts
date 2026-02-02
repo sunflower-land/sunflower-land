@@ -32,6 +32,7 @@ import { CHAPTER_TICKET_BOOST_ITEMS } from "./completeNPCChore";
 import { isCollectible } from "./garbageSold";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { getChapterTaskPoints } from "features/game/types/tracks";
+import { handleChapterAnalytics } from "features/game/lib/trackAnalytics";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   "pumpkin' pete": 1,
@@ -480,6 +481,17 @@ export function deliverOrder({
 
     if (tickets > 0) {
       const chapterTicket = getChapterTicket(createdAt);
+      const chapter = getCurrentChapter(createdAt);
+      const pointsAwarded = getChapterTaskPoints({
+        task: "delivery",
+        points: tickets,
+      });
+      handleChapterAnalytics({
+        task: "delivery",
+        points: tickets,
+        farmActivity: game.farmActivity,
+        createdAt,
+      });
 
       const count = game.inventory[chapterTicket] || new Decimal(0);
       const amount = tickets || new Decimal(0);
@@ -495,14 +507,9 @@ export function deliverOrder({
         new Decimal(amount),
       );
       game.farmActivity = trackFarmActivity(
-        `${getCurrentChapter(createdAt)} Points Earned`,
+        `${chapter} Points Earned`,
         game.farmActivity,
-        new Decimal(
-          getChapterTaskPoints({
-            task: "delivery",
-            points: new Decimal(amount).toNumber(),
-          }),
-        ),
+        new Decimal(pointsAwarded),
       );
     }
 

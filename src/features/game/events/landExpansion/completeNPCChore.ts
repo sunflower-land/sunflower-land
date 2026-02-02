@@ -23,6 +23,7 @@ import { isCollectible } from "./garbageSold";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { getChapterTaskPoints } from "features/game/types/tracks";
 import { FlowerBox } from "../landExpansion/buyChapterItem";
+import { handleChapterAnalytics } from "features/game/lib/trackAnalytics";
 
 export type CompleteNPCChoreAction = {
   type: "chore.fulfilled";
@@ -181,6 +182,18 @@ export function completeNPCChore({
     const amount = items[ticket] ?? 0;
 
     if (amount > 0) {
+      const chapter = getCurrentChapter(createdAt);
+      const pointsAwarded = getChapterTaskPoints({
+        task: "chore",
+        points: amount,
+      });
+      handleChapterAnalytics({
+        task: "chore",
+        points: amount,
+        farmActivity: draft.farmActivity,
+        createdAt,
+      });
+
       draft.farmActivity = trackFarmActivity(
         `${ticket} Collected`,
         draft.farmActivity,
@@ -188,14 +201,9 @@ export function completeNPCChore({
       );
 
       draft.farmActivity = trackFarmActivity(
-        `${getCurrentChapter(createdAt)} Points Earned`,
+        `${chapter} Points Earned`,
         draft.farmActivity,
-        new Decimal(
-          getChapterTaskPoints({
-            task: "chore",
-            points: amount,
-          }),
-        ),
+        new Decimal(pointsAwarded),
       );
     }
 

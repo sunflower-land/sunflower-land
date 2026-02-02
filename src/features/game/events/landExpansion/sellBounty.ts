@@ -33,6 +33,7 @@ import { isCollectible } from "./garbageSold";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "./completeNPCChore";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { getChapterTaskPoints } from "features/game/types/tracks";
+import { handleChapterAnalytics } from "features/game/lib/trackAnalytics";
 
 export const BOUNTY_CATEGORIES = {
   "Flower Bounties": (bounty: BountyRequest): bounty is FlowerBounty =>
@@ -207,6 +208,18 @@ export function sellBounty({
     );
 
     if (tickets > 0) {
+      const chapter = getCurrentChapter(createdAt);
+      const pointsAwarded = getChapterTaskPoints({
+        task: "bounty",
+        points: tickets,
+      });
+      handleChapterAnalytics({
+        task: "bounty",
+        points: tickets,
+        farmActivity: draft.farmActivity,
+        createdAt,
+      });
+
       draft.farmActivity = trackFarmActivity(
         `${getChapterTicket(createdAt)} Collected`,
         draft.farmActivity,
@@ -214,14 +227,9 @@ export function sellBounty({
       );
 
       draft.farmActivity = trackFarmActivity(
-        `${getCurrentChapter(createdAt)} Points Earned`,
+        `${chapter} Points Earned`,
         draft.farmActivity,
-        new Decimal(
-          getChapterTaskPoints({
-            task: "bounty",
-            points: tickets ?? 0,
-          }),
-        ),
+        new Decimal(pointsAwarded),
       );
     }
 

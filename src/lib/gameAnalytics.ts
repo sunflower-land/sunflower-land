@@ -207,6 +207,154 @@ class GameAnalyticTracker {
       Math.max(0, daysSinceLastClaim),
     );
   }
+
+  public trackTracksViewed({
+    chapter,
+    hasVip,
+  }: {
+    chapter: string;
+    hasVip: boolean;
+  }) {
+    try {
+      GameAnalytics.addDesignEvent(`Tracks:Viewed:${chapter}`, hasVip ? 1 : 0);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(`Game analytics error: `, e);
+    }
+  }
+
+  public trackTracksReturn({
+    chapter,
+    lastTier,
+    inactiveDays,
+  }: {
+    chapter: string;
+    lastTier: number;
+    inactiveDays: number;
+  }) {
+    try {
+      GameAnalytics.addDesignEvent(
+        `Tracks:Return:${chapter}:LastTier${lastTier}`,
+        inactiveDays,
+      );
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(`Game analytics error: `, e);
+    }
+  }
+
+  public trackTracksPremiumUpsellOpened({ chapter }: { chapter: string }) {
+    try {
+      GameAnalytics.addDesignEvent(`Tracks:Premium:UpsellOpened:${chapter}`);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(`Game analytics error: `, e);
+    }
+  }
+
+  public trackTracksPremiumActivated({ chapter }: { chapter: string }) {
+    try {
+      GameAnalytics.addDesignEvent(`Tracks:Premium:Activated:${chapter}`, 1);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(`Game analytics error: `, e);
+    }
+  }
+
+  public trackTracksActivated({
+    chapter,
+    source,
+  }: {
+    chapter: string;
+    source: "delivery" | "chore" | "bounty";
+  }) {
+    try {
+      GameAnalytics.addDesignEvent(`Tracks:Activated:${chapter}:${source}`);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(`Game analytics error: `, e);
+    }
+  }
+
+  public trackTracksPoints({
+    chapter,
+    source,
+    points,
+  }: {
+    chapter: string;
+    source: "delivery" | "chore" | "bounty";
+    points: number;
+  }) {
+    try {
+      GameAnalytics.addDesignEvent(
+        `Tracks:Points:${chapter}:${source}`,
+        points,
+      );
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(`Game analytics error: `, e);
+    }
+  }
+
+  public trackTracksMilestoneReached({
+    chapter,
+    milestone,
+    daysSinceStart,
+  }: {
+    chapter: string;
+    milestone: number;
+    daysSinceStart: number;
+  }) {
+    try {
+      GameAnalytics.addDesignEvent(
+        `Tracks:Milestone:Reached:${chapter}:M${milestone}`,
+        daysSinceStart,
+      );
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(`Game analytics error: `, e);
+    }
+  }
+
+  public trackTracksMilestoneClaimed({
+    chapter,
+    track,
+    milestone,
+    daysSinceStart,
+  }: {
+    chapter: string;
+    track: "free" | "premium";
+    milestone: number;
+    daysSinceStart: number;
+  }) {
+    try {
+      GameAnalytics.addDesignEvent(
+        `Tracks:Milestone:Claimed:${chapter}:${track}:M${milestone}`,
+        daysSinceStart,
+      );
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(`Game analytics error: `, e);
+    }
+  }
+
+  public trackTracksComplete({
+    chapter,
+    daysSinceStart,
+  }: {
+    chapter: string;
+    daysSinceStart: number;
+  }) {
+    try {
+      GameAnalytics.addDesignEvent(
+        `Tracks:Complete:${chapter}`,
+        daysSinceStart,
+      );
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(`Game analytics error: `, e);
+    }
+  }
 }
 
 export const gameAnalytics = new GameAnalyticTracker();

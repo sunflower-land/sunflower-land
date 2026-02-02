@@ -26,6 +26,24 @@ export function getChapterTaskPoints({
   return CHAPTER_TASK_POINTS[task] * points;
 }
 
+export function getTrackMilestonesCrossed({
+  chapterTrack,
+  previousPoints,
+  nextPoints,
+}: {
+  chapterTrack: ChapterTrack;
+  previousPoints: number;
+  nextPoints: number;
+}) {
+  return chapterTrack.milestones
+    .map((milestone, index) => ({ milestone, index }))
+    .filter(
+      ({ milestone }) =>
+        milestone.points > previousPoints && milestone.points <= nextPoints,
+    )
+    .map(({ index }) => index + 1);
+}
+
 export type TrackName = "free" | "premium";
 
 export type TrackMilestone = {
