@@ -240,96 +240,99 @@ export const WaterTrapModal: React.FC<Props> = ({
     >
       {tab === "crustaceans" && (
         <div className="flex flex-col gap-1">
-          <DropdownPanel
-            options={[
-              {
-                value: "Crab Pot" as WaterTrapName,
-                label: (
-                  <div className="flex flex-col gap-1">
-                    <p className="text-xs">{`Crab Pot (${state.inventory["Crab Pot"]?.toString() ?? 0})`}</p>
-                    <p className="text-xxs">
-                      {ITEM_DETAILS["Crab Pot"].description}
-                    </p>
-                  </div>
-                ),
-                icon: ITEM_DETAILS["Crab Pot"].image,
-              },
-              ...(canUseMarinerPot
-                ? [
-                    {
-                      value: "Mariner Pot" as WaterTrapName,
-                      label: (
-                        <div className="flex flex-col gap-1">
-                          <p className="text-xs">{`Mariner Pot (${state.inventory["Mariner Pot"]?.toString() ?? 0})`}</p>
-                          <p className="text-xxs">
-                            {ITEM_DETAILS["Mariner Pot"].description}
-                          </p>
-                        </div>
-                      ),
-                      icon: ITEM_DETAILS["Mariner Pot"].image,
-                    },
-                  ]
-                : []),
-            ]}
-            value={selectedTrap}
-            onChange={(trap) => handleTrapChange(trap)}
-          />
+          <div className="flex flex-col gap-1">
+            <DropdownPanel
+              options={[
+                {
+                  value: "Crab Pot" as WaterTrapName,
+                  label: (
+                    <div className="flex flex-col gap-1">
+                      <p className="text-xs">{`Crab Pot (${state.inventory["Crab Pot"]?.toString() ?? 0})`}</p>
+                      <p className="text-xxs">
+                        {ITEM_DETAILS["Crab Pot"].description}
+                      </p>
+                    </div>
+                  ),
+                  icon: ITEM_DETAILS["Crab Pot"].image,
+                },
+                ...(canUseMarinerPot
+                  ? [
+                      {
+                        value: "Mariner Pot" as WaterTrapName,
+                        label: (
+                          <div className="flex flex-col gap-1">
+                            <p className="text-xs">{`Mariner Pot (${state.inventory["Mariner Pot"]?.toString() ?? 0})`}</p>
+                            <p className="text-xxs">
+                              {ITEM_DETAILS["Mariner Pot"].description}
+                            </p>
+                          </div>
+                        ),
+                        icon: ITEM_DETAILS["Mariner Pot"].image,
+                      },
+                    ]
+                  : []),
+              ]}
+              value={selectedTrap}
+              onChange={(trap) => handleTrapChange(trap)}
+            />
 
-          {!state.inventory[selectedTrap]?.gte(1) && (
-            <Label className="ml-1" type="danger">
-              {t("fishing.dont.have.enough.bait", { bait: selectedTrap })}
-            </Label>
-          )}
+            {!state.inventory[selectedTrap]?.gte(1) && (
+              <Label className="ml-1" type="danger">
+                {t("fishing.dont.have.enough.bait", { bait: selectedTrap })}
+              </Label>
+            )}
 
-          <InnerPanel>
-            <p className="mb-1 p-1 text-xs">{t("waterTrap.selectChum")}</p>
-            <div className="flex flex-wrap">
-              {chums.map((name) => {
-                if (!items[name]?.gte(1)) return null;
+            <InnerPanel>
+              <p className="mb-1 p-1 text-xs">{t("waterTrap.selectChum")}</p>
+              <div className="flex flex-wrap">
+                {chums.map((name) => {
+                  if (!items[name]?.gte(1)) return null;
 
-                const chum = name as CrustaceanChum;
-                const currentAmount = items[chum] ?? new Decimal(0);
-                return (
-                  <Box
-                    key={chum}
-                    image={ITEM_DETAILS[chum].image}
-                    count={currentAmount}
-                    onClick={() =>
-                      setSelectedChum(selectedChum === chum ? undefined : chum)
-                    }
-                    isSelected={selectedChum === chum}
-                  />
-                );
-              })}
-            </div>
-          </InnerPanel>
-          {selectedChum && (
-            <InnerPanel className="p-2">
-              {hasEnoughChum ? (
-                <Label
-                  type="default"
-                  className="mb-1 ml-1"
-                  icon={ITEM_DETAILS[selectedChum].image}
-                >
-                  {`${CRUSTACEAN_CHUM_AMOUNTS[selectedChum]} ${selectedChum}`}
-                </Label>
-              ) : (
-                <Label
-                  type="warning"
-                  className="mb-1 ml-1"
-                  icon={ITEM_DETAILS[selectedChum].image}
-                >
-                  {`${t("required")}: ${CRUSTACEAN_CHUM_AMOUNTS[selectedChum]} ${selectedChum}${
-                    items[selectedChum]?.gt(0)
-                      ? ` (${t("count.available", { count: items[selectedChum]?.toString() ?? "0" })})`
-                      : ""
-                  }`}
-                </Label>
-              )}
-              <p className="text-xs ml-1">{CHUM_DETAILS[selectedChum]}</p>
+                  const chum = name as CrustaceanChum;
+                  const currentAmount = items[chum] ?? new Decimal(0);
+                  return (
+                    <Box
+                      key={chum}
+                      image={ITEM_DETAILS[chum].image}
+                      count={currentAmount}
+                      onClick={() =>
+                        setSelectedChum(
+                          selectedChum === chum ? undefined : chum,
+                        )
+                      }
+                      isSelected={selectedChum === chum}
+                    />
+                  );
+                })}
+              </div>
             </InnerPanel>
-          )}
-
+            {selectedChum && (
+              <InnerPanel className="p-2">
+                {hasEnoughChum ? (
+                  <Label
+                    type="default"
+                    className="mb-1 ml-1"
+                    icon={ITEM_DETAILS[selectedChum].image}
+                  >
+                    {`${CRUSTACEAN_CHUM_AMOUNTS[selectedChum]} ${selectedChum}`}
+                  </Label>
+                ) : (
+                  <Label
+                    type="warning"
+                    className="mb-1 ml-1"
+                    icon={ITEM_DETAILS[selectedChum].image}
+                  >
+                    {`${t("required")}: ${CRUSTACEAN_CHUM_AMOUNTS[selectedChum]} ${selectedChum}${
+                      items[selectedChum]?.gt(0)
+                        ? ` (${t("count.available", { count: items[selectedChum]?.toString() ?? "0" })})`
+                        : ""
+                    }`}
+                  </Label>
+                )}
+                <p className="text-xs ml-1">{CHUM_DETAILS[selectedChum]}</p>
+              </InnerPanel>
+            )}
+          </div>
           <Button
             onClick={handlePlace}
             disabled={!hasTrap || !isValidChumForTrap || !hasEnoughChum}
