@@ -183,6 +183,8 @@ describe("castRod", () => {
   });
 
   it("when multiplier is 25 and 22 reels remaining and 1 pack is required it leaves 2 extra reels (uses 3)", () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date("2026-01-15T00:00:00.000Z"));
     const now = Date.now();
     const today = new Date(now).toISOString().split("T")[0];
 
@@ -231,6 +233,7 @@ describe("castRod", () => {
     expect(result.fishing.extraReels?.count).toEqual(2);
     expect(result.fishing.extraReels?.timesBought?.[today]).toEqual(1);
     expect(result.fishing.dailyAttempts?.[today]).toEqual(28);
+    jest.useRealTimers();
   });
 
   it("rejects guaranteed catch when using regular bait", () => {
@@ -690,6 +693,8 @@ describe("castRod", () => {
   });
 
   it("subtracts extra reels by the delta over the daily limit when already over the limit (multi-cast)", () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date("2026-01-15T00:00:00.000Z"));
     const now = Date.now();
     const date = new Date(now).toISOString().split("T")[0];
 
@@ -726,6 +731,7 @@ describe("castRod", () => {
     });
 
     expect(state.fishing.extraReels?.count).toEqual(1);
+    jest.useRealTimers();
   });
 
   it("initializes and persists extraReels when buying reels with undefined extraReels on state", () => {
@@ -818,62 +824,74 @@ describe("castRod", () => {
 
 describe("getDailyFishingLimit", () => {
   it("increases fishing limit by 10 when Angler Waders is equipped", () => {
-    const { limit } = getDailyFishingLimit({
-      ...INITIAL_FARM,
-      bumpkin: {
-        ...INITIAL_FARM.bumpkin,
-        equipped: {
-          ...INITIAL_FARM.bumpkin.equipped,
-          pants: "Angler Waders",
+    const { limit } = getDailyFishingLimit(
+      {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin.equipped,
+            pants: "Angler Waders",
+          },
         },
       },
-    });
+      Date.now(),
+    );
     expect(limit).toEqual(30);
   });
 
   it("increases fishing limit by 10 with Fisherman's 10 Fold skill", () => {
-    const { limit } = getDailyFishingLimit({
-      ...INITIAL_FARM,
-      bumpkin: {
-        ...INITIAL_FARM.bumpkin,
-        skills: {
-          "Fisherman's 10 Fold": 1,
+    const { limit } = getDailyFishingLimit(
+      {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Fisherman's 10 Fold": 1,
+          },
         },
       },
-    });
+      Date.now(),
+    );
     expect(limit).toEqual(30);
   });
 
   it("increases fishing limit by 5 with Fisherman's 5 Fold skill", () => {
-    const { limit } = getDailyFishingLimit({
-      ...INITIAL_FARM,
-      bumpkin: {
-        ...INITIAL_FARM.bumpkin,
-        skills: {
-          "Fisherman's 5 Fold": 1,
+    const { limit } = getDailyFishingLimit(
+      {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Fisherman's 5 Fold": 1,
+          },
         },
       },
-    });
+      Date.now(),
+    );
     expect(limit).toEqual(25);
   });
 
   it("increases fishing limit by 5 with Reelmaster's Chair", () => {
-    const { limit } = getDailyFishingLimit({
-      ...INITIAL_FARM,
-      bumpkin: {
-        ...INITIAL_FARM.bumpkin,
+    const { limit } = getDailyFishingLimit(
+      {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+        },
+        collectibles: {
+          "Reelmaster's Chair": [
+            {
+              readyAt: 1,
+              coordinates: { x: 0, y: 0 },
+              createdAt: 1,
+              id: "1",
+            },
+          ],
+        },
       },
-      collectibles: {
-        "Reelmaster's Chair": [
-          {
-            readyAt: 1,
-            coordinates: { x: 0, y: 0 },
-            createdAt: 1,
-            id: "1",
-          },
-        ],
-      },
-    });
+      Date.now(),
+    );
     expect(limit).toEqual(25);
   });
 
@@ -881,13 +899,16 @@ describe("getDailyFishingLimit", () => {
     jest.useFakeTimers();
     jest.setSystemTime(CHAPTERS["Crabs and Traps"].startDate);
 
-    const { limit } = getDailyFishingLimit({
-      ...INITIAL_FARM,
-      vip: {
-        expiresAt: Date.now() + 1000 * 60 * 60 * 24,
-        bundles: [],
+    const { limit } = getDailyFishingLimit(
+      {
+        ...INITIAL_FARM,
+        vip: {
+          expiresAt: Date.now() + 1000 * 60 * 60 * 24,
+          bundles: [],
+        },
       },
-    });
+      Date.now(),
+    );
 
     expect(limit).toEqual(25);
     jest.useRealTimers();
