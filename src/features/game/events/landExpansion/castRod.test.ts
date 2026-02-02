@@ -7,6 +7,7 @@ import { castRod, getReelsPackGemPrice } from "./castRod";
 import Decimal from "decimal.js-light";
 import { Bumpkin } from "features/game/types/game";
 import { Chum, getDailyFishingLimit } from "features/game/types/fishing";
+import { CHAPTERS } from "features/game/types/chapters";
 
 const farm = { ...TEST_FARM };
 
@@ -874,6 +875,22 @@ describe("getDailyFishingLimit", () => {
       },
     });
     expect(limit).toEqual(25);
+  });
+
+  it("increases fishing limit by 5 for VIP during Crabs and Traps", () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(CHAPTERS["Crabs and Traps"].startDate);
+
+    const { limit } = getDailyFishingLimit({
+      ...INITIAL_FARM,
+      vip: {
+        expiresAt: Date.now() + 1000 * 60 * 60 * 24,
+        bundles: [],
+      },
+    });
+
+    expect(limit).toEqual(25);
+    jest.useRealTimers();
   });
 });
 

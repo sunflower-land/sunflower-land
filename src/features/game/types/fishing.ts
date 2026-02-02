@@ -11,6 +11,8 @@ import { PurchaseOptions } from "./buyOptionPurchaseItem";
 import { Decimal } from "decimal.js-light";
 import { isCollectibleBuilt } from "../lib/collectibleBuilt";
 import type { ChapterName } from "./chapters";
+import { getCurrentChapter } from "./chapters";
+import { hasVipAccess } from "../lib/vipAccess";
 import { CrustaceanChum } from "./crustaceans";
 
 export type PurchaseableBait = "Fishing Lure";
@@ -681,7 +683,10 @@ export function getDailyFishingCount(state: GameState): number {
   return state.fishing.dailyAttempts?.[today] ?? 0;
 }
 
-export function getDailyFishingLimit(game: GameState): {
+export function getDailyFishingLimit(
+  game: GameState,
+  createdAt: number,
+): {
   limit: number;
   boostsUsed: BoostName[];
 } {
@@ -728,6 +733,13 @@ export function getDailyFishingLimit(game: GameState): {
   if (isWearableActive({ name: "Saw Fish", game })) {
     limit += 5;
     boostsUsed.push("Saw Fish");
+  }
+
+  if (
+    hasVipAccess({ game }) &&
+    getCurrentChapter(createdAt) === "Crabs and Traps"
+  ) {
+    limit += 5;
   }
 
   return { limit, boostsUsed };
