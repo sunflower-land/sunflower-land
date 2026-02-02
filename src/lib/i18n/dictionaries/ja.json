@@ -7716,7 +7716,6 @@
   "fishermanModal.fishingLimitReached": "もっとリールが必要だ！",
   "fishing.lookingMoreReels": "ああ、もっとリールを探していますか？ご心配なく！フィッシュタブでマルチプライヤーを選択し、キャストする直前にジェム付きのリールをさらに購入できます。または、以下のブーストオプションを確認することもできます！",
   "fishing.buyReels": "{{gemPrice}} で5リールを購入",
-  "fishing.buyReels.confirmation": "本当に {{gemPrice}} で5リールを購入しますか？",
   "fishing.buyMoreReels": "{{price}} で {{reels}} リールを購入",
   "marvelHunt.mapComplete.title": "{{marvel}} マップが完了しました",
   "marvelHunt.mapComplete.description": "おめでとうございます。9個のマップピースをすべて見つけて、{{marvel}} の場所を発見しました！",
@@ -7948,5 +7947,6 @@
   "animalTools": "動物用ツール",
   "calendar.events.fullMoon.description": "マップピースやエキゾチックな農作物が出現する珍しいイベント。",
   "picking.up.water.trap": "罠を仕掛けて...",
-  "waterTrap.newCrustacean": "新しい甲殻類を発見したね！"
+  "waterTrap.newCrustacean": "新しい甲殻類を発見したね！",
+  "fishing.buyReels.confirmation": "本当に {{reels}} リールを {{gemPrice}} で購入しますか？"
 }

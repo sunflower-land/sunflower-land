@@ -7716,7 +7716,6 @@
   "fishermanModal.fishingLimitReached": "Tu vas avoir besoin de plus de bobines !",
   "fishing.lookingMoreReels": "Ahhh, tu cherches d'autres bobines ? Pas de soucis ! Vous pouvez sélectionner un multiplicateur sur l'onglet poissons et acheter d'autres rouleaux contenant des pierres précieuses juste avant de lancer. Ou vous pouvez consulter les options de boost ci-dessous !",
   "fishing.buyReels": "Achetez 5 rouleaux avec {{gemPrice}}",
-  "fishing.buyReels.confirmation": "Êtes-vous sûr de vouloir acheter 5 bobines pour {{gemPrice}} ?",
   "fishing.buyMoreReels": "Achetez des bobines {{reels}} pour {{price}}",
   "marvelHunt.mapComplete.title": "{{marvel}} Carte terminée",
   "marvelHunt.mapComplete.description": "Félicitations, vous avez trouvé les 9 parties de la carte et découvert l'emplacement du {{marvel}} !",
@@ -7948,5 +7947,6 @@
   "animalTools": "Outils pour animaux",
   "calendar.events.fullMoon.description": "Un événement rare où apparaissent des morceaux de carte et des cultures exotiques.",
   "picking.up.water.trap": "Je prends ton piège...",
-  "waterTrap.newCrustacean": "Vous avez découvert un nouveau crustacé !"
+  "waterTrap.newCrustacean": "Vous avez découvert un nouveau crustacé !",
+  "fishing.buyReels.confirmation": "Êtes-vous sûr de vouloir acheter des bobines {{reels}} pour {{gemPrice}} ?"
 }

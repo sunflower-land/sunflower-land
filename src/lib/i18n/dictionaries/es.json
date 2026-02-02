@@ -7716,7 +7716,6 @@
   "fishermanModal.fishingLimitReached": "¡Vas a necesitar más bobinas!",
   "fishing.lookingMoreReels": "Ahhh, ¿estás buscando más carretes? ¡No te preocupes! Puedes seleccionar un multiplicador en la pestaña de peces y comprar más carretes con gemas justo antes de lanzarlos. ¡O puedes echar un vistazo a las opciones de aumento que aparecen a continuación!",
   "fishing.buyReels": "Compra 5 carretes con {{gemPrice}}",
-  "fishing.buyReels.confirmation": "¿Estás seguro de que quieres comprar 5 carretes por {{gemPrice}}?",
   "fishing.buyMoreReels": "Compra bobinas de {{reels}} por {{price}}",
   "marvelHunt.mapComplete.title": "{{marvel}} Mapa completo",
   "marvelHunt.mapComplete.description": "¡Enhorabuena, has encontrado las 9 piezas del mapa y has descubierto la ubicación del {{marvel}}!",
@@ -7948,5 +7947,6 @@
   "animalTools": "Herramientas para animales",
   "calendar.events.fullMoon.description": "Un evento poco común en el que aparecen piezas de mapas y cultivos exóticos.",
   "picking.up.water.trap": "Recogiendo tu trampa...",
-  "waterTrap.newCrustacean": "¡Has descubierto un nuevo crustáceo!"
+  "waterTrap.newCrustacean": "¡Has descubierto un nuevo crustáceo!",
+  "fishing.buyReels.confirmation": "¿Estás seguro de que quieres comprar carretes de {{reels}} por {{gemPrice}}?"
 }

@@ -7716,7 +7716,6 @@
   "fishermanModal.fishingLimitReached": "Avrai bisogno di più rulli!",
   "fishing.lookingMoreReels": "Ahhh stai cercando altri rulli? Nessun problema! Puoi selezionare un moltiplicatore nella scheda pesce e acquistare più rulli con gemme poco prima del lancio. Oppure puoi dare un'occhiata alle opzioni di potenziamento qui sotto!",
   "fishing.buyReels": "Acquista 5 rulli con {{gemPrice}}",
-  "fishing.buyReels.confirmation": "Sei sicuro di voler acquistare 5 rulli per {{gemPrice}}?",
   "fishing.buyMoreReels": "Acquista rulli {{reels}} per {{price}}",
   "marvelHunt.mapComplete.title": "{{marvel}} Mappa completa",
   "marvelHunt.mapComplete.description": "Congratulazioni, hai trovato tutti e 9 i pezzi della mappa e scoperto la posizione del {{marvel}}!",
@@ -7948,5 +7947,6 @@
   "animalTools": "Utensili per animali",
   "calendar.events.fullMoon.description": "Un raro evento in cui compaiono pezzi di mappa e colture esotiche.",
   "picking.up.water.trap": "Raccogliendo la tua trappola...",
-  "waterTrap.newCrustacean": "Hai scoperto un nuovo crostaceo!"
+  "waterTrap.newCrustacean": "Hai scoperto un nuovo crostaceo!",
+  "fishing.buyReels.confirmation": "Sei sicuro di voler acquistare bobine {{reels}} per {{gemPrice}}?"
 }

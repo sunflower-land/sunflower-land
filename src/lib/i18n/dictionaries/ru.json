@@ -1622,7 +1622,6 @@
   "fishing.lookingMoreReels": "Нужно больше попыток? Без проблем! Выбери множитель на вкладке «Рыбалка» и купи дополнительные попытки за гемы перед забросом - или посмотри усиления ниже.",
   "fishing.finishReels": "Закончите попытки, прежде чем покупать больше",
   "fishing.buyReels": "Купить 5 попыток за {{gemPrice}}",
-  "fishing.buyReels.confirmation": "Ты действительно хочешь купить 5 попыток за {{gemPrice}}?",
   "fishing.extraReels": "Дополнительные попытки",
   "fishing.cast": "Забросить",
   "fishing.buyMoreReels": "Купить {{reels}} попыток за {{price}}",
@@ -7948,5 +7947,6 @@
   "animalTools": "Animal Tools",
   "calendar.events.fullMoon.description": "A rare event where map pieces and exotic crops appear.",
   "picking.up.water.trap": "Picking up your trap...",
-  "waterTrap.newCrustacean": "You discovered a new crustacean!"
+  "waterTrap.newCrustacean": "You discovered a new crustacean!",
+  "fishing.buyReels.confirmation": "Are you sure you want to buy {{reels}} reels for {{gemPrice}}?"
 }

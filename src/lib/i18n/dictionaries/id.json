@@ -7716,7 +7716,6 @@
   "fishermanModal.fishingLimitReached": "Anda akan membutuhkan lebih banyak gulungan!",
   "fishing.lookingMoreReels": "Ahhh Anda mencari lebih banyak gulungan? Jangan khawatir! Anda dapat memilih pengganda pada tab ikan dan membeli lebih banyak gulungan dengan permata tepat sebelum Anda melemparkan. Atau Anda dapat melihat opsi peningkatan di bawah ini!",
   "fishing.buyReels": "Beli 5 gulungan dengan {{gemPrice}}",
-  "fishing.buyReels.confirmation": "Apakah Anda yakin ingin membeli 5 gulungan untuk {{gemPrice}}?",
   "fishing.buyMoreReels": "Beli gulungan {{reels}} untuk {{price}}",
   "marvelHunt.mapComplete.title": "{{marvel}} Peta Selesai",
   "marvelHunt.mapComplete.description": "Selamat, Anda telah menemukan semua 9 potongan peta & menemukan lokasi {{marvel}}!",
@@ -7948,5 +7947,6 @@
   "animalTools": "Alat Hewan",
   "calendar.events.fullMoon.description": "Peristiwa langka di mana potongan peta dan tanaman eksotis muncul.",
   "picking.up.water.trap": "Mengambil jebakanmu...",
-  "waterTrap.newCrustacean": "Anda menemukan krustasea baru!"
+  "waterTrap.newCrustacean": "Anda menemukan krustasea baru!",
+  "fishing.buyReels.confirmation": "Apakah Anda yakin ingin membeli gulungan {{reels}} untuk {{gemPrice}}?"
 }

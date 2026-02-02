@@ -7716,7 +7716,6 @@
   "fishermanModal.fishingLimitReached": "Du wirst mehr Rollen brauchen!",
   "fishing.lookingMoreReels": "Ahhh, du suchst nach mehr Rollen? Keine Sorge! Sie können im Fisch-Tab einen Multiplikator auswählen und weitere Walzen mit Edelsteinen kaufen, kurz bevor Sie werfen. Oder du kannst dir die Boost-Optionen unten ansehen!",
   "fishing.buyReels": "Kaufe 5 Rollen mit {{gemPrice}}",
-  "fishing.buyReels.confirmation": "Bist du sicher, dass du 5 Rollen für {{gemPrice}} kaufen willst?",
   "fishing.buyMoreReels": "Kaufe {{reels}} Rollen für {{price}}",
   "marvelHunt.mapComplete.title": "{{marvel}} Karte abgeschlossen",
   "marvelHunt.mapComplete.description": "Herzlichen Glückwunsch, du hast alle 9 Kartenteile gefunden und die Position von {{marvel}} entdeckt!",
@@ -7948,5 +7947,6 @@
   "animalTools": "Werkzeuge für Tiere",
   "calendar.events.fullMoon.description": "Ein seltenes Ereignis, bei dem Kartenstücke und exotische Pflanzen auftauchen.",
   "picking.up.water.trap": "Ich hebe deine Falle auf...",
-  "waterTrap.newCrustacean": "Du hast ein neues Krebstier entdeckt!"
+  "waterTrap.newCrustacean": "Du hast ein neues Krebstier entdeckt!",
+  "fishing.buyReels.confirmation": "Bist du sicher, dass du {{reels}} Rollen für {{gemPrice}} kaufen willst?"
 }

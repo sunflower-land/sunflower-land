@@ -7716,7 +7716,6 @@
   "fishermanModal.fishingLimitReached": "Você vai precisar de mais bobinas!",
   "fishing.lookingMoreReels": "Ahhh, você está procurando mais bobinas? Não se preocupe! Você pode selecionar um multiplicador na aba de peixes e comprar mais bobinas com gemas pouco antes de lançar. Ou você pode conferir as opções de aumento abaixo!",
   "fishing.buyReels": "Compre 5 bobinas com {{gemPrice}}",
-  "fishing.buyReels.confirmation": "Tem certeza de que deseja comprar 5 cilindros por {{gemPrice}}?",
   "fishing.buyMoreReels": "Compre bobinas {{reels}} por {{price}}",
   "marvelHunt.mapComplete.title": "{{marvel}} Mapa completo",
   "marvelHunt.mapComplete.description": "Parabéns, você encontrou todas as 9 peças do mapa e descobriu a localização do {{marvel}}!",
@@ -7948,5 +7947,6 @@
   "animalTools": "Ferramentas para animais",
   "calendar.events.fullMoon.description": "Um evento raro em que peças de mapas e plantações exóticas aparecem.",
   "picking.up.water.trap": "Pegando sua armadilha...",
-  "waterTrap.newCrustacean": "Você descobriu um novo crustáceo!"
+  "waterTrap.newCrustacean": "Você descobriu um novo crustáceo!",
+  "fishing.buyReels.confirmation": "Tem certeza de que deseja comprar bobinas {{reels}} por {{gemPrice}}?"
 }

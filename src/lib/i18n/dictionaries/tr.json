@@ -7716,7 +7716,6 @@
   "fishermanModal.fishingLimitReached": "Daha fazla makaraya ihtiyacın olacak!",
   "fishing.lookingMoreReels": "Ahhh daha fazla makara mı arıyorsunuz? Endişelenme! Balık sekmesinde bir çarpan seçebilir ve atmadan hemen önce mücevherlerle daha fazla makara satın alabilirsiniz. Veya aşağıdaki destek seçeneklerine göz atabilirsiniz!",
   "fishing.buyReels": "{{gemPrice}} ile 5 makara satın alın",
-  "fishing.buyReels.confirmation": "{{gemPrice}} için 5 makara satın almak istediğinizden emin misiniz?",
   "fishing.buyMoreReels": "{{price}} için {{reels}} makaraları satın alın",
   "marvelHunt.mapComplete.title": "{{marvel}} Harita Tamamlandı",
   "marvelHunt.mapComplete.description": "Tebrikler, 9 harita parçasının tümünü buldunuz ve {{marvel}} 'nin konumunu keşfettiniz!",
@@ -7948,5 +7947,6 @@
   "animalTools": "Hayvan Araçları",
   "calendar.events.fullMoon.description": "Harita parçalarının ve egzotik mahsullerin göründüğü nadir bir olay.",
   "picking.up.water.trap": "Tuzağını topluyorsun...",
-  "waterTrap.newCrustacean": "Yeni bir kabuklular keşfettin!"
+  "waterTrap.newCrustacean": "Yeni bir kabuklular keşfettin!",
+  "fishing.buyReels.confirmation": "{{gemPrice}} için {{reels}} makaraları satın almak istediğinizden emin misiniz?"
 }
