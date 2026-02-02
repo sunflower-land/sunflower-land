@@ -7948,5 +7948,6 @@
   "megaStore.msg1": "Welcome to my chapter store. Gather resources & exchange them for rare items before time runs out!",
   "bumpkinItemBuff.deep.sea.helm": "+1 chance Marvel Map Pieces",
   "fishermanModal.fullMoon": "Wow, look at that full moon! I've heard rumours that during this time you have a chance to catch Marvel Map Pieces.",
-  "milestone.deepSeaDiver": "Congratulations, you've just reached the Deep Sea Diver milestone! You have earnt the Deep Sea Helm - a mysterious Crown that attracts Marine Marvel map pieces to your hook."
+  "milestone.deepSeaDiver": "Congratulations, you've just reached the Deep Sea Diver milestone! You have earnt the Deep Sea Helm - a mysterious Crown that attracts Marine Marvel map pieces to your hook.",
+  "fishing.multiCastVip": "Become a VIP member and unlock the ability to cast up to 25 times at once! Upgrade now to supercharge your fishing."
 }
