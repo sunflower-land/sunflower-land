@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import {
   CHEST_LOOT,
   ChestRewardType,
@@ -58,14 +58,6 @@ const RewardRow: React.FC<{
   );
 };
 
-const isStoreChapterItem = (rewardName: string) => {
-  return CHAPTER_REWARDS(BASIC_CHAPTER_REWARDS_WEIGHT, "luxury").some(
-    (reward) =>
-      (reward.items && Object.keys(reward.items).includes(rewardName)) ||
-      (reward.wearables && Object.keys(reward.wearables).includes(rewardName)),
-  );
-};
-
 const MultipleRewardsRow: React.FC<{
   reward: RewardBoxReward;
   chance?: string;
@@ -74,6 +66,25 @@ const MultipleRewardsRow: React.FC<{
   const { t } = useAppTranslation();
   const now = useNow();
   const currentChapter = getCurrentChapter(now);
+  const storeChapterItems = useMemo(() => {
+    const rewards = CHAPTER_REWARDS(
+      BASIC_CHAPTER_REWARDS_WEIGHT,
+      "luxury",
+      now,
+    );
+    const names = new Set<string>();
+
+    rewards.forEach((rewardItem) => {
+      if (rewardItem.items) {
+        Object.keys(rewardItem.items).forEach((name) => names.add(name));
+      }
+      if (rewardItem.wearables) {
+        Object.keys(rewardItem.wearables).forEach((name) => names.add(name));
+      }
+    });
+
+    return names;
+  }, [now]);
   const rewards = reward.wearables
     ? Object.entries(reward.wearables)
     : reward.items
@@ -118,7 +129,7 @@ const MultipleRewardsRow: React.FC<{
               </div>
 
               {/* States whether it is chapter-limited */}
-              {isStoreChapterItem(rewardName) && (
+              {storeChapterItems.has(rewardName) && (
                 <div className="flex items-center w-20 sm:w-40 space-x-1 pl-[15%]">
                   <img src={SUNNYSIDE.icons.stopwatch} />
                   <p className="text-xxs">{`${currentChapter}`}</p>
