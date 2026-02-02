@@ -103,7 +103,7 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
       container={OuterPanel}
     >
       {tab === "chapter" && (
-        <InnerPanel>
+        <InnerPanel className="min-h-[240px]">
           <ChapterStore state={state} />
         </InnerPanel>
       )}
