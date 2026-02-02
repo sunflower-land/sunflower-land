@@ -194,7 +194,7 @@ export const WaterTrapModal: React.FC<Props> = ({
 
     return (
       <CloseButtonPanel onClose={onClose}>
-        <div className="flex flex-col gap-2 p-1">{readyContent}</div>
+        <div className="flex flex-col gap-2">{readyContent}</div>
       </CloseButtonPanel>
     );
   }
