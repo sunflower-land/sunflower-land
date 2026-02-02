@@ -17321,7 +17321,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Boost", value: "Fish" },
       {
         display_type: "boost_percentage",
-        trait_type: "Increase Chance of Marine Marvels",
+        trait_type: "Increase Chance of Marvel Map Pieces",
         value: 200,
       },
       { trait_type: "Tradable", value: "No" },
