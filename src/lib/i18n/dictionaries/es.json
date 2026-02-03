@@ -7951,5 +7951,15 @@
   "vip.benefit.airdrop": "Acceso a la pista VIP durante los capítulos",
   "vip.benefit.multicast": "Pesca multiusos",
   "vip.benefit.bonusFishingAttempts": "+5 intentos de pesca durante el capítulo Cangrejos y trampas",
-  "waterTrap.pickup": "Recoger"
+  "waterTrap.pickup": "Recoger",
+  "season.codex.whereToObtain": "Dónde obtenerlo",
+  "season.codex.howToObtain.track": "Gana con los hitos de Chapter Track.",
+  "season.codex.howToObtain.auctioneer": "Gana en la casa de subastas de la plaza.",
+  "season.codex.howToObtain.vipChest": "Consíguela en el cofre VIP.",
+  "season.codex.howToObtain.vipGift": "Obtéralo como regalo VIP.",
+  "season.codex.howToObtain.mutants": "Alimenta a los animales, cultiva flores, pesca en las profundidades y mucho más para descubrir las gotas estacionales.",
+  "season.codex.howToObtain.unknown": "Parte de la colección de este capítulo.",
+  "season.codex.howToObtain.megastore": "Haz manualidades en la Megastore.",
+  "season.codex.howToObtain.chapterEnded": "Este capítulo ha terminado. Puedes comprar este artículo en el mercado.",
+  "season.codex.buyOnMarketplace": "Compra en Marketplace"
 }

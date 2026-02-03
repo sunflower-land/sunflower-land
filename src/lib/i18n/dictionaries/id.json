@@ -7951,5 +7951,15 @@
   "vip.benefit.airdrop": "Akses ke trek VIP selama Bab",
   "vip.benefit.multicast": "Memancing multi-cast",
   "vip.benefit.bonusFishingAttempts": "+5 Upaya Memancing selama Bab Kepiting dan Perangkap",
-  "waterTrap.pickup": "Mengambil"
+  "waterTrap.pickup": "Mengambil",
+  "season.codex.whereToObtain": "Dimana untuk mendapatkan",
+  "season.codex.howToObtain.track": "Hasilkan dari tonggak Chapter Track.",
+  "season.codex.howToObtain.auctioneer": "Menang di Rumah Lelang di alun-alun.",
+  "season.codex.howToObtain.vipChest": "Dapatkan dari Peti VIP.",
+  "season.codex.howToObtain.vipGift": "Dapatkan sebagai hadiah VIP.",
+  "season.codex.howToObtain.mutants": "Beri makan hewan, tanam bunga, ikan di kedalaman, dan banyak lagi untuk menemukan penurunan musiman.",
+  "season.codex.howToObtain.unknown": "Bagian dari koleksi Bab ini.",
+  "season.codex.howToObtain.megastore": "Kerajinan di Megastore.",
+  "season.codex.howToObtain.chapterEnded": "Bab ini telah berakhir. Anda dapat membeli barang ini dari pasar.",
+  "season.codex.buyOnMarketplace": "Beli di Marketplace"
 }

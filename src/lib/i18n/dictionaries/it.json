@@ -7951,5 +7951,15 @@
   "vip.benefit.airdrop": "Accesso alla traccia VIP durante i capitoli",
   "vip.benefit.multicast": "Pesca a più getti",
   "vip.benefit.bonusFishingAttempts": "+5 tentativi di pesca durante il capitolo Crabs and Traps",
-  "waterTrap.pickup": "Raccogli"
+  "waterTrap.pickup": "Raccogli",
+  "season.codex.whereToObtain": "Dove procurarsi",
+  "season.codex.howToObtain.track": "Guadagna dai traguardi del Chapter Track.",
+  "season.codex.howToObtain.auctioneer": "Vinci alla casa d'aste in piazza.",
+  "season.codex.howToObtain.vipChest": "Ottenetelo dal baule VIP.",
+  "season.codex.howToObtain.vipGift": "Ottieni come regalo VIP.",
+  "season.codex.howToObtain.mutants": "Dai da mangiare agli animali, coltiva fiori, pesca negli abissi e molto altro ancora per scoprire le gocce stagionali.",
+  "season.codex.howToObtain.unknown": "Parte della raccolta di questo capitolo.",
+  "season.codex.howToObtain.megastore": "Artigianato al Megastore.",
+  "season.codex.howToObtain.chapterEnded": "Questo capitolo è terminato. Puoi acquistare questo articolo dal marketplace.",
+  "season.codex.buyOnMarketplace": "Acquista su Marketplace"
 }

@@ -7951,5 +7951,15 @@
   "vip.benefit.airdrop": "챕터 기간 중 VIP 트랙 이용",
   "vip.benefit.multicast": "멀티캐스트 낚시",
   "vip.benefit.bonusFishingAttempts": "크랩 앤 트랩 챕터 중 낚시 시도 횟수 +5",
-  "waterTrap.pickup": "픽업"
+  "waterTrap.pickup": "픽업",
+  "season.codex.whereToObtain": "어디서 구할 수 있나요?",
+  "season.codex.howToObtain.track": "챕터 트랙 마일스톤에서 수익을 올리세요.",
+  "season.codex.howToObtain.auctioneer": "광장에 있는 경매장에서 우승하세요.",
+  "season.codex.howToObtain.vipChest": "VIP 상자에서 획득하세요.",
+  "season.codex.howToObtain.vipGift": "VIP 선물로 획득하세요.",
+  "season.codex.howToObtain.mutants": "동물에게 먹이를 주고, 꽃을 키우고, 깊은 곳에서 물고기를 잡는 등 다양한 활동을 통해 계절에 맞는 물방울을 발견하세요.",
+  "season.codex.howToObtain.unknown": "이 챕터 컬렉션의 일부.",
+  "season.codex.howToObtain.megastore": "메가스토어에서 제작하세요.",
+  "season.codex.howToObtain.chapterEnded": "이 챕터는 종료되었습니다.마켓플레이스에서 이 아이템을 구입할 수 있습니다.",
+  "season.codex.buyOnMarketplace": "마켓플레이스에서 구매"
 }

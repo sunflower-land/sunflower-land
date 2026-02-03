@@ -7951,5 +7951,15 @@
   "vip.benefit.airdrop": "Acesso à faixa VIP durante os capítulos",
   "vip.benefit.multicast": "Pesca multicanal",
   "vip.benefit.bonusFishingAttempts": "+5 tentativas de pesca durante o capítulo Caranguejos e armadilhas",
-  "waterTrap.pickup": "Pegar"
+  "waterTrap.pickup": "Pegar",
+  "season.codex.whereToObtain": "Onde obter",
+  "season.codex.howToObtain.track": "Ganhe com os marcos do Chapter Track.",
+  "season.codex.howToObtain.auctioneer": "Ganhe na Casa de Leilões na praça.",
+  "season.codex.howToObtain.vipChest": "Obtenha do Baú VIP.",
+  "season.codex.howToObtain.vipGift": "Obtenha como presente VIP.",
+  "season.codex.howToObtain.mutants": "Alimente animais, cultive flores, pesque nas profundezas e muito mais para descobrir as safras sazonais.",
+  "season.codex.howToObtain.unknown": "Parte da coleção deste capítulo.",
+  "season.codex.howToObtain.megastore": "Artesanato na Megastore.",
+  "season.codex.howToObtain.chapterEnded": "Este capítulo terminou. Você pode comprar esse item no mercado.",
+  "season.codex.buyOnMarketplace": "Compre no Marketplace"
 }

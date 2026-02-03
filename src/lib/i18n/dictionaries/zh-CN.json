@@ -7951,5 +7951,15 @@
   "vip.benefit.airdrop": "章节期间可进入贵宾曲目",
   "vip.benefit.multicast": "多方位钓鱼",
   "vip.benefit.bonusFishingAttempts": "在 “螃蟹与陷阱” 章节中 +5 次钓鱼尝试",
-  "waterTrap.pickup": "捡起来"
+  "waterTrap.pickup": "捡起来",
+  "season.codex.whereToObtain": "在哪里获得",
+  "season.codex.howToObtain.track": "从章节追踪里程碑中获利。",
+  "season.codex.howToObtain.auctioneer": "在广场的拍卖行获胜。",
+  "season.codex.howToObtain.vipChest": "从贵宾宝箱中获取。",
+  "season.codex.howToObtain.vipGift": "作为 VIP 礼物获得。",
+  "season.codex.howToObtain.mutants": "喂动物、种花、深海捕鱼等，发现季节性水果。",
+  "season.codex.howToObtain.unknown": "本章集合的一部分。",
+  "season.codex.howToObtain.megastore": "在 Megastore 手工制作。",
+  "season.codex.howToObtain.chapterEnded": "本章已经结束。你可以从市场上购买这件商品。",
+  "season.codex.buyOnMarketplace": "在市场上购买"
 }

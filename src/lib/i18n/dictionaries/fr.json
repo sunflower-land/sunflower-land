@@ -7951,5 +7951,15 @@
   "vip.benefit.airdrop": "Accès à la piste VIP pendant les chapitres",
   "vip.benefit.multicast": "Pêche à plusieurs lancers",
   "vip.benefit.bonusFishingAttempts": "+5 tentatives de pêche pendant le chapitre Crabes and Traps",
-  "waterTrap.pickup": "Cueillette"
+  "waterTrap.pickup": "Cueillette",
+  "season.codex.whereToObtain": "Où se procurer",
+  "season.codex.howToObtain.track": "Gagnez des points grâce aux jalons de Chapter Track.",
+  "season.codex.howToObtain.auctioneer": "Gagnez à l'hôtel des ventes sur la place.",
+  "season.codex.howToObtain.vipChest": "À obtenir dans le coffre VIP.",
+  "season.codex.howToObtain.vipGift": "À obtenir en tant que cadeau VIP.",
+  "season.codex.howToObtain.mutants": "Nourrissez les animaux, faites pousser des fleurs, pêchez dans les profondeurs et bien plus encore pour découvrir les baisses saisonnières.",
+  "season.codex.howToObtain.unknown": "Fait partie de la collection de ce chapitre.",
+  "season.codex.howToObtain.megastore": "Artisanat au Megastore.",
+  "season.codex.howToObtain.chapterEnded": "Ce chapitre est terminé. Vous pouvez acheter cet article sur la place de marché.",
+  "season.codex.buyOnMarketplace": "Acheter sur Marketplace"
 }

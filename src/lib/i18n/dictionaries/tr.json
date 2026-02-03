@@ -7951,5 +7951,15 @@
   "vip.benefit.airdrop": "Bölümler sırasında VIP parçasına erişim",
   "vip.benefit.multicast": "Çoklu balıkçılık",
   "vip.benefit.bonusFishingAttempts": "Yengeçler ve Tuzaklar Bölümü Sırasında +5 Balıkçılık Denemesi",
-  "waterTrap.pickup": "Alın"
+  "waterTrap.pickup": "Alın",
+  "season.codex.whereToObtain": "Nereden temin edilir",
+  "season.codex.howToObtain.track": "Bölüm İzleme kilometre taşlarından kazanın.",
+  "season.codex.howToObtain.auctioneer": "Plazadaki Müzayede Evinde kazan.",
+  "season.codex.howToObtain.vipChest": "VIP Sandığından alın.",
+  "season.codex.howToObtain.vipGift": "VIP hediye olarak alın.",
+  "season.codex.howToObtain.mutants": "Mevsimsel düşüşleri keşfetmek için hayvanları besleyin, çiçek yetiştirin, derinliklerde balık tutun ve daha fazlasını keşfedin.",
+  "season.codex.howToObtain.unknown": "Bu bölümün koleksiyonunun bir parçası.",
+  "season.codex.howToObtain.megastore": "Megastore\"da zanaat.",
+  "season.codex.howToObtain.chapterEnded": "Bu bölüm sona erdi. Bu ürünü pazardan satın alabilirsiniz.",
+  "season.codex.buyOnMarketplace": "Marketplace'de Satın Alın"
 }

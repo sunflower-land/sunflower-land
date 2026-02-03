@@ -7951,5 +7951,15 @@
   "vip.benefit.airdrop": "チャプター期間中のVIPトラックへのアクセス",
   "vip.benefit.multicast": "マルチキャストフィッシング",
   "vip.benefit.bonusFishingAttempts": "「カニとわな」チャプターで+5回釣りに挑戦する",
-  "waterTrap.pickup": "ピックアップ"
+  "waterTrap.pickup": "ピックアップ",
+  "season.codex.whereToObtain": "入手先",
+  "season.codex.howToObtain.track": "チャプタートラックのマイルストーンから獲得できます。",
+  "season.codex.howToObtain.auctioneer": "広場のオークションハウスで賞品を獲得してください。",
+  "season.codex.howToObtain.vipChest": "VIPチェストから入手してください。",
+  "season.codex.howToObtain.vipGift": "VIPギフトとして入手してください。",
+  "season.codex.howToObtain.mutants": "動物に餌をやったり、花を育てたり、深海で魚を育てたりして、季節ごとのドロップを見つけましょう。",
+  "season.codex.howToObtain.unknown": "この章のコレクションの一部です。",
+  "season.codex.howToObtain.megastore": "メガストアでクラフト。",
+  "season.codex.howToObtain.chapterEnded": "この章は終了しました。このアイテムはマーケットプレイスで購入できます。",
+  "season.codex.buyOnMarketplace": "マーケットプレイスで購入"
 }

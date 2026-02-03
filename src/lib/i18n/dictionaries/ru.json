@@ -7951,5 +7951,15 @@
   "vip.benefit.airdrop": "Access to VIP track during Chapters",
   "vip.benefit.multicast": "Multi-cast fishing",
   "vip.benefit.bonusFishingAttempts": "+5 Fishing Attempts during Crabs and Traps Chapter",
-  "waterTrap.pickup": "Pick up"
+  "waterTrap.pickup": "Pick up",
+  "season.codex.whereToObtain": "Where to obtain",
+  "season.codex.howToObtain.track": "Earn from Chapter Track milestones.",
+  "season.codex.howToObtain.auctioneer": "Win at the Auction House in the plaza.",
+  "season.codex.howToObtain.vipChest": "Obtain from the VIP Chest.",
+  "season.codex.howToObtain.vipGift": "Obtain as a VIP gift.",
+  "season.codex.howToObtain.mutants": "Feed animals, grow flowers, fish in the depths, and more to discover seasonal drops.",
+  "season.codex.howToObtain.unknown": "Part of this chapter's collection.",
+  "season.codex.howToObtain.megastore": "Craft at the Megastore.",
+  "season.codex.howToObtain.chapterEnded": "This chapter has ended. You can buy this item from the marketplace.",
+  "season.codex.buyOnMarketplace": "Buy on Marketplace"
 }

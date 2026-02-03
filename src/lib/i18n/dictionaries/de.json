@@ -7951,5 +7951,15 @@
   "vip.benefit.airdrop": "Zugriff auf den VIP-Track während der Kapitel",
   "vip.benefit.multicast": "Fischen mit mehreren Küsten",
   "vip.benefit.bonusFishingAttempts": "+5 Fangversuche im Kapitel „Krabben und Fallen“",
-  "waterTrap.pickup": "Abholen"
+  "waterTrap.pickup": "Abholen",
+  "season.codex.whereToObtain": "Wo kann man es erhalten",
+  "season.codex.howToObtain.track": "Verdiene durch Meilensteine in Chapter Track.",
+  "season.codex.howToObtain.auctioneer": "Gewinnen Sie im Auktionshaus auf dem Platz.",
+  "season.codex.howToObtain.vipChest": "Erhalte aus der VIP-Truhe.",
+  "season.codex.howToObtain.vipGift": "Als VIP-Geschenk erhalten.",
+  "season.codex.howToObtain.mutants": "Füttere Tiere, züchte Blumen, fische in der Tiefe und vieles mehr, um saisonale Pflanzen zu entdecken.",
+  "season.codex.howToObtain.unknown": "Teil der Sammlung dieses Kapitels.",
+  "season.codex.howToObtain.megastore": "Basteln Sie im Megastore.",
+  "season.codex.howToObtain.chapterEnded": "Dieses Kapitel ist beendet. Sie können diesen Artikel auf dem Marktplatz kaufen.",
+  "season.codex.buyOnMarketplace": "Auf Marketplace kaufen"
 }
