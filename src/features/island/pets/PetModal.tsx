@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   isPetNFT,
   Pet,
@@ -61,11 +61,30 @@ export const PetModal: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const [display, setDisplay] = useState<
     "feeding" | "fetching" | "resetting" | "typeFed" | "guide"
-  >(isTypeFed ? "typeFed" : "feeding");
+  >(() => {
+    if (isTypeFed) {
+      return "typeFed";
+    }
+    return "feeding";
+  });
   const [previousDisplay, setPreviousDisplay] = useState<
     "feeding" | "fetching" | "resetting"
   >("feeding");
   const [showRewards, setShowRewards] = useState(false);
+
+  useEffect(() => {
+    if (show) {
+      queueMicrotask(() =>
+        setDisplay(() => {
+          if (isTypeFed) {
+            return "typeFed";
+          }
+          return "feeding";
+        }),
+      );
+    }
+  }, [show, isTypeFed]);
+
   const inventory = useSelector(gameService, _inventory);
   const isNFTPet = isPetNFT(data);
   const petId = isNFTPet ? data.id : data?.name;
