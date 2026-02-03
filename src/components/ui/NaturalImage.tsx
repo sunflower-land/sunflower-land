@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-interface NaturalImageProps
+export interface NaturalImageProps
   extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, "width" | "height"> {
   /**
    * Max width in natural (unscaled) pixels before PIXEL_SCALE.

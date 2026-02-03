@@ -10,15 +10,22 @@ import { BumpkinItem } from "features/game/types/bumpkin";
 import { CHAPTER_BANNER_IMAGES } from "features/game/types/chapters";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import { getWearableImage } from "features/game/lib/getWearableImage";
-import { CHAPTER_COLLECTIONS } from "features/game/types/collections";
+import {
+  CHAPTER_COLLECTIONS,
+  getChapterCollectionForDisplay,
+} from "features/game/types/collections";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { ChapterCollectionItemPopover } from "../components/ChapterCollectionItemDetail";
+import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 
 type Props = {
   state: GameState;
+  onClose: () => void;
 };
 
-export const ChapterCollections: React.FC<Props> = ({ state }) => {
+export const ChapterCollections: React.FC<Props> = ({ state, onClose }) => {
   const { inventory, wardrobe } = state;
 
   return (
@@ -31,10 +38,8 @@ export const ChapterCollections: React.FC<Props> = ({ state }) => {
             return chapterBStartDate.getTime() - chapterAStartDate.getTime();
           })
           .map((chapter) => {
-            const collection = CHAPTER_COLLECTIONS[chapter];
-            if (!collection) return null;
-
-            const { collectibles, wearables } = collection;
+            const { collectibles, wearables } =
+              getChapterCollectionForDisplay(chapter);
             const banner: ChapterBanner = `${chapter} Banner`;
             const bannerImage = CHAPTER_BANNER_IMAGES[banner];
 
@@ -94,13 +99,31 @@ export const ChapterCollections: React.FC<Props> = ({ state }) => {
                         const count = inventory[itemName]?.toNumber() ?? 0;
                         const hasItem = count > 0;
 
+                        const buff = COLLECTIBLE_BUFF_LABELS[itemName];
+                        const showBoostIcon = !!(
+                          buff &&
+                          buff({
+                            skills: state.bumpkin.skills,
+                            collectibles: state.collectibles,
+                          }).length > 0
+                        );
+
                         return (
-                          <SimpleBox
+                          <ChapterCollectionItemPopover
                             key={item}
-                            silhouette={!hasItem}
-                            inventoryCount={hasItem ? count : undefined}
-                            image={ITEM_DETAILS[itemName]?.image}
-                          />
+                            itemName={itemName}
+                            type="collectible"
+                            chapter={chapter}
+                            state={state}
+                            onClose={onClose}
+                          >
+                            <SimpleBox
+                              silhouette={!hasItem}
+                              inventoryCount={hasItem ? count : undefined}
+                              image={ITEM_DETAILS[itemName]?.image}
+                              showBoostIcon={showBoostIcon}
+                            />
+                          </ChapterCollectionItemPopover>
                         );
                       })}
                       {wearables.map((item) => {
@@ -110,14 +133,25 @@ export const ChapterCollections: React.FC<Props> = ({ state }) => {
                         const image = isCollectible(itemName)
                           ? ITEM_DETAILS[itemName]?.image
                           : getWearableImage(itemName);
+                        const buff = BUMPKIN_ITEM_BUFF_LABELS[itemName];
+                        const showBoostIcon = !!(buff && buff.length > 0);
 
                         return (
-                          <SimpleBox
+                          <ChapterCollectionItemPopover
                             key={item}
-                            silhouette={!hasItem}
-                            inventoryCount={hasItem ? count : undefined}
-                            image={image}
-                          />
+                            itemName={itemName}
+                            type="wearable"
+                            chapter={chapter}
+                            state={state}
+                            onClose={onClose}
+                          >
+                            <SimpleBox
+                              silhouette={!hasItem}
+                              inventoryCount={hasItem ? count : undefined}
+                              image={image}
+                              showBoostIcon={showBoostIcon}
+                            />
+                          </ChapterCollectionItemPopover>
                         );
                       })}
                     </div>

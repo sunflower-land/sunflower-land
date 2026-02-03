@@ -12,7 +12,7 @@ export type ChapterMutantsData = {
   banner: string;
   Chicken: MutantChicken;
   Flower: MutantFlowerName;
-  Fish: ChapterFish;
+  Fish: ChapterFish[];
   Cow: MutantCow | undefined;
   Sheep: MutantSheep | undefined;
 };
@@ -31,7 +31,7 @@ export const CHAPTER_MUTANTS: Record<MutantsChapterName, ChapterMutantsData> = {
   "Pharaoh's Treasure": {
     Chicken: "Pharaoh Chicken",
     Flower: "Desert Rose",
-    Fish: "Lemon Shark",
+    Fish: ["Lemon Shark"],
     Cow: undefined,
     Sheep: undefined,
     banner: SUNNYSIDE.announcement.pharaohSeasonRares,
@@ -39,7 +39,7 @@ export const CHAPTER_MUTANTS: Record<MutantsChapterName, ChapterMutantsData> = {
   "Bull Run": {
     Chicken: "Alien Chicken",
     Flower: "Chicory",
-    Fish: "Longhorn Cowfish",
+    Fish: ["Longhorn Cowfish"],
     Cow: "Mootant",
     Sheep: "Toxic Tuft",
     banner: SUNNYSIDE.announcement.bullRunSeasonRares,
@@ -47,7 +47,7 @@ export const CHAPTER_MUTANTS: Record<MutantsChapterName, ChapterMutantsData> = {
   "Winds of Change": {
     Chicken: "Summer Chicken",
     Flower: "Chamomile",
-    Fish: "Jellyfish",
+    Fish: ["Jellyfish"],
     Cow: "Frozen Cow",
     Sheep: "Frozen Sheep",
     banner: SUNNYSIDE.announcement.windsOfChangeSeasonRares,
@@ -55,7 +55,7 @@ export const CHAPTER_MUTANTS: Record<MutantsChapterName, ChapterMutantsData> = {
   "Better Together": {
     Chicken: "Janitor Chicken",
     Flower: "Venus Bumpkin Trap",
-    Fish: "Poseidon",
+    Fish: ["Poseidon"],
     Cow: "Baby Cow",
     Sheep: "Baby Sheep",
     banner: SUNNYSIDE.announcement.betterTogetherSeasonRares,
@@ -63,7 +63,7 @@ export const CHAPTER_MUTANTS: Record<MutantsChapterName, ChapterMutantsData> = {
   "Paw Prints": {
     Chicken: "Sleepy Chicken",
     Flower: "Black Hole Flower",
-    Fish: "Super Star",
+    Fish: ["Super Star"],
     Cow: "Astronaut Cow",
     Sheep: "Astronaut Sheep",
     banner: SUNNYSIDE.announcement.pawPrintsSeasonRares,
@@ -71,7 +71,7 @@ export const CHAPTER_MUTANTS: Record<MutantsChapterName, ChapterMutantsData> = {
   "Crabs and Traps": {
     Chicken: "Squid Chicken",
     Flower: "Anemone Flower",
-    Fish: "Giant Isopod",
+    Fish: ["Giant Isopod", "Nautilus", "Dollocaris"],
     Cow: "Mermaid Cow",
     Sheep: "Mermaid Sheep",
     banner: SUNNYSIDE.announcement.crabsAndTrapsChapterRares,
@@ -81,7 +81,7 @@ export const CHAPTER_MUTANTS: Record<MutantsChapterName, ChapterMutantsData> = {
     Cow: "Dr Cow",
     Sheep: "Nurse Sheep",
     Flower: "Lunalist",
-    Fish: "Pink Dolphin",
+    Fish: ["Pink Dolphin"],
     banner: "?",
   },
 };

@@ -102,10 +102,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     setCurrentTab(index);
   };
 
-  const handleHide = () => {
-    onHide();
-  };
-
   const handleMilestoneReached = (milestoneName: MilestoneName) => {
     setMilestoneName(milestoneName);
     setShowMilestoneReached(true);
@@ -204,7 +200,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
 
   return (
     // TODO feat/marks-leaderboard ADD SHOW
-    <Modal show={show} onHide={handleHide} dialogClassName="md:max-w-3xl">
+    <Modal show={show} onHide={onHide} dialogClassName="md:max-w-3xl">
       <div className="h-[500px] relative">
         {/* Header */}
         <OuterPanel className="flex flex-col h-full">
@@ -216,7 +212,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             <img
               src={SUNNYSIDE.icons.close}
               className="float-right cursor-pointer z-20 ml-3"
-              onClick={handleHide}
+              onClick={onHide}
               style={{
                 width: `${PIXEL_SCALE * 11}px`,
               }}
@@ -286,7 +282,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               />
             )}
             {currentTab === "Collections" && (
-              <ChapterCollections state={state} />
+              <ChapterCollections state={state} onClose={onHide} />
             )}
             {currentTab === "Marks" && faction && (
               <FactionLeaderboard

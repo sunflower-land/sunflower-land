@@ -44,7 +44,7 @@ export const ChapterMutants: React.FC<Props> = ({ chapter }) => {
             },
             {
               text: t("season.codex.mutants.two", {
-                item: mutants.Fish,
+                item: mutants.Fish.join(", "),
               }),
 
               icon: ITEM_DETAILS.Rod.image,

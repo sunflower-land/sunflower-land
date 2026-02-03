@@ -30,7 +30,11 @@ import {
   toTraitValueId,
   useTraitFilters,
 } from "../lib/marketplaceFilters";
-import { CHAPTER_COLLECTIONS } from "features/game/types/collections";
+import {
+  CHAPTER_COLLECTIONS,
+  getChapterCollectionForDisplay,
+} from "features/game/types/collections";
+import { getKeys } from "features/game/types/craftables";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { KNOWN_IDS } from "features/game/types";
 import {
@@ -43,7 +47,7 @@ import { Label } from "components/ui/Label";
 
 const budTraitLabels = createTraitLabelLookup(BUD_TRAIT_GROUPS);
 const petTraitLabels = createTraitLabelLookup(PET_TRAIT_GROUPS);
-const chapterCollectionLookup = Object.entries(CHAPTER_COLLECTIONS).reduce<
+const chapterCollectionLookup = getKeys(CHAPTER_COLLECTIONS).reduce<
   Record<
     string,
     {
@@ -53,21 +57,15 @@ const chapterCollectionLookup = Object.entries(CHAPTER_COLLECTIONS).reduce<
       wearableNames: Set<string>;
     }
   >
->((acc, [chapter, collections]) => {
-  if (!collections) {
-    return acc;
-  }
+>((acc, chapter) => {
+  const { collectibles, wearables } = getChapterCollectionForDisplay(chapter);
 
-  const collectibleNames = (collections.collectibles ?? []).map((item) =>
-    toTraitValueId(item),
-  );
-  const wearableNames = (collections.wearables ?? []).map((item) =>
-    toTraitValueId(item),
-  );
-  const collectibleIds = (collections.collectibles ?? [])
+  const collectibleNames = collectibles.map((item) => toTraitValueId(item));
+  const wearableNames = wearables.map((item) => toTraitValueId(item));
+  const collectibleIds = collectibles
     .map((item) => KNOWN_IDS[item])
     .filter((id): id is number => typeof id === "number");
-  const wearableIds = (collections.wearables ?? [])
+  const wearableIds = wearables
     .map((item) => ITEM_IDS[item])
     .filter((id): id is number => typeof id === "number");
 
