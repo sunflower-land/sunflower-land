@@ -111,16 +111,6 @@ export function getFruitYield({
     const criticalDrop = (criticalHitName: CriticalHitName, chance: number) =>
       prngChance({ ...prngArgs, itemId, chance, criticalHitName });
 
-    // Greenhouse Gamble 25% chance of +1 yield
-    if (
-      isGreenhouseFruit(name) &&
-      bumpkin.skills["Greenhouse Gamble"] &&
-      criticalDrop("Greenhouse Gamble", 25)
-    ) {
-      amount += 1;
-      boostsUsed.push("Greenhouse Gamble");
-    }
-
     // Generous Orchard: 20% chance of +1 patch fruit
     if (
       bumpkin.skills["Generous Orchard"] &&
@@ -174,22 +164,6 @@ export function getFruitYield({
   if (isFruit(name) && bumpkin.skills["Fruitful Fumble"]) {
     amount += 0.1;
     boostsUsed.push("Fruitful Fumble");
-  }
-
-  // Glass Room, +0.1 yield
-  if (isGreenhouseFruit(name) && bumpkin.skills["Glass Room"]) {
-    amount += 0.1;
-    boostsUsed.push("Glass Room");
-  }
-
-  if (isGreenhouseFruit(name) && bumpkin.skills["Seeded Bounty"]) {
-    amount += 0.5;
-    boostsUsed.push("Seeded Bounty");
-  }
-
-  if (isGreenhouseFruit(name) && bumpkin.skills["Greasy Plants"]) {
-    amount += 1;
-    boostsUsed.push("Greasy Plants");
   }
 
   //Faction Quiver
@@ -270,14 +244,6 @@ export function getFruitYield({
   if (name === "Grape" && isWearableActive({ name: "Grape Pants", game })) {
     amount += 0.2;
     boostsUsed.push("Grape Pants");
-  }
-
-  if (
-    isGreenhouseFruit(name) &&
-    isCollectibleBuilt({ name: "Pharaoh Gnome", game })
-  ) {
-    amount += 2;
-    boostsUsed.push("Pharaoh Gnome");
   }
 
   if (bumpkin.skills["Zesty Vibes"] && !isGreenhouseFruit(name)) {

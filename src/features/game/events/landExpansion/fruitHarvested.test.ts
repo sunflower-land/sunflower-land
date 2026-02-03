@@ -4,8 +4,10 @@ import {
   INITIAL_FARM,
   TEST_FARM,
 } from "features/game/lib/constants";
+import { prngChance } from "lib/prng";
 import { PATCH_FRUIT, PATCH_FRUIT_SEEDS } from "features/game/types/fruits";
 import { GameState, FruitPatch } from "features/game/types/game";
+import { KNOWN_IDS } from "features/game/types";
 import {
   getFruitYield,
   harvestFruit,
@@ -941,6 +943,87 @@ describe("fruitHarvested", () => {
       });
 
       expect(amount).toEqual(1.2);
+    });
+    it("gives +1 Lemon yield when Zesty Vibes skill and Lemon", () => {
+      const { amount } = getFruitYield({
+        prngArgs: { counter: 0, farmId },
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_FARM.bumpkin,
+            skills: { "Zesty Vibes": 1 },
+          },
+        },
+        name: "Lemon",
+      });
+      expect(amount).toEqual(2);
+    });
+    it("gives -0.25 fruit yield when Zesty Vibes skill and non-Tomato/Lemon patch fruit", () => {
+      const { amount } = getFruitYield({
+        prngArgs: { counter: 0, farmId },
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_FARM.bumpkin,
+            skills: { "Zesty Vibes": 1 },
+          },
+        },
+        name: "Apple",
+      });
+      expect(amount).toEqual(0.75);
+    });
+    it("gives +1 fruit yield when Generous Orchard triggers (prng 20%)", () => {
+      const itemId = KNOWN_IDS["Apple"];
+      let triggerCounter: number | null = null;
+      for (let c = 0; c < 1000; c++) {
+        if (
+          prngChance({
+            farmId,
+            itemId,
+            counter: c,
+            chance: 20,
+            criticalHitName: "Generous Orchard",
+          })
+        ) {
+          triggerCounter = c;
+          break;
+        }
+      }
+      expect(triggerCounter).not.toBeNull();
+      const { amount } = getFruitYield({
+        prngArgs: { counter: triggerCounter!, farmId },
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_FARM.bumpkin,
+            skills: { "Generous Orchard": 1 },
+          },
+        },
+        name: "Apple",
+      });
+      expect(amount).toEqual(2);
+    });
+    it("gives +0.25 fruit yield when faction wings equipped", () => {
+      const { amount } = getFruitYield({
+        prngArgs: { counter: 0, farmId },
+        game: {
+          ...TEST_FARM,
+          faction: {
+            name: "bumpkins",
+            pledgedAt: 0,
+            history: {},
+          },
+          bumpkin: {
+            ...TEST_FARM.bumpkin,
+            equipped: {
+              ...TEST_FARM.bumpkin?.equipped,
+              wings: "Bumpkin Quiver",
+            },
+          },
+        },
+        name: "Apple",
+      });
+      expect(amount).toEqual(1.25);
     });
   });
 });

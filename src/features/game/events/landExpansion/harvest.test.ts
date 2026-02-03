@@ -1567,6 +1567,1335 @@ describe("harvest", () => {
       expect(state.inventory.Sunflower).toEqual(new Decimal(1.1));
     });
 
+    it("gives 1.2x Carrot when Easter Bunny is placed and ready", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Carrot Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          collectibles: {
+            "Easter Bunny": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: { x: 1, y: 1 },
+                readyAt: dateNow - 5 * 60 * 1000,
+              },
+            ],
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Carrot",
+                plantedAt:
+                  dateNow - (CROPS["Carrot"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Carrot).toEqual(new Decimal(1.2));
+    });
+
+    it("gives 1.2x Pumpkin when Victoria Sisters is placed and ready", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Pumpkin Seed": new Decimal(1) },
+          season: { season: "autumn", startedAt: 0 },
+          collectibles: {
+            "Victoria Sisters": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: { x: 1, y: 1 },
+                readyAt: dateNow - 5 * 60 * 1000,
+              },
+            ],
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Pumpkin",
+                plantedAt:
+                  dateNow - (CROPS["Pumpkin"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Pumpkin).toEqual(new Decimal(1.2));
+    });
+
+    it("gives 1.2x Beetroot when Beetroot Amulet is equipped", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            equipped: {
+              ...TEST_BUMPKIN.equipped,
+              necklace: "Beetroot Amulet",
+            },
+          },
+          inventory: { "Beetroot Seed": new Decimal(1) },
+          season: { season: "summer", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Beetroot",
+                plantedAt:
+                  dateNow - (CROPS["Beetroot"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Beetroot).toEqual(new Decimal(1.2));
+    });
+
+    it("gives +0.2 to the yield of crops when Kuebiko is placed and ready", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Sunflower Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          collectibles: {
+            Kuebiko: [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: { x: 1, y: 1 },
+                readyAt: dateNow - 5 * 60 * 1000,
+              },
+            ],
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Sunflower",
+                plantedAt:
+                  dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Sunflower).toEqual(new Decimal(1.2));
+    });
+
+    it("gives +0.1 to the yield of Carrot when Pablo The Bunny is placed and ready", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Carrot Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          collectibles: {
+            "Pablo The Bunny": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: { x: 1, y: 1 },
+                readyAt: dateNow - 5 * 60 * 1000,
+              },
+            ],
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Carrot",
+                plantedAt:
+                  dateNow - (CROPS["Carrot"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Carrot).toEqual(new Decimal(1.1));
+    });
+
+    it("gives +0.2 to the yield of Kale when Foliant is placed and ready", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Kale Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          collectibles: {
+            Foliant: [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: { x: 1, y: 1 },
+                readyAt: dateNow - 5 * 60 * 1000,
+              },
+            ],
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Kale",
+                plantedAt: dateNow - (CROPS["Kale"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Kale).toEqual(new Decimal(1.2));
+    });
+
+    it("gives +0.1 to the yield of Eggplant when Eggplant Onesie is equipped", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            equipped: {
+              ...TEST_BUMPKIN.equipped,
+              onesie: "Eggplant Onesie",
+            },
+          },
+          inventory: { "Eggplant Seed": new Decimal(1) },
+          season: { season: "summer", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Eggplant",
+                plantedAt:
+                  dateNow - (CROPS["Eggplant"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Eggplant).toEqual(new Decimal(1.1));
+    });
+
+    it("gives +0.5 to the yield of Yam when Giant Yam is placed and ready", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Yam Seed": new Decimal(1) },
+          season: { season: "autumn", startedAt: 0 },
+          collectibles: {
+            "Giant Yam": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: { x: 1, y: 1 },
+                readyAt: dateNow - 5 * 60 * 1000,
+              },
+            ],
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Yam",
+                plantedAt: dateNow - (CROPS["Yam"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Yam).toEqual(new Decimal(1.5));
+    });
+
+    it("gives +0.1 to the yield of Soybean when Tofu Mask is equipped", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            equipped: {
+              ...TEST_BUMPKIN.equipped,
+              hat: "Tofu Mask",
+            },
+          },
+          inventory: { "Soybean Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Soybean",
+                plantedAt:
+                  dateNow - (CROPS["Soybean"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Soybean).toEqual(new Decimal(1.1));
+    });
+
+    it("gives +0.1 to the yield of Corn when Corn Onesie is equipped", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            equipped: { ...TEST_BUMPKIN.equipped, onesie: "Corn Onesie" },
+          },
+          inventory: { "Corn Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Corn",
+                plantedAt: dateNow - (CROPS["Corn"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Corn).toEqual(new Decimal(1.1));
+    });
+
+    it("gives +2 to the yield of Wheat when Sickle is equipped", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            equipped: { ...TEST_BUMPKIN.equipped, tool: "Sickle" },
+          },
+          inventory: { "Wheat Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Wheat",
+                plantedAt:
+                  dateNow - (CROPS["Wheat"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Wheat).toEqual(new Decimal(3));
+    });
+
+    it("gives +2 to the yield of Barley when Sheaf of Plenty is placed and ready", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Barley Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          collectibles: {
+            "Sheaf of Plenty": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: { x: 1, y: 1 },
+                readyAt: dateNow - 5 * 60 * 1000,
+              },
+            ],
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Barley",
+                plantedAt:
+                  dateNow - (CROPS["Barley"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Barley).toEqual(new Decimal(3));
+    });
+
+    it("gives +2 to the yield of Kale when Giant Kale is placed and ready", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Kale Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          collectibles: {
+            "Giant Kale": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: { x: 1, y: 1 },
+                readyAt: dateNow - 5 * 60 * 1000,
+              },
+            ],
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Kale",
+                plantedAt: dateNow - (CROPS["Kale"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Kale).toEqual(new Decimal(3));
+    });
+
+    it("gives +1 to the yield of spring crop when Blossom Ward is equipped", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            equipped: {
+              ...TEST_BUMPKIN.equipped,
+              secondaryTool: "Blossom Ward",
+            },
+          },
+          inventory: { "Carrot Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Carrot",
+                plantedAt:
+                  dateNow - (CROPS["Carrot"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Carrot).toEqual(new Decimal(2));
+    });
+
+    it("gives +1 to the yield of winter crop when Frozen Heart is equipped", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            equipped: {
+              ...TEST_BUMPKIN.equipped,
+              secondaryTool: "Frozen Heart",
+            },
+          },
+          inventory: { "Cauliflower Seed": new Decimal(1) },
+          season: { season: "winter", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Cauliflower",
+                plantedAt:
+                  dateNow - (CROPS["Cauliflower"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Cauliflower).toEqual(new Decimal(2));
+    });
+
+    it("gives +3 to the yield of any crop when Infernal Pitchfork is equipped", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            equipped: {
+              ...TEST_BUMPKIN.equipped,
+              tool: "Infernal Pitchfork",
+            },
+          },
+          inventory: { "Sunflower Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Sunflower",
+                plantedAt:
+                  dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Sunflower).toEqual(new Decimal(4));
+    });
+
+    it("gives +1 to the yield of any crop when Legendary Shrine is active", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Sunflower Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          collectibles: {
+            "Legendary Shrine": [
+              {
+                id: "123",
+                createdAt: dateNow - 1000,
+                coordinates: { x: 1, y: 1 },
+              },
+            ],
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Sunflower",
+                plantedAt:
+                  dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Sunflower).toEqual(new Decimal(2));
+    });
+
+    it("gives +0.5 to the yield of overnight crop when Hoot is placed and ready", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Radish Seed": new Decimal(1) },
+          season: { season: "summer", startedAt: 0 },
+          collectibles: {
+            Hoot: [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: { x: 1, y: 1 },
+                readyAt: dateNow - 5 * 60 * 1000,
+              },
+            ],
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Radish",
+                plantedAt:
+                  dateNow - (CROPS["Radish"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Radish).toEqual(new Decimal(1.5));
+    });
+
+    it("gives +0.1 to the yield of Corn when Poppy is placed and ready", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Corn Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          collectibles: {
+            Poppy: [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: { x: 1, y: 1 },
+                readyAt: dateNow - 5 * 60 * 1000,
+              },
+            ],
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Corn",
+                plantedAt: dateNow - (CROPS["Corn"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Corn).toEqual(new Decimal(1.1));
+    });
+
+    it("gives +0.5 to the yield of Pumpkin when Freya Fox is placed and ready", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Pumpkin Seed": new Decimal(1) },
+          season: { season: "autumn", startedAt: 0 },
+          collectibles: {
+            "Freya Fox": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: { x: 1, y: 1 },
+                readyAt: dateNow - 5 * 60 * 1000,
+              },
+            ],
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Pumpkin",
+                plantedAt:
+                  dateNow - (CROPS["Pumpkin"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Pumpkin).toEqual(new Decimal(1.5));
+    });
+
+    it("gives +0.2 to the yield of Carrot when Lab Grown Carrot is placed and ready", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Carrot Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          collectibles: {
+            "Lab Grown Carrot": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: { x: 1, y: 1 },
+                readyAt: dateNow - 5 * 60 * 1000,
+              },
+            ],
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Carrot",
+                plantedAt:
+                  dateNow - (CROPS["Carrot"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Carrot).toEqual(new Decimal(1.2));
+    });
+
+    it("gives +0.3 to the yield of Pumpkin when Lab Grown Pumpkin is placed and ready", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Pumpkin Seed": new Decimal(1) },
+          season: { season: "autumn", startedAt: 0 },
+          collectibles: {
+            "Lab Grown Pumpkin": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: { x: 1, y: 1 },
+                readyAt: dateNow - 5 * 60 * 1000,
+              },
+            ],
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Pumpkin",
+                plantedAt:
+                  dateNow - (CROPS["Pumpkin"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Pumpkin).toEqual(new Decimal(1.3));
+    });
+
+    it("gives +0.4 to the yield of Radish when Lab Grown Radish is placed and ready", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Radish Seed": new Decimal(1) },
+          season: { season: "summer", startedAt: 0 },
+          collectibles: {
+            "Lab Grown Radish": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: { x: 1, y: 1 },
+                readyAt: dateNow - 5 * 60 * 1000,
+              },
+            ],
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Radish",
+                plantedAt:
+                  dateNow - (CROPS["Radish"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Radish).toEqual(new Decimal(1.4));
+    });
+
+    it("gives +0.1 to basic crop when Young Farmer skill is active", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Young Farmer": 1 },
+          },
+          inventory: { "Sunflower Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Sunflower",
+                plantedAt:
+                  dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Sunflower).toEqual(new Decimal(1.1));
+    });
+
+    it("gives +0.1 to medium crop when Experienced Farmer skill is active", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Experienced Farmer": 1 },
+          },
+          inventory: { "Cabbage Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Cabbage",
+                plantedAt:
+                  dateNow - (CROPS["Cabbage"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Cabbage).toEqual(new Decimal(1.1));
+    });
+
+    it("gives +0.1 to advanced crop when Old Farmer skill is active", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Old Farmer": 1 },
+          },
+          inventory: { "Eggplant Seed": new Decimal(1) },
+          season: { season: "summer", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Eggplant",
+                plantedAt:
+                  dateNow - (CROPS["Eggplant"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Eggplant).toEqual(new Decimal(1.1));
+    });
+
+    it("gives +1 to advanced crop when Acre Farm skill is active", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Acre Farm": 1 },
+          },
+          inventory: { "Eggplant Seed": new Decimal(1) },
+          season: { season: "summer", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Eggplant",
+                plantedAt:
+                  dateNow - (CROPS["Eggplant"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Eggplant).toEqual(new Decimal(2));
+    });
+
+    it("gives +0.2 to any crop when Power hour buff is active", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Sunflower Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Sunflower",
+                plantedAt:
+                  dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+          buffs: {
+            "Power hour": {
+              startedAt: dateNow - 1000,
+              durationMS: 60 * 60 * 1000,
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Sunflower).toEqual(new Decimal(1.2));
+    });
+
+    it("gives +1 Potato when Peeled Potato triggers (prng 20%)", () => {
+      const farmId = 1;
+      const getCounter = () => {
+        for (let counter = 0; counter < 1000; counter++) {
+          if (
+            prngChance({
+              farmId,
+              itemId: KNOWN_IDS["Potato"],
+              counter,
+              chance: 20,
+              criticalHitName: "Peeled Potato",
+            })
+          )
+            return counter;
+        }
+        return 0;
+      };
+      const counter = getCounter();
+      const state = harvest({
+        farmId,
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Potato Seed": new Decimal(1) },
+          season: { season: "summer", startedAt: 0 },
+          collectibles: {
+            "Peeled Potato": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: { x: 1, y: 1 },
+                readyAt: dateNow - 5 * 60 * 1000,
+              },
+            ],
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Potato",
+                plantedAt:
+                  dateNow - (CROPS["Potato"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+          farmActivity: { "Potato Harvested": counter },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Potato).toEqual(new Decimal(2));
+    });
+
+    it("gives +10 Potato when Potent Potato triggers (prng)", () => {
+      const farmId = 1;
+      const getCounter = () => {
+        for (let counter = 0; counter < 1000; counter++) {
+          if (
+            prngChance({
+              farmId,
+              itemId: KNOWN_IDS["Potato"],
+              counter,
+              chance: 10 / 3,
+              criticalHitName: "Potent Potato",
+            })
+          )
+            return counter;
+        }
+        return 0;
+      };
+      const counter = getCounter();
+      const state = harvest({
+        farmId,
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Potato Seed": new Decimal(1) },
+          season: { season: "summer", startedAt: 0 },
+          collectibles: {
+            "Potent Potato": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: { x: 1, y: 1 },
+                readyAt: dateNow - 5 * 60 * 1000,
+              },
+            ],
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Potato",
+                plantedAt:
+                  dateNow - (CROPS["Potato"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+          farmActivity: { "Potato Harvested": counter },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Potato).toEqual(new Decimal(11));
+    });
+
+    it("gives +10 Sunflower when Stellar Sunflower triggers (prng)", () => {
+      const farmId = 1;
+      const getCounter = () => {
+        for (let counter = 0; counter < 1000; counter++) {
+          if (
+            prngChance({
+              farmId,
+              itemId: KNOWN_IDS["Sunflower"],
+              counter,
+              chance: 10 / 3,
+              criticalHitName: "Stellar Sunflower",
+            })
+          )
+            return counter;
+        }
+        return 0;
+      };
+      const counter = getCounter();
+      const state = harvest({
+        farmId,
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Sunflower Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          collectibles: {
+            "Stellar Sunflower": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: { x: 1, y: 1 },
+                readyAt: dateNow - 5 * 60 * 1000,
+              },
+            ],
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Sunflower",
+                plantedAt:
+                  dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+          farmActivity: { "Sunflower Harvested": counter },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Sunflower).toEqual(new Decimal(11));
+    });
+
+    it("gives +10 Radish when Radical Radish triggers (prng)", () => {
+      const farmId = 1;
+      const getCounter = () => {
+        for (let counter = 0; counter < 1000; counter++) {
+          if (
+            prngChance({
+              farmId,
+              itemId: KNOWN_IDS["Radish"],
+              counter,
+              chance: 10 / 3,
+              criticalHitName: "Radical Radish",
+            })
+          )
+            return counter;
+        }
+        return 0;
+      };
+      const counter = getCounter();
+      const state = harvest({
+        farmId,
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Radish Seed": new Decimal(1) },
+          season: { season: "summer", startedAt: 0 },
+          collectibles: {
+            "Radical Radish": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: { x: 1, y: 1 },
+                readyAt: dateNow - 5 * 60 * 1000,
+              },
+            ],
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Radish",
+                plantedAt:
+                  dateNow - (CROPS["Radish"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+          farmActivity: { "Radish Harvested": counter },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Radish).toEqual(new Decimal(11));
+    });
+
+    it("gives +0.5 to Cabbage in AOE when Sir Goldensnout is placed and ready", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Cabbage Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          collectibles: {
+            "Sir Goldensnout": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: { x: 0, y: 0 },
+                readyAt: dateNow - 12 * 60 * 1000,
+              },
+            ],
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              x: 0,
+              y: -2,
+              crop: {
+                name: "Cabbage",
+                plantedAt:
+                  dateNow - (CROPS["Cabbage"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Cabbage).toEqual(new Decimal(1.5));
+    });
+
+    it("gives +0.2 to advanced crop in AOE when Laurie the Chuckle Crow is placed and ready", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Eggplant Seed": new Decimal(1) },
+          season: { season: "summer", startedAt: 0 },
+          collectibles: {
+            "Laurie the Chuckle Crow": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: { x: 0, y: 0 },
+                readyAt: dateNow - 12 * 60 * 1000,
+              },
+            ],
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              x: 0,
+              y: -2,
+              crop: {
+                name: "Eggplant",
+                plantedAt:
+                  dateNow - (CROPS["Eggplant"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Eggplant).toEqual(new Decimal(1.2));
+    });
+
+    it("gives +1 to Corn in AOE when Queen Cornelia is placed and ready", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Corn Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          collectibles: {
+            "Queen Cornelia": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: { x: 0, y: 0 },
+                readyAt: dateNow - 12 * 60 * 1000,
+              },
+            ],
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              x: 0,
+              y: -2,
+              crop: {
+                name: "Corn",
+                plantedAt: dateNow - (CROPS["Corn"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Corn).toEqual(new Decimal(2));
+    });
+
+    it("gives +0.2 beeSwarm bonus when Pollen Power Up skill and beeSwarm on plot", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Pollen Power Up": 1 },
+          },
+          inventory: { "Sunflower Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Sunflower",
+                plantedAt:
+                  dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
+              },
+              beeSwarm: { count: 1, swarmActivatedAt: dateNow - 1000 },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Sunflower).toEqual(new Decimal(1.3));
+    });
+
+    it("gives +1 to medium crop when Hectare Farm skill is active", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Hectare Farm": 1 },
+          },
+          inventory: { "Cabbage Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Cabbage",
+                plantedAt:
+                  dateNow - (CROPS["Cabbage"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Cabbage).toEqual(new Decimal(2));
+    });
+
+    it("gives +1 and guardian boost when Bountiful Harvest and Spring Guardian active", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Sunflower Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          calendar: {
+            ...GAME_STATE.calendar,
+            bountifulHarvest: {
+              startedAt: dateNow - 1000,
+              triggeredAt: dateNow,
+            },
+          },
+          collectibles: {
+            "Spring Guardian": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: { x: 1, y: 1 },
+                readyAt: dateNow - 5 * 60 * 1000,
+              },
+            ],
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Sunflower",
+                plantedAt:
+                  dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Sunflower).toEqual(new Decimal(3));
+    });
+
     it("yield -0.5 if insect plague is active", () => {
       const state = harvest({
         state: {
