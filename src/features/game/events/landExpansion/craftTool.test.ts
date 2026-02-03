@@ -388,7 +388,7 @@ describe("craftTool", () => {
     expect(state.inventory["Rusty Shovel"]).toEqual(new Decimal(1));
     expect(state.inventory["Gem"]).toEqual(new Decimal(4));
     expect(state.inventory["Wood"]).toEqual(new Decimal(5));
-    expect(state.coins).toEqual(100); // No coin cost
+    expect(state.coins).toEqual(80);
   });
 
   it("does not craft Rusty Shovel without enough Gems", () => {
