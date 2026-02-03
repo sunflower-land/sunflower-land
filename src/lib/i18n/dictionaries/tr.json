@@ -7961,5 +7961,7 @@
   "season.codex.howToObtain.unknown": "Bu bölümün koleksiyonunun bir parçası.",
   "season.codex.howToObtain.megastore": "Megastore\"da zanaat.",
   "season.codex.howToObtain.chapterEnded": "Bu bölüm sona erdi. Bu ürünü pazardan satın alabilirsiniz.",
-  "season.codex.buyOnMarketplace": "Marketplace'de Satın Alın"
+  "season.codex.buyOnMarketplace": "Marketplace'de Satın Alın",
+  "description.pawPrintsRaffleTicket": "Paw Prints çekilişi için bir bilet.",
+  "description.crabsAndTrapsRaffleTicket": "Yengeçler ve Tuzaklar çekilişi için bir bilet."
 }

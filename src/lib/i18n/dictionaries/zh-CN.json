@@ -7961,5 +7961,7 @@
   "season.codex.howToObtain.unknown": "本章集合的一部分。",
   "season.codex.howToObtain.megastore": "在 Megastore 手工制作。",
   "season.codex.howToObtain.chapterEnded": "本章已经结束。你可以从市场上购买这件商品。",
-  "season.codex.buyOnMarketplace": "在市场上购买"
+  "season.codex.buyOnMarketplace": "在市场上购买",
+  "description.pawPrintsRaffleTicket": "一张 Paw Prints 抽奖活动的门票。",
+  "description.crabsAndTrapsRaffleTicket": "一张 “螃蟹与陷阱” 抽奖活动的门票。"
 }

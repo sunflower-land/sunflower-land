@@ -7961,5 +7961,7 @@
   "season.codex.howToObtain.unknown": "Parte della raccolta di questo capitolo.",
   "season.codex.howToObtain.megastore": "Artigianato al Megastore.",
   "season.codex.howToObtain.chapterEnded": "Questo capitolo è terminato. Puoi acquistare questo articolo dal marketplace.",
-  "season.codex.buyOnMarketplace": "Acquista su Marketplace"
+  "season.codex.buyOnMarketplace": "Acquista su Marketplace",
+  "description.pawPrintsRaffleTicket": "Un biglietto per la lotteria Paw Prints.",
+  "description.crabsAndTrapsRaffleTicket": "Un biglietto per la lotteria Crabs and Traps."
 }

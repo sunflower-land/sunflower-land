@@ -7961,5 +7961,7 @@
   "season.codex.howToObtain.unknown": "この章のコレクションの一部です。",
   "season.codex.howToObtain.megastore": "メガストアでクラフト。",
   "season.codex.howToObtain.chapterEnded": "この章は終了しました。このアイテムはマーケットプレイスで購入できます。",
-  "season.codex.buyOnMarketplace": "マーケットプレイスで購入"
+  "season.codex.buyOnMarketplace": "マーケットプレイスで購入",
+  "description.pawPrintsRaffleTicket": "Paw Prints ラッフルのチケット。",
+  "description.crabsAndTrapsRaffleTicket": "カニとトラップスのラッフルのチケット。"
 }

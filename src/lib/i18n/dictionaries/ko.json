@@ -7961,5 +7961,7 @@
   "season.codex.howToObtain.unknown": "이 챕터 컬렉션의 일부.",
   "season.codex.howToObtain.megastore": "메가스토어에서 제작하세요.",
   "season.codex.howToObtain.chapterEnded": "이 챕터는 종료되었습니다.마켓플레이스에서 이 아이템을 구입할 수 있습니다.",
-  "season.codex.buyOnMarketplace": "마켓플레이스에서 구매"
+  "season.codex.buyOnMarketplace": "마켓플레이스에서 구매",
+  "description.pawPrintsRaffleTicket": "포 프린트 추첨 티켓.",
+  "description.crabsAndTrapsRaffleTicket": "크랩 앤 트랩 추첨 티켓."
 }

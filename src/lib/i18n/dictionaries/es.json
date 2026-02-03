@@ -7961,5 +7961,7 @@
   "season.codex.howToObtain.unknown": "Parte de la colección de este capítulo.",
   "season.codex.howToObtain.megastore": "Haz manualidades en la Megastore.",
   "season.codex.howToObtain.chapterEnded": "Este capítulo ha terminado. Puedes comprar este artículo en el mercado.",
-  "season.codex.buyOnMarketplace": "Compra en Marketplace"
+  "season.codex.buyOnMarketplace": "Compra en Marketplace",
+  "description.pawPrintsRaffleTicket": "Una entrada para el sorteo de Paw Prints.",
+  "description.crabsAndTrapsRaffleTicket": "Una entrada para el sorteo de Cangrejos y trampas."
 }

@@ -7961,5 +7961,7 @@
   "season.codex.howToObtain.unknown": "Parte da coleção deste capítulo.",
   "season.codex.howToObtain.megastore": "Artesanato na Megastore.",
   "season.codex.howToObtain.chapterEnded": "Este capítulo terminou. Você pode comprar esse item no mercado.",
-  "season.codex.buyOnMarketplace": "Compre no Marketplace"
+  "season.codex.buyOnMarketplace": "Compre no Marketplace",
+  "description.pawPrintsRaffleTicket": "Um ingresso para o sorteio Paw Prints.",
+  "description.crabsAndTrapsRaffleTicket": "Um ingresso para o sorteio Crabs and Traps."
 }
