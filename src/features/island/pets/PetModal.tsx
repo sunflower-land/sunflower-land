@@ -39,6 +39,7 @@ import { Checkbox } from "components/ui/Checkbox";
 import { PetGuide, PetGuideButton } from "features/pets/petGuide/PetGuide";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { capitalize } from "lib/utils/capitalize";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   show: boolean;
@@ -71,6 +72,7 @@ export const PetModal: React.FC<Props> = ({
     "feeding" | "fetching" | "resetting"
   >("feeding");
   const [showRewards, setShowRewards] = useState(false);
+  const now = useNow();
 
   useEffect(() => {
     if (show) {
@@ -108,7 +110,7 @@ export const PetModal: React.FC<Props> = ({
       event: {
         type: "reset.petRequests",
         petId,
-        createdAt: new Date(),
+        createdAt: new Date(now),
       },
     });
   };
@@ -118,7 +120,7 @@ export const PetModal: React.FC<Props> = ({
   const petCategory = PET_CATEGORIES[type];
   const { level, percentage, currentProgress, experienceBetweenLevels } =
     getPetLevel(data.experience);
-  const todayDate = new Date().toISOString().split("T")[0];
+  const todayDate = new Date(now).toISOString().split("T")[0];
 
   return (
     <Modal show={show} onHide={onClose}>
