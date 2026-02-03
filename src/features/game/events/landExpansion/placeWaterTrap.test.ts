@@ -60,6 +60,7 @@ describe("placeWaterTrap", () => {
                   type: "Crab Pot",
                   placedAt: createdAt - 1000,
                   readyAt: createdAt + 4 * 60 * 60 * 1000,
+                  caught: { Isopod: 1 },
                 },
               },
             },
