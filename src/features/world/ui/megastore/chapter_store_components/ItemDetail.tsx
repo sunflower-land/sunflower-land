@@ -43,6 +43,12 @@ import {
   BUMPKIN_RELEASES,
   INVENTORY_RELEASES,
 } from "features/game/types/withdrawables";
+import {
+  MEGASTORE_MONUMENTS,
+  MonumentName,
+  REQUIRED_CHEERS,
+} from "features/game/types/monuments";
+import helpIcon from "assets/icons/help.webp";
 
 import lockIcon from "assets/icons/lock.png";
 
@@ -377,8 +383,20 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                         )}
                       </div>
                     )}
-                    <span className="text-xs leading-none">{description}</span>
-
+                    {!isWearable &&
+                      itemName in MEGASTORE_MONUMENTS &&
+                      REQUIRED_CHEERS[itemName as MonumentName] && (
+                        <Label type="info" className="text-xxs" icon={helpIcon}>
+                          {t("megastore.monument.helpsNeeded", {
+                            count: REQUIRED_CHEERS[itemName as MonumentName],
+                          })}
+                        </Label>
+                      )}
+                    {description && (
+                      <span className="text-xs leading-none">
+                        {description}
+                      </span>
+                    )}
                     {itemName === "Pet Egg" ? (
                       <Label
                         type={isPetEggBoughtThisChapter ? "danger" : "default"}
@@ -414,7 +432,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                         })}
                       </Label>
                     )}
-
                     {!isTradeable && (
                       <Label
                         type="formula"
@@ -424,7 +441,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                         {t("season.megastore.nonTradeable")}
                       </Label>
                     )}
-
                     {itemReq && (
                       <div className="flex flex-1 content-start flex-col flex-wrap gap-1">
                         {getKeys(itemReq).map((itemName, index) => {
