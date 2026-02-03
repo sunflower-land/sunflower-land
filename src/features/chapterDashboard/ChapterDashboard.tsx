@@ -20,6 +20,7 @@ import { TracksSection } from "./components/TracksSection";
 import { LeaderboardSection } from "./components/LeaderboardSection";
 import { ShopSection } from "./components/ShopSection";
 import { Loading } from "features/auth/components";
+import { CONFIG } from "lib/config";
 
 const _farmId = (state: MachineState) => state.context.farmId;
 const _gameState = (state: MachineState) => state.context.state;
@@ -40,6 +41,10 @@ export const ChapterDashboard: React.FC = () => {
   const token = useSelector(authService, _token);
   const now = useNow({ live: true });
   const chapter = getCurrentChapter(now);
+  const isOffline = !CONFIG.API_URL;
+
+  const effectiveFarmId = farmId || 1;
+  const effectiveToken = token || "offline";
 
   const showClose = pathname.includes("/game") || pathname === "/chapter";
 
@@ -98,7 +103,7 @@ export const ChapterDashboard: React.FC = () => {
           )}
         </div>
 
-        {!token || !farmId ? (
+        {!isOffline && (!token || !farmId) ? (
           <div className="p-2">
             <Loading />
           </div>
@@ -109,16 +114,19 @@ export const ChapterDashboard: React.FC = () => {
               <MutantsSection chapter={chapter} />
               <AuctionsSection
                 chapter={chapter}
-                farmId={farmId}
+                farmId={effectiveFarmId}
                 gameState={gameState}
-                token={token}
+                token={effectiveToken}
               />
-              <RafflesSection chapter={chapter} token={token} />
+              <RafflesSection chapter={chapter} token={effectiveToken} />
               <TracksSection chapter={chapter} gameState={gameState} />
             </div>
 
             <div className="w-full lg:w-[420px] flex-none">
-              <LeaderboardSection farmId={farmId} token={token} />
+              <LeaderboardSection
+                farmId={effectiveFarmId}
+                token={effectiveToken}
+              />
             </div>
           </div>
         )}

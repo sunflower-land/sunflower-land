@@ -28,6 +28,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ChapterAuctions } from "features/island/hud/components/codex/components/ChapterAuctions";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
+import { CONFIG } from "lib/config";
 
 type AuctionDetail = {
   supply: number;
@@ -74,7 +75,8 @@ function getChapterAuctions({
   details = getKeys(details).reduce((acc, name) => {
     const hasNoChapterAuctions = details[name].auctions.every(
       (auction) =>
-        auction.startAt < startDate.getTime() || auction.startAt > endDate.getTime(),
+        auction.startAt < startDate.getTime() ||
+        auction.startAt > endDate.getTime(),
     );
 
     if (hasNoChapterAuctions) return acc;
@@ -108,6 +110,7 @@ export const AuctionsSection: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const now = useNow({ live: true });
   const [showMore, setShowMore] = useState(false);
+  const isOffline = !CONFIG.API_URL;
 
   const auctionService = useInterpret(
     createAuctioneerMachine({
@@ -121,6 +124,25 @@ export const AuctionsSection: React.FC<Props> = ({
         deviceTrackerId: "0x",
         canAccess: true,
         linkedAddress: "0x",
+        // Provide some stub data in offline mode (since we don't fetch).
+        ...(isOffline
+          ? {
+              auctions: [
+                {
+                  auctionId: "offline-auction-1",
+                  type: "wearable",
+                  wearable: "Acorn Hat",
+                  startAt: Date.now() + 60 * 60 * 1000,
+                  endAt: Date.now() + 2 * 60 * 60 * 1000,
+                  ingredients: { Wood: 1, Gold: 10 },
+                  sfl: 5,
+                  supply: 500,
+                  chapterLimit: 1,
+                },
+              ] as Auction[],
+              totalSupply: { "Acorn Hat": 500 } as Record<string, number>,
+            }
+          : {}),
       },
     },
   ) as unknown as MachineInterpreter;
@@ -177,7 +199,10 @@ export const AuctionsSection: React.FC<Props> = ({
             labelType="warning"
             actionText="View more"
             onAction={() => setShowMore(true)}
-            disabled={auctioneerState.matches("loading") || auctioneerState.matches("idle")}
+            disabled={
+              auctioneerState.matches("loading") ||
+              auctioneerState.matches("idle")
+            }
           />
 
           {auctioneerState.matches("loading") && (
@@ -209,7 +234,9 @@ export const AuctionsSection: React.FC<Props> = ({
                 )}
               </div>
 
-              <Label type={summary.totalRemaining <= 50 ? "formula" : "default"}>
+              <Label
+                type={summary.totalRemaining <= 50 ? "formula" : "default"}
+              >
                 {`${summary.totalRemaining.toLocaleString()} NFTs left`}
               </Label>
             </div>
@@ -224,11 +251,14 @@ export const AuctionsSection: React.FC<Props> = ({
       <Modal show={showMore} onHide={() => setShowMore(false)} size="lg">
         <CloseButtonPanel onClose={() => setShowMore(false)}>
           <div className="p-2">
-            <ChapterAuctions chapter={chapter} farmId={farmId} gameState={gameState} />
+            <ChapterAuctions
+              chapter={chapter}
+              farmId={farmId}
+              gameState={gameState}
+            />
           </div>
         </CloseButtonPanel>
       </Modal>
     </>
   );
 };
-

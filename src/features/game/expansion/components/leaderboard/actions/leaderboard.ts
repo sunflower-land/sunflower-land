@@ -247,6 +247,41 @@ export async function fetchLeaderboardData(
   farmId: number,
   token?: string,
 ): Promise<Leaderboards | null> {
+  // Offline mode support (UI mode / local dev)
+  if (!CONFIG.API_URL) {
+    const now = Date.now();
+
+    const fakeTicketLeaderboard: TicketLeaderboard = {
+      lastUpdated: now,
+      topTen: [
+        { id: "Captain Carrot", count: 1280, rank: 1, bumpkin: {} },
+        { id: "Sunny Sailor", count: 1140, rank: 2, bumpkin: {} },
+        { id: "Pearl Diver", count: 980, rank: 3, bumpkin: {} },
+        { id: "Crab Wrangler", count: 860, rank: 4, bumpkin: {} },
+        { id: "Tide Turner", count: 740, rank: 5, bumpkin: {} },
+        { id: "Barnacle Baron", count: 690, rank: 6, bumpkin: {} },
+        { id: "Shell Collector", count: 620, rank: 7, bumpkin: {} },
+        { id: "Net Master", count: 590, rank: 8, bumpkin: {} },
+        { id: "Coral Crafter", count: 560, rank: 9, bumpkin: {} },
+        { id: "Dockhand", count: 520, rank: 10, bumpkin: {} },
+      ],
+      farmRankingDetails: [
+        { id: "You", count: 412, rank: 142, bumpkin: {} },
+        { id: "Rival", count: 408, rank: 143, bumpkin: {} },
+        { id: "Neighbor", count: 401, rank: 144, bumpkin: {} },
+      ],
+    };
+
+    return {
+      tickets: fakeTicketLeaderboard,
+      factions: undefined,
+      kingdom: undefined,
+      emblems: undefined,
+      socialPoints: undefined,
+      leagues: undefined,
+    };
+  }
+
   try {
     const [
       ticketLeaderboard,

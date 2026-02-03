@@ -23,6 +23,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { UpcomingRaffles } from "features/world/ui/chapterRaffles/UpcomingRaffles";
 import { Loading } from "features/auth/components";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { CONFIG } from "lib/config";
 
 type Props = {
   chapter: ChapterName;
@@ -72,9 +73,10 @@ export const RafflesSection: React.FC<Props> = ({ chapter, token }) => {
   const { t } = useAppTranslation();
   const now = useNow({ live: true });
   const [showMore, setShowMore] = useState(false);
+  const isOffline = !CONFIG.API_URL;
 
   const { data: raffles, isLoading } = useSWR(
-    token ? ["chapter-raffles", token] : null,
+    token || isOffline ? ["chapter-raffles", token] : null,
     async ([, authToken]: [string, string]) =>
       loadRaffles({ token: authToken, transactionId: randomID() }),
     { revalidateOnFocus: false },
@@ -85,8 +87,7 @@ export const RafflesSection: React.FC<Props> = ({ chapter, token }) => {
     const { startDate, endDate } = CHAPTERS[chapter];
 
     const inChapter = raffles.filter(
-      (r) =>
-        r.startAt >= startDate.getTime() && r.startAt <= endDate.getTime(),
+      (r) => r.startAt >= startDate.getTime() && r.startAt <= endDate.getTime(),
     );
 
     const upcomingOrActive = inChapter
@@ -138,7 +139,9 @@ export const RafflesSection: React.FC<Props> = ({ chapter, token }) => {
                   />
                 </div>
                 <div>
-                  <p className="text-sm">{getPrizeDisplay(summary.next).name}</p>
+                  <p className="text-sm">
+                    {getPrizeDisplay(summary.next).name}
+                  </p>
                   <p className="text-xxs">
                     {t("auction.raffle.labelWithId", { id: summary.next.id })}
                   </p>
@@ -170,4 +173,3 @@ export const RafflesSection: React.FC<Props> = ({ chapter, token }) => {
     </>
   );
 };
-
