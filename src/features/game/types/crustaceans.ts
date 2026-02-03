@@ -1,7 +1,7 @@
-import { translate } from "lib/i18n/translate";
 import { InventoryItemName } from "./game";
 import { getKeys } from "../lib/crafting";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { getObjectEntries } from "../expansion/lib/utils";
 
 export type WaterTrapName = "Crab Pot" | "Mariner Pot";
 
@@ -59,25 +59,6 @@ export type CrabPotChum = Extract<
 
 export type CrustaceanChum = CrabPotChum | MarinerPotChum;
 
-export const CRUSTACEANS: Record<CrustaceanName, string> = {
-  Isopod: translate("description.isopod"),
-  "Blue Crab": translate("description.blueCrab"),
-  Lobster: translate("description.lobster"),
-  "Hermit Crab": translate("description.hermitCrab"),
-  Shrimp: translate("description.shrimp"),
-  Mussel: translate("description.mussel"),
-  Oyster: translate("description.oyster"),
-  Anemone: translate("description.anemone"),
-  Barnacle: translate("description.barnacle"),
-  "Sea Slug": translate("description.seaSlug"),
-  "Sea Snail": translate("description.seaSnail"),
-  "Garden Eel": translate("description.gardenEel"),
-  "Sea Grapes": translate("description.seaGrapes"),
-  Octopus: translate("description.octopus"),
-  "Sea Urchin": translate("description.seaUrchin"),
-  "Horseshoe Crab": translate("description.horseshoeCrab"),
-};
-
 export const MARINER_POT_CHUMS: Record<MarinerPotChum, number> = {
   Crimstone: 2,
   "Chewed Bone": 3,
@@ -109,6 +90,111 @@ export const CRUSTACEAN_CHUM_AMOUNTS: Record<CrustaceanChum, number> = {
   ...MARINER_POT_CHUMS,
 };
 
+export type Crustacean = {
+  chum?: Partial<Record<CrustaceanChum, number>>;
+  waterTrap: WaterTrapName;
+};
+
+export const CRUSTACEANS: Record<CrustaceanName, Crustacean> = {
+  Isopod: {
+    waterTrap: "Crab Pot",
+  },
+  "Blue Crab": {
+    chum: {
+      "Heart leaf": CRUSTACEAN_CHUM_AMOUNTS["Heart leaf"],
+      Ribbon: CRUSTACEAN_CHUM_AMOUNTS["Ribbon"],
+    },
+    waterTrap: "Crab Pot",
+  },
+  Lobster: {
+    chum: {
+      "Wild Grass": CRUSTACEAN_CHUM_AMOUNTS["Wild Grass"],
+      "Frost Pebble": CRUSTACEAN_CHUM_AMOUNTS["Frost Pebble"],
+    },
+    waterTrap: "Crab Pot",
+  },
+  "Hermit Crab": {
+    chum: {
+      Grape: CRUSTACEAN_CHUM_AMOUNTS["Grape"],
+      Rice: CRUSTACEAN_CHUM_AMOUNTS["Rice"],
+    },
+    waterTrap: "Crab Pot",
+  },
+  Shrimp: {
+    chum: {
+      Crimstone: CRUSTACEAN_CHUM_AMOUNTS["Crimstone"],
+    },
+    waterTrap: "Crab Pot",
+  },
+  Mussel: {
+    chum: {
+      Moonfur: CRUSTACEAN_CHUM_AMOUNTS["Moonfur"],
+    },
+    waterTrap: "Crab Pot",
+  },
+  Oyster: {
+    chum: {
+      "Fish Stick": CRUSTACEAN_CHUM_AMOUNTS["Fish Stick"],
+    },
+    waterTrap: "Crab Pot",
+  },
+  Anemone: {
+    chum: {
+      "Fish Oil": CRUSTACEAN_CHUM_AMOUNTS["Fish Oil"],
+      "Crab Stick": CRUSTACEAN_CHUM_AMOUNTS["Crab Stick"],
+    },
+    waterTrap: "Crab Pot",
+  },
+  Barnacle: {
+    waterTrap: "Mariner Pot",
+  },
+  "Sea Slug": {
+    chum: {
+      Crimstone: CRUSTACEAN_CHUM_AMOUNTS["Crimstone"],
+    },
+    waterTrap: "Mariner Pot",
+  },
+  "Sea Snail": {
+    chum: {
+      "Chewed Bone": CRUSTACEAN_CHUM_AMOUNTS["Chewed Bone"],
+      Ruffroot: CRUSTACEAN_CHUM_AMOUNTS["Ruffroot"],
+    },
+    waterTrap: "Mariner Pot",
+  },
+  "Garden Eel": {
+    chum: {
+      Dewberry: CRUSTACEAN_CHUM_AMOUNTS["Dewberry"],
+      Duskberry: CRUSTACEAN_CHUM_AMOUNTS["Duskberry"],
+    },
+    waterTrap: "Mariner Pot",
+  },
+  "Sea Grapes": {
+    chum: {
+      Lunara: CRUSTACEAN_CHUM_AMOUNTS["Lunara"],
+      Crimstone: CRUSTACEAN_CHUM_AMOUNTS["Crimstone"],
+    },
+    waterTrap: "Mariner Pot",
+  },
+  Octopus: {
+    chum: {
+      Moonfur: CRUSTACEAN_CHUM_AMOUNTS["Moonfur"],
+    },
+    waterTrap: "Mariner Pot",
+  },
+  "Sea Urchin": {
+    chum: {
+      "Fish Stick": CRUSTACEAN_CHUM_AMOUNTS["Fish Stick"],
+    },
+    waterTrap: "Mariner Pot",
+  },
+  "Horseshoe Crab": {
+    chum: {
+      "Crab Stick": CRUSTACEAN_CHUM_AMOUNTS["Crab Stick"],
+    },
+    waterTrap: "Mariner Pot",
+  },
+};
+
 export const WATER_TRAP: Record<WaterTrapName, WaterTrap> = {
   "Crab Pot": {
     readyTimeHours: 4,
@@ -126,3 +212,61 @@ export const WATER_TRAP_ANIMATIONS: Record<WaterTrapName, string> = {
   "Crab Pot": SUNNYSIDE.tools.crab_pot_placed,
   "Mariner Pot": SUNNYSIDE.tools.mariner_pot_placed,
 };
+
+/**
+ * Reverse lookup: Map from trap type and chum to crustacean name
+ * This allows looking up which crustacean will be caught given a trap type and chum
+ */
+export const getCrustaceanByTrapAndChum = (): Record<
+  WaterTrapName,
+  Partial<Record<CrustaceanChum | "none", CrustaceanName[]>>
+> => {
+  const lookup: Record<
+    WaterTrapName,
+    Partial<Record<CrustaceanChum | "none", CrustaceanName[]>>
+  > = {
+    "Crab Pot": {},
+    "Mariner Pot": {},
+  };
+
+  getObjectEntries(CRUSTACEANS).forEach(
+    ([crustaceanName, crustacean]: [CrustaceanName, Crustacean]) => {
+      const trapType = crustacean.waterTrap;
+
+      if (!crustacean.chum || getKeys(crustacean.chum).length === 0) {
+        // No chum required - this is the default catch for this trap
+        if (!lookup[trapType]["none"]) {
+          lookup[trapType]["none"] = [];
+        }
+        lookup[trapType]["none"]!.push(crustaceanName);
+      } else {
+        // Map each chum to this crustacean
+        getKeys(crustacean.chum).forEach((chum) => {
+          if (!lookup[trapType][chum]) {
+            lookup[trapType][chum] = [];
+          }
+          lookup[trapType][chum]!.push(crustaceanName);
+        });
+      }
+    },
+  );
+
+  return lookup;
+};
+
+export function caughtCrustacean(
+  trapType: WaterTrapName,
+  chum?: CrustaceanChum,
+): Partial<Record<CrustaceanName, number>> {
+  const trapMapping = getCrustaceanByTrapAndChum()[trapType];
+
+  const crustacean = trapMapping[chum ?? "none"]?.[0];
+
+  if (!crustacean) {
+    throw new Error(`Invalid trap and chum combination: ${trapType} ${chum}`);
+  }
+
+  return {
+    [crustacean]: 1,
+  };
+}

@@ -20,7 +20,12 @@ import {
   MAP_PIECES,
   MarineMarvelName,
 } from "features/game/types/fishing";
-import { CRUSTACEANS, CrustaceanName } from "features/game/types/crustaceans";
+import {
+  CRUSTACEANS,
+  CrustaceanName,
+  CrustaceanChum,
+  WaterTrapName,
+} from "features/game/types/crustaceans";
 import { Detail } from "../components/Detail";
 import { GameState } from "features/game/types/game";
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
@@ -40,11 +45,6 @@ import {
 } from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
 import { Box } from "components/ui/Box";
-import { useAuth } from "features/auth/lib/Provider";
-import {
-  loadCrustaceanChums,
-  CrustaceanChumMapping,
-} from "../actions/loadCrustaceanChums";
 
 const FISH_BY_TYPE = getFishByType();
 
@@ -57,15 +57,11 @@ const ALL_CRUSTACEANS = getKeys(CRUSTACEANS);
 
 export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
   const { gameService } = useContext(Context);
-  const { authState } = useAuth();
   const [selectedFish, setSelectedFish] = useState<
     FishName | MarineMarvelName
   >();
   const [selectedCrustacean, setSelectedCrustacean] =
     useState<CrustaceanName>();
-  const [chumMapping, setChumMapping] = useState<CrustaceanChumMapping | null>(
-    null,
-  );
   const [snapToSection, setSnapToSection] = useState<string | null>(null);
   const now = useNow();
 
@@ -77,37 +73,34 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const caughtCrustaceans = ALL_CRUSTACEANS.filter(
-      (name) => (farmActivity[`${name} Caught`] ?? 0) > 0,
-    );
+  const caughtCrustaceans = ALL_CRUSTACEANS.filter(
+    (name) => (farmActivity[`${name} Caught`] ?? 0) > 0,
+  );
 
-    let isCancelled = false;
-
-    const loadChums = async () => {
-      try {
-        const data = await loadCrustaceanChums(
-          authState.context.user.rawToken!,
-          caughtCrustaceans,
+  // Filter mapping to only include caught crustaceans
+  // with the chum that was used to catch them
+  const chumMapping = caughtCrustaceans.reduce(
+    (acc, name) => {
+      const crustacean = CRUSTACEANS[name];
+      const chums = getKeys(crustacean?.chum ?? {});
+      if (crustacean) {
+        const chumsUsed = chums.filter(
+          (chum) => (farmActivity[`${name} Caught with ${chum}`] ?? 0) > 0,
         );
-        if (!isCancelled) {
-          setChumMapping(data);
-        }
-      } catch (error) {
-        if (!isCancelled) {
-          setChumMapping({} as CrustaceanChumMapping);
+        if (chumsUsed.length > 0) {
+          acc[name] = {
+            chums: chumsUsed,
+            waterTrap: crustacean.waterTrap,
+          };
         }
       }
-    };
-
-    loadChums();
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [farmActivity, authState.context.user.rawToken]);
-
-  const isLoadingChums = chumMapping === null;
+      return acc;
+    },
+    {} as Record<
+      CrustaceanName,
+      { chums: CrustaceanChum[]; waterTrap: WaterTrapName }
+    >,
+  );
 
   // Snap scroll to section when navigating back from detail view
   useEffect(() => {
@@ -186,16 +179,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
               </Label>
               {hasCaught && (
                 <>
-                  {isLoadingChums ? (
-                    <Label
-                      type="default"
-                      className="px-0.5 text-xxs whitespace-nowrap mr-4 mb-1"
-                      icon={SUNNYSIDE.icons.timer}
-                    >
-                      {t("loading")}
-                    </Label>
-                  ) : (
-                    chums.length > 0 &&
+                  {chums.length > 0 &&
                     chums.map((chum) => (
                       <Label
                         key={chum}
@@ -206,8 +190,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
                       >
                         {chum}
                       </Label>
-                    ))
-                  )}
+                    ))}
                 </>
               )}
             </div>

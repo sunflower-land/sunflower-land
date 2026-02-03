@@ -3,6 +3,7 @@ import Decimal from "decimal.js-light";
 import { GameState, InventoryItemName } from "../../types/game";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { caughtCrustacean } from "features/game/types/crustaceans";
 
 export type CollectWaterTrapAction = {
   type: "waterTrap.collected";
@@ -24,11 +25,8 @@ export function collectWaterTrap({ state, action }: Options): GameState {
       throw new Error("No water trap placed at this spot");
     }
 
-    if (!waterTrap.caught) {
-      throw new Error("Trap has not been picked up yet");
-    }
-
-    const caught = waterTrap.caught;
+    const caught =
+      waterTrap.caught ?? caughtCrustacean(waterTrap.type, waterTrap.chum);
     getObjectEntries(caught).forEach(([item, amount]) => {
       if (amount) {
         const currentAmount =
@@ -44,6 +42,13 @@ export function collectWaterTrap({ state, action }: Options): GameState {
           game.farmActivity,
           new Decimal(amount),
         );
+        if (waterTrap.chum) {
+          game.farmActivity = trackFarmActivity(
+            `${itemName} Caught with ${waterTrap.chum}`,
+            game.farmActivity,
+            new Decimal(amount),
+          );
+        }
       }
     });
 

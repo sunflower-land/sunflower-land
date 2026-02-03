@@ -7,6 +7,7 @@ import {
   WATER_TRAP,
   CrustaceanChum,
   CRUSTACEAN_CHUM_AMOUNTS,
+  caughtCrustacean,
 } from "features/game/types/crustaceans";
 
 export type PlaceWaterTrapAction = {
@@ -62,6 +63,8 @@ export function placeWaterTrap({
       game.inventory[action.chum] = inventoryChum.sub(chumAmount);
     }
 
+    const caught = caughtCrustacean(action.waterTrap, action.chum);
+
     const hours = WATER_TRAP[action.waterTrap].readyTimeHours;
     const readyAt = createdAt + hours * 60 * 60 * 1000;
 
@@ -74,6 +77,7 @@ export function placeWaterTrap({
       placedAt: createdAt,
       chum: action.chum,
       readyAt,
+      caught,
     };
 
     game.inventory[action.waterTrap] = potCount.sub(1);

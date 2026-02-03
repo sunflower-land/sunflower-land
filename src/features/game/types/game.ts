@@ -1316,7 +1316,7 @@ export type WaterTrap = {
   placedAt: number;
   chum?: CrustaceanChum;
   readyAt: number;
-  caught?: Partial<Record<InventoryItemName, number>>;
+  caught: Partial<Record<CrustaceanName, number>>;
 };
 
 export type CrabTrap = {
