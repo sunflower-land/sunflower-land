@@ -309,7 +309,7 @@ export function getRewardsForStreak({
   if (hasVipAccess({ game, now }) && currentChapter === "Crabs and Traps") {
     const currentBanner = getChapterBanner(now);
     const bannerCount = game.inventory[currentBanner];
-    if (bannerCount?.lt(1)) {
+    if (!bannerCount || bannerCount.lt(1)) {
       defaultReward.items = {
         ...defaultReward.items,
         [currentBanner]: 1,
