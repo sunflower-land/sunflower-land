@@ -15,6 +15,7 @@ import xpIcon from "assets/icons/xp.png";
 import vipIcon from "assets/icons/vip.webp";
 import blueVipIcon from "assets/icons/blue_vip.webp";
 import purpleVipIcon from "assets/icons/purple_vip.webp";
+import multiCast from "src/assets/icons/multi-cast.webp";
 
 import trophyIcon from "assets/icons/trophy.png";
 import shopIcon from "assets/icons/shop.png";
@@ -265,6 +266,10 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
               text: t("vip.benefit.cookingQueue"),
               icon: ITEM_DETAILS["Pumpkin Soup"].image,
             },
+            {
+              text: t("vip.benefit.multicast"),
+              icon: multiCast,
+            },
             { text: t("vip.benefit.stellaDiscounts"), icon: shopIcon },
             {
               text: t("vip.benefit.bonusDelivery"),
@@ -282,6 +287,14 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
                   {
                     text: t("vip.benefit.bonusPetEnergy"),
                     icon: SUNNYSIDE.icons.lightning,
+                  },
+                ]
+              : []),
+            ...(currentChapter === "Crabs and Traps"
+              ? [
+                  {
+                    text: t("vip.benefit.bonusFishingAttempts"),
+                    icon: ITEM_DETAILS["Rod"].image,
                   },
                 ]
               : []),
