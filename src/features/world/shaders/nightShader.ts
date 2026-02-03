@@ -115,9 +115,8 @@ void main() {
 }
 `;
 
-export class NightShaderPipeline
-  extends Phaser.Renderer.WebGL.Pipelines.PostFXPipeline
-{
+export class NightShaderPipeline extends Phaser.Renderer.WebGL.Pipelines
+  .PostFXPipeline {
   lightSources: { x: number; y: number }[] = [];
 
   constructor(game: Phaser.Game) {
