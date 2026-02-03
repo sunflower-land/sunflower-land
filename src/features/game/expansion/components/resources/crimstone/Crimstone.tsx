@@ -4,6 +4,7 @@ import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
 import { getTimeLeft } from "lib/utils/time";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { GameState, InventoryItemName, Rock } from "features/game/types/game";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -16,6 +17,8 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { getCrimstoneDropAmount } from "features/game/events/landExpansion/mineCrimstone";
 import { useNow } from "lib/utils/hooks/useNow";
 import { isWearableActive } from "features/game/lib/wearables";
+import { Transition } from "@headlessui/react";
+import lightning from "assets/icons/lightning.png";
 
 const HITS = 3;
 const tool = "Gold Pickaxe";
@@ -56,10 +59,9 @@ export const getCrimstoneStage = (minesLeft: number, minedAt: number) => {
 
 interface Props {
   id: string;
-  index: number;
 }
 
-export const Crimstone: React.FC<Props> = ({ id, index }) => {
+export const Crimstone: React.FC<Props> = ({ id }) => {
   const { gameService, shortcutItem, showAnimations } = useContext(Context);
 
   const [touchCount, setTouchCount] = useState(0);
@@ -112,6 +114,31 @@ export const Crimstone: React.FC<Props> = ({ id, index }) => {
     now,
   );
   const mined = !canMine(resource, "Crimstone Rock");
+
+  const [isAnimationRunning, setIsAnimationRunning] = useState(false);
+  const [isRecentlyMined, setIsRecentlyMined] = useState(false);
+  const minedAtRef = useRef(resource.stone.minedAt);
+
+  useEffect(() => {
+    if (minedAtRef.current !== resource.stone.minedAt) {
+      minedAtRef.current = resource.stone.minedAt;
+      setIsRecentlyMined(true);
+      const timeout = setTimeout(() => {
+        setIsRecentlyMined(false);
+        setIsAnimationRunning(true);
+      }, 1900);
+      return () => clearTimeout(timeout);
+    }
+  }, [resource.stone.minedAt]);
+
+  useEffect(() => {
+    if (isAnimationRunning) {
+      const timeout = setTimeout(() => setIsAnimationRunning(false), 500);
+      return () => clearTimeout(timeout);
+    }
+  }, [isAnimationRunning]);
+
+  useUiRefresher({ active: mined });
 
   const strike = () => {
     if (!hasTool) return;
@@ -167,8 +194,21 @@ export const Crimstone: React.FC<Props> = ({ id, index }) => {
 
   return (
     <div className="relative w-full h-full">
+      <Transition
+        show={!mined && isAnimationRunning}
+        enter="transition-opacity transition-transform duration-200"
+        enterFrom="opacity-0 translate-y-4"
+        enterTo="opacity-100 -translate-y-0"
+        leave="transition-opacity duration-100"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+        className="flex -top-2 right-0 absolute z-40 pointer-events-none"
+        as="div"
+      >
+        <img src={lightning} className="h-6 img-highlight-heavy" />
+      </Transition>
       {/* Resource ready to collect */}
-      {!mined && (
+      {!mined && !isRecentlyMined && (
         <div ref={divRef} className="absolute w-full h-full" onClick={strike}>
           <RecoveredCrimstone
             hasTool={hasTool}
@@ -189,7 +229,7 @@ export const Crimstone: React.FC<Props> = ({ id, index }) => {
       )}
 
       {/* Depleted resource */}
-      {mined && (
+      {(mined || isRecentlyMined) && (
         <DepletedCrimstone
           timeLeft={timeLeft}
           minesLeft={resource.minesLeft}

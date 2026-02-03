@@ -86,7 +86,7 @@ export const getResources = (
     icon: goldStone,
   },
   crimstones: {
-    component: () => <Crimstone id="1" index={0} />,
+    component: () => <Crimstone id="1" />,
     dimensions: {
       height: 2,
       width: 2,
