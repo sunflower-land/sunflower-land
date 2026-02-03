@@ -123,9 +123,7 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
   const now = useNow();
 
   const getGuaranteedOptions = (bait: FishingBait) => {
-    return isGuaranteedBait(bait)
-      ? getSeasonalGuaranteedCatch(bait, currentSeason)
-      : [];
+    return isGuaranteedBait(bait) ? getSeasonalGuaranteedCatch(bait) : [];
   };
   const defaultGuaranteedCatch = getDefaultGuaranteedCatch();
 

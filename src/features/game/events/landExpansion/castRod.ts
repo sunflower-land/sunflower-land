@@ -177,10 +177,7 @@ export function castRod({
         throw new Error("Missing guaranteed catch");
       }
 
-      const allowedFish = getSeasonalGuaranteedCatch(
-        action.bait,
-        game.season.season,
-      );
+      const allowedFish = getSeasonalGuaranteedCatch(action.bait);
 
       if (!allowedFish.includes(action.guaranteedCatch)) {
         throw new Error("Invalid guaranteed catch");
