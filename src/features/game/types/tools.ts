@@ -161,7 +161,7 @@ export const WORKBENCH_TOOLS: Record<
   "Rusty Shovel": {
     name: "Rusty Shovel",
     description: translate("description.rusty.shovel"),
-    price: 0,
+    price: 20,
     ingredients: () => ({
       Gem: new Decimal(1),
       Wood: new Decimal(5),
