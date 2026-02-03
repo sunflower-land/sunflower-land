@@ -22,6 +22,10 @@ import { getKeys } from "features/game/types/craftables";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
 import { NaturalImage, NaturalImageProps } from "components/ui/NaturalImage";
 import { getWearableImage } from "features/game/lib/getWearableImage";
+import {
+  BUMPKIN_RELEASES,
+  INVENTORY_RELEASES,
+} from "features/game/types/withdrawables";
 
 export type ChapterCollectionItemType = "collectible" | "wearable";
 
@@ -114,6 +118,11 @@ export const ChapterCollectionItemDetail: React.FC<Props> = ({
     alt: String(itemName),
   };
 
+  const isTradable =
+    type === "wearable"
+      ? !!BUMPKIN_RELEASES[itemName as BumpkinItem]
+      : !!INVENTORY_RELEASES[itemName as InventoryItemName];
+
   return (
     <InnerPanel className="flex flex-col shadow h-full border-2 border-blue-500">
       <div className="flex items-center justify-between w-full pb-2 pl-2.5">
@@ -178,9 +187,13 @@ export const ChapterCollectionItemDetail: React.FC<Props> = ({
               )}
 
               {chapterEnded ? (
-                <span className="text-xxs pb-1">
-                  {t("season.codex.howToObtain.chapterEnded")}
-                </span>
+                isTradable ? (
+                  <span className="text-xxs pb-1">
+                    {t("season.codex.howToObtain.chapterEnded")}
+                  </span>
+                ) : (
+                  <></>
+                )
               ) : (
                 <>
                   {source !== "megastore" &&
