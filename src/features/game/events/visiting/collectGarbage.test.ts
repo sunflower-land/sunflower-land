@@ -6,6 +6,48 @@ import { GameState } from "features/game/types/game";
 describe("collectGarbage", () => {
   const now = Date.now();
 
+  it("doesn't add bonus Weed with Poseidon's Throne if not completed", () => {
+    const [_, visitorState] = collectGarbage({
+      state: {
+        ...INITIAL_FARM,
+        socialFarming: {
+          ...INITIAL_FARM.socialFarming,
+          clutter: {
+            spawnedAt: now,
+            locations: {
+              "1": { type: "Weed", x: 0, y: 0 },
+            },
+          },
+        },
+      },
+      visitorState: {
+        ...INITIAL_FARM,
+        collectibles: {
+          "Poseidon's Throne": [
+            {
+              id: "throne",
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+              readyAt: now,
+            },
+          ],
+        },
+        socialFarming: {
+          ...INITIAL_FARM.socialFarming,
+          villageProjects: {
+            "Poseidon's Throne": {
+              cheers: 999,
+            },
+          },
+        },
+      },
+      action: { type: "garbage.collected", id: "1", totalHelpedToday: 0 },
+      createdAt: now,
+    });
+
+    expect(visitorState.inventory.Weed).toEqual(new Decimal(1));
+  });
+
   it("adds bonus Weed with Poseidon's Throne on the last weed collected", () => {
     const [_, visitorState] = collectGarbage({
       state: {
