@@ -158,17 +158,6 @@ export const ChapterCollectionItemDetail: React.FC<Props> = ({
             className="pr-1 pb-1"
             alt={String(itemName)}
           />
-          {source !== "megastore" && (
-            <Label
-              type="default"
-              className="text-xxs absolute bottom-1 right-1"
-            >
-              {t("season.megastore.crafting.limit.max", {
-                limit: ownedCount,
-                max: 1,
-              })}
-            </Label>
-          )}
         </div>
 
         {/* Content on right */}
@@ -207,11 +196,16 @@ export const ChapterCollectionItemDetail: React.FC<Props> = ({
                 </span>
               ) : (
                 <>
-                  <p className="text-xs pb-1">
-                    {`This is one of our seasonal mutants. You can find these by
-                    feeding animals, growing flowers, fishing in the depths, and
-                    more.`}
-                  </p>
+                  {source !== "megastore" &&
+                    source !== "unknown" &&
+                    howToObtainKey && (
+                      <p className="text-xs pb-1">{t(howToObtainKey)}</p>
+                    )}
+                  {source === "unknown" && (
+                    <p className="text-xs pb-1">
+                      {t("season.codex.howToObtain.unknown")}
+                    </p>
+                  )}
 
                   {source === "megastore" && storeItem?.cost && (
                     <>
@@ -249,20 +243,6 @@ export const ChapterCollectionItemDetail: React.FC<Props> = ({
                         </div>
                       )}
                     </>
-                  )}
-
-                  {source !== "megastore" &&
-                    source !== "unknown" &&
-                    howToObtainKey && (
-                      <span className="text-xxs">
-                        {t(howToObtainKey as TranslationKeys)}
-                      </span>
-                    )}
-
-                  {source === "unknown" && (
-                    <span className="text-xxs">
-                      {t("season.codex.howToObtain.unknown")}
-                    </span>
                   )}
                 </>
               )}
