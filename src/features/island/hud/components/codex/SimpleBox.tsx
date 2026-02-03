@@ -65,9 +65,9 @@ export const SimpleBox: React.FC<React.PropsWithChildren<BoxProps>> = ({
           {showBoostIcon && (
             <img
               src={lightning}
-              className="absolute -left-2 -top-2 object-contain"
+              className="absolute -left-3 -top-3 object-contain"
               style={{
-                width: `${PIXEL_SCALE * 7}px`,
+                width: `${PIXEL_SCALE * 6}px`,
               }}
               alt="boost"
             />
