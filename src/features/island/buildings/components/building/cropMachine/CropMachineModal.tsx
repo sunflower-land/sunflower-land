@@ -88,6 +88,7 @@ const _growingCropPackIndex = (state: CropMachineState) =>
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _state = (state: MachineState) => state.context.state;
 const _farmId = (state: MachineState) => state.context.farmId;
+const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
 export const CropMachineModalContent: React.FC<Props> = ({
   show,
   queue,
@@ -100,13 +101,14 @@ export const CropMachineModalContent: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const now = useNow();
+  const now = useNow({ live: show });
   const farmId = useSelector(gameService, _farmId);
   const growingCropPackIndex = useSelector(service, _growingCropPackIndex);
   const idle = useSelector(service, _idle);
   const running = useSelector(service, _running);
   const paused = useSelector(service, _paused);
   const inventory = useSelector(gameService, _inventory);
+  const farmActivity = useSelector(gameService, _farmActivity);
 
   const [selectedPackIndex, setSelectedPackIndex] = useState<number>(
     growingCropPackIndex ?? 0,
@@ -241,11 +243,31 @@ export const CropMachineModalContent: React.FC<Props> = ({
   ];
 
   const allowedSeeds = ALLOWED_SEEDS(state.bumpkin, inventory);
-  const initialCounter = useSelector(gameService, (state) => {
+
+  const getInitialCounter = () => {
     const cropName = selectedPack?.crop;
     if (!cropName) return 0;
-    return state.context.state.farmActivity[`${cropName} Harvested`] ?? 0;
-  });
+    const cropHarvested = farmActivity[`${cropName} Harvested`] ?? 0;
+    // Look for earlier harvest of the same crop in packed queue if it hasn't been harvested yet
+
+    const readySameCrop = queue.filter(
+      (item) => item?.crop === cropName && item?.readyAt && item.readyAt < now,
+    );
+
+    const selectedIndexInReady = readySameCrop.findIndex(
+      (item) => item === selectedPack,
+    );
+    if (selectedIndexInReady < 0) return cropHarvested;
+
+    const sumOfSeeds = readySameCrop
+      .slice(0, selectedIndexInReady)
+      .reduce((acc, item) => acc + item.seeds, 0);
+
+    return cropHarvested + sumOfSeeds;
+  };
+
+  const initialCounter = getInitialCounter();
+
   const cropYield = selectedPack
     ? (selectedPack.amount ??
       getPackYieldAmount({
