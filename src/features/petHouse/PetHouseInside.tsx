@@ -173,7 +173,7 @@ export const PetHouseInside: React.FC = () => {
             width={2}
             z={1}
           >
-            <PetNFT id={id} x={x} y={y} />
+            <PetNFT id={id} x={x} y={y} location="petHouse" />
           </MapPlacement>
         );
       }),
