@@ -7955,6 +7955,8 @@
   "guide.crustacean.useChum": "Use chum to attract specific types of crustaceans",
   "guide.crustacean.catchCrustaceans": "Each trap cycle yields various crustaceans that can be collected",
   "guide.crustacean.differentTraps": "Different traps catch different types of crustaceans",
+  "description.pawPrintsRaffleTicket": "A ticket for the Paw Prints raffle.",
+  "description.crabsAndTrapsRaffleTicket": "A ticket for the Crabs and Traps raffle.",
   "raffle.newLocation": "New location",
   "raffle.newLocationDescription": "The monthly raffles can now be found in the Auction area. You can continue to use Prize tickets to enter the monthly bud raffle.",
   "description.crimstoneSpikesHair.boost": "Mine crimstone for free",
