@@ -253,7 +253,7 @@ const onDrag = ({
   detect: (
     coordinates: Coordinates,
     state: GameState,
-    name: CollectibleName,
+    name: LandscapingPlaceable,
     id: string,
     location: PlaceableLocation,
     dimensions: Dimensions,
@@ -261,7 +261,7 @@ const onDrag = ({
   ) => void;
   setIsDragging: (isDragging: boolean) => void;
   setPosition: (position: Coordinates) => void;
-  name: CollectibleName;
+  name: LandscapingPlaceable;
   id: string;
   location: PlaceableLocation;
   dimensions: Dimensions;
@@ -285,7 +285,7 @@ const onDrag = ({
 const detect = (
   { x, y }: Coordinates,
   state: GameState,
-  name: CollectibleName,
+  name: LandscapingPlaceable,
   id: string,
   location: PlaceableLocation,
   dimensions: Dimensions,
@@ -297,7 +297,7 @@ const detect = (
     name,
   });
   const collisionDetected = detectCollision({
-    name: name as CollectibleName,
+    name,
     state: game,
     location,
     position: { x, y, ...dimensions },
@@ -525,7 +525,7 @@ export const MoveableComponent: React.FC<
           name,
         });
         const collisionDetected = detectCollision({
-          name: name as CollectibleName,
+          name,
           state: game,
           location,
           position: {
@@ -605,7 +605,7 @@ export const MoveableComponent: React.FC<
           detect,
           setIsDragging,
           setPosition,
-          name: name as CollectibleName,
+          name,
           id,
           location,
           dimensions,
@@ -634,7 +634,7 @@ export const MoveableComponent: React.FC<
           detect,
           setIsDragging,
           setPosition,
-          name: name as CollectibleName,
+          name,
           id,
           location,
           dimensions,
@@ -663,7 +663,7 @@ export const MoveableComponent: React.FC<
           detect,
           setIsDragging,
           setPosition,
-          name: name as CollectibleName,
+          name,
           id,
           location,
           dimensions,
@@ -692,7 +692,7 @@ export const MoveableComponent: React.FC<
           detect,
           setIsDragging,
           setPosition,
-          name: name as CollectibleName,
+          name,
           id,
           location,
           dimensions,
@@ -813,7 +813,7 @@ export const MoveableComponent: React.FC<
             detect,
             setIsDragging,
             setPosition,
-            name: name as CollectibleName,
+            name,
             id,
             location,
             dimensions,
@@ -848,7 +848,7 @@ export const MoveableComponent: React.FC<
             detect,
             setIsDragging,
             setPosition,
-            name: name as CollectibleName,
+            name,
             id,
             location,
             dimensions,
