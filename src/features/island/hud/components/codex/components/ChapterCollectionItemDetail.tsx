@@ -7,8 +7,6 @@ import { InnerPanel } from "components/ui/Panel";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import type { TranslationKeys } from "lib/i18n/dictionaries/types";
-import { ITEM_IDS } from "features/game/types/bumpkin";
-import { getImageUrl } from "lib/utils/getImageURLS";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import {
@@ -23,6 +21,7 @@ import { BumpkinItem } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/craftables";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
 import { NaturalImage } from "components/ui/NaturalImage";
+import { getWearableImage } from "features/game/lib/getWearableImage";
 
 export type ChapterCollectionItemType = "collectible" | "wearable";
 
@@ -67,14 +66,14 @@ export const ChapterCollectionItemDetail: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const now = useNow({ live: true });
   const [imageWidth, setImageWidth] = useState<number>(0);
-  const displayWidth = type === "wearable" ? PIXEL_SCALE * 50 : imageWidth;
+  const displayWidth = type === "wearable" ? 40 : imageWidth;
 
   const chapterEnded = hasChapterEnded(chapter, now);
   const { source, storeItem } = getChapterItemSource(chapter, itemName, type);
 
   const image =
     type === "wearable"
-      ? getImageUrl(ITEM_IDS[itemName as BumpkinItem])
+      ? getWearableImage(itemName as BumpkinItem)
       : (ITEM_DETAILS[itemName as InventoryItemName]?.image ?? "");
 
   const description =
@@ -124,11 +123,21 @@ export const ChapterCollectionItemDetail: React.FC<Props> = ({
   }, [image, type]);
 
   return (
-    <InnerPanel className="shadow">
-      <div className="flex items-stretch">
+    <InnerPanel className="flex flex-col shadow h-full border-2 border-blue-500">
+      <div className="flex items-center justify-between w-full pb-2 pl-2.5">
+        <span className="flex-1">{itemName}</span>
+        <img
+          src={SUNNYSIDE.icons.close}
+          className="cursor-pointer"
+          onClick={onClose}
+          style={{ width: `${PIXEL_SCALE * 9}px` }}
+          alt="Close"
+        />
+      </div>
+      <div className="flex min-h-[200px] items-stretch p-2 pt-1">
         {/* Image on left */}
         <div
-          className="w-[60%] sm:w-1/2 relative rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center self-stretch"
+          className="w-[60%] sm:w-1/2 relative rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center"
           style={
             type === "collectible"
               ? {
@@ -136,12 +145,17 @@ export const ChapterCollectionItemDetail: React.FC<Props> = ({
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }
-              : {}
+              : {
+                  backgroundImage: `url(${SUNNYSIDE.ui.brown_background_flipped})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }
           }
         >
           <NaturalImage
             maxWidth={displayWidth}
             src={image}
+            className="pr-1 pb-1"
             alt={String(itemName)}
           />
           {source !== "megastore" && (
@@ -158,19 +172,9 @@ export const ChapterCollectionItemDetail: React.FC<Props> = ({
         </div>
 
         {/* Content on right */}
-        <div className="w-full p-1 px-1 relative">
+        <div className="w-full p-1 px-1 relative h-full">
           <div className="flex">
             <div className="flex flex-col space-y-2">
-              <div className="flex items-center w-full">
-                <span className="flex-1">{itemName}</span>
-                <img
-                  src={SUNNYSIDE.icons.close}
-                  className="cursor-pointer absolute top-1 right-0"
-                  onClick={onClose}
-                  style={{ width: `${PIXEL_SCALE * 9}px` }}
-                  alt="Close"
-                />
-              </div>
               {!!buff && buff.length > 0 && (
                 <div className="flex content-start flex-col sm:flex-row sm:flex-wrap">
                   {buff.map(

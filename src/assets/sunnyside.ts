@@ -1476,6 +1476,7 @@ export const SUNNYSIDE = {
     site_bg: `${CONFIG.PROTECTED_IMAGE_URL}/ui/site_bg.png`,
     more: `${CONFIG.PROTECTED_IMAGE_URL}/ui/more.png`,
     grey_background: `${CONFIG.PROTECTED_IMAGE_URL}/ui/grey_background.png`,
+    brown_background_flipped: `${CONFIG.PROTECTED_IMAGE_URL}/ui/brown_background_flipped.png`,
     coins: `${CONFIG.PROTECTED_IMAGE_URL}/ui/coins.png`,
     coinsImg: `${CONFIG.PROTECTED_IMAGE_URL}/ui/coins.png`,
     speechBubble: `${CONFIG.PROTECTED_IMAGE_URL}/ui/speech_border.png`,
