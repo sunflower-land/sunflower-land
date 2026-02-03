@@ -31,6 +31,7 @@ type ContentProps = {
   type: ChapterCollectionItemType;
   chapter: ChapterName;
   state: GameState;
+  onClose: () => void;
 };
 
 const HOW_TO_OBTAIN_I18N_KEY: Record<
@@ -50,6 +51,7 @@ const ChapterCollectionItemDetailContent: React.FC<ContentProps> = ({
   type,
   chapter,
   state,
+  onClose,
 }) => {
   const { t } = useAppTranslation();
   const now = useNow({ live: true });
@@ -132,11 +134,15 @@ const ChapterCollectionItemDetailContent: React.FC<ContentProps> = ({
           isTradable && marketplaceUrl ? (
             <span
               className="cursor-pointer underline text-xxs pb-1"
-              onClick={() => navigate(marketplaceUrl)}
+              onClick={() => {
+                navigate(marketplaceUrl);
+                onClose();
+              }}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
                   navigate(marketplaceUrl);
+                  onClose();
                 }
               }}
               role="button"
@@ -172,6 +178,7 @@ export const ChapterCollectionItemPopover: React.FC<PopoverProps> = ({
   chapter,
   state,
   children,
+  onClose,
 }) => {
   return (
     <Popover>
@@ -184,6 +191,7 @@ export const ChapterCollectionItemPopover: React.FC<PopoverProps> = ({
           type={type}
           chapter={chapter}
           state={state}
+          onClose={onClose}
         />
       </PopoverPanel>
     </Popover>

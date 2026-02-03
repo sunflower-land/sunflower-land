@@ -17,12 +17,15 @@ import {
 import { ResizableBar } from "components/ui/ProgressBar";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ChapterCollectionItemPopover } from "../components/ChapterCollectionItemDetail";
+import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 
 type Props = {
   state: GameState;
+  onClose: () => void;
 };
 
-export const ChapterCollections: React.FC<Props> = ({ state }) => {
+export const ChapterCollections: React.FC<Props> = ({ state, onClose }) => {
   const { inventory, wardrobe } = state;
 
   return (
@@ -96,6 +99,15 @@ export const ChapterCollections: React.FC<Props> = ({ state }) => {
                         const count = inventory[itemName]?.toNumber() ?? 0;
                         const hasItem = count > 0;
 
+                        const buff = COLLECTIBLE_BUFF_LABELS[itemName];
+                        const showBoostIcon = !!(
+                          buff &&
+                          buff({
+                            skills: state.bumpkin.skills,
+                            collectibles: state.collectibles,
+                          }).length > 0
+                        );
+
                         return (
                           <ChapterCollectionItemPopover
                             key={item}
@@ -103,11 +115,13 @@ export const ChapterCollections: React.FC<Props> = ({ state }) => {
                             type="collectible"
                             chapter={chapter}
                             state={state}
+                            onClose={onClose}
                           >
                             <SimpleBox
                               silhouette={!hasItem}
                               inventoryCount={hasItem ? count : undefined}
                               image={ITEM_DETAILS[itemName]?.image}
+                              showBoostIcon={showBoostIcon}
                             />
                           </ChapterCollectionItemPopover>
                         );
@@ -119,6 +133,8 @@ export const ChapterCollections: React.FC<Props> = ({ state }) => {
                         const image = isCollectible(itemName)
                           ? ITEM_DETAILS[itemName]?.image
                           : getWearableImage(itemName);
+                        const buff = BUMPKIN_ITEM_BUFF_LABELS[itemName];
+                        const showBoostIcon = !!(buff && buff.length > 0);
 
                         return (
                           <ChapterCollectionItemPopover
@@ -127,11 +143,13 @@ export const ChapterCollections: React.FC<Props> = ({ state }) => {
                             type="wearable"
                             chapter={chapter}
                             state={state}
+                            onClose={onClose}
                           >
                             <SimpleBox
                               silhouette={!hasItem}
                               inventoryCount={hasItem ? count : undefined}
                               image={image}
+                              showBoostIcon={showBoostIcon}
                             />
                           </ChapterCollectionItemPopover>
                         );
