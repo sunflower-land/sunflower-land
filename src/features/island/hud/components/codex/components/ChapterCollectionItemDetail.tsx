@@ -20,7 +20,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/craftables";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
-import { NaturalImage } from "components/ui/NaturalImage";
+import { NaturalImage, NaturalImageProps } from "components/ui/NaturalImage";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 
 export type ChapterCollectionItemType = "collectible" | "wearable";
@@ -105,6 +105,15 @@ export const ChapterCollectionItemDetail: React.FC<Props> = ({
     };
   }, [image, type]);
 
+  const naturalImageProps: NaturalImageProps = {
+    ...(type === "collectible"
+      ? { maxWidth: displayWidth }
+      : { maxHeight: displayWidth }),
+    src: image,
+    className: "pr-1 pb-1",
+    alt: String(itemName),
+  };
+
   return (
     <InnerPanel className="flex flex-col shadow h-full border-2 border-blue-500">
       <div className="flex items-center justify-between w-full pb-2 pl-2.5">
@@ -135,12 +144,7 @@ export const ChapterCollectionItemDetail: React.FC<Props> = ({
                 }
           }
         >
-          <NaturalImage
-            maxWidth={displayWidth}
-            src={image}
-            className="pr-1 pb-1"
-            alt={String(itemName)}
-          />
+          <NaturalImage {...naturalImageProps} />
         </div>
 
         {/* Content on right */}
