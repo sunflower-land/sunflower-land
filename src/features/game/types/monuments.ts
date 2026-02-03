@@ -171,7 +171,7 @@ export const REQUIRED_CHEERS: Record<MonumentName, number> = {
   "Miner's Monument": 10000,
   "Teamwork Monument": 100,
   Cornucopia: 1000,
-  "Poseidon's Throne": 1000,
+  "Poseidon's Throne": 2000,
 };
 
 export type VillageProjectName = Exclude<
