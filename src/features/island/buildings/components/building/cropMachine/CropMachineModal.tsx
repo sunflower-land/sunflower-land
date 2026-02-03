@@ -100,7 +100,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const now = useNow();
+  const now = useNow({ live: true });
   const farmId = useSelector(gameService, _farmId);
   const growingCropPackIndex = useSelector(service, _growingCropPackIndex);
   const idle = useSelector(service, _idle);
@@ -241,11 +241,35 @@ export const CropMachineModalContent: React.FC<Props> = ({
   ];
 
   const allowedSeeds = ALLOWED_SEEDS(state.bumpkin, inventory);
+
   const initialCounter = useSelector(gameService, (state) => {
     const cropName = selectedPack?.crop;
     if (!cropName) return 0;
-    return state.context.state.farmActivity[`${cropName} Harvested`] ?? 0;
+    const cropHarvested =
+      state.context.state.farmActivity[`${cropName} Harvested`] ?? 0;
+    // Look for earlier harvest of the same crop in packed queue if it hasn't been harvested yet
+    const allHarvestsOfSameCrop = queue.filter(
+      (item) => item?.crop === cropName && item?.readyAt && item.readyAt < now,
+    );
+
+    if (allHarvestsOfSameCrop.length > 0) {
+      const selectedPackIndex = allHarvestsOfSameCrop.findIndex(
+        (item) => item === selectedPack,
+      );
+
+      // calculate sum of seeds of earlier harvest, up to the selected pack index
+      const sumOfSeeds = allHarvestsOfSameCrop
+        .slice(0, selectedPackIndex)
+        .reduce((acc, item) => acc + item.seeds, 0);
+
+      const counter = cropHarvested + sumOfSeeds;
+
+      return counter;
+    }
+
+    return cropHarvested;
   });
+
   const cropYield = selectedPack
     ? (selectedPack.amount ??
       getPackYieldAmount({
