@@ -8,7 +8,6 @@ import {
 } from "./chapters";
 import { isCollectibleBuilt } from "../lib/collectibleBuilt";
 import { hasVipAccess } from "../lib/vipAccess";
-import Decimal from "decimal.js-light";
 
 export type DailyRewardDefinition = {
   id: DailyRewardName;
@@ -309,8 +308,8 @@ export function getRewardsForStreak({
 
   if (hasVipAccess({ game, now }) && currentChapter === "Crabs and Traps") {
     const currentBanner = getChapterBanner(now);
-    const bannerCount = game.inventory[currentBanner] ?? new Decimal(0);
-    if (bannerCount.lt(1)) {
+    const bannerCount = game.inventory[currentBanner];
+    if (bannerCount?.lt(1)) {
       defaultReward.items = {
         ...defaultReward.items,
         [currentBanner]: 1,
