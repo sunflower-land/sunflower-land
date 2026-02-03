@@ -33,18 +33,6 @@ type Props = {
   onClose: () => void;
 };
 
-const SOURCE_I18N_KEY: Record<
-  Exclude<ChapterItemSourceKey, "unknown">,
-  TranslationKeys
-> = {
-  megastore: "season.codex.source.megastore",
-  mutants: "season.codex.source.mutants",
-  track: "season.codex.source.track",
-  auctioneer: "season.codex.source.auctioneer",
-  vipChest: "season.codex.source.vipChest",
-  vipGift: "season.codex.source.vipGift",
-};
-
 const HOW_TO_OBTAIN_I18N_KEY: Record<
   Exclude<ChapterItemSourceKey, "megastore" | "unknown">,
   TranslationKeys
@@ -93,11 +81,6 @@ export const ChapterCollectionItemDetail: React.FC<Props> = ({
     type === "collectible"
       ? (state.inventory[itemName as InventoryItemName]?.toNumber() ?? 0)
       : (state.wardrobe[itemName as BumpkinItem] ?? 0);
-
-  const sourceLabel =
-    source === "unknown"
-      ? t("season.codex.source.unknown")
-      : t(SOURCE_I18N_KEY[source] as TranslationKeys);
 
   const howToObtainKey =
     source === "unknown"
