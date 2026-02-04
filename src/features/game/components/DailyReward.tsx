@@ -144,6 +144,7 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
         game: gameState,
         streak: streak + index,
         currentDate,
+        now,
       }).rewards,
     };
   });
