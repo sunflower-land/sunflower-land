@@ -1526,10 +1526,6 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       tradeAt: CHAPTERS["Crabs and Traps"].endDate,
       withdrawAt: new Date("2026-06-04T00:00:00Z"),
     },
-    "Poseidon's Throne": {
-      tradeAt: CHAPTERS["Crabs and Traps"].endDate,
-      withdrawAt: new Date("2026-06-04T00:00:00Z"),
-    },
     "Fish Kite": {
       tradeAt: CHAPTERS["Crabs and Traps"].endDate,
       withdrawAt: new Date("2026-06-04T00:00:00Z"),
