@@ -1056,7 +1056,7 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       tradeAt: new Date("2024-12-13"),
       withdrawAt: CHAPTERS["Bull Run"].endDate,
     },
-    "Wagon": {
+    Wagon: {
       tradeAt: new Date("2024-12-13"),
       withdrawAt: CHAPTERS["Bull Run"].endDate,
     },
