@@ -49,12 +49,16 @@ export const ChapterMutants: React.FC<Props> = ({ chapter }) => {
 
               icon: ITEM_DETAILS.Rod.image,
             },
-            {
-              text: t("season.codex.mutants.three", {
-                item: mutants.Flower,
-              }),
-              icon: ITEM_DETAILS["Red Pansy"].image,
-            },
+            ...(mutants.Flower
+              ? [
+                  {
+                    text: t("season.codex.mutants.three", {
+                      item: mutants.Flower,
+                    }),
+                    icon: ITEM_DETAILS[mutants.Flower].image,
+                  },
+                ]
+              : []),
             ...(mutants.Cow
               ? [
                   {
@@ -72,16 +76,6 @@ export const ChapterMutants: React.FC<Props> = ({ chapter }) => {
                       item: mutants.Sheep,
                     }),
                     icon: ITEM_DETAILS["Sheep"].image,
-                  },
-                ]
-              : []),
-            ...(mutants.Flower
-              ? [
-                  {
-                    text: t("season.codex.mutants.five", {
-                      item: mutants.Flower,
-                    }),
-                    icon: ITEM_DETAILS[mutants.Flower].image,
                   },
                 ]
               : []),
