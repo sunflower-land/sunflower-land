@@ -16,13 +16,21 @@ type Options = {
   createdAt?: number;
 };
 
-export function collectWaterTrap({ state, action }: Options): GameState {
+export function collectWaterTrap({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
   return produce(state, (game) => {
     const trapSpots = game.crabTraps.trapSpots || {};
     const waterTrap = trapSpots[action.trapId]?.waterTrap;
 
     if (!waterTrap) {
       throw new Error("No water trap placed at this spot");
+    }
+
+    if (waterTrap.readyAt > createdAt) {
+      throw new Error("Trap is not ready to collect yet");
     }
 
     const caught =
