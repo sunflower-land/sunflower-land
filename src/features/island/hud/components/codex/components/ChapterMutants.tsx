@@ -65,7 +65,7 @@ export const ChapterMutants: React.FC<Props> = ({ chapter }) => {
                     text: t("season.codex.mutants.four", {
                       item: mutants.Cow,
                     }),
-                    icon: ITEM_DETAILS["Cow"].image,
+                    icon: ITEM_DETAILS[mutants.Cow].image,
                   },
                 ]
               : []),
@@ -75,7 +75,7 @@ export const ChapterMutants: React.FC<Props> = ({ chapter }) => {
                     text: t("season.codex.mutants.five", {
                       item: mutants.Sheep,
                     }),
-                    icon: ITEM_DETAILS["Sheep"].image,
+                    icon: ITEM_DETAILS[mutants.Sheep].image,
                   },
                 ]
               : []),
