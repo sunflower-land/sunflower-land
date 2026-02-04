@@ -21,12 +21,14 @@ type Options = {
   state: Readonly<GameState>;
   action: PlaceWaterTrapAction;
   createdAt?: number;
+  farmId?: number;
 };
 
 export function placeWaterTrap({
   state,
   action,
   createdAt = Date.now(),
+  farmId = 0,
 }: Options): GameState {
   return produce(state, (game) => {
     const { bumpkin } = game;
@@ -63,7 +65,12 @@ export function placeWaterTrap({
       game.inventory[action.chum] = inventoryChum.sub(chumAmount);
     }
 
-    const caught = caughtCrustacean(action.waterTrap, action.chum);
+    const placementCount = game.farmActivity[`${action.waterTrap} Placed`] ?? 1;
+    const caught = caughtCrustacean(action.waterTrap, action.chum, {
+      farmId,
+      trapId: action.trapId,
+      counter: placementCount,
+    });
 
     const hours = WATER_TRAP[action.waterTrap].readyTimeHours;
     const readyAt = createdAt + hours * 60 * 60 * 1000;

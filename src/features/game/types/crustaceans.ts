@@ -2,6 +2,8 @@ import { InventoryItemName } from "./game";
 import { getKeys } from "../lib/crafting";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getObjectEntries } from "../expansion/lib/utils";
+import { prng } from "lib/prng";
+import { stringToInteger } from "lib/utils/stringToInteger";
 
 export type WaterTrapName = "Crab Pot" | "Mariner Pot";
 
@@ -254,17 +256,49 @@ export const getCrustaceanByTrapAndChum = (): Record<
   return lookup;
 };
 
+export type CaughtCrustaceanPrngArgs = {
+  farmId: number;
+  trapId: string;
+  counter: number;
+};
+
+/**
+ * Deterministically pick one crustacean from multiple options
+ * using PRNG to ensure FE/BE are in sync.
+ */
+function selectCrustaceanFromOptions(
+  options: CrustaceanName[],
+  trapType: WaterTrapName,
+  prngArgs: CaughtCrustaceanPrngArgs,
+): CrustaceanName {
+  const value = prng({
+    farmId: prngArgs.farmId,
+    itemId: stringToInteger(prngArgs.trapId),
+    counter: prngArgs.counter,
+    criticalHitName: trapType,
+  });
+  const index = Math.floor(value * options.length);
+  return options[Math.min(index, options.length - 1)];
+}
+
 export function caughtCrustacean(
   trapType: WaterTrapName,
   chum?: CrustaceanChum,
+  prngArgs?: CaughtCrustaceanPrngArgs,
 ): Partial<Record<CrustaceanName, number>> {
   const trapMapping = getCrustaceanByTrapAndChum()[trapType];
+  const crustaceans = trapMapping[chum ?? "none"];
 
-  const crustacean = trapMapping[chum ?? "none"]?.[0];
-
-  if (!crustacean) {
+  if (!crustaceans?.length) {
     throw new Error(`Invalid trap and chum combination: ${trapType} ${chum}`);
   }
+
+  const crustacean =
+    crustaceans.length === 1
+      ? crustaceans[0]
+      : prngArgs
+        ? selectCrustaceanFromOptions(crustaceans, trapType, prngArgs)
+        : crustaceans[0]; // fallback when no prng (e.g. backfill in collectWaterTrap)
 
   return {
     [crustacean]: 1,
