@@ -36,7 +36,7 @@ describe("collectGarbage", () => {
           ...INITIAL_FARM.socialFarming,
           villageProjects: {
             "Poseidon's Throne": {
-              cheers: 999,
+              cheers: 1999,
             },
           },
         },
@@ -78,7 +78,7 @@ describe("collectGarbage", () => {
           ...INITIAL_FARM.socialFarming,
           villageProjects: {
             "Poseidon's Throne": {
-              cheers: 1000,
+              cheers: 2000,
             },
           },
         },
@@ -121,7 +121,7 @@ describe("collectGarbage", () => {
           ...INITIAL_FARM.socialFarming,
           villageProjects: {
             "Poseidon's Throne": {
-              cheers: 1000,
+              cheers: 2000,
             },
           },
         },
@@ -163,7 +163,7 @@ describe("collectGarbage", () => {
           ...INITIAL_FARM.socialFarming,
           villageProjects: {
             "Poseidon's Throne": {
-              cheers: 1000,
+              cheers: 2000,
             },
           },
         },
@@ -207,7 +207,7 @@ describe("collectGarbage", () => {
           ...INITIAL_FARM.socialFarming,
           villageProjects: {
             "Poseidon's Throne": {
-              cheers: 1000,
+              cheers: 2000,
             },
           },
         },
@@ -253,7 +253,7 @@ describe("collectGarbage", () => {
         ...INITIAL_FARM.socialFarming,
         villageProjects: {
           "Poseidon's Throne": {
-            cheers: 1000,
+            cheers: 2000,
           },
         },
       },
