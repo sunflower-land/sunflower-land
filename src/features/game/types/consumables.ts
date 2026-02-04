@@ -380,7 +380,7 @@ export const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
     },
     cookingSeconds: 0,
     building: "Kitchen",
-    experience: 8000,
+    experience: 10000,
   },
   "Crimstone Infused Fish Oil": {
     name: "Crimstone Infused Fish Oil",
