@@ -1,7 +1,10 @@
 import { produce } from "immer";
 import { GameState } from "features/game/types/game";
 import Decimal from "decimal.js-light";
-import { hasHitHelpLimit } from "features/game/types/monuments";
+import {
+  hasHitHelpLimit,
+  isMonumentComplete,
+} from "features/game/types/monuments";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 export type CollectGarbageAction = {
@@ -24,7 +27,6 @@ export function collectGarbage({
   state,
   action,
   visitorState,
-  createdAt = Date.now(),
 }: Options): [GameState, GameState] {
   return produce([state, visitorState!], ([game, visitorGame]) => {
     const clutters = game.socialFarming?.clutter?.locations;
@@ -45,15 +47,26 @@ export function collectGarbage({
 
     const type = clutters[action.id].type;
 
-    const extraYield =
+    const isLastClutter =
+      Object.values(clutters).filter((clutter) => clutter.type === type)
+        .length === 1;
+
+    let amount = 1;
+    if (
       (type === "Weed" || type === "Dung") &&
+      isLastClutter &&
+      isMonumentComplete({
+        game: visitorGame,
+        monument: "Poseidon's Throne",
+      }) &&
       isCollectibleBuilt({ name: "Poseidon's Throne", game: visitorGame })
-        ? 1
-        : 0;
+    ) {
+      amount += 1;
+    }
 
     visitorGame.inventory[type] = (
       visitorState?.inventory[type] ?? new Decimal(0)
-    ).plus(1 + extraYield);
+    ).plus(amount);
 
     delete clutters[action.id];
   });

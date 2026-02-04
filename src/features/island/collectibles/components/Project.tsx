@@ -135,6 +135,11 @@ export const PROJECT_IMAGES: Record<
     halfway: cornucopiaTwo,
     ready: cornucopiaThree,
   },
+  "Poseidon's Throne": {
+    empty: ITEM_DETAILS["Poseidon's Throne"].image,
+    halfway: ITEM_DETAILS["Poseidon's Throne"].image,
+    ready: ITEM_DETAILS["Poseidon's Throne"].image,
+  },
 };
 
 const ProjectComplete: React.FC<{

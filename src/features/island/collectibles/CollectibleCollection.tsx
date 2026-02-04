@@ -776,7 +776,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Meerkat: () => <TemplateCollectible name="Meerkat" />,
   "Pearl Bed": () => <TemplateCollectible name="Pearl Bed" />,
   "Crimstone Clam": () => <TemplateCollectible name="Crimstone Clam" />,
-  "Poseidon's Throne": () => <TemplateCollectible name="Poseidon's Throne" />,
+  "Poseidon's Throne": (props: CollectibleProps) => (
+    <Monument
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 49}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -0.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 49}px`,
+      }}
+      alt="Poseidon's Throne"
+      project="Poseidon's Throne"
+    />
+  ),
   "Fish Kite": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
