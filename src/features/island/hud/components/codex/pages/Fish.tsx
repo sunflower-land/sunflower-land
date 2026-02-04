@@ -92,6 +92,12 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
             chums: chumsUsed,
             waterTrap: crustacean.waterTrap,
           };
+        } else {
+          // Fallback to no chums shown
+          acc[name] = {
+            chums: [],
+            waterTrap: crustacean.waterTrap,
+          };
         }
       }
       return acc;

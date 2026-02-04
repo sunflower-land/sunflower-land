@@ -23,9 +23,11 @@ import {
   WATER_TRAP,
   CRUSTACEAN_CHUM_AMOUNTS,
   CrustaceanChum,
+  caughtCrustacean,
 } from "features/game/types/crustaceans";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { CrustaceanGuide } from "./CrustaceanGuide";
+import { getKeys } from "features/game/types/decorations";
 
 const _state = (state: MachineState) => state.context.state;
 
@@ -77,6 +79,17 @@ export const WaterTrapModal: React.FC<Props> = ({
   const hasEnoughChum = selectedChum
     ? items[selectedChum]?.gte(CRUSTACEAN_CHUM_AMOUNTS[selectedChum])
     : true;
+
+  const catchForSelectedChum = selectedChum
+    ? getKeys(caughtCrustacean(selectedTrap, selectedChum))[0]
+    : undefined;
+
+  const showResultingCatch =
+    selectedChum &&
+    catchForSelectedChum &&
+    (state.farmActivity[
+      `${catchForSelectedChum} Caught with ${selectedChum}`
+    ] ?? 0) > 0;
 
   const handleTrapChange = (trap: WaterTrapName) => {
     setSelectedTrap(trap);
@@ -211,27 +224,38 @@ export const WaterTrapModal: React.FC<Props> = ({
             )}
             {selectedChum && (
               <InnerPanel className="p-2">
-                {hasEnoughChum ? (
-                  <Label
-                    type="default"
-                    className="mb-1 ml-1"
-                    icon={ITEM_DETAILS[selectedChum].image}
-                  >
-                    {`${CRUSTACEAN_CHUM_AMOUNTS[selectedChum]} ${selectedChum}`}
-                  </Label>
-                ) : (
-                  <Label
-                    type="warning"
-                    className="mb-1 ml-1"
-                    icon={ITEM_DETAILS[selectedChum].image}
-                  >
-                    {`${t("required")}: ${CRUSTACEAN_CHUM_AMOUNTS[selectedChum]} ${selectedChum}${
-                      items[selectedChum]?.gt(0)
-                        ? ` (${t("count.available", { count: items[selectedChum]?.toString() ?? "0" })})`
-                        : ""
-                    }`}
-                  </Label>
-                )}
+                <div className="flex justify-between">
+                  {hasEnoughChum ? (
+                    <Label
+                      type="default"
+                      className="mb-1 ml-1"
+                      icon={ITEM_DETAILS[selectedChum].image}
+                    >
+                      {`${CRUSTACEAN_CHUM_AMOUNTS[selectedChum]} ${selectedChum}`}
+                    </Label>
+                  ) : (
+                    <Label
+                      type="warning"
+                      className="mb-1 ml-1"
+                      icon={ITEM_DETAILS[selectedChum].image}
+                    >
+                      {`${t("required")}: ${CRUSTACEAN_CHUM_AMOUNTS[selectedChum]} ${selectedChum}${
+                        items[selectedChum]?.gt(0)
+                          ? ` (${t("count.available", { count: items[selectedChum]?.toString() ?? "0" })})`
+                          : ""
+                      }`}
+                    </Label>
+                  )}
+                  {showResultingCatch && (
+                    <Label
+                      type="default"
+                      className="mb-1 ml-1"
+                      icon={ITEM_DETAILS[catchForSelectedChum].image}
+                    >
+                      {catchForSelectedChum}
+                    </Label>
+                  )}
+                </div>
                 <p className="text-xs ml-1">{CHUM_DETAILS[selectedChum]}</p>
               </InnerPanel>
             )}
