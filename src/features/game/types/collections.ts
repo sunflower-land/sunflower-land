@@ -136,7 +136,6 @@ const SOURCE_DISPLAY_ORDER = [
   "track",
   "auctioneer",
   "vipChest",
-  "vipGift",
 ] as const;
 
 export type ChapterItemSourceKey =
@@ -162,6 +161,97 @@ export type ChapterCollectionBySource = Partial<
 export const CHAPTER_COLLECTIONS: Partial<
   Record<ChapterName, ChapterCollectionBySource>
 > = {
+  "Bull Run": {
+    megastore: {
+      collectibles: getChapterMegastoreCollectibles("Bull Run"),
+      wearables: getChapterMegastoreWearables("Bull Run"),
+    },
+    mutants: {
+      collectibles: getChapterMutants("Bull Run"),
+    },
+    auctioneer: {
+      collectibles: [
+        "Moo-ver",
+        "Cluckulator",
+        "UFO",
+        "Black Sheep",
+        "Swiss Whiskers",
+      ],
+      wearables: [
+        "Shepherd Staff",
+        "Infernal Bullwhip",
+        "Black Sheep Onesie",
+        "Chicken Suit",
+        "Merino Jumper",
+        "Cowbell Necklace",
+        "Milk Apron",
+      ],
+    },
+    vipChest: {
+      collectibles: ["Wagon"],
+      wearables: ["White Sheep Onesie"],
+    },
+  },
+  "Winds of Change": {
+    megastore: {
+      collectibles: getChapterMegastoreCollectibles("Winds of Change"),
+      wearables: getChapterMegastoreWearables("Winds of Change"),
+    },
+    mutants: {
+      collectibles: getChapterMutants("Winds of Change"),
+    },
+    auctioneer: {
+      collectibles: ["Golden Sheep", "Barn Blueprint"],
+      wearables: [
+        "Sol & Luna",
+        "Solflare Aegis",
+        "Blossom Ward",
+        "Autumn's Embrace",
+        "Frozen Heart",
+        "Locust King Onesie",
+        "Glacial Plume",
+      ],
+    },
+    vipChest: {
+      collectibles: [
+        "Summer Duckling",
+        "Autumn Duckling",
+        "Winter Duckling",
+        "Mama Duck",
+      ],
+      wearables: ["Locust Onesie"],
+    },
+  },
+  "Great Bloom": {
+    megastore: {
+      collectibles: getChapterMegastoreCollectibles("Great Bloom"),
+      wearables: getChapterMegastoreWearables("Great Bloom"),
+    },
+    mutants: {
+      collectibles: getChapterMutants("Great Bloom"),
+    },
+    vipChest: {
+      collectibles: ["Mini Floating Island"],
+      wearables: ["Red Pepper Onesie"],
+    },
+    auctioneer: {
+      collectibles: [
+        "Quarry",
+        "Obsidian Turtle",
+        "Winter Guardian",
+        "Autumn Guardian",
+        "Summer Guardian",
+        "Spring Guardian",
+        "Sky Pillar",
+      ],
+      wearables: [
+        "Sky Island Background",
+        "Broccoli Hat",
+        "Medic Apron",
+        "Obsidian Necklace",
+      ],
+    },
+  },
   "Better Together": {
     megastore: {
       collectibles: getChapterMegastoreCollectibles("Better Together"),
@@ -203,7 +293,7 @@ export const CHAPTER_COLLECTIONS: Partial<
         "Squirrel Onesie",
       ],
     },
-    vipGift: {
+    vipChest: {
       collectibles: ["Squeaky Chicken", "Pet Bowls"],
     },
   },

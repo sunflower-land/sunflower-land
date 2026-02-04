@@ -11,7 +11,7 @@ import { TREASURE_TOOLS } from "../types/tools";
 import { PET_SHRINES } from "../types/pets";
 import { HOURGLASSES } from "../events/landExpansion/burnCollectible";
 import { RESOURCES } from "../types/resources";
-import { WORM } from "../types/composters";
+import { CROP_COMPOST, FRUIT_COMPOST, WORM } from "../types/composters";
 import { REWARD_BOXES } from "../types/rewardBoxes";
 import { PROCESSED_RESOURCES } from "../types/processedFood";
 import { SELLABLE_TREASURES } from "../types/treasure";
@@ -38,6 +38,8 @@ export const OFFCHAIN_ITEMS_SET = new Set<InventoryItemName>([
   ...getKeys(RESOURCES),
   ...getKeys(PROCESSED_RESOURCES),
   ...getKeys(WORM),
+  ...getKeys(FRUIT_COMPOST),
+  ...getKeys(CROP_COMPOST),
   "Gold Friends Trophy",
   "Silver Friends Trophy",
   "Bronze Friends Trophy",

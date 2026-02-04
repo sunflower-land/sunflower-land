@@ -43,7 +43,6 @@ const HOW_TO_OBTAIN_I18N_KEY: Record<
   track: "season.codex.howToObtain.track",
   auctioneer: "season.codex.howToObtain.auctioneer",
   vipChest: "season.codex.howToObtain.vipChest",
-  vipGift: "season.codex.howToObtain.vipGift",
 };
 
 const ChapterCollectionItemDetailContent: React.FC<ContentProps> = ({

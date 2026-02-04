@@ -104,9 +104,22 @@ export type ChapterTicket =
   | "Pet Cookie"
   | "Floater";
 
-export type ChapterRaffleTicket =
-  | "Paw Prints Raffle Ticket"
-  | "Crabs and Traps Raffle Ticket";
+type RaffleChapterName = Exclude<
+  ChapterName,
+  | "Solar Flare"
+  | "Dawn Breaker"
+  | "Witches' Eve"
+  | "Catch the Kraken"
+  | "Spring Blossom"
+  | "Clash of Factions"
+  | "Pharaoh's Treasure"
+  | "Bull Run"
+  | "Winds of Change"
+  | "Great Bloom"
+  | "Better Together"
+>;
+
+export type ChapterRaffleTicket = `${RaffleChapterName} Raffle Ticket`;
 
 export type ChapterBanner = `${ChapterName} Banner`;
 
