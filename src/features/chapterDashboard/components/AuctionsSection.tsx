@@ -14,7 +14,11 @@ import {
 } from "features/game/types/game";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/decorations";
-import { ChapterName, CHAPTERS } from "features/game/types/chapters";
+import {
+  ChapterName,
+  CHAPTERS,
+  secondsLeftInChapter,
+} from "features/game/types/chapters";
 import { InnerPanel } from "components/ui/Panel";
 import { SectionHeader } from "./SectionHeader";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -29,6 +33,9 @@ import { ChapterAuctions } from "features/island/hud/components/codex/components
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { CONFIG } from "lib/config";
+import { secondsToString } from "lib/utils/time";
+import sflIcon from "assets/icons/flower_token.webp";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 type AuctionDetail = {
   supply: number;
@@ -190,61 +197,59 @@ export const AuctionsSection: React.FC<Props> = ({
 
   const starts = useCountdown(summary?.nextDrop?.startAt ?? 0);
 
+  if (auctioneerState.matches("loading") || !summary) {
+    return (
+      <InnerPanel className="mb-2">
+        <div className="p-1 space-y-2">
+          <Loading />
+        </div>
+      </InnerPanel>
+    );
+  }
+
+  if (!summary.display || !summary.nextDrop) {
+    return (
+      <InnerPanel className="mb-2">
+        <Label type="warning">Auctions</Label>
+
+        <p className="text-xs">
+          New auctions coming soon -{" "}
+          {secondsToString(secondsLeftInChapter(now), { length: "full" })}
+        </p>
+      </InnerPanel>
+    );
+  }
+
+  let currency: string = sflIcon;
+
+  if (summary.nextDrop.ingredients) {
+    currency = ITEM_DETAILS[getKeys(summary.nextDrop.ingredients)[0]].image;
+  }
+
   return (
     <>
       <InnerPanel className="mb-2">
-        <div className="p-1 space-y-2">
-          <SectionHeader
-            title="Auctions"
-            labelType="warning"
-            actionText="View more"
-            onAction={() => setShowMore(true)}
-            disabled={
-              auctioneerState.matches("loading") ||
-              auctioneerState.matches("idle")
-            }
+        <div className="flex items-center justify-between mb-2 flex-wrap">
+          <Label type="warning">Upcoming Auctions</Label>
+          <div className="text-xs">
+            <TimerDisplay time={starts} />
+          </div>
+        </div>
+
+        <div className="flex">
+          <img
+            src={summary.display.image}
+            className="w-12 h-12 mr-2 rounded-md"
           />
 
-          {auctioneerState.matches("loading") && (
-            <div className="p-2">
-              <Loading />
+          <div>
+            <div className="flex items-center">
+              <p className="text-sm">{summary.display.item}</p>
+              <img src={currency} className="h-5 ml-1" />
             </div>
-          )}
 
-          {!auctioneerState.matches("loading") && summary && (
-            <div className="flex items-center justify-between gap-2 flex-wrap">
-              <div className="flex items-center gap-2">
-                {summary.nextDrop && summary.display ? (
-                  <>
-                    <div className="w-10 h-10 flex items-center justify-center">
-                      <img
-                        src={summary.display.image}
-                        className="w-full h-full object-contain img-highlight"
-                      />
-                    </div>
-                    <div>
-                      <p className="text-sm">{summary.display.item}</p>
-                      <div className="text-xxs">
-                        <TimerDisplay time={starts} />
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <p className="text-xs">No upcoming auctions</p>
-                )}
-              </div>
-
-              <Label
-                type={summary.totalRemaining <= 50 ? "formula" : "default"}
-              >
-                {`${summary.totalRemaining.toLocaleString()} NFTs left`}
-              </Label>
-            </div>
-          )}
-
-          {!auctioneerState.matches("loading") && !summary && (
-            <p className="text-xs">{t("loading")}</p>
-          )}
+            <p className="text-xxs ">{`Supply: ${summary.nextDrop.supply}`}</p>
+          </div>
         </div>
       </InnerPanel>
 

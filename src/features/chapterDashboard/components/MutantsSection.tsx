@@ -14,6 +14,8 @@ import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { Label } from "components/ui/Label";
+import { MAP_PIECES } from "features/game/types/fishing";
+import { getKeys } from "features/game/lib/crafting";
 
 type Props = {
   chapter: ChapterName;
@@ -27,16 +29,23 @@ export const MutantsSection: React.FC<Props> = ({ chapter }) => {
   const preview = useMemo(() => {
     if (!mutants) return [];
 
-    const items = [
+    const marvels = getKeys(MAP_PIECES).filter(
+      (marvel) => MAP_PIECES[marvel]?.chapter === chapter,
+    );
+
+    let items = [
       mutants.Chicken,
       mutants.Fish,
       mutants.Flower,
       ...(mutants.Cow ? [mutants.Cow] : []),
       ...(mutants.Sheep ? [mutants.Sheep] : []),
+      ...marvels,
     ];
 
-    // Pick 3 "current mutants" to preview.
-    return items.slice(0, 3).map((name) => ({
+    // Remove duplicates
+    items = items.filter((item, index, self) => self.indexOf(item) === index);
+
+    return items.map((name) => ({
       name,
       image: ITEM_DETAILS[name as keyof typeof ITEM_DETAILS]?.image,
     }));
@@ -48,51 +57,38 @@ export const MutantsSection: React.FC<Props> = ({ chapter }) => {
 
   return (
     <>
-      <InnerPanel className="mb-2">
+      <InnerPanel
+        className="mb-2 cursor-pointer"
+        onClick={() => setShowDetails(true)}
+      >
         <div className="p-1 space-y-2">
-          <SectionHeader
-            title={t("season.codex.mutants")}
-            labelType="vibrant"
-            actionText={t("read.more")}
-            onAction={() => setShowDetails(true)}
-          />
-
-          <div className="flex items-start gap-2">
-            <div className="relative flex-1 rounded-md overflow-hidden">
+          <div className="flex ">
+            <div className="relative w-24 h-24">
               <img
                 src={SUNNYSIDE.ui.grey_background}
-                className="absolute inset-0 w-full h-full"
+                className="absolute inset-0 w-full h-full rounded-md"
               />
-              <div className="relative p-2">
-                <p className="text-xs text-white mb-2">
-                  {t("season.codex.mutants.discover")}
-                </p>
 
-                <div className="flex gap-2">
-                  {preview.map((p) => (
-                    <div
-                      key={p.name}
-                      className="relative w-12 h-12 flex items-center justify-center"
-                    >
-                      <img
-                        src={SUNNYSIDE.ui.grey_background}
-                        className="absolute inset-0 w-full h-full rounded-md"
-                      />
-                      {p.image ? (
-                        <img
-                          src={p.image}
-                          className="w-2/3 h-2/3 object-contain z-10"
-                        />
-                      ) : (
-                        <img
-                          src={SUNNYSIDE.icons.expression_confused}
-                          className="w-2/3 h-2/3 object-contain z-10"
-                        />
-                      )}
-                    </div>
-                  ))}
-                </div>
+              <div className="flex flex-wrap items-center justify-center absolute inset-0 w-full pl-2">
+                {preview.slice(0, 6).map((p) => (
+                  <img
+                    src={p.image}
+                    className="w-10 max-h-8 object-contain relative -ml-3"
+                  />
+                ))}
               </div>
+            </div>
+
+            <div className="ml-2 flex-1 h-full">
+              <Label type="vibrant" className="mb-1">
+                Mutants
+              </Label>
+
+              <p className="text-xs mb-2">
+                Have you found the {preview.length} mutants?
+              </p>
+
+              <p className="text-xxs underline cursor-pointer">Read more</p>
             </div>
           </div>
         </div>
@@ -101,7 +97,10 @@ export const MutantsSection: React.FC<Props> = ({ chapter }) => {
       <Modal show={showDetails} onHide={() => setShowDetails(false)} size="lg">
         <CloseButtonPanel onClose={() => setShowDetails(false)}>
           <div className="p-2">
-            <SectionHeader title={t("season.codex.mutants")} labelType="vibrant" />
+            <SectionHeader
+              title={t("season.codex.mutants")}
+              labelType="vibrant"
+            />
             <p className="text-xs mt-2">{t("season.codex.mutants.discover")}</p>
 
             <img className="my-2 w-full rounded-md" src={mutants.banner} />
@@ -159,4 +158,3 @@ export const MutantsSection: React.FC<Props> = ({ chapter }) => {
     </>
   );
 };
-

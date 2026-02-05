@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router";
 
 import logo from "assets/brand/crabs_and_traps.png";
 
-import { Panel } from "components/ui/Panel";
+import { OuterPanel, Panel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useSelector } from "@xstate/react";
@@ -16,11 +16,12 @@ import { getCurrentChapter } from "features/game/types/chapters";
 import { MutantsSection } from "./components/MutantsSection";
 import { AuctionsSection } from "./components/AuctionsSection";
 import { RafflesSection } from "./components/RafflesSection";
-import { TracksSection } from "./components/TracksSection";
 import { LeaderboardSection } from "./components/LeaderboardSection";
 import { ShopSection } from "./components/ShopSection";
 import { Loading } from "features/auth/components";
 import { CONFIG } from "lib/config";
+import { ChapterTracks } from "features/world/ui/tracks/ChapterTracks";
+import { ChapterIntroSection } from "./components/ChapterIntroSection";
 
 const _farmId = (state: MachineState) => state.context.farmId;
 const _gameState = (state: MachineState) => state.context.state;
@@ -65,7 +66,7 @@ export const ChapterDashboard: React.FC = () => {
 
   return (
     <div className="bg-[#181425] w-full h-full safe-area-inset-top safe-area-inset-bottom">
-      <Panel className="inset-0 fixed pointer-events-auto flex flex-col overflow-y-auto scrollable">
+      <OuterPanel className="inset-0 fixed pointer-events-auto flex flex-col overflow-y-auto scrollable">
         <div className="relative flex w-full justify-between pr-10 items-center mr-auto h-[70px] mb-2">
           <div
             className="absolute inset-0 w-full h-full -z-0 rounded-sm"
@@ -119,9 +120,12 @@ export const ChapterDashboard: React.FC = () => {
                 token={effectiveToken}
               />
               <RafflesSection chapter={chapter} token={effectiveToken} />
-              <TracksSection chapter={chapter} gameState={gameState} />
             </div>
 
+            <div className="w-3/5">
+              <ChapterIntroSection />
+              <ChapterTracks />
+            </div>
             <div className="w-full lg:w-[420px] flex-none">
               <LeaderboardSection
                 farmId={effectiveFarmId}
@@ -130,7 +134,7 @@ export const ChapterDashboard: React.FC = () => {
             </div>
           </div>
         )}
-      </Panel>
+      </OuterPanel>
     </div>
   );
 };
