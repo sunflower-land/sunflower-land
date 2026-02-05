@@ -26,6 +26,7 @@ import classNames from "classnames";
 import { pixelOrangeBorderStyle } from "features/game/lib/style";
 import medalIcon from "assets/icons/red_medal.webp";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { ChapterTracksPreview } from "features/world/ui/tracks/ChapterTracks";
 
 const _farmId = (state: MachineState) => state.context.farmId;
 const _gameState = (state: MachineState) => state.context.state;
@@ -129,23 +130,7 @@ export const ChapterDashboard: React.FC = () => {
               <ChapterTracks />
             </div>
             <div className="block md:hidden">
-              <div
-                className={classNames(
-                  `w-full items-center flex  text-xs p-2 pr-4 mb-1 relative cursor-pointer`,
-                )}
-                onClick={() => openModal("CHAPTER_TRACKS")}
-                style={{
-                  background: "#ffa500",
-                  color: "#181425",
-                  ...pixelOrangeBorderStyle,
-                }}
-              >
-                <img src={medalIcon} className="h-8 mr-2" />
-                <div>
-                  <p className="text-xs flex-1">Floater Rewards</p>
-                  <p className="text-xxs flex-1 underline">View rewards</p>
-                </div>
-              </div>
+              <ChapterTracksPreview />
             </div>
           </div>
           <div className="flex-1">

@@ -21,6 +21,7 @@ import medalMilestone from "assets/icons/medal_side_grey.webp";
 import medalMilestoneRed from "assets/icons/red_medal.webp";
 import medalMilestoneComplete from "assets/icons/medals_completed.webp";
 import giftIcon from "assets/icons/gift.png";
+import vipIcon from "assets/icons/vip.webp";
 import {
   CHAPTER_TRACKS,
   MilestoneRewards,
@@ -550,5 +551,205 @@ export const MilestoneDetails: React.FC<{
         </Button>
       )}
     </CloseButtonPanel>
+  );
+};
+
+// A smaller widget based track used for mobile.
+export const ChapterTracksPreview: React.FC = () => {
+  const { t } = useAppTranslation();
+  const { gameState } = useGame();
+  const state = gameState.context.state;
+  const now = useNow();
+  const { openModal } = useContext(ModalContext);
+  const hasTrackedRef = useRef<ChapterName | null>(null);
+
+  const [selected, setSelected] = useState<
+    | {
+        milestone: number;
+        reward: MilestoneRewards;
+        points: number;
+        track: "free" | "premium";
+      }
+    | undefined
+  >();
+
+  const hasVip = hasVipAccess({ game: state });
+
+  const chapter = getCurrentChapter(now);
+  const chapterTicket = getChapterTicket(now);
+
+  const track = CHAPTER_TRACKS[chapter];
+
+  const progress = getTrackProgress({ state, chapter });
+
+  const finalMilestonePoints =
+    track?.milestones[track?.milestones.length - 1]?.points ?? 0;
+
+  const isComplete = progress.points >= finalMilestonePoints;
+
+  if (isComplete) {
+    return (
+      <InnerPanel className="flex flex-wrap justify-between ">
+        <Label type="success">Completed</Label>
+        <img src={medalMilestoneComplete} className="h-8" />
+      </InnerPanel>
+    );
+  }
+  const rewards = track?.milestones[progress.milestone.number]!;
+
+  const { items, wearables, coins, flower } = rewards.free;
+  const freeImages: string[] = [];
+  const freeText: string[] = [];
+
+  let amount = 0;
+
+  if (items) {
+    freeImages.push(...getKeys(items).map((item) => ITEM_DETAILS[item].image));
+    amount += Object.values(items).reduce((acc, curr) => acc + curr, 0);
+    freeText.push(...getKeys(items).map((item) => `${items[item]} x ${item}`));
+  }
+
+  if (wearables) {
+    freeImages.push(
+      ...getKeys(wearables).map((wearable) => getImageUrl(ITEM_IDS[wearable])),
+    );
+    amount += Object.values(wearables).reduce((acc, curr) => acc + curr, 0);
+    freeText.push(
+      ...getKeys(wearables).map(
+        (wearable) => `${wearables[wearable]} x ${wearable}`,
+      ),
+    );
+  }
+
+  if (coins) {
+    freeImages.push(coinsIcon);
+    amount += coins;
+    freeText.push(`${coins}`);
+  }
+
+  if (flower) {
+    freeImages.push(flowerIcon);
+    amount += flower;
+    freeText.push(`${flower}`);
+  }
+
+  const premiumImages: string[] = [];
+  const premiumText: string[] = [];
+
+  if (items) {
+    premiumImages.push(
+      ...getKeys(items).map((item) => ITEM_DETAILS[item].image),
+    );
+    amount += Object.values(items).reduce((acc, curr) => acc + curr, 0);
+    premiumText.push(
+      ...getKeys(items).map((item) => `${items[item]} x ${item}`),
+    );
+  }
+
+  if (wearables) {
+    premiumImages.push(
+      ...getKeys(wearables).map((wearable) => getImageUrl(ITEM_IDS[wearable])),
+    );
+    amount += Object.values(wearables).reduce((acc, curr) => acc + curr, 0);
+    premiumText.push(
+      ...getKeys(wearables).map(
+        (wearable) => `${wearables[wearable]} x ${wearable}`,
+      ),
+    );
+  }
+
+  if (coins) {
+    premiumImages.push(coinsIcon);
+    amount += coins;
+    premiumText.push(`${coins} coins`);
+  }
+
+  if (flower) {
+    premiumImages.push(flowerIcon);
+    amount += flower;
+    premiumText.push(`${flower} FLOWER`);
+  }
+
+  const images = [...freeImages, ...premiumImages];
+
+  return (
+    <>
+      <InnerPanel>
+        <div className="flex flex-wrap justify-between items-center">
+          <Label type="warning">Next reward</Label>
+
+          <>
+            <div className="flex  items-end relative">
+              <div className="flex flex-col items-end">
+                <ResizableBar
+                  percentage={
+                    (progress.milestone.progress /
+                      progress.milestone.requirement) *
+                    100
+                  }
+                  outerDimensions={{ width: 30, height: 8 }}
+                  type="progress"
+                />
+                <p className="text-xs pr-4">
+                  {`${progress.milestone.progress}/${progress.milestone.requirement}`}
+                </p>
+              </div>
+
+              <img
+                src={medalMilestone}
+                style={{
+                  height: "40px",
+                  zIndex: "10",
+                  marginLeft: "-13px",
+                }}
+              />
+              <div
+                className="absolute text-center"
+                style={{
+                  right: "16px",
+                  zIndex: "10",
+                  top: "11px",
+                  width: "32px",
+                }}
+              >
+                <p className="yield-text">{progress.milestone.number}</p>
+              </div>
+            </div>
+          </>
+        </div>
+        <div className="flex items-center">
+          <div className="w-16 min-w-16 h-16 relative mr-2">
+            <img
+              src={SUNNYSIDE.ui.grey_background}
+              className="w-full h-full rounded-md"
+            />
+            <img
+              src={freeImages[0]}
+              className="absolute left-2 top-2 w-10 max-h-8 object-contain"
+            />
+            <img
+              src={premiumImages[0]}
+              className="absolute right-2 bottom-2 w-10 max-h-8 object-contain"
+            />
+          </div>
+          <div className="flex-1">
+            {freeText.map((text) => (
+              <div className="flex justify-between w-full items-center">
+                <p className="text-xs truncate mr-1 flex-1">{text}</p>
+                <Label type="success">Free</Label>
+              </div>
+            ))}
+            {freeText.map((text) => (
+              <div className="flex overflow-hidden items-center">
+                <p className="text-xs truncate mr-1 flex-1">{text}</p>
+                <img src={vipIcon} className="h-5" />
+                {!hasVip && <img src={lockIcon} className="h-5" />}
+              </div>
+            ))}
+          </div>
+        </div>
+      </InnerPanel>
+      <Button onClick={() => openModal("CHAPTER_TRACKS")}>View rewards</Button>
+    </>
   );
 };
