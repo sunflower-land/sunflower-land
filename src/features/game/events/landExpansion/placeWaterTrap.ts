@@ -21,14 +21,12 @@ type Options = {
   state: Readonly<GameState>;
   action: PlaceWaterTrapAction;
   createdAt?: number;
-  farmId?: number;
 };
 
 export function placeWaterTrap({
   state,
   action,
   createdAt = Date.now(),
-  farmId = 0,
 }: Options): GameState {
   return produce(state, (game) => {
     const { bumpkin } = game;
