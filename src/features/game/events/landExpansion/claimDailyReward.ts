@@ -91,7 +91,7 @@ export function getDailyRewardStreak({
 
 export function claimDailyReward({
   state,
-  action,
+  action: _action, // Not used
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
@@ -121,6 +121,7 @@ export function claimDailyReward({
       game,
       streak: currentStreak,
       currentDate,
+      now: createdAt,
     });
 
     rewards.forEach((reward) => applyReward(game, reward, createdAt));

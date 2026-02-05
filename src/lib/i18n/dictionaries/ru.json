@@ -7963,5 +7963,6 @@
   "season.codex.howToObtain.chapterEnded": "This chapter has ended. You can buy this item from the marketplace.",
   "season.codex.buyOnMarketplace": "Buy on Marketplace",
   "description.pawPrintsRaffleTicket": "A ticket for the Paw Prints raffle.",
-  "description.crabsAndTrapsRaffleTicket": "A ticket for the Crabs and Traps raffle."
+  "description.crabsAndTrapsRaffleTicket": "A ticket for the Crabs and Traps raffle.",
+  "megastore.monument.helpsNeeded": "{{count}} helps needed"
 }

@@ -74,7 +74,7 @@ import { CLUTTER } from "features/game/types/clutter";
 import { PET_RESOURCES } from "features/game/types/pets";
 import { useNow } from "lib/utils/hooks/useNow";
 import { PROCESSED_RESOURCES } from "features/game/types/processedFood";
-import { CRUSTACEANS } from "features/game/types/crustaceans";
+import { CRUSTACEANS_DESCRIPTIONS } from "features/game/types/crustaceans";
 
 interface Prop {
   gameState: GameState;
@@ -180,7 +180,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const animalResources = getItems(ANIMAL_RESOURCES);
   const animalFeeds = getItems(ANIMAL_FOODS);
   const processedFood = getItems(PROCESSED_RESOURCES);
-  const crustaceans = getItems(CRUSTACEANS);
+  const crustaceans = getItems(CRUSTACEANS_DESCRIPTIONS);
 
   // Sort all foods by Cooking Time and Building
   const foods = getItems(COOKABLES)

@@ -7963,5 +7963,6 @@
   "season.codex.howToObtain.chapterEnded": "Ce chapitre est terminé. Vous pouvez acheter cet article sur la place de marché.",
   "season.codex.buyOnMarketplace": "Acheter sur Marketplace",
   "description.pawPrintsRaffleTicket": "Un billet pour la tombola Paw Prints.",
-  "description.crabsAndTrapsRaffleTicket": "Un billet pour la tombola Crabs and Traps."
+  "description.crabsAndTrapsRaffleTicket": "Un billet pour la tombola Crabs and Traps.",
+  "megastore.monument.helpsNeeded": "{{count}} aides nécessaires"
 }

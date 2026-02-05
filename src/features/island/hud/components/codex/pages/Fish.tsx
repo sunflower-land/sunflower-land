@@ -53,8 +53,6 @@ type Props = {
   state: GameState;
 };
 
-const ALL_CRUSTACEANS = getKeys(CRUSTACEANS);
-
 export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
   const { gameService } = useContext(Context);
   const [selectedFish, setSelectedFish] = useState<
@@ -73,14 +71,14 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
-  const caughtCrustaceans = ALL_CRUSTACEANS.filter(
+  const caughtCrustaceans = CRUSTACEANS.filter(
     (name) => (farmActivity[`${name} Caught`] ?? 0) > 0,
   );
 
   // Filter mapping to only include caught crustaceans
   // with the chum that was used to catch them
   const chumMapping = caughtCrustaceans.reduce(
-    (acc, name) => {
+    (acc, name: CrustaceanName) => {
       const crustacean = CRUSTACEANS[name];
       const chums = getKeys(crustacean?.chum ?? {});
       if (crustacean) {
@@ -415,8 +413,6 @@ export const Crustaceans: React.FC<{
   const { t } = useAppTranslation();
   const { farmActivity } = state;
 
-  const crustaceanNames = getKeys(CRUSTACEANS);
-
   return (
     <InnerPanel>
       <div ref={sectionRef} className="flex flex-col">
@@ -428,7 +424,7 @@ export const Crustaceans: React.FC<{
           {t("crustaceans")}
         </Label>
         <div className="flex flex-wrap">
-          {crustaceanNames.map((name) => (
+          {CRUSTACEANS.map((name) => (
             <SimpleBox
               silhouette={!farmActivity[`${name} Caught`]}
               onClick={() => onSelect(name)}

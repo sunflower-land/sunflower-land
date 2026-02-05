@@ -59,6 +59,9 @@ import cornucopiaOne from "assets/monuments/cornucopia_monument_stage1.webp";
 import cornucopiaTwo from "assets/monuments/cornucopia_monument_stage2.webp";
 import cornucopiaThree from "assets/monuments/cornucopia_monument_stage3.webp";
 
+import poseidonThroneOne from "assets/monuments/poseidons_throne_stage1.webp";
+import poseidonThroneTwo from "assets/monuments/poseidons_throne_stage2.webp";
+
 import { getPlayer } from "features/social/actions/getPlayer";
 import { useAuth } from "features/auth/lib/Provider";
 import { Player } from "features/social/types/types";
@@ -134,6 +137,11 @@ export const PROJECT_IMAGES: Record<
     empty: cornucopiaOne,
     halfway: cornucopiaTwo,
     ready: cornucopiaThree,
+  },
+  "Poseidon's Throne": {
+    empty: poseidonThroneOne,
+    halfway: poseidonThroneTwo,
+    ready: ITEM_DETAILS["Poseidon's Throne"].image,
   },
 };
 

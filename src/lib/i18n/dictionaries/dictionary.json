@@ -6206,6 +6206,7 @@
   "description.silverFlowerBox": "A silver flower box",
   "description.goldFlowerBox": "A gold flower box",
   "megastore.limit": "Cooldown: {{time}}",
+  "megastore.monument.helpsNeeded": "{{count}} helps needed",
   "chapterStore.title": "{{chapter}} Store",
   "chapterStore.tracks": "Rewards",
   "chapter.tracks": "New Chapter Rewards are live!",

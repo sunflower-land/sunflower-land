@@ -7963,5 +7963,6 @@
   "season.codex.howToObtain.chapterEnded": "Este capítulo ha terminado. Puedes comprar este artículo en el mercado.",
   "season.codex.buyOnMarketplace": "Compra en Marketplace",
   "description.pawPrintsRaffleTicket": "Una entrada para el sorteo de Paw Prints.",
-  "description.crabsAndTrapsRaffleTicket": "Una entrada para el sorteo de Cangrejos y trampas."
+  "description.crabsAndTrapsRaffleTicket": "Una entrada para el sorteo de Cangrejos y trampas.",
+  "megastore.monument.helpsNeeded": "{{count}} ayuda necesaria"
 }

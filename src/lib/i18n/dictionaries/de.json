@@ -7963,5 +7963,6 @@
   "season.codex.howToObtain.chapterEnded": "Dieses Kapitel ist beendet. Sie können diesen Artikel auf dem Marktplatz kaufen.",
   "season.codex.buyOnMarketplace": "Auf Marketplace kaufen",
   "description.pawPrintsRaffleTicket": "Ein Ticket für die Paw Prints-Verlosung.",
-  "description.crabsAndTrapsRaffleTicket": "Ein Ticket für die Verlosung von Crabs and Traps."
+  "description.crabsAndTrapsRaffleTicket": "Ein Ticket für die Verlosung von Crabs and Traps.",
+  "megastore.monument.helpsNeeded": "{{count}} Hilfe benötigt"
 }
