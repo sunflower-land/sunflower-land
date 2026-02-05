@@ -244,7 +244,7 @@ export const ChapterTracks: React.FC = () => {
             </>
           )}
         </div>
-        <div
+        {/* <div
           className="flex items-center pt-1 mt-1"
           style={{
             borderTop: "1px solid #c28569",
@@ -258,7 +258,7 @@ export const ChapterTracks: React.FC = () => {
               })}
             </p>
           </div>
-        </div>
+        </div> */}
       </InnerPanel>
 
       <div className="justify-center h-[330px] sm:h-auto gap-x-2  sm:overflow-y-visible overflow-y-scroll overflow-x-visible sm:overflow-x-scroll scrollable w-full flex sm:flex-col flex-row">

@@ -20,53 +20,21 @@ import petEggNFT from "assets/icons/pet_nft_egg.png";
 import budSeedling from "assets/icons/bud_seedling.png";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { UpcomingRaffles } from "features/world/ui/chapterRaffles/UpcomingRaffles";
+import {
+  formatRaffleWindow,
+  getPrizeDisplay,
+  UpcomingRaffles,
+} from "features/world/ui/chapterRaffles/UpcomingRaffles";
 import { Loading } from "features/auth/components";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { CONFIG } from "lib/config";
+import lightning from "assets/icons/lightning.png";
+import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
+import calendar from "assets/icons/calendar.webp";
 
 type Props = {
   chapter: ChapterName;
   token: string;
-};
-
-const getPrizeDisplay = (raffle: RaffleDefinition) => {
-  const firstPrize = raffle.prizes?.[1];
-  const items = getKeys(firstPrize?.items ?? {});
-  const wearables = getKeys(firstPrize?.wearables ?? {});
-  const collectible = items.find((item) => isCollectible(item));
-  const nft = firstPrize?.nft;
-
-  if (nft) {
-    const isBud = nft.includes("Bud");
-    return {
-      name: isBud ? "Bud NFT" : "Pet NFT",
-      image: isBud ? budSeedling : petEggNFT,
-    };
-  }
-
-  if (collectible) {
-    return { name: collectible, image: ITEM_DETAILS[collectible].image };
-  }
-
-  if (wearables[0]) {
-    return { name: wearables[0], image: getImageUrl(ITEM_IDS[wearables[0]]) };
-  }
-
-  if (items[0]) {
-    return { name: items[0], image: ITEM_DETAILS[items[0]].image };
-  }
-
-  return {
-    name: "Mystery prize",
-    image: SUNNYSIDE.icons.expression_confused,
-  };
-};
-
-const formatCountdown = (countdown: ReturnType<typeof useCountdown>) => {
-  if (countdown.days > 0) return `${countdown.days}d ${countdown.hours}h`;
-  if (countdown.hours > 0) return `${countdown.hours}h ${countdown.minutes}m`;
-  return `${countdown.minutes}m ${countdown.seconds}s`;
 };
 
 export const RafflesSection: React.FC<Props> = ({ chapter, token }) => {
@@ -82,92 +50,74 @@ export const RafflesSection: React.FC<Props> = ({ chapter, token }) => {
     { revalidateOnFocus: false },
   );
 
-  const summary = useMemo(() => {
-    if (!raffles) return null;
-    const { startDate, endDate } = CHAPTERS[chapter];
+  const active = raffles?.filter((raffle) => raffle.endAt > now)[0];
 
-    const inChapter = raffles.filter(
-      (r) => r.startAt >= startDate.getTime() && r.startAt <= endDate.getTime(),
+  const countdown = useCountdown(active?.endAt ?? 0);
+
+  if (isLoading) {
+    return (
+      <InnerPanel className="mb-2">
+        <div className="p-1 space-y-2">
+          <Loading />
+        </div>
+      </InnerPanel>
     );
+  }
 
-    const upcomingOrActive = inChapter
-      .filter((r) => r.endAt > now)
-      .sort((a, b) => a.startAt - b.startAt);
-
-    const next = upcomingOrActive[0];
-    const rafflesLeft = inChapter.filter((r) => r.startAt > now).length;
-
-    return { next, rafflesLeft };
-  }, [raffles, chapter, now]);
-
-  const isActive = Boolean(
-    summary?.next && summary.next.startAt <= now && summary.next.endAt > now,
-  );
-  const countdown = useCountdown(
-    summary?.next ? (isActive ? summary.next.endAt : summary.next.startAt) : 0,
-  );
+  if (!active) {
+    return (
+      <InnerPanel className="mb-2">
+        <Label type="warning" icon={SUNNYSIDE.icons.sad}>
+          Raffles
+        </Label>
+        <p className="text-xs p-2">No active raffles.</p>
+      </InnerPanel>
+    );
+  }
+  const display = getPrizeDisplay({ prize: 1, raffle: active });
 
   return (
     <>
       <InnerPanel className="mb-2">
-        <div className="p-1 space-y-2">
-          <SectionHeader
-            title="Raffles"
-            labelType="warning"
-            actionText="View more"
-            onAction={() => setShowMore(true)}
-            disabled={isLoading}
-          />
-
-          {isLoading && (
-            <div className="p-2">
-              <Loading />
+        <div className="flex items-center justify-between mb-2 flex-wrap">
+          <Label type="warning" className="">
+            Raffle
+          </Label>
+          <div className="flex items-center gap-1">
+            <div className="text-xs">
+              {new Date(active.startAt).toLocaleDateString().slice(0, 5)}-
+              {new Date(active.endAt).toLocaleDateString().slice(0, 5)}
             </div>
-          )}
-
-          {!isLoading && summary?.next && (
-            <div className="flex items-center justify-between gap-2 flex-wrap">
-              <div className="flex items-center gap-2">
-                <div className="relative w-10 h-10 flex items-center justify-center">
-                  <img
-                    src={SUNNYSIDE.ui.grey_background}
-                    className="absolute inset-0 w-full h-full rounded-md"
-                  />
-                  <img
-                    src={getPrizeDisplay(summary.next).image}
-                    className="w-2/3 h-2/3 object-contain z-10"
-                  />
-                </div>
-                <div>
-                  <p className="text-sm">
-                    {getPrizeDisplay(summary.next).name}
-                  </p>
-                  <p className="text-xxs">
-                    {t("auction.raffle.labelWithId", { id: summary.next.id })}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex flex-col items-end gap-1">
-                <Label type="info">{`${formatCountdown(countdown)} ${isActive ? "left" : "until start"}`}</Label>
-                <Label type={summary.rafflesLeft <= 1 ? "formula" : "default"}>
-                  {`${summary.rafflesLeft} raffles left`}
-                </Label>
-              </div>
-            </div>
-          )}
-
-          {!isLoading && summary && !summary.next && (
-            <p className="text-xs">{t("auction.raffle.moreComing")}</p>
-          )}
+            <img src={calendar} className="h-5" />
+          </div>
         </div>
+        <div className="flex items-center gap-2">
+          <div className="relative w-12 h-12 flex items-center justify-center">
+            <img
+              src={display.image}
+              className="absolute inset-0 w-full h-full rounded-md"
+            />
+            <img src={lightning} className="absolute h-5 -top-1 -right-1" />
+          </div>
+          <div>
+            <p className="text-sm">{display.name}</p>
+            <p className="text-xs">
+              +{getKeys(active.prizes).length - 1} prizes
+            </p>
+          </div>
+        </div>
+
+        <p
+          className="text-xxs underline my-1 mx-1 cursor-pointer"
+          onClick={() => setShowMore(true)}
+        >
+          View more
+        </p>
       </InnerPanel>
 
       <Modal show={showMore} onHide={() => setShowMore(false)} size="lg">
         <CloseButtonPanel onClose={() => setShowMore(false)}>
-          <div className="p-2">
-            <UpcomingRaffles />
-          </div>
+          <UpcomingRaffles />
         </CloseButtonPanel>
       </Modal>
     </>

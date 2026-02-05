@@ -171,7 +171,7 @@
   "addSFL.minimumReceived": "Minimum Received: {{sflReceived}} FLOWER",
   "auction.raffle": "Raffle",
   "auction.raffle.noPrizes": "No prizes.",
-  "auction.raffle.description": "Earn tickets by completing tasks & compete for prizes.",
+  "auction.raffle.description": "Earn tickets by completing tasks & compete for prizes. Enter the raffle in the Plaza.",
   "auction.raffle.noWinners": "No winners.",
   "auction.raffle.finished": "Raffle finished",
   "auction.raffle.viewResults": "View the results",

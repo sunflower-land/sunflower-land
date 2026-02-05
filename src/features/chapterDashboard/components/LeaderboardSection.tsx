@@ -5,9 +5,13 @@ import { InnerPanel } from "components/ui/Panel";
 import { SectionHeader } from "./SectionHeader";
 import trophy from "assets/icons/trophy.png";
 import { TicketsLeaderboard } from "features/island/hud/components/codex/pages/TicketsLeaderboard";
-import { Leaderboards } from "features/game/expansion/components/leaderboard/actions/cache";
-import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
+import {
+  fetchLeaderboardData,
+  getLeaderboard,
+  TicketLeaderboard,
+} from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { CONFIG } from "lib/config";
+import { Loading } from "features/auth/components";
 
 type Props = {
   farmId: number;
@@ -17,28 +21,34 @@ type Props = {
 export const LeaderboardSection: React.FC<Props> = ({ farmId, token }) => {
   const isOffline = !CONFIG.API_URL;
 
-  const { data, isLoading } = useSWR<Leaderboards | null>(
-    farmId && (token || isOffline)
-      ? ["chapter-leaderboards", farmId, token]
+  const { data, isLoading } = useSWR<TicketLeaderboard | null>(
+    farmId
+      ? ["chapter-ticket-leaderboard", farmId, isOffline ? "offline" : "online"]
       : null,
-    async ([, id, authToken]: [string, number, string]) => {
-      try {
-        return await fetchLeaderboardData(id, authToken);
-      } catch {
-        return null;
-      }
+    async ([, id]): Promise<TicketLeaderboard | null> => {
+      const leaderboards = await getLeaderboard<TicketLeaderboard>({
+        farmId: Number(id),
+        leaderboardName: "tickets",
+      });
+      return leaderboards ?? null;
     },
     { revalidateOnFocus: false },
   );
 
+  if (isLoading) {
+    return (
+      <InnerPanel className="mb-2">
+        <div className="p-1 space-y-2">
+          <Loading />
+        </div>
+      </InnerPanel>
+    );
+  }
+
   return (
     <InnerPanel className="mb-2">
       <div className="p-1 space-y-2">
-        <SectionHeader title="Leaderboard" labelType="chill" icon={trophy} />
-        <TicketsLeaderboard
-          isLoading={isLoading}
-          data={data?.tickets ?? null}
-        />
+        <TicketsLeaderboard isLoading={isLoading} data={data ?? null} />
       </div>
     </InnerPanel>
   );
