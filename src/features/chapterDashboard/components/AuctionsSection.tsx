@@ -19,7 +19,7 @@ import {
   CHAPTERS,
   secondsLeftInChapter,
 } from "features/game/types/chapters";
-import { InnerPanel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { SectionHeader } from "./SectionHeader";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
@@ -36,6 +36,8 @@ import { CONFIG } from "lib/config";
 import { secondsToString } from "lib/utils/time";
 import sflIcon from "assets/icons/flower_token.webp";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { randomID } from "lib/utils/random";
+import { loadAuctions } from "features/retreat/components/auctioneer/actions/loadAuctions";
 
 type AuctionDetail = {
   supply: number;
@@ -48,59 +50,6 @@ type AuctionItems = Record<
   AuctionDetail
 >;
 
-function getChapterAuctions({
-  auctions,
-  totalSupply,
-  chapter,
-}: {
-  auctions: Auction[];
-  totalSupply: Record<string, number>;
-  chapter: ChapterName;
-}) {
-  const { startDate, endDate } = CHAPTERS[chapter];
-
-  // Aggregate supplies
-  let details: AuctionItems = auctions.reduce((acc, auction) => {
-    const name = getAuctionItemType(auction);
-    const existing = acc[name];
-
-    if (existing) {
-      existing.auctions.push(auction);
-      existing.supply += auction.supply;
-    } else {
-      acc[name] = {
-        type: auction.type,
-        supply: auction.supply,
-        auctions: [auction],
-      };
-    }
-
-    return acc;
-  }, {} as AuctionItems);
-
-  // Filter out any not in this chapter
-  details = getKeys(details).reduce((acc, name) => {
-    const hasNoChapterAuctions = details[name].auctions.every(
-      (auction) =>
-        auction.startAt < startDate.getTime() ||
-        auction.startAt > endDate.getTime(),
-    );
-
-    if (hasNoChapterAuctions) return acc;
-
-    return {
-      ...acc,
-      [name]: details[name],
-    };
-  }, {} as AuctionItems);
-
-  const filteredTotalSupply = Object.fromEntries(
-    Object.entries(totalSupply).filter(([name]) => name in details),
-  );
-
-  return { details, filteredTotalSupply };
-}
-
 type Props = {
   chapter: ChapterName;
   farmId: number;
@@ -108,6 +57,62 @@ type Props = {
   token: string;
 };
 
+type AuctionSummary = {
+  date: Date;
+  currency: string;
+  supply: number;
+  name: string;
+  image: string;
+};
+
+function groupAuctions({
+  auctions,
+  now,
+}: {
+  auctions: Auction[];
+  now: number;
+}): AuctionSummary[] {
+  let upcoming = auctions
+    .filter((a) => a.startAt > now)
+    .sort((a, b) => a.startAt - b.startAt);
+
+  // Skip if same as the previous auction
+  let grouped: AuctionSummary[] = upcoming.reduce((acc, auction) => {
+    const previous = acc[acc.length - 1];
+
+    const isSame =
+      previous &&
+      ((auction.type === "collectible" &&
+        auction.collectible === previous.name) ||
+        (auction.type === "wearable" && auction.wearable === previous.name) ||
+        (auction.type === "nft" && auction.nft === previous.name));
+
+    if (isSame) {
+      previous.supply += auction.supply;
+      return acc;
+    }
+
+    const ingredients = getKeys(auction.ingredients);
+
+    return [
+      ...acc,
+      {
+        date: new Date(auction.startAt),
+        currency:
+          ingredients.length > 0 ? ITEM_DETAILS[ingredients[0]].image : sflIcon,
+        supply: auction.supply,
+        name: getAuctionItemType(auction),
+        image: getAuctionItemDisplay({
+          auction,
+          skills: {},
+          collectibles: {},
+        }).image,
+      } as AuctionSummary,
+    ];
+  }, [] as AuctionSummary[]);
+
+  return grouped;
+}
 export const AuctionsSection: React.FC<Props> = ({
   chapter,
   farmId,
@@ -117,87 +122,29 @@ export const AuctionsSection: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const now = useNow({ live: true });
   const [showMore, setShowMore] = useState(false);
-  const isOffline = !CONFIG.API_URL;
 
-  const auctionService = useInterpret(
-    createAuctioneerMachine({
-      onUpdate: () => undefined,
-    }),
-    {
-      context: {
-        farmId,
-        token,
-        bid: gameState.auctioneer.bid,
-        deviceTrackerId: "0x",
-        canAccess: true,
-        linkedAddress: "0x",
-        // Provide some stub data in offline mode (since we don't fetch).
-        ...(isOffline
-          ? {
-              auctions: [
-                {
-                  auctionId: "offline-auction-1",
-                  type: "wearable",
-                  wearable: "Acorn Hat",
-                  startAt: Date.now() + 60 * 60 * 1000,
-                  endAt: Date.now() + 2 * 60 * 60 * 1000,
-                  ingredients: { Wood: 1, Gold: 10 },
-                  sfl: 5,
-                  supply: 500,
-                  chapterLimit: 1,
-                },
-              ] as Auction[],
-              totalSupply: { "Acorn Hat": 500 } as Record<string, number>,
-            }
-          : {}),
-      },
-    },
-  ) as unknown as MachineInterpreter;
+  const [isLoading, setIsLoading] = useState(true);
+  const [auctions, setAuctions] = useState<AuctionSummary[]>([]);
+  const [totalSupply, setTotalSupply] = useState<Record<string, number>>({});
 
-  const [auctioneerState] = useActor(auctionService);
+  const nextAuction = auctions[0];
+  const countdown = useCountdown(nextAuction?.date.getTime() ?? 0);
 
   useEffect(() => {
-    auctionService.send("OPEN", { gameState });
+    const load = async () => {
+      const { auctions, totalSupply } = await loadAuctions({
+        token,
+        transactionId: randomID(),
+      });
+      setAuctions(groupAuctions({ auctions, now }));
+      setTotalSupply(totalSupply);
+      setIsLoading(false);
+    };
+    load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const summary = useMemo(() => {
-    if (!auctioneerState.context.auctions?.length) return null;
-
-    const { details } = getChapterAuctions({
-      auctions: auctioneerState.context.auctions,
-      totalSupply: auctioneerState.context.totalSupply,
-      chapter,
-    });
-
-    const drops = getKeys(details)
-      .flatMap((name) => details[name].auctions)
-      .sort((a, b) => (a.startAt > b.startAt ? 1 : -1));
-
-    const nextDrop = drops.find((d) => d.startAt > now);
-    const totalRemaining = getKeys(details).reduce((acc, name) => {
-      const remaining = details[name].auctions
-        .filter((a) => a.startAt > now)
-        .reduce((sum, a) => sum + a.supply, 0);
-      return acc + remaining;
-    }, 0);
-
-    if (!nextDrop) {
-      return { nextDrop: null as Auction | null, totalRemaining };
-    }
-
-    const display = getAuctionItemDisplay({
-      auction: nextDrop,
-      skills: gameState.bumpkin.skills,
-      collectibles: gameState.collectibles,
-    });
-
-    return { nextDrop, totalRemaining, display };
-  }, [auctioneerState.context, chapter, gameState, now]);
-
-  const starts = useCountdown(summary?.nextDrop?.startAt ?? 0);
-
-  if (auctioneerState.matches("loading") || !summary) {
+  if (isLoading) {
     return (
       <InnerPanel className="mb-2">
         <div className="p-1 space-y-2">
@@ -207,23 +154,19 @@ export const AuctionsSection: React.FC<Props> = ({
     );
   }
 
-  if (!summary.display || !summary.nextDrop) {
+  if (!auctions.length) {
     return (
       <InnerPanel className="mb-2">
-        <Label type="warning">Auctions</Label>
+        <Label type="warning" className="mb-1">
+          Auctions
+        </Label>
 
-        <p className="text-xs">
+        <p className="text-xs px-2">
           New auctions coming soon -{" "}
-          {secondsToString(secondsLeftInChapter(now), { length: "full" })}
+          {secondsToString(secondsLeftInChapter(now), { length: "short" })}
         </p>
       </InnerPanel>
     );
-  }
-
-  let currency: string = sflIcon;
-
-  if (summary.nextDrop.ingredients) {
-    currency = ITEM_DETAILS[getKeys(summary.nextDrop.ingredients)[0]].image;
   }
 
   return (
@@ -232,36 +175,62 @@ export const AuctionsSection: React.FC<Props> = ({
         <div className="flex items-center justify-between mb-2 flex-wrap">
           <Label type="warning">Upcoming Auctions</Label>
           <div className="text-xs">
-            <TimerDisplay time={starts} />
+            <TimerDisplay time={countdown} />
           </div>
         </div>
 
-        <div className="flex">
-          <img
-            src={summary.display.image}
-            className="w-12 h-12 mr-2 rounded-md"
-          />
+        <div>
+          {auctions.map((a) => {
+            let currency: string = a.currency;
 
-          <div>
-            <div className="flex items-center">
-              <p className="text-sm">{summary.display.item}</p>
-              <img src={currency} className="h-5 ml-1" />
-            </div>
+            return (
+              <div className="flex items-center mb-0.5">
+                <img
+                  src={a.image}
+                  className="w-12 h-12 object-contain mr-2 rounded-md"
+                />
 
-            <p className="text-xxs ">{`Supply: ${summary.nextDrop.supply}`}</p>
-          </div>
+                <div>
+                  <div className="flex items-center">
+                    <p className="text-sm">{a.name}</p>
+                    <img src={currency} className="h-5 ml-1" />
+                  </div>
+
+                  <p className="text-xxs ">
+                    {a.date.toLocaleDateString()}, {`Supply: ${a.supply}`}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
         </div>
+
+        <p
+          className="text-xxs underline my-1 mx-1 cursor-pointer"
+          onClick={() => setShowMore(true)}
+        >
+          View more
+        </p>
       </InnerPanel>
 
       <Modal show={showMore} onHide={() => setShowMore(false)} size="lg">
-        <CloseButtonPanel onClose={() => setShowMore(false)}>
-          <div className="p-2">
-            <ChapterAuctions
-              chapter={chapter}
-              farmId={farmId}
-              gameState={gameState}
-            />
-          </div>
+        <CloseButtonPanel
+          onClose={() => setShowMore(false)}
+          container={OuterPanel}
+          tabs={[
+            {
+              id: "auctions",
+              name: "Auctions",
+              icon: ITEM_DETAILS.Cheer.image,
+            },
+          ]}
+        >
+          <ChapterAuctions
+            chapter={chapter}
+            farmId={farmId}
+            gameState={gameState}
+            hideNext={true}
+          />
         </CloseButtonPanel>
       </Modal>
     </>

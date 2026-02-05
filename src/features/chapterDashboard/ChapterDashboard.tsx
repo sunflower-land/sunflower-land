@@ -110,7 +110,7 @@ export const ChapterDashboard: React.FC = () => {
           </div>
         ) : (
           <div className="flex flex-col lg:flex-row gap-2 px-2 pb-4">
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 ">
               <ShopSection gameState={gameState} />
               <MutantsSection chapter={chapter} />
               <AuctionsSection
