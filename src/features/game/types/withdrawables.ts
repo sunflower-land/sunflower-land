@@ -813,6 +813,7 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
     Anchor: CAN_WITHDRAW_AND_TRADE,
     "Rubber Ducky": CAN_WITHDRAW_AND_TRADE,
     "Kraken Head": CAN_WITHDRAW_AND_TRADE,
+    "Kraken Tentacle": CAN_WITHDRAW_AND_TRADE,
     "Blossom Royale": CAN_WITHDRAW_AND_TRADE,
     "Humming Bird": CAN_WITHDRAW_AND_TRADE,
     "Hungry Caterpillar": CAN_WITHDRAW_AND_TRADE,
@@ -1055,6 +1056,10 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       tradeAt: new Date("2024-12-13"),
       withdrawAt: CHAPTERS["Bull Run"].endDate,
     },
+    Wagon: {
+      tradeAt: new Date("2024-12-13"),
+      withdrawAt: CHAPTERS["Bull Run"].endDate,
+    },
     "Longhorn Cowfish": {
       tradeAt: new Date("2024-12-13"),
       withdrawAt: CHAPTERS["Bull Run"].endDate,
@@ -1168,6 +1173,10 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       tradeAt: CHAPTERS["Winds of Change"].endDate,
       withdrawAt: CHAPTERS["Winds of Change"].endDate,
     },
+    "Mama Duck": {
+      tradeAt: CHAPTERS["Winds of Change"].endDate,
+      withdrawAt: CHAPTERS["Winds of Change"].endDate,
+    },
     Igloo: {
       tradeAt: CHAPTERS["Winds of Change"].endDate,
       withdrawAt: CHAPTERS["Winds of Change"].endDate,
@@ -1251,6 +1260,14 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       withdrawAt: new Date("2025-05-01T00:00:00Z"),
     },
     "Orange Tunnel Bunny": {
+      tradeAt: new Date("2025-05-01T00:00:00Z"),
+      withdrawAt: new Date("2025-05-01T00:00:00Z"),
+    },
+    "White Tunnel Bunny": {
+      tradeAt: new Date("2025-05-01T00:00:00Z"),
+      withdrawAt: new Date("2025-05-01T00:00:00Z"),
+    },
+    "Easter Basket": {
       tradeAt: new Date("2025-05-01T00:00:00Z"),
       withdrawAt: new Date("2025-05-01T00:00:00Z"),
     },
