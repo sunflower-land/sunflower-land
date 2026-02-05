@@ -159,6 +159,40 @@ describe("Place Collectible", () => {
     });
   });
 
+  it("does not add monument to village projects when in completedProjects", () => {
+    const dateNow = Date.now();
+    const state = placeCollectible({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Big Orange": new Decimal(1),
+        },
+        collectibles: {},
+        buildings: {},
+        trees: {},
+        stones: {},
+        socialFarming: {
+          ...GAME_STATE.socialFarming,
+          completedProjects: ["Big Orange"],
+        },
+      },
+      action: {
+        id: "123",
+        type: "collectible.placed",
+        name: "Big Orange",
+        coordinates: {
+          x: 0,
+          y: 0,
+        },
+        location: "farm",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.socialFarming.villageProjects["Big Orange"]).toBeUndefined();
+    expect(state.collectibles["Big Orange"]).toHaveLength(1);
+  });
+
   it("Cannot place a building", () => {
     expect(() =>
       placeCollectible({
