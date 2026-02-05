@@ -29,6 +29,7 @@ import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { Restock } from "../../market/restock/Restock";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { hasFeatureAccess } from "lib/flags";
 
 const isLoveAnimalTool = (
   toolName: WorkbenchToolName | LoveAnimalItem,
@@ -215,7 +216,11 @@ export const Tools: React.FC = () => {
             {t("landTools")}
           </Label>
           <div className="flex flex-wrap mb-2">
-            {LAND_TOOLS.map(([toolName, tool]) => {
+            {LAND_TOOLS.filter(
+              ([, tool]) =>
+                tool.name !== "Rusty Shovel" ||
+                hasFeatureAccess(state, "REMOVE_CROPS"),
+            ).map(([toolName, tool]) => {
               const { requiredIsland } = tool;
               const isLocked =
                 !hasRequiredIslandExpansion(

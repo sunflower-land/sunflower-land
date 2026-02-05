@@ -5,6 +5,8 @@ import { GameState, CropPlot } from "../../types/game";
 import { getCropPlotTime, plant } from "./plant";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
+import { KNOWN_IDS } from "features/game/types";
+import { prngChance } from "lib/prng";
 
 const FARM_WITH_PLOTS: GameState = {
   ...INITIAL_FARM,
@@ -257,6 +259,60 @@ describe("plant", () => {
         }),
       }),
     );
+  });
+
+  it("tracks Crop Planted activity", () => {
+    const seedsAmount = new Decimal(5);
+
+    const state = plant({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        bumpkin: TEST_BUMPKIN,
+        inventory: {
+          "Sunflower Seed": seedsAmount,
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: Object.keys(GAME_STATE.crops)[0],
+
+        item: "Sunflower Seed",
+      },
+    });
+
+    expect(state.farmActivity["Sunflower Planted"]).toBe(1);
+  });
+
+  it("tracks Crop Removed activity", () => {
+    const seedsAmount = new Decimal(5);
+
+    const state = plant({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        bumpkin: TEST_BUMPKIN,
+        inventory: {
+          "Sunflower Seed": seedsAmount,
+        },
+        farmActivity: {
+          "Sunflower Planted": 1,
+          "Sunflower Removed": 1,
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: Object.keys(GAME_STATE.crops)[0],
+
+        item: "Sunflower Seed",
+      },
+    });
+
+    expect(state.farmActivity["Sunflower Removed"]).toBe(undefined);
   });
 
   it("plants a normal cauliflower", () => {
@@ -1452,6 +1508,50 @@ describe("plant", () => {
       });
 
       expect(time).toEqual(baseHarvestSeconds);
+    });
+
+    it("negates wings boost if removed exists", () => {
+      function findWingsTriggers() {
+        for (let counter = 0; counter < 100; counter++) {
+          if (
+            prngChance({
+              farmId,
+              itemId: KNOWN_IDS["Barley"],
+              counter,
+              chance: 30,
+              criticalHitName: "Angel Wings",
+            })
+          ) {
+            return counter;
+          }
+        }
+        return 0;
+      }
+
+      const counter = findWingsTriggers();
+
+      const { time } = getCropPlotTime({
+        prngArgs: { counter, farmId },
+        crop: "Barley",
+        game: {
+          ...FARM_WITH_PLOTS,
+          collectibles: {},
+          farmActivity: {
+            "Barley Planted": counter,
+            "Barley Removed": 1,
+          },
+          bumpkin: {
+            ...FARM_WITH_PLOTS.bumpkin,
+            equipped: {
+              ...FARM_WITH_PLOTS.bumpkin.equipped,
+              wings: "Angel Wings",
+            },
+          },
+        },
+        createdAt: dateNow,
+      });
+
+      expect(time).not.toEqual(0);
     });
   });
 

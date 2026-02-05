@@ -75,6 +75,7 @@ import { PET_RESOURCES } from "features/game/types/pets";
 import { useNow } from "lib/utils/hooks/useNow";
 import { PROCESSED_RESOURCES } from "features/game/types/processedFood";
 import { CRUSTACEANS } from "features/game/types/crustaceans";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Prop {
   gameState: GameState;
@@ -169,7 +170,10 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const crops = [...getItems(CROPS), ...getItems(GREENHOUSE_CROPS)];
   const fruits = [...getItems(PATCH_FRUIT), ...getItems(GREENHOUSE_FRUIT)];
   const flowers = getItems(FLOWERS);
-  const workbenchTools = getItems(WORKBENCH_TOOLS);
+  const workbenchTools = getItems(WORKBENCH_TOOLS).filter(
+    (tool) =>
+      tool !== "Rusty Shovel" || hasFeatureAccess(gameState, "REMOVE_CROPS"),
+  );
   const treasureTools = getItems(TREASURE_TOOLS);
   const animalTools = getItems(LOVE_ANIMAL_TOOLS);
   const exotic = getItems(BEANS());
