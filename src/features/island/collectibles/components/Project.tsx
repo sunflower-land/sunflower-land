@@ -23,6 +23,7 @@ import {
   REQUIRED_CHEERS,
   REWARD_ITEMS,
   VillageProjectName,
+  WORKBENCH_MONUMENTS,
 } from "features/game/types/monuments";
 import chest from "assets/icons/chest.png";
 import { Box } from "components/ui/Box";
@@ -71,6 +72,7 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { FarmHelped } from "features/island/hud/components/FarmHelped";
 import { getPartialInstantGrowPrice } from "features/game/events/landExpansion/instaGrowProject";
+import { getKeys } from "features/game/types/craftables";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 
 export const PROJECT_IMAGES: Record<
@@ -287,6 +289,75 @@ const ProjectComplete: React.FC<{
   );
 };
 
+const InactiveProjectModal: React.FC<{
+  state: GameState;
+  project: VillageProjectName;
+  onClose: () => void;
+  onStart: () => void;
+}> = ({ state, project, onClose, onStart }) => {
+  const { t } = useAppTranslation();
+
+  const desiredItem = WORKBENCH_MONUMENTS[project];
+  const price = desiredItem?.coins ?? 0;
+  const ingredients = desiredItem?.ingredients ?? {};
+
+  const hasEnoughCoins = price === 0 || state.coins >= price;
+  const hasEnoughIngredients = getKeys(ingredients).every((ingredient) =>
+    (state.inventory[ingredient] ?? new Decimal(0)).gte(
+      ingredients[ingredient] ?? new Decimal(0),
+    ),
+  );
+  const canAfford = hasEnoughCoins && hasEnoughIngredients;
+
+  return (
+    <InnerPanel>
+      <div className="flex justify-between sm:flex-row flex-col space-y-1">
+        <Label
+          type="default"
+          icon={ITEM_DETAILS[project].image}
+          className="ml-1"
+        >
+          {project}
+        </Label>
+      </div>
+
+      <div className="flex flex-col gap-1 text-xs p-2">
+        <span>{t("project.startPrompt")}</span>
+      </div>
+
+      {(price > 0 || getKeys(ingredients).length > 0) && (
+        <InnerPanel className="flex flex-wrap gap-2 mb-2">
+          {price > 0 && (
+            <RequirementLabel
+              type="coins"
+              balance={state.coins}
+              requirement={price}
+              showLabel
+            />
+          )}
+          {getKeys(ingredients).map((ingredient) => (
+            <RequirementLabel
+              key={ingredient}
+              type="item"
+              item={ingredient}
+              balance={state.inventory[ingredient] ?? new Decimal(0)}
+              requirement={ingredients[ingredient] ?? new Decimal(0)}
+              showLabel
+            />
+          ))}
+        </InnerPanel>
+      )}
+
+      <div className="flex space-x-1">
+        <Button onClick={onClose}>{t("cancel")}</Button>
+        <Button onClick={onStart} disabled={!canAfford}>
+          {t("project.start")}
+        </Button>
+      </div>
+    </InnerPanel>
+  );
+};
+
 const ProjectModal: React.FC<{
   state: GameState;
   project: VillageProjectName;
@@ -402,6 +473,16 @@ const _cheers = (project: MonumentName) => (state: MachineState) => {
   );
 };
 
+const _isInactive = (project: MonumentName) => (state: MachineState) => {
+  const gameState = state.context.state;
+  const isPlaced =
+    gameState.collectibles[project]?.some((c) => !!c.coordinates) ||
+    gameState.home.collectibles[project]?.some((c) => !!c.coordinates);
+  const hasVillageProject =
+    !!gameState.socialFarming.villageProjects?.[project];
+  return !!isPlaced && !hasVillageProject;
+};
+
 const _cheersAvailable = (state: MachineState) => {
   return state.context.visitorState?.inventory["Cheer"] ?? new Decimal(0);
 };
@@ -442,6 +523,7 @@ export const Project: React.FC<ProjectProps> = (input) => {
   const { gameService } = useContext(Context);
 
   const projectCheers = useSelector(gameService, _cheers(input.project));
+  const isInactive = useSelector(gameService, _isInactive(input.project));
   const cheersAvailable = useSelector(gameService, _cheersAvailable);
   const hasCheeredProjectToday = useSelector(
     gameService,
@@ -478,6 +560,12 @@ export const Project: React.FC<ProjectProps> = (input) => {
     }
   };
 
+  const handleStartProject = () => {
+    gameService.send("project.started", {
+      project: input.project,
+    });
+  };
+
   // V2 - local only event
   const handleHelpProject = async () => {
     gameService.send("project.helped", {
@@ -500,12 +588,16 @@ export const Project: React.FC<ProjectProps> = (input) => {
       return;
     }
 
+    if (isInactive) return;
+
     handleHelpProject();
   };
 
   let image = PROJECT_IMAGES[input.project].empty;
 
-  if (isProjectComplete) {
+  if (isInactive) {
+    image = PROJECT_IMAGES[input.project].empty;
+  } else if (isProjectComplete) {
     image = PROJECT_IMAGES[input.project].ready;
   } else if (projectPercentage >= 20) {
     image = PROJECT_IMAGES[input.project].halfway;
@@ -530,51 +622,56 @@ export const Project: React.FC<ProjectProps> = (input) => {
           <img src={image} style={input.imgStyle} alt={input.alt} />
         </div>
 
-        {isVisiting && !hasCheeredProjectToday && !isProjectComplete && (
+        {isVisiting &&
+          !hasCheeredProjectToday &&
+          !isProjectComplete &&
+          !isInactive && (
+            <div
+              className={classNames(
+                "absolute -top-4 -right-4 pointer-events-auto cursor-pointer hover:img-highlight",
+                {
+                  "animate-pulsate": hasCheers,
+                },
+              )}
+              onClick={(e) => {
+                e.stopPropagation();
+                onClick();
+              }}
+            >
+              <div
+                className="relative mr-2"
+                style={{ width: `${PIXEL_SCALE * 20}px` }}
+              >
+                <img className="w-full" src={SUNNYSIDE.icons.disc} />
+                <img
+                  className={classNames("absolute")}
+                  src={helpIcon}
+                  style={{
+                    width: `${PIXEL_SCALE * 15}px`,
+                    right: `${PIXEL_SCALE * 2}px`,
+                    top: `${PIXEL_SCALE * 2}px`,
+                  }}
+                />
+              </div>
+            </div>
+          )}
+        {!isInactive && (
           <div
-            className={classNames(
-              "absolute -top-4 -right-4 pointer-events-auto cursor-pointer hover:img-highlight",
-              {
-                "animate-pulsate": hasCheers,
-              },
-            )}
-            onClick={(e) => {
-              e.stopPropagation();
-              onClick();
+            className="absolute bottom-2 left-1/2"
+            style={{
+              width: `${PIXEL_SCALE * 20}px`,
             }}
           >
-            <div
-              className="relative mr-2"
-              style={{ width: `${PIXEL_SCALE * 20}px` }}
-            >
-              <img className="w-full" src={SUNNYSIDE.icons.disc} />
-              <img
-                className={classNames("absolute")}
-                src={helpIcon}
-                style={{
-                  width: `${PIXEL_SCALE * 15}px`,
-                  right: `${PIXEL_SCALE * 2}px`,
-                  top: `${PIXEL_SCALE * 2}px`,
-                }}
-              />
-            </div>
+            <ProgressBar
+              type="quantity"
+              percentage={projectPercentage}
+              formatLength="full"
+              className="ml-1 -translate-x-1/2"
+            />
           </div>
         )}
-        <div
-          className="absolute bottom-2 left-1/2"
-          style={{
-            width: `${PIXEL_SCALE * 20}px`,
-          }}
-        >
-          <ProgressBar
-            type="quantity"
-            percentage={projectPercentage}
-            formatLength="full"
-            className="ml-1 -translate-x-1/2"
-          />
-        </div>
 
-        {isProjectComplete && (
+        {isProjectComplete && !isInactive && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
             className={`absolute -top-4 left-1/2 -translate-x-1/2 ready pointer-events-none`}
@@ -589,13 +686,22 @@ export const Project: React.FC<ProjectProps> = (input) => {
 
       <Modal show={showDetails} onHide={() => setShowDetails(false)}>
         <CloseButtonPanel container={OuterPanel}>
-          <ProjectModal
-            state={state}
-            project={input.project}
-            onClose={() => setShowDetails(false)}
-            onComplete={handleComplete}
-            cheers={projectCheers}
-          />
+          {isInactive ? (
+            <InactiveProjectModal
+              state={state}
+              project={input.project}
+              onClose={() => setShowDetails(false)}
+              onStart={handleStartProject}
+            />
+          ) : (
+            <ProjectModal
+              state={state}
+              project={input.project}
+              onClose={() => setShowDetails(false)}
+              onComplete={handleComplete}
+              cheers={projectCheers}
+            />
+          )}
         </CloseButtonPanel>
       </Modal>
     </>

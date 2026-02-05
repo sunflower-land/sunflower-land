@@ -71,10 +71,15 @@ export function placeCollectible({
     }
 
     const isMonument = action.name in REQUIRED_CHEERS;
+    const isInCompletedProjects =
+      stateCopy.socialFarming.completedProjects?.includes(
+        action.name as MonumentName,
+      ) ?? false;
 
     if (
       isMonument &&
-      !stateCopy.socialFarming.villageProjects[action.name as MonumentName]
+      !stateCopy.socialFarming.villageProjects[action.name as MonumentName] &&
+      !isInCompletedProjects
     ) {
       stateCopy.socialFarming.villageProjects[action.name as MonumentName] = {
         cheers: 0,
