@@ -45,7 +45,7 @@ export const OFFCHAIN_ITEMS_SET = new Set<InventoryItemName>([
   ...getKeys(REWARD_BOXES),
   // Fishing + water traps (no hoarding limits)
   ...getKeys(FISH),
-  ...getKeys(CRUSTACEANS),
+  ...CRUSTACEANS,
   "Holiday Token 2025",
   "Holiday Ticket 2025",
   ...Object.values(CHAPTER_RAFFLE_TICKET_NAME).filter(
