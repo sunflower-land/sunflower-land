@@ -11,23 +11,26 @@ type WaterTrap = {
   chums: CrustaceanChum[];
 };
 
-export type CrustaceanName =
-  | "Isopod"
-  | "Blue Crab"
-  | "Lobster"
-  | "Hermit Crab"
-  | "Shrimp"
-  | "Mussel"
-  | "Oyster"
-  | "Anemone"
-  | "Barnacle"
-  | "Sea Slug"
-  | "Sea Snail"
-  | "Garden Eel"
-  | "Sea Grapes"
-  | "Octopus"
-  | "Sea Urchin"
-  | "Horseshoe Crab";
+export const CRUSTACEANS = [
+  "Isopod",
+  "Blue Crab",
+  "Lobster",
+  "Hermit Crab",
+  "Shrimp",
+  "Mussel",
+  "Oyster",
+  "Anemone",
+  "Barnacle",
+  "Sea Slug",
+  "Sea Snail",
+  "Garden Eel",
+  "Sea Grapes",
+  "Octopus",
+  "Sea Urchin",
+  "Horseshoe Crab",
+] as const;
+
+export type CrustaceanName = (typeof CRUSTACEANS)[number];
 
 export type MarinerPotChum = Extract<
   InventoryItemName,
@@ -59,7 +62,7 @@ export type CrabPotChum = Extract<
 
 export type CrustaceanChum = CrabPotChum | MarinerPotChum;
 
-export const CRUSTACEANS: Record<CrustaceanName, string> = {
+export const CRUSTACEANS_DESCRIPTIONS: Record<CrustaceanName, string> = {
   Isopod: translate("description.isopod"),
   "Blue Crab": translate("description.blueCrab"),
   Lobster: translate("description.lobster"),

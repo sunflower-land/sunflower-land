@@ -16,15 +16,15 @@ import {
   getBasketItems,
   getChestItems,
 } from "../hud/components/inventory/utils/inventory";
-import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { WaterTrap } from "features/game/types/game";
 import {
-  CRUSTACEANS,
   WaterTrapName,
   WATER_TRAP,
   CRUSTACEAN_CHUM_AMOUNTS,
   CrustaceanChum,
+  CRUSTACEANS,
+  CrustaceanName,
 } from "features/game/types/crustaceans";
 import confetti from "canvas-confetti";
 import { getBumpkinLevel } from "features/game/lib/level";
@@ -61,7 +61,7 @@ export const WaterTrapModal: React.FC<Props> = ({
   const caughtCrustacean = getCaughtCrustacean(waterTrap);
   const isNewlyDiscovered =
     !!caughtCrustacean &&
-    caughtCrustacean in CRUSTACEANS &&
+    CRUSTACEANS.includes(caughtCrustacean as CrustaceanName) &&
     (state.farmActivity[`${caughtCrustacean} Caught`] ?? 0) === 0;
 
   useEffect(() => {
@@ -93,9 +93,6 @@ export const WaterTrapModal: React.FC<Props> = ({
   };
 
   const hasAccessToWaterTraps = bumpkinLevel >= 18;
-
-  const { totalSeconds: secondsLeft } = useCountdown(waterTrap?.readyAt ?? 0);
-  const isReady = secondsLeft <= 0;
 
   const chums = WATER_TRAP[selectedTrap].chums;
 

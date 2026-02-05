@@ -53,8 +53,6 @@ type Props = {
   state: GameState;
 };
 
-const ALL_CRUSTACEANS = getKeys(CRUSTACEANS);
-
 export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
   const { gameService } = useContext(Context);
   const { authState } = useAuth();
@@ -78,7 +76,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const caughtCrustaceans = ALL_CRUSTACEANS.filter(
+    const caughtCrustaceans = CRUSTACEANS.filter(
       (name) => (farmActivity[`${name} Caught`] ?? 0) > 0,
     );
 
@@ -426,8 +424,6 @@ export const Crustaceans: React.FC<{
   const { t } = useAppTranslation();
   const { farmActivity } = state;
 
-  const crustaceanNames = getKeys(CRUSTACEANS);
-
   return (
     <InnerPanel>
       <div ref={sectionRef} className="flex flex-col">
@@ -439,7 +435,7 @@ export const Crustaceans: React.FC<{
           {t("crustaceans")}
         </Label>
         <div className="flex flex-wrap">
-          {crustaceanNames.map((name) => (
+          {CRUSTACEANS.map((name) => (
             <SimpleBox
               silhouette={!farmActivity[`${name} Caught`]}
               onClick={() => onSelect(name)}
