@@ -51,10 +51,13 @@ export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
   const [showChumSelectionModal, setShowChumSelectionModal] = useState(false);
   const [showCatchModal, setShowCatchModal] = useState(false);
   const [showTimerPopover, setShowTimerPopover] = useState(false);
-  const [collectedCatch, setCollectedCatch] = useState<{
-    item: CrustaceanName;
-    amount: number;
-  } | null>(null);
+  const [collectedCatch, setCollectedCatch] = useState<
+    | {
+        item: CrustaceanName;
+        amount: number;
+      }
+    | undefined
+  >(undefined);
 
   const waterTrap = crabTraps.trapSpots?.[id]?.waterTrap;
 
@@ -114,6 +117,11 @@ export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
     });
     gameService.send("SAVE");
     setShowChumSelectionModal(false);
+  };
+
+  const closeCatchModal = () => {
+    setShowCatchModal(false);
+    setCollectedCatch(undefined);
   };
 
   const crabSpotImage = Number(id) > 2 ? crabSpot2 : crabSpot1;
@@ -248,23 +256,12 @@ export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
           onClose={() => setShowChumSelectionModal(false)}
         />
       </Modal>
-      {collectedCatch && (
-        <Modal
-          show={showCatchModal}
-          onHide={() => {
-            setShowCatchModal(false);
-            setCollectedCatch(null);
-          }}
-        >
-          <CrustaceanCaught
-            collectedCatch={collectedCatch}
-            onClose={() => {
-              setShowCatchModal(false);
-              setCollectedCatch(null);
-            }}
-          />
-        </Modal>
-      )}
+      <Modal show={showCatchModal} onHide={closeCatchModal}>
+        <CrustaceanCaught
+          collectedCatch={collectedCatch}
+          onClose={closeCatchModal}
+        />
+      </Modal>
     </>
   );
 };

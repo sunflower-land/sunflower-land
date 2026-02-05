@@ -22,6 +22,7 @@ import {
 } from "features/game/types/fishing";
 import {
   CRUSTACEANS,
+  CRUSTACEANS_LOOKUP,
   CrustaceanName,
   CrustaceanChum,
   WaterTrapName,
@@ -79,25 +80,36 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
   // with the chum that was used to catch them
   const chumMapping = caughtCrustaceans.reduce(
     (acc, name: CrustaceanName) => {
-      const crustacean = CRUSTACEANS[name];
-      const chums = getKeys(crustacean?.chum ?? {});
-      if (crustacean) {
-        const chumsUsed = chums.filter(
-          (chum) => (farmActivity[`${name} Caught with ${chum}`] ?? 0) > 0,
-        );
-        if (chumsUsed.length > 0) {
-          acc[name] = {
-            chums: chumsUsed,
-            waterTrap: crustacean.waterTrap,
-          };
-        } else {
-          // Fallback to no chums shown
-          acc[name] = {
-            chums: [],
-            waterTrap: crustacean.waterTrap,
-          };
-        }
+      let waterTrap: WaterTrapName | undefined;
+      const chumsForCrustacean: CrustaceanChum[] = [];
+
+      (["Crab Pot", "Mariner Pot"] as WaterTrapName[]).forEach((trapType) => {
+        const mapping = CRUSTACEANS_LOOKUP[trapType];
+
+        Object.entries(mapping).forEach(([chumKey, mappedName]) => {
+          if (mappedName === name) {
+            waterTrap = trapType;
+
+            if (chumKey !== "none") {
+              chumsForCrustacean.push(chumKey as CrustaceanChum);
+            }
+          }
+        });
+      });
+
+      if (!waterTrap) {
+        return acc;
       }
+
+      const chumsUsed = chumsForCrustacean.filter((chum) => {
+        return (farmActivity[`${name} Caught with ${chum}`] ?? 0) > 0;
+      });
+
+      acc[name] = {
+        chums: chumsUsed,
+        waterTrap,
+      };
+
       return acc;
     },
     {} as Record<

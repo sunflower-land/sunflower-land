@@ -65,12 +65,7 @@ export function placeWaterTrap({
       game.inventory[action.chum] = inventoryChum.sub(chumAmount);
     }
 
-    const placementCount = game.farmActivity[`${action.waterTrap} Placed`] ?? 1;
-    const caught = caughtCrustacean(action.waterTrap, action.chum, {
-      farmId,
-      trapId: action.trapId,
-      counter: placementCount,
-    });
+    const caught = caughtCrustacean(action.waterTrap, action.chum);
 
     const hours = WATER_TRAP[action.waterTrap].readyTimeHours;
     const readyAt = createdAt + hours * 60 * 60 * 1000;

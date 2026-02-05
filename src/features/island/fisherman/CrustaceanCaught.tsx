@@ -14,7 +14,7 @@ import confetti from "canvas-confetti";
 const _state = (state: MachineState) => state.context.state;
 
 interface Props {
-  collectedCatch: { item: CrustaceanName; amount: number };
+  collectedCatch: { item: CrustaceanName; amount: number } | undefined;
   onClose: () => void;
 }
 
@@ -26,8 +26,8 @@ export const CrustaceanCaught: React.FC<Props> = ({
   const state = useSelector(gameService, _state);
   const { t } = useAppTranslation();
 
-  const caughtItem = collectedCatch.item;
-  const caughtAmount = collectedCatch.amount;
+  const caughtItem = collectedCatch?.item;
+  const caughtAmount = collectedCatch?.amount;
   const newCatch =
     caughtItem &&
     caughtItem in CRUSTACEANS &&
@@ -38,6 +38,10 @@ export const CrustaceanCaught: React.FC<Props> = ({
       confetti();
     }
   }, [newCatch, showAnimations]);
+
+  if (!caughtItem) {
+    return null;
+  }
 
   return (
     <CloseButtonPanel onClose={onClose}>
