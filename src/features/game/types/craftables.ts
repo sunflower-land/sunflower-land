@@ -1502,7 +1502,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Frozen Cow": { width: 2, height: 1 },
   "Frozen Sheep": { width: 2, height: 1 },
   "Summer Chicken": { width: 1, height: 1 },
-  Jellyfish: { width: 1, height: 1 },
+  Jellyfish: { width: 2, height: 2 },
   Quarry: { width: 2, height: 2 },
   "Obsidian Turtle": { width: 1, height: 1 },
   "Winter Guardian": { width: 2, height: 2 },
