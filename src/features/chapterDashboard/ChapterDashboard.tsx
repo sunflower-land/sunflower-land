@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router";
 
 import logo from "assets/brand/crabs_and_traps.png";
 
-import { OuterPanel, Panel } from "components/ui/Panel";
+import { ColorPanel, OuterPanel, Panel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useSelector } from "@xstate/react";
@@ -27,6 +27,7 @@ import { pixelOrangeBorderStyle } from "features/game/lib/style";
 import medalIcon from "assets/icons/red_medal.webp";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { ChapterTracksPreview } from "features/world/ui/tracks/ChapterTracks";
+import { ChapterTimer } from "./components/ChapterTimer";
 
 const _farmId = (state: MachineState) => state.context.farmId;
 const _gameState = (state: MachineState) => state.context.state;
@@ -85,6 +86,10 @@ export const ChapterDashboard: React.FC = () => {
           />
           <div className="absolute inset-0 w-full h-full bg-black opacity-35 -z-0 rounded-sm" />
 
+          <div className="absolute left-2 top-2 hidden sm:block">
+            <ChapterTimer />
+          </div>
+
           <div className="absolute inset-0 flex h-[70px] items-center justify-center z-10 pointer-events-none">
             <img
               src={logo}
@@ -111,6 +116,9 @@ export const ChapterDashboard: React.FC = () => {
         </div>
 
         <div className="flex flex-col lg:flex-row gap-2 pb-4">
+          <div className="block sm:hidden">
+            <ChapterTimer />
+          </div>
           <div className="flex-1 ">
             <ShopSection gameState={gameState} />
             <MutantsSection chapter={chapter} />

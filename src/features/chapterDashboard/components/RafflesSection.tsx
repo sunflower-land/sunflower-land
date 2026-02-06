@@ -116,7 +116,10 @@ export const RafflesSection: React.FC<Props> = ({ chapter, token }) => {
       </InnerPanel>
 
       <Modal show={showMore} onHide={() => setShowMore(false)} size="lg">
-        <CloseButtonPanel onClose={() => setShowMore(false)}>
+        <CloseButtonPanel
+          tabs={[{ icon: calendar, name: "Raffles", id: "raffles" }]}
+          onClose={() => setShowMore(false)}
+        >
           <UpcomingRaffles />
         </CloseButtonPanel>
       </Modal>

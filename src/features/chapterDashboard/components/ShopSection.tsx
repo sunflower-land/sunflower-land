@@ -26,9 +26,12 @@ export const ShopSection: React.FC<{ gameState: GameState }> = ({
         </div>
       </InnerPanel>
 
-      <Modal show={show} onHide={() => setShow(false)} size="lg">
-        <CloseButtonPanel onClose={() => setShow(false)}>
-          <div className="p-2">
+      <Modal show={show} onHide={() => setShow(false)}>
+        <CloseButtonPanel
+          tabs={[{ icon: shopIcon, name: "Shop", id: "shop" }]}
+          onClose={() => setShow(false)}
+        >
+          <div className="pb-20">
             <ChapterStore state={gameState} />
           </div>
         </CloseButtonPanel>

@@ -16,6 +16,7 @@ import { Equipped } from "features/game/types/bumpkin";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useIsDarkMode } from "lib/utils/hooks/useIsDarkMode";
+import { LABEL_STYLES, LabelType } from "./Label";
 
 export interface PanelProps extends React.HTMLAttributes<HTMLDivElement> {
   hasTabs?: boolean;
@@ -78,6 +79,36 @@ export const InnerPanel: React.FC<
         ...style,
       }}
       ref={divRef}
+      {...otherDivProps}
+    >
+      {children}
+    </div>
+  );
+};
+
+type ColorPanelProps = React.HTMLAttributes<HTMLDivElement> & {
+  type?: LabelType;
+};
+
+/**
+ * Panel container using Label palette
+ */
+export const ColorPanel: React.FC<React.PropsWithChildren<ColorPanelProps>> = ({
+  children,
+  type = "default",
+  ...divProps
+}) => {
+  const { className, style, ...otherDivProps } = divProps;
+
+  return (
+    <div
+      className={classNames(className)}
+      style={{
+        ...LABEL_STYLES[type].borderStyle,
+        background: LABEL_STYLES[type].background,
+        color: LABEL_STYLES[type].textColour,
+        ...style,
+      }}
       {...otherDivProps}
     >
       {children}

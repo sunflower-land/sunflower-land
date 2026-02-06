@@ -188,8 +188,8 @@ export const ChapterTracks: React.FC = () => {
   return (
     <>
       <InnerPanel className="mb-1">
-        <div className="flex flex-wrap justify-between ">
-          <div className="flex items-start">
+        <div className="flex flex-wrap justify-between items-start">
+          {/* <div className="flex items-start">
             <img src={SUNNYSIDE.icons.stopwatch} className="w-6 mr-1" />
             <div>
               <Label type="info" className="text-xs">
@@ -200,6 +200,13 @@ export const ChapterTracks: React.FC = () => {
                   length: "medium",
                 })}
               </p>
+            </div>
+          </div> */}
+          <div className="flex">
+            <img src={giftIcon} className="h-9 mr-1" />
+            <div>
+              <Label type="warning">Rewards</Label>
+              <p className="text-xxs ml-1">Earn points & claim rewards.</p>
             </div>
           </div>
           {isComplete ? (
@@ -675,7 +682,7 @@ export const ChapterTracksPreview: React.FC = () => {
   return (
     <>
       <InnerPanel>
-        <div className="flex flex-wrap justify-between items-center">
+        <div className="flex flex-wrap justify-between items-start">
           <Label type="warning">Next reward</Label>
 
           <>
@@ -732,24 +739,38 @@ export const ChapterTracksPreview: React.FC = () => {
               className="absolute right-2 bottom-2 w-10 max-h-8 object-contain"
             />
           </div>
-          <div className="flex-1">
+          <div className="flex-1 min-w-0 mb-0.5">
             {freeText.map((text) => (
-              <div className="flex justify-between w-full items-center">
-                <p className="text-xs truncate mr-1 flex-1">{text}</p>
-                <Label type="success">Free</Label>
+              <div className="flex items-center w-full min-w-0 overflow-hidden">
+                <p className="text-xs truncate mr-1 flex-1 min-w-0">{text}</p>
+                <div className="flex w-16 justify-end shrink-0">
+                  <Label type="success">Free</Label>
+                </div>
               </div>
             ))}
             {freeText.map((text) => (
-              <div className="flex overflow-hidden items-center">
-                <p className="text-xs truncate mr-1 flex-1">{text}</p>
-                <img src={vipIcon} className="h-5" />
-                {!hasVip && <img src={lockIcon} className="h-5" />}
+              <div className="flex items-center w-full min-w-0 overflow-hidden">
+                <p className="text-xs truncate mr-1 flex-1 min-w-0">{text}</p>
+
+                <div className="flex w-16 justify-end shrink-0">
+                  <img src={vipIcon} className="h-5 mr-0.5" />
+                  {!hasVip && <img src={lockIcon} className="h-5 " />}
+                </div>
               </div>
             ))}
           </div>
         </div>
       </InnerPanel>
-      <Button onClick={() => openModal("CHAPTER_TRACKS")}>View rewards</Button>
+
+      <Button
+        className="w-full relative mt-1"
+        onClick={() => openModal("CHAPTER_TRACKS")}
+      >
+        <span className="flex items-center justify-center gap-2 w-full">
+          <span>View Rewards</span>
+          <img src={giftIcon} className="h-5" />
+        </span>
+      </Button>
     </>
   );
 };

@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from "react";
 
-import { InnerPanel } from "components/ui/Panel";
-import { SectionHeader } from "./SectionHeader";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ChapterName } from "features/game/types/chapters";
 import {
@@ -16,6 +15,7 @@ import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { Label } from "components/ui/Label";
 import { MAP_PIECES } from "features/game/types/fishing";
 import { getKeys } from "features/game/lib/crafting";
+import { ChapterMutants } from "features/island/hud/components/codex/components/ChapterMutants";
 
 type Props = {
   chapter: ChapterName;
@@ -95,64 +95,11 @@ export const MutantsSection: React.FC<Props> = ({ chapter }) => {
       </InnerPanel>
 
       <Modal show={showDetails} onHide={() => setShowDetails(false)} size="lg">
-        <CloseButtonPanel onClose={() => setShowDetails(false)}>
-          <div className="p-2">
-            <SectionHeader
-              title={t("season.codex.mutants")}
-              labelType="vibrant"
-            />
-            <p className="text-xs mt-2">{t("season.codex.mutants.discover")}</p>
-
-            <img className="my-2 w-full rounded-md" src={mutants.banner} />
-
-            <Label type="default" className="mb-2">
-              {t("season.codex.mutants")}
-            </Label>
-
-            <NoticeboardItems
-              iconWidth={8}
-              items={[
-                {
-                  text: t("season.codex.mutants.one", {
-                    item: mutants.Chicken,
-                  }),
-                  icon: ITEM_DETAILS.Chicken.image,
-                },
-                {
-                  text: t("season.codex.mutants.two", {
-                    item: mutants.Fish,
-                  }),
-                  icon: ITEM_DETAILS.Rod.image,
-                },
-                {
-                  text: t("season.codex.mutants.three", {
-                    item: mutants.Flower,
-                  }),
-                  icon: ITEM_DETAILS["Red Pansy"].image,
-                },
-                ...(mutants.Cow
-                  ? [
-                      {
-                        text: t("season.codex.mutants.four", {
-                          item: mutants.Cow,
-                        }),
-                        icon: ITEM_DETAILS["Cow"].image,
-                      },
-                    ]
-                  : []),
-                ...(mutants.Sheep
-                  ? [
-                      {
-                        text: t("season.codex.mutants.five", {
-                          item: mutants.Sheep,
-                        }),
-                        icon: ITEM_DETAILS["Sheep"].image,
-                      },
-                    ]
-                  : []),
-              ]}
-            />
-          </div>
+        <CloseButtonPanel
+          container={OuterPanel}
+          onClose={() => setShowDetails(false)}
+        >
+          <ChapterMutants chapter={chapter} />
         </CloseButtonPanel>
       </Modal>
     </>
