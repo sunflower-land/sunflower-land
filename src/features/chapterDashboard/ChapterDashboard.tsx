@@ -91,7 +91,7 @@ export const ChapterDashboard: React.FC = () => {
             <img
               src={logo}
               alt="Chapter"
-              className="mt-2"
+              className="mt-2 object-contain"
               style={{
                 height: `${PIXEL_SCALE * 28}px`,
                 width: "auto",

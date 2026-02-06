@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -7,10 +7,9 @@ import giftIcon from "assets/icons/gift.png";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { InventoryItemName } from "features/game/types/game";
 import { Bar } from "components/ui/ProgressBar";
 import { ColorPanel, OuterPanel } from "components/ui/Panel";
-import { CHAPTER_COLLECTIONS } from "features/game/types/collections";
+import { getChapterCollectionForDisplay } from "features/game/types/collections";
 import {
   getChapterTicket,
   getCurrentChapter,
@@ -38,20 +37,15 @@ export const ChapterIntroSection: React.FC = () => {
 
   const ticketCount =
     gameState.context.state.inventory[ticket]?.toNumber() ?? 0;
-  const collection = CHAPTER_COLLECTIONS[chapter];
-  const collectibles = useMemo<InventoryItemName[]>(() => {
-    const items = collection?.collectibles ?? [];
-    return [...items].sort((a, b) => a.localeCompare(b));
-  }, [chapter, collection?.collectibles]);
 
-  const collectionCount =
-    (collection?.collectibles ?? []).length +
-    (collection?.wearables ?? []).length;
+  const { collectibles, wearables } = getChapterCollectionForDisplay(chapter);
+
+  const collectionCount = collectibles.length + wearables.length;
   const ownedCount =
-    (collection?.collectibles ?? []).filter(
+    collectibles.filter(
       (item) => (gameState.context.state.inventory[item]?.toNumber() ?? 0) > 0,
     ).length +
-    (collection?.wearables ?? []).filter(
+    wearables.filter(
       (item) => (gameState.context.state.wardrobe[item] ?? 0) > 0,
     ).length;
 
@@ -222,6 +216,7 @@ export const ChapterIntroSection: React.FC = () => {
       <Modal show={showCollection} onHide={() => setShowCollection(false)}>
         <OuterPanel>
           <ChapterCollections
+            onClose={() => setShowCollection(false)}
             state={gameState.context.state}
             selected={chapter}
           />

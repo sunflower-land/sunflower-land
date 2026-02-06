@@ -744,7 +744,7 @@ export const ChapterTracksPreview: React.FC = () => {
               className="absolute right-2 bottom-2 w-10 max-h-8 object-contain"
             />
           </div>
-          <div className="flex-1 min-w-0 mb-0.5">
+          <div className="flex-1 min-w-0 mb-1">
             {freeText.map((text, index) => (
               <div
                 className="flex items-center w-full min-w-0 overflow-hidden"

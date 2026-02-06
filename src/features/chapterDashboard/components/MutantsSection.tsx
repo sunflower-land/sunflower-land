@@ -35,7 +35,6 @@ export const MutantsSection: React.FC<Props> = ({ chapter }) => {
 
     let items = [
       chapterMutants.Chicken,
-      chapterMutants.Fish,
       chapterMutants.Flower,
       ...(chapterMutants.Cow ? [chapterMutants.Cow] : []),
       ...(chapterMutants.Sheep ? [chapterMutants.Sheep] : []),
