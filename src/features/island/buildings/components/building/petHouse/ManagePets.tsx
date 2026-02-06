@@ -249,9 +249,9 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
   };
   return (
     <>
-      <InnerPanel className="flex flex-col justify-between mb-1 p-1 gap-1">
-        <div className="flex flex-row justify-between w-full">
-          <div className="flex flex-col sm:flex-row items-center gap-1">
+      <InnerPanel className="flex flex-col justify-between mb-1 p-1 gap-1 w-full">
+        <div className="flex flex-col sm:flex-row justify-between w-full gap-1">
+          <div className="flex flex-col sm:flex-row items-start gap-1">
             <Label type={isBulkFeed ? "vibrant" : "formula"}>
               {isBulkFeed
                 ? t("pets.bulkFeedMode")
@@ -263,52 +263,56 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
               </Label>
             )}
           </div>
-          <div className="flex flex-col sm:flex-row gap-1 w-1/2 sm:w-auto items-end">
+          <div className="flex flex-row gap-1 w-full sm:w-auto items-end flex-wrap">
             {areSomePetsNeglected && !isBulkFeed && (
-              <Button className="w-40" onClick={handleBulkNeglect}>
+              <Button
+                className="flex-1 min-w-0 sm:flex-none sm:w-40 basis-0"
+                onClick={handleBulkNeglect}
+              >
                 {`Cheer All`}
               </Button>
             )}
             {areSomePetsNapping && !areSomePetsNeglected && !isBulkFeed && (
-              <Button className="w-40" onClick={handleBulkPet}>
+              <Button
+                className="flex-1 min-w-0 sm:flex-none sm:w-40 basis-0"
+                onClick={handleBulkPet}
+              >
                 {`Pet All`}
               </Button>
             )}
-            <div className="flex flex-row gap-1">
-              {!areAllPetsNapping && display === "feeding" && (
-                <Button
-                  className="w-40"
-                  disabled={
-                    (!isBulkFeed && !canBulkFeedAnything) ||
-                    (isBulkFeed && selectedFeed.length === 0)
-                  }
-                  onClick={handleBulkFeed}
-                >
-                  {isBulkFeed ? t("pets.confirmFeed") : t("pets.bulkFeed")}
-                </Button>
-              )}
-              {isBulkFeed && display === "feeding" && (
-                <Button className="w-auto" onClick={handleCancel}>
-                  <img
-                    src={SUNNYSIDE.icons.cancel}
-                    alt="Cancel"
-                    className="h-6 object-contain"
-                  />
-                </Button>
-              )}
-            </div>
+            {!areAllPetsNapping && display === "feeding" && (
+              <Button
+                className="flex-1 min-w-0 sm:flex-none sm:w-40 basis-0"
+                disabled={
+                  (!isBulkFeed && !canBulkFeedAnything) ||
+                  (isBulkFeed && selectedFeed.length === 0)
+                }
+                onClick={handleBulkFeed}
+              >
+                {isBulkFeed ? t("pets.confirmFeed") : t("pets.bulkFeed")}
+              </Button>
+            )}
+            {isBulkFeed && display === "feeding" && (
+              <Button className="flex-none shrink-0" onClick={handleCancel}>
+                <img
+                  src={SUNNYSIDE.icons.cancel}
+                  alt="Cancel"
+                  className="h-6 object-contain"
+                />
+              </Button>
+            )}
           </div>
         </div>
         <div className="flex flex-row gap-1.5 mb-1">
           <Button
-            className="h-10"
+            className="h-10 flex-1 min-w-0"
             disabled={display === "feeding"}
             onClick={() => setDisplay("feeding")}
           >
             {t("pets.feed")}
           </Button>
           <Button
-            className="h-10"
+            className="h-10 flex-1 min-w-0"
             disabled={display === "fetching"}
             onClick={() => {
               setDisplay("fetching");

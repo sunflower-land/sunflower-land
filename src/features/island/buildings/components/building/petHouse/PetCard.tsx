@@ -138,7 +138,7 @@ export const PetCard: React.FC<Props> = ({
         <p className="text-xs p-1">
           {t("pets.neglectPetDescription", { pet: petData.name })}
         </p>
-        <Button onClick={() => handleNeglectPet(petName)}>
+        <Button onClick={() => handleNeglectPet(petName)} className="relative">
           <div className="absolute -top-5 -right-2">
             <Label type="danger" secondaryIcon={xpIcon}>{`-500`}</Label>
           </div>
@@ -151,6 +151,9 @@ export const PetCard: React.FC<Props> = ({
   if (isPetNapping(petData, now)) {
     return (
       <div className="flex flex-col gap-1 w-full sm:w-auto">
+        <p className="text-xs p-1">
+          {t("pets.nappingDescription", { pet: petData.name })}
+        </p>
         <Button onClick={() => handlePetPet(petName)} className="relative">
           <div className="absolute -top-5 -right-2">
             <Label type="success" secondaryIcon={xpIcon}>{`+10`}</Label>
@@ -180,7 +183,7 @@ export const PetCard: React.FC<Props> = ({
   return (
     <>
       <div
-        className="flex flex-col gap-1"
+        className="flex flex-col gap-1 w-full"
         style={{ display: display === "feeding" ? "flex" : "none" }}
       >
         <div className="flex flex-row gap-1 items-center justify-between">
@@ -192,7 +195,7 @@ export const PetCard: React.FC<Props> = ({
             {t("pets.resetRequests")}
           </p>
         </div>
-        <div className="grid grid-cols-3 gap-1">
+        <div className="grid grid-cols-3 gap-1 w-full">
           {petData.requests.food.map((food) => {
             const { level: petLevel } = getPetLevel(petData.experience);
 
@@ -281,11 +284,11 @@ export const PetCard: React.FC<Props> = ({
       </div>
       {showFetchingSection && (
         <div
-          className="flex flex-col gap-1"
+          className="flex flex-col gap-1 w-full"
           style={{ display: display === "fetching" ? "flex" : "none" }}
         >
           <Label type="default">{t("pets.fetchableResources")}</Label>
-          <div className="grid grid-cols-3 gap-1">
+          <div className="grid grid-cols-3 gap-1 w-full">
             {[...getPetFetches(petData).fetches]
               .sort((a, b) => {
                 const { level } = getPetLevel(petData.experience);
