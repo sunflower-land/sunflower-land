@@ -263,7 +263,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
               </Label>
             )}
           </div>
-          <div className="flex flex-row gap-1 w-full sm:w-auto items-end flex-wrap">
+          <div className="flex flex-row gap-1 w-full sm:w-1/2">
             {areSomePetsNeglected && !isBulkFeed && (
               <Button
                 className="flex-1 min-w-0 sm:flex-none sm:w-40 basis-0"
@@ -293,11 +293,14 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
               </Button>
             )}
             {isBulkFeed && display === "feeding" && (
-              <Button className="flex-none shrink-0" onClick={handleCancel}>
+              <Button
+                className="flex-1 min-w-0 sm:flex-none sm:w-40 basis-0"
+                onClick={handleCancel}
+              >
                 <img
                   src={SUNNYSIDE.icons.cancel}
                   alt="Cancel"
-                  className="h-6 object-contain"
+                  className="h-5 object-contain"
                 />
               </Button>
             )}
