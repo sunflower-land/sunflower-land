@@ -57,8 +57,7 @@ type EffectName =
   | "marketplace.buyBulkResources"
   | "leagues.updated"
   | "liquidity.registered"
-  | "appInstall.generate"
-  | "waterTrap.pickedUp";
+  | "appInstall.generate";
 
 type VisitEffectName = "farm.helped" | "farm.cheered" | "farm.followed";
 
@@ -180,7 +179,6 @@ export const STATE_MACHINE_EFFECTS: Record<
   "marketplace.buyBulkResources": "marketplaceBuyingBulkResources",
   "leagues.updated": "updatingLeagues",
   "appInstall.generate": "generatingAppInstall",
-  "waterTrap.pickedUp": "pickingUpWaterTrap",
 };
 
 export const STATE_MACHINE_VISIT_EFFECTS: Record<
