@@ -11,7 +11,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { Label } from "components/ui/Label";
 import { MAP_PIECES } from "features/game/types/fishing";
 import { getKeys } from "features/game/lib/crafting";
@@ -58,7 +57,7 @@ export const MutantsSection: React.FC<Props> = ({ chapter }) => {
   return (
     <>
       <InnerPanel
-        className="mb-2 cursor-pointer"
+        className=" cursor-pointer"
         onClick={() => setShowDetails(true)}
       >
         <div className="p-1 space-y-2">
@@ -81,14 +80,18 @@ export const MutantsSection: React.FC<Props> = ({ chapter }) => {
 
             <div className="ml-2 flex-1 h-full">
               <Label type="vibrant" className="mb-1">
-                Mutants
+                {t("season.codex.mutants")}
               </Label>
 
               <p className="text-xs mb-2">
-                Have you found the {preview.length} mutants?
+                {t("chapterDashboard.mutantsFound", {
+                  count: preview.length,
+                })}
               </p>
 
-              <p className="text-xxs underline cursor-pointer">Read more</p>
+              <p className="text-xxs underline cursor-pointer">
+                {t("read.more")}
+              </p>
             </div>
           </div>
         </div>

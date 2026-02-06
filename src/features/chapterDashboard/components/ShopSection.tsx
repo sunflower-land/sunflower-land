@@ -7,10 +7,12 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ChapterStore } from "features/world/ui/megastore/ChapterStore";
 import { GameState } from "features/game/types/game";
 import shopIcon from "assets/icons/shop.png";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const ShopSection: React.FC<{ gameState: GameState }> = ({
   gameState,
 }) => {
+  const { t } = useAppTranslation();
   const [show, setShow] = useState(false);
 
   return (
@@ -19,7 +21,7 @@ export const ShopSection: React.FC<{ gameState: GameState }> = ({
         <div className="p-1">
           <Button className="w-full relative" onClick={() => setShow(true)}>
             <span className="flex items-center justify-center gap-2 w-full">
-              <span>Shop</span>
+              <span>{t("chapterDashboard.shop")}</span>
               <img src={shopIcon} className="h-5" />
             </span>
           </Button>
@@ -28,7 +30,9 @@ export const ShopSection: React.FC<{ gameState: GameState }> = ({
 
       <Modal show={show} onHide={() => setShow(false)}>
         <CloseButtonPanel
-          tabs={[{ icon: shopIcon, name: "Shop", id: "shop" }]}
+          tabs={[
+            { icon: shopIcon, name: t("chapterDashboard.shop"), id: "shop" },
+          ]}
           onClose={() => setShow(false)}
         >
           <div className="pb-20">

@@ -2,11 +2,8 @@ import React from "react";
 import useSWR from "swr";
 
 import { InnerPanel } from "components/ui/Panel";
-import { SectionHeader } from "./SectionHeader";
-import trophy from "assets/icons/trophy.png";
 import { TicketsLeaderboard } from "features/island/hud/components/codex/pages/TicketsLeaderboard";
 import {
-  fetchLeaderboardData,
   getLeaderboard,
   TicketLeaderboard,
 } from "features/game/expansion/components/leaderboard/actions/leaderboard";

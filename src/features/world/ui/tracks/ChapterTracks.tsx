@@ -4,10 +4,8 @@ import {
   ChapterName,
   getCurrentChapter,
   getChapterTicket,
-  secondsLeftInChapter,
 } from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
-import { secondsToString } from "lib/utils/time";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Label } from "components/ui/Label";
 import { useGame } from "features/game/GameProvider";
@@ -34,7 +32,6 @@ import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { ResizableBar } from "components/ui/ProgressBar";
 import lockIcon from "assets/icons/lock.png";
-import chapterPointsIcon from "assets/icons/chapter_points.webp";
 import { shortenCount } from "lib/utils/formatNumber";
 import { Modal } from "components/ui/Modal";
 import { Rewards } from "features/game/expansion/components/ClaimReward";

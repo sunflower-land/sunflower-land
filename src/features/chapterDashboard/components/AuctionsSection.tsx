@@ -1,12 +1,6 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { useActor, useInterpret } from "@xstate/react";
-
-import {
-  Auction,
-  MachineInterpreter,
-  createAuctioneerMachine,
-} from "features/game/lib/auctionMachine";
+import { Auction } from "features/game/lib/auctionMachine";
 import {
   AuctionNFT,
   GameState,
@@ -16,11 +10,9 @@ import { BumpkinItem } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/decorations";
 import {
   ChapterName,
-  CHAPTERS,
   secondsLeftInChapter,
 } from "features/game/types/chapters";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
-import { SectionHeader } from "./SectionHeader";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
 import { Label } from "components/ui/Label";
@@ -32,7 +24,6 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ChapterAuctions } from "features/island/hud/components/codex/components/ChapterAuctions";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
-import { CONFIG } from "lib/config";
 import { secondsToString } from "lib/utils/time";
 import sflIcon from "assets/icons/flower_token.webp";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -72,12 +63,12 @@ function groupAuctions({
   auctions: Auction[];
   now: number;
 }): AuctionSummary[] {
-  let upcoming = auctions
+  const upcoming = auctions
     .filter((a) => a.startAt > now)
     .sort((a, b) => a.startAt - b.startAt);
 
   // Skip if same as the previous auction
-  let grouped: AuctionSummary[] = upcoming.reduce((acc, auction) => {
+  const grouped: AuctionSummary[] = upcoming.reduce((acc, auction) => {
     const previous = acc[acc.length - 1];
 
     const isSame =
@@ -158,12 +149,15 @@ export const AuctionsSection: React.FC<Props> = ({
     return (
       <InnerPanel className="mb-2">
         <Label type="warning" className="mb-1">
-          Auctions
+          {t("auction.title")}
         </Label>
 
         <p className="text-xs px-2">
-          New auctions coming soon -{" "}
-          {secondsToString(secondsLeftInChapter(now), { length: "short" })}
+          {t("chapterDashboard.auctionsComingSoon", {
+            time: secondsToString(secondsLeftInChapter(now), {
+              length: "short",
+            }),
+          })}
         </p>
       </InnerPanel>
     );
@@ -173,7 +167,7 @@ export const AuctionsSection: React.FC<Props> = ({
     <>
       <InnerPanel className="mb-2">
         <div className="flex items-center justify-between mb-2 flex-wrap">
-          <Label type="warning">Upcoming Auctions</Label>
+          <Label type="warning">{t("chapterDashboard.upcomingAuctions")}</Label>
           <div className="text-xs">
             <TimerDisplay time={countdown} />
           </div>
@@ -181,7 +175,7 @@ export const AuctionsSection: React.FC<Props> = ({
 
         <div>
           {auctions.map((a) => {
-            let currency: string = a.currency;
+            const currency: string = a.currency;
 
             return (
               <div className="flex items-center mb-0.5">
@@ -197,7 +191,10 @@ export const AuctionsSection: React.FC<Props> = ({
                   </div>
 
                   <p className="text-xxs ">
-                    {a.date.toLocaleDateString()}, {`Supply: ${a.supply}`}
+                    {a.date.toLocaleDateString()},{" "}
+                    {t("chapterDashboard.auctionSupply", {
+                      supply: a.supply,
+                    })}
                   </p>
                 </div>
               </div>
@@ -209,7 +206,7 @@ export const AuctionsSection: React.FC<Props> = ({
           className="text-xxs underline my-1 mx-1 cursor-pointer"
           onClick={() => setShowMore(true)}
         >
-          View more
+          {t("chapterDashboard.viewMore")}
         </p>
       </InnerPanel>
 
@@ -220,7 +217,7 @@ export const AuctionsSection: React.FC<Props> = ({
           tabs={[
             {
               id: "auctions",
-              name: "Auctions",
+              name: t("auction.title"),
               icon: ITEM_DETAILS.Cheer.image,
             },
           ]}

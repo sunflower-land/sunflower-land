@@ -1,27 +1,18 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import useSWR from "swr";
 
 import { InnerPanel } from "components/ui/Panel";
-import { SectionHeader } from "./SectionHeader";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { ChapterName, CHAPTERS } from "features/game/types/chapters";
+import { ChapterName } from "features/game/types/chapters";
 import { loadRaffles } from "features/world/ui/chapterRaffles/actions/loadRaffles";
 import { randomID } from "lib/utils/random";
-import { RaffleDefinition } from "features/retreat/components/auctioneer/types";
 import { useNow } from "lib/utils/hooks/useNow";
 import { Label } from "components/ui/Label";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
-import { isCollectible } from "features/game/events/landExpansion/garbageSold";
-import { ITEM_IDS } from "features/game/types/bumpkin";
-import { getImageUrl } from "lib/utils/getImageURLS";
 import { SUNNYSIDE } from "assets/sunnyside";
-import petEggNFT from "assets/icons/pet_nft_egg.png";
-import budSeedling from "assets/icons/bud_seedling.png";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import {
-  formatRaffleWindow,
   getPrizeDisplay,
   UpcomingRaffles,
 } from "features/world/ui/chapterRaffles/UpcomingRaffles";
@@ -29,7 +20,6 @@ import { Loading } from "features/auth/components";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { CONFIG } from "lib/config";
 import lightning from "assets/icons/lightning.png";
-import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import calendar from "assets/icons/calendar.webp";
 
 type Props = {
@@ -68,9 +58,9 @@ export const RafflesSection: React.FC<Props> = ({ chapter, token }) => {
     return (
       <InnerPanel className="mb-2">
         <Label type="warning" icon={SUNNYSIDE.icons.sad}>
-          Raffles
+          {t("auction.raffle.title")}
         </Label>
-        <p className="text-xs p-2">No active raffles.</p>
+        <p className="text-xs p-2">{t("chapterDashboard.noActiveRaffles")}</p>
       </InnerPanel>
     );
   }
@@ -81,7 +71,7 @@ export const RafflesSection: React.FC<Props> = ({ chapter, token }) => {
       <InnerPanel className="mb-2">
         <div className="flex items-center justify-between mb-2 flex-wrap">
           <Label type="warning" className="">
-            Raffle
+            {t("auction.raffle")}
           </Label>
           <div className="flex items-center gap-1">
             <div className="text-xs">
@@ -102,7 +92,9 @@ export const RafflesSection: React.FC<Props> = ({ chapter, token }) => {
           <div>
             <p className="text-sm">{display.name}</p>
             <p className="text-xs">
-              +{getKeys(active.prizes).length - 1} prizes
+              {t("chapterDashboard.raffleExtraPrizes", {
+                count: getKeys(active.prizes).length - 1,
+              })}
             </p>
           </div>
         </div>
@@ -111,13 +103,15 @@ export const RafflesSection: React.FC<Props> = ({ chapter, token }) => {
           className="text-xxs underline my-1 mx-1 cursor-pointer"
           onClick={() => setShowMore(true)}
         >
-          View more
+          {t("chapterDashboard.viewMore")}
         </p>
       </InnerPanel>
 
       <Modal show={showMore} onHide={() => setShowMore(false)} size="lg">
         <CloseButtonPanel
-          tabs={[{ icon: calendar, name: "Raffles", id: "raffles" }]}
+          tabs={[
+            { icon: calendar, name: t("auction.raffle.title"), id: "raffles" },
+          ]}
           onClose={() => setShowMore(false)}
         >
           <UpcomingRaffles />

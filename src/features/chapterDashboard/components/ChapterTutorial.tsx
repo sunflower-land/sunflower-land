@@ -2,7 +2,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 import {
   CHAPTER_TICKET_NAME,
-  CHAPTERS,
   getCurrentChapter,
 } from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -13,7 +12,7 @@ import choreIcon from "assets/icons/chores.webp";
 import { Label } from "components/ui/Label";
 import shopIcon from "assets/icons/shop.png";
 import lockIcon from "assets/icons/lock.png";
-import medal from "assets/icons/red_medal.webp";mak 
+import medal from "assets/icons/red_medal.webp";
 export const ChapterTutorial: React.FC = () => {
   const { t } = useAppTranslation();
 
@@ -28,60 +27,56 @@ export const ChapterTutorial: React.FC = () => {
   return (
     <div>
       <Label type="default" className="mb-2">
-        How to earn {chapterTicket}s?
+        {t("chapterDashboard.howToEarnTickets", { ticket: chapterTicket })}
       </Label>
 
       {isHoliday && (
-        <div className="flex gap-x-2 items-start mb-2">
+        <div className="flex gap-x-2 items-center mb-2">
           <div className="w-10 h-10 flex items-center justify-center shrink-0">
             <img src={lockIcon} className="h-8 w-8 object-contain" />
           </div>
           <p className="text-xs flex-1">
-            The Bumpkins are preparing for the Chapter. Tasks will be available
-            soon.
+            {t("chapterDashboard.tasksAvailableSoon")}
           </p>
         </div>
       )}
 
-      <div className="flex gap-x-2 items-start mb-2">
+      <div className="flex gap-x-2 items-center mb-2">
         <div className="w-10 h-10 flex items-center justify-center shrink-0">
           <NPCIcon parts={NPC_WEARABLES["pumpkin' pete"]} width={32} />
         </div>
-        <p className="text-xs flex-1">
-          Gather resources and make deliveries to NPCs.
-        </p>
+        <p className="text-xs flex-1">{t("chapterDashboard.deliveries")}</p>
       </div>
 
-      <div className="flex gap-x-2 items-start mb-2">
+      <div className="flex gap-x-2 items-center mb-2">
         <div className="w-10 h-10 flex items-center justify-center shrink-0">
           <img src={choreIcon} className="h-8 w-8 object-contain" />
         </div>
-        <p className="text-xs flex-1">Complete chores each week.</p>
+        <p className="text-xs flex-1">{t("chapterDashboard.chores")}</p>
       </div>
 
-      <div className="flex gap-x-2 items-start mb-2">
+      <div className="flex gap-x-2 items-center mb-2">
         <div className="w-10 h-10 flex items-center justify-center shrink-0">
           <NPCIcon parts={NPC_WEARABLES["poppy"]} width={32} />
         </div>
-        <p className="text-xs flex-1">Complete bounties each week.</p>
+        <p className="text-xs flex-1">{t("chapterDashboard.bounties")}</p>
       </div>
 
-      <div className="flex gap-x-2 items-start mb-2">
+      <div className="flex gap-x-2 items-center mb-2">
         <div className="w-10 h-10 flex items-center justify-center shrink-0">
           <img src={shopIcon} className="h-8 w-8 object-contain" />
         </div>
         <p className="text-xs flex-1">
-          {chapterTicket}s can be spent at the Shop, Auctions & Raffles.
+          {t("chapterDashboard.spendTickets", { ticket: chapterTicket })}
         </p>
       </div>
 
-      <div className="flex gap-x-2 items-start mb-2">
+      <div className="flex gap-x-2 items-center mb-2">
         <div className="w-10 h-10 flex items-center justify-center shrink-0">
           <img src={medal} className="h-8 w-8 object-contain" />
         </div>
         <p className="text-xs flex-1">
-          Each time you complete a task, you'll earn points to claim bonus free
-          rewards
+          {t("chapterDashboard.earnPointsToClaimRewards")}
         </p>
       </div>
     </div>
