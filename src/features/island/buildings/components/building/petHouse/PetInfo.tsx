@@ -69,8 +69,8 @@ export const PetInfo: React.FC<Props> = ({ petData, children, nftPets }) => {
   const petCategory = PET_CATEGORIES[type];
 
   return (
-    <InnerPanel className="flex flex-col md:flex-row gap-1">
-      <div className="flex px-4 py-3 gap-4 w-full items-center">
+    <InnerPanel className="flex flex-col sm:flex-row gap-1 w-full">
+      <div className="flex px-4 py-3 gap-4 w-full sm:w-1/2 items-center">
         <div className="flex flex-col justify-center w-1/4 items-center gap-2">
           <img
             src={image}
@@ -130,7 +130,9 @@ export const PetInfo: React.FC<Props> = ({ petData, children, nftPets }) => {
           </div>
         </div>
       </div>
-      {children}
+      <div className="w-full sm:flex-1 sm:min-w-0 flex flex-col">
+        {children}
+      </div>
     </InnerPanel>
   );
 };
