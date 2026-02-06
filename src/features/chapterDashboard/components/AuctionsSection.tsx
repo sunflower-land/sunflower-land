@@ -174,7 +174,7 @@ export const AuctionsSection: React.FC<Props> = ({
         </div>
 
         <div>
-          {auctions.map((a) => {
+          {auctions.slice(0, 3).map((a) => {
             const currency: string = a.currency;
             const date = a.date.toLocaleDateString();
 
