@@ -6966,7 +6966,6 @@
   "pets.loadingFoodRequests": "Loading food requests",
   "pets.noFoodSelected": "Select a food to feed your pet",
   "pets.fetchableResources": "Fetchable resources",
-  "pets.typeUnknown": "Unknown type - fetch resources unavailable",
   "pet.changes": "Changes",
   "pets.levelRequired": "Level {{level}} required",
   "pets.fossilShellRewards": "Fossil Shell Rewards",
