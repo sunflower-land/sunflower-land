@@ -41,6 +41,9 @@ interface Props {
   handlePetPet: (petName: number | PetName) => void;
   isBulkFeed?: boolean;
   selectedFeed?: { petId: PetName | number; food: CookableName }[];
+  setSelectedFeed?: (
+    feed: { petId: PetName | number; food: CookableName }[],
+  ) => void;
   handleResetRequests: () => void;
   onAcknowledged: () => void;
 }
@@ -116,6 +119,7 @@ export const PetCard: React.FC<Props> = ({
   handlePetPet,
   isBulkFeed,
   selectedFeed,
+  setSelectedFeed,
   handleResetRequests,
   onAcknowledged,
 }) => {
@@ -211,6 +215,12 @@ export const PetCard: React.FC<Props> = ({
 
             const alreadyFed = isFoodAlreadyFed(petData, food, now);
 
+            const isSelected =
+              isBulkFeed &&
+              selectedFeed?.some(
+                (item) => item.petId === petName && item.food === food,
+              );
+
             const isDisabled = !canFeed || alreadyFed || isFoodLocked;
 
             const xp = getPetExperience({
@@ -236,6 +246,22 @@ export const PetCard: React.FC<Props> = ({
               requiredFeedAmount,
             );
 
+            const handleFoodClick = () => {
+              if (isBulkFeed && setSelectedFeed && selectedFeed) {
+                if (isSelected) {
+                  setSelectedFeed(
+                    selectedFeed.filter(
+                      (item) => !(item.petId === petName && item.food === food),
+                    ),
+                  );
+                } else {
+                  setSelectedFeed([...selectedFeed, { petId: petName, food }]);
+                }
+              } else {
+                handleFeed(petName, food);
+              }
+            };
+
             return (
               <FoodButtonPanel
                 key={food}
@@ -246,7 +272,8 @@ export const PetCard: React.FC<Props> = ({
                 energy={energy}
                 disabled={isDisabled}
                 locked={isFoodLocked}
-                onClick={() => handleFeed(petName, food)}
+                selected={isSelected}
+                onClick={handleFoodClick}
               />
             );
           })}

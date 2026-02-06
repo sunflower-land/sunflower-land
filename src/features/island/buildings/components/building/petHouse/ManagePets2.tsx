@@ -1,4 +1,8 @@
 import { useSelector } from "@xstate/react";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { Button } from "components/ui/Button";
+import { Label } from "components/ui/Label";
+import { InnerPanel } from "components/ui/Panel";
 import Decimal from "decimal.js-light";
 import {
   getPetFoodRequests,
@@ -21,12 +25,10 @@ import {
 } from "features/game/types/pets";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";
-import { isFoodAlreadyFed } from "./PetCard";
+import { isFoodAlreadyFed } from "./PetCard2";
 import { useNow } from "lib/utils/hooks/useNow";
-import { Button } from "components/ui/Button";
 import { PetInfo } from "./PetInfo2";
 import { PetCard } from "./PetCard2";
-import { InnerPanel } from "components/ui/Panel";
 
 type Props = {
   activePets: [PetName | number, Pet | PetNFT | undefined][];
@@ -45,7 +47,6 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
   >([]);
   const [display, setDisplay] = useState<"feeding" | "fetching">("feeding");
   const [hasViewedFetching, setHasViewedFetching] = useState(false);
-  const [showOverview, setShowOverview] = useState(false);
 
   const inventory = useSelector(
     gameService,
@@ -54,17 +55,12 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
   const state = useSelector(gameService, (state) => state.context.state);
 
   const handleConfirmFeed = () => {
-    if (showOverview) {
-      // Event to handle Bulk Feed
-      gameService.send("pets.bulkFeed", {
-        pets: selectedFeed,
-      });
-      setSelectedFeed([]);
-      setIsBulkFeed(false);
-      setShowOverview(false);
-    } else {
-      setShowOverview(true);
-    }
+    // Event to handle Bulk Feed
+    gameService.send("pets.bulkFeed", {
+      pets: selectedFeed,
+    });
+    setSelectedFeed([]);
+    setIsBulkFeed(false);
   };
   const handleBulkFeed = () => {
     if (!isBulkFeed) {
@@ -90,7 +86,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
           const { level: petLevel } = getPetLevel(pet.experience);
           const requests = getPetFoodRequests(pet, petLevel);
           requests.forEach((food) => {
-            const isAlreadyFed = isFoodAlreadyFed(pet, food);
+            const isAlreadyFed = isFoodAlreadyFed(pet, food, now);
             if (!isAlreadyFed) {
               foodRequests.push({ petId, food });
               if (!foodAllocation[food]) {
@@ -141,21 +137,6 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
     });
   };
 
-  const mappedPets = selectedFeed.reduce<
-    {
-      petId: PetName | number;
-      food: CookableName[];
-    }[]
-  >((acc, { petId, food }) => {
-    const existingPet = acc.find((p) => p.petId === petId);
-    if (existingPet) {
-      existingPet.food.push(food);
-    } else {
-      acc.push({ petId, food: [food] });
-    }
-    return acc;
-  }, []);
-
   const handleCancel = () => {
     setSelectedFeed([]);
     setIsBulkFeed(false);
@@ -203,6 +184,41 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
 
   const areAllPetsNapping = nappingPets.length === activePets.length;
 
+  // Compute whether any pets can be fed (for disabling Bulk Feed when nothing is feedable)
+  const canBulkFeedAnything = (() => {
+    if (areAllPetsNapping) return false;
+    const foodAllocation: Partial<Record<CookableName, number>> = {};
+    const foodRequests: Array<{ petId: PetName | number; food: CookableName }> =
+      [];
+    activePets.forEach(([petId, pet]) => {
+      if (pet && !isPetNeglected(pet, now) && !isPetNapping(pet, now)) {
+        const { level: petLevel } = getPetLevel(pet.experience);
+        const requests = getPetFoodRequests(pet, petLevel);
+        requests.forEach((food) => {
+          if (!isFoodAlreadyFed(pet, food, now)) {
+            foodRequests.push({ petId, food });
+            if (!foodAllocation[food]) foodAllocation[food] = 0;
+          }
+        });
+      }
+    });
+    const requiredFeedAmount = getRequiredFeedAmount(state);
+    return foodRequests.some(({ food }) => {
+      const availableFood = inventory[food] ?? new Decimal(0);
+      const currentAllocation = foodAllocation[food] || 0;
+      if (
+        requiredFeedAmount === 0 ||
+        availableFood.greaterThan(currentAllocation)
+      ) {
+        if (requiredFeedAmount > 0) {
+          foodAllocation[food] = currentAllocation + 1;
+        }
+        return true;
+      }
+      return false;
+    });
+  })();
+
   const handleFeed = (petId: PetName | number, food: CookableName) => {
     gameService.send("pet.fed", {
       petId,
@@ -233,24 +249,75 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
   };
   return (
     <>
-      <InnerPanel className="flex flex-row gap-1.5 mb-1">
-        <Button
-          className="h-10"
-          disabled={display === "feeding"}
-          onClick={() => setDisplay("feeding")}
-        >
-          {t("pets.feed")}
-        </Button>
-        <Button
-          className="h-10"
-          disabled={display === "fetching"}
-          onClick={() => {
-            setDisplay("fetching");
-            setHasViewedFetching(true);
-          }}
-        >
-          {t("pets.fetch")}
-        </Button>
+      <InnerPanel className="flex flex-col justify-between mb-1 p-1 gap-1">
+        <div className="flex flex-row justify-between w-full">
+          <div className="flex flex-col sm:flex-row items-center gap-1">
+            <Label type={isBulkFeed ? "vibrant" : "formula"}>
+              {isBulkFeed
+                ? t("pets.bulkFeedMode")
+                : t("pets.yourPets", { count: activePets.length })}
+            </Label>
+            {isBulkFeed && (
+              <Label type="warning">
+                {t("pets.feedSelected", { count: selectedFeed.length })}
+              </Label>
+            )}
+          </div>
+          <div className="flex flex-col sm:flex-row gap-1 w-1/2 sm:w-auto items-end">
+            {areSomePetsNeglected && !isBulkFeed && (
+              <Button className="w-40" onClick={handleBulkNeglect}>
+                {`Cheer All`}
+              </Button>
+            )}
+            {areSomePetsNapping && !areSomePetsNeglected && !isBulkFeed && (
+              <Button className="w-40" onClick={handleBulkPet}>
+                {`Pet All`}
+              </Button>
+            )}
+            <div className="flex flex-row gap-1">
+              {!areAllPetsNapping && display === "feeding" && (
+                <Button
+                  className="w-40"
+                  disabled={
+                    (!isBulkFeed && !canBulkFeedAnything) ||
+                    (isBulkFeed && selectedFeed.length === 0)
+                  }
+                  onClick={handleBulkFeed}
+                >
+                  {isBulkFeed ? t("pets.confirmFeed") : t("pets.bulkFeed")}
+                </Button>
+              )}
+              {isBulkFeed && display === "feeding" && (
+                <Button className="w-auto" onClick={handleCancel}>
+                  <img
+                    src={SUNNYSIDE.icons.cancel}
+                    alt="Cancel"
+                    className="h-6 object-contain"
+                  />
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-row gap-1.5 mb-1">
+          <Button
+            className="h-10"
+            disabled={display === "feeding"}
+            onClick={() => setDisplay("feeding")}
+          >
+            {t("pets.feed")}
+          </Button>
+          <Button
+            className="h-10"
+            disabled={display === "fetching"}
+            onClick={() => {
+              setDisplay("fetching");
+              setHasViewedFetching(true);
+            }}
+          >
+            {t("pets.fetch")}
+          </Button>
+        </div>
       </InnerPanel>
       <div className="flex flex-col gap-1">
         {activePetsSortedByType.map(([petName, pet]) => {
@@ -267,13 +334,16 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
                 handleFetch={handleFetch}
                 handleNeglectPet={handleNeglectPet}
                 handlePetPet={handlePetPet}
+                isBulkFeed={isBulkFeed}
+                selectedFeed={selectedFeed}
+                setSelectedFeed={setSelectedFeed}
                 handleResetRequests={() => handleResetRequests(petName)}
                 onAcknowledged={() => gameService.send("CONTINUE")}
               />
             </PetInfo>
           );
         })}
-      </div>
+      </div>{" "}
     </>
   );
 };
