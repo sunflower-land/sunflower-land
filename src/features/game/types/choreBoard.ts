@@ -1138,6 +1138,22 @@ export const NPC_CHORES = {
     activity: "Pancakes Cooked",
     amount: 15,
   }),
+  "Cook Pancakes 17 times": farmActivityTask({
+    activity: "Pancakes Cooked",
+    amount: 17,
+  }),
+  "Cook Pancakes 20 times": farmActivityTask({
+    activity: "Pancakes Cooked",
+    amount: 20,
+  }),
+  "Cook Pancakes 22 times": farmActivityTask({
+    activity: "Pancakes Cooked",
+    amount: 22,
+  }),
+  "Cook Pancakes 25 times": farmActivityTask({
+    activity: "Pancakes Cooked",
+    amount: 25,
+  }),
   "Cook Fried Calamari 1 time": farmActivityTask({
     activity: "Fried Calamari Cooked",
     amount: 1,
@@ -1490,6 +1506,30 @@ export const NPC_CHORES = {
     activity: "Fruit Salad Cooked",
     amount: 100,
   }),
+  "Cook Steamed Red Rice 10 times": farmActivityTask({
+    activity: "Steamed Red Rice Cooked",
+    amount: 10,
+  }),
+  "Cook Steamed Red Rice 12 times": farmActivityTask({
+    activity: "Steamed Red Rice Cooked",
+    amount: 12,
+  }),
+  "Cook Steamed Red Rice 13 times": farmActivityTask({
+    activity: "Steamed Red Rice Cooked",
+    amount: 13,
+  }),
+  "Cook Steamed Red Rice 15 times": farmActivityTask({
+    activity: "Steamed Red Rice Cooked",
+    amount: 15,
+  }),
+  "Cook Steamed Red Rice 16 times": farmActivityTask({
+    activity: "Steamed Red Rice Cooked",
+    amount: 16,
+  }),
+  "Cook Steamed Red Rice 18 times": farmActivityTask({
+    activity: "Steamed Red Rice Cooked",
+    amount: 18,
+  }),
   "Cook Steamed Red Rice 20 times": farmActivityTask({
     activity: "Steamed Red Rice Cooked",
     amount: 20,
@@ -1538,6 +1578,10 @@ export const NPC_CHORES = {
     activity: "Cheese Cooked",
     amount: 75,
   }),
+  "Cook Cheese 85 times": farmActivityTask({
+    activity: "Cheese Cooked",
+    amount: 85,
+  }),
   "Cook Cheese 100 times": farmActivityTask({
     activity: "Cheese Cooked",
     amount: 100,
@@ -1562,6 +1606,14 @@ export const NPC_CHORES = {
     activity: "Honey Cheddar Cooked",
     amount: 15,
   }),
+  "Cook Honey Cheddar 17 times": farmActivityTask({
+    activity: "Honey Cheddar Cooked",
+    amount: 17,
+  }),
+  "Cook Honey Cheddar 20 times": farmActivityTask({
+    activity: "Honey Cheddar Cooked",
+    amount: 20,
+  }),
   "Cook Blue Cheese 20 times": farmActivityTask({
     activity: "Blue Cheese Cooked",
     amount: 20,
@@ -1578,9 +1630,25 @@ export const NPC_CHORES = {
     activity: "Blue Cheese Cooked",
     amount: 33,
   }),
+  "Cook Blue Cheese 35 times": farmActivityTask({
+    activity: "Blue Cheese Cooked",
+    amount: 35,
+  }),
   "Cook Blue Cheese 40 times": farmActivityTask({
     activity: "Blue Cheese Cooked",
     amount: 40,
+  }),
+  "Cook Blue Cheese 45 times": farmActivityTask({
+    activity: "Blue Cheese Cooked",
+    amount: 45,
+  }),
+  "Cook Blue Cheese 50 times": farmActivityTask({
+    activity: "Blue Cheese Cooked",
+    amount: 50,
+  }),
+  "Cook Blue Cheese 60 times": farmActivityTask({
+    activity: "Blue Cheese Cooked",
+    amount: 60,
   }),
   "Cook Goblin Brunch 1 time": farmActivityTask({
     activity: "Goblin Brunch Cooked",
@@ -1601,6 +1669,18 @@ export const NPC_CHORES = {
   "Cook Goblin Brunch 5 times": farmActivityTask({
     activity: "Goblin Brunch Cooked",
     amount: 5,
+  }),
+  "Cook Goblin Brunch 12 times": farmActivityTask({
+    activity: "Goblin Brunch Cooked",
+    amount: 12,
+  }),
+  "Cook Goblin Brunch 15 times": farmActivityTask({
+    activity: "Goblin Brunch Cooked",
+    amount: 15,
+  }),
+  "Cook Goblin Brunch 18 times": farmActivityTask({
+    activity: "Goblin Brunch Cooked",
+    amount: 18,
   }),
   "Cook Sushi Roll 3 times": farmActivityTask({
     activity: "Sushi Roll Cooked",
@@ -1868,9 +1948,25 @@ export const NPC_CHORES = {
   }),
 
   // Prepare
+  "Prepare Power Smoothie 10 times": farmActivityTask({
+    activity: "Power Smoothie Cooked",
+    amount: 10,
+  }),
+  "Prepare Power Smoothie 12 times": farmActivityTask({
+    activity: "Power Smoothie Cooked",
+    amount: 12,
+  }),
+  "Prepare Power Smoothie 15 times": farmActivityTask({
+    activity: "Power Smoothie Cooked",
+    amount: 15,
+  }),
   "Prepare Power Smoothie 20 times": farmActivityTask({
     activity: "Power Smoothie Cooked",
     amount: 20,
+  }),
+  "Prepare Power Smoothie 25 times": farmActivityTask({
+    activity: "Power Smoothie Cooked",
+    amount: 25,
   }),
   "Prepare Power Smoothie 30 times": farmActivityTask({
     activity: "Power Smoothie Cooked",
@@ -2000,6 +2096,10 @@ export const NPC_CHORES = {
     activity: "Apple Juice Cooked",
     amount: 25,
   }),
+  "Prepare Apple Juice 30 times": farmActivityTask({
+    activity: "Apple Juice Cooked",
+    amount: 30,
+  }),
   "Prepare Orange Juice 15 times": farmActivityTask({
     activity: "Orange Juice Cooked",
     amount: 15,
@@ -2056,6 +2156,14 @@ export const NPC_CHORES = {
     activity: "Purple Smoothie Cooked",
     amount: 15,
   }),
+  "Prepare Purple Smoothie 17 times": farmActivityTask({
+    activity: "Purple Smoothie Cooked",
+    amount: 17,
+  }),
+  "Prepare Purple Smoothie 20 times": farmActivityTask({
+    activity: "Purple Smoothie Cooked",
+    amount: 20,
+  }),
   "Prepare Sour Shake 15 times": farmActivityTask({
     activity: "Sour Shake Cooked",
     amount: 15,
@@ -2091,10 +2199,6 @@ export const NPC_CHORES = {
   "Prepare Power Smoothie 7 times": farmActivityTask({
     activity: "Power Smoothie Cooked",
     amount: 7,
-  }),
-  "Prepare Power Smoothie 15 times": farmActivityTask({
-    activity: "Power Smoothie Cooked",
-    amount: 15,
   }),
   // Grow
   "Grow Yellow Gladiolus 3 times": farmActivityTask({
@@ -2137,6 +2241,10 @@ export const NPC_CHORES = {
     activity: "Blue Clover Harvested",
     amount: 4,
   }),
+  "Grow Blue Clover 5 times": farmActivityTask({
+    activity: "Blue Clover Harvested",
+    amount: 5,
+  }),
   "Grow Yellow Clover 3 times": farmActivityTask({
     activity: "Yellow Clover Harvested",
     amount: 3,
@@ -2144,6 +2252,10 @@ export const NPC_CHORES = {
   "Grow Yellow Clover 4 times": farmActivityTask({
     activity: "Yellow Clover Harvested",
     amount: 4,
+  }),
+  "Grow Yellow Clover 5 times": farmActivityTask({
+    activity: "Yellow Clover Harvested",
+    amount: 5,
   }),
   "Grow Red Pansy 2 times": farmActivityTask({
     activity: "Red Pansy Harvested",
@@ -2335,13 +2447,41 @@ export const NPC_CHORES = {
     activity: "Rod Casted",
     amount: 40,
   }),
+  "Fish 50 times": farmActivityTask({
+    activity: "Rod Casted",
+    amount: 50,
+  }),
   "Fish 60 times": farmActivityTask({
     activity: "Rod Casted",
     amount: 60,
   }),
+  "Fish 70 times": farmActivityTask({
+    activity: "Rod Casted",
+    amount: 70,
+  }),
+  "Fish 80 times": farmActivityTask({
+    activity: "Rod Casted",
+    amount: 80,
+  }),
+  "Fish 90 times": farmActivityTask({
+    activity: "Rod Casted",
+    amount: 90,
+  }),
   "Fish 200 times": farmActivityTask({
     activity: "Rod Casted",
     amount: 200,
+  }),
+  "Fish 220 times": farmActivityTask({
+    activity: "Rod Casted",
+    amount: 220,
+  }),
+  "Fish 240 times": farmActivityTask({
+    activity: "Rod Casted",
+    amount: 240,
+  }),
+  "Fish 260 times": farmActivityTask({
+    activity: "Rod Casted",
+    amount: 260,
   }),
   "Fish 250 times": farmActivityTask({
     activity: "Rod Casted",
@@ -2350,6 +2490,10 @@ export const NPC_CHORES = {
   "Fish 275 times": farmActivityTask({
     activity: "Rod Casted",
     amount: 275,
+  }),
+  "Fish 285 times": farmActivityTask({
+    activity: "Rod Casted",
+    amount: 285,
   }),
   "Fish 300 times": farmActivityTask({
     activity: "Rod Casted",
@@ -2428,6 +2572,38 @@ export const NPC_CHORES = {
   "Craft 200 Fishing Rods": farmActivityTask({
     activity: "Rod Crafted",
     amount: 200,
+  }),
+  "Craft 60 Crab Pots": farmActivityTask({
+    activity: "Crab Pot Crafted",
+    amount: 60,
+  }),
+  "Craft 70 Crab Pots": farmActivityTask({
+    activity: "Crab Pot Crafted",
+    amount: 70,
+  }),
+  "Craft 80 Crab Pots": farmActivityTask({
+    activity: "Crab Pot Crafted",
+    amount: 80,
+  }),
+  "Craft 90 Crab Pots": farmActivityTask({
+    activity: "Crab Pot Crafted",
+    amount: 90,
+  }),
+  "Craft 30 Mariner Pots": farmActivityTask({
+    activity: "Mariner Pot Crafted",
+    amount: 30,
+  }),
+  "Craft 40 Mariner Pots": farmActivityTask({
+    activity: "Mariner Pot Crafted",
+    amount: 40,
+  }),
+  "Craft 50 Mariner Pots": farmActivityTask({
+    activity: "Mariner Pot Crafted",
+    amount: 50,
+  }),
+  "Craft 60 Mariner Pots": farmActivityTask({
+    activity: "Mariner Pot Crafted",
+    amount: 60,
   }),
   "Craft 25 Gold Pickaxes": farmActivityTask({
     activity: "Gold Pickaxe Crafted",
