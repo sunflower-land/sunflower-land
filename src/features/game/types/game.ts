@@ -1659,6 +1659,7 @@ export type SocialFarming = {
     week: string;
   };
   villageProjects: Partial<Record<MonumentName, VillageProject>>;
+  completedProjects?: MonumentName[];
   cheersGiven: {
     date: string;
     projects: Partial<Record<MonumentName, number[]>>;
