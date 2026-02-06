@@ -141,8 +141,34 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     commonPets: 0,
     nftPets: 0,
   };
-  const placedCommonPetsCount = getPlacedCommonPetsCount(state.petHouse);
-  const placedNFTPetsCount = getPlacedNFTPetsCount(state.pets);
+
+  // When moving an already-placed pet, exclude it from counts so re-positioning is allowed
+  const isPlaceableAlreadyInPetHouse =
+    location === "petHouse" &&
+    (isPetNFT
+      ? placeable?.id != null &&
+        state.pets?.nfts?.[Number(placeable.id)]?.location === "petHouse"
+      : isPetCollectible &&
+        placeable?.id != null &&
+        (state.petHouse?.pets?.[
+          placeable.name as keyof typeof state.petHouse.pets
+        ]?.some((p) => p.id === placeable.id && p.coordinates) ??
+          false));
+
+  const excludeCommonPetId =
+    isPlaceableAlreadyInPetHouse && isPetCollectible && placeable?.id
+      ? String(placeable.id)
+      : undefined;
+  const excludeNftPetId =
+    isPlaceableAlreadyInPetHouse && isPetNFT && placeable?.id
+      ? Number(placeable.id)
+      : undefined;
+
+  const placedCommonPetsCount = getPlacedCommonPetsCount(
+    state.petHouse,
+    excludeCommonPetId,
+  );
+  const placedNFTPetsCount = getPlacedNFTPetsCount(state.pets, excludeNftPetId);
 
   const isPetHouseFullCommon =
     location === "petHouse" &&
@@ -162,7 +188,10 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
   const selectedPetType = selectedNFTPet
     ? getPetType(selectedNFTPet)
     : undefined;
-  const placedNFTPetTypes = getPlacedNFTPetTypesInPetHouse(state.pets);
+  const placedNFTPetTypes = getPlacedNFTPetTypesInPetHouse(
+    state.pets,
+    excludeNftPetId,
+  );
   const isPetHouseTypeAlreadyPlaced =
     location === "petHouse" &&
     isPetNFT &&

@@ -12,7 +12,6 @@ import {
   Pet,
   PET_CATEGORIES,
   PetNFT,
-  PetType,
   isPetOfTypeFed,
   PetNFTType,
   PetNFTs,
@@ -63,10 +62,10 @@ export const PetInfo: React.FC<Props> = ({ petData, children, nftPets }) => {
     nftPets: isNFTPet ? nftPets : undefined,
   });
   const image = getPetImage(isAsleep ? "asleep" : "happy", petId);
-  const type = getPetType(petData) as PetType;
+  const type = getPetType(petData);
   const { level, percentage, currentProgress, experienceBetweenLevels } =
     getPetLevel(petData.experience);
-  const petCategory = PET_CATEGORIES[type];
+  const petCategory = type ? PET_CATEGORIES[type] : undefined;
 
   return (
     <InnerPanel className="flex flex-col sm:flex-row gap-1 w-full">
@@ -85,20 +84,24 @@ export const PetInfo: React.FC<Props> = ({ petData, children, nftPets }) => {
           {/* Pet Type and Categories */}
           <div className="flex flex-wrap gap-1 mb-2">
             <Label type="info" className="text-xs">
-              {getPetType(petData)}
+              {type ?? "Unknown type"}
             </Label>
-            <Label type="chill" className="text-xs">
-              {petCategory.primary}
-            </Label>
-            {petCategory.secondary && (
-              <Label type="formula" className="text-xs">
-                {petCategory.secondary}
-              </Label>
-            )}
-            {petCategory.tertiary && (
-              <Label type="vibrant" className="text-xs">
-                {petCategory.tertiary}
-              </Label>
+            {petCategory && (
+              <>
+                <Label type="chill" className="text-xs">
+                  {petCategory.primary}
+                </Label>
+                {petCategory.secondary && (
+                  <Label type="formula" className="text-xs">
+                    {petCategory.secondary}
+                  </Label>
+                )}
+                {petCategory.tertiary && (
+                  <Label type="vibrant" className="text-xs">
+                    {petCategory.tertiary}
+                  </Label>
+                )}
+              </>
             )}
           </div>
 

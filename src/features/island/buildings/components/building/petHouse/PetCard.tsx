@@ -2,6 +2,7 @@ import {
   getPetFetches,
   getPetLevel,
   getPetRequestXP,
+  getPetType,
   isPetNapping,
   isPetNeglected,
   PET_RESOURCES,
@@ -289,47 +290,52 @@ export const PetCard: React.FC<Props> = ({
         >
           <Label type="default">{t("pets.fetchableResources")}</Label>
           <div className="grid grid-cols-3 gap-1 w-full">
-            {[...getPetFetches(petData).fetches]
-              .sort((a, b) => {
-                const { level } = getPetLevel(petData.experience);
-                const aUnlocked = level >= a.level;
-                const bUnlocked = level >= b.level;
+            {!getPetType(petData) ? (
+              <p className="text-xs col-span-3 p-1">{t("pets.typeUnknown")}</p>
+            ) : (
+              [...getPetFetches(petData).fetches]
+                .sort((a, b) => {
+                  const { level } = getPetLevel(petData.experience);
+                  const aUnlocked = level >= a.level;
+                  const bUnlocked = level >= b.level;
 
-                if (aUnlocked !== bUnlocked) {
-                  return aUnlocked ? -1 : 1;
-                }
+                  if (aUnlocked !== bUnlocked) {
+                    return aUnlocked ? -1 : 1;
+                  }
 
-                if (aUnlocked && bUnlocked) {
-                  const aEnergy = PET_RESOURCES[a.name].energy;
-                  const bEnergy = PET_RESOURCES[b.name].energy;
-                  if (aEnergy !== bEnergy) return aEnergy - bEnergy;
+                  if (aUnlocked && bUnlocked) {
+                    const aEnergy = PET_RESOURCES[a.name].energy;
+                    const bEnergy = PET_RESOURCES[b.name].energy;
+                    if (aEnergy !== bEnergy) return aEnergy - bEnergy;
+                    if (a.level !== b.level) return a.level - b.level;
+                    return a.name.localeCompare(b.name);
+                  }
+
                   if (a.level !== b.level) return a.level - b.level;
                   return a.name.localeCompare(b.name);
-                }
+                })
+                .map((fetch) => {
+                  const { level } = getPetLevel(petData.experience);
+                  const hasRequiredLevel = level >= fetch.level;
+                  const energyRequired = PET_RESOURCES[fetch.name].energy;
+                  const hasEnoughEnergy = petData.energy >= energyRequired;
+                  const isDisabled = !hasRequiredLevel || !hasEnoughEnergy;
+                  const inventoryCount =
+                    inventory[fetch.name] ?? new Decimal(0);
 
-                if (a.level !== b.level) return a.level - b.level;
-                return a.name.localeCompare(b.name);
-              })
-              .map((fetch) => {
-                const { level } = getPetLevel(petData.experience);
-                const hasRequiredLevel = level >= fetch.level;
-                const energyRequired = PET_RESOURCES[fetch.name].energy;
-                const hasEnoughEnergy = petData.energy >= energyRequired;
-                const isDisabled = !hasRequiredLevel || !hasEnoughEnergy;
-                const inventoryCount = inventory[fetch.name] ?? new Decimal(0);
-
-                return (
-                  <FetchButtonPanel
-                    key={fetch.name}
-                    fetch={fetch.name}
-                    inventoryCount={inventoryCount}
-                    energyRequired={energyRequired}
-                    disabled={isDisabled}
-                    locked={!hasRequiredLevel}
-                    onClick={() => handleFetch(petName, fetch.name)}
-                  />
-                );
-              })}
+                  return (
+                    <FetchButtonPanel
+                      key={fetch.name}
+                      fetch={fetch.name}
+                      inventoryCount={inventoryCount}
+                      energyRequired={energyRequired}
+                      disabled={isDisabled}
+                      locked={!hasRequiredLevel}
+                      onClick={() => handleFetch(petName, fetch.name)}
+                    />
+                  );
+                })
+            )}
           </div>
         </div>
       )}
