@@ -100,6 +100,8 @@ export const ColorPanel: React.FC<React.PropsWithChildren<ColorPanelProps>> = ({
 }) => {
   const { className, style, ...otherDivProps } = divProps;
 
+  console.log({ className });
+
   return (
     <div
       className={classNames(className)}

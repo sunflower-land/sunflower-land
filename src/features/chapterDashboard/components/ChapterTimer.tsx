@@ -18,7 +18,7 @@ export const ChapterTimer: React.FC = () => {
 
   if (tasksBegin && now < tasksBegin.getTime()) {
     return (
-      <ColorPanel type="vibrant" className="flex">
+      <ColorPanel type="vibrant" className="flex p-1">
         <img src={SUNNYSIDE.icons.stopwatch} className="h-8 mr-1" />
         <div>
           <p className="text-xs">Chapter starts:</p>
