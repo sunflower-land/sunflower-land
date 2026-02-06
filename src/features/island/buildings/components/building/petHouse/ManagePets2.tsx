@@ -12,6 +12,7 @@ import {
   Pet,
   PetNFT,
   PetName,
+  PetResourceName,
   PetType,
   getPetLevel,
   getPetType,
@@ -43,6 +44,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
     }[]
   >([]);
   const [display, setDisplay] = useState<"feeding" | "fetching">("feeding");
+  const [hasViewedFetching, setHasViewedFetching] = useState(false);
   const [showOverview, setShowOverview] = useState(false);
 
   const inventory = useSelector(
@@ -208,6 +210,10 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
     });
   };
 
+  const handleFetch = (petId: PetName | number, fetch: PetResourceName) => {
+    gameService.send("pet.fetched", { petId, fetch });
+  };
+
   const handleNeglectPet = (petId: PetName | number) => {
     gameService.send("pet.neglected", { petId });
   };
@@ -238,7 +244,10 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
         <Button
           className="h-10"
           disabled={display === "fetching"}
-          onClick={() => setDisplay("fetching")}
+          onClick={() => {
+            setDisplay("fetching");
+            setHasViewedFetching(true);
+          }}
         >
           {t("pets.fetch")}
         </Button>
@@ -253,7 +262,9 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
                 petName={petName}
                 state={state}
                 display={display}
+                hasViewedFetching={hasViewedFetching}
                 handleFeed={handleFeed}
+                handleFetch={handleFetch}
                 handleNeglectPet={handleNeglectPet}
                 handlePetPet={handlePetPet}
                 handleResetRequests={() => handleResetRequests(petName)}

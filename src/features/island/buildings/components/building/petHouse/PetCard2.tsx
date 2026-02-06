@@ -1,11 +1,14 @@
 import {
+  getPetFetches,
   getPetLevel,
   getPetRequestXP,
   isPetNapping,
   isPetNeglected,
+  PET_RESOURCES,
   Pet,
   PetName,
   PetNFT,
+  PetResourceName,
 } from "features/game/types/pets";
 import React, { useState } from "react";
 import {
@@ -14,6 +17,7 @@ import {
   getPetFoodRequests,
   getRequiredFeedAmount,
 } from "features/game/events/pets/feedPet";
+import { FetchButtonPanel } from "./FetchButtonPanel";
 import { FoodButtonPanel } from "./FoodButtonPanel";
 import { GameState, Inventory } from "features/game/types/game";
 import { Label } from "components/ui/Label";
@@ -30,7 +34,9 @@ interface Props {
   petName: number | PetName;
   state: GameState;
   display: "feeding" | "fetching";
+  hasViewedFetching?: boolean;
   handleFeed: (petName: number | PetName, food: CookableName) => void;
+  handleFetch: (petName: number | PetName, fetch: PetResourceName) => void;
   handleNeglectPet: (petName: number | PetName) => void;
   handlePetPet: (petName: number | PetName) => void;
   isBulkFeed?: boolean;
@@ -103,7 +109,9 @@ export const PetCard: React.FC<Props> = ({
   petName,
   state,
   display,
+  hasViewedFetching = false,
   handleFeed,
+  handleFetch,
   handleNeglectPet,
   handlePetPet,
   isBulkFeed,
@@ -117,17 +125,20 @@ export const PetCard: React.FC<Props> = ({
   const { inventory } = state;
   const [showResetRequests, setShowResetRequests] = useState(false);
 
+  const showFetchingSection = display === "fetching" || hasViewedFetching;
+
   // Neglected takes precedence: cheer first, then pet
   if (isPetNeglected(petData, now)) {
     return (
       <div className="flex flex-col gap-1 w-full sm:w-auto">
-        <Label type={"danger"}>{t("pets.neglectPet")}</Label>
         <p className="text-xs p-1">
           {t("pets.neglectPetDescription", { pet: petData.name })}
         </p>
-        <Label type="danger" secondaryIcon={xpIcon}>{`-500`}</Label>
         <Button onClick={() => handleNeglectPet(petName)}>
-          {t("pets.cheerPet", { pet: petData.name })}
+          <div className="absolute -top-5 -right-2">
+            <Label type="danger" secondaryIcon={xpIcon}>{`-500`}</Label>
+          </div>
+          <p>{t("pets.cheerPet", { pet: petData.name })}</p>
         </Button>
       </div>
     );
@@ -136,13 +147,11 @@ export const PetCard: React.FC<Props> = ({
   if (isPetNapping(petData, now)) {
     return (
       <div className="flex flex-col gap-1 w-full sm:w-auto">
-        <Label type={"warning"}>{t("pets.napping")}</Label>
-        <p className="text-xs p-1">
-          {t("pets.nappingDescription", { pet: petData.name })}
-        </p>
-        <Label type="success" secondaryIcon={xpIcon}>{`+10`}</Label>
-        <Button onClick={() => handlePetPet(petName)}>
-          {t("pets.petPet", { pet: petData.name })}
+        <Button onClick={() => handlePetPet(petName)} className="relative">
+          <div className="absolute -top-5 -right-2">
+            <Label type="success" secondaryIcon={xpIcon}>{`+10`}</Label>
+          </div>
+          <p>{t("pets.petPet", { pet: petData.name })}</p>
         </Button>
       </div>
     );
@@ -166,72 +175,134 @@ export const PetCard: React.FC<Props> = ({
 
   return (
     <>
-      {display === "feeding" && (
-        <div className="flex flex-col gap-1">
-          <div className="flex flex-row gap-1 items-center justify-between">
-            <Label type="default">{`Today's Requests`}</Label>
-            <p
-              className="underline font-secondary text-xxs pb-1 -mt-1 mr-1 cursor-pointer hover:text-blue-500"
-              onClick={() => setShowResetRequests(true)}
-            >
-              {t("pets.resetRequests")}
-            </p>
-          </div>
-          <div className="grid grid-cols-3 gap-1">
-            {petData.requests.food.map((food) => {
-              const { level: petLevel } = getPetLevel(petData.experience);
+      <div
+        className="flex flex-col gap-1"
+        style={{ display: display === "feeding" ? "flex" : "none" }}
+      >
+        <div className="flex flex-row gap-1 items-center justify-between">
+          <Label type="default">{`Today's Requests`}</Label>
+          <p
+            className="underline font-secondary text-xxs pb-1 -mt-1 mr-1 cursor-pointer hover:text-blue-500"
+            onClick={() => setShowResetRequests(true)}
+          >
+            {t("pets.resetRequests")}
+          </p>
+        </div>
+        <div className="grid grid-cols-3 gap-1">
+          {petData.requests.food.map((food) => {
+            const { level: petLevel } = getPetLevel(petData.experience);
 
-              const isFoodLocked = !getPetFoodRequests(
-                petData,
-                petLevel,
-              ).includes(food);
+            const isFoodLocked = !getPetFoodRequests(
+              petData,
+              petLevel,
+            ).includes(food);
 
-              const requiredFeedAmount = getRequiredFeedAmount(state);
+            const requiredFeedAmount = getRequiredFeedAmount(state);
 
-              const canFeed =
-                requiredFeedAmount === 0 ||
-                hasFoodInInventory(
-                  food,
-                  inventory,
-                  isBulkFeed,
-                  selectedFeed,
-                  requiredFeedAmount,
-                );
-
-              const alreadyFed = isFoodAlreadyFed(petData, food, now);
-
-              const isDisabled = !canFeed || alreadyFed || isFoodLocked;
-
-              const xp = getPetExperience({
-                basePetXP: getPetRequestXP(food),
-                game: state,
-                petLevel,
-                petData,
+            const canFeed =
+              requiredFeedAmount === 0 ||
+              hasFoodInInventory(
                 food,
-              });
-
-              const energy = getPetEnergy({
-                game: state,
-                basePetEnergy: getPetRequestXP(food),
-                petLevel,
-                petData,
-              });
-
-              return (
-                <FoodButtonPanel
-                  key={food}
-                  food={food}
-                  xp={xp}
-                  energy={energy}
-                  disabled={isDisabled}
-                  onClick={() => handleFeed(petName, food)}
-                />
+                inventory,
+                isBulkFeed,
+                selectedFeed,
+                requiredFeedAmount,
               );
-            })}
+
+            const alreadyFed = isFoodAlreadyFed(petData, food, now);
+
+            const isDisabled = !canFeed || alreadyFed || isFoodLocked;
+
+            const xp = getPetExperience({
+              basePetXP: getPetRequestXP(food),
+              game: state,
+              petLevel,
+              petData,
+              food,
+            });
+
+            const energy = getPetEnergy({
+              game: state,
+              basePetEnergy: getPetRequestXP(food),
+              petLevel,
+              petData,
+            });
+
+            const inventoryCount = getAdjustedFoodCount(
+              food,
+              inventory,
+              isBulkFeed,
+              selectedFeed,
+              requiredFeedAmount,
+            );
+
+            return (
+              <FoodButtonPanel
+                key={food}
+                food={food}
+                foodFed={alreadyFed}
+                inventoryCount={inventoryCount}
+                xp={xp}
+                energy={energy}
+                disabled={isDisabled}
+                locked={isFoodLocked}
+                onClick={() => handleFeed(petName, food)}
+              />
+            );
+          })}
+        </div>
+      </div>
+      {showFetchingSection && (
+        <div
+          className="flex flex-col gap-1"
+          style={{ display: display === "fetching" ? "flex" : "none" }}
+        >
+          <Label type="default">{t("pets.fetchableResources")}</Label>
+          <div className="grid grid-cols-3 gap-1">
+            {[...getPetFetches(petData).fetches]
+              .sort((a, b) => {
+                const { level } = getPetLevel(petData.experience);
+                const aUnlocked = level >= a.level;
+                const bUnlocked = level >= b.level;
+
+                if (aUnlocked !== bUnlocked) {
+                  return aUnlocked ? -1 : 1;
+                }
+
+                if (aUnlocked && bUnlocked) {
+                  const aEnergy = PET_RESOURCES[a.name].energy;
+                  const bEnergy = PET_RESOURCES[b.name].energy;
+                  if (aEnergy !== bEnergy) return aEnergy - bEnergy;
+                  if (a.level !== b.level) return a.level - b.level;
+                  return a.name.localeCompare(b.name);
+                }
+
+                if (a.level !== b.level) return a.level - b.level;
+                return a.name.localeCompare(b.name);
+              })
+              .map((fetch) => {
+                const { level } = getPetLevel(petData.experience);
+                const hasRequiredLevel = level >= fetch.level;
+                const energyRequired = PET_RESOURCES[fetch.name].energy;
+                const hasEnoughEnergy = petData.energy >= energyRequired;
+                const isDisabled = !hasRequiredLevel || !hasEnoughEnergy;
+                const inventoryCount = inventory[fetch.name] ?? new Decimal(0);
+
+                return (
+                  <FetchButtonPanel
+                    key={fetch.name}
+                    fetch={fetch.name}
+                    inventoryCount={inventoryCount}
+                    energyRequired={energyRequired}
+                    disabled={isDisabled}
+                    locked={!hasRequiredLevel}
+                    onClick={() => handleFetch(petName, fetch.name)}
+                  />
+                );
+              })}
           </div>
         </div>
       )}
-      {display === "fetching" && <></>}
     </>
   );
 };
