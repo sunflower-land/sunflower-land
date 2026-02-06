@@ -528,6 +528,10 @@ export type FishBounty = Bounty & {
   name: FishName;
 };
 
+export type CrustaceanBounty = Bounty & {
+  name: CrustaceanName;
+};
+
 export type DollBounty = Bounty & {
   name: DollName;
 };
@@ -557,7 +561,8 @@ export type BountyRequest =
   | ExoticBounty
   | MarkBounty
   | DollBounty
-  | GiantFruitBounty;
+  | GiantFruitBounty
+  | CrustaceanBounty;
 
 export type Bounties = {
   requests: BountyRequest[];

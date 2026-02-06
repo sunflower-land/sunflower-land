@@ -19,6 +19,7 @@ import {
   MarkBounty,
   ObsidianBounty,
   GiantFruitBounty,
+  CrustaceanBounty,
 } from "features/game/types/game";
 import {
   getCurrentChapter,
@@ -34,12 +35,15 @@ import { CHAPTER_TICKET_BOOST_ITEMS } from "./completeNPCChore";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { getChapterTaskPoints } from "features/game/types/tracks";
 import { handleChapterAnalytics } from "features/game/lib/trackAnalytics";
+import { CRUSTACEANS, CrustaceanName } from "features/game/types/crustaceans";
 
 export const BOUNTY_CATEGORIES = {
   "Flower Bounties": (bounty: BountyRequest): bounty is FlowerBounty =>
     getKeys(FLOWERS).includes(bounty.name as FlowerName),
   "Fish Bounties": (bounty: BountyRequest): bounty is FishBounty =>
     getKeys(FISH).includes(bounty.name as FishName),
+  "Crustacean Bounties": (bounty: BountyRequest): bounty is CrustaceanBounty =>
+    CRUSTACEANS.includes(bounty.name as CrustaceanName),
   "Exotic Bounties": (bounty: BountyRequest): bounty is ExoticBounty =>
     Object.keys(EXOTIC_CROPS)
       .filter(

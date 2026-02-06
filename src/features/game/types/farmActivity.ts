@@ -49,7 +49,7 @@ import { WeatherShopItem } from "./calendar";
 import { PetShopItemName } from "./petShop";
 import { MonumentName } from "./monuments";
 import { BumpkinItem } from "./bumpkin";
-import { WaterTrapName } from "./crustaceans";
+import { CrustaceanName, WaterTrapName } from "./crustaceans";
 import { ProcessedResource } from "./processedFood";
 import { ChapterName, ChapterTicket } from "./chapters";
 import { TrackName } from "./tracks";
@@ -67,7 +67,8 @@ export type BountiedEvent = `${
   | FullMoonFruit
   | RecipeCraftableName
   | DollName
-  | "Mark"} Bountied`;
+  | "Mark"
+  | CrustaceanName} Bountied`;
 
 export type ResourceBought = `${ResourceName} Bought`;
 export type BiomeBought = `${LandBiomeName} Bought`;
