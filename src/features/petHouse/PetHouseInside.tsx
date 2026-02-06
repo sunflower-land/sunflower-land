@@ -1,10 +1,4 @@
-import React, {
-  useContext,
-  useLayoutEffect,
-  useMemo,
-  useState,
-  type JSX,
-} from "react";
+import React, { useContext, useLayoutEffect, useState, type JSX } from "react";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
@@ -30,7 +24,6 @@ import {
 } from "features/game/types/craftables";
 import { getGameGrid } from "features/game/expansion/placeable/lib/makeGrid";
 import { PET_HOUSE_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { PetNFT } from "features/island/pets/PetNFT";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { PetHouseModal } from "features/island/buildings/components/building/petHouse/PetHouseModal";
@@ -70,40 +63,18 @@ export const PetHouseInside: React.FC = () => {
   const pets = useSelector(gameService, _petHousePets);
   const biome = useSelector(gameService, _biome);
 
-  // Compute pet positions with useMemo to avoid unnecessary re-renders
-  const petPositions = useMemo(
-    () =>
-      getObjectEntries(pets)
-        .flatMap(([name, value]) => value?.map((item) => ({ name, item })))
-        .filter(
-          (pet): pet is NonNullable<typeof pet> =>
-            !!(pet && pet.item.coordinates !== undefined),
-        )
-        .map(({ name, item }) => ({
-          id: item.id,
-          x: item.coordinates!.x,
-          y: item.coordinates!.y,
-          flipped: item.flipped,
-          name,
-        })),
-    [pets],
-  );
-
   const level = petHouse.level;
   const nextLevel = Math.min(level + 1, 3);
 
   useLayoutEffect(() => {
     scrollIntoView(Section.GenesisBlock, "auto");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const gameGridValue = getGameGrid({
+  const gameGrid = getGameGrid({
     cropPositions: [],
     collectiblePositions: [],
   });
-  const gameGrid = useMemo(() => {
-    return gameGridValue;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [petPositions]);
 
   const { src: image, height, width } = PET_HOUSE_IMAGES[level];
   const bounds = PET_HOUSE_BOUNDS[level];
