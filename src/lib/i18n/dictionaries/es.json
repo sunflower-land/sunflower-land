@@ -6126,7 +6126,6 @@
   "visitorGuide.monument": "Ayúdame a terminar el proyecto",
   "visitorGuide.binGuide.burn.description": "Demasiado Vegemite. Muy poco código. Nuestros desarrolladores de Sídney están reiniciando — ¡una nueva función en camino!",
   "description.doubleBed": "Una cama acogedora hecha para amigos.",
-  "project.completed": "¡Felicidades! ¡El {{project}} está completo! Completar el proyecto lo retirará de tu terreno y te permitirá construir uno nuevo.",
   "complete.project": "Completar proyecto",
   "completed.monument": "Monumento completado",
   "playerModal.projectsInProgress": "Proyectos en curso",
@@ -8008,5 +8007,8 @@
   "chore.cook.pancake.22": "Cocine los panqueques 22 veces",
   "chore.cook.pancake.25": "Cocine los panqueques 25 veces",
   "chore.grow.blueClover.5": "Cultiva trébol azul 5 veces",
-  "chore.grow.yellowClover.5": "Cultiva trébol amarillo 5 veces"
+  "chore.grow.yellowClover.5": "Cultiva trébol amarillo 5 veces",
+  "project.completed": "¡Felicidades! ¡El {{project}} está completo! Al completar el proyecto, recibirás tu recompensa. El proyecto permanecerá en tu terreno y podrás iniciar otro proyecto cuando estés listo.",
+  "project.startPrompt": "¿Empezar otro proyecto?",
+  "project.start": "Iniciar proyecto"
 }

@@ -6126,7 +6126,6 @@
   "visitorGuide.monument": "프로젝트 완료를 도와주세요.",
   "visitorGuide.binGuide.burn.description": "베지마이트가 너무 많아요코드가 충분하지 않아요.시드니 개발팀이 재부팅 중입니다. 곧 기능이 추가될 예정입니다!",
   "description.doubleBed": "친구를 위해 만든 아늑한 침대.",
-  "project.completed": "축하합니다!{{project}} 가 완성되었습니다!프로젝트를 완료하면 해당 프로젝트가 토지에서 제거되고 새 프로젝트를 건설할 수 있습니다.",
   "complete.project": "프로젝트 완료",
   "completed.monument": "완성된 기념비",
   "playerModal.projectsInProgress": "진행 중인 프로젝트",
@@ -8008,5 +8007,8 @@
   "chore.cook.pancake.22": "팬케이크를 2번 요리하세요",
   "chore.cook.pancake.25": "팬케이크를 25번 요리하세요.",
   "chore.grow.blueClover.5": "블루 클로버를 5번 키워보세요",
-  "chore.grow.yellowClover.5": "옐로우 클로버를 5번 키워보세요"
+  "chore.grow.yellowClover.5": "옐로우 클로버를 5번 키워보세요",
+  "project.completed": "축하합니다!{{project}} 가 완성되었습니다!프로젝트를 완료하면 보상을 받을 수 있습니다.프로젝트는 해당 토지에 그대로 유지되며 준비가 되면 다른 프로젝트를 시작할 수 있습니다.",
+  "project.startPrompt": "다른 프로젝트를 시작하시겠습니까?",
+  "project.start": "프로젝트 시작"
 }

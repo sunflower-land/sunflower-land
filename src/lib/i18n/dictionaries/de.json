@@ -6126,7 +6126,6 @@
   "visitorGuide.monument": "Hilf mir, das Projekt zu beenden",
   "visitorGuide.binGuide.burn.description": "Zu viel Vegemite. Nicht genug Code. Unsere Entwickler in Sydney starten neu — das Feature ist auf dem Weg!",
   "description.doubleBed": "Ein gemütliches Bett wie gemacht für Freunde.",
-  "project.completed": "Herzlichen Glückwunsch! Das {{project}} ist abgeschlossen! Wenn Sie das Projekt abschließen, wird das Projekt von Ihrem Grundstück entfernt und Sie können ein neues bauen.",
   "complete.project": "Projekt abschließen",
   "completed.monument": "Monument abgeschlossen",
   "playerModal.projectsInProgress": "Laufende Projekte",
@@ -8008,5 +8007,8 @@
   "chore.cook.pancake.22": "Pfannkuchen 22 mal kochen",
   "chore.cook.pancake.25": "Pfannkuchen 25 mal kochen",
   "chore.grow.blueClover.5": "Züchte Blauklee 5 mal",
-  "chore.grow.yellowClover.5": "Züchte Gelbklee 5 mal"
+  "chore.grow.yellowClover.5": "Züchte Gelbklee 5 mal",
+  "project.completed": "Herzlichen Glückwunsch! Das {{project}} ist abgeschlossen! Wenn Sie das Projekt abschließen, erhalten Sie Ihre Belohnung. Das Projekt bleibt auf deinem Grundstück und du kannst ein weiteres Projekt starten, wenn du fertig bist.",
+  "project.startPrompt": "Ein anderes Projekt starten?",
+  "project.start": "Projekt starten"
 }

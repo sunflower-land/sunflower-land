@@ -6126,7 +6126,6 @@
   "visitorGuide.monument": "Aidez-moi à terminer le projet",
   "visitorGuide.binGuide.burn.description": "Trop de Vegemite. Pas assez de code. Nos développeurs de Sydney redémarrent, la fonctionnalité est en cours !",
   "description.doubleBed": "Un lit douillet fait pour les amis.",
-  "project.completed": "Félicitations ! Le {{project}} est terminé ! L'achèvement du projet supprimera le projet de votre terrain et vous permettra d'en construire un nouveau.",
   "complete.project": "Projet complet",
   "completed.monument": "Monument terminé",
   "playerModal.projectsInProgress": "Projets en cours",
@@ -8008,5 +8007,8 @@
   "chore.cook.pancake.22": "Cuire les crêpes 22 fois",
   "chore.cook.pancake.25": "Cuire les crêpes 25 fois",
   "chore.grow.blueClover.5": "Cultivez le trèfle bleu 5 fois",
-  "chore.grow.yellowClover.5": "Cultivez le trèfle jaune 5 fois"
+  "chore.grow.yellowClover.5": "Cultivez le trèfle jaune 5 fois",
+  "project.completed": "Félicitations ! Le {{project}} est terminé ! Si vous terminez le projet, vous recevrez votre récompense. Le projet restera sur votre terrain et vous pourrez en démarrer un autre lorsque vous serez prêt.",
+  "project.startPrompt": "Vous lancez un autre projet ?",
+  "project.start": "Démarrer le projet"
 }

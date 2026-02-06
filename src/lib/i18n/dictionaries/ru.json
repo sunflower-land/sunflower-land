@@ -6390,7 +6390,6 @@
   "news.betterTogether.megastore": "Обменяйте токены Bracelet в Megastore на эксклюзивные коллекционные и носимые NFT.",
   "news.betterTogether.auction": "Соревнуйтесь с другими Bumpkins на аукционе за самые редкие NFT.",
   "news.betterTogether.mutants": "Откройте для себя мутантов и другие эксклюзивные NFT, эксклюзивные для глав.",
-  "project.completed": "Поздравляем! Проект {{project}} завершен! После завершения он будет удален с твоей земли и ты сможешь построить новый.",
   "monument.completed": "Поздравляем! Монумент {{project}} завершен!",
   "disabled.giantFruit": "Отключено до 11 августа",
   "project.incomplete": "Пригласи друзей посетить ферму и помочь тебе.",
@@ -8008,5 +8007,8 @@
   "chore.cook.pancake.22": "Cook Pancakes 22 times",
   "chore.cook.pancake.25": "Cook Pancakes 25 times",
   "chore.grow.blueClover.5": "Grow Blue Clover 5 times",
-  "chore.grow.yellowClover.5": "Grow Yellow Clover 5 times"
+  "chore.grow.yellowClover.5": "Grow Yellow Clover 5 times",
+  "project.completed": "Congratulations! The {{project}} is complete! Completing the project will collect your reward. The project will remain on your land and you can start another project when ready.",
+  "project.startPrompt": "Start another project?",
+  "project.start": "Start Project"
 }

@@ -6126,7 +6126,6 @@
   "visitorGuide.monument": "Bantu saya menyelesaikan proyek",
   "visitorGuide.binGuide.burn.description": "Terlalu banyak Vegemite. Tidak cukup kode. Pengembang Sydney kami sedang me-reboot - fitur dalam perjalanan!",
   "description.doubleBed": "Tempat tidur yang nyaman dibuat untuk teman-teman.",
-  "project.completed": "Selamat! {{project}} selesai! Menyelesaikan proyek akan menghapus proyek dari tanah Anda dan memungkinkan Anda untuk membangun yang baru.",
   "complete.project": "Proyek Lengkap",
   "completed.monument": "Monumen Selesai",
   "playerModal.projectsInProgress": "Proyek-proyek yang sedang berjalan",
@@ -8008,5 +8007,8 @@
   "chore.cook.pancake.22": "Masak Pancake 22 kali",
   "chore.cook.pancake.25": "Masak Pancake 25 kali",
   "chore.grow.blueClover.5": "Tumbuhkan Blue Clover 5 kali",
-  "chore.grow.yellowClover.5": "Tumbuhkan Semanggi Kuning 5 kali"
+  "chore.grow.yellowClover.5": "Tumbuhkan Semanggi Kuning 5 kali",
+  "project.completed": "Selamat! {{project}} selesai! Menyelesaikan proyek akan mengumpulkan hadiah Anda. Proyek akan tetap berada di tanah Anda dan Anda dapat memulai proyek lain ketika siap.",
+  "project.startPrompt": "Memulai proyek lain?",
+  "project.start": "Mulai Proyek"
 }

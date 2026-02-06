@@ -6126,7 +6126,6 @@
   "visitorGuide.monument": "帮我完成项目",
   "visitorGuide.binGuide.burn.description": "维吉麦吃多了，代码不够用。悉尼的开发者们正在重启大脑——新功能即将上线！",
   "description.doubleBed": "为朋友准备的舒适床。",
-  "project.completed": "恭喜！{{project}} 已完成！完成该项目将使该项目从您的土地上移除，并允许您建造一个新项目。",
   "complete.project": "完成项目",
   "completed.monument": "完工的纪念碑",
   "playerModal.projectsInProgress": "正在进行的项目",
@@ -8008,5 +8007,8 @@
   "chore.cook.pancake.22": "煮煎饼 22 次",
   "chore.cook.pancake.25": "煮煎饼 25 次",
   "chore.grow.blueClover.5": "种植蓝三叶草 5 次",
-  "chore.grow.yellowClover.5": "种植黄色三叶草 5 次"
+  "chore.grow.yellowClover.5": "种植黄色三叶草 5 次",
+  "project.completed": "恭喜！{{project}} 已完成！完成该项目将领取您的奖励。该项目将留在您的土地上，准备就绪后您可以开始另一个项目。",
+  "project.startPrompt": "开始另一个项目？",
+  "project.start": "启动项目"
 }

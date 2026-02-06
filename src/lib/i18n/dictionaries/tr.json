@@ -6126,7 +6126,6 @@
   "visitorGuide.monument": "Projeyi bitirmemize yardım et",
   "visitorGuide.binGuide.burn.description": "Çok fazla Vegemite. Yeterli kod yok. Sydney geliştiricilerimiz yeniden başlatılıyor - özellik yolda!",
   "description.doubleBed": "Arkadaşlar için yapılmış rahat bir yatak.",
-  "project.completed": "Tebrikler! {{project}} tamamlandı! Projeyi tamamlamak, projeyi arazinizden kaldıracak ve yeni bir tane inşa etmenize izin verecektir.",
   "complete.project": "Projeyi Tamamlayın",
   "completed.monument": "Tamamlanan Anıt",
   "playerModal.projectsInProgress": "Devamlı Projeler",
@@ -8008,5 +8007,8 @@
   "chore.cook.pancake.22": "Krep 22 kez pişirin",
   "chore.cook.pancake.25": "Krep 25 kez pişirin",
   "chore.grow.blueClover.5": "Mavi Yonca 5 kez büyütün",
-  "chore.grow.yellowClover.5": "Sarı Yonca 5 kez büyütün"
+  "chore.grow.yellowClover.5": "Sarı Yonca 5 kez büyütün",
+  "project.completed": "Tebrikler! {{project}} tamamlandı! Projeyi tamamlamak ödülünüzü toplayacaktır. Proje arazinizde kalacak ve hazır olduğunuzda başka bir projeye başlayabilirsiniz.",
+  "project.startPrompt": "Başka bir proje başlatmak mı?",
+  "project.start": "Projeyi Başlat"
 }

@@ -6126,7 +6126,6 @@
   "visitorGuide.monument": "Aiutami a finire il progetto",
   "visitorGuide.binGuide.burn.description": "Troppa Vegemite. Codice insufficiente. I nostri sviluppatori di Sydney si stanno riavviando: una funzionalità è in arrivo!",
   "description.doubleBed": "Un comodo letto fatto per gli amici.",
-  "project.completed": "Congratulazioni! Il {{project}} è completo! Il completamento del progetto rimuoverà il progetto dal tuo terreno e ti consentirà di costruirne uno nuovo.",
   "complete.project": "Progetto completo",
   "completed.monument": "Monumento completato",
   "playerModal.projectsInProgress": "Progetti in corso",
@@ -8008,5 +8007,8 @@
   "chore.cook.pancake.22": "Cuoci i pancake 22 volte",
   "chore.cook.pancake.25": "Cuoci i pancake 25 volte",
   "chore.grow.blueClover.5": "Coltiva il trifoglio blu 5 volte",
-  "chore.grow.yellowClover.5": "Coltiva il trifoglio giallo 5 volte"
+  "chore.grow.yellowClover.5": "Coltiva il trifoglio giallo 5 volte",
+  "project.completed": "Congratulazioni! Il {{project}} è completo! Completando il progetto riceverai la tua ricompensa. Il progetto rimarrà sul tuo terreno e potrai avviarne un altro quando sarai pronto.",
+  "project.startPrompt": "Iniziare un altro progetto?",
+  "project.start": "Avvia progetto"
 }

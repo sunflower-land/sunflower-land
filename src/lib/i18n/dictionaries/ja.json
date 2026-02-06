@@ -6126,7 +6126,6 @@
   "visitorGuide.monument": "プロジェクトを完了するのを手伝ってください",
   "visitorGuide.binGuide.burn.description": "ベジマイトが多すぎる。コードが足りません。シドニーのデベロッパーが再起動中 — 機能追加準備中！",
   "description.doubleBed": "友達のために作られた居心地の良いベッド。",
-  "project.completed": "おめでとう!{{project}} が完成しました！プロジェクトを完了すると、あなたの土地からプロジェクトが削除され、新しい土地を建設できるようになります。",
   "complete.project": "プロジェクト完了",
   "completed.monument": "完成した記念碑",
   "playerModal.projectsInProgress": "進行中のプロジェクト",
@@ -8008,5 +8007,8 @@
   "chore.cook.pancake.22": "パンケーキを22回調理する",
   "chore.cook.pancake.25": "パンケーキを25回調理する",
   "chore.grow.blueClover.5": "ブルークローバーを5回育てる",
-  "chore.grow.yellowClover.5": "イエロークローバーを5回育てる"
+  "chore.grow.yellowClover.5": "イエロークローバーを5回育てる",
+  "project.completed": "おめでとう!{{project}} が完成しました！プロジェクトを完了すると報酬が貯まります。プロジェクトはあなたの土地に残り、準備ができたら別のプロジェクトを開始できます。",
+  "project.startPrompt": "別のプロジェクトを始めますか？",
+  "project.start": "プロジェクト開始"
 }
