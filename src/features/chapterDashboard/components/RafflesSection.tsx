@@ -75,8 +75,12 @@ export const RafflesSection: React.FC<Props> = ({ chapter, token }) => {
           </Label>
           <div className="flex items-center gap-1">
             <div className="text-xs">
-              {new Date(active.startAt).toLocaleDateString().slice(0, 5)}-
-              {new Date(active.endAt).toLocaleDateString().slice(0, 5)}
+              {t("chapterDashboard.raffleDateRange", {
+                start: new Date(active.startAt)
+                  .toLocaleDateString()
+                  .slice(0, 5),
+                end: new Date(active.endAt).toLocaleDateString().slice(0, 5),
+              })}
             </div>
             <img src={calendar} className="h-5" />
           </div>

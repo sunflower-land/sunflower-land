@@ -176,9 +176,13 @@ export const AuctionsSection: React.FC<Props> = ({
         <div>
           {auctions.map((a) => {
             const currency: string = a.currency;
+            const date = a.date.toLocaleDateString();
 
             return (
-              <div className="flex items-center mb-0.5">
+              <div
+                className="flex items-center mb-0.5"
+                key={`${a.name}-${a.date.getTime()}`}
+              >
                 <img
                   src={a.image}
                   className="w-12 h-12 object-contain mr-2 rounded-md"
@@ -191,8 +195,8 @@ export const AuctionsSection: React.FC<Props> = ({
                   </div>
 
                   <p className="text-xxs ">
-                    {a.date.toLocaleDateString()},{" "}
-                    {t("chapterDashboard.auctionSupply", {
+                    {t("chapterDashboard.auctionDateAndSupply", {
+                      date,
                       supply: a.supply,
                     })}
                   </p>

@@ -26,18 +26,19 @@ export const MutantsSection: React.FC<Props> = ({ chapter }) => {
 
   const mutants = CHAPTER_MUTANTS[chapter as MutantsChapterName];
   const preview = useMemo(() => {
-    if (!mutants) return [];
+    const chapterMutants = CHAPTER_MUTANTS[chapter as MutantsChapterName];
+    if (!chapterMutants) return [];
 
     const marvels = getKeys(MAP_PIECES).filter(
       (marvel) => MAP_PIECES[marvel]?.chapter === chapter,
     );
 
     let items = [
-      mutants.Chicken,
-      mutants.Fish,
-      mutants.Flower,
-      ...(mutants.Cow ? [mutants.Cow] : []),
-      ...(mutants.Sheep ? [mutants.Sheep] : []),
+      chapterMutants.Chicken,
+      chapterMutants.Fish,
+      chapterMutants.Flower,
+      ...(chapterMutants.Cow ? [chapterMutants.Cow] : []),
+      ...(chapterMutants.Sheep ? [chapterMutants.Sheep] : []),
       ...marvels,
     ];
 
@@ -48,7 +49,7 @@ export const MutantsSection: React.FC<Props> = ({ chapter }) => {
       name,
       image: ITEM_DETAILS[name as keyof typeof ITEM_DETAILS]?.image,
     }));
-  }, [mutants]);
+  }, [chapter]);
 
   if (!mutants) {
     return null;
@@ -71,6 +72,7 @@ export const MutantsSection: React.FC<Props> = ({ chapter }) => {
               <div className="flex flex-wrap items-center justify-center absolute inset-0 w-full pl-2">
                 {preview.slice(0, 6).map((p) => (
                   <img
+                    key={p.name}
                     src={p.image}
                     className="w-10 max-h-8 object-contain relative -ml-3"
                   />

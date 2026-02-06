@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -7,6 +7,7 @@ import giftIcon from "assets/icons/gift.png";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { InventoryItemName } from "features/game/types/game";
 import { Bar } from "components/ui/ProgressBar";
 import { ColorPanel, OuterPanel } from "components/ui/Panel";
 import { CHAPTER_COLLECTIONS } from "features/game/types/collections";
@@ -38,10 +39,10 @@ export const ChapterIntroSection: React.FC = () => {
   const ticketCount =
     gameState.context.state.inventory[ticket]?.toNumber() ?? 0;
   const collection = CHAPTER_COLLECTIONS[chapter];
-  let collectibles = collection?.collectibles;
-
-  // Shuffle collectibles
-  collectibles = collectibles?.sort(() => Math.random() - 0.5);
+  const collectibles = useMemo<InventoryItemName[]>(() => {
+    const items = collection?.collectibles ?? [];
+    return [...items].sort((a, b) => a.localeCompare(b));
+  }, [chapter, collection?.collectibles]);
 
   const collectionCount =
     (collection?.collectibles ?? []).length +
@@ -126,7 +127,7 @@ export const ChapterIntroSection: React.FC = () => {
                 </p>
                 <div className="flex  items-center">
                   <p className="text-xs text-white mr-0.5">
-                    {ownedCount}/{collectionCount}
+                    {`${ownedCount}/${collectionCount}`}
                   </p>
                   <Bar
                     percentage={(ownedCount / collectionCount) * 100}
@@ -141,7 +142,7 @@ export const ChapterIntroSection: React.FC = () => {
                 />
 
                 <div className="absolute inset-0 overflow-hidden flex flex-wrap gap-x-2 gap-y-2 p-2 justify-around items-center">
-                  {collectibles?.reverse().map((collectible, index) => (
+                  {collectibles.map((collectible, index) => (
                     <div key={collectible} className="h-10 relative">
                       <img
                         src={ITEM_DETAILS[collectible].image}

@@ -202,8 +202,10 @@ export const ChapterTracks: React.FC = () => {
           <div className="flex">
             <img src={giftIcon} className="h-9 mr-1" />
             <div>
-              <Label type="warning">Rewards</Label>
-              <p className="text-xxs ml-1">Earn points & claim rewards.</p>
+              <Label type="warning">{t("rewards")}</Label>
+              <p className="text-xxs ml-1">
+                {t("chapterDashboard.tracksEarnPoints")}
+              </p>
             </div>
           </div>
           {isComplete ? (
@@ -594,12 +596,18 @@ export const ChapterTracksPreview: React.FC = () => {
   if (isComplete) {
     return (
       <InnerPanel className="flex flex-wrap justify-between ">
-        <Label type="success">Completed</Label>
+        <Label type="success">{t("completed")}</Label>
         <img src={medalMilestoneComplete} className="h-8" />
       </InnerPanel>
     );
   }
-  const rewards = track?.milestones[progress.milestone.number]!;
+  if (!track) {
+    return null;
+  }
+  const rewards = track.milestones[progress.milestone.number];
+  if (!rewards) {
+    return null;
+  }
 
   const { items, wearables, coins, flower } = rewards.free;
   const freeImages: string[] = [];
@@ -680,7 +688,7 @@ export const ChapterTracksPreview: React.FC = () => {
     <>
       <InnerPanel>
         <div className="flex flex-wrap justify-between items-start">
-          <Label type="warning">Next reward</Label>
+          <Label type="warning">{t("chapterDashboard.nextReward")}</Label>
 
           <>
             <div className="flex  items-end relative">
@@ -737,16 +745,22 @@ export const ChapterTracksPreview: React.FC = () => {
             />
           </div>
           <div className="flex-1 min-w-0 mb-0.5">
-            {freeText.map((text) => (
-              <div className="flex items-center w-full min-w-0 overflow-hidden">
+            {freeText.map((text, index) => (
+              <div
+                className="flex items-center w-full min-w-0 overflow-hidden"
+                key={`${text}-${index}`}
+              >
                 <p className="text-xs truncate mr-1 flex-1 min-w-0">{text}</p>
                 <div className="flex w-16 justify-end shrink-0">
-                  <Label type="success">Free</Label>
+                  <Label type="success">{t("free")}</Label>
                 </div>
               </div>
             ))}
-            {freeText.map((text) => (
-              <div className="flex items-center w-full min-w-0 overflow-hidden">
+            {freeText.map((text, index) => (
+              <div
+                className="flex items-center w-full min-w-0 overflow-hidden"
+                key={`${text}-vip-${index}`}
+              >
                 <p className="text-xs truncate mr-1 flex-1 min-w-0">{text}</p>
 
                 <div className="flex w-16 justify-end shrink-0">
@@ -764,7 +778,7 @@ export const ChapterTracksPreview: React.FC = () => {
         onClick={() => openModal("CHAPTER_TRACKS")}
       >
         <span className="flex items-center justify-center gap-2 w-full">
-          <span>View Rewards</span>
+          <span>{t("chapter.open")}</span>
           <img src={giftIcon} className="h-5" />
         </span>
       </Button>
