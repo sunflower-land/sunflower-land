@@ -978,15 +978,15 @@ const CRABS_AND_TRAPS_ITEMS: ChapterStore = {
       },
       {
         collectible: "Crimstone Clam",
-        cost: { sfl: 0, items: { Floater: 5000 } },
+        cost: { sfl: 0, items: { Floater: 6000 } },
       },
       {
         collectible: "Poseidon's Throne",
-        cost: { sfl: 0, items: { Floater: 5000 } },
+        cost: { sfl: 0, items: { Floater: 3000 } },
       },
       {
         wearable: "Corn Silk Hair",
-        cost: { sfl: 0, items: { Floater: 5000 } },
+        cost: { sfl: 0, items: { Floater: 6000 } },
       },
     ],
   },
