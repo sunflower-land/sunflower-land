@@ -1,6 +1,6 @@
 import React from "react";
 import { ButtonPanel } from "components/ui/Panel";
-import { CookableName } from "features/game/types/consumables";
+import { PetResourceName } from "features/game/types/pets";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -9,12 +9,10 @@ import Decimal from "decimal.js-light";
 
 const INNER_CANVAS_WIDTH = 12;
 
-export interface FoodButtonPanelProps {
-  food: CookableName;
-  foodFed: boolean;
+export interface FetchButtonPanelProps {
+  fetch: PetResourceName;
   inventoryCount: Decimal;
-  xp: number;
-  energy: number;
+  energyRequired: number;
   onClick?: () => void;
   disabled?: boolean;
   selected?: boolean;
@@ -22,19 +20,17 @@ export interface FoodButtonPanelProps {
   className?: string;
 }
 
-export const FoodButtonPanel: React.FC<FoodButtonPanelProps> = ({
-  food,
-  foodFed,
+export const FetchButtonPanel: React.FC<FetchButtonPanelProps> = ({
+  fetch,
   inventoryCount,
-  xp,
-  energy,
+  energyRequired,
   onClick,
   disabled,
   selected,
   locked,
   className,
 }) => {
-  const foodImage = ITEM_DETAILS[food]?.image;
+  const fetchImage = ITEM_DETAILS[fetch]?.image;
 
   return (
     <ButtonPanel
@@ -54,16 +50,7 @@ export const FoodButtonPanel: React.FC<FoodButtonPanelProps> = ({
           className="absolute top-0.5 right-0.5 w-4 h-4 object-contain z-10"
         />
       )}
-
-      {foodFed && (
-        <img
-          src={SUNNYSIDE.icons.confirm}
-          alt="Locked"
-          className="absolute top-0.5 right-0.5 w-4 h-4 object-contain z-10"
-        />
-      )}
-
-      {/* Left: Food image */}
+      {/* Left: Fetch image */}
       <div
         className="flex items-center justify-center"
         style={{
@@ -71,10 +58,10 @@ export const FoodButtonPanel: React.FC<FoodButtonPanelProps> = ({
           height: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
         }}
       >
-        {foodImage && (
+        {fetchImage && (
           <img
-            src={foodImage}
-            alt={food}
+            src={fetchImage}
+            alt={fetch}
             className="w-[85%] h-[85%] object-contain"
             style={{ imageRendering: "pixelated" }}
           />
@@ -93,19 +80,11 @@ export const FoodButtonPanel: React.FC<FoodButtonPanelProps> = ({
         </div>
         <div className="flex items-center gap-1 text-xs">
           <img
-            src={SUNNYSIDE.icons.xpIcon}
-            alt="XP"
-            className="w-4 h-4 object-contain shrink-0"
-          />
-          <span className="text-brown-800">{"+" + xp}</span>
-        </div>
-        <div className="flex items-center gap-1 text-xs">
-          <img
             src={SUNNYSIDE.icons.lightning}
             alt="Energy"
             className="w-4 h-4 object-contain shrink-0"
           />
-          <span className="text-brown-800">{"+" + energy}</span>
+          <span className="text-brown-800">{energyRequired}</span>
         </div>
       </div>
     </ButtonPanel>
