@@ -6,7 +6,7 @@ import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 export const Jellyfish: React.FC = () => {
   return (
-    <SFTDetailPopover name="Battle Fish">
+    <SFTDetailPopover name="Jellyfish">
       <img
         src={jellyfish}
         style={{

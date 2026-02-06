@@ -3045,4 +3045,180 @@ export const CHORE_DETAILS: Record<
     icon: SUNNYSIDE.ui.coins,
     description: translate("chore.spend.80808"),
   },
+  "Cook Pancakes 17 times": {
+    icon: ITEM_DETAILS["Pancakes"].image,
+    description: translate("chore.cook.pancake.17"),
+  },
+  "Cook Pancakes 20 times": {
+    icon: ITEM_DETAILS["Pancakes"].image,
+    description: translate("chore.cook.pancake.20"),
+  },
+  "Cook Pancakes 22 times": {
+    icon: ITEM_DETAILS["Pancakes"].image,
+    description: translate("chore.cook.pancake.22"),
+  },
+  "Cook Pancakes 25 times": {
+    icon: ITEM_DETAILS["Pancakes"].image,
+    description: translate("chore.cook.pancake.25"),
+  },
+  "Cook Steamed Red Rice 10 times": {
+    icon: ITEM_DETAILS["Steamed Red Rice"].image,
+    description: translate("chore.cook.steamedRedRice.10"),
+  },
+  "Cook Steamed Red Rice 12 times": {
+    icon: ITEM_DETAILS["Steamed Red Rice"].image,
+    description: translate("chore.cook.steamedRedRice.12"),
+  },
+  "Cook Steamed Red Rice 13 times": {
+    icon: ITEM_DETAILS["Steamed Red Rice"].image,
+    description: translate("chore.cook.steamedRedRice.13"),
+  },
+  "Cook Steamed Red Rice 15 times": {
+    icon: ITEM_DETAILS["Steamed Red Rice"].image,
+    description: translate("chore.cook.steamedRedRice.15"),
+  },
+  "Cook Steamed Red Rice 16 times": {
+    icon: ITEM_DETAILS["Steamed Red Rice"].image,
+    description: translate("chore.cook.steamedRedRice.16"),
+  },
+  "Cook Steamed Red Rice 18 times": {
+    icon: ITEM_DETAILS["Steamed Red Rice"].image,
+    description: translate("chore.cook.steamedRedRice.18"),
+  },
+  "Cook Cheese 85 times": {
+    icon: ITEM_DETAILS["Cheese"].image,
+    description: translate("chore.cook.cheese.85"),
+  },
+  "Cook Honey Cheddar 17 times": {
+    icon: ITEM_DETAILS["Honey Cheddar"].image,
+    description: translate("chore.cook.honeyCheddar.17"),
+  },
+  "Cook Honey Cheddar 20 times": {
+    icon: ITEM_DETAILS["Honey Cheddar"].image,
+    description: translate("chore.cook.honeyCheddar.20"),
+  },
+  "Cook Blue Cheese 35 times": {
+    icon: ITEM_DETAILS["Blue Cheese"].image,
+    description: translate("chore.cook.blueCheese.35"),
+  },
+  "Cook Blue Cheese 45 times": {
+    icon: ITEM_DETAILS["Blue Cheese"].image,
+    description: translate("chore.cook.blueCheese.45"),
+  },
+  "Cook Blue Cheese 50 times": {
+    icon: ITEM_DETAILS["Blue Cheese"].image,
+    description: translate("chore.cook.blueCheese.50"),
+  },
+  "Cook Blue Cheese 60 times": {
+    icon: ITEM_DETAILS["Blue Cheese"].image,
+    description: translate("chore.cook.blueCheese.60"),
+  },
+  "Cook Goblin Brunch 12 times": {
+    icon: ITEM_DETAILS["Goblin Brunch"].image,
+    description: translate("chore.cook.goblinBrunch.12"),
+  },
+  "Cook Goblin Brunch 15 times": {
+    icon: ITEM_DETAILS["Goblin Brunch"].image,
+    description: translate("chore.cook.goblinBrunch.15"),
+  },
+  "Cook Goblin Brunch 18 times": {
+    icon: ITEM_DETAILS["Goblin Brunch"].image,
+    description: translate("chore.cook.goblinBrunch.18"),
+  },
+  "Prepare Power Smoothie 10 times": {
+    icon: ITEM_DETAILS["Power Smoothie"].image,
+    description: translate("chore.prepare.powerSmoothie.10"),
+  },
+  "Prepare Power Smoothie 12 times": {
+    icon: ITEM_DETAILS["Power Smoothie"].image,
+    description: translate("chore.prepare.powerSmoothie.12"),
+  },
+  "Prepare Power Smoothie 25 times": {
+    icon: ITEM_DETAILS["Power Smoothie"].image,
+    description: translate("chore.prepare.powerSmoothie.25"),
+  },
+  "Prepare Apple Juice 30 times": {
+    icon: ITEM_DETAILS["Apple Juice"].image,
+    description: translate("chore.prepare.appleJuice.30"),
+  },
+  "Prepare Purple Smoothie 17 times": {
+    icon: ITEM_DETAILS["Purple Smoothie"].image,
+    description: translate("chore.prepare.purpleSmoothie.17"),
+  },
+  "Prepare Purple Smoothie 20 times": {
+    icon: ITEM_DETAILS["Purple Smoothie"].image,
+    description: translate("chore.prepare.purpleSmoothie.20"),
+  },
+  "Grow Blue Clover 5 times": {
+    icon: ITEM_DETAILS["Blue Clover"].image,
+    description: translate("chore.grow.blueClover.5"),
+  },
+  "Grow Yellow Clover 5 times": {
+    icon: ITEM_DETAILS["Yellow Clover"].image,
+    description: translate("chore.grow.yellowClover.5"),
+  },
+  "Fish 50 times": {
+    icon: SUNNYSIDE.icons.fish,
+    description: translate("chore.fish.50"),
+  },
+  "Fish 70 times": {
+    icon: SUNNYSIDE.icons.fish,
+    description: translate("chore.fish.70"),
+  },
+  "Fish 80 times": {
+    icon: SUNNYSIDE.icons.fish,
+    description: translate("chore.fish.80"),
+  },
+  "Fish 90 times": {
+    icon: SUNNYSIDE.icons.fish,
+    description: translate("chore.fish.90"),
+  },
+  "Fish 220 times": {
+    icon: SUNNYSIDE.icons.fish,
+    description: translate("chore.fish.220"),
+  },
+  "Fish 240 times": {
+    icon: SUNNYSIDE.icons.fish,
+    description: translate("chore.fish.240"),
+  },
+  "Fish 260 times": {
+    icon: SUNNYSIDE.icons.fish,
+    description: translate("chore.fish.260"),
+  },
+  "Fish 285 times": {
+    icon: SUNNYSIDE.icons.fish,
+    description: translate("chore.fish.285"),
+  },
+  "Craft 60 Crab Pots": {
+    icon: ITEM_DETAILS["Crab Pot"].image,
+    description: translate("chore.craft.crabPot.60"),
+  },
+  "Craft 70 Crab Pots": {
+    icon: ITEM_DETAILS["Crab Pot"].image,
+    description: translate("chore.craft.crabPot.70"),
+  },
+  "Craft 80 Crab Pots": {
+    icon: ITEM_DETAILS["Crab Pot"].image,
+    description: translate("chore.craft.crabPot.80"),
+  },
+  "Craft 90 Crab Pots": {
+    icon: ITEM_DETAILS["Crab Pot"].image,
+    description: translate("chore.craft.crabPot.90"),
+  },
+  "Craft 30 Mariner Pots": {
+    icon: ITEM_DETAILS["Mariner Pot"].image,
+    description: translate("chore.craft.marinerPot.30"),
+  },
+  "Craft 40 Mariner Pots": {
+    icon: ITEM_DETAILS["Mariner Pot"].image,
+    description: translate("chore.craft.marinerPot.40"),
+  },
+  "Craft 50 Mariner Pots": {
+    icon: ITEM_DETAILS["Mariner Pot"].image,
+    description: translate("chore.craft.marinerPot.50"),
+  },
+  "Craft 60 Mariner Pots": {
+    icon: ITEM_DETAILS["Mariner Pot"].image,
+    description: translate("chore.craft.marinerPot.60"),
+  },
 };

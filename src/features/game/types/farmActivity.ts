@@ -67,7 +67,8 @@ export type BountiedEvent = `${
   | FullMoonFruit
   | RecipeCraftableName
   | DollName
-  | "Mark"} Bountied`;
+  | "Mark"
+  | CrustaceanName} Bountied`;
 
 export type ResourceBought = `${ResourceName} Bought`;
 export type BiomeBought = `${LandBiomeName} Bought`;

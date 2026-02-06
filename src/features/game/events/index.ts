@@ -535,6 +535,7 @@ import {
   instantGrowProject,
   InstantGrowProjectAction,
 } from "./landExpansion/instaGrowProject";
+import { startProject, StartProjectAction } from "./landExpansion/startProject";
 import {
   instaGrowFlower,
   InstaGrowFlowerAction,
@@ -724,6 +725,7 @@ export type PlayingEvent =
   | RetryFishAction
   | BurnClutterAction
   | InstantGrowProjectAction
+  | StartProjectAction
   | InstaGrowFlowerAction
   | UpgradeRockAction
   | UpgradeTreeAction
@@ -981,6 +983,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "bumpkin.wave": bumpkinWave,
   "clutter.burned": burnClutter,
   "project.instantGrow": instantGrowProject,
+  "project.started": startProject,
   "rock.upgraded": upgradeRock,
   "tree.upgraded": upgradeTree,
   "fish.retried": retryFish,
