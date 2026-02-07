@@ -5,11 +5,9 @@ import PORTUGUESE_TERMS from "./pt-BR.json";
 import FRENCH_TERMS from "./fr.json";
 import RUSSIAN_TERMS from "./ru.json";
 import INDONESIAN_TERMS from "./id.json";
-import MALAY_TERMS from "./ms.json";
 import ITALIAN_TERMS from "./it.json";
 import SPANISH_TERMS from "./es.json";
 import GERMAN_TERMS from "./de.json";
-import KOREAN_TERMS from "./ko.json";
 import JAPANESE_TERMS from "./ja.json";
 import { TranslationKeys } from "./types";
 
@@ -24,9 +22,7 @@ import russiaFlag from "assets/sfts/flags/russia_flag.webp";
 import spainFlag from "assets/sfts/flags/spain_flag.webp";
 import italyFlag from "assets/sfts/flags/italy_flag.webp";
 import germanFlag from "assets/sfts/flags/germany_flag.webp";
-import southKoreanFlag from "assets/sfts/flags/south_korea_flag.webp";
 import indonesiaFlag from "assets/sfts/flags/indonesia_flag.webp";
-import malaysianFlag from "assets/sfts/flags/malaysian_flag.webp";
 import japaneseFlag from "assets/sfts/flags/japan_flag.webp";
 
 export type LanguageCode =
@@ -37,12 +33,10 @@ export type LanguageCode =
   | "id"
   | "ja"
   | "pt-BR"
-  | "ms"
   | "tr"
   | "zh-CN"
   | "ru"
-  | "it"
-  | "ko";
+  | "it";
 
 export type TranslationResource = Partial<Record<TranslationKeys, string>>;
 
@@ -52,7 +46,7 @@ interface LanguageDetails {
   imageAlt: string[]; // Used for the image alt, won't be shown in game
 }
 
-export const languageDetails: Record<LanguageCode, LanguageDetails> = {
+export const LANGUAGE_DETAILS: Record<LanguageCode, LanguageDetails> = {
   en: {
     languageName: "English",
     languageImage: [britishFlag, usaFlag],
@@ -88,16 +82,6 @@ export const languageDetails: Record<LanguageCode, LanguageDetails> = {
     languageImage: [japaneseFlag],
     imageAlt: ["Japan Flag"],
   },
-  ko: {
-    languageName: "한국인",
-    languageImage: [southKoreanFlag],
-    imageAlt: ["South Korea Flag"],
-  },
-  ms: {
-    languageName: "Malay",
-    languageImage: [malaysianFlag],
-    imageAlt: ["Malaysia Flag"],
-  },
   "pt-BR": {
     languageName: "Português",
     languageImage: [brazilFlag, portugalFlag],
@@ -130,8 +114,6 @@ export const resources: Partial<
   id: { translation: INDONESIAN_TERMS },
   it: { translation: ITALIAN_TERMS },
   ja: { translation: JAPANESE_TERMS },
-  ko: { translation: KOREAN_TERMS },
-  ms: { translation: MALAY_TERMS },
   "pt-BR": { translation: PORTUGUESE_TERMS },
   ru: { translation: RUSSIAN_TERMS },
   tr: { translation: TURKISH_TERMS },
