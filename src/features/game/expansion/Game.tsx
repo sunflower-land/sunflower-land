@@ -163,6 +163,8 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   claimingStreamRewardSuccess: false,
   claimingStreamRewardFailed: false,
   airdroppingRewardFailed: false,
+  completingProject: false,
+  completingProjectSuccess: false,
 
   // Every new state should be added below here
   gems: true,
