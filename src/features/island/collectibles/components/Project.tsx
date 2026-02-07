@@ -74,6 +74,7 @@ import { FarmHelped } from "features/island/hud/components/FarmHelped";
 import { getPartialInstantGrowPrice } from "features/game/events/landExpansion/instaGrowProject";
 import { getKeys } from "features/game/types/craftables";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
+import { EffectSuccess } from "features/game/expansion/components/effects/EffectSuccess";
 
 export const PROJECT_IMAGES: Record<
   MonumentName,
@@ -332,7 +333,6 @@ const InactiveProjectModal: React.FC<{
               type="coins"
               balance={state.coins}
               requirement={price}
-              showLabel
             />
           )}
           {getKeys(ingredients).map((ingredient) => (
@@ -342,7 +342,6 @@ const InactiveProjectModal: React.FC<{
               item={ingredient}
               balance={state.inventory[ingredient] ?? new Decimal(0)}
               requirement={ingredients[ingredient] ?? new Decimal(0)}
-              showLabel
             />
           ))}
         </InnerPanel>
@@ -487,6 +486,14 @@ const _cheersAvailable = (state: MachineState) => {
   return state.context.visitorState?.inventory["Cheer"] ?? new Decimal(0);
 };
 
+const _completingProject = (state: MachineState) => {
+  return state.matches("completingProject");
+};
+
+const _completingProjectSuccess = (state: MachineState) => {
+  return state.matches("completingProjectSuccess");
+};
+
 export const _hasCheeredToday =
   (project: MonumentName) => (state: MachineState) => {
     const today = new Date().toISOString().split("T")[0];
@@ -521,6 +528,7 @@ type ProjectProps = React.ComponentProps<typeof ImageStyle> & {
 export const Project: React.FC<ProjectProps> = (input) => {
   const { isVisiting } = useVisiting();
   const { gameService } = useContext(Context);
+  const { t } = useAppTranslation();
 
   const projectCheers = useSelector(gameService, _cheers(input.project));
   const isInactive = useSelector(gameService, _isInactive(input.project));
@@ -529,6 +537,12 @@ export const Project: React.FC<ProjectProps> = (input) => {
     gameService,
     _hasCheeredToday(input.project),
   );
+  const completingProject = useSelector(gameService, _completingProject);
+  const completingProjectSuccess = useSelector(
+    gameService,
+    _completingProjectSuccess,
+  );
+
   const totalHelpedToday = useSelector(
     gameService,
     (state) => state.context.totalHelpedToday ?? 0,
@@ -545,22 +559,16 @@ export const Project: React.FC<ProjectProps> = (input) => {
   const [showDetails, setShowDetails] = useState(false);
 
   const handleComplete = async () => {
-    try {
-      gameService.send("project.completed", {
-        effect: {
-          type: "project.completed",
-          project: input.project,
-        },
-      });
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
-    } finally {
-      setShowDetails(false);
-    }
+    gameService.send("project.completed", {
+      effect: {
+        type: "project.completed",
+        project: input.project,
+      },
+    });
   };
 
   const handleStartProject = () => {
+    setShowDetails(false);
     gameService.send("project.started", {
       project: input.project,
     });
@@ -671,7 +679,7 @@ export const Project: React.FC<ProjectProps> = (input) => {
           </div>
         )}
 
-        {isProjectComplete && !isInactive && (
+        {(isProjectComplete || isInactive) && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
             className={`absolute -top-4 left-1/2 -translate-x-1/2 ready pointer-events-none`}
@@ -685,8 +693,18 @@ export const Project: React.FC<ProjectProps> = (input) => {
       </>
 
       <Modal show={showDetails} onHide={() => setShowDetails(false)}>
-        <CloseButtonPanel container={OuterPanel}>
-          {isInactive ? (
+        <CloseButtonPanel
+          container={
+            completingProject || completingProjectSuccess
+              ? undefined
+              : OuterPanel
+          }
+        >
+          {completingProject ? (
+            <Loading text={t("completing.project")} />
+          ) : completingProjectSuccess ? (
+            <EffectSuccess state="completingProjectSuccess" />
+          ) : isInactive ? (
             <InactiveProjectModal
               state={state}
               project={input.project}
