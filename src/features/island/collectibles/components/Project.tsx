@@ -486,10 +486,13 @@ const _cheersAvailable = (state: MachineState) => {
   return state.context.visitorState?.inventory["Cheer"] ?? new Decimal(0);
 };
 
-const completingProjectStates = (state: MachineState) => ({
-  completingProject: state.matches("completingProject"),
-  completingProjectSuccess: state.matches("completingProjectSuccess"),
-});
+const _completingProject = (state: MachineState) => {
+  return state.matches("completingProject");
+};
+
+const _completingProjectSuccess = (state: MachineState) => {
+  return state.matches("completingProjectSuccess");
+};
 
 export const _hasCheeredToday =
   (project: MonumentName) => (state: MachineState) => {
@@ -534,9 +537,10 @@ export const Project: React.FC<ProjectProps> = (input) => {
     gameService,
     _hasCheeredToday(input.project),
   );
-  const { completingProject, completingProjectSuccess } = useSelector(
+  const completingProject = useSelector(gameService, _completingProject);
+  const completingProjectSuccess = useSelector(
     gameService,
-    completingProjectStates,
+    _completingProjectSuccess,
   );
 
   const totalHelpedToday = useSelector(
