@@ -38,7 +38,6 @@ export const LanguageSwitcher: React.FC = () => {
 
   const getFontSizeClass = (languageCode: LanguageCode): string => {
     switch (languageCode) {
-      case "ko":
       case "zh-CN":
         return "!text-[20px]";
       case "ru":
