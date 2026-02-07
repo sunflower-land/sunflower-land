@@ -410,6 +410,7 @@ interface Props {
   gameState: GameState;
   farmId: number;
   chapter: ChapterName;
+  hideNext?: boolean;
 }
 
 const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
@@ -418,6 +419,7 @@ export const ChapterAuctions: React.FC<Props> = ({
   farmId,
   gameState,
   chapter,
+  hideNext,
 }) => {
   const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
@@ -487,7 +489,7 @@ export const ChapterAuctions: React.FC<Props> = ({
         </CloseButtonPanel>
       </ModalOverlay>
 
-      <NextDrop auctions={auctionItems} game={gameState} />
+      {!hideNext && <NextDrop auctions={auctionItems} game={gameState} />}
 
       <InnerPanel className="mb-1">
         <div className="p-1">

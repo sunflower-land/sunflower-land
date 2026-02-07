@@ -397,10 +397,10 @@ const formatRaffleDate = (timestamp: number) => {
   return `${hour.substring(0, 2)}:${minute.substring(0, 2).padStart(2, "0")} ${day} ${month}`;
 };
 
-const formatRaffleWindow = (raffle: RaffleDefinition) =>
+export const formatRaffleWindow = (raffle: RaffleDefinition) =>
   `${formatRaffleDate(raffle.startAt)} - ${formatRaffleDate(raffle.endAt)}`;
 
-const getPrizeDisplay = ({
+export const getPrizeDisplay = ({
   prize,
   raffle,
 }: {

@@ -11,6 +11,7 @@ import { CompetitionName } from "features/game/types/competitions";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { MinigameName } from "features/game/types/minigames";
 import { LeagueId, LeagueName } from "features/leagues/leagues";
+import { NPC_WEARABLES } from "lib/npcs";
 
 const API_URL = CONFIG.API_URL;
 
@@ -86,6 +87,64 @@ export async function getLeaderboard<T>({
   leaderboardName,
   cacheExpiry,
 }: Options): Promise<T | undefined> {
+  if (!API_URL && leaderboardName === "tickets") {
+    return {
+      topTen: [
+        {
+          id: "Chun Long",
+          count: 1000,
+          bumpkin: NPC_WEARABLES["Chun Long"],
+        },
+        {
+          id: "pumpkin' pete",
+          count: 900,
+          bumpkin: NPC_WEARABLES["pumpkin' pete"],
+        },
+        {
+          id: "gordy",
+          count: 800,
+          bumpkin: NPC_WEARABLES["gordy"],
+        },
+        {
+          id: "bert",
+          count: 700,
+          bumpkin: NPC_WEARABLES["bert"],
+        },
+        {
+          id: "craig",
+          count: 600,
+          bumpkin: NPC_WEARABLES["craig"],
+        },
+        {
+          id: "raven",
+          count: 500,
+          bumpkin: NPC_WEARABLES["raven"],
+        },
+        {
+          id: "birdie",
+          count: 400,
+          bumpkin: NPC_WEARABLES["birdie"],
+        },
+        {
+          id: "old salty",
+          count: 300,
+          bumpkin: NPC_WEARABLES["old salty"],
+        },
+        {
+          id: "cornwell",
+          count: 200,
+          bumpkin: NPC_WEARABLES["cornwell"],
+        },
+        {
+          id: "wanderleaf",
+          count: 100,
+          bumpkin: NPC_WEARABLES["wanderleaf"],
+        },
+      ],
+      lastUpdated: 0,
+    } as T;
+  }
+
   const cache = getCachedLeaderboardData({
     name: leaderboardName,
     duration: cacheExpiry,

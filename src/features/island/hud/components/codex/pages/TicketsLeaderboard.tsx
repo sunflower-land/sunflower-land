@@ -31,7 +31,7 @@ export const TicketsLeaderboard: React.FC<LeaderboardProps> = ({
 
   return (
     <div>
-      <div className="flex flex-col md:flex-row md:items-center justify-between p-1">
+      <div className="flex flex-col md:flex-row md:items-center justify-between p-1 flex-wrap">
         <Label type="default">{`${seasonTicket} ${t(
           "leaderboard.leaderboard",
         )}`}</Label>

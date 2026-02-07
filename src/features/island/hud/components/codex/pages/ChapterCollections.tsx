@@ -4,7 +4,11 @@ import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { InnerPanel } from "components/ui/Panel";
-import { ChapterBanner, CHAPTERS } from "features/game/types/chapters";
+import {
+  ChapterBanner,
+  ChapterName,
+  CHAPTERS,
+} from "features/game/types/chapters";
 import { getKeys } from "features/game/types/craftables";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { CHAPTER_BANNER_IMAGES } from "features/game/types/chapters";
@@ -23,15 +27,21 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuff
 type Props = {
   state: GameState;
   onClose: () => void;
+  selected?: ChapterName;
 };
 
-export const ChapterCollections: React.FC<Props> = ({ state, onClose }) => {
+export const ChapterCollections: React.FC<Props> = ({
+  state,
+  selected,
+  onClose,
+}) => {
   const { inventory, wardrobe } = state;
 
   return (
     <div className="flex flex-col h-full overflow-y-auto scrollable">
       <div className="space-y-2 mt-1 px-1">
         {getKeys(CHAPTER_COLLECTIONS)
+          .filter((chapter) => !selected || chapter === selected)
           .sort((chapterA, chapterB) => {
             const chapterBStartDate = CHAPTERS[chapterB].startDate;
             const chapterAStartDate = CHAPTERS[chapterA].startDate;
