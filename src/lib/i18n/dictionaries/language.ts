@@ -46,7 +46,7 @@ interface LanguageDetails {
   imageAlt: string[]; // Used for the image alt, won't be shown in game
 }
 
-export const languageDetails: Record<LanguageCode, LanguageDetails> = {
+export const LANGUAGE_DETAILS: Record<LanguageCode, LanguageDetails> = {
   en: {
     languageName: "English",
     languageImage: [britishFlag, usaFlag],
