@@ -30,7 +30,8 @@ type Props = {
   onBack: () => void;
 };
 
-export function getTimeUntilUTCReset(now: number) {
+export function useTimeUntilUTCReset() {
+  const now = useNow({ live: true });
   const nowDate = new Date(now);
   // Get UTC date components
   const utcYear = nowDate.getUTCFullYear();
@@ -65,8 +66,7 @@ export const ResetFoodRequests: React.FC<Props> = ({
   const resetGemCost = getGemCost(petData.requests.resets?.[todayDate] ?? 0);
   const hasEnoughGem = inventory.Gem?.gte(resetGemCost);
 
-  const now = useNow({ live: true });
-  const timeUntilUTCReset = getTimeUntilUTCReset(now);
+  const timeUntilUTCReset = useTimeUntilUTCReset();
 
   if (isRevealingState) {
     return (
