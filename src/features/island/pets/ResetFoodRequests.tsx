@@ -13,10 +13,11 @@ import { Pet, PetNFT } from "features/game/types/pets";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getTimeUntil } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { useNow } from "lib/utils/hooks/useNow";
 
 function getGemCost(resets: number) {
-  const baseCost = 40;
-  const nextPrice = baseCost * Math.pow(1.5, resets);
+  const baseCost = 50;
+  const nextPrice = baseCost * Math.pow(2, resets);
   return Math.round(nextPrice);
 }
 
@@ -29,12 +30,12 @@ type Props = {
   onBack: () => void;
 };
 
-export function getTimeUntilUTCReset() {
-  const now = new Date();
+export function getTimeUntilUTCReset(now: number) {
+  const nowDate = new Date(now);
   // Get UTC date components
-  const utcYear = now.getUTCFullYear();
-  const utcMonth = now.getUTCMonth();
-  const utcDate = now.getUTCDate();
+  const utcYear = nowDate.getUTCFullYear();
+  const utcMonth = nowDate.getUTCMonth();
+  const utcDate = nowDate.getUTCDate();
   // Create a new Date at 00:00 UTC tomorrow
   const tomorrowUTC = new Date(
     Date.UTC(utcYear, utcMonth, utcDate + 1, 0, 0, 0, 0),
@@ -63,6 +64,9 @@ export const ResetFoodRequests: React.FC<Props> = ({
 
   const resetGemCost = getGemCost(petData.requests.resets?.[todayDate] ?? 0);
   const hasEnoughGem = inventory.Gem?.gte(resetGemCost);
+
+  const now = useNow({ live: true });
+  const timeUntilUTCReset = getTimeUntilUTCReset(now);
 
   if (isRevealingState) {
     return (
@@ -111,7 +115,7 @@ export const ResetFoodRequests: React.FC<Props> = ({
               icon={SUNNYSIDE.icons.stopwatch}
               className="-mb-1"
             >
-              {t("pets.nextRequestsIn", { time: getTimeUntilUTCReset() })}
+              {t("pets.nextRequestsIn", { time: timeUntilUTCReset })}
             </Label>
           </div>
         )}
