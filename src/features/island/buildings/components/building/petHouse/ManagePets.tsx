@@ -263,7 +263,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
               </Label>
             )}
           </div>
-          <div className="flex flex-row gap-1 w-full sm:w-1/2">
+          <div className="flex flex-row gap-1 w-full items-right justify-end sm:w-1/2">
             {areSomePetsNeglected && !isBulkFeed && (
               <Button
                 className="flex-1 min-w-0 sm:flex-none sm:w-40 basis-0"
