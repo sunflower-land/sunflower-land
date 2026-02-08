@@ -9,7 +9,7 @@ import { produce } from "immer";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { MonumentName, REQUIRED_CHEERS } from "features/game/types/monuments";
 import {
-  getPlacedCommonPetsCount,
+  getPlacedCommonPetTypesInPetHouse,
   isPet,
   PetName,
   PET_HOUSE_CAPACITY,
@@ -121,14 +121,19 @@ export function placeCollectible({
       }
     }
 
-    // Check pet house capacity for common pets
+    // Check pet house breed limit for common pets
     if (action.location === "petHouse" && isPetCollectible(action.name)) {
       const level = stateCopy.petHouse?.level ?? 1;
       const capacity = PET_HOUSE_CAPACITY[level]?.commonPets ?? 0;
-      const currentCount = getPlacedCommonPetsCount(stateCopy.petHouse);
+      const placedTypes = getPlacedCommonPetTypesInPetHouse(stateCopy.petHouse);
+      const petType = PET_TYPES[action.name];
 
-      if (currentCount >= capacity) {
-        throw new Error("Pet house is at capacity for common pets");
+      if (
+        petType &&
+        !placedTypes.includes(petType) &&
+        placedTypes.length >= capacity
+      ) {
+        throw new Error("Pet house breed limit reached");
       }
     }
 
