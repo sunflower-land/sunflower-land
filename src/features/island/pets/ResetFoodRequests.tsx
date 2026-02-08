@@ -27,6 +27,9 @@ type Props = {
   handleResetRequests: () => void;
   onAcknowledged: () => void;
   onBack: () => void;
+  PanelWrapper?: React.ComponentType<
+    React.PropsWithChildren<{ className?: string }>
+  >;
 };
 
 export function getTimeUntilUTCReset() {
@@ -53,6 +56,7 @@ export const ResetFoodRequests: React.FC<Props> = ({
   handleResetRequests,
   onAcknowledged,
   onBack,
+  PanelWrapper = InnerPanel,
 }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
@@ -66,15 +70,15 @@ export const ResetFoodRequests: React.FC<Props> = ({
 
   if (isRevealingState) {
     return (
-      <InnerPanel>
+      <PanelWrapper>
         <Loading text={t("pets.loadingFoodRequests")} />
-      </InnerPanel>
+      </PanelWrapper>
     );
   }
 
   if (isRevealedState) {
     return (
-      <InnerPanel>
+      <PanelWrapper>
         <Label type="success">{t("pets.requestsReset")}</Label>
         <p className="text-xs py-2 px-1">
           {t("pets.requestsResetDescription", { pet: petData.name })}
@@ -87,7 +91,7 @@ export const ResetFoodRequests: React.FC<Props> = ({
         >
           {t("continue")}
         </Button>
-      </InnerPanel>
+      </PanelWrapper>
     );
   }
 
@@ -96,7 +100,7 @@ export const ResetFoodRequests: React.FC<Props> = ({
       <Label type="default">
         {t("pets.getNewRequests", { pet: petData.name })}
       </Label>
-      <InnerPanel className="flex flex-col gap-2">
+      <PanelWrapper className="flex flex-col gap-2">
         {!showConfirmation && (
           <div className="flex justify-between items-center">
             <img
@@ -158,7 +162,7 @@ export const ResetFoodRequests: React.FC<Props> = ({
             {showConfirmation ? t("confirm") : t("pets.resetRequests")}
           </Button>
         </div>
-      </InnerPanel>
+      </PanelWrapper>
     </div>
   );
 };

@@ -15,6 +15,7 @@ import { Context } from "features/game/GameProvider";
 import { Modal } from "components/ui/Modal";
 import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useVisiting } from "lib/utils/visitUtils";
 
 /**
  * BuildingImageWrapper props
@@ -44,6 +45,7 @@ export const BuildingImageWrapper: React.FC<React.PropsWithChildren<Props>> = ({
   const { gameService, showAnimations } = useContext(Context);
   const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
   const [warning, setWarning] = useState<JSX.Element>();
+  const { isVisiting } = useVisiting();
 
   const [showBumpkinLevel, setShowBumpkinLevel] = useState(false);
 
@@ -69,8 +71,12 @@ export const BuildingImageWrapper: React.FC<React.PropsWithChildren<Props>> = ({
     };
 
   let enabled = !nonInteractible;
-  if (enabled) {
+  if (enabled && !isVisiting) {
     enabled = isBuildingEnabled(bumpkinLevel, name as BuildingName);
+  }
+  // When visiting, always allow clicking (enabled = true) if not nonInteractible
+  if (isVisiting && !nonInteractible) {
+    enabled = true;
   }
 
   const handleHover = () => {

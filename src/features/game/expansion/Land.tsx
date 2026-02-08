@@ -461,12 +461,13 @@ export const LandComponent: React.FC = () => {
   }, [collectibles, gameGrid]);
 
   const buildingElements = useMemo(() => {
-    const home = new Set<Home | "Town Center">([
+    const home = new Set<Home | "Town Center" | "Pet House">([
       "Town Center",
       "Tent",
       "House",
       "Manor",
       "Mansion",
+      "Pet House",
     ]);
 
     return getKeys(buildings)
@@ -486,7 +487,9 @@ export const LandComponent: React.FC = () => {
                 y={y}
                 height={height}
                 width={width}
-                enableOnVisitClick={home.has(name as Home)}
+                enableOnVisitClick={home.has(
+                  name as Home | "Town Center" | "Pet House",
+                )}
               >
                 <Building
                   name={name}
