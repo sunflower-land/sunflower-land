@@ -62,15 +62,15 @@ export const PetHouseModal: React.FC<Props> = ({ show, onClose }) => {
 
   return (
     <Modal show={show} onHide={onClose} size="lg">
-      <div className="flex flex-row gap-2 items-center justify-end">
-        {tab !== "guide" && (
+      {tab !== "guide" && (
+        <div className="flex flex-row gap-2 items-center justify-end">
           <PetGuideButton
             onShow={() => {
               setTab("guide");
             }}
           />
-        )}
-      </div>
+        </div>
+      )}
       <CloseButtonPanel
         onClose={onClose}
         tabs={[
