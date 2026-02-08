@@ -51,7 +51,7 @@ import { COMPETITION_POINTS } from "features/game/types/competitions";
 import { useNow } from "lib/utils/hooks/useNow";
 import {
   getPetType,
-  getPlacedCommonPetsCount,
+  getPlacedCommonPetTypesInPetHouse,
   getPlacedNFTPetTypesInPetHouse,
   getPlacedNFTPetsCount,
   PET_HOUSE_CAPACITY,
@@ -164,16 +164,22 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
       ? Number(placeable.id)
       : undefined;
 
-  const placedCommonPetsCount = getPlacedCommonPetsCount(
+  const placedCommonPetTypes = getPlacedCommonPetTypesInPetHouse(
     state.petHouse,
     excludeCommonPetId,
   );
   const placedNFTPetsCount = getPlacedNFTPetsCount(state.pets, excludeNftPetId);
 
+  const selectedCommonPetType =
+    isPetCollectible && placeable?.name
+      ? PET_TYPES[placeable.name as keyof typeof PET_TYPES]
+      : undefined;
   const isPetHouseFullCommon =
     location === "petHouse" &&
     isPetCollectible &&
-    placedCommonPetsCount >= petHouseCapacity.commonPets;
+    !!selectedCommonPetType &&
+    !placedCommonPetTypes.includes(selectedCommonPetType) &&
+    placedCommonPetTypes.length >= petHouseCapacity.commonPets;
 
   const isPetHouseFullNFT =
     location === "petHouse" &&

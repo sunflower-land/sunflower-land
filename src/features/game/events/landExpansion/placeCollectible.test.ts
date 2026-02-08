@@ -368,19 +368,14 @@ describe("Place Collectible", () => {
     });
   });
 
-  describe("Pet House Capacity", () => {
-    it("throws error when pet house is at capacity for common pets (level 1)", () => {
+  describe("Pet House Breed Limits", () => {
+    // Pet house level 1: 1 breed, level 2: 4 breeds, level 3: 7 breeds
+    it("throws error when adding new breed exceeds limit (level 1)", () => {
       const dateNow = Date.now();
 
-      // Create 7 placed common pets (level 1 capacity)
+      // Level 1 allows 1 breed. Have 1 Dog placed. Adding Cat (new breed) should throw.
       const placedPets: Partial<Record<PetName, PlacedItem[]>> = {
         Barkley: [{ id: "1", coordinates: { x: 0, y: 0 } }],
-        Biscuit: [{ id: "2", coordinates: { x: 2, y: 0 } }],
-        Cloudy: [{ id: "3", coordinates: { x: 4, y: 0 } }],
-        Meowchi: [{ id: "4", coordinates: { x: 0, y: 2 } }],
-        Butters: [{ id: "5", coordinates: { x: 2, y: 2 } }],
-        Smokey: [{ id: "6", coordinates: { x: 4, y: 2 } }],
-        Twizzle: [{ id: "7", coordinates: { x: 0, y: 4 } }],
       };
 
       expect(() =>
@@ -388,7 +383,7 @@ describe("Place Collectible", () => {
           state: {
             ...GAME_STATE,
             inventory: {
-              Flicker: new Decimal(1),
+              Meowchi: new Decimal(1),
             },
             petHouse: {
               level: 1,
@@ -396,35 +391,30 @@ describe("Place Collectible", () => {
             },
           },
           action: {
-            id: "8",
+            id: "2",
             type: "collectible.placed",
-            name: "Flicker",
-            coordinates: { x: 6, y: 0 },
+            name: "Meowchi",
+            coordinates: { x: 2, y: 0 },
             location: "petHouse",
           },
           createdAt: dateNow,
         }),
-      ).toThrow("Pet house is at capacity for common pets");
+      ).toThrow("Pet house breed limit reached");
     });
 
-    it("allows placing common pets in pet house when under capacity", () => {
+    it("allows multiple pets of same breed (level 1)", () => {
       const dateNow = Date.now();
 
-      // Create 6 placed common pets (under level 1 capacity of 7)
+      // Level 1 allows 1 breed. Have 1 Dog. Adding another Dog (Biscuit) should allow.
       const placedPets: Partial<Record<PetName, PlacedItem[]>> = {
         Barkley: [{ id: "1", coordinates: { x: 0, y: 0 } }],
-        Biscuit: [{ id: "2", coordinates: { x: 2, y: 0 } }],
-        Cloudy: [{ id: "3", coordinates: { x: 4, y: 0 } }],
-        Meowchi: [{ id: "4", coordinates: { x: 0, y: 2 } }],
-        Butters: [{ id: "5", coordinates: { x: 2, y: 2 } }],
-        Smokey: [{ id: "6", coordinates: { x: 4, y: 2 } }],
       };
 
       const state = placeCollectible({
         state: {
           ...GAME_STATE,
           inventory: {
-            Twizzle: new Decimal(1),
+            Biscuit: new Decimal(1),
           },
           petHouse: {
             level: 1,
@@ -432,30 +422,95 @@ describe("Place Collectible", () => {
           },
         },
         action: {
-          id: "7",
+          id: "2",
           type: "collectible.placed",
-          name: "Twizzle",
-          coordinates: { x: 6, y: 0 },
+          name: "Biscuit",
+          coordinates: { x: 2, y: 0 },
           location: "petHouse",
         },
         createdAt: dateNow,
       });
 
-      expect(state.petHouse.pets["Twizzle"]).toHaveLength(1);
+      expect(state.petHouse.pets["Biscuit"]).toHaveLength(1);
     });
 
-    it("allows more common pets with higher pet house level", () => {
+    it("allows 4 breeds at level 2", () => {
       const dateNow = Date.now();
 
-      // Create 7 placed common pets (level 1 capacity, but level 2 allows 14)
+      // Level 2 allows 4 breeds: Dog, Cat, Owl, Horse
       const placedPets: Partial<Record<PetName, PlacedItem[]>> = {
         Barkley: [{ id: "1", coordinates: { x: 0, y: 0 } }],
-        Biscuit: [{ id: "2", coordinates: { x: 2, y: 0 } }],
-        Cloudy: [{ id: "3", coordinates: { x: 4, y: 0 } }],
-        Meowchi: [{ id: "4", coordinates: { x: 0, y: 2 } }],
-        Butters: [{ id: "5", coordinates: { x: 2, y: 2 } }],
-        Smokey: [{ id: "6", coordinates: { x: 4, y: 2 } }],
-        Twizzle: [{ id: "7", coordinates: { x: 0, y: 4 } }],
+        Meowchi: [{ id: "2", coordinates: { x: 2, y: 0 } }],
+        Twizzle: [{ id: "3", coordinates: { x: 4, y: 0 } }],
+        Burro: [{ id: "4", coordinates: { x: 0, y: 2 } }],
+      };
+
+      const state = placeCollectible({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            Pinto: new Decimal(1),
+          },
+          petHouse: {
+            level: 2,
+            pets: placedPets,
+          },
+        },
+        action: {
+          id: "5",
+          type: "collectible.placed",
+          name: "Pinto",
+          coordinates: { x: 2, y: 2 },
+          location: "petHouse",
+        },
+        createdAt: dateNow,
+      });
+
+      expect(state.petHouse.pets["Pinto"]).toHaveLength(1);
+    });
+
+    it("throws when adding 5th breed at level 2", () => {
+      const dateNow = Date.now();
+
+      // Level 2 allows 4 breeds. Have Dog, Cat, Owl, Horse. Adding Bull (5th breed) should throw.
+      const placedPets: Partial<Record<PetName, PlacedItem[]>> = {
+        Barkley: [{ id: "1", coordinates: { x: 0, y: 0 } }],
+        Meowchi: [{ id: "2", coordinates: { x: 2, y: 0 } }],
+        Twizzle: [{ id: "3", coordinates: { x: 4, y: 0 } }],
+        Burro: [{ id: "4", coordinates: { x: 0, y: 2 } }],
+      };
+
+      expect(() =>
+        placeCollectible({
+          state: {
+            ...GAME_STATE,
+            inventory: {
+              Mudhorn: new Decimal(1),
+            },
+            petHouse: {
+              level: 2,
+              pets: placedPets,
+            },
+          },
+          action: {
+            id: "5",
+            type: "collectible.placed",
+            name: "Mudhorn",
+            coordinates: { x: 2, y: 2 },
+            location: "petHouse",
+          },
+          createdAt: dateNow,
+        }),
+      ).toThrow("Pet house breed limit reached");
+    });
+
+    it("does not check breed limit when placing in farm location", () => {
+      const dateNow = Date.now();
+
+      // Breed limit only applies to pet house; placing on farm should work
+      const placedPets: Partial<Record<PetName, PlacedItem[]>> = {
+        Barkley: [{ id: "1", coordinates: { x: 0, y: 0 } }],
+        Meowchi: [{ id: "2", coordinates: { x: 2, y: 0 } }],
       };
 
       const state = placeCollectible({
@@ -465,50 +520,12 @@ describe("Place Collectible", () => {
             Flicker: new Decimal(1),
           },
           petHouse: {
-            level: 2, // Level 2 allows 14 common pets
-            pets: placedPets,
-          },
-        },
-        action: {
-          id: "8",
-          type: "collectible.placed",
-          name: "Flicker",
-          coordinates: { x: 6, y: 0 },
-          location: "petHouse",
-        },
-        createdAt: dateNow,
-      });
-
-      expect(state.petHouse.pets["Flicker"]).toHaveLength(1);
-    });
-
-    it("does not check capacity when placing in farm location", () => {
-      const dateNow = Date.now();
-
-      // Even with full pet house, placing on farm should work
-      const placedPets: Partial<Record<PetName, PlacedItem[]>> = {
-        Barkley: [{ id: "1", coordinates: { x: 0, y: 0 } }],
-        Biscuit: [{ id: "2", coordinates: { x: 2, y: 0 } }],
-        Cloudy: [{ id: "3", coordinates: { x: 4, y: 0 } }],
-        Meowchi: [{ id: "4", coordinates: { x: 0, y: 2 } }],
-        Butters: [{ id: "5", coordinates: { x: 2, y: 2 } }],
-        Smokey: [{ id: "6", coordinates: { x: 4, y: 2 } }],
-        Twizzle: [{ id: "7", coordinates: { x: 0, y: 4 } }],
-      };
-
-      const state = placeCollectible({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            Flicker: new Decimal(1),
-          },
-          petHouse: {
             level: 1,
             pets: placedPets,
           },
         },
         action: {
-          id: "8",
+          id: "3",
           type: "collectible.placed",
           name: "Flicker",
           coordinates: { x: 10, y: 10 },

@@ -12,13 +12,14 @@ export const SOCIAL_PET_XP_PER_HELP = 5;
 export const SOCIAL_PET_DAILY_XP_LIMIT = 50;
 
 // Pet House capacity limits based on level
+// commonPets = max breeds allowed (1/4/7), nftPets = max NFT pets
 export const PET_HOUSE_CAPACITY: Record<
   number,
   { commonPets: number; nftPets: number }
 > = {
-  1: { commonPets: 7, nftPets: 1 },
-  2: { commonPets: 14, nftPets: 4 },
-  3: { commonPets: 21, nftPets: 7 },
+  1: { commonPets: 1, nftPets: 1 },
+  2: { commonPets: 4, nftPets: 4 },
+  3: { commonPets: 7, nftPets: 7 },
 };
 
 // Pet NFT dimensions for collision detection and placement
@@ -805,6 +806,27 @@ export function getPetNFTReleaseDate(petId: number, createdAt: number) {
 
   return revealAt;
 }
+
+// Breeds (types) of common pets currently placed in the pet house
+// excludeId: when moving an already-placed pet, exclude it from the list
+export const getPlacedCommonPetTypesInPetHouse = (
+  petHouse: GameState["petHouse"],
+  excludeId?: string,
+): PetType[] => {
+  const pets = petHouse?.pets ?? {};
+  const types = new Set<PetType>();
+  for (const [petName, items] of Object.entries(pets)) {
+    const hasPlaced = items.some(
+      (item) =>
+        item.coordinates && (excludeId == null || item.id !== excludeId),
+    );
+    if (hasPlaced) {
+      const petType = PET_TYPES[petName as PetName];
+      if (petType) types.add(petType);
+    }
+  }
+  return [...types];
+};
 
 // Count common pets with coordinates in petHouse.pets
 // excludeId: when moving an already-placed pet, exclude it from the count
