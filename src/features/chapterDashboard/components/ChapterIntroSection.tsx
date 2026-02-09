@@ -213,7 +213,11 @@ export const ChapterIntroSection: React.FC = () => {
         </CloseButtonPanel>
       </Modal>
 
-      <Modal show={showCollection} onHide={() => setShowCollection(false)}>
+      <Modal
+        show={showCollection}
+        onHide={() => setShowCollection(false)}
+        size="lg"
+      >
         <OuterPanel>
           <ChapterCollections
             onClose={() => setShowCollection(false)}
