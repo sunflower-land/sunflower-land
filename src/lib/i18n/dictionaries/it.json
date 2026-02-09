@@ -8039,5 +8039,20 @@
   "chapterDashboard.auctionDateAndSupply": "{{date}}, Fornitura: {{supply}}",
   "chapterDashboard.mutantsFound": "Hai trovato i mutanti {{count}}?",
   "mailbox.dailyGift": "Regalo giornaliero",
-  "chapterDashboard.socialRewardsDescription": "Collega gli account social per guadagnare premi."
+  "chapterDashboard.socialRewardsDescription": "Collega gli account social per guadagnare premi.",
+  "description.walrusOnesie.boost": "+5 Energia per animali domestici",
+  "error.petHouseFullCommon": "La casa per animali domestici è piena (animali domestici comuni)",
+  "error.petHouseFullNFT": "La cuccia per animali domestici è piena (animali domestici NFT)",
+  "upgrade.intro.pet.house": "Ehi, Bumpkin! Volete potenziare il vostro {{building}} per aumentare la capienza del vostro animale domestico?",
+  "upgrade.petHouseCapacity": "+2 razze di animali domestici comuni, +3 capacità per animali domestici NFT",
+  "visitorGuide.inThePetHouse": "Nella casa degli animali",
+  "pets.typeUnknown": "Tipo sconosciuto: recupera risorse non disponibili",
+  "petGuide.petHouse.title": "Casa per animali domestici",
+  "petGuide.petHouse.description": "Costruisci una cuccia per animali dal fabbro per gestire tutti i tuoi animali domestici in un unico posto.",
+  "petGuide.petHouse.description2": "Metti gli animali domestici all'interno della Pet House per nutrirli e portali lì. Usa la modalità paesaggistica quando sei all'interno per sistemare gli animali domestici.",
+  "petGuide.petHouse.description3": "Scheda Feed: Soddisfa le richieste di cibo dei tuoi animali domestici. Usa Bulk Feed per nutrire più animali domestici contemporaneamente.",
+  "petGuide.petHouse.description4": "Scheda Recupera: spendi energia per inviare animali domestici in cerca di risorse per Ghiande, risorse di categoria e altro ancora.",
+  "petGuide.petHouse.description5": "Pet All si sveglia sonnecchiando animali domestici. Cheer All fa rivivere gli animali domestici trascurati.",
+  "petGuide.petHouse.description6": "Limiti di razza: il livello 1 consente 3 razze di animali domestici comuni e 1 animale domestico NFT. Gli upgrade aggiungono +2 razze di animali domestici comuni e +3 capacità NFT, fino a 7 razze e 7 NFT al livello 3.",
+  "petGuide.petHouse.description7": "È possibile piazzare un solo animale domestico NFT di ogni tipo. I boccioli non possono essere collocati nella Pet House."
 }

@@ -8039,5 +8039,20 @@
   "chapterDashboard.auctionDateAndSupply": "{{date}}，供应：{{supply}}",
   "chapterDashboard.mutantsFound": "你找到了 {{count}} 突变体了吗？",
   "mailbox.dailyGift": "每日礼物",
-  "chapterDashboard.socialRewardsDescription": "连接社交账户以获得奖励。"
+  "chapterDashboard.socialRewardsDescription": "连接社交账户以获得奖励。",
+  "description.walrusOnesie.boost": "+5 宠物能量",
+  "error.petHouseFullCommon": "宠物屋已满（普通宠物）",
+  "error.petHouseFullNFT": "宠物屋已满（NFT 宠物）",
+  "upgrade.intro.pet.house": "嘿 Bumpkin！想升级你的 {{building}} 以增加你的宠物容量？",
+  "upgrade.petHouseCapacity": "+2 个普通宠物品种，+3 个 NFT 宠物容量",
+  "visitorGuide.inThePetHouse": "在宠物屋里",
+  "pets.typeUnknown": "未知类型-提取资源不可用",
+  "petGuide.petHouse.title": "宠物屋",
+  "petGuide.petHouse.description": "用铁匠建造一座宠物屋，在一个地方管理所有宠物。",
+  "petGuide.petHouse.description2": "把宠物放在宠物屋里喂食，把它们带到那里。在里面使用园林绿化模式来安排宠物。",
+  "petGuide.petHouse.description3": "饲料选项卡：满足宠物的食物需求。使用散装饲料一次喂养多只宠物。",
+  "petGuide.petHouse.description4": "获取选项卡：花费精力派宠物去获取橡子、类别资源等资源。",
+  "petGuide.petHouse.description5": "Pet All 醒来正在睡觉的宠物。Cheer All 让被忽视的宠物复活。",
+  "petGuide.petHouse.description6": "品种限制：第 1 级允许 3 个品种的普通宠物和 1 个 NFT 宠物。升级增加了 +2 个普通宠物品种和 +3 个 NFT 容量，第 3 级最多可增加 7 个品种和 7 个 NFT。",
+  "petGuide.petHouse.description7": "每种类型只能放置一只 NFT 宠物。耳机不能放置在宠物屋里。"
 }

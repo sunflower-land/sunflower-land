@@ -8039,5 +8039,20 @@
   "chapterDashboard.auctionDateAndSupply": "{{date}}, Pasokan: {{supply}}",
   "chapterDashboard.mutantsFound": "Sudahkah Anda menemukan mutan {{count}}?",
   "mailbox.dailyGift": "Hadiah Harian",
-  "chapterDashboard.socialRewardsDescription": "Hubungkan akun sosial untuk mendapatkan hadiah."
+  "chapterDashboard.socialRewardsDescription": "Hubungkan akun sosial untuk mendapatkan hadiah.",
+  "description.walrusOnesie.boost": "+5 Energi Hewan Peliharaan",
+  "error.petHouseFullCommon": "Rumah hewan peliharaan penuh (hewan peliharaan umum)",
+  "error.petHouseFullNFT": "Rumah hewan peliharaan penuh (hewan peliharaan NFT)",
+  "upgrade.intro.pet.house": "Hei, Bumpkin! Ingin meningkatkan {{building}} Anda untuk meningkatkan kapasitas hewan peliharaan Anda?",
+  "upgrade.petHouseCapacity": "+2 ras hewan peliharaan umum, +3 kapasitas hewan peliharaan NFT",
+  "visitorGuide.inThePetHouse": "Di rumah hewan peliharaan",
+  "pets.typeUnknown": "Jenis tidak dikenal - sumber daya ambil tidak tersedia",
+  "petGuide.petHouse.title": "Rumah Hewan Peliharaan",
+  "petGuide.petHouse.description": "Bangun Rumah Hewan Peliharaan dari pandai besi untuk mengelola semua hewan peliharaan Anda di satu tempat.",
+  "petGuide.petHouse.description2": "Tempatkan hewan peliharaan di dalam Rumah Hewan Peliharaan untuk memberi makan dan mengambilnya di sana. Gunakan mode lansekap saat berada di dalam untuk mengatur hewan peliharaan.",
+  "petGuide.petHouse.description3": "Tab pakan: Puaskan permintaan makanan hewan peliharaan Anda. Gunakan Massal Feed untuk memberi makan beberapa hewan peliharaan sekaligus.",
+  "petGuide.petHouse.description4": "Tab Ambil: Habiskan energi untuk mengirim hewan peliharaan untuk menjalankan sumber daya untuk Acorns, sumber daya kategori, dan banyak lagi.",
+  "petGuide.petHouse.description5": "Pet All membangunkan hewan peliharaan yang sedang tidur siang. Cheer All menghidupkan kembali hewan peliharaan yang terabaikan.",
+  "petGuide.petHouse.description6": "Batas jenis: Level 1 memungkinkan 3 jenis hewan peliharaan umum dan 1 hewan peliharaan NFT. Peningkatan menambahkan +2 breed hewan peliharaan umum dan +3 kapasitas NFT, hingga 7 breed dan 7 NFT di level 3.",
+  "petGuide.petHouse.description7": "Hanya satu hewan peliharaan NFT dari setiap jenis yang dapat ditempatkan. Tunas tidak dapat ditempatkan di Rumah Hewan Peliharaan."
 }

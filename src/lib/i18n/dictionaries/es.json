@@ -8039,5 +8039,20 @@
   "chapterDashboard.auctionDateAndSupply": "{{date}}, Suministro: {{supply}}",
   "chapterDashboard.mutantsFound": "¿Has encontrado a los mutantes {{count}}?",
   "mailbox.dailyGift": "Regalo diario",
-  "chapterDashboard.socialRewardsDescription": "Conecta cuentas de redes sociales para ganar recompensas."
+  "chapterDashboard.socialRewardsDescription": "Conecta cuentas de redes sociales para ganar recompensas.",
+  "description.walrusOnesie.boost": "+5 de energía para mascotas",
+  "error.petHouseFullCommon": "La casa de mascotas está llena (mascotas comunes)",
+  "error.petHouseFullNFT": "La casa de mascotas está llena (mascotas de NFT)",
+  "upgrade.intro.pet.house": "¡Hola, Bumpkin! ¿Quieres mejorar tu {{building}} para aumentar la capacidad de tu mascota?",
+  "upgrade.petHouseCapacity": "+2 razas de mascotas comunes, +3 NFT de capacidad para mascotas",
+  "visitorGuide.inThePetHouse": "En la casa de mascotas",
+  "pets.typeUnknown": "Tipo desconocido: los recursos de recuperación no están disponibles",
+  "petGuide.petHouse.title": "Casa de mascotas",
+  "petGuide.petHouse.description": "Construye una casa para mascotas con el herrero para gestionar todas tus mascotas en un solo lugar.",
+  "petGuide.petHouse.description2": "Coloca a las mascotas dentro de la casa de mascotas para alimentarlas y llévalas allí. Usa el modo de jardinería cuando estés dentro para organizar a las mascotas.",
+  "petGuide.petHouse.description3": "Pestaña de alimentación: satisface las solicitudes de comida de tus mascotas. Usa pienso a granel para alimentar a varias mascotas a la vez.",
+  "petGuide.petHouse.description4": "Pestaña de búsqueda: gasta energía para enviar mascotas a buscar bellotas, recursos de categorías y más.",
+  "petGuide.petHouse.description5": "Pet All despierta a las mascotas durmiendo la siesta. Cheer All revive a las mascotas abandonadas.",
+  "petGuide.petHouse.description6": "Límites de raza: el nivel 1 permite 3 razas de mascotas comunes y 1 mascota NFT. Las mejoras añaden +2 razas de mascotas comunes y +3 de capacidad de NFT, hasta 7 razas y 7 NFT en el nivel 3.",
+  "petGuide.petHouse.description7": "Solo se puede colocar una mascota NFT de cada tipo. Los cogollos no se pueden colocar en la caseta de mascotas."
 }

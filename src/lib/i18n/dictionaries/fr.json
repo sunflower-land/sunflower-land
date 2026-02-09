@@ -8039,5 +8039,20 @@
   "chapterDashboard.auctionDateAndSupply": "{{date}}, approvisionnement : {{supply}}",
   "chapterDashboard.mutantsFound": "Avez-vous trouvé les mutants {{count}} ?",
   "mailbox.dailyGift": "Cadeau quotidien",
-  "chapterDashboard.socialRewardsDescription": "Connectez vos comptes sociaux pour gagner des récompenses."
+  "chapterDashboard.socialRewardsDescription": "Connectez vos comptes sociaux pour gagner des récompenses.",
+  "description.walrusOnesie.boost": "+5 points d'énergie pour animaux",
+  "error.petHouseFullCommon": "La maison pour animaux de compagnie est pleine (animaux de compagnie courants)",
+  "error.petHouseFullNFT": "La maison pour animaux de compagnie est pleine (animaux NFT)",
+  "upgrade.intro.pet.house": "Salut Bumpkin ! Vous souhaitez améliorer votre {{building}} pour augmenter la capacité de votre animal de compagnie ?",
+  "upgrade.petHouseCapacity": "+2 races d'animaux de compagnie courantes, +3 animaux de compagnie NFT",
+  "visitorGuide.inThePetHouse": "Dans la maison pour animaux",
+  "pets.typeUnknown": "Type inconnu : récupération des ressources non disponibles",
+  "petGuide.petHouse.title": "Maison pour animaux",
+  "petGuide.petHouse.description": "Construisez une maison pour animaux de compagnie avec le forgeron pour gérer tous vos animaux de compagnie au même endroit.",
+  "petGuide.petHouse.description2": "Placez les animaux de compagnie à l'intérieur de la maison pour animaux de compagnie pour les nourrir et les y aller. Utilisez le mode aménagement paysager lorsque vous êtes à l'intérieur pour organiser les animaux de compagnie.",
+  "petGuide.petHouse.description3": "Onglet Feed : Répondez aux demandes alimentaires de vos animaux de compagnie. Utilisez Bulk Feed pour nourrir plusieurs animaux à la fois.",
+  "petGuide.petHouse.description4": "Onglet Récupérer : dépensez de l'énergie pour envoyer des animaux de compagnie faire des courses de ressources pour récupérer des glands, classer des ressources, etc.",
+  "petGuide.petHouse.description5": "Tous les animaux de compagnie se réveillent en train de faire la sieste. Cheer All fait revivre les animaux de compagnie négligés.",
+  "petGuide.petHouse.description6": "Limites de race : le niveau 1 autorise 3 races d'animaux de compagnie communs et 1 animal de compagnie NFT. Les améliorations ajoutent +2 races d'animaux de compagnie courantes et +3 capacités NFT, jusqu'à 7 races et 7 NFT au niveau 3.",
+  "petGuide.petHouse.description7": "Un seul animal de compagnie NFT de chaque type peut être placé. Les bourgeons ne peuvent pas être placés dans la maison pour animaux de compagnie."
 }

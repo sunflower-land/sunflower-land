@@ -8039,5 +8039,20 @@
   "chapterDashboard.auctionDateAndSupply": "{{date}}, Fornecimento: {{supply}}",
   "chapterDashboard.mutantsFound": "Você encontrou os mutantes {{count}}?",
   "mailbox.dailyGift": "Presente diário",
-  "chapterDashboard.socialRewardsDescription": "Conecte contas sociais para ganhar recompensas."
+  "chapterDashboard.socialRewardsDescription": "Conecte contas sociais para ganhar recompensas.",
+  "description.walrusOnesie.boost": "+5 de energia para animais de estimação",
+  "error.petHouseFullCommon": "A casa do animal de estimação está cheia (animais de estimação comuns)",
+  "error.petHouseFullNFT": "A casa do animal de estimação está cheia (animais de estimação NFT)",
+  "upgrade.intro.pet.house": "Olá, Bumpkin! Quer atualizar seu {{building}} para aumentar a capacidade de seu animal de estimação?",
+  "upgrade.petHouseCapacity": "+2 raças de animais de estimação comuns, +3 NFT de capacidade para animais de estimação",
+  "visitorGuide.inThePetHouse": "Na casa de animais",
+  "pets.typeUnknown": "Tipo desconhecido - recursos de busca indisponíveis",
+  "petGuide.petHouse.title": "Casa para animais de estimação",
+  "petGuide.petHouse.description": "Construa uma casa para animais de estimação com o ferreiro para gerenciar todos os seus animais de estimação em um só lugar.",
+  "petGuide.petHouse.description2": "Coloque animais de estimação dentro da Pet House para alimentá-los e buscá-los lá. Use o modo de paisagismo quando estiver dentro para organizar animais de estimação.",
+  "petGuide.petHouse.description3": "Aba de alimentação: satisfaça as solicitações de comida de seus animais de estimação. Use Bulk Feed para alimentar vários animais de estimação ao mesmo tempo.",
+  "petGuide.petHouse.description4": "Aba Buscar: gaste energia para enviar animais de estimação em corridas de recursos para bolotas, recursos de categorias e muito mais.",
+  "petGuide.petHouse.description5": "Pet All acorda cochilando animais de estimação. Cheer All revive animais de estimação negligenciados.",
+  "petGuide.petHouse.description6": "Limites de raça: O nível 1 permite 3 raças de animais de estimação comuns e 1 animal de estimação NFT. Os upgrades adicionam +2 raças de animais de estimação comuns e +3 de capacidade de NFT, até 7 raças e 7 NFT no nível 3.",
+  "petGuide.petHouse.description7": "Somente um animal de estimação NFT de cada tipo pode ser colocado. Os botões não podem ser colocados na casa de animais de estimação."
 }

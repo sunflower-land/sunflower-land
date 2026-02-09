@@ -8039,5 +8039,20 @@
   "chapterDashboard.auctionDateAndSupply": "{{date}}, Tedarik: {{supply}}",
   "chapterDashboard.mutantsFound": "{{count}} mutantlarını buldunuz mu?",
   "mailbox.dailyGift": "Günlük Hediye",
-  "chapterDashboard.socialRewardsDescription": "Ödül kazanmak için sosyal hesapları bağlayın."
+  "chapterDashboard.socialRewardsDescription": "Ödül kazanmak için sosyal hesapları bağlayın.",
+  "description.walrusOnesie.boost": "+5 Evcil Hayvan Enerjisi",
+  "error.petHouseFullCommon": "Evcil hayvan evi dolu (ortak evcil hayvanlar)",
+  "error.petHouseFullNFT": "Evcil hayvan evi dolu (NFT evcil hayvanlar)",
+  "upgrade.intro.pet.house": "Selamlar Bumpkin! Evcil hayvanınızın kapasitesini artırmak için {{building}} 'nizi yükseltmek mi istiyorsunuz?",
+  "upgrade.petHouseCapacity": "+2 ortak evcil hayvan ırkı, +3 NFT evcil hayvan kapasitesi",
+  "visitorGuide.inThePetHouse": "Evcil hayvan evinde",
+  "pets.typeUnknown": "Bilinmeyen tür - geri yükleme kaynakları kullanılamıyor",
+  "petGuide.petHouse.title": "Evcil Hayvan Evi",
+  "petGuide.petHouse.description": "Tüm evcil hayvanlarınızı tek bir yerde yönetmek için demirciden bir Evcil Hayvan Evi inşa edin.",
+  "petGuide.petHouse.description2": "Evcil hayvanları beslemek ve oraya getirmek için Evcil Hayvan Evi'nin içine yerleştirin. Evcil hayvanları düzenlemek için içerideyken peyzaj modunu kullanın.",
+  "petGuide.petHouse.description3": "Yem sekmesi: Evcil hayvanlarınızın yiyecek taleplerini karşılayın. Aynı anda birden fazla evcil hayvanı beslemek için Toplu Beslemeyi kullanın.",
+  "petGuide.petHouse.description4": "Getir sekmesi: Meşe palamudu, kategori kaynakları ve daha fazlası için kaynak çalıştırmalarına evcil hayvan göndermek için enerji harcayın.",
+  "petGuide.petHouse.description5": "Pet All uyuyan evcil hayvanları uyandırır. Cheer All ihmal edilen evcil hayvanları canlandırır.",
+  "petGuide.petHouse.description6": "Cins sınırları: Seviye 1, 3 tür ortak evcil hayvan ve 1 NFT evcil hayvanına izin verir. Yükseltmeler +2 ortak evcil hayvan ırkı ve +3 NFT kapasitesi, seviye 3'e kadar 7 cins ve 7 NFT ekler.",
+  "petGuide.petHouse.description7": "Her türden yalnızca bir NFT evcil hayvan yerleştirilebilir. Tomurcuklar Evcil Hayvan Evi'ne yerleştirilemez."
 }

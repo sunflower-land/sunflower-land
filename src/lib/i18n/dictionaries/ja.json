@@ -8039,5 +8039,20 @@
   "chapterDashboard.auctionDateAndSupply": "{{date}}, サプライ:{{supply}}",
   "chapterDashboard.mutantsFound": "{{count}} 変異体は見つかりましたか？",
   "mailbox.dailyGift": "デイリーギフト",
-  "chapterDashboard.socialRewardsDescription": "ソーシャルアカウントを接続して報酬を獲得しましょう。"
+  "chapterDashboard.socialRewardsDescription": "ソーシャルアカウントを接続して報酬を獲得しましょう。",
+  "description.walrusOnesie.boost": "+5 ペットエナジー",
+  "error.petHouseFullCommon": "ペットハウスが満室です (一般的なペット)",
+  "error.petHouseFullNFT": "ペットハウスがいっぱいです (NFTペット)",
+  "upgrade.intro.pet.house": "やあ、バンプキン！{{building}} をアップグレードしてペットの容量を増やしたいとお考えですか？",
+  "upgrade.petHouseCapacity": "一般的なペット品種2種以上、ペット容量3NFT以上",
+  "visitorGuide.inThePetHouse": "ペットハウスで",
+  "pets.typeUnknown": "不明なタイプ-フェッチリソースは使用できません",
+  "petGuide.petHouse.title": "ペットハウス",
+  "petGuide.petHouse.description": "鍛冶屋からペットハウスを建てて、すべてのペットを1か所で管理しましょう。",
+  "petGuide.petHouse.description2": "ペットハウスにペットを置いてエサをあげたり、持ち帰ったりしましょう。屋内でペットを配置するときは、ランドスケープモードを使用してください。",
+  "petGuide.petHouse.description3": "「フィード」タブ:ペットのフードリクエストを満たしましょう。一括フィードを使うと、複数のペットに一度に給餌できます。",
+  "petGuide.petHouse.description4": "フェッチタブ:エネルギーを消費して、ドングリやカテゴリー資源などの資源獲得にペットを送りましょう。",
+  "petGuide.petHouse.description5": "Pet Allは昼寝中のペットを目覚めさせます。Cheer Allはおろそかにされたペットを復活させます。",
+  "petGuide.petHouse.description6": "品種制限：レベル1では、3種類の一般的なペットと1匹のNFTペットが許可されます。アップグレードすると、一般的なペットの品種が2種類追加され、NFT容量が3倍になり、レベル3では最大7種、NFTは7種類まで追加されます。",
+  "petGuide.petHouse.description7": "各タイプのNFTペットは1匹のみ配置できます。ペットハウスにはつぼみを置くことはできません。"
 }

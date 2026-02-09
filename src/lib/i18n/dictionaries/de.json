@@ -8039,5 +8039,20 @@
   "chapterDashboard.auctionDateAndSupply": "{{date}}, Angebot: {{supply}}",
   "chapterDashboard.mutantsFound": "Hast du die {{count}} -Mutanten gefunden?",
   "mailbox.dailyGift": "Tägliches Geschenk",
-  "chapterDashboard.socialRewardsDescription": "Verbinde soziale Konten, um Prämien zu verdienen."
+  "chapterDashboard.socialRewardsDescription": "Verbinde soziale Konten, um Prämien zu verdienen.",
+  "description.walrusOnesie.boost": "+5 Tierenergie",
+  "error.petHouseFullCommon": "Das Tierhaus ist voll (normale Haustiere)",
+  "error.petHouseFullNFT": "Das Tierhaus ist voll (NFT-Haustiere)",
+  "upgrade.intro.pet.house": "Hallo Bumpkin! Möchtest du dein {{building}} aufrüsten, um die Kapazität deines Haustiers zu erhöhen?",
+  "upgrade.petHouseCapacity": "+2 übliche Haustierrassen, +3 NFT-Haustierkapazität",
+  "visitorGuide.inThePetHouse": "Im Tierhaus",
+  "pets.typeUnknown": "Unbekannter Typ — Ressourcen zum Abrufen sind nicht verfügbar",
+  "petGuide.petHouse.title": "Haus für Haustiere",
+  "petGuide.petHouse.description": "Baue vom Schmied ein Tierhaus, um all deine Haustiere an einem Ort zu verwalten.",
+  "petGuide.petHouse.description2": "Platziere Haustiere in das Tierhaus, um sie zu füttern, und hole sie dort ab. Nutze den Landschaftsmodus, wenn du drinnen bist, um deine Haustiere anzuordnen.",
+  "petGuide.petHouse.description3": "Tab „Feed“: Erfüllen Sie die Futterwünsche Ihrer Haustiere. Verwende Bulk Feed, um mehrere Haustiere gleichzeitig zu füttern.",
+  "petGuide.petHouse.description4": "Reiter holen: Gib Energie aus, um Haustiere auf Ressourcenrennen zu schicken, um Eicheln, Kategorieressourcen und mehr zu erhalten.",
+  "petGuide.petHouse.description5": "Pet All weckt Haustiere auf, die ein Nickerchen machen. Cheer All belebt vernachlässigte Haustiere wieder.",
+  "petGuide.petHouse.description6": "Rassebeschränkungen: Stufe 1 erlaubt 3 Rassen gewöhnlicher Haustiere und 1 NFT-Haustier. Upgrades fügen +2 gewöhnliche Haustierrassen und +3 NFT-Kapazität hinzu, bis zu 7 Rassen und 7 NFT auf Stufe 3.",
+  "petGuide.petHouse.description7": "Es kann nur ein NFT-Haustier jedes Typs platziert werden. Knospen können nicht im Tierhaus platziert werden."
 }
