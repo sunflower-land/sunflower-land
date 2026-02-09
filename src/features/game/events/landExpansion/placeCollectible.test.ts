@@ -369,13 +369,15 @@ describe("Place Collectible", () => {
   });
 
   describe("Pet House Breed Limits", () => {
-    // Pet house level 1: 1 breed, level 2: 4 breeds, level 3: 7 breeds
+    // Pet house level 1: 3 breed, level 2: 5 breeds, level 3: 7 breeds
     it("throws error when adding new breed exceeds limit (level 1)", () => {
       const dateNow = Date.now();
 
-      // Level 1 allows 1 breed. Have 1 Dog placed. Adding Cat (new breed) should throw.
+      // Level 1 allows 3 breeds. Have 1 Dog placed. Adding Cat (new breed) should throw.
       const placedPets: Partial<Record<PetName, PlacedItem[]>> = {
         Barkley: [{ id: "1", coordinates: { x: 0, y: 0 } }],
+        Meowchi: [{ id: "2", coordinates: { x: 2, y: 0 } }],
+        Twizzle: [{ id: "3", coordinates: { x: 4, y: 0 } }],
       };
 
       expect(() =>
@@ -383,7 +385,7 @@ describe("Place Collectible", () => {
           state: {
             ...GAME_STATE,
             inventory: {
-              Meowchi: new Decimal(1),
+              Pip: new Decimal(1),
             },
             petHouse: {
               level: 1,
@@ -393,7 +395,7 @@ describe("Place Collectible", () => {
           action: {
             id: "2",
             type: "collectible.placed",
-            name: "Meowchi",
+            name: "Pip",
             coordinates: { x: 2, y: 0 },
             location: "petHouse",
           },
@@ -469,7 +471,7 @@ describe("Place Collectible", () => {
       expect(state.petHouse.pets["Pinto"]).toHaveLength(1);
     });
 
-    it("throws when adding 5th breed at level 2", () => {
+    it("throws when adding 6th breed at level 2", () => {
       const dateNow = Date.now();
 
       // Level 2 allows 4 breeds. Have Dog, Cat, Owl, Horse. Adding Bull (5th breed) should throw.
@@ -478,6 +480,7 @@ describe("Place Collectible", () => {
         Meowchi: [{ id: "2", coordinates: { x: 2, y: 0 } }],
         Twizzle: [{ id: "3", coordinates: { x: 4, y: 0 } }],
         Burro: [{ id: "4", coordinates: { x: 0, y: 2 } }],
+        Mudhorn: [{ id: "5", coordinates: { x: 2, y: 4 } }],
       };
 
       expect(() =>
@@ -485,7 +488,7 @@ describe("Place Collectible", () => {
           state: {
             ...GAME_STATE,
             inventory: {
-              Mudhorn: new Decimal(1),
+              Pip: new Decimal(1),
             },
             petHouse: {
               level: 2,
@@ -495,7 +498,7 @@ describe("Place Collectible", () => {
           action: {
             id: "5",
             type: "collectible.placed",
-            name: "Mudhorn",
+            name: "Pip",
             coordinates: { x: 2, y: 2 },
             location: "petHouse",
           },
