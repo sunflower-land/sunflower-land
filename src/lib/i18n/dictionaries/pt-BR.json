@@ -8037,5 +8037,7 @@
   "chapterDashboard.auctionsComingSoon": "Novos leilões em breve - {{time}}",
   "chapterDashboard.auctionSupply": "Fornecimento: {{supply}}",
   "chapterDashboard.auctionDateAndSupply": "{{date}}, Fornecimento: {{supply}}",
-  "chapterDashboard.mutantsFound": "Você encontrou os mutantes {{count}}?"
+  "chapterDashboard.mutantsFound": "Você encontrou os mutantes {{count}}?",
+  "mailbox.dailyGift": "Presente diário",
+  "chapterDashboard.socialRewardsDescription": "Conecte contas sociais para ganhar recompensas."
 }

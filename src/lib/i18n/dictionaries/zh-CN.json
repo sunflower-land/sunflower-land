@@ -8037,5 +8037,7 @@
   "chapterDashboard.auctionsComingSoon": "新拍卖即将上线-{{time}}",
   "chapterDashboard.auctionSupply": "供应：{{supply}}",
   "chapterDashboard.auctionDateAndSupply": "{{date}}，供应：{{supply}}",
-  "chapterDashboard.mutantsFound": "你找到了 {{count}} 突变体了吗？"
+  "chapterDashboard.mutantsFound": "你找到了 {{count}} 突变体了吗？",
+  "mailbox.dailyGift": "每日礼物",
+  "chapterDashboard.socialRewardsDescription": "连接社交账户以获得奖励。"
 }

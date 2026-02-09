@@ -8037,5 +8037,7 @@
   "chapterDashboard.auctionsComingSoon": "Próximamente habrá nuevas subastas - {{time}}",
   "chapterDashboard.auctionSupply": "Suministro: {{supply}}",
   "chapterDashboard.auctionDateAndSupply": "{{date}}, Suministro: {{supply}}",
-  "chapterDashboard.mutantsFound": "¿Has encontrado a los mutantes {{count}}?"
+  "chapterDashboard.mutantsFound": "¿Has encontrado a los mutantes {{count}}?",
+  "mailbox.dailyGift": "Regalo diario",
+  "chapterDashboard.socialRewardsDescription": "Conecta cuentas de redes sociales para ganar recompensas."
 }

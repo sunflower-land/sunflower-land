@@ -8037,5 +8037,7 @@
   "chapterDashboard.auctionsComingSoon": "Yeni açık artırmalar yakında - {{time}}",
   "chapterDashboard.auctionSupply": "Tedarik: {{supply}}",
   "chapterDashboard.auctionDateAndSupply": "{{date}}, Tedarik: {{supply}}",
-  "chapterDashboard.mutantsFound": "{{count}} mutantlarını buldunuz mu?"
+  "chapterDashboard.mutantsFound": "{{count}} mutantlarını buldunuz mu?",
+  "mailbox.dailyGift": "Günlük Hediye",
+  "chapterDashboard.socialRewardsDescription": "Ödül kazanmak için sosyal hesapları bağlayın."
 }

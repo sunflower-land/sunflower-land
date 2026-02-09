@@ -8037,5 +8037,7 @@
   "chapterDashboard.auctionsComingSoon": "New auctions coming soon - {{time}}",
   "chapterDashboard.auctionSupply": "Supply: {{supply}}",
   "chapterDashboard.auctionDateAndSupply": "{{date}}, Supply: {{supply}}",
-  "chapterDashboard.mutantsFound": "Have you found the {{count}} mutants?"
+  "chapterDashboard.mutantsFound": "Have you found the {{count}} mutants?",
+  "mailbox.dailyGift": "Daily Gift",
+  "chapterDashboard.socialRewardsDescription": "Connect social accounts to earn rewards."
 }

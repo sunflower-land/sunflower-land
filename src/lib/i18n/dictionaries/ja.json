@@ -8037,5 +8037,7 @@
   "chapterDashboard.auctionsComingSoon": "新しいオークションが間もなく開催されます-{{time}}",
   "chapterDashboard.auctionSupply": "サプライ:{{supply}}",
   "chapterDashboard.auctionDateAndSupply": "{{date}}, サプライ:{{supply}}",
-  "chapterDashboard.mutantsFound": "{{count}} 変異体は見つかりましたか？"
+  "chapterDashboard.mutantsFound": "{{count}} 変異体は見つかりましたか？",
+  "mailbox.dailyGift": "デイリーギフト",
+  "chapterDashboard.socialRewardsDescription": "ソーシャルアカウントを接続して報酬を獲得しましょう。"
 }

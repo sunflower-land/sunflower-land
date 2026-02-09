@@ -8037,5 +8037,7 @@
   "chapterDashboard.auctionsComingSoon": "Lelang baru segera hadir - {{time}}",
   "chapterDashboard.auctionSupply": "Pasokan: {{supply}}",
   "chapterDashboard.auctionDateAndSupply": "{{date}}, Pasokan: {{supply}}",
-  "chapterDashboard.mutantsFound": "Sudahkah Anda menemukan mutan {{count}}?"
+  "chapterDashboard.mutantsFound": "Sudahkah Anda menemukan mutan {{count}}?",
+  "mailbox.dailyGift": "Hadiah Harian",
+  "chapterDashboard.socialRewardsDescription": "Hubungkan akun sosial untuk mendapatkan hadiah."
 }
