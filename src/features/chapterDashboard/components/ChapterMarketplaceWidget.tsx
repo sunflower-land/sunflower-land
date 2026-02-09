@@ -7,9 +7,11 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 export const ChapterMarketplaceWidget = () => {
   const { t } = useAppTranslation();
   return (
-    <ColorPanel type="chill" className="flex p-1">
-      <img src={marketplaceIcon} className="h-10 mr-2" />
-      <p className="text-xs">{t("chapterDashboard.marketplaceDescription")}</p>
+    <ColorPanel type="chill" className="flex p-1 mb-2">
+      <img src={marketplaceIcon} className="w-10 object-contain mr-2" />
+      <p className="text-xs flex-1">
+        {t("chapterDashboard.marketplaceDescription")}
+      </p>
     </ColorPanel>
   );
 };

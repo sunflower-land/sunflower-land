@@ -215,6 +215,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Pet Cookie Collected": 2250,
     "Paw Prints Points Earned": 930,
     "Paw Prints free Milestone Claimed": 4,
+    "welcome Bonus Claimed": 1,
   },
 
   fishing: {

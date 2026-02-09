@@ -13,8 +13,6 @@ import newsIcon from "assets/icons/chapter_icon_2.webp";
 import classNames from "classnames";
 
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { Mail } from "./components/Mail";
 import { Message } from "./components/Message";
 import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -23,11 +21,12 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import letterDisc from "assets/icons/letter_disc.png";
-import letter from "assets/icons/letter.png";
+import giftIcon from "assets/icons/gift.png";
 import { MachineState } from "features/game/lib/gameMachine";
 import { PWAInstallMessage } from "./components/PWAInstallMessage";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
 import { DiscordNews } from "./components/DiscordNews";
+import { DailyRewardClaim } from "features/game/components/DailyReward";
 import { useAuth } from "features/auth/lib/Provider";
 import {
   DISCORD_NEWS_STORAGE_EVENT,
@@ -42,9 +41,10 @@ const _mailbox = (state: MachineState) => state.context.state.mailbox;
 export const LetterBox: React.FC = () => {
   const { gameService, showAnimations } = useContext(Context);
   const { authState } = useAuth();
-  const [tab, setTab] = useState<"mail" | "news">("mail");
+  const [tab, setTab] = useState<"news" | "dailyGift">("news");
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<string>();
+  const [dismissedUnreadId, setDismissedUnreadId] = useState<string>();
   const isPWA = useIsPWA();
 
   const announcements = useSelector(gameService, _announcements);
@@ -59,12 +59,13 @@ export const LetterBox: React.FC = () => {
     setIsOpen(false);
   };
 
-  const hasAnnouncement =
-    getKeys(announcements ?? {})
-      // Ensure they haven't read it already
-      .some((id) => !mailbox.read.find((message) => message.id === id)) &&
-    // And not visiting
-    !isVisiting;
+  const unreadAnnouncementId = !isVisiting
+    ? getKeys(announcements ?? {}).find(
+        (id) => !mailbox.read.find((message) => message.id === id),
+      )
+    : undefined;
+
+  const hasAnnouncement = !!unreadAnnouncementId;
 
   const discordNewsSubscribe = (onStoreChange: () => void) => {
     if (typeof window === "undefined") return () => {};
@@ -112,7 +113,21 @@ export const LetterBox: React.FC = () => {
   );
 
   const shouldShowNewsAlert = hasUnreadDiscordUpdate && !isVisiting;
-  const details = selected ? announcements[selected] : undefined;
+
+  const activeMessageId =
+    selected ??
+    (dismissedUnreadId === unreadAnnouncementId
+      ? undefined
+      : unreadAnnouncementId);
+  const details = activeMessageId ? announcements[activeMessageId] : undefined;
+  const handleAnnouncementClose = () => {
+    if (selected) {
+      close();
+      return;
+    }
+
+    setDismissedUnreadId(unreadAnnouncementId);
+  };
 
   return (
     <>
@@ -166,50 +181,39 @@ export const LetterBox: React.FC = () => {
         />
       </div>
       <Modal show={isOpen} onHide={close} size="lg">
-        {selected && details && (
+        {activeMessageId && details && (
           <Panel bumpkinParts={NPC_WEARABLES[details.from]}>
             <div className="flex items-center mb-1 p-1">
-              <img
-                src={SUNNYSIDE.icons.arrow_left}
-                className="mr-2 cursor-pointer"
-                style={{
-                  width: `${PIXEL_SCALE * 11}px`,
-                }}
-                onClick={() => setSelected(undefined)}
-              />
               <p className="text-sm capitalize ml-1 underline">
                 {details.from}
               </p>
             </div>
 
-            {selected === "pwa-install-prompt" && !isPWA ? (
+            {activeMessageId === "pwa-install-prompt" && !isPWA ? (
               <PWAInstallMessage
                 message={details}
-                conversationId={selected}
-                read={!!mailbox.read.find((item) => item.id === selected)}
-                onAcknowledge={close}
+                conversationId={activeMessageId}
+                read={
+                  !!mailbox.read.find((item) => item.id === activeMessageId)
+                }
+                onAcknowledge={handleAnnouncementClose}
               />
             ) : (
               <Message
                 message={details}
-                conversationId={selected}
-                read={!!mailbox.read.find((item) => item.id === selected)}
-                onClose={close}
+                conversationId={activeMessageId}
+                read={
+                  !!mailbox.read.find((item) => item.id === activeMessageId)
+                }
+                onClose={handleAnnouncementClose}
               />
             )}
           </Panel>
         )}
-        {!selected && (
+        {!activeMessageId && (
           <CloseButtonPanel
             onClose={close}
             tabs={[
-              {
-                icon: letter,
-                name: t("mailbox"),
-                alert: hasAnnouncement,
-                unread: hasAnnouncement,
-                id: "mail",
-              },
               {
                 icon: newsIcon,
                 name: t("news.title"),
@@ -217,17 +221,24 @@ export const LetterBox: React.FC = () => {
                 unread: shouldShowNewsAlert,
                 id: "news",
               },
+              {
+                icon: giftIcon,
+                name: t("mailbox.dailyGift"),
+                id: "dailyGift",
+              },
             ]}
             currentTab={tab}
             setCurrentTab={setTab}
             container={OuterPanel}
           >
-            {tab === "mail" && (
-              <Mail setSelected={setSelected} announcements={announcements} />
-            )}
             {tab === "news" && (
               <InnerPanel>
                 <DiscordNews />
+              </InnerPanel>
+            )}
+            {tab === "dailyGift" && (
+              <InnerPanel>
+                <DailyRewardClaim />
               </InnerPanel>
             )}
           </CloseButtonPanel>
