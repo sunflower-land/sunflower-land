@@ -1,5 +1,4 @@
 import { useSelector } from "@xstate/react";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
@@ -263,59 +262,17 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
               </Label>
             )}
           </div>
-          <div className="flex flex-row gap-1 w-full items-right justify-end sm:w-1/2">
-            {areSomePetsNeglected && !isBulkFeed && (
-              <Button
-                className="flex-1 min-w-0 sm:flex-none sm:w-40 basis-0"
-                onClick={handleBulkNeglect}
-              >
-                {`Cheer All`}
-              </Button>
-            )}
-            {areSomePetsNapping && !areSomePetsNeglected && !isBulkFeed && (
-              <Button
-                className="flex-1 min-w-0 sm:flex-none sm:w-40 basis-0"
-                onClick={handleBulkPet}
-              >
-                {`Pet All`}
-              </Button>
-            )}
-            {!areAllPetsNapping && display === "feeding" && (
-              <Button
-                className="flex-1 min-w-0 sm:flex-none sm:w-40 basis-0"
-                disabled={
-                  (!isBulkFeed && !canBulkFeedAnything) ||
-                  (isBulkFeed && selectedFeed.length === 0)
-                }
-                onClick={handleBulkFeed}
-              >
-                {isBulkFeed ? t("pets.confirmFeed") : t("pets.bulkFeed")}
-              </Button>
-            )}
-            {isBulkFeed && display === "feeding" && (
-              <Button
-                className="flex-1 min-w-0 sm:flex-none sm:w-40 basis-0"
-                onClick={handleCancel}
-              >
-                <img
-                  src={SUNNYSIDE.icons.cancel}
-                  alt="Cancel"
-                  className="h-5 object-contain"
-                />
-              </Button>
-            )}
-          </div>
         </div>
-        <div className="flex flex-row gap-1.5 mb-1">
+        <div className="flex flex-row gap-1 w-full">
           <Button
-            className="h-10 flex-1 min-w-0"
+            className="flex-1 min-w-0"
             disabled={display === "feeding"}
             onClick={() => setDisplay("feeding")}
           >
             {t("pets.feed")}
           </Button>
           <Button
-            className="h-10 flex-1 min-w-0"
+            className="flex-1 min-w-0"
             disabled={display === "fetching"}
             onClick={() => {
               setDisplay("fetching");
@@ -324,6 +281,35 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
           >
             {t("pets.fetch")}
           </Button>
+        </div>
+        <div className="flex flex-row gap-1 w-full">
+          {areSomePetsNeglected && !isBulkFeed && (
+            <Button className="flex-1 min-w-0" onClick={handleBulkNeglect}>
+              {`Cheer All`}
+            </Button>
+          )}
+          {areSomePetsNapping && !areSomePetsNeglected && !isBulkFeed && (
+            <Button className="flex-1 min-w-0" onClick={handleBulkPet}>
+              {`Pet All`}
+            </Button>
+          )}
+          {!areAllPetsNapping && display === "feeding" && (
+            <Button
+              className="flex-1 min-w-0"
+              disabled={
+                (!isBulkFeed && !canBulkFeedAnything) ||
+                (isBulkFeed && selectedFeed.length === 0)
+              }
+              onClick={handleBulkFeed}
+            >
+              {isBulkFeed ? t("pets.confirmFeed") : t("pets.bulkFeed")}
+            </Button>
+          )}
+          {isBulkFeed && display === "feeding" && (
+            <Button className="flex-1 min-w-0" onClick={handleCancel}>
+              {t("cancel")}
+            </Button>
+          )}
         </div>
       </InnerPanel>
       <div className="flex flex-col gap-1">

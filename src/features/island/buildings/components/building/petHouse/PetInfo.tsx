@@ -68,8 +68,8 @@ export const PetInfo: React.FC<Props> = ({ petData, children, nftPets }) => {
   const petCategory = type ? PET_CATEGORIES[type] : undefined;
 
   return (
-    <InnerPanel className="flex flex-col sm:flex-row gap-1 w-full">
-      <div className="flex px-4 py-3 gap-4 w-full sm:w-1/2 items-center">
+    <InnerPanel className="flex flex-col sm:flex-row w-full">
+      <div className="flex px-4 py-3 gap-4 w-full sm:w-[45%] items-center">
         <div className="flex flex-col justify-center w-1/4 items-center gap-2">
           <img
             src={image}
@@ -106,18 +106,20 @@ export const PetInfo: React.FC<Props> = ({ petData, children, nftPets }) => {
           </div>
 
           {/* Level and Experience */}
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2">
-              <img src={levelUp} className="w-4" />
-              <span className="ml-1 text-xs">{t("pets.level", { level })}</span>
-            </div>
+          <div className="flex flex-row gap-3 mb-2">
+            <Label type="transparent" className="text-xs" icon={levelUp}>
+              {`Lvl ${level}`}
+            </Label>
             {/* Energy */}
-            <div className="flex items-center gap-2 text-xs mb-1">
-              <img src={SUNNYSIDE.icons.lightning} className="h-5" />
-              <span>{t("pets.energy", { energy: petData.energy })}</span>
-            </div>
+            <Label
+              type="transparent"
+              className="text-xs"
+              icon={SUNNYSIDE.icons.lightning}
+            >
+              {petData.energy}
+            </Label>
           </div>
-          <div className="flex flex-row gap-2 items-center">
+          <div className="flex flex-row gap-2 items-center -ml-2">
             <img src={xpIcon} className="w-5" />
             <ResizableBar
               percentage={percentage}

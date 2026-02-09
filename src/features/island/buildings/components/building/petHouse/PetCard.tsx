@@ -196,7 +196,7 @@ export const PetCard: React.FC<Props> = ({
             {t("pets.resetRequests")}
           </p>
         </div>
-        <div className="grid grid-cols-3 gap-1 w-full">
+        <div className="grid grid-cols-3 gap-1 mt-2 w-full">
           {petData.requests.food.map((food) => {
             const { level: petLevel } = getPetLevel(petData.experience);
 
@@ -289,7 +289,7 @@ export const PetCard: React.FC<Props> = ({
           style={{ display: display === "fetching" ? "flex" : "none" }}
         >
           <Label type="default">{t("pets.fetchableResources")}</Label>
-          <div className="grid grid-cols-3 gap-1 w-full">
+          <div className="grid grid-cols-3 gap-1 mt-2 w-full">
             {!getPetType(petData) ? (
               <p className="text-xs col-span-3 p-1">{t("pets.typeUnknown")}</p>
             ) : (

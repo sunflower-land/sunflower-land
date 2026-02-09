@@ -1,5 +1,6 @@
 import React from "react";
 import { ButtonPanel } from "components/ui/Panel";
+import { Label } from "components/ui/Label";
 import { PetResourceName } from "features/game/types/pets";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -33,60 +34,66 @@ export const FetchButtonPanel: React.FC<FetchButtonPanelProps> = ({
   const fetchImage = ITEM_DETAILS[fetch]?.image;
 
   return (
-    <ButtonPanel
-      className={classNames(
-        "flex flex-row p-0 overflow-hidden items-center relative",
-        { "cursor-pointer": !!onClick && !disabled },
-        className,
-      )}
-      onClick={disabled ? undefined : onClick}
-      disabled={disabled}
-      selected={selected}
-    >
-      {locked && (
-        <img
-          src={SUNNYSIDE.icons.lock}
-          alt="Locked"
-          className="absolute top-0.5 right-0.5 w-4 h-4 object-contain z-10"
-        />
-      )}
-      {/* Left: Fetch image */}
-      <div
-        className="flex items-center justify-center"
+    <div className="relative">
+      {/* Inventory count label - top right */}
+      <Label
+        className="absolute z-10 -top-2 -right-2"
+        type="default"
         style={{
-          width: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
-          height: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
+          padding: "0 2.5",
+          height: "24px",
         }}
       >
-        {fetchImage && (
+        {inventoryCount.toString()}
+      </Label>
+      <ButtonPanel
+        className={classNames(
+          "flex flex-row p-0 overflow-hidden items-center relative",
+          { "cursor-pointer": !!onClick && !disabled },
+          className,
+        )}
+        onClick={disabled ? undefined : onClick}
+        disabled={disabled}
+        selected={selected}
+      >
+        {locked && (
           <img
-            src={fetchImage}
-            alt={fetch}
-            className="w-[85%] h-[85%] object-contain"
-            style={{ imageRendering: "pixelated" }}
+            src={SUNNYSIDE.icons.lock}
+            alt="Locked"
+            className="absolute top-0 left-0 w-4 h-4 object-contain z-10"
           />
         )}
-      </div>
 
-      {/* Right: Stats */}
-      <div className="flex flex-col justify-center gap-0.5 px-2 py-1 min-w-0 flex-1">
-        <div className="flex items-center gap-1 text-xs">
-          <img
-            src={SUNNYSIDE.icons.basket}
-            alt="Inventory"
-            className="w-4 h-4 object-contain shrink-0"
-          />
-          <span className="text-brown-800">{inventoryCount.toString()}</span>
+        {/* Left: Fetch image */}
+        <div
+          className="flex items-center justify-center"
+          style={{
+            width: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
+            height: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
+          }}
+        >
+          {fetchImage && (
+            <img
+              src={fetchImage}
+              alt={fetch}
+              className="w-[85%] h-[85%] object-contain"
+              style={{ imageRendering: "pixelated" }}
+            />
+          )}
         </div>
-        <div className="flex items-center gap-1 text-xs">
-          <img
-            src={SUNNYSIDE.icons.lightning}
-            alt="Energy"
-            className="w-4 h-4 object-contain shrink-0"
-          />
-          <span className="text-brown-800">{energyRequired}</span>
+
+        {/* Right: Stats */}
+        <div className="flex flex-col justify-center gap-0.5 px-2 py-1 min-w-0 flex-1">
+          <div className="flex items-center gap-1 text-xs">
+            <img
+              src={SUNNYSIDE.icons.lightning}
+              alt="Energy"
+              className="w-4 h-4 object-contain shrink-0"
+            />
+            <span className="text-brown-800">{energyRequired}</span>
+          </div>
         </div>
-      </div>
-    </ButtonPanel>
+      </ButtonPanel>
+    </div>
   );
 };

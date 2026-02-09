@@ -565,6 +565,7 @@
   "description.anthill": "Busy ant colony. Always working, always organized",
   "description.rat": "Clever little rat. Not pretty, but has its place in the farm",
   "description.snail": "Slow but steady snail. Takes time, but it gets there",
+  "description.walrusOnesie.boost": "+5 Pet Energy",
   "clutter": "Clutter",
   "description.geniseed": "A ticket used during the Great Bloom chapter",
   "building.oil.remaining": "{{oil}} Oil in building",
