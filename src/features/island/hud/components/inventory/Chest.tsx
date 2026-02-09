@@ -319,28 +319,35 @@ export const Chest: React.FC<Props> = ({
     );
 
   const getSelectedChestItems = (): LandscapingPlaceableType | undefined => {
+    const firstBudId = getKeys(buds)[0];
+    const firstPetId = getKeys(petsNFTs)[0];
+    const firstCollectible = getKeys(collectibles)[0];
+
+    const firstBud =
+      firstBudId !== undefined
+        ? { name: "Bud" as const, id: String(firstBudId) }
+        : undefined;
+    const firstPet =
+      firstPetId !== undefined
+        ? { name: "Pet" as const, id: String(firstPetId) }
+        : undefined;
+    const firstCollectibleItem = firstCollectible
+      ? { name: firstCollectible }
+      : undefined;
+    const fallback = firstCollectibleItem ?? firstBud ?? firstPet;
+
     if (selected?.name === "Bud") {
-      const budId = Number(selected.id);
-      const bud = buds[budId];
-      if (bud) return selected;
-      if (getKeys(buds)[0])
-        return { name: "Bud", id: String(getKeys(buds)[0]) };
-      return { name: getKeys(collectibles)[0] };
+      if (buds[Number(selected.id)]) return selected;
+      return firstBud ?? fallback;
     }
-
     if (selected?.name === "Pet") {
-      const petId = Number(selected.id);
-      const pet = petsNFTs[petId];
-      if (pet) return selected;
-      if (getKeys(petsNFTs)[0])
-        return { name: "Pet", id: String(getKeys(petsNFTs)[0]) };
-      return { name: getKeys(collectibles)[0] };
+      if (petsNFTs[Number(selected.id)]) return selected;
+      return firstPet ?? fallback;
     }
-
-    // select first item in collectibles if the original selection is not in collectibles when they are all placed by the player
-    const collectible = collectibles[selected?.name as CollectibleName];
-    if (collectible) return selected;
-    return { name: getKeys(collectibles)[0] };
+    if (selected?.name && collectibles[selected.name as CollectibleName]) {
+      return selected;
+    }
+    return fallback;
   };
 
   const selectedChestItem = getSelectedChestItems();

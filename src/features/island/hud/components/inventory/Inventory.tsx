@@ -15,6 +15,7 @@ import {
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { Context } from "features/game/GameProvider";
 import { PlaceableLocation } from "features/game/types/collectibles";
+import { ChestButton } from "./ChestButton";
 
 interface Props {
   state: GameState;
@@ -81,7 +82,11 @@ export const Inventory: React.FC<Props> = ({
           top: `${PIXEL_SCALE * (isFarming ? 58 : 31)}px`,
         }}
       >
-        <BasketButton onClick={() => setIsOpen(true)} />
+        {location !== "petHouse" ? (
+          <BasketButton onClick={() => setIsOpen(true)} />
+        ) : (
+          <ChestButton onClick={() => setIsOpen(true)} />
+        )}
 
         {!hideActions && (
           <div

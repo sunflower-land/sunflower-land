@@ -19,6 +19,7 @@ export interface FetchButtonPanelProps {
   selected?: boolean;
   locked?: boolean;
   className?: string;
+  fetchAmount: number;
 }
 
 export const FetchButtonPanel: React.FC<FetchButtonPanelProps> = ({
@@ -30,6 +31,7 @@ export const FetchButtonPanel: React.FC<FetchButtonPanelProps> = ({
   selected,
   locked,
   className,
+  fetchAmount,
 }) => {
   const fetchImage = ITEM_DETAILS[fetch]?.image;
 
@@ -84,6 +86,14 @@ export const FetchButtonPanel: React.FC<FetchButtonPanelProps> = ({
 
         {/* Right: Stats */}
         <div className="flex flex-col justify-center gap-0.5 px-2 py-1 min-w-0 flex-1">
+          <div className="flex items-center gap-1 text-xs">
+            <img
+              src={SUNNYSIDE.icons.expression_confused}
+              alt="Energy"
+              className="w-4 h-4 object-contain shrink-0"
+            />
+            <span className="text-brown-800">{fetchAmount}</span>
+          </div>
           <div className="flex items-center gap-1 text-xs">
             <img
               src={SUNNYSIDE.icons.lightning}

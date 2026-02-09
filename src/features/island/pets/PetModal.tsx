@@ -72,7 +72,7 @@ export const PetModal: React.FC<Props> = ({
     "feeding" | "fetching" | "resetting"
   >("feeding");
   const [showRewards, setShowRewards] = useState(false);
-  const now = useNow();
+  const now = useNow({ live: true });
 
   useEffect(() => {
     if (show) {
