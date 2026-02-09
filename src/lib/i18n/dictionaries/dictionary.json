@@ -4320,7 +4320,7 @@
   "bounties.animal.intro.one": "Howdy Bumpkin! Mmmmmm, something smells mighty tasty in here!",
   "bounties.animal.intro.two": "The Goblins are *very* interested in finding some... ahem... *friendly* new farming companions.",
   "bounties.animal.intro.three": "Every week, I'll have fresh deals for you. Bring me your finest animals, and I'll make it worth your while. Just... don't ask too many questions!",
-  "bounties.board": "Bounty board",
+  "bounties.board": "Animal Bounties",
   "bounties.board.info": "Trade this week's bounties before time runs out.",
   "bounties.board.travel": "Travel to the plaza and find Poppy to fulfill these bounties",
   "bounties.board.ticketAmount": "The amount of {{chapterTicket}}s will vary each week based on the requests.",
