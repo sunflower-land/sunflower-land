@@ -5,7 +5,7 @@ import * as path from "path";
 import ENGLISH_TERMS from "../src/lib/i18n/dictionaries/dictionary.json";
 import {
   LanguageCode,
-  languageDetails,
+  LANGUAGE_DETAILS,
 } from "../src/lib/i18n/dictionaries/language";
 import { getKeys } from "../src/features/game/types/decorations";
 import { TranslationKeys } from "../src/lib/i18n/dictionaries/types";
@@ -167,7 +167,7 @@ async function englishToJSON() {
 }
 
 async function runTranslations() {
-  const languages = getKeys(languageDetails);
+  const languages = getKeys(LANGUAGE_DETAILS);
 
   // Translate all languages except English first
   for (const lang of languages) {
