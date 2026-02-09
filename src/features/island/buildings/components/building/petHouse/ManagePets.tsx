@@ -52,6 +52,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
     (state) => state.context.state.inventory,
   );
   const state = useSelector(gameService, (state) => state.context.state);
+  const farmId = useSelector(gameService, (state) => state.context.farmId);
 
   const handleConfirmFeed = () => {
     // Event to handle Bulk Feed
@@ -332,6 +333,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
                 setSelectedFeed={setSelectedFeed}
                 handleResetRequests={() => handleResetRequests(petName)}
                 onAcknowledged={() => gameService.send("CONTINUE")}
+                farmId={farmId}
               />
             </PetInfo>
           );

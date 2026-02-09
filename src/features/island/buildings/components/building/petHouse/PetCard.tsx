@@ -10,6 +10,7 @@ import {
   PetName,
   PetNFT,
   PetResourceName,
+  isPetNFT,
 } from "features/game/types/pets";
 import React, { useState } from "react";
 import {
@@ -29,6 +30,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import xpIcon from "assets/icons/xp.png";
 import Decimal from "decimal.js-light";
 import { ResetFoodRequests } from "features/island/pets/ResetFoodRequests";
+import { getFetchYield } from "features/game/events/pets/fetchPet";
 
 interface Props {
   petData: Pet | PetNFT;
@@ -47,6 +49,7 @@ interface Props {
   ) => void;
   handleResetRequests: () => void;
   onAcknowledged: () => void;
+  farmId: number;
 }
 
 export const getAdjustedFoodCount = (
@@ -123,6 +126,7 @@ export const PetCard: React.FC<Props> = ({
   setSelectedFeed,
   handleResetRequests,
   onAcknowledged,
+  farmId,
 }) => {
   const now = useNow({ live: true });
   const todayDate = new Date(now).toISOString().split("T")[0];
@@ -323,6 +327,18 @@ export const PetCard: React.FC<Props> = ({
                   const inventoryCount =
                     inventory[fetch.name] ?? new Decimal(0);
 
+                  const initialFetchCount =
+                    state.farmActivity[`${fetch.name} Fetched`] ?? 0;
+
+                  const { yieldAmount: fetchAmount } = getFetchYield({
+                    petLevel: level,
+                    fetchResource: fetch.name,
+                    isPetNFT: isPetNFT(petData),
+                    farmId,
+                    counter: petData.fetches?.[fetch.name] ?? initialFetchCount,
+                    state,
+                  });
+
                   return (
                     <FetchButtonPanel
                       key={fetch.name}
@@ -332,6 +348,7 @@ export const PetCard: React.FC<Props> = ({
                       disabled={isDisabled}
                       locked={!hasRequiredLevel}
                       onClick={() => handleFetch(petName, fetch.name)}
+                      fetchAmount={fetchAmount}
                     />
                   );
                 })
