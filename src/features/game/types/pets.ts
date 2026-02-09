@@ -17,8 +17,8 @@ export const PET_HOUSE_CAPACITY: Record<
   number,
   { commonPets: number; nftPets: number }
 > = {
-  1: { commonPets: 1, nftPets: 1 },
-  2: { commonPets: 4, nftPets: 4 },
+  1: { commonPets: 3, nftPets: 1 },
+  2: { commonPets: 5, nftPets: 4 },
   3: { commonPets: 7, nftPets: 7 },
 };
 
