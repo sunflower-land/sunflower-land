@@ -12,8 +12,10 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Label } from "components/ui/Label";
-import { MAP_PIECES } from "features/game/types/fishing";
-import { getKeys } from "features/game/lib/crafting";
+import {
+  MAP_PIECE_CHAPTERS,
+  MAP_PIECE_MARVELS,
+} from "features/game/types/fishing";
 import { ChapterMutants } from "features/island/hud/components/codex/components/ChapterMutants";
 
 type Props = {
@@ -29,8 +31,8 @@ export const MutantsSection: React.FC<Props> = ({ chapter }) => {
     const chapterMutants = CHAPTER_MUTANTS[chapter as MutantsChapterName];
     if (!chapterMutants) return [];
 
-    const marvels = getKeys(MAP_PIECES).filter(
-      (marvel) => MAP_PIECES[marvel]?.chapter === chapter,
+    const marvels = MAP_PIECE_MARVELS.filter(
+      (marvel) => MAP_PIECE_CHAPTERS[marvel] === chapter,
     );
 
     let items = [
