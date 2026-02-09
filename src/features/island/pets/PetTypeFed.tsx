@@ -4,7 +4,7 @@ import { PetType } from "features/game/types/pets";
 import React from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { InnerPanel } from "components/ui/Panel";
-import { getTimeUntilUTCReset } from "./ResetFoodRequests";
+import { useTimeUntilUTCReset } from "./ResetFoodRequests";
 import { Button } from "components/ui/Button";
 
 type Props = {
@@ -37,7 +37,7 @@ export const PetTypeFed: React.FC<Props> = ({ type, onClose }) => {
             icon={SUNNYSIDE.icons.stopwatch}
             className="-mb-1 mt-2"
           >
-            {t("pets.comeBackIn", { time: getTimeUntilUTCReset() })}
+            {t("pets.comeBackIn", { time: useTimeUntilUTCReset() })}
           </Label>
         </div>
         <Button onClick={onClose}>{t("gotIt")}</Button>
