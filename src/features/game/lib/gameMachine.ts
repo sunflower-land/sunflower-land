@@ -894,7 +894,17 @@ export function startGame(authContext: AuthContext) {
         state: EMPTY,
         linkedWallet: "0x123",
         sessionId: INITIAL_SESSION,
-        announcements: {},
+        announcements: {
+          test: {
+            content: [
+              {
+                text: "Test",
+              },
+            ],
+            headline: "Test",
+            from: "poppy",
+          },
+        },
         prices: {
           sfl: {
             timestamp: Date.now(),

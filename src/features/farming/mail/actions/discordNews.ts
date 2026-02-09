@@ -29,6 +29,59 @@ export type DiscordNewsDataResponse = DiscordAnnouncement[];
 
 const DISCORD_NEWS_API_URL = `${CONFIG.API_URL}/data`;
 
+const getStubDiscordNews = (): DiscordNewsDataResponse => {
+  const now = Date.now();
+  const makeDate = (offsetMs: number) => new Date(now - offsetMs).toISOString();
+
+  return [
+    {
+      id: "stub-1",
+      channelId: "news",
+      channelName: "news",
+      url: "https://discord.com/channels/sunflower-land/news",
+      content:
+        "Welcome to the Chapter! Check out the latest rewards, auctions, and raffles.",
+      sender: {
+        id: "stub-bot",
+        username: "SunflowerLand",
+        displayName: "Sunflower Land",
+      },
+      createdAt: makeDate(2 * 60 * 60 * 1000),
+      images: [],
+    },
+    {
+      id: "stub-2",
+      channelId: "announcements",
+      channelName: "announcements",
+      url: "https://discord.com/channels/sunflower-land/announcements",
+      content:
+        "Daily rewards reset every day. Log in to keep your streak going!",
+      sender: {
+        id: "stub-bot",
+        username: "SunflowerLand",
+        displayName: "Sunflower Land",
+      },
+      createdAt: makeDate(8 * 60 * 60 * 1000),
+      images: [],
+    },
+    {
+      id: "stub-3",
+      channelId: "updates",
+      channelName: "updates",
+      url: "https://discord.com/channels/sunflower-land/updates",
+      content:
+        "More chapter content is coming soon. Keep an eye on the marketplace.",
+      sender: {
+        id: "stub-bot",
+        username: "SunflowerLand",
+        displayName: "Sunflower Land",
+      },
+      createdAt: makeDate(20 * 60 * 60 * 1000),
+      images: [],
+    },
+  ];
+};
+
 const DISCORD_NEWS_READ_AT_KEY = "discordNewsReadAt";
 const DISCORD_NEWS_LATEST_AT_KEY = "discordNewsLatestAt";
 const DISCORD_NEWS_FETCHED_AT_KEY = "discordNewsFetchedAt";
@@ -194,6 +247,10 @@ export const getDiscordNewsData = async ({
 }: {
   token: string;
 }): Promise<DiscordNewsDataResponse> => {
+  if (!CONFIG.API_URL) {
+    return getStubDiscordNews();
+  }
+
   const url = new URL(DISCORD_NEWS_API_URL);
   url.searchParams.set("type", "discordAnnouncements");
 
