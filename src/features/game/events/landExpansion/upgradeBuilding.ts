@@ -10,6 +10,7 @@ import {
   UpgradableBuildingKey,
 } from "features/game/types/game";
 import { produce } from "immer";
+import { FETCHES_BY_CATEGORY, PetResourceName } from "features/game/types/pets";
 
 export type UpgradeBuildingAction = {
   type: "building.upgraded";
@@ -17,7 +18,7 @@ export type UpgradeBuildingAction = {
 };
 export type UpgradableBuildingType = Extract<
   BuildingName,
-  AnimalBuildingType | "Water Well"
+  AnimalBuildingType | "Water Well" | "Pet House"
 >;
 
 type Options = {
@@ -117,10 +118,49 @@ export const BUILDING_UPGRADES: Record<
       upgradeTime: 60 * 60 * 4 * 1000,
     },
   },
+  "Pet House": {
+    1: {
+      coins: 5000,
+      items: {
+        Wood: new Decimal(200),
+        Stone: new Decimal(100),
+      },
+    },
+    2: {
+      coins: 0,
+      items: {
+        ...Object.values(FETCHES_BY_CATEGORY).reduce<
+          Partial<Record<PetResourceName, Decimal>>
+        >((acc, category) => {
+          acc[category] = new Decimal(1);
+          return acc;
+        }, {}),
+        Acorn: new Decimal(10),
+        Wood: new Decimal(250),
+      },
+    },
+    3: {
+      coins: 0,
+      items: {
+        ...Object.values(FETCHES_BY_CATEGORY).reduce<
+          Partial<Record<PetResourceName, Decimal>>
+        >((acc, category) => {
+          acc[category] = new Decimal(5);
+          return acc;
+        }, {}),
+        Moonfur: new Decimal(10),
+        Acorn: new Decimal(25),
+        Stone: new Decimal(200),
+      },
+    },
+  },
 };
 
 export const makeUpgradableBuildingKey = (
-  buildingName: Extract<BuildingName, "Hen House" | "Barn" | "Water Well">,
+  buildingName: Extract<
+    BuildingName,
+    "Hen House" | "Barn" | "Water Well" | "Pet House"
+  >,
 ): UpgradableBuildingKey => {
   return buildingName
     .replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) => {

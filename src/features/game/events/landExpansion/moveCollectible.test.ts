@@ -12,8 +12,6 @@ const GAME_STATE: GameState = {
 };
 
 describe("moveCollectible", () => {
-  const dateNow = Date.now();
-
   it("does not move non-existent building ", () => {
     expect(() =>
       moveCollectible({
@@ -163,7 +161,6 @@ describe("moveCollectible", () => {
         coordinates: { x: 2, y: 2 },
         location: "farm",
       },
-      createdAt: dateNow,
     });
 
     expect(gameState.collectibles["Nancy"]).toEqual([

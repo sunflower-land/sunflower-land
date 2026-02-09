@@ -5,13 +5,12 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
-import { PetName } from "features/game/types/pets";
+import { Pet, PetName, PetNFT } from "features/game/types/pets";
 import { ManagePets } from "./ManagePets";
 import { OuterPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { PetGuide } from "features/pets/petGuide/PetGuide";
+import { PetGuide, PetGuideButton } from "features/pets/petGuide/PetGuide";
 
 interface Props {
   show: boolean;
@@ -25,19 +24,10 @@ export const PetHouseModal: React.FC<Props> = ({ show, onClose }) => {
   const { gameService } = useContext(Context);
   const [tab, setTab] = useState<PetHouseTab>("pets");
   const pets = useSelector(gameService, (state) => state.context.state.pets);
-  const PlacedCollectibles = (petName: PetName) => {
-    const collectibles = useSelector(gameService, (state) =>
-      state.context.state.collectibles[petName]?.filter(
-        (collectible) => !!collectible.coordinates,
-      ),
-    );
-    const homeCollectibles = useSelector(gameService, (state) =>
-      state.context.state.home.collectibles[petName]?.filter(
-        (collectible) => !!collectible.coordinates,
-      ),
-    );
-    return [...(collectibles || []), ...(homeCollectibles || [])];
-  };
+  const petHousePets = useSelector(
+    gameService,
+    (state) => state.context.state.petHouse?.pets ?? {},
+  );
   const hasPetsAccess = useSelector(gameService, (state) =>
     hasFeatureAccess(state.context.state, "PET_HOUSE"),
   );
@@ -46,14 +36,41 @@ export const PetHouseModal: React.FC<Props> = ({ show, onClose }) => {
     return null;
   }
 
-  const { common = {} } = pets;
+  const { common = {}, nfts = {} } = pets;
 
-  const activePets = getObjectEntries(common).filter(
-    ([petName, pet]) => pet && PlacedCollectibles(petName).length > 0,
-  );
+  // Get common pets placed in pet house
+  const activeCommonPets = getObjectEntries(common).filter(([petName, pet]) => {
+    if (!pet) return false;
+    const placedInPetHouse = petHousePets[petName]?.some(
+      (item) => !!item.coordinates,
+    );
+    return placedInPetHouse;
+  });
+
+  // Get NFT pets placed in pet house
+  const activeNFTPets: [number, PetNFT][] = Object.entries(nfts)
+    .filter(
+      ([, petNFT]) => petNFT.location === "petHouse" && !!petNFT.coordinates,
+    )
+    .map(([id, petNFT]) => [Number(id), petNFT]);
+
+  // Combine both pet types
+  const activePets: [PetName | number, Pet | PetNFT | undefined][] = [
+    ...activeCommonPets,
+    ...activeNFTPets,
+  ];
 
   return (
     <Modal show={show} onHide={onClose} size="lg">
+      {tab !== "guide" && (
+        <div className="flex flex-row gap-2 items-center justify-end">
+          <PetGuideButton
+            onShow={() => {
+              setTab("guide");
+            }}
+          />
+        </div>
+      )}
       <CloseButtonPanel
         onClose={onClose}
         tabs={[
@@ -62,18 +79,11 @@ export const PetHouseModal: React.FC<Props> = ({ show, onClose }) => {
             icon: ITEM_DETAILS.Barkley.image,
             name: t("pets.manage"),
           },
-          {
-            icon: SUNNYSIDE.icons.expression_confused,
-            name: t("guide"),
-            id: "guide",
-          },
         ]}
-        currentTab={tab}
-        setCurrentTab={setTab}
         container={OuterPanel}
       >
         {tab === "pets" && <ManagePets activePets={activePets} />}
-        {tab === "guide" && <PetGuide />}
+        {tab === "guide" && <PetGuide onClose={() => setTab("pets")} />}
       </CloseButtonPanel>
     </Modal>
   );

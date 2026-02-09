@@ -14,6 +14,7 @@ import {
 } from "features/game/expansion/placeable/landscapingMachine";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { Context } from "features/game/GameProvider";
+import { PlaceableLocation } from "features/game/types/collectibles";
 
 interface Props {
   state: GameState;
@@ -26,6 +27,7 @@ interface Props {
   isFarming: boolean;
   isSaving?: boolean;
   hideActions: boolean;
+  location?: PlaceableLocation;
 }
 
 export const Inventory: React.FC<Props> = ({
@@ -39,6 +41,7 @@ export const Inventory: React.FC<Props> = ({
   onPlaceNFT,
   onDepositClick,
   hideActions,
+  location,
 }) => {
   const { shortcuts } = useContext(Context);
   const [isOpen, setIsOpen] = useState(false);
@@ -119,6 +122,7 @@ export const Inventory: React.FC<Props> = ({
         isSaving={isSaving}
         isFarming={isFarming}
         isFullUser={isFullUser}
+        location={location}
       />
     </>
   );

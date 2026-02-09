@@ -30,6 +30,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   BUSH_VARIANTS,
   DIRT_PATH_VARIANTS,
+  PET_HOUSE_VARIANTS,
   TREE_VARIANTS,
   WATER_WELL_VARIANTS,
 } from "features/island/lib/alternateArt";
@@ -59,6 +60,7 @@ import { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { MONUMENTS, REWARD_ITEMS } from "features/game/types/monuments";
 import { useNow } from "lib/utils/hooks/useNow";
 import { HOURGLASSES } from "features/game/events/landExpansion/burnCollectible";
+import { PlaceableLocation } from "features/game/types/collectibles";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -84,6 +86,7 @@ export const ITEM_ICONS: (
   Greenhouse: SUNNYSIDE.icons.greenhouseIcon,
   Bush: BUSH_VARIANTS[biome][season],
   "Water Well": WATER_WELL_VARIANTS[season][level ?? 1],
+  "Pet House": PET_HOUSE_VARIANTS[level ?? 1],
 });
 
 interface PanelContentProps {
@@ -281,6 +284,7 @@ interface Props {
   onPlaceNFT?: (id: string, nft: NFTName) => void;
   onDepositClick?: () => void;
   isSaving?: boolean;
+  location?: PlaceableLocation;
 }
 
 export const Chest: React.FC<Props> = ({
@@ -292,15 +296,20 @@ export const Chest: React.FC<Props> = ({
   onPlace,
   onPlaceNFT,
   onDepositClick,
+  location,
 }: Props) => {
   const divRef = useRef<HTMLDivElement>(null);
-  const buds = getChestBuds(state);
+  // For petHouse, only show buds and petNFTs (no regular buds for petHouse)
+  const buds = location === "petHouse" ? {} : getChestBuds(state);
   const petsNFTs = getChestPets(state.pets?.nfts ?? {});
 
   const chestMap = getChestItems(state);
   const { t } = useAppTranslation();
+
+  // For petHouse, only show pet collectibles
   const collectibles = getKeys(chestMap)
     .filter((item) => chestMap[item]?.gt(0))
+    .filter((item) => (location === "petHouse" ? item in PET_TYPES : true))
     .sort((a, b) => a.localeCompare(b))
     .reduce(
       (acc, item) => {
@@ -341,7 +350,9 @@ export const Chest: React.FC<Props> = ({
   };
 
   const chestIsEmpty =
-    getKeys(collectibles).length === 0 && Object.values(buds).length === 0;
+    getKeys(collectibles).length === 0 &&
+    Object.values(buds).length === 0 &&
+    Object.values(petsNFTs).length === 0;
 
   if (chestIsEmpty) {
     return (

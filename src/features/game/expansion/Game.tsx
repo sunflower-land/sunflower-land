@@ -66,6 +66,7 @@ import { Transaction } from "features/island/hud/Transaction";
 import { Gems } from "./components/Gems";
 import { HenHouseInside } from "features/henHouse/HenHouseInside";
 import { BarnInside } from "features/barn/BarnInside";
+import { PetHouseInside } from "features/petHouse/PetHouseInside";
 import {
   STATE_MACHINE_EFFECTS,
   STATE_MACHINE_VISIT_EFFECTS,
@@ -318,6 +319,10 @@ const GameContent: React.FC = () => {
     HenHouse: (game) =>
       !!game.buildings["Hen House"] &&
       isBuildingReady(game.buildings["Hen House"]),
+    PetHouse: (game) =>
+      !!game.buildings["Pet House"] &&
+      isBuildingReady(game.buildings["Pet House"]) &&
+      hasFeatureAccess(game, "PET_HOUSE"),
   };
 
   const hasAccess = (pathName: string) => {
@@ -366,6 +371,9 @@ const GameContent: React.FC = () => {
           <Routes>
             <Route path="/:id" element={<Land />} />
             <Route path="/:id/home" element={<Home />} />
+            {hasAccess("PetHouse") && (
+              <Route path="/:id/pet-house" element={<PetHouseInside />} />
+            )}
           </Routes>
         </div>
       </>
@@ -388,6 +396,9 @@ const GameContent: React.FC = () => {
           {hasAccess("Barn") && <Route path="/barn" element={<BarnInside />} />}
           {hasAccess("HenHouse") && (
             <Route path="/hen-house" element={<HenHouseInside />} />
+          )}
+          {hasAccess("PetHouse") && (
+            <Route path="/pet-house" element={<PetHouseInside />} />
           )}
           <Route
             path="*"

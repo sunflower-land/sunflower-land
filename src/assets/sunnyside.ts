@@ -369,6 +369,10 @@ export const SUNNYSIDE = {
     spring_building_bg: `${CONFIG.PROTECTED_IMAGE_URL}/land/spring_building_bg.png`,
     desert_building_bg: `${CONFIG.PROTECTED_IMAGE_URL}/land/desert_building_bg.png`,
     volcano_building_bg: `${CONFIG.PROTECTED_IMAGE_URL}/land/volcano_building_bg.webp`,
+
+    pet_house_inside_one: `${CONFIG.PROTECTED_IMAGE_URL}/land/pet_house_inside_1.png`,
+    pet_house_inside_two: `${CONFIG.PROTECTED_IMAGE_URL}/land/pet_house_inside_2.png`,
+    pet_house_inside_three: `${CONFIG.PROTECTED_IMAGE_URL}/land/pet_house_inside_3.png`,
   },
   //Soil
   soil: {
@@ -496,6 +500,9 @@ export const SUNNYSIDE = {
     fruitPatchDirt: `${CONFIG.PROTECTED_IMAGE_URL}/fruit/fruit_patch.png`,
     barn: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/barn_sm.webp`,
     feederMachine: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/feeder_machine.webp`,
+    petHouse1: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/pet_house_red.webp`,
+    petHouse2: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/pet_house_blue.webp`,
+    petHouse3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/pet_house_purple.webp`,
 
     //DESERT
     desertFirePit: `${CONFIG.PROTECTED_IMAGE_URL}/desert/buildings/fire_pit.webp`,

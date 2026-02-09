@@ -24,7 +24,7 @@ import { Label } from "components/ui/Label";
 import { PlaceableController } from "features/farming/hud/components/PlaceableController";
 import { LandscapingChest } from "./components/LandscapingChest";
 import { getChestItems } from "./components/inventory/utils/inventory";
-import { CollectibleName, getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getRemoveAction,
@@ -43,6 +43,7 @@ import { RemoveAllConfirmation } from "../collectibles/RemoveAllConfirmation";
 import { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { useNow } from "lib/utils/hooks/useNow";
 import { PET_SHRINES } from "features/game/types/pets";
+import { isPetCollectible } from "features/game/events/landExpansion/placeCollectible";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -161,14 +162,16 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
 
   const isFlipped = useSelector(gameService, (state) => {
     if (!selectedItem || !isCollectible(selectedItem.name)) return false;
+    const name = selectedItem.name;
     const collectibles =
       location === "home"
-        ? state.context.state.home.collectibles
-        : state.context.state.collectibles;
+        ? state.context.state.home.collectibles[name]
+        : location === "petHouse" && isPetCollectible(name)
+          ? state.context.state.petHouse.pets[name]
+          : state.context.state.collectibles[name];
     return (
-      collectibles[selectedItem.name as CollectibleName]?.find(
-        (collectible) => collectible.id === selectedItem.id,
-      )?.flipped ?? false
+      collectibles?.find((collectible) => collectible.id === selectedItem.id)
+        ?.flipped ?? false
     );
   });
 
@@ -244,6 +247,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
               )}
 
               <Chest
+                location={location}
                 onPlaceChestItem={(selected) => {
                   child.send("SELECT", {
                     action: placeEvent(selected),
@@ -383,9 +387,10 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
 };
 
 const Chest: React.FC<{
+  location: PlaceableLocation;
   onPlaceChestItem: (item: LandscapingPlaceable) => void;
   onPlaceNFT: (id: string, nft: NFTName) => void;
-}> = ({ onPlaceChestItem, onPlaceNFT }) => {
+}> = ({ location, onPlaceChestItem, onPlaceNFT }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [showChest, setShowChest] = useState(false);
@@ -421,6 +426,7 @@ const Chest: React.FC<{
         show={showChest}
         onPlace={onPlaceChestItem}
         onPlaceNFT={onPlaceNFT}
+        location={location}
       />
     </>
   );

@@ -31,6 +31,7 @@ import {
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { getObjectEntries } from "../../lib/utils";
 import { LandscapingPlaceable } from "../landscapingMachine";
+import { PET_NFT_DIMENSIONS } from "features/game/types/pets";
 
 export type Position = {
   width: number;
@@ -224,8 +225,8 @@ function detectPlaceableCollision(
     .map((item) => ({
       x: item.coordinates!.x,
       y: item.coordinates!.y,
-      height: 2,
-      width: 2,
+      height: PET_NFT_DIMENSIONS.height,
+      width: PET_NFT_DIMENSIONS.width,
     }));
 
   const boundingBoxes = [
@@ -264,6 +265,29 @@ export const HOME_BOUNDS: Record<IslandType, BoundingBox> = {
     width: 20,
     x: -10,
     y: -10,
+  },
+};
+
+// Pet House bounds based on interior floor area (centered at origin)
+// Level 1: 7x6 grid, Level 2: 9x8 grid, Level 3: 11x10 grid
+export const PET_HOUSE_BOUNDS: Record<number, BoundingBox> = {
+  1: {
+    height: 6,
+    width: 7,
+    x: -3,
+    y: -3,
+  },
+  2: {
+    height: 8,
+    width: 9,
+    x: -4,
+    y: -4,
+  },
+  3: {
+    height: 10,
+    width: 11,
+    x: -5,
+    y: -5,
   },
 };
 
@@ -380,13 +404,14 @@ function detectHomeCollision({
 
   const placed = home.collectibles;
 
+  // Don't filter by name - all items should collide with each other
   const collidingItems = getKeys(placed).filter(
-    (other) => !NON_COLLIDING_OBJECTS.includes(other) && other !== name,
+    (itemName) => !NON_COLLIDING_OBJECTS.includes(itemName),
   );
 
-  const placeableBounds = collidingItems.flatMap((name) => {
-    const items = placed[name] as PlacedItem[];
-    const dimensions = PLACEABLE_DIMENSIONS[name];
+  const placeableBounds = collidingItems.flatMap((itemName) => {
+    const items = placed[itemName] as PlacedItem[];
+    const dimensions = PLACEABLE_DIMENSIONS[itemName];
 
     return items
       .filter((item) => item.coordinates)
@@ -412,8 +437,8 @@ function detectHomeCollision({
     .map((item) => ({
       x: item.coordinates!.x,
       y: item.coordinates!.y,
-      height: 2,
-      width: 2,
+      height: PET_NFT_DIMENSIONS.height,
+      width: PET_NFT_DIMENSIONS.width,
     }));
 
   const boundingBoxes = [
@@ -423,6 +448,71 @@ function detectHomeCollision({
   ];
 
   return boundingBoxes.some((resourceBoundingBox) =>
+    isOverlapping(position, resourceBoundingBox),
+  );
+}
+
+function detectPetHouseCollision({
+  state,
+  position,
+  name,
+}: {
+  state: GameState;
+  position: BoundingBox;
+  name: LandscapingPlaceable;
+}) {
+  const petHouseLevel = state.petHouse?.level ?? 1;
+  const bounds = PET_HOUSE_BOUNDS[petHouseLevel];
+
+  const isOutside =
+    position.x < bounds.x ||
+    position.x + position.width > bounds.x + bounds.width ||
+    position.y > bounds.y + bounds.height ||
+    position.y - position.height < bounds.y;
+
+  if (isOutside) {
+    return true;
+  }
+
+  if (NON_COLLIDING_OBJECTS.includes(name as InventoryItemName)) {
+    return false;
+  }
+
+  const { petHouse } = state;
+  const placed = petHouse?.pets ?? {};
+
+  // Don't filter by name - all same-name pets should collide with each other
+  const collidingItems = getKeys(placed).filter(
+    (petName) => !NON_COLLIDING_OBJECTS.includes(petName),
+  );
+
+  const placeableBounds = collidingItems.flatMap((petName) => {
+    const items = placed[petName] ?? [];
+    const dimensions = PLACEABLE_DIMENSIONS[petName];
+
+    return items
+      .filter((item) => item.coordinates)
+      .map((item) => ({
+        x: item.coordinates!.x,
+        y: item.coordinates!.y,
+        height: dimensions?.height ?? 1,
+        width: dimensions?.width ?? 1,
+      }));
+  });
+
+  // Check for Pet NFTs placed in pet house
+  const petNFTBoundingBox = Object.values(state.pets?.nfts ?? {})
+    .filter((petNFT) => !!petNFT.coordinates && petNFT.location === "petHouse")
+    .map((item) => ({
+      x: item.coordinates!.x,
+      y: item.coordinates!.y,
+      height: PET_NFT_DIMENSIONS.height,
+      width: PET_NFT_DIMENSIONS.width,
+    }));
+
+  const allBoundingBoxes = [...placeableBounds, ...petNFTBoundingBox];
+
+  return allBoundingBoxes.some((resourceBoundingBox) =>
     isOverlapping(position, resourceBoundingBox),
   );
 }
@@ -615,6 +705,10 @@ export function detectCollision({
 }) {
   if (location === "home") {
     return detectHomeCollision({ state, position, name });
+  }
+
+  if (location === "petHouse") {
+    return detectPetHouseCollision({ state, position, name });
   }
 
   const expansions = state.inventory["Basic Land"]?.toNumber() ?? 3;
