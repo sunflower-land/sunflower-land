@@ -301,6 +301,8 @@ export const ExchangeHud: React.FC<{
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = gameService.getSnapshot().context.state;
+  const now = useNow({ live: true, intervalMs: 60_000 });
+  const chapterTicket = getChapterTicket(now);
 
   const { coins } = generateBountyCoins({
     game: state,
@@ -327,7 +329,13 @@ export const ExchangeHud: React.FC<{
 
             {getKeys(deal.items ?? {}).map((name) => (
               <Label key={name} type="warning" icon={ITEM_DETAILS[name].image}>
-                {deal.items?.[name]}
+                {name !== chapterTicket
+                  ? deal.items?.[name]
+                  : generateBountyTicket({
+                      game: state,
+                      bounty: deal,
+                      now,
+                    })}
               </Label>
             ))}
           </div>
