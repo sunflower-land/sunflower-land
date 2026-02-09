@@ -289,11 +289,11 @@ export const getCookingTime = ({
 export const getFoodExpBoost = ({
   food,
   game,
-  createdAt = Date.now(),
+  createdAt,
 }: {
   food: Consumable;
   game: GameState;
-  createdAt?: number;
+  createdAt: number;
 }): { boostedExp: Decimal; boostsUsed: BoostName[] } => {
   let boostedExp = new Decimal(food.experience);
   const skills = game.bumpkin.skills ?? {};

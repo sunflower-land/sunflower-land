@@ -277,6 +277,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
                 ? getFoodExpBoost({
                     food: CONSUMABLES[selectedItem as ConsumableName],
                     game: gameState,
+                    createdAt: now,
                   }).boostedExp
                 : undefined,
               timeSeconds: isSeed(selectedItem)

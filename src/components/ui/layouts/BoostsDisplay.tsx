@@ -247,20 +247,10 @@ export const BoostsDisplay: React.FC<{
         <div className="flex flex-col gap-3">
           {buffs
             .filter((buff) => {
-              if (boostType === "xp") {
-                return (
-                  buff.boostType === "xp" &&
-                  (boostOn
-                    ? buff.boostOn
-                      ? boostOn.includes(buff.boostOn)
-                      : true
-                    : true)
-                );
-              }
-              return (
-                buff.boostType === boostType &&
-                (boostOn ? boostOn.includes(buff.boostOn) : true)
-              );
+              const matchesBoostOn = boostOn
+                ? boostOn.includes(buff.boostOn)
+                : true;
+              return buff.boostType === boostType && matchesBoostOn;
             })
             .map((buff) => (
               <Label

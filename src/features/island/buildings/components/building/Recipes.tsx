@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useContext, useState } from "react";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -33,6 +33,7 @@ import vipIcon from "assets/icons/vip.webp";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { Panel } from "components/ui/Panel";
 import { ModalOverlay } from "components/ui/ModalOverlay";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   selected: Cookable;
@@ -72,20 +73,18 @@ export const Recipes: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, (state) => state.context.state);
   const { inventory, buildings, bumpkin } = state;
   const [showQueueInformation, setShowQueueInformation] = useState(false);
   const [showBoosts, setShowBoosts] = useState(false);
 
   const availableSlots = hasVipAccess({ game: state }) ? MAX_COOKING_SLOTS : 1;
+  const now = useNow({ live: true });
 
   const { boostedExp, boostsUsed } = getFoodExpBoost({
     food: selected,
     game: state,
+    createdAt: now,
   });
 
   const ingredients = getCookingRequirements({

@@ -19,6 +19,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   food: Consumable[];
@@ -32,7 +33,7 @@ export const Feed: React.FC<Props> = ({ food }) => {
   const [selected, setSelected] = useState<Consumable | undefined>(food[0]);
   const [showBoosts, setShowBoosts] = useState(false);
   const { gameService } = useContext(Context);
-
+  const now = useNow({ live: true });
   const inventory = useSelector(gameService, _inventory);
   const bumpkin = useSelector(gameService, _bumpkin);
   const game = useSelector(gameService, _game);
@@ -107,6 +108,7 @@ export const Feed: React.FC<Props> = ({ food }) => {
   const { boostedExp, boostsUsed } = getFoodExpBoost({
     food: activeSelected,
     game,
+    createdAt: now,
   });
 
   return (

@@ -1,4 +1,4 @@
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import confetti from "canvas-confetti";
 import classNames from "classnames";
@@ -23,6 +23,7 @@ import { isSeed } from "features/game/types/seeds";
 
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   onClose: () => void;
@@ -34,12 +35,9 @@ export const ItemDetail: React.FC<Props> = ({ onClose, itemName }) => {
   const [imageWidth, setImageWidth] = useState<number>(0);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
   const [confirmBuy, setConfirmBuy] = useState(false);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, (state) => state.context.state);
   const { ingredients, items, image, description } = TRADE_REWARDS[itemName];
+  const now = useNow({ live: true });
 
   useLayoutEffect(() => {
     const imgElement = new Image();
@@ -148,6 +146,7 @@ export const ItemDetail: React.FC<Props> = ({ onClose, itemName }) => {
                         getFoodExpBoost({
                           food: CONSUMABLES["Trade Cake" as ConsumableName],
                           game: state,
+                          createdAt: now,
                         }).boostedExp
                       }
                     />

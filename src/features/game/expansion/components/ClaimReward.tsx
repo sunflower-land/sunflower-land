@@ -28,12 +28,12 @@ import { InlineDialogue } from "features/world/ui/TypingMessage";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { getFoodExpBoost } from "../lib/boosts";
 import { MachineState } from "features/game/lib/gameMachine";
-import { useSelector } from "@xstate/react";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { ButtonPanel } from "components/ui/Panel";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
 import { RECIPES } from "features/game/lib/crafting";
 import blueLightning from "assets/icons/blue_lightning.png";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const _game = (state: MachineState) => state.context.state;
 
@@ -51,8 +51,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
   label,
 }) => {
   const { t } = useAppTranslation();
-  const { showAnimations, gameService } = useContext(Context);
-  const game = useSelector(gameService, _game);
+  const { showAnimations } = useContext(Context);
 
   useEffect(() => {
     if (showAnimations) confetti();
@@ -106,6 +105,10 @@ export const Rewards: React.FC<{
   const { gameState } = useGame();
   const game = gameState.context.state;
   const itemNames = getKeys(reward.items);
+  const now = useNow({
+    live: getKeys(CONSUMABLES).some((name) => (reward.items[name] ?? 0) > 0),
+  });
+
   return (
     <div className="flex flex-col space-y-0.5">
       {!!reward.sfl && (
@@ -218,6 +221,7 @@ export const Rewards: React.FC<{
                       getFoodExpBoost({
                         food: CONSUMABLES[name as ConsumableName],
                         game,
+                        createdAt: now,
                       }).boostedExp,
                       { decimalPlaces: 0 },
                     )} XP`}</Label>
