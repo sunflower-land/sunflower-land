@@ -140,7 +140,7 @@ export const PetCard: React.FC<Props> = ({
   if (isPetNeglected(petData, now)) {
     return (
       <div className="flex flex-col gap-1 w-full sm:w-auto">
-        <p className="text-xs p-1">
+        <p className="p-1">
           {t("pets.neglectPetDescription", { pet: petData.name })}
         </p>
         <Button onClick={() => handleNeglectPet(petName)} className="relative">
@@ -156,7 +156,7 @@ export const PetCard: React.FC<Props> = ({
   if (isPetNapping(petData, now)) {
     return (
       <div className="flex flex-col gap-1 w-full sm:w-auto">
-        <p className="text-xs p-1">
+        <p className="p-1">
           {t("pets.nappingDescription", { pet: petData.name })}
         </p>
         <Button onClick={() => handlePetPet(petName)} className="relative">
