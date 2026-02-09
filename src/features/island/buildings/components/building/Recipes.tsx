@@ -79,8 +79,14 @@ export const Recipes: React.FC<Props> = ({
   ] = useActor(gameService);
   const { inventory, buildings, bumpkin } = state;
   const [showQueueInformation, setShowQueueInformation] = useState(false);
+  const [showBoosts, setShowBoosts] = useState(false);
 
   const availableSlots = hasVipAccess({ game: state }) ? MAX_COOKING_SLOTS : 1;
+
+  const { boostedExp, boostsUsed } = getFoodExpBoost({
+    food: selected,
+    game: state,
+  });
 
   const ingredients = getCookingRequirements({
     state,
@@ -171,12 +177,13 @@ export const Recipes: React.FC<Props> = ({
               hideDescription
               requirements={{
                 resources: ingredients,
-                xp: getFoodExpBoost({
-                  food: selected,
-                  game: state,
-                }).boostedExp,
+                xp: boostedExp,
+                baseXp: selected.experience,
+                xpBoostsUsed: boostsUsed,
                 timeSeconds: cookingTime,
               }}
+              showBoosts={showBoosts}
+              setShowBoosts={setShowBoosts}
               actionView={
                 <>
                   {hasDoubleNom && (
@@ -254,7 +261,10 @@ export const Recipes: React.FC<Props> = ({
                 <Box
                   isSelected={selected.name === item.name}
                   key={item.name}
-                  onClick={() => setSelected(item)}
+                  onClick={() => {
+                    setSelected(item);
+                    setShowBoosts(false);
+                  }}
                   image={ITEM_DETAILS[item.name].image}
                   count={inventory[item.name]}
                 />

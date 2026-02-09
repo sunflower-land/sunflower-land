@@ -30,6 +30,7 @@ const _game = (state: MachineState) => state.context.state;
 
 export const Feed: React.FC<Props> = ({ food }) => {
   const [selected, setSelected] = useState<Consumable | undefined>(food[0]);
+  const [showBoosts, setShowBoosts] = useState(false);
   const { gameService } = useContext(Context);
 
   const inventory = useSelector(gameService, _inventory);
@@ -103,6 +104,11 @@ export const Feed: React.FC<Props> = ({ food }) => {
     }
   };
 
+  const { boostedExp, boostsUsed } = getFoodExpBoost({
+    food: activeSelected,
+    game,
+  });
+
   return (
     <SplitScreenView
       panel={
@@ -111,10 +117,12 @@ export const Feed: React.FC<Props> = ({ food }) => {
             item: activeSelected.name,
           }}
           properties={{
-            xp: getFoodExpBoost({
-              food: activeSelected,
-              game,
-            }).boostedExp,
+            xp: boostedExp,
+            baseXp: activeSelected.experience,
+            boostsUsed,
+            showBoosts,
+            setShowBoosts,
+            gameState: game,
           }}
           actionView={
             <>
@@ -142,7 +150,10 @@ export const Feed: React.FC<Props> = ({ food }) => {
             <Box
               isSelected={activeSelected?.name === item.name}
               key={item.name}
-              onClick={() => setSelected(item)}
+              onClick={() => {
+                setSelected(item);
+                setShowBoosts(false);
+              }}
               image={ITEM_DETAILS[item.name].image}
               count={inventory[item.name]}
             />

@@ -7972,6 +7972,8 @@
   "description.powerHour.boost": "-50% plot crop growth time",
   "description.sunshower.boost": "-50% plot crop growth time",
   "description.sunshower.guardianBoost": "-75% plot crop growth time, boosted by {{guardian}}",
+  "description.vipAccess.foodXpBoost": "+10% Bumpkin XP",
+  "description.factionPet.foodXpBoost": "Bumpkin XP from faction pet streak",
   "petGuide.petEgg.title": "Pet Egg",
   "petGuide.petEgg.description": "Pet Shop: 150,000 coins (one-time purchase).",
   "petGuide.petEgg.description2": "Love Island: 10,000 Love Charms (one-time purchase).",

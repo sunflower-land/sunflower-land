@@ -1,7 +1,10 @@
 import Decimal from "decimal.js-light";
 import { ConsumableName } from "features/game/types/consumables";
+import { BoostName } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { type JSX } from "react";
+import { BoostsDisplay } from "./BoostsDisplay";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
 
@@ -19,6 +22,11 @@ interface ItemDetailsProps {
  */
 interface PropertiesProps {
   xp?: Decimal;
+  baseXp?: number;
+  boostsUsed?: BoostName[];
+  showBoosts?: boolean;
+  setShowBoosts?: (show: boolean) => void;
+  gameState?: GameState;
 }
 
 /**
@@ -68,10 +76,54 @@ export const FeedBumpkinDetails: React.FC<Props> = ({
   const getProperties = () => {
     if (!properties) return <></>;
 
+    const isXpBoosted =
+      properties.boostsUsed &&
+      properties.boostsUsed.length > 0 &&
+      properties.baseXp !== undefined &&
+      properties.xp &&
+      properties.xp.greaterThan(properties.baseXp);
+
+    const xpDisplay = !!properties.xp && (
+      <div
+        className="flex flex-col items-center cursor-pointer"
+        onClick={
+          isXpBoosted && properties.setShowBoosts
+            ? () => properties.setShowBoosts?.(!properties.showBoosts)
+            : undefined
+        }
+      >
+        {isXpBoosted && (
+          <RequirementLabel type="xp" xp={properties.xp} boosted />
+        )}
+        {properties.baseXp !== undefined && (
+          <RequirementLabel
+            type="xp"
+            xp={new Decimal(properties.baseXp)}
+            strikethrough={!!isXpBoosted}
+          />
+        )}
+        {properties.baseXp === undefined && (
+          <RequirementLabel type="xp" xp={properties.xp} />
+        )}
+        {isXpBoosted &&
+          properties.boostsUsed &&
+          properties.setShowBoosts &&
+          properties.gameState && (
+            <BoostsDisplay
+              boosts={properties.boostsUsed}
+              show={properties.showBoosts ?? false}
+              state={properties.gameState}
+              onClick={() => properties.setShowBoosts?.(!properties.showBoosts)}
+              searchBoostInfo={{ boostType: "xp", boostOn: ["food"] }}
+            />
+          )}
+      </div>
+    );
+
     return (
       <div className="border-t border-white w-full mb-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap">
         {/* XP display */}
-        {!!properties.xp && <RequirementLabel type="xp" xp={properties.xp} />}
+        {xpDisplay}
       </div>
     );
   };

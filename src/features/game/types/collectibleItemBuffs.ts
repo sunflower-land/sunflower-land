@@ -17,9 +17,15 @@ import { isCollectible } from "../events/landExpansion/garbageSold";
 import { getObjectEntries } from "../expansion/lib/utils";
 
 export type AdditionalBoostInfo = {
-  boostType?: "yield" | "time" | "other";
+  boostType?: "yield" | "time" | "other" | "xp";
   boostValue?: string;
-  boostOn?: "crops" | "greenhouse" | "crop machine" | "fruits" | "flowers";
+  boostOn?:
+    | "crops"
+    | "greenhouse"
+    | "crop machine"
+    | "fruits"
+    | "flowers"
+    | "food";
 };
 
 export type AdditionalBoostInfoBuffLabel = BuffLabel & AdditionalBoostInfo;
@@ -876,6 +882,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: SUNNYSIDE.icons.fish,
+      boostType: "xp",
+      boostValue: "+20%",
+      boostOn: "food",
     },
   ],
   Walrus: () => [
@@ -950,11 +959,15 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: lightning,
     },
   ],
+  // Food XP Boosts
   "Grain Grinder": () => [
     {
       shortDescription: translate("description.grain.grinder.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
+      boostType: "xp",
+      boostValue: "+20%",
+      boostOn: "food",
     },
   ],
   Observatory: () => [
@@ -962,6 +975,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       shortDescription: translate("description.observatory.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
+      boostType: "xp",
+      boostValue: "+5%",
+      boostOn: "food",
     },
   ],
   Blossombeard: () => [
@@ -969,6 +985,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       labelType: "vibrant",
       shortDescription: translate("description.blossombeard.boost"),
       boostTypeIcon: lightning,
+      boostType: "xp",
+      boostValue: "+10%",
+      boostOn: "food",
     },
   ],
   "Desert Gnome": () => [
@@ -1051,6 +1070,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS["Fermented Carrots"].image,
+      boostType: "xp",
+      boostValue: "2x",
+      boostOn: "food",
     },
   ],
 
@@ -1336,6 +1358,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: chefHat,
+      boostType: "xp",
+      boostValue: "+500",
+      boostOn: "food",
     },
   ],
   Cluckulator: () => [

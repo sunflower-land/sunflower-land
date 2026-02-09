@@ -20,7 +20,6 @@ export function getItemBuffs({
 }): BuffLabel[] {
   if (collection === "buds") {
     const id = Number((item as BudName).split("#")[1]);
-
     return getBudBuffs(id);
   }
 

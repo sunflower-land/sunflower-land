@@ -23,6 +23,7 @@ import {
 import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { getSkillImage } from "features/bumpkins/components/revamp/SkillPathDetails";
 import { AdditionalBoostInfoBuffLabel } from "features/game/types/collectibleItemBuffs";
+import { getFactionPetBoostMultiplier } from "features/game/lib/factions";
 
 export const BoostsDisplay: React.FC<{
   boosts: BoostName[];
@@ -30,13 +31,14 @@ export const BoostsDisplay: React.FC<{
   state: GameState;
   onClick: () => void;
   searchBoostInfo: {
-    boostType: "time" | "yield" | "other";
+    boostType: "time" | "yield" | "other" | "xp";
     boostOn?: (
       | "crops"
       | "flowers"
       | "fruits"
       | "greenhouse"
       | "crop machine"
+      | "food"
       | undefined
     )[];
   };
@@ -114,6 +116,37 @@ export const BoostsDisplay: React.FC<{
             },
           ];
         }
+
+        if (boost === "VIP Access") {
+          return [
+            {
+              shortDescription: translate("description.vipAccess.foodXpBoost"),
+              labelType: "success",
+              boostTypeIcon: SUNNYSIDE.icons.lightning,
+              boost,
+              boostType: "xp",
+              boostValue: "+10%",
+              boostOn: "food",
+            },
+          ];
+        }
+
+        if (boost === "Faction Pet") {
+          const multiplier = getFactionPetBoostMultiplier(state);
+          const percent = Math.round((multiplier - 1) * 100);
+          return [
+            {
+              shortDescription: translate("description.factionPet.foodXpBoost"),
+              labelType: "success",
+              boostTypeIcon: SUNNYSIDE.icons.lightning,
+              boost,
+              boostType: "xp",
+              boostValue: `+${percent}%`,
+              boostOn: "food",
+            },
+          ];
+        }
+
         if (isBumpkinSkill(boost)) {
           return [
             {
@@ -159,6 +192,10 @@ export const BoostsDisplay: React.FC<{
       return CALENDAR_EVENT_ICONS.sunshower;
     }
 
+    if (boost === "VIP Access" || boost === "Faction Pet") {
+      return SUNNYSIDE.icons.lightning;
+    }
+
     if (isBumpkinSkill(boost)) {
       const {
         image,
@@ -200,7 +237,7 @@ export const BoostsDisplay: React.FC<{
       onBackdropClick={onClick}
       className="flex flex-col gap-1 max-h-5"
     >
-      <div className="overflow-y-auto scrollable">
+      <div className="overflow-y-auto scrollable max-h-[200px]">
         <div className="flex space-x-1 mb-1">
           <img src={SUNNYSIDE.icons.lightning} alt="Boost" className="w-3" />
           <span className="text-xs whitespace-nowrap">
@@ -209,11 +246,22 @@ export const BoostsDisplay: React.FC<{
         </div>
         <div className="flex flex-col gap-3">
           {buffs
-            .filter(
-              (buff) =>
+            .filter((buff) => {
+              if (boostType === "xp") {
+                return (
+                  buff.boostType === "xp" &&
+                  (boostOn
+                    ? buff.boostOn
+                      ? boostOn.includes(buff.boostOn)
+                      : true
+                    : true)
+                );
+              }
+              return (
                 buff.boostType === boostType &&
-                (boostOn ? boostOn.includes(buff.boostOn) : true),
-            )
+                (boostOn ? boostOn.includes(buff.boostOn) : true)
+              );
+            })
             .map((buff) => (
               <Label
                 key={buff.shortDescription}
@@ -221,7 +269,9 @@ export const BoostsDisplay: React.FC<{
                 icon={getBoostIcon(buff.boost)}
                 className="ml-3"
               >
-                {`${buff.boostValue} ${buff.boost}`}
+                {buff.boostValue
+                  ? `${buff.boostValue} ${buff.boost}`
+                  : buff.shortDescription}
               </Label>
             ))}
         </div>
