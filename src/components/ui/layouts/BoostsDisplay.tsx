@@ -254,7 +254,7 @@ export const BoostsDisplay: React.FC<{
             })
             .map((buff) => (
               <Label
-                key={buff.shortDescription}
+                key={`${buff.boost}-${buff.shortDescription}`}
                 type="transparent"
                 icon={getBoostIcon(buff.boost)}
                 className="ml-3"
