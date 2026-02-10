@@ -13,10 +13,11 @@ import { Pet, PetNFT } from "features/game/types/pets";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getTimeUntil } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { useNow } from "lib/utils/hooks/useNow";
 
 function getGemCost(resets: number) {
-  const baseCost = 40;
-  const nextPrice = baseCost * Math.pow(1.5, resets);
+  const baseCost = 50;
+  const nextPrice = baseCost * Math.pow(2, resets);
   return Math.round(nextPrice);
 }
 
@@ -27,14 +28,18 @@ type Props = {
   handleResetRequests: () => void;
   onAcknowledged: () => void;
   onBack: () => void;
+  PanelWrapper?: React.ComponentType<
+    React.PropsWithChildren<{ className?: string }>
+  >;
 };
 
-export function getTimeUntilUTCReset() {
-  const now = new Date();
+export function useTimeUntilUTCReset() {
+  const now = useNow({ live: true });
+  const nowDate = new Date(now);
   // Get UTC date components
-  const utcYear = now.getUTCFullYear();
-  const utcMonth = now.getUTCMonth();
-  const utcDate = now.getUTCDate();
+  const utcYear = nowDate.getUTCFullYear();
+  const utcMonth = nowDate.getUTCMonth();
+  const utcDate = nowDate.getUTCDate();
   // Create a new Date at 00:00 UTC tomorrow
   const tomorrowUTC = new Date(
     Date.UTC(utcYear, utcMonth, utcDate + 1, 0, 0, 0, 0),
@@ -53,6 +58,7 @@ export const ResetFoodRequests: React.FC<Props> = ({
   handleResetRequests,
   onAcknowledged,
   onBack,
+  PanelWrapper = InnerPanel,
 }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
@@ -64,17 +70,19 @@ export const ResetFoodRequests: React.FC<Props> = ({
   const resetGemCost = getGemCost(petData.requests.resets?.[todayDate] ?? 0);
   const hasEnoughGem = inventory.Gem?.gte(resetGemCost);
 
+  const timeUntilUTCReset = useTimeUntilUTCReset();
+
   if (isRevealingState) {
     return (
-      <InnerPanel>
+      <PanelWrapper>
         <Loading text={t("pets.loadingFoodRequests")} />
-      </InnerPanel>
+      </PanelWrapper>
     );
   }
 
   if (isRevealedState) {
     return (
-      <InnerPanel>
+      <PanelWrapper>
         <Label type="success">{t("pets.requestsReset")}</Label>
         <p className="text-xs py-2 px-1">
           {t("pets.requestsResetDescription", { pet: petData.name })}
@@ -87,7 +95,7 @@ export const ResetFoodRequests: React.FC<Props> = ({
         >
           {t("continue")}
         </Button>
-      </InnerPanel>
+      </PanelWrapper>
     );
   }
 
@@ -96,7 +104,7 @@ export const ResetFoodRequests: React.FC<Props> = ({
       <Label type="default">
         {t("pets.getNewRequests", { pet: petData.name })}
       </Label>
-      <InnerPanel className="flex flex-col gap-2">
+      <PanelWrapper className="flex flex-col gap-2">
         {!showConfirmation && (
           <div className="flex justify-between items-center">
             <img
@@ -111,7 +119,7 @@ export const ResetFoodRequests: React.FC<Props> = ({
               icon={SUNNYSIDE.icons.stopwatch}
               className="-mb-1"
             >
-              {t("pets.nextRequestsIn", { time: getTimeUntilUTCReset() })}
+              {t("pets.nextRequestsIn", { time: timeUntilUTCReset })}
             </Label>
           </div>
         )}
@@ -158,7 +166,7 @@ export const ResetFoodRequests: React.FC<Props> = ({
             {showConfirmation ? t("confirm") : t("pets.resetRequests")}
           </Button>
         </div>
-      </InnerPanel>
+      </PanelWrapper>
     </div>
   );
 };

@@ -1,39 +1,33 @@
 import { useSelector } from "@xstate/react";
-import xpIcon from "assets/icons/xp.png";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import { ModalOverlay } from "components/ui/ModalOverlay";
-import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import Decimal from "decimal.js-light";
 import {
-  getPetEnergy,
-  getPetExperience,
   getPetFoodRequests,
   getRequiredFeedAmount,
 } from "features/game/events/pets/feedPet";
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/lib/crafting";
 import { CookableName } from "features/game/types/consumables";
-import { ITEM_DETAILS } from "features/game/types/images";
 import {
   PET_CATEGORIES,
   Pet,
   PetNFT,
   PetName,
+  PetResourceName,
   PetType,
   getPetLevel,
-  getPetRequestXP,
   getPetType,
   isPetNapping,
   isPetNeglected,
 } from "features/game/types/pets";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";
-import { PetCard, isFoodAlreadyFed } from "./PetCard";
-import { getPetImage } from "features/island/pets/lib/petShared";
+import { isFoodAlreadyFed } from "./PetCard";
 import { useNow } from "lib/utils/hooks/useNow";
+import { PetInfo } from "./PetInfo";
+import { PetCard } from "./PetCard";
 
 type Props = {
   activePets: [PetName | number, Pet | PetNFT | undefined][];
@@ -50,26 +44,23 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
       food: CookableName;
     }[]
   >([]);
-  const [showOverview, setShowOverview] = useState(false);
+  const [display, setDisplay] = useState<"feeding" | "fetching">("feeding");
+  const [hasViewedFetching, setHasViewedFetching] = useState(false);
 
   const inventory = useSelector(
     gameService,
     (state) => state.context.state.inventory,
   );
   const state = useSelector(gameService, (state) => state.context.state);
+  const farmId = useSelector(gameService, (state) => state.context.farmId);
 
   const handleConfirmFeed = () => {
-    if (showOverview) {
-      // Event to handle Bulk Feed
-      gameService.send("pets.bulkFeed", {
-        pets: selectedFeed,
-      });
-      setSelectedFeed([]);
-      setIsBulkFeed(false);
-      setShowOverview(false);
-    } else {
-      setShowOverview(true);
-    }
+    // Event to handle Bulk Feed
+    gameService.send("pets.bulkFeed", {
+      pets: selectedFeed,
+    });
+    setSelectedFeed([]);
+    setIsBulkFeed(false);
   };
   const handleBulkFeed = () => {
     if (!isBulkFeed) {
@@ -95,7 +86,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
           const { level: petLevel } = getPetLevel(pet.experience);
           const requests = getPetFoodRequests(pet, petLevel);
           requests.forEach((food) => {
-            const isAlreadyFed = isFoodAlreadyFed(pet, food);
+            const isAlreadyFed = isFoodAlreadyFed(pet, food, now);
             if (!isAlreadyFed) {
               foodRequests.push({ petId, food });
               if (!foodAllocation[food]) {
@@ -138,20 +129,13 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
     });
   };
 
-  const mappedPets = selectedFeed.reduce<
-    {
-      petId: PetName | number;
-      food: CookableName[];
-    }[]
-  >((acc, { petId, food }) => {
-    const existingPet = acc.find((p) => p.petId === petId);
-    if (existingPet) {
-      existingPet.food.push(food);
-    } else {
-      acc.push({ petId, food: [food] });
-    }
-    return acc;
-  }, []);
+  const handleBulkNeglect = () => {
+    neglectedPets.forEach(([petName, pet]) => {
+      if (pet) {
+        gameService.send("pet.neglected", { petId: petName });
+      }
+    });
+  };
 
   const handleCancel = () => {
     setSelectedFeed([]);
@@ -191,264 +175,170 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
   });
 
   const nappingPets = activePets.filter(([, pet]) => isPetNapping(pet, now));
+  const neglectedPets = activePets.filter(([, pet]) =>
+    isPetNeglected(pet, now),
+  );
 
   const areSomePetsNapping = nappingPets.length > 0;
+  const areSomePetsNeglected = neglectedPets.length > 0;
 
   const areAllPetsNapping = nappingPets.length === activePets.length;
 
+  // Compute whether any pets can be fed (for disabling Bulk Feed when nothing is feedable)
+  const canBulkFeedAnything = (() => {
+    if (areAllPetsNapping) return false;
+    const foodAllocation: Partial<Record<CookableName, number>> = {};
+    const foodRequests: Array<{ petId: PetName | number; food: CookableName }> =
+      [];
+    activePets.forEach(([petId, pet]) => {
+      if (pet && !isPetNeglected(pet, now) && !isPetNapping(pet, now)) {
+        const { level: petLevel } = getPetLevel(pet.experience);
+        const requests = getPetFoodRequests(pet, petLevel);
+        requests.forEach((food) => {
+          if (!isFoodAlreadyFed(pet, food, now)) {
+            foodRequests.push({ petId, food });
+            if (!foodAllocation[food]) foodAllocation[food] = 0;
+          }
+        });
+      }
+    });
+    const requiredFeedAmount = getRequiredFeedAmount(state);
+    return foodRequests.some(({ food }) => {
+      const availableFood = inventory[food] ?? new Decimal(0);
+      const currentAllocation = foodAllocation[food] || 0;
+      if (
+        requiredFeedAmount === 0 ||
+        availableFood.greaterThan(currentAllocation)
+      ) {
+        if (requiredFeedAmount > 0) {
+          foodAllocation[food] = currentAllocation + 1;
+        }
+        return true;
+      }
+      return false;
+    });
+  })();
+
+  const handleFeed = (petId: PetName | number, food: CookableName) => {
+    gameService.send("pet.fed", {
+      petId,
+      food,
+    });
+  };
+
+  const handleFetch = (petId: PetName | number, fetch: PetResourceName) => {
+    gameService.send("pet.fetched", { petId, fetch });
+  };
+
+  const handleNeglectPet = (petId: PetName | number) => {
+    gameService.send("pet.neglected", { petId });
+  };
+
+  const handlePetPet = (petId: PetName | number) => {
+    gameService.send("pet.pet", { petId });
+  };
+
+  const handleResetRequests = (petId: PetName | number) => {
+    gameService.send("REVEAL", {
+      event: {
+        type: "reset.petRequests",
+        petId,
+        createdAt: new Date(now),
+      },
+    });
+  };
   return (
     <>
-      <InnerPanel className="flex flex-row justify-between mb-1 p-1 gap-1">
-        <div className="flex flex-col sm:flex-row items-center gap-1">
-          <Label type={isBulkFeed ? "vibrant" : "formula"}>
-            {isBulkFeed
-              ? t("pets.bulkFeedMode")
-              : t("pets.yourPets", { count: activePets.length })}
-          </Label>
-          {isBulkFeed && (
-            <Label type={"warning"}>
-              {t("pets.feedSelected", { count: selectedFeed.length })}
+      <InnerPanel className="flex flex-col justify-between mb-1 p-1 gap-1 w-full">
+        <div className="flex flex-col sm:flex-row justify-between w-full gap-1">
+          <div className="flex flex-col sm:flex-row items-start gap-1">
+            <Label type={isBulkFeed ? "vibrant" : "formula"}>
+              {isBulkFeed
+                ? t("pets.bulkFeedMode")
+                : t("pets.yourPets", { count: activePets.length })}
             </Label>
-          )}
+            {isBulkFeed && (
+              <Label type="warning">
+                {t("pets.feedSelected", { count: selectedFeed.length })}
+              </Label>
+            )}
+          </div>
         </div>
-        <div className="flex flex-col sm:flex-row gap-1 w-1/2 sm:w-auto items-end">
-          {areSomePetsNapping && !isBulkFeed && (
-            <Button className="w-40" onClick={handleBulkPet}>
+        <div className="flex flex-row gap-1 w-full">
+          <Button
+            className="flex-1 min-w-0"
+            disabled={display === "feeding"}
+            onClick={() => setDisplay("feeding")}
+          >
+            {t("pets.feed")}
+          </Button>
+          <Button
+            className="flex-1 min-w-0"
+            disabled={display === "fetching"}
+            onClick={() => {
+              setDisplay("fetching");
+              setHasViewedFetching(true);
+            }}
+          >
+            {t("pets.fetch")}
+          </Button>
+        </div>
+        <div className="flex flex-row gap-1 w-full">
+          {areSomePetsNeglected && !isBulkFeed && (
+            <Button className="flex-1 min-w-0" onClick={handleBulkNeglect}>
+              {`Cheer All`}
+            </Button>
+          )}
+          {areSomePetsNapping && !areSomePetsNeglected && !isBulkFeed && (
+            <Button className="flex-1 min-w-0" onClick={handleBulkPet}>
               {`Pet All`}
             </Button>
           )}
-          <div className="flex flex-row gap-1">
-            {!areAllPetsNapping && (
-              <Button
-                className="w-40"
-                disabled={isBulkFeed && selectedFeed.length === 0}
-                onClick={handleBulkFeed}
-              >
-                {isBulkFeed ? t("pets.confirmFeed") : t("pets.bulkFeed")}
-              </Button>
-            )}
-            {isBulkFeed && (
-              <Button className="w-auto" onClick={handleCancel}>
-                <img
-                  src={SUNNYSIDE.icons.cancel}
-                  alt="Cancel"
-                  className="h-6 object-contain"
-                />
-              </Button>
-            )}
-          </div>
+          {!areAllPetsNapping && display === "feeding" && (
+            <Button
+              className="flex-1 min-w-0"
+              disabled={
+                (!isBulkFeed && !canBulkFeedAnything) ||
+                (isBulkFeed && selectedFeed.length === 0)
+              }
+              onClick={handleBulkFeed}
+            >
+              {isBulkFeed ? t("pets.confirmFeed") : t("pets.bulkFeed")}
+            </Button>
+          )}
+          {isBulkFeed && display === "feeding" && (
+            <Button className="flex-1 min-w-0" onClick={handleCancel}>
+              {t("cancel")}
+            </Button>
+          )}
         </div>
       </InnerPanel>
-      <InnerPanel className="max-h-[500px] overflow-y-auto scrollable">
-        {activePets.length === 0 ? (
-          <p className="p-4 text-center text-gray-500">{t("pets.noPets")}</p>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mr-1">
-            {activePetsSortedByType.map(([petName, pet]) => {
-              if (!pet) return null;
-
-              return (
-                <PetCard
-                  key={petName}
-                  petId={petName}
-                  petData={pet}
-                  isBulkFeed={isBulkFeed}
-                  selectedFeed={selectedFeed}
-                  setSelectedFeed={setSelectedFeed}
-                  inventory={inventory}
-                />
-              );
-            })}
-          </div>
-        )}
-      </InnerPanel>
-      <ModalOverlay
-        show={showOverview}
-        onBackdropClick={() => {
-          setShowOverview(false);
-        }}
-      >
-        <Panel>
-          <div className="flex flex-col gap-2 p-2">
-            <Label type="default">{t("pets.confirmFeedPets")}</Label>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 max-h-[400px] overflow-y-auto scrollable">
-              {mappedPets.map((pet) => {
-                const { petId, food } = pet;
-                const petData = activePets.find(
-                  ([petName]) => petName === petId,
-                )?.[1];
-                if (!petData) {
-                  return null;
-                }
-                const { level: petLevel } = getPetLevel(petData.experience);
-
-                // Calculate total XP and energy from all selected foods
-                const totalXP = food.reduce(
-                  (sum, foodItem) =>
-                    sum +
-                    getPetExperience({
-                      basePetXP: getPetRequestXP(foodItem),
-                      game: state,
-                      petLevel,
-                      petData,
-                      food: foodItem,
-                    }),
-                  0,
-                );
-                const totalEnergy = food.reduce(
-                  (sum, foodItem) =>
-                    sum +
-                    getPetEnergy({
-                      game: state,
-                      petLevel,
-                      basePetEnergy: getPetRequestXP(foodItem),
-                      petData,
-                      createdAt: Date.now(),
-                    }),
-                  0,
-                );
-                const beforeExperience = petData.experience;
-                const afterExperience = beforeExperience + totalXP;
-                const beforeEnergy = petData.energy;
-                const afterEnergy = beforeEnergy + totalEnergy;
-
-                const petImage = getPetImage("happy", petId);
-
-                const { level, currentProgress, experienceBetweenLevels } =
-                  getPetLevel(petData.experience);
-
-                const experienceChange =
-                  beforeExperience !== undefined &&
-                  afterExperience !== undefined
-                    ? afterExperience - beforeExperience
-                    : 0;
-                const energyChange =
-                  beforeEnergy !== undefined && afterEnergy !== undefined
-                    ? afterEnergy - beforeEnergy
-                    : 0;
-
-                // Calculate level changes and progress
-                let beforeLevel = level;
-                let beforeProgress = currentProgress;
-                let afterLevel = level;
-                let afterProgress = currentProgress;
-                let levelChange = 0;
-                let experienceBetweenLevelsChange = experienceBetweenLevels;
-
-                if (
-                  beforeExperience !== undefined &&
-                  afterExperience !== undefined
-                ) {
-                  const beforeLevelData = getPetLevel(beforeExperience);
-                  const afterLevelData = getPetLevel(afterExperience);
-
-                  beforeLevel = beforeLevelData.level;
-                  beforeProgress = beforeLevelData.currentProgress;
-                  afterLevel = afterLevelData.level;
-                  afterProgress = afterLevelData.currentProgress;
-                  levelChange = afterLevel - beforeLevel;
-                  experienceBetweenLevelsChange =
-                    afterLevelData.experienceBetweenLevels;
-                }
-
-                return (
-                  <OuterPanel
-                    key={petId}
-                    className="flex flex-row sm:flex-col p-3 gap-2 relative"
-                  >
-                    <div className="flex flex-col items-start sm:items-center w-3/5 sm:w-full gap-2">
-                      <div className="flex flex-col sm:flex-row-reverse items-center gap-1 mb-1">
-                        <img
-                          src={petImage}
-                          alt={petData.name}
-                          className="w-12 sm:w-16 h-12 sm:h-16 object-contain"
-                        />
-                        <Label type={"default"}>{petData.name}</Label>
-                      </div>
-                      {/* Mobile */}
-                      <SelectedFoodComponent device="mobile" foods={food} />
-                    </div>
-                    <div className="flex flex-row sm:flex-col-reverse gap-2 w-2/5 sm:w-full">
-                      {/* Desktop */}
-                      <SelectedFoodComponent device="desktop" foods={food} />
-                      <div className="flex flex-col gap-1 w-full">
-                        <InnerPanel className="flex flex-col text-xs gap-1">
-                          <p>{t("pets.level", { level })}</p>
-                          <div className="flex flex-row items-center gap-1">
-                            <img src={xpIcon} className="w-4" />
-                            <p className="text-xxs">
-                              {`${beforeProgress} / ${experienceBetweenLevels}`}
-                            </p>
-                          </div>
-                          <div className="flex flex-row items-center gap-1">
-                            <div className="w-4">
-                              <img
-                                src={SUNNYSIDE.icons.lightning}
-                                className="w-3"
-                              />
-                            </div>
-                            <p className="text-xxs">{`${petData.energy}`}</p>
-                          </div>
-                        </InnerPanel>
-                        <div className="w-full flex justify-center items-center">
-                          <img
-                            src={SUNNYSIDE.icons.arrow_down}
-                            alt="Arrow Down"
-                            className="w-3"
-                          />
-                        </div>
-                        <InnerPanel className="flex flex-col text-xs gap-1">
-                          <p>
-                            {t("pets.level", { level: afterLevel })}{" "}
-                            {levelChange > 0 ? `(+${levelChange})` : ""}
-                          </p>
-                          <div className="flex flex-row items-center gap-1">
-                            <img src={xpIcon} className="w-4" />
-                            <p className="text-xxs">
-                              {`${afterProgress} / ${experienceBetweenLevelsChange} ${experienceChange > 0 ? `(+${experienceChange})` : ""}`}
-                            </p>
-                          </div>
-                          <div className="flex flex-row items-center gap-1">
-                            <div className="w-4">
-                              <img
-                                src={SUNNYSIDE.icons.lightning}
-                                className="w-3"
-                              />
-                            </div>
-                            <p className="text-xxs">{`${afterEnergy} ${energyChange > 0 ? `(+${energyChange})` : ""}`}</p>
-                          </div>
-                        </InnerPanel>
-                      </div>
-                    </div>
-                  </OuterPanel>
-                );
-              })}
-            </div>
-            <Button onClick={handleConfirmFeed}>{t("pets.confirmFeed")}</Button>
-          </div>
-        </Panel>
-      </ModalOverlay>
+      <div className="flex flex-col gap-1">
+        {activePetsSortedByType.map(([petName, pet]) => {
+          if (!pet) return null;
+          return (
+            <PetInfo key={petName} petData={pet} nftPets={state.pets?.nfts}>
+              <PetCard
+                petData={pet}
+                petName={petName}
+                state={state}
+                display={display}
+                hasViewedFetching={hasViewedFetching}
+                handleFeed={handleFeed}
+                handleFetch={handleFetch}
+                handleNeglectPet={handleNeglectPet}
+                handlePetPet={handlePetPet}
+                isBulkFeed={isBulkFeed}
+                selectedFeed={selectedFeed}
+                setSelectedFeed={setSelectedFeed}
+                handleResetRequests={() => handleResetRequests(petName)}
+                onAcknowledged={() => gameService.send("CONTINUE")}
+                farmId={farmId}
+              />
+            </PetInfo>
+          );
+        })}
+      </div>{" "}
     </>
-  );
-};
-
-// Component needs to be in different div depending on screen size
-// Unified component to avoid code duplication
-const SelectedFoodComponent: React.FC<{
-  device: "desktop" | "mobile";
-  foods: CookableName[];
-}> = ({ device, foods }) => {
-  const { t } = useAppTranslation();
-  return (
-    <div
-      className={`flex-col gap-1 sm:w-full ${device === "mobile" ? "block sm:hidden" : "hidden sm:block"}`}
-    >
-      <Label type="default">{t("pets.foodSelected")}</Label>
-      <div className="flex flex-row flex-wrap sm:flex-nowrap w-full sm:w-auto">
-        {foods.map((food) => (
-          <Box key={food} image={ITEM_DETAILS[food].image} />
-        ))}
-      </div>
-    </div>
   );
 };

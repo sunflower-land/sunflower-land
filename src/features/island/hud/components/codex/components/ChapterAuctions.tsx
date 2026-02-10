@@ -64,9 +64,15 @@ function getChapterAuctions({
   chapter: ChapterName;
 }) {
   const { startDate, endDate } = CHAPTERS[chapter];
+  const startTime = startDate.getTime();
+  const endTime = endDate.getTime();
+
+  const chapterAuctions = auctions.filter(
+    (auction) => auction.startAt >= startTime && auction.startAt <= endTime,
+  );
 
   // Aggregate supplies
-  let details: AuctionItems = auctions.reduce((acc, auction) => {
+  const details: AuctionItems = chapterAuctions.reduce((acc, auction) => {
     const name = getAuctionItemType(auction);
 
     const existing = acc[name];
@@ -85,27 +91,16 @@ function getChapterAuctions({
     return acc;
   }, {} as AuctionItems);
 
-  // Filter out any not in this season
-  details = getKeys(details).reduce((acc, name) => {
-    const hasNoSeasonAuctions = details[name].auctions.every(
-      (auction) =>
-        auction.startAt < startDate.getTime() ||
-        auction.startAt > endDate.getTime(),
-    );
-
-    if (hasNoSeasonAuctions) {
-      return acc;
-    }
-
-    return {
+  // Use chapter-only supply totals
+  const filteredTotalSupply = getKeys(details).reduce(
+    (acc, name) => ({
       ...acc,
-      [name]: details[name],
-    };
-  }, {} as AuctionItems);
-
-  // Filter totalSupply based on the remaining seasonal items
-  const filteredTotalSupply = Object.fromEntries(
-    Object.entries(totalSupply).filter(([name]) => name in details),
+      [name]: details[name].auctions.reduce(
+        (total, auction) => total + auction.supply,
+        0,
+      ),
+    }),
+    {} as Record<string, number>,
   );
 
   return { details, filteredTotalSupply };
@@ -410,6 +405,7 @@ interface Props {
   gameState: GameState;
   farmId: number;
   chapter: ChapterName;
+  hideNext?: boolean;
 }
 
 const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
@@ -418,6 +414,7 @@ export const ChapterAuctions: React.FC<Props> = ({
   farmId,
   gameState,
   chapter,
+  hideNext,
 }) => {
   const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
@@ -487,7 +484,7 @@ export const ChapterAuctions: React.FC<Props> = ({
         </CloseButtonPanel>
       </ModalOverlay>
 
-      <NextDrop auctions={auctionItems} game={gameState} />
+      {!hideNext && <NextDrop auctions={auctionItems} game={gameState} />}
 
       <InnerPanel className="mb-1">
         <div className="p-1">

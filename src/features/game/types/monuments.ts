@@ -234,6 +234,7 @@ export function getHelpRequired({ game }: { game: GameState }) {
   const villageProjects = game.socialFarming.villageProjects;
   const collectibles = game.collectibles;
   const homeCollectibles = game.home.collectibles;
+  const petHouseCollectibles = game.petHouse?.pets ?? {};
   const clutterLocations = game.socialFarming.clutter?.locations;
   const pets = game.pets;
 
@@ -284,11 +285,14 @@ export function getHelpRequired({ game }: { game: GameState }) {
     { pendingLandProjects: [], pendingHomeProjects: [] },
   );
 
-  const { pendingLandCommonPets, pendingHomeCommonPets } = getKeys(
-    pets?.common ?? {},
-  ).reduce<{
+  const {
+    pendingLandCommonPets,
+    pendingHomeCommonPets,
+    pendingPetHouseCommonPets,
+  } = getKeys(pets?.common ?? {}).reduce<{
     pendingLandCommonPets: PetName[];
     pendingHomeCommonPets: PetName[];
+    pendingPetHouseCommonPets: PetName[];
   }>(
     (acc, name) => {
       const pet = pets?.common?.[name];
@@ -301,6 +305,9 @@ export function getHelpRequired({ game }: { game: GameState }) {
         (item) => !!item.coordinates,
       );
       const isPetPlacedOnHome = !!homeCollectibles[name]?.some(
+        (item) => !!item.coordinates,
+      );
+      const isPetPlacedOnPetHouse = !!petHouseCollectibles[name]?.some(
         (item) => !!item.coordinates,
       );
 
@@ -316,48 +323,73 @@ export function getHelpRequired({ game }: { game: GameState }) {
         return acc;
       }
 
+      if (isPetPlacedOnPetHouse) {
+        acc.pendingPetHouseCommonPets = [
+          ...acc.pendingPetHouseCommonPets,
+          name,
+        ];
+
+        return acc;
+      }
+
       return acc;
     },
     {
       pendingLandCommonPets: [],
       pendingHomeCommonPets: [],
+      pendingPetHouseCommonPets: [],
     },
   );
 
-  const { pendingLandNftPets, pendingHomeNftPets } = getKeys(
-    pets?.nfts ?? {},
-  ).reduce<{
-    pendingLandNftPets: PetNFTName[];
-    pendingHomeNftPets: PetNFTName[];
-  }>(
-    (acc, id) => {
-      const pet = pets?.nfts?.[id];
-      if (!pet) return acc;
+  const { pendingLandNftPets, pendingHomeNftPets, pendingPetHouseNftPets } =
+    getKeys(pets?.nfts ?? {}).reduce<{
+      pendingLandNftPets: PetNFTName[];
+      pendingHomeNftPets: PetNFTName[];
+      pendingPetHouseNftPets: PetNFTName[];
+    }>(
+      (acc, id) => {
+        const pet = pets?.nfts?.[id];
+        if (!pet) return acc;
 
-      if (pet.visitedAt) return acc;
+        if (pet.visitedAt) return acc;
 
-      if (pet.location === "farm") {
-        acc.pendingLandNftPets = [...acc.pendingLandNftPets, pet.name];
+        if (pet.location === "farm") {
+          acc.pendingLandNftPets = [...acc.pendingLandNftPets, pet.name];
+
+          return acc;
+        }
+
+        if (pet.location === "home") {
+          acc.pendingHomeNftPets = [...acc.pendingHomeNftPets, pet.name];
+
+          return acc;
+        }
+
+        if (pet.location === "petHouse") {
+          acc.pendingPetHouseNftPets = [
+            ...acc.pendingPetHouseNftPets,
+            pet.name,
+          ];
+
+          return acc;
+        }
 
         return acc;
-      }
-
-      if (pet.location === "home") {
-        acc.pendingHomeNftPets = [...acc.pendingHomeNftPets, pet.name];
-
-        return acc;
-      }
-
-      return acc;
-    },
-    { pendingLandNftPets: [], pendingHomeNftPets: [] },
-  );
+      },
+      {
+        pendingLandNftPets: [],
+        pendingHomeNftPets: [],
+        pendingPetHouseNftPets: [],
+      },
+    );
 
   const totalPendingPets =
     pendingLandCommonPets.length +
     pendingHomeCommonPets.length +
+    pendingPetHouseCommonPets.length +
     pendingLandNftPets.length +
-    pendingHomeNftPets.length;
+    pendingHomeNftPets.length +
+    pendingPetHouseNftPets.length;
 
   const totalClutter = Object.values(clutter).reduce(
     (acc, count: number) => acc + count,
@@ -388,6 +420,10 @@ export function getHelpRequired({ game }: { game: GameState }) {
           pendingHomeNftPets.length,
         projects: pendingHomeProjects,
         pets: [...pendingHomeCommonPets, ...pendingHomeNftPets],
+      },
+      petHouse: {
+        count: pendingPetHouseCommonPets.length + pendingPetHouseNftPets.length,
+        pets: [...pendingPetHouseCommonPets, ...pendingPetHouseNftPets],
       },
     },
   };

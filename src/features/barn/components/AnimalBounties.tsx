@@ -23,22 +23,32 @@ import {
   InventoryItemName,
 } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getChapterTicket } from "features/game/types/chapters";
+import {
+  getChapterTicket,
+  getCurrentChapter,
+} from "features/game/types/chapters";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES } from "lib/npcs";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
 import React, { useContext, useMemo } from "react";
+import chapterPoints from "assets/icons/red_medal_short.webp";
 
+import { getChapterTaskPoints } from "features/game/types/tracks";
 const _exchange = (state: MachineState) => state.context.state.bounties;
 
 interface Props {
   type: InventoryItemName[];
   onExchanging: (deal: AnimalBounty) => void;
+  reward?: "coins" | "tickets";
 }
 
-export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
+export const AnimalBounties: React.FC<Props> = ({
+  type,
+  onExchanging,
+  reward,
+}) => {
   const { gameService } = useContext(Context);
   const exchange = useSelector(gameService, _exchange);
 
@@ -48,9 +58,13 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
   const state = gameService.getSnapshot().context.state;
   const { requests = [] } = exchange;
 
-  const deals = requests.filter((deal) =>
+  let deals = requests.filter((deal) =>
     type.includes(deal.name),
   ) as AnimalBounty[];
+
+  if (reward === "tickets") {
+    deals = deals.filter((deal) => deal.items?.[chapterTicket] !== undefined);
+  }
 
   const expiresAt = useCountdown(weekResetsAt());
   const hasDeals = deals.length > 0;
@@ -110,7 +124,7 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
 
           return (
             <div key={itemType}>
-              <Label
+              {/* <Label
                 type="default"
                 icon={
                   itemType === "coins"
@@ -120,7 +134,7 @@ export const AnimalBounties: React.FC<Props> = ({ type, onExchanging }) => {
                 className="mb-3 capitalize"
               >
                 {t("bountyType.label", { type: itemType })}
-              </Label>
+              </Label> */}
               <div className="flex flex-wrap">
                 {sortedDeals.map((deal) => (
                   <BountyCard
@@ -179,6 +193,14 @@ export const AnimalDeal: React.FC<{
     bounty: deal,
   });
 
+  const points = deal.items?.[chapterTicket] ?? 0;
+  const chapter = getCurrentChapter(now);
+
+  const pointsAwarded = getChapterTaskPoints({
+    task: "bounty",
+    points: points,
+  });
+
   return (
     <>
       {animal.state === "sick" ? (
@@ -220,6 +242,12 @@ export const AnimalDeal: React.FC<{
                   </div>
                 );
               })}
+
+              {!!deal.items?.[chapterTicket] && (
+                <Label type={"vibrant"} icon={chapterPoints} className="ml-2">
+                  {`+${pointsAwarded} ${chapter} points.`}
+                </Label>
+              )}
             </div>
           </div>
           <div className="flex space-x-1">
@@ -259,6 +287,12 @@ export const AnimalDeal: React.FC<{
                       })}
                 </Label>
               ))}
+
+              {!!deal.items?.[chapterTicket] && (
+                <Label type={"vibrant"} icon={chapterPoints} className="ml-2">
+                  {`+${pointsAwarded} ${chapter} points.`}
+                </Label>
+              )}
             </div>
 
             <p>

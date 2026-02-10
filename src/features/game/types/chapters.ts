@@ -32,7 +32,7 @@ export type ChapterName =
   | "Paw Prints"
   | "Crabs and Traps";
 
-type ChapterDates = { startDate: Date; endDate: Date };
+type ChapterDates = { startDate: Date; endDate: Date; tasksBegin?: Date };
 
 export const CHAPTERS: Record<ChapterName, ChapterDates> = {
   "Solar Flare": {
@@ -86,6 +86,7 @@ export const CHAPTERS: Record<ChapterName, ChapterDates> = {
   "Crabs and Traps": {
     startDate: new Date("2026-02-02T00:00:00.000Z"),
     endDate: new Date("2026-05-04T00:00:00.000Z"),
+    tasksBegin: new Date("2026-02-09T00:00:00.000Z"), // Visual only
   },
 };
 

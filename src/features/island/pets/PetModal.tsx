@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   isPetNFT,
   Pet,
@@ -39,6 +39,7 @@ import { Checkbox } from "components/ui/Checkbox";
 import { PetGuide, PetGuideButton } from "features/pets/petGuide/PetGuide";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { capitalize } from "lib/utils/capitalize";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   show: boolean;
@@ -61,11 +62,31 @@ export const PetModal: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const [display, setDisplay] = useState<
     "feeding" | "fetching" | "resetting" | "typeFed" | "guide"
-  >(isTypeFed ? "typeFed" : "feeding");
+  >(() => {
+    if (isTypeFed) {
+      return "typeFed";
+    }
+    return "feeding";
+  });
   const [previousDisplay, setPreviousDisplay] = useState<
     "feeding" | "fetching" | "resetting"
   >("feeding");
   const [showRewards, setShowRewards] = useState(false);
+  const now = useNow({ live: true });
+
+  useEffect(() => {
+    if (show) {
+      queueMicrotask(() =>
+        setDisplay(() => {
+          if (isTypeFed) {
+            return "typeFed";
+          }
+          return "feeding";
+        }),
+      );
+    }
+  }, [show, isTypeFed]);
+
   const inventory = useSelector(gameService, _inventory);
   const isNFTPet = isPetNFT(data);
   const petId = isNFTPet ? data.id : data?.name;
@@ -89,7 +110,7 @@ export const PetModal: React.FC<Props> = ({
       event: {
         type: "reset.petRequests",
         petId,
-        createdAt: new Date(),
+        createdAt: new Date(now),
       },
     });
   };
@@ -99,7 +120,7 @@ export const PetModal: React.FC<Props> = ({
   const petCategory = PET_CATEGORIES[type];
   const { level, percentage, currentProgress, experienceBetweenLevels } =
     getPetLevel(data.experience);
-  const todayDate = new Date().toISOString().split("T")[0];
+  const todayDate = new Date(now).toISOString().split("T")[0];
 
   return (
     <Modal show={show} onHide={onClose}>

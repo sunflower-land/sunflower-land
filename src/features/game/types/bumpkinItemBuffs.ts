@@ -1071,6 +1071,13 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       boostTypeIcon: powerup,
     },
   ],
+  "Walrus Onesie": [
+    {
+      shortDescription: translate("description.walrusOnesie.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+  ],
   ...SPECIAL_ITEM_LABELS,
   ...Object.fromEntries(
     getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)

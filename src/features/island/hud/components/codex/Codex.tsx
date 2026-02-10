@@ -13,7 +13,6 @@ import { Fish } from "./pages/Fish";
 import { Flowers } from "./pages/Flowers";
 import { Deliveries } from "./pages/Deliveries";
 import { ChoreBoard } from "./pages/ChoreBoard";
-import { Chapter } from "./pages/Chapter";
 import { FactionLeaderboard } from "./pages/FactionLeaderboard";
 import { LeagueLeaderboard } from "./pages/LeaguesLeaderboard";
 import { ChapterCollections } from "./pages/ChapterCollections";
@@ -43,6 +42,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { useNow } from "lib/utils/hooks/useNow";
+import { ChapterBounties } from "./pages/ChapterBounties";
 
 interface Props {
   show: boolean;
@@ -262,15 +262,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               <Deliveries onClose={onHide} state={state} />
             )}
             {currentTab === "Chore Board" && <ChoreBoard state={state} />}
-            {currentTab === "Leaderboard" && (
-              <Chapter
-                isLoading={data?.tickets === undefined}
-                data={data?.tickets ?? null}
-                chapter={chapter}
-                state={state}
-                farmId={farmId}
-              />
-            )}
+            {currentTab === "Leaderboard" && <ChapterBounties />}
             {currentTab === "Checklist" && <Checklist />}
             {currentTab === "Fish" && (
               <Fish onMilestoneReached={handleMilestoneReached} state={state} />

@@ -17,7 +17,8 @@ import {
   ChapterFish,
   FISH,
   FishName,
-  MAP_PIECES,
+  MAP_PIECE_CHAPTERS,
+  MAP_PIECE_MARVELS,
   MarineMarvelName,
 } from "features/game/types/fishing";
 import {
@@ -470,10 +471,10 @@ export const MarineMarvelMaps: React.FC<{ state: GameState }> = ({ state }) => {
     secondsLeft !== undefined ? Math.max(0, Math.ceil(secondsLeft / 86400)) : 0;
 
   // If caught them all already, show nothing here.
-  const remainingMarvels = getKeys(MAP_PIECES).filter((marvel) => {
+  const remainingMarvels = MAP_PIECE_MARVELS.filter((marvel) => {
     if (state.farmActivity[`${marvel} Caught`]) return false;
 
-    const chapter = MAP_PIECES[marvel]?.chapter;
+    const chapter = MAP_PIECE_CHAPTERS[marvel];
     if (!CHAPTER_FISH[marvel as ChapterFish]) return true;
 
     // Do not show Marine Marvels for non-current Chapters
@@ -512,7 +513,7 @@ export const MarineMarvelMaps: React.FC<{ state: GameState }> = ({ state }) => {
                     total: 9,
                   })}
                 </p>
-                {MAP_PIECES[map]?.chapter && secondsLeft !== undefined && (
+                {MAP_PIECE_CHAPTERS[map] && secondsLeft !== undefined && (
                   <>
                     <Label type={daysLeft < 5 ? "danger" : "vibrant"}>
                       {`${daysLeft} days left`}

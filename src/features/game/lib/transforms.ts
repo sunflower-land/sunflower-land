@@ -116,6 +116,7 @@ export function makeGame(farm: any): GameState {
     henHouse: farm.henHouse,
     barn: farm.barn,
     waterWell: farm.waterWell,
+    petHouse: farm.petHouse,
     craftingBox: farm.craftingBox,
     season: farm.season,
     lavaPits: farm.lavaPits,

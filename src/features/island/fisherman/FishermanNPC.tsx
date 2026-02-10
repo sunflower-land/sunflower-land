@@ -25,7 +25,7 @@ import {
   FishName,
   FISH_DIFFICULTY,
   MarineMarvelName,
-  MAP_PIECES,
+  MAP_PIECE_MARVELS,
 } from "features/game/types/fishing";
 import { MachineState } from "features/game/lib/gameMachine";
 import { gameAnalytics } from "lib/gameAnalytics";
@@ -93,7 +93,7 @@ const _state = (state: MachineState) => state.context.state;
 const _marvel = (state: MachineState) => {
   const game = state.context.state;
   // If there is a ready marvel to be caught;
-  const ready = getKeys(MAP_PIECES).find(
+  const ready = MAP_PIECE_MARVELS.find(
     (marvel) =>
       !game.farmActivity[`${marvel} Caught`] &&
       (game.farmActivity[`${marvel} Map Piece Found`] ?? 0) >= 9,

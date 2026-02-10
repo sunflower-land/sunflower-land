@@ -11,6 +11,7 @@ import {
 } from "./constants";
 import { getKeys } from "./crafting";
 import { makeAnimalBuilding } from "./animals";
+import { getChapterTicket } from "../types/chapters";
 
 export const STATIC_OFFLINE_FARM: GameState = {
   settings: {},
@@ -93,12 +94,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   bounties: {
-    completed: [
-      {
-        id: "1",
-        soldAt: 100000,
-      },
-    ],
+    completed: [],
     requests: [
       {
         id: "21",
@@ -109,7 +105,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         id: "1",
         name: "Cow",
         level: 1,
-        coins: 100,
+        items: { [getChapterTicket(Date.now())]: 1 },
       },
       {
         id: "3",
@@ -121,7 +117,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         id: "2",
         name: "Chicken",
         level: 5,
-        items: { Scroll: 1 },
+        items: { [getChapterTicket(Date.now())]: 1 },
       },
       {
         id: "2",
@@ -215,6 +211,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Pet Cookie Collected": 2250,
     "Paw Prints Points Earned": 930,
     "Paw Prints free Milestone Claimed": 4,
+    "welcome Bonus Claimed": 1,
   },
 
   fishing: {
@@ -263,6 +260,18 @@ export const STATIC_OFFLINE_FARM: GameState = {
         readyAt: 0,
         coordinates: {
           x: 4,
+          y: 8,
+        },
+        createdAt: 0,
+      },
+    ],
+
+    Barn: [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: -2,
           y: 8,
         },
         createdAt: 0,
@@ -356,6 +365,10 @@ export const STATIC_OFFLINE_FARM: GameState = {
   barn: makeAnimalBuilding("Barn"),
   waterWell: {
     level: 1,
+  },
+  petHouse: {
+    level: 1,
+    pets: {},
   },
   craftingBox: {
     status: "idle",

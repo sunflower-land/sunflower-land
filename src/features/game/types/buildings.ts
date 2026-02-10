@@ -470,8 +470,17 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint[]> = {
   "Pet House": [
     {
       unlocksAtLevel: 0,
-      ingredients: [],
-      coins: 0,
+      ingredients: [
+        {
+          item: "Wood",
+          amount: new Decimal(200),
+        },
+        {
+          item: "Stone",
+          amount: new Decimal(100),
+        },
+      ],
+      coins: 5000,
       constructionSeconds: 2 * 60 * 60,
     },
   ],
@@ -504,7 +513,7 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   Barn: { width: 4, height: 4 },
   "Fish Market": { width: 3, height: 3 },
   "Crafting Box": { width: 3, height: 2 },
-  "Pet House": { width: 3, height: 2 },
+  "Pet House": { width: 3, height: 3 },
 };
 
 const PROCESSING_BUILDINGS: ProcessingBuildingName[] = ["Fish Market"];

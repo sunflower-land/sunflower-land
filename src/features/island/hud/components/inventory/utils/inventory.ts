@@ -24,7 +24,7 @@ import {
   CollectionName,
   MarketplaceTradeableName,
 } from "features/game/types/marketplace";
-import { PetNFTs } from "features/game/types/pets";
+import { PetName, PetNFTs } from "features/game/types/pets";
 import {
   RESOURCE_STATE_ACCESSORS,
   RESOURCE_DIMENSIONS,
@@ -165,7 +165,9 @@ export const getChestItemCount = (
       ).length ?? 0) +
       (state.home.collectibles[name as CollectibleName]?.filter(
         (collectible) => collectible.coordinates,
-      ).length ?? 0);
+      ).length ?? 0) +
+      (state.petHouse?.pets[name as PetName]?.filter((pet) => pet.coordinates)
+        .length ?? 0);
 
     const available = new Decimal(inventoryCount.minus(placed));
     return available.greaterThanOrEqualTo(0) ? available : new Decimal(0);

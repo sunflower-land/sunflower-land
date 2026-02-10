@@ -11,6 +11,7 @@ import { Loading } from "features/auth/components";
 import { ButtonPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import speakerIcon from "assets/icons/speaker.webp";
+import likeIcon from "assets/icons/like.webp";
 import newsIcon from "assets/icons/chapter_icon_2.webp";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -577,6 +578,12 @@ export const DiscordNews: React.FC = () => {
               >
                 {postedLabel}
               </a>
+              <span className="flex items-center gap-0.5 mt-0.5">
+                <span className="text-xxs">
+                  {selectedAnnouncement.likes ?? 0}
+                </span>
+                <img src={likeIcon} className="h-3.5  object-contain" alt="" />
+              </span>
             </div>
           </div>
         </div>
@@ -628,7 +635,6 @@ export const DiscordNews: React.FC = () => {
               <div className="flex-1 overflow-hidden pb-1">
                 <p className="text-xs capitalize mb-1.5 flex items-center justify-between gap-2">
                   <span className="underline">{announcement.channelName}</span>
-                  <span>{relativeTime}</span>
                 </p>
                 <div className="text-xxs discord-news-preview break-words">
                   <DiscordMarkdown
@@ -636,6 +642,18 @@ export const DiscordNews: React.FC = () => {
                     variant="inline"
                     nowMs={now}
                   />
+                </div>
+
+                <div className="flex  justify-between ">
+                  <span className="text-xxs">{relativeTime}</span>
+                  <span className="flex items-center gap-0.5">
+                    <span className="text-xxs">{announcement.likes ?? 0}</span>
+                    <img
+                      src={likeIcon}
+                      className="h-3.5  object-contain"
+                      alt=""
+                    />
+                  </span>
                 </div>
               </div>
             </div>
