@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router";
+import { useSafeAreaPaddingTop } from "lib/utils/hooks/useSafeAreaPaddingTop";
 
 import logo from "assets/brand/crabs_and_traps.png";
 
@@ -21,7 +22,6 @@ import { ShopSection } from "./components/ShopSection";
 import { CONFIG } from "lib/config";
 import { ChapterTracks } from "features/world/ui/tracks/ChapterTracks";
 import { ChapterIntroSection } from "./components/ChapterIntroSection";
-import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { ChapterTracksPreview } from "features/world/ui/tracks/ChapterTracks";
 import { ChapterTimer } from "./components/ChapterTimer";
 import { ChapterMarketplaceWidget } from "./components/ChapterMarketplaceWidget";
@@ -40,18 +40,19 @@ export const ChapterDashboard: React.FC = () => {
   const { pathname } = useLocation();
   const { gameService } = useContext(GameContext);
   const { authService } = useContext(AuthProvider.Context);
-  const { openModal } = useContext(ModalContext);
   const farmId = useSelector(gameService, _farmId);
   const gameState = useSelector(gameService, _gameState);
   const token = useSelector(authService, _token);
   const now = useNow({ live: true });
   const chapter = getCurrentChapter(now);
-  const isOffline = !CONFIG.API_URL;
+  const _isOffline = !CONFIG.API_URL;
 
   const effectiveFarmId = farmId || 1;
   const effectiveToken = token || "offline";
 
   const showClose = pathname.includes("/game") || pathname === "/chapter";
+
+  const safeAreaPaddingTop = useSafeAreaPaddingTop(50);
 
   const handleClose = useCallback(() => {
     navigate(-1);
@@ -69,7 +70,10 @@ export const ChapterDashboard: React.FC = () => {
   }, [handleClose]);
 
   return (
-    <div className="bg-[#181425] w-full h-full safe-area-inset-top safe-area-inset-bottom">
+    <div
+      className="bg-[#181425] w-full h-full safe-area-inset-bottom"
+      style={{ paddingTop: safeAreaPaddingTop }}
+    >
       <OuterPanel className="relative h-full pointer-events-auto flex flex-col overflow-y-auto scrollable">
         <div className="relative flex w-full justify-between pr-10 items-center mr-auto h-20 min-h-20 shrink-0 mb-2">
           <div

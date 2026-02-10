@@ -15,6 +15,7 @@ import {
   getRetentionData,
   RetentionEntry,
 } from "./actions/getRetentionData";
+import { useSafeAreaPaddingTop } from "lib/utils/hooks/useSafeAreaPaddingTop";
 
 const parseDate = (value?: string) => {
   if (!value) return null;
@@ -35,6 +36,7 @@ export const RetentionDashboard: React.FC = () => {
   const { pathname } = useLocation();
   const isInternalRoute = pathname.includes("/game");
   const { authState } = useAuth();
+  const safeAreaPaddingTop = useSafeAreaPaddingTop(30);
 
   const token = authState.context.user.rawToken as string | undefined;
 
@@ -98,7 +100,10 @@ export const RetentionDashboard: React.FC = () => {
 
   if (error) {
     return (
-      <div className="bg-[#181425] w-full h-full safe-area-inset-top safe-area-inset-bottom">
+      <div
+        className="bg-[#181425] w-full h-full safe-area-inset-bottom"
+        style={{ paddingTop: safeAreaPaddingTop }}
+      >
         <Panel className="inset-0 fixed pointer-events-auto">
           <div className="relative flex w-full justify-between pr-10 items-center  mr-auto h-[70px] mb-2">
             <div
@@ -144,7 +149,10 @@ export const RetentionDashboard: React.FC = () => {
     : t("retentionDashboard.unknownDate");
 
   return (
-    <div className="bg-[#181425] w-full h-full safe-area-inset-top safe-area-inset-bottom">
+    <div
+      className="bg-[#181425] w-full h-full safe-area-inset-bottom"
+      style={{ paddingTop: safeAreaPaddingTop }}
+    >
       <Panel className="inset-0 fixed pointer-events-auto flex flex-col overflow-y-auto scrollable">
         <div className="relative flex w-full justify-between pr-10 items-center  mr-auto h-[70px] mb-2">
           <div
