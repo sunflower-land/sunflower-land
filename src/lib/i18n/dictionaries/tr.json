@@ -6434,11 +6434,9 @@
   "news.obsidian.description": "Obsidiyen için yeni hizmet ve talep.",
   "news.obsidian.backButton": "Obsidyen Güncellemeleri",
   "pets.neglectPet": "Hayvan İhmal Edildi",
-  "pets.neglectPetDescription": "{{pet}} ihmal edildi. Lütfen onu hayata döndürmek için neşelendirin.",
   "pets.cheerPet": "Neşelendirin {{pet}}",
   "blessing.prize": "{{players}} oyuncuya alındı {{amount}} x {{item}}",
   "pets.napping": "Uyumak",
-  "pets.nappingDescription": "{{pet}} uyuyor. Uyandırmak için okşayın.",
   "pets.petPet": "Evcil hayvan {{pet}}",
   "feed": "Besleme",
   "petalPuzzle.guide.orangePetal": "Turuncu Petal",
@@ -8054,5 +8052,7 @@
   "petGuide.petHouse.description4": "Getir sekmesi: Meşe palamudu, kategori kaynakları ve daha fazlası için kaynak çalıştırmalarına evcil hayvan göndermek için enerji harcayın.",
   "petGuide.petHouse.description5": "Pet All uyuyan evcil hayvanları uyandırır. Cheer All ihmal edilen evcil hayvanları canlandırır.",
   "petGuide.petHouse.description6": "Cins sınırları: Seviye 1, 3 tür ortak evcil hayvan ve 1 NFT evcil hayvanına izin verir. Yükseltmeler +2 ortak evcil hayvan ırkı ve +3 NFT kapasitesi, seviye 3'e kadar 7 cins ve 7 NFT ekler.",
-  "petGuide.petHouse.description7": "Her türden yalnızca bir NFT evcil hayvan yerleştirilebilir. Tomurcuklar Evcil Hayvan Evi'ne yerleştirilemez."
+  "petGuide.petHouse.description7": "Her türden yalnızca bir NFT evcil hayvan yerleştirilebilir. Tomurcuklar Evcil Hayvan Evi'ne yerleştirilemez.",
+  "pets.neglectPetDescription": "{{pet}} ihmal edildi. Evcil hayvanınızın ruhu düşük ve iyileşmesi için biraz desteğe ihtiyacı var. Ruhunu geri kazanmak için neşelendirin - bu 500 DP'ye mal olacak",
+  "pets.nappingDescription": "{{pet}} uyuyor. Evcil hayvanınızı tekrar hareket ettirmek için uyandırın ve 10 DP kazanın"
 }

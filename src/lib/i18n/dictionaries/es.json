@@ -6434,11 +6434,9 @@
   "news.obsidian.description": "Nueva utilidad y demanda de Obsidian.",
   "news.obsidian.backButton": "Actualizaciones de Obsidian",
   "pets.neglectPet": "Mascota abandonada",
-  "pets.neglectPetDescription": "Se ha omitido {{pet}}. Por favor, anímalo para devolverle la vida.",
   "pets.cheerPet": "Anímate {{pet}}",
   "blessing.prize": "{{players}} los jugadores recibieron {{amount}} x {{item}}",
   "pets.napping": "Dormir una siesta",
-  "pets.nappingDescription": "{{pet}} está durmiendo una siesta. Acaricia para despertarlo.",
   "pets.petPet": "Mascota {{pet}}",
   "feed": "Alimentar",
   "petalPuzzle.guide.orangePetal": "Pétalo Naranja",
@@ -8054,5 +8052,7 @@
   "petGuide.petHouse.description4": "Pestaña de búsqueda: gasta energía para enviar mascotas a buscar bellotas, recursos de categorías y más.",
   "petGuide.petHouse.description5": "Pet All despierta a las mascotas durmiendo la siesta. Cheer All revive a las mascotas abandonadas.",
   "petGuide.petHouse.description6": "Límites de raza: el nivel 1 permite 3 razas de mascotas comunes y 1 mascota NFT. Las mejoras añaden +2 razas de mascotas comunes y +3 de capacidad de NFT, hasta 7 razas y 7 NFT en el nivel 3.",
-  "petGuide.petHouse.description7": "Solo se puede colocar una mascota NFT de cada tipo. Los cogollos no se pueden colocar en la caseta de mascotas."
+  "petGuide.petHouse.description7": "Solo se puede colocar una mascota NFT de cada tipo. Los cogollos no se pueden colocar en la caseta de mascotas.",
+  "pets.neglectPetDescription": "Se ha omitido {{pet}}. La mascota está deprimida y necesita un poco de apoyo para recuperarse. Anímala para que recupere su espíritu. Esto te costará 500 puntos de experiencia",
+  "pets.nappingDescription": "{{pet}} está durmiendo una siesta. Despierta a tu mascota para que vuelva a moverse y conseguir 10 XP"
 }

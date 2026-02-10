@@ -6434,11 +6434,9 @@
   "news.obsidian.description": "Utilitas & permintaan baru untuk Obsidian.",
   "news.obsidian.backButton": "Pembaruan Obsidian",
   "pets.neglectPet": "Hewan Peliharaan Diabaikan",
-  "pets.neglectPetDescription": "{{pet}} telah diabaikan. Tolong hiburkan untuk menghidupkannya kembali.",
   "pets.cheerPet": "Bersorak {{pet}}",
   "blessing.prize": "{{players}} pemain menerima {{amount}} x {{item}}",
   "pets.napping": "Tidur siang",
-  "pets.nappingDescription": "{{pet}} sedang tidur siang. Peliharalah untuk membangunkannya.",
   "pets.petPet": "Hewan peliharaan {{pet}}",
   "feed": "Pakan",
   "petalPuzzle.guide.orangePetal": "Kelopak Oranye",
@@ -8054,5 +8052,7 @@
   "petGuide.petHouse.description4": "Tab Ambil: Habiskan energi untuk mengirim hewan peliharaan untuk menjalankan sumber daya untuk Acorns, sumber daya kategori, dan banyak lagi.",
   "petGuide.petHouse.description5": "Pet All membangunkan hewan peliharaan yang sedang tidur siang. Cheer All menghidupkan kembali hewan peliharaan yang terabaikan.",
   "petGuide.petHouse.description6": "Batas jenis: Level 1 memungkinkan 3 jenis hewan peliharaan umum dan 1 hewan peliharaan NFT. Peningkatan menambahkan +2 breed hewan peliharaan umum dan +3 kapasitas NFT, hingga 7 breed dan 7 NFT di level 3.",
-  "petGuide.petHouse.description7": "Hanya satu hewan peliharaan NFT dari setiap jenis yang dapat ditempatkan. Tunas tidak dapat ditempatkan di Rumah Hewan Peliharaan."
+  "petGuide.petHouse.description7": "Hanya satu hewan peliharaan NFT dari setiap jenis yang dapat ditempatkan. Tunas tidak dapat ditempatkan di Rumah Hewan Peliharaan.",
+  "pets.neglectPetDescription": "{{pet}} telah diabaikan. Semangat hewan peliharaan Anda rendah dan perlu sedikit dukungan untuk pulih. Bergembiralah untuk memulihkan semangatnya — ini akan menelan biaya 500 XP",
+  "pets.nappingDescription": "{{pet}} sedang tidur siang. Bangunkan hewan peliharaan Anda untuk membuatnya bergerak lagi dan dapatkan 10 XP"
 }

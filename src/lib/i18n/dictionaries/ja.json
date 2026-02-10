@@ -6434,11 +6434,9 @@
   "news.obsidian.description": "オブシディアンの新たな効用と需要",
   "news.obsidian.backButton": "オブシディアンアップデート",
   "pets.neglectPet": "ペットネグレクト",
-  "pets.neglectPetDescription": "{{pet}} は無視されました。元気を出して生き返らせてください。",
   "pets.cheerPet": "応援して {{pet}} アップ",
   "blessing.prize": "{{players}} プレイヤーは {{amount}} x {{item}} を受け取りました",
   "pets.napping": "昼寝",
-  "pets.nappingDescription": "{{pet}} は昼寝中です。撫でて起こしてください。",
   "pets.petPet": "ペット {{pet}}",
   "feed": "フィード",
   "petalPuzzle.guide.orangePetal": "オレンジの花びら",
@@ -8054,5 +8052,7 @@
   "petGuide.petHouse.description4": "フェッチタブ:エネルギーを消費して、ドングリやカテゴリー資源などの資源獲得にペットを送りましょう。",
   "petGuide.petHouse.description5": "Pet Allは昼寝中のペットを目覚めさせます。Cheer Allはおろそかにされたペットを復活させます。",
   "petGuide.petHouse.description6": "品種制限：レベル1では、3種類の一般的なペットと1匹のNFTペットが許可されます。アップグレードすると、一般的なペットの品種が2種類追加され、NFT容量が3倍になり、レベル3では最大7種、NFTは7種類まで追加されます。",
-  "petGuide.petHouse.description7": "各タイプのNFTペットは1匹のみ配置できます。ペットハウスにはつぼみを置くことはできません。"
+  "petGuide.petHouse.description7": "各タイプのNFTペットは1匹のみ配置できます。ペットハウスにはつぼみを置くことはできません。",
+  "pets.neglectPetDescription": "{{pet}} は無視されました。ペットの気力が落ちていて、回復するには少しサポートが必要です。元気を出してスピリットを回復させましょう。500 XPのコストがかかります",
+  "pets.nappingDescription": "{{pet}} は昼寝中です。ペットを起こすと再び動くようになり、10 XPを獲得できます"
 }

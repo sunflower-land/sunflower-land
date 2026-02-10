@@ -6434,11 +6434,9 @@
   "news.obsidian.description": "黑曜石全新用途与需求。",
   "news.obsidian.backButton": "黑曜石更新",
   "pets.neglectPet": "被忽视的宠物",
-  "pets.neglectPetDescription": "{{pet}} 已被忽视。请振作起来，让它重获新生。",
   "pets.cheerPet": "加油 {{pet}}",
   "blessing.prize": "{{players}} 玩家获得了 {{amount}} x {{item}}",
   "pets.napping": "午睡",
-  "pets.nappingDescription": "{{pet}} 正在睡觉。让它醒来。",
   "pets.petPet": "宠物 {{pet}}",
   "feed": "动态",
   "petalPuzzle.guide.orangePetal": "橙色花瓣",
@@ -8054,5 +8052,7 @@
   "petGuide.petHouse.description4": "【拾取】页签：消耗能量，派遣宠物外出搜寻——橡果、各类物资乃至更多惊喜，统统叼回来！",
   "petGuide.petHouse.description5": "“一键抚摸”可唤醒贪睡的小家伙；“一键鼓舞”能让受冷落的宠物重焕生机。",
   "petGuide.petHouse.description6": "饲养上限：1 级可容纳 3 类普通宠物与 1 只 NFT 宠物。每次扩建将增加 2 个普通栏位与 3 个 NFT 栏位；至 3 级时，最多可同时饲养 7 类普通宠物与 7 只 NFT 宠物。",
-  "petGuide.petHouse.description7": "同类型的 NFT 宠物仅限安置一只。注意：蕾芽无法入住宠物屋。"
+  "petGuide.petHouse.description7": "同类型的 NFT 宠物仅限安置一只。注意：蕾芽无法入住宠物屋。",
+  "pets.neglectPetDescription": "{{pet}} 已被忽视。你的宠物精神低落，需要一点支撑才能恢复。为它加油以恢复精神 — 这将消耗 500 XP",
+  "pets.nappingDescription": "{{pet}} 正在睡觉。叫醒你的宠物让它重新移动并获得 10 XP"
 }

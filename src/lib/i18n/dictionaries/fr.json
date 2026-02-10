@@ -6434,11 +6434,9 @@
   "news.obsidian.description": "Nouvelle utilité et demande pour Obsidian.",
   "news.obsidian.backButton": "Mises à jour d'Obsidian",
   "pets.neglectPet": "Animal négligé",
-  "pets.neglectPetDescription": "{{pet}} a été négligé. S'il vous plaît, remontez le moral pour lui redonner vie.",
   "pets.cheerPet": "Réjouissez-vous {{pet}}",
   "blessing.prize": "{{players}} les joueurs ont reçu {{amount}} x {{item}}",
   "pets.napping": "Faire la sieste",
-  "pets.nappingDescription": "{{pet}} fait la sieste. Caressez-le pour le réveiller.",
   "pets.petPet": "Animal domestique {{pet}}",
   "feed": "Nourrir",
   "petalPuzzle.guide.orangePetal": "Pétale d'orange",
@@ -8054,5 +8052,7 @@
   "petGuide.petHouse.description4": "Onglet Récupérer : dépensez de l'énergie pour envoyer des animaux de compagnie faire des courses de ressources pour récupérer des glands, classer des ressources, etc.",
   "petGuide.petHouse.description5": "Tous les animaux de compagnie se réveillent en train de faire la sieste. Cheer All fait revivre les animaux de compagnie négligés.",
   "petGuide.petHouse.description6": "Limites de race : le niveau 1 autorise 3 races d'animaux de compagnie communs et 1 animal de compagnie NFT. Les améliorations ajoutent +2 races d'animaux de compagnie courantes et +3 capacités NFT, jusqu'à 7 races et 7 NFT au niveau 3.",
-  "petGuide.petHouse.description7": "Un seul animal de compagnie NFT de chaque type peut être placé. Les bourgeons ne peuvent pas être placés dans la maison pour animaux de compagnie."
+  "petGuide.petHouse.description7": "Un seul animal de compagnie NFT de chaque type peut être placé. Les bourgeons ne peuvent pas être placés dans la maison pour animaux de compagnie.",
+  "pets.neglectPetDescription": "{{pet}} a été négligé. Le moral de votre animal est bas et il a besoin d'un peu de soutien pour se rétablir. Encouragez-le pour lui redonner le moral : cela vous coûtera 500 points d'expérience",
+  "pets.nappingDescription": "{{pet}} fait la sieste. Réveillez votre animal de compagnie pour le faire bouger à nouveau et gagner 10 points d'expérience"
 }

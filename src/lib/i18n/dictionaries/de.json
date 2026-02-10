@@ -6434,11 +6434,9 @@
   "news.obsidian.description": "Neuer Nutzen und neue Nachfrage nach Obsidian.",
   "news.obsidian.backButton": "Obsidian-Aktualisierungen",
   "pets.neglectPet": "Haustier vernachlässigt",
-  "pets.neglectPetDescription": "{{pet}} wurde vernachlässigt. Bitte muntere es auf, um es wieder zum Leben zu erwecken.",
   "pets.cheerPet": "Muntere {{pet}} auf",
   "blessing.prize": "{{players}} Spieler haben {{amount}} x {{item}} erhalten",
   "pets.napping": "Nickerchen machen",
-  "pets.nappingDescription": "{{pet}} macht ein Nickerchen. Streichle es, um es aufzuwecken.",
   "pets.petPet": "Haustier {{pet}}",
   "feed": "Füttern",
   "petalPuzzle.guide.orangePetal": "Orangefarbenes Blütenblatt",
@@ -8054,5 +8052,7 @@
   "petGuide.petHouse.description4": "Reiter holen: Gib Energie aus, um Haustiere auf Ressourcenrennen zu schicken, um Eicheln, Kategorieressourcen und mehr zu erhalten.",
   "petGuide.petHouse.description5": "Pet All weckt Haustiere auf, die ein Nickerchen machen. Cheer All belebt vernachlässigte Haustiere wieder.",
   "petGuide.petHouse.description6": "Rassebeschränkungen: Stufe 1 erlaubt 3 Rassen gewöhnlicher Haustiere und 1 NFT-Haustier. Upgrades fügen +2 gewöhnliche Haustierrassen und +3 NFT-Kapazität hinzu, bis zu 7 Rassen und 7 NFT auf Stufe 3.",
-  "petGuide.petHouse.description7": "Es kann nur ein NFT-Haustier jedes Typs platziert werden. Knospen können nicht im Tierhaus platziert werden."
+  "petGuide.petHouse.description7": "Es kann nur ein NFT-Haustier jedes Typs platziert werden. Knospen können nicht im Tierhaus platziert werden.",
+  "pets.neglectPetDescription": "{{pet}} wurde vernachlässigt. Die Stimmung Ihres Haustiers ist schwach und es braucht ein wenig Unterstützung, um sich zu erholen. Muntert ihn auf, um seinen Geist wiederherzustellen — das kostet 500 XP",
+  "pets.nappingDescription": "{{pet}} macht ein Nickerchen. Wecke dein Haustier auf, um es wieder in Bewegung zu bringen und verdiene 10 XP"
 }

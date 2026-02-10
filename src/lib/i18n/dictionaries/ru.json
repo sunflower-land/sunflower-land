@@ -6597,10 +6597,8 @@
   "pets.requestsResetAtDescription": "Хочется новых запросов раньше срока? Обновите их за гемы!",
   "pets.resetRequests": "Сброс запросов",
   "pets.neglectPet": "Питомец в упадке",
-  "pets.neglectPetDescription": "Ты не заботился о {{pet}}. Подними ему настроение!",
   "pets.cheerPet": "Развеселить {{pet}}",
   "pets.napping": "Дремлет",
-  "pets.nappingDescription": "{{pet}} дремлет. Погладь его, чтобы разбудить.",
   "pets.petPet": "Поиграть с {{pet}}",
   "pets.upcomingRequest": "Доступно с {{level}} уровня",
   "pets.petHatched": "Вылупилось домашнее животное",
@@ -8054,5 +8052,7 @@
   "petGuide.petHouse.description4": "Fetch tab: Spend energy to send pets on resource runs for Acorns, category resources, and more.",
   "petGuide.petHouse.description5": "Pet All wakes napping pets. Cheer All revives neglected pets.",
   "petGuide.petHouse.description6": "Breed limits: Level 1 allows 3 breed of common pets and 1 NFT pet. Upgrades add +2 common pet breeds and +3 NFT capacity, up to 7 breeds and 7 NFT at level 3.",
-  "petGuide.petHouse.description7": "Only one NFT pet of each type can be placed. Buds cannot be placed in the Pet House."
+  "petGuide.petHouse.description7": "Only one NFT pet of each type can be placed. Buds cannot be placed in the Pet House.",
+  "pets.neglectPetDescription": "{{pet}} has been neglected. Your pet’s spirit is low and it needs a little support to recover. Cheer it up to restore its spirit — this will cost 500 XP",
+  "pets.nappingDescription": "{{pet}} is napping. Wake your pet up to get it moving again and earn 10 XP"
 }
