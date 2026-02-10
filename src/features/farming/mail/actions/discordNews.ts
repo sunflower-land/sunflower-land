@@ -23,6 +23,7 @@ export type DiscordAnnouncement = {
   };
   createdAt: string; // ISO timestamp
   images: DiscordAnnouncementImage[];
+  likes?: number;
 };
 
 export type DiscordNewsDataResponse = DiscordAnnouncement[];
@@ -48,6 +49,7 @@ const getStubDiscordNews = (): DiscordNewsDataResponse => {
       },
       createdAt: makeDate(2 * 60 * 60 * 1000),
       images: [],
+      likes: 20,
     },
     {
       id: "stub-2",
@@ -63,6 +65,7 @@ const getStubDiscordNews = (): DiscordNewsDataResponse => {
       },
       createdAt: makeDate(8 * 60 * 60 * 1000),
       images: [],
+      likes: 929,
     },
     {
       id: "stub-3",
@@ -78,6 +81,7 @@ const getStubDiscordNews = (): DiscordNewsDataResponse => {
       },
       createdAt: makeDate(20 * 60 * 60 * 1000),
       images: [],
+      likes: 120,
     },
   ];
 };
