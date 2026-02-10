@@ -135,7 +135,11 @@ export const ResourceList: React.FC<Props> = ({
           </div>
           <div className="flex flex-col items-end pr-1">
             <Label
-              type={inventoryCount.lt(quantity) ? "danger" : "info"}
+              type={
+                inventoryCount.lt(new Decimal(quantity).mul(multiple))
+                  ? "danger"
+                  : "info"
+              }
               className="my-1"
             >
               {t("bumpkinTrade.available")}
@@ -220,7 +224,7 @@ export const ResourceList: React.FC<Props> = ({
                 value={quantity}
                 maxDecimalPlaces={0}
                 isOutOfRange={
-                  inventoryCount.lt(quantity) ||
+                  inventoryCount.lt(new Decimal(quantity).mul(multiple)) ||
                   new Decimal(quantity).greaterThan(
                     TRADE_LIMITS[itemName] ?? 0,
                   ) ||
@@ -450,7 +454,7 @@ export const ResourceList: React.FC<Props> = ({
               isTooHigh ||
               isTooLow ||
               maxSFL ||
-              new Decimal(quantity).gt(inventoryCount) ||
+              new Decimal(quantity).mul(multiple).gt(inventoryCount) ||
               new Decimal(quantity).gt(
                 TRADE_LIMITS[itemName] ?? new Decimal(0),
               ) ||
