@@ -1,4 +1,5 @@
 import mainnetBuds from "lib/buds/buds";
+import testnetBuds from "lib/buds/testnet-buds";
 
 import { BuffLabel } from ".";
 import type { Bud } from "./buds";
@@ -9,8 +10,9 @@ import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "./images";
+import { CONFIG } from "lib/config";
 
-const buds = mainnetBuds;
+const buds = CONFIG.NETWORK === "amoy" ? testnetBuds : mainnetBuds;
 
 export const getBudTraits = (budId: number) => {
   const bud = buds[budId];
