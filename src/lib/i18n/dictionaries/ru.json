@@ -4128,7 +4128,6 @@
   "bounties.animal.intro.one": "Привет, Бампкин! Ммммм, здесь что-то очень вкусно пахнет!",
   "bounties.animal.intro.two": "Гоблины *очень* заинтересованы в том, чтобы их найти... кхм... *дружелюбные* новые фермерские компаньоны.",
   "bounties.animal.intro.three": "Каждую неделю я буду предлагать вам новые предложения. Принесите мне своих лучших животных, и я сделаю так, чтобы они того стоили. Просто... не задавайте слишком много вопросов!",
-  "bounties.board": "Доска заказов",
   "bounties.board.info": "Закрой недельные заказы, пока не вышло время.",
   "bounties.board.travel": "Отправляйтесь на площадь и найдите Поппи, чтобы получить эти награды",
   "bounties.board.ticketAmount": "Сумма {{chapterTicket}} будет меняться каждую неделю в зависимости от запросов.",
@@ -8054,5 +8053,6 @@
   "petGuide.petHouse.description6": "Breed limits: Level 1 allows 3 breed of common pets and 1 NFT pet. Upgrades add +2 common pet breeds and +3 NFT capacity, up to 7 breeds and 7 NFT at level 3.",
   "petGuide.petHouse.description7": "Only one NFT pet of each type can be placed. Buds cannot be placed in the Pet House.",
   "pets.neglectPetDescription": "{{pet}} has been neglected. Your pet’s spirit is low and it needs a little support to recover. Cheer it up to restore its spirit — this will cost 500 XP",
-  "pets.nappingDescription": "{{pet}} is napping. Wake your pet up to get it moving again and earn 10 XP"
+  "pets.nappingDescription": "{{pet}} is napping. Wake your pet up to get it moving again and earn 10 XP",
+  "bounties.board": "Animal Bounties"
 }

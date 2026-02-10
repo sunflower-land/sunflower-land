@@ -3388,7 +3388,6 @@
   "bounties.animal.intro.one": "哈喽喂乡包佬！唔唔，这里有东西闻起来很好吃！",
   "bounties.animal.intro.two": "哥布林*非常*有兴趣找一些……哎哟……*友好*的新农业伙伴。",
   "bounties.animal.intro.three": "每周，我都会为你提供新的报价。把你最好的动物带给我，我不会让你白跑一趟的。只是……别过问太多！",
-  "bounties.board": "赏金板",
   "bounties.board.info": "在时间结束之前提交本周的赏金。",
   "bounties.board.empty": "目前没有生效报价。",
   "bounties.sold": "已售出",
@@ -8054,5 +8053,6 @@
   "petGuide.petHouse.description6": "饲养上限：1 级可容纳 3 类普通宠物与 1 只 NFT 宠物。每次扩建将增加 2 个普通栏位与 3 个 NFT 栏位；至 3 级时，最多可同时饲养 7 类普通宠物与 7 只 NFT 宠物。",
   "petGuide.petHouse.description7": "同类型的 NFT 宠物仅限安置一只。注意：蕾芽无法入住宠物屋。",
   "pets.neglectPetDescription": "{{pet}} 已被忽视。你的宠物精神低落，需要一点支撑才能恢复。为它加油以恢复精神 — 这将消耗 500 XP",
-  "pets.nappingDescription": "{{pet}} 正在睡觉。叫醒你的宠物让它重新移动并获得 10 XP"
+  "pets.nappingDescription": "{{pet}} 正在睡觉。叫醒你的宠物让它重新移动并获得 10 XP",
+  "bounties.board": "动物赏金"
 }

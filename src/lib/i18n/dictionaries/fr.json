@@ -3388,7 +3388,6 @@
   "bounties.animal.intro.one": "Bonjour Bumpkin ! Mmmmmm, il y a quelque chose qui sent vraiment bon ici !",
   "bounties.animal.intro.two": "Les gobelins sont *très* intéressés à en trouver... heu... de nouveaux compagnons agricoles *sympathiques*.",
   "bounties.animal.intro.three": "Chaque semaine, je vous proposerai de nouvelles offres. Amenez-moi vos plus beaux animaux, et je ferai en sorte que cela en vaille la peine. Juste... ne posez pas trop de questions !",
-  "bounties.board": "Tableau Bounty",
   "bounties.board.info": "Échangez les primes de cette semaine avant la fin du temps imparti.",
   "bounties.board.empty": "Aucune offre n'est disponible pour le moment.",
   "bounties.sold": "Vendu",
@@ -8054,5 +8053,6 @@
   "petGuide.petHouse.description6": "Limites de race : le niveau 1 autorise 3 races d'animaux de compagnie communs et 1 animal de compagnie NFT. Les améliorations ajoutent +2 races d'animaux de compagnie courantes et +3 capacités NFT, jusqu'à 7 races et 7 NFT au niveau 3.",
   "petGuide.petHouse.description7": "Un seul animal de compagnie NFT de chaque type peut être placé. Les bourgeons ne peuvent pas être placés dans la maison pour animaux de compagnie.",
   "pets.neglectPetDescription": "{{pet}} a été négligé. Le moral de votre animal est bas et il a besoin d'un peu de soutien pour se rétablir. Encouragez-le pour lui redonner le moral : cela vous coûtera 500 points d'expérience",
-  "pets.nappingDescription": "{{pet}} fait la sieste. Réveillez votre animal de compagnie pour le faire bouger à nouveau et gagner 10 points d'expérience"
+  "pets.nappingDescription": "{{pet}} fait la sieste. Réveillez votre animal de compagnie pour le faire bouger à nouveau et gagner 10 points d'expérience",
+  "bounties.board": "Primes pour animaux"
 }

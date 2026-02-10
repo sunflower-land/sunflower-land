@@ -3388,7 +3388,6 @@
   "bounties.animal.intro.one": "Hallo Bumpkin! Hmmmmm, hier riecht etwas unglaublich lecker!",
   "bounties.animal.intro.two": "Die Goblins sind *sehr* daran interessiert, welche zu finden... ähem... *freundliche* neue Farmgefährten.",
   "bounties.animal.intro.three": "Jede Woche habe ich neue Angebote für dich. Bring mir deine besten Tiere und ich werde dafür sorgen, dass es sich für dich lohnt. Stell einfach nicht zu viele Fragen!",
-  "bounties.board": "Bounty-Board",
   "bounties.board.info": "Handeln Sie mit den Prämien dieser Woche, bevor die Zeit abläuft.",
   "bounties.board.empty": "Derzeit sind keine Angebote verfügbar.",
   "bounties.sold": "Verkauft",
@@ -8054,5 +8053,6 @@
   "petGuide.petHouse.description6": "Rassebeschränkungen: Stufe 1 erlaubt 3 Rassen gewöhnlicher Haustiere und 1 NFT-Haustier. Upgrades fügen +2 gewöhnliche Haustierrassen und +3 NFT-Kapazität hinzu, bis zu 7 Rassen und 7 NFT auf Stufe 3.",
   "petGuide.petHouse.description7": "Es kann nur ein NFT-Haustier jedes Typs platziert werden. Knospen können nicht im Tierhaus platziert werden.",
   "pets.neglectPetDescription": "{{pet}} wurde vernachlässigt. Die Stimmung Ihres Haustiers ist schwach und es braucht ein wenig Unterstützung, um sich zu erholen. Muntert ihn auf, um seinen Geist wiederherzustellen — das kostet 500 XP",
-  "pets.nappingDescription": "{{pet}} macht ein Nickerchen. Wecke dein Haustier auf, um es wieder in Bewegung zu bringen und verdiene 10 XP"
+  "pets.nappingDescription": "{{pet}} macht ein Nickerchen. Wecke dein Haustier auf, um es wieder in Bewegung zu bringen und verdiene 10 XP",
+  "bounties.board": "Tierprämien"
 }

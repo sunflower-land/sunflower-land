@@ -3388,7 +3388,6 @@
   "bounties.animal.intro.one": "Merhaba Bumpkin! Mmmmmm, burada çok lezzetli bir şey kokuyor!",
   "bounties.animal.intro.two": "Goblinler biraz bulmakla * çok ilgileniyorlar... ahem... * dost canlısı* yeni çiftçilik arkadaşları.",
   "bounties.animal.intro.three": "Her hafta senin için yeni fırsatlar yapacağım. Bana en iyi hayvanlarını getir, ben de buna değerim. Sadece... çok fazla soru sorma!",
-  "bounties.board": "Ödül tahtası",
   "bounties.board.info": "Zaman dolmadan bu haftanın ödüllerini takas edin.",
   "bounties.board.empty": "Şu anda mevcut hiçbir fırsat yok.",
   "bounties.sold": "Satıldı",
@@ -8054,5 +8053,6 @@
   "petGuide.petHouse.description6": "Cins sınırları: Seviye 1, 3 tür ortak evcil hayvan ve 1 NFT evcil hayvanına izin verir. Yükseltmeler +2 ortak evcil hayvan ırkı ve +3 NFT kapasitesi, seviye 3'e kadar 7 cins ve 7 NFT ekler.",
   "petGuide.petHouse.description7": "Her türden yalnızca bir NFT evcil hayvan yerleştirilebilir. Tomurcuklar Evcil Hayvan Evi'ne yerleştirilemez.",
   "pets.neglectPetDescription": "{{pet}} ihmal edildi. Evcil hayvanınızın ruhu düşük ve iyileşmesi için biraz desteğe ihtiyacı var. Ruhunu geri kazanmak için neşelendirin - bu 500 DP'ye mal olacak",
-  "pets.nappingDescription": "{{pet}} uyuyor. Evcil hayvanınızı tekrar hareket ettirmek için uyandırın ve 10 DP kazanın"
+  "pets.nappingDescription": "{{pet}} uyuyor. Evcil hayvanınızı tekrar hareket ettirmek için uyandırın ve 10 DP kazanın",
+  "bounties.board": "Hayvan Ödülleri"
 }

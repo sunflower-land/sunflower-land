@@ -3388,7 +3388,6 @@
   "bounties.animal.intro.one": "やあ、バンプキン！うーん、ここは何かすごくおいしい匂いがする！",
   "bounties.animal.intro.two": "ゴブリン達は探すことに*非常に*興味を持っている... エヘン...*親しみやすい*新しい農業仲間。",
   "bounties.animal.intro.three": "毎週、新しいお得な情報をお届けします。最高の動物を連れてきてくれれば、それに見合うようにしてあげよう。ただ... あまり質問しないで！",
-  "bounties.board": "バウンティボード",
   "bounties.board.info": "時間切れになる前に今週のバウンティをトレードしましょう。",
   "bounties.board.empty": "現在ご利用いただけるお得な情報はありません。",
   "bounties.sold": "売却",
@@ -8054,5 +8053,6 @@
   "petGuide.petHouse.description6": "品種制限：レベル1では、3種類の一般的なペットと1匹のNFTペットが許可されます。アップグレードすると、一般的なペットの品種が2種類追加され、NFT容量が3倍になり、レベル3では最大7種、NFTは7種類まで追加されます。",
   "petGuide.petHouse.description7": "各タイプのNFTペットは1匹のみ配置できます。ペットハウスにはつぼみを置くことはできません。",
   "pets.neglectPetDescription": "{{pet}} は無視されました。ペットの気力が落ちていて、回復するには少しサポートが必要です。元気を出してスピリットを回復させましょう。500 XPのコストがかかります",
-  "pets.nappingDescription": "{{pet}} は昼寝中です。ペットを起こすと再び動くようになり、10 XPを獲得できます"
+  "pets.nappingDescription": "{{pet}} は昼寝中です。ペットを起こすと再び動くようになり、10 XPを獲得できます",
+  "bounties.board": "アニマルバウンティ"
 }

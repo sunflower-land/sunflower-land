@@ -3388,7 +3388,6 @@
   "bounties.animal.intro.one": "Olá, Bumpkin! Mmmmmm, algo cheira muito gostoso aqui!",
   "bounties.animal.intro.two": "Os Goblins estão *muito* interessados em encontrar alguns... ahem... *amigáveis* novos companheiros agrícolas.",
   "bounties.animal.intro.three": "Toda semana, terei novas ofertas para você. Traga-me seus melhores animais, e eu farei com que valha a pena. Apenas... não faça muitas perguntas!",
-  "bounties.board": "Quadro de recompensas",
   "bounties.board.info": "Negocie as recompensas desta semana antes que o tempo acabe.",
   "bounties.board.empty": "Não há ofertas disponíveis no momento.",
   "bounties.sold": "Vendido",
@@ -8054,5 +8053,6 @@
   "petGuide.petHouse.description6": "Limites de raça: O nível 1 permite 3 raças de animais de estimação comuns e 1 animal de estimação NFT. Os upgrades adicionam +2 raças de animais de estimação comuns e +3 de capacidade de NFT, até 7 raças e 7 NFT no nível 3.",
   "petGuide.petHouse.description7": "Somente um animal de estimação NFT de cada tipo pode ser colocado. Os botões não podem ser colocados na casa de animais de estimação.",
   "pets.neglectPetDescription": "{{pet}} foi negligenciado. O ânimo do seu animal de estimação está baixo e ele precisa de um pouco de apoio para se recuperar. Anime-o para restaurar seu espírito — isso custará 500 XP",
-  "pets.nappingDescription": "{{pet}} está cochilando. Acorde seu animal de estimação para fazê-lo se mover novamente e ganhe 10 XP"
+  "pets.nappingDescription": "{{pet}} está cochilando. Acorde seu animal de estimação para fazê-lo se mover novamente e ganhe 10 XP",
+  "bounties.board": "Recompensas para animais"
 }

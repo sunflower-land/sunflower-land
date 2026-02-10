@@ -3388,7 +3388,6 @@
   "bounties.animal.intro.one": "Halo Bumpkin! Mmmmmm, ada sesuatu yang sangat enak di sini!",
   "bounties.animal.intro.two": "Para Goblin *sungguh* tertarik untuk menemukan beberapa... ahem... * sahabat* teman pertanian baru.",
   "bounties.animal.intro.three": "Setiap minggu, aku akan memiliki penawaran baru untukmu. Bawakan aku hewan-hewan terbaikmu, dan aku akan membuatnya sepadan dengan waktumu. Hanya saja... jangan bertanya terlalu banyak!",
-  "bounties.board": "Papan hadiah",
   "bounties.board.info": "Perdagangkan hadiah minggu ini sebelum waktu habis.",
   "bounties.board.empty": "Tidak ada penawaran yang tersedia saat ini.",
   "bounties.sold": "Terjual",
@@ -8054,5 +8053,6 @@
   "petGuide.petHouse.description6": "Batas jenis: Level 1 memungkinkan 3 jenis hewan peliharaan umum dan 1 hewan peliharaan NFT. Peningkatan menambahkan +2 breed hewan peliharaan umum dan +3 kapasitas NFT, hingga 7 breed dan 7 NFT di level 3.",
   "petGuide.petHouse.description7": "Hanya satu hewan peliharaan NFT dari setiap jenis yang dapat ditempatkan. Tunas tidak dapat ditempatkan di Rumah Hewan Peliharaan.",
   "pets.neglectPetDescription": "{{pet}} telah diabaikan. Semangat hewan peliharaan Anda rendah dan perlu sedikit dukungan untuk pulih. Bergembiralah untuk memulihkan semangatnya — ini akan menelan biaya 500 XP",
-  "pets.nappingDescription": "{{pet}} sedang tidur siang. Bangunkan hewan peliharaan Anda untuk membuatnya bergerak lagi dan dapatkan 10 XP"
+  "pets.nappingDescription": "{{pet}} sedang tidur siang. Bangunkan hewan peliharaan Anda untuk membuatnya bergerak lagi dan dapatkan 10 XP",
+  "bounties.board": "Hadiah Hewan"
 }
