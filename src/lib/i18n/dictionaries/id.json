@@ -8054,5 +8054,7 @@
   "petGuide.petHouse.description7": "Hanya satu hewan peliharaan NFT dari setiap jenis yang dapat ditempatkan. Tunas tidak dapat ditempatkan di Rumah Hewan Peliharaan.",
   "pets.neglectPetDescription": "{{pet}} telah diabaikan. Semangat hewan peliharaan Anda rendah dan perlu sedikit dukungan untuk pulih. Bergembiralah untuk memulihkan semangatnya — ini akan menelan biaya 500 XP",
   "pets.nappingDescription": "{{pet}} sedang tidur siang. Bangunkan hewan peliharaan Anda untuk membuatnya bergerak lagi dan dapatkan 10 XP",
-  "bounties.board": "Hadiah Hewan"
+  "bounties.board": "Hadiah Hewan",
+  "discordNews.like": "1 suka",
+  "discordNews.likes": "{{count}} suka"
 }

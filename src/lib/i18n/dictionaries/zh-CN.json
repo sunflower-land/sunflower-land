@@ -8054,5 +8054,7 @@
   "petGuide.petHouse.description7": "同类型的 NFT 宠物仅限安置一只。注意：蕾芽无法入住宠物屋。",
   "pets.neglectPetDescription": "{{pet}} 已被忽视。你的宠物精神低落，需要一点支撑才能恢复。为它加油以恢复精神 — 这将消耗 500 XP",
   "pets.nappingDescription": "{{pet}} 正在睡觉。叫醒你的宠物让它重新移动并获得 10 XP",
-  "bounties.board": "动物赏金"
+  "bounties.board": "动物赏金",
+  "discordNews.like": "1 个赞",
+  "discordNews.likes": "{{count}} 点赞"
 }

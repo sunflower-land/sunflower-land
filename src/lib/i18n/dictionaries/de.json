@@ -8054,5 +8054,7 @@
   "petGuide.petHouse.description7": "Es kann nur ein NFT-Haustier jedes Typs platziert werden. Knospen können nicht im Tierhaus platziert werden.",
   "pets.neglectPetDescription": "{{pet}} wurde vernachlässigt. Die Stimmung Ihres Haustiers ist schwach und es braucht ein wenig Unterstützung, um sich zu erholen. Muntert ihn auf, um seinen Geist wiederherzustellen — das kostet 500 XP",
   "pets.nappingDescription": "{{pet}} macht ein Nickerchen. Wecke dein Haustier auf, um es wieder in Bewegung zu bringen und verdiene 10 XP",
-  "bounties.board": "Tierprämien"
+  "bounties.board": "Tierprämien",
+  "discordNews.like": "1 gefällt",
+  "discordNews.likes": "{{count}} mag"
 }

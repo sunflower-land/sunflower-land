@@ -7959,6 +7959,8 @@
   "description.divingHelmet": "A relic from the depths of the ocean, worn by the bravest of fishermen.",
   "discordNews.postedOn": "Posted on {{date}} on Discord",
   "discordNews.postedAgo": "Posted {{time}} on Discord",
+  "discordNews.like": "1 like",
+  "discordNews.likes": "{{count}} likes",
   "fishingPuzzle.timeoutTitle": "Oh no, you weren't quick enough!",
   "fishingPuzzle.timeoutMessage": "Oh no, you weren't quick enough, you missed a map piece.",
   "instantProcessedResources.recipes": "Instant Recipes",

@@ -8054,5 +8054,7 @@
   "petGuide.petHouse.description7": "Un seul animal de compagnie NFT de chaque type peut être placé. Les bourgeons ne peuvent pas être placés dans la maison pour animaux de compagnie.",
   "pets.neglectPetDescription": "{{pet}} a été négligé. Le moral de votre animal est bas et il a besoin d'un peu de soutien pour se rétablir. Encouragez-le pour lui redonner le moral : cela vous coûtera 500 points d'expérience",
   "pets.nappingDescription": "{{pet}} fait la sieste. Réveillez votre animal de compagnie pour le faire bouger à nouveau et gagner 10 points d'expérience",
-  "bounties.board": "Primes pour animaux"
+  "bounties.board": "Primes pour animaux",
+  "discordNews.like": "1 J'aime",
+  "discordNews.likes": "{{count}} aime"
 }

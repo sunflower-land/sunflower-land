@@ -8054,5 +8054,7 @@
   "petGuide.petHouse.description7": "Somente um animal de estimação NFT de cada tipo pode ser colocado. Os botões não podem ser colocados na casa de animais de estimação.",
   "pets.neglectPetDescription": "{{pet}} foi negligenciado. O ânimo do seu animal de estimação está baixo e ele precisa de um pouco de apoio para se recuperar. Anime-o para restaurar seu espírito — isso custará 500 XP",
   "pets.nappingDescription": "{{pet}} está cochilando. Acorde seu animal de estimação para fazê-lo se mover novamente e ganhe 10 XP",
-  "bounties.board": "Recompensas para animais"
+  "bounties.board": "Recompensas para animais",
+  "discordNews.like": "1 curtir",
+  "discordNews.likes": "{{count}} curtidas"
 }

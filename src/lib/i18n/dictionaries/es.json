@@ -8054,5 +8054,7 @@
   "petGuide.petHouse.description7": "Solo se puede colocar una mascota NFT de cada tipo. Los cogollos no se pueden colocar en la caseta de mascotas.",
   "pets.neglectPetDescription": "Se ha omitido {{pet}}. La mascota está deprimida y necesita un poco de apoyo para recuperarse. Anímala para que recupere su espíritu. Esto te costará 500 puntos de experiencia",
   "pets.nappingDescription": "{{pet}} está durmiendo una siesta. Despierta a tu mascota para que vuelva a moverse y conseguir 10 XP",
-  "bounties.board": "Recompensas por animales"
+  "bounties.board": "Recompensas por animales",
+  "discordNews.like": "1 me gusta",
+  "discordNews.likes": "{{count}} me gusta"
 }

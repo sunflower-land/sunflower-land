@@ -8054,5 +8054,7 @@
   "petGuide.petHouse.description7": "各タイプのNFTペットは1匹のみ配置できます。ペットハウスにはつぼみを置くことはできません。",
   "pets.neglectPetDescription": "{{pet}} は無視されました。ペットの気力が落ちていて、回復するには少しサポートが必要です。元気を出してスピリットを回復させましょう。500 XPのコストがかかります",
   "pets.nappingDescription": "{{pet}} は昼寝中です。ペットを起こすと再び動くようになり、10 XPを獲得できます",
-  "bounties.board": "アニマルバウンティ"
+  "bounties.board": "アニマルバウンティ",
+  "discordNews.like": "1 いいね",
+  "discordNews.likes": "{{count}} いいね"
 }

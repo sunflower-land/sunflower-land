@@ -8054,5 +8054,7 @@
   "petGuide.petHouse.description7": "È possibile piazzare un solo animale domestico NFT di ogni tipo. I boccioli non possono essere collocati nella Pet House.",
   "pets.neglectPetDescription": "{{pet}} è stato trascurato. Il morale del tuo animale domestico è basso e ha bisogno di un po' di supporto per riprendersi. Rallegralo per ripristinare il suo spirito: costerà 500 XP",
   "pets.nappingDescription": "{{pet}} sta sonnecchiando. Sveglia il tuo animaletto per farlo ripartire e guadagnare 10 XP",
-  "bounties.board": "Taglie per animali"
+  "bounties.board": "Taglie per animali",
+  "discordNews.like": "1 mi piace",
+  "discordNews.likes": "{{count}} piace"
 }

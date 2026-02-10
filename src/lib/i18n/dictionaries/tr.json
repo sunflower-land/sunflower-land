@@ -8054,5 +8054,7 @@
   "petGuide.petHouse.description7": "Her türden yalnızca bir NFT evcil hayvan yerleştirilebilir. Tomurcuklar Evcil Hayvan Evi'ne yerleştirilemez.",
   "pets.neglectPetDescription": "{{pet}} ihmal edildi. Evcil hayvanınızın ruhu düşük ve iyileşmesi için biraz desteğe ihtiyacı var. Ruhunu geri kazanmak için neşelendirin - bu 500 DP'ye mal olacak",
   "pets.nappingDescription": "{{pet}} uyuyor. Evcil hayvanınızı tekrar hareket ettirmek için uyandırın ve 10 DP kazanın",
-  "bounties.board": "Hayvan Ödülleri"
+  "bounties.board": "Hayvan Ödülleri",
+  "discordNews.like": "1 beğen",
+  "discordNews.likes": "{{count}} beğeniler"
 }
