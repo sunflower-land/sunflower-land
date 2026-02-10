@@ -7939,6 +7939,7 @@
   "waterTrap.catch": "Catch",
   "waterTrap.loreMessage": "This spot looks like a trap... something a marine creature would only fall into. Perhaps with more experience, you'll learn how to use it.",
   "waterTrap.noChumsAvailable": "No chums available",
+  "waterTrap.noChumSelected": "No chum selected",
   "fishing.yourCatch": "Your Catch",
   "fishing.missedFish": "Fish that got away!",
   "fishing.notEnoughBait": "You don't have enough {{bait}}!",

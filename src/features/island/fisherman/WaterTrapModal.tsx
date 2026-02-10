@@ -222,7 +222,7 @@ export const WaterTrapModal: React.FC<Props> = ({
                 </div>
               </InnerPanel>
             )}
-            {selectedChum && (
+            {selectedChum ? (
               <InnerPanel className="p-2">
                 <div className="flex justify-between">
                   {hasEnoughChum ? (
@@ -258,6 +258,23 @@ export const WaterTrapModal: React.FC<Props> = ({
                 </div>
                 <p className="text-xs ml-1">{CHUM_DETAILS[selectedChum]}</p>
               </InnerPanel>
+            ) : (
+              <InnerPanel className="p-2">
+                <div className="flex justify-between">
+                  <Label type="default" className="mb-1 ml-1">
+                    {t("waterTrap.noChumSelected")}
+                  </Label>
+                  {showResultingCatch && (
+                    <Label
+                      type="default"
+                      className="mb-1 ml-1"
+                      icon={ITEM_DETAILS[catchForSelectedChum].image}
+                    >
+                      {catchForSelectedChum}
+                    </Label>
+                  )}
+                </div>
+              </InnerPanel>
             )}
           </div>
           <Button
@@ -265,7 +282,7 @@ export const WaterTrapModal: React.FC<Props> = ({
             disabled={!hasTrap || !isValidChumForTrap || !hasEnoughChum}
             className="w-full"
           >
-            {catchForSelectedChum
+            {catchForSelectedChum && showResultingCatch
               ? t("waterTrap.placeTrap", { crustacean: catchForSelectedChum })
               : t("waterTrap.place")}
           </Button>
