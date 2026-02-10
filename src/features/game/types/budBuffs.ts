@@ -1,7 +1,7 @@
 import mainnetBuds from "lib/buds/buds";
-import testnetBuds from "lib/buds/testnet-buds";
 
 import { BuffLabel } from ".";
+import type { Bud } from "./buds";
 import { AdditionalBoostInfoBuffLabel } from "./collectibleItemBuffs";
 import { translate } from "lib/i18n/translate";
 
@@ -9,9 +9,8 @@ import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "./images";
-import { CONFIG } from "lib/config";
 
-const buds = CONFIG.NETWORK === "amoy" ? testnetBuds : mainnetBuds;
+const buds = mainnetBuds;
 
 export const getBudTraits = (budId: number) => {
   const bud = buds[budId];
@@ -201,6 +200,36 @@ const getStemBoost = (stem: string) => {
   return buffs;
 };
 
+/** Numeric multiplier used in game logic (getBudYieldBoosts). Used to show effective % in modal. */
+const getAuraMultiplier = (aura: string): number => {
+  if (aura === "Basic") return 1.05;
+  if (aura === "Green") return 1.2;
+  if (aura === "Rare") return 2;
+  if (aura === "Mythical") return 5;
+  return 1;
+};
+
+/**
+ * Apply aura multiplier to a boostValue string so the modal shows effective boost (e.g. 10% × 1.05 = 10.5%).
+ */
+const applyAuraToBoostValue = (
+  boostValue: string,
+  auraMultiplier: number,
+): string => {
+  if (auraMultiplier === 1) return boostValue;
+  const match = boostValue.match(/^([+-]?)(\d+(?:\.\d+)?)(%?)$/);
+  if (!match) return boostValue;
+  const [, _sign, numStr, pct] = match;
+  const num = Number(numStr);
+  const isPercent = pct === "%";
+  const decimal = isPercent ? num / 100 : num;
+  const effective = decimal * auraMultiplier;
+  const signChar = effective >= 0 ? "+" : "";
+  return isPercent
+    ? `${signChar}${(effective * 100).toFixed(1)}%`
+    : `${signChar}${effective.toFixed(2)}`;
+};
+
 const getAuraBoost = (aura: string) => {
   const buffs: AdditionalBoostInfoBuffLabel[] = [];
 
@@ -361,8 +390,13 @@ const getTypeBoost = (type: string) => {
   return buffs;
 };
 
-export const getBudBuffs = (budId: number): BuffLabel[] => {
-  const bud = buds[budId];
+/**
+ * Returns buff labels for display (e.g. boost modal).
+ * Uses budFromState when provided (player's actual traits) so aura percentage
+ * is correct; otherwise falls back to mainnet bud data.
+ */
+export const getBudBuffs = (budId: number, budFromState?: Bud): BuffLabel[] => {
+  const bud = budFromState ?? buds[budId];
   if (!bud) {
     return [];
   }
@@ -373,5 +407,16 @@ export const getBudBuffs = (budId: number): BuffLabel[] => {
   const stemBuffs = getStemBoost(stem);
   const auraBuffs = getAuraBoost(aura);
 
-  return [...typeBuffs, ...stemBuffs, ...auraBuffs];
+  const auraMultiplier = getAuraMultiplier(aura);
+  const applyAura = (buffs: AdditionalBoostInfoBuffLabel[]) =>
+    buffs.map((buff) =>
+      buff.boostValue
+        ? {
+            ...buff,
+            boostValue: applyAuraToBoostValue(buff.boostValue, auraMultiplier),
+          }
+        : buff,
+    );
+
+  return [...applyAura(typeBuffs), ...applyAura(stemBuffs), ...auraBuffs];
 };
