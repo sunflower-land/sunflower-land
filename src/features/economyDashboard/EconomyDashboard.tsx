@@ -17,6 +17,7 @@ import {
 import { useAuth } from "features/auth/lib/Provider";
 import { ResourceSection } from "./components/ResourceSection";
 import { AnalyticsSection } from "./components/AnalyticsSection";
+import { useSafeAreaPaddingTop } from "lib/utils/hooks/useSafeAreaPaddingTop";
 
 const formatDateInput = (date: Date) =>
   date.toISOString().split("T")[0] as string;
@@ -39,6 +40,7 @@ export const EconomyDashboard: React.FC = () => {
   const { pathname } = useLocation();
   const isInternalRoute = pathname.includes("/game");
   const { authState } = useAuth();
+  const safeAreaPaddingTop = useSafeAreaPaddingTop(30);
 
   const [startDate, setStartDate] = useState(initialStartDate);
   const [endDate, setEndDate] = useState(initialEndDate);
@@ -133,7 +135,10 @@ export const EconomyDashboard: React.FC = () => {
 
   if (error) {
     return (
-      <div className="bg-[#181425] w-full h-full safe-area-inset-top safe-area-inset-bottom">
+      <div
+        className="bg-[#181425] w-full h-full safe-area-inset-bottom"
+        style={{ paddingTop: safeAreaPaddingTop }}
+      >
         <Panel className="inset-0 fixed pointer-events-auto">
           <div className="relative flex w-full justify-between pr-10 items-center  mr-auto h-[70px] mb-2">
             <div
@@ -174,7 +179,10 @@ export const EconomyDashboard: React.FC = () => {
   }
 
   return (
-    <div className="bg-[#181425] w-full h-full safe-area-inset-top safe-area-inset-bottom">
+    <div
+      className="bg-[#181425] w-full h-full safe-area-inset-bottom"
+      style={{ paddingTop: safeAreaPaddingTop }}
+    >
       <Panel className="inset-0 fixed pointer-events-auto flex flex-col overflow-y-auto scrollable">
         <div className="relative flex w-full justify-between pr-10 items-center  mr-auto h-[70px] mb-2">
           <div

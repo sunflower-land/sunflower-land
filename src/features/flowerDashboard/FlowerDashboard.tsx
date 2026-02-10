@@ -27,6 +27,7 @@ import { getFlowerDashboard } from "./actions/getFlowerDashboard";
 import { LastUpdatedAt } from "components/LastUpdatedAt";
 import { Modal } from "components/ui/Modal";
 import { FlowerRewards } from "./FlowerRewards";
+import { useSafeAreaPaddingTop } from "lib/utils/hooks/useSafeAreaPaddingTop";
 
 const TOTAL_SUPPLY = 256000000;
 
@@ -41,6 +42,7 @@ export const FlowerDashboard = () => {
   );
 
   const { pathname } = useLocation();
+  const safeAreaPaddingTop = useSafeAreaPaddingTop(30);
 
   const isInternalRoute = pathname.includes("/game");
 
@@ -74,7 +76,10 @@ export const FlowerDashboard = () => {
 
   if (error) {
     return (
-      <div className="bg-[#181425] w-full h-full safe-area-inset-top safe-area-inset-bottom">
+      <div
+        className="bg-[#181425] w-full h-full safe-area-inset-bottom"
+        style={{ paddingTop: safeAreaPaddingTop }}
+      >
         <Panel className="inset-0 fixed pointer-events-auto">
           <div className="relative flex w-full justify-between pr-10 items-center  mr-auto h-[70px] mb-2">
             <div
@@ -127,7 +132,10 @@ export const FlowerDashboard = () => {
 
   return (
     <>
-      <div className="bg-[#181425] w-full h-full safe-area-inset-top safe-area-inset-bottom">
+      <div
+        className="bg-[#181425] w-full h-full safe-area-inset-bottom"
+        style={{ paddingTop: safeAreaPaddingTop }}
+      >
         <Panel className="inset-0 fixed pointer-events-auto flex flex-col overflow-y-auto scrollable">
           <div className="relative flex w-full justify-between pr-10 items-center  mr-auto h-[70px] mb-2">
             <div
