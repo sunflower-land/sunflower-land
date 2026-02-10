@@ -33,7 +33,7 @@ describe("collectWaterTrap", () => {
     ).toThrow("No water trap placed at this spot");
   });
 
-  it("requires the trap to have been picked up (caught field exists)", () => {
+  it("rejects collection when trap is not ready yet", () => {
     expect(() =>
       collectWaterTrap({
         state: {
@@ -47,6 +47,7 @@ describe("collectWaterTrap", () => {
                   type: "Crab Pot",
                   placedAt: createdAt - 1000,
                   readyAt: createdAt + 4 * 60 * 60 * 1000,
+                  caught: { Isopod: 1 },
                 },
               },
             },
@@ -58,7 +59,7 @@ describe("collectWaterTrap", () => {
         },
         createdAt,
       }),
-    ).toThrow("Trap has not been picked up yet");
+    ).toThrow("Trap is not ready to collect yet");
   });
 
   it("collects items from a picked up trap", () => {
@@ -163,7 +164,7 @@ describe("collectWaterTrap", () => {
                 type: "Crab Pot",
                 placedAt: createdAt - 1000,
                 readyAt: createdAt - 1000,
-                caught: { Crab: 1 },
+                caught: { "Blue Crab": 1 },
               },
             },
           },

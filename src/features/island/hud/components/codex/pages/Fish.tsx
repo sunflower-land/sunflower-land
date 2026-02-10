@@ -21,7 +21,13 @@ import {
   MAP_PIECE_MARVELS,
   MarineMarvelName,
 } from "features/game/types/fishing";
-import { CRUSTACEANS, CrustaceanName } from "features/game/types/crustaceans";
+import {
+  CRUSTACEANS,
+  CRUSTACEANS_LOOKUP,
+  CrustaceanName,
+  CrustaceanChum,
+  WaterTrapName,
+} from "features/game/types/crustaceans";
 import { Detail } from "../components/Detail";
 import { GameState } from "features/game/types/game";
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
@@ -41,11 +47,6 @@ import {
 } from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
 import { Box } from "components/ui/Box";
-import { useAuth } from "features/auth/lib/Provider";
-import {
-  loadCrustaceanChums,
-  CrustaceanChumMapping,
-} from "../actions/loadCrustaceanChums";
 
 const FISH_BY_TYPE = getFishByType();
 
@@ -56,15 +57,11 @@ type Props = {
 
 export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
   const { gameService } = useContext(Context);
-  const { authState } = useAuth();
   const [selectedFish, setSelectedFish] = useState<
     FishName | MarineMarvelName
   >();
   const [selectedCrustacean, setSelectedCrustacean] =
     useState<CrustaceanName>();
-  const [chumMapping, setChumMapping] = useState<CrustaceanChumMapping | null>(
-    null,
-  );
   const [snapToSection, setSnapToSection] = useState<string | null>(null);
   const now = useNow();
 
@@ -76,37 +73,51 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const caughtCrustaceans = CRUSTACEANS.filter(
-      (name) => (farmActivity[`${name} Caught`] ?? 0) > 0,
-    );
+  const caughtCrustaceans = CRUSTACEANS.filter(
+    (name) => (farmActivity[`${name} Caught`] ?? 0) > 0,
+  );
 
-    let isCancelled = false;
+  // Filter mapping to only include caught crustaceans
+  // with the chum that was used to catch them
+  const chumMapping = caughtCrustaceans.reduce(
+    (acc, name: CrustaceanName) => {
+      let waterTrap: WaterTrapName | undefined;
+      const chumsForCrustacean: CrustaceanChum[] = [];
 
-    const loadChums = async () => {
-      try {
-        const data = await loadCrustaceanChums(
-          authState.context.user.rawToken!,
-          caughtCrustaceans,
-        );
-        if (!isCancelled) {
-          setChumMapping(data);
-        }
-      } catch (error) {
-        if (!isCancelled) {
-          setChumMapping({} as CrustaceanChumMapping);
-        }
+      (["Crab Pot", "Mariner Pot"] as WaterTrapName[]).forEach((trapType) => {
+        const mapping = CRUSTACEANS_LOOKUP[trapType];
+
+        Object.entries(mapping).forEach(([chumKey, mappedName]) => {
+          if (mappedName === name) {
+            waterTrap = trapType;
+
+            if (chumKey !== "none") {
+              chumsForCrustacean.push(chumKey as CrustaceanChum);
+            }
+          }
+        });
+      });
+
+      if (!waterTrap) {
+        return acc;
       }
-    };
 
-    loadChums();
+      const chumsUsed = chumsForCrustacean.filter((chum) => {
+        return (farmActivity[`${name} Caught with ${chum}`] ?? 0) > 0;
+      });
 
-    return () => {
-      isCancelled = true;
-    };
-  }, [farmActivity, authState.context.user.rawToken]);
+      acc[name] = {
+        chums: chumsUsed,
+        waterTrap,
+      };
 
-  const isLoadingChums = chumMapping === null;
+      return acc;
+    },
+    {} as Record<
+      CrustaceanName,
+      { chums: CrustaceanChum[]; waterTrap: WaterTrapName }
+    >,
+  );
 
   // Snap scroll to section when navigating back from detail view
   useEffect(() => {
@@ -185,16 +196,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
               </Label>
               {hasCaught && (
                 <>
-                  {isLoadingChums ? (
-                    <Label
-                      type="default"
-                      className="px-0.5 text-xxs whitespace-nowrap mr-4 mb-1"
-                      icon={SUNNYSIDE.icons.timer}
-                    >
-                      {t("loading")}
-                    </Label>
-                  ) : (
-                    chums.length > 0 &&
+                  {chums.length > 0 &&
                     chums.map((chum) => (
                       <Label
                         key={chum}
@@ -205,8 +207,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
                       >
                         {chum}
                       </Label>
-                    ))
-                  )}
+                    ))}
                 </>
               )}
             </div>
