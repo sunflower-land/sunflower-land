@@ -19,8 +19,14 @@ import lockIcon from "assets/icons/lock.png";
 import switchIcon from "assets/icons/switch.webp";
 import sflIcon from "assets/icons/flower_token.webp";
 import tradeIcon from "assets/icons/trade.png";
+import infoIcon from "assets/icons/info.webp";
 import { useGame } from "features/game/GameProvider";
 import { getResourceTax } from "features/game/types/marketplace";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import { InnerPanel } from "components/ui/Panel";
+
+const LISTING_MULTIPLE_MIN = 1;
+const MAX_LISTINGS_OF_RESOURCE_FOR_BULK = 20;
 
 type Props = {
   inventoryCount: Decimal;
@@ -31,6 +37,11 @@ type Props = {
   quantity: number;
   setPrice: (price: number) => void;
   setQuantity: (quantity: number) => void;
+  /** How many identical listings to create (1–20). Shown only for resources. */
+  multiple: number;
+  setMultiple: (value: number) => void;
+  /** Max allowed multiple given current listing count for this resource (e.g. 20 - currentCount). */
+  maxMultiple: number;
   onCancel: () => void;
   onList: (
     items: Partial<Record<InventoryItemName, number>>,
@@ -50,6 +61,9 @@ export const ResourceList: React.FC<Props> = ({
   quantity,
   setPrice,
   setQuantity,
+  multiple,
+  setMultiple,
+  maxMultiple,
   onCancel,
   onList,
 }) => {
@@ -168,121 +182,201 @@ export const ResourceList: React.FC<Props> = ({
         </div>
 
         <div className="flex">
-          <div className="w-1/2 mr-1">
-            <div className="flex items-center">
-              <Label
-                icon={SUNNYSIDE.icons.basket}
-                className="my-1 ml-2"
-                type="default"
-              >
-                {t("bumpkinTrade.quantity")}
-              </Label>
-              {new Decimal(quantity).greaterThan(
-                TRADE_LIMITS[itemName] ?? 0,
-              ) && (
+          <div className="flex">
+            <div className="w-1/2 mr-1">
+              <div className="flex items-center">
                 <Label
-                  type="danger"
-                  className="my-1 ml-2 mr-1 whitespace-nowrap"
+                  icon={SUNNYSIDE.icons.basket}
+                  className="my-1 ml-2"
+                  type="default"
                 >
-                  {t("bumpkinTrade.max", { max: TRADE_LIMITS[itemName] ?? 0 })}
+                  {t("bumpkinTrade.quantity")}
                 </Label>
-              )}
-              {tooLittle && (
-                <Label
-                  type="danger"
-                  className="my-1 ml-2 mr-1 whitespace-nowrap"
-                >
-                  {t("bumpkinTrade.min", {
-                    min: TRADE_MINIMUMS[itemName] ?? 0,
-                  })}
-                </Label>
-              )}
-            </div>
-
-            <NumberInput
-              value={quantity}
-              maxDecimalPlaces={0}
-              isOutOfRange={
-                inventoryCount.lt(quantity) ||
-                new Decimal(quantity).greaterThan(
+                {new Decimal(quantity).greaterThan(
                   TRADE_LIMITS[itemName] ?? 0,
-                ) ||
-                new Decimal(quantity).equals(0)
-              }
-              onValueChange={(value) => {
-                setQuantity(value.toNumber());
+                ) && (
+                  <Label
+                    type="danger"
+                    className="my-1 ml-2 mr-1 whitespace-nowrap"
+                  >
+                    {t("bumpkinTrade.max", {
+                      max: TRADE_LIMITS[itemName] ?? 0,
+                    })}
+                  </Label>
+                )}
+                {tooLittle && (
+                  <Label
+                    type="danger"
+                    className="my-1 ml-2 mr-1 whitespace-nowrap"
+                  >
+                    {t("bumpkinTrade.min", {
+                      min: TRADE_MINIMUMS[itemName] ?? 0,
+                    })}
+                  </Label>
+                )}
+              </div>
 
-                // auto generate price
-                if (floorPrice) {
-                  const estimated = setPrecision(
-                    new Decimal(floorPrice).mul(value),
-                  );
-                  setPrice(estimated.toNumber());
-                  setPricePerUnit(
-                    new Decimal(estimated).dividedBy(value).toNumber(),
-                  );
+              <NumberInput
+                value={quantity}
+                maxDecimalPlaces={0}
+                isOutOfRange={
+                  inventoryCount.lt(quantity) ||
+                  new Decimal(quantity).greaterThan(
+                    TRADE_LIMITS[itemName] ?? 0,
+                  ) ||
+                  new Decimal(quantity).equals(0)
                 }
-              }}
-            />
-          </div>
-          <div className="flex-1 flex flex-col items-end">
-            <div className="flex items-center">
-              {new Decimal(pricePerUnit * quantity).greaterThan(MAX_SFL) && (
-                <Label type="danger" className="my-1 ml-2 mr-1">
-                  {t("bumpkinTrade.max", { max: MAX_SFL })}
-                </Label>
-              )}
-              <Label
-                icon={sflIcon}
-                secondaryIcon={switchIcon}
-                type="default"
-                className="my-1 ml-2 mr-2 cursor-pointer whitespace-nowrap"
-                onClick={() =>
-                  setInputType(inputType === "price" ? "pricePerUnit" : "price")
-                }
-              >
-                {inputType === "pricePerUnit"
-                  ? t("marketplace.label.pricePerUnit")
-                  : t("bumpkinTrade.price")}
-              </Label>
-            </div>
-            <NumberInput
-              value={inputType === "pricePerUnit" ? pricePerUnit : price}
-              maxDecimalPlaces={4}
-              isRightAligned={true}
-              isOutOfRange={
-                maxSFL ||
-                new Decimal(
-                  inputType === "pricePerUnit" ? pricePerUnit : price,
-                ).equals(0) ||
-                isTooHigh ||
-                isTooLow
-              }
-              onValueChange={(value) => {
-                if (inputType === "pricePerUnit") {
-                  if (value.equals(setPrecision(pricePerUnit, 4))) return;
+                onValueChange={(value) => {
+                  setQuantity(value.toNumber());
 
-                  setPricePerUnit(value.toNumber());
-                  setPrice(new Decimal(value).mul(quantity).toNumber());
-                } else {
-                  setPrice(value.toNumber());
-                  if (quantity > 0) {
+                  // auto generate price
+                  if (floorPrice) {
+                    const estimated = setPrecision(
+                      new Decimal(floorPrice).mul(value),
+                    );
+                    setPrice(estimated.toNumber());
                     setPricePerUnit(
-                      new Decimal(value).dividedBy(quantity).toNumber(),
+                      new Decimal(estimated).dividedBy(value).toNumber(),
                     );
                   }
-                }
+                }}
+              />
+            </div>
+            <div className="flex-1 flex items-end">
+              <div className="flex flex-col">
+                <div className="flex items-center justify-end">
+                  {new Decimal(pricePerUnit * quantity).greaterThan(
+                    MAX_SFL,
+                  ) && (
+                    <Label type="danger" className="my-1 ml-2 mr-1">
+                      {t("bumpkinTrade.max", { max: MAX_SFL })}
+                    </Label>
+                  )}
+                  <Label
+                    icon={sflIcon}
+                    secondaryIcon={switchIcon}
+                    type="default"
+                    className="my-1 ml-2 mr-2 cursor-pointer whitespace-nowrap"
+                    onClick={() =>
+                      setInputType(
+                        inputType === "price" ? "pricePerUnit" : "price",
+                      )
+                    }
+                  >
+                    {inputType === "pricePerUnit"
+                      ? t("marketplace.label.pricePerUnit")
+                      : t("bumpkinTrade.price")}
+                  </Label>
+                </div>
+                <div className="flex items-center w-full justify-end">
+                  <NumberInput
+                    isRightAligned={true}
+                    value={inputType === "pricePerUnit" ? pricePerUnit : price}
+                    maxDecimalPlaces={4}
+                    isOutOfRange={
+                      maxSFL ||
+                      new Decimal(
+                        inputType === "pricePerUnit" ? pricePerUnit : price,
+                      ).equals(0) ||
+                      isTooHigh ||
+                      isTooLow
+                    }
+                    onValueChange={(value) => {
+                      if (inputType === "pricePerUnit") {
+                        if (value.equals(setPrecision(pricePerUnit, 4))) return;
+
+                        setPricePerUnit(value.toNumber());
+                        setPrice(new Decimal(value).mul(quantity).toNumber());
+                      } else {
+                        setPrice(value.toNumber());
+                        if (quantity > 0) {
+                          setPricePerUnit(
+                            new Decimal(value).dividedBy(quantity).toNumber(),
+                          );
+                        }
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* Number of identical listings to create (1–20). Small two-digit input. */}
+          <div
+            className="flex flex-col items-end justify-between flex-shrink-0"
+            style={{ width: 44 }}
+          >
+            <Label
+              className="h-[26px] w-[30px] my-1 relative mr-0.5"
+              type="default"
+            >
+              <div className="absolute -top-1 pl-0.5 text-sm">{"#"}</div>
+            </Label>
+            <NumberInput
+              value={multiple}
+              isRightAligned={true}
+              maxDecimalPlaces={0}
+              isOutOfRange={
+                multiple < LISTING_MULTIPLE_MIN || multiple > maxMultiple
+              }
+              onValueChange={(value) => {
+                const n = Math.round(value.toNumber());
+                setMultiple(
+                  Math.min(
+                    maxMultiple,
+                    Math.max(LISTING_MULTIPLE_MIN, isNaN(n) ? 1 : n),
+                  ),
+                );
               }}
             />
           </div>
         </div>
-        <Label type="default" icon={lockIcon} className="my-1 ml-1">
-          {t("marketplace.resourcesSecured")}
-        </Label>
+        <div className="flex items-center justify-between">
+          <Label type="default" icon={lockIcon} className="my-1 ml-1">
+            {t("marketplace.resourcesSecured")}
+          </Label>
+          <Popover>
+            <PopoverButton as="div" className="cursor-pointer">
+              <Label
+                type="default"
+                secondaryIcon={infoIcon}
+                className="my-1 ml-2 mr-1"
+              >
+                {`Max bulk: ${maxMultiple}`}
+              </Label>
+            </PopoverButton>
+            <PopoverPanel
+              anchor={{ to: "bottom end" }}
+              className="flex mt-1 pointer-events-none"
+            >
+              <InnerPanel>
+                <p className="text-xxs w-40 px-0.5">
+                  {t("marketplace.maxBulk", {
+                    max: MAX_LISTINGS_OF_RESOURCE_FOR_BULK,
+                  })}
+                </p>
+              </InnerPanel>
+            </PopoverPanel>
+          </Popover>
+        </div>
         <div className="text-xxs mb-1.5">
           {t("marketplace.resourcesSecuredWarning")}
         </div>
 
+        {multiple > 1 && (
+          <div
+            className="flex justify-between"
+            style={{
+              borderBottom: "1px solid #ead4aa",
+              padding: "5px 5px 5px 2px",
+            }}
+          >
+            <span className="text-xs"> {t("marketplace.totalItems")}</span>
+            <p className="text-xs font-secondary">{`${formatNumber(
+              quantity * multiple,
+            )} ${itemName}`}</p>
+          </div>
+        )}
         <div
           className="flex justify-between"
           style={{
@@ -362,6 +456,8 @@ export const ResourceList: React.FC<Props> = ({
               ) ||
               new Decimal(quantity).equals(0) || // Disable when quantity is 0
               new Decimal(price).equals(0) || // Disable when sfl is 0
+              multiple < LISTING_MULTIPLE_MIN ||
+              multiple > maxMultiple ||
               isSaving
             }
             onClick={() => onList({ [itemName]: quantity }, price)}
