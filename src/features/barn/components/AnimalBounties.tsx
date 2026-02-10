@@ -42,12 +42,14 @@ interface Props {
   type: InventoryItemName[];
   onExchanging: (deal: AnimalBounty) => void;
   reward?: "coins" | "tickets";
+  readonly?: boolean;
 }
 
 export const AnimalBounties: React.FC<Props> = ({
   type,
   onExchanging,
   reward,
+  readonly,
 }) => {
   const { gameService } = useContext(Context);
   const exchange = useSelector(gameService, _exchange);
@@ -58,19 +60,18 @@ export const AnimalBounties: React.FC<Props> = ({
   const state = gameService.getSnapshot().context.state;
   const { requests = [] } = exchange;
 
-  let deals = requests.filter((deal) =>
-    type.includes(deal.name),
-  ) as AnimalBounty[];
+  const { deals, dealsByType } = useMemo(() => {
+    let filtered = requests.filter((deal) =>
+      type.includes(deal.name),
+    ) as AnimalBounty[];
 
-  if (reward === "tickets") {
-    deals = deals.filter((deal) => deal.items?.[chapterTicket] !== undefined);
-  }
+    if (reward === "tickets") {
+      filtered = filtered.filter(
+        (deal) => deal.items?.[chapterTicket] !== undefined,
+      );
+    }
 
-  const expiresAt = useCountdown(weekResetsAt());
-  const hasDeals = deals.length > 0;
-
-  const dealsByType = useMemo(() => {
-    const grouped = deals.reduce(
+    const grouped = filtered.reduce(
       (acc, deal) => {
         if (deal.coins !== undefined) {
           acc.coins = acc.coins ?? [];
@@ -89,15 +90,22 @@ export const AnimalBounties: React.FC<Props> = ({
     );
 
     // Sort each array by level
-    Object.values(grouped).forEach((deals) => {
-      deals.sort((a, b) => a.level - b.level);
+    Object.values(grouped).forEach((arr) => {
+      arr.sort((a, b) => a.level - b.level);
     });
 
-    return grouped;
-  }, [deals]);
+    return { deals: filtered, dealsByType: grouped };
+  }, [requests, type, reward, chapterTicket]);
+
+  const expiresAt = useCountdown(weekResetsAt());
+  const hasDeals = deals.length > 0;
 
   return (
-    <InnerPanel className="overflow-y-auto max-h-[500px] scrollable">
+    <InnerPanel
+      className={classNames({
+        "overflow-y-auto max-h-[500px] scrollable": !readonly,
+      })}
+    >
       <div className="p-1">
         <div className="flex justify-between items-center mb-2">
           <Label type="default">{t("bounties.board")}</Label>
@@ -124,7 +132,7 @@ export const AnimalBounties: React.FC<Props> = ({
 
           return (
             <div key={itemType}>
-              {/* <Label
+              <Label
                 type="default"
                 icon={
                   itemType === "coins"
@@ -134,7 +142,7 @@ export const AnimalBounties: React.FC<Props> = ({
                 className="mb-3 capitalize"
               >
                 {t("bountyType.label", { type: itemType })}
-              </Label> */}
+              </Label>
               <div className="flex flex-wrap">
                 {sortedDeals.map((deal) => (
                   <BountyCard
