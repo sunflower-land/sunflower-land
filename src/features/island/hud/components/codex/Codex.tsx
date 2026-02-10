@@ -42,7 +42,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { useNow } from "lib/utils/hooks/useNow";
-import { MegaBountyBoardContent } from "features/world/ui/flowerShop/MegaBountyBoard";
+import { ChapterBounties } from "./pages/ChapterBounties";
 
 interface Props {
   show: boolean;
@@ -262,7 +262,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               <Deliveries onClose={onHide} state={state} />
             )}
             {currentTab === "Chore Board" && <ChoreBoard state={state} />}
-            {currentTab === "Leaderboard" && <MegaBountyBoardContent />}
+            {currentTab === "Leaderboard" && <ChapterBounties />}
             {currentTab === "Checklist" && <Checklist />}
             {currentTab === "Fish" && (
               <Fish onMilestoneReached={handleMilestoneReached} state={state} />
