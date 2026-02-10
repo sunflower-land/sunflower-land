@@ -265,7 +265,9 @@ export const WaterTrapModal: React.FC<Props> = ({
             disabled={!hasTrap || !isValidChumForTrap || !hasEnoughChum}
             className="w-full"
           >
-            {t("waterTrap.place")}
+            {catchForSelectedChum
+              ? t("waterTrap.placeTrap", { crustacean: catchForSelectedChum })
+              : t("waterTrap.place")}
           </Button>
         </div>
       )}

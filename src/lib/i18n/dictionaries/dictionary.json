@@ -7934,6 +7934,7 @@
   "waterTrap.timeRemaining": "Time remaining",
   "waterTrap.selectChum": "Select chum:",
   "waterTrap.place": "Place trap",
+  "waterTrap.placeTrap": "Place {{crustacean}} trap",
   "waterTrap.placeDescription": "Place a water trap to catch marine creatures",
   "waterTrap.catch": "Catch",
   "waterTrap.loreMessage": "This spot looks like a trap... something a marine creature would only fall into. Perhaps with more experience, you'll learn how to use it.",
