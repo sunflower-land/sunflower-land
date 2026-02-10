@@ -8056,5 +8056,9 @@
   "pets.nappingDescription": "{{pet}} fait la sieste. Réveillez votre animal de compagnie pour le faire bouger à nouveau et gagner 10 points d'expérience",
   "bounties.board": "Primes pour animaux",
   "discordNews.like": "1 J'aime",
-  "discordNews.likes": "{{count}} aime"
+  "discordNews.likes": "{{count}} aime",
+  "waterTrap.placeTrap": "Placer le piège {{crustacean}}",
+  "waterTrap.noChumsAvailable": "Aucun copain disponible",
+  "waterTrap.noChumSelected": "Aucun ami sélectionné",
+  "guide.crustacean.availableChums": "Chums disponibles"
 }

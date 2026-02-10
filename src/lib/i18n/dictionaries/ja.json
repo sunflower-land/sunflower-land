@@ -8056,5 +8056,9 @@
   "pets.nappingDescription": "{{pet}} は昼寝中です。ペットを起こすと再び動くようになり、10 XPを獲得できます",
   "bounties.board": "アニマルバウンティ",
   "discordNews.like": "1 いいね",
-  "discordNews.likes": "{{count}} いいね"
+  "discordNews.likes": "{{count}} いいね",
+  "waterTrap.placeTrap": "{{crustacean}} トラップを配置",
+  "waterTrap.noChumsAvailable": "チャムはありません",
+  "waterTrap.noChumSelected": "チャムが選択されていません",
+  "guide.crustacean.availableChums": "利用可能なチャム"
 }

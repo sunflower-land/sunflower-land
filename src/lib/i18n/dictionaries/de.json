@@ -8056,5 +8056,9 @@
   "pets.nappingDescription": "{{pet}} macht ein Nickerchen. Wecke dein Haustier auf, um es wieder in Bewegung zu bringen und verdiene 10 XP",
   "bounties.board": "Tierprämien",
   "discordNews.like": "1 gefällt",
-  "discordNews.likes": "{{count}} mag"
+  "discordNews.likes": "{{count}} mag",
+  "waterTrap.placeTrap": "Platziere {{crustacean}} Falle",
+  "waterTrap.noChumsAvailable": "Keine Kumpel verfügbar",
+  "waterTrap.noChumSelected": "Kein Kumpel ausgewählt",
+  "guide.crustacean.availableChums": "Verfügbare Kumpel"
 }

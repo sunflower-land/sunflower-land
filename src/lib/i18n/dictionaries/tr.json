@@ -8056,5 +8056,9 @@
   "pets.nappingDescription": "{{pet}} uyuyor. Evcil hayvanınızı tekrar hareket ettirmek için uyandırın ve 10 DP kazanın",
   "bounties.board": "Hayvan Ödülleri",
   "discordNews.like": "1 beğen",
-  "discordNews.likes": "{{count}} beğeniler"
+  "discordNews.likes": "{{count}} beğeniler",
+  "waterTrap.placeTrap": "{{crustacean}} tuzağı yerleştirin",
+  "waterTrap.noChumsAvailable": "Mevcut arkadaş yok",
+  "waterTrap.noChumSelected": "Arkadaş seçilmedi",
+  "guide.crustacean.availableChums": "Mevcut Arkadaşlar"
 }

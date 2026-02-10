@@ -8056,5 +8056,9 @@
   "pets.nappingDescription": "{{pet}} sedang tidur siang. Bangunkan hewan peliharaan Anda untuk membuatnya bergerak lagi dan dapatkan 10 XP",
   "bounties.board": "Hadiah Hewan",
   "discordNews.like": "1 suka",
-  "discordNews.likes": "{{count}} suka"
+  "discordNews.likes": "{{count}} suka",
+  "waterTrap.placeTrap": "Tempatkan perangkap {{crustacean}}",
+  "waterTrap.noChumsAvailable": "Tidak ada teman yang tersedia",
+  "waterTrap.noChumSelected": "Tidak ada teman yang dipilih",
+  "guide.crustacean.availableChums": "Teman yang Tersedia"
 }

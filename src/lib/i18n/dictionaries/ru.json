@@ -8056,5 +8056,9 @@
   "pets.nappingDescription": "{{pet}} is napping. Wake your pet up to get it moving again and earn 10 XP",
   "bounties.board": "Animal Bounties",
   "discordNews.like": "1 like",
-  "discordNews.likes": "{{count}} likes"
+  "discordNews.likes": "{{count}} likes",
+  "waterTrap.placeTrap": "Place {{crustacean}} trap",
+  "waterTrap.noChumsAvailable": "No chums available",
+  "waterTrap.noChumSelected": "No chum selected",
+  "guide.crustacean.availableChums": "Available Chums"
 }

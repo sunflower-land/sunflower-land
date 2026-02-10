@@ -8056,5 +8056,9 @@
   "pets.nappingDescription": "{{pet}} está durmiendo una siesta. Despierta a tu mascota para que vuelva a moverse y conseguir 10 XP",
   "bounties.board": "Recompensas por animales",
   "discordNews.like": "1 me gusta",
-  "discordNews.likes": "{{count}} me gusta"
+  "discordNews.likes": "{{count}} me gusta",
+  "waterTrap.placeTrap": "Coloca la trampa {{crustacean}}",
+  "waterTrap.noChumsAvailable": "No hay amigos disponibles",
+  "waterTrap.noChumSelected": "No se ha seleccionado ningún amigo",
+  "guide.crustacean.availableChums": "Acompaneros disponibles"
 }

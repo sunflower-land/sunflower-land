@@ -8056,5 +8056,9 @@
   "pets.nappingDescription": "{{pet}} 正在睡觉。叫醒你的宠物让它重新移动并获得 10 XP",
   "bounties.board": "动物赏金",
   "discordNews.like": "1 个赞",
-  "discordNews.likes": "{{count}} 点赞"
+  "discordNews.likes": "{{count}} 点赞",
+  "waterTrap.placeTrap": "放置 {{crustacean}} 陷阱",
+  "waterTrap.noChumsAvailable": "没有可用的密友",
+  "waterTrap.noChumSelected": "未选择任何密友",
+  "guide.crustacean.availableChums": "可用密友"
 }

@@ -8056,5 +8056,9 @@
   "pets.nappingDescription": "{{pet}} sta sonnecchiando. Sveglia il tuo animaletto per farlo ripartire e guadagnare 10 XP",
   "bounties.board": "Taglie per animali",
   "discordNews.like": "1 mi piace",
-  "discordNews.likes": "{{count}} piace"
+  "discordNews.likes": "{{count}} piace",
+  "waterTrap.placeTrap": "Posiziona la trappola {{crustacean}}",
+  "waterTrap.noChumsAvailable": "Non ci sono amici disponibili",
+  "waterTrap.noChumSelected": "Nessun amico selezionato",
+  "guide.crustacean.availableChums": "Chums disponibili"
 }

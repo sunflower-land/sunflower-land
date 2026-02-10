@@ -8056,5 +8056,9 @@
   "pets.nappingDescription": "{{pet}} está cochilando. Acorde seu animal de estimação para fazê-lo se mover novamente e ganhe 10 XP",
   "bounties.board": "Recompensas para animais",
   "discordNews.like": "1 curtir",
-  "discordNews.likes": "{{count}} curtidas"
+  "discordNews.likes": "{{count}} curtidas",
+  "waterTrap.placeTrap": "Coloque a armadilha {{crustacean}}",
+  "waterTrap.noChumsAvailable": "Não há amigos disponíveis",
+  "waterTrap.noChumSelected": "Nenhum amigo selecionado",
+  "guide.crustacean.availableChums": "Camaradas disponíveis"
 }
